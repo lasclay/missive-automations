@@ -30,6 +30,7 @@
 const TOKEN = process.env.MISSIVE_TOKEN;
 const LABEL = process.env.MISSIVE_LABEL_ID;
 const ACCOUNT = process.env.MISSIVE_ACCOUNT || "";
+const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false";
 // Mode "lister les équipes" : affiche les ID/noms puis quitte. Mets LIST_TEAMS=true.
 const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
@@ -204,19 +205,7 @@ async function fingerprints(conv) {
   return { email, name, orders: [...orders] };
 }
 
-// 3) Applique le label sur un fil
-async function applyLabel(conversationId) {
-  const body = {
-    posts: {
-      conversation: conversationId,
-      add_shared_labels: [LABEL],
-      text: "⚠️ Doublon détecté lors du balayage initial — à fusionner.",
-    },
-  };
-  await sleep(260);
-  const res = await fetch(`${API}/posts`, { method: "POST", headers, body: JSON.stringify(body) });
-  if (!res.ok) console.error(`Label échoué sur ${conversationId}: ${res.status} ${await res.text()}`);
-}
+
 
 async function main() {
   // Mode "liste des équipes" : affiche les ID/noms et s'arrête là.
@@ -298,10 +287,12 @@ async function main() {
   }
 
   console.log("\nApplication des labels...");
+  const org = await resolveOrganization();
+  console.log(`Organisation : ${org}`);
   let labeled = 0;
   for (const g of dupes) {
     for (const idx of g) {
-      await applyLabel(convs[idx].id);
+      await applyLabel(convs[idx].id, org);
       labeled++;
     }
   }
