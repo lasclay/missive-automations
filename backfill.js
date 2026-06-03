@@ -63,10 +63,13 @@ async function api(path) {
   return res.json();
 }
 
-// 1) Parcourt toutes les conversations ouvertes (Inbox), page par page
+// 1) Parcourt toutes les conversations ouvertes (Inbox), page par page.
+//    Les pages se CHEVAUCHENT aux frontières (l'API peut renvoyer plus que la
+//    limite et pagine sur l'horodatage), donc on dédoublonne par ID via une Map.
 async function listOpenConversations() {
-  const all = [];
+  const byId = new Map(); // id -> conversation (dédoublonnage)
   let until = null;
+  let pages = 0;
   const limit = 50;
   while (true) {
     let path = `/conversations?inbox=true&limit=${limit}`;
@@ -75,13 +78,16 @@ async function listOpenConversations() {
 
     const { conversations = [] } = await api(path);
     if (conversations.length === 0) break;
-    all.push(...conversations);
+    pages++;
+
+    for (const c of conversations) byId.set(c.id, c); // écrase les doublons
 
     const oldest = conversations[conversations.length - 1].last_activity_at;
     if (conversations.length < limit || oldest === until) break; // dernière page
     until = oldest;
   }
-  return all;
+  console.log(`(${pages} pages parcourues, ${byId.size} conversations uniques)`);
+  return [...byId.values()];
 }
 
 // 2) Trouve l'expéditeur EXTERNE d'un fil (1re adresse qui n'est pas une des tiennes)
