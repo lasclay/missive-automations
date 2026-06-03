@@ -33,11 +33,22 @@ const ACCOUNT = process.env.MISSIVE_ACCOUNT || "";
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false";
 // Mode "lister les équipes" : affiche les ID/noms puis quitte. Mets LIST_TEAMS=true.
 const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
-// Filtre : IDs d'équipes à ratisser, séparés par des virgules. Vide = toutes les boîtes.
-const TEAMS = (process.env.MISSIVE_TEAMS || "")
+// Filtre : IDs d'équipes à ratisser. Par défaut, les 7 boîtes clients de Lasclay.
+// (Tu peux surcharger via la variable MISSIVE_TEAMS si besoin un jour.)
+const DEFAULT_TEAMS = [
+  "e184d153-4472-4edd-9b35-f8867cf437a8", // LAS Support
+  "d6f28d2f-06ef-4aa5-aae0-b68f014e3216", // Vente - info pré-achat
+  "9240aa4e-3e81-40aa-a07a-84f6b1c2231e", // Expéditions prioritaires
+  "0db185c1-3a93-4a44-9f50-dcfe8c0683dd", // Mise à jour commande
+  "cc587c84-63b9-4e88-993c-4f4b5b328173", // RETOURS-ÉCHANGES
+  "13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217", // USA
+  "1c57f5cd-3877-4067-b6d4-8344c5d29af9", // APM
+];
+const ENV_TEAMS = (process.env.MISSIVE_TEAMS || "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
+const TEAMS = ENV_TEAMS.length > 0 ? ENV_TEAMS : DEFAULT_TEAMS;
 const SELF = (process.env.MISSIVE_SELF_ADDRESSES || "")
   .split(",")
   .map((s) => s.trim().toLowerCase())
