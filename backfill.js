@@ -54,6 +54,33 @@ const SELF = (process.env.MISSIVE_SELF_ADDRESSES || "")
   .map((s) => s.trim().toLowerCase())
   .filter(Boolean);
 
+// Noms de TES propres pages/comptes sociaux, à ne JAMAIS prendre pour un client.
+// (Sur Messenger/Instagram l'expéditeur est un nom de page, pas une adresse.)
+const DEFAULT_SELF_NAMES = [
+  "Asclépiade & papillons monarques",
+  "Lasclay",
+  "Lasclay: The Milkweed Company",
+  "Milkweed & Monarchs",
+];
+const ENV_SELF_NAMES = (process.env.MISSIVE_SELF_NAMES || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+// On normalise pour comparer (minuscules, sans accents, espaces compactés).
+const norm = (s) =>
+  (s || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // enlève les accents
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+const SELF_NAMES = new Set(
+  (ENV_SELF_NAMES.length > 0 ? ENV_SELF_NAMES : DEFAULT_SELF_NAMES).map(norm)
+);
+
+// Numéro de commande Lasclay : L-XXXXX (insensible à la casse, 4 à 6 chiffres).
+const ORDER_RE = /\bL-\d{4,6}\b/gi;
+
 const API = "https://public.missiveapp.com/v1";
 const headers = { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json" };
 
@@ -138,18 +165,43 @@ async function listOpenConversations() {
   return [...byId.values()];
 }
 
-// 2) Trouve l'expéditeur EXTERNE d'un fil (1re adresse qui n'est pas une des tiennes)
-async function externalSender(conversationId) {
-  const { messages = [] } = await api(`/conversations/${conversationId}/messages?limit=10`);
-  // du plus ancien au plus récent
+// 2) Extrait les "empreintes" d'un fil servant à le relier à d'autres :
+//    - email   : adresse de l'expéditeur externe
+//    - name    : nom d'affichage de l'expéditeur externe (normalisé)
+//    - orders  : ensemble des numéros L-XXXXX trouvés dans le sujet + les corps
+function extractOrders(text) {
+  const found = (text || "").match(ORDER_RE) || [];
+  return found.map((s) => s.toUpperCase()); // L-50234 canonique
+}
+
+async function fingerprints(conv) {
+  const { messages = [] } = await api(`/conversations/${conv.id}/messages?limit=10`);
   const sorted = messages
     .slice()
     .sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
+
+  let email = null;
+  let name = null;
+  const orders = new Set();
+
+  // Numéros de commande : on cherche partout (sujet du fil + corps de chaque message)
+  for (const o of extractOrders(conv.subject)) orders.add(o);
+
   for (const m of sorted) {
-    const addr = m.from_field?.address?.toLowerCase();
-    if (addr && !SELF.includes(addr)) return addr;
+    for (const o of extractOrders(m.body || m.preview)) orders.add(o);
+    for (const o of extractOrders(m.subject)) orders.add(o);
+
+    const addr = m.from_field?.address?.toLowerCase() || null;
+    const dispName = norm(m.from_field?.name);
+    const isSelf = (addr && SELF.includes(addr)) || (dispName && SELF_NAMES.has(dispName));
+    if (isSelf) continue; // c'est nous (courriel ou page sociale) → on ignore
+
+    // 1er expéditeur externe rencontré = le client
+    if (!email && addr) email = addr;
+    if (!name && dispName) name = dispName;
   }
-  return null; // aucun expéditeur externe (fil purement interne)
+
+  return { email, name, orders: [...orders] };
 }
 
 // 3) Applique le label sur un fil
@@ -179,24 +231,64 @@ async function main() {
   const convs = await listOpenConversations();
   console.log(`${convs.length} conversations ouvertes trouvées.`);
 
-  // Regroupe par expéditeur externe
-  const bySender = new Map(); // email -> [ids]
+  // Calcule les empreintes de chaque fil
+  const fps = []; // index aligné avec convs : { email, name, orders }
   let i = 0;
   for (const c of convs) {
     i++;
     if (i % 25 === 0) console.log(`  ...${i}/${convs.length} analysées`);
-    const sender = await externalSender(c.id);
-    if (!sender) continue;
-    if (!bySender.has(sender)) bySender.set(sender, []);
-    bySender.get(sender).push(c.id);
+    fps.push(await fingerprints(c));
   }
 
-  // Garde seulement les expéditeurs avec 2 fils ouverts ou plus
-  const dupes = [...bySender.entries()].filter(([, ids]) => ids.length >= 2);
+  // Union-Find : on relie les fils qui partagent une empreinte
+  const parent = convs.map((_, idx) => idx);
+  const find = (x) => (parent[x] === x ? x : (parent[x] = find(parent[x])));
+  const union = (a, b) => {
+    const ra = find(a);
+    const rb = find(b);
+    if (ra !== rb) parent[ra] = rb;
+  };
 
-  console.log(`\n${dupes.length} expéditeur(s) en doublon :`);
-  for (const [sender, ids] of dupes) {
-    console.log(`  ${sender} → ${ids.length} fils`);
+  // Pour chaque type d'empreinte, on regroupe les index qui la partagent
+  const link = (keyFn) => {
+    const seen = new Map(); // valeur d'empreinte -> 1er index vu
+    fps.forEach((fp, idx) => {
+      for (const key of keyFn(fp)) {
+        if (!key) continue;
+        if (seen.has(key)) union(seen.get(key), idx);
+        else seen.set(key, idx);
+      }
+    });
+  };
+  link((fp) => (fp.email ? [`email:${fp.email}`] : []));
+  link((fp) => (fp.name ? [`name:${fp.name}`] : []));
+  link((fp) => fp.orders.map((o) => `order:${o}`));
+
+  // Rassemble les fils par groupe (racine union-find)
+  const groups = new Map(); // racine -> [index]
+  convs.forEach((_, idx) => {
+    const root = find(idx);
+    if (!groups.has(root)) groups.set(root, []);
+    groups.get(root).push(idx);
+  });
+
+  // Garde les groupes de 2 fils ou plus
+  const dupes = [...groups.values()].filter((g) => g.length >= 2);
+
+  console.log(`\n${dupes.length} groupe(s) en doublon :`);
+  for (const g of dupes) {
+    // Empreintes communes du groupe, pour que tu puisses juger
+    const emails = new Set(g.map((idx) => fps[idx].email).filter(Boolean));
+    const names = new Set(g.map((idx) => fps[idx].name).filter(Boolean));
+    const orders = new Set(g.flatMap((idx) => fps[idx].orders));
+    const desc = [
+      emails.size ? `courriels: ${[...emails].join(", ")}` : "",
+      names.size ? `noms: ${[...names].join(" | ")}` : "",
+      orders.size ? `commandes: ${[...orders].join(", ")}` : "",
+    ]
+      .filter(Boolean)
+      .join("  •  ");
+    console.log(`  ${g.length} fils → ${desc}`);
   }
 
   if (DRY_RUN) {
@@ -207,9 +299,9 @@ async function main() {
 
   console.log("\nApplication des labels...");
   let labeled = 0;
-  for (const [, ids] of dupes) {
-    for (const id of ids) {
-      await applyLabel(id);
+  for (const g of dupes) {
+    for (const idx of g) {
+      await applyLabel(convs[idx].id);
       labeled++;
     }
   }
