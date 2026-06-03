@@ -205,7 +205,36 @@ async function fingerprints(conv) {
   return { email, name, orders: [...orders] };
 }
 
+// 3) Résout l'ID d'organisation (requis pour appliquer un label partagé).
+//    Pris de MISSIVE_ORG / de la valeur par défaut, sinon déduit du label.
+async function resolveOrganization() {
+  if (ORG) return ORG;
+  const data = await api(`/shared_labels`);
+  const labels = data.shared_labels || data.labels || (Array.isArray(data) ? data : []);
+  const match = labels.find((l) => l.id === LABEL);
+  const org = match && (match.organization_id || match.organization);
+  if (!org) {
+    throw new Error(
+      "ID d'organisation introuvable. Renseigne ORG (réglages API → onglet « Resource IDs »)."
+    );
+  }
+  return org;
+}
 
+// 4) Applique le label sur un fil
+async function applyLabel(conversationId, org) {
+  const body = {
+    posts: {
+      conversation: conversationId,
+      organization: org,
+      add_shared_labels: [LABEL],
+      text: "⚠️ Doublon détecté lors du balayage initial — à fusionner.",
+    },
+  };
+  await sleep(260);
+  const res = await fetch(`${API}/posts`, { method: "POST", headers, body: JSON.stringify(body) });
+  if (!res.ok) console.error(`Label échoué sur ${conversationId}: ${res.status} ${await res.text()}`);
+}
 
 async function main() {
   // Mode "liste des équipes" : affiche les ID/noms et s'arrête là.
