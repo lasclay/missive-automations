@@ -31,6 +31,13 @@ const TOKEN = process.env.MISSIVE_TOKEN;
 const LABEL = process.env.MISSIVE_LABEL_ID;
 const ACCOUNT = process.env.MISSIVE_ACCOUNT || "";
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false";
+// Mode "lister les équipes" : affiche les ID/noms puis quitte. Mets LIST_TEAMS=true.
+const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
+// Filtre : IDs d'équipes à ratisser, séparés par des virgules. Vide = toutes les boîtes.
+const TEAMS = (process.env.MISSIVE_TEAMS || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 const SELF = (process.env.MISSIVE_SELF_ADDRESSES || "")
   .split(",")
   .map((s) => s.trim().toLowerCase())
@@ -39,11 +46,16 @@ const SELF = (process.env.MISSIVE_SELF_ADDRESSES || "")
 const API = "https://public.missiveapp.com/v1";
 const headers = { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json" };
 
-if (!TOKEN || !LABEL) {
-  console.error("Manque MISSIVE_TOKEN ou MISSIVE_LABEL_ID.");
+if (!TOKEN) {
+  console.error("Manque MISSIVE_TOKEN.");
   process.exit(1);
 }
-if (SELF.length === 0) {
+// En mode liste d'équipes, on n'a besoin que du token.
+if (!LIST_TEAMS && !LABEL) {
+  console.error("Manque MISSIVE_LABEL_ID.");
+  process.exit(1);
+}
+if (!LIST_TEAMS && SELF.length === 0) {
   console.error("Manque MISSIVE_SELF_ADDRESSES (tes propres adresses, séparées par des virgules).");
   process.exit(1);
 }
@@ -63,30 +75,55 @@ async function api(path) {
   return res.json();
 }
 
-// 1) Parcourt toutes les conversations ouvertes (Inbox), page par page.
-//    Les pages se CHEVAUCHENT aux frontières (l'API peut renvoyer plus que la
-//    limite et pagine sur l'horodatage), donc on dédoublonne par ID via une Map.
-async function listOpenConversations() {
-  const byId = new Map(); // id -> conversation (dédoublonnage)
+// Liste les équipes (ID + nom) pour t'aider à choisir lesquelles ratisser.
+async function listTeams() {
+  const data = await api(`/teams`);
+  const teams = data.teams || data || [];
+  console.log("\n=== Tes équipes ===");
+  for (const t of teams) {
+    console.log(`  ${t.id}  →  ${t.name || t.organization || "(sans nom)"}`);
+  }
+  console.log(
+    "\nCopie les ID voulus dans la variable MISSIVE_TEAMS (séparés par des virgules)."
+  );
+}
+
+// Parcourt une boîte (un team_inbox précis, ou l'Inbox globale) et empile dans la Map.
+async function paginateInto(byId, baseFilter) {
   let until = null;
   let pages = 0;
   const limit = 50;
   while (true) {
-    let path = `/conversations?inbox=true&limit=${limit}`;
+    let path = `/conversations?${baseFilter}&limit=${limit}`;
     if (ACCOUNT) path += `&account=${ACCOUNT}`;
     if (until) path += `&until=${until}`;
 
     const { conversations = [] } = await api(path);
     if (conversations.length === 0) break;
     pages++;
-
-    for (const c of conversations) byId.set(c.id, c); // écrase les doublons
+    for (const c of conversations) byId.set(c.id, c); // dédoublonnage par ID
 
     const oldest = conversations[conversations.length - 1].last_activity_at;
-    if (conversations.length < limit || oldest === until) break; // dernière page
+    if (conversations.length < limit || oldest === until) break;
     until = oldest;
   }
-  console.log(`(${pages} pages parcourues, ${byId.size} conversations uniques)`);
+  return pages;
+}
+
+// 1) Récupère les conversations ouvertes. Si MISSIVE_TEAMS est fourni, on se limite
+//    à ces équipes (un passage chacune); sinon on prend l'Inbox globale du token.
+async function listOpenConversations() {
+  const byId = new Map();
+  let pages = 0;
+  if (TEAMS.length > 0) {
+    for (const teamId of TEAMS) {
+      pages += await paginateInto(byId, `team_inbox=${teamId}`);
+    }
+    console.log(`(${TEAMS.length} équipe(s), ${pages} pages, ${byId.size} conversations uniques)`);
+  } else {
+    pages = await paginateInto(byId, `inbox=true`);
+    console.log(`(toutes les boîtes, ${pages} pages, ${byId.size} conversations uniques)`);
+  }
   return [...byId.values()];
 }
 
@@ -119,6 +156,12 @@ async function applyLabel(conversationId) {
 }
 
 async function main() {
+  // Mode "liste des équipes" : affiche les ID/noms et s'arrête là.
+  if (LIST_TEAMS) {
+    await listTeams();
+    return;
+  }
+
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien n'est modifié) ===" : "=== MODE RÉEL ===");
 
   console.log("Récupération des conversations ouvertes...");
