@@ -108,7 +108,7 @@ async function setLabel(conversationId, add, count) {
 }
 
 // --- Traitement principal (asynchrone, après avoir répondu 200) ---
-async function process(payload) {
+async function handleEmail(payload) {
   const email = senderEmail(payload);
   if (!email) {
     console.warn("Pas d'expéditeur trouvé. Payload reçu :", JSON.stringify(payload));
@@ -157,7 +157,7 @@ const server = http.createServer((req, res) => {
     }
     // Astuce 1er lancement : décommente pour voir la vraie structure du payload
     // console.log(JSON.stringify(payload, null, 2));
-    process(payload).catch((e) => console.error("Erreur de traitement :", e));
+    handleEmail(payload).catch((e) => console.error("Erreur de traitement :", e));
   });
 });
 
