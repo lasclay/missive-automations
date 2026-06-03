@@ -1,0 +1,12 @@
+{
+  "name": "missive-auto-flag",
+  "version": "1.0.0",
+  "description": "Auto-flag des conversations Missive en doublon par expediteur",
+  "main": "missive-auto-flag.js",
+  "scripts": {
+    "start": "node missive-auto-flag.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
