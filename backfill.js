@@ -228,6 +228,10 @@ async function applyLabel(conversationId, org) {
       conversation: conversationId,
       organization: org,
       add_shared_labels: [LABEL],
+      notification: {
+        title: "Doublon détecté",
+        body: "Ce contact a plusieurs fils ouverts — à fusionner.",
+      },
       text: "⚠️ Doublon détecté lors du balayage initial — à fusionner.",
     },
   };
