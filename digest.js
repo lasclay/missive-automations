@@ -25,6 +25,14 @@ const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.MODEL || "claude-sonnet-4-6";
 const MAX_IA = parseInt(process.env.MAX_IA || "200", 10);
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false";
+// Fenêtre d'âge : 0 = tout l'ouvert (hebdo). 1 = seulement ≤1 jour (quotidien « frais »).
+const MAX_AGE_DAYS = parseInt(process.env.MAX_AGE_DAYS || "0", 10);
+// Org Lasclay (requis pour poser un label / créer une tâche).
+const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36";
+// Label-marqueur « tâche créée » : si défini, le script crée de vraies tâches Missive
+// pour les fils 🔴 et pose ce label pour ne jamais recréer la même tâche.
+// Laisse vide pour désactiver la création de tâches.
+const TASK_LABEL = process.env.MISSIVE_TASK_LABEL || "";
 
 // Équipes balayées + conversation « Résumé » où poster pour chacune.
 const TEAMS = [
@@ -53,11 +61,27 @@ const SELF_NAMES = new Set(
     .split(",").map(norm).filter(Boolean)
 );
 
-// Petit contexte pour améliorer les brouillons (à étoffer si tu veux).
-const CONTEXTE_LASCLAY =
+// Contexte d'entreprise : lu depuis contexte_lasclay.md (dans le dépôt, à côté du
+// script). Sert de « Knowledge » pour que les brouillons sonnent vrais. Repli court
+// si le fichier est absent.
+const fs = require("node:fs");
+const path = require("node:path");
+const CONTEXTE_COURT =
   "Lasclay (lasclay.com), entreprise québécoise de produits à base d'asclépiade " +
   "(milkweed) : isolation/fibres textiles durables. Gabriel Gouveia, co-fondateur. " +
   "Signe les courriels : « Chaleureusement, Gabriel Gouveia, Co-fondateur, Lasclay.com ».";
+let CONTEXTE_LASCLAY = CONTEXTE_COURT;
+try {
+  const p = path.join(__dirname, "contexte_lasclay.md");
+  if (fs.existsSync(p)) {
+    CONTEXTE_LASCLAY = fs.readFileSync(p, "utf8");
+    console.log(`Contexte chargé (${CONTEXTE_LASCLAY.length} caractères).`);
+  } else {
+    console.warn("contexte_lasclay.md absent — contexte court utilisé.");
+  }
+} catch (e) {
+  console.warn(`Lecture du contexte impossible (${e.message}) — contexte court.`);
+}
 
 const API = "https://public.missiveapp.com/v1";
 const headers = { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json" };
@@ -95,43 +119,19 @@ async function teamInbox(teamId) {
 
 const stripHtml = (s) => (s || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 
-// --- Analyse un fil : dernier message externe ? jours d'attente ? extrait ? ---
-async function inspect(conv) {
-  const { messages = [] } = await api(`/conversations/${conv.id}/messages?limit=10`);
-  if (messages.length === 0) return null;
-  const sorted = messages.slice().sort(
-    (a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0)
-  );
-  const last = sorted[sorted.length - 1];
 
-  // Le dernier message vient-il de nous ? Si oui → balle dans leur camp → on ignore.
-  const lastAddr = last.from_field?.address?.toLowerCase() || "";
-  const lastName = norm(last.from_field?.name);
-  const fromUs = SELF.includes(lastAddr) || SELF_NAMES.has(lastName);
-  if (fromUs) return null;
-
-  let ts = last.delivered_at || last.created_at || 0;
-  if (ts && ts < 1e12) ts *= 1000; // secondes → ms
-  const days = ts ? Math.floor((Date.now() - ts) / 86400000) : 0;
-
-  // Extrait pour l'IA : 3 derniers messages, nettoyés et tronqués à ~1500 caractères.
-  const extrait = sorted.slice(-3).map((m) => {
-    const who = m.from_field?.name || m.from_field?.address || "?";
-    return `[${who}] ${stripHtml(m.body || m.preview).slice(0, 1500)}`;
-  }).join("\n---\n");
-
-  const sender = last.from_field?.name || last.from_field?.address || "?";
-  return { id: conv.id, subject: conv.subject || "(sans sujet)", sender, days, extrait };
-}
 
 // --- Classification + brouillon par Claude (retourne un objet structuré) ---
 async function classify(item) {
-  const system =
-    `${CONTEXTE_LASCLAY}\n\n` +
+  // Instructions de tâche (légères, non mises en cache).
+  const instructions =
     "Tu tries les courriels en attente d'une réponse de Gabriel (boîtes Admin/Operations : " +
     "partenaires, gouvernement, opportunités d'affaires, réseautage — PAS du service client). " +
+    "Sers-toi du contexte Lasclay fourni pour que les brouillons sonnent vrais, jamais génériques. " +
+    "N'utilise JAMAIS le tiret cadratin (—) ; utilise une virgule, un deux-points ou une parenthèse. " +
     "Réponds UNIQUEMENT par un objet JSON valide, sans texte autour, avec ces clés :\n" +
-    '{"categorie": "opportunite|developpement|gouvernement|relationnel|autre",' +
+    '{"titre": "3 à 5 mots résumant le sujet du fil",' +
+    ' "categorie": "opportunite|developpement|gouvernement|relationnel|autre",' +
     ' "priorite": "haute|moyenne|basse",' +
     ' "action": "repondre|draft_courtoisie|draft_opportunite|tache|fermer",' +
     ' "phrase": "l\'action à poser, en 15 mots maximum (sois concis mais clair)",' +
@@ -140,17 +140,37 @@ async function classify(item) {
     "Règles :\n" +
     "- priorite=haute si échéance proche, montant en jeu, ou relance qui traîne.\n" +
     "- action=tache si un document est à remplir/fournir (remplis alors sous_taches).\n" +
-    "- action=draft_* SEULEMENT si une réponse polie/relationnelle suffit SANS connaître " +
-    "de fait que tu ignores (date, montant, statut). Sinon action=repondre et brouillon=\"\".\n" +
-    "- Pour tout fait inconnu dans un brouillon, laisse un marqueur {À COMPLÉTER}.\n" +
+    "- N'écris un brouillon (champ brouillon non vide) QUE dans deux cas : (a) une opportunité " +
+    "ou un fil de développement/affaires, ou (b) une relance (le contact a relancé, ou le fil " +
+    "attend depuis plus de 60 jours). Pour TOUT le reste, brouillon=\"\" et action=repondre, " +
+    "tache ou fermer selon le cas. Cela évite de rédiger pour rien.\n" +
+    "- N'écris un brouillon que si une réponse suffit SANS connaître un fait que tu ignores " +
+    "(date, montant, statut). Si un tel fait est requis : action=repondre, brouillon=\"\".\n" +
+    "- Pour tout fait inconnu dans un brouillon, laisse un marqueur {À COMPLÉTER}. " +
+    "Respecte les règles de prudence du contexte (ne jamais inventer de chiffres ou faits non publics).\n" +
     "- draft_opportunite : accepter ET élargir (poser questions utiles, proposer plus).\n" +
-    "- Brouillon en français, ton de Gabriel, avec sa signature. sous_taches vide sauf action=tache.\n" +
     "- action=fermer si non-essentiel (rien à faire, simple courtoisie sans suite).\n" +
-    "- Si le fil attend depuis plus de 60 jours : action=draft_courtoisie, et le brouillon " +
-    "doit s'excuser du délai et demander si c'est encore d'actualité / s'il est encore temps " +
-    "(peu importe la catégorie). Garde la priorité selon l'enjeu réel.";
+    "- Si le fil attend depuis plus de 60 jours : action=draft_courtoisie, brouillon qui " +
+    "s'excuse du délai et demande si c'est encore d'actualité. Garde la priorité selon l'enjeu réel.\n" +
+    "STYLE DES BROUILLONS : complets mais brefs. Phrases courtes, paragraphes de 2 à 4 lignes, " +
+    "aucune formule creuse ni remplissage. Si plusieurs points, utilise des puces courtes. " +
+    "Va droit au but tout en restant chaleureux. Termine par la signature de Gabriel.";
 
-  const user = `Sujet : ${item.subject}\nEn attente depuis ${item.days} jour(s).\n` +
+  // Bloc système : contexte d'entreprise MIS EN CACHE (identique à chaque appel,
+  // donc facturé ~10% après le 1er appel) + instructions de tâche.
+  const system = [
+    {
+      type: "text",
+      text: "CONTEXTE LASCLAY (référence interne, ne jamais citer comme source) :\n\n" + CONTEXTE_LASCLAY,
+      cache_control: { type: "ephemeral" },
+    },
+    { type: "text", text: instructions },
+  ];
+
+  const sujetLigne = item.subject
+    ? `Sujet : ${item.subject}`
+    : "Sujet : (absent — propose un titre de 3-5 mots dans le champ titre)";
+  const user = `${sujetLigne}\nEn attente depuis ${item.days} jour(s).\n` +
     `Derniers messages :\n${item.extrait}`;
 
   try {
@@ -175,6 +195,7 @@ async function classify(item) {
     const clean = text.replace(/```json/gi, "").replace(/```/g, "").trim();
     const obj = JSON.parse(clean);
     return {
+      titre: (obj.titre || "").trim(),
       categorie: obj.categorie || "autre",
       priorite: obj.priorite || "moyenne",
       action: obj.action || "repondre",
@@ -184,7 +205,7 @@ async function classify(item) {
     };
   } catch (e) {
     console.error(`IA échouée sur ${item.id}: ${e.message}`);
-    return { categorie: "autre", priorite: "moyenne", action: "repondre",
+    return { titre: "", categorie: "autre", priorite: "moyenne", action: "repondre",
       phrase: "à examiner", sous_taches: [], brouillon: "" };
   }
 }
@@ -257,17 +278,67 @@ async function postDigest(conversationId, markdown) {
   if (!res.ok) console.error(`Post digest échoué: ${res.status} ${await res.text()}`);
 }
 
-async function processTeam(team) {
+// --- Anti-doublon : ensemble des conversations portant déjà le label-marqueur ---
+async function conversationsAlreadyTasked() {
+  if (!TASK_LABEL) return new Set();
+  const ids = new Set();
+  let until = null;
+  const limit = 50;
+  while (true) {
+    let path = `/conversations?shared_label=${TASK_LABEL}&limit=${limit}`;
+    if (until) path += `&until=${until}`;
+    const { conversations = [] } = await api(path);
+    if (conversations.length === 0) break;
+    for (const c of conversations) ids.add(c.id);
+    const oldest = conversations[conversations.length - 1].last_activity_at;
+    if (conversations.length < limit || oldest === until) break;
+    until = oldest;
+  }
+  return ids;
+}
+
+// --- Crée une vraie tâche (sous-tâche) dans la conversation + pose le label-marqueur ---
+async function createTask(conversationId, title) {
+  const body = {
+    posts: {
+      conversation: conversationId,
+      organization: ORG,
+      add_shared_labels: [TASK_LABEL], // marqueur anti-doublon, posé en même temps
+      notification: { title: "Tâche créée", body: title.slice(0, 120) },
+      task: { title: title.slice(0, 1000), state: "todo" },
+    },
+  };
+  await sleep(260);
+  const res = await fetch(`${API}/posts`, { method: "POST", headers, body: JSON.stringify(body) });
+  if (!res.ok) {
+    console.error(`Tâche échouée sur ${conversationId}: ${res.status} ${await res.text()}`);
+    return false;
+  }
+  return true;
+}
+
+async function processTeam(team, tasked) {
   console.log(`\n=== ${team.name} ===`);
   const convs = await teamInbox(team.teamId);
   console.log(`${convs.length} conversations ouvertes.`);
 
-  // Garder celles en attente de toi
-  const waiting = [];
+  // Garder celles en attente de toi (une conv problématique est sautée, pas fatale)
+  let waiting = [];
   for (const c of convs) {
-    const info = await inspect(c);
-    if (info) waiting.push(info);
+    try {
+      const info = await inspect(c);
+      if (info) waiting.push(info);
+    } catch (e) {
+      console.error(`  conv ${c.id} sautée: ${e.message}`);
+    }
   }
+
+  // Fenêtre d'âge : quotidien (≤ MAX_AGE_DAYS) vs hebdo (tout)
+  if (MAX_AGE_DAYS > 0) {
+    waiting = waiting.filter((w) => w.days <= MAX_AGE_DAYS);
+    console.log(`Fenêtre : ≤ ${MAX_AGE_DAYS} jour(s).`);
+  }
+
   waiting.sort((a, b) => b.days - a.days);
   console.log(`${waiting.length} en attente de toi.`);
 
@@ -280,7 +351,10 @@ async function processTeam(team) {
   for (const it of toAnalyze) {
     i++;
     if (i % 10 === 0) console.log(`  ...${i}/${toAnalyze.length} classés`);
-    items.push({ ...it, ...(await classify(it)) });
+    const c = await classify(it);
+    // sujet d'affichage : vrai sujet, sinon titre généré par l'IA, sinon repli
+    const subject = it.subject || c.titre || "(sans sujet)";
+    items.push({ ...it, ...c, subject });
   }
 
   const md = buildDigest(team.name, team.teamId, items);
@@ -291,11 +365,43 @@ async function processTeam(team) {
     await postDigest(team.digestConversation, md);
     console.log(`Digest ${team.name} posté.`);
   }
+
+  // Création de tâches : seulement les fils 🔴 (priorité haute, hors « fermer »),
+  // jamais ceux déjà tâchés (label-marqueur). Désactivé si TASK_LABEL absent.
+  if (TASK_LABEL) {
+    const aTacher = items.filter(
+      (it) => it.priorite === "haute" && it.action !== "fermer" && !tasked.has(it.id)
+    );
+    if (DRY_RUN) {
+      console.log(`\n[Tâches] ${aTacher.length} seraient créées (simulation) :`);
+      for (const it of aTacher) console.log(`  - ${it.sender} — ${it.phrase}`);
+    } else {
+      let n = 0;
+      for (const it of aTacher) {
+        const title = `${it.sender} — ${it.phrase}`;
+        if (await createTask(it.id, title)) { n++; tasked.add(it.id); }
+      }
+      console.log(`${n} tâche(s) créée(s) pour ${team.name}.`);
+    }
+  }
 }
 
 async function main() {
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien posté) ===" : "=== MODE RÉEL ===");
-  for (const team of TEAMS) await processTeam(team);
+  if (MAX_AGE_DAYS > 0) console.log(`Mode quotidien : fils ≤ ${MAX_AGE_DAYS} jour(s).`);
+  else console.log("Mode complet : tout l'ouvert.");
+
+  // Fils déjà « tâchés » (pour ne pas recréer de tâches), récupérés une fois.
+  const tasked = await conversationsAlreadyTasked();
+  if (TASK_LABEL) console.log(`${tasked.size} fil(s) ont déjà une tâche.`);
+
+  for (const team of TEAMS) {
+    try {
+      await processTeam(team, tasked);
+    } catch (e) {
+      console.error(`Équipe ${team.name} échouée: ${e.message}`);
+    }
+  }
   console.log("\nTerminé.");
 }
 
