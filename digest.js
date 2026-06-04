@@ -167,7 +167,9 @@ async function classify(item) {
     "Tu tries les courriels en attente d'une réponse de Gabriel (boîtes Admin/Operations : " +
     "partenaires, gouvernement, opportunités d'affaires, réseautage — PAS du service client). " +
     "Sers-toi du contexte Lasclay fourni pour que les brouillons sonnent vrais, jamais génériques. " +
-    "N'utilise JAMAIS le tiret cadratin (—) ; utilise une virgule, un deux-points ou une parenthèse. " +
+    "RÈGLE ABSOLUE : n'utilise JAMAIS le caractère tiret cadratin « — » (em dash) nulle part, " +
+    "ni le tiret demi-cadratin « – ». À la place, utilise une virgule, un deux-points, une " +
+    "parenthèse ou un point. Vérifie ta réponse avant de la rendre : aucun « — » ne doit y figurer. " +
     "Réponds UNIQUEMENT par un objet JSON valide, sans texte autour, avec ces clés :\n" +
     '{"titre": "3 à 5 mots résumant le sujet du fil",' +
     ' "categorie": "opportunite|developpement|gouvernement|relationnel|autre",' +
@@ -272,15 +274,28 @@ async function classify(item) {
     if (start !== -1 && end !== -1 && end > start) {
       clean = clean.slice(start, end + 1);
     }
-    const obj = JSON.parse(clean);
+    let obj;
+    try {
+      obj = JSON.parse(clean);
+    } catch (e1) {
+      // Réparation : certains modèles insèrent des sauts de ligne bruts dans les
+      // chaînes (illégal en JSON). On échappe les retours à la ligne réels et on réessaie.
+      const repaired = clean.replace(/[\r\n]+/g, "\\n");
+      obj = JSON.parse(repaired);
+    }
+    // Garde-fou cadratin : on retire tout tiret cadratin/demi-cadratin résiduel,
+    // peu importe le modèle. Remplacé par une virgule (ou rien en bordure).
+    const noDash = (s) => (s || "")
+      .replace(/\s*[—–]\s*/g, ", ")
+      .replace(/,\s*,/g, ",");
     return {
-      titre: (obj.titre || "").trim(),
+      titre: noDash((obj.titre || "").trim()),
       categorie: obj.categorie || "autre",
       priorite: obj.priorite || "moyenne",
       action: obj.action || "repondre",
-      phrase: (obj.phrase || "à examiner").trim(),
-      sous_taches: Array.isArray(obj.sous_taches) ? obj.sous_taches : [],
-      brouillon: (obj.brouillon || "").trim(),
+      phrase: noDash((obj.phrase || "à examiner").trim()),
+      sous_taches: Array.isArray(obj.sous_taches) ? obj.sous_taches.map(noDash) : [],
+      brouillon: noDash((obj.brouillon || "").trim()),
     };
   } catch (e) {
     console.error(`IA échouée sur ${item.id}: ${e.message}`);
