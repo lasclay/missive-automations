@@ -23,7 +23,7 @@
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.MODEL || "claude-sonnet-4-6";
-const MAX_IA = parseInt(process.env.MAX_IA || "25", 10);
+const MAX_IA = parseInt(process.env.MAX_IA || "200", 10);
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false";
 
 // Équipes balayées + conversation « Résumé » où poster pour chacune.
@@ -145,7 +145,10 @@ async function classify(item) {
     "- Pour tout fait inconnu dans un brouillon, laisse un marqueur {À COMPLÉTER}.\n" +
     "- draft_opportunite : accepter ET élargir (poser questions utiles, proposer plus).\n" +
     "- Brouillon en français, ton de Gabriel, avec sa signature. sous_taches vide sauf action=tache.\n" +
-    "- action=fermer si non-essentiel (rien à faire, simple courtoisie sans suite).";
+    "- action=fermer si non-essentiel (rien à faire, simple courtoisie sans suite).\n" +
+    "- Si le fil attend depuis plus de 60 jours : action=draft_courtoisie, et le brouillon " +
+    "doit s'excuser du délai et demander si c'est encore d'actualité / s'il est encore temps " +
+    "(peu importe la catégorie). Garde la priorité selon l'enjeu réel.";
 
   const user = `Sujet : ${item.subject}\nEn attente depuis ${item.days} jour(s).\n` +
     `Derniers messages :\n${item.extrait}`;
