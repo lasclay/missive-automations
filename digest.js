@@ -119,7 +119,41 @@ async function teamInbox(teamId) {
 
 const stripHtml = (s) => (s || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 
+// --- Analyse un fil : dernier message externe ? jours d'attente ? sujet ? extrait ? ---
+async function inspect(conv) {
+  const { messages = [] } = await api(`/conversations/${conv.id}/messages?limit=10`);
+  if (messages.length === 0) return null;
+  const sorted = messages.slice().sort(
+    (a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0)
+  );
+  const last = sorted[sorted.length - 1];
 
+  // Le dernier message vient-il de nous ? Si oui → balle dans leur camp → on ignore.
+  const lastAddr = last.from_field?.address?.toLowerCase() || "";
+  const lastName = norm(last.from_field?.name);
+  const fromUs = SELF.includes(lastAddr) || SELF_NAMES.has(lastName);
+  if (fromUs) return null;
+
+  let ts = last.delivered_at || last.created_at || 0;
+  if (ts && ts < 1e12) ts *= 1000; // secondes → ms
+  const days = ts ? Math.floor((Date.now() - ts) / 86400000) : 0;
+
+  // Sujet : conversation, sinon sujet d'un message, sinon null (l'IA fera un titre).
+  const subject =
+    (conv.subject && conv.subject.trim()) ||
+    (sorted.map((m) => m.subject).find((s) => s && s.trim())) ||
+    null;
+
+  // Extrait pour l'IA : 3 derniers messages, nettoyés et tronqués à ~1500 caractères.
+  const extrait = sorted.slice(-3).map((m) => {
+    const who = m.from_field?.name || m.from_field?.address || "?";
+    return `[${who}] ${stripHtml(m.body || m.preview).slice(0, 1500)}`;
+  }).join("\n---\n");
+
+  // Expéditeur : nom, sinon adresse, sinon "?"
+  const sender = last.from_field?.name || last.from_field?.address || "?";
+  return { id: conv.id, subject, sender, days, extrait };
+}
 
 // --- Classification + brouillon par Claude (retourne un objet structuré) ---
 async function classify(item) {
