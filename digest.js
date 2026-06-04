@@ -264,7 +264,14 @@ async function classify(item) {
     if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
     const data = await res.json();
     const text = (data.content || []).filter((b) => b.type === "text").map((b) => b.text).join("");
-    const clean = text.replace(/```json/gi, "").replace(/```/g, "").trim();
+    // Extraction tolérante : certains modèles ajoutent du texte avant/après le JSON.
+    // On isole du premier { au dernier } pour ignorer tout bavardage parasite.
+    let clean = text.replace(/```json/gi, "").replace(/```/g, "").trim();
+    const start = clean.indexOf("{");
+    const end = clean.lastIndexOf("}");
+    if (start !== -1 && end !== -1 && end > start) {
+      clean = clean.slice(start, end + 1);
+    }
     const obj = JSON.parse(clean);
     return {
       titre: (obj.titre || "").trim(),
