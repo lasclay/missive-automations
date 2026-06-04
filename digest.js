@@ -170,7 +170,10 @@ async function classify(item) {
     "RÈGLE ABSOLUE : n'utilise JAMAIS le caractère tiret cadratin « — » (em dash) nulle part, " +
     "ni le tiret demi-cadratin « – ». À la place, utilise une virgule, un deux-points, une " +
     "parenthèse ou un point. Vérifie ta réponse avant de la rendre : aucun « — » ne doit y figurer. " +
-    "Réponds UNIQUEMENT par un objet JSON valide, sans texte autour, avec ces clés :\n" +
+    "Réponds UNIQUEMENT avec l'objet JSON, rien d'autre : aucun texte avant, aucun texte après, " +
+    "aucune phrase d'introduction ni de conclusion, aucune balise de code. Ta réponse doit " +
+    "commencer par « { » et se terminer par « } ». Dans les valeurs de chaîne, écris les sauts " +
+    "de ligne comme \\n (jamais de vrai retour à la ligne brut). Avec ces clés :\n" +
     '{"titre": "3 à 5 mots résumant le sujet du fil",' +
     ' "categorie": "opportunite|developpement|gouvernement|relationnel|autre",' +
     ' "priorite": "haute|moyenne|basse",' +
