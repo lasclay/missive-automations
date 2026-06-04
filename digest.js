@@ -206,11 +206,15 @@ async function classify(item) {
     "mielleuses et les expressions toutes faites. Pas de flatterie de remplissage. Chaleureux mais efficace. " +
     "Préfère une phrase simple et un peu imparfaite à une tournure trop polie ou trop léchée.\n" +
     "FORMULES INTERDITES (n'en utilise AUCUNE, ni leur traduction) : « glissé entre les mailles », " +
-    "« passé entre les mailles », « fell through the cracks », « qui a du sens pour nous », " +
+    "« passé entre les mailles », « fell through the cracks », « got buried », « that's on me », " +
+    "« ce fil a attendu trop longtemps », « qui a du sens pour nous », " +
     "« exactly the kind of », « exactement le genre de... qui nous intéresse », « c'est exactement " +
     "le genre de partenariat », « je serais ravi/curieux de », « ça ne rend pas justice à », " +
     "« j'espère que ce message vous trouve bien », « n'hésitez pas à ». " +
     "Si une de ces idées doit être dite, reformule-la de façon banale et directe.\n" +
+    "FRANÇAIS QUÉBÉCOIS : écris en français du Québec, naturel à l'oral. N'emploie PAS le mot " +
+    "« dense » pour une période occupée (tic européen) ; dis « intense », « chargé » ou « occupé ». " +
+    "Évite les tournures trop françaises de France ; reste dans un registre d'affaires québécois simple.\n" +
     "VARIÉTÉ : ne commence pas tous les courriels de la même façon (ni tous par une excuse, ni tous " +
     "par un remerciement). Varie aussi la fin : pas toujours trois questions en puces ; parfois une " +
     "seule question en une phrase, parfois aucune. Écris comme une vraie personne pressée, pas un gabarit.\n" +
