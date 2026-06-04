@@ -144,10 +144,15 @@ async function inspect(conv) {
     (sorted.map((m) => m.subject).find((s) => s && s.trim())) ||
     null;
 
-  // Extrait pour l'IA : 3 derniers messages, nettoyés et tronqués à ~1500 caractères.
+  // Extrait pour l'IA : 3 derniers messages, datés, nettoyés, tronqués à ~1500 caractères.
+  const fmtDate = (m) => {
+    let t = m.delivered_at || m.created_at || 0;
+    if (t && t < 1e12) t *= 1000;
+    return t ? new Date(t).toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" }) : "date inconnue";
+  };
   const extrait = sorted.slice(-3).map((m) => {
     const who = m.from_field?.name || m.from_field?.address || "?";
-    return `[${who}] ${stripHtml(m.body || m.preview).slice(0, 1500)}`;
+    return `[${who}, ${fmtDate(m)}] ${stripHtml(m.body || m.preview).slice(0, 1500)}`;
   }).join("\n---\n");
 
   // Expéditeur : nom, sinon adresse, sinon "?"
@@ -184,8 +189,13 @@ async function classify(item) {
     "Respecte les règles de prudence du contexte (ne jamais inventer de chiffres ou faits non publics).\n" +
     "- draft_opportunite : accepter ET élargir (poser questions utiles, proposer plus).\n" +
     "- action=fermer si non-essentiel (rien à faire, simple courtoisie sans suite).\n" +
-    "- Si le fil attend depuis plus de 60 jours : action=draft_courtoisie, brouillon qui " +
-    "s'excuse du délai et demande si c'est encore d'actualité. Garde la priorité selon l'enjeu réel.\n" +
+    "- Si le fil attend depuis longtemps : présente de grandes excuses sincères pour le délai, " +
+    "en l'attribuant à une période très occupée et à un manque de temps (JAMAIS à un manque " +
+    "de volonté ou d'intérêt). Adapte la formule au délai réel calculé depuis les dates : " +
+    "« ces dernières semaines » si le retard est de quelques semaines, « ces derniers mois » " +
+    "s'il est de plusieurs mois. Puis demande si c'est encore d'actualité. Garde la priorité selon l'enjeu.\n" +
+    "- N'écris JAMAIS de tournures robotiques comme « dans ce fil », « suite à ce fil », " +
+    "« je reviens sur ce fil ». Écris comme un humain qui reprend une vraie conversation.\n" +
     "STYLE DES BROUILLONS : complets mais brefs. Phrases courtes, paragraphes de 2 à 4 lignes, " +
     "aucune formule creuse ni remplissage. Si plusieurs points, utilise des puces courtes. " +
     "Va droit au but tout en restant chaleureux. Termine par la signature de Gabriel.";
@@ -201,10 +211,17 @@ async function classify(item) {
     { type: "text", text: instructions },
   ];
 
+  const aujourdhui = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
   const sujetLigne = item.subject
     ? `Sujet : ${item.subject}`
     : "Sujet : (absent — propose un titre de 3-5 mots dans le champ titre)";
-  const user = `${sujetLigne}\nEn attente depuis ${item.days} jour(s).\n` +
+  const user =
+    `Date d'aujourd'hui : ${aujourdhui}.\n` +
+    `${sujetLigne}\n` +
+    `Ce fil attend une réponse de Gabriel depuis ${item.days} jour(s).\n` +
+    `Chaque message ci-dessous est daté. ATTENTION : une date ou un rendez-vous proposé dans ` +
+    `un message peut être DÉJÀ PASSÉ par rapport à aujourd'hui. Ne confirme jamais une date ` +
+    `dépassée ; propose plutôt de replanifier.\n` +
     `Derniers messages :\n${item.extrait}`;
 
   try {
