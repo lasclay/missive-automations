@@ -189,29 +189,31 @@ async function classify(item) {
     "Respecte les règles de prudence du contexte (ne jamais inventer de chiffres ou faits non publics).\n" +
     "- draft_opportunite : accepter ET élargir (poser questions utiles, proposer plus).\n" +
     "- action=fermer si non-essentiel (rien à faire, simple courtoisie sans suite).\n" +
-    "- Si le fil attend depuis longtemps : présente de grandes excuses sincères pour le délai, " +
-    "en l'attribuant à une période très occupée et à un manque de temps (JAMAIS à un manque " +
-    "de volonté ou d'intérêt). Adapte la formule au délai réel calculé depuis les dates : " +
-    "« ces dernières semaines » si le retard est de quelques semaines, « ces derniers mois » " +
-    "s'il est de plusieurs mois. Puis demande si c'est encore d'actualité. Garde la priorité selon l'enjeu.\n" +
+    "- Si le fil attend depuis longtemps : excuse-toi UNE fois pour le délai, en l'attribuant à " +
+    "une période chargée et un manque de temps (JAMAIS à un manque de volonté ou d'intérêt). " +
+    "Mais NE COMMENCE PAS le courriel par l'excuse : entre d'abord dans le sujet (réponds, pose " +
+    "ta question, montre l'intérêt), et glisse l'excuse brièvement après, ou à la fin. " +
+    "VARIE la formulation : n'écris pas deux fois la même phrase d'excuse. Évite en particulier " +
+    "de répéter « ces derniers mois ont été particulièrement chargés », trouve autre chose à chaque fois, " +
+    "ou sois très bref (« Désolé pour le délai. »). Adapte au délai réel (semaines vs mois).\n" +
     "- N'écris JAMAIS de tournures robotiques comme « dans ce fil », « suite à ce fil », " +
     "« je reviens sur ce fil ». Écris comme un humain qui reprend une vraie conversation.\n" +
     "- N'utilise JAMAIS la structure antithétique, ni sous sa forme évidente « ce n'est pas X, " +
     "c'est Y », ni déguisée (« ce n'est pas un manque d'intérêt, plutôt... », « not an excuse but... », " +
     "« which isn't fair... »). Dis simplement la chose, sans la nier d'abord.\n" +
-    "- Ne t'excuse qu'UNE SEULE FOIS par message, et pas forcément en ouverture.\n" +
     "VOIX DE GABRIEL (impérative) : gestionnaire d'entreprise surchargé qui va droit au but, " +
     "sans être raide. Langage accessible, jamais vulgaire. Il déteste les platitudes, les intros " +
-    "mielleuses et les expressions toutes faites. Pas de flatterie de remplissage. Chaleureux mais efficace.\n" +
+    "mielleuses et les expressions toutes faites. Pas de flatterie de remplissage. Chaleureux mais efficace. " +
+    "Préfère une phrase simple et un peu imparfaite à une tournure trop polie ou trop léchée.\n" +
     "FORMULES INTERDITES (n'en utilise AUCUNE, ni leur traduction) : « glissé entre les mailles », " +
     "« passé entre les mailles », « fell through the cracks », « qui a du sens pour nous », " +
     "« exactly the kind of », « exactement le genre de... qui nous intéresse », « c'est exactement " +
-    "le genre de partenariat », « je serais ravi/curieux de », « j'espère que ce message vous trouve bien ». " +
+    "le genre de partenariat », « je serais ravi/curieux de », « ça ne rend pas justice à », " +
+    "« j'espère que ce message vous trouve bien », « n'hésitez pas à ». " +
     "Si une de ces idées doit être dite, reformule-la de façon banale et directe.\n" +
-    "VARIÉTÉ : ne commence pas tous les courriels de la même façon. Évite d'ouvrir systématiquement " +
-    "par une excuse ou un remerciement. Varie aussi la fin : pas toujours exactement trois questions " +
-    "en puces. Parfois une seule question en une phrase, parfois aucune. Écris comme une vraie personne " +
-    "pressée, pas comme un gabarit.\n" +
+    "VARIÉTÉ : ne commence pas tous les courriels de la même façon (ni tous par une excuse, ni tous " +
+    "par un remerciement). Varie aussi la fin : pas toujours trois questions en puces ; parfois une " +
+    "seule question en une phrase, parfois aucune. Écris comme une vraie personne pressée, pas un gabarit.\n" +
     "STYLE : complet mais bref. Phrases courtes, paragraphes de 2 à 4 lignes, aucun remplissage. " +
     "Va droit au but. Termine par la signature de Gabriel.";
 
@@ -454,6 +456,7 @@ async function processTeam(team, tasked) {
 
 async function main() {
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien posté) ===" : "=== MODE RÉEL ===");
+  console.log(`Modèle : ${MODEL}`);
   if (MAX_AGE_DAYS > 0) console.log(`Mode quotidien : fils ≤ ${MAX_AGE_DAYS} jour(s).`);
   else console.log("Mode complet : tout l'ouvert.");
 
