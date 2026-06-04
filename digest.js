@@ -196,6 +196,10 @@ async function classify(item) {
     "s'il est de plusieurs mois. Puis demande si c'est encore d'actualité. Garde la priorité selon l'enjeu.\n" +
     "- N'écris JAMAIS de tournures robotiques comme « dans ce fil », « suite à ce fil », " +
     "« je reviens sur ce fil ». Écris comme un humain qui reprend une vraie conversation.\n" +
+    "- N'utilise JAMAIS la structure antithétique « ce n'est pas X, c'est Y » (ex. « ce n'est pas " +
+    "un manque d'intérêt, c'est une période chargée », « ce n'est pas une excuse, juste une " +
+    "explication »). C'est un tic d'écriture d'IA très reconnaissable. Formule autrement, simplement.\n" +
+    "- Ne t'excuse qu'UNE SEULE FOIS par message. Pas d'excuse répétée en ouverture et en clôture.\n" +
     "STYLE DES BROUILLONS : complets mais brefs. Phrases courtes, paragraphes de 2 à 4 lignes, " +
     "aucune formule creuse ni remplissage. Si plusieurs points, utilise des puces courtes. " +
     "Va droit au but tout en restant chaleureux. Termine par la signature de Gabriel.";
