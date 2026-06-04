@@ -196,13 +196,24 @@ async function classify(item) {
     "s'il est de plusieurs mois. Puis demande si c'est encore d'actualité. Garde la priorité selon l'enjeu.\n" +
     "- N'écris JAMAIS de tournures robotiques comme « dans ce fil », « suite à ce fil », " +
     "« je reviens sur ce fil ». Écris comme un humain qui reprend une vraie conversation.\n" +
-    "- N'utilise JAMAIS la structure antithétique « ce n'est pas X, c'est Y » (ex. « ce n'est pas " +
-    "un manque d'intérêt, c'est une période chargée », « ce n'est pas une excuse, juste une " +
-    "explication »). C'est un tic d'écriture d'IA très reconnaissable. Formule autrement, simplement.\n" +
-    "- Ne t'excuse qu'UNE SEULE FOIS par message. Pas d'excuse répétée en ouverture et en clôture.\n" +
-    "STYLE DES BROUILLONS : complets mais brefs. Phrases courtes, paragraphes de 2 à 4 lignes, " +
-    "aucune formule creuse ni remplissage. Si plusieurs points, utilise des puces courtes. " +
-    "Va droit au but tout en restant chaleureux. Termine par la signature de Gabriel.";
+    "- N'utilise JAMAIS la structure antithétique, ni sous sa forme évidente « ce n'est pas X, " +
+    "c'est Y », ni déguisée (« ce n'est pas un manque d'intérêt, plutôt... », « not an excuse but... », " +
+    "« which isn't fair... »). Dis simplement la chose, sans la nier d'abord.\n" +
+    "- Ne t'excuse qu'UNE SEULE FOIS par message, et pas forcément en ouverture.\n" +
+    "VOIX DE GABRIEL (impérative) : gestionnaire d'entreprise surchargé qui va droit au but, " +
+    "sans être raide. Langage accessible, jamais vulgaire. Il déteste les platitudes, les intros " +
+    "mielleuses et les expressions toutes faites. Pas de flatterie de remplissage. Chaleureux mais efficace.\n" +
+    "FORMULES INTERDITES (n'en utilise AUCUNE, ni leur traduction) : « glissé entre les mailles », " +
+    "« passé entre les mailles », « fell through the cracks », « qui a du sens pour nous », " +
+    "« exactly the kind of », « exactement le genre de... qui nous intéresse », « c'est exactement " +
+    "le genre de partenariat », « je serais ravi/curieux de », « j'espère que ce message vous trouve bien ». " +
+    "Si une de ces idées doit être dite, reformule-la de façon banale et directe.\n" +
+    "VARIÉTÉ : ne commence pas tous les courriels de la même façon. Évite d'ouvrir systématiquement " +
+    "par une excuse ou un remerciement. Varie aussi la fin : pas toujours exactement trois questions " +
+    "en puces. Parfois une seule question en une phrase, parfois aucune. Écris comme une vraie personne " +
+    "pressée, pas comme un gabarit.\n" +
+    "STYLE : complet mais bref. Phrases courtes, paragraphes de 2 à 4 lignes, aucun remplissage. " +
+    "Va droit au but. Termine par la signature de Gabriel.";
 
   // Bloc système : contexte d'entreprise MIS EN CACHE (identique à chaque appel,
   // donc facturé ~10% après le 1er appel) + instructions de tâche.
