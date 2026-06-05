@@ -39,6 +39,8 @@ const TASK_LABEL = process.env.MISSIVE_TASK_LABEL || "";
 // pour ne jamais recréer un draft sur une conversation qui en a déjà un.
 const CREATE_DRAFTS = (process.env.CREATE_DRAFTS || "false").toLowerCase() === "true";
 const DRAFT_LABEL = process.env.MISSIVE_DRAFT_LABEL || "d0fad8a6-2ce4-427e-a971-949b2313d118";
+// Plafond de drafts créés par run (0 = pas de limite). Mets 5 pour un premier test prudent.
+const DRAFT_LIMIT = parseInt(process.env.DRAFT_LIMIT || "0", 10);
 
 // Équipes balayées + conversation « Résumé » où poster pour chacune.
 const TEAMS = [
@@ -475,7 +477,7 @@ async function createDraft(it, fromAddress) {
   return true;
 }
 
-async function processTeam(team, tasked, drafted) {
+async function processTeam(team, tasked, drafted, createdDraftCount) {
   console.log(`\n=== ${team.name} ===`);
   const convs = await teamInbox(team.teamId);
   console.log(`${convs.length} conversations ouvertes.`);
@@ -547,16 +549,22 @@ async function processTeam(team, tasked, drafted) {
   // déjà draftés (label-marqueur). Hebdo uniquement (MAX_AGE_DAYS=0). Désactivé si
   // CREATE_DRAFTS != true.
   if (CREATE_DRAFTS && MAX_AGE_DAYS === 0) {
-    const aDrafter = items.filter((it) => it.brouillon && it.senderAddress && !drafted.has(it.id));
+    let aDrafter = items.filter((it) => it.brouillon && it.senderAddress && !drafted.has(it.id));
+    // Plafond global (sur les deux équipes) : DRAFT_LIMIT déjà créés ce run ?
+    if (DRAFT_LIMIT > 0) {
+      const restant = Math.max(0, DRAFT_LIMIT - createdDraftCount.n);
+      aDrafter = aDrafter.slice(0, restant);
+    }
     if (DRY_RUN) {
       console.log(`\n[Drafts] ${aDrafter.length} brouillons seraient créés (simulation) :`);
       for (const it of aDrafter) console.log(`  - ${it.sender} <${it.senderAddress}>`);
     } else {
       let n = 0;
       for (const it of aDrafter) {
-        if (await createDraft(it, team.fromAddress)) { n++; drafted.add(it.id); }
+        if (await createDraft(it, team.fromAddress)) { n++; drafted.add(it.id); createdDraftCount.n++; }
       }
       console.log(`${n} brouillon(s) créé(s) pour ${team.name}.`);
+      if (DRAFT_LIMIT > 0) console.log(`(plafond DRAFT_LIMIT=${DRAFT_LIMIT}, total ce run : ${createdDraftCount.n})`);
     }
   } else if (CREATE_DRAFTS && MAX_AGE_DAYS > 0) {
     console.log("[Drafts] ignorés (mode quotidien, drafts réservés à l'hebdo).");
@@ -577,9 +585,12 @@ async function main() {
   const drafted = await conversationsAlreadyDrafted();
   if (CREATE_DRAFTS) console.log(`${drafted.size} fil(s) ont déjà un brouillon.`);
 
+  // Compteur partagé pour appliquer DRAFT_LIMIT globalement (sur les deux équipes).
+  const createdDraftCount = { n: 0 };
+
   for (const team of TEAMS) {
     try {
-      await processTeam(team, tasked, drafted);
+      await processTeam(team, tasked, drafted, createdDraftCount);
     } catch (e) {
       console.error(`Équipe ${team.name} échouée: ${e.message}`);
     }
