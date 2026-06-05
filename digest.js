@@ -41,6 +41,8 @@ const CREATE_DRAFTS = (process.env.CREATE_DRAFTS || "false").toLowerCase() === "
 const DRAFT_LABEL = process.env.MISSIVE_DRAFT_LABEL || "d0fad8a6-2ce4-427e-a971-949b2313d118";
 // Plafond de drafts créés par run (0 = pas de limite). Mets 5 pour un premier test prudent.
 const DRAFT_LIMIT = parseInt(process.env.DRAFT_LIMIT || "0", 10);
+// Diagnostic : affiche dans les logs l'extrait réellement envoyé à l'IA pour chaque fil.
+const DEBUG_EXTRACT = (process.env.DEBUG_EXTRACT || "false").toLowerCase() === "true";
 
 // Équipes balayées + conversation « Résumé » où poster pour chacune.
 const TEAMS = [
@@ -127,7 +129,30 @@ async function teamInbox(teamId) {
   return [...byId.values()];
 }
 
-const stripHtml = (s) => (s || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+// Nettoyage HTML robuste : on préserve le texte réel et le texte des liens.
+// (L'ancienne version retirait juste les balises et pouvait vider un message riche.)
+const stripHtml = (s) => {
+  if (!s) return "";
+  let t = s;
+  // Retirer les blocs non textuels en entier (style, script).
+  t = t.replace(/<(style|script)[^>]*>[\s\S]*?<\/\1>/gi, " ");
+  // Garder le texte des liens ET l'URL : « texte (url) ».
+  t = t.replace(/<a[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, (m, href, txt) => {
+    const clean = txt.replace(/<[^>]+>/g, "").trim();
+    if (href && !href.startsWith("mailto:") && clean && !clean.includes(href)) return `${clean} (${href})`;
+    return clean || href;
+  });
+  // Sauts de ligne lisibles à partir des balises de bloc.
+  t = t.replace(/<\/(p|div|tr|li|h[1-6])>/gi, "\n").replace(/<br\s*\/?>/gi, "\n");
+  // Retirer le reste des balises.
+  t = t.replace(/<[^>]+>/g, " ");
+  // Décoder quelques entités courantes.
+  t = t.replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&").replace(/&lt;/gi, "<")
+       .replace(/&gt;/gi, ">").replace(/&#39;|&rsquo;/gi, "'").replace(/&quot;/gi, '"');
+  // Normaliser les espaces sans écraser tous les sauts de ligne.
+  t = t.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+  return t;
+};
 
 // --- Analyse un fil : dernier message externe ? jours d'attente ? sujet ? extrait ? ---
 async function inspect(conv) {
@@ -154,17 +179,33 @@ async function inspect(conv) {
     (sorted.map((m) => m.subject).find((s) => s && s.trim())) ||
     null;
 
-  // Extrait pour l'IA : 3 derniers messages, datés, nettoyés, tronqués à ~6000 caractères
-  // (assez pour capter un message détaillé en entier, ex. une vraie proposition).
+  // Corps complet d'un message : la liste ne renvoie souvent qu'un aperçu court.
+  // Si le body est absent ou suspectement court, on va chercher le message complet.
+  async function fullBody(m) {
+    if (m.body && m.body.length > 200) return m.body;
+    try {
+      const r = await api(`/messages/${m.id}`);
+      const msg = Array.isArray(r.messages) ? r.messages[0] : r.messages;
+      return (msg && (msg.body || msg.preview)) || m.body || m.preview || "";
+    } catch (e) {
+      return m.body || m.preview || "";
+    }
+  }
+
+  // Extrait pour l'IA : 3 derniers messages, datés, nettoyés, tronqués à ~6000 caractères.
   const fmtDate = (m) => {
     let t = m.delivered_at || m.created_at || 0;
     if (t && t < 1e12) t *= 1000;
     return t ? new Date(t).toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" }) : "date inconnue";
   };
-  const extrait = sorted.slice(-3).map((m) => {
+  const last3 = sorted.slice(-3);
+  const parts = [];
+  for (const m of last3) {
     const who = m.from_field?.name || m.from_field?.address || "?";
-    return `[${who}, ${fmtDate(m)}] ${stripHtml(m.body || m.preview).slice(0, 6000)}`;
-  }).join("\n---\n");
+    const corps = stripHtml(await fullBody(m)).slice(0, 6000);
+    parts.push(`[${who}, ${fmtDate(m)}] ${corps}`);
+  }
+  const extrait = parts.join("\n---\n");
 
   // Expéditeur : nom, sinon adresse, sinon "?"
   const sender = last.from_field?.name || last.from_field?.address || "?";
@@ -247,6 +288,12 @@ async function classify(item) {
     "FRANÇAIS QUÉBÉCOIS : écris en français du Québec, naturel à l'oral. N'emploie PAS le mot " +
     "« dense » pour une période occupée (tic européen) ; dis « intense », « chargé » ou « occupé ». " +
     "Évite les tournures trop françaises de France ; reste dans un registre d'affaires québécois simple.\n" +
+    "JARGON INTERDIT : bannis le langage corporate vide et les formules de consultant. " +
+    "N'utilise PAS « ta note », « aligner les détails », « aligner les attentes », « rôle actif », " +
+    "« explorer les synergies », « cadrer le besoin », « faire avancer les choses », « valeur ajoutée », " +
+    "« mettre en valeur », « au niveau de », « dans une optique de ». Nomme les choses concrètement, " +
+    "avec les mots de la vraie vie : « ton message », « se parler des vrais chiffres », « comment ça " +
+    "marcherait ». Si tu écris une phrase qui sonne comme un communiqué, réécris-la comme tu la dirais à voix haute.\n" +
     "VARIÉTÉ : ne commence pas tous les courriels de la même façon (ni tous par une excuse, ni tous " +
     "par un remerciement). Varie aussi la fin : pas toujours trois questions en puces ; parfois une " +
     "seule question en une phrase, parfois aucune. Écris comme une vraie personne pressée, pas un gabarit.\n" +
@@ -520,6 +567,10 @@ async function processTeam(team, tasked, drafted, createdDraftCount) {
   for (const it of toAnalyze) {
     i++;
     if (i % 10 === 0) console.log(`  ...${i}/${toAnalyze.length} classés`);
+    if (DEBUG_EXTRACT) {
+      console.log(`\n[DEBUG] ${it.sender} — ${it.subject || "(sans sujet)"} — extrait ${it.extrait.length} car. :`);
+      console.log(it.extrait.slice(0, 1200) + (it.extrait.length > 1200 ? " […]" : ""));
+    }
     const c = await classify(it);
     // sujet d'affichage : vrai sujet, sinon titre généré par l'IA, sinon repli
     const subject = it.subject || c.titre || "(sans sujet)";
