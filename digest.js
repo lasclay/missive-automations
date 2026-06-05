@@ -251,7 +251,10 @@ async function classify(item) {
     "(date, montant, statut). Si un tel fait est requis : action=repondre, brouillon=\"\".\n" +
     "- Pour tout fait inconnu dans un brouillon, laisse un marqueur {À COMPLÉTER}. " +
     "Respecte les règles de prudence du contexte (ne jamais inventer de chiffres ou faits non publics).\n" +
-    "- draft_opportunite : accepter ET élargir (poser questions utiles, proposer plus).\n" +
+    "- draft_opportunite : accepter ET élargir (poser questions utiles, proposer plus). Mais reste " +
+    "POSÉ et sobre : pas de superlatifs ni de phrases qui vendent (« difficile d'imaginer mieux », " +
+    "« exactement ce qu'on cherche »). Montre un intérêt réel et concret, sans en mettre trop. " +
+    "Un dirigeant occupé est intéressé mais mesuré, pas un vendeur enthousiaste.\n" +
     "- action=fermer si non-essentiel (rien à faire, simple courtoisie sans suite).\n" +
     "- Si le fil attend depuis longtemps : excuse-toi UNE fois pour le délai, en l'attribuant à " +
     "une période chargée et un manque de temps (JAMAIS à un manque de volonté ou d'intérêt). " +
@@ -285,7 +288,11 @@ async function classify(item) {
     "le genre de partenariat », « je serais ravi/curieux de », « ça ne rend pas justice à », " +
     "« j'espère que ce message vous trouve bien », « n'hésitez pas à ». " +
     "Si une de ces idées doit être dite, reformule-la de façon banale et directe.\n" +
-    "FRANÇAIS QUÉBÉCOIS : écris en français du Québec, naturel à l'oral. N'emploie PAS le mot " +
+    "LANGUE : rédige le brouillon DANS LA LANGUE du dernier message du contact. S'il écrit en " +
+    "anglais, réponds en anglais naturel ; s'il écrit en français, réponds en français. Ne change " +
+    "jamais la langue du contact.\n" +
+    "FRANÇAIS QUÉBÉCOIS (uniquement quand tu écris en français) : français du Québec, naturel à " +
+    "l'oral. N'emploie PAS le mot " +
     "« dense » pour une période occupée (tic européen) ; dis « intense », « chargé » ou « occupé ». " +
     "Évite les tournures trop françaises de France ; reste dans un registre d'affaires québécois simple.\n" +
     "JARGON INTERDIT : bannis le langage corporate vide et les formules de consultant. " +
