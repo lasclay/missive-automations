@@ -251,7 +251,9 @@ async function classify(item) {
     "par un remerciement). Varie aussi la fin : pas toujours trois questions en puces ; parfois une " +
     "seule question en une phrase, parfois aucune. Écris comme une vraie personne pressée, pas un gabarit.\n" +
     "STYLE : complet mais bref. Phrases courtes, paragraphes de 2 à 4 lignes, aucun remplissage. " +
-    "Va droit au but. Termine par la signature de Gabriel.";
+    "Va droit au but. NE SIGNE PAS le brouillon : pas de « Gabriel », pas de « Lasclay », " +
+    "aucune formule de signature ni de salutation finale ajoutant un nom. La signature est " +
+    "ajoutée automatiquement par Missive, donc termine sur ta dernière phrase utile.";
 
   // Bloc système : contexte d'entreprise MIS EN CACHE (identique à chaque appel,
   // donc facturé ~10% après le 1er appel) + instructions de tâche.
