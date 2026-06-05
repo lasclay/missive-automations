@@ -34,17 +34,25 @@ const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36";
 // Laisse vide pour désactiver la création de tâches.
 const TASK_LABEL = process.env.MISSIVE_TASK_LABEL || "";
 
+// Création de brouillons (drafts) Missive : activée seulement si CREATE_DRAFTS=true
+// ET seulement sur le run hebdo (MAX_AGE_DAYS absent/0). Pose le label DRAFT_LABEL
+// pour ne jamais recréer un draft sur une conversation qui en a déjà un.
+const CREATE_DRAFTS = (process.env.CREATE_DRAFTS || "false").toLowerCase() === "true";
+const DRAFT_LABEL = process.env.MISSIVE_DRAFT_LABEL || "d0fad8a6-2ce4-427e-a971-949b2313d118";
+
 // Équipes balayées + conversation « Résumé » où poster pour chacune.
 const TEAMS = [
   {
     name: "Admin",
     teamId: "a6c74be0-2a27-4c79-9294-a74b447e6dc0",
     digestConversation: "9e3f9ab8-9bb4-4a89-8040-9cf76284949d",
+    fromAddress: "admin@lasclay.com",
   },
   {
     name: "Operations",
     teamId: "7c925f0d-3eca-4535-be20-424078619cef",
     digestConversation: "8b0001c6-97ba-4c62-a12a-9ac6247326c9",
+    fromAddress: "operations@lasclay.com",
   },
 ];
 
@@ -157,7 +165,8 @@ async function inspect(conv) {
 
   // Expéditeur : nom, sinon adresse, sinon "?"
   const sender = last.from_field?.name || last.from_field?.address || "?";
-  return { id: conv.id, subject, sender, days, extrait };
+  const senderAddress = last.from_field?.address || "";
+  return { id: conv.id, subject, sender, senderAddress, days, extrait };
 }
 
 // --- Classification + brouillon par Claude (retourne un objet structuré) ---
@@ -423,7 +432,50 @@ async function createTask(conversationId, title) {
   return true;
 }
 
-async function processTeam(team, tasked) {
+// --- Anti-doublon drafts : conversations portant déjà le label « Draft créé » ---
+async function conversationsAlreadyDrafted() {
+  if (!CREATE_DRAFTS || !DRAFT_LABEL) return new Set();
+  const ids = new Set();
+  let until = null;
+  const limit = 50;
+  while (true) {
+    let path = `/conversations?shared_label=${DRAFT_LABEL}&limit=${limit}`;
+    if (until) path += `&until=${until}`;
+    const { conversations = [] } = await api(path);
+    if (conversations.length === 0) break;
+    for (const c of conversations) ids.add(c.id);
+    const oldest = conversations[conversations.length - 1].last_activity_at;
+    if (conversations.length < limit || oldest === until) break;
+    until = oldest;
+  }
+  return ids;
+}
+
+// --- Crée un brouillon (draft) dans la conversation + pose le label « Draft créé » ---
+// Reste un BROUILLON (jamais envoyé). Le contact est l'adresse du dernier message externe.
+async function createDraft(it, fromAddress) {
+  const body = {
+    drafts: {
+      conversation: it.id,
+      organization: ORG,
+      from_field: { address: fromAddress },
+      to_fields: [{ address: it.senderAddress }],
+      subject: it.subject ? `Re: ${it.subject}` : undefined,
+      body: it.brouillon.replace(/\n/g, "<br>"),
+      add_shared_labels: [DRAFT_LABEL], // marqueur anti-doublon, posé en même temps
+      // PAS de send: true → reste un brouillon à relire et envoyer manuellement.
+    },
+  };
+  await sleep(260);
+  const res = await fetch(`${API}/drafts`, { method: "POST", headers, body: JSON.stringify(body) });
+  if (!res.ok) {
+    console.error(`Draft échoué sur ${it.id}: ${res.status} ${await res.text()}`);
+    return false;
+  }
+  return true;
+}
+
+async function processTeam(team, tasked, drafted) {
   console.log(`\n=== ${team.name} ===`);
   const convs = await teamInbox(team.teamId);
   console.log(`${convs.length} conversations ouvertes.`);
@@ -490,6 +542,25 @@ async function processTeam(team, tasked) {
       console.log(`${n} tâche(s) créée(s) pour ${team.name}.`);
     }
   }
+
+  // Création de brouillons : seulement les fils qui ONT un brouillon, jamais ceux
+  // déjà draftés (label-marqueur). Hebdo uniquement (MAX_AGE_DAYS=0). Désactivé si
+  // CREATE_DRAFTS != true.
+  if (CREATE_DRAFTS && MAX_AGE_DAYS === 0) {
+    const aDrafter = items.filter((it) => it.brouillon && it.senderAddress && !drafted.has(it.id));
+    if (DRY_RUN) {
+      console.log(`\n[Drafts] ${aDrafter.length} brouillons seraient créés (simulation) :`);
+      for (const it of aDrafter) console.log(`  - ${it.sender} <${it.senderAddress}>`);
+    } else {
+      let n = 0;
+      for (const it of aDrafter) {
+        if (await createDraft(it, team.fromAddress)) { n++; drafted.add(it.id); }
+      }
+      console.log(`${n} brouillon(s) créé(s) pour ${team.name}.`);
+    }
+  } else if (CREATE_DRAFTS && MAX_AGE_DAYS > 0) {
+    console.log("[Drafts] ignorés (mode quotidien, drafts réservés à l'hebdo).");
+  }
 }
 
 async function main() {
@@ -502,9 +573,13 @@ async function main() {
   const tasked = await conversationsAlreadyTasked();
   if (TASK_LABEL) console.log(`${tasked.size} fil(s) ont déjà une tâche.`);
 
+  // Fils déjà « draftés » (pour ne pas recréer de brouillons), récupérés une fois.
+  const drafted = await conversationsAlreadyDrafted();
+  if (CREATE_DRAFTS) console.log(`${drafted.size} fil(s) ont déjà un brouillon.`);
+
   for (const team of TEAMS) {
     try {
-      await processTeam(team, tasked);
+      await processTeam(team, tasked, drafted);
     } catch (e) {
       console.error(`Équipe ${team.name} échouée: ${e.message}`);
     }
