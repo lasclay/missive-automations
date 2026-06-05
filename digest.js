@@ -154,7 +154,8 @@ async function inspect(conv) {
     (sorted.map((m) => m.subject).find((s) => s && s.trim())) ||
     null;
 
-  // Extrait pour l'IA : 3 derniers messages, datés, nettoyés, tronqués à ~1500 caractères.
+  // Extrait pour l'IA : 3 derniers messages, datés, nettoyés, tronqués à ~6000 caractères
+  // (assez pour capter un message détaillé en entier, ex. une vraie proposition).
   const fmtDate = (m) => {
     let t = m.delivered_at || m.created_at || 0;
     if (t && t < 1e12) t *= 1000;
@@ -162,7 +163,7 @@ async function inspect(conv) {
   };
   const extrait = sorted.slice(-3).map((m) => {
     const who = m.from_field?.name || m.from_field?.address || "?";
-    return `[${who}, ${fmtDate(m)}] ${stripHtml(m.body || m.preview).slice(0, 1500)}`;
+    return `[${who}, ${fmtDate(m)}] ${stripHtml(m.body || m.preview).slice(0, 6000)}`;
   }).join("\n---\n");
 
   // Expéditeur : nom, sinon adresse, sinon "?"
@@ -193,6 +194,12 @@ async function classify(item) {
     ' "sous_taches": ["..."],' +
     ' "brouillon": "..."}\n\n' +
     "Règles :\n" +
+    "- PERTINENCE AVANT TOUT : lis attentivement ce que la personne a réellement écrit et réponds " +
+    "à SON contenu concret. Si elle explique qui elle est, ce qu'elle fait, ou ce qu'elle propose " +
+    "(ex. une activité précise, une offre chiffrée, un projet détaillé), prends-en acte explicitement " +
+    "et réagis à CE qu'elle a dit. Ne pose JAMAIS de questions génériques de découverte sur des " +
+    "informations qu'elle a déjà fournies. Un brouillon qui ignore ce que la personne a expliqué est " +
+    "inacceptable. Pose seulement des questions qui font avancer concrètement à partir de ce qu'elle a dit.\n" +
     "- priorite=haute si échéance proche, montant en jeu, ou relance qui traîne.\n" +
     "- action=tache si un document est à remplir/fournir (remplis alors sous_taches).\n" +
     "- N'écris un brouillon (champ brouillon non vide) QUE dans deux cas : (a) une opportunité " +
