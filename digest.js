@@ -129,6 +129,25 @@ async function teamInbox(teamId) {
   return [...byId.values()];
 }
 
+// --- Récupère les IDs des conversations FERMÉES d'une équipe (filtre team_closed) ---
+// Sert à délabelliser uniquement les vrais fils fermés (pas les snoozés/assignés/archivés).
+async function teamClosedIds(teamId) {
+  const ids = new Set();
+  let until = null;
+  const limit = 50;
+  while (true) {
+    let path = `/conversations?team_closed=${teamId}&limit=${limit}`;
+    if (until) path += `&until=${until}`;
+    const { conversations = [] } = await api(path);
+    if (conversations.length === 0) break;
+    for (const c of conversations) ids.add(c.id);
+    const oldest = conversations[conversations.length - 1].last_activity_at;
+    if (conversations.length < limit || oldest === until) break;
+    until = oldest;
+  }
+  return ids;
+}
+
 // Nettoyage HTML robuste : on préserve le texte réel et le texte des liens.
 // (L'ancienne version retirait juste les balises et pouvait vider un message riche.)
 const stripHtml = (s) => {
@@ -210,7 +229,15 @@ async function inspect(conv) {
   // Expéditeur : nom, sinon adresse, sinon "?"
   const sender = last.from_field?.name || last.from_field?.address || "?";
   const senderAddress = last.from_field?.address || "";
-  return { id: conv.id, subject, sender, senderAddress, days, extrait };
+  // Tous les destinataires du dernier message (pour répondre à tous), hors nos propres adresses.
+  const collect = (arr) => (Array.isArray(arr) ? arr.map((f) => f.address).filter(Boolean) : []);
+  const isSelf = (a) => SELF.includes((a || "").toLowerCase());
+  const replyTo = [senderAddress, ...collect(last.to_fields)].filter((a) => a && !isSelf(a));
+  const replyCc = collect(last.cc_fields).filter((a) => a && !isSelf(a) && !replyTo.includes(a));
+  // Dédoublonnage du to
+  const toAddrs = [...new Set(replyTo)];
+  const ccAddrs = [...new Set(replyCc)];
+  return { id: conv.id, subject, sender, senderAddress, toAddrs, ccAddrs, lastTs: ts, days, extrait };
 }
 
 // --- Classification + brouillon par Claude (retourne un objet structuré) ---
@@ -288,6 +315,10 @@ async function classify(item) {
     "le genre de partenariat », « je serais ravi/curieux de », « ça ne rend pas justice à », " +
     "« j'espère que ce message vous trouve bien », « n'hésitez pas à ». " +
     "Si une de ces idées doit être dite, reformule-la de façon banale et directe.\n" +
+    "SALUTATION : commence TOUJOURS le brouillon par une salutation avec le prénom du contact. " +
+    "En français : « Bonjour [Prénom], ». En anglais : « Hi [First name], ». Si le prénom est " +
+    "inconnu, écris simplement « Bonjour, » (ou « Hi, » en anglais). N'enchaîne jamais directement " +
+    "sur le contenu sans cette salutation.\n" +
     "LANGUE : rédige le brouillon DANS LA LANGUE du dernier message du contact. S'il écrit en " +
     "anglais, réponds en anglais naturel ; s'il écrit en français, réponds en français. Ne change " +
     "jamais la langue du contact.\n" +
@@ -516,21 +547,43 @@ async function conversationsAlreadyDrafted() {
   return ids;
 }
 
+// --- Retire le label « Draft créé » d'une conversation (fil fermé/traité) ---
+// Permet qu'un draft frais soit recréé si le contact répond et rouvre le fil.
+async function removeDraftLabel(conversationId) {
+  const body = {
+    posts: {
+      conversation: conversationId,
+      organization: ORG,
+      remove_shared_labels: [DRAFT_LABEL],
+      notification: { title: "Suivi", body: "Brouillon obsolète, label retiré." },
+    },
+  };
+  await sleep(260);
+  const res = await fetch(`${API}/posts`, { method: "POST", headers, body: JSON.stringify(body) });
+  if (!res.ok) {
+    console.error(`Retrait label échoué sur ${conversationId}: ${res.status} ${await res.text()}`);
+    return false;
+  }
+  return true;
+}
+
 // --- Crée un brouillon (draft) dans la conversation + pose le label « Draft créé » ---
 // Reste un BROUILLON (jamais envoyé). Le contact est l'adresse du dernier message externe.
 async function createDraft(it, fromAddress) {
-  const body = {
-    drafts: {
-      conversation: it.id,
-      organization: ORG,
-      from_field: { address: fromAddress },
-      to_fields: [{ address: it.senderAddress }],
-      subject: it.subject ? `Re: ${it.subject}` : undefined,
-      body: it.brouillon.replace(/\n/g, "<br>"),
-      add_shared_labels: [DRAFT_LABEL], // marqueur anti-doublon, posé en même temps
-      // PAS de send: true → reste un brouillon à relire et envoyer manuellement.
-    },
+  const toFields = (it.toAddrs && it.toAddrs.length ? it.toAddrs : [it.senderAddress])
+    .map((a) => ({ address: a }));
+  const draft = {
+    conversation: it.id,
+    organization: ORG,
+    from_field: { address: fromAddress },
+    to_fields: toFields,
+    subject: it.subject ? `Re: ${it.subject}` : undefined,
+    body: it.brouillon.replace(/\n/g, "<br>"),
+    add_shared_labels: [DRAFT_LABEL], // marqueur anti-doublon, posé en même temps
+    // PAS de send: true → reste un brouillon à relire et envoyer manuellement.
   };
+  if (it.ccAddrs && it.ccAddrs.length) draft.cc_fields = it.ccAddrs.map((a) => ({ address: a }));
+  const body = { drafts: draft };
   await sleep(260);
   const res = await fetch(`${API}/drafts`, { method: "POST", headers, body: JSON.stringify(body) });
   if (!res.ok) {
@@ -540,9 +593,8 @@ async function createDraft(it, fromAddress) {
   return true;
 }
 
-async function processTeam(team, tasked, drafted, createdDraftCount) {
+async function processTeam(team, tasked, drafted, createdDraftCount, convs) {
   console.log(`\n=== ${team.name} ===`);
-  const convs = await teamInbox(team.teamId);
   console.log(`${convs.length} conversations ouvertes.`);
 
   // Garder celles en attente de toi (une conv problématique est sautée, pas fatale)
@@ -639,6 +691,13 @@ async function processTeam(team, tasked, drafted, createdDraftCount) {
 }
 
 async function main() {
+  // Garde-fou weekend : ne pas publier samedi (6) ni dimanche (0), heure du Québec.
+  const jourQc = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Toronto" })).getDay();
+  if (!DRY_RUN && (jourQc === 0 || jourQc === 6)) {
+    console.log("Weekend (samedi/dimanche) : aucune publication. Fin.");
+    return;
+  }
+
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien posté) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle : ${MODEL}`);
   if (MAX_AGE_DAYS > 0) console.log(`Mode quotidien : fils ≤ ${MAX_AGE_DAYS} jour(s).`);
@@ -652,12 +711,40 @@ async function main() {
   const drafted = await conversationsAlreadyDrafted();
   if (CREATE_DRAFTS) console.log(`${drafted.size} fil(s) ont déjà un brouillon.`);
 
+  // Charger les inbox des deux équipes une seule fois (fils OUVERTS, pour le digest).
+  const inboxByTeam = new Map();
+  for (const team of TEAMS) {
+    inboxByTeam.set(team.teamId, await teamInbox(team.teamId));
+  }
+
+  // Rafraîchissement intelligent : on retire le label « Draft créé » UNIQUEMENT des fils
+  // explicitement FERMÉS (filtre team_closed), pas par déduction. Ainsi, quand le contact
+  // répond et rouvre le fil, il n'a plus le label → un draft frais se recrée.
+  // (Hebdo + drafts actifs seulement.)
+  if (CREATE_DRAFTS && MAX_AGE_DAYS === 0 && drafted.size > 0) {
+    const closedIds = new Set();
+    for (const team of TEAMS) {
+      for (const id of await teamClosedIds(team.teamId)) closedIds.add(id);
+    }
+    // Intersection : étiqueté ET fermé = à délabelliser avec certitude.
+    const aRetirer = [...drafted].filter((id) => closedIds.has(id));
+    if (DRY_RUN) {
+      console.log(`[Refresh] ${aRetirer.length} fil(s) fermé(s) étiqueté(s) verraient leur label retiré (simulation).`);
+    } else {
+      let r = 0;
+      for (const id of aRetirer) {
+        if (await removeDraftLabel(id)) { r++; drafted.delete(id); }
+      }
+      console.log(`[Refresh] label « Draft créé » retiré de ${r} fil(s) fermé(s).`);
+    }
+  }
+
   // Compteur partagé pour appliquer DRAFT_LIMIT globalement (sur les deux équipes).
   const createdDraftCount = { n: 0 };
 
   for (const team of TEAMS) {
     try {
-      await processTeam(team, tasked, drafted, createdDraftCount);
+      await processTeam(team, tasked, drafted, createdDraftCount, inboxByTeam.get(team.teamId));
     } catch (e) {
       console.error(`Équipe ${team.name} échouée: ${e.message}`);
     }
