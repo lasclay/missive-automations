@@ -1,5 +1,5 @@
 /**
- * Lasclay — analyse.js (v1)
+ * Lasclay — analyse.js (v1.1)
  * -------------------------
  * Transforme l'archive du service client en savoir exploitable :
  * `connaissance_support.md`, bâti sur TROIS PILIERS :
@@ -67,39 +67,74 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const noDash = (s) => (s || "").replace(/\s*[—–]\s*/g, ", ");
 
 async function api(path) {
-  await sleep(260);
-  const res = await fetch(`${API}${path}`, { headers: mHeaders });
-  if (res.status === 429) { await sleep(30000); return api(path); }
-  if (!res.ok) throw new Error(`${path} → ${res.status} ${await res.text()}`);
-  return res.json();
+  let netTries = 0;
+  while (true) {
+    await sleep(260);
+    let res;
+    try { res = await fetch(`${API}${path}`, { headers: mHeaders }); }
+    catch (e) {
+      if (++netTries > 5) throw new Error(`${path} → réseau: ${e.message} (5 tentatives)`);
+      console.warn(`Réseau Missive (${e.message}), tentative ${netTries}/5, pause ${netTries * 10} s…`);
+      await sleep(netTries * 10000);
+      continue;
+    }
+    if (res.status === 429) { await sleep(30000); continue; }
+    if (!res.ok) throw new Error(`${path} → ${res.status} ${await res.text()}`);
+    return res.json();
+  }
 }
 
 async function apiPost(path, body) {
-  await sleep(260);
-  const res = await fetch(`${API}${path}`, { method: "POST", headers: mHeaders, body: JSON.stringify(body) });
-  if (res.status === 429) { await sleep(30000); return apiPost(path, body); }
-  if (!res.ok) throw new Error(`${path} → ${res.status} ${await res.text()}`);
-  return res.json().catch(() => ({}));
+  const payload = JSON.stringify(body);
+  let netTries = 0;
+  while (true) {
+    await sleep(260);
+    let res;
+    try { res = await fetch(`${API}${path}`, { method: "POST", headers: mHeaders, body: payload }); }
+    catch (e) {
+      if (++netTries > 5) throw new Error(`${path} → réseau: ${e.message} (5 tentatives)`);
+      console.warn(`Réseau Missive (${e.message}), tentative ${netTries}/5, pause ${netTries * 10} s…`);
+      await sleep(netTries * 10000);
+      continue;
+    }
+    if (res.status === 429) { await sleep(30000); continue; }
+    if (!res.ok) throw new Error(`${path} → ${res.status} ${await res.text()}`);
+    return res.json().catch(() => ({}));
+  }
 }
 
-// --- Appel Anthropic, avec retry sur 429/529 ---
+// Assainissement Unicode: supprime les surrogates orphelins (emojis corrompus)
+// qui rendent le JSON invalide pour l'API (cause du lot 582).
+const sanit = (s) => (s || "")
+  .replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/g, "")
+  .replace(/(^|[^\uD800-\uDBFF])([\uDC00-\uDFFF])/g, "$1");
+
+// --- Appel Anthropic, avec retry sur 429/529 ET sur les erreurs réseau ---
 async function claude(system, user, maxTokens) {
-  for (let attempt = 1; attempt <= 4; attempt++) {
+  const payload = JSON.stringify({
+    model: MODEL,
+    max_tokens: maxTokens || 2000,
+    system: sanit(system),
+    messages: [{ role: "user", content: sanit(user) }],
+  });
+  for (let attempt = 1; attempt <= 6; attempt++) {
     await sleep(800);
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "x-api-key": ANTHROPIC_KEY,
-        "anthropic-version": "2023-06-01",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: maxTokens || 2000,
-        system,
-        messages: [{ role: "user", content: user }],
-      }),
-    });
+    let res;
+    try {
+      res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "x-api-key": ANTHROPIC_KEY,
+          "anthropic-version": "2023-06-01",
+          "Content-Type": "application/json",
+        },
+        body: payload,
+      });
+    } catch (e) {
+      console.warn(`Réseau Anthropic (${e.message}), tentative ${attempt}/6, pause ${attempt * 15} s…`);
+      await sleep(attempt * 15000);
+      continue;
+    }
     if (res.status === 429 || res.status === 529) {
       console.warn(`Anthropic ${res.status}, pause ${attempt * 20} s…`);
       await sleep(attempt * 20000);
@@ -160,10 +195,18 @@ async function listExportDrafts() {
 }
 
 async function downloadGz(url) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`téléchargement HTTP ${res.status}`);
-  const buf = Buffer.from(await res.arrayBuffer());
-  return zlib.gunzipSync(buf).toString("utf8");
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const buf = Buffer.from(await res.arrayBuffer());
+      return zlib.gunzipSync(buf).toString("utf8");
+    } catch (e) {
+      if (attempt === 4) throw new Error(`téléchargement: ${e.message} (4 tentatives)`);
+      console.warn(`Téléchargement (${e.message}), tentative ${attempt}/4, pause ${attempt * 10} s…`);
+      await sleep(attempt * 10000);
+    }
+  }
 }
 
 function fixDirections(rec) {
@@ -293,6 +336,42 @@ async function saveCheckpoint(map) {
     },
   });
   console.log(`Checkpoint sauvegardé (${map.size} fils).`);
+}
+
+// --- Checkpoint des SECTIONS de distillation (même principe) ---
+
+async function loadSections(drafts) {
+  const map = new Map();
+  const cps = [];
+  for (const d of drafts) for (const a of d.attachments || []) {
+    if (/^analyse_sections_.*\.json\.gz$/.test(a.filename || "")) cps.push(a);
+  }
+  if (cps.length === 0) return map;
+  cps.sort((a, b) => (a.filename < b.filename ? 1 : -1));
+  try {
+    const obj = JSON.parse(await downloadGz(cps[0].url));
+    for (const [k, v] of Object.entries(obj)) map.set(k, v);
+    console.log(`Checkpoint de distillation relu: ${map.size} section(s) déjà faite(s) (${cps[0].filename}).`);
+  } catch (e) {
+    console.warn(`Checkpoint de sections illisible (${e.message}), distillation de zéro.`);
+  }
+  return map;
+}
+
+async function saveSections(map) {
+  const obj = Object.fromEntries(map.entries());
+  const b64 = zlib.gzipSync(Buffer.from(JSON.stringify(obj))).toString("base64");
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+  await apiPost("/drafts", {
+    drafts: {
+      conversation: EXPORT_CONV, organization: ORG,
+      from_field: { address: EXPORT_FROM }, to_fields: [{ address: EXPORT_FROM }],
+      subject: `[NE PAS ENVOYER] Checkpoint distillation (${map.size} sections)`,
+      body: "Checkpoint technique de analyse.js.",
+      attachments: [{ base64_data: b64, filename: `analyse_sections_${stamp}.json.gz` }],
+    },
+  });
+  console.log(`  checkpoint de distillation sauvegardé (${map.size} section(s)).`);
 }
 
 async function classifyAll(fils, classif) {
@@ -470,7 +549,7 @@ async function deliver(md, statsLine) {
 // ---------------------------------------------------------------------------
 
 (async () => {
-  console.log("=== Lasclay analyse.js v1 ===");
+  console.log("=== Lasclay analyse.js v1.1 ===");
   console.log(`Modèle: ${MODEL} | SAMPLE_MAX: ${SAMPLE_MAX} | TEST_LIMIT: ${TEST_LIMIT || "aucun"} | Envoi courriel: ${SEND_REPORT}`);
 
   const drafts = await listExportDrafts();
@@ -490,66 +569,84 @@ async function deliver(md, statsLine) {
   }
 
   // D + E. par catégorie (on saute le bruit pur)
+  // Checkpoint de distillation: chaque section terminée est sauvée en brouillon;
+  // une relance saute tout ce qui est déjà fait.
+  const secs = await loadSections(drafts);
+  async function withCheckpoint(key, fn) {
+    if (secs.has(key)) { console.log(`  section « ${key} » relue du checkpoint, sautée.`); return secs.get(key); }
+    const v = await fn();
+    secs.set(key, v);
+    await saveSections(secs);
+    return v;
+  }
+
   const exemples = fils.filter((f) => f.exemple);
   const sections = [];
   for (const [cat, arr] of [...byCat.entries()].sort((a, b) => b[1].length - a[1].length)) {
     if (cat === "spam_bruit" || cat === "reponse_marketing") continue;
-    const sample = sampleCategory(arr);
-    console.log(`\nDistillation « ${cat} »: ${sample.length}/${arr.length} fils…`);
-    const notes = await distillChunks(sample, 12000, noDash(
-      `Voici des fils de la catégorie « ${cat} ». Extrais en notes structurées: ` +
-      "1) les sous-types de demandes et leur fréquence apparente, 2) la logique de réponse observée " +
-      "(que fait-on selon le cas, quelles conditions mènent à quelle décision), 3) les formulations typiques de NOUS, " +
-      "4) les cas particuliers ou pièges, 5) ce qui reste sans réponse ou se règle mal."
-    ));
-    const synth = await synthesize(cat, notes, noDash(
-      `Synthétise ces notes en une section de document de savoir pour la catégorie « ${cat} ». ` +
-      "Format markdown, niveau ###, sous-sections: Demandes types, Logique de réponse, Formulations éprouvées, Cas particuliers. " +
-      "Concis mais complet, en prose, sans listes à puces excessives."
-    ));
+    const synth = await withCheckpoint(`cat:${cat}`, async () => {
+      const sample = sampleCategory(arr);
+      console.log(`\nDistillation « ${cat} »: ${sample.length}/${arr.length} fils…`);
+      const notes = await distillChunks(sample, 12000, noDash(
+        `Voici des fils de la catégorie « ${cat} ». Extrais en notes structurées: ` +
+        "1) les sous-types de demandes et leur fréquence apparente, 2) la logique de réponse observée " +
+        "(que fait-on selon le cas, quelles conditions mènent à quelle décision), 3) les formulations typiques de NOUS, " +
+        "4) les cas particuliers ou pièges, 5) ce qui reste sans réponse ou se règle mal."
+      ));
+      return synthesize(cat, notes, noDash(
+        `Synthétise ces notes en une section de document de savoir pour la catégorie « ${cat} ». ` +
+        "Format markdown, niveau ###, sous-sections: Demandes types, Logique de réponse, Formulations éprouvées, Cas particuliers. " +
+        "Concis mais complet, en prose, sans listes à puces excessives."
+      ));
+    });
     sections.push(`## ${cat} (${arr.length} fils sur 2 ans)\n\n${synth}`);
   }
 
   // E2. exemples (logiques internes)
   let exemplesSection = "";
   if (exemples.length > 0) {
-    console.log(`\nDistillation des ${exemples.length} exemples étiquetés (avec commentaires internes)…`);
-    const notes = await distillChunks(exemples, Infinity, noDash(
-      "Ces fils sont des EXEMPLES choisis par Gabriel, avec les commentaires internes de l'équipe. " +
-      "Extrais surtout: les logiques de décision internes (pourquoi on répond comme ça), les règles implicites, " +
-      "les erreurs commentées et leurs leçons, et ce que ces fils enseignent qu'on ne voit pas ailleurs."
-    ));
-    exemplesSection = await synthesize("exemples", notes, noDash(
-      "Synthétise ces notes en une section « Logiques de décision internes » du document de savoir. " +
-      "Markdown niveau ###, organisé par règle ou leçon, chaque règle avec son contexte d'application."
-    ));
+    exemplesSection = await withCheckpoint("exemples", async () => {
+      console.log(`\nDistillation des ${exemples.length} exemples étiquetés (avec commentaires internes)…`);
+      const notes = await distillChunks(exemples, Infinity, noDash(
+        "Ces fils sont des EXEMPLES choisis par Gabriel, avec les commentaires internes de l'équipe. " +
+        "Extrais surtout: les logiques de décision internes (pourquoi on répond comme ça), les règles implicites, " +
+        "les erreurs commentées et leurs leçons, et ce que ces fils enseignent qu'on ne voit pas ailleurs."
+      ));
+      return synthesize("exemples", notes, noDash(
+        "Synthétise ces notes en une section « Logiques de décision internes » du document de savoir. " +
+        "Markdown niveau ###, organisé par règle ou leçon, chaque règle avec son contexte d'application."
+      ));
+    });
   }
 
   // E3. ton de marque (à partir des messages de NOUS)
-  console.log("\nDistillation du ton de marque…");
-  const nousMsgs = fils.flatMap((f) => f.messages.filter((m) => m.direction === "nous" && m.body && m.body.length > 60 && m.body.length < 1200).map((m) => ({ l: f._l, body: m.body })));
-  const tonePick = [];
-  for (const lang of ["fr", "en"]) {
-    const pool = nousMsgs.filter((m) => m.l === lang);
-    for (let i = 0; i < pool.length && tonePick.length < (lang === "fr" ? 80 : 120); i += Math.max(1, Math.floor(pool.length / 60))) tonePick.push(pool[i]);
-  }
-  const toneNotes = [];
-  for (let i = 0; i < tonePick.length; i += 30) {
-    toneNotes.push(await claude(BASE_SYSTEM, noDash(
-      "Voici des réponses réelles de l'équipe Lasclay. Décris le ton: salutations, niveau de langue, " +
-      "longueur, structure, signatures de style, différences FR/EN, et donne 8 à 10 formulations représentatives.\n\n"
-    ) + tonePick.slice(i, i + 30).map((m, j) => `--- ${j + 1} (${m.l}) ---\n${m.body}`).join("\n\n"), 2500));
-  }
-  const toneSection = await synthesize("ton", toneNotes, noDash(
-    "Synthétise en une section « Ton de marque » du document de savoir: comment Lasclay écrit, en FR et en EN, " +
-    "avec les formulations à réutiliser et celles à éviter. Markdown niveau ###."
-  ));
+  const toneSection = await withCheckpoint("ton", async () => {
+    console.log("\nDistillation du ton de marque…");
+    const nousMsgs = fils.flatMap((f) => f.messages.filter((m) => m.direction === "nous" && m.body && m.body.length > 60 && m.body.length < 1200).map((m) => ({ l: f._l, body: m.body })));
+    const tonePick = [];
+    for (const lang of ["fr", "en"]) {
+      const pool = nousMsgs.filter((m) => m.l === lang);
+      for (let i = 0; i < pool.length && tonePick.length < (lang === "fr" ? 80 : 120); i += Math.max(1, Math.floor(pool.length / 60))) tonePick.push(pool[i]);
+    }
+    const toneNotes = [];
+    for (let i = 0; i < tonePick.length; i += 30) {
+      toneNotes.push(await claude(BASE_SYSTEM, noDash(
+        "Voici des réponses réelles de l'équipe Lasclay. Décris le ton: salutations, niveau de langue, " +
+        "longueur, structure, signatures de style, différences FR/EN, et donne 8 à 10 formulations représentatives.\n\n"
+      ) + tonePick.slice(i, i + 30).map((m, j) => `--- ${j + 1} (${m.l}) ---\n${m.body}`).join("\n\n"), 2500));
+    }
+    return synthesize("ton", toneNotes, noDash(
+      "Synthétise en une section « Ton de marque » du document de savoir: comment Lasclay écrit, en FR et en EN, " +
+      "avec les formulations à réutiliser et celles à éviter. Markdown niveau ###."
+    ));
+  });
 
   // E4. canned responses: Sonnet ANNOTE seulement (thème, usage, désuétude);
   // le contenu intégral est inséré PAR LE CODE: zéro perte, zéro troncature possible.
-  console.log("\nAnnotation des canned responses…");
   let cannedSection = "(aucune canned response trouvée)";
   if (canned.length > 0) {
+    cannedSection = await withCheckpoint("canned", async () => {
+    console.log("\nAnnotation des canned responses…");
     const THEMES = [
       "Accusés de réception et politesse", "Expédition et suivi", "Retours, échanges et remboursements",
       "Problèmes de livraison", "Tailles et échanges de produits", "Précommandes et ruptures de stock",
@@ -602,7 +699,8 @@ async function deliver(md, statsLine) {
         parts.push("> " + r.corps.replace(/\n/g, "\n> "));
       }
     }
-    cannedSection = parts.join("\n\n");
+    return parts.join("\n\n");
+    });
   }
 
   // F. assemblage
