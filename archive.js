@@ -1,6 +1,9 @@
 /**
- * Lasclay — archive.js (v3.2)
+ * Lasclay — archive.js (v3.4)
  * ---------------------------
+ * v3.3 : correctif de la détection nous/client sur les canaux sociaux
+ * (Messenger « Lasclay » sans adresse courriel) via MISSIVE_SELF_NAMES
+ * et le champ author des messages sortants.
  * Archive brute du service client Missive en JSONL, exportée PAR TRANCHES en
  * pièces jointes gzippées dans des brouillons Missive (jamais envoyés).
  *
@@ -29,6 +32,7 @@
  *   TRANCHE                  fils par tranche d'export (défaut 2500)
  *   BATCH_IDS                messages par GET groupé (défaut 10)
  *   MISSIVE_SELF_ADDRESSES   nos adresses (défaut hey@, admin@, operations@)
+ *   MISSIVE_SELF_NAMES       nos noms de page sociale (défaut « lasclay »)
  *   EXPORT_CONV              conversation d'export (défaut : « Archives support »)
  *   EXPORT_FROM              alias du brouillon (défaut hey@lasclay.com)
  *   MISSIVE_ORG              org (défaut Lasclay)
@@ -46,6 +50,10 @@ const BATCH_IDS = Math.max(1, parseInt(process.env.BATCH_IDS || "10", 10));
 const SELF = (process.env.MISSIVE_SELF_ADDRESSES ||
   "hey@lasclay.com,admin@lasclay.com,operations@lasclay.com")
   .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
+// Noms d'expéditeur qui sont « nous » (pages sociales, ex. Messenger « Lasclay »).
+const norm = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+const SELF_NAMES = new Set((process.env.MISSIVE_SELF_NAMES || "lasclay")
+  .split(",").map(norm).filter(Boolean));
 const EXPORT_CONV = process.env.EXPORT_CONV || "019eb488-6d42-7195-a2ae-11751d0a7a27";
 const EXPORT_FROM = process.env.EXPORT_FROM || "hey@lasclay.com";
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36";
@@ -294,13 +302,17 @@ async function buildRecord(conv, withComments) {
       const raw = bodies.get(m.id) || m.body || m.preview || "";
       const body = cleanBody(raw);
       if (!body) stats.emptyBodies++;
-      const addr = (m.from_field?.address || m.from_field?.username || "").toLowerCase();
+      const addr = (m.from_field?.address || "").toLowerCase();
+      const fromName = norm(m.from_field?.name || m.from_field?.username || "");
+      // « nous » si: adresse connue, OU nom de page connu (Messenger/Instagram),
+      // OU message authored par un membre de l'équipe (champ présent en sortant).
+      const isUs = SELF.includes(addr) || SELF_NAMES.has(fromName) || !!m.author?.name;
       const rec = {
         id: m.id,
         date: m.delivered_at || m.created_at || null,
         type: m.type || null,
-        from: m.from_field?.address || m.from_field?.name || null,
-        direction: SELF.includes(addr) ? "nous" : "client",
+        from: m.from_field?.address || m.from_field?.name || m.from_field?.username || null,
+        direction: isUs ? "nous" : "client",
         body,
       };
       if (m.author?.name) rec.author = m.author.name; // qui a répondu chez nous
@@ -371,7 +383,7 @@ async function exportTranche(lines, tag) {
 // ---------------------------------------------------------------------------
 
 (async () => {
-  console.log("=== Lasclay archive.js v3.2 ===");
+  console.log("=== Lasclay archive.js v3.4 ===");
   console.log(`Équipe: ${TEAM} | Label exemples: ${LABEL_EXEMPLES}`);
   console.log(`Fenêtre générale: ${MAX_AGE_DAYS} j | Plafond général: ${LIMIT_CONV || "aucun"} | Tranche: ${TRANCHE}`);
 
@@ -421,6 +433,12 @@ async function exportTranche(lines, tag) {
   const all = await paginateConversations(`team_all=${TEAM}`, cutoffTs, 20);
   console.log(`${all.length} fils dans la fenêtre de ${MAX_AGE_DAYS} jours.`);
   let todo = all.filter((c) => !done.has(c.id) && !labelIds.has(c.id) && c.id !== EXPORT_CONV);
+  // Bruit technique exclu d'office : rapports DMARC (« Report Domain: lasclay.com ... »).
+  // Motif étroit pour ne pas risquer d'écarter une vraie conversation.
+  const DMARC_RE = /^(\[preview\]\s*)?report domain:\s*lasclay\.com/i;
+  const beforeDmarc = todo.length;
+  todo = todo.filter((c) => !DMARC_RE.test((c.subject || c.latest_message_subject || "").trim()));
+  console.log(`Rapports DMARC écartés: ${beforeDmarc - todo.length}.`);
   if (LIMIT_CONV > 0) todo = todo.slice(0, LIMIT_CONV);
   console.log(`À archiver ce run: ${todo.length} fils.`);
   await processList(todo, false, "général");
