@@ -1,32 +1,34 @@
 /**
- * Lasclay — archive.js (v3, gros volume sur Render)
- * --------------------------------------------------
- * Archive brute d'une shared inbox Missive (team_all) en JSONL, exporté PAR
- * TRANCHES en pièces jointes gzippées dans des brouillons Missive (jamais
- * envoyés) au fil du run.
+ * Lasclay — archive.js (v3.2)
+ * ---------------------------
+ * Archive brute du service client Missive en JSONL, exportée PAR TRANCHES en
+ * pièces jointes gzippées dans des brouillons Missive (jamais envoyés).
  *
- * Nouveautés v3 (pensées pour ~20 000 fils, run de plusieurs heures) :
- *   - REPRISE : au démarrage, relit les pièces jointes d'archive déjà
- *     présentes dans la conversation d'export et saute les fils déjà faits.
- *     Un run interrompu reprend où il était au Trigger Run suivant.
- *   - EXPORT PAR TRANCHES : un brouillon tous les TRANCHE fils (défaut 2500),
- *     donc mémoire stable et rien de perdu si le job meurt.
- *   - TOLÉRANCE : une erreur sur un fil est loguée et on continue.
+ * DEUX PASSES :
+ *   1. EXEMPLES : tous les fils du label « exemple service client »,
+ *      SANS limite de date, AVEC les commentaires internes de l'équipe.
+ *      C'est le corpus en profondeur (logiques de décision incluses).
+ *   2. GÉNÉRALE : team_all de l'équipe sur MAX_AGE_DAYS, messages seulement.
+ *      C'est le volume statistique. Les fils du label en sont exclus.
  *
- * LECTURE SEULE côté conversations clients. Seule écriture : les brouillons
- * d'export dans EXPORT_CONV.
+ * Reprise : relit les pièces jointes déjà exportées dans EXPORT_CONV et saute
+ * ce qui est fait. Un fil archivé jadis SANS commentaires sera réarchivé par
+ * la passe exemples (record en double, le plus riche gagne à l'analyse).
  *
+ * LECTURE SEULE côté fils clients. Seule écriture : les brouillons d'export.
  * Node 18+. Aucune dépendance.
  *
  * Variables d'environnement :
  *   MISSIVE_TOKEN            requis (missive_pat-...)
  *   TEAM                     id d'équipe (défaut : LAS Support)
- *   MAX_AGE_DAYS             profondeur (défaut 730 = 2 ans)
- *   LIMIT_CONV               plafond de fils ce run (défaut 10 = test; 0 = sans limite)
+ *   LABEL_EXEMPLES           label des exemples (défaut : « exemple service client »)
+ *   MAX_AGE_DAYS             profondeur de la passe générale (défaut 730)
+ *   LIMIT_CONV               plafond de fils de la PASSE GÉNÉRALE ce run
+ *                            (défaut 10 = test; 0 = sans limite).
+ *                            La passe exemples est toujours complète.
  *   TRANCHE                  fils par tranche d'export (défaut 2500)
- *   BATCH_IDS                messages par GET groupé (défaut 10; 1 si échec)
- *   MISSIVE_SELF_ADDRESSES   nos adresses, séparées par virgules
- *                            (défaut hey@, admin@, operations@lasclay.com)
+ *   BATCH_IDS                messages par GET groupé (défaut 10)
+ *   MISSIVE_SELF_ADDRESSES   nos adresses (défaut hey@, admin@, operations@)
  *   EXPORT_CONV              conversation d'export (défaut : « Archives support »)
  *   EXPORT_FROM              alias du brouillon (défaut hey@lasclay.com)
  *   MISSIVE_ORG              org (défaut Lasclay)
@@ -36,6 +38,7 @@ const zlib = require("node:zlib");
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const TEAM = process.env.TEAM || "e184d153-4472-4edd-9b35-f8867cf437a8"; // LAS Support
+const LABEL_EXEMPLES = process.env.LABEL_EXEMPLES || "c72b0a84-d467-4fb7-a95d-13b5e30f0e35";
 const MAX_AGE_DAYS = parseInt(process.env.MAX_AGE_DAYS || "730", 10);
 const LIMIT_CONV = parseInt(process.env.LIMIT_CONV || "10", 10);
 const TRANCHE = Math.max(50, parseInt(process.env.TRANCHE || "2500", 10));
@@ -74,8 +77,7 @@ async function apiPost(path, body) {
 }
 
 // ---------------------------------------------------------------------------
-// Nettoyage : HTML → texte, puis coupe du texte cité (identique à v2, éprouvé
-// sur le run de test : 0 corps vides).
+// Nettoyage : HTML → texte + coupe du texte cité (validé : 0 corps vides).
 // ---------------------------------------------------------------------------
 
 function cutQuotedHtml(html) {
@@ -149,14 +151,15 @@ async function listExportDrafts() {
 }
 
 async function loadDoneFromMissive() {
-  const done = new Set();
+  const done = new Set();        // fils archivés, peu importe la profondeur
+  const doneExemple = new Set(); // fils archivés AVEC commentaires (passe exemples)
   let files = 0;
   let drafts = [];
   try {
     drafts = await listExportDrafts();
   } catch (e) {
     console.warn(`Lecture des brouillons d'export impossible (${e.message}). Reprise désactivée.`);
-    return done;
+    return { done, doneExemple };
   }
   for (const d of drafts) {
     for (const a of d.attachments || []) {
@@ -168,7 +171,11 @@ async function loadDoneFromMissive() {
         const text = zlib.gunzipSync(buf).toString("utf8");
         for (const line of text.split("\n")) {
           if (!line.trim()) continue;
-          try { done.add(JSON.parse(line).id); } catch {}
+          try {
+            const rec = JSON.parse(line);
+            done.add(rec.id);
+            if (rec.exemple) doneExemple.add(rec.id);
+          } catch {}
         }
         files++;
       } catch (e) {
@@ -176,36 +183,41 @@ async function loadDoneFromMissive() {
       }
     }
   }
-  console.log(`Reprise: ${files} archive(s) relue(s), ${done.size} fils déjà faits.`);
-  return done;
+  console.log(`Reprise: ${files} archive(s) relue(s), ${done.size} fils faits dont ${doneExemple.size} exemple(s).`);
+  return { done, doneExemple };
 }
 
 // ---------------------------------------------------------------------------
-// Balayage team_all et lecture des fils (identiques à v2, validés au test).
+// Listages : label (exhaustif, tous états) et team_all (fenêtré).
 // ---------------------------------------------------------------------------
 
-async function listAllConversations(teamId, cutoffTs) {
+async function paginateConversations(baseFilter, cutoffTs, logEvery) {
   const byId = new Map();
   let until = null;
   const limit = 50;
   let pages = 0;
   while (true) {
-    let path = `/conversations?team_all=${teamId}&limit=${limit}`;
+    let path = `/conversations?${baseFilter}&limit=${limit}`;
     if (until) path += `&until=${until}`;
     const { conversations = [] } = await api(path);
     if (conversations.length === 0) break;
     pages++;
     for (const c of conversations) byId.set(c.id, c);
     const oldest = conversations[conversations.length - 1].last_activity_at;
-    if (pages % 20 === 0) {
+    if (logEvery && pages % logEvery === 0) {
       console.log(`  pages: ${pages}, fils: ${byId.size}, plus ancien: ${new Date(oldest * 1000).toISOString().slice(0, 10)}`);
     }
-    if (oldest < cutoffTs) break;
+    if (cutoffTs && oldest < cutoffTs) break;
     if (conversations.length < limit || oldest === until) break;
     until = oldest;
   }
-  return [...byId.values()].filter((c) => (c.last_activity_at || 0) >= cutoffTs);
+  const all = [...byId.values()];
+  return cutoffTs ? all.filter((c) => (c.last_activity_at || 0) >= cutoffTs) : all;
 }
+
+// ---------------------------------------------------------------------------
+// Lecture d'un fil : messages (toujours), commentaires (passe exemples).
+// ---------------------------------------------------------------------------
 
 async function listThreadMessages(convId) {
   const byId = new Map();
@@ -224,6 +236,23 @@ async function listThreadMessages(convId) {
   return [...byId.values()].sort(
     (a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0)
   );
+}
+
+async function listThreadComments(convId) {
+  const byId = new Map();
+  let until = null;
+  while (true) {
+    let path = `/conversations/${convId}/comments?limit=10`;
+    if (until) path += `&until=${until}`;
+    const { comments = [] } = await api(path);
+    if (comments.length === 0) break;
+    const before = byId.size;
+    for (const c of comments) byId.set(c.id, c);
+    const oldest = comments[comments.length - 1].created_at;
+    if (comments.length < 10 || oldest === until || byId.size === before) break;
+    until = oldest;
+  }
+  return [...byId.values()].sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
 }
 
 async function fetchBodies(ids) {
@@ -250,6 +279,53 @@ async function fetchBodies(ids) {
   return bodies;
 }
 
+const stats = { msgTotal: 0, emptyBodies: 0 };
+
+async function buildRecord(conv, withComments) {
+  const msgs = await listThreadMessages(conv.id);
+  const bodies = await fetchBodies(msgs.map((m) => m.id));
+  const record = {
+    id: conv.id,
+    subject: conv.subject || conv.latest_message_subject || null,
+    last_activity_at: conv.last_activity_at,
+    labels: (conv.shared_labels || []).map((l) => l.name || l.id),
+    messages_count: msgs.length,
+    messages: msgs.map((m) => {
+      const raw = bodies.get(m.id) || m.body || m.preview || "";
+      const body = cleanBody(raw);
+      if (!body) stats.emptyBodies++;
+      const addr = (m.from_field?.address || m.from_field?.username || "").toLowerCase();
+      const rec = {
+        id: m.id,
+        date: m.delivered_at || m.created_at || null,
+        type: m.type || null,
+        from: m.from_field?.address || m.from_field?.name || null,
+        direction: SELF.includes(addr) ? "nous" : "client",
+        body,
+      };
+      if (m.author?.name) rec.author = m.author.name; // qui a répondu chez nous
+      const att = (m.attachments || []).map((a) => a.filename).filter(Boolean);
+      if (att.length) rec.attachments = att; // ex.: photo d'un produit défectueux
+      return rec;
+    }),
+  };
+  stats.msgTotal += msgs.length;
+  if (withComments) {
+    record.exemple = true;
+    const comments = await listThreadComments(conv.id);
+    record.comments = comments.map((c) => {
+      const com = {
+        date: c.created_at || null,
+        author: c.author?.name || null,
+        body: (c.body || "").trim(),
+      };
+      if (c.task?.description) com.task = c.task.description;
+      return com;
+    }).filter((c) => c.body || c.task);
+  }
+  return record;
+}
+
 // ---------------------------------------------------------------------------
 // Export d'une tranche : gzip + brouillon avec pièce jointe. JAMAIS send:true.
 // ---------------------------------------------------------------------------
@@ -257,7 +333,7 @@ async function fetchBodies(ids) {
 const RUN_STAMP = new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-");
 let trancheSeq = 0;
 
-async function exportTranche(lines) {
+async function exportTranche(lines, tag) {
   if (lines.length === 0) return;
   trancheSeq++;
   let pieces = [lines.join("\n")];
@@ -281,7 +357,7 @@ async function exportTranche(lines) {
         organization: ORG,
         from_field: { address: EXPORT_FROM },
         to_fields: [{ address: EXPORT_FROM }],
-        subject: `[NE PAS ENVOYER] Archive support, tranche ${suffix} (${lines.length} fils)`,
+        subject: `[NE PAS ENVOYER] Archive support${tag ? " " + tag : ""}, tranche ${suffix} (${lines.length} fils)`,
         body: "Archive JSONL gzippée en pièce jointe. Brouillon technique: ne pas envoyer, ne pas supprimer (sert à la reprise et à l'analyse).",
         attachments: [{ base64_data: b64, filename }],
       },
@@ -295,74 +371,61 @@ async function exportTranche(lines) {
 // ---------------------------------------------------------------------------
 
 (async () => {
-  console.log("=== Lasclay archive.js v3 ===");
-  console.log(`Équipe: ${TEAM}`);
-  console.log(`Fenêtre: ${MAX_AGE_DAYS} j | Plafond: ${LIMIT_CONV || "aucun"} | Tranche: ${TRANCHE} fils | Export: ${EXPORT_CONV}`);
+  console.log("=== Lasclay archive.js v3.2 ===");
+  console.log(`Équipe: ${TEAM} | Label exemples: ${LABEL_EXEMPLES}`);
+  console.log(`Fenêtre générale: ${MAX_AGE_DAYS} j | Plafond général: ${LIMIT_CONV || "aucun"} | Tranche: ${TRANCHE}`);
 
   const cutoffTs = Math.floor(Date.now() / 1000) - MAX_AGE_DAYS * 86400;
+  const { done, doneExemple } = await loadDoneFromMissive();
 
-  const done = await loadDoneFromMissive();
-
-  console.log("Balayage de la liste des conversations (team_all)…");
-  const all = await listAllConversations(TEAM, cutoffTs);
-  console.log(`${all.length} fils dans la fenêtre de ${MAX_AGE_DAYS} jours.`);
-
-  let todo = all.filter((c) => !done.has(c.id) && c.id !== EXPORT_CONV);
-  if (LIMIT_CONV > 0) todo = todo.slice(0, LIMIT_CONV);
-  console.log(`À archiver ce run: ${todo.length} fils.\n`);
-
-  let n = 0, ok = 0, errors = 0, msgTotal = 0, emptyBodies = 0;
   let buffer = [];
-  const t0 = Date.now();
+  let ok = 0, errors = 0;
 
-  for (const conv of todo) {
-    n++;
-    try {
-      const msgs = await listThreadMessages(conv.id);
-      const bodies = await fetchBodies(msgs.map((m) => m.id));
-      const record = {
-        id: conv.id,
-        subject: conv.subject || conv.latest_message_subject || null,
-        last_activity_at: conv.last_activity_at,
-        labels: (conv.shared_labels || []).map((l) => l.name || l.id),
-        messages_count: msgs.length,
-        messages: msgs.map((m) => {
-          const raw = bodies.get(m.id) || m.body || m.preview || "";
-          const body = cleanBody(raw);
-          if (!body) emptyBodies++;
-          const addr = (m.from_field?.address || m.from_field?.username || "").toLowerCase();
-          return {
-            id: m.id,
-            date: m.delivered_at || m.created_at || null,
-            type: m.type || null,
-            from: m.from_field?.address || m.from_field?.name || null,
-            direction: SELF.includes(addr) ? "nous" : "client",
-            body,
-          };
-        }),
-      };
-      buffer.push(JSON.stringify(record));
-      msgTotal += msgs.length;
-      ok++;
-    } catch (e) {
-      errors++;
-      console.warn(`[${n}/${todo.length}] ERREUR sur ${conv.id}: ${e.message} (on continue)`);
-    }
-
-    if (n % 50 === 0) {
-      const mins = (Date.now() - t0) / 60000;
-      const eta = mins / n * (todo.length - n);
-      console.log(`[${n}/${todo.length}] ok: ${ok}, erreurs: ${errors}, ~${eta.toFixed(0)} min restantes`);
-    }
-
-    if (buffer.length >= TRANCHE) {
-      await exportTranche(buffer);
-      buffer = [];
+  async function processList(convs, withComments, label) {
+    let n = 0;
+    const t0 = Date.now();
+    for (const conv of convs) {
+      n++;
+      try {
+        buffer.push(JSON.stringify(await buildRecord(conv, withComments)));
+        done.add(conv.id);
+        ok++;
+      } catch (e) {
+        errors++;
+        console.warn(`[${label} ${n}/${convs.length}] ERREUR sur ${conv.id}: ${e.message} (on continue)`);
+      }
+      if (n % 50 === 0) {
+        const mins = (Date.now() - t0) / 60000;
+        const eta = (mins / n) * (convs.length - n);
+        console.log(`[${label} ${n}/${convs.length}] ok: ${ok}, erreurs: ${errors}, ~${eta.toFixed(0)} min restantes`);
+      }
+      if (buffer.length >= TRANCHE) {
+        await exportTranche(buffer, label);
+        buffer = [];
+      }
     }
   }
 
-  await exportTranche(buffer);
+  // --- PASSE 1 : exemples (label complet, avec commentaires internes) ---
+  console.log("\nPasse 1: fils du label « exemple service client » (exhaustif, avec commentaires)…");
+  const exemples = await paginateConversations(`shared_label=${LABEL_EXEMPLES}`, null, 0);
+  const todoEx = exemples.filter((c) => !doneExemple.has(c.id) && c.id !== EXPORT_CONV);
+  console.log(`${exemples.length} fils sous le label, ${todoEx.length} à archiver.`);
+  await processList(todoEx, true, "exemples");
+  await exportTranche(buffer, "exemples");
+  buffer = [];
 
-  console.log(`\nArchivage: ${ok} fils ok, ${errors} erreurs, ${msgTotal} messages, ${emptyBodies} corps vides.`);
+  // --- PASSE 2 : générale (team_all fenêtré, messages seulement) ---
+  console.log("\nPasse 2: balayage team_all…");
+  const labelIds = new Set(exemples.map((c) => c.id));
+  const all = await paginateConversations(`team_all=${TEAM}`, cutoffTs, 20);
+  console.log(`${all.length} fils dans la fenêtre de ${MAX_AGE_DAYS} jours.`);
+  let todo = all.filter((c) => !done.has(c.id) && !labelIds.has(c.id) && c.id !== EXPORT_CONV);
+  if (LIMIT_CONV > 0) todo = todo.slice(0, LIMIT_CONV);
+  console.log(`À archiver ce run: ${todo.length} fils.`);
+  await processList(todo, false, "général");
+  await exportTranche(buffer, "général");
+
+  console.log(`\nArchivage: ${ok} fils ok, ${errors} erreurs, ${stats.msgTotal} messages, ${stats.emptyBodies} corps vides.`);
   console.log("Run terminé. Les brouillons d'archive servent de stockage: ne pas les supprimer.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
