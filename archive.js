@@ -1,5 +1,5 @@
 /**
- * Lasclay — archive.js (v3.4)
+ * Lasclay — archive.js (v3.5)
  * ---------------------------
  * v3.3 : correctif de la détection nous/client sur les canaux sociaux
  * (Messenger « Lasclay » sans adresse courriel) via MISSIVE_SELF_NAMES
@@ -23,7 +23,8 @@
  *
  * Variables d'environnement :
  *   MISSIVE_TOKEN            requis (missive_pat-...)
- *   TEAM                     id d'équipe (défaut : LAS Support)
+ *   TEAMS                    ids d'équipes séparés par virgules (défaut: LAS Support,
+ *                            Mise à jour commande, RETOURS-ÉCHANGES, USA, Vente pré-achat)
  *   LABEL_EXEMPLES           label des exemples (défaut : « exemple service client »)
  *   MAX_AGE_DAYS             profondeur de la passe générale (défaut 730)
  *   LIMIT_CONV               plafond de fils de la PASSE GÉNÉRALE ce run
@@ -41,7 +42,14 @@
 const zlib = require("node:zlib");
 
 const TOKEN = process.env.MISSIVE_TOKEN;
-const TEAM = process.env.TEAM || "e184d153-4472-4edd-9b35-f8867cf437a8"; // LAS Support
+// Équipes balayées par la passe générale (team_all). TEAMS=ids séparés par virgules.
+const TEAMS = (process.env.TEAMS || process.env.TEAM || [
+  "e184d153-4472-4edd-9b35-f8867cf437a8", // LAS Support
+  "0db185c1-3a93-4a44-9f50-dcfe8c0683dd", // Mise à jour commande
+  "cc587c84-63b9-4e88-993c-4f4b5b328173", // RETOURS-ÉCHANGES
+  "13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217", // USA
+  "d6f28d2f-06ef-4aa5-aae0-b68f014e3216", // Vente - info pré-achat
+].join(",")).split(",").map((s) => s.trim()).filter(Boolean);
 const LABEL_EXEMPLES = process.env.LABEL_EXEMPLES || "c72b0a84-d467-4fb7-a95d-13b5e30f0e35";
 const MAX_AGE_DAYS = parseInt(process.env.MAX_AGE_DAYS || "730", 10);
 const LIMIT_CONV = parseInt(process.env.LIMIT_CONV || "10", 10);
@@ -295,6 +303,7 @@ async function buildRecord(conv, withComments) {
   const record = {
     id: conv.id,
     subject: conv.subject || conv.latest_message_subject || null,
+    team: conv.team?.name || null,
     last_activity_at: conv.last_activity_at,
     labels: (conv.shared_labels || []).map((l) => l.name || l.id),
     messages_count: msgs.length,
@@ -383,8 +392,8 @@ async function exportTranche(lines, tag) {
 // ---------------------------------------------------------------------------
 
 (async () => {
-  console.log("=== Lasclay archive.js v3.4 ===");
-  console.log(`Équipe: ${TEAM} | Label exemples: ${LABEL_EXEMPLES}`);
+  console.log("=== Lasclay archive.js v3.5 ===");
+  console.log(`Équipes: ${TEAMS.length} | Label exemples: ${LABEL_EXEMPLES}`);
   console.log(`Fenêtre générale: ${MAX_AGE_DAYS} j | Plafond général: ${LIMIT_CONV || "aucun"} | Tranche: ${TRANCHE}`);
 
   const cutoffTs = Math.floor(Date.now() / 1000) - MAX_AGE_DAYS * 86400;
@@ -427,11 +436,18 @@ async function exportTranche(lines, tag) {
   await exportTranche(buffer, "exemples");
   buffer = [];
 
-  // --- PASSE 2 : générale (team_all fenêtré, messages seulement) ---
+  // --- PASSE 2 : générale (team_all des équipes listées, messages seulement) ---
   console.log("\nPasse 2: balayage team_all…");
   const labelIds = new Set(exemples.map((c) => c.id));
-  const all = await paginateConversations(`team_all=${TEAM}`, cutoffTs, 20);
-  console.log(`${all.length} fils dans la fenêtre de ${MAX_AGE_DAYS} jours.`);
+  const allById = new Map();
+  for (const teamId of TEAMS) {
+    console.log(`  équipe ${teamId}…`);
+    const convs = await paginateConversations(`team_all=${teamId}`, cutoffTs, 20);
+    for (const c of convs) allById.set(c.id, c);
+    console.log(`  → ${convs.length} fils dans la fenêtre (cumul: ${allById.size}).`);
+  }
+  const all = [...allById.values()];
+  console.log(`${all.length} fils uniques dans la fenêtre de ${MAX_AGE_DAYS} jours, toutes équipes.`);
   let todo = all.filter((c) => !done.has(c.id) && !labelIds.has(c.id) && c.id !== EXPORT_CONV);
   // Bruit technique exclu d'office : rapports DMARC (« Report Domain: lasclay.com ... »).
   // Motif étroit pour ne pas risquer d'écarter une vraie conversation.
