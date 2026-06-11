@@ -206,8 +206,12 @@ async function loadArchive(drafts) {
     (r.messages || []).length > 0
   );
   if (TEST_LIMIT > 0) {
-    fils.sort((a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0));
-    fils = fils.slice(0, TEST_LIMIT);
+    // Les exemples étiquetés passent TOUJOURS, même en mode test.
+    const ex = fils.filter((r) => r.exemple);
+    const rest = fils.filter((r) => !r.exemple)
+      .sort((a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0))
+      .slice(0, TEST_LIMIT);
+    fils = [...ex, ...rest];
   }
   console.log(`Archive: ${files} tranche(s), ${beforeFilter} fils bruts, ${fils.length} retenus${TEST_LIMIT ? " (TEST_LIMIT)" : ""}.`);
   return fils;
@@ -392,6 +396,9 @@ const BASE_SYSTEM = noDash(
   "Tu analyses le service client de Lasclay (lasclay.com, produits isolés à la soie d'asclépiade, Québec) " +
   "pour bâtir un document de savoir qui servira à automatiser les réponses. " +
   "Sois factuel, concret, et cite de courtes formulations réellement utilisées quand elles sont représentatives. " +
+  "RÈGLE STRICTE: si aucune formulation réellement écrite par Lasclay n'existe dans le matériel fourni, " +
+  "signale le manque clairement et n'invente JAMAIS de formulation de remplacement, même marquée à valider: " +
+  "une voix inventée contaminerait le savoir. " +
   "Règle absolue: n'utilise JAMAIS de tiret cadratin ni demi-cadratin; utilise virgule, deux-points ou parenthèses."
 );
 
@@ -538,19 +545,55 @@ async function deliver(md, statsLine) {
     "avec les formulations à réutiliser et celles à éviter. Markdown niveau ###."
   ));
 
-  // E4. canned responses (intégrées au complet, organisées)
-  console.log("\nOrganisation des canned responses…");
+  // E4. canned responses: Sonnet ANNOTE seulement (thème, usage, désuétude);
+  // le contenu intégral est inséré PAR LE CODE: zéro perte, zéro troncature possible.
+  console.log("\nAnnotation des canned responses…");
   let cannedSection = "(aucune canned response trouvée)";
   if (canned.length > 0) {
-    const cannedText = canned.map((r, i) => `--- ${i + 1}. ${r.titre}${r.sujet ? " | sujet: " + r.sujet : ""} ---\n${r.corps.slice(0, 1200)}`).join("\n\n");
-    cannedSection = await synthesize("canned", [cannedText], noDash(
-      "Voici TOUTES les canned responses officielles de Lasclay. Organise-les en savoir: regroupe par thème, " +
-      "et pour chacune: son titre exact, quand l'utiliser, et son contenu intégral ou à peine condensé " +
-      "(ne perds aucune information factuelle: politiques, délais, montants, liens). " +
-      "ATTENTION: certaines peuvent être désuètes. C'est une référence importante, pas la Bible: " +
-      "marque « [À VÉRIFIER] » toute réponse qui semble datée (anciennes politiques, vieux délais, liens suspects) " +
-      "ou qui contredit ce qu'on observerait dans la pratique récente. Markdown niveau ###."
-    ));
+    const annotations = [];
+    for (let i = 0; i < canned.length; i += 30) {
+      const lot = canned.slice(i, i + 30);
+      const user = noDash(
+        "Voici des canned responses officielles de Lasclay. Pour CHACUNE, retourne un objet JSON: " +
+        '{"n":<numéro>,"theme":"<thème court et réutilisable, ex.: Retours et échanges>","quand":"<quand l\'utiliser, une phrase>",' +
+        '"verifier":<true si elle semble désuète: vieille politique, délai daté, contexte expiré, lien suspect; sinon false>,' +
+        '"raison":"<si verifier est true, pourquoi, très court>"}. ' +
+        "Réponds UNIQUEMENT avec un tableau JSON, rien d'autre."
+      ) + "\n\n" + lot.map((r, j) => `--- ${j + 1}. ${r.titre}${r.sujet ? " | sujet: " + r.sujet : ""} ---\n${r.corps.slice(0, 2000)}`).join("\n\n");
+      let parsed = null;
+      for (let a = 1; a <= 2 && !parsed; a++) {
+        try { parsed = parseJsonLoose(await claude(BASE_SYSTEM, user, 3000)); }
+        catch (e) { console.warn(`  annotation lot ${i / 30 + 1}: réponse illisible (${e.message}), tentative ${a}/2`); }
+      }
+      for (let j = 0; j < lot.length; j++) {
+        const hit = Array.isArray(parsed) ? parsed.find((p) => p.n === j + 1) : null;
+        annotations.push({
+          theme: (hit && hit.theme) || "Autre",
+          quand: (hit && hit.quand) || "",
+          verifier: !!(hit && hit.verifier),
+          raison: (hit && hit.raison) || "",
+        });
+      }
+    }
+    const byTheme = new Map();
+    canned.forEach((r, i) => {
+      const t = annotations[i].theme;
+      if (!byTheme.has(t)) byTheme.set(t, []);
+      byTheme.get(t).push({ ...r, ...annotations[i] });
+    });
+    const parts = [];
+    for (const [theme, list] of [...byTheme.entries()].sort((a, b) => b[1].length - a[1].length)) {
+      parts.push(`### ${theme} (${list.length})`);
+      for (const r of list) {
+        parts.push(`#### ${r.titre}${r.verifier ? ` [À VÉRIFIER${r.raison ? ": " + r.raison : ""}]` : ""}`);
+        const meta = [];
+        if (r.sujet) meta.push(`Sujet: ${r.sujet}`);
+        if (r.quand) meta.push(`Quand l'utiliser: ${r.quand}`);
+        if (meta.length) parts.push(meta.join(" | "));
+        parts.push("> " + r.corps.replace(/\n/g, "\n> "));
+      }
+    }
+    cannedSection = parts.join("\n\n");
   }
 
   // F. assemblage
