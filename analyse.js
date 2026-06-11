@@ -550,16 +550,25 @@ async function deliver(md, statsLine) {
   console.log("\nAnnotation des canned responses…");
   let cannedSection = "(aucune canned response trouvée)";
   if (canned.length > 0) {
+    const THEMES = [
+      "Accusés de réception et politesse", "Expédition et suivi", "Retours, échanges et remboursements",
+      "Problèmes de livraison", "Tailles et échanges de produits", "Précommandes et ruptures de stock",
+      "Produits et questions techniques", "Plantation et bombes semencières",
+      "Logistique spéciale (grèves, douanes, USA)", "Ateliers et points de vente",
+      "Garantie et satisfaction", "Fraude et sécurité", "Clôtures et politesse", "Autre",
+    ];
     const annotations = [];
     for (let i = 0; i < canned.length; i += 30) {
       const lot = canned.slice(i, i + 30);
       const user = noDash(
         "Voici des canned responses officielles de Lasclay. Pour CHACUNE, retourne un objet JSON: " +
-        '{"n":<numéro>,"theme":"<thème court et réutilisable, ex.: Retours et échanges>","quand":"<quand l\'utiliser, une phrase>",' +
+        `{"n":<numéro>,"theme":"<EXACTEMENT un de: ${THEMES.join(" | ")}>","quand":"<quand l'utiliser, une phrase>",` +
         '"verifier":<true si elle semble désuète: vieille politique, délai daté, contexte expiré, lien suspect; sinon false>,' +
         '"raison":"<si verifier est true, pourquoi, très court>"}. ' +
+        "NOTE: les textes sont coupés à 3000 caractères POUR L'ANNOTATION SEULEMENT; " +
+        "une coupe en fin de texte n'est pas un défaut de la réponse, ne la signale pas. " +
         "Réponds UNIQUEMENT avec un tableau JSON, rien d'autre."
-      ) + "\n\n" + lot.map((r, j) => `--- ${j + 1}. ${r.titre}${r.sujet ? " | sujet: " + r.sujet : ""} ---\n${r.corps.slice(0, 2000)}`).join("\n\n");
+      ) + "\n\n" + lot.map((r, j) => `--- ${j + 1}. ${r.titre}${r.sujet ? " | sujet: " + r.sujet : ""} ---\n${r.corps.slice(0, 3000)}`).join("\n\n");
       let parsed = null;
       for (let a = 1; a <= 2 && !parsed; a++) {
         try { parsed = parseJsonLoose(await claude(BASE_SYSTEM, user, 3000)); }
@@ -568,7 +577,7 @@ async function deliver(md, statsLine) {
       for (let j = 0; j < lot.length; j++) {
         const hit = Array.isArray(parsed) ? parsed.find((p) => p.n === j + 1) : null;
         annotations.push({
-          theme: (hit && hit.theme) || "Autre",
+          theme: hit && THEMES.includes(hit.theme) ? hit.theme : "Autre",
           quand: (hit && hit.quand) || "",
           verifier: !!(hit && hit.verifier),
           raison: (hit && hit.raison) || "",
