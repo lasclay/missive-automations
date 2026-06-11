@@ -1,49 +1,48 @@
 /**
- * Lasclay — archive.js (v2, pensé pour Render)
- * --------------------------------------------
- * Archive brute d'une shared inbox Missive (filtre team_all) vers un JSONL,
- * puis EXPORT en pièce jointe gzippée dans un brouillon Missive (jamais envoyé),
- * parce que le disque Render est éphémère : sans export, le fichier disparaît
- * à la fin du run.
+ * Lasclay — archive.js (v3, gros volume sur Render)
+ * --------------------------------------------------
+ * Archive brute d'une shared inbox Missive (team_all) en JSONL, exporté PAR
+ * TRANCHES en pièces jointes gzippées dans des brouillons Missive (jamais
+ * envoyés) au fil du run.
  *
- * LECTURE SEULE côté conversations clients. Seule écriture : le ou les
- * brouillons d'export dans la conversation EXPORT_CONV.
+ * Nouveautés v3 (pensées pour ~20 000 fils, run de plusieurs heures) :
+ *   - REPRISE : au démarrage, relit les pièces jointes d'archive déjà
+ *     présentes dans la conversation d'export et saute les fils déjà faits.
+ *     Un run interrompu reprend où il était au Trigger Run suivant.
+ *   - EXPORT PAR TRANCHES : un brouillon tous les TRANCHE fils (défaut 2500),
+ *     donc mémoire stable et rien de perdu si le job meurt.
+ *   - TOLÉRANCE : une erreur sur un fil est loguée et on continue.
+ *
+ * LECTURE SEULE côté conversations clients. Seule écriture : les brouillons
+ * d'export dans EXPORT_CONV.
  *
  * Node 18+. Aucune dépendance.
  *
  * Variables d'environnement :
  *   MISSIVE_TOKEN            requis (missive_pat-...)
  *   TEAM                     id d'équipe (défaut : LAS Support)
- *   MAX_AGE_DAYS             profondeur d'historique (défaut 730 = 2 ans)
- *   LIMIT_CONV               plafond de conversations ce run
- *                            (défaut 10 = test prudent; 0 = sans limite)
- *   OUT                      fichier de travail (défaut archive_support.jsonl)
- *   BATCH_IDS                nb de messages par GET groupé (défaut 10; 1 si échec)
+ *   MAX_AGE_DAYS             profondeur (défaut 730 = 2 ans)
+ *   LIMIT_CONV               plafond de fils ce run (défaut 10 = test; 0 = sans limite)
+ *   TRANCHE                  fils par tranche d'export (défaut 2500)
+ *   BATCH_IDS                messages par GET groupé (défaut 10; 1 si échec)
  *   MISSIVE_SELF_ADDRESSES   nos adresses, séparées par virgules
  *                            (défaut hey@, admin@, operations@lasclay.com)
- *   EXPORT_CONV              id de la conversation Missive où attacher l'archive
- *                            (défaut : « Archives support »; mettre une valeur
- *                            VIDE pour désactiver l'export, utile en local).
- *   EXPORT_FROM              alias d'envoi du brouillon (défaut hey@lasclay.com)
+ *   EXPORT_CONV              conversation d'export (défaut : « Archives support »)
+ *   EXPORT_FROM              alias du brouillon (défaut hey@lasclay.com)
  *   MISSIVE_ORG              org (défaut Lasclay)
- *
- * Sur Render : pas de reprise possible entre les runs (disque effacé).
- * Un run doit aller au bout; s'il plante, on repart de zéro.
  */
 
-const fs = require("node:fs");
 const zlib = require("node:zlib");
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const TEAM = process.env.TEAM || "e184d153-4472-4edd-9b35-f8867cf437a8"; // LAS Support
 const MAX_AGE_DAYS = parseInt(process.env.MAX_AGE_DAYS || "730", 10);
 const LIMIT_CONV = parseInt(process.env.LIMIT_CONV || "10", 10);
-const OUT = process.env.OUT || "archive_support.jsonl";
+const TRANCHE = Math.max(50, parseInt(process.env.TRANCHE || "2500", 10));
 const BATCH_IDS = Math.max(1, parseInt(process.env.BATCH_IDS || "10", 10));
 const SELF = (process.env.MISSIVE_SELF_ADDRESSES ||
   "hey@lasclay.com,admin@lasclay.com,operations@lasclay.com")
   .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
-// Conversation « Archives support » (dans LAS Support) où déposer les brouillons d'export.
 const EXPORT_CONV = process.env.EXPORT_CONV || "019eb488-6d42-7195-a2ae-11751d0a7a27";
 const EXPORT_FROM = process.env.EXPORT_FROM || "hey@lasclay.com";
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36";
@@ -52,6 +51,7 @@ const API = "https://public.missiveapp.com/v1";
 const headers = { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json" };
 
 if (!TOKEN) { console.error("Manque MISSIVE_TOKEN."); process.exit(1); }
+if (!EXPORT_CONV) { console.error("Manque EXPORT_CONV (essentiel sur Render)."); process.exit(1); }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -74,12 +74,10 @@ async function apiPost(path, body) {
 }
 
 // ---------------------------------------------------------------------------
-// Nettoyage : HTML → texte, puis coupe du texte cité (l'historique répété).
+// Nettoyage : HTML → texte, puis coupe du texte cité (identique à v2, éprouvé
+// sur le run de test : 0 corps vides).
 // ---------------------------------------------------------------------------
 
-// Coupe au niveau HTML : tout ce qui suit le premier bloc de citation.
-// (Le contenu cité est en fin de message; on accepte de perdre le rare
-// texte écrit SOUS la citation.)
 function cutQuotedHtml(html) {
   if (!html) return "";
   const markers = [/<blockquote/i, /class="gmail_quote/i];
@@ -91,7 +89,6 @@ function cutQuotedHtml(html) {
   return html.slice(0, cut);
 }
 
-// HTML → texte lisible (repris du digest, éprouvé).
 function stripHtml(s) {
   if (!s) return "";
   let t = s;
@@ -109,7 +106,6 @@ function stripHtml(s) {
   return t;
 }
 
-// Coupe au niveau texte : marqueurs de citation que le HTML n'a pas attrapés.
 function cutQuotedText(text) {
   if (!text) return "";
   const markers = [
@@ -131,7 +127,61 @@ function cleanBody(html) {
 }
 
 // ---------------------------------------------------------------------------
-// Pagination team_all jusqu'à la profondeur voulue.
+// REPRISE : relire les archives déjà exportées dans EXPORT_CONV.
+// ---------------------------------------------------------------------------
+
+async function listExportDrafts() {
+  const byId = new Map();
+  let until = null;
+  while (true) {
+    let path = `/conversations/${EXPORT_CONV}/drafts?limit=10`;
+    if (until) path += `&until=${until}`;
+    const { drafts = [] } = await api(path);
+    if (drafts.length === 0) break;
+    const before = byId.size;
+    for (const d of drafts) byId.set(d.id, d);
+    const last = drafts[drafts.length - 1];
+    const oldest = last.delivered_at || last.created_at || null;
+    if (drafts.length < 10 || byId.size === before || !oldest || oldest === until) break;
+    until = oldest;
+  }
+  return [...byId.values()];
+}
+
+async function loadDoneFromMissive() {
+  const done = new Set();
+  let files = 0;
+  let drafts = [];
+  try {
+    drafts = await listExportDrafts();
+  } catch (e) {
+    console.warn(`Lecture des brouillons d'export impossible (${e.message}). Reprise désactivée.`);
+    return done;
+  }
+  for (const d of drafts) {
+    for (const a of d.attachments || []) {
+      if (!/^archive_support_.*\.jsonl\.gz$/.test(a.filename || "")) continue;
+      try {
+        const res = await fetch(a.url); // URL signée, pas d'en-tête d'auth
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const buf = Buffer.from(await res.arrayBuffer());
+        const text = zlib.gunzipSync(buf).toString("utf8");
+        for (const line of text.split("\n")) {
+          if (!line.trim()) continue;
+          try { done.add(JSON.parse(line).id); } catch {}
+        }
+        files++;
+      } catch (e) {
+        console.warn(`  pièce jointe ${a.filename} illisible (${e.message}), ignorée.`);
+      }
+    }
+  }
+  console.log(`Reprise: ${files} archive(s) relue(s), ${done.size} fils déjà faits.`);
+  return done;
+}
+
+// ---------------------------------------------------------------------------
+// Balayage team_all et lecture des fils (identiques à v2, validés au test).
 // ---------------------------------------------------------------------------
 
 async function listAllConversations(teamId, cutoffTs) {
@@ -147,17 +197,15 @@ async function listAllConversations(teamId, cutoffTs) {
     pages++;
     for (const c of conversations) byId.set(c.id, c);
     const oldest = conversations[conversations.length - 1].last_activity_at;
-    console.log(`  pages: ${pages}, fils: ${byId.size}, plus ancien: ${new Date(oldest * 1000).toISOString().slice(0, 10)}`);
-    if (oldest < cutoffTs) break;                                 // assez profond
-    if (conversations.length < limit || oldest === until) break;  // dernière page
+    if (pages % 20 === 0) {
+      console.log(`  pages: ${pages}, fils: ${byId.size}, plus ancien: ${new Date(oldest * 1000).toISOString().slice(0, 10)}`);
+    }
+    if (oldest < cutoffTs) break;
+    if (conversations.length < limit || oldest === until) break;
     until = oldest;
   }
   return [...byId.values()].filter((c) => (c.last_activity_at || 0) >= cutoffTs);
 }
-
-// ---------------------------------------------------------------------------
-// Messages d'un fil : liste paginée, puis corps complets par fetch groupé.
-// ---------------------------------------------------------------------------
 
 async function listThreadMessages(convId) {
   const byId = new Map();
@@ -178,7 +226,6 @@ async function listThreadMessages(convId) {
   );
 }
 
-// Corps complets via GET /messages/:id1,:id2,… (groupé). Repli unitaire si échec.
 async function fetchBodies(ids) {
   const bodies = new Map();
   for (let i = 0; i < ids.length; i += BATCH_IDS) {
@@ -204,66 +251,43 @@ async function fetchBodies(ids) {
 }
 
 // ---------------------------------------------------------------------------
-// Export : gzip + brouillon(s) Missive avec pièce jointe. JAMAIS send:true.
+// Export d'une tranche : gzip + brouillon avec pièce jointe. JAMAIS send:true.
 // ---------------------------------------------------------------------------
 
-async function exportArchive() {
-  if (!EXPORT_CONV) {
-    console.log("EXPORT_CONV non défini: pas d'export Missive (fichier local seulement).");
-    console.log("Sur Render, le fichier sera PERDU à la fin du run sans export.");
-    return;
-  }
-  const raw = fs.readFileSync(OUT, "utf8");
-  const lines = raw.split("\n").filter(Boolean);
+const RUN_STAMP = new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-");
+let trancheSeq = 0;
 
-  // Découpage en parts : on vise un gzip+base64 sous ~6 Mo par pièce jointe
-  // (limite Missive: 10 Mo par requête JSON). Texte brut ~15 Mo par part.
-  const RAW_TARGET = 15 * 1024 * 1024;
+async function exportTranche(lines) {
+  if (lines.length === 0) return;
+  trancheSeq++;
+  let pieces = [lines.join("\n")];
   const B64_MAX = 6.5 * 1024 * 1024;
-  const parts = [];
-  let chunk = [];
-  let size = 0;
-  for (const line of lines) {
-    chunk.push(line);
-    size += line.length + 1;
-    if (size >= RAW_TARGET) { parts.push(chunk.join("\n")); chunk = []; size = 0; }
+  while (true) {
+    const tooBig = pieces.findIndex(
+      (p) => zlib.gzipSync(Buffer.from(p)).toString("base64").length > B64_MAX
+    );
+    if (tooBig === -1) break;
+    const ls = pieces[tooBig].split("\n");
+    const mid = Math.ceil(ls.length / 2);
+    pieces.splice(tooBig, 1, ls.slice(0, mid).join("\n"), ls.slice(mid).join("\n"));
   }
-  if (chunk.length) parts.push(chunk.join("\n"));
-
-  console.log(`\nExport: ${lines.length} fils, ${(raw.length / 1048576).toFixed(1)} Mo brut, en ${parts.length} part(s).`);
-
-  const stamp = new Date().toISOString().slice(0, 10);
-  for (let i = 0; i < parts.length; i++) {
-    let pieces = [parts[i]];
-    // Si une part gzippée dépasse quand même la limite, on la coupe en deux.
-    while (true) {
-      const tooBig = pieces.findIndex(
-        (p) => zlib.gzipSync(Buffer.from(p)).toString("base64").length > B64_MAX
-      );
-      if (tooBig === -1) break;
-      const ls = pieces[tooBig].split("\n");
-      const mid = Math.ceil(ls.length / 2);
-      pieces.splice(tooBig, 1, ls.slice(0, mid).join("\n"), ls.slice(mid).join("\n"));
-    }
-    for (let j = 0; j < pieces.length; j++) {
-      const b64 = zlib.gzipSync(Buffer.from(pieces[j])).toString("base64");
-      const suffix = pieces.length > 1 ? `${i + 1}${"abcdefgh"[j]}` : `${i + 1}`;
-      const filename = `archive_support_${stamp}_part${suffix}.jsonl.gz`;
-      await apiPost("/drafts", {
-        drafts: {
-          conversation: EXPORT_CONV,
-          organization: ORG,
-          from_field: { address: EXPORT_FROM },
-          to_fields: [{ address: EXPORT_FROM }],
-          subject: `[NE PAS ENVOYER] Archive support ${stamp} (part ${suffix}/${parts.length})`,
-          body: "Archive JSONL gzippée en pièce jointe. Brouillon technique, à télécharger puis supprimer.",
-          attachments: [{ base64_data: b64, filename }],
-        },
-      });
-      console.log(`  brouillon créé: ${filename} (${(b64.length / 1048576).toFixed(1)} Mo en base64)`);
-    }
+  for (let j = 0; j < pieces.length; j++) {
+    const b64 = zlib.gzipSync(Buffer.from(pieces[j])).toString("base64");
+    const suffix = pieces.length > 1 ? `${trancheSeq}${"abcdefgh"[j]}` : `${trancheSeq}`;
+    const filename = `archive_support_${RUN_STAMP}_t${suffix}.jsonl.gz`;
+    await apiPost("/drafts", {
+      drafts: {
+        conversation: EXPORT_CONV,
+        organization: ORG,
+        from_field: { address: EXPORT_FROM },
+        to_fields: [{ address: EXPORT_FROM }],
+        subject: `[NE PAS ENVOYER] Archive support, tranche ${suffix} (${lines.length} fils)`,
+        body: "Archive JSONL gzippée en pièce jointe. Brouillon technique: ne pas envoyer, ne pas supprimer (sert à la reprise et à l'analyse).",
+        attachments: [{ base64_data: b64, filename }],
+      },
+    });
+    console.log(`  >> tranche exportée: ${filename} (${(b64.length / 1048576).toFixed(2)} Mo en base64)`);
   }
-  console.log("Export terminé. Va chercher les pièces jointes dans la conversation, puis supprime les brouillons.");
 }
 
 // ---------------------------------------------------------------------------
@@ -271,66 +295,74 @@ async function exportArchive() {
 // ---------------------------------------------------------------------------
 
 (async () => {
-  console.log("=== Lasclay archive.js v2 ===");
+  console.log("=== Lasclay archive.js v3 ===");
   console.log(`Équipe: ${TEAM}`);
-  console.log(`Fenêtre: ${MAX_AGE_DAYS} jours | Plafond ce run: ${LIMIT_CONV || "aucun"} | Export: ${EXPORT_CONV ? "oui" : "NON"}`);
+  console.log(`Fenêtre: ${MAX_AGE_DAYS} j | Plafond: ${LIMIT_CONV || "aucun"} | Tranche: ${TRANCHE} fils | Export: ${EXPORT_CONV}`);
 
   const cutoffTs = Math.floor(Date.now() / 1000) - MAX_AGE_DAYS * 86400;
 
-  // Reprise (utile en local seulement; sur Render le fichier n'existe jamais au départ).
-  const done = new Set();
-  if (fs.existsSync(OUT)) {
-    for (const line of fs.readFileSync(OUT, "utf8").split("\n")) {
-      if (!line.trim()) continue;
-      try { done.add(JSON.parse(line).id); } catch {}
-    }
-    console.log(`Reprise: ${done.size} fils déjà dans ${OUT}, ils seront sautés.`);
-  }
+  const done = await loadDoneFromMissive();
 
   console.log("Balayage de la liste des conversations (team_all)…");
   const all = await listAllConversations(TEAM, cutoffTs);
   console.log(`${all.length} fils dans la fenêtre de ${MAX_AGE_DAYS} jours.`);
 
-  let todo = all.filter((c) => !done.has(c.id));
+  let todo = all.filter((c) => !done.has(c.id) && c.id !== EXPORT_CONV);
   if (LIMIT_CONV > 0) todo = todo.slice(0, LIMIT_CONV);
   console.log(`À archiver ce run: ${todo.length} fils.\n`);
 
-  let n = 0, msgTotal = 0, emptyBodies = 0;
+  let n = 0, ok = 0, errors = 0, msgTotal = 0, emptyBodies = 0;
+  let buffer = [];
+  const t0 = Date.now();
+
   for (const conv of todo) {
     n++;
-    const msgs = await listThreadMessages(conv.id);
-    const bodies = await fetchBodies(msgs.map((m) => m.id));
+    try {
+      const msgs = await listThreadMessages(conv.id);
+      const bodies = await fetchBodies(msgs.map((m) => m.id));
+      const record = {
+        id: conv.id,
+        subject: conv.subject || conv.latest_message_subject || null,
+        last_activity_at: conv.last_activity_at,
+        labels: (conv.shared_labels || []).map((l) => l.name || l.id),
+        messages_count: msgs.length,
+        messages: msgs.map((m) => {
+          const raw = bodies.get(m.id) || m.body || m.preview || "";
+          const body = cleanBody(raw);
+          if (!body) emptyBodies++;
+          const addr = (m.from_field?.address || m.from_field?.username || "").toLowerCase();
+          return {
+            id: m.id,
+            date: m.delivered_at || m.created_at || null,
+            type: m.type || null,
+            from: m.from_field?.address || m.from_field?.name || null,
+            direction: SELF.includes(addr) ? "nous" : "client",
+            body,
+          };
+        }),
+      };
+      buffer.push(JSON.stringify(record));
+      msgTotal += msgs.length;
+      ok++;
+    } catch (e) {
+      errors++;
+      console.warn(`[${n}/${todo.length}] ERREUR sur ${conv.id}: ${e.message} (on continue)`);
+    }
 
-    const record = {
-      id: conv.id,
-      subject: conv.subject || conv.latest_message_subject || null,
-      last_activity_at: conv.last_activity_at,
-      labels: (conv.shared_labels || []).map((l) => l.name || l.id),
-      messages_count: msgs.length,
-      messages: msgs.map((m) => {
-        const raw = bodies.get(m.id) || m.body || m.preview || "";
-        const body = cleanBody(raw);
-        if (!body) emptyBodies++;
-        const addr = (m.from_field?.address || m.from_field?.username || "").toLowerCase();
-        return {
-          id: m.id,
-          date: m.delivered_at || m.created_at || null,
-          type: m.type || null,
-          from: m.from_field?.address || m.from_field?.name || null,
-          direction: SELF.includes(addr) ? "nous" : "client",
-          body,
-        };
-      }),
-    };
+    if (n % 50 === 0) {
+      const mins = (Date.now() - t0) / 60000;
+      const eta = mins / n * (todo.length - n);
+      console.log(`[${n}/${todo.length}] ok: ${ok}, erreurs: ${errors}, ~${eta.toFixed(0)} min restantes`);
+    }
 
-    fs.appendFileSync(OUT, JSON.stringify(record) + "\n");
-    msgTotal += msgs.length;
-    console.log(`[${n}/${todo.length}] ${record.subject || "(sans sujet)"} — ${msgs.length} msg`);
+    if (buffer.length >= TRANCHE) {
+      await exportTranche(buffer);
+      buffer = [];
+    }
   }
 
-  console.log(`\nArchivage: ${n} fils, ${msgTotal} messages, ${emptyBodies} corps vides après nettoyage.`);
-  if (emptyBodies > 0) console.log("Corps vides: à inspecter (caviardage possible, ou nettoyage trop agressif).");
+  await exportTranche(buffer);
 
-  await exportArchive();
-  console.log("Run terminé.");
+  console.log(`\nArchivage: ${ok} fils ok, ${errors} erreurs, ${msgTotal} messages, ${emptyBodies} corps vides.`);
+  console.log("Run terminé. Les brouillons d'archive servent de stockage: ne pas les supprimer.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
