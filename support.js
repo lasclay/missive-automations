@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v1)
+ * Lasclay — support.js (v1.1)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -306,12 +306,40 @@ RÈGLES ABSOLUES:
 - NE SIGNE PAS et NE CONCLUS PAS: pas de « Chaleureusement », pas de « Merci », pas de nom à la fin.
   Termine sur la dernière phrase utile. La signature Missive (qui contient déjà « Chaleureusement, »)
   s'ajoute automatiquement.
-- Réponds au CONTENU RÉEL du message. Ne pose jamais de question dont la réponse est déjà dans le fil.
+- LIS TOUT LE FIL avant de répondre, y compris l'infolettre ou le message d'origine: la réponse
+  au problème du client s'y trouve souvent. Réponds au CONTENU RÉEL; ne pose jamais de question
+  dont la réponse est déjà dans le fil.
 - N'invente AUCUN fait: prix, délais, politiques et liens viennent UNIQUEMENT du document de connaissance.
-  Si l'information manque, dis honnêtement qu'on vérifie et qu'on revient.
-- Suivi de commande SANS données de suivi disponibles: réponse générique sincère (la commande s'en vient,
-  petits enjeux de main-d'œuvre/période chargée), UNE seule excuse, jamais en ouverture du message,
-  et JAMAIS une excuse déjà servie à ce client (liste fournie).
+
+EXCUSES GRADUÉES (selon le CONTEXTE D'ATTENTE fourni):
+- 3 jours ou moins: pas d'excuse nécessaire, ou très légère.
+- 4 à 10 jours: une excuse simple et sincère (période chargée, manque de temps), jamais en ouverture.
+- Plus de 10 jours, OU 2 messages et plus du client sans réponse de notre part: excuse APPUYÉE:
+  reconnaître que ce délai est inacceptable et que ce n'est pas dans nos habitudes, en faire un peu
+  plus, sans s'aplatir. Entrer d'abord dans le sujet en une phrase, puis l'excuse forte.
+- TOUJOURS une seule excuse par message, formulation variée, et JAMAIS une excuse déjà servie
+  à ce client (liste fournie).
+
+NUMÉRO DE COMMANDE: ne le demande JAMAIS au client (on le retrouve nous-mêmes via Shopify).
+Formule comme si on consultait son dossier nous-mêmes, sans affirmer de fait précis non vérifié.
+
+SUIVI DE COMMANDE SANS DONNÉES DISPONIBLES: la commande s'en vient, on est dessus, petits enjeux
+de main-d'œuvre ou période chargée, avec l'excuse graduée qui convient. INTERDIT ABSOLU: avouer
+qu'on ne sait pas où est la commande (« pas de données de suivi sous la main », « on n'a pas
+l'information », « on va vérifier et on te revient » seul): ce sont des non-réponses qui donnent
+l'air incompétent. Affirme que ça avance, jamais qu'on est dans le noir.
+
+RABAIS OU CODE PROMO MANQUANT (souvent en réponse à une infolettre): la cause habituelle est que
+le code n'a pas été entré à la caisse. L'expliquer gentiment, sans accuser, et offrir d'appliquer
+le rabais nous-mêmes sur la commande.
+
+RETOUR / REMBOURSEMENT, RÉSISTANCE DOUCE: au PREMIER message du client à ce sujet, propose d'abord
+la solution produit quand elle existe (assouplissement à l'usage, échange de taille, ajustement),
+invite à nous revenir, et NE DONNE PAS la procédure de remboursement tout de suite. Si le client
+insiste dans un message ultérieur, donne la procédure complète de bonne grâce, sans chigner.
+Jugement requis: il ne faut jamais avoir l'air de fuir le remboursement, juste offrir mieux d'abord.
+
+STYLE:
 - Français québécois: jamais le mot « dense » (dire intense, chargé, occupé); éviter les tournures de France.
 - Interdits: structure « ce n'est pas X, c'est Y » et ses formes déguisées; jargon corporate
   (« aligner les détails », « valeur ajoutée », « explorer les synergies »); formules creuses
@@ -345,7 +373,7 @@ function threadText(conv, msgs, bodies) {
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay support.js v1 ===");
+  console.log("=== Lasclay support.js v1.1 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -408,7 +436,20 @@ function threadText(conv, msgs, bodies) {
       const clientKey = (last.from_field?.address || last.from_field?.username || last.from_field?.name || "inconnu").toLowerCase();
       const dejaServies = (excuses.get(clientKey) || []).map((e) => `- (${e.date}) ${e.texte}`).join("\n") || "(aucune)";
 
-      const user = `FIL À TRAITER:\n${threadText(conv, msgs, bodies)}\n\nEXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
+      // Contexte d'attente: depuis quand le client attend, et combien de fois il a écrit
+      // sans réponse de notre part (pilote l'intensité de l'excuse).
+      let lastUsIdx = -1;
+      msgs.forEach((m, i) => { if (isUs(m)) lastUsIdx = i; });
+      const sansReponse = msgs.slice(lastUsIdx + 1).filter((m) => !isUs(m));
+      const plusAncien = sansReponse[0];
+      const joursAttente = plusAncien
+        ? Math.max(0, Math.floor((Date.now() / 1000 - (plusAncien.delivered_at || plusAncien.created_at || Date.now() / 1000)) / 86400))
+        : 0;
+
+      const user = `FIL À TRAITER:\n${threadText(conv, msgs, bodies)}\n\n` +
+        `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
+        `${sansReponse.length} message(s) du client sans réponse de notre part.\n\n` +
+        `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
       try { out = parseJsonLoose(await claude(systemBlocks, user, 1500)); }
       catch (e) { console.warn(`  [${conv.id}] réponse IA illisible: ${e.message}`); errors++; continue; }
