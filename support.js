@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v1.5)
+ * Lasclay — support.js (v1.6)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -365,9 +365,22 @@ note_interne, et le brouillon reste général.
 
 ACTIONS (remboursement, renvoi, correction, application de rabais): formule-les comme un engagement
 au futur proche (« je m'en occupe aujourd'hui », « on applique le rabais et tu recevras une
-confirmation »), JAMAIS comme déjà accomplies (« c'est fait », « it's done on our end »: au moment
-du brouillon, rien n'est fait). Liste l'action dans "action_requise" pour que Gabriel l'exécute
-avant d'envoyer.
+confirmation »), JAMAIS comme déjà accomplies (« c'est fait », « je viens d'annuler »,
+« I've cancelled », « it's done on our end »: au moment du brouillon, rien n'est fait).
+Cette règle vaut EN FRANÇAIS COMME EN ANGLAIS. Liste l'action dans "action_requise" pour que
+Gabriel l'exécute avant d'envoyer.
+
+COHÉRENCE BROUILLON-NOTE (règle critique): tout fait que ta note_interne dit de VÉRIFIER ne doit
+PAS être affirmé dans le brouillon. Le brouillon utilise une formulation qui reste vraie dans tous
+les cas (« on regarde si on a des attaches de rechange et si oui, on t'en poste une » plutôt que
+« bonne nouvelle, on en a »). Si une information du CLIENT manque (adresse, choix, précision),
+le brouillon la DEMANDE au lieu de promettre par-dessus le trou. Un brouillon qui contredit sa
+propre note est un brouillon raté.
+
+PAS D'INTERROGATOIRE DU CLIENT: ne demande jamais au client s'il a reçu son courriel d'expédition
+ou ce que son suivi indique (c'est NOTRE information, on la voit dans Shopify). Suggérer de jeter
+un œil aux indésirables ou à la boîte postale communautaire est correct; le faire enquêter à notre
+place ne l'est pas.
 
 OFFRES ENTRANTES (terrain, approvisionnement, partenariat, collaboration, distribution): ne JAMAIS
 accepter ni décliner sur le fond au nom de l'entreprise. Accusé de réception chaleureux, on regarde
@@ -458,7 +471,7 @@ function threadText(conv, msgs, bodies) {
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay support.js v1.5 ===");
+  console.log("=== Lasclay support.js v1.6 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -521,7 +534,7 @@ function threadText(conv, msgs, bodies) {
 
   const NOREPLY = /no-?reply|donotreply|ne-?pas-?repondre/i;
 
-  let analysed = 0, created = 0, skipped = 0, noReply = 0, errors = 0;
+  let analysed = 0, created = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0;
   for (const conv of inbox) {
     if (drafted.has(conv.id) || conv.id === EXPORT_CONV) { skipped++; continue; }
     if (analysed >= MAX_FILS) break;
@@ -602,8 +615,8 @@ function threadText(conv, msgs, bodies) {
       }
 
       // Actions: déclarées accomplies (interdit) ou promises (permis, mais l'humain DOIT les faire).
-      const ACTION_ACCOMPLIE = /(je viens (de |d')(annuler|rembourser|appliquer|corriger|envoyer|créditer|traiter)|(a|ont) été (traitée?s?|appliquée?s?|annulée?s?|remboursée?s?)|(it's|it is|it has been) (done|processed|refunded|cancelled))/i;
-      const ACTION_PROMISE = /(je m'en occupe|on s'en occupe|on (applique|annule|rembourse|crédite|renvoie|corrige)|on (t'|vous )envoie (une|de) nouvelle|(i'm|we're) (processing|sending|refunding)|we('ll| will) (send|refund|apply|credit|cancel)|tu recevras (un remboursement|une confirmation de remboursement)|vous recevrez (un remboursement|une confirmation de remboursement))/i;
+      const ACTION_ACCOMPLIE = /(je viens (de |d')(annuler|rembourser|appliquer|corriger|envoyer|créditer|traiter)|(a|ont) été (traitée?s?|appliquée?s?|annulée?s?|remboursée?s?)|i('| ha)ve (cancelled|canceled|refunded|applied|processed|sent|credited)|(it's|it is|it has been) (done|processed|refunded|cancelled|canceled))/i;
+      const ACTION_PROMISE = /(je m'en occupe|on s'en occupe|on (applique|annule|rembourse|crédite|renvoie|corrige)|on (t'|vous )envoie (une|de) nouvelle|(i'm|we're) (processing|sending|refunding)|we('ll| will) (send|refund|apply|credit|cancel)|i('ll| will) (send|refund|apply|credit|cancel|make the change)|tu recevras (un remboursement|une confirmation de remboursement)|vous recevrez (un remboursement|une confirmation de remboursement)|refund (is on its way|goes through))/i;
       if (ACTION_ACCOMPLIE.test(corps)) alertes.push("action déclarée ACCOMPLIE (interdite: rien n'est fait au moment du brouillon)");
       let actionAuto = null;
       if (!out.action_requise && (ACTION_PROMISE.test(corps) || ACTION_ACCOMPLIE.test(corps))) {
@@ -617,9 +630,16 @@ function threadText(conv, msgs, bodies) {
         alertes.length ? `[VOIX] ${alertes.join("; ")}` : null,
       ].filter(Boolean);
 
+      // Verrou humain: tout brouillon avec note, action ou alerte exige une vérification
+      // avant envoi. C'est AUSSI la future porte du mode automatique: un brouillon marqué
+      // verifRequise ne sera JAMAIS admissible à l'envoi auto (il restera en draft).
+      const verifRequise = noteLigne.length > 0;
+
       if (DRY_RUN) {
         created++;
+        if (verifRequise) verifs++;
         console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} | to: ${toAddr || "(social, sans adresse)"}`);
+        if (verifRequise) console.log("  ⚠️⚠️ VÉRIFICATION HUMAINE REQUISE AVANT ENVOI ⚠️⚠️");
         for (const l of noteLigne) console.log(`  >> ${l}`);
         console.log(`---\n${corps}\n---`);
       } else {
@@ -630,25 +650,27 @@ function threadText(conv, msgs, bodies) {
           subject: subj ? `Re: ${subj.replace(/^re:\s*/i, "")}` : undefined,
           body: corps.replace(/\n/g, "<br>"),
           add_shared_labels: labels,
-          // PAS de send:true, JAMAIS.
+          // PAS de send:true, JAMAIS. Et le jour où un mode d'envoi automatique existera:
+          // verifRequise === true devra TOUJOURS forcer le brouillon (jamais d'envoi auto).
         };
         if (toAddr) draft.to_fields = [{ address: toAddr }];
         try {
           await apiPost("/drafts", { drafts: draft });
           created++;
+          if (verifRequise) verifs++;
           drafted.add(conv.id);
-          console.log(`[draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${noteLigne.length ? " | " + noteLigne.join(" | ") : ""}`);
+          console.log(`[draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${verifRequise ? " | ⚠️ VÉRIFICATION REQUISE" : ""}`);
           // Notes et actions: post interne dans le fil (mécanisme validé du digest),
           // pour que Gabriel les voie à côté du brouillon avant d'envoyer.
-          if (noteLigne.length) {
+          if (verifRequise) {
             try {
               await apiPost("/posts", {
                 posts: {
                   conversation: conv.id,
                   organization: ORG,
-                  notification: { title: "Brouillon IA: avant d'envoyer", body: noteLigne.join(" | ").slice(0, 200) },
+                  notification: { title: "⚠️ Brouillon IA: VÉRIFIER AVANT D'ENVOYER", body: noteLigne.join(" | ").slice(0, 200) },
                   username: "Support IA",
-                  markdown: "**Brouillon IA, avant d'envoyer:**\n" + noteLigne.map((l) => `- ${l}`).join("\n"),
+                  markdown: "## ⚠️ NE PAS ENVOYER TEL QUEL: vérifications requises\n" + noteLigne.map((l) => `- ${l}`).join("\n"),
                 },
               });
             } catch (e) { console.warn(`  post interne échoué sur ${conv.id}: ${e.message}`); }
@@ -670,6 +692,6 @@ function threadText(conv, msgs, bodies) {
   }
 
   if (created > 0 && !DRY_RUN) await saveExcuses(excuses);
-  console.log(`\nBilan: ${analysed} analysés, ${created} brouillon(s), ${noReply} sans réponse requise, ${skipped} sautés, ${errors} erreur(s).`);
+  console.log(`\nBilan: ${analysed} analysés, ${created} brouillon(s) dont ${verifs} avec vérification requise, ${noReply} sans réponse requise, ${skipped} sautés, ${errors} erreur(s).`);
   console.log("Run terminé.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
