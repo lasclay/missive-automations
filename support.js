@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v1.8)
+ * Lasclay — support.js (v2.2)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -29,7 +29,7 @@
  *   DRAFT_LIMIT    plafond de brouillons par run (défaut 5; 0 = illimité)
  *   MAX_FILS       plafond de fils analysés par run (défaut 40)
  *   KNOWLEDGE_FILE chemin du document de connaissance (défaut ./connaissance_support.md)
- *   TEAM_SUPPORT, DRAFT_LABEL, EXPORT_CONV, MISSIVE_ORG, EXPORT_FROM   overrides
+ *   TEAMS, DRAFT_LABEL, EXPORT_CONV, MISSIVE_ORG, EXPORT_FROM   overrides
  */
 
 const fs = require("node:fs");
@@ -43,7 +43,20 @@ const DRAFT_LIMIT = parseInt(process.env.DRAFT_LIMIT || "5", 10);
 const MAX_FILS = parseInt(process.env.MAX_FILS || "40", 10);
 const KNOWLEDGE_FILE = process.env.KNOWLEDGE_FILE || "./connaissance_support.md";
 
-const TEAM_SUPPORT = process.env.TEAM_SUPPORT || "e184d153-4472-4edd-9b35-f8867cf437a8";
+// Équipes balayées (inbox ET fermés). Surchargeable via TEAMS="id1,id2,...".
+// R&D: id d'équipe à ajouter quand connu (LIST_TEAMS=true pour lister les équipes).
+const DEFAULT_TEAMS = [
+  "e184d153-4472-4edd-9b35-f8867cf437a8", // LAS Support
+  "0db185c1-3a93-4a44-9f50-dcfe8c0683dd", // Mise à jour commande
+  "cc587c84-63b9-4e88-993c-4f4b5b328173", // RETOURS-ÉCHANGES
+  "d6f28d2f-06ef-4aa5-aae0-b68f014e3216", // Vente - info pré-achat
+  "13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217", // USA
+  "9240aa4e-3e81-40aa-a07a-84f6b1c2231e", // Expéditions prioritaires
+  "80ae6958-8266-4898-9d80-38851eb3ba69", // LAS R&D
+];
+const TEAMS = (process.env.TEAMS || "").split(",").map((s) => s.trim()).filter(Boolean);
+const TEAM_IDS = TEAMS.length > 0 ? TEAMS : DEFAULT_TEAMS;
+const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
 const DRAFT_LABEL = process.env.DRAFT_LABEL || "019eb935-9b22-7d14-8aeb-614a1e303e24"; // « Draft AI Support » (dédié à ce script)
 const EXPORT_CONV = process.env.EXPORT_CONV || "019eb488-6d42-7195-a2ae-11751d0a7a27"; // « Archives support » (mémoire excuses)
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36";
@@ -452,6 +465,12 @@ STYLE:
 - Si une canned response du document couvre le cas, INSPIRE-T'EN fortement (c'est le savoir officiel),
   en l'adaptant au fil; attention aux canned marquées [À VÉRIFIER].
 
+NOTES INTERNES COURTES: note_interne et action_requise doivent se lire en moins de 15 secondes.
+Style télégraphique (« Vérifier rabais 30% sur L-50449 dans Shopify », pas de phrases longues,
+pas de raisonnement). Ne répète JAMAIS la même chose dans les deux champs: note_interne = le doute
+à vérifier, action_requise = le geste à poser. Détaille seulement si le cas est réellement complexe
+(longue saga, plusieurs enjeux entremêlés).
+
 RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
 {
   "repondre": true|false,        // false si spam, démarchage, notifications, réponse d'infolettre sans question
@@ -460,8 +479,8 @@ RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
   "langue": "fr|en",
   "brouillon": "<le texte du brouillon, sauts de ligne avec \\n>",
   "excuse_utilisee": "<si une excuse de délai/retard a été servie, sa phrase exacte, sinon null>",
-  "note_interne": "<ce que Gabriel devrait VÉRIFIER avant d'envoyer (stock, conditions de promo, état de la commande), sinon null. JAMAIS dans le corps du brouillon.>",
-  "action_requise": "<ce que Gabriel doit FAIRE avant d'envoyer (rembourser, appliquer un rabais, préparer un renvoi), sinon null>"
+  "note_interne": "<télégraphique: ce que Gabriel doit VÉRIFIER avant d'envoyer, sinon null. JAMAIS dans le corps du brouillon.>",
+  "action_requise": "<télégraphique: le geste que Gabriel doit POSER avant d'envoyer, sinon null>"
 }
 `);
 
@@ -485,7 +504,13 @@ function threadText(conv, msgs, bodies) {
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay support.js v1.8 ===");
+  if (LIST_TEAMS) {
+    const { teams = [] } = await api("/teams?limit=50");
+    console.log("Équipes de l'organisation:");
+    for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
+    return;
+  }
+  console.log("=== Lasclay support.js v2.2 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -504,7 +529,10 @@ function threadText(conv, msgs, bodies) {
   // 1. Rafraîchissement: étiquetés ∩ fermés → retirer le label
   const drafted = new Set((await listByFilter(`shared_label=${DRAFT_LABEL}`)).map((c) => c.id));
   console.log(`${drafted.size} fil(s) portent « Draft AI Support ».`);
-  const closed = new Set((await listByFilter(`team_closed=${TEAM_SUPPORT}`)).map((c) => c.id));
+  const closed = new Set();
+  for (const t of TEAM_IDS) {
+    for (const c of await listByFilter(`team_closed=${t}`)) closed.add(c.id);
+  }
   const aRetirer = [...drafted].filter((id) => closed.has(id));
   if (DRY_RUN) {
     console.log(`[DRY] ${aRetirer.length} fil(s) fermé(s) verraient leur label retiré.`);
@@ -527,8 +555,14 @@ function threadText(conv, msgs, bodies) {
   }
 
   // 2. Ciblage: inbox ouverte, dernier mot au client, pas déjà drafté
-  const inbox = await listByFilter(`team_inbox=${TEAM_SUPPORT}`);
-  console.log(`${inbox.length} fil(s) ouverts dans LAS Support.`);
+  const inboxById = new Map();
+  for (const t of TEAM_IDS) {
+    const convs = await listByFilter(`team_inbox=${t}`);
+    console.log(`  ${convs.length} fil(s) ouverts dans l'équipe ${t.slice(0, 8)}…`);
+    for (const c of convs) inboxById.set(c.id, c);
+  }
+  const inbox = [...inboxById.values()].sort((a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0));
+  console.log(`${inbox.length} fil(s) ouverts uniques dans ${TEAM_IDS.length} boîtes.`);
   const excuses = await loadExcuses();
 
   // Index: adresse d'auteur → fils ouverts (pour voir qu'un client a écrit sur plusieurs fils).
@@ -548,9 +582,12 @@ function threadText(conv, msgs, bodies) {
 
   const NOREPLY = /no-?reply|donotreply|ne-?pas-?repondre/i;
 
-  let analysed = 0, created = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0;
+  let analysed = 0, created = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0;
   for (const conv of inbox) {
     if (drafted.has(conv.id) || conv.id === EXPORT_CONV) { skipped++; continue; }
+    // Aucun deuxième brouillon, jamais: si le fil a déjà un brouillon (IA périmé ou
+    // brouillon humain en cours), on n'y touche pas.
+    if ((conv.drafts_count || 0) > 0) { dejaBrouillon++; continue; }
     if (analysed >= MAX_FILS) break;
     if (DRAFT_LIMIT > 0 && created >= DRAFT_LIMIT) { console.log("Plafond de brouillons atteint."); break; }
 
@@ -655,8 +692,8 @@ function threadText(conv, msgs, bodies) {
       }
 
       const noteLigne = [
-        out.note_interne ? `À VÉRIFIER: ${out.note_interne}` : null,
-        out.action_requise ? `ACTION AVANT ENVOI: ${out.action_requise}` : null,
+        out.note_interne ? `À VÉRIFIER: ${noDash(sanit(String(out.note_interne)))}` : null,
+        out.action_requise ? `ACTION AVANT ENVOI: ${noDash(sanit(String(out.action_requise)))}` : null,
         actionAuto ? `ACTION AVANT ENVOI (détectée): ${actionAuto}` : null,
         alertes.length ? `[VOIX] ${alertes.join("; ")}` : null,
       ].filter(Boolean);
@@ -732,6 +769,6 @@ function threadText(conv, msgs, bodies) {
   }
 
   if (created > 0 && !DRY_RUN) await saveExcuses(excuses);
-  console.log(`\nBilan: ${analysed} analysés, ${created} brouillon(s) dont ${verifs} avec vérification requise, ${noReply} sans réponse requise, ${skipped} sautés, ${errors} erreur(s).`);
+  console.log(`\nBilan: ${analysed} analysés, ${created} brouillon(s) dont ${verifs} avec vérification requise, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${errors} erreur(s).`);
   console.log("Run terminé.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
