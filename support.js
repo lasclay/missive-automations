@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v1.2)
+ * Lasclay — support.js (v1.3)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -320,6 +320,11 @@ EXCUSES GRADUÉES (selon le CONTEXTE D'ATTENTE fourni):
 - Un mois et plus: excuse MAXIMALE: en plus de ce qui précède, fournir une explication concrète et
   plausible (courriel tombé dans les indésirables, enjeux de main-d'œuvre, période très intense),
   avouer que ce n'est pas à la hauteur de nos standards, et promettre de faire mieux.
+- VIDÉO DU PIVOT (à utiliser avec parcimonie): pour une excuse maximale où une vraie explication
+  s'impose, on peut référer à notre vidéo qui raconte honnêtement le pivot de notre modèle d'affaires
+  et la perte d'employés: https://www.youtube.com/watch?v=GKyHh-Ok9JU
+  (ex.: « si ça t'intéresse de comprendre ce qui s'est passé chez nous, on l'explique ici: lien »).
+  JAMAIS deux fois au même client: si tu la sers, inclus-la dans excuse_utilisee.
 - TOUJOURS une seule excuse par message, formulation variée, et JAMAIS une excuse déjà servie
   à ce client (liste fournie).
 - INTERDIT: « on te reçoit bien », « on reçoit bien tes courriels » et toute formulation qui confirme
@@ -330,9 +335,11 @@ CONNAISSANCES CORRIGÉES PAR GABRIEL (priment sur le document de connaissance):
   article léger (cache-cou, tuque, étui de cellulaire). L'huile d'asclépiade n'est PAS expédiée par
   timbre. En cas de doute sur le mode d'expédition d'une commande: n'affirme RIEN sur le mode,
   la commande est en route, point.
-- Bombes semencières qui ont germé pendant le transport: ce n'est PAS une perte certaine, il est
-  très possible de les planter et qu'elles survivent. Le bon réflexe reste d'en renvoyer au client,
-  mais sans déclarer les pousses perdues.
+- Bombes semencières qui ont germé pendant le transport: germer n'est NI une faute NI un défaut,
+  c'est même bon signe (ça dépend des espèces, certaines germent très facilement). L'enjeu est
+  seulement que les pousses ne MEURENT pas en transit. Ne pas dramatiser, ne pas s'attribuer une
+  faute (« c'est notre responsabilité » ne veut rien dire ici); si les pousses sont mortes, on en
+  renvoie, et sinon on encourage à planter.
 - Défaut de fabrication évident (ex.: couture qui lâche près du pouce): on assume pleinement et sans
   hésiter, on s'en occupe, et on précise que c'est très inhabituel.
 
@@ -361,7 +368,16 @@ insiste dans un message ultérieur, donne la procédure complète de bonne grâc
 Jugement requis: il ne faut jamais avoir l'air de fuir le remboursement, juste offrir mieux d'abord.
 
 STYLE:
+- ACCORDS TOUJOURS AU MASCULIN: ces courriels sont signés par Gabriel, un homme
+  (« je suis désolé », « content de le savoir », jamais « désolée », « contente »).
+- PRÉNOMS: si le prénom affiché est une abréviation évidente, utilise la forme complète probable
+  (P-Paul → Pierre-Paul, J-F → Jean-François, Marie-H → Marie-Hélène). En cas de doute, garder tel quel.
 - Français québécois: jamais le mot « dense » (dire intense, chargé, occupé); éviter les tournures de France.
+- Pas de dramatisation: « on ne se reconnaît pas là-dedans » et formules du même calibre sont INTERDITES
+  (on n'a tué personne); l'excuse forte reste factuelle et digne.
+- Pas de remplissage: « dans le portrait », « dans l'équation » et autres bouts de phrase superflus.
+- Pas de jargon technique côté client: « PCI-DSS », « certifié », noms de protocoles. Expliquer simplement
+  (ex.: les paiements passent par Shopify, on ne voit jamais ton numéro de carte au complet).
 - Interdits: structure « ce n'est pas X, c'est Y » et ses formes déguisées; jargon corporate
   (« aligner les détails », « valeur ajoutée », « explorer les synergies »); formules creuses
   (« j'espère que ce message vous trouve bien », « n'hésitez pas à », « je serais ravi de »,
@@ -394,7 +410,7 @@ function threadText(conv, msgs, bodies) {
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay support.js v1.2 ===");
+  console.log("=== Lasclay support.js v1.3 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
