@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v1.6)
+ * Lasclay — support.js (v1.8)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -310,7 +310,16 @@ RÈGLES ABSOLUES:
 - LIS TOUT LE FIL avant de répondre, y compris l'infolettre ou le message d'origine: la réponse
   au problème du client s'y trouve souvent. Réponds au CONTENU RÉEL; ne pose jamais de question
   dont la réponse est déjà dans le fil.
+- COHÉRENCE TEMPORELLE: utilise la DATE D'AUJOURD'HUI fournie. Les dates du fil peuvent être
+  vieilles de plusieurs mois: ne promets JAMAIS une saison ou un mois déjà passé (« envoi pour mai »
+  alors qu'on est en juin), et adapte les références saisonnières à la date réelle.
 - N'invente AUCUN fait: prix, délais, politiques et liens viennent UNIQUEMENT du document de connaissance.
+
+ÉTAT D'UNE COMMANDE (règle critique): tu ne VOIS PAS la commande Shopify. N'affirme JAMAIS:
+un montant de commande, qu'un code promo a été appliqué ou non, le contenu de la commande,
+son statut d'expédition, ou des frais qui s'y rattacheraient. Tout ça va dans "note_interne"
+et le brouillon reste neutre. Ne mentionne pas non plus de frais de procédure (échange, retour)
+que le client n'a pas évoqués et qui ne sont pas clairement requis par sa demande.
 
 EXCUSES GRADUÉES (selon le CONTEXTE D'ATTENTE fourni):
 - 3 jours ou moins: pas d'excuse nécessaire, ou très légère.
@@ -346,6 +355,10 @@ CONNAISSANCES CORRIGÉES PAR GABRIEL (priment sur le document de connaissance):
   seulement que les pousses ne MEURENT pas en transit. Ne pas dramatiser, ne pas s'attribuer une
   faute (« c'est notre responsabilité » ne veut rien dire ici); si les pousses sont mortes, on en
   renvoie, et sinon on encourage à planter.
+- PRÉVENTES: Lasclay vend beaucoup par préventes saisonnières. Une commande passée pendant une
+  prévente s'expédie PLUS TARD que la normale, et ce n'est PAS un retard: c'est le modèle.
+  Si le fil ou la date de commande suggère une prévente, explique calmement que l'expédition
+  suit le calendrier de la prévente, et mets en note_interne de confirmer la fenêtre d'expédition.
 - Défaut de fabrication évident (ex.: couture qui lâche près du pouce): on assume pleinement et sans
   hésiter, on s'en occupe, et on précise que c'est très inhabituel.
 
@@ -428,6 +441,7 @@ STYLE:
 - Pas de dramatisation: « on ne se reconnaît pas là-dedans » et formules du même calibre sont INTERDITES
   (on n'a tué personne); l'excuse forte reste factuelle et digne.
 - Pas de remplissage: « dans le portrait », « dans l'équation » et autres bouts de phrase superflus.
+- JAMAIS le mot « Nota » (« Nota pris », « Nota bene »): écrire « C'est noté » ou « Bien noté ».
 - Pas de jargon technique côté client: « PCI-DSS », « certifié », noms de protocoles. Expliquer simplement
   (ex.: les paiements passent par Shopify, on ne voit jamais ton numéro de carte au complet).
 - Interdits: structure « ce n'est pas X, c'est Y » et ses formes déguisées; jargon corporate
@@ -471,7 +485,7 @@ function threadText(conv, msgs, bodies) {
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay support.js v1.6 ===");
+  console.log("=== Lasclay support.js v1.8 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -570,7 +584,9 @@ function threadText(conv, msgs, bodies) {
           ` éclaire la demande, tiens-en compte.`
         : "";
 
-      const user = `FIL À TRAITER:\n${threadText(conv, msgs, bodies)}\n\n` +
+      const filTexte = threadText(conv, msgs, bodies);
+      const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
+        `FIL À TRAITER:\n${filTexte}\n\n` +
         `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
         `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
@@ -609,9 +625,24 @@ function threadText(conv, msgs, bodies) {
         [/plus long qu'à l'habitude de notre côté/i, "formulation d'excuse bizarre"],
         [/ne (se|nous) reconna/i, "dramatisation"],
         [/^bonsoir/i, "« Bonsoir » (toujours Bonjour)"],
+        [/\bnota\b/i, "« Nota » (écrire « c'est noté »)"],
+        [/ce n('est|était) pas (une?\s)?[^,.;:]{2,40},\s?(c'est|c'était|juste|mais)/i, "antithèse « ce n'est pas X, c'est Y »"],
+        [/it('s| is| was)? ?not [^,.;:]{2,40}, (it's|it is|just|but)/i, "antithèse EN « not X, it's Y »"],
         [/\b(PCI|DSS|SSL)\b/, "jargon technique"],
       ]) {
         if (re.test(corps)) alertes.push(lbl);
+      }
+
+      // Montants non sourcés: tout montant en $ du brouillon doit exister dans le fil
+      // ou dans le document de connaissance, sinon il est probablement halluciné.
+      const source = (filTexte + knowledge).replace(/[\s\u00a0]/g, "");
+      for (const m of new Set(corps.match(/\d+(?:[.,]\d{1,2})?\s?\$|\$\s?\d+(?:[.,]\d{1,2})?/g) || [])) {
+        const cle = m.replace(/[\s\u00a0]/g, "");
+        const variante = cle.replace(",", ".");
+        const variante2 = cle.replace(".", ",");
+        if (!source.includes(cle) && !source.includes(variante) && !source.includes(variante2)) {
+          alertes.push(`montant non sourcé: ${m} (absent du fil et du document)`);
+        }
       }
 
       // Actions: déclarées accomplies (interdit) ou promises (permis, mais l'humain DOIT les faire).
@@ -635,6 +666,14 @@ function threadText(conv, msgs, bodies) {
       // verifRequise ne sera JAMAIS admissible à l'envoi auto (il restera en draft).
       const verifRequise = noteLigne.length > 0;
 
+      // Signature: l'API Missive n'insère JAMAIS la signature d'alias dans un brouillon
+      // (confirmé doc + test réel). Le script l'ajoute lui-même, selon la langue.
+      // Canaux sociaux: ni signature ni citation (format courriel seulement).
+      const estCourriel = !last.type || /email/.test(last.type);
+      const SIGNATURE_FR = "Chaleureusement,<br>__<br><b>Gabriel Gouveia</b><br>Co-fondateur<br>+1 (581) 982-5857<br>Lasclay.com";
+      const SIGNATURE_EN = "Warmly,<br>__<br><b>Gabriel Gouveia</b><br>Co-founder<br>+1 (581) 982-5857<br>Lasclay.com";
+      const signature = estCourriel ? `<br><br>${out.langue === "en" ? SIGNATURE_EN : SIGNATURE_FR}` : "";
+
       if (DRY_RUN) {
         created++;
         if (verifRequise) verifs++;
@@ -648,7 +687,8 @@ function threadText(conv, msgs, bodies) {
           organization: ORG,
           from_field: { address: EXPORT_FROM },
           subject: subj ? `Re: ${subj.replace(/^re:\s*/i, "")}` : undefined,
-          body: corps.replace(/\n/g, "<br>"),
+          body: corps.replace(/\n/g, "<br>") + signature,
+          quote_previous_message: estCourriel, // apparence de réponse: cite le dernier message du fil
           add_shared_labels: labels,
           // PAS de send:true, JAMAIS. Et le jour où un mode d'envoi automatique existera:
           // verifRequise === true devra TOUJOURS forcer le brouillon (jamais d'envoi auto).
