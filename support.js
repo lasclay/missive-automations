@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v2.2)
+ * Lasclay — support.js (v2.4)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -254,24 +254,38 @@ const isUs = (m) => {
   return SELF.includes(addr) || SELF_NAMES.has(norm(m.from_field?.name || m.from_field?.username)) || !!m.author?.name;
 };
 
-// --- Mémoire des excuses (brouillon-stockage, patron validé des checkpoints) ---
-async function loadExcuses() {
-  const drafts = await listExportDrafts();
+// --- Mémoires persistantes (brouillon-stockage, patron validé des checkpoints) ---
+async function loadJsonMemory(drafts, pattern, label) {
   const cps = [];
   for (const d of drafts) for (const a of d.attachments || []) {
-    if (/^memoire_excuses_.*\.json\.gz$/.test(a.filename || "")) cps.push(a);
+    if (pattern.test(a.filename || "")) cps.push(a);
   }
   if (cps.length === 0) return new Map();
   cps.sort((a, b) => (a.filename < b.filename ? 1 : -1));
   try {
     const res = await fetch(cps[0].url);
     const obj = JSON.parse(zlib.gunzipSync(Buffer.from(await res.arrayBuffer())).toString());
-    console.log(`Mémoire des excuses relue: ${Object.keys(obj).length} client(s).`);
+    console.log(`${label} relue: ${Object.keys(obj).length} entrée(s).`);
     return new Map(Object.entries(obj));
   } catch (e) {
-    console.warn(`Mémoire des excuses illisible (${e.message}), repart à neuf.`);
+    console.warn(`${label} illisible (${e.message}), repart à neuf.`);
     return new Map();
   }
+}
+
+async function saveJsonMemory(map, prefix, sujet) {
+  const b64 = zlib.gzipSync(Buffer.from(JSON.stringify(Object.fromEntries(map.entries())))).toString("base64");
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+  await apiPost("/drafts", {
+    drafts: {
+      conversation: EXPORT_CONV, organization: ORG,
+      from_field: { address: EXPORT_FROM }, to_fields: [{ address: EXPORT_FROM }],
+      subject: `[NE PAS ENVOYER] ${sujet} (${map.size})`,
+      body: "Stockage technique de support.js.",
+      attachments: [{ base64_data: b64, filename: `${prefix}_${stamp}.json.gz` }],
+    },
+  });
+  console.log(`${sujet} sauvegardée (${map.size} entrée(s)).`);
 }
 
 async function listExportDrafts() {
@@ -290,22 +304,6 @@ async function listExportDrafts() {
     until = oldest;
   }
   return [...byId.values()];
-}
-
-async function saveExcuses(map) {
-  if (DRY_RUN) { console.log("[DRY] Mémoire des excuses non sauvegardée (simulation)."); return; }
-  const b64 = zlib.gzipSync(Buffer.from(JSON.stringify(Object.fromEntries(map.entries())))).toString("base64");
-  const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
-  await apiPost("/drafts", {
-    drafts: {
-      conversation: EXPORT_CONV, organization: ORG,
-      from_field: { address: EXPORT_FROM }, to_fields: [{ address: EXPORT_FROM }],
-      subject: `[NE PAS ENVOYER] Mémoire des excuses (${map.size} clients)`,
-      body: "Stockage technique de support.js.",
-      attachments: [{ base64_data: b64, filename: `memoire_excuses_${stamp}.json.gz` }],
-    },
-  });
-  console.log(`Mémoire des excuses sauvegardée (${map.size} client(s)).`);
 }
 
 // --- Instructions de voix (acquis du digest + nouveautés support) ---
@@ -330,9 +328,9 @@ RÈGLES ABSOLUES:
 
 ÉTAT D'UNE COMMANDE (règle critique): tu ne VOIS PAS la commande Shopify. N'affirme JAMAIS:
 un montant de commande, qu'un code promo a été appliqué ou non, le contenu de la commande,
-son statut d'expédition, ou des frais qui s'y rattacheraient. Tout ça va dans "note_interne"
-et le brouillon reste neutre. Ne mentionne pas non plus de frais de procédure (échange, retour)
-que le client n'a pas évoqués et qui ne sont pas clairement requis par sa demande.
+son statut d'expédition, ou des frais qui s'y rattacheraient. Le brouillon reste neutre et vrai
+dans tous les cas. PAS BESOIN de note_interne pour dire de consulter Shopify: Gabriel le fait
+systématiquement avant d'envoyer, c'est implicite.
 
 EXCUSES GRADUÉES (selon le CONTEXTE D'ATTENTE fourni):
 - 3 jours ou moins: pas d'excuse nécessaire, ou très légère.
@@ -465,11 +463,14 @@ STYLE:
 - Si une canned response du document couvre le cas, INSPIRE-T'EN fortement (c'est le savoir officiel),
   en l'adaptant au fil; attention aux canned marquées [À VÉRIFIER].
 
-NOTES INTERNES COURTES: note_interne et action_requise doivent se lire en moins de 15 secondes.
-Style télégraphique (« Vérifier rabais 30% sur L-50449 dans Shopify », pas de phrases longues,
-pas de raisonnement). Ne répète JAMAIS la même chose dans les deux champs: note_interne = le doute
-à vérifier, action_requise = le geste à poser. Détaille seulement si le cas est réellement complexe
-(longue saga, plusieurs enjeux entremêlés).
+NOTES INTERNES COURTES ET RARES: note_interne et action_requise doivent se lire en moins de
+15 secondes. Style télégraphique, jamais de répétition entre les deux champs: note_interne = le
+doute, action_requise = le geste. LA NOTE EST L'EXCEPTION, PAS LE RÉFLEXE: ne note JAMAIS les
+vérifications routinières évidentes (consulter le statut ou le contenu d'une commande dans
+Shopify avant de répondre: implicite dans tout fil de commande). Réserve note_interne au
+NON-ÉVIDENT: affirmation du client qui cloche, légitimité d'un rabais douteuse, stock incertain
+derrière une promesse, contradiction dans le fil, frais de procédure hors sujet. Détaille
+seulement si le cas est réellement complexe (longue saga, plusieurs enjeux entremêlés).
 
 RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
 {
@@ -510,7 +511,7 @@ function threadText(conv, msgs, bodies) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.2 ===");
+  console.log("=== Lasclay support.js v2.4 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -563,7 +564,12 @@ function threadText(conv, msgs, bodies) {
   }
   const inbox = [...inboxById.values()].sort((a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0));
   console.log(`${inbox.length} fil(s) ouverts uniques dans ${TEAM_IDS.length} boîtes.`);
-  const excuses = await loadExcuses();
+  const exportDrafts = await listExportDrafts();
+  const excuses = await loadJsonMemory(exportDrafts, /^memoire_excuses_.*\.json\.gz$/, "Mémoire des excuses");
+  // Fils écartés (« rien à répondre »): convId → last_activity_at au moment du jugement.
+  // Sauté tant que le fil n'a pas bougé; toute nouvelle activité force un nouveau jugement.
+  const ecartes = await loadJsonMemory(exportDrafts, /^memoire_ecartes_.*\.json\.gz$/, "Mémoire des fils écartés");
+  let ecartesModifiee = false;
 
   // Index: adresse d'auteur → fils ouverts (pour voir qu'un client a écrit sur plusieurs fils).
   // Champ `authors` des conversations: déduit de la doc, jamais validé; si absent, l'index reste vide.
@@ -582,12 +588,18 @@ function threadText(conv, msgs, bodies) {
 
   const NOREPLY = /no-?reply|donotreply|ne-?pas-?repondre/i;
 
-  let analysed = 0, created = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0;
+  let analysed = 0, created = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0, ecarteSkips = 0;
   for (const conv of inbox) {
     if (drafted.has(conv.id) || conv.id === EXPORT_CONV) { skipped++; continue; }
     // Aucun deuxième brouillon, jamais: si le fil a déjà un brouillon (IA périmé ou
     // brouillon humain en cours), on n'y touche pas.
     if ((conv.drafts_count || 0) > 0) { dejaBrouillon++; continue; }
+    // Fil déjà jugé « rien à répondre » et inchangé depuis: on ne le rejuge pas.
+    if (ecartes.has(conv.id)) {
+      if (ecartes.get(conv.id) === (conv.last_activity_at || 0)) { ecarteSkips++; continue; }
+      ecartes.delete(conv.id); // le fil a bougé: nouveau jugement complet
+      ecartesModifiee = true;
+    }
     if (analysed >= MAX_FILS) break;
     if (DRAFT_LIMIT > 0 && created >= DRAFT_LIMIT) { console.log("Plafond de brouillons atteint."); break; }
 
@@ -634,6 +646,8 @@ function threadText(conv, msgs, bodies) {
       const subj = conv.subject || conv.latest_message_subject || "";
       if (!out.repondre || !out.brouillon) {
         noReply++;
+        ecartes.set(conv.id, conv.last_activity_at || 0);
+        ecartesModifiee = true;
         console.log(`[skip] ${subj.slice(0, 50) || "(sans sujet)"} → ${out.raison || "rien à répondre"}`);
         continue;
       }
@@ -698,10 +712,11 @@ function threadText(conv, msgs, bodies) {
         alertes.length ? `[VOIX] ${alertes.join("; ")}` : null,
       ].filter(Boolean);
 
-      // Verrou humain: tout brouillon avec note, action ou alerte exige une vérification
-      // avant envoi. C'est AUSSI la future porte du mode automatique: un brouillon marqué
-      // verifRequise ne sera JAMAIS admissible à l'envoi auto (il restera en draft).
+      // Verrou humain à deux niveaux: ALARME (action à poser ou alerte de voix) vs NOTE simple.
+      // verifRequise reste vrai dans les deux cas: c'est AUSSI la future porte du mode
+      // automatique: un brouillon marqué ne sera JAMAIS admissible à l'envoi auto.
       const verifRequise = noteLigne.length > 0;
+      const alarme = !!(out.action_requise || actionAuto || alertes.length);
 
       // Signature: l'API Missive n'insère JAMAIS la signature d'alias dans un brouillon
       // (confirmé doc + test réel). Le script l'ajoute lui-même, selon la langue.
@@ -715,7 +730,7 @@ function threadText(conv, msgs, bodies) {
         created++;
         if (verifRequise) verifs++;
         console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} | to: ${toAddr || "(social, sans adresse)"}`);
-        if (verifRequise) console.log("  ⚠️⚠️ VÉRIFICATION HUMAINE REQUISE AVANT ENVOI ⚠️⚠️");
+        if (alarme) console.log("  ⚠️⚠️ VÉRIFICATION HUMAINE REQUISE AVANT ENVOI ⚠️⚠️");
         for (const l of noteLigne) console.log(`  >> ${l}`);
         console.log(`---\n${corps}\n---`);
       } else {
@@ -736,18 +751,22 @@ function threadText(conv, msgs, bodies) {
           created++;
           if (verifRequise) verifs++;
           drafted.add(conv.id);
-          console.log(`[draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${verifRequise ? " | ⚠️ VÉRIFICATION REQUISE" : ""}`);
-          // Notes et actions: post interne dans le fil (mécanisme validé du digest),
-          // pour que Gabriel les voie à côté du brouillon avant d'envoyer.
+          console.log(`[draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${alarme ? " | ⚠️ VÉRIFICATION REQUISE" : verifRequise ? " | note" : ""}`);
+          // Notes et actions: post interne dans le fil. ⚠️ réservé aux vraies alarmes
+          // (action à poser, alerte de voix); une note seule donne un post sobre.
           if (verifRequise) {
             try {
               await apiPost("/posts", {
                 posts: {
                   conversation: conv.id,
                   organization: ORG,
-                  notification: { title: "⚠️ Brouillon IA: VÉRIFIER AVANT D'ENVOYER", body: noteLigne.join(" | ").slice(0, 200) },
+                  notification: alarme
+                    ? { title: "⚠️ Brouillon IA: VÉRIFIER AVANT D'ENVOYER", body: noteLigne.join(" | ").slice(0, 200) }
+                    : { title: "Note IA", body: noteLigne.join(" | ").slice(0, 200) },
                   username: "Support IA",
-                  markdown: "## ⚠️ NE PAS ENVOYER TEL QUEL: vérifications requises\n" + noteLigne.map((l) => `- ${l}`).join("\n"),
+                  markdown: alarme
+                    ? "## ⚠️ NE PAS ENVOYER TEL QUEL: vérifications requises\n" + noteLigne.map((l) => `- ${l}`).join("\n")
+                    : "**Note IA:**\n" + noteLigne.map((l) => `- ${l}`).join("\n"),
                 },
               });
             } catch (e) { console.warn(`  post interne échoué sur ${conv.id}: ${e.message}`); }
@@ -768,7 +787,13 @@ function threadText(conv, msgs, bodies) {
     }
   }
 
-  if (created > 0 && !DRY_RUN) await saveExcuses(excuses);
-  console.log(`\nBilan: ${analysed} analysés, ${created} brouillon(s) dont ${verifs} avec vérification requise, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${errors} erreur(s).`);
+  if (created > 0 && !DRY_RUN) await saveJsonMemory(excuses, "memoire_excuses", "Mémoire des excuses");
+  if (ecartesModifiee && !DRY_RUN) {
+    // Élagage: on ne garde que les fils encore ouverts (un fil fermé qui rouvre
+    // aura de toute façon une nouvelle activité, donc un nouveau jugement).
+    for (const id of [...ecartes.keys()]) if (!inboxById.has(id)) ecartes.delete(id);
+    await saveJsonMemory(ecartes, "memoire_ecartes", "Mémoire des fils écartés");
+  }
+  console.log(`\nBilan: ${analysed} analysés, ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
   console.log("Run terminé.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
