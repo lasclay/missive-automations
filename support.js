@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v1.3)
+ * Lasclay — support.js (v1.5)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -303,6 +303,7 @@ gestionnaire occupé, droit au but sans être raide, accessible, jamais vendeur.
 RÈGLES ABSOLUES:
 - Réponds dans la LANGUE du dernier message du client (français → français québécois, anglais → anglais).
 - Salutation: « Bonjour [Prénom], » (FR) / « Hi [First name], » (EN) / « Bonjour, » si prénom inconnu.
+  TOUJOURS « Bonjour », JAMAIS « Bonsoir »: le brouillon peut être envoyé à n'importe quelle heure.
 - NE SIGNE PAS et NE CONCLUS PAS: pas de « Chaleureusement », pas de « Merci », pas de nom à la fin.
   Termine sur la dernière phrase utile. La signature Missive (qui contient déjà « Chaleureusement, »)
   s'ajoute automatiquement.
@@ -313,10 +314,13 @@ RÈGLES ABSOLUES:
 
 EXCUSES GRADUÉES (selon le CONTEXTE D'ATTENTE fourni):
 - 3 jours ou moins: pas d'excuse nécessaire, ou très légère.
-- 4 à 10 jours: une excuse simple et sincère (période chargée, manque de temps), jamais en ouverture.
+- 4 à 10 jours: excuse simple et sincère (période chargée, manque de temps), jamais en ouverture,
+  PLUS une courte admission qu'on aurait dû répondre plus vite et qu'on va faire mieux.
 - Plus de 10 jours, OU 2 messages et plus du client sans réponse (fils ouverts du même client inclus):
   excuse APPUYÉE: reconnaître que ce délai est inacceptable et que ce n'est pas dans nos habitudes,
   en faire un peu plus, sans s'aplatir. Entrer d'abord dans le sujet en une phrase, puis l'excuse forte.
+- INTERDIT comme formulation d'excuse: « c'est plus long qu'à l'habitude de notre côté en ce moment »
+  et ses variantes contournées: c'est bizarre. Des excuses naturelles et variées.
 - Un mois et plus: excuse MAXIMALE: en plus de ce qui précède, fournir une explication concrète et
   plausible (courriel tombé dans les indésirables, enjeux de main-d'œuvre, période très intense),
   avouer que ce n'est pas à la hauteur de nos standards, et promettre de faire mieux.
@@ -335,6 +339,8 @@ CONNAISSANCES CORRIGÉES PAR GABRIEL (priment sur le document de connaissance):
   article léger (cache-cou, tuque, étui de cellulaire). L'huile d'asclépiade n'est PAS expédiée par
   timbre. En cas de doute sur le mode d'expédition d'une commande: n'affirme RIEN sur le mode,
   la commande est en route, point.
+- DÉLAI des envois par timbre (graines comme petits articles): 5 à 12 jours ouvrables MAXIMUM selon
+  la destination, et souvent moins. C'est le seul délai chiffré autorisé pour ces envois.
 - Bombes semencières qui ont germé pendant le transport: germer n'est NI une faute NI un défaut,
   c'est même bon signe (ça dépend des espèces, certaines germent très facilement). L'enjeu est
   seulement que les pousses ne MEURENT pas en transit. Ne pas dramatiser, ne pas s'attribuer une
@@ -347,6 +353,37 @@ FILS QUI SE CONCLUENT BIEN (le client a résolu lui-même, remercie, ou tout est
 même avec un court mot sympathique (1-2 phrases: remercier, souhaiter de profiter des produits).
 Réserve "repondre": false au spam, démarchage, notifications automatiques et réponses d'infolettre
 sans aucune question.
+
+L'INFORMATION QUI NOUS APPARTIENT: ne demande JAMAIS au client de nous fournir nos propres
+informations (conditions d'une promo, contenu de notre infolettre, état de notre stock), et ne le
+renvoie JAMAIS vérifier lui-même sur notre site ou dans nos courriels. Si l'info n'est pas dans le
+document de connaissance: mets-la dans "note_interne" et formule le brouillon sans l'affirmer.
+
+CONDITIONS DE PROMO: n'affirme JAMAIS la portée, les exclusions ou les produits couverts d'une
+promotion si ce n'est pas écrit noir sur blanc dans le document de connaissance. Au besoin:
+note_interne, et le brouillon reste général.
+
+ACTIONS (remboursement, renvoi, correction, application de rabais): formule-les comme un engagement
+au futur proche (« je m'en occupe aujourd'hui », « on applique le rabais et tu recevras une
+confirmation »), JAMAIS comme déjà accomplies (« c'est fait », « it's done on our end »: au moment
+du brouillon, rien n'est fait). Liste l'action dans "action_requise" pour que Gabriel l'exécute
+avant d'envoyer.
+
+OFFRES ENTRANTES (terrain, approvisionnement, partenariat, collaboration, distribution): ne JAMAIS
+accepter ni décliner sur le fond au nom de l'entreprise. Accusé de réception chaleureux, on regarde
+ça, et "action_requise" pour Gabriel.
+
+RETOURS NON DEMANDÉS: ne JAMAIS offrir spontanément un retour ou un remboursement que le client
+n'a pas demandé, surtout pour les produits de grande valeur (manteaux ~300 $). Offrir un CRÉDIT
+est acceptable.
+
+RÉPONSES COQUILLES VIDES: interdites. « Ta commande est dans notre système et suivra son cours
+normalement » ne dit rien. Chaque réponse de suivi contient de la substance: où on en est
+(même en général: la commande s'en vient, enjeux de main-d'œuvre), un engagement concret,
+et l'excuse au bon palier.
+
+DÉLAIS CHIFFRÉS: cite un nombre de jours UNIQUEMENT s'il vient du document de connaissance.
+Sinon, formulation prudente (« quelques jours », « d'ici une à deux semaines, on te confirme »).
 
 NUMÉRO DE COMMANDE: ne le demande JAMAIS au client (on le retrouve nous-mêmes via Shopify).
 Formule comme si on consultait son dossier nous-mêmes, sans affirmer de fait précis non vérifié.
@@ -368,8 +405,10 @@ insiste dans un message ultérieur, donne la procédure complète de bonne grâc
 Jugement requis: il ne faut jamais avoir l'air de fuir le remboursement, juste offrir mieux d'abord.
 
 STYLE:
-- ACCORDS TOUJOURS AU MASCULIN: ces courriels sont signés par Gabriel, un homme
-  (« je suis désolé », « content de le savoir », jamais « désolée », « contente »).
+- ACCORDS TOUJOURS AU MASCULIN: ces courriels sont signés par Gabriel, un homme.
+  Écris « content de le savoir », « content de l'apprendre », « je suis désolé »:
+  JAMAIS « contente », « désolée », « heureuse », « ravie », même dans les mots courts et joyeux
+  (c'est exactement là que l'erreur se glisse).
 - PRÉNOMS: si le prénom affiché est une abréviation évidente, utilise la forme complète probable
   (P-Paul → Pierre-Paul, J-F → Jean-François, Marie-H → Marie-Hélène). En cas de doute, garder tel quel.
 - Français québécois: jamais le mot « dense » (dire intense, chargé, occupé); éviter les tournures de France.
@@ -388,29 +427,38 @@ STYLE:
 
 RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
 {
-  "repondre": true|false,        // false si spam, démarchage, réponse d'infolettre sans question, ou rien à répondre
+  "repondre": true|false,        // false si spam, démarchage, notifications, réponse d'infolettre sans question
   "raison": "<si false, pourquoi, court>",
   "categorie": "<suivi_livraison|modification_annulation_commande|retour_echange_remboursement|question_pre_achat|probleme_produit_garantie|wholesale_b2b|douane_international|autre>",
   "langue": "fr|en",
   "brouillon": "<le texte du brouillon, sauts de ligne avec \\n>",
-  "excuse_utilisee": "<si une excuse de délai/retard a été servie, sa phrase exacte, sinon null>"
+  "excuse_utilisee": "<si une excuse de délai/retard a été servie, sa phrase exacte, sinon null>",
+  "note_interne": "<ce que Gabriel devrait VÉRIFIER avant d'envoyer (stock, conditions de promo, état de la commande), sinon null. JAMAIS dans le corps du brouillon.>",
+  "action_requise": "<ce que Gabriel doit FAIRE avant d'envoyer (rembourser, appliquer un rabais, préparer un renvoi), sinon null>"
 }
 `);
 
 // --- Construit le texte du fil pour Sonnet ---
 function threadText(conv, msgs, bodies) {
   const lines = [`SUJET: ${conv.subject || conv.latest_message_subject || "(aucun)"}`];
-  for (const m of msgs.slice(-12)) {
+  // Premier message du fil conservé (l'origine des longues sagas), puis les 11 derniers.
+  const picked = msgs.length > 12 ? [msgs[0], ...msgs.slice(-11)] : msgs;
+  let prev = null;
+  for (const m of picked) {
+    if (prev && msgs.indexOf(m) - msgs.indexOf(prev) > 1) lines.push(`[… ${msgs.indexOf(m) - msgs.indexOf(prev) - 1} message(s) plus ancien(s) omis …]`);
+    prev = m;
     const d = m.delivered_at ? new Date(m.delivered_at * 1000).toISOString().slice(0, 10) : "?";
     const who = isUs(m) ? "NOUS" : `CLIENT (${m.from_field?.name || m.from_field?.address || m.from_field?.username || "?"})`;
-    lines.push(`[${d}] ${who}: ${cleanBody(bodies.get(m.id) || m.preview || "") || "(sans texte)"}`);
+    const att = (m.attachments || []).map((a) => a.filename).filter(Boolean);
+    const attTxt = att.length ? ` [PIÈCES JOINTES: ${att.join(", ")}]` : "";
+    lines.push(`[${d}] ${who}${attTxt}: ${cleanBody(bodies.get(m.id) || m.preview || "") || "(sans texte)"}`);
   }
   return lines.join("\n").slice(0, 14000);
 }
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay support.js v1.3 ===");
+  console.log("=== Lasclay support.js v1.5 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -486,7 +534,8 @@ function threadText(conv, msgs, bodies) {
       if (isUs(last)) { skipped++; continue; } // le dernier mot est à nous: on attend le client
       analysed++;
 
-      const bodies = await fetchBodies(msgs.slice(-12).map((m) => m.id));
+      const aLire = msgs.length > 12 ? [msgs[0], ...msgs.slice(-11)] : msgs;
+      const bodies = await fetchBodies(aLire.map((m) => m.id));
       const clientKey = (last.from_field?.address || last.from_field?.username || last.from_field?.name || "inconnu").toLowerCase();
       const dejaServies = (excuses.get(clientKey) || []).map((e) => `- (${e.date}) ${e.texte}`).join("\n") || "(aucune)";
 
@@ -531,16 +580,55 @@ function threadText(conv, msgs, bodies) {
         toAddr = null;
       }
 
+      // Texte final: le même en simulation et en réel (noDash appliqué partout).
+      const corps = noDash(out.brouillon);
+
+      // Alertes [VOIX]: détection déterministe des fuites connues, sans réécriture.
+      const alertes = [];
+      if (/\b(désolée|contente|heureuse|ravie|navrée)\b/i.test(corps) &&
+          !/(vous|tu|t'|elle|cliente?)\s+(êtes|es|est|seras?|serez|sois|soyez)?\s*(désolée|contente|heureuse|ravie|navrée)/i.test(corps)) {
+        alertes.push("féminin de 1re personne probable");
+      }
+      for (const [re, lbl] of [
+        [/n'hésite[zs]? pas/i, "« n'hésitez pas »"],
+        [/on (te|vous) reçoit bien|on reçoit bien (tes|vos)/i, "« on te reçoit bien »"],
+        [/suivra son cours/i, "coquille vide « suivra son cours »"],
+        [/plus long qu'à l'habitude de notre côté/i, "formulation d'excuse bizarre"],
+        [/ne (se|nous) reconna/i, "dramatisation"],
+        [/^bonsoir/i, "« Bonsoir » (toujours Bonjour)"],
+        [/\b(PCI|DSS|SSL)\b/, "jargon technique"],
+      ]) {
+        if (re.test(corps)) alertes.push(lbl);
+      }
+
+      // Actions: déclarées accomplies (interdit) ou promises (permis, mais l'humain DOIT les faire).
+      const ACTION_ACCOMPLIE = /(je viens (de |d')(annuler|rembourser|appliquer|corriger|envoyer|créditer|traiter)|(a|ont) été (traitée?s?|appliquée?s?|annulée?s?|remboursée?s?)|(it's|it is|it has been) (done|processed|refunded|cancelled))/i;
+      const ACTION_PROMISE = /(je m'en occupe|on s'en occupe|on (applique|annule|rembourse|crédite|renvoie|corrige)|on (t'|vous )envoie (une|de) nouvelle|(i'm|we're) (processing|sending|refunding)|we('ll| will) (send|refund|apply|credit|cancel)|tu recevras (un remboursement|une confirmation de remboursement)|vous recevrez (un remboursement|une confirmation de remboursement))/i;
+      if (ACTION_ACCOMPLIE.test(corps)) alertes.push("action déclarée ACCOMPLIE (interdite: rien n'est fait au moment du brouillon)");
+      let actionAuto = null;
+      if (!out.action_requise && (ACTION_PROMISE.test(corps) || ACTION_ACCOMPLIE.test(corps))) {
+        actionAuto = "Le brouillon promet une action (remboursement, rabais, renvoi…): L'EXÉCUTER avant d'envoyer, sinon c'est une fausse promesse.";
+      }
+
+      const noteLigne = [
+        out.note_interne ? `À VÉRIFIER: ${out.note_interne}` : null,
+        out.action_requise ? `ACTION AVANT ENVOI: ${out.action_requise}` : null,
+        actionAuto ? `ACTION AVANT ENVOI (détectée): ${actionAuto}` : null,
+        alertes.length ? `[VOIX] ${alertes.join("; ")}` : null,
+      ].filter(Boolean);
+
       if (DRY_RUN) {
         created++;
-        console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} | to: ${toAddr || "(social, sans adresse)"}\n---\n${out.brouillon}\n---`);
+        console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} | to: ${toAddr || "(social, sans adresse)"}`);
+        for (const l of noteLigne) console.log(`  >> ${l}`);
+        console.log(`---\n${corps}\n---`);
       } else {
         const draft = {
           conversation: conv.id,
           organization: ORG,
           from_field: { address: EXPORT_FROM },
           subject: subj ? `Re: ${subj.replace(/^re:\s*/i, "")}` : undefined,
-          body: noDash(out.brouillon).replace(/\n/g, "<br>"),
+          body: corps.replace(/\n/g, "<br>"),
           add_shared_labels: labels,
           // PAS de send:true, JAMAIS.
         };
@@ -549,7 +637,22 @@ function threadText(conv, msgs, bodies) {
           await apiPost("/drafts", { drafts: draft });
           created++;
           drafted.add(conv.id);
-          console.log(`[draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}`);
+          console.log(`[draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${noteLigne.length ? " | " + noteLigne.join(" | ") : ""}`);
+          // Notes et actions: post interne dans le fil (mécanisme validé du digest),
+          // pour que Gabriel les voie à côté du brouillon avant d'envoyer.
+          if (noteLigne.length) {
+            try {
+              await apiPost("/posts", {
+                posts: {
+                  conversation: conv.id,
+                  organization: ORG,
+                  notification: { title: "Brouillon IA: avant d'envoyer", body: noteLigne.join(" | ").slice(0, 200) },
+                  username: "Support IA",
+                  markdown: "**Brouillon IA, avant d'envoyer:**\n" + noteLigne.map((l) => `- ${l}`).join("\n"),
+                },
+              });
+            } catch (e) { console.warn(`  post interne échoué sur ${conv.id}: ${e.message}`); }
+          }
           if (out.excuse_utilisee) {
             const list = excuses.get(clientKey) || [];
             list.push({ date: new Date().toISOString().slice(0, 10), texte: String(out.excuse_utilisee).slice(0, 200) });
