@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v1.1)
+ * Lasclay — support.js (v1.2)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -314,11 +314,32 @@ RÈGLES ABSOLUES:
 EXCUSES GRADUÉES (selon le CONTEXTE D'ATTENTE fourni):
 - 3 jours ou moins: pas d'excuse nécessaire, ou très légère.
 - 4 à 10 jours: une excuse simple et sincère (période chargée, manque de temps), jamais en ouverture.
-- Plus de 10 jours, OU 2 messages et plus du client sans réponse de notre part: excuse APPUYÉE:
-  reconnaître que ce délai est inacceptable et que ce n'est pas dans nos habitudes, en faire un peu
-  plus, sans s'aplatir. Entrer d'abord dans le sujet en une phrase, puis l'excuse forte.
+- Plus de 10 jours, OU 2 messages et plus du client sans réponse (fils ouverts du même client inclus):
+  excuse APPUYÉE: reconnaître que ce délai est inacceptable et que ce n'est pas dans nos habitudes,
+  en faire un peu plus, sans s'aplatir. Entrer d'abord dans le sujet en une phrase, puis l'excuse forte.
+- Un mois et plus: excuse MAXIMALE: en plus de ce qui précède, fournir une explication concrète et
+  plausible (courriel tombé dans les indésirables, enjeux de main-d'œuvre, période très intense),
+  avouer que ce n'est pas à la hauteur de nos standards, et promettre de faire mieux.
 - TOUJOURS une seule excuse par message, formulation variée, et JAMAIS une excuse déjà servie
   à ce client (liste fournie).
+- INTERDIT: « on te reçoit bien », « on reçoit bien tes courriels » et toute formulation qui confirme
+  la réception des messages: c'est bizarre et ça n'excuse rien.
+
+CONNAISSANCES CORRIGÉES PAR GABRIEL (priment sur le document de connaissance):
+- Expédition par timbre régulier SANS suivi: UNIQUEMENT les graines, ou une commande d'un SEUL petit
+  article léger (cache-cou, tuque, étui de cellulaire). L'huile d'asclépiade n'est PAS expédiée par
+  timbre. En cas de doute sur le mode d'expédition d'une commande: n'affirme RIEN sur le mode,
+  la commande est en route, point.
+- Bombes semencières qui ont germé pendant le transport: ce n'est PAS une perte certaine, il est
+  très possible de les planter et qu'elles survivent. Le bon réflexe reste d'en renvoyer au client,
+  mais sans déclarer les pousses perdues.
+- Défaut de fabrication évident (ex.: couture qui lâche près du pouce): on assume pleinement et sans
+  hésiter, on s'en occupe, et on précise que c'est très inhabituel.
+
+FILS QUI SE CONCLUENT BIEN (le client a résolu lui-même, remercie, ou tout est réglé): réponds quand
+même avec un court mot sympathique (1-2 phrases: remercier, souhaiter de profiter des produits).
+Réserve "repondre": false au spam, démarchage, notifications automatiques et réponses d'infolettre
+sans aucune question.
 
 NUMÉRO DE COMMANDE: ne le demande JAMAIS au client (on le retrouve nous-mêmes via Shopify).
 Formule comme si on consultait son dossier nous-mêmes, sans affirmer de fait précis non vérifié.
@@ -373,7 +394,7 @@ function threadText(conv, msgs, bodies) {
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay support.js v1.1 ===");
+  console.log("=== Lasclay support.js v1.2 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -419,6 +440,23 @@ function threadText(conv, msgs, bodies) {
   console.log(`${inbox.length} fil(s) ouverts dans LAS Support.`);
   const excuses = await loadExcuses();
 
+  // Index: adresse d'auteur → fils ouverts (pour voir qu'un client a écrit sur plusieurs fils).
+  // Champ `authors` des conversations: déduit de la doc, jamais validé; si absent, l'index reste vide.
+  const filsParAuteur = new Map();
+  let authorsVus = false;
+  for (const c of inbox) {
+    for (const a of c.authors || []) {
+      const k = (a.address || "").toLowerCase();
+      if (!k || SELF.includes(k)) continue;
+      authorsVus = true;
+      if (!filsParAuteur.has(k)) filsParAuteur.set(k, []);
+      filsParAuteur.get(k).push(c);
+    }
+  }
+  if (!authorsVus) console.warn("Note: champ `authors` absent des conversations; détection multi-fils inactive ce run.");
+
+  const NOREPLY = /no-?reply|donotreply|ne-?pas-?repondre/i;
+
   let analysed = 0, created = 0, skipped = 0, noReply = 0, errors = 0;
   for (const conv of inbox) {
     if (drafted.has(conv.id) || conv.id === EXPORT_CONV) { skipped++; continue; }
@@ -446,9 +484,17 @@ function threadText(conv, msgs, bodies) {
         ? Math.max(0, Math.floor((Date.now() / 1000 - (plusAncien.delivered_at || plusAncien.created_at || Date.now() / 1000)) / 86400))
         : 0;
 
+      const autres = (filsParAuteur.get(clientKey) || []).filter((c) => c.id !== conv.id);
+      const autresLigne = autres.length
+        ? `\nIMPORTANT: ce client a ${autres.length} AUTRE(S) fil(s) ouvert(s) chez nous en ce moment` +
+          ` (sujets: ${autres.map((c) => (c.subject || c.latest_message_subject || "(sans sujet)").slice(0, 40)).join(" | ")}).` +
+          ` Il a donc écrit plusieurs fois: ajuste l'intensité de l'excuse en conséquence, et si un de ces fils` +
+          ` éclaire la demande, tiens-en compte.`
+        : "";
+
       const user = `FIL À TRAITER:\n${threadText(conv, msgs, bodies)}\n\n` +
         `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
-        `${sansReponse.length} message(s) du client sans réponse de notre part.\n\n` +
+        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
       try { out = parseJsonLoose(await claude(systemBlocks, user, 1500)); }
@@ -463,7 +509,11 @@ function threadText(conv, msgs, bodies) {
 
       const labels = [DRAFT_LABEL];
       if (TRI_LABELS[out.categorie]) labels.push(TRI_LABELS[out.categorie]);
-      const toAddr = last.from_field?.address || null;
+      let toAddr = last.from_field?.address || null;
+      if (toAddr && NOREPLY.test(toAddr)) {
+        console.log(`  (adresse no-reply « ${toAddr} »: brouillon sans destinataire, à router manuellement)`);
+        toAddr = null;
+      }
 
       if (DRY_RUN) {
         created++;
