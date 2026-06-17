@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v2.4)
+ * Lasclay — support.js (v2.5)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -47,7 +47,7 @@ const KNOWLEDGE_FILE = process.env.KNOWLEDGE_FILE || "./connaissance_support.md"
 // R&D: id d'équipe à ajouter quand connu (LIST_TEAMS=true pour lister les équipes).
 const DEFAULT_TEAMS = [
   "e184d153-4472-4edd-9b35-f8867cf437a8", // LAS Support
-  "0db185c1-3a93-4a44-9f50-dcfe8c0683dd", // Mise à jour commande
+  // "0db185c1-3a93-4a44-9f50-dcfe8c0683dd", // Mise à jour commande: RETIRÉE (gérée en masse via Klaviyo)
   "cc587c84-63b9-4e88-993c-4f4b5b328173", // RETOURS-ÉCHANGES
   "d6f28d2f-06ef-4aa5-aae0-b68f014e3216", // Vente - info pré-achat
   "13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217", // USA
@@ -306,6 +306,85 @@ async function listExportDrafts() {
   return [...byId.values()];
 }
 
+// --- Catalogue produits (Shopify) ---
+// Collections à charger. products.json donne les données structurées; repli HTML sinon.
+const CATALOG_COLLECTIONS = (process.env.CATALOG_COLLECTIONS ||
+  "https://lasclay.com/collections/produits-products,https://lasclay.com/collections/garden")
+  .split(",").map((s) => s.trim()).filter(Boolean);
+
+async function fetchText(url, attempts = 3) {
+  for (let a = 1; a <= attempts; a++) {
+    try {
+      const res = await fetch(url, { headers: { "User-Agent": "LasclaySupportBot/1.0" } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.text();
+    } catch (e) {
+      if (a === attempts) { console.warn(`  catalogue: ${url} échoue (${e.message})`); return null; }
+      await sleep(a * 3000);
+    }
+  }
+}
+
+function htmlToPlain(s) {
+  return (s || "").replace(/<\/(p|div|li|h[1-6]|br)>/gi, "\n").replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&").replace(/&lt;/gi, "<").replace(/&gt;/gi, ">")
+    .replace(/&#39;|&rsquo;/gi, "'").replace(/&quot;/gi, '"')
+    .replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+async function chargerCatalogue() {
+  const fiches = [];
+  const vus = new Set();
+  for (const col of CATALOG_COLLECTIONS) {
+    const base = col.replace(/\/$/, "");
+    // products.json paginé (250 max par page).
+    let page = 1, viaJson = false;
+    while (page <= 5) {
+      const txt = await fetchText(`${base}/products.json?limit=250&page=${page}`);
+      if (!txt) break;
+      let data;
+      try { data = JSON.parse(txt); } catch { break; }
+      const prods = data.products || [];
+      if (prods.length === 0) break;
+      viaJson = true;
+      for (const p of prods) {
+        if (vus.has(p.id)) continue;
+        vus.add(p.id);
+        const variantes = (p.variants || []).map((v) => {
+          const dispo = v.available === false ? "ÉPUISÉ" : "disponible";
+          return `${v.title} (${v.price ? v.price + " $" : "prix ?"}, ${dispo})`;
+        }).join("; ");
+        const desc = htmlToPlain(p.body_html || "").slice(0, 800);
+        fiches.push(
+          `### ${p.title}\n` +
+          `URL: ${base.replace(/\/collections\/.*$/, "")}/products/${p.handle}\n` +
+          (p.product_type ? `Type: ${p.product_type}\n` : "") +
+          (variantes ? `Variantes: ${variantes}\n` : "") +
+          (desc ? `Description: ${desc}\n` : "")
+        );
+      }
+      if (prods.length < 250) break;
+      page++;
+    }
+    if (!viaJson) {
+      // Repli HTML: au moins capter les noms de produits visibles.
+      const html = await fetchText(base);
+      if (html) {
+        const noms = [...html.matchAll(/\/products\/([a-z0-9-]+)"[^>]*>([^<]{3,80})</gi)]
+          .map((m) => m[2].trim()).filter((v, i, a) => v && a.indexOf(v) === i).slice(0, 60);
+        if (noms.length) fiches.push(`### (Liste partielle via HTML de ${base})\n` + noms.join("\n"));
+      }
+    }
+  }
+  if (fiches.length === 0) {
+    console.warn("Catalogue: aucun produit chargé (réseau ou structure). Le script continue sans catalogue.");
+    return null;
+  }
+  const txt = fiches.join("\n\n");
+  console.log(`Catalogue chargé: ${fiches.length} produit(s), ${(txt.length / 1024).toFixed(0)} Ko.`);
+  return txt;
+}
+
 // --- Instructions de voix (acquis du digest + nouveautés support) ---
 const VOICE = noDash(`
 Tu rédiges des brouillons de réponse au service client de Lasclay, dans la voix de Gabriel:
@@ -321,10 +400,41 @@ RÈGLES ABSOLUES:
 - LIS TOUT LE FIL avant de répondre, y compris l'infolettre ou le message d'origine: la réponse
   au problème du client s'y trouve souvent. Réponds au CONTENU RÉEL; ne pose jamais de question
   dont la réponse est déjà dans le fil.
-- COHÉRENCE TEMPORELLE: utilise la DATE D'AUJOURD'HUI fournie. Les dates du fil peuvent être
-  vieilles de plusieurs mois: ne promets JAMAIS une saison ou un mois déjà passé (« envoi pour mai »
-  alors qu'on est en juin), et adapte les références saisonnières à la date réelle.
-- N'invente AUCUN fait: prix, délais, politiques et liens viennent UNIQUEMENT du document de connaissance.
+- COHÉRENCE TEMPORELLE (règle critique): utilise la DATE D'AUJOURD'HUI fournie. Beaucoup de fils
+  datent de plusieurs mois. Sur un fil VIEUX (dernier message du client il y a plus de ~3 semaines):
+  ne promets RIEN d'actif (pas « j'ajoute à ta commande », « j'expédie », « je t'envoie le lien »):
+  la commande est presque sûrement déjà traitée ou expédiée. Le bon réflexe par défaut: s'excuser
+  du délai et DEMANDER si la demande est encore d'actualité, sans relancer une action obsolète.
+- CATALOGUE PRODUITS: le bloc CATALOGUE PRODUITS ACTUEL est la source de vérité sur ce qui existe.
+  Ne dis JAMAIS « on ne fait pas ce produit » ou « on n'a pas ça » sans avoir vérifié le catalogue:
+  Lasclay a lancé beaucoup de nouveautés (manteaux/parkas, gants, oreiller, mitaines laine/cuir,
+  sac de couchage, isolant en vrac et rouleau, etc.), souvent EN PRÉCOMMANDE pour l'automne 2026.
+  Quand c'est pertinent, mentionne le bon produit avec son lien et son statut, et invite à voir le
+  catalogue: https://lasclay.com/collections/produits-products (jardin: /collections/garden).
+- N'invente AUCUN fait: prix, délais, politiques et liens viennent du document de connaissance ou du catalogue.
+
+JAMAIS DIRE « JE NE SAIS PAS » NI FAIRE D'AVEU AU CLIENT: le client doit repartir avec une réponse,
+pas avec « je vérifie et je reviens » (sauf pour un colis non livré à vérifier avec Postes Canada).
+Si une info te manque (ex.: pourquoi un article n'était pas ajoutable au panier), affirme l'explication
+la PLUS PLAUSIBLE (95 % du temps un article non ajoutable = épuisé) et mets la vérification en note_interne.
+N'avoue jamais un « bug connu », une faille, une ignorance: ça mine la confiance.
+
+INFO OU STOCK À VÉRIFIER, LAISSER UN BLANC: si une disponibilité ou une donnée précise est incertaine,
+ne tranche PAS au hasard dans le brouillon. Écris la phrase avec un champ à compléter
+(ex.: « on a encore des [modèle] en [TAILLE À CONFIRMER] ») et mets la vérification en note_interne.
+Mieux vaut un blanc à remplir qu'une affirmation fausse à corriger.
+
+DÉLAIS: ne CHIFFRE jamais le nombre de jours ou de mois de retard dans le brouillon (« 137 jours »,
+« 5 mois »): ça souligne notre incompétence. On s'excuse d'un délai « beaucoup trop long » /
+« inacceptable », sans le quantifier.
+
+DEMANDE D'ADRESSE: on a déjà l'adresse au dossier. Ne demande jamais « donne-moi ton adresse », et
+ne dis jamais « on ne t'appelle pas ». Formule une simple reconfirmation: « L'adresse postale est-elle
+toujours au [insérer adresse]? ». Le champ adresse est à compléter (laisser un blanc).
+
+NOTES INTERNES DU FIL: si le fil contient des commentaires internes de l'équipe (anciennes notes,
+to-dos, « lis ma note du... »), ils contiennent souvent la marche à suivre exacte (client à intégrer
+au programme R&D, modèle à offrir, travail déjà fait). Lis-les et tiens-en compte avant de rédiger.
 
 ÉTAT D'UNE COMMANDE (règle critique): tu ne VOIS PAS la commande Shopify. N'affirme JAMAIS:
 un montant de commande, qu'un code promo a été appliqué ou non, le contenu de la commande,
@@ -449,16 +559,24 @@ STYLE:
 - PRÉNOMS: si le prénom affiché est une abréviation évidente, utilise la forme complète probable
   (P-Paul → Pierre-Paul, J-F → Jean-François, Marie-H → Marie-Hélène). En cas de doute, garder tel quel.
 - Français québécois: jamais le mot « dense » (dire intense, chargé, occupé); éviter les tournures de France.
+- MÉTAPHORES DE COURRIEL PERDU, CATÉGORIE ENTIÈREMENT BANNIE: ne JAMAIS écrire que le message
+  « a glissé », « est passé sous le radar », « entre les mailles du filet », « entre les craques »,
+  « dans le flot », « slipped through », ni AUCUNE variante imagée du courriel égaré. Ce sont des
+  platitudes vagues. Pour excuser un délai: dire simplement et concrètement ce qui s'est passé
+  (période très intense, manque de temps, enjeux de main-d'œuvre), sans métaphore.
+- Pas de coquilles vides: « des messages ont glissé », « ta commande suivra son cours »,
+  « on te reçoit bien »: interdites. Chaque phrase dit quelque chose de concret.
 - Pas de dramatisation: « on ne se reconnaît pas là-dedans » et formules du même calibre sont INTERDITES
   (on n'a tué personne); l'excuse forte reste factuelle et digne.
 - Pas de remplissage: « dans le portrait », « dans l'équation » et autres bouts de phrase superflus.
 - JAMAIS le mot « Nota » (« Nota pris », « Nota bene »): écrire « C'est noté » ou « Bien noté ».
 - Pas de jargon technique côté client: « PCI-DSS », « certifié », noms de protocoles. Expliquer simplement
   (ex.: les paiements passent par Shopify, on ne voit jamais ton numéro de carte au complet).
-- Interdits: structure « ce n'est pas X, c'est Y » et ses formes déguisées; jargon corporate
-  (« aligner les détails », « valeur ajoutée », « explorer les synergies »); formules creuses
-  (« j'espère que ce message vous trouve bien », « n'hésitez pas à », « je serais ravi de »,
-  « fell through the cracks », « that's on me », « glissé entre les mailles »).
+- Ton NATUREL, pas « trop AI »: évite le lissé corporate et les transitions trop parfaites; écris
+  comme un humain occupé et direct. Interdits: structure « ce n'est pas X, c'est Y » et ses formes
+  déguisées; jargon corporate (« aligner les détails », « valeur ajoutée », « explorer les synergies »);
+  formules creuses (« j'espère que ce message vous trouve bien », « n'hésitez pas à », « je serais ravi de »,
+  « that's on me »).
 - JAMAIS de tiret cadratin ni demi-cadratin: virgule, deux-points ou parenthèses.
 - Si une canned response du document couvre le cas, INSPIRE-T'EN fortement (c'est le savoir officiel),
   en l'adaptant au fil; attention aux canned marquées [À VÉRIFIER].
@@ -511,7 +629,7 @@ function threadText(conv, msgs, bodies) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.4 ===");
+  console.log("=== Lasclay support.js v2.5 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -522,10 +640,17 @@ function threadText(conv, msgs, bodies) {
   }
   const knowledge = fs.readFileSync(KNOWLEDGE_FILE, "utf8");
   console.log(`Connaissance chargée: ${(knowledge.length / 1024).toFixed(0)} Ko.`);
+
+  // 0b. Catalogue produits (chargé en direct, mis en cache comme la connaissance).
+  // Shopify expose products.json: noms, descriptions, variantes, prix, dispo, sans bricoler le HTML.
+  const catalogue = await chargerCatalogue();
   const systemBlocks = [
     { type: "text", text: sanit("DOCUMENT DE CONNAISSANCE DU SERVICE CLIENT LASCLAY:\n\n" + noDash(knowledge)), cache_control: { type: "ephemeral" } },
+    catalogue
+      ? { type: "text", text: sanit("CATALOGUE PRODUITS ACTUEL (source de vérité sur ce qui existe et son statut):\n\n" + noDash(catalogue)), cache_control: { type: "ephemeral" } }
+      : null,
     { type: "text", text: sanit(VOICE) },
-  ];
+  ].filter(Boolean);
 
   // 1. Rafraîchissement: étiquetés ∩ fermés → retirer le label
   const drafted = new Set((await listByFilter(`shared_label=${DRAFT_LABEL}`)).map((c) => c.id));
@@ -677,6 +802,10 @@ function threadText(conv, msgs, bodies) {
         [/ne (se|nous) reconna/i, "dramatisation"],
         [/^bonsoir/i, "« Bonsoir » (toujours Bonjour)"],
         [/\bnota\b/i, "« Nota » (écrire « c'est noté »)"],
+        [/(gliss\w+|pass\w+|perd\w+|slipped|fell)\b[^.]{0,40}(radar|craque|maille|filet|flot|crack)|entre les (craques|mailles)|sous (le|notre) radar|dans le flot|slipped through|fell through|slipped past/i, "platitude de courriel perdu (bannie)"],
+        [/\b\d{1,3}\s?(jours?|mois|semaines?|days|weeks|months)\b[^.]{0,25}(silence|sans réponse|sans nouvelle|de retard|d'attente|without (a )?(reply|response|update|news)|since)|(silence|sans réponse|retard|attente|inacceptable)[^.]{0,25}\b\d{1,3}\s?(jours?|mois|semaines?|days|weeks|months)\b/i, "délai chiffré (ne pas quantifier le retard)"],
+        [/\bbug connu\b/i, "aveu « bug connu » (ne pas avouer)"],
+        [/581\D?982\D?5857|\(581\)/, "numéro de téléphone (à retirer)"],
         [/ce n('est|était) pas (une?\s)?[^,.;:]{2,40},\s?(c'est|c'était|juste|mais)/i, "antithèse « ce n'est pas X, c'est Y »"],
         [/it('s| is| was)? ?not [^,.;:]{2,40}, (it's|it is|just|but)/i, "antithèse EN « not X, it's Y »"],
         [/\b(PCI|DSS|SSL)\b/, "jargon technique"],
@@ -722,8 +851,8 @@ function threadText(conv, msgs, bodies) {
       // (confirmé doc + test réel). Le script l'ajoute lui-même, selon la langue.
       // Canaux sociaux: ni signature ni citation (format courriel seulement).
       const estCourriel = !last.type || /email/.test(last.type);
-      const SIGNATURE_FR = "Chaleureusement,<br>__<br><b>Gabriel Gouveia</b><br>Co-fondateur<br>+1 (581) 982-5857<br>Lasclay.com";
-      const SIGNATURE_EN = "Warmly,<br>__<br><b>Gabriel Gouveia</b><br>Co-founder<br>+1 (581) 982-5857<br>Lasclay.com";
+      const SIGNATURE_FR = "Chaleureusement,<br>__<br><b>Gabriel Gouveia</b><br>Co-fondateur<br>Lasclay.com";
+      const SIGNATURE_EN = "Warmly,<br>__<br><b>Gabriel Gouveia</b><br>Co-founder<br>Lasclay.com";
       const signature = estCourriel ? `<br><br>${out.langue === "en" ? SIGNATURE_EN : SIGNATURE_FR}` : "";
 
       if (DRY_RUN) {
