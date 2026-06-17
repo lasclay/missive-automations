@@ -108,7 +108,7 @@ async function listDrafts(convId) {
 }
 
 (async () => {
-  console.log("=== Lasclay purge.js v1 ===");
+  console.log("=== Lasclay purge.js v1.1 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien supprimé) ===" : "=== MODE RÉEL (suppression irréversible) ===");
   console.log(`Label visé: ${DRAFT_LABEL} | PURGE_LIMIT: ${PURGE_LIMIT || "aucun"}`);
 
@@ -145,6 +145,7 @@ async function listDrafts(convId) {
           posts: {
             conversation: conv.id, organization: ORG,
             remove_shared_labels: [DRAFT_LABEL],
+            markdown: "_Brouillon IA purgé, prêt à régénérer._",
             notification: { title: "Purge", body: "Brouillon IA purgé, prêt à régénérer." },
           },
         });
