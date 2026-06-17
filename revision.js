@@ -81,14 +81,15 @@ async function listComments(convId) {
   const byId = new Map();
   let until = null;
   while (true) {
-    let path = `/conversations/${convId}/comments?limit=50`;
+    // L'endpoint /comments plafonne limit à 10 (contrairement aux autres: max 50).
+    let path = `/conversations/${convId}/comments?limit=10`;
     if (until) path += `&until=${until}`;
     const { comments = [] } = await api(path);
     if (comments.length === 0) break;
     const before = byId.size;
     for (const c of comments) byId.set(c.id, c);
     const oldest = comments[comments.length - 1].created_at;
-    if (comments.length < 50 || byId.size === before || oldest === until) break;
+    if (comments.length < 10 || byId.size === before || oldest === until) break;
     until = oldest;
   }
   return [...byId.values()].sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
@@ -181,7 +182,7 @@ function htmlToText(s) {
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay revision.js v1.3 ===");
+  console.log("=== Lasclay revision.js v1.4 ===");
   console.log(`Label révisé: ${REVISED_LABEL}`);
 
   const revised = await listByFilter(`shared_label=${REVISED_LABEL}`);
