@@ -181,7 +181,7 @@ function htmlToText(s) {
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay revision.js v1.1 ===");
+  console.log("=== Lasclay revision.js v1.3 ===");
   console.log(`Label révisé: ${REVISED_LABEL}`);
 
   const revised = await listByFilter(`shared_label=${REVISED_LABEL}`);
@@ -215,28 +215,56 @@ function htmlToText(s) {
       const est100 = feedback.some((f) => /^\s*100\s*%\s*\.?\s*$/.test(f));
       if (est100) cent++; else if (feedback.length > 0) withFeedback++; else noFeedback++;
 
-      // Reconstitue le fil tel que le modèle l'a vu (mêmes 12 messages que support.js):
-      // premier + 11 derniers, antérieurs au brouillon.
+      // Fil ENTIER (tous les messages antérieurs au brouillon), pour le contexte maximal.
+      // On marque ceux que support.js n'avait PAS montrés à Sonnet (hors fenêtre premier + 11 derniers),
+      // pour garder la rigueur d'analyse sans amputer le contexte humain.
       const beforeDraft = msgs.filter((m) => (m.delivered_at || m.created_at || 0) < draftCreated);
-      const picked = beforeDraft.length > 12 ? [beforeDraft[0], ...beforeDraft.slice(-11)] : beforeDraft;
-      const bodies = await fetchBodies(picked.map((m) => m.id));
+      const vusParModele = new Set(
+        (beforeDraft.length > 12 ? [beforeDraft[0], ...beforeDraft.slice(-11)] : beforeDraft).map((m) => m.id)
+      );
+      const bodies = await fetchBodies(beforeDraft.map((m) => m.id));
 
       const filLignes = [];
-      for (const m of picked) {
+      for (const m of beforeDraft) {
         const d = m.delivered_at ? new Date(m.delivered_at * 1000).toISOString().slice(0, 10) : "?";
         const who = isUs(m) ? "NOUS" : `CLIENT (${anonymize(m.from_field?.name, m.from_field?.address)})`;
         const att = (m.attachments || []).map((a) => a.filename).filter(Boolean);
         const attTxt = att.length ? ` [PJ: ${att.join(", ")}]` : "";
-        filLignes.push(`[${d}] ${who}${attTxt}: ${htmlToText(bodies.get(m.id) || m.preview || "") || "(sans texte)"}`);
+        const nonVu = vusParModele.has(m.id) ? "" : " [NON VU PAR LE MODÈLE]";
+        filLignes.push(`[${d}] ${who}${attTxt}${nonVu}: ${htmlToText(bodies.get(m.id) || m.preview || "") || "(sans texte)"}`);
       }
+
+      // Catégorie déduite du label de tri posé par support.js (mapping de TRI_LABELS).
+      const TRI = {
+        "4bdc81b5-74a9-4246-9ced-3d9c1b13b0ed": "suivi_livraison OU modification_annulation_commande",
+        "b2ff154e-65f1-498f-8bfd-40c52854fd69": "retour_echange_remboursement OU probleme_produit_garantie",
+        "cf24d86b-ba38-41b2-bed7-0a4f43b1b2e4": "question_pre_achat",
+        "7150fdfb-af9c-4844-835d-96c73da211d6": "douane_international",
+      };
+      // L'objet de la liste (filtre shared_label) ne contient pas toujours team/shared_labels.
+      // Repli: GET du fil complet pour garantir le contexte.
+      let full = conv;
+      if (!conv.team && !conv.shared_labels && !conv.labels) {
+        try {
+          const r = await api(`/conversations/${conv.id}`);
+          full = (Array.isArray(r.conversations) ? r.conversations[0] : r.conversations) || conv;
+        } catch {}
+      }
+      const labels = (full.shared_labels || full.labels || []).map((l) => l.id || l);
+      const triHits = labels.map((id) => TRI[id]).filter(Boolean);
+      const categorieDeduite = triHits[0] || "(aucun label de tri posé: wholesale_b2b, autre, ou catégorie non triée)";
+      // Tous les labels partagés du fil, pour traçabilité.
+      const labelNames = (full.shared_labels || []).map((l) => l.name).filter(Boolean);
 
       const lastMsg = msgs[msgs.length - 1] || {};
       items.push({
         id: conv.id,
         subject: conv.subject || conv.latest_message_subject || "(sans sujet)",
         client: anonymize(lastMsg.from_field?.name, lastMsg.from_field?.address),
-        team: conv.team?.name || conv.shared_label?.name || "?",
-        fil: filLignes.join("\n").slice(0, 6000),
+        team: full.team?.name || "?",
+        labels: labelNames,
+        categorieDeduite,
+        fil: filLignes.join("\n").slice(0, 40000),
         draft: htmlToText(draft.body || ""),
         aiNotes,
         feedback,
@@ -265,6 +293,8 @@ function htmlToText(s) {
   for (const it of items) {
     lines.push(`## ${it.client} | ${it.team} | ${it.est100 ? "✅ 100%" : it.feedback.length > 0 ? "✏️ correction" : "⚪ sans note"}`);
     lines.push(`**Sujet**: ${it.subject}`);
+    lines.push(`**Équipe actuelle**: ${it.team}${it.labels.length ? ` | **Labels**: ${it.labels.join(", ")}` : ""}`);
+    lines.push(`**Catégorie déduite (tri IA)**: ${it.categorieDeduite}`);
     lines.push("");
     lines.push(`**Fil tel que vu par le modèle**:`);
     lines.push("```");
