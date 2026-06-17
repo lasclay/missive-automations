@@ -113,6 +113,40 @@ async function listDrafts(convId) {
   return [...byId.values()].sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
 }
 
+async function listPosts(convId) {
+  // Les posts internes (dont les notes ⚠️ du bot) sont sur un endpoint distinct des comments.
+  const byId = new Map();
+  let until = null;
+  while (true) {
+    let path = `/conversations/${convId}/posts?limit=10`;
+    if (until) path += `&until=${until}`;
+    let data;
+    try { data = await api(path); } catch { break; }
+    const posts = data.posts || [];
+    if (posts.length === 0) break;
+    const before = byId.size;
+    for (const p of posts) byId.set(p.id, p);
+    const oldest = posts[posts.length - 1].created_at;
+    if (posts.length < 10 || byId.size === before || oldest === until) break;
+    until = oldest;
+  }
+  return [...byId.values()].sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
+}
+
+async function fetchDraftBody(draftId, stub) {
+  // Le corps complet du brouillon n'est pas dans la liste; tenter le fetch individuel,
+  // puis se rabattre sur ce que le stub contient.
+  for (const path of [`/drafts/${draftId}`, `/messages/${draftId}`]) {
+    try {
+      const r = await api(path);
+      const obj = r.drafts || r.messages || r.draft || r.message;
+      const d = Array.isArray(obj) ? obj[0] : obj;
+      if (d && (d.body || d.text)) return d.body || d.text;
+    } catch {}
+  }
+  return stub.body || stub.text || stub.preview || "";
+}
+
 async function listMessages(convId) {
   const byId = new Map();
   let until = null;
@@ -182,7 +216,30 @@ function htmlToText(s) {
 
 // --- Run principal ---
 (async () => {
-  console.log("=== Lasclay revision.js v1.4 ===");
+  // Mode diagnostic: DEBUG_CONV=<id> imprime brut ce que chaque endpoint retourne,
+  // pour confirmer où vivent le corps du brouillon et les posts avant de lancer le lot.
+  if (process.env.DEBUG_CONV) {
+    const id = process.env.DEBUG_CONV;
+    console.log(`=== DIAGNOSTIC du fil ${id} ===`);
+    const drafts = await listDrafts(id);
+    console.log(`\n--- ${drafts.length} draft(s) dans la liste. Clés du 1er:`);
+    if (drafts[0]) {
+      console.log(Object.keys(drafts[0]).join(", "));
+      console.log("body présent dans la liste?", !!drafts[0].body, "| longueur:", (drafts[0].body || "").length);
+      console.log("\n--- fetch individuel /drafts/:id et /messages/:id:");
+      try { const r = await api(`/drafts/${drafts[0].id}`); console.log("/drafts/:id →", JSON.stringify(r).slice(0, 400)); }
+      catch (e) { console.log("/drafts/:id échoue:", e.message); }
+      try { const r = await api(`/messages/${drafts[0].id}`); console.log("/messages/:id →", JSON.stringify(r).slice(0, 400)); }
+      catch (e) { console.log("/messages/:id échoue:", e.message); }
+    }
+    const posts = await listPosts(id);
+    console.log(`\n--- ${posts.length} post(s). 1er:`, posts[0] ? JSON.stringify(posts[0]).slice(0, 400) : "(aucun)");
+    const comments = await listComments(id);
+    console.log(`\n--- ${comments.length} comment(s). 1er:`, comments[0] ? JSON.stringify(comments[0]).slice(0, 300) : "(aucun)");
+    return;
+  }
+
+  console.log("=== Lasclay revision.js v1.5 ===");
   console.log(`Label révisé: ${REVISED_LABEL}`);
 
   const revised = await listByFilter(`shared_label=${REVISED_LABEL}`);
@@ -194,22 +251,24 @@ function htmlToText(s) {
 
   for (const conv of revised) {
     try {
-      const [drafts, comments, msgs] = await Promise.all([
-        listDrafts(conv.id), listComments(conv.id), listMessages(conv.id),
+      const [drafts, comments, posts, msgs] = await Promise.all([
+        listDrafts(conv.id), listComments(conv.id), listPosts(conv.id), listMessages(conv.id),
       ]);
       // Brouillon IA: le plus ancien créé (le plus récent serait une révision humaine éventuelle).
-      const draft = drafts[0];
-      if (!draft) { console.warn(`  ${conv.id}: aucun brouillon trouvé`); continue; }
-      const draftCreated = draft.created_at || 0;
+      const draftStub = drafts[0];
+      if (!draftStub) { console.warn(`  ${conv.id}: aucun brouillon trouvé`); continue; }
+      const draftCreated = draftStub.created_at || 0;
+      // Le corps complet n'est PAS dans la liste des drafts: il faut le fetch individuel.
+      const draftBody = await fetchDraftBody(draftStub.id, draftStub);
 
-      // Note ⚠️ IA: posée par « Support IA » dans la fenêtre de création du brouillon.
-      // (Auteur du commentaire: champ rendu par Missive — vérifié ci-dessous.)
-      const isBot = (c) => /support\s*ia/i.test(c.author?.name || c.user?.name || c.username || "");
-      const aiNotes = comments.filter((c) => isBot(c)).map((c) => htmlToText(c.body || c.text || "")).filter(Boolean);
+      // Note ⚠️ IA: c'est un POST (pas un comment) posté par « Support IA ».
+      // On prend les posts dont le texte porte la marque du script.
+      const aiNotes = posts
+        .map((p) => htmlToText(p.markdown || p.body || p.text || p.notification?.body || ""))
+        .filter((t) => /NE PAS ENVOYER|Note IA|VÉRIFIER AVANT|vérifications? requises/i.test(t));
 
-      // Corrections humaines: commentaires non-bot postés APRÈS le brouillon.
+      // Corrections humaines: les commentaires internes de Gabriel (endpoint /comments).
       const feedback = comments
-        .filter((c) => (c.created_at || 0) >= draftCreated && !isBot(c))
         .map((c) => htmlToText(c.body || c.text || "").trim())
         .filter(Boolean);
 
@@ -266,7 +325,7 @@ function htmlToText(s) {
         labels: labelNames,
         categorieDeduite,
         fil: filLignes.join("\n").slice(0, 40000),
-        draft: htmlToText(draft.body || ""),
+        draft: htmlToText(draftBody || ""),
         aiNotes,
         feedback,
         est100,
