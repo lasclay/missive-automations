@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v2.6)
+ * Lasclay — support.js (v2.7)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -411,6 +411,9 @@ RÈGLES ABSOLUES:
   sac de couchage, isolant en vrac et rouleau, etc.), souvent EN PRÉCOMMANDE pour l'automne 2026.
   Quand c'est pertinent, mentionne le bon produit avec son lien et son statut, et invite à voir le
   catalogue: https://lasclay.com/collections/produits-products (jardin: /collections/garden).
+- LIENS PAYS: pour un client des USA, les liens du site utilisent le préfixe /en-us (prix en USD):
+  https://lasclay.com/en-us/products/... Pour un client canadien anglophone, préfixe /en (CAD).
+  En français, pas de préfixe (racine). Le script corrige au besoin, mais vise le bon préfixe.
 - N'invente AUCUN fait: prix, délais, politiques et liens viennent du document de connaissance ou du catalogue.
 
 JAMAIS DIRE « JE NE SAIS PAS » NI FAIRE D'AVEU AU CLIENT: le client doit repartir avec une réponse,
@@ -649,7 +652,7 @@ function threadText(conv, msgs, bodies) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.6 ===");
+  console.log("=== Lasclay support.js v2.7 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -703,10 +706,15 @@ function threadText(conv, msgs, bodies) {
 
   // 2. Ciblage: inbox ouverte, dernier mot au client, pas déjà drafté
   const inboxById = new Map();
+  const teamsByConv = new Map(); // convId → Set des équipes où le fil apparaît
   for (const t of TEAM_IDS) {
     const convs = await listByFilter(`team_inbox=${t}`);
     console.log(`  ${convs.length} fil(s) ouverts dans l'équipe ${t.slice(0, 8)}…`);
-    for (const c of convs) inboxById.set(c.id, c);
+    for (const c of convs) {
+      inboxById.set(c.id, c);
+      if (!teamsByConv.has(c.id)) teamsByConv.set(c.id, new Set());
+      teamsByConv.get(c.id).add(t);
+    }
   }
   const inbox = [...inboxById.values()].sort((a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0));
   console.log(`${inbox.length} fil(s) ouverts uniques dans ${TEAM_IDS.length} boîtes.`);
@@ -741,6 +749,9 @@ function threadText(conv, msgs, bodies) {
     // brouillon humain en cours), on n'y touche pas.
     if ((conv.drafts_count || 0) > 0) { dejaBrouillon++; continue; }
     // Fil déjà jugé « rien à répondre » et inchangé depuis: on ne le rejuge pas.
+    // Note: on compare last_activity_at (et non la date du dernier message), car c'est un
+    // simple détecteur de changement. Un merge/label qui bouge l'activité provoque au pire
+    // un rejugement inutile (1 appel), sans conséquence sur la qualité. Acceptable.
     if (ecartes.has(conv.id)) {
       if (ecartes.get(conv.id) === (conv.last_activity_at || 0)) { ecarteSkips++; continue; }
       ecartes.delete(conv.id); // le fil a bougé: nouveau jugement complet
@@ -780,6 +791,7 @@ function threadText(conv, msgs, bodies) {
         : "";
 
       const filTexte = threadText(conv, msgs, bodies);
+      const teamsDuFil = teamsByConv.get(conv.id) || new Set();
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
         `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
@@ -886,6 +898,27 @@ function threadText(conv, msgs, bodies) {
       // Signature: l'API Missive n'insère JAMAIS la signature d'alias dans un brouillon
       // (confirmé doc + test réel). Le script l'ajoute lui-même, selon la langue.
       // Canaux sociaux: ni signature ni citation (format courriel seulement).
+      // Liens: rendre cliquables + corriger le préfixe pays des URLs lasclay.com.
+      // USA → /en-us/ (USD), anglais hors USA → /en/ (CAD), français → racine.
+      // Signal pays: équipe USA, sinon indices du fil (langue EN + mentions USA/states/USD).
+      const filBas = filTexte.toLowerCase();
+      const estUSA = teamsDuFil.has("13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217") ||
+        (out.langue === "en" && /\b(usa|united states|u\.s\.|america|\bus\b|usd|\$us)\b/i.test(filBas));
+      const prefixe = estUSA ? "/en-us" : out.langue === "en" ? "/en" : "";
+      const corrigerLien = (url) => {
+        // Normalise les préfixes lasclay.com vers le bon pays/langue.
+        let u = url.replace(/(https?:\/\/(?:www\.)?lasclay\.com)(\/(?:en-us|en-ca|en|fr-ca|fr))?(\/|$)/i,
+          (_, base, _old, tail) => `${base}${prefixe}${tail === "/" || tail === "" ? "/" : tail}`);
+        return u;
+      };
+      const linkify = (html) => html.replace(/(https?:\/\/[^\s<>"]+)/g, (url) => {
+        const clean = corrigerLien(url.replace(/[.,;:)]+$/, ""));
+        const trail = url.slice(corrigerLien(url).length); // ponctuation finale éventuelle
+        return `<a href="${clean}">${clean}</a>${url.match(/[.,;:)]+$/)?.[0] || ""}`;
+      });
+
+      const corpsHtml = linkify(corps.replace(/\n/g, "<br>"));
+
       const estCourriel = !last.type || /email/.test(last.type);
       const SIGNATURE_FR = "Chaleureusement,<br>__<br><b>Gabriel Gouveia</b><br>Co-fondateur<br>Lasclay.com";
       const SIGNATURE_EN = "Warmly,<br>__<br><b>Gabriel Gouveia</b><br>Co-founder<br>Lasclay.com";
@@ -904,7 +937,7 @@ function threadText(conv, msgs, bodies) {
           organization: ORG,
           from_field: { address: EXPORT_FROM },
           subject: subj ? `Re: ${subj.replace(/^re:\s*/i, "")}` : undefined,
-          body: corps.replace(/\n/g, "<br>") + signature,
+          body: corpsHtml + signature,
           quote_previous_message: estCourriel, // apparence de réponse: cite le dernier message du fil
           add_shared_labels: labels,
           // PAS de send:true, JAMAIS. Et le jour où un mode d'envoi automatique existera:
