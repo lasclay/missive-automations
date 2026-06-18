@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v2.5)
+ * Lasclay — support.js (v2.6)
  * -------------------------
  * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
  * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
@@ -454,6 +454,20 @@ EXCUSES GRADUÉES (selon le CONTEXTE D'ATTENTE fourni):
 - Un mois et plus: excuse MAXIMALE: en plus de ce qui précède, fournir une explication concrète et
   plausible (courriel tombé dans les indésirables, enjeux de main-d'œuvre, période très intense),
   avouer que ce n'est pas à la hauteur de nos standards, et promettre de faire mieux.
+
+SOBRIÉTÉ DE L'EXCUSE (RÈGLE CRITIQUE, ne pas en beurrer épais): même pour une excuse appuyée ou
+maximale, UN SEUL marqueur d'excuse, DEUX au grand maximum. On ne s'auto-flagelle JAMAIS. Le client
+veut une excuse sincère et brève, puis du service, pas un étalage de culpabilité.
+- INTERDIT (autoflagellation): « tu méritais mieux », « tu méritais une réponse bien avant »,
+  « ça ne me ressemble pas », « je suis gêné », « c'est gênant », « c'est désolant »,
+  « on n'est pas fiers », et tout empilement du genre « inacceptable + pas à la hauteur + tu méritais ».
+- « pas à la hauteur de nos standards » et « ce n'est pas dans nos habitudes »: au plus UN des deux,
+  jamais les deux, jamais en plus de « inacceptable ».
+- Dire « pas dans nos habitudes », JAMAIS « pas notre façon de faire ».
+- MIEUX: après une excuse brève, se tourner vers l'AVENIR (« on promet de faire mieux à l'avenir »,
+  « on va se reprendre ») plutôt que de s'appesantir sur la faute passée. Le ton regarde devant.
+- « inacceptable » est permis mais à DOSER: pas dans chaque phrase, varie le vocabulaire
+  (« beaucoup trop long », « on aurait dû te répondre avant », « désolé du gros délai »).
 - VIDÉO DU PIVOT (à utiliser avec parcimonie): pour une excuse maximale où une vraie explication
   s'impose, on peut référer à notre vidéo qui raconte honnêtement le pivot de notre modèle d'affaires
   et la perte d'employés: https://www.youtube.com/watch?v=GKyHh-Ok9JU
@@ -554,8 +568,13 @@ Jugement requis: il ne faut jamais avoir l'air de fuir le remboursement, juste o
 STYLE:
 - ACCORDS TOUJOURS AU MASCULIN: ces courriels sont signés par Gabriel, un homme.
   Écris « content de le savoir », « content de l'apprendre », « je suis désolé »:
-  JAMAIS « contente », « désolée », « heureuse », « ravie », même dans les mots courts et joyeux
-  (c'est exactement là que l'erreur se glisse).
+  JAMAIS « contente », « désolée », « heureuse », « ravie », « navrée », « certaine », même dans les
+  mots courts et joyeux (c'est exactement là que l'erreur se glisse: « contente que tu... » est une
+  FAUTE, écrire « content que tu... »).
+- COHÉRENCE TU/VOUS: choisis le tutoiement OU le vouvoiement selon le ton du client (s'il te tutoie,
+  tutoie; s'il vouvoie, vouvoie), et tiens-t'y du début à la fin du message. JAMAIS mélanger « tu »
+  et « vous » pour le même client dans le même courriel.
+- PAS D'EMOJI: aucun emoji dans les brouillons (😊, 👍, etc.), même pour un ton chaleureux.
 - PRÉNOMS: si le prénom affiché est une abréviation évidente, utilise la forme complète probable
   (P-Paul → Pierre-Paul, J-F → Jean-François, Marie-H → Marie-Hélène). En cas de doute, garder tel quel.
 - Français québécois: jamais le mot « dense » (dire intense, chargé, occupé); éviter les tournures de France.
@@ -576,7 +595,8 @@ STYLE:
   comme un humain occupé et direct. Interdits: structure « ce n'est pas X, c'est Y » et ses formes
   déguisées; jargon corporate (« aligner les détails », « valeur ajoutée », « explorer les synergies »);
   formules creuses (« j'espère que ce message vous trouve bien », « n'hésitez pas à », « je serais ravi de »,
-  « that's on me »).
+  « that's on me »); tics de transition mécaniques (« cela dit » / « ceci dit » à répétition,
+  « je comprends ta frustration » en formule toute faite: si tu comprends, montre-le concrètement).
 - JAMAIS de tiret cadratin ni demi-cadratin: virgule, deux-points ou parenthèses.
 - Si une canned response du document couvre le cas, INSPIRE-T'EN fortement (c'est le savoir officiel),
   en l'adaptant au fil; attention aux canned marquées [À VÉRIFIER].
@@ -629,7 +649,7 @@ function threadText(conv, msgs, bodies) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.5 ===");
+  console.log("=== Lasclay support.js v2.6 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
 
@@ -791,8 +811,8 @@ function threadText(conv, msgs, bodies) {
 
       // Alertes [VOIX]: détection déterministe des fuites connues, sans réécriture.
       const alertes = [];
-      if (/\b(désolée|contente|heureuse|ravie|navrée)\b/i.test(corps) &&
-          !/(vous|tu|t'|elle|cliente?)\s+(êtes|es|est|seras?|serez|sois|soyez)?\s*(désolée|contente|heureuse|ravie|navrée)/i.test(corps)) {
+      if (/\b(désolée|contente|heureuse|ravie|navrée|certaine|surprise|déçue|confuse|enchantée)\b/i.test(corps) &&
+          !/(vous|tu|t'|elle|cliente?|ta |votre |sa )\s*\w*\s*(êtes|es|est|seras?|serez|sois|soyez|semble|paraît)?\s*(désolée|contente|heureuse|ravie|navrée|certaine|surprise|déçue|confuse|enchantée)/i.test(corps)) {
         alertes.push("féminin de 1re personne probable");
       }
       for (const [re, lbl] of [
@@ -807,16 +827,31 @@ function threadText(conv, msgs, bodies) {
         [/\b\d{1,3}\s?(jours?|mois|semaines?|days|weeks|months)\b[^.]{0,25}(silence|sans réponse|sans nouvelle|de retard|d'attente|without (a )?(reply|response|update|news)|since)|(silence|sans réponse|retard|attente|inacceptable)[^.]{0,25}\b\d{1,3}\s?(jours?|mois|semaines?|days|weeks|months)\b/i, "délai chiffré (ne pas quantifier le retard)"],
         [/\bbug connu\b/i, "aveu « bug connu » (ne pas avouer)"],
         [/581\D?982\D?5857|\(581\)/, "numéro de téléphone (à retirer)"],
-        [/ce n('est|était) pas (une?\s)?[^,.;:]{2,40},\s?(c'est|c'était|juste|mais)/i, "antithèse « ce n'est pas X, c'est Y »"],
-        [/it('s| is| was)? ?not [^,.;:]{2,40}, (it's|it is|just|but)/i, "antithèse EN « not X, it's Y »"],
+        [/tu mérit\w+ (mieux|une réponse|d'être)|vous mérit\w+ (mieux|une réponse|d'être)|méritais (mieux|une réponse)/i, "autoflagellation « tu méritais mieux »"],
+        [/ça ne (me|nous) ressemble pas|c'est gênant|je suis gêné|c'est désolant|on n'est pas fiers?/i, "autoflagellation (gêné/désolant/pas fiers)"],
+        [/façon de faire/i, "« façon de faire » (dire « habitudes »)"],
+        [/ce n('est|était) pas (une?\s)?[^,.;:]{2,40},\s?(c'est|c'était|mais c'est|juste que)/i, "antithèse « ce n'est pas X, c'est Y »"],
+        [/it('s| is| was)? ?not [^,.;:]{2,40}, (it's|it is|just|but it)/i, "antithèse EN « not X, it's Y »"],
+        [/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u2764]/u, "emoji (aucun dans les brouillons)"],
         [/\b(PCI|DSS|SSL)\b/, "jargon technique"],
       ]) {
         if (re.test(corps)) alertes.push(lbl);
       }
 
-      // Montants non sourcés: tout montant en $ du brouillon doit exister dans le fil
-      // ou dans le document de connaissance, sinon il est probablement halluciné.
-      const source = (filTexte + knowledge).replace(/[\s\u00a0]/g, "");
+      // Tutoiement ET vouvoiement mélangés pour le même client.
+      if (/\b(tu|ton|ta|tes|t'es|toi)\b/i.test(corps) && /\b(vous|votre|vos|vous-même)\b/i.test(corps)) {
+        alertes.push("tu/vous mélangés (choisir l'un et s'y tenir)");
+      }
+      // Empilement d'excuses: 2+ marqueurs distincts = on beurre trop épais.
+      const marqueurs = [
+        /inacceptable/i, /pas à la hauteur|nos standards/i, /pas dans nos habitudes|façon de faire/i,
+        /mérit\w+ mieux|méritais/i, /ne (me|nous) ressemble pas/i, /gêné|gênant|désolant/i,
+      ].filter((re) => re.test(corps)).length;
+      if (marqueurs >= 3) alertes.push(`excuse trop appuyée (${marqueurs} marqueurs: en garder 1, max 2)`);
+
+      // Montants non sourcés: tout montant en $ du brouillon doit exister dans le fil,
+      // le document de connaissance, OU le catalogue produits (prix légitimes), sinon halluciné.
+      const source = (filTexte + knowledge + (catalogue || "")).replace(/[\s\u00a0]/g, "");
       for (const m of new Set(corps.match(/\d+(?:[.,]\d{1,2})?\s?\$|\$\s?\d+(?:[.,]\d{1,2})?/g) || [])) {
         const cle = m.replace(/[\s\u00a0]/g, "");
         const variante = cle.replace(",", ".");
