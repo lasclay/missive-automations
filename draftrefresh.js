@@ -83,7 +83,7 @@ async function listByFilter(filter) {
 }
 
 (async () => {
-  console.log("=== Lasclay refresh.js v1 ===");
+  console.log("=== Lasclay refresh.js v1.1 ===");
   if (DRY_RUN) console.log("=== MODE SIMULATION ===");
 
   // Fils étiquetés « Draft AI Support »
@@ -109,6 +109,7 @@ async function listByFilter(filter) {
         posts: {
           conversation: id, organization: ORG,
           remove_shared_labels: [DRAFT_LABEL],
+          reopen: true, // empêche la réouverture du fil fermé (paramètre Missive contre-intuitif)
           markdown: "_Brouillon obsolète, label retiré (fil fermé)._",
           notification: { title: "Suivi", body: "Brouillon obsolète, label retiré." },
         },
