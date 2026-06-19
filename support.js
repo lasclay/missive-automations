@@ -693,6 +693,7 @@ function threadText(conv, msgs, bodies) {
           posts: {
             conversation: id, organization: ORG,
             remove_shared_labels: [DRAFT_LABEL],
+            reopen: true, // empêche la réouverture du fil fermé
             markdown: "_Brouillon obsolète, label retiré (fil fermé)._",
             notification: { title: "Suivi", body: "Brouillon obsolète, label retiré." },
           },
