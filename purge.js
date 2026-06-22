@@ -19,13 +19,14 @@
  *
  * Node 18+. Aucune dépendance.
  *
- * Variables: MISSIVE_TOKEN (requis), DRY_RUN, PURGE_LIMIT, DRAFT_LABEL,
+ * Variables: MISSIVE_TOKEN (requis), DRY_RUN, PURGE_LIMIT, ONLY_TEAM, DRAFT_LABEL,
  *            MISSIVE_ORG, EXCLUDE_TEAMS.
  */
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false";
 const PURGE_LIMIT = parseInt(process.env.PURGE_LIMIT || "0", 10);
+const ONLY_TEAM = (process.env.ONLY_TEAM || "").trim(); // id d'équipe: ne purger que cette boîte (inbox + fermés)
 const DRAFT_LABEL = process.env.DRAFT_LABEL || "019eb935-9b22-7d14-8aeb-614a1e303e24"; // « Draft AI Support »
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36";
 
@@ -108,12 +109,23 @@ async function listDrafts(convId) {
 }
 
 (async () => {
-  console.log("=== Lasclay purge.js v1.2 ===");
+  console.log("=== Lasclay purge.js v1.3 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien supprimé) ===" : "=== MODE RÉEL (suppression irréversible) ===");
-  console.log(`Label visé: ${DRAFT_LABEL} | PURGE_LIMIT: ${PURGE_LIMIT || "aucun"}`);
+  console.log(`Label visé: ${DRAFT_LABEL} | PURGE_LIMIT: ${PURGE_LIMIT || "aucun"}${ONLY_TEAM ? ` | SEULEMENT l'équipe ${ONLY_TEAM.slice(0, 8)}…` : " | TOUTES les boîtes"}`);
 
-  const fils = await listByFilter(`shared_label=${DRAFT_LABEL}`);
-  console.log(`${fils.length} fil(s) portent « Draft AI Support ».`);
+  let fils = await listByFilter(`shared_label=${DRAFT_LABEL}`);
+  console.log(`${fils.length} fil(s) portent « Draft AI Support » au total.`);
+
+  // Filtre d'équipe: ne garder que les fils présents dans l'inbox OU les fermés de l'équipe ciblée.
+  if (ONLY_TEAM) {
+    const dansTeam = new Set();
+    for (const f of ["team_inbox", "team_closed"]) {
+      for (const c of await listByFilter(`${f}=${ONLY_TEAM}`)) dansTeam.add(c.id);
+    }
+    const avant = fils.length;
+    fils = fils.filter((c) => dansTeam.has(c.id));
+    console.log(`Filtre équipe ${ONLY_TEAM.slice(0, 8)}…: ${fils.length} fil(s) retenu(s) sur ${avant}.`);
+  }
 
   let traites = 0, draftsSupp = 0, labelsRetires = 0, sansDraft = 0, errors = 0;
 
