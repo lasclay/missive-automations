@@ -33,6 +33,8 @@ const TEAM = process.env.TEAM || "0db185c1-3a93-4a44-9f50-dcfe8c0683dd"; // Mise
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36";
 const EXPORT_FROM = process.env.EXPORT_FROM || "hey@lasclay.com";
 const MODEL = process.env.MODEL || "claude-sonnet-4-6";
+const TEAM_PREACHAT = "d6f28d2f-06ef-4aa5-aae0-b68f014e3216"; // Vente - info pré-achat (équipe destination)
+const LABEL_PREACHAT = "cf24d86b-ba38-41b2-bed7-0a4f43b1b2e4"; // label de tri Ventes (la rule route vers l'équipe)
 
 const API = "https://public.missiveapp.com/v1";
 const mHeaders = { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json" };
@@ -45,26 +47,37 @@ const sanit = (s) => (s || "").replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![
 const DATE_EXPEDITION = "mi-octobre 2026";
 const VIDEO_PIVOT = "https://www.youtube.com/watch?v=GKyHh-Ok9JU";
 
-const CONSIGNE = `Tu rédiges UNE réponse au nom de Lasclay (produits isolés à la soie d'asclépiade, Québec),
-signée par Gabriel (un homme: accorde au masculin). Français québécois, naturel, direct, chaleureux.
+const CONSIGNE = `Tu analyses un fil de la boîte « Mise à jour commande » de Lasclay (produits isolés à la
+soie d'asclépiade, Québec) et tu décides quoi en faire. Tu peux rédiger une réponse signée par
+Gabriel (un homme: accorde au masculin), en français québécois naturel, direct, chaleureux.
 
-CONTEXTE: la PRÉVENTE printanière des 30-31 mai 2026 a généré beaucoup de commandes. Plusieurs
-clients ne réalisent pas que c'est une PRÉVENTE pour livraison à l'AUTOMNE 2026, et s'inquiètent
-de ne pas avoir reçu leur commande. On leur renvoie le suivi déjà envoyé par infolettre le 18 juin.
+CONTEXTE: la PRÉVENTE printanière des 30-31 mai 2026 a généré beaucoup de commandes, livrables à
+l'AUTOMNE 2026. Plusieurs clients ne réalisent pas que c'est une prévente et s'inquiètent du délai.
+L'infolettre qui invitait à la prévente avait des sujets comme « Prévente dans 2 heures »,
+« Il reste moins de 2 jours à la prévente », etc.
 
-DÉCIDE D'ABORD si ce fil est concerné. Il l'est si la commande est de la prévente:
-- commande datée du 30 mai 2026 ou APRÈS, OU
-- numéro de commande L-50153 ou ULTÉRIEUR (L-50153, L-50488, L-50901, etc.),
-ET le client s'inquiète d'un délai, demande un suivi/statut, ou semble croire que sa commande
-aurait dû arriver. Dans le doute sur une commande récente de cette plage, considère qu'il EST concerné
-(le rappel n'est jamais faux pour une commande de prévente).
-NON concerné: commande clairement ancienne (avant le 30 mai / numéro inférieur à L-50153), ou sujet
-sans rapport (retour, défaut produit, question pré-achat pure). Dans ces cas, ne réponds pas.
+CLASSE LE FIL DANS UN DES TROIS CAS (champ "action"):
 
-SI CONCERNÉ, sers le texte ci-dessous. C'est le VRAI courriel de suivi, à reprendre FIDÈLEMENT
-(tu peux personnaliser le prénom et ajuster une formulation mineure au fil, mais garde le fond,
-le ton et les phrases-clés intacts). Mets le lien de la vidéo sur le mot "vidéo" si possible,
-sinon en clair. Voici le gabarit:
+1) action = "rappel" : le client a passé une commande DE PRÉVENTE et s'inquiète d'un délai, demande
+   un suivi/statut, ou semble croire que sa commande aurait dû arriver. Signes d'une commande de prévente:
+   - commande datée du 30 mai 2026 ou APRÈS, OU numéro L-50153 ou ULTÉRIEUR, OU
+   - le fil CONTIENT l'infolettre invitant à la prévente (le client a répondu à ce courriel: sujets
+     « Prévente dans 2 heures », « ...prévente... », mention « précommander », « livrables pour l'hiver »).
+   Dans ce cas, rédige le BROUILLON de rappel (voir gabarit plus bas).
+
+2) action = "router_preachat" : le client N'A PAS RÉUSSI à passer sa commande (bug, problème technique,
+   page qui ne fonctionnait pas), OU demande l'information nécessaire POUR pouvoir commander
+   (disponibilité, comment précommander, etc.). Bref, il n'a pas encore de commande et a besoin d'aide
+   pour en passer une. Dans ce cas, NE rédige PAS de brouillon (brouillon vide): on va seulement
+   déplacer le fil vers l'équipe Vente - info pré-achat.
+
+3) action = "rien" : tout le reste. Notamment un simple ajustement sur une commande EXISTANTE
+   (ex.: code rabais oublié à appliquer, changement d'adresse, modif de commande déjà passée): ça reste
+   dans Mise à jour commande, on n'y touche pas. Aussi: retours, défauts, sujets sans rapport, ou fil
+   déjà conclu. Pas de brouillon, pas de déplacement.
+
+GABARIT DU RAPPEL (action "rappel"): reprends-le FIDÈLEMENT, personnalise le prénom, garde le fond,
+le ton et les phrases-clés. Mets le lien de la vidéo sur le mot "vidéo" si possible.
 
 """
 Bonjour [Prénom],
@@ -85,15 +98,14 @@ Merci d'être encore là.
 """
 
 TON: chaleureux, reconnaissant, RASSURANT. Ce n'est PAS un retard, donc NE T'EXCUSE PAS d'un délai.
-Commence par « Bonjour [Prénom], ». Ne signe pas (la signature est ajoutée automatiquement).
-Pas d'emoji. Pas de tiret cadratin.
+Commence par « Bonjour [Prénom], ». Ne signe pas. Pas d'emoji. Pas de tiret cadratin.
 
 RÉPONDS UNIQUEMENT en JSON:
 {
-  "concerne": true|false,
+  "action": "rappel" | "router_preachat" | "rien",
   "raison": "<courte explication de la décision>",
   "prenom": "<prénom du client, forme complète si abréviation évidente>",
-  "brouillon": "<le texte, sauts de ligne avec \\n, sans la signature>"
+  "brouillon": "<si action=rappel: le texte, sauts de ligne \\n, sans signature; sinon chaîne vide>"
 }`;
 
 // --- API Missive ---
@@ -240,7 +252,7 @@ function threadText(conv, msgs, bodies) {
   const inbox = await listByFilter(`team_inbox=${TEAM}`);
   console.log(`${inbox.length} fil(s) ouverts dans la boîte.`);
 
-  let analyses = 0, crees = 0, ecartes = 0, dejaBrouillon = 0, errors = 0;
+  let analyses = 0, crees = 0, ecartes = 0, routes = 0, dejaBrouillon = 0, errors = 0;
 
   for (const conv of inbox) {
     if (DRAFT_LIMIT > 0 && crees >= DRAFT_LIMIT) { console.log("Plafond de brouillons atteint."); break; }
@@ -260,9 +272,40 @@ function threadText(conv, msgs, bodies) {
       try { out = parseJsonLoose(await claude(user)); }
       catch (e) { errors++; console.warn(`  ${conv.id}: parse/appel échoué (${e.message})`); continue; }
 
-      if (!out.concerne || !out.brouillon) {
+      const action = out.action || "rien";
+
+      // CAS 3: rien à faire (ajustement de code rabais, hors sujet, etc.)
+      if (action === "rien") {
         ecartes++;
-        console.log(`[skip] ${subj.slice(0, 50)} → ${out.raison || "non concerné"}`);
+        console.log(`[rien] ${subj.slice(0, 50)} → ${out.raison || ""}`);
+        continue;
+      }
+
+      // CAS 2: router vers pré-achat (client n'a pas pu commander / a besoin d'info pour commander)
+      if (action === "router_preachat") {
+        routes++;
+        if (DRY_RUN) {
+          console.log(`[DRY route→pré-achat] ${subj.slice(0, 50)} → ${out.raison || ""}`);
+          continue;
+        }
+        try {
+          await apiPost("/posts", {
+            posts: {
+              conversation: conv.id, organization: ORG,
+              add_shared_labels: [LABEL_PREACHAT],
+              markdown: "_Routé vers Vente - info pré-achat (client n'a pas pu commander / besoin d'info)._",
+              notification: { title: "Tri", body: "Routé vers pré-achat." },
+            },
+          });
+          console.log(`[route→pré-achat] ${subj.slice(0, 50)}`);
+        } catch (e) { errors++; console.warn(`  label pré-achat échoué sur ${conv.id}: ${e.message}`); }
+        continue;
+      }
+
+      // CAS 1: rappel de prévente (brouillon)
+      if (!out.brouillon) {
+        ecartes++;
+        console.log(`[skip] ${subj.slice(0, 50)} → action rappel mais brouillon vide`);
         continue;
       }
 
@@ -294,6 +337,6 @@ function threadText(conv, msgs, bodies) {
     } catch (e) { errors++; console.warn(`  fil ${conv.id} sauté: ${e.message}`); }
   }
 
-  console.log(`\nBilan: ${analyses} analysé(s), ${crees} brouillon(s)${DRY_RUN ? " (simulé)" : ""}, ${ecartes} écarté(s), ${dejaBrouillon} avec brouillon existant, ${errors} erreur(s).`);
+  console.log(`\nBilan: ${analyses} analysé(s), ${crees} rappel(s)${DRY_RUN ? " (simulé)" : ""}, ${routes} routé(s) pré-achat, ${ecartes} écarté(s), ${dejaBrouillon} avec brouillon existant, ${errors} erreur(s).`);
   console.log("Run terminé.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
