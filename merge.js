@@ -42,7 +42,7 @@
  * JAMAIS été exécutée chez Lasclay. DRY_RUN=true d'abord, puis MERGE_LIMIT=3.
  */
 
-const VERSION = "v1.2";
+const VERSION = "v1.3";
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const LABEL = process.env.MISSIVE_LABEL_ID || "7c922a57-5644-4d88-b731-5a040cbb681a"; // « À fusionner »
@@ -84,6 +84,7 @@ const SYSTEM_PATTERNS = [
   "do-not-reply",
   "shopify.com",
   "etsy.com",
+  "klaviyo.com",
   ...(process.env.MISSIVE_SYSTEM_SENDERS || "")
     .split(",")
     .map((s) => s.trim().toLowerCase())
