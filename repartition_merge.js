@@ -11,10 +11,12 @@
  *        hey@lasclay.com        → LAS Support
  *   3. Sinon → NON ROUTÉ : laissé dans MERGE et journalisé (jamais déplacé au hasard).
  *
- * ATTENTION : le déplacement (add_to_team_inbox) est tiré de la doc Missive et
- * n'a JAMAIS été exécuté chez Lasclay. DRY_RUN=true par défaut. Premier vrai run :
- * LIMIT=1, vérifier dans Missive que le fil arrive dans la bonne boîte ET quitte
- * MERGE, avant tout lot.
+ * DÉPLACEMENT : via PATCH /conversations/:id avec team + force_team:true +
+ * add_to_team_inbox:true. force_team est ESSENTIEL : sans lui, Missive IGNORE le
+ * champ team quand le fil est déjà rattaché à une équipe (le cas de MERGE).
+ * C'était le bug du premier essai : le label partait, mais le fil restait dans MERGE.
+ * DRY_RUN=true par défaut. Premier vrai run : LIMIT=1, vérifier que le fil arrive
+ * dans la bonne boîte ET quitte MERGE, avant tout lot.
  *
  * Node 18+. Aucune dépendance.
  *
@@ -29,7 +31,7 @@
  *   MERGE_TEAM_ID   override de l'id de la boîte MERGE (sinon résolu via /teams).
  */
 
-const VERSION = "v1";
+const VERSION = "v1.1";
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
@@ -126,6 +128,29 @@ async function apiPost(path, body, tries = 0) {
   return { ok: res.ok, status: res.status, text };
 }
 
+async function apiPatch(path, body, tries = 0) {
+  await sleep(260);
+  let res;
+  try {
+    res = await fetch(`${API}${path}`, { method: "PATCH", headers, body: JSON.stringify(body) });
+  } catch (e) {
+    if (tries < 4) {
+      console.warn(`Réseau (${e.message}) sur PATCH ${path}, pause ${(tries + 1) * 5}s...`);
+      await sleep((tries + 1) * 5000);
+      return apiPatch(path, body, tries + 1);
+    }
+    throw e;
+  }
+  if (res.status === 429) {
+    console.warn("Limite de débit atteinte, pause 30 s...");
+    await sleep(30000);
+    return apiPatch(path, body, tries);
+  }
+  const text = await res.text();
+  if (!res.ok) console.error(`PATCH ${path} → ${res.status} ${text}`);
+  return { ok: res.ok, status: res.status, text };
+}
+
 // Résout l'id de la boîte MERGE (sinon override par MERGE_TEAM_ID).
 async function resolveMergeTeam() {
   if (process.env.MERGE_TEAM_ID) return process.env.MERGE_TEAM_ID;
@@ -196,20 +221,18 @@ async function receivingAddress(convId) {
   return { address: pick, ambiguous: seen.size > 1, candidates: [...seen] };
 }
 
-// Déplace un fil vers une équipe + retire « À fusionner ».
-// NOTE : add_to_team_inbox est tiré de la doc, jamais exécuté chez Lasclay.
+// Déplace un fil vers une équipe (PATCH) + retire « À fusionner ».
+// force_team:true est requis car le fil est déjà rattaché à MERGE.
 async function moveTo(convId, teamId) {
-  const post = {
-    conversation: convId,
+  const conv = {
+    id: convId,
     organization: ORG,
-    add_to_team_inbox: true,
     team: teamId,
-    reopen: true,
-    notification: { title: "Réparti depuis MERGE", body: "Fil renvoyé dans sa boîte." },
-    text: "↪️ Fil réparti depuis MERGE vers sa boîte d'origine.",
+    force_team: true,
+    add_to_team_inbox: true,
   };
-  if (STRIP_LABEL) post.remove_shared_labels = [MERGE_LABEL];
-  return apiPost(`/posts`, { posts: post });
+  if (STRIP_LABEL) conv.remove_shared_labels = [MERGE_LABEL];
+  return apiPatch(`/conversations/${convId}`, { conversations: [conv] });
 }
 
 async function main() {
