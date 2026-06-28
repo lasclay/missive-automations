@@ -42,7 +42,7 @@
  * JAMAIS été exécutée chez Lasclay. DRY_RUN=true d'abord, puis MERGE_LIMIT=3.
  */
 
-const VERSION = "v1.1";
+const VERSION = "v1.2";
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const LABEL = process.env.MISSIVE_LABEL_ID || "7c922a57-5644-4d88-b731-5a040cbb681a"; // « À fusionner »
@@ -51,6 +51,9 @@ const DRY_RUN = (process.env.DRY_RUN || "false").toLowerCase() !== "false"; // d
 const MERGE = (process.env.MERGE || "").toLowerCase() === "true"; // défaut: phase 1
 const MERGE_ONLY_EMAIL = (process.env.MERGE_ONLY_EMAIL || "true").toLowerCase() !== "false";
 const MERGE_LIMIT = parseInt(process.env.MERGE_LIMIT || "0", 10) || 0; // 0 = illimité
+// Empreinte par nom : éteinte par défaut (source de faux groupes sur les expéditeurs
+// récurrents et les homonymes). Mettre USE_NAME=true pour la réactiver.
+const USE_NAME = (process.env.USE_NAME || "").toLowerCase() === "true";
 
 // Les 6 boîtes clients (ids confirmés par les logs de production). Override via MISSIVE_TEAMS.
 const DEFAULT_CLIENT_TEAMS = [
@@ -182,6 +185,30 @@ async function apiPost(path, body, tries = 0) {
   return { ok: res.ok, status: res.status, json, text };
 }
 
+// PATCH silencieux (changement de label sans commentaire ni notification).
+async function apiPatch(path, body, tries = 0) {
+  await sleep(260);
+  let res;
+  try {
+    res = await fetch(`${API}${path}`, { method: "PATCH", headers, body: JSON.stringify(body) });
+  } catch (e) {
+    if (tries < 4) {
+      console.warn(`Réseau (${e.message}) sur PATCH ${path}, pause ${(tries + 1) * 5}s...`);
+      await sleep((tries + 1) * 5000);
+      return apiPatch(path, body, tries + 1);
+    }
+    throw e;
+  }
+  if (res.status === 429) {
+    console.warn("Limite de débit atteinte, pause 30 s...");
+    await sleep(30000);
+    return apiPatch(path, body, tries);
+  }
+  const text = await res.text();
+  if (!res.ok) console.error(`PATCH ${path} → ${res.status} ${text}`);
+  return { ok: res.ok, status: res.status, text };
+}
+
 // Les équipes à ratisser : MISSIVE_TEAMS si fourni, sinon les 6 boîtes clients.
 function resolveTeams() {
   if (ENV_TEAMS.length > 0) {
@@ -269,32 +296,17 @@ function hasMergeLabel(conv) {
   return labels.some((l) => (l && (l.id || l)) === LABEL);
 }
 
-async function addLabel(conversationId, count) {
-  return apiPost(`/posts`, {
-    posts: {
-      conversation: conversationId,
-      organization: ORG,
-      add_shared_labels: [LABEL],
-      reopen: true,
-      notification: {
-        title: "Doublon détecté",
-        body: `${count} fils du même contact, à fusionner.`,
-      },
-      text: `⚠️ Doublon détecté (${count} fils du même contact), à fusionner.`,
-    },
+// Pose/retrait de label SILENCIEUX via PATCH (aucun commentaire, aucune notification,
+// pas de remontée du fil en haut de la boîte).
+async function addLabel(conversationId) {
+  return apiPatch(`/conversations/${conversationId}`, {
+    conversations: [{ id: conversationId, organization: ORG, add_shared_labels: [LABEL] }],
   });
 }
 
 async function removeLabel(conversationId) {
-  return apiPost(`/posts`, {
-    posts: {
-      conversation: conversationId,
-      organization: ORG,
-      remove_shared_labels: [LABEL],
-      reopen: true,
-      notification: { title: "Doublon résolu", body: "Plus qu'un fil pour ce contact." },
-      text: "✅ Plus qu'un fil pour ce contact.",
-    },
+  return apiPatch(`/conversations/${conversationId}`, {
+    conversations: [{ id: conversationId, organization: ORG, remove_shared_labels: [LABEL] }],
   });
 }
 
@@ -308,6 +320,7 @@ async function main() {
   console.log(`=== Lasclay merge.js ${VERSION} ===`);
   console.log(DRY_RUN ? "MODE SIMULATION (rien posé, rien fusionné)" : "MODE RÉEL");
   console.log(`Label : ${LABEL}`);
+  console.log(`Empreintes actives : courriel, numéro de commande${USE_NAME ? ", nom" : " (nom désactivé)"}`);
   console.log(`Phase : ${MERGE ? "2 (FUSION active)" : "1 (étiquetage seulement)"}`);
   if (MERGE) {
     console.log(`  MERGE_ONLY_EMAIL=${MERGE_ONLY_EMAIL} | MERGE_LIMIT=${MERGE_LIMIT || "illimité"}`);
@@ -344,7 +357,7 @@ async function main() {
     });
   };
   link((fp) => (fp.email ? [`email:${fp.email}`] : []));
-  link((fp) => (fp.name ? [`name:${fp.name}`] : []));
+  if (USE_NAME) link((fp) => (fp.name ? [`name:${fp.name}`] : []));
   link((fp) => fp.orders.map((o) => `order:${o}`));
 
   const groups = new Map();
@@ -386,7 +399,7 @@ async function main() {
         posed++;
         continue;
       }
-      const r = await addLabel(conv.id, g.length);
+      const r = await addLabel(conv.id);
       if (r.ok) posed++;
     }
   }
