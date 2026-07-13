@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v2.9)
+ * Lasclay — support.js (v2.10)
  * -------------------------
  * Réponses automatiques pour la shared inbox LAS Support, 3 fois par jour.
  * Pour chaque fil ouvert où le dernier mot revient au client, Sonnet rédige
@@ -38,6 +38,9 @@
  *                  alerte de voix bloque toujours l'envoi.
  *   ACTIONS_CONV   conversation où déposer le digest des actions/remboursements
  *                  (défaut: EXPORT_CONV « Archives support »).
+ *   SEND_QC        "true" (défaut) = un 2e modèle (Opus) contrôle chaque candidat à
+ *                  l'envoi; refus => rétrogradé en brouillon. "false" pour désactiver.
+ *   QC_MODEL       modèle du contrôle qualité d'envoi (défaut claude-opus-4-8).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
  *   MAX_FILS       plafond de fils analysés par run (défaut 40)
  *   KNOWLEDGE_FILE chemin du document de connaissance (défaut ./connaissance_support.md)
@@ -63,6 +66,9 @@ const SEND_CATEGORIES = (process.env.SEND_CATEGORIES || "")
 // v2.9 — envoie aussi les brouillons qui promettent une ACTION (ex. remboursement);
 // l'action part dans un digest. Une note à vérifier ou une alerte bloque toujours.
 const SEND_ACTIONS = (process.env.SEND_ACTIONS || "").toLowerCase() === "true";
+// v2.10 — deuxième avis d'Opus avant chaque envoi (Sonnet rédige, Opus contrôle).
+const SEND_QC = (process.env.SEND_QC || "true").toLowerCase() !== "false"; // défaut ON quand on envoie
+const QC_MODEL = process.env.QC_MODEL || "claude-opus-4-8";
 
 // Notice de transparence IA, ajoutée en pied de TOUS les messages (envoyés et
 // brouillons). Ajoutée APRÈS la détection d'alertes, pour que son numéro de
@@ -674,6 +680,64 @@ function threadText(conv, msgs, bodies) {
   return lines.join("\n").slice(0, 14000);
 }
 
+// --- Contrôle qualité Opus avant envoi (v2.10) ---
+// Opus reçoit LES MÊMES blocs système que Sonnet (connaissance + catalogue + voix),
+// plus cette consigne qui le fait juger au lieu de rédiger. Il vérifie donc AUSSI les
+// faits (produit inexistant, prix/statut faux, info contredite par la connaissance).
+const QC_INSTRUCTION = noDash(`CONTRÔLE QUALITÉ (tu ne rédiges PAS): on te fournit un fil client et un BROUILLON de réponse
+déjà rédigé selon toutes les règles ci-dessus (document de connaissance, catalogue, voix). Ta seule
+tâche est de décider si ce brouillon est envoyable TEL QUEL, sans aucune retouche.
+Tu as accès aux mêmes informations que le rédacteur: vérifie donc AUSSI les FAITS. Un produit qui
+n'existe pas au catalogue, un prix ou un statut de précommande faux, une info contredite par le
+document de connaissance, une affirmation sur une commande (montant, statut, code appliqué) = NON
+envoyable. Vérifie aussi la voix, la pertinence, la langue, les accords, tu/vous.
+Sois pragmatique: un brouillon correct et utile est envoyable même s'il n'est pas parfait; ne bloque
+que ce que tu ne voudrais VRAIMENT pas voir partir chez un client. La notice de transparence IA n'est
+pas dans ce brouillon (ajoutée après l'envoi), ne la réclame pas.
+Réponds UNIQUEMENT par un objet JSON, sans texte autour:
+{"envoyable": true|false, "gravite": "aucun"|"mineur"|"majeur", "problemes": ["code court", ...], "raison": "une phrase"}`);
+
+let qcCalls = 0, qcBlocks = 0;
+const qcUsage = { in: 0, cacheRead: 0, cacheCreate: 0, out: 0 };
+// Tarifs Opus (estimation à vérifier, $ US / million de tokens).
+const QC_RATE_IN = 15 / 1e6, QC_RATE_CACHE = 1.5 / 1e6, QC_RATE_OUT = 75 / 1e6;
+
+async function opusQC(systemBlocks, fil, brouillon, out) {
+  const contexte = `FIL CLIENT :\n${fil}\n\nBROUILLON À CONTRÔLER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}\n\nRends ton verdict JSON.`;
+  // Mêmes blocs que Sonnet (connaissance + catalogue déjà mis en cache) + la consigne de contrôle.
+  const qcSystem = [...systemBlocks, { type: "text", text: sanit(QC_INSTRUCTION) }];
+  const payload = JSON.stringify({
+    model: QC_MODEL, max_tokens: 500,
+    system: qcSystem,
+    messages: [{ role: "user", content: sanit(contexte) }],
+  });
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    await sleep(600);
+    let res;
+    try {
+      res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "x-api-key": ANTHROPIC_KEY, "anthropic-version": "2023-06-01", "Content-Type": "application/json" },
+        body: payload,
+      });
+    } catch (e) {
+      if (attempt === 5) throw e;
+      await sleep(attempt * 8000);
+      continue;
+    }
+    if (res.status === 429 || res.status === 529) { await sleep(attempt * 15000); continue; }
+    if (!res.ok) throw new Error(`Anthropic QC → ${res.status} ${await res.text()}`);
+    const data = await res.json();
+    const u = data.usage || {};
+    qcUsage.in += u.input_tokens || 0; qcUsage.out += u.output_tokens || 0;
+    qcUsage.cacheRead += u.cache_read_input_tokens || 0; qcUsage.cacheCreate += u.cache_creation_input_tokens || 0;
+    qcCalls++;
+    const txt = (data.content || []).map((b) => b.text || "").join("").trim();
+    return parseJsonLoose(txt);
+  }
+  throw new Error("QC Opus: trop de tentatives.");
+}
+
 // --- Digest des actions/remboursements à faire (v2.9) ---
 function ligneDigest(i) {
   return `### ${i.nom} — ${(i.subject || "(sans sujet)").slice(0, 60)}\n` +
@@ -718,12 +782,13 @@ async function deposeDigest(md) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.9 ===");
+  console.log("=== Lasclay support.js v2.10 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
     console.log(`*** ENVOI AUTO ACTIF *** SEND_LIMIT: ${SEND_LIMIT || "aucun"} | catégories: ${SEND_CATEGORIES.length ? SEND_CATEGORIES.join(",") : "toutes (brouillons propres)"}`);
     console.log(`    Envoi des actions (remboursements...): ${SEND_ACTIONS ? "OUI, avec digest à traiter" : "non (restent brouillons)"}`);
+    console.log(`    Contrôle Opus avant envoi: ${SEND_QC ? `OUI (${QC_MODEL})` : "NON"}`);
     console.log("    Une alerte de voix ou une note à vérifier bloque toujours l'envoi.");
   } else {
     console.log("Envoi auto: NON (brouillons seulement, comme v2.7).");
@@ -958,8 +1023,8 @@ async function deposeDigest(md) {
 
       // Verrou humain à deux niveaux: ALARME (action à poser ou alerte de voix) vs NOTE simple.
       // verifRequise === true => le brouillon N'EST PAS admissible à l'envoi auto (jamais).
-      const verifRequise = noteLigne.length > 0;
-      const alarme = !!(out.action_requise || actionAuto || alertes.length);
+      let verifRequise = noteLigne.length > 0;
+      let alarme = !!(out.action_requise || actionAuto || alertes.length);
 
       // Signature (langue), citation, liens cliquables + préfixe pays. (Voir v2.7.)
       const filBas = filTexte.toLowerCase();
@@ -993,9 +1058,32 @@ async function deposeDigest(md) {
       const doSend = AUTO_SEND && !bloquant && catAutorisee && estCourriel && !!toAddr &&
         (SEND_LIMIT === 0 || sent < SEND_LIMIT);
 
-      // Item de digest si on envoie une réponse qui promet une action.
+      // v2.10 — DEUXIÈME AVIS D'OPUS sur les candidats à l'envoi (Sonnet rédige,
+      // Opus contrôle). Opus relit le fil + le brouillon et décide s'il l'enverrait.
+      // Refus (ou contrôle indisponible) => on rétrograde en brouillon, jamais l'inverse.
+      let envoyer = doSend;
+      let qcVerdict = null, qcBlocked = false;
+      if (doSend && SEND_QC) {
+        try {
+          qcVerdict = await opusQC(systemBlocks, filTexte, corps, out);
+          if (!qcVerdict.envoyable || qcVerdict.gravite === "majeur") { envoyer = false; qcBlocked = true; }
+        } catch (e) {
+          console.warn(`  contrôle Opus échoué sur ${conv.id} (${e.message}) → brouillon par prudence`);
+          envoyer = false; qcBlocked = true;
+          qcVerdict = { envoyable: false, raison: `contrôle indisponible (${e.message})`, problemes: ["QC indisponible"] };
+        }
+        if (qcBlocked) {
+          noteLigne.push(`[CONTRÔLE OPUS] gardé en brouillon: ${qcVerdict.raison || "jugé non envoyable"}` +
+            (qcVerdict.problemes?.length ? ` (${qcVerdict.problemes.join(", ")})` : ""));
+          verifRequise = true;
+          alarme = true;
+          qcBlocks++;
+        }
+      }
+
+      // Item de digest si on ENVOIE une réponse qui promet une action.
       let itemDigest = null;
-      if (doSend && aAgir) {
+      if (envoyer && aAgir) {
         const actionTxt = noDash(sanit(String(out.action_requise || actionAuto || "")));
         const montants = [...new Set(corps.match(/\d+(?:[.,]\d{1,2})?\s?\$|\$\s?\d+(?:[.,]\d{1,2})?/g) || [])];
         const estRembours = /rembours|refund|crédit/i.test(`${actionTxt} ${corps}`);
@@ -1008,14 +1096,16 @@ async function deposeDigest(md) {
       }
 
       if (DRY_RUN) {
-        if (doSend) {
+        if (envoyer) {
           sent++;
-          console.log(`\n[DRY ENVOI ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr}`);
+          console.log(`\n[DRY ENVOI ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr}${qcVerdict ? " | Opus: OK" : ""}`);
           if (itemDigest) console.log(`  >> ${itemDigest.rembours ? "REMBOURSEMENT" : "ACTION"} au digest: ${itemDigest.action}`);
         } else {
           created++;
           if (verifRequise) verifs++;
-          const pourquoi = AUTO_SEND
+          const pourquoi = qcBlocked
+            ? `Opus refuse (${qcVerdict.raison || "non envoyable"})`
+            : AUTO_SEND
             ? (verifRequise ? "note/alerte" : !catAutorisee ? "catégorie non permise" : !estCourriel ? "canal social" : !toAddr ? "sans destinataire" : "plafond envois")
             : "envoi auto éteint";
           console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} | to: ${toAddr || "(social)"} | reste brouillon: ${pourquoi}`);
@@ -1035,8 +1125,8 @@ async function deposeDigest(md) {
           quote_previous_message: estCourriel, // apparence de réponse
         };
         if (toAddr) draft.to_fields = [{ address: toAddr }];
-        if (doSend) {
-          draft.send = true; // ENVOI RÉEL (irréversible)
+        if (envoyer) {
+          draft.send = true; // ENVOI RÉEL (irréversible), approuvé par le contrôle Opus
           // Pas de label « Draft AI Support » sur un message ENVOYÉ (il dédoublonne des brouillons).
         } else {
           draft.add_shared_labels = labels;
@@ -1044,7 +1134,7 @@ async function deposeDigest(md) {
 
         try {
           await apiPost("/drafts", { drafts: draft });
-          if (doSend) {
+          if (envoyer) {
             sent++;
             console.log(`[ENVOYÉ ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr}${itemDigest ? (itemDigest.rembours ? " | REMBOURSEMENT au digest" : " | ACTION au digest") : ""}`);
             if (itemDigest) {
@@ -1122,5 +1212,9 @@ async function deposeDigest(md) {
     }
   }
   console.log(`\nBilan: ${analysed} analysés, ${sent} ENVOYÉ(S) (dont ${actionsDigest.length} avec action au digest), ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
+  if (SEND_QC && qcCalls > 0) {
+    const coutQC = qcUsage.in * QC_RATE_IN + qcUsage.cacheCreate * QC_RATE_IN + qcUsage.cacheRead * QC_RATE_CACHE + qcUsage.out * QC_RATE_OUT;
+    console.log(`Contrôle Opus: ${qcCalls} relecture(s), ${qcBlocks} refus (rétrogradés en brouillon). Tokens in ${qcUsage.in}/cache ${qcUsage.cacheRead}/out ${qcUsage.out}. Coût QC estimé: ~ ${coutQC.toFixed(2)} $ US (tarifs à vérifier).`);
+  }
   console.log("Run terminé.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
