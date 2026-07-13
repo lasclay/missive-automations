@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v2.10)
+ * Lasclay — support.js (v2.11)
  * -------------------------
  * Réponses automatiques pour la shared inbox LAS Support, 3 fois par jour.
  * Pour chaque fil ouvert où le dernier mot revient au client, Sonnet rédige
@@ -41,6 +41,11 @@
  *   SEND_QC        "true" (défaut) = un 2e modèle (Opus) contrôle chaque candidat à
  *                  l'envoi; refus => rétrogradé en brouillon. "false" pour désactiver.
  *   QC_MODEL       modèle du contrôle qualité d'envoi (défaut claude-opus-4-8).
+ *   DIGEST_SUPPORT "true" = poste un « pouls du service » (digest bref, escalade
+ *                  sélective) une fois par jour. Défaut false.
+ *   DIGEST_HOUR    heure UTC du run où poster le pouls (défaut 10; -1 = chaque run).
+ *   RESUME_CONV    conversation « Résumé Support » où poster le pouls (sinon log seul).
+ *   DIGEST_MODEL   modèle du pouls (défaut = MODEL; claude-opus-4-8 pour un meilleur tri).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
  *   MAX_FILS       plafond de fils analysés par run (défaut 40)
  *   KNOWLEDGE_FILE chemin du document de connaissance (défaut ./connaissance_support.md)
@@ -69,6 +74,12 @@ const SEND_ACTIONS = (process.env.SEND_ACTIONS || "").toLowerCase() === "true";
 // v2.10 — deuxième avis d'Opus avant chaque envoi (Sonnet rédige, Opus contrôle).
 const SEND_QC = (process.env.SEND_QC || "true").toLowerCase() !== "false"; // défaut ON quand on envoie
 const QC_MODEL = process.env.QC_MODEL || "claude-opus-4-8";
+// v2.11 — pouls du service (digest bref, escalade sélective). Un seul par jour: on
+// ne poste qu'au run dont l'heure UTC = DIGEST_HOUR (-1 = à chaque run).
+const DIGEST_SUPPORT = (process.env.DIGEST_SUPPORT || "").toLowerCase() === "true";
+const DIGEST_HOUR = parseInt(process.env.DIGEST_HOUR || "10", 10);
+const RESUME_CONV = process.env.RESUME_CONV || ""; // conversation « Résumé Support » (absent = log seul)
+const DIGEST_MODEL = process.env.DIGEST_MODEL || MODEL;
 
 // Notice de transparence IA, ajoutée en pied de TOUS les messages (envoyés et
 // brouillons). Ajoutée APRÈS la détection d'alertes, pour que son numéro de
@@ -774,6 +785,93 @@ async function deposeDigest(md) {
   });
 }
 
+// --- Pouls du service (v2.11): tenir Gabriel au courant, escalader le vrai signal ---
+const POULS_CONTEXTE = "Lasclay (lasclay.com): marque québécoise de produits isolés à la soie d'asclépiade " +
+  "(manteaux, gants, accessoires plein air, glacières, semences), vendus en ligne FR et EN. " +
+  "Gabriel Gouveia, cofondateur. Préventes saisonnières fréquentes.";
+const POULS_INSTRUCTIONS = noDash(`Tu es le RESPONSABLE du service client de Lasclay qui fait un point bref à Gabriel, le cofondateur,
+un dirigeant très occupé. L'IA vient de répondre automatiquement à la plupart des courriels de ce run.
+Ton rôle n'est PAS de donner une liste de tâches: c'est de tenir Gabriel au courant et de ne faire
+remonter QUE ce qu'il doit vraiment savoir. Un point calme vaut mieux qu'une longue liste.
+
+Tu reçois les fils traités à ce run, condensés, avec le STATUT de ce que l'IA a fait. Produis:
+1) un POULS: 2 à 3 phrases sur le volume, le ton général des clients, et ce que l'IA a géré.
+2) un THÈME dominant s'il y en a un, sinon null.
+3) des ESCALADES: SEULEMENT les fils que Gabriel doit connaître. Le seuil est HAUT. N'escalade que:
+   - un client très fâché ou qui menace (rétrofacturation, avis public, mise en demeure, plainte formelle)
+   - une opportunité (grossiste, partenariat, média, influenceur, gros client)
+   - un DÉFAUT PRODUIT qui revient chez plusieurs clients (une tendance, pas un cas isolé)
+   - un cas délicat où l'IA a probablement mal répondu ou calé
+   - un contact VIP ou notable (partenaire connu, presse)
+   Tu peux aussi escalader une réponse ENVOYÉE automatiquement si le sujet est sensible et que Gabriel
+   voudra suivre. N'escalade JAMAIS le routine (suivi normal, question simple, remerciement). Si rien
+   ne mérite son attention, renvoie une liste VIDE: c'est un excellent résultat. Ne gonfle jamais la liste.
+
+Voix: français québécois, direct, sobre. AUCUN tiret cadratin ni demi-cadratin.
+
+Réponds UNIQUEMENT par un objet JSON, sans texte autour:
+{"pouls":"2 à 3 phrases","theme":"sujet dominant ou null","escalades":[{"ref":<numéro #>,"pourquoi":"une phrase concise","gravite":"info|attention|urgent"}]}`);
+
+async function poulsIA(records) {
+  const lot = records.map((r, i) =>
+    `[#${i + 1}] DE: ${r.expediteur} | SUJET: ${r.sujet} | CAT: ${r.categorie} | ATTENTE: ${r.jours}j | STATUT IA: ${r.statut}\n` +
+    `DERNIER MSG CLIENT: ${r.extrait || "(vide)"}`
+  ).join("\n\n").slice(0, 14000);
+  const system = [
+    { type: "text", text: sanit("CONTEXTE:\n" + POULS_CONTEXTE), cache_control: { type: "ephemeral" } },
+    { type: "text", text: sanit(POULS_INSTRUCTIONS) },
+  ];
+  const user = `Date: ${new Date().toISOString().slice(0, 10)}. ${records.length} fil(s) traités ce run.\n\nLES FILS:\n${lot}\n\nRends ton JSON.`;
+  const payload = JSON.stringify({ model: DIGEST_MODEL, max_tokens: 1200, system, messages: [{ role: "user", content: sanit(user) }] });
+  for (let a = 1; a <= 5; a++) {
+    await sleep(500);
+    let res;
+    try {
+      res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "x-api-key": ANTHROPIC_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+        body: payload,
+      });
+    } catch (e) { if (a === 5) throw e; await sleep(a * 8000); continue; }
+    if (res.status === 429 || res.status === 529) { await sleep(a * 15000); continue; }
+    if (!res.ok) throw new Error(`Anthropic pouls → ${res.status} ${await res.text()}`);
+    const data = await res.json();
+    return parseJsonLoose((data.content || []).map((b) => b.text || "").join("").trim());
+  }
+  throw new Error("Pouls IA: trop de tentatives.");
+}
+
+function construirePouls(res, records) {
+  const today = new Date().toLocaleDateString("fr-CA", { day: "numeric", month: "long" });
+  const lien = (id) => `https://mail.missiveapp.com/#inbox/conversations/${id}`;
+  const icone = { urgent: "🔴", attention: "🟡", info: "🔵" };
+  let md = `**🎧 Pouls du service client, ${today}**\n\n${noDash(res.pouls || "")}\n`;
+  if (res.theme) md += `\n*Thème du moment: ${noDash(res.theme)}*\n`;
+  const esc = (res.escalades || []).filter((e) => e.ref >= 1 && e.ref <= records.length);
+  if (esc.length === 0) {
+    md += `\n**À ton attention**\nRien de spécial à signaler, le service roule.`;
+  } else {
+    const ordre = { urgent: 0, attention: 1, info: 2 };
+    esc.sort((a, b) => (ordre[a.gravite] ?? 3) - (ordre[b.gravite] ?? 3));
+    md += `\n**À ton attention** (${esc.length})\n`;
+    for (const e of esc) {
+      const r = records[e.ref - 1];
+      md += `- ${icone[e.gravite] || "🔵"} **${r.expediteur}** · ${r.sujet.slice(0, 45)} · [ouvrir](${lien(r.id)})\n  ${noDash(e.pourquoi)}\n`;
+    }
+  }
+  return md;
+}
+
+async function postPouls(markdown) {
+  await apiPost("/posts", {
+    posts: {
+      conversation: RESUME_CONV, organization: ORG,
+      notification: { title: "Pouls du service", body: "Ton point du service client est prêt." },
+      markdown,
+    },
+  });
+}
+
 // --- Run principal ---
 (async () => {
   if (LIST_TEAMS) {
@@ -782,7 +880,7 @@ async function deposeDigest(md) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.10 ===");
+  console.log("=== Lasclay support.js v2.11 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
@@ -792,6 +890,9 @@ async function deposeDigest(md) {
     console.log("    Une alerte de voix ou une note à vérifier bloque toujours l'envoi.");
   } else {
     console.log("Envoi auto: NON (brouillons seulement, comme v2.7).");
+  }
+  if (DIGEST_SUPPORT) {
+    console.log(`Pouls du service: ACTIF (${DIGEST_MODEL})${DIGEST_HOUR >= 0 ? `, posté au run de ${DIGEST_HOUR}h UTC` : ", chaque run"}${RESUME_CONV ? "" : " [pas de RESUME_CONV: log seul]"}.`);
   }
 
   // 0. Document de connaissance (depuis le dépôt)
@@ -880,6 +981,7 @@ async function deposeDigest(md) {
 
   let analysed = 0, created = 0, sent = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0, ecarteSkips = 0;
   const actionsDigest = []; // actions/remboursements des réponses envoyées (v2.9)
+  const poulsRecords = []; // condensés pour le pouls du service (v2.11)
   for (const conv of inbox) {
     if (drafted.has(conv.id) || conv.id === EXPORT_CONV) { skipped++; continue; }
     if ((conv.drafts_count || 0) > 0) { dejaBrouillon++; continue; }
@@ -936,6 +1038,11 @@ async function deposeDigest(md) {
         noReply++;
         ecartes.set(conv.id, conv.last_activity_at || 0);
         ecartesModifiee = true;
+        if (DIGEST_SUPPORT) poulsRecords.push({
+          id: conv.id, expediteur: last.from_field?.name || last.from_field?.address || "?",
+          sujet: subj || "(sans sujet)", categorie: out.categorie, jours: joursAttente,
+          statut: "aucune réponse requise", extrait: cleanBody(bodies.get(last.id) || last.preview || "").slice(0, 400),
+        });
         console.log(`[skip] ${subj.slice(0, 50) || "(sans sujet)"} → ${out.raison || "rien à répondre"}`);
         continue;
       }
@@ -1095,6 +1202,17 @@ async function deposeDigest(md) {
         actionsDigest.push(itemDigest);
       }
 
+      if (DIGEST_SUPPORT) poulsRecords.push({
+        id: conv.id, expediteur: last.from_field?.name || last.from_field?.address || "?",
+        sujet: subj || "(sans sujet)", categorie: out.categorie, jours: joursAttente,
+        statut: envoyer
+          ? (itemDigest ? "réponse envoyée + action à faire" : "réponse envoyée")
+          : qcBlocked ? "brouillon (Opus a retenu la réponse)"
+          : alarme ? "brouillon + alerte de voix"
+          : verifRequise ? "brouillon + note" : "brouillon",
+        extrait: cleanBody(bodies.get(last.id) || last.preview || "").slice(0, 400),
+      });
+
       if (DRY_RUN) {
         if (envoyer) {
           sent++;
@@ -1211,6 +1329,25 @@ async function deposeDigest(md) {
       }
     }
   }
+  // Pouls du service (v2.11): un seul par jour (au run dont l'heure UTC = DIGEST_HOUR).
+  if (DIGEST_SUPPORT && poulsRecords.length) {
+    const heureUTC = new Date().getUTCHours();
+    if (DIGEST_HOUR < 0 || heureUTC === DIGEST_HOUR) {
+      try {
+        const resP = await poulsIA(poulsRecords);
+        const mdP = construirePouls(resP, poulsRecords);
+        if (DRY_RUN || !RESUME_CONV) {
+          console.log(`\n--- POULS SERVICE (${!RESUME_CONV ? "pas de RESUME_CONV" : "simulation"}) ---\n${mdP}\n`);
+        } else {
+          await postPouls(mdP);
+          console.log(`Pouls du service posté (${(resP.escalades || []).length} escalade(s)).`);
+        }
+      } catch (e) { console.warn(`Pouls du service échoué (${e.message}).`); }
+    } else {
+      console.log(`Pouls du service: sauté (heure ${heureUTC} UTC, DIGEST_HOUR=${DIGEST_HOUR}).`);
+    }
+  }
+
   console.log(`\nBilan: ${analysed} analysés, ${sent} ENVOYÉ(S) (dont ${actionsDigest.length} avec action au digest), ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
   if (SEND_QC && qcCalls > 0) {
     const coutQC = qcUsage.in * QC_RATE_IN + qcUsage.cacheCreate * QC_RATE_IN + qcUsage.cacheRead * QC_RATE_CACHE + qcUsage.out * QC_RATE_OUT;
