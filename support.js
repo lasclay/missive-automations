@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v2.11)
+ * Lasclay — support.js (v2.13)
  * -------------------------
  * Réponses automatiques pour la shared inbox LAS Support, 3 fois par jour.
  * Pour chaque fil ouvert où le dernier mot revient au client, Sonnet rédige
@@ -46,6 +46,12 @@
  *   DIGEST_HOUR    heure UTC du run où poster le pouls (défaut 10; -1 = chaque run).
  *   RESUME_CONV    conversation « Résumé Support » où poster le pouls (sinon log seul).
  *   DIGEST_MODEL   modèle du pouls (défaut = MODEL; claude-opus-4-8 pour un meilleur tri).
+ *   RELANCE_LABEL  label « Relance » posé sur un fil envoyé qui demande un suivi de notre
+ *                  part (l'API Missive n'a pas de snooze temporisé; on ferme + on étiquette).
+ *
+ * v2.12: Opus ne fait plus que retenir, il CORRIGE les brouillons réparables avant l'envoi.
+ * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
+ * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
  *   MAX_FILS       plafond de fils analysés par run (défaut 40)
  *   KNOWLEDGE_FILE chemin du document de connaissance (défaut ./connaissance_support.md)
@@ -80,6 +86,9 @@ const DIGEST_SUPPORT = (process.env.DIGEST_SUPPORT || "").toLowerCase() === "tru
 const DIGEST_HOUR = parseInt(process.env.DIGEST_HOUR || "10", 10);
 const RESUME_CONV = process.env.RESUME_CONV || ""; // conversation « Résumé Support » (absent = log seul)
 const DIGEST_MODEL = process.env.DIGEST_MODEL || MODEL;
+// v2.12 — fermeture des fils envoyés, et capture de relance (le snooze n'existe pas
+// dans l'API Missive). RELANCE_LABEL: label « Relance » à créer dans Missive.
+const RELANCE_LABEL = process.env.RELANCE_LABEL || "019f5d2f-51ca-70f0-83cc-2175b52d5a41"; // « Relance »
 
 // Notice de transparence IA, ajoutée en pied de TOUS les messages (envoyés et
 // brouillons). Ajoutée APRÈS la détection d'alertes, pour que son numéro de
@@ -669,7 +678,10 @@ RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
   "brouillon": "<le texte du brouillon, sauts de ligne avec \\n>",
   "excuse_utilisee": "<si une excuse de délai/retard a été servie, sa phrase exacte, sinon null>",
   "note_interne": "<télégraphique: ce que Gabriel doit VÉRIFIER avant d'envoyer, sinon null. JAMAIS dans le corps du brouillon.>",
-  "action_requise": "<télégraphique: le geste que Gabriel doit POSER avant d'envoyer, sinon null>"
+  "action_requise": "<télégraphique: le geste que Gabriel doit POSER avant d'envoyer, sinon null>",
+  "suivi": "<qui a le prochain geste: 'client' si on attend une réponse ou une action du client; 'nous' si on doit le relancer (typique d'une vente ou d'un pré-achat: on répond, puis on vérifie plus tard s'il a commandé); 'aucun' si rien n'est en attente (remerciement, info donnée)>",
+  "relance_jours": "<si suivi='nous', dans combien de jours relancer (un nombre), en choisissant le délai IDÉAL selon le cas (ex. 3 pour une vente chaude, 7 à 10 pour un suivi moins pressant); sinon null>",
+  "relance_raison": "<si suivi='nous', une COURTE justification du délai choisi, pour aider l'opérateur (ex. 'vente chaude, relancer vite s'il n'a pas commandé' ou 'laisser le temps de recevoir avant de vérifier sa satisfaction'); sinon null>"
 }
 `);
 
@@ -695,26 +707,36 @@ function threadText(conv, msgs, bodies) {
 // Opus reçoit LES MÊMES blocs système que Sonnet (connaissance + catalogue + voix),
 // plus cette consigne qui le fait juger au lieu de rédiger. Il vérifie donc AUSSI les
 // faits (produit inexistant, prix/statut faux, info contredite par la connaissance).
-const QC_INSTRUCTION = noDash(`CONTRÔLE QUALITÉ (tu ne rédiges PAS): on te fournit un fil client et un BROUILLON de réponse
-déjà rédigé selon toutes les règles ci-dessus (document de connaissance, catalogue, voix). Ta seule
-tâche est de décider si ce brouillon est envoyable TEL QUEL, sans aucune retouche.
-Tu as accès aux mêmes informations que le rédacteur: vérifie donc AUSSI les FAITS. Un produit qui
-n'existe pas au catalogue, un prix ou un statut de précommande faux, une info contredite par le
-document de connaissance, une affirmation sur une commande (montant, statut, code appliqué) = NON
-envoyable. Vérifie aussi la voix, la pertinence, la langue, les accords, tu/vous.
-Sois pragmatique: un brouillon correct et utile est envoyable même s'il n'est pas parfait; ne bloque
-que ce que tu ne voudrais VRAIMENT pas voir partir chez un client. La notice de transparence IA n'est
-pas dans ce brouillon (ajoutée après l'envoi), ne la réclame pas.
+const QC_INSTRUCTION = noDash(`CONTRÔLE ET CORRECTION (tu ne pars pas de zéro): on te fournit un fil client, un BROUILLON déjà
+rédigé selon toutes les règles ci-dessus (document de connaissance, catalogue, voix), et parfois des
+SIGNAUX automatiques. Tu as accès aux mêmes informations que le rédacteur. Décide de l'UN de trois verdicts:
+
+- "envoyer": le brouillon est bon tel quel, ou les signaux sont de faux positifs. Envoyable sans retouche.
+- "corriger": le brouillon a un ou des défauts RÉPARABLES (voix, formule bannie, accord féminin, tu/vous,
+  ton, ou un fait à ajuster selon le catalogue ou la connaissance). Tu réécris le brouillon CORRIGÉ, en
+  gardant le fond et le ton, prêt à envoyer.
+- "bloquer": le brouillon exige un jugement humain (fait invérifiable même avec ton contexte, décision
+  délicate, réponse hors sujet impossible à sauver, risque réel pour le client). Tu ne le corriges pas.
+
+Corrige DÈS QUE c'est réparable; ne bloque que ce qui a vraiment besoin d'un humain. Le brouillon corrigé
+doit suivre TOUTES les règles: accords au masculin, aucune formule bannie ni antithèse, AUCUN numéro de
+téléphone, langue du client, aucune affirmation de commande non vérifiable (montant, statut, code), action
+au futur. N'ajoute NI signature NI notice (ajoutées après). Vérifie aussi les FAITS: un produit inexistant
+au catalogue, un prix ou statut faux, une info contredite par la connaissance = corriger ou bloquer.
+
 Réponds UNIQUEMENT par un objet JSON, sans texte autour:
-{"envoyable": true|false, "gravite": "aucun"|"mineur"|"majeur", "problemes": ["code court", ...], "raison": "une phrase"}`);
+{"verdict":"envoyer"|"corriger"|"bloquer","brouillon_corrige":"<le texte corrigé si verdict=corriger, sauts de ligne avec \\n, sinon null>","raison":"une phrase","problemes":["code court", ...]}`);
 
 let qcCalls = 0, qcBlocks = 0;
 const qcUsage = { in: 0, cacheRead: 0, cacheCreate: 0, out: 0 };
 // Tarifs Opus (estimation à vérifier, $ US / million de tokens).
 const QC_RATE_IN = 15 / 1e6, QC_RATE_CACHE = 1.5 / 1e6, QC_RATE_OUT = 75 / 1e6;
 
-async function opusQC(systemBlocks, fil, brouillon, out) {
-  const contexte = `FIL CLIENT :\n${fil}\n\nBROUILLON À CONTRÔLER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}\n\nRends ton verdict JSON.`;
+async function opusQC(systemBlocks, fil, brouillon, out, flags) {
+  const flagsTxt = flags && flags.length
+    ? `\n\nSIGNAUX AUTOMATIQUES (corrige-les s'ils sont justes, ignore-les si faux positifs):\n- ${flags.join("\n- ")}`
+    : "";
+  const contexte = `FIL CLIENT :\n${fil}\n\nBROUILLON À CONTRÔLER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}${flagsTxt}\n\nRends ton verdict JSON.`;
   // Mêmes blocs que Sonnet (connaissance + catalogue déjà mis en cache) + la consigne de contrôle.
   const qcSystem = [...systemBlocks, { type: "text", text: sanit(QC_INSTRUCTION) }];
   const payload = JSON.stringify({
@@ -872,6 +894,30 @@ async function postPouls(markdown) {
   });
 }
 
+// v2.12 — Ferme un fil après envoi. Si relanceJours > 0 (on doit relancer), pose le
+// label « Relance » et une note qui SUGGÈRE à l'opérateur une durée et pourquoi, pour
+// qu'il décide vite (l'API Missive n'a pas de snooze temporisé).
+async function fermerFil(convId, relanceJours, relanceRaison) {
+  const post = {
+    conversation: convId, organization: ORG, close: true,
+    notification: relanceJours
+      ? { title: "Fermé, relance suggérée", body: `Relancer dans ~${relanceJours} j.` }
+      : { title: "Fermé (réponse envoyée)", body: "En attente du client." },
+  };
+  if (relanceJours) {
+    const due = new Date(Date.now() + relanceJours * 86400000).toISOString().slice(0, 10);
+    post.markdown =
+      `📌 **Suivi à prévoir.** Réponse envoyée, fil fermé.\n` +
+      `Suggestion: relancer dans **~${relanceJours} jour(s)** (vers le **${due}**)` +
+      (relanceRaison ? `, parce que ${relanceRaison}.` : ".") + `\n` +
+      `Si le client répond avant, le fil se rouvre tout seul. Sinon, rouvre-le à cette date pour relancer (ou ajuste le moment selon ton jugement).`;
+    if (RELANCE_LABEL) post.add_shared_labels = [RELANCE_LABEL];
+  } else {
+    post.markdown = "_Réponse envoyée, fil fermé (en attente du client; se rouvrira s'il répond)._";
+  }
+  await apiPost("/posts", { posts: post });
+}
+
 // --- Run principal ---
 (async () => {
   if (LIST_TEAMS) {
@@ -880,14 +926,15 @@ async function postPouls(markdown) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.11 ===");
+  console.log("=== Lasclay support.js v2.13 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
     console.log(`*** ENVOI AUTO ACTIF *** SEND_LIMIT: ${SEND_LIMIT || "aucun"} | catégories: ${SEND_CATEGORIES.length ? SEND_CATEGORIES.join(",") : "toutes (brouillons propres)"}`);
     console.log(`    Envoi des actions (remboursements...): ${SEND_ACTIONS ? "OUI, avec digest à traiter" : "non (restent brouillons)"}`);
-    console.log(`    Contrôle Opus avant envoi: ${SEND_QC ? `OUI (${QC_MODEL})` : "NON"}`);
-    console.log("    Une alerte de voix ou une note à vérifier bloque toujours l'envoi.");
+    console.log(`    Contrôle Opus avant envoi: ${SEND_QC ? `OUI (${QC_MODEL}), corrige les brouillons réparables` : "NON"}`);
+    console.log(`    Après envoi: fermeture du fil (close), + label Relance si suivi='nous'${RELANCE_LABEL ? "" : " [RELANCE_LABEL absent: note seule]"}.`);
+    console.log("    Une note à vérifier ou un cas jugé « à humain » par Opus reste en brouillon.");
   } else {
     console.log("Envoi auto: NON (brouillons seulement, comme v2.7).");
   }
@@ -1080,7 +1127,7 @@ async function postPouls(markdown) {
         [/581\D?982\D?5857|\(581\)/, "numéro de téléphone (à retirer)"],
         [/tu mérit\w+ (mieux|une réponse|d'être)|vous mérit\w+ (mieux|une réponse|d'être)|méritais (mieux|une réponse)/i, "autoflagellation « tu méritais mieux »"],
         [/ça ne (me|nous) ressemble pas|c'est gênant|je suis gêné|c'est désolant|on n'est pas fiers?/i, "autoflagellation (gêné/désolant/pas fiers)"],
-        [/façon de faire/i, "« façon de faire » (dire « habitudes »)"],
+        [/(notre|pas notre) façon de faire/i, "« notre façon de faire » (dire « habitudes »)"],
         [/ce n('est|était) pas (une?\s)?[^,.;:]{2,40},\s?(c'est|c'était|mais c'est|juste que)/i, "antithèse « ce n'est pas X, c'est Y »"],
         [/it('s| is| was)? ?not [^,.;:]{2,40}, (it's|it is|just|but it)/i, "antithèse EN « not X, it's Y »"],
         [/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u2764]/u, "emoji (aucun dans les brouillons)"],
@@ -1095,7 +1142,7 @@ async function postPouls(markdown) {
       }
       // Empilement d'excuses: 2+ marqueurs distincts = on beurre trop épais.
       const marqueurs = [
-        /inacceptable/i, /pas à la hauteur|nos standards/i, /pas dans nos habitudes|façon de faire/i,
+        /inacceptable/i, /pas à la hauteur|nos standards/i, /pas dans nos habitudes|notre façon de faire/i,
         /mérit\w+ mieux|méritais/i, /ne (me|nous) ressemble pas/i, /gêné|gênant|désolant/i,
       ].filter((re) => re.test(corps)).length;
       if (marqueurs >= 3) alertes.push(`excuse trop appuyée (${marqueurs} marqueurs: en garder 1, max 2)`);
@@ -1148,52 +1195,62 @@ async function postPouls(markdown) {
         return `<a href="${clean}">${clean}</a>${url.match(/[.,;:)]+$/)?.[0] || ""}`;
       });
 
-      const corpsHtml = linkify(corps.replace(/\n/g, "<br>"));
-
       const estCourriel = !last.type || /email/.test(last.type);
       const SIGNATURE_FR = "Chaleureusement,<br>__<br><b>Gabriel Gouveia</b><br>Co-fondateur<br>Lasclay.com";
       const SIGNATURE_EN = "Warmly,<br>__<br><b>Gabriel Gouveia</b><br>Co-founder<br>Lasclay.com";
       const signature = estCourriel ? `<br><br>${out.langue === "en" ? SIGNATURE_EN : SIGNATURE_FR}` : "";
 
-      // v2.9 — DÉCISION D'ENVOI.
-      //  BLOQUANT (reste brouillon): alerte de voix, OU note à VÉRIFIER avant envoi.
-      //  ACTION à FAIRE après (remboursement, annulation, rabais, renvoi): envoyable
-      //  UNIQUEMENT si SEND_ACTIONS=true; l'action part alors dans le digest.
+      // v2.12 — DÉCISION D'ENVOI.
+      //  CANDIDAT à l'envoi = auto activé, catégorie permise, courriel, destinataire, sous plafond,
+      //  et (si le brouillon promet une action) SEND_ACTIONS. Les alertes de voix et une note à
+      //  vérifier NE bloquent PLUS ici: Opus les traite (corrige, ou bloque si vraiment humain).
       const catAutorisee = SEND_CATEGORIES.length === 0 || SEND_CATEGORIES.includes(out.categorie);
       const aAgir = !!(out.action_requise || actionAuto);
-      const bloquant = alertes.length > 0 || !!out.note_interne || (aAgir && !SEND_ACTIONS);
-      const doSend = AUTO_SEND && !bloquant && catAutorisee && estCourriel && !!toAddr &&
-        (SEND_LIMIT === 0 || sent < SEND_LIMIT);
+      const candidat = AUTO_SEND && catAutorisee && estCourriel && !!toAddr &&
+        (aAgir ? SEND_ACTIONS : true) && (SEND_LIMIT === 0 || sent < SEND_LIMIT);
 
-      // v2.10 — DEUXIÈME AVIS D'OPUS sur les candidats à l'envoi (Sonnet rédige,
-      // Opus contrôle). Opus relit le fil + le brouillon et décide s'il l'enverrait.
-      // Refus (ou contrôle indisponible) => on rétrograde en brouillon, jamais l'inverse.
-      let envoyer = doSend;
-      let qcVerdict = null, qcBlocked = false;
-      if (doSend && SEND_QC) {
+      // Opus contrôle ET CORRIGE (Sonnet rédige, Opus tranche): envoyer / corriger / bloquer.
+      // Refus ou panne du contrôle => brouillon, jamais l'inverse.
+      let envoyer = false, corpsFinal = corps, corrige = false, qcVerdict = null, qcBlocked = false;
+      if (candidat && SEND_QC) {
         try {
-          qcVerdict = await opusQC(systemBlocks, filTexte, corps, out);
-          if (!qcVerdict.envoyable || qcVerdict.gravite === "majeur") { envoyer = false; qcBlocked = true; }
+          qcVerdict = await opusQC(systemBlocks, filTexte, corps, out, noteLigne);
+          if (qcVerdict.verdict === "envoyer") {
+            envoyer = true;
+          } else if (qcVerdict.verdict === "corriger" && qcVerdict.brouillon_corrige) {
+            envoyer = true; corrige = true; corpsFinal = noDash(sanit(String(qcVerdict.brouillon_corrige)));
+          } else {
+            qcBlocked = true;
+          }
         } catch (e) {
           console.warn(`  contrôle Opus échoué sur ${conv.id} (${e.message}) → brouillon par prudence`);
-          envoyer = false; qcBlocked = true;
-          qcVerdict = { envoyable: false, raison: `contrôle indisponible (${e.message})`, problemes: ["QC indisponible"] };
+          qcBlocked = true;
+          qcVerdict = { verdict: "bloquer", raison: `contrôle indisponible (${e.message})`, problemes: ["QC indisponible"] };
         }
         if (qcBlocked) {
           noteLigne.push(`[CONTRÔLE OPUS] gardé en brouillon: ${qcVerdict.raison || "jugé non envoyable"}` +
             (qcVerdict.problemes?.length ? ` (${qcVerdict.problemes.join(", ")})` : ""));
-          verifRequise = true;
-          alarme = true;
-          qcBlocks++;
+          verifRequise = true; alarme = true; qcBlocks++;
         }
+      } else if (candidat && !SEND_QC) {
+        // Sans contrôle Opus, on n'envoie que le déterministe propre (aucune alerte, aucune note).
+        envoyer = alertes.length === 0 && !out.note_interne;
       }
+
+      // Corps final (corrigé par Opus si applicable) rendu en HTML cliquable.
+      const corpsHtml = linkify(corpsFinal.replace(/\n/g, "<br>"));
+
+      // Suivi: qui a le prochain geste. Détermine close vs close+relance après envoi.
+      const suivi = ["client", "nous", "aucun"].includes(out.suivi) ? out.suivi : "aucun";
+      const relanceJours = suivi === "nous" ? Math.min(60, Math.max(1, parseInt(out.relance_jours, 10) || 3)) : 0;
+      const relanceRaison = suivi === "nous" ? noDash(sanit(String(out.relance_raison || ""))) : "";
 
       // Item de digest si on ENVOIE une réponse qui promet une action.
       let itemDigest = null;
       if (envoyer && aAgir) {
         const actionTxt = noDash(sanit(String(out.action_requise || actionAuto || "")));
-        const montants = [...new Set(corps.match(/\d+(?:[.,]\d{1,2})?\s?\$|\$\s?\d+(?:[.,]\d{1,2})?/g) || [])];
-        const estRembours = /rembours|refund|crédit/i.test(`${actionTxt} ${corps}`);
+        const montants = [...new Set(corpsFinal.match(/\d+(?:[.,]\d{1,2})?\s?\$|\$\s?\d+(?:[.,]\d{1,2})?/g) || [])];
+        const estRembours = /rembours|refund|crédit/i.test(`${actionTxt} ${corpsFinal}`);
         itemDigest = {
           url: `https://mail.missiveapp.com/#inbox/conversations/${conv.id}`,
           nom: last.from_field?.name || toAddr || "?", subject: subj,
@@ -1216,21 +1273,24 @@ async function postPouls(markdown) {
       if (DRY_RUN) {
         if (envoyer) {
           sent++;
-          console.log(`\n[DRY ENVOI ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr}${qcVerdict ? " | Opus: OK" : ""}`);
+          const opusTxt = corrige ? "Opus: CORRIGÉ" : qcVerdict ? "Opus: OK" : "sans QC";
+          const finTxt = suivi === "nous" ? `close + relance ${relanceJours}j${relanceRaison ? " (" + relanceRaison.slice(0, 45) + ")" : ""}` : "close";
+          console.log(`\n[DRY ENVOI ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr} | ${opusTxt} | ${finTxt}`);
+          if (corrige && qcVerdict?.raison) console.log(`  >> correction: ${qcVerdict.raison}`);
           if (itemDigest) console.log(`  >> ${itemDigest.rembours ? "REMBOURSEMENT" : "ACTION"} au digest: ${itemDigest.action}`);
         } else {
           created++;
           if (verifRequise) verifs++;
           const pourquoi = qcBlocked
-            ? `Opus refuse (${qcVerdict.raison || "non envoyable"})`
+            ? `Opus bloque (${qcVerdict.raison || "jugement humain"})`
             : AUTO_SEND
-            ? (verifRequise ? "note/alerte" : !catAutorisee ? "catégorie non permise" : !estCourriel ? "canal social" : !toAddr ? "sans destinataire" : "plafond envois")
+            ? (!catAutorisee ? "catégorie non permise" : !estCourriel ? "canal social" : !toAddr ? "sans destinataire" : (aAgir && !SEND_ACTIONS) ? "action, SEND_ACTIONS off" : !SEND_QC ? "alerte/note, sans QC" : "plafond envois")
             : "envoi auto éteint";
           console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} | to: ${toAddr || "(social)"} | reste brouillon: ${pourquoi}`);
           if (alarme) console.log("  ⚠️⚠️ VÉRIFICATION HUMAINE REQUISE AVANT ENVOI ⚠️⚠️");
           for (const l of noteLigne) console.log(`  >> ${l}`);
         }
-        console.log(`---\n${corps}\n[+ notice IA ajoutée en pied]\n---`);
+        console.log(`---\n${corpsFinal}\n[+ notice IA ajoutée en pied]\n---`);
       } else {
         // Corps final identique pour envoi et brouillon: texte + signature + notice IA.
         const bodyFinal = corpsHtml + signature + NOTICE_HTML;
@@ -1254,7 +1314,10 @@ async function postPouls(markdown) {
           await apiPost("/drafts", { drafts: draft });
           if (envoyer) {
             sent++;
-            console.log(`[ENVOYÉ ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr}${itemDigest ? (itemDigest.rembours ? " | REMBOURSEMENT au digest" : " | ACTION au digest") : ""}`);
+            console.log(`[ENVOYÉ ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr}${corrige ? " | CORRIGÉ" : ""}${suivi === "nous" ? ` | relance ${relanceJours}j` : ""}${itemDigest ? (itemDigest.rembours ? " | REMBOURSEMENT" : " | ACTION") : ""}`);
+            // Fermer le fil (et poser la relance si on doit relancer).
+            try { await fermerFil(conv.id, relanceJours, relanceRaison); }
+            catch (e) { console.warn(`  fermeture échouée sur ${conv.id}: ${e.message}`); }
             if (itemDigest) {
               // Note légère sur le fil: l'action reste visible même hors digest.
               try {
