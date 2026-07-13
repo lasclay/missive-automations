@@ -1,32 +1,44 @@
 /**
- * Lasclay — support.js (v2.7)
+ * Lasclay — support.js (v2.9)
  * -------------------------
- * Réponses automatiques (en BROUILLON, jamais envoyées) pour la shared inbox
- * LAS Support, 3 fois par jour. Pour chaque fil ouvert où le dernier mot
- * revient au client, Sonnet rédige une réponse dans la voix de Lasclay,
- * nourrie du document de connaissance (connaissance_support .md, dans le dépôt).
+ * Réponses automatiques pour la shared inbox LAS Support, 3 fois par jour.
+ * Pour chaque fil ouvert où le dernier mot revient au client, Sonnet rédige
+ * une réponse dans la voix de Lasclay, nourrie du document de connaissance.
  *
- * Mécanique anti-doublon: label « Draft AI Support » (dédié à ce script):
- * posé à la création du brouillon, retiré quand le fil est fermé
- * (intersection étiqueté ∩ team_closed), pour qu'une réponse du client
- * régénère un brouillon frais.
+ * v2.8 — ENVOI AUTOMATIQUE (optionnel, éteint par défaut):
+ *   - Un brouillon PROPRE (verifRequise === false: aucune note, action ni
+ *     alerte de voix) est ENVOYÉ directement si AUTO_SEND=true, dans une
+ *     catégorie permise (SEND_CATEGORIES) et sous le plafond (SEND_LIMIT).
+ *   - Tout brouillon avec la moindre note/action/alerte reste en BROUILLON,
+ *     avec sa note interne, comme avant (jamais d'envoi auto).
+ *   - Une NOTICE de transparence IA (avec numéro à appeler) est ajoutée au
+ *     corps de TOUS les messages, envoyés comme brouillons.
+ *   - AUTO_SEND absent/false => comportement identique à la v2.7 (brouillons).
  *
- * Tri: le label de la catégorie est posé en même temps; la rule Missive
- * existante route vers la boîte dédiée.
+ * Mécanique anti-doublon: label « Draft AI Support », posé à la création du
+ * brouillon, retiré quand le fil est fermé. Un message ENVOYÉ ne reçoit PAS ce
+ * label (il dédoublonne des brouillons, pas des messages envoyés).
  *
- * Mémoire des excuses: brouillon-stockage JSON dans « Archives support »
- * (client → excuses déjà servies), pour ne jamais resservir la même.
- *
- * GARDE-FOUS: DRY_RUN=true par défaut (ne crée RIEN), DRAFT_LIMIT=5 par
- * défaut, aucun send:true nulle part.
+ * GARDE-FOUS: DRY_RUN=true par défaut (ne crée/n'envoie RIEN), AUTO_SEND=false
+ * par défaut (aucun envoi), DRAFT_LIMIT=5 par défaut.
  *
  * Node 18+. Aucune dépendance.
  *
  * Variables d'environnement :
  *   MISSIVE_TOKEN, ANTHROPIC_API_KEY   requis
  *   MODEL          défaut claude-sonnet-4-6
- *   DRY_RUN        "false" = crée pour vrai; tout autre = simulation (défaut "true")
- *   DRAFT_LIMIT    plafond de brouillons par run (défaut 5; 0 = illimité)
+ *   DRY_RUN        "false" = agit pour vrai; tout autre = simulation (défaut "true")
+ *   AUTO_SEND      "true" = envoie les brouillons propres. Défaut false (brouillons only).
+ *   SEND_LIMIT     plafond d'ENVOIS par run (défaut 0 = aucun plafond)
+ *   SEND_CATEGORIES catégories permises à l'envoi auto, séparées par des virgules
+ *                  (ex. "question_pre_achat"). Vide = toutes les catégories propres.
+ *   SEND_ACTIONS   "true" = envoie aussi les brouillons qui PROMETTENT une action
+ *                  (remboursement, annulation, rabais, renvoi); l'action part dans
+ *                  un digest à traiter. Défaut false. Une note à VÉRIFIER ou une
+ *                  alerte de voix bloque toujours l'envoi.
+ *   ACTIONS_CONV   conversation où déposer le digest des actions/remboursements
+ *                  (défaut: EXPORT_CONV « Archives support »).
+ *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
  *   MAX_FILS       plafond de fils analysés par run (défaut 40)
  *   KNOWLEDGE_FILE chemin du document de connaissance (défaut ./connaissance_support.md)
  *   TEAMS, DRAFT_LABEL, EXPORT_CONV, MISSIVE_ORG, EXPORT_FROM   overrides
@@ -43,8 +55,25 @@ const DRAFT_LIMIT = parseInt(process.env.DRAFT_LIMIT || "5", 10);
 const MAX_FILS = parseInt(process.env.MAX_FILS || "40", 10);
 const KNOWLEDGE_FILE = process.env.KNOWLEDGE_FILE || "./connaissance_support.md";
 
+// v2.8 — Envoi automatique des brouillons propres (verifRequise === false).
+const AUTO_SEND = (process.env.AUTO_SEND || "").toLowerCase() === "true";
+const SEND_LIMIT = parseInt(process.env.SEND_LIMIT || "0", 10) || 0; // 0 = pas de plafond
+const SEND_CATEGORIES = (process.env.SEND_CATEGORIES || "")
+  .split(",").map((s) => s.trim()).filter(Boolean); // vide = toutes catégories
+// v2.9 — envoie aussi les brouillons qui promettent une ACTION (ex. remboursement);
+// l'action part dans un digest. Une note à vérifier ou une alerte bloque toujours.
+const SEND_ACTIONS = (process.env.SEND_ACTIONS || "").toLowerCase() === "true";
+
+// Notice de transparence IA, ajoutée en pied de TOUS les messages (envoyés et
+// brouillons). Ajoutée APRÈS la détection d'alertes, pour que son numéro de
+// téléphone ne déclenche pas l'alerte de voix. Rédigée sans tu/vous.
+const NOTICE_HTML =
+  "<br><br>Petit mot en toute transparence : ce message a été préparé par un nouveau " +
+  "système de réponse assisté par intelligence artificielle, présentement en rodage. " +
+  "S'il y a le moindre problème, il est possible de me joindre directement au " +
+  "581-982-5857 pour régler le dossier rapidement.";
+
 // Équipes balayées (inbox ET fermés). Surchargeable via TEAMS="id1,id2,...".
-// R&D: id d'équipe à ajouter quand connu (LIST_TEAMS=true pour lister les équipes).
 const DEFAULT_TEAMS = [
   "e184d153-4472-4edd-9b35-f8867cf437a8", // LAS Support
   // "0db185c1-3a93-4a44-9f50-dcfe8c0683dd", // Mise à jour commande: RETIRÉE (gérée en masse via Klaviyo)
@@ -59,6 +88,7 @@ const TEAM_IDS = TEAMS.length > 0 ? TEAMS : DEFAULT_TEAMS;
 const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
 const DRAFT_LABEL = process.env.DRAFT_LABEL || "019eb935-9b22-7d14-8aeb-614a1e303e24"; // « Draft AI Support » (dédié à ce script)
 const EXPORT_CONV = process.env.EXPORT_CONV || "019eb488-6d42-7195-a2ae-11751d0a7a27"; // « Archives support » (mémoire excuses)
+const ACTIONS_CONV = process.env.ACTIONS_CONV || EXPORT_CONV; // digest des actions/remboursements à faire
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36";
 const EXPORT_FROM = process.env.EXPORT_FROM || "hey@lasclay.com";
 
@@ -644,6 +674,42 @@ function threadText(conv, msgs, bodies) {
   return lines.join("\n").slice(0, 14000);
 }
 
+// --- Digest des actions/remboursements à faire (v2.9) ---
+function ligneDigest(i) {
+  return `### ${i.nom} — ${(i.subject || "(sans sujet)").slice(0, 60)}\n` +
+    `- Fil: ${i.url}\n` +
+    `- Catégorie: ${i.categorie} | Langue: ${i.langue}\n` +
+    `- Action à faire: ${i.action || "(voir le fil)"}\n` +
+    (i.montants && i.montants.length
+      ? `- Montant(s) mentionné(s): ${i.montants.join(", ")}\n`
+      : `- Montant: à confirmer dans Shopify\n`);
+}
+function construireDigest(items) {
+  const remb = items.filter((i) => i.rembours);
+  const autres = items.filter((i) => !i.rembours);
+  let md = `# Actions à faire (réponses déjà envoyées automatiquement)\n\n`;
+  md += `Date: ${new Date().toISOString().slice(0, 16).replace("T", " ")}\n`;
+  md += `À traiter (idéalement via Cowork). Chaque client a DÉJÀ reçu une réponse promettant l'action.\n\n`;
+  md += `## Remboursements à traiter (${remb.length})\n`;
+  md += (remb.length ? remb.map(ligneDigest).join("\n\n") : "Aucun.") + "\n\n";
+  md += `## Autres actions (${autres.length})\n`;
+  md += autres.length ? autres.map(ligneDigest).join("\n\n") : "Aucune.";
+  return md;
+}
+async function deposeDigest(md) {
+  const b64 = Buffer.from(md, "utf8").toString("base64");
+  const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-");
+  await apiPost("/drafts", {
+    drafts: {
+      conversation: ACTIONS_CONV, organization: ORG,
+      from_field: { address: EXPORT_FROM }, to_fields: [{ address: EXPORT_FROM }],
+      subject: `[ACTIONS À FAIRE] ${stamp}`,
+      body: "Digest des actions et remboursements à traiter (pièce jointe). À donner à Cowork.",
+      attachments: [{ base64_data: b64, filename: `actions_a_faire_${stamp}.md` }],
+    },
+  });
+}
+
 // --- Run principal ---
 (async () => {
   if (LIST_TEAMS) {
@@ -652,9 +718,16 @@ function threadText(conv, msgs, bodies) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.7 ===");
-  console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé) ===" : "=== MODE RÉEL ===");
+  console.log("=== Lasclay support.js v2.9 ===");
+  console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
+  if (AUTO_SEND) {
+    console.log(`*** ENVOI AUTO ACTIF *** SEND_LIMIT: ${SEND_LIMIT || "aucun"} | catégories: ${SEND_CATEGORIES.length ? SEND_CATEGORIES.join(",") : "toutes (brouillons propres)"}`);
+    console.log(`    Envoi des actions (remboursements...): ${SEND_ACTIONS ? "OUI, avec digest à traiter" : "non (restent brouillons)"}`);
+    console.log("    Une alerte de voix ou une note à vérifier bloque toujours l'envoi.");
+  } else {
+    console.log("Envoi auto: NON (brouillons seulement, comme v2.7).");
+  }
 
   // 0. Document de connaissance (depuis le dépôt)
   if (!fs.existsSync(KNOWLEDGE_FILE)) {
@@ -665,7 +738,6 @@ function threadText(conv, msgs, bodies) {
   console.log(`Connaissance chargée: ${(knowledge.length / 1024).toFixed(0)} Ko.`);
 
   // 0b. Catalogue produits (chargé en direct, mis en cache comme la connaissance).
-  // Shopify expose products.json: noms, descriptions, variantes, prix, dispo, sans bricoler le HTML.
   const catalogue = await chargerCatalogue();
   const systemBlocks = [
     { type: "text", text: sanit("DOCUMENT DE CONNAISSANCE DU SERVICE CLIENT LASCLAY:\n\n" + noDash(knowledge)), cache_control: { type: "ephemeral" } },
@@ -722,12 +794,10 @@ function threadText(conv, msgs, bodies) {
   const exportDrafts = await listExportDrafts();
   const excuses = await loadJsonMemory(exportDrafts, /^memoire_excuses_.*\.json\.gz$/, "Mémoire des excuses");
   // Fils écartés (« rien à répondre »): convId → last_activity_at au moment du jugement.
-  // Sauté tant que le fil n'a pas bougé; toute nouvelle activité force un nouveau jugement.
   const ecartes = await loadJsonMemory(exportDrafts, /^memoire_ecartes_.*\.json\.gz$/, "Mémoire des fils écartés");
   let ecartesModifiee = false;
 
   // Index: adresse d'auteur → fils ouverts (pour voir qu'un client a écrit sur plusieurs fils).
-  // Champ `authors` des conversations: déduit de la doc, jamais validé; si absent, l'index reste vide.
   const filsParAuteur = new Map();
   let authorsVus = false;
   for (const c of inbox) {
@@ -743,23 +813,19 @@ function threadText(conv, msgs, bodies) {
 
   const NOREPLY = /no-?reply|donotreply|ne-?pas-?repondre/i;
 
-  let analysed = 0, created = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0, ecarteSkips = 0;
+  let analysed = 0, created = 0, sent = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0, ecarteSkips = 0;
+  const actionsDigest = []; // actions/remboursements des réponses envoyées (v2.9)
   for (const conv of inbox) {
     if (drafted.has(conv.id) || conv.id === EXPORT_CONV) { skipped++; continue; }
-    // Aucun deuxième brouillon, jamais: si le fil a déjà un brouillon (IA périmé ou
-    // brouillon humain en cours), on n'y touche pas.
     if ((conv.drafts_count || 0) > 0) { dejaBrouillon++; continue; }
-    // Fil déjà jugé « rien à répondre » et inchangé depuis: on ne le rejuge pas.
-    // Note: on compare last_activity_at (et non la date du dernier message), car c'est un
-    // simple détecteur de changement. Un merge/label qui bouge l'activité provoque au pire
-    // un rejugement inutile (1 appel), sans conséquence sur la qualité. Acceptable.
     if (ecartes.has(conv.id)) {
       if (ecartes.get(conv.id) === (conv.last_activity_at || 0)) { ecarteSkips++; continue; }
       ecartes.delete(conv.id); // le fil a bougé: nouveau jugement complet
       ecartesModifiee = true;
     }
     if (analysed >= MAX_FILS) break;
-    if (DRAFT_LIMIT > 0 && created >= DRAFT_LIMIT) { console.log("Plafond de brouillons atteint."); break; }
+    // Plafond de SORTIES (brouillons + envois) par run.
+    if (DRAFT_LIMIT > 0 && (created + sent) >= DRAFT_LIMIT) { console.log("Plafond de sorties atteint."); break; }
 
     try {
       const msgs = await listThreadMessages(conv.id);
@@ -773,8 +839,6 @@ function threadText(conv, msgs, bodies) {
       const clientKey = (last.from_field?.address || last.from_field?.username || last.from_field?.name || "inconnu").toLowerCase();
       const dejaServies = (excuses.get(clientKey) || []).map((e) => `- (${e.date}) ${e.texte}`).join("\n") || "(aucune)";
 
-      // Contexte d'attente: depuis quand le client attend, et combien de fois il a écrit
-      // sans réponse de notre part (pilote l'intensité de l'excuse).
       let lastUsIdx = -1;
       msgs.forEach((m, i) => { if (isUs(m)) lastUsIdx = i; });
       const sansReponse = msgs.slice(lastUsIdx + 1).filter((m) => !isUs(m));
@@ -823,6 +887,8 @@ function threadText(conv, msgs, bodies) {
       const corps = noDash(out.brouillon);
 
       // Alertes [VOIX]: détection déterministe des fuites connues, sans réécriture.
+      // NOTE: la détection porte sur `corps` (le texte de Sonnet), PAS sur la notice IA
+      // ajoutée ensuite au corps final, sinon le numéro de la notice ferait une fausse alerte.
       const alertes = [];
       if (/\b(désolée|contente|heureuse|ravie|navrée|certaine|surprise|déçue|confuse|enchantée)\b/i.test(corps) &&
           !/(vous|tu|t'|elle|cliente?|ta |votre |sa )\s*\w*\s*(êtes|es|est|seras?|serez|sois|soyez|semble|paraît)?\s*(désolée|contente|heureuse|ravie|navrée|certaine|surprise|déçue|confuse|enchantée)/i.test(corps)) {
@@ -891,30 +957,22 @@ function threadText(conv, msgs, bodies) {
       ].filter(Boolean);
 
       // Verrou humain à deux niveaux: ALARME (action à poser ou alerte de voix) vs NOTE simple.
-      // verifRequise reste vrai dans les deux cas: c'est AUSSI la future porte du mode
-      // automatique: un brouillon marqué ne sera JAMAIS admissible à l'envoi auto.
+      // verifRequise === true => le brouillon N'EST PAS admissible à l'envoi auto (jamais).
       const verifRequise = noteLigne.length > 0;
       const alarme = !!(out.action_requise || actionAuto || alertes.length);
 
-      // Signature: l'API Missive n'insère JAMAIS la signature d'alias dans un brouillon
-      // (confirmé doc + test réel). Le script l'ajoute lui-même, selon la langue.
-      // Canaux sociaux: ni signature ni citation (format courriel seulement).
-      // Liens: rendre cliquables + corriger le préfixe pays des URLs lasclay.com.
-      // USA → /en-us/ (USD), anglais hors USA → /en/ (CAD), français → racine.
-      // Signal pays: équipe USA, sinon indices du fil (langue EN + mentions USA/states/USD).
+      // Signature (langue), citation, liens cliquables + préfixe pays. (Voir v2.7.)
       const filBas = filTexte.toLowerCase();
       const estUSA = teamsDuFil.has("13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217") ||
         (out.langue === "en" && /\b(usa|united states|u\.s\.|america|\bus\b|usd|\$us)\b/i.test(filBas));
       const prefixe = estUSA ? "/en-us" : out.langue === "en" ? "/en" : "";
       const corrigerLien = (url) => {
-        // Normalise les préfixes lasclay.com vers le bon pays/langue.
         let u = url.replace(/(https?:\/\/(?:www\.)?lasclay\.com)(\/(?:en-us|en-ca|en|fr-ca|fr))?(\/|$)/i,
           (_, base, _old, tail) => `${base}${prefixe}${tail === "/" || tail === "" ? "/" : tail}`);
         return u;
       };
       const linkify = (html) => html.replace(/(https?:\/\/[^\s<>"]+)/g, (url) => {
         const clean = corrigerLien(url.replace(/[.,;:)]+$/, ""));
-        const trail = url.slice(corrigerLien(url).length); // ponctuation finale éventuelle
         return `<a href="${clean}">${clean}</a>${url.match(/[.,;:)]+$/)?.[0] || ""}`;
       });
 
@@ -925,51 +983,107 @@ function threadText(conv, msgs, bodies) {
       const SIGNATURE_EN = "Warmly,<br>__<br><b>Gabriel Gouveia</b><br>Co-founder<br>Lasclay.com";
       const signature = estCourriel ? `<br><br>${out.langue === "en" ? SIGNATURE_EN : SIGNATURE_FR}` : "";
 
+      // v2.9 — DÉCISION D'ENVOI.
+      //  BLOQUANT (reste brouillon): alerte de voix, OU note à VÉRIFIER avant envoi.
+      //  ACTION à FAIRE après (remboursement, annulation, rabais, renvoi): envoyable
+      //  UNIQUEMENT si SEND_ACTIONS=true; l'action part alors dans le digest.
+      const catAutorisee = SEND_CATEGORIES.length === 0 || SEND_CATEGORIES.includes(out.categorie);
+      const aAgir = !!(out.action_requise || actionAuto);
+      const bloquant = alertes.length > 0 || !!out.note_interne || (aAgir && !SEND_ACTIONS);
+      const doSend = AUTO_SEND && !bloquant && catAutorisee && estCourriel && !!toAddr &&
+        (SEND_LIMIT === 0 || sent < SEND_LIMIT);
+
+      // Item de digest si on envoie une réponse qui promet une action.
+      let itemDigest = null;
+      if (doSend && aAgir) {
+        const actionTxt = noDash(sanit(String(out.action_requise || actionAuto || "")));
+        const montants = [...new Set(corps.match(/\d+(?:[.,]\d{1,2})?\s?\$|\$\s?\d+(?:[.,]\d{1,2})?/g) || [])];
+        const estRembours = /rembours|refund|crédit/i.test(`${actionTxt} ${corps}`);
+        itemDigest = {
+          url: `https://mail.missiveapp.com/#inbox/conversations/${conv.id}`,
+          nom: last.from_field?.name || toAddr || "?", subject: subj,
+          categorie: out.categorie, langue: out.langue, action: actionTxt, montants, rembours: estRembours,
+        };
+        actionsDigest.push(itemDigest);
+      }
+
       if (DRY_RUN) {
-        created++;
-        if (verifRequise) verifs++;
-        console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} | to: ${toAddr || "(social, sans adresse)"}`);
-        if (alarme) console.log("  ⚠️⚠️ VÉRIFICATION HUMAINE REQUISE AVANT ENVOI ⚠️⚠️");
-        for (const l of noteLigne) console.log(`  >> ${l}`);
-        console.log(`---\n${corps}\n---`);
+        if (doSend) {
+          sent++;
+          console.log(`\n[DRY ENVOI ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr}`);
+          if (itemDigest) console.log(`  >> ${itemDigest.rembours ? "REMBOURSEMENT" : "ACTION"} au digest: ${itemDigest.action}`);
+        } else {
+          created++;
+          if (verifRequise) verifs++;
+          const pourquoi = AUTO_SEND
+            ? (verifRequise ? "note/alerte" : !catAutorisee ? "catégorie non permise" : !estCourriel ? "canal social" : !toAddr ? "sans destinataire" : "plafond envois")
+            : "envoi auto éteint";
+          console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} | to: ${toAddr || "(social)"} | reste brouillon: ${pourquoi}`);
+          if (alarme) console.log("  ⚠️⚠️ VÉRIFICATION HUMAINE REQUISE AVANT ENVOI ⚠️⚠️");
+          for (const l of noteLigne) console.log(`  >> ${l}`);
+        }
+        console.log(`---\n${corps}\n[+ notice IA ajoutée en pied]\n---`);
       } else {
+        // Corps final identique pour envoi et brouillon: texte + signature + notice IA.
+        const bodyFinal = corpsHtml + signature + NOTICE_HTML;
         const draft = {
           conversation: conv.id,
           organization: ORG,
           from_field: { address: EXPORT_FROM },
           subject: subj ? `Re: ${subj.replace(/^re:\s*/i, "")}` : undefined,
-          body: corpsHtml + signature,
-          quote_previous_message: estCourriel, // apparence de réponse: cite le dernier message du fil
-          add_shared_labels: labels,
-          // PAS de send:true, JAMAIS. Et le jour où un mode d'envoi automatique existera:
-          // verifRequise === true devra TOUJOURS forcer le brouillon (jamais d'envoi auto).
+          body: bodyFinal,
+          quote_previous_message: estCourriel, // apparence de réponse
         };
         if (toAddr) draft.to_fields = [{ address: toAddr }];
+        if (doSend) {
+          draft.send = true; // ENVOI RÉEL (irréversible)
+          // Pas de label « Draft AI Support » sur un message ENVOYÉ (il dédoublonne des brouillons).
+        } else {
+          draft.add_shared_labels = labels;
+        }
+
         try {
           await apiPost("/drafts", { drafts: draft });
-          created++;
-          if (verifRequise) verifs++;
-          drafted.add(conv.id);
-          console.log(`[draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${alarme ? " | ⚠️ VÉRIFICATION REQUISE" : verifRequise ? " | note" : ""}`);
-          // Notes et actions: post interne dans le fil. ⚠️ réservé aux vraies alarmes
-          // (action à poser, alerte de voix); une note seule donne un post sobre.
-          if (verifRequise) {
-            try {
-              await apiPost("/posts", {
-                posts: {
-                  conversation: conv.id,
-                  organization: ORG,
-                  notification: alarme
-                    ? { title: "⚠️ Brouillon IA: VÉRIFIER AVANT D'ENVOYER", body: noteLigne.join(" | ").slice(0, 200) }
-                    : { title: "Note IA", body: noteLigne.join(" | ").slice(0, 200) },
-                  username: "Support IA",
-                  markdown: alarme
-                    ? "## ⚠️ NE PAS ENVOYER TEL QUEL: vérifications requises\n" + noteLigne.map((l) => `- ${l}`).join("\n")
-                    : "**Note IA:**\n" + noteLigne.map((l) => `- ${l}`).join("\n"),
-                },
-              });
-            } catch (e) { console.warn(`  post interne échoué sur ${conv.id}: ${e.message}`); }
+          if (doSend) {
+            sent++;
+            console.log(`[ENVOYÉ ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr}${itemDigest ? (itemDigest.rembours ? " | REMBOURSEMENT au digest" : " | ACTION au digest") : ""}`);
+            if (itemDigest) {
+              // Note légère sur le fil: l'action reste visible même hors digest.
+              try {
+                await apiPost("/posts", {
+                  posts: {
+                    conversation: conv.id, organization: ORG,
+                    notification: { title: itemDigest.rembours ? "Remboursement à faire" : "Action à faire", body: itemDigest.action.slice(0, 200) },
+                    username: "Support IA",
+                    markdown: `**${itemDigest.rembours ? "Remboursement" : "Action"} à faire (réponse déjà envoyée):** ${itemDigest.action}\n\n(Ajouté au digest des actions à traiter.)`,
+                  },
+                });
+              } catch (e) { console.warn(`  note action échouée sur ${conv.id}: ${e.message}`); }
+            }
+          } else {
+            created++;
+            drafted.add(conv.id);
+            if (verifRequise) verifs++;
+            console.log(`[draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${alarme ? " | ⚠️ VÉRIFICATION REQUISE" : verifRequise ? " | note" : ""}`);
+            if (verifRequise) {
+              try {
+                await apiPost("/posts", {
+                  posts: {
+                    conversation: conv.id,
+                    organization: ORG,
+                    notification: alarme
+                      ? { title: "⚠️ Brouillon IA: VÉRIFIER AVANT D'ENVOYER", body: noteLigne.join(" | ").slice(0, 200) }
+                      : { title: "Note IA", body: noteLigne.join(" | ").slice(0, 200) },
+                    username: "Support IA",
+                    markdown: alarme
+                      ? "## ⚠️ NE PAS ENVOYER TEL QUEL: vérifications requises\n" + noteLigne.map((l) => `- ${l}`).join("\n")
+                      : "**Note IA:**\n" + noteLigne.map((l) => `- ${l}`).join("\n"),
+                  },
+                });
+              } catch (e) { console.warn(`  post interne échoué sur ${conv.id}: ${e.message}`); }
+            }
           }
+          // Mémoire des excuses: vaut pour un envoi comme pour un brouillon.
           if (out.excuse_utilisee) {
             const list = excuses.get(clientKey) || [];
             list.push({ date: new Date().toISOString().slice(0, 10), texte: String(out.excuse_utilisee).slice(0, 200) });
@@ -977,7 +1091,7 @@ function threadText(conv, msgs, bodies) {
           }
         } catch (e) {
           errors++;
-          console.warn(`  draft échoué sur ${conv.id} (canal ${last.type || "?"}): ${e.message}`);
+          console.warn(`  ${doSend ? "envoi" : "draft"} échoué sur ${conv.id} (canal ${last.type || "?"}): ${e.message}`);
         }
       }
     } catch (e) {
@@ -986,13 +1100,27 @@ function threadText(conv, msgs, bodies) {
     }
   }
 
-  if (created > 0 && !DRY_RUN) await saveJsonMemory(excuses, "memoire_excuses", "Mémoire des excuses");
+  if ((created > 0 || sent > 0) && !DRY_RUN) await saveJsonMemory(excuses, "memoire_excuses", "Mémoire des excuses");
   if (ecartesModifiee && !DRY_RUN) {
-    // Élagage: on ne garde que les fils encore ouverts (un fil fermé qui rouvre
-    // aura de toute façon une nouvelle activité, donc un nouveau jugement).
     for (const id of [...ecartes.keys()]) if (!inboxById.has(id)) ecartes.delete(id);
     await saveJsonMemory(ecartes, "memoire_ecartes", "Mémoire des fils écartés");
   }
-  console.log(`\nBilan: ${analysed} analysés, ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
+
+  // Digest des actions/remboursements à faire (réponses déjà envoyées). À donner à Cowork.
+  if (actionsDigest.length) {
+    const md = construireDigest(actionsDigest);
+    const nbRemb = actionsDigest.filter((i) => i.rembours).length;
+    if (DRY_RUN) {
+      console.log(`\n[DRY] Digest de ${actionsDigest.length} action(s) à faire (${nbRemb} remboursement(s)):\n${md}`);
+    } else {
+      try {
+        await deposeDigest(md);
+        console.log(`Digest déposé: ${actionsDigest.length} action(s) dont ${nbRemb} remboursement(s), dans ${ACTIONS_CONV}.`);
+      } catch (e) {
+        console.warn(`Dépôt du digest échoué (${e.message}). Digest complet:\n${md}`);
+      }
+    }
+  }
+  console.log(`\nBilan: ${analysed} analysés, ${sent} ENVOYÉ(S) (dont ${actionsDigest.length} avec action au digest), ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
   console.log("Run terminé.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
