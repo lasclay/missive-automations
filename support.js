@@ -520,6 +520,11 @@ EXCUSES GRADUÉES (selon le CONTEXTE D'ATTENTE fourni):
 - 3 jours ou moins: pas d'excuse nécessaire, ou très légère.
 - Fil sans grief réel (le client remercie, a résolu lui-même, ou tout va bien): n'invente AUCUNE excuse,
   un mot chaleureux suffit. Ne t'excuse jamais d'un délai qui n'existe pas.
+- STRUCTURE DE L'EXCUSE (RÈGLE CRITIQUE): une excuse de délai n'est JAMAIS creuse. « Désolé du délai,
+  c'est beaucoup trop long » ou « désolé du délai à te répondre » tout court, qui ne font que répéter ou
+  constater le délai, sont BANNIS: robotiques et vides. Toute excuse porte un complément: soit un
+  POURQUOI concret (prévente intense, manque de temps, enjeux de main-d'oeuvre), soit un cadrage « ce
+  n'est pas dans nos habitudes / ça ne nous ressemble pas ». Jamais l'excuse nue, jamais en ouverture.
 - 4 à 10 jours: excuse simple et sincère (période chargée, manque de temps), jamais en ouverture,
   PLUS une courte admission qu'on aurait dû répondre plus vite et qu'on va faire mieux.
 - Plus de 10 jours, OU 2 messages et plus du client sans réponse (fils ouverts du même client inclus):
@@ -1190,6 +1195,14 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         /mérit\w+ mieux|méritais/i, /ne (me|nous) ressemble pas/i, /gêné|gênant|désolant/i,
       ].filter((re) => re.test(corps)).length;
       if (marqueurs >= 3) alertes.push(`excuse trop appuyée (${marqueurs} marqueurs: en garder 1, max 2)`);
+
+      // Excuse de délai CREUSE: une excuse est présente mais sans complément (ni pourquoi, ni « pas dans
+      // nos habitudes »). Structure robotique à bannir (ex. « désolé du délai, c'est beaucoup trop long »).
+      const EXCUSE_DELAI = /(désolé\w*|navré\w*|excus\w+|sorry|apolog\w+)[^.!?]{0,40}(délai|retard|delay|d'?attente|répondre|reply|revenir|trop long|too long)/i;
+      const COMPLEMENT_EXCUSE = /parce que|\bcar\b|on a (été|eu)|débordé|période (chargée|intense|de prévente)|manque de temps|main[- ]d'?oeuvre|lancement|prévente|indésirable|\bspam\b|pas dans nos habitudes|ne (me|nous) ressemble pas|pas à la hauteur|on (va|promet de|voulait) (faire mieux|se reprendre|mieux faire)|on aurait dû/i;
+      if (EXCUSE_DELAI.test(corps) && !COMPLEMENT_EXCUSE.test(corps)) {
+        alertes.push("excuse de délai creuse (sans raison ni « pas dans nos habitudes »): compléter ou retirer");
+      }
 
       // Montants non sourcés: tout montant en $ du brouillon doit exister dans le fil,
       // le document de connaissance, OU le catalogue produits (prix légitimes), sinon halluciné.
