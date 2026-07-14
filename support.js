@@ -41,6 +41,11 @@
  *   SEND_QC        "true" (défaut) = un 2e modèle (Opus) contrôle chaque candidat à
  *                  l'envoi; refus => rétrogradé en brouillon. "false" pour désactiver.
  *   QC_MODEL       modèle du contrôle qualité d'envoi (défaut claude-opus-4-8).
+ *   QC_SKIP_SAFE   "true" (défaut) = un brouillon SANS aucun signal de risque (aucune alerte,
+ *                  aucune note, aucune action, catégorie non sensible) est envoyé SANS QC Opus.
+ *                  "false" = tout candidat passe au QC (comportement v2.13).
+ *   QC_LEAN        "true" (défaut) = le QC Opus reçoit un contexte allégé (catalogue + voix +
+ *                  corrections, sans les 224 canned), pour réduire le coût par relecture.
  *   DIGEST_SUPPORT "true" = poste un « pouls du service » (digest bref, escalade
  *                  sélective) une fois par jour. Défaut false.
  *   DIGEST_HOUR    heure UTC du run où poster le pouls (défaut 10; -1 = chaque run).
@@ -80,6 +85,13 @@ const SEND_ACTIONS = (process.env.SEND_ACTIONS || "").toLowerCase() === "true";
 // v2.10 — deuxième avis d'Opus avant chaque envoi (Sonnet rédige, Opus contrôle).
 const SEND_QC = (process.env.SEND_QC || "true").toLowerCase() !== "false"; // défaut ON quand on envoie
 const QC_MODEL = process.env.QC_MODEL || "claude-opus-4-8";
+// v2.14 — Lever 1: sauter le QC sur les envois sans aucun risque. Lever 2: contexte QC allégé.
+const QC_SKIP_SAFE = (process.env.QC_SKIP_SAFE || "true").toLowerCase() !== "false";
+const QC_LEAN = (process.env.QC_LEAN || "true").toLowerCase() !== "false";
+// Catégories où même un brouillon « propre » mérite le contrôle Opus (enjeu client réel).
+const CATS_SENSIBLES = new Set([
+  "retour_echange_remboursement", "probleme_produit_garantie", "wholesale_b2b", "douane_international",
+]);
 // v2.11 — pouls du service (digest bref, escalade sélective). Un seul par jour: on
 // ne poste qu'au run dont l'heure UTC = DIGEST_HOUR (-1 = à chaque run).
 const DIGEST_SUPPORT = (process.env.DIGEST_SUPPORT || "").toLowerCase() === "true";
@@ -750,12 +762,12 @@ Corrige DÈS QUE c'est réparable; ne bloque que ce qui a vraiment besoin d'un h
 doit suivre TOUTES les règles: accords au masculin, aucune formule bannie ni antithèse, AUCUN numéro de
 téléphone, langue du client, aucune affirmation de commande non vérifiable (montant, statut, code), action
 au futur. N'ajoute NI signature NI notice (ajoutées après). Vérifie aussi les FAITS: un produit inexistant
-au catalogue, un prix ou statut faux, une info contredite par la connaissance = corriger ou bloquer.
+au catalogue, un prix ou statut faux, une info contredite par le catalogue ou les corrections de voix = corriger ou bloquer.
 
 Réponds UNIQUEMENT par un objet JSON, sans texte autour:
 {"verdict":"envoyer"|"corriger"|"bloquer","brouillon_corrige":"<le texte corrigé si verdict=corriger, sauts de ligne avec \\n, sinon null>","raison":"une phrase","problemes":["code court", ...]}`);
 
-let qcCalls = 0, qcBlocks = 0;
+let qcCalls = 0, qcBlocks = 0, qcSkipped = 0;
 const qcUsage = { in: 0, cacheRead: 0, cacheCreate: 0, out: 0 };
 // Tarifs Opus (estimation à vérifier, $ US / million de tokens).
 const QC_RATE_IN = 15 / 1e6, QC_RATE_CACHE = 1.5 / 1e6, QC_RATE_OUT = 75 / 1e6;
@@ -960,7 +972,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   if (AUTO_SEND) {
     console.log(`*** ENVOI AUTO ACTIF *** SEND_LIMIT: ${SEND_LIMIT || "aucun"} | catégories: ${SEND_CATEGORIES.length ? SEND_CATEGORIES.join(",") : "toutes (brouillons propres)"}`);
     console.log(`    Envoi des actions (remboursements...): ${SEND_ACTIONS ? "OUI, avec digest à traiter" : "non (restent brouillons)"}`);
-    console.log(`    Contrôle Opus avant envoi: ${SEND_QC ? `OUI (${QC_MODEL}), corrige les brouillons réparables` : "NON"}`);
+    console.log(`    Contrôle Opus avant envoi: ${SEND_QC ? `OUI (${QC_MODEL})${QC_LEAN ? ", contexte allégé" : ""}${QC_SKIP_SAFE ? ", sauté sur les envois sûrs" : ""}` : "NON"}`);
     console.log(`    Après envoi: fermeture du fil (close), + label Relance si suivi='nous'${RELANCE_LABEL ? "" : " [RELANCE_LABEL absent: note seule]"}.`);
     console.log("    Une note à vérifier ou un cas jugé « à humain » par Opus reste en brouillon.");
   } else {
@@ -985,8 +997,12 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     catalogue
       ? { type: "text", text: sanit("CATALOGUE PRODUITS ACTUEL (source de vérité sur ce qui existe et son statut):\n\n" + noDash(catalogue)), cache_control: { type: "ephemeral" } }
       : null,
-    { type: "text", text: sanit(VOICE) },
+    { type: "text", text: sanit(VOICE), cache_control: { type: "ephemeral" } },
   ].filter(Boolean);
+  // Lever 2: le contrôle Opus n'a pas besoin des 224 canned (le rédacteur les a déjà utilisées).
+  // On lui donne le contexte allégé: catalogue + voix + corrections, là où vivent les faits
+  // vérifiables. On retire seulement le document de connaissance (toujours en index 0).
+  const qcSystemBlocks = QC_LEAN ? systemBlocks.slice(1) : systemBlocks;
 
   // 1. Rafraîchissement: étiquetés ∩ fermés → retirer le label
   const drafted = new Set((await listByFilter(`shared_label=${DRAFT_LABEL}`)).map((c) => c.id));
@@ -1143,6 +1159,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       }
       for (const [re, lbl] of [
         [/on (te|vous) reçoit bien|on reçoit bien (tes|vos)/i, "« on te reçoit bien »"],
+        [/fabriqu\w+ au québec|fait\w? au canada|made in canada|assembl\w+ au québec|produits? québécois/i, "affirmation d'origine (OK pour oreillers/coussins/cosmétiques, INTERDIT pour un produit assemblé à l'étranger: vérifier le produit)"],
         [/suivra son cours/i, "coquille vide « suivra son cours »"],
         [/plus long qu'à l'habitude de notre côté/i, "formulation d'excuse bizarre"],
         [/ne (se|nous) reconna/i, "dramatisation"],
@@ -1239,9 +1256,15 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       // Opus contrôle ET CORRIGE (Sonnet rédige, Opus tranche): envoyer / corriger / bloquer.
       // Refus ou panne du contrôle => brouillon, jamais l'inverse.
       let envoyer = false, corpsFinal = corps, corrige = false, qcVerdict = null, qcBlocked = false;
-      if (candidat && SEND_QC) {
+      // Lever 1: un brouillon sans AUCUN signal de risque et hors catégorie sensible n'a pas
+      // besoin d'Opus (Opus renvoyait « OK » sans rien corriger). Les filtres déterministes,
+      // gratuits, l'ont déjà validé. Tout signal (alerte, note, action) ou catégorie sensible
+      // garde le QC.
+      const catSensible = CATS_SENSIBLES.has(out.categorie);
+      const sansRisque = QC_SKIP_SAFE && !verifRequise && !catSensible;
+      if (candidat && SEND_QC && !sansRisque) {
         try {
-          qcVerdict = await opusQC(systemBlocks, filTexte, corps, out, noteLigne);
+          qcVerdict = await opusQC(qcSystemBlocks, filTexte, corps, out, noteLigne);
           if (qcVerdict.verdict === "envoyer") {
             envoyer = true;
           } else if (qcVerdict.verdict === "corriger" && qcVerdict.brouillon_corrige) {
@@ -1259,9 +1282,11 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
             (qcVerdict.problemes?.length ? ` (${qcVerdict.problemes.join(", ")})` : ""));
           verifRequise = true; alarme = true; qcBlocks++;
         }
-      } else if (candidat && !SEND_QC) {
-        // Sans contrôle Opus, on n'envoie que le déterministe propre (aucune alerte, aucune note).
+      } else if (candidat && (!SEND_QC || sansRisque)) {
+        // Sans contrôle Opus (désactivé) OU brouillon sans risque (Lever 1): on n'envoie que le
+        // propre (aucune alerte, aucune note). Un envoi sûr part directement, sans coût Opus.
         envoyer = alertes.length === 0 && !out.note_interne;
+        if (sansRisque && SEND_QC && envoyer) qcSkipped++;
       }
 
       // Corps final (corrigé par Opus si applicable) rendu en HTML cliquable.
@@ -1300,7 +1325,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       if (DRY_RUN) {
         if (envoyer) {
           sent++;
-          const opusTxt = corrige ? "Opus: CORRIGÉ" : qcVerdict ? "Opus: OK" : "sans QC";
+          const opusTxt = corrige ? "Opus: CORRIGÉ" : qcVerdict ? "Opus: OK" : (sansRisque ? "sans QC (sûr)" : "sans QC");
           const finTxt = suivi === "nous" ? `close + relance ${relanceJours}j${relanceRaison ? " (" + relanceRaison.slice(0, 45) + ")" : ""}` : "close";
           console.log(`\n[DRY ENVOI ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr} | ${opusTxt} | ${finTxt}`);
           if (corrige && qcVerdict?.raison) console.log(`  >> correction: ${qcVerdict.raison}`);
@@ -1439,9 +1464,9 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   }
 
   console.log(`\nBilan: ${analysed} analysés, ${sent} ENVOYÉ(S) (dont ${actionsDigest.length} avec action au digest), ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
-  if (SEND_QC && qcCalls > 0) {
+  if (SEND_QC && (qcCalls > 0 || qcSkipped > 0)) {
     const coutQC = qcUsage.in * QC_RATE_IN + qcUsage.cacheCreate * QC_RATE_IN + qcUsage.cacheRead * QC_RATE_CACHE + qcUsage.out * QC_RATE_OUT;
-    console.log(`Contrôle Opus: ${qcCalls} relecture(s), ${qcBlocks} refus (rétrogradés en brouillon). Tokens in ${qcUsage.in}/cache ${qcUsage.cacheRead}/out ${qcUsage.out}. Coût QC estimé: ~ ${coutQC.toFixed(2)} $ US (tarifs à vérifier).`);
+    console.log(`Contrôle Opus: ${qcCalls} relecture(s)${QC_LEAN ? " (contexte allégé)" : ""}, ${qcBlocks} refus, ${qcSkipped} envoi(s) sûr(s) sans QC. Tokens in ${qcUsage.in}/cache ${qcUsage.cacheRead}/out ${qcUsage.out}. Coût QC estimé: ~ ${coutQC.toFixed(2)} $ US (tarifs à vérifier).`);
   }
   console.log("Run terminé.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
