@@ -1327,13 +1327,14 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         /mise en demeure|\bavocat\b|poursuite (judiciaire|en justice)|vous poursuivre|small claims|petites créances|legal action|take legal/i,
         /inacceptable|scandaleux|honteux|\barnaque\b|\bfraude\b|\bscam\b|toujours (pas|rien) reçu|jamais reçu|où est ma commande|where('?s| is) my order|still (haven'?t|not) (received|got)|unacceptable/i,
       ];
-      const nbClient = msgs.filter((m) => !isUs(m)).length;
+      // Saga tendue = le client a relancé 3 fois SANS qu'on réponde (pas: fil long où on a répondu).
+      const nbSansReponse = sansReponse.length;
       const enjeuRaison =
         ENJEU_RX[0].test(msgClient) ? "avis/plainte"
         : ENJEU_RX[1].test(msgClient) ? "paiement/chargeback"
         : ENJEU_RX[2].test(msgClient) ? "menace légale"
         : ENJEU_RX[3].test(msgClient) ? "colère/impatience"
-        : (nbClient >= 3 && joursAttente >= 21) ? `saga (${nbClient} msg, ${joursAttente}j)`
+        : (nbSansReponse >= 3 && joursAttente >= 21) ? `saga (${nbSansReponse} relances sans réponse, ${joursAttente}j)`
         : "";
       const enjeu = !!enjeuRaison;
       // Escalade par jugement de l'associé (Sonnet), honorée si QC_ESCALADE.
