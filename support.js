@@ -478,11 +478,18 @@ RÈGLES ABSOLUES:
 - LIS TOUT LE FIL avant de répondre, y compris l'infolettre ou le message d'origine: la réponse
   au problème du client s'y trouve souvent. Réponds au CONTENU RÉEL; ne pose jamais de question
   dont la réponse est déjà dans le fil.
-- COHÉRENCE TEMPORELLE (règle critique): utilise la DATE D'AUJOURD'HUI fournie. Beaucoup de fils
-  datent de plusieurs mois. Sur un fil VIEUX (dernier message du client il y a plus de ~3 semaines):
-  ne promets RIEN d'actif (pas « j'ajoute à ta commande », « j'expédie », « je t'envoie le lien »):
-  la commande est presque sûrement déjà traitée ou expédiée. Le bon réflexe par défaut: s'excuser
-  du délai et DEMANDER si la demande est encore d'actualité, sans relancer une action obsolète.
+- COHÉRENCE TEMPORELLE (règle critique): utilise la DATE D'AUJOURD'HUI fournie, et RAISONNE depuis
+  aujourd'hui, pas depuis la date du message du client. Beaucoup de fils datent de plusieurs semaines ou
+  mois. Deux pièges:
+  (a) ACTIONS: sur un fil VIEUX (dernier message du client il y a plus de ~3 semaines), ne promets RIEN
+  d'actif (« j'ajoute à ta commande », « j'expédie », « je t'envoie le lien »): la commande est presque
+  sûrement déjà traitée. Excuse-toi du délai et DEMANDE si c'est encore d'actualité.
+  (b) SOUHAITS DATÉS ET SAISONNIERS: ne souhaite JAMAIS un événement déjà passé selon la date du jour
+  (« bonne St-Jean » après le 24 juin, « joyeuses Fêtes » en janvier, « bonne année » en mars). Une
+  formule saisonnière (« bonne saison de plantation », « bon jardinage », « bel été ») doit coller à
+  aujourd'hui, pas au moment du message: si tu réponds hors saison ou des semaines après, adapte ou
+  omets. Exemple: à quelqu'un qui a semé il y a un mois, ne souhaite pas « bonne plantation », parle des
+  pousses déjà attendues. Dans le doute, un mot neutre et chaleureux vaut mieux qu'un souhait décalé.
 - CATALOGUE PRODUITS: le bloc CATALOGUE PRODUITS ACTUEL est la source de vérité sur ce qui existe.
   Ne dis JAMAIS « on ne fait pas ce produit » ou « on n'a pas ça » sans avoir vérifié le catalogue:
   Lasclay a lancé beaucoup de nouveautés (manteaux/parkas, gants, oreiller, mitaines laine/cuir,
@@ -789,6 +796,10 @@ doit suivre TOUTES les règles: accords au masculin, aucune formule bannie ni an
 téléphone, langue du client, aucune affirmation de commande non vérifiable (montant, statut, code), action
 au futur. N'ajoute NI signature NI notice (ajoutées après). Vérifie aussi les FAITS: un produit inexistant
 au catalogue, un prix ou statut faux, une info contredite par le catalogue ou les corrections de voix = corriger ou bloquer.
+COHÉRENCE TEMPORELLE (vérifie contre AUJOURD'HUI, fourni en tête de contexte): un souhait d'événement
+déjà passé (« bonne St-Jean » après le 24 juin, « joyeuses Fêtes » en janvier), une formule saisonnière
+décalée (« bonne saison de plantation » sur un fil vieux de plusieurs semaines), ou un repère de temps
+qui ne colle plus au délai réel = corriger (retirer ou adapter au moment présent).
 
 Réponds UNIQUEMENT par un objet JSON, sans texte autour:
 {"verdict":"envoyer"|"corriger"|"bloquer","brouillon_corrige":"<le texte corrigé si verdict=corriger, sauts de ligne avec \\n, sinon null>","raison":"une phrase","problemes":["code court", ...]}`);
@@ -799,11 +810,12 @@ const qcUsage = { in: 0, cacheRead: 0, cacheCreate: 0, out: 0 };
 // Tarifs Opus (estimation à vérifier, $ US / million de tokens).
 const QC_RATE_IN = 15 / 1e6, QC_RATE_CACHE = 1.5 / 1e6, QC_RATE_OUT = 75 / 1e6;
 
-async function opusQC(systemBlocks, fil, brouillon, out, flags) {
+async function opusQC(systemBlocks, fil, brouillon, out, flags, joursAttente) {
   const flagsTxt = flags && flags.length
     ? `\n\nSIGNAUX AUTOMATIQUES (corrige-les s'ils sont justes, ignore-les si faux positifs):\n- ${flags.join("\n- ")}`
     : "";
-  const contexte = `FIL CLIENT :\n${fil}\n\nBROUILLON À CONTRÔLER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}${flagsTxt}\n\nRends ton verdict JSON.`;
+  const enTete = `AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}. Le client attend une réponse depuis ${joursAttente ?? "?"} jour(s). Raisonne depuis aujourd'hui, pas depuis la date du message.\n\n`;
+  const contexte = `${enTete}FIL CLIENT :\n${fil}\n\nBROUILLON À CONTRÔLER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}${flagsTxt}\n\nRends ton verdict JSON.`;
   // Mêmes blocs que Sonnet (connaissance + catalogue déjà mis en cache) + la consigne de contrôle.
   const qcSystem = [...systemBlocks, { type: "text", text: sanit(QC_INSTRUCTION) }];
   const payload = JSON.stringify({
@@ -1226,6 +1238,15 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         alertes.push("excuse de délai creuse (sans raison ni « pas dans nos habitudes »): compléter ou retirer");
       }
 
+      // Formules à RISQUE TEMPOREL: souhait d'événement daté (toujours risqué, on peut le souhaiter après
+      // coup) ou formule saisonnière sur un fil en retard. Force le QC pour qu'Opus, qui a la date,
+      // vérifie la cohérence avec aujourd'hui.
+      const EVENEMENT_RX = /bonne (st-?jean|saint-?jean|année|fête (des mères|des pères|du travail|nationale)|action de grâce|halloween)|joyeu(x|ses) (noël|fêtes|pâques|halloween)|joyeuse (st-?valentin|saint-?valentin)|merry christmas|happy (holidays|new year|thanksgiving|halloween|easter|valentine)/i;
+      const SAISON_RX = /bonne (saison|plantation)|bon jardinage|bel (été|hiver|automne|printemps)|bon (été|hiver|automne|printemps)|profite[zr]?\b[^.!?]{0,20}(de l'été|de l'hiver|de la saison|des Fêtes)|\bà temps\b|just in time/i;
+      if (EVENEMENT_RX.test(corps) || (SAISON_RX.test(corps) && joursAttente >= 10)) {
+        alertes.push(`formule temporelle à vérifier (souhait daté ou saisonnier, fil de ${joursAttente}j): cohérente avec la date d'aujourd'hui?`);
+      }
+
       // Montants non sourcés: tout montant en $ du brouillon doit exister dans le fil,
       // le document de connaissance, OU le catalogue produits (prix légitimes), sinon halluciné.
       const source = (filTexte + knowledge + (catalogue || "")).replace(/[\s\u00a0]/g, "");
@@ -1296,16 +1317,18 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       // gratuits, l'ont déjà validé. Tout signal (alerte, note, action) ou catégorie sensible
       // garde le QC.
       const catSensible = CATS_SENSIBLES.has(out.categorie);
-      // ENJEU déterministe (lu dans le fil du CLIENT, gratuit): menace, colère, saga tendue. Objectif,
-      // donc on ne dépend pas de Sonnet pour le remarquer. Attrape le cas facile-mais-explosif.
+      // ENJEU déterministe: menace, colère, saga tendue. Lu sur le DERNIER message du CLIENT seulement,
+      // PAS tout le fil: nos infolettres et le contenu cité contiennent des mots comme « poursuivre
+      // notre mission » qui ne sont pas des menaces. Objectif, gratuit, attrape le facile-mais-explosif.
+      const msgClient = cleanBody(bodies.get(last.id) || last.preview || "");
       const ENJEU_RX = [
-        /avis (google|négatif|1 étoile)|mauvaise (revue|critique|évaluation|note)|bad review|\bplainte\b|office de protection|\bopc\b|dénonc/i,
+        /avis (google|négatif|1 étoile)|mauvaise (revue|critique|évaluation|note)|bad review|\bplainte\b|porter plainte|office de protection|\bopc\b|dénonc/i,
         /rétrofacturation|chargeback|conteste (le|ce) paiement|contestation de paiement|dispute (the|this) charge|rembours\w+ via (ma |la )?banque/i,
-        /mise en demeure|\bavocat\b|poursuiv|poursuite|small claims|petites créances|legal action/i,
-        /inacceptable|scandaleux|honteux|arnaque|\bfraude\b|\bscam\b|toujours (pas|rien) reçu|jamais reçu|où est ma commande|where('?s| is) my order|still (haven'?t|not) (received|got)|unacceptable/i,
+        /mise en demeure|\bavocat\b|poursuite (judiciaire|en justice)|vous poursuivre|small claims|petites créances|legal action|take legal/i,
+        /inacceptable|scandaleux|honteux|\barnaque\b|\bfraude\b|\bscam\b|toujours (pas|rien) reçu|jamais reçu|où est ma commande|where('?s| is) my order|still (haven'?t|not) (received|got)|unacceptable/i,
       ];
       const nbClient = msgs.filter((m) => !isUs(m)).length;
-      const enjeu = ENJEU_RX.some((re) => re.test(filTexte)) || (nbClient >= 3 && joursAttente >= 14);
+      const enjeu = ENJEU_RX.some((re) => re.test(msgClient)) || (nbClient >= 3 && joursAttente >= 21);
       // Escalade par jugement de l'associé (Sonnet), honorée si QC_ESCALADE.
       const escalade = QC_ESCALADE && out.escalade === true;
       if (enjeu) enjeuCount++;
@@ -1315,7 +1338,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       const sansRisque = QC_SKIP_SAFE && !verifRequise && !catSensible && !enjeu && !escalade;
       if (candidat && SEND_QC && !sansRisque) {
         try {
-          qcVerdict = await opusQC(qcSystemBlocks, filTexte, corps, out, noteLigne);
+          qcVerdict = await opusQC(qcSystemBlocks, filTexte, corps, out, noteLigne, joursAttente);
           if (qcVerdict.verdict === "envoyer") {
             envoyer = true;
           } else if (qcVerdict.verdict === "corriger" && qcVerdict.brouillon_corrige) {
