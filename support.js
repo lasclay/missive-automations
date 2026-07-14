@@ -819,7 +819,7 @@ async function opusQC(systemBlocks, fil, brouillon, out, flags, joursAttente) {
   // Mêmes blocs que Sonnet (connaissance + catalogue déjà mis en cache) + la consigne de contrôle.
   const qcSystem = [...systemBlocks, { type: "text", text: sanit(QC_INSTRUCTION) }];
   const payload = JSON.stringify({
-    model: QC_MODEL, max_tokens: 500,
+    model: QC_MODEL, max_tokens: 3000,
     system: qcSystem,
     messages: [{ role: "user", content: sanit(contexte) }],
   });
@@ -1005,7 +1005,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.13 ===");
+  console.log("=== Lasclay support.js v2.15 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
@@ -1328,7 +1328,14 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         /inacceptable|scandaleux|honteux|\barnaque\b|\bfraude\b|\bscam\b|toujours (pas|rien) reçu|jamais reçu|où est ma commande|where('?s| is) my order|still (haven'?t|not) (received|got)|unacceptable/i,
       ];
       const nbClient = msgs.filter((m) => !isUs(m)).length;
-      const enjeu = ENJEU_RX.some((re) => re.test(msgClient)) || (nbClient >= 3 && joursAttente >= 21);
+      const enjeuRaison =
+        ENJEU_RX[0].test(msgClient) ? "avis/plainte"
+        : ENJEU_RX[1].test(msgClient) ? "paiement/chargeback"
+        : ENJEU_RX[2].test(msgClient) ? "menace légale"
+        : ENJEU_RX[3].test(msgClient) ? "colère/impatience"
+        : (nbClient >= 3 && joursAttente >= 21) ? `saga (${nbClient} msg, ${joursAttente}j)`
+        : "";
+      const enjeu = !!enjeuRaison;
       // Escalade par jugement de l'associé (Sonnet), honorée si QC_ESCALADE.
       const escalade = QC_ESCALADE && out.escalade === true;
       if (enjeu) enjeuCount++;
@@ -1401,7 +1408,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
           sent++;
           const opusTxt = corrige ? "Opus: CORRIGÉ" : qcVerdict ? "Opus: OK" : (sansRisque ? "sans QC (sûr)" : "sans QC");
           const finTxt = suivi === "nous" ? `close + relance ${relanceJours}j${relanceRaison ? " (" + relanceRaison.slice(0, 45) + ")" : ""}` : "close";
-          const tags = `${escalade ? " | ESC" : ""}${enjeu ? " | ENJEU" : ""}`;
+          const tags = `${escalade ? " | ESC" : ""}${enjeu ? " | ENJEU:" + enjeuRaison : ""}`;
           console.log(`\n[DRY ENVOI ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${tags} → ${toAddr} | ${opusTxt} | ${finTxt}`);
           if (escalade && out.escalade_raison) console.log(`  >> escalade: ${sanit(String(out.escalade_raison))}`);
           if (corrige && qcVerdict?.raison) console.log(`  >> correction: ${qcVerdict.raison}`);
@@ -1414,7 +1421,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
             : AUTO_SEND
             ? (!catAutorisee ? "catégorie non permise" : !estCourriel ? "canal social" : !toAddr ? "sans destinataire" : (aAgir && !SEND_ACTIONS) ? "action, SEND_ACTIONS off" : !SEND_QC ? "alerte/note, sans QC" : "plafond envois")
             : "envoi auto éteint";
-          console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${escalade ? " | ESC" : ""}${enjeu ? " | ENJEU" : ""} | to: ${toAddr || "(social)"} | reste brouillon: ${pourquoi}`);
+          console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${escalade ? " | ESC" : ""}${enjeu ? " | ENJEU:" + enjeuRaison : ""} | to: ${toAddr || "(social)"} | reste brouillon: ${pourquoi}`);
           if (alarme) console.log("  ⚠️⚠️ VÉRIFICATION HUMAINE REQUISE AVANT ENVOI ⚠️⚠️");
           for (const l of noteLigne) console.log(`  >> ${l}`);
         }
