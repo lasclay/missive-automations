@@ -46,6 +46,9 @@
  *                  "false" = tout candidat passe au QC (comportement v2.13).
  *   QC_LEAN        "true" (défaut) = le QC Opus reçoit un contexte allégé (catalogue + voix +
  *                  corrections, sans les 224 canned), pour réduire le coût par relecture.
+ *   QC_ESCALADE    "true" (défaut) = Sonnet, en associé, peut escalader un cas difficile ou à enjeu
+ *                  vers la relecture Opus (en plus des signaux et catégories sensibles). "false"
+ *                  ignore son jugement d'escalade (le plancher déterministe reste actif).
  *   DIGEST_SUPPORT "true" = poste un « pouls du service » (digest bref, escalade
  *                  sélective) une fois par jour. Défaut false.
  *   DIGEST_HOUR    heure UTC du run où poster le pouls (défaut 10; -1 = chaque run).
@@ -92,6 +95,10 @@ const QC_LEAN = (process.env.QC_LEAN || "true").toLowerCase() !== "false";
 const CATS_SENSIBLES = new Set([
   "retour_echange_remboursement", "probleme_produit_garantie", "wholesale_b2b", "douane_international",
 ]);
+// v2.15 — Sonnet agit en associé au service client: il escalade (escalade=true) les cas difficiles
+// ou à enjeu vers le QC Opus. ADDITIF: son jugement ajoute du QC, ne saute jamais un signal ni une
+// catégorie sensible. Un détecteur d'enjeu déterministe complète son jugement (gratuit).
+const QC_ESCALADE = (process.env.QC_ESCALADE || "true").toLowerCase() !== "false";
 // v2.11 — pouls du service (digest bref, escalade sélective). Un seul par jour: on
 // ne poste qu'au run dont l'heure UTC = DIGEST_HOUR (-1 = à chaque run).
 const DIGEST_SUPPORT = (process.env.DIGEST_SUPPORT || "").toLowerCase() === "true";
@@ -714,6 +721,18 @@ NON-ÉVIDENT: affirmation du client qui cloche, légitimité d'un rabais douteus
 derrière une promesse, contradiction dans le fil, frais de procédure hors sujet. Détaille
 seulement si le cas est réellement complexe (longue saga, plusieurs enjeux entremêlés).
 
+TON RÔLE ET L'ESCALADE: agis comme un associé au service client de Lasclay, très compétent et
+connaissant. Tu traites toi-même la vaste majorité des cas, de bout en bout. Mais comme un bon associé,
+tu LÈVES LA MAIN (escalade=true) quand un cas mérite un second regard avant l'envoi, dans deux cas:
+- DIFFICILE: tu improvises, un fait t'échappe ou tu en doutes, cas inhabituel, réponse que tu n'es pas
+  certain d'avoir bien calibrée.
+- À ENJEU: une mauvaise réponse coûterait cher, soit client fâché ou menaçant, risque d'avis négatif ou
+  de plainte, remboursement ou garantie à trancher, sujet sensible (fabrication, santé), longue saga
+  tendue.
+N'escalade PAS un remerciement, une confirmation ou une info simple dont tu es sûr. L'escalade est un
+outil de jugement, pas un réflexe: escalade quand un collègue d'expérience voudrait vérifier avant que
+ça parte, sinon non.
+
 RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
 {
   "repondre": true|false,        // false si spam, démarchage, notifications, réponse d'infolettre sans question
@@ -726,7 +745,9 @@ RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
   "action_requise": "<télégraphique: le geste que Gabriel doit POSER avant d'envoyer, sinon null>",
   "suivi": "<qui a le prochain geste: 'client' si on attend une réponse ou une action du client; 'nous' si on doit le relancer (typique d'une vente ou d'un pré-achat: on répond, puis on vérifie plus tard s'il a commandé); 'aucun' si rien n'est en attente (remerciement, info donnée)>",
   "relance_jours": "<si suivi='nous', dans combien de jours relancer (un nombre), en choisissant le délai IDÉAL selon le cas (ex. 3 pour une vente chaude, 7 à 10 pour un suivi moins pressant); sinon null>",
-  "relance_raison": "<si suivi='nous', une COURTE justification du délai choisi, pour aider l'opérateur (ex. 'vente chaude, relancer vite s'il n'a pas commandé' ou 'laisser le temps de recevoir avant de vérifier sa satisfaction'); sinon null>"
+  "relance_raison": "<si suivi='nous', une COURTE justification du délai choisi, pour aider l'opérateur (ex. 'vente chaude, relancer vite s'il n'a pas commandé' ou 'laisser le temps de recevoir avant de vérifier sa satisfaction'); sinon null>",
+  "escalade": true|false,
+  "escalade_raison": "<si escalade=true, une phrase courte disant pourquoi (ex. 'cas de garantie ambigu', 'client menace un avis négatif', 'question de fabrication délicate', 'je ne suis pas certain du fait X'); sinon null>"
 }
 `);
 
@@ -773,6 +794,7 @@ Réponds UNIQUEMENT par un objet JSON, sans texte autour:
 {"verdict":"envoyer"|"corriger"|"bloquer","brouillon_corrige":"<le texte corrigé si verdict=corriger, sauts de ligne avec \\n, sinon null>","raison":"une phrase","problemes":["code court", ...]}`);
 
 let qcCalls = 0, qcBlocks = 0, qcSkipped = 0;
+let escalCount = 0, enjeuCount = 0;
 const qcUsage = { in: 0, cacheRead: 0, cacheCreate: 0, out: 0 };
 // Tarifs Opus (estimation à vérifier, $ US / million de tokens).
 const QC_RATE_IN = 15 / 1e6, QC_RATE_CACHE = 1.5 / 1e6, QC_RATE_OUT = 75 / 1e6;
@@ -977,7 +999,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   if (AUTO_SEND) {
     console.log(`*** ENVOI AUTO ACTIF *** SEND_LIMIT: ${SEND_LIMIT || "aucun"} | catégories: ${SEND_CATEGORIES.length ? SEND_CATEGORIES.join(",") : "toutes (brouillons propres)"}`);
     console.log(`    Envoi des actions (remboursements...): ${SEND_ACTIONS ? "OUI, avec digest à traiter" : "non (restent brouillons)"}`);
-    console.log(`    Contrôle Opus avant envoi: ${SEND_QC ? `OUI (${QC_MODEL})${QC_LEAN ? ", contexte allégé" : ""}${QC_SKIP_SAFE ? ", sauté sur les envois sûrs" : ""}` : "NON"}`);
+    console.log(`    Contrôle Opus avant envoi: ${SEND_QC ? `OUI (${QC_MODEL})${QC_LEAN ? ", contexte allégé" : ""}${QC_SKIP_SAFE ? ", sauté sur les envois sûrs" : ""}${QC_ESCALADE ? ", escalade associé + enjeu actifs" : ""}` : "NON"}`);
     console.log(`    Après envoi: fermeture du fil (close), + label Relance si suivi='nous'${RELANCE_LABEL ? "" : " [RELANCE_LABEL absent: note seule]"}.`);
     console.log("    Une note à vérifier ou un cas jugé « à humain » par Opus reste en brouillon.");
   } else {
@@ -1274,7 +1296,23 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       // gratuits, l'ont déjà validé. Tout signal (alerte, note, action) ou catégorie sensible
       // garde le QC.
       const catSensible = CATS_SENSIBLES.has(out.categorie);
-      const sansRisque = QC_SKIP_SAFE && !verifRequise && !catSensible;
+      // ENJEU déterministe (lu dans le fil du CLIENT, gratuit): menace, colère, saga tendue. Objectif,
+      // donc on ne dépend pas de Sonnet pour le remarquer. Attrape le cas facile-mais-explosif.
+      const ENJEU_RX = [
+        /avis (google|négatif|1 étoile)|mauvaise (revue|critique|évaluation|note)|bad review|\bplainte\b|office de protection|\bopc\b|dénonc/i,
+        /rétrofacturation|chargeback|conteste (le|ce) paiement|contestation de paiement|dispute (the|this) charge|rembours\w+ via (ma |la )?banque/i,
+        /mise en demeure|\bavocat\b|poursuiv|poursuite|small claims|petites créances|legal action/i,
+        /inacceptable|scandaleux|honteux|arnaque|\bfraude\b|\bscam\b|toujours (pas|rien) reçu|jamais reçu|où est ma commande|where('?s| is) my order|still (haven'?t|not) (received|got)|unacceptable/i,
+      ];
+      const nbClient = msgs.filter((m) => !isUs(m)).length;
+      const enjeu = ENJEU_RX.some((re) => re.test(filTexte)) || (nbClient >= 3 && joursAttente >= 14);
+      // Escalade par jugement de l'associé (Sonnet), honorée si QC_ESCALADE.
+      const escalade = QC_ESCALADE && out.escalade === true;
+      if (enjeu) enjeuCount++;
+      if (escalade) escalCount++;
+      // Porte du QC, union ADDITIVE de quatre entrées: signal déterministe de voix, catégorie sensible,
+      // enjeu détecté, ou escalade de Sonnet. Rien de tout ça ne SAUTE un QC; ça ne fait qu'en ajouter.
+      const sansRisque = QC_SKIP_SAFE && !verifRequise && !catSensible && !enjeu && !escalade;
       if (candidat && SEND_QC && !sansRisque) {
         try {
           qcVerdict = await opusQC(qcSystemBlocks, filTexte, corps, out, noteLigne);
@@ -1340,7 +1378,9 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
           sent++;
           const opusTxt = corrige ? "Opus: CORRIGÉ" : qcVerdict ? "Opus: OK" : (sansRisque ? "sans QC (sûr)" : "sans QC");
           const finTxt = suivi === "nous" ? `close + relance ${relanceJours}j${relanceRaison ? " (" + relanceRaison.slice(0, 45) + ")" : ""}` : "close";
-          console.log(`\n[DRY ENVOI ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} → ${toAddr} | ${opusTxt} | ${finTxt}`);
+          const tags = `${escalade ? " | ESC" : ""}${enjeu ? " | ENJEU" : ""}`;
+          console.log(`\n[DRY ENVOI ${sent}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${tags} → ${toAddr} | ${opusTxt} | ${finTxt}`);
+          if (escalade && out.escalade_raison) console.log(`  >> escalade: ${sanit(String(out.escalade_raison))}`);
           if (corrige && qcVerdict?.raison) console.log(`  >> correction: ${qcVerdict.raison}`);
           if (itemDigest) console.log(`  >> ${itemDigest.rembours ? "REMBOURSEMENT" : "ACTION"} au digest: ${itemDigest.action}`);
         } else {
@@ -1351,7 +1391,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
             : AUTO_SEND
             ? (!catAutorisee ? "catégorie non permise" : !estCourriel ? "canal social" : !toAddr ? "sans destinataire" : (aAgir && !SEND_ACTIONS) ? "action, SEND_ACTIONS off" : !SEND_QC ? "alerte/note, sans QC" : "plafond envois")
             : "envoi auto éteint";
-          console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue} | to: ${toAddr || "(social)"} | reste brouillon: ${pourquoi}`);
+          console.log(`\n[DRY draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${escalade ? " | ESC" : ""}${enjeu ? " | ENJEU" : ""} | to: ${toAddr || "(social)"} | reste brouillon: ${pourquoi}`);
           if (alarme) console.log("  ⚠️⚠️ VÉRIFICATION HUMAINE REQUISE AVANT ENVOI ⚠️⚠️");
           for (const l of noteLigne) console.log(`  >> ${l}`);
         }
@@ -1480,6 +1520,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   if (SEND_QC && (qcCalls > 0 || qcSkipped > 0)) {
     const coutQC = qcUsage.in * QC_RATE_IN + qcUsage.cacheCreate * QC_RATE_IN + qcUsage.cacheRead * QC_RATE_CACHE + qcUsage.out * QC_RATE_OUT;
     console.log(`Contrôle Opus: ${qcCalls} relecture(s)${QC_LEAN ? " (contexte allégé)" : ""}, ${qcBlocks} refus, ${qcSkipped} envoi(s) sûr(s) sans QC. Tokens in ${qcUsage.in}/cache ${qcUsage.cacheRead}/out ${qcUsage.out}. Coût QC estimé: ~ ${coutQC.toFixed(2)} $ US (tarifs à vérifier).`);
+    console.log(`Escalades vers le QC: ${escalCount} par jugement de Sonnet (associé), ${enjeuCount} par enjeu détecté dans le fil.`);
   }
   console.log("Run terminé.");
 })().catch((e) => { console.error("Erreur fatale:", e.message); process.exit(1); });
