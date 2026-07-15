@@ -1,5 +1,5 @@
 /**
- * Lasclay — filtrage.js (v1)
+ * Lasclay — filtrage.js (v1.1)
  * --------------------------------------------------------------------------
  * Ferme, dans les boîtes ADMIN (admin@lasclay.com) et OPERATIONS
  * (operations@lasclay.com), les courriels qui NE NÉCESSITENT AUCUNE ACTION :
@@ -10,8 +10,16 @@
  * garder l'inbox propre sans jamais fermer un courriel qui demande un geste.
  *
  * PHILOSOPHIE (identique à support.js) : déterministe d'abord, garde-fous qui
- * priment toujours, IA (Sonnet) seulement en appoint et seulement pour trancher
- * les cas automatiques ambigus. En cas de doute : on GARDE le fil ouvert.
+ * priment toujours, IA (Opus par défaut) en appoint pour les cas subtils. En cas
+ * de doute : on GARDE le fil ouvert.
+ *
+ * TROIS ISSUES pour un fil (pas deux) :
+ *   • FERMÉ  — pur bruit réglé, plus rien à en faire (reçu, paiement reçu).
+ *   • À VOIR — aucune urgence MAIS une action douce/éventuelle ou une info à
+ *              connaître (ex. « The new HelpCenter is live now » : pas urgent,
+ *              mais à explorer et à savoir). GARDÉ OUVERT, + label de revue
+ *              optionnel (REVIEW_LABEL_ID). Ne se ferme JAMAIS par commodité.
+ *   • GARDÉ  — une action réelle est plausible/attendue, ou dans le doute.
  *
  * CHAÎNE DE DÉCISION, pour chaque fil OUVERT d'Admin/Operations :
  *   0. Fil assigné à quelqu'un ................................. GARDÉ (humain dessus)
@@ -20,15 +28,17 @@
  *      (action requise, échec/refus de paiement, à payer,          signal « sans action » coexiste.
  *       vérifiez/confirmez, suspension, urgent, expire,            L'exclusion l'emporte SYSTÉMATIQUEMENT.
  *       litige/rétrofacturation, remboursement demandé…)
- *   3. Déterministe : expéditeur AUTOMATIQUE + phrase « sans
- *      action » (reçu, paiement reçu, confirmation…) ........... FERMÉ
- *   4. USE_AI=true : Sonnet juge les candidats automatiques non
- *      tranchés (réponse close/keep + confiance) .............. FERMÉ si close & confiance ≥ SEUIL
+ *   3. Déterministe : expéditeur AUTOMATIQUE + phrase « sans action » et PAS une
+ *      diffusion (infolettre) ................................... FERMÉ
+ *   4. USE_AI=true : Opus juge les candidats automatiques OU diffusions non
+ *      tranchés → close / a_voir / keep ....................... FERMÉ si close & confiance ≥ SEUIL ;
+ *                                                                À VOIR si a_voir ; sinon GARDÉ
  *   5. Sinon .................................................... GARDÉ
  *
  * FERMETURE : POST /posts avec close:true + une courte note interne (l'API exige
  * un markdown). Aucune notification poussée (on ne veut pas de bruit). Le fil se
  * rouvre tout seul si quelqu'un y répond. Option CLOSED_LABEL_ID pour étiqueter.
+ * « À VOIR » : PATCH silencieux add_shared_labels (fil laissé ouvert).
  *
  * GARDE-FOUS :
  *   DRY_RUN=true par défaut : liste ce qui SERAIT fermé/gardé, ne touche à RIEN.
@@ -50,19 +60,21 @@
  *                     (un fil pris en charge par un humain est laissé tel quel).
  *   AUTO_REQUIRED     "false" pour ne pas exiger un expéditeur automatique au
  *                     déterministe. Défaut true (plus prudent).
- *   USE_AI            "true" = Sonnet tranche les candidats automatiques ambigus.
- *                     Défaut false (mode déterministe gratuit).
+ *   USE_AI            "true" = Opus juge les candidats automatiques/diffusions
+ *                     ambigus (close/a_voir/keep). Défaut false (déterministe seul).
  *   ANTHROPIC_API_KEY clé Anthropic (requise seulement si USE_AI=true).
- *   MODEL             modèle du juge (défaut claude-sonnet-4-6).
- *   AI_SEUIL          confiance minimale pour fermer via l'IA (0-1). Défaut 0.85.
+ *   MODEL             modèle du juge (défaut claude-opus-4-8, autorisé par Gabriel
+ *                     pour mieux trancher les cas subtils; boîtes à faible volume).
+ *   AI_SEUIL          confiance minimale pour FERMER via l'IA (0-1). Défaut 0.85.
  *   NOTIF_DOMAINS     domaines d'expéditeurs à considérer comme automatiques, EN
  *                     PLUS des défauts, séparés par des virgules.     [facultatif]
  *   CLOSED_LABEL_ID   label posé sur les fils fermés (traçabilité).   [facultatif]
+ *   REVIEW_LABEL_ID   label posé sur les fils « à voir » (gardés ouverts).  [facultatif]
  *   RESUME_CONV       conversation où poster un bref récapitulatif du run.
  *   MISSIVE_SELF_ADDRESSES  nos adresses (défaut hey@, admin@, operations@).
  */
 
-const VERSION = "v1";
+const VERSION = "v1.1";
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
@@ -73,10 +85,15 @@ const SKIP_ASSIGNED = (process.env.SKIP_ASSIGNED || "true").toLowerCase() !== "f
 const AUTO_REQUIRED = (process.env.AUTO_REQUIRED || "true").toLowerCase() !== "false";
 const USE_AI = (process.env.USE_AI || "").toLowerCase() === "true";
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
-const MODEL = process.env.MODEL || "claude-sonnet-4-6";
+// Juge par défaut = Opus : ces boîtes sont à faible volume et les cas subtils
+// (mise à jour produit « à voir un jour », faux air de pub) demandent du jugement.
+const MODEL = process.env.MODEL || "claude-opus-4-8";
 const AI_SEUIL = parseFloat(process.env.AI_SEUIL || "0.85");
 const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
 const CLOSED_LABEL_ID = process.env.CLOSED_LABEL_ID || "";
+// Label optionnel posé sur les fils « à voir » (action douce / éventuelle, gardés OUVERTS) :
+// donne à Gabriel une pile filtrée « à regarder un jour » sans encombrer l'inbox principale.
+const REVIEW_LABEL_ID = process.env.REVIEW_LABEL_ID || "";
 const RESUME_CONV = process.env.RESUME_CONV || "";
 
 // --- Équipes ciblées (ids confirmés par repartition_merge.js / logs prod) ---
@@ -140,6 +157,26 @@ async function apiPost(path, body, tries = 0) {
   if (res.status === 429) { console.warn("Limite de débit, pause 30 s..."); await sleep(30000); return apiPost(path, body, tries); }
   const text = await res.text();
   if (!res.ok) console.error(`POST ${path} → ${res.status} ${text}`);
+  return { ok: res.ok, status: res.status, text };
+}
+
+// PATCH silencieux (changement de label sans commentaire, sans notification, sans
+// remontée du fil en haut de la boîte). Patron validé de merge.js.
+async function apiPatch(path, body, tries = 0) {
+  await sleep(260);
+  let res;
+  try { res = await fetch(`${API}${path}`, { method: "PATCH", headers: mHeaders, body: JSON.stringify(body) }); }
+  catch (e) {
+    if (tries < 4) {
+      console.warn(`Réseau (${e.message}) sur PATCH ${path}, pause ${(tries + 1) * 5}s...`);
+      await sleep((tries + 1) * 5000);
+      return apiPatch(path, body, tries + 1);
+    }
+    throw e;
+  }
+  if (res.status === 429) { console.warn("Limite de débit, pause 30 s..."); await sleep(30000); return apiPatch(path, body, tries); }
+  const text = await res.text();
+  if (!res.ok) console.error(`PATCH ${path} → ${res.status} ${text}`);
   return { ok: res.ok, status: res.status, text };
 }
 
@@ -264,6 +301,17 @@ function isAutomatedSender(addr) {
   return false;
 }
 
+// Diffusion (mailing list / infolettre) : marqueur de désabonnement dans le corps.
+// Élargit le vivier de candidats du juge IA (une pub OU une mise à jour produit à voir),
+// SANS jamais élargir la fermeture déterministe (qui reste ancrée à l'expéditeur).
+const BROADCAST_RE = [
+  /unsubscribe/i, /se d[ée]sabonner/i, /list-unsubscribe/i, /g[ée]rer (?:mes|vos) (?:pr[ée]f[ée]rences|abonnements)/i,
+  /view (?:this|in) (?:email )?(?:in your )?browser/i, /consultez-le en ligne/i,
+];
+function isBroadcast(text) {
+  return BROADCAST_RE.some((re) => re.test(text));
+}
+
 // Signaux « SANS ACTION » : reçus, confirmations de paiement, avis informatifs.
 const NO_ACTION_RE = [
   /\breceipt\b/i, /\bre[çc]u\b/i, /your receipt/i, /votre re[çc]u/i, /receipt (from|for|#)/i,
@@ -319,8 +367,18 @@ async function fermerSansAction(convId, categorie) {
   return apiPost("/posts", { posts: post });
 }
 
+// Marque un fil « à voir » : garde OUVERT, pose le label de revue s'il est configuré.
+// PATCH silencieux (pas de commentaire ni de remontée du fil). Sans label configuré,
+// « à voir » se comporte comme un simple maintien ouvert (juste journalisé).
+async function marquerAVoir(convId) {
+  if (!REVIEW_LABEL_ID) return { ok: true, skipped: true };
+  return apiPatch(`/conversations/${convId}`, {
+    conversations: [{ id: convId, organization: ORG, add_shared_labels: [REVIEW_LABEL_ID] }],
+  });
+}
+
 // ==========================================================================
-//  Juge IA (Sonnet) — appoint conservateur, seulement si USE_AI
+//  Juge IA (Opus par défaut) — appoint conservateur, seulement si USE_AI
 // ==========================================================================
 const AI_SYSTEM = [
   {
@@ -329,39 +387,55 @@ const AI_SYSTEM = [
     text:
 `Tu tries les boîtes ADMIN et OPERATIONS de l'entreprise Lasclay (asclépiade / papillons monarques).
 Ces boîtes reçoivent des courriels administratifs et opérationnels : reçus, factures, confirmations de paiement,
-avis de fournisseurs, notifications de plateformes (Shopify, Stripe, Google...), etc. Ce N'EST PAS du service client.
+avis de fournisseurs, notifications et mises à jour de plateformes (Shopify, Stripe, Google, outils SaaS...),
+infolettres de service. Ce N'EST PAS du service client. Tu ne rédiges rien, tu ne réponds à personne.
 
-Ta seule tâche : décider si un courriel peut être FERMÉ parce qu'il ne demande AUCUNE action, AUCUNE réponse,
-AUCUNE tâche et AUCUN suivi de la part de l'équipe. Tu ne rédiges rien, tu ne réponds à personne.
+Classe le courriel dans UNE de trois cases :
 
-FERME (action="close") UNIQUEMENT les purs courriels informatifs sans geste à poser :
-  - reçus et confirmations de paiement (« paiement reçu », « your receipt », rechargement automatique, solde à 0)
-  - avis automatiques purement informatifs (« pour vos dossiers », « aucune action requise »)
-  - accusés de réception qui ne demandent rien.
+1. action="close" — À FERMER. Purs courriels informatifs, définitivement réglés, sans AUCUN geste ni maintenant
+   ni plus tard, et sans rien d'important à retenir :
+     - reçus et confirmations de paiement (« paiement reçu », « your receipt », rechargement automatique, solde à 0)
+     - accusés de réception, « pour vos dossiers », « aucune action requise »
+     - notifications automatiques jetables (statut « livré » sans problème, etc.).
+   Ferme seulement si, une fois lu, il n'y a STRICTEMENT plus rien à en faire.
 
-GARDE (action="keep") dès qu'un geste, une décision ou une vérification est plausible :
-  - toute facture À PAYER, échec/refus de paiement, montant dû, solde à régler
-  - « action requise », « vérifiez », « confirmez », suspension, expiration, alerte de sécurité
-  - tout ce qui touche une commande à traiter, un remboursement, un litige, une livraison problématique
-  - tout courriel écrit par une vraie personne qui attend quoi que ce soit
-  - le moindre doute : GARDE.
+2. action="a_voir" — À GARDER OUVERT MAIS SIGNALÉ. Aucune urgence, mais il y a une action DOUCE ou ÉVENTUELLE,
+   ou quelque chose qu'il FAUT connaître / regarder un jour. C'est le piège le plus fréquent : ça peut ressembler
+   à une pub ou à du bruit, mais ce n'en est pas.
+     - mise à jour / nouvelle fonctionnalité d'un outil qu'on utilise, avec invitation à aller voir
+       (EXEMPLE TYPE : « The new HelpCenter is live now » — pas urgent, mais à explorer et à savoir)
+     - changement de conditions/prix/politique d'un fournisseur à prendre en note
+     - rappel léger, migration à planifier « quand tu auras le temps »
+     - toute information utile à garder en tête même sans échéance ferme.
+   En cas d'hésitation entre "close" et "a_voir" : choisis "a_voir" (on ne perd rien, ça reste accessible).
+
+3. action="keep" — À GARDER, actif. Un geste, une décision ou une vérification est plausible ou attendu :
+     - facture À PAYER, échec/refus de paiement, montant dû, solde à régler
+     - « action requise », « vérifiez », « confirmez », suspension, expiration, alerte de sécurité
+     - commande à traiter, remboursement, litige, livraison problématique
+     - tout courriel écrit par une vraie personne qui attend quoi que ce soit
+     - le moindre doute sur une action réelle : "keep".
+
+Règle d'or : ne "close" JAMAIS par commodité. Un courriel qui mérite d'être connu ou revu est "a_voir", pas "close".
 
 Réponds STRICTEMENT en JSON, sans texte autour :
-{"action":"close"|"keep","categorie":"reçu|confirmation_paiement|avis_informatif|facture_a_payer|action_requise|autre","confiance":0.0-1.0,"raison":"courte phrase"}`,
+{"action":"close"|"a_voir"|"keep","categorie":"recu|confirmation_paiement|avis_informatif|maj_outil|info_a_retenir|facture_a_payer|action_requise|humain|autre","confiance":0.0-1.0,"raison":"courte phrase"}`,
   },
 ];
 
-async function jugerIA(sujet, corps, expediteur, boite, dateStr) {
+async function jugerIA(sujet, corps, expediteur, boite, diffusion, dateStr) {
   const user =
 `AUJOURD'HUI : ${dateStr}
 BOÎTE : ${boite}
 EXPÉDITEUR : ${expediteur}
+DIFFUSION (infolettre / envoi de masse) : ${diffusion ? "oui" : "non"}
 SUJET : ${sujet}
 CORPS (nettoyé, tronqué) :
 ${(corps || "").slice(0, 3000)}`;
   const raw = await claude(AI_SYSTEM, user, 400);
   const out = parseJsonLoose(raw);
-  if (!out || (out.action !== "close" && out.action !== "keep")) {
+  const valides = new Set(["close", "a_voir", "keep"]);
+  if (!out || !valides.has(out.action)) {
     return { action: "keep", categorie: "autre", confiance: 0, raison: "réponse IA illisible → gardé" };
   }
   return out;
@@ -402,6 +476,7 @@ async function main() {
 
   const dateStr = new Date().toISOString().slice(0, 10);
   const aFermer = []; // { conv, categorie, source, raison }
+  const aVoir = [];   // { conv, boite, categorie, raison } — gardés ouverts + label de revue
   const gardes = [];  // { conv, raison }
   let analyses = 0;
 
@@ -432,6 +507,7 @@ async function main() {
     // Texte de décision : sujet + aperçu (léger). Corps complet chargé au besoin.
     const apercu = stripHtml(last.body || last.preview || "");
     let texte = `${sujet}\n${apercu}`;
+    const broadcast = isBroadcast(texte);
 
     // 2. Signal d'action présent → GARDE, toujours (l'exclusion prime).
     if (hasActionSignal(texte)) {
@@ -440,14 +516,17 @@ async function main() {
     }
 
     // 3. Déterministe : automatique (si requis) + phrase « sans action ».
+    //    Une DIFFUSION (infolettre / mise à jour produit) n'est jamais fermée au
+    //    déterministe : elle peut cacher une action douce « à voir » (cf. HelpCenter).
+    //    On la laisse au juge IA si actif, sinon on la garde.
     const autoOk = auto || !AUTO_REQUIRED;
-    if (autoOk && hasNoActionSignal(texte)) {
+    if (autoOk && !broadcast && hasNoActionSignal(texte)) {
       aFermer.push({ conv, boite, categorie: "sans action (déterministe)", source: "det", raison: `expéditeur ${auto ? "auto" : "?"}, phrase sans action` });
       continue;
     }
 
-    // 4. Juge IA (seulement candidats automatiques, seulement si USE_AI).
-    if (USE_AI && auto) {
+    // 4. Juge IA (candidats automatiques OU diffusions, seulement si USE_AI).
+    if (USE_AI && (auto || broadcast)) {
       // Corps complet pour un meilleur jugement.
       let corps = apercu;
       if (last.id) { const b = stripHtml(await fetchBody(last.id)); if (b) corps = b; }
@@ -457,10 +536,12 @@ async function main() {
         continue;
       }
       let verdict;
-      try { verdict = await jugerIA(sujet, corps, expediteur, boite, dateStr); }
+      try { verdict = await jugerIA(sujet, corps, expediteur, boite, broadcast, dateStr); }
       catch (e) { gardes.push({ conv, boite, raison: `IA en erreur (${e.message}) → gardé` }); continue; }
       if (verdict.action === "close" && (verdict.confiance ?? 0) >= AI_SEUIL) {
         aFermer.push({ conv, boite, categorie: verdict.categorie || "sans action (IA)", source: "ia", raison: `IA: ${verdict.raison || ""} (conf. ${verdict.confiance})` });
+      } else if (verdict.action === "a_voir") {
+        aVoir.push({ conv, boite, categorie: verdict.categorie || "à voir", raison: `IA à voir: ${verdict.raison || ""} (conf. ${verdict.confiance ?? "?"})` });
       } else {
         gardes.push({ conv, boite, raison: `IA garde: ${verdict.raison || verdict.action} (conf. ${verdict.confiance ?? "?"})` });
       }
@@ -468,7 +549,7 @@ async function main() {
     }
 
     // 5. Sinon, on garde.
-    gardes.push({ conv, boite, raison: auto ? "automatique mais pas de signal sans action clair" : "expéditeur non automatique" });
+    gardes.push({ conv, boite, raison: broadcast ? "diffusion, gardée (activer USE_AI pour la classer « à voir »)" : (auto ? "automatique mais pas de signal sans action clair" : "expéditeur non automatique") });
   }
 
   // --- Aperçu ---
@@ -476,13 +557,17 @@ async function main() {
   for (const p of aFermer) {
     console.log(`  ✔ [${p.boite}] ${(p.conv.subject || "(sans sujet)").slice(0, 60)}  — ${p.raison}`);
   }
+  console.log(`\nÀ VOIR — gardés ouverts${REVIEW_LABEL_ID ? " + label de revue" : ""} (${aVoir.length}) :`);
+  for (const p of aVoir) {
+    console.log(`  ⧗ [${p.boite}] ${(p.conv.subject || "(sans sujet)").slice(0, 60)}  — ${p.raison}`);
+  }
   console.log(`\nGARDÉS (${gardes.length}) :`);
   for (const g of gardes) {
     console.log(`  · [${g.boite}] ${(g.conv.subject || "(sans sujet)").slice(0, 60)}  — ${g.raison}`);
   }
 
   // --- Exécution ---
-  console.log(`\n${aFermer.length} fil(s) à fermer, ${gardes.length} gardé(s). (${analyses} analysé(s))`);
+  console.log(`\n${aFermer.length} à fermer, ${aVoir.length} à voir, ${gardes.length} gardé(s). (${analyses} analysé(s))`);
   let fermes = 0;
   for (const p of aFermer) {
     if (CLOSE_LIMIT && fermes >= CLOSE_LIMIT) { console.log(`Plafond CLOSE_LIMIT=${CLOSE_LIMIT} atteint, arrêt.`); break; }
@@ -491,7 +576,20 @@ async function main() {
     if (r.ok) fermes++;
     else console.error(`  échec fermeture ${p.conv.id}`);
   }
-  console.log(`\n${fermes} fil(s) ${DRY_RUN ? "à fermer (simulation)" : "fermé(s)"}.`);
+  console.log(`${fermes} fil(s) ${DRY_RUN ? "à fermer (simulation)" : "fermé(s)"}.`);
+
+  // Fils « à voir » : posent le label de revue (s'il est configuré), restent OUVERTS.
+  let marques = 0;
+  if (REVIEW_LABEL_ID) {
+    for (const p of aVoir) {
+      if (DRY_RUN) { marques++; continue; }
+      const r = await marquerAVoir(p.conv.id);
+      if (r.ok) marques++;
+    }
+    console.log(`${marques} fil(s) « à voir » ${DRY_RUN ? "à étiqueter (simulation)" : "étiqueté(s)"} (restent ouverts).`);
+  } else if (aVoir.length) {
+    console.log(`${aVoir.length} fil(s) « à voir » gardés ouverts (définis REVIEW_LABEL_ID pour les étiqueter).`);
+  }
 
   // --- Récapitulatif optionnel dans une conversation Missive ---
   if (RESUME_CONV && !DRY_RUN && fermes > 0) {
@@ -517,4 +615,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { hasNoActionSignal, hasActionSignal, isAutomatedSender };
+module.exports = { hasNoActionSignal, hasActionSignal, isAutomatedSender, isBroadcast };
