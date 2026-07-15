@@ -1,80 +1,78 @@
 /**
- * Lasclay — filtrage.js (v1.1)
+ * Lasclay — filtrage.js (v2)
  * --------------------------------------------------------------------------
- * Ferme, dans les boîtes ADMIN (admin@lasclay.com) et OPERATIONS
- * (operations@lasclay.com), les courriels qui NE NÉCESSITENT AUCUNE ACTION :
- * reçus de paiement, confirmations de paiement, avis automatiques informatifs.
- * Exemples typiques : « Your receipt from Anthropic, PBC », « Merci! Nous avons
- * reçu votre paiement » (Virgin Plus), rechargements automatiques, relevés à
- * solde nul, etc. Ces boîtes ne sont PAS du service client : le but est de
- * garder l'inbox propre sans jamais fermer un courriel qui demande un geste.
+ * Trie les boîtes ADMIN (admin@lasclay.com) et OPERATIONS (operations@lasclay.com)
+ * et désencombre l'inbox sans jamais escamoter un courriel qui demande un geste.
+ * Ces boîtes ne sont PAS du service client.
  *
- * PHILOSOPHIE (identique à support.js) : déterministe d'abord, garde-fous qui
- * priment toujours, IA (Opus par défaut) en appoint pour les cas subtils. En cas
- * de doute : on GARDE le fil ouvert.
+ * v2 — deux correctifs majeurs après le 1er run réel (v1.1 gardait tout car il
+ * jugeait à l'aveugle) :
+ *   1. LECTURE RÉELLE du courriel : sujet via latest_message_subject (souvent
+ *      vide dans conv.subject) + CHARGEMENT DU CORPS du dernier message (le
+ *      listage des messages ne renvoie pas le body). Sans ça, aucun texte à juger.
+ *   2. L'IA (Opus) devient le MOTEUR, pas un simple appoint : elle voit le vrai
+ *      sujet+corps et tranche chaque courriel entrant. Le déterministe reste un
+ *      raccourci gratuit (reçus évidents) + les garde-fous.
  *
- * TROIS ISSUES pour un fil (pas deux) :
+ * QUATRE ISSUES pour un fil :
  *   • FERMÉ  — pur bruit réglé, plus rien à en faire (reçu, paiement reçu).
- *   • À VOIR — aucune urgence MAIS une action douce/éventuelle ou une info à
- *              connaître (ex. « The new HelpCenter is live now » : pas urgent,
- *              mais à explorer et à savoir). GARDÉ OUVERT, + label de revue
- *              optionnel (REVIEW_LABEL_ID). Ne se ferme JAMAIS par commodité.
+ *   • SPAM   — démarchage/sollicitation froide non désirée (ex. agence qui
+ *              prospecte, « petite question rapide » déguisée en vente). Action
+ *              réelle réglée par SPAM_ACTION (l'API Missive n'a pas de « spam »).
+ *   • À VOIR — aucune urgence MAIS action douce/éventuelle ou info à connaître
+ *              (ex. « The new HelpCenter is live now »). GARDÉ OUVERT + label
+ *              de revue optionnel. Ne se ferme JAMAIS par commodité.
  *   • GARDÉ  — une action réelle est plausible/attendue, ou dans le doute.
  *
- * CHAÎNE DE DÉCISION, pour chaque fil OUVERT d'Admin/Operations :
+ * CHAÎNE DE DÉCISION, pour chaque fil OUVERT :
  *   0. Fil assigné à quelqu'un ................................. GARDÉ (humain dessus)
  *   1. Dernier message = NOUS ................................... GARDÉ (en attente d'une réponse)
- *   2. Un SIGNAL D'ACTION est présent (exclusion) .............. GARDÉ, toujours, même si un
- *      (action requise, échec/refus de paiement, à payer,          signal « sans action » coexiste.
- *       vérifiez/confirmez, suspension, urgent, expire,            L'exclusion l'emporte SYSTÉMATIQUEMENT.
- *       litige/rétrofacturation, remboursement demandé…)
- *   3. Déterministe : expéditeur AUTOMATIQUE + phrase « sans action » et PAS une
- *      diffusion (infolettre) ................................... FERMÉ
- *   4. USE_AI=true : Opus juge les candidats automatiques OU diffusions non
- *      tranchés → close / a_voir / keep ....................... FERMÉ si close & confiance ≥ SEUIL ;
- *                                                                À VOIR si a_voir ; sinon GARDÉ
- *   5. Sinon .................................................... GARDÉ
+ *   2. Un SIGNAL D'ACTION est présent (exclusion) .............. GARDÉ, toujours (prime sur tout)
+ *   3. Fast-path gratuit : expéditeur AUTOMATIQUE + phrase « sans
+ *      action » et PAS une diffusion ........................... FERMÉ (sans appel IA)
+ *   4. IA (Opus) sur le vrai sujet+corps ...................... close / spam / a_voir / keep
+ *      (close & spam seulement si confiance ≥ AI_SEUIL)
+ *   5. Sans IA (pas de clé) ................................... GARDÉ (prudence)
  *
- * FERMETURE : POST /posts avec close:true + une courte note interne (l'API exige
- * un markdown). Aucune notification poussée (on ne veut pas de bruit). Le fil se
- * rouvre tout seul si quelqu'un y répond. Option CLOSED_LABEL_ID pour étiqueter.
- * « À VOIR » : PATCH silencieux add_shared_labels (fil laissé ouvert).
+ * ACTIONS API : fermeture = POST /posts close:true + note interne, sans push.
+ * Spam : SPAM_ACTION = "close" (défaut) | "trash" (corbeille, close+trash:true) |
+ * "label" (SPAM_LABEL_ID + close). « À voir » = PATCH silencieux add_shared_labels.
+ * Tout fil se rouvre s'il reçoit une réponse. (L'API Missive n'expose ni archive
+ * ni « mark as spam » : trash est le geste le plus proche.)
  *
  * GARDE-FOUS :
- *   DRY_RUN=true par défaut : liste ce qui SERAIT fermé/gardé, ne touche à RIEN.
- *   Premier vrai run conseillé : DRY_RUN=false + CLOSE_LIMIT=3, vérifier à l'œil
- *   dans Missive que les 3 fils fermés étaient bien sans action, avant tout lot.
+ *   DRY_RUN=true par défaut : liste tout, ne touche à RIEN (l'IA tourne quand même
+ *   pour montrer ses verdicts → un run DRY avec IA a un coût de tokens).
+ *   Premier vrai run conseillé : DRY_RUN=false + CLOSE_LIMIT=3.
  *
  * Node 18+. Aucune dépendance.
  *
  * Variables d'environnement :
  *   MISSIVE_TOKEN     token API (missive_pat-...)                        [requis]
+ *   ANTHROPIC_API_KEY clé Anthropic (requise pour le juge IA; sinon repli déterministe)
  *   MISSIVE_ORG       id d'organisation (défaut Lasclay)              [facultatif]
- *   TEAMS             override : ids d'équipes à filtrer, séparés par des virgules
- *                     (défaut : Admin + Operations).                  [facultatif]
+ *   TEAMS             override : ids d'équipes (défaut Admin + Operations). [facultatif]
  *   LIST_TEAMS        "true" = imprime les équipes de l'org et sort.  [facultatif]
  *   DRY_RUN           "false" pour agir. DÉFAUT "true" (simulation).
- *   CLOSE_LIMIT       plafond de fils fermés par run (0 = illimité). Défaut 0.
+ *   USE_AI            "false" pour couper le juge IA. DÉFAUT true (moteur principal).
+ *   MODEL             modèle du juge (défaut claude-opus-4-8).
+ *   AI_SEUIL          confiance min. pour FERMER/SPAM via l'IA (0-1). Défaut 0.85.
+ *   SPAM_ACTION       "close" (défaut) | "trash" | "label" — geste sur le démarchage.
+ *   SPAM_LABEL_ID     label « Spam » posé si SPAM_ACTION="label".     [facultatif]
+ *   CLOSE_LIMIT       plafond de fermetures + spams par run (0 = illimité). Défaut 0.
  *   MAX_FILS          plafond de fils analysés par run (0 = illimité). Défaut 0.
- *   SKIP_ASSIGNED     "false" pour traiter aussi les fils assignés. Défaut true
- *                     (un fil pris en charge par un humain est laissé tel quel).
- *   AUTO_REQUIRED     "false" pour ne pas exiger un expéditeur automatique au
- *                     déterministe. Défaut true (plus prudent).
- *   USE_AI            "true" = Opus juge les candidats automatiques/diffusions
- *                     ambigus (close/a_voir/keep). Défaut false (déterministe seul).
- *   ANTHROPIC_API_KEY clé Anthropic (requise seulement si USE_AI=true).
- *   MODEL             modèle du juge (défaut claude-opus-4-8, autorisé par Gabriel
- *                     pour mieux trancher les cas subtils; boîtes à faible volume).
- *   AI_SEUIL          confiance minimale pour FERMER via l'IA (0-1). Défaut 0.85.
- *   NOTIF_DOMAINS     domaines d'expéditeurs à considérer comme automatiques, EN
- *                     PLUS des défauts, séparés par des virgules.     [facultatif]
+ *   SKIP_ASSIGNED     "false" pour traiter aussi les fils assignés. Défaut true.
+ *   AUTO_REQUIRED     "false" pour permettre le fast-path même sans expéditeur
+ *                     automatique. Défaut true (le fast-path reste prudent).
+ *   NOTIF_DOMAINS     domaines expéditeurs à traiter comme automatiques, en plus
+ *                     des défauts, séparés par des virgules.          [facultatif]
  *   CLOSED_LABEL_ID   label posé sur les fils fermés (traçabilité).   [facultatif]
- *   REVIEW_LABEL_ID   label posé sur les fils « à voir » (gardés ouverts).  [facultatif]
+ *   REVIEW_LABEL_ID   label posé sur les fils « à voir » (gardés ouverts). [facultatif]
  *   RESUME_CONV       conversation où poster un bref récapitulatif du run.
  *   MISSIVE_SELF_ADDRESSES  nos adresses (défaut hey@, admin@, operations@).
  */
 
-const VERSION = "v1.1";
+const VERSION = "v2";
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
@@ -83,10 +81,13 @@ const CLOSE_LIMIT = parseInt(process.env.CLOSE_LIMIT || "0", 10) || 0;
 const MAX_FILS = parseInt(process.env.MAX_FILS || "0", 10) || 0;
 const SKIP_ASSIGNED = (process.env.SKIP_ASSIGNED || "true").toLowerCase() !== "false";
 const AUTO_REQUIRED = (process.env.AUTO_REQUIRED || "true").toLowerCase() !== "false";
-const USE_AI = (process.env.USE_AI || "").toLowerCase() === "true";
+// v2 — le juge IA (Opus) est le MOTEUR par défaut : les boîtes Admin/Operations sont
+// hétérogènes et à faible volume, le déterministe seul est trop aveugle (cf. run v1.1).
+// Dégradation gracieuse : si USE_AI mais pas de clé, on prévient et on retombe sur le
+// déterministe (au lieu de planter), pour qu'un run parte toujours.
+const USE_AI = (process.env.USE_AI || "true").toLowerCase() !== "false";
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
-// Juge par défaut = Opus : ces boîtes sont à faible volume et les cas subtils
-// (mise à jour produit « à voir un jour », faux air de pub) demandent du jugement.
+const AI_ON = USE_AI && !!ANTHROPIC_KEY;
 const MODEL = process.env.MODEL || "claude-opus-4-8";
 const AI_SEUIL = parseFloat(process.env.AI_SEUIL || "0.85");
 const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
@@ -94,6 +95,11 @@ const CLOSED_LABEL_ID = process.env.CLOSED_LABEL_ID || "";
 // Label optionnel posé sur les fils « à voir » (action douce / éventuelle, gardés OUVERTS) :
 // donne à Gabriel une pile filtrée « à regarder un jour » sans encombrer l'inbox principale.
 const REVIEW_LABEL_ID = process.env.REVIEW_LABEL_ID || "";
+// v2 — Spam / démarchage non désiré. L'API Missive n'a PAS de « mark as spam »; on
+// choisit l'action réelle : "close" (défaut prudent, simple fermeture), "trash"
+// (met à la corbeille), ou "label" (pose SPAM_LABEL_ID + ferme).
+const SPAM_ACTION = (process.env.SPAM_ACTION || "close").toLowerCase();
+const SPAM_LABEL_ID = process.env.SPAM_LABEL_ID || "";
 const RESUME_CONV = process.env.RESUME_CONV || "";
 
 // --- Équipes ciblées (ids confirmés par repartition_merge.js / logs prod) ---
@@ -113,7 +119,9 @@ const mHeaders = { Authorization: `Bearer ${TOKEN}`, "Content-Type": "applicatio
 
 if (require.main === module) {
   if (!TOKEN) { console.error("Manque MISSIVE_TOKEN."); process.exit(1); }
-  if (USE_AI && !ANTHROPIC_KEY) { console.error("USE_AI=true mais ANTHROPIC_API_KEY manque."); process.exit(1); }
+  if (USE_AI && !ANTHROPIC_KEY) {
+    console.warn("⚠️  USE_AI actif mais ANTHROPIC_API_KEY absente : repli sur le déterministe seul (performance réduite).");
+  }
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -377,6 +385,21 @@ async function marquerAVoir(convId) {
   });
 }
 
+// Spam / démarchage. L'API Missive n'a pas de « mark as spam » : SPAM_ACTION choisit
+// le geste réel. "trash" = corbeille (POST /posts trash:true, plus fort que close, mais
+// réversible depuis la corbeille). "label" = pose SPAM_LABEL_ID + ferme. "close" = simple
+// fermeture. On ferme aussi dans le cas trash pour sortir le fil de l'inbox proprement.
+async function traiterSpam(convId, categorie) {
+  const post = {
+    conversation: convId, organization: ORG,
+    markdown: `_Filtrage.js : démarchage/sollicitation non désiré (${categorie}). Action : ${SPAM_ACTION}._`,
+  };
+  if (SPAM_ACTION === "trash") { post.close = true; post.trash = true; }
+  else if (SPAM_ACTION === "label") { post.close = true; if (SPAM_LABEL_ID) post.add_shared_labels = [SPAM_LABEL_ID]; }
+  else { post.close = true; } // "close" (défaut)
+  return apiPost("/posts", { posts: post });
+}
+
 // ==========================================================================
 //  Juge IA (Opus par défaut) — appoint conservateur, seulement si USE_AI
 // ==========================================================================
@@ -390,7 +413,7 @@ Ces boîtes reçoivent des courriels administratifs et opérationnels : reçus, 
 avis de fournisseurs, notifications et mises à jour de plateformes (Shopify, Stripe, Google, outils SaaS...),
 infolettres de service. Ce N'EST PAS du service client. Tu ne rédiges rien, tu ne réponds à personne.
 
-Classe le courriel dans UNE de trois cases :
+Classe le courriel dans UNE de quatre cases :
 
 1. action="close" — À FERMER. Purs courriels informatifs, définitivement réglés, sans AUCUN geste ni maintenant
    ni plus tard, et sans rien d'important à retenir :
@@ -409,17 +432,28 @@ Classe le courriel dans UNE de trois cases :
      - toute information utile à garder en tête même sans échéance ferme.
    En cas d'hésitation entre "close" et "a_voir" : choisis "a_voir" (on ne perd rien, ça reste accessible).
 
-3. action="keep" — À GARDER, actif. Un geste, une décision ou une vérification est plausible ou attendu :
+3. action="spam" — DÉMARCHAGE NON DÉSIRÉ à écarter. Sollicitation commerciale froide, sans relation d'affaires
+   existante, qui cherche à VENDRE quelque chose à Lasclay ou à obtenir un rendez-vous / une réponse :
+     - agences, consultants, fournisseurs de services qui prospectent à froid (SEO, dev, subventions, financement,
+       marketing, recrutement, « partenariat », « quick question » déguisé en vente)
+       (EXEMPLE TYPE : « Petite question rapide… je parle avec des PME qui évaluent des projets numériques…
+        est-ce vous qui regardez ça ? » — c'est du démarchage, pas un client)
+     - pourriel générique, listes d'envoi commerciales non sollicitées sans lien avec nos opérations.
+   ATTENTION : ce n'est PAS du spam si c'est un vrai fournisseur/partenaire avec qui on fait déjà affaire, une
+   facture, un service qu'on utilise, ou un client. Dans le doute entre "spam" et "keep" : choisis "keep".
+
+4. action="keep" — À GARDER, actif. Un geste, une décision ou une vérification est plausible ou attendu :
      - facture À PAYER, échec/refus de paiement, montant dû, solde à régler
      - « action requise », « vérifiez », « confirmez », suspension, expiration, alerte de sécurité
      - commande à traiter, remboursement, litige, livraison problématique
-     - tout courriel écrit par une vraie personne qui attend quoi que ce soit
+     - tout courriel écrit par une vraie personne (client, partenaire réel) qui attend quoi que ce soit
      - le moindre doute sur une action réelle : "keep".
 
-Règle d'or : ne "close" JAMAIS par commodité. Un courriel qui mérite d'être connu ou revu est "a_voir", pas "close".
+Règle d'or : ne "close" ni "spam" JAMAIS par commodité. Un courriel qui mérite d'être connu ou revu est "a_voir".
+Un vrai interlocuteur d'affaires est "keep", jamais "spam".
 
 Réponds STRICTEMENT en JSON, sans texte autour :
-{"action":"close"|"a_voir"|"keep","categorie":"recu|confirmation_paiement|avis_informatif|maj_outil|info_a_retenir|facture_a_payer|action_requise|humain|autre","confiance":0.0-1.0,"raison":"courte phrase"}`,
+{"action":"close"|"a_voir"|"spam"|"keep","categorie":"recu|confirmation_paiement|avis_informatif|maj_outil|info_a_retenir|demarchage|pourriel|facture_a_payer|action_requise|humain|autre","confiance":0.0-1.0,"raison":"courte phrase"}`,
   },
 ];
 
@@ -434,7 +468,7 @@ CORPS (nettoyé, tronqué) :
 ${(corps || "").slice(0, 3000)}`;
   const raw = await claude(AI_SYSTEM, user, 400);
   const out = parseJsonLoose(raw);
-  const valides = new Set(["close", "a_voir", "keep"]);
+  const valides = new Set(["close", "a_voir", "spam", "keep"]);
   if (!out || !valides.has(out.action)) {
     return { action: "keep", categorie: "autre", confiance: 0, raison: "réponse IA illisible → gardé" };
   }
@@ -455,9 +489,9 @@ async function main() {
   console.log(`=== Lasclay filtrage.js ${VERSION} ===`);
   console.log(DRY_RUN ? "MODE SIMULATION (rien fermé)" : "MODE RÉEL");
   console.log(`Boîtes : ${TEAMS.map((t) => t.name).join(", ")}`);
-  console.log(`Juge IA : ${USE_AI ? `OUI (${MODEL}, seuil ${AI_SEUIL})` : "non (déterministe seul)"}` +
-    ` | Expéditeur automatique requis : ${AUTO_REQUIRED ? "oui" : "non"}` +
+  console.log(`Juge IA : ${AI_ON ? `OUI (${MODEL}, seuil ${AI_SEUIL})` : (USE_AI ? "demandé mais SANS clé → déterministe seul" : "non (déterministe seul)")}` +
     ` | Fils assignés : ${SKIP_ASSIGNED ? "sautés" : "traités"}`);
+  console.log(`Spam/démarchage : action = ${SPAM_ACTION}${SPAM_ACTION === "label" && !SPAM_LABEL_ID ? " (SPAM_LABEL_ID absent → ferme seulement)" : ""}`);
   console.log(`CLOSE_LIMIT : ${CLOSE_LIMIT || "illimité"} | MAX_FILS : ${MAX_FILS || "illimité"}\n`);
 
   // 1. Collecte des fils ouverts (dédoublonnés entre les deux boîtes)
@@ -477,13 +511,15 @@ async function main() {
   const dateStr = new Date().toISOString().slice(0, 10);
   const aFermer = []; // { conv, categorie, source, raison }
   const aVoir = [];   // { conv, boite, categorie, raison } — gardés ouverts + label de revue
+  const aSpam = [];   // { conv, boite, categorie, raison } — démarchage → SPAM_ACTION
   const gardes = [];  // { conv, raison }
   let analyses = 0;
 
   for (const conv of convs) {
     analyses++;
     const boite = boiteDe.get(conv.id) || "?";
-    const sujet = conv.subject || "(sans sujet)";
+    // v2 — Missive met souvent le sujet dans latest_message_subject, pas conv.subject.
+    const sujet = conv.subject || conv.latest_message_subject || "(sans sujet)";
 
     // 0. Fil assigné → un humain s'en occupe.
     if (SKIP_ASSIGNED && Array.isArray(conv.assignees) && conv.assignees.length > 0) {
@@ -494,7 +530,8 @@ async function main() {
     let msgs;
     try { msgs = await threadMessages(conv.id); }
     catch (e) { gardes.push({ conv, boite, raison: `messages illisibles (${e.message})` }); continue; }
-    if (msgs.length === 0) { gardes.push({ conv, boite, raison: "aucun message lisible" }); continue; }
+    // Fil sans message courriel (note/commentaire interne, ex. digests) → on garde.
+    if (msgs.length === 0) { gardes.push({ conv, boite, raison: "aucun message courriel (interne)" }); continue; }
 
     const last = msgs[msgs.length - 1];
 
@@ -504,9 +541,11 @@ async function main() {
     const expediteur = last.from_field?.address || last.from_field?.name || "?";
     const auto = isAutomatedSender(last.from_field?.address);
 
-    // Texte de décision : sujet + aperçu (léger). Corps complet chargé au besoin.
-    const apercu = stripHtml(last.body || last.preview || "");
-    let texte = `${sujet}\n${apercu}`;
+    // v2 — CORRECTIF CLÉ : on charge le VRAI corps du dernier message (le listage des
+    // messages ne renvoie pas le body ; sans ça, le déterministe jugeait à l'aveugle).
+    let corps = stripHtml(last.body || last.preview || "");
+    if (last.id) { const b = stripHtml(await fetchBody(last.id)); if (b) corps = b; }
+    const texte = `${sujet}\n${corps}`;
     const broadcast = isBroadcast(texte);
 
     // 2. Signal d'action présent → GARDE, toujours (l'exclusion prime).
@@ -515,59 +554,50 @@ async function main() {
       continue;
     }
 
-    // 3. Déterministe : automatique (si requis) + phrase « sans action ».
-    //    Une DIFFUSION (infolettre / mise à jour produit) n'est jamais fermée au
-    //    déterministe : elle peut cacher une action douce « à voir » (cf. HelpCenter).
-    //    On la laisse au juge IA si actif, sinon on la garde.
+    // 3. Fast-path déterministe GRATUIT : expéditeur automatique + phrase « sans action »,
+    //    et PAS une diffusion (une infolettre peut cacher un « à voir »). Économise un appel IA.
     const autoOk = auto || !AUTO_REQUIRED;
     if (autoOk && !broadcast && hasNoActionSignal(texte)) {
-      aFermer.push({ conv, boite, categorie: "sans action (déterministe)", source: "det", raison: `expéditeur ${auto ? "auto" : "?"}, phrase sans action` });
+      aFermer.push({ conv, boite, categorie: "recu/sans action", source: "det", raison: `expéditeur ${auto ? "auto" : "?"}, phrase sans action` });
       continue;
     }
 
-    // 4. Juge IA (candidats automatiques OU diffusions, seulement si USE_AI).
-    if (USE_AI && (auto || broadcast)) {
-      // Corps complet pour un meilleur jugement.
-      let corps = apercu;
-      if (last.id) { const b = stripHtml(await fetchBody(last.id)); if (b) corps = b; }
-      // Re-vérifier les exclusions sur le corps complet (l'aperçu peut les manquer).
-      if (hasActionSignal(`${sujet}\n${corps}`)) {
-        gardes.push({ conv, boite, raison: "signal d'action détecté (corps complet)" });
-        continue;
-      }
+    // 4. Juge IA (Opus) : le MOTEUR. Il voit le vrai sujet+corps et tranche TOUT courriel
+    //    entrant non réglé par les étapes ci-dessus (close / a_voir / spam / keep).
+    if (AI_ON) {
       let verdict;
       try { verdict = await jugerIA(sujet, corps, expediteur, boite, broadcast, dateStr); }
       catch (e) { gardes.push({ conv, boite, raison: `IA en erreur (${e.message}) → gardé` }); continue; }
-      if (verdict.action === "close" && (verdict.confiance ?? 0) >= AI_SEUIL) {
-        aFermer.push({ conv, boite, categorie: verdict.categorie || "sans action (IA)", source: "ia", raison: `IA: ${verdict.raison || ""} (conf. ${verdict.confiance})` });
+      const conf = verdict.confiance ?? 0;
+      if (verdict.action === "close" && conf >= AI_SEUIL) {
+        aFermer.push({ conv, boite, categorie: verdict.categorie || "sans action (IA)", source: "ia", raison: `IA: ${verdict.raison || ""} (conf. ${conf})` });
+      } else if (verdict.action === "spam" && conf >= AI_SEUIL) {
+        aSpam.push({ conv, boite, categorie: verdict.categorie || "démarchage", raison: `IA spam: ${verdict.raison || ""} (conf. ${conf})` });
       } else if (verdict.action === "a_voir") {
-        aVoir.push({ conv, boite, categorie: verdict.categorie || "à voir", raison: `IA à voir: ${verdict.raison || ""} (conf. ${verdict.confiance ?? "?"})` });
+        aVoir.push({ conv, boite, categorie: verdict.categorie || "à voir", raison: `IA à voir: ${verdict.raison || ""} (conf. ${conf})` });
       } else {
-        gardes.push({ conv, boite, raison: `IA garde: ${verdict.raison || verdict.action} (conf. ${verdict.confiance ?? "?"})` });
+        gardes.push({ conv, boite, raison: `IA garde: ${verdict.raison || verdict.action} (conf. ${conf})` });
       }
       continue;
     }
 
-    // 5. Sinon, on garde.
-    gardes.push({ conv, boite, raison: broadcast ? "diffusion, gardée (activer USE_AI pour la classer « à voir »)" : (auto ? "automatique mais pas de signal sans action clair" : "expéditeur non automatique") });
+    // 5. Sans IA : on garde (le déterministe seul ne va pas plus loin, prudence).
+    gardes.push({ conv, boite, raison: broadcast ? "diffusion (activer USE_AI pour classer)" : (auto ? "automatique, pas de phrase sans action" : "non automatique (activer USE_AI pour juger)") });
   }
 
   // --- Aperçu ---
+  const titre = (c) => (c.subject || c.latest_message_subject || "(sans sujet)").slice(0, 60);
   console.log(`À FERMER (${aFermer.length}) :`);
-  for (const p of aFermer) {
-    console.log(`  ✔ [${p.boite}] ${(p.conv.subject || "(sans sujet)").slice(0, 60)}  — ${p.raison}`);
-  }
+  for (const p of aFermer) console.log(`  ✔ [${p.boite}] ${titre(p.conv)}  — ${p.raison}`);
+  console.log(`\nSPAM / DÉMARCHAGE → ${SPAM_ACTION} (${aSpam.length}) :`);
+  for (const p of aSpam) console.log(`  ⊘ [${p.boite}] ${titre(p.conv)}  — ${p.raison}`);
   console.log(`\nÀ VOIR — gardés ouverts${REVIEW_LABEL_ID ? " + label de revue" : ""} (${aVoir.length}) :`);
-  for (const p of aVoir) {
-    console.log(`  ⧗ [${p.boite}] ${(p.conv.subject || "(sans sujet)").slice(0, 60)}  — ${p.raison}`);
-  }
+  for (const p of aVoir) console.log(`  ⧗ [${p.boite}] ${titre(p.conv)}  — ${p.raison}`);
   console.log(`\nGARDÉS (${gardes.length}) :`);
-  for (const g of gardes) {
-    console.log(`  · [${g.boite}] ${(g.conv.subject || "(sans sujet)").slice(0, 60)}  — ${g.raison}`);
-  }
+  for (const g of gardes) console.log(`  · [${g.boite}] ${titre(g.conv)}  — ${g.raison}`);
 
   // --- Exécution ---
-  console.log(`\n${aFermer.length} à fermer, ${aVoir.length} à voir, ${gardes.length} gardé(s). (${analyses} analysé(s))`);
+  console.log(`\n${aFermer.length} à fermer, ${aSpam.length} spam(${SPAM_ACTION}), ${aVoir.length} à voir, ${gardes.length} gardé(s). (${analyses} analysé(s))`);
   let fermes = 0;
   for (const p of aFermer) {
     if (CLOSE_LIMIT && fermes >= CLOSE_LIMIT) { console.log(`Plafond CLOSE_LIMIT=${CLOSE_LIMIT} atteint, arrêt.`); break; }
@@ -577,6 +607,17 @@ async function main() {
     else console.error(`  échec fermeture ${p.conv.id}`);
   }
   console.log(`${fermes} fil(s) ${DRY_RUN ? "à fermer (simulation)" : "fermé(s)"}.`);
+
+  // Spam / démarchage : SPAM_ACTION (close/trash/label). Même plafond que les fermetures.
+  let spammes = 0;
+  for (const p of aSpam) {
+    if (CLOSE_LIMIT && (fermes + spammes) >= CLOSE_LIMIT) { console.log(`Plafond CLOSE_LIMIT atteint (spam), arrêt.`); break; }
+    if (DRY_RUN) { spammes++; continue; }
+    const r = await traiterSpam(p.conv.id, p.categorie);
+    if (r.ok) spammes++;
+    else console.error(`  échec spam ${p.conv.id}`);
+  }
+  console.log(`${spammes} fil(s) spam ${DRY_RUN ? `(simulation, action ${SPAM_ACTION})` : `→ ${SPAM_ACTION}`}.`);
 
   // Fils « à voir » : posent le label de revue (s'il est configuré), restent OUVERTS.
   let marques = 0;
@@ -592,14 +633,15 @@ async function main() {
   }
 
   // --- Récapitulatif optionnel dans une conversation Missive ---
-  if (RESUME_CONV && !DRY_RUN && fermes > 0) {
-    const lignes = aFermer.slice(0, fermes).map((p) => `- [${p.boite}] ${(p.conv.subject || "(sans sujet)").slice(0, 70)}`).join("\n");
+  if (RESUME_CONV && !DRY_RUN && (fermes > 0 || spammes > 0)) {
+    const l1 = aFermer.slice(0, fermes).map((p) => `- ✔ [${p.boite}] ${titre(p.conv)}`).join("\n");
+    const l2 = aSpam.slice(0, spammes).map((p) => `- ⊘ [${p.boite}] ${titre(p.conv)}`).join("\n");
     try {
       await apiPost("/posts", {
         posts: {
           conversation: RESUME_CONV, organization: ORG,
-          notification: { title: "Filtrage Admin/Operations", body: `${fermes} courriel(s) sans action fermé(s).` },
-          markdown: `**Filtrage Admin/Operations** — ${fermes} courriel(s) sans action fermé(s) :\n${lignes}`,
+          notification: { title: "Filtrage Admin/Operations", body: `${fermes} fermé(s), ${spammes} spam(${SPAM_ACTION}).` },
+          markdown: `**Filtrage Admin/Operations**\n${fermes} sans action fermé(s), ${spammes} démarchage → ${SPAM_ACTION}, ${aVoir.length} « à voir ».\n${l1}${l2 ? "\n" + l2 : ""}`,
         },
       });
     } catch (e) { console.warn(`Récapitulatif non posté (${e.message}).`); }
