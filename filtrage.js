@@ -78,7 +78,7 @@
  *   MISSIVE_SELF_ADDRESSES  nos adresses (défaut hey@, admin@, operations@).
  */
 
-const VERSION = "v2.1";
+const VERSION = "v2.2";
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
@@ -106,6 +106,11 @@ const REVIEW_LABEL_ID = process.env.REVIEW_LABEL_ID || "";
 // (met à la corbeille), ou "label" (pose SPAM_LABEL_ID + ferme).
 const SPAM_ACTION = (process.env.SPAM_ACTION || "close").toLowerCase();
 const SPAM_LABEL_ID = process.env.SPAM_LABEL_ID || "";
+// v2.2 — seuil de confiance PROPRE au spam, plus bas que celui des fermetures : un
+// démarchage froid reconnu (« aucune relation d'affaires ») mérite d'être écarté même
+// à confiance modérée. Sûr tant que SPAM_ACTION="close" (réversible). Remonte-le si
+// tu passes à SPAM_ACTION="trash".
+const SPAM_SEUIL = parseFloat(process.env.SPAM_SEUIL || "0.6");
 const RESUME_CONV = process.env.RESUME_CONV || "";
 
 // --- Équipes ciblées (ids confirmés par repartition_merge.js / logs prod) ---
@@ -461,25 +466,33 @@ Classe le courriel dans UNE de quatre cases :
      - notifications automatiques jetables (statut « livré » sans problème, etc.).
    Ferme seulement si, une fois lu, il n'y a STRICTEMENT plus rien à en faire.
 
-2. action="a_voir" — À GARDER OUVERT MAIS SIGNALÉ. Aucune urgence, mais il y a une action DOUCE ou ÉVENTUELLE,
-   ou quelque chose qu'il FAUT connaître / regarder un jour. C'est le piège le plus fréquent : ça peut ressembler
-   à une pub ou à du bruit, mais ce n'en est pas.
-     - mise à jour / nouvelle fonctionnalité d'un outil qu'on utilise, avec invitation à aller voir
-       (EXEMPLE TYPE : « The new HelpCenter is live now » — pas urgent, mais à explorer et à savoir)
-     - changement de conditions/prix/politique d'un fournisseur à prendre en note
-     - rappel léger, migration à planifier « quand tu auras le temps »
-     - toute information utile à garder en tête même sans échéance ferme.
-   En cas d'hésitation entre "close" et "a_voir" : choisis "a_voir" (on ne perd rien, ça reste accessible).
+2. action="a_voir" — À GARDER OUVERT MAIS SIGNALÉ. Réservé à ce qui concerne un outil, un service, un programme
+   ou une relation que Lasclay UTILISE ou POSSÈDE DÉJÀ, ou à une info qu'il faut vraiment retenir pour les
+   opérations existantes — sans urgence.
+     - mise à jour / nouvelle fonctionnalité d'un outil qu'on utilise déjà
+       (EXEMPLE TYPE : « The new HelpCenter is live now » — outil déjà en place, à explorer et à savoir)
+     - changement de conditions/prix/politique d'un fournisseur AVEC QUI ON FAIT AFFAIRE, à prendre en note
+     - ARGENT QUI SORT du compte (prélèvement, versement NÉGATIF, ex. « Payout -343$ » dû à des
+       remboursements) : "a_voir", jamais "close" — il faut pouvoir le remarquer. Un versement POSITIF
+       purement informatif (argent qui entre, rien à faire), lui, peut être "close".
+     - rappel léger / migration à planifier sur un service qu'on utilise.
+   "a_voir" n'est PAS un fourre-tout : une invitation FROIDE d'un inconnu (séance d'info, webinaire, sondage,
+   « partenariat ») n'est PAS "a_voir" — c'est "spam" (case 3).
 
-3. action="spam" — DÉMARCHAGE NON DÉSIRÉ à écarter. Sollicitation commerciale froide, sans relation d'affaires
-   existante, qui cherche à VENDRE quelque chose à Lasclay ou à obtenir un rendez-vous / une réponse :
+3. action="spam" — DÉMARCHAGE NON DÉSIRÉ à écarter. Sollicitation froide d'un expéditeur SANS relation d'affaires
+   existante, qui cherche à vendre, à faire prendre un rendez-vous, à recruter, ou à faire assister à quelque chose :
      - agences, consultants, fournisseurs de services qui prospectent à froid (SEO, dev, subventions, financement,
        marketing, recrutement, « partenariat », « quick question » déguisé en vente)
-       (EXEMPLE TYPE : « Petite question rapide… je parle avec des PME qui évaluent des projets numériques…
-        est-ce vous qui regardez ça ? » — c'est du démarchage, pas un client)
-     - pourriel générique, listes d'envoi commerciales non sollicitées sans lien avec nos opérations.
-   ATTENTION : ce n'est PAS du spam si c'est un vrai fournisseur/partenaire avec qui on fait déjà affaire, une
-   facture, un service qu'on utilise, ou un client. Dans le doute entre "spam" et "keep" : choisis "keep".
+       (EXEMPLE TYPE : « Petite question rapide… je parle avec des PME… est-ce vous qui regardez ça ? »)
+     - INVITATIONS FROIDES : séances d'information, webinaires, sondages de disponibilité, formations non
+       sollicitées, venant d'un inconnu sans dossier ni échange préalable — c'est du démarchage, PAS du "a_voir".
+     - USURPATION DE CONTEXTE : un envoi froid qui emprunte le nom d'un vrai programme (ex. « PARI ») mais SANS
+       interlocuteur connu ni dossier existant reste du démarchage → "spam". (Un vrai conseiller PARI-CNRC avec
+       qui on échange déjà, lui, est "keep".)
+     - pourriel générique, listes commerciales non sollicitées sans lien avec nos opérations.
+   ATTENTION : ce n'est PAS du spam si c'est un vrai fournisseur/partenaire/client avec qui on fait déjà affaire,
+   une facture, ou un service qu'on utilise. Le critère décisif = ABSENCE de relation d'affaires préalable.
+   Dans le doute entre "spam" et "keep" : choisis "keep".
 
 4. action="keep" — À GARDER, actif. Un geste, une décision ou une vérification est plausible ou attendu :
      - facture À PAYER, échec/refus de paiement, montant dû, solde à régler
@@ -618,12 +631,14 @@ async function main() {
       const conf = verdict.confiance ?? 0;
       if (verdict.action === "close" && conf >= AI_SEUIL) {
         aFermer.push({ conv, boite, categorie: verdict.categorie || "sans action (IA)", source: "ia", raison: `IA: ${verdict.raison || ""} (conf. ${conf})` });
-      } else if (verdict.action === "spam" && conf >= AI_SEUIL) {
+      } else if (verdict.action === "spam" && conf >= SPAM_SEUIL) {
         aSpam.push({ conv, boite, categorie: verdict.categorie || "démarchage", raison: `IA spam: ${verdict.raison || ""} (conf. ${conf})` });
       } else if (verdict.action === "a_voir") {
         aVoir.push({ conv, boite, categorie: verdict.categorie || "à voir", raison: `IA à voir: ${verdict.raison || ""} (conf. ${conf})` });
       } else {
-        gardes.push({ conv, boite, raison: `IA garde: ${verdict.raison || verdict.action} (conf. ${conf})` });
+        // Verdict close/spam SOUS le seuil → gardé par prudence, mais on le DIT (audit).
+        const sous = (verdict.action === "close" || verdict.action === "spam") ? `${verdict.action}<seuil ` : "";
+        gardes.push({ conv, boite, raison: `IA garde: ${sous}${verdict.raison || verdict.action} (conf. ${conf})` });
       }
       continue;
     }
