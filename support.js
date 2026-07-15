@@ -58,6 +58,9 @@
  *                  part (l'API Missive n'a pas de snooze temporisé; on ferme + on étiquette).
  *
  * v2.12: Opus ne fait plus que retenir, il CORRIGE les brouillons réparables avant l'envoi.
+ * v2.16: un brouillon INCOMPLET (gabarit non rempli, ex. « [ADRESSE À CONFIRMER] ») n'est JAMAIS
+ *   envoyé — garde-fou déterministe indépendant de l'IA + prompt qui interdit les champs à remplir
+ *   (reformuler ou demander au client en clair; jamais de crochets dans le corps).
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
@@ -500,6 +503,15 @@ RÈGLES ABSOLUES:
   https://lasclay.com/en-us/products/... Pour un client canadien anglophone, préfixe /en (CAD).
   En français, pas de préfixe (racine). Le script corrige au besoin, mais vise le bon préfixe.
 - N'invente AUCUN fait: prix, délais, politiques et liens viennent du document de connaissance ou du catalogue.
+- BROUILLON COMPLET, JAMAIS DE CHAMP À REMPLIR (règle critique): le corps doit se lire comme un message
+  FINI, prêt à partir tel quel. N'écris JAMAIS de gabarit ni de passage à compléter entre crochets ou
+  accolades ([ADRESSE À CONFIRMER], [modèle], [insérer...], {{prénom}}, etc.). Les crochets « [Prénom] »
+  des exemples ci-dessus sont une NOTATION: tu les REMPLACES par la vraie valeur, tu ne les recopies
+  jamais tels quels. S'il te manque une donnée, tu as deux issues, JAMAIS un blanc: (1) reformuler pour ne
+  pas en avoir besoin, ou (2) DEMANDER l'info au client en clair, dans une vraie phrase. Toute incertitude
+  va dans note_interne, pas dans un trou au milieu du message. Un envoi contenant un gabarit non rempli
+  est désormais BLOQUÉ automatiquement par le système: le message doit être vrai et complet sans aucun
+  passage à remplir.
 
 JAMAIS DIRE « JE NE SAIS PAS » NI FAIRE D'AVEU AU CLIENT: le client doit repartir avec une réponse,
 pas avec « je vérifie et je reviens » (sauf pour un colis non livré à vérifier avec Postes Canada).
@@ -507,18 +519,23 @@ Si une info te manque (ex.: pourquoi un article n'était pas ajoutable au panier
 la PLUS PLAUSIBLE (95 % du temps un article non ajoutable = épuisé) et mets la vérification en note_interne.
 N'avoue jamais un « bug connu », une faille, une ignorance: ça mine la confiance.
 
-INFO OU STOCK À VÉRIFIER, LAISSER UN BLANC: si une disponibilité ou une donnée précise est incertaine,
-ne tranche PAS au hasard dans le brouillon. Écris la phrase avec un champ à compléter
-(ex.: « on a encore des [modèle] en [TAILLE À CONFIRMER] ») et mets la vérification en note_interne.
-Mieux vaut un blanc à remplir qu'une affirmation fausse à corriger.
+INFO OU STOCK INCERTAIN, PAS DE BLANC: si une disponibilité ou une donnée précise est incertaine,
+ne tranche pas au hasard ET ne laisse JAMAIS un champ à compléter dans le brouillon. Deux options
+seulement, jamais un trou: soit tu affirmes l'explication la plus plausible (voir plus haut) et tu
+mets la vérification en note_interne; soit, si tu dois vraiment savoir avant de poursuivre, tu POSES
+la question au client en clair (« Quelle taille recherchez-vous? »). Le corps reste une phrase finie
+et vraie dans tous les cas, sans aucun passage entre crochets.
 
 DÉLAIS: ne CHIFFRE jamais le nombre de jours ou de mois de retard dans le brouillon (« 137 jours »,
 « 5 mois »): ça souligne notre incompétence. On s'excuse d'un délai « beaucoup trop long » /
 « inacceptable », sans le quantifier.
 
-DEMANDE D'ADRESSE: on a déjà l'adresse au dossier. Ne demande jamais « donne-moi ton adresse », et
-ne dis jamais « on ne t'appelle pas ». Formule une simple reconfirmation: « L'adresse postale est-elle
-toujours au [insérer adresse]? ». Le champ adresse est à compléter (laisser un blanc).
+DEMANDE / RECONFIRMATION D'ADRESSE: on a déjà l'adresse au dossier, mais tu ne la VOIS pas. Ne demande
+jamais « donne-moi ton adresse » et n'insère JAMAIS l'adresse entre crochets (« [insérer adresse] »
+est interdit). Reformule sans blanc, en une phrase finie: « Pouvez-vous me confirmer que votre adresse
+de livraison est toujours la même que celle de votre dernière commande? » ou « Avant d'expédier,
+pourriez-vous me reconfirmer votre adresse de livraison complète, s'il vous plaît? ». En anglais:
+« Could you confirm your shipping address is still the same as on your last order? ».
 
 NOTES INTERNES DU FIL: si le fil contient des commentaires internes de l'équipe (anciennes notes,
 to-dos, « lis ma note du... »), ils contiennent souvent la marche à suivre exacte (client à intégrer
@@ -807,6 +824,7 @@ Réponds UNIQUEMENT par un objet JSON, sans texte autour:
 
 let qcCalls = 0, qcBlocks = 0, qcSkipped = 0;
 let escalCount = 0, enjeuCount = 0;
+let gabaritBlocks = 0; // brouillons incomplets (gabarit non rempli) bloqués avant envoi
 const qcUsage = { in: 0, cacheRead: 0, cacheCreate: 0, out: 0 };
 // Tarifs Opus (estimation à vérifier, $ US / million de tokens).
 const QC_RATE_IN = 15 / 1e6, QC_RATE_CACHE = 1.5 / 1e6, QC_RATE_OUT = 75 / 1e6;
@@ -1006,7 +1024,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.15 ===");
+  console.log("=== Lasclay support.js v2.16 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
@@ -1377,6 +1395,27 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         if (sansRisque && SEND_QC && envoyer) qcSkipped++;
       }
 
+      // GARDE-FOU DÉTERMINISTE (v2.16) — un brouillon INCOMPLET n'est JAMAIS envoyé.
+      // Un passage à remplir laissé entre crochets/accolades ([ADRESSE À CONFIRMER], [Prénom],
+      // {{tracking}}...) est un signe SÛR que la réponse n'est pas prête. Peu importe le jugement
+      // d'Opus (c'est justement l'IA qui a produit le trou): on rétrograde en brouillon + alerte.
+      // Plancher indépendant de l'IA, appliqué APRÈS toute correction Opus (on lit corpsFinal).
+      const GABARIT_RX = [
+        /\[[^\]\n]{1,80}\]/, // [ADRESSE À CONFIRMER], [Prénom], [modèle], [XX]...
+        /\{[^}\n]{1,80}\}/,  // {tracking}, {{prénom}} — accolades quasi jamais en prose réelle
+      ];
+      const gabaritHit = GABARIT_RX.map((rx) => (corpsFinal.match(rx) || [])[0]).filter(Boolean);
+      if (gabaritHit.length) {
+        envoyer = false;
+        corrige = false;
+        qcBlocked = true;
+        verifRequise = true;
+        alarme = true;
+        gabaritBlocks++;
+        qcVerdict = { verdict: "bloquer", raison: "gabarit incomplet (passage à remplir non rempli)", problemes: gabaritHit.slice(0, 3) };
+        noteLigne.push(`[GABARIT INCOMPLET] envoi bloqué: passage non rempli détecté (${gabaritHit.slice(0, 3).map((s) => `« ${s.slice(0, 40)} »`).join(", ")}). À compléter à la main avant d'envoyer.`);
+      }
+
       // Corps final (corrigé par Opus si applicable) rendu en HTML cliquable.
       const corpsHtml = linkify(corpsFinal.replace(/\n/g, "<br>"));
 
@@ -1567,6 +1606,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     }
   }
 
+  if (gabaritBlocks > 0) console.log(`Gabarits incomplets bloqués avant envoi (jamais envoyés, gardés en brouillon à compléter): ${gabaritBlocks}.`);
   console.log(`\nBilan: ${analysed} analysés, ${sent} ENVOYÉ(S) (dont ${actionsDigest.length} avec action au digest), ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
   if (SEND_QC && (qcCalls > 0 || qcSkipped > 0)) {
     const coutQC = qcUsage.in * QC_RATE_IN + qcUsage.cacheCreate * QC_RATE_IN + qcUsage.cacheRead * QC_RATE_CACHE + qcUsage.out * QC_RATE_OUT;
