@@ -96,7 +96,7 @@
  *   KNOWLEDGE : contexte_lasclay.md (à côté du script) nourrit les brouillons.
  */
 
-const VERSION = "v3.3";
+const VERSION = "v3.4";
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -549,16 +549,21 @@ d'abord TRIER (partie 1), puis, si le fil attend une réponse de Gabriel, le PRI
        informatif SANS obligation. EXEMPLES QUI SE FERMENT : « GPT-5.6: Meet Sol, Terra and Luna », « The new
        HelpCenter is live now », « Smart Pricing : votre tarification... ». Ne présume PAS qu'on utilise l'outil.
      - fil DÉJÀ RÉGLÉ où plus personne n'attend rien (échange conclu, question répondue, dossier clos).
-   Le critère : après lecture, il ne reste ni geste, ni décision, ni ÉCHÉANCE, ni argent à surveiller → close.
+     - AVIS DE PAIEMENT / FACTURE ROUTINIER ET ATTENDU, sans geste à poser : facture mensuelle AUTO-débitée
+       (ex. Virgin Plus « votre facture est prête, sera débitée automatiquement »), confirmation de paiement
+       échelonné (ex. Klarna pour un achat), avis de prélèvement automatique récurrent. C'est du bruit attendu → close.
+   Le critère : après lecture, il ne reste ni geste, ni décision, ni ÉCHÉANCE À AGIR → close.
 
 2. action="a_voir" — À GARDER OUVERT. RARE. Uniquement une OBLIGATION FUTURE CONCRÈTE (pas une simple info, pas
-   une invitation à « explorer ») :
-     - une ÉCHÉANCE / DATE LIMITE réelle à respecter (renouvellement d'assurance daté, retour d'appareil avec
-       date butoir et montant)
+   une invitation à « explorer », PAS un avis de paiement routinier auto-débité) :
+     - une ÉCHÉANCE / DATE LIMITE réelle où TU dois AGIR (renouvellement d'assurance à confirmer, retour
+       d'appareil avec date butoir, facture à PAYER MANUELLEMENT)
      - une DÉCISION précise à prendre plus tard sur un dossier existant
-     - ARGENT QUI SORT du compte (prélèvement, versement NÉGATIF, ex. « Payout -343$ ») : "a_voir", jamais
-       "close" — il faut pouvoir le remarquer.
-   Une annonce de produit, une nouveauté « à explorer un jour », un FYI sans échéance → PAS "a_voir", c'est "close".
+     - un MOUVEMENT D'ARGENT ANORMAL / INATTENDU à vérifier (ex. versement Shopify NÉGATIF « Payout -343$ » dû à
+       des remboursements, débit surprise, échec/refus de paiement). PAS une facture récurrente attendue (celle-là
+       se ferme).
+   Une annonce de produit, une nouveauté « à explorer un jour », un FYI sans échéance, un avis de paiement
+   automatique attendu → PAS "a_voir", c'est "close".
 
 3. action="spam" — RARE, à n'utiliser qu'en dernier recours. Uniquement le démarchage commercial CREUX d'un
    FOURNISSEUR/AGENCE/CONSULTANT PRIVÉ qui vend SES PROPRES services, sans aucune relation existante ET sans
@@ -726,27 +731,35 @@ async function postDigest(conversationId, markdown) {
 // Ne garder que le digest le PLUS RÉCENT : supprime nos anciens digests de la conversation.
 // Best-effort : dépend de la liste des commentaires (endpoint à confirmer). Si indisponible,
 // on ne touche à rien (les vieux digests restent, aucun dégât).
-const DIGEST_MARKER = "📋 Résumé";
+const DIGEST_MARKER = "Résumé";
 async function listComments(convId) {
   // On tente l'endpoint dédié; s'il n'existe pas, on renvoie null (purge sautée).
+  // Diagnostic : on journalise la forme de la réponse pour savoir quoi corriger.
   try {
     const r = await api(`/conversations/${convId}/comments?limit=50`);
-    const arr = r.comments || r.posts || [];
+    const arr = r.comments || r.posts || r.messages || [];
+    console.log(`  [purge] réponse comments: clés=[${Object.keys(r).join(",")}], items=${Array.isArray(arr) ? arr.length : "?"}`);
     return Array.isArray(arr) ? arr : null;
-  } catch (_) { return null; }
+  } catch (e) {
+    console.log(`  [purge] liste des commentaires indisponible (${(e.message || "").slice(0, 90)})`);
+    return null;
+  }
 }
 async function purgeVieuxDigests(convId, keepId) {
   const comments = await listComments(convId);
   if (!comments) return { supported: false, deleted: 0 };
-  let deleted = 0;
+  let candidats = 0, deleted = 0;
   for (const c of comments) {
-    const body = c.body || c.markdown || c.text || "";
+    const body = c.body || c.markdown || c.text || c.preview || "";
     const estDigest = body.includes(DIGEST_MARKER);
+    if (estDigest) candidats++;
     if (estDigest && c.id && c.id !== keepId) {
       const r = await apiDelete(`/posts/${c.id}`);
       if (r.ok) deleted++;
+      else console.log(`  [purge] DELETE /posts/${c.id} → ${r.status}`);
     }
   }
+  console.log(`  [purge] digests trouvés: ${candidats}, à garder: ${keepId ? "1" : "0"}, supprimés: ${deleted}`);
   return { supported: true, deleted };
 }
 
