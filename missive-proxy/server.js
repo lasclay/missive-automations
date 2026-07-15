@@ -13,7 +13,9 @@
  *   POST /drafts     {id}             → brouillons laissés par le script IA (réponse déjà rédigée)
  *   POST /comments   {id}             → notes internes (commentaires) — dégrade si non listable
  *   POST /users      {}               → membres de l'org (id, nom, courriel) pour les assignations
- *   POST /task       {id, title, assignees[], label} → crée une tâche (assignée si assignees)
+ *   POST /task       {id, title, assignees[], label} → crée une tâche (assignée si assignees); renvoie taskId
+ *   POST /task-state {taskId, state}  → change l'état d'une tâche (todo|in_progress|closed=accomplie)
+ *   POST /postraw    {id}             → post brut (pour retrouver l'id de tâche d'un post existant)
  *   POST /note       {id, markdown}   → note interne (commentaire)
  *   POST /close      {id, note}       → ferme le fil (+ note)
  *   POST /reply      {id, from, to[], cc[], subject, body, send, closeAfter}
@@ -187,6 +189,16 @@ async function createTask({ id, title, assignees, label, markdown }) {
   return mSend("POST", "/posts", { posts: post });
 }
 
+// Récupère un post brut (pour retrouver l'id de tâche d'un post créé).
+async function getPost(id) { return mGet(`/posts/${id}`); }
+
+// Change l'état d'une tâche existante : "todo" | "in_progress" | "closed" (= accomplie).
+async function setTaskState({ taskId, state, conversation }) {
+  const post = { organization: ORG, task: { id: taskId, state: state || "closed" } };
+  if (conversation) post.conversation = conversation;
+  return mSend("POST", "/posts", { posts: post });
+}
+
 async function postNote(id, markdown) {
   return mSend("POST", "/posts", {
     posts: { conversation: id, organization: ORG,
@@ -262,7 +274,17 @@ const server = http.createServer(async (req, res) => {
     if (route === "/task") {
       if (!body.id || !body.title) return json(res, 400, { error: "id et title requis" });
       const r = await createTask(body);
-      return json(res, 200, { ok: true, task: r.posts?.id || null, assignees: body.assignees || [] });
+      if (body.raw) return json(res, 200, { raw: r });
+      return json(res, 200, { ok: true, post: r.posts?.id || null, taskId: r.posts?.task?.id || null, assignees: body.assignees || [] });
+    }
+    if (route === "/postraw") {
+      if (!body.id) return json(res, 400, { error: "id requis" });
+      return json(res, 200, await getPost(body.id));
+    }
+    if (route === "/task-state") {
+      if (!body.taskId || !body.state) return json(res, 400, { error: "taskId et state requis (todo|in_progress|closed)" });
+      const r = await setTaskState(body);
+      return json(res, 200, { ok: true, raw: r });
     }
     if (route === "/note") {
       if (!body.id || !body.markdown) return json(res, 400, { error: "id et markdown requis" });
