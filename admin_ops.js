@@ -96,7 +96,7 @@
  *   KNOWLEDGE : contexte_lasclay.md (à côté du script) nourrit les brouillons.
  */
 
-const VERSION = "v3.1";
+const VERSION = "v3.2";
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -250,6 +250,19 @@ async function apiPatch(path, body, tries = 0) {
   if (res.status === 429) { console.warn("Limite de débit, pause 30 s..."); await sleep(30000); return apiPatch(path, body, tries); }
   const text = await res.text();
   if (!res.ok) console.error(`PATCH ${path} → ${res.status} ${text}`);
+  return { ok: res.ok, status: res.status, text };
+}
+
+async function apiDelete(path, tries = 0) {
+  await sleep(260);
+  let res;
+  try { res = await fetch(`${API}${path}`, { method: "DELETE", headers: mHeaders }); }
+  catch (e) {
+    if (tries < 4) { await sleep((tries + 1) * 5000); return apiDelete(path, tries + 1); }
+    throw e;
+  }
+  if (res.status === 429) { await sleep(30000); return apiDelete(path, tries); }
+  const text = await res.text();
   return { ok: res.ok, status: res.status, text };
 }
 
@@ -468,6 +481,8 @@ function hasActionSignal(text) {
 async function fermerSansAction(convId, categorie) {
   const post = {
     conversation: convId, organization: ORG, close: true,
+    // notification est REQUISE par POST /posts (sinon 400).
+    notification: { title: "Fermé (sans action)", body: `Notification sans action (${categorie}).` },
     markdown: `_Fermé automatiquement par admin_ops.js : notification sans action requise (${categorie})._\n_Se rouvrira si quelqu'un y répond._`,
   };
   if (CLOSED_LABEL_ID) post.add_shared_labels = [CLOSED_LABEL_ID];
@@ -491,7 +506,9 @@ async function marquerAVoir(convId) {
 async function traiterSpam(convId, categorie) {
   const post = {
     conversation: convId, organization: ORG,
-    markdown: `_Filtrage.js : démarchage/sollicitation non désiré (${categorie}). Action : ${SPAM_ACTION}._`,
+    // notification est REQUISE par POST /posts (sinon 400).
+    notification: { title: "Démarchage écarté", body: `Sollicitation non désirée (${categorie}) → ${SPAM_ACTION}.` },
+    markdown: `_admin_ops.js : démarchage/sollicitation non désiré (${categorie}). Action : ${SPAM_ACTION}._`,
   };
   if (SPAM_ACTION === "trash") { post.close = true; post.trash = true; }
   else if (SPAM_ACTION === "label") { post.close = true; if (SPAM_LABEL_ID) post.add_shared_labels = [SPAM_LABEL_ID]; }
@@ -520,23 +537,24 @@ d'abord TRIER (partie 1), puis, si le fil attend une réponse de Gabriel, le PRI
 
 == PARTIE 1 : TRIER == Classe le courriel dans UNE de quatre cases :
 
-1. action="close" — À FERMER. Purs courriels informatifs, définitivement réglés, sans AUCUN geste ni maintenant
-   ni plus tard, et sans rien d'important à retenir :
-     - reçus et confirmations de paiement (« paiement reçu », « your receipt », rechargement automatique, solde à 0)
-     - accusés de réception, « pour vos dossiers », « aucune action requise »
-     - notifications automatiques jetables (statut « livré » sans problème, etc.).
-   Ferme seulement si, une fois lu, il n'y a STRICTEMENT plus rien à en faire.
+1. action="close" — À FERMER. Rien à FAIRE, ni maintenant ni plus tard, ET aucun suivi ni exploration à prévoir.
+   Sois LARGE ici : tout le sans-suite se ferme (un digest garde la trace de chaque fermeture, donc c'est sans
+   risque de fermer un simple informatif).
+     - reçus, confirmations de paiement, accusés de réception, « aucune action requise », « pour vos dossiers »
+     - notifications automatiques jetables (statut « livré » sans problème, etc.)
+     - PUR INFORMATIF SANS SUITE : rapport de ventes/usage pour info, annonce produit d'un outil, mise à jour de
+       politique/conditions à simplement noter, récapitulatif mensuel, avis dont on ne fera rien de concret
+     - fil DÉJÀ RÉGLÉ où plus personne n'attend rien (échange conclu, question répondue, dossier clos).
+   Le critère : après lecture, il ne reste ni geste, ni décision, ni suivi, ni raison d'y revenir → close.
 
-2. action="a_voir" — À GARDER OUVERT MAIS SIGNALÉ. Aucune urgence, mais une action douce/éventuelle ou une
-   info qu'il faut vraiment connaître.
-     - mise à jour / nouvelle fonctionnalité d'un outil qu'on utilise déjà
-       (EXEMPLE TYPE : « The new HelpCenter is live now » — à explorer et à savoir)
-     - changement de conditions/prix/politique d'un fournisseur, à prendre en note
-     - ARGENT QUI SORT du compte (prélèvement, versement NÉGATIF, ex. « Payout -343$ » dû à des
-       remboursements) : "a_voir", jamais "close" — il faut pouvoir le remarquer. Un versement POSITIF
-       purement informatif (argent qui entre, rien à faire), lui, peut être "close".
-     - rappel léger / migration à planifier.
-   En cas d'hésitation entre "close" et "a_voir" : choisis "a_voir".
+2. action="a_voir" — À GARDER OUVERT MAIS SIGNALÉ. RÉSERVÉ à ce qui n'exige rien maintenant MAIS demandera un
+   SUIVI, une EXPLORATION ou une DÉCISION plus tard. Ce n'est PAS un fourre-tout pour les informatifs (ceux-là
+   se ferment, case 1).
+     - outil qu'on utilise, à ALLER EXPLORER (EXEMPLE TYPE : « The new HelpCenter is live now »)
+     - échéance/renouvellement à PLANIFIER (assurance à renouveler, retour d'appareil avec date limite)
+     - ARGENT QUI SORT du compte (prélèvement, versement NÉGATIF, ex. « Payout -343$ ») : "a_voir", jamais
+       "close" — il faut pouvoir le remarquer.
+   Si, après lecture, il n'y a vraiment AUCUN suivi ni exploration à prévoir → ce n'est pas "a_voir", c'est "close".
 
 3. action="spam" — RARE, à n'utiliser qu'en dernier recours. Uniquement le démarchage commercial CREUX d'un
    FOURNISSEUR/AGENCE/CONSULTANT PRIVÉ qui vend SES PROPRES services, sans aucune relation existante ET sans
@@ -692,10 +710,40 @@ function buildDigest(teamName, teamId, items, fermes = [], spams = [], avoirs = 
 }
 
 async function postDigest(conversationId, markdown) {
-  return apiPost("/posts", {
+  const r = await apiPost("/posts", {
     posts: { conversation: conversationId, organization: ORG,
       notification: { title: "Digest matinal", body: "Ton résumé priorisé est prêt." }, markdown },
   });
+  let id = null;
+  try { const j = JSON.parse(r.text || "{}"); id = j.posts?.id || j.post?.id || j.id || null; } catch (_) {}
+  return { ok: r.ok, id };
+}
+
+// Ne garder que le digest le PLUS RÉCENT : supprime nos anciens digests de la conversation.
+// Best-effort : dépend de la liste des commentaires (endpoint à confirmer). Si indisponible,
+// on ne touche à rien (les vieux digests restent, aucun dégât).
+const DIGEST_MARKER = "📋 Résumé";
+async function listComments(convId) {
+  // On tente l'endpoint dédié; s'il n'existe pas, on renvoie null (purge sautée).
+  try {
+    const r = await api(`/conversations/${convId}/comments?limit=50`);
+    const arr = r.comments || r.posts || [];
+    return Array.isArray(arr) ? arr : null;
+  } catch (_) { return null; }
+}
+async function purgeVieuxDigests(convId, keepId) {
+  const comments = await listComments(convId);
+  if (!comments) return { supported: false, deleted: 0 };
+  let deleted = 0;
+  for (const c of comments) {
+    const body = c.body || c.markdown || c.text || "";
+    const estDigest = body.includes(DIGEST_MARKER);
+    if (estDigest && c.id && c.id !== keepId) {
+      const r = await apiDelete(`/posts/${c.id}`);
+      if (r.ok) deleted++;
+    }
+  }
+  return { supported: true, deleted };
 }
 
 // Ensemble des conversations portant déjà un label (anti-doublon tâches / brouillons).
@@ -975,7 +1023,20 @@ async function main() {
         console.log(`\n--- DIGEST ${t.name} (simulation) ---\n${md}`);
       } else if ((postReel || aRapporter) && t.digestConversation) {
         const r = await postDigest(t.digestConversation, md);
-        console.log(r.ok ? `Digest ${t.name} posté (${items.length} en attente, ${tFermes.length} fermé(s), ${tSpams.length} spam).` : `Digest ${t.name} NON posté.`);
+        if (r.ok) {
+          // Ne garder que ce digest-ci : supprimer les précédents. On NE purge que si on
+          // connaît l'id du nouveau post (sinon on risquerait de supprimer le digest frais).
+          let suffixe = "";
+          if (r.id) {
+            const purge = await purgeVieuxDigests(t.digestConversation, r.id);
+            suffixe = purge.supported ? `, ${purge.deleted} ancien(s) supprimé(s)` : `, purge non supportée (vieux conservés)`;
+          } else {
+            suffixe = ", id du post inconnu → purge sautée";
+          }
+          console.log(`Digest ${t.name} posté (${items.length} en attente, ${tFermes.length} fermé(s), ${tSpams.length} spam${suffixe}).`);
+        } else {
+          console.log(`Digest ${t.name} NON posté.`);
+        }
       } else {
         console.log(`Digest ${t.name} non posté (${weekend && DIGEST_SKIP_WEEKEND ? "week-end" : `heure ${heureUTC}h ≠ ${DIGEST_HOUR}h`}, rien d'écarté).`);
       }
