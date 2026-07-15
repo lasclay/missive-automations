@@ -96,7 +96,7 @@
  *   KNOWLEDGE : contexte_lasclay.md (à côté du script) nourrit les brouillons.
  */
 
-const VERSION = "v3.2";
+const VERSION = "v3.3";
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -542,19 +542,23 @@ d'abord TRIER (partie 1), puis, si le fil attend une réponse de Gabriel, le PRI
    risque de fermer un simple informatif).
      - reçus, confirmations de paiement, accusés de réception, « aucune action requise », « pour vos dossiers »
      - notifications automatiques jetables (statut « livré » sans problème, etc.)
-     - PUR INFORMATIF SANS SUITE : rapport de ventes/usage pour info, annonce produit d'un outil, mise à jour de
-       politique/conditions à simplement noter, récapitulatif mensuel, avis dont on ne fera rien de concret
+     - PUR INFORMATIF SANS SUITE : rapport de ventes/usage pour info, mise à jour de politique/conditions à
+       simplement noter, récapitulatif mensuel, avis dont on ne fera rien de concret
+     - ANNONCES DE PRODUIT / INFOLETTRES / « nouvelle fonctionnalité » d'un outil ou d'une plateforme, diffusées
+       en masse (« Meet our new... », « X is live now », « Build with... », « Discover... »). C'est du marketing
+       informatif SANS obligation. EXEMPLES QUI SE FERMENT : « GPT-5.6: Meet Sol, Terra and Luna », « The new
+       HelpCenter is live now », « Smart Pricing : votre tarification... ». Ne présume PAS qu'on utilise l'outil.
      - fil DÉJÀ RÉGLÉ où plus personne n'attend rien (échange conclu, question répondue, dossier clos).
-   Le critère : après lecture, il ne reste ni geste, ni décision, ni suivi, ni raison d'y revenir → close.
+   Le critère : après lecture, il ne reste ni geste, ni décision, ni ÉCHÉANCE, ni argent à surveiller → close.
 
-2. action="a_voir" — À GARDER OUVERT MAIS SIGNALÉ. RÉSERVÉ à ce qui n'exige rien maintenant MAIS demandera un
-   SUIVI, une EXPLORATION ou une DÉCISION plus tard. Ce n'est PAS un fourre-tout pour les informatifs (ceux-là
-   se ferment, case 1).
-     - outil qu'on utilise, à ALLER EXPLORER (EXEMPLE TYPE : « The new HelpCenter is live now »)
-     - échéance/renouvellement à PLANIFIER (assurance à renouveler, retour d'appareil avec date limite)
+2. action="a_voir" — À GARDER OUVERT. RARE. Uniquement une OBLIGATION FUTURE CONCRÈTE (pas une simple info, pas
+   une invitation à « explorer ») :
+     - une ÉCHÉANCE / DATE LIMITE réelle à respecter (renouvellement d'assurance daté, retour d'appareil avec
+       date butoir et montant)
+     - une DÉCISION précise à prendre plus tard sur un dossier existant
      - ARGENT QUI SORT du compte (prélèvement, versement NÉGATIF, ex. « Payout -343$ ») : "a_voir", jamais
        "close" — il faut pouvoir le remarquer.
-   Si, après lecture, il n'y a vraiment AUCUN suivi ni exploration à prévoir → ce n'est pas "a_voir", c'est "close".
+   Une annonce de produit, une nouveauté « à explorer un jour », un FYI sans échéance → PAS "a_voir", c'est "close".
 
 3. action="spam" — RARE, à n'utiliser qu'en dernier recours. Uniquement le démarchage commercial CREUX d'un
    FOURNISSEUR/AGENCE/CONSULTANT PRIVÉ qui vend SES PROPRES services, sans aucune relation existante ET sans
