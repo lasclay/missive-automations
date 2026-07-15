@@ -78,7 +78,7 @@
  *   MISSIVE_SELF_ADDRESSES  nos adresses (défaut hey@, admin@, operations@).
  */
 
-const VERSION = "v2.2";
+const VERSION = "v2.3";
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
@@ -106,11 +106,11 @@ const REVIEW_LABEL_ID = process.env.REVIEW_LABEL_ID || "";
 // (met à la corbeille), ou "label" (pose SPAM_LABEL_ID + ferme).
 const SPAM_ACTION = (process.env.SPAM_ACTION || "close").toLowerCase();
 const SPAM_LABEL_ID = process.env.SPAM_LABEL_ID || "";
-// v2.2 — seuil de confiance PROPRE au spam, plus bas que celui des fermetures : un
-// démarchage froid reconnu (« aucune relation d'affaires ») mérite d'être écarté même
-// à confiance modérée. Sûr tant que SPAM_ACTION="close" (réversible). Remonte-le si
-// tu passes à SPAM_ACTION="trash".
-const SPAM_SEUIL = parseFloat(process.env.SPAM_SEUIL || "0.6");
+// Seuil de confiance PROPRE au spam. HAUT par défaut (0.85) : le spam est rare et
+// dangereux (un faux positif écarte une occasion/communication importante — cf. les
+// invitations institutionnelles type PARI, qui NE sont PAS du spam). À ne baisser
+// qu'avec prudence, et jamais avec SPAM_ACTION="trash".
+const SPAM_SEUIL = parseFloat(process.env.SPAM_SEUIL || "0.85");
 const RESUME_CONV = process.env.RESUME_CONV || "";
 
 // --- Équipes ciblées (ids confirmés par repartition_merge.js / logs prod) ---
@@ -466,33 +466,34 @@ Classe le courriel dans UNE de quatre cases :
      - notifications automatiques jetables (statut « livré » sans problème, etc.).
    Ferme seulement si, une fois lu, il n'y a STRICTEMENT plus rien à en faire.
 
-2. action="a_voir" — À GARDER OUVERT MAIS SIGNALÉ. Réservé à ce qui concerne un outil, un service, un programme
-   ou une relation que Lasclay UTILISE ou POSSÈDE DÉJÀ, ou à une info qu'il faut vraiment retenir pour les
-   opérations existantes — sans urgence.
+2. action="a_voir" — À GARDER OUVERT MAIS SIGNALÉ. Aucune urgence, mais une action douce/éventuelle ou une
+   info qu'il faut vraiment connaître.
      - mise à jour / nouvelle fonctionnalité d'un outil qu'on utilise déjà
-       (EXEMPLE TYPE : « The new HelpCenter is live now » — outil déjà en place, à explorer et à savoir)
-     - changement de conditions/prix/politique d'un fournisseur AVEC QUI ON FAIT AFFAIRE, à prendre en note
+       (EXEMPLE TYPE : « The new HelpCenter is live now » — à explorer et à savoir)
+     - changement de conditions/prix/politique d'un fournisseur, à prendre en note
      - ARGENT QUI SORT du compte (prélèvement, versement NÉGATIF, ex. « Payout -343$ » dû à des
        remboursements) : "a_voir", jamais "close" — il faut pouvoir le remarquer. Un versement POSITIF
        purement informatif (argent qui entre, rien à faire), lui, peut être "close".
-     - rappel léger / migration à planifier sur un service qu'on utilise.
-   "a_voir" n'est PAS un fourre-tout : une invitation FROIDE d'un inconnu (séance d'info, webinaire, sondage,
-   « partenariat ») n'est PAS "a_voir" — c'est "spam" (case 3).
+     - rappel léger / migration à planifier.
+   En cas d'hésitation entre "close" et "a_voir" : choisis "a_voir".
 
-3. action="spam" — DÉMARCHAGE NON DÉSIRÉ à écarter. Sollicitation froide d'un expéditeur SANS relation d'affaires
-   existante, qui cherche à vendre, à faire prendre un rendez-vous, à recruter, ou à faire assister à quelque chose :
-     - agences, consultants, fournisseurs de services qui prospectent à froid (SEO, dev, subventions, financement,
-       marketing, recrutement, « partenariat », « quick question » déguisé en vente)
-       (EXEMPLE TYPE : « Petite question rapide… je parle avec des PME… est-ce vous qui regardez ça ? »)
-     - INVITATIONS FROIDES : séances d'information, webinaires, sondages de disponibilité, formations non
-       sollicitées, venant d'un inconnu sans dossier ni échange préalable — c'est du démarchage, PAS du "a_voir".
-     - USURPATION DE CONTEXTE : un envoi froid qui emprunte le nom d'un vrai programme (ex. « PARI ») mais SANS
-       interlocuteur connu ni dossier existant reste du démarchage → "spam". (Un vrai conseiller PARI-CNRC avec
-       qui on échange déjà, lui, est "keep".)
-     - pourriel générique, listes commerciales non sollicitées sans lien avec nos opérations.
-   ATTENTION : ce n'est PAS du spam si c'est un vrai fournisseur/partenaire/client avec qui on fait déjà affaire,
-   une facture, ou un service qu'on utilise. Le critère décisif = ABSENCE de relation d'affaires préalable.
-   Dans le doute entre "spam" et "keep" : choisis "keep".
+3. action="spam" — RARE, à n'utiliser qu'en dernier recours. Uniquement le démarchage commercial CREUX d'un
+   FOURNISSEUR/AGENCE/CONSULTANT PRIVÉ qui vend SES PROPRES services, sans aucune relation existante ET sans
+   aucun lien avec la mission de Lasclay (asclépiade, monarques, textile isolant, semences, revente, etc.) :
+     - agence/consultant qui prospecte à froid pour vendre du SEO, du dev, du marketing, du « financement »,
+       du recrutement, un « partenariat » creux, un « quick question » déguisé en vente
+       (SEUL EXEMPLE DE SPAM : « Petite question rapide… je parle avec des PME qui évaluent des projets
+        numériques… est-ce vous qui regardez ça ? » — une agence privée qui vend ses services)
+     - pourriel générique manifeste, liste commerciale sans aucun rapport avec nos activités.
+   NE SONT JAMAIS DU SPAM, même non sollicités et même d'un inconnu — mets "keep" (ou "a_voir" si vraiment
+   passif), PAS "spam" :
+     - toute invitation à une séance d'information, un webinaire, un programme, une formation, surtout
+       INSTITUTIONNEL / GOUVERNEMENTAL / d'innovation / de financement (ex. programmes type PARI, cybersécurité,
+       export, subventions) — c'est IMPORTANT, ça peut demander une inscription ou une décision ;
+     - tout ce qui touche la mission de Lasclay (asclépiade, monarques, semences, textile, revente, fournisseurs
+       de matière), toute vraie personne, tout organisme public/paragouvernemental, tout partenaire potentiel.
+   RÈGLE ABSOLUE : dans le moindre doute, ce N'EST PAS du spam → "keep". Mieux vaut garder cent courriels que
+   d'écarter une seule occasion ou communication importante.
 
 4. action="keep" — À GARDER, actif. Un geste, une décision ou une vérification est plausible ou attendu :
      - facture À PAYER, échec/refus de paiement, montant dû, solde à régler
