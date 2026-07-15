@@ -8,12 +8,14 @@
  *   node missive_client.js health
  *   node missive_client.js list "shared_label=ID"
  *   node missive_client.js read <convId>
+ *   node missive_client.js drafts <convId>   (brouillons déjà rédigés par le script IA)
+ *   node missive_client.js notes <convId>    (notes internes / commentaires)
  *   node missive_client.js note <convId> "texte markdown"
  *   node missive_client.js close <convId> "note optionnelle"
  *   node missive_client.js reply <convId>   (lit un JSON de brouillon sur stdin)
  */
 
-const URL = process.env.MISSIVE_PROXY_URL;
+const URL = process.env.MISSIVE_PROXY_URL || "https://proxy-missive.onrender.com";
 const SECRET = process.env.PROXY_SECRET;
 
 async function call(route, body, method = "POST") {
@@ -37,6 +39,8 @@ function readStdin() {
     if (cmd === "health") console.log(JSON.stringify(await call("/health", null, "GET"), null, 2));
     else if (cmd === "list") console.log(JSON.stringify(await call("/list", { filter: a1 }), null, 2));
     else if (cmd === "read") console.log(JSON.stringify(await call("/conversation", { id: a1 }), null, 2));
+    else if (cmd === "drafts") console.log(JSON.stringify(await call("/drafts", { id: a1 }), null, 2));
+    else if (cmd === "notes") console.log(JSON.stringify(await call("/comments", { id: a1 }), null, 2));
     else if (cmd === "note") console.log(JSON.stringify(await call("/note", { id: a1, markdown: a2 }), null, 2));
     else if (cmd === "close") console.log(JSON.stringify(await call("/close", { id: a1, note: a2 }), null, 2));
     else if (cmd === "reply") { const draft = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/reply", { id: a1, ...draft }), null, 2)); }

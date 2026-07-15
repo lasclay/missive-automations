@@ -10,6 +10,8 @@
  *   GET  /health                      → sonde (sans auth)
  *   POST /list       {filter}         → liste des conversations (ex. "shared_label=ID")
  *   POST /conversation {id}           → fil complet nettoyé (NOUS/EUX, daté)
+ *   POST /drafts     {id}             → brouillons laissés par le script IA (réponse déjà rédigée)
+ *   POST /comments   {id}             → notes internes (commentaires) — dégrade si non listable
  *   POST /note       {id, markdown}   → note interne (commentaire)
  *   POST /close      {id, note}       → ferme le fil (+ note)
  *   POST /reply      {id, from, to[], cc[], subject, body, send, closeAfter}
@@ -122,6 +124,44 @@ async function getConversation(id) {
   });
 }
 
+// Brouillons laissés par le script IA (support.js) — la réponse déjà rédigée.
+async function getDrafts(id) {
+  const { drafts = [] } = await mGet(`/conversations/${id}/drafts?limit=10`);
+  const sorted = drafts.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
+  return sorted.map((d) => {
+    const ts = (d.delivered_at || d.created_at || 0) * 1000;
+    return {
+      id: d.id,
+      from: d.from_field?.address || null,
+      to: (d.to_fields || []).map((f) => f.address).filter(Boolean),
+      subject: d.subject || null,
+      date: ts ? new Date(ts).toISOString().slice(0, 10) : null,
+      body: stripHtml(d.body || ""),
+    };
+  });
+}
+
+// Notes internes (commentaires/posts) laissées par le script IA ou l'équipe.
+// L'endpoint de listage des commentaires n'est pas garanti par l'API publique :
+// on dégrade proprement (liste vide + note) plutôt que d'échouer en 502.
+async function getComments(id) {
+  try {
+    const { comments = [] } = await mGet(`/conversations/${id}/comments?limit=25`);
+    const sorted = comments.slice().sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
+    return { comments: sorted.map((c) => {
+      const ts = (c.created_at || 0) * 1000;
+      return {
+        id: c.id,
+        author: c.author?.name || c.author?.email || c.author?.address || null,
+        date: ts ? new Date(ts).toISOString().slice(0, 10) : null,
+        text: stripHtml(c.body || c.markdown || c.text || ""),
+      };
+    }) };
+  } catch (e) {
+    return { comments: [], note: `Commentaires non listables via l'API (${String(e.message || e).slice(0, 120)}).` };
+  }
+}
+
 async function postNote(id, markdown) {
   return mSend("POST", "/posts", {
     posts: { conversation: id, organization: ORG,
@@ -181,6 +221,14 @@ const server = http.createServer(async (req, res) => {
     if (route === "/conversation") {
       if (!body.id) return json(res, 400, { error: "id requis" });
       return json(res, 200, { messages: await getConversation(body.id) });
+    }
+    if (route === "/drafts") {
+      if (!body.id) return json(res, 400, { error: "id requis" });
+      return json(res, 200, { drafts: await getDrafts(body.id) });
+    }
+    if (route === "/comments") {
+      if (!body.id) return json(res, 400, { error: "id requis" });
+      return json(res, 200, await getComments(body.id));
     }
     if (route === "/note") {
       if (!body.id || !body.markdown) return json(res, 400, { error: "id et markdown requis" });
