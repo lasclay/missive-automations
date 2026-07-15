@@ -207,7 +207,7 @@ async function apiPost(path, body) {
 async function claude(systemBlocks, user, maxTokens) {
   const payload = JSON.stringify({
     model: MODEL,
-    max_tokens: maxTokens || 1500,
+    max_tokens: maxTokens || 4000,
     system: systemBlocks,
     messages: [{ role: "user", content: sanit(user) }],
   });
@@ -749,6 +749,7 @@ RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
   "brouillon": "<le texte du brouillon, sauts de ligne avec \\n>",
   "excuse_utilisee": "<si une excuse de délai/retard a été servie, sa phrase exacte, sinon null>",
   "note_interne": "<télégraphique: ce que Gabriel doit VÉRIFIER avant d'envoyer, sinon null. JAMAIS dans le corps du brouillon.>",
+  "note_bloquante": "<true|false, seulement si note_interne existe. true = le message NE PEUT PAS partir tel quel avant vérification humaine: un fait dont dépend la réponse est incertain (statut de commande, adresse, stock, montant, promo), ou tu affirmes quelque chose dont tu n'es pas sûr. false = la note est du CONTEXTE que Gabriel peut lire APRÈS coup sans que ça change une virgule au message: observation sur l'historique, suggestion de suivi, remarque sur le ton, information déjà confirmée par le catalogue. Dans le doute, true.>",
   "action_requise": "<télégraphique: le geste que Gabriel doit POSER avant d'envoyer, sinon null>",
   "suivi": "<qui a le prochain geste: 'client' si on attend une réponse ou une action du client; 'nous' si on doit le relancer (typique d'une vente ou d'un pré-achat: on répond, puis on vérifie plus tard s'il a commandé); 'aucun' si rien n'est en attente (remerciement, info donnée)>",
   "relance_jours": "<si suivi='nous', dans combien de jours relancer (un nombre), en choisissant le délai IDÉAL selon le cas (ex. 3 pour une vente chaude, 7 à 10 pour un suivi moins pressant); sinon null>",
@@ -1275,9 +1276,12 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         alertes.length ? `[VOIX] ${alertes.join("; ")}` : null,
       ].filter(Boolean);
 
-      // Verrou humain à deux niveaux: ALARME (action à poser ou alerte de voix) vs NOTE simple.
-      // verifRequise === true => le brouillon N'EST PAS admissible à l'envoi auto (jamais).
-      let verifRequise = noteLigne.length > 0;
+      // Verrou humain à deux niveaux, enfin branché (v2.16). Bloquent toujours: une action à poser,
+      // une alerte de voix, ou une note que l'associé juge BLOQUANTE (fait incertain dont dépend la
+      // réponse). Ne bloque plus: une note purement informative (contexte que Gabriel lit après coup).
+      // La note reste posée sur le fil dans tous les cas.
+      const noteBloque = !!(out.note_interne && out.note_bloquante !== false);
+      let verifRequise = noteBloque || !!out.action_requise || !!actionAuto || alertes.length > 0;
       let alarme = !!(out.action_requise || actionAuto || alertes.length);
 
       // Signature (langue), citation, liens cliquables + préfixe pays. (Voir v2.7.)
@@ -1343,7 +1347,9 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       if (escalade) escalCount++;
       // Porte du QC, union ADDITIVE de quatre entrées: signal déterministe de voix, catégorie sensible,
       // enjeu détecté, ou escalade de Sonnet. Rien de tout ça ne SAUTE un QC; ça ne fait qu'en ajouter.
-      const sansRisque = QC_SKIP_SAFE && !verifRequise && !catSensible && !enjeu && !escalade;
+      // Une note informative ne bloque plus l'envoi, mais elle passe TOUJOURS par Opus: si l'associé
+      // a relevé quelque chose, un second regard le lit avant que ça parte.
+      const sansRisque = QC_SKIP_SAFE && !verifRequise && !out.note_interne && !catSensible && !enjeu && !escalade;
       if (candidat && SEND_QC && !sansRisque) {
         try {
           qcVerdict = await opusQC(qcSystemBlocks, filTexte, corps, out, noteLigne, joursAttente);
@@ -1454,6 +1460,20 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
             // Fermer le fil (et poser la relance si on doit relancer).
             try { await fermerFil(conv.id, relanceJours, relanceRaison); }
             catch (e) { console.warn(`  fermeture échouée sur ${conv.id}: ${e.message}`); }
+            // Une note informative (non bloquante) reste posée sur le fil: le message est parti,
+            // mais le contexte que l'associé a relevé ne doit pas se perdre.
+            if (noteLigne.length) {
+              try {
+                await apiPost("/posts", {
+                  posts: {
+                    conversation: conv.id, organization: ORG,
+                    notification: { title: "Note IA (réponse déjà envoyée)", body: noteLigne.join(" | ").slice(0, 200) },
+                    username: "Support IA",
+                    markdown: "**Note IA (réponse déjà envoyée, rien à faire avant envoi):**\n" + noteLigne.map((l) => `- ${l}`).join("\n"),
+                  },
+                });
+              } catch (e) { console.warn(`  note info échouée sur ${conv.id}: ${e.message}`); }
+            }
             if (itemDigest) {
               // Note légère sur le fil: l'action reste visible même hors digest.
               try {
@@ -1472,7 +1492,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
             drafted.add(conv.id);
             if (verifRequise) verifs++;
             console.log(`[draft ${created}] ${subj.slice(0, 60) || "(sans sujet)"} | ${out.categorie} | ${out.langue}${alarme ? " | ⚠️ VÉRIFICATION REQUISE" : verifRequise ? " | note" : ""}`);
-            if (verifRequise) {
+            if (noteLigne.length) {
               try {
                 await apiPost("/posts", {
                   posts: {
