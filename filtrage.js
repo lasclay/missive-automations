@@ -1,6 +1,12 @@
 /**
- * Lasclay — filtrage.js (v2)
+ * Lasclay — filtrage.js (v2.1)
  * --------------------------------------------------------------------------
+ * v2.1 — le juge IA reçoit désormais le FIL COMPLET (tous les messages, NOUS/EUX,
+ * du plus ancien au plus récent), plus seulement le dernier message. Le dernier
+ * message seul l'induisait en erreur sur les « Re: » (ex. faux « démarchage »
+ * sur un fil PARI où le contexte était dans les messages précédents). Le
+ * déterministe, lui, continue de ne regarder que le dernier message (prudence).
+ *
  * Trie les boîtes ADMIN (admin@lasclay.com) et OPERATIONS (operations@lasclay.com)
  * et désencombre l'inbox sans jamais escamoter un courriel qui demande un geste.
  * Ces boîtes ne sont PAS du service client.
@@ -72,7 +78,7 @@
  *   MISSIVE_SELF_ADDRESSES  nos adresses (défaut hey@, admin@, operations@).
  */
 
-const VERSION = "v2";
+const VERSION = "v2.1";
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
@@ -278,6 +284,39 @@ async function fetchBody(messageId) {
   } catch { return ""; }
 }
 
+// Corps de plusieurs messages en lot (patron validé de support.js) : GET /messages/:id,:id2
+// renvoie les body. Fallback message par message si le lot échoue.
+async function fetchBodies(ids) {
+  const bodies = new Map();
+  for (let i = 0; i < ids.length; i += 10) {
+    const chunk = ids.slice(i, i + 10);
+    try {
+      const r = await api(`/messages/${chunk.join(",")}`);
+      const arr = Array.isArray(r.messages) ? r.messages : [r.messages];
+      for (const m of arr) if (m && m.id) bodies.set(m.id, m.body || m.preview || "");
+    } catch {
+      for (const id of chunk) bodies.set(id, await fetchBody(id));
+    }
+  }
+  return bodies;
+}
+
+// Fil complet, du plus ancien au plus récent, pour le juge IA. Chaque tour est
+// étiqueté NOUS / EUX afin qu'Opus comprenne le va-et-vient (le dernier message
+// seul induit en erreur sur les « Re: », cf. le faux « démarchage » PARI).
+function construireFil(msgs, bodies) {
+  return msgs
+    .map((m) => {
+      const who = isUs(m) ? "NOUS" : `EUX (${m.from_field?.name || m.from_field?.address || "?"})`;
+      const ts = m.delivered_at || m.created_at;
+      const d = ts ? new Date(ts * 1000).toISOString().slice(0, 10) : "";
+      const txt = stripHtml(bodies.get(m.id) || m.preview || "").slice(0, 1500);
+      return `[${d}] ${who}: ${txt || "(sans texte)"}`;
+    })
+    .join("\n\n")
+    .slice(0, 12000); // plafond de sécurité sur les très longs fils
+}
+
 // ==========================================================================
 //  Détecteurs déterministes
 // ==========================================================================
@@ -457,15 +496,19 @@ Réponds STRICTEMENT en JSON, sans texte autour :
   },
 ];
 
-async function jugerIA(sujet, corps, expediteur, boite, diffusion, dateStr) {
+async function jugerIA(sujet, fil, expediteur, boite, diffusion, dateStr) {
   const user =
 `AUJOURD'HUI : ${dateStr}
 BOÎTE : ${boite}
-EXPÉDITEUR : ${expediteur}
+DERNIER EXPÉDITEUR EXTERNE : ${expediteur}
 DIFFUSION (infolettre / envoi de masse) : ${diffusion ? "oui" : "non"}
 SUJET : ${sujet}
-CORPS (nettoyé, tronqué) :
-${(corps || "").slice(0, 3000)}`;
+
+FIL COMPLET (du plus ancien au plus récent; NOUS = Lasclay, EUX = l'externe).
+Lis TOUT le fil avant de juger : le dernier message seul peut induire en erreur.
+------
+${fil || "(aucun contenu)"}
+------`;
   const raw = await claude(AI_SYSTEM, user, 400);
   const out = parseJsonLoose(raw);
   const valides = new Set(["close", "a_voir", "spam", "keep"]);
@@ -541,10 +584,13 @@ async function main() {
     const expediteur = last.from_field?.address || last.from_field?.name || "?";
     const auto = isAutomatedSender(last.from_field?.address);
 
-    // v2 — CORRECTIF CLÉ : on charge le VRAI corps du dernier message (le listage des
-    // messages ne renvoie pas le body ; sans ça, le déterministe jugeait à l'aveugle).
-    let corps = stripHtml(last.body || last.preview || "");
-    if (last.id) { const b = stripHtml(await fetchBody(last.id)); if (b) corps = b; }
+    // v2 — CORRECTIF CLÉ : on charge les VRAIS corps (le listage des messages ne renvoie
+    // pas le body). En lot pour tout le fil : sert au déterministe (dernier message) ET
+    // au juge IA (fil complet).
+    const bodies = await fetchBodies(msgs.map((m) => m.id));
+    const corps = stripHtml(bodies.get(last.id) || last.body || last.preview || "");
+    // Déterministe : on ne regarde QUE le dernier message (éviter le bruit des vieux
+    // messages / citations, cf. faux positifs de support.js).
     const texte = `${sujet}\n${corps}`;
     const broadcast = isBroadcast(texte);
 
@@ -562,11 +608,12 @@ async function main() {
       continue;
     }
 
-    // 4. Juge IA (Opus) : le MOTEUR. Il voit le vrai sujet+corps et tranche TOUT courriel
-    //    entrant non réglé par les étapes ci-dessus (close / a_voir / spam / keep).
+    // 4. Juge IA (Opus) : le MOTEUR. Il reçoit le FIL COMPLET (v2.1) et tranche TOUT
+    //    courriel entrant non réglé ci-dessus (close / spam / a_voir / keep).
     if (AI_ON) {
+      const fil = construireFil(msgs, bodies);
       let verdict;
-      try { verdict = await jugerIA(sujet, corps, expediteur, boite, broadcast, dateStr); }
+      try { verdict = await jugerIA(sujet, fil, expediteur, boite, broadcast, dateStr); }
       catch (e) { gardes.push({ conv, boite, raison: `IA en erreur (${e.message}) → gardé` }); continue; }
       const conf = verdict.confiance ?? 0;
       if (verdict.action === "close" && conf >= AI_SEUIL) {
