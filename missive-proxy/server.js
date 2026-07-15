@@ -146,7 +146,7 @@ async function getDrafts(id) {
 // on dégrade proprement (liste vide + note) plutôt que d'échouer en 502.
 async function getComments(id) {
   try {
-    const { comments = [] } = await mGet(`/conversations/${id}/comments?limit=25`);
+    const { comments = [] } = await mGet(`/conversations/${id}/comments?limit=10`);
     const sorted = comments.slice().sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
     return { comments: sorted.map((c) => {
       const ts = (c.created_at || 0) * 1000;
