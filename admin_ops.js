@@ -96,7 +96,7 @@
  *   KNOWLEDGE : contexte_lasclay.md (à côté du script) nourrit les brouillons.
  */
 
-const VERSION = "v3";
+const VERSION = "v3.1";
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -640,7 +640,9 @@ const missiveLink = (teamId, id) =>
   `https://mail.missiveapp.com/#team_unassigned/${teamId}_team_unassigned/conversations/${id}`;
 
 // Construit le digest markdown priorisé pour une équipe (items = fils "keep").
-function buildDigest(teamName, teamId, items) {
+// fermes/spams/avoirs = ce que le script a écarté ce run, listé pour que Gabriel
+// puisse RATTRAPER une erreur (rouvrir un fil fermé/spammé à tort).
+function buildDigest(teamName, teamId, items, fermes = [], spams = [], avoirs = []) {
   const today = new Date().toLocaleDateString("fr-CA", { day: "numeric", month: "long" });
   const rouge = [], opp = [], vert = [];
   for (const it of items) {
@@ -674,6 +676,17 @@ function buildDigest(teamName, teamId, items) {
   if (drafts.length) {
     md += `\n---\n**Brouillons prêts** _(à relire avant d'envoyer)_\n`;
     for (const it of drafts) md += `\n**✍️ ${it.sender} — ${(it.sujet || "").slice(0, 50)}**\n> ` + it.brouillon.replace(/\n/g, "\n> ") + "\n";
+  }
+
+  // --- FILET DE SÉCURITÉ : ce que le script a écarté, pour attraper ses erreurs ---
+  const titreDe = (p) => (p.conv.subject || p.conv.latest_message_subject || "(sans sujet)").slice(0, 55);
+  const raisonCourte = (r) => (r || "").replace(/\s*\(conf\.[^)]*\)/, "").replace(/^IA[^:]*:\s*/, "").slice(0, 90);
+  const auditLine = (p) => `- ${titreDe(p)} · [ouvrir](${missiveLink(teamId, p.conv.id)}) — ${raisonCourte(p.raison)}`;
+  if (fermes.length || spams.length || avoirs.length) {
+    md += `\n---\n**🔎 Écarté ce run** _(vérifie qu'il n'y a pas d'erreur; tout se rouvre si tu réponds)_\n`;
+    if (spams.length) md += `\n⊘ **Spam / démarchage (${spams.length})** _(un vrai contact ici = erreur)_\n` + spams.map(auditLine).join("\n") + "\n";
+    if (fermes.length) md += `\n🗑️ **Fermé, sans action (${fermes.length})** _(un fil qui attendait une réponse ici = erreur)_\n` + fermes.map(auditLine).join("\n") + "\n";
+    if (avoirs.length) md += `\n⧗ **À voir, gardé ouvert (${avoirs.length})**\n` + avoirs.map(auditLine).join("\n") + "\n";
   }
   return md;
 }
@@ -950,14 +963,21 @@ async function main() {
   } else {
     for (const t of TEAMS) {
       const items = keepByTeam.get(t.id) || [];
-      const md = buildDigest(t.name, t.id, items);
+      const tFermes = aFermer.filter((p) => p.boite === t.name);
+      const tSpams = aSpam.filter((p) => p.boite === t.name);
+      const tVoirs = aVoir.filter((p) => p.boite === t.name);
+      const md = buildDigest(t.name, t.id, items, tFermes, tSpams, tVoirs);
+      // FILET DE SÉCURITÉ : si le script a fermé ou spammé quelque chose, on poste le
+      // digest MÊME hors fenêtre (week-end/heure), pour que Gabriel puisse attraper une
+      // erreur au prochain coup d'œil plutôt que dans 3 jours.
+      const aRapporter = tFermes.length > 0 || tSpams.length > 0;
       if (DRY_RUN) {
         console.log(`\n--- DIGEST ${t.name} (simulation) ---\n${md}`);
-      } else if (postReel && t.digestConversation) {
+      } else if ((postReel || aRapporter) && t.digestConversation) {
         const r = await postDigest(t.digestConversation, md);
-        console.log(r.ok ? `Digest ${t.name} posté (${items.length} fils).` : `Digest ${t.name} NON posté.`);
+        console.log(r.ok ? `Digest ${t.name} posté (${items.length} en attente, ${tFermes.length} fermé(s), ${tSpams.length} spam).` : `Digest ${t.name} NON posté.`);
       } else {
-        console.log(`Digest ${t.name} non posté (${weekend && DIGEST_SKIP_WEEKEND ? "week-end" : `heure ${heureUTC}h ≠ ${DIGEST_HOUR}h`}).`);
+        console.log(`Digest ${t.name} non posté (${weekend && DIGEST_SKIP_WEEKEND ? "week-end" : `heure ${heureUTC}h ≠ ${DIGEST_HOUR}h`}, rien d'écarté).`);
       }
     }
   }
