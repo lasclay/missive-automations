@@ -97,6 +97,8 @@ const AI_ON = USE_AI && !!ANTHROPIC_KEY;
 const MODEL = process.env.MODEL || "claude-opus-4-8";
 const AI_SEUIL = parseFloat(process.env.AI_SEUIL || "0.85");
 const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
+// Détail ligne par ligne des GARDÉS (sinon décompte par raison, log lisible).
+const SHOW_KEPT = (process.env.SHOW_KEPT || "").toLowerCase() === "true";
 const CLOSED_LABEL_ID = process.env.CLOSED_LABEL_ID || "";
 // Label optionnel posé sur les fils « à voir » (action douce / éventuelle, gardés OUVERTS) :
 // donne à Gabriel une pile filtrée « à regarder un jour » sans encombrer l'inbox principale.
@@ -649,15 +651,32 @@ async function main() {
   }
 
   // --- Aperçu ---
+  // Les GARDÉS d'abord (souvent nombreux) : détail seulement si SHOW_KEPT, sinon un
+  // décompte par raison. Ainsi les buckets ACTIONNABLES (fermer/spam/à voir) restent
+  // en bas du log, visibles sans dérouler des dizaines de lignes.
   const titre = (c) => (c.subject || c.latest_message_subject || "(sans sujet)").slice(0, 60);
-  console.log(`À FERMER (${aFermer.length}) :`);
-  for (const p of aFermer) console.log(`  ✔ [${p.boite}] ${titre(p.conv)}  — ${p.raison}`);
-  console.log(`\nSPAM / DÉMARCHAGE → ${SPAM_ACTION} (${aSpam.length}) :`);
-  for (const p of aSpam) console.log(`  ⊘ [${p.boite}] ${titre(p.conv)}  — ${p.raison}`);
+  const clefRaison = (r) =>
+    r.startsWith("IA garde") ? "IA a jugé → gardé" :
+    r.startsWith("signal d'action") ? "signal d'action" :
+    r.startsWith("dernier message = nous") ? "dernier message = nous" :
+    r.startsWith("assigné") ? "assigné à un humain" :
+    r.startsWith("aucun message") ? "interne / sans courriel" :
+    r.startsWith("IA en erreur") ? "IA en erreur → gardé" : "autre";
+  console.log(`GARDÉS (${gardes.length}) :`);
+  if (SHOW_KEPT) {
+    for (const g of gardes) console.log(`  · [${g.boite}] ${titre(g.conv)}  — ${g.raison}`);
+  } else {
+    const tally = {};
+    for (const g of gardes) { const k = clefRaison(g.raison); tally[k] = (tally[k] || 0) + 1; }
+    for (const [k, n] of Object.entries(tally).sort((a, b) => b[1] - a[1])) console.log(`  · ${n.toString().padStart(3)} — ${k}`);
+    console.log(`  (SHOW_KEPT=true pour le détail ligne par ligne)`);
+  }
   console.log(`\nÀ VOIR — gardés ouverts${REVIEW_LABEL_ID ? " + label de revue" : ""} (${aVoir.length}) :`);
   for (const p of aVoir) console.log(`  ⧗ [${p.boite}] ${titre(p.conv)}  — ${p.raison}`);
-  console.log(`\nGARDÉS (${gardes.length}) :`);
-  for (const g of gardes) console.log(`  · [${g.boite}] ${titre(g.conv)}  — ${g.raison}`);
+  console.log(`\nSPAM / DÉMARCHAGE → ${SPAM_ACTION} (${aSpam.length}) :`);
+  for (const p of aSpam) console.log(`  ⊘ [${p.boite}] ${titre(p.conv)}  — ${p.raison}`);
+  console.log(`\nÀ FERMER (${aFermer.length}) :`);
+  for (const p of aFermer) console.log(`  ✔ [${p.boite}] ${titre(p.conv)}  — ${p.raison}`);
 
   // --- Exécution ---
   console.log(`\n${aFermer.length} à fermer, ${aSpam.length} spam(${SPAM_ACTION}), ${aVoir.length} à voir, ${gardes.length} gardé(s). (${analyses} analysé(s))`);
