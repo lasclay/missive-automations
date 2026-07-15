@@ -16,6 +16,8 @@
       "Bash(node missive_client.js read:*)",
       "Bash(node missive_client.js drafts:*)",
       "Bash(node missive_client.js notes:*)",
+      "Bash(node missive_client.js users)",
+      "Bash(node missive_client.js users:*)",
       "Bash(MISSIVE_PROXY_URL=https://proxy-missive.onrender.com node missive_client.js health:*)",
       "Bash(MISSIVE_PROXY_URL=https://proxy-missive.onrender.com node missive_client.js list:*)",
       "Bash(MISSIVE_PROXY_URL=https://proxy-missive.onrender.com node missive_client.js read:*)",

@@ -12,6 +12,8 @@
  *   POST /conversation {id}           → fil complet nettoyé (NOUS/EUX, daté)
  *   POST /drafts     {id}             → brouillons laissés par le script IA (réponse déjà rédigée)
  *   POST /comments   {id}             → notes internes (commentaires) — dégrade si non listable
+ *   POST /users      {}               → membres de l'org (id, nom, courriel) pour les assignations
+ *   POST /task       {id, title, assignees[], label} → crée une tâche (assignée si assignees)
  *   POST /note       {id, markdown}   → note interne (commentaire)
  *   POST /close      {id, note}       → ferme le fil (+ note)
  *   POST /reply      {id, from, to[], cc[], subject, body, send, closeAfter}
@@ -163,6 +165,26 @@ async function getComments(id) {
   }
 }
 
+// Membres de l'organisation (pour retrouver un id d'assigné : Gabriel, Catherine...).
+async function listUsers() {
+  const { users = [] } = await mGet(`/users?limit=200`);
+  return users.map((u) => ({ id: u.id, name: u.name || null, email: u.email || null }));
+}
+
+// Crée une TÂCHE sur un fil, éventuellement assignée à des utilisateurs.
+// add_assignees exige `organization` (toujours envoyé). Les assignés existants restent.
+async function createTask({ id, title, assignees, label }) {
+  const t = String(title || "").slice(0, 1000);
+  const post = {
+    conversation: id, organization: ORG,
+    task: { title: t, state: "todo" },
+    notification: { title: "Tâche créée", body: t.slice(0, 120) || "Tâche" },
+  };
+  if (Array.isArray(assignees) && assignees.length) post.add_assignees = assignees;
+  if (label) post.add_shared_labels = [label];
+  return mSend("POST", "/posts", { posts: post });
+}
+
 async function postNote(id, markdown) {
   return mSend("POST", "/posts", {
     posts: { conversation: id, organization: ORG,
@@ -231,6 +253,14 @@ const server = http.createServer(async (req, res) => {
     if (route === "/comments") {
       if (!body.id) return json(res, 400, { error: "id requis" });
       return json(res, 200, await getComments(body.id));
+    }
+    if (route === "/users") {
+      return json(res, 200, { users: await listUsers() });
+    }
+    if (route === "/task") {
+      if (!body.id || !body.title) return json(res, 400, { error: "id et title requis" });
+      const r = await createTask(body);
+      return json(res, 200, { ok: true, task: r.posts?.id || null, assignees: body.assignees || [] });
     }
     if (route === "/note") {
       if (!body.id || !body.markdown) return json(res, 400, { error: "id et markdown requis" });
