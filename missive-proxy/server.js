@@ -173,11 +173,13 @@ async function listUsers() {
 
 // Crée une TÂCHE sur un fil, éventuellement assignée à des utilisateurs.
 // add_assignees exige `organization` (toujours envoyé). Les assignés existants restent.
-async function createTask({ id, title, assignees, label }) {
+async function createTask({ id, title, assignees, label, markdown }) {
   const t = String(title || "").slice(0, 1000);
   const post = {
     conversation: id, organization: ORG,
     task: { title: t, state: "todo" },
+    // Missive exige un corps (text/markdown/attachments) même pour une tâche.
+    markdown: String(markdown || t) || "Tâche",
     notification: { title: "Tâche créée", body: t.slice(0, 120) || "Tâche" },
   };
   if (Array.isArray(assignees) && assignees.length) post.add_assignees = assignees;

@@ -775,6 +775,7 @@ async function createTask(conversationId, title) {
   const r = await apiPost("/posts", {
     posts: { conversation: conversationId, organization: ORG,
       add_shared_labels: [TASK_LABEL],
+      markdown: title.slice(0, 1000) || "Tâche", // Missive exige un corps même pour une tâche
       notification: { title: "Tâche créée", body: title.slice(0, 120) },
       task: { title: title.slice(0, 1000), state: "todo" } },
   });

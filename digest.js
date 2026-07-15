@@ -515,6 +515,7 @@ async function createTask(conversationId, title) {
       conversation: conversationId,
       organization: ORG,
       add_shared_labels: [TASK_LABEL], // marqueur anti-doublon, posé en même temps
+      markdown: title.slice(0, 1000) || "Tâche", // Missive exige un corps même pour une tâche
       notification: { title: "Tâche créée", body: title.slice(0, 120) },
       task: { title: title.slice(0, 1000), state: "todo" },
     },
