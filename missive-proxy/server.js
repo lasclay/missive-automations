@@ -125,8 +125,9 @@ async function getConversation(id) {
 }
 
 // Brouillons laissés par le script IA (support.js) — la réponse déjà rédigée.
-async function getDrafts(id) {
+async function getDrafts(id, raw) {
   const { drafts = [] } = await mGet(`/conversations/${id}/drafts?limit=10`);
+  if (raw) return { raw: drafts };
   const sorted = drafts.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
   return sorted.map((d) => {
     const ts = (d.delivered_at || d.created_at || 0) * 1000;
@@ -224,7 +225,8 @@ const server = http.createServer(async (req, res) => {
     }
     if (route === "/drafts") {
       if (!body.id) return json(res, 400, { error: "id requis" });
-      return json(res, 200, { drafts: await getDrafts(body.id) });
+      const d = await getDrafts(body.id, body.raw);
+      return json(res, 200, body.raw ? d : { drafts: d });
     }
     if (route === "/comments") {
       if (!body.id) return json(res, 400, { error: "id requis" });
