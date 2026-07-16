@@ -101,6 +101,11 @@
  *   inventoryQuantity + availableForSale par variante) => l'IA peut répondre à une question de
  *   disponibilité au lieu d'escalader (quand la variante figure au catalogue). Nécessite les scopes
  *   Shopify read_products + read_inventory sur l'app; sans eux, on retombe sur la dispo publique.
+ * v2.30: FERMETURE ACTIVE des fils réglés (CLOSE_RESOLVED, défaut on). L'IA renvoie "fermer": true
+ *   quand un fil est manifestement clos (commande livrée depuis longtemps sans question, simple
+ *   remerciement, fil obsolète) => le script FERME le fil avec une note interne, SANS écrire au client
+ *   (réversible: se rouvre s'il réécrit). Conservateur: jamais si une action est requise ou si escalade.
+ *   Respecte DRY_RUN ([DRY fermer] en simulation). Vide vraiment la boîte comme le ferait un humain.
  * v2.29: TEMPORALITÉ. Le temps écoulé est DÉJÀ CALCULÉ pour l'IA (« il y a X jours, ~Y mois »):
  *   âge de la commande, dates réelles d'EXPÉDITION et de LIVRAISON (fulfillment: inTransitAt/
  *   deliveredAt/estimatedDeliveryAt), âge de l'historique, et date du dernier message du client.
@@ -183,6 +188,9 @@ const DIGEST_MODEL = process.env.DIGEST_MODEL || MODEL;
 // v2.12 — fermeture des fils envoyés, et capture de relance (le snooze n'existe pas
 // dans l'API Missive). RELANCE_LABEL: label « Relance » à créer dans Missive.
 const RELANCE_LABEL = process.env.RELANCE_LABEL || "019f5d2f-51ca-70f0-83cc-2175b52d5a41"; // « Relance »
+// v2.30 — Fermeture ACTIVE des fils manifestement réglés (SANS envoyer de réponse): commande livrée
+// depuis longtemps sans question en suspens, ou simple remerciement. Respecte DRY_RUN. CLOSE_RESOLVED=false désactive.
+const CLOSE_RESOLVED = (process.env.CLOSE_RESOLVED || "true").toLowerCase() !== "false";
 
 // Notice de transparence IA, ajoutée en pied de TOUS les messages (envoyés et
 // brouillons). Ajoutée APRÈS la détection d'alertes, pour que son numéro de
@@ -1217,6 +1225,8 @@ RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
 {
   "repondre": true|false,        // false si spam, démarchage, notifications, réponse d'infolettre sans question
   "raison": "<si false, pourquoi, court>",
+  "fermer": "<true|false. true SEULEMENT si le fil est manifestement RÉGLÉ et ne mérite AUCUNE réponse, donc à FERMER sans écrire: (a) les DONNÉES SHOPIFY montrent la commande LIVRÉE ou expédiée il y a longtemps ET il n'y a AUCUNE question ni problème en suspens, OU (b) le dernier message du client est un simple remerciement/accusé sans question, OU (c) le fil est clairement obsolète (vieux de plusieurs mois, sujet devenu sans objet). Sinon false. Dans le doute, false. Ne mets JAMAIS fermer=true s'il reste une question, un problème, une action, ou si le statut est incertain.>",
+  "raison_fermeture": "<si fermer=true, une COURTE raison interne (ex. 'commande livrée le 2025-12-15, aucune question', 'simple remerciement'), sinon null>",
   "categorie": "<suivi_livraison|modification_annulation_commande|retour_echange_remboursement|question_pre_achat|probleme_produit_garantie|wholesale_b2b|douane_international|autre>",
   "langue": "fr|en",
   "brouillon": "<le texte du brouillon, sauts de ligne avec \\n>",
@@ -1522,6 +1532,18 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   await apiPost("/posts", { posts: post });
 }
 
+// v2.30 — Ferme un fil manifestement RÉGLÉ, SANS envoyer de réponse au client (note interne seulement).
+// Réversible: le fil se rouvre si le client réécrit.
+async function fermerResolu(convId, raison) {
+  await apiPost("/posts", {
+    posts: {
+      conversation: convId, organization: ORG, close: true,
+      notification: { title: "Fermé (réglé)", body: (raison || "Dossier réglé").slice(0, 100) },
+      markdown: `_Fermé automatiquement, aucune réponse nécessaire: ${raison || "dossier réglé"}. Se rouvrira si le client réécrit._`,
+    },
+  });
+}
+
 // --- Run principal ---
 (async () => {
   if (LIST_TEAMS) {
@@ -1530,9 +1552,10 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.29 ===");
+  console.log("=== Lasclay support.js v2.30 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
+  console.log(`Fermeture active des fils réglés: ${CLOSE_RESOLVED ? "ACTIVE (sans réponse, réversible)" : "INACTIVE"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
@@ -1657,7 +1680,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
 
   const NOREPLY = /no-?reply|donotreply|ne-?pas-?repondre/i;
 
-  let analysed = 0, created = 0, sent = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0, ecarteSkips = 0;
+  let analysed = 0, created = 0, sent = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0, ecarteSkips = 0, fermes = 0;
   const actionsDigest = []; // actions/remboursements des réponses envoyées (v2.9)
   const poulsRecords = []; // condensés pour le pouls du service (v2.11)
   for (const conv of inbox) {
@@ -1818,6 +1841,23 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       catch (e) { console.warn(`  [${conv.id}] réponse IA illisible: ${e.message}`); errors++; continue; }
 
       const subj = conv.subject || conv.latest_message_subject || "";
+
+      // v2.30 — FERMETURE ACTIVE d'un fil manifestement réglé (sans réponse). Conservateur: jamais si
+      // une action est requise ou si l'IA escalade. Réversible (se rouvre si le client réécrit).
+      if (CLOSE_RESOLVED && out.fermer === true && !out.action_requise && out.escalade !== true) {
+        const raisonF = noDash(sanit(String(out.raison_fermeture || out.raison || "dossier réglé"))).slice(0, 160);
+        if (DRY_RUN) {
+          console.log(`[DRY fermer] ${subj.slice(0, 55) || "(sans sujet)"} → ${raisonF}`);
+        } else {
+          try { await fermerResolu(conv.id, raisonF); console.log(`[fermé] ${subj.slice(0, 55) || "(sans sujet)"} → ${raisonF}`); }
+          catch (e) { console.warn(`  fermeture échouée ${conv.id}: ${e.message}`); errors++; continue; }
+        }
+        fermes++;
+        ecartes.set(conv.id, conv.last_activity_at || 0); // ne pas le re-juger tant qu'il ne bouge pas
+        ecartesModifiee = true;
+        continue;
+      }
+
       if (!out.repondre || !out.brouillon) {
         noReply++;
         ecartes.set(conv.id, conv.last_activity_at || 0);
@@ -2286,7 +2326,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   }
 
   if (gabaritBlocks > 0) console.log(`Gabarits incomplets bloqués avant envoi (jamais envoyés, gardés en brouillon à compléter): ${gabaritBlocks}.`);
-  console.log(`\nBilan: ${analysed} analysés, ${sent} ENVOYÉ(S) (dont ${actionsDigest.length} avec action au digest), ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
+  console.log(`\nBilan: ${analysed} analysés, ${sent} ENVOYÉ(S) (dont ${actionsDigest.length} avec action au digest), ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${fermes} fermé(s) sans réponse, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
   if (SEND_QC && (qcCalls > 0 || qcSkipped > 0)) {
     const coutQC = qcUsage.in * QC_RATE_IN + qcUsage.cacheCreate * QC_RATE_IN + qcUsage.cacheRead * QC_RATE_CACHE + qcUsage.out * QC_RATE_OUT;
     console.log(`Contrôle Opus: ${qcCalls} relecture(s)${QC_LEAN ? " (contexte allégé)" : ""}, ${qcBlocks} refus, ${qcSkipped} envoi(s) sûr(s) sans QC. Tokens in ${qcUsage.in}/cache ${qcUsage.cacheRead}/out ${qcUsage.out}. Coût QC estimé: ~ ${coutQC.toFixed(2)} $ US (tarifs à vérifier).`);
