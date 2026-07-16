@@ -73,9 +73,9 @@
  *   explicite de s'y appuyer (sans jamais inventer de date). Sans jeton: comportement inchangé.
  * v2.19: Shopify supporte l'app « Render connector » du Dev Dashboard via CLIENT CREDENTIALS
  *   (SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET, jeton auto-renouvelé ~24h) en plus du jeton fixe.
- *   Ajout du transporteur et du LIEN de suivi. Intégration Postes Canada FACULTATIVE
- *   (CANADAPOST_API_KEY): lit la position réelle du colis via le numéro de suivi et l'injecte
- *   dans le prompt. Tout est additif et dégrade proprement si un service est absent/en panne.
+ *   Ajout du transporteur et du LIEN de suivi.
+ * v2.20: l'état du colis vient de SHOPIFY (shipment_status des fulfillments: en transit, en cours
+ *   de livraison, livré...), pas d'un appel Postes Canada. Injecté dans le prompt avec le reste.
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
@@ -89,10 +89,8 @@
  *                        jeton obtenu par client credentials, renouvelé automatiquement (~24h).
  *     SHOPIFY_ADMIN_TOKEN                          jeton Admin fixe (shpat_...) si vous en avez un.
  *   SHOPIFY_API_VERSION  (facultatif) défaut "2024-10". Tout absent = comportement inchangé.
- *   CANADAPOST_API_KEY   (facultatif) "user:password" (Programme des développeurs Postes Canada). Si
- *                        présent, le script lit l'ÉTAT RÉEL du colis (dernier événement, date prévue/
- *                        livrée) via le numéro de suivi Shopify. Absent = on partage juste le numéro/lien.
- *   CANADAPOST_ENDPOINT  (facultatif) défaut prod; sandbox "https://ct.soa-gw.canadapost.ca"
+ *   L'état du colis vient de Shopify lui-même (champ shipment_status des fulfillments, alimenté par
+ *   le transporteur): en transit, en cours de livraison, livré, tentative... Aucun appel externe.
  */
 
 const fs = require("node:fs");
@@ -195,12 +193,14 @@ const SHOPIFY_CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET || "";
 const SHOPIFY_VER = process.env.SHOPIFY_API_VERSION || "2024-10";
 const SHOPIFY_ON = !!(SHOPIFY_STORE && (SHOPIFY_TOKEN || (SHOPIFY_CLIENT_ID && SHOPIFY_CLIENT_SECRET)));
 
-// --- Postes Canada (FACULTATIF) : lire l'état réel du colis à partir du numéro de suivi
-// fourni par Shopify. Activé seulement si CANADAPOST_API_KEY (format "user:password", la clé
-// du Programme des développeurs de Postes Canada). Sinon: on partage juste le numéro/lien de suivi.
-const CP_KEY = process.env.CANADAPOST_API_KEY || ""; // "username:password" (clé API CP)
-const CP_ENDPOINT = process.env.CANADAPOST_ENDPOINT || "https://soa-gw.canadapost.ca"; // sandbox: https://ct.soa-gw.canadapost.ca
-const CP_ON = CP_KEY.includes(":");
+// État du colis: on se fie à l'état RAPPORTÉ PAR SHOPIFY (champ shipment_status des fulfillments,
+// alimenté par le transporteur), sans appel externe. Codes Shopify -> libellé lisible.
+const SHIP_STATUS_FR = {
+  in_transit: "en transit", out_for_delivery: "en cours de livraison", delivered: "livré",
+  attempted_delivery: "tentative de livraison (à représenter)", ready_for_pickup: "prêt à cueillir au point de retrait",
+  confirmed: "pris en charge par le transporteur", label_printed: "étiquette créée, pas encore ramassé",
+  label_purchased: "étiquette créée, pas encore ramassé", failure: "problème de livraison signalé",
+};
 
 const SELF = (process.env.MISSIVE_SELF_ADDRESSES ||
   "hey@lasclay.com,admin@lasclay.com,operations@lasclay.com")
@@ -280,37 +280,8 @@ async function shopifyToken() {
   return _shopTok.token;
 }
 
-// --- Postes Canada : état réel du colis via le numéro de suivi (PIN). Résumé bref
-// (dernier événement, lieu, date prévue/livrée). Tout échec => null (dégradation propre).
-async function canadaPostTrack(pin) {
-  if (!CP_ON || !pin) return null;
-  const url = `${CP_ENDPOINT}/vis/track/pin/${encodeURIComponent(pin)}/summary`;
-  let res;
-  try {
-    res = await fetch(url, {
-      headers: {
-        Authorization: `Basic ${Buffer.from(CP_KEY).toString("base64")}`,
-        Accept: "application/vnd.cpc.track+xml",
-        "Accept-language": "fr-CA",
-      },
-    });
-  } catch (e) { console.warn(`  Postes Canada réseau (${pin}): ${e.message}`); return null; }
-  if (!res.ok) { console.warn(`  Postes Canada ${pin} → ${res.status}`); return null; }
-  const xml = await res.text().catch(() => "");
-  const pick = (tag) => (xml.match(new RegExp(`<${tag}>([^<]*)</${tag}>`, "i")) || [])[1] || "";
-  const evenement = pick("event-description");
-  const lieu = pick("event-site") || pick("event-province");
-  const livre = pick("actual-delivery-date");
-  const prevue = pick("expected-delivery-date");
-  const poste = pick("mailed-on-date");
-  if (!evenement && !livre && !prevue) return null;
-  let resume = evenement || (livre ? "Livré" : "En transit");
-  if (lieu) resume += ` (${lieu})`;
-  return { source: "Postes Canada", resume, date: livre || prevue || poste || "", livre: !!livre };
-}
-
 // --- Shopify : retrouve une commande par son numéro (ex. "L-50468") et renvoie un
-// résumé VÉRIFIÉ (statut, date, articles, suivi + lien, et position transporteur si CP_ON).
+// résumé VÉRIFIÉ (statut, date, articles, suivi + lien, et état du colis rapporté par Shopify).
 // Tout échec => null (dégradation propre, le brouillon reste alors prudent comme avant).
 async function shopifyOrder(name) {
   if (!SHOPIFY_ON || !name) return null;
@@ -338,7 +309,10 @@ async function shopifyOrder(name) {
     const track = fuls.flatMap((f) => f.tracking_numbers || []).filter(Boolean);
     const trackUrls = fuls.flatMap((f) => f.tracking_urls || []).filter(Boolean);
     const carriers = [...new Set(fuls.map((f) => f.tracking_company).filter(Boolean))];
-    const result = {
+    // État du colis rapporté par Shopify (dernier fulfillment qui en porte un).
+    const shipCode = fuls.map((f) => f.shipment_status).filter(Boolean).pop() || null;
+    const livraison = shipCode ? { source: "transporteur (via Shopify)", resume: SHIP_STATUS_FR[shipCode] || shipCode } : null;
+    return {
       name: o.name,
       date: (o.created_at || "").slice(0, 10),
       paye: o.financial_status === "paid",
@@ -346,13 +320,9 @@ async function shopifyOrder(name) {
       suivi: track,
       suiviUrls: trackUrls,
       transporteur: carriers,
+      livraison, // { source, resume } ou null
       articles: (o.line_items || []).map((li) => `${li.quantity}x ${li.title}${li.variant_title ? ` (${li.variant_title})` : ""}`),
     };
-    // Position réelle du colis chez Postes Canada (si configuré et suivi disponible).
-    if (CP_ON && track.length) {
-      try { const cp = await canadaPostTrack(track[0]); if (cp) result.livraison = cp; } catch (e) { console.warn(`  CP suivi: ${e.message}`); }
-    }
-    return result;
   }
 }
 
@@ -1205,9 +1175,8 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.19 ===");
-  console.log(`Shopify (vérif. statut commande): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
-  console.log(`Postes Canada (position du colis): ${CP_ON ? `ACTIF (${CP_ENDPOINT})` : "INACTIF (CANADAPOST_API_KEY absente)"}.`);
+  console.log("=== Lasclay support.js v2.20 ===");
+  console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {

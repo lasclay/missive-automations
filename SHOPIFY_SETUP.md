@@ -1,86 +1,76 @@
 # Brancher Shopify sur `support.js` (vérification du vrai statut de commande)
 
-Quand `SHOPIFY_STORE` **et** `SHOPIFY_ADMIN_TOKEN` sont présents dans l'environnement,
-`support.js` retrouve chaque commande (numéro `L-xxxxx` repéré dans le sujet ou le fil)
-dans Shopify et injecte son **vrai statut** (date, articles, expédiée / en préparation,
-numéro de suivi) dans le prompt avant de rédiger. Sans ces variables, le script se comporte
-**exactement comme avant** (formulations prudentes, aucune donnée Shopify). C'est donc
-100 % additif et sans risque.
+Quand Shopify est configuré, `support.js` retrouve chaque commande (numéro `L-xxxxx` repéré dans le
+sujet ou le fil) et injecte son **vrai statut** dans le prompt avant de rédiger :
+date, articles, payée, **expédiée / en préparation**, numéro + **lien de suivi**, et l'**état du
+colis rapporté par Shopify** (`shipment_status` : en transit, en cours de livraison, livré, tentative…).
+Aucun appel externe : l'état du colis vient de Shopify lui-même.
 
-Utile surtout pour la boîte **« Mise à jour commande »** (prévente de la fin mai).
-
----
-
-## Ce qu'il vous reste à faire (≈ 2 min) : créer l'app custom + le jeton
-
-> La création d'une app custom et la génération du jeton Admin se font **obligatoirement**
-> dans l'interface Admin Shopify (aucune API ne le fait à votre place). Voici les étapes exactes.
-
-> ⚠️ **Ne pas confondre avec le « Dev Dashboard » / app partenaire** (écran « Create version »,
-> App URL, Redirect URLs, embed…). Ça, c'est le flux OAuth d'une app hébergée : inutile ici et
-> beaucoup plus lourd. Nous voulons l'**app custom du magasin** ci-dessous, qui donne un jeton
-> `shpat_…` permanent sans OAuth ni code hébergé.
-
-Raccourci direct : **`https://admin.shopify.com/store/lasclay/settings/apps/development`**
-
-1. Admin Shopify → **Réglages** (Settings) → **Applications et canaux de vente** (Apps and sales channels).
-2. Cliquer **Développer des applications** (Develop apps) → **Autoriser le développement d'applications** si demandé.
-3. **Créer une application** (Create an app). Nom : `support-bot` (ou ce que vous voulez). Développeur : vous.
-4. Onglet **Configuration de l'API Admin** (Admin API integration) → **Configurer** (Configure).
-5. Cocher **uniquement** la portée en lecture des commandes :
-   - `read_orders`
-   - (facultatif, pour voir les numéros de suivi côté fulfillments : `read_fulfillments`)
-   - Rien d'autre. Pas d'écriture.
-6. **Enregistrer** (Save).
-7. Onglet **Identifiants de l'API** (API credentials) → **Installer l'application** (Install app).
-8. **Révéler le jeton d'accès Admin API** (Reveal token once). Il commence par `shpat_...`.
-   ⚠️ Il n'est affiché **qu'une seule fois** : copiez-le tout de suite.
-
-> Note `read_orders` ne couvre que les 60 derniers jours par défaut. La quasi-totalité de la
-> boîte « Mise à jour commande » (prévente fin mai → aujourd'hui) est dans cette fenêtre. Si vous
-> devez lire des commandes plus vieilles, demandez l'accès à `read_all_orders` dans la même page
-> de portées (Shopify l'accorde aux apps custom sur simple case à cocher).
+Sans configuration Shopify, le script se comporte **exactement comme avant** (formulations prudentes).
+C'est 100 % additif et sans risque. Utile surtout pour la boîte **« Mise à jour commande »**.
 
 ---
 
-## Variables à mettre dans Render
+## L'app Shopify : « Render connector » (Dev Dashboard)
 
-Sur le service Render qui exécute `node support.js` (voir plus bas), ajouter :
+> Depuis fin 2025, on **ne crée plus** de « custom app » dans l'admin du magasin : tout passe par le
+> **Dev Dashboard**. On crée **une seule** app réutilisable par plusieurs scripts (« Render connector »),
+> et on l'authentifie en **client credentials** (server-to-server, sans OAuth navigateur ni jeton à
+> copier à la main : le script échange `client_id` + `client_secret` contre un jeton de ~24 h, renouvelé
+> automatiquement).
 
-| Variable              | Valeur                                   |
-|-----------------------|------------------------------------------|
-| `SHOPIFY_STORE`       | `lasclay.myshopify.com`                  |
-| `SHOPIFY_ADMIN_TOKEN` | le jeton `shpat_...` révélé à l'étape 8  |
-| `SHOPIFY_API_VERSION` | `2024-10` (facultatif, valeur par défaut)|
+### Étapes (dans l'app « Render connector »)
 
-C'est tout. Au prochain run, le log affichera :
-`Shopify (vérif. statut commande): ACTIF (lasclay.myshopify.com, API 2024-10).`
+1. **URLs → App URL** : `https://proxy-missive.onrender.com`
+   *(URL réelle que vous possédez ; jamais appelée en client credentials. Décochez « Embed app in Shopify admin ». Redirect URLs / POS / App proxy : vides.)*
+2. **API access → Scopes** (liste séparée par des virgules) : `read_orders,read_fulfillments`
+   *(rien d'autre, lecture seule)*
+3. **Release** la version.
+4. **Installer l'app sur la boutique** `lasclay` (distribution personnalisée / custom distribution).
+5. Récupérer, dans les réglages de l'app, le **Client ID** et le **Client Secret**.
 
-### Vérifier le jeton avant de déployer
+> `read_orders` couvre les 60 derniers jours par défaut, ce qui inclut toute la prévente de la fin mai.
+> Pour des commandes plus anciennes, demandez `read_all_orders` dans la même page de portées.
+
+---
+
+## Variables à mettre dans Render (service qui exécute `support.js`)
+
+| Variable                | Valeur                                   |
+|-------------------------|------------------------------------------|
+| `SHOPIFY_STORE`         | `lasclay.myshopify.com`                  |
+| `SHOPIFY_CLIENT_ID`     | Client ID de l'app « Render connector »  |
+| `SHOPIFY_CLIENT_SECRET` | Client Secret de l'app                   |
+| `SHOPIFY_API_VERSION`   | `2024-10` (facultatif)                   |
+
+*(Alternative héritée : si vous avez déjà un jeton Admin fixe `shpat_…`, mettez plutôt
+`SHOPIFY_ADMIN_TOKEN` — le script accepte les deux modes.)*
+
+Au prochain run, le log affichera :
+`Shopify (statut commande + état du colis): ACTIF (lasclay.myshopify.com, API 2024-10, auth client credentials).`
+
+### Vérifier avant de déployer
 
 ```
-SHOPIFY_STORE=lasclay.myshopify.com SHOPIFY_ADMIN_TOKEN=shpat_xxx node shopify_check.js L-50468
+SHOPIFY_STORE=lasclay.myshopify.com \
+SHOPIFY_CLIENT_ID=xxx SHOPIFY_CLIENT_SECRET=yyy \
+node shopify_check.js L-50468
 ```
-Affiche le vrai statut de la commande (ou les 3 dernières sans argument), ou un message clair
-si le jeton / la portée `read_orders` sont invalides. Lecture seule, ne modifie rien.
+Affiche le vrai statut d'une commande (statut d'expédition, état du colis, articles, lien de suivi),
+ou un message clair si l'auth / la portée `read_orders` sont invalides. Lecture seule.
 
 ---
 
 ## Déployer `support.js` sur Render (rappel)
 
-`support.js` est un **script batch** (pas le proxy). Il tourne comme **Cron Job** Render :
+`support.js` est un **script batch** (pas le proxy), lancé comme **Cron Job** Render :
 
 1. **New → Cron Job**, repo `lasclay/missive-automations`, **Root Directory** vide (racine).
-2. **Runtime** Node · **Build Command** `npm install` (ou vide, aucune dépendance) ·
-   **Command** `node support.js`.
-3. **Schedule** : ex. `0 12,17,21 * * *` (3 fois par jour, comme prévu).
-4. **Environment** (secrets) :
-   - `MISSIVE_TOKEN` = jeton API Missive
-   - `ANTHROPIC_API_KEY` = clé Anthropic
-   - `SHOPIFY_STORE`, `SHOPIFY_ADMIN_TOKEN` (ci-dessus)
-   - **Rodage recommandé** : commencer avec `DRY_RUN=true` (ne crée / n'envoie rien, log seulement),
-     vérifier les décisions dans les logs, puis passer `DRY_RUN=false` (brouillons), et seulement
-     ensuite éventuellement `AUTO_SEND=true` pour l'envoi automatique des cas propres.
+2. **Runtime** Node · **Build** `npm install` (ou vide) · **Command** `node support.js`.
+3. **Schedule** : ex. `0 12,17,21 * * *` (3 fois/jour).
+4. **Environment** (secrets) : `MISSIVE_TOKEN`, `ANTHROPIC_API_KEY`, les variables Shopify ci-dessus.
+   **Rodage** : `DRY_RUN=true` d'abord (log seulement), puis `DRY_RUN=false` (brouillons),
+   puis éventuellement `AUTO_SEND=true`.
 
-> Le proxy (`missive-proxy/`) reste un service **séparé**. Il ne fait que relayer des appels
-> Missive et n'a **pas** besoin de la clé Anthropic ni du jeton Shopify.
+> Le proxy (`missive-proxy/`) reste un service **séparé** : il ne fait que relayer des appels Missive
+> et n'a besoin ni de la clé Anthropic ni des identifiants Shopify.
