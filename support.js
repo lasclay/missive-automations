@@ -76,6 +76,9 @@
  *   Ajout du transporteur et du LIEN de suivi.
  * v2.20: l'état du colis vient de SHOPIFY (shipment_status des fulfillments: en transit, en cours
  *   de livraison, livré...), pas d'un appel Postes Canada. Injecté dans le prompt avec le reste.
+ * v2.21: la vérif Shopify inclut l'état REMBOURSEMENT/RETOUR (financial_status, refunds: montant,
+ *   date, articles retournés, annulation). Le prompt sait ainsi si un remboursement est DÉJÀ fait
+ *   et ne le re-promet pas (crucial pour la boîte Retours-Échanges).
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
@@ -290,7 +293,7 @@ async function shopifyOrder(name) {
   catch (e) { console.warn(`  Shopify auth: ${e.message}`); return null; }
   const url = `https://${SHOPIFY_STORE}/admin/api/${SHOPIFY_VER}/orders.json` +
     `?status=any&name=${encodeURIComponent(name)}` +
-    `&fields=name,created_at,financial_status,fulfillment_status,line_items,fulfillments`;
+    `&fields=name,created_at,financial_status,fulfillment_status,cancelled_at,line_items,fulfillments,refunds`;
   let netTries = 0;
   while (true) {
     await sleep(260);
@@ -312,6 +315,24 @@ async function shopifyOrder(name) {
     // État du colis rapporté par Shopify (dernier fulfillment qui en porte un).
     const shipCode = fuls.map((f) => f.shipment_status).filter(Boolean).pop() || null;
     const livraison = shipCode ? { source: "transporteur (via Shopify)", resume: SHIP_STATUS_FR[shipCode] || shipCode } : null;
+    // REMBOURSEMENT / RETOUR déjà fait ? (crucial pour Retours-Échanges: ne pas re-promettre).
+    const refunds = o.refunds || [];
+    let montantRembourse = 0, itemsRetournes = 0;
+    for (const r of refunds) {
+      for (const t of (r.transactions || [])) {
+        if (t.kind === "refund" && (t.status === "success" || !t.status)) montantRembourse += parseFloat(t.amount || 0) || 0;
+      }
+      for (const rli of (r.refund_line_items || [])) itemsRetournes += rli.quantity || 0;
+    }
+    const dernierRemb = refunds.length ? (refunds.map((r) => r.created_at).filter(Boolean).sort().pop() || "").slice(0, 10) : "";
+    const rembourse = {
+      etat: o.financial_status || "?", // paid | partially_refunded | refunded | voided | ...
+      annulee: !!o.cancelled_at,
+      nb: refunds.length,
+      montant: montantRembourse ? montantRembourse.toFixed(2) : null,
+      itemsRetournes,
+      date: dernierRemb || null,
+    };
     return {
       name: o.name,
       date: (o.created_at || "").slice(0, 10),
@@ -321,6 +342,7 @@ async function shopifyOrder(name) {
       suiviUrls: trackUrls,
       transporteur: carriers,
       livraison, // { source, resume } ou null
+      rembourse, // état remboursement/retour
       articles: (o.line_items || []).map((li) => `${li.quantity}x ${li.title}${li.variant_title ? ` (${li.variant_title})` : ""}`),
     };
   }
@@ -346,14 +368,28 @@ function shopifyBlock(o) {
   const transp = o.transporteur && o.transporteur.length ? ` Transporteur: ${o.transporteur.join(", ")}.` : "";
   const lien = o.suiviUrls && o.suiviUrls.length ? ` Lien de suivi: ${o.suiviUrls.join(" ")}.` : "";
   const livr = o.livraison ? ` SUIVI TRANSPORTEUR (${o.livraison.source}): ${o.livraison.resume}${o.livraison.date ? ` (${o.livraison.date})` : ""}.` : "";
+  // Remboursement / retour déjà effectué ? (déterminant pour Retours-Échanges.)
+  const r = o.rembourse || {};
+  const rembFR = { paid: "aucun remboursement (payée intégralement)", partially_refunded: "PARTIELLEMENT REMBOURSÉE",
+    refunded: "DÉJÀ REMBOURSÉE EN TOTALITÉ", voided: "paiement annulé (voided)" };
+  let rembLigne = ` REMBOURSEMENT: ${rembFR[r.etat] || r.etat || "?"}`;
+  if (r.montant) rembLigne += `, ${r.montant} $ remboursé${r.nb > 1 ? ` en ${r.nb} fois` : ""}${r.date ? ` (dernier le ${r.date})` : ""}`;
+  if (r.itemsRetournes) rembLigne += `, ${r.itemsRetournes} article(s) déjà retourné(s)/traité(s)`;
+  if (r.annulee) rembLigne += `, COMMANDE ANNULÉE`;
+  rembLigne += ".";
+  const rembConsigne = (r.etat === "refunded" || r.etat === "partially_refunded" || r.montant || r.itemsRetournes || r.annulee)
+    ? ` ATTENTION: un remboursement/retour est DÉJÀ enregistré sur cette commande. Ne le RE-PROMETS PAS comme s'il ` +
+      `restait à faire; confirme plutôt qu'il est déjà traité (ou en cours), et ne relance un geste que s'il manque ` +
+      `visiblement quelque chose. En cas d'écart entre ce que dit le client et ces données, mets-le en note_interne.`
+    : ` Aucun remboursement enregistré: si le client en demande un et qu'il est légitime, formule-le au futur (à faire), pas comme déjà fait.`;
   return noDash(
     `DONNÉES SHOPIFY VÉRIFIÉES POUR LA COMMANDE ${o.name} (source de vérité, prime sur la règle ` +
     `générale « tu ne vois pas la commande »): commande du ${o.date}, ${o.paye ? "payée" : "paiement non confirmé"}, ` +
-    `statut d'expédition: ${statut}.${transp}${suivi}${lien}${livr} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
+    `statut d'expédition: ${statut}.${transp}${suivi}${lien}${livr}${rembLigne} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
     `Tu PEUX t'appuyer sur ces faits (articles réels, payée, en préparation ou expédiée, numéro/lien de suivi, position ` +
-    `du colis chez le transporteur s'il est fourni). MAIS n'invente JAMAIS de DATE d'expédition ou de livraison qui n'est ` +
+    `du colis, état du remboursement/retour). MAIS n'invente JAMAIS de DATE d'expédition ou de livraison qui n'est ` +
     `pas fournie ici: si non expédiée, dis que c'est en préparation et que ça s'en vient, sans chiffrer de date. Si expédiée ` +
-    `avec un suivi, tu peux partager le numéro/lien et, si connue, la dernière position du colis.`
+    `avec un suivi, tu peux partager le numéro/lien et, si connue, la dernière position du colis.${rembConsigne}`
   );
 }
 
@@ -1175,7 +1211,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.20 ===");
+  console.log("=== Lasclay support.js v2.21 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);

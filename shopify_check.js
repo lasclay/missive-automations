@@ -48,12 +48,20 @@ function resume(o) {
   const statut = o.fulfillment_status === "fulfilled" ? "EXPÉDIÉE"
     : o.fulfillment_status === "partial" ? "PARTIELLEMENT EXPÉDIÉE"
     : "PAS ENCORE EXPÉDIÉE (en préparation)";
+  const refunds = o.refunds || [];
+  let montant = 0, items = 0;
+  for (const r of refunds) {
+    for (const t of (r.transactions || [])) if (t.kind === "refund" && (t.status === "success" || !t.status)) montant += parseFloat(t.amount || 0) || 0;
+    for (const rli of (r.refund_line_items || [])) items += rli.quantity || 0;
+  }
   return {
     commande: o.name,
     date: (o.created_at || "").slice(0, 10),
     paiement: o.financial_status,
+    annulee: !!o.cancelled_at,
     expedition: statut,
     etat_colis: ship ? (SHIP_FR[ship] || ship) : "(aucun)",
+    remboursement: montant ? `${montant.toFixed(2)} $ (${refunds.length}x, ${items} article(s) retourné(s))` : (refunds.length ? `${refunds.length} refund(s) sans montant` : "(aucun)"),
     suivi: track.length ? track.join(", ") : "(aucun)",
     lien_suivi: fuls.flatMap((f) => f.tracking_urls || []).filter(Boolean).join(" ") || "(aucun)",
     articles: (o.line_items || []).map((li) => `${li.quantity}x ${li.title}${li.variant_title ? ` (${li.variant_title})` : ""}`),
