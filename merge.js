@@ -42,7 +42,10 @@
  * JAMAIS été exécutée chez Lasclay. DRY_RUN=true d'abord, puis MERGE_LIMIT=3.
  */
 
-const VERSION = "v1.3";
+const VERSION = "v1.4";
+// v1.4: la détection inclut aussi un lot borné de fils FERMÉS récents (INCLUDE_CLOSED, défaut true;
+// INCLUDE_CLOSED_PAGES pages/boîte, défaut 10). Un client avec 1 fil ouvert + 1 fil fermé est ainsi
+// détecté comme doublon. Les fils fermés ne sont JAMAIS étiquetés ni fusionnés (détection seule).
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const LABEL = process.env.MISSIVE_LABEL_ID || "7c922a57-5644-4d88-b731-5a040cbb681a"; // « À fusionner »
@@ -221,17 +224,23 @@ function resolveTeams() {
   return DEFAULT_CLIENT_TEAMS;
 }
 
-async function paginateInto(byId, teamId) {
+// filterKey: "team_inbox" (ouverts) ou "team_closed" (fermés). maxPages borne le balayage
+// (utile pour les fermés, potentiellement nombreux). tagClosed: marque les fils comme fermés.
+async function paginateInto(byId, teamId, { filterKey = "team_inbox", maxPages = Infinity, tagClosed = false } = {}) {
   let until = null;
   let pages = 0;
   const limit = 50;
-  while (true) {
-    let path = `/conversations?team_inbox=${teamId}&limit=${limit}`;
+  while (pages < maxPages) {
+    let path = `/conversations?${filterKey}=${teamId}&limit=${limit}`;
     if (until) path += `&until=${until}`;
     const { conversations = [] } = await api(path);
     if (conversations.length === 0) break;
     pages++;
-    for (const c of conversations) byId.set(c.id, c);
+    for (const c of conversations) {
+      // Un fil OUVERT prime sur sa version fermée (ne jamais réécrire un ouvert avec _closed=true).
+      if (byId.has(c.id) && !byId.get(c.id)._closed) continue;
+      byId.set(c.id, tagClosed ? { ...c, _closed: true } : c);
+    }
     const oldest = conversations[conversations.length - 1].last_activity_at;
     if (conversations.length < limit || oldest === until) break;
     until = oldest;
@@ -239,13 +248,21 @@ async function paginateInto(byId, teamId) {
   return pages;
 }
 
+// Balaie les fils OUVERTS (tous) puis, par défaut, un lot borné de fils FERMÉS récents.
+// Les fermés ENRICHISSENT la détection de doublons (ex.: 1 fil ouvert + 1 fil fermé du même
+// client) mais ne sont JAMAIS étiquetés ni fusionnés (voir shouldLabel/phase 1). Borne via
+// INCLUDE_CLOSED_PAGES (défaut 10 pages = ~500 fermés/boîte). INCLUDE_CLOSED=false pour désactiver.
+const INCLUDE_CLOSED = (process.env.INCLUDE_CLOSED || "true").toLowerCase() !== "false";
+const CLOSED_PAGES = parseInt(process.env.INCLUDE_CLOSED_PAGES || "10", 10) || 10;
 async function collectOpenConversations(teams) {
   const byId = new Map();
   let allOk = true;
   for (const t of teams) {
     try {
       const pages = await paginateInto(byId, t.id);
-      console.log(`  ${t.name || t.id} : ${pages} page(s)`);
+      let cpages = 0;
+      if (INCLUDE_CLOSED) cpages = await paginateInto(byId, t.id, { filterKey: "team_closed", maxPages: CLOSED_PAGES, tagClosed: true });
+      console.log(`  ${t.name || t.id} : ${pages} page(s) ouverte(s)${INCLUDE_CLOSED ? ` + ${cpages} page(s) fermée(s)` : ""}`);
     } catch (e) {
       allOk = false;
       console.warn(`  ${t.name || t.id} : ignorée (${e.message})`);
@@ -328,9 +345,10 @@ async function main() {
   }
 
   const teams = resolveTeams();
-  console.log("Récupération des conversations ouvertes...");
+  console.log(`Récupération des conversations (ouvertes${INCLUDE_CLOSED ? " + fermées récentes" : ""})...`);
   const { convs, allOk } = await collectOpenConversations(teams);
-  console.log(`${convs.length} conversation(s) ouverte(s) unique(s).`);
+  const nbFermes = convs.filter((c) => c._closed).length;
+  console.log(`${convs.length} conversation(s) unique(s) (dont ${nbFermes} fermée(s), détection seule).`);
 
   const fps = [];
   let i = 0;
@@ -395,6 +413,7 @@ async function main() {
   for (const g of dupes) {
     for (const idx of g) {
       const conv = convs[idx];
+      if (conv._closed) continue; // JAMAIS d'écriture sur un fil fermé (il n'a servi qu'à la détection)
       if (hasMergeLabel(conv)) continue;
       if (DRY_RUN) {
         posed++;
@@ -452,7 +471,10 @@ async function main() {
 
   console.log("\n=== Phase 2 : fusion ===");
   let fusions = 0;
-  for (const g of dupes) {
+  for (const gAll of dupes) {
+    // On ne fusionne JAMAIS un fil fermé (il n'a servi qu'à la détection). Groupe = ouverts seuls.
+    const g = gAll.filter((idx) => !convs[idx]._closed);
+    if (g.length < 2) continue;
     if (MERGE_LIMIT && fusions >= MERGE_LIMIT) {
       console.log(`Plafond MERGE_LIMIT=${MERGE_LIMIT} atteint, arrêt des fusions.`);
       break;

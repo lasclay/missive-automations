@@ -89,6 +89,13 @@
  *   sur temps/déplacement (rencontres), stock/disponibilité, faisabilité technique, refus/acceptation
  *   d'une demande inhabituelle -> escalade=true et action_requise, l'humain tranche.
  *   NB: pour lire les commandes de plus de 60 jours, l'app Shopify doit avoir le scope read_all_orders.
+ * v2.24: QC de la boîte « Mise à jour commande » + conscience des fils non fusionnés.
+ *   (1) PRÉVENTE = uniquement les commandes du 30-31 MAI 2026 (date Shopify vérifiée); jamais ailleurs.
+ *   (2) Commande déjà EXPÉDIÉE/LIVRÉE: interdiction absolue de dire « on prépare »; confirmer l'envoi/
+ *       la livraison, ou fermer si vieux fil sans question. (3) Statut NON vérifiable dans Shopify:
+ *       on ne l'ENVOIE pas (reste brouillon), et on demande au client de confirmer la réception en
+ *       cadrant comme une vérification large. (4) Les AUTRES fils ouverts du client sont inlinés (leur
+ *       dernier message) dans le prompt pour éviter les réponses à côté (pallie l'absence de fusion).
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
@@ -412,6 +419,7 @@ function extractOrderName(...textes) {
 // Bloc VÉRIFIÉ injecté dans le prompt quand Shopify a répondu. Contient l'autorisation
 // explicite de s'appuyer sur ces faits (elle prime sur la règle « tu ne vois pas la commande »).
 function shopifyBlock(o) {
+  const expediee = o.expedie === "fulfilled" || o.expedie === "partial";
   const statut = o.expedie === "fulfilled" ? "EXPÉDIÉE"
     : o.expedie === "partial" ? "PARTIELLEMENT EXPÉDIÉE"
     : "PAS ENCORE EXPÉDIÉE (en préparation)";
@@ -440,7 +448,9 @@ function shopifyBlock(o) {
     `Tu PEUX t'appuyer sur ces faits (articles réels, payée, en préparation ou expédiée, numéro/lien de suivi, position ` +
     `du colis, état du remboursement/retour). MAIS n'invente JAMAIS de DATE d'expédition ou de livraison qui n'est ` +
     `pas fournie ici: si non expédiée, dis que c'est en préparation et que ça s'en vient, sans chiffrer de date. Si expédiée ` +
-    `avec un suivi, tu peux partager le numéro/lien et, si connue, la dernière position du colis.${rembConsigne}`
+    `avec un suivi, tu peux partager le numéro/lien et, si connue, la dernière position du colis.` +
+    (expediee ? ` INTERDIT ABSOLU ICI: cette commande est DÉJÀ EXPÉDIÉE/LIVRÉE, n'écris JAMAIS « on prépare », « en préparation » ni « ça s'en vient »: elle est partie (souvent déjà reçue).` : "") +
+    `${rembConsigne}`
   );
 }
 
@@ -1280,7 +1290,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.23 ===");
+  console.log("=== Lasclay support.js v2.24 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
@@ -1420,65 +1430,82 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         ? Math.max(0, Math.floor((Date.now() / 1000 - (plusAncien.delivered_at || plusAncien.created_at || Date.now() / 1000)) / 86400))
         : 0;
 
+      // Autres fils OUVERTS du même client (fusion non faite: on ne fusionne pas, mais on donne à
+      // l'IA le CONTENU du dernier message client de ces fils pour qu'elle réponde en connaissance
+      // de cause au lieu de répondre à côté). Borné à 3 fils, lecture seule.
       const autres = (filsParAuteur.get(clientKey) || []).filter((c) => c.id !== conv.id);
-      const autresLigne = autres.length
-        ? `\nIMPORTANT: ce client a ${autres.length} AUTRE(S) fil(s) ouvert(s) chez nous en ce moment` +
-          ` (sujets: ${autres.map((c) => (c.subject || c.latest_message_subject || "(sans sujet)").slice(0, 40)).join(" | ")}).` +
-          ` Il a donc écrit plusieurs fois: ajuste l'intensité de l'excuse en conséquence, et si un de ces fils` +
-          ` éclaire la demande, tiens-en compte.`
-        : "";
+      let autresLigne = "";
+      if (autres.length) {
+        const extraits = [];
+        for (const a of autres.slice(0, 3)) {
+          let txt = "";
+          try {
+            const am = await listThreadMessages(a.id);
+            const dernier = [...am].reverse().find((m) => !isUs(m)) || am[am.length - 1];
+            if (dernier) {
+              const ab = await fetchBodies([dernier.id]);
+              txt = cleanBody(ab.get(dernier.id) || dernier.preview || "").slice(0, 500);
+            }
+          } catch (_) { /* on garde au moins le sujet */ }
+          extraits.push(`  - Fil « ${(a.subject || a.latest_message_subject || "(sans sujet)").slice(0, 60)} »` +
+            (txt ? ` — dernier message du client: "${txt}"` : " (contenu indisponible)"));
+        }
+        autresLigne = `\nIMPORTANT: ce client a ${autres.length} AUTRE(S) fil(s) ouvert(s) en ce moment ` +
+          `(fils NON fusionnés). TIENS COMPTE de leur contenu pour ne pas répondre à côté ni te contredire, ` +
+          `et ajuste l'excuse en conséquence:\n${extraits.join("\n")}`;
+      }
 
       const filTexte = threadText(conv, msgs, bodies);
       const teamsDuFil = teamsByConv.get(conv.id) || new Set();
-      // Boîte « Mise à jour commande »: consigne dédiée. On a poussé en masse, via Klaviyo,
-      // une mise à jour de statut liée À LA PRÉVENTE DE LA FIN MAI. Mais tous les clients de
-      // cette boîte ne l'ont pas forcément reçue (campagne manquée) et certaines commandes
-      // sont plus anciennes ou hors de cette prévente. D'où une consigne nuancée, qui PRIME
-      // localement sur la règle générale « ne jamais demander si le client a reçu notre courriel ».
-      const majLigne = teamsDuFil.has(MAJ_COMMANDE_TEAM)
-        ? `\n\nBOÎTE « MISE À JOUR COMMANDE » (contexte spécial, PRIME sur la règle générale ` +
-          `« ne pas demander si le client a reçu notre courriel »): on a récemment envoyé, EN MASSE, ` +
-          `une mise à jour du statut des commandes par courriel (campagne Klaviyo), liée À LA PRÉVENTE ` +
-          `DE LA FIN MAI. Attention: ce n'est PAS garanti que ce client l'ait reçue, et sa commande ` +
-          `n'est peut-être pas de cette prévente (plus ancienne, ou autre). Marche à suivre pour ce fil:\n` +
-          `- Si sa demande porte sur le statut / l'avancement / une date de sa commande et qu'elle ` +
-          `cadre avec la prévente de la fin mai: réfère-toi chaleureusement à cette mise à jour ` +
-          `récente, DEMANDE gentiment s'il l'a bien reçue, invite-le à vérifier ses indésirables et ` +
-          `l'onglet Promotions, et propose de la lui renvoyer (action_requise: renvoyer la mise à jour). ` +
-          `Ne réaffirme aucun statut ni date précis que tu ne peux pas voir.\n` +
-          `- S'il indique NE PAS l'avoir reçue, si sa commande semble plus ancienne / hors prévente, ` +
-          `ou s'il soulève un point précis que la mise à jour ne couvre pas (problème, question, ` +
-          `changement): NE le renvoie PAS à un courriel qu'il n'a peut-être pas; traite sa demande à ` +
-          `fond, normalement, comme tu l'aurais fait (c'est la vraie réponse).\n` +
-          `- Dans le doute sur la réception ou sur l'appartenance à la prévente: penche vers répondre ` +
-          `pour vrai à sa demande plutôt que de présumer qu'il a vu la mise à jour.`
-        : "";
-      // Statut RÉEL de la commande (si Shopify configuré et qu'un numéro L-xxxxx est présent).
-      // Fournit au modèle des faits vérifiés (articles, payée, expédiée/en préparation, suivi, remboursement).
-      // shopifyVerifie = on a bel et bien confirmé la commande dans Shopify (sert de verrou d'envoi
-      // pour les promesses de remboursement/renvoi: jamais promettre sans avoir vérifié).
+      const estBoiteMAJ = teamsDuFil.has(MAJ_COMMANDE_TEAM);
+
+      // Statut RÉEL de la commande (Shopify): d'abord par numéro L-xxxxx, sinon par courriel du client.
+      // On récupère l'objet `ordre` (résumé vérifié) AVANT de rédiger, car la consigne de la boîte
+      // « Mise à jour commande » dépend des FAITS (date de commande, expédiée/livrée).
       let shopifyLigne = "";
       let shopifyVerifie = false;
+      let ordre = null, ordreAmbigu = false;
       if (SHOPIFY_ON) {
         const ordName = extractOrderName(conv.subject || conv.latest_message_subject || "", filTexte);
         try {
-          if (ordName) {
-            const o = await shopifyOrder(ordName);
-            if (o) { shopifyLigne = `\n\n${shopifyBlock(o)}`; shopifyVerifie = true; }
-          }
-          // Repli par courriel si aucun numéro dans le fil (ou introuvable): on vérifie quand même.
-          if (!shopifyVerifie) {
+          if (ordName) ordre = await shopifyOrder(ordName);
+          if (!ordre) {
             const email = last.from_field?.address || null;
             if (email && !SELF.includes(email.toLowerCase())) {
               const r = await shopifyOrderByEmail(email);
-              if (r && r.order) {
-                const amb = r.multiple ? ` (NB: ce client a PLUSIEURS commandes; ceci est la plus récente, confirme qu'il s'agit de la bonne avant d'affirmer.)` : "";
-                shopifyLigne = `\n\n${shopifyBlock(r.order)}${amb}`;
-                shopifyVerifie = true;
-              }
+              if (r && r.order) { ordre = r.order; ordreAmbigu = !!r.multiple; }
             }
           }
         } catch (e) { console.warn(`  Shopify lookup (${conv.id}): ${e.message}`); }
+        if (ordre) {
+          shopifyVerifie = true;
+          const amb = ordreAmbigu ? ` (NB: ce client a PLUSIEURS commandes; ceci est la plus récente, confirme qu'il s'agit de la bonne avant d'affirmer.)` : "";
+          shopifyLigne = `\n\n${shopifyBlock(ordre)}${amb}`;
+        }
+      }
+
+      // Boîte « Mise à jour commande »: consigne dédiée, réécrite avec les FAITS Shopify.
+      // PRÉVENTE = uniquement 30-31 mai 2026. Jamais « on prépare » sur une commande expédiée/livrée.
+      // Sinon (non vérifiable): demander confirmation en cadrant comme une vérification large.
+      let majLigne = "";
+      if (estBoiteMAJ) {
+        const estPrevente = !!ordre && (ordre.date === "2026-05-30" || ordre.date === "2026-05-31");
+        const estExpediee = !!ordre && (ordre.expedie === "fulfilled" || ordre.expedie === "partial"
+          || (ordre.livraison && /transit|livr|cours de livraison|out_for|delivered/i.test(ordre.livraison.resume)));
+        majLigne = `\n\nBOÎTE « MISE À JOUR COMMANDE » (on fait une VÉRIFICATION LARGE de nos commandes ` +
+          `pour être sûrs de n'avoir OUBLIÉ personne; ceci PRIME sur la règle « ne pas demander si le client a reçu son courriel »). RÈGLES STRICTES:\n` +
+          `1) PRÉVENTE: la seule prévente concernée a eu lieu les 30 et 31 MAI 2026. Ne qualifie une commande de ` +
+          `« prévente » QUE si sa date Shopify vérifiée est 2026-05-30 ou 2026-05-31. ` +
+          (ordre ? (estPrevente ? "ICI: la commande EST de la prévente (30-31 mai 2026)." : `ICI: la commande date du ${ordre.date}: ce n'est PAS une prévente, n'en parle jamais.`)
+                 : "ICI: commande non identifiée, ne parle PAS de prévente.") + `\n` +
+          `2) DÉJÀ EXPÉDIÉE/LIVRÉE: ` +
+          (estExpediee ? "ICI la commande est DÉJÀ EXPÉDIÉE/LIVRÉE (souvent depuis longtemps) donc presque certainement REÇUE: n'écris JAMAIS « on prépare » ni « en préparation ». Confirme qu'elle est partie/livrée (donne le suivi si utile). Si le fil est vieux et sans question en suspens, un mot bref suffit, ou repondre=false s'il n'y a vraiment plus rien à dire."
+                       : "si Shopify montre la commande expédiée ou livrée, ne dis jamais qu'on la prépare; confirme qu'elle est partie/livrée.") + `\n` +
+          `3) STATUT NON VÉRIFIABLE (Shopify ne trouve pas la commande): n'affirme AUCUN statut et NE PROMETS RIEN. ` +
+          `Demande gentiment au client de confirmer s'il a bien reçu sa commande, en cadrant ça comme une vérification ` +
+          `large de notre part (ex.: « on passe en revue nos commandes pour s'assurer que tout le monde a bien reçu la ` +
+          `sienne; peux-tu me confirmer que la tienne est bien arrivée? »). Jamais « on prépare ».\n` +
+          `4) Si le client soulève un vrai problème/point précis: traite-le à fond, normalement.`;
       }
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
@@ -1622,6 +1649,15 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         noteLigne.push("ACTION AVANT ENVOI (verrou Shopify): promesse de remboursement/renvoi NON vérifiée dans Shopify (commande introuvable ou non consultée). Confirmer le statut et qu'aucun remboursement n'a déjà été fait AVANT d'envoyer.");
       }
 
+      // VERROU boîte « Mise à jour commande »: on n'ENVOIE JAMAIS une réponse de statut si la commande
+      // n'a pas été VÉRIFIÉE dans Shopify (sinon on risque « on prépare » sur une commande déjà livrée).
+      // Non vérifiée => reste brouillon (le message demande alors au client de confirmer la réception).
+      const verrouMAJ = estBoiteMAJ && !shopifyVerifie;
+      if (verrouMAJ) {
+        verifRequise = true; alarme = true;
+        noteLigne.push("À VÉRIFIER (verrou Mise à jour commande): commande NON identifiée dans Shopify. Le brouillon demande au client de confirmer la réception. Vérifier son statut avant d'envoyer un statut ferme.");
+      }
+
       // Signature (langue), citation, liens cliquables + préfixe pays. (Voir v2.7.)
       const filBas = filTexte.toLowerCase();
       const estUSA = teamsDuFil.has("13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217") ||
@@ -1654,7 +1690,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       // il reste brouillon. (v2.23)
       const estEscalade = QC_ESCALADE && out.escalade === true;
       const candidat = AUTO_SEND && catAutorisee && estCourriel && !!toAddr &&
-        (aAgir ? SEND_ACTIONS : true) && !verrouRemb && !estEscalade && (SEND_LIMIT === 0 || sent < SEND_LIMIT);
+        (aAgir ? SEND_ACTIONS : true) && !verrouRemb && !verrouMAJ && !estEscalade && (SEND_LIMIT === 0 || sent < SEND_LIMIT);
 
       // Opus contrôle ET CORRIGE (Sonnet rédige, Opus tranche): envoyer / corriger / bloquer.
       // Refus ou panne du contrôle => brouillon, jamais l'inverse.
