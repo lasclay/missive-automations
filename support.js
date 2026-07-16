@@ -270,9 +270,11 @@ async function apiPost(path, body) {
 // par CLIENT CREDENTIALS (app « Render connector » du Dev Dashboard) et on le met en cache
 // (~24h, renouvelé avant expiration). Server-to-server, aucune interaction utilisateur.
 let _shopTok = { token: SHOPIFY_TOKEN || null, exp: SHOPIFY_TOKEN ? Infinity : 0 };
+let _shopTokFail = null; // latch d'échec pour tout le run (évite de marteler l'endpoint à chaque fil)
 async function shopifyToken() {
   if (SHOPIFY_TOKEN) return SHOPIFY_TOKEN;
   if (_shopTok.token && Date.now() < _shopTok.exp) return _shopTok.token;
+  if (_shopTokFail) throw new Error(_shopTokFail); // déjà échoué ce run: on ne réessaie pas
   const body = new URLSearchParams({
     grant_type: "client_credentials",
     client_id: SHOPIFY_CLIENT_ID,
@@ -281,7 +283,14 @@ async function shopifyToken() {
   const res = await fetch(`https://${SHOPIFY_STORE}/admin/oauth/access_token`, {
     method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body,
   });
-  if (!res.ok) throw new Error(`token client_credentials → ${res.status} ${await res.text()}`);
+  if (!res.ok) {
+    const txt = (await res.text()).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160);
+    _shopTokFail = `token client_credentials → ${res.status} ${txt}`;
+    if (res.status === 400 || res.status === 401 || res.status === 403) {
+      console.warn(`  Shopify: app probablement NON installée sur la boutique, ou Client ID/Secret erronés. Vérif Shopify désactivée ce run. (${res.status})`);
+    }
+    throw new Error(_shopTokFail);
+  }
   const j = await res.json();
   // Marge de sécurité: renouveler 5 min avant l'expiration annoncée (défaut 24h).
   _shopTok = { token: j.access_token, exp: Date.now() + Math.max(60, (j.expires_in || 86399) - 300) * 1000 };
