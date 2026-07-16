@@ -23,8 +23,10 @@ C'est 100 % additif et sans risque. Utile surtout pour la boîte **« Mise à jo
 
 1. **URLs → App URL** : `https://proxy-missive.onrender.com`
    *(URL réelle que vous possédez ; jamais appelée en client credentials. Décochez « Embed app in Shopify admin ». Redirect URLs / POS / App proxy : vides.)*
-2. **API access → Scopes** (liste séparée par des virgules) : `read_orders,read_fulfillments`
-   *(rien d'autre, lecture seule)*
+2. **API access → Scopes** (liste séparée par des virgules) : `read_orders,read_fulfillments,read_all_orders`
+   *(lecture seule. `read_all_orders` est nécessaire pour lire les commandes de **plus de 60 jours** —
+   indispensable aux Retours-Échanges, souvent sur d'anciennes commandes. Sans lui, `read_orders` ne
+   voit que les 60 derniers jours et le verrou retiendra ces cas en brouillon faute de vérification.)*
 3. **Release** la version.
 4. **Installer l'app sur la boutique** `lasclay` (distribution personnalisée / custom distribution).
 5. Récupérer, dans les réglages de l'app, le **Client ID** et le **Client Secret**.

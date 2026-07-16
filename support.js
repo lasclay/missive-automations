@@ -84,6 +84,11 @@
  *   quel que soit SEND_ACTIONS. (2) Si aucun numéro de commande n'est dans le fil, on retrouve la
  *   commande par le COURRIEL du client (la plus récente; ambiguïté signalée si plusieurs) pour
  *   vérifier avant de promettre.
+ * v2.23: (1) Lookup Shopify via GraphQL (REST ne filtrait pas fiablement par name/email). (2) Un cas
+ *   ESCALADÉ ne part plus jamais en envoi auto (reste brouillon). (3) Prompt: interdiction de s'avancer
+ *   sur temps/déplacement (rencontres), stock/disponibilité, faisabilité technique, refus/acceptation
+ *   d'une demande inhabituelle -> escalade=true et action_requise, l'humain tranche.
+ *   NB: pour lire les commandes de plus de 60 jours, l'app Shopify doit avoir le scope read_all_orders.
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
@@ -297,83 +302,101 @@ async function shopifyToken() {
   return _shopTok.token;
 }
 
-// Transforme un objet commande Shopify en résumé vérifié (statut, colis, remboursement, articles).
+// Transforme un noeud commande GraphQL en résumé vérifié (statut, colis, remboursement, articles).
 function summariseOrder(o) {
   const fuls = o.fulfillments || [];
-  const track = fuls.flatMap((f) => f.tracking_numbers || []).filter(Boolean);
-  const trackUrls = fuls.flatMap((f) => f.tracking_urls || []).filter(Boolean);
-  const carriers = [...new Set(fuls.map((f) => f.tracking_company).filter(Boolean))];
-  const shipCode = fuls.map((f) => f.shipment_status).filter(Boolean).pop() || null;
-  const livraison = shipCode ? { source: "transporteur (via Shopify)", resume: SHIP_STATUS_FR[shipCode] || shipCode } : null;
+  const infos = fuls.flatMap((f) => f.trackingInfo || []);
+  const track = infos.map((t) => t.number).filter(Boolean);
+  const trackUrls = infos.map((t) => t.url).filter(Boolean);
+  const carriers = [...new Set(infos.map((t) => t.company).filter(Boolean))];
+  const shipCode = fuls.map((f) => f.displayStatus).filter(Boolean).pop() || null; // ex. DELIVERED, IN_TRANSIT
+  const livraison = shipCode
+    ? { source: "transporteur (via Shopify)", resume: SHIP_STATUS_FR[shipCode.toLowerCase()] || shipCode.toLowerCase().replace(/_/g, " ") }
+    : null;
   const refunds = o.refunds || [];
   let montantRembourse = 0, itemsRetournes = 0;
   for (const r of refunds) {
-    for (const t of (r.transactions || [])) {
-      if (t.kind === "refund" && (t.status === "success" || !t.status)) montantRembourse += parseFloat(t.amount || 0) || 0;
-    }
-    for (const rli of (r.refund_line_items || [])) itemsRetournes += rli.quantity || 0;
+    montantRembourse += parseFloat(r.totalRefundedSet?.shopMoney?.amount || 0) || 0;
+    for (const e of (r.refundLineItems?.edges || [])) itemsRetournes += e.node?.quantity || 0;
   }
-  const dernierRemb = refunds.length ? (refunds.map((r) => r.created_at).filter(Boolean).sort().pop() || "").slice(0, 10) : "";
+  const dernierRemb = refunds.length ? (refunds.map((r) => r.createdAt).filter(Boolean).sort().pop() || "").slice(0, 10) : "";
+  const fin = (o.displayFinancialStatus || "").toLowerCase(); // paid | partially_refunded | refunded | voided | ...
+  const ful = (o.displayFulfillmentStatus || "").toLowerCase();
   return {
     name: o.name,
-    date: (o.created_at || "").slice(0, 10),
-    paye: o.financial_status === "paid",
-    expedie: o.fulfillment_status || "non expédiée", // fulfilled | partial | null
+    date: (o.createdAt || "").slice(0, 10),
+    paye: fin === "paid",
+    expedie: ful === "fulfilled" ? "fulfilled" : ful === "partially_fulfilled" ? "partial" : "non expédiée",
     suivi: track,
     suiviUrls: trackUrls,
     transporteur: carriers,
     livraison, // { source, resume } ou null
     rembourse: {
-      etat: o.financial_status || "?", // paid | partially_refunded | refunded | voided | ...
-      annulee: !!o.cancelled_at,
+      etat: fin || "?", // paid | partially_refunded | refunded | voided
+      annulee: !!o.cancelledAt,
       nb: refunds.length,
       montant: montantRembourse ? montantRembourse.toFixed(2) : null,
       itemsRetournes,
       date: dernierRemb || null,
     },
-    articles: (o.line_items || []).map((li) => `${li.quantity}x ${li.title}${li.variant_title ? ` (${li.variant_title})` : ""}`),
+    articles: (o.lineItems?.edges || []).map((e) => `${e.node.quantity}x ${e.node.title}${e.node.variantTitle ? ` (${e.node.variantTitle})` : ""}`),
   };
 }
 
-// GET générique sur orders.json avec retry réseau/429. Renvoie le tableau d'objets commande (ou []).
-const SHOP_FIELDS = "name,created_at,financial_status,fulfillment_status,cancelled_at,line_items,fulfillments,refunds";
-async function shopifyOrdersRaw(queryParams, label) {
-  if (!SHOPIFY_ON) return [];
+// Champs commande demandés en GraphQL (REST ne filtre pas fiablement par name/email).
+const ORDER_GQL = `
+  name createdAt displayFinancialStatus displayFulfillmentStatus cancelledAt
+  lineItems(first: 30) { edges { node { quantity title variantTitle } } }
+  fulfillments(first: 10) { displayStatus trackingInfo { number url company } }
+  refunds(first: 30) { createdAt totalRefundedSet { shopMoney { amount } } refundLineItems(first: 30) { edges { node { quantity } } } }
+`;
+
+// Appel GraphQL Admin (POST) avec retry réseau/429. Renvoie data.data (ou null).
+async function shopifyGraphQL(query, variables) {
+  if (!SHOPIFY_ON) return null;
   let tok;
   try { tok = await shopifyToken(); }
-  catch (e) { console.warn(`  Shopify auth: ${e.message}`); return []; }
-  const url = `https://${SHOPIFY_STORE}/admin/api/${SHOPIFY_VER}/orders.json?${queryParams}&fields=${SHOP_FIELDS}`;
+  catch (e) { return null; } // message déjà loggé par shopifyToken (latch)
   let netTries = 0;
   while (true) {
     await sleep(260);
     let res;
-    try { res = await fetch(url, { headers: { "X-Shopify-Access-Token": tok, "Content-Type": "application/json" } }); }
-    catch (e) {
-      if (++netTries > 3) { console.warn(`  Shopify réseau (${label}): ${e.message}`); return []; }
+    try {
+      res = await fetch(`https://${SHOPIFY_STORE}/admin/api/${SHOPIFY_VER}/graphql.json`, {
+        method: "POST",
+        headers: { "X-Shopify-Access-Token": tok, "Content-Type": "application/json" },
+        body: JSON.stringify({ query, variables }),
+      });
+    } catch (e) {
+      if (++netTries > 3) { console.warn(`  Shopify réseau: ${e.message}`); return null; }
       await sleep(netTries * 5000); continue;
     }
     if (res.status === 429) { await sleep(10000); continue; }
-    if (!res.ok) { console.warn(`  Shopify ${label} → ${res.status}`); return []; }
-    let data; try { data = await res.json(); } catch { return []; }
-    return data.orders || [];
+    if (!res.ok) { console.warn(`  Shopify GraphQL → ${res.status}`); return null; }
+    let data; try { data = await res.json(); } catch { return null; }
+    if (data.errors) console.warn(`  Shopify GraphQL: ${JSON.stringify(data.errors).slice(0, 160)}`);
+    return data.data || null;
   }
 }
 
 // Retrouve une commande par NUMÉRO (ex. "L-50468"). Résumé vérifié, ou null.
 async function shopifyOrder(name) {
   if (!SHOPIFY_ON || !name) return null;
-  const orders = await shopifyOrdersRaw(`status=any&name=${encodeURIComponent(name)}`, name);
-  return orders[0] ? summariseOrder(orders[0]) : null;
+  const q = `query($q:String!){ orders(first:1, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${ORDER_GQL} } } } }`;
+  const d = await shopifyGraphQL(q, { q: `name:${name}` });
+  const node = d?.orders?.edges?.[0]?.node;
+  return node ? summariseOrder(node) : null;
 }
 
 // Repli: retrouve la commande par COURRIEL du client quand aucun numéro n'est dans le fil.
 // Renvoie { order, multiple } : la plus récente + un drapeau s'il y en a plusieurs (ambiguïté à signaler).
 async function shopifyOrderByEmail(email) {
   if (!SHOPIFY_ON || !email) return null;
-  const orders = await shopifyOrdersRaw(`status=any&email=${encodeURIComponent(email)}&limit=5`, email);
-  if (!orders.length) return null;
-  orders.sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
-  return { order: summariseOrder(orders[0]), multiple: orders.length > 1 };
+  const q = `query($q:String!){ orders(first:5, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${ORDER_GQL} } } } }`;
+  const d = await shopifyGraphQL(q, { q: `email:${email}` });
+  const edges = d?.orders?.edges || [];
+  if (!edges.length) return null;
+  return { order: summariseOrder(edges[0].node), multiple: edges.length > 1 };
 }
 
 // Numéro de commande Lasclay dans un texte : "L-50468", "L50308", "l-49347", "#L 46065"...
@@ -878,6 +901,24 @@ OFFRES ENTRANTES (terrain, approvisionnement, partenariat, collaboration, distri
 accepter ni décliner sur le fond au nom de l'entreprise. Accusé de réception chaleureux, on regarde
 ça, et "action_requise" pour Gabriel.
 
+NE T'AVANCE PAS SUR CE QUE TU NE CONTRÔLES PAS (règle critique, mets escalade=true dans ces cas):
+- TEMPS ET DÉPLACEMENT: ne fixe JAMAIS une rencontre, un rendez-vous, une visite, un appel ou un
+  déplacement au nom de Gabriel, et ne t'engage pas sur une date de rencontre. Le calendrier et la
+  route lui appartiennent. Accuse réception, dis qu'on revient avec les disponibilités, escalade=true,
+  et "action_requise" pour qu'il propose lui-même la date. Jamais « on te revient très bientôt avec une
+  date » comme un engagement ferme s'il n'a pas donné son accord.
+- STOCK ET DISPONIBILITÉ: ne promets JAMAIS qu'un article précis part ou est disponible sans réserve
+  (« on expédie ton X aujourd'hui », « il est en stock »): tu ne vois pas l'inventaire. Formule au
+  conditionnel (« on prépare ça et on te confirme dès que c'est parti »), mets la vérification de stock
+  en "action_requise", et escalade=true si toute la réponse repose sur une disponibilité incertaine.
+- FAISABILITÉ ET CAPACITÉS TECHNIQUES: n'affirme JAMAIS qu'une chose est possible ou ajustable
+  (taille d'une machine, personnalisation, modification d'un produit, délai spécial) si ce n'est pas
+  écrit dans la connaissance. Dis qu'on vérifie et qu'on revient, "action_requise", escalade=true.
+- REFUS OU ACCEPTATION D'UNE DEMANDE INHABITUELLE (gros/spécial, B2B, sur mesure): ne tranche pas.
+  Accusé de réception, on regarde, "action_requise", escalade=true.
+Principe: face à un engagement de temps, de route, de stock, de faisabilité ou une décision, tu PRÉPARES
+la réponse mais tu LAISSES L'HUMAIN TRANCHER (escalade), tu ne t'engages pas à sa place.
+
 RETOURS NON DEMANDÉS: ne JAMAIS offrir spontanément un retour ou un remboursement que le client
 n'a pas demandé, surtout pour les produits de grande valeur (manteaux ~300 $). Offrir un CRÉDIT
 est acceptable.
@@ -1239,7 +1280,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.22 ===");
+  console.log("=== Lasclay support.js v2.23 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
@@ -1607,8 +1648,13 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       //  vérifier NE bloquent PLUS ici: Opus les traite (corrige, ou bloque si vraiment humain).
       const catAutorisee = SEND_CATEGORIES.length === 0 || SEND_CATEGORIES.includes(out.categorie);
       const aAgir = !!(out.action_requise || actionAuto);
+      // Un cas ESCALADÉ (l'associé Sonnet a levé la main) ne part JAMAIS en envoi auto: un humain
+      // l'envoie. Attrape les engagements de temps/déplacement (rencontres), les décisions de
+      // partenariat, et tout ce que Sonnet a jugé « à valider ». Opus peut encore le corriger, mais
+      // il reste brouillon. (v2.23)
+      const estEscalade = QC_ESCALADE && out.escalade === true;
       const candidat = AUTO_SEND && catAutorisee && estCourriel && !!toAddr &&
-        (aAgir ? SEND_ACTIONS : true) && !verrouRemb && (SEND_LIMIT === 0 || sent < SEND_LIMIT);
+        (aAgir ? SEND_ACTIONS : true) && !verrouRemb && !estEscalade && (SEND_LIMIT === 0 || sent < SEND_LIMIT);
 
       // Opus contrôle ET CORRIGE (Sonnet rédige, Opus tranche): envoyer / corriger / bloquer.
       // Refus ou panne du contrôle => brouillon, jamais l'inverse.
