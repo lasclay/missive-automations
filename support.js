@@ -71,6 +71,11 @@
  *   configurée, le script retrouve la commande (numéro L-xxxxx du sujet/fil) et injecte son VRAI
  *   statut (date, articles, expédiée/en préparation, suivi) dans le prompt, avec autorisation
  *   explicite de s'y appuyer (sans jamais inventer de date). Sans jeton: comportement inchangé.
+ * v2.19: Shopify supporte l'app « Render connector » du Dev Dashboard via CLIENT CREDENTIALS
+ *   (SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET, jeton auto-renouvelé ~24h) en plus du jeton fixe.
+ *   Ajout du transporteur et du LIEN de suivi. Intégration Postes Canada FACULTATIVE
+ *   (CANADAPOST_API_KEY): lit la position réelle du colis via le numéro de suivi et l'injecte
+ *   dans le prompt. Tout est additif et dégrade proprement si un service est absent/en panne.
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
@@ -78,11 +83,16 @@
  *   KNOWLEDGE_FILE chemin du document de connaissance (défaut ./connaissance_support.md)
  *   TEAMS, DRAFT_LABEL, EXPORT_CONV, MISSIVE_ORG, EXPORT_FROM   overrides
  *   SHOPIFY_STORE        (facultatif) domaine .myshopify.com, ex. "lasclay.myshopify.com"
- *   SHOPIFY_ADMIN_TOKEN  (facultatif) jeton Admin (shpat_...), scope read_orders. Si SHOPIFY_STORE
- *                        ET SHOPIFY_ADMIN_TOKEN sont présents, le script vérifie le VRAI statut de la
- *                        commande (date, articles, expédiée/en préparation, suivi) dans Shopify avant
- *                        de rédiger, surtout pour « Mise à jour commande ». Absents = comportement inchangé.
- *   SHOPIFY_API_VERSION  (facultatif) défaut "2024-10"
+ *   Auth Shopify, AU CHOIX (si SHOPIFY_STORE présent, le script vérifie le VRAI statut de la commande:
+ *   date, articles, expédiée/en préparation, suivi + lien; surtout pour « Mise à jour commande »):
+ *     SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET   app « Render connector » (Dev Dashboard), RECOMMANDÉ:
+ *                        jeton obtenu par client credentials, renouvelé automatiquement (~24h).
+ *     SHOPIFY_ADMIN_TOKEN                          jeton Admin fixe (shpat_...) si vous en avez un.
+ *   SHOPIFY_API_VERSION  (facultatif) défaut "2024-10". Tout absent = comportement inchangé.
+ *   CANADAPOST_API_KEY   (facultatif) "user:password" (Programme des développeurs Postes Canada). Si
+ *                        présent, le script lit l'ÉTAT RÉEL du colis (dernier événement, date prévue/
+ *                        livrée) via le numéro de suivi Shopify. Absent = on partage juste le numéro/lien.
+ *   CANADAPOST_ENDPOINT  (facultatif) défaut prod; sandbox "https://ct.soa-gw.canadapost.ca"
  */
 
 const fs = require("node:fs");
@@ -173,13 +183,24 @@ const TRI_LABELS = {
 };
 
 // --- Shopify (FACULTATIF) : vérifier le VRAI statut d'une commande avant de répondre.
-// Activé seulement si SHOPIFY_STORE + SHOPIFY_ADMIN_TOKEN sont présents. Sinon, le script
-// se comporte EXACTEMENT comme avant (aucune donnée Shopify, formulations prudentes). Sert
-// surtout à la boîte « Mise à jour commande » (statut, date, articles réels).
+// Activé si SHOPIFY_STORE + de quoi s'authentifier. Deux modes (app « Render connector »
+// du Dev Dashboard = client credentials; ou jeton Admin fixe hérité). Sinon, le script se
+// comporte EXACTEMENT comme avant. Sert surtout à « Mise à jour commande » (statut, date, articles).
 const SHOPIFY_STORE = process.env.SHOPIFY_STORE || ""; // ex. "lasclay.myshopify.com"
-const SHOPIFY_TOKEN = process.env.SHOPIFY_ADMIN_TOKEN || ""; // jeton Admin (shpat_...), scope read_orders
+const SHOPIFY_TOKEN = process.env.SHOPIFY_ADMIN_TOKEN || ""; // jeton Admin fixe (shpat_...) si fourni
+// Mode recommandé (Dev Dashboard, app custom-distribution): client credentials.
+// client_id + client_secret => jeton de ~24h, renouvelé automatiquement.
+const SHOPIFY_CLIENT_ID = process.env.SHOPIFY_CLIENT_ID || "";
+const SHOPIFY_CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET || "";
 const SHOPIFY_VER = process.env.SHOPIFY_API_VERSION || "2024-10";
-const SHOPIFY_ON = !!(SHOPIFY_STORE && SHOPIFY_TOKEN);
+const SHOPIFY_ON = !!(SHOPIFY_STORE && (SHOPIFY_TOKEN || (SHOPIFY_CLIENT_ID && SHOPIFY_CLIENT_SECRET)));
+
+// --- Postes Canada (FACULTATIF) : lire l'état réel du colis à partir du numéro de suivi
+// fourni par Shopify. Activé seulement si CANADAPOST_API_KEY (format "user:password", la clé
+// du Programme des développeurs de Postes Canada). Sinon: on partage juste le numéro/lien de suivi.
+const CP_KEY = process.env.CANADAPOST_API_KEY || ""; // "username:password" (clé API CP)
+const CP_ENDPOINT = process.env.CANADAPOST_ENDPOINT || "https://soa-gw.canadapost.ca"; // sandbox: https://ct.soa-gw.canadapost.ca
+const CP_ON = CP_KEY.includes(":");
 
 const SELF = (process.env.MISSIVE_SELF_ADDRESSES ||
   "hey@lasclay.com,admin@lasclay.com,operations@lasclay.com")
@@ -237,11 +258,65 @@ async function apiPost(path, body) {
   }
 }
 
+// Jeton Shopify. Si SHOPIFY_ADMIN_TOKEN est fourni, on l'utilise tel quel. Sinon, on l'obtient
+// par CLIENT CREDENTIALS (app « Render connector » du Dev Dashboard) et on le met en cache
+// (~24h, renouvelé avant expiration). Server-to-server, aucune interaction utilisateur.
+let _shopTok = { token: SHOPIFY_TOKEN || null, exp: SHOPIFY_TOKEN ? Infinity : 0 };
+async function shopifyToken() {
+  if (SHOPIFY_TOKEN) return SHOPIFY_TOKEN;
+  if (_shopTok.token && Date.now() < _shopTok.exp) return _shopTok.token;
+  const body = new URLSearchParams({
+    grant_type: "client_credentials",
+    client_id: SHOPIFY_CLIENT_ID,
+    client_secret: SHOPIFY_CLIENT_SECRET,
+  });
+  const res = await fetch(`https://${SHOPIFY_STORE}/admin/oauth/access_token`, {
+    method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body,
+  });
+  if (!res.ok) throw new Error(`token client_credentials → ${res.status} ${await res.text()}`);
+  const j = await res.json();
+  // Marge de sécurité: renouveler 5 min avant l'expiration annoncée (défaut 24h).
+  _shopTok = { token: j.access_token, exp: Date.now() + Math.max(60, (j.expires_in || 86399) - 300) * 1000 };
+  return _shopTok.token;
+}
+
+// --- Postes Canada : état réel du colis via le numéro de suivi (PIN). Résumé bref
+// (dernier événement, lieu, date prévue/livrée). Tout échec => null (dégradation propre).
+async function canadaPostTrack(pin) {
+  if (!CP_ON || !pin) return null;
+  const url = `${CP_ENDPOINT}/vis/track/pin/${encodeURIComponent(pin)}/summary`;
+  let res;
+  try {
+    res = await fetch(url, {
+      headers: {
+        Authorization: `Basic ${Buffer.from(CP_KEY).toString("base64")}`,
+        Accept: "application/vnd.cpc.track+xml",
+        "Accept-language": "fr-CA",
+      },
+    });
+  } catch (e) { console.warn(`  Postes Canada réseau (${pin}): ${e.message}`); return null; }
+  if (!res.ok) { console.warn(`  Postes Canada ${pin} → ${res.status}`); return null; }
+  const xml = await res.text().catch(() => "");
+  const pick = (tag) => (xml.match(new RegExp(`<${tag}>([^<]*)</${tag}>`, "i")) || [])[1] || "";
+  const evenement = pick("event-description");
+  const lieu = pick("event-site") || pick("event-province");
+  const livre = pick("actual-delivery-date");
+  const prevue = pick("expected-delivery-date");
+  const poste = pick("mailed-on-date");
+  if (!evenement && !livre && !prevue) return null;
+  let resume = evenement || (livre ? "Livré" : "En transit");
+  if (lieu) resume += ` (${lieu})`;
+  return { source: "Postes Canada", resume, date: livre || prevue || poste || "", livre: !!livre };
+}
+
 // --- Shopify : retrouve une commande par son numéro (ex. "L-50468") et renvoie un
-// résumé VÉRIFIÉ (statut, date, articles, suivi). Tout échec => null (dégradation propre,
-// le brouillon reste alors prudent comme avant). Ne s'active que si SHOPIFY_ON.
+// résumé VÉRIFIÉ (statut, date, articles, suivi + lien, et position transporteur si CP_ON).
+// Tout échec => null (dégradation propre, le brouillon reste alors prudent comme avant).
 async function shopifyOrder(name) {
   if (!SHOPIFY_ON || !name) return null;
+  let tok;
+  try { tok = await shopifyToken(); }
+  catch (e) { console.warn(`  Shopify auth: ${e.message}`); return null; }
   const url = `https://${SHOPIFY_STORE}/admin/api/${SHOPIFY_VER}/orders.json` +
     `?status=any&name=${encodeURIComponent(name)}` +
     `&fields=name,created_at,financial_status,fulfillment_status,line_items,fulfillments`;
@@ -249,7 +324,7 @@ async function shopifyOrder(name) {
   while (true) {
     await sleep(260);
     let res;
-    try { res = await fetch(url, { headers: { "X-Shopify-Access-Token": SHOPIFY_TOKEN, "Content-Type": "application/json" } }); }
+    try { res = await fetch(url, { headers: { "X-Shopify-Access-Token": tok, "Content-Type": "application/json" } }); }
     catch (e) {
       if (++netTries > 3) { console.warn(`  Shopify réseau (${name}): ${e.message}`); return null; }
       await sleep(netTries * 5000); continue;
@@ -259,15 +334,25 @@ async function shopifyOrder(name) {
     let data; try { data = await res.json(); } catch { return null; }
     const o = (data.orders || [])[0];
     if (!o) return null;
-    const track = (o.fulfillments || []).flatMap((f) => f.tracking_numbers || []).filter(Boolean);
-    return {
+    const fuls = o.fulfillments || [];
+    const track = fuls.flatMap((f) => f.tracking_numbers || []).filter(Boolean);
+    const trackUrls = fuls.flatMap((f) => f.tracking_urls || []).filter(Boolean);
+    const carriers = [...new Set(fuls.map((f) => f.tracking_company).filter(Boolean))];
+    const result = {
       name: o.name,
       date: (o.created_at || "").slice(0, 10),
       paye: o.financial_status === "paid",
       expedie: o.fulfillment_status || "non expédiée", // fulfilled | partial | null
       suivi: track,
+      suiviUrls: trackUrls,
+      transporteur: carriers,
       articles: (o.line_items || []).map((li) => `${li.quantity}x ${li.title}${li.variant_title ? ` (${li.variant_title})` : ""}`),
     };
+    // Position réelle du colis chez Postes Canada (si configuré et suivi disponible).
+    if (CP_ON && track.length) {
+      try { const cp = await canadaPostTrack(track[0]); if (cp) result.livraison = cp; } catch (e) { console.warn(`  CP suivi: ${e.message}`); }
+    }
+    return result;
   }
 }
 
@@ -287,14 +372,18 @@ function shopifyBlock(o) {
   const statut = o.expedie === "fulfilled" ? "EXPÉDIÉE"
     : o.expedie === "partial" ? "PARTIELLEMENT EXPÉDIÉE"
     : "PAS ENCORE EXPÉDIÉE (en préparation)";
-  const suivi = o.suivi.length ? ` Numéro(s) de suivi: ${o.suivi.join(", ")}.` : " Aucun numéro de suivi pour l'instant.";
+  const suivi = o.suivi && o.suivi.length ? ` Numéro(s) de suivi: ${o.suivi.join(", ")}.` : " Aucun numéro de suivi pour l'instant.";
+  const transp = o.transporteur && o.transporteur.length ? ` Transporteur: ${o.transporteur.join(", ")}.` : "";
+  const lien = o.suiviUrls && o.suiviUrls.length ? ` Lien de suivi: ${o.suiviUrls.join(" ")}.` : "";
+  const livr = o.livraison ? ` SUIVI TRANSPORTEUR (${o.livraison.source}): ${o.livraison.resume}${o.livraison.date ? ` (${o.livraison.date})` : ""}.` : "";
   return noDash(
     `DONNÉES SHOPIFY VÉRIFIÉES POUR LA COMMANDE ${o.name} (source de vérité, prime sur la règle ` +
     `générale « tu ne vois pas la commande »): commande du ${o.date}, ${o.paye ? "payée" : "paiement non confirmé"}, ` +
-    `statut d'expédition: ${statut}.${suivi} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
-    `Tu PEUX t'appuyer sur ces faits (articles réels, payée, en préparation ou expédiée, numéro de suivi s'il existe). ` +
-    `MAIS n'invente JAMAIS de DATE d'expédition ou de livraison qui n'est pas fournie ici: si non expédiée, dis que ` +
-    `c'est en préparation et que ça s'en vient, sans chiffrer de date. Si expédiée avec un suivi, tu peux le partager.`
+    `statut d'expédition: ${statut}.${transp}${suivi}${lien}${livr} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
+    `Tu PEUX t'appuyer sur ces faits (articles réels, payée, en préparation ou expédiée, numéro/lien de suivi, position ` +
+    `du colis chez le transporteur s'il est fourni). MAIS n'invente JAMAIS de DATE d'expédition ou de livraison qui n'est ` +
+    `pas fournie ici: si non expédiée, dis que c'est en préparation et que ça s'en vient, sans chiffrer de date. Si expédiée ` +
+    `avec un suivi, tu peux partager le numéro/lien et, si connue, la dernière position du colis.`
   );
 }
 
@@ -1116,8 +1205,9 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.18 ===");
-  console.log(`Shopify (vérif. statut commande): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER})` : "INACTIF (SHOPIFY_STORE/SHOPIFY_ADMIN_TOKEN absents)"}.`);
+  console.log("=== Lasclay support.js v2.19 ===");
+  console.log(`Shopify (vérif. statut commande): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
+  console.log(`Postes Canada (position du colis): ${CP_ON ? `ACTIF (${CP_ENDPOINT})` : "INACTIF (CANADAPOST_API_KEY absente)"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
