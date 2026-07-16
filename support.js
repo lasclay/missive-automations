@@ -101,6 +101,11 @@
  *   inventoryQuantity + availableForSale par variante) => l'IA peut répondre à une question de
  *   disponibilité au lieu d'escalader (quand la variante figure au catalogue). Nécessite les scopes
  *   Shopify read_products + read_inventory sur l'app; sans eux, on retombe sur la dispo publique.
+ * v2.31: VISION. Le modèle EXAMINE les photos jointes par le client (défaut de fabrication, mauvais
+ *   article/couleur/taille, dommage de transport, germination) et répond en connaissance de cause.
+ *   Jusqu'à VISION_MAX images/fil (défaut 3), récupérées via l'API Missive (base64), envoyées en
+ *   contenu multimodal au rédacteur. VISION=false désactive. Le vérificateur (2e passe) est prévenu
+ *   qu'il ne voit pas les photos, pour ne pas bloquer à tort une observation qui en dépend.
  * v2.30: FERMETURE ACTIVE des fils réglés (CLOSE_RESOLVED, défaut on). L'IA renvoie "fermer": true
  *   quand un fil est manifestement clos (commande livrée depuis longtemps sans question, simple
  *   remerciement, fil obsolète) => le script FERME le fil avec une note interne, SANS écrire au client
@@ -152,6 +157,10 @@ const MODEL = process.env.MODEL || "claude-sonnet-4-6";
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false";
 const DRAFT_LIMIT = parseInt(process.env.DRAFT_LIMIT || "5", 10);
 const MAX_FILS = parseInt(process.env.MAX_FILS || "40", 10);
+// v2.31 — VISION: le modèle EXAMINE les photos jointes par le client (défaut/produit, mauvais article,
+// taille, dommage). VISION=false désactive. VISION_MAX = nb max d'images par fil (défaut 3).
+const VISION = (process.env.VISION || "true").toLowerCase() !== "false";
+const VISION_MAX = parseInt(process.env.VISION_MAX || "3", 10) || 3;
 const KNOWLEDGE_FILE = process.env.KNOWLEDGE_FILE || "./connaissance_support.md";
 
 // v2.8 — Envoi automatique des brouillons propres (verifRequise === false).
@@ -553,12 +562,18 @@ function shopifyBlock(o) {
 }
 
 // --- Appel Anthropic (system en TABLEAU pour le cache de prompt) ---
-async function claude(systemBlocks, user, maxTokens) {
+async function claude(systemBlocks, user, maxTokens, images) {
+  // Si des images sont fournies (photos jointes du client), on envoie un contenu MULTIMODAL
+  // (texte + images) au lieu d'un simple texte, pour que le modèle les EXAMINE.
+  const content = (images && images.length)
+    ? [{ type: "text", text: sanit(user) },
+       ...images.map((im) => ({ type: "image", source: { type: "base64", media_type: im.media_type, data: im.data } }))]
+    : sanit(user);
   const payload = JSON.stringify({
     model: MODEL,
     max_tokens: maxTokens || 4000,
     system: systemBlocks,
-    messages: [{ role: "user", content: sanit(user) }],
+    messages: [{ role: "user", content }],
   });
   for (let attempt = 1; attempt <= 6; attempt++) {
     await sleep(800);
@@ -708,6 +723,35 @@ async function fetchComments(convId) {
       })
       .filter(Boolean);
   } catch { return []; }
+}
+
+// --- Vision: récupère les photos jointes par le client pour que le modèle les EXAMINE. ---
+const IMG_MEDIA = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", gif: "image/gif", webp: "image/webp" };
+async function fetchImage(a) {
+  const ext = (a.extension || (a.filename || "").split(".").pop() || "").toLowerCase();
+  const mt = (a.media_type && /^image\/(jpeg|png|gif|webp)$/.test(a.media_type)) ? a.media_type : IMG_MEDIA[ext];
+  const url = a.url || a.media_url || a.download_url;
+  if (!mt || !url) return null;
+  try {
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+    if (!res.ok) return null;
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length < 200 || buf.length > 4_500_000) return null; // trop petit (icône) ou trop gros pour l'API
+    return { media_type: mt, data: buf.toString("base64"), filename: a.filename || "photo" };
+  } catch { return null; }
+}
+// Collecte jusqu'à `max` images jointes par le CLIENT dans les messages fournis.
+async function collectImages(messages, max) {
+  const out = [];
+  for (const m of messages) {
+    if (isUs(m)) continue; // uniquement les pièces jointes du client, pas les nôtres
+    for (const a of m.attachments || []) {
+      if (out.length >= max) return out;
+      const img = await fetchImage(a);
+      if (img) out.push(img);
+    }
+  }
+  return out;
 }
 
 const isUs = (m) => {
@@ -1552,10 +1596,11 @@ async function fermerResolu(convId, raison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.30 ===");
+  console.log("=== Lasclay support.js v2.31 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
   console.log(`Fermeture active des fils réglés: ${CLOSE_RESOLVED ? "ACTIVE (sans réponse, réversible)" : "INACTIVE"}.`);
+  console.log(`Vision (photos jointes du client): ${VISION ? `ACTIVE (max ${VISION_MAX}/fil)` : "INACTIVE"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
@@ -1704,6 +1749,17 @@ async function fermerResolu(convId, raison) {
 
       const aLire = msgs.length > 12 ? [msgs[0], ...msgs.slice(-11)] : msgs;
       const bodies = await fetchBodies(aLire.map((m) => m.id));
+      // VISION: photos jointes par le client (défaut produit, mauvais article...). On ne les récupère
+      // que s'il y en a, et on les envoie au modèle pour qu'il les EXAMINE.
+      const aDesPJ = VISION && aLire.some((m) => !isUs(m) && (m.attachments || []).length);
+      const images = aDesPJ ? await collectImages(aLire, VISION_MAX) : [];
+      if (images.length) console.log(`  📷 ${images.length} photo(s) du client examinée(s) sur « ${(conv.subject || "").slice(0, 40)} ».`);
+      const photosLigne = images.length
+        ? `\n\nPHOTOS JOINTES PAR LE CLIENT (${images.length}, ci-dessous en pièces): EXAMINE-les pour évaluer ` +
+          `le problème (défaut de fabrication, mauvais article/couleur/taille, dommage de transport, plante/germination) ` +
+          `et réponds en connaissance de cause. Décris ce que tu observes SEULEMENT si c'est utile au client; ne prétends ` +
+          `JAMAIS voir ce qui n'y est pas. Si une photo est illisible ou hors sujet, ignore-la.`
+        : "";
       const clientKey = (last.from_field?.address || last.from_field?.username || last.from_field?.name || "inconnu").toLowerCase();
       const dejaServies = (excuses.get(clientKey) || []).map((e) => `- (${e.date}) ${e.texte}`).join("\n") || "(aucune)";
 
@@ -1825,7 +1881,11 @@ async function fermerResolu(convId, raison) {
       }
       // Contexte de FAITS (pour la relecture Opus): tout ce qui est vérifié/contextuel, sans les
       // consignes. Sert à ce que le QC détecte une contradiction avec Shopify/historique/autres fils/notes.
-      const contexteData = `${clientLigne}${shopifyLigne}${histoLigne}${notesLigne}${autresLigne}`;
+      // Contexte de FAITS (pour la relecture Opus): tout ce qui est vérifié/contextuel, sans les
+      // consignes. Sert à ce que le QC détecte une contradiction avec Shopify/historique/autres fils/notes.
+      // On y signale les photos (le vérificateur, lui, ne les voit pas: qu'il ne bloque pas à tort).
+      const contexteData = `${clientLigne}${shopifyLigne}${histoLigne}${notesLigne}${autresLigne}` +
+        (images.length ? `\n\n[Le client a joint ${images.length} photo(s) que LE RÉDACTEUR a examinées; toi vérificateur tu ne les vois pas: ne bloque pas une observation qui repose visiblement sur ces photos.]` : "");
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
         `CONTEXTE TEMPOREL: dernier message du client daté du ${dateDernier || "?"}${dateDernier ? ` (${ilYa(dateDernier)})` : ""}; ` +
@@ -1834,10 +1894,10 @@ async function fermerResolu(convId, raison) {
         `RAISONNE DEPUIS AUJOURD'HUI: si le message est vieux de plusieurs semaines/mois, la situation a ` +
         `probablement évolué (commande sûrement reçue, question devenue sans objet): vérifie via les données ` +
         `Shopify ci-dessous et, si tout est réglé, conclus brièvement (ou repondre=false) au lieu de rouvrir le sujet.` +
-        `${autresLigne}${notesLigne}${clientLigne}${majLigne}${shopifyLigne}${histoLigne}\n\n` +
+        `${photosLigne}${autresLigne}${notesLigne}${clientLigne}${majLigne}${shopifyLigne}${histoLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
-      try { out = parseJsonLoose(await claude(systemBlocks, user, 1500)); }
+      try { out = parseJsonLoose(await claude(systemBlocks, user, 1500, images)); }
       catch (e) { console.warn(`  [${conv.id}] réponse IA illisible: ${e.message}`); errors++; continue; }
 
       const subj = conv.subject || conv.latest_message_subject || "";
