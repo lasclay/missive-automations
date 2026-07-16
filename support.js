@@ -67,12 +67,22 @@
  *   (MAJ_COMMANDE_TEAM): d'abord vérifier gentiment si le client a reçu notre mise à jour (indésirables
  *   / Promotions, offrir de la renvoyer) quand le cas cadre avec la prévente; sinon, répondre pour
  *   vrai à sa demande. Surchargeable via MAJ_COMMANDE_TEAM; retirer l'équipe du balayage via TEAMS=.
+ * v2.18: intégration Shopify FACULTATIVE (SHOPIFY_STORE + SHOPIFY_ADMIN_TOKEN). Quand elle est
+ *   configurée, le script retrouve la commande (numéro L-xxxxx du sujet/fil) et injecte son VRAI
+ *   statut (date, articles, expédiée/en préparation, suivi) dans le prompt, avec autorisation
+ *   explicite de s'y appuyer (sans jamais inventer de date). Sans jeton: comportement inchangé.
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
  *   MAX_FILS       plafond de fils analysés par run (défaut 40)
  *   KNOWLEDGE_FILE chemin du document de connaissance (défaut ./connaissance_support.md)
  *   TEAMS, DRAFT_LABEL, EXPORT_CONV, MISSIVE_ORG, EXPORT_FROM   overrides
+ *   SHOPIFY_STORE        (facultatif) domaine .myshopify.com, ex. "lasclay.myshopify.com"
+ *   SHOPIFY_ADMIN_TOKEN  (facultatif) jeton Admin (shpat_...), scope read_orders. Si SHOPIFY_STORE
+ *                        ET SHOPIFY_ADMIN_TOKEN sont présents, le script vérifie le VRAI statut de la
+ *                        commande (date, articles, expédiée/en préparation, suivi) dans Shopify avant
+ *                        de rédiger, surtout pour « Mise à jour commande ». Absents = comportement inchangé.
+ *   SHOPIFY_API_VERSION  (facultatif) défaut "2024-10"
  */
 
 const fs = require("node:fs");
@@ -162,6 +172,15 @@ const TRI_LABELS = {
   douane_international: "7150fdfb-af9c-4844-835d-96c73da211d6",            // USA
 };
 
+// --- Shopify (FACULTATIF) : vérifier le VRAI statut d'une commande avant de répondre.
+// Activé seulement si SHOPIFY_STORE + SHOPIFY_ADMIN_TOKEN sont présents. Sinon, le script
+// se comporte EXACTEMENT comme avant (aucune donnée Shopify, formulations prudentes). Sert
+// surtout à la boîte « Mise à jour commande » (statut, date, articles réels).
+const SHOPIFY_STORE = process.env.SHOPIFY_STORE || ""; // ex. "lasclay.myshopify.com"
+const SHOPIFY_TOKEN = process.env.SHOPIFY_ADMIN_TOKEN || ""; // jeton Admin (shpat_...), scope read_orders
+const SHOPIFY_VER = process.env.SHOPIFY_API_VERSION || "2024-10";
+const SHOPIFY_ON = !!(SHOPIFY_STORE && SHOPIFY_TOKEN);
+
 const SELF = (process.env.MISSIVE_SELF_ADDRESSES ||
   "hey@lasclay.com,admin@lasclay.com,operations@lasclay.com")
   .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
@@ -216,6 +235,67 @@ async function apiPost(path, body) {
     if (!res.ok) throw new Error(`${path} → ${res.status} ${await res.text()}`);
     return res.json().catch(() => ({}));
   }
+}
+
+// --- Shopify : retrouve une commande par son numéro (ex. "L-50468") et renvoie un
+// résumé VÉRIFIÉ (statut, date, articles, suivi). Tout échec => null (dégradation propre,
+// le brouillon reste alors prudent comme avant). Ne s'active que si SHOPIFY_ON.
+async function shopifyOrder(name) {
+  if (!SHOPIFY_ON || !name) return null;
+  const url = `https://${SHOPIFY_STORE}/admin/api/${SHOPIFY_VER}/orders.json` +
+    `?status=any&name=${encodeURIComponent(name)}` +
+    `&fields=name,created_at,financial_status,fulfillment_status,line_items,fulfillments`;
+  let netTries = 0;
+  while (true) {
+    await sleep(260);
+    let res;
+    try { res = await fetch(url, { headers: { "X-Shopify-Access-Token": SHOPIFY_TOKEN, "Content-Type": "application/json" } }); }
+    catch (e) {
+      if (++netTries > 3) { console.warn(`  Shopify réseau (${name}): ${e.message}`); return null; }
+      await sleep(netTries * 5000); continue;
+    }
+    if (res.status === 429) { await sleep(10000); continue; }
+    if (!res.ok) { console.warn(`  Shopify ${name} → ${res.status}`); return null; }
+    let data; try { data = await res.json(); } catch { return null; }
+    const o = (data.orders || [])[0];
+    if (!o) return null;
+    const track = (o.fulfillments || []).flatMap((f) => f.tracking_numbers || []).filter(Boolean);
+    return {
+      name: o.name,
+      date: (o.created_at || "").slice(0, 10),
+      paye: o.financial_status === "paid",
+      expedie: o.fulfillment_status || "non expédiée", // fulfilled | partial | null
+      suivi: track,
+      articles: (o.line_items || []).map((li) => `${li.quantity}x ${li.title}${li.variant_title ? ` (${li.variant_title})` : ""}`),
+    };
+  }
+}
+
+// Numéro de commande Lasclay dans un texte : "L-50468", "L50308", "l-49347", "#L 46065"...
+// On normalise vers "L-<chiffres>". Renvoie le premier trouvé, sinon null.
+function extractOrderName(...textes) {
+  for (const t of textes) {
+    const m = (t || "").match(/\bL[-\s]?0*(\d{4,6})\b/i);
+    if (m) return `L-${m[1]}`;
+  }
+  return null;
+}
+
+// Bloc VÉRIFIÉ injecté dans le prompt quand Shopify a répondu. Contient l'autorisation
+// explicite de s'appuyer sur ces faits (elle prime sur la règle « tu ne vois pas la commande »).
+function shopifyBlock(o) {
+  const statut = o.expedie === "fulfilled" ? "EXPÉDIÉE"
+    : o.expedie === "partial" ? "PARTIELLEMENT EXPÉDIÉE"
+    : "PAS ENCORE EXPÉDIÉE (en préparation)";
+  const suivi = o.suivi.length ? ` Numéro(s) de suivi: ${o.suivi.join(", ")}.` : " Aucun numéro de suivi pour l'instant.";
+  return noDash(
+    `DONNÉES SHOPIFY VÉRIFIÉES POUR LA COMMANDE ${o.name} (source de vérité, prime sur la règle ` +
+    `générale « tu ne vois pas la commande »): commande du ${o.date}, ${o.paye ? "payée" : "paiement non confirmé"}, ` +
+    `statut d'expédition: ${statut}.${suivi} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
+    `Tu PEUX t'appuyer sur ces faits (articles réels, payée, en préparation ou expédiée, numéro de suivi s'il existe). ` +
+    `MAIS n'invente JAMAIS de DATE d'expédition ou de livraison qui n'est pas fournie ici: si non expédiée, dis que ` +
+    `c'est en préparation et que ça s'en vient, sans chiffrer de date. Si expédiée avec un suivi, tu peux le partager.`
+  );
 }
 
 // --- Appel Anthropic (system en TABLEAU pour le cache de prompt) ---
@@ -1036,7 +1116,8 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.17 ===");
+  console.log("=== Lasclay support.js v2.18 ===");
+  console.log(`Shopify (vérif. statut commande): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER})` : "INACTIF (SHOPIFY_STORE/SHOPIFY_ADMIN_TOKEN absents)"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
@@ -1208,10 +1289,22 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
           `- Dans le doute sur la réception ou sur l'appartenance à la prévente: penche vers répondre ` +
           `pour vrai à sa demande plutôt que de présumer qu'il a vu la mise à jour.`
         : "";
+      // Statut RÉEL de la commande (si Shopify configuré et qu'un numéro L-xxxxx est présent).
+      // Fournit au modèle des faits vérifiés (articles, payée, expédiée/en préparation, suivi).
+      let shopifyLigne = "";
+      if (SHOPIFY_ON) {
+        const ordName = extractOrderName(conv.subject || conv.latest_message_subject || "", filTexte);
+        if (ordName) {
+          try {
+            const o = await shopifyOrder(ordName);
+            if (o) shopifyLigne = `\n\n${shopifyBlock(o)}`;
+          } catch (e) { console.warn(`  Shopify lookup ${ordName}: ${e.message}`); }
+        }
+      }
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
         `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
-        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}${majLigne}\n\n` +
+        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}${majLigne}${shopifyLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
       try { out = parseJsonLoose(await claude(systemBlocks, user, 1500)); }
