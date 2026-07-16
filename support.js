@@ -61,6 +61,12 @@
  * v2.16: un brouillon INCOMPLET (gabarit non rempli, ex. « [ADRESSE À CONFIRMER] ») n'est JAMAIS
  *   envoyé — garde-fou déterministe indépendant de l'IA + prompt qui interdit les champs à remplir
  *   (reformuler ou demander au client en clair; jamais de crochets dans le corps).
+ * v2.17: la boîte « Mise à jour commande » est RÉINTÉGRÉE au balayage. Ses mises à jour de statut
+ *   ont été poussées en masse via Klaviyo (prévente de la fin mai), mais tous les clients ne les
+ *   ont pas reçues et certaines commandes sont plus anciennes / hors prévente. Consigne dédiée
+ *   (MAJ_COMMANDE_TEAM): d'abord vérifier gentiment si le client a reçu notre mise à jour (indésirables
+ *   / Promotions, offrir de la renvoyer) quand le cas cadre avec la prévente; sinon, répondre pour
+ *   vrai à sa demande. Surchargeable via MAJ_COMMANDE_TEAM; retirer l'équipe du balayage via TEAMS=.
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
@@ -121,10 +127,16 @@ const NOTICE_HTML =
   "S'il y a le moindre problème, il est possible de me joindre directement au " +
   "581-982-5857 pour régler le dossier rapidement.";
 
+// Équipe « Mise à jour commande ». Les mises à jour de statut ont été poussées en
+// masse via Klaviyo (campagne liée à la PRÉVENTE DE LA FIN MAI). On la RÉINTÈGRE au
+// balayage: certains clients n'ont pas reçu la campagne, ou leur commande est plus
+// ancienne / hors prévente. Consigne dédiée injectée dans le prompt (voir MAJ_CONTEXTE).
+const MAJ_COMMANDE_TEAM = process.env.MAJ_COMMANDE_TEAM || "0db185c1-3a93-4a44-9f50-dcfe8c0683dd";
+
 // Équipes balayées (inbox ET fermés). Surchargeable via TEAMS="id1,id2,...".
 const DEFAULT_TEAMS = [
   "e184d153-4472-4edd-9b35-f8867cf437a8", // LAS Support
-  // "0db185c1-3a93-4a44-9f50-dcfe8c0683dd", // Mise à jour commande: RETIRÉE (gérée en masse via Klaviyo)
+  MAJ_COMMANDE_TEAM,                       // Mise à jour commande (Klaviyo: prévente fin mai; voir MAJ_CONTEXTE)
   "cc587c84-63b9-4e88-993c-4f4b5b328173", // RETOURS-ÉCHANGES
   "d6f28d2f-06ef-4aa5-aae0-b68f014e3216", // Vente - info pré-achat
   "13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217", // USA
@@ -1024,7 +1036,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.16 ===");
+  console.log("=== Lasclay support.js v2.17 ===");
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
@@ -1173,10 +1185,33 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
 
       const filTexte = threadText(conv, msgs, bodies);
       const teamsDuFil = teamsByConv.get(conv.id) || new Set();
+      // Boîte « Mise à jour commande »: consigne dédiée. On a poussé en masse, via Klaviyo,
+      // une mise à jour de statut liée À LA PRÉVENTE DE LA FIN MAI. Mais tous les clients de
+      // cette boîte ne l'ont pas forcément reçue (campagne manquée) et certaines commandes
+      // sont plus anciennes ou hors de cette prévente. D'où une consigne nuancée, qui PRIME
+      // localement sur la règle générale « ne jamais demander si le client a reçu notre courriel ».
+      const majLigne = teamsDuFil.has(MAJ_COMMANDE_TEAM)
+        ? `\n\nBOÎTE « MISE À JOUR COMMANDE » (contexte spécial, PRIME sur la règle générale ` +
+          `« ne pas demander si le client a reçu notre courriel »): on a récemment envoyé, EN MASSE, ` +
+          `une mise à jour du statut des commandes par courriel (campagne Klaviyo), liée À LA PRÉVENTE ` +
+          `DE LA FIN MAI. Attention: ce n'est PAS garanti que ce client l'ait reçue, et sa commande ` +
+          `n'est peut-être pas de cette prévente (plus ancienne, ou autre). Marche à suivre pour ce fil:\n` +
+          `- Si sa demande porte sur le statut / l'avancement / une date de sa commande et qu'elle ` +
+          `cadre avec la prévente de la fin mai: réfère-toi chaleureusement à cette mise à jour ` +
+          `récente, DEMANDE gentiment s'il l'a bien reçue, invite-le à vérifier ses indésirables et ` +
+          `l'onglet Promotions, et propose de la lui renvoyer (action_requise: renvoyer la mise à jour). ` +
+          `Ne réaffirme aucun statut ni date précis que tu ne peux pas voir.\n` +
+          `- S'il indique NE PAS l'avoir reçue, si sa commande semble plus ancienne / hors prévente, ` +
+          `ou s'il soulève un point précis que la mise à jour ne couvre pas (problème, question, ` +
+          `changement): NE le renvoie PAS à un courriel qu'il n'a peut-être pas; traite sa demande à ` +
+          `fond, normalement, comme tu l'aurais fait (c'est la vraie réponse).\n` +
+          `- Dans le doute sur la réception ou sur l'appartenance à la prévente: penche vers répondre ` +
+          `pour vrai à sa demande plutôt que de présumer qu'il a vu la mise à jour.`
+        : "";
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
         `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
-        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}\n\n` +
+        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}${majLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
       try { out = parseJsonLoose(await claude(systemBlocks, user, 1500)); }
