@@ -101,6 +101,11 @@
  *   inventoryQuantity + availableForSale par variante) => l'IA peut répondre à une question de
  *   disponibilité au lieu d'escalader (quand la variante figure au catalogue). Nécessite les scopes
  *   Shopify read_products + read_inventory sur l'app; sans eux, on retombe sur la dispo publique.
+ * v2.29: TEMPORALITÉ. Le temps écoulé est DÉJÀ CALCULÉ pour l'IA (« il y a X jours, ~Y mois »):
+ *   âge de la commande, dates réelles d'EXPÉDITION et de LIVRAISON (fulfillment: inTransitAt/
+ *   deliveredAt/estimatedDeliveryAt), âge de l'historique, et date du dernier message du client.
+ *   Règle: raisonner depuis aujourd'hui; commande livrée/expédiée il y a longtemps = reçue (conclure,
+ *   pas rouvrir); message vieux = situation évoluée; ne jamais chiffrer l'ancienneté au client.
  * v2.28: (1) NOTICE IA traduite en anglais quand la réponse est en anglais. (2) IDENTITÉ CLIENT
  *   unifiée: on pivote vers le courriel du COMPTE Shopify de la commande (retrouve tout l'historique
  *   même si le client écrit d'une autre adresse) + alerte si l'expéditeur diffère du compte. (3) La
@@ -271,6 +276,21 @@ if (!ANTHROPIC_KEY) { console.error("Manque ANTHROPIC_API_KEY."); process.exit(1
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const noDash = (s) => (s || "").replace(/\s*[—–]\s*/g, ", ");
+// Temporalité: temps écoulé DÉJÀ CALCULÉ pour l'IA (elle raisonne mieux avec « il y a X » qu'avec une date brute).
+function joursDepuis(iso) {
+  if (!iso) return null;
+  const t = Date.parse(String(iso).length <= 10 ? iso + "T12:00:00Z" : iso);
+  if (Number.isNaN(t)) return null;
+  return Math.max(0, Math.floor((Date.now() - t) / 86400000));
+}
+function ilYa(iso) {
+  const j = joursDepuis(iso);
+  if (j === null) return "";
+  if (j === 0) return "aujourd'hui";
+  if (j === 1) return "hier";
+  const mois = Math.floor(j / 30);
+  return mois >= 2 ? `il y a ${j} j, ~${mois} mois` : `il y a ${j} j`;
+}
 const sanit = (s) => (s || "")
   .replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/g, "")
   .replace(/(^|[^\uD800-\uDBFF])([\uDC00-\uDFFF])/g, "$1");
@@ -355,6 +375,11 @@ function summariseOrder(o) {
   const livraison = shipCode
     ? { source: "transporteur (via Shopify)", resume: SHIP_STATUS_FR[shipCode.toLowerCase()] || shipCode.toLowerCase().replace(/_/g, " ") }
     : null;
+  // Dates temporelles: expédition (mise en transit ou création du fulfillment), livraison, estimation.
+  const fW = fuls.find((f) => f.deliveredAt) || fuls.find((f) => f.inTransitAt) || fuls[0] || {};
+  const expedieLe = ((fW.inTransitAt || fW.createdAt || "") + "").slice(0, 10) || null;
+  const livreLe = ((fW.deliveredAt || "") + "").slice(0, 10) || null;
+  const livraisonPrevue = ((fW.estimatedDeliveryAt || "") + "").slice(0, 10) || null;
   const refunds = o.refunds || [];
   let montantRembourse = 0, itemsRetournes = 0;
   for (const r of refunds) {
@@ -373,6 +398,7 @@ function summariseOrder(o) {
     suiviUrls: trackUrls,
     transporteur: carriers,
     livraison, // { source, resume } ou null
+    expedieLe, livreLe, livraisonPrevue,
     rembourse: {
       etat: fin || "?", // paid | partially_refunded | refunded | voided
       annulee: !!o.cancelledAt,
@@ -403,7 +429,7 @@ const ORDER_GQL = `
   customer { displayName email phone numberOfOrders }
   note tags discountCodes totalDiscountsSet { shopMoney { amount } } shippingLine { title }
   lineItems(first: 30) { edges { node { quantity title variantTitle } } }
-  fulfillments(first: 10) { displayStatus trackingInfo { number url company } }
+  fulfillments(first: 10) { displayStatus createdAt inTransitAt deliveredAt estimatedDeliveryAt trackingInfo { number url company } }
   refunds(first: 30) { createdAt totalRefundedSet { shopMoney { amount } } refundLineItems(first: 30) { edges { node { quantity } } } }
 `;
 
@@ -475,7 +501,11 @@ function shopifyBlock(o) {
   const suivi = o.suivi && o.suivi.length ? ` Numéro(s) de suivi: ${o.suivi.join(", ")}.` : " Aucun numéro de suivi pour l'instant.";
   const transp = o.transporteur && o.transporteur.length ? ` Transporteur: ${o.transporteur.join(", ")}.` : "";
   const lien = o.suiviUrls && o.suiviUrls.length ? ` Lien de suivi: ${o.suiviUrls.join(" ")}.` : "";
-  const livr = o.livraison ? ` SUIVI TRANSPORTEUR (${o.livraison.source}): ${o.livraison.resume}${o.livraison.date ? ` (${o.livraison.date})` : ""}.` : "";
+  // Temporalité: dates réelles + temps écoulé déjà calculé (l'IA raisonne « il y a X », pas en date brute).
+  const tExp = o.expedieLe ? ` Expédiée le ${o.expedieLe} (${ilYa(o.expedieLe)}).` : "";
+  const tLiv = o.livreLe ? ` LIVRÉE le ${o.livreLe} (${ilYa(o.livreLe)}).`
+    : (o.livraisonPrevue ? ` Livraison estimée: ${o.livraisonPrevue}.` : "");
+  const livr = o.livraison ? ` SUIVI TRANSPORTEUR (${o.livraison.source}): ${o.livraison.resume}.` : "";
   // Remboursement / retour déjà effectué ? (déterminant pour Retours-Échanges.)
   const r = o.rembourse || {};
   const rembFR = { paid: "aucun remboursement (payée intégralement)", partially_refunded: "PARTIELLEMENT REMBOURSÉE",
@@ -498,8 +528,11 @@ function shopifyBlock(o) {
     : ` Aucun remboursement enregistré: si le client en demande un et qu'il est légitime, formule-le au futur (à faire), pas comme déjà fait.`;
   return noDash(
     `DONNÉES SHOPIFY VÉRIFIÉES POUR LA COMMANDE ${o.name} (source de vérité, prime sur la règle ` +
-    `générale « tu ne vois pas la commande »): commande du ${o.date}, ${o.paye ? "payée" : "paiement non confirmé"}, ` +
-    `statut d'expédition: ${statut}.${transp}${suivi}${lien}${livr}${rembLigne}${rabaisLigne}${expLigne}${noteCmd} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
+    `générale « tu ne vois pas la commande »): commande du ${o.date} (${ilYa(o.date)}), ${o.paye ? "payée" : "paiement non confirmé"}, ` +
+    `statut d'expédition: ${statut}.${tExp}${tLiv}${transp}${suivi}${lien}${livr}${rembLigne}${rabaisLigne}${expLigne}${noteCmd} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
+    `RAISONNE EN TEMPS ÉCOULÉ depuis aujourd'hui: une commande LIVRÉE il y a longtemps est certainement REÇUE (referme le ` +
+    `sujet, ne propose pas de « vérifier »); expédiée il y a longtemps sans « livré » = probablement arrivée aussi. N'affiche ` +
+    `pas de compte de jours au client, mais tiens-en compte. ` +
     `Tu PEUX t'appuyer sur ces faits (articles réels, payée, en préparation ou expédiée, numéro/lien de suivi, position ` +
     `du colis, état du remboursement/retour, rabais appliqué ou non, mode d'expédition). MAIS n'invente JAMAIS de DATE ` +
     `d'expédition ou de livraison qui n'est pas fournie ici: si non expédiée, dis que c'est en préparation et que ça s'en ` +
@@ -1086,6 +1119,18 @@ et l'excuse au bon palier.
 DÉLAIS CHIFFRÉS: cite un nombre de jours UNIQUEMENT s'il vient du document de connaissance.
 Sinon, formulation prudente (« quelques jours », « d'ici une à deux semaines, on te confirme »).
 
+TEMPORALITÉ (règle critique): raisonne TOUJOURS à partir d'AUJOURD'HUI (fourni), pas de la date du
+message. Convertis les dates en TEMPS ÉCOULÉ. Conséquences:
+- Un message client vieux de plusieurs semaines/mois: la situation a presque sûrement évolué. Ne réponds
+  pas comme si c'était frais. Vérifie l'état réel (Shopify) et, si c'est réglé (commande livrée/reçue),
+  conclus brièvement ou n'écris rien (repondre=false), plutôt que de rouvrir un dossier clos.
+- Commande LIVRÉE il y a longtemps = reçue: ne propose pas de « vérifier », ne t'inquiète pas d'un retard.
+  Expédiée il y a longtemps sans statut « livré » = très probablement arrivée aussi.
+- Ne CHIFFRE jamais l'ancienneté au client (« votre commande de janvier », « il y a 5 mois »): ça souligne
+  notre lenteur. Tiens-en compte pour le TON et la décision, sans l'énoncer.
+- Un souhait daté ou saisonnier (fêtes, saison de plantation) doit coller à aujourd'hui, jamais au moment
+  du message; s'il est décalé, retire-le.
+
 NUMÉRO DE COMMANDE: ne le demande JAMAIS au client (on le retrouve nous-mêmes via Shopify).
 Formule comme si on consultait son dossier nous-mêmes, sans affirmer de fait précis non vérifié.
 
@@ -1485,7 +1530,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.28 ===");
+  console.log("=== Lasclay support.js v2.29 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
@@ -1646,6 +1691,9 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       const joursAttente = plusAncien
         ? Math.max(0, Math.floor((Date.now() / 1000 - (plusAncien.delivered_at || plusAncien.created_at || Date.now() / 1000)) / 86400))
         : 0;
+      // Date du DERNIER message du client (pour juger si le fil est vieux/périmé, ex. requête de janvier traitée en juillet).
+      const tsDernier = last.delivered_at || last.created_at || null;
+      const dateDernier = tsDernier ? new Date(tsDernier * 1000).toISOString().slice(0, 10) : null;
 
       // Autres fils du même client (OUVERTS + FERMÉS/résolus récents). Fusion non faite: on donne à
       // l'IA le CONTENU du dernier message client de ces fils pour qu'elle réponde en connaissance de
@@ -1723,7 +1771,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
                 const st = o.expedie === "fulfilled" ? "expédiée/livrée" : o.expedie === "partial" ? "partiellement expédiée" : "en préparation";
                 const rb = o.rembourse && (o.rembourse.montant || o.rembourse.etat === "refunded" || o.rembourse.etat === "partially_refunded")
                   ? `, REMBOURSEMENT ${o.rembourse.etat}${o.rembourse.montant ? ` ${o.rembourse.montant}$` : ""}` : "";
-                return `${o.name} du ${o.date}: ${st}${rb}`;
+                return `${o.name} du ${o.date} (${ilYa(o.date)}): ${st}${rb}`;
               }).join(" ; ") + ".";
           }
         } catch (e) { console.warn(`  Shopify lookup (${conv.id}): ${e.message}`); }
@@ -1757,8 +1805,13 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       const contexteData = `${clientLigne}${shopifyLigne}${histoLigne}${notesLigne}${autresLigne}`;
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
-        `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
-        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}${notesLigne}${clientLigne}${majLigne}${shopifyLigne}${histoLigne}\n\n` +
+        `CONTEXTE TEMPOREL: dernier message du client daté du ${dateDernier || "?"}${dateDernier ? ` (${ilYa(dateDernier)})` : ""}; ` +
+        `le client attend une réponse depuis ${joursAttente} jour(s); ` +
+        `${sansReponse.length} message(s) du client sans réponse de notre part. ` +
+        `RAISONNE DEPUIS AUJOURD'HUI: si le message est vieux de plusieurs semaines/mois, la situation a ` +
+        `probablement évolué (commande sûrement reçue, question devenue sans objet): vérifie via les données ` +
+        `Shopify ci-dessous et, si tout est réglé, conclus brièvement (ou repondre=false) au lieu de rouvrir le sujet.` +
+        `${autresLigne}${notesLigne}${clientLigne}${majLigne}${shopifyLigne}${histoLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
       try { out = parseJsonLoose(await claude(systemBlocks, user, 1500)); }
