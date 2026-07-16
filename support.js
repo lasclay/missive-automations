@@ -1573,7 +1573,10 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       // Commande introuvable ou Shopify non consulté => on force le brouillon + note, peu importe SEND_ACTIONS.
       const PROMESSE_ARGENT_BIEN = /(rembours|refund|crédit|credit\b|renvo(i|ie|yer|yons)|re-?ship|replacement|remplacement|nouvel(le)? (commande|expédition|envoi|colis)|on (t'|vous )envoie|on (te|vous) renvoie|we('ll| will) (re-?)?send|i('ll| will) (re-?)?send)/i;
       const prometArgentBien = PROMESSE_ARGENT_BIEN.test(`${out.action_requise || ""} ${actionAuto || ""} ${corps}`);
-      if (prometArgentBien && !shopifyVerifie) {
+      // verrouRemb = blocage DUR de l'envoi auto (pas juste une note): une promesse de remboursement/
+      // renvoi/remplacement non vérifiée dans Shopify ne part jamais seule. (Intégré à `candidat` plus bas.)
+      const verrouRemb = prometArgentBien && !shopifyVerifie;
+      if (verrouRemb) {
         verifRequise = true; alarme = true;
         noteLigne.push("ACTION AVANT ENVOI (verrou Shopify): promesse de remboursement/renvoi NON vérifiée dans Shopify (commande introuvable ou non consultée). Confirmer le statut et qu'aucun remboursement n'a déjà été fait AVANT d'envoyer.");
       }
@@ -1605,7 +1608,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       const catAutorisee = SEND_CATEGORIES.length === 0 || SEND_CATEGORIES.includes(out.categorie);
       const aAgir = !!(out.action_requise || actionAuto);
       const candidat = AUTO_SEND && catAutorisee && estCourriel && !!toAddr &&
-        (aAgir ? SEND_ACTIONS : true) && (SEND_LIMIT === 0 || sent < SEND_LIMIT);
+        (aAgir ? SEND_ACTIONS : true) && !verrouRemb && (SEND_LIMIT === 0 || sent < SEND_LIMIT);
 
       // Opus contrôle ET CORRIGE (Sonnet rédige, Opus tranche): envoyer / corriger / bloquer.
       // Refus ou panne du contrôle => brouillon, jamais l'inverse.
