@@ -193,8 +193,14 @@ async function createTask({ id, title, assignees, label, markdown }) {
 async function getPost(id) { return mGet(`/posts/${id}`); }
 
 // Change l'état d'une tâche existante : "todo" | "in_progress" | "closed" (= accomplie).
-async function setTaskState({ taskId, state, conversation }) {
-  const post = { organization: ORG, task: { id: taskId, state: state || "closed" } };
+async function setTaskState({ taskId, state, conversation, markdown }) {
+  const st = state || "closed";
+  const post = {
+    organization: ORG,
+    task: { id: taskId, state: st },
+    markdown: markdown || (st === "closed" ? "_Tâche accomplie._" : `_Tâche : ${st}._`),
+    notification: { title: "Tâche mise à jour", body: st === "closed" ? "Accomplie" : st },
+  };
   if (conversation) post.conversation = conversation;
   return mSend("POST", "/posts", { posts: post });
 }
