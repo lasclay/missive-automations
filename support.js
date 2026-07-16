@@ -97,6 +97,10 @@
  * v2.26: encore plus de données « vue humaine » par commande: RABAIS/code promo appliqué ou non
  *   (répond juste aux « rabais non appliqué »), mode d'expédition, note de commande, tags. Et lecture
  *   des NOTES INTERNES de l'équipe (commentaires Missive) sur le fil (marche à suivre, geste déjà posé).
+ * v2.27: STOCK RÉEL au catalogue. Le catalogue est enrichi avec l'inventaire Shopify (Admin API:
+ *   inventoryQuantity + availableForSale par variante) => l'IA peut répondre à une question de
+ *   disponibilité au lieu d'escalader (quand la variante figure au catalogue). Nécessite les scopes
+ *   Shopify read_products + read_inventory sur l'app; sans eux, on retombe sur la dispo publique.
  * v2.24: QC de la boîte « Mise à jour commande » + conscience des fils non fusionnés.
  *   (1) PRÉVENTE = uniquement les commandes du 30-31 MAI 2026 (date Shopify vérifiée); jamais ailleurs.
  *   (2) Commande déjà EXPÉDIÉE/LIVRÉE: interdiction absolue de dire « on prépare »; confirmer l'envoi/
@@ -119,6 +123,8 @@
  *   SHOPIFY_API_VERSION  (facultatif) défaut "2024-10". Tout absent = comportement inchangé.
  *   L'état du colis vient de Shopify lui-même (champ shipment_status des fulfillments, alimenté par
  *   le transporteur): en transit, en cours de livraison, livré, tentative... Aucun appel externe.
+ *   Scopes Shopify recommandés sur l'app: read_orders, read_fulfillments, read_all_orders (commandes
+ *   de +60 j), et read_products + read_inventory (stock réel au catalogue). Sans stock: dispo publique.
  */
 
 const fs = require("node:fs");
@@ -721,9 +727,51 @@ function htmlToPlain(s) {
     .replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
 }
 
+// Stock RÉEL par variante (API Admin Shopify). Nécessite les scopes read_products + read_inventory.
+// Renvoie une Map: "sku:<sku>" et "tv:<produit>::<variante>" → { qty, sellable }. Vide si indisponible
+// (scope manquant / hors ligne) => on retombe alors sur la dispo publique du storefront.
+async function chargerStockAdmin() {
+  if (!SHOPIFY_ON) return new Map();
+  const map = new Map();
+  const q = `query($after:String){ products(first:50, after:$after){ edges { node { title variants(first:100){ edges { node { title sku inventoryQuantity availableForSale } } } } } pageInfo { hasNextPage endCursor } } }`;
+  let after = null, pages = 0;
+  try {
+    while (pages < 8) {
+      const d = await shopifyGraphQL(q, { after });
+      const conn = d?.products;
+      if (!conn) break;
+      for (const pe of conn.edges || []) {
+        const pt = norm(pe.node.title);
+        for (const ve of pe.node.variants?.edges || []) {
+          const v = ve.node;
+          const rec = { qty: typeof v.inventoryQuantity === "number" ? v.inventoryQuantity : null, sellable: v.availableForSale };
+          if (v.sku) map.set(`sku:${v.sku.toLowerCase()}`, rec);
+          map.set(`tv:${pt}::${norm(v.title)}`, rec);
+        }
+      }
+      pages++;
+      if (!conn.pageInfo?.hasNextPage) break;
+      after = conn.pageInfo.endCursor;
+    }
+  } catch (e) { console.warn(`  Stock Admin indisponible (${e.message}); dispo publique utilisée.`); }
+  return map;
+}
+
+// Rendu de la disponibilité d'une variante à partir du stock Admin (ou dispo publique en repli).
+function dispoVariante(rec, publicAvailable) {
+  if (rec) {
+    if (rec.sellable === false) return "ÉPUISÉ (non vendable)";
+    if (rec.qty === null) return "vendable";
+    return rec.qty > 0 ? `EN STOCK (${rec.qty})` : "sur commande (stock 0 ou négatif: fabrication à la demande)";
+  }
+  return publicAvailable === false ? "ÉPUISÉ" : "disponible";
+}
+
 async function chargerCatalogue() {
   const fiches = [];
   const vus = new Set();
+  const stock = await chargerStockAdmin();
+  if (stock.size) console.log(`Stock Admin: ${stock.size} entrée(s) de variante chargées (stock réel).`);
   for (const col of CATALOG_COLLECTIONS) {
     const base = col.replace(/\/$/, "");
     // products.json paginé (250 max par page).
@@ -740,7 +788,8 @@ async function chargerCatalogue() {
         if (vus.has(p.id)) continue;
         vus.add(p.id);
         const variantes = (p.variants || []).map((v) => {
-          const dispo = v.available === false ? "ÉPUISÉ" : "disponible";
+          const rec = (v.sku && stock.get(`sku:${String(v.sku).toLowerCase()}`)) || stock.get(`tv:${norm(p.title)}::${norm(v.title)}`);
+          const dispo = dispoVariante(rec, v.available);
           return `${v.title} (${v.price ? v.price + " $" : "prix ?"}, ${dispo})`;
         }).join("; ");
         const desc = htmlToPlain(p.body_html || "").slice(0, 800);
@@ -810,6 +859,13 @@ RÈGLES ABSOLUES:
   sac de couchage, isolant en vrac et rouleau, etc.), souvent EN PRÉCOMMANDE pour l'automne 2026.
   Quand c'est pertinent, mentionne le bon produit avec son lien et son statut, et invite à voir le
   catalogue: https://lasclay.com/collections/produits-products (jardin: /collections/garden).
+- STOCK RÉEL: le catalogue indique le STOCK RÉEL de chaque variante (inventaire Shopify). Tu PEUX
+  donc répondre directement à une question de disponibilité quand la variante figure au catalogue:
+  « EN STOCK (n) » = disponible; « ÉPUISÉ (non vendable) » = en rupture (propose alors la liste
+  d'attente ou une alternative, ne promets pas de date); « sur commande / vendable » = on peut la
+  commander (fabrication à la demande, ex. graines). Tu n'as PAS besoin d'escalader une simple question
+  de disponibilité si la variante est au catalogue avec son statut. En revanche, si le produit ou la
+  variante exacte N'EST PAS au catalogue (ou statut absent), reste prudent: n'affirme rien et escalade.
 - LIENS PAYS: pour un client des USA, les liens du site utilisent le préfixe /en-us (prix en USD):
   https://lasclay.com/en-us/products/... Pour un client canadien anglophone, préfixe /en (CAD).
   En français, pas de préfixe (racine). Le script corrige au besoin, mais vise le bon préfixe.
@@ -980,10 +1036,11 @@ NE T'AVANCE PAS SUR CE QUE TU NE CONTRÔLES PAS (règle critique, mets escalade=
   route lui appartiennent. Accuse réception, dis qu'on revient avec les disponibilités, escalade=true,
   et "action_requise" pour qu'il propose lui-même la date. Jamais « on te revient très bientôt avec une
   date » comme un engagement ferme s'il n'a pas donné son accord.
-- STOCK ET DISPONIBILITÉ: ne promets JAMAIS qu'un article précis part ou est disponible sans réserve
-  (« on expédie ton X aujourd'hui », « il est en stock »): tu ne vois pas l'inventaire. Formule au
-  conditionnel (« on prépare ça et on te confirme dès que c'est parti »), mets la vérification de stock
-  en "action_requise", et escalade=true si toute la réponse repose sur une disponibilité incertaine.
+- STOCK ET DISPONIBILITÉ: si la variante figure au CATALOGUE (avec son stock réel), tu PEUX confirmer
+  sa disponibilité d'après ce statut (voir règle STOCK RÉEL). Si elle N'Y figure PAS, ou si tu promets
+  d'EXPÉDIER un article précis (geste physique qui dépend aussi de la préparation), reste prudent:
+  formule au conditionnel, mets la vérification en "action_requise", et escalade=true si toute la
+  réponse repose sur une disponibilité que tu ne peux pas confirmer au catalogue.
 - FAISABILITÉ ET CAPACITÉS TECHNIQUES: n'affirme JAMAIS qu'une chose est possible ou ajustable
   (taille d'une machine, personnalisation, modification d'un produit, délai spécial) si ce n'est pas
   écrit dans la connaissance. Dis qu'on vérifie et qu'on revient, "action_requise", escalade=true.
@@ -1353,7 +1410,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.26 ===");
+  console.log("=== Lasclay support.js v2.27 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
