@@ -16,6 +16,13 @@ Utile surtout pour la boîte **« Mise à jour commande »** (prévente de la fi
 > La création d'une app custom et la génération du jeton Admin se font **obligatoirement**
 > dans l'interface Admin Shopify (aucune API ne le fait à votre place). Voici les étapes exactes.
 
+> ⚠️ **Ne pas confondre avec le « Dev Dashboard » / app partenaire** (écran « Create version »,
+> App URL, Redirect URLs, embed…). Ça, c'est le flux OAuth d'une app hébergée : inutile ici et
+> beaucoup plus lourd. Nous voulons l'**app custom du magasin** ci-dessous, qui donne un jeton
+> `shpat_…` permanent sans OAuth ni code hébergé.
+
+Raccourci direct : **`https://admin.shopify.com/store/lasclay/settings/apps/development`**
+
 1. Admin Shopify → **Réglages** (Settings) → **Applications et canaux de vente** (Apps and sales channels).
 2. Cliquer **Développer des applications** (Develop apps) → **Autoriser le développement d'applications** si demandé.
 3. **Créer une application** (Create an app). Nom : `support-bot` (ou ce que vous voulez). Développeur : vous.
@@ -48,6 +55,14 @@ Sur le service Render qui exécute `node support.js` (voir plus bas), ajouter :
 
 C'est tout. Au prochain run, le log affichera :
 `Shopify (vérif. statut commande): ACTIF (lasclay.myshopify.com, API 2024-10).`
+
+### Vérifier le jeton avant de déployer
+
+```
+SHOPIFY_STORE=lasclay.myshopify.com SHOPIFY_ADMIN_TOKEN=shpat_xxx node shopify_check.js L-50468
+```
+Affiche le vrai statut de la commande (ou les 3 dernières sans argument), ou un message clair
+si le jeton / la portée `read_orders` sont invalides. Lecture seule, ne modifie rien.
 
 ---
 
