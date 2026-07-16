@@ -101,6 +101,12 @@
  *   inventoryQuantity + availableForSale par variante) => l'IA peut répondre à une question de
  *   disponibilité au lieu d'escalader (quand la variante figure au catalogue). Nécessite les scopes
  *   Shopify read_products + read_inventory sur l'app; sans eux, on retombe sur la dispo publique.
+ * v2.32: correctifs post-validation. (1) La vérif de commande ne casse plus si le scope read_customers
+ *   manque: repli automatique sur une requête sans le champ client (l'unification #5 s'active seulement
+ *   si read_customers est présent). Fin du flood d'erreurs. (2) Boîte MAJ: la question « as-tu reçu ta
+ *   commande » n'est utilisée QUE pour un pur « où est ma commande » non vérifiable; un vrai point
+ *   (rabais, adresse, remboursement, défaut) est traité en priorité. Formules bannies « entre les
+ *   craques/mailles », « oublié personne » explicitement interdites; formulation variée exigée.
  * v2.31: VISION. Le modèle EXAMINE les photos jointes par le client (défaut de fabrication, mauvais
  *   article/couleur/taille, dommage de transport, germination) et répond en connaissance de cause.
  *   Jusqu'à VISION_MAX images/fil (défaut 3), récupérées via l'API Missive (base64), envoyées en
@@ -441,18 +447,24 @@ function summariseOrder(o) {
 }
 
 // Champs commande demandés en GraphQL (REST ne filtre pas fiablement par name/email).
-const ORDER_GQL = `
-  name createdAt displayFinancialStatus displayFulfillmentStatus cancelledAt email
-  customer { displayName email phone numberOfOrders }
+// Champs commande. La partie CLIENT (customer{}, email) exige le scope read_customers: si absent,
+// on retombe sur ORDER_GQL_CORE (sans elle) pour que la vérification de commande marche quand même.
+const ORDER_GQL_CUST = `email customer { displayName email phone numberOfOrders }`;
+const ORDER_GQL_CORE = `
+  name createdAt displayFinancialStatus displayFulfillmentStatus cancelledAt
   note tags discountCodes totalDiscountsSet { shopMoney { amount } } shippingLine { title }
   lineItems(first: 30) { edges { node { quantity title variantTitle } } }
   fulfillments(first: 10) { displayStatus createdAt inTransitAt deliveredAt estimatedDeliveryAt trackingInfo { number url company } }
   refunds(first: 30) { createdAt totalRefundedSet { shopMoney { amount } } refundLineItems(first: 30) { edges { node { quantity } } } }
 `;
+const ORDER_GQL = `${ORDER_GQL_CORE} ${ORDER_GQL_CUST}`;
+// Une fois qu'on a constaté que read_customers manque, on ne redemande plus la partie client du run.
+let _shopNoCust = false;
+const custDenied = (errors) => Array.isArray(errors) && errors.some((e) => /read_customers|customer field/i.test(e.message || ""));
 
-// Appel GraphQL Admin (POST) avec retry réseau/429. Renvoie data.data (ou null).
+// Appel GraphQL Admin (POST) avec retry réseau/429. Renvoie { data, errors }.
 async function shopifyGraphQL(query, variables) {
-  if (!SHOPIFY_ON) return null;
+  if (!SHOPIFY_ON) return { data: null, errors: null };
   let tok;
   try { tok = await shopifyToken(); }
   catch (e) { return null; } // message déjà loggé par shopifyToken (latch)
@@ -467,34 +479,38 @@ async function shopifyGraphQL(query, variables) {
         body: JSON.stringify({ query, variables }),
       });
     } catch (e) {
-      if (++netTries > 3) { console.warn(`  Shopify réseau: ${e.message}`); return null; }
+      if (++netTries > 3) { console.warn(`  Shopify réseau: ${e.message}`); return { data: null, errors: null }; }
       await sleep(netTries * 5000); continue;
     }
     if (res.status === 429) { await sleep(10000); continue; }
-    if (!res.ok) { console.warn(`  Shopify GraphQL → ${res.status}`); return null; }
-    let data; try { data = await res.json(); } catch { return null; }
-    if (data.errors) console.warn(`  Shopify GraphQL: ${JSON.stringify(data.errors).slice(0, 160)}`);
-    return data.data || null;
+    if (!res.ok) { console.warn(`  Shopify GraphQL → ${res.status}`); return { data: null, errors: null }; }
+    let data; try { data = await res.json(); } catch { return { data: null, errors: null }; }
+    // On ne journalise QUE les erreurs qui ne sont pas le simple manque de read_customers (géré par repli).
+    if (data.errors && !custDenied(data.errors)) console.warn(`  Shopify GraphQL: ${JSON.stringify(data.errors).slice(0, 160)}`);
+    return { data: data.data || null, errors: data.errors || null };
   }
 }
 
-// Retrouve une commande par NUMÉRO (ex. "L-50468"). Résumé vérifié, ou null.
+// Jeu de champs à demander: sans la partie client si read_customers manque (constaté ce run).
+const orderFields = () => (_shopNoCust ? ORDER_GQL_CORE : ORDER_GQL);
+
+// Retrouve une commande par NUMÉRO (ex. "L-50468"). Résumé vérifié, ou null. Repli sans customer.
 async function shopifyOrder(name) {
   if (!SHOPIFY_ON || !name) return null;
-  const q = `query($q:String!){ orders(first:1, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${ORDER_GQL} } } } }`;
-  const d = await shopifyGraphQL(q, { q: `name:${name}` });
-  const node = d?.orders?.edges?.[0]?.node;
+  const run = async (fields) => shopifyGraphQL(`query($q:String!){ orders(first:1, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${fields} } } } }`, { q: `name:${name}` });
+  let { data, errors } = await run(orderFields());
+  if (!data && custDenied(errors)) { _shopNoCust = true; ({ data, errors } = await run(ORDER_GQL_CORE)); }
+  const node = data?.orders?.edges?.[0]?.node;
   return node ? summariseOrder(node) : null;
 }
 
-// Historique des commandes du client par COURRIEL (jusqu'à n, plus récentes d'abord).
-// Renvoie { orders: [résumés], multiple }. Sert de repli (commande précise) ET de contexte
-// (vue humaine: le client a d'autres commandes, certaines livrées, une remboursée, etc.).
+// Historique des commandes du client par COURRIEL (jusqu'à n, plus récentes d'abord). Repli sans customer.
 async function shopifyOrdersByEmail(email, n = 5) {
   if (!SHOPIFY_ON || !email) return { orders: [], multiple: false };
-  const q = `query($q:String!,$n:Int!){ orders(first:$n, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${ORDER_GQL} } } } }`;
-  const d = await shopifyGraphQL(q, { q: `email:${email}`, n });
-  const edges = d?.orders?.edges || [];
+  const run = async (fields) => shopifyGraphQL(`query($q:String!,$n:Int!){ orders(first:$n, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${fields} } } } }`, { q: `email:${email}`, n });
+  let { data, errors } = await run(orderFields());
+  if (!data && custDenied(errors)) { _shopNoCust = true; ({ data, errors } = await run(ORDER_GQL_CORE)); }
+  const edges = data?.orders?.edges || [];
   return { orders: edges.map((e) => summariseOrder(e.node)), multiple: edges.length > 1 };
 }
 
@@ -848,7 +864,7 @@ async function chargerStockAdmin() {
   try {
     while (pages < 8) {
       const d = await shopifyGraphQL(q, { after });
-      const conn = d?.products;
+      const conn = d?.data?.products;
       if (!conn) break;
       for (const pe of conn.edges || []) {
         const pt = norm(pe.node.title);
@@ -1596,7 +1612,7 @@ async function fermerResolu(convId, raison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.31 ===");
+  console.log("=== Lasclay support.js v2.32 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
   console.log(`Fermeture active des fils réglés: ${CLOSE_RESOLVED ? "ACTIVE (sans réponse, réversible)" : "INACTIVE"}.`);
@@ -1873,14 +1889,17 @@ async function fermerResolu(convId, raison) {
           `2) DÉJÀ EXPÉDIÉE/LIVRÉE: ` +
           (estExpediee ? "ICI la commande est DÉJÀ EXPÉDIÉE/LIVRÉE (souvent depuis longtemps) donc presque certainement REÇUE: n'écris JAMAIS « on prépare » ni « en préparation ». Confirme qu'elle est partie/livrée (donne le suivi si utile). Si le fil est vieux et sans question en suspens, un mot bref suffit, ou repondre=false s'il n'y a vraiment plus rien à dire."
                        : "si Shopify montre la commande expédiée ou livrée, ne dis jamais qu'on la prépare; confirme qu'elle est partie/livrée.") + `\n` +
-          `3) STATUT NON VÉRIFIABLE (Shopify ne trouve pas la commande): n'affirme AUCUN statut et NE PROMETS RIEN. ` +
-          `Demande gentiment au client de confirmer s'il a bien reçu sa commande, en cadrant ça comme une vérification ` +
-          `large de notre part (ex.: « on passe en revue nos commandes pour s'assurer que tout le monde a bien reçu la ` +
-          `sienne; peux-tu me confirmer que la tienne est bien arrivée? »). Jamais « on prépare ».\n` +
-          `4) Si le client soulève un vrai problème/point précis: traite-le à fond, normalement.`;
+          `3) STATUT NON VÉRIFIABLE (Shopify ne trouve pas la commande) ET la demande porte UNIQUEMENT sur ` +
+          `« où en est ma commande / je ne l'ai pas reçue » sans autre point: n'affirme AUCUN statut, ne PROMETS RIEN, ` +
+          `et demande simplement au client de confirmer s'il a bien reçu sa commande. Formule-le de façon NATURELLE et ` +
+          `VARIÉE (change les mots à chaque fois). INTERDIT: « entre les craques », « entre les mailles », « dans le ` +
+          `beurre », « passé sous le radar », « oublié personne » et toute métaphore de courriel/commande perdu(e) ` +
+          `(ce sont des platitudes bannies). Reste sobre et direct, p. ex.: « Je fais le point sur ta commande, ` +
+          `peux-tu me confirmer si tu l'as bien reçue? ».\n` +
+          `4) Si le client soulève un VRAI point (remboursement, rabais non appliqué, changement d'adresse, produit ` +
+          `défectueux, annulation, question précise): TRAITE CE POINT à fond et en priorité, normalement. N'ajoute ` +
+          `PAS la question « as-tu reçu ta commande » par réflexe si ce n'est pas pertinent: réponds à ce qu'il demande.`;
       }
-      // Contexte de FAITS (pour la relecture Opus): tout ce qui est vérifié/contextuel, sans les
-      // consignes. Sert à ce que le QC détecte une contradiction avec Shopify/historique/autres fils/notes.
       // Contexte de FAITS (pour la relecture Opus): tout ce qui est vérifié/contextuel, sans les
       // consignes. Sert à ce que le QC détecte une contradiction avec Shopify/historique/autres fils/notes.
       // On y signale les photos (le vérificateur, lui, ne les voit pas: qu'il ne bloque pas à tort).

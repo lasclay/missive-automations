@@ -24,7 +24,10 @@ C'est 100 % additif et sans risque. Utile surtout pour la boîte **« Mise à jo
 1. **URLs → App URL** : `https://proxy-missive.onrender.com`
    *(URL réelle que vous possédez ; jamais appelée en client credentials. Décochez « Embed app in Shopify admin ». Redirect URLs / POS / App proxy : vides.)*
 2. **API access → Scopes** (liste séparée par des virgules) :
-   `read_orders,read_fulfillments,read_all_orders,read_products,read_inventory`
+   `read_orders,read_fulfillments,read_all_orders,read_products,read_inventory,read_customers`
+   *(ajouter **`read_customers`** active l'unification par compte client — retrouver tout l'historique
+   même si le client écrit d'une autre adresse. Sans lui, le script fonctionne quand même : il retombe
+   automatiquement sur une requête sans le champ client.)*
    *(lecture seule. `read_all_orders` = commandes de **plus de 60 jours** (Retours-Échanges anciens).
    `read_products` + `read_inventory` = **stock réel** injecté au catalogue, pour que l'IA réponde
    aux questions de disponibilité au lieu d'escalader. Sans ces deux derniers, le script retombe sur
