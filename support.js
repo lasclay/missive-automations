@@ -89,6 +89,14 @@
  *   sur temps/déplacement (rencontres), stock/disponibilité, faisabilité technique, refus/acceptation
  *   d'une demande inhabituelle -> escalade=true et action_requise, l'humain tranche.
  *   NB: pour lire les commandes de plus de 60 jours, l'app Shopify doit avoir le scope read_all_orders.
+ * v2.25: SUPPORT INFORMÉ « comme un humain ». Avant de rédiger, on rassemble tout le contexte
+ *   disponible: (1) HISTORIQUE COMMANDES Shopify du client (jusqu'à 5, pas juste une), avec statut
+ *   et remboursement de chacune; (2) les AUTRES fils du client, OUVERTS ET FERMÉS/résolus récents
+ *   (index borné HISTO_CLOSED_PAGES/boîte), avec le contenu de leur dernier message, pour ne pas
+ *   contredire une réponse déjà donnée ni rouvrir un sujet réglé. HISTO_CLOSED=false pour désactiver.
+ * v2.26: encore plus de données « vue humaine » par commande: RABAIS/code promo appliqué ou non
+ *   (répond juste aux « rabais non appliqué »), mode d'expédition, note de commande, tags. Et lecture
+ *   des NOTES INTERNES de l'équipe (commentaires Missive) sur le fil (marche à suivre, geste déjà posé).
  * v2.24: QC de la boîte « Mise à jour commande » + conscience des fils non fusionnés.
  *   (1) PRÉVENTE = uniquement les commandes du 30-31 MAI 2026 (date Shopify vérifiée); jamais ailleurs.
  *   (2) Commande déjà EXPÉDIÉE/LIVRÉE: interdiction absolue de dire « on prépare »; confirmer l'envoi/
@@ -183,6 +191,10 @@ const DEFAULT_TEAMS = [
 ];
 const TEAMS = (process.env.TEAMS || "").split(",").map((s) => s.trim()).filter(Boolean);
 const TEAM_IDS = TEAMS.length > 0 ? TEAMS : DEFAULT_TEAMS;
+// Contexte client « vue humaine »: on indexe aussi les fils FERMÉS/résolus récents de chaque
+// client (pour ne pas contredire une réponse déjà donnée). Borné par boîte. HISTO_CLOSED=false désactive.
+const HISTO_CLOSED = (process.env.HISTO_CLOSED || "true").toLowerCase() !== "false";
+const HISTO_CLOSED_PAGES = parseInt(process.env.HISTO_CLOSED_PAGES || "6", 10) || 6; // ~300 fermés/boîte
 const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
 const DRAFT_LABEL = process.env.DRAFT_LABEL || "019eb935-9b22-7d14-8aeb-614a1e303e24"; // « Draft AI Support » (dédié à ce script)
 const EXPORT_CONV = process.env.EXPORT_CONV || "019eb488-6d42-7195-a2ae-11751d0a7a27"; // « Archives support » (mémoire excuses)
@@ -346,6 +358,11 @@ function summariseOrder(o) {
       itemsRetournes,
       date: dernierRemb || null,
     },
+    rabaisCodes: o.discountCodes || [],
+    rabaisMontant: (o.totalDiscountsSet?.shopMoney?.amount && parseFloat(o.totalDiscountsSet.shopMoney.amount) > 0) ? o.totalDiscountsSet.shopMoney.amount : null,
+    modeExpedition: o.shippingLine?.title || null,
+    noteCommande: o.note || "",
+    tags: o.tags || [],
     articles: (o.lineItems?.edges || []).map((e) => `${e.node.quantity}x ${e.node.title}${e.node.variantTitle ? ` (${e.node.variantTitle})` : ""}`),
   };
 }
@@ -353,6 +370,7 @@ function summariseOrder(o) {
 // Champs commande demandés en GraphQL (REST ne filtre pas fiablement par name/email).
 const ORDER_GQL = `
   name createdAt displayFinancialStatus displayFulfillmentStatus cancelledAt
+  note tags discountCodes totalDiscountsSet { shopMoney { amount } } shippingLine { title }
   lineItems(first: 30) { edges { node { quantity title variantTitle } } }
   fulfillments(first: 10) { displayStatus trackingInfo { number url company } }
   refunds(first: 30) { createdAt totalRefundedSet { shopMoney { amount } } refundLineItems(first: 30) { edges { node { quantity } } } }
@@ -395,15 +413,15 @@ async function shopifyOrder(name) {
   return node ? summariseOrder(node) : null;
 }
 
-// Repli: retrouve la commande par COURRIEL du client quand aucun numéro n'est dans le fil.
-// Renvoie { order, multiple } : la plus récente + un drapeau s'il y en a plusieurs (ambiguïté à signaler).
-async function shopifyOrderByEmail(email) {
-  if (!SHOPIFY_ON || !email) return null;
-  const q = `query($q:String!){ orders(first:5, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${ORDER_GQL} } } } }`;
-  const d = await shopifyGraphQL(q, { q: `email:${email}` });
+// Historique des commandes du client par COURRIEL (jusqu'à n, plus récentes d'abord).
+// Renvoie { orders: [résumés], multiple }. Sert de repli (commande précise) ET de contexte
+// (vue humaine: le client a d'autres commandes, certaines livrées, une remboursée, etc.).
+async function shopifyOrdersByEmail(email, n = 5) {
+  if (!SHOPIFY_ON || !email) return { orders: [], multiple: false };
+  const q = `query($q:String!,$n:Int!){ orders(first:$n, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${ORDER_GQL} } } } }`;
+  const d = await shopifyGraphQL(q, { q: `email:${email}`, n });
   const edges = d?.orders?.edges || [];
-  if (!edges.length) return null;
-  return { order: summariseOrder(edges[0].node), multiple: edges.length > 1 };
+  return { orders: edges.map((e) => summariseOrder(e.node)), multiple: edges.length > 1 };
 }
 
 // Numéro de commande Lasclay dans un texte : "L-50468", "L50308", "l-49347", "#L 46065"...
@@ -436,6 +454,12 @@ function shopifyBlock(o) {
   if (r.itemsRetournes) rembLigne += `, ${r.itemsRetournes} article(s) déjà retourné(s)/traité(s)`;
   if (r.annulee) rembLigne += `, COMMANDE ANNULÉE`;
   rembLigne += ".";
+  // Rabais/code promo (utile pour « rabais non appliqué »), mode d'expédition, note de commande.
+  const rabaisLigne = (o.rabaisCodes && o.rabaisCodes.length) || o.rabaisMontant
+    ? ` RABAIS APPLIQUÉ: ${(o.rabaisCodes || []).join(", ") || "oui"}${o.rabaisMontant ? ` (-${o.rabaisMontant}$)` : ""}.`
+    : ` RABAIS: AUCUN code de réduction appliqué sur cette commande.`;
+  const expLigne = o.modeExpedition ? ` Mode d'expédition choisi: ${o.modeExpedition}.` : "";
+  const noteCmd = o.noteCommande ? ` Note interne sur la commande: "${String(o.noteCommande).slice(0, 200)}".` : "";
   const rembConsigne = (r.etat === "refunded" || r.etat === "partially_refunded" || r.montant || r.itemsRetournes || r.annulee)
     ? ` ATTENTION: un remboursement/retour est DÉJÀ enregistré sur cette commande. Ne le RE-PROMETS PAS comme s'il ` +
       `restait à faire; confirme plutôt qu'il est déjà traité (ou en cours), et ne relance un geste que s'il manque ` +
@@ -444,11 +468,13 @@ function shopifyBlock(o) {
   return noDash(
     `DONNÉES SHOPIFY VÉRIFIÉES POUR LA COMMANDE ${o.name} (source de vérité, prime sur la règle ` +
     `générale « tu ne vois pas la commande »): commande du ${o.date}, ${o.paye ? "payée" : "paiement non confirmé"}, ` +
-    `statut d'expédition: ${statut}.${transp}${suivi}${lien}${livr}${rembLigne} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
+    `statut d'expédition: ${statut}.${transp}${suivi}${lien}${livr}${rembLigne}${rabaisLigne}${expLigne}${noteCmd} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
     `Tu PEUX t'appuyer sur ces faits (articles réels, payée, en préparation ou expédiée, numéro/lien de suivi, position ` +
-    `du colis, état du remboursement/retour). MAIS n'invente JAMAIS de DATE d'expédition ou de livraison qui n'est ` +
-    `pas fournie ici: si non expédiée, dis que c'est en préparation et que ça s'en vient, sans chiffrer de date. Si expédiée ` +
-    `avec un suivi, tu peux partager le numéro/lien et, si connue, la dernière position du colis.` +
+    `du colis, état du remboursement/retour, rabais appliqué ou non, mode d'expédition). MAIS n'invente JAMAIS de DATE ` +
+    `d'expédition ou de livraison qui n'est pas fournie ici: si non expédiée, dis que c'est en préparation et que ça s'en ` +
+    `vient, sans chiffrer de date. Si expédiée avec un suivi, tu peux partager le numéro/lien et, si connue, la dernière position du colis. ` +
+    `Si le client dit qu'un RABAIS n'a pas été appliqué, appuie-toi sur « RABAIS » ci-dessus: s'il n'y en a AUCUN, propose ` +
+    `d'appliquer le rabais toi-même (action_requise), sans accuser; s'il y en a un, confirme-le.` +
     (expediee ? ` INTERDIT ABSOLU ICI: cette commande est DÉJÀ EXPÉDIÉE/LIVRÉE, n'écris JAMAIS « on prépare », « en préparation » ni « ça s'en vient »: elle est partie (souvent déjà reçue).` : "") +
     `${rembConsigne}`
   );
@@ -537,6 +563,24 @@ async function listByFilter(filter) {
   return [...byId.values()];
 }
 
+// Variante BORNÉE (maxPages) — pour les fils fermés récents (potentiellement très nombreux).
+async function listByFilterBounded(filter, maxPages) {
+  const byId = new Map();
+  let until = null, pages = 0;
+  while (pages < maxPages) {
+    let path = `/conversations?${filter}&limit=50`;
+    if (until) path += `&until=${until}`;
+    const { conversations = [] } = await api(path);
+    if (conversations.length === 0) break;
+    pages++;
+    for (const c of conversations) byId.set(c.id, c);
+    const oldest = conversations[conversations.length - 1].last_activity_at;
+    if (conversations.length < 50 || oldest === until) break;
+    until = oldest;
+  }
+  return [...byId.values()];
+}
+
 async function listThreadMessages(convId) {
   const byId = new Map();
   let until = null;
@@ -573,6 +617,25 @@ async function fetchBodies(ids) {
     }
   }
   return bodies;
+}
+
+// Notes internes de l'équipe (commentaires Missive) sur un fil: contiennent souvent la marche à
+// suivre exacte (client à intégrer au programme, modèle à offrir, geste déjà fait). Dégrade proprement
+// (l'endpoint de listage des commentaires n'est pas garanti par l'API publique).
+async function fetchComments(convId) {
+  try {
+    const { comments = [] } = await api(`/conversations/${convId}/comments?limit=10`);
+    return comments
+      .slice()
+      .sort((a, b) => (a.created_at || 0) - (b.created_at || 0))
+      .map((c) => {
+        const who = c.author?.name || c.author?.email || "équipe";
+        const d = c.created_at ? new Date(c.created_at * 1000).toISOString().slice(0, 10) : "";
+        const txt = cleanBody(c.body || c.markdown || c.text || "").slice(0, 400);
+        return txt ? `[${d}] ${who}: ${txt}` : "";
+      })
+      .filter(Boolean);
+  } catch { return []; }
 }
 
 const isUs = (m) => {
@@ -1290,8 +1353,9 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.24 ===");
+  console.log("=== Lasclay support.js v2.26 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
+  console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
@@ -1393,6 +1457,27 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   }
   if (!authorsVus) console.warn("Note: champ `authors` absent des conversations; détection multi-fils inactive ce run.");
 
+  // Fils FERMÉS/résolus récents indexés par client (contexte, pour ne pas contredire une réponse
+  // déjà donnée). Borné par boîte. Marqués _closed; jamais traités (on n'itère que l'inbox ouverte).
+  if (HISTO_CLOSED) {
+    let nFermes = 0;
+    for (const t of TEAM_IDS) {
+      let closed = [];
+      try { closed = await listByFilterBounded(`team_closed=${t}`, HISTO_CLOSED_PAGES); } catch (_) { /* boîte ignorée */ }
+      for (const c of closed) {
+        if (inboxById.has(c.id)) continue; // déjà ouvert, traité normalement
+        for (const a of c.authors || []) {
+          const k = (a.address || "").toLowerCase();
+          if (!k || SELF.includes(k)) continue;
+          if (!filsParAuteur.has(k)) filsParAuteur.set(k, []);
+          const arr = filsParAuteur.get(k);
+          if (!arr.some((x) => x.id === c.id)) { arr.push({ ...c, _closed: true }); nFermes++; }
+        }
+      }
+    }
+    console.log(`Contexte client: ${nFermes} fil(s) fermé(s) récents indexés.`);
+  }
+
   const NOREPLY = /no-?reply|donotreply|ne-?pas-?repondre/i;
 
   let analysed = 0, created = 0, sent = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0, ecarteSkips = 0;
@@ -1430,14 +1515,15 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         ? Math.max(0, Math.floor((Date.now() / 1000 - (plusAncien.delivered_at || plusAncien.created_at || Date.now() / 1000)) / 86400))
         : 0;
 
-      // Autres fils OUVERTS du même client (fusion non faite: on ne fusionne pas, mais on donne à
-      // l'IA le CONTENU du dernier message client de ces fils pour qu'elle réponde en connaissance
-      // de cause au lieu de répondre à côté). Borné à 3 fils, lecture seule.
-      const autres = (filsParAuteur.get(clientKey) || []).filter((c) => c.id !== conv.id);
+      // Autres fils du même client (OUVERTS + FERMÉS/résolus récents). Fusion non faite: on donne à
+      // l'IA le CONTENU du dernier message client de ces fils pour qu'elle réponde en connaissance de
+      // cause, ne se contredise pas, et ne rouvre pas un sujet déjà réglé. Ouverts d'abord, borné à 4.
+      const autres = (filsParAuteur.get(clientKey) || []).filter((c) => c.id !== conv.id)
+        .sort((a, b) => (a._closed === b._closed ? 0 : a._closed ? 1 : -1));
       let autresLigne = "";
       if (autres.length) {
         const extraits = [];
-        for (const a of autres.slice(0, 3)) {
+        for (const a of autres.slice(0, 4)) {
           let txt = "";
           try {
             const am = await listThreadMessages(a.id);
@@ -1447,41 +1533,61 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
               txt = cleanBody(ab.get(dernier.id) || dernier.preview || "").slice(0, 500);
             }
           } catch (_) { /* on garde au moins le sujet */ }
-          extraits.push(`  - Fil « ${(a.subject || a.latest_message_subject || "(sans sujet)").slice(0, 60)} »` +
+          const tag = a._closed ? "[FERMÉ/résolu] " : "[ouvert] ";
+          extraits.push(`  - ${tag}« ${(a.subject || a.latest_message_subject || "(sans sujet)").slice(0, 60)} »` +
             (txt ? ` — dernier message du client: "${txt}"` : " (contenu indisponible)"));
         }
-        autresLigne = `\nIMPORTANT: ce client a ${autres.length} AUTRE(S) fil(s) ouvert(s) en ce moment ` +
-          `(fils NON fusionnés). TIENS COMPTE de leur contenu pour ne pas répondre à côté ni te contredire, ` +
-          `et ajuste l'excuse en conséquence:\n${extraits.join("\n")}`;
+        const nbOuv = autres.filter((a) => !a._closed).length, nbFerm = autres.length - nbOuv;
+        autresLigne = `\nIMPORTANT: ce client a d'AUTRES fils chez nous (${nbOuv} ouvert(s), ${nbFerm} fermé(s)/résolu(s)), ` +
+          `NON fusionnés. TIENS COMPTE de leur contenu: ne réponds pas à côté, ne te contredis pas, ne rouvre pas un ` +
+          `sujet déjà réglé (fil fermé), et ajuste l'excuse. Si un fil fermé règle déjà la demande, dis-le simplement:\n${extraits.join("\n")}`;
       }
 
       const filTexte = threadText(conv, msgs, bodies);
       const teamsDuFil = teamsByConv.get(conv.id) || new Set();
       const estBoiteMAJ = teamsDuFil.has(MAJ_COMMANDE_TEAM);
 
+      // Notes internes de l'équipe sur CE fil (marche à suivre, geste déjà posé): à lire avant de rédiger.
+      const notes = await fetchComments(conv.id);
+      const notesLigne = notes.length
+        ? `\n\nNOTES INTERNES DE L'ÉQUIPE SUR CE FIL (consignes internes, tiens-en compte, ne les cite pas au client):\n${notes.map((n) => `  - ${n}`).join("\n")}`
+        : "";
+
       // Statut RÉEL de la commande (Shopify): d'abord par numéro L-xxxxx, sinon par courriel du client.
       // On récupère l'objet `ordre` (résumé vérifié) AVANT de rédiger, car la consigne de la boîte
       // « Mise à jour commande » dépend des FAITS (date de commande, expédiée/livrée).
-      let shopifyLigne = "";
+      let shopifyLigne = "", histoLigne = "";
       let shopifyVerifie = false;
       let ordre = null, ordreAmbigu = false;
       if (SHOPIFY_ON) {
         const ordName = extractOrderName(conv.subject || conv.latest_message_subject || "", filTexte);
+        const email = last.from_field?.address || null;
         try {
           if (ordName) ordre = await shopifyOrder(ordName);
-          if (!ordre) {
-            const email = last.from_field?.address || null;
-            if (email && !SELF.includes(email.toLowerCase())) {
-              const r = await shopifyOrderByEmail(email);
-              if (r && r.order) { ordre = r.order; ordreAmbigu = !!r.multiple; }
-            }
+          // Historique complet du client par courriel (jusqu'à 5 commandes) — vue humaine.
+          let hist = [];
+          if (email && !SELF.includes(email.toLowerCase())) {
+            hist = (await shopifyOrdersByEmail(email, 5)).orders;
+          }
+          if (!ordre && hist.length) { ordre = hist[0]; ordreAmbigu = hist.length > 1; }
+          if (ordre) {
+            shopifyVerifie = true;
+            const amb = (ordreAmbigu && !ordName) ? ` (NB: ce client a PLUSIEURS commandes; ceci est la plus récente, confirme qu'il s'agit de la bonne.)` : "";
+            shopifyLigne = `\n\n${shopifyBlock(ordre)}${amb}`;
+          }
+          // Autres commandes du client (hors la commande principale) — contexte pour répondre juste.
+          const autresCmd = hist.filter((o) => !ordre || o.name !== ordre.name);
+          if (autresCmd.length) {
+            histoLigne = `\n\nHISTORIQUE COMMANDES DE CE CLIENT (Shopify, sers-t'en pour répondre en connaissance de cause, ` +
+              `sans rien inventer): ` +
+              autresCmd.slice(0, 5).map((o) => {
+                const st = o.expedie === "fulfilled" ? "expédiée/livrée" : o.expedie === "partial" ? "partiellement expédiée" : "en préparation";
+                const rb = o.rembourse && (o.rembourse.montant || o.rembourse.etat === "refunded" || o.rembourse.etat === "partially_refunded")
+                  ? `, REMBOURSEMENT ${o.rembourse.etat}${o.rembourse.montant ? ` ${o.rembourse.montant}$` : ""}` : "";
+                return `${o.name} du ${o.date}: ${st}${rb}`;
+              }).join(" ; ") + ".";
           }
         } catch (e) { console.warn(`  Shopify lookup (${conv.id}): ${e.message}`); }
-        if (ordre) {
-          shopifyVerifie = true;
-          const amb = ordreAmbigu ? ` (NB: ce client a PLUSIEURS commandes; ceci est la plus récente, confirme qu'il s'agit de la bonne avant d'affirmer.)` : "";
-          shopifyLigne = `\n\n${shopifyBlock(ordre)}${amb}`;
-        }
       }
 
       // Boîte « Mise à jour commande »: consigne dédiée, réécrite avec les FAITS Shopify.
@@ -1510,7 +1616,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
         `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
-        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}${majLigne}${shopifyLigne}\n\n` +
+        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}${notesLigne}${majLigne}${shopifyLigne}${histoLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
       try { out = parseJsonLoose(await claude(systemBlocks, user, 1500)); }
