@@ -101,6 +101,12 @@
  *   inventoryQuantity + availableForSale par variante) => l'IA peut répondre à une question de
  *   disponibilité au lieu d'escalader (quand la variante figure au catalogue). Nécessite les scopes
  *   Shopify read_products + read_inventory sur l'app; sans eux, on retombe sur la dispo publique.
+ * v2.28: (1) NOTICE IA traduite en anglais quand la réponse est en anglais. (2) IDENTITÉ CLIENT
+ *   unifiée: on pivote vers le courriel du COMPTE Shopify de la commande (retrouve tout l'historique
+ *   même si le client écrit d'une autre adresse) + alerte si l'expéditeur diffère du compte. (3) La
+ *   relecture Opus reçoit désormais les DONNÉES VÉRIFIÉES (elle peut détecter une contradiction avec
+ *   Shopify/autres fils). (4) DOUBLE PASSE (DOUBLE_QC): 2e vérificateur adversarial sur les cas à
+ *   enjeu (enjeu/sensible/action) avant tout envoi; au moindre doute => brouillon.
  * v2.24: QC de la boîte « Mise à jour commande » + conscience des fils non fusionnés.
  *   (1) PRÉVENTE = uniquement les commandes du 30-31 MAI 2026 (date Shopify vérifiée); jamais ailleurs.
  *   (2) Commande déjà EXPÉDIÉE/LIVRÉE: interdiction absolue de dire « on prépare »; confirmer l'envoi/
@@ -160,6 +166,9 @@ const CATS_SENSIBLES = new Set([
 // ou à enjeu vers le QC Opus. ADDITIF: son jugement ajoute du QC, ne saute jamais un signal ni une
 // catégorie sensible. Un détecteur d'enjeu déterministe complète son jugement (gratuit).
 const QC_ESCALADE = (process.env.QC_ESCALADE || "true").toLowerCase() !== "false";
+// v2.28 — Double passe: 2e relecture adversariale des cas à ENJEU (contre les données vérifiées)
+// avant tout envoi. DOUBLE_QC=false pour désactiver. N'agit que si SEND_QC est actif.
+const DOUBLE_QC = (process.env.DOUBLE_QC || "true").toLowerCase() !== "false";
 // v2.11 — pouls du service (digest bref, escalade sélective). Un seul par jour: on
 // ne poste qu'au run dont l'heure UTC = DIGEST_HOUR (-1 = à chaque run).
 const DIGEST_SUPPORT = (process.env.DIGEST_SUPPORT || "").toLowerCase() === "true";
@@ -173,11 +182,19 @@ const RELANCE_LABEL = process.env.RELANCE_LABEL || "019f5d2f-51ca-70f0-83cc-2175
 // Notice de transparence IA, ajoutée en pied de TOUS les messages (envoyés et
 // brouillons). Ajoutée APRÈS la détection d'alertes, pour que son numéro de
 // téléphone ne déclenche pas l'alerte de voix. Rédigée sans tu/vous.
-const NOTICE_HTML =
+const NOTICE_HTML_FR =
   "<br><br>Petit mot en toute transparence : ce message a été préparé par un nouveau " +
   "système de réponse assisté par intelligence artificielle, présentement en rodage. " +
   "S'il y a le moindre problème, il est possible de me joindre directement au " +
   "581-982-5857 pour régler le dossier rapidement.";
+const NOTICE_HTML_EN =
+  "<br><br>A quick note for transparency: this message was prepared with a new " +
+  "AI-assisted response system that we're currently fine-tuning. " +
+  "If anything is off, I can be reached directly at " +
+  "581-982-5857 to sort it out quickly.";
+const noticeHtml = (langue) => (langue === "en" ? NOTICE_HTML_EN : NOTICE_HTML_FR);
+// Compat: référence historique = version FR (les usages passent désormais par noticeHtml(langue)).
+const NOTICE_HTML = NOTICE_HTML_FR;
 
 // Équipe « Mise à jour commande ». Les mises à jour de statut ont été poussées en
 // masse via Klaviyo (campagne liée à la PRÉVENTE DE LA FIN MAI). On la RÉINTÈGRE au
@@ -369,13 +386,21 @@ function summariseOrder(o) {
     modeExpedition: o.shippingLine?.title || null,
     noteCommande: o.note || "",
     tags: o.tags || [],
+    courrielCommande: (o.email || "").toLowerCase() || null,
+    client: o.customer ? {
+      nom: o.customer.displayName || null,
+      courriel: (o.customer.email || "").toLowerCase() || null,
+      tel: o.customer.phone || null,
+      nbCommandes: o.customer.numberOfOrders != null ? Number(o.customer.numberOfOrders) : null,
+    } : null,
     articles: (o.lineItems?.edges || []).map((e) => `${e.node.quantity}x ${e.node.title}${e.node.variantTitle ? ` (${e.node.variantTitle})` : ""}`),
   };
 }
 
 // Champs commande demandés en GraphQL (REST ne filtre pas fiablement par name/email).
 const ORDER_GQL = `
-  name createdAt displayFinancialStatus displayFulfillmentStatus cancelledAt
+  name createdAt displayFinancialStatus displayFulfillmentStatus cancelledAt email
+  customer { displayName email phone numberOfOrders }
   note tags discountCodes totalDiscountsSet { shopMoney { amount } } shippingLine { title }
   lineItems(first: 30) { edges { node { quantity title variantTitle } } }
   fulfillments(first: 10) { displayStatus trackingInfo { number url company } }
@@ -1215,12 +1240,15 @@ const qcUsage = { in: 0, cacheRead: 0, cacheCreate: 0, out: 0 };
 // Tarifs Opus (estimation à vérifier, $ US / million de tokens).
 const QC_RATE_IN = 15 / 1e6, QC_RATE_CACHE = 1.5 / 1e6, QC_RATE_OUT = 75 / 1e6;
 
-async function opusQC(systemBlocks, fil, brouillon, out, flags, joursAttente) {
+async function opusQC(systemBlocks, fil, brouillon, out, flags, joursAttente, donnees) {
   const flagsTxt = flags && flags.length
     ? `\n\nSIGNAUX AUTOMATIQUES (corrige-les s'ils sont justes, ignore-les si faux positifs):\n- ${flags.join("\n- ")}`
     : "";
+  // Données VÉRIFIÉES (Shopify, historique, autres fils, notes internes): le brouillon ne doit RIEN
+  // affirmer qui les contredise. Si un fait du brouillon n'est pas soutenu par elles ou par le fil, corrige/bloque.
+  const donneesTxt = donnees ? `\n\nDONNÉES VÉRIFIÉES ET CONTEXTE CLIENT (le brouillon ne doit rien affirmer qui les contredise):${donnees}` : "";
   const enTete = `AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}. Le client attend une réponse depuis ${joursAttente ?? "?"} jour(s). Raisonne depuis aujourd'hui, pas depuis la date du message.\n\n`;
-  const contexte = `${enTete}FIL CLIENT :\n${fil}\n\nBROUILLON À CONTRÔLER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}${flagsTxt}\n\nRends ton verdict JSON.`;
+  const contexte = `${enTete}FIL CLIENT :\n${fil}${donneesTxt}\n\nBROUILLON À CONTRÔLER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}${flagsTxt}\n\nRends ton verdict JSON.`;
   // Mêmes blocs que Sonnet (connaissance + catalogue déjà mis en cache) + la consigne de contrôle.
   const qcSystem = [...systemBlocks, { type: "text", text: sanit(QC_INSTRUCTION) }];
   const payload = JSON.stringify({
@@ -1253,6 +1281,53 @@ async function opusQC(systemBlocks, fil, brouillon, out, flags, joursAttente) {
     return parseJsonLoose(txt);
   }
   throw new Error("QC Opus: trop de tentatives.");
+}
+
+// v2.28 — DOUBLE PASSE: vérification adversariale des cas à ENJEU, APRÈS le QC. But: attraper une
+// affirmation non étayée par les DONNÉES VÉRIFIÉES (Shopify, historique, autres fils, notes) ou une
+// contradiction avec un autre fil du client, qu'un 1er regard aurait pu laisser passer. Renvoie
+// { ok, problemes[], brouillon_corrige }. En cas d'échec/panne => on garde en brouillon (prudence).
+const VERIF_INSTRUCTION = noDash(`Tu es un VÉRIFICATEUR indépendant et sévère. On te donne des DONNÉES VÉRIFIÉES (Shopify: statut de
+commande, articles, remboursement, rabais, stock; historique de commandes; AUTRES FILS ouverts/fermés du
+client; notes internes) et un BROUILLON prêt à ENVOYER à un client, sur un cas à ENJEU. Ta seule mission:
+t'assurer que le brouillon ne dit RIEN de faux ou de non étayé, et ne CONTREDIT rien.
+
+Vérifie point par point:
+- Chaque FAIT du brouillon (statut d'expédition, livraison, remboursement déjà fait ou non, articles,
+  prix/rabais, disponibilité/stock, date) est-il SOUTENU par les données vérifiées ou le fil? Sinon => problème.
+- Le brouillon CONTREDIT-il un autre fil du client (ouvert ou fermé/résolu), ou promet-il une chose déjà
+  faite / déjà refusée / déjà répondue ailleurs? => problème.
+- Promet-il un geste (remboursement, renvoi, stock, rencontre) que les données ne permettent pas de garantir? => problème.
+- Divulgue-t-il des données personnelles alors que le message vient d'une autre adresse que le compte? => problème.
+
+Réponds UNIQUEMENT en JSON:
+{"ok": true|false, "problemes": ["...", ...], "brouillon_corrige": "<si réparable sans inventer, le texte corrigé, sinon null>"}
+ok=true seulement si tu es CONFIANT que tout est étayé et cohérent. Dans le doute, ok=false.`);
+
+async function opusVerifie(systemBlocks, fil, brouillon, out, donnees) {
+  const contexte = `AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}.\n\nFIL CLIENT :\n${fil}\n\nDONNÉES VÉRIFIÉES ET CONTEXTE CLIENT :${donnees || " (aucune)"}\n\nBROUILLON À VÉRIFIER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}\n\nRends ton JSON.`;
+  const verifSystem = [...systemBlocks, { type: "text", text: sanit(VERIF_INSTRUCTION) }];
+  const payload = JSON.stringify({ model: QC_MODEL, max_tokens: 2000, system: verifSystem, messages: [{ role: "user", content: sanit(contexte) }] });
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    await sleep(600);
+    let res;
+    try {
+      res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "x-api-key": ANTHROPIC_KEY, "anthropic-version": "2023-06-01", "Content-Type": "application/json" },
+        body: payload,
+      });
+    } catch (e) { if (attempt === 4) throw e; await sleep(attempt * 8000); continue; }
+    if (res.status === 429 || res.status === 529) { await sleep(attempt * 15000); continue; }
+    if (!res.ok) throw new Error(`Anthropic VERIF → ${res.status}`);
+    const data = await res.json();
+    const u = data.usage || {};
+    qcUsage.in += u.input_tokens || 0; qcUsage.out += u.output_tokens || 0;
+    qcUsage.cacheRead += u.cache_read_input_tokens || 0; qcUsage.cacheCreate += u.cache_creation_input_tokens || 0;
+    qcCalls++;
+    return parseJsonLoose((data.content || []).map((b) => b.text || "").join("").trim());
+  }
+  throw new Error("VERIF Opus: trop de tentatives.");
 }
 
 // --- Digest des actions/remboursements à faire (v2.9) ---
@@ -1410,7 +1485,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.27 ===");
+  console.log("=== Lasclay support.js v2.28 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
@@ -1613,24 +1688,31 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       // Statut RÉEL de la commande (Shopify): d'abord par numéro L-xxxxx, sinon par courriel du client.
       // On récupère l'objet `ordre` (résumé vérifié) AVANT de rédiger, car la consigne de la boîte
       // « Mise à jour commande » dépend des FAITS (date de commande, expédiée/livrée).
-      let shopifyLigne = "", histoLigne = "";
+      let shopifyLigne = "", histoLigne = "", clientLigne = "";
       let shopifyVerifie = false;
       let ordre = null, ordreAmbigu = false;
       if (SHOPIFY_ON) {
         const ordName = extractOrderName(conv.subject || conv.latest_message_subject || "", filTexte);
-        const email = last.from_field?.address || null;
+        const email = last.from_field?.address ? last.from_field.address.toLowerCase() : null;
         try {
           if (ordName) ordre = await shopifyOrder(ordName);
-          // Historique complet du client par courriel (jusqu'à 5 commandes) — vue humaine.
+          // COURRIEL CANONIQUE: celui du COMPTE Shopify de la commande (si connu), sinon le courriel du
+          // fil. Unifie l'identité: on retrouve tout l'historique même si le client écrit d'une autre adresse.
+          const canon = (ordre && ordre.client && ordre.client.courriel) || email;
           let hist = [];
-          if (email && !SELF.includes(email.toLowerCase())) {
-            hist = (await shopifyOrdersByEmail(email, 5)).orders;
-          }
+          if (canon && !SELF.includes(canon)) hist = (await shopifyOrdersByEmail(canon, 5)).orders;
           if (!ordre && hist.length) { ordre = hist[0]; ordreAmbigu = hist.length > 1; }
           if (ordre) {
             shopifyVerifie = true;
             const amb = (ordreAmbigu && !ordName) ? ` (NB: ce client a PLUSIEURS commandes; ceci est la plus récente, confirme qu'il s'agit de la bonne.)` : "";
             shopifyLigne = `\n\n${shopifyBlock(ordre)}${amb}`;
+            if (ordre.client) {
+              const cl = ordre.client;
+              const diff = email && cl.courriel && email !== cl.courriel;
+              clientLigne = `\n\nCLIENT (compte Shopify): ${cl.nom || "?"}${cl.nbCommandes != null ? `, ${cl.nbCommandes} commande(s) au total` : ""}` +
+                `${cl.courriel ? `, courriel du compte: ${cl.courriel}` : ""}.` +
+                (diff ? ` ATTENTION: ce message provient d'une AUTRE adresse (${email}) que le compte: possible proche/transfert. Reste chaleureux mais ne divulgue pas de données personnelles sensibles sans t'assurer qu'on parle bien au bon client.` : "");
+            }
           }
           // Autres commandes du client (hors la commande principale) — contexte pour répondre juste.
           const autresCmd = hist.filter((o) => !ordre || o.name !== ordre.name);
@@ -1670,10 +1752,13 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
           `sienne; peux-tu me confirmer que la tienne est bien arrivée? »). Jamais « on prépare ».\n` +
           `4) Si le client soulève un vrai problème/point précis: traite-le à fond, normalement.`;
       }
+      // Contexte de FAITS (pour la relecture Opus): tout ce qui est vérifié/contextuel, sans les
+      // consignes. Sert à ce que le QC détecte une contradiction avec Shopify/historique/autres fils/notes.
+      const contexteData = `${clientLigne}${shopifyLigne}${histoLigne}${notesLigne}${autresLigne}`;
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
         `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
-        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}${notesLigne}${majLigne}${shopifyLigne}${histoLigne}\n\n` +
+        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}${notesLigne}${clientLigne}${majLigne}${shopifyLigne}${histoLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
       try { out = parseJsonLoose(await claude(systemBlocks, user, 1500)); }
@@ -1894,7 +1979,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       const sansRisque = QC_SKIP_SAFE && !verifRequise && !out.note_interne && !catSensible && !enjeu && !escalade;
       if (candidat && SEND_QC && !sansRisque) {
         try {
-          qcVerdict = await opusQC(qcSystemBlocks, filTexte, corps, out, noteLigne, joursAttente);
+          qcVerdict = await opusQC(qcSystemBlocks, filTexte, corps, out, noteLigne, joursAttente, contexteData);
           if (qcVerdict.verdict === "envoyer") {
             envoyer = true;
           } else if (qcVerdict.verdict === "corriger" && qcVerdict.brouillon_corrige) {
@@ -1917,6 +2002,23 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         // propre (aucune alerte, aucune note). Un envoi sûr part directement, sans coût Opus.
         envoyer = alertes.length === 0 && !out.note_interne;
         if (sansRisque && SEND_QC && envoyer) qcSkipped++;
+      }
+
+      // v2.28 — DOUBLE PASSE sur les cas à ENJEU: un 2e vérificateur adversarial confronte le brouillon
+      // aux DONNÉES VÉRIFIÉES (Shopify/historique/autres fils/notes). En cas de doute => brouillon.
+      if (envoyer && DOUBLE_QC && SEND_QC && (enjeu || catSensible || aAgir)) {
+        try {
+          const v = await opusVerifie(qcSystemBlocks, filTexte, corpsFinal, out, contexteData);
+          if (v && v.ok === false) {
+            if (v.brouillon_corrige) { corpsFinal = noDash(sanit(String(v.brouillon_corrige))); corrige = true; }
+            envoyer = false; qcBlocked = true; verifRequise = true; alarme = true; qcBlocks++;
+            noteLigne.push(`[2E VÉRIF ENJEU] gardé en brouillon: ${(v.problemes || ["contradiction/fait non étayé"]).join("; ").slice(0, 200)}`);
+          }
+        } catch (e) {
+          // Panne du vérificateur sur un cas à enjeu: prudence, on garde en brouillon.
+          envoyer = false; qcBlocked = true; verifRequise = true; alarme = true;
+          noteLigne.push(`[2E VÉRIF ENJEU] indisponible (${e.message}) → brouillon par prudence`);
+        }
       }
 
       // GARDE-FOU DÉTERMINISTE (v2.16) — un brouillon INCOMPLET n'est JAMAIS envoyé.
@@ -1997,8 +2099,8 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         }
         console.log(`---\n${corpsFinal}\n[+ notice IA ajoutée en pied]\n---`);
       } else {
-        // Corps final identique pour envoi et brouillon: texte + signature + notice IA.
-        const bodyFinal = corpsHtml + signature + NOTICE_HTML;
+        // Corps final identique pour envoi et brouillon: texte + signature + notice IA (langue du client).
+        const bodyFinal = corpsHtml + signature + noticeHtml(out.langue);
         const draft = {
           conversation: conv.id,
           organization: ORG,
