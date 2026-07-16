@@ -79,6 +79,11 @@
  * v2.21: la vérif Shopify inclut l'état REMBOURSEMENT/RETOUR (financial_status, refunds: montant,
  *   date, articles retournés, annulation). Le prompt sait ainsi si un remboursement est DÉJÀ fait
  *   et ne le re-promet pas (crucial pour la boîte Retours-Échanges).
+ * v2.22: VERROU d'envoi + repli par courriel. (1) Une promesse de remboursement/renvoi ne part
+ *   JAMAIS en envoi auto si la commande n'a pas été VÉRIFIÉE dans Shopify (reste brouillon + note),
+ *   quel que soit SEND_ACTIONS. (2) Si aucun numéro de commande n'est dans le fil, on retrouve la
+ *   commande par le COURRIEL du client (la plus récente; ambiguïté signalée si plusieurs) pour
+ *   vérifier avant de promettre.
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
@@ -283,69 +288,83 @@ async function shopifyToken() {
   return _shopTok.token;
 }
 
-// --- Shopify : retrouve une commande par son numéro (ex. "L-50468") et renvoie un
-// résumé VÉRIFIÉ (statut, date, articles, suivi + lien, et état du colis rapporté par Shopify).
-// Tout échec => null (dégradation propre, le brouillon reste alors prudent comme avant).
-async function shopifyOrder(name) {
-  if (!SHOPIFY_ON || !name) return null;
-  let tok;
-  try { tok = await shopifyToken(); }
-  catch (e) { console.warn(`  Shopify auth: ${e.message}`); return null; }
-  const url = `https://${SHOPIFY_STORE}/admin/api/${SHOPIFY_VER}/orders.json` +
-    `?status=any&name=${encodeURIComponent(name)}` +
-    `&fields=name,created_at,financial_status,fulfillment_status,cancelled_at,line_items,fulfillments,refunds`;
-  let netTries = 0;
-  while (true) {
-    await sleep(260);
-    let res;
-    try { res = await fetch(url, { headers: { "X-Shopify-Access-Token": tok, "Content-Type": "application/json" } }); }
-    catch (e) {
-      if (++netTries > 3) { console.warn(`  Shopify réseau (${name}): ${e.message}`); return null; }
-      await sleep(netTries * 5000); continue;
+// Transforme un objet commande Shopify en résumé vérifié (statut, colis, remboursement, articles).
+function summariseOrder(o) {
+  const fuls = o.fulfillments || [];
+  const track = fuls.flatMap((f) => f.tracking_numbers || []).filter(Boolean);
+  const trackUrls = fuls.flatMap((f) => f.tracking_urls || []).filter(Boolean);
+  const carriers = [...new Set(fuls.map((f) => f.tracking_company).filter(Boolean))];
+  const shipCode = fuls.map((f) => f.shipment_status).filter(Boolean).pop() || null;
+  const livraison = shipCode ? { source: "transporteur (via Shopify)", resume: SHIP_STATUS_FR[shipCode] || shipCode } : null;
+  const refunds = o.refunds || [];
+  let montantRembourse = 0, itemsRetournes = 0;
+  for (const r of refunds) {
+    for (const t of (r.transactions || [])) {
+      if (t.kind === "refund" && (t.status === "success" || !t.status)) montantRembourse += parseFloat(t.amount || 0) || 0;
     }
-    if (res.status === 429) { await sleep(10000); continue; }
-    if (!res.ok) { console.warn(`  Shopify ${name} → ${res.status}`); return null; }
-    let data; try { data = await res.json(); } catch { return null; }
-    const o = (data.orders || [])[0];
-    if (!o) return null;
-    const fuls = o.fulfillments || [];
-    const track = fuls.flatMap((f) => f.tracking_numbers || []).filter(Boolean);
-    const trackUrls = fuls.flatMap((f) => f.tracking_urls || []).filter(Boolean);
-    const carriers = [...new Set(fuls.map((f) => f.tracking_company).filter(Boolean))];
-    // État du colis rapporté par Shopify (dernier fulfillment qui en porte un).
-    const shipCode = fuls.map((f) => f.shipment_status).filter(Boolean).pop() || null;
-    const livraison = shipCode ? { source: "transporteur (via Shopify)", resume: SHIP_STATUS_FR[shipCode] || shipCode } : null;
-    // REMBOURSEMENT / RETOUR déjà fait ? (crucial pour Retours-Échanges: ne pas re-promettre).
-    const refunds = o.refunds || [];
-    let montantRembourse = 0, itemsRetournes = 0;
-    for (const r of refunds) {
-      for (const t of (r.transactions || [])) {
-        if (t.kind === "refund" && (t.status === "success" || !t.status)) montantRembourse += parseFloat(t.amount || 0) || 0;
-      }
-      for (const rli of (r.refund_line_items || [])) itemsRetournes += rli.quantity || 0;
-    }
-    const dernierRemb = refunds.length ? (refunds.map((r) => r.created_at).filter(Boolean).sort().pop() || "").slice(0, 10) : "";
-    const rembourse = {
+    for (const rli of (r.refund_line_items || [])) itemsRetournes += rli.quantity || 0;
+  }
+  const dernierRemb = refunds.length ? (refunds.map((r) => r.created_at).filter(Boolean).sort().pop() || "").slice(0, 10) : "";
+  return {
+    name: o.name,
+    date: (o.created_at || "").slice(0, 10),
+    paye: o.financial_status === "paid",
+    expedie: o.fulfillment_status || "non expédiée", // fulfilled | partial | null
+    suivi: track,
+    suiviUrls: trackUrls,
+    transporteur: carriers,
+    livraison, // { source, resume } ou null
+    rembourse: {
       etat: o.financial_status || "?", // paid | partially_refunded | refunded | voided | ...
       annulee: !!o.cancelled_at,
       nb: refunds.length,
       montant: montantRembourse ? montantRembourse.toFixed(2) : null,
       itemsRetournes,
       date: dernierRemb || null,
-    };
-    return {
-      name: o.name,
-      date: (o.created_at || "").slice(0, 10),
-      paye: o.financial_status === "paid",
-      expedie: o.fulfillment_status || "non expédiée", // fulfilled | partial | null
-      suivi: track,
-      suiviUrls: trackUrls,
-      transporteur: carriers,
-      livraison, // { source, resume } ou null
-      rembourse, // état remboursement/retour
-      articles: (o.line_items || []).map((li) => `${li.quantity}x ${li.title}${li.variant_title ? ` (${li.variant_title})` : ""}`),
-    };
+    },
+    articles: (o.line_items || []).map((li) => `${li.quantity}x ${li.title}${li.variant_title ? ` (${li.variant_title})` : ""}`),
+  };
+}
+
+// GET générique sur orders.json avec retry réseau/429. Renvoie le tableau d'objets commande (ou []).
+const SHOP_FIELDS = "name,created_at,financial_status,fulfillment_status,cancelled_at,line_items,fulfillments,refunds";
+async function shopifyOrdersRaw(queryParams, label) {
+  if (!SHOPIFY_ON) return [];
+  let tok;
+  try { tok = await shopifyToken(); }
+  catch (e) { console.warn(`  Shopify auth: ${e.message}`); return []; }
+  const url = `https://${SHOPIFY_STORE}/admin/api/${SHOPIFY_VER}/orders.json?${queryParams}&fields=${SHOP_FIELDS}`;
+  let netTries = 0;
+  while (true) {
+    await sleep(260);
+    let res;
+    try { res = await fetch(url, { headers: { "X-Shopify-Access-Token": tok, "Content-Type": "application/json" } }); }
+    catch (e) {
+      if (++netTries > 3) { console.warn(`  Shopify réseau (${label}): ${e.message}`); return []; }
+      await sleep(netTries * 5000); continue;
+    }
+    if (res.status === 429) { await sleep(10000); continue; }
+    if (!res.ok) { console.warn(`  Shopify ${label} → ${res.status}`); return []; }
+    let data; try { data = await res.json(); } catch { return []; }
+    return data.orders || [];
   }
+}
+
+// Retrouve une commande par NUMÉRO (ex. "L-50468"). Résumé vérifié, ou null.
+async function shopifyOrder(name) {
+  if (!SHOPIFY_ON || !name) return null;
+  const orders = await shopifyOrdersRaw(`status=any&name=${encodeURIComponent(name)}`, name);
+  return orders[0] ? summariseOrder(orders[0]) : null;
+}
+
+// Repli: retrouve la commande par COURRIEL du client quand aucun numéro n'est dans le fil.
+// Renvoie { order, multiple } : la plus récente + un drapeau s'il y en a plusieurs (ambiguïté à signaler).
+async function shopifyOrderByEmail(email) {
+  if (!SHOPIFY_ON || !email) return null;
+  const orders = await shopifyOrdersRaw(`status=any&email=${encodeURIComponent(email)}&limit=5`, email);
+  if (!orders.length) return null;
+  orders.sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
+  return { order: summariseOrder(orders[0]), multiple: orders.length > 1 };
 }
 
 // Numéro de commande Lasclay dans un texte : "L-50468", "L50308", "l-49347", "#L 46065"...
@@ -1211,7 +1230,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.21 ===");
+  console.log("=== Lasclay support.js v2.22 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
@@ -1385,16 +1404,31 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
           `pour vrai à sa demande plutôt que de présumer qu'il a vu la mise à jour.`
         : "";
       // Statut RÉEL de la commande (si Shopify configuré et qu'un numéro L-xxxxx est présent).
-      // Fournit au modèle des faits vérifiés (articles, payée, expédiée/en préparation, suivi).
+      // Fournit au modèle des faits vérifiés (articles, payée, expédiée/en préparation, suivi, remboursement).
+      // shopifyVerifie = on a bel et bien confirmé la commande dans Shopify (sert de verrou d'envoi
+      // pour les promesses de remboursement/renvoi: jamais promettre sans avoir vérifié).
       let shopifyLigne = "";
+      let shopifyVerifie = false;
       if (SHOPIFY_ON) {
         const ordName = extractOrderName(conv.subject || conv.latest_message_subject || "", filTexte);
-        if (ordName) {
-          try {
+        try {
+          if (ordName) {
             const o = await shopifyOrder(ordName);
-            if (o) shopifyLigne = `\n\n${shopifyBlock(o)}`;
-          } catch (e) { console.warn(`  Shopify lookup ${ordName}: ${e.message}`); }
-        }
+            if (o) { shopifyLigne = `\n\n${shopifyBlock(o)}`; shopifyVerifie = true; }
+          }
+          // Repli par courriel si aucun numéro dans le fil (ou introuvable): on vérifie quand même.
+          if (!shopifyVerifie) {
+            const email = last.from_field?.address || null;
+            if (email && !SELF.includes(email.toLowerCase())) {
+              const r = await shopifyOrderByEmail(email);
+              if (r && r.order) {
+                const amb = r.multiple ? ` (NB: ce client a PLUSIEURS commandes; ceci est la plus récente, confirme qu'il s'agit de la bonne avant d'affirmer.)` : "";
+                shopifyLigne = `\n\n${shopifyBlock(r.order)}${amb}`;
+                shopifyVerifie = true;
+              }
+            }
+          }
+        } catch (e) { console.warn(`  Shopify lookup (${conv.id}): ${e.message}`); }
       }
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
@@ -1524,6 +1558,16 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       const noteBloque = !!(out.note_interne && out.note_bloquante !== false);
       let verifRequise = noteBloque || !!out.action_requise || !!actionAuto || alertes.length > 0;
       let alarme = !!(out.action_requise || actionAuto || alertes.length);
+
+      // VERROU (v2.22): une promesse de REMBOURSEMENT ou de RENVOI/REMPLACEMENT ne part JAMAIS en
+      // envoi auto sans avoir été vérifiée dans Shopify (statut, remboursement déjà fait, articles).
+      // Commande introuvable ou Shopify non consulté => on force le brouillon + note, peu importe SEND_ACTIONS.
+      const PROMESSE_ARGENT_BIEN = /(rembours|refund|crédit|credit\b|renvo(i|ie|yer|yons)|re-?ship|replacement|remplacement|nouvel(le)? (commande|expédition|envoi|colis)|on (t'|vous )envoie|on (te|vous) renvoie|we('ll| will) (re-?)?send|i('ll| will) (re-?)?send)/i;
+      const prometArgentBien = PROMESSE_ARGENT_BIEN.test(`${out.action_requise || ""} ${actionAuto || ""} ${corps}`);
+      if (prometArgentBien && !shopifyVerifie) {
+        verifRequise = true; alarme = true;
+        noteLigne.push("ACTION AVANT ENVOI (verrou Shopify): promesse de remboursement/renvoi NON vérifiée dans Shopify (commande introuvable ou non consultée). Confirmer le statut et qu'aucun remboursement n'a déjà été fait AVANT d'envoyer.");
+      }
 
       // Signature (langue), citation, liens cliquables + préfixe pays. (Voir v2.7.)
       const filBas = filTexte.toLowerCase();
