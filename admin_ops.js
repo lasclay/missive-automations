@@ -1,6 +1,12 @@
 /**
- * Lasclay — admin_ops.js (v3)
+ * Lasclay — admin_ops.js (v3.5)
  * --------------------------------------------------------------------------
+ * v3.5 — FILTRE PLUS TRANCHANT (vider le bruit, garder les affaires) : seuil de
+ * fermeture abaissé (AI_SEUIL 0.85 → 0.6; la fermeture est réversible + tracée au
+ * digest), et le DÉMARCHAGE COMMERCIAL FROID (agence/consultant qui vend ses propres
+ * services, « j'ai bâti une landing page pour vous », etc.) est désormais explicitement
+ * fermé, sans toucher aux invitations institutionnelles/gouvernementales ni aux vrais
+ * partenaires/fournisseurs/mission Lasclay (qui restent keep/a_voir).
  * v3 — FUSION de digest.js. Une SEULE passe sur les boîtes Admin/Operations, un
  * SEUL appel IA par fil, qui fait DEUX choses : (1) TRIER (close / spam / à voir /
  * keep) et (2) pour les fils qui attendent une réponse de Gabriel ("keep"),
@@ -70,7 +76,8 @@
  *   DRY_RUN           "false" pour agir. DÉFAUT "true" (simulation).
  *   USE_AI            "false" pour couper le juge IA. DÉFAUT true (moteur principal).
  *   MODEL             modèle du juge (défaut claude-opus-4-8).
- *   AI_SEUIL          confiance min. pour FERMER/SPAM via l'IA (0-1). Défaut 0.85.
+ *   AI_SEUIL          confiance min. pour FERMER via l'IA (0-1). Défaut 0.6 (fermeture
+ *                     réversible + tracée au digest). Le spam a son propre seuil (SPAM_SEUIL).
  *   SPAM_ACTION       "close" (défaut) | "trash" | "label" — geste sur le démarchage.
  *   SPAM_LABEL_ID     label « Spam » posé si SPAM_ACTION="label".     [facultatif]
  *   CLOSE_LIMIT       plafond de fermetures + spams par run (0 = illimité). Défaut 0.
@@ -96,7 +103,7 @@
  *   KNOWLEDGE : contexte_lasclay.md (à côté du script) nourrit les brouillons.
  */
 
-const VERSION = "v3.4";
+const VERSION = "v3.5";
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -116,7 +123,11 @@ const USE_AI = (process.env.USE_AI || "true").toLowerCase() !== "false";
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const AI_ON = USE_AI && !!ANTHROPIC_KEY;
 const MODEL = process.env.MODEL || "claude-opus-4-8";
-const AI_SEUIL = parseFloat(process.env.AI_SEUIL || "0.85");
+// Seuil de confiance pour FERMER via l'IA. BAS par défaut (0.6) : la fermeture est
+// RÉVERSIBLE (le fil rouvre si on répond) et chaque fermeture est tracée au digest,
+// donc un seuil élevé ne servait qu'à laisser du bruit ouvert. Le spam garde son
+// propre seuil (SPAM_SEUIL), plus haut, car son action peut être la corbeille.
+const AI_SEUIL = parseFloat(process.env.AI_SEUIL || "0.6");
 const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
 // Détail ligne par ligne des GARDÉS (sinon décompte par raison, log lisible).
 const SHOW_KEPT = (process.env.SHOW_KEPT || "").toLowerCase() === "true";
@@ -552,7 +563,16 @@ d'abord TRIER (partie 1), puis, si le fil attend une réponse de Gabriel, le PRI
      - AVIS DE PAIEMENT / FACTURE ROUTINIER ET ATTENDU, sans geste à poser : facture mensuelle AUTO-débitée
        (ex. Virgin Plus « votre facture est prête, sera débitée automatiquement »), confirmation de paiement
        échelonné (ex. Klarna pour un achat), avis de prélèvement automatique récurrent. C'est du bruit attendu → close.
+     - DÉMARCHAGE COMMERCIAL FROID d'un fournisseur / agence / consultant PRIVÉ qui vend SES PROPRES services
+       (landing pages, site web, SEO, dev, marketing, design, « financement », recrutement, un « partenariat »
+       creux, un « j'ai déjà bâti / préparé quelque chose pour vous », un « petite question rapide » déguisé en
+       vente), SANS relation existante ET sans lien avec la mission de Lasclay. Même flatteur (« j'adore votre
+       marque »), c'est du bruit non désiré → close. (EXEMPLE : « mind if I send you the landing page I already
+       built for lasclay? our team just loves the brand » = démarchage d'agence → close.)
    Le critère : après lecture, il ne reste ni geste, ni décision, ni ÉCHÉANCE À AGIR → close.
+   IMPORTANT — ceci ne touche PAS les « affaires » : une invitation institutionnelle/gouvernementale, un vrai
+   partenaire, un fournisseur de matière/semences, un organisme public, ou tout ce qui touche la mission de
+   Lasclay (asclépiade, monarques, textile, revente) reste "keep" (ou "a_voir"), JAMAIS "close" par ce critère.
 
 2. action="a_voir" — À GARDER OUVERT. RARE. Uniquement une OBLIGATION FUTURE CONCRÈTE (pas une simple info, pas
    une invitation à « explorer », PAS un avis de paiement routinier auto-débité) :
