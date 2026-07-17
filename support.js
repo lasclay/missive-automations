@@ -101,6 +101,9 @@
  *   inventoryQuantity + availableForSale par variante) => l'IA peut répondre à une question de
  *   disponibilité au lieu d'escalader (quand la variante figure au catalogue). Nécessite les scopes
  *   Shopify read_products + read_inventory sur l'app; sans eux, on retombe sur la dispo publique.
+ * v2.33: le scope read_products manquant est traité comme read_customers — latch _shopNoProd, aucune
+ *   nouvelle interrogation du catalogue Admin, une seule ligne de log claire, repli sur la dispo
+ *   publique du storefront. Fin du flood « Access denied for products field ».
  * v2.32: correctifs post-validation. (1) La vérif de commande ne casse plus si le scope read_customers
  *   manque: repli automatique sur une requête sans le champ client (l'unification #5 s'active seulement
  *   si read_customers est présent). Fin du flood d'erreurs. (2) Boîte MAJ: la question « as-tu reçu ta
@@ -461,6 +464,10 @@ const ORDER_GQL = `${ORDER_GQL_CORE} ${ORDER_GQL_CUST}`;
 // Une fois qu'on a constaté que read_customers manque, on ne redemande plus la partie client du run.
 let _shopNoCust = false;
 const custDenied = (errors) => Array.isArray(errors) && errors.some((e) => /read_customers|customer field/i.test(e.message || ""));
+// Idem pour read_products: si le scope manque, on cesse d'interroger le catalogue Admin et on retombe
+// sur la dispo publique du storefront, sans polluer les logs à chaque page.
+let _shopNoProd = false;
+const prodDenied = (errors) => Array.isArray(errors) && errors.some((e) => /read_products|products field/i.test(e.message || ""));
 
 // Appel GraphQL Admin (POST) avec retry réseau/429. Renvoie { data, errors }.
 async function shopifyGraphQL(query, variables) {
@@ -485,8 +492,9 @@ async function shopifyGraphQL(query, variables) {
     if (res.status === 429) { await sleep(10000); continue; }
     if (!res.ok) { console.warn(`  Shopify GraphQL → ${res.status}`); return { data: null, errors: null }; }
     let data; try { data = await res.json(); } catch { return { data: null, errors: null }; }
-    // On ne journalise QUE les erreurs qui ne sont pas le simple manque de read_customers (géré par repli).
-    if (data.errors && !custDenied(data.errors)) console.warn(`  Shopify GraphQL: ${JSON.stringify(data.errors).slice(0, 160)}`);
+    // On ne journalise QUE les erreurs qui ne sont pas un simple manque de portée géré par repli
+    // (read_customers → requête sans le champ client ; read_products → dispo publique).
+    if (data.errors && !custDenied(data.errors) && !prodDenied(data.errors)) console.warn(`  Shopify GraphQL: ${JSON.stringify(data.errors).slice(0, 160)}`);
     return { data: data.data || null, errors: data.errors || null };
   }
 }
@@ -857,14 +865,19 @@ function htmlToPlain(s) {
 // Renvoie une Map: "sku:<sku>" et "tv:<produit>::<variante>" → { qty, sellable }. Vide si indisponible
 // (scope manquant / hors ligne) => on retombe alors sur la dispo publique du storefront.
 async function chargerStockAdmin() {
-  if (!SHOPIFY_ON) return new Map();
+  if (!SHOPIFY_ON || _shopNoProd) return new Map();
   const map = new Map();
   const q = `query($after:String){ products(first:50, after:$after){ edges { node { title variants(first:100){ edges { node { title sku inventoryQuantity availableForSale } } } } } pageInfo { hasNextPage endCursor } } }`;
   let after = null, pages = 0;
   try {
     while (pages < 8) {
-      const d = await shopifyGraphQL(q, { after });
-      const conn = d?.data?.products;
+      const { data, errors } = await shopifyGraphQL(q, { after });
+      if (prodDenied(errors)) {
+        _shopNoProd = true;
+        console.log("Stock Admin: scope read_products non accordé → dispo publique du storefront utilisée.");
+        return new Map();
+      }
+      const conn = data?.products;
       if (!conn) break;
       for (const pe of conn.edges || []) {
         const pt = norm(pe.node.title);
@@ -1612,7 +1625,7 @@ async function fermerResolu(convId, raison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.32 ===");
+  console.log("=== Lasclay support.js v2.33 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
   console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
   console.log(`Fermeture active des fils réglés: ${CLOSE_RESOLVED ? "ACTIVE (sans réponse, réversible)" : "INACTIVE"}.`);
