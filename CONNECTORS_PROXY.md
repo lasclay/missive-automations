@@ -4,9 +4,15 @@ Un seul service HTTP qui relaie, de façon **restreinte** (allowlist d'actions),
 Chaque connecteur garde **ses secrets côté serveur** (variables Render) ; les appelants n'utilisent
 qu'un `PROXY_SECRET` distinct et révocable. Même philosophie que `missive-proxy`, mais **multi-connecteurs**.
 
-Premier connecteur : **ShipStation** (API v1 « legacy », commandes / expéditions / suivi), en
-**accès complet** : lecture + écriture (tags, hold, marquage expédié, création/suppression de
-commande, achat et annulation d'étiquettes). ⚠️ Les actions d'étiquette **débitent de l'argent réel**.
+Connecteurs actuels :
+
+- **ShipStation** (API v1 « legacy », commandes / expéditions / suivi), en **accès complet** :
+  lecture + écriture (tags, hold, marquage expédié, création/suppression de commande, achat et
+  annulation d'étiquettes). ⚠️ Les actions d'étiquette **débitent de l'argent réel**.
+- **QuickBooks Online** (API v3, OAuth2), **lecture seule** : rapports (P&L, bilan, balance de
+  vérification…), requêtes SQL-like, infos compagnie. Pourquoi ici : le connecteur QuickBooks
+  officiel de Claude est une app Intuit US-only, bloquée pour une entreprise canadienne
+  (« isn't available for use in your country ») ; on passe par notre propre app Intuit.
 
 ---
 
@@ -50,6 +56,55 @@ Classées par risque. Les params marqués **requis** sont validés par le proxy 
 | `createlabel` | **carrierCode, serviceCode, shipDate, shipFrom, shipTo, weight** (+ isReturnLabel, testLabel) | 🔴 **achète** une étiquette hors commande (ou de RETOUR avec `isReturnLabel:true`) = argent réel |
 | `voidlabel` | **shipmentId** | 🟡 annule une étiquette (généralement remboursée) |
 
+### Actions QuickBooks (lecture seule)
+
+| Action | Params | Renvoie |
+|---|---|---|
+| `report` | **name** (`ProfitAndLoss`, `BalanceSheet`, `TrialBalance`, `GeneralLedger`, `CashFlow`, `AgedReceivables`…) + options : `start_date`/`end_date` (AAAA-MM-JJ), `summarize_column_by` (`Month`…), `accounting_method` (`Accrual`\|`Cash`), `date_macro`… | le rapport (Columns + Rows) |
+| `query` | **query** (SQL-like v3, ex. `select * from Account maxresults 200`) | résultats de la requête |
+| `companyinfo` | — | infos compagnie (test d'auth) |
+
+Exemple — le P&L mensuel de l'exercice (le format du chiffrier de prévisions) :
+
+```
+curl -X POST https://general-proxy-5muf.onrender.com/quickbooks/report \
+  -H "X-Proxy-Secret: TON_SECRET" -H "Content-Type: application/json" \
+  -d '{"name":"ProfitAndLoss","start_date":"2025-09-01","end_date":"2026-08-31","summarize_column_by":"Month","accounting_method":"Accrual"}'
+```
+
+---
+
+## Mettre en place QuickBooks (une fois)
+
+Le connecteur officiel Claude ↔ QuickBooks étant US-only, on utilise **notre app Intuit** :
+
+1. **Créer l'app** : https://developer.intuit.com → *Create an app* → QuickBooks Online and
+   Payments, scope `com.intuit.quickbooks.accounting`.
+2. **Keys & credentials** (onglet **Production** pour la vraie compta) : noter **Client ID** et
+   **Client Secret**, et ajouter l'URI de redirection
+   `https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl`.
+3. **Autoriser** (une fois) : `QBO_CLIENT_ID=... node qbo_auth.js url`, ouvrir l'URL, se
+   connecter au compte QuickBooks Lasclay, autoriser, récupérer `code` et `realmId` dans l'URL
+   de redirection, puis `QBO_CLIENT_ID=... QBO_CLIENT_SECRET=... node qbo_auth.js exchange <code> <realmId>`.
+4. **Variables Render** (service General Proxy) : coller ce que l'étape 3 affiche
+   (`QBO_CLIENT_ID`, `QBO_CLIENT_SECRET`, `QBO_REALM_ID`, `QBO_REFRESH_TOKEN`).
+5. **Valider avant de déployer** : mêmes variables en local + `node qbo_check.js`.
+
+### ⚠️ Rotation du refresh token (le piège classique QBO)
+
+Intuit **remplace la valeur du refresh token ~toutes les 24 h** (seule la plus récente reste
+valide; 100 jours max sans usage). Le disque Render étant éphémère, la seule persistance fiable
+est la **sync automatique de la variable d'env via l'API Render** — le proxy le fait tout seul si :
+
+| Variable | Valeur |
+|---|---|
+| `RENDER_API_KEY` | clé API Render (Account Settings → API Keys) |
+| `RENDER_SERVICE_ID` | l'ID `srv-...` du service General Proxy (dans l'URL du dashboard) |
+
+Sans ces deux variables, l'intégration casse au premier redémarrage passé 24 h
+(`invalid_grant`) et il faut refaire l'autorisation (étape 3). `QBO_TOKEN_FILE` existe aussi
+pour un disque persistant monté, mais sur le plan standard Render, la sync API est la bonne option.
+
 ---
 
 ## Où trouver les clés ShipStation
@@ -75,6 +130,11 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `GENERAL_PROXY_SECRET` | secret **propre à ce proxy** (distinct du missive-proxy, révocable à part). À défaut, repli sur `PROXY_SECRET`. |
 | `SHIPSTATION_API_KEY` | API Key ShipStation (v1) |
 | `SHIPSTATION_API_SECRET` | API Secret ShipStation (v1) |
+| `QBO_CLIENT_ID` / `QBO_CLIENT_SECRET` | app Intuit (Keys & credentials, Production) |
+| `QBO_REALM_ID` | Company ID QuickBooks (fourni par l'autorisation) |
+| `QBO_REFRESH_TOKEN` | refresh token initial (sortie de `qbo_auth.js exchange`) |
+| `RENDER_API_KEY` + `RENDER_SERVICE_ID` | sync auto du refresh token tournant (voir section QuickBooks) |
+| `QBO_ENV` | `production` (défaut) ou `sandbox` |
 | `PORT` | (auto, fourni par Render) |
 
 > **Nom du secret** : ce proxy (service Render « General Proxy ») et le `missive-proxy` (« Proxy Missive »)
