@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v2.13)
+ * Lasclay — support.js (v2.34)
  * -------------------------
  * Réponses automatiques pour la shared inbox LAS Support, 3 fois par jour.
  * Pour chaque fil ouvert où le dernier mot revient au client, Sonnet rédige
@@ -104,6 +104,14 @@
  * v2.33: le scope read_products manquant est traité comme read_customers — latch _shopNoProd, aucune
  *   nouvelle interrogation du catalogue Admin, une seule ligne de log claire, repli sur la dispo
  *   publique du storefront. Fin du flood « Access denied for products field ».
+ * v2.34: vérification SHIPSTATION (facultative) en complément de Shopify — ce que Shopify ne voit
+ *   pas: statut d'expédition INTERNE (à expédier, en attente/on hold, annulée), TOUS les envois
+ *   d'une commande avec suivi + lien (détecte un 2e ENVOI/renvoi et donne le suivi du plus récent),
+ *   étiquettes de RETOUR émises, et commandes MANUELLES au nom du client (créées hors Shopify,
+ *   ex. renvoi de garantie). Deux modes d'accès, au choix: via le connectors-proxy
+ *   (GENERAL_PROXY_URL + GENERAL_PROXY_SECRET, secrets ShipStation côté Render) ou direct
+ *   (SHIPSTATION_API_KEY + SHIPSTATION_API_SECRET). Rien de configuré => comportement inchangé.
+ *   Lecture seule, latch d'échec par run, caches par commande/nom (limite 40 req/min respectée).
  * v2.32: correctifs post-validation. (1) La vérif de commande ne casse plus si le scope read_customers
  *   manque: repli automatique sur une requête sans le champ client (l'unification #5 s'active seulement
  *   si read_customers est présent). Fin du flood d'erreurs. (2) Boîte MAJ: la question « as-tu reçu ta
@@ -155,6 +163,10 @@
  *   le transporteur): en transit, en cours de livraison, livré, tentative... Aucun appel externe.
  *   Scopes Shopify recommandés sur l'app: read_orders, read_fulfillments, read_all_orders (commandes
  *   de +60 j), et read_products + read_inventory (stock réel au catalogue). Sans stock: dispo publique.
+ *   GENERAL_PROXY_URL     (facultatif) URL du connectors-proxy (ex. https://general-proxy-5muf.onrender.com)
+ *   GENERAL_PROXY_SECRET  secret du connectors-proxy (repli PROXY_SECRET) => vérif ShipStation via proxy
+ *   SHIPSTATION_API_KEY + SHIPSTATION_API_SECRET   (facultatif) accès ShipStation DIRECT (prime sur le proxy)
+ *   SHIPSTATION_VERIF     "false" pour désactiver la vérif ShipStation même si configurée (défaut on)
  */
 
 const fs = require("node:fs");
@@ -278,6 +290,209 @@ const SHOPIFY_CLIENT_ID = process.env.SHOPIFY_CLIENT_ID || "";
 const SHOPIFY_CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET || "";
 const SHOPIFY_VER = process.env.SHOPIFY_API_VERSION || "2024-10";
 const SHOPIFY_ON = !!(SHOPIFY_STORE && (SHOPIFY_TOKEN || (SHOPIFY_CLIENT_ID && SHOPIFY_CLIENT_SECRET)));
+
+// --- ShipStation (FACULTATIF, v2.34) : complète Shopify avec ce qu'il ne voit pas —
+// statut d'expédition INTERNE, tous les ENVOIS d'une commande (2e envoi/renvoi), étiquettes
+// de RETOUR, commandes MANUELLES au nom du client. LECTURE SEULE.
+// Accès au choix: DIRECT (SHIPSTATION_API_KEY/SECRET, prime) ou via le connectors-proxy
+// (GENERAL_PROXY_URL + GENERAL_PROXY_SECRET). Rien de configuré => aucune vérif, zéro impact.
+const SS_KEY = process.env.SHIPSTATION_API_KEY || "";
+const SS_SECRET = process.env.SHIPSTATION_API_SECRET || "";
+const SS_BASE = process.env.SHIPSTATION_BASE || "https://ssapi.shipstation.com";
+const SS_PROXY_URL = (process.env.GENERAL_PROXY_URL || "").replace(/\/+$/, "");
+const SS_PROXY_SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET || "";
+const SS_DIRECT = !!(SS_KEY && SS_SECRET);
+const SS_ON = ((process.env.SHIPSTATION_VERIF || "true").toLowerCase() !== "false")
+  && (SS_DIRECT || !!(SS_PROXY_URL && SS_PROXY_SECRET));
+
+// Statuts internes ShipStation -> libellé lisible (pour l'IA; jamais montrés bruts au client).
+const SS_STATUS_FR = {
+  awaiting_payment: "en attente de paiement",
+  awaiting_shipment: "à expédier (dans la file d'expédition)",
+  pending_fulfillment: "en attente de traitement",
+  shipped: "expédiée",
+  on_hold: "EN ATTENTE (on hold — volontairement retenue)",
+  cancelled: "ANNULÉE dans ShipStation",
+};
+
+// Lien de suivi public par transporteur (codes ShipStation; les variantes « _walleted » sont normalisées).
+function ssTrackUrl(carrierCode, n) {
+  if (!n) return null;
+  const c = (carrierCode || "").replace(/_walleted$/, "");
+  const enc = encodeURIComponent(n);
+  const T = {
+    canada_post: `https://www.canadapost-postescanada.ca/track-reperage/fr#/details/${enc}`,
+    ups: `https://www.ups.com/track?tracknum=${enc}`,
+    purolator: `https://www.purolator.com/fr/expedition/tracker?pin=${enc}`,
+    fedex: `https://www.fedex.com/fedextrack/?trknbr=${enc}`,
+    dhl_express: `https://www.dhl.com/ca-fr/home/suivi.html?tracking-id=${enc}`,
+    canpar: `https://www.canpar.com/fr/tracking/track.htm?barcode=${enc}`,
+  };
+  return T[c] || null;
+}
+
+// Appel ShipStation LECTURE (actions: orders | shipments | fulfillments), avec retry 429.
+// Mode direct: GET ssapi; mode proxy: POST /shipstation/<action> (le proxy gère aussi le 429).
+let _ssFail = null; // latch d'échec pour tout le run (auth cassée, proxy down...) — une seule ligne de log
+async function ssGet(action, params, tries = 0) {
+  if (_ssFail) throw new Error(_ssFail);
+  const fail = (msg) => { _ssFail = msg; console.warn(`  ShipStation désactivé ce run: ${msg}`); return new Error(msg); };
+  try {
+    if (SS_DIRECT) {
+      const parts = [];
+      for (const [k, v] of Object.entries(params || {})) {
+        if (v === null || v === undefined || v === "") continue;
+        parts.push(`${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`);
+      }
+      const url = `${SS_BASE}/${action}${parts.length ? `?${parts.join("&")}` : ""}`;
+      const res = await fetch(url, {
+        headers: { Authorization: "Basic " + Buffer.from(`${SS_KEY}:${SS_SECRET}`).toString("base64"), Accept: "application/json" },
+      });
+      if (res.status === 429 && tries < 3) {
+        const reset = Number(res.headers.get("x-rate-limit-reset")) || 15;
+        await sleep(Math.min(reset + 1, 65) * 1000);
+        return ssGet(action, params, tries + 1);
+      }
+      if (res.status === 401) throw fail("auth invalide (SHIPSTATION_API_KEY/SECRET)");
+      if (!res.ok) throw new Error(`${action} → ${res.status}`);
+      return res.json();
+    }
+    // Mode proxy (connectors-proxy) : POST /shipstation/<action>, params en JSON.
+    const res = await fetch(`${SS_PROXY_URL}/shipstation/${action}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Proxy-Secret": SS_PROXY_SECRET },
+      body: JSON.stringify(params || {}),
+    });
+    if (res.status === 429 && tries < 3) { await sleep(20000); return ssGet(action, params, tries + 1); }
+    if (res.status === 401) throw fail("proxy: secret refusé (GENERAL_PROXY_SECRET)");
+    if (res.status === 503) throw fail("proxy: connecteur shipstation non configuré");
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok || !j.ok) throw new Error(`${action} → ${res.status} ${(j.error || "").slice(0, 120)}`);
+    return j.data;
+  } catch (e) {
+    if (!_ssFail && /réseau|network|fetch failed|ENOTFOUND|ECONN/i.test(e.message) && tries < 2) {
+      await sleep((tries + 1) * 5000);
+      return ssGet(action, params, tries + 1);
+    }
+    throw e;
+  }
+}
+
+// Résume les ENVOIS (shipments non annulés + fulfillments) d'une commande: suivi, lien, date, retour.
+function ssResumeEnvois(shipments, fulfillments) {
+  const envois = [];
+  for (const s of shipments || []) {
+    if (s.voided) continue;
+    envois.push({
+      date: (s.shipDate || s.createDate || "").slice(0, 10),
+      carrier: (s.carrierCode || "").replace(/_walleted$/, ""),
+      suivi: s.trackingNumber || null,
+      lien: ssTrackUrl(s.carrierCode, s.trackingNumber),
+      retour: !!s.isReturnLabel,
+    });
+  }
+  for (const f of fulfillments || []) {
+    if (f.voided) continue;
+    // Évite les doublons: un fulfillment qui reprend le suivi d'un shipment déjà listé.
+    if (f.trackingNumber && envois.some((e) => e.suivi === f.trackingNumber)) continue;
+    envois.push({
+      date: (f.shipDate || f.createDate || "").slice(0, 10),
+      carrier: (f.carrierCode || "").replace(/_walleted$/, ""),
+      suivi: f.trackingNumber || null,
+      lien: ssTrackUrl(f.carrierCode, f.trackingNumber),
+      retour: false,
+    });
+  }
+  envois.sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+  return envois;
+}
+
+// Caches par run (une commande/un nom revient souvent d'un fil à l'autre; économise le 40 req/min).
+const _ssCacheOrd = new Map();  // orderName -> bloc texte (ou null)
+const _ssCacheNom = new Map();  // nom client normalisé -> [commandes manuelles]
+
+/**
+ * Vérification ShipStation d'un fil: par NUMÉRO de commande (statut interne + envois + retours),
+ * et par NOM de client (commandes manuelles créées hors Shopify). Renvoie un bloc texte à injecter
+ * dans le prompt, ou "" si rien de pertinent. Ne lance jamais: l'appelant catch.
+ */
+async function shipstationLookup(orderName, nomClient) {
+  if (!SS_ON || _ssFail) return "";
+  const lignes = [];
+
+  // 1) La commande elle-même (statut interne, envois, retours).
+  if (orderName) {
+    if (_ssCacheOrd.has(orderName)) {
+      const l = _ssCacheOrd.get(orderName);
+      if (l) lignes.push(l);
+    } else {
+      let bloc = null;
+      const { orders = [] } = (await ssGet("orders", { orderNumber: orderName, pageSize: 50 })) || {};
+      // Le filtre orderNumber de la v1 est « commence par »: on garde les correspondances exactes.
+      const exacts = orders.filter((o) => (o.orderNumber || "").toUpperCase() === orderName.toUpperCase());
+      if (exacts.length) {
+        const o = exacts[exacts.length - 1];
+        const statut = SS_STATUS_FR[o.orderStatus] || o.orderStatus || "?";
+        const notes = [o.internalNotes, o.customerNotes].filter(Boolean).map((n) => String(n).slice(0, 150));
+        let l = `Commande ${orderName} dans ShipStation: statut interne « ${statut} »` +
+          (o.orderStatus === "on_hold" && o.holdUntilDate ? ` jusqu'au ${String(o.holdUntilDate).slice(0, 10)}` : "") +
+          (exacts.length > 1 ? ` (${exacts.length} entrées ShipStation pour ce numéro: envoi séparé en plusieurs colis probable)` : "") +
+          `.` + (notes.length ? ` Note interne d'expédition: "${notes.join(" | ")}".` : "");
+        const [sh, fu] = [
+          await ssGet("shipments", { orderNumber: orderName, pageSize: 50 }).catch(() => null),
+          await ssGet("fulfillments", { orderNumber: orderName, pageSize: 50 }).catch(() => null),
+        ];
+        const envois = ssResumeEnvois(sh && sh.shipments, fu && fu.fulfillments);
+        const sorties = envois.filter((e) => !e.retour), retours = envois.filter((e) => e.retour);
+        if (sorties.length) {
+          l += ` ENVOIS (${sorties.length}): ` + sorties.map((e, i) =>
+            `#${i + 1} le ${e.date || "?"} via ${e.carrier || "?"}${e.suivi ? `, suivi ${e.suivi}` : ""}${e.lien ? ` (${e.lien})` : ""}`).join(" ; ") + ".";
+          if (sorties.length > 1) l += ` IL Y A DONC PLUSIEURS ENVOIS (renvoi/2e colis): pour « où est mon colis », donne le suivi du PLUS RÉCENT (le renvoi), pas de l'ancien.`;
+        }
+        if (retours.length) {
+          l += ` ÉTIQUETTE(S) DE RETOUR émise(s) (${retours.length}): ` + retours.map((e) =>
+            `le ${e.date || "?"}${e.suivi ? `, suivi ${e.suivi}` : ""}${e.lien ? ` (${e.lien})` : ""}`).join(" ; ") +
+            `. Si le client demande comment retourner: l'étiquette existe déjà, réfère-t'y au lieu d'en promettre une nouvelle.`;
+        }
+        bloc = l;
+      }
+      _ssCacheOrd.set(orderName, bloc);
+      if (bloc) lignes.push(bloc);
+    }
+  }
+
+  // 2) Commandes MANUELLES au nom du client (créées hors Shopify: renvoi de garantie, échange,
+  //    commande téléphone...). Recherche par nom; on écarte la commande principale.
+  const nomKey = norm(nomClient || "");
+  if (nomKey && nomKey.length >= 5 && !SELF_NAMES.has(nomKey)) {
+    let manuelles;
+    if (_ssCacheNom.has(nomKey)) manuelles = _ssCacheNom.get(nomKey);
+    else {
+      const { orders = [] } = (await ssGet("orders", { customerName: nomClient, pageSize: 20, sortBy: "OrderDate", sortDir: "DESC" }).catch(() => ({}))) || {};
+      manuelles = orders.filter((o) => norm(o.shipTo && o.shipTo.name || o.customerUsername || "") === nomKey);
+      _ssCacheNom.set(nomKey, manuelles);
+    }
+    const autres = manuelles.filter((o) => !orderName || (o.orderNumber || "").toUpperCase() !== orderName.toUpperCase())
+      // Une commande Shopify régulière (L-xxxxx) est déjà couverte par la vérif Shopify; on ne
+      // signale ici que les numéros HORS motif (manuelles) pour ne pas noyer le prompt.
+      .filter((o) => !/^L-\d{4,6}$/i.test(o.orderNumber || ""));
+    if (autres.length) {
+      lignes.push(`AUTRES COMMANDES AU NOM DE CE CLIENT DANS SHIPSTATION (créées manuellement, INVISIBLES dans Shopify — souvent un renvoi, un échange ou une commande hors site): ` +
+        autres.slice(0, 3).map((o) => `« ${o.orderNumber} » du ${(o.orderDate || "").slice(0, 10)}, statut « ${SS_STATUS_FR[o.orderStatus] || o.orderStatus} »` +
+          ((o.items || []).length ? ` [${o.items.slice(0, 4).map((i) => `${i.quantity}x ${i.name}`).join(", ")}]` : "")).join(" ; ") +
+        `. Si le client attend un renvoi/échange, c'est probablement CETTE commande: vérifie son statut avant de promettre quoi que ce soit.`);
+    }
+  }
+
+  if (!lignes.length) return "";
+  return noDash(
+    `DONNÉES SHIPSTATION VÉRIFIÉES (notre système d'expédition; complète Shopify pour les envois multiples, ` +
+    `les retours et les commandes manuelles):\n- ` + lignes.join("\n- ") + `\n` +
+    `Sers-t'en pour donner le BON lien de suivi, confirmer qu'un renvoi est déjà parti ou qu'une étiquette de ` +
+    `retour existe. Ne montre JAMAIS les statuts internes bruts ni les notes internes au client; reformule. ` +
+    `Si ShipStation et Shopify divergent, signale-le en note_interne au lieu de trancher toi-même.`
+  );
+}
 
 // État du colis: on se fie à l'état RAPPORTÉ PAR SHOPIFY (champ shipment_status des fulfillments,
 // alimenté par le transporteur), sans appel externe. Codes Shopify -> libellé lisible.
@@ -1627,6 +1842,7 @@ async function fermerResolu(convId, raison) {
   }
   console.log("=== Lasclay support.js v2.33 ===");
   console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
+  console.log(`ShipStation (envois multiples, retours, commandes manuelles): ${SS_ON ? `ACTIF (${SS_DIRECT ? "direct ssapi" : `via proxy ${SS_PROXY_URL}`})` : "INACTIF"}.`);
   console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
   console.log(`Fermeture active des fils réglés: ${CLOSE_RESOLVED ? "ACTIVE (sans réponse, réversible)" : "INACTIVE"}.`);
   console.log(`Vision (photos jointes du client): ${VISION ? `ACTIVE (max ${VISION_MAX}/fil)` : "INACTIVE"}.`);
@@ -1847,9 +2063,9 @@ async function fermerResolu(convId, raison) {
       let shopifyLigne = "", histoLigne = "", clientLigne = "";
       let shopifyVerifie = false;
       let ordre = null, ordreAmbigu = false;
+      const ordName = extractOrderName(conv.subject || conv.latest_message_subject || "", filTexte);
+      const email = last.from_field?.address ? last.from_field.address.toLowerCase() : null;
       if (SHOPIFY_ON) {
-        const ordName = extractOrderName(conv.subject || conv.latest_message_subject || "", filTexte);
-        const email = last.from_field?.address ? last.from_field.address.toLowerCase() : null;
         try {
           if (ordName) ordre = await shopifyOrder(ordName);
           // COURRIEL CANONIQUE: celui du COMPTE Shopify de la commande (si connu), sinon le courriel du
@@ -1885,6 +2101,17 @@ async function fermerResolu(convId, raison) {
         } catch (e) { console.warn(`  Shopify lookup (${conv.id}): ${e.message}`); }
       }
 
+      // v2.34 — Vérification SHIPSTATION (complément): statut d'expédition interne, envois
+      // multiples (renvoi), étiquettes de retour, commandes manuelles au nom du client.
+      let ssLigne = "";
+      if (SS_ON) {
+        const nomClient = (ordre && ordre.client && ordre.client.nom) || last.from_field?.name || "";
+        try {
+          const bloc = await shipstationLookup(ordName || (ordre && ordre.name) || null, nomClient);
+          if (bloc) ssLigne = `\n\n${bloc}`;
+        } catch (e) { if (!_ssFail) console.warn(`  ShipStation lookup (${conv.id}): ${e.message}`); }
+      }
+
       // Boîte « Mise à jour commande »: consigne dédiée, réécrite avec les FAITS Shopify.
       // PRÉVENTE = uniquement 30-31 mai 2026. Jamais « on prépare » sur une commande expédiée/livrée.
       // Sinon (non vérifiable): demander confirmation en cadrant comme une vérification large.
@@ -1916,7 +2143,7 @@ async function fermerResolu(convId, raison) {
       // Contexte de FAITS (pour la relecture Opus): tout ce qui est vérifié/contextuel, sans les
       // consignes. Sert à ce que le QC détecte une contradiction avec Shopify/historique/autres fils/notes.
       // On y signale les photos (le vérificateur, lui, ne les voit pas: qu'il ne bloque pas à tort).
-      const contexteData = `${clientLigne}${shopifyLigne}${histoLigne}${notesLigne}${autresLigne}` +
+      const contexteData = `${clientLigne}${shopifyLigne}${ssLigne}${histoLigne}${notesLigne}${autresLigne}` +
         (images.length ? `\n\n[Le client a joint ${images.length} photo(s) que LE RÉDACTEUR a examinées; toi vérificateur tu ne les vois pas: ne bloque pas une observation qui repose visiblement sur ces photos.]` : "");
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
@@ -1926,7 +2153,7 @@ async function fermerResolu(convId, raison) {
         `RAISONNE DEPUIS AUJOURD'HUI: si le message est vieux de plusieurs semaines/mois, la situation a ` +
         `probablement évolué (commande sûrement reçue, question devenue sans objet): vérifie via les données ` +
         `Shopify ci-dessous et, si tout est réglé, conclus brièvement (ou repondre=false) au lieu de rouvrir le sujet.` +
-        `${photosLigne}${autresLigne}${notesLigne}${clientLigne}${majLigne}${shopifyLigne}${histoLigne}\n\n` +
+        `${photosLigne}${autresLigne}${notesLigne}${clientLigne}${majLigne}${shopifyLigne}${ssLigne}${histoLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
       try { out = parseJsonLoose(await claude(systemBlocks, user, 1500, images)); }
