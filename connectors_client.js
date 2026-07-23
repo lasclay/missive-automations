@@ -9,10 +9,16 @@
  *   node connectors_client.js connectors
  *   node connectors_client.js <connecteur> <action> ['{"param":"valeur"}']
  *
- * Exemples ShipStation :
+ * Exemples ShipStation (lecture) :
  *   node connectors_client.js shipstation carriers
  *   node connectors_client.js shipstation orders '{"orderNumber":"L-50468"}'
  *   node connectors_client.js shipstation shipments '{"trackingNumber":"1Z..."}'
+ *
+ * Exemples ShipStation (écriture — voir CONNECTORS_PROXY.md pour les risques) :
+ *   node connectors_client.js shipstation addtag '{"orderId":123456,"tagId":7890}'
+ *   node connectors_client.js shipstation holduntil '{"orderId":123456,"holdUntilDate":"2026-08-01"}'
+ *   node connectors_client.js shipstation getrates '{"carrierCode":"canada_post","fromPostalCode":"G1K 3B2","toPostalCode":"H2X 1Y4","toCountry":"CA","weight":{"value":500,"units":"grams"}}'
+ *   ⚠️ createlabelfororder / createlabel DÉBITENT le wallet (argent réel; testLabel:true = essai).
  */
 
 const URL = process.env.GENERAL_PROXY_URL || "https://general-proxy-5muf.onrender.com";

@@ -1,10 +1,12 @@
 # connectors-proxy — proxy général pour connecteurs custom
 
-Un seul service HTTP qui relaie, de façon **restreinte et lecture seule**, vers plusieurs API tierces.
+Un seul service HTTP qui relaie, de façon **restreinte** (allowlist d'actions), vers plusieurs API tierces.
 Chaque connecteur garde **ses secrets côté serveur** (variables Render) ; les appelants n'utilisent
 qu'un `PROXY_SECRET` distinct et révocable. Même philosophie que `missive-proxy`, mais **multi-connecteurs**.
 
-Premier connecteur : **ShipStation** (API v1 « legacy », commandes / expéditions / suivi).
+Premier connecteur : **ShipStation** (API v1 « legacy », commandes / expéditions / suivi), en
+**accès complet** : lecture + écriture (tags, hold, marquage expédié, création/suppression de
+commande, achat et annulation d'étiquettes). ⚠️ Les actions d'étiquette **débitent de l'argent réel**.
 
 ---
 
@@ -18,7 +20,7 @@ Premier connecteur : **ShipStation** (API v1 « legacy », commandes / expéditi
 
 Réponse : `{ ok: true, connector, action, data }` ou `{ error }`.
 
-### Actions ShipStation (lecture seule)
+### Actions ShipStation — lecture
 
 | Action | Params utiles | Renvoie |
 |---|---|---|
@@ -30,6 +32,23 @@ Réponse : `{ ok: true, connector, action, data }` ou `{ error }`.
 | `stores` | `showInactive` | boutiques reliées |
 | `warehouses` | — | entrepôts |
 | `listtags` | — | tags de commande |
+
+### Actions ShipStation — écriture (accès complet)
+
+Classées par risque. Les params marqués **requis** sont validés par le proxy avant l'appel.
+
+| Action | Params (— requis en gras) | Effet / risque |
+|---|---|---|
+| `getrates` | **carrierCode, fromPostalCode, toPostalCode, toCountry, weight** `{value, units}` (+ serviceCode, packageCode, dimensions, confirmation, residential) | 🟢 devis de tarifs, **aucun effet de bord** |
+| `addtag` / `removetag` | **orderId, tagId** (voir `listtags`) | 🟢 réversible, aucun coût |
+| `holduntil` | **orderId, holdUntilDate** (AAAA-MM-JJ) | 🟢 met la commande en attente |
+| `restorefromhold` | **orderId** | 🟢 remet la commande en file |
+| `markasshipped` | **orderId, carrierCode** (+ trackingNumber, shipDate, notifyCustomer, notifySalesChannel) | 🟡 marque expédiée SANS étiquette; **notifie le client** sauf `notifyCustomer:false` |
+| `createorder` | **orderNumber, orderDate, orderStatus, billTo, shipTo** (+ items, orderKey…) | 🟡 crée OU **modifie** (upsert par `orderKey`: les champs fournis écrasent) |
+| `deleteorder` | **orderId** | 🔴 supprime/annule la commande (destructeur) |
+| `createlabelfororder` | **orderId, carrierCode, serviceCode, shipDate** (+ weight, packageCode, testLabel) | 🔴 **achète** une étiquette = argent réel (wallet One Balance / compte) — `testLabel:true` pour essayer sans frais |
+| `createlabel` | **carrierCode, serviceCode, shipDate, shipFrom, shipTo, weight** (+ isReturnLabel, testLabel) | 🔴 **achète** une étiquette hors commande (ou de RETOUR avec `isReturnLabel:true`) = argent réel |
+| `voidlabel` | **shipmentId** | 🟡 annule une étiquette (généralement remboursée) |
 
 ---
 

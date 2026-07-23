@@ -19,6 +19,11 @@
  * Premier connecteur : SHIPSTATION (API v1 « legacy », ssapi.shipstation.com,
  * auth Basic clé:secret). Actions LECTURE : orders, order, shipments,
  * fulfillments, carriers, stores, warehouses, listtags.
+ * Actions ÉCRITURE (accès complet, ajoutées sur demande) : addtag, removetag,
+ * holduntil, restorefromhold, markasshipped, createorder, deleteorder,
+ * getrates (sans effet de bord), createlabelfororder, createlabel, voidlabel.
+ * ATTENTION : createlabelfororder/createlabel DÉBITENT le wallet (argent réel);
+ * deleteorder annule la commande; voidlabel annule une étiquette (remboursée).
  *
  * AUTH : chaque route (sauf /health et /connectors) exige l'en-tête
  *   X-Proxy-Secret: <PROXY_SECRET>
@@ -108,9 +113,28 @@ const shipstation = (() => {
       headers: { Authorization: auth() },
       rateReset: "x-rate-limit-reset",
     });
+  const post = (path, body) =>
+    httpJson({
+      method: "POST",
+      url: `${BASE}${path}`,
+      headers: { Authorization: auth() },
+      body: body || {},
+      rateReset: "x-rate-limit-reset",
+    });
+  const del = (path) =>
+    httpJson({
+      method: "DELETE",
+      url: `${BASE}${path}`,
+      headers: { Authorization: auth() },
+      rateReset: "x-rate-limit-reset",
+    });
+  const requis = (p, ...champs) => {
+    for (const c of champs) if (!p || p[c] === undefined || p[c] === null || p[c] === "") throw new Error(`${c} requis`);
+    return p;
+  };
   return {
     name: "shipstation",
-    description: "ShipStation v1 (commandes, expéditions, suivi) — lecture seule.",
+    description: "ShipStation v1 (commandes, expéditions, suivi) — accès complet (lecture + écriture; les étiquettes débitent le wallet).",
     enabled: () => !!(KEY && SECRET),
     // Chaque action = une entrée de l'allowlist. { params } arrive du corps JSON.
     actions: {
@@ -135,6 +159,37 @@ const shipstation = (() => {
       stores: (p) => get("/stores", p),
       warehouses: () => get("/warehouses"),
       listtags: () => get("/accounts/listtags"),
+
+      // ---- ÉCRITURE (accès complet) ----
+      // Tarifs (POST mais SANS effet de bord — devis seulement).
+      // Params: carrierCode, fromPostalCode, toPostalCode, toCountry, weight {value, units},
+      // et facultatifs serviceCode, packageCode, toState, toCity, dimensions, confirmation, residential.
+      getrates: (p) => post("/shipments/getrates", requis(p, "carrierCode", "fromPostalCode", "toPostalCode", "toCountry", "weight")),
+      // Tag sur une commande (réversible, aucun coût). Params: orderId, tagId (voir listtags).
+      addtag: (p) => post("/orders/addtag", requis(p, "orderId", "tagId")),
+      removetag: (p) => post("/orders/removetag", requis(p, "orderId", "tagId")),
+      // Mise en attente / retour en file. Params: orderId (+ holdUntilDate AAAA-MM-JJ).
+      holduntil: (p) => post("/orders/holduntil", requis(p, "orderId", "holdUntilDate")),
+      restorefromhold: (p) => post("/orders/restorefromhold", requis(p, "orderId")),
+      // Marque expédiée SANS étiquette (déclenche la notif client sauf notifyCustomer:false).
+      // Params: orderId, carrierCode (+ trackingNumber, shipDate, notifyCustomer, notifySalesChannel).
+      markasshipped: (p) => post("/orders/markasshipped", requis(p, "orderId", "carrierCode")),
+      // Crée OU MODIFIE une commande (upsert par orderKey; sans orderKey = création).
+      // Params min: orderNumber, orderDate, orderStatus, billTo, shipTo. ATTENTION: avec un
+      // orderKey existant, les champs fournis ÉCRASENT ceux de la commande.
+      createorder: (p) => post("/orders/createorder", requis(p, "orderNumber", "orderDate", "orderStatus", "billTo", "shipTo")),
+      // Supprime (annule) une commande. DESTRUCTEUR. Params: orderId.
+      deleteorder: (p) => { requis(p, "orderId"); return del(`/orders/${encodeURIComponent(p.orderId)}`); },
+      // ACHÈTE une étiquette pour une commande existante — ARGENT RÉEL (wallet One Balance /
+      // compte transporteur). Params: orderId, carrierCode, serviceCode, confirmation, shipDate
+      // (+ packageCode, weight, dimensions, testLabel:true pour essayer sans frais).
+      createlabelfororder: (p) => post("/orders/createlabelfororder", requis(p, "orderId", "carrierCode", "serviceCode", "shipDate")),
+      // ACHÈTE une étiquette « hors commande » (ou étiquette de RETOUR avec isReturnLabel:true).
+      // ARGENT RÉEL. Params: carrierCode, serviceCode, shipDate, shipFrom, shipTo, weight
+      // (+ packageCode, dimensions, isReturnLabel, testLabel).
+      createlabel: (p) => post("/shipments/createlabel", requis(p, "carrierCode", "serviceCode", "shipDate", "shipFrom", "shipTo", "weight")),
+      // Annule une étiquette (généralement remboursée par le transporteur). Params: shipmentId.
+      voidlabel: (p) => post("/shipments/voidlabel", requis(p, "shipmentId")),
     },
   };
 })();
