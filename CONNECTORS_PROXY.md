@@ -82,6 +82,20 @@ NB : la file « À réviser » du flux bancaire n'est **pas** exposée par l'API
 livres par API = créer les transactions directement ; QBO les apparie ensuite aux lignes
 bancaires (match automatique).
 
+### 🔒 Isolation des finances (secret dédié)
+
+Le connecteur QuickBooks supporte un **secret distinct** : définir `QBO_PROXY_SECRET` dans l'env
+Render du proxy. Dès qu'il existe, les routes `/quickbooks/*` refusent le `GENERAL_PROXY_SECRET`
+et n'acceptent que lui. Périmètres résultants :
+
+- env du cron `support.js` (et tout autre script opérationnel) : `GENERAL_PROXY_SECRET` seulement
+  → ShipStation oui, **finances non** ;
+- env Claude / scripts financiers (`qbo_import.js`) : `QBO_PROXY_SECRET` → finances oui.
+
+Tant que `QBO_PROXY_SECRET` n'est pas défini côté proxy, comportement inchangé (repli sur le
+secret général) — l'activation est donc sans coupure : définir la variable côté proxy, puis la
+distribuer aux seuls appelants financiers.
+
 Exemple — le P&L mensuel de l'exercice (le format du chiffrier de prévisions) :
 
 ```
@@ -148,6 +162,7 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `GENERAL_PROXY_SECRET` | secret **propre à ce proxy** (distinct du missive-proxy, révocable à part). À défaut, repli sur `PROXY_SECRET`. |
 | `SHIPSTATION_API_KEY` | API Key ShipStation (v1) |
 | `SHIPSTATION_API_SECRET` | API Secret ShipStation (v1) |
+| `QBO_PROXY_SECRET` | **secret dédié aux finances** : quand il est défini, `/quickbooks/*` n'accepte QUE lui (le secret général y est refusé). À donner UNIQUEMENT aux environnements qui doivent toucher à la compta — JAMAIS à l'env du cron `support.js`. |
 | `QBO_CLIENT_ID` / `QBO_CLIENT_SECRET` | app Intuit (Keys & credentials, Production) |
 | `QBO_REALM_ID` | Company ID QuickBooks (fourni par l'autorisation) |
 | `QBO_REFRESH_TOKEN` | refresh token initial (sortie de `qbo_auth.js exchange`) |

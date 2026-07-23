@@ -320,6 +320,11 @@ const quickbooks = (() => {
   return {
     name: "quickbooks",
     description: "QuickBooks Online (rapports, requêtes, tenue de livres: création/modification de transactions) — écritures appariées automatiquement au flux bancaire.",
+    // ISOLATION DES FINANCES: si QBO_PROXY_SECRET est défini, ce connecteur n'accepte QUE
+    // ce secret-là (le secret général est refusé). Ainsi, les environnements qui n'ont que
+    // GENERAL_PROXY_SECRET (ex. le cron support.js, qui ne consulte que ShipStation) ne
+    // peuvent PAS toucher aux livres comptables même si leur env fuit.
+    secretEnv: "QBO_PROXY_SECRET",
     enabled: () => !!(CLIENT_ID && CLIENT_SECRET && REALM && (SEED || TOKEN_FILE)),
     actions: {
       // Rapport comptable. Params: name (requis: ProfitAndLoss | BalanceSheet | TrialBalance |
@@ -410,15 +415,19 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "GET" && route === "/connectors") return json(res, 200, { connectors: describeConnectors() });
     if (req.method !== "POST") return json(res, 404, { error: "not found" });
 
-    // Auth
-    if ((req.headers["x-proxy-secret"] || "") !== PROXY_SECRET) return json(res, 401, { error: "unauthorized" });
-
-    // Routage /:connecteur/:action
+    // Routage /:connecteur/:action (résolu AVANT l'auth: le secret exigé dépend du connecteur)
     const parts = route.split("/").filter(Boolean);
-    if (parts.length !== 2) return json(res, 404, { error: "route attendue : /:connecteur/:action" });
     const [cname, aname] = parts;
+    const conn = parts.length === 2 ? CONNECTEURS[cname] : undefined;
 
-    const conn = CONNECTEURS[cname];
+    // Auth. Un connecteur peut exiger un secret DÉDIÉ (conn.secretEnv, ex. QBO_PROXY_SECRET
+    // pour les finances): s'il est configuré, LUI SEUL est accepté pour ce connecteur — le
+    // secret général est refusé. Sinon, repli sur le secret général du proxy.
+    const dedie = conn && conn.secretEnv ? process.env[conn.secretEnv] : null;
+    const attendu = dedie || PROXY_SECRET;
+    if ((req.headers["x-proxy-secret"] || "") !== attendu) return json(res, 401, { error: "unauthorized" });
+
+    if (parts.length !== 2) return json(res, 404, { error: "route attendue : /:connecteur/:action" });
     if (!conn) return json(res, 404, { error: `connecteur inconnu : ${cname}`, connecteurs: Object.keys(CONNECTEURS) });
     if (!conn.enabled()) return json(res, 503, { error: `connecteur « ${cname} » non configuré (variables d'environnement manquantes).` });
 
@@ -438,4 +447,7 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   const actifs = Object.entries(CONNECTEURS).filter(([, c]) => c.enabled()).map(([n]) => n);
   console.log(`connectors-proxy à l'écoute sur :${PORT} — connecteurs actifs : ${actifs.join(", ") || "(aucun)"}`);
+  for (const [n, c] of Object.entries(CONNECTEURS)) {
+    if (c.secretEnv) console.log(`  ${n}: secret dédié ${c.secretEnv} ${process.env[c.secretEnv] ? "ACTIF (secret général refusé sur ce connecteur)" : "NON DÉFINI (repli sur le secret général — définir " + c.secretEnv + " pour isoler)"}`);
+  }
 });

@@ -30,7 +30,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const PROXY_URL = (process.env.GENERAL_PROXY_URL || "https://general-proxy-5muf.onrender.com").replace(/\/+$/, "");
-const SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET || "";
+// Secret: QBO_PROXY_SECRET (secret dédié aux finances) en priorité; repli sur le général
+// tant que l'isolation n'est pas activée côté proxy.
+const SECRET = process.env.QBO_PROXY_SECRET || process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET || "";
 const MAPPING_FILE = process.env.QBO_MAPPING_FILE || path.join(__dirname, "qbo_mapping.json");
 
 if (!SECRET) { console.error("Manque GENERAL_PROXY_SECRET (ou PROXY_SECRET)."); process.exit(1); }

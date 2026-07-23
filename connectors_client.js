@@ -28,9 +28,14 @@
 
 const URL = process.env.GENERAL_PROXY_URL || "https://general-proxy-5muf.onrender.com";
 const SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET;
+// Secrets DÉDIÉS par connecteur (isolation des périmètres sensibles): quickbooks exige
+// QBO_PROXY_SECRET quand il est configuré côté proxy (le secret général y est refusé).
+const SECRETS_DEDIES = { quickbooks: process.env.QBO_PROXY_SECRET };
 
 async function call(route, body, method = "POST") {
-  const opts = { method, headers: { "Content-Type": "application/json", "X-Proxy-Secret": SECRET || "" } };
+  const connecteur = (route.split("/").filter(Boolean)[0] || "").toLowerCase();
+  const secret = SECRETS_DEDIES[connecteur] || SECRET;
+  const opts = { method, headers: { "Content-Type": "application/json", "X-Proxy-Secret": secret || "" } };
   if (method === "POST") opts.body = JSON.stringify(body || {});
   const res = await fetch(`${URL}${route}`, opts);
   const text = await res.text();
