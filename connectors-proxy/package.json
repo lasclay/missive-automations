@@ -1,0 +1,12 @@
+{
+  "name": "connectors-proxy",
+  "version": "1.0.0",
+  "description": "Proxy HTTP restreint et général vers des API tierces (connecteurs custom). Les secrets restent côté serveur. Premier connecteur : ShipStation.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
