@@ -65,12 +65,15 @@ indique `enabled: true/false` par connecteur.
 
 ## Déployer sur Render
 
-Service **séparé** du `missive-proxy` :
+Service **séparé** du `missive-proxy`. `server.js` est à la **racine** du repo :
 
-1. **New → Web Service**, repo `lasclay/missive-automations`, **Root Directory** = `connectors-proxy`.
+1. **New → Web Service**, repo `lasclay/missive-automations`, **Root Directory** = *(laisser vide — racine)*.
 2. **Runtime** Node · **Build** `npm install` (ou vide) · **Start** `node server.js`.
 3. **Environment** : les variables ci-dessus.
 4. Déploie. L'URL ressemblera à `https://connectors-proxy.onrender.com`.
+
+> `server.js` (le proxy) et `missive-proxy/server.js` (le proxy Missive) sont deux services Render
+> distincts : celui-ci tourne depuis la racine, l'autre depuis son sous-dossier `missive-proxy/`.
 
 ---
 
@@ -79,7 +82,7 @@ Service **séparé** du `missive-proxy` :
 **Avant de déployer** — valider les clés en local (ne modifie rien) :
 
 ```
-SHIPSTATION_API_KEY=xxx SHIPSTATION_API_SECRET=yyy node ../shipstation_check.js L-50468
+SHIPSTATION_API_KEY=xxx SHIPSTATION_API_SECRET=yyy node shipstation_check.js L-50468
 ```
 
 **Une fois déployé** — sonde + introspection (sans secret) :
