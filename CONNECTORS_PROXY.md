@@ -53,15 +53,16 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 
 | Variable | Valeur |
 |---|---|
-| `CONNECTORS_PROXY_SECRET` | secret **propre à ce proxy** (recommandé — distinct du missive-proxy, révocable à part). À défaut, repli sur `PROXY_SECRET`. |
+| `GENERAL_PROXY_SECRET` | secret **propre à ce proxy** (distinct du missive-proxy, révocable à part). À défaut, repli sur `PROXY_SECRET`. |
 | `SHIPSTATION_API_KEY` | API Key ShipStation (v1) |
 | `SHIPSTATION_API_SECRET` | API Secret ShipStation (v1) |
 | `PORT` | (auto, fourni par Render) |
 
-> **Nom du secret** : ce proxy et le `missive-proxy` sont deux services. Sur Render, chacun a son env
-> isolé (pas de conflit). Mais dans l'environnement de Claude (un seul `.env`), deux secrets DIFFÉRENTS
-> exigent deux NOMS différents : `PROXY_SECRET` (Missive) et `CONNECTORS_PROXY_SECRET` (ce proxy). Si tu
-> laisses `CONNECTORS_PROXY_SECRET` vide partout, les deux proxies partagent `PROXY_SECRET`.
+> **Nom du secret** : ce proxy (service Render « General Proxy ») et le `missive-proxy` (« Proxy Missive »)
+> sont deux services. Sur Render, chacun a son env isolé (pas de conflit). Mais dans l'environnement de
+> Claude (un seul `.env`), deux secrets DIFFÉRENTS exigent deux NOMS différents :
+> `MISSIVE_PROXY_SECRET` (Missive) et `GENERAL_PROXY_SECRET` (ce proxy). Si tu laisses
+> `GENERAL_PROXY_SECRET` vide partout, ce proxy retombe sur `PROXY_SECRET`.
 
 Un connecteur sans ses variables est simplement **désactivé** (les autres fonctionnent). `/connectors`
 indique `enabled: true/false` par connecteur.

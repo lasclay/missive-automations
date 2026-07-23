@@ -2,7 +2,7 @@
  * Client du missive-proxy — utilisé par Claude DANS l'environnement Claude Code
  * (pas déployé). Lit l'URL et le secret depuis l'environnement, jamais en dur :
  *   MISSIVE_PROXY_URL   ex. https://missive-proxy.onrender.com
- *   PROXY_SECRET        le même secret que côté proxy
+ *   MISSIVE_PROXY_SECRET  le même secret que le service Proxy Missive (repli PROXY_SECRET)
  *
  * Usage :
  *   node missive_client.js health
@@ -18,7 +18,7 @@
  */
 
 const URL = process.env.MISSIVE_PROXY_URL || "https://proxy-missive.onrender.com";
-const SECRET = process.env.PROXY_SECRET;
+const SECRET = process.env.MISSIVE_PROXY_SECRET || process.env.PROXY_SECRET;
 
 async function call(route, body, method = "POST") {
   if (!URL) throw new Error("MISSIVE_PROXY_URL absent de l'environnement.");
