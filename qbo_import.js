@@ -21,21 +21,22 @@
  * Sorties : qbo_pl_FY<N>.tsv et/ou qbo_bs_FY<N>.tsv dans le dossier courant. À coller
  * dans les feuilles correspondantes (P&L FY2026 = colonnes AA à AL).
  *
- * Environnement : GENERAL_PROXY_URL + GENERAL_PROXY_SECRET (repli PROXY_SECRET) — le
- * proxy détient les secrets Intuit (voir CONNECTORS_PROXY.md, section QuickBooks).
+ * Environnement : FINANCE_PROXY_URL + FINANCE_PROXY_SECRET — le service finance-proxy
+ * dédié détient les secrets Intuit (voir finance-proxy/FINANCE_PROXY.md).
  * Node 18+. Aucune dépendance.
  */
 
 const fs = require("node:fs");
 const path = require("node:path");
 
-const PROXY_URL = (process.env.GENERAL_PROXY_URL || "https://general-proxy-5muf.onrender.com").replace(/\/+$/, "");
-// Secret: QBO_PROXY_SECRET (secret dédié aux finances) en priorité; repli sur le général
-// tant que l'isolation n'est pas activée côté proxy.
-const SECRET = process.env.QBO_PROXY_SECRET || process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET || "";
+// Service DÉDIÉ aux finances (finance-proxy/) — secrets isolés du proxy général.
+const PROXY_URL = (process.env.FINANCE_PROXY_URL || "").replace(/\/+$/, "");
+const SECRET = process.env.FINANCE_PROXY_SECRET || "";
+
+if (!PROXY_URL) { console.error("Manque FINANCE_PROXY_URL (le service finance-proxy dédié)."); process.exit(1); }
 const MAPPING_FILE = process.env.QBO_MAPPING_FILE || path.join(__dirname, "qbo_mapping.json");
 
-if (!SECRET) { console.error("Manque GENERAL_PROXY_SECRET (ou PROXY_SECRET)."); process.exit(1); }
+if (!SECRET) { console.error("Manque FINANCE_PROXY_SECRET."); process.exit(1); }
 
 // --- arguments ---
 const args = process.argv.slice(2);
@@ -62,7 +63,7 @@ function tagPour(mapping, label) {
 
 // --- appel proxy ---
 async function proxy(action, params) {
-  const res = await fetch(`${PROXY_URL}/quickbooks/${action}`, {
+  const res = await fetch(`${PROXY_URL}/${action}`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-Proxy-Secret": SECRET },
     body: JSON.stringify(params || {}),

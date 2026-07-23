@@ -38,16 +38,7 @@
  *   PROXY_SECRET            repli si GENERAL_PROXY_SECRET absent.                     [*ou celui-ci]
  *   SHIPSTATION_API_KEY     clé API ShipStation (Account → API Settings)     [connecteur ShipStation]
  *   SHIPSTATION_API_SECRET  secret API ShipStation                          [connecteur ShipStation]
- *   QBO_CLIENT_ID           Client ID de l'app Intuit (developer.intuit.com) [connecteur QuickBooks]
- *   QBO_CLIENT_SECRET       Client Secret de l'app Intuit                    [connecteur QuickBooks]
- *   QBO_REALM_ID            Realm ID (Company ID) QuickBooks                 [connecteur QuickBooks]
- *   QBO_REFRESH_TOKEN       refresh token OAuth2 initial (voir qbo_auth.js)  [connecteur QuickBooks]
- *   QBO_ENV                 "production" (défaut) ou "sandbox"               [facultatif]
- *   QBO_TOKEN_FILE          fichier où persister le refresh token tournant   [facultatif]
- *   RENDER_API_KEY + RENDER_SERVICE_ID   sync auto de QBO_REFRESH_TOKEN dans l'env Render
- *                           (RECOMMANDÉ: le disque Render est éphémère et Intuit fait
- *                           tourner le refresh token ~24 h; sans sync, il faut refaire
- *                           l'autorisation après chaque redéploiement vieux de +24 h)
+ *   (QuickBooks : service dédié finance-proxy/ — voir finance-proxy/FINANCE_PROXY.md)
  *   PORT                    port d'écoute (fourni par Render)               [auto]
  *
  * Un connecteur sans ses variables est simplement « désactivé » (les autres
@@ -204,188 +195,14 @@ const shipstation = (() => {
   };
 })();
 
-// ==========================================================================
-// CONNECTEUR : QuickBooks Online (API v3, OAuth2) — LECTURE SEULE
-// --------------------------------------------------------------------------
-// Pourquoi ici : le connecteur QuickBooks officiel de Claude est une app Intuit
-// US-only (« isn't available for use in your country » pour une entreprise
-// canadienne). On passe donc par NOTRE propre app Intuit (developer.intuit.com),
-// valide au Canada, avec ses clés côté Render.
-//
-// OAuth2 Intuit : access token 60 min; REFRESH TOKEN TOURNANT (Intuit remplace
-// sa valeur ~toutes les 24 h; seule la plus récente reste valide, 100 jours max
-// sans usage). Le plus récent doit SURVIVRE aux redémarrages, sinon il faut
-// refaire l'autorisation (qbo_auth.js). Ordre de vérité au démarrage :
-// mémoire > fichier QBO_TOKEN_FILE > variable d'env QBO_REFRESH_TOKEN (seed).
-// Sur Render (disque éphémère), la persistance FIABLE est la sync de la
-// variable d'env via l'API Render (RENDER_API_KEY + RENDER_SERVICE_ID).
-// ==========================================================================
-const quickbooks = (() => {
-  const fsq = require("node:fs");
-  const CLIENT_ID = process.env.QBO_CLIENT_ID || "";
-  const CLIENT_SECRET = process.env.QBO_CLIENT_SECRET || "";
-  const REALM = process.env.QBO_REALM_ID || "";
-  const SEED = process.env.QBO_REFRESH_TOKEN || "";
-  const BASE = (process.env.QBO_ENV || "production").toLowerCase() === "sandbox"
-    ? "https://sandbox-quickbooks.api.intuit.com"
-    : "https://quickbooks.api.intuit.com";
-  const MINOR = process.env.QBO_MINORVERSION || "75";
-  const TOKEN_FILE = process.env.QBO_TOKEN_FILE || "";
-  const RENDER_KEY = process.env.RENDER_API_KEY || "";
-  const RENDER_SVC = process.env.RENDER_SERVICE_ID || "";
-
-  let access = { token: null, exp: 0 };
-  let refresh = null; // dernier refresh token connu (mémoire)
-
-  function loadRefresh() {
-    if (refresh) return refresh;
-    if (TOKEN_FILE) {
-      try { refresh = JSON.parse(fsq.readFileSync(TOKEN_FILE, "utf8")).refresh_token || null; } catch { /* fichier absent au 1er run */ }
-    }
-    return refresh || SEED || null;
-  }
-
-  async function saveRefresh(rt) {
-    refresh = rt;
-    if (TOKEN_FILE) {
-      try { fsq.writeFileSync(TOKEN_FILE, JSON.stringify({ refresh_token: rt, saved_at: new Date().toISOString() })); }
-      catch (e) { console.warn(`quickbooks: écriture ${TOKEN_FILE}: ${e.message}`); }
-    }
-    if (RENDER_KEY && RENDER_SVC) {
-      try {
-        const r = await fetch(`https://api.render.com/v1/services/${RENDER_SVC}/env-vars/QBO_REFRESH_TOKEN`, {
-          method: "PUT",
-          headers: { Authorization: `Bearer ${RENDER_KEY}`, "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({ value: rt }),
-        });
-        if (!r.ok) console.warn(`quickbooks: sync env Render → ${r.status}`);
-      } catch (e) { console.warn(`quickbooks: sync env Render: ${e.message}`); }
-    } else if (!TOKEN_FILE) {
-      console.warn("quickbooks: refresh token tourné mais AUCUNE persistance configurée (RENDER_API_KEY+RENDER_SERVICE_ID ou QBO_TOKEN_FILE): il sera perdu au prochain redémarrage.");
-    }
-  }
-
-  async function token() {
-    if (access.token && Date.now() < access.exp) return access.token;
-    const rt = loadRefresh();
-    if (!rt) throw new Error("quickbooks: aucun refresh token (QBO_REFRESH_TOKEN; voir qbo_auth.js)");
-    const res = await fetch("https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer", {
-      method: "POST",
-      headers: {
-        Authorization: "Basic " + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64"),
-        "Content-Type": "application/x-www-form-urlencoded",
-        Accept: "application/json",
-      },
-      body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: rt }).toString(),
-    });
-    if (!res.ok) {
-      const t = (await res.text()).slice(0, 200);
-      throw new Error(`quickbooks token → ${res.status} ${t}${/invalid_grant/.test(t) ? " (refresh token périmé/tourné ailleurs: refaire l'autorisation avec qbo_auth.js)" : ""}`);
-    }
-    const j = await res.json();
-    access = { token: j.access_token, exp: Date.now() + Math.max(60, (j.expires_in || 3600) - 120) * 1000 };
-    if (j.refresh_token && j.refresh_token !== rt) await saveRefresh(j.refresh_token);
-    else refresh = rt;
-    return access.token;
-  }
-
-  const get = async (path, params) =>
-    httpJson({
-      method: "GET",
-      url: `${BASE}/v3/company/${encodeURIComponent(REALM)}${path}${qs({ minorversion: MINOR, ...(params || {}) })}`,
-      headers: { Authorization: `Bearer ${await token()}`, Accept: "application/json" },
-    });
-  const post = async (path, body, params) =>
-    httpJson({
-      method: "POST",
-      url: `${BASE}/v3/company/${encodeURIComponent(REALM)}${path}${qs({ minorversion: MINOR, ...(params || {}) })}`,
-      headers: { Authorization: `Bearer ${await token()}`, Accept: "application/json" },
-      body,
-    });
-
-  // Entités permises en écriture (tenue de livres). NB: la file « À réviser » du flux
-  // bancaire n'est PAS exposée par l'API Intuit — on crée les transactions directement,
-  // et QBO les apparie automatiquement aux lignes bancaires correspondantes.
-  const ENTITES = new Set([
-    "purchase", "journalentry", "deposit", "transfer", "bill", "billpayment",
-    "invoice", "payment", "salesreceipt", "creditmemo", "vendorcredit", "refundreceipt",
-    "vendor", "customer", "item", "account", "attachable",
-  ]);
-  const entite = (p) => {
-    const e = ((p && p.entity) || "").toLowerCase();
-    if (!ENTITES.has(e)) throw new Error(`entity requis, parmi: ${[...ENTITES].join(", ")}`);
-    return e;
-  };
-
-  return {
-    name: "quickbooks",
-    description: "QuickBooks Online (rapports, requêtes, tenue de livres: création/modification de transactions) — écritures appariées automatiquement au flux bancaire.",
-    // ISOLATION DES FINANCES: si QBO_PROXY_SECRET est défini, ce connecteur n'accepte QUE
-    // ce secret-là (le secret général est refusé). Ainsi, les environnements qui n'ont que
-    // GENERAL_PROXY_SECRET (ex. le cron support.js, qui ne consulte que ShipStation) ne
-    // peuvent PAS toucher aux livres comptables même si leur env fuit.
-    secretEnv: "QBO_PROXY_SECRET",
-    enabled: () => !!(CLIENT_ID && CLIENT_SECRET && REALM && (SEED || TOKEN_FILE)),
-    actions: {
-      // Rapport comptable. Params: name (requis: ProfitAndLoss | BalanceSheet | TrialBalance |
-      // GeneralLedger | CashFlow | AgedReceivables | AgedPayables ...) + options du rapport:
-      // start_date/end_date (AAAA-MM-JJ), summarize_column_by (Month|Quarters|Years...),
-      // accounting_method (Accrual|Cash), date_macro... Ex. P&L mensuel FY2026 :
-      // { name:"ProfitAndLoss", start_date:"2025-09-01", end_date:"2026-08-31",
-      //   summarize_column_by:"Month", accounting_method:"Accrual" }
-      report: (p) => {
-        if (!p || !p.name) throw new Error("name requis (ex. ProfitAndLoss, BalanceSheet)");
-        const { name, ...rest } = p;
-        return get(`/reports/${encodeURIComponent(name)}`, rest);
-      },
-      // Requête SQL-like de l'API v3. Params: { query: "select * from Account maxresults 200" }
-      query: (p) => {
-        if (!p || !p.query) throw new Error("query requis");
-        return get("/query", { query: p.query });
-      },
-      // Infos compagnie (test d'auth minimal).
-      companyinfo: () => get(`/companyinfo/${encodeURIComponent(REALM)}`),
-
-      // ---- ÉCRITURE (tenue de livres) ----
-      // Lit une entité par Id — sert aussi à obtenir le SyncToken courant avant update/remove.
-      read: (p) => {
-        const e = entite(p);
-        if (!p.id) throw new Error("id requis");
-        return get(`/${e}/${encodeURIComponent(p.id)}`);
-      },
-      // Crée une transaction/entité. Params: { entity, body } — body = objet QBO v3 complet
-      // (ex. Purchase: AccountRef + PaymentType + Line[]; JournalEntry: Line[] débit/crédit).
-      create: (p) => {
-        const e = entite(p);
-        if (!p.body || typeof p.body !== "object") throw new Error("body requis (objet QBO v3)");
-        return post(`/${e}`, p.body);
-      },
-      // Met à jour. SPARSE par défaut (seuls les champs fournis changent). body: Id + SyncToken
-      // requis (verrou optimiste QBO: relire l'entité juste avant pour un SyncToken frais).
-      update: (p) => {
-        const e = entite(p);
-        const b = p.body;
-        if (!b || !b.Id || b.SyncToken === undefined) throw new Error("body avec Id et SyncToken requis");
-        return post(`/${e}`, b.sparse === undefined ? { ...b, sparse: true } : b);
-      },
-      // Supprime une TRANSACTION (Id + SyncToken). DESTRUCTEUR (les entités de liste —
-      // vendor/customer/item/account — se désactivent plutôt via update Active:false).
-      remove: (p) => {
-        const e = entite(p);
-        const b = p.body || p;
-        if (!b.Id || b.SyncToken === undefined) throw new Error("Id et SyncToken requis");
-        return post(`/${e}`, { Id: b.Id, SyncToken: b.SyncToken }, { operation: "delete" });
-      },
-    },
-  };
-})();
+// QuickBooks : DÉMÉNAGÉ dans le service dédié finance-proxy/ (isolation des finances —
+// secrets Intuit et secret d'appel séparés de ce proxy). Voir finance-proxy/FINANCE_PROXY.md.
 
 // ==========================================================================
 // REGISTRE DES CONNECTEURS — ajouter un nouveau connecteur = ajouter une entrée.
 // ==========================================================================
 const CONNECTEURS = {
   [shipstation.name]: shipstation,
-  [quickbooks.name]: quickbooks,
 };
 
 // ---- Serveur HTTP ----

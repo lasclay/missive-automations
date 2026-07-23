@@ -20,22 +20,14 @@
  *   node connectors_client.js shipstation getrates '{"carrierCode":"canada_post","fromPostalCode":"G1K 3B2","toPostalCode":"H2X 1Y4","toCountry":"CA","weight":{"value":500,"units":"grams"}}'
  *   ⚠️ createlabelfororder / createlabel DÉBITENT le wallet (argent réel; testLabel:true = essai).
  *
- * Exemples QuickBooks (lecture seule) :
- *   node connectors_client.js quickbooks companyinfo
- *   node connectors_client.js quickbooks report '{"name":"ProfitAndLoss","start_date":"2025-09-01","end_date":"2026-08-31","summarize_column_by":"Month","accounting_method":"Accrual"}'
- *   node connectors_client.js quickbooks query '{"query":"select * from Account maxresults 200"}'
+ * QuickBooks : service dédié (isolation des finances) → utiliser finance_client.js
+ * avec FINANCE_PROXY_URL + FINANCE_PROXY_SECRET. Voir finance-proxy/FINANCE_PROXY.md.
  */
 
 const URL = process.env.GENERAL_PROXY_URL || "https://general-proxy-5muf.onrender.com";
 const SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET;
-// Secrets DÉDIÉS par connecteur (isolation des périmètres sensibles): quickbooks exige
-// QBO_PROXY_SECRET quand il est configuré côté proxy (le secret général y est refusé).
-const SECRETS_DEDIES = { quickbooks: process.env.QBO_PROXY_SECRET };
-
 async function call(route, body, method = "POST") {
-  const connecteur = (route.split("/").filter(Boolean)[0] || "").toLowerCase();
-  const secret = SECRETS_DEDIES[connecteur] || SECRET;
-  const opts = { method, headers: { "Content-Type": "application/json", "X-Proxy-Secret": secret || "" } };
+  const opts = { method, headers: { "Content-Type": "application/json", "X-Proxy-Secret": SECRET || "" } };
   if (method === "POST") opts.body = JSON.stringify(body || {});
   const res = await fetch(`${URL}${route}`, opts);
   const text = await res.text();
