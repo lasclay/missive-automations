@@ -28,7 +28,10 @@
  * Node 18+ (fetch natif). Aucune dépendance.
  *
  * Variables d'environnement (secrets Render) :
- *   PROXY_SECRET            secret partagé envoyé en en-tête                 [requis]
+ *   CONNECTORS_PROXY_SECRET secret PROPRE à ce proxy (recommandé, distinct du       [requis*]
+ *                           missive-proxy). À défaut, repli sur PROXY_SECRET.
+ *   PROXY_SECRET            repli si CONNECTORS_PROXY_SECRET absent (partage         [*ou celui-ci]
+ *                           alors le même secret que le missive-proxy).
  *   SHIPSTATION_API_KEY     clé API ShipStation (Account → API Settings)     [connecteur ShipStation]
  *   SHIPSTATION_API_SECRET  secret API ShipStation                          [connecteur ShipStation]
  *   PORT                    port d'écoute (fourni par Render)               [auto]
@@ -39,10 +42,13 @@
 
 const http = require("node:http");
 
-const PROXY_SECRET = process.env.PROXY_SECRET;
+// Secret propre à CE proxy : CONNECTORS_PROXY_SECRET en priorité (pour un secret
+// distinct de celui du missive-proxy, révocable indépendamment), repli sur
+// PROXY_SECRET si non défini (les deux proxies partagent alors le même secret).
+const PROXY_SECRET = process.env.CONNECTORS_PROXY_SECRET || process.env.PROXY_SECRET;
 const PORT = process.env.PORT || 3000;
 
-if (!PROXY_SECRET) { console.error("Manque PROXY_SECRET."); process.exit(1); }
+if (!PROXY_SECRET) { console.error("Manque CONNECTORS_PROXY_SECRET (ou PROXY_SECRET)."); process.exit(1); }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

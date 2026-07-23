@@ -53,10 +53,15 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 
 | Variable | Valeur |
 |---|---|
-| `PROXY_SECRET` | un secret que TU choisis (le même que tu mets côté appelant) |
-| `SHIPSTATION_API_KEY` | API Key ShipStation |
-| `SHIPSTATION_API_SECRET` | API Secret ShipStation |
+| `CONNECTORS_PROXY_SECRET` | secret **propre à ce proxy** (recommandé — distinct du missive-proxy, révocable à part). À défaut, repli sur `PROXY_SECRET`. |
+| `SHIPSTATION_API_KEY` | API Key ShipStation (v1) |
+| `SHIPSTATION_API_SECRET` | API Secret ShipStation (v1) |
 | `PORT` | (auto, fourni par Render) |
+
+> **Nom du secret** : ce proxy et le `missive-proxy` sont deux services. Sur Render, chacun a son env
+> isolé (pas de conflit). Mais dans l'environnement de Claude (un seul `.env`), deux secrets DIFFÉRENTS
+> exigent deux NOMS différents : `PROXY_SECRET` (Missive) et `CONNECTORS_PROXY_SECRET` (ce proxy). Si tu
+> laisses `CONNECTORS_PROXY_SECRET` vide partout, les deux proxies partagent `PROXY_SECRET`.
 
 Un connecteur sans ses variables est simplement **désactivé** (les autres fonctionnent). `/connectors`
 indique `enabled: true/false` par connecteur.
