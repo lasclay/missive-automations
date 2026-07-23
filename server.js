@@ -295,10 +295,31 @@ const quickbooks = (() => {
       url: `${BASE}/v3/company/${encodeURIComponent(REALM)}${path}${qs({ minorversion: MINOR, ...(params || {}) })}`,
       headers: { Authorization: `Bearer ${await token()}`, Accept: "application/json" },
     });
+  const post = async (path, body, params) =>
+    httpJson({
+      method: "POST",
+      url: `${BASE}/v3/company/${encodeURIComponent(REALM)}${path}${qs({ minorversion: MINOR, ...(params || {}) })}`,
+      headers: { Authorization: `Bearer ${await token()}`, Accept: "application/json" },
+      body,
+    });
+
+  // Entités permises en écriture (tenue de livres). NB: la file « À réviser » du flux
+  // bancaire n'est PAS exposée par l'API Intuit — on crée les transactions directement,
+  // et QBO les apparie automatiquement aux lignes bancaires correspondantes.
+  const ENTITES = new Set([
+    "purchase", "journalentry", "deposit", "transfer", "bill", "billpayment",
+    "invoice", "payment", "salesreceipt", "creditmemo", "vendorcredit", "refundreceipt",
+    "vendor", "customer", "item", "account", "attachable",
+  ]);
+  const entite = (p) => {
+    const e = ((p && p.entity) || "").toLowerCase();
+    if (!ENTITES.has(e)) throw new Error(`entity requis, parmi: ${[...ENTITES].join(", ")}`);
+    return e;
+  };
 
   return {
     name: "quickbooks",
-    description: "QuickBooks Online (rapports P&L/bilan/balance de vérification, requêtes, infos compagnie) — lecture seule.",
+    description: "QuickBooks Online (rapports, requêtes, tenue de livres: création/modification de transactions) — écritures appariées automatiquement au flux bancaire.",
     enabled: () => !!(CLIENT_ID && CLIENT_SECRET && REALM && (SEED || TOKEN_FILE)),
     actions: {
       // Rapport comptable. Params: name (requis: ProfitAndLoss | BalanceSheet | TrialBalance |
@@ -319,6 +340,37 @@ const quickbooks = (() => {
       },
       // Infos compagnie (test d'auth minimal).
       companyinfo: () => get(`/companyinfo/${encodeURIComponent(REALM)}`),
+
+      // ---- ÉCRITURE (tenue de livres) ----
+      // Lit une entité par Id — sert aussi à obtenir le SyncToken courant avant update/remove.
+      read: (p) => {
+        const e = entite(p);
+        if (!p.id) throw new Error("id requis");
+        return get(`/${e}/${encodeURIComponent(p.id)}`);
+      },
+      // Crée une transaction/entité. Params: { entity, body } — body = objet QBO v3 complet
+      // (ex. Purchase: AccountRef + PaymentType + Line[]; JournalEntry: Line[] débit/crédit).
+      create: (p) => {
+        const e = entite(p);
+        if (!p.body || typeof p.body !== "object") throw new Error("body requis (objet QBO v3)");
+        return post(`/${e}`, p.body);
+      },
+      // Met à jour. SPARSE par défaut (seuls les champs fournis changent). body: Id + SyncToken
+      // requis (verrou optimiste QBO: relire l'entité juste avant pour un SyncToken frais).
+      update: (p) => {
+        const e = entite(p);
+        const b = p.body;
+        if (!b || !b.Id || b.SyncToken === undefined) throw new Error("body avec Id et SyncToken requis");
+        return post(`/${e}`, b.sparse === undefined ? { ...b, sparse: true } : b);
+      },
+      // Supprime une TRANSACTION (Id + SyncToken). DESTRUCTEUR (les entités de liste —
+      // vendor/customer/item/account — se désactivent plutôt via update Active:false).
+      remove: (p) => {
+        const e = entite(p);
+        const b = p.body || p;
+        if (!b.Id || b.SyncToken === undefined) throw new Error("Id et SyncToken requis");
+        return post(`/${e}`, { Id: b.Id, SyncToken: b.SyncToken }, { operation: "delete" });
+      },
     },
   };
 })();

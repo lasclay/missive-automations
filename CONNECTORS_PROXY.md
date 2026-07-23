@@ -9,8 +9,9 @@ Connecteurs actuels :
 - **ShipStation** (API v1 « legacy », commandes / expéditions / suivi), en **accès complet** :
   lecture + écriture (tags, hold, marquage expédié, création/suppression de commande, achat et
   annulation d'étiquettes). ⚠️ Les actions d'étiquette **débitent de l'argent réel**.
-- **QuickBooks Online** (API v3, OAuth2), **lecture seule** : rapports (P&L, bilan, balance de
-  vérification…), requêtes SQL-like, infos compagnie. Pourquoi ici : le connecteur QuickBooks
+- **QuickBooks Online** (API v3, OAuth2) : rapports (P&L, bilan, balance de vérification…),
+  requêtes SQL-like, infos compagnie, et **écriture pour la tenue de livres** (création /
+  modification / suppression de transactions). Pourquoi ici : le connecteur QuickBooks
   officiel de Claude est une app Intuit US-only, bloquée pour une entreprise canadienne
   (« isn't available for use in your country ») ; on passe par notre propre app Intuit.
 
@@ -56,13 +57,30 @@ Classées par risque. Les params marqués **requis** sont validés par le proxy 
 | `createlabel` | **carrierCode, serviceCode, shipDate, shipFrom, shipTo, weight** (+ isReturnLabel, testLabel) | 🔴 **achète** une étiquette hors commande (ou de RETOUR avec `isReturnLabel:true`) = argent réel |
 | `voidlabel` | **shipmentId** | 🟡 annule une étiquette (généralement remboursée) |
 
-### Actions QuickBooks (lecture seule)
+### Actions QuickBooks — lecture
 
 | Action | Params | Renvoie |
 |---|---|---|
 | `report` | **name** (`ProfitAndLoss`, `BalanceSheet`, `TrialBalance`, `GeneralLedger`, `CashFlow`, `AgedReceivables`…) + options : `start_date`/`end_date` (AAAA-MM-JJ), `summarize_column_by` (`Month`…), `accounting_method` (`Accrual`\|`Cash`), `date_macro`… | le rapport (Columns + Rows) |
 | `query` | **query** (SQL-like v3, ex. `select * from Account maxresults 200`) | résultats de la requête |
 | `companyinfo` | — | infos compagnie (test d'auth) |
+| `read` | **entity, id** | l'entité complète (donne le `SyncToken` courant) |
+
+### Actions QuickBooks — écriture (tenue de livres)
+
+Entités permises : `purchase`, `journalentry`, `deposit`, `transfer`, `bill`, `billpayment`,
+`invoice`, `payment`, `salesreceipt`, `creditmemo`, `vendorcredit`, `refundreceipt`,
+`vendor`, `customer`, `item`, `account`, `attachable`.
+
+| Action | Params | Effet / risque |
+|---|---|---|
+| `create` | **entity, body** (objet QBO v3) | 🟡 crée la transaction/entité; QBO l'apparie au flux bancaire automatiquement |
+| `update` | **entity, body** avec **Id + SyncToken** (sparse par défaut) | 🟡 modifie; relire l'entité avant (`read`) pour un SyncToken frais |
+| `remove` | **entity, body** avec **Id + SyncToken** | 🔴 supprime une transaction (irréversible; l'Audit Log QBO en garde la trace) |
+
+NB : la file « À réviser » du flux bancaire n'est **pas** exposée par l'API Intuit. La tenue de
+livres par API = créer les transactions directement ; QBO les apparie ensuite aux lignes
+bancaires (match automatique).
 
 Exemple — le P&L mensuel de l'exercice (le format du chiffrier de prévisions) :
 
