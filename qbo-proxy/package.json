@@ -1,9 +1,0 @@
-{
-  "name": "qbo-proxy",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Proxy lecture seule Claude <-> API QuickBooks Online (clés Intuit côté Render)",
-  "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=18" }
-}
