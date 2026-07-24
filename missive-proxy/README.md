@@ -12,10 +12,11 @@ périmètre limité.
 3. **Runtime** : Node · **Build Command** : (vide) · **Start Command** : `node server.js`
 4. **Environment** (secrets) :
    - `MISSIVE_TOKEN` = ton jeton Missive (`missive_pat-...`) — **dédié à ceci, révocable**
-   - `PROXY_SECRET` = une longue chaîne aléatoire que tu inventes (le mot de passe du proxy)
+   - `MISSIVE_PROXY_SECRET` = une longue chaîne aléatoire que tu inventes (le mot de passe du proxy).
+     *(Repli accepté : `PROXY_SECRET`, si tu n'as pas encore migré le nom.)*
 5. Déploie. Vérifie : `GET https://<ton-service>.onrender.com/health` → `{"ok":true}`
 
-Donne ensuite à Claude **l'URL du service** (publique, pas secrète). Le `PROXY_SECRET`,
+Donne ensuite à Claude **l'URL du service** (publique, pas secrète). Le `MISSIVE_PROXY_SECRET`,
 mets-le en variable d'environnement de la session Claude Code (jamais dans le chat).
 
 ## Sécurité
@@ -37,4 +38,4 @@ mets-le en variable d'environnement de la session Claude Code (jamais dans le ch
 | `POST /close` | `{ "id": "...", "note": "..." }` | ferme le fil (+ note) |
 | `POST /reply` | `{ "id", "from", "to":[], "cc":[], "subject", "body", "send", "closeAfter" }` | crée un brouillon; `send:true` envoie; `closeAfter:true` ferme ensuite |
 
-Toutes les routes POST exigent l'en-tête `X-Proxy-Secret: <PROXY_SECRET>`.
+Toutes les routes POST exigent l'en-tête `X-Proxy-Secret: <MISSIVE_PROXY_SECRET>`.

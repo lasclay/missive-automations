@@ -29,8 +29,8 @@
  * Node 18+ (fetch natif). Aucune dépendance.
  *
  * Variables d'environnement (secrets Render) :
- *   MISSIVE_TOKEN   jeton API Missive (missive_pat-...)                 [requis]
- *   PROXY_SECRET    secret partagé que Claude envoie en en-tête         [requis]
+ *   MISSIVE_TOKEN         jeton API Missive (missive_pat-...)                 [requis]
+ *   MISSIVE_PROXY_SECRET  secret que Claude envoie en en-tête (repli PROXY_SECRET)  [requis]
  *   MISSIVE_ORG     id d'organisation (défaut Lasclay)               [facultatif]
  *   PORT            port d'écoute (fourni par Render)                 [auto]
  */
@@ -38,13 +38,13 @@
 const http = require("node:http");
 
 const TOKEN = process.env.MISSIVE_TOKEN;
-const PROXY_SECRET = process.env.PROXY_SECRET;
+const PROXY_SECRET = process.env.MISSIVE_PROXY_SECRET || process.env.PROXY_SECRET;
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
 const PORT = process.env.PORT || 3000;
 const API = "https://public.missiveapp.com/v1";
 
 if (!TOKEN) { console.error("Manque MISSIVE_TOKEN."); process.exit(1); }
-if (!PROXY_SECRET) { console.error("Manque PROXY_SECRET."); process.exit(1); }
+if (!PROXY_SECRET) { console.error("Manque MISSIVE_PROXY_SECRET (ou PROXY_SECRET)."); process.exit(1); }
 
 const mHeaders = { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json" };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

@@ -1,5 +1,5 @@
 /**
- * Lasclay — support.js (v2.13)
+ * Lasclay — support.js (v2.34)
  * -------------------------
  * Réponses automatiques pour la shared inbox LAS Support, 3 fois par jour.
  * Pour chaque fil ouvert où le dernier mot revient au client, Sonnet rédige
@@ -61,12 +61,112 @@
  * v2.16: un brouillon INCOMPLET (gabarit non rempli, ex. « [ADRESSE À CONFIRMER] ») n'est JAMAIS
  *   envoyé — garde-fou déterministe indépendant de l'IA + prompt qui interdit les champs à remplir
  *   (reformuler ou demander au client en clair; jamais de crochets dans le corps).
+ * v2.17: la boîte « Mise à jour commande » est RÉINTÉGRÉE au balayage. Ses mises à jour de statut
+ *   ont été poussées en masse via Klaviyo (prévente de la fin mai), mais tous les clients ne les
+ *   ont pas reçues et certaines commandes sont plus anciennes / hors prévente. Consigne dédiée
+ *   (MAJ_COMMANDE_TEAM): d'abord vérifier gentiment si le client a reçu notre mise à jour (indésirables
+ *   / Promotions, offrir de la renvoyer) quand le cas cadre avec la prévente; sinon, répondre pour
+ *   vrai à sa demande. Surchargeable via MAJ_COMMANDE_TEAM; retirer l'équipe du balayage via TEAMS=.
+ * v2.18: intégration Shopify FACULTATIVE (SHOPIFY_STORE + SHOPIFY_ADMIN_TOKEN). Quand elle est
+ *   configurée, le script retrouve la commande (numéro L-xxxxx du sujet/fil) et injecte son VRAI
+ *   statut (date, articles, expédiée/en préparation, suivi) dans le prompt, avec autorisation
+ *   explicite de s'y appuyer (sans jamais inventer de date). Sans jeton: comportement inchangé.
+ * v2.19: Shopify supporte l'app « Render connector » du Dev Dashboard via CLIENT CREDENTIALS
+ *   (SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET, jeton auto-renouvelé ~24h) en plus du jeton fixe.
+ *   Ajout du transporteur et du LIEN de suivi.
+ * v2.20: l'état du colis vient de SHOPIFY (shipment_status des fulfillments: en transit, en cours
+ *   de livraison, livré...), pas d'un appel Postes Canada. Injecté dans le prompt avec le reste.
+ * v2.21: la vérif Shopify inclut l'état REMBOURSEMENT/RETOUR (financial_status, refunds: montant,
+ *   date, articles retournés, annulation). Le prompt sait ainsi si un remboursement est DÉJÀ fait
+ *   et ne le re-promet pas (crucial pour la boîte Retours-Échanges).
+ * v2.22: VERROU d'envoi + repli par courriel. (1) Une promesse de remboursement/renvoi ne part
+ *   JAMAIS en envoi auto si la commande n'a pas été VÉRIFIÉE dans Shopify (reste brouillon + note),
+ *   quel que soit SEND_ACTIONS. (2) Si aucun numéro de commande n'est dans le fil, on retrouve la
+ *   commande par le COURRIEL du client (la plus récente; ambiguïté signalée si plusieurs) pour
+ *   vérifier avant de promettre.
+ * v2.23: (1) Lookup Shopify via GraphQL (REST ne filtrait pas fiablement par name/email). (2) Un cas
+ *   ESCALADÉ ne part plus jamais en envoi auto (reste brouillon). (3) Prompt: interdiction de s'avancer
+ *   sur temps/déplacement (rencontres), stock/disponibilité, faisabilité technique, refus/acceptation
+ *   d'une demande inhabituelle -> escalade=true et action_requise, l'humain tranche.
+ *   NB: pour lire les commandes de plus de 60 jours, l'app Shopify doit avoir le scope read_all_orders.
+ * v2.25: SUPPORT INFORMÉ « comme un humain ». Avant de rédiger, on rassemble tout le contexte
+ *   disponible: (1) HISTORIQUE COMMANDES Shopify du client (jusqu'à 5, pas juste une), avec statut
+ *   et remboursement de chacune; (2) les AUTRES fils du client, OUVERTS ET FERMÉS/résolus récents
+ *   (index borné HISTO_CLOSED_PAGES/boîte), avec le contenu de leur dernier message, pour ne pas
+ *   contredire une réponse déjà donnée ni rouvrir un sujet réglé. HISTO_CLOSED=false pour désactiver.
+ * v2.26: encore plus de données « vue humaine » par commande: RABAIS/code promo appliqué ou non
+ *   (répond juste aux « rabais non appliqué »), mode d'expédition, note de commande, tags. Et lecture
+ *   des NOTES INTERNES de l'équipe (commentaires Missive) sur le fil (marche à suivre, geste déjà posé).
+ * v2.27: STOCK RÉEL au catalogue. Le catalogue est enrichi avec l'inventaire Shopify (Admin API:
+ *   inventoryQuantity + availableForSale par variante) => l'IA peut répondre à une question de
+ *   disponibilité au lieu d'escalader (quand la variante figure au catalogue). Nécessite les scopes
+ *   Shopify read_products + read_inventory sur l'app; sans eux, on retombe sur la dispo publique.
+ * v2.33: le scope read_products manquant est traité comme read_customers — latch _shopNoProd, aucune
+ *   nouvelle interrogation du catalogue Admin, une seule ligne de log claire, repli sur la dispo
+ *   publique du storefront. Fin du flood « Access denied for products field ».
+ * v2.34: vérification SHIPSTATION (facultative) en complément de Shopify — ce que Shopify ne voit
+ *   pas: statut d'expédition INTERNE (à expédier, en attente/on hold, annulée), TOUS les envois
+ *   d'une commande avec suivi + lien (détecte un 2e ENVOI/renvoi et donne le suivi du plus récent),
+ *   étiquettes de RETOUR émises, et commandes MANUELLES au nom du client (créées hors Shopify,
+ *   ex. renvoi de garantie). Deux modes d'accès, au choix: via le connectors-proxy
+ *   (GENERAL_PROXY_URL + GENERAL_PROXY_SECRET, secrets ShipStation côté Render) ou direct
+ *   (SHIPSTATION_API_KEY + SHIPSTATION_API_SECRET). Rien de configuré => comportement inchangé.
+ *   Lecture seule, latch d'échec par run, caches par commande/nom (limite 40 req/min respectée).
+ * v2.32: correctifs post-validation. (1) La vérif de commande ne casse plus si le scope read_customers
+ *   manque: repli automatique sur une requête sans le champ client (l'unification #5 s'active seulement
+ *   si read_customers est présent). Fin du flood d'erreurs. (2) Boîte MAJ: la question « as-tu reçu ta
+ *   commande » n'est utilisée QUE pour un pur « où est ma commande » non vérifiable; un vrai point
+ *   (rabais, adresse, remboursement, défaut) est traité en priorité. Formules bannies « entre les
+ *   craques/mailles », « oublié personne » explicitement interdites; formulation variée exigée.
+ * v2.31: VISION. Le modèle EXAMINE les photos jointes par le client (défaut de fabrication, mauvais
+ *   article/couleur/taille, dommage de transport, germination) et répond en connaissance de cause.
+ *   Jusqu'à VISION_MAX images/fil (défaut 3), récupérées via l'API Missive (base64), envoyées en
+ *   contenu multimodal au rédacteur. VISION=false désactive. Le vérificateur (2e passe) est prévenu
+ *   qu'il ne voit pas les photos, pour ne pas bloquer à tort une observation qui en dépend.
+ * v2.30: FERMETURE ACTIVE des fils réglés (CLOSE_RESOLVED, défaut on). L'IA renvoie "fermer": true
+ *   quand un fil est manifestement clos (commande livrée depuis longtemps sans question, simple
+ *   remerciement, fil obsolète) => le script FERME le fil avec une note interne, SANS écrire au client
+ *   (réversible: se rouvre s'il réécrit). Conservateur: jamais si une action est requise ou si escalade.
+ *   Respecte DRY_RUN ([DRY fermer] en simulation). Vide vraiment la boîte comme le ferait un humain.
+ * v2.29: TEMPORALITÉ. Le temps écoulé est DÉJÀ CALCULÉ pour l'IA (« il y a X jours, ~Y mois »):
+ *   âge de la commande, dates réelles d'EXPÉDITION et de LIVRAISON (fulfillment: inTransitAt/
+ *   deliveredAt/estimatedDeliveryAt), âge de l'historique, et date du dernier message du client.
+ *   Règle: raisonner depuis aujourd'hui; commande livrée/expédiée il y a longtemps = reçue (conclure,
+ *   pas rouvrir); message vieux = situation évoluée; ne jamais chiffrer l'ancienneté au client.
+ * v2.28: (1) NOTICE IA traduite en anglais quand la réponse est en anglais. (2) IDENTITÉ CLIENT
+ *   unifiée: on pivote vers le courriel du COMPTE Shopify de la commande (retrouve tout l'historique
+ *   même si le client écrit d'une autre adresse) + alerte si l'expéditeur diffère du compte. (3) La
+ *   relecture Opus reçoit désormais les DONNÉES VÉRIFIÉES (elle peut détecter une contradiction avec
+ *   Shopify/autres fils). (4) DOUBLE PASSE (DOUBLE_QC): 2e vérificateur adversarial sur les cas à
+ *   enjeu (enjeu/sensible/action) avant tout envoi; au moindre doute => brouillon.
+ * v2.24: QC de la boîte « Mise à jour commande » + conscience des fils non fusionnés.
+ *   (1) PRÉVENTE = uniquement les commandes du 30-31 MAI 2026 (date Shopify vérifiée); jamais ailleurs.
+ *   (2) Commande déjà EXPÉDIÉE/LIVRÉE: interdiction absolue de dire « on prépare »; confirmer l'envoi/
+ *       la livraison, ou fermer si vieux fil sans question. (3) Statut NON vérifiable dans Shopify:
+ *       on ne l'ENVOIE pas (reste brouillon), et on demande au client de confirmer la réception en
+ *       cadrant comme une vérification large. (4) Les AUTRES fils ouverts du client sont inlinés (leur
+ *       dernier message) dans le prompt pour éviter les réponses à côté (pallie l'absence de fusion).
  * Après un envoi: le fil est FERMÉ (se rouvre si le client répond). Si le suivi dépend de
  * NOUS (ex. vente), on ferme + label « Relance » + note datée (le délai idéal vient de l'IA).
  *   DRAFT_LIMIT    plafond de sorties (brouillons + envois) par run (défaut 5; 0 = illimité)
  *   MAX_FILS       plafond de fils analysés par run (défaut 40)
  *   KNOWLEDGE_FILE chemin du document de connaissance (défaut ./connaissance_support.md)
  *   TEAMS, DRAFT_LABEL, EXPORT_CONV, MISSIVE_ORG, EXPORT_FROM   overrides
+ *   SHOPIFY_STORE        (facultatif) domaine .myshopify.com, ex. "lasclay.myshopify.com"
+ *   Auth Shopify, AU CHOIX (si SHOPIFY_STORE présent, le script vérifie le VRAI statut de la commande:
+ *   date, articles, expédiée/en préparation, suivi + lien; surtout pour « Mise à jour commande »):
+ *     SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET   app « Render connector » (Dev Dashboard), RECOMMANDÉ:
+ *                        jeton obtenu par client credentials, renouvelé automatiquement (~24h).
+ *     SHOPIFY_ADMIN_TOKEN                          jeton Admin fixe (shpat_...) si vous en avez un.
+ *   SHOPIFY_API_VERSION  (facultatif) défaut "2024-10". Tout absent = comportement inchangé.
+ *   L'état du colis vient de Shopify lui-même (champ shipment_status des fulfillments, alimenté par
+ *   le transporteur): en transit, en cours de livraison, livré, tentative... Aucun appel externe.
+ *   Scopes Shopify recommandés sur l'app: read_orders, read_fulfillments, read_all_orders (commandes
+ *   de +60 j), et read_products + read_inventory (stock réel au catalogue). Sans stock: dispo publique.
+ *   GENERAL_PROXY_URL     (facultatif) URL du connectors-proxy (ex. https://general-proxy-5muf.onrender.com)
+ *   GENERAL_PROXY_SECRET  secret du connectors-proxy (repli PROXY_SECRET) => vérif ShipStation via proxy
+ *   SHIPSTATION_API_KEY + SHIPSTATION_API_SECRET   (facultatif) accès ShipStation DIRECT (prime sur le proxy)
+ *   SHIPSTATION_VERIF     "false" pour désactiver la vérif ShipStation même si configurée (défaut on)
  */
 
 const fs = require("node:fs");
@@ -78,6 +178,10 @@ const MODEL = process.env.MODEL || "claude-sonnet-4-6";
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false";
 const DRAFT_LIMIT = parseInt(process.env.DRAFT_LIMIT || "5", 10);
 const MAX_FILS = parseInt(process.env.MAX_FILS || "40", 10);
+// v2.31 — VISION: le modèle EXAMINE les photos jointes par le client (défaut/produit, mauvais article,
+// taille, dommage). VISION=false désactive. VISION_MAX = nb max d'images par fil (défaut 3).
+const VISION = (process.env.VISION || "true").toLowerCase() !== "false";
+const VISION_MAX = parseInt(process.env.VISION_MAX || "3", 10) || 3;
 const KNOWLEDGE_FILE = process.env.KNOWLEDGE_FILE || "./connaissance_support.md";
 
 // v2.8 — Envoi automatique des brouillons propres (verifRequise === false).
@@ -102,6 +206,9 @@ const CATS_SENSIBLES = new Set([
 // ou à enjeu vers le QC Opus. ADDITIF: son jugement ajoute du QC, ne saute jamais un signal ni une
 // catégorie sensible. Un détecteur d'enjeu déterministe complète son jugement (gratuit).
 const QC_ESCALADE = (process.env.QC_ESCALADE || "true").toLowerCase() !== "false";
+// v2.28 — Double passe: 2e relecture adversariale des cas à ENJEU (contre les données vérifiées)
+// avant tout envoi. DOUBLE_QC=false pour désactiver. N'agit que si SEND_QC est actif.
+const DOUBLE_QC = (process.env.DOUBLE_QC || "true").toLowerCase() !== "false";
 // v2.11 — pouls du service (digest bref, escalade sélective). Un seul par jour: on
 // ne poste qu'au run dont l'heure UTC = DIGEST_HOUR (-1 = à chaque run).
 const DIGEST_SUPPORT = (process.env.DIGEST_SUPPORT || "").toLowerCase() === "true";
@@ -111,20 +218,37 @@ const DIGEST_MODEL = process.env.DIGEST_MODEL || MODEL;
 // v2.12 — fermeture des fils envoyés, et capture de relance (le snooze n'existe pas
 // dans l'API Missive). RELANCE_LABEL: label « Relance » à créer dans Missive.
 const RELANCE_LABEL = process.env.RELANCE_LABEL || "019f5d2f-51ca-70f0-83cc-2175b52d5a41"; // « Relance »
+// v2.30 — Fermeture ACTIVE des fils manifestement réglés (SANS envoyer de réponse): commande livrée
+// depuis longtemps sans question en suspens, ou simple remerciement. Respecte DRY_RUN. CLOSE_RESOLVED=false désactive.
+const CLOSE_RESOLVED = (process.env.CLOSE_RESOLVED || "true").toLowerCase() !== "false";
 
 // Notice de transparence IA, ajoutée en pied de TOUS les messages (envoyés et
 // brouillons). Ajoutée APRÈS la détection d'alertes, pour que son numéro de
 // téléphone ne déclenche pas l'alerte de voix. Rédigée sans tu/vous.
-const NOTICE_HTML =
+const NOTICE_HTML_FR =
   "<br><br>Petit mot en toute transparence : ce message a été préparé par un nouveau " +
   "système de réponse assisté par intelligence artificielle, présentement en rodage. " +
   "S'il y a le moindre problème, il est possible de me joindre directement au " +
   "581-982-5857 pour régler le dossier rapidement.";
+const NOTICE_HTML_EN =
+  "<br><br>A quick note for transparency: this message was prepared with a new " +
+  "AI-assisted response system that we're currently fine-tuning. " +
+  "If anything is off, I can be reached directly at " +
+  "581-982-5857 to sort it out quickly.";
+const noticeHtml = (langue) => (langue === "en" ? NOTICE_HTML_EN : NOTICE_HTML_FR);
+// Compat: référence historique = version FR (les usages passent désormais par noticeHtml(langue)).
+const NOTICE_HTML = NOTICE_HTML_FR;
+
+// Équipe « Mise à jour commande ». Les mises à jour de statut ont été poussées en
+// masse via Klaviyo (campagne liée à la PRÉVENTE DE LA FIN MAI). On la RÉINTÈGRE au
+// balayage: certains clients n'ont pas reçu la campagne, ou leur commande est plus
+// ancienne / hors prévente. Consigne dédiée injectée dans le prompt (voir MAJ_CONTEXTE).
+const MAJ_COMMANDE_TEAM = process.env.MAJ_COMMANDE_TEAM || "0db185c1-3a93-4a44-9f50-dcfe8c0683dd";
 
 // Équipes balayées (inbox ET fermés). Surchargeable via TEAMS="id1,id2,...".
 const DEFAULT_TEAMS = [
   "e184d153-4472-4edd-9b35-f8867cf437a8", // LAS Support
-  // "0db185c1-3a93-4a44-9f50-dcfe8c0683dd", // Mise à jour commande: RETIRÉE (gérée en masse via Klaviyo)
+  MAJ_COMMANDE_TEAM,                       // Mise à jour commande (Klaviyo: prévente fin mai; voir MAJ_CONTEXTE)
   "cc587c84-63b9-4e88-993c-4f4b5b328173", // RETOURS-ÉCHANGES
   "d6f28d2f-06ef-4aa5-aae0-b68f014e3216", // Vente - info pré-achat
   "13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217", // USA
@@ -133,6 +257,10 @@ const DEFAULT_TEAMS = [
 ];
 const TEAMS = (process.env.TEAMS || "").split(",").map((s) => s.trim()).filter(Boolean);
 const TEAM_IDS = TEAMS.length > 0 ? TEAMS : DEFAULT_TEAMS;
+// Contexte client « vue humaine »: on indexe aussi les fils FERMÉS/résolus récents de chaque
+// client (pour ne pas contredire une réponse déjà donnée). Borné par boîte. HISTO_CLOSED=false désactive.
+const HISTO_CLOSED = (process.env.HISTO_CLOSED || "true").toLowerCase() !== "false";
+const HISTO_CLOSED_PAGES = parseInt(process.env.HISTO_CLOSED_PAGES || "6", 10) || 6; // ~300 fermés/boîte
 const LIST_TEAMS = (process.env.LIST_TEAMS || "").toLowerCase() === "true";
 const DRAFT_LABEL = process.env.DRAFT_LABEL || "019eb935-9b22-7d14-8aeb-614a1e303e24"; // « Draft AI Support » (dédié à ce script)
 const EXPORT_CONV = process.env.EXPORT_CONV || "019eb488-6d42-7195-a2ae-11751d0a7a27"; // « Archives support » (mémoire excuses)
@@ -150,6 +278,231 @@ const TRI_LABELS = {
   douane_international: "7150fdfb-af9c-4844-835d-96c73da211d6",            // USA
 };
 
+// --- Shopify (FACULTATIF) : vérifier le VRAI statut d'une commande avant de répondre.
+// Activé si SHOPIFY_STORE + de quoi s'authentifier. Deux modes (app « Render connector »
+// du Dev Dashboard = client credentials; ou jeton Admin fixe hérité). Sinon, le script se
+// comporte EXACTEMENT comme avant. Sert surtout à « Mise à jour commande » (statut, date, articles).
+const SHOPIFY_STORE = process.env.SHOPIFY_STORE || ""; // ex. "lasclay.myshopify.com"
+const SHOPIFY_TOKEN = process.env.SHOPIFY_ADMIN_TOKEN || ""; // jeton Admin fixe (shpat_...) si fourni
+// Mode recommandé (Dev Dashboard, app custom-distribution): client credentials.
+// client_id + client_secret => jeton de ~24h, renouvelé automatiquement.
+const SHOPIFY_CLIENT_ID = process.env.SHOPIFY_CLIENT_ID || "";
+const SHOPIFY_CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET || "";
+const SHOPIFY_VER = process.env.SHOPIFY_API_VERSION || "2024-10";
+const SHOPIFY_ON = !!(SHOPIFY_STORE && (SHOPIFY_TOKEN || (SHOPIFY_CLIENT_ID && SHOPIFY_CLIENT_SECRET)));
+
+// --- ShipStation (FACULTATIF, v2.34) : complète Shopify avec ce qu'il ne voit pas —
+// statut d'expédition INTERNE, tous les ENVOIS d'une commande (2e envoi/renvoi), étiquettes
+// de RETOUR, commandes MANUELLES au nom du client. LECTURE SEULE.
+// Accès au choix: DIRECT (SHIPSTATION_API_KEY/SECRET, prime) ou via le connectors-proxy
+// (GENERAL_PROXY_URL + GENERAL_PROXY_SECRET). Rien de configuré => aucune vérif, zéro impact.
+const SS_KEY = process.env.SHIPSTATION_API_KEY || "";
+const SS_SECRET = process.env.SHIPSTATION_API_SECRET || "";
+const SS_BASE = process.env.SHIPSTATION_BASE || "https://ssapi.shipstation.com";
+const SS_PROXY_URL = (process.env.GENERAL_PROXY_URL || "").replace(/\/+$/, "");
+const SS_PROXY_SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET || "";
+const SS_DIRECT = !!(SS_KEY && SS_SECRET);
+const SS_ON = ((process.env.SHIPSTATION_VERIF || "true").toLowerCase() !== "false")
+  && (SS_DIRECT || !!(SS_PROXY_URL && SS_PROXY_SECRET));
+
+// Statuts internes ShipStation -> libellé lisible (pour l'IA; jamais montrés bruts au client).
+const SS_STATUS_FR = {
+  awaiting_payment: "en attente de paiement",
+  awaiting_shipment: "à expédier (dans la file d'expédition)",
+  pending_fulfillment: "en attente de traitement",
+  shipped: "expédiée",
+  on_hold: "EN ATTENTE (on hold — volontairement retenue)",
+  cancelled: "ANNULÉE dans ShipStation",
+};
+
+// Lien de suivi public par transporteur (codes ShipStation; les variantes « _walleted » sont normalisées).
+function ssTrackUrl(carrierCode, n) {
+  if (!n) return null;
+  const c = (carrierCode || "").replace(/_walleted$/, "");
+  const enc = encodeURIComponent(n);
+  const T = {
+    canada_post: `https://www.canadapost-postescanada.ca/track-reperage/fr#/details/${enc}`,
+    ups: `https://www.ups.com/track?tracknum=${enc}`,
+    purolator: `https://www.purolator.com/fr/expedition/tracker?pin=${enc}`,
+    fedex: `https://www.fedex.com/fedextrack/?trknbr=${enc}`,
+    dhl_express: `https://www.dhl.com/ca-fr/home/suivi.html?tracking-id=${enc}`,
+    canpar: `https://www.canpar.com/fr/tracking/track.htm?barcode=${enc}`,
+  };
+  return T[c] || null;
+}
+
+// Appel ShipStation LECTURE (actions: orders | shipments | fulfillments), avec retry 429.
+// Mode direct: GET ssapi; mode proxy: POST /shipstation/<action> (le proxy gère aussi le 429).
+let _ssFail = null; // latch d'échec pour tout le run (auth cassée, proxy down...) — une seule ligne de log
+async function ssGet(action, params, tries = 0) {
+  if (_ssFail) throw new Error(_ssFail);
+  const fail = (msg) => { _ssFail = msg; console.warn(`  ShipStation désactivé ce run: ${msg}`); return new Error(msg); };
+  try {
+    if (SS_DIRECT) {
+      const parts = [];
+      for (const [k, v] of Object.entries(params || {})) {
+        if (v === null || v === undefined || v === "") continue;
+        parts.push(`${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`);
+      }
+      const url = `${SS_BASE}/${action}${parts.length ? `?${parts.join("&")}` : ""}`;
+      const res = await fetch(url, {
+        headers: { Authorization: "Basic " + Buffer.from(`${SS_KEY}:${SS_SECRET}`).toString("base64"), Accept: "application/json" },
+      });
+      if (res.status === 429 && tries < 3) {
+        const reset = Number(res.headers.get("x-rate-limit-reset")) || 15;
+        await sleep(Math.min(reset + 1, 65) * 1000);
+        return ssGet(action, params, tries + 1);
+      }
+      if (res.status === 401) throw fail("auth invalide (SHIPSTATION_API_KEY/SECRET)");
+      if (!res.ok) throw new Error(`${action} → ${res.status}`);
+      return res.json();
+    }
+    // Mode proxy (connectors-proxy) : POST /shipstation/<action>, params en JSON.
+    const res = await fetch(`${SS_PROXY_URL}/shipstation/${action}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Proxy-Secret": SS_PROXY_SECRET },
+      body: JSON.stringify(params || {}),
+    });
+    if (res.status === 429 && tries < 3) { await sleep(20000); return ssGet(action, params, tries + 1); }
+    if (res.status === 401) throw fail("proxy: secret refusé (GENERAL_PROXY_SECRET)");
+    if (res.status === 503) throw fail("proxy: connecteur shipstation non configuré");
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok || !j.ok) throw new Error(`${action} → ${res.status} ${(j.error || "").slice(0, 120)}`);
+    return j.data;
+  } catch (e) {
+    if (!_ssFail && /réseau|network|fetch failed|ENOTFOUND|ECONN/i.test(e.message) && tries < 2) {
+      await sleep((tries + 1) * 5000);
+      return ssGet(action, params, tries + 1);
+    }
+    throw e;
+  }
+}
+
+// Résume les ENVOIS (shipments non annulés + fulfillments) d'une commande: suivi, lien, date, retour.
+function ssResumeEnvois(shipments, fulfillments) {
+  const envois = [];
+  for (const s of shipments || []) {
+    if (s.voided) continue;
+    envois.push({
+      date: (s.shipDate || s.createDate || "").slice(0, 10),
+      carrier: (s.carrierCode || "").replace(/_walleted$/, ""),
+      suivi: s.trackingNumber || null,
+      lien: ssTrackUrl(s.carrierCode, s.trackingNumber),
+      retour: !!s.isReturnLabel,
+    });
+  }
+  for (const f of fulfillments || []) {
+    if (f.voided) continue;
+    // Évite les doublons: un fulfillment qui reprend le suivi d'un shipment déjà listé.
+    if (f.trackingNumber && envois.some((e) => e.suivi === f.trackingNumber)) continue;
+    envois.push({
+      date: (f.shipDate || f.createDate || "").slice(0, 10),
+      carrier: (f.carrierCode || "").replace(/_walleted$/, ""),
+      suivi: f.trackingNumber || null,
+      lien: ssTrackUrl(f.carrierCode, f.trackingNumber),
+      retour: false,
+    });
+  }
+  envois.sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+  return envois;
+}
+
+// Caches par run (une commande/un nom revient souvent d'un fil à l'autre; économise le 40 req/min).
+const _ssCacheOrd = new Map();  // orderName -> bloc texte (ou null)
+const _ssCacheNom = new Map();  // nom client normalisé -> [commandes manuelles]
+
+/**
+ * Vérification ShipStation d'un fil: par NUMÉRO de commande (statut interne + envois + retours),
+ * et par NOM de client (commandes manuelles créées hors Shopify). Renvoie un bloc texte à injecter
+ * dans le prompt, ou "" si rien de pertinent. Ne lance jamais: l'appelant catch.
+ */
+async function shipstationLookup(orderName, nomClient) {
+  if (!SS_ON || _ssFail) return "";
+  const lignes = [];
+
+  // 1) La commande elle-même (statut interne, envois, retours).
+  if (orderName) {
+    if (_ssCacheOrd.has(orderName)) {
+      const l = _ssCacheOrd.get(orderName);
+      if (l) lignes.push(l);
+    } else {
+      let bloc = null;
+      const { orders = [] } = (await ssGet("orders", { orderNumber: orderName, pageSize: 50 })) || {};
+      // Le filtre orderNumber de la v1 est « commence par »: on garde les correspondances exactes.
+      const exacts = orders.filter((o) => (o.orderNumber || "").toUpperCase() === orderName.toUpperCase());
+      if (exacts.length) {
+        const o = exacts[exacts.length - 1];
+        const statut = SS_STATUS_FR[o.orderStatus] || o.orderStatus || "?";
+        const notes = [o.internalNotes, o.customerNotes].filter(Boolean).map((n) => String(n).slice(0, 150));
+        let l = `Commande ${orderName} dans ShipStation: statut interne « ${statut} »` +
+          (o.orderStatus === "on_hold" && o.holdUntilDate ? ` jusqu'au ${String(o.holdUntilDate).slice(0, 10)}` : "") +
+          (exacts.length > 1 ? ` (${exacts.length} entrées ShipStation pour ce numéro: envoi séparé en plusieurs colis probable)` : "") +
+          `.` + (notes.length ? ` Note interne d'expédition: "${notes.join(" | ")}".` : "");
+        const [sh, fu] = [
+          await ssGet("shipments", { orderNumber: orderName, pageSize: 50 }).catch(() => null),
+          await ssGet("fulfillments", { orderNumber: orderName, pageSize: 50 }).catch(() => null),
+        ];
+        const envois = ssResumeEnvois(sh && sh.shipments, fu && fu.fulfillments);
+        const sorties = envois.filter((e) => !e.retour), retours = envois.filter((e) => e.retour);
+        if (sorties.length) {
+          l += ` ENVOIS (${sorties.length}): ` + sorties.map((e, i) =>
+            `#${i + 1} le ${e.date || "?"} via ${e.carrier || "?"}${e.suivi ? `, suivi ${e.suivi}` : ""}${e.lien ? ` (${e.lien})` : ""}`).join(" ; ") + ".";
+          if (sorties.length > 1) l += ` IL Y A DONC PLUSIEURS ENVOIS (renvoi/2e colis): pour « où est mon colis », donne le suivi du PLUS RÉCENT (le renvoi), pas de l'ancien.`;
+        }
+        if (retours.length) {
+          l += ` ÉTIQUETTE(S) DE RETOUR émise(s) (${retours.length}): ` + retours.map((e) =>
+            `le ${e.date || "?"}${e.suivi ? `, suivi ${e.suivi}` : ""}${e.lien ? ` (${e.lien})` : ""}`).join(" ; ") +
+            `. Si le client demande comment retourner: l'étiquette existe déjà, réfère-t'y au lieu d'en promettre une nouvelle.`;
+        }
+        bloc = l;
+      }
+      _ssCacheOrd.set(orderName, bloc);
+      if (bloc) lignes.push(bloc);
+    }
+  }
+
+  // 2) Commandes MANUELLES au nom du client (créées hors Shopify: renvoi de garantie, échange,
+  //    commande téléphone...). Recherche par nom; on écarte la commande principale.
+  const nomKey = norm(nomClient || "");
+  if (nomKey && nomKey.length >= 5 && !SELF_NAMES.has(nomKey)) {
+    let manuelles;
+    if (_ssCacheNom.has(nomKey)) manuelles = _ssCacheNom.get(nomKey);
+    else {
+      const { orders = [] } = (await ssGet("orders", { customerName: nomClient, pageSize: 20, sortBy: "OrderDate", sortDir: "DESC" }).catch(() => ({}))) || {};
+      manuelles = orders.filter((o) => norm(o.shipTo && o.shipTo.name || o.customerUsername || "") === nomKey);
+      _ssCacheNom.set(nomKey, manuelles);
+    }
+    const autres = manuelles.filter((o) => !orderName || (o.orderNumber || "").toUpperCase() !== orderName.toUpperCase())
+      // Une commande Shopify régulière (L-xxxxx) est déjà couverte par la vérif Shopify; on ne
+      // signale ici que les numéros HORS motif (manuelles) pour ne pas noyer le prompt.
+      .filter((o) => !/^L-\d{4,6}$/i.test(o.orderNumber || ""));
+    if (autres.length) {
+      lignes.push(`AUTRES COMMANDES AU NOM DE CE CLIENT DANS SHIPSTATION (créées manuellement, INVISIBLES dans Shopify — souvent un renvoi, un échange ou une commande hors site): ` +
+        autres.slice(0, 3).map((o) => `« ${o.orderNumber} » du ${(o.orderDate || "").slice(0, 10)}, statut « ${SS_STATUS_FR[o.orderStatus] || o.orderStatus} »` +
+          ((o.items || []).length ? ` [${o.items.slice(0, 4).map((i) => `${i.quantity}x ${i.name}`).join(", ")}]` : "")).join(" ; ") +
+        `. Si le client attend un renvoi/échange, c'est probablement CETTE commande: vérifie son statut avant de promettre quoi que ce soit.`);
+    }
+  }
+
+  if (!lignes.length) return "";
+  return noDash(
+    `DONNÉES SHIPSTATION VÉRIFIÉES (notre système d'expédition; complète Shopify pour les envois multiples, ` +
+    `les retours et les commandes manuelles):\n- ` + lignes.join("\n- ") + `\n` +
+    `Sers-t'en pour donner le BON lien de suivi, confirmer qu'un renvoi est déjà parti ou qu'une étiquette de ` +
+    `retour existe. Ne montre JAMAIS les statuts internes bruts ni les notes internes au client; reformule. ` +
+    `Si ShipStation et Shopify divergent, signale-le en note_interne au lieu de trancher toi-même.`
+  );
+}
+
+// État du colis: on se fie à l'état RAPPORTÉ PAR SHOPIFY (champ shipment_status des fulfillments,
+// alimenté par le transporteur), sans appel externe. Codes Shopify -> libellé lisible.
+const SHIP_STATUS_FR = {
+  in_transit: "en transit", out_for_delivery: "en cours de livraison", delivered: "livré",
+  attempted_delivery: "tentative de livraison (à représenter)", ready_for_pickup: "prêt à cueillir au point de retrait",
+  confirmed: "pris en charge par le transporteur", label_printed: "étiquette créée, pas encore ramassé",
+  label_purchased: "étiquette créée, pas encore ramassé", failure: "problème de livraison signalé",
+};
+
 const SELF = (process.env.MISSIVE_SELF_ADDRESSES ||
   "hey@lasclay.com,admin@lasclay.com,operations@lasclay.com")
   .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
@@ -164,6 +517,21 @@ if (!ANTHROPIC_KEY) { console.error("Manque ANTHROPIC_API_KEY."); process.exit(1
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const noDash = (s) => (s || "").replace(/\s*[—–]\s*/g, ", ");
+// Temporalité: temps écoulé DÉJÀ CALCULÉ pour l'IA (elle raisonne mieux avec « il y a X » qu'avec une date brute).
+function joursDepuis(iso) {
+  if (!iso) return null;
+  const t = Date.parse(String(iso).length <= 10 ? iso + "T12:00:00Z" : iso);
+  if (Number.isNaN(t)) return null;
+  return Math.max(0, Math.floor((Date.now() - t) / 86400000));
+}
+function ilYa(iso) {
+  const j = joursDepuis(iso);
+  if (j === null) return "";
+  if (j === 0) return "aujourd'hui";
+  if (j === 1) return "hier";
+  const mois = Math.floor(j / 30);
+  return mois >= 2 ? `il y a ${j} j, ~${mois} mois` : `il y a ${j} j`;
+}
 const sanit = (s) => (s || "")
   .replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/g, "")
   .replace(/(^|[^\uD800-\uDBFF])([\uDC00-\uDFFF])/g, "$1");
@@ -206,13 +574,245 @@ async function apiPost(path, body) {
   }
 }
 
+// Jeton Shopify. Si SHOPIFY_ADMIN_TOKEN est fourni, on l'utilise tel quel. Sinon, on l'obtient
+// par CLIENT CREDENTIALS (app « Render connector » du Dev Dashboard) et on le met en cache
+// (~24h, renouvelé avant expiration). Server-to-server, aucune interaction utilisateur.
+let _shopTok = { token: SHOPIFY_TOKEN || null, exp: SHOPIFY_TOKEN ? Infinity : 0 };
+let _shopTokFail = null; // latch d'échec pour tout le run (évite de marteler l'endpoint à chaque fil)
+async function shopifyToken() {
+  if (SHOPIFY_TOKEN) return SHOPIFY_TOKEN;
+  if (_shopTok.token && Date.now() < _shopTok.exp) return _shopTok.token;
+  if (_shopTokFail) throw new Error(_shopTokFail); // déjà échoué ce run: on ne réessaie pas
+  const body = new URLSearchParams({
+    grant_type: "client_credentials",
+    client_id: SHOPIFY_CLIENT_ID,
+    client_secret: SHOPIFY_CLIENT_SECRET,
+  });
+  const res = await fetch(`https://${SHOPIFY_STORE}/admin/oauth/access_token`, {
+    method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body,
+  });
+  if (!res.ok) {
+    const txt = (await res.text()).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160);
+    _shopTokFail = `token client_credentials → ${res.status} ${txt}`;
+    if (res.status === 400 || res.status === 401 || res.status === 403) {
+      console.warn(`  Shopify: app probablement NON installée sur la boutique, ou Client ID/Secret erronés. Vérif Shopify désactivée ce run. (${res.status})`);
+    }
+    throw new Error(_shopTokFail);
+  }
+  const j = await res.json();
+  // Marge de sécurité: renouveler 5 min avant l'expiration annoncée (défaut 24h).
+  _shopTok = { token: j.access_token, exp: Date.now() + Math.max(60, (j.expires_in || 86399) - 300) * 1000 };
+  return _shopTok.token;
+}
+
+// Transforme un noeud commande GraphQL en résumé vérifié (statut, colis, remboursement, articles).
+function summariseOrder(o) {
+  const fuls = o.fulfillments || [];
+  const infos = fuls.flatMap((f) => f.trackingInfo || []);
+  const track = infos.map((t) => t.number).filter(Boolean);
+  const trackUrls = infos.map((t) => t.url).filter(Boolean);
+  const carriers = [...new Set(infos.map((t) => t.company).filter(Boolean))];
+  const shipCode = fuls.map((f) => f.displayStatus).filter(Boolean).pop() || null; // ex. DELIVERED, IN_TRANSIT
+  const livraison = shipCode
+    ? { source: "transporteur (via Shopify)", resume: SHIP_STATUS_FR[shipCode.toLowerCase()] || shipCode.toLowerCase().replace(/_/g, " ") }
+    : null;
+  // Dates temporelles: expédition (mise en transit ou création du fulfillment), livraison, estimation.
+  const fW = fuls.find((f) => f.deliveredAt) || fuls.find((f) => f.inTransitAt) || fuls[0] || {};
+  const expedieLe = ((fW.inTransitAt || fW.createdAt || "") + "").slice(0, 10) || null;
+  const livreLe = ((fW.deliveredAt || "") + "").slice(0, 10) || null;
+  const livraisonPrevue = ((fW.estimatedDeliveryAt || "") + "").slice(0, 10) || null;
+  const refunds = o.refunds || [];
+  let montantRembourse = 0, itemsRetournes = 0;
+  for (const r of refunds) {
+    montantRembourse += parseFloat(r.totalRefundedSet?.shopMoney?.amount || 0) || 0;
+    for (const e of (r.refundLineItems?.edges || [])) itemsRetournes += e.node?.quantity || 0;
+  }
+  const dernierRemb = refunds.length ? (refunds.map((r) => r.createdAt).filter(Boolean).sort().pop() || "").slice(0, 10) : "";
+  const fin = (o.displayFinancialStatus || "").toLowerCase(); // paid | partially_refunded | refunded | voided | ...
+  const ful = (o.displayFulfillmentStatus || "").toLowerCase();
+  return {
+    name: o.name,
+    date: (o.createdAt || "").slice(0, 10),
+    paye: fin === "paid",
+    expedie: ful === "fulfilled" ? "fulfilled" : ful === "partially_fulfilled" ? "partial" : "non expédiée",
+    suivi: track,
+    suiviUrls: trackUrls,
+    transporteur: carriers,
+    livraison, // { source, resume } ou null
+    expedieLe, livreLe, livraisonPrevue,
+    rembourse: {
+      etat: fin || "?", // paid | partially_refunded | refunded | voided
+      annulee: !!o.cancelledAt,
+      nb: refunds.length,
+      montant: montantRembourse ? montantRembourse.toFixed(2) : null,
+      itemsRetournes,
+      date: dernierRemb || null,
+    },
+    rabaisCodes: o.discountCodes || [],
+    rabaisMontant: (o.totalDiscountsSet?.shopMoney?.amount && parseFloat(o.totalDiscountsSet.shopMoney.amount) > 0) ? o.totalDiscountsSet.shopMoney.amount : null,
+    modeExpedition: o.shippingLine?.title || null,
+    noteCommande: o.note || "",
+    tags: o.tags || [],
+    courrielCommande: (o.email || "").toLowerCase() || null,
+    client: o.customer ? {
+      nom: o.customer.displayName || null,
+      courriel: (o.customer.email || "").toLowerCase() || null,
+      tel: o.customer.phone || null,
+      nbCommandes: o.customer.numberOfOrders != null ? Number(o.customer.numberOfOrders) : null,
+    } : null,
+    articles: (o.lineItems?.edges || []).map((e) => `${e.node.quantity}x ${e.node.title}${e.node.variantTitle ? ` (${e.node.variantTitle})` : ""}`),
+  };
+}
+
+// Champs commande demandés en GraphQL (REST ne filtre pas fiablement par name/email).
+// Champs commande. La partie CLIENT (customer{}, email) exige le scope read_customers: si absent,
+// on retombe sur ORDER_GQL_CORE (sans elle) pour que la vérification de commande marche quand même.
+const ORDER_GQL_CUST = `email customer { displayName email phone numberOfOrders }`;
+const ORDER_GQL_CORE = `
+  name createdAt displayFinancialStatus displayFulfillmentStatus cancelledAt
+  note tags discountCodes totalDiscountsSet { shopMoney { amount } } shippingLine { title }
+  lineItems(first: 30) { edges { node { quantity title variantTitle } } }
+  fulfillments(first: 10) { displayStatus createdAt inTransitAt deliveredAt estimatedDeliveryAt trackingInfo { number url company } }
+  refunds(first: 30) { createdAt totalRefundedSet { shopMoney { amount } } refundLineItems(first: 30) { edges { node { quantity } } } }
+`;
+const ORDER_GQL = `${ORDER_GQL_CORE} ${ORDER_GQL_CUST}`;
+// Une fois qu'on a constaté que read_customers manque, on ne redemande plus la partie client du run.
+let _shopNoCust = false;
+const custDenied = (errors) => Array.isArray(errors) && errors.some((e) => /read_customers|customer field/i.test(e.message || ""));
+// Idem pour read_products: si le scope manque, on cesse d'interroger le catalogue Admin et on retombe
+// sur la dispo publique du storefront, sans polluer les logs à chaque page.
+let _shopNoProd = false;
+const prodDenied = (errors) => Array.isArray(errors) && errors.some((e) => /read_products|products field/i.test(e.message || ""));
+
+// Appel GraphQL Admin (POST) avec retry réseau/429. Renvoie { data, errors }.
+async function shopifyGraphQL(query, variables) {
+  if (!SHOPIFY_ON) return { data: null, errors: null };
+  let tok;
+  try { tok = await shopifyToken(); }
+  catch (e) { return null; } // message déjà loggé par shopifyToken (latch)
+  let netTries = 0;
+  while (true) {
+    await sleep(260);
+    let res;
+    try {
+      res = await fetch(`https://${SHOPIFY_STORE}/admin/api/${SHOPIFY_VER}/graphql.json`, {
+        method: "POST",
+        headers: { "X-Shopify-Access-Token": tok, "Content-Type": "application/json" },
+        body: JSON.stringify({ query, variables }),
+      });
+    } catch (e) {
+      if (++netTries > 3) { console.warn(`  Shopify réseau: ${e.message}`); return { data: null, errors: null }; }
+      await sleep(netTries * 5000); continue;
+    }
+    if (res.status === 429) { await sleep(10000); continue; }
+    if (!res.ok) { console.warn(`  Shopify GraphQL → ${res.status}`); return { data: null, errors: null }; }
+    let data; try { data = await res.json(); } catch { return { data: null, errors: null }; }
+    // On ne journalise QUE les erreurs qui ne sont pas un simple manque de portée géré par repli
+    // (read_customers → requête sans le champ client ; read_products → dispo publique).
+    if (data.errors && !custDenied(data.errors) && !prodDenied(data.errors)) console.warn(`  Shopify GraphQL: ${JSON.stringify(data.errors).slice(0, 160)}`);
+    return { data: data.data || null, errors: data.errors || null };
+  }
+}
+
+// Jeu de champs à demander: sans la partie client si read_customers manque (constaté ce run).
+const orderFields = () => (_shopNoCust ? ORDER_GQL_CORE : ORDER_GQL);
+
+// Retrouve une commande par NUMÉRO (ex. "L-50468"). Résumé vérifié, ou null. Repli sans customer.
+async function shopifyOrder(name) {
+  if (!SHOPIFY_ON || !name) return null;
+  const run = async (fields) => shopifyGraphQL(`query($q:String!){ orders(first:1, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${fields} } } } }`, { q: `name:${name}` });
+  let { data, errors } = await run(orderFields());
+  if (!data && custDenied(errors)) { _shopNoCust = true; ({ data, errors } = await run(ORDER_GQL_CORE)); }
+  const node = data?.orders?.edges?.[0]?.node;
+  return node ? summariseOrder(node) : null;
+}
+
+// Historique des commandes du client par COURRIEL (jusqu'à n, plus récentes d'abord). Repli sans customer.
+async function shopifyOrdersByEmail(email, n = 5) {
+  if (!SHOPIFY_ON || !email) return { orders: [], multiple: false };
+  const run = async (fields) => shopifyGraphQL(`query($q:String!,$n:Int!){ orders(first:$n, query:$q, sortKey:CREATED_AT, reverse:true){ edges { node { ${fields} } } } }`, { q: `email:${email}`, n });
+  let { data, errors } = await run(orderFields());
+  if (!data && custDenied(errors)) { _shopNoCust = true; ({ data, errors } = await run(ORDER_GQL_CORE)); }
+  const edges = data?.orders?.edges || [];
+  return { orders: edges.map((e) => summariseOrder(e.node)), multiple: edges.length > 1 };
+}
+
+// Numéro de commande Lasclay dans un texte : "L-50468", "L50308", "l-49347", "#L 46065"...
+// On normalise vers "L-<chiffres>". Renvoie le premier trouvé, sinon null.
+function extractOrderName(...textes) {
+  for (const t of textes) {
+    const m = (t || "").match(/\bL[-\s]?0*(\d{4,6})\b/i);
+    if (m) return `L-${m[1]}`;
+  }
+  return null;
+}
+
+// Bloc VÉRIFIÉ injecté dans le prompt quand Shopify a répondu. Contient l'autorisation
+// explicite de s'appuyer sur ces faits (elle prime sur la règle « tu ne vois pas la commande »).
+function shopifyBlock(o) {
+  const expediee = o.expedie === "fulfilled" || o.expedie === "partial";
+  const statut = o.expedie === "fulfilled" ? "EXPÉDIÉE"
+    : o.expedie === "partial" ? "PARTIELLEMENT EXPÉDIÉE"
+    : "PAS ENCORE EXPÉDIÉE (en préparation)";
+  const suivi = o.suivi && o.suivi.length ? ` Numéro(s) de suivi: ${o.suivi.join(", ")}.` : " Aucun numéro de suivi pour l'instant.";
+  const transp = o.transporteur && o.transporteur.length ? ` Transporteur: ${o.transporteur.join(", ")}.` : "";
+  const lien = o.suiviUrls && o.suiviUrls.length ? ` Lien de suivi: ${o.suiviUrls.join(" ")}.` : "";
+  // Temporalité: dates réelles + temps écoulé déjà calculé (l'IA raisonne « il y a X », pas en date brute).
+  const tExp = o.expedieLe ? ` Expédiée le ${o.expedieLe} (${ilYa(o.expedieLe)}).` : "";
+  const tLiv = o.livreLe ? ` LIVRÉE le ${o.livreLe} (${ilYa(o.livreLe)}).`
+    : (o.livraisonPrevue ? ` Livraison estimée: ${o.livraisonPrevue}.` : "");
+  const livr = o.livraison ? ` SUIVI TRANSPORTEUR (${o.livraison.source}): ${o.livraison.resume}.` : "";
+  // Remboursement / retour déjà effectué ? (déterminant pour Retours-Échanges.)
+  const r = o.rembourse || {};
+  const rembFR = { paid: "aucun remboursement (payée intégralement)", partially_refunded: "PARTIELLEMENT REMBOURSÉE",
+    refunded: "DÉJÀ REMBOURSÉE EN TOTALITÉ", voided: "paiement annulé (voided)" };
+  let rembLigne = ` REMBOURSEMENT: ${rembFR[r.etat] || r.etat || "?"}`;
+  if (r.montant) rembLigne += `, ${r.montant} $ remboursé${r.nb > 1 ? ` en ${r.nb} fois` : ""}${r.date ? ` (dernier le ${r.date})` : ""}`;
+  if (r.itemsRetournes) rembLigne += `, ${r.itemsRetournes} article(s) déjà retourné(s)/traité(s)`;
+  if (r.annulee) rembLigne += `, COMMANDE ANNULÉE`;
+  rembLigne += ".";
+  // Rabais/code promo (utile pour « rabais non appliqué »), mode d'expédition, note de commande.
+  const rabaisLigne = (o.rabaisCodes && o.rabaisCodes.length) || o.rabaisMontant
+    ? ` RABAIS APPLIQUÉ: ${(o.rabaisCodes || []).join(", ") || "oui"}${o.rabaisMontant ? ` (-${o.rabaisMontant}$)` : ""}.`
+    : ` RABAIS: AUCUN code de réduction appliqué sur cette commande.`;
+  const expLigne = o.modeExpedition ? ` Mode d'expédition choisi: ${o.modeExpedition}.` : "";
+  const noteCmd = o.noteCommande ? ` Note interne sur la commande: "${String(o.noteCommande).slice(0, 200)}".` : "";
+  const rembConsigne = (r.etat === "refunded" || r.etat === "partially_refunded" || r.montant || r.itemsRetournes || r.annulee)
+    ? ` ATTENTION: un remboursement/retour est DÉJÀ enregistré sur cette commande. Ne le RE-PROMETS PAS comme s'il ` +
+      `restait à faire; confirme plutôt qu'il est déjà traité (ou en cours), et ne relance un geste que s'il manque ` +
+      `visiblement quelque chose. En cas d'écart entre ce que dit le client et ces données, mets-le en note_interne.`
+    : ` Aucun remboursement enregistré: si le client en demande un et qu'il est légitime, formule-le au futur (à faire), pas comme déjà fait.`;
+  return noDash(
+    `DONNÉES SHOPIFY VÉRIFIÉES POUR LA COMMANDE ${o.name} (source de vérité, prime sur la règle ` +
+    `générale « tu ne vois pas la commande »): commande du ${o.date} (${ilYa(o.date)}), ${o.paye ? "payée" : "paiement non confirmé"}, ` +
+    `statut d'expédition: ${statut}.${tExp}${tLiv}${transp}${suivi}${lien}${livr}${rembLigne}${rabaisLigne}${expLigne}${noteCmd} Articles: ${o.articles.join("; ") || "(non listés)"}.\n` +
+    `RAISONNE EN TEMPS ÉCOULÉ depuis aujourd'hui: une commande LIVRÉE il y a longtemps est certainement REÇUE (referme le ` +
+    `sujet, ne propose pas de « vérifier »); expédiée il y a longtemps sans « livré » = probablement arrivée aussi. N'affiche ` +
+    `pas de compte de jours au client, mais tiens-en compte. ` +
+    `Tu PEUX t'appuyer sur ces faits (articles réels, payée, en préparation ou expédiée, numéro/lien de suivi, position ` +
+    `du colis, état du remboursement/retour, rabais appliqué ou non, mode d'expédition). MAIS n'invente JAMAIS de DATE ` +
+    `d'expédition ou de livraison qui n'est pas fournie ici: si non expédiée, dis que c'est en préparation et que ça s'en ` +
+    `vient, sans chiffrer de date. Si expédiée avec un suivi, tu peux partager le numéro/lien et, si connue, la dernière position du colis. ` +
+    `Si le client dit qu'un RABAIS n'a pas été appliqué, appuie-toi sur « RABAIS » ci-dessus: s'il n'y en a AUCUN, propose ` +
+    `d'appliquer le rabais toi-même (action_requise), sans accuser; s'il y en a un, confirme-le.` +
+    (expediee ? ` INTERDIT ABSOLU ICI: cette commande est DÉJÀ EXPÉDIÉE/LIVRÉE, n'écris JAMAIS « on prépare », « en préparation » ni « ça s'en vient »: elle est partie (souvent déjà reçue).` : "") +
+    `${rembConsigne}`
+  );
+}
+
 // --- Appel Anthropic (system en TABLEAU pour le cache de prompt) ---
-async function claude(systemBlocks, user, maxTokens) {
+async function claude(systemBlocks, user, maxTokens, images) {
+  // Si des images sont fournies (photos jointes du client), on envoie un contenu MULTIMODAL
+  // (texte + images) au lieu d'un simple texte, pour que le modèle les EXAMINE.
+  const content = (images && images.length)
+    ? [{ type: "text", text: sanit(user) },
+       ...images.map((im) => ({ type: "image", source: { type: "base64", media_type: im.media_type, data: im.data } }))]
+    : sanit(user);
   const payload = JSON.stringify({
     model: MODEL,
     max_tokens: maxTokens || 4000,
     system: systemBlocks,
-    messages: [{ role: "user", content: sanit(user) }],
+    messages: [{ role: "user", content }],
   });
   for (let attempt = 1; attempt <= 6; attempt++) {
     await sleep(800);
@@ -289,6 +889,24 @@ async function listByFilter(filter) {
   return [...byId.values()];
 }
 
+// Variante BORNÉE (maxPages) — pour les fils fermés récents (potentiellement très nombreux).
+async function listByFilterBounded(filter, maxPages) {
+  const byId = new Map();
+  let until = null, pages = 0;
+  while (pages < maxPages) {
+    let path = `/conversations?${filter}&limit=50`;
+    if (until) path += `&until=${until}`;
+    const { conversations = [] } = await api(path);
+    if (conversations.length === 0) break;
+    pages++;
+    for (const c of conversations) byId.set(c.id, c);
+    const oldest = conversations[conversations.length - 1].last_activity_at;
+    if (conversations.length < 50 || oldest === until) break;
+    until = oldest;
+  }
+  return [...byId.values()];
+}
+
 async function listThreadMessages(convId) {
   const byId = new Map();
   let until = null;
@@ -325,6 +943,54 @@ async function fetchBodies(ids) {
     }
   }
   return bodies;
+}
+
+// Notes internes de l'équipe (commentaires Missive) sur un fil: contiennent souvent la marche à
+// suivre exacte (client à intégrer au programme, modèle à offrir, geste déjà fait). Dégrade proprement
+// (l'endpoint de listage des commentaires n'est pas garanti par l'API publique).
+async function fetchComments(convId) {
+  try {
+    const { comments = [] } = await api(`/conversations/${convId}/comments?limit=10`);
+    return comments
+      .slice()
+      .sort((a, b) => (a.created_at || 0) - (b.created_at || 0))
+      .map((c) => {
+        const who = c.author?.name || c.author?.email || "équipe";
+        const d = c.created_at ? new Date(c.created_at * 1000).toISOString().slice(0, 10) : "";
+        const txt = cleanBody(c.body || c.markdown || c.text || "").slice(0, 400);
+        return txt ? `[${d}] ${who}: ${txt}` : "";
+      })
+      .filter(Boolean);
+  } catch { return []; }
+}
+
+// --- Vision: récupère les photos jointes par le client pour que le modèle les EXAMINE. ---
+const IMG_MEDIA = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", gif: "image/gif", webp: "image/webp" };
+async function fetchImage(a) {
+  const ext = (a.extension || (a.filename || "").split(".").pop() || "").toLowerCase();
+  const mt = (a.media_type && /^image\/(jpeg|png|gif|webp)$/.test(a.media_type)) ? a.media_type : IMG_MEDIA[ext];
+  const url = a.url || a.media_url || a.download_url;
+  if (!mt || !url) return null;
+  try {
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+    if (!res.ok) return null;
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length < 200 || buf.length > 4_500_000) return null; // trop petit (icône) ou trop gros pour l'API
+    return { media_type: mt, data: buf.toString("base64"), filename: a.filename || "photo" };
+  } catch { return null; }
+}
+// Collecte jusqu'à `max` images jointes par le CLIENT dans les messages fournis.
+async function collectImages(messages, max) {
+  const out = [];
+  for (const m of messages) {
+    if (isUs(m)) continue; // uniquement les pièces jointes du client, pas les nôtres
+    for (const a of m.attachments || []) {
+      if (out.length >= max) return out;
+      const img = await fetchImage(a);
+      if (img) out.push(img);
+    }
+  }
+  return out;
 }
 
 const isUs = (m) => {
@@ -410,9 +1076,56 @@ function htmlToPlain(s) {
     .replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
 }
 
+// Stock RÉEL par variante (API Admin Shopify). Nécessite les scopes read_products + read_inventory.
+// Renvoie une Map: "sku:<sku>" et "tv:<produit>::<variante>" → { qty, sellable }. Vide si indisponible
+// (scope manquant / hors ligne) => on retombe alors sur la dispo publique du storefront.
+async function chargerStockAdmin() {
+  if (!SHOPIFY_ON || _shopNoProd) return new Map();
+  const map = new Map();
+  const q = `query($after:String){ products(first:50, after:$after){ edges { node { title variants(first:100){ edges { node { title sku inventoryQuantity availableForSale } } } } } pageInfo { hasNextPage endCursor } } }`;
+  let after = null, pages = 0;
+  try {
+    while (pages < 8) {
+      const { data, errors } = await shopifyGraphQL(q, { after });
+      if (prodDenied(errors)) {
+        _shopNoProd = true;
+        console.log("Stock Admin: scope read_products non accordé → dispo publique du storefront utilisée.");
+        return new Map();
+      }
+      const conn = data?.products;
+      if (!conn) break;
+      for (const pe of conn.edges || []) {
+        const pt = norm(pe.node.title);
+        for (const ve of pe.node.variants?.edges || []) {
+          const v = ve.node;
+          const rec = { qty: typeof v.inventoryQuantity === "number" ? v.inventoryQuantity : null, sellable: v.availableForSale };
+          if (v.sku) map.set(`sku:${v.sku.toLowerCase()}`, rec);
+          map.set(`tv:${pt}::${norm(v.title)}`, rec);
+        }
+      }
+      pages++;
+      if (!conn.pageInfo?.hasNextPage) break;
+      after = conn.pageInfo.endCursor;
+    }
+  } catch (e) { console.warn(`  Stock Admin indisponible (${e.message}); dispo publique utilisée.`); }
+  return map;
+}
+
+// Rendu de la disponibilité d'une variante à partir du stock Admin (ou dispo publique en repli).
+function dispoVariante(rec, publicAvailable) {
+  if (rec) {
+    if (rec.sellable === false) return "ÉPUISÉ (non vendable)";
+    if (rec.qty === null) return "vendable";
+    return rec.qty > 0 ? `EN STOCK (${rec.qty})` : "sur commande (stock 0 ou négatif: fabrication à la demande)";
+  }
+  return publicAvailable === false ? "ÉPUISÉ" : "disponible";
+}
+
 async function chargerCatalogue() {
   const fiches = [];
   const vus = new Set();
+  const stock = await chargerStockAdmin();
+  if (stock.size) console.log(`Stock Admin: ${stock.size} entrée(s) de variante chargées (stock réel).`);
   for (const col of CATALOG_COLLECTIONS) {
     const base = col.replace(/\/$/, "");
     // products.json paginé (250 max par page).
@@ -429,7 +1142,8 @@ async function chargerCatalogue() {
         if (vus.has(p.id)) continue;
         vus.add(p.id);
         const variantes = (p.variants || []).map((v) => {
-          const dispo = v.available === false ? "ÉPUISÉ" : "disponible";
+          const rec = (v.sku && stock.get(`sku:${String(v.sku).toLowerCase()}`)) || stock.get(`tv:${norm(p.title)}::${norm(v.title)}`);
+          const dispo = dispoVariante(rec, v.available);
           return `${v.title} (${v.price ? v.price + " $" : "prix ?"}, ${dispo})`;
         }).join("; ");
         const desc = htmlToPlain(p.body_html || "").slice(0, 800);
@@ -499,6 +1213,13 @@ RÈGLES ABSOLUES:
   sac de couchage, isolant en vrac et rouleau, etc.), souvent EN PRÉCOMMANDE pour l'automne 2026.
   Quand c'est pertinent, mentionne le bon produit avec son lien et son statut, et invite à voir le
   catalogue: https://lasclay.com/collections/produits-products (jardin: /collections/garden).
+- STOCK RÉEL: le catalogue indique le STOCK RÉEL de chaque variante (inventaire Shopify). Tu PEUX
+  donc répondre directement à une question de disponibilité quand la variante figure au catalogue:
+  « EN STOCK (n) » = disponible; « ÉPUISÉ (non vendable) » = en rupture (propose alors la liste
+  d'attente ou une alternative, ne promets pas de date); « sur commande / vendable » = on peut la
+  commander (fabrication à la demande, ex. graines). Tu n'as PAS besoin d'escalader une simple question
+  de disponibilité si la variante est au catalogue avec son statut. En revanche, si le produit ou la
+  variante exacte N'EST PAS au catalogue (ou statut absent), reste prudent: n'affirme rien et escalade.
 - LIENS PAYS: pour un client des USA, les liens du site utilisent le préfixe /en-us (prix en USD):
   https://lasclay.com/en-us/products/... Pour un client canadien anglophone, préfixe /en (CAD).
   En français, pas de préfixe (racine). Le script corrige au besoin, mais vise le bon préfixe.
@@ -663,6 +1384,25 @@ OFFRES ENTRANTES (terrain, approvisionnement, partenariat, collaboration, distri
 accepter ni décliner sur le fond au nom de l'entreprise. Accusé de réception chaleureux, on regarde
 ça, et "action_requise" pour Gabriel.
 
+NE T'AVANCE PAS SUR CE QUE TU NE CONTRÔLES PAS (règle critique, mets escalade=true dans ces cas):
+- TEMPS ET DÉPLACEMENT: ne fixe JAMAIS une rencontre, un rendez-vous, une visite, un appel ou un
+  déplacement au nom de Gabriel, et ne t'engage pas sur une date de rencontre. Le calendrier et la
+  route lui appartiennent. Accuse réception, dis qu'on revient avec les disponibilités, escalade=true,
+  et "action_requise" pour qu'il propose lui-même la date. Jamais « on te revient très bientôt avec une
+  date » comme un engagement ferme s'il n'a pas donné son accord.
+- STOCK ET DISPONIBILITÉ: si la variante figure au CATALOGUE (avec son stock réel), tu PEUX confirmer
+  sa disponibilité d'après ce statut (voir règle STOCK RÉEL). Si elle N'Y figure PAS, ou si tu promets
+  d'EXPÉDIER un article précis (geste physique qui dépend aussi de la préparation), reste prudent:
+  formule au conditionnel, mets la vérification en "action_requise", et escalade=true si toute la
+  réponse repose sur une disponibilité que tu ne peux pas confirmer au catalogue.
+- FAISABILITÉ ET CAPACITÉS TECHNIQUES: n'affirme JAMAIS qu'une chose est possible ou ajustable
+  (taille d'une machine, personnalisation, modification d'un produit, délai spécial) si ce n'est pas
+  écrit dans la connaissance. Dis qu'on vérifie et qu'on revient, "action_requise", escalade=true.
+- REFUS OU ACCEPTATION D'UNE DEMANDE INHABITUELLE (gros/spécial, B2B, sur mesure): ne tranche pas.
+  Accusé de réception, on regarde, "action_requise", escalade=true.
+Principe: face à un engagement de temps, de route, de stock, de faisabilité ou une décision, tu PRÉPARES
+la réponse mais tu LAISSES L'HUMAIN TRANCHER (escalade), tu ne t'engages pas à sa place.
+
 RETOURS NON DEMANDÉS: ne JAMAIS offrir spontanément un retour ou un remboursement que le client
 n'a pas demandé, surtout pour les produits de grande valeur (manteaux ~300 $). Offrir un CRÉDIT
 est acceptable.
@@ -674,6 +1414,18 @@ et l'excuse au bon palier.
 
 DÉLAIS CHIFFRÉS: cite un nombre de jours UNIQUEMENT s'il vient du document de connaissance.
 Sinon, formulation prudente (« quelques jours », « d'ici une à deux semaines, on te confirme »).
+
+TEMPORALITÉ (règle critique): raisonne TOUJOURS à partir d'AUJOURD'HUI (fourni), pas de la date du
+message. Convertis les dates en TEMPS ÉCOULÉ. Conséquences:
+- Un message client vieux de plusieurs semaines/mois: la situation a presque sûrement évolué. Ne réponds
+  pas comme si c'était frais. Vérifie l'état réel (Shopify) et, si c'est réglé (commande livrée/reçue),
+  conclus brièvement ou n'écris rien (repondre=false), plutôt que de rouvrir un dossier clos.
+- Commande LIVRÉE il y a longtemps = reçue: ne propose pas de « vérifier », ne t'inquiète pas d'un retard.
+  Expédiée il y a longtemps sans statut « livré » = très probablement arrivée aussi.
+- Ne CHIFFRE jamais l'ancienneté au client (« votre commande de janvier », « il y a 5 mois »): ça souligne
+  notre lenteur. Tiens-en compte pour le TON et la décision, sans l'énoncer.
+- Un souhait daté ou saisonnier (fêtes, saison de plantation) doit coller à aujourd'hui, jamais au moment
+  du message; s'il est décalé, retire-le.
 
 NUMÉRO DE COMMANDE: ne le demande JAMAIS au client (on le retrouve nous-mêmes via Shopify).
 Formule comme si on consultait son dossier nous-mêmes, sans affirmer de fait précis non vérifié.
@@ -761,6 +1513,8 @@ RÉPONSE ATTENDUE: UNIQUEMENT un objet JSON:
 {
   "repondre": true|false,        // false si spam, démarchage, notifications, réponse d'infolettre sans question
   "raison": "<si false, pourquoi, court>",
+  "fermer": "<true|false. true SEULEMENT si le fil est manifestement RÉGLÉ et ne mérite AUCUNE réponse, donc à FERMER sans écrire: (a) les DONNÉES SHOPIFY montrent la commande LIVRÉE ou expédiée il y a longtemps ET il n'y a AUCUNE question ni problème en suspens, OU (b) le dernier message du client est un simple remerciement/accusé sans question, OU (c) le fil est clairement obsolète (vieux de plusieurs mois, sujet devenu sans objet). Sinon false. Dans le doute, false. Ne mets JAMAIS fermer=true s'il reste une question, un problème, une action, ou si le statut est incertain.>",
+  "raison_fermeture": "<si fermer=true, une COURTE raison interne (ex. 'commande livrée le 2025-12-15, aucune question', 'simple remerciement'), sinon null>",
   "categorie": "<suivi_livraison|modification_annulation_commande|retour_echange_remboursement|question_pre_achat|probleme_produit_garantie|wholesale_b2b|douane_international|autre>",
   "langue": "fr|en",
   "brouillon": "<le texte du brouillon, sauts de ligne avec \\n>",
@@ -829,12 +1583,15 @@ const qcUsage = { in: 0, cacheRead: 0, cacheCreate: 0, out: 0 };
 // Tarifs Opus (estimation à vérifier, $ US / million de tokens).
 const QC_RATE_IN = 15 / 1e6, QC_RATE_CACHE = 1.5 / 1e6, QC_RATE_OUT = 75 / 1e6;
 
-async function opusQC(systemBlocks, fil, brouillon, out, flags, joursAttente) {
+async function opusQC(systemBlocks, fil, brouillon, out, flags, joursAttente, donnees) {
   const flagsTxt = flags && flags.length
     ? `\n\nSIGNAUX AUTOMATIQUES (corrige-les s'ils sont justes, ignore-les si faux positifs):\n- ${flags.join("\n- ")}`
     : "";
+  // Données VÉRIFIÉES (Shopify, historique, autres fils, notes internes): le brouillon ne doit RIEN
+  // affirmer qui les contredise. Si un fait du brouillon n'est pas soutenu par elles ou par le fil, corrige/bloque.
+  const donneesTxt = donnees ? `\n\nDONNÉES VÉRIFIÉES ET CONTEXTE CLIENT (le brouillon ne doit rien affirmer qui les contredise):${donnees}` : "";
   const enTete = `AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}. Le client attend une réponse depuis ${joursAttente ?? "?"} jour(s). Raisonne depuis aujourd'hui, pas depuis la date du message.\n\n`;
-  const contexte = `${enTete}FIL CLIENT :\n${fil}\n\nBROUILLON À CONTRÔLER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}${flagsTxt}\n\nRends ton verdict JSON.`;
+  const contexte = `${enTete}FIL CLIENT :\n${fil}${donneesTxt}\n\nBROUILLON À CONTRÔLER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}${flagsTxt}\n\nRends ton verdict JSON.`;
   // Mêmes blocs que Sonnet (connaissance + catalogue déjà mis en cache) + la consigne de contrôle.
   const qcSystem = [...systemBlocks, { type: "text", text: sanit(QC_INSTRUCTION) }];
   const payload = JSON.stringify({
@@ -867,6 +1624,53 @@ async function opusQC(systemBlocks, fil, brouillon, out, flags, joursAttente) {
     return parseJsonLoose(txt);
   }
   throw new Error("QC Opus: trop de tentatives.");
+}
+
+// v2.28 — DOUBLE PASSE: vérification adversariale des cas à ENJEU, APRÈS le QC. But: attraper une
+// affirmation non étayée par les DONNÉES VÉRIFIÉES (Shopify, historique, autres fils, notes) ou une
+// contradiction avec un autre fil du client, qu'un 1er regard aurait pu laisser passer. Renvoie
+// { ok, problemes[], brouillon_corrige }. En cas d'échec/panne => on garde en brouillon (prudence).
+const VERIF_INSTRUCTION = noDash(`Tu es un VÉRIFICATEUR indépendant et sévère. On te donne des DONNÉES VÉRIFIÉES (Shopify: statut de
+commande, articles, remboursement, rabais, stock; historique de commandes; AUTRES FILS ouverts/fermés du
+client; notes internes) et un BROUILLON prêt à ENVOYER à un client, sur un cas à ENJEU. Ta seule mission:
+t'assurer que le brouillon ne dit RIEN de faux ou de non étayé, et ne CONTREDIT rien.
+
+Vérifie point par point:
+- Chaque FAIT du brouillon (statut d'expédition, livraison, remboursement déjà fait ou non, articles,
+  prix/rabais, disponibilité/stock, date) est-il SOUTENU par les données vérifiées ou le fil? Sinon => problème.
+- Le brouillon CONTREDIT-il un autre fil du client (ouvert ou fermé/résolu), ou promet-il une chose déjà
+  faite / déjà refusée / déjà répondue ailleurs? => problème.
+- Promet-il un geste (remboursement, renvoi, stock, rencontre) que les données ne permettent pas de garantir? => problème.
+- Divulgue-t-il des données personnelles alors que le message vient d'une autre adresse que le compte? => problème.
+
+Réponds UNIQUEMENT en JSON:
+{"ok": true|false, "problemes": ["...", ...], "brouillon_corrige": "<si réparable sans inventer, le texte corrigé, sinon null>"}
+ok=true seulement si tu es CONFIANT que tout est étayé et cohérent. Dans le doute, ok=false.`);
+
+async function opusVerifie(systemBlocks, fil, brouillon, out, donnees) {
+  const contexte = `AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}.\n\nFIL CLIENT :\n${fil}\n\nDONNÉES VÉRIFIÉES ET CONTEXTE CLIENT :${donnees || " (aucune)"}\n\nBROUILLON À VÉRIFIER (catégorie ${out.categorie}, langue ${out.langue}) :\n${brouillon}\n\nRends ton JSON.`;
+  const verifSystem = [...systemBlocks, { type: "text", text: sanit(VERIF_INSTRUCTION) }];
+  const payload = JSON.stringify({ model: QC_MODEL, max_tokens: 2000, system: verifSystem, messages: [{ role: "user", content: sanit(contexte) }] });
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    await sleep(600);
+    let res;
+    try {
+      res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "x-api-key": ANTHROPIC_KEY, "anthropic-version": "2023-06-01", "Content-Type": "application/json" },
+        body: payload,
+      });
+    } catch (e) { if (attempt === 4) throw e; await sleep(attempt * 8000); continue; }
+    if (res.status === 429 || res.status === 529) { await sleep(attempt * 15000); continue; }
+    if (!res.ok) throw new Error(`Anthropic VERIF → ${res.status}`);
+    const data = await res.json();
+    const u = data.usage || {};
+    qcUsage.in += u.input_tokens || 0; qcUsage.out += u.output_tokens || 0;
+    qcUsage.cacheRead += u.cache_read_input_tokens || 0; qcUsage.cacheCreate += u.cache_creation_input_tokens || 0;
+    qcCalls++;
+    return parseJsonLoose((data.content || []).map((b) => b.text || "").join("").trim());
+  }
+  throw new Error("VERIF Opus: trop de tentatives.");
 }
 
 // --- Digest des actions/remboursements à faire (v2.9) ---
@@ -1016,6 +1820,18 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   await apiPost("/posts", { posts: post });
 }
 
+// v2.30 — Ferme un fil manifestement RÉGLÉ, SANS envoyer de réponse au client (note interne seulement).
+// Réversible: le fil se rouvre si le client réécrit.
+async function fermerResolu(convId, raison) {
+  await apiPost("/posts", {
+    posts: {
+      conversation: convId, organization: ORG, close: true,
+      notification: { title: "Fermé (réglé)", body: (raison || "Dossier réglé").slice(0, 100) },
+      markdown: `_Fermé automatiquement, aucune réponse nécessaire: ${raison || "dossier réglé"}. Se rouvrira si le client réécrit._`,
+    },
+  });
+}
+
 // --- Run principal ---
 (async () => {
   if (LIST_TEAMS) {
@@ -1024,7 +1840,12 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
     for (const t of teams) console.log(`  ${t.id}  ${t.name}`);
     return;
   }
-  console.log("=== Lasclay support.js v2.16 ===");
+  console.log("=== Lasclay support.js v2.33 ===");
+  console.log(`Shopify (statut commande + état du colis): ${SHOPIFY_ON ? `ACTIF (${SHOPIFY_STORE}, API ${SHOPIFY_VER}, auth ${SHOPIFY_TOKEN ? "jeton fixe" : "client credentials"})` : "INACTIF"}.`);
+  console.log(`ShipStation (envois multiples, retours, commandes manuelles): ${SS_ON ? `ACTIF (${SS_DIRECT ? "direct ssapi" : `via proxy ${SS_PROXY_URL}`})` : "INACTIF"}.`);
+  console.log(`Contexte client (vue humaine): historique commandes Shopify${HISTO_CLOSED ? ` + fils fermés récents (${HISTO_CLOSED_PAGES} pages/boîte)` : ""}.`);
+  console.log(`Fermeture active des fils réglés: ${CLOSE_RESOLVED ? "ACTIVE (sans réponse, réversible)" : "INACTIVE"}.`);
+  console.log(`Vision (photos jointes du client): ${VISION ? `ACTIVE (max ${VISION_MAX}/fil)` : "INACTIVE"}.`);
   console.log(DRY_RUN ? "=== MODE SIMULATION (rien créé ni envoyé) ===" : "=== MODE RÉEL ===");
   console.log(`Modèle: ${MODEL} | DRAFT_LIMIT: ${DRAFT_LIMIT || "aucun"} | MAX_FILS: ${MAX_FILS}`);
   if (AUTO_SEND) {
@@ -1126,9 +1947,30 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   }
   if (!authorsVus) console.warn("Note: champ `authors` absent des conversations; détection multi-fils inactive ce run.");
 
+  // Fils FERMÉS/résolus récents indexés par client (contexte, pour ne pas contredire une réponse
+  // déjà donnée). Borné par boîte. Marqués _closed; jamais traités (on n'itère que l'inbox ouverte).
+  if (HISTO_CLOSED) {
+    let nFermes = 0;
+    for (const t of TEAM_IDS) {
+      let closed = [];
+      try { closed = await listByFilterBounded(`team_closed=${t}`, HISTO_CLOSED_PAGES); } catch (_) { /* boîte ignorée */ }
+      for (const c of closed) {
+        if (inboxById.has(c.id)) continue; // déjà ouvert, traité normalement
+        for (const a of c.authors || []) {
+          const k = (a.address || "").toLowerCase();
+          if (!k || SELF.includes(k)) continue;
+          if (!filsParAuteur.has(k)) filsParAuteur.set(k, []);
+          const arr = filsParAuteur.get(k);
+          if (!arr.some((x) => x.id === c.id)) { arr.push({ ...c, _closed: true }); nFermes++; }
+        }
+      }
+    }
+    console.log(`Contexte client: ${nFermes} fil(s) fermé(s) récents indexés.`);
+  }
+
   const NOREPLY = /no-?reply|donotreply|ne-?pas-?repondre/i;
 
-  let analysed = 0, created = 0, sent = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0, ecarteSkips = 0;
+  let analysed = 0, created = 0, sent = 0, skipped = 0, noReply = 0, errors = 0, verifs = 0, dejaBrouillon = 0, ecarteSkips = 0, fermes = 0;
   const actionsDigest = []; // actions/remboursements des réponses envoyées (v2.9)
   const poulsRecords = []; // condensés pour le pouls du service (v2.11)
   for (const conv of inbox) {
@@ -1152,6 +1994,17 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
 
       const aLire = msgs.length > 12 ? [msgs[0], ...msgs.slice(-11)] : msgs;
       const bodies = await fetchBodies(aLire.map((m) => m.id));
+      // VISION: photos jointes par le client (défaut produit, mauvais article...). On ne les récupère
+      // que s'il y en a, et on les envoie au modèle pour qu'il les EXAMINE.
+      const aDesPJ = VISION && aLire.some((m) => !isUs(m) && (m.attachments || []).length);
+      const images = aDesPJ ? await collectImages(aLire, VISION_MAX) : [];
+      if (images.length) console.log(`  📷 ${images.length} photo(s) du client examinée(s) sur « ${(conv.subject || "").slice(0, 40)} ».`);
+      const photosLigne = images.length
+        ? `\n\nPHOTOS JOINTES PAR LE CLIENT (${images.length}, ci-dessous en pièces): EXAMINE-les pour évaluer ` +
+          `le problème (défaut de fabrication, mauvais article/couleur/taille, dommage de transport, plante/germination) ` +
+          `et réponds en connaissance de cause. Décris ce que tu observes SEULEMENT si c'est utile au client; ne prétends ` +
+          `JAMAIS voir ce qui n'y est pas. Si une photo est illisible ou hors sujet, ignore-la.`
+        : "";
       const clientKey = (last.from_field?.address || last.from_field?.username || last.from_field?.name || "inconnu").toLowerCase();
       const dejaServies = (excuses.get(clientKey) || []).map((e) => `- (${e.date}) ${e.texte}`).join("\n") || "(aucune)";
 
@@ -1162,27 +2015,168 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       const joursAttente = plusAncien
         ? Math.max(0, Math.floor((Date.now() / 1000 - (plusAncien.delivered_at || plusAncien.created_at || Date.now() / 1000)) / 86400))
         : 0;
+      // Date du DERNIER message du client (pour juger si le fil est vieux/périmé, ex. requête de janvier traitée en juillet).
+      const tsDernier = last.delivered_at || last.created_at || null;
+      const dateDernier = tsDernier ? new Date(tsDernier * 1000).toISOString().slice(0, 10) : null;
 
-      const autres = (filsParAuteur.get(clientKey) || []).filter((c) => c.id !== conv.id);
-      const autresLigne = autres.length
-        ? `\nIMPORTANT: ce client a ${autres.length} AUTRE(S) fil(s) ouvert(s) chez nous en ce moment` +
-          ` (sujets: ${autres.map((c) => (c.subject || c.latest_message_subject || "(sans sujet)").slice(0, 40)).join(" | ")}).` +
-          ` Il a donc écrit plusieurs fois: ajuste l'intensité de l'excuse en conséquence, et si un de ces fils` +
-          ` éclaire la demande, tiens-en compte.`
-        : "";
+      // Autres fils du même client (OUVERTS + FERMÉS/résolus récents). Fusion non faite: on donne à
+      // l'IA le CONTENU du dernier message client de ces fils pour qu'elle réponde en connaissance de
+      // cause, ne se contredise pas, et ne rouvre pas un sujet déjà réglé. Ouverts d'abord, borné à 4.
+      const autres = (filsParAuteur.get(clientKey) || []).filter((c) => c.id !== conv.id)
+        .sort((a, b) => (a._closed === b._closed ? 0 : a._closed ? 1 : -1));
+      let autresLigne = "";
+      if (autres.length) {
+        const extraits = [];
+        for (const a of autres.slice(0, 4)) {
+          let txt = "";
+          try {
+            const am = await listThreadMessages(a.id);
+            const dernier = [...am].reverse().find((m) => !isUs(m)) || am[am.length - 1];
+            if (dernier) {
+              const ab = await fetchBodies([dernier.id]);
+              txt = cleanBody(ab.get(dernier.id) || dernier.preview || "").slice(0, 500);
+            }
+          } catch (_) { /* on garde au moins le sujet */ }
+          const tag = a._closed ? "[FERMÉ/résolu] " : "[ouvert] ";
+          extraits.push(`  - ${tag}« ${(a.subject || a.latest_message_subject || "(sans sujet)").slice(0, 60)} »` +
+            (txt ? ` — dernier message du client: "${txt}"` : " (contenu indisponible)"));
+        }
+        const nbOuv = autres.filter((a) => !a._closed).length, nbFerm = autres.length - nbOuv;
+        autresLigne = `\nIMPORTANT: ce client a d'AUTRES fils chez nous (${nbOuv} ouvert(s), ${nbFerm} fermé(s)/résolu(s)), ` +
+          `NON fusionnés. TIENS COMPTE de leur contenu: ne réponds pas à côté, ne te contredis pas, ne rouvre pas un ` +
+          `sujet déjà réglé (fil fermé), et ajuste l'excuse. Si un fil fermé règle déjà la demande, dis-le simplement:\n${extraits.join("\n")}`;
+      }
 
       const filTexte = threadText(conv, msgs, bodies);
       const teamsDuFil = teamsByConv.get(conv.id) || new Set();
+      const estBoiteMAJ = teamsDuFil.has(MAJ_COMMANDE_TEAM);
+
+      // Notes internes de l'équipe sur CE fil (marche à suivre, geste déjà posé): à lire avant de rédiger.
+      const notes = await fetchComments(conv.id);
+      const notesLigne = notes.length
+        ? `\n\nNOTES INTERNES DE L'ÉQUIPE SUR CE FIL (consignes internes, tiens-en compte, ne les cite pas au client):\n${notes.map((n) => `  - ${n}`).join("\n")}`
+        : "";
+
+      // Statut RÉEL de la commande (Shopify): d'abord par numéro L-xxxxx, sinon par courriel du client.
+      // On récupère l'objet `ordre` (résumé vérifié) AVANT de rédiger, car la consigne de la boîte
+      // « Mise à jour commande » dépend des FAITS (date de commande, expédiée/livrée).
+      let shopifyLigne = "", histoLigne = "", clientLigne = "";
+      let shopifyVerifie = false;
+      let ordre = null, ordreAmbigu = false;
+      const ordName = extractOrderName(conv.subject || conv.latest_message_subject || "", filTexte);
+      const email = last.from_field?.address ? last.from_field.address.toLowerCase() : null;
+      if (SHOPIFY_ON) {
+        try {
+          if (ordName) ordre = await shopifyOrder(ordName);
+          // COURRIEL CANONIQUE: celui du COMPTE Shopify de la commande (si connu), sinon le courriel du
+          // fil. Unifie l'identité: on retrouve tout l'historique même si le client écrit d'une autre adresse.
+          const canon = (ordre && ordre.client && ordre.client.courriel) || email;
+          let hist = [];
+          if (canon && !SELF.includes(canon)) hist = (await shopifyOrdersByEmail(canon, 5)).orders;
+          if (!ordre && hist.length) { ordre = hist[0]; ordreAmbigu = hist.length > 1; }
+          if (ordre) {
+            shopifyVerifie = true;
+            const amb = (ordreAmbigu && !ordName) ? ` (NB: ce client a PLUSIEURS commandes; ceci est la plus récente, confirme qu'il s'agit de la bonne.)` : "";
+            shopifyLigne = `\n\n${shopifyBlock(ordre)}${amb}`;
+            if (ordre.client) {
+              const cl = ordre.client;
+              const diff = email && cl.courriel && email !== cl.courriel;
+              clientLigne = `\n\nCLIENT (compte Shopify): ${cl.nom || "?"}${cl.nbCommandes != null ? `, ${cl.nbCommandes} commande(s) au total` : ""}` +
+                `${cl.courriel ? `, courriel du compte: ${cl.courriel}` : ""}.` +
+                (diff ? ` ATTENTION: ce message provient d'une AUTRE adresse (${email}) que le compte: possible proche/transfert. Reste chaleureux mais ne divulgue pas de données personnelles sensibles sans t'assurer qu'on parle bien au bon client.` : "");
+            }
+          }
+          // Autres commandes du client (hors la commande principale) — contexte pour répondre juste.
+          const autresCmd = hist.filter((o) => !ordre || o.name !== ordre.name);
+          if (autresCmd.length) {
+            histoLigne = `\n\nHISTORIQUE COMMANDES DE CE CLIENT (Shopify, sers-t'en pour répondre en connaissance de cause, ` +
+              `sans rien inventer): ` +
+              autresCmd.slice(0, 5).map((o) => {
+                const st = o.expedie === "fulfilled" ? "expédiée/livrée" : o.expedie === "partial" ? "partiellement expédiée" : "en préparation";
+                const rb = o.rembourse && (o.rembourse.montant || o.rembourse.etat === "refunded" || o.rembourse.etat === "partially_refunded")
+                  ? `, REMBOURSEMENT ${o.rembourse.etat}${o.rembourse.montant ? ` ${o.rembourse.montant}$` : ""}` : "";
+                return `${o.name} du ${o.date} (${ilYa(o.date)}): ${st}${rb}`;
+              }).join(" ; ") + ".";
+          }
+        } catch (e) { console.warn(`  Shopify lookup (${conv.id}): ${e.message}`); }
+      }
+
+      // v2.34 — Vérification SHIPSTATION (complément): statut d'expédition interne, envois
+      // multiples (renvoi), étiquettes de retour, commandes manuelles au nom du client.
+      let ssLigne = "";
+      if (SS_ON) {
+        const nomClient = (ordre && ordre.client && ordre.client.nom) || last.from_field?.name || "";
+        try {
+          const bloc = await shipstationLookup(ordName || (ordre && ordre.name) || null, nomClient);
+          if (bloc) ssLigne = `\n\n${bloc}`;
+        } catch (e) { if (!_ssFail) console.warn(`  ShipStation lookup (${conv.id}): ${e.message}`); }
+      }
+
+      // Boîte « Mise à jour commande »: consigne dédiée, réécrite avec les FAITS Shopify.
+      // PRÉVENTE = uniquement 30-31 mai 2026. Jamais « on prépare » sur une commande expédiée/livrée.
+      // Sinon (non vérifiable): demander confirmation en cadrant comme une vérification large.
+      let majLigne = "";
+      if (estBoiteMAJ) {
+        const estPrevente = !!ordre && (ordre.date === "2026-05-30" || ordre.date === "2026-05-31");
+        const estExpediee = !!ordre && (ordre.expedie === "fulfilled" || ordre.expedie === "partial"
+          || (ordre.livraison && /transit|livr|cours de livraison|out_for|delivered/i.test(ordre.livraison.resume)));
+        majLigne = `\n\nBOÎTE « MISE À JOUR COMMANDE » (on fait une VÉRIFICATION LARGE de nos commandes ` +
+          `pour être sûrs de n'avoir OUBLIÉ personne; ceci PRIME sur la règle « ne pas demander si le client a reçu son courriel »). RÈGLES STRICTES:\n` +
+          `1) PRÉVENTE: la seule prévente concernée a eu lieu les 30 et 31 MAI 2026. Ne qualifie une commande de ` +
+          `« prévente » QUE si sa date Shopify vérifiée est 2026-05-30 ou 2026-05-31. ` +
+          (ordre ? (estPrevente ? "ICI: la commande EST de la prévente (30-31 mai 2026)." : `ICI: la commande date du ${ordre.date}: ce n'est PAS une prévente, n'en parle jamais.`)
+                 : "ICI: commande non identifiée, ne parle PAS de prévente.") + `\n` +
+          `2) DÉJÀ EXPÉDIÉE/LIVRÉE: ` +
+          (estExpediee ? "ICI la commande est DÉJÀ EXPÉDIÉE/LIVRÉE (souvent depuis longtemps) donc presque certainement REÇUE: n'écris JAMAIS « on prépare » ni « en préparation ». Confirme qu'elle est partie/livrée (donne le suivi si utile). Si le fil est vieux et sans question en suspens, un mot bref suffit, ou repondre=false s'il n'y a vraiment plus rien à dire."
+                       : "si Shopify montre la commande expédiée ou livrée, ne dis jamais qu'on la prépare; confirme qu'elle est partie/livrée.") + `\n` +
+          `3) STATUT NON VÉRIFIABLE (Shopify ne trouve pas la commande) ET la demande porte UNIQUEMENT sur ` +
+          `« où en est ma commande / je ne l'ai pas reçue » sans autre point: n'affirme AUCUN statut, ne PROMETS RIEN, ` +
+          `et demande simplement au client de confirmer s'il a bien reçu sa commande. Formule-le de façon NATURELLE et ` +
+          `VARIÉE (change les mots à chaque fois). INTERDIT: « entre les craques », « entre les mailles », « dans le ` +
+          `beurre », « passé sous le radar », « oublié personne » et toute métaphore de courriel/commande perdu(e) ` +
+          `(ce sont des platitudes bannies). Reste sobre et direct, p. ex.: « Je fais le point sur ta commande, ` +
+          `peux-tu me confirmer si tu l'as bien reçue? ».\n` +
+          `4) Si le client soulève un VRAI point (remboursement, rabais non appliqué, changement d'adresse, produit ` +
+          `défectueux, annulation, question précise): TRAITE CE POINT à fond et en priorité, normalement. N'ajoute ` +
+          `PAS la question « as-tu reçu ta commande » par réflexe si ce n'est pas pertinent: réponds à ce qu'il demande.`;
+      }
+      // Contexte de FAITS (pour la relecture Opus): tout ce qui est vérifié/contextuel, sans les
+      // consignes. Sert à ce que le QC détecte une contradiction avec Shopify/historique/autres fils/notes.
+      // On y signale les photos (le vérificateur, lui, ne les voit pas: qu'il ne bloque pas à tort).
+      const contexteData = `${clientLigne}${shopifyLigne}${ssLigne}${histoLigne}${notesLigne}${autresLigne}` +
+        (images.length ? `\n\n[Le client a joint ${images.length} photo(s) que LE RÉDACTEUR a examinées; toi vérificateur tu ne les vois pas: ne bloque pas une observation qui repose visiblement sur ces photos.]` : "");
       const user = `DATE D'AUJOURD'HUI: ${new Date().toISOString().slice(0, 10)}\n\n` +
         `FIL À TRAITER:\n${filTexte}\n\n` +
-        `CONTEXTE D'ATTENTE: le client attend depuis ${joursAttente} jour(s); ` +
-        `${sansReponse.length} message(s) du client sans réponse de notre part.${autresLigne}\n\n` +
+        `CONTEXTE TEMPOREL: dernier message du client daté du ${dateDernier || "?"}${dateDernier ? ` (${ilYa(dateDernier)})` : ""}; ` +
+        `le client attend une réponse depuis ${joursAttente} jour(s); ` +
+        `${sansReponse.length} message(s) du client sans réponse de notre part. ` +
+        `RAISONNE DEPUIS AUJOURD'HUI: si le message est vieux de plusieurs semaines/mois, la situation a ` +
+        `probablement évolué (commande sûrement reçue, question devenue sans objet): vérifie via les données ` +
+        `Shopify ci-dessous et, si tout est réglé, conclus brièvement (ou repondre=false) au lieu de rouvrir le sujet.` +
+        `${photosLigne}${autresLigne}${notesLigne}${clientLigne}${majLigne}${shopifyLigne}${ssLigne}${histoLigne}\n\n` +
         `EXCUSES DÉJÀ SERVIES À CE CLIENT (ne JAMAIS les réutiliser):\n${dejaServies}`;
       let out;
-      try { out = parseJsonLoose(await claude(systemBlocks, user, 1500)); }
+      try { out = parseJsonLoose(await claude(systemBlocks, user, 1500, images)); }
       catch (e) { console.warn(`  [${conv.id}] réponse IA illisible: ${e.message}`); errors++; continue; }
 
       const subj = conv.subject || conv.latest_message_subject || "";
+
+      // v2.30 — FERMETURE ACTIVE d'un fil manifestement réglé (sans réponse). Conservateur: jamais si
+      // une action est requise ou si l'IA escalade. Réversible (se rouvre si le client réécrit).
+      if (CLOSE_RESOLVED && out.fermer === true && !out.action_requise && out.escalade !== true) {
+        const raisonF = noDash(sanit(String(out.raison_fermeture || out.raison || "dossier réglé"))).slice(0, 160);
+        if (DRY_RUN) {
+          console.log(`[DRY fermer] ${subj.slice(0, 55) || "(sans sujet)"} → ${raisonF}`);
+        } else {
+          try { await fermerResolu(conv.id, raisonF); console.log(`[fermé] ${subj.slice(0, 55) || "(sans sujet)"} → ${raisonF}`); }
+          catch (e) { console.warn(`  fermeture échouée ${conv.id}: ${e.message}`); errors++; continue; }
+        }
+        fermes++;
+        ecartes.set(conv.id, conv.last_activity_at || 0); // ne pas le re-juger tant qu'il ne bouge pas
+        ecartesModifiee = true;
+        continue;
+      }
+
       if (!out.repondre || !out.brouillon) {
         noReply++;
         ecartes.set(conv.id, conv.last_activity_at || 0);
@@ -1302,6 +2296,28 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       let verifRequise = noteBloque || !!out.action_requise || !!actionAuto || alertes.length > 0;
       let alarme = !!(out.action_requise || actionAuto || alertes.length);
 
+      // VERROU (v2.22): une promesse de REMBOURSEMENT ou de RENVOI/REMPLACEMENT ne part JAMAIS en
+      // envoi auto sans avoir été vérifiée dans Shopify (statut, remboursement déjà fait, articles).
+      // Commande introuvable ou Shopify non consulté => on force le brouillon + note, peu importe SEND_ACTIONS.
+      const PROMESSE_ARGENT_BIEN = /(rembours|refund|crédit|credit\b|renvo(i|ie|yer|yons)|re-?ship|replacement|remplacement|nouvel(le)? (commande|expédition|envoi|colis)|on (t'|vous )envoie|on (te|vous) renvoie|we('ll| will) (re-?)?send|i('ll| will) (re-?)?send)/i;
+      const prometArgentBien = PROMESSE_ARGENT_BIEN.test(`${out.action_requise || ""} ${actionAuto || ""} ${corps}`);
+      // verrouRemb = blocage DUR de l'envoi auto (pas juste une note): une promesse de remboursement/
+      // renvoi/remplacement non vérifiée dans Shopify ne part jamais seule. (Intégré à `candidat` plus bas.)
+      const verrouRemb = prometArgentBien && !shopifyVerifie;
+      if (verrouRemb) {
+        verifRequise = true; alarme = true;
+        noteLigne.push("ACTION AVANT ENVOI (verrou Shopify): promesse de remboursement/renvoi NON vérifiée dans Shopify (commande introuvable ou non consultée). Confirmer le statut et qu'aucun remboursement n'a déjà été fait AVANT d'envoyer.");
+      }
+
+      // VERROU boîte « Mise à jour commande »: on n'ENVOIE JAMAIS une réponse de statut si la commande
+      // n'a pas été VÉRIFIÉE dans Shopify (sinon on risque « on prépare » sur une commande déjà livrée).
+      // Non vérifiée => reste brouillon (le message demande alors au client de confirmer la réception).
+      const verrouMAJ = estBoiteMAJ && !shopifyVerifie;
+      if (verrouMAJ) {
+        verifRequise = true; alarme = true;
+        noteLigne.push("À VÉRIFIER (verrou Mise à jour commande): commande NON identifiée dans Shopify. Le brouillon demande au client de confirmer la réception. Vérifier son statut avant d'envoyer un statut ferme.");
+      }
+
       // Signature (langue), citation, liens cliquables + préfixe pays. (Voir v2.7.)
       const filBas = filTexte.toLowerCase();
       const estUSA = teamsDuFil.has("13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217") ||
@@ -1328,8 +2344,13 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       //  vérifier NE bloquent PLUS ici: Opus les traite (corrige, ou bloque si vraiment humain).
       const catAutorisee = SEND_CATEGORIES.length === 0 || SEND_CATEGORIES.includes(out.categorie);
       const aAgir = !!(out.action_requise || actionAuto);
+      // Un cas ESCALADÉ (l'associé Sonnet a levé la main) ne part JAMAIS en envoi auto: un humain
+      // l'envoie. Attrape les engagements de temps/déplacement (rencontres), les décisions de
+      // partenariat, et tout ce que Sonnet a jugé « à valider ». Opus peut encore le corriger, mais
+      // il reste brouillon. (v2.23)
+      const estEscalade = QC_ESCALADE && out.escalade === true;
       const candidat = AUTO_SEND && catAutorisee && estCourriel && !!toAddr &&
-        (aAgir ? SEND_ACTIONS : true) && (SEND_LIMIT === 0 || sent < SEND_LIMIT);
+        (aAgir ? SEND_ACTIONS : true) && !verrouRemb && !verrouMAJ && !estEscalade && (SEND_LIMIT === 0 || sent < SEND_LIMIT);
 
       // Opus contrôle ET CORRIGE (Sonnet rédige, Opus tranche): envoyer / corriger / bloquer.
       // Refus ou panne du contrôle => brouillon, jamais l'inverse.
@@ -1370,7 +2391,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
       const sansRisque = QC_SKIP_SAFE && !verifRequise && !out.note_interne && !catSensible && !enjeu && !escalade;
       if (candidat && SEND_QC && !sansRisque) {
         try {
-          qcVerdict = await opusQC(qcSystemBlocks, filTexte, corps, out, noteLigne, joursAttente);
+          qcVerdict = await opusQC(qcSystemBlocks, filTexte, corps, out, noteLigne, joursAttente, contexteData);
           if (qcVerdict.verdict === "envoyer") {
             envoyer = true;
           } else if (qcVerdict.verdict === "corriger" && qcVerdict.brouillon_corrige) {
@@ -1393,6 +2414,23 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         // propre (aucune alerte, aucune note). Un envoi sûr part directement, sans coût Opus.
         envoyer = alertes.length === 0 && !out.note_interne;
         if (sansRisque && SEND_QC && envoyer) qcSkipped++;
+      }
+
+      // v2.28 — DOUBLE PASSE sur les cas à ENJEU: un 2e vérificateur adversarial confronte le brouillon
+      // aux DONNÉES VÉRIFIÉES (Shopify/historique/autres fils/notes). En cas de doute => brouillon.
+      if (envoyer && DOUBLE_QC && SEND_QC && (enjeu || catSensible || aAgir)) {
+        try {
+          const v = await opusVerifie(qcSystemBlocks, filTexte, corpsFinal, out, contexteData);
+          if (v && v.ok === false) {
+            if (v.brouillon_corrige) { corpsFinal = noDash(sanit(String(v.brouillon_corrige))); corrige = true; }
+            envoyer = false; qcBlocked = true; verifRequise = true; alarme = true; qcBlocks++;
+            noteLigne.push(`[2E VÉRIF ENJEU] gardé en brouillon: ${(v.problemes || ["contradiction/fait non étayé"]).join("; ").slice(0, 200)}`);
+          }
+        } catch (e) {
+          // Panne du vérificateur sur un cas à enjeu: prudence, on garde en brouillon.
+          envoyer = false; qcBlocked = true; verifRequise = true; alarme = true;
+          noteLigne.push(`[2E VÉRIF ENJEU] indisponible (${e.message}) → brouillon par prudence`);
+        }
       }
 
       // GARDE-FOU DÉTERMINISTE (v2.16) — un brouillon INCOMPLET n'est JAMAIS envoyé.
@@ -1473,8 +2511,8 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
         }
         console.log(`---\n${corpsFinal}\n[+ notice IA ajoutée en pied]\n---`);
       } else {
-        // Corps final identique pour envoi et brouillon: texte + signature + notice IA.
-        const bodyFinal = corpsHtml + signature + NOTICE_HTML;
+        // Corps final identique pour envoi et brouillon: texte + signature + notice IA (langue du client).
+        const bodyFinal = corpsHtml + signature + noticeHtml(out.langue);
         const draft = {
           conversation: conv.id,
           organization: ORG,
@@ -1607,7 +2645,7 @@ async function fermerFil(convId, relanceJours, relanceRaison) {
   }
 
   if (gabaritBlocks > 0) console.log(`Gabarits incomplets bloqués avant envoi (jamais envoyés, gardés en brouillon à compléter): ${gabaritBlocks}.`);
-  console.log(`\nBilan: ${analysed} analysés, ${sent} ENVOYÉ(S) (dont ${actionsDigest.length} avec action au digest), ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
+  console.log(`\nBilan: ${analysed} analysés, ${sent} ENVOYÉ(S) (dont ${actionsDigest.length} avec action au digest), ${created} brouillon(s) dont ${verifs} avec note ou alarme, ${fermes} fermé(s) sans réponse, ${noReply} sans réponse requise, ${skipped} sautés, ${dejaBrouillon} avec brouillon existant, ${ecarteSkips} écartés en mémoire, ${errors} erreur(s).`);
   if (SEND_QC && (qcCalls > 0 || qcSkipped > 0)) {
     const coutQC = qcUsage.in * QC_RATE_IN + qcUsage.cacheCreate * QC_RATE_IN + qcUsage.cacheRead * QC_RATE_CACHE + qcUsage.out * QC_RATE_OUT;
     console.log(`Contrôle Opus: ${qcCalls} relecture(s)${QC_LEAN ? " (contexte allégé)" : ""}, ${qcBlocks} refus, ${qcSkipped} envoi(s) sûr(s) sans QC. Tokens in ${qcUsage.in}/cache ${qcUsage.cacheRead}/out ${qcUsage.out}. Coût QC estimé: ~ ${coutQC.toFixed(2)} $ US (tarifs à vérifier).`);

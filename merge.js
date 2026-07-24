@@ -42,7 +42,16 @@
  * JAMAIS été exécutée chez Lasclay. DRY_RUN=true d'abord, puis MERGE_LIMIT=3.
  */
 
-const VERSION = "v1.3";
+const VERSION = "v1.5";
+// v1.5: FUSION DES DOUBLONS FERMÉS (MERGE_CLOSED, défaut true). Les fils fermés ne servaient qu'à la
+// détection; ils PARTICIPENT maintenant à la fusion — un doublon fermé se replie dans le fil OUVERT
+// du client (survivant choisi ouvert en priorité, puis le plus récent). Les fils fermés ne sont
+// toujours JAMAIS étiquetés (le label ne sert qu'aux ouverts). Exclusions système élargies aux
+// expéditeurs automatisés vus en prod (dmarc, postmaster, mailer-daemon, amazonses, instagram,
+// apple/testflight, judge.me, bounce) : jamais fusionnés.
+// v1.4: la détection inclut aussi un lot borné de fils FERMÉS récents (INCLUDE_CLOSED, défaut true;
+// INCLUDE_CLOSED_PAGES pages/boîte, défaut 10). Un client avec 1 fil ouvert + 1 fil fermé est ainsi
+// détecté comme doublon. Les fils fermés ne sont JAMAIS étiquetés (détection seule pour l'étiquetage).
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const LABEL = process.env.MISSIVE_LABEL_ID || "7c922a57-5644-4d88-b731-5a040cbb681a"; // « À fusionner »
@@ -51,6 +60,11 @@ const DRY_RUN = (process.env.DRY_RUN || "false").toLowerCase() !== "false"; // d
 const MERGE = (process.env.MERGE || "").toLowerCase() === "true"; // défaut: phase 1
 const MERGE_ONLY_EMAIL = (process.env.MERGE_ONLY_EMAIL || "true").toLowerCase() !== "false";
 const MERGE_LIMIT = parseInt(process.env.MERGE_LIMIT || "0", 10) || 0; // 0 = illimité
+// Fusionner aussi les fils FERMÉS (demande explicite : « fusionner les doublons, même fermés »).
+// Défaut TRUE. Le fil survivant reste, de préférence, un fil OUVERT (voir tri ci-dessous), de sorte
+// qu'un doublon fermé se replie dans le fil ouvert actif du client. MERGE_CLOSED=false = ancien
+// comportement (détection seule sur les fermés, fusion des ouverts uniquement).
+const MERGE_CLOSED = (process.env.MERGE_CLOSED || "true").toLowerCase() !== "false";
 // Empreinte par nom : éteinte par défaut (source de faux groupes sur les expéditeurs
 // récurrents et les homonymes). Mettre USE_NAME=true pour la réactiver.
 const USE_NAME = (process.env.USE_NAME || "").toLowerCase() === "true";
@@ -80,11 +94,21 @@ const SELF = (process.env.MISSIVE_SELF_ADDRESSES || "")
 const SYSTEM_PATTERNS = [
   "noreply",
   "no-reply",
+  "no_reply",
   "donotreply",
   "do-not-reply",
   "shopify.com",
   "etsy.com",
   "klaviyo.com",
+  // Rapports/notifications automatisés vus en production (JAMAIS des clients — ne jamais fusionner).
+  "dmarc", // dmarcreport@microsoft.com, dmarc.report@polymtl.ca, reports@fastmaildmarc.com, dmarc@infomaniak.com...
+  "postmaster", // postmaster@amazonses.com
+  "mailer-daemon", // rebonds (bounces)
+  "amazonses.com",
+  "mail.instagram.com", // security@ / activity-recap@ / follow-suggestions@ mail.instagram.com
+  "email.apple.com", // notifications Apple / TestFlight
+  "judge.me", // app d'avis
+  "bounce",
   ...(process.env.MISSIVE_SYSTEM_SENDERS || "")
     .split(",")
     .map((s) => s.trim().toLowerCase())
@@ -221,17 +245,23 @@ function resolveTeams() {
   return DEFAULT_CLIENT_TEAMS;
 }
 
-async function paginateInto(byId, teamId) {
+// filterKey: "team_inbox" (ouverts) ou "team_closed" (fermés). maxPages borne le balayage
+// (utile pour les fermés, potentiellement nombreux). tagClosed: marque les fils comme fermés.
+async function paginateInto(byId, teamId, { filterKey = "team_inbox", maxPages = Infinity, tagClosed = false } = {}) {
   let until = null;
   let pages = 0;
   const limit = 50;
-  while (true) {
-    let path = `/conversations?team_inbox=${teamId}&limit=${limit}`;
+  while (pages < maxPages) {
+    let path = `/conversations?${filterKey}=${teamId}&limit=${limit}`;
     if (until) path += `&until=${until}`;
     const { conversations = [] } = await api(path);
     if (conversations.length === 0) break;
     pages++;
-    for (const c of conversations) byId.set(c.id, c);
+    for (const c of conversations) {
+      // Un fil OUVERT prime sur sa version fermée (ne jamais réécrire un ouvert avec _closed=true).
+      if (byId.has(c.id) && !byId.get(c.id)._closed) continue;
+      byId.set(c.id, tagClosed ? { ...c, _closed: true } : c);
+    }
     const oldest = conversations[conversations.length - 1].last_activity_at;
     if (conversations.length < limit || oldest === until) break;
     until = oldest;
@@ -239,13 +269,21 @@ async function paginateInto(byId, teamId) {
   return pages;
 }
 
+// Balaie les fils OUVERTS (tous) puis, par défaut, un lot borné de fils FERMÉS récents.
+// Les fermés ENRICHISSENT la détection de doublons (ex.: 1 fil ouvert + 1 fil fermé du même
+// client) mais ne sont JAMAIS étiquetés ni fusionnés (voir shouldLabel/phase 1). Borne via
+// INCLUDE_CLOSED_PAGES (défaut 10 pages = ~500 fermés/boîte). INCLUDE_CLOSED=false pour désactiver.
+const INCLUDE_CLOSED = (process.env.INCLUDE_CLOSED || "true").toLowerCase() !== "false";
+const CLOSED_PAGES = parseInt(process.env.INCLUDE_CLOSED_PAGES || "10", 10) || 10;
 async function collectOpenConversations(teams) {
   const byId = new Map();
   let allOk = true;
   for (const t of teams) {
     try {
       const pages = await paginateInto(byId, t.id);
-      console.log(`  ${t.name || t.id} : ${pages} page(s)`);
+      let cpages = 0;
+      if (INCLUDE_CLOSED) cpages = await paginateInto(byId, t.id, { filterKey: "team_closed", maxPages: CLOSED_PAGES, tagClosed: true });
+      console.log(`  ${t.name || t.id} : ${pages} page(s) ouverte(s)${INCLUDE_CLOSED ? ` + ${cpages} page(s) fermée(s)` : ""}`);
     } catch (e) {
       allOk = false;
       console.warn(`  ${t.name || t.id} : ignorée (${e.message})`);
@@ -328,9 +366,10 @@ async function main() {
   }
 
   const teams = resolveTeams();
-  console.log("Récupération des conversations ouvertes...");
+  console.log(`Récupération des conversations (ouvertes${INCLUDE_CLOSED ? " + fermées récentes" : ""})...`);
   const { convs, allOk } = await collectOpenConversations(teams);
-  console.log(`${convs.length} conversation(s) ouverte(s) unique(s).`);
+  const nbFermes = convs.filter((c) => c._closed).length;
+  console.log(`${convs.length} conversation(s) unique(s) (dont ${nbFermes} fermée(s), détection seule).`);
 
   const fps = [];
   let i = 0;
@@ -395,6 +434,7 @@ async function main() {
   for (const g of dupes) {
     for (const idx of g) {
       const conv = convs[idx];
+      if (conv._closed) continue; // JAMAIS d'écriture sur un fil fermé (il n'a servi qu'à la détection)
       if (hasMergeLabel(conv)) continue;
       if (DRY_RUN) {
         posed++;
@@ -451,8 +491,13 @@ async function main() {
   }
 
   console.log("\n=== Phase 2 : fusion ===");
+  console.log(`  MERGE_CLOSED=${MERGE_CLOSED} (les fils fermés ${MERGE_CLOSED ? "PARTICIPENT à" : "sont exclus de"} la fusion)`);
   let fusions = 0;
-  for (const g of dupes) {
+  for (const gAll of dupes) {
+    // Par défaut (MERGE_CLOSED=true), les fils fermés participent à la fusion : un doublon fermé se
+    // replie dans le fil ouvert du client. MERGE_CLOSED=false = ancien comportement (ouverts seuls).
+    const g = MERGE_CLOSED ? gAll.slice() : gAll.filter((idx) => !convs[idx]._closed);
+    if (g.length < 2) continue;
     if (MERGE_LIMIT && fusions >= MERGE_LIMIT) {
       console.log(`Plafond MERGE_LIMIT=${MERGE_LIMIT} atteint, arrêt des fusions.`);
       break;
@@ -464,25 +509,33 @@ async function main() {
       continue;
     }
 
-    const ordered = g
-      .slice()
-      .sort((a, b) => (convs[b].last_activity_at || 0) - (convs[a].last_activity_at || 0));
+    // Survivant : de préférence un fil OUVERT (pour que le résultat reste actif dans la boîte),
+    // puis le plus récent. Les fils fermés ne sont donc pris comme survivant que si TOUT le groupe
+    // est fermé.
+    const ordered = g.slice().sort((a, b) => {
+      const ao = convs[a]._closed ? 1 : 0;
+      const bo = convs[b]._closed ? 1 : 0;
+      if (ao !== bo) return ao - bo; // ouverts (0) avant fermés (1)
+      return (convs[b].last_activity_at || 0) - (convs[a].last_activity_at || 0);
+    });
     const survivor = convs[ordered[0]];
     const sources = ordered.slice(1).map((idx) => convs[idx]);
 
+    const survFlag = survivor._closed ? " (survivant FERMÉ — tout le groupe l'était)" : "";
     for (const src of sources) {
       if (MERGE_LIMIT && fusions >= MERGE_LIMIT) break;
+      const srcFlag = src._closed ? " [fermé]" : "";
       if (DRY_RUN) {
-        console.log(`  [SIMULATION] fusionner ${src.id} → ${survivor.id}`);
+        console.log(`  [SIMULATION] fusionner ${src.id}${srcFlag} → ${survivor.id}${survFlag}`);
         fusions++;
         continue;
       }
       const r = await mergeInto(src.id, survivor.id);
       if (r.ok) {
         fusions++;
-        console.log(`  fusionné ${src.id} → ${survivor.id} (id résultant: ${r.returnedId || "?"})`);
+        console.log(`  fusionné ${src.id}${srcFlag} → ${survivor.id} (id résultant: ${r.returnedId || "?"})`);
       } else {
-        console.error(`  échec fusion ${src.id} → ${survivor.id}`);
+        console.error(`  échec fusion ${src.id}${srcFlag} → ${survivor.id}`);
       }
     }
   }
