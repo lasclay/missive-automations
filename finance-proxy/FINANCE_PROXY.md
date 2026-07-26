@@ -61,6 +61,7 @@ Le refresh token TOURNE (~24 h) et une seule copie est valide. Pour le déménag
 | `query` | **query** (SQL-like v3) | résultats |
 | `companyinfo` | — | infos compagnie (test d'auth) |
 | `read` | **entity, id** | l'entité (donne le `SyncToken` courant) |
+| `download` | **id** (Id d'un `Attachable`, via `query`) | le fichier joint en base64 (`fileName`, `contentType`, `size`, `base64`; max 15 Mo) |
 
 ### Actions — écriture (tenue de livres)
 
