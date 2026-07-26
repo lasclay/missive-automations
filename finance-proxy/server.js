@@ -210,6 +210,27 @@ const ACTIONS = {
     return get(`/${e}/${encodeURIComponent(p.id)}`);
   },
 
+  // Télécharger une pièce jointe (le sandbox de l'agent ne peut pas atteindre le
+  // domaine de documents d'Intuit; le proxy relaie le binaire en base64): { id } = Attachable Id.
+  download: async (p) => {
+    if (!p || !p.id) throw new Error("id requis (Id d'un Attachable)");
+    const a = await get(`/attachable/${encodeURIComponent(p.id)}`);
+    const att = a && a.Attachable;
+    if (!att || !att.TempDownloadUri) throw new Error("Attachable introuvable ou sans TempDownloadUri");
+    let res;
+    try { res = await fetch(att.TempDownloadUri); }
+    catch (e) { throw new Error(`téléchargement: ${e.message}`); }
+    if (!res.ok) throw new Error(`téléchargement → ${res.status}`);
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length > 15e6) throw new Error(`fichier trop gros (${buf.length} octets, max 15 Mo)`);
+    return {
+      fileName: att.FileName || `attachable-${p.id}`,
+      contentType: res.headers.get("content-type") || "application/octet-stream",
+      size: buf.length,
+      base64: buf.toString("base64"),
+    };
+  },
+
   // ---- ÉCRITURE (tenue de livres) ----
   // Créer: { entity, body } — body = objet QBO v3 complet.
   create: (p) => {
