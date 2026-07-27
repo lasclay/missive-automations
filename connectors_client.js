@@ -20,6 +20,11 @@
  *   node connectors_client.js shipstation getrates '{"carrierCode":"canada_post","fromPostalCode":"G1K 3B2","toPostalCode":"H2X 1Y4","toCountry":"CA","weight":{"value":500,"units":"grams"}}'
  *   ⚠️ createlabelfororder / createlabel DÉBITENT le wallet (argent réel; testLabel:true = essai).
  *
+ * Exemples Omnisend :
+ *   node connectors_client.js omnisend contacts '{"email":"client@exemple.com"}'
+ *   node connectors_client.js omnisend campaigns '{"limit":10}'
+ *   node connectors_client.js omnisend triggerevent '{"body":{"systemName":"mon-evenement","email":"client@exemple.com"}}'
+ *
  * QuickBooks : service dédié (isolation des finances) → utiliser finance_client.js
  * avec FINANCE_PROXY_URL + FINANCE_PROXY_SECRET. Voir finance-proxy/FINANCE_PROXY.md.
  */

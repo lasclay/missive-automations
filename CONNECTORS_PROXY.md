@@ -9,6 +9,9 @@ Connecteurs actuels :
 - **ShipStation** (API v1 « legacy », commandes / expéditions / suivi), en **accès complet** :
   lecture + écriture (tags, hold, marquage expédié, création/suppression de commande, achat et
   annulation d'étiquettes). ⚠️ Les actions d'étiquette **débitent de l'argent réel**.
+- **Omnisend** (API v3, marketing courriel/SMS) : contacts, campagnes, commandes, produits,
+  paniers en lecture ; création/mise à jour de contacts et déclenchement d'événements
+  (automations) en écriture.
 - **QuickBooks Online** : DÉMÉNAGÉ dans un service dédié (`finance-proxy/`) pour isoler les
   finances — secrets Intuit et secret d'appel séparés de ce proxy. Voir
   `finance-proxy/FINANCE_PROXY.md`.
@@ -55,6 +58,20 @@ Classées par risque. Les params marqués **requis** sont validés par le proxy 
 | `createlabel` | **carrierCode, serviceCode, shipDate, shipFrom, shipTo, weight** (+ isReturnLabel, testLabel) | 🔴 **achète** une étiquette hors commande (ou de RETOUR avec `isReturnLabel:true`) = argent réel |
 | `voidlabel` | **shipmentId** | 🟡 annule une étiquette (généralement remboursée) |
 
+### Actions Omnisend
+
+| Action | Params | Effet |
+|---|---|---|
+| `contacts` | `email`, `status` (`subscribed`\|`unsubscribed`\|`nonSubscribed`), `segmentID`, `limit` (max 250), `after` | 🟢 liste de contacts |
+| `contact` | **contactID** | 🟢 un contact |
+| `campaigns` / `campaign` | `status`, `limit`, `after` / **campaignID** | 🟢 campagnes |
+| `orders` / `products` / `carts` | `limit`, `after`, `email`… | 🟢 données synchronisées |
+| `createcontact` | **body** (objet contact v3 : `identifiers[{type:"email",id,channels:{email:{status}}}]`, `firstName`, `tags`…) | 🟡 crée/abonne un contact |
+| `updatecontact` | **contactID, body** (PATCH partiel) | 🟡 modifie statut/champs/tags |
+| `triggerevent` | **body** (`eventID` ou `systemName`, `email`, `fields`) | 🟡 déclenche les automations qui écoutent cet événement |
+
+Limite de débit Omnisend : 400 requêtes / minute (Retry-After respecté sur 429).
+
 > **QuickBooks** : actions, mise en place et rotation du refresh token → `finance-proxy/FINANCE_PROXY.md`.
 
 ---
@@ -82,6 +99,7 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `GENERAL_PROXY_SECRET` | secret **propre à ce proxy** (distinct du missive-proxy, révocable à part). À défaut, repli sur `PROXY_SECRET`. |
 | `SHIPSTATION_API_KEY` | API Key ShipStation (v1) |
 | `SHIPSTATION_API_SECRET` | API Secret ShipStation (v1) |
+| `OMNISEND_API_KEY` | clé API Omnisend (Store settings → Integrations & API → API keys) |
 | `PORT` | (auto, fourni par Render) |
 
 > QuickBooks : variables déménagées dans le service dédié — voir `finance-proxy/FINANCE_PROXY.md`.

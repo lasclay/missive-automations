@@ -38,6 +38,7 @@
  *   PROXY_SECRET            repli si GENERAL_PROXY_SECRET absent.                     [*ou celui-ci]
  *   SHIPSTATION_API_KEY     clé API ShipStation (Account → API Settings)     [connecteur ShipStation]
  *   SHIPSTATION_API_SECRET  secret API ShipStation                          [connecteur ShipStation]
+ *   OMNISEND_API_KEY        clé API Omnisend (Store settings → API keys)     [connecteur Omnisend]
  *   (QuickBooks : service dédié finance-proxy/ — voir finance-proxy/FINANCE_PROXY.md)
  *   PORT                    port d'écoute (fourni par Render)               [auto]
  *
@@ -199,10 +200,75 @@ const shipstation = (() => {
 // secrets Intuit et secret d'appel séparés de ce proxy). Voir finance-proxy/FINANCE_PROXY.md.
 
 // ==========================================================================
+// CONNECTEUR : Omnisend (API v3 — api.omnisend.com/v3, en-tête X-API-KEY)
+// Marketing par courriel/SMS. Limite : 400 requêtes / minute (Retry-After sur 429,
+// géré par httpJson). Lecture des contacts/campagnes/commandes + écritures utiles :
+// créer/mettre à jour un contact (abonnements) et déclencher un événement custom
+// (point d'entrée des automations Omnisend).
+// ==========================================================================
+const omnisend = (() => {
+  const KEY = process.env.OMNISEND_API_KEY || "";
+  const BASE = process.env.OMNISEND_BASE || "https://api.omnisend.com/v3";
+  const call = (method, path, { params, body } = {}) =>
+    httpJson({
+      method,
+      url: `${BASE}${path}${qs(params)}`,
+      headers: { "X-API-KEY": KEY },
+      body,
+    });
+  return {
+    name: "omnisend",
+    description: "Omnisend v3 (contacts, campagnes, commandes, événements) — lecture + gestion des contacts/événements.",
+    enabled: () => !!KEY,
+    actions: {
+      // ---- LECTURE ----
+      // Liste de contacts. Params: email, status (subscribed|unsubscribed|nonSubscribed),
+      // segmentID, limit (max 250), after (curseur de pagination).
+      contacts: (p) => call("GET", "/contacts", { params: p }),
+      // Un contact par son contactID.
+      contact: (p) => {
+        if (!p || !p.contactID) throw new Error("contactID requis");
+        return call("GET", `/contacts/${encodeURIComponent(p.contactID)}`);
+      },
+      // Campagnes (params: status, limit, after) / une campagne par campaignID.
+      campaigns: (p) => call("GET", "/campaigns", { params: p }),
+      campaign: (p) => {
+        if (!p || !p.campaignID) throw new Error("campaignID requis");
+        return call("GET", `/campaigns/${encodeURIComponent(p.campaignID)}`);
+      },
+      // Commandes / produits / paniers synchronisés (params: limit, after, email...).
+      orders: (p) => call("GET", "/orders", { params: p }),
+      products: (p) => call("GET", "/products", { params: p }),
+      carts: (p) => call("GET", "/carts", { params: p }),
+
+      // ---- ÉCRITURE (contacts + événements) ----
+      // Crée/abonne un contact. body = objet Omnisend v3, ex.
+      // { identifiers: [{ type:"email", id:"x@y.com", channels:{ email:{ status:"subscribed" } } }], firstName, tags... }
+      createcontact: (p) => {
+        if (!p || !p.body) throw new Error("body requis (objet contact Omnisend v3)");
+        return call("POST", "/contacts", { body: p.body });
+      },
+      // Met à jour un contact (statut d'abonnement, champs, tags). PATCH partiel.
+      updatecontact: (p) => {
+        if (!p || !p.contactID || !p.body) throw new Error("contactID et body requis");
+        return call("PATCH", `/contacts/${encodeURIComponent(p.contactID)}`, { body: p.body });
+      },
+      // Déclenche un ÉVÉNEMENT custom (démarre les automations Omnisend qui l'écoutent).
+      // body ex.: { eventID ou systemName, email, fields: {...} }
+      triggerevent: (p) => {
+        if (!p || !p.body) throw new Error("body requis (événement Omnisend v3)");
+        return call("POST", "/events", { body: p.body });
+      },
+    },
+  };
+})();
+
+// ==========================================================================
 // REGISTRE DES CONNECTEURS — ajouter un nouveau connecteur = ajouter une entrée.
 // ==========================================================================
 const CONNECTEURS = {
   [shipstation.name]: shipstation,
+  [omnisend.name]: omnisend,
 };
 
 // ---- Serveur HTTP ----
