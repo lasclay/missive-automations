@@ -8,9 +8,11 @@
  *
  * Usage :
  *   node klaviyo_export.js profiles <dossier-sortie>            # TOUS les profils + consentements
+ *   node klaviyo_export.js predictive <dossier-sortie>          # TOUS les profils + analytique (CLV, commandes, churn)
  *   node klaviyo_export.js list <LIST_ID> <dossier-sortie>      # membres d'une liste
  *   node klaviyo_export.js segment <SEGMENT_ID> <dossier-sortie># membres d'un segment
  *   node klaviyo_export.js suppressed <dossier-sortie>          # profils supprimés (suppression list)
+ *   node klaviyo_export.js events <METRIC_ID> <dossier> [depuisISO]  # événements d'une métrique (ex. clics)
  *
  * Sortie : CSV avec email, phone, prénom/nom, langue, pays/région/ville,
  * consentements email + SMS (statut, méthode, horodatage — preuve LCAP),
@@ -72,20 +74,49 @@ function curseurSuivant(liens) {
   return m ? decodeURIComponent(m[1]) : null;
 }
 
-async function exporter({ action, params, dossier, nomFichier }) {
+// --- Export analytique prédictive (jointure par id/email avec l'export profils) ---
+const ENTETE_PRED = [
+  "id", "email", "historic_clv", "predicted_clv", "total_clv",
+  "historic_number_of_orders", "predicted_number_of_orders", "average_order_value",
+  "average_days_between_orders", "expected_date_of_next_order", "churn_probability",
+  "last_event_date",
+].join(",");
+
+function lignePred(p) {
+  const a = p.attributes || {};
+  const pa = a.predictive_analytics || {};
+  return [
+    p.id, a.email, pa.historic_clv, pa.predicted_clv, pa.total_clv,
+    pa.historic_number_of_orders, pa.predicted_number_of_orders, pa.average_order_value,
+    pa.average_days_between_orders, pa.expected_date_of_next_order, pa.churn_probability,
+    a.last_event_date,
+  ].map(csv).join(",");
+}
+
+// --- Export d'événements d'une métrique (clics, ouvertures...) ---
+const ENTETE_EVT = ["event_id", "datetime", "profile_id", "metric_id", "properties_json"].join(",");
+function ligneEvt(e) {
+  const a = e.attributes || {};
+  return [
+    e.id, a.datetime, e.relationships?.profile?.data?.id,
+    e.relationships?.metric?.data?.id, a.event_properties,
+  ].map(csv).join(",");
+}
+
+async function exporter({ action, params, dossier, nomFichier, entete = ENTETE, versLigne = ligne, pageSize = 100, extraQ }) {
   fs.mkdirSync(dossier, { recursive: true });
   const fichier = path.join(dossier, nomFichier);
   const fichierCurseur = fichier + ".cursor";
   let curseur = fs.existsSync(fichierCurseur) ? fs.readFileSync(fichierCurseur, "utf8").trim() : null;
-  if (!curseur || !fs.existsSync(fichier)) fs.writeFileSync(fichier, ENTETE + "\n");
+  if (!curseur || !fs.existsSync(fichier)) fs.writeFileSync(fichier, entete + "\n");
   let total = 0, page = 0;
   for (;;) {
-    const q = { ...params, "page[size]": 100, "additional-fields[profile]": "subscriptions" };
+    const q = { ...params, "page[size]": pageSize, ...(extraQ || { "additional-fields[profile]": "subscriptions" }) };
     if (curseur) q["page[cursor]"] = curseur;
     // L'enveloppe du proxy renvoie { ok, data: <réponse Klaviyo brute> }.
     const rep = await call(action, q);
     const profils = rep.data || [];
-    fs.appendFileSync(fichier, profils.map(ligne).join("\n") + (profils.length ? "\n" : ""));
+    fs.appendFileSync(fichier, profils.map(versLigne).join("\n") + (profils.length ? "\n" : ""));
     total += profils.length; page += 1;
     curseur = curseurSuivant(rep.links);
     if (curseur) fs.writeFileSync(fichierCurseur, curseur);
@@ -101,6 +132,21 @@ async function exporter({ action, params, dossier, nomFichier }) {
   try {
     if (mode === "profiles") {
       await exporter({ action: "profiles", params: {}, dossier: a2 || ".", nomFichier: "klaviyo_profiles_all.csv" });
+    } else if (mode === "predictive") {
+      // Analytique prédictive : page[size] limité par Klaviyo quand ce champ est demandé.
+      await exporter({
+        action: "profiles", params: {}, dossier: a2 || ".", nomFichier: "klaviyo_profiles_predictive.csv",
+        entete: ENTETE_PRED, versLigne: lignePred, pageSize: 50,
+        extraQ: { "additional-fields[profile]": "predictive_analytics" },
+      });
+    } else if (mode === "events" && a2) {
+      const depuis = process.argv[5] || "2024-07-01T00:00:00Z";
+      await exporter({
+        action: "events",
+        params: { filter: `and(equals(metric_id,"${a2}"),greater-or-equal(datetime,${depuis}))`, sort: "datetime" },
+        dossier: a3 || ".", nomFichier: `klaviyo_events_${a2}.csv`,
+        entete: ENTETE_EVT, versLigne: ligneEvt, pageSize: 200, extraQ: {},
+      });
     } else if (mode === "suppressed") {
       // Profils avec suppression email (unsub globaux, bounces, plaintes) : filtre serveur.
       await exporter({
