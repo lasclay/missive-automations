@@ -1,0 +1,20 @@
+{
+  "id": "Y3Usnk",
+  "name": "Customer USA all time",
+  "created": "2025-04-07T13:51:48+00:00",
+  "updated": "2025-04-07T13:52:31+00:00",
+  "is_active": true,
+  "is_starred": false,
+  "profile_count": 8664,
+  "metric_refs": {"XQ6jaa": "Placed Order (Shopify)"},
+  "definition": {
+    "condition_groups": [
+      {"conditions": [
+        {"type": "profile-metric", "metric_id": "XQ6jaa", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "alltime"}, "metric_filters": null}
+      ]},
+      {"conditions": [
+        {"type": "profile-property", "property": "location['country']", "filter": {"type": "string", "operator": "equals", "value": "United States"}}
+      ]}
+    ]
+  }
+}

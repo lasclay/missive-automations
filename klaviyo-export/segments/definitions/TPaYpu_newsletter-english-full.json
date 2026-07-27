@@ -1,0 +1,23 @@
+{
+  "id": "TPaYpu",
+  "name": "Newsletter English full",
+  "created": "2025-11-18T20:40:09+00:00",
+  "updated": "2025-11-18T20:42:32+00:00",
+  "is_active": true,
+  "is_starred": false,
+  "profile_count": 6058,
+  "definition": {
+    "condition_groups": [
+      {"conditions": [
+        {"type": "profile-property", "property": "properties['Language']", "filter": {"type": "string", "operator": "equals", "value": "English"}},
+        {"type": "profile-property", "property": "properties['Language']", "filter": {"type": "string", "operator": "equals", "value": "[\"English\"]"}}
+      ]},
+      {"conditions": [
+        {"type": "profile-group-membership", "is_member": true, "group_ids": ["VTWr4w"], "timeframe_filter": null}
+      ]},
+      {"conditions": [
+        {"type": "profile-marketing-consent", "consent": {"channel": "email", "can_receive_marketing": true, "consent_status": {"subscription": "any", "filters": null}}}
+      ]}
+    ]
+  }
+}

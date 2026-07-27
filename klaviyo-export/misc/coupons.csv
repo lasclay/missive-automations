@@ -1,0 +1,2 @@
+id,external_id,description
+# Aucun coupon dans le compte (GET /api/coupons -> data: [])

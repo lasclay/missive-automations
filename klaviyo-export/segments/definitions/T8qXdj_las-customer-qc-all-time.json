@@ -1,0 +1,23 @@
+{
+  "id": "T8qXdj",
+  "name": "LAS Customer QC (All time)",
+  "created": "2022-03-20T17:26:39+00:00",
+  "updated": "2024-10-11T17:31:46+00:00",
+  "is_active": true,
+  "is_starred": false,
+  "profile_count": 13647,
+  "metric_refs": {"VqDp34": "Fulfilled Order (Shopify)"},
+  "definition": {
+    "condition_groups": [
+      {"conditions": [
+        {"type": "profile-metric", "metric_id": "VqDp34", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "alltime"}, "metric_filters": null}
+      ]},
+      {"conditions": [
+        {"type": "profile-marketing-consent", "consent": {"channel": "email", "can_receive_marketing": true, "consent_status": {"subscription": "any", "filters": null}}}
+      ]},
+      {"conditions": [
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Quebec"}}
+      ]}
+    ]
+  }
+}

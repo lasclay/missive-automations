@@ -1,0 +1,60 @@
+"id","name","status","send_time","message_id","sms_body"
+"01KSVYMZQWB682ZVFW8GT6QHX6","prévente printemps 2026 SMS","Sent","2026-05-30T13:00:00+00:00","01KSVYMZVSW6Q5MTNSGVXK649J","Bonjour {{ person.first_name|default:'' }}, 
+Ici Gabriel de Lasclay. La Prévente printemps 2026 est lancée! 
+
+Les codes rabais:  
+LASCLAY30 : -30% jusqu'à 11h aujourd'hui!  
+LASCLAY20 : -20% jusqu'à 23h59 ce soir  
+Pour voir les produits: lasclay.com/prevente
+"
+"01K4X56M11ZZDQ059KZCEQ9KFE","presale lasclay 2025 SMS USA","Sent","2025-09-13T09:00:00+00:00","QTwRzc","Hi {{ person.first_name|default:'' }}, 
+
+I'm Gabriel from Lasclay: The Milkweed Company.  
+
+Each fall, threatened monarch butterflies begin an epic 4,000-mile migration south. Milkweed—their only host plant—is vanishing, so we grow huge fields of it for them to breed. After they're gone, we use the seed-pod fibers to make light, waterproof insulation for everyday gear. 
+
+Our Annual Fall Presale is live - up to 20% off site-wide. 
+The discount codes and their timeframes: 
+LASCLAY20 : -20% for 60min, starting now!  
+LASCLAY15 : -15% until 11:59pm tonight  
+LASCLAY12 : -12% all Sunday
+
+Your support will keep monarchs thriving next summer. To see our products: lasclay.com/launch2025
+"
+"01K4TFMY99A0HANB9YS22N5JVB","prévente lasclay 2025 SMS","Sent","2025-09-13T12:59:00+00:00","RamePr","Bonjour {{ person.first_name|default:'' }}, 
+Ici Gabriel de Lasclay, l'entreprise québécoise qui fabrique des produits d'asclépiade.  
+
+La Prévente 2025 est lancée! Les codes rabais et leur durée:  
+LASCLAY20 : -20% pour 60min, dès maintenant!  
+LASCLAY15 : -15% jusqu'à 23h59 ce soir  
+LASCLAY12 : -12% jusqu'à dimanche 23h59
+
+Pour voir tous les produits: lasclay.com/prevente
+"
+"01JRHDA9C2CVCH1WJJN69GCEQ4","Plantation SMS","Sent","2025-04-12T14:00:00+00:00","RmwTh3","Salut {{ person.first_name|default:'' }}, ici Gabriel de Lasclay. Notre campagne de sauvegarde des pollinisateurs bat son plein. Jusqu'au 16 avril, gros rabais progressif sur notre catalogue entier, à l'achat de produits de jardin (graines et bombes de semences): 
+30$ de produits jardin = -10% sur tout
+50$ = 15% de rabais
+70$ = 20% de rabais
+
+lasclay.com/produits
+"
+"01JDXHAT76TSC3M936SGZ49867","SMS Campaign - 30 novembre","Sent","2024-11-30T14:00:00+00:00","WetpUh","Bonjour {{ first_name|default:'' }}
+C'est Gabriel de Lasclay, l'entreprise québécoise de produits d'asclépiade. Petit rappel que notre Grand Concours de novembre, avec + de 6000$ en prix, se termine sous peu. Jusqu'à lundi 23h59, chaque tranche de 25$ d'achats donne 1 chance de gagner et il y a des rabais sur plusieurs produits. Parfait pour les cadeaux!
+
+Pour plus de détail et commander: lasclay.com"
+"01J7PFMV3XC1B3BNQ22GJ7RR33","SMS Campaign - Sep 13, 2024, 4:01 PM","Sent","2024-09-14T13:00:00+00:00","Td7EqY","Bonjour {{ first_name|default:'' }},
+Ici Gabriel de Lasclay, l'entreprise québécoise qui fabrique des produits d'asclépiade. 
+
+Notre Prévente 2024 est commencée! 
+
+Les codes rabais et leur durée:
+
+LASCLAY20 : -20% seulement 30min, à partir de maintenant!
+
+LASCLAY15 : -15% jusqu'à 23h59 ce soir
+
+LASCLAY12 : -12% jusqu'à dimanche 23h59
+
+Pour voir tous les produits:
+https://lasclay.com/prevente
+"

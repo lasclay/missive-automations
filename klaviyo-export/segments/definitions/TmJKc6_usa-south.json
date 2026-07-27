@@ -1,0 +1,34 @@
+{
+  "id": "TmJKc6",
+  "name": "USA South",
+  "created": "2025-08-30T02:18:17+00:00",
+  "updated": "2025-08-30T02:19:01+00:00",
+  "is_active": true,
+  "is_starred": false,
+  "profile_count": 3859,
+  "metric_refs": {"XQ6jaa": "Placed Order (Shopify)"},
+  "definition": {
+    "condition_groups": [
+      {"conditions": [
+        {"type": "profile-group-membership", "is_member": true, "group_ids": ["TUjhzc"], "timeframe_filter": null},
+        {"type": "profile-group-membership", "is_member": true, "group_ids": ["VTWr4w"], "timeframe_filter": null},
+        {"type": "profile-metric", "metric_id": "XQ6jaa", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "alltime"}, "metric_filters": null}
+      ]},
+      {"conditions": [
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Alabama"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Arkansas"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Florida"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Georgia"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Kentucky"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Louisiana"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Mississippi"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "North Carolina"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "South Carolina"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Tennessee"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Texas"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "Virginia"}},
+        {"type": "profile-property", "property": "location['region']", "filter": {"type": "string", "operator": "equals", "value": "West Virginia"}}
+      ]}
+    ]
+  }
+}

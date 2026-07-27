@@ -1,0 +1,63 @@
+KLAVIYO EXPORT — CONFIGURATION AUDIENCE & OBJETS DIVERS (compte Lasclay)
+Exporté le : 2026-07-27
+Source : API Klaviyo via MCP (get_lists, get_list, get_segments, get_segment,
+get_forms, get_form, get_form_version, get_tags, get_coupons, get_webhooks,
+get_all_universal_content, get_images, get_metrics)
+
+FICHIERS PRODUITS
+=================
+
+lists/
+  lists.csv                  15 listes (id, name, created, opt_in_process, profile_count)
+
+segments/
+  segments.csv               11 segments (id, name, created, updated, is_active, profile_count)
+  definitions/               11 définitions complètes (condition_groups) pour recréation :
+    QXRzba_newsletter-english-canada.json
+    T8qXdj_las-customer-qc-all-time.json
+    TGKgFC_newsletter-francais.json
+    TPaYpu_newsletter-english-full.json
+    TmJKc6_usa-south.json
+    UG8xUu_unsub-inactif.json
+    UXg6uz_las-customer-roc-all-time.json
+    WwacXM_newsletter-english-usa.json
+    XVe4iK_prevente.json
+    Y3Usnk_customer-usa-all-time.json
+    Yqksh2_export-sms-usa.json
+  Note : les fichiers incluent un champ "metric_refs" (mappage metric_id -> nom de métrique)
+  pour faciliter la recréation dans un autre compte (les IDs de métriques et de listes
+  référencés — ex. VTWr4w, TUjhzc — sont propres à ce compte).
+
+forms/
+  forms.csv                  8 formulaires (id, name, status, created)
+  USemGc.json                Embed Webpage Newsletter EN (définition complète, version live)
+  WmUiTw.json                Embed Webpage Newsletter FR (définition complète, version live)
+  UTWYSn.json                Flyout Mobile Newsletter FR (définition complète, version live)
+  SkbinR.json                Flyout Mobile Newsletter EN (définition complète, version live)
+  UbtyzG.json                Popup Newsletter After Checkout EN (seule version, draft)
+  X4MSUx.json                Newsletter Signup Homepage EN (définition complète, version live)
+  WRdsqn.json                Newsletter Signup Homepage FR (définition complète, version live)
+  Vfgnih.json                Beta Newsletter signup (définition complète, version live)
+  Notes : get_form_version ne renvoie PAS la définition (métadonnées seulement) ;
+  les définitions ont été obtenues via get_form (fields definition). Pour chaque form,
+  seule la version LIVE est sauvegardée (la 2e version, brouillon quasi identique créé
+  2025-09-12, est omise — son id est indiqué dans "note"). Le bloc "rich_text_styles"
+  (typographie h1-h6 par défaut, identique partout) a été omis des styles.
+
+misc/
+  tags.csv                   2 tags (English, French — groupe 6519c9df-8632-4166-82f8-00b22a39771b)
+  metrics.csv                74 métriques (id, name, integration)
+  images_manifest.csv        200 images (2 premières pages de 100 ; il reste d'autres pages,
+                             curseur suivant : bmV4dDo6aWQ6OjE4ODIwODU4OA)
+  coupons.csv                vide — aucun coupon dans le compte
+  webhooks.json              vide — aucun webhook dans le compte
+  universal_content.json     vide — aucun universal content dans le compte
+
+RÉCAP
+=====
+Listes : 15/15 avec profile_count (total notable : Newsletter Full List 32 950,
+SMS2 20 442, SMS 16 313, SMS USA 5 405, JdC 1 201)
+Segments : 11/11 avec profile_count + définitions complètes
+Forms : 8/8 (CSV) + 8/8 définitions JSON
+Erreurs : aucune erreur API (tous les appels 200). Limitations volontaires :
+images limitées à 2 pages (consigne), versions brouillons des forms omises.

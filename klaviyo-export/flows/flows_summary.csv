@@ -1,0 +1,11 @@
+id,name,status,archived,trigger_type,created,updated
+RAPUF9,Post-Purchase Followup - Order Count Split,draft,false,Metric,2026-04-08T18:46:03+00:00,2026-04-08T18:46:11+00:00
+RjWTh8,Upsell +AOV flow,draft,false,Metric,2023-10-16T13:23:43+00:00,2025-09-24T13:08:56+00:00
+SXsssm,BFCM Prise 2,draft,false,Metric,2023-11-12T04:37:48+00:00,2023-11-12T04:39:27+00:00
+UcdK5a,Post-Purchase Followup - Order Count Split,draft,false,Metric,2026-04-07T13:37:08+00:00,2026-04-07T13:38:28+00:00
+VHr9QT,Essential Flow Recommendation_,draft,false,Unconfigured,2025-09-10T05:55:16+00:00,2025-09-10T05:55:17+00:00
+VKsuLF,Essential Flow Recommendation_,draft,false,Unconfigured,2025-09-09T16:50:35+00:00,2025-09-09T16:50:35+00:00
+VrfryX,USA Upsell +AOV flow,live,false,Metric,2025-09-15T18:41:32+00:00,2026-06-29T18:19:01+00:00
+VzMF9W,Abandoned Cart Reminder (FR+EN),live,false,Metric,2020-12-15T17:00:17+00:00,2026-06-29T18:19:01+00:00
+WSEaSf,Welcome Series - JdC,live,false,Added to List,2022-09-17T01:09:38+00:00,2026-06-29T18:19:01+00:00
+Wnxt4a,Welcome Series (FR+EN),live,false,Added to List,2020-09-05T16:55:21+00:00,2026-06-29T18:19:01+00:00

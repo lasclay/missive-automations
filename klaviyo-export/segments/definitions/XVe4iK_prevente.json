@@ -1,0 +1,27 @@
+{
+  "id": "XVe4iK",
+  "name": "Prévente",
+  "created": "2026-06-18T12:56:20+00:00",
+  "updated": "2026-06-18T18:22:39+00:00",
+  "is_active": true,
+  "is_starred": false,
+  "profile_count": 0,
+  "metric_refs": {"XQ6jaa": "Placed Order (Shopify)", "W3ErDF": "Ordered Product (Shopify)"},
+  "definition": {
+    "condition_groups": [
+      {"conditions": [
+        {"type": "profile-metric", "metric_id": "XQ6jaa", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "between-static", "start": "2026-05-28T00:00:00+00:00", "end": "2026-06-18T00:00:00+00:00"}, "metric_filters": null}
+      ]},
+      {"conditions": [
+        {"type": "profile-metric", "metric_id": "W3ErDF", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 24}, "metric_filters": [{"property": "ProductID", "filter": {"type": "string", "operator": "equals", "value": "9359159754971"}}]},
+        {"type": "profile-metric", "metric_id": "W3ErDF", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 24}, "metric_filters": [{"property": "ProductID", "filter": {"type": "string", "operator": "equals", "value": "9357150388443"}}]},
+        {"type": "profile-metric", "metric_id": "W3ErDF", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 24}, "metric_filters": [{"property": "ProductID", "filter": {"type": "string", "operator": "equals", "value": "9357149536475"}}]},
+        {"type": "profile-metric", "metric_id": "W3ErDF", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 24}, "metric_filters": [{"property": "ProductID", "filter": {"type": "string", "operator": "equals", "value": "9357146980571"}}]},
+        {"type": "profile-metric", "metric_id": "W3ErDF", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 24}, "metric_filters": [{"property": "ProductID", "filter": {"type": "string", "operator": "equals", "value": "9357145538779"}}]},
+        {"type": "profile-metric", "metric_id": "W3ErDF", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 24}, "metric_filters": [{"property": "ProductID", "filter": {"type": "string", "operator": "equals", "value": "9357143736539"}}]},
+        {"type": "profile-metric", "metric_id": "W3ErDF", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 24}, "metric_filters": [{"property": "ProductID", "filter": {"type": "string", "operator": "equals", "value": "9357143605467"}}]},
+        {"type": "profile-metric", "metric_id": "W3ErDF", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 24}, "metric_filters": [{"property": "ProductID", "filter": {"type": "string", "operator": "equals", "value": "9357140721883"}}]}
+      ]}
+    ]
+  }
+}

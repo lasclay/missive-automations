@@ -1,0 +1,80 @@
+{
+  "id": "X4MSUx",
+  "name": "Newsletter Signup Lasclay Homepage (English)",
+  "status": "live",
+  "created_at": "2020-12-04T20:01:21+00:00",
+  "note": "Version live (id 21374799) conservée; version draft 21374808 (quasi identique) omise. rich_text_styles boilerplate omis (identique à USemGc.json).",
+  "definition": {
+    "versions": [
+      {
+        "id": 21374799,
+        "type": "embed",
+        "location": null,
+        "status": "live",
+        "name": "Default GDPR Flyout",
+        "channel": "WEB",
+        "message_priority": 50,
+        "steps": [
+          {
+            "id": "01K4ZM8R9NS80X0R47EGBZFSGX",
+            "columns": [
+              {
+                "id": "01K4ZM8RAGT1C1K2YNP73RA7K7",
+                "rows": [
+                  {"id": "01K4ZM8RAK1C36NA6HZ5NTZ9VF", "blocks": [
+                    {"id": "01K4ZM8RAP1ZRDRR77HH0M23Q7", "type": "html_text", "styles": {"padding": {"left": 6, "right": 6, "top": 10, "bottom": 10}, "background_color": null}, "properties": {"display_device": ["desktop", "mobile"], "classname": null, "content": "<p style=\"text-align:center;font-size:14px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\"><span class=\"ql-font-rubik\" style=\"color:rgb(73, 73, 73);background-color:rgba(255, 255, 255, 0);font-size:28px;font-family:Rubik, Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:bold;\">Sign up to our newsletter!</span></p><p style=\"text-align:center;font-size:14px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\"><br style=\"font-size:14px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\"></p><p style=\"text-align:center;font-size:14px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\"><span class=\"ql-font-futura-pt\" style=\"color:rgb(73, 73, 73);background-color:rgba(255, 255, 255, 0);font-size:20px;font-family:futura-pt, Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\">Join our community and stay informed when new products are available.</span></p>"}}
+                  ]},
+                  {"id": "01K4ZM8RAS8MZDP9V4XMFT4SNS", "blocks": [
+                    {"id": "01K4ZM8RAWMC9X4W0B83HZXJSH", "type": "text", "styles": {"padding": {"left": 6, "right": 6, "top": 10, "bottom": 10}, "background_color": "rgba(255,255,255,0)"}, "properties": {"display_device": ["desktop", "mobile"], "classname": null, "property_name": "$first_name", "label": "First name", "show_label": false, "placeholder": "Enter your first name here", "required": true, "error_messages": null}},
+                    {"id": "01K4ZM8RAZCNX4J6YC2X4X9PA6", "type": "text", "styles": {"padding": {"left": 6, "right": 6, "top": 10, "bottom": 10}, "background_color": null}, "properties": {"display_device": ["desktop", "mobile"], "classname": null, "property_name": "$last_name", "label": "Last name", "show_label": false, "placeholder": "(Optional)", "required": false, "error_messages": null}}
+                  ]},
+                  {"id": "01K4ZM8RB2ZZFK1MRBH5G97SZN", "blocks": [
+                    {"id": "01K4ZM8RB5ZGT34950T76BG886", "type": "email", "styles": {"padding": {"left": 6, "right": 6, "top": 10, "bottom": 10}, "background_color": "rgba(255,255,255,0)"}, "properties": {"display_device": ["desktop", "mobile"], "classname": null, "label": "Email", "show_label": false, "placeholder": "Enter your email here", "required": true, "error_messages": null, "property_name": "$email"}}
+                  ]},
+                  {"id": "01K4ZM8RB812XWA9JNFFAN1KNA", "blocks": [
+                    {"id": "01K4ZM8RBAB55YARTEPDX1A9HC", "type": "dropdown", "styles": {"padding": {"left": 6, "right": 6, "top": 10, "bottom": 10}, "background_color": null}, "properties": {"display_device": ["desktop", "mobile"], "classname": null, "property_name": "$country", "label": "Country", "show_label": false, "required": true, "error_messages": null, "options": [{"label": "United States", "value": "United States"}, {"label": "Canada", "value": "Canada"}, {"label": "Australia", "value": "Australia"}, {"label": "New Zealand", "value": "New Zealand"}, {"label": "United Kingdom", "value": "United Kingdom"}], "placeholder": "Select your country"}}
+                  ]},
+                  {"id": "01K4ZM8RBD7KX9GXVN6TQJ14N2", "blocks": [
+                    {"id": "01K4ZM8RBGS7GFHNWWSZFCANX5", "type": "radio_buttons", "styles": {"padding": {"left": 6, "right": 6, "top": 10, "bottom": 10}, "background_color": null, "arrangement": "vertical", "alignment": "center"}, "properties": {"display_device": ["desktop", "mobile"], "classname": null, "property_name": "Language", "label": "I agree to receive emails from Lasclay in:", "show_label": false, "required": true, "error_messages": null, "options": [{"label": "English", "value": "English"}, {"label": "French", "value": "French"}], "placeholder": null}}
+                  ]},
+                  {"id": "01K4ZM8RBK0ET8W18HDV936G7P", "blocks": [
+                    {"id": "01K4ZM8RBPD8CJSCAW98H11J2H", "type": "button", "styles": {"padding": {"left": 6, "right": 6, "top": 10, "bottom": 10}, "background_color": null, "width": "fit", "height": 50, "alignment": "center", "hover_background_color": null, "hover_text_color": null, "border_styles": {"radius": 30, "color": "#D4AD67", "style": "solid", "thickness": 6}, "text_styles": {"font_family": "'Rubik', Arial, \"Helvetica Neue\", Helvetica, sans-serif", "font_size": 20, "font_weight": 400, "text_color": "#FFFFFF", "character_spacing": 0, "font_style": null, "text_decoration": null}, "color": "#D4AD67", "drop_shadow": {"enabled": false, "color": "#000000", "blur": 15, "x_offset": 0, "y_offset": 0}}, "properties": {"display_device": ["desktop", "mobile"], "classname": null, "label": "Sign up", "additional_fields": [{"name": "$source", "value": "Newsletter English Signup Lasclay Homepage"}, {"name": "Language", "value": ""}]}, "action": {"id": "01K4ZM8RA2FX7BT3WHDFDRDMBM", "submit": true, "type": "next_step", "properties": {"list_id": "VTWr4w"}}}
+                  ]}
+                ],
+                "styles": null
+              }
+            ],
+            "name": null,
+            "steps": null
+          },
+          {
+            "id": "01K4ZM8R9X3HJ8GG9ASDRWNEN8",
+            "columns": [
+              {
+                "id": "01K4ZM8RBRTQ87SXGS5J3S4QXH",
+                "rows": [
+                  {"id": "01K4ZM8RBVETBBB3JCNQG4MHJ8", "blocks": [
+                    {"id": "01K4ZM8RBYJ97MMA2Y3BE1XNF6", "type": "html_text", "styles": {"padding": {"left": 6, "right": 6, "top": 10, "bottom": 10}, "background_color": null}, "properties": {"display_device": ["desktop", "mobile"], "classname": null, "content": "<p style=\"text-align:center;font-size:14px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\"><span class=\"ql-font-rubik\" style=\"font-size:24px;font-family:Rubik, Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:bold;\">Thanks for your interest!</span></p><p style=\"text-align:center;font-size:14px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\"><br style=\"font-size:14px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\"></p><p style=\"text-align:center;font-size:14px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\"><span class=\"ql-font-futura-pt\" style=\"font-size:20px;font-family:futura-pt, Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\">We will send you a first email shortly.</span></p><p style=\"text-align:center;font-size:14px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\"><span class=\"ql-font-futura-pt\" style=\"font-size:20px;font-family:futura-pt, Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:400;\">Check your spam folder if you don't see an email!</span></p>"}}
+                  ]}
+                ],
+                "styles": null
+              }
+            ],
+            "name": null,
+            "steps": null
+          }
+        ],
+        "triggers": [
+          {"id": "01K4ZM8RC7NMXF895G9CKYVJEN", "properties": {}, "type": "previously_submitted"},
+          {"id": "01K4ZM8RC9W5149TY5NR1MH5MQ", "type": "scroll_percentage", "properties": {"percentage": 70}}
+        ],
+        "teasers": [],
+        "dynamic_button": null,
+        "styles": {"wrap_content": false, "border_styles": {"radius": 4, "color": "#000000", "style": "solid", "thickness": 0}, "close_button": {"background_color": "rgba(180, 187, 195, 0.65)", "outline_color": "#FFFFFF", "color": "#FFFFFF", "stroke": 2, "size": 20, "margin": {"left": 8, "right": 8, "top": 8, "bottom": 8}}, "margin": {"left": 0, "right": 0, "top": 0, "bottom": 0}, "padding": {"left": 20, "right": 20, "top": 20, "bottom": 20}, "minimum_height": 250, "width": "medium", "custom_width": null, "background_image": null, "background_color": "#FDFBFA", "input_styles": {"text_styles": {"font_family": "Arial, 'Helvetica Neue', Helvetica, sans-serif", "font_size": 16, "font_weight": 400, "text_color": "#000000", "character_spacing": 0, "font_style": null, "text_decoration": null}, "label_color": "#444444", "text_color": "#000000", "placeholder_color": "#B4BBC3", "background_color": "#FFFFFF", "border_color": "#949596", "border_focus_color": "#000000", "focus_outline_color": "#0064CD", "corner_radius": 2, "field_height": 38}, "drop_shadow": {"enabled": false, "blur": 30, "color": "rgba(0,0,0,0.15)"}, "overlay_color": "rgba(20,20,20,0.6)", "mobile_overlay": {"color": "rgba(20, 20, 20, 0.5)", "enabled": false}, "banner_styles": null, "custom_css": {"enabled": false, "css": ""}},
+        "properties": {"side_image_settings": null, "click_outside_to_close": [], "rule_based_trigger_evaluation": "all", "record_utm_params_on_submit": false, "show_close_button": true, "accessible_name": null},
+        "ab_test": false,
+        "specialties": []
+      }
+    ]
+  }
+}

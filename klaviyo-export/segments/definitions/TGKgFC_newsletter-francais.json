@@ -1,0 +1,22 @@
+{
+  "id": "TGKgFC",
+  "name": "Newsletter Français",
+  "created": "2021-04-23T14:19:53+00:00",
+  "updated": "2023-11-26T22:43:52+00:00",
+  "is_active": true,
+  "is_starred": true,
+  "profile_count": 13372,
+  "definition": {
+    "condition_groups": [
+      {"conditions": [
+        {"type": "profile-property", "property": "properties['Language']", "filter": {"type": "string", "operator": "equals", "value": "French"}}
+      ]},
+      {"conditions": [
+        {"type": "profile-group-membership", "is_member": true, "group_ids": ["VTWr4w"], "timeframe_filter": null}
+      ]},
+      {"conditions": [
+        {"type": "profile-marketing-consent", "consent": {"channel": "email", "can_receive_marketing": true, "consent_status": {"subscription": "any", "filters": null}}}
+      ]}
+    ]
+  }
+}

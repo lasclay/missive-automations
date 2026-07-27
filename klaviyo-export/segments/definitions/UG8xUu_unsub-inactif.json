@@ -1,0 +1,19 @@
+{
+  "id": "UG8xUu",
+  "name": "unsub + inactif",
+  "created": "2026-03-13T15:36:36+00:00",
+  "updated": "2026-03-13T15:45:03+00:00",
+  "is_active": true,
+  "is_starred": false,
+  "profile_count": 40179,
+  "metric_refs": {"X8s2c9": "Opened Email (Klaviyo)", "R54yNi": "Marked Email as Spam (Klaviyo)", "UDUjPg": "Bounced Email (Klaviyo)"},
+  "definition": {
+    "condition_groups": [
+      {"conditions": [
+        {"type": "profile-metric", "metric_id": "X8s2c9", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "equals", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 700}, "metric_filters": null},
+        {"type": "profile-metric", "metric_id": "R54yNi", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "alltime"}, "metric_filters": null},
+        {"type": "profile-metric", "metric_id": "UDUjPg", "measurement": "count", "measurement_filter": {"type": "numeric", "operator": "greater-than", "value": 0}, "timeframe_filter": {"type": "date", "operator": "in-the-last", "unit": "day", "quantity": 200}, "metric_filters": null}
+      ]}
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+Export bibliothèque de templates email — compte Klaviyo Lasclay
+Date de l'export : 2026-07-27
+Source : API Klaviyo (list_email_templates + get_email_template, pagination complète)
+
+Total templates dans le compte : 5
+Templates exportés en HTML : 5 / 5
+Erreurs : aucune
+
+Fichiers :
+- templates_index.csv                          Index (id, name, editor_type, created, updated, exported)
+- html/XWb5hc_gift-card-en.html                GIft Card EN            (créé 2023-11-12, maj 2023-11-12)
+- html/TwruKW_gift-card-fr.html                Gift Card FR            (créé 2023-11-12, maj 2023-11-12)
+- html/RLDkMa_envoi-infolettre-francais.html   Envoi infolettre français (créé 2022-03-21, maj 2022-03-21)
+- html/WjRdaB_las-en-newsletter.html           LAS EN Newsletter       (créé 2022-03-20, maj 2025-01-15)
+- html/Sds9Wd_las-fr-newsletter.html           LAS FR Newsletter       (créé 2022-03-20, maj 2025-01-15)
+
+Notes :
+- Tous les templates sont de type SYSTEM_DRAGGABLE (éditeur drag-and-drop Klaviyo).
+- Le HTML exporté est le rendu complet (MJML compilé) incluant les balises Django/Klaviyo
+  ({{ first_name }}, {% unsubscribe %}, event.*, etc.).
+- Édition dans Klaviyo : https://www.klaviyo.com/email-editor/{TEMPLATE_ID}/edit

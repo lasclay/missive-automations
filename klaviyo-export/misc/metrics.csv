@@ -1,0 +1,75 @@
+id,name,integration
+QRK5vG,"Rise.ai - Gift Card Recipient Notification",API
+QUVz2a,"Manually Unsuppressed from Email Marketing",Klaviyo
+R54yNi,"Marked Email as Spam",Klaviyo
+R89j45,"Received Email",Klaviyo
+RCX3N4,"Unsubscribed from Email Marketing",Klaviyo
+RHRyxR,"Bounced Push",Klaviyo
+RMZ3EZ,"Form completed by profile",API
+RNLkJ6,"Invalid Email suppression added",Klaviyo
+RPMC26,"Cancelled Order",Shopify
+RR2wF6,"Unsubscribed from Text Messaging Marketing",Klaviyo
+RcLzpt,"Checkout Started",Shopify
+RyCSTq,"Received Automated Response Text Message",Klaviyo
+SAvECK,"Manually Suppressed from Email Marketing",Klaviyo
+SC9aBd,"Subscribed to List",Klaviyo
+SNetgG,"Opened Push",Klaviyo
+SRusiM,"Clicked email to unsubscribe",Klaviyo
+SZcsTW,"Subscribed to Back in Stock",Klaviyo
+SgFQ64,"Opened Text",Klaviyo
+Shs9pP,"Unsubscribed from Text Messaging Transactional",Klaviyo
+T2FrG9,"Form submitted by profile",API
+T2mmBq,"Fulfilled Partial Order",Shopify
+TDsqbz,"Subscribed to Text Messaging Marketing",Klaviyo
+TLULQ7,"Viewed Collection",Shopify
+TNwHZp,"Subscribed to Email Marketing",Klaviyo
+UDUjPg,"Bounced Email",Klaviyo
+UaBhMN,"Clicked Email",Klaviyo
+UgtsNc,"Received Text Message",Klaviyo
+UuvCJA,"Relayed Text Message",Klaviyo
+V2SRAc,"Submitted Search",Shopify
+V3hLf7,"Ticket Created",Klaviyo
+V5BT9h,"Rise.ai Store Credit",API
+V9uDUn,"Failed to Deliver Automated Response Text Message",Klaviyo
+VX3bih,"Viewed Product",API
+VqDp34,"Fulfilled Order",Shopify
+VqqmbH,"Filled Out Lead Ad",Meta Ads
+VrShG4,"Sent Text Message",Klaviyo
+W3ErDF,"Ordered Product",Shopify
+W4TkiF,"Clicked Text Message",Klaviyo
+WAZYUB,"Subscribed to Newsletter",API
+WC9MAx,"Subscribed to Text Messaging Transactional",Klaviyo
+WKViqY,"Bounce suppression added",Klaviyo
+WKfrXB,"Confirmed Shipment",Shopify
+WQh4ex,"Active on Site",API
+WS3LDL,"Rise.ai - Gift Card Buyer Notification",API
+WbzWGz,"Merged Profile",Klaviyo
+WskdjK,"Dropped Email",Klaviyo
+WtWCgP,"Marked Out for Delivery",Shopify
+X27gUh,"Received Push",Klaviyo
+X8s2c9,"Opened Email",Klaviyo
+XAYxrw,"Updated Email Preferences",Klaviyo
+XQ6jaa,"Placed Order",Shopify
+XRjdPa,"Failed to Deliver Text Message",Klaviyo
+XTpXS4,"Unsubscribed from List",Klaviyo
+Xd5gxx,"Refunded Order",Shopify
+XuqG7h,"Skipped Send",Klaviyo
+XvnNgG,"Added to Cart",Shopify
+Ynu7rp,"Active on Site",API
+YtwzbA,"Delivered Shipment",Shopify
+QTZukT,"Inbox Ticket Created",Klaviyo
+R4P38z,"extension_view",Klaviyo
+RBMTHT,"subscribe_page_submit",Klaviyo
+RFQ5Kc,"Form completed by profile",Klaviyo
+RiHjLw,"Viewed Form",Klaviyo
+SReUD4,"extension_submit",Klaviyo
+T79dgZ,"Closed Form",Klaviyo
+TufXfF,"Form submitted by profile",Klaviyo
+UTz6Mu,"Submitted Form",Klaviyo
+UhA3qk,"bot_protection",Klaviyo
+VgFQLa,"submitted_back_in_stock_form",Klaviyo
+WCn52B,"unsubscribe_page_submit",Klaviyo
+WzA2Aa,"submitted_form_step",Klaviyo
+X57JgD,"submitted_back_in_stock_form_step",Klaviyo
+Xj22UA,"qualified_form",Klaviyo
+YmZU6D,"viewed_form_step",Klaviyo
