@@ -15,6 +15,9 @@ clés API vivent côté Render, jamais dans l'environnement Claude ni dans le co
 - **Omnisend** (`OMNISEND_API_KEY` côté Render) : contacts, campagnes, commandes, produits,
   paniers + createcontact / updatecontact / triggerevent. Quand on te demande « accéder à
   Omnisend », c'est CE chemin : `node connectors_client.js omnisend <action> ...`.
+- **Klaviyo** (`KLAVIYO_API_KEY` côté Render, lecture seule) : profils, listes, segments,
+  flows, campagnes, templates, événements — pour l'export exhaustif/migration.
+  Export en masse : `node klaviyo_export.js profiles <dossier>` (CSV avec consentements).
 - Doc complète : `CONNECTORS_PROXY.md`.
 
 ## Finance Proxy (comptabilité) — QuickBooks Online, service SÉPARÉ

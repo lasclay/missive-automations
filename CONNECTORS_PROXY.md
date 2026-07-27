@@ -72,6 +72,29 @@ Classées par risque. Les params marqués **requis** sont validés par le proxy 
 
 Limite de débit Omnisend : 400 requêtes / minute (Retry-After respecté sur 429).
 
+### Actions Klaviyo (lecture seule — export / migration)
+
+Auth Klaviyo : clé privée `pk_...` + en-tête `revision` (défaut `2025-04-15`, surchargée par
+`KLAVIYO_REVISION`). Pagination par curseur : passer `"page[cursor]"` (extrait de `links.next`
+de la réponse précédente) et `"page[size]"` (max 100) dans les params. Les limites de débit
+varient par endpoint (429 + `Retry-After`, gérés par le proxy).
+
+| Action | Params | Effet |
+|---|---|---|
+| `profiles` | `filter`, `sort`, `"page[size]"`, `"page[cursor]"`, `"additional-fields[profile]": "subscriptions"` | 🟢 profils (avec consentements) |
+| `profile` | **id** | 🟢 un profil |
+| `lists` / `list` / `listprofiles` | — / **id** / **id** + pagination | 🟢 listes et membres |
+| `segments` / `segment` / `segmentprofiles` | — / **id** (+ `"additional-fields[segment]": "profile_count"`) / **id** + pagination | 🟢 segments, définitions, membres |
+| `flows` / `flow` | — / **id** + `"additional-fields[flow]": "definition"` | 🟢 flows (définition complète réimportable) |
+| `campaigns` / `campaign` / `campaignmessage` | `filter` **obligatoire** (ex. `equals(messages.channel,'email')`) / **id** / **id** | 🟢 campagnes et messages |
+| `templates` / `template` | — / **id** (HTML dans `attributes.html`) | 🟢 gabarits courriel |
+| `events` | `filter`, pagination | 🟢 événements (échantillonnage/archives) |
+| `metrics` / `tags` / `forms` / `images` / `coupons` | pagination | 🟢 référentiels |
+
+**Export en masse** : `node klaviyo_export.js profiles <dossier>` exporte TOUS les profils
+(consentements email/SMS + horodatages — preuve LCAP) en CSV réimportable, avec reprise sur
+interruption (fichier `.cursor`). Aussi : `list <ID>`, `segment <ID>`, `suppressed`.
+
 > **QuickBooks** : actions, mise en place et rotation du refresh token → `finance-proxy/FINANCE_PROXY.md`.
 
 ---
@@ -100,6 +123,8 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `SHIPSTATION_API_KEY` | API Key ShipStation (v1) |
 | `SHIPSTATION_API_SECRET` | API Secret ShipStation (v1) |
 | `OMNISEND_API_KEY` | clé API Omnisend (Store settings → Integrations & API → API keys) |
+| `KLAVIYO_API_KEY` | clé privée Klaviyo `pk_...` (Settings → Account → API keys). Créer une clé **lecture seule** (scopes read) : le connecteur n'expose que des lectures. |
+| `KLAVIYO_REVISION` | (optionnel) révision d'API Klaviyo, défaut `2025-04-15` |
 | `PORT` | (auto, fourni par Render) |
 
 > QuickBooks : variables déménagées dans le service dédié — voir `finance-proxy/FINANCE_PROXY.md`.

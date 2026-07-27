@@ -39,6 +39,10 @@
  *   SHIPSTATION_API_KEY     clé API ShipStation (Account → API Settings)     [connecteur ShipStation]
  *   SHIPSTATION_API_SECRET  secret API ShipStation                          [connecteur ShipStation]
  *   OMNISEND_API_KEY        clé API Omnisend (Store settings → API keys)     [connecteur Omnisend]
+ *   KLAVIYO_API_KEY         clé privée Klaviyo pk_... (Settings → API keys),  [connecteur Klaviyo]
+ *                           lecture seule suffit (scopes read). Sert à
+ *                           l'export exhaustif/migration.
+ *   KLAVIYO_REVISION        révision d'API Klaviyo (défaut 2025-04-15).       [optionnel]
  *   (QuickBooks : service dédié finance-proxy/ — voir finance-proxy/FINANCE_PROXY.md)
  *   PORT                    port d'écoute (fourni par Render)               [auto]
  *
@@ -264,11 +268,78 @@ const omnisend = (() => {
 })();
 
 // ==========================================================================
+// CONNECTEUR : Klaviyo (API JSON:API — a.klaviyo.com/api, en-tête Authorization
+// « Klaviyo-API-Key pk_... » + en-tête revision obligatoire). LECTURE SEULE :
+// sert à l'export exhaustif (migration/sauvegarde) — profils, listes, segments,
+// flows, campagnes, templates, événements. Pagination par curseur : passer
+// "page[cursor]" (valeur extraite de links.next) et "page[size]" (max 100)
+// directement dans les params. Limites de débit par endpoint (429 + Retry-After,
+// géré par httpJson).
+// ==========================================================================
+const klaviyo = (() => {
+  const KEY = process.env.KLAVIYO_API_KEY || "";
+  const BASE = process.env.KLAVIYO_BASE || "https://a.klaviyo.com/api";
+  const REVISION = process.env.KLAVIYO_REVISION || "2025-04-15";
+  const get = (path, params) =>
+    httpJson({
+      method: "GET",
+      url: `${BASE}${path}${qs(params)}`,
+      headers: { Authorization: `Klaviyo-API-Key ${KEY}`, revision: REVISION },
+    });
+  const un = (p, champ = "id") => {
+    if (!p || !p[champ]) throw new Error(`${champ} requis`);
+    return encodeURIComponent(p[champ]);
+  };
+  // Retire les clés « réservées » (id) des params avant de les passer en query string.
+  const reste = (p) => { const { id, ...q } = p || {}; return q; };
+  return {
+    name: "klaviyo",
+    description:
+      "Klaviyo (lecture seule — export/migration) : profils, listes, segments, flows, campagnes, templates, événements, métriques.",
+    enabled: () => !!KEY,
+    actions: {
+      // Profils. Params utiles : "page[size]" (max 100), "page[cursor]",
+      // "additional-fields[profile]": "subscriptions" (statuts de consentement),
+      // filter (ex. equals(email,"x@y.com")), sort.
+      profiles: (p) => get("/profiles", p),
+      profile: (p) => get(`/profiles/${un(p)}`, reste(p)),
+      // Listes + membres d'une liste (id requis; pagination par curseur).
+      lists: (p) => get("/lists", p),
+      list: (p) => get(`/lists/${un(p)}`, reste(p)),
+      listprofiles: (p) => get(`/lists/${un(p)}/profiles`, reste(p)),
+      // Segments + définition + membres.
+      segments: (p) => get("/segments", p),
+      segment: (p) => get(`/segments/${un(p)}`, reste(p)),
+      segmentprofiles: (p) => get(`/segments/${un(p)}/profiles`, reste(p)),
+      // Flows (additional-fields[flow]: "definition" pour la définition complète).
+      flows: (p) => get("/flows", p),
+      flow: (p) => get(`/flows/${un(p)}`, reste(p)),
+      // Campagnes (filter OBLIGATOIRE côté Klaviyo, ex. equals(messages.channel,'email')).
+      campaigns: (p) => get("/campaigns", p),
+      campaign: (p) => get(`/campaigns/${un(p)}`, reste(p)),
+      campaignmessage: (p) => get(`/campaign-messages/${un(p)}`, reste(p)),
+      // Templates (HTML complet dans attributes.html).
+      templates: (p) => get("/templates", p),
+      template: (p) => get(`/templates/${un(p)}`, reste(p)),
+      // Événements (archivage/échantillonnage; filter + page[cursor]).
+      events: (p) => get("/events", p),
+      // Référentiels.
+      metrics: (p) => get("/metrics", p),
+      tags: (p) => get("/tags", p),
+      forms: (p) => get("/forms", p),
+      images: (p) => get("/images", p),
+      coupons: (p) => get("/coupons", p),
+    },
+  };
+})();
+
+// ==========================================================================
 // REGISTRE DES CONNECTEURS — ajouter un nouveau connecteur = ajouter une entrée.
 // ==========================================================================
 const CONNECTEURS = {
   [shipstation.name]: shipstation,
   [omnisend.name]: omnisend,
+  [klaviyo.name]: klaviyo,
 };
 
 // ---- Serveur HTTP ----
