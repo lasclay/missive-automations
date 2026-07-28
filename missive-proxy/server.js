@@ -18,9 +18,10 @@
  *   POST /postraw    {id}             → post brut (pour retrouver l'id de tâche d'un post existant)
  *   POST /note       {id, markdown}   → note interne (commentaire)
  *   POST /close      {id, note}       → ferme le fil (+ note)
- *   POST /reply      {id, from, to[], cc[], subject, body, send, closeAfter}
- *                                     → crée un brouillon (send=true pour envoyer),
- *                                       ferme après si closeAfter=true
+ *   POST /reply      {id, from, to[], cc[], subject, body, send, closeAfter,
+ *                     attachments[]}  → crée un brouillon (send=true pour envoyer),
+ *                                       ferme après si closeAfter=true.
+ *                                       attachments: [{base64_data, filename}] (≤ ~20 Mo au total)
  *
  * AUTH : chaque route (sauf /health) exige l'en-tête  X-Proxy-Secret: <PROXY_SECRET>.
  * Le proxy est public sur Render : ce secret est la seule porte. Révocable en
@@ -220,7 +221,7 @@ async function closeConversation(id, note) {
   });
 }
 
-async function reply({ id, from, to, cc, subject, body, send, closeAfter }) {
+async function reply({ id, from, to, cc, subject, body, send, closeAfter, attachments }) {
   const draft = {
     conversation: id, organization: ORG,
     from_field: { address: from },
@@ -229,6 +230,11 @@ async function reply({ id, from, to, cc, subject, body, send, closeAfter }) {
   };
   if (subject) draft.subject = subject;
   if (cc && cc.length) draft.cc_fields = cc.map((a) => ({ address: a }));
+  if (Array.isArray(attachments) && attachments.length) {
+    draft.attachments = attachments
+      .filter((a) => a && a.base64_data && a.filename)
+      .map((a) => ({ base64_data: a.base64_data, filename: String(a.filename).slice(0, 255) }));
+  }
   if (send) draft.send = true;
   const res = await mSend("POST", "/drafts", { drafts: draft });
   if (closeAfter) await closeConversation(id, "_Réponse envoyée, fil fermé._");
@@ -239,7 +245,7 @@ async function reply({ id, from, to, cc, subject, body, send, closeAfter }) {
 function readBody(req) {
   return new Promise((resolve) => {
     let data = "";
-    req.on("data", (c) => { data += c; if (data.length > 2e6) req.destroy(); });
+    req.on("data", (c) => { data += c; if (data.length > 30e6) req.destroy(); }); // 30 Mo : laisse passer les pièces jointes base64
     req.on("end", () => { try { resolve(data ? JSON.parse(data) : {}); } catch { resolve(null); } });
   });
 }

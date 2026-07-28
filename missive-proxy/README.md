@@ -36,6 +36,6 @@ mets-le en variable d'environnement de la session Claude Code (jamais dans le ch
 | `POST /conversation` | `{ "id": "..." }` | fil complet nettoyé (NOUS/EUX, daté) |
 | `POST /note` | `{ "id": "...", "markdown": "..." }` | note interne |
 | `POST /close` | `{ "id": "...", "note": "..." }` | ferme le fil (+ note) |
-| `POST /reply` | `{ "id", "from", "to":[], "cc":[], "subject", "body", "send", "closeAfter" }` | crée un brouillon; `send:true` envoie; `closeAfter:true` ferme ensuite |
+| `POST /reply` | `{ "id", "from", "to":[], "cc":[], "subject", "body", "send", "closeAfter", "attachments":[{"base64_data","filename"}] }` | crée un brouillon; `send:true` envoie; `closeAfter:true` ferme ensuite; pièces jointes en base64 (≤ ~20 Mo au total) |
 
 Toutes les routes POST exigent l'en-tête `X-Proxy-Secret: <MISSIVE_PROXY_SECRET>`.
