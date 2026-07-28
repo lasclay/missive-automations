@@ -14,6 +14,7 @@
  * ROUTAGE :
  *   GET  /health                       → sonde (sans auth)
  *   GET  /connectors                   → liste les connecteurs + actions dispo (sans secret)
+ *   POST /webhooks/shopify             → bot-guard (auth par signature HMAC Shopify — voir bot_guard.js)
  *   POST /:connecteur/:action  {..params}  → exécute l'action (auth requise)
  *
  * Premier connecteur : SHIPSTATION (API v1 « legacy », ssapi.shipstation.com,
@@ -51,6 +52,7 @@
  */
 
 const http = require("node:http");
+const botGuard = require("./bot_guard");
 
 // Secret propre à CE proxy : GENERAL_PROXY_SECRET en priorité (distinct de celui du
 // missive-proxy, révocable indépendamment), repli sur PROXY_SECRET si non défini.
@@ -368,6 +370,9 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "GET" && route === "/health") return json(res, 200, { ok: true, service: "connectors-proxy" });
     if (req.method === "GET" && route === "/connectors") return json(res, 200, { connectors: describeConnectors() });
     if (req.method !== "POST") return json(res, 404, { error: "not found" });
+
+    // Webhooks Shopify (bot-guard) : auth par signature HMAC, PAS par X-Proxy-Secret.
+    if (route === "/webhooks/shopify") return botGuard.handleWebhook(req, res);
 
     // Routage /:connecteur/:action (résolu AVANT l'auth: le secret exigé dépend du connecteur)
     const parts = route.split("/").filter(Boolean);

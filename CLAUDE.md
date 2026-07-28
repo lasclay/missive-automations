@@ -18,6 +18,9 @@ clés API vivent côté Render, jamais dans l'environnement Claude ni dans le co
 - **Klaviyo** (`KLAVIYO_API_KEY` côté Render, lecture seule) : profils, listes, segments,
   flows, campagnes, templates, événements — pour l'export exhaustif/migration.
   Export en masse : `node klaviyo_export.js profiles <dossier>` (CSV avec consentements).
+- **Bot-guard** (anti-bots Shopify) : webhooks `customers/create` + `orders/create` sur
+  `POST /webhooks/shopify` (HMAC) — tag `bot`/`bot-suspect` et annulation auto des
+  commandes des bots confirmés. Code : `bot_guard.js` ; doc : `BOT_GUARD.md`.
 - Doc complète : `CONNECTORS_PROXY.md`.
 
 ## Finance Proxy (comptabilité) — QuickBooks Online, service SÉPARÉ
