@@ -13,8 +13,10 @@
  *                                       Chaque bloc dégrade seul → champ `errors`.
  *   POST /list       {filter}         → liste des conversations (ex. "shared_label=ID")
  *   POST /conversation {id}           → fil complet nettoyé (NOUS/EUX, daté)
- *   POST /drafts     {id}             → brouillons laissés par le script IA, corps complet
- *                                       (fetch unitaire /drafts/:id — la liste renvoie un body vide)
+ *   POST /drafts     {id}             → brouillons laissés par le script IA. La liste ne
+ *                                       porte aucun corps : on tente le fetch unitaire,
+ *                                       sinon repli sur le preview (140 car.). Le champ
+ *                                       `complet` dit si le texte est entier ou tronqué.
  *   POST /comments   {id}             → notes internes (commentaires) — dégrade si non listable
  *   POST /users      {}               → membres de l'org (id, nom, courriel) pour les assignations
  *   POST /task       {id, title, assignees[], label} → crée une tâche (assignée si assignees); renvoie taskId
@@ -133,19 +135,25 @@ async function getConversation(id) {
   });
 }
 
-// Le corps complet d'un brouillon n'est PAS dans la liste /conversations/:id/drafts
-// (même piège que /messages) : fetch unitaire, puis repli sur le stub.
-// Repris de fetchDraftBody() dans revision_ia.js.
+// Le corps d'un brouillon n'est PAS dans la liste /conversations/:id/drafts : l'objet
+// renvoyé n'a même AUCUNE clé `body` (vérifié sur 34 brouillons : les 17 clés sont
+// id, subject, preview, type, delivered_at, updated_at, created_at, email_message_id,
+// in_reply_to, references, from_field, to_fields, cc_fields, bcc_fields,
+// reply_to_fields, attachments, author). Seul `preview` porte du texte, tronqué à
+// 140 caractères. L'ancien code lisait `d.body`, donc renvoyait toujours "".
+// On tente le fetch unitaire (cf. fetchDraftBody() dans revision_ia.js), et on se
+// rabat sur le preview. `complet` dit lequel des deux a répondu.
 async function fetchDraftBody(stub) {
   for (const path of [`/drafts/${stub.id}`, `/messages/${stub.id}`]) {
     try {
       const r = await mGet(path);
       const obj = r.drafts || r.messages || r.draft || r.message;
       const d = Array.isArray(obj) ? obj[0] : obj;
-      if (d && (d.body || d.text)) return d.body || d.text;
+      const texte = d && (d.body || d.text);
+      if (texte) return { texte, complet: true };
     } catch { /* on tente le chemin suivant */ }
   }
-  return stub.body || stub.text || stub.preview || "";
+  return { texte: stub.preview || "", complet: false };
 }
 
 // Brouillons laissés par le script IA (support.js) — la réponse déjà rédigée.
@@ -156,13 +164,17 @@ async function getDrafts(id, raw) {
   const out = [];
   for (const d of sorted) {
     const ts = (d.delivered_at || d.created_at || 0) * 1000;
+    const { texte, complet } = await fetchDraftBody(d);
     out.push({
       id: d.id,
       from: d.from_field?.address || null,
       to: (d.to_fields || []).map((f) => f.address).filter(Boolean),
       subject: d.subject || null,
       date: ts ? new Date(ts).toISOString().slice(0, 10) : null,
-      body: stripHtml(d.body || await fetchDraftBody(d)),
+      body: stripHtml(texte),
+      // false = repli sur le preview, donc coupé à 140 caractères : NE PAS approuver
+      // un envoi sur cette seule base, ouvrir le brouillon dans Missive.
+      complet,
     });
   }
   return out;
