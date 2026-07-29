@@ -35,6 +35,16 @@ clés API vivent côté Render, jamais dans l'environnement Claude ni dans le co
 
 - Service Render séparé pour l'API Missive ; code : `missive-proxy/` (env `MISSIVE_PROXY_SECRET`).
 
+## Skills (miroir du compte claude.ai)
+
+- `.claude/skills/` contient le MIROIR des skills du compte claude.ai (lasclay-master,
+  lasclay-seo, finances-lasclay) + les skills natifs du repo (lasclay-support-courriel),
+  pour qu'ils soient disponibles sur toutes les surfaces (CLI, web, Cowork).
+- Règle : toute modification d'un skill Lasclay doit être répercutée des deux côtés
+  (compte claude.ai ET repo). Une routine quotidienne compare les skills du compte au
+  repo et pousse les différences sur la branche `skills` (jamais dans `main` directement) ;
+  fusionner `skills` dans `main` pour les rendre effectifs partout.
+
 ## Scripts principaux
 
 - `support.js` : réponses IA de la boîte support (v2.34 : vérifie Shopify ET ShipStation).
