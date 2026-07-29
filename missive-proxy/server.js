@@ -13,7 +13,8 @@
  *                                       Chaque bloc dégrade seul → champ `errors`.
  *   POST /list       {filter}         → liste des conversations (ex. "shared_label=ID")
  *   POST /conversation {id}           → fil complet nettoyé (NOUS/EUX, daté)
- *   POST /drafts     {id}             → brouillons laissés par le script IA (réponse déjà rédigée)
+ *   POST /drafts     {id}             → brouillons laissés par le script IA, corps complet
+ *                                       (fetch unitaire /drafts/:id — la liste renvoie un body vide)
  *   POST /comments   {id}             → notes internes (commentaires) — dégrade si non listable
  *   POST /users      {}               → membres de l'org (id, nom, courriel) pour les assignations
  *   POST /task       {id, title, assignees[], label} → crée une tâche (assignée si assignees); renvoie taskId
@@ -132,22 +133,39 @@ async function getConversation(id) {
   });
 }
 
+// Le corps complet d'un brouillon n'est PAS dans la liste /conversations/:id/drafts
+// (même piège que /messages) : fetch unitaire, puis repli sur le stub.
+// Repris de fetchDraftBody() dans revision_ia.js.
+async function fetchDraftBody(stub) {
+  for (const path of [`/drafts/${stub.id}`, `/messages/${stub.id}`]) {
+    try {
+      const r = await mGet(path);
+      const obj = r.drafts || r.messages || r.draft || r.message;
+      const d = Array.isArray(obj) ? obj[0] : obj;
+      if (d && (d.body || d.text)) return d.body || d.text;
+    } catch { /* on tente le chemin suivant */ }
+  }
+  return stub.body || stub.text || stub.preview || "";
+}
+
 // Brouillons laissés par le script IA (support.js) — la réponse déjà rédigée.
 async function getDrafts(id, raw) {
   const { drafts = [] } = await mGet(`/conversations/${id}/drafts?limit=10`);
   if (raw) return { raw: drafts };
   const sorted = drafts.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
-  return sorted.map((d) => {
+  const out = [];
+  for (const d of sorted) {
     const ts = (d.delivered_at || d.created_at || 0) * 1000;
-    return {
+    out.push({
       id: d.id,
       from: d.from_field?.address || null,
       to: (d.to_fields || []).map((f) => f.address).filter(Boolean),
       subject: d.subject || null,
       date: ts ? new Date(ts).toISOString().slice(0, 10) : null,
-      body: stripHtml(d.body || ""),
-    };
-  });
+      body: stripHtml(d.body || await fetchDraftBody(d)),
+    });
+  }
+  return out;
 }
 
 // Notes internes (commentaires/posts) laissées par le script IA ou l'équipe.
