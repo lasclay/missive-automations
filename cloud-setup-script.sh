@@ -24,8 +24,8 @@ mkdir -p /root/.claude/skills/missive
 cat > /root/.claude/skills/missive/SKILL.md <<'SKILLEOF'
 ---
 name: missive
-description: Accès à la boîte support Lasclay via le proxy Missive, et aux connaissances de service client, d'ops et de marque nécessaires pour y répondre. Couvre la lecture des fils, les brouillons, les notes internes, les tâches, la fermeture de conversations, et les scripts d'automatisation de la boîte (réponses IA, digest, filtrage, révision, archivage).
-when_to_use: Déclenche dès qu'il est question du proxy Missive, de la boîte support, d'un fil ou d'une conversation client, d'un brouillon de réponse, d'une note interne, du digest des opérations, ou de répondre à un client Lasclay. Déclenche même sans le mot Missive, par exemple « lis le fil de la cliente qui attend son colis », « prépare une réponse pour la commande en rupture », « c'est quoi dans la boîte support ce matin », « ferme la conversation ».
+description: Boîte support Missive de Lasclay — accès via le proxy Missive, lecture des fils et brouillons, notes internes, tâches, fermeture, envoi de réponses, plus les connaissances de service client et de marque nécessaires pour rédiger. Couvre aussi les scripts d'automatisation de la boîte : réponses IA, digest d'opérations, filtrage, révision, archivage.
+when_to_use: Déclenche dès qu'il est question du proxy Missive, de la boîte support, d'un fil ou d'une conversation client, d'un brouillon, d'une note interne, du digest des opérations, ou de répondre à un client Lasclay. Déclenche même sans le mot Missive — « lis le fil de la cliente qui attend son colis », « prépare une réponse pour la commande en rupture », « qu'est-ce qu'il y a dans la boîte support ce matin », « ferme la conversation », « assigne ça à Catherine ».
 argument-hint: [ce que tu veux faire dans la boîte support]
 allowed-tools:
   - Bash(node missive_client.js:*)
@@ -45,88 +45,119 @@ allowed-tools:
 
 N'explore pas pour retrouver comment joindre Missive : tout est ci-dessous.
 
-## Prérequis — à vérifier en premier
+## Prérequis
 
-Les clients d'accès sont des scripts Node du dépôt **`lasclay/missive-automations`**. Ils ne
-sont pas déployés : ils tournent dans l'environnement de la session et lisent l'URL et le secret
-depuis l'environnement.
+Le client est `missive_client.js`, un script Node du dépôt **`lasclay/missive-automations`**. Il
+n'est pas déployé : il tourne dans la session et lit l'URL et le secret depuis l'environnement.
 
 | Variable | Rôle |
 | --- | --- |
-| `MISSIVE_PROXY_SECRET` | requis (repli sur `PROXY_SECRET`) |
+| `MISSIVE_PROXY_SECRET` | requis, repli sur `PROXY_SECRET` |
 | `MISSIVE_PROXY_URL` | facultatif, défaut `https://proxy-missive.onrender.com` |
 
-Si le répertoire courant n'est pas ce dépôt, les commandes échoueront avec un module
-introuvable : vérifie avec `ls missive_client.js`. Si le dépôt est absent, dis-le plutôt que de
-tenter de reconstruire un appel à la main — le secret ne doit jamais être écrit en dur.
+Si le répertoire courant n'est pas ce dépôt, les appels échoueront : vérifie avec
+`ls missive_client.js`. Dépôt absent → dis-le, ne reconstruis pas l'appel à la main. Le secret ne
+doit jamais être écrit en dur ni affiché.
 
-Commence par la sonde, elle vaut test d'authentification :
+Commence par la sonde, qui vaut test d'authentification :
 
 ```bash
 node missive_client.js health     # attendu : {"ok":true,"service":"missive-proxy"}
 ```
 
-Le premier appel peut prendre ~10 s : Render endort le service au repos. Ce n'est pas une panne,
-ne relance pas trois fois.
+Premier appel ~10 s : Render endort le service au repos. Ce n'est pas une panne, ne relance pas.
 
 ## Lecture
 
 ```bash
-node missive_client.js list "shared_label=ID"   # lister des fils par filtre
-node missive_client.js read <convId>            # une conversation
-node missive_client.js drafts <convId>          # brouillons rédigés par le script IA
-node missive_client.js notes <convId>           # notes internes / commentaires
-node missive_client.js users                    # membres de l'org : id, nom, courriel
+node missive_client.js list "<filtre>"    # fils correspondant au filtre
+node missive_client.js read <convId>      # une conversation, messages compris
+node missive_client.js drafts <convId>    # brouillons rédigés par le script IA
+node missive_client.js notes <convId>     # notes internes / commentaires
+node missive_client.js users              # membres de l'org : id, nom, courriel
 ```
 
-L'organisation compte deux membres, Catherine Bedard-Mercier et Gabriel Gouveia. Récupère leurs
-identifiants avec `users` avant toute assignation de tâche, ne les devine pas.
+### Le filtre de `list` — à lire avant de l'utiliser
+
+Le filtre est transmis **tel quel** à l'API Missive, sur `/conversations?<filtre>&limit=50`. Tout
+paramètre de cette API fonctionne donc, pas seulement `shared_label`. Mais le proxy **pagine
+jusqu'à épuisement** : un filtre large ramène tout, lentement.
+
+Mesuré sur la boîte réelle :
+
+| Filtre | Résultat |
+| --- | --- |
+| `assigned=true` | 38 fils — rapide, bon point de départ |
+| `inbox=true` | 3214 fils — très lent, évite sauf besoin réel |
+| `all=true` | expire — ne l'utilise pas |
+| `shared_label=<ID>` | selon l'étiquette |
+
+Commence toujours par le filtre le plus étroit qui répond à la question. Si tu as besoin d'un ID
+d'étiquette partagée que tu ne connais pas, dis-le plutôt que de deviner : le client n'expose pas
+de route pour lister les étiquettes.
+
+### Membres de l'organisation
+
+Deux personnes : **Catherine Bedard-Mercier** et **Gabriel Gouveia**. Récupère leurs identifiants
+avec `users` avant toute assignation de tâche — ne devine jamais un id.
 
 ## Écriture — confirme avant
 
-Ces actions modifient la boîte partagée ou sortent vers le client. Demande confirmation sauf
+Ces actions modifient la boîte partagée ou sortent vers le client. Demande confirmation, sauf
 instruction explicite dans le tour courant.
 
 ```bash
-node missive_client.js note <convId> "texte markdown"     # 🟡 note interne
-node missive_client.js task <convId>                      # 🟡 JSON {title,assignees[],label} sur stdin
-node missive_client.js close <convId> "note optionnelle"   # 🟡 ferme le fil
-node missive_client.js reply <convId>                     # 🔴 ENVOIE au client, JSON sur stdin
+node missive_client.js note <convId> "texte markdown"      # 🟡 note interne
+node missive_client.js task <convId>                       # 🟡 JSON {title,assignees[],label} sur stdin
+node missive_client.js close <convId> "note optionnelle"    # 🟡 ferme le fil
+node missive_client.js reply <convId>                      # 🔴 ENVOIE au client, JSON de brouillon sur stdin
 ```
 
-`reply` est aussi couvert par une règle `permissions.ask` : il demandera même en mode auto.
-C'est voulu.
+`reply` est en plus couvert par une règle `permissions.ask` : il demandera même en mode auto.
+C'est voulu — un courriel envoyé ne se rappelle pas.
+
+Le proxy expose aussi `/posts` et `/postraw`, que le client ne couvre pas. Si une tâche les
+exige, signale-le au lieu d'improviser un appel HTTP avec le secret.
 
 ## Rédiger une réponse
 
-Deux fichiers du dépôt, volumineux — lis la section utile, ne les récite pas en entier.
+Deux fichiers du dépôt, volumineux — lis la section utile avec `grep -n '^###'`, ne les récite
+jamais en entier.
 
-- **`connaissance_support.md`** — la référence pour rédiger. Ton de marque, puis le savoir
-  officiel en réponses types par thème : expédition et suivi, plantation et bombes semencières,
-  produits et questions techniques, précommandes et ruptures, retours et remboursements, tailles
-  et échanges, garantie, logistique spéciale (grèves, douanes, USA), ateliers et points de vente,
-  problèmes de livraison, fraude. Suivent les logiques de décision internes commentées, puis les
-  catégories de demandes avec leurs volumes sur deux ans — `suivi_livraison` domine avec 3728
-  fils, devant `question_pre_achat` à 1802. Repère ta section avec `grep -n '^###'`.
-- **`contexte_lasclay.md`** — identité, histoire, mission, l'asclépiade et ses propriétés, les
-  monarques, la fabrication, le catalogue par saison.
+**`connaissance_support.md`** — la référence de rédaction. Structure :
 
-Charge aussi le skill **`lasclay-master`** pour toute rédaction destinée à un client : ton de
-voix et garde-fous de marque. Et **`lasclay-seo`** si la tâche touche une fiche produit ou du
-contenu public.
+1. Ton de marque
+2. Savoir officiel en réponses types par thème, avec leur volume : expédition et suivi (31),
+   plantation et bombes semencières (26), produits et questions techniques (25), accusés de
+   réception et politesse (21), précommandes et ruptures de stock (21), retours échanges et
+   remboursements (17), tailles et échanges (17), garantie et satisfaction (16), logistique
+   spéciale — grèves, douanes, USA (14), clôtures et politesse (13), ateliers et points de vente
+   (9), problèmes de livraison (9), fraude et sécurité (2)
+3. Logiques de décision internes, en exemples commentés
+4. Catégories de demandes avec volumes sur deux ans — `suivi_livraison` domine à 3728 fils,
+   devant `question_pre_achat` à 1802
+
+**`contexte_lasclay.md`** — identité, histoire, mission, théorie du changement, l'asclépiade et
+ses propriétés, les monarques, l'agriculture, la fabrication, le catalogue par saison
+(hiver, été et plein air, quotidien, jardin et horticulture, matières, collaborations, corporatif).
+
+Charge aussi le skill **`lasclay-master`** pour toute rédaction destinée à un client : ton de voix
+et garde-fous de marque. Et **`lasclay-seo`** si la tâche touche une fiche produit ou du contenu
+public.
 
 ## Vérifier un envoi — règle ferme
 
 Une question de suivi se tranche avec **deux** sources, jamais une seule : Shopify pour la
-commande, ShipStation pour l'expédition et le numéro de suivi. Un client qui n'a pas reçu son
-colis peut avoir une commande payée sans expédition créée, ou une expédition sans suivi
-transmis — les deux cas se répondent différemment. Pour ShipStation, charge le skill
-**`proxygen`** ; les deux skills coexistent sans conflit dans le même tour.
+commande, ShipStation pour l'expédition et le numéro de suivi. Une commande payée peut n'avoir
+aucune expédition créée ; une expédition peut exister sans suivi transmis. Ces deux cas se
+répondent différemment, et c'est la catégorie la plus volumineuse de la boîte — donc celle où
+l'erreur coûte le plus.
+
+Pour ShipStation, charge le skill **`proxygen`**. Les deux skills coexistent dans le même tour.
 
 ## Scripts de la boîte
 
-- `support.js` — réponses IA de la boîte. Vérifie Shopify **et** ShipStation avant de répondre
-  sur un envoi.
+- `support.js` — réponses IA. Vérifie Shopify **et** ShipStation avant de répondre sur un envoi.
 - `digest.js` — digest des opérations. `analyse.js`, `filtrage.js` — tri et analyse des fils.
 - `revision.js`, `revision_ia.js` — révision des brouillons.
 - `archive.js`, `purge.js`, `nettoyage.js`, `merge.js`, `repartition_merge.js` — entretien.
@@ -136,10 +167,13 @@ Lis l'en-tête du script avant de le lancer : plusieurs agissent sur la boîte r
 
 ## Contexte d'entreprise
 
-Lasclay — *Les Produits Lasclay Inc* — est une marque québécoise de produits isolés à la soie
-d'asclépiade : plein air, accessoires, glacières souples, semences. Vente en ligne sur
-lasclay.com, en français et en anglais. Siège à Québec. Le service client se fait dans les deux
-langues : réponds dans celle du client.
+**Les Produits Lasclay Inc**, siège à Québec — marque québécoise de produits isolés à la soie
+d'asclépiade : plein air, accessoires, glacières souples, semences. Vente en ligne sur lasclay.com
+en français et en anglais, expéditions au Canada et aux États-Unis.
+
+Le service client se fait dans les deux langues : **réponds toujours dans celle du client**.
+L'asclépiade est aussi la plante hôte du monarque, ce qui donne à la marque une dimension
+écologique réelle — plusieurs questions clients portent là-dessus plutôt que sur un produit.
 SKILLEOF
 
 mkdir -p /root/.claude/skills/qbo
@@ -269,8 +303,8 @@ mkdir -p /root/.claude/skills/proxygen
 cat > /root/.claude/skills/proxygen/SKILL.md <<'SKILLEOF'
 ---
 name: proxygen
-description: Accès au General Proxy de Lasclay, le service Render des opérations qui expose ShipStation (accès complet), Omnisend et Klaviyo (lecture seule). Couvre les commandes et expéditions, le suivi, les tags, la mise en attente, le marquage expédié, l'achat et l'annulation d'étiquettes, les contacts et campagnes courriel, et l'export exhaustif Klaviyo.
-when_to_use: Déclenche dès qu'il est question du proxy général, de ShipStation, d'Omnisend, de Klaviyo, d'une expédition, d'un numéro de suivi, d'une étiquette d'envoi, d'un transporteur, d'un contact ou d'une campagne courriel. Déclenche même sans nommer le service, par exemple « où est le colis de la commande 12345 », « mets cette commande en attente », « combien coûterait l'envoi vers les États-Unis », « exporte les profils pour la migration ».
+description: General Proxy de Lasclay — le service Render des opérations, qui expose ShipStation en accès complet (19 actions), Omnisend (10) et Klaviyo en lecture seule (21). Couvre les commandes et expéditions, le suivi, les tarifs, les tags, la mise en attente, le marquage expédié, l'achat et l'annulation d'étiquettes, les contacts et campagnes courriel, et l'export exhaustif Klaviyo pour migration.
+when_to_use: Déclenche dès qu'il est question du proxy général, de ShipStation, d'Omnisend, de Klaviyo, d'une expédition, d'un numéro de suivi, d'une étiquette d'envoi, d'un transporteur, d'un entrepôt, d'un contact ou d'une campagne courriel. Déclenche même sans nommer le service — « où est le colis de la commande 12345 », « mets cette commande en attente », « combien coûterait l'envoi vers les États-Unis », « exporte les profils pour la migration », « cette cliente est-elle désabonnée ».
 argument-hint: [ce que tu veux faire côté expédition ou marketing]
 allowed-tools:
   - Bash(node connectors_client.js:*)
@@ -280,17 +314,19 @@ allowed-tools:
   - Read
   - Grep
   - Glob
+  - Skill
 ---
 
 # General Proxy — opérations Lasclay
 
 N'explore pas pour retrouver comment joindre ces services : tout est ci-dessous.
 
-## Prérequis — à vérifier en premier
+## Prérequis
 
 Service Render `https://general-proxy-5muf.onrender.com`, code dans `server.js` à la racine du
 dépôt **`lasclay/missive-automations`**. Les clés API des services tiers vivent uniquement côté
-Render, jamais dans le dépôt ni dans l'environnement de session : c'est tout l'intérêt du proxy.
+Render — jamais dans le dépôt, jamais dans l'environnement de session. C'est tout l'intérêt du
+proxy : la session ne porte que le secret d'appel.
 
 | Variable | Rôle |
 | --- | --- |
@@ -298,92 +334,118 @@ Render, jamais dans le dépôt ni dans l'environnement de session : c'est tout l
 | `GENERAL_PROXY_URL` | facultatif, défaut `https://general-proxy-5muf.onrender.com` |
 
 ```bash
-node connectors_client.js                                  # sonde /health
+node connectors_client.js                                   # sonde /health
 node connectors_client.js <connecteur> <action> '{"param":"valeur"}'
 ```
 
-Si le répertoire courant n'est pas le dépôt, vérifie avec `ls connectors_client.js` et signale-le
-plutôt que de reconstruire un appel à la main.
+Vérifie `ls connectors_client.js` si tu doutes d'être dans le dépôt. Premier appel ~10 s : Render
+endort le service au repos.
 
-**Introspection sans secret** : `GET /connectors` liste les connecteurs, leurs actions et leur
-état `enabled`. Utilise-la quand tu doutes qu'une action existe, au lieu de deviner un nom.
+**Introspection sans secret** : `GET /connectors` liste les connecteurs, leurs actions et leur état
+`enabled`. À utiliser plutôt que de deviner un nom d'action. Les listes ci-dessous en viennent.
 
-Premier appel ~10 s : Render endort le service au repos. Ce n'est pas une panne.
+## ShipStation — accès complet, API v1, 19 actions
 
-## ShipStation — accès complet, API v1
-
-**Lecture.** `orders` accepte `orderNumber`, `orderStatus` parmi `awaiting_shipment`, `shipped`,
-`on_hold`, `cancelled`, plus `customerName`, `storeId`, `createDateStart`/`End`, `page`,
-`pageSize` jusqu'à 500. Puis `order` par `orderId` interne, `shipments` qui porte le **numéro de
-suivi**, `fulfillments` pour les envois expédiés hors étiquette ShipStation, `carriers`, `stores`,
+**Lecture (8).** `orders`, `order`, `shipments`, `fulfillments`, `carriers`, `stores`,
 `warehouses`, `listtags`.
 
-**Écriture, par risque croissant.**
+- `orders` — `orderNumber`, `orderStatus` parmi `awaiting_shipment` / `shipped` / `on_hold` /
+  `cancelled`, `customerName`, `storeId`, `createDateStart` et `createDateEnd`, `page`,
+  `pageSize` jusqu'à 500. Retourne les commandes avec leurs articles.
+- `order` — `orderId`, l'entier **interne** ShipStation, pas le numéro de commande.
+- `shipments` — `orderNumber`, `trackingNumber`, `carrierCode`, `shipDateStart`/`End`. **C'est ici
+  que vit le numéro de suivi.**
+- `fulfillments` — les envois expédiés hors étiquette ShipStation. Un colis absent de `shipments`
+  peut être ici.
+- `listtags` — indispensable pour obtenir un `tagId` avant `addtag`.
 
-| Risque | Actions |
-| --- | --- |
-| 🟢 aucun effet de bord | `getrates` (devis de tarifs), `addtag` / `removetag` (`orderId` + `tagId` via `listtags`), `holduntil` (`orderId` + `holdUntilDate` AAAA-MM-JJ), `restorefromhold` |
-| 🟡 visible par le client | `markasshipped` — **notifie le client** sauf `notifyCustomer:false` |
-| 🟡 écrase | `createorder` — upsert par `orderKey`, les champs fournis remplacent l'existant |
-| 🟡 réversible | `voidlabel` (`shipmentId`) — annule une étiquette, généralement remboursée |
-| 🔴 destructeur | `deleteorder` (`orderId`) |
-| 🔴 **argent réel** | `createlabelfororder`, `createlabel` |
+**Écriture (11), par risque croissant.**
 
-Les deux dernières **achètent une étiquette et débitent le wallet**. `testLabel:true` permet
-d'essayer sans frais. Ne les lance jamais sans confirmation explicite dans le tour courant, même
-si la demande paraît claire — elles sont d'ailleurs couvertes par des règles `permissions.ask`
-qui demanderont même en mode auto, comme `deleteorder`.
+| Risque | Action | Détail |
+| --- | --- | --- |
+| 🟢 | `getrates` | devis de tarifs. **carrierCode, fromPostalCode, toPostalCode, toCountry, weight** `{value, units}`, plus serviceCode, packageCode, dimensions, confirmation, residential. Aucun effet de bord |
+| 🟢 | `addtag` / `removetag` | **orderId, tagId** — réversible, sans coût |
+| 🟢 | `holduntil` | **orderId, holdUntilDate** AAAA-MM-JJ |
+| 🟢 | `restorefromhold` | **orderId** — remet en file |
+| 🟡 | `markasshipped` | **orderId, carrierCode**, plus trackingNumber, shipDate, notifyCustomer, notifySalesChannel. **Notifie le client** sauf `notifyCustomer:false` |
+| 🟡 | `createorder` | **orderNumber, orderDate, orderStatus, billTo, shipTo**. Upsert par `orderKey` : les champs fournis **écrasent** l'existant |
+| 🟡 | `voidlabel` | **shipmentId** — annule une étiquette, généralement remboursée |
+| 🔴 | `deleteorder` | **orderId** — destructeur |
+| 🔴 | `createlabelfororder` | **orderId, carrierCode, serviceCode, shipDate**, plus weight, packageCode, testLabel |
+| 🔴 | `createlabel` | **carrierCode, serviceCode, shipDate, shipFrom, shipTo, weight**, plus isReturnLabel, testLabel |
 
-## Omnisend — API v3, marketing courriel et SMS
+Les deux dernières **achètent une étiquette et débitent le wallet — argent réel**. `testLabel:true`
+permet d'essayer sans frais, et c'est ce qu'il faut faire d'abord. Ne les lance jamais sans
+confirmation explicite dans le tour courant, même si la demande paraît sans ambiguïté. Elles sont
+d'ailleurs couvertes par des règles `permissions.ask`, comme `deleteorder` : elles demanderont même
+en mode auto.
 
-Clé `OMNISEND_API_KEY` côté Render. Lecture : `contacts` (`email`, `status` parmi `subscribed`,
-`unsubscribed`, `nonSubscribed`, plus `segmentID`, `limit` max 250, `after`), `contact`,
-`campaigns`, `campaign`, `orders`, `products`, `carts`.
+## Omnisend — API v3, 10 actions
 
-Écriture : `createcontact` et `updatecontact` (PATCH partiel, 🟡), et `triggerevent` (🟡) qui
-**déclenche les automations écoutant l'événement**, donc de vrais envois aux clients —
-confirmation requise, règle `permissions.ask`.
+Clé `OMNISEND_API_KEY` côté Render.
+
+**Lecture (7).** `contacts` — `email`, `status` parmi `subscribed` / `unsubscribed` /
+`nonSubscribed`, `segmentID`, `limit` max 250, `after` —, puis `contact` (**contactID**),
+`campaigns`, `campaign` (**campaignID**), `orders`, `products`, `carts`.
+
+**Écriture (3).** `createcontact` (🟡 crée ou abonne — **body** au format contact v3 :
+`identifiers[{type:"email", id, channels:{email:{status}}}]`, `firstName`, `tags`),
+`updatecontact` (🟡 **contactID, body**, PATCH partiel), et `triggerevent` (🟡 **body** avec
+`eventID` ou `systemName`, `email`, `fields`) — qui **déclenche les automations écoutant
+l'événement**, donc de vrais envois. Confirmation requise, règle `permissions.ask`.
 
 Quand on demande « accéder à Omnisend », c'est ce chemin, pas un connecteur MCP.
 
-## Klaviyo — lecture seule, export et migration
+## Klaviyo — lecture seule, 21 actions, export et migration
 
-Clé `KLAVIYO_API_KEY` côté Render, en-tête `revision` (défaut `2025-04-15`). Actions : `profiles`
-— ajoute `"additional-fields[profile]": "subscriptions"` pour récupérer les consentements —,
-`profile`, `lists`, `listprofiles`, `segments` (`"additional-fields[segment]": "profile_count"`),
-`segmentprofiles`, `flows` (`"additional-fields[flow]": "definition"` pour une définition
-réimportable), `campaigns` (le paramètre `filter` est **obligatoire**, par exemple
-`equals(messages.channel,'email')`), `campaignmessage`, templates, événements.
+Clé `KLAVIYO_API_KEY` côté Render, en-tête `revision` (défaut `2025-04-15`).
 
-Pagination par `"page[size]"` et `"page[cursor]"`.
+Actions : `profiles`, `profile`, `lists`, `list`, `listprofiles`, `segments`, `segment`,
+`segmentprofiles`, `flows`, `flow`, `campaigns`, `campaign`, `campaignmessage`, `templates`,
+`template`, `events`, `metrics`, `tags`, `forms`, `images`, `coupons`.
+
+Paramètres qui comptent :
+
+- `profiles` — ajoute `"additional-fields[profile]": "subscriptions"` pour récupérer les
+  **consentements**, sans quoi l'export est inutilisable pour une migration.
+- `segment` — `"additional-fields[segment]": "profile_count"`.
+- `flow` — `"additional-fields[flow]": "definition"` pour une définition complète réimportable.
+- `campaigns` — le paramètre `filter` est **obligatoire**, par exemple
+  `equals(messages.channel,'email')`.
+- Pagination : `"page[size]"` et `"page[cursor]"`.
 
 Export en masse : `node klaviyo_export.js profiles <dossier>` produit des CSV avec les
-consentements. Les données personnelles peuvent circuler entre ces systèmes et le dépôt privé
-pour le travail de migration, **jamais vers une destination publique**.
+consentements. Les données personnelles peuvent circuler entre ces systèmes et le dépôt privé pour
+le travail de migration — **jamais vers une destination publique**, ni paste, ni gist, ni dépôt
+public.
 
 ## Vérifier un envoi — règle ferme
 
-Une question de suivi se tranche avec **deux** sources : Shopify pour la commande, ShipStation
-pour l'expédition et le suivi. Une commande payée peut n'avoir aucune expédition créée, et une
-expédition peut exister sans numéro de suivi transmis — ces deux cas se répondent différemment.
+Deux sources, jamais une seule : Shopify pour la commande, ShipStation pour l'expédition et le
+suivi. Une commande payée peut n'avoir aucune expédition créée ; une expédition peut exister sans
+suivi transmis ; un envoi hors étiquette ShipStation apparaît dans `fulfillments` et non dans
+`shipments`. Ces cas se répondent différemment.
+
 `shopify_check.js` et `shipstation_check.js` font la vérification croisée.
 
 Pour rédiger la réponse au client ensuite, charge le skill **`missive`** : il porte le ton de
-marque et les réponses types d'expédition et de suivi, la catégorie la plus volumineuse de la
-boîte.
+marque et les réponses types d'expédition et de suivi, la catégorie la plus volumineuse de la boîte
+avec 3728 fils sur deux ans.
 
 ## Détail complet
 
-`CONNECTORS_PROXY.md` à la racine du dépôt : tableaux d'actions par connecteur, paramètres
-exacts, niveaux de risque annotés. Consulte-le avant une action que tu n'as jamais lancée.
+`CONNECTORS_PROXY.md` à la racine du dépôt : tableaux par connecteur, paramètres exacts, risques
+annotés. Consulte-le avant une action jamais lancée.
 
 ## Contexte d'entreprise
 
-*Les Produits Lasclay Inc*, marque québécoise de produits isolés à la soie d'asclépiade — plein
-air, accessoires, glacières souples, semences. Vente en ligne sur lasclay.com en français et en
-anglais, siège à Québec, expéditions au Canada et aux États-Unis. La logistique spéciale — grèves
-postales, douanes, envois vers les USA — a ses propres réponses types dans le skill `missive`.
-QuickBooks est délibérément isolé sur un autre proxy : voir le skill `qbo`.
+**Les Produits Lasclay Inc**, siège à Québec — marque québécoise de produits isolés à la soie
+d'asclépiade : plein air, accessoires, glacières souples, semences. Vente sur lasclay.com en
+français et en anglais, expéditions au Canada et aux États-Unis.
+
+La logistique spéciale — grèves postales, douanes, envois vers les USA — a ses propres réponses
+types dans le skill `missive`. QuickBooks est délibérément isolé sur un autre proxy, avec un secret
+distinct : voir le skill `qbo`.
 SKILLEOF
 
 mkdir -p /root/.claude/skills/autoloop
