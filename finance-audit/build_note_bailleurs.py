@@ -7,6 +7,7 @@ le réel QuickBooks. Les graphiques sont du SVG posé à la main, aucune
 bibliothèque, donc rien à charger et un rendu identique à l'impression.
 """
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -213,14 +214,34 @@ h1,h2,h3,h4 {{ font-family: 'Bitstream Charter',Georgia,serif; font-weight: 700;
   padding: 15mm 14mm 13mm; overflow: hidden; }}
 .page:last-child {{ page-break-after: auto; }}
 
-.cover {{ background: {INK}; color: #fff; padding: 30mm 22mm 22mm; }}
-.cover .mark {{ font-family:'Bitstream Charter',Georgia,serif; font-size: 26pt;
+.cover {{ background: {INK}; color: #fff; padding: 26mm 22mm 22mm; }}
+.cover .mark {{ font-family:'Bitstream Charter',Georgia,serif; font-size:23pt;
   letter-spacing:.30em; font-weight:700; }}
+.cover .ctype {{ font-size:7.6pt; letter-spacing:.24em; color:{ORANGE}; font-weight:700;
+  margin-bottom:14px; }}
+.cover .cfig {{ display:flex; gap:0; margin:52px 0 58px; border-top:1px solid #3a4b45;
+  border-bottom:1px solid #3a4b45; }}
+.cover .cfig > div {{ flex:1; padding:14px 14px 14px 0; }}
+.cover .cfig .v {{ display:block; font-family:'Bitstream Charter',Georgia,serif;
+  font-size:19pt; color:#fff; line-height:1.05; }}
+.cover .cfig .k {{ display:block; font-size:7.3pt; letter-spacing:.09em;
+  text-transform:uppercase; color:#8fa39d; margin-top:6px; }}
+.cover .cnote {{ margin-top:26px; padding-top:14px; border-top:1px solid #3a4b45;
+  font-size:8.6pt; color:#a8b8b3; line-height:1.6; max-width:46em; }}
+.cover .ctitle {{ font-size:7.4pt; letter-spacing:.2em; color:#8fa39d; margin-bottom:10px; }}
+.cover .toc {{ column-count:2; column-gap:26px; }}
+.toci {{ display:flex; align-items:baseline; font-size:8.5pt; color:#d6dedb;
+  margin-bottom:6px; break-inside:avoid; }}
+.toci .n {{ font-family:'Bitstream Charter',Georgia,serif; color:{ORANGE}; width:20px;
+  flex:0 0 20px; }}
+.toci .t {{ flex:0 1 auto; }}
+.toci .d {{ flex:1 1 auto; border-bottom:1px dotted #4a5a55; margin:0 5px 3px; min-width:8px; }}
+.toci .p {{ color:#8fa39d; }}
 .cover .rule {{ width:54px; height:3px; background:{ORANGE}; margin:18px 0 26px; }}
-.cover h1 {{ font-size:29pt; line-height:1.13; margin:0 0 16px; max-width:15em; }}
-.cover .sub {{ font-size:12pt; color:{VERT_CLAIR}; max-width:31em; line-height:1.5; }}
-.cover .meta {{ position:absolute; bottom:24mm; font-size:8.4pt; color:#8d9a95;
-  letter-spacing:.06em; }}
+.cover h1 {{ font-size:34pt; line-height:1.1; margin:0 0 14px; }}
+.cover .sub {{ font-size:11.5pt; color:{VERT_CLAIR}; max-width:30em; line-height:1.5; }}
+.cover .meta {{ position:absolute; bottom:20mm; font-size:7.9pt; color:#8d9a95;
+  letter-spacing:.05em; line-height:1.7; }}
 .cover .tagbox {{ margin-top:34px; border-left:3px solid {ORANGE}; padding:4px 0 4px 16px;
   font-family:'Bitstream Charter',Georgia,serif; font-size:12.5pt; color:#eae7df;
   max-width:27em; line-height:1.45; font-style:italic; }}
@@ -305,7 +326,7 @@ ul.o li:before {{ background:{ORANGE}; }}
 
 
 def foot(n, tot=12):
-    return (f'<div class="foot"><span>LES PRODUITS LASCLAY INC. · CONFIDENTIEL</span>'
+    return (f'<div class="foot"><span>LASCLAY · PRÉVISIONS FINANCIÈRES 2026-2029</span>'
             f'<span>{n} / {tot}</span></div></div>')
 
 
@@ -317,23 +338,55 @@ hist_ca = [280000, 403702, 504926, 879125, 1103327]
 P = []   # les pages
 
 # ------------------------------------------------------------------ COUVERTURE
+SOMMAIRE = [
+    ('01', 'Ce que disent six ans de ventes', 1),
+    ('02', 'La demande, testée trois fois', 2),
+    ('03', 'Juin et juillet 2026 : ce que coûte le manque de trésorerie', 3),
+    ('04', 'Le coût de la fibre et le maillage industriel', 4),
+    ('05', 'De la production artisanale à l’isolant en rouleau', 5),
+    ('06', 'Le marketing et le développement des marchés', 6),
+    ('07', 'Les coûts fixes et l’infrastructure numérique', 7),
+    ('08', 'Les trois marchés que la restructuration ouvre', 8),
+    ('09', 'Les projections : deux scénarios', 9),
+    ('10', 'Structure de financement et facteurs de risque', 10),
+    ('11', 'La méthode et les sources', 11),
+    ('12', 'Synthèse', 12),
+]
+toc = ''.join(
+    f'<div class="toci"><span class="n">{n}</span><span class="t">{t}</span>'
+    f'<span class="d"></span><span class="p">{p}</span></div>' for n, t, p in SOMMAIRE)
+
 P.append(f"""<div class="page cover">
   <div class="mark">LASCLAY</div><div class="rule"></div>
-  <div class="conf">CONFIDENTIEL · INVESTISSEURS ET PRÊTEURS</div>
-  <h1>Quatre verrous techniques.<br>Ils tombent tous en même temps.</h1>
-  <div class="sub">La demande pour l'asclépiade est prouvée depuis 2020. Ce qui l'a
-    toujours bloquée est technique, pas commercial. Le pivot de 2026 lève les quatre
-    contraintes d'un coup. Ce document en fait la démonstration, chiffre par chiffre.</div>
-  <div class="tagbox">« Ce qui change, c'est la manière de produire.<br>Ce qui ne change
-    pas, c'est pourquoi nous existons. »</div>
+  <div class="ctype">MÉMO EXPLICATIF</div>
+  <h1>Prévisions financières<br>2026-2029</h1>
+  <div class="sub">Ce que le modèle contient, sur quoi il repose, et ce que la
+    restructuration de 2026 change à la trajectoire.</div>
+
+  <div class="cfig">
+    <div><span class="v">1,10 M$</span><span class="k">Revenu FY2026</span></div>
+    <div><span class="v">2,79 M$</span><span class="k">Ventes nettes visées FY2029</span></div>
+    <div><span class="v">FY2028</span><span class="k">Rentable hors aides publiques</span></div>
+    <div><span class="v">70 000</span><span class="k">Clients depuis 2020</span></div>
+  </div>
+
+  <div class="ctitle">CE QUE CONTIENT CE DOCUMENT</div>
+  <div class="toc">{toc}</div>
+
+  <div class="cnote">Deux scénarios coexistent dans le même modèle : conservateur
+    réaliste, qui porte les ventes nettes à 2,79 M$ en FY2029, et ambitieux, qui les
+    porte à 4,10 M$. Une seule cellule bascule de l'un à l'autre. Ni l'un ni l'autre
+    n'inclut de subvention non confirmée.</div>
+
   <div class="meta">LES PRODUITS LASCLAY INC. &nbsp;·&nbsp; QUÉBEC (LIMOILOU)
-    &nbsp;·&nbsp; 30 JUILLET 2026 &nbsp;·&nbsp; EXERCICES CLOS LE 31 AOÛT</div>
+    &nbsp;·&nbsp; 30 JUILLET 2026<br>Exercices financiers clos le 31 août ·
+    Modèle mensuel de 48 mois rapproché de QuickBooks</div>
 </div>""")
 
 # ------------------------------------------------------------------ 01 THÈSE
 P.append(f"""<div class="page">
-  <div class="kicker">La thèse</div>
-  <div class="sect"><span class="num">01</span><h2>Le marché n'a jamais été le problème</h2></div>
+  <div class="kicker">Contexte</div>
+  <div class="sect"><span class="num">01</span><h2>Ce que disent six ans de ventes</h2></div>
   <div class="lede">En 2020, une publication devient virale. 10 000 inscriptions à
     l'infolettre en deux semaines, 1 000 paires de mitaines vendues avant d'avoir une
     usine. Six ans plus tard, 70 000 clients et 3 M$ cumulés. La demande n'a jamais
@@ -345,26 +398,25 @@ P.append(f"""<div class="page">
     FY2023 à FY2025 selon les états financiers compilés ; FY2026 selon QuickBooks.
     Marge brute : 44,3 % · 65,5 % · 73,0 % en trois exercices.</div>
 
-  <h3>Les quatre verrous, et ce qui les fait tomber</h3>
-  <div class="verrou"><span class="n">1</span><p><strong>La fibre coûte trop cher.</strong>
-    85 $/kg contre 4 $ pour la laine. Ce n'est pas une limite physique : c'est le prix
-    d'une filière trop petite pour se mécaniser. <em>Ce qui le fait tomber :</em> un
-    réseau agricole en développement et un partenariat industriel qui triple le volume
-    d'achat de fibre.</p></div>
+  <h3>Quatre contraintes ont empêché de servir cette demande</h3>
+  <p>Elles sont techniques et documentées. Chacune fait l'objet d'une section de ce
+  mémo, avec les chiffres qui la mesurent et ce qui la lève.</p>
+  <div class="verrou"><span class="n">1</span><p><strong>La fibre coûte 85 $ le kilo</strong>,
+    contre 4 $ pour la laine. Ce prix ne vient pas d'une rareté mais d'une filière trop
+    petite pour mécaniser sa récolte. Le partenariat industriel avec Eko-Terre triple le
+    volume d'achat de fibre, qui est la condition de la baisse. <em>Section 04.</em></p></div>
   <div class="verrou"><span class="n">2</span><p><strong>L'isolant se fabrique
-    artisanalement.</strong> Un procédé maison, ingénieux, qui n'existe nulle part
-    ailleurs, et qui, pour cette raison, n'entre dans aucune usine textile du monde.
-    <em>Ce qui le fait tomber :</em> le passage à l'isolant en rouleau. Produire les
-    besoins annuels a demandé <strong>deux employés pendant deux semaines</strong>.</p></div>
-  <div class="verrou o"><span class="n">3</span><p><strong>L'énergie va au mauvais
-    endroit.</strong> Réparer des machines, gérer une usine et une main-d'œuvre
-    saisonnière au lieu de développer le marché, les produits et les segments.
-    <em>Ce qui le fait tomber :</em> la sortie du manufacturier libère la ressource
-    la plus rare de l'entreprise.</p></div>
-  <div class="verrou o"><span class="n">4</span><p><strong>Les coûts fixes mangent la
-    croissance.</strong> Usine, loyer, main-d'œuvre de production, et une pile
-    d'abonnements logiciels. <em>Ce qui le fait tomber :</em> une structure allégée et
-    le remplacement progressif de l'infrastructure numérique par des outils internes.</p></div>
+    artisanalement.</strong> Le procédé, inventé à l'interne, demandait sept à huit
+    personnes en haute saison et n'entre dans aucune usine textile du monde. En rouleau,
+    couvrir les besoins d'une année a demandé deux employés pendant deux semaines.
+    <em>Section 05.</em></p></div>
+  <div class="verrou o"><span class="n">3</span><p><strong>Le marketing et le développement
+    des marchés sont restés sous-investis.</strong> Le coût d'acquisition d'un client est
+    passé de 20,11 $ à 31,88 $ en un an. Sortir du manufacturier libère le temps et la
+    marge qui manquaient. <em>Section 06.</em></p></div>
+  <div class="verrou o"><span class="n">4</span><p><strong>Les coûts fixes montaient au
+    rythme des ventes.</strong> Usine, loyer, main-d'œuvre de production et abonnements
+    logiciels. La structure allégée libère environ 155 000 $ par année. <em>Section 07.</em></p></div>
 
   <div class="tiles">
     <div class="tile"><div class="v">70 000</div><div class="k">Clients</div>
@@ -380,7 +432,7 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 02 DEMANDE
 P.append(f"""<div class="page">
-  <div class="kicker">La preuve</div>
+  <div class="kicker">Preuve de marché</div>
   <div class="sect"><span class="num">02</span><h2>La demande, testée trois fois</h2></div>
   <div class="lede">Trois épreuves distinctes, à six ans d'intervalle, ont mesuré
     l'appétit du marché pour l'asclépiade. Les trois ont répondu la même chose.</div>
@@ -436,8 +488,8 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 03 JUIN
 P.append(f"""<div class="page">
-  <div class="kicker">La démonstration par l'absurde</div>
-  <div class="sect"><span class="num">03</span><h2>Ce qui arrive quand le carburant manque</h2></div>
+  <div class="kicker">Trésorerie</div>
+  <div class="sect"><span class="num">03</span><h2>Juin et juillet 2026 : ce que coûte le manque de trésorerie</h2></div>
   <div class="lede">Le budget publicitaire est tombé à zéro en juillet 2026. L'effet sur
     les ventes se mesure au mois près.</div>
 
@@ -490,8 +542,8 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 04 VERROU 1
 P.append(f"""<div class="page">
-  <div class="kicker">Verrou nº 1</div>
-  <div class="sect"><span class="num">04</span><h2>Le coût de la fibre</h2></div>
+  <div class="kicker">Approvisionnement</div>
+  <div class="sect"><span class="num">04</span><h2>Le coût de la fibre et le maillage industriel</h2></div>
   <div class="lede">L'asclépiade se vend 85 $ le kilo. C'est ce prix qui la fait
     percevoir comme un matériau de luxe et qui ferme les marchés de volume. Il n'a rien
     d'inévitable.</div>
@@ -558,8 +610,8 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 05 VERROU 2
 P.append(f"""<div class="page">
-  <div class="kicker">Verrou nº 2</div>
-  <div class="sect"><span class="num">05</span><h2>De l'artisanal à l'industriel</h2></div>
+  <div class="kicker">Production</div>
+  <div class="sect"><span class="num">05</span><h2>De la production artisanale à l’isolant en rouleau</h2></div>
   <div class="lede">C'est le verrou central, et celui dont la levée se mesure le plus
     brutalement.</div>
 
@@ -621,8 +673,8 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 06 VERROU 3
 P.append(f"""<div class="page">
-  <div class="kicker">Verrou nº 3</div>
-  <div class="sect"><span class="num">06</span><h2>L'énergie va au mauvais endroit</h2></div>
+  <div class="kicker">Mise en marché</div>
+  <div class="sect"><span class="num">06</span><h2>Le marketing et le développement des marchés</h2></div>
   <div class="lede">C'est le verrou le moins visible dans un bilan, et probablement le
     plus coûteux : ce que l'entreprise n'a pas pu faire pendant qu'elle faisait tourner
     une usine.</div>
@@ -684,8 +736,8 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 07 VERROU 4
 P.append(f"""<div class="page">
-  <div class="kicker">Verrou nº 4</div>
-  <div class="sect"><span class="num">07</span><h2>Les coûts fixes et l'infrastructure</h2></div>
+  <div class="kicker">Structure de coûts</div>
+  <div class="sect"><span class="num">07</span><h2>Les coûts fixes et l’infrastructure numérique</h2></div>
   <div class="lede">Un modèle où les dépenses montent au même rythme que les ventes ne
     devient jamais rentable, quelle que soit la croissance. C'est exactement ce qui s'est
     produit.</div>
@@ -754,8 +806,8 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 08 DÉBLOQUE
 P.append(f"""<div class="page">
-  <div class="kicker">Ce que ça débloque</div>
-  <div class="sect"><span class="num">08</span><h2>Trois marchés hors de portée aujourd'hui</h2></div>
+  <div class="kicker">Marchés</div>
+  <div class="sect"><span class="num">08</span><h2>Les trois marchés que la restructuration ouvre</h2></div>
   <div class="lede">Les quatre verrous levés ouvrent des canaux qui ne dépendent ni du
     budget publicitaire ni de la capacité de l'atelier.</div>
 
@@ -814,8 +866,8 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 09 CHIFFRES
 P.append(f"""<div class="page">
-  <div class="kicker">Les chiffres</div>
-  <div class="sect"><span class="num">09</span><h2>Deux scénarios, un seul modèle</h2></div>
+  <div class="kicker">Projections</div>
+  <div class="sect"><span class="num">09</span><h2>Les projections : deux scénarios</h2></div>
   <div class="lede">Un chiffrier mensuel de 48 mois rapproché de QuickBooks compte par
     compte, dont dix mois de FY2026 sont du réel. Une seule cellule bascule d'un scénario
     à l'autre.</div>
@@ -868,8 +920,8 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 10 FINANCEMENT
 P.append(f"""<div class="page">
-  <div class="kicker">La demande</div>
-  <div class="sect"><span class="num">10</span><h2>Structure de financement et risques</h2></div>
+  <div class="kicker">Financement</div>
+  <div class="sect"><span class="num">10</span><h2>Structure de financement et facteurs de risque</h2></div>
   <div class="lede">L'essentiel de la demande remplace de la dette coûteuse par de la
     dette normale. Ce n'est pas de l'endettement supplémentaire.</div>
 
@@ -933,8 +985,8 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 11 FIABILITÉ
 P.append(f"""<div class="page">
-  <div class="kicker">La méthode</div>
-  <div class="sect"><span class="num">11</span><h2>D'où viennent ces chiffres</h2></div>
+  <div class="kicker">Méthode</div>
+  <div class="sect"><span class="num">11</span><h2>La méthode et les sources</h2></div>
   <div class="lede">Une projection ne vaut que par la rigueur de son suivi.</div>
 
   <h3>Ancrage comptable</h3>
@@ -981,7 +1033,7 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 12 CONCLUSION
 P.append(f"""<div class="page">
-  <div class="sect"><span class="num">12</span><h2>Ce qu'on demande, et pourquoi maintenant</h2></div>
+  <div class="sect"><span class="num">12</span><h2>Synthèse</h2></div>
 
   <p>Lasclay a franchi les étapes les plus difficiles d'une entreprise pionnière :
   apprendre une matière que personne ne maîtrisait, bâtir une demande de 70 000 clients,
@@ -1025,8 +1077,8 @@ P.append(f"""<div class="page">
 
   <div style="margin-top:22px;padding-top:11px;border-top:1px solid {LIGNE};
     font-size:7.7pt;color:{GRIS}">
-    Document confidentiel préparé à des fins d'information pour les investisseurs et
-    prêteurs de Les Produits Lasclay inc. Les données historiques proviennent d'états
+    Mémo préparé à des fins d'information pour les partenaires financiers de Les
+    Produits Lasclay inc. Les données historiques proviennent d'états
     financiers compilés (mission de compilation, sans audit ni examen) et de QuickBooks
     Online. Les données de ventes, de commandes et de clients proviennent de Shopify. Les
     projections 2026 à 2029 sont fondées sur des hypothèses internes documentées dans le
@@ -1037,15 +1089,30 @@ P.append(f"""<div class="page">
 
 html = CSS + ''.join(P)
 
+# Les espaces de milliers deviennent des espaces insécables : « 1 000 paires » ne
+# doit pas se couper en fin de ligne. Les blocs SVG sont laissés intacts, leurs
+# attributs contenant des suites de nombres séparés par des espaces.
+def _nbsp(part):
+    return re.sub(r'(?<=\d) (?=\d{3}(?!\d))', '\u202f', part)
+
+
+_out, _last = [], 0
+for _m in re.finditer(r'<svg.*?</svg>', html, re.S):
+    _out.append(_nbsp(html[_last:_m.start()]))
+    _out.append(_m.group(0))
+    _last = _m.end()
+_out.append(_nbsp(html[_last:]))
+html = ''.join(_out)
+
 from pathlib import Path
 import subprocess
 Path('note_bailleurs.html').write_text(
     '<!doctype html><html lang="fr"><head><meta charset="utf-8">'
-    '<title>Lasclay · Le pivot : note aux bailleurs</title></head><body>'
+    '<title>Lasclay · Prévisions financières 2026-2029 · mémo explicatif</title></head><body>'
     + html + '</body></html>', encoding='utf8')
 CHROME='/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 subprocess.run([CHROME,'--headless','--disable-gpu','--no-sandbox','--no-pdf-header-footer',
   '--run-all-compositor-stages-before-draw','--virtual-time-budget=8000',
-  '--print-to-pdf=Lasclay - Le pivot - note aux bailleurs.pdf',
+  '--print-to-pdf=Lasclay - Previsions financieres 2026-2029 - memo explicatif.pdf',
   'file://'+str(Path('note_bailleurs.html').resolve())],check=True,capture_output=True)
 print('PDF produit')
