@@ -3,7 +3,14 @@ name: qbo
 description: Accès à QuickBooks Online via le Finance Proxy de Lasclay, service Render séparé des opérations pour isoler les finances. Couvre les rapports (P&L, bilan, balance de vérification, grand livre, flux de trésorerie, âge des comptes), les requêtes SQL-like v3, la lecture et l'écriture d'entités de tenue de livres, le téléchargement de pièces jointes, et l'import du chiffrier de prévisions.
 when_to_use: Déclenche dès qu'il est question de QuickBooks, QBO, du proxy finance, d'un état financier, d'un compte de charge, d'un rapprochement bancaire, d'une écriture comptable, de l'exercice fiscal, ou de chiffres comptables de Lasclay. Déclenche même sans le mot QuickBooks, par exemple « sors-moi le P&L du dernier trimestre », « est-ce que cette dépense est classée », « publie les factures d'Anthropic », « c'est quoi nos marges ce mois-ci ».
 argument-hint: [ce que tu veux consulter ou publier dans QBO]
-allowed-tools: Bash(node finance_client.js:*) Bash(node qbo_check.js:*) Bash(node qbo_import.js:*) Read Grep Glob Skill
+allowed-tools:
+  - Bash(node finance_client.js:*)
+  - Bash(node qbo_check.js:*)
+  - Bash(node qbo_import.js:*)
+  - Read
+  - Grep
+  - Glob
+  - Skill
 ---
 
 # QuickBooks Online — Finance Proxy Lasclay

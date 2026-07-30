@@ -3,7 +3,18 @@ name: missive
 description: Accès à la boîte support Lasclay via le proxy Missive, et aux connaissances de service client, d'ops et de marque nécessaires pour y répondre. Couvre la lecture des fils, les brouillons, les notes internes, les tâches, la fermeture de conversations, et les scripts d'automatisation de la boîte (réponses IA, digest, filtrage, révision, archivage).
 when_to_use: Déclenche dès qu'il est question du proxy Missive, de la boîte support, d'un fil ou d'une conversation client, d'un brouillon de réponse, d'une note interne, du digest des opérations, ou de répondre à un client Lasclay. Déclenche même sans le mot Missive, par exemple « lis le fil de la cliente qui attend son colis », « prépare une réponse pour la commande en rupture », « c'est quoi dans la boîte support ce matin », « ferme la conversation ».
 argument-hint: [ce que tu veux faire dans la boîte support]
-allowed-tools: Bash(node missive_client.js:*) Bash(node support.js:*) Bash(node digest.js:*) Bash(node filtrage.js:*) Bash(node revision.js:*) Bash(node revision_ia.js:*) Bash(node analyse.js:*) Read Grep Glob Skill
+allowed-tools:
+  - Bash(node missive_client.js:*)
+  - Bash(node support.js:*)
+  - Bash(node digest.js:*)
+  - Bash(node filtrage.js:*)
+  - Bash(node revision.js:*)
+  - Bash(node revision_ia.js:*)
+  - Bash(node analyse.js:*)
+  - Read
+  - Grep
+  - Glob
+  - Skill
 ---
 
 # Boîte support Missive — Lasclay

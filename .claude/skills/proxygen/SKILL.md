@@ -3,7 +3,14 @@ name: proxygen
 description: Accès au General Proxy de Lasclay, le service Render des opérations qui expose ShipStation (accès complet), Omnisend et Klaviyo (lecture seule). Couvre les commandes et expéditions, le suivi, les tags, la mise en attente, le marquage expédié, l'achat et l'annulation d'étiquettes, les contacts et campagnes courriel, et l'export exhaustif Klaviyo.
 when_to_use: Déclenche dès qu'il est question du proxy général, de ShipStation, d'Omnisend, de Klaviyo, d'une expédition, d'un numéro de suivi, d'une étiquette d'envoi, d'un transporteur, d'un contact ou d'une campagne courriel. Déclenche même sans nommer le service, par exemple « où est le colis de la commande 12345 », « mets cette commande en attente », « combien coûterait l'envoi vers les États-Unis », « exporte les profils pour la migration ».
 argument-hint: [ce que tu veux faire côté expédition ou marketing]
-allowed-tools: Bash(node connectors_client.js:*) Bash(node klaviyo_export.js:*) Bash(node shipstation_check.js:*) Bash(node shopify_check.js:*) Read Grep Glob
+allowed-tools:
+  - Bash(node connectors_client.js:*)
+  - Bash(node klaviyo_export.js:*)
+  - Bash(node shipstation_check.js:*)
+  - Bash(node shopify_check.js:*)
+  - Read
+  - Grep
+  - Glob
 ---
 
 # General Proxy — opérations Lasclay
