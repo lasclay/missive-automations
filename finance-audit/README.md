@@ -47,7 +47,8 @@ classeur en 1,2 seconde.
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
 | `fix_y.py` | Réparation de la mise en page : remet la table `cellXfs` dans l'ordre et donne un format aux cellules créées par la révision. À exécuter après toute série d'écritures. |
-| `push_drive.py` | Pousse le résultat vers Drive. Les identifiants sont lus dans l'environnement, jamais passés en ligne de commande. |
+| `push_drive.py` | Pousse le résultat vers Drive. Les identifiants sont lus dans l'environnement, jamais passés en ligne de commande. L'Apps Script n'accepte que la cible `controle`, le chiffrier ; déposer le mémo PDF au même endroit demande d'y ajouter une cible, voir `DEPOT_DRIVE.md`. |
+| `DEPOT_DRIVE.md` | Ce qu'il faut changer à l'Apps Script pour que le mémo PDF se dépose comme le chiffrier. |
 
 ## Pièges du classeur, à connaître avant d'y toucher
 

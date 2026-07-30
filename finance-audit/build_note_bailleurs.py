@@ -1485,8 +1485,23 @@ Path('note_bailleurs.html').write_text(
     '<title>Lasclay · Prévisions financières 2026-2029 · mémo explicatif</title></head><body>'
     + html + '</body></html>', encoding='utf8')
 CHROME='/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
+PDF='Lasclay - Previsions financieres 2026-2029 - memo explicatif.pdf'
 subprocess.run([CHROME,'--headless','--disable-gpu','--no-sandbox','--no-pdf-header-footer',
   '--run-all-compositor-stages-before-draw','--virtual-time-budget=8000',
-  '--print-to-pdf=Lasclay - Previsions financieres 2026-2029 - memo explicatif.pdf',
+  '--print-to-pdf=' + PDF,
   'file://'+str(Path('note_bailleurs.html').resolve())],check=True,capture_output=True)
-print('PDF produit')
+
+# Chromium réembarque un sous-ensemble de police par page : vingt-trois pour
+# dix-sept pages, là où cinq suffisent. La recompression les déduplique et
+# ramène le fichier à 60 % de sa taille, sans toucher au rendu.
+try:
+    import pikepdf
+    with pikepdf.open(PDF) as _p:
+        _p.save('_compact.pdf', compress_streams=True,
+                object_stream_mode=pikepdf.ObjectStreamMode.generate,
+                recompress_flate=True, deterministic_id=True)
+    import os
+    os.replace('_compact.pdf', PDF)
+except ImportError:
+    pass
+print('PDF produit', Path(PDF).stat().st_size, 'octets')
