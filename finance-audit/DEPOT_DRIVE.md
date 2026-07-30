@@ -36,24 +36,34 @@ version à jour sans qu'on ait à leur en envoyer une nouvelle. C'est aussi
 pourquoi le script écrase un fichier de même nom dans un dossier plutôt que d'en
 créer un deuxième.
 
-**L'écriture reste bornée à un sous-arbre.** `RACINES_AUTORISEES` liste les
-dossiers à l'intérieur desquels le pousseur peut écrire, en remontant l'arbre des
-parents. Sans cette barrière, le jeton seul ouvrirait tout le Drive du compte, et
-une fuite de jeton pourrait écraser n'importe quel fichier. Pour ouvrir
-réellement tout le Drive, mettre `RACINES_AUTORISEES = []` ; pour ajouter un
-dossier de travail, ajouter son identifiant à la liste.
+**L'écriture porte sur tout le Drive, par défaut.** C'est ce qui était demandé.
+`RACINES_AUTORISEES` est la barrière optionnelle : y mettre un ou plusieurs
+identifiants de dossiers limite le pousseur à ces sous-arbres, parents compris.
+Vide, elle ne limite rien, et une fuite du jeton donnerait alors accès en
+écriture à tout le Drive du compte. Y mettre
+`'1zOTIG_Mk6-L7o34qzp7jr8Qjk959khDY'` refermerait sur le dossier des prévisions.
+
+**La signature dépend maintenant du type.** L'ancienne règle exigeait « PK » de
+tout envoi, ce qui interdisait le PDF. Chaque type connu a la sienne : `%PDF`
+pour un PDF, `PK` pour les formats zippés, et rien n'est exigé d'un type
+inconnu. Un envoi tronqué ou une page d'erreur HTML se font toujours refuser
+avant d'écraser quoi que ce soit.
 
 ## Installer
 
-1. Ouvrir le projet Apps Script du pousseur, remplacer le contenu du fichier par
+1. Ouvrir le projet Apps Script du pousseur, remplacer tout le contenu par
    `apps_script/pousseur_drive.gs`.
-2. **Services > ajouter un service > Drive API.** `Drive.Files.update` en dépend.
-   `DriveApp.setContent()` ne sait écrire que du texte et corromprait un binaire.
-3. **Paramètres du projet > Propriétés du script**, poser `TOKEN` à la valeur
-   déjà utilisée par `LASCLAY_DRIVE_PUSH_TOKEN`. Le jeton sort ainsi du code.
+2. **Le jeton.** Deux façons : poser `TOKEN` dans *Paramètres du projet >
+   Propriétés du script*, ce que le script préfère, ou remplacer
+   `REMPLACER_PAR_LE_JETON` par sa valeur. La propriété de script vaut mieux :
+   le jeton ne traîne plus dans le code et se change sans redéployer.
+3. Le service Drive avancé est **déjà activé** dans le projet, la version
+   actuelle appelle `Drive.Files.update`. Rien à faire.
 4. Déployer une nouvelle version du déploiement web existant, en gardant la même
    URL pour ne pas avoir à changer `LASCLAY_DRIVE_PUSH_URL`. Exécution en tant
    que soi-même, accès « toute personne disposant du lien ».
+5. `testAuth()` dans l'éditeur vérifie la liste blanche et affiche les racines
+   autorisées.
 
 ## Ensuite
 
