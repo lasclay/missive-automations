@@ -76,4 +76,12 @@ console.log('workspace trust accorde:', dir);
 JS
 node /tmp/trust-workspace.js /home/user/missive-automations || true
 
+# 3. Fuseau horaire du Quebec. Le conteneur demarre en UTC, ce qui decale
+#    « aujourd hui » d un jour entre 20h et minuit heure de Montreal, et fausse
+#    toute requete filtree par date (QBO, commandes Shopify, exercice fiscal).
+#    Complete la variable TZ des reglages d environnement, qui couvre Node ;
+#    ces deux lignes couvrent en plus les outils systeme comme date.
+ln -snf /usr/share/zoneinfo/America/Montreal /etc/localtime || true
+echo 'America/Montreal' > /etc/timezone || true
+
 exit 0
