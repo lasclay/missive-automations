@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lasclay — Shopify → QuickBooks</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #fff; --ink: #1a1d21; --muted: #6b7280; --line: #e3e6ea;
+    --accent: #1f6feb; --ok: #157347; --warn: #b45309; --bad: #b42318;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14161a; --card:#1c1f24; --ink:#e8eaed; --muted:#9aa2ad; --line:#2c3138;
+            --accent:#5a9bff; --ok:#4ade80; --warn:#fbbf24; --bad:#f87171; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  header { background:var(--card); border-bottom:1px solid var(--line); padding:14px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; position:sticky; top:0; z-index:5; }
+  header h1 { font-size:16px; margin:0; font-weight:650; }
+  header .sub { color:var(--muted); font-size:12px; }
+  nav { display:flex; gap:4px; margin-left:auto; }
+  nav button { background:transparent; border:1px solid transparent; color:var(--muted); padding:6px 12px; border-radius:7px; cursor:pointer; font:inherit; }
+  nav button.on { background:var(--bg); border-color:var(--line); color:var(--ink); font-weight:600; }
+  main { padding:20px; max-width:1180px; margin:0 auto; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:16px; }
+  .card h2 { font-size:14px; margin:0 0 12px; font-weight:650; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; font-weight:600; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.04em; padding:6px 8px; border-bottom:1px solid var(--line); }
+  td { padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:middle; }
+  tr:last-child td { border-bottom:0; }
+  .num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .muted { color:var(--muted); }
+  .pill { display:inline-block; padding:1px 8px; border-radius:999px; font-size:11px; font-weight:600; border:1px solid var(--line); }
+  .pill.ok { color:var(--ok); border-color:currentColor; }
+  .pill.warn { color:var(--warn); border-color:currentColor; }
+  .pill.bad { color:var(--bad); border-color:currentColor; }
+  button.act { background:var(--accent); color:#fff; border:0; padding:7px 14px; border-radius:7px; cursor:pointer; font:inherit; font-weight:600; }
+  button.act:disabled { opacity:.5; cursor:default; }
+  button.ghost { background:transparent; border:1px solid var(--line); color:var(--ink); padding:6px 12px; border-radius:7px; cursor:pointer; font:inherit; }
+  input, select { background:var(--bg); border:1px solid var(--line); color:var(--ink); border-radius:6px; padding:5px 8px; font:inherit; font-size:13px; max-width:100%; }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1 1 200px; }
+  .banner { padding:10px 12px; border-radius:8px; border:1px solid var(--line); margin-bottom:12px; font-size:13px; }
+  .banner.warn { border-color:var(--warn); color:var(--warn); }
+  .banner.bad { border-color:var(--bad); color:var(--bad); }
+  .banner.ok { border-color:var(--ok); color:var(--ok); }
+  .clickable { cursor:pointer; }
+  .clickable:hover td { background:rgba(127,127,127,.07); }
+  .scroll { overflow-x:auto; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; }
+  .spinner { color:var(--muted); padding:16px 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Shopify → QuickBooks</h1>
+    <div class="sub" id="status">Chargement…</div>
+  </div>
+  <nav>
+    <button data-tab="payouts" class="on">Versements</button>
+    <button data-tab="mappings">Mappings</button>
+    <button data-tab="settings">Réglages</button>
+  </nav>
+</header>
+
+<main>
+  <section id="tab-payouts"></section>
+  <section id="tab-mappings" hidden></section>
+  <section id="tab-settings" hidden></section>
+</main>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const money = (n) => (n < 0 ? "−" : "") + Math.abs(Number(n) || 0).toLocaleString("fr-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const day = (iso) => (iso || "").slice(0, 10);
+
+let secret = localStorage.getItem("a2xSecret") || "";
+const state = { accounts: [], mappings: null, dirty: new Map() };
+
+async function api(path, opts = {}) {
+  const res = await fetch("/api" + path, {
+    ...opts,
+    headers: { "Content-Type": "application/json", "X-App-Secret": secret, ...(opts.headers || {}) },
+  });
+  const body = await res.json().catch(() => ({ error: "Réponse illisible du serveur." }));
+  if (!res.ok) throw new Error(body.error || `Erreur ${res.status}`);
+  return body;
+}
+
+// ------------------------------------------------------------------ onglets
+
+document.querySelectorAll("nav button").forEach((b) => {
+  b.onclick = () => {
+    document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("on", x === b));
+    for (const t of ["payouts", "mappings", "settings"]) $("#tab-" + t).hidden = t !== b.dataset.tab;
+    if (b.dataset.tab === "mappings" && !state.mappings) loadMappings();
+    if (b.dataset.tab === "settings") renderSettings();
+  };
+});
+
+// ----------------------------------------------------------------- versements
+
+async function loadPayouts() {
+  const el = $("#tab-payouts");
+  el.innerHTML = `<div class="card"><div class="spinner">Chargement des versements Shopify…</div></div>`;
+  try {
+    const { payouts } = await api("/payouts?limit=30");
+    el.innerHTML = `
+      <div class="card">
+        <h2>Versements Shopify Payments</h2>
+        <div class="scroll"><table>
+          <thead><tr><th>Versement</th><th>Émis le</th><th>Statut</th><th class="num">Net</th><th>QuickBooks</th></tr></thead>
+          <tbody>${payouts.map((p) => `
+            <tr class="clickable" data-id="${esc(p.id)}">
+              <td><code>${esc(p.id)}</code></td>
+              <td>${esc(day(p.issuedAt))}</td>
+              <td class="muted">${esc(p.status)}</td>
+              <td class="num">${money(p.net)} ${esc(p.currency)}</td>
+              <td>${p.posted
+                ? `<span class="pill ok">comptabilisé</span> <span class="muted"><code>${esc(p.posted.docNumber)}</code></span>`
+                : `<span class="pill warn">à comptabiliser</span>`}</td>
+            </tr>`).join("")}</tbody>
+        </table></div>
+        ${payouts.length ? "" : `<p class="muted">Aucun versement trouvé.</p>`}
+      </div>
+      <div id="journal"></div>`;
+    el.querySelectorAll("tr[data-id]").forEach((tr) => (tr.onclick = () => loadJournal(tr.dataset.id)));
+  } catch (e) {
+    el.innerHTML = `<div class="card"><div class="banner bad">${esc(e.message)}</div>
+      <p class="muted">Vérifie le mot de passe dans Réglages, et que l'app Shopify a bien la portée <code>read_shopify_payments_payouts</code>.</p></div>`;
+  }
+}
+
+async function loadJournal(id) {
+  const el = $("#journal");
+  el.innerHTML = `<div class="card"><div class="spinner">Calcul de l'écriture du versement ${esc(id)}…</div></div>`;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  try {
+    const d = await api("/payouts/" + encodeURIComponent(id));
+    const j = d.journal;
+    const acct = (accId) => {
+      const a = state.accounts.find((x) => String(x.id) === String(accId));
+      return a ? `${a.num ? a.num + " : " : ""}${a.name}` : `Compte ${accId}`;
+    };
+    el.innerHTML = `
+      <div class="card">
+        <h2>Écriture ${esc(j.docNumber)}</h2>
+        <p class="muted">Période ${esc(j.period.start)} → ${esc(j.period.end)} ·
+           ${d.counts.transactions} transaction(s), ${d.counts.orders} commande(s) ·
+           net déposé ${money(j.settlement)} $ (Shopify annonce ${money(j.payoutNet)} $)</p>
+
+        ${!j.balanced ? `<div class="banner bad">Écriture déséquilibrée — publication bloquée.</div>` : ""}
+        ${j.unmapped.length ? `<div class="banner warn"><b>${j.unmapped.length} composante(s) sans compte.</b>
+          ${j.unmapped.map((u) => `<div>${money(u.amount)} $ — ${esc(u.description)}</div>`).join("")}
+          <div class="muted">Ajoute la règle dans l'onglet Mappings, puis recharge.</div></div>` : ""}
+        ${d.existing ? `<div class="banner ok">Déjà dans QuickBooks : pièce ${esc(d.existing.Id)} du ${esc(d.existing.TxnDate)}.</div>` : ""}
+
+        <div class="scroll"><table>
+          <thead><tr><th>Description</th><th>Compte</th><th>Taxe</th><th class="num">Débit</th><th class="num">Crédit</th></tr></thead>
+          <tbody>${j.lines.map((l) => `
+            <tr>
+              <td>${esc(l.description)}</td>
+              <td class="muted">${esc(acct(l.accountId))}</td>
+              <td class="muted">${l.tax ? "Détaxé on Sales" : "—"}</td>
+              <td class="num">${l.posting === "Debit" ? money(l.amount) : ""}</td>
+              <td class="num">${l.posting === "Credit" ? money(l.amount) : ""}</td>
+            </tr>`).join("")}</tbody>
+          <tfoot><tr>
+            <th colspan="3">Total</th>
+            <th class="num">${money(j.lines.filter((l) => l.posting === "Debit").reduce((t, l) => t + l.amount, 0))}</th>
+            <th class="num">${money(j.lines.filter((l) => l.posting === "Credit").reduce((t, l) => t + l.amount, 0))}</th>
+          </tr></tfoot>
+        </table></div>
+
+        ${j.notes.length ? `<p class="muted" style="margin-top:12px">${j.notes.map(esc).join("<br>")}</p>` : ""}
+
+        <div class="row" style="margin-top:14px">
+          <button class="act" id="post" ${d.existing || !j.balanced ? "disabled" : ""}>Publier dans QuickBooks</button>
+          <label class="muted"><input type="checkbox" id="force"> forcer (ignorer les avertissements)</label>
+          <span id="postmsg" class="muted"></span>
+        </div>
+      </div>`;
+
+    $("#force").onchange = (e) => ($("#post").disabled = !j.balanced || (!e.target.checked && !!d.existing));
+    $("#post").onclick = async () => {
+      const btn = $("#post");
+      btn.disabled = true;
+      $("#postmsg").textContent = "Envoi…";
+      try {
+        const r = await api(`/payouts/${encodeURIComponent(id)}/post`, {
+          method: "POST",
+          body: JSON.stringify({ force: $("#force").checked }),
+        });
+        $("#postmsg").innerHTML = r.created
+          ? `<span class="pill ok">créée — pièce ${esc(r.id)}</span>`
+          : `<span class="pill warn">${esc(r.message)}</span>`;
+        loadPayouts();
+      } catch (e) {
+        $("#postmsg").innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
+        btn.disabled = false;
+      }
+    };
+  } catch (e) {
+    el.innerHTML = `<div class="card"><div class="banner bad">${esc(e.message)}</div></div>`;
+  }
+}
+
+// ------------------------------------------------------------------ mappings
+
+async function loadMappings() {
+  const el = $("#tab-mappings");
+  el.innerHTML = `<div class="card"><div class="spinner">Chargement des mappings…</div></div>`;
+  try {
+    state.mappings = await api("/mappings");
+    renderMappings();
+  } catch (e) {
+    el.innerHTML = `<div class="card"><div class="banner bad">${esc(e.message)}</div></div>`;
+  }
+}
+
+function renderMappings() {
+  const el = $("#tab-mappings");
+  const { mappings, meta, categories } = state.mappings;
+  const filter = state.filter || { q: "", category: "" };
+
+  const rows = mappings.filter((m) => {
+    if (filter.category && m.category !== filter.category) return false;
+    if (!filter.q) return true;
+    const hay = `${m.category} ${m.details} ${m.country} ${m.marketplace} ${m.acctNum || ""} ${m.accountName || ""}`.toLowerCase();
+    return hay.includes(filter.q.toLowerCase());
+  });
+
+  const options = (sel) => `<option value="">— aucun compte —</option>` +
+    state.accounts.map((a) => `<option value="${esc(a.num)}" ${String(a.num) === String(sel) ? "selected" : ""}>${esc(a.num)} — ${esc(a.name)}</option>`).join("");
+
+  el.innerHTML = `
+    <div class="card">
+      <h2>Mappings de transactions</h2>
+      <p class="muted">${meta.counts.rules} règles + ${meta.counts.defaults} règles d'automapping.
+         Généré le ${esc((meta.generatedAt || "").slice(0, 16).replace("T", " "))}.</p>
+      <div class="row" style="margin:12px 0">
+        <input class="grow" id="q" placeholder="Filtrer (type, pays, compte…)" value="${esc(filter.q)}">
+        <select id="cat">
+          <option value="">Toutes les catégories</option>
+          ${categories.map((c) => `<option ${c === filter.category ? "selected" : ""}>${esc(c)}</option>`).join("")}
+        </select>
+        <button class="act" id="save" disabled>Enregistrer</button>
+        <span id="savemsg" class="muted"></span>
+      </div>
+      <div class="scroll"><table>
+        <thead><tr><th>Catégorie</th><th>Transaction</th><th>Pays</th><th>Marketplace</th><th>Compte</th><th>Taxe</th></tr></thead>
+        <tbody>${rows.map((m) => `
+          <tr data-line="${m.line}">
+            <td class="muted">${esc(m.category)}</td>
+            <td>${m.kind === "default" ? `<span class="pill">automapping</span>` : esc(m.details)}</td>
+            <td class="muted">${esc(m.country === "*" ? "—" : m.country)}</td>
+            <td class="muted">${esc(m.marketplace === "*" ? "—" : m.marketplace)}</td>
+            <td><select class="acct" data-line="${m.line}">${options(m.acctNum)}</select></td>
+            <td><input type="checkbox" class="tax" data-line="${m.line}" ${m.tax === "detaxe" ? "checked" : ""}></td>
+          </tr>`).join("")}</tbody>
+      </table></div>
+      <p class="muted" style="margin-top:10px">${rows.length} ligne(s) affichée(s) sur ${mappings.length}.</p>
+    </div>`;
+
+  $("#q").oninput = (e) => { state.filter = { ...filter, q: e.target.value }; const p = e.target.selectionStart; renderMappings(); $("#q").focus(); $("#q").setSelectionRange(p, p); };
+  $("#cat").onchange = (e) => { state.filter = { ...filter, category: e.target.value }; renderMappings(); };
+
+  const touch = (line) => {
+    const acct = el.querySelector(`select.acct[data-line="${line}"]`).value;
+    const tax = el.querySelector(`input.tax[data-line="${line}"]`).checked;
+    state.dirty.set(line, { line: Number(line), acctNum: acct, tax });
+    $("#save").disabled = state.dirty.size === 0;
+    $("#savemsg").textContent = `${state.dirty.size} modification(s) en attente`;
+  };
+  el.querySelectorAll("select.acct").forEach((s) => (s.onchange = () => touch(s.dataset.line)));
+  el.querySelectorAll("input.tax").forEach((c) => (c.onchange = () => touch(c.dataset.line)));
+
+  $("#save").onclick = async () => {
+    $("#save").disabled = true;
+    $("#savemsg").textContent = "Enregistrement…";
+    try {
+      const r = await api("/mappings", { method: "PUT", body: JSON.stringify({ edits: [...state.dirty.values()] }) });
+      state.dirty.clear();
+      $("#savemsg").innerHTML = `<span class="pill ok">${r.saved} enregistrée(s)</span> <span class="muted">${esc(r.git.reason)}</span>`;
+      state.mappings = await api("/mappings");
+      const msg = $("#savemsg").innerHTML;
+      renderMappings();
+      $("#savemsg").innerHTML = msg;
+    } catch (e) {
+      $("#savemsg").innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
+      $("#save").disabled = false;
+    }
+  };
+}
+
+// ------------------------------------------------------------------ réglages
+
+function renderSettings() {
+  $("#tab-settings").innerHTML = `
+    <div class="card">
+      <h2>Accès</h2>
+      <div class="row">
+        <input class="grow" id="secret" type="password" placeholder="Mot de passe de l'interface" value="${esc(secret)}">
+        <button class="act" id="savesecret">Retenir</button>
+      </div>
+      <p class="muted">Le mot de passe est celui de la variable <code>A2X_APP_SECRET</code> du service. Il reste dans ce navigateur.</p>
+    </div>
+    <div class="card">
+      <h2>État du service</h2>
+      <div id="health" class="muted">Vérification…</div>
+    </div>
+    <div class="card">
+      <h2>Comptes QuickBooks</h2>
+      <p class="muted">${state.accounts.length} compte(s) actifs en mémoire.</p>
+      <button class="ghost" id="refreshacct">Recharger depuis QuickBooks</button>
+    </div>`;
+
+  $("#savesecret").onclick = () => {
+    secret = $("#secret").value.trim();
+    localStorage.setItem("a2xSecret", secret);
+    boot();
+  };
+  $("#refreshacct").onclick = async () => {
+    const r = await api("/accounts?refresh=1");
+    state.accounts = r.accounts;
+    state.mappings = null;
+    renderSettings();
+  };
+  api("/health").then((h) => {
+    $("#health").innerHTML = `
+      Shopify : ${h.shopify ? '<span class="pill ok">configuré</span>' : '<span class="pill bad">absent</span>'} ·
+      QuickBooks : ${h.qbo ? '<span class="pill ok">configuré</span>' : '<span class="pill bad">absent</span>'} ·
+      Sauvegarde GitHub des mappings : ${h.github ? '<span class="pill ok">active</span>' : '<span class="pill warn">inactive</span>'}`;
+  }).catch((e) => ($("#health").textContent = e.message));
+}
+
+// ---------------------------------------------------------------- démarrage
+
+async function boot() {
+  try {
+    const h = await api("/health");
+    $("#status").textContent = `${h.mappings.counts.total} mappings chargés · remplacement maison d'A2X`;
+    state.accounts = (await api("/accounts")).accounts;
+    loadPayouts();
+  } catch (e) {
+    $("#status").textContent = e.message;
+    $("#tab-payouts").innerHTML = `<div class="card"><div class="banner warn">${esc(e.message)} — va dans <b>Réglages</b> pour saisir le mot de passe.</div></div>`;
+  }
+}
+boot();
+</script>
+</body>
+</html>

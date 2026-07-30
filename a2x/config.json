@@ -1,0 +1,9 @@
+{
+  "currency": "CAD",
+  "docNumberPrefix": "A2XSH",
+  "settlementAccountId": "13",
+  "settlementAccountLabel": "13 — Compte chèques CAD (le compte où A2X déposait le net du payout)",
+  "roundingAccountId": "214",
+  "roundingAccountLabel": "9100 — Perte ou gain relié au taux de change",
+  "posLocationId": "58394280098"
+}

@@ -1,0 +1,137 @@
+/**
+ * Ventilation d'une commande Shopify en composantes typées « à la A2X ».
+ *
+ * Convention de signe : un montant POSITIF augmente un revenu ou un passif
+ * (donc crédit au grand livre) ; un montant NÉGATIF est un rabais, un
+ * remboursement ou une dépense (donc débit). Tous les montants sont en CENTS
+ * de la devise de la boutique (shopMoney), pour éviter les flottants.
+ */
+
+const cents = (v) => Math.round((parseFloat(v == null ? 0 : v) || 0) * 100);
+const money = (m) => cents(m && m.shopMoney ? m.shopMoney.amount : m && m.amount);
+const sum = (arr, f) => arr.reduce((t, x) => t + f(x), 0);
+const nodes = (conn) => ((conn && conn.edges) || []).map((e) => e.node);
+
+/** Pays A2X : « CA-QC », « US », « EU », ou « * » si inconnu. */
+const EU = new Set(["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE"]);
+
+function orderCountry(order) {
+  const addr = order.shippingAddress || order.billingAddress || null;
+  const c = addr && addr.countryCodeV2;
+  if (!c) return "*";
+  if (EU.has(c)) return "EU";
+  const p = addr.provinceCode;
+  return p ? `${c}-${p}` : c;
+}
+
+/**
+ * Marketplace A2X. `sourceName` de Shopify est exactement ce qu'A2X affiche :
+ * « web » → Online store, « pos » → Point of sale, « shopify_draft_order » →
+ * Manual order, et un identifiant numérique d'app pour les canaux tiers
+ * (ex. 3890849 = l'app Shop).
+ */
+function orderMarketplace(order) {
+  const src = String(order.sourceName || "").toLowerCase();
+  if (src === "web" || src === "online_store") return "online";
+  if (src === "pos" || src === "point_of_sale") {
+    const loc = order.physicalLocation && order.physicalLocation.id;
+    const legacy = loc ? String(loc).split("/").pop() : null;
+    return legacy ? `pos:${legacy}` : "pos";
+  }
+  if (src === "shopify_draft_order" || src === "draft_order") return "manual";
+  if (src === "exchange" || src === "edit") return src;
+  if (/^\d+$/.test(src)) return src;
+  const handle = order.channelInformation && order.channelInformation.channelDefinition
+    && String(order.channelInformation.channelDefinition.handle || "").toLowerCase();
+  if (handle === "web" || handle === "online_store") return "online";
+  if (handle === "pos") return "pos";
+  if (handle === "draft_orders") return "manual";
+  const appId = order.app && order.app.id ? String(order.app.id).split("/").pop() : null;
+  return appId || src || "*";
+}
+
+function ctx(order) {
+  return { country: orderCountry(order), marketplace: orderMarketplace(order), order: order.name };
+}
+
+/** Composantes de la VENTE (hors frais de paiement, hors remboursements). */
+function saleComponents(order) {
+  const items = nodes(order.lineItems);
+  const ships = nodes(order.shippingLines);
+
+  const gift = items.filter((i) => i.product && i.product.isGiftCard);
+  const goods = items.filter((i) => !(i.product && i.product.isGiftCard));
+
+  const goodsGross = sum(goods, (i) => money(i.originalTotalSet));
+  const goodsDiscount = sum(goods, (i) => money(i.totalDiscountSet));
+  const goodsTax = sum(goods, (i) => sum(i.taxLines || [], (t) => money(t.priceSet)));
+
+  const giftGross = sum(gift, (i) => money(i.originalTotalSet));
+  const giftDiscount = sum(gift, (i) => money(i.totalDiscountSet));
+
+  const shipGross = sum(ships, (i) => money(i.originalPriceSet));
+  const shipNet = sum(ships, (i) => money(i.discountedPriceSet));
+  const shipTax = sum(ships, (i) => sum(i.taxLines || [], (t) => money(t.priceSet)));
+  const shipDiscount = shipGross - shipNet;
+
+  const tip = money(order.totalTipReceivedSet);
+
+  const taxed = goodsTax > 0;
+  const shipTaxed = shipTax > 0;
+  const out = [];
+  const push = (category, details, amount) => { if (amount) out.push({ category, details, amount }); };
+
+  push("Sales", taxed ? "ProductSales" : "ProductSalesNotTaxed", goodsGross);
+  push("Discounts", taxed ? "Discount" : "DiscountNotTaxed", -goodsDiscount);
+  push("Gift Card Liabilities", "GiftCardSaleLiability", giftGross);
+  push("Gift Card Liabilities", "GiftCardDiscount", -giftDiscount);
+  push("Shipping Income", shipTaxed ? "Shipping" : "ShippingNotTaxed", shipGross);
+  push("Shipping Income", "ShippingDiscountNotTaxed", -shipDiscount);
+  push("Sales Tax", "Tax", goodsTax);
+  push("Shipping Tax", "ShippingTax", shipTax);
+  push("Other Income", "Tip", tip);
+  return out;
+}
+
+/** Composantes d'un remboursement (montants négatifs). */
+function refundComponents(refund) {
+  const rlis = nodes(refund.refundLineItems);
+  const rshs = nodes(refund.refundShippingLines);
+
+  const goods = sum(rlis, (r) => money(r.subtotalSet));
+  const goodsTax = sum(rlis, (r) => money(r.totalTaxSet));
+  const ship = sum(rshs, (r) => money(r.subtotalAmountSet));
+  const shipTax = sum(rshs, (r) => money(r.taxAmountSet));
+  const total = money(refund.totalRefundedSet);
+  const discrepancy = total - (goods + goodsTax + ship + shipTax);
+
+  const out = [];
+  const push = (category, details, amount) => { if (amount) out.push({ category, details, amount }); };
+  push("Refunds", goodsTax ? "Refund" : "RefundNotTaxed", -goods);
+  push("Refunds Tax", "RefundTax", -goodsTax);
+  push("Shipping Income", shipTax ? "ShippingRefund - shipping_refund" : "ShippingRefundNotTaxed - shipping_refund", -ship);
+  push("Shipping Tax", "ShippingRefundTax - shipping_refund", -shipTax);
+  push("Refunds", "RefundAdjustmentNotTaxed - refund_discrepancy", -discrepancy);
+  return out;
+}
+
+/**
+ * Répartit des composantes au prorata d'un montant réellement encaissé.
+ * Utile quand un payout ne règle qu'une partie d'une commande (capture
+ * partielle, paiement en plusieurs fois, commande à cheval sur deux payouts).
+ * Le reliquat d'arrondi est ajouté à la plus grosse composante.
+ */
+function prorate(components, settled, expected) {
+  if (!components.length) return [];
+  if (expected === settled || !expected) return components.map((c) => ({ ...c }));
+  const scaled = components.map((c) => ({ ...c, amount: Math.round((c.amount * settled) / expected) }));
+  const drift = settled - sum(scaled, (c) => c.amount);
+  if (drift) {
+    let bigI = 0;
+    for (let i = 1; i < scaled.length; i++) if (Math.abs(scaled[i].amount) > Math.abs(scaled[bigI].amount)) bigI = i;
+    scaled[bigI].amount += drift;
+  }
+  return scaled.filter((c) => c.amount);
+}
+
+module.exports = { cents, money, sum, nodes, ctx, orderCountry, orderMarketplace, saleComponents, refundComponents, prorate };
