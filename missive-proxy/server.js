@@ -8,6 +8,9 @@
  *
  * Périmètre volontairement RESTREINT (rien de destructeur d'emblée) :
  *   GET  /health                      → sonde (sans auth)
+ *   POST /structure  {}               → carte de la boîte : organisations, équipes,
+ *                                       étiquettes partagées (avec hiérarchie), membres.
+ *                                       Chaque bloc dégrade seul → champ `errors`.
  *   POST /list       {filter}         → liste des conversations (ex. "shared_label=ID")
  *   POST /conversation {id}           → fil complet nettoyé (NOUS/EUX, daté)
  *   POST /drafts     {id}             → brouillons laissés par le script IA (réponse déjà rédigée)
@@ -174,6 +177,54 @@ async function listUsers() {
   return users.map((u) => ({ id: u.id, name: u.name || null, email: u.email || null }));
 }
 
+// Carte de la boîte : les Resource ID dont Claude a besoin avant tout filtre utile.
+// Aucune donnée client là-dedans — que de la structure, donc mettable en cache dans le dépôt.
+// Chaque bloc est isolé : une permission manquante sur un type laisse les autres exploitables.
+async function getStructure() {
+  const errors = {};
+  const safe = async (key, fn, fallback) => {
+    try { return await fn(); }
+    catch (e) { errors[key] = String(e.message || e).slice(0, 200); return fallback; }
+  };
+
+  // Les listes Missive paginent par `offset`; on s'arrête à la page incomplète.
+  // Déduplication par id : si un endpoint ignore `offset`, on ne double pas la liste.
+  const pages = async (path, field) => {
+    const byId = new Map();
+    for (let offset = 0; offset < 2000; offset += 200) {
+      const r = await mGet(`${path}${path.includes("?") ? "&" : "?"}limit=200&offset=${offset}`);
+      const batch = r[field] || [];
+      const before = byId.size;
+      for (const item of batch) if (item && item.id) byId.set(item.id, item);
+      if (batch.length < 200 || byId.size === before) break;
+    }
+    return [...byId.values()];
+  };
+
+  const organizations = await safe("organizations",
+    async () => (await pages("/organizations", "organizations")).map((o) => ({ id: o.id, name: o.name || null })), []);
+
+  const teams = await safe("teams",
+    async () => (await pages(`/teams?organization=${ORG}`, "teams")).map((t) => ({
+      id: t.id, name: t.name || null, organization: t.organization || ORG,
+    })), []);
+
+  const shared_labels = await safe("shared_labels",
+    async () => (await pages(`/shared_labels?organization=${ORG}`, "shared_labels")).map((l) => ({
+      id: l.id,
+      name: l.name || null,
+      name_with_parent_names: l.name_with_parent_names || l.name || null,
+      parent_id: l.parent_id || null,
+      organization: l.organization || ORG,
+      visibility: l.visibility || null,
+      archived: !!l.archived,
+    })), []);
+
+  const users = await safe("users", listUsers, []);
+
+  return { organization: ORG, organizations, teams, shared_labels, users, errors };
+}
+
 // Crée une TÂCHE sur un fil, éventuellement assignée à des utilisateurs.
 // add_assignees exige `organization` (toujours envoyé). Les assignés existants restent.
 async function createTask({ id, title, assignees, label, markdown }) {
@@ -263,6 +314,9 @@ const server = http.createServer(async (req, res) => {
     if (body === null) return json(res, 400, { error: "invalid JSON" });
     const route = req.url.split("?")[0];
 
+    if (route === "/structure") {
+      return json(res, 200, await getStructure());
+    }
     if (route === "/list") {
       if (!body.filter) return json(res, 400, { error: "filter requis (ex. shared_label=ID)" });
       return json(res, 200, { conversations: await listConversations(body.filter) });

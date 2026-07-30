@@ -32,6 +32,7 @@ mets-le en variable d'environnement de la session Claude Code (jamais dans le ch
 | Méthode + route | Corps JSON | Effet |
 |---|---|---|
 | `GET /health` | — | sonde (sans auth) |
+| `POST /structure` | `{}` | carte de la boîte : organisations, équipes, étiquettes partagées (hiérarchie incluse), membres. Chaque bloc dégrade seul → champ `errors`. À mettre en cache dans `missive_structure.json`. |
 | `POST /list` | `{ "filter": "shared_label=ID" }` | liste des conversations (filtre Missive) |
 | `POST /conversation` | `{ "id": "..." }` | fil complet nettoyé (NOUS/EUX, daté) |
 | `POST /note` | `{ "id": "...", "markdown": "..." }` | note interne |

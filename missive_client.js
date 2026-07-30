@@ -6,6 +6,8 @@
  *
  * Usage :
  *   node missive_client.js health
+ *   node missive_client.js structure   (carte : organisations, équipes, étiquettes, membres)
+ *                                      → à mettre en cache : > missive_structure.json
  *   node missive_client.js list "shared_label=ID"
  *   node missive_client.js read <convId>
  *   node missive_client.js drafts <convId>   (brouillons déjà rédigés par le script IA)
@@ -39,6 +41,7 @@ function readStdin() {
   const [cmd, a1, a2] = process.argv.slice(2);
   try {
     if (cmd === "health") console.log(JSON.stringify(await call("/health", null, "GET"), null, 2));
+    else if (cmd === "structure") console.log(JSON.stringify(await call("/structure", {}), null, 2));
     else if (cmd === "list") console.log(JSON.stringify(await call("/list", { filter: a1 }), null, 2));
     else if (cmd === "read") console.log(JSON.stringify(await call("/conversation", { id: a1 }), null, 2));
     else if (cmd === "drafts") console.log(JSON.stringify(await call("/drafts", { id: a1 }), null, 2));
