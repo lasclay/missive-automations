@@ -139,9 +139,13 @@ echo "--- setup Lasclay ---"
 node -e '
 const u=require("/root/.claude/settings.json");
 let p={};try{p=require("/home/user/missive-automations/.claude/settings.json")}catch(e){}
-const eff=(p.permissions||{}).defaultMode||u.permissions.defaultMode;
-console.log("  mode utilisateur:",u.permissions.defaultMode,"| depot:",(p.permissions||{}).defaultMode||"(non defini)");
-console.log("  mode EFFECTIF  :",eff,"(le depot lemporte sur lutilisateur)");
+// Le depot lemporte sur lutilisateur pour defaultMode — SAUF "auto", que Claude
+// Code ignore depuis .claude/settings.json pour quun depot ne se laccorde pas.
+const dep=(p.permissions||{}).defaultMode;
+const eff=(dep && dep!=="auto") ? dep : u.permissions.defaultMode;
+console.log("  mode utilisateur:",u.permissions.defaultMode,"| depot:",dep||"(non defini)");
+if(dep==="auto") console.log("  ATTENTION      : \"auto\" dans le depot est ignore — a retirer");
+console.log("  mode EFFECTIF  :",eff);
 console.log("  ask (fusionne) :",new Set([...(u.permissions.ask||[]),...((p.permissions||{}).ask||[])]).size,"regles");
 console.log("  autoMode       :",u.autoMode?"present (settings utilisateur)":"ABSENT");
 ' || true

@@ -13,7 +13,6 @@
     ]
   },
   "permissions": {
-    "defaultMode": "auto",
     "allow": [
       "Bash",
       "Edit",
