@@ -53,17 +53,21 @@ avant d'écraser quoi que ce soit.
 
 1. Ouvrir le projet Apps Script du pousseur, remplacer tout le contenu par
    `apps_script/pousseur_drive.gs`.
-2. **Le jeton.** Deux façons : poser `TOKEN` dans *Paramètres du projet >
-   Propriétés du script*, ce que le script préfère, ou remplacer
-   `REMPLACER_PAR_LE_JETON` par sa valeur. La propriété de script vaut mieux :
-   le jeton ne traîne plus dans le code et se change sans redéployer.
+2. **Le jeton, obligatoirement.** Poser `TOKEN` dans *Paramètres du projet >
+   Propriétés du script*. Tant que la valeur vaut `REMPLACER_PAR_LE_JETON`, le
+   pousseur refuse toute écriture et le dit. Ce refus n'est pas décoratif : le
+   30 juillet 2026, un déploiement où la propriété n'avait pas été posée
+   acceptait l'espace réservé comme jeton, une chaîne publiée dans ce dépôt, ce
+   qui ouvrait l'écriture sur tout le Drive à qui la lisait. Une propriété de
+   script se change sans redéployer, contrairement à une constante.
 3. Le service Drive avancé est **déjà activé** dans le projet, la version
    actuelle appelle `Drive.Files.update`. Rien à faire.
 4. Déployer une nouvelle version du déploiement web existant, en gardant la même
    URL pour ne pas avoir à changer `LASCLAY_DRIVE_PUSH_URL`. Exécution en tant
    que soi-même, accès « toute personne disposant du lien ».
-5. `testAuth()` dans l'éditeur vérifie la liste blanche et affiche les racines
-   autorisées.
+5. `testAuth()` dans l'éditeur dit si le jeton est posé, vérifie la liste
+   blanche et affiche les racines autorisées. À lancer après tout
+   redéploiement.
 
 ## Ensuite
 

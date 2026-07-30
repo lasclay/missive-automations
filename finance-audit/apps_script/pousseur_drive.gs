@@ -17,7 +17,12 @@
 // un .xlsx, à commencer par le mémo PDF.
 // ============================================================
 
-const SECRET = 'REMPLACER_PAR_LE_JETON';   // ou, mieux, en propriété de script
+// Le jeton se lit dans les propriétés du script. La constante n'est là que pour
+// dépanner : tant qu'elle vaut l'espace réservé, le pousseur refuse tout. Sans
+// ce refus, un déploiement où l'on a oublié de poser la propriété accepterait
+// une chaîne publiée dans le dépôt, et donnerait l'écriture sur tout le Drive à
+// qui la lit. C'est arrivé le 30 juillet 2026.
+const SECRET = 'REMPLACER_PAR_LE_JETON';
 
 const ALLOWED_FILES = {
   'controle': '1KHvc5QlzyzGtAcGriO7oEg9Il1ySvXqg'   // PREVISIONS LASCLAY controle
@@ -67,8 +72,11 @@ function texte(s) {
   return ContentService.createTextOutput(s).setMimeType(ContentService.MimeType.TEXT);
 }
 
+const JETON_NON_POSE = 'REMPLACER_PAR_LE_JETON';
+
 function jeton() {
-  return PropertiesService.getScriptProperties().getProperty('TOKEN') || SECRET;
+  const j = PropertiesService.getScriptProperties().getProperty('TOKEN') || SECRET;
+  return (j && j !== JETON_NON_POSE) ? j : null;
 }
 
 function typeDepuisNom(nom) {
@@ -117,7 +125,12 @@ function destinationAutorisee(fichier, dossier) {
 function doPost(e) {
   try {
     const p = (e && e.parameter) || {};
-    if (!p.token || p.token !== jeton()) {
+    const attendu = jeton();
+    if (!attendu) {
+      return texte('error:jeton non configuré — poser TOKEN dans les '
+                   + 'propriétés du script. Aucune écriture possible.');
+    }
+    if (!p.token || p.token !== attendu) {
       return texte('unauthorized');
     }
 
@@ -202,10 +215,12 @@ function doPost(e) {
 }
 
 function testAuth() {
+  Logger.log(jeton() ? 'jeton : posé'
+                     : 'jeton : NON POSÉ — le pousseur refuse toute écriture');
   Object.keys(ALLOWED_FILES).forEach(function (k) {
     Logger.log(k + ' -> ' + DriveApp.getFileById(ALLOWED_FILES[k]).getName());
   });
   Logger.log('racines autorisées : ' +
              (RACINES_AUTORISEES.length ? RACINES_AUTORISEES.join(', ')
-                                        : 'aucune restriction'));
+                                        : 'aucune restriction, tout le Drive'));
 }
