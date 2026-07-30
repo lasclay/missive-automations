@@ -313,6 +313,13 @@ function renderSettings() {
       <div id="health" class="muted">Vérification…</div>
     </div>
     <div class="card">
+      <h2>Diagnostic Shopify</h2>
+      <p class="muted">Demande un jeton neuf et affiche les portées qu'il contient réellement —
+         c'est ce qui distingue « portée pas encore publiée » de « app à réinstaller ».</p>
+      <button class="ghost" id="diag">Vérifier les portées du jeton</button>
+      <div id="diagout" style="margin-top:10px"></div>
+    </div>
+    <div class="card">
       <h2>Comptes QuickBooks</h2>
       <p class="muted">${state.accounts.length} compte(s) actifs en mémoire.</p>
       <button class="ghost" id="refreshacct">Recharger depuis QuickBooks</button>
@@ -322,6 +329,28 @@ function renderSettings() {
     secret = $("#secret").value.trim();
     localStorage.setItem("a2xSecret", secret);
     boot();
+  };
+  $("#diag").onclick = async () => {
+    $("#diagout").textContent = "Demande d'un jeton neuf…";
+    try {
+      const d = await api("/shopify");
+      const need = [
+        ["read_shopify_payments_payouts", d.payouts],
+        ["read_shopify_payments_accounts", d.accounts],
+      ];
+      $("#diagout").innerHTML = `
+        <div class="muted">Boutique ${esc(d.store)} · API ${esc(d.apiVersion)} · auth ${esc(d.mode)}</div>
+        <div style="margin:8px 0">${need.map(([n, ok]) =>
+          `<div>${ok ? '<span class="pill ok">présente</span>' : '<span class="pill bad">ABSENTE</span>'} <code>${esc(n)}</code></div>`).join("")}</div>
+        <details><summary class="muted" style="cursor:pointer">Toutes les portées du jeton (${(d.scopes || []).length})</summary>
+          <div class="muted" style="margin-top:6px"><code>${(d.scopes || []).map(esc).join("<br>")}</code></div></details>
+        ${need.every(([, ok]) => ok) ? "" :
+          `<div class="banner warn" style="margin-top:10px">Le jeton ne porte pas les portées de paiement.
+           Elles sont pourtant publiées côté app : il faut <b>réinstaller l'app sur la boutique</b>
+           (Dev Dashboard → Distribution → custom distribution) pour que la boutique accorde les nouvelles portées.</div>`}`;
+    } catch (e) {
+      $("#diagout").innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
+    }
   };
   $("#refreshacct").onclick = async () => {
     const r = await api("/accounts?refresh=1");

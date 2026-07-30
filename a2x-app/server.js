@@ -21,7 +21,7 @@ const { listPayouts, getPayout, payoutTransactions } = require(path.join(A2X, "l
 const { ordersByIds } = require(path.join(A2X, "lib/orders"));
 const { buildJournalEntry } = require(path.join(A2X, "lib/journal"));
 const { qbo, queryOne } = require(path.join(A2X, "lib/qbo"));
-const { gid } = require(path.join(A2X, "lib/shopify"));
+const { gid, tokenScopes, STORE, VER } = require(path.join(A2X, "lib/shopify"));
 const mapper = require(path.join(A2X, "lib/mapper"));
 
 const PORT = process.env.PORT || 3000;
@@ -150,6 +150,12 @@ const routes = {
     qbo: !!process.env.FINANCE_PROXY_URL,
     github: !!process.env.GITHUB_TOKEN,
   }),
+
+  /** Diagnostic : ce que le jeton Shopify contient vraiment, ici et maintenant. */
+  "GET /api/shopify": async () => {
+    const info = await tokenScopes();
+    return { store: STORE, apiVersion: VER, ...info };
+  },
 
   "GET /api/payouts": async (req, url) => {
     const limit = parseInt(url.searchParams.get("limit") || "25", 10);
