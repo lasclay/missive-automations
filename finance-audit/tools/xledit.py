@@ -282,6 +282,37 @@ class Editor:
         self.parts['xl/workbook.xml'] = wb.encode('utf8')
         self.log.append(('(workbook)', '-', 'add-sheet', name, ''))
 
+
+    def remove_sheet(self, name):
+        """Retire une feuille du classeur : la partie, sa relation, son entrée
+        de type de contenu et sa ligne dans workbook.xml. Ne pas retirer une
+        feuille dont une formule dépend encore : le classeur porterait des
+        références mortes."""
+        part = self.sheetpart.pop(name)
+        rid = None
+        r = self.parts['xl/_rels/workbook.xml.rels'].decode('utf8')
+        target = part[len('xl/'):]
+        m = re.search(r'<Relationship Id="(rId\d+)"[^>]*Target="%s"[^>]*/>'
+                      % re.escape(target), r)
+        if m:
+            rid = m.group(1)
+            r = r[:m.start()] + r[m.end():]
+            self.parts['xl/_rels/workbook.xml.rels'] = r.encode('utf8')
+        wb = self.parts['xl/workbook.xml'].decode('utf8')
+        wb = re.sub(r'<sheet[^>]*name="%s"[^>]*/>' % re.escape(esc(name)), '', wb)
+        self.parts['xl/workbook.xml'] = wb.encode('utf8')
+        ct = self.parts['[Content_Types].xml'].decode('utf8')
+        ct = ct.replace('<Override PartName="/%s" ContentType="application/vnd.'
+                        'openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'
+                        % part, '')
+        self.parts['[Content_Types].xml'] = ct.encode('utf8')
+        self.parts.pop(part, None)
+        self.order = [n for n in self.order if n != part]
+        rels = part.replace('worksheets/', 'worksheets/_rels/') + '.rels'
+        self.parts.pop(rels, None)
+        self.order = [n for n in self.order if n != rels]
+        self.log.append(('(workbook)', '-', 'remove-sheet', name, rid or ''))
+
     def save(self, dst):
         z = zipfile.ZipFile(dst, 'w', zipfile.ZIP_DEFLATED)
         for n in self.order:
