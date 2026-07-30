@@ -45,6 +45,7 @@ classeur en 1,2 seconde.
 | `fix_al.py` | Scénario ambitieux recalibré (croissance composée ramenée près de ce qui a été démontré), et ses ratios de coûts alignés sur ceux du conservateur. |
 | `fix_am.py` | Canal détail reconstruit ville par ville sur les rapports de consignation des Défricheuses et les ventes en ligne par ville. Feuille « Détail par ville » : quarante villes nommées, un point de vente par tranche de 160 000 habitants, registre des 109 points de vente dans leur ordre d'ouverture. L'exercice 2025-2026 portait zéro vente au détail alors qu'il y en avait pour 13 801 $. |
 | `fix_an.py` | Taxes à payer : onze des douze mois de 2028-2029 lisaient « Frais courus à payer » à la rangée voisine, ce qui aplatissait le solde et faussait la trésorerie du dernier exercice. Le facteur de croissance, écrit en dur à 1,35 puis 1,4, devient le rapport des ventes nettes d'un exercice à l'autre. |
+| `fix_ao.py` | Versement de TPS du 30 novembre, posé explicitement. Le solde de taxes se construit par ses mouvements à partir du réel d'août 2026 : chaque mois accumule sa TPS et sa TVQ, la TVQ du mois précédent se verse, et novembre acquitte la TPS de l'exercice écoulé. Calé sur les 12 672 $ réellement versés le 30 novembre 2025. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `pdftxt.py` | Extrait le texte d'un PDF en passant par les tables ToUnicode de chaque police. Les PDF exportés de Google dessinent leur texte en hexadécimal avec des polices sous-ensemblées : sans la table, on ne lit rien. Sert à dépouiller les annexes et les lettres de soutien. |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
@@ -113,10 +114,16 @@ classeur en 1,2 seconde.
   2025-2026. Le creux de février n'est pas un versement trimestriel, il n'y en a pas :
   c'est la TVQ de décembre, le plus gros mois de ventes, versée le 31 janvier. Mettre le
   profil à l'échelle des ventes est juste pour la TVQ, qui est proportionnelle aux ventes
-  du mois. Ça l'est moins pour la TPS : le règlement de novembre porte sur l'exercice qui
-  vient de finir, alors que la mise à l'échelle applique la croissance de celui qui
-  commence. L'écart va dans le sens de la prudence, de 4 191 $ à 6 193 $ par exercice,
-  et le corriger améliorerait la trésorerie affichée.
+  du mois. Elle ne l'était pas pour la TPS, réglée en un seul versement au 30 novembre
+  sur l'exercice écoulé : `fix_ao.py` le pose explicitement. Attention au décalage d'un
+  an, facile à manquer — novembre 2026 acquitte l'exercice clos le 31 août 2026, pas
+  celui d'avant, déjà payé en novembre 2025.
+- **Les crédits de taxe sur intrants baissent quand la couture part en Tunisie.** Une
+  dépense engagée hors du Canada ne donne pas de CTI, alors la TPS nette monte plus vite
+  que les ventes : 12 386 $ pour 2025-2026, 45 350 $ pour 2027-2028.
+- **Une formule posée sur une feuille référence cette feuille.** `$D$143` écrit dans le
+  bilan désigne une cellule vide du bilan, pas `Inputs!$D$143`. Le calcul tombe à zéro
+  sans rien signaler : le solde reste simplement plat.
 - **Le canal détail et le commerce en ligne ne se lisent pas sur la même base.** La
   rangée 12 du résultat porte ce que Lasclay encaisse du détail ; la rangée 18 est le
   revenu après escomptes, la rangée 26 les ventes nettes. Le transport net et les
