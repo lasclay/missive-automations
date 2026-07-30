@@ -797,47 +797,56 @@ P.append(f"""<div class="page">
 P.append(f"""<div class="page">
   <div class="kicker">Approvisionnement</div>
   <div class="sect"><span class="num">07</span><h2>Le coût de la fibre, et le réseau qui le fera baisser</h2></div>
-  <div class="lede">La fibre coûte 85 $ le kilo parce que la filière n’a jamais su la
-    récolter en quantité. La réponse n’est pas de cultiver plus grand, c’est de cultiver
-    à plusieurs endroits à la fois.</div>
+  <div class="lede">La fibre coûte 85 $ le kilo parce que quelqu’un doit amortir vingt
+    hectares sur un volume que personne n’achète. Lasclay n’a pas besoin de vingt
+    hectares, et les terrains qu’on lui prête ne coûtent rien à amortir.</div>
 
-  <h3>Renverser le modèle</h3>
-  <p>Le modèle de grande culture bute sur une fenêtre de récolte de deux semaines : au
-  delà de cinq hectares, il faut une machinerie qui n’existe pas. Un réseau de petites
-  parcelles retourne le problème. Cinquante propriétaires qui récoltent chacun un demi
-  hectare, en parallèle, dans la même fenêtre, livrent le volume d’une grande ferme sans
-  qu’aucun n’ait besoin d’une moissonneuse. La contrainte de temps disparaît parce
-  qu’on multiplie les paires de mains, pas les hectares par exploitant.</p>
+  <h3>Ce que paie vraiment le prix de 85 $</h3>
+  <p>Ce prix n’est pas le coût de faire pousser de l’asclépiade. C’est le prix qu’un
+  cultivateur de vingt hectares doit demander pour amortir sa terre, sa machinerie et ses
+  années d’apprentissage sur un volume que personne n’achète en quantité. Moins il vend,
+  plus le kilo doit être cher. C’est un prix d’amortissement, pas un prix de production,
+  et il monte à mesure que la filière rétrécit.</p>
+
+  <p><strong>Lasclay n’a pas besoin de vingt hectares.</strong> Elle a besoin de volumes
+  modestes, et elle peut les obtenir de terrains qui ne lui coûtent rien.</p>
 
   <div class="card dark" style="margin:12px 0">
-    <p style="margin:0;font-size:8.9pt">Ce modèle demande ce qui manquait justement à la
-    filière : du recrutement, de l’accompagnement, de l’outillage adapté à petite
-    échelle, et un acheteur garanti à un prix qui vaut la peine. Ce sont des compétences
-    commerciales et agronomiques, pas industrielles. <strong>Eko-Terre s’est engagée à
-    aider Lasclay à adapter ses équipements de séchage et d’extraction à cette
-    échelle</strong>, ce qu’elle n’a ni les ressources ni la vocation de faire
-    seule.</p>
+    <p style="margin:0;font-size:8.9pt">Un tiers des répondants offrent leur terrain
+    <strong>sans demander à être payés pour la terre elle-même</strong>. Champs en
+    friche, bandes riveraines, parcelles trop humides pour le foin, terres à bois : rien
+    à amortir, le terrain est déjà là et ne servait à rien. Le coût de la fibre redevient
+    ce qu’il devrait être, celui de la planter, de la récolter et de la traiter. Bien
+    payer la personne qui récolte et porter l’amortissement de vingt hectares sont deux
+    choses différentes : Lasclay peut faire la première parce qu’elle ne porte pas la
+    seconde.</p>
   </div>
+
+  <p>La fenêtre de deux semaines cesse du même coup d’être un problème : personne
+  n’essaie de récolter vingt hectares. Cinquante propriétaires qui font chacun un demi
+  hectare, en parallèle, livrent le même volume sans qu’aucun n’ait besoin d’une
+  moissonneuse.</p>
+
+  <p>Ce modèle demande ce qui manquait justement à la filière : du recrutement, de
+  l’accompagnement, de l’outillage adapté à petite échelle et un acheteur garanti. Ce
+  sont des compétences commerciales et agronomiques, pas industrielles.
+  <strong>Eko-Terre s’est engagée à aider Lasclay à adapter ses équipements de séchage et
+  d’extraction à cette échelle</strong>, ce qu’elle n’a ni les ressources ni la vocation
+  de faire seule.</p>
 
   <h3>L’offre existe déjà, et elle est documentée</h3>
   <p>Un appel de candidatures lancé au printemps 2026 a recueilli
   <strong>63 propositions de terrain</strong> en quelques semaines, sans budget
-  publicitaire, partout au Québec.</p>
-
-  {hbar([('Plus de 1 hectare', 49.2, VERT),
-         ('1500 à 10 000 pi²', 25.4, VERT_CLAIR),
-         ('10 000 à 50 000 pi²', 14.3, VERT_CLAIR),
-         ('50 000 à 100 000 pi²', 11.1, VERT_CLAIR)],
-        rowh=30, fmt=lambda v: f'{v:.1f} %'.replace('.', ','))}
-  <div class="fig">Superficie que les 63 répondants se disent prêts à consacrer à
-    l’asclépiade. La moitié dispose de plus d’un hectare.</div>
+  publicitaire, partout au Québec. La moitié des répondants dispose de plus d’un
+  hectare.</p>
 
   <table>
     <tr><th>Ce que les 63 répondants proposent</th><th>Réponses</th><th>Part</th></tr>
     <tr><td>Prêter un terrain et être rémunérés pour les récoltes</td><td>27</td><td>42,9 %</td></tr>
-    <tr><td>Mettre un terrain à disposition</td><td>22</td><td>34,9 %</td></tr>
+    <tr class="hio"><td>Mettre un terrain à disposition, sans contrepartie pour la terre</td>
+      <td>22</td><td>34,9 %</td></tr>
     <tr><td>Planter, opérer et vendre eux-mêmes la récolte</td><td>14</td><td>22,2 %</td></tr>
-    <tr class="hio"><td>S’impliquer dans la R&amp;D et le développement d’équipement</td>
+    <tr><td>S’impliquer dans la R&amp;D et le développement d’équipement</td>
       <td>11</td><td>17,5 %</td></tr>
     <caption>Plusieurs choix possibles par répondant. Les trois quarts (74,6 %) se disent
       prêts à cultiver l’asclépiade commune, l’espèce à plus fort rendement, dont une
