@@ -14,7 +14,8 @@
 const { listPayouts, getPayout, payoutTransactions } = require("./lib/payouts");
 const { ordersByIds } = require("./lib/orders");
 const { buildJournalEntry } = require("./lib/journal");
-const { qbo, queryOne } = require("./lib/qbo");
+const { qbo } = require("./lib/qbo");
+const { findExisting, invalidate } = require("./lib/posted");
 const { gid } = require("./lib/shopify");
 const mapper = require("./lib/mapper");
 
@@ -40,11 +41,9 @@ async function compute(payoutRef) {
   return { payout, btx, orders, journal: buildJournalEntry(payout, btx, byId) };
 }
 
-/** Une écriture existe-t-elle déjà pour ce DocNumber ? (couvre aussi celles d'A2X) */
-async function existing(docNumber) {
-  const esc = docNumber.replace(/'/g, "''");
-  return queryOne(`select Id, DocNumber, TxnDate from JournalEntry where DocNumber = '${esc}'`);
-}
+/** L'écriture de ce versement existe-t-elle déjà ? (couvre aussi celles d'A2X) */
+const existing = (payout, journal, force = false) =>
+  findExisting({ docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt }, force);
 
 function printJournal(j) {
   console.log(`\n  ${j.docNumber}   ${j.period.start} → ${j.period.end}   net ${j.settlement.toFixed(2)}`);
@@ -80,30 +79,33 @@ async function main() {
   if (cmd === "preview") {
     const ref = args[1];
     if (!ref) throw new Error("Usage : node a2x/a2x.js preview <payoutId>");
-    const { journal, btx, orders } = await compute(ref);
+    const { payout, journal, btx, orders } = await compute(ref);
     console.log(`  ${btx.length} transaction(s) de solde, ${orders.length} commande(s).`);
     printJournal(journal);
-    const dup = await existing(journal.docNumber);
-    console.log(dup ? `\n  ⚠️  Déjà dans QBO : écriture ${dup.Id} (${dup.TxnDate}).\n` : `\n  Pas encore dans QBO. Publier : node a2x/a2x.js post ${journal.payoutId}\n`);
+    const dup = await existing(payout, journal);
+    console.log(dup
+      ? `\n  ⚠️  Déjà dans QBO : ${dup.docNumber} (pièce ${dup.id}, ${dup.txnDate}) — appariée par ${dup.match}.\n`
+      : `\n  Pas encore dans QBO. Publier : node a2x/a2x.js post ${journal.payoutId}\n`);
     return;
   }
 
   if (cmd === "post") {
     const ref = args[1];
     if (!ref) throw new Error("Usage : node a2x/a2x.js post <payoutId>");
-    const { journal } = await compute(ref);
+    const { payout, journal } = await compute(ref);
     printJournal(journal);
     if (journal.unmapped.length && !has("force")) {
       throw new Error(`${journal.unmapped.length} composante(s) non mappée(s) — corrige mappings.tsv, ou force avec --force.`);
     }
     if (!journal.balanced) throw new Error("L'écriture n'est pas équilibrée — publication refusée.");
-    const dup = await existing(journal.docNumber);
+    const dup = await existing(payout, journal, true);
     if (dup && !has("force")) {
-      console.log(`\n  Déjà publiée : écriture QBO ${dup.Id}. Rien à faire.\n`);
+      console.log(`\n  Déjà publiée : ${dup.docNumber} (pièce QBO ${dup.id}, appariée par ${dup.match}). Rien à faire.\n`);
       return;
     }
     const res = await qbo("create", { entity: "journalentry", body: journal.body });
     const je = res.data && res.data.JournalEntry;
+    invalidate();
     console.log(`\n  ✅ Écriture créée dans QBO : Id ${je && je.Id} — ${journal.docNumber}\n`);
     return;
   }
@@ -115,14 +117,15 @@ async function main() {
     let created = 0, skipped = 0, failed = 0;
     for (const p of list.reverse()) {
       try {
-        const { journal } = await compute(p.legacyResourceId);
-        const dup = await existing(journal.docNumber);
-        if (dup) { skipped++; console.log(`  = ${journal.docNumber} déjà dans QBO (${dup.Id})`); continue; }
+        const { payout, journal } = await compute(p.legacyResourceId);
+        const dup = await existing(payout, journal);
+        if (dup) { skipped++; console.log(`  = ${journal.docNumber} déjà dans QBO : ${dup.docNumber} (pièce ${dup.id}, par ${dup.match})`); continue; }
         if (journal.unmapped.length) { failed++; console.log(`  ⚠️  ${journal.docNumber} : ${journal.unmapped.length} composante(s) non mappée(s) — ignorée`); continue; }
         if (!journal.balanced) { failed++; console.log(`  ⚠️  ${journal.docNumber} : non équilibrée — ignorée`); continue; }
         if (dry) { created++; console.log(`  + ${journal.docNumber} (dry-run, ${journal.settlement.toFixed(2)})`); continue; }
         const res = await qbo("create", { entity: "journalentry", body: journal.body });
         created++;
+        invalidate();
         console.log(`  ✅ ${journal.docNumber} → QBO ${res.data && res.data.JournalEntry && res.data.JournalEntry.Id}`);
       } catch (e) {
         failed++;

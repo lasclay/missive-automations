@@ -157,6 +157,30 @@ plus grosse composante pour que l'écriture tombe toujours juste au cent près.
 
 ---
 
+## Détection des doublons
+
+Le `DocNumber` d'A2X se termine par trois chiffres (`A2XSH-21Jul-27Jul-**592**`) qui sont un
+**compteur interne à A2X** : ils ne se déduisent pas de l'id du versement Shopify
+(`141882065115`). Impossible donc de reproduire le `DocNumber` d'A2X à l'identique, et surtout
+impossible d'apparier dessus — c'est ce que faisait la première version, ce qui donnait à la
+fois des faux positifs (collisions entre périodes sans rapport, sur trois chiffres) et des faux
+négatifs (un versement déjà comptabilisé par A2X présenté comme à faire, ce qui invite au
+doublon).
+
+`lib/posted.js` apparie donc sur ce qui est vérifiable, dans cet ordre :
+
+1. **période + montant** — même préfixe de `DocNumber` (`A2XSH-21Jul-27Jul-`) et même net déposé
+2. **période** — même préfixe, montant différent ou inconnu
+3. **montant** — même net déposé, dans une fenêtre de 21 jours avant l'émission du versement
+
+Les journaux **mensuels** d'A2X (`A2XSH-01Jun-01Jul-469`, pour les paiements hors Shopify
+Payments) n'ont pas de ligne « Balance of settlement » : ils sont exclus de l'appariement, sans
+quoi ils absorberaient un versement à tort.
+
+La liste des versements, elle, n'apparie que par montant — connaître la période d'un versement
+suppose de charger ses transactions de solde, trop coûteux pour une liste. L'appariement fin se
+fait à l'ouverture du versement.
+
 ## Limites connues
 
 * **Shopify Payments seulement.** Les commandes payées par PayPal, carte-cadeau ou paiement

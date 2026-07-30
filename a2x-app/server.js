@@ -20,7 +20,8 @@ const A2X = path.join(__dirname, "..", "a2x");
 const { listPayouts, getPayout, payoutTransactions } = require(path.join(A2X, "lib/payouts"));
 const { ordersByIds } = require(path.join(A2X, "lib/orders"));
 const { buildJournalEntry } = require(path.join(A2X, "lib/journal"));
-const { qbo, queryOne } = require(path.join(A2X, "lib/qbo"));
+const { qbo } = require(path.join(A2X, "lib/qbo"));
+const { postedJournals, findExisting, invalidate } = require(path.join(A2X, "lib/posted"));
 const { gid, tokenScopes, STORE, VER } = require(path.join(A2X, "lib/shopify"));
 const mapper = require(path.join(A2X, "lib/mapper"));
 
@@ -95,10 +96,9 @@ async function computeJournal(ref) {
   return { payout, journal, counts: { transactions: btx.length, orders: orders.length } };
 }
 
-async function findExisting(docNumber) {
-  const esc = String(docNumber).replace(/'/g, "''");
-  return queryOne(`select Id, DocNumber, TxnDate from JournalEntry where DocNumber = '${esc}'`);
-}
+// L'appariement des écritures déjà comptabilisées vit dans a2x/lib/posted.js,
+// partagé avec le CLI (voir l'en-tête du module : le suffixe du DocNumber d'A2X
+// n'est pas exploitable, on apparie sur la période puis sur le montant déposé).
 
 let accountsCache = null;
 async function chartOfAccounts(force = false) {
@@ -161,25 +161,30 @@ const routes = {
     const limit = parseInt(url.searchParams.get("limit") || "25", 10);
     const since = url.searchParams.get("since") || null;
     const payouts = await listPayouts({ limit, since });
-    // Une seule requête QBO pour savoir lesquels sont déjà comptabilisés.
-    const res = await qbo("query", {
-      query: `select Id, DocNumber, TxnDate from JournalEntry where DocNumber like 'A2XSH-%' orderby TxnDate desc maxresults 200`,
-    });
-    const posted = new Map();
-    for (const je of (res.data && res.data.QueryResponse && res.data.QueryResponse.JournalEntry) || []) {
-      const suffix = String(je.DocNumber).split("-").pop();
-      posted.set(suffix, je);
-    }
+    // Une seule requête QBO, puis appariement par montant déposé + fenêtre de dates.
+    // La liste ne connaît pas la période exacte d'un versement (il faudrait ses
+    // transactions de solde) : l'appariement fin par période se fait à l'ouverture
+    // du versement, dans GET /api/payouts/:id.
+    const all = await postedJournals(url.searchParams.get("refresh") === "1");
+    const used = new Set();
     return {
       payouts: payouts.map((p) => {
-        const je = posted.get(String(p.legacyResourceId).slice(-3));
+        const cents = Math.round(parseFloat(p.net.amount) * 100);
+        const end = new Date(p.issuedAt);
+        const je = all.find((j) => {
+          if (used.has(j.id) || j.settlementCents !== cents) return false;
+          if (!j.txnDate) return true;
+          const days = (end - new Date(j.txnDate)) / 86400000;
+          return days >= -2 && days <= 21;
+        });
+        if (je) used.add(je.id);
         return {
           id: String(p.legacyResourceId),
           issuedAt: p.issuedAt,
           status: p.status,
           net: parseFloat(p.net.amount),
           currency: p.net.currencyCode,
-          posted: je ? { id: je.Id, docNumber: je.DocNumber, txnDate: je.TxnDate } : null,
+          posted: je ? { id: je.id, docNumber: je.docNumber, txnDate: je.txnDate, match: "montant" } : null,
         };
       }),
     };
@@ -187,7 +192,7 @@ const routes = {
 
   "GET /api/payouts/:id": async (req, url, params) => {
     const { payout, journal, counts } = await computeJournal(params.id);
-    const existing = await findExisting(journal.docNumber);
+    const existing = await findExisting({ docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt });
     return {
       payout: { id: String(payout.legacyResourceId), issuedAt: payout.issuedAt, status: payout.status, net: parseFloat(payout.net.amount), currency: payout.net.currencyCode },
       counts,
@@ -209,15 +214,23 @@ const routes = {
   },
 
   "POST /api/payouts/:id/post": async (req, url, params, body) => {
-    const { journal } = await computeJournal(params.id);
+    const { payout, journal } = await computeJournal(params.id);
     if (!journal.balanced) throw new Error("Écriture non équilibrée — publication refusée.");
     if (journal.unmapped.length && !body.force) {
       throw new Error(`${journal.unmapped.length} composante(s) non mappée(s). Corrige les mappings, ou coche « forcer ».`);
     }
-    const existing = await findExisting(journal.docNumber);
-    if (existing && !body.force) return { created: false, existing, message: "Déjà publiée dans QuickBooks." };
+    // On relit QBO au moment de publier : le cache pourrait masquer une écriture
+    // créée entre-temps (par A2X, ou dans un autre onglet).
+    const existing = await findExisting(
+      { docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt },
+      true
+    );
+    if (existing && !body.force) {
+      return { created: false, existing, message: `Déjà publiée dans QuickBooks (${existing.docNumber}, appariée par ${existing.match}).` };
+    }
     const res = await qbo("create", { entity: "journalentry", body: journal.body });
     const je = res.data && res.data.JournalEntry;
+    invalidate();
     return { created: true, id: je && je.Id, docNumber: journal.docNumber };
   },
 

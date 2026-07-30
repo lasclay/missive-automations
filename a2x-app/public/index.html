@@ -156,7 +156,8 @@ async function loadJournal(id) {
         ${j.unmapped.length ? `<div class="banner warn"><b>${j.unmapped.length} composante(s) sans compte.</b>
           ${j.unmapped.map((u) => `<div>${money(u.amount)} $ — ${esc(u.description)}</div>`).join("")}
           <div class="muted">Ajoute la règle dans l'onglet Mappings, puis recharge.</div></div>` : ""}
-        ${d.existing ? `<div class="banner ok">Déjà dans QuickBooks : pièce ${esc(d.existing.Id)} du ${esc(d.existing.TxnDate)}.</div>` : ""}
+        ${d.existing ? `<div class="banner ok">Déjà dans QuickBooks : <code>${esc(d.existing.docNumber)}</code>
+          — pièce ${esc(d.existing.id)} du ${esc(d.existing.txnDate)}, appariée par ${esc(d.existing.match)}.</div>` : ""}
 
         <div class="scroll"><table>
           <thead><tr><th>Description</th><th>Compte</th><th>Taxe</th><th class="num">Débit</th><th class="num">Crédit</th></tr></thead>
