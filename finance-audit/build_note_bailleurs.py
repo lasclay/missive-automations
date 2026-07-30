@@ -185,16 +185,17 @@ def moteurs_chart(labels, web, detail, width=680, height=200):
                    f'fill="#ffffff">{w / 1000:.0f} k$</text>')
         if d:
             out.append(f'<rect x="{x:.1f}" y="{y0 - hw - hd:.1f}" width="{bw:.1f}" '
-                       f'height="{hd:.1f}" fill="{ORANGE}" rx="1.5"/>')
-            out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - hw - hd / 2 + 4:.1f}" '
-                       f'class="bv" fill="#ffffff">{d / 1000:.0f} k$</text>')
+                       f'height="{max(hd, 1.5):.1f}" fill="{ORANGE}" rx="1.5"/>')
+            if hd >= 14:
+                out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - hw - hd / 2 + 4:.1f}" '
+                           f'class="bv" fill="#ffffff">{d / 1000:.0f} k$</text>')
         if i:
             # La virgule décimale ne se pose que sur le libellé : appliquée à la
             # chaîne entière, elle corromprait les coordonnées du SVG.
             g = f'en ligne {(web[i] / web[i - 1] - 1) * 100:+.0f} %'.replace('.', ',')
             out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - hw - hd - 20:.1f}" '
                        f'class="bv" fill="{VERT}">{g}</text>')
-        if d:
+        if hd >= 14:
             out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - hw - hd - 7:.1f}" '
                        f'class="bv">{(w + d) / 1000:.0f} k$ au total</text>')
     for i, lab in enumerate(labels):
@@ -203,6 +204,33 @@ def moteurs_chart(labels, web, detail, width=680, height=200):
     out.append('</svg>')
     return ''.join(out) + legend([('Commerce en ligne', VERT),
                                   ('Canal détail (consignation)', ORANGE)])
+
+
+def mois_chart(labels, valeurs, width=680, height=175):
+    """Douze mois de consignation, en barres. La saison se voit d'un coup."""
+    top = max(valeurs) or 1
+    y0, yt = height - 26, 24
+    gw = width / len(valeurs)
+    bw = gw * 0.56
+    out = [f'<svg viewBox="0 0 {width} {height}" class="chart">']
+    out.append(f'<line x1="0" y1="{y0}" x2="{width}" y2="{y0}" stroke="{LIGNE}"/>')
+    for i, v in enumerate(valeurs):
+        x = i * gw + (gw - bw) / 2
+        h = v / top * (y0 - yt)
+        out.append(f'<rect x="{x:.1f}" y="{y0 - h:.1f}" width="{bw:.1f}" '
+                   f'height="{max(h, 0.6):.1f}" fill="{ORANGE}" rx="1.5"/>')
+        if v:
+            # le libellé se compose à part : appliqué à la chaîne entière, le
+            # remplacement du point décimal corromprait les coordonnées du SVG
+            lab = (f'{v / 1000:.1f} k$'.replace('.', ',') if v >= 1000
+                   else f'{v:.0f} $')
+            out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - h - 6:.1f}" '
+                       f'class="bv">{lab}</text>')
+    for i, lab in enumerate(labels):
+        out.append(f'<text x="{i * gw + gw / 2:.1f}" y="{height - 8}" '
+                   f'class="bl">{lab}</text>')
+    out.append('</svg>')
+    return ''.join(out)
 
 
 def hbar(rows, width=680, rowh=42, fmt=None):
@@ -247,7 +275,7 @@ def fibre_chart(width=680, height=170):
     return ''.join(out)
 
 # ---------------------------------------------------------------- contenu
-YR = ['FY2026', 'FY2027', 'FY2028', 'FY2029']
+YR = ['2025-2026', '2026-2027', '2027-2028', '2028-2029']
 MOIS = ['S', 'O', 'N', 'D', 'J', 'F', 'M', 'A', 'M', 'J', 'J', 'A']
 S = D['sommaire']
 
@@ -373,14 +401,14 @@ ul.o li:before {{ background:{ORANGE}; }}
 </style>"""
 
 
-def foot(n, tot=14):
+def foot(n, tot=16):
     return (f'<div class="foot"><span>LASCLAY · PRÉVISIONS FINANCIÈRES 2026-2029</span>'
             f'<span>{n} / {tot}</span></div></div>')
 
 
-HBAR_MOD = hbar([("Production interne, FY2026", 91036, VERT),
-                 ("Isolant en rouleau, FY2027", 4800, ORANGE)], rowh=46)
-hist_lab = ['FY2022', 'FY2023', 'FY2024', 'FY2025', 'FY2026']
+HBAR_MOD = hbar([("Production interne, 2025-2026", 91036, VERT),
+                 ("Isolant en rouleau, 2026-2027", 4800, ORANGE)], rowh=46)
+hist_lab = ['2021-2022', '2022-2023', '2023-2024', '2024-2025', '2025-2026']
 hist_ca = [280000, 403702, 504926, 879125, 1103327]
 
 P = []   # les pages
@@ -396,11 +424,13 @@ SOMMAIRE = [
     ('07', 'Le marketing et le développement des marchés', 7),
     ('08', 'Les coûts fixes et l’infrastructure numérique', 8),
     ('09', 'Deux moteurs, et le plus gros existe déjà', 9),
-    ('10', 'Les trois marchés que la restructuration ouvre', 10),
-    ('11', 'Les projections : deux scénarios', 11),
-    ('12', 'Structure de financement et facteurs de risque', 12),
-    ('13', 'La méthode et les sources', 13),
-    ('14', 'Synthèse', 14),
+    ('10', 'Le détail au Canada, construit ville par ville', 10),
+    ('11', 'Les quarante villes, et le calendrier', 11),
+    ('12', 'Trois marchés qui ne sont pas dans les chiffres', 12),
+    ('13', 'Les projections : deux scénarios', 13),
+    ('14', 'Structure de financement et facteurs de risque', 14),
+    ('15', 'La méthode et les sources', 15),
+    ('16', 'Synthèse', 16),
 ]
 toc = ''.join(
     f'<div class="toci"><span class="n">{n}</span><span class="t">{t}</span>'
@@ -414,9 +444,9 @@ P.append(f"""<div class="page cover">
     restructuration de 2026 change à la trajectoire.</div>
 
   <div class="cfig">
-    <div><span class="v">1,10 M$</span><span class="k">Revenu FY2026</span></div>
-    <div><span class="v">2,79 M$</span><span class="k">Ventes nettes visées FY2029</span></div>
-    <div><span class="v">FY2028</span><span class="k">Rentable hors aides publiques</span></div>
+    <div><span class="v">1,10 M$</span><span class="k">Revenu 2025-2026</span></div>
+    <div><span class="v">{C['ventes'][3]/1e6:.2f} M$</span><span class="k">Ventes nettes visées 2028-2029</span></div>
+    <div><span class="v">2027-2028</span><span class="k">Rentable hors aides publiques</span></div>
     <div><span class="v">70 000</span><span class="k">Clients depuis 2020</span></div>
   </div>
 
@@ -424,9 +454,12 @@ P.append(f"""<div class="page cover">
   <div class="toc">{toc}</div>
 
   <div class="cnote">Deux scénarios coexistent dans le même modèle : conservateur
-    réaliste, qui porte les ventes nettes à 2,79 M$ en FY2029, et ambitieux, qui les
-    porte à 3,41 M$. Une seule cellule bascule de l'un à l'autre. Ni l'un ni l'autre
-    n'inclut de subvention non confirmée.</div>
+    réaliste, qui porte les ventes nettes à {C['ventes'][3]/1e6:.2f} M$ en 2028-2029, et
+    ambitieux, qui les porte à {A['ventes'][3]/1e6:.2f} M$. Une seule cellule bascule de
+    l'un à l'autre. Ni l'un ni l'autre n'inclut de subvention non confirmée.
+    <br><br>L'exercice financier de Lasclay va du 1<sup>er</sup> septembre au 31 août :
+    « 2025-2026 » désigne les douze mois de septembre 2025 à août 2026, comme dans le
+    chiffrier.</div>
 
   <div class="meta">LES PRODUITS LASCLAY INC. &nbsp;·&nbsp; QUÉBEC (LIMOILOU)
     &nbsp;·&nbsp; 30 JUILLET 2026<br>Exercices financiers clos le 31 août ·
@@ -528,8 +561,8 @@ P.append(f"""<div class="page">
 
   {bar_chart([('Revenu brut', hist_ca, VERT)], hist_lab, height=160,
              fmt=lambda v: f'{v/1000:.0f} k$')}
-  <div class="fig">Revenu brut par exercice. FY2022 selon les registres internes ;
-    FY2023 à FY2025 selon les états financiers compilés ; FY2026 selon QuickBooks.
+  <div class="fig">Revenu brut par exercice. 2021-2022 selon les registres internes ;
+    2022-2023 à 2024-2025 selon les états financiers compilés ; 2025-2026 selon QuickBooks.
     Marge brute : 44,3 % · 65,5 % · 73,0 % en trois exercices.</div>
 
   <h3>Quatre contraintes ont empêché de servir cette demande</h3>
@@ -555,11 +588,11 @@ P.append(f"""<div class="page">
   <div class="tiles">
     <div class="tile"><div class="v">70 000</div><div class="k">Clients</div>
       <div class="n">3 M$ cumulés depuis 2020</div></div>
-    <div class="tile"><div class="v">1,10 M$</div><div class="k">Revenu FY2026</div>
-      <div class="n">+25,5 % sur FY2025</div></div>
+    <div class="tile"><div class="v">1,10 M$</div><div class="k">Revenu 2025-2026</div>
+      <div class="n">+25,5 % sur 2024-2025</div></div>
     <div class="tile o"><div class="v">4 800 $</div><div class="k">Isolant, une année</div>
-      <div class="n">contre 91 036 $ en FY2026</div></div>
-    <div class="tile o"><div class="v">FY2028</div><div class="k">Rentable hors aides</div>
+      <div class="n">contre 91 036 $ en 2025-2026</div></div>
+    <div class="tile o"><div class="v">2027-2028</div><div class="k">Rentable hors aides</div>
       <div class="n">et couverture au-dessus de 1,25</div></div>
   </div>
   {foot(2)}""")
@@ -628,7 +661,7 @@ P.append(f"""<div class="page">
     les ventes se mesure au mois près.</div>
 
   {combo_chart(MOIS, D['fy26_mois']['ventes'], D['fy26_mois']['pub'])}
-  <div class="fig">Exercice FY2026, septembre 2025 à août 2026. Barres : publicité
+  <div class="fig">Exercice 2025-2026, septembre 2025 à août 2026. Barres : publicité
     numérique réelle (QuickBooks). Ligne : ventes nettes mensuelles.</div>
 
   <table>
@@ -637,7 +670,7 @@ P.append(f"""<div class="page">
       <td>1 484 $</td><td class="neg">0 $</td></tr>
     <tr><td>Commandes Shopify</td><td>1 276</td><td>764</td><td>968</td>
       <td class="neg">71</td><td class="neg">40</td></tr>
-    <tr><td>Mêmes mois, FY2025</td><td>1 450</td><td>2 193</td><td>2 314</td>
+    <tr><td>Mêmes mois, 2024-2025</td><td>1 450</td><td>2 193</td><td>2 314</td>
       <td>1 272</td><td>672</td></tr>
     <tr class="hi"><td>Ventes nettes</td><td>53 210 $</td><td>42 531 $</td><td>82 783 $</td>
       <td>9 054 $</td><td>2 535 $</td></tr>
@@ -767,7 +800,7 @@ P.append(f"""<div class="page">
   <h3>Le calcul qui décide de tout</h3>
   {HBAR_MOD}
   <div class="fig">Gauche : coût réel de la main-d'œuvre de production interne en
-    FY2026 (QuickBooks, ligne « MOD-Production »). Droite : deux employés pendant deux
+    2025-2026 (QuickBooks, ligne « MOD-Production »). Droite : deux employés pendant deux
     semaines à 30 $/h, ce qu'a demandé la production de l'isolant couvrant les besoins
     de l'exercice 2026-2027.</div>
 
@@ -844,14 +877,14 @@ P.append(f"""<div class="page">
   </div>
 
   <h3>Ce que ça vaut en chiffres</h3>
-  <p>Le coût d'acquisition d'un client est passé de 20,11 $ en FY2025 à
-  <strong>31,88 $ en FY2026</strong>, une hausse de 59 % en un an, pendant que le panier
+  <p>Le coût d'acquisition d'un client est passé de 20,11 $ en 2024-2025 à
+  <strong>31,88 $ en 2025-2026</strong>, une hausse de 59 % en un an, pendant que le panier
   moyen montait de 28 %. La marge de contribution par commande couvre encore le coût
   d'acquisition dès la première commande, mais la tendance est le signal que le marketing
   a manqué d'attention, pas de budget.</p>
 
   <table>
-    <tr><th>Acquisition</th><th>FY2025</th><th>FY2026</th><th>Écart</th></tr>
+    <tr><th>Acquisition</th><th>2024-2025</th><th>2025-2026</th><th>Écart</th></tr>
     <tr><td>Nouveaux clients acquis</td><td>11 509</td><td>8 443</td><td class="neg">−26,6 %</td></tr>
     <tr><td>Publicité numérique</td><td>231 500 $</td><td>269 178 $</td><td>+16,3 %</td></tr>
     <tr class="hio"><td>Coût d'acquisition par client</td><td>20,11 $</td><td>31,88 $</td>
@@ -864,7 +897,7 @@ P.append(f"""<div class="page">
       réachat annuel, faute de deux ans d'historique de cohortes.</caption>
   </table>
 
-  <p>La publicité représente 27 % des ventes nettes en FY2026. Ce n'est pas elle qui
+  <p>La publicité représente 27 % des ventes nettes en 2025-2026. Ce n'est pas elle qui
   creuse la perte, puisqu'elle se rembourse dès la première commande, mais son rendement
   se dégrade quand personne n'a le temps de l'optimiser. Le canal détail, qui ne consomme
   aucune publicité, réduit structurellement cette dépendance.</p>
@@ -883,7 +916,7 @@ P.append(f"""<div class="page">
 
   <h3>La structure fixe, avant et après</h3>
   <table>
-    <tr><th>Poste</th><th>FY2026 réel</th><th>Après le pivot</th><th>Libéré</th></tr>
+    <tr><th>Poste</th><th>2025-2026 réel</th><th>Après le pivot</th><th>Libéré</th></tr>
     <tr><td>Main-d'œuvre de production</td><td>91 036 $</td><td>4 800 $</td><td>86 236 $</td></tr>
     <tr><td>Loyer de l'atelier</td><td>99 067 $</td><td>≈ 30 000 $</td><td>≈ 69 000 $</td></tr>
     <tr><td>Amortissement équipement et améliorations locatives</td><td>22 167 $</td>
@@ -891,7 +924,7 @@ P.append(f"""<div class="page">
     <tr class="hi"><td>Structure fixe libérée, par année</td><td colspan="2"></td>
       <td>≈ 155 000 $</td></tr>
     <caption>Le modèle financier ne prend pas tout le crédit de la baisse de loyer : il
-      retient 88 236 $ en FY2027 et 52 404 $ en FY2029, contre un potentiel de 30 000 $
+      retient 88 236 $ en 2026-2027 et 52 404 $ en 2028-2029, contre un potentiel de 30 000 $
       en sous-louant l'espace excédentaire. La prudence est volontaire.</caption>
   </table>
 
@@ -900,7 +933,7 @@ P.append(f"""<div class="page">
   l'entreprise a déjà démontré qu'elle savait le faire.</p>
 
   <table>
-    <tr><th>Poste, FY2026 réel</th><th>Montant</th><th style="text-align:left">Statut</th></tr>
+    <tr><th>Poste, 2025-2026 réel</th><th>Montant</th><th style="text-align:left">Statut</th></tr>
     <tr><td>Frais de plateforme Shopify</td><td>30 540 $</td>
       <td style="text-align:left">Structurel</td></tr>
     <tr><td>Licences logicielles marketing (courriel, SMS)</td><td>8 616 $</td>
@@ -947,9 +980,9 @@ P.append(f"""<div class="page">
   <div class="kicker">D'où vient la croissance</div>
   <div class="sect"><span class="num">09</span><h2>Deux moteurs, et le plus gros existe déjà</h2></div>
   <div class="lede">Le canal détail est le nouveau venu, alors il attire l'attention. Il
-    n'apporte pourtant qu'un peu moins de la moitié de la croissance. Le reste vient du
-    commerce en ligne, qui a porté seul les six premières années et qui continue de
-    croître dans les deux scénarios.</div>
+    apporte à peu près la moitié de la croissance. L'autre moitié vient du commerce en
+    ligne, qui a porté seul les six premières années et qui continue de croître de
+    {pct(CAGR_C)} par an en scénario conservateur, {pct(CAGR_A)} en ambitieux.</div>
 
   {moteurs_chart(YR, A['dtc'], A['detail'])}
   <div class="fig">Scénario ambitieux, ventes nettes par moteur. Le commerce en ligne
@@ -958,7 +991,7 @@ P.append(f"""<div class="page">
     construit à partir de zéro.</div>
 
   <table>
-    <tr><th>Croissance FY2026 à FY2029</th><th>Conservateur</th><th>Ambitieux</th></tr>
+    <tr><th>Croissance 2025-2026 à 2028-2029</th><th>Conservateur</th><th>Ambitieux</th></tr>
     <tr><td>Apportée par le commerce en ligne</td>
       <td>{fr(C['dtc'][3] - C['dtc'][0])}</td><td>{fr(A['dtc'][3] - A['dtc'][0])}</td></tr>
     <tr><td>Apportée par le canal détail</td>
@@ -970,7 +1003,7 @@ P.append(f"""<div class="page">
     <tr><td>Croissance annuelle du commerce en ligne</td>
       <td>{pct(CAGR_C)}</td><td>{pct(CAGR_A)}</td></tr>
     <caption>À titre de comparaison, le chiffre d'affaires a crû de {pct(CAGR_HIST)} par
-      an entre FY2022 et FY2026, entièrement en ligne, sans canal détail, sans isolant en
+      an entre 2021-2022 et 2025-2026, entièrement en ligne, sans canal détail, sans isolant en
       rouleau et sans structure de coûts assainie. Les deux scénarios projettent donc un
       rythme en ligne nettement inférieur à celui que l'entreprise a déjà tenu.</caption>
   </table>
@@ -986,16 +1019,15 @@ P.append(f"""<div class="page">
       <p style="font-size:8.6pt;margin:0">La chute de juin et juillet 2026 vient de
       l'arrêt du budget publicitaire, pas d'une baisse de la demande. Le coût par
       acquisition remonte à {fr(S['cac25'], 2)} dans le modèle, contre
-      {fr(S['cac26'], 2)} en FY2026, parce que la marge unitaire assainie permet de
+      {fr(S['cac26'], 2)} en 2025-2026, parce que la marge unitaire assainie permet de
       payer l'acquisition sans vider la trésorerie.</p></div>
   </div>
   <div class="two">
     <div class="card v"><h4>Le marché américain, déjà amorcé</h4>
       <p style="font-size:8.6pt;margin:0">Environ 20 % du chiffre d'affaires récent,
-      porté par l'horticole : quelque 250 000 $ de semences vendues en 2025, sur les
-      10 millions distribuées en Amérique du Nord. Une semence à 8 $ se vend plus
-      facilement qu'un produit à 100 $, et une part notable de ces clients migre ensuite
-      vers la gamme textile.</p></div>
+      porté par l'horticole : quelque 250 000 $ de semences vendues en 2025. Une semence
+      à 8 $ se vend plus facilement qu'un produit à 100 $, et une part notable de ces
+      clients migre ensuite vers la gamme textile.</p></div>
     <div class="card v"><h4>Des produits que l'atelier ne pouvait pas faire</h4>
       <p style="font-size:8.6pt;margin:0">L'isolant en rouleau et la finition en Tunisie
       ouvrent des gammes que la production artisanale interdisait, aux volumes et aux
@@ -1004,41 +1036,129 @@ P.append(f"""<div class="page">
   </div>
   {foot(9)}""")
 
-# ------------------------------------------------------------------ 09 DÉBLOQUE
+# ------------------------------------------------------------------ 09 DÉTAIL
+D_ = D['detail']
+MOIS12 = ['sept.', 'oct.', 'nov.', 'déc.', 'janv.', 'févr.', 'mars', 'avr.',
+          'mai', 'juin', 'juill.', 'août']
+TOP = D_['villes'][:12]
+RESTE = D_['villes'][12:]
+lignes_villes = ''.join(
+    f'<tr><td>{v["ville"]}</td><td>{v["pop"]:,}</td>'.replace(',', '\u202f')
+    + f'<td>{fr(v["en_ligne"])}</td><td>{v["indice"]:.2f}</td>'.replace('.', ',')
+    + f'<td>{fr(v["revenu"])}</td><td style="text-align:left">{v["ouv_c"]}</td></tr>'
+    for v in TOP)
+
 P.append(f"""<div class="page">
-  <div class="kicker">Marchés</div>
-  <div class="sect"><span class="num">10</span><h2>Les trois marchés que la restructuration ouvre</h2></div>
-  <div class="lede">Les quatre verrous levés ouvrent des canaux qui ne dépendent ni du
-    budget publicitaire ni de la capacité de l'atelier.</div>
+  <div class="kicker">Le canal détail</div>
+  <div class="sect"><span class="num">10</span><h2>Le détail au Canada, construit ville par ville</h2></div>
+  <div class="lede">Ce canal n'est pas une projection à partir de rien. Un détaillant
+    vend déjà les produits Lasclay en consignation, à Montréal, depuis septembre 2025,
+    et ses rapports mensuels donnent ce qu'un point de vente rapporte réellement.</div>
 
-  <h3>1. Le détail au Canada, en consignation</h3>
-  <p>Un point de vente majeur par ville moyenne à grande, toute la gamme en dépôt, 40 %
-  de marge au détaillant. Ce canal vend sans budget publicitaire et sans dépendre du coût
-  par clic, la faiblesse exacte que juin 2026 a mise à nu.</p>
+  <h3>Ce que fait un point de vente, mesuré</h3>
+  <p>Les Défricheuses est la détaillante exclusive de Lasclay à Montréal. Dix rapports de
+  consignation, de septembre 2025 à juin 2026 : <strong>{fr(D_['defricheuses_an'])}
+  encaissés par Lasclay</strong>, soit {fr(D_['defricheuses_detail'])} au prix payé par
+  le consommateur. Le partage 60 / 40 du modèle est celui de ce contrat, pas une
+  hypothèse.</p>
 
-  {ramp_chart(['FY2026', 'FY2027', 'FY2028', 'FY2029'], C['pdv'], A['pdv'])}
-  <div class="fig">Points de vente ouverts au 31 août de chaque exercice, dans les deux
-    scénarios. Déploiement modélisé mois par mois.</div>
+  {mois_chart(MOIS12, D_['defricheuses'])}
+  <div class="fig">Les Défricheuses, Montréal, 2025-2026. Revenu encaissé par Lasclay,
+    par mois. La gamme passe de 18 à 40 lignes de septembre à novembre, et la tablette
+    n'est plus réapprovisionnée après février : la chute du printemps est une rupture de
+    stock, pas une saison morte.</div>
+
+  <h3>De un point de vente à quarante</h3>
+  <p>L'univers de déploiement est nommé, pas estimé : les vingt plus grandes villes du
+  Québec et les vingt-cinq plus grandes du Canada, soit quarante villes distinctes. Il
+  n'y a pas de quarante-et-unième point de vente dans ce modèle.</p>
+  <p>Chaque ville reçoit un <strong>indice d'affinité</strong> tiré des ventes en ligne
+  par habitant, rapportées à Montréal. Là où la marque pèse déjà, un point de vente pèse
+  davantage. Hors Québec, les ventes en ligne valent {pct(0.083, 0)} du chiffre canadien
+  pour {pct(0.77, 0)} de la population : elles y mesurent l'absence de marketing et non
+  l'absence de potentiel, alors l'indice s'y prend sur la taille du marché, escompté de
+  {pct(D_['facteur_roc'], 0)}.</p>
+
+  <h3>Le calibre, seul jugement du modèle</h3>
+  <p>Reste à décider ce que vaut un <em>point de vente majeur</em> par rapport à la
+  boutique montréalaise. Le modèle le pose à {D_['calibre_c']:.0f} fois en scénario
+  conservateur et {D_['calibre_a']:.0f} fois en ambitieux. Trois faits se lisent dans les
+  rapports de consignation et justifient un multiple :</p>
+  <ul>
+    <li>La gamme est passée de <strong>18 à 40 lignes de produits</strong> entre septembre
+      et novembre 2025 : les deux premiers mois n'ont vendu que 305 $ à eux deux</li>
+    <li>La tablette n'a pas été réapprovisionnée après février : de mars à juin, presque
+      toutes les lignes sont à zéro, pour <strong>1 052 $ en quatre mois</strong> contre
+      10 979 $ de novembre à janvier</li>
+    <li>Ce point de vente n'a ni présentoir, ni chargé de comptes, ni poussée
+      saisonnière, trois postes qui figurent dans les prévisions du canal</li>
+  </ul>
+  <p>Le scénario ambitieux ajoute une quatrième raison : l'isolant en rouleau et la
+  gamme qu'il rend possible ouvrent la porte de détaillants d'une autre taille que les
+  boutiques d'artisans.</p>
+  {foot(10)}""")
+
+# ------------------------------------------------------------------ 10 VILLES
+P.append(f"""<div class="page">
+  <div class="kicker">Le canal détail</div>
+  <div class="sect"><span class="num">11</span><h2>Les quarante villes, et le calendrier</h2></div>
+  <div class="lede">Les villes s'ouvrent dans l'ordre de leur potentiel. Les sept
+    premières sont québécoises, parce que c'est là que l'affinité est démontrée ; le
+    reste du Canada vient quand la marque a de quoi payer une représentation hors
+    Québec.</div>
 
   <table>
-    <tr><th>Scénario conservateur</th><th>FY2027</th><th>FY2028</th><th>FY2029</th></tr>
-    <tr><td>Points de vente au 31 août</td><td>{C['pdv'][1]:.0f}</td>
-      <td>{C['pdv'][2]:.0f}</td><td>{C['pdv'][3]:.0f}</td></tr>
-    <tr><td>Vente au détail (prix payé par le consommateur)</td>
-      <td>{fr(C['detail'][1]/0.6)}</td><td>{fr(C['detail'][2]/0.6)}</td>
-      <td>{fr(C['detail'][3]/0.6)}</td></tr>
-    <tr class="hio"><td>Revenu encaissé par Lasclay (60 %)</td><td>{fr(C['detail'][1])}</td>
-      <td>{fr(C['detail'][2])}</td><td>{fr(C['detail'][3])}</td></tr>
-    <tr><td>Part des ventes nettes</td><td>{pct(C['detail'][1]/C['ventes'][1])}</td>
-      <td>{pct(C['detail'][2]/C['ventes'][2])}</td><td>{pct(C['detail'][3]/C['ventes'][3])}</td></tr>
-    <tr><td>Stock en consignation immobilisé</td><td>{fr(C['consig'][1])}</td>
-      <td>{fr(C['consig'][2])}</td><td>{fr(C['consig'][3])}</td></tr>
-    <caption>Le coût des marchandises du canal passe de 33 % à 55 % du revenu encaissé,
-      parce que le produit coûte le même prix à fabriquer alors que Lasclay n'encaisse que
-      60 % du prix. S'ajoutent 6 % de transport et préparation, 7 % de commission de
-      représentation, 800 $ de présentoir par point de vente et un chargé de comptes dès
-      FY2028. Tout est dans les prévisions.</caption>
+    <tr><th>Ville</th><th>Population</th><th>Ventes en ligne 2025-2026</th>
+      <th>Indice</th><th>Revenu annuel par point de vente</th>
+      <th style="text-align:left">Ouverture</th></tr>
+    {lignes_villes}
+    <tr class="tot"><td>Les {len(RESTE)} villes suivantes</td><td></td><td></td><td></td>
+      <td>{fr(sum(v['revenu'] for v in RESTE))}</td>
+      <td style="text-align:left">2027-2028 et 2028-2029</td></tr>
+    <tr class="hio"><td>Plafond du canal, 40 points de vente</td><td></td><td></td>
+      <td></td><td>{fr(D_['plafond_c'])}</td><td style="text-align:left"></td></tr>
+    <caption>Revenu encaissé par Lasclay, scénario conservateur, à pleine maturité.
+      L'indice et l'ouverture sont ceux de la feuille « Détail par ville » du chiffrier,
+      qui porte les quarante lignes. Le scénario ambitieux garde les mêmes villes et le
+      même indice : il déploie plus vite et suppose des détaillants plus gros.</caption>
   </table>
+
+  <table>
+    <tr><th>Déploiement</th><th>2025-2026</th><th>2026-2027</th><th>2027-2028</th><th>2028-2029</th></tr>
+    <tr><td>Points de vente au 31 août — conservateur</td>
+      {''.join(f'<td>{v:.0f}</td>' for v in D_['pos_c'])}</tr>
+    <tr><td>Revenu encaissé — conservateur</td>
+      {''.join(f'<td>{fr(v)}</td>' for v in C['detail'])}</tr>
+    <tr><td>Points de vente au 31 août — ambitieux</td>
+      {''.join(f'<td>{v:.0f}</td>' for v in D_['pos_a'])}</tr>
+    <tr class="hio"><td>Revenu encaissé — ambitieux</td>
+      {''.join(f'<td>{fr(v)}</td>' for v in A['detail'])}</tr>
+    <tr><td>Stock en consignation immobilisé — conservateur</td>
+      {''.join(f'<td>{fr(v)}</td>' for v in C['consig'])}</tr>
+    <caption>Un point de vente ouvert en cours d'exercice ne livre que la moitié de son
+      année. Le coût des marchandises du canal monte de 33 % à 55 % du revenu encaissé,
+      parce que le produit coûte le même prix à fabriquer alors que Lasclay n'encaisse
+      que 60 % du prix. S'ajoutent 6 % de transport, 7 % de commission de représentation,
+      800 $ de présentoir par point de vente et un chargé de comptes dès 2027-2028.</caption>
+  </table>
+  {foot(11)}""")
+
+# ------------------------------------------------------------------ 11 MARCHÉS
+P.append(f"""<div class="page">
+  <div class="kicker">Marchés</div>
+  <div class="sect"><span class="num">12</span><h2>Trois marchés qui ne sont pas dans les chiffres</h2></div>
+  <div class="lede">Le canal détail est le seul nouveau marché budgété. Les trois qui
+    suivent se négocient sur des cycles trop longs pour être inscrits dans un plan de
+    trois ans, et n'apportent aucun revenu aux tableaux qui suivent.</div>
+
+  <h3>1. Le marché américain, déjà amorcé</h3>
+  <p>Les États-Unis représentent environ 20 % du chiffre d'affaires récent, portés par
+  l'horticole : quelque 250 000 $ de semences vendues en 2025, sur les 10 millions
+  distribuées en Amérique du Nord. Une semence à 8 $ se vend plus facilement qu'un produit
+  textile à 100 $, et une part notable de ces clients migre ensuite vers la gamme
+  textile. Ce marché est déjà dans les chiffres du commerce en ligne ; ce qui n'y est
+  pas, c'est le canal détail américain, qui suit la même logique que le canadien avec
+  quarante fois plus de villes.</p>
 
   <div class="two">
     <div class="card v"><h4>2. L'international par la membrane</h4>
@@ -1056,23 +1176,43 @@ P.append(f"""<div class="page">
       en est la porte d'entrée.</p></div>
   </div>
 
-  <p>Ces trois marchés s'ajoutent au commerce en ligne, ils ne s'y substituent pas. Seul
-  le canal détail figure dans les prévisions : l'international et l'institutionnel se
-  négocient sur des cycles trop longs pour être budgétés aujourd'hui, et n'apportent donc
-  aucun revenu aux tableaux qui suivent.</p>
-  {foot(10)}""")
+  <h3>Ce que le plafond de quarante villes veut dire</h3>
+  <p>Borner l'univers à quarante villes rend le canal vérifiable, et il le rend aussi
+  limitant. Le Canada compte une trentaine d'autres municipalités de plus de cent mille
+  habitants, absentes du modèle. Les États-Unis n'y sont pas du tout. Le plafond de
+  {fr(D_['plafond_c'])} du scénario conservateur, ou {fr(D_['plafond_a'])} de
+  l'ambitieux, est celui des quarante villes retenues, pas celui du marché.</p>
+
+  <h3>Si le calibre est faux</h3>
+  <p>Tout le reste du canal vient de données observées. Le calibre, lui, est un
+  jugement : combien de fois Les Défricheuses vaut un point de vente majeur. Voici ce
+  que devient le plan quand on le déplace, à déploiement conservateur inchangé.</p>
+  <table>
+    <tr><th>Calibre</th><th>Revenu par point de vente à Montréal</th>
+      <th>Canal détail 2028-2029</th><th>Ventes nettes 2028-2029</th>
+      <th>Résultat hors aides 2028-2029</th></tr>
+    {''.join(
+      f'<tr class="{"hi" if r["calibre"] == D_["calibre_c"] else ""}">'
+      f'<td>{r["calibre"]:.0f} x</td><td>{fr(r["par_pdv"])}</td>'
+      f'<td>{fr(r["detail"])}</td><td>{fr(r["ventes"])}</td>'
+      f'<td>{fr(r["hors"])}</td></tr>' for r in D_['sensibilite'])}
+    <caption>Ligne surlignée : la valeur retenue au scénario conservateur. Même à deux
+      fois Les Défricheuses, soit {fr(D_['sensibilite'][0]['par_pdv'])} par point de
+      vente et par année, le plan reste rentable hors aides publiques en 2028-2029.</caption>
+  </table>
+  {foot(12)}""")
 
 # ------------------------------------------------------------------ 09 CHIFFRES
 P.append(f"""<div class="page">
   <div class="kicker">Projections</div>
-  <div class="sect"><span class="num">11</span><h2>Les projections : deux scénarios</h2></div>
+  <div class="sect"><span class="num">13</span><h2>Les projections : deux scénarios</h2></div>
   <div class="lede">Un chiffrier mensuel de 48 mois rapproché de QuickBooks compte par
-    compte, dont dix mois de FY2026 sont du réel. Une seule cellule bascule d'un scénario
+    compte, dont dix mois de 2025-2026 sont du réel. Une seule cellule bascule d'un scénario
     à l'autre.</div>
 
 
   <table>
-    <tr><th>Conservateur réaliste</th><th>FY2026</th><th>FY2027</th><th>FY2028</th><th>FY2029</th></tr>
+    <tr><th>Conservateur réaliste</th><th>2025-2026</th><th>2026-2027</th><th>2027-2028</th><th>2028-2029</th></tr>
     <tr><td>Ventes nettes</td>{''.join(f'<td>{fr(v)}</td>' for v in C['ventes'])}</tr>
     <tr><td>&nbsp;&nbsp;dont commerce en ligne</td>{''.join(f'<td>{fr(v)}</td>' for v in C['dtc'])}</tr>
     <tr><td>&nbsp;&nbsp;dont canal détail</td>{''.join(f'<td>{fr(v)}</td>' for v in C['detail'])}</tr>
@@ -1088,7 +1228,7 @@ P.append(f"""<div class="page">
   </table>
 
   <table>
-    <tr><th>Ambitieux</th><th>FY2026</th><th>FY2027</th><th>FY2028</th><th>FY2029</th></tr>
+    <tr><th>Ambitieux</th><th>2025-2026</th><th>2026-2027</th><th>2027-2028</th><th>2028-2029</th></tr>
     <tr><td>Ventes nettes</td>{''.join(f'<td>{fr(v)}</td>' for v in A['ventes'])}</tr>
     <tr><td>&nbsp;&nbsp;dont commerce en ligne</td>{''.join(f'<td>{fr(v)}</td>' for v in A['dtc'])}</tr>
     <tr><td>&nbsp;&nbsp;dont canal détail</td>{''.join(f'<td>{fr(v)}</td>' for v in A['detail'])}</tr>
@@ -1104,12 +1244,12 @@ P.append(f"""<div class="page">
 
   <h3>Trois constats</h3>
   <ul>
-    <li>Le résultat hors aides publiques devient <strong>positif dès FY2028</strong> en
-      scénario conservateur, et dès FY2027 en ambitieux</li>
+    <li>Le résultat hors aides publiques devient <strong>positif dès 2027-2028</strong> en
+      scénario conservateur, et dès 2026-2027 en ambitieux</li>
     <li>La couverture du service de la dette franchit le seuil bancaire de 1,25
-      <strong>en FY2028</strong>, et les capitaux propres redeviennent positifs le même
+      <strong>en 2027-2028</strong>, et les capitaux propres redeviennent positifs le même
       exercice</li>
-    <li>FY2027 reste l'exercice tendu, à {fr(C['dscr'][1],2,'')} de couverture et
+    <li>2026-2027 reste l'exercice tendu, à {fr(C['dscr'][1],2,'')} de couverture et
       {fr(C['hors'][1])} hors aides. <strong>C'est l'exercice qui a besoin du
       financement</strong></li>
   </ul>
@@ -1118,12 +1258,12 @@ P.append(f"""<div class="page">
   le commerce en ligne apporte {pct((C['dtc'][3] - C['dtc'][0])
   / (C['dtc'][3] + C['detail'][3] - C['dtc'][0]), 0)} de la croissance de la période et
   le canal détail le reste.</p>
-  {foot(11)}""")
+  {foot(13)}""")
 
 # ------------------------------------------------------------------ 10 FINANCEMENT
 P.append(f"""<div class="page">
   <div class="kicker">Financement</div>
-  <div class="sect"><span class="num">12</span><h2>Structure de financement et facteurs de risque</h2></div>
+  <div class="sect"><span class="num">14</span><h2>Structure de financement et facteurs de risque</h2></div>
   <div class="lede">L'essentiel de la demande remplace de la dette coûteuse par de la
     dette normale. Ce n'est pas de l'endettement supplémentaire.</div>
 
@@ -1151,17 +1291,17 @@ P.append(f"""<div class="page">
   <div class="two">
     <div class="card o"><h4>Exécution du déploiement détail</h4>
       <p style="font-size:8.5pt;margin:0">{pct(C['detail'][3]/C['ventes'][3], 0)} des
-      ventes de FY2029 reposent sur un canal qui compte <strong>zéro point de vente
-      aujourd'hui</strong>. C'est le risque principal du plan. Lasclay s'engage à rapporter
-      trimestriellement le nombre de lettres d'intention signées et d'ouvertures
-      réalisées.</p></div>
+      ventes de 2028-2029 reposent sur un canal qui compte <strong>un seul point de
+      vente aujourd'hui</strong>. C'est le risque principal du plan. Lasclay s'engage à
+      rapporter trimestriellement le nombre de lettres d'intention signées et
+      d'ouvertures réalisées, ville par ville.</p></div>
     <div class="card o"><h4>Dépendance à l'assemblage externe</h4>
       <p style="font-size:8.5pt;margin:0">Le transfert vers la Tunisie crée une dépendance
       logistique, un risque de change et de délais. L'isolant et le savoir-faire critiques
       restent au Québec, ce qui limite l'exposition.</p></div>
   </div>
   <div class="two" style="margin-top:11px">
-    <div class="card o"><h4>FY2027 sous le seuil bancaire</h4>
+    <div class="card o"><h4>2026-2027 sous le seuil bancaire</h4>
       <p style="font-size:8.5pt;margin:0">Couverture de {C['dscr'][1]:.2f} et résultat
       négatif hors aides. Un moratoire de capital de 12 mois, pratique courante de la BDC,
       déplacerait la pression d'un exercice.</p></div>
@@ -1181,20 +1321,20 @@ P.append(f"""<div class="page">
     <li>Aucune amélioration du rendement publicitaire : la publicité reste à 22 %, 20,5 %
       puis 19,5 % du revenu brut du commerce en ligne</li>
     <li>Aucune reprise de stock sur le canal détail. Cette hypothèse est favorable : une
-      reprise de 5 % coûterait environ 12 000 $ en FY2029</li>
+      reprise de 5 % coûterait environ 12 000 $ en 2028-2029</li>
   </ul>
-  {foot(12)}""")
+  {foot(14)}""")
 
 # ------------------------------------------------------------------ 11 FIABILITÉ
 P.append(f"""<div class="page">
   <div class="kicker">Méthode</div>
-  <div class="sect"><span class="num">13</span><h2>La méthode et les sources</h2></div>
+  <div class="sect"><span class="num">15</span><h2>La méthode et les sources</h2></div>
   <div class="lede">Une projection ne vaut que par la rigueur de son suivi.</div>
 
   <h3>Ancrage comptable</h3>
   <p>Le modèle est un chiffrier mensuel de 48 mois, de septembre 2025 à août 2029. Chaque
   compte du grand livre QuickBooks est apparié à une ligne du modèle par son numéro de
-  compte. <strong>Dix mois de FY2026 sont du réel</strong>, bilan comme état des
+  compte. <strong>Dix mois de 2025-2026 sont du réel</strong>, bilan comme état des
   résultats, collés directement depuis QuickBooks : septembre 2025 à juin 2026. Juillet et
   août restent prévisionnels, parce que la colonne de juillet chez QuickBooks est une photo
   du mois en cours et non un mois fermé.</p>
@@ -1202,9 +1342,9 @@ P.append(f"""<div class="page">
   <h3>Ce que la révision du 30 juillet 2026 a corrigé</h3>
   <ul>
     <li>Les 76 produits ont été recalés sur les <strong>unités réellement vendues</strong>
-      chez Shopify. Le total modélisé de FY2026 reconcilie au revenu QuickBooks à 3 826 $
+      chez Shopify. Le total modélisé de 2025-2026 reconcilie au revenu QuickBooks à 3 826 $
       près, sur 1,1 M$</li>
-    <li>La trajectoire FY2027-FY2029 a été refaite : la version précédente multipliait par
+    <li>La trajectoire 2026-2027-2028-2029 a été refaite : la version précédente multipliait par
       1,4516 chaque année sans justification par produit ni par canal</li>
     <li>Les coûts variables ont été rebranchés sur le volume, et la structure de coûts
       calibrée sur les trois derniers exercices réalisés plutôt que sur des cibles</li>
@@ -1212,7 +1352,9 @@ P.append(f"""<div class="page">
       divergeaient. <strong>La ligne de contrôle du bilan est à zéro sur les 48 mois</strong></li>
     <li>Le mappage des comptes portait cinq défauts qui faisaient disparaître des soldes
       réels, dont 54 266 $ de prêt BDC qui ne tombaient nulle part</li>
-    <li>Aucune cellule du classeur n'est en erreur et aucune référence n'est circulaire</li>
+    <li>Aucune cellule des feuilles actives du plan n'est en erreur et aucune référence
+      n'est circulaire. Les feuilles d'archive des exercices antérieurs, conservées telles
+      quelles, en portent encore</li>
   </ul>
 
   <h3>Éléments en cours de validation</h3>
@@ -1225,21 +1367,21 @@ P.append(f"""<div class="page">
   </ul>
 
   <h3>Sources</h3>
-  <p style="font-size:8.5pt;color:{GRIS}">États financiers compilés FY2023 à FY2025
-  (mission de compilation, sans audit ni examen) · QuickBooks Online pour le réel FY2026 ·
+  <p style="font-size:8.5pt;color:{GRIS}">États financiers compilés 2022-2023 à 2024-2025
+  (mission de compilation, sans audit ni examen) · QuickBooks Online pour le réel 2025-2026 ·
   Shopify pour les ventes, commandes, clients et sessions · Groupe CTT pour les essais
   d'isolation de la membrane · Chaire de recherche industrielle sur les matériaux innovants en composites de l'Université de Sherbrooke pour la comparaison au duvet · World Wildlife Fund-México pour les colonies de monarques ·
   registre public des espèces en péril du gouvernement du Canada pour le statut du
   monarque.</p>
-  {foot(13)}""")
+  {foot(15)}""")
 
 # ------------------------------------------------------------------ 12 CONCLUSION
 P.append(f"""<div class="page">
-  <div class="sect"><span class="num">14</span><h2>Synthèse</h2></div>
+  <div class="sect"><span class="num">16</span><h2>Synthèse</h2></div>
 
   <p>Lasclay a franchi les étapes les plus difficiles d'une entreprise pionnière :
   apprendre une matière que personne ne maîtrisait, bâtir une demande de 70 000 clients,
-  porter la marge brute de 44 % à 73 %, et atteindre la rentabilité en FY2025. Ce qui
+  porter la marge brute de 44 % à 73 %, et atteindre la rentabilité en 2024-2025. Ce qui
   bloque n'est pas le marché.</p>
 
   <p>Ce sont quatre contraintes techniques, et elles tombent ensemble. Le coût de la fibre
@@ -1258,7 +1400,7 @@ P.append(f"""<div class="page">
   seul les six premières années, apporte {pct((C['dtc'][3] - C['dtc'][0])
   / (C['dtc'][3] + C['detail'][3] - C['dtc'][0]), 0)} de la progression dans la lecture
   prudente, en croissant de {pct(CAGR_C)} par an, soit la moitié du rythme tenu depuis
-  FY2022. Le canal détail apporte le reste. Un déploiement en magasin plus lent que prévu
+  2021-2022. Le canal détail apporte le reste. Un déploiement en magasin plus lent que prévu
   ralentit la trajectoire sans l'annuler.</p>
 
   <div class="tiles" style="margin:20px 0">
@@ -1269,13 +1411,13 @@ P.append(f"""<div class="page">
       <div class="k">Marge saisonnière</div><div class="n">creux d'automne</div></div>
     <div class="tile o"><div class="v">{fr(S['argent_neuf'], 0, '')} $</div>
       <div class="k">Argent neuf net</div><div class="n">le reste remplace de la dette</div></div>
-    <div class="tile o"><div class="v">FY2028</div><div class="k">Rentable hors aides</div>
+    <div class="tile o"><div class="v">2027-2028</div><div class="k">Rentable hors aides</div>
       <div class="n">et couverture au-dessus de 1,25</div></div>
   </div>
 
-  <p>Le financement sert à traverser <strong>FY2027</strong>, seul exercice où la
+  <p>Le financement sert à traverser <strong>2026-2027</strong>, seul exercice où la
   couverture reste sous le seuil bancaire.
-  À partir de FY2028, l'exploitation porte son service de la dette, les capitaux propres
+  À partir de 2027-2028, l'exploitation porte son service de la dette, les capitaux propres
   redeviennent positifs, et l'entreprise cesse de dépendre des aides publiques pour
   afficher un résultat positif.</p>
 
@@ -1294,7 +1436,7 @@ P.append(f"""<div class="page">
     modèle financier et ne constituent pas une garantie de résultats futurs. Les repères
     de performance de la fibre décrivent la matière en laboratoire et non un produit fini.
   </div>
-  {foot(14)}""")
+  {foot(16)}""")
 
 html = CSS + ''.join(P)
 

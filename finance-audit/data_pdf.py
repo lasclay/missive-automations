@@ -53,6 +53,51 @@ for scen,name in ((1,'cons'),(2,'amb')):
     out[name]['dscr']=dscr
     out[name]['service']=[round(bk.get(P,t+'149'),2) for t in TOT]
 bk=xlcalc.load('pdf1.xlsx')
+# Le canal détail, tel que « Détail par ville » le construit : la référence des
+# Défricheuses, les villes classées par potentiel, et le déploiement.
+V='Détail par ville'
+bkv=xlcalc.load('pdf1.xlsx')
+villes=[]
+r=25
+while True:
+    nom=bkv.get(V,f'A{r}')
+    if not isinstance(nom,str) or not nom or nom.startswith('PLAFOND'): break
+    villes.append({'ville':nom,'prov':bkv.get(V,f'B{r}'),
+                   'pop':int(bkv.get(V,f'C{r}')),
+                   'en_ligne':round(bkv.get(V,f'D{r}')),
+                   'indice':round(bkv.get(V,f'F{r}'),2),
+                   'revenu':round(bkv.get(V,f'G{r}')),
+                   'ouv_c':bkv.get(V,f'H{r}'),'ouv_a':bkv.get(V,f'I{r}')})
+    r+=1
+bka=xlcalc.load('pdf2.xlsx')
+out['detail']={
+ 'defricheuses':[round(bkv.get(V,f'B{5+i}'),2) for i in range(12)],
+ 'defricheuses_an':round(bkv.get(V,'B17'),2),
+ 'defricheuses_detail':round(bkv.get(V,'B18'),2),
+ 'calibre_c':bkv.get(V,'B19'),'calibre_a':bkv.get(V,'B20'),
+ 'facteur_roc':bkv.get(V,'B23'),
+ 'villes':villes,
+ 'plafond_c':round(bkv.get(V,f'G{r}')),
+ 'plafond_a':round(bka.get(V,f'G{r}')),
+ 'pos_c':[1.0]+[round(bkv.get(P,t+'13')) for t in TOT[1:]],
+ 'pos_a':[1.0]+[round(bka.get(P,t+'13')) for t in TOT[1:]],
+}
+# Sensibilité au calibre : c'est le seul jugement du modèle, alors on montre ce
+# qu'il coûte de se tromper. Le classeur est recalculé pour chaque valeur.
+sens=[]
+for cal in (2.0, 3.0, 4.0, 5.0):
+    ed=Editor(F); ed.expand_shared()
+    ed.set('Inputs','C70',1.0)
+    ed.set(V,'B19',cal); ed.set(V,'B20',cal)
+    ed.set_full_calc(); ed.save('sens.xlsx')
+    bs=xlcalc.load('sens.xlsx')
+    sens.append({'calibre':cal,
+      'par_pdv':round(bs.get(V,'B22')),
+      'detail':round(bs.get(P,'BF12')),
+      'ventes':round(bs.get(P,'BF26')),
+      'hors':round(bs.get(P,'BF141'))})
+out['detail']['sensibilite']=sens
+
 out['fy26_mois']={
  'ventes':[round(bk.get(P,f'{c}26')) for c in 'DEFGHIJKLMNO'],
  'pub':[round(bk.get(P,f'{c}78')) for c in 'DEFGHIJKLMNO'],

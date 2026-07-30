@@ -42,7 +42,8 @@ classeur en 1,2 seconde.
 | `fix_ab.py` `fix_ac.py` | Budget de FY2026 figé (un exercice fermé ne se rebudgète pas) et section « ce qui s'est passé en juin et juillet 2026 ». |
 | `fix_ad.py` → `fix_aj.py` | Canal détail en consignation au Canada, modélisé par ses pilotes, et les deux scénarios : conservateur réaliste et ambitieux. |
 | `fix_ak.py` | Bloc 2028-2029 de « Ventes prévisionnelles », répliqué du bloc précédent décalé de quinze colonnes ; blocs périmés et exercice fermé masqués. |
-| `fix_al.py` | Scénario ambitieux recalibré sur 3,4 M$ en FY2029 (51 % de croissance composée, contre 39,8 % démontrés), et ses ratios de coûts alignés sur ceux du conservateur. |
+| `fix_al.py` | Scénario ambitieux recalibré (croissance composée ramenée près de ce qui a été démontré), et ses ratios de coûts alignés sur ceux du conservateur. |
+| `fix_am.py` | Canal détail reconstruit ville par ville sur les rapports de consignation des Défricheuses et les ventes en ligne par ville. Feuille « Détail par ville », univers borné à quarante villes nommées, et l'exercice 2025-2026 qui portait zéro vente au détail alors qu'il y en avait pour 13 801 $. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
 | `fix_y.py` | Réparation de la mise en page : remet la table `cellXfs` dans l'ordre et donne un format aux cellules créées par la révision. À exécuter après toute série d'écritures. |
@@ -84,6 +85,19 @@ classeur en 1,2 seconde.
   exercice : croissance, quantité annuelle, douze mois, total. Les libellés de produits
   ne sont écrits que dans trois colonnes (A:C, T:V, AM:AO) ; le jeu AM:AO sert à tous
   les blocs à partir de 2026-2027, donc il ne se masque pas.
+- **Les douze mois d'une rangée réelle ne partagent pas une formule.** Chaque mois de
+  l'exercice 2025-2026 va chercher SA colonne dans « QBO P&L à maj » : recopier la
+  formule de septembre sur les onze autres efface onze mois de réel sans rien casser de
+  visible. Et dans la même rangée, juillet et août 2026 restent prévisionnels et lisent
+  la rangée 5 du résultat plutôt que la rangée 3. Reprendre la formule existante, jamais
+  la réécrire.
+- **Un script de révision doit être rejouable.** Ajouter une soustraction à une formule
+  existante l'empile à chaque exécution. Retirer d'abord ce qu'on s'apprête à poser.
+- **`add_sheet()` ne met pas `sheetpart` à jour.** Sans `e.sheetpart[nom] = e.order[-1]`,
+  plus rien ne peut désigner la feuille qu'on vient de créer.
+- **La virgule décimale française ne s'applique jamais à une chaîne entière.** Un
+  `.replace('.', ',')` posé sur un élément SVG complet corrompt les coordonnées : les
+  libellés atterrissent hors du cadre. Composer le libellé à part.
 - **Le canal détail et le commerce en ligne ne se lisent pas sur la même base.** La
   rangée 12 du résultat porte ce que Lasclay encaisse du détail ; la rangée 18 est le
   revenu après escomptes, la rangée 26 les ventes nettes. Le transport net et les
