@@ -105,30 +105,35 @@ def combo_chart(labels, ventes, pub, width=680, height=225):
 
 
 def ramp_chart(labels, cons, amb, width=680, height=190):
-    """Points de vente : deux rampes."""
+    """Points de vente : deux rampes.
+
+    Les points extrêmes sont rentrés de 30 px : centrés sur x=0 et x=width, leur
+    libellé et leur valeur sortaient du cadre et se faisaient tronquer."""
     top = max(amb) or 1
     y0, yt = height - 28, 18
-    gw = width / (len(labels) - 1)
+    pad = 30
+    gw = (width - 2 * pad) / (len(labels) - 1)
+    px = lambda i: pad + i * gw
     out = [f'<svg viewBox="0 0 {width} {height}" class="chart">']
     out.append(f'<line x1="0" y1="{y0}" x2="{width}" y2="{y0}" stroke="{LIGNE}"/>')
-    for s, col, dash in ((amb, ORANGE, '4 3'), (cons, VERT, '')):
-        p = ' '.join(f'{i * gw:.1f},{y0 - v / top * (y0 - yt):.1f}'
-                     for i, v in enumerate(s))
+    for s_, col, dash in ((amb, ORANGE, '4 3'), (cons, VERT, '')):
+        p = ' '.join(f'{px(i):.1f},{y0 - v / top * (y0 - yt):.1f}'
+                     for i, v in enumerate(s_))
         out.append(f'<polyline points="{p}" fill="none" stroke="{col}" '
                    f'stroke-width="2.4" stroke-dasharray="{dash}"/>')
-        for i, v in enumerate(s):
+        for i, v in enumerate(s_):
             y = y0 - v / top * (y0 - yt)
-            out.append(f'<circle cx="{i * gw:.1f}" cy="{y:.1f}" r="3" fill="{col}"/>')
+            out.append(f'<circle cx="{px(i):.1f}" cy="{y:.1f}" r="3" fill="{col}"/>')
             if v:
-                out.append(f'<text x="{i * gw:.1f}" y="{y - 8:.1f}" class="bv" '
+                out.append(f'<text x="{px(i):.1f}" y="{y - 8:.1f}" class="bv" '
                            f'fill="{col}">{v:.0f}</text>')
     for i, lab in enumerate(labels):
-        out.append(f'<text x="{i * gw:.1f}" y="{height - 9}" class="bl">{lab}</text>')
+        out.append(f'<text x="{px(i):.1f}" y="{height - 9}" class="bl">{lab}</text>')
     out.append('</svg>')
     return ''.join(out) + legend([('Conservateur', VERT), ('Ambitieux', ORANGE)])
 
 
-def stack_chart(labels, web, detail, width=680, height=225):
+def stack_chart(labels, web, detail, width=680, height=195):
     """Ventes nettes empilées : en ligne + détail."""
     tot = [w + d for w, d in zip(web, detail)]
     top = max(tot) or 1
@@ -155,6 +160,49 @@ def stack_chart(labels, web, detail, width=680, height=225):
     return ''.join(out) + legend([('Commerce en ligne', VERT),
                                   ('Canal détail (consignation)', ORANGE)])
 
+
+
+def moteurs_chart(labels, web, detail, width=680, height=200):
+    """Les deux moteurs de la croissance, empilés, chacun avec sa progression.
+
+    Le canal détail part de zéro et frappe l'oeil ; sans cette lecture, on croit
+    qu'il porte la croissance à lui seul. La progression du commerce en ligne est
+    donc écrite dans son propre segment."""
+    tot = [w + d for w, d in zip(web, detail)]
+    top = max(tot) or 1
+    y0, yt = height - 30, 34
+    gw = width / len(labels)
+    bw = gw * 0.44
+    out = [f'<svg viewBox="0 0 {width} {height}" class="chart">']
+    out.append(f'<line x1="0" y1="{y0}" x2="{width}" y2="{y0}" stroke="{LIGNE}"/>')
+    for i, (w, d) in enumerate(zip(web, detail)):
+        x = i * gw + (gw - bw) / 2
+        hw = w / top * (y0 - yt)
+        hd = d / top * (y0 - yt)
+        out.append(f'<rect x="{x:.1f}" y="{y0 - hw:.1f}" width="{bw:.1f}" '
+                   f'height="{hw:.1f}" fill="{VERT}" rx="1.5"/>')
+        out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - hw / 2 + 4:.1f}" class="bv" '
+                   f'fill="#ffffff">{w / 1000:.0f} k$</text>')
+        if d:
+            out.append(f'<rect x="{x:.1f}" y="{y0 - hw - hd:.1f}" width="{bw:.1f}" '
+                       f'height="{hd:.1f}" fill="{ORANGE}" rx="1.5"/>')
+            out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - hw - hd / 2 + 4:.1f}" '
+                       f'class="bv" fill="#ffffff">{d / 1000:.0f} k$</text>')
+        if i:
+            # La virgule décimale ne se pose que sur le libellé : appliquée à la
+            # chaîne entière, elle corromprait les coordonnées du SVG.
+            g = f'en ligne {(web[i] / web[i - 1] - 1) * 100:+.0f} %'.replace('.', ',')
+            out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - hw - hd - 20:.1f}" '
+                       f'class="bv" fill="{VERT}">{g}</text>')
+        if d:
+            out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - hw - hd - 7:.1f}" '
+                       f'class="bv">{(w + d) / 1000:.0f} k$ au total</text>')
+    for i, lab in enumerate(labels):
+        out.append(f'<text x="{i * gw + gw / 2:.1f}" y="{height - 10}" '
+                   f'class="bl">{lab}</text>')
+    out.append('</svg>')
+    return ''.join(out) + legend([('Commerce en ligne', VERT),
+                                  ('Canal détail (consignation)', ORANGE)])
 
 
 def hbar(rows, width=680, rowh=42, fmt=None):
@@ -325,7 +373,7 @@ ul.o li:before {{ background:{ORANGE}; }}
 </style>"""
 
 
-def foot(n, tot=12):
+def foot(n, tot=14):
     return (f'<div class="foot"><span>LASCLAY · PRÉVISIONS FINANCIÈRES 2026-2029</span>'
             f'<span>{n} / {tot}</span></div></div>')
 
@@ -339,18 +387,20 @@ P = []   # les pages
 
 # ------------------------------------------------------------------ COUVERTURE
 SOMMAIRE = [
-    ('01', 'Ce que disent six ans de ventes', 1),
-    ('02', 'La demande, testée trois fois', 2),
-    ('03', 'Juin et juillet 2026 : ce que coûte le manque de trésorerie', 3),
-    ('04', 'Le coût de la fibre et le maillage industriel', 4),
-    ('05', 'De la production artisanale à l’isolant en rouleau', 5),
-    ('06', 'Le marketing et le développement des marchés', 6),
-    ('07', 'Les coûts fixes et l’infrastructure numérique', 7),
-    ('08', 'Les trois marchés que la restructuration ouvre', 8),
-    ('09', 'Les projections : deux scénarios', 9),
-    ('10', 'Structure de financement et facteurs de risque', 10),
-    ('11', 'La méthode et les sources', 11),
-    ('12', 'Synthèse', 12),
+    ('01', 'L’asclépiade, la filière et ses échecs', 1),
+    ('02', 'Ce que disent six ans de ventes', 2),
+    ('03', 'La demande, testée trois fois', 3),
+    ('04', 'Juin et juillet 2026 : ce que coûte le manque de trésorerie', 4),
+    ('05', 'Le coût de la fibre et le maillage industriel', 5),
+    ('06', 'De la production artisanale à l’isolant en rouleau', 6),
+    ('07', 'Le marketing et le développement des marchés', 7),
+    ('08', 'Les coûts fixes et l’infrastructure numérique', 8),
+    ('09', 'Deux moteurs, et le plus gros existe déjà', 9),
+    ('10', 'Les trois marchés que la restructuration ouvre', 10),
+    ('11', 'Les projections : deux scénarios', 11),
+    ('12', 'Structure de financement et facteurs de risque', 12),
+    ('13', 'La méthode et les sources', 13),
+    ('14', 'Synthèse', 14),
 ]
 toc = ''.join(
     f'<div class="toci"><span class="n">{n}</span><span class="t">{t}</span>'
@@ -375,7 +425,7 @@ P.append(f"""<div class="page cover">
 
   <div class="cnote">Deux scénarios coexistent dans le même modèle : conservateur
     réaliste, qui porte les ventes nettes à 2,79 M$ en FY2029, et ambitieux, qui les
-    porte à 4,10 M$. Une seule cellule bascule de l'un à l'autre. Ni l'un ni l'autre
+    porte à 3,41 M$. Une seule cellule bascule de l'un à l'autre. Ni l'un ni l'autre
     n'inclut de subvention non confirmée.</div>
 
   <div class="meta">LES PRODUITS LASCLAY INC. &nbsp;·&nbsp; QUÉBEC (LIMOILOU)
@@ -383,16 +433,100 @@ P.append(f"""<div class="page cover">
     Modèle mensuel de 48 mois rapproché de QuickBooks</div>
 </div>""")
 
+# ------------------------------------------------------------------ 01 CONTEXTE
+P.append(f"""<div class="page">
+  <div class="kicker">La matière et la filière</div>
+  <div class="sect"><span class="num">01</span><h2>L’asclépiade, la filière et ses échecs</h2></div>
+  <div class="lede">Ce qu’est l’asclépiade, pourquoi sa culture est un mécanisme de
+    conservation, et pourquoi personne n’a réussi à la commercialiser avant.</div>
+
+  <h3>La plante</h3>
+  <p>L’asclépiade commune (<em>Asclepias syriaca</em>) est une vivace indigène
+  d’Amérique du Nord, longtemps éliminée comme mauvaise herbe et aujourd’hui cultivée
+  commercialement au Québec, à une échelle unique au monde. Ses follicules produisent
+  une soie dont la fibre est creuse et <strong>vide à 80 %</strong> : elle emprisonne
+  l’air, ce qui la rend isolante, légère, hydrophobe, antibactérienne et imputrescible.
+  La Chaire de recherche industrielle sur les matériaux innovants en composites de
+  l’Université de Sherbrooke la décrit comme <strong>20 % plus chaude que le duvet
+  d’oie</strong> à poids égal.</p>
+
+  <div class="two">
+    <div class="card v"><h4>Un mécanisme de conservation mesuré</h4>
+      <p style="font-size:8.7pt;margin:0">L’asclépiade est l’unique plante hôte des
+      chenilles du monarque, espèce inscrite comme en voie de disparition au Canada.
+      Les colonies mexicaines ont frôlé l’extinction en 2014, puis ont atteint
+      <strong>leur plus haut niveau en vingt ans</strong> après la plantation de plus de
+      1 000 hectares d’asclépiade au Québec, en Ontario et aux États-Unis. Le levier
+      n’est pas militant, il est économique : un pilier écosystémique qui ne se restaure
+      que si sa culture devient payante.</p></div>
+    <div class="card v"><h4>Une ressource comparable à aucune autre</h4>
+      <p style="font-size:8.7pt;margin:0">Contrairement aux synthétiques fossiles, elle
+      est renouvelable et sa culture stocke du carbone. Contrairement au duvet, à la
+      laine et à la fourrure, elle ne dépend d’aucun élevage. Contrairement au kapok,
+      elle est locale et pousse densément. Contrairement au PLA, elle occupe des terres
+      marginales sans concurrencer l’alimentaire. Contrairement au coton, elle pousse en
+      région nordique sans irrigation, sans engrais et sans insecticide.</p></div>
+  </div>
+
+  <h3>Dix ans de tentatives, et pourquoi elles ont échoué</h3>
+  <table>
+    <tr><th>Année</th><th style="text-align:left">Ce qui s’est passé</th></tr>
+    <tr><td style="text-align:left">2014</td><td style="text-align:left">La Coopérative
+      Monark réunit un premier groupe de cultivateurs, qui consacrent au plus 10 % de
+      leur terre à l’asclépiade. Protec-Style démarre une usine de transformation.</td></tr>
+    <tr><td style="text-align:left">2011-2017</td><td style="text-align:left">Deux
+      tentatives de récolteuse mécanisée échouent. Sans mécanisation, la culture à
+      grande échelle n’est pas rentable et des cultivateurs rasent leurs champs.</td></tr>
+    <tr><td style="text-align:left">2017</td><td style="text-align:left">Quartz co.
+      lance le premier parka isolé à 50 % d’asclépiade. Vif succès, à près de 1 000 $
+      l’unité.</td></tr>
+    <tr class="hio"><td style="text-align:left">2017</td><td style="text-align:left">
+      Protec-Style fait faillite, faute d’approvisionnement. Quartz discontinue son
+      parka faute de matière. L’asclépiade reste étiquetée comme un matériau de
+      luxe.</td></tr>
+    <tr><td style="text-align:left">Depuis</td><td style="text-align:left">L’héritier de
+      Protec-Style est Eko-Terre, filiale de Logistik Unicorp. Sa membrane Vegeto
+      contient 50 % de PLA, 35 % de kapok et <strong>15 % d’asclépiade</strong> : une
+      teneur trop faible pour générer le volume d’achat dont les cultivateurs ont
+      besoin.</td></tr>
+  </table>
+
+  <p>La fibre explique une partie de ces échecs. Creuse, courte et très lisse, elle se
+  casse et ne s’enchevêtre pas, ce qui rend son tissage presque impossible. Elle
+  s’organise en non-tissé, mais pas avec des équipements standards : il faut les
+  inventer ou les adapter, ce qui décuple les coûts.</p>
+
+  <div class="quote">Le plus grand problème de la filière n’est ni sa jeunesse ni sa
+    complexité : c’est son morcellement. Trop d’intermédiaires isolés dans leur champ
+    d’expertise, qui collaborent peu ou collaborent mal, et des goulots
+    d’étranglement à chaque étape de la chaîne.</div>
+
+  {foot(1)}""")
+
 # ------------------------------------------------------------------ 01 THÈSE
 P.append(f"""<div class="page">
   <div class="kicker">Contexte</div>
-  <div class="sect"><span class="num">01</span><h2>Ce que disent six ans de ventes</h2></div>
+  <div class="sect"><span class="num">02</span><h2>Ce que disent six ans de ventes</h2></div>
   <div class="lede">En 2020, une publication devient virale. 10 000 inscriptions à
     l'infolettre en deux semaines, 1 000 paires de mitaines vendues avant d'avoir une
     usine. Six ans plus tard, 70 000 clients et 3 M$ cumulés. La demande n'a jamais
     manqué. Ce sont quatre contraintes techniques qui ont empêché de la servir.</div>
 
-  {bar_chart([('Revenu brut', hist_ca, VERT)], hist_lab, height=175,
+  <h3>Ce que Lasclay fait différemment</h3>
+  <ul>
+    <li><strong>Intégration verticale</strong>, qui permet d’agir aux intersections de la
+      chaîne plutôt que sur un seul maillon</li>
+    <li><strong>Des procédés adaptés à la fibre</strong>, plutôt que la fibre adaptée aux
+      procédés existants</li>
+    <li><strong>Les mitaines avant les manteaux</strong> : un produit d’entrée abordable,
+      moins cher à fabriquer en volume, qui fait découvrir la matière</li>
+    <li><strong>Un lien direct avec des cultivateurs indépendants</strong>, payés environ
+      cinq fois le prix du marché</li>
+    <li><strong>60 à 80 % d’asclépiade</strong> dans les produits : c’est le volume
+      d’achat qui fait vivre la filière</li>
+  </ul>
+
+  {bar_chart([('Revenu brut', hist_ca, VERT)], hist_lab, height=160,
              fmt=lambda v: f'{v/1000:.0f} k$')}
   <div class="fig">Revenu brut par exercice. FY2022 selon les registres internes ;
     FY2023 à FY2025 selon les états financiers compilés ; FY2026 selon QuickBooks.
@@ -403,20 +537,20 @@ P.append(f"""<div class="page">
   mémo, avec les chiffres qui la mesurent et ce qui la lève.</p>
   <div class="verrou"><span class="n">1</span><p><strong>La fibre coûte 85 $ le kilo</strong>,
     contre 4 $ pour la laine. Ce prix ne vient pas d'une rareté mais d'une filière trop
-    petite pour mécaniser sa récolte. Le partenariat industriel avec Eko-Terre triple le
-    volume d'achat de fibre, qui est la condition de la baisse. <em>Section 04.</em></p></div>
+    petite pour mécaniser sa récolte. Le partenariat industriel avec Eko-Terre porte la teneur
+    en asclépiade de 15 % à 60 %, ce qui multiplie d'autant le volume d'achat de fibre. <em>Section 05.</em></p></div>
   <div class="verrou"><span class="n">2</span><p><strong>L'isolant se fabrique
     artisanalement.</strong> Le procédé, inventé à l'interne, demandait sept à huit
     personnes en haute saison et n'entre dans aucune usine textile du monde. En rouleau,
     couvrir les besoins d'une année a demandé deux employés pendant deux semaines.
-    <em>Section 05.</em></p></div>
+    <em>Section 06.</em></p></div>
   <div class="verrou o"><span class="n">3</span><p><strong>Le marketing et le développement
     des marchés sont restés sous-investis.</strong> Le coût d'acquisition d'un client est
     passé de 20,11 $ à 31,88 $ en un an. Sortir du manufacturier libère le temps et la
-    marge qui manquaient. <em>Section 06.</em></p></div>
+    marge qui manquaient. <em>Section 07.</em></p></div>
   <div class="verrou o"><span class="n">4</span><p><strong>Les coûts fixes montaient au
     rythme des ventes.</strong> Usine, loyer, main-d'œuvre de production et abonnements
-    logiciels. La structure allégée libère environ 155 000 $ par année. <em>Section 07.</em></p></div>
+    logiciels. La structure allégée libère environ 155 000 $ par année. <em>Section 08.</em></p></div>
 
   <div class="tiles">
     <div class="tile"><div class="v">70 000</div><div class="k">Clients</div>
@@ -428,12 +562,12 @@ P.append(f"""<div class="page">
     <div class="tile o"><div class="v">FY2028</div><div class="k">Rentable hors aides</div>
       <div class="n">et couverture au-dessus de 1,25</div></div>
   </div>
-  {foot(1)}""")
+  {foot(2)}""")
 
 # ------------------------------------------------------------------ 02 DEMANDE
 P.append(f"""<div class="page">
   <div class="kicker">Preuve de marché</div>
-  <div class="sect"><span class="num">02</span><h2>La demande, testée trois fois</h2></div>
+  <div class="sect"><span class="num">03</span><h2>La demande, testée trois fois</h2></div>
   <div class="lede">Trois épreuves distinctes, à six ans d'intervalle, ont mesuré
     l'appétit du marché pour l'asclépiade. Les trois ont répondu la même chose.</div>
 
@@ -484,12 +618,12 @@ P.append(f"""<div class="page">
   étaient déjà clients, et ils ont dépensé 58 % de plus par commande que la moyenne
   annuelle. La transparence a été traitée comme une raison d'acheter, pas comme un motif
   de rupture.</p>
-  {foot(2)}""")
+  {foot(3)}""")
 
 # ------------------------------------------------------------------ 03 JUIN
 P.append(f"""<div class="page">
   <div class="kicker">Trésorerie</div>
-  <div class="sect"><span class="num">03</span><h2>Juin et juillet 2026 : ce que coûte le manque de trésorerie</h2></div>
+  <div class="sect"><span class="num">04</span><h2>Juin et juillet 2026 : ce que coûte le manque de trésorerie</h2></div>
   <div class="lede">Le budget publicitaire est tombé à zéro en juillet 2026. L'effet sur
     les ventes se mesure au mois près.</div>
 
@@ -524,8 +658,8 @@ P.append(f"""<div class="page">
       <tr class="tot"><td>Total au 31 août 2026</td><td>367 479 $</td></tr></table>
       <p style="margin-top:7px;font-size:8.5pt;color:{GRIS}">Shopify Capital prélève
       <strong>28,75 % de chaque dollar vendu</strong>, tous les jours. Plus l'entreprise
-      vend, plus elle rembourse vite, moins il lui reste pour acheter le stock suivant.
-      C'est un mécanisme procyclique : il punit la croissance.</p></div>
+      vend, moins il lui reste pour acheter le stock suivant. Un mécanisme procyclique,
+      qui punit la croissance.</p></div>
     <div class="card o"><h4>Ce qu'il en restait au 30 juin</h4>
       <table style="margin:4px 0 0"><tr><td>Encaisse</td><td>{fr(S['encaisse_juin'])}</td></tr>
       <tr><td>Marge EDC autorisée</td><td>150 000 $</td></tr>
@@ -535,23 +669,24 @@ P.append(f"""<div class="page">
       marge a été tirée de 59 475 $ de plus, dans le mois le plus mort de l'année.</p></div>
   </div>
 
-  <p style="margin-top:9px">Le manque à gagner se chiffre : <strong>117 037 $</strong> de
-  ventes brutes en juin et juillet 2025, contre <strong>15 466 $</strong> aux mêmes mois
-  de 2026. Plus de 100 000 $ perdus, faute de 40 000 $ de publicité.</p>
-  {foot(3)}""")
+  <p style="margin-top:6px">Le manque à gagner : <strong>117 037 $</strong> de ventes
+  brutes en juin et juillet 2025, contre <strong>15 466 $</strong> aux mêmes mois de
+  2026. Plus de 100 000 $ perdus, faute de 40 000 $ de publicité.</p>
+  {foot(4)}""")
 
 # ------------------------------------------------------------------ 04 VERROU 1
 P.append(f"""<div class="page">
   <div class="kicker">Approvisionnement</div>
-  <div class="sect"><span class="num">04</span><h2>Le coût de la fibre et le maillage industriel</h2></div>
+  <div class="sect"><span class="num">05</span><h2>Le coût de la fibre et le maillage industriel</h2></div>
   <div class="lede">L'asclépiade se vend 85 $ le kilo. C'est ce prix qui la fait
     percevoir comme un matériau de luxe et qui ferme les marchés de volume. Il n'a rien
     d'inévitable.</div>
 
   {fibre_chart()}
   <div class="fig">Prix indicatif au kilo des principaux isolants textiles, échelle
-    logarithmique. À poids égal, la soie d'asclépiade est donnée pour environ 10 % plus
-    isolante que le duvet (Knudsen et Zeller, 1993).</div>
+    logarithmique. À poids égal, la soie d'asclépiade est décrite comme 20 % plus chaude
+    que le duvet d'oie par la Chaire de recherche industrielle sur les matériaux
+    innovants en composites de l'Université de Sherbrooke.</div>
 
   <h3>Le cercle vicieux, expliqué</h3>
   <p>Le prix de l'asclépiade ne reflète pas une rareté ni une limite physique. Il reflète
@@ -564,12 +699,13 @@ P.append(f"""<div class="page">
     <h4>Ce qui casse le cercle</h4>
     <p style="margin:0;font-size:8.8pt">Le seul autre transformateur industriel
     d'asclépiade au Canada, <strong>Eko-Terre</strong> (Cowansville, fondée par Louis
-    Bibeau, également fondateur de Logistik Unicorp), fabrique une membrane isolante
-    utilisée dans les uniformes de la <strong>Garde côtière canadienne</strong> et de
-    <strong>Postes Canada</strong>. Sa teneur en asclépiade plafonne à 20 %, parce que
-    ses marchés institutionnels fonctionnent par appel d'offres au plus bas
-    soumissionnaire. Le projet commun vise <strong>60 % d'asclépiade</strong>. Tripler la
-    teneur triple le volume d'achat de fibre, précisément le volume qui rend la
+    filiale de Logistik Unicorp et héritière de Protec-Style), fabrique la membrane
+    Vegeto, utilisée dans les uniformes de la <strong>Garde côtière canadienne</strong>
+    et de <strong>Postes Canada</strong>. Sa composition est de 50 % de PLA, 35 % de
+    kapok et <strong>15 % d'asclépiade</strong> : ses marchés institutionnels
+    fonctionnent par appel d'offres au plus bas soumissionnaire, ce qui interdit une
+    teneur plus élevée. Le projet commun vise <strong>60 % d'asclépiade</strong>. Quadrupler la
+    teneur multiplie d'autant le volume d'achat de fibre, précisément le volume qui rend la
     mécanisation rentable et qui fait baisser le coût.</p>
   </div>
 
@@ -606,12 +742,12 @@ P.append(f"""<div class="page">
   d'une demande au Fonds Vision Topping et s'inscrit dans un montage plus large.
   <strong>Il n'est pas dans les projections financières de ce document</strong>, qui
   restent volontairement conservatrices.</p>
-  {foot(4)}""")
+  {foot(5)}""")
 
 # ------------------------------------------------------------------ 05 VERROU 2
 P.append(f"""<div class="page">
   <div class="kicker">Production</div>
-  <div class="sect"><span class="num">05</span><h2>De la production artisanale à l’isolant en rouleau</h2></div>
+  <div class="sect"><span class="num">06</span><h2>De la production artisanale à l’isolant en rouleau</h2></div>
   <div class="lede">C'est le verrou central, et celui dont la levée se mesure le plus
     brutalement.</div>
 
@@ -669,12 +805,12 @@ P.append(f"""<div class="page">
   (oreillers, coussins). C'est le cœur stratégique et la source de l'avantage : une fibre
   locale que personne d'autre ne maîtrise à cette échelle. Ce qui part, c'est l'assemblage
   textile, une compétence que le Québec a perdue il y a trente ans.</p>
-  {foot(5)}""")
+  {foot(6)}""")
 
 # ------------------------------------------------------------------ 06 VERROU 3
 P.append(f"""<div class="page">
   <div class="kicker">Mise en marché</div>
-  <div class="sect"><span class="num">06</span><h2>Le marketing et le développement des marchés</h2></div>
+  <div class="sect"><span class="num">07</span><h2>Le marketing et le développement des marchés</h2></div>
   <div class="lede">C'est le verrou le moins visible dans un bilan, et probablement le
     plus coûteux : ce que l'entreprise n'a pas pu faire pendant qu'elle faisait tourner
     une usine.</div>
@@ -732,12 +868,12 @@ P.append(f"""<div class="page">
   creuse la perte, puisqu'elle se rembourse dès la première commande, mais son rendement
   se dégrade quand personne n'a le temps de l'optimiser. Le canal détail, qui ne consomme
   aucune publicité, réduit structurellement cette dépendance.</p>
-  {foot(6)}""")
+  {foot(7)}""")
 
 # ------------------------------------------------------------------ 07 VERROU 4
 P.append(f"""<div class="page">
   <div class="kicker">Structure de coûts</div>
-  <div class="sect"><span class="num">07</span><h2>Les coûts fixes et l’infrastructure numérique</h2></div>
+  <div class="sect"><span class="num">08</span><h2>Les coûts fixes et l’infrastructure numérique</h2></div>
   <div class="lede">Un modèle où les dépenses montent au même rythme que les ventes ne
     devient jamais rentable, quelle que soit la croissance. C'est exactement ce qui s'est
     produit.</div>
@@ -760,9 +896,8 @@ P.append(f"""<div class="page">
   </table>
 
   <h3>L'infrastructure numérique : le chantier suivant</h3>
-  <p>Lasclay dépense chaque année une somme significative en abonnements logiciels et en
-  frais de plateforme. Une partie de cette pile peut être remplacée par des outils
-  internes, et l'entreprise a déjà démontré qu'elle savait le faire.</p>
+  <p>Une partie de la pile logicielle peut être remplacée par des outils internes, et
+  l'entreprise a déjà démontré qu'elle savait le faire.</p>
 
   <table>
     <tr><th>Poste, FY2026 réel</th><th>Montant</th><th style="text-align:left">Statut</th></tr>
@@ -783,31 +918,96 @@ P.append(f"""<div class="page">
   <h3>Ce qui est déjà bâti</h3>
   <ul class="o">
     <li><strong>Service client automatisé.</strong> Un système de réponse par IA traite
-      la boîte partagée trois fois par jour, dans la voix de la marque, avec garde-fous
-      et transparence affichée au client. Déployé depuis 2024, il a triplé le rendement
-      du service à la clientèle avec un taux d'exactitude supérieur à 90 %.
-      <strong>Aucune ressource de service client n'est prévue au plan d'embauche</strong></li>
+      la boîte partagée trois fois par jour, dans la voix de la marque. Déployé depuis
+      2024, il a triplé le rendement du service à la clientèle avec un taux d'exactitude
+      supérieur à 90 %. <strong>Aucune ressource de service client n'est prévue au plan
+      d'embauche</strong></li>
     <li><strong>Passerelles d'API internes.</strong> Des services maison relaient déjà
-      les opérations vers ShipStation, la plateforme courriel et QuickBooks, avec les
-      secrets isolés côté serveur. L'export complet des profils courriel est prêt, ce qui
-      rend la migration hors de la plateforme actuelle exécutable</li>
+      les opérations vers ShipStation, la plateforme courriel et QuickBooks. L'export
+      complet des profils courriel est prêt, ce qui rend la migration hors de la
+      plateforme actuelle exécutable</li>
     <li><strong>IA de connaissance interne.</strong> Un assistant conversationnel
       intégrant les savoirs et processus de l'entreprise, créé en 2024, assiste les
       employés dans leurs tâches</li>
     <li><strong>Vision machine à venir.</strong> Le prochain déploiement porte sur le
-      manufacturier : uniformiser une fibre naturellement volatile, ce qui est
-      pratiquement impossible manuellement à grande échelle. C'est le cœur technique du
+      manufacturier : uniformiser une fibre volatile, pratiquement impossible à la main
+      à grande échelle. C'est le cœur technique du
       projet de membrane à 60 %</li>
   </ul>
 
-  <p>Ces économies ne sont <strong>pas</strong> comptabilisées dans les projections. Elles
-  constituent une marge de sécurité, pas une hypothèse de rentabilité.</p>
-  {foot(7)}""")
+  <p>Ces économies ne sont <strong>pas</strong> comptabilisées dans les projections.</p>
+  {foot(8)}""")
 
-# ------------------------------------------------------------------ 08 DÉBLOQUE
+# ------------------------------------------------------------------ 08 MOTEURS
+CROI_A = A['dtc'][3] + A['detail'][3] - A['dtc'][0]
+CAGR_C = (C['dtc'][3] / C['dtc'][0]) ** (1 / 3) - 1
+CAGR_A = (A['dtc'][3] / A['dtc'][0]) ** (1 / 3) - 1
+CAGR_HIST = (hist_ca[4] / hist_ca[0]) ** (1 / 4) - 1
+P.append(f"""<div class="page">
+  <div class="kicker">D'où vient la croissance</div>
+  <div class="sect"><span class="num">09</span><h2>Deux moteurs, et le plus gros existe déjà</h2></div>
+  <div class="lede">Le canal détail est le nouveau venu, alors il attire l'attention. Il
+    n'apporte pourtant qu'un peu moins de la moitié de la croissance. Le reste vient du
+    commerce en ligne, qui a porté seul les six premières années et qui continue de
+    croître dans les deux scénarios.</div>
+
+  {moteurs_chart(YR, A['dtc'], A['detail'])}
+  <div class="fig">Scénario ambitieux, ventes nettes par moteur. Le commerce en ligne
+    passe de {fr(A['dtc'][0])} à {fr(A['dtc'][3])}, soit
+    {pct(A['dtc'][3] / A['dtc'][0] - 1, 0)} de plus, pendant que le canal détail se
+    construit à partir de zéro.</div>
+
+  <table>
+    <tr><th>Croissance FY2026 à FY2029</th><th>Conservateur</th><th>Ambitieux</th></tr>
+    <tr><td>Apportée par le commerce en ligne</td>
+      <td>{fr(C['dtc'][3] - C['dtc'][0])}</td><td>{fr(A['dtc'][3] - A['dtc'][0])}</td></tr>
+    <tr><td>Apportée par le canal détail</td>
+      <td>{fr(C['detail'][3])}</td><td>{fr(A['detail'][3])}</td></tr>
+    <tr class="hi"><td>Part de la croissance venant du commerce en ligne</td>
+      <td>{pct((C['dtc'][3] - C['dtc'][0])
+               / (C['dtc'][3] + C['detail'][3] - C['dtc'][0]), 0)}</td>
+      <td>{pct((A['dtc'][3] - A['dtc'][0]) / CROI_A, 0)}</td></tr>
+    <tr><td>Croissance annuelle du commerce en ligne</td>
+      <td>{pct(CAGR_C)}</td><td>{pct(CAGR_A)}</td></tr>
+    <caption>À titre de comparaison, le chiffre d'affaires a crû de {pct(CAGR_HIST)} par
+      an entre FY2022 et FY2026, entièrement en ligne, sans canal détail, sans isolant en
+      rouleau et sans structure de coûts assainie. Les deux scénarios projettent donc un
+      rythme en ligne nettement inférieur à celui que l'entreprise a déjà tenu.</caption>
+  </table>
+
+  <h3>Ce qui fait croître le commerce en ligne</h3>
+  <div class="two">
+    <div class="card v"><h4>Une base de clients qui rachète</h4>
+      <p style="font-size:8.6pt;margin:0">70 000 clients depuis 2020. Sur la prévente de
+      juin 2026, 425 des 499 acheteurs identifiés étaient déjà clients, avec un panier de
+      126,52 $ contre 79,92 $ en moyenne annuelle. Cette base se vend sans coût
+      d'acquisition.</p></div>
+    <div class="card v"><h4>Une acquisition qui redevient finançable</h4>
+      <p style="font-size:8.6pt;margin:0">La chute de juin et juillet 2026 vient de
+      l'arrêt du budget publicitaire, pas d'une baisse de la demande. Le coût par
+      acquisition remonte à {fr(S['cac25'], 2)} dans le modèle, contre
+      {fr(S['cac26'], 2)} en FY2026, parce que la marge unitaire assainie permet de
+      payer l'acquisition sans vider la trésorerie.</p></div>
+  </div>
+  <div class="two">
+    <div class="card v"><h4>Le marché américain, déjà amorcé</h4>
+      <p style="font-size:8.6pt;margin:0">Environ 20 % du chiffre d'affaires récent,
+      porté par l'horticole : quelque 250 000 $ de semences vendues en 2025, sur les
+      10 millions distribuées en Amérique du Nord. Une semence à 8 $ se vend plus
+      facilement qu'un produit à 100 $, et une part notable de ces clients migre ensuite
+      vers la gamme textile.</p></div>
+    <div class="card v"><h4>Des produits que l'atelier ne pouvait pas faire</h4>
+      <p style="font-size:8.6pt;margin:0">L'isolant en rouleau et la finition en Tunisie
+      ouvrent des gammes que la production artisanale interdisait, aux volumes et aux
+      prix du commerce en ligne. Le catalogue cesse d'être borné par la capacité de deux
+      personnes en atelier.</p></div>
+  </div>
+  {foot(9)}""")
+
+# ------------------------------------------------------------------ 09 DÉBLOQUE
 P.append(f"""<div class="page">
   <div class="kicker">Marchés</div>
-  <div class="sect"><span class="num">08</span><h2>Les trois marchés que la restructuration ouvre</h2></div>
+  <div class="sect"><span class="num">10</span><h2>Les trois marchés que la restructuration ouvre</h2></div>
   <div class="lede">Les quatre verrous levés ouvrent des canaux qui ne dépendent ni du
     budget publicitaire ni de la capacité de l'atelier.</div>
 
@@ -856,29 +1056,25 @@ P.append(f"""<div class="page">
       en est la porte d'entrée.</p></div>
   </div>
 
-  <h3>Le marché américain, déjà amorcé</h3>
-  <p>Les États-Unis représentent environ 20 % du chiffre d'affaires récent, portés par
-  l'horticole : environ 250 000 $ de semences vendues en 2025. La porte d'entrée est peu
-  chère (contribuer à hauteur de 8 $ se vend plus facilement qu'un produit textile à
-  100 $) et une part notable de ces clients migre ensuite vers des produits de plus
-  grande valeur. Environ 10 millions de semences ont été distribuées en Amérique du Nord.</p>
-  {foot(8)}""")
+  <p>Ces trois marchés s'ajoutent au commerce en ligne, ils ne s'y substituent pas. Seul
+  le canal détail figure dans les prévisions : l'international et l'institutionnel se
+  négocient sur des cycles trop longs pour être budgétés aujourd'hui, et n'apportent donc
+  aucun revenu aux tableaux qui suivent.</p>
+  {foot(10)}""")
 
 # ------------------------------------------------------------------ 09 CHIFFRES
 P.append(f"""<div class="page">
   <div class="kicker">Projections</div>
-  <div class="sect"><span class="num">09</span><h2>Les projections : deux scénarios</h2></div>
+  <div class="sect"><span class="num">11</span><h2>Les projections : deux scénarios</h2></div>
   <div class="lede">Un chiffrier mensuel de 48 mois rapproché de QuickBooks compte par
     compte, dont dix mois de FY2026 sont du réel. Une seule cellule bascule d'un scénario
     à l'autre.</div>
 
-  {stack_chart(YR, [v - d for v, d in zip(C['ventes'], C['detail'])], C['detail'])}
-  <div class="fig">Scénario conservateur : ventes nettes par exercice, part du commerce
-    en ligne et part du canal détail.</div>
 
   <table>
     <tr><th>Conservateur réaliste</th><th>FY2026</th><th>FY2027</th><th>FY2028</th><th>FY2029</th></tr>
     <tr><td>Ventes nettes</td>{''.join(f'<td>{fr(v)}</td>' for v in C['ventes'])}</tr>
+    <tr><td>&nbsp;&nbsp;dont commerce en ligne</td>{''.join(f'<td>{fr(v)}</td>' for v in C['dtc'])}</tr>
     <tr><td>&nbsp;&nbsp;dont canal détail</td>{''.join(f'<td>{fr(v)}</td>' for v in C['detail'])}</tr>
     <tr><td>Marge de contribution</td>{''.join(f'<td>{fr(v)}</td>' for v in C['contrib'])}</tr>
     <tr><td>EBITDA</td>{''.join(f'<td>{fr(v)}</td>' for v in C['ebitda'])}</tr>
@@ -894,6 +1090,7 @@ P.append(f"""<div class="page">
   <table>
     <tr><th>Ambitieux</th><th>FY2026</th><th>FY2027</th><th>FY2028</th><th>FY2029</th></tr>
     <tr><td>Ventes nettes</td>{''.join(f'<td>{fr(v)}</td>' for v in A['ventes'])}</tr>
+    <tr><td>&nbsp;&nbsp;dont commerce en ligne</td>{''.join(f'<td>{fr(v)}</td>' for v in A['dtc'])}</tr>
     <tr><td>&nbsp;&nbsp;dont canal détail</td>{''.join(f'<td>{fr(v)}</td>' for v in A['detail'])}</tr>
     <tr><td>Points de vente au 31 août</td>{''.join(f'<td>{v:.0f}</td>' for v in A['pdv'])}</tr>
     <tr class="hio"><td>Résultat avant impôts</td>{''.join(f'<td>{fr(v)}</td>' for v in A['pai'])}</tr>
@@ -908,20 +1105,25 @@ P.append(f"""<div class="page">
   <h3>Trois constats</h3>
   <ul>
     <li>Le résultat hors aides publiques devient <strong>positif dès FY2028</strong> en
-      scénario conservateur</li>
+      scénario conservateur, et dès FY2027 en ambitieux</li>
     <li>La couverture du service de la dette franchit le seuil bancaire de 1,25
       <strong>en FY2028</strong>, et les capitaux propres redeviennent positifs le même
       exercice</li>
-    <li>FY2027 reste l'exercice tendu : {C['dscr'][1]:.2f} de couverture et
+    <li>FY2027 reste l'exercice tendu, à {fr(C['dscr'][1],2,'')} de couverture et
       {fr(C['hors'][1])} hors aides. <strong>C'est l'exercice qui a besoin du
-      financement</strong>, pas les suivants</li>
+      financement</strong></li>
   </ul>
-  {foot(9)}""")
+
+  <p>Les deux moteurs progressent dans les deux lectures. Même en scénario conservateur,
+  le commerce en ligne apporte {pct((C['dtc'][3] - C['dtc'][0])
+  / (C['dtc'][3] + C['detail'][3] - C['dtc'][0]), 0)} de la croissance de la période et
+  le canal détail le reste.</p>
+  {foot(11)}""")
 
 # ------------------------------------------------------------------ 10 FINANCEMENT
 P.append(f"""<div class="page">
   <div class="kicker">Financement</div>
-  <div class="sect"><span class="num">10</span><h2>Structure de financement et facteurs de risque</h2></div>
+  <div class="sect"><span class="num">12</span><h2>Structure de financement et facteurs de risque</h2></div>
   <div class="lede">L'essentiel de la demande remplace de la dette coûteuse par de la
     dette normale. Ce n'est pas de l'endettement supplémentaire.</div>
 
@@ -981,12 +1183,12 @@ P.append(f"""<div class="page">
     <li>Aucune reprise de stock sur le canal détail. Cette hypothèse est favorable : une
       reprise de 5 % coûterait environ 12 000 $ en FY2029</li>
   </ul>
-  {foot(10)}""")
+  {foot(12)}""")
 
 # ------------------------------------------------------------------ 11 FIABILITÉ
 P.append(f"""<div class="page">
   <div class="kicker">Méthode</div>
-  <div class="sect"><span class="num">11</span><h2>La méthode et les sources</h2></div>
+  <div class="sect"><span class="num">13</span><h2>La méthode et les sources</h2></div>
   <div class="lede">Une projection ne vaut que par la rigueur de son suivi.</div>
 
   <h3>Ancrage comptable</h3>
@@ -1026,14 +1228,14 @@ P.append(f"""<div class="page">
   <p style="font-size:8.5pt;color:{GRIS}">États financiers compilés FY2023 à FY2025
   (mission de compilation, sans audit ni examen) · QuickBooks Online pour le réel FY2026 ·
   Shopify pour les ventes, commandes, clients et sessions · Groupe CTT pour les essais
-  d'isolation de la membrane · Knudsen et Zeller (1993) pour la comparaison au duvet ·
+  d'isolation de la membrane · Chaire de recherche industrielle sur les matériaux innovants en composites de l'Université de Sherbrooke pour la comparaison au duvet · World Wildlife Fund-México pour les colonies de monarques ·
   registre public des espèces en péril du gouvernement du Canada pour le statut du
   monarque.</p>
-  {foot(11)}""")
+  {foot(13)}""")
 
 # ------------------------------------------------------------------ 12 CONCLUSION
 P.append(f"""<div class="page">
-  <div class="sect"><span class="num">12</span><h2>Synthèse</h2></div>
+  <div class="sect"><span class="num">14</span><h2>Synthèse</h2></div>
 
   <p>Lasclay a franchi les étapes les plus difficiles d'une entreprise pionnière :
   apprendre une matière que personne ne maîtrisait, bâtir une demande de 70 000 clients,
@@ -1051,6 +1253,13 @@ P.append(f"""<div class="page">
   2026 : trois jours après une vidéo de transparence de quarante minutes, la prévente a
   fait 82 692 $ avec 85,2 % de clients existants et un panier supérieur de 58 % à la
   moyenne. La communauté a jugé, et elle a acheté.</p>
+
+  <p>La trajectoire ne repose pas sur un pari unique. Le commerce en ligne, qui a porté
+  seul les six premières années, apporte {pct((C['dtc'][3] - C['dtc'][0])
+  / (C['dtc'][3] + C['detail'][3] - C['dtc'][0]), 0)} de la progression dans la lecture
+  prudente, en croissant de {pct(CAGR_C)} par an, soit la moitié du rythme tenu depuis
+  FY2022. Le canal détail apporte le reste. Un déploiement en magasin plus lent que prévu
+  ralentit la trajectoire sans l'annuler.</p>
 
   <div class="tiles" style="margin:20px 0">
     <div class="tile"><div class="v">{fr(S['pret'], 0, '')} $</div>
@@ -1085,7 +1294,7 @@ P.append(f"""<div class="page">
     modèle financier et ne constituent pas une garantie de résultats futurs. Les repères
     de performance de la fibre décrivent la matière en laboratoire et non un produit fini.
   </div>
-  {foot(12)}""")
+  {foot(14)}""")
 
 html = CSS + ''.join(P)
 
