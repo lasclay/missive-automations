@@ -1503,6 +1503,12 @@ P.append(f"""<div class="page">
       calibrée sur les trois derniers exercices réalisés plutôt que sur des cibles</li>
     <li>Une seule chaîne de trésorerie sur 48 mois remplace les états parallèles qui
       divergeaient. <strong>La ligne de contrôle du bilan est à zéro sur les 48 mois</strong></li>
+    <li>Le calendrier des taxes a été posé tel qu'il est déclaré : <strong>TVQ au mois,
+      TPS à l'année avec un solde dû le 30 novembre</strong>. Les taux viennent des
+      montants réels de 2025-2026 — taxes perçues chez Shopify région par région, taxes
+      facturées et crédits sur intrants chez QuickBooks — et tiennent compte de la baisse
+      des crédits quand la couture quitte le Québec. Le versement du 30 novembre passe de
+      <strong>13 910 $ en 2026 à 48 510 $ en 2028</strong></li>
     <li>Le mappage des comptes portait cinq défauts qui faisaient disparaître des soldes
       réels, dont 54 266 $ de prêt BDC qui ne tombaient nulle part</li>
     <li>Aucune cellule des feuilles actives du plan n'est en erreur et aucune référence

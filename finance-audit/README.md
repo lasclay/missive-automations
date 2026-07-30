@@ -45,7 +45,8 @@ classeur en 1,2 seconde.
 | `fix_al.py` | Scénario ambitieux recalibré (croissance composée ramenée près de ce qui a été démontré), et ses ratios de coûts alignés sur ceux du conservateur. |
 | `fix_am.py` | Canal détail reconstruit ville par ville sur les rapports de consignation des Défricheuses et les ventes en ligne par ville. Feuille « Détail par ville » : quarante villes nommées, un point de vente par tranche de 160 000 habitants, registre des 109 points de vente dans leur ordre d'ouverture. L'exercice 2025-2026 portait zéro vente au détail alors qu'il y en avait pour 13 801 $. |
 | `fix_an.py` | Taxes à payer : onze des douze mois de 2028-2029 lisaient « Frais courus à payer » à la rangée voisine, ce qui aplatissait le solde et faussait la trésorerie du dernier exercice. Le facteur de croissance, écrit en dur à 1,35 puis 1,4, devient le rapport des ventes nettes d'un exercice à l'autre. |
-| `fix_ao.py` | Versement de TPS du 30 novembre, posé explicitement. Le solde de taxes se construit par ses mouvements à partir du réel d'août 2026 : chaque mois accumule sa TPS et sa TVQ, la TVQ du mois précédent se verse, et novembre acquitte la TPS de l'exercice écoulé. Calé sur les 12 672 $ réellement versés le 30 novembre 2025. |
+| `fix_ao.py` | Versement de TPS du 30 novembre, posé explicitement. Le solde de taxes se construit par ses mouvements à partir du réel d'août 2026 : chaque mois accumule sa TPS et sa TVQ, la TVQ du mois précédent se verse, et novembre acquitte la TPS de l'exercice écoulé. Calé sur les vrais montants de 2025-2026 fournis par `tps_reelle.py`. |
+| `tps_reelle.py` | Reconstitue à la source la TPS perçue, la TVQ perçue, les CTI et les RTI du 1er septembre 2025 au 30 juillet 2026 : part fédérale des taxes Shopify calculée région par région, plus les `TxnTaxDetail.TaxLine` des factures, des Bill et des Purchase chez QuickBooks. Lecture seule. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `pdftxt.py` | Extrait le texte d'un PDF en passant par les tables ToUnicode de chaque police. Les PDF exportés de Google dessinent leur texte en hexadécimal avec des polices sous-ensemblées : sans la table, on ne lit rien. Sert à dépouiller les annexes et les lettres de soutien. |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
@@ -110,17 +111,37 @@ classeur en 1,2 seconde.
   libellés atterrissent hors du cadre. Composer le libellé à part.
 - **Les taxes à payer sont une seule rangée pour deux régimes.** La TVQ se déclare au
   mois, la TPS à l'année avec un solde dû au 30 novembre. La rangée 35 du bilan porte le
-  net des deux, et les exercices prévisionnels recopient le profil mensuel réel de
+  net des deux, et les exercices prévisionnels recopiaient le profil mensuel réel de
   2025-2026. Le creux de février n'est pas un versement trimestriel, il n'y en a pas :
   c'est la TVQ de décembre, le plus gros mois de ventes, versée le 31 janvier. Mettre le
   profil à l'échelle des ventes est juste pour la TVQ, qui est proportionnelle aux ventes
-  du mois. Elle ne l'était pas pour la TPS, réglée en un seul versement au 30 novembre
-  sur l'exercice écoulé : `fix_ao.py` le pose explicitement. Attention au décalage d'un
+  du mois. Ça ne l'était pas pour la TPS, réglée en un seul versement au 30 novembre
+  sur l'exercice écoulé. `fix_ao.py` remplace la recopie par les mouvements du solde :
+  chaque mois accumule sa TPS et sa TVQ, la TVQ du mois précédent se verse, et novembre
+  acquitte la TPS de l'exercice écoulé. Attention au décalage d'un
   an, facile à manquer — novembre 2026 acquitte l'exercice clos le 31 août 2026, pas
   celui d'avant, déjà payé en novembre 2025.
 - **Les crédits de taxe sur intrants baissent quand la couture part en Tunisie.** Une
-  dépense engagée hors du Canada ne donne pas de CTI, alors la TPS nette monte plus vite
-  que les ventes : 12 386 $ pour 2025-2026, 45 350 $ pour 2027-2028.
+  dépense engagée hors du Canada ne donne pas de CTI ni de RTI, alors les taxes nettes
+  montent plus vite que les ventes : 13 910 $ pour 2025-2026, 48 510 $ pour 2027-2028.
+- **Les taux de taxe se lisent au réel, pas au taux nominal.** La TPS perçue vaut
+  5,0011 % des ventes nettes et la TVQ 8,3851 %, au-dessus de ce qu'on attendrait de
+  5 % et 9,975 % sur la part canadienne : la taxe porte sur les ventes brutes et sur le
+  transport, les ventes nettes sont après escomptes et après transport net. Un modèle
+  bâti sur « part canadienne × taux nominal » sous-estime donc la perception. Du côté
+  des crédits, la base de RTI (47,17 % des ventes nettes) est plus petite que la base de
+  CTI (52,58 %) parce qu'une partie des achats se fait hors du Québec. `tps_reelle.py`
+  reconstitue les cinq montants à la source.
+- **Le montant de taxe d'une pièce QuickBooks n'est pas dans `TaxLineDetail`.** Il vit
+  dans `TxnTaxDetail.TaxLine`, et le taux ne s'y trouve que par sa référence : sans la
+  liste des `TaxRate`, impossible de savoir si une ligne est de la TPS, de la TVQ, un
+  CTI ou un RTI. Et QuickBooks ne rend jamais plus de 1 000 lignes par requête : sans
+  `startposition`, une année chargée se fait tronquer sans le dire.
+- **Shopify ne sépare pas le fédéral du provincial.** Les taxes se lisent par région de
+  facturation et la part fédérale se calcule région par région : TVH entièrement
+  fédérale en Ontario et dans l'Atlantique, TPS seule en Alberta et dans les
+  territoires, 5/14,975 au Québec, 5/12 en Colombie-Britannique et au Manitoba, 5/11 en
+  Saskatchewan, rien aux États-Unis.
 - **Une formule posée sur une feuille référence cette feuille.** `$D$143` écrit dans le
   bilan désigne une cellule vide du bilan, pas `Inputs!$D$143`. Le calcul tombe à zéro
   sans rien signaler : le solde reste simplement plat.

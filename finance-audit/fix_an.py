@@ -28,14 +28,13 @@ exactement juste pour cette partie, puisque la TVQ d'un mois est une proportion
 des ventes de ce mois.
 
 La TPS se règle en un seul versement, au plus tard le 30 novembre. Le mouvement
-de -12 672 $ au compte 2110 en novembre 2025 est ce règlement. Une imprécision
-subsiste de ce côté, et elle joue en faveur de la prudence : la mise à l'échelle
-applique la croissance de l'exercice qui commence, alors que le règlement porte
-sur celui qui vient de finir. Le modèle sort donc de novembre 4 191 $ de plus
-qu'il ne le faudrait en 2026-2027, 5 618 $ en 2027-2028 et 6 193 $ en 2028-2029.
-Ces montants restent petits devant une marge de crédit de 130 000 $, et les
-corriger améliorerait la trésorerie affichée plutôt que de la dégrader : la
-correction est laissée de côté volontairement.
+de -12 672 $ au compte 2110 en novembre 2025 est ce règlement. La mise à
+l'échelle le traite mal : elle applique la croissance de l'exercice qui
+commence, alors que le règlement porte sur celui qui vient de finir. C'est ce
+que règle `fix_ao.py`, qui remplace la recopie par les mouvements du solde et
+pose le versement de novembre comme une ligne à part, calée sur les vrais
+montants de 2025-2026. Cette phase-ci reste la première marche : sans elle,
+onze mois de 2028-2029 lisent la mauvaise rangée.
 """
 import sys
 
