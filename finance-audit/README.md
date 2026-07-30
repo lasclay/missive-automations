@@ -44,6 +44,7 @@ classeur en 1,2 seconde.
 | `fix_ak.py` | Bloc 2028-2029 de « Ventes prévisionnelles », répliqué du bloc précédent décalé de quinze colonnes ; blocs périmés et exercice fermé masqués. |
 | `fix_al.py` | Scénario ambitieux recalibré (croissance composée ramenée près de ce qui a été démontré), et ses ratios de coûts alignés sur ceux du conservateur. |
 | `fix_am.py` | Canal détail reconstruit ville par ville sur les rapports de consignation des Défricheuses et les ventes en ligne par ville. Feuille « Détail par ville » : quarante villes nommées, un point de vente par tranche de 160 000 habitants, registre des 109 points de vente dans leur ordre d'ouverture. L'exercice 2025-2026 portait zéro vente au détail alors qu'il y en avait pour 13 801 $. |
+| `fix_an.py` | Taxes à payer : onze des douze mois de 2028-2029 lisaient « Frais courus à payer » à la rangée voisine, ce qui aplatissait le solde et faussait la trésorerie du dernier exercice. Le facteur de croissance, écrit en dur à 1,35 puis 1,4, devient le rapport des ventes nettes d'un exercice à l'autre. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `pdftxt.py` | Extrait le texte d'un PDF en passant par les tables ToUnicode de chaque police. Les PDF exportés de Google dessinent leur texte en hexadécimal avec des polices sous-ensemblées : sans la table, on ne lit rien. Sert à dépouiller les annexes et les lettres de soutien. |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
@@ -106,6 +107,13 @@ classeur en 1,2 seconde.
 - **La virgule décimale française ne s'applique jamais à une chaîne entière.** Un
   `.replace('.', ',')` posé sur un élément SVG complet corrompt les coordonnées : les
   libellés atterrissent hors du cadre. Composer le libellé à part.
+- **Les taxes à payer sont une seule rangée pour deux régimes.** La TVQ se déclare au
+  mois, la TPS à l'année avec un solde dû au 30 novembre. La rangée 35 du bilan porte le
+  net des deux, et les exercices prévisionnels recopient le profil mensuel réel de
+  2025-2026 : le rythme des versements y est donc celui des vrais mois, pas une règle
+  posée. Ce que la recopie ne capte pas, c'est qu'un règlement annuel porte sur
+  l'exercice écoulé : dans une année de forte croissance, le solde de novembre dépasse
+  ce que les acomptes ont couvert.
 - **Le canal détail et le commerce en ligne ne se lisent pas sur la même base.** La
   rangée 12 du résultat porte ce que Lasclay encaisse du détail ; la rangée 18 est le
   revenu après escomptes, la rangée 26 les ventes nettes. Le transport net et les
