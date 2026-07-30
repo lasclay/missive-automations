@@ -268,8 +268,11 @@ def fibre_chart(width=680, height=170):
         x = i * gw + (gw - bw) / 2
         out.append(f'<rect x="{x:.1f}" y="{y0 - hh:.1f}" width="{bw:.1f}" '
                    f'height="{hh:.1f}" fill="{col}" rx="1.5"/>')
+        # « 85,0 $ » sur un prix rond se lit mal : la décimale ne sert qu'au 0,50 $.
+        # Nom distinct de `lab`, qui porte le nom du matériau dans cette boucle.
+        prix = (f'{v:.2f}'.rstrip('0').rstrip('.') or '0').replace('.', ',')
         out.append(f'<text x="{x + bw / 2:.1f}" y="{y0 - hh - 6:.1f}" class="bv">'
-                   f'{str(v).replace(".", ",")} $</text>')
+                   f'{prix} $</text>')
         out.append(f'<text x="{x + bw / 2:.1f}" y="{height - 10}" class="bl">{lab}</text>')
     out.append('</svg>')
     return ''.join(out)
@@ -290,24 +293,24 @@ h1,h2,h3,h4 {{ font-family: 'Bitstream Charter',Georgia,serif; font-weight: 700;
   padding: 15mm 14mm 13mm; overflow: hidden; }}
 .page:last-child {{ page-break-after: auto; }}
 
-.cover {{ background: {INK}; color: #fff; padding: 26mm 22mm 22mm; }}
+.cover {{ background: {INK}; color: #fff; padding: 22mm 22mm 22mm; }}
 .cover .mark {{ font-family:'Bitstream Charter',Georgia,serif; font-size:23pt;
   letter-spacing:.30em; font-weight:700; }}
 .cover .ctype {{ font-size:7.6pt; letter-spacing:.24em; color:{ORANGE}; font-weight:700;
   margin-bottom:14px; }}
-.cover .cfig {{ display:flex; gap:0; margin:52px 0 58px; border-top:1px solid #3a4b45;
+.cover .cfig {{ display:flex; gap:0; margin:40px 0 40px; border-top:1px solid #3a4b45;
   border-bottom:1px solid #3a4b45; }}
 .cover .cfig > div {{ flex:1; padding:14px 14px 14px 0; }}
 .cover .cfig .v {{ display:block; font-family:'Bitstream Charter',Georgia,serif;
   font-size:19pt; color:#fff; line-height:1.05; }}
 .cover .cfig .k {{ display:block; font-size:7.3pt; letter-spacing:.09em;
   text-transform:uppercase; color:#8fa39d; margin-top:6px; }}
-.cover .cnote {{ margin-top:26px; padding-top:14px; border-top:1px solid #3a4b45;
+.cover .cnote {{ margin-top:20px; padding-top:12px; border-top:1px solid #3a4b45;
   font-size:8.6pt; color:#a8b8b3; line-height:1.6; max-width:46em; }}
 .cover .ctitle {{ font-size:7.4pt; letter-spacing:.2em; color:#8fa39d; margin-bottom:10px; }}
 .cover .toc {{ column-count:2; column-gap:26px; }}
-.toci {{ display:flex; align-items:baseline; font-size:8.5pt; color:#d6dedb;
-  margin-bottom:6px; break-inside:avoid; }}
+.toci {{ display:flex; align-items:baseline; font-size:8.4pt; color:#d6dedb;
+  margin-bottom:5px; break-inside:avoid; }}
 .toci .n {{ font-family:'Bitstream Charter',Georgia,serif; color:{ORANGE}; width:20px;
   flex:0 0 20px; }}
 .toci .t {{ flex:0 1 auto; }}
@@ -316,7 +319,7 @@ h1,h2,h3,h4 {{ font-family: 'Bitstream Charter',Georgia,serif; font-weight: 700;
 .cover .rule {{ width:54px; height:3px; background:{ORANGE}; margin:18px 0 26px; }}
 .cover h1 {{ font-size:34pt; line-height:1.1; margin:0 0 14px; }}
 .cover .sub {{ font-size:11.5pt; color:{VERT_CLAIR}; max-width:30em; line-height:1.5; }}
-.cover .meta {{ position:absolute; bottom:20mm; font-size:7.9pt; color:#8d9a95;
+.cover .meta {{ position:absolute; bottom:14mm; font-size:7.9pt; color:#8d9a95;
   letter-spacing:.05em; line-height:1.7; }}
 .cover .tagbox {{ margin-top:34px; border-left:3px solid {ORANGE}; padding:4px 0 4px 16px;
   font-family:'Bitstream Charter',Georgia,serif; font-size:12.5pt; color:#eae7df;
@@ -401,7 +404,7 @@ ul.o li:before {{ background:{ORANGE}; }}
 </style>"""
 
 
-def foot(n, tot=16):
+def foot(n, tot=18):
     return (f'<div class="foot"><span>LASCLAY · PRÉVISIONS FINANCIÈRES 2026-2029</span>'
             f'<span>{n} / {tot}</span></div></div>')
 
@@ -415,22 +418,24 @@ P = []   # les pages
 
 # ------------------------------------------------------------------ COUVERTURE
 SOMMAIRE = [
-    ('01', 'L’asclépiade, la filière et ses échecs', 1),
-    ('02', 'Ce que disent six ans de ventes', 2),
-    ('03', 'La demande, testée trois fois', 3),
-    ('04', 'Juin et juillet 2026 : ce que coûte le manque de trésorerie', 4),
-    ('05', 'Le coût de la fibre et le maillage industriel', 5),
-    ('06', 'De la production artisanale à l’isolant en rouleau', 6),
-    ('07', 'Le marketing et le développement des marchés', 7),
-    ('08', 'Les coûts fixes et l’infrastructure numérique', 8),
-    ('09', 'Deux moteurs, et le plus gros existe déjà', 9),
-    ('10', 'Le détail au Canada, construit ville par ville', 10),
-    ('11', 'Les quarante villes, et le calendrier', 11),
-    ('12', 'Trois marchés qui ne sont pas dans les chiffres', 12),
-    ('13', 'Les projections : deux scénarios', 13),
-    ('14', 'Structure de financement et facteurs de risque', 14),
-    ('15', 'La méthode et les sources', 15),
-    ('16', 'Synthèse', 16),
+    ('01', 'L’asclépiade, et ce qu’elle vaut', 1),
+    ('02', 'Pourquoi tout le monde a échoué avant', 2),
+    ('03', 'Pourquoi nous, et pourquoi ça continue', 3),
+    ('04', 'Ce que disent six ans de ventes', 4),
+    ('05', 'La demande, testée trois fois', 5),
+    ('06', 'Juin et juillet 2026 : le coût du manque de trésorerie', 6),
+    ('07', 'Le coût de la fibre, et le réseau qui le fera baisser', 7),
+    ('08', 'De la production artisanale à l’isolant en rouleau', 8),
+    ('09', 'Le marketing et le développement des marchés', 9),
+    ('10', 'Les coûts fixes et l’infrastructure numérique', 10),
+    ('11', 'Deux moteurs, et le plus gros existe déjà', 11),
+    ('12', 'Le détail au Canada, construit ville par ville', 12),
+    ('13', 'Les quarante villes, et le calendrier', 13),
+    ('14', 'Trois marchés qui ne sont pas dans les chiffres', 14),
+    ('15', 'Les projections : deux scénarios', 15),
+    ('16', 'Structure de financement et facteurs de risque', 16),
+    ('17', 'La méthode et les sources', 17),
+    ('18', 'Synthèse', 18),
 ]
 toc = ''.join(
     f'<div class="toci"><span class="n">{n}</span><span class="t">{t}</span>'
@@ -445,7 +450,7 @@ P.append(f"""<div class="page cover">
 
   <div class="cfig">
     <div><span class="v">1,10 M$</span><span class="k">Revenu 2025-2026</span></div>
-    <div><span class="v">{C['ventes'][3]/1e6:.2f} M$</span><span class="k">Ventes nettes visées 2028-2029</span></div>
+    <div><span class="v">{f"{C['ventes'][3]/1e6:.2f}".replace('.', ',')} M$</span><span class="k">Ventes nettes visées 2028-2029</span></div>
     <div><span class="v">2027-2028</span><span class="k">Rentable hors aides publiques</span></div>
     <div><span class="v">70 000</span><span class="k">Clients depuis 2020</span></div>
   </div>
@@ -453,25 +458,24 @@ P.append(f"""<div class="page cover">
   <div class="ctitle">CE QUE CONTIENT CE DOCUMENT</div>
   <div class="toc">{toc}</div>
 
-  <div class="cnote">Deux scénarios coexistent dans le même modèle : conservateur
-    réaliste, qui porte les ventes nettes à {C['ventes'][3]/1e6:.2f} M$ en 2028-2029, et
-    ambitieux, qui les porte à {A['ventes'][3]/1e6:.2f} M$. Une seule cellule bascule de
-    l'un à l'autre. Ni l'un ni l'autre n'inclut de subvention non confirmée.
-    <br><br>L'exercice financier de Lasclay va du 1<sup>er</sup> septembre au 31 août :
-    « 2025-2026 » désigne les douze mois de septembre 2025 à août 2026, comme dans le
-    chiffrier.</div>
+  <div class="cnote">Deux scénarios dans le même modèle, qu'une seule cellule bascule :
+    conservateur réaliste à {f"{C['ventes'][3]/1e6:.2f}".replace('.', ',')} M$ de ventes
+    nettes en 2028-2029, ambitieux à
+    {f"{A['ventes'][3]/1e6:.2f}".replace('.', ',')} M$. Ni l'un ni l'autre n'inclut de
+    subvention non confirmée.</div>
 
   <div class="meta">LES PRODUITS LASCLAY INC. &nbsp;·&nbsp; QUÉBEC (LIMOILOU)
-    &nbsp;·&nbsp; 30 JUILLET 2026<br>Exercices financiers clos le 31 août ·
-    Modèle mensuel de 48 mois rapproché de QuickBooks</div>
+    &nbsp;·&nbsp; 30 JUILLET 2026<br>Exercice financier du 1<sup>er</sup> septembre au
+    31 août : « 2025-2026 » couvre septembre 2025 à août 2026 · Modèle mensuel de
+    48 mois rapproché de QuickBooks</div>
 </div>""")
 
 # ------------------------------------------------------------------ 01 CONTEXTE
 P.append(f"""<div class="page">
-  <div class="kicker">La matière et la filière</div>
-  <div class="sect"><span class="num">01</span><h2>L’asclépiade, la filière et ses échecs</h2></div>
-  <div class="lede">Ce qu’est l’asclépiade, pourquoi sa culture est un mécanisme de
-    conservation, et pourquoi personne n’a réussi à la commercialiser avant.</div>
+  <div class="kicker">La matière</div>
+  <div class="sect"><span class="num">01</span><h2>L’asclépiade, et ce qu’elle vaut</h2></div>
+  <div class="lede">Une fibre que personne n’a réussi à commercialiser, non pas faute
+    d’acheteurs, mais faute d’avoir su la récolter.</div>
 
   <h3>La plante</h3>
   <p>L’asclépiade commune (<em>Asclepias syriaca</em>) est une vivace indigène
@@ -481,7 +485,14 @@ P.append(f"""<div class="page">
   l’air, ce qui la rend isolante, légère, hydrophobe, antibactérienne et imputrescible.
   La Chaire de recherche industrielle sur les matériaux innovants en composites de
   l’Université de Sherbrooke la décrit comme <strong>20 % plus chaude que le duvet
-  d’oie</strong> à poids égal.</p>
+  d’oie</strong> à poids égal, et le Groupe CTT a mesuré qu’elle conserve
+  <strong>trois fois plus de chaleur que le polyester</strong>.</p>
+
+  {fibre_chart()}
+  <div class="fig">Prix indicatif au kilo des principaux isolants textiles, échelle
+    logarithmique. L’asclépiade se vend au prix du duvet pour une performance
+    supérieure, ce qui la classe parmi les matériaux de luxe et lui ferme les marchés de
+    volume.</div>
 
   <div class="two">
     <div class="card v"><h4>Un mécanisme de conservation mesuré</h4>
@@ -501,63 +512,137 @@ P.append(f"""<div class="page">
       région nordique sans irrigation, sans engrais et sans insecticide.</p></div>
   </div>
 
-  <h3>Dix ans de tentatives, et pourquoi elles ont échoué</h3>
-  <table>
-    <tr><th>Année</th><th style="text-align:left">Ce qui s’est passé</th></tr>
-    <tr><td style="text-align:left">2014</td><td style="text-align:left">La Coopérative
-      Monark réunit un premier groupe de cultivateurs, qui consacrent au plus 10 % de
-      leur terre à l’asclépiade. Protec-Style démarre une usine de transformation.</td></tr>
-    <tr><td style="text-align:left">2011-2017</td><td style="text-align:left">Deux
-      tentatives de récolteuse mécanisée échouent. Sans mécanisation, la culture à
-      grande échelle n’est pas rentable et des cultivateurs rasent leurs champs.</td></tr>
-    <tr><td style="text-align:left">2017</td><td style="text-align:left">Quartz co.
-      lance le premier parka isolé à 50 % d’asclépiade. Vif succès, à près de 1 000 $
-      l’unité.</td></tr>
-    <tr class="hio"><td style="text-align:left">2017</td><td style="text-align:left">
-      Protec-Style fait faillite, faute d’approvisionnement. Quartz discontinue son
-      parka faute de matière. L’asclépiade reste étiquetée comme un matériau de
-      luxe.</td></tr>
-    <tr><td style="text-align:left">Depuis</td><td style="text-align:left">L’héritier de
-      Protec-Style est Eko-Terre, filiale de Logistik Unicorp. Sa membrane Vegeto
-      contient 50 % de PLA, 35 % de kapok et <strong>15 % d’asclépiade</strong> : une
-      teneur trop faible pour générer le volume d’achat dont les cultivateurs ont
-      besoin.</td></tr>
-  </table>
-
-  <p>La fibre explique une partie de ces échecs. Creuse, courte et très lisse, elle se
-  casse et ne s’enchevêtre pas, ce qui rend son tissage presque impossible. Elle
-  s’organise en non-tissé, mais pas avec des équipements standards : il faut les
-  inventer ou les adapter, ce qui décuple les coûts.</p>
-
-  <div class="quote">Le plus grand problème de la filière n’est ni sa jeunesse ni sa
-    complexité : c’est son morcellement. Trop d’intermédiaires isolés dans leur champ
-    d’expertise, qui collaborent peu ou collaborent mal, et des goulots
-    d’étranglement à chaque étape de la chaîne.</div>
-
+  <div class="quote">La demande a toujours été là. De grands joueurs de partout dans le
+    monde se sont intéressés à l’asclépiade. Tous les échecs ont été dus à des déficits
+    technologiques au niveau agricole.
+    <div style="font-size:8pt;margin-top:7px;font-style:normal">Ghyslain Bouchard,
+    directeur général de la division asclépiade d’Eko-Terre, quarante-cinq ans de
+    carrière dans le textile, mars 2026</div></div>
   {foot(1)}""")
+
+# ------------------------------------------------------------------ 01b ÉCHECS
+P.append(f"""<div class="page">
+  <div class="kicker">La filière</div>
+  <div class="sect"><span class="num">02</span><h2>Pourquoi tout le monde a échoué avant</h2></div>
+  <div class="lede">Dix ans de tentatives, et toujours le même mur. Il n’est ni
+    commercial ni technique du côté de l’usine : il est agricole.</div>
+
+  <h3>La demande n’a jamais manqué</h3>
+  <p>La Garde côtière canadienne et Postes Canada ont habillé leur personnel de vêtements
+  isolés à l’asclépiade. Les Forces armées canadiennes l’ont testée avec succès en
+  Arctique. En 2017, Quartz co. a lancé le premier parka isolé à l’asclépiade à près de
+  1 000 $ l’unité : vif succès. Chaque fois que la matière est mise en marché, elle
+  trouve preneur.</p>
+
+  <h3>Le piège de la fenêtre de récolte</h3>
+  <p>L’asclépiade se récolte dans une fenêtre <strong>d’à peine deux semaines</strong>,
+  quand les follicules sont mûrs et pas encore ouverts. La filière s’est construite sur
+  un modèle de grande culture, celui que connaissent les agriculteurs québécois : de
+  grandes surfaces, de la grosse machinerie. Le calcul ne tombe jamais juste.</p>
+
+  <div class="card dark" style="margin:12px 0">
+    <p style="margin:0;font-size:8.9pt">Deux semaines suffisent à récolter au plus
+    <strong>cinq hectares</strong> à la main ou avec de petites machines. Au-delà, il
+    faut de la grosse machinerie, qui n’existe pas et dont le développement n’est pas
+    rentable au niveau de maturité actuel du marché. Alors les cultivateurs sèment
+    grand, n’arrivent pas à récolter, et abandonnent un par un. Deux tentatives de
+    récolteuse mécanisée ont échoué entre 2011 et 2017. <strong>On tourne en
+    rond.</strong></p>
+  </div>
+
+  <p>Le reste suit mécaniquement. La Coopérative Monark réunit un premier groupe de
+  cultivateurs en 2014 ; Protec-Style monte une usine de transformation et fait faillite
+  en 2017, faute d’approvisionnement. Quartz co. discontinue son parka, faute de matière.
+  L’asclépiade reste étiquetée comme un matériau de luxe, non parce qu’elle est rare,
+  mais parce que personne n’a su la récolter en quantité.</p>
+
+  <h3>La moitié industrielle du problème est réglée</h3>
+  <p>Eko-Terre, à Cowansville, y a consacré ses efforts depuis 2019. Les techniques
+  antérieures brisaient la fibre à l’extraction et la réduisaient en poussière
+  inutilisable. La clé s’est révélée être <strong>le séchage des follicules avant
+  l’extraction</strong> : abaisser le taux d’humidité du follicule entier avant de
+  séparer la fibre des graines permet de décortiquer sans briser. Ce simple changement
+  d’ordre dans le procédé a donné la membrane Vegeto, un isolant biodégradable sans
+  plastique pétrolier, produite à raison de 200 000 mètres par année.</p>
+
+  <div class="quote">J’ai perdu tous mes cultivateurs d’asclépiade et je produis
+    actuellement avec mes stocks accumulés. Un nouveau cultivateur qui se lance
+    aujourd’hui n’a accès à aucune technologie de récolte, de séchage et d’extraction.
+    Il doit tout apprendre seul, à ses frais, pendant des années.
+    <div style="font-size:8pt;margin-top:7px;font-style:normal">Ghyslain Bouchard,
+    Eko-Terre, mars 2026</div></div>
+
+  <p style="margin-top:11px">Voilà l’état de la filière : une usine qui sait transformer
+  la fibre et qui manque de matière, et des terres disponibles dont les propriétaires ne
+  savent pas comment s’y prendre. Entre les deux, personne.</p>
+  {foot(2)}""")
+
+# ------------------------------------------------------------------ 01c UNICITÉ
+P.append(f"""<div class="page">
+  <div class="kicker">Ce qui distingue Lasclay</div>
+  <div class="sect"><span class="num">03</span><h2>Pourquoi nous, et pourquoi ça continue</h2></div>
+  <div class="lede">Tous ceux qui ont échoué étaient excellents dans un maillon. Un
+    agronome, une usine, une marque de manteaux. Aucun ne tenait les deux bouts de la
+    chaîne en même temps, et c’est entre les maillons que la filière casse.</div>
+
+  <h3>La transdisciplinarité</h3>
+  <p>Lasclay va du follicule au colis livré. L’entreprise achète la soie brute à des
+  cultivateurs qu’elle connaît par leur prénom, fabrique l’isolant, conçoit les produits,
+  gère la marque, vend en ligne et répond au service à la clientèle. Personne d’autre
+  dans cette filière ne couvre cette amplitude, et c’est ce qui permet d’agir aux
+  intersections plutôt que d’attendre que le maillon voisin se débloque.</p>
+
+  <div class="quote">Gabriel et son équipe ont bâti une entreprise qui maîtrise presque
+    toute la chaîne, de la soie d’asclépiade brute jusqu’à la distribution des produits
+    finis à des particuliers. Ils comprennent les contraintes de la fibre mieux que
+    quiconque. C’est la pièce manquante du puzzle de cette filière.
+    <div style="font-size:8pt;margin-top:7px;font-style:normal">Ghyslain Bouchard,
+    Eko-Terre, lettre de soutien, mars 2026</div></div>
+
+  <div class="two" style="margin-top:14px">
+    <div class="card v"><h4>Une vision moderne du marché</h4>
+      <p style="font-size:8.6pt;margin:0">Les projets précédents visaient l’appel
+      d’offres institutionnel et le manteau haut de gamme : des marchés qui se gagnent au
+      plus bas prix ou se vendent à mille dollars l’unité, et qui laissent la matière
+      invisible. Lasclay a fait l’inverse. Une marque grand public, une vente directe,
+      une communauté de 70 000 clients, et un produit d’entrée abordable qui fait
+      découvrir la fibre avant de vendre le manteau.</p></div>
+    <div class="card v"><h4>Des capacités qui manquaient à la filière</h4>
+      <p style="font-size:8.6pt;margin:0">Marketing, développement des affaires,
+      développement de produit : trois métiers qu’aucun des acteurs précédents n’avait à
+      l’interne. Soixante-seize produits au catalogue, une gamme construite du sachet de
+      semences à huit dollars jusqu’au manteau, et trois preventes qui ont validé la
+      demande avant d’engager la production.</p></div>
+  </div>
+
+  <h3>Ce que ça change pour le cultivateur</h3>
+  <p>Un transformateur industriel achète la fibre au prix que son client final accepte de
+  payer, et ce client est un appel d’offres. Une marque grand public achète la fibre au
+  prix que sa clientèle accepte de payer, et cette clientèle achète justement parce que
+  c’est de l’asclépiade cultivée au Québec. C’est la raison pour laquelle Lasclay paie sa
+  fibre <strong>environ cinq fois le prix du marché</strong>, directement aux
+  cultivateurs, et pourquoi cultiver pour Lasclay est rentable là où cultiver pour
+  l’industrie ne l’était pas.</p>
+
+  <p>C’est aussi ce qui rend la suite crédible. Les quatre contraintes techniques
+  décrites plus loin se lèvent parce qu’il existe enfin, dans la filière, une entreprise
+  qui a à la fois la connaissance de la fibre, le marché qui la paie et les compétences
+  commerciales pour le faire croître.</p>
+  {foot(3)}""")
 
 # ------------------------------------------------------------------ 01 THÈSE
 P.append(f"""<div class="page">
   <div class="kicker">Contexte</div>
-  <div class="sect"><span class="num">02</span><h2>Ce que disent six ans de ventes</h2></div>
+  <div class="sect"><span class="num">04</span><h2>Ce que disent six ans de ventes</h2></div>
   <div class="lede">En 2020, une publication devient virale. 10 000 inscriptions à
     l'infolettre en deux semaines, 1 000 paires de mitaines vendues avant d'avoir une
-    usine. Six ans plus tard, 70 000 clients et 3 M$ cumulés. La demande n'a jamais
-    manqué. Ce sont quatre contraintes techniques qui ont empêché de la servir.</div>
+    usine. Six ans plus tard, 70 000 clients et 3 M$ cumulés. Ce sont quatre contraintes
+    techniques, et non le marché, qui ont limité la suite.</div>
 
-  <h3>Ce que Lasclay fait différemment</h3>
-  <ul>
-    <li><strong>Intégration verticale</strong>, qui permet d’agir aux intersections de la
-      chaîne plutôt que sur un seul maillon</li>
-    <li><strong>Des procédés adaptés à la fibre</strong>, plutôt que la fibre adaptée aux
-      procédés existants</li>
-    <li><strong>Les mitaines avant les manteaux</strong> : un produit d’entrée abordable,
-      moins cher à fabriquer en volume, qui fait découvrir la matière</li>
-    <li><strong>Un lien direct avec des cultivateurs indépendants</strong>, payés environ
-      cinq fois le prix du marché</li>
-    <li><strong>60 à 80 % d’asclépiade</strong> dans les produits : c’est le volume
-      d’achat qui fait vivre la filière</li>
-  </ul>
+  <p>Six exercices, une marge brute passée de 44,3 % à 73,0 %, et la rentabilité
+  atteinte en 2024-2025. La courbe qui suit est celle d’une entreprise qui a appris à
+  fabriquer et à vendre. Ce qu’elle n’a pas encore pu faire, c’est produire à un coût qui
+  ouvre les marchés de volume.</p>
 
   {bar_chart([('Revenu brut', hist_ca, VERT)], hist_lab, height=160,
              fmt=lambda v: f'{v/1000:.0f} k$')}
@@ -569,21 +654,22 @@ P.append(f"""<div class="page">
   <p>Elles sont techniques et documentées. Chacune fait l'objet d'une section de ce
   mémo, avec les chiffres qui la mesurent et ce qui la lève.</p>
   <div class="verrou"><span class="n">1</span><p><strong>La fibre coûte 85 $ le kilo</strong>,
-    contre 4 $ pour la laine. Ce prix ne vient pas d'une rareté mais d'une filière trop
-    petite pour mécaniser sa récolte. Le partenariat industriel avec Eko-Terre porte la teneur
-    en asclépiade de 15 % à 60 %, ce qui multiplie d'autant le volume d'achat de fibre. <em>Section 05.</em></p></div>
+    contre 4 $ pour la laine. Ce prix ne vient pas d'une rareté mais d'une fenêtre de
+    récolte de deux semaines qu'aucune grande exploitation n'arrive à tenir. Un réseau de
+    petites parcelles la tient. <strong>Soixante-trois propositions de terrain</strong>
+    sont déjà sur la table. <em>Section 07.</em></p></div>
   <div class="verrou"><span class="n">2</span><p><strong>L'isolant se fabrique
     artisanalement.</strong> Le procédé, inventé à l'interne, demandait sept à huit
     personnes en haute saison et n'entre dans aucune usine textile du monde. En rouleau,
     couvrir les besoins d'une année a demandé deux employés pendant deux semaines.
-    <em>Section 06.</em></p></div>
+    <em>Section 08.</em></p></div>
   <div class="verrou o"><span class="n">3</span><p><strong>Le marketing et le développement
     des marchés sont restés sous-investis.</strong> Le coût d'acquisition d'un client est
     passé de 20,11 $ à 31,88 $ en un an. Sortir du manufacturier libère le temps et la
-    marge qui manquaient. <em>Section 07.</em></p></div>
+    marge qui manquaient. <em>Section 09.</em></p></div>
   <div class="verrou o"><span class="n">4</span><p><strong>Les coûts fixes montaient au
     rythme des ventes.</strong> Usine, loyer, main-d'œuvre de production et abonnements
-    logiciels. La structure allégée libère environ 155 000 $ par année. <em>Section 08.</em></p></div>
+    logiciels. La structure allégée libère environ 155 000 $ par année. <em>Section 10.</em></p></div>
 
   <div class="tiles">
     <div class="tile"><div class="v">70 000</div><div class="k">Clients</div>
@@ -595,12 +681,12 @@ P.append(f"""<div class="page">
     <div class="tile o"><div class="v">2027-2028</div><div class="k">Rentable hors aides</div>
       <div class="n">et couverture au-dessus de 1,25</div></div>
   </div>
-  {foot(2)}""")
+  {foot(4)}""")
 
 # ------------------------------------------------------------------ 02 DEMANDE
 P.append(f"""<div class="page">
   <div class="kicker">Preuve de marché</div>
-  <div class="sect"><span class="num">03</span><h2>La demande, testée trois fois</h2></div>
+  <div class="sect"><span class="num">05</span><h2>La demande, testée trois fois</h2></div>
   <div class="lede">Trois épreuves distinctes, à six ans d'intervalle, ont mesuré
     l'appétit du marché pour l'asclépiade. Les trois ont répondu la même chose.</div>
 
@@ -651,12 +737,12 @@ P.append(f"""<div class="page">
   étaient déjà clients, et ils ont dépensé 58 % de plus par commande que la moyenne
   annuelle. La transparence a été traitée comme une raison d'acheter, pas comme un motif
   de rupture.</p>
-  {foot(3)}""")
+  {foot(5)}""")
 
 # ------------------------------------------------------------------ 03 JUIN
 P.append(f"""<div class="page">
   <div class="kicker">Trésorerie</div>
-  <div class="sect"><span class="num">04</span><h2>Juin et juillet 2026 : ce que coûte le manque de trésorerie</h2></div>
+  <div class="sect"><span class="num">06</span><h2>Juin et juillet 2026 : ce que coûte le manque de trésorerie</h2></div>
   <div class="lede">Le budget publicitaire est tombé à zéro en juillet 2026. L'effet sur
     les ventes se mesure au mois près.</div>
 
@@ -705,82 +791,73 @@ P.append(f"""<div class="page">
   <p style="margin-top:6px">Le manque à gagner : <strong>117 037 $</strong> de ventes
   brutes en juin et juillet 2025, contre <strong>15 466 $</strong> aux mêmes mois de
   2026. Plus de 100 000 $ perdus, faute de 40 000 $ de publicité.</p>
-  {foot(4)}""")
+  {foot(6)}""")
 
 # ------------------------------------------------------------------ 04 VERROU 1
 P.append(f"""<div class="page">
   <div class="kicker">Approvisionnement</div>
-  <div class="sect"><span class="num">05</span><h2>Le coût de la fibre et le maillage industriel</h2></div>
-  <div class="lede">L'asclépiade se vend 85 $ le kilo. C'est ce prix qui la fait
-    percevoir comme un matériau de luxe et qui ferme les marchés de volume. Il n'a rien
-    d'inévitable.</div>
+  <div class="sect"><span class="num">07</span><h2>Le coût de la fibre, et le réseau qui le fera baisser</h2></div>
+  <div class="lede">La fibre coûte 85 $ le kilo parce que la filière n’a jamais su la
+    récolter en quantité. La réponse n’est pas de cultiver plus grand, c’est de cultiver
+    à plusieurs endroits à la fois.</div>
 
-  {fibre_chart()}
-  <div class="fig">Prix indicatif au kilo des principaux isolants textiles, échelle
-    logarithmique. À poids égal, la soie d'asclépiade est décrite comme 20 % plus chaude
-    que le duvet d'oie par la Chaire de recherche industrielle sur les matériaux
-    innovants en composites de l'Université de Sherbrooke.</div>
-
-  <h3>Le cercle vicieux, expliqué</h3>
-  <p>Le prix de l'asclépiade ne reflète pas une rareté ni une limite physique. Il reflète
-  une filière qui n'a jamais atteint le volume qui justifierait de mécaniser la récolte.
-  Les cultivateurs récoltent avec des moyens partiellement manuels parce que le volume
-  d'achat ne paie pas l'équipement ; le volume d'achat reste faible parce que le prix
-  ferme les marchés de volume.</p>
+  <h3>Renverser le modèle</h3>
+  <p>Le modèle de grande culture bute sur une fenêtre de récolte de deux semaines : au
+  delà de cinq hectares, il faut une machinerie qui n’existe pas. Un réseau de petites
+  parcelles retourne le problème. Cinquante propriétaires qui récoltent chacun un demi
+  hectare, en parallèle, dans la même fenêtre, livrent le volume d’une grande ferme sans
+  qu’aucun n’ait besoin d’une moissonneuse. La contrainte de temps disparaît parce
+  qu’on multiplie les paires de mains, pas les hectares par exploitant.</p>
 
   <div class="card dark" style="margin:12px 0">
-    <h4>Ce qui casse le cercle</h4>
-    <p style="margin:0;font-size:8.8pt">Le seul autre transformateur industriel
-    d'asclépiade au Canada, <strong>Eko-Terre</strong> (Cowansville, fondée par Louis
-    filiale de Logistik Unicorp et héritière de Protec-Style), fabrique la membrane
-    Vegeto, utilisée dans les uniformes de la <strong>Garde côtière canadienne</strong>
-    et de <strong>Postes Canada</strong>. Sa composition est de 50 % de PLA, 35 % de
-    kapok et <strong>15 % d'asclépiade</strong> : ses marchés institutionnels
-    fonctionnent par appel d'offres au plus bas soumissionnaire, ce qui interdit une
-    teneur plus élevée. Le projet commun vise <strong>60 % d'asclépiade</strong>. Quadrupler la
-    teneur multiplie d'autant le volume d'achat de fibre, précisément le volume qui rend la
-    mécanisation rentable et qui fait baisser le coût.</p>
+    <p style="margin:0;font-size:8.9pt">Ce modèle demande ce qui manquait justement à la
+    filière : du recrutement, de l’accompagnement, de l’outillage adapté à petite
+    échelle, et un acheteur garanti à un prix qui vaut la peine. Ce sont des compétences
+    commerciales et agronomiques, pas industrielles. <strong>Eko-Terre s’est engagée à
+    aider Lasclay à adapter ses équipements de séchage et d’extraction à cette
+    échelle</strong>, ce qu’elle n’a ni les ressources ni la vocation de faire
+    seule.</p>
   </div>
 
-  <h3>Ce que Lasclay apporte, et ce que ça donne</h3>
-  <div class="two">
-    <div>
-      <ul>
-        <li>Lasclay intègre déjà <strong>60 à 80 % d'asclépiade</strong> dans ses
-          produits et paie la fibre <strong>cinq fois plus cher</strong> que quiconque,
-          directement aux cultivateurs</li>
-        <li>Sa clientèle valorise la performance et l'écoresponsabilité au-delà du prix :
-          c'est le marché que le maillage apporte à Eko-Terre</li>
-        <li><strong>44 nouveaux agriculteurs</strong> ont manifesté leur intérêt à
-          cultiver l'asclépiade dans un sondage récent : l'offre agricole existe, elle
-          attend un débouché stable</li>
-        <li>La membrane est validée : le Groupe CTT a mesuré qu'elle conserve
-          <strong>trois fois plus de chaleur que le polyester</strong> à poids égal</li>
-      </ul>
-    </div>
-    <div class="card v">
-      <h4>Le développement du réseau agricole</h4>
-      <p style="font-size:8.6pt;margin:0">L'expansion des surfaces cultivées est à la
-      fois la condition de la baisse des coûts et le cœur de la mission : l'asclépiade
-      est l'unique plante hôte du monarque, espèce inscrite comme en voie de disparition
-      au Canada. Chaque hectare de plus est un habitat de reproduction.</p>
-      <div class="hr"></div>
-      <p style="font-size:8.6pt;margin:0">C'est aussi le travail que le modèle
-      manufacturier empêchait de faire, faute de temps et de marge. Le verrou nº 3
-      et le verrou nº 1 sont le même problème vu de deux côtés.</p>
-    </div>
-  </div>
+  <h3>L’offre existe déjà, et elle est documentée</h3>
+  <p>Un appel de candidatures lancé au printemps 2026 a recueilli
+  <strong>63 propositions de terrain</strong> en quelques semaines, sans budget
+  publicitaire, partout au Québec.</p>
 
-  <p style="margin-top:11px">Le financement de ce développement conjoint fait l'objet
-  d'une demande au Fonds Vision Topping et s'inscrit dans un montage plus large.
-  <strong>Il n'est pas dans les projections financières de ce document</strong>, qui
-  restent volontairement conservatrices.</p>
-  {foot(5)}""")
+  {hbar([('Plus de 1 hectare', 49.2, VERT),
+         ('1500 à 10 000 pi²', 25.4, VERT_CLAIR),
+         ('10 000 à 50 000 pi²', 14.3, VERT_CLAIR),
+         ('50 000 à 100 000 pi²', 11.1, VERT_CLAIR)],
+        rowh=30, fmt=lambda v: f'{v:.1f} %'.replace('.', ','))}
+  <div class="fig">Superficie que les 63 répondants se disent prêts à consacrer à
+    l’asclépiade. La moitié dispose de plus d’un hectare.</div>
+
+  <table>
+    <tr><th>Ce que les 63 répondants proposent</th><th>Réponses</th><th>Part</th></tr>
+    <tr><td>Prêter un terrain et être rémunérés pour les récoltes</td><td>27</td><td>42,9 %</td></tr>
+    <tr><td>Mettre un terrain à disposition</td><td>22</td><td>34,9 %</td></tr>
+    <tr><td>Planter, opérer et vendre eux-mêmes la récolte</td><td>14</td><td>22,2 %</td></tr>
+    <tr class="hio"><td>S’impliquer dans la R&amp;D et le développement d’équipement</td>
+      <td>11</td><td>17,5 %</td></tr>
+    <caption>Plusieurs choix possibles par répondant. Les trois quarts (74,6 %) se disent
+      prêts à cultiver l’asclépiade commune, l’espèce à plus fort rendement, dont une
+      partie avec de l’accompagnement pour gérer sa propagation. Onze personnes offrent
+      de participer au développement des équipements : c’est exactement le chantier à
+      mener.</caption>
+  </table>
+
+  <p>Ces candidatures ne sont pas des intentions vagues : fermettes, terres à bois,
+  érablières, cohabitats et particuliers, avec des superficies chiffrées et des questions
+  précises sur la charge de travail. L’offre agricole existe, il lui manque un
+  encadrement et un débouché stable. Le financement de ce développement fait l’objet
+  d’une demande au Fonds Vision Topping et d’un dossier Défi-Québec, et
+  <strong>n’est pas dans les projections de ce document</strong>.</p>
+  {foot(7)}""")
 
 # ------------------------------------------------------------------ 05 VERROU 2
 P.append(f"""<div class="page">
   <div class="kicker">Production</div>
-  <div class="sect"><span class="num">06</span><h2>De la production artisanale à l’isolant en rouleau</h2></div>
+  <div class="sect"><span class="num">08</span><h2>De la production artisanale à l’isolant en rouleau</h2></div>
   <div class="lede">C'est le verrou central, et celui dont la levée se mesure le plus
     brutalement.</div>
 
@@ -838,12 +915,12 @@ P.append(f"""<div class="page">
   (oreillers, coussins). C'est le cœur stratégique et la source de l'avantage : une fibre
   locale que personne d'autre ne maîtrise à cette échelle. Ce qui part, c'est l'assemblage
   textile, une compétence que le Québec a perdue il y a trente ans.</p>
-  {foot(6)}""")
+  {foot(8)}""")
 
 # ------------------------------------------------------------------ 06 VERROU 3
 P.append(f"""<div class="page">
   <div class="kicker">Mise en marché</div>
-  <div class="sect"><span class="num">07</span><h2>Le marketing et le développement des marchés</h2></div>
+  <div class="sect"><span class="num">09</span><h2>Le marketing et le développement des marchés</h2></div>
   <div class="lede">C'est le verrou le moins visible dans un bilan, et probablement le
     plus coûteux : ce que l'entreprise n'a pas pu faire pendant qu'elle faisait tourner
     une usine.</div>
@@ -901,12 +978,12 @@ P.append(f"""<div class="page">
   creuse la perte, puisqu'elle se rembourse dès la première commande, mais son rendement
   se dégrade quand personne n'a le temps de l'optimiser. Le canal détail, qui ne consomme
   aucune publicité, réduit structurellement cette dépendance.</p>
-  {foot(7)}""")
+  {foot(9)}""")
 
 # ------------------------------------------------------------------ 07 VERROU 4
 P.append(f"""<div class="page">
   <div class="kicker">Structure de coûts</div>
-  <div class="sect"><span class="num">08</span><h2>Les coûts fixes et l’infrastructure numérique</h2></div>
+  <div class="sect"><span class="num">10</span><h2>Les coûts fixes et l’infrastructure numérique</h2></div>
   <div class="lede">Un modèle où les dépenses montent au même rythme que les ventes ne
     devient jamais rentable, quelle que soit la croissance. C'est exactement ce qui s'est
     produit.</div>
@@ -969,7 +1046,7 @@ P.append(f"""<div class="page">
   </ul>
 
   <p>Ces économies ne sont <strong>pas</strong> comptabilisées dans les projections.</p>
-  {foot(8)}""")
+  {foot(10)}""")
 
 # ------------------------------------------------------------------ 08 MOTEURS
 CROI_A = A['dtc'][3] + A['detail'][3] - A['dtc'][0]
@@ -978,7 +1055,7 @@ CAGR_A = (A['dtc'][3] / A['dtc'][0]) ** (1 / 3) - 1
 CAGR_HIST = (hist_ca[4] / hist_ca[0]) ** (1 / 4) - 1
 P.append(f"""<div class="page">
   <div class="kicker">D'où vient la croissance</div>
-  <div class="sect"><span class="num">09</span><h2>Deux moteurs, et le plus gros existe déjà</h2></div>
+  <div class="sect"><span class="num">11</span><h2>Deux moteurs, et le plus gros existe déjà</h2></div>
   <div class="lede">Le canal détail est le nouveau venu, alors il attire l'attention, et
     il apporte en effet la plus grande part de la croissance. Il reste que le commerce en
     ligne, qui a porté seul les six premières années, en fournit encore
@@ -1035,7 +1112,7 @@ P.append(f"""<div class="page">
       prix du commerce en ligne. Le catalogue cesse d'être borné par la capacité de deux
       personnes en atelier.</p></div>
   </div>
-  {foot(9)}""")
+  {foot(11)}""")
 
 # ------------------------------------------------------------------ 09 DÉTAIL
 D_ = D['detail']
@@ -1052,7 +1129,7 @@ lignes_villes = ''.join(
 
 P.append(f"""<div class="page">
   <div class="kicker">Le canal détail</div>
-  <div class="sect"><span class="num">10</span><h2>Le détail au Canada, construit ville par ville</h2></div>
+  <div class="sect"><span class="num">12</span><h2>Le détail au Canada, construit ville par ville</h2></div>
   <div class="lede">Ce canal n'est pas une projection à partir de rien. Un détaillant
     vend déjà les produits Lasclay en consignation, à Montréal, depuis septembre 2025,
     et ses rapports mensuels donnent ce qu'un point de vente rapporte réellement.</div>
@@ -1100,12 +1177,12 @@ P.append(f"""<div class="page">
     Le transport net a coûté 65 212 $ en 2025-2026, soit 6,6 % des ventes nettes ; aucune
     économie de ce côté n'est inscrite dans les prévisions.</p></div>
 
-  {foot(10)}""")
+  {foot(12)}""")
 
 # ------------------------------------------------------------------ 10 VILLES
 P.append(f"""<div class="page">
   <div class="kicker">Le canal détail</div>
-  <div class="sect"><span class="num">11</span><h2>Les quarante villes, et le calendrier</h2></div>
+  <div class="sect"><span class="num">13</span><h2>Les quarante villes, et le calendrier</h2></div>
   <div class="lede">Reste à décider ce que vaut un point de vente majeur par rapport à la
     boutique montréalaise. Le modèle le pose à {D_['calibre_c']:.0f} fois, dans les deux
     scénarios. C'est le seul jugement du canal, et trois faits des rapports de
@@ -1157,12 +1234,12 @@ P.append(f"""<div class="page">
       800 $ de présentoir par point de vente et la coordination. Le point de vente le
       plus modeste du réseau ambitieux encaisse {fr(D_['marginal_a'])} par année.</caption>
   </table>
-  {foot(11)}""")
+  {foot(13)}""")
 
 # ------------------------------------------------------------------ 11 MARCHÉS
 P.append(f"""<div class="page">
   <div class="kicker">Marchés</div>
-  <div class="sect"><span class="num">12</span><h2>Trois marchés qui ne sont pas dans les chiffres</h2></div>
+  <div class="sect"><span class="num">14</span><h2>Trois marchés qui ne sont pas dans les chiffres</h2></div>
   <div class="lede">Le canal détail est le seul nouveau marché budgété. Les trois qui
     suivent se négocient sur des cycles trop longs pour être inscrits dans un plan de
     trois ans, et n'apportent aucun revenu aux tableaux qui suivent.</div>
@@ -1216,12 +1293,12 @@ P.append(f"""<div class="page">
       fois Les Défricheuses, soit {fr(D_['sensibilite'][0]['par_pdv'])} par point de
       vente et par année, le plan reste rentable hors aides publiques en 2028-2029.</caption>
   </table>
-  {foot(12)}""")
+  {foot(14)}""")
 
 # ------------------------------------------------------------------ 09 CHIFFRES
 P.append(f"""<div class="page">
   <div class="kicker">Projections</div>
-  <div class="sect"><span class="num">13</span><h2>Les projections : deux scénarios</h2></div>
+  <div class="sect"><span class="num">15</span><h2>Les projections : deux scénarios</h2></div>
   <div class="lede">Un chiffrier mensuel de 48 mois rapproché de QuickBooks compte par
     compte, dont dix mois de 2025-2026 sont du réel. Une seule cellule bascule d'un scénario
     à l'autre.</div>
@@ -1274,12 +1351,12 @@ P.append(f"""<div class="page">
   le commerce en ligne apporte {pct((C['dtc'][3] - C['dtc'][0])
   / (C['dtc'][3] + C['detail'][3] - C['dtc'][0]), 0)} de la croissance de la période et
   le canal détail le reste.</p>
-  {foot(13)}""")
+  {foot(15)}""")
 
 # ------------------------------------------------------------------ 10 FINANCEMENT
 P.append(f"""<div class="page">
   <div class="kicker">Financement</div>
-  <div class="sect"><span class="num">14</span><h2>Structure de financement et facteurs de risque</h2></div>
+  <div class="sect"><span class="num">16</span><h2>Structure de financement et facteurs de risque</h2></div>
   <div class="lede">L'essentiel de la demande remplace de la dette coûteuse par de la
     dette normale. Ce n'est pas de l'endettement supplémentaire.</div>
 
@@ -1339,12 +1416,12 @@ P.append(f"""<div class="page">
     <li>Aucune reprise de stock sur le canal détail. Cette hypothèse est favorable : une
       reprise de 5 % coûterait environ 12 000 $ en 2028-2029</li>
   </ul>
-  {foot(14)}""")
+  {foot(16)}""")
 
 # ------------------------------------------------------------------ 11 FIABILITÉ
 P.append(f"""<div class="page">
   <div class="kicker">Méthode</div>
-  <div class="sect"><span class="num">15</span><h2>La méthode et les sources</h2></div>
+  <div class="sect"><span class="num">17</span><h2>La méthode et les sources</h2></div>
   <div class="lede">Une projection ne vaut que par la rigueur de son suivi.</div>
 
   <h3>Ancrage comptable</h3>
@@ -1396,11 +1473,11 @@ P.append(f"""<div class="page">
   d'isolation de la membrane · Chaire de recherche industrielle sur les matériaux innovants en composites de l'Université de Sherbrooke pour la comparaison au duvet · World Wildlife Fund-México pour les colonies de monarques ·
   registre public des espèces en péril du gouvernement du Canada pour le statut du
   monarque.</p>
-  {foot(15)}""")
+  {foot(17)}""")
 
 # ------------------------------------------------------------------ 12 CONCLUSION
 P.append(f"""<div class="page">
-  <div class="sect"><span class="num">16</span><h2>Synthèse</h2></div>
+  <div class="sect"><span class="num">18</span><h2>Synthèse</h2></div>
 
   <p>Lasclay a franchi les étapes les plus difficiles d'une entreprise pionnière :
   apprendre une matière que personne ne maîtrisait, bâtir une demande de 70 000 clients,
@@ -1459,7 +1536,7 @@ P.append(f"""<div class="page">
     modèle financier et ne constituent pas une garantie de résultats futurs. Les repères
     de performance de la fibre décrivent la matière en laboratoire et non un produit fini.
   </div>
-  {foot(16)}""")
+  {foot(18)}""")
 
 html = CSS + ''.join(P)
 
