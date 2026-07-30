@@ -117,6 +117,21 @@ out['fy26_mois']={
  'ventes':[round(bk.get(P,f'{c}26')) for c in 'DEFGHIJKLMNO'],
  'pub':[round(bk.get(P,f'{c}78')) for c in 'DEFGHIJKLMNO'],
 }
+# Le dernier point de la série historique du mémo. Il doit être sur la MÊME base
+# que les quatre précédents, qui viennent des états financiers compilés : le
+# revenu après escomptes, plus les revenus de transport. C'est la ligne
+# « revenu » d'un état des résultats compilé. Ni la ligne 3 seule (les ventes
+# avant escomptes, et amputées du canal détail depuis la reclassification des
+# Défricheuses), ni la ligne 18 seule (qui laisse le transport dehors).
+out['revenu_total_fy26']=round(bk.get(P,'P18')+bk.get(P,'P21')+bk.get(P,'P22'))
+# Main-d'œuvre de production (l.38) : ce que coûte l'isolant fabriqué à la main
+# en 2025-2026, contre ce qu'il coûte en rouleau à partir de 2026-2027.
+out['mod_production']={'avant':round(bk.get(P,'P38')),'apres':round(bk.get(P,'AD38'))}
+# Loyer de l'atelier (l.59) et amortissement de l'équipement et des améliorations
+# locatives (l.54 + l.55). Le mémo affirmait un loyer de 88 236 $ en 2026-2027 :
+# le chiffrier n'a jamais porté ce montant, à aucune étape de la révision.
+out['loyer']=[round(bk.get(P,t+'59')) for t in TOT]
+out['amort_atelier']=round(bk.get(P,'P54')+bk.get(P,'P55'))
 # La feuille « Sommaire bailleurs » a été retirée du classeur : ces valeurs sont
 # soit recalculées depuis le modèle, soit reportées de leur source d'origine
 # (Shopify pour les clients et le panier, QuickBooks pour la publicité et la marge).

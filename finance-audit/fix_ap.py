@@ -58,21 +58,43 @@ CELL = re.compile(r'<c\b([^>]*?)(?:/>|>(.*?)</c>)', re.S)
 
 # --------------------------------------------------------------- AP1 étiquettes
 def exercice(m):
-    """« FY2027 » désigne l'exercice clos le 31 août 2027, donc 2026-2027."""
+    """« FY2027 » désigne l'exercice clos le 31 août 2027, donc 2026-2027.
+
+    Le groupe capturé porte les QUATRE chiffres. Ne capturer que les deux
+    derniers donnerait « 26-27 », une notation que personne n'a demandée.
+    """
     n = int(m.group(1))
     return f'{n - 1}-{n}'
 
 
+def deux_chiffres(n):
+    """« FY27 » et « FY2027 » désignent le même exercice."""
+    n = 2000 + int(n)
+    return f'{n - 1}-{n}'
+
+
 def reetiqueter(texte):
+    """La notation se décline de quatre façons dans le classeur, et une
+    cinquième — « FY20xx » — est le nom du gabarit lui-même, cité dans le
+    journal d'audit : elle doit survivre."""
+    if 'FY20xx' in texte:
+        return texte
     # « (FY2027 / 28 / 29) » : les deux suivants sont écrits en abrégé
     texte = re.sub(r'FY\s?20(\d\d)\s*/\s*(\d\d)\s*/\s*(\d\d)',
                    lambda m: ' / '.join(f'{2000 + int(g) - 1}-{2000 + int(g)}'
                                         for g in m.groups()), texte)
-    return re.sub(r'FY\s?20(\d\d)', exercice, texte)
+    texte = re.sub(r'FY\s?(20\d\d)', exercice, texte)
+    # « FY28-29 » : deux exercices d'affilée
+    texte = re.sub(r'FY\s?(\d\d)-(\d\d)\b',
+                   lambda m: f'{deux_chiffres(m.group(1))} et '
+                             f'{deux_chiffres(m.group(2))}', texte)
+    # « FY26 », « FY24 / FY25 / FY26 »
+    return re.sub(r'FY\s?(\d\d)(?!\d)', lambda m: deux_chiffres(m.group(1)), texte)
 
 
 def textes_avec_fy(e):
-    """Rend [(feuille, coord, texte)] pour chaque cellule portant « FY20xx »."""
+    """Rend [(feuille, coord, texte)] pour chaque cellule portant une notation
+    « FY », à deux chiffres comme à quatre."""
     ss = e.parts.get('xl/sharedStrings.xml', b'').decode('utf8')
     si = [html.unescape(re.sub(r'<[^>]+>', '', m.group(1)))
           for m in re.finditer(r'<si>(.*?)</si>', ss, re.S)]
@@ -90,7 +112,7 @@ def textes_avec_fy(e):
                     else (html.unescape(v.group(1)) if v else '')
             else:
                 continue
-            if re.search(r'FY\s?20\d\d', txt):
+            if re.search(r'\bFY\s?\d\d', txt):
                 ref = re.search(r'r="([A-Z]+\d+)"', attrs).group(1)
                 trouve.append((feuille, ref, txt))
     return trouve

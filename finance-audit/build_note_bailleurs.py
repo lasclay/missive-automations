@@ -461,7 +461,11 @@ def foot(n, tot=18):
 HBAR_MOD = hbar([("Production interne, 2025-2026", 91036, VERT),
                  ("Isolant en rouleau, 2026-2027", 4800, ORANGE)], rowh=46)
 hist_lab = ['2021-2022', '2022-2023', '2023-2024', '2024-2025', '2025-2026']
-hist_ca = [280000, 403702, 504926, 879125, 1103327]
+# Revenu des états financiers compilés : après escomptes, transport de vente
+# compris. Le dernier point vient du modèle, sur cette même base — pas de la
+# ligne 3, qui est avant escomptes et qui a perdu le canal détail quand les
+# ventes des Défricheuses ont été reclassées.
+hist_ca = [280000, 403702, 504926, 879125, D['revenu_total_fy26']]
 
 P = []   # les pages
 
@@ -498,7 +502,7 @@ P.append(f"""<div class="page cover">
     restructuration de 2026 change à la trajectoire.</div>
 
   <div class="cfig">
-    <div><span class="v">1,10 M$</span><span class="k">Revenu 2025-2026</span></div>
+    <div><span class="v">{fr(hist_ca[4] / 1e6, 2, '')} M$</span><span class="k">Revenu 2025-2026</span></div>
     <div><span class="v">{f"{C['ventes'][3]/1e6:.2f}".replace('.', ',')} M$</span><span class="k">Ventes nettes visées 2028-2029</span></div>
     <div><span class="v">2027-2028</span><span class="k">Rentable hors aides publiques</span></div>
     <div><span class="v">70 000</span><span class="k">Clients depuis 2020</span></div>
@@ -691,9 +695,10 @@ P.append(f"""<div class="page">
   fabriquer et à vendre. Ce qu’elle n’a pas encore pu faire, c’est produire à un coût qui
   ouvre les marchés de volume.</p>
 
-  {bar_chart([('Revenu brut', hist_ca, VERT)], hist_lab, height=160,
+  {bar_chart([('Revenu', hist_ca, VERT)], hist_lab, height=160,
              fmt=lambda v: f'{v/1000:.0f} k$')}
-  <div class="fig">Revenu brut par exercice. 2021-2022 selon les registres internes ;
+  <div class="fig">Revenu par exercice, après escomptes et transport de vente compris —
+    la ligne « revenus » d'un état des résultats. 2021-2022 selon les registres internes ;
     2022-2023 à 2024-2025 selon les états financiers compilés ; 2025-2026 selon QuickBooks.
     Marge brute : 44,3 % · 65,5 % · 73,0 % en trois exercices.</div>
 
@@ -716,15 +721,16 @@ P.append(f"""<div class="page">
     marge qui manquaient. <em>Section 09.</em></p></div>
   <div class="verrou o"><span class="n">4</span><p><strong>Les coûts fixes montaient au
     rythme des ventes.</strong> Usine, loyer, main-d'œuvre de production et abonnements
-    logiciels. La structure allégée libère environ 155 000 $ par année. <em>Section 10.</em></p></div>
+    logiciels. La structure allégée en libère {fr(D['mod_production']['avant'] - D['mod_production']['apres'] + D['loyer'][0] - D['loyer'][1])} dès 2026-2027. <em>Section 10.</em></p></div>
 
   <div class="tiles">
     <div class="tile"><div class="v">70 000</div><div class="k">Clients</div>
       <div class="n">3 M$ cumulés depuis 2020</div></div>
-    <div class="tile"><div class="v">1,10 M$</div><div class="k">Revenu 2025-2026</div>
-      <div class="n">+25,5 % sur 2024-2025</div></div>
-    <div class="tile o"><div class="v">4 800 $</div><div class="k">Isolant, une année</div>
-      <div class="n">contre 91 036 $ en 2025-2026</div></div>
+    <div class="tile"><div class="v">{fr(hist_ca[4] / 1e6, 2, '')} M$</div>
+      <div class="k">Revenu 2025-2026</div>
+      <div class="n">+{pct(hist_ca[4] / hist_ca[3] - 1, 1)} sur 2024-2025</div></div>
+    <div class="tile o"><div class="v">{fr(D['mod_production']['apres'])}</div><div class="k">Isolant, une année</div>
+      <div class="n">contre {fr(D['mod_production']['avant'])} en 2025-2026</div></div>
     <div class="tile o"><div class="v">2027-2028</div><div class="k">Rentable hors aides</div>
       <div class="n">et couverture au-dessus de 1,25</div></div>
   </div>
@@ -939,7 +945,7 @@ P.append(f"""<div class="page">
 
   <div class="tiles" style="margin-top:6px">
     <div class="tile"><div class="v">−94,7 %</div><div class="k">Main-d'œuvre de production</div>
-      <div class="n">91 036 $ → 4 800 $</div></div>
+      <div class="n">{fr(D['mod_production']['avant'])} → {fr(D['mod_production']['apres'])}</div></div>
     <div class="tile"><div class="v">7–8 → 2</div><div class="k">Personnes en production</div>
       <div class="n">six mois → deux semaines</div></div>
     <div class="tile o"><div class="v">13 000 $</div><div class="k">Paye aux deux semaines</div>
@@ -1050,15 +1056,18 @@ P.append(f"""<div class="page">
   <h3>La structure fixe, avant et après</h3>
   <table>
     <tr><th>Poste</th><th>2025-2026 réel</th><th>Après le pivot</th><th>Libéré</th></tr>
-    <tr><td>Main-d'œuvre de production</td><td>91 036 $</td><td>4 800 $</td><td>86 236 $</td></tr>
-    <tr><td>Loyer de l'atelier</td><td>99 067 $</td><td>≈ 30 000 $</td><td>≈ 69 000 $</td></tr>
-    <tr><td>Amortissement équipement et améliorations locatives</td><td>22 167 $</td>
-      <td>décroissant</td><td>n. d.</td></tr>
-    <tr class="hi"><td>Structure fixe libérée, par année</td><td colspan="2"></td>
-      <td>≈ 155 000 $</td></tr>
-    <caption>Le modèle financier ne prend pas tout le crédit de la baisse de loyer : il
-      retient 88 236 $ en 2026-2027 et 52 404 $ en 2028-2029, contre un potentiel de 30 000 $
-      en sous-louant l'espace excédentaire. La prudence est volontaire.</caption>
+    <tr><td>Main-d'œuvre de production</td><td>{fr(D['mod_production']['avant'])}</td><td>{fr(D['mod_production']['apres'])}</td><td>{fr(D['mod_production']['avant'] - D['mod_production']['apres'])}</td></tr>
+    <tr><td>Loyer de l'atelier</td><td>{fr(D['loyer'][0])}</td><td>{fr(D['loyer'][1])}</td>
+      <td>{fr(D['loyer'][0] - D['loyer'][1])}</td></tr>
+    <tr><td>Amortissement équipement et améliorations locatives</td>
+      <td>{fr(D['amort_atelier'])}</td><td>décroissant</td><td>n. d.</td></tr>
+    <tr class="hi"><td>Structure fixe libérée dès 2026-2027</td><td colspan="2"></td>
+      <td>{fr(D['mod_production']['avant'] - D['mod_production']['apres']
+             + D['loyer'][0] - D['loyer'][1])}</td></tr>
+    <caption>Ce sont les montants du modèle, pas un potentiel. Le loyer descend encore
+      ensuite — {fr(D['loyer'][2])} en 2027-2028, {fr(D['loyer'][3])} en 2028-2029 — sans
+      que le modèle aille jusqu'aux 30 000 $ qu'une sous-location de l'espace excédentaire
+      rendrait possibles. La prudence est volontaire.</caption>
   </table>
 
   <h3>L'infrastructure numérique : le chantier suivant</h3>
@@ -1548,9 +1557,9 @@ P.append(f"""<div class="page">
 
   <p>Ce sont quatre contraintes techniques, et elles tombent ensemble. Le coût de la fibre
   descend quand le volume d'achat triple. L'isolant devient un produit industriel en
-  rouleau : <strong>4 800 $ de main-d'œuvre pour couvrir une année entière, contre
-  91 036 $</strong>. L'énergie du fondateur revient au marché, aux produits et à la
-  filière agricole. Et la structure fixe libère environ 155 000 $ par année, sans compter
+  rouleau : <strong>{fr(D['mod_production']['apres'])} de main-d'œuvre pour couvrir une année entière,
+  contre {fr(D['mod_production']['avant'])}</strong>. L'énergie du fondateur revient au marché, aux produits et à la
+  filière agricole. Et la structure fixe libère {fr(D['mod_production']['avant'] - D['mod_production']['apres'] + D['loyer'][0] - D['loyer'][1])} dès 2026-2027, sans compter
   les 52 129 $ d'infrastructure numérique qui ne sont même pas dans les projections.</p>
 
   <p>Le risque que ce virage ferait fuir la clientèle a été testé grandeur nature en mai
