@@ -240,7 +240,9 @@ function renderMappings() {
     <div class="card">
       <h2>Mappings de transactions</h2>
       <p class="muted">${meta.counts.rules} règles + ${meta.counts.defaults} règles d'automapping.
-         Généré le ${esc((meta.generatedAt || "").slice(0, 16).replace("T", " "))}.</p>
+         Généré le ${esc((meta.generatedAt || "").slice(0, 16).replace("T", " "))}.
+         ${mappings.filter((x) => x.tax === "detaxe").length} ligne(s) portent le code « Détaxé on Sales » —
+         les revenus ; les lignes de taxe et de frais n'en portent aucun.</p>
       <div class="row" style="margin:12px 0">
         <input class="grow" id="q" placeholder="Filtrer (type, pays, compte…)" value="${esc(filter.q)}">
         <select id="cat">
@@ -251,7 +253,8 @@ function renderMappings() {
         <span id="savemsg" class="muted"></span>
       </div>
       <div class="scroll"><table>
-        <thead><tr><th>Catégorie</th><th>Transaction</th><th>Pays</th><th>Marketplace</th><th>Compte</th><th>Taxe</th></tr></thead>
+        <thead><tr><th>Catégorie</th><th>Transaction</th><th>Pays</th><th>Marketplace</th><th>Compte</th>
+          <th title="Coché = code de taxe « Détaxé on Sales » sur la ligne. Décoché = aucun code, comme sur les lignes de taxe et de frais.">Détaxé on Sales</th></tr></thead>
         <tbody>${rows.map((m) => `
           <tr data-line="${m.line}">
             <td class="muted">${esc(m.category)}</td>
