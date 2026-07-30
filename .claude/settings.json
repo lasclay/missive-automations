@@ -40,22 +40,12 @@
       "Bash(git rebase:*)",
 
       "mcp__github",
-      "mcp__c50b69d9-47a8-456b-b144-be0fedc3d605",
-      "mcp__62094255-8174-4198-8392-35ffd4c8acec",
-      "mcp__0a892dc2-a242-4846-8fb1-7e6c989fead6",
-      "mcp__43033b21-ab0e-4fb1-bafd-f25daf89f4b2",
-      "mcp__94c84ac3-a093-4bef-b9ee-440ba8736e41",
-      "mcp__bf7c680d-5fdc-5ef4-b4a0-abadb619bf0a",
-
-      "mcp__Shopify__list-orders",
-      "mcp__Shopify__get-order",
-      "mcp__Shopify__list-customers",
-      "mcp__Shopify__get-product",
-      "mcp__Shopify__search_products",
-      "mcp__Shopify__get-inventory-levels",
-      "mcp__Shopify__run-analytics-query",
-      "mcp__Shopify__graphql_query",
-      "mcp__Shopify__get-shop-info"
+      "mcp__Shopify",
+      "mcp__Klaviyo",
+      "mcp__Notion",
+      "mcp__Google_Calendar",
+      "mcp__Google_Drive",
+      "mcp__Claude_Code_Remote"
     ]
   }
 }
