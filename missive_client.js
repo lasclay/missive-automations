@@ -11,6 +11,8 @@
  *   node missive_client.js drafts <convId>   (brouillons déjà rédigés par le script IA)
  *   node missive_client.js notes <convId>    (notes internes / commentaires)
  *   node missive_client.js users                     (membres de l'org: id, nom, courriel)
+ *   node missive_client.js structure                 (organisations, equipes, etiquettes partagees, membres
+ *                                                     — les Resource ID a mettre en cache dans missive_structure.json)
  *   node missive_client.js task <convId>             (lit un JSON {title,assignees[],label} sur stdin)
  *   node missive_client.js note <convId> "texte markdown"
  *   node missive_client.js close <convId> "note optionnelle"
@@ -44,6 +46,7 @@ function readStdin() {
     else if (cmd === "drafts") console.log(JSON.stringify(await call("/drafts", { id: a1 }), null, 2));
     else if (cmd === "notes") console.log(JSON.stringify(await call("/comments", { id: a1 }), null, 2));
     else if (cmd === "users") console.log(JSON.stringify(await call("/users", {}), null, 2));
+    else if (cmd === "structure") console.log(JSON.stringify(await call("/structure", {}), null, 2));
     else if (cmd === "task") { const t = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/task", { id: a1, ...t }), null, 2)); }
     else if (cmd === "note") console.log(JSON.stringify(await call("/note", { id: a1, markdown: a2 }), null, 2));
     else if (cmd === "close") console.log(JSON.stringify(await call("/close", { id: a1, note: a2 }), null, 2));

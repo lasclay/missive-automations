@@ -13,6 +13,8 @@
  *   POST /drafts     {id}             → brouillons laissés par le script IA (réponse déjà rédigée)
  *   POST /comments   {id}             → notes internes (commentaires) — dégrade si non listable
  *   POST /users      {}               → membres de l'org (id, nom, courriel) pour les assignations
+ *   POST /structure  {}               → organisations, équipes, étiquettes partagées, membres
+ *                                       (Resource ID à mettre en cache; lecture seule)
  *   POST /task       {id, title, assignees[], label} → crée une tâche (assignée si assignees); renvoie taskId
  *   POST /task-state {taskId, state}  → change l'état d'une tâche (todo|in_progress|closed=accomplie)
  *   POST /postraw    {id}             → post brut (pour retrouver l'id de tâche d'un post existant)
@@ -174,6 +176,42 @@ async function listUsers() {
   return users.map((u) => ({ id: u.id, name: u.name || null, email: u.email || null }));
 }
 
+// Introspection LECTURE SEULE de la structure du compte : organisations, équipes,
+// étiquettes partagées, membres. Sert à obtenir les Resource ID une fois, pour les
+// mettre en cache côté dépôt au lieu de les redécouvrir à chaque session.
+// Chaque bloc dégrade indépendamment : une permission manquante sur un type ne
+// doit pas faire échouer tout l'appel.
+async function getStructure() {
+  const out = { organizations: [], teams: [], shared_labels: [], users: [], errors: {} };
+
+  try {
+    const { organizations = [] } = await mGet(`/organizations?limit=50`);
+    out.organizations = organizations.map((o) => ({ id: o.id, name: o.name || null }));
+  } catch (e) { out.errors.organizations = e.message; }
+
+  try {
+    const { shared_labels = [] } = await mGet(`/shared_labels?limit=200`);
+    out.shared_labels = shared_labels.map((l) => ({
+      id: l.id,
+      name: l.name || null,
+      name_with_parent_names: l.name_with_parent_names || null,
+      parent_id: l.parent_id || null,
+      organization: l.organization || null,
+    }));
+  } catch (e) { out.errors.shared_labels = e.message; }
+
+  for (const org of out.organizations) {
+    try {
+      const { teams = [] } = await mGet(`/teams?organization=${org.id}&limit=100`);
+      out.teams.push(...teams.map((t) => ({ id: t.id, name: t.name || null, organization: org.id })));
+    } catch (e) { out.errors[`teams:${org.id}`] = e.message; }
+  }
+
+  try { out.users = await listUsers(); } catch (e) { out.errors.users = e.message; }
+
+  return out;
+}
+
 // Crée une TÂCHE sur un fil, éventuellement assignée à des utilisateurs.
 // add_assignees exige `organization` (toujours envoyé). Les assignés existants restent.
 async function createTask({ id, title, assignees, label, markdown }) {
@@ -282,6 +320,9 @@ const server = http.createServer(async (req, res) => {
     }
     if (route === "/users") {
       return json(res, 200, { users: await listUsers() });
+    }
+    if (route === "/structure") {
+      return json(res, 200, await getStructure());
     }
     if (route === "/task") {
       if (!body.id || !body.title) return json(res, 400, { error: "id et title requis" });
