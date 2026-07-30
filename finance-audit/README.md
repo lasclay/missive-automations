@@ -36,6 +36,9 @@ classeur en 1,2 seconde.
 | `fix_m.py` | Interrupteur de scénario (`Inputs!C70`). |
 | `fix_n.py` | Feuilles « Sommaire bailleurs » et « Notes d'audit ». |
 | `fix_o.py` | Finitions : plus une seule cellule en erreur, formatage. |
+| `fix_p.py` `fix_q.py` `fix_r.py` | Collage du bilan réel de QuickBooks pour les douze mois de FY2026 (appariement sur le numéro de compte), et report des mois réels de février à juin 2026. |
+| `fix_s.py` | Hypothèses d'exploitation remontées dans `Inputs` (rangées 100 à 113), et sections « coût d'acquisition », « ratios de crédit » et « liquidité » du sommaire. |
+| `fix_t.py` | Avance de l'actionnaire : 80 000 $ le 15 août 2026, remboursables sur 12 mois à 8 %, avec ce que ça fait à la couverture du service de la dette et à la marge demandée. |
 | `push_drive.py` | Pousse le résultat vers Drive. Les identifiants sont lus dans l'environnement, jamais passés en ligne de commande. |
 
 ## Pièges du classeur, à connaître avant d'y toucher
@@ -51,5 +54,11 @@ classeur en 1,2 seconde.
 - **Une seule chaîne de trésorerie** : `Résultats-Prev` lignes 182 à 193. Le bilan y lit
   son encaisse et sa marge de crédit ; le « Budget de caisse » en est la vue mensuelle.
   Ne pas en recréer une deuxième.
-- **Le bilan réel de QuickBooks s'arrête à février 2026** alors que le résultat réel va
-  jusqu'à juin. La prévision de trésorerie s'ancre sur le dernier mois de bilan réel.
+- **Le bilan réel porte dix mois**, septembre 2025 à juin 2026, collés depuis QuickBooks
+  (`fix_p.py`). Juillet et août 2026 restent prévisionnels : la colonne juillet de
+  QuickBooks est une photo du mois en cours, pas un mois fermé, et sa colonne août n'en
+  est qu'un doublon. La chaîne de trésorerie s'ancre donc sur juin 2026.
+- **Les feuilles ont chacune leur géométrie de colonnes.** Les mois de FY2027 sont
+  `R:AC` au résultat et au bilan, `AS:BD` au budget de caisse, `BA:BL` dans « Dette à
+  long terme ». Ne pas supposer qu'une colonne désigne le même mois d'une feuille à
+  l'autre.
