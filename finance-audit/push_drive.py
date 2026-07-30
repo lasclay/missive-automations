@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 """Pousse un fichier vers Drive par l'Apps Script du projet.
 
-Les identifiants sont lus depuis l'environnement Render du projet
-(LASCLAY_DRIVE_PUSH_URL / LASCLAY_DRIVE_PUSH_TOKEN) et ne transitent jamais par
-la ligne de commande.
+Les identifiants sont lus depuis l'environnement (LASCLAY_DRIVE_PUSH_URL /
+LASCLAY_DRIVE_PUSH_TOKEN) et ne transitent jamais par la ligne de commande.
 
-Le pousseur côté Apps Script tient une liste blanche de cibles. Au 30 juillet
-2026 elle ne contient que `controle`, qui pointe sur le chiffrier, et le script
-refuse tout ce qui fait moins de 100 Ko ou ne commence pas par « PK ». Déposer le
-mémo PDF au même endroit demande donc d'ajouter une cible côté Apps Script ; voir
-`DEPOT_DRIVE.md`. Le contrôle de forme est ici adapté au type de fichier pour que
-ce client soit prêt le jour où la cible existe.
+    push_drive.py <fichier>                       la cible historique, le chiffrier
+    push_drive.py <fichier> controle              pareil, nommé
+    push_drive.py <fichier> --id <idFichier>      remplace un fichier existant
+    push_drive.py <fichier> --folder <idDossier>  dépose dans un dossier
+                            [--name <nom>]        (nom du fichier local par défaut)
+
+Remplacer un fichier existant garde son identifiant, donc son lien de partage :
+c'est ce qu'on veut quand des bailleurs l'ont déjà.
+
+La version généralisée de l'Apps Script est dans `apps_script/pousseur_drive.gs`.
+Tant qu'elle n'est pas déployée, seule la cible `controle` répond ; voir
+`DEPOT_DRIVE.md`.
 """
 import base64
 import os
@@ -20,23 +25,53 @@ import urllib.request
 
 SIGNATURES = {b'PK': 'classeur xlsx', b'%P': 'document PDF'}
 
-path = sys.argv[1]
-target = sys.argv[2] if len(sys.argv) > 2 else 'controle'
-url = os.environ['LASCLAY_DRIVE_PUSH_URL']
-token = os.environ['LASCLAY_DRIVE_PUSH_TOKEN']
 
-blob = open(path, 'rb').read()
-tete = blob[:2]
-assert tete in SIGNATURES, f'type de fichier inattendu : {tete!r}'
-assert len(blob) > 100_000, 'le pousseur refuse ce qui fait moins de 100 Ko'
-payload = base64.b64encode(blob)
+def arguments(argv):
+    chemin, reste = argv[1], argv[2:]
+    params = {}
+    cible = None
+    i = 0
+    while i < len(reste):
+        a = reste[i]
+        if a in ('--id', '--folder', '--name', '--mime', '--min'):
+            params[a[2:]] = reste[i + 1]
+            i += 2
+        elif not a.startswith('-'):
+            cible = a
+            i += 1
+        else:
+            raise SystemExit(f'argument inconnu : {a}')
+    if 'folder' in params and 'name' not in params:
+        params['name'] = os.path.basename(chemin)
+    if cible:
+        params['cible'] = cible
+    return chemin, params
 
-full = f"{url}?{urllib.parse.urlencode({'file': target, 'token': token})}"
-req = urllib.request.Request(full, data=payload,
-                             headers={'Content-Type': 'text/plain'}, method='POST')
-with urllib.request.urlopen(req, timeout=300) as r:
-    reponse = r.read().decode('utf8', 'replace')[:600]
-    print(r.status, reponse)
-    if 'non autorisé' in reponse:
-        print(f"\nLa cible « {target} » n'est pas dans la liste blanche de "
-              f"l'Apps Script. Voir DEPOT_DRIVE.md pour l'y ajouter.")
+
+def main():
+    if len(sys.argv) < 2:
+        raise SystemExit(__doc__)
+    chemin, params = arguments(sys.argv)
+    url = os.environ['LASCLAY_DRIVE_PUSH_URL']
+    params['token'] = os.environ['LASCLAY_DRIVE_PUSH_TOKEN']
+
+    blob = open(chemin, 'rb').read()
+    tete = blob[:2]
+    if tete not in SIGNATURES:
+        print(f'note : signature {tete!r} inhabituelle, envoi quand même')
+    payload = base64.b64encode(blob)
+
+    req = urllib.request.Request(f'{url}?{urllib.parse.urlencode(params)}',
+                                 data=payload,
+                                 headers={'Content-Type': 'text/plain'},
+                                 method='POST')
+    with urllib.request.urlopen(req, timeout=300) as r:
+        reponse = r.read().decode('utf8', 'replace')[:600]
+    print(r.status if hasattr(r, 'status') else 200, reponse)
+    if 'non autorisé' in reponse or 'jeton' in reponse:
+        print("\nL'Apps Script déployé est encore la version à cible unique. "
+              'Voir DEPOT_DRIVE.md pour installer apps_script/pousseur_drive.gs.')
+
+
+if __name__ == '__main__':
+    main()
