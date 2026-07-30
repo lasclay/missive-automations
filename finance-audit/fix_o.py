@@ -31,8 +31,13 @@ def add_styles(e):
         base = int(m.group(1))
     add = ('<xf numFmtId="900" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>'
            '<xf numFmtId="901" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>')
-    m = re.search(r'<cellXfs count="(\d+)">', x)
-    x = x[:m.start()] + f'<cellXfs count="{base + 2}">' + add + x[m.end():]
+    # Les deux <xf> vont à la FIN de la table : un <xf> ajouté en tête décalerait
+    # de deux crans les 678 index existants, et chaque cellule du classeur
+    # afficherait le format d'une autre. Aucune valeur ne serait fausse, mais
+    # tout deviendrait illisible.
+    m = re.search(r'(<cellXfs count=")(\d+)(">)(.*?)(</cellXfs>)', x, re.S)
+    x = (x[:m.start()] + m.group(1) + str(base + 2) + m.group(3)
+         + m.group(4) + add + m.group(5) + x[m.end():])
     e.parts['xl/styles.xml'] = x.encode('utf8')
     return base, base + 1        # (index montant, index pourcentage)
 

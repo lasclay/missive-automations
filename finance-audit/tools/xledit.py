@@ -98,7 +98,20 @@ class Editor:
             new = self._cell_xml(coord, style_attr, kind, payload)
             newbody = body[:target.start()] + new + body[target.end():]
         else:
-            new = self._cell_xml(coord, '', kind, payload)
+            # Cellule créée : elle prend le style de sa voisine la plus proche
+            # dans la rangée. Sans ça, elle hérite du format par défaut de la
+            # rangée — souvent un pourcentage dans ce classeur, ce qui affiche
+            # un montant de 952 470 $ comme « 95247055 % ».
+            best, bestd = None, None
+            for cm in CELL_RE.finditer(body):
+                st = re.search(r'\ss="(\d+)"', cm.group(3) or '')
+                if not st:
+                    continue
+                d = abs(column_index_from_string(cm.group(1)) - cidx)
+                if bestd is None or d < bestd:
+                    best, bestd = st.group(1), d
+            style_attr = f' s="{best}"' if best else ''
+            new = self._cell_xml(coord, style_attr, kind, payload)
             if before_end is None:
                 newbody = body + new
             else:
