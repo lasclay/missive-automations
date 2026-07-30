@@ -47,6 +47,8 @@ classeur en 1,2 seconde.
 | `fix_an.py` | Taxes à payer : onze des douze mois de 2028-2029 lisaient « Frais courus à payer » à la rangée voisine, ce qui aplatissait le solde et faussait la trésorerie du dernier exercice. Le facteur de croissance, écrit en dur à 1,35 puis 1,4, devient le rapport des ventes nettes d'un exercice à l'autre. |
 | `fix_ao.py` | Versement de TPS du 30 novembre, posé explicitement. Le solde de taxes se construit par ses mouvements à partir du réel d'août 2026 : chaque mois accumule sa TPS et sa TVQ, la TVQ du mois précédent se verse, et novembre acquitte la TPS de l'exercice écoulé. Calé sur les vrais montants de 2025-2026 fournis par `tps_reelle.py`. |
 | `tps_reelle.py` | Reconstitue à la source la TPS perçue, la TVQ perçue, les CTI et les RTI du 1er septembre 2025 au 30 juillet 2026 : part fédérale des taxes Shopify calculée région par région, plus les `TxnTaxDetail.TaxLine` des factures, des Bill et des Purchase chez QuickBooks. Lecture seule. |
+| `fix_ap.py` | Finitions de livraison : les 54 étiquettes « FY20xx » passent au gabarit « 2026-2027 » ; les descriptions de scénario d'`Inputs` A71 et A72, qui annonçaient des déploiements périmés, sont régénérées depuis les rangées qu'elles décrivent ; les rangées ajoutées reçoivent un format ; la limite de la marge de crédit et le contrôle du tirage sont posés à la rangée 163 d'`Inputs` ; le journal d'audit est mis à jour. |
+| `recache.py` | Rafraîchit les valeurs en cache de tout le classeur. **À lancer en dernier**, après toute écriture. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `pdftxt.py` | Extrait le texte d'un PDF en passant par les tables ToUnicode de chaque police. Les PDF exportés de Google dessinent leur texte en hexadécimal avec des polices sous-ensemblées : sans la table, on ne lit rien. Sert à dépouiller les annexes et les lettres de soutien. |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
@@ -142,6 +144,22 @@ classeur en 1,2 seconde.
   fédérale en Ontario et dans l'Atlantique, TPS seule en Alberta et dans les
   territoires, 5/14,975 au Québec, 5/12 en Colombie-Britannique et au Manitoba, 5/11 en
   Saskatchewan, rien aux États-Unis.
+- **Le classeur porte deux vérités : la formule et sa dernière valeur calculée.**
+  Excel recalcule à l'ouverture, le classeur pose `fullCalcOnLoad`. Tout le reste
+  affiche le cache tel quel : l'aperçu de Google Drive, un import Sheets, une
+  conversion en PDF, un tableur mobile. Après la révision, 29 991 cellules
+  montraient un nombre périmé et 1 439 un `#REF!` réparé depuis — un chiffrier
+  cassé à l'aperçu, juste au téléchargement. `recache.py` réécrit le cache et se
+  lance **en dernier**, après toute écriture.
+- **L'évaluateur se valide sur les archives.** Les feuilles que la révision n'a
+  pas touchées portent encore le cache d'Excel : c'est la bonne réponse, et
+  `xlcalc` la reproduit sur 5 079 cellules sur 5 079. C'est ce contrôle qui rend
+  `recache.py` défendable. La seule archive qui diverge, « Résultats2024 », lit
+  deux feuilles que la révision a changées.
+- **`TEXT()` n'existe pas dans l'évaluateur.** Une étiquette construite par
+  formule, si élégante soit-elle, sort `#NOM?` de l'outil qui sert à vérifier le
+  classeur. Régénérer le texte depuis Python et pointer le lecteur vers les
+  rangées sources.
 - **Une formule posée sur une feuille référence cette feuille.** `$D$143` écrit dans le
   bilan désigne une cellule vide du bilan, pas `Inputs!$D$143`. Le calcul tombe à zéro
   sans rien signaler : le solde reste simplement plat.
