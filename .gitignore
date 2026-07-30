@@ -1,2 +1,6 @@
 .claude/settings.local.json
 node_modules/
+
+# Exports de qbo_import.js : données financières régénérables à la demande
+qbo_pl_FY*.tsv
+qbo_bs_FY*.tsv
