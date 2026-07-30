@@ -4,6 +4,17 @@ Automatisations Lasclay (support Missive, proxys d'API). Quand on te demande d'*
 service tiers** (ShipStation, Omnisend, QuickBooks…), passe par les proxys ci-dessous — les
 clés API vivent côté Render, jamais dans l'environnement Claude ni dans le code.
 
+**N'explore pas le dépôt pour retrouver comment joindre un service : trois skills du projet
+contiennent déjà les actions exactes, les paramètres et les garde-fous.** Charge-les au lieu de
+chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, `/qbo`,
+`/proxygen`) :
+
+| Skill | Couvre |
+| --- | --- |
+| `missive` | boîte support Missive, fils et brouillons, connaissances de service client et de marque, scripts de la boîte |
+| `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
+| `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
+
 ## General Proxy (opérations) — ShipStation, Omnisend
 
 - Service Render : `https://general-proxy-5muf.onrender.com` (code : `server.js` à la racine).
