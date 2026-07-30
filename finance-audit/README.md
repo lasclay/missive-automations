@@ -39,6 +39,8 @@ classeur en 1,2 seconde.
 | `fix_p.py` `fix_q.py` `fix_r.py` | Collage du bilan réel de QuickBooks pour les douze mois de FY2026 (appariement sur le numéro de compte), et report des mois réels de février à juin 2026. |
 | `fix_s.py` | Hypothèses d'exploitation remontées dans `Inputs` (rangées 100 à 113), et sections « coût d'acquisition », « ratios de crédit » et « liquidité » du sommaire. |
 | `fix_t.py` | Avance de l'actionnaire : 80 000 $ le 15 août 2026, remboursables sur 12 mois à 8 %, avec ce que ça fait à la couverture du service de la dette et à la marge demandée. |
+| `fix_ab.py` `fix_ac.py` | Budget de FY2026 figé (un exercice fermé ne se rebudgète pas) et section « ce qui s'est passé en juin et juillet 2026 ». |
+| `fix_ad.py` → `fix_aj.py` | Canal détail en consignation au Canada, modélisé par ses pilotes, et les deux scénarios : conservateur réaliste et ambitieux. |
 | `fix_y.py` | Réparation de la mise en page : remet la table `cellXfs` dans l'ordre et donne un format aux cellules créées par la révision. À exécuter après toute série d'écritures. |
 | `push_drive.py` | Pousse le résultat vers Drive. Les identifiants sont lus dans l'environnement, jamais passés en ligne de commande. |
 
@@ -67,6 +69,13 @@ classeur en 1,2 seconde.
 - **Une cellule créée doit reprendre le style de sa voisine.** Sans style, elle hérite du
   format par défaut de sa rangée, souvent un pourcentage dans ce classeur.
   `xledit.set()` s'en charge maintenant ; vérifier avec `fix_y.py`.
+- **Un inventaire au bilan a besoin de DEUX contreparties** : la rangée 40 du résultat
+  (le coût des marchandises capitalise ce qui n'est pas vendu) et une rangée du fonds de
+  roulement entre 153 et 164. Il en manque une, la ligne 76 du bilan décolle.
+- **Ne pas ajouter un stock à une rangée dont la formule multiplie l'année précédente
+  par un facteur de croissance** : il serait remultiplié chaque exercice en plus d'être
+  réajouté. La rangée 13 sépare donc le stock propre, qui croît, du stock en
+  consignation, qui se calcule à part.
 - **Les feuilles ont chacune leur géométrie de colonnes.** Les mois de FY2027 sont
   `R:AC` au résultat et au bilan, `AS:BD` au budget de caisse, `BA:BL` dans « Dette à
   long terme ». Ne pas supposer qu'une colonne désigne le même mois d'une feuille à
