@@ -17,9 +17,14 @@ Tout est maintenant construit sur deux sources vérifiables :
    Là où la marque pèse déjà, un point de vente pèse davantage. L'indice
    d'affinité de chaque ville se lit dans ces données, pas dans une hypothèse.
 
-L'univers de déploiement n'est plus ouvert : ce sont les vingt plus grandes
-villes du Québec et les vingt-cinq plus grandes du Canada, soit quarante villes
-distinctes. Le plafond du canal est donc borné et nommable, ville par ville.
+L'univers de déploiement n'est pas ouvert : ce sont les vingt plus grandes villes
+du Québec et les vingt-cinq plus grandes du Canada, soit quarante villes
+distinctes. Une ville porte plus d'un point de vente quand sa population le
+permet, à raison d'un par tranche de 160 000 habitants, dix au plus : Toronto en porte
+dix, Montréal dix, Granby un. Cent neuf points de vente au total, chacun rattaché
+à une ville nommée. Le deuxième point de vente d'une ville ne vaut pas le
+premier, qui a pris le meilleur emplacement : chaque rang suivant est escompté
+de 20 %.
 
 La feuille « Détail par ville » porte le calcul complet.
 """
@@ -28,6 +33,7 @@ import re
 import sys
 
 sys.path.insert(0, 'tools')
+from openpyxl.utils import column_index_from_string, get_column_letter
 from xledit import Editor
 import xlcalc
 
@@ -93,7 +99,7 @@ ROC20 = ['Toronto', 'Calgary', 'Ottawa', 'Edmonton', 'Winnipeg', 'Mississauga',
 # la gamme est passée de dix-huit à quarante lignes en cours d'année, la
 # tablette n'a pas été réapprovisionnée après février, et le point de vente
 # n'avait ni présentoir, ni chargé de comptes, ni poussée saisonnière.
-CALIBRE = {'conservateur': 3.0, 'ambitieux': 4.0}
+CALIBRE = {'conservateur': 3.0, 'ambitieux': 3.0}
 # Hors Québec, les ventes en ligne mesurent l'absence de marketing et non
 # l'absence de potentiel : 8,3 % du chiffre canadien pour 77 % de la
 # population. Une boutique vend à sa propre clientèle, alors l'indice se prend
@@ -105,6 +111,13 @@ CALIBRE = {'conservateur': 3.0, 'ambitieux': 4.0}
 # marketing ouvrent la porte de détaillants d'une autre taille.
 FACTEUR_ROC = 0.40
 OUVERTURE = 0.5      # un point ouvert en cours d'exercice ne livre qu'une part
+# Une ville porte un point de vente majeur par tranche de population. Un seul
+# commerce ne couvre pas Toronto, et Granby n'en porte pas deux.
+HAB_PAR_POINT = 160000
+PLAFOND_VILLE = 10
+# Le deuxième point de vente d'une ville arrive après le premier, qui a pris le
+# meilleur emplacement et la meilleure clientèle.
+DECROISSANCE = 0.80
 
 # Profil saisonnier observé chez Les Défricheuses, avec un plancher de 2,5 %
 # de mars à août : l'effondrement du printemps est une rupture de stock, pas
@@ -114,7 +127,7 @@ PROFIL = [max(v, 0.025) if i >= 6 else v for i, v in enumerate(_BRUT)]
 PROFIL = [v / sum(PROFIL) for v in PROFIL]
 
 # Ouvertures par exercice, en plus des précédentes (Montréal est déjà ouverte).
-SCENARIOS = {'conservateur': [6, 9, 10], 'ambitieux': [10, 13, 16]}
+SCENARIOS = {'conservateur': [5, 13, 24], 'ambitieux': [16, 36, 48]}
 
 MTL_PC = EN_LIGNE['Montréal'] / POP['Montréal']
 BASE = DEF_AN * CALIBRE['conservateur']
@@ -129,32 +142,42 @@ def indice(v):
     return math.sqrt(min(1.0, POP[v] / POP['Montréal'])) * FACTEUR_ROC
 
 
-# Montréal en tête, parce qu'elle est déjà ouverte ; les autres par potentiel
-# décroissant. L'ordre de la feuille est l'ordre du déploiement, ce qui rend
-# les plages de sommation contiguës.
-_RESTE = sorted(((v, indice(v)) for v in QC20 + ROC20 if v != 'Montréal'),
+def capacite(v):
+    """Combien de points de vente majeurs une ville peut porter."""
+    return max(1, min(PLAFOND_VILLE, round(POP[v] / HAB_PAR_POINT)))
+
+
+# Les quarante villes, par potentiel décroissant du premier point de vente.
+VILLES = sorted(((v, indice(v), capacite(v)) for v in QC20 + ROC20),
                 key=lambda r: -r[1])
-VILLES = [('Montréal', indice('Montréal'))] + _RESTE
-A_OUVRIR = _RESTE
-MTL = VILLES[0]
+
+# Les cent trois points de vente, chacun rattaché à sa ville et à son rang.
+# Ils s'ouvrent dans l'ordre du potentiel, tous rangs et toutes villes
+# confondus : le deuxième point de Québec passe avant le premier de Regina.
+POINTS = sorted(((v, n + 1, ind * DECROISSANCE ** n)
+                 for v, ind, cap in VILLES for n in range(cap)),
+                key=lambda r: -r[2])
+# Montréal est déjà ouverte, par Les Défricheuses : c'est le point de rang 1 de
+# Montréal, quelle que soit sa place dans le classement.
+OUVERT = next(p for p in POINTS if p[0] == 'Montréal' and p[1] == 1)
+A_OUVRIR = [p for p in POINTS if p is not OUVERT]
 
 
 def deploiement(nouveaux, calibre):
-    """Rend, par exercice : points ouverts, revenu, villes, plages de rangées.
+    """Rend, par exercice : points ouverts, revenu, et la plage de rangées.
 
-    Les villes s'ouvrent dans l'ordre de la feuille, alors les rangées
-    ouvertes forment toujours une plage continue à partir de la 25e."""
+    Les points s'ouvrent dans l'ordre du registre, alors les rangées ouvertes
+    forment toujours une plage continue à partir de la première."""
     base = DEF_AN * calibre
-    i, ouverts, out = 0, [MTL], []
+    i, ouverts, out = 0, [OUVERT], []
     for n in nouveaux:
         neufs = A_OUVRIR[i:i + n]
-        debut = 25 + 1 + i          # première rangée des ouvertures de l'année
+        debut = i               # index dans A_OUVRIR, converti en rangée plus tard
         i += n
-        rev = base * (sum(r[1] for r in ouverts)
-                      + OUVERTURE * sum(r[1] for r in neufs))
+        rev = base * (sum(p[2] for p in ouverts)
+                      + OUVERTURE * sum(p[2] for p in neufs))
         ouverts = ouverts + neufs
-        out.append((len(ouverts), rev, [r[0] for r in neufs],
-                    (debut, debut + n - 1)))
+        out.append((len(ouverts), rev, (debut, debut + n - 1)))
     return out
 
 
@@ -220,41 +243,76 @@ def build(dst=F, src=F):
                "de marketing et non l'absence de potentiel. L'indice s'y prend "
                "donc sur la taille du marché, escomptée de ce facteur.")
 
+    # --- bloc A : les quarante villes ------------------------------------
     for col, lab in (('A', 'VILLE'), ('B', 'PROVINCE'),
                      ('C', 'POPULATION (2021)'),
                      ('D', 'VENTES EN LIGNE 2025-2026'), ('E', 'PAR HABITANT'),
                      ('F', "INDICE D'AFFINITÉ"),
-                     ('G', 'REVENU ANNUEL PAR POINT DE VENTE'),
-                     ('H', 'OUVERTURE — CONSERVATEUR'),
-                     ('I', 'OUVERTURE — AMBITIEUX')):
+                     ('G', 'POINTS DE VENTE POSSIBLES'),
+                     ('H', 'REVENU DU 1er POINT DE VENTE'),
+                     ('I', 'POTENTIEL TOTAL DE LA VILLE')):
         put(f'{col}24', lab)
 
-    EXOS = ['2026-2027', '2027-2028', '2028-2029']
-    quand = {}
-    for scen in ('conservateur', 'ambitieux'):
-        quand[scen] = {'Montréal': 'ouverte (Les Défricheuses)'}
-        for ex, (_, _, neufs, _) in zip(EXOS, PLAN[scen]):
-            for v in neufs:
-                quand[scen][v] = ex
-
     lig = 25
-    for v, ind in VILLES:
+    for v, ind, cap in VILLES:
         put(f'A{lig}', v)
         put(f'B{lig}', 'Québec' if v in QC20 else 'Hors Québec')
         put(f'C{lig}', float(POP[v]))
         put(f'D{lig}', EN_LIGNE[v])
         put(f'E{lig}', f'=IFERROR(D{lig}/C{lig},0)')
         put(f'F{lig}', round(ind, 4))
-        put(f'G{lig}', f'=$B$22*F{lig}')
-        put(f'H{lig}', quand['conservateur'].get(v, 'non déployée'))
-        put(f'I{lig}', quand['ambitieux'].get(v, 'non déployée'))
+        put(f'G{lig}', float(cap))
+        put(f'H{lig}', f'=$B$22*F{lig}')
+        # somme de la série escomptée : H x (1 + d + d^2 + ... + d^(cap-1))
+        mult = sum(DECROISSANCE ** k for k in range(cap))
+        put(f'I{lig}', f'=H{lig}*{mult:.6f}')
         lig += 1
-    DERNIERE = lig - 1
-    put(f'A{lig}', 'PLAFOND DU CANAL — 40 points de vente')
-    put(f'C{lig}', f'=SUM(C25:C{DERNIERE})')
-    put(f'D{lig}', f'=SUM(D25:D{DERNIERE})')
-    put(f'G{lig}', f'=SUM(G25:G{DERNIERE})')
+    DERNIERE_VILLE = lig - 1
+    put(f'A{lig}', 'TOTAL — 40 villes')
+    put(f'C{lig}', f'=SUM(C25:C{DERNIERE_VILLE})')
+    put(f'D{lig}', f'=SUM(D25:D{DERNIERE_VILLE})')
+    put(f'G{lig}', f'=SUM(G25:G{DERNIERE_VILLE})')
+    put(f'I{lig}', f'=SUM(I25:I{DERNIERE_VILLE})')
 
+    # --- bloc B : le registre des points de vente, en ordre d'ouverture ---
+    lig += 2
+    REG0 = lig + 1
+    put(f'A{lig}', "REGISTRE DES POINTS DE VENTE, EN ORDRE D'OUVERTURE")
+    put(f'B{lig}', 'RANG DANS LA VILLE')
+    put(f'C{lig}', 'INDICE')
+    put(f'D{lig}', 'REVENU ANNUEL')
+    put(f'E{lig}', 'OUVERTURE — CONSERVATEUR')
+    put(f'F{lig}', 'OUVERTURE — AMBITIEUX')
+
+    EXOS = ['2026-2027', '2027-2028', '2028-2029']
+    quand = {}
+    for scen in ('conservateur', 'ambitieux'):
+        q = {}
+        for ex, (_, _, (d, f)) in zip(EXOS, PLAN[scen]):
+            for k in range(d, f + 1):
+                q[k] = ex
+        quand[scen] = q
+
+    put(f'A{REG0}', 'Montréal')
+    put(f'B{REG0}', 1.0)
+    put(f'C{REG0}', round(OUVERT[2], 4))
+    put(f'D{REG0}', f'=$B$22*C{REG0}')
+    put(f'E{REG0}', 'ouverte (Les Défricheuses)')
+    put(f'F{REG0}', 'ouverte (Les Défricheuses)')
+    for k, (v, rang, ind) in enumerate(A_OUVRIR):
+        r = REG0 + 1 + k
+        put(f'A{r}', v)
+        put(f'B{r}', float(rang))
+        put(f'C{r}', round(ind, 4))
+        put(f'D{r}', f'=$B$22*C{r}')
+        put(f'E{r}', quand['conservateur'].get(k, 'non déployé'))
+        put(f'F{r}', quand['ambitieux'].get(k, 'non déployé'))
+    REGN = REG0 + len(A_OUVRIR)
+    lig = REGN + 1
+    put(f'A{lig}', f'PLAFOND DU CANAL — {len(POINTS)} points de vente')
+    put(f'D{lig}', f'=SUM(D{REG0}:D{REGN})')
+
+    # --- bloc C : le déploiement -----------------------------------------
     lig += 2
     put(f'A{lig}', 'DÉPLOIEMENT')
     put(f'B{lig}', 'POINTS DE VENTE AU 31 AOÛT')
@@ -266,15 +324,14 @@ def build(dst=F, src=F):
     dep = {}
     for scen in ('conservateur', 'ambitieux'):
         base = lig + 1
-        for i, (ex, (n, rev, _, (d, f))) in enumerate(zip(EXOS, PLAN[scen])):
+        for i, (ex, (n, rev, (d, f))) in enumerate(zip(EXOS, PLAN[scen])):
             r = base + i
+            # d et f sont des index dans A_OUVRIR, qui commence à REG0+1
+            r0, r1 = REG0 + 1 + d, REG0 + 1 + f
             put(f'A{r}', f'{ex} — {scen}')
             put(f'B{r}', float(n))
-            # les points ouverts les années précédentes livrent l'année pleine,
-            # ceux de l'année en cours la moitié
-            avant = f'SUM($G$25:$G${d - 1})' if d > 25 else '0'
-            put(f'D{r}', f'={avant}+{OUVERTURE}*SUM($G${d}:$G${f})')
-            put(f'E{r}', f'=B{r}&" points de vente"')
+            avant = f'SUM($D${REG0}:$D${r0 - 1})'
+            put(f'D{r}', f'={avant}+{OUVERTURE}*SUM($D${r0}:$D${r1})')
             dep[(scen, ex)] = r
         lig = base + len(EXOS) - 1
 
@@ -330,6 +387,31 @@ def build(dst=F, src=F):
     e.set(INP, 'E139', "Construit ville par ville dans « Détail par ville », à "
                        "partir des rapports de consignation des Défricheuses et "
                        "des ventes en ligne par ville chez Shopify.")
+
+    # La consignation ne se gère presque pas. Le détaillant vend, Lasclay
+    # réapprovisionne sans facturer, et rien ne circule entre les deux : pas de
+    # bon de commande, pas de compte client, pas de recouvrement. Le canal ne
+    # porte donc pas un chargé de comptes par tranche de points de vente, mais
+    # une demi-ressource de coordination à partir de 2027-2028 et une complète
+    # en 2028-2029, quand le réseau approche la centaine.
+    e.set(INP, 'A137', 'Coordination du canal détail — coût annuel chargé '
+                       '(2026-2027 / 2027-2028 / 2028-2029)')
+    for col, v in (('C', 0.0), ('D', 34000.0), ('E', 68000.0)):
+        e.set(INP, f'{col}137', v)
+    e.set(INP, 'A138', "Aucune ressource en 2026-2027 : le réseau se gère depuis "
+                       "l'interne. Une demi-ressource en 2027-2028, une complète "
+                       "en 2028-2029. La consignation n'a ni facturation ni "
+                       "compte client ; il reste à cadencer les "
+                       "réapprovisionnements et les envois hebdomadaires aux "
+                       "points de ramassage.")
+    # La rangée 69 est réécrite dans sa forme canonique plutôt que retouchée :
+    # une version antérieure la mettait au prorata des points de vente, et la
+    # laisser en place multiplierait un coût annuel par cent un.
+    for cols, ref, an in ((FY27, 'AK28', 'C'), (FY28, 'AY28', 'D'),
+                          (FY29, 'BM28', 'E')):
+        for i, c in enumerate(cols):
+            col = get_column_letter(column_index_from_string(ref[:2]) + i)
+            e.set(PNL, f'{c}69', f'=Inputs!{col}{ref[2:]}+Inputs!${an}$137/12')
 
     # profil saisonnier observé
     for c, v in zip(PROF_COL, PROFIL):
@@ -398,17 +480,17 @@ if __name__ == '__main__':
     build()
     print(f'Les Défricheuses 2025-2026 : {DEF_AN:,.2f} $ encaissés, '
           f'{DEF_AN / 0.6:,.2f} $ au détail')
-    somme = sum(r[1] for r in VILLES)
+    somme = sum(p[2] for p in POINTS)
     for k, cal in CALIBRE.items():
         print(f'{k:<14} calibre {cal}   point de vente à Montréal '
-              f'{DEF_AN * cal:>9,.0f} $   plafond 40 points '
+              f'{DEF_AN * cal:>9,.0f} $   plafond {len(POINTS)} points '
               f'{DEF_AN * cal * somme:>12,.0f} $')
     print()
     for scen in ('conservateur', 'ambitieux'):
         print(f'--- {scen} ---')
-        for ex, (n, rev, _, _) in zip(['2026-2027', '2027-2028', '2028-2029'],
-                                      PLAN[scen]):
-            print(f'  {ex}  {n:>2} points de vente  {rev:>12,.0f} $')
+        for ex, (n, rev, _) in zip(['2026-2027', '2027-2028', '2028-2029'],
+                                   PLAN[scen]):
+            print(f'  {ex}  {n:>3} points de vente  {rev:>12,.0f} $')
 
     for scen, sw in (('conservateur', 1), ('ambitieux', 2)):
         e = Editor(F)

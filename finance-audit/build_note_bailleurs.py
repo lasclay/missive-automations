@@ -979,10 +979,11 @@ CAGR_HIST = (hist_ca[4] / hist_ca[0]) ** (1 / 4) - 1
 P.append(f"""<div class="page">
   <div class="kicker">D'où vient la croissance</div>
   <div class="sect"><span class="num">09</span><h2>Deux moteurs, et le plus gros existe déjà</h2></div>
-  <div class="lede">Le canal détail est le nouveau venu, alors il attire l'attention. Il
-    apporte à peu près la moitié de la croissance. L'autre moitié vient du commerce en
-    ligne, qui a porté seul les six premières années et qui continue de croître de
-    {pct(CAGR_C)} par an en scénario conservateur, {pct(CAGR_A)} en ambitieux.</div>
+  <div class="lede">Le canal détail est le nouveau venu, alors il attire l'attention, et
+    il apporte en effet la plus grande part de la croissance. Il reste que le commerce en
+    ligne, qui a porté seul les six premières années, en fournit encore
+    {pct((C['dtc'][3] - C['dtc'][0]) / (C['dtc'][3] + C['detail'][3] - C['dtc'][0]), 0)}
+    et demeure de loin la plus grosse part du chiffre d'affaires en 2028-2029.</div>
 
   {moteurs_chart(YR, A['dtc'], A['detail'])}
   <div class="fig">Scénario ambitieux, ventes nettes par moteur. Le commerce en ligne
@@ -1040,12 +1041,13 @@ P.append(f"""<div class="page">
 D_ = D['detail']
 MOIS12 = ['sept.', 'oct.', 'nov.', 'déc.', 'janv.', 'févr.', 'mars', 'avr.',
           'mai', 'juin', 'juill.', 'août']
-TOP = D_['villes'][:12]
-RESTE = D_['villes'][12:]
+TOP = D_['villes'][:9]
+RESTE = D_['villes'][9:]
 lignes_villes = ''.join(
     f'<tr><td>{v["ville"]}</td><td>{v["pop"]:,}</td>'.replace(',', '\u202f')
     + f'<td>{fr(v["en_ligne"])}</td><td>{v["indice"]:.2f}</td>'.replace('.', ',')
-    + f'<td>{fr(v["revenu"])}</td><td style="text-align:left">{v["ouv_c"]}</td></tr>'
+    + f'<td>{v["capacite"]}</td><td>{fr(v["revenu"])}</td>'
+    + f'<td>{fr(v["total"])}</td></tr>'
     for v in TOP)
 
 P.append(f"""<div class="page">
@@ -1068,10 +1070,22 @@ P.append(f"""<div class="page">
     n'est plus réapprovisionnée après février : la chute du printemps est une rupture de
     stock, pas une saison morte.</div>
 
-  <h3>De un point de vente à quarante</h3>
-  <p>L'univers de déploiement est nommé, pas estimé : les vingt plus grandes villes du
-  Québec et les vingt-cinq plus grandes du Canada, soit quarante villes distinctes. Il
-  n'y a pas de quarante-et-unième point de vente dans ce modèle.</p>
+  <h3>Un canal qui ne se gère presque pas</h3>
+  <p>La consignation n'a ni bon de commande, ni facture, ni compte client, ni
+  recouvrement. Le détaillant vend, Lasclay réapprovisionne. Ce qui reste à faire tient
+  en deux gestes : cadencer les réapprovisionnements, et envoyer chaque semaine les
+  commandes à ramasser aux points de vente qui servent aussi de points de cueillette.
+  Le modèle ne porte donc aucune ressource de coordination en 2026-2027, une demie en
+  2027-2028 et une seule en 2028-2029, pour un réseau qui approche la centaine.</p>
+
+  <h3>De un point de vente à cent un</h3>
+  <p>L'univers est nommé, pas estimé : les vingt plus grandes villes du Québec et les
+  vingt-cinq plus grandes du Canada, soit quarante villes distinctes. Une ville en porte
+  plusieurs quand sa population le permet, à raison d'un point de vente par tranche de
+  160 000 habitants et d'un maximum de dix. Toronto en porte dix, Montréal dix, Granby
+  un : <strong>{D_['nb_points']} points de vente possibles</strong>, chacun rattaché à
+  une ville nommée. Le deuxième point de vente d'une ville ne vaut pas le premier, qui a
+  pris le meilleur emplacement, alors chaque rang suivant est escompté de 20 %.</p>
   <p>Chaque ville reçoit un <strong>indice d'affinité</strong> tiré des ventes en ligne
   par habitant, rapportées à Montréal. Là où la marque pèse déjà, un point de vente pèse
   davantage. Hors Québec, les ventes en ligne valent {pct(0.083, 0)} du chiffre canadien
@@ -1079,48 +1093,49 @@ P.append(f"""<div class="page">
   l'absence de potentiel, alors l'indice s'y prend sur la taille du marché, escompté de
   {pct(D_['facteur_roc'], 0)}.</p>
 
-  <h3>Le calibre, seul jugement du modèle</h3>
-  <p>Reste à décider ce que vaut un <em>point de vente majeur</em> par rapport à la
-  boutique montréalaise. Le modèle le pose à {D_['calibre_c']:.0f} fois en scénario
-  conservateur et {D_['calibre_a']:.0f} fois en ambitieux. Trois faits se lisent dans les
-  rapports de consignation et justifient un multiple :</p>
-  <ul>
-    <li>La gamme est passée de <strong>18 à 40 lignes de produits</strong> entre septembre
-      et novembre 2025 : les deux premiers mois n'ont vendu que 305 $ à eux deux</li>
-    <li>La tablette n'a pas été réapprovisionnée après février : de mars à juin, presque
-      toutes les lignes sont à zéro, pour <strong>1 052 $ en quatre mois</strong> contre
-      10 979 $ de novembre à janvier</li>
-    <li>Ce point de vente n'a ni présentoir, ni chargé de comptes, ni poussée
-      saisonnière, trois postes qui figurent dans les prévisions du canal</li>
-  </ul>
-  <p>Le scénario ambitieux ajoute une quatrième raison : l'isolant en rouleau et la
-  gamme qu'il rend possible ouvrent la porte de détaillants d'une autre taille que les
-  boutiques d'artisans.</p>
+  <div class="card v"><h4>Un effet que le modèle ne compte pas</h4>
+    <p style="font-size:8.6pt;margin:0">Un détaillant qui tient la marchandise peut aussi
+    servir de point de cueillette pour les commandes en ligne. L'envoi hebdomadaire
+    groupé vers le commerce remplace alors autant de livraisons individuelles à domicile.
+    Le transport net a coûté 65 212 $ en 2025-2026, soit 6,6 % des ventes nettes ; aucune
+    économie de ce côté n'est inscrite dans les prévisions.</p></div>
+
   {foot(10)}""")
 
 # ------------------------------------------------------------------ 10 VILLES
 P.append(f"""<div class="page">
   <div class="kicker">Le canal détail</div>
   <div class="sect"><span class="num">11</span><h2>Les quarante villes, et le calendrier</h2></div>
-  <div class="lede">Les villes s'ouvrent dans l'ordre de leur potentiel. Les sept
-    premières sont québécoises, parce que c'est là que l'affinité est démontrée ; le
-    reste du Canada vient quand la marque a de quoi payer une représentation hors
-    Québec.</div>
+  <div class="lede">Reste à décider ce que vaut un point de vente majeur par rapport à la
+    boutique montréalaise. Le modèle le pose à {D_['calibre_c']:.0f} fois, dans les deux
+    scénarios. C'est le seul jugement du canal, et trois faits des rapports de
+    consignation le soutiennent.</div>
+
+  <ul>
+    <li>La gamme est passée de <strong>18 à 40 lignes de produits</strong> entre septembre
+      et novembre 2025 : les deux premiers mois n'ont vendu que 305 $ à eux deux</li>
+    <li>La tablette n'a pas été réapprovisionnée après février : de mars à juin, presque
+      toutes les lignes sont à zéro, pour <strong>1 052 $ en quatre mois</strong> contre
+      10 979 $ de novembre à janvier</li>
+    <li>Ce point de vente n'a ni présentoir, ni coordination, ni poussée saisonnière</li>
+  </ul>
 
   <table>
     <tr><th>Ville</th><th>Population</th><th>Ventes en ligne 2025-2026</th>
-      <th>Indice</th><th>Revenu annuel par point de vente</th>
-      <th style="text-align:left">Ouverture</th></tr>
+      <th>Indice</th><th>Points possibles</th><th>Revenu du 1<sup>er</sup> point</th>
+      <th>Potentiel de la ville</th></tr>
     {lignes_villes}
     <tr class="tot"><td>Les {len(RESTE)} villes suivantes</td><td></td><td></td><td></td>
+      <td>{sum(v['capacite'] for v in RESTE)}</td>
       <td>{fr(sum(v['revenu'] for v in RESTE))}</td>
-      <td style="text-align:left">2027-2028 et 2028-2029</td></tr>
-    <tr class="hio"><td>Plafond du canal, 40 points de vente</td><td></td><td></td>
-      <td></td><td>{fr(D_['plafond_c'])}</td><td style="text-align:left"></td></tr>
-    <caption>Revenu encaissé par Lasclay, scénario conservateur, à pleine maturité.
-      L'indice et l'ouverture sont ceux de la feuille « Détail par ville » du chiffrier,
-      qui porte les quarante lignes. Le scénario ambitieux garde les mêmes villes et le
-      même indice : il déploie plus vite et suppose des détaillants plus gros.</caption>
+      <td>{fr(sum(v['total'] for v in RESTE))}</td></tr>
+    <tr class="hio"><td>Plafond du canal</td><td></td><td></td><td></td>
+      <td>{D_['nb_points']}</td><td></td><td>{fr(D_['plafond'])}</td></tr>
+    <caption>Revenu encaissé par Lasclay, à pleine maturité. La feuille « Détail par
+      ville » du chiffrier porte les quarante villes et le registre des
+      {D_['nb_points']} points de vente dans leur ordre d'ouverture. Les deux scénarios
+      partagent ce registre : ils diffèrent par la vitesse et la profondeur du
+      déploiement, pas par la taille supposée des commerces.</caption>
   </table>
 
   <table>
@@ -1135,11 +1150,12 @@ P.append(f"""<div class="page">
       {''.join(f'<td>{fr(v)}</td>' for v in A['detail'])}</tr>
     <tr><td>Stock en consignation immobilisé — conservateur</td>
       {''.join(f'<td>{fr(v)}</td>' for v in C['consig'])}</tr>
-    <caption>Un point de vente ouvert en cours d'exercice ne livre que la moitié de son
-      année. Le coût des marchandises du canal monte de 33 % à 55 % du revenu encaissé,
-      parce que le produit coûte le même prix à fabriquer alors que Lasclay n'encaisse
-      que 60 % du prix. S'ajoutent 6 % de transport, 7 % de commission de représentation,
-      800 $ de présentoir par point de vente et un chargé de comptes dès 2027-2028.</caption>
+    <caption>Un point ouvert en cours d'exercice ne livre que la moitié de son année.
+      Le coût des marchandises du canal monte de 33 % à 55 % du revenu encaissé, parce
+      que le produit coûte le même prix à fabriquer alors que Lasclay n'encaisse que
+      60 % du prix. S'ajoutent 6 % de transport, 7 % de commission de représentation,
+      800 $ de présentoir par point de vente et la coordination. Le point de vente le
+      plus modeste du réseau ambitieux encaisse {fr(D_['marginal_a'])} par année.</caption>
   </table>
   {foot(11)}""")
 
@@ -1180,15 +1196,15 @@ P.append(f"""<div class="page">
   <p>Borner l'univers à quarante villes rend le canal vérifiable, et il le rend aussi
   limitant. Le Canada compte une trentaine d'autres municipalités de plus de cent mille
   habitants, absentes du modèle. Les États-Unis n'y sont pas du tout. Le plafond de
-  {fr(D_['plafond_c'])} du scénario conservateur, ou {fr(D_['plafond_a'])} de
-  l'ambitieux, est celui des quarante villes retenues, pas celui du marché.</p>
+  {fr(D_['plafond'])}, soit {D_['nb_points']} points de vente à pleine maturité, est
+  celui des quarante villes retenues, pas celui du marché.</p>
 
   <h3>Si le calibre est faux</h3>
   <p>Tout le reste du canal vient de données observées. Le calibre, lui, est un
   jugement : combien de fois Les Défricheuses vaut un point de vente majeur. Voici ce
   que devient le plan quand on le déplace, à déploiement conservateur inchangé.</p>
   <table>
-    <tr><th>Calibre</th><th>Revenu par point de vente à Montréal</th>
+    <tr><th>Calibre</th><th>Revenu du 1<sup>er</sup> point de vente à Montréal</th>
       <th>Canal détail 2028-2029</th><th>Ventes nettes 2028-2029</th>
       <th>Résultat hors aides 2028-2029</th></tr>
     {''.join(
@@ -1344,8 +1360,12 @@ P.append(f"""<div class="page">
     <li>Les 76 produits ont été recalés sur les <strong>unités réellement vendues</strong>
       chez Shopify. Le total modélisé de 2025-2026 reconcilie au revenu QuickBooks à 3 826 $
       près, sur 1,1 M$</li>
-    <li>La trajectoire 2026-2027-2028-2029 a été refaite : la version précédente multipliait par
-      1,4516 chaque année sans justification par produit ni par canal</li>
+    <li>La trajectoire de 2026-2027 à 2028-2029 a été refaite : la version précédente
+      multipliait par 1,4516 chaque année sans justification par produit ni par canal</li>
+    <li>Le canal détail a été reconstruit ville par ville sur les rapports de
+      consignation des Défricheuses et les ventes en ligne par ville de facturation. Il
+      reposait sur trois nombres posés à la main, et 2025-2026 affichait zéro vente au
+      détail alors qu'il y en avait pour <strong>13 801 $</strong></li>
     <li>Les coûts variables ont été rebranchés sur le volume, et la structure de coûts
       calibrée sur les trois derniers exercices réalisés plutôt que sur des cibles</li>
     <li>Une seule chaîne de trésorerie sur 48 mois remplace les états parallèles qui
@@ -1369,7 +1389,10 @@ P.append(f"""<div class="page">
   <h3>Sources</h3>
   <p style="font-size:8.5pt;color:{GRIS}">États financiers compilés 2022-2023 à 2024-2025
   (mission de compilation, sans audit ni examen) · QuickBooks Online pour le réel 2025-2026 ·
-  Shopify pour les ventes, commandes, clients et sessions · Groupe CTT pour les essais
+  Shopify pour les ventes, commandes, clients, sessions et ventes par ville de
+  facturation · rapports de consignation mensuels de Les Défricheuses, septembre 2025 à
+  juin 2026 · Statistique Canada, recensement de 2021, pour les populations
+  municipales · Groupe CTT pour les essais
   d'isolation de la membrane · Chaire de recherche industrielle sur les matériaux innovants en composites de l'Université de Sherbrooke pour la comparaison au duvet · World Wildlife Fund-México pour les colonies de monarques ·
   registre public des espèces en péril du gouvernement du Canada pour le statut du
   monarque.</p>

@@ -54,22 +54,32 @@ for scen,name in ((1,'cons'),(2,'amb')):
     out[name]['service']=[round(bk.get(P,t+'149'),2) for t in TOT]
 bk=xlcalc.load('pdf1.xlsx')
 # Le canal détail, tel que « Détail par ville » le construit : la référence des
-# Défricheuses, les villes classées par potentiel, et le déploiement.
+# Défricheuses, les quarante villes, le registre des points de vente et le
+# calendrier de déploiement.
 V='Détail par ville'
-bkv=xlcalc.load('pdf1.xlsx')
-villes=[]
-r=25
-while True:
-    nom=bkv.get(V,f'A{r}')
-    if not isinstance(nom,str) or not nom or nom.startswith('PLAFOND'): break
-    villes.append({'ville':nom,'prov':bkv.get(V,f'B{r}'),
-                   'pop':int(bkv.get(V,f'C{r}')),
-                   'en_ligne':round(bkv.get(V,f'D{r}')),
-                   'indice':round(bkv.get(V,f'F{r}'),2),
-                   'revenu':round(bkv.get(V,f'G{r}')),
-                   'ouv_c':bkv.get(V,f'H{r}'),'ouv_a':bkv.get(V,f'I{r}')})
-    r+=1
-bka=xlcalc.load('pdf2.xlsx')
+bkv=xlcalc.load('pdf1.xlsx'); bka=xlcalc.load('pdf2.xlsx')
+
+def bloc(bk, r0, cols, arret):
+    """Lit un bloc de la feuille jusqu'à la ligne qui déclenche `arret`."""
+    out, r = [], r0
+    while True:
+        nom=bk.get(V,f'A{r}')
+        if not isinstance(nom,str) or not nom or arret(nom): return out, r
+        out.append({k: bk.get(V,f'{c}{r}') for k, c in cols.items()})
+        r+=1
+
+villes,_=bloc(bkv, 25, {'ville':'A','prov':'B','pop':'C','en_ligne':'D',
+                        'indice':'F','capacite':'G','revenu':'H','total':'I'},
+              lambda n: n.startswith('TOTAL'))
+for v in villes:
+    v['pop']=int(v['pop']); v['en_ligne']=round(v['en_ligne'])
+    v['indice']=round(v['indice'],2); v['capacite']=int(v['capacite'])
+    v['revenu']=round(v['revenu']); v['total']=round(v['total'])
+reg0=25+len(villes)+3
+points,rfin=bloc(bkv, reg0, {'ville':'A','rang':'B','revenu':'D',
+                             'ouv_c':'E','ouv_a':'F'},
+                 lambda n: n.startswith('PLAFOND'))
+dep0=rfin+3
 out['detail']={
  'defricheuses':[round(bkv.get(V,f'B{5+i}'),2) for i in range(12)],
  'defricheuses_an':round(bkv.get(V,'B17'),2),
@@ -77,11 +87,16 @@ out['detail']={
  'calibre_c':bkv.get(V,'B19'),'calibre_a':bkv.get(V,'B20'),
  'facteur_roc':bkv.get(V,'B23'),
  'villes':villes,
- 'plafond_c':round(bkv.get(V,f'G{r}')),
- 'plafond_a':round(bka.get(V,f'G{r}')),
- 'pos_c':[1.0]+[round(bkv.get(P,t+'13')) for t in TOT[1:]],
- 'pos_a':[1.0]+[round(bka.get(P,t+'13')) for t in TOT[1:]],
+ 'nb_points':len(points),
+ 'plafond':round(bkv.get(V,f'D{rfin}')),
+ 'marginal_c':round(min(p['revenu'] for p in points
+                        if p['ouv_c'] and not str(p['ouv_c']).startswith('non'))),
+ 'marginal_a':round(min(p['revenu'] for p in points
+                        if p['ouv_a'] and not str(p['ouv_a']).startswith('non'))),
+ 'pos_c':[1.0]+[bkv.get(V,f'B{dep0+1+i}') for i in range(3)],
+ 'pos_a':[1.0]+[bkv.get(V,f'B{dep0+4+i}') for i in range(3)],
 }
+
 # Sensibilité au calibre : c'est le seul jugement du modèle, alors on montre ce
 # qu'il coûte de se tromper. Le classeur est recalculé pour chaque valeur.
 sens=[]

@@ -43,7 +43,7 @@ classeur en 1,2 seconde.
 | `fix_ad.py` → `fix_aj.py` | Canal détail en consignation au Canada, modélisé par ses pilotes, et les deux scénarios : conservateur réaliste et ambitieux. |
 | `fix_ak.py` | Bloc 2028-2029 de « Ventes prévisionnelles », répliqué du bloc précédent décalé de quinze colonnes ; blocs périmés et exercice fermé masqués. |
 | `fix_al.py` | Scénario ambitieux recalibré (croissance composée ramenée près de ce qui a été démontré), et ses ratios de coûts alignés sur ceux du conservateur. |
-| `fix_am.py` | Canal détail reconstruit ville par ville sur les rapports de consignation des Défricheuses et les ventes en ligne par ville. Feuille « Détail par ville », univers borné à quarante villes nommées, et l'exercice 2025-2026 qui portait zéro vente au détail alors qu'il y en avait pour 13 801 $. |
+| `fix_am.py` | Canal détail reconstruit ville par ville sur les rapports de consignation des Défricheuses et les ventes en ligne par ville. Feuille « Détail par ville » : quarante villes nommées, un point de vente par tranche de 160 000 habitants, registre des 109 points de vente dans leur ordre d'ouverture. L'exercice 2025-2026 portait zéro vente au détail alors qu'il y en avait pour 13 801 $. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
 | `fix_y.py` | Réparation de la mise en page : remet la table `cellXfs` dans l'ordre et donne un format aux cellules créées par la révision. À exécuter après toute série d'écritures. |
@@ -91,8 +91,14 @@ classeur en 1,2 seconde.
   visible. Et dans la même rangée, juillet et août 2026 restent prévisionnels et lisent
   la rangée 5 du résultat plutôt que la rangée 3. Reprendre la formule existante, jamais
   la réécrire.
-- **Un script de révision doit être rejouable.** Ajouter une soustraction à une formule
-  existante l'empile à chaque exécution. Retirer d'abord ce qu'on s'apprête à poser.
+- **Un script de révision doit être rejouable**, et il faut le vérifier en le lançant
+  deux fois de suite : aucune formule ne doit bouger au second passage. Ajouter une
+  soustraction à une formule existante l'empile à chaque exécution ; changer la forme
+  d'une formule sans réécrire l'ancienne laisse les deux versions se combiner. Poser la
+  forme canonique complète, jamais une retouche.
+- **`data_pdf.py` écrase `pdf1.xlsx` et `pdf2.xlsx` à chaque exécution.** Ces fichiers
+  ne sont pas une sauvegarde : ils sortent du classeur courant. S'en servir comme base
+  de restauration fait rejouer un script sur son propre résultat.
 - **`add_sheet()` ne met pas `sheetpart` à jour.** Sans `e.sheetpart[nom] = e.order[-1]`,
   plus rien ne peut désigner la feuille qu'on vient de créer.
 - **La virgule décimale française ne s'applique jamais à une chaîne entière.** Un
