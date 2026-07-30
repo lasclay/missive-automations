@@ -1,0 +1,1082 @@
+{
+  "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+  "organizations": [
+    {
+      "id": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "name": "Lasclay"
+    }
+  ],
+  "teams": [
+    {
+      "id": "1c57f5cd-3877-4067-b6d4-8344c5d29af9",
+      "name": "APM",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "7a1475d4-d1cb-4671-8b9a-1a1e24909caa",
+      "name": "Cultivateurs",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "9240aa4e-3e81-40aa-a07a-84f6b1c2231e",
+      "name": "Expéditions prioritaires",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "9deb87bb-c321-4134-98d0-7b184125939a",
+      "name": "Helpers",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "a6c74be0-2a27-4c79-9294-a74b447e6dc0",
+      "name": "Lasclay Admin",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "b21f84ca-d269-42e1-ac1e-1982176d7629",
+      "name": "LAS Corpo",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "08ae6c3b-5ddb-4909-9cf9-6874e360fafd",
+      "name": "LAS Media",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "7c925f0d-3eca-4535-be20-424078619cef",
+      "name": "LAS Operations",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "80ae6958-8266-4898-9d80-38851eb3ba69",
+      "name": "LAS R&D",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "e184d153-4472-4edd-9b35-f8867cf437a8",
+      "name": "LAS Support",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "14e83e80-5e7b-4354-94ff-8c46f29cbd5d",
+      "name": "MERGE",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "0db185c1-3a93-4a44-9f50-dcfe8c0683dd",
+      "name": "Mise à jour commande",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "cc587c84-63b9-4e88-993c-4f4b5b328173",
+      "name": "RETOURS-ÉCHANGES",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "13d8a7bd-ed2e-4e0c-8cf3-2329ebaed217",
+      "name": "USA",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    },
+    {
+      "id": "d6f28d2f-06ef-4aa5-aae0-b68f014e3216",
+      "name": "Vente - info pré-achat",
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36"
+    }
+  ],
+  "shared_labels": [
+    {
+      "id": "65c1f8ad-da38-4f93-baad-3a325982be4f",
+      "name": "1MERGE",
+      "name_with_parent_names": "Support/1MERGE",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "e1478261-7188-4100-9443-13b5f50c8f7d",
+      "name": "24H",
+      "name_with_parent_names": "Support/24H",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "6864c6b6-737d-4401-a335-4c797da3a2c3",
+      "name": "72H",
+      "name_with_parent_names": "Support/72H",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "22b05fb7-e0d6-486c-b31e-e3b88e5ef32c",
+      "name": "ADMIN",
+      "name_with_parent_names": "ADMIN",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "delegates",
+      "archived": false
+    },
+    {
+      "id": "97d01e3e-b803-4233-9638-c777b00bc853",
+      "name": "Ajout d'un produit",
+      "name_with_parent_names": "Support/Suivi de commande/Ajout d'un produit",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "20e8e04d-74c3-491d-8b39-f40c678920bb",
+      "name": "Aménagement",
+      "name_with_parent_names": "Aménagement",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "019f5d2f-51ca-70f0-83cc-2175b52d5a41",
+      "name": "À snooze",
+      "name_with_parent_names": "À snooze",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "f7666725-cc93-43b0-8723-06075081ad40",
+      "name": "Attente Postes Can",
+      "name_with_parent_names": "Support/🚚Suivi d'expédition/Attente Postes Can",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "9398ebb0-a783-4468-8eb4-88d2e6d17008",
+      "name": "BLOQUÉ POSTES CAN",
+      "name_with_parent_names": "Support/🚚Suivi d'expédition/BLOQUÉ POSTES CAN",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "20b95033-0924-4c0f-8906-ab1e304e71f2",
+      "name": "🌱Botanical",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/🌱Botanical",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "4d42af40-0881-404e-80f5-9135825e8ed8",
+      "name": "🌱Botanique",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🌱Botanique",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "a647f1f8-fe4b-42ac-b946-52b3f30fe0bd",
+      "name": "cache-cou",
+      "name_with_parent_names": "Support/R&D/cache-cou",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "b9b5cf54-64c8-40de-a278-186d68d388ea",
+      "name": "Cache-cou petit",
+      "name_with_parent_names": "Support/Cache-cou petit",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "49f32b94-f7cf-4788-97fa-5811ddabbfa1",
+      "name": "Carte Cadeau",
+      "name_with_parent_names": "Support/Carte Cadeau",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "36fee150-8fc7-4719-9987-443a22b5c2aa",
+      "name": "Cas à voir",
+      "name_with_parent_names": "Support/Cas à voir",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "c7b92651-75f4-4411-8b23-d63a6fdf0a94",
+      "name": "Chit Chats",
+      "name_with_parent_names": "Support/🚚Suivi d'expédition/Chit Chats",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "f02608eb-0291-4c6b-8704-661cb05224ce",
+      "name": "Choix de langue pour Klaviyo",
+      "name_with_parent_names": "Marketing/Choix de langue pour Klaviyo",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "4daff926-29b0-4c06-a0c6-1b7f0f1367cd",
+      "name": "Code Promo",
+      "name_with_parent_names": "Support/Code Promo",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "18e6c770-59de-49a9-b5f0-e4a220b41926",
+      "name": "Commande corporative",
+      "name_with_parent_names": "Opérations/Commande corporative",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "6d8091c5-e03a-46a9-8d60-e72dcdd3067a",
+      "name": "COMMANDE - IMPORTANT",
+      "name_with_parent_names": "COMMANDE - IMPORTANT",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "2afefd0b-4470-476e-9d6d-753ccf5e32ac",
+      "name": "Commande introuvable",
+      "name_with_parent_names": "Support/Suivi de commande/Commande introuvable",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "c306fae3-a657-462f-a995-de8af2f95a2f",
+      "name": "Concours novembre",
+      "name_with_parent_names": "Concours novembre",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "f45b25a0-8587-458c-b29d-d6f55b76540b",
+      "name": "Contestation du prix",
+      "name_with_parent_names": "Opérations/Facture/Facture - Payée/Contestation du prix",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "c8c7ba23-149c-45e7-9c4d-f0c534dc763e",
+      "name": "Cultivateur",
+      "name_with_parent_names": "Cultivateur",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "0212737f-0627-408b-9943-a6caa0f701c8",
+      "name": "Demande de stage",
+      "name_with_parent_names": "Demande de stage",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "61483ffd-d866-4f22-9232-9e083d50b0c3",
+      "name": "Distribution",
+      "name_with_parent_names": "Opérations/Distribution",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "019ed5a7-2515-7bbf-8f62-b1866e4e8b8f",
+      "name": "Draft AI RÉVISÉ PAR HUMAIN",
+      "name_with_parent_names": "Draft AI RÉVISÉ PAR HUMAIN",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "019eb935-9b22-7d14-8aeb-614a1e303e24",
+      "name": "Draft AI Support",
+      "name_with_parent_names": "Support/Draft AI Support",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "d0fad8a6-2ce4-427e-a971-949b2313d118",
+      "name": "Draft créé",
+      "name_with_parent_names": "Opérations/Draft créé",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "83b97e25-c083-42c4-beca-2c2464924593",
+      "name": "Échantillon manquant",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/Échantillon manquant",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "1802ab56-7382-420c-bcff-e19609c2d23c",
+      "name": "Embauches",
+      "name_with_parent_names": "ADMIN/Embauches",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "delegates",
+      "archived": false
+    },
+    {
+      "id": "0317884b-52da-4e1a-a24a-69d2f1e1e3e4",
+      "name": "EN",
+      "name_with_parent_names": "Support/Réponses / Responses/EN",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "1456d145-91c1-429c-b76e-97183d16bb31",
+      "name": "Étui cellulaire",
+      "name_with_parent_names": "Support/R&D/Étui cellulaire",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "efea95b6-6edd-442a-86b4-291a337f46b5",
+      "name": "↩️ Exchanges & Refunds",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/↩️ Exchanges & Refunds",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "c72b0a84-d467-4fb7-a95d-13b5e30f0e35",
+      "name": "Exemple service client",
+      "name_with_parent_names": "Support/Exemple service client",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "381b1d43-f684-4add-9d09-5608a7067c67",
+      "name": "📨Expéditions prioritaires",
+      "name_with_parent_names": "Support/📨Expéditions prioritaires",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "cbd2494d-4ff2-4e67-ad0c-7c587c698ea5",
+      "name": "Facture",
+      "name_with_parent_names": "Opérations/Facture",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "delegates",
+      "archived": false
+    },
+    {
+      "id": "93382a54-c1d9-416e-9c6b-7da79a94c94d",
+      "name": "Facture - À payer",
+      "name_with_parent_names": "Opérations/Facture/Facture - À payer",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "042d59b7-906e-4812-ad7a-7e1c9588dc73",
+      "name": "Facture - Payée",
+      "name_with_parent_names": "Opérations/Facture/Facture - Payée",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "60eb077f-b94b-4551-874d-0a25b328d273",
+      "name": "Feedbacks manteaux infolettre",
+      "name_with_parent_names": "Support/R&D/Feedbacks manteaux infolettre",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "e543ac8f-a61f-46d2-a037-e8d96ddafb3b",
+      "name": "FR",
+      "name_with_parent_names": "Marketing/FR",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "5dc0dfed-4466-4075-b61b-bca8a8434a45",
+      "name": "FR",
+      "name_with_parent_names": "Support/Réponses / Responses/FR",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "ac9294c5-2d4f-4295-a3a0-aca00cd70cee",
+      "name": "❓ Général et FAQ",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/❓ Général et FAQ",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "5d75401f-c3e0-4c0d-948e-12db8ba633b6",
+      "name": "❓ General & FAQ",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/❓ General & FAQ",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "4c1ab074-5a7d-4e8a-b21e-e6109ad11179",
+      "name": "Glacière",
+      "name_with_parent_names": "Support/R&D/Glacière",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "7e0a1507-8bd9-4b90-968a-f2b82a3705ed",
+      "name": "Glacière abimée",
+      "name_with_parent_names": "Support/R&D/Glacière/Glacière abimée",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "821956e0-44b3-4d83-93e5-8c45e7432f2e",
+      "name": "glacière brisée",
+      "name_with_parent_names": "Support/R&D/Glacière/glacière brisée",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "fb140c98-492b-49d6-a77c-a2505cc213e2",
+      "name": "Graines non livrées",
+      "name_with_parent_names": "Support/🚚Suivi d'expédition/Graines non livrées",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "64fca5cd-652b-4ff7-a09a-96eb0729c3b6",
+      "name": "Guide et suivi de plantation",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🌱Botanique/Guide et suivi de plantation",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "b13c55f1-cca8-44b8-87fb-07268a037672",
+      "name": "Helpers",
+      "name_with_parent_names": "ADMIN/Embauches/Helpers",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "050ccadf-374f-4e86-8b30-657583b45391",
+      "name": "Idées de produits",
+      "name_with_parent_names": "Support/R&D/Idées de produits",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "5f2da357-fad7-481f-b0d1-9b750c387d99",
+      "name": "Information pour conception produit",
+      "name_with_parent_names": "Support/Information pour conception produit",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "88cfe510-586b-4fff-8616-e2539ae0cfd1",
+      "name": "item manquant reship",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🤔Problèmes et erreurs/item manquant reship",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "887dba9c-fb8e-47c8-b6ef-453aa49071ef",
+      "name": "Marketing",
+      "name_with_parent_names": "Marketing",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "a96c5da2-01d0-4e16-b96d-0f45d7c208d0",
+      "name": "Mauvais item reçu",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🤔Problèmes et erreurs/Mauvais item reçu",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "7c922a57-5644-4d88-b731-5a040cbb681a",
+      "name": "MERGE",
+      "name_with_parent_names": "Support/MERGE",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "4bdc81b5-74a9-4246-9ced-3d9c1b13b0ed",
+      "name": "Mise à jour commande",
+      "name_with_parent_names": "Support/Mise à jour commande",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "67eaaa92-7976-4877-b733-719f55d22a78",
+      "name": "Mitaine",
+      "name_with_parent_names": "Support/R&D/Mitaine",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "f0cc9ac9-5704-4155-8460-7b1b104e1a1b",
+      "name": "Mitaine de four",
+      "name_with_parent_names": "Support/R&D/Mitaine de four",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "5071b630-7db0-4ab4-8484-3b6940edcaae",
+      "name": "👋Openings & closures",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/👋Openings & closures",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "df4016bd-3d51-4213-add2-8a7e399a804c",
+      "name": "Opérations",
+      "name_with_parent_names": "Opérations",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": null,
+      "archived": false
+    },
+    {
+      "id": "1e04bcdd-e94e-4ab9-99e6-bdc6929d2de8",
+      "name": "👋 Ouvertures & Fermetures",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/👋 Ouvertures & Fermetures",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "c70da1f1-8318-4fc2-8e08-3160363b5062",
+      "name": "Pantoufles",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🤔Problèmes et erreurs/Pantoufles",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "4f72ad91-b9f0-4449-949b-c8093c0bb680",
+      "name": "PAS RECU NOEL",
+      "name_with_parent_names": "PAS RECU NOEL",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "5db251d8-139e-4404-8fbf-1f2d584354d7",
+      "name": "Postmaster",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🤔Problèmes et erreurs/Postmaster",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "dcc3e7ed-e7b7-4412-9a0b-645b35d64f1f",
+      "name": "Problème de livraison",
+      "name_with_parent_names": "Support/🚚Suivi d'expédition/Problème de livraison",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "179a2c60-bf04-4571-b15c-fd108c8906b8",
+      "name": "🌱 Problème germination bombes ou graines ❗",
+      "name_with_parent_names": "Opérations/🌱 Problème germination bombes ou graines ❗",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "c6fa681a-c17e-49a8-ace8-29c2d6fef1c4",
+      "name": "🤔Problèmes et erreurs",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🤔Problèmes et erreurs",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "a4eb5254-4f2f-482e-8e1f-342ca16d8a68",
+      "name": "🤔Problems and errors",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/🤔Problems and errors",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "4a03e6f7-01d3-4784-a1ea-e88902476a2e",
+      "name": "Produit défectueux",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🤔Problèmes et erreurs/Produit défectueux",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "521f40d1-3771-4eaa-99e7-eda9c449d28d",
+      "name": "Produits horticoles",
+      "name_with_parent_names": "Support/R&D/Produits horticoles",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "957f21a3-3d0f-4503-8846-c2688553d411",
+      "name": "Projet asclépiade",
+      "name_with_parent_names": "Support/Projet asclépiade",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "55c3ddeb-89ab-4e7f-9c5c-109e9e7ebb74",
+      "name": "Promo rabais posteriori rétroactif",
+      "name_with_parent_names": "Support/Suivi de commande/Promo rabais posteriori rétroactif",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "1e67454d-6b99-4cf0-abd0-be4e0a954d44",
+      "name": "Proposition de graines",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🌱Botanique/Proposition de graines",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "7446125d-2aa0-4da6-bbfe-0c7465edb303",
+      "name": "Quantité d'isolant",
+      "name_with_parent_names": "Support/Quantité d'isolant",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "0901b8fb-2d7b-447a-8ff7-917adb48546b",
+      "name": "quincaillerie",
+      "name_with_parent_names": "quincaillerie",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "a8ead512-32a9-4ced-a90b-43bda06c2eaa",
+      "name": "Ramassage local",
+      "name_with_parent_names": "Opérations/Distribution/Ramassage local",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "fa3615d0-a970-4913-a16c-258b30721d43",
+      "name": "R&D",
+      "name_with_parent_names": "Support/R&D",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "019f5bd8-d13d-738a-b4e9-41f36cacb61b",
+      "name": "READY TO GO",
+      "name_with_parent_names": "Support/READY TO GO",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "1c7e6e7c-c32a-4630-b5bd-ef4f49722bcb",
+      "name": "! Réclamation GLS !",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/🤔Problems and errors/! Réclamation GLS !",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "49a71c69-5c0c-46f1-95c9-c5881df7cf56",
+      "name": "Réclamation Shipping",
+      "name_with_parent_names": "Support/Réclamation Shipping",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "2f38383f-ff03-41e2-9082-f05058e33756",
+      "name": "RÉPONSES PRIORITAIRES",
+      "name_with_parent_names": "Support/RÉPONSES PRIORITAIRES",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "b3f00e54-921b-4427-90ba-dd270270c076",
+      "name": "Réponses / Responses",
+      "name_with_parent_names": "Support/Réponses / Responses",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "b2ff154e-65f1-498f-8bfd-40c52854fd69",
+      "name": "↩️ RETOURS - ECHANGES",
+      "name_with_parent_names": "Support/↩️ RETOURS - ECHANGES",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "1681e586-9a75-49a6-bf90-75a2620d20a5",
+      "name": "review à traiter",
+      "name_with_parent_names": "Support/review à traiter",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "d34c4efb-70e5-48a6-8b8b-4bd90e00f25a",
+      "name": "Sac lunch",
+      "name_with_parent_names": "Support/R&D/Sac lunch",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "722a21a1-d13f-4f72-b023-27ad258c3348",
+      "name": "📢 Sales",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/📢 Sales",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "67589e17-6c9b-4aa9-9c0c-250f90c8a7fc",
+      "name": "Semelle",
+      "name_with_parent_names": "Support/R&D/Semelle",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "0d3be594-4193-488f-97d6-985972b5c42a",
+      "name": "Sounds Good - association",
+      "name_with_parent_names": "Opérations/Sounds Good - association",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "delegates",
+      "archived": false
+    },
+    {
+      "id": "401bd4fe-6a14-4ef9-b2b4-7aa707489646",
+      "name": "Suivi de commande",
+      "name_with_parent_names": "Support/Suivi de commande",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "8a73c4f6-7225-4f62-8eef-2483eba8792e",
+      "name": "🚚Suivi d'expédition",
+      "name_with_parent_names": "Support/🚚Suivi d'expédition",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "1e88048d-a2bc-43d8-b4b8-adc079ff2f34",
+      "name": "Support",
+      "name_with_parent_names": "Support",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "f30a86f1-7d0e-402d-baae-ed556ee4d720",
+      "name": "Supression de Klaviyo",
+      "name_with_parent_names": "Marketing/Supression de Klaviyo",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "a1465925-c61b-4afa-a807-7167f04990d7",
+      "name": "Timbre Canada Poste",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/Timbre Canada Poste",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "f3826fd0-8063-4ecf-9149-c7786292a3ec",
+      "name": "🚚Tracking / shipping",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/🚚Tracking / shipping",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "cb084008-a6a2-4d53-a7c3-05f0308b628f",
+      "name": "Tuque janvier ship / reship",
+      "name_with_parent_names": "Support/🚚Suivi d'expédition/Tuque janvier ship / reship",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "03b2f60d-8ff3-4884-9e7a-11f39c28fffe",
+      "name": "Tuque jaune",
+      "name_with_parent_names": "Support/Tuque jaune",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "917b120f-9a27-419f-b0e2-6f284e154780",
+      "name": "Tuque sport",
+      "name_with_parent_names": "Support/R&D/Tuque sport",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "7dc919be-3bc5-4c55-b40e-81924990f504",
+      "name": "Ultra-Trail",
+      "name_with_parent_names": "Opérations/Ultra-Trail",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "7150fdfb-af9c-4844-835d-96c73da211d6",
+      "name": "USA",
+      "name_with_parent_names": "Support/USA",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "87147d7e-1bf7-493d-89be-02202d526012",
+      "name": "🧺Usage et entretien",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/🧺Usage et entretien",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "fb378466-d3ba-43a3-a495-e47df0028b1e",
+      "name": "USA graines shipping",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/🚚Tracking / shipping/USA graines shipping",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "b0810508-bc79-4a4c-b6fc-c39b8bf4d106",
+      "name": "🧺Use and care",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/🧺Use and care",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "cf24d86b-ba38-41b2-bed7-0a4f43b1b2e4",
+      "name": "⚡ Ventes - info pré-achat",
+      "name_with_parent_names": "Support/⚡ Ventes - info pré-achat",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "2fe163b6-1cdf-41c8-8f4b-8973d2d238a8",
+      "name": "Verif grandeur mitaines",
+      "name_with_parent_names": "Support/Verif grandeur mitaines",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "932b4adf-f6c6-4e73-993d-1bbd08bb8811",
+      "name": "Visite de l'atelier",
+      "name_with_parent_names": "Support/Visite de l'atelier",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "a43afa1b-b450-4059-8083-77b247aac43a",
+      "name": "XPRESS MANTEAU",
+      "name_with_parent_names": "XPRESS MANTEAU",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "f90eb135-c8ad-4ea9-8e33-b726577313be",
+      "name": "z📁Archives",
+      "name_with_parent_names": "Support/Réponses / Responses/EN/z📁Archives",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    },
+    {
+      "id": "f02e0bc4-4a1b-469e-8343-0a5a7e05dd25",
+      "name": "z📁Archives",
+      "name_with_parent_names": "Support/Réponses / Responses/FR/z📁Archives",
+      "parent_id": null,
+      "organization": "d2b9b52d-ceff-4811-aea7-1f092ec95f36",
+      "visibility": "organization",
+      "archived": false
+    }
+  ],
+  "users": [
+    {
+      "id": "c9f31752-334f-4daa-b394-b74d18bf994b",
+      "name": "Catherine Bedard-Mercier",
+      "email": "c.bedardmercier300@gmail.com"
+    },
+    {
+      "id": "ec6f8047-a31b-4597-a2fa-33d8f469a529",
+      "name": "Gabriel Gouveia",
+      "email": "gabrielgouveiafortin@gmail.com"
+    }
+  ],
+  "errors": {}
+}
