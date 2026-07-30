@@ -805,14 +805,12 @@ P.append(f"""<div class="page">
 
   <table>
     <tr><th></th><th>Mars</th><th>Avril</th><th>Mai</th><th>Juin</th><th>Juillet</th></tr>
-    <tr><td>Publicité numérique</td><td>32 756 $</td><td>6 388 $</td><td>7 688 $</td>
-      <td>1 484 $</td><td class="neg">0 $</td></tr>
+    <tr><td>Publicité numérique</td><td>{fr(D['fy26_mois']['pub'][6])}</td><td>{fr(D['fy26_mois']['pub'][7])}</td><td>{fr(D['fy26_mois']['pub'][8])}</td><td>{fr(D['fy26_mois']['pub'][9])}</td><td class="neg">{fr(D['fy26_mois']['pub'][10])}</td></tr>
     <tr><td>Commandes Shopify</td><td>1 276</td><td>764</td><td>968</td>
       <td class="neg">71</td><td class="neg">40</td></tr>
     <tr><td>Mêmes mois, 2024-2025</td><td>1 450</td><td>2 193</td><td>2 314</td>
       <td>1 272</td><td>672</td></tr>
-    <tr class="hi"><td>Ventes nettes</td><td>53 210 $</td><td>42 531 $</td><td>82 783 $</td>
-      <td>9 054 $</td><td>2 535 $</td></tr>
+    <tr class="hi"><td>Ventes nettes</td><td>{fr(D['fy26_mois']['ventes'][6])}</td><td>{fr(D['fy26_mois']['ventes'][7])}</td><td>{fr(D['fy26_mois']['ventes'][8])}</td><td>{fr(D['fy26_mois']['ventes'][9])}</td><td>{fr(D['fy26_mois']['ventes'][10])}</td></tr>
     <caption>Taux de conversion : 3,58 % en mai, 0,58 % en juin. Sessions : 25 333
       puis 10 392. Sources : QuickBooks et Shopify.</caption>
   </table>

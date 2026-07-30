@@ -48,6 +48,8 @@ classeur en 1,2 seconde.
 | `fix_ao.py` | Versement de TPS du 30 novembre, posé explicitement. Le solde de taxes se construit par ses mouvements à partir du réel d'août 2026 : chaque mois accumule sa TPS et sa TVQ, la TVQ du mois précédent se verse, et novembre acquitte la TPS de l'exercice écoulé. Calé sur les vrais montants de 2025-2026 fournis par `tps_reelle.py`. |
 | `tps_reelle.py` | Reconstitue à la source la TPS perçue, la TVQ perçue, les CTI et les RTI du 1er septembre 2025 au 30 juillet 2026 : part fédérale des taxes Shopify calculée région par région, plus les `TxnTaxDetail.TaxLine` des factures, des Bill et des Purchase chez QuickBooks. Lecture seule. |
 | `fix_ap.py` | Finitions de livraison : les 54 étiquettes « FY20xx » passent au gabarit « 2026-2027 » ; les descriptions de scénario d'`Inputs` A71 et A72, qui annonçaient des déploiements périmés, sont régénérées depuis les rangées qu'elles décrivent ; les rangées ajoutées reçoivent un format ; la limite de la marge de crédit et le contrôle du tirage sont posés à la rangée 163 d'`Inputs` ; le journal d'audit est mis à jour. |
+| `fix_aq.py` | Recolle le réel de QuickBooks dans « QBO P&L à maj » et « QBOBS à maj » après une séance de tenue de livres, en appariant par libellé. `--essai` montre ce qui bougerait sans rien écrire. |
+| `fix_ar.py` | Met le journal d'audit au diapason du recollage. |
 | `recache.py` | Rafraîchit les valeurs en cache de tout le classeur. **À lancer en dernier**, après toute écriture. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `pdftxt.py` | Extrait le texte d'un PDF en passant par les tables ToUnicode de chaque police. Les PDF exportés de Google dessinent leur texte en hexadécimal avec des polices sous-ensemblées : sans la table, on ne lit rien. Sert à dépouiller les annexes et les lettres de soutien. |
@@ -160,6 +162,22 @@ classeur en 1,2 seconde.
   formule, si élégante soit-elle, sort `#NOM?` de l'outil qui sert à vérifier le
   classeur. Régénérer le texte depuis Python et pointer le lecteur vers les
   rangées sources.
+- **Les feuilles de collage ne se rafraîchissent pas toutes seules.** « QBO P&L à maj »
+  et « QBOBS à maj » sont des constantes : après une séance de tenue de livres, il faut
+  relancer `node qbo_import.js` puis `fix_aq.py`. Le recollage se fait **par libellé**,
+  jamais par position : QuickBooks omet les comptes sans activité, alors une ligne qui
+  disparaît décale tout ce qui suit — c'est ce qui a laissé un sous-total de 91 854 $ sur
+  la rangée « 4050 Etsy Canada », sans dommage parce qu'elle n'a pas de clé de mappage.
+- **« Bénéfices non répartis » et « Bénéfice de l'année » n'ont pas de numéro de compte.**
+  Apparier sur le numéro seul les saute, et ce sont exactement les rangées qui portent la
+  contrepartie de toute correction au résultat : le bilan sort alors de l'équilibre du
+  montant exact de la correction, sur tous les mois suivants. La clé est le numéro quand
+  il y en a un, le libellé complet sinon.
+- **Un compte que QuickBooks ne renvoie plus doit être remis à zéro.** Le laisser à sa
+  valeur d'hier fait compter deux fois une dépense qu'une reclassification a déplacée.
+- **Le séparateur de milliers se pose sur le nombre, pas sur la phrase.** Un
+  `.replace(',', ' ')` appliqué au texte complet mange les virgules de la prose. Même
+  piège que la virgule décimale dans les coordonnées SVG.
 - **Une formule posée sur une feuille référence cette feuille.** `$D$143` écrit dans le
   bilan désigne une cellule vide du bilan, pas `Inputs!$D$143`. Le calcul tombe à zéro
   sans rien signaler : le solde reste simplement plat.
