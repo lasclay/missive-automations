@@ -42,6 +42,16 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   (mappage des comptes : `qbo_mapping.json`). Exercice fiscal : 1er sept → 31 août.
 - Doc complète : `finance-proxy/FINANCE_PROXY.md` (dont rotation du refresh token Intuit).
 
+## A2X maison (Shopify Payments → QuickBooks)
+
+- Remplace l'app A2X sans abonnement : un versement Shopify = une écriture de journal QBO,
+  identique à celles d'A2X (`DocNumber` `A2XSH-21Jul-27Jul-592`, mêmes libellés et comptes).
+- Interface web : `node a2x-app/server.js` (versements, aperçu d'écriture, publication,
+  édition des mappings). CLI : `node a2x/a2x.js payouts|preview|post|sync|check`.
+- Les 349 mappings d'A2X vivent dans `a2x/mappings.tsv` (source de vérité) ; `mappings.json`
+  est régénéré par `node a2x/tools/import_mappings.js`.
+- Doc complète : `a2x/README.md`.
+
 ## Missive Proxy
 
 - Service Render séparé pour l'API Missive ; code : `missive-proxy/` (env `MISSIVE_PROXY_SECRET`).

@@ -1,0 +1,382 @@
+# Mappings de transactions — export A2X (source de vérité, éditable à la main).
+# Colonnes : categorie <TAB> details <TAB> pays <TAB> marketplace <TAB> compte <TAB> taxe
+#
+# categorie   : la section A2X (Sales, Discounts, Refunds, Sales Tax, ...)
+# details     : le type de transaction A2X (ProductSales, Discount, ShopifyFee, ...)
+#               « * » = la règle d'automapping (le repli de la catégorie)
+# pays        : CA | CA-QC | US | US-NY | EU | - (indifférent / N/A)
+# marketplace : online | manual | pos:<locationId> | exchange | edit | <appId> | - (indifférent)
+# compte      : le numéro de compte QBO (AcctNum), vide = « Select account » dans A2X
+# taxe        : detaxe = « Détaxé on Sales », vide = « Select tax rate »
+#
+# Régénérer mappings.json :  node a2x/tools/import_mappings.js
+
+Discounts	*	-	-		detaxe
+Discounts	Discount	CA-NB	online	4012	detaxe
+Discounts	Discount	CA-MB	online	4012	detaxe
+Discounts	Discount	CA	online	4012	detaxe
+Discounts	Discount	CA-BC	online	4012	detaxe
+Discounts	Discount	CA-AB	online	4012	detaxe
+Discounts	Discount	CA-SK	online	4012	detaxe
+Discounts	Discount	CA-PE	online	4012	detaxe
+Discounts	Discount	CA-ON	online	4012	detaxe
+Discounts	Discount	CA-NS	online	4012	detaxe
+Discounts	Discount	CA-QC	manual	4022	detaxe
+Discounts	Discount	CA-QC	3890849	4012	detaxe
+Discounts	Discount	CA-QC	online	4012	detaxe
+Discounts	Discount	CA	manual	4022	detaxe
+Discounts	Discount	CA	3890849	4012	detaxe
+Discounts	Discount	US	3890849	4032	detaxe
+Discounts	Discount	-	pos:58394280098	4012	detaxe
+Discounts	Discount	CA	2329312	4012	detaxe
+Discounts	Discount	CA	pos:58394280098	4012	detaxe
+Discounts	DiscountNotTaxed	CA-QC	online	4012	detaxe
+Discounts	DiscountNotTaxed	US-MN	online	4032	detaxe
+Discounts	DiscountNotTaxed	US	online	4032	detaxe
+Discounts	DiscountNotTaxed	US-MI	online	4032	detaxe
+Discounts	DiscountNotTaxed	CA	online	4012	detaxe
+Discounts	DiscountNotTaxed	US-SD	online	4032	detaxe
+Discounts	DiscountNotTaxed	CA-ON	online	4012	detaxe
+Discounts	DiscountNotTaxed	US-UT	online	4032	detaxe
+Discounts	DiscountNotTaxed	CA	manual	4022	detaxe
+Discounts	DiscountNotTaxed	CA	exchange	4033	detaxe
+Discounts	DiscountNotTaxed	-	manual	4022	detaxe
+Discounts	DiscountNotTaxed	US	manual	4032	detaxe
+Discounts	DiscountNotTaxed	US	3890849	4032	detaxe
+Discounts	DiscountNotTaxed	-	pos:58394280098	4012	detaxe
+
+Other Income	*	-	-
+Other Income	Tip	US-UT	online	4035	detaxe
+Other Income	Tip	CA	online	4015	detaxe
+Other Income	Tip	CA-AB	online	4015	detaxe
+Other Income	Tip	US-NY	online	4035	detaxe
+Other Income	Tip	CA-ON	online	4015	detaxe
+Other Income	Tip	CA-BC	online	4015	detaxe
+Other Income	Tip	CA-QC	online	4015	detaxe
+Other Income	Tip	CA-NS	online	4015	detaxe
+Other Income	Tip	CA-NB	online	4015	detaxe
+Other Income	Tip	US-VT	online	4035	detaxe
+Other Income	Tip	US	online	4035	detaxe
+Other Income	Tip	CA	3890849	4015	detaxe
+Other Income	Tip	CA	manual	4015	detaxe
+Other Income	Tip	US	manual	4035	detaxe
+Other Income	Tip	US	3890849	4035	detaxe
+Other Income	TipRefund	US	online	4035	detaxe
+Other Income	TipRefund	CA	online	4015	detaxe
+
+Refunds	*	-	-		detaxe
+Refunds	Refund	CA-QC	online	4013	detaxe
+Refunds	Refund	CA-NB	online	4013	detaxe
+Refunds	Refund	CA-QC	3890849	4013	detaxe
+Refunds	Refund	CA	online	4013	detaxe
+Refunds	Refund	CA-ON	online	4013	detaxe
+Refunds	Refund	CA	manual	4013	detaxe
+Refunds	Refund	-	pos:58394280098	4013	detaxe
+Refunds	Refund	US	3890849	4033	detaxe
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA-MB	online	4013	detaxe
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	online	4013	detaxe
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA-QC	online	4013	detaxe
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	US	online	4033	detaxe
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	manual	4033	detaxe
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	-	pos:58394280098	4013	detaxe
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	pos:58394280098	4013	detaxe
+Refunds	RefundDiscount	CA	online	4013	detaxe
+Refunds	RefundDiscount	CA	manual	4013	detaxe
+Refunds	RefundDiscountNotTaxed	CA	online	4013	detaxe
+Refunds	RefundDiscountNotTaxed	CA	manual	4012	detaxe
+Refunds	RefundDiscountNotTaxed	US	online	4032	detaxe
+Refunds	RefundDiscountNotTaxed	US	manual	4012	detaxe
+Refunds	RefundNotTaxed	CA	online	4013	detaxe
+Refunds	RefundNotTaxed	US	online	4033	detaxe
+Refunds	RefundNotTaxed	CA	manual	4011	detaxe
+Refunds	RefundNotTaxed	US	manual	4013	detaxe
+Refunds	Return	CA	online	4013	detaxe
+Refunds	Return	-	pos:58394280098	4013	detaxe
+Refunds	ReturnDiscount	CA	online	4012	detaxe
+Refunds	ReturnDiscount	-	pos:58394280098	4012	detaxe
+Refunds	ReturnDiscountNotTaxed	US	online	4032	detaxe
+Refunds	ReturnNotTaxed	US	online	4033	detaxe
+
+Sales	*	-	-		detaxe
+Sales	ProductSales	CA-SK	online	4011	detaxe
+Sales	ProductSales	CA-AB	online	4011	detaxe
+Sales	ProductSales	CA-BC	online	4011	detaxe
+Sales	ProductSales	CA	online	4011	detaxe
+Sales	ProductSales	CA-NB	online	4011	detaxe
+Sales	ProductSales	CA-ON	online	4011	detaxe
+Sales	ProductSales	CA-PE	online	4011	detaxe
+Sales	ProductSales	CA-QC	online	4011	detaxe
+Sales	ProductSales	CA-QC	manual	4020	detaxe
+Sales	ProductSales	CA-NS	online	4011	detaxe
+Sales	ProductSales	CA-MB	online	4011	detaxe
+Sales	ProductSales	CA-QC	3890849	4011	detaxe
+Sales	ProductSales	CA	3890849	4011	detaxe
+Sales	ProductSales	CA	manual	4020	detaxe
+Sales	ProductSales	CA	edit	4011	detaxe
+Sales	ProductSales	-	pos:58394280098	4011	detaxe
+Sales	ProductSales	US	3890849	4031	detaxe
+Sales	ProductSales	CA	pos:58394280098	4011	detaxe
+Sales	ProductSales	EU	online	4011	detaxe
+Sales	ProductSales	CA	2329312	4011	detaxe
+Sales	ProductSalesNotTaxed	CA-QC	online	4011	detaxe
+Sales	ProductSalesNotTaxed	US-AL	online	4031	detaxe
+Sales	ProductSalesNotTaxed	US-MN	online	4031	detaxe
+Sales	ProductSalesNotTaxed	US-SD	online	4031	detaxe
+Sales	ProductSalesNotTaxed	US-UT	online	4031	detaxe
+Sales	ProductSalesNotTaxed	US-KY	online	4031	detaxe
+Sales	ProductSalesNotTaxed	US-MA	online	4031	detaxe
+Sales	ProductSalesNotTaxed	US-VT	online	4031	detaxe
+Sales	ProductSalesNotTaxed	US-MI	online	4031	detaxe
+Sales	ProductSalesNotTaxed	US	online	4031	detaxe
+Sales	ProductSalesNotTaxed	CA-ON	online	4011	detaxe
+Sales	ProductSalesNotTaxed	CA	online	4011	detaxe
+Sales	ProductSalesNotTaxed	US-NY	online	4031	detaxe
+Sales	ProductSalesNotTaxed	CA	manual	4020	detaxe
+Sales	ProductSalesNotTaxed	CA	exchange	4013	detaxe
+Sales	ProductSalesNotTaxed	-	manual	4021	detaxe
+Sales	ProductSalesNotTaxed	US	manual	4031	detaxe
+Sales	ProductSalesNotTaxed	US	3890849	4031	detaxe
+Sales	ProductSalesNotTaxed	-	pos:58394280098	4011	detaxe
+Sales	ProductSalesNotTaxed	CA	3890849	4011	detaxe
+
+Shipping Income	*	-	-	4014	detaxe
+Shipping Income	Shipping	CA-AB	online	4014	detaxe
+Shipping Income	Shipping	CA-BC	online	4014	detaxe
+Shipping Income	Shipping	CA-SK	online	4014	detaxe
+Shipping Income	Shipping	CA-QC	manual	4024	detaxe
+Shipping Income	Shipping	CA-PE	online	4014	detaxe
+Shipping Income	Shipping	CA-ON	online	4014	detaxe
+Shipping Income	Shipping	CA-QC	online	4014	detaxe
+Shipping Income	Shipping	CA	online	4014	detaxe
+Shipping Income	Shipping	CA-QC	3890849	4014	detaxe
+Shipping Income	Shipping	CA-NB	online	4014	detaxe
+Shipping Income	Shipping	CA-NS	online	4014	detaxe
+Shipping Income	Shipping	CA-MB	online	4014	detaxe
+Shipping Income	Shipping	CA	3890849	4014	detaxe
+Shipping Income	Shipping	CA	manual	4024	detaxe
+Shipping Income	Shipping	US	3890849	4034	detaxe
+Shipping Income	Shipping	CA	2329312	4014	detaxe
+Shipping Income	ShippingDiscountNotTaxed	CA	online	4014	detaxe
+Shipping Income	ShippingDiscountNotTaxed	CA-QC	online	4014	detaxe
+Shipping Income	ShippingDiscountNotTaxed	US	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	CA-ON	online	4014	detaxe
+Shipping Income	ShippingNotTaxed	US-SD	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	US-MI	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	US-NY	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	CA	online	4014	detaxe
+Shipping Income	ShippingNotTaxed	US-AL	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	US-MN	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	CA-QC	online	4014	detaxe
+Shipping Income	ShippingNotTaxed	US-VT	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	US-KY	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	US-UT	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	US-MA	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	US	online	4034	detaxe
+Shipping Income	ShippingNotTaxed	US	manual	4034	detaxe
+Shipping Income	ShippingNotTaxed	US	3890849	4034	detaxe
+Shipping Income	ShippingNotTaxed	CA	manual	4014	detaxe
+Shipping Income	ShippingRefund	CA	online	4014	detaxe
+Shipping Income	ShippingRefund - shipping_refund	CA	online	4014	detaxe
+Shipping Income	ShippingRefund - shipping_refund	CA-QC	online	4014	detaxe
+Shipping Income	ShippingRefund - shipping_refund	CA	manual	4014	detaxe
+Shipping Income	ShippingRefund - shipping_refund	US	3890849	4034	detaxe
+Shipping Income	ShippingRefundNotTaxed - refund_discrepancy	US	online	4033	detaxe
+Shipping Income	ShippingRefundNotTaxed - shipping_refund	US	online	4034	detaxe
+
+Other Expenses	*	-	-
+Other Expenses	CurrencyConversionRounding USD-CAD	-	-	9100
+Other Expenses	ForeignCurrencyGainLoss	US-NY	online	9100
+Other Expenses	ForeignCurrencyGainLoss	CA-QC	online	9100
+Other Expenses	ForeignCurrencyGainLoss	US	online	9100
+Other Expenses	ForeignCurrencyGainLoss	US	manual	9100	detaxe
+Other Expenses	ForeignCurrencyGainLoss	US	3890849	9100	detaxe
+Other Expenses	ForeignCurrencyGainLoss - refund_discrepancy	US	online	9100	detaxe
+Other Expenses	ForeignCurrencyGainLoss - shipping_refund	US	online	9100	detaxe
+Other Expenses	ForeignCurrencyGainLoss Gateway shop_cash - shipping_refund	US	3890849	9100
+
+Payment and Selling Fees	*	-	-
+Payment and Selling Fees	ShopifyFee	US-MI	online	7052
+Payment and Selling Fees	ShopifyFee	CA-NB	online	7052
+Payment and Selling Fees	ShopifyFee	CA-AB	online	7052
+Payment and Selling Fees	ShopifyFee	CA-QC	manual	7052
+Payment and Selling Fees	ShopifyFee	CA-QC	online	7052
+Payment and Selling Fees	ShopifyFee	-	-	7052
+Payment and Selling Fees	ShopifyFee	CA-BC	online	7052
+Payment and Selling Fees	ShopifyFee	CA-QC	3890849	7052
+Payment and Selling Fees	ShopifyFee	CA-ON	online	7052
+Payment and Selling Fees	ShopifyFee	CA-NS	online	7052
+Payment and Selling Fees	ShopifyFee	US-NY	online	7052
+Payment and Selling Fees	ShopifyFee	US-MN	online	7052
+Payment and Selling Fees	ShopifyFee	CA-SK	online	7052
+Payment and Selling Fees	ShopifyFee	CA	online	7052
+Payment and Selling Fees	ShopifyFee	US-UT	online	7052
+Payment and Selling Fees	ShopifyFee	US-KY	online	7052
+Payment and Selling Fees	ShopifyFee	US-SD	online	7052
+Payment and Selling Fees	ShopifyFee	CA-MB	online	7052
+Payment and Selling Fees	ShopifyFee	US	online	7052
+Payment and Selling Fees	ShopifyFee	CA	3890849	7052
+Payment and Selling Fees	ShopifyFee	CA	manual	7052
+Payment and Selling Fees	ShopifyFee	US	manual	7052
+Payment and Selling Fees	ShopifyFee	EU	online	7052
+Payment and Selling Fees	ShopifyFee	-	pos:58394280098	7052
+Payment and Selling Fees	ShopifyFee	US	3890849	7052
+Payment and Selling Fees	ShopifyFee	CA	pos:58394280098	7052
+Payment and Selling Fees	ShopifyFee	CA	2329312	7052
+Payment and Selling Fees	ShopifyFeeShopCash	CA	3890849	7052
+Payment and Selling Fees	ShopifyFeeShopCash	-	-	7052
+Payment and Selling Fees	ShopifyFeeShopCash	US	3890849	4031
+
+Shipping Expenses	*	-	-
+
+Gateway Transactions	*	-	-
+Gateway Transactions	Capture Gateway manual	-	online	1110
+Gateway Transactions	Capture Gateway paypal	-	online	1020
+Gateway Transactions	Capture Gateway shop_cash	-	3890849	1110
+Gateway Transactions	ForeignCurrencyGainLoss Gateway paypal	US	online	9100
+Gateway Transactions	NonShopifyPayment manual -	CA	online	4011
+Gateway Transactions	NonShopifyPayment shop_cash -	CA	3890849	4011
+Gateway Transactions	NonShopifyPayment shop_cash -	US	3890849	4031
+Gateway Transactions	Refund Gateway manual	-	online	4013
+Gateway Transactions	Refund Gateway manual	-	manual	4013
+Gateway Transactions	Refund Gateway paypal	-	online	1020
+Gateway Transactions	Refund Gateway paypal	-	manual	1020
+Gateway Transactions	Refund Gateway shop_cash	-	3890849	4033
+Gateway Transactions	Refund Gateway shopify_payments	-	online	4033
+Gateway Transactions	Sale Gateway No_Gateway	-	exchange	4013
+Gateway Transactions	Sale Gateway cash	-	pos:58394280098	4011
+Gateway Transactions	Sale Gateway manual	-	manual	1130
+Gateway Transactions	Sale Gateway manual	-	online	4011
+Gateway Transactions	Sale Gateway manual	-	edit	4011
+Gateway Transactions	Sale Gateway paypal	-	online	1020
+Gateway Transactions	Sale Gateway paypal	-	manual	1020
+Gateway Transactions	Sale No_Gateway	-	exchange	4013
+Gateway Transactions	ShopCashCredit	CA	3890849	4011
+Gateway Transactions	ShopCashCredit	-	-	4011
+Gateway Transactions	ShopCashCredit	US	3890849	4031
+Gateway Transactions	ShopCashRefundDebit	US	3890849	4033
+
+Pending Payments	*	-	-
+Pending Payments	PendingPayment	CA-MB	online	1110
+Pending Payments	PendingPayment	CA-ON	online	1110
+Pending Payments	PendingPayment	CA-QC	3890849	1110
+Pending Payments	PendingPayment	CA-QC	online	1110
+Pending Payments	PendingPayment	CA	online	1110
+Pending Payments	PendingPayment	US	online	1110
+Pending Payments	PendingPayment	CA	manual	1110
+Pending Payments	PendingPayment	CA	exchange	1110
+Pending Payments	PendingPayment - CA - Manual order	-	-	1131
+Pending Payments	PendingPayment - CA - ON - Online store	-	-	1110
+Pending Payments	PendingPayment - CA - Online store	-	-	1110
+Pending Payments	PendingPayment - CA - QC - Online store	-	-	1110
+Pending Payments	PendingPayment - CA - exchange	-	-	4013
+Pending Payments	PendingPayment - Gateway shopify_payments	CA-MB	online	1110
+Pending Payments	PendingPayment - Gateway shopify_payments	CA-ON	online	1110
+Pending Payments	PendingPayment - Gateway shopify_payments	CA-QC	online	1110
+Pending Payments	PendingPayment - Gateway shopify_payments	CA	online	1110
+Pending Payments	PendingPayment - Gateway shopify_payments	CA	manual	1131
+Pending Payments	PendingPayment - Gateway shopify_payments	US	online	1110
+Pending Payments	PendingPayment - Point of sale (location: Entrepôt Lasclay - 58394280098)	-	-	1110
+Pending Payments	PendingPayment - US - Online store	-	-	1110
+Pending Payments	PendingPayment gift_card -	CA	online	2301
+Pending Payments	PendingPayment manual -	CA	online	1110
+
+Gift Card Liabilities	*	-	-
+Gift Card Liabilities	GiftCardDiscount	CA	online	2301
+Gift Card Liabilities	GiftCardDiscount	CA	manual	4022
+Gift Card Liabilities	GiftCardDiscount	US	online	4032
+Gift Card Liabilities	GiftCardDiscount	-	manual	4012
+Gift Card Liabilities	GiftCardSaleLiability	CA	online	2301
+Gift Card Liabilities	GiftCardSaleLiability	US	manual	2301
+Gift Card Liabilities	GiftCardSaleLiability	EU	online	2301
+Gift Card Liabilities	GiftCardSaleLiability	CA	manual	2301
+Gift Card Liabilities	GiftCardSaleLiability	-	pos:58394280098	2300
+Gift Card Liabilities	GiftCardSaleLiability	US	online	2301
+Gift Card Liabilities	GiftCardSaleLiability	-	manual	2301
+Gift Card Liabilities	NonShopifyPayment gift_card -	CA	online	2301
+Gift Card Liabilities	NonShopifyRefund gift_card -	CA	online	2301
+Gift Card Liabilities	Sale Gateway gift_card	-	online	2301
+Gift Card Liabilities	Sale Gateway gift_card	-	pos:58394280098	2301
+
+Shopify Loans	*	-	-
+
+Shopify Store Credit	*	-	-
+
+Discounts Tax	*	-	-
+Discounts Tax	DiscountTax	CA	online	2121
+
+MFV Taxes	*	-	-
+MFV Taxes	MarketplaceSalesTax	US	3890849	2120
+
+Other Taxes	*	-	-
+
+Refunds Tax	*	-	-
+Refunds Tax	RefundTax	CA	online	2121
+Refunds Tax	RefundTax	CA-NB	online	2121
+Refunds Tax	RefundTax	CA-QC	3890849	2121
+Refunds Tax	RefundTax	CA-ON	online	2121
+Refunds Tax	RefundTax	CA-QC	online	2121
+Refunds Tax	RefundTax	CA	manual	2121
+Refunds Tax	RefundTax	-	pos:58394280098	2121
+Refunds Tax	RefundTax	US	3890849	2121
+Refunds Tax	ReturnTax	CA	online	2121
+Refunds Tax	ReturnTax	-	pos:58394280098	2121
+
+Sales Tax	*	-	-	2121
+Sales Tax	Tax	CA-ON	online	2121
+Sales Tax	Tax	CA-NB	online	2121
+Sales Tax	Tax	CA-MB	online	2121
+Sales Tax	Tax	CA-AB	online	2121
+Sales Tax	Tax	CA-NS	online	2121
+Sales Tax	Tax	CA-QC	3890849	2121
+Sales Tax	Tax	CA-QC	online	2121
+Sales Tax	Tax	CA	online	2121
+Sales Tax	Tax	CA-BC	online	2121
+Sales Tax	Tax	CA-SK	online	2121
+Sales Tax	Tax	CA-QC	manual	2121
+Sales Tax	Tax	CA-PE	online	2121
+Sales Tax	Tax	CA	3890849	2121
+Sales Tax	Tax	CA	manual	2121
+Sales Tax	Tax	CA	edit	2121
+Sales Tax	Tax	-	pos:58394280098	2121
+Sales Tax	Tax	US	3890849	2121
+Sales Tax	Tax	CA	pos:58394280098	2121
+Sales Tax	Tax	EU	online	2121
+Sales Tax	Tax	CA	2329312	2121
+
+Shipping Tax	*	-	-	2121
+Shipping Tax	ShippingRefundTax	CA	online	2121
+Shipping Tax	ShippingRefundTax - shipping_refund	CA	online	2121
+Shipping Tax	ShippingRefundTax - shipping_refund	CA-QC	online	2121
+Shipping Tax	ShippingRefundTax - shipping_refund	CA	manual	2121
+Shipping Tax	ShippingRefundTax - shipping_refund	US	3890849	2121
+Shipping Tax	ShippingTax	CA-NB	online	2121
+Shipping Tax	ShippingTax	CA-ON	online	2121
+Shipping Tax	ShippingTax	CA	online	2121
+Shipping Tax	ShippingTax	CA-MB	online	2121
+Shipping Tax	ShippingTax	CA-BC	online	2121
+Shipping Tax	ShippingTax	CA-SK	online	2121
+Shipping Tax	ShippingTax	CA-QC	manual	2121
+Shipping Tax	ShippingTax	CA-PE	online	2121
+Shipping Tax	ShippingTax	CA-QC	online	2121
+Shipping Tax	ShippingTax	CA-NS	online	2121
+Shipping Tax	ShippingTax	CA-QC	3890849	2121
+Shipping Tax	ShippingTax	CA-AB	online	2121
+Shipping Tax	ShippingTax	CA	3890849	2121
+Shipping Tax	ShippingTax	CA	manual	2121
+Shipping Tax	ShippingTax	US	3890849	2121
+Shipping Tax	ShippingTax	CA	2329312	2121
+Shipping Tax	ShippingTaxRetailDeliveryFee	US	3890849	2121
+
+Adjustments	*	-	-
+Adjustments	Dispute	-	-	4011	detaxe
+Adjustments	Dispute	CA-QC	online	4011	detaxe
+Adjustments	Dispute	CA	online	4011	detaxe
+Adjustments	Dispute	US	online	4033	detaxe
+
+Other	*	-	-		detaxe
+Other	Credit	CA	3890849	4011	detaxe
+Other	Credit	-	-	4011	detaxe
+Other	NonOrderTransaction	-	-	4000	detaxe
+Other	Underpayment	CA-QC	manual	4011	detaxe
+Other	Underpayment	CA-ON	online	4011	detaxe
+Other	Underpayment	CA	online	4014	detaxe
