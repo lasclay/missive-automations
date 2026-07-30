@@ -113,7 +113,7 @@ En cas de doute : classer une pièce → `bookkeeping-lasclay` ; interpréter un
 
 ## Contexte d'entreprise
 
-*Les Produits Lasclay Inc*, marque québécoise de produits isolés à la soie d'asclépiade, siège à
+**Les Produits Lasclay Inc**, marque québécoise de produits isolés à la soie d'asclépiade, siège à
 Québec, vente en ligne sur lasclay.com. Les ventes viennent de Shopify, la logistique de
 ShipStation, le marketing d'Omnisend et Klaviyo — tous accessibles via le skill `proxygen` si un
 chiffre doit être recoupé hors QBO.

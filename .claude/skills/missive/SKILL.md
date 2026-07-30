@@ -43,9 +43,38 @@ node missive_client.js health     # attendu : {"ok":true,"service":"missive-prox
 
 Premier appel ~10 s : Render endort le service au repos. Ce n'est pas une panne, ne relance pas.
 
+## Premier réflexe : la carte de la boîte
+
+Rien d'utile ne se fait sans les **Resource ID** de Missive — étiquettes partagées, équipes,
+organisation, membres. Ne les redécouvre pas à chaque session, et ne les devine jamais.
+
+**1. Lis le cache d'abord.** `missive_structure.json` à la racine du dépôt contient la carte :
+organisations, équipes, étiquettes partagées avec leur hiérarchie, membres. Un `Read` suffit, c'est
+instantané, et ça te donne de quoi construire un filtre utile tout de suite.
+
+**2. S'il est absent ou visiblement périmé**, capture-le puis écris-le :
+
+```bash
+node missive_client.js structure > missive_structure.json
+```
+
+Vérifie ensuite le champ `errors` du JSON : chaque bloc dégrade indépendamment, donc une
+permission manquante sur un type laisse les autres exploitables. Committe le fichier — c'est ce qui
+rend la prochaine session rapide. Il ne contient que des identifiants de structure, aucune donnée
+client.
+
+**3. Si `structure` renvoie 404 `route inconnue`**, la route existe dans le code du dépôt mais n'est
+pas déployée : les services Render suivent `main`. Dis-le, et rabats-toi sur `users`, qui fonctionne
+depuis toujours.
+
+Avec la carte en main : les `shared_labels[].id` alimentent `list "shared_label=<ID>"`,
+`name_with_parent_names` donne le chemin lisible d'une étiquette imbriquée, et les `users[].id`
+servent aux assignations de tâches.
+
 ## Lecture
 
 ```bash
+node missive_client.js structure          # organisations, équipes, étiquettes partagées, membres
 node missive_client.js list "<filtre>"    # fils correspondant au filtre
 node missive_client.js read <convId>      # une conversation, messages compris
 node missive_client.js drafts <convId>    # brouillons rédigés par le script IA
@@ -68,14 +97,13 @@ Mesuré sur la boîte réelle :
 | `all=true` | expire — ne l'utilise pas |
 | `shared_label=<ID>` | selon l'étiquette |
 
-Commence toujours par le filtre le plus étroit qui répond à la question. Si tu as besoin d'un ID
-d'étiquette partagée que tu ne connais pas, dis-le plutôt que de deviner : le client n'expose pas
-de route pour lister les étiquettes.
+Commence toujours par le filtre le plus étroit qui répond à la question. Les ID d'étiquettes
+viennent de la carte décrite plus haut, jamais d'une supposition.
 
 ### Membres de l'organisation
 
-Deux personnes : **Catherine Bedard-Mercier** et **Gabriel Gouveia**. Récupère leurs identifiants
-avec `users` avant toute assignation de tâche — ne devine jamais un id.
+Deux personnes : **Catherine Bedard-Mercier** et **Gabriel Gouveia**. Prends leurs identifiants dans
+la carte ou via `users` avant toute assignation de tâche — ne devine jamais un id.
 
 ## Écriture — confirme avant
 

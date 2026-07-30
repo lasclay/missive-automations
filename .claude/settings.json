@@ -59,6 +59,17 @@
       "mcp__Google_Calendar",
       "mcp__Google_Drive",
       "mcp__Claude_Code_Remote"
+    ],
+
+    "ask": [
+      "Bash(node connectors_client.js shipstation createlabel:*)",
+      "Bash(node connectors_client.js shipstation createlabelfororder:*)",
+      "Bash(node connectors_client.js shipstation deleteorder:*)",
+      "Bash(node finance_client.js create:*)",
+      "Bash(node finance_client.js update:*)",
+      "Bash(node finance_client.js remove:*)",
+      "Bash(node missive_client.js reply:*)",
+      "Bash(node connectors_client.js omnisend triggerevent:*)"
     ]
   }
 }
