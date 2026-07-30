@@ -24,6 +24,9 @@
 set -u
 
 # --- 1. Settings utilisateur ----------------------------------------------
+# mkdir indispensable : l ancien script creait /root/.claude en passant, via le
+# mkdir des skills. Sans lui, l ecriture ci-dessous echoue en silence.
+mkdir -p /root/.claude
 cat > /root/.claude/settings.json <<'JSON'
 {
   "outputStyle": "Proactive",
