@@ -233,6 +233,55 @@ def mois_chart(labels, valeurs, width=680, height=175):
     return ''.join(out)
 
 
+def cercle_chart(width=680, height=214):
+    """Le cercle vicieux de la filière, en quatre étapes qui se referment.
+
+    Quatre boîtes en losange plutôt qu'en ligne : la disposition dit d'elle-même
+    que la dernière étape ramène à la première, ce qu'une liste ne dit pas. Les
+    flèches vont d'un bord à l'autre, dans le sens horaire."""
+    etapes = [
+        ('Marché trop petit', 'aucun acheteur de volume'),
+        ('Pas d’investissement', 'mécaniser ne se rentabilise pas'),
+        ('Pas de récolte substantielle', 'cinq hectares au mieux'),
+        ('Prix élevé', 'tout amortir sur peu de kilos'),
+    ]
+    bw, bh = 210, 54
+    cx, cy = width / 2, height / 2
+    # haut, droite, bas, gauche
+    coins = [(cx - bw / 2, 0), (width - bw, cy - bh / 2),
+             (cx - bw / 2, height - bh), (0, cy - bh / 2)]
+    mil = [(x + bw / 2, y + bh / 2) for x, y in coins]
+
+    def bord(i, dx, dy):
+        """Point sur le bord d'une boîte : dx/dy valent -1, 0 ou 1."""
+        return (mil[i][0] + dx * bw / 2, mil[i][1] + dy * bh / 2)
+
+    # de la boîte i vers la suivante, en sortant par le bord qui la regarde
+    liens = [(bord(0, 1, 0), bord(1, 0, -1)), (bord(1, 0, 1), bord(2, 1, 0)),
+             (bord(2, -1, 0), bord(3, 0, 1)), (bord(3, 0, -1), bord(0, -1, 0))]
+
+    out = [f'<svg viewBox="0 0 {width} {height}" class="chart">',
+           f'<defs><marker id="fl" markerWidth="8" markerHeight="8" refX="7" refY="4" '
+           f'orient="auto"><path d="M0,0.5 L8,4 L0,7.5 z" fill="{ORANGE}"/></marker>'
+           f'</defs>']
+    for (x1, y1), (x2, y2) in liens:
+        # on raccourcit des deux bouts pour ne pas coller aux boîtes
+        d = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+        ux, uy = (x2 - x1) / d, (y2 - y1) / d
+        out.append(f'<line x1="{x1 + ux * 9:.1f}" y1="{y1 + uy * 9:.1f}" '
+                   f'x2="{x2 - ux * 11:.1f}" y2="{y2 - uy * 11:.1f}" '
+                   f'stroke="{ORANGE}" stroke-width="1.7" marker-end="url(#fl)"/>')
+    for (x, y), (titre, sous) in zip(coins, etapes):
+        out.append(f'<rect x="{x:.0f}" y="{y:.0f}" width="{bw}" height="{bh}" '
+                   f'fill="{VERT_PALE}" stroke="{VERT}" stroke-width="1" rx="3"/>')
+        out.append(f'<text x="{x + bw / 2:.0f}" y="{y + 25:.0f}" class="bv" '
+                   f'fill="{INK}" style="font-size:8.8pt">{titre}</text>')
+        out.append(f'<text x="{x + bw / 2:.0f}" y="{y + 42:.0f}" class="bl" '
+                   f'fill="{GRIS}">{sous}</text>')
+    out.append('</svg>')
+    return ''.join(out)
+
+
 def hbar(rows, width=680, rowh=42, fmt=None):
     """Barres horizontales avant/après : la comparaison qui frappe."""
     top = max(v for _, v, _ in rows) or 1
@@ -537,44 +586,43 @@ P.append(f"""<div class="page">
   <h3>Le piège de la fenêtre de récolte</h3>
   <p>L’asclépiade se récolte dans une fenêtre <strong>d’à peine deux semaines</strong>,
   quand les follicules sont mûrs et pas encore ouverts. La filière s’est construite sur
-  un modèle de grande culture, celui que connaissent les agriculteurs québécois : de
-  grandes surfaces, de la grosse machinerie. Le calcul ne tombe jamais juste.</p>
+  le modèle que connaissent les agriculteurs québécois : de grandes surfaces, de la
+  grosse machinerie. Deux semaines suffisent pourtant à récolter au plus
+  <strong>cinq hectares</strong> à la main ou avec de petites machines. Au-delà, il
+  faudrait une récolteuse qui n’existe pas : deux tentatives ont échoué entre 2011 et
+  2017, et depuis personne ne recommence, faute d’un marché assez grand pour la
+  rentabiliser.</p>
 
-  <div class="card dark" style="margin:12px 0">
-    <p style="margin:0;font-size:8.9pt">Deux semaines suffisent à récolter au plus
-    <strong>cinq hectares</strong> à la main ou avec de petites machines. Au-delà, il
-    faut de la grosse machinerie, qui n’existe pas et dont le développement n’est pas
-    rentable au niveau de maturité actuel du marché. Alors les cultivateurs sèment
-    grand, n’arrivent pas à récolter, et abandonnent un par un. Deux tentatives de
-    récolteuse mécanisée ont échoué entre 2011 et 2017. <strong>On tourne en
-    rond.</strong></p>
-  </div>
+  {cercle_chart()}
+  <div class="fig" style="margin-bottom:12px">Aucun des acteurs ne peut rompre ce cercle
+    depuis sa position : le cultivateur ne crée pas le marché, et l’usine ne cultive
+    pas.</div>
 
-  <p>Le reste suit mécaniquement. La Coopérative Monark réunit un premier groupe de
-  cultivateurs en 2014 ; Protec-Style monte une usine de transformation et fait faillite
-  en 2017, faute d’approvisionnement. Quartz co. discontinue son parka, faute de matière.
-  L’asclépiade reste étiquetée comme un matériau de luxe, non parce qu’elle est rare,
-  mais parce que personne n’a su la récolter en quantité.</p>
+  <p>Le reste suit. Les cultivateurs sèment grand, n’arrivent pas à récolter et
+  abandonnent un par un. Protec-Style fait faillite en 2017 faute d’approvisionnement,
+  Quartz co. discontinue son parka faute de matière. L’asclépiade reste étiquetée comme
+  un matériau de luxe, non parce qu’elle est rare, mais parce que son prix doit porter
+  l’amortissement de ceux qui n’arrivent pas à en vendre.</p>
 
   <h3>La moitié industrielle du problème est réglée</h3>
   <p>Eko-Terre, à Cowansville, y a consacré ses efforts depuis 2019. Les techniques
-  antérieures brisaient la fibre à l’extraction et la réduisaient en poussière
-  inutilisable. La clé s’est révélée être <strong>le séchage des follicules avant
-  l’extraction</strong> : abaisser le taux d’humidité du follicule entier avant de
-  séparer la fibre des graines permet de décortiquer sans briser. Ce simple changement
-  d’ordre dans le procédé a donné la membrane Vegeto, un isolant biodégradable sans
-  plastique pétrolier, produite à raison de 200 000 mètres par année.</p>
+  antérieures brisaient la fibre à l’extraction et la réduisaient en poussière. La clé
+  s’est révélée être <strong>le séchage des follicules avant l’extraction</strong> :
+  abaisser le taux d’humidité du follicule entier avant de séparer la fibre des graines
+  permet de décortiquer sans briser. Ce changement d’ordre a donné la membrane Vegeto,
+  un isolant biodégradable sans plastique pétrolier, produit à 200 000 mètres par
+  année.</p>
 
-  <div class="quote">J’ai perdu tous mes cultivateurs d’asclépiade et je produis
-    actuellement avec mes stocks accumulés. Un nouveau cultivateur qui se lance
-    aujourd’hui n’a accès à aucune technologie de récolte, de séchage et d’extraction.
-    Il doit tout apprendre seul, à ses frais, pendant des années.
+  <div class="quote">J’ai perdu tous mes cultivateurs d’asclépiade. Un nouveau
+    cultivateur qui se lance aujourd’hui n’a accès à aucune technologie de récolte, de
+    séchage et d’extraction : il doit tout apprendre seul, à ses frais, pendant des
+    années.
     <div style="font-size:8pt;margin-top:7px;font-style:normal">Ghyslain Bouchard,
     Eko-Terre, mars 2026</div></div>
 
-  <p style="margin-top:11px">Voilà l’état de la filière : une usine qui sait transformer
-  la fibre et qui manque de matière, et des terres disponibles dont les propriétaires ne
-  savent pas comment s’y prendre. Entre les deux, personne.</p>
+  <p style="margin-top:10px">Voilà l’état de la filière : une usine qui sait transformer
+  la fibre et manque de matière, des terres disponibles dont les propriétaires ne savent
+  pas comment s’y prendre, et personne entre les deux.</p>
   {foot(2)}""")
 
 # ------------------------------------------------------------------ 01c UNICITÉ
@@ -615,14 +663,13 @@ P.append(f"""<div class="page">
       demande avant d’engager la production.</p></div>
   </div>
 
-  <h3>Ce que ça change pour le cultivateur</h3>
+  <h3>Ce que ça change pour la matière</h3>
   <p>Un transformateur industriel achète la fibre au prix que son client final accepte de
-  payer, et ce client est un appel d’offres. Une marque grand public achète la fibre au
-  prix que sa clientèle accepte de payer, et cette clientèle achète justement parce que
-  c’est de l’asclépiade cultivée au Québec. C’est la raison pour laquelle Lasclay paie sa
-  fibre <strong>environ cinq fois le prix du marché</strong>, directement aux
-  cultivateurs, et pourquoi cultiver pour Lasclay est rentable là où cultiver pour
-  l’industrie ne l’était pas.</p>
+  payer, et ce client est un appel d’offres au plus bas soumissionnaire. Une marque grand
+  public achète au prix que sa clientèle accepte de payer, et cette clientèle achète
+  justement parce que c’est de l’asclépiade cultivée au Québec. Lasclay peut donc
+  soutenir un prix que l’industrie ne peut pas soutenir, et acheter directement aux
+  cultivateurs plutôt qu’au bout d’une chaîne d’intermédiaires.</p>
 
   <p>C’est aussi ce qui rend la suite crédible. Les quatre contraintes techniques
   décrites plus loin se lèvent parce qu’il existe enfin, dans la filière, une entreprise
