@@ -110,10 +110,13 @@ classeur en 1,2 seconde.
 - **Les taxes à payer sont une seule rangée pour deux régimes.** La TVQ se déclare au
   mois, la TPS à l'année avec un solde dû au 30 novembre. La rangée 35 du bilan porte le
   net des deux, et les exercices prévisionnels recopient le profil mensuel réel de
-  2025-2026 : le rythme des versements y est donc celui des vrais mois, pas une règle
-  posée. Ce que la recopie ne capte pas, c'est qu'un règlement annuel porte sur
-  l'exercice écoulé : dans une année de forte croissance, le solde de novembre dépasse
-  ce que les acomptes ont couvert.
+  2025-2026. Le creux de février n'est pas un versement trimestriel, il n'y en a pas :
+  c'est la TVQ de décembre, le plus gros mois de ventes, versée le 31 janvier. Mettre le
+  profil à l'échelle des ventes est juste pour la TVQ, qui est proportionnelle aux ventes
+  du mois. Ça l'est moins pour la TPS : le règlement de novembre porte sur l'exercice qui
+  vient de finir, alors que la mise à l'échelle applique la croissance de celui qui
+  commence. L'écart va dans le sens de la prudence, de 4 191 $ à 6 193 $ par exercice,
+  et le corriger améliorerait la trésorerie affichée.
 - **Le canal détail et le commerce en ligne ne se lisent pas sur la même base.** La
   rangée 12 du résultat porte ce que Lasclay encaisse du détail ; la rangée 18 est le
   revenu après escomptes, la rangée 26 les ventes nettes. Le transport net et les

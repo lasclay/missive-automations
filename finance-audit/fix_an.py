@@ -17,11 +17,25 @@ profil mensuel en le multipliant par un facteur. Deux défauts.
    le rapport des ventes nettes d'un exercice à l'autre, ce qui le rend juste
    dans les deux scénarios.
 
-Le calendrier des versements, lui, n'a pas à être reconstruit. Le profil de
-2025-2026 porte déjà le rythme réel, vérifié dans le grand livre : l'écriture
-annuelle de novembre au compte 2110 et le versement de février qui suit le
-trimestre de décembre. Le recopier en le mettant à l'échelle des ventes
-conserve ce rythme, y compris le creux de trésorerie de novembre.
+Le calendrier n'a pas à être reconstruit : le profil de 2025-2026 vient de
+QuickBooks et porte déjà les deux régimes de Lasclay, la TVQ au mois et la TPS à
+l'année.
+
+La TVQ se verse le mois suivant celui où elle est perçue, ce qui explique le
+creux de février : la TVQ de décembre, le plus gros mois de ventes, vaut environ
+23 900 $ et se paie le 31 janvier. Mettre le profil à l'échelle des ventes est
+exactement juste pour cette partie, puisque la TVQ d'un mois est une proportion
+des ventes de ce mois.
+
+La TPS se règle en un seul versement, au plus tard le 30 novembre. Le mouvement
+de -12 672 $ au compte 2110 en novembre 2025 est ce règlement. Une imprécision
+subsiste de ce côté, et elle joue en faveur de la prudence : la mise à l'échelle
+applique la croissance de l'exercice qui commence, alors que le règlement porte
+sur celui qui vient de finir. Le modèle sort donc de novembre 4 191 $ de plus
+qu'il ne le faudrait en 2026-2027, 5 618 $ en 2027-2028 et 6 193 $ en 2028-2029.
+Ces montants restent petits devant une marge de crédit de 130 000 $, et les
+corriger améliorerait la trésorerie affichée plutôt que de la dégrader : la
+correction est laissée de côté volontairement.
 """
 import sys
 
@@ -56,10 +70,11 @@ def build(dst=F, src=F):
                   f"={cp}{TAXES}*'{PNL}'!${b}$26/'{PNL}'!${a}$26")
 
     e.set(BIL, f'C{TAXES}',
-          "Solde net de TPS et de TVQ. 2025-2026 vient de QuickBooks ; les "
+          "Solde net de TPS et de TVQ. TVQ déclarée au mois, TPS à l'année avec "
+          "un solde dû au 30 novembre. 2025-2026 vient de QuickBooks ; les "
           "exercices suivants reprennent ce profil mensuel à l'échelle des "
-          "ventes nettes, ce qui conserve le rythme réel des versements, dont "
-          "l'écriture de fin novembre et le versement de février.")
+          "ventes nettes. Le creux de février est la TVQ de décembre, versée le "
+          "31 janvier.")
 
     e.set_full_calc()
     e.save(dst)
