@@ -62,7 +62,11 @@ function suggerer() {
 // ------------------------------------------------------------------ comptes
 
 function creerCompte({ name, email, role = "preparateur", motDePasse = null, permissions = null }) {
+  // Normalisé tout de suite : un espace collé en copiant crée sinon un compte qu'on ne peut
+  // plus atteindre depuis le formulaire, avec le même « mot de passe incorrect » à la clé.
+  email = String(email || "").trim().toLowerCase();
   if (!email) throw new Error("courriel requis");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error(`courriel invalide : « ${email} »`);
   const accounts = require("./accounts");
   const existe = one("SELECT id FROM users WHERE lower(email) = lower(?)", email);
   if (existe) throw new Error("un compte existe déjà avec ce courriel");
@@ -73,7 +77,7 @@ function creerCompte({ name, email, role = "preparateur", motDePasse = null, per
   const perms = permissions || { role, ...(accounts.ROLES[role] || {}) };
   run(`INSERT INTO users (id,name,email,active,permissions,created_at,password_hash,must_change)
        VALUES (?,?,?,1,?,?,?,?)`,
-    id, name, email.toLowerCase(), dump(perms), maintenant(), hacher(mdp), motDePasse ? 0 : 1);
+    id, name, email, dump(perms), maintenant(), hacher(mdp), motDePasse ? 0 : 1);
   journaliser("auth.account_create", "user", id, { email, role });
   return { id, motDePasse: motDePasse ? null : mdp };
 }
@@ -100,6 +104,7 @@ function tropDEssais(email) {
  */
 function connecter(email, motDePasse, { ip = null, agent = null } = {}) {
   const generique = new Error("courriel ou mot de passe incorrect");
+  email = String(email || "").trim();
   if (!email || !motDePasse) throw generique;
   if (tropDEssais(email)) {
     const e = new Error(`trop de tentatives — réessayer dans ${FENETRE_MIN} minutes`);
