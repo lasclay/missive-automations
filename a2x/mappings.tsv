@@ -7,191 +7,193 @@
 # pays        : CA | CA-QC | US | US-NY | EU | - (indifférent / N/A)
 # marketplace : online | manual | pos:<locationId> | exchange | edit | <appId> | - (indifférent)
 # compte      : le numéro de compte QBO (AcctNum), vide = « Select account » dans A2X
-# taxe        : detaxe = « Détaxé on Sales », vide = « Select tax rate »
+# taxe        : « <idDuCodeQBO>:Sales » ou « :Purchases » — les options exactes du
+#               menu de QuickBooks (5:Sales = « Détaxé on Sales »). Vide = aucune taxe.
+#               « detaxe » reste accepté comme alias historique de 5:Sales.
 #
 # Régénérer mappings.json :  node a2x/tools/import_mappings.js
 
-Discounts	*	-	-		detaxe
-Discounts	Discount	CA-NB	online	4012	detaxe
-Discounts	Discount	CA-MB	online	4012	detaxe
-Discounts	Discount	CA	online	4012	detaxe
-Discounts	Discount	CA-BC	online	4012	detaxe
-Discounts	Discount	CA-AB	online	4012	detaxe
-Discounts	Discount	CA-SK	online	4012	detaxe
-Discounts	Discount	CA-PE	online	4012	detaxe
-Discounts	Discount	CA-ON	online	4012	detaxe
-Discounts	Discount	CA-NS	online	4012	detaxe
-Discounts	Discount	CA-QC	manual	4022	detaxe
-Discounts	Discount	CA-QC	3890849	4012	detaxe
-Discounts	Discount	CA-QC	online	4012	detaxe
-Discounts	Discount	CA	manual	4022	detaxe
-Discounts	Discount	CA	3890849	4012	detaxe
-Discounts	Discount	US	3890849	4032	detaxe
-Discounts	Discount	-	pos:58394280098	4012	detaxe
-Discounts	Discount	CA	2329312	4012	detaxe
-Discounts	Discount	CA	pos:58394280098	4012	detaxe
-Discounts	DiscountNotTaxed	CA-QC	online	4012	detaxe
-Discounts	DiscountNotTaxed	US-MN	online	4032	detaxe
-Discounts	DiscountNotTaxed	US	online	4032	detaxe
-Discounts	DiscountNotTaxed	US-MI	online	4032	detaxe
-Discounts	DiscountNotTaxed	CA	online	4012	detaxe
-Discounts	DiscountNotTaxed	US-SD	online	4032	detaxe
-Discounts	DiscountNotTaxed	CA-ON	online	4012	detaxe
-Discounts	DiscountNotTaxed	US-UT	online	4032	detaxe
-Discounts	DiscountNotTaxed	CA	manual	4022	detaxe
-Discounts	DiscountNotTaxed	CA	exchange	4033	detaxe
-Discounts	DiscountNotTaxed	-	manual	4022	detaxe
-Discounts	DiscountNotTaxed	US	manual	4032	detaxe
-Discounts	DiscountNotTaxed	US	3890849	4032	detaxe
-Discounts	DiscountNotTaxed	-	pos:58394280098	4012	detaxe
+Discounts	*	-	-		5:Sales
+Discounts	Discount	CA-NB	online	4012	5:Sales
+Discounts	Discount	CA-MB	online	4012	5:Sales
+Discounts	Discount	CA	online	4012	5:Sales
+Discounts	Discount	CA-BC	online	4012	5:Sales
+Discounts	Discount	CA-AB	online	4012	5:Sales
+Discounts	Discount	CA-SK	online	4012	5:Sales
+Discounts	Discount	CA-PE	online	4012	5:Sales
+Discounts	Discount	CA-ON	online	4012	5:Sales
+Discounts	Discount	CA-NS	online	4012	5:Sales
+Discounts	Discount	CA-QC	manual	4022	5:Sales
+Discounts	Discount	CA-QC	3890849	4012	5:Sales
+Discounts	Discount	CA-QC	online	4012	5:Sales
+Discounts	Discount	CA	manual	4022	5:Sales
+Discounts	Discount	CA	3890849	4012	5:Sales
+Discounts	Discount	US	3890849	4032	5:Sales
+Discounts	Discount	-	pos:58394280098	4012	5:Sales
+Discounts	Discount	CA	2329312	4012	5:Sales
+Discounts	Discount	CA	pos:58394280098	4012	5:Sales
+Discounts	DiscountNotTaxed	CA-QC	online	4012	5:Sales
+Discounts	DiscountNotTaxed	US-MN	online	4032	5:Sales
+Discounts	DiscountNotTaxed	US	online	4032	5:Sales
+Discounts	DiscountNotTaxed	US-MI	online	4032	5:Sales
+Discounts	DiscountNotTaxed	CA	online	4012	5:Sales
+Discounts	DiscountNotTaxed	US-SD	online	4032	5:Sales
+Discounts	DiscountNotTaxed	CA-ON	online	4012	5:Sales
+Discounts	DiscountNotTaxed	US-UT	online	4032	5:Sales
+Discounts	DiscountNotTaxed	CA	manual	4022	5:Sales
+Discounts	DiscountNotTaxed	CA	exchange	4033	5:Sales
+Discounts	DiscountNotTaxed	-	manual	4022	5:Sales
+Discounts	DiscountNotTaxed	US	manual	4032	5:Sales
+Discounts	DiscountNotTaxed	US	3890849	4032	5:Sales
+Discounts	DiscountNotTaxed	-	pos:58394280098	4012	5:Sales
 
 Other Income	*	-	-
-Other Income	Tip	US-UT	online	4035	detaxe
-Other Income	Tip	CA	online	4015	detaxe
-Other Income	Tip	CA-AB	online	4015	detaxe
-Other Income	Tip	US-NY	online	4035	detaxe
-Other Income	Tip	CA-ON	online	4015	detaxe
-Other Income	Tip	CA-BC	online	4015	detaxe
-Other Income	Tip	CA-QC	online	4015	detaxe
-Other Income	Tip	CA-NS	online	4015	detaxe
-Other Income	Tip	CA-NB	online	4015	detaxe
-Other Income	Tip	US-VT	online	4035	detaxe
-Other Income	Tip	US	online	4035	detaxe
-Other Income	Tip	CA	3890849	4015	detaxe
-Other Income	Tip	CA	manual	4015	detaxe
-Other Income	Tip	US	manual	4035	detaxe
-Other Income	Tip	US	3890849	4035	detaxe
-Other Income	TipRefund	US	online	4035	detaxe
-Other Income	TipRefund	CA	online	4015	detaxe
+Other Income	Tip	US-UT	online	4035	5:Sales
+Other Income	Tip	CA	online	4015	5:Sales
+Other Income	Tip	CA-AB	online	4015	5:Sales
+Other Income	Tip	US-NY	online	4035	5:Sales
+Other Income	Tip	CA-ON	online	4015	5:Sales
+Other Income	Tip	CA-BC	online	4015	5:Sales
+Other Income	Tip	CA-QC	online	4015	5:Sales
+Other Income	Tip	CA-NS	online	4015	5:Sales
+Other Income	Tip	CA-NB	online	4015	5:Sales
+Other Income	Tip	US-VT	online	4035	5:Sales
+Other Income	Tip	US	online	4035	5:Sales
+Other Income	Tip	CA	3890849	4015	5:Sales
+Other Income	Tip	CA	manual	4015	5:Sales
+Other Income	Tip	US	manual	4035	5:Sales
+Other Income	Tip	US	3890849	4035	5:Sales
+Other Income	TipRefund	US	online	4035	5:Sales
+Other Income	TipRefund	CA	online	4015	5:Sales
 
-Refunds	*	-	-		detaxe
-Refunds	Refund	CA-QC	online	4013	detaxe
-Refunds	Refund	CA-NB	online	4013	detaxe
-Refunds	Refund	CA-QC	3890849	4013	detaxe
-Refunds	Refund	CA	online	4013	detaxe
-Refunds	Refund	CA-ON	online	4013	detaxe
-Refunds	Refund	CA	manual	4013	detaxe
-Refunds	Refund	-	pos:58394280098	4013	detaxe
-Refunds	Refund	US	3890849	4033	detaxe
-Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA-MB	online	4013	detaxe
-Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	online	4013	detaxe
-Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA-QC	online	4013	detaxe
-Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	US	online	4033	detaxe
-Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	manual	4033	detaxe
-Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	-	pos:58394280098	4013	detaxe
-Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	pos:58394280098	4013	detaxe
-Refunds	RefundDiscount	CA	online	4013	detaxe
-Refunds	RefundDiscount	CA	manual	4013	detaxe
-Refunds	RefundDiscountNotTaxed	CA	online	4013	detaxe
-Refunds	RefundDiscountNotTaxed	CA	manual	4012	detaxe
-Refunds	RefundDiscountNotTaxed	US	online	4032	detaxe
-Refunds	RefundDiscountNotTaxed	US	manual	4012	detaxe
-Refunds	RefundNotTaxed	CA	online	4013	detaxe
-Refunds	RefundNotTaxed	US	online	4033	detaxe
-Refunds	RefundNotTaxed	CA	manual	4011	detaxe
-Refunds	RefundNotTaxed	US	manual	4013	detaxe
-Refunds	Return	CA	online	4013	detaxe
-Refunds	Return	-	pos:58394280098	4013	detaxe
-Refunds	ReturnDiscount	CA	online	4012	detaxe
-Refunds	ReturnDiscount	-	pos:58394280098	4012	detaxe
-Refunds	ReturnDiscountNotTaxed	US	online	4032	detaxe
-Refunds	ReturnNotTaxed	US	online	4033	detaxe
+Refunds	*	-	-		5:Sales
+Refunds	Refund	CA-QC	online	4013	5:Sales
+Refunds	Refund	CA-NB	online	4013	5:Sales
+Refunds	Refund	CA-QC	3890849	4013	5:Sales
+Refunds	Refund	CA	online	4013	5:Sales
+Refunds	Refund	CA-ON	online	4013	5:Sales
+Refunds	Refund	CA	manual	4013	5:Sales
+Refunds	Refund	-	pos:58394280098	4013	5:Sales
+Refunds	Refund	US	3890849	4033	5:Sales
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA-MB	online	4013	5:Sales
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	online	4013	5:Sales
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA-QC	online	4013	5:Sales
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	US	online	4033	5:Sales
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	manual	4033	5:Sales
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	-	pos:58394280098	4013	5:Sales
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	pos:58394280098	4013	5:Sales
+Refunds	RefundDiscount	CA	online	4013	5:Sales
+Refunds	RefundDiscount	CA	manual	4013	5:Sales
+Refunds	RefundDiscountNotTaxed	CA	online	4013	5:Sales
+Refunds	RefundDiscountNotTaxed	CA	manual	4012	5:Sales
+Refunds	RefundDiscountNotTaxed	US	online	4032	5:Sales
+Refunds	RefundDiscountNotTaxed	US	manual	4012	5:Sales
+Refunds	RefundNotTaxed	CA	online	4013	5:Sales
+Refunds	RefundNotTaxed	US	online	4033	5:Sales
+Refunds	RefundNotTaxed	CA	manual	4011	5:Sales
+Refunds	RefundNotTaxed	US	manual	4013	5:Sales
+Refunds	Return	CA	online	4013	5:Sales
+Refunds	Return	-	pos:58394280098	4013	5:Sales
+Refunds	ReturnDiscount	CA	online	4012	5:Sales
+Refunds	ReturnDiscount	-	pos:58394280098	4012	5:Sales
+Refunds	ReturnDiscountNotTaxed	US	online	4032	5:Sales
+Refunds	ReturnNotTaxed	US	online	4033	5:Sales
 
-Sales	*	-	-		detaxe
-Sales	ProductSales	CA-SK	online	4011	detaxe
-Sales	ProductSales	CA-AB	online	4011	detaxe
-Sales	ProductSales	CA-BC	online	4011	detaxe
-Sales	ProductSales	CA	online	4011	detaxe
-Sales	ProductSales	CA-NB	online	4011	detaxe
-Sales	ProductSales	CA-ON	online	4011	detaxe
-Sales	ProductSales	CA-PE	online	4011	detaxe
-Sales	ProductSales	CA-QC	online	4011	detaxe
-Sales	ProductSales	CA-QC	manual	4020	detaxe
-Sales	ProductSales	CA-NS	online	4011	detaxe
-Sales	ProductSales	CA-MB	online	4011	detaxe
-Sales	ProductSales	CA-QC	3890849	4011	detaxe
-Sales	ProductSales	CA	3890849	4011	detaxe
-Sales	ProductSales	CA	manual	4020	detaxe
-Sales	ProductSales	CA	edit	4011	detaxe
-Sales	ProductSales	-	pos:58394280098	4011	detaxe
-Sales	ProductSales	US	3890849	4031	detaxe
-Sales	ProductSales	CA	pos:58394280098	4011	detaxe
-Sales	ProductSales	EU	online	4011	detaxe
-Sales	ProductSales	CA	2329312	4011	detaxe
-Sales	ProductSalesNotTaxed	CA-QC	online	4011	detaxe
-Sales	ProductSalesNotTaxed	US-AL	online	4031	detaxe
-Sales	ProductSalesNotTaxed	US-MN	online	4031	detaxe
-Sales	ProductSalesNotTaxed	US-SD	online	4031	detaxe
-Sales	ProductSalesNotTaxed	US-UT	online	4031	detaxe
-Sales	ProductSalesNotTaxed	US-KY	online	4031	detaxe
-Sales	ProductSalesNotTaxed	US-MA	online	4031	detaxe
-Sales	ProductSalesNotTaxed	US-VT	online	4031	detaxe
-Sales	ProductSalesNotTaxed	US-MI	online	4031	detaxe
-Sales	ProductSalesNotTaxed	US	online	4031	detaxe
-Sales	ProductSalesNotTaxed	CA-ON	online	4011	detaxe
-Sales	ProductSalesNotTaxed	CA	online	4011	detaxe
-Sales	ProductSalesNotTaxed	US-NY	online	4031	detaxe
-Sales	ProductSalesNotTaxed	CA	manual	4020	detaxe
-Sales	ProductSalesNotTaxed	CA	exchange	4013	detaxe
-Sales	ProductSalesNotTaxed	-	manual	4021	detaxe
-Sales	ProductSalesNotTaxed	US	manual	4031	detaxe
-Sales	ProductSalesNotTaxed	US	3890849	4031	detaxe
-Sales	ProductSalesNotTaxed	-	pos:58394280098	4011	detaxe
-Sales	ProductSalesNotTaxed	CA	3890849	4011	detaxe
+Sales	*	-	-		5:Sales
+Sales	ProductSales	CA-SK	online	4011	5:Sales
+Sales	ProductSales	CA-AB	online	4011	5:Sales
+Sales	ProductSales	CA-BC	online	4011	5:Sales
+Sales	ProductSales	CA	online	4011	5:Sales
+Sales	ProductSales	CA-NB	online	4011	5:Sales
+Sales	ProductSales	CA-ON	online	4011	5:Sales
+Sales	ProductSales	CA-PE	online	4011	5:Sales
+Sales	ProductSales	CA-QC	online	4011	5:Sales
+Sales	ProductSales	CA-QC	manual	4020	5:Sales
+Sales	ProductSales	CA-NS	online	4011	5:Sales
+Sales	ProductSales	CA-MB	online	4011	5:Sales
+Sales	ProductSales	CA-QC	3890849	4011	5:Sales
+Sales	ProductSales	CA	3890849	4011	5:Sales
+Sales	ProductSales	CA	manual	4020	5:Sales
+Sales	ProductSales	CA	edit	4011	5:Sales
+Sales	ProductSales	-	pos:58394280098	4011	5:Sales
+Sales	ProductSales	US	3890849	4031	5:Sales
+Sales	ProductSales	CA	pos:58394280098	4011	5:Sales
+Sales	ProductSales	EU	online	4011	5:Sales
+Sales	ProductSales	CA	2329312	4011	5:Sales
+Sales	ProductSalesNotTaxed	CA-QC	online	4011	5:Sales
+Sales	ProductSalesNotTaxed	US-AL	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	US-MN	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	US-SD	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	US-UT	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	US-KY	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	US-MA	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	US-VT	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	US-MI	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	US	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	CA-ON	online	4011	5:Sales
+Sales	ProductSalesNotTaxed	CA	online	4011	5:Sales
+Sales	ProductSalesNotTaxed	US-NY	online	4031	5:Sales
+Sales	ProductSalesNotTaxed	CA	manual	4020	5:Sales
+Sales	ProductSalesNotTaxed	CA	exchange	4013	5:Sales
+Sales	ProductSalesNotTaxed	-	manual	4021	5:Sales
+Sales	ProductSalesNotTaxed	US	manual	4031	5:Sales
+Sales	ProductSalesNotTaxed	US	3890849	4031	5:Sales
+Sales	ProductSalesNotTaxed	-	pos:58394280098	4011	5:Sales
+Sales	ProductSalesNotTaxed	CA	3890849	4011	5:Sales
 
-Shipping Income	*	-	-	4014	detaxe
-Shipping Income	Shipping	CA-AB	online	4014	detaxe
-Shipping Income	Shipping	CA-BC	online	4014	detaxe
-Shipping Income	Shipping	CA-SK	online	4014	detaxe
-Shipping Income	Shipping	CA-QC	manual	4024	detaxe
-Shipping Income	Shipping	CA-PE	online	4014	detaxe
-Shipping Income	Shipping	CA-ON	online	4014	detaxe
-Shipping Income	Shipping	CA-QC	online	4014	detaxe
-Shipping Income	Shipping	CA	online	4014	detaxe
-Shipping Income	Shipping	CA-QC	3890849	4014	detaxe
-Shipping Income	Shipping	CA-NB	online	4014	detaxe
-Shipping Income	Shipping	CA-NS	online	4014	detaxe
-Shipping Income	Shipping	CA-MB	online	4014	detaxe
-Shipping Income	Shipping	CA	3890849	4014	detaxe
-Shipping Income	Shipping	CA	manual	4024	detaxe
-Shipping Income	Shipping	US	3890849	4034	detaxe
-Shipping Income	Shipping	CA	2329312	4014	detaxe
-Shipping Income	ShippingDiscountNotTaxed	CA	online	4014	detaxe
-Shipping Income	ShippingDiscountNotTaxed	CA-QC	online	4014	detaxe
-Shipping Income	ShippingDiscountNotTaxed	US	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	CA-ON	online	4014	detaxe
-Shipping Income	ShippingNotTaxed	US-SD	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	US-MI	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	US-NY	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	CA	online	4014	detaxe
-Shipping Income	ShippingNotTaxed	US-AL	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	US-MN	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	CA-QC	online	4014	detaxe
-Shipping Income	ShippingNotTaxed	US-VT	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	US-KY	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	US-UT	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	US-MA	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	US	online	4034	detaxe
-Shipping Income	ShippingNotTaxed	US	manual	4034	detaxe
-Shipping Income	ShippingNotTaxed	US	3890849	4034	detaxe
-Shipping Income	ShippingNotTaxed	CA	manual	4014	detaxe
-Shipping Income	ShippingRefund	CA	online	4014	detaxe
-Shipping Income	ShippingRefund - shipping_refund	CA	online	4014	detaxe
-Shipping Income	ShippingRefund - shipping_refund	CA-QC	online	4014	detaxe
-Shipping Income	ShippingRefund - shipping_refund	CA	manual	4014	detaxe
-Shipping Income	ShippingRefund - shipping_refund	US	3890849	4034	detaxe
-Shipping Income	ShippingRefundNotTaxed - refund_discrepancy	US	online	4033	detaxe
-Shipping Income	ShippingRefundNotTaxed - shipping_refund	US	online	4034	detaxe
+Shipping Income	*	-	-	4014	5:Sales
+Shipping Income	Shipping	CA-AB	online	4014	5:Sales
+Shipping Income	Shipping	CA-BC	online	4014	5:Sales
+Shipping Income	Shipping	CA-SK	online	4014	5:Sales
+Shipping Income	Shipping	CA-QC	manual	4024	5:Sales
+Shipping Income	Shipping	CA-PE	online	4014	5:Sales
+Shipping Income	Shipping	CA-ON	online	4014	5:Sales
+Shipping Income	Shipping	CA-QC	online	4014	5:Sales
+Shipping Income	Shipping	CA	online	4014	5:Sales
+Shipping Income	Shipping	CA-QC	3890849	4014	5:Sales
+Shipping Income	Shipping	CA-NB	online	4014	5:Sales
+Shipping Income	Shipping	CA-NS	online	4014	5:Sales
+Shipping Income	Shipping	CA-MB	online	4014	5:Sales
+Shipping Income	Shipping	CA	3890849	4014	5:Sales
+Shipping Income	Shipping	CA	manual	4024	5:Sales
+Shipping Income	Shipping	US	3890849	4034	5:Sales
+Shipping Income	Shipping	CA	2329312	4014	5:Sales
+Shipping Income	ShippingDiscountNotTaxed	CA	online	4014	5:Sales
+Shipping Income	ShippingDiscountNotTaxed	CA-QC	online	4014	5:Sales
+Shipping Income	ShippingDiscountNotTaxed	US	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	CA-ON	online	4014	5:Sales
+Shipping Income	ShippingNotTaxed	US-SD	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	US-MI	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	US-NY	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	CA	online	4014	5:Sales
+Shipping Income	ShippingNotTaxed	US-AL	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	US-MN	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	CA-QC	online	4014	5:Sales
+Shipping Income	ShippingNotTaxed	US-VT	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	US-KY	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	US-UT	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	US-MA	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	US	online	4034	5:Sales
+Shipping Income	ShippingNotTaxed	US	manual	4034	5:Sales
+Shipping Income	ShippingNotTaxed	US	3890849	4034	5:Sales
+Shipping Income	ShippingNotTaxed	CA	manual	4014	5:Sales
+Shipping Income	ShippingRefund	CA	online	4014	5:Sales
+Shipping Income	ShippingRefund - shipping_refund	CA	online	4014	5:Sales
+Shipping Income	ShippingRefund - shipping_refund	CA-QC	online	4014	5:Sales
+Shipping Income	ShippingRefund - shipping_refund	CA	manual	4014	5:Sales
+Shipping Income	ShippingRefund - shipping_refund	US	3890849	4034	5:Sales
+Shipping Income	ShippingRefundNotTaxed - refund_discrepancy	US	online	4033	5:Sales
+Shipping Income	ShippingRefundNotTaxed - shipping_refund	US	online	4034	5:Sales
 
 Other Expenses	*	-	-
 Other Expenses	CurrencyConversionRounding USD-CAD	-	-	9100
 Other Expenses	ForeignCurrencyGainLoss	US-NY	online	9100
 Other Expenses	ForeignCurrencyGainLoss	CA-QC	online	9100
 Other Expenses	ForeignCurrencyGainLoss	US	online	9100
-Other Expenses	ForeignCurrencyGainLoss	US	manual	9100	detaxe
-Other Expenses	ForeignCurrencyGainLoss	US	3890849	9100	detaxe
-Other Expenses	ForeignCurrencyGainLoss - refund_discrepancy	US	online	9100	detaxe
-Other Expenses	ForeignCurrencyGainLoss - shipping_refund	US	online	9100	detaxe
+Other Expenses	ForeignCurrencyGainLoss	US	manual	9100	5:Sales
+Other Expenses	ForeignCurrencyGainLoss	US	3890849	9100	5:Sales
+Other Expenses	ForeignCurrencyGainLoss - refund_discrepancy	US	online	9100	5:Sales
+Other Expenses	ForeignCurrencyGainLoss - shipping_refund	US	online	9100	5:Sales
 Other Expenses	ForeignCurrencyGainLoss Gateway shop_cash - shipping_refund	US	3890849	9100
 
 Payment and Selling Fees	*	-	-
@@ -368,15 +370,15 @@ Shipping Tax	ShippingTax	CA	2329312	2121
 Shipping Tax	ShippingTaxRetailDeliveryFee	US	3890849	2121
 
 Adjustments	*	-	-
-Adjustments	Dispute	-	-	4011	detaxe
-Adjustments	Dispute	CA-QC	online	4011	detaxe
-Adjustments	Dispute	CA	online	4011	detaxe
-Adjustments	Dispute	US	online	4033	detaxe
+Adjustments	Dispute	-	-	4011	5:Sales
+Adjustments	Dispute	CA-QC	online	4011	5:Sales
+Adjustments	Dispute	CA	online	4011	5:Sales
+Adjustments	Dispute	US	online	4033	5:Sales
 
-Other	*	-	-		detaxe
-Other	Credit	CA	3890849	4011	detaxe
-Other	Credit	-	-	4011	detaxe
-Other	NonOrderTransaction	-	-	4000	detaxe
-Other	Underpayment	CA-QC	manual	4011	detaxe
-Other	Underpayment	CA-ON	online	4011	detaxe
-Other	Underpayment	CA	online	4014	detaxe
+Other	*	-	-		5:Sales
+Other	Credit	CA	3890849	4011	5:Sales
+Other	Credit	-	-	4011	5:Sales
+Other	NonOrderTransaction	-	-	4000	5:Sales
+Other	Underpayment	CA-QC	manual	4011	5:Sales
+Other	Underpayment	CA-ON	online	4011	5:Sales
+Other	Underpayment	CA	online	4014	5:Sales

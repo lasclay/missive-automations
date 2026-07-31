@@ -7,7 +7,7 @@
  *   TaxCodeRef     seulement sur les lignes « Détaxé on Sales » (+ TaxApplicableOn/TaxAmount)
  *   dernière ligne "Balance of settlement for: 2026-07-21" au compte de dépôt
  */
-const { resolve, taxCodeId, taxRateId } = require("./mapper");
+const { resolve } = require("./mapper");
 const { ctx, saleComponents, refundComponents, prorate, money, sum, nodes } = require("./breakdown");
 const { txFamily } = require("./payouts");
 const { gid } = require("./shopify");
@@ -79,7 +79,7 @@ function buildLines(payout, btx, ordersById) {
       unmapped.push({ category, details, country, marketplace, amount: amountCents / 100, description, source });
       return;
     }
-    const key = `${hit.accountId}|${hit.tax || ""}|${description}`;
+    const key = `${hit.accountId}|${(hit.tax && hit.tax.value) || ""}|${description}`;
     const g = groups.get(key) || {
       accountId: hit.accountId, accountName: hit.accountName, acctNum: hit.acctNum,
       tax: hit.tax, description, category, details, country, marketplace,
@@ -193,9 +193,9 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
   const settlementAccountId = opts.settlementAccountId || config.settlementAccountId;
   const roundingAccountId = opts.roundingAccountId || config.roundingAccountId;
   const prefix = opts.docNumberPrefix || config.docNumberPrefix || "CLONE";
-  const taxId = taxCodeId();
-  const rateId = taxRateId();
-  let netTaxable = 0; // somme signée des lignes portant un code de taxe
+  // Base imposable par TAUX de taxe : le code va sur la ligne, les taux qu'il
+  // regroupe vont dans le TxnTaxDetail de l'écriture.
+  const netParTaux = new Map();
 
   // A2X nomme le payout « première transaction → date d'émission » (ex. 21Jul-27Jul).
   const dates = btx.map((t) => t.transactionDate).filter(Boolean).sort();
@@ -222,13 +222,18 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     // Le bloc de taxe est repris tel que QuickBooks le RENVOIE sur les écritures
     // d'A2X ; il n'est pas garanti qu'il soit accepté tel quel en création selon
     // la version d'API. `taxCodeMode` permet de le réduire sans toucher au code.
-    if (g.tax === "detaxe" && taxId && mode !== "none") {
-      detail.TaxCodeRef = { value: String(taxId) };
+    if (g.tax && g.tax.codeId && mode !== "none") {
+      detail.TaxCodeRef = { value: String(g.tax.codeId) };
       if (mode === "full") {
-        detail.TaxApplicableOn = "Sales";
+        detail.TaxApplicableOn = g.tax.applicableOn || "Sales";
         detail.TaxAmount = 0;
       }
-      netTaxable += g.amount > 0 ? Math.round(amount * 100) : -Math.round(amount * 100);
+      const signe = g.amount > 0 ? 1 : -1;
+      for (const t of g.tax.taux || []) {
+        const cur = netParTaux.get(t.id) || { pct: t.pct, cents: 0 };
+        cur.cents += signe * Math.round(amount * 100);
+        netParTaux.set(t.id, cur);
+      }
     }
     Line.push({ Description: g.description, Amount: amount, DetailType: "JournalEntryLineDetail", JournalEntryLineDetail: detail });
   }
@@ -274,19 +279,18 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
    * calculer lui-même et échoue. Relevé sur la pièce 11170 d'A2X, où
    * NetAmountTaxable vaut l'opposé de la somme signée des lignes détaxées.
    */
-  if (mode === "full" && rateId && netTaxable) {
-    body.TxnTaxDetail = {
-      TaxLine: [{
-        Amount: 0,
-        DetailType: "TaxLineDetail",
-        TaxLineDetail: {
-          TaxRateRef: { value: String(rateId) },
-          PercentBased: true,
-          TaxPercent: 0,
-          NetAmountTaxable: -netTaxable / 100,
-        },
-      }],
-    };
+  if (mode === "full" && netParTaux.size) {
+    const taxLines = [...netParTaux].filter(([, v]) => v.cents).map(([id, v]) => ({
+      Amount: 0,
+      DetailType: "TaxLineDetail",
+      TaxLineDetail: {
+        TaxRateRef: { value: String(id) },
+        PercentBased: true,
+        TaxPercent: v.pct,
+        NetAmountTaxable: -v.cents / 100,
+      },
+    }));
+    if (taxLines.length) body.TxnTaxDetail = { TaxLine: taxLines };
   }
 
   return {

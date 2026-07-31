@@ -18,5 +18,7 @@
   "businessEntityId": "MTQ3NTg5MzI3MDEw",
   "businessEntityName": "Les Produits Lasclay inc.",
   "taxCodeMode": "full",
-  "taxCodeModeNote": "full = TaxCodeRef + TaxApplicableOn + TaxAmount (ce que QBO renvoie sur les écritures d'A2X) · code = TaxCodeRef seul · none = aucun code de taxe. À basculer si QuickBooks refuse l'écriture pour un motif de taxe."
+  "taxCodeModeNote": "full = TaxCodeRef + TaxApplicableOn + TaxAmount (ce que QBO renvoie sur les écritures d'A2X) · code = TaxCodeRef seul · none = aucun code de taxe. À basculer si QuickBooks refuse l'écriture pour un motif de taxe.",
+  "defaultTaxOption": "5:Sales",
+  "defaultTaxOptionNote": "Valeur pré-sélectionnée pour une NOUVELLE règle de mapping (5:Sales = « Détaxé on Sales »), pour ne pas avoir à la choisir chaque fois. N'affecte pas les règles existantes."
 }

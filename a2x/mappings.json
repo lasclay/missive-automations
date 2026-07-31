@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-31T15:14:52.487Z",
+  "generatedAt": "2026-07-31T15:19:40.182Z",
   "source": "a2x/mappings.tsv",
   "counts": {
     "rules": 328,
@@ -9,9 +9,522 @@
   "taxCodes": {
     "detaxe": "5"
   },
-  "taxRates": {
-    "detaxe": "5"
-  },
+  "taxOptions": [
+    {
+      "value": "5:Purchases",
+      "label": "Détaxé on Purchases",
+      "codeId": "5",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "4",
+          "nom": "TPS/TVH (CTI) détaxée",
+          "pct": 0
+        }
+      ],
+      "pctTotal": 0
+    },
+    {
+      "value": "5:Sales",
+      "label": "Détaxé on Sales",
+      "codeId": "5",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "5",
+          "nom": "TPS/TVH détaxée",
+          "pct": 0
+        }
+      ],
+      "pctTotal": 0
+    },
+    {
+      "value": "4:Purchases",
+      "label": "Exonéré on Purchases",
+      "codeId": "4",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "2",
+          "nom": "TPS achats exonérés",
+          "pct": 0
+        }
+      ],
+      "pctTotal": 0
+    },
+    {
+      "value": "4:Sales",
+      "label": "Exonéré on Sales",
+      "codeId": "4",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "3",
+          "nom": "TPS ventes exonérées",
+          "pct": 0
+        }
+      ],
+      "pctTotal": 0
+    },
+    {
+      "value": "3:Purchases",
+      "label": "Hors champ on Purchases",
+      "codeId": "3",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "22",
+          "nom": "ACHAT SANS TAXE",
+          "pct": 0
+        }
+      ],
+      "pctTotal": 0
+    },
+    {
+      "value": "3:Sales",
+      "label": "Hors champ on Sales",
+      "codeId": "3",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "23",
+          "nom": "VENTE SANS TAXE",
+          "pct": 0
+        }
+      ],
+      "pctTotal": 0
+    },
+    {
+      "value": "6:Purchases",
+      "label": "TPS on Purchases",
+      "codeId": "6",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "6",
+          "nom": "TPS (CTI)",
+          "pct": 5
+        }
+      ],
+      "pctTotal": 5
+    },
+    {
+      "value": "6:Sales",
+      "label": "TPS on Sales",
+      "codeId": "6",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "7",
+          "nom": "TPS",
+          "pct": 5
+        }
+      ],
+      "pctTotal": 5
+    },
+    {
+      "value": "9:Purchases",
+      "label": "TPS/TVQ QC - 9,975 on Purchases",
+      "codeId": "9",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "6",
+          "nom": "TPS (CTI)",
+          "pct": 5
+        },
+        {
+          "id": "20",
+          "nom": "TVQ 9,975 (RTI)",
+          "pct": 9.975
+        }
+      ],
+      "pctTotal": 14.975
+    },
+    {
+      "value": "9:Sales",
+      "label": "TPS/TVQ QC - 9,975 on Sales",
+      "codeId": "9",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "7",
+          "nom": "TPS",
+          "pct": 5
+        },
+        {
+          "id": "21",
+          "nom": "TVQ 9,975",
+          "pct": 9.975
+        }
+      ],
+      "pctTotal": 14.975
+    },
+    {
+      "value": "17:Purchases",
+      "label": "TVH (Î.-P.-É.) on Purchases",
+      "codeId": "17",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "34",
+          "nom": "TVH (Î.-P.-É.) sur les achats",
+          "pct": 14
+        }
+      ],
+      "pctTotal": 14
+    },
+    {
+      "value": "17:Sales",
+      "label": "TVH (Î.-P.-É.) on Sales",
+      "codeId": "17",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "35",
+          "nom": "TVH (Î.-P.-É.) sur les ventes",
+          "pct": 14
+        }
+      ],
+      "pctTotal": 14
+    },
+    {
+      "value": "31:Purchases",
+      "label": "TVH (N.-É.) 2025 on Purchases",
+      "codeId": "31",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "63",
+          "nom": "TVH (CTI) N.-É. 2025",
+          "pct": 14
+        }
+      ],
+      "pctTotal": 14
+    },
+    {
+      "value": "31:Sales",
+      "label": "TVH (N.-É.) 2025 on Sales",
+      "codeId": "31",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "62",
+          "nom": "TVH (N.-É.) 2025",
+          "pct": 14
+        }
+      ],
+      "pctTotal": 14
+    },
+    {
+      "value": "18:Purchases",
+      "label": "TVH (N.-É.) on Purchases",
+      "codeId": "18",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "38",
+          "nom": "TVH (CTI) N.-É.",
+          "pct": 15
+        }
+      ],
+      "pctTotal": 15
+    },
+    {
+      "value": "18:Sales",
+      "label": "TVH (N.-É.) on Sales",
+      "codeId": "18",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "39",
+          "nom": "TVH (N.-É.)",
+          "pct": 15
+        }
+      ],
+      "pctTotal": 15
+    },
+    {
+      "value": "16:Purchases",
+      "label": "TVH Î.-P.-É. 2016 on Purchases",
+      "codeId": "16",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "36",
+          "nom": "TVH (Î.-P.-É.) 2016",
+          "pct": 15
+        }
+      ],
+      "pctTotal": 15
+    },
+    {
+      "value": "16:Sales",
+      "label": "TVH Î.-P.-É. 2016 on Sales",
+      "codeId": "16",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "37",
+          "nom": "TVH Î.-P.-É. 2016",
+          "pct": 15
+        }
+      ],
+      "pctTotal": 15
+    },
+    {
+      "value": "13:Purchases",
+      "label": "TVH N.-B. 2016 on Purchases",
+      "codeId": "13",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "28",
+          "nom": "TVH (CTI) N.-B. 2016",
+          "pct": 15
+        }
+      ],
+      "pctTotal": 15
+    },
+    {
+      "value": "13:Sales",
+      "label": "TVH N.-B. 2016 on Sales",
+      "codeId": "13",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "29",
+          "nom": "TVH N.-B. 2016",
+          "pct": 15
+        }
+      ],
+      "pctTotal": 15
+    },
+    {
+      "value": "12:Purchases",
+      "label": "TVH N.-B. on Purchases",
+      "codeId": "12",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "26",
+          "nom": "TVH (CTI) N.-B.",
+          "pct": 13
+        }
+      ],
+      "pctTotal": 13
+    },
+    {
+      "value": "12:Sales",
+      "label": "TVH N.-B. on Sales",
+      "codeId": "12",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "27",
+          "nom": "TVH N.-B.",
+          "pct": 13
+        }
+      ],
+      "pctTotal": 13
+    },
+    {
+      "value": "11:Purchases",
+      "label": "TVH ON on Purchases",
+      "codeId": "11",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "24",
+          "nom": "TVH (CTI) ON",
+          "pct": 13
+        }
+      ],
+      "pctTotal": 13
+    },
+    {
+      "value": "11:Sales",
+      "label": "TVH ON on Sales",
+      "codeId": "11",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "25",
+          "nom": "TVH ON",
+          "pct": 13
+        }
+      ],
+      "pctTotal": 13
+    },
+    {
+      "value": "14:Purchases",
+      "label": "TVH T.-N.-L. 2016 on Purchases",
+      "codeId": "14",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "32",
+          "nom": "TVH (T.-N.-L.) 2016",
+          "pct": 15
+        }
+      ],
+      "pctTotal": 15
+    },
+    {
+      "value": "14:Sales",
+      "label": "TVH T.-N.-L. 2016 on Sales",
+      "codeId": "14",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "33",
+          "nom": "TVH T.-N.-L. 2016",
+          "pct": 15
+        }
+      ],
+      "pctTotal": 15
+    },
+    {
+      "value": "15:Purchases",
+      "label": "TVH T.-N.-L. on Purchases",
+      "codeId": "15",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "30",
+          "nom": "TVH (T.-N.-L.)",
+          "pct": 13
+        }
+      ],
+      "pctTotal": 13
+    },
+    {
+      "value": "15:Sales",
+      "label": "TVH T.-N.-L. on Sales",
+      "codeId": "15",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "31",
+          "nom": "TVH T.-N.-L.",
+          "pct": 13
+        }
+      ],
+      "pctTotal": 13
+    },
+    {
+      "value": "30:Purchases",
+      "label": "TVP (C.-B.) on Purchases",
+      "codeId": "30",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "60",
+          "nom": "TVP (C.-B.) Achats",
+          "pct": 7
+        }
+      ],
+      "pctTotal": 7
+    },
+    {
+      "value": "30:Sales",
+      "label": "TVP (C.-B.) on Sales",
+      "codeId": "30",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "61",
+          "nom": "TVP (C.-B.) Ventes",
+          "pct": 7
+        }
+      ],
+      "pctTotal": 7
+    },
+    {
+      "value": "24:Purchases",
+      "label": "TVP MB on Purchases",
+      "codeId": "24",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "47",
+          "nom": "TVP (MB) sur les achats",
+          "pct": 7
+        }
+      ],
+      "pctTotal": 7
+    },
+    {
+      "value": "24:Sales",
+      "label": "TVP MB on Sales",
+      "codeId": "24",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "48",
+          "nom": "TVP (MB) sur les ventes",
+          "pct": 7
+        }
+      ],
+      "pctTotal": 7
+    },
+    {
+      "value": "20:Purchases",
+      "label": "TVP SK on Purchases",
+      "codeId": "20",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "40",
+          "nom": "TVP (SK) sur les achats",
+          "pct": 0
+        }
+      ],
+      "pctTotal": 0
+    },
+    {
+      "value": "20:Sales",
+      "label": "TVP SK on Sales",
+      "codeId": "20",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "41",
+          "nom": "TVP (SK) sur les ventes",
+          "pct": 0
+        }
+      ],
+      "pctTotal": 0
+    },
+    {
+      "value": "10:Purchases",
+      "label": "TVQ QC - 9,975 on Purchases",
+      "codeId": "10",
+      "applicableOn": "Purchases",
+      "taux": [
+        {
+          "id": "20",
+          "nom": "TVQ 9,975 (RTI)",
+          "pct": 9.975
+        }
+      ],
+      "pctTotal": 9.975
+    },
+    {
+      "value": "10:Sales",
+      "label": "TVQ QC - 9,975 on Sales",
+      "codeId": "10",
+      "applicableOn": "Sales",
+      "taux": [
+        {
+          "id": "21",
+          "nom": "TVQ 9,975",
+          "pct": 9.975
+        }
+      ],
+      "pctTotal": 9.975
+    }
+  ],
   "accounts": {
     "1020": {
       "num": "1020",
@@ -173,8 +686,21 @@
       "acctNum": null,
       "accountId": null,
       "accountName": null,
-      "tax": "detaxe",
-      "line": 14
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 16
     },
     "Other Income": {
       "category": "Other Income",
@@ -185,7 +711,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 48
+      "line": 50
     },
     "Refunds": {
       "category": "Refunds",
@@ -195,8 +721,21 @@
       "acctNum": null,
       "accountId": null,
       "accountName": null,
-      "tax": "detaxe",
-      "line": 67
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 69
     },
     "Sales": {
       "category": "Sales",
@@ -206,8 +745,21 @@
       "acctNum": null,
       "accountId": null,
       "accountName": null,
-      "tax": "detaxe",
-      "line": 100
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 102
     },
     "Shipping Income": {
       "category": "Shipping Income",
@@ -217,8 +769,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 142
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 144
     },
     "Other Expenses": {
       "category": "Other Expenses",
@@ -229,7 +794,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 186
+      "line": 188
     },
     "Payment and Selling Fees": {
       "category": "Payment and Selling Fees",
@@ -240,7 +805,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 197
+      "line": 199
     },
     "Shipping Expenses": {
       "category": "Shipping Expenses",
@@ -251,7 +816,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 229
+      "line": 231
     },
     "Gateway Transactions": {
       "category": "Gateway Transactions",
@@ -262,7 +827,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 231
+      "line": 233
     },
     "Pending Payments": {
       "category": "Pending Payments",
@@ -273,7 +838,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 258
+      "line": 260
     },
     "Gift Card Liabilities": {
       "category": "Gift Card Liabilities",
@@ -284,7 +849,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 283
+      "line": 285
     },
     "Shopify Loans": {
       "category": "Shopify Loans",
@@ -295,7 +860,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 300
+      "line": 302
     },
     "Shopify Store Credit": {
       "category": "Shopify Store Credit",
@@ -306,7 +871,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 302
+      "line": 304
     },
     "Discounts Tax": {
       "category": "Discounts Tax",
@@ -317,7 +882,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 304
+      "line": 306
     },
     "MFV Taxes": {
       "category": "MFV Taxes",
@@ -328,7 +893,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 307
+      "line": 309
     },
     "Other Taxes": {
       "category": "Other Taxes",
@@ -339,7 +904,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 310
+      "line": 312
     },
     "Refunds Tax": {
       "category": "Refunds Tax",
@@ -350,7 +915,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 312
+      "line": 314
     },
     "Sales Tax": {
       "category": "Sales Tax",
@@ -361,7 +926,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 324
+      "line": 326
     },
     "Shipping Tax": {
       "category": "Shipping Tax",
@@ -372,7 +937,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 346
+      "line": 348
     },
     "Adjustments": {
       "category": "Adjustments",
@@ -383,7 +948,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 370
+      "line": 372
     },
     "Other": {
       "category": "Other",
@@ -393,8 +958,21 @@
       "acctNum": null,
       "accountId": null,
       "accountName": null,
-      "tax": "detaxe",
-      "line": 376
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 378
     }
   },
   "index": {
@@ -406,8 +984,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 15
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 17
     },
     "Discount|CA-MB|online": {
       "category": "Discounts",
@@ -417,8 +1008,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 16
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 18
     },
     "Discount|CA|online": {
       "category": "Discounts",
@@ -428,8 +1032,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 17
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 19
     },
     "Discount|CA-BC|online": {
       "category": "Discounts",
@@ -439,8 +1056,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 18
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 20
     },
     "Discount|CA-AB|online": {
       "category": "Discounts",
@@ -450,8 +1080,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 19
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 21
     },
     "Discount|CA-SK|online": {
       "category": "Discounts",
@@ -461,8 +1104,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 20
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 22
     },
     "Discount|CA-PE|online": {
       "category": "Discounts",
@@ -472,8 +1128,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 21
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 23
     },
     "Discount|CA-ON|online": {
       "category": "Discounts",
@@ -483,8 +1152,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 22
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 24
     },
     "Discount|CA-NS|online": {
       "category": "Discounts",
@@ -494,8 +1176,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 23
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 25
     },
     "Discount|CA-QC|manual": {
       "category": "Discounts",
@@ -505,8 +1200,21 @@
       "acctNum": "4022",
       "accountId": "149",
       "accountName": "Rabais Shopify Corpo",
-      "tax": "detaxe",
-      "line": 24
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 26
     },
     "Discount|CA-QC|3890849": {
       "category": "Discounts",
@@ -516,8 +1224,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 25
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 27
     },
     "Discount|CA-QC|online": {
       "category": "Discounts",
@@ -527,8 +1248,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 26
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 28
     },
     "Discount|CA|manual": {
       "category": "Discounts",
@@ -538,8 +1272,21 @@
       "acctNum": "4022",
       "accountId": "149",
       "accountName": "Rabais Shopify Corpo",
-      "tax": "detaxe",
-      "line": 27
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 29
     },
     "Discount|CA|3890849": {
       "category": "Discounts",
@@ -549,8 +1296,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 28
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 30
     },
     "Discount|US|3890849": {
       "category": "Discounts",
@@ -560,8 +1320,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 29
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 31
     },
     "Discount|*|pos:58394280098": {
       "category": "Discounts",
@@ -571,8 +1344,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 30
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 32
     },
     "Discount|CA|2329312": {
       "category": "Discounts",
@@ -582,8 +1368,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 31
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 33
     },
     "Discount|CA|pos:58394280098": {
       "category": "Discounts",
@@ -593,8 +1392,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 32
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 34
     },
     "DiscountNotTaxed|CA-QC|online": {
       "category": "Discounts",
@@ -604,8 +1416,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 33
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 35
     },
     "DiscountNotTaxed|US-MN|online": {
       "category": "Discounts",
@@ -615,8 +1440,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 34
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 36
     },
     "DiscountNotTaxed|US|online": {
       "category": "Discounts",
@@ -626,8 +1464,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 35
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 37
     },
     "DiscountNotTaxed|US-MI|online": {
       "category": "Discounts",
@@ -637,8 +1488,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 36
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 38
     },
     "DiscountNotTaxed|CA|online": {
       "category": "Discounts",
@@ -648,8 +1512,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 37
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 39
     },
     "DiscountNotTaxed|US-SD|online": {
       "category": "Discounts",
@@ -659,8 +1536,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 38
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 40
     },
     "DiscountNotTaxed|CA-ON|online": {
       "category": "Discounts",
@@ -670,8 +1560,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 39
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 41
     },
     "DiscountNotTaxed|US-UT|online": {
       "category": "Discounts",
@@ -681,8 +1584,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 40
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 42
     },
     "DiscountNotTaxed|CA|manual": {
       "category": "Discounts",
@@ -692,8 +1608,21 @@
       "acctNum": "4022",
       "accountId": "149",
       "accountName": "Rabais Shopify Corpo",
-      "tax": "detaxe",
-      "line": 41
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 43
     },
     "DiscountNotTaxed|CA|exchange": {
       "category": "Discounts",
@@ -703,8 +1632,21 @@
       "acctNum": "4033",
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
-      "tax": "detaxe",
-      "line": 42
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 44
     },
     "DiscountNotTaxed|*|manual": {
       "category": "Discounts",
@@ -714,8 +1656,21 @@
       "acctNum": "4022",
       "accountId": "149",
       "accountName": "Rabais Shopify Corpo",
-      "tax": "detaxe",
-      "line": 43
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 45
     },
     "DiscountNotTaxed|US|manual": {
       "category": "Discounts",
@@ -725,8 +1680,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 44
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 46
     },
     "DiscountNotTaxed|US|3890849": {
       "category": "Discounts",
@@ -736,8 +1704,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 45
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 47
     },
     "DiscountNotTaxed|*|pos:58394280098": {
       "category": "Discounts",
@@ -747,8 +1728,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 46
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 48
     },
     "Tip|US-UT|online": {
       "category": "Other Income",
@@ -758,8 +1752,21 @@
       "acctNum": "4035",
       "accountId": "158",
       "accountName": "Revenus de pourboire Shopify USA",
-      "tax": "detaxe",
-      "line": 49
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 51
     },
     "Tip|CA|online": {
       "category": "Other Income",
@@ -769,8 +1776,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 50
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 52
     },
     "Tip|CA-AB|online": {
       "category": "Other Income",
@@ -780,8 +1800,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 51
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 53
     },
     "Tip|US-NY|online": {
       "category": "Other Income",
@@ -791,8 +1824,21 @@
       "acctNum": "4035",
       "accountId": "158",
       "accountName": "Revenus de pourboire Shopify USA",
-      "tax": "detaxe",
-      "line": 52
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 54
     },
     "Tip|CA-ON|online": {
       "category": "Other Income",
@@ -802,8 +1848,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 53
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 55
     },
     "Tip|CA-BC|online": {
       "category": "Other Income",
@@ -813,8 +1872,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 54
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 56
     },
     "Tip|CA-QC|online": {
       "category": "Other Income",
@@ -824,8 +1896,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 55
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 57
     },
     "Tip|CA-NS|online": {
       "category": "Other Income",
@@ -835,8 +1920,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 56
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 58
     },
     "Tip|CA-NB|online": {
       "category": "Other Income",
@@ -846,8 +1944,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 57
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 59
     },
     "Tip|US-VT|online": {
       "category": "Other Income",
@@ -857,8 +1968,21 @@
       "acctNum": "4035",
       "accountId": "158",
       "accountName": "Revenus de pourboire Shopify USA",
-      "tax": "detaxe",
-      "line": 58
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 60
     },
     "Tip|US|online": {
       "category": "Other Income",
@@ -868,8 +1992,21 @@
       "acctNum": "4035",
       "accountId": "158",
       "accountName": "Revenus de pourboire Shopify USA",
-      "tax": "detaxe",
-      "line": 59
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 61
     },
     "Tip|CA|3890849": {
       "category": "Other Income",
@@ -879,8 +2016,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 60
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 62
     },
     "Tip|CA|manual": {
       "category": "Other Income",
@@ -890,8 +2040,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 61
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 63
     },
     "Tip|US|manual": {
       "category": "Other Income",
@@ -901,8 +2064,21 @@
       "acctNum": "4035",
       "accountId": "158",
       "accountName": "Revenus de pourboire Shopify USA",
-      "tax": "detaxe",
-      "line": 62
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 64
     },
     "Tip|US|3890849": {
       "category": "Other Income",
@@ -912,8 +2088,21 @@
       "acctNum": "4035",
       "accountId": "158",
       "accountName": "Revenus de pourboire Shopify USA",
-      "tax": "detaxe",
-      "line": 63
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 65
     },
     "TipRefund|US|online": {
       "category": "Other Income",
@@ -923,8 +2112,21 @@
       "acctNum": "4035",
       "accountId": "158",
       "accountName": "Revenus de pourboire Shopify USA",
-      "tax": "detaxe",
-      "line": 64
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 66
     },
     "TipRefund|CA|online": {
       "category": "Other Income",
@@ -934,8 +2136,21 @@
       "acctNum": "4015",
       "accountId": "129",
       "accountName": "Revenus de pourboire Shopify Canada",
-      "tax": "detaxe",
-      "line": 65
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 67
     },
     "Refund|CA-QC|online": {
       "category": "Refunds",
@@ -945,8 +2160,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 68
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 70
     },
     "Refund|CA-NB|online": {
       "category": "Refunds",
@@ -956,8 +2184,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 69
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 71
     },
     "Refund|CA-QC|3890849": {
       "category": "Refunds",
@@ -967,8 +2208,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 70
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 72
     },
     "Refund|CA|online": {
       "category": "Refunds",
@@ -978,8 +2232,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 71
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 73
     },
     "Refund|CA-ON|online": {
       "category": "Refunds",
@@ -989,8 +2256,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 72
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 74
     },
     "Refund|CA|manual": {
       "category": "Refunds",
@@ -1000,8 +2280,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 73
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 75
     },
     "Refund|*|pos:58394280098": {
       "category": "Refunds",
@@ -1011,8 +2304,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 74
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 76
     },
     "Refund|US|3890849": {
       "category": "Refunds",
@@ -1022,8 +2328,21 @@
       "acctNum": "4033",
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
-      "tax": "detaxe",
-      "line": 75
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 77
     },
     "RefundAdjustmentNotTaxed - refund_discrepancy|CA-MB|online": {
       "category": "Refunds",
@@ -1033,8 +2352,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 76
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 78
     },
     "RefundAdjustmentNotTaxed - refund_discrepancy|CA|online": {
       "category": "Refunds",
@@ -1044,8 +2376,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 77
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 79
     },
     "RefundAdjustmentNotTaxed - refund_discrepancy|CA-QC|online": {
       "category": "Refunds",
@@ -1055,8 +2400,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 78
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 80
     },
     "RefundAdjustmentNotTaxed - refund_discrepancy|US|online": {
       "category": "Refunds",
@@ -1066,8 +2424,21 @@
       "acctNum": "4033",
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
-      "tax": "detaxe",
-      "line": 79
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 81
     },
     "RefundAdjustmentNotTaxed - refund_discrepancy|CA|manual": {
       "category": "Refunds",
@@ -1077,8 +2448,21 @@
       "acctNum": "4033",
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
-      "tax": "detaxe",
-      "line": 80
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 82
     },
     "RefundAdjustmentNotTaxed - refund_discrepancy|*|pos:58394280098": {
       "category": "Refunds",
@@ -1088,8 +2472,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 81
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 83
     },
     "RefundAdjustmentNotTaxed - refund_discrepancy|CA|pos:58394280098": {
       "category": "Refunds",
@@ -1099,8 +2496,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 82
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 84
     },
     "RefundDiscount|CA|online": {
       "category": "Refunds",
@@ -1110,8 +2520,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 83
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 85
     },
     "RefundDiscount|CA|manual": {
       "category": "Refunds",
@@ -1121,8 +2544,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 84
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 86
     },
     "RefundDiscountNotTaxed|CA|online": {
       "category": "Refunds",
@@ -1132,8 +2568,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 85
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 87
     },
     "RefundDiscountNotTaxed|CA|manual": {
       "category": "Refunds",
@@ -1143,8 +2592,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 86
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 88
     },
     "RefundDiscountNotTaxed|US|online": {
       "category": "Refunds",
@@ -1154,8 +2616,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 87
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 89
     },
     "RefundDiscountNotTaxed|US|manual": {
       "category": "Refunds",
@@ -1165,8 +2640,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 88
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 90
     },
     "RefundNotTaxed|CA|online": {
       "category": "Refunds",
@@ -1176,8 +2664,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 89
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 91
     },
     "RefundNotTaxed|US|online": {
       "category": "Refunds",
@@ -1187,8 +2688,21 @@
       "acctNum": "4033",
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
-      "tax": "detaxe",
-      "line": 90
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 92
     },
     "RefundNotTaxed|CA|manual": {
       "category": "Refunds",
@@ -1198,8 +2712,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 91
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 93
     },
     "RefundNotTaxed|US|manual": {
       "category": "Refunds",
@@ -1209,8 +2736,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 92
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 94
     },
     "Return|CA|online": {
       "category": "Refunds",
@@ -1220,8 +2760,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 93
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 95
     },
     "Return|*|pos:58394280098": {
       "category": "Refunds",
@@ -1231,8 +2784,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 94
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 96
     },
     "ReturnDiscount|CA|online": {
       "category": "Refunds",
@@ -1242,8 +2808,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 95
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 97
     },
     "ReturnDiscount|*|pos:58394280098": {
       "category": "Refunds",
@@ -1253,8 +2832,21 @@
       "acctNum": "4012",
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
-      "tax": "detaxe",
-      "line": 96
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 98
     },
     "ReturnDiscountNotTaxed|US|online": {
       "category": "Refunds",
@@ -1264,8 +2856,21 @@
       "acctNum": "4032",
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
-      "tax": "detaxe",
-      "line": 97
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 99
     },
     "ReturnNotTaxed|US|online": {
       "category": "Refunds",
@@ -1275,8 +2880,21 @@
       "acctNum": "4033",
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
-      "tax": "detaxe",
-      "line": 98
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 100
     },
     "ProductSales|CA-SK|online": {
       "category": "Sales",
@@ -1286,8 +2904,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 101
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 103
     },
     "ProductSales|CA-AB|online": {
       "category": "Sales",
@@ -1297,8 +2928,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 102
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 104
     },
     "ProductSales|CA-BC|online": {
       "category": "Sales",
@@ -1308,8 +2952,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 103
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 105
     },
     "ProductSales|CA|online": {
       "category": "Sales",
@@ -1319,8 +2976,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 104
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 106
     },
     "ProductSales|CA-NB|online": {
       "category": "Sales",
@@ -1330,8 +3000,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 105
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 107
     },
     "ProductSales|CA-ON|online": {
       "category": "Sales",
@@ -1341,8 +3024,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 106
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 108
     },
     "ProductSales|CA-PE|online": {
       "category": "Sales",
@@ -1352,8 +3048,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 107
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 109
     },
     "ProductSales|CA-QC|online": {
       "category": "Sales",
@@ -1363,8 +3072,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 108
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 110
     },
     "ProductSales|CA-QC|manual": {
       "category": "Sales",
@@ -1374,8 +3096,21 @@
       "acctNum": "4020",
       "accountId": "147",
       "accountName": "Shopify Corpo Canada (Manual Orders)",
-      "tax": "detaxe",
-      "line": 109
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 111
     },
     "ProductSales|CA-NS|online": {
       "category": "Sales",
@@ -1385,8 +3120,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 110
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 112
     },
     "ProductSales|CA-MB|online": {
       "category": "Sales",
@@ -1396,8 +3144,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 111
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 113
     },
     "ProductSales|CA-QC|3890849": {
       "category": "Sales",
@@ -1407,8 +3168,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 112
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 114
     },
     "ProductSales|CA|3890849": {
       "category": "Sales",
@@ -1418,8 +3192,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 113
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 115
     },
     "ProductSales|CA|manual": {
       "category": "Sales",
@@ -1429,8 +3216,21 @@
       "acctNum": "4020",
       "accountId": "147",
       "accountName": "Shopify Corpo Canada (Manual Orders)",
-      "tax": "detaxe",
-      "line": 114
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 116
     },
     "ProductSales|CA|edit": {
       "category": "Sales",
@@ -1440,8 +3240,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 115
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 117
     },
     "ProductSales|*|pos:58394280098": {
       "category": "Sales",
@@ -1451,8 +3264,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 116
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 118
     },
     "ProductSales|US|3890849": {
       "category": "Sales",
@@ -1462,8 +3288,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 117
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 119
     },
     "ProductSales|CA|pos:58394280098": {
       "category": "Sales",
@@ -1473,8 +3312,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 118
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 120
     },
     "ProductSales|EU|online": {
       "category": "Sales",
@@ -1484,8 +3336,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 119
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 121
     },
     "ProductSales|CA|2329312": {
       "category": "Sales",
@@ -1495,8 +3360,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 120
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 122
     },
     "ProductSalesNotTaxed|CA-QC|online": {
       "category": "Sales",
@@ -1506,8 +3384,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 121
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 123
     },
     "ProductSalesNotTaxed|US-AL|online": {
       "category": "Sales",
@@ -1517,8 +3408,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 122
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 124
     },
     "ProductSalesNotTaxed|US-MN|online": {
       "category": "Sales",
@@ -1528,8 +3432,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 123
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 125
     },
     "ProductSalesNotTaxed|US-SD|online": {
       "category": "Sales",
@@ -1539,8 +3456,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 124
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 126
     },
     "ProductSalesNotTaxed|US-UT|online": {
       "category": "Sales",
@@ -1550,8 +3480,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 125
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 127
     },
     "ProductSalesNotTaxed|US-KY|online": {
       "category": "Sales",
@@ -1561,8 +3504,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 126
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 128
     },
     "ProductSalesNotTaxed|US-MA|online": {
       "category": "Sales",
@@ -1572,8 +3528,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 127
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 129
     },
     "ProductSalesNotTaxed|US-VT|online": {
       "category": "Sales",
@@ -1583,8 +3552,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 128
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 130
     },
     "ProductSalesNotTaxed|US-MI|online": {
       "category": "Sales",
@@ -1594,8 +3576,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 129
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 131
     },
     "ProductSalesNotTaxed|US|online": {
       "category": "Sales",
@@ -1605,8 +3600,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 130
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 132
     },
     "ProductSalesNotTaxed|CA-ON|online": {
       "category": "Sales",
@@ -1616,8 +3624,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 131
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 133
     },
     "ProductSalesNotTaxed|CA|online": {
       "category": "Sales",
@@ -1627,8 +3648,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 132
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 134
     },
     "ProductSalesNotTaxed|US-NY|online": {
       "category": "Sales",
@@ -1638,8 +3672,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 133
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 135
     },
     "ProductSalesNotTaxed|CA|manual": {
       "category": "Sales",
@@ -1649,8 +3696,21 @@
       "acctNum": "4020",
       "accountId": "147",
       "accountName": "Shopify Corpo Canada (Manual Orders)",
-      "tax": "detaxe",
-      "line": 134
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 136
     },
     "ProductSalesNotTaxed|CA|exchange": {
       "category": "Sales",
@@ -1660,8 +3720,21 @@
       "acctNum": "4013",
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
-      "tax": "detaxe",
-      "line": 135
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 137
     },
     "ProductSalesNotTaxed|*|manual": {
       "category": "Sales",
@@ -1671,8 +3744,21 @@
       "acctNum": "4021",
       "accountId": "148",
       "accountName": "Ventes Shopify Corpo",
-      "tax": "detaxe",
-      "line": 136
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 138
     },
     "ProductSalesNotTaxed|US|manual": {
       "category": "Sales",
@@ -1682,8 +3768,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 137
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 139
     },
     "ProductSalesNotTaxed|US|3890849": {
       "category": "Sales",
@@ -1693,8 +3792,21 @@
       "acctNum": "4031",
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
-      "tax": "detaxe",
-      "line": 138
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 140
     },
     "ProductSalesNotTaxed|*|pos:58394280098": {
       "category": "Sales",
@@ -1704,8 +3816,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 139
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 141
     },
     "ProductSalesNotTaxed|CA|3890849": {
       "category": "Sales",
@@ -1715,8 +3840,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 140
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 142
     },
     "Shipping|CA-AB|online": {
       "category": "Shipping Income",
@@ -1726,8 +3864,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 143
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 145
     },
     "Shipping|CA-BC|online": {
       "category": "Shipping Income",
@@ -1737,8 +3888,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 144
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 146
     },
     "Shipping|CA-SK|online": {
       "category": "Shipping Income",
@@ -1748,8 +3912,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 145
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 147
     },
     "Shipping|CA-QC|manual": {
       "category": "Shipping Income",
@@ -1759,8 +3936,21 @@
       "acctNum": "4024",
       "accountId": "151",
       "accountName": "Revenus de livraison Shopify Corpo",
-      "tax": "detaxe",
-      "line": 146
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 148
     },
     "Shipping|CA-PE|online": {
       "category": "Shipping Income",
@@ -1770,8 +3960,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 147
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 149
     },
     "Shipping|CA-ON|online": {
       "category": "Shipping Income",
@@ -1781,8 +3984,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 148
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 150
     },
     "Shipping|CA-QC|online": {
       "category": "Shipping Income",
@@ -1792,8 +4008,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 149
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 151
     },
     "Shipping|CA|online": {
       "category": "Shipping Income",
@@ -1803,8 +4032,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 150
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 152
     },
     "Shipping|CA-QC|3890849": {
       "category": "Shipping Income",
@@ -1814,8 +4056,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 151
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 153
     },
     "Shipping|CA-NB|online": {
       "category": "Shipping Income",
@@ -1825,8 +4080,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 152
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 154
     },
     "Shipping|CA-NS|online": {
       "category": "Shipping Income",
@@ -1836,8 +4104,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 153
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 155
     },
     "Shipping|CA-MB|online": {
       "category": "Shipping Income",
@@ -1847,8 +4128,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 154
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 156
     },
     "Shipping|CA|3890849": {
       "category": "Shipping Income",
@@ -1858,8 +4152,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 155
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 157
     },
     "Shipping|CA|manual": {
       "category": "Shipping Income",
@@ -1869,8 +4176,21 @@
       "acctNum": "4024",
       "accountId": "151",
       "accountName": "Revenus de livraison Shopify Corpo",
-      "tax": "detaxe",
-      "line": 156
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 158
     },
     "Shipping|US|3890849": {
       "category": "Shipping Income",
@@ -1880,8 +4200,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 157
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 159
     },
     "Shipping|CA|2329312": {
       "category": "Shipping Income",
@@ -1891,8 +4224,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 158
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 160
     },
     "ShippingDiscountNotTaxed|CA|online": {
       "category": "Shipping Income",
@@ -1902,8 +4248,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 159
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 161
     },
     "ShippingDiscountNotTaxed|CA-QC|online": {
       "category": "Shipping Income",
@@ -1913,8 +4272,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 160
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 162
     },
     "ShippingDiscountNotTaxed|US|online": {
       "category": "Shipping Income",
@@ -1924,8 +4296,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 161
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 163
     },
     "ShippingNotTaxed|CA-ON|online": {
       "category": "Shipping Income",
@@ -1935,8 +4320,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 162
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 164
     },
     "ShippingNotTaxed|US-SD|online": {
       "category": "Shipping Income",
@@ -1946,8 +4344,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 163
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 165
     },
     "ShippingNotTaxed|US-MI|online": {
       "category": "Shipping Income",
@@ -1957,8 +4368,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 164
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 166
     },
     "ShippingNotTaxed|US-NY|online": {
       "category": "Shipping Income",
@@ -1968,8 +4392,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 165
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 167
     },
     "ShippingNotTaxed|CA|online": {
       "category": "Shipping Income",
@@ -1979,8 +4416,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 166
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 168
     },
     "ShippingNotTaxed|US-AL|online": {
       "category": "Shipping Income",
@@ -1990,8 +4440,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 167
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 169
     },
     "ShippingNotTaxed|US-MN|online": {
       "category": "Shipping Income",
@@ -2001,8 +4464,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 168
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 170
     },
     "ShippingNotTaxed|CA-QC|online": {
       "category": "Shipping Income",
@@ -2012,8 +4488,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 169
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 171
     },
     "ShippingNotTaxed|US-VT|online": {
       "category": "Shipping Income",
@@ -2023,8 +4512,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 170
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 172
     },
     "ShippingNotTaxed|US-KY|online": {
       "category": "Shipping Income",
@@ -2034,8 +4536,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 171
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 173
     },
     "ShippingNotTaxed|US-UT|online": {
       "category": "Shipping Income",
@@ -2045,8 +4560,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 172
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 174
     },
     "ShippingNotTaxed|US-MA|online": {
       "category": "Shipping Income",
@@ -2056,8 +4584,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 173
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 175
     },
     "ShippingNotTaxed|US|online": {
       "category": "Shipping Income",
@@ -2067,8 +4608,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 174
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 176
     },
     "ShippingNotTaxed|US|manual": {
       "category": "Shipping Income",
@@ -2078,8 +4632,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 175
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 177
     },
     "ShippingNotTaxed|US|3890849": {
       "category": "Shipping Income",
@@ -2089,8 +4656,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 176
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 178
     },
     "ShippingNotTaxed|CA|manual": {
       "category": "Shipping Income",
@@ -2100,8 +4680,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 177
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 179
     },
     "ShippingRefund|CA|online": {
       "category": "Shipping Income",
@@ -2111,8 +4704,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 178
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 180
     },
     "ShippingRefund - shipping_refund|CA|online": {
       "category": "Shipping Income",
@@ -2122,8 +4728,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 179
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 181
     },
     "ShippingRefund - shipping_refund|CA-QC|online": {
       "category": "Shipping Income",
@@ -2133,8 +4752,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 180
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 182
     },
     "ShippingRefund - shipping_refund|CA|manual": {
       "category": "Shipping Income",
@@ -2144,8 +4776,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 181
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 183
     },
     "ShippingRefund - shipping_refund|US|3890849": {
       "category": "Shipping Income",
@@ -2155,8 +4800,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 182
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 184
     },
     "ShippingRefundNotTaxed - refund_discrepancy|US|online": {
       "category": "Shipping Income",
@@ -2166,8 +4824,21 @@
       "acctNum": "4033",
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
-      "tax": "detaxe",
-      "line": 183
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 185
     },
     "ShippingRefundNotTaxed - shipping_refund|US|online": {
       "category": "Shipping Income",
@@ -2177,8 +4848,21 @@
       "acctNum": "4034",
       "accountId": "157",
       "accountName": "Revenus de livraison Shopify USA",
-      "tax": "detaxe",
-      "line": 184
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 186
     },
     "CurrencyConversionRounding USD-CAD|*|*": {
       "category": "Other Expenses",
@@ -2189,7 +4873,7 @@
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
       "tax": null,
-      "line": 187
+      "line": 189
     },
     "ForeignCurrencyGainLoss|US-NY|online": {
       "category": "Other Expenses",
@@ -2200,7 +4884,7 @@
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
       "tax": null,
-      "line": 188
+      "line": 190
     },
     "ForeignCurrencyGainLoss|CA-QC|online": {
       "category": "Other Expenses",
@@ -2211,7 +4895,7 @@
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
       "tax": null,
-      "line": 189
+      "line": 191
     },
     "ForeignCurrencyGainLoss|US|online": {
       "category": "Other Expenses",
@@ -2222,7 +4906,7 @@
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
       "tax": null,
-      "line": 190
+      "line": 192
     },
     "ForeignCurrencyGainLoss|US|manual": {
       "category": "Other Expenses",
@@ -2232,8 +4916,21 @@
       "acctNum": "9100",
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
-      "tax": "detaxe",
-      "line": 191
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 193
     },
     "ForeignCurrencyGainLoss|US|3890849": {
       "category": "Other Expenses",
@@ -2243,8 +4940,21 @@
       "acctNum": "9100",
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
-      "tax": "detaxe",
-      "line": 192
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 194
     },
     "ForeignCurrencyGainLoss - refund_discrepancy|US|online": {
       "category": "Other Expenses",
@@ -2254,8 +4964,21 @@
       "acctNum": "9100",
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
-      "tax": "detaxe",
-      "line": 193
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 195
     },
     "ForeignCurrencyGainLoss - shipping_refund|US|online": {
       "category": "Other Expenses",
@@ -2265,8 +4988,21 @@
       "acctNum": "9100",
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
-      "tax": "detaxe",
-      "line": 194
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 196
     },
     "ForeignCurrencyGainLoss Gateway shop_cash - shipping_refund|US|3890849": {
       "category": "Other Expenses",
@@ -2277,7 +5013,7 @@
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
       "tax": null,
-      "line": 195
+      "line": 197
     },
     "ShopifyFee|US-MI|online": {
       "category": "Payment and Selling Fees",
@@ -2288,7 +5024,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 198
+      "line": 200
     },
     "ShopifyFee|CA-NB|online": {
       "category": "Payment and Selling Fees",
@@ -2299,7 +5035,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 199
+      "line": 201
     },
     "ShopifyFee|CA-AB|online": {
       "category": "Payment and Selling Fees",
@@ -2310,7 +5046,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 200
+      "line": 202
     },
     "ShopifyFee|CA-QC|manual": {
       "category": "Payment and Selling Fees",
@@ -2321,7 +5057,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 201
+      "line": 203
     },
     "ShopifyFee|CA-QC|online": {
       "category": "Payment and Selling Fees",
@@ -2332,7 +5068,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 202
+      "line": 204
     },
     "ShopifyFee|*|*": {
       "category": "Payment and Selling Fees",
@@ -2343,7 +5079,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 203
+      "line": 205
     },
     "ShopifyFee|CA-BC|online": {
       "category": "Payment and Selling Fees",
@@ -2354,7 +5090,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 204
+      "line": 206
     },
     "ShopifyFee|CA-QC|3890849": {
       "category": "Payment and Selling Fees",
@@ -2365,7 +5101,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 205
+      "line": 207
     },
     "ShopifyFee|CA-ON|online": {
       "category": "Payment and Selling Fees",
@@ -2376,7 +5112,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 206
+      "line": 208
     },
     "ShopifyFee|CA-NS|online": {
       "category": "Payment and Selling Fees",
@@ -2387,7 +5123,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 207
+      "line": 209
     },
     "ShopifyFee|US-NY|online": {
       "category": "Payment and Selling Fees",
@@ -2398,7 +5134,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 208
+      "line": 210
     },
     "ShopifyFee|US-MN|online": {
       "category": "Payment and Selling Fees",
@@ -2409,7 +5145,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 209
+      "line": 211
     },
     "ShopifyFee|CA-SK|online": {
       "category": "Payment and Selling Fees",
@@ -2420,7 +5156,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 210
+      "line": 212
     },
     "ShopifyFee|CA|online": {
       "category": "Payment and Selling Fees",
@@ -2431,7 +5167,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 211
+      "line": 213
     },
     "ShopifyFee|US-UT|online": {
       "category": "Payment and Selling Fees",
@@ -2442,7 +5178,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 212
+      "line": 214
     },
     "ShopifyFee|US-KY|online": {
       "category": "Payment and Selling Fees",
@@ -2453,7 +5189,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 213
+      "line": 215
     },
     "ShopifyFee|US-SD|online": {
       "category": "Payment and Selling Fees",
@@ -2464,7 +5200,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 214
+      "line": 216
     },
     "ShopifyFee|CA-MB|online": {
       "category": "Payment and Selling Fees",
@@ -2475,7 +5211,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 215
+      "line": 217
     },
     "ShopifyFee|US|online": {
       "category": "Payment and Selling Fees",
@@ -2486,7 +5222,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 216
+      "line": 218
     },
     "ShopifyFee|CA|3890849": {
       "category": "Payment and Selling Fees",
@@ -2497,7 +5233,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 217
+      "line": 219
     },
     "ShopifyFee|CA|manual": {
       "category": "Payment and Selling Fees",
@@ -2508,7 +5244,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 218
+      "line": 220
     },
     "ShopifyFee|US|manual": {
       "category": "Payment and Selling Fees",
@@ -2519,7 +5255,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 219
+      "line": 221
     },
     "ShopifyFee|EU|online": {
       "category": "Payment and Selling Fees",
@@ -2530,7 +5266,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 220
+      "line": 222
     },
     "ShopifyFee|*|pos:58394280098": {
       "category": "Payment and Selling Fees",
@@ -2541,7 +5277,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 221
+      "line": 223
     },
     "ShopifyFee|US|3890849": {
       "category": "Payment and Selling Fees",
@@ -2552,7 +5288,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 222
+      "line": 224
     },
     "ShopifyFee|CA|pos:58394280098": {
       "category": "Payment and Selling Fees",
@@ -2563,7 +5299,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 223
+      "line": 225
     },
     "ShopifyFee|CA|2329312": {
       "category": "Payment and Selling Fees",
@@ -2574,7 +5310,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 224
+      "line": 226
     },
     "ShopifyFeeShopCash|CA|3890849": {
       "category": "Payment and Selling Fees",
@@ -2585,7 +5321,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 225
+      "line": 227
     },
     "ShopifyFeeShopCash|*|*": {
       "category": "Payment and Selling Fees",
@@ -2596,7 +5332,7 @@
       "accountId": "23",
       "accountName": "Frais Shopify",
       "tax": null,
-      "line": 226
+      "line": 228
     },
     "ShopifyFeeShopCash|US|3890849": {
       "category": "Payment and Selling Fees",
@@ -2607,7 +5343,7 @@
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
       "tax": null,
-      "line": 227
+      "line": 229
     },
     "Capture Gateway manual|*|online": {
       "category": "Gateway Transactions",
@@ -2618,7 +5354,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 232
+      "line": 234
     },
     "Capture Gateway paypal|*|online": {
       "category": "Gateway Transactions",
@@ -2629,7 +5365,7 @@
       "accountId": "25",
       "accountName": "Compte Paypal",
       "tax": null,
-      "line": 233
+      "line": 235
     },
     "Capture Gateway shop_cash|*|3890849": {
       "category": "Gateway Transactions",
@@ -2640,7 +5376,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 234
+      "line": 236
     },
     "ForeignCurrencyGainLoss Gateway paypal|US|online": {
       "category": "Gateway Transactions",
@@ -2651,7 +5387,7 @@
       "accountId": "214",
       "accountName": "Perte ou gain relié au taux de change",
       "tax": null,
-      "line": 235
+      "line": 237
     },
     "NonShopifyPayment manual -|CA|online": {
       "category": "Gateway Transactions",
@@ -2662,7 +5398,7 @@
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
       "tax": null,
-      "line": 236
+      "line": 238
     },
     "NonShopifyPayment shop_cash -|CA|3890849": {
       "category": "Gateway Transactions",
@@ -2673,7 +5409,7 @@
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
       "tax": null,
-      "line": 237
+      "line": 239
     },
     "NonShopifyPayment shop_cash -|US|3890849": {
       "category": "Gateway Transactions",
@@ -2684,7 +5420,7 @@
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
       "tax": null,
-      "line": 238
+      "line": 240
     },
     "Refund Gateway manual|*|online": {
       "category": "Gateway Transactions",
@@ -2695,7 +5431,7 @@
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
       "tax": null,
-      "line": 239
+      "line": 241
     },
     "Refund Gateway manual|*|manual": {
       "category": "Gateway Transactions",
@@ -2706,7 +5442,7 @@
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
       "tax": null,
-      "line": 240
+      "line": 242
     },
     "Refund Gateway paypal|*|online": {
       "category": "Gateway Transactions",
@@ -2717,7 +5453,7 @@
       "accountId": "25",
       "accountName": "Compte Paypal",
       "tax": null,
-      "line": 241
+      "line": 243
     },
     "Refund Gateway paypal|*|manual": {
       "category": "Gateway Transactions",
@@ -2728,7 +5464,7 @@
       "accountId": "25",
       "accountName": "Compte Paypal",
       "tax": null,
-      "line": 242
+      "line": 244
     },
     "Refund Gateway shop_cash|*|3890849": {
       "category": "Gateway Transactions",
@@ -2739,7 +5475,7 @@
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
       "tax": null,
-      "line": 243
+      "line": 245
     },
     "Refund Gateway shopify_payments|*|online": {
       "category": "Gateway Transactions",
@@ -2750,7 +5486,7 @@
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
       "tax": null,
-      "line": 244
+      "line": 246
     },
     "Sale Gateway No_Gateway|*|exchange": {
       "category": "Gateway Transactions",
@@ -2761,7 +5497,7 @@
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
       "tax": null,
-      "line": 245
+      "line": 247
     },
     "Sale Gateway cash|*|pos:58394280098": {
       "category": "Gateway Transactions",
@@ -2772,7 +5508,7 @@
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
       "tax": null,
-      "line": 246
+      "line": 248
     },
     "Sale Gateway manual|*|manual": {
       "category": "Gateway Transactions",
@@ -2783,7 +5519,7 @@
       "accountId": "230",
       "accountName": "Comptes clients (Shopify Manual Orders \"Paid\")",
       "tax": null,
-      "line": 247
+      "line": 249
     },
     "Sale Gateway manual|*|online": {
       "category": "Gateway Transactions",
@@ -2794,7 +5530,7 @@
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
       "tax": null,
-      "line": 248
+      "line": 250
     },
     "Sale Gateway manual|*|edit": {
       "category": "Gateway Transactions",
@@ -2805,7 +5541,7 @@
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
       "tax": null,
-      "line": 249
+      "line": 251
     },
     "Sale Gateway paypal|*|online": {
       "category": "Gateway Transactions",
@@ -2816,7 +5552,7 @@
       "accountId": "25",
       "accountName": "Compte Paypal",
       "tax": null,
-      "line": 250
+      "line": 252
     },
     "Sale Gateway paypal|*|manual": {
       "category": "Gateway Transactions",
@@ -2827,7 +5563,7 @@
       "accountId": "25",
       "accountName": "Compte Paypal",
       "tax": null,
-      "line": 251
+      "line": 253
     },
     "Sale No_Gateway|*|exchange": {
       "category": "Gateway Transactions",
@@ -2838,7 +5574,7 @@
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
       "tax": null,
-      "line": 252
+      "line": 254
     },
     "ShopCashCredit|CA|3890849": {
       "category": "Gateway Transactions",
@@ -2849,7 +5585,7 @@
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
       "tax": null,
-      "line": 253
+      "line": 255
     },
     "ShopCashCredit|*|*": {
       "category": "Gateway Transactions",
@@ -2860,7 +5596,7 @@
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
       "tax": null,
-      "line": 254
+      "line": 256
     },
     "ShopCashCredit|US|3890849": {
       "category": "Gateway Transactions",
@@ -2871,7 +5607,7 @@
       "accountId": "154",
       "accountName": "Ventes Shopify USA",
       "tax": null,
-      "line": 255
+      "line": 257
     },
     "ShopCashRefundDebit|US|3890849": {
       "category": "Gateway Transactions",
@@ -2882,7 +5618,7 @@
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
       "tax": null,
-      "line": 256
+      "line": 258
     },
     "PendingPayment|CA-MB|online": {
       "category": "Pending Payments",
@@ -2893,7 +5629,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 259
+      "line": 261
     },
     "PendingPayment|CA-ON|online": {
       "category": "Pending Payments",
@@ -2904,7 +5640,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 260
+      "line": 262
     },
     "PendingPayment|CA-QC|3890849": {
       "category": "Pending Payments",
@@ -2915,7 +5651,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 261
+      "line": 263
     },
     "PendingPayment|CA-QC|online": {
       "category": "Pending Payments",
@@ -2926,7 +5662,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 262
+      "line": 264
     },
     "PendingPayment|CA|online": {
       "category": "Pending Payments",
@@ -2937,7 +5673,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 263
+      "line": 265
     },
     "PendingPayment|US|online": {
       "category": "Pending Payments",
@@ -2948,7 +5684,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 264
+      "line": 266
     },
     "PendingPayment|CA|manual": {
       "category": "Pending Payments",
@@ -2959,7 +5695,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 265
+      "line": 267
     },
     "PendingPayment|CA|exchange": {
       "category": "Pending Payments",
@@ -2970,7 +5706,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 266
+      "line": 268
     },
     "PendingPayment - CA - Manual order|*|*": {
       "category": "Pending Payments",
@@ -2981,7 +5717,7 @@
       "accountId": "233",
       "accountName": "Comptes clients (Shopify Manual Orders \"Pending\")",
       "tax": null,
-      "line": 267
+      "line": 269
     },
     "PendingPayment - CA - ON - Online store|*|*": {
       "category": "Pending Payments",
@@ -2992,7 +5728,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 268
+      "line": 270
     },
     "PendingPayment - CA - Online store|*|*": {
       "category": "Pending Payments",
@@ -3003,7 +5739,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 269
+      "line": 271
     },
     "PendingPayment - CA - QC - Online store|*|*": {
       "category": "Pending Payments",
@@ -3014,7 +5750,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 270
+      "line": 272
     },
     "PendingPayment - CA - exchange|*|*": {
       "category": "Pending Payments",
@@ -3025,7 +5761,7 @@
       "accountId": "126",
       "accountName": "Remboursements Shopify Canada",
       "tax": null,
-      "line": 271
+      "line": 273
     },
     "PendingPayment - Gateway shopify_payments|CA-MB|online": {
       "category": "Pending Payments",
@@ -3036,7 +5772,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 272
+      "line": 274
     },
     "PendingPayment - Gateway shopify_payments|CA-ON|online": {
       "category": "Pending Payments",
@@ -3047,7 +5783,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 273
+      "line": 275
     },
     "PendingPayment - Gateway shopify_payments|CA-QC|online": {
       "category": "Pending Payments",
@@ -3058,7 +5794,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 274
+      "line": 276
     },
     "PendingPayment - Gateway shopify_payments|CA|online": {
       "category": "Pending Payments",
@@ -3069,7 +5805,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 275
+      "line": 277
     },
     "PendingPayment - Gateway shopify_payments|CA|manual": {
       "category": "Pending Payments",
@@ -3080,7 +5816,7 @@
       "accountId": "233",
       "accountName": "Comptes clients (Shopify Manual Orders \"Pending\")",
       "tax": null,
-      "line": 276
+      "line": 278
     },
     "PendingPayment - Gateway shopify_payments|US|online": {
       "category": "Pending Payments",
@@ -3091,7 +5827,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 277
+      "line": 279
     },
     "PendingPayment - Point of sale (location: Entrepôt Lasclay - 58394280098)|*|*": {
       "category": "Pending Payments",
@@ -3102,7 +5838,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 278
+      "line": 280
     },
     "PendingPayment - US - Online store|*|*": {
       "category": "Pending Payments",
@@ -3113,7 +5849,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 279
+      "line": 281
     },
     "PendingPayment gift_card -|CA|online": {
       "category": "Pending Payments",
@@ -3124,7 +5860,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 280
+      "line": 282
     },
     "PendingPayment manual -|CA|online": {
       "category": "Pending Payments",
@@ -3135,7 +5871,7 @@
       "accountId": "130",
       "accountName": "Shopify Pending Balances",
       "tax": null,
-      "line": 281
+      "line": 283
     },
     "GiftCardDiscount|CA|online": {
       "category": "Gift Card Liabilities",
@@ -3146,7 +5882,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 284
+      "line": 286
     },
     "GiftCardDiscount|CA|manual": {
       "category": "Gift Card Liabilities",
@@ -3157,7 +5893,7 @@
       "accountId": "149",
       "accountName": "Rabais Shopify Corpo",
       "tax": null,
-      "line": 285
+      "line": 287
     },
     "GiftCardDiscount|US|online": {
       "category": "Gift Card Liabilities",
@@ -3168,7 +5904,7 @@
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
       "tax": null,
-      "line": 286
+      "line": 288
     },
     "GiftCardDiscount|*|manual": {
       "category": "Gift Card Liabilities",
@@ -3179,7 +5915,7 @@
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
       "tax": null,
-      "line": 287
+      "line": 289
     },
     "GiftCardSaleLiability|CA|online": {
       "category": "Gift Card Liabilities",
@@ -3190,7 +5926,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 288
+      "line": 290
     },
     "GiftCardSaleLiability|US|manual": {
       "category": "Gift Card Liabilities",
@@ -3201,7 +5937,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 289
+      "line": 291
     },
     "GiftCardSaleLiability|EU|online": {
       "category": "Gift Card Liabilities",
@@ -3212,7 +5948,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 290
+      "line": 292
     },
     "GiftCardSaleLiability|CA|manual": {
       "category": "Gift Card Liabilities",
@@ -3223,7 +5959,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 291
+      "line": 293
     },
     "GiftCardSaleLiability|*|pos:58394280098": {
       "category": "Gift Card Liabilities",
@@ -3234,7 +5970,7 @@
       "accountId": "196",
       "accountName": "Cartes-cadeaux",
       "tax": null,
-      "line": 292
+      "line": 294
     },
     "GiftCardSaleLiability|US|online": {
       "category": "Gift Card Liabilities",
@@ -3245,7 +5981,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 293
+      "line": 295
     },
     "GiftCardSaleLiability|*|manual": {
       "category": "Gift Card Liabilities",
@@ -3256,7 +5992,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 294
+      "line": 296
     },
     "NonShopifyPayment gift_card -|CA|online": {
       "category": "Gift Card Liabilities",
@@ -3267,7 +6003,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 295
+      "line": 297
     },
     "NonShopifyRefund gift_card -|CA|online": {
       "category": "Gift Card Liabilities",
@@ -3278,7 +6014,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 296
+      "line": 298
     },
     "Sale Gateway gift_card|*|online": {
       "category": "Gift Card Liabilities",
@@ -3289,7 +6025,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 297
+      "line": 299
     },
     "Sale Gateway gift_card|*|pos:58394280098": {
       "category": "Gift Card Liabilities",
@@ -3300,7 +6036,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 298
+      "line": 300
     },
     "DiscountTax|CA|online": {
       "category": "Discounts Tax",
@@ -3311,7 +6047,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 305
+      "line": 307
     },
     "MarketplaceSalesTax|US|3890849": {
       "category": "MFV Taxes",
@@ -3322,7 +6058,7 @@
       "accountId": "185",
       "accountName": "Taxes perçues à redistribuer (E-Commerces)",
       "tax": null,
-      "line": 308
+      "line": 310
     },
     "RefundTax|CA|online": {
       "category": "Refunds Tax",
@@ -3333,7 +6069,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 313
+      "line": 315
     },
     "RefundTax|CA-NB|online": {
       "category": "Refunds Tax",
@@ -3344,7 +6080,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 314
+      "line": 316
     },
     "RefundTax|CA-QC|3890849": {
       "category": "Refunds Tax",
@@ -3355,7 +6091,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 315
+      "line": 317
     },
     "RefundTax|CA-ON|online": {
       "category": "Refunds Tax",
@@ -3366,7 +6102,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 316
+      "line": 318
     },
     "RefundTax|CA-QC|online": {
       "category": "Refunds Tax",
@@ -3377,7 +6113,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 317
+      "line": 319
     },
     "RefundTax|CA|manual": {
       "category": "Refunds Tax",
@@ -3388,7 +6124,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 318
+      "line": 320
     },
     "RefundTax|*|pos:58394280098": {
       "category": "Refunds Tax",
@@ -3399,7 +6135,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 319
+      "line": 321
     },
     "RefundTax|US|3890849": {
       "category": "Refunds Tax",
@@ -3410,7 +6146,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 320
+      "line": 322
     },
     "ReturnTax|CA|online": {
       "category": "Refunds Tax",
@@ -3421,7 +6157,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 321
+      "line": 323
     },
     "ReturnTax|*|pos:58394280098": {
       "category": "Refunds Tax",
@@ -3432,7 +6168,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 322
+      "line": 324
     },
     "Tax|CA-ON|online": {
       "category": "Sales Tax",
@@ -3443,7 +6179,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 325
+      "line": 327
     },
     "Tax|CA-NB|online": {
       "category": "Sales Tax",
@@ -3454,7 +6190,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 326
+      "line": 328
     },
     "Tax|CA-MB|online": {
       "category": "Sales Tax",
@@ -3465,7 +6201,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 327
+      "line": 329
     },
     "Tax|CA-AB|online": {
       "category": "Sales Tax",
@@ -3476,7 +6212,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 328
+      "line": 330
     },
     "Tax|CA-NS|online": {
       "category": "Sales Tax",
@@ -3487,7 +6223,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 329
+      "line": 331
     },
     "Tax|CA-QC|3890849": {
       "category": "Sales Tax",
@@ -3498,7 +6234,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 330
+      "line": 332
     },
     "Tax|CA-QC|online": {
       "category": "Sales Tax",
@@ -3509,7 +6245,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 331
+      "line": 333
     },
     "Tax|CA|online": {
       "category": "Sales Tax",
@@ -3520,7 +6256,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 332
+      "line": 334
     },
     "Tax|CA-BC|online": {
       "category": "Sales Tax",
@@ -3531,7 +6267,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 333
+      "line": 335
     },
     "Tax|CA-SK|online": {
       "category": "Sales Tax",
@@ -3542,7 +6278,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 334
+      "line": 336
     },
     "Tax|CA-QC|manual": {
       "category": "Sales Tax",
@@ -3553,7 +6289,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 335
+      "line": 337
     },
     "Tax|CA-PE|online": {
       "category": "Sales Tax",
@@ -3564,7 +6300,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 336
+      "line": 338
     },
     "Tax|CA|3890849": {
       "category": "Sales Tax",
@@ -3575,7 +6311,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 337
+      "line": 339
     },
     "Tax|CA|manual": {
       "category": "Sales Tax",
@@ -3586,7 +6322,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 338
+      "line": 340
     },
     "Tax|CA|edit": {
       "category": "Sales Tax",
@@ -3597,7 +6333,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 339
+      "line": 341
     },
     "Tax|*|pos:58394280098": {
       "category": "Sales Tax",
@@ -3608,7 +6344,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 340
+      "line": 342
     },
     "Tax|US|3890849": {
       "category": "Sales Tax",
@@ -3619,7 +6355,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 341
+      "line": 343
     },
     "Tax|CA|pos:58394280098": {
       "category": "Sales Tax",
@@ -3630,7 +6366,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 342
+      "line": 344
     },
     "Tax|EU|online": {
       "category": "Sales Tax",
@@ -3641,7 +6377,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 343
+      "line": 345
     },
     "Tax|CA|2329312": {
       "category": "Sales Tax",
@@ -3652,7 +6388,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 344
+      "line": 346
     },
     "ShippingRefundTax|CA|online": {
       "category": "Shipping Tax",
@@ -3663,7 +6399,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 347
+      "line": 349
     },
     "ShippingRefundTax - shipping_refund|CA|online": {
       "category": "Shipping Tax",
@@ -3674,7 +6410,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 348
+      "line": 350
     },
     "ShippingRefundTax - shipping_refund|CA-QC|online": {
       "category": "Shipping Tax",
@@ -3685,7 +6421,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 349
+      "line": 351
     },
     "ShippingRefundTax - shipping_refund|CA|manual": {
       "category": "Shipping Tax",
@@ -3696,7 +6432,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 350
+      "line": 352
     },
     "ShippingRefundTax - shipping_refund|US|3890849": {
       "category": "Shipping Tax",
@@ -3707,7 +6443,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 351
+      "line": 353
     },
     "ShippingTax|CA-NB|online": {
       "category": "Shipping Tax",
@@ -3718,7 +6454,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 352
+      "line": 354
     },
     "ShippingTax|CA-ON|online": {
       "category": "Shipping Tax",
@@ -3729,7 +6465,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 353
+      "line": 355
     },
     "ShippingTax|CA|online": {
       "category": "Shipping Tax",
@@ -3740,7 +6476,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 354
+      "line": 356
     },
     "ShippingTax|CA-MB|online": {
       "category": "Shipping Tax",
@@ -3751,7 +6487,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 355
+      "line": 357
     },
     "ShippingTax|CA-BC|online": {
       "category": "Shipping Tax",
@@ -3762,7 +6498,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 356
+      "line": 358
     },
     "ShippingTax|CA-SK|online": {
       "category": "Shipping Tax",
@@ -3773,7 +6509,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 357
+      "line": 359
     },
     "ShippingTax|CA-QC|manual": {
       "category": "Shipping Tax",
@@ -3784,7 +6520,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 358
+      "line": 360
     },
     "ShippingTax|CA-PE|online": {
       "category": "Shipping Tax",
@@ -3795,7 +6531,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 359
+      "line": 361
     },
     "ShippingTax|CA-QC|online": {
       "category": "Shipping Tax",
@@ -3806,7 +6542,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 360
+      "line": 362
     },
     "ShippingTax|CA-NS|online": {
       "category": "Shipping Tax",
@@ -3817,7 +6553,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 361
+      "line": 363
     },
     "ShippingTax|CA-QC|3890849": {
       "category": "Shipping Tax",
@@ -3828,7 +6564,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 362
+      "line": 364
     },
     "ShippingTax|CA-AB|online": {
       "category": "Shipping Tax",
@@ -3839,7 +6575,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 363
+      "line": 365
     },
     "ShippingTax|CA|3890849": {
       "category": "Shipping Tax",
@@ -3850,7 +6586,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 364
+      "line": 366
     },
     "ShippingTax|CA|manual": {
       "category": "Shipping Tax",
@@ -3861,7 +6597,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 365
+      "line": 367
     },
     "ShippingTax|US|3890849": {
       "category": "Shipping Tax",
@@ -3872,7 +6608,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 366
+      "line": 368
     },
     "ShippingTax|CA|2329312": {
       "category": "Shipping Tax",
@@ -3883,7 +6619,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 367
+      "line": 369
     },
     "ShippingTaxRetailDeliveryFee|US|3890849": {
       "category": "Shipping Tax",
@@ -3894,7 +6630,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 368
+      "line": 370
     },
     "Dispute|*|*": {
       "category": "Adjustments",
@@ -3904,8 +6640,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 371
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 373
     },
     "Dispute|CA-QC|online": {
       "category": "Adjustments",
@@ -3915,8 +6664,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 372
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 374
     },
     "Dispute|CA|online": {
       "category": "Adjustments",
@@ -3926,8 +6688,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 373
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 375
     },
     "Dispute|US|online": {
       "category": "Adjustments",
@@ -3937,8 +6712,21 @@
       "acctNum": "4033",
       "accountId": "156",
       "accountName": "Remboursements Shopify USA",
-      "tax": "detaxe",
-      "line": 374
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 376
     },
     "Credit|CA|3890849": {
       "category": "Other",
@@ -3948,8 +6736,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 377
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 379
     },
     "Credit|*|*": {
       "category": "Other",
@@ -3959,8 +6760,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 378
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 380
     },
     "NonOrderTransaction|*|*": {
       "category": "Other",
@@ -3970,8 +6784,21 @@
       "acctNum": "4000",
       "accountId": "65",
       "accountName": "Revenus e-commerce",
-      "tax": "detaxe",
-      "line": 379
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 381
     },
     "Underpayment|CA-QC|manual": {
       "category": "Other",
@@ -3981,8 +6808,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 380
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 382
     },
     "Underpayment|CA-ON|online": {
       "category": "Other",
@@ -3992,8 +6832,21 @@
       "acctNum": "4011",
       "accountId": "125",
       "accountName": "Ventes Shopify Canada",
-      "tax": "detaxe",
-      "line": 381
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 383
     },
     "Underpayment|CA|online": {
       "category": "Other",
@@ -4003,8 +6856,21 @@
       "acctNum": "4014",
       "accountId": "128",
       "accountName": "Revenus de livraison Shopify Canada",
-      "tax": "detaxe",
-      "line": 382
+      "tax": {
+        "value": "5:Sales",
+        "label": "Détaxé on Sales",
+        "codeId": "5",
+        "applicableOn": "Sales",
+        "taux": [
+          {
+            "id": "5",
+            "nom": "TPS/TVH détaxée",
+            "pct": 0
+          }
+        ],
+        "pctTotal": 0
+      },
+      "line": 384
     }
   }
 }

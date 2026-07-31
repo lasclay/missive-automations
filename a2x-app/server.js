@@ -154,7 +154,8 @@ function editTsvLine(lineNo, { acctNum, tax }) {
   if (cols.length < 4) throw new Error(`Ligne ${lineNo} n'est pas une règle.`);
   while (cols.length < 6) cols.push("");
   if (acctNum !== undefined) cols[4] = acctNum || "";
-  if (tax !== undefined) cols[5] = tax ? "detaxe" : "";
+  // La colonne accepte « <idDuCode>:Sales » ; vide = aucune taxe.
+  if (tax !== undefined) cols[5] = tax || "";
   lines[i] = cols.join("\t").replace(/\t+$/, "");
   fs.writeFileSync(TSV, lines.join("\n"));
   return lines[i];
@@ -162,6 +163,9 @@ function editTsvLine(lineNo, { acctNum, tax }) {
 
 /** Ajoute une règle à la fin du bloc de sa catégorie. */
 function addTsvRule({ category, details, country, marketplace, acctNum, tax }) {
+  // Une nouvelle règle part sur « Détaxé on Sales » comme les autres lignes de
+  // revenu, sauf choix explicite — c'est le cas de très loin le plus fréquent.
+  if (tax === undefined) tax = config.defaultTaxOption || "";
   const lines = fs.readFileSync(TSV, "utf8").split("\n");
   let last = -1;
   for (let i = 0; i < lines.length; i++) if (lines[i].startsWith(category + "\t")) last = i;
@@ -337,6 +341,8 @@ const routes = {
     const defaults = Object.values(m.defaults).map((e) => ({ ...e, kind: "default" }));
     return {
       meta: { generatedAt: m.generatedAt, counts: m.counts, taxCodes: m.taxCodes },
+      taxOptions: m.taxOptions || [],
+      defaultTaxOption: config.defaultTaxOption || "",
       categories: [...new Set([...defaults, ...rules].map((e) => e.category))],
       mappings: [...defaults, ...rules].sort((a, b) =>
         a.category.localeCompare(b.category, "fr") || a.details.localeCompare(b.details, "fr")),

@@ -343,6 +343,13 @@ async function loadMappings() {
   }
 }
 
+/** Les vraies options de taxe de QuickBooks, comme le menu d'A2X. */
+function taxOptionsHtml(selected) {
+  const opts = (state.mappings && state.mappings.taxOptions) || [];
+  return `<option value="">— aucune —</option>` + opts.map((o) =>
+    `<option value="${esc(o.value)}" ${o.value === selected ? "selected" : ""}>${esc(o.label)}</option>`).join("");
+}
+
 function renderMappings() {
   const el = $("#tab-mappings");
   const { mappings, meta, categories } = state.mappings;
@@ -363,8 +370,8 @@ function renderMappings() {
       <h2>Mappings de transactions</h2>
       <p class="muted">${meta.counts.rules} règles + ${meta.counts.defaults} règles d'automapping.
          Généré le ${esc((meta.generatedAt || "").slice(0, 16).replace("T", " "))}.
-         ${mappings.filter((x) => x.tax === "detaxe").length} ligne(s) portent le code « Détaxé on Sales » —
-         les revenus ; les lignes de taxe et de frais n'en portent aucun.</p>
+         ${mappings.filter((x) => x.tax).length} ligne(s) portent un code de taxe — les revenus ;
+         les lignes de taxe et de frais n'en portent aucun.</p>
       <div class="row" style="margin:12px 0">
         <input class="grow" id="q" placeholder="Filtrer (type, pays, compte…)" value="${esc(filter.q)}">
         <select id="cat">
@@ -376,7 +383,7 @@ function renderMappings() {
       </div>
       <div class="scroll"><table>
         <thead><tr><th>Catégorie</th><th>Transaction</th><th>Pays</th><th>Marketplace</th><th>Compte</th>
-          <th title="Coché = code de taxe « Détaxé on Sales » sur la ligne. Décoché = aucun code, comme sur les lignes de taxe et de frais.">Détaxé on Sales</th></tr></thead>
+          <th title="Le code de taxe posé sur la ligne, comme dans A2X. « Aucune » pour les lignes de taxe et de frais.">Taxe</th></tr></thead>
         <tbody>${rows.map((m) => `
           <tr data-line="${m.line}">
             <td class="muted">${esc(m.category)}</td>
@@ -384,7 +391,7 @@ function renderMappings() {
             <td class="muted">${esc(m.country === "*" ? "—" : m.country)}</td>
             <td class="muted">${esc(m.marketplace === "*" ? "—" : m.marketplace)}</td>
             <td><select class="acct" data-line="${m.line}">${options(m.acctNum)}</select></td>
-            <td><input type="checkbox" class="tax" data-line="${m.line}" ${m.tax === "detaxe" ? "checked" : ""}></td>
+            <td><select class="tax" data-line="${m.line}">${taxOptionsHtml(m.tax && m.tax.value)}</select></td>
           </tr>`).join("")}</tbody>
       </table></div>
       <p class="muted" style="margin-top:10px">${rows.length} ligne(s) affichée(s) sur ${mappings.length}.</p>
@@ -395,13 +402,13 @@ function renderMappings() {
 
   const touch = (line) => {
     const acct = el.querySelector(`select.acct[data-line="${line}"]`).value;
-    const tax = el.querySelector(`input.tax[data-line="${line}"]`).checked;
+    const tax = el.querySelector(`select.tax[data-line="${line}"]`).value;
     state.dirty.set(line, { line: Number(line), acctNum: acct, tax });
     $("#save").disabled = state.dirty.size === 0;
     $("#savemsg").textContent = `${state.dirty.size} modification(s) en attente`;
   };
   el.querySelectorAll("select.acct").forEach((s) => (s.onchange = () => touch(s.dataset.line)));
-  el.querySelectorAll("input.tax").forEach((c) => (c.onchange = () => touch(c.dataset.line)));
+  el.querySelectorAll("select.tax").forEach((c) => (c.onchange = () => touch(c.dataset.line)));
 
   $("#save").onclick = async () => {
     $("#save").disabled = true;
