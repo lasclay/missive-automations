@@ -31,12 +31,29 @@ services:
         value: "0"                # "1" seulement quand l'achat réel est voulu
       - key: CLONE_SESSION_HEURES
         value: "12"
+      - key: CLONE_2FA_EMETTEUR
+        value: Lasclay Expéditions  # nom affiché dans l'app d'authentification
+
       # --- secrets : à saisir dans le tableau de bord, jamais ici ---
       - key: GENERAL_PROXY_SECRET
-        sync: false               # pour la migration depuis ShipStation
+        sync: false               # migration depuis ShipStation
       - key: CLONE_ADMIN_EMAIL
         sync: false               # courriel du premier administrateur
       - key: CLONE_ADMIN_PASSWORD
         sync: false               # facultatif : sinon un mot de passe est généré dans les logs
       - key: CLICKSHIP_API_KEY
         sync: false               # quand ClickShip aura répondu
+
+      # --- renvoi du suivi aux boutiques (sans eux, les clients perdent leur suivi) ---
+      - key: SHOPIFY_STORE
+        sync: false               # ex. lasclay.myshopify.com
+      - key: SHOPIFY_ADMIN_TOKEN
+        sync: false               # jeton Admin API, portées write_merchant_managed_fulfillment_orders
+      - key: ETSY_API_KEY
+        sync: false
+      - key: ETSY_TOKEN
+        sync: false
+      - key: ETSY_SHOP_ID
+        sync: false
+      - key: FAIRE_ACCESS_TOKEN
+        sync: false
