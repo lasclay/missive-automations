@@ -64,8 +64,12 @@ reconnaît immédiatement :
 4. **Vouvoyer.**
 5. Ouvrir sur `Bonjour {{ first_name }},` puis fermer sur `Chaleureusement,` +
    **Gabriel** / Co-fondateur / Lasclay.
-6. Une seule idée, un seul appel à l'action, ~400 mots.
-7. Objet ~36 caractères, preview text **complémentaire** (motif fréquent : « + autre chose »).
+6. **Jamais de tiret cadratin « — » ni de demi-cadratin « – »** (règle absolue de la maison,
+   déjà codée dans `digest.js` et `support.js` via `noDash()`). Virgule, deux-points,
+   parenthèse ou point à la place.
+7. Un fil conducteur clair, ~400 mots. Plusieurs sujets sont permis (beaucoup d'envois en
+   portent), à condition que chacun ait sa section et son appel à l'action, sans être touffu.
+8. Objet ~36 caractères, preview text **complémentaire** (motif fréquent : « + autre chose »).
 
 Livrer : **objet**, **preview text**, puis le corps avec les blocs `[IMAGE]` et `[BOUTON]`
 explicités (libellé, URL, couleurs) comme dans les transcriptions de l'archive, pour que le

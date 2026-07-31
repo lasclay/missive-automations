@@ -69,9 +69,14 @@ quand on envoie en français.
    tempêtes, « notre belle terre nordique », des toponymes réels (ᑰᔾᔪᐊᖅ / Kuujjuaq,
    Limoilou, 298 boulevard des Capucins). Le concret local remplace l'abstraction marketing.
 
-6. **Une seule idée par infolettre**, développée, avec un appel à l'action unique répété.
-   Médiane : **400 mots** (min 99, max 1 645). Les envois les plus longs sont les annonces
-   de mission ; les suivis de commande font 100-200 mots.
+6. **Un fil conducteur clair, pas forcément un sujet unique.** Un envoi peut très bien porter
+   plusieurs nouvelles, et beaucoup le font : **40 aperçus** annoncent explicitement un second
+   sujet (« + autres nouvelles », « + nouveaux produits à venir », « + une petite demande »),
+   **21 envois** portent 2 boutons ou plus, **24** ont deux sections séparées par un filet ou plus.
+   Le vrai critère n'est pas le nombre de sujets, c'est que ça ne soit pas touffu : chaque sujet
+   a sa section, son gras d'introduction et son propre appel à l'action, et l'ensemble se lit
+   d'un trait. Médiane : **400 mots** (min 99, max 1 645). Les envois les plus longs sont les
+   annonces de mission ; les suivis de commande font 100-200 mots.
 
 7. **Pas de superlatif creux.** Les chiffres et les faits font le travail : « notre plus
    grosse prévente depuis 2021 », « des milliers de jardins depuis 2021 », « de 25 à
@@ -104,6 +109,24 @@ Le corpus montre une **bascule nette** :
   Day? », « As-tu reçu ta commande pour Noël? »
 - Anglicismes proscrits ; on écrit *infolettre*, *courriel*, *rabais*, *expédition*,
   *précommande*, *prévente*.
+
+### 2.4 Ponctuation : jamais de tiret cadratin
+
+**RÈGLE ABSOLUE : n'utilise jamais le tiret cadratin « — » ni le demi-cadratin « – ».**
+À la place : une virgule, un deux-points, une parenthèse ou un point.
+
+Ce n'est pas une préférence, c'est mesuré et déjà codé ailleurs :
+
+- **Zéro occurrence** dans le corps de texte des 325 infolettres. Les deux seules occurrences
+  françaises jamais parues se trouvent dans un même envoi et portent des attributs
+  `data-start` / `data-end`, c'est-à-dire du texte généré par IA collé tel quel dans Klaviyo.
+- `digest.js` l'énonce comme règle absolue dans son prompt, puis **nettoie la sortie du modèle
+  par programme** au cas où il désobéirait.
+- `support.js` définit `noDash()` et l'applique une vingtaine de fois : prompt de voix, contrôle
+  qualité, vérificateur, pouls, catalogue, et chaque brouillon final.
+
+Le cadratin est la signature typographique la plus reconnaissable d'un texte écrit par IA.
+Vérifie le texte avant de le livrer : aucun « — » ne doit y figurer.
 
 ---
 
@@ -339,7 +362,8 @@ Vous ne voulez plus recevoir notre infolettre?
 - [ ] Preview text présent et **complémentaire** à l'objet (pas une redite)
 - [ ] Ouverture `Bonjour {{ first_name }},` avec repli vide
 - [ ] **Vouvoiement** cohérent d'un bout à l'autre
-- [ ] Une seule idée centrale, un seul appel à l'action (répété si besoin)
+- [ ] **Aucun tiret cadratin « — » ni demi-cadratin « – »** (règle absolue, voir 2.4)
+- [ ] Chaque sujet a sa section et son appel à l'action ; l'ensemble n'est pas touffu
 - [ ] La mission (monarque / asclépiade / territoire) apparaît avant l'offre
 - [ ] Gras uniquement sur les idées porteuses
 - [ ] Liens `#D4AD67` soulignés, libellés explicites (jamais « cliquez ici »)
