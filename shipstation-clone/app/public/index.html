@@ -842,6 +842,10 @@ VUES.reglages = async () => {
     <div class="carte"><b>Tarif drop-off cible</b>
       <p class="doux" style="margin:2px 0 8px">Sert de référence dans l'analytique. Seuil de poids : ${s.seuil_dropoff_g} g.</p>
       <input type="number" step="0.01" id="st" value="${s.tarif_dropoff_cible}"> <button id="stsave">Enregistrer</button></div>
+    <div class="carte" id="cnx"><b>Renvoi du suivi aux boutiques</b>
+      <p class="doux" style="margin:2px 0 8px">ShipStation renvoie aujourd'hui les numéros de suivi
+      à Shopify, Etsy et Faire. Sans ce relais, vos clients perdent leur suivi à la bascule.</p>
+      <div id="cxt"></div></div>
     <div class="carte"><b>Sécurité</b>
       <p class="doux" style="margin:2px 0 8px">Imposer le second facteur oblige chaque employé à
       configurer une application d'authentification à sa prochaine connexion, et interdit de le retirer.</p>
@@ -863,6 +867,45 @@ VUES.reglages = async () => {
       adresse: $("#sa").value, logo: $("#sl").value || null, message_bordereau: $("#sm").value } } });
     alert("Enregistré.");
   };
+  // --- canaux de vente
+  const ch = await api("/api/channels");
+  $("#cxt").innerHTML = `
+    <div class="grille" style="margin-bottom:10px">
+      ${ch.canaux.map(c => `<div class="kpi ${c.configure ? "vert" : ""}">
+        <div class="v" style="font-size:15px">${esc(c.nom)} ${c.configure
+          ? '<span class="puce v">configuré</span>' : '<span class="puce a">variables absentes</span>'}</div>
+        <div class="l">${c.en_attente} suivi(s) en attente</div></div>`).join("")}
+    </div>
+    ${ch.bascule
+      ? `<p class="doux">Le clone assure le relais depuis le <b>${jour(ch.bascule)}</b>.
+          ${ch.historique_ignore} expédition(s) antérieure(s) laissée(s) à ShipStation, comme il se doit.</p>
+         <button id="cxgo">Traiter la file maintenant</button>`
+      : `<div class="avis">Relais <b>non activé</b>. Tant qu'il ne l'est pas, aucun suivi n'est renvoyé —
+          et les ${ch.historique_ignore} expéditions déjà en base ne seront jamais notifiées, ce qui évite
+          d'écrire à des clients dont la commande est arrivée depuis des mois.</div>
+         <button class="p" id="cxbasc">Prendre le relais à partir de maintenant</button>`}
+    ${ch.en_attente.filter(x => x.notify_error).length
+      ? `<div class="tbl" style="margin-top:10px;max-height:220px"><table>
+          <thead><tr><th>Commande</th><th>Canal</th><th>Erreur</th></tr></thead><tbody>
+          ${ch.en_attente.filter(x => x.notify_error).slice(0, 20).map(x =>
+            `<tr><td>${esc(x.order_number)}</td><td>${esc(x.marketplace || "—")}</td>
+             <td class="doux">${esc(String(x.notify_error).slice(0, 90))}</td></tr>`).join("")}
+        </tbody></table></div>` : ""}`;
+  const bb = $("#cxbasc");
+  if (bb) bb.onclick = () => dialogue("Prendre le relais des notifications",
+    `<p>À partir de maintenant, c'est ce service qui déposera les numéros de suivi chez Shopify,
+      Etsy et Faire — et non plus ShipStation.</p>
+     <div class="avis">À faire <b>le jour où vous cessez d'acheter vos étiquettes dans ShipStation</b>,
+       pas avant : sinon les deux systèmes notifieraient en double.</div>
+     <p class="doux">Les ${ch.historique_ignore} expéditions antérieures resteront hors de portée.</p>`,
+    async () => { await api("/api/channels/bascule", { method: "POST" }); VUES.reglages(); }, "Prendre le relais");
+  const cg = $("#cxgo");
+  if (cg) cg.onclick = async () => {
+    const r = await api("/api/channels/notify", { method: "POST", body: { limite: 100 } });
+    alert(`${r.traitees} traitée(s), ${r.erreurs} en erreur.`);
+    VUES.reglages();
+  };
+
   $("#s2save").onclick = async () => {
     await api("/api/settings", { method: "POST", body: { exiger_2fa: $("#s2fa").checked } });
     S.config = await api("/api/config");

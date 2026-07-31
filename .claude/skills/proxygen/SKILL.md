@@ -41,9 +41,9 @@ endort le service au repos.
 **Introspection sans secret** : `GET /connectors` liste les connecteurs, leurs actions et leur état
 `enabled`. À utiliser plutôt que de deviner un nom d'action. Les listes ci-dessous en viennent.
 
-## ShipStation — accès complet, API v1, 34 actions
+## ShipStation — accès complet, API v1, 33 actions
 
-**Lecture (23).** `orders`, `order`, `shipments`, `fulfillments`, `carriers`, `carrier`,
+**Lecture (22).** `orders`, `order`, `shipments`, `fulfillments`, `carriers`, `carrier`,
 `listservices`, `listpackages`, `stores`, `store`, `storerefreshstatus`, `marketplaces`,
 `warehouses`, `warehouse`, `products`, `product`, `customers`, `customer`, `users`,
 `webhooks`, `listtags`, `listbytag`, plus `getrates` (POST sans effet de bord).

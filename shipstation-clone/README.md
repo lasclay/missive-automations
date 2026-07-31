@@ -110,6 +110,32 @@ CLONE_COOKIE_SECURE=0 ./shipstation-clone/demarrer.sh     # cookies non-Secure c
 
 **Node 22.5 ou plus récent** — l'application utilise `node:sqlite`. Aucune dépendance npm.
 
+### Renvoi du suivi aux boutiques
+
+C'est le vrai risque de la bascule. ShipStation dépose aujourd'hui les numéros de suivi chez
+Shopify, Etsy et Faire ; le client les reçoit par le courriel de la boutique. Sans relais, il
+perd son suivi du jour au lendemain.
+
+Variables à fournir dans Render :
+
+| Canal | Variables |
+|---|---|
+| Shopify | `SHOPIFY_STORE`, `SHOPIFY_ADMIN_TOKEN` |
+| Etsy | `ETSY_API_KEY`, `ETSY_TOKEN`, `ETSY_SHOP_ID` |
+| Faire | `FAIRE_ACCESS_TOKEN` |
+
+Puis Réglages → **Prendre le relais à partir de maintenant**, le jour où vous cessez d'acheter vos
+étiquettes dans ShipStation — pas avant, sinon les deux systèmes notifient en double.
+
+**Garde-fou :** rien d'antérieur à cette date n'est jamais notifié. Sans lui, la première passe de
+la file aurait écrit à des centaines de clients dont la commande est livrée depuis des mois : la
+migration importe le drapeau `marketplace_notified` de ShipStation, à zéro sur beaucoup d'envois
+anciens. Sur la base migrée, 386 expéditions sont ainsi mises hors de portée.
+
+Les échecs ne sont pas silencieux : ils s'inscrivent sur l'expédition, s'affichent dans Réglages,
+et une file de reprise repasse toutes les dix minutes. Un lot de 200 étiquettes vide sa file d'un
+coup, et un canal indisponible ne fait jamais échouer un achat déjà payé.
+
 ### Quand faudra-t-il PostgreSQL ?
 
 SQLite sur un disque persistant convient à une équipe qui prépare des envois : les lectures sont
@@ -143,6 +169,7 @@ ne dépend pas de nous.
 | Webhooks, file de notifications, journal d'audit | fait |
 | Exports CSV | fait |
 | Migration depuis ShipStation | fait |
+| Renvoi du suivi à Shopify, Etsy et Faire | fait — identifiants boutique à fournir |
 | **Achat réel d'étiquettes** | **bloqué — en attente de l'API ClickShip** |
 
 Deux choses que ShipStation a et que le clone n'aura pas : l'application mobile (picking,
@@ -205,6 +232,7 @@ lib/catalog.js    produits, préréglages, inventaire, clients, retours
 lib/analytics.js  rapports, dont l'écart au tarif drop-off
 lib/accounts.js   utilisateurs, permissions, webhooks, notifications
 lib/ingest.js     migration ShipStation + import normalisé pour Shopify/Etsy/Faire
+lib/channels.js   renvoi du suivi aux boutiques, file de reprise, date de bascule
 app/server.js     ~70 routes
 verifier.js       contrôle d'installation, à lancer après déploiement
 app/public/       l'interface, une page
@@ -248,6 +276,4 @@ avec l'abonnement** — une fois résilié, ces données sont perdues.
 2. Compléter `lib/carrier.js`.
 3. Brancher l'ingestion Shopify en direct (webhook `orders/create`), aujourd'hui via ShipStation.
 4. Brancher un envoi SMTP : les notifications sont générées et mises en file, jamais envoyées.
-5. Renvoyer le suivi vers Shopify, Etsy et Faire — ShipStation le fait aujourd'hui, le clone
-   doit reprendre cette responsabilité (`AUDIT.md` §9).
 6. Basculer entre mai et août : décembre fait 2 755 envois, juin en fait 142.

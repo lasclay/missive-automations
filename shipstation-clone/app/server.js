@@ -28,6 +28,7 @@ const templates = require("../lib/templates");
 const analytics = require("../lib/analytics");
 const accounts = require("../lib/accounts");
 const ingest = require("../lib/ingest");
+const channels = require("../lib/channels");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const auth = require("../lib/auth");
@@ -222,6 +223,27 @@ route("POST /api/batches/preview", async ({ req }) => {
   const ok = lignes.filter((l) => !l.erreur);
   return { lignes, total: Math.round(ok.reduce((s, l) => s + l.prix, 0) * 100) / 100,
     n: ok.length, bloquees: lignes.length - ok.length, drop_off: ok.filter((l) => l.dropOff).length };
+});
+
+// ---------------------------------------------- renvoi du suivi aux boutiques
+
+route("GET /api/channels", () => ({
+  canaux: channels.etat(), en_attente: channels.enAttente(200),
+  bascule: channels.dateBascule(), historique_ignore: channels.historiqueIgnore(),
+}));
+
+/** Prendre le relais : à partir de maintenant, c'est le clone qui notifie les boutiques. */
+route("POST /api/channels/bascule", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  return { bascule: channels.poserBascule(b.date || null) };
+});
+
+route("POST /api/channels/notify", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  if (b.shipment_id) return await channels.notifier(Number(b.shipment_id), { force: !!b.force });
+  return await channels.traiterFile({ limite: Number(b.limite) || 50 });
 });
 
 route("GET /api/manifests", () => ({ manifests: shipments.manifestes() }));
@@ -622,6 +644,9 @@ if (require.main === module) {
   setInterval(() => orders.libererHolds(), 15 * 60 * 1000).unref();
   // Purge des sessions expirées.
   setInterval(() => auth.menage(), 60 * 60 * 1000).unref();
+  // Reprise du renvoi de suivi : un canal momentanément indisponible ne doit pas laisser un
+  // client sans numéro de suivi.
+  setInterval(() => channels.traiterFile({ limite: 50 }).catch(() => {}), 10 * 60 * 1000).unref();
 }
 
 module.exports = { serveur, ROUTES, trouver };

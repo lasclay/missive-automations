@@ -83,6 +83,9 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
     orders.changerStatut(orderId, "shipped", userId);
     journaliser("shipment.buy", "shipment", shipmentId,
       { orderId, service: choisi.serviceId, prix: label.price, dropOff: !!choisi.dropOff }, userId);
+    // Le renvoi du suivi vers la boutique part en arrière-plan : un canal indisponible ne doit
+    // jamais faire échouer un achat déjà payé. L'échec reste dans la file de reprise.
+    setImmediate(() => require("./channels").notifier(shipmentId).catch(() => {}));
     return { shipmentId, ...label, dropOff: !!choisi.dropOff };
   });
 }
@@ -133,6 +136,7 @@ function marquerExpedie(orderId, { carrier, trackingNumber, shipDate, userId = n
   const id = one("SELECT last_insert_rowid() r").r;
   orders.changerStatut(orderId, "shipped", userId);
   journaliser("shipment.mark_shipped", "shipment", id, { orderId, notifier }, userId);
+  if (notifier) setImmediate(() => require("./channels").notifier(id).catch(() => {}));
   return { shipmentId: id, notifier };
 }
 
@@ -164,6 +168,8 @@ async function traiterLot(batchId, orderIds, { userId = null, serviceId = null }
   }
   const echecs = resultats.filter((r) => !r.ok).length;
   run("UPDATE batches SET status = ? WHERE id = ?", echecs ? "error" : "done", batchId);
+  // Un lot de 200 étiquettes, c'est 200 suivis à renvoyer : on vide la file d'un coup.
+  await require("./channels").traiterFile({ limite: resultats.length + 10 }).catch(() => {});
   journaliser("batch.process", "batch", batchId,
     { total: resultats.length, echecs, cout: resultats.filter(r => r.ok).reduce((s, r) => s + (r.price || 0), 0) }, userId);
   return { batchId, total: resultats.length, reussis: resultats.length - echecs, echecs, resultats };
