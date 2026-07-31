@@ -5,9 +5,11 @@ l'outil ventile les commandes réglées en composantes comptables (ventes, rabai
 taxes, pourboires, remboursements, frais Shopify), les mappe aux comptes du plan comptable et
 publie **une écriture de journal** dans QuickBooks.
 
-L'écriture produite est **identique à celle d'A2X** — même `DocNumber`, mêmes libellés de ligne,
-même code de taxe, même ligne de contrepartie. Vérifié ligne par ligne contre la pièce QBO
-`11170` (`A2XSH-21Jul-27Jul-592`) : `node a2x/tools/selftest.js`.
+L'écriture produite est **identique à celle d'A2X** — mêmes libellés de ligne, mêmes comptes,
+même code de taxe, même ligne de contrepartie. Seul le préfixe du `DocNumber` change
+(`CLONE-` au lieu de `A2XSH-`), délibérément, pour distinguer nos écritures des siennes.
+Vérifié ligne par ligne contre la pièce QBO `11170` (`A2XSH-21Jul-27Jul-592`) :
+`node a2x/tools/selftest.js`.
 
 Deux façons de s'en servir :
 
@@ -65,9 +67,10 @@ Sans ces portées, la liste des versements renvoie
 
 * **Command** : `node a2x/a2x.js sync --since $(date -d '30 days ago' +%F)`
 * **Schedule** : `0 13 * * *` (une fois par jour)
-* `sync` est **idempotent** : il saute tout versement dont le `DocNumber` existe déjà dans QBO —
-  y compris ceux publiés par A2X. On peut donc faire tourner les deux en parallèle le temps de la
-  transition, sans doublon.
+* `sync` est **idempotent** : il saute tout versement déjà couvert par une écriture dans QBO —
+  y compris celles publiées par A2X (voir « Détection des doublons »). On peut donc faire tourner
+  les deux en parallèle le temps de la transition, sans doublon. L'inverse n'est pas vrai : A2X
+  ignore nos écritures et republiera les siennes.
 
 ---
 
