@@ -28,6 +28,21 @@ async function ss(action, params) {
   return j.data;
 }
 
+/**
+ * Références vers un objet disparu → NULL.
+ *
+ * L'historique pointe vers des entrepôts et des boutiques supprimés depuis longtemps chez
+ * ShipStation. Les garder ferait échouer la contrainte de clé étrangère et perdrait
+ * l'expédition entière ; les annuler ne perd qu'un lien mort.
+ */
+const _connus = {};
+function refValide(table, colonne, valeur) {
+  if (valeur === null || valeur === undefined) return null;
+  if (!_connus[table]) _connus[table] = new Set(all(`SELECT ${colonne} v FROM ${table}`).map((r) => String(r.v)));
+  return _connus[table].has(String(valeur)) ? valeur : null;
+}
+const oublierConnus = () => { for (const k of Object.keys(_connus)) delete _connus[k]; };
+
 /** Poids en grammes quelle que soit l'unité — ShipStation en mélange trois. */
 function grammes(w) {
   if (!w || !w.value) return 0;
@@ -43,7 +58,7 @@ function convertirCommande(o) {
   return {
     order_number: o.orderNumber,
     order_key: o.orderKey || `ss-${o.orderId}`,
-    store_id: (o.advancedOptions || {}).storeId || null,
+    store_id: refValide("stores", "id", (o.advancedOptions || {}).storeId),
     status: o.orderStatus,
     order_date: o.orderDate, paid_at: o.paymentDate,
     ship_by_date: o.shipByDate, hold_until: o.holdUntilDate,
@@ -59,7 +74,7 @@ function convertirCommande(o) {
     confirmation: o.confirmation === "none" ? null : o.confirmation,
     weight_g: grammes(o.weight),
     dimensions: o.dimensions,
-    warehouse_id: (o.advancedOptions || {}).warehouseId || null,
+    warehouse_id: refValide("warehouses", "id", (o.advancedOptions || {}).warehouseId),
     insurance: o.insuranceOptions && o.insuranceOptions.insureShipment ? o.insuranceOptions : null,
     customs: o.internationalOptions && o.internationalOptions.customsItems ? o.internationalOptions : null,
     custom_field1: (o.advancedOptions || {}).customField1,
@@ -169,6 +184,8 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
   });
   bilan.tags = tags.length;
 
+  oublierConnus();   // les référentiels viennent d'être écrits
+
   // -- commandes
   journal("Commandes…");
   let nCommandes = 0;
@@ -202,8 +219,10 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
     if (depuis) params.shipDateStart = depuis;
     const d = await ss("shipments", params);
     const lot = d.shipments || [];
+    let refusees = 0;
     tx(() => {
       for (const s of lot) {
+       try {
         const cmd = one("SELECT id FROM orders WHERE order_key = ? OR order_number = ?",
           s.orderKey || `ss-${s.orderId}`, s.orderNumber);
         run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,package_id,
@@ -213,7 +232,7 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
           cmd ? cmd.id : null, String(s.shipmentId), s.trackingNumber, s.carrierCode, s.serviceCode,
           s.packageCode, s.confirmation, s.shipmentCost || 0, s.insuranceCost || 0,
           s.shipDate, s.createDate, grammes(s.weight), dump(s.dimensions), dump(s.shipTo),
-          s.warehouseId, s.isReturnLabel ? 1 : 0, s.voided ? 1 : 0, s.voidDate,
+          refValide("warehouses", "id", s.warehouseId), s.isReturnLabel ? 1 : 0, s.voided ? 1 : 0, s.voidDate,
           s.marketplaceNotified ? 1 : 0, dump(s));
         const sid = one("SELECT last_insert_rowid() r").r;
         // Rattache les lignes expédiées, quand ShipStation les donne : c'est ce qui distingue
@@ -223,9 +242,10 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
             sid, cmd ? cmd.id : null, it.lineItemKey || null, it.sku || null);
         }
         nExp++;
+       } catch (e) { refusees++; journal(`    expédition ${s.shipmentId} refusée : ${String(e.message).slice(0, 70)}`); }
       }
     });
-    journal(`  expéditions p${page} : ${lot.length} (cumul ${nExp})`);
+    journal(`  expéditions p${page} : ${lot.length} (cumul ${nExp}${refusees ? `, ${refusees} refusée(s)` : ""})`);
     if (lot.length < 500) break;
   }
   bilan.expeditions = nExp;

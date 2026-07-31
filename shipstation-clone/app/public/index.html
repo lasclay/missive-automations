@@ -56,6 +56,12 @@
   th:hover { color:var(--accent) }
   td { padding:6px 10px; border-bottom:1px solid var(--bord); white-space:nowrap }
   tr.sel td { background:var(--sel) }
+  /* Colonnes épinglées : elles restent en place quand la grille défile latéralement. */
+  th.pin, td.pin { position:sticky; background:var(--carte); z-index:1 }
+  th.pin { z-index:3 }
+  th.pin1, td.pin1 { left:26px } th.pin2, td.pin2 { left:170px }
+  td.pin { box-shadow:1px 0 0 var(--bord) }
+  tr.sel td.pin { background:var(--sel) }
   tr.clic { cursor:pointer } tr.clic:hover td { background:var(--sel) }
   .n, th.n { text-align:right; font-variant-numeric:tabular-nums }
   .puce { font-size:10.5px; padding:1px 7px; border-radius:9px; font-weight:600; display:inline-block; white-space:nowrap }
@@ -149,11 +155,12 @@ function dialogue(titre, html, onOk, texteOk = "Confirmer") {
 const attendre = (t = "Un instant…") => dialogue(t, '<p class="doux">Traitement en cours…</p>', null);
 
 /** Table générique : colonnes, lignes, sélection, tri. */
-function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id" } = {}) {
-  const th = (sel ? '<th style="width:26px"></th>' : "") + cols.map(c =>
-    `<th class="${c.n ? "n" : ""}" data-c="${c.k}">${esc(c.t)}${tri === c.k ? (dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
+function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id", pins = 0 } = {}) {
+  const cl = (c, i) => [c.n ? "n" : "", i < pins ? `pin pin${i + 1}` : ""].filter(Boolean).join(" ");
+  const th = (sel ? '<th style="width:26px"></th>' : "") + cols.map((c, i) =>
+    `<th class="${cl(c, i)}" data-c="${c.k}">${esc(c.t)}${tri === c.k ? (dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
   const tr = lignes.map(l => {
-    const tds = cols.map(c => `<td class="${c.n ? "n" : ""}">${c.r ? c.r(l) : esc(l[c.k] ?? "—")}</td>`).join("");
+    const tds = cols.map((c, i) => `<td class="${cl(c, i)}">${c.r ? c.r(l) : esc(l[c.k] ?? "—")}</td>`).join("");
     return `<tr data-id="${esc(l[cle])}" class="${onLigne ? "clic" : ""}">${sel ? `<td><input type="checkbox" data-id="${esc(l[cle])}"></td>` : ""}${tds}</tr>`;
   }).join("");
   const t = el(`<div class="tbl"><table><thead><tr>${th}</tr></thead><tbody>${tr || `<tr><td colspan="${cols.length + 1}" class="doux" style="padding:22px;text-align:center">Aucun résultat</td></tr>`}</tbody></table></div>`);
@@ -169,6 +176,58 @@ function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null,
     onLigne(r.dataset.id);
   });
   return t;
+}
+
+/**
+ * Catalogue des colonnes de la grille — l'équivalent du « Manage Columns » de ShipStation.
+ * `def` marque celles affichées par défaut ; le choix de l'utilisateur est conservé localement.
+ */
+const CAT_COLONNES = [
+  { k: "order_number", t: "Commande", def: 1, r: (o, d) => `${esc(o.order_number)}
+      ${o.weight_g > 0 && o.weight_g < d.seuil ? '<span class="puce v">drop</span>' : ""}
+      ${o.hold_until ? `<span class="puce a">→ ${jour(o.hold_until)}</span>` : ""}
+      ${(o.tags || []).map(t => `<span class="puce g">${esc(t.name)}</span>`).join("")}` },
+  { k: "age", t: "Âge (j)", n: 1, def: 1 },
+  { k: "order_date", t: "Date", r: o => jour(o.order_date) },
+  { k: "customer_name", t: "Client", def: 1 },
+  { k: "customer_email", t: "Courriel" },
+  { k: "ville", t: "Ville", def: 1, r: o => esc(o.ship_to.city) },
+  { k: "state", t: "Prov.", def: 1, r: o => esc(o.ship_to.state) },
+  { k: "country", t: "Pays", def: 1, r: o => esc(o.ship_to.country) },
+  { k: "postal", t: "Code postal", r: o => esc(o.ship_to.postalCode) },
+  { k: "weight_g", t: "Poids (g)", n: 1, def: 1,
+    r: o => o.weight_g ? num(Math.round(o.weight_g)) : '<span class="puce r">manquant</span>' },
+  { k: "articles", t: "Art.", n: 1, def: 1,
+    r: o => o.items.filter(i => !i.adjustment).reduce((s, i) => s + i.quantity, 0) },
+  { k: "skus", t: "SKU", r: o => esc(o.items.filter(i => !i.adjustment).map(i => i.sku).filter(Boolean).join(", ")) },
+  { k: "order_total", t: "Total", n: 1, def: 1, r: o => money(o.order_total) },
+  { k: "shipping_paid", t: "Port encaissé", n: 1, r: o => money(o.shipping_paid) },
+  { k: "requested_service", t: "Service demandé", def: 1 },
+  { k: "service_id", t: "Service choisi" },
+  { k: "carrier_code", t: "Transporteur" },
+  { k: "boutique", t: "Boutique", r: o => esc((S.refs.stores || []).find(x => x.id === o.store_id)?.name || "") },
+  { k: "entrepot", t: "Entrepôt", r: o => esc((S.refs.warehouses || []).find(x => x.id === o.warehouse_id)?.name || "") },
+  { k: "tags", t: "Tags", r: o => (o.tags || []).map(t => `<span class="puce g">${esc(t.name)}</span>`).join(" ") },
+  { k: "custom_field1", t: "Champ perso 1" },
+  { k: "custom_field2", t: "Champ perso 2" },
+  { k: "custom_field3", t: "Champ perso 3" },
+  { k: "ship_by_date", t: "À expédier avant", r: o => jour(o.ship_by_date) },
+  { k: "hold_until", t: "En attente jusqu'au", r: o => jour(o.hold_until) },
+  { k: "customer_notes", t: "Note du client", r: o => esc(String(o.customer_notes || "").slice(0, 60)) },
+  { k: "status", t: "Statut", def: 1, r: o => `<span class="puce g">${esc(o.status)}</span>` },
+];
+
+const lireLocal = (cle, defaut) => {
+  try { const v = JSON.parse(localStorage.getItem(cle) || "null"); return v ?? defaut; } catch { return defaut; }
+};
+const ecrireLocal = (cle, v) => localStorage.setItem(cle, JSON.stringify(v));
+
+/** Colonnes retenues, dans l'ordre choisi ; les épinglées passent devant. */
+function colonnesGrille() {
+  const choix = lireLocal("clone_colonnes", CAT_COLONNES.filter(c => c.def).map(c => c.k))
+    .filter(k => CAT_COLONNES.some(c => c.k === k));
+  const pins = lireLocal("clone_epingles", []).filter(k => choix.includes(k)).slice(0, 2);
+  return [...pins, ...choix.filter(k => !pins.includes(k))].map(k => CAT_COLONNES.find(c => c.k === k));
 }
 
 // ══════════════════════════════════════════════════════════════════ état
@@ -254,6 +313,7 @@ VUES.commandes = async (statutFixe) => {
   f.append(el(`<label class="ch"><input type="checkbox" id="fnw"> sans poids</label>`));
   f.append(el(`<button id="freset">Réinitialiser</button>`));
   f.append(el(`<button id="fsave">Sauver la vue…</button>`));
+  f.append(el(`<button id="fcols">Colonnes…</button>`));
 
   const lire = () => ({
     q: $("#fq").value, status: $("#fstatut").value, drop_off: $("#fdrop").value,
@@ -273,6 +333,52 @@ VUES.commandes = async (statutFixe) => {
     i.type === "search" || i.type === "number" ? "input" : "change",
     () => { clearTimeout(deb); deb = setTimeout(charger, 250); }));
   $("#freset").onclick = () => { poser({}); charger(); };
+
+  $("#fcols").onclick = () => {
+    const choix = lireLocal("clone_colonnes", CAT_COLONNES.filter(c => c.def).map(c => c.k));
+    const pins = lireLocal("clone_epingles", []);
+    const ligne = (c) => `<li draggable="true" data-k="${c.k}"
+        style="display:flex;align-items:center;gap:8px;padding:5px 8px;border:1px solid var(--bord);
+               border-radius:6px;margin-bottom:4px;cursor:grab;background:var(--carte)">
+        <span class="doux">⠿</span>
+        <label class="ch" style="flex:1"><input type="checkbox" ${choix.includes(c.k) ? "checked" : ""}> ${esc(c.t)}</label>
+        <label class="ch doux" style="font-size:11px"><input type="radio" name="pin" value="${c.k}"
+          ${pins.includes(c.k) ? "checked" : ""}> épingler</label></li>`;
+    // Les colonnes cochées d'abord, dans l'ordre courant : on réordonne ce qu'on voit.
+    const ordonnees = [...choix.map(k => CAT_COLONNES.find(c => c.k === k)).filter(Boolean),
+                       ...CAT_COLONNES.filter(c => !choix.includes(c.k))];
+    const c = dialogue("Colonnes de la grille",
+      `<p class="doux">Cocher pour afficher, glisser pour réordonner. Jusqu'à deux colonnes
+        épinglées restent visibles au défilement horizontal.</p>
+       <ul id="lcol" style="list-style:none;padding:0;margin:0;max-height:52vh;overflow:auto">
+         ${ordonnees.map(ligne).join("")}</ul>
+       <div class="barre" style="margin-top:8px"><button id="cdef">Rétablir les colonnes par défaut</button></div>`,
+      () => {
+        const l = [...$("#lcol", c).querySelectorAll("li")];
+        ecrireLocal("clone_colonnes", l.filter(x => x.querySelector("input[type=checkbox]").checked).map(x => x.dataset.k));
+        const pin = $("#lcol", c).querySelector("input[name=pin]:checked");
+        ecrireLocal("clone_epingles", pin ? [pin.value] : []);
+        charger();
+      }, "Appliquer");
+
+    // Réordonnancement par glisser-déposer.
+    const ul = $("#lcol", c);
+    let pris = null;
+    ul.querySelectorAll("li").forEach(li => {
+      li.ondragstart = () => { pris = li; li.style.opacity = ".4"; };
+      li.ondragend = () => { pris = null; li.style.opacity = ""; };
+      li.ondragover = (e) => {
+        e.preventDefault();
+        if (!pris || pris === li) return;
+        const r = li.getBoundingClientRect();
+        ul.insertBefore(pris, e.clientY < r.top + r.height / 2 ? li : li.nextSibling);
+      };
+    });
+    $("#cdef", c).onclick = () => {
+      localStorage.removeItem("clone_colonnes"); localStorage.removeItem("clone_epingles");
+      $("#dlg").close(); charger();
+    };
+  };
   $("#fsave").onclick = () => dialogue("Sauvegarder la vue",
     `<label class="champ"><span>Nom</span><input id="nv"></label>`,
     async () => {
@@ -305,23 +411,9 @@ VUES.commandes = async (statutFixe) => {
     $("#resume").innerHTML = `<b>${num(d.total)}</b> commandes · ${num(d.orders.length)} affichées ·
       <span class="puce v">${num(drop)} admissibles au drop-off</span>`;
     $("#tbl").innerHTML = "";
-    $("#tbl").append(table([
-      { k: "order_number", t: "Commande", r: o => `${esc(o.order_number)}
-        ${o.weight_g > 0 && o.weight_g < d.seuil ? '<span class="puce v">drop</span>' : ""}
-        ${o.hold_until ? `<span class="puce a">→ ${jour(o.hold_until)}</span>` : ""}
-        ${(o.tags || []).map(t => `<span class="puce g">${esc(t.name)}</span>`).join("")}` },
-      { k: "age", t: "Âge (j)", n: true },
-      { k: "customer_name", t: "Client" },
-      { k: "ship_to", t: "Ville", r: o => esc(o.ship_to.city) },
-      { k: "state", t: "Prov.", r: o => esc(o.ship_to.state) },
-      { k: "country", t: "Pays", r: o => esc(o.ship_to.country) },
-      { k: "weight_g", t: "Poids (g)", n: true, r: o => o.weight_g ? num(Math.round(o.weight_g)) : '<span class="puce r">manquant</span>' },
-      { k: "items", t: "Art.", n: true, r: o => o.items.filter(i => !i.adjustment).reduce((s, i) => s + i.quantity, 0) },
-      { k: "order_total", t: "Total", n: true, r: o => money(o.order_total) },
-      { k: "requested_service", t: "Service demandé" },
-      { k: "status", t: "Statut", r: o => `<span class="puce g">${esc(o.status)}</span>` },
-    ], d.orders, {
-      sel: S.sel, tri: S.tri, dir: S.dir,
+    const cols = colonnesGrille().map(c => ({ ...c, r: c.r ? (o) => c.r(o, d) : undefined }));
+    $("#tbl").append(table(cols, d.orders, {
+      sel: S.sel, tri: S.tri, dir: S.dir, pins: lireLocal("clone_epingles", []).length,
       onTri: (c) => { S.tri === c ? (S.dir = S.dir === "asc" ? "desc" : "asc") : (S.tri = c, S.dir = "desc"); charger(); },
       onLigne: (id) => detailCommande(Number(id)),
     }));
