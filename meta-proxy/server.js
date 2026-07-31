@@ -18,13 +18,18 @@
  *                 publiquement et irréversiblement.
  *   3. PRIVÉ    — la messagerie touche des conversations clients (et les règles
  *                 Meta : fenêtre de 24 h, tags autorisés).
- * Chaque action porte donc un NIVEAU DE RISQUE, et trois interrupteurs
- * d'environnement bornent ce que le service accepte d'exécuter :
- *   META_READONLY=1      → seules les lectures passent (mode audit/veille).
- *   META_ALLOW_SPEND=1   → requis pour tout ce qui engage du budget.
- *   META_ALLOW_DELETE=1  → requis pour tout ce qui détruit (post, commentaire, objet pub).
- * Par défaut, les deux derniers sont FERMÉS : un appel accidentel ou un agent
- * mal aiguillé ne peut ni dépenser, ni détruire.
+ * Chaque action porte donc un NIVEAU DE RISQUE — mais l'ÉCRITURE EST OUVERTE
+ * PAR DÉFAUT : le service exécute, et les interrupteurs servent à FERMER, pas
+ * à ouvrir.
+ *   META_READONLY=1     → seules les lectures passent (mode audit/veille).
+ *   META_BLOCK_SPEND=1  → bloque ce qui engage du budget.
+ *   META_BLOCK_DELETE=1 → bloque ce qui détruit (post, commentaire, objet pub).
+ *
+ * DRY-RUN : n'importe quelle action accepte « "dryRun": true ». Le proxy valide
+ * les params, construit l'appel Graph EXACT… et ne l'envoie pas : il renvoie
+ * l'aperçu (méthode, chemin, query, corps, jeton utilisé). C'est le mode
+ * d'entraînement — on voit ce qui partirait avant de le laisser partir. Il vaut
+ * pour toutes les actions, y compris les lectures.
  *
  * PÉRIMÈTRE D'ACTIFS : META_ALLOWED_PAGE_IDS / META_ALLOWED_AD_ACCOUNT_IDS
  * limitent, si définis, les Pages et comptes publicitaires adressables — le
@@ -66,8 +71,8 @@
  *   META_ALLOWED_PAGE_IDS    liste blanche de Pages (séparées par des virgules) [facultatif]
  *   META_ALLOWED_AD_ACCOUNT_IDS  liste blanche de comptes publicitaires        [facultatif]
  *   META_READONLY            "1" → lectures seulement                         [facultatif]
- *   META_ALLOW_SPEND         "1" → autorise les actions qui engagent du budget [facultatif]
- *   META_ALLOW_DELETE        "1" → autorise les suppressions                  [facultatif]
+ *   META_BLOCK_SPEND         "1" → bloque les actions qui engagent du budget  [facultatif]
+ *   META_BLOCK_DELETE        "1" → bloque les suppressions                    [facultatif]
  *   META_GRAPH_VERSION       version de l'API Graph (défaut v25.0)            [facultatif]
  *   PORT                     (auto, fourni par Render)
  *
@@ -78,6 +83,7 @@
  */
 
 const http = require("node:http");
+const { AsyncLocalStorage } = require("node:async_hooks");
 
 const SECRET = process.env.META_PROXY_SECRET;
 const PORT = process.env.PORT || 3000;
@@ -94,9 +100,10 @@ const V = process.env.META_GRAPH_VERSION || "v25.0";
 const BASE = process.env.META_GRAPH_BASE || `https://graph.facebook.com/${V}`;
 
 const vrai = (v) => /^(1|true|oui|yes|on)$/i.test(String(v || ""));
+// L'écriture est ouverte par défaut : ces interrupteurs FERMENT.
 const READONLY = vrai(process.env.META_READONLY);
-const ALLOW_SPEND = vrai(process.env.META_ALLOW_SPEND);
-const ALLOW_DELETE = vrai(process.env.META_ALLOW_DELETE);
+const BLOCK_SPEND = vrai(process.env.META_BLOCK_SPEND);
+const BLOCK_DELETE = vrai(process.env.META_BLOCK_DELETE);
 
 const liste = (v) => String(v || "").split(",").map((s) => s.trim()).filter(Boolean);
 const PAGES_OK = liste(process.env.META_ALLOWED_PAGE_IDS);
@@ -182,12 +189,33 @@ const sansJetons = (v) => {
   return v;
 };
 
+// Contexte de la requête en cours (dry-run). AsyncLocalStorage plutôt qu'une
+// variable de module : deux requêtes concurrentes ne doivent pas se marcher
+// dessus entre le début de l'action et l'appel réseau.
+const contexte = new AsyncLocalStorage();
+
 // jeton: "page" pour le contenu, les commentaires et la messagerie.
 const call = async (method, path, { params, body, jeton } = {}) => {
   const t = jeton === "page" ? PAGE_TOKEN : TOKEN;
+  const query = qs(plat(params));
+  // DRY-RUN : les params ont été validés, l'appel est entièrement construit —
+  // on le décrit au lieu de l'exécuter. Aucun effet de bord, aucun jeton exposé.
+  if (contexte.getStore()?.dryRun) {
+    return {
+      dryRun: true,
+      apercu: {
+        method,
+        url: `${BASE}${path}${query}`,
+        path: `/${V}${path}`,
+        query: query ? Object.fromEntries(new URLSearchParams(query.slice(1))) : {},
+        body: body || null,
+        jeton: jeton === "page" ? "jeton de Page" : "jeton principal",
+      },
+    };
+  }
   const data = await httpJson({
     method,
-    url: `${BASE}${path}${qs(plat(params))}`,
+    url: `${BASE}${path}${query}`,
     headers: { Authorization: `Bearer ${t}` },
     body,
   });
@@ -407,15 +435,19 @@ const ACTIONS = {
 
 // Un appel est-il permis dans la configuration actuelle du service ?
 // Renvoie null si oui, sinon le motif du refus (message rendu à l'appelant).
-function refus(nom, action) {
+// L'écriture est ouverte par défaut : on ne refuse que si un interrupteur FERME.
+// Un dry-run n'a aucun effet de bord : il traverse tous les garde-fous, ce qui
+// permet justement de s'entraîner sur une action qu'on a fermée.
+function refus(nom, action, dryRun) {
+  if (dryRun) return null;
   if (READONLY && action.risque !== "lecture") {
-    return `service en LECTURE SEULE (META_READONLY) : « ${nom} » est une action « ${action.risque} ».`;
+    return `service en LECTURE SEULE (META_READONLY) : « ${nom} » est une action « ${action.risque} ». Réessaie avec "dryRun": true pour voir ce qui partirait.`;
   }
-  if (action.risque === "argent" && !ALLOW_SPEND) {
-    return `« ${nom} » engage du budget publicitaire : définir META_ALLOW_SPEND=1 sur le service pour l'autoriser.`;
+  if (action.risque === "argent" && BLOCK_SPEND) {
+    return `« ${nom} » engage du budget publicitaire et META_BLOCK_SPEND=1 est actif sur le service.`;
   }
-  if (action.risque === "destructeur" && !ALLOW_DELETE) {
-    return `« ${nom} » supprime définitivement : définir META_ALLOW_DELETE=1 sur le service pour l'autoriser.`;
+  if (action.risque === "destructeur" && BLOCK_DELETE) {
+    return `« ${nom} » supprime définitivement et META_BLOCK_DELETE=1 est actif sur le service.`;
   }
   return null;
 }
@@ -440,15 +472,16 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "GET" && route === "/actions") {
       const actions = {};
       for (const [n, a] of Object.entries(ACTIONS)) {
-        actions[n] = { risque: a.risque, permis: !refus(n, a), doc: a.doc };
+        actions[n] = { risque: a.risque, permis: !refus(n, a, false), doc: a.doc };
       }
       return json(res, 200, {
         service: "meta-proxy",
         graph: V,
+        dryRun: "toute action accepte \"dryRun\": true — elle est validée et construite, mais pas envoyée",
         garde_fous: {
           lectureSeule: READONLY,
-          depenseAutorisee: ALLOW_SPEND,
-          suppressionAutorisee: ALLOW_DELETE,
+          depenseBloquee: BLOCK_SPEND,
+          suppressionBloquee: BLOCK_DELETE,
           pagesAutorisees: PAGES_OK.length ? PAGES_OK : "toutes celles du jeton",
           comptesAutorises: COMPTES_OK.length ? COMPTES_OK : "tous ceux du jeton",
         },
@@ -498,15 +531,20 @@ const server = http.createServer(async (req, res) => {
     const action = ACTIONS[aname];
     if (!action) return json(res, 404, { error: `action inconnue : ${aname}`, actions: Object.keys(ACTIONS) });
 
-    // Garde-fous d'exécution AVANT tout appel à Graph.
-    const motif = refus(aname, action);
-    if (motif) return json(res, 403, { error: motif, risque: action.risque });
-
     const body = await readBody(req);
     if (body === null) return json(res, 400, { error: "invalid JSON" });
 
-    const data = await action.run(body);
-    return json(res, 200, { ok: true, action: aname, risque: action.risque, data });
+    // « dryRun » est un paramètre du proxy, pas de Graph : on le retire des
+    // params avant de les passer à l'action, sinon il finirait en query string.
+    const dryRun = vrai(body.dryRun) || body.dryRun === true;
+    if ("dryRun" in body) delete body.dryRun;
+
+    // Garde-fous d'exécution AVANT tout appel à Graph.
+    const motif = refus(aname, action, dryRun);
+    if (motif) return json(res, 403, { error: motif, risque: action.risque });
+
+    const data = await contexte.run({ dryRun }, () => action.run(body));
+    return json(res, 200, { ok: true, action: aname, risque: action.risque, ...(dryRun ? { dryRun: true } : {}), data });
   } catch (e) {
     return json(res, 502, { error: String(e.message || e).slice(0, 2000) });
   }
@@ -515,8 +553,8 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   const modes = [
     READONLY ? "LECTURE SEULE" : "lecture + écriture",
-    ALLOW_SPEND ? "dépense AUTORISÉE" : "dépense bloquée",
-    ALLOW_DELETE ? "suppression AUTORISÉE" : "suppression bloquée",
+    BLOCK_SPEND ? "dépense BLOQUÉE" : "dépense autorisée",
+    BLOCK_DELETE ? "suppression BLOQUÉE" : "suppression autorisée",
   ];
   console.log(`meta-proxy à l'écoute sur :${PORT} — Graph ${V} · ${modes.join(" · ")}`);
   console.log(`  Page par défaut : ${PAGE_ID || "(aucune)"} · compte pub : ${AD_ACCOUNT || "(aucun)"} · Instagram : ${IG_ID || "(aucun)"}`);

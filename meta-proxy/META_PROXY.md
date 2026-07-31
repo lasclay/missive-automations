@@ -40,20 +40,45 @@ Client : `node meta_client.js <action> ['{"param":"valeur"}']`
 
 ## Garde-fous
 
-Chaque action porte un **niveau de risque**, et trois interrupteurs d'environnement bornent ce
-que le service accepte d'exécuter. Le refus arrive **avant** tout appel à Graph, avec un motif
-explicite.
+**L'écriture est ouverte par défaut** : le service exécute. Chaque action porte quand même un
+**niveau de risque**, et les interrupteurs d'environnement servent à **fermer** ce qu'on ne veut
+pas voir partir. Le refus arrive **avant** tout appel à Graph, avec un motif explicite.
 
-| Niveau | Ce que c'est | Condition |
+| Niveau | Ce que c'est | Bloqué par |
 |---|---|---|
-| 🟢 `lecture` | aucun effet de bord | toujours permis (sauf service arrêté) |
-| 🟡 `ecriture` | publie, répond, masque, envoie — visible, rattrapable à la main | bloqué si `META_READONLY=1` |
-| 🔴 `argent` | engage du budget publicitaire | exige **`META_ALLOW_SPEND=1`** |
-| 🔴 `destructeur` | supprime définitivement | exige **`META_ALLOW_DELETE=1`** |
+| 🟢 `lecture` | aucun effet de bord | — |
+| 🟡 `ecriture` | publie, répond, masque, envoie — visible, rattrapable à la main | `META_READONLY=1` |
+| 🔴 `argent` | engage du budget publicitaire | `META_READONLY=1`, `META_BLOCK_SPEND=1` |
+| 🔴 `destructeur` | supprime définitivement | `META_READONLY=1`, `META_BLOCK_DELETE=1` |
 
-Par défaut, `META_ALLOW_SPEND` et `META_ALLOW_DELETE` sont **fermés** : un appel accidentel, un
-agent mal aiguillé ou une injection de prompt dans un commentaire client ne peuvent **ni dépenser,
-ni détruire**. On les ouvre le temps d'une opération, puis on les referme.
+Aucun interrupteur n'est nécessaire pour travailler. `META_BLOCK_SPEND` et `META_BLOCK_DELETE`
+existent pour les périodes où on veut explicitement neutraliser une surface — un cron de veille,
+un environnement de test, une campagne qu'on ne veut pas voir bouger.
+
+### Dry-run — voir ce qui partirait
+
+**Toute** action accepte `"dryRun": true`. Le proxy valide les paramètres, construit l'appel Graph
+**exact**… et ne l'envoie pas : il renvoie l'aperçu.
+
+```bash
+node meta_client.js replycomment '{"commentId":"123_456","message":"Merci !","dryRun":true}'
+```
+
+```json
+{ "ok": true, "action": "replycomment", "risque": "ecriture", "dryRun": true,
+  "data": { "dryRun": true, "apercu": {
+    "method": "POST",
+    "path": "/v25.0/123_456/comments",
+    "query": {},
+    "body": { "message": "Merci !" },
+    "jeton": "jeton de Page" } } }
+```
+
+La validation reste active — `commentId` ou `message` manquant échoue en dry-run comme en vrai.
+Et parce qu'un dry-run n'a aucun effet de bord, il traverse tous les garde-fous : on peut
+s'entraîner sur une action qu'on a fermée.
+
+C'est le mode d'entraînement des scripts qui parlent en public (voir `meta_commentaires.js`).
 
 **Périmètre d'actifs** — `META_ALLOWED_PAGE_IDS` et `META_ALLOWED_AD_ACCOUNT_IDS` (listes
 séparées par des virgules) limitent les Pages et comptes publicitaires adressables. Un id hors
@@ -98,7 +123,7 @@ node meta_client.js insights '{"objectId":"CAMPAIGN_ID","level":"ad","time_incre
 node meta_client.js insights '{"level":"adset","breakdowns":["age","gender"],"date_preset":"last_30d"}'
 ```
 
-### 2. Gestion des campagnes — 🔴 `META_ALLOW_SPEND=1`
+### 2. Gestion des campagnes — 🔴 argent réel
 
 | Action | Params | Effet |
 |---|---|---|
@@ -240,8 +265,8 @@ le compte Instagram — et signale les portées manquantes pour chacun des cinq 
 | `META_ALLOWED_PAGE_IDS` | (recommandé) Pages adressables, séparées par des virgules |
 | `META_ALLOWED_AD_ACCOUNT_IDS` | (recommandé) comptes publicitaires adressables |
 | `META_READONLY` | `1` → lectures seulement (mode audit/veille) |
-| `META_ALLOW_SPEND` | `1` → autorise les actions qui engagent du budget (défaut : bloqué) |
-| `META_ALLOW_DELETE` | `1` → autorise les suppressions (défaut : bloqué) |
+| `META_BLOCK_SPEND` | `1` → bloque ce qui engage du budget (défaut : autorisé) |
+| `META_BLOCK_DELETE` | `1` → bloque les suppressions (défaut : autorisé) |
 | `META_GRAPH_VERSION` | (facultatif) version de l'API Graph, défaut `v25.0` |
 | `PORT` | (auto, fourni par Render) |
 
@@ -294,9 +319,18 @@ node meta_client.js posts '{"limit":5}'
 Les refus de garde-fou sont explicites et actionnables :
 
 ```
-Erreur: /setstatus → 403 « setstatus » engage du budget publicitaire :
-définir META_ALLOW_SPEND=1 sur le service pour l'autoriser.
+Erreur: /setstatus → 403 « setstatus » engage du budget publicitaire
+et META_BLOCK_SPEND=1 est actif sur le service.
 ```
+
+## Scripts qui s'appuient dessus
+
+- **`meta_commentaires.js`** — rédige les réponses aux commentaires Facebook et Instagram.
+  **Dry-run par défaut** : il lit les vrais commentaires, rédige, écrit un fichier de révision
+  dans `meta_reponses/`, et n'envoie rien. `--envoyer` publie. Un commentaire marqué *escalade*
+  n'est jamais publié automatiquement, et le journal `traites.json` empêche toute double réponse.
+- **`meta_check.js`** — valide un jeton et ses portées avant déploiement.
+- **`GUIDE_DEMARRAGE.md`** — le pas à pas complet, de l'app Meta au premier commentaire répondu.
 
 ---
 

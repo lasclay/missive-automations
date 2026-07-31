@@ -46,18 +46,26 @@ pour viser un autre actif (et encore faut-il qu'il soit dans la liste blanche).
 
 ## Garde-fous — à connaître AVANT de proposer une action
 
-Chaque action porte un niveau de risque. Trois interrupteurs vivent sur le service Render :
+**L'écriture est ouverte** : le service exécute. Chaque action porte quand même un niveau de
+risque, et les interrupteurs Render servent à fermer une surface, pas à l'ouvrir :
 
-| Niveau | Exemples | Condition |
+| Niveau | Exemples | Bloqué par |
 | --- | --- | --- |
-| 🟢 `lecture` | `insights`, `campaigns`, `comments`, `adlibrary` | toujours permis |
-| 🟡 `ecriture` | `replycomment`, `hidecomment`, `createpost`, `sendmessage` | bloqué si `META_READONLY=1` |
-| 🔴 `argent` | `createcampaign`, `createadset`, `update`, `setstatus` | exige `META_ALLOW_SPEND=1` |
-| 🔴 `destructeur` | `remove`, `deletecomment`, `deletepost` | exige `META_ALLOW_DELETE=1` |
+| 🟢 `lecture` | `insights`, `campaigns`, `comments`, `adlibrary` | — |
+| 🟡 `ecriture` | `replycomment`, `hidecomment`, `createpost`, `sendmessage` | `META_READONLY=1` |
+| 🔴 `argent` | `createcampaign`, `createadset`, `update`, `setstatus` | `META_BLOCK_SPEND=1` |
+| 🔴 `destructeur` | `remove`, `deletecomment`, `deletepost` | `META_BLOCK_DELETE=1` |
 
-`META_ALLOW_SPEND` et `META_ALLOW_DELETE` sont **fermés par défaut**. Si une action est refusée
-(403 avec motif explicite), **ne contourne pas** : rapporte le motif et laisse l'humain décider
-d'ouvrir l'interrupteur sur Render.
+Si une action est refusée (403 avec motif explicite), **ne contourne pas** : rapporte le motif et
+laisse l'humain décider.
+
+**Le dry-run est ton brouillon.** Toute action accepte `"dryRun": true` : le proxy valide, construit
+l'appel Graph exact, et ne l'envoie pas. Utilise-le pour montrer ce qui partirait avant de le
+laisser partir — surtout sur une écriture publique ou une campagne.
+
+```bash
+node meta_client.js createpost '{"message":"…","dryRun":true}'
+```
 
 **Avant toute écriture publique** (réponse à un commentaire, publication, message), montre le
 texte exact et fais valider — c'est la marque qui parle.
@@ -107,6 +115,17 @@ node meta_client.js hidecomment '{"commentId":"ID"}'                  # réversi
 **Masquer plutôt que supprimer.** Un commentaire masqué reste visible pour son auteur : la
 critique ne devient pas un scandale de censure. La suppression est réservée au pourriel et aux
 propos haineux.
+
+**Le script de réponses** — pour traiter les commentaires en lot plutôt qu'un par un :
+
+```bash
+node meta_commentaires.js                 # dry-run : rédige, écrit un fichier de révision, n'envoie rien
+node meta_commentaires.js --instagram
+node meta_commentaires.js --envoyer       # publie (jamais les escalades)
+```
+
+Le dry-run est le mode d'entraînement : on relit `meta_reponses/*.md`, on ajuste les consignes
+dans le script, on relance. Un commentaire déjà traité n'est jamais retraité.
 
 Pour rédiger une réponse : charge `lasclay-master` (ton de voix, garde-fous de marque) et, si
 c'est une question de service client (commande, livraison, retour), `missive` — les

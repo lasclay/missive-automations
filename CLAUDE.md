@@ -62,15 +62,18 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 - Cinq usages : **audit des campagnes** (insights, dépense, ROAS), **gestion des campagnes**,
   **commentaires** (lire, répondre, masquer), **gestes automatisés** (publier, aimer, messagerie
   Messenger/Instagram), **veille** (insights de Page, Ad Library des concurrents).
-- Garde-fous : chaque action porte un niveau de risque ; `META_ALLOW_SPEND` et
-  `META_ALLOW_DELETE` sont **fermés par défaut** (rien ne peut dépenser ni détruire),
-  `META_READONLY=1` passe le service en lecture seule, et
+- **Écriture ouverte** ; chaque action porte un niveau de risque et les interrupteurs Render
+  servent à FERMER : `META_READONLY`, `META_BLOCK_SPEND`, `META_BLOCK_DELETE`.
   `META_ALLOWED_PAGE_IDS` / `META_ALLOWED_AD_ACCOUNT_IDS` bornent les actifs adressables.
+- **Dry-run** : toute action accepte `"dryRun": true` — le proxy valide, construit l'appel Graph
+  exact, et ne l'envoie pas. À utiliser avant toute écriture publique.
+- Réponses aux commentaires : `node meta_commentaires.js` (dry-run par défaut, rapport dans
+  `meta_reponses/`, `--envoyer` pour publier ; les escalades ne partent jamais seules).
 - Introspection sans secret : `GET /actions` (actions + risques + garde-fous actifs),
   `GET /token-status` (validité et portées du jeton, jamais sa valeur).
 - Vérifier un jeton avant déploiement : `META_ACCESS_TOKEN=… node meta_check.js`.
 - ⚠️ Conditions Meta : gestes automatisés sur NOS actifs seulement ; Messenger = fenêtre de 24 h.
-- Doc complète : `meta-proxy/META_PROXY.md`.
+- Mise en place pas à pas : `meta-proxy/GUIDE_DEMARRAGE.md`. Doc complète : `meta-proxy/META_PROXY.md`.
 
 ## Meta MCP (gestion de l'app Meta, pas des données)
 
