@@ -35,6 +35,17 @@ Render sert le service en HTTPS avec un domaine `*.onrender.com` ; les cookies d
 Rappel : Render suit `main`. La branche `claude/shipstation-audit-clone-0gwmgr` doit être
 fusionnée avant le premier déploiement.
 
+### Vérifier avant d'ouvrir aux employés
+
+```bash
+node shipstation-clone/verifier.js
+```
+
+Contrôle ce qui casse en silence : version de Node, **base réellement sur le disque persistant**
+(sinon elle s'efface au redéploiement), droits d'écriture, cookies Secure en HTTPS, comptes et
+2FA, données migrées, règles actives, proxy joignable. Sort en code 1 s'il reste un point
+bloquant — utilisable dans un script de démarrage.
+
 ### Premier démarrage
 
 1. Le service crée un compte administrateur et **affiche son mot de passe dans les logs Render**.
@@ -194,7 +205,8 @@ lib/catalog.js    produits, préréglages, inventaire, clients, retours
 lib/analytics.js  rapports, dont l'écart au tarif drop-off
 lib/accounts.js   utilisateurs, permissions, webhooks, notifications
 lib/ingest.js     migration ShipStation + import normalisé pour Shopify/Etsy/Faire
-app/server.js     ~60 routes
+app/server.js     ~70 routes
+verifier.js       contrôle d'installation, à lancer après déploiement
 app/public/       l'interface, une page
 ```
 
