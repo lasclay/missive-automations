@@ -314,6 +314,8 @@ VUES.commandes = async (statutFixe) => {
   f.append(el(`<button id="freset">Réinitialiser</button>`));
   f.append(el(`<button id="fsave">Sauver la vue…</button>`));
   f.append(el(`<button id="fcols">Colonnes…</button>`));
+  f.append(el(`<button id="fnew">Nouvelle commande…</button>`));
+  f.append(el(`<button id="fcsv">Importer un CSV…</button>`));
 
   const lire = () => ({
     q: $("#fq").value, status: $("#fstatut").value, drop_off: $("#fdrop").value,
@@ -333,6 +335,78 @@ VUES.commandes = async (statutFixe) => {
     i.type === "search" || i.type === "number" ? "input" : "change",
     () => { clearTimeout(deb); deb = setTimeout(charger, 250); }));
   $("#freset").onclick = () => { poser({}); charger(); };
+
+  $("#fnew").onclick = async () => {
+    const { order_number } = await api("/api/orders/next-number");
+    dialogue("Nouvelle commande manuelle", `
+      <div class="grille">
+        <label class="champ"><span>N° de commande</span><input id="mn" value="${esc(order_number)}"></label>
+        <label class="champ"><span>Courriel</span><input id="me" type="email"></label>
+      </div>
+      <label class="champ"><span>Destinataire</span><input id="mnom"></label>
+      <label class="champ"><span>Adresse</span><input id="mr1"></label>
+      <div class="grille">
+        <label class="champ"><span>Ville</span><input id="mv"></label>
+        <label class="champ"><span>Province</span><input id="mp" value="QC"></label>
+        <label class="champ"><span>Code postal</span><input id="mcp"></label>
+        <label class="champ"><span>Pays</span><input id="mpays" value="CA"></label>
+      </div>
+      <label class="champ"><span>Articles — un par ligne : SKU;quantité;prix</span>
+        <textarea id="mi" style="min-height:90px" placeholder="ASCL-SYRIACA-1.25ML-x1;2;9.80"></textarea></label>
+      <label class="champ"><span>Note</span><input id="mnote"></label>`,
+      async () => {
+        const items = $("#mi").value.split("\n").map(l => l.trim()).filter(Boolean).map(l => {
+          const [sku, q, p] = l.split(";").map(x => (x || "").trim());
+          return { sku, name: sku, quantity: Number(q) || 1, unit_price: Number(p) || 0 };
+        });
+        const r = await api("/api/orders/manual", { method: "POST", body: {
+          order_number: $("#mn").value, customer_email: $("#me").value || null,
+          ship_to: { name: $("#mnom").value, street1: $("#mr1").value, city: $("#mv").value,
+            state: $("#mp").value, postalCode: $("#mcp").value, country: $("#mpays").value },
+          customer_notes: $("#mnote").value || null, items,
+          order_total: items.reduce((s, i) => s + i.unit_price * i.quantity, 0) } });
+        alert(`Commande ${r.order_number} créée.`);
+        rafraichirCompteurs(); charger();
+      }, "Créer");
+  };
+
+  $("#fcsv").onclick = () => {
+    const c = dialogue("Importer des commandes (CSV)", `
+      <p class="doux">Une ligne par article ; plusieurs lignes partageant le même numéro de
+        commande deviennent une seule commande. Colonnes reconnues : Order Number, Order Date,
+        Ship To Name, Address 1/2, City, State, Zip, Country, Email, SKU, Quantity, Unit Price,
+        Weight, Notes — en anglais ou en français.</p>
+      <input type="file" id="cf" accept=".csv,.tsv,.txt">
+      <label class="champ" style="margin-top:8px"><span>ou coller le contenu</span>
+        <textarea id="ct" style="min-height:110px"></textarea></label>
+      <div class="barre"><button id="cprev">Analyser sans importer</button></div>
+      <div id="cout"></div>`,
+      async () => {
+        const csv = $("#ct").value.trim();
+        if (!csv) { alert("Aucun contenu."); return false; }
+        const r = await api("/api/import/csv", { method: "POST", body: { csv } });
+        alert(`${r.importees} commande(s), ${r.articles} article(s) importés.` +
+          (r.soucis?.length ? `\n\nÀ vérifier :\n${r.soucis.join("\n")}` : ""));
+        rafraichirCompteurs(); charger();
+      }, "Importer");
+    $("#cf", c).onchange = async (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      $("#ct", c).value = await f.text();
+    };
+    $("#cprev", c).onclick = async () => {
+      const csv = $("#ct", c).value.trim();
+      if (!csv) return;
+      try {
+        const r = await api("/api/import/csv", { method: "POST", body: { csv, apercu: true } });
+        $("#cout", c).innerHTML = `<div class="carte">
+          <b>${r.commandes} commande(s), ${r.articles} article(s)</b><br>
+          <span class="doux">colonnes reconnues : ${r.colonnes_reconnues.join(", ")}</span>
+          ${r.colonnes_ignorees.length ? `<br><span class="doux">ignorées : ${esc(r.colonnes_ignorees.join(", "))}</span>` : ""}
+          ${r.soucis.length ? `<div class="avis" style="margin-top:8px">${r.soucis.map(esc).join("<br>")}</div>` : ""}
+        </div>`;
+      } catch (e) { $("#cout", c).innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+    };
+  };
 
   $("#fcols").onclick = () => {
     const choix = lireLocal("clone_colonnes", CAT_COLONNES.filter(c => c.def).map(c => c.k));
@@ -437,8 +511,10 @@ VUES.commandes = async (statutFixe) => {
   A.innerHTML = `<span class="doux" id="nsel">aucune sélection</span>
     <button id="aPreview">Simuler le lot</button>
     <button id="aBuy" class="p">Acheter les étiquettes…</button>
+    <button id="aPreset">Appliquer un préréglage…</button>
     <button id="aConf">Configurer l'expédition…</button>
-    <button id="aSlip">Bordereaux</button>
+    <button id="aSlip">Bordereaux…</button>
+    <button id="aPick">Liste de prélèvement</button>
     <button id="aHold">Mettre en attente…</button>
     <button id="aRestore">Remettre en file</button>
     <button id="aTag">Étiqueter…</button>
@@ -448,7 +524,8 @@ VUES.commandes = async (statutFixe) => {
   const majActions = () => {
     const n = S.sel.size;
     $("#nsel").textContent = n ? `${n} sélectionnée${n > 1 ? "s" : ""}` : "aucune sélection";
-    ["aPreview","aBuy","aSlip","aHold","aRestore","aTag","aRules","aCancel","aConf"].forEach(i => $("#" + i).disabled = !n);
+    ["aPreview","aBuy","aSlip","aHold","aRestore","aTag","aRules","aCancel","aConf","aPreset","aPick"]
+      .forEach(i => $("#" + i).disabled = !n);
     $("#aMerge").disabled = n < 2;
     $("#aBuy").disabled = !n || !S.config.etiquettes_actives;
   };
@@ -508,7 +585,37 @@ VUES.commandes = async (statutFixe) => {
       }, "Appliquer");
   };
 
-  $("#aSlip").onclick = () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank");
+  $("#aPreset").onclick = async () => {
+    const { presets: ps } = await api("/api/presets");
+    if (!ps.length) return dialogue("Préréglages d'expédition",
+      `<p>Aucun préréglage. On les crée dans <b>Réglages → Préréglages d'expédition</b> :
+        une configuration enregistrée une fois, appliquée ensuite en un clic sur une sélection.</p>`, null);
+    dialogue(`Appliquer un préréglage à ${S.sel.size} commande(s)`,
+      `<label class="champ"><span>Préréglage</span><select id="psel">${ps.map(p =>
+        `<option value="${p.id}"${p.is_default ? " selected" : ""}>${esc(p.name)}</option>`).join("")}</select></label>
+       <p class="doux">Seuls les champs remplis du préréglage sont appliqués — il n'efface jamais
+         un poids ou un service déjà saisi.</p>`,
+      async () => {
+        const r = await api("/api/presets/apply", { method: "POST",
+          body: { preset_id: Number($("#psel").value), ids: ids() } });
+        alert(`« ${r.preset} » appliqué à ${r.n} commande(s).`);
+        S.sel.clear(); charger();
+      }, "Appliquer");
+  };
+
+  $("#aPick").onclick = () => window.open(`/api/pick-list?ids=${ids().join(",")}`, "_blank");
+
+  $("#aSlip").onclick = () => dialogue("Imprimer les bordereaux",
+    `<label class="champ"><span>Format</span><select id="pfmt">
+       <option value="full">Pleine page (8,5 × 11)</option>
+       <option value="2up">Deux par page (8,5 × 11)</option>
+       <option value="4x6">Thermique 4 × 6</option>
+     </select></label>
+     <label class="ch"><input type="checkbox" id="ppick"> joindre la liste de prélèvement</label>`,
+    () => {
+      window.open(`/api/packing-slip?ids=${ids().join(",")}&format=${$("#pfmt").value}`, "_blank");
+      if ($("#ppick").checked) window.open(`/api/pick-list?ids=${ids().join(",")}`, "_blank");
+    }, "Imprimer");
 
   $("#aHold").onclick = () => {
     const d = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
@@ -770,6 +877,7 @@ VUES.produits = async () => {
       <label class="ch"><input type="checkbox" id="pnw"> sans poids</label>
       <button class="p" id="pnew">Nouveau produit</button>
       <button id="pgrp">Groupes de préréglages…</button>
+      <button id="palias">Alias de SKU…</button>
       <a id="pex" class="doux">Exporter CSV</a></div><div id="pt"></div>`;
   async function charger() {
     const p = new URLSearchParams({ q: $("#pq").value, no_hs: $("#pnh").checked ? "1" : "", no_weight: $("#pnw").checked ? "1" : "", limit: 400 });
@@ -796,7 +904,11 @@ VUES.produits = async () => {
       <label class="champ"><span>Emplacement</span><input id="xl" value="${esc(p.warehouse_location || "")}"></label>
     </div>
     <label class="champ"><span>Description douanière</span><input id="xd" value="${esc(p.customs_description || "")}"></label>
-    ${p.id ? `<hr><b>Stock par entrepôt</b>
+    ${p.id ? `<hr><b>Bundle</b>
+      <p class="doux" style="font-size:12px">Un SKU vendu comme un tout qui recouvre plusieurs
+        produits à prélever. Une ligne par composant : SKU;quantité. Vide = produit simple.</p>
+      <textarea id="xb" style="min-height:70px">${esc((p.bundle_items || []).map(i => `${i.sku};${i.quantity}`).join("\n"))}</textarea>
+      <hr><b>Stock par entrepôt</b>
       <p class="doux" style="font-size:12px">Le seuil déclenche l'alerte de stock bas.</p>
       ${(S.refs.warehouses || []).map(w => {
         const inv = (p.inventory || []).find(i => i.warehouse_id === w.id) || {};
@@ -809,6 +921,14 @@ VUES.produits = async () => {
       const r = await api("/api/products", { method: "POST", body: { sku: $("#xs").value, name: $("#xn").value,
         weight_g: Number($("#xw").value) || 0, price: Number($("#xp").value) || 0, hs_code: $("#xh").value,
         country_of_origin: $("#xo").value, warehouse_location: $("#xl").value, customs_description: $("#xd").value } });
+      const bt = document.querySelector("#dlgC #xb");
+      if (bt) {
+        await api("/api/bundles", { method: "POST", body: { sku: $("#xs").value,
+          items: bt.value.split("\n").map(l => l.trim()).filter(Boolean).map(l => {
+            const [sku, q] = l.split(";").map(x => (x || "").trim());
+            return { sku, quantity: Number(q) || 1 };
+          }) } });
+      }
       for (const inp of document.querySelectorAll("#dlgC [data-inv]")) {
         const w = Number(inp.dataset.inv);
         const seuil = document.querySelector(`#dlgC [data-seuil="${w}"]`);
@@ -820,6 +940,34 @@ VUES.produits = async () => {
       charger();
     }, "Enregistrer");
   $("#pnew").onclick = () => editerProduit();
+
+  /** Alias : plusieurs SKU de boutiques différentes désignant la même fiche produit. */
+  $("#palias").onclick = async () => {
+    const { aliases } = await api("/api/aliases");
+    const c = dialogue("Alias de SKU", `
+      <p class="doux">Une commande arrivée avec un alias hérite des défauts de la fiche visée —
+        poids, douane, service. Utile quand une même chose porte un SKU différent selon le canal.</p>
+      ${aliases.length ? `<div class="tbl" style="max-height:220px"><table>
+        <thead><tr><th>Alias</th><th>Fiche produit</th><th></th></tr></thead><tbody>
+        ${aliases.map(a => `<tr><td><code>${esc(a.alias)}</code></td>
+          <td>${esc(a.sku)} <span class="doux">${esc(a.name || "")}</span></td>
+          <td><button class="d" data-ad="${esc(a.alias)}">Retirer</button></td></tr>`).join("")}
+        </tbody></table></div>` : '<p class="doux">Aucun alias.</p>'}
+      <hr><div class="grille">
+        <label class="champ"><span>Alias (le SKU reçu)</span><input id="aa"></label>
+        <label class="champ"><span>SKU de la fiche</span><input id="ab"></label>
+      </div>`,
+      async () => {
+        if (!$("#aa").value.trim() || !$("#ab").value.trim()) return false;
+        try { await api("/api/aliases", { method: "POST",
+          body: { alias: $("#aa").value.trim(), sku: $("#ab").value.trim() } }); }
+        catch (e) { alert(e.message); return false; }
+      }, "Ajouter");
+    $("#dlgC", document).querySelectorAll("[data-ad]").forEach(b => b.onclick = async () => {
+      await api("/api/aliases", { method: "POST", body: { alias: b.dataset.ad, supprimer: true } });
+      $("#dlg").close();
+    });
+  };
 
   /** Groupes de préréglages — les défauts d'expédition et de douane partagés par un groupe. */
   $("#pgrp").onclick = async () => {
@@ -1085,6 +1233,11 @@ VUES.reglages = async () => {
     <div class="carte"><b>Tarif drop-off cible</b>
       <p class="doux" style="margin:2px 0 8px">Sert de référence dans l'analytique. Seuil de poids : ${s.seuil_dropoff_g} g.</p>
       <input type="number" step="0.01" id="st" value="${s.tarif_dropoff_cible}"> <button id="stsave">Enregistrer</button></div>
+    <div class="carte" id="cpre"><b>Préréglages d'expédition</b>
+      <p class="doux" style="margin:2px 0 8px">Une configuration enregistrée une fois, appliquée
+      ensuite en un clic sur une sélection de commandes. À distinguer des défauts produit, qui
+      s'appliquent seuls à l'import.</p>
+      <div id="cprec"></div></div>
     <div class="carte" id="csh"><b>Import Shopify</b>
       <p class="doux" style="margin:2px 0 8px">Les commandes arrivent directement de Shopify,
       sans passer par ShipStation. Webhooks en temps réel, plus un rattrapage périodique qui
@@ -1115,6 +1268,47 @@ VUES.reglages = async () => {
       adresse: $("#sa").value, logo: $("#sl").value || null, message_bordereau: $("#sm").value } } });
     alert("Enregistré.");
   };
+  // --- préréglages d'expédition
+  const { presets: lp } = await api("/api/presets");
+  $("#cprec").innerHTML = `
+    ${lp.length ? `<div class="tbl" style="max-height:200px;margin-bottom:8px"><table>
+      <thead><tr><th>Nom</th><th>Transporteur</th><th>Service</th><th>Colis</th><th class="n">Poids</th><th></th></tr></thead>
+      <tbody>${lp.map(p => `<tr><td>${esc(p.name)}${p.is_default ? ' <span class="puce v">défaut</span>' : ""}</td>
+        <td>${esc(p.carrier_code || "—")}</td><td>${esc(p.service_id || "—")}</td>
+        <td>${esc(p.package_id || "—")}</td><td class="n">${p.weight_g ? num(p.weight_g) + " g" : "—"}</td>
+        <td><button class="d" data-pd="${p.id}">Suppr.</button></td></tr>`).join("")}</tbody></table></div>`
+      : '<p class="doux">Aucun préréglage.</p>'}
+    <button class="p" id="pnew2">Nouveau préréglage</button>`;
+  $("#cprec").querySelectorAll("[data-pd]").forEach(b => b.onclick = async () => {
+    if (!confirm("Supprimer ce préréglage ?")) return;
+    await api("/api/presets/" + b.dataset.pd, { method: "DELETE" }); VUES.reglages();
+  });
+  $("#pnew2").onclick = () => dialogue("Nouveau préréglage d'expédition", `
+    <label class="champ"><span>Nom</span><input id="qn" placeholder="Semences drop-off"></label>
+    <div class="grille">
+      <label class="champ"><span>Transporteur</span><select id="qc"><option value="">—</option>
+        ${(S.refs.carriers || []).map(c => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Service</span><input id="qs" placeholder="expedited_parcel"></label>
+      <label class="champ"><span>Type de colis</span><input id="qp" placeholder="package"></label>
+      <label class="champ"><span>Confirmation</span><select id="qf"><option value="">—</option>
+        <option value="none">aucune</option><option value="delivery">livraison</option>
+        <option value="signature">signature</option></select></label>
+      <label class="champ"><span>Poids (g)</span><input type="number" id="qw"></label>
+      <label class="champ"><span>Entrepôt</span><select id="qh"><option value="">—</option>
+        ${(S.refs.warehouses || []).map(w => `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select></label>
+    </div>
+    <label class="ch"><input type="checkbox" id="qd"> préréglage par défaut</label>
+    <p class="doux" style="font-size:12px">Laisser vide ce qui ne doit pas être imposé : un champ
+      vide ne touche pas à la commande.</p>`,
+    async () => {
+      if (!$("#qn").value.trim()) return false;
+      await api("/api/presets", { method: "POST", body: { name: $("#qn").value.trim(),
+        carrier_code: $("#qc").value, service_id: $("#qs").value, package_id: $("#qp").value,
+        confirmation: $("#qf").value, weight_g: Number($("#qw").value) || null,
+        warehouse_id: Number($("#qh").value) || null, is_default: $("#qd").checked } });
+      VUES.reglages();
+    }, "Créer");
+
   // --- import Shopify
   try {
     const sh = await api("/api/shopify");

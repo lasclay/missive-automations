@@ -435,3 +435,182 @@ function amorcer() {
 }
 
 module.exports = { migrerDepuisShipStation, importerCommandes, convertirCommande, grammes, amorcer, ss };
+
+// ============================================================ commandes manuelles
+
+/**
+ * Boutique « Commandes manuelles » — l'équivalent du *Manual Store* de ShipStation.
+ * Elle accueille ce qui n'arrive d'aucun canal : saisies à la main et imports CSV.
+ */
+function boutiqueManuelle() {
+  const s = one("SELECT id FROM stores WHERE marketplace = 'Manuel' ORDER BY id LIMIT 1")
+    || one("SELECT id FROM stores WHERE lower(name) LIKE '%manual%' ORDER BY id LIMIT 1");
+  if (s) return s.id;
+  run("INSERT INTO stores (id,name,marketplace,active,auto_refresh) VALUES (?,?,?,1,0)",
+    900000, "Commandes manuelles", "Manuel");
+  return 900000;
+}
+
+/** Numérotation automatique, comme ShipStation : préfixe + compteur. */
+function prochainNumeroManuel(prefixe = "M-") {
+  const d = one(`SELECT order_number n FROM orders WHERE order_number LIKE ?
+                 ORDER BY CAST(substr(order_number, ?) AS INTEGER) DESC LIMIT 1`,
+    `${prefixe}%`, prefixe.length + 1);
+  const suivant = d ? (parseInt(String(d.n).slice(prefixe.length), 10) || 0) + 1 : 1;
+  return `${prefixe}${String(suivant).padStart(5, "0")}`;
+}
+
+/** Crée une commande à la main. Les défauts produit et les règles s'appliquent comme à l'import. */
+function creerCommandeManuelle(cmd, { userId = null } = {}) {
+  const rules = require("./rules");
+  const numero = cmd.order_number || prochainNumeroManuel();
+  const id = orders.upsert({
+    ...cmd,
+    order_number: numero,
+    order_key: cmd.order_key || `manuel-${numero}`,
+    store_id: cmd.store_id || boutiqueManuelle(),
+    status: cmd.status || "awaiting_shipment",
+    order_date: cmd.order_date || maintenant(),
+    source: "manuel",
+  });
+  rules.appliquer(id);
+  journaliser("order.manual", "order", id, { order_number: numero }, userId);
+  return { id, order_number: numero };
+}
+
+// ------------------------------------------------------------------ import CSV
+
+/** Découpage CSV tolérant : guillemets, doublage de guillemets, séparateur virgule ou tabulation. */
+function lireCsv(texte) {
+  const t = String(texte).replace(/^﻿/, "").replace(/\r\n?/g, "\n");
+  const sep = (t.split("\n")[0].match(/\t/g) || []).length > (t.split("\n")[0].match(/,/g) || []).length ? "\t" : ",";
+  const lignes = [];
+  let champ = "", ligne = [], guillemets = false;
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    if (guillemets) {
+      if (c === '"' && t[i + 1] === '"') { champ += '"'; i++; }
+      else if (c === '"') guillemets = false;
+      else champ += c;
+    } else if (c === '"') guillemets = true;
+    else if (c === sep) { ligne.push(champ); champ = ""; }
+    else if (c === "\n") { ligne.push(champ); lignes.push(ligne); ligne = []; champ = ""; }
+    else champ += c;
+  }
+  if (champ || ligne.length) { ligne.push(champ); lignes.push(ligne); }
+  return lignes.filter((l) => l.some((x) => String(x).trim()));
+}
+
+/** Colonnes reconnues — les intitulés de ShipStation, plus des variantes françaises. */
+const COLONNES_CSV = {
+  order_number: ["order number", "ordernumber", "commande", "n° commande", "numero"],
+  order_date: ["order date", "orderdate", "date"],
+  customer_email: ["email", "courriel", "customer email"],
+  name: ["ship to name", "name", "nom", "recipient", "destinataire"],
+  company: ["company", "entreprise", "société"],
+  street1: ["address 1", "address1", "street1", "adresse", "adresse 1"],
+  street2: ["address 2", "address2", "street2", "adresse 2"],
+  city: ["city", "ville"],
+  state: ["state", "province", "state/province"],
+  postalCode: ["zip", "postal code", "postalcode", "code postal"],
+  country: ["country", "pays"],
+  phone: ["phone", "téléphone", "telephone"],
+  sku: ["sku", "item sku"],
+  item_name: ["item name", "product", "produit", "article"],
+  quantity: ["quantity", "qty", "quantité", "qte"],
+  unit_price: ["unit price", "price", "prix"],
+  weight_g: ["weight", "poids", "weight (g)", "poids (g)"],
+  order_total: ["order total", "total"],
+  notes: ["notes", "customer notes", "note"],
+};
+
+const normaliser = (s) => String(s || "").trim().toLowerCase().replace(/\s+/g, " ");
+
+function mapperEntetes(entetes) {
+  const map = {};
+  entetes.forEach((e, i) => {
+    const n = normaliser(e);
+    for (const [champ, variantes] of Object.entries(COLONNES_CSV)) {
+      if (variantes.includes(n)) { map[champ] = i; break; }
+    }
+  });
+  return map;
+}
+
+/**
+ * Importe un CSV de commandes. Plusieurs lignes partageant un même numéro de commande
+ * deviennent plusieurs articles d'une seule commande — c'est ainsi que ShipStation lit ses
+ * fichiers, et c'est ce que produisent les exports de tableur.
+ *
+ * `apercu: true` analyse sans rien écrire.
+ */
+function importerCsv(texte, { apercu = false, userId = null } = {}) {
+  const lignes = lireCsv(texte);
+  if (lignes.length < 2) throw new Error("fichier vide ou sans en-tête");
+  const map = mapperEntetes(lignes[0]);
+  if (map.order_number === undefined)
+    throw new Error(`colonne « Order Number » introuvable. Colonnes lues : ${lignes[0].join(", ")}`);
+
+  const v = (l, c) => (map[c] === undefined ? undefined : String(l[map[c]] ?? "").trim() || undefined);
+  const parNumero = new Map();
+  const soucis = [];
+
+  for (let i = 1; i < lignes.length; i++) {
+    const l = lignes[i];
+    const num = v(l, "order_number");
+    if (!num) { soucis.push(`ligne ${i + 1} : numéro de commande vide`); continue; }
+    if (!parNumero.has(num)) {
+      parNumero.set(num, {
+        order_number: num,
+        order_date: v(l, "order_date") || maintenant(),
+        customer_email: v(l, "customer_email") || null,
+        customer_name: v(l, "name") || null,
+        ship_to: {
+          name: v(l, "name") || "", company: v(l, "company") || null,
+          street1: v(l, "street1") || "", street2: v(l, "street2") || null,
+          city: v(l, "city") || "", state: v(l, "state") || "",
+          postalCode: v(l, "postalCode") || "", country: (v(l, "country") || "CA").toUpperCase(),
+          phone: v(l, "phone") || null,
+        },
+        order_total: Number(v(l, "order_total")) || 0,
+        weight_g: Number(v(l, "weight_g")) || 0,
+        customer_notes: v(l, "notes") || null,
+        items: [],
+      });
+    }
+    const cmd = parNumero.get(num);
+    const sku = v(l, "sku"), nom = v(l, "item_name");
+    if (sku || nom) {
+      cmd.items.push({
+        sku: sku || null, name: nom || sku,
+        quantity: Number(v(l, "quantity")) || 1,
+        unit_price: Number(v(l, "unit_price")) || 0,
+        weight_g: 0,
+      });
+    }
+    // Une adresse incomplète bloquera l'étiquette : autant le dire à l'import.
+    if (!cmd.ship_to.street1 || !cmd.ship_to.postalCode)
+      soucis.push(`${num} : adresse incomplète (rue ou code postal manquant)`);
+  }
+
+  const commandes = [...parNumero.values()];
+  if (apercu) {
+    return { apercu: true, commandes: commandes.length,
+      articles: commandes.reduce((s, c) => s + c.items.length, 0),
+      colonnes_reconnues: Object.keys(map), colonnes_ignorees: lignes[0].filter((e) =>
+        !Object.values(COLONNES_CSV).flat().includes(normaliser(e))),
+      soucis: [...new Set(soucis)].slice(0, 20), exemple: commandes[0] };
+  }
+
+  const ids = [];
+  tx(() => { for (const c of commandes) ids.push(creerCommandeManuelle(c, { userId }).id); });
+  journaliser("import.csv", "order", null, { commandes: ids.length, soucis: soucis.length }, userId);
+  return { importees: ids.length, articles: commandes.reduce((s, c) => s + c.items.length, 0),
+    soucis: [...new Set(soucis)].slice(0, 20) };
+}
+
+module.exports.boutiqueManuelle = boutiqueManuelle;
+module.exports.prochainNumeroManuel = prochainNumeroManuel;
+module.exports.creerCommandeManuelle = creerCommandeManuelle;
+module.exports.importerCsv = importerCsv;
+module.exports.lireCsv = lireCsv;

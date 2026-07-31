@@ -199,6 +199,22 @@ CREATE TABLE IF NOT EXISTS products (
   fulfillment_sku TEXT, is_bundle INTEGER DEFAULT 0, bundle_items TEXT DEFAULT '[]'
 );
 
+-- Préréglages d'expédition : une configuration complète enregistrée puis appliquée en masse.
+-- Distincts des défauts produit — ceux-ci s'appliquent à l'import, ceux-là à la demande.
+CREATE TABLE IF NOT EXISTS shipping_presets (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE,
+  carrier_code TEXT, service_id TEXT, package_id TEXT, confirmation TEXT,
+  weight_g REAL, dimensions TEXT, insurance TEXT, warehouse_id INTEGER,
+  is_default INTEGER DEFAULT 0, position INTEGER DEFAULT 0
+);
+
+-- Alias de SKU : plusieurs SKU de boutiques différentes pointant sur une même fiche produit.
+CREATE TABLE IF NOT EXISTS product_aliases (
+  alias TEXT PRIMARY KEY,
+  product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  store_id INTEGER
+);
+
 CREATE TABLE IF NOT EXISTS preset_groups (
   id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE,
   settings TEXT DEFAULT '{}'   -- service, colis, douane appliqués au groupe
@@ -281,6 +297,7 @@ const AJOUTS = [
   ["users", "totp_last_step", "INTEGER DEFAULT 0"],
   ["users", "recovery_codes", "TEXT"],
   ["sessions", "pending", "INTEGER DEFAULT 0"],
+  ["orders", "print_state", "TEXT"],   // bordereau et étiquette imprimés
 ];
 
 function migrer(d) {

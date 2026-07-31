@@ -30,6 +30,7 @@ const accounts = require("../lib/accounts");
 const ingest = require("../lib/ingest");
 const channels = require("../lib/channels");
 const shopify = require("../lib/shopify_sync");
+const presets = require("../lib/presets");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const auth = require("../lib/auth");
@@ -337,6 +338,80 @@ route("POST /webhooks/shopify", async ({ req, res }) => {
   return null;
 });
 
+// ================================================= PRÉRÉGLAGES, ALIAS, BUNDLES
+
+route("GET /api/presets", () => ({ presets: presets.presets() }));
+route("POST /api/presets", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  return { id: presets.sauverPreset(await corps(req)) };
+});
+route("DELETE /api/presets/:id", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  presets.supprimerPreset(Number(params.id));
+  return { ok: true };
+});
+route("POST /api/presets/apply", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return presets.appliquerPreset(Number(b.preset_id), (b.ids || []).map(Number), user);
+});
+
+route("GET /api/aliases", ({ user }) => { accounts.exiger(user, "products_view"); return { aliases: presets.alias() }; });
+route("POST /api/aliases", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  const b = await corps(req);
+  if (b.supprimer) { presets.retirerAlias(b.alias); return { ok: true }; }
+  presets.poserAlias(b.alias, b.sku, b.store_id || null);
+  return { ok: true };
+});
+route("POST /api/bundles", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  const b = await corps(req);
+  return { composants: presets.definirBundle(b.sku, b.items || []) };
+});
+
+/** Liste de prélèvement — bundles éclatés, agrégée, triée par emplacement. */
+route("GET /api/pick-list", ({ url, res }) => {
+  const ids = String(q(url).ids || "").split(",").filter(Boolean).map(Number);
+  const lignes = presets.listeDePrelevement(ids);
+  const marque = db.reglage("marque", accounts.MARQUE_DEFAUT);
+  texte(res, 200, `<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<title>Liste de prélèvement</title><style>
+ body{font:13px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:18mm;color:#111}
+ h1{font-size:17px;margin:0 0 2px} .s{color:#666;margin:0 0 14px}
+ table{width:100%;border-collapse:collapse} th{text-align:left;border-bottom:2px solid #111;padding:6px 4px;font-size:11px}
+ td{padding:7px 4px;border-bottom:1px solid #ddd} .n{text-align:right;font-variant-numeric:tabular-nums}
+ .c{width:26px} .q{font-weight:700;font-size:15px}
+ @media print{body{padding:10mm}}
+</style></head><body>
+<h1>Liste de prélèvement — ${db.parse(JSON.stringify(marque.nom))}</h1>
+<p class="s">${ids.length} commande(s) · ${lignes.length} article(s) distinct(s) ·
+  ${lignes.reduce((s, l) => s + l.quantity, 0)} unité(s) — ${new Date().toISOString().slice(0, 16).replace("T", " ")}</p>
+<table><thead><tr><th class="c"></th><th>Emplacement</th><th>SKU</th><th>Article</th><th class="n">Qté</th></tr></thead>
+<tbody>${lignes.map((l) => `<tr><td class="c">☐</td><td><b>${l.warehouse_location || "—"}</b></td>
+  <td>${l.sku || "—"}</td><td>${String(l.name || "").replace(/[<>&]/g, "")}</td>
+  <td class="n q">${l.quantity}</td></tr>`).join("")}</tbody></table>
+</body></html>`, "text/html; charset=utf-8");
+  return null;
+});
+
+// ============================================ COMMANDES MANUELLES ET IMPORT CSV
+
+route("POST /api/orders/manual", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  return ingest.creerCommandeManuelle(await corps(req), { userId: user });
+});
+route("GET /api/orders/next-number", ({ user }) => {
+  accounts.exiger(user, "orders_edit");
+  return { order_number: ingest.prochainNumeroManuel() };
+});
+route("POST /api/import/csv", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  if (!b.csv) return { error: "aucun contenu", code: 400 };
+  return ingest.importerCsv(b.csv, { apercu: !!b.apercu, userId: user });
+});
+
 // ==================================================================== RETOURS
 
 route("GET /api/returns", ({ url }) => catalog.chercherRetours(q(url)));
@@ -428,8 +503,16 @@ route("GET /api/packing-slip", ({ url, res }) => {
     if (!cmd) return "";
     return `<article class="page">${templates.rendre(gabarit.body, { order: cmd, items: cmd.items, marque })}</article>`;
   }).join("");
+  const format = q(url).format || "full";
+  const styleFormat = format === "4x6"
+    ? `@page{size:4in 6in;margin:0} .page{padding:6mm;font-size:11px}`
+    : format === "2up"
+      ? `@page{size:letter;margin:0} .page{padding:8mm;height:5.5in;page-break-after:auto;
+         border-bottom:1px dashed #bbb} .page:nth-child(2n){page-break-after:always}`
+      : `@page{size:letter;margin:0}`;
   texte(res, 200, `<!doctype html><html lang="fr"><head><meta charset="utf-8">
 <title>Bordereaux</title><style>
+  ${styleFormat}
   body{font:12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;color:#111}
   .page{padding:18mm;page-break-after:always}
   .logo{max-height:60px} header{display:flex;gap:16px;align-items:center;border-bottom:2px solid #111;padding-bottom:8px}
