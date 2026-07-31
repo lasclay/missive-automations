@@ -17,8 +17,8 @@
 
 ## 1. Qui parle, à qui, pour quoi
 
-**Lasclay** est une entreprise de Québec qui transforme la **fibre d'asclépiade** (milkweed)
-— l'isolant végétal le plus chaud, imperméable et abondant d'Amérique du Nord — en produits
+**Lasclay** est une entreprise de Québec qui transforme la **fibre d'asclépiade** (milkweed),
+l'isolant végétal le plus chaud, imperméable et abondant d'Amérique du Nord, en produits
 isolés : mitaines, foulards, cache-cous, tuques, bandeaux, manteaux, vestes, glacières,
 sacs-lunch, sacs à vin, mitaines de four. Elle vend aussi des semences, des bombes
 semencières et un service de plantation.
@@ -49,7 +49,7 @@ quand on envoie en français.
 
 ---
 
-## 2. Le ton — ce qui fait qu'une infolettre « sonne Lasclay »
+## 2. Le ton : ce qui fait qu'une infolettre « sonne Lasclay »
 
 ### 2.1 Les sept règles non négociables
 
@@ -68,8 +68,8 @@ quand on envoie en français.
    pollinisateurs, séquestration de CO₂, nordicité, savoir local) avant de dire quoi acheter.
    Le lien commercial arrive après avoir donné quelque chose au lecteur.
 
-4. **La gratitude est explicite et répétée.** 185 envois se terminent par
-   « Chaleureusement, ». Des dizaines s'ouvrent ou se ferment sur « Merci encore de ton
+4. **La gratitude est explicite et répétée.** « Chaleureusement, » ferme **187 des 221 envois
+   FR** (85 %), et la signature Gabriel / Co-fondateur / Lasclay apparaît dans 188 à 194 envois. Des dizaines s'ouvrent ou se ferment sur « Merci encore de ton
    soutien », « Merci de faire partie de notre communauté », « MERCI, MERCI MERCI! ».
    Le lecteur est un **allié**, pas une cible.
 
@@ -83,15 +83,15 @@ quand on envoie en français.
    **21 envois** portent 2 boutons ou plus, **24** ont deux sections séparées par un filet ou plus.
    Le vrai critère n'est pas le nombre de sujets, c'est que ça ne soit pas touffu : chaque sujet
    a sa section, son gras d'introduction et son propre appel à l'action, et l'ensemble se lit
-   d'un trait. Médiane : **400 mots** (min 99, max 1 645). Les envois les plus longs sont les
-   annonces de mission ; les suivis de commande font 100-200 mots.
+   d'un trait. Médiane mesurée : **379 mots** (moyenne 391, min 2, max 1581). Les plus longs sont
+   les annonces de mission (médiane 525) ; les suivis de commande, les plus courts (médiane 255).
 
 7. **Pas de superlatif creux.** Les chiffres et les faits font le travail : « notre plus
    grosse prévente depuis 2021 », « des milliers de jardins depuis 2021 », « de 25 à
    1 500 pieds carrés ». Quand on est enthousiaste, on le dit simplement : « énorme succès »,
    « on est très fiers ».
 
-### 2.2 Tutoiement ou vouvoiement — attention, ça a changé
+### 2.2 Tutoiement ou vouvoiement : attention, ça a changé
 
 Le corpus montre une **bascule nette** :
 
@@ -240,7 +240,7 @@ Séparateur `solid 1px #CCC` sur 100 % de largeur pour découper les grandes sec
 
 ---
 
-## 5. Identité visuelle — spécifications exactes
+## 5. Identité visuelle : spécifications exactes
 
 ### 5.1 Palette
 
@@ -250,12 +250,12 @@ Séparateur `solid 1px #CCC` sur 100 % de largeur pour découper les grandes sec
 | Texte principal | `#222222` | corps de texte (1 505 occurrences) |
 | Texte inversé / bouton | `#FFFFFF` (`#FFF`) | libellé de bouton |
 | Gris secondaire | `#727272` | pied de page, mentions légales (298 occurrences) |
-| Gris de note | `#707070` – `#807F7F` | ligne « si le bouton ne fonctionne pas » |
+| Gris de note | `#707070` à `#807F7F` | ligne « si le bouton ne fonctionne pas » |
 | Fond de page | `#FFFFFF` | 100 % des envois |
-| Surlignage | `#FFDE00` (jaune) | rare (12 occurrences) — réservé aux **codes promo** |
+| Surlignage | `#FFDE00` (jaune) | rare (12 occurrences), réservé aux **codes promo** |
 | Filet de séparation | `#CCC` | `solid 1px`, largeur 100 % |
 
-**Aucune ombre portée (`box-shadow`) n'existe dans le corpus** — 0 occurrence sur 325
+**Aucune ombre portée (`box-shadow`) n'existe dans le corpus** : 0 occurrence sur 325
 envois. Le style est plat, propre, sans effet. Ne pas en ajouter.
 
 ### 5.2 Typographie
@@ -266,7 +266,7 @@ envois. Le style est plat, propre, sans effet. Ne pas en ajouter.
 - Échelle réellement utilisée : **12 px** (pied de page) · **13 px** · **14 px** (base) ·
   **15-16 px** (paragraphes mis en avant) · **18 px** (sous-titres, numéros de liste) ·
   **20 px** (titre de section) · **24 px** · **32 px** · **40 px** (rares titres bannière).
-- **Crénage (letter-spacing) : `0px` partout** — 1 995 occurrences, aucune valeur non nulle.
+- **Crénage (letter-spacing) : `0px` partout** : 1 995 occurrences, aucune valeur non nulle.
   Ne jamais resserrer ni écarter les lettres.
 - **Graisse** : `400` par défaut, `700` pour le gras. Pas de graisse intermédiaire.
 - Le **gras porte le sens** : on met en gras la thèse de chaque section, pas des mots isolés.
@@ -308,7 +308,7 @@ Médiane : **1 lien par envoi** (max 28).
 Spécification dominante mesurée :
 
 ```
-fond            #D4AD67          (160/160 boutons — aucune autre couleur)
+fond            #D4AD67          (160/160 boutons, aucune autre couleur)
 texte           #FFFFFF
 police          Arial, 700
 taille          18 px (47) ou 20 px (45) ou 16 px (32)
@@ -341,7 +341,7 @@ Quand il y a plusieurs boutons, chacun est suivi de sa ligne de repli en petit g
 - **Largeur 600 px, pleine largeur du conteneur, `display:block`, centrées** (1 031 des
   ~1 110 images). Quelques 500 px et 564 px pour des visuels secondaires.
 - Hébergement : `https://d3k81ch9hvuctc.cloudfront.net/company/RhpPJR/images/…`
-  (CDN Klaviyo du compte Lasclay) — formats `.jpeg`, `.png`, `.gif`.
+  (CDN Klaviyo du compte Lasclay), formats `.jpeg`, `.png`, `.gif`.
 - **Pas de rayon d'arrondi, pas d'ombre, pas de bordure.**
 - Médiane **2 images** par infolettre : une photo-produit ou photo-terrain au milieu du
   récit, et une bannière de marque en pied.
@@ -363,7 +363,7 @@ Quand il y a plusieurs boutons, chacun est suivi de sa ligne de repli en petit g
 
 ## 6. Formules réutilisables (extraites telles quelles du corpus)
 
-**Ouverture** — 186 envois commencent exactement par :
+**Ouverture** : 186 envois commencent exactement par :
 ```
 Bonjour {{ first_name }},
 ```
@@ -420,7 +420,7 @@ mars 22 · oct 22 · avril 21 · août 19 · juil 17 · **févr 14** (le creux).
 |---|---|
 | **Janvier** | Suivi des livraisons post-Noël ; promo « chaleur d'hiver » (cache-cous, foulards) |
 | **Janvier-mars** | **Vente de fin de saison** (le rendez-vous commercial le plus régulier, tous les ans depuis 2021) |
-| **Mars-avril** | **Campagne nationale de plantation d'asclépiade** — le pilier mission, tous les ans depuis 2021 |
+| **Mars-avril** | **Campagne nationale de plantation d'asclépiade**, le pilier mission, tous les ans depuis 2021 |
 | **Mai-juin** | Lancement des produits d'été (glacières, sacs-lunch, besaces) ; **prévente printanière** |
 | **Juillet** | Promos d'été, bombes semencières |
 | **Août** | Rentrée (sacs-lunch), annonce des nouveautés d'automne |
@@ -434,7 +434,7 @@ mars 22 · oct 22 · avril 21 · août 19 · juil 17 · **févr 14** (le creux).
 ## 8. Contraintes légales et techniques
 
 - **LCAP / CASL** : tout envoi commercial doit porter l'adresse postale complète et un lien
-  de désabonnement fonctionnel (`{% unsubscribe %}`) — c'est déjà dans le pied standard.
+  de désabonnement fonctionnel (`{% unsubscribe %}`) : c'est déjà dans le pied standard.
 - Les **répondants de formulaire** et les contacts d'enquête sont sous **consentement
   tacite** (≈ 6 mois) : on peut leur écrire *au sujet de leur demande*, pas leur envoyer
   l'infolettre commerciale générale sans opt-in.
