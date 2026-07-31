@@ -51,9 +51,20 @@ node shipstation-clone/admin.js sessions <courriel>
 Sert quand plus personne ne peut entrer par l'interface. L'outil touche la base directement,
 donc il exige un accès au serveur — c'est la bonne barrière.
 
-**Sans accès au Shell** (l'onglet n'existe pas sur tous les plans), la même chose se fait par une
-variable : poser `CLONE_ADMIN_RESET=1`, redéployer, lire le mot de passe dans les logs, puis
-**retirer la variable**. Le compte `CLONE_ADMIN_EMAIL` est créé s'il manque, remis administrateur
+**Sans accès au Shell** (l'onglet n'existe pas sur tous les plans), la même chose se fait par les
+variables du service :
+
+| Vous voulez | Variables à poser | Puis |
+|---|---|---|
+| **Choisir votre mot de passe** | `CLONE_ADMIN_RESET=1` + `CLONE_ADMIN_PASSWORD=<le vôtre>` | se connecter, **retirer les deux** |
+| Qu'il en génère un | `CLONE_ADMIN_RESET=1` seul | le lire dans les logs, se connecter, **retirer la variable** |
+
+Le mot de passe doit faire **10 caractères minimum** et ne pas être que des chiffres. S'il est
+refusé, le compte n'est pas touché et les logs le disent. Un mot de passe que vous avez choisi
+n'impose pas de changement à la connexion ; un mot de passe généré, si.
+
+Retirez `CLONE_ADMIN_PASSWORD` une fois connecté : sinon il reste lisible dans le tableau de bord
+Render. Le compte `CLONE_ADMIN_EMAIL` est créé s'il manque, remis administrateur
 actif, son second facteur retiré et ses sessions fermées.
 
 Les logs de démarrage listent aussi **les comptes existants** (courriels seuls, aucun secret) :
