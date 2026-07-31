@@ -121,6 +121,26 @@ function postedCell(pos) {
     <span class="muted"><code>${esc(pos.docNumber)}</code> · ${esc(day(pos.txnDate))} · appariée par ${esc(pos.match)}</span>`;
 }
 
+/**
+ * Une piste utile plutôt qu'un conseil générique : l'erreur dit déjà d'où vient
+ * le blocage, encore faut-il ne pas envoyer l'utilisateur au mauvais endroit.
+ */
+function hintFor(message) {
+  const m = String(message || "");
+  if (/invalid_grant|invalid refresh token/i.test(m)) {
+    return `Le jeton QuickBooks du finance-proxy est expiré — ce n'est PAS le mot de passe de cette app.
+      Il faut refaire l'autorisation Intuit : <code>node qbo_auth.js url</code> puis <code>exchange</code>,
+      et remettre le <code>QBO_REFRESH_TOKEN</code> obtenu dans les variables du service finance-proxy.`;
+  }
+  if (/shopifyPaymentsAccount|read_shopify_payments/i.test(m)) {
+    return `L'app Shopify n'a pas la portée <code>read_shopify_payments_payouts</code> dans le jeton.
+      Vérifie-la dans Réglages → « Vérifier les portées du jeton ».`;
+  }
+  if (/mot de passe|401/i.test(m)) return `Va dans <b>Réglages</b> pour saisir le mot de passe de l'interface.`;
+  if (/SHOPIFY_STORE|FINANCE_PROXY/i.test(m)) return `Une variable d'environnement manque sur le service Render.`;
+  return `Le message ci-dessus vient tel quel du service concerné.`;
+}
+
 async function loadPayouts() {
   const el = $("#tab-payouts");
   el.innerHTML = `<div class="card"><div class="spinner">Chargement des versements Shopify…</div></div>`;
@@ -194,8 +214,8 @@ async function loadPayouts() {
       }
     };
   } catch (e) {
-    el.innerHTML = `<div class="card"><div class="banner bad">${esc(e.message)}</div>
-      <p class="muted">Vérifie le mot de passe dans Réglages, et que l'app Shopify a bien la portée <code>read_shopify_payments_payouts</code>.</p></div>`;
+    el.innerHTML = `<div class="card"><div class="banner bad" style="white-space:pre-wrap">${esc(e.message)}</div>
+      <p class="muted">${hintFor(e.message)}</p></div>`;
   }
 }
 
