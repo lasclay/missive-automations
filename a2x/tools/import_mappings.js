@@ -63,6 +63,17 @@ async function loadQboAccounts() {
   return byNum;
 }
 
+/**
+ * Le TAUX de taxe détaxé, distinct du CODE de taxe. QuickBooks attend le taux
+ * dans le TxnTaxDetail de l'écriture et le code sur chaque ligne — deux
+ * entités différentes qui portent ici le même numéro par coïncidence.
+ * On écarte les taux « CTI » : ce sont ceux des achats, pas des ventes.
+ */
+async function loadQboTaxRates() {
+  const res = await qbo("query", { query: "select Id, Name, RateValue, Active from TaxRate maxresults 100" });
+  return (res.data && res.data.QueryResponse && res.data.QueryResponse.TaxRate) || [];
+}
+
 async function loadQboTaxCodes() {
   const res = await qbo("query", { query: "select Id, Name, Active from TaxCode maxresults 100" });
   const list = (res.data && res.data.QueryResponse && res.data.QueryResponse.TaxCode) || [];
@@ -75,17 +86,25 @@ async function loadQboTaxCodes() {
 
   let accountsByNum = new Map();
   let taxCodeId = null;
+  let taxRateId = null;
   const previous = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, "utf8")) : null;
 
   if (offline) {
     for (const [num, a] of Object.entries((previous && previous.accounts) || {})) accountsByNum.set(num, a);
     taxCodeId = previous && previous.taxCodes && previous.taxCodes.detaxe;
+    taxRateId = previous && previous.taxRates && previous.taxRates.detaxe;
   } else {
     accountsByNum = await loadQboAccounts();
     const codes = await loadQboTaxCodes();
     const detaxe = codes.find((c) => /^d[ée]tax/i.test(c.Name || "")) || null;
     if (!detaxe) console.warn("⚠️  Aucun code de taxe « Détaxé » trouvé dans QBO — les lignes détaxées partiront sans TaxCodeRef.");
     taxCodeId = detaxe ? detaxe.Id : null;
+
+    const rates = await loadQboTaxRates();
+    const rate = rates.find((r) => /d[ée]tax/i.test(r.Name || "") && !/CTI/i.test(r.Name || "") && Number(r.RateValue) === 0)
+      || rates.find((r) => /d[ée]tax/i.test(r.Name || "") && !/CTI/i.test(r.Name || "")) || null;
+    if (!rate) console.warn("⚠️  Aucun TAUX de taxe détaxé trouvé — l'écriture partira sans TxnTaxDetail.");
+    taxRateId = rate ? rate.Id : null;
   }
 
   const rules = [];
@@ -139,6 +158,7 @@ async function loadQboTaxCodes() {
     source: "a2x/mappings.tsv",
     counts: { rules: rules.length, defaults: Object.keys(defaults).length, total: rows.length },
     taxCodes: { detaxe: taxCodeId },
+    taxRates: { detaxe: taxRateId },
     accounts,
     defaults,
     index,
@@ -146,7 +166,7 @@ async function loadQboTaxCodes() {
   fs.writeFileSync(OUT, JSON.stringify(out, null, 2) + "\n");
 
   console.log(`mappings.json écrit — ${rows.length} lignes (${rules.length} règles + ${Object.keys(defaults).length} automapping).`);
-  console.log(`Comptes QBO résolus : ${Object.keys(accounts).length}. Code de taxe « Détaxé » : ${taxCodeId || "aucun"}.`);
+  console.log(`Comptes QBO résolus : ${Object.keys(accounts).length}. Code de taxe « Détaxé » : ${taxCodeId || "aucun"}, taux détaxé : ${taxRateId || "aucun"}.`);
   if (problems.length) {
     console.log(`\n⚠️  ${problems.length} problème(s) :`);
     for (const p of problems) console.log("   - " + p);

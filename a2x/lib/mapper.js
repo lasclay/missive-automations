@@ -95,7 +95,8 @@ function resolve(category, details, country, marketplace) {
 }
 
 const taxCodeId = () => load().taxCodes && load().taxCodes.detaxe;
+const taxRateId = () => load().taxRates && load().taxRates.detaxe;
 const meta = () => { const m = load(); return { generatedAt: m.generatedAt, counts: m.counts }; };
 const all = () => load();
 
-module.exports = { resolve, taxCodeId, meta, all, candidates, baseCountry, baseMarketplace };
+module.exports = { resolve, taxCodeId, taxRateId, meta, all, candidates, baseCountry, baseMarketplace };

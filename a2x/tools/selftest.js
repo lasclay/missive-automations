@@ -89,5 +89,17 @@ check("code détaxé sur ProductSales", !!byDesc["ProductSales  - CA - Online st
 check("pas de code de taxe sur Tax", !!byDesc["Tax  - CA - Online store"].TaxCodeRef, false);
 check("pas de code de taxe sur ShopifyFee", !!byDesc["ShopifyFee  - CA - Online store"].TaxCodeRef, false);
 
+// Le TxnTaxDetail d'A2X sur la pièce 11170 : taux détaxé, base = opposé de la
+// somme signée des lignes détaxées (119,98 + 19,98 − 17,98 = 121,98).
+const ttd = j.body.TxnTaxDetail;
+check("TxnTaxDetail présent", !!ttd, true);
+if (ttd) {
+  const d = ttd.TaxLine[0].TaxLineDetail;
+  check("TaxRateRef", d.TaxRateRef.value, "5");
+  check("PercentBased", d.PercentBased, true);
+  check("TaxPercent", d.TaxPercent, 0);
+  check("NetAmountTaxable", d.NetAmountTaxable, -121.98);
+}
+
 console.log(failures ? `\n  ${failures} écart(s) avec l'écriture A2X de référence.\n` : "\n  Écriture identique à celle produite par A2X. ✅\n");
 process.exit(failures ? 1 : 0);

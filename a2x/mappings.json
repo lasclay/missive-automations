@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30T18:45:43.335Z",
+  "generatedAt": "2026-07-31T15:14:52.487Z",
   "source": "a2x/mappings.tsv",
   "counts": {
     "rules": 328,
@@ -7,6 +7,9 @@
     "total": 349
   },
   "taxCodes": {
+    "detaxe": "5"
+  },
+  "taxRates": {
     "detaxe": "5"
   },
   "accounts": {

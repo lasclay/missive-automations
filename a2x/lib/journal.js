@@ -7,7 +7,7 @@
  *   TaxCodeRef     seulement sur les lignes « Détaxé on Sales » (+ TaxApplicableOn/TaxAmount)
  *   dernière ligne "Balance of settlement for: 2026-07-21" au compte de dépôt
  */
-const { resolve, taxCodeId } = require("./mapper");
+const { resolve, taxCodeId, taxRateId } = require("./mapper");
 const { ctx, saleComponents, refundComponents, prorate, money, sum, nodes } = require("./breakdown");
 const { txFamily } = require("./payouts");
 const { gid } = require("./shopify");
@@ -194,6 +194,8 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
   const roundingAccountId = opts.roundingAccountId || config.roundingAccountId;
   const prefix = opts.docNumberPrefix || config.docNumberPrefix || "CLONE";
   const taxId = taxCodeId();
+  const rateId = taxRateId();
+  let netTaxable = 0; // somme signée des lignes portant un code de taxe
 
   // A2X nomme le payout « première transaction → date d'émission » (ex. 21Jul-27Jul).
   const dates = btx.map((t) => t.transactionDate).filter(Boolean).sort();
@@ -208,6 +210,7 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     throw new Error(`DocNumber « ${docNumber} » fait ${docNumber.length} caractères (max 21) — raccourcis docNumberPrefix dans a2x/config.json.`);
   }
 
+  const mode = opts.taxMode || config.taxCodeMode || "full";
   const Line = [];
   for (const g of groups.sort((a, b) => a.description.localeCompare(b.description, "fr"))) {
     const amount = Math.round(Math.abs(g.amount)) / 100;
@@ -219,13 +222,13 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     // Le bloc de taxe est repris tel que QuickBooks le RENVOIE sur les écritures
     // d'A2X ; il n'est pas garanti qu'il soit accepté tel quel en création selon
     // la version d'API. `taxCodeMode` permet de le réduire sans toucher au code.
-    const mode = opts.taxMode || config.taxCodeMode || "full";
     if (g.tax === "detaxe" && taxId && mode !== "none") {
       detail.TaxCodeRef = { value: String(taxId) };
       if (mode === "full") {
         detail.TaxApplicableOn = "Sales";
         detail.TaxAmount = 0;
       }
+      netTaxable += g.amount > 0 ? Math.round(amount * 100) : -Math.round(amount * 100);
     }
     Line.push({ Description: g.description, Amount: amount, DetailType: "JournalEntryLineDetail", JournalEntryLineDetail: detail });
   }
@@ -263,6 +266,28 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     ExchangeRate: 1,
     Line,
   };
+
+  /**
+   * Sans ce bloc, QuickBooks refuse l'écriture : « erreur lors du calcul de la
+   * taxe ». Un code de taxe sur les lignes ne suffit pas — il faut aussi lui
+   * donner le TAUX et la base au niveau de la transaction, sinon il tente de
+   * calculer lui-même et échoue. Relevé sur la pièce 11170 d'A2X, où
+   * NetAmountTaxable vaut l'opposé de la somme signée des lignes détaxées.
+   */
+  if (mode === "full" && rateId && netTaxable) {
+    body.TxnTaxDetail = {
+      TaxLine: [{
+        Amount: 0,
+        DetailType: "TaxLineDetail",
+        TaxLineDetail: {
+          TaxRateRef: { value: String(rateId) },
+          PercentBased: true,
+          TaxPercent: 0,
+          NetAmountTaxable: -netTaxable / 100,
+        },
+      }],
+    };
+  }
 
   return {
     body,
