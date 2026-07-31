@@ -43,7 +43,10 @@ async function compute(payoutRef) {
 
 /** L'écriture de ce versement existe-t-elle déjà ? (couvre aussi celles d'A2X) */
 const existing = (payout, journal, force = false) =>
-  findExisting({ docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt }, force);
+  findExisting(
+    { docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt, payoutId: journal.payoutId },
+    force
+  );
 
 function printJournal(j) {
   console.log(`\n  ${j.docNumber}   ${j.period.start} → ${j.period.end}   net ${j.settlement.toFixed(2)}`);

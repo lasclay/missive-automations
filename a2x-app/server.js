@@ -169,22 +169,29 @@ const routes = {
     const used = new Set();
     return {
       payouts: payouts.map((p) => {
+        const payoutId = String(p.legacyResourceId);
         const cents = Math.round(parseFloat(p.net.amount) * 100);
         const end = new Date(p.issuedAt);
-        const je = all.find((j) => {
-          if (used.has(j.id) || j.settlementCents !== cents) return false;
-          if (!j.txnDate) return true;
-          const days = (end - new Date(j.txnDate)) / 86400000;
-          return days >= -2 && days <= 21;
-        });
+        // Nos écritures portent l'id du versement : certitude. Sinon, celles
+        // d'A2X ne sont reconnaissables qu'au montant déposé.
+        let je = all.find((j) => j.payoutId && j.payoutId === payoutId);
+        let match = je ? "id du versement" : "montant";
+        if (!je) {
+          je = all.find((j) => {
+            if (used.has(j.id) || j.settlementCents !== cents) return false;
+            if (!j.txnDate) return true;
+            const days = (end - new Date(j.txnDate)) / 86400000;
+            return days >= -2 && days <= 21;
+          });
+        }
         if (je) used.add(je.id);
         return {
-          id: String(p.legacyResourceId),
+          id: payoutId,
           issuedAt: p.issuedAt,
           status: p.status,
           net: parseFloat(p.net.amount),
           currency: p.net.currencyCode,
-          posted: je ? { id: je.id, docNumber: je.docNumber, txnDate: je.txnDate, match: "montant" } : null,
+          posted: je ? { id: je.id, docNumber: je.docNumber, txnDate: je.txnDate, source: je.source, match } : null,
         };
       }),
     };
@@ -192,7 +199,7 @@ const routes = {
 
   "GET /api/payouts/:id": async (req, url, params) => {
     const { payout, journal, counts } = await computeJournal(params.id);
-    const existing = await findExisting({ docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt });
+    const existing = await findExisting({ docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt, payoutId: journal.payoutId });
     return {
       payout: { id: String(payout.legacyResourceId), issuedAt: payout.issuedAt, status: payout.status, net: parseFloat(payout.net.amount), currency: payout.net.currencyCode },
       counts,
@@ -222,7 +229,7 @@ const routes = {
     // On relit QBO au moment de publier : le cache pourrait masquer une écriture
     // créée entre-temps (par A2X, ou dans un autre onglet).
     const existing = await findExisting(
-      { docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt },
+      { docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt, payoutId: journal.payoutId },
       true
     );
     if (existing && !body.force) {

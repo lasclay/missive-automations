@@ -24,11 +24,15 @@ async function postedJournals(force = false) {
   cache = list.map((je) => {
     const line = (je.Line || []).find((l) => /^Balance of settlement/i.test(l.Description || ""));
     const detail = line && line.JournalEntryLineDetail;
+    const note = je.PrivateNote || "";
+    const mine = /publié par a2x-app/i.test(note);
     return {
       id: je.Id,
       docNumber: je.DocNumber,
       txnDate: je.TxnDate,
       settlementCents: line ? Math.round(line.Amount * 100) * (detail && detail.PostingType === "Credit" ? -1 : 1) : null,
+      source: mine ? "app" : "a2x",
+      payoutId: mine ? (note.match(/Versement Shopify Payments (\d+)/) || [])[1] || null : null,
     };
   });
   return cache;
@@ -43,9 +47,15 @@ const docPrefix = (docNumber) => String(docNumber).replace(/-[^-]*$/, "-");
  * @param {{docNumber: string, settlement: number, issuedAt: string}} journal
  * @returns {Promise<null|{id, docNumber, txnDate, match}>}
  */
-async function findExisting({ docNumber, settlement, issuedAt }, force = false) {
+async function findExisting({ docNumber, settlement, issuedAt, payoutId }, force = false) {
   const all = await postedJournals(force);
   const cents = settlement == null ? null : Math.round(settlement * 100);
+
+  // Nos propres écritures portent l'id du versement en note : appariement certain.
+  if (payoutId) {
+    const mine = all.find((j) => j.payoutId && String(j.payoutId) === String(payoutId));
+    if (mine) return { ...mine, match: "id du versement" };
+  }
 
   // A2X produit aussi des journaux mensuels pour les paiements hors Shopify
   // Payments (« A2XSH-01Jun-01Jul-469 ») : ils n'ont pas de ligne de règlement

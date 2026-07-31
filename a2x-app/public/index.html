@@ -103,6 +103,22 @@ document.querySelectorAll("nav button").forEach((b) => {
 
 // ----------------------------------------------------------------- versements
 
+/** Lien direct vers la pièce dans QuickBooks (il faut être connecté à QBO). */
+const qboLink = (id) => `https://app.qbo.intuit.com/app/journal?txnId=${encodeURIComponent(id)}`;
+
+/**
+ * Une écriture existe déjà : dire QUI l'a faite et vers QUELLE pièce, plutôt
+ * qu'un simple « comptabilisé » qu'on lit à tort comme « publié par cette app ».
+ */
+function postedCell(pos) {
+  const who = pos.source === "app"
+    ? `<span class="pill ok">publiée ici</span>`
+    : `<span class="pill" style="color:var(--accent);border-color:currentColor">faite par A2X</span>`;
+  return `${who}
+    <a href="${qboLink(pos.id)}" target="_blank" rel="noopener" title="Ouvrir la pièce dans QuickBooks">pièce ${esc(pos.id)}</a>
+    <span class="muted"><code>${esc(pos.docNumber)}</code> · ${esc(day(pos.txnDate))} · appariée par ${esc(pos.match)}</span>`;
+}
+
 async function loadPayouts() {
   const el = $("#tab-payouts");
   el.innerHTML = `<div class="card"><div class="spinner">Chargement des versements Shopify…</div></div>`;
@@ -112,16 +128,14 @@ async function loadPayouts() {
       <div class="card">
         <h2>Versements Shopify Payments</h2>
         <div class="scroll"><table>
-          <thead><tr><th>Versement</th><th>Émis le</th><th>Statut</th><th class="num">Net</th><th>QuickBooks</th></tr></thead>
+          <thead><tr><th>Versement</th><th>Émis le</th><th>Statut</th><th class="num">Net</th><th>Écriture dans QuickBooks</th></tr></thead>
           <tbody>${payouts.map((p) => `
             <tr class="clickable" data-id="${esc(p.id)}">
               <td><code>${esc(p.id)}</code></td>
               <td>${esc(day(p.issuedAt))}</td>
               <td class="muted">${esc(p.status)}</td>
               <td class="num">${money(p.net)} ${esc(p.currency)}</td>
-              <td>${p.posted
-                ? `<span class="pill ok">comptabilisé</span> <span class="muted"><code>${esc(p.posted.docNumber)}</code></span>`
-                : `<span class="pill warn">à comptabiliser</span>`}</td>
+              <td>${p.posted ? postedCell(p.posted) : `<span class="pill warn">aucune</span>`}</td>
             </tr>`).join("")}</tbody>
         </table></div>
         ${payouts.length ? "" : `<p class="muted">Aucun versement trouvé.</p>`}
@@ -156,8 +170,11 @@ async function loadJournal(id) {
         ${j.unmapped.length ? `<div class="banner warn"><b>${j.unmapped.length} composante(s) sans compte.</b>
           ${j.unmapped.map((u) => `<div>${money(u.amount)} $ — ${esc(u.description)}</div>`).join("")}
           <div class="muted">Ajoute la règle dans l'onglet Mappings, puis recharge.</div></div>` : ""}
-        ${d.existing ? `<div class="banner ok">Déjà dans QuickBooks : <code>${esc(d.existing.docNumber)}</code>
-          — pièce ${esc(d.existing.id)} du ${esc(d.existing.txnDate)}, appariée par ${esc(d.existing.match)}.</div>` : ""}
+        ${d.existing ? `<div class="banner ok">Une écriture couvre déjà ce versement —
+          ${d.existing.source === "app" ? "publiée par cette app" : "<b>faite par A2X</b>, pas par cette app"} :
+          <a href="${qboLink(d.existing.id)}" target="_blank" rel="noopener">pièce ${esc(d.existing.id)}</a>
+          <code>${esc(d.existing.docNumber)}</code> du ${esc(d.existing.txnDate)}, appariée par ${esc(d.existing.match)}.
+          Publier créerait un doublon.</div>` : ""}
 
         <div class="scroll"><table>
           <thead><tr><th>Description</th><th>Compte</th><th>Taxe</th><th class="num">Débit</th><th class="num">Crédit</th></tr></thead>

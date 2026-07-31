@@ -183,6 +183,9 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
   const body = {
     DocNumber: docNumber,
     TxnDate: isoDate(start),
+    // Trace l'origine : c'est ce qui distingue nos écritures de celles d'A2X,
+    // dont le suffixe de DocNumber n'est pas reconstituable.
+    PrivateNote: `Versement Shopify Payments ${legacy} · ${isoDate(start)} → ${isoDate(end)} · publié par a2x-app`,
     CurrencyRef: { value: config.currency || "CAD" },
     ExchangeRate: 1,
     Line,
