@@ -612,7 +612,14 @@ const serveur = http.createServer(async (req, res) => {
 });
 
 if (require.main === module) {
-  db.db();
+  // Une base inaccessible est fatale, mais le message doit être lisible : sur Render, une
+  // pile EACCES ne dit pas qu'il manque un disque.
+  try {
+    db.db();
+  } catch (e) {
+    console.error(`\n${e.message}\n`);
+    process.exit(1);
+  }
   ingest.amorcer();
 
   // Premier démarrage : créer l'administrateur, sans quoi personne ne peut se connecter.
