@@ -141,6 +141,14 @@ function hintFor(message) {
   return `Le message ci-dessus vient tel quel du service concerné.`;
 }
 
+/**
+ * Dire quand QuickBooks a refusé le bloc de taxe et qu'on a publié en mode
+ * allégé : les montants sont les mêmes, mais autant que ce soit visible.
+ */
+const taxNote = (mode) =>
+  !mode || mode === "full" ? "" :
+  ` <span class="muted" title="QuickBooks a refusé le bloc de taxe complet. Les montants sont identiques ; seule l'annotation de taxe de la ligne change.">(taxe : mode ${esc(mode)})</span>`;
+
 async function loadPayouts() {
   const el = $("#tab-payouts");
   el.innerHTML = `<div class="card"><div class="spinner">Chargement des versements Shopify…</div></div>`;
@@ -202,7 +210,7 @@ async function loadPayouts() {
           const cell = el.querySelector(`.result[data-for="${CSS.escape(res.id)}"]`);
           if (!cell) continue;
           cell.innerHTML = res.ok
-            ? ` <span class="pill ok">créée — pièce ${esc(res.pieceId)}</span>`
+            ? ` <span class="pill ok">créée — pièce ${esc(res.pieceId)}</span>${taxNote(res.taxMode)}`
             : ` <div class="banner ${res.skipped ? "warn" : "bad"}" style="margin:6px 0 0;white-space:pre-wrap">${esc(res.reason)}</div>`;
         }
         $("#batchmsg").innerHTML = `<b>${r.created} créée(s)</b>, ${r.skipped} ignorée(s), ${r.failed} en échec.`;
@@ -309,7 +317,7 @@ async function loadJournal(id) {
           body: JSON.stringify({ force: $("#force").checked }),
         });
         $("#postmsg").innerHTML = r.created
-          ? `<span class="pill ok">créée — pièce ${esc(r.id)}</span>`
+          ? `<span class="pill ok">créée — pièce ${esc(r.id)}</span>${taxNote(r.taxMode)}`
           : `<span class="pill warn">${esc(r.message)}</span>`;
         loadPayouts();
       } catch (e) {

@@ -219,7 +219,7 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     // Le bloc de taxe est repris tel que QuickBooks le RENVOIE sur les écritures
     // d'A2X ; il n'est pas garanti qu'il soit accepté tel quel en création selon
     // la version d'API. `taxCodeMode` permet de le réduire sans toucher au code.
-    const mode = config.taxCodeMode || "full";
+    const mode = opts.taxMode || config.taxCodeMode || "full";
     if (g.tax === "detaxe" && taxId && mode !== "none") {
       detail.TaxCodeRef = { value: String(taxId) };
       if (mode === "full") {

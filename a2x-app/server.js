@@ -25,6 +25,7 @@ const { qbo } = require(path.join(A2X, "lib/qbo"));
 const { postedJournals, findExisting, relatedByPeriod, invalidate } = require(path.join(A2X, "lib/posted"));
 const { gid, tokenScopes, STORE, VER } = require(path.join(A2X, "lib/shopify"));
 const mapper = require(path.join(A2X, "lib/mapper"));
+const config = require(path.join(A2X, "config.json"));
 
 const PORT = process.env.PORT || 3000;
 const SECRET = process.env.A2X_APP_SECRET || "";
@@ -86,15 +87,46 @@ async function commitToGithub(message) {
 // ------------------------------------------------------------------- domaine
 
 /** Payout + transactions + commandes + écriture calculée. */
-async function computeJournal(ref) {
+async function computeJournal(ref, opts = {}) {
   const payout = await getPayout(ref);
   if (!payout) throw new Error(`Payout ${ref} introuvable.`);
   const btx = await payoutTransactions(payout.legacyResourceId);
   const orderIds = [...new Set(btx.map((t) => t.associatedOrder && t.associatedOrder.id).filter(Boolean))];
   const orders = await ordersByIds(orderIds);
   const byId = new Map(orders.map((o) => [String(gid(o.id)), o]));
-  const journal = buildJournalEntry(payout, btx, byId);
-  return { payout, journal, counts: { transactions: btx.length, orders: orders.length } };
+  const journal = buildJournalEntry(payout, btx, byId, opts);
+  const rebuild = (o) => buildJournalEntry(payout, btx, byId, o);
+  return { payout, journal, rebuild, counts: { transactions: btx.length, orders: orders.length } };
+}
+
+/**
+ * Publie l'écriture, en allégeant le bloc de taxe si QuickBooks le refuse.
+ *
+ * Le bloc a été relevé sur les écritures d'A2X telles que QBO les RENVOIE
+ * (TaxCodeRef + TaxApplicableOn + TaxAmount) ; en création il répond « erreur
+ * lors du calcul de la taxe ». On réessaie donc avec le code de taxe seul, puis
+ * sans code du tout. Les MONTANTS sont identiques dans les trois cas — seule
+ * l'annotation de taxe de la ligne change — donc dégrader ne fausse aucun
+ * chiffre. Le mode retenu est renvoyé pour qu'on sache lequel a marché.
+ */
+const TAX_MODES = ["full", "code", "none"];
+const isTaxFault = (e) => /taxe|\btax\b/i.test(String(e && e.message));
+
+async function createJournal(journal, rebuild) {
+  const start = Math.max(0, TAX_MODES.indexOf(config.taxCodeMode || "full"));
+  let lastErr;
+  for (const mode of TAX_MODES.slice(start)) {
+    const body = mode === (config.taxCodeMode || "full") ? journal.body : rebuild({ taxMode: mode }).body;
+    try {
+      const res = await qbo("create", { entity: "journalentry", body });
+      return { je: res.data && res.data.JournalEntry, taxMode: mode };
+    } catch (e) {
+      lastErr = e;
+      if (!isTaxFault(e)) throw e;
+      console.warn(`QBO refuse le bloc de taxe en mode « ${mode} » — nouvel essai en mode dégradé.`);
+    }
+  }
+  throw lastErr;
 }
 
 // L'appariement des écritures déjà comptabilisées vit dans a2x/lib/posted.js,
@@ -234,7 +266,8 @@ const routes = {
   },
 
   "POST /api/payouts/:id/post": async (req, url, params, body) => {
-    const { payout, journal } = await computeJournal(params.id);
+    const computed = await computeJournal(params.id);
+    const { payout, journal } = computed;
     if (!journal.balanced) throw new Error("Écriture non équilibrée — publication refusée.");
     if (journal.unmapped.length && !body.force) {
       throw new Error(`${journal.unmapped.length} composante(s) non mappée(s). Corrige les mappings, ou coche « forcer ».`);
@@ -248,10 +281,9 @@ const routes = {
     if (existing && !body.force) {
       return { created: false, existing, message: `Déjà publiée dans QuickBooks (${existing.docNumber}, appariée par ${existing.match}).` };
     }
-    const res = await qbo("create", { entity: "journalentry", body: journal.body });
-    const je = res.data && res.data.JournalEntry;
+    const { je, taxMode } = await createJournal(journal, computed.rebuild);
     invalidate();
-    return { created: true, id: je && je.Id, docNumber: journal.docNumber };
+    return { created: true, id: je && je.Id, docNumber: journal.docNumber, taxMode };
   },
 
   /**
@@ -267,7 +299,8 @@ const routes = {
     const results = [];
     for (const id of ids) {
       try {
-        const { payout, journal } = await computeJournal(id);
+        const computed = await computeJournal(id);
+        const { payout, journal } = computed;
         if (!journal.balanced) { results.push({ id, ok: false, reason: "écriture non équilibrée" }); continue; }
         if (journal.unmapped.length && !body.force) {
           results.push({ id, ok: false, reason: `${journal.unmapped.length} composante(s) non mappée(s)` });
@@ -281,10 +314,9 @@ const routes = {
           results.push({ id, ok: false, skipped: true, reason: `déjà couvert par ${existing.docNumber} (pièce ${existing.id})` });
           continue;
         }
-        const res = await qbo("create", { entity: "journalentry", body: journal.body });
-        const je = res.data && res.data.JournalEntry;
+        const { je, taxMode } = await createJournal(journal, computed.rebuild);
         invalidate();
-        results.push({ id, ok: true, pieceId: je && je.Id, docNumber: journal.docNumber, amount: journal.settlement });
+        results.push({ id, ok: true, pieceId: je && je.Id, docNumber: journal.docNumber, amount: journal.settlement, taxMode });
       } catch (e) {
         results.push({ id, ok: false, reason: e.message });
       }
