@@ -145,6 +145,45 @@ découvrir, cliquez ici »), jamais seul et nu.
 Vocabulaire de la mission : Québec (299), monarque (241), communauté (88), mission (81),
 soutien (44), pollinisateur (34).
 
+### Les formulations qui sonnent faux
+
+Gabriel a corrigé ces tournures une par une le 31 juillet 2026, sur un texte qui respectait
+pourtant toutes les règles mécaniques ci-dessus. Le mot qu'il emploie est **« aplatissement »** :
+une phrase construite pour produire une émotion, qui trahit l'effort de construction.
+
+| Ne pas écrire | Écrire plutôt | Pourquoi |
+|---|---|---|
+| « Je vous dois un vrai portrait » | « Vous avez été plusieurs à me demander ce que ça donnait pour vrai. Alors voici. » | La dette est une posture. Le fait est plus fort. |
+| « Ça, c'est vous, et je ne l'oublierai pas. » | « Ça m'a fait chaud au cœur, et ça continue. » | La chute solennelle en deux temps sonne écrite. |
+| « Je vais être honnête avec vous : » | (supprimer, aller droit au fait) | Annoncer l'honnêteté la met en doute. |
+| « Voilà. » en ouverture de paragraphe | (supprimer) | Tic d'écriture, pas une respiration. |
+| « Résultat : on était systématiquement en retard » | « On finissait toujours en retard, à faire des nuits blanches en décembre. » | *Résultat :* et *systématiquement* sont du rapport, pas de la conversation. |
+| « parlons-en franchement » | « parlons-en » | L'adverbe en fait trop. |
+| « c'était devenu nécessaire » | « il était temps » | Le passif administratif contre la formule parlée. |
+| « bien des choses pour remédier à ça » | « bien des affaires pour régler ça » | Registre québécois parlé. |
+| « en périodes de rush » | « dans les rushs » | Idem. |
+| « restaient sans suivi » | « restaient en plan » | Idem. |
+| « Quand on entre dans notre usine » | « Aujourd'hui, quand j'entre dans notre usine » | Le *on* impersonnel efface le narrateur là où il devrait être présent. |
+| « nous venons d'obtenir » | « on vient d'obtenir » | Voir ci-dessous. |
+
+Trois principes derrière le tableau :
+
+1. **Le *je* de Gabriel porte l'aveu, le *on* porte l'entreprise.** Une excuse, un
+   attachement, une fatigue se disent au *je*. Une décision, une capacité, un chiffre se
+   disent au *on*. Le *nous* formel appartient au ton institutionnel et se raréfie dès que le
+   texte devient personnel.
+2. **Le québécois parlé est un choix, pas un relâchement.** *des affaires*, *dans le gros
+   jus*, *en plan*, *les rushs*, *pour vrai*. Le texte doit se lire comme Gabriel parle, y
+   compris quand le sujet est grave.
+3. **Chercher les phrases écrites pour émouvoir et les remplacer par des phrases écrites pour
+   informer.** L'émotion passe mieux dans le fait nu que dans la formule. « Après le
+   printemps qu'on a eu, votre précommande vaut pas mal plus qu'une vente à nos yeux 🦋 »
+   fonctionne parce qu'elle dit une chose vraie, pas parce qu'elle est bien tournée.
+
+Quand Gabriel a déjà écrit une formule ailleurs (post, message, infolettre passée), **la
+reprendre telle quelle** plutôt qu'en produire une équivalente : « il faut parfois prendre un
+pas de recul pour mieux avancer » est à lui, une reformulation ne serait qu'une imitation.
+
 ### Adapter une source externe (post LinkedIn, note, brouillon de Gabriel)
 
 Gabriel écrit souvent d'abord ailleurs, puis demande d'intégrer le texte. **Ne jamais coller
