@@ -153,6 +153,32 @@ function loadRefresh() {
   return refresh || SEED || null;
 }
 
+/**
+ * Vérifie que la sauvegarde du jeton MARCHERA, sans attendre la prochaine
+ * rotation. Une clé Render invalide ou un mauvais RENDER_SERVICE_ID ne se
+ * voyaient qu'au moment où le jeton tournait — c'est-à-dire trop tard, une fois
+ * l'ancien déjà périmé. Un GET est sans effet de bord : il ne redéploie rien.
+ */
+let persistCheck = { testee: false, ok: null, motif: null };
+async function checkPersistence() {
+  if (TOKEN_FILE) { persistCheck = { testee: true, ok: true, motif: `fichier ${TOKEN_FILE}` }; return persistCheck; }
+  if (!(RENDER_KEY && RENDER_SVC)) {
+    persistCheck = { testee: true, ok: false, motif: "RENDER_API_KEY et/ou RENDER_SERVICE_ID absents" };
+    return persistCheck;
+  }
+  try {
+    const r = await fetch(`https://api.render.com/v1/services/${RENDER_SVC}/env-vars?limit=1`, {
+      headers: { Authorization: `Bearer ${RENDER_KEY}`, Accept: "application/json" },
+    });
+    persistCheck = r.ok
+      ? { testee: true, ok: true, motif: "env Render accessible en écriture" }
+      : { testee: true, ok: false, motif: `API Render → ${r.status} ${r.status === 401 ? "(clé invalide)" : r.status === 404 ? "(RENDER_SERVICE_ID ne correspond à aucun service)" : ""}`.trim() };
+  } catch (e) {
+    persistCheck = { testee: true, ok: false, motif: `API Render injoignable : ${e.message}` };
+  }
+  return persistCheck;
+}
+
 async function saveRefresh(rt) {
   refresh = rt;
   remember(rt);
@@ -392,17 +418,20 @@ const server = http.createServer(async (req, res) => {
      */
     if (req.method === "GET" && route === "/token-status") {
       const persistance = TOKEN_FILE ? "fichier" : (RENDER_KEY && RENDER_SVC) ? "env Render" : "AUCUNE";
+      const chk = await checkPersistence();
       return json(res, 200, {
         service: "finance-proxy",
         persistance,
-        durable: persistance !== "AUCUNE",
+        // « configuré » ne veut pas dire « fonctionnel » : on teste vraiment.
+        durable: chk.ok === true,
+        verification: chk.motif,
         jetonsConnus: history.length,
         accessValideJusqua: access.exp ? new Date(access.exp).toISOString() : null,
         derniereRotation: lastRotation,
         derniereSauvegarde: lastSyncOk === null ? "aucune depuis le démarrage" : lastSyncOk ? "réussie" : "ÉCHOUÉE",
-        avertissement: persistance === "AUCUNE"
-          ? "Le refresh token tourné n'est sauvegardé nulle part : il sera perdu au prochain redémarrage et il faudra refaire l'autorisation Intuit."
-          : null,
+        avertissement: chk.ok
+          ? null
+          : `Le refresh token tourné ne sera PAS sauvegardé (${chk.motif}) : il sera perdu au prochain redémarrage et il faudra refaire l'autorisation Intuit.`,
       });
     }
     if (req.method === "GET" && route === "/actions") return json(res, 200, { service: "finance-proxy", connector: "quickbooks", actions: Object.keys(ACTIONS) });
@@ -488,9 +517,10 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
   console.log(`finance-proxy à l'écoute sur :${PORT} — QuickBooks realm ${REALM} (${BASE.includes("sandbox") ? "SANDBOX" : "production"}).`);
-  if (!(RENDER_KEY && RENDER_SVC) && !TOKEN_FILE) {
-    console.warn("⚠ Aucune persistance du refresh token tournant (RENDER_API_KEY + RENDER_SERVICE_ID recommandés).");
-  }
+  const chk = await checkPersistence();
+  console.log(chk.ok
+    ? `Persistance du refresh token : OK (${chk.motif}).`
+    : `⚠️  PERSISTANCE DU REFRESH TOKEN INOPÉRANTE — ${chk.motif}. Le jeton tourné sera perdu au prochain redémarrage et il faudra refaire l'autorisation Intuit (/authorize?secret=…).`);
 });

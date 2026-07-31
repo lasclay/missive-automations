@@ -132,13 +132,22 @@ curl https://<finance-proxy>/token-status
 ```
 
 ```json
-{ "persistance": "env Render", "durable": true, "jetonsConnus": 2,
-  "derniereRotation": "2026-07-31T14:02:11.000Z", "derniereSauvegarde": "réussie" }
+{ "persistance": "env Render", "durable": true, "verification": "env Render accessible en écriture",
+  "jetonsConnus": 2, "derniereRotation": "…", "derniereSauvegarde": "réussie" }
 ```
 
-Si `durable` vaut `false`, ou `derniereSauvegarde` `ÉCHOUÉE`, la prochaine rotation cassera
-l'intégration : corriger `RENDER_API_KEY` / `RENDER_SERVICE_ID` (qui doit être l'ID `srv-…` de
-**ce** service) avant d'attendre 24 h.
+`durable` ne se contente pas de constater que les variables existent : le service **teste** l'accès
+à l'API Render (un GET, sans effet de bord) au démarrage et à chaque appel de `/token-status`.
+« Configuré » et « fonctionnel » sont deux choses différentes — une clé révoquée ou un
+`RENDER_SERVICE_ID` pointant sur le mauvais service ne se voyaient qu'au moment de la rotation,
+donc trop tard.
+
+| `verification` | Ce qu'il faut faire |
+|---|---|
+| `env Render accessible en écriture` | rien, tout va bien |
+| `RENDER_API_KEY et/ou RENDER_SERVICE_ID absents` | les ajouter sur **ce** service |
+| `API Render → 401 (clé invalide)` | régénérer la clé dans Render → Account Settings → API Keys |
+| `API Render → 404 (RENDER_SERVICE_ID ne correspond à aucun service)` | mettre l'ID `srv-…` de **ce** service, pas d'un autre |
 
 Rotation du refresh token, app Intuit, autorisation : voir aussi `qbo_auth.js` et
 `qbo_check.js` à la racine (accès direct Intuit, sans le proxy).
