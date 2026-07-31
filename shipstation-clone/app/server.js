@@ -1,36 +1,39 @@
 /**
- * shipstation-clone/app — la grille de tri du backlog.
+ * shipstation-clone/app — le serveur.
  *
- * C'est la raison d'être du projet : ce que ShipStation fait mieux que tout le reste, c'est
- * trier un arriéré de commandes avec des filtres, des vues sauvegardées et un Hold. Le
- * transport, lui, se sous-traite (voir ../lib/carrier.js).
+ * Expose toute la surface fonctionnelle du clone : commandes, expéditions, lots, manifestes,
+ * retours, produits, inventaire, clients, automatisation, gabarits, analytique, utilisateurs,
+ * webhooks, réglages, migration.
  *
- * Aujourd'hui l'application LIT les commandes de ShipStation par le General Proxy. Quand
- * l'ingestion Shopify directe sera en place, seule la fonction `chargerCommandes` change.
- *
- * Aucune dépendance npm : http natif + une page unique, même patron qu'a2x-app.
+ * Aucune dépendance npm : http natif, SQLite natif, une page unique.
  *
  * Variables :
- *   PORT                     (défaut 3100)
- *   CLONE_APP_SECRET         mot de passe de l'interface (obligatoire hors localhost)
- *   GENERAL_PROXY_URL        défaut https://general-proxy-5muf.onrender.com
- *   GENERAL_PROXY_SECRET     requis — secret d'appel du proxy
- *   CARRIER_ADAPTER          bouchon (défaut) | clickship
- *   CLONE_ALLOW_WRITES       "1" pour autoriser Hold/Restore sur le vrai ShipStation.
- *                            Par défaut DÉSACTIVÉ : l'application est en lecture seule.
+ *   PORT                  défaut 3100
+ *   CLONE_APP_SECRET      mot de passe de l'interface (en-tête X-App-Secret)
+ *   CLONE_DB              fichier SQLite
+ *   CARRIER_ADAPTER       bouchon (défaut) | clickship
+ *   CLONE_ALLOW_LABELS    "1" pour autoriser l'ACHAT d'étiquettes (argent réel)
+ *   GENERAL_PROXY_SECRET  requis seulement pour la migration depuis ShipStation
  */
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const { adaptateur, choisirTarif, SEUIL_DROPOFF_G } = require("../lib/carrier");
+
+const db = require("../lib/db");
+const orders = require("../lib/orders");
+const shipments = require("../lib/shipments");
+const catalog = require("../lib/catalog");
+const rules = require("../lib/rules");
+const templates = require("../lib/templates");
+const analytics = require("../lib/analytics");
+const accounts = require("../lib/accounts");
+const ingest = require("../lib/ingest");
+const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const PORT = process.env.PORT || 3100;
 const SECRET = process.env.CLONE_APP_SECRET || "";
-const PROXY = process.env.GENERAL_PROXY_URL || "https://general-proxy-5muf.onrender.com";
-const PROXY_SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET || "";
-const ECRITURES = process.env.CLONE_ALLOW_WRITES === "1";
+const ETIQUETTES = process.env.CLONE_ALLOW_LABELS === "1";
 const PUBLIC = path.join(__dirname, "public");
-const VUES = path.join(__dirname, "vues.json");
 
 // ---------------------------------------------------------------- utilitaires
 
@@ -39,243 +42,468 @@ const json = (res, code, body) => {
   res.writeHead(code, { "Content-Type": "application/json; charset=utf-8", "Content-Length": Buffer.byteLength(b) });
   res.end(b);
 };
+const texte = (res, code, s, type = "text/plain; charset=utf-8") => {
+  res.writeHead(code, { "Content-Type": type });
+  res.end(s);
+};
+const corps = (req) => new Promise((ok, ko) => {
+  let d = ""; req.on("data", (c) => { d += c; if (d.length > 8e6) req.destroy(); });
+  req.on("end", () => { try { ok(d ? JSON.parse(d) : {}); } catch (e) { ko(new Error("JSON invalide")); } });
+  req.on("error", ko);
+});
+const q = (url) => Object.fromEntries(url.searchParams);
 
-const autorise = (req) => !SECRET || (req.headers["x-app-secret"] || "") === SECRET;
+/** Utilisateur courant — en-tête simple, suffisant pour un outil interne derrière un secret. */
+const utilisateurCourant = (req) => req.headers["x-user-id"] || null;
 
-async function proxy(action, params) {
-  const res = await fetch(`${PROXY}/shipstation/${action}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Proxy-Secret": PROXY_SECRET },
-    body: JSON.stringify(params || {}),
-  });
-  const txt = await res.text();
-  let j; try { j = JSON.parse(txt); } catch { j = { raw: txt }; }
-  if (!res.ok || j.error) throw new Error(`${action} → ${res.status} ${txt.slice(0, 200)}`);
-  return j.data;
-}
+// ------------------------------------------------------------------- routage
 
-/** Poids en grammes, quelle que soit l'unité renvoyée. */
-function grammes(w) {
-  if (!w || !w.value) return 0;
-  const u = (w.units || "").toLowerCase();
-  if (u.startsWith("ounce")) return w.value * 28.3495;
-  if (u.startsWith("pound")) return w.value * 453.592;
-  return w.value;
-}
+/** Table de routage : "MÉTHODE /chemin" → handler(ctx). Les segments :id sont extraits. */
+const ROUTES = {};
+const route = (spec, fn) => { ROUTES[spec] = fn; };
 
-// ------------------------------------------------------ cache des commandes
-// ShipStation plafonne à 40 requêtes/minute. On garde le backlog en mémoire et on ne
-// rafraîchit qu'à la demande ou après expiration — l'arriéré ne bouge pas à la seconde.
-
-const cache = { commandes: [], charge: 0, enCours: null };
-const TTL_MS = 5 * 60 * 1000;
-
-async function chargerCommandes(force = false) {
-  if (!force && cache.commandes.length && Date.now() - cache.charge < TTL_MS) return cache.commandes;
-  if (cache.enCours) return cache.enCours;
-  cache.enCours = (async () => {
-    const tout = [];
-    for (let page = 1; page <= 10; page++) {
-      const d = await proxy("orders", { orderStatus: "awaiting_shipment", pageSize: 500, page });
-      tout.push(...(d.orders || []));
-      if (!d.orders || d.orders.length < 500) break;
+function trouver(methode, chemin) {
+  const direct = ROUTES[`${methode} ${chemin}`];
+  if (direct) return { fn: direct, params: {} };
+  const segs = chemin.split("/").filter(Boolean);
+  for (const [spec, fn] of Object.entries(ROUTES)) {
+    const [m, p] = spec.split(" ");
+    if (m !== methode) continue;
+    const ps = p.split("/").filter(Boolean);
+    if (ps.length !== segs.length) continue;
+    const params = {};
+    let ok = true;
+    for (let i = 0; i < ps.length; i++) {
+      if (ps[i].startsWith(":")) params[ps[i].slice(1)] = decodeURIComponent(segs[i]);
+      else if (ps[i] !== segs[i]) { ok = false; break; }
     }
-    // On ajoute aussi ce qui est en attente : c'est du backlog, pas de l'archive.
-    for (const st of ["on_hold", "awaiting_payment"]) {
-      const d = await proxy("orders", { orderStatus: st, pageSize: 500 });
-      tout.push(...(d.orders || []));
-    }
-    cache.commandes = tout.map(normaliser);
-    cache.charge = Date.now();
-    cache.enCours = null;
-    return cache.commandes;
-  })();
-  return cache.enCours;
-}
-
-/** Réduit la commande ShipStation à ce dont la grille a besoin. */
-function normaliser(o) {
-  const poids = grammes(o.weight) || o.items.reduce((s, i) => s + grammes(i.weight) * (i.quantity || 0), 0);
-  const jours = o.orderDate ? Math.floor((Date.now() - new Date(o.orderDate)) / 86400000) : null;
-  return {
-    orderId: o.orderId,
-    orderNumber: o.orderNumber,
-    orderDate: o.orderDate,
-    age: jours,
-    statut: o.orderStatus,
-    client: (o.shipTo && o.shipTo.name) || o.customerEmail || "",
-    courriel: o.customerEmail,
-    ville: (o.shipTo && o.shipTo.city) || "",
-    province: (o.shipTo && o.shipTo.state) || "",
-    pays: (o.shipTo && o.shipTo.country) || "",
-    codePostal: (o.shipTo && o.shipTo.postalCode) || "",
-    poidsG: Math.round(poids),
-    articles: o.items.filter((i) => !i.adjustment).reduce((s, i) => s + (i.quantity || 0), 0),
-    skus: o.items.filter((i) => !i.adjustment).map((i) => i.sku).filter(Boolean),
-    total: o.orderTotal,
-    serviceDemande: o.requestedShippingService || "",
-    boutique: (o.advancedOptions && o.advancedOptions.storeId) || null,
-    entrepot: (o.advancedOptions && o.advancedOptions.warehouseId) || null,
-    holdJusqua: o.holdUntilDate,
-    tags: o.tagIds || [],
-    notes: o.customerNotes || "",
-    // Le champ qui porte l'économie : sous le seuil, le drop-off est admissible.
-    dropOffAdmissible: poids > 0 && poids < SEUIL_DROPOFF_G,
-  };
-}
-
-// ------------------------------------------------------------------ filtrage
-
-function filtrer(commandes, q) {
-  let r = commandes;
-  const s = (q.recherche || "").trim().toLowerCase();
-  if (s) {
-    r = r.filter((c) =>
-      [c.orderNumber, c.client, c.courriel, c.ville, c.codePostal, ...c.skus]
-        .filter(Boolean).some((v) => String(v).toLowerCase().includes(s))
-    );
+    if (ok) return { fn, params };
   }
-  if (q.statut) r = r.filter((c) => c.statut === q.statut);
-  if (q.pays) r = r.filter((c) => c.pays === q.pays);
-  if (q.province) r = r.filter((c) => c.province === q.province);
-  if (q.boutique) r = r.filter((c) => String(c.boutique) === String(q.boutique));
-  if (q.dropOff === "oui") r = r.filter((c) => c.dropOffAdmissible);
-  if (q.dropOff === "non") r = r.filter((c) => !c.dropOffAdmissible);
-  if (q.poidsMin) r = r.filter((c) => c.poidsG >= Number(q.poidsMin));
-  if (q.poidsMax) r = r.filter((c) => c.poidsG <= Number(q.poidsMax));
-  if (q.ageMin) r = r.filter((c) => c.age !== null && c.age >= Number(q.ageMin));
-  if (q.sansPoids === "1") r = r.filter((c) => !c.poidsG);
-
-  const tri = q.tri || "age";
-  const sens = q.sens === "asc" ? 1 : -1;
-  r = r.slice().sort((a, b) => {
-    const x = a[tri], y = b[tri];
-    if (x === y) return 0;
-    if (x === null || x === undefined) return 1;
-    if (y === null || y === undefined) return -1;
-    return (x > y ? 1 : -1) * sens;
-  });
-  return r;
+  return null;
 }
 
-// --------------------------------------------------------- vues sauvegardées
+// =================================================================== COMMANDES
 
-const lireVues = () => { try { return JSON.parse(fs.readFileSync(VUES, "utf8")); } catch { return {}; } };
-const ecrireVues = (v) => fs.writeFileSync(VUES, JSON.stringify(v, null, 2));
+route("GET /api/orders", ({ url }) => {
+  const f = q(url);
+  if (f.status && f.status.includes(",")) f.status = f.status.split(",");
+  return { ...orders.chercher({ ...f, seuil: SEUIL_DROPOFF_G }), seuil: SEUIL_DROPOFF_G };
+});
+route("GET /api/orders/counts", () => orders.compteurs());
+route("GET /api/orders/alerts", () => orders.alertes());
+route("GET /api/orders/:id", ({ params }) => orders.parId(Number(params.id)) || { error: "inconnue" });
 
-// -------------------------------------------------------------------- routes
+route("POST /api/orders", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return { id: orders.upsert(b) };
+});
+route("POST /api/orders/:id/status", async ({ req, params, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  orders.changerStatut(Number(params.id), b.status, user);
+  return { ok: true };
+});
+route("POST /api/orders/hold", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  for (const id of b.ids || []) orders.hold(Number(id), b.hold_until, user);
+  return { ok: true, n: (b.ids || []).length };
+});
+route("POST /api/orders/restore", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  for (const id of b.ids || []) orders.restaurer(Number(id), user);
+  return { ok: true, n: (b.ids || []).length };
+});
+route("POST /api/orders/cancel", async ({ req, user }) => {
+  accounts.exiger(user, "orders_delete");
+  const b = await corps(req);
+  const erreurs = [];
+  for (const id of b.ids || []) { try { orders.supprimer(Number(id), user); } catch (e) { erreurs.push({ id, e: e.message }); } }
+  return { ok: true, erreurs };
+});
+route("POST /api/orders/assign", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  for (const id of b.ids || []) orders.assigner(Number(id), b.user_id || null);
+  return { ok: true };
+});
+route("POST /api/orders/tag", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  for (const id of b.ids || []) b.remove ? orders.retirerTag(Number(id), b.tag_id) : orders.ajouterTag(Number(id), b.tag_id);
+  return { ok: true };
+});
+route("POST /api/orders/:id/split", async ({ req, params, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return { enfant: orders.scinder(Number(params.id), (b.item_ids || []).map(Number), user) };
+});
+route("POST /api/orders/merge", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return { cible: orders.fusionner(Number(b.target), (b.ids || []).map(Number), user) };
+});
+route("POST /api/orders/release-holds", ({ user }) => {
+  accounts.exiger(user, "orders_edit");
+  return { liberees: orders.libererHolds() };
+});
+
+// ================================================================ EXPÉDITIONS
+
+route("GET /api/shipments", ({ url }) => shipments.chercher(q(url)));
+route("POST /api/shipments/quote", async ({ req }) => {
+  const b = await corps(req);
+  return await shipments.coter(Number(b.order_id));
+});
+
+route("POST /api/shipments/buy", async ({ req, user }) => {
+  accounts.exiger(user, "labels_buy");
+  if (!ETIQUETTES) return { error: "achat d'étiquettes désactivé — lancer avec CLONE_ALLOW_LABELS=1", code: 403 };
+  const b = await corps(req);
+  return await shipments.acheterEtiquette(Number(b.order_id), { serviceId: b.service_id, userId: user });
+});
+route("POST /api/shipments/return", async ({ req, user }) => {
+  accounts.exiger(user, "labels_buy");
+  if (!ETIQUETTES) return { error: "achat d'étiquettes désactivé — lancer avec CLONE_ALLOW_LABELS=1", code: 403 };
+  const b = await corps(req);
+  return await shipments.acheterRetour(Number(b.order_id), { serviceId: b.service_id, userId: user });
+});
+route("POST /api/shipments/void", async ({ req, user }) => {
+  accounts.exiger(user, "labels_void");
+  const b = await corps(req);
+  return await shipments.annuler(Number(b.shipment_id), user);
+});
+route("POST /api/shipments/mark-shipped", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const r = [];
+  for (const id of b.ids || []) r.push(shipments.marquerExpedie(Number(id), { ...b, userId: user }));
+  return { ok: true, n: r.length };
+});
+route("GET /api/shipments/:id/tracking", async ({ params }) => await shipments.rafraichirSuivi(Number(params.id)));
+
+// ------------------------------------------------------------------- lots
+
+route("GET /api/batches", () => ({ batches: shipments.lots() }));
+route("GET /api/batches/:id", ({ params }) => shipments.lot(Number(params.id)));
+route("POST /api/batches", async ({ req, user }) => {
+  accounts.exiger(user, "labels_buy");
+  if (!ETIQUETTES) return { error: "achat d'étiquettes désactivé — lancer avec CLONE_ALLOW_LABELS=1", code: 403 };
+  const b = await corps(req);
+  const ids = (b.ids || []).map(Number);
+  const { batchId } = shipments.creerLot(ids, { name: b.name, userId: user });
+  return await shipments.traiterLot(batchId, ids, { userId: user, serviceId: b.service_id });
+});
+
+/** Simulation de lot : ce que coûterait le lot, sans rien acheter. Toujours disponible. */
+route("POST /api/batches/preview", async ({ req }) => {
+  const b = await corps(req);
+  const lignes = [];
+  for (const id of (b.ids || []).map(Number)) {
+    try {
+      const { recommande } = await shipments.coter(id);
+      const c = orders.parId(id);
+      lignes.push({ order_id: id, order_number: c.order_number, poids: c.weight_g,
+        service: recommande.service, serviceId: recommande.serviceId, prix: recommande.price, dropOff: !!recommande.dropOff });
+    } catch (e) {
+      lignes.push({ order_id: id, order_number: (orders.parId(id) || {}).order_number, erreur: String(e.message) });
+    }
+  }
+  const ok = lignes.filter((l) => !l.erreur);
+  return { lignes, total: Math.round(ok.reduce((s, l) => s + l.prix, 0) * 100) / 100,
+    n: ok.length, bloquees: lignes.length - ok.length, drop_off: ok.filter((l) => l.dropOff).length };
+});
+
+route("GET /api/manifests", () => ({ manifests: shipments.manifestes() }));
+route("POST /api/manifests", async ({ req, user }) => {
+  const b = await corps(req);
+  return shipments.creerManifeste(b.carrier_code, { shipDate: b.ship_date, warehouseId: b.warehouse_id, userId: user });
+});
+
+// ==================================================================== RETOURS
+
+route("GET /api/returns", ({ url }) => catalog.chercherRetours(q(url)));
+route("POST /api/returns", async ({ req, user }) => {
+  accounts.exiger(user, "returns_manage");
+  return catalog.creerRetour({ ...(await corps(req)), userId: user });
+});
+route("POST /api/returns/:id", async ({ req, params, user }) => {
+  accounts.exiger(user, "returns_manage");
+  catalog.majRetour(Number(params.id), await corps(req), user);
+  return { ok: true };
+});
+
+// =================================================================== PRODUITS
+
+route("GET /api/products", ({ url }) => catalog.chercherProduits(q(url)));
+route("GET /api/products/customs-alerts", () => ({ sans_hs: catalog.alertesDouane() }));
+route("GET /api/products/:id", ({ params }) => catalog.produit(Number(params.id)) || { error: "inconnu" });
+route("POST /api/products", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  return { id: catalog.sauverProduit(await corps(req)) };
+});
+route("GET /api/preset-groups", () => ({ groups: catalog.groupes() }));
+route("POST /api/preset-groups", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  return { id: catalog.sauverGroupe(await corps(req)) };
+});
+route("GET /api/inventory/low", () => ({ low: catalog.stockBas() }));
+route("POST /api/inventory", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  const b = await corps(req);
+  catalog.poserStock(Number(b.product_id), Number(b.warehouse_id), b);
+  return { ok: true };
+});
+
+// ==================================================================== CLIENTS
+
+route("GET /api/customers", ({ url }) => catalog.chercherClients(q(url)));
+route("POST /api/customers/rebuild", ({ user }) => {
+  accounts.exiger(user, "orders_edit");
+  return { n: catalog.reconstruireClients() };
+});
+
+// ============================================================= AUTOMATISATION
+
+route("GET /api/rules", () => ({ rules: rules.lister(), champs: Object.keys(rules.CHAMPS),
+  operateurs: Object.keys(rules.OPERATEURS), actions: Object.keys(rules.ACTIONS) }));
+route("POST /api/rules", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  return { id: rules.sauver(await corps(req)) };
+});
+route("DELETE /api/rules/:id", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  rules.supprimer(Number(params.id));
+  return { ok: true };
+});
+/** Essai à blanc : quelles règles s'appliqueraient, sans rien modifier. */
+route("POST /api/rules/test", async ({ req }) => {
+  const b = await corps(req);
+  return { declenchees: rules.appliquer(Number(b.order_id), { dryRun: true }) };
+});
+route("POST /api/rules/apply", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return { resultats: rules.appliquerLot((b.ids || []).map(Number)) };
+});
+
+// =================================================================== GABARITS
+
+route("GET /api/templates", ({ url }) => ({ templates: templates.lister(q(url).kind || null) }));
+route("POST /api/templates", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  return { id: templates.sauver(await corps(req)) };
+});
+route("DELETE /api/templates/:id", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  templates.supprimer(Number(params.id));
+  return { ok: true };
+});
+
+/** Rend un bordereau pour une ou plusieurs commandes — la sortie imprimable. */
+route("GET /api/packing-slip", ({ url, res }) => {
+  const ids = String(q(url).ids || "").split(",").filter(Boolean).map(Number);
+  const gabarit = q(url).template_id ? templates.parId(Number(q(url).template_id)) : templates.defaut("packing_slip");
+  if (!gabarit) return { error: "aucun gabarit de bordereau" };
+  const marque = db.reglage("marque", accounts.MARQUE_DEFAUT);
+  const pages = ids.map((id) => {
+    const cmd = orders.parId(id);
+    if (!cmd) return "";
+    return `<article class="page">${templates.rendre(gabarit.body, { order: cmd, items: cmd.items, marque })}</article>`;
+  }).join("");
+  texte(res, 200, `<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<title>Bordereaux</title><style>
+  body{font:12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;color:#111}
+  .page{padding:18mm;page-break-after:always}
+  .logo{max-height:60px} header{display:flex;gap:16px;align-items:center;border-bottom:2px solid #111;padding-bottom:8px}
+  h1{font-size:18px;margin:0} .adresses{display:flex;gap:40px;margin:14px 0}
+  .adresses h3{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#666;margin:0 0 4px}
+  table.articles{width:100%;border-collapse:collapse;margin-top:10px}
+  table.articles th{text-align:left;border-bottom:1px solid #111;padding:5px 4px;font-size:11px}
+  table.articles td{padding:5px 4px;border-bottom:1px solid #ddd}
+  .n{text-align:right} .cadeau{background:#fff6e0;padding:7px;border-radius:4px}
+  footer{margin-top:18px;border-top:1px solid #ddd;padding-top:8px;color:#666}
+  @media print{.page{padding:10mm}}
+</style></head><body>${pages || "<p>Aucune commande.</p>"}</body></html>`, "text/html; charset=utf-8");
+  return null;   // réponse déjà écrite
+});
+
+/** Aperçu d'un gabarit en cours d'édition, sur une commande réelle. */
+route("POST /api/templates/preview", async ({ req }) => {
+  const b = await corps(req);
+  const cmd = b.order_id ? orders.parId(Number(b.order_id))
+    : orders.chercher({ limit: 1 }).orders[0];
+  if (!cmd) return { error: "aucune commande pour l'aperçu" };
+  const ctx = { order: cmd, items: cmd.items, shipment: {}, marque: db.reglage("marque", accounts.MARQUE_DEFAUT) };
+  return { html: templates.rendre(b.body || "", ctx), sujet: templates.rendre(b.subject || "", ctx) };
+});
+
+// ================================================================= ANALYTIQUE
+
+route("GET /api/analytics", ({ url }) => analytics.tableauDeBord(q(url)));
+route("GET /api/analytics/destinations", () => ({ rows: analytics.parDestination() }));
+route("GET /api/analytics/products", () => ({ rows: analytics.topProduits(30) }));
+route("GET /api/analytics/dropoff", ({ url }) => analytics.economieDropOff({
+  tarif: Number(q(url).tarif) || db.reglage("tarif_dropoff_cible", 6.31), ...q(url) }));
+
+/** Export CSV — l'export brut de ShipStation. */
+route("GET /api/export/:quoi", ({ params, url, res }) => {
+  const f = q(url);
+  const jeux = {
+    orders: () => orders.chercher({ ...f, limit: 1000 }).orders.map((o) => ({
+      commande: o.order_number, date: o.order_date, statut: o.status, client: o.customer_name,
+      courriel: o.customer_email, ville: o.ship_to.city, province: o.ship_to.state, pays: o.ship_to.country,
+      poids_g: o.weight_g, total: o.order_total, service_demande: o.requested_service })),
+    shipments: () => shipments.chercher({ ...f, limit: 1000 }).shipments.map((s) => ({
+      commande: s.order_number, suivi: s.tracking_number, transporteur: s.carrier_code,
+      service: s.service_id, date: s.ship_date, cout: s.cost, drop_off: s.drop_off ? 1 : 0,
+      annulee: s.voided ? 1 : 0, retour: s.is_return ? 1 : 0 })),
+    products: () => catalog.chercherProduits({ ...f, limit: 1000 }).products.map((p) => ({
+      sku: p.sku, nom: p.name, poids_g: p.weight_g, code_sh: p.hs_code,
+      origine: p.country_of_origin, description_douane: p.customs_description, actif: p.active ? 1 : 0 })),
+    customers: () => catalog.chercherClients({ ...f, limit: 1000 }).customers.map((c) => ({
+      courriel: c.email, nom: c.name, commandes: c.order_count, total: c.total_spent,
+      premiere: c.first_order, derniere: c.last_order })),
+  };
+  if (!jeux[params.quoi]) return { error: "export inconnu", code: 404 };
+  const csv = analytics.csv(jeux[params.quoi]());
+  res.writeHead(200, { "Content-Type": "text/csv; charset=utf-8",
+    "Content-Disposition": `attachment; filename="${params.quoi}.csv"` });
+  res.end("﻿" + csv);   // BOM : Excel lit correctement les accents
+  return null;
+});
+
+// ============================================== RÉFÉRENTIELS, RÉGLAGES, ADMIN
+
+route("GET /api/refs", () => ({
+  stores: db.all("SELECT * FROM stores ORDER BY name"),
+  warehouses: db.all("SELECT * FROM warehouses ORDER BY name").map((w) => ({ ...w, origin_address: db.parse(w.origin_address, {}) })),
+  carriers: db.all("SELECT * FROM carriers ORDER BY name"),
+  tags: db.all("SELECT * FROM tags ORDER BY name"),
+  users: accounts.utilisateurs(),
+  statuts: orders.STATUTS,
+}));
+
+route("GET /api/settings", () => ({
+  marque: db.reglage("marque", accounts.MARQUE_DEFAUT),
+  tarif_dropoff_cible: db.reglage("tarif_dropoff_cible", 6.31),
+  derniere_migration: db.reglage("derniere_migration", null),
+  seuil_dropoff_g: SEUIL_DROPOFF_G,
+}));
+route("POST /api/settings", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  for (const [k, v] of Object.entries(b)) db.poserReglage(k, v);
+  return { ok: true };
+});
+
+route("GET /api/users", () => ({ users: accounts.utilisateurs(), domaines: accounts.DOMAINES, roles: Object.keys(accounts.ROLES) }));
+route("POST /api/users", async ({ req, user }) => {
+  accounts.exiger(user, "users_manage");
+  const b = await corps(req);
+  return b.id ? (accounts.majUtilisateur(b.id, b), { id: b.id }) : { id: accounts.creerUtilisateur(b) };
+});
+
+route("GET /api/webhooks", () => ({ webhooks: accounts.abonnements(), evenements: accounts.EVENEMENTS }));
+route("POST /api/webhooks", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  return { id: accounts.abonner(await corps(req)) };
+});
+route("DELETE /api/webhooks/:id", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  accounts.desabonner(Number(params.id));
+  return { ok: true };
+});
+
+route("GET /api/notifications", () => ({ queued: accounts.notificationsEnAttente() }));
+
+route("GET /api/views", ({ url }) => ({
+  views: db.all("SELECT * FROM views WHERE scope = ? ORDER BY name", q(url).scope || "orders")
+    .map((v) => ({ ...v, filters: db.parse(v.filters, {}) })),
+}));
+route("POST /api/views", async ({ req }) => {
+  const b = await corps(req);
+  if (b.delete) { db.run("DELETE FROM views WHERE id = ?", Number(b.id)); return { ok: true }; }
+  db.run(`INSERT INTO views (name, scope, filters) VALUES (?,?,?)
+          ON CONFLICT(name, scope) DO UPDATE SET filters = excluded.filters`,
+    b.name, b.scope || "orders", db.dump(b.filters || {}));
+  return { ok: true };
+});
+
+route("GET /api/audit", ({ url }) => ({
+  rows: db.all("SELECT * FROM audit_log ORDER BY id DESC LIMIT ?", Math.min(Number(q(url).limit) || 100, 500))
+    .map((r) => ({ ...r, detail: db.parse(r.detail) })),
+}));
+
+/** Migration depuis ShipStation — longue, à lancer sciemment. */
+route("POST /api/migrate", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  const lignes = [];
+  const bilan = await ingest.migrerDepuisShipStation({
+    journal: (m) => { lignes.push(m); console.error(m); },
+    maxPagesCommandes: Number(b.max_pages) || 100,
+    depuis: b.depuis || null,
+  });
+  return { bilan, journal: lignes };
+});
+
+route("GET /api/config", () => ({
+  adaptateur: adaptateur().nom,
+  etiquettes_actives: ETIQUETTES,
+  seuil_dropoff_g: SEUIL_DROPOFF_G,
+  protege: !!SECRET,
+  db: db.CHEMIN,
+  amorce: !!db.reglage("amorce"),
+}));
+
+// =================================================================== serveur
 
 const serveur = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
-  const chemin = url.pathname;
+  const chemin = url.pathname.replace(/\/+$/, "") || "/";
 
   try {
-    // Fichiers statiques
+    // Statique
     if (chemin === "/" || chemin === "/index.html") {
-      const html = fs.readFileSync(path.join(PUBLIC, "index.html"));
-      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-      return res.end(html);
+      return texte(res, 200, fs.readFileSync(path.join(PUBLIC, "index.html"), "utf8"), "text/html; charset=utf-8");
+    }
+    if (chemin === "/api/config") return json(res, 200, ROUTES["GET /api/config"]({}));
+
+    // Authentification
+    if (SECRET && (req.headers["x-app-secret"] || url.searchParams.get("secret")) !== SECRET) {
+      return json(res, 401, { error: "secret d'application requis" });
     }
 
-    if (chemin === "/api/config") {
-      return json(res, 200, {
-        ecrituresActives: ECRITURES,
-        adaptateur: adaptateur().nom,
-        seuilDropOffG: SEUIL_DROPOFF_G,
-        protege: !!SECRET,
-      });
-    }
+    const trouve = trouver(req.method, chemin);
+    if (!trouve) return json(res, 404, { error: `route inconnue : ${req.method} ${chemin}` });
 
-    if (!autorise(req)) return json(res, 401, { error: "secret d'application requis" });
-
-    if (chemin === "/api/commandes") {
-      const q = Object.fromEntries(url.searchParams);
-      const toutes = await chargerCommandes(q.rafraichir === "1");
-      const filtrees = filtrer(toutes, q);
-      const sousSeuil = filtrees.filter((c) => c.dropOffAdmissible).length;
-      return json(res, 200, {
-        total: toutes.length,
-        filtrees: filtrees.length,
-        dropOffAdmissibles: sousSeuil,
-        chargeIlYaS: Math.round((Date.now() - cache.charge) / 1000),
-        commandes: filtrees.slice(0, Number(q.limite) || 300),
-      });
-    }
-
-    if (chemin === "/api/vues" && req.method === "GET") return json(res, 200, lireVues());
-
-    if (chemin === "/api/vues" && req.method === "POST") {
-      const body = JSON.parse(await lireCorps(req) || "{}");
-      if (!body.nom) return json(res, 400, { error: "nom requis" });
-      const v = lireVues();
-      if (body.supprimer) delete v[body.nom]; else v[body.nom] = body.filtres || {};
-      ecrireVues(v);
-      return json(res, 200, v);
-    }
-
-    // Cotation — passe par l'adaptateur, donc sans frais tant qu'on est sur le bouchon.
-    if (chemin === "/api/coter" && req.method === "POST") {
-      const body = JSON.parse(await lireCorps(req) || "{}");
-      const cmd = (await chargerCommandes()).find((c) => c.orderId === Number(body.orderId));
-      if (!cmd) return json(res, 404, { error: "commande inconnue" });
-      const envoi = {
-        from: { postalCode: "G1J3R4", country: "CA" },
-        to: { postalCode: cmd.codePostal, state: cmd.province, city: cmd.ville, country: cmd.pays, residential: true },
-        parcel: { weightG: cmd.poidsG || 400, lengthIn: 9, widthIn: 6, heightIn: 1 },
-        value: cmd.total,
-        currency: "CAD",
-      };
-      const tarifs = await adaptateur().quote(envoi);
-      return json(res, 200, { tarifs, recommande: choisirTarif(tarifs, envoi), envoi });
-    }
-
-    // Écritures vers le vrai ShipStation — verrouillées par défaut.
-    if (chemin === "/api/hold" || chemin === "/api/restaurer") {
-      if (req.method !== "POST") return json(res, 405, { error: "POST attendu" });
-      if (!ECRITURES) {
-        return json(res, 403, {
-          error: "écritures désactivées — lancer avec CLONE_ALLOW_WRITES=1 pour agir sur le vrai ShipStation",
-        });
-      }
-      const body = JSON.parse(await lireCorps(req) || "{}");
-      const ids = Array.isArray(body.orderIds) ? body.orderIds : [body.orderId];
-      const faits = [];
-      for (const orderId of ids.filter(Boolean)) {
-        if (chemin === "/api/hold") {
-          if (!body.holdUntilDate) return json(res, 400, { error: "holdUntilDate requis (AAAA-MM-JJ)" });
-          faits.push(await proxy("holduntil", { orderId, holdUntilDate: body.holdUntilDate }));
-        } else {
-          faits.push(await proxy("restorefromhold", { orderId }));
-        }
-      }
-      cache.charge = 0; // le backlog a changé
-      return json(res, 200, { faits: faits.length });
-    }
-
-    return json(res, 404, { error: "route inconnue" });
+    const user = utilisateurCourant(req);
+    const out = await trouve.fn({ req, res, url, params: trouve.params, user });
+    if (out === null) return;                       // le handler a déjà répondu
+    if (out && out.error && out.code) return json(res, out.code, { error: out.error });
+    return json(res, 200, out);
   } catch (e) {
-    return json(res, 500, { error: String(e.message || e) });
+    const code = e.code === 403 ? 403 : 500;
+    return json(res, code, { error: String(e.message || e) });
   }
 });
 
-const lireCorps = (req) =>
-  new Promise((resolve, reject) => {
-    let d = "";
-    req.on("data", (c) => (d += c));
-    req.on("end", () => resolve(d));
-    req.on("error", reject);
-  });
-
 if (require.main === module) {
-  if (!PROXY_SECRET) {
-    console.error("GENERAL_PROXY_SECRET manquant — l'application ne peut pas lire les commandes.");
-    process.exit(1);
-  }
+  db.db();
+  ingest.amorcer();
+  const liberees = orders.libererHolds();
   serveur.listen(PORT, () => {
-    console.log(`shipstation-clone/app sur http://localhost:${PORT}`);
+    console.log(`shipstation-clone sur http://localhost:${PORT}`);
+    console.log(`  base         : ${db.CHEMIN}`);
     console.log(`  transporteur : ${adaptateur().nom}`);
-    console.log(`  écritures    : ${ECRITURES ? "ACTIVES (vrai ShipStation)" : "désactivées (lecture seule)"}`);
+    console.log(`  étiquettes   : ${ETIQUETTES ? "ACHAT ACTIF (argent réel)" : "achat désactivé"}`);
+    if (liberees) console.log(`  ${liberees} commande(s) sortie(s) d'attente au démarrage`);
   });
+  // Les holds arrivés à échéance repartent en file, comme la tâche de fond de ShipStation.
+  setInterval(() => orders.libererHolds(), 15 * 60 * 1000).unref();
 }
 
-module.exports = { serveur, filtrer, normaliser, grammes };
+module.exports = { serveur, ROUTES, trouver };
