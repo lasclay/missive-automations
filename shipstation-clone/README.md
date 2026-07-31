@@ -4,10 +4,36 @@ Une application complète : commandes, expéditions, lots, manifestes, retours, 
 inventaire, clients, automatisation, gabarits, analytique, utilisateurs, webhooks, migration.
 Aucune dépendance npm — `http` et `node:sqlite` natifs, une page unique.
 
+## Démarrer
+
+**Prérequis : Node 22.5 ou plus récent** — l'application utilise `node:sqlite`, absent avant.
+`node -v` pour vérifier ; sinon `brew install node@22` ou `nvm install 22`.
+
 ```bash
-export GENERAL_PROXY_SECRET=…            # pour la migration depuis ShipStation
-node shipstation-clone/app/server.js     # http://localhost:3100
+git clone https://github.com/lasclay/missive-automations.git
+cd missive-automations
+git checkout claude/shipstation-audit-clone-0gwmgr    # tant que la branche n'est pas fusionnée
+
+export GENERAL_PROXY_SECRET='…'                       # le même que pour connectors_client.js
+./shipstation-clone/demarrer.sh
 ```
+
+Puis **http://localhost:3100**. Le script vérifie la version de Node, signale les variables
+manquantes et refuse d'activer l'achat d'étiquettes sans confirmation explicite.
+
+Au premier lancement l'application est **vide** : aller dans **Réglages → Lancer la migration**
+pour y verser les données de ShipStation (quelques minutes). Sans migration, la grille
+n'affiche rien — c'est normal, pas une panne.
+
+Il n'y a rien à installer : aucune dépendance npm, la base SQLite se crée toute seule dans
+`shipstation-clone/data/clone.db`.
+
+<details><summary>Sans le script</summary>
+
+```bash
+GENERAL_PROXY_SECRET='…' node shipstation-clone/app/server.js
+```
+</details>
 
 | Fichier | Rôle |
 |---|---|
@@ -82,6 +108,22 @@ L'application ne peut pas dépenser d'argent par accident.
 Les permissions sont vérifiées côté serveur, pas seulement dans l'interface : `labels_buy`,
 `orders_delete`, `settings_edit` et les autres bloquent la route même appelée directement.
 Tout passe au journal d'audit.
+
+Pour autoriser l'achat, `./shipstation-clone/demarrer.sh --etiquettes`. Sur un adaptateur réel,
+le script demande une confirmation tapée avant de démarrer.
+
+### Et sur Render ?
+
+Les autres services du dépôt tournent sur Render ; **celui-ci ne devrait pas**, en tout cas pas
+tel quel. Le disque des instances Render est éphémère : la base SQLite — et donc les 12 460
+commandes migrées — disparaîtrait à chaque redéploiement. Trois options, par ordre de simplicité :
+
+1. **En local**, sur le poste qui prépare les envois. C'est le plus simple et le plus sûr : les
+   données ne quittent pas la machine, et l'outil sert justement au poste d'emballage.
+2. **Render avec un disque persistant** (offre payante) monté sur `data/`, `CLONE_APP_SECRET`
+   obligatoire.
+3. **PostgreSQL** si plusieurs postes doivent travailler en même temps — `lib/db.js` est le seul
+   fichier à reprendre, tout le reste passe par `all/one/run/tx`.
 
 ## Architecture
 
