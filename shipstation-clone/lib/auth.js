@@ -193,7 +193,14 @@ function preparer2facteur(userId) {
 /** Active après vérification d'un premier code. Renvoie les codes de secours, affichés une fois. */
 function activer2facteur(userId, code) {
   const u = one("SELECT * FROM users WHERE id = ?", userId);
-  if (!u || !u.totp_secret) throw new Error("aucune configuration en cours");
+  // Le secret est posé par preparer2facteur puis relu ici. S'il a disparu entre les deux,
+  // c'est que la base a été réinitialisée — typiquement un redéploiement sans disque
+  // persistant. Le dire, plutôt que de laisser croire à un mauvais code.
+  if (!u) throw new Error("compte introuvable — se reconnecter");
+  if (!u.totp_secret) {
+    throw new Error("la configuration a été perdue entre l'affichage du QR et maintenant " +
+      "(redémarrage du service ?) — fermer et recommencer l'activation");
+  }
   const pas = totp.verifier(u.totp_secret, code, { dernierPas: 0 });
   if (!pas) throw new Error("code incorrect — vérifier l'heure du téléphone");
   const codes = totp.genererCodesSecours(10);
