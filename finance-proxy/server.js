@@ -113,18 +113,47 @@ if (!CLIENT_ID || !CLIENT_SECRET || !REALM || !(SEED || TOKEN_FILE)) {
 let access = { token: null, exp: 0 };
 let refresh = null;
 
+/**
+ * Historique des derniers refresh tokens.
+ *
+ * Intuit ROULE le jeton : chaque rafraîchissement en émet un nouveau et périme
+ * l'ancien (les 100 jours annoncés sont la durée de vie maximale, pas celle du
+ * jeton qu'on détient). Si la sauvegarde du nouveau échoue — écriture Render
+ * ratée, redémarrage au mauvais moment, deux rafraîchissements simultanés — on
+ * se retrouve avec un jeton mort et il faut tout réautoriser à la main.
+ * Garder les précédents permet de retomber dessus au lieu de casser.
+ */
+const history = [];
+let lastRotation = null;
+let lastSyncOk = null;
+const remember = (rt) => {
+  if (!rt) return;
+  const i = history.indexOf(rt);
+  if (i !== -1) history.splice(i, 1);
+  history.unshift(rt);
+  history.splice(5);
+};
+
 function loadRefresh() {
   if (refresh) return refresh;
   if (TOKEN_FILE) {
-    try { refresh = JSON.parse(fs.readFileSync(TOKEN_FILE, "utf8")).refresh_token || null; } catch { /* premier run */ }
+    try {
+      const saved = JSON.parse(fs.readFileSync(TOKEN_FILE, "utf8"));
+      refresh = saved.refresh_token || null;
+      for (const rt of saved.history || []) remember(rt);
+    } catch { /* premier run */ }
   }
+  remember(refresh);
+  remember(SEED);
   return refresh || SEED || null;
 }
 
 async function saveRefresh(rt) {
   refresh = rt;
+  remember(rt);
+  lastRotation = new Date().toISOString();
   if (TOKEN_FILE) {
-    try { fs.writeFileSync(TOKEN_FILE, JSON.stringify({ refresh_token: rt, saved_at: new Date().toISOString() })); }
+    try { fs.writeFileSync(TOKEN_FILE, JSON.stringify({ refresh_token: rt, history, saved_at: new Date().toISOString() })); }
     catch (e) { console.warn(`écriture ${TOKEN_FILE}: ${e.message}`); }
   }
   if (RENDER_KEY && RENDER_SVC) {
@@ -134,17 +163,21 @@ async function saveRefresh(rt) {
         headers: { Authorization: `Bearer ${RENDER_KEY}`, "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ value: rt }),
       });
-      if (!r.ok) console.warn(`sync env Render → ${r.status}`);
-    } catch (e) { console.warn(`sync env Render: ${e.message}`); }
+      lastSyncOk = r.ok;
+      // Un échec ici est la panne annoncée : le jeton tourné ne survivra pas au
+      // redémarrage. On le crie plutôt que de le murmurer.
+      if (!r.ok) console.error(`⚠️  SYNC ENV RENDER ÉCHOUÉE → ${r.status} ${(await r.text()).slice(0, 200)} — le refresh token tourné N'EST PAS sauvegardé.`);
+      else console.log("refresh token tourné et sauvegardé dans l'env Render.");
+    } catch (e) { lastSyncOk = false; console.error(`⚠️  SYNC ENV RENDER ÉCHOUÉE : ${e.message} — le refresh token tourné N'EST PAS sauvegardé.`); }
   } else if (!TOKEN_FILE) {
     console.warn("refresh token tourné mais AUCUNE persistance (RENDER_API_KEY+RENDER_SERVICE_ID ou QBO_TOKEN_FILE): perdu au prochain redémarrage.");
   }
 }
 
-async function token() {
-  if (access.token && Date.now() < access.exp) return access.token;
-  const rt = loadRefresh();
-  if (!rt) throw new Error("aucun refresh token (QBO_REFRESH_TOKEN; voir ../qbo_auth.js)");
+/** Un seul échange à la fois : deux en parallèle en périment mutuellement un. */
+let inFlight = null;
+
+async function exchange(rt) {
   const res = await fetch("https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer", {
     method: "POST",
     headers: {
@@ -154,15 +187,42 @@ async function token() {
     },
     body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: rt }).toString(),
   });
-  if (!res.ok) {
-    const t = (await res.text()).slice(0, 200);
-    throw new Error(`token → ${res.status} ${t}${/invalid_grant/.test(t) ? " (refresh token périmé/tourné ailleurs: refaire l'autorisation avec qbo_auth.js)" : ""}`);
+  const text = await res.text();
+  if (!res.ok) { const e = new Error(text.slice(0, 300)); e.status = res.status; e.invalidGrant = /invalid_grant/.test(text); throw e; }
+  return JSON.parse(text);
+}
+
+async function refreshAccess() {
+  const current = loadRefresh();
+  if (!current) throw new Error("aucun refresh token (QBO_REFRESH_TOKEN; voir ../qbo_auth.js)");
+
+  // Le courant d'abord, puis les précédents : Intuit laisse un court sursis à
+  // l'ancien jeton, ce qui rattrape une sauvegarde perdue au redémarrage.
+  const candidates = [current, ...history.filter((x) => x !== current)];
+  let last;
+  for (const rt of candidates) {
+    try {
+      const j = await exchange(rt);
+      access = { token: j.access_token, exp: Date.now() + Math.max(60, (j.expires_in || 3600) - 120) * 1000 };
+      if (j.refresh_token && j.refresh_token !== rt) await saveRefresh(j.refresh_token);
+      else { refresh = rt; remember(rt); }
+      if (rt !== current) console.warn("refresh token courant refusé — repli sur un précédent, qui a fonctionné.");
+      return access.token;
+    } catch (e) {
+      last = e;
+      if (!e.invalidGrant) break;
+    }
   }
-  const j = await res.json();
-  access = { token: j.access_token, exp: Date.now() + Math.max(60, (j.expires_in || 3600) - 120) * 1000 };
-  if (j.refresh_token && j.refresh_token !== rt) await saveRefresh(j.refresh_token);
-  else refresh = rt;
-  return access.token;
+  throw new Error(`token → ${last && last.status ? last.status : ""} ${last ? last.message : ""}`.trim() +
+    (last && last.invalidGrant
+      ? ` (tous les refresh tokens connus sont périmés — refaire l'autorisation : node qbo_auth.js url puis exchange, et remettre QBO_REFRESH_TOKEN sur ce service)`
+      : ""));
+}
+
+async function token() {
+  if (access.token && Date.now() < access.exp) return access.token;
+  if (!inFlight) inFlight = refreshAccess().finally(() => { inFlight = null; });
+  return inFlight;
 }
 
 const get = async (path, params) =>
@@ -271,6 +331,27 @@ const server = http.createServer(async (req, res) => {
   try {
     const route = (req.url || "").split("?")[0];
     if (req.method === "GET" && route === "/health") return json(res, 200, { ok: true, service: "finance-proxy" });
+
+    /**
+     * État de la persistance du refresh token, SANS jamais exposer sa valeur.
+     * C'est le seul moyen de voir venir la panne : sans persistance, le jeton
+     * tourné est perdu au prochain redémarrage et l'intégration casse.
+     */
+    if (req.method === "GET" && route === "/token-status") {
+      const persistance = TOKEN_FILE ? "fichier" : (RENDER_KEY && RENDER_SVC) ? "env Render" : "AUCUNE";
+      return json(res, 200, {
+        service: "finance-proxy",
+        persistance,
+        durable: persistance !== "AUCUNE",
+        jetonsConnus: history.length,
+        accessValideJusqua: access.exp ? new Date(access.exp).toISOString() : null,
+        derniereRotation: lastRotation,
+        derniereSauvegarde: lastSyncOk === null ? "aucune depuis le démarrage" : lastSyncOk ? "réussie" : "ÉCHOUÉE",
+        avertissement: persistance === "AUCUNE"
+          ? "Le refresh token tourné n'est sauvegardé nulle part : il sera perdu au prochain redémarrage et il faudra refaire l'autorisation Intuit."
+          : null,
+      });
+    }
     if (req.method === "GET" && route === "/actions") return json(res, 200, { service: "finance-proxy", connector: "quickbooks", actions: Object.keys(ACTIONS) });
     if (req.method !== "POST") return json(res, 404, { error: "not found" });
 

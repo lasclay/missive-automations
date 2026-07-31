@@ -88,5 +88,35 @@ node finance_client.js companyinfo        # FINANCE_PROXY_URL + FINANCE_PROXY_SE
 node qbo_import.js                        # TSV P&L + bilan pour le chiffrier
 ```
 
+## Le refresh token : pourquoi ça casse, et comment le voir venir
+
+Les 100 jours annoncés par Intuit sont la **durée de vie maximale d'un jeton inutilisé**. En
+pratique le jeton **tourne** : chaque rafraîchissement (~24 h) en émet un nouveau et **périme le
+précédent**. Un seul exemplaire est valide à la fois.
+
+Le service doit donc sauvegarder chaque nouvelle valeur, sinon elle est perdue au prochain
+redémarrage et il faut tout réautoriser à la main. Trois protections :
+
+| | |
+|---|---|
+| **Sauvegarde** | `RENDER_API_KEY` + `RENDER_SERVICE_ID` réécrivent `QBO_REFRESH_TOKEN` à chaque rotation. Un échec est maintenant **crié** dans les logs (`⚠️ SYNC ENV RENDER ÉCHOUÉE`), plus murmuré. |
+| **Un seul échange à la fois** | Deux rafraîchissements simultanés se périmaient mutuellement. Ils sont désormais sérialisés. |
+| **Repli sur les précédents** | Les 5 derniers jetons sont gardés en mémoire ; si le courant est refusé, on essaie les précédents avant d'abandonner. Intuit laisse un court sursis à l'ancien, ce qui rattrape une sauvegarde perdue. |
+
+**Vérifier avant la panne** — la route est publique mais n'expose aucune valeur :
+
+```bash
+curl https://<finance-proxy>/token-status
+```
+
+```json
+{ "persistance": "env Render", "durable": true, "jetonsConnus": 2,
+  "derniereRotation": "2026-07-31T14:02:11.000Z", "derniereSauvegarde": "réussie" }
+```
+
+Si `durable` vaut `false`, ou `derniereSauvegarde` `ÉCHOUÉE`, la prochaine rotation cassera
+l'intégration : corriger `RENDER_API_KEY` / `RENDER_SERVICE_ID` (qui doit être l'ID `srv-…` de
+**ce** service) avant d'attendre 24 h.
+
 Rotation du refresh token, app Intuit, autorisation : voir aussi `qbo_auth.js` et
 `qbo_check.js` à la racine (accès direct Intuit, sans le proxy).
