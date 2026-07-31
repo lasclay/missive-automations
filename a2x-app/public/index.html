@@ -183,7 +183,7 @@ async function loadPayouts() {
           if (!cell) continue;
           cell.innerHTML = res.ok
             ? ` <span class="pill ok">créée — pièce ${esc(res.pieceId)}</span>`
-            : ` <span class="pill ${res.skipped ? "warn" : "bad"}">${esc(res.reason)}</span>`;
+            : ` <div class="banner ${res.skipped ? "warn" : "bad"}" style="margin:6px 0 0;white-space:pre-wrap">${esc(res.reason)}</div>`;
         }
         $("#batchmsg").innerHTML = `<b>${r.created} créée(s)</b>, ${r.skipped} ignorée(s), ${r.failed} en échec.`;
         setTimeout(loadPayouts, 4000);
@@ -293,7 +293,7 @@ async function loadJournal(id) {
           : `<span class="pill warn">${esc(r.message)}</span>`;
         loadPayouts();
       } catch (e) {
-        $("#postmsg").innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
+        $("#postmsg").innerHTML = `<div class="banner bad" style="margin-top:10px;white-space:pre-wrap">${esc(e.message)}</div>`;
         btn.disabled = false;
       }
     };

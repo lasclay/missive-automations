@@ -16,5 +16,7 @@
   "groupByProvince": false,
   "groupByProvinceNote": "A2X écrit « CA » et regroupe les provinces sur une seule ligne. Mettre à true pour détailler CA (QC), CA (ON)… — la province sert de toute façon à choisir le compte.",
   "businessEntityId": "MTQ3NTg5MzI3MDEw",
-  "businessEntityName": "Les Produits Lasclay inc."
+  "businessEntityName": "Les Produits Lasclay inc.",
+  "taxCodeMode": "full",
+  "taxCodeModeNote": "full = TaxCodeRef + TaxApplicableOn + TaxAmount (ce que QBO renvoie sur les écritures d'A2X) · code = TaxCodeRef seul · none = aucun code de taxe. À basculer si QuickBooks refuse l'écriture pour un motif de taxe."
 }

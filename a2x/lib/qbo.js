@@ -5,6 +5,24 @@
 const URL = (process.env.FINANCE_PROXY_URL || "").replace(/\/+$/, "");
 const SECRET = process.env.FINANCE_PROXY_SECRET || "";
 
+/**
+ * Extrait le vrai motif de refus de QuickBooks. Intuit renvoie un message
+ * générique (« Erreur de validation de l'entreprise ») et met la cause réelle
+ * dans `Detail` — c'est la seule ligne utile, et elle était tronquée.
+ */
+function describeFault(text) {
+  const m = String(text).match(/"Fault"\s*:\s*{[\s\S]*?"Error"\s*:\s*\[([\s\S]*?)\]/);
+  if (!m) return null;
+  const errors = [];
+  const re = /"Message"\s*:\s*"((?:[^"\\]|\\.)*)"[\s\S]*?"Detail"\s*:\s*"((?:[^"\\]|\\.)*)"[\s\S]*?"code"\s*:\s*"([^"]*)"(?:[\s\S]*?"element"\s*:\s*"([^"]*)")?/g;
+  let e;
+  while ((e = re.exec(m[1]))) {
+    const unesc = (s) => s.replace(/\\"/g, '"').replace(/\\n/g, " ").replace(/\\\\/g, "\\");
+    errors.push(`[${e[3]}]${e[4] ? ` ${e[4]} :` : ""} ${unesc(e[2]) || unesc(e[1])}`);
+  }
+  return errors.length ? errors.join(" | ") : null;
+}
+
 async function qbo(action, params = {}, { retries = 3 } = {}) {
   if (!URL) throw new Error("FINANCE_PROXY_URL manquante.");
   let lastErr;
@@ -18,8 +36,13 @@ async function qbo(action, params = {}, { retries = 3 } = {}) {
       const text = await res.text();
       let json;
       try { json = JSON.parse(text); } catch { json = { raw: text }; }
+      // Un refus de QuickBooks arrive parfois enveloppé dans un 502 du proxy :
+      // on le traite comme une erreur définitive et on en extrait le détail,
+      // sinon on retenterait trois fois une écriture que QBO refusera toujours.
+      const fault = describeFault(text);
+      if (fault) { const e = new Error(`${action} → ${fault}`); e.fatal = true; e.qbo = fault; throw e; }
       if (res.status >= 500 || res.status === 429) throw new Error(`${action} → ${res.status} ${text.slice(0, 300)}`);
-      if (!res.ok) { const e = new Error(`${action} → ${res.status} ${text.slice(0, 500)}`); e.fatal = true; throw e; }
+      if (!res.ok) { const e = new Error(`${action} → ${res.status} ${text.slice(0, 800)}`); e.fatal = true; throw e; }
       return json;
     } catch (e) {
       lastErr = e;

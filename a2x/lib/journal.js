@@ -216,10 +216,16 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
       PostingType: g.amount > 0 ? "Credit" : "Debit",
       AccountRef: { value: String(g.accountId) },
     };
-    if (g.tax === "detaxe" && taxId) {
+    // Le bloc de taxe est repris tel que QuickBooks le RENVOIE sur les écritures
+    // d'A2X ; il n'est pas garanti qu'il soit accepté tel quel en création selon
+    // la version d'API. `taxCodeMode` permet de le réduire sans toucher au code.
+    const mode = config.taxCodeMode || "full";
+    if (g.tax === "detaxe" && taxId && mode !== "none") {
       detail.TaxCodeRef = { value: String(taxId) };
-      detail.TaxApplicableOn = "Sales";
-      detail.TaxAmount = 0;
+      if (mode === "full") {
+        detail.TaxApplicableOn = "Sales";
+        detail.TaxAmount = 0;
+      }
     }
     Line.push({ Description: g.description, Amount: amount, DetailType: "JournalEntryLineDetail", JournalEntryLineDetail: detail });
   }
