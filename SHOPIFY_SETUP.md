@@ -24,7 +24,11 @@ C'est 100 % additif et sans risque. Utile surtout pour la boîte **« Mise à jo
 1. **URLs → App URL** : `https://proxy-missive.onrender.com`
    *(URL réelle que vous possédez ; jamais appelée en client credentials. Décochez « Embed app in Shopify admin ». Redirect URLs / POS / App proxy : vides.)*
 2. **API access → Scopes** (liste séparée par des virgules) :
-   `read_orders,read_fulfillments,read_all_orders,read_products,read_inventory,read_customers`
+   `read_orders,read_fulfillments,read_all_orders,read_products,read_inventory,read_customers,write_merchant_managed_fulfillment_orders`
+   *(**`write_merchant_managed_fulfillment_orders`** est la seule portée en écriture : elle sert au
+   clone ShipStation (`shipstation-clone/`) pour marquer les commandes expédiées et y déposer le
+   numéro de suivi — ce que ShipStation fait aujourd'hui. Sans elle, les clients perdent leur suivi
+   à la bascule. Les scripts en lecture ne s'en servent pas.)*
    *(ajouter **`read_customers`** active l'unification par compte client — retrouver tout l'historique
    même si le client écrit d'une autre adresse. Sans lui, le script fonctionne quand même : il retombe
    automatiquement sur une requête sans le champ client.)*

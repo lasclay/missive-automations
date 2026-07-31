@@ -45,13 +45,24 @@ seulement si **toutes** ses variables sont présentes ; l'onglet Réglages indiq
 
 | Variable | Canal | Rôle |
 |---|---|---|
-| `SHOPIFY_STORE` | Shopify | Domaine, ex. `lasclay.myshopify.com` |
-| `SHOPIFY_ADMIN_TOKEN` | Shopify | Jeton Admin API. Portées nécessaires : `write_merchant_managed_fulfillment_orders`, `read_orders`. |
-| `SHOPIFY_API_VERSION` | Shopify | Défaut `2025-01`. À ne changer qu'en connaissance de cause. |
+| `SHOPIFY_STORE` | Shopify | `lasclay.myshopify.com` |
+| `SHOPIFY_CLIENT_ID` | Shopify | App « Render connector » — la même que `support.js` et A2X |
+| `SHOPIFY_CLIENT_SECRET` | Shopify | idem |
+| `SHOPIFY_ADMIN_TOKEN` | Shopify | Repli hérité : un jeton `shpat_` fixe, si l'app n'est pas utilisée |
+| `SHOPIFY_API_VERSION` | Shopify | Défaut `2025-07`, porté par le client partagé |
 | `ETSY_API_KEY` | Etsy | Clé de l'application Etsy (`x-api-key`) |
 | `ETSY_TOKEN` | Etsy | Jeton OAuth de la boutique |
 | `ETSY_SHOP_ID` | Etsy | Identifiant numérique de la boutique |
 | `FAIRE_ACCESS_TOKEN` | Faire | Jeton d'accès à l'API externe |
+
+Le clone réutilise `a2x/lib/shopify.js`, donc l'app **« Render connector »** en *client
+credentials* — la même que `support.js`, `shopify_check.js` et A2X. Le jeton dure ~24 h et se
+renouvelle seul : il n'y a qu'une app dont gérer les portées, et aucun secret permanent ne dort
+dans les variables du service.
+
+**Une portée est à ajouter** sur l'app, puis re-release et réinstallation :
+`write_merchant_managed_fulfillment_orders`. Les portées actuelles sont toutes en lecture ; sans
+elle, la création de fulfillment échoue avec « access denied ». Voir `SHOPIFY_SETUP.md`.
 
 ### Réseau
 
@@ -60,7 +71,7 @@ seulement si **toutes** ses variables sont présentes ; l'onglet Réglages indiq
 | `PORT` | `3100` | Render le fournit automatiquement. |
 | `HOST` | `0.0.0.0` | Ne pas restreindre sur Render, sinon le service est injoignable. |
 | `GENERAL_PROXY_URL` | `https://general-proxy-5muf.onrender.com` | À changer si le proxy déménage. |
-| `NODE_VERSION` | — | Render seulement. **`22.11.0` ou plus** : `node:sqlite` n'existe pas avant 22.5. |
+| `NODE_VERSION` | — | Render seulement. **`22.22.2`** — la version où tout a été testé. Minimum absolu 22.5 : `node:sqlite` n'existe pas avant. |
 
 `RENDER` et `RENDER_SERVICE_ID` sont injectées par la plateforme ; le service s'en sert
 uniquement pour durcir ses contrôles (une base hors disque persistant devient bloquante).
@@ -98,10 +109,11 @@ CLONE_COOKIE_SECURE=0 GENERAL_PROXY_SECRET='…' ./shipstation-clone/demarrer.sh
 
 ```
 CLONE_DB=/var/data/clone.db
-NODE_VERSION=22.11.0
+NODE_VERSION=22.22.2
 GENERAL_PROXY_SECRET=…
 CLONE_ADMIN_EMAIL=…
-SHOPIFY_STORE=…            SHOPIFY_ADMIN_TOKEN=…
+SHOPIFY_STORE=lasclay.myshopify.com
+SHOPIFY_CLIENT_ID=…        SHOPIFY_CLIENT_SECRET=…
 ETSY_API_KEY=…             ETSY_TOKEN=…            ETSY_SHOP_ID=…
 FAIRE_ACCESS_TOKEN=…
 ```

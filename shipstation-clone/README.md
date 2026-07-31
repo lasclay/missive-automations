@@ -120,9 +120,14 @@ Variables à fournir dans Render :
 
 | Canal | Variables |
 |---|---|
-| Shopify | `SHOPIFY_STORE`, `SHOPIFY_ADMIN_TOKEN` |
+| Shopify | `SHOPIFY_STORE`, `SHOPIFY_CLIENT_ID`, `SHOPIFY_CLIENT_SECRET` |
 | Etsy | `ETSY_API_KEY`, `ETSY_TOKEN`, `ETSY_SHOP_ID` |
 | Faire | `FAIRE_ACCESS_TOKEN` |
+
+Shopify passe par l'app **« Render connector »** déjà en place pour `support.js` et A2X — jeton
+court renouvelé tout seul, une seule app dont gérer les portées. Il faut lui **ajouter la portée
+`write_merchant_managed_fulfillment_orders`**, puis re-release et réinstaller : les portées
+actuelles sont toutes en lecture.
 
 Puis Réglages → **Prendre le relais à partir de maintenant**, le jour où vous cessez d'acheter vos
 étiquettes dans ShipStation — pas avant, sinon les deux systèmes notifient en double.

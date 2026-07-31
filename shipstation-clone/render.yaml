@@ -22,7 +22,7 @@ services:
       sizeGB: 1                   # ~40 Mo pour 12 000 commandes ; 1 Go voit venir
     envVars:
       - key: NODE_VERSION
-        value: "22.11.0"          # node:sqlite exige 22.5 ou plus
+        value: "22.22.2"          # version de développement ; node:sqlite exige 22.5 minimum
       - key: CLONE_DB
         value: /var/data/clone.db
       - key: CARRIER_ADAPTER
@@ -53,10 +53,15 @@ services:
         sync: false               # quand ClickShip aura répondu
 
       # --- renvoi du suivi aux boutiques (sans eux, les clients perdent leur suivi) ---
+      # Shopify : l'app « Render connector » déjà utilisée par support.js et A2X.
+      # Jeton court renouvelé tout seul — rien de permanent à stocker ici.
+      # Portée à AJOUTER sur l'app : write_merchant_managed_fulfillment_orders
       - key: SHOPIFY_STORE
-        sync: false               # ex. lasclay.myshopify.com
-      - key: SHOPIFY_ADMIN_TOKEN
-        sync: false               # jeton Admin API, portées write_merchant_managed_fulfillment_orders
+        sync: false               # lasclay.myshopify.com
+      - key: SHOPIFY_CLIENT_ID
+        sync: false
+      - key: SHOPIFY_CLIENT_SECRET
+        sync: false
       - key: ETSY_API_KEY
         sync: false
       - key: ETSY_TOKEN

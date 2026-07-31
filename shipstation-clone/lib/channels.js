@@ -11,13 +11,14 @@
  * (`notify_error`) et repassent dans une file de reprise.
  *
  * Variables (côté serveur uniquement) :
- *   SHOPIFY_STORE, SHOPIFY_ADMIN_TOKEN   boutique Shopify et jeton Admin API
+ *   SHOPIFY_STORE + SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET   app « Render connector »
+ *                                                               (SHOPIFY_ADMIN_TOKEN accepté en repli)
  *   ETSY_API_KEY, ETSY_TOKEN, ETSY_SHOP_ID
  *   FAIRE_ACCESS_TOKEN
  */
 const { all, one, run, parse, dump, maintenant, journaliser, reglage, poserReglage } = require("./db");
 
-const SHOPIFY_VER = process.env.SHOPIFY_API_VERSION || "2025-01";
+// La version d’API vient du client partagé (a2x/lib/shopify.js) — une seule source.
 
 /** Correspondance des transporteurs vers les noms attendus par Shopify. */
 const NOM_TRANSPORTEUR = {
@@ -49,55 +50,79 @@ function urlSuivi(code, numero) {
 // ================================================================== Shopify
 
 /**
- * Shopify exige de passer par une « fulfillment order » : on liste celles de la commande,
- * puis on crée un fulfillment dessus. L'ancien endpoint direct est retiré depuis 2023.
+ * Shopify — réutilise le client du dépôt (`a2x/lib/shopify.js`), donc l'app « Render
+ * connector » en *client credentials*.
+ *
+ * Pourquoi plutôt qu'un jeton `shpat_` propre au clone : le jeton de l'app est court (~24 h)
+ * et renouvelé tout seul, il n'y a qu'une app dont gérer les portées, et aucun secret
+ * permanent ne dort dans les variables du service. Les identifiants sont déjà en place pour
+ * `support.js`, `shopify_check.js` et A2X — c'est le même couple
+ * `SHOPIFY_CLIENT_ID` / `SHOPIFY_CLIENT_SECRET`.
+ *
+ * ⚠️ Portée à AJOUTER sur l'app, puis re-release et réinstallation :
+ *     write_merchant_managed_fulfillment_orders
+ * Les portées actuelles sont en lecture seule ; sans celle-ci, la création de fulfillment
+ * échoue avec « access denied ». Voir SHOPIFY_SETUP.md.
+ *
+ * L'expédition passe obligatoirement par une « fulfillment order » : l'ancien chemin direct
+ * a été retiré par Shopify.
  */
 const shopify = {
   nom: "shopify",
-  configure: () => !!(process.env.SHOPIFY_STORE && process.env.SHOPIFY_ADMIN_TOKEN),
 
-  async appel(chemin, opts = {}) {
-    const url = `https://${process.env.SHOPIFY_STORE}/admin/api/${SHOPIFY_VER}/${chemin}`;
-    const r = await fetch(url, {
-      ...opts,
-      headers: {
-        "X-Shopify-Access-Token": process.env.SHOPIFY_ADMIN_TOKEN,
-        "Content-Type": "application/json",
-        ...(opts.headers || {}),
-      },
-      signal: AbortSignal.timeout(30000),
-    });
-    const txt = await r.text();
-    let j; try { j = JSON.parse(txt); } catch { j = { raw: txt }; }
-    if (!r.ok) throw new Error(`Shopify ${r.status} ${txt.slice(0, 200)}`);
-    return j;
+  client() {
+    // Chargé à la demande : le clone doit démarrer même si le module est absent.
+    return require(require("path").join(__dirname, "..", "..", "a2x", "lib", "shopify"));
   },
 
+  configure: () => !!(process.env.SHOPIFY_STORE &&
+    (process.env.SHOPIFY_ADMIN_TOKEN || (process.env.SHOPIFY_CLIENT_ID && process.env.SHOPIFY_CLIENT_SECRET))),
+
   async pousser({ commande, expedition }) {
+    const { gql } = this.client();
     // La clé externe porte l'identifiant Shopify — c'est `orderKey` chez ShipStation.
     const idShopify = String(commande.order_key || "").replace(/^ss-/, "");
     if (!/^\d+$/.test(idShopify)) throw new Error(`identifiant Shopify introuvable (order_key=${commande.order_key})`);
 
-    const { fulfillment_orders: fos } = await this.appel(`orders/${idShopify}/fulfillment_orders.json`);
-    const ouvertes = (fos || []).filter((f) => ["open", "in_progress", "scheduled"].includes(f.status));
+    const d = await gql(`
+      query($id: ID!) {
+        order(id: $id) {
+          id
+          fulfillmentOrders(first: 20) { edges { node { id status } } }
+        }
+      }`, { id: `gid://shopify/Order/${idShopify}` });
+
+    if (!d.order) throw new Error(`commande ${idShopify} introuvable chez Shopify`);
+    const ouvertes = (d.order.fulfillmentOrders.edges || [])
+      .map((e) => e.node)
+      .filter((f) => ["OPEN", "IN_PROGRESS", "SCHEDULED"].includes(f.status));
     if (!ouvertes.length) return { deja: true, message: "aucune fulfillment order ouverte — déjà expédiée côté Shopify" };
 
     const suivi = expedition.tracking_number || null;
-    const r = await this.appel("fulfillments.json", {
-      method: "POST",
-      body: JSON.stringify({
-        fulfillment: {
-          line_items_by_fulfillment_order: ouvertes.map((f) => ({ fulfillment_order_id: f.id })),
-          tracking_info: suivi ? {
+    const r = await gql(`
+      mutation($f: FulfillmentInput!) {
+        fulfillmentCreate(fulfillment: $f) {
+          fulfillment { id status trackingInfo { number company url } }
+          userErrors { field message }
+        }
+      }`, {
+      f: {
+        lineItemsByFulfillmentOrder: ouvertes.map((f) => ({ fulfillmentOrderId: f.id })),
+        notifyCustomer: true,
+        ...(suivi ? {
+          trackingInfo: {
             number: suivi,
             company: nomTransporteur(expedition.carrier_code),
             url: urlSuivi(expedition.carrier_code, suivi),
-          } : undefined,
-          notify_customer: true,
-        },
-      }),
+          },
+        } : {}),
+      },
     });
-    return { id: r.fulfillment?.id, statut: r.fulfillment?.status };
+
+    const erreurs = r.fulfillmentCreate?.userErrors || [];
+    if (erreurs.length) throw new Error(erreurs.map((e) => `${e.field}: ${e.message}`).join(" ; "));
+    const f = r.fulfillmentCreate?.fulfillment;
+    return { id: f?.id, statut: f?.status, suivi: f?.trackingInfo?.number || null };
   },
 };
 
