@@ -10,8 +10,11 @@ const SECRET = process.env.FINANCE_PROXY_SECRET || "";
  * générique (« Erreur de validation de l'entreprise ») et met la cause réelle
  * dans `Detail` — c'est la seule ligne utile, et elle était tronquée.
  */
-function describeFault(text) {
-  const m = String(text).match(/"Fault"\s*:\s*{[\s\S]*?"Error"\s*:\s*\[([\s\S]*?)\]/);
+function describeFault(raw) {
+  // Le proxy renvoie la réponse de QuickBooks échappée à l'intérieur d'une
+  // chaîne (`\"Fault\"`) : on déséchappe avant de chercher.
+  const text = String(raw).replace(/\\"/g, '"').replace(/\\n/g, " ");
+  const m = text.match(/"Fault"\s*:\s*{[\s\S]*?"Error"\s*:\s*\[([\s\S]*?)\]/);
   if (!m) return null;
   const errors = [];
   const re = /"Message"\s*:\s*"((?:[^"\\]|\\.)*)"[\s\S]*?"Detail"\s*:\s*"((?:[^"\\]|\\.)*)"[\s\S]*?"code"\s*:\s*"([^"]*)"(?:[\s\S]*?"element"\s*:\s*"([^"]*)")?/g;

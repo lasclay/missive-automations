@@ -83,7 +83,10 @@ async function httpJson({ method = "GET", url, headers = {}, body }, tries = 0) 
     return httpJson({ method, url, headers, body }, tries + 1);
   }
   const text = await res.text();
-  if (!res.ok) throw new Error(`${method} ${url.replace(/https?:\/\/[^/]+/, "")} → ${res.status} ${text.slice(0, 300)}`);
+  // 300 caractères coupaient le refus de QuickBooks juste avant son motif : le
+  // message générique tient dans les 300 premiers, la cause réelle est dans le
+  // champ « Detail » qui suit. Sans elle, une écriture refusée est indébogable.
+  if (!res.ok) throw new Error(`${method} ${url.replace(/https?:\/\/[^/]+/, "")} → ${res.status} ${text.slice(0, 2000)}`);
   try { return text ? JSON.parse(text) : {}; } catch { return { raw: text }; }
 }
 
@@ -283,7 +286,7 @@ const server = http.createServer(async (req, res) => {
     const data = await action(body);
     return json(res, 200, { ok: true, action: aname, data });
   } catch (e) {
-    return json(res, 502, { error: String(e.message || e).slice(0, 400) });
+    return json(res, 502, { error: String(e.message || e).slice(0, 2500) });
   }
 });
 
