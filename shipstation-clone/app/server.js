@@ -410,7 +410,10 @@ route("POST /api/settings", async ({ req, user }) => {
 route("GET /api/users", ({ user }) => {
   accounts.exiger(user, "users_manage");
   return {
-    users: accounts.utilisateurs().map((u) => ({ ...u, password_hash: undefined })),
+    users: accounts.utilisateurs().map((u) => ({
+      ...u, password_hash: undefined, totp_secret: undefined, recovery_codes: undefined,
+      totp_enabled: !!u.totp_enabled,
+    })),
     domaines: accounts.DOMAINES, roles: Object.keys(accounts.ROLES),
   };
 });
@@ -472,16 +475,47 @@ route("GET /api/config", () => ({
   seuil_dropoff_g: SEUIL_DROPOFF_G,
   amorce: !!db.reglage("amorce"),
   comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
+  exiger_2fa: !!db.reglage("exiger_2fa", false),
 }));
 
 // ============================================================ AUTHENTIFICATION
 
 route("POST /api/login", async ({ req, res }) => {
   const b = await corps(req);
-  const { token, expire, user } = auth.connecter(b.email, b.password,
+  const { token, expire, user, besoin2fa } = auth.connecter(b.email, b.password,
     { ip: ipDe(req), agent: req.headers["user-agent"] });
   res.setHeader("Set-Cookie", auth.poserCookie(token, expire));
-  return { user };
+  // Si le second facteur est actif, le cookie porte une session « en attente » qui n'ouvre
+  // rien : seule /api/login/2fa peut la promouvoir.
+  return { user, besoin2fa };
+});
+
+route("POST /api/login/2fa", async ({ req, res }) => {
+  const b = await corps(req);
+  const jeton = auth.lireCookie(req);
+  const { expire, user, methode } = auth.verifier2facteur(jeton, b.code, { ip: ipDe(req) });
+  res.setHeader("Set-Cookie", auth.poserCookie(jeton, expire));
+  return { user, methode };
+});
+
+// --- gestion de son propre second facteur
+route("GET /api/moi/2fa", ({ moi }) => auth.etat2facteur(moi.id));
+
+route("POST /api/moi/2fa/preparer", ({ moi }) => auth.preparer2facteur(moi.id));
+
+route("POST /api/moi/2fa/activer", async ({ req, moi }) => auth.activer2facteur(moi.id, (await corps(req)).code));
+
+route("POST /api/moi/2fa/desactiver", async ({ req, moi }) => {
+  if (db.reglage("exiger_2fa", false)) return { error: "le second facteur est obligatoire sur ce service", code: 403 };
+  auth.desactiver2facteur(moi.id, (await corps(req)).password);
+  return { ok: true };
+});
+
+/** Téléphone perdu sans code de secours : seul un administrateur peut débloquer. */
+route("POST /api/users/:id/2fa/reset", ({ params, user }) => {
+  accounts.exiger(user, "users_manage");
+  auth.reinitialiser2facteur(params.id, user);
+  return { ok: true };
 });
 
 route("POST /api/logout", async ({ req, res }) => {
@@ -517,7 +551,7 @@ route("POST /api/users/:id/password", async ({ req, params, user }) => {
 
 /** Routes accessibles sans session. Tout le reste exige d'être connecté. */
 const PUBLIQUES = new Set(["GET /", "GET /index.html", "GET /api/config",
-  "POST /api/login", "POST /api/logout", "GET /api/moi", "GET /healthz"]);
+  "POST /api/login", "POST /api/login/2fa", "POST /api/logout", "GET /api/moi", "GET /healthz"]);
 
 const serveur = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);

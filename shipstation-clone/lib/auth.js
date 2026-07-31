@@ -12,6 +12,10 @@
  */
 const crypto = require("crypto");
 const { all, one, run, maintenant, journaliser, dump, parse } = require("./db");
+const totp = require("./totp");
+const qr = require("./qr");
+
+const EMETTEUR = process.env.CLONE_2FA_EMETTEUR || "Lasclay Expéditions";
 
 const DUREE_SESSION_H = Number(process.env.CLONE_SESSION_HEURES || 12);
 const SECURE = process.env.CLONE_COOKIE_SECURE !== "0";   // désactivable pour du HTTP local
@@ -108,13 +112,111 @@ function connecter(email, motDePasse, { ip = null, agent = null } = {}) {
     String(email).toLowerCase(), maintenant(), ok ? 1 : 0, ip);
   if (!ok) { journaliser("auth.login_failed", "user", u ? u.id : null, { email, ip }); throw generique; }
 
+  // Second facteur activé : la session naît « en attente ». Tant qu'elle l'est, elle
+  // n'ouvre aucun accès — le mot de passe seul ne suffit pas.
+  const attente = !!u.totp_enabled;
   const token = crypto.randomBytes(32).toString("base64url");
-  const expire = new Date(Date.now() + DUREE_SESSION_H * 3600000).toISOString();
-  run("INSERT INTO sessions (token_hash, user_id, created_at, expires_at, ip, agent) VALUES (?,?,?,?,?,?)",
-    hacherJeton(token), u.id, maintenant(), expire, ip, String(agent || "").slice(0, 200));
-  journaliser("auth.login", "user", u.id, { ip }, u.id);
-  return { token, expire, user: publiciser(u) };
+  const expire = new Date(Date.now() + (attente ? 5 * 60000 : DUREE_SESSION_H * 3600000)).toISOString();
+  run(`INSERT INTO sessions (token_hash, user_id, created_at, expires_at, ip, agent, pending)
+       VALUES (?,?,?,?,?,?,?)`,
+    hacherJeton(token), u.id, maintenant(), expire, ip, String(agent || "").slice(0, 200), attente ? 1 : 0);
+  journaliser(attente ? "auth.login_facteur1" : "auth.login", "user", u.id, { ip }, u.id);
+  return { token, expire, besoin2fa: attente, user: attente ? null : publiciser(u) };
 }
+
+// ------------------------------------------------------------------ second facteur
+
+/**
+ * Valide le second facteur d'une session en attente et la promeut en session pleine.
+ * Accepte un code TOTP à six chiffres ou un code de secours à usage unique.
+ */
+function verifier2facteur(token, code, { ip = null } = {}) {
+  const generique = new Error("code incorrect");
+  const s = one("SELECT * FROM sessions WHERE token_hash = ?", hacherJeton(token || ""));
+  if (!s || !s.pending) throw new Error("aucune connexion en attente — recommencer");
+  if (s.expires_at <= maintenant()) {
+    run("DELETE FROM sessions WHERE token_hash = ?", s.token_hash);
+    throw new Error("délai dépassé — recommencer la connexion");
+  }
+  const u = one("SELECT * FROM users WHERE id = ? AND active = 1", s.user_id);
+  if (!u || !u.totp_enabled) throw generique;
+
+  // Même limitation que sur le mot de passe : six chiffres se devinent.
+  if (tropDEssais(`2fa:${u.email}`)) { const e = new Error(`trop de tentatives — réessayer dans ${FENETRE_MIN} minutes`); e.code = 429; throw e; }
+
+  const saisi = String(code || "").trim();
+  let methode = null;
+
+  const pas = totp.verifier(u.totp_secret, saisi, { dernierPas: u.totp_last_step || 0 });
+  if (pas) {
+    run("UPDATE users SET totp_last_step = ? WHERE id = ?", pas, u.id);   // interdit le rejeu
+    methode = "totp";
+  } else {
+    const restants = totp.consommerCodeSecours(parse(u.recovery_codes, []) || [], saisi);
+    if (restants) {
+      run("UPDATE users SET recovery_codes = ? WHERE id = ?", dump(restants), u.id);
+      methode = "secours";
+      journaliser("auth.code_secours_utilise", "user", u.id, { restants: restants.length }, u.id);
+    }
+  }
+
+  run("INSERT INTO login_attempts (email, at, ok, ip) VALUES (?,?,?,?)",
+    `2fa:${u.email}`, maintenant(), methode ? 1 : 0, ip);
+  if (!methode) { journaliser("auth.2fa_echec", "user", u.id, { ip }, u.id); throw generique; }
+
+  const expire = new Date(Date.now() + DUREE_SESSION_H * 3600000).toISOString();
+  run("UPDATE sessions SET pending = 0, expires_at = ? WHERE token_hash = ?", expire, s.token_hash);
+  journaliser("auth.login", "user", u.id, { ip, methode }, u.id);
+  return { expire, methode, user: publiciser(u) };
+}
+
+/**
+ * Prépare l'activation : génère un secret, le stocke SANS activer, et rend de quoi le
+ * transférer dans l'application d'authentification. Rien n'est actif tant qu'un premier
+ * code n'a pas été vérifié — sinon une erreur de scan enfermerait l'employé dehors.
+ */
+function preparer2facteur(userId) {
+  const u = one("SELECT * FROM users WHERE id = ?", userId);
+  if (!u) throw new Error("compte inconnu");
+  if (u.totp_enabled) throw new Error("le second facteur est déjà actif");
+  const secret = totp.genererSecret();
+  run("UPDATE users SET totp_secret = ? WHERE id = ?", secret, userId);
+  const lien = totp.uri(secret, { compte: u.email, emetteur: EMETTEUR });
+  return { secret, lisible: totp.lisible(secret), uri: lien, qr: qr.svg(lien, { module: 5 }) };
+}
+
+/** Active après vérification d'un premier code. Renvoie les codes de secours, affichés une fois. */
+function activer2facteur(userId, code) {
+  const u = one("SELECT * FROM users WHERE id = ?", userId);
+  if (!u || !u.totp_secret) throw new Error("aucune configuration en cours");
+  const pas = totp.verifier(u.totp_secret, code, { dernierPas: 0 });
+  if (!pas) throw new Error("code incorrect — vérifier l'heure du téléphone");
+  const codes = totp.genererCodesSecours(10);
+  run("UPDATE users SET totp_enabled = 1, totp_last_step = ?, recovery_codes = ? WHERE id = ?",
+    pas, dump(codes.map(totp.hacherCode)), userId);
+  journaliser("auth.2fa_active", "user", userId, null, userId);
+  return { codes };
+}
+
+/** Désactivation — exige le mot de passe, sinon une session volée suffirait à retirer le 2FA. */
+function desactiver2facteur(userId, motDePasse) {
+  const u = one("SELECT * FROM users WHERE id = ?", userId);
+  if (!u || !verifier(motDePasse, u.password_hash)) throw new Error("mot de passe incorrect");
+  run("UPDATE users SET totp_enabled = 0, totp_secret = NULL, totp_last_step = 0, recovery_codes = NULL WHERE id = ?", userId);
+  journaliser("auth.2fa_desactive", "user", userId, null, userId);
+}
+
+/** Réinitialisation par un administrateur — pour un téléphone perdu sans code de secours. */
+function reinitialiser2facteur(userId, parQui) {
+  run("UPDATE users SET totp_enabled = 0, totp_secret = NULL, totp_last_step = 0, recovery_codes = NULL WHERE id = ?", userId);
+  run("DELETE FROM sessions WHERE user_id = ?", userId);
+  journaliser("auth.2fa_reinitialise", "user", userId, { parQui }, parQui);
+}
+
+const etat2facteur = (userId) => {
+  const u = one("SELECT totp_enabled, recovery_codes FROM users WHERE id = ?", userId);
+  return u ? { actif: !!u.totp_enabled, codes_restants: (parse(u.recovery_codes, []) || []).length } : null;
+};
 
 const hacherJeton = (t) => crypto.createHash("sha256").update(t).digest("hex");
 
@@ -123,6 +225,7 @@ function session(token) {
   if (!token) return null;
   const s = one("SELECT * FROM sessions WHERE token_hash = ?", hacherJeton(token));
   if (!s) return null;
+  if (s.pending) return null;                    // mot de passe validé, second facteur non fourni
   if (s.expires_at <= maintenant()) { run("DELETE FROM sessions WHERE token_hash = ?", s.token_hash); return null; }
   const u = one("SELECT * FROM users WHERE id = ? AND active = 1", s.user_id);
   if (!u) return null;
@@ -150,6 +253,8 @@ function menage() {
 const publiciser = (u) => ({
   id: u.id, name: u.name, email: u.email, active: !!u.active,
   permissions: parse(u.permissions, {}), must_change: !!u.must_change,
+  totp_enabled: !!u.totp_enabled,
+  codes_secours_restants: (parse(u.recovery_codes, []) || []).length,
 });
 
 const sessionsDe = (userId) => all(
@@ -190,4 +295,6 @@ module.exports = {
   hacher, verifier, valider, suggerer, creerCompte, changerMotDePasse,
   connecter, session, deconnecter, menage, sessionsDe, publiciser,
   lireCookie, poserCookie, effacerCookie, NOM_COOKIE, amorcerAdmin, DUREE_SESSION_H,
+  verifier2facteur, preparer2facteur, activer2facteur, desactiver2facteur,
+  reinitialiser2facteur, etat2facteur, EMETTEUR,
 };

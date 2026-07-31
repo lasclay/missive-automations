@@ -56,13 +56,18 @@ CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY, name TEXT NOT NULL, email TEXT UNIQUE,
   active INTEGER DEFAULT 1, permissions TEXT DEFAULT '{}', created_at TEXT,
   password_hash TEXT,              -- scrypt$N$r$p$sel$clé ; NULL = compte sans accès
-  must_change INTEGER DEFAULT 0    -- mot de passe provisoire, à changer à la connexion
+  must_change INTEGER DEFAULT 0,   -- mot de passe provisoire, à changer à la connexion
+  totp_secret TEXT,                -- secret base32 du second facteur
+  totp_enabled INTEGER DEFAULT 0,  -- 1 seulement après vérification d'un premier code
+  totp_last_step INTEGER DEFAULT 0,-- dernier pas de temps consommé : empêche le rejeu
+  recovery_codes TEXT              -- JSON de codes de secours hachés, à usage unique
 );
 
 CREATE TABLE IF NOT EXISTS sessions (
   token_hash TEXT PRIMARY KEY,     -- sha256 du jeton ; le jeton lui-même n'est jamais stocké
   user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  created_at TEXT, last_seen TEXT, expires_at TEXT NOT NULL, ip TEXT, agent TEXT
+  created_at TEXT, last_seen TEXT, expires_at TEXT NOT NULL, ip TEXT, agent TEXT,
+  pending INTEGER DEFAULT 0        -- 1 = mot de passe validé, second facteur encore attendu
 );
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_exp ON sessions(expires_at);
@@ -271,6 +276,11 @@ CREATE TABLE IF NOT EXISTS settings (
 const AJOUTS = [
   ["users", "password_hash", "TEXT"],
   ["users", "must_change", "INTEGER DEFAULT 0"],
+  ["users", "totp_secret", "TEXT"],
+  ["users", "totp_enabled", "INTEGER DEFAULT 0"],
+  ["users", "totp_last_step", "INTEGER DEFAULT 0"],
+  ["users", "recovery_codes", "TEXT"],
+  ["sessions", "pending", "INTEGER DEFAULT 0"],
 ];
 
 function migrer(d) {

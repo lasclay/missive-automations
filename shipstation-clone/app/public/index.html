@@ -786,8 +786,16 @@ VUES.utilisateurs = async () => {
     { k: "name", t: "Nom" }, { k: "email", t: "Courriel" },
     { k: "role", t: "Rôle", r: u => esc(u.permissions.role || "—") },
     { k: "perms", t: "Peut", r: u => Object.entries(u.permissions).filter(([k, v]) => v === true).length + " permission(s)" },
+    { k: "totp_enabled", t: "2FA", r: u => u.totp_enabled ? '<span class="puce v">actif</span>' : '<span class="puce a">non</span>' },
     { k: "active", t: "Actif", r: u => u.active ? '<span class="puce v">oui</span>' : '<span class="puce r">non</span>' },
+    { k: "act", t: "", r: u => u.totp_enabled ? `<button data-r2="${u.id}">Réinit. 2FA</button>` : "" },
   ], d.users, { cle: "id" }));
+  $("#ut").querySelectorAll("[data-r2]").forEach(b => b.onclick = async (e) => {
+    e.stopPropagation();
+    if (!confirm("Réinitialiser le second facteur ? Ses sessions seront fermées et il devra le reconfigurer.")) return;
+    await api(`/api/users/${b.dataset.r2}/2fa/reset`, { method: "POST" });
+    VUES.utilisateurs();
+  });
   $("#un").onclick = () => dialogue("Nouvel employé", `
     <label class="champ"><span>Nom</span><input id="un1"></label>
     <label class="champ"><span>Courriel</span><input id="un2" type="email"></label>
@@ -834,6 +842,12 @@ VUES.reglages = async () => {
     <div class="carte"><b>Tarif drop-off cible</b>
       <p class="doux" style="margin:2px 0 8px">Sert de référence dans l'analytique. Seuil de poids : ${s.seuil_dropoff_g} g.</p>
       <input type="number" step="0.01" id="st" value="${s.tarif_dropoff_cible}"> <button id="stsave">Enregistrer</button></div>
+    <div class="carte"><b>Sécurité</b>
+      <p class="doux" style="margin:2px 0 8px">Imposer le second facteur oblige chaque employé à
+      configurer une application d'authentification à sa prochaine connexion, et interdit de le retirer.</p>
+      <label class="ch"><input type="checkbox" id="s2fa" ${S.config.exiger_2fa ? "checked" : ""}>
+        Second facteur obligatoire pour tous</label>
+      <button id="s2save" style="margin-left:10px">Enregistrer</button></div>
     <div class="carte"><b>Webhooks</b>
       <p class="doux" style="margin:2px 0 8px">Comme ShipStation, la charge utile ne contient que l'URL de la ressource à rappeler.</p>
       <div class="barre"><select id="wev">${w.evenements.map(e => `<option>${e}</option>`).join("")}</select>
@@ -848,6 +862,13 @@ VUES.reglages = async () => {
     await api("/api/settings", { method: "POST", body: { marque: { nom: $("#sn").value, courriel: $("#se").value,
       adresse: $("#sa").value, logo: $("#sl").value || null, message_bordereau: $("#sm").value } } });
     alert("Enregistré.");
+  };
+  $("#s2save").onclick = async () => {
+    await api("/api/settings", { method: "POST", body: { exiger_2fa: $("#s2fa").checked } });
+    S.config = await api("/api/config");
+    alert($("#s2fa").checked
+      ? "Second facteur obligatoire. Chaque employé devra le configurer à sa prochaine connexion."
+      : "Second facteur redevenu facultatif.");
   };
   $("#stsave").onclick = async () => { await api("/api/settings", { method: "POST", body: { tarif_dropoff_cible: Number($("#st").value) } }); alert("Enregistré."); };
   $("#wt").append(table([{ k: "event", t: "Événement" }, { k: "target_url", t: "URL" },
@@ -915,7 +936,8 @@ function montrerConnexion(message = "") {
       e.preventDefault();
       $("#lerr").innerHTML = "";
       try {
-        await api("/api/login", { method: "POST", body: { email: $("#le").value, password: $("#lp").value } });
+        const r = await api("/api/login", { method: "POST", body: { email: $("#le").value, password: $("#lp").value } });
+        if (r.besoin2fa) return etape2facteur(ecran);
         ecran.remove();
         $("#app").style.display = "";
         demarrer();
@@ -924,6 +946,89 @@ function montrerConnexion(message = "") {
   }
   if (message) $("#lerr").innerHTML = `<div class="avis">${esc(message)}</div>`;
   setTimeout(() => $("#le")?.focus(), 30);
+}
+
+/** Deuxième étape : le code de l'application d'authentification. */
+function etape2facteur(ecran) {
+  ecran.innerHTML = `<form class="carte" style="width:min(380px,92vw);padding:22px" id="f2">
+      <h2 style="margin:0 0 3px">Vérification</h2>
+      <p class="sous" style="margin-bottom:16px">Code à six chiffres de votre application d'authentification.</p>
+      <label class="champ"><span>Code</span>
+        <input id="c2" inputmode="numeric" autocomplete="one-time-code" maxlength="11"
+               placeholder="123456" style="font-size:22px;letter-spacing:5px;text-align:center" required></label>
+      <div id="e2"></div>
+      <button class="p" style="width:100%;margin-top:6px" type="submit">Vérifier</button>
+      <p class="doux" style="font-size:12px;margin:12px 0 0">Téléphone indisponible ? Saisir un
+        code de secours à la place.</p>
+      <p class="doux" style="font-size:12px;margin:6px 0 0"><a id="r2">Recommencer</a></p>
+    </form>`;
+  setTimeout(() => $("#c2").focus(), 30);
+  $("#r2").onclick = () => location.reload();
+  const envoyer = async (e) => {
+    e?.preventDefault();
+    $("#e2").innerHTML = "";
+    try {
+      await api("/api/login/2fa", { method: "POST", body: { code: $("#c2").value } });
+      ecran.remove();
+      $("#app").style.display = "";
+      demarrer();
+    } catch (err) {
+      $("#e2").innerHTML = `<div class="avis">${esc(err.message)}</div>`;
+      $("#c2").value = ""; $("#c2").focus();
+    }
+  };
+  $("#f2").onsubmit = envoyer;
+  // Six chiffres saisis : on valide sans attendre le clic.
+  $("#c2").oninput = () => { if (/^\d{6}$/.test($("#c2").value.trim())) envoyer(); };
+}
+
+// ══════════════════════════════════════════════════ activation du second facteur
+async function configurer2facteur() {
+  const etat = await api("/api/moi/2fa");
+  if (etat.actif) {
+    return dialogue("Second facteur", `
+      <p><span class="puce v">actif</span> Votre compte est protégé par une application d'authentification.</p>
+      <p class="doux">Codes de secours restants : <b>${etat.codes_restants}</b>.</p>
+      ${S.config.exiger_2fa
+        ? '<div class="avis">Le second facteur est obligatoire sur ce service : il ne peut pas être retiré.</div>'
+        : `<hr><label class="champ"><span>Pour le désactiver, confirmer avec votre mot de passe</span>
+             <input type="password" id="d2"></label>
+           <button class="d" id="db2">Désactiver</button>`}`,
+      null);
+  }
+  const p = await api("/api/moi/2fa/preparer", { method: "POST" });
+  const c = dialogue("Activer le second facteur", `
+    <p>1. Scanner ce code avec Google Authenticator, Authy, 1Password ou le trousseau de votre
+       téléphone.</p>
+    <div style="text-align:center;margin:12px 0">${p.qr}</div>
+    <p class="doux" style="font-size:12px">Le scan ne marche pas ? Saisir la clé à la main :<br>
+      <code style="font-size:14px;letter-spacing:1px">${esc(p.lisible)}</code></p>
+    <hr>
+    <p>2. Saisir le code affiché par l'application pour confirmer.</p>
+    <label class="champ"><input id="a2" inputmode="numeric" maxlength="6" placeholder="123456"
+      style="font-size:20px;letter-spacing:4px;text-align:center"></label>
+    <div id="ae2"></div>`,
+    async () => {
+      try {
+        const r = await api("/api/moi/2fa/activer", { method: "POST", body: { code: $("#a2").value } });
+        dialogue("Codes de secours", `
+          <div class="avis">Conserver ces codes hors du téléphone. Chacun ne sert qu'une fois, et
+            ils ne seront plus jamais affichés. Ils permettent d'entrer si le téléphone est perdu.</div>
+          <div class="carte" style="font-family:ui-monospace,monospace;font-size:15px;columns:2">
+            ${r.codes.map(x => esc(x)).join("<br>")}</div>
+          <button id="imp">Imprimer</button>`, null);
+        setTimeout(() => { const b = $("#imp"); if (b) b.onclick = () => window.print(); }, 30);
+        return false;
+      } catch (e) { $("#ae2").innerHTML = `<div class="avis">${esc(e.message)}</div>`; return false; }
+    }, "Activer");
+  setTimeout(() => {
+    const d = $("#db2", c);
+    if (d) d.onclick = async () => {
+      try { await api("/api/moi/2fa/desactiver", { method: "POST", body: { password: $("#d2").value } });
+        alert("Second facteur désactivé."); location.reload();
+      } catch (e) { alert(e.message); }
+    };
+  }, 30);
 }
 
 async function deconnexion() {
@@ -957,9 +1062,12 @@ async function demarrer() {
   if (!S.config.etiquettes_actives) av.push(`Achat d'étiquettes <b>désactivé</b> — lancer avec <code>CLONE_ALLOW_LABELS=1</code>. Cotation et simulation restent disponibles.`);
   if (S.config.adaptateur === "bouchon") av.push(`Transporteur <b>bouchon</b> : les tarifs sont des valeurs de démonstration. Passer à <code>CARRIER_ADAPTER=clickship</code> à réception des identifiants.`);
   $("#bandeau").innerHTML = av.map(a => `<div class="avis">${a}</div>`).join("");
-  $("#navSous").innerHTML = `${esc(S.moi.name)} · <a id="lqm">changer le mot de passe</a> · <a id="lout">quitter</a>`;
+  $("#navSous").innerHTML = `${esc(S.moi.name)}<br>` +
+    `<a id="l2f">${S.moi.totp_enabled ? "second facteur ✓" : "activer le 2FA"}</a> · ` +
+    `<a id="lqm">mot de passe</a> · <a id="lout">quitter</a>`;
   $("#lout").onclick = deconnexion;
   $("#lqm").onclick = () => changerMotDePasse(false);
+  $("#l2f").onclick = configurer2facteur;
 
   try { S.refs = await api("/api/refs"); } catch { S.refs = {}; }
   await rafraichirCompteurs();
@@ -968,6 +1076,7 @@ async function demarrer() {
   menu();
   rendre();
   if (S.moi.must_change) changerMotDePasse(true);
+  else if (!S.moi.totp_enabled && S.config.exiger_2fa) configurer2facteur();
   clearInterval(S.tick);
   S.tick = setInterval(rafraichirCompteurs, 60000);
 }

@@ -46,6 +46,35 @@ fusionnée avant le premier déploiement.
    une seule fois, à transmettre de vive voix. L'employé doit le changer à sa première connexion.
    Clic droit sur une ligne pour réinitialiser un mot de passe oublié.
 
+### Second facteur (2FA)
+
+La connexion demande un code à six chiffres d'une application d'authentification —
+Google Authenticator, Authy, 1Password, le trousseau iOS. TOTP (RFC 6238), pas de SMS : pas de
+coût par message, pas de dépendance à un opérateur, pas de détournement de carte SIM.
+
+Chaque employé l'active depuis la barre latérale : un QR code s'affiche, il le scanne, saisit un
+premier code pour confirmer. Il reçoit alors **dix codes de secours à usage unique**, affichés une
+seule fois — à conserver hors du téléphone. Sans eux, un téléphone perdu impose de passer par un
+administrateur (Utilisateurs → *Réinit. 2FA*).
+
+Réglages → *Second facteur obligatoire pour tous* impose la configuration à la prochaine connexion
+et interdit de le retirer.
+
+Ce qui est garanti, et vérifié :
+
+| | |
+|---|---|
+| Mot de passe seul | session « en attente », **aucun accès** — 401 sur toutes les routes |
+| Code rejoué | refusé, même sur une nouvelle connexion (le pas de temps consommé est mémorisé) |
+| Code de secours | usage unique, refusé la seconde fois |
+| Second facteur sans mot de passe | refusé — il n'y a pas de connexion en attente |
+| Force brute | huit tentatives par quart d'heure, sur le mot de passe **et** sur le code |
+| Fenêtre | la connexion en attente expire en 5 minutes |
+
+Le secret TOTP **ne quitte jamais le serveur** : le QR code est encodé sur place
+(`lib/qr.js`, écrit pour ça). Passer par une API de génération de QR reviendrait à confier le
+second facteur de toute l'équipe à un tiers.
+
 ### Les rôles
 
 | Rôle | Peut |
@@ -146,13 +175,16 @@ tapée avant de démarrer.
 
 Côté authentification : mots de passe hachés en scrypt avec sel par compte, jetons de session
 stockés hachés, cookies `HttpOnly` + `SameSite=Strict` + `Secure`, huit tentatives de connexion
-par quart d'heure et par compte, sessions fermées d'office au changement de mot de passe.
+par quart d'heure et par compte, sessions fermées d'office au changement de mot de passe, et
+second facteur TOTP (voir plus haut).
 
 ## Architecture
 
 ```
 lib/db.js         schéma SQLite (29 tables), transactions réentrantes, migrations, audit
-lib/auth.js       comptes, scrypt, sessions par cookie, limitation des tentatives
+lib/auth.js       comptes, scrypt, sessions par cookie, limitation des tentatives, 2FA
+lib/totp.js       TOTP RFC 6238, codes de secours — validé sur les vecteurs de la norme
+lib/qr.js         encodeur QR (octet, correction M, v1-10) — sortie SVG, aucun appel externe
 lib/orders.js     recherche filtrée, statuts, hold, tags, scission, fusion, alertes
 lib/shipments.js  cotation, achat, annulation, lots, manifestes, suivi
 lib/carrier.js    LE CONTRAT TRANSPORTEUR — quote/buy/void/track, bouchon, squelette ClickShip
