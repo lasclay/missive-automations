@@ -159,6 +159,18 @@ plus grosse composante pour que l'écriture tombe toujours juste au cent près.
 
 ## Détection des doublons
 
+Nos écritures portent le préfixe **`CLONE`**, celles d'A2X `A2XSH` — même structure, distinction
+immédiate à l'œil et filtrable dans QuickBooks :
+
+```
+CLONE-24Jul-29Jul-314     les nôtres
+A2XSH-24Jul-29Jul-314     celles d'A2X
+```
+
+QuickBooks limite le `DocNumber` à **21 caractères**, d'où un préfixe de 5 lettres (`CLONE-24Jul-29Jul-314`
+en fait exactement 21). Le préfixe se change dans `config.json` ; `legacyDocNumberPrefixes` liste
+ceux qu'on continue de reconnaître pour la détection de doublons.
+
 Le `DocNumber` d'A2X se termine par trois chiffres (`A2XSH-21Jul-27Jul-**592**`) qui sont un
 **compteur interne à A2X** : ils ne se déduisent pas de l'id du versement Shopify
 (`141882065115`). Impossible donc de reproduire le `DocNumber` d'A2X à l'identique, et surtout

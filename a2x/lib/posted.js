@@ -12,15 +12,23 @@
  * dans une fenêtre de dates.
  */
 const { qbo } = require("./qbo");
+const config = require("../config.json");
+
+/** Les nôtres (« CLONE-… ») et celles d'A2X (« A2XSH-… »). */
+const PREFIXES = [config.docNumberPrefix || "CLONE", ...(config.legacyDocNumberPrefixes || [])];
 
 let cache = null;
 
 async function postedJournals(force = false) {
   if (cache && !force) return cache;
-  const res = await qbo("query", {
-    query: "select * from JournalEntry where DocNumber like 'A2XSH-%' orderby TxnDate desc maxresults 400",
-  });
-  const list = (res.data && res.data.QueryResponse && res.data.QueryResponse.JournalEntry) || [];
+  // Le langage de requête de QuickBooks n'a pas de OR : un appel par préfixe.
+  const list = [];
+  for (const p of PREFIXES) {
+    const res = await qbo("query", {
+      query: `select * from JournalEntry where DocNumber like '${p}-%' orderby TxnDate desc maxresults 400`,
+    });
+    list.push(...((res.data && res.data.QueryResponse && res.data.QueryResponse.JournalEntry) || []));
+  }
   cache = list.map((je) => {
     const line = (je.Line || []).find((l) => /^Balance of settlement/i.test(l.Description || ""));
     const detail = line && line.JournalEntryLineDetail;
@@ -40,8 +48,21 @@ async function postedJournals(force = false) {
 
 const invalidate = () => { cache = null; };
 
-/** Le DocNumber sans son suffixe : « A2XSH-21Jul-27Jul- ». */
-const docPrefix = (docNumber) => String(docNumber).replace(/-[^-]*$/, "-");
+/**
+ * La partie « période » d'un DocNumber : « 21Jul-27Jul ». On compare là-dessus
+ * plutôt que sur le DocNumber entier, pour qu'une de nos écritures
+ * (« CLONE-21Jul-27Jul-115 ») reconnaisse celle d'A2X sur la même période
+ * (« A2XSH-21Jul-27Jul-592 ») malgré le préfixe différent.
+ */
+function periodKey(docNumber) {
+  const m = String(docNumber).match(/-(\d{2}[A-Za-z]{3}-\d{2}[A-Za-z]{3})-/);
+  return m ? m[1] : null;
+}
+
+const samePeriodAs = (docNumber) => {
+  const k = periodKey(docNumber);
+  return (j) => k !== null && periodKey(j.docNumber) === k;
+};
 
 /**
  * @param {{docNumber: string, settlement: number, issuedAt: string}} journal
@@ -64,9 +85,8 @@ async function findExisting({ docNumber, settlement, issuedAt, payoutId }, force
   // La période, elle, ne suffit JAMAIS : A2X produit plusieurs journaux couvrant
   // les mêmes dates (et des journaux mensuels hors Shopify Payments). Apparier
   // sur la période seule désignait une écriture sans rapport.
-  const prefix = docPrefix(docNumber);
-  const samePeriod = all.filter((j) => j.settlementCents !== null && String(j.docNumber).startsWith(prefix));
-  const exact = samePeriod.find((j) => j.settlementCents === cents);
+  const inPeriod = samePeriodAs(docNumber);
+  const exact = all.find((j) => j.settlementCents === cents && inPeriod(j));
   if (exact) return { ...exact, match: "période et montant" };
 
   const end = issuedAt ? new Date(issuedAt) : null;
@@ -87,10 +107,10 @@ async function findExisting({ docNumber, settlement, issuedAt, payoutId }, force
 async function relatedByPeriod({ docNumber, settlement }, force = false) {
   const all = await postedJournals(force);
   const cents = settlement == null ? null : Math.round(settlement * 100);
-  const prefix = docPrefix(docNumber);
+  const inPeriod = samePeriodAs(docNumber);
   return all
-    .filter((j) => j.settlementCents !== null && String(j.docNumber).startsWith(prefix) && j.settlementCents !== cents)
+    .filter((j) => j.settlementCents !== null && j.settlementCents !== cents && inPeriod(j))
     .map((j) => ({ ...j, settlement: j.settlementCents / 100 }));
 }
 
-module.exports = { postedJournals, findExisting, relatedByPeriod, docPrefix, invalidate };
+module.exports = { postedJournals, findExisting, relatedByPeriod, periodKey, invalidate, PREFIXES };

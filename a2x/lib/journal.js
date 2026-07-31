@@ -131,7 +131,7 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
   const { groups, unmapped, notes } = buildLines(payout, btx, ordersById);
   const settlementAccountId = opts.settlementAccountId || config.settlementAccountId;
   const roundingAccountId = opts.roundingAccountId || config.roundingAccountId;
-  const prefix = opts.docNumberPrefix || config.docNumberPrefix || "A2XSH";
+  const prefix = opts.docNumberPrefix || config.docNumberPrefix || "CLONE";
   const taxId = taxCodeId();
 
   // A2X nomme le payout « première transaction → date d'émission » (ex. 21Jul-27Jul).
@@ -140,6 +140,10 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
   const end = payout.issuedAt || dates[dates.length - 1];
   const legacy = String(payout.legacyResourceId || gid(payout.id) || "");
   const docNumber = `${prefix}-${dayLabel(start)}-${dayLabel(end)}-${legacy.slice(-3)}`;
+  // QuickBooks refuse un DocNumber de plus de 21 caractères.
+  if (docNumber.length > 21) {
+    throw new Error(`DocNumber « ${docNumber} » fait ${docNumber.length} caractères (max 21) — raccourcis docNumberPrefix dans a2x/config.json.`);
+  }
 
   const Line = [];
   for (const g of groups.sort((a, b) => a.description.localeCompare(b.description, "fr"))) {

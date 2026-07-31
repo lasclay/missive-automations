@@ -67,7 +67,10 @@ const check = (label, actual, expected) => {
   else console.log(`  ✓ ${label}`);
 };
 
-check("DocNumber", j.docNumber, "A2XSH-21Jul-27Jul-592");
+// Seule différence voulue avec A2X : le préfixe, pour distinguer nos écritures
+// des siennes (A2X aurait écrit « A2XSH-21Jul-27Jul-592 »).
+check("DocNumber", j.docNumber, "CLONE-21Jul-27Jul-592");
+check("DocNumber ≤ 21 caractères", j.docNumber.length <= 21, true);
 check("TxnDate", j.body.TxnDate, "2026-07-21");
 check("équilibrée", j.balanced, true);
 check("aucune composante non mappée", j.unmapped.length, 0);

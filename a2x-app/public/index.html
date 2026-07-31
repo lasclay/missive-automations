@@ -44,7 +44,9 @@
   .banner.warn { border-color:var(--warn); color:var(--warn); }
   .banner.bad { border-color:var(--bad); color:var(--bad); }
   .banner.ok { border-color:var(--ok); color:var(--ok); }
+  a { color:var(--accent); }
   .clickable { cursor:pointer; }
+  .selcol { width:34px; text-align:center; }
   .clickable:hover td { background:rgba(127,127,127,.07); }
   .scroll { overflow-x:auto; }
   code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; }
@@ -124,24 +126,73 @@ async function loadPayouts() {
   el.innerHTML = `<div class="card"><div class="spinner">Chargement des versements Shopify…</div></div>`;
   try {
     const { payouts } = await api("/payouts?limit=30");
+    const todo = payouts.filter((p) => !p.posted);
     el.innerHTML = `
       <div class="card">
         <h2>Versements Shopify Payments</h2>
+        <div class="row" style="margin-bottom:12px">
+          <span class="muted">${todo.length} versement(s) sans écriture.</span>
+          <button class="ghost" id="selall" ${todo.length ? "" : "disabled"}>Tout sélectionner</button>
+          <button class="act" id="postsel" disabled>Publier la sélection</button>
+          <span id="batchmsg" class="muted"></span>
+        </div>
         <div class="scroll"><table>
-          <thead><tr><th>Versement</th><th>Émis le</th><th>Statut</th><th class="num">Net</th><th>Écriture dans QuickBooks</th></tr></thead>
+          <thead><tr><th class="selcol"></th><th>Versement</th><th>Émis le</th><th>Statut</th>
+            <th class="num">Net</th><th>Écriture dans QuickBooks</th></tr></thead>
           <tbody>${payouts.map((p) => `
-            <tr class="clickable" data-id="${esc(p.id)}">
-              <td><code>${esc(p.id)}</code></td>
-              <td>${esc(day(p.issuedAt))}</td>
-              <td class="muted">${esc(p.status)}</td>
-              <td class="num">${money(p.net)} ${esc(p.currency)}</td>
-              <td>${p.posted ? postedCell(p.posted) : `<span class="pill warn">aucune</span>`}</td>
+            <tr data-id="${esc(p.id)}">
+              <td class="selcol">${p.posted ? "" : `<input type="checkbox" class="sel" value="${esc(p.id)}">`}</td>
+              <td class="clickable open"><code>${esc(p.id)}</code></td>
+              <td class="clickable open">${esc(day(p.issuedAt))}</td>
+              <td class="muted clickable open">${esc(p.status)}</td>
+              <td class="num clickable open">${money(p.net)} ${esc(p.currency)}</td>
+              <td>${p.posted ? postedCell(p.posted) : `<span class="pill warn">aucune</span>`}
+                  <span class="muted result" data-for="${esc(p.id)}"></span></td>
             </tr>`).join("")}</tbody>
         </table></div>
         ${payouts.length ? "" : `<p class="muted">Aucun versement trouvé.</p>`}
       </div>
       <div id="journal"></div>`;
-    el.querySelectorAll("tr[data-id]").forEach((tr) => (tr.onclick = () => loadJournal(tr.dataset.id)));
+
+    el.querySelectorAll("td.open").forEach((td) => (td.onclick = () => loadJournal(td.closest("tr").dataset.id)));
+
+    const boxes = [...el.querySelectorAll("input.sel")];
+    const sync = () => {
+      const n = boxes.filter((b) => b.checked).length;
+      $("#postsel").disabled = n === 0;
+      $("#postsel").textContent = n ? `Publier la sélection (${n})` : "Publier la sélection";
+    };
+    boxes.forEach((b) => (b.onchange = sync));
+    $("#selall").onclick = () => {
+      const all = boxes.every((b) => b.checked);
+      boxes.forEach((b) => (b.checked = !all));
+      $("#selall").textContent = all ? "Tout sélectionner" : "Tout désélectionner";
+      sync();
+    };
+
+    $("#postsel").onclick = async () => {
+      const ids = boxes.filter((b) => b.checked).map((b) => b.value);
+      if (!confirm(`Publier ${ids.length} écriture(s) dans QuickBooks ?\n\nCette action crée de vraies écritures comptables.`)) return;
+      $("#postsel").disabled = true;
+      $("#selall").disabled = true;
+      $("#batchmsg").textContent = `Publication de ${ids.length} écriture(s)…`;
+      try {
+        const r = await api("/payouts/post-batch", { method: "POST", body: JSON.stringify({ ids }) });
+        for (const res of r.results) {
+          const cell = el.querySelector(`.result[data-for="${CSS.escape(res.id)}"]`);
+          if (!cell) continue;
+          cell.innerHTML = res.ok
+            ? ` <span class="pill ok">créée — pièce ${esc(res.pieceId)}</span>`
+            : ` <span class="pill ${res.skipped ? "warn" : "bad"}">${esc(res.reason)}</span>`;
+        }
+        $("#batchmsg").innerHTML = `<b>${r.created} créée(s)</b>, ${r.skipped} ignorée(s), ${r.failed} en échec.`;
+        setTimeout(loadPayouts, 4000);
+      } catch (e) {
+        $("#batchmsg").innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
+        $("#postsel").disabled = false;
+        $("#selall").disabled = false;
+      }
+    };
   } catch (e) {
     el.innerHTML = `<div class="card"><div class="banner bad">${esc(e.message)}</div>
       <p class="muted">Vérifie le mot de passe dans Réglages, et que l'app Shopify a bien la portée <code>read_shopify_payments_payouts</code>.</p></div>`;

@@ -243,6 +243,49 @@ const routes = {
     return { created: true, id: je && je.Id, docNumber: journal.docNumber };
   },
 
+  /**
+   * Publication en lot. Séquentielle et non transactionnelle : chaque versement
+   * est traité indépendamment, et on renvoie le sort de chacun. Un échec
+   * n'interrompt pas les suivants — mais tout ce qui a été créé l'est vraiment.
+   */
+  "POST /api/payouts/post-batch": async (req, url, params, body) => {
+    const ids = Array.isArray(body.ids) ? body.ids.map(String) : [];
+    if (!ids.length) throw new Error("Aucun versement sélectionné.");
+    if (ids.length > 50) throw new Error("Maximum 50 versements par lot.");
+
+    const results = [];
+    for (const id of ids) {
+      try {
+        const { payout, journal } = await computeJournal(id);
+        if (!journal.balanced) { results.push({ id, ok: false, reason: "écriture non équilibrée" }); continue; }
+        if (journal.unmapped.length && !body.force) {
+          results.push({ id, ok: false, reason: `${journal.unmapped.length} composante(s) non mappée(s)` });
+          continue;
+        }
+        const existing = await findExisting(
+          { docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt, payoutId: journal.payoutId },
+          true
+        );
+        if (existing && !body.force) {
+          results.push({ id, ok: false, skipped: true, reason: `déjà couvert par ${existing.docNumber} (pièce ${existing.id})` });
+          continue;
+        }
+        const res = await qbo("create", { entity: "journalentry", body: journal.body });
+        const je = res.data && res.data.JournalEntry;
+        invalidate();
+        results.push({ id, ok: true, pieceId: je && je.Id, docNumber: journal.docNumber, amount: journal.settlement });
+      } catch (e) {
+        results.push({ id, ok: false, reason: e.message });
+      }
+    }
+    return {
+      results,
+      created: results.filter((r) => r.ok).length,
+      skipped: results.filter((r) => r.skipped).length,
+      failed: results.filter((r) => !r.ok && !r.skipped).length,
+    };
+  },
+
   "GET /api/accounts": async (req, url) => ({ accounts: await chartOfAccounts(url.searchParams.get("refresh") === "1") }),
 
   "GET /api/mappings": async () => {
