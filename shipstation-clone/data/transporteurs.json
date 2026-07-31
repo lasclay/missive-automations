@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Canada Post",
+    "code": "canada_post",
+    "accountNumber": "0008084738",
+    "requiresFundedAccount": false,
+    "balance": 0,
+    "nickname": "Canada Post (Rotule)",
+    "shippingProviderId": 312603,
+    "primary": false
+  },
+  {
+    "name": "Canada Post",
+    "code": "canada_post",
+    "accountNumber": "0005082011",
+    "requiresFundedAccount": false,
+    "balance": 0,
+    "nickname": "Canada Post (LASCLAY)",
+    "shippingProviderId": 556760,
+    "primary": true
+  },
+  {
+    "name": "UPS by ShipStation",
+    "code": "ups_walleted",
+    "accountNumber": "G98E98",
+    "requiresFundedAccount": true,
+    "balance": 74.4,
+    "nickname": "CC Gabriel",
+    "shippingProviderId": 470143,
+    "primary": true
+  },
+  {
+    "name": "Canpar One Balance™",
+    "code": "canpar_walleted",
+    "accountNumber": "dbb71aa3-9600-46a3-a6fe-60e9f2a5a76c",
+    "requiresFundedAccount": true,
+    "balance": 74.4,
+    "nickname": "CC Gabriel",
+    "shippingProviderId": 470141,
+    "primary": true
+  },
+  {
+    "name": "Canada Post One Balance™",
+    "code": "canada_post_walleted",
+    "accountNumber": "952699b5-ad18-48c4-a24c-e1a361af903e",
+    "requiresFundedAccount": true,
+    "balance": 74.4,
+    "nickname": "CC Gabriel",
+    "shippingProviderId": 470142,
+    "primary": true
+  },
+  {
+    "name": "Purolator Canada One Balance",
+    "code": "purolator_walleted",
+    "accountNumber": "088358bd-2763-45a4-a3e5-156023faff3d",
+    "requiresFundedAccount": true,
+    "balance": 74.4,
+    "nickname": "CC Gabriel",
+    "shippingProviderId": 470144,
+    "primary": true
+  },
+  {
+    "name": "FedEx One Balance",
+    "code": "fedex_walleted",
+    "accountNumber": "e5330ffc-570a-4271-bfc8-864a21025738",
+    "requiresFundedAccount": true,
+    "balance": 74.4,
+    "nickname": "CC Gabriel",
+    "shippingProviderId": 470145,
+    "primary": true
+  },
+  {
+    "name": "DHL Express One Balance",
+    "code": "dhl_express_walleted",
+    "accountNumber": "0b1ddc3e-83f6-4dc9-a4fd-329b10ca03a6",
+    "requiresFundedAccount": true,
+    "balance": 74.4,
+    "nickname": "CC Gabriel",
+    "shippingProviderId": 470146,
+    "primary": true
+  },
+  {
+    "name": "ShippingChimp",
+    "code": "shippingchimp",
+    "accountNumber": "operations@lasclay.com",
+    "requiresFundedAccount": false,
+    "balance": 0,
+    "nickname": null,
+    "shippingProviderId": 603418,
+    "primary": true
+  }
+]

@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expéditions — Lasclay</title>
+<style>
+  :root {
+    --bg:#f5f6f8; --carte:#fff; --bord:#dde1e6; --texte:#181c20; --doux:#6b7480;
+    --accent:#1a56db; --vert:#0b7a4b; --ambre:#9a5b06; --rouge:#c0392b; --sel:#eaf1ff; --barre:#1f2937;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#131619; --carte:#1b1f23; --bord:#2b3137; --texte:#e6e9ec; --doux:#98a1ab;
+            --accent:#5b8cf5; --vert:#3dc98a; --ambre:#e0a33e; --rouge:#f0705f; --sel:#1d2740; --barre:#0e1114; }
+  }
+  * { box-sizing:border-box }
+  body { margin:0; font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+         background:var(--bg); color:var(--texte) }
+  a { color:var(--accent) }
+  /* ---- structure ---- */
+  #app { display:grid; grid-template-columns:210px 1fr; min-height:100vh }
+  nav { background:var(--barre); color:#e8eaed; padding:12px 0; position:sticky; top:0; height:100vh; overflow:auto }
+  nav h1 { font-size:14px; margin:0 0 4px; padding:0 16px 10px; border-bottom:1px solid rgba(255,255,255,.12);
+           font-weight:650; letter-spacing:.2px }
+  nav h1 small { display:block; font-weight:400; color:#9aa3ad; font-size:11px; margin-top:2px; line-height:1.6 }
+  nav h1 small a { color:#9aa3ad; text-decoration:underline; cursor:pointer }
+  nav h1 small a:hover { color:#fff }
+  nav a { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:7px 16px;
+          color:#c7cdd4; text-decoration:none; font-size:13.5px; cursor:pointer; border-left:3px solid transparent }
+  nav a:hover { background:rgba(255,255,255,.06); color:#fff }
+  nav a.actif { background:rgba(255,255,255,.10); color:#fff; border-left-color:var(--accent); font-weight:600 }
+  nav .grp { padding:12px 16px 4px; font-size:10.5px; text-transform:uppercase; letter-spacing:.7px; color:#78828d }
+  nav .n { background:rgba(255,255,255,.14); border-radius:9px; padding:0 7px; font-size:11px; font-variant-numeric:tabular-nums }
+  main { padding:16px 20px 60px; min-width:0 }
+  h2 { font-size:17px; margin:0 0 3px; font-weight:650 }
+  .sous { color:var(--doux); font-size:13px; margin:0 0 14px }
+  /* ---- éléments ---- */
+  input,select,textarea,button { font:inherit; padding:6px 9px; border:1px solid var(--bord);
+    border-radius:6px; background:var(--carte); color:var(--texte) }
+  textarea { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px; width:100%; min-height:280px }
+  button { cursor:pointer } button:hover:not(:disabled) { border-color:var(--accent) }
+  button:disabled { opacity:.45; cursor:not-allowed }
+  button.p { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600 }
+  button.d { border-color:var(--rouge); color:var(--rouge) }
+  .barre { display:flex; gap:7px; flex-wrap:wrap; align-items:center; margin-bottom:10px }
+  .carte { background:var(--carte); border:1px solid var(--bord); border-radius:9px; padding:14px; margin-bottom:12px }
+  .grille { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)) }
+  .kpi { background:var(--carte); border:1px solid var(--bord); border-radius:9px; padding:12px 14px }
+  .kpi .v { font-size:23px; font-weight:660; font-variant-numeric:tabular-nums; letter-spacing:-.4px }
+  .kpi .l { color:var(--doux); font-size:12px; margin-top:2px }
+  .kpi.vert .v { color:var(--vert) } .kpi.ambre .v { color:var(--ambre) }
+  .tbl { background:var(--carte); border:1px solid var(--bord); border-radius:9px; overflow:auto; max-height:66vh }
+  table { border-collapse:separate; border-spacing:0; width:100%; font-size:13px }
+  th { position:sticky; top:0; background:var(--carte); border-bottom:1px solid var(--bord); text-align:left;
+       padding:8px 10px; font-weight:600; white-space:nowrap; z-index:2; cursor:pointer }
+  th:hover { color:var(--accent) }
+  td { padding:6px 10px; border-bottom:1px solid var(--bord); white-space:nowrap }
+  tr.sel td { background:var(--sel) }
+  tr.clic { cursor:pointer } tr.clic:hover td { background:var(--sel) }
+  .n, th.n { text-align:right; font-variant-numeric:tabular-nums }
+  .puce { font-size:10.5px; padding:1px 7px; border-radius:9px; font-weight:600; display:inline-block; white-space:nowrap }
+  .puce.v { background:rgba(11,122,75,.15); color:var(--vert) }
+  .puce.a { background:rgba(154,91,6,.16); color:var(--ambre) }
+  .puce.r { background:rgba(192,57,43,.14); color:var(--rouge) }
+  .puce.g { background:rgba(120,130,140,.16); color:var(--doux) }
+  .doux { color:var(--doux) }
+  .avis { padding:9px 12px; border-radius:7px; margin-bottom:12px; font-size:13px;
+          background:rgba(154,91,6,.12); color:var(--ambre); border:1px solid rgba(154,91,6,.3) }
+  .avis.info { background:rgba(26,86,219,.10); color:var(--accent); border-color:rgba(26,86,219,.3) }
+  .onglets { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; align-items:center }
+  .ong { padding:4px 11px; border:1px solid var(--bord); border-radius:14px; background:var(--carte);
+         cursor:pointer; font-size:12.5px }
+  .ong.actif { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600 }
+  dialog { border:1px solid var(--bord); border-radius:11px; background:var(--carte); color:var(--texte);
+           padding:0; max-width:800px; width:94vw; max-height:88vh }
+  dialog h3 { margin:0; padding:12px 16px; border-bottom:1px solid var(--bord); font-size:15px }
+  dialog .c { padding:14px 16px; overflow:auto; max-height:64vh }
+  dialog .f { padding:10px 16px; border-top:1px solid var(--bord); display:flex; gap:8px; justify-content:flex-end }
+  dialog::backdrop { background:rgba(0,0,0,.5) }
+  label.ch { display:inline-flex; align-items:center; gap:5px; font-size:13px }
+  .champ { display:block; margin-bottom:9px } .champ span { display:block; font-size:12px; color:var(--doux); margin-bottom:3px }
+  .champ input, .champ select { width:100% }
+  .bar { height:7px; background:var(--bord); border-radius:4px; overflow:hidden; margin-top:5px }
+  .bar i { display:block; height:100%; background:var(--vert) }
+</style>
+</head>
+<body>
+<div id="app">
+  <nav>
+    <h1>Expéditions<small id="navSous">Lasclay</small></h1>
+    <div id="menu"></div>
+  </nav>
+  <main>
+    <div id="bandeau"></div>
+    <div id="vue"></div>
+  </main>
+</div>
+
+<dialog id="dlg"><h3 id="dlgT"></h3><div class="c" id="dlgC"></div>
+  <div class="f"><button id="dlgN">Fermer</button><button class="p" id="dlgO">Confirmer</button></div></dialog>
+
+<script>
+// ══════════════════════════════════════════════════════════════════ utilitaires
+const $ = (s, r = document) => r.querySelector(s);
+const el = (h) => { const d = document.createElement("div"); d.innerHTML = h.trim(); return d.firstElementChild; };
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const money = (v) => (Number(v) || 0).toFixed(2) + " $";
+const num = (v) => (Number(v) || 0).toLocaleString("fr-CA");
+const jour = (s) => (s ? String(s).slice(0, 10) : "—");
+
+async function api(route, opts = {}) {
+  const o = { headers: { "Content-Type": "application/json" }, credentials: "same-origin", ...opts };
+  if (o.body && typeof o.body !== "string") o.body = JSON.stringify(o.body);
+  const r = await fetch(route, o);
+  if (r.status === 401) { montrerConnexion(); throw new Error("session expirée"); }
+  const t = await r.text();
+  let j; try { j = JSON.parse(t); } catch { j = { error: t.slice(0, 200) }; }
+  if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+  return j;
+}
+
+function dialogue(titre, html, onOk, texteOk = "Confirmer") {
+  $("#dlgT").textContent = titre;
+  $("#dlgC").innerHTML = html;
+  $("#dlgO").textContent = texteOk;
+  $("#dlgO").style.display = onOk ? "" : "none";
+  $("#dlgO").onclick = async () => {
+    try { if (await onOk?.() !== false) $("#dlg").close(); }
+    catch (e) { alert(e.message); }
+  };
+  $("#dlgN").onclick = () => $("#dlg").close();
+  $("#dlg").showModal();
+  return $("#dlgC");
+}
+const attendre = (t = "Un instant…") => dialogue(t, '<p class="doux">Traitement en cours…</p>', null);
+
+/** Table générique : colonnes, lignes, sélection, tri. */
+function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id" } = {}) {
+  const th = (sel ? '<th style="width:26px"></th>' : "") + cols.map(c =>
+    `<th class="${c.n ? "n" : ""}" data-c="${c.k}">${esc(c.t)}${tri === c.k ? (dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
+  const tr = lignes.map(l => {
+    const tds = cols.map(c => `<td class="${c.n ? "n" : ""}">${c.r ? c.r(l) : esc(l[c.k] ?? "—")}</td>`).join("");
+    return `<tr data-id="${esc(l[cle])}" class="${onLigne ? "clic" : ""}">${sel ? `<td><input type="checkbox" data-id="${esc(l[cle])}"></td>` : ""}${tds}</tr>`;
+  }).join("");
+  const t = el(`<div class="tbl"><table><thead><tr>${th}</tr></thead><tbody>${tr || `<tr><td colspan="${cols.length + 1}" class="doux" style="padding:22px;text-align:center">Aucun résultat</td></tr>`}</tbody></table></div>`);
+  if (onTri) t.querySelectorAll("th[data-c]").forEach(h => h.onclick = () => onTri(h.dataset.c));
+  if (sel) t.querySelectorAll("tbody input").forEach(cb => cb.onchange = () => {
+    const id = Number(cb.dataset.id);
+    cb.checked ? sel.add(id) : sel.delete(id);
+    cb.closest("tr").classList.toggle("sel", cb.checked);
+    document.dispatchEvent(new Event("selchange"));
+  });
+  if (onLigne) t.querySelectorAll("tbody tr.clic").forEach(r => r.onclick = (e) => {
+    if (e.target.tagName === "INPUT") return;
+    onLigne(r.dataset.id);
+  });
+  return t;
+}
+
+// ══════════════════════════════════════════════════════════════════ état
+const S = { page: "commandes", moi: null, config: {}, refs: {}, compteurs: {}, sel: new Set(), filtres: {}, tri: "age", dir: "desc", tick: null };
+
+const PAGES = [
+  { g: "Traitement" },
+  { id: "commandes", t: "Commandes", n: () => S.compteurs.statuts?.awaiting_shipment },
+  { id: "attente", t: "En attente", n: () => S.compteurs.statuts?.on_hold },
+  { id: "alertes", t: "Alertes", n: () => Object.values(S.compteurs.alertes || {}).reduce((a, b) => a + b, 0) },
+  { id: "lots", t: "Lots" },
+  { id: "expeditions", t: "Expéditions" },
+  { id: "manifestes", t: "Fin de journée" },
+  { id: "retours", t: "Retours" },
+  { g: "Référentiels" },
+  { id: "produits", t: "Produits" },
+  { id: "clients", t: "Clients" },
+  { g: "Pilotage" },
+  { id: "analytique", t: "Analytique" },
+  { id: "automatisation", t: "Automatisation" },
+  { id: "gabarits", t: "Gabarits" },
+  { g: "Administration" },
+  { id: "utilisateurs", t: "Utilisateurs" },
+  { id: "reglages", t: "Réglages" },
+  { id: "journal", t: "Journal" },
+];
+
+const PERM_PAGE = { utilisateurs: "users_manage", reglages: "settings_edit", journal: "reports_view",
+  analytique: "reports_view", produits: "products_view", retours: "returns_manage" };
+
+function autorise(id) {
+  const need = PERM_PAGE[id];
+  return !need || S.moi?.permissions?.[need] === true;
+}
+
+function menu() {
+  $("#menu").innerHTML = PAGES.filter(p => p.g || autorise(p.id)).map(p => p.g
+    ? `<div class="grp">${p.t || p.g}</div>`
+    : `<a data-p="${p.id}" class="${S.page === p.id ? "actif" : ""}">${p.t}<span class="n" data-n="${p.id}"></span></a>`).join("");
+  $("#menu").querySelectorAll("[data-p]").forEach(a => a.onclick = () => aller(a.dataset.p));
+  majCompteursMenu();
+}
+function majCompteursMenu() {
+  for (const p of PAGES.filter(p => p.n)) {
+    const s = $(`[data-n="${p.id}"]`);
+    if (!s) continue;
+    const v = p.n();
+    s.textContent = v ? num(v) : "";
+    s.style.display = v ? "" : "none";
+  }
+}
+
+function aller(page) {
+  if (!autorise(page)) return;
+  S.page = page; S.sel.clear(); S.filtres = {};
+  location.hash = page;
+  menu();
+  rendre();
+}
+
+// ══════════════════════════════════════════════════════════════════ pages
+const VUES = {};
+
+// ---------------------------------------------------------------- commandes
+VUES.commandes = async (statutFixe) => {
+  const v = $("#vue");
+  v.innerHTML = `<h2>${statutFixe === "on_hold" ? "Commandes en attente" : "Commandes à expédier"}</h2>
+    <p class="sous" id="resume">Chargement…</p>
+    <div class="onglets" id="vuesSauv"></div>
+    <div class="barre" id="filtres"></div>
+    <div class="barre" id="actions"></div>
+    <div id="tbl"></div>`;
+
+  const f = $("#filtres");
+  f.append(el(`<input type="search" id="fq" placeholder="N° commande, client, courriel, ville, SKU…" style="min-width:250px">`));
+  f.append(el(`<select id="fstatut"><option value="">Tous statuts</option>${(S.refs.statuts || []).map(s => `<option${s === statutFixe ? " selected" : ""}>${s}</option>`).join("")}</select>`));
+  f.append(el(`<select id="fdrop"><option value="">Drop-off : tous</option><option value="oui">Admissibles (&lt; ${S.config.seuil_dropoff_g} g)</option><option value="non">Non admissibles</option></select>`));
+  f.append(el(`<select id="fstore"><option value="">Toutes boutiques</option>${(S.refs.stores || []).map(s => `<option value="${s.id}">${esc(s.name)}</option>`).join("")}</select>`));
+  f.append(el(`<select id="fpays"><option value="">Tous pays</option><option>CA</option><option>US</option></select>`));
+  f.append(el(`<input type="number" id="fpmin" placeholder="poids min" style="width:105px">`));
+  f.append(el(`<input type="number" id="fpmax" placeholder="poids max" style="width:105px">`));
+  f.append(el(`<input type="number" id="fage" placeholder="âge min (j)" style="width:110px">`));
+  f.append(el(`<label class="ch"><input type="checkbox" id="fnw"> sans poids</label>`));
+  f.append(el(`<button id="freset">Réinitialiser</button>`));
+  f.append(el(`<button id="fsave">Sauver la vue…</button>`));
+
+  const lire = () => ({
+    q: $("#fq").value, status: $("#fstatut").value, drop_off: $("#fdrop").value,
+    store_id: $("#fstore").value, country: $("#fpays").value,
+    weight_min: $("#fpmin").value, weight_max: $("#fpmax").value,
+    age_min: $("#fage").value, no_weight: $("#fnw").checked ? "1" : "",
+  });
+  const poser = (x = {}) => {
+    $("#fq").value = x.q || ""; $("#fstatut").value = x.status || ""; $("#fdrop").value = x.drop_off || "";
+    $("#fstore").value = x.store_id || ""; $("#fpays").value = x.country || "";
+    $("#fpmin").value = x.weight_min || ""; $("#fpmax").value = x.weight_max || "";
+    $("#fage").value = x.age_min || ""; $("#fnw").checked = x.no_weight === "1";
+  };
+
+  let deb;
+  f.querySelectorAll("input,select").forEach(i => i.addEventListener(
+    i.type === "search" || i.type === "number" ? "input" : "change",
+    () => { clearTimeout(deb); deb = setTimeout(charger, 250); }));
+  $("#freset").onclick = () => { poser({}); charger(); };
+  $("#fsave").onclick = () => dialogue("Sauvegarder la vue",
+    `<label class="champ"><span>Nom</span><input id="nv"></label>`,
+    async () => {
+      const nom = $("#nv").value.trim(); if (!nom) return false;
+      await api("/api/views", { method: "POST", body: { name: nom, scope: "orders", filters: lire() } });
+      chargerVues();
+    }, "Sauvegarder");
+
+  async function chargerVues() {
+    const { views } = await api("/api/views?scope=orders");
+    $("#vuesSauv").innerHTML = '<span class="doux" style="font-size:12px">Vues :</span>' +
+      (views.length ? views.map(x => `<span class="ong" data-v="${x.id}">${esc(x.name)}</span>`).join("")
+        : '<span class="doux" style="font-size:12px">aucune</span>');
+    $("#vuesSauv").querySelectorAll("[data-v]").forEach(s => {
+      const vv = views.find(x => x.id == s.dataset.v);
+      s.onclick = () => { poser(vv.filters); charger(); };
+      s.oncontextmenu = async (e) => {
+        e.preventDefault();
+        if (!confirm(`Supprimer la vue « ${vv.name} » ?`)) return;
+        await api("/api/views", { method: "POST", body: { id: vv.id, delete: true } });
+        chargerVues();
+      };
+    });
+  }
+
+  async function charger() {
+    const p = new URLSearchParams({ ...lire(), sort: S.tri, dir: S.dir, limit: 400 });
+    const d = await api("/api/orders?" + p);
+    const drop = d.orders.filter(o => o.weight_g > 0 && o.weight_g < d.seuil).length;
+    $("#resume").innerHTML = `<b>${num(d.total)}</b> commandes · ${num(d.orders.length)} affichées ·
+      <span class="puce v">${num(drop)} admissibles au drop-off</span>`;
+    $("#tbl").innerHTML = "";
+    $("#tbl").append(table([
+      { k: "order_number", t: "Commande", r: o => `${esc(o.order_number)}
+        ${o.weight_g > 0 && o.weight_g < d.seuil ? '<span class="puce v">drop</span>' : ""}
+        ${o.hold_until ? `<span class="puce a">→ ${jour(o.hold_until)}</span>` : ""}
+        ${(o.tags || []).map(t => `<span class="puce g">${esc(t.name)}</span>`).join("")}` },
+      { k: "age", t: "Âge (j)", n: true },
+      { k: "customer_name", t: "Client" },
+      { k: "ship_to", t: "Ville", r: o => esc(o.ship_to.city) },
+      { k: "state", t: "Prov.", r: o => esc(o.ship_to.state) },
+      { k: "country", t: "Pays", r: o => esc(o.ship_to.country) },
+      { k: "weight_g", t: "Poids (g)", n: true, r: o => o.weight_g ? num(Math.round(o.weight_g)) : '<span class="puce r">manquant</span>' },
+      { k: "items", t: "Art.", n: true, r: o => o.items.filter(i => !i.adjustment).reduce((s, i) => s + i.quantity, 0) },
+      { k: "order_total", t: "Total", n: true, r: o => money(o.order_total) },
+      { k: "requested_service", t: "Service demandé" },
+      { k: "status", t: "Statut", r: o => `<span class="puce g">${esc(o.status)}</span>` },
+    ], d.orders, {
+      sel: S.sel, tri: S.tri, dir: S.dir,
+      onTri: (c) => { S.tri === c ? (S.dir = S.dir === "asc" ? "desc" : "asc") : (S.tri = c, S.dir = "desc"); charger(); },
+      onLigne: (id) => detailCommande(Number(id)),
+    }));
+    majActions();
+  }
+
+  const A = $("#actions");
+  A.innerHTML = `<span class="doux" id="nsel">aucune sélection</span>
+    <button id="aPreview">Simuler le lot</button>
+    <button id="aBuy" class="p">Acheter les étiquettes…</button>
+    <button id="aSlip">Bordereaux</button>
+    <button id="aHold">Mettre en attente…</button>
+    <button id="aRestore">Remettre en file</button>
+    <button id="aTag">Étiqueter…</button>
+    <button id="aRules">Appliquer les règles</button>
+    <button id="aMerge">Fusionner</button>
+    <button id="aCancel" class="d">Annuler…</button>`;
+  const majActions = () => {
+    const n = S.sel.size;
+    $("#nsel").textContent = n ? `${n} sélectionnée${n > 1 ? "s" : ""}` : "aucune sélection";
+    ["aPreview","aBuy","aSlip","aHold","aRestore","aTag","aRules","aCancel"].forEach(i => $("#" + i).disabled = !n);
+    $("#aMerge").disabled = n < 2;
+    $("#aBuy").disabled = !n || !S.config.etiquettes_actives;
+  };
+  document.addEventListener("selchange", majActions);
+  const ids = () => [...S.sel];
+
+  $("#aPreview").onclick = async () => {
+    attendre("Simulation du lot");
+    const r = await api("/api/batches/preview", { method: "POST", body: { ids: ids() } });
+    dialogue(`Simulation — ${r.n} étiquette(s)`, `
+      <div class="grille" style="margin-bottom:12px">
+        <div class="kpi"><div class="v">${money(r.total)}</div><div class="l">coût total</div></div>
+        <div class="kpi vert"><div class="v">${r.drop_off}</div><div class="l">en drop-off</div></div>
+        <div class="kpi ${r.bloquees ? "ambre" : ""}"><div class="v">${r.bloquees}</div><div class="l">bloquées</div></div>
+      </div>
+      <div class="tbl"><table><thead><tr><th>Commande</th><th class="n">Poids</th><th>Service</th><th class="n">Prix</th></tr></thead>
+      <tbody>${r.lignes.map(l => `<tr><td>${esc(l.order_number)}</td><td class="n">${l.poids ? num(l.poids) + " g" : "—"}</td>
+        <td>${l.erreur ? `<span class="puce r">${esc(l.erreur)}</span>` : esc(l.service) + (l.dropOff ? ' <span class="puce v">drop</span>' : "")}</td>
+        <td class="n">${l.prix ? money(l.prix) : "—"}</td></tr>`).join("")}</tbody></table></div>`, null);
+  };
+
+  $("#aBuy").onclick = () => dialogue(`Acheter ${S.sel.size} étiquette(s)`,
+    `<div class="avis">Ceci <b>achète réellement</b> les étiquettes et débite le compte transporteur.
+     Adaptateur actif : <b>${esc(S.config.adaptateur)}</b>.</div>
+     <label class="champ"><span>Nom du lot (facultatif)</span><input id="bn"></label>
+     <p class="doux">Sans service imposé, chaque commande prend le tarif recommandé (drop-off privilégié sous ${S.config.seuil_dropoff_g} g).</p>`,
+    async () => {
+      const r = await api("/api/batches", { method: "POST", body: { ids: ids(), name: $("#bn").value || null } });
+      alert(`Lot ${r.batchId} : ${r.reussis} étiquette(s), ${r.echecs} échec(s).`);
+      S.sel.clear(); charger(); rafraichirCompteurs();
+    }, "Acheter");
+
+  $("#aSlip").onclick = () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank");
+
+  $("#aHold").onclick = () => {
+    const d = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
+    dialogue(`Mettre ${S.sel.size} commande(s) en attente`,
+      `<label class="champ"><span>Jusqu'au</span><input type="date" id="hd" value="${d}"></label>
+       <p class="doux">Retour automatique en file à cette date.</p>`,
+      async () => { await api("/api/orders/hold", { method: "POST", body: { ids: ids(), hold_until: $("#hd").value } });
+        S.sel.clear(); charger(); rafraichirCompteurs(); });
+  };
+  $("#aRestore").onclick = async () => {
+    await api("/api/orders/restore", { method: "POST", body: { ids: ids() } });
+    S.sel.clear(); charger(); rafraichirCompteurs();
+  };
+  $("#aTag").onclick = () => dialogue("Étiqueter", `<label class="champ"><span>Tag</span>
+      <select id="tg">${(S.refs.tags || []).map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join("")}</select></label>
+      <label class="ch"><input type="checkbox" id="trm"> retirer au lieu d'ajouter</label>`,
+    async () => { await api("/api/orders/tag", { method: "POST", body: { ids: ids(), tag_id: Number($("#tg").value), remove: $("#trm").checked } }); charger(); });
+  $("#aRules").onclick = async () => {
+    await api("/api/rules/apply", { method: "POST", body: { ids: ids() } });
+    charger();
+  };
+  $("#aMerge").onclick = () => {
+    const [cible, ...autres] = ids();
+    dialogue("Fusionner", `<p>Les commandes seront fusionnées dans <b>#${cible}</b> (la première sélectionnée).
+      Les autres passeront en annulé, leurs articles rejoignant la cible.</p>`,
+      async () => { await api("/api/orders/merge", { method: "POST", body: { target: cible, ids: autres } });
+        S.sel.clear(); charger(); rafraichirCompteurs(); });
+  };
+  $("#aCancel").onclick = () => dialogue(`Annuler ${S.sel.size} commande(s)`,
+    `<div class="avis">Action destructrice : les commandes passent en <b>cancelled</b>.</div>`,
+    async () => { const r = await api("/api/orders/cancel", { method: "POST", body: { ids: ids() } });
+      if (r.erreurs?.length) alert(r.erreurs.map(e => `#${e.id} : ${e.e}`).join("\n"));
+      S.sel.clear(); charger(); rafraichirCompteurs(); }, "Annuler les commandes");
+
+  poser(statutFixe ? { status: statutFixe } : {});
+  await chargerVues();
+  await charger();
+};
+VUES.attente = () => VUES.commandes("on_hold");
+
+async function detailCommande(id) {
+  const o = await api("/api/orders/" + id);
+  const c = dialogue(`Commande ${o.order_number}`, `
+    <div class="grille" style="margin-bottom:12px">
+      <div class="kpi"><div class="v">${money(o.order_total)}</div><div class="l">total</div></div>
+      <div class="kpi"><div class="v">${num(Math.round(o.weight_g))} g</div><div class="l">poids</div></div>
+      <div class="kpi"><div class="v">${o.age ?? "—"}</div><div class="l">jours</div></div>
+      <div class="kpi"><div class="v" style="font-size:15px">${esc(o.status)}</div><div class="l">statut</div></div>
+    </div>
+    <div class="carte"><b>Expédier à</b><br>${esc(o.ship_to.name)}<br>${esc(o.ship_to.street1 || "")}
+      ${o.ship_to.street2 ? "<br>" + esc(o.ship_to.street2) : ""}<br>
+      ${esc(o.ship_to.city)}, ${esc(o.ship_to.state)} ${esc(o.ship_to.postalCode)} — ${esc(o.ship_to.country)}<br>
+      <span class="doux">${esc(o.customer_email || "")}</span></div>
+    <div class="tbl" style="max-height:none"><table><thead><tr><th>Article</th><th>SKU</th><th class="n">Qté</th><th class="n">Prix</th><th class="n">Poids</th></tr></thead>
+      <tbody>${o.items.map(i => `<tr><td>${esc(i.name)}${i.adjustment ? ' <span class="puce g">ajustement</span>' : ""}</td>
+        <td>${esc(i.sku || "—")}</td><td class="n">${i.quantity}</td><td class="n">${money(i.unit_price)}</td>
+        <td class="n">${num(Math.round(i.weight_g || 0))} g</td></tr>`).join("")}</tbody></table></div>
+    ${o.customer_notes ? `<div class="carte"><b>Note du client</b><br>${esc(o.customer_notes)}</div>` : ""}
+    <div class="barre" style="margin-top:12px"><button id="dCoter">Coter</button>
+      <button id="dRegles">Tester les règles</button>
+      <button id="dSlip">Bordereau</button></div>
+    <div id="dOut"></div>`, null);
+
+  $("#dCoter", c).onclick = async () => {
+    try {
+      const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: id } });
+      $("#dOut", c).innerHTML = `<div class="tbl"><table><thead><tr><th>Transporteur</th><th>Service</th><th class="n">Prix</th></tr></thead>
+        <tbody>${r.tarifs.map(t => `<tr${t.serviceId === r.recommande?.serviceId ? ' style="font-weight:650"' : ""}>
+        <td>${esc(t.carrier)}</td><td>${esc(t.service)}${t.dropOff ? ' <span class="puce v">drop</span>' : ""}</td>
+        <td class="n">${money(t.price)}</td></tr>`).join("")}</tbody></table></div>`;
+    } catch (e) { $("#dOut", c).innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+  };
+  $("#dRegles", c).onclick = async () => {
+    const r = await api("/api/rules/test", { method: "POST", body: { order_id: id } });
+    $("#dOut", c).innerHTML = r.declenchees.length
+      ? `<div class="carte">${r.declenchees.map(d => `<b>${esc(d.name)}</b><br><span class="doux">${d.actions.map(a => esc(a.type)).join(", ")}</span>`).join("<hr>")}</div>`
+      : '<p class="doux">Aucune règle ne s\'applique.</p>';
+  };
+  $("#dSlip", c).onclick = () => window.open(`/api/packing-slip?ids=${id}`, "_blank");
+}
+
+// ------------------------------------------------------------------ alertes
+VUES.alertes = async () => {
+  const a = await api("/api/orders/alerts");
+  const douane = await api("/api/products/customs-alerts");
+  const bas = await api("/api/inventory/low");
+  const titres = {
+    sans_poids: ["Sans poids", "Bloquent l'achat d'étiquette."],
+    adresse_incomplete: ["Adresse incomplète", "Rue, code postal ou pays manquant."],
+    sans_courriel: ["Sans courriel", "Aucune notification d'expédition possible."],
+    douane_incomplete: ["Douane incomplète", "Envoi hors Canada dont un article n'a pas de code SH."],
+    fusionnables: ["Expéditions combinables", "Même destinataire, même code postal."],
+    vieilles: ["En attente depuis plus de 14 jours", ""],
+  };
+  $("#vue").innerHTML = `<h2>Alertes</h2><p class="sous">Ce qui bloquera le prochain lot, détecté avant de le lancer.</p>`;
+  for (const [k, lignes] of Object.entries(a)) {
+    const [t, d] = titres[k] || [k, ""];
+    const carte = el(`<div class="carte"><b>${esc(t)}</b> <span class="puce ${lignes.length ? "a" : "v"}">${lignes.length}</span>
+      <div class="doux" style="font-size:12px;margin:3px 0 8px">${esc(d)}</div></div>`);
+    if (lignes.length) carte.append(table(
+      k === "fusionnables"
+        ? [{ k: "nom", t: "Destinataire" }, { k: "cp", t: "Code postal" }, { k: "n", t: "Commandes", n: true }]
+        : [{ k: "order_number", t: "Commande" }, { k: "customer_name", t: "Client" }, ...(k === "vieilles" ? [{ k: "age", t: "Âge (j)", n: true }] : [])],
+      lignes.slice(0, 25), { cle: k === "fusionnables" ? "cp" : "id" }));
+    $("#vue").append(carte);
+  }
+  const cd = el(`<div class="carte"><b>Produits sans code SH</b> <span class="puce ${douane.sans_hs.length ? "a" : "v"}">${douane.sans_hs.length}</span>
+    <div class="doux" style="font-size:12px;margin:3px 0 8px">Requis à six chiffres sur les envois commerciaux internationaux.</div></div>`);
+  if (douane.sans_hs.length) cd.append(table([{ k: "sku", t: "SKU" }, { k: "name", t: "Produit" }], douane.sans_hs.slice(0, 25)));
+  $("#vue").append(cd);
+  if (bas.low.length) {
+    const cb = el(`<div class="carte"><b>Stock bas</b> <span class="puce a">${bas.low.length}</span></div>`);
+    cb.append(table([{ k: "sku", t: "SKU" }, { k: "name", t: "Produit" }, { k: "warehouse_name", t: "Entrepôt" },
+      { k: "on_hand", t: "En main", n: true }, { k: "low_threshold", t: "Seuil", n: true }], bas.low, { cle: "sku" }));
+    $("#vue").append(cb);
+  }
+};
+
+// ------------------------------------------------------------ expéditions
+VUES.expeditions = async () => {
+  $("#vue").innerHTML = `<h2>Expéditions</h2><p class="sous" id="r">…</p>
+    <div class="barre">
+      <input type="search" id="ftr" placeholder="Numéro de suivi">
+      <input type="search" id="fon" placeholder="N° commande">
+      <select id="fca"><option value="">Tous transporteurs</option></select>
+      <select id="fvo"><option value="non">Actives</option><option value="oui">Annulées</option><option value="">Toutes</option></select>
+      <select id="fdr"><option value="">Toutes</option><option value="oui">Drop-off seulement</option></select>
+      <input type="date" id="fd1"><input type="date" id="fd2">
+      <a id="exp" class="doux">Exporter CSV</a>
+    </div><div id="t"></div>`;
+  $("#fca").innerHTML += (S.refs.carriers || []).map(c => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("");
+  const lire = () => ({ tracking_number: $("#ftr").value, order_number: $("#fon").value,
+    carrier_code: $("#fca").value, voided: $("#fvo").value, drop_off: $("#fdr").value,
+    date_from: $("#fd1").value, date_to: $("#fd2").value, limit: 400 });
+  async function charger() {
+    const p = new URLSearchParams(lire());
+    const d = await api("/api/shipments?" + p);
+    $("#r").innerHTML = `<b>${num(d.total)}</b> expéditions · coût affiché <b>${money(d.cout_total)}</b>`;
+    $("#exp").href = "/api/export/shipments?" + p;
+    $("#t").innerHTML = ""; $("#t").append(table([
+      { k: "order_number", t: "Commande" },
+      { k: "tracking_number", t: "Suivi", r: s => esc(s.tracking_number || "—") + (s.drop_off ? ' <span class="puce v">drop</span>' : "") + (s.is_return ? ' <span class="puce g">retour</span>' : "") + (s.voided ? ' <span class="puce r">annulée</span>' : "") },
+      { k: "carrier_code", t: "Transporteur" }, { k: "service_id", t: "Service" },
+      { k: "ship_date", t: "Date", r: s => jour(s.ship_date) },
+      { k: "cost", t: "Coût", n: true, r: s => money(s.cost) },
+      { k: "customer_name", t: "Client" },
+      { k: "act", t: "", r: s => s.voided ? "" : `<button data-void="${s.id}">Annuler</button>` },
+    ], d.shipments));
+    $("#t").querySelectorAll("[data-void]").forEach(b => b.onclick = () => dialogue("Annuler l'étiquette",
+      "<p>L'étiquette sera annulée auprès du transporteur. Le remboursement dépend de lui.</p>",
+      async () => { await api("/api/shipments/void", { method: "POST", body: { shipment_id: Number(b.dataset.void) } }); charger(); }));
+  }
+  let d; $("#vue").querySelectorAll(".barre input,.barre select").forEach(i =>
+    i.addEventListener("input", () => { clearTimeout(d); d = setTimeout(charger, 250); }));
+  charger();
+};
+
+// ------------------------------------------------------------------- lots
+VUES.lots = async () => {
+  const { batches } = await api("/api/batches");
+  $("#vue").innerHTML = `<h2>Lots</h2><p class="sous">96 % des étiquettes du compte audité sont achetées en lot — c'est le chemin principal.</p>`;
+  $("#vue").append(table([
+    { k: "id", t: "Lot" }, { k: "name", t: "Nom" },
+    { k: "created_at", t: "Créé", r: b => jour(b.created_at) },
+    { k: "n", t: "Étiquettes", n: true },
+    { k: "cout", t: "Coût", n: true, r: b => money(b.cout) },
+    { k: "status", t: "Statut", r: b => `<span class="puce ${b.status === "done" ? "v" : b.status === "error" ? "r" : "g"}">${esc(b.status)}</span>` },
+  ], batches, { onLigne: async (id) => {
+    const l = await api("/api/batches/" + id);
+    dialogue(`Lot ${id}`, table([{ k: "order_number", t: "Commande" }, { k: "tracking_number", t: "Suivi" },
+      { k: "service_id", t: "Service" }, { k: "cost", t: "Coût", n: true, r: s => money(s.cost) }], l.shipments).outerHTML, null);
+  } }));
+};
+
+// --------------------------------------------------------------- manifestes
+VUES.manifestes = async () => {
+  const { manifests } = await api("/api/manifests");
+  $("#vue").innerHTML = `<h2>Fin de journée</h2>
+    <p class="sous">Clôture des expéditions par transporteur. En drop-off, le document sert de bordereau de dépôt.</p>
+    <div class="barre">
+      <select id="mc">${(S.refs.carriers || []).map(c => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select>
+      <input type="date" id="md" value="${new Date().toISOString().slice(0, 10)}">
+      <button class="p" id="mgo">Clôturer</button></div><div id="mt"></div>`;
+  $("#mgo").onclick = async () => {
+    try {
+      const r = await api("/api/manifests", { method: "POST", body: { carrier_code: $("#mc").value, ship_date: $("#md").value } });
+      alert(`Manifeste ${r.manifestId} : ${r.shipments} expédition(s).`); VUES.manifestes();
+    } catch (e) { alert(e.message); }
+  };
+  $("#mt").append(table([{ k: "id", t: "N°" }, { k: "carrier_code", t: "Transporteur" },
+    { k: "ship_date", t: "Date", r: m => jour(m.ship_date) },
+    { k: "shipment_count", t: "Expéditions", n: true }, { k: "status", t: "Statut" }], manifests));
+};
+
+// ----------------------------------------------------------------- retours
+VUES.retours = async () => {
+  const d = await api("/api/returns");
+  $("#vue").innerHTML = `<h2>Retours</h2><p class="sous">${num(d.total)} RMA. Cycle complet : demande, approbation, transit, réception, remboursement.</p>
+    <div class="barre"><button class="p" id="rnew">Nouveau retour</button></div><div id="rt"></div>`;
+  $("#rnew").onclick = () => dialogue("Nouveau retour", `
+    <label class="champ"><span>N° de commande</span><input id="ron" placeholder="L-50123"></label>
+    <label class="champ"><span>Motif</span><input id="rre" placeholder="Taille, défaut, changement d'avis…"></label>
+    <label class="champ"><span>Résolution</span><select id="rso"><option value="refund">Remboursement</option>
+      <option value="exchange">Échange</option><option value="store_credit">Crédit en boutique</option></select></label>`,
+    async () => {
+      const o = await api("/api/orders?q=" + encodeURIComponent($("#ron").value) + "&limit=1");
+      await api("/api/returns", { method: "POST", body: { order_id: o.orders[0]?.id, reason: $("#rre").value, resolution: $("#rso").value } });
+      VUES.retours();
+    }, "Créer");
+  $("#rt").append(table([
+    { k: "rma", t: "RMA" }, { k: "order_number", t: "Commande" }, { k: "customer_name", t: "Client" },
+    { k: "reason", t: "Motif" }, { k: "resolution", t: "Résolution" },
+    { k: "requested_at", t: "Demandé", r: r => jour(r.requested_at) },
+    { k: "status", t: "Statut", r: r => `<span class="puce ${r.status === "refunded" ? "v" : r.status === "rejected" ? "r" : "a"}">${esc(r.status)}</span>` },
+    { k: "act", t: "", r: r => `<select data-rid="${r.id}"><option value="">changer…</option>
+      ${["requested","approved","in_transit","received","refunded","rejected"].map(s => `<option>${s}</option>`).join("")}</select>` },
+  ], d.returns));
+  $("#rt").querySelectorAll("[data-rid]").forEach(s => s.onchange = async () => {
+    if (!s.value) return;
+    await api("/api/returns/" + s.dataset.rid, { method: "POST", body: { status: s.value } });
+    VUES.retours();
+  });
+};
+
+// ---------------------------------------------------------------- produits
+VUES.produits = async () => {
+  $("#vue").innerHTML = `<h2>Produits</h2><p class="sous" id="pr">…</p>
+    <div class="barre"><input type="search" id="pq" placeholder="SKU ou nom">
+      <label class="ch"><input type="checkbox" id="pnh"> sans code SH</label>
+      <label class="ch"><input type="checkbox" id="pnw"> sans poids</label>
+      <button class="p" id="pnew">Nouveau produit</button>
+      <a id="pex" class="doux">Exporter CSV</a></div><div id="pt"></div>`;
+  async function charger() {
+    const p = new URLSearchParams({ q: $("#pq").value, no_hs: $("#pnh").checked ? "1" : "", no_weight: $("#pnw").checked ? "1" : "", limit: 400 });
+    const d = await api("/api/products?" + p);
+    $("#pr").innerHTML = `<b>${num(d.total)}</b> produits`;
+    $("#pex").href = "/api/export/products?" + p;
+    $("#pt").innerHTML = ""; $("#pt").append(table([
+      { k: "sku", t: "SKU" }, { k: "name", t: "Nom" },
+      { k: "weight_g", t: "Poids (g)", n: true, r: x => x.weight_g ? num(Math.round(x.weight_g)) : '<span class="puce a">—</span>' },
+      { k: "hs_code", t: "Code SH", r: x => x.hs_code ? esc(x.hs_code) : '<span class="puce a">manquant</span>' },
+      { k: "country_of_origin", t: "Origine" },
+      { k: "warehouse_location", t: "Emplacement" },
+      { k: "price", t: "Prix", n: true, r: x => money(x.price) },
+    ], d.products, { onLigne: (id) => editerProduit(d.products.find(x => x.id == id)) }));
+  }
+  const editerProduit = (p = {}) => dialogue(p.id ? `Produit ${p.sku}` : "Nouveau produit", `
+    <label class="champ"><span>SKU</span><input id="xs" value="${esc(p.sku || "")}"></label>
+    <label class="champ"><span>Nom</span><input id="xn" value="${esc(p.name || "")}"></label>
+    <div class="grille">
+      <label class="champ"><span>Poids (g)</span><input type="number" id="xw" value="${p.weight_g || ""}"></label>
+      <label class="champ"><span>Prix</span><input type="number" step="0.01" id="xp" value="${p.price || ""}"></label>
+      <label class="champ"><span>Code SH (6 chiffres)</span><input id="xh" value="${esc(p.hs_code || "")}"></label>
+      <label class="champ"><span>Pays d'origine</span><input id="xo" value="${esc(p.country_of_origin || "CA")}"></label>
+      <label class="champ"><span>Emplacement</span><input id="xl" value="${esc(p.warehouse_location || "")}"></label>
+    </div>
+    <label class="champ"><span>Description douanière</span><input id="xd" value="${esc(p.customs_description || "")}"></label>`,
+    async () => {
+      await api("/api/products", { method: "POST", body: { sku: $("#xs").value, name: $("#xn").value,
+        weight_g: Number($("#xw").value) || 0, price: Number($("#xp").value) || 0, hs_code: $("#xh").value,
+        country_of_origin: $("#xo").value, warehouse_location: $("#xl").value, customs_description: $("#xd").value } });
+      charger();
+    }, "Enregistrer");
+  $("#pnew").onclick = () => editerProduit();
+  let d; $("#vue").querySelectorAll(".barre input").forEach(i =>
+    i.addEventListener("input", () => { clearTimeout(d); d = setTimeout(charger, 250); }));
+  charger();
+};
+
+// ----------------------------------------------------------------- clients
+VUES.clients = async () => {
+  $("#vue").innerHTML = `<h2>Clients</h2><p class="sous" id="cr">…</p>
+    <div class="barre"><input type="search" id="cq" placeholder="Courriel ou nom">
+      <button id="crb">Reconstruire depuis les commandes</button>
+      <a id="cex" class="doux">Exporter CSV</a></div><div id="ct"></div>`;
+  async function charger() {
+    const p = new URLSearchParams({ q: $("#cq").value, limit: 300 });
+    const d = await api("/api/customers?" + p);
+    $("#cr").innerHTML = `<b>${num(d.total)}</b> clients`;
+    $("#cex").href = "/api/export/customers?" + p;
+    $("#ct").innerHTML = ""; $("#ct").append(table([
+      { k: "name", t: "Nom" }, { k: "email", t: "Courriel" },
+      { k: "order_count", t: "Commandes", n: true },
+      { k: "total_spent", t: "Total dépensé", n: true, r: c => money(c.total_spent) },
+      { k: "first_order", t: "Première", r: c => jour(c.first_order) },
+      { k: "last_order", t: "Dernière", r: c => jour(c.last_order) },
+    ], d.customers, { cle: "email" }));
+  }
+  $("#crb").onclick = async () => { const r = await api("/api/customers/rebuild", { method: "POST" }); alert(`${r.n} clients.`); charger(); };
+  let d; $("#cq").addEventListener("input", () => { clearTimeout(d); d = setTimeout(charger, 250); });
+  charger();
+};
+
+// -------------------------------------------------------------- analytique
+VUES.analytique = async () => {
+  const a = await api("/api/analytics");
+  const d = a.drop_off, mx = Math.max(...a.par_mois.map(m => m.n), 1);
+  $("#vue").innerHTML = `<h2>Analytique</h2><p class="sous">Coûts, volumes, et l'écart au tarif drop-off.</p>
+    <div class="grille">
+      <div class="kpi"><div class="v">${num(a.resume.expeditions)}</div><div class="l">expéditions</div></div>
+      <div class="kpi"><div class="v">${money(a.resume.cout_total)}</div><div class="l">dépense transport</div></div>
+      <div class="kpi"><div class="v">${money(a.resume.cout_moyen)}</div><div class="l">coût moyen</div></div>
+      <div class="kpi vert"><div class="v">${num(a.resume.drop_off)}</div><div class="l">en drop-off</div></div>
+      <div class="kpi"><div class="v">${num(a.resume.backlog)}</div><div class="l">à expédier</div></div>
+      <div class="kpi"><div class="v">${a.delai.jours_moyen ?? "—"}</div><div class="l">jours commande → envoi</div></div>
+    </div>
+    <div class="carte"><b>Écart au tarif drop-off (${money(d.tarif_cible)} sous ${d.seuil_g} g)</b>
+      <div class="grille" style="margin-top:10px">
+        <div class="kpi"><div class="v">${num(d.admissibles)}</div><div class="l">colis admissibles (${d.part_admissible_pct} %)</div></div>
+        <div class="kpi vert"><div class="v">${num(d.deja_en_drop_off)}</div><div class="l">déjà captés</div></div>
+        <div class="kpi ambre"><div class="v">${num(d.non_captes)}</div><div class="l">non captés</div></div>
+        <div class="kpi ${d.economie_restante > 0 ? "ambre" : "vert"}"><div class="v">${money(d.economie_restante)}</div><div class="l">économie restante sur la période</div></div>
+      </div>
+      <div class="bar"><i style="width:${d.admissibles ? Math.round(100 * d.deja_en_drop_off / d.admissibles) : 0}%"></i></div>
+    </div>
+    <div class="carte"><b>Coût réel contre frais de port encaissés</b>
+      <p class="doux" style="margin:4px 0 0">Encaissé ${money(a.cout_vs_encaisse.encaisse)} · payé ${money(a.cout_vs_encaisse.cout)} ·
+      <b style="color:${a.cout_vs_encaisse.ecart >= 0 ? "var(--vert)" : "var(--rouge)"}">écart ${money(a.cout_vs_encaisse.ecart)}</b></p></div>
+    <div class="carte"><b>Volume par mois</b><div id="mois" style="margin-top:8px"></div></div>
+    <div class="carte"><b>Par bande de poids</b><div id="poids"></div></div>
+    <div class="carte"><b>Par transporteur et service</b><div id="serv"></div></div>`;
+  $("#mois").innerHTML = a.par_mois.map(m => `<div style="display:flex;align-items:center;gap:9px;margin-bottom:3px">
+    <span style="width:64px;font-variant-numeric:tabular-nums" class="doux">${m.mois}</span>
+    <span class="bar" style="flex:1"><i style="width:${Math.round(100 * m.n / mx)}%"></i></span>
+    <span style="width:60px;text-align:right;font-variant-numeric:tabular-nums">${num(m.n)}</span>
+    <span style="width:92px;text-align:right" class="doux">${money(m.cout)}</span></div>`).join("");
+  $("#poids").append(table([{ k: "bande", t: "Bande" }, { k: "n", t: "Envois", n: true },
+    { k: "moyen", t: "Coût moyen", n: true, r: r => money(r.moyen) }, { k: "cout", t: "Total", n: true, r: r => money(r.cout) }],
+    a.par_poids, { cle: "bande" }));
+  $("#serv").append(table([{ k: "carrier_code", t: "Transporteur" }, { k: "service_id", t: "Service" },
+    { k: "n", t: "Envois", n: true }, { k: "moyen", t: "Moyen", n: true, r: r => money(r.moyen) },
+    { k: "drop_off", t: "Drop-off", n: true }], a.par_service, { cle: "service_id" }));
+};
+
+// ----------------------------------------------------------- automatisation
+VUES.automatisation = async () => {
+  const d = await api("/api/rules");
+  $("#vue").innerHTML = `<h2>Automatisation</h2>
+    <p class="sous">Règles SI/ALORS appliquées à l'import, dans l'ordre. Une règle voit le résultat des précédentes.</p>
+    <div class="barre"><button class="p" id="rn">Nouvelle règle</button></div><div id="rt"></div>`;
+  $("#rt").append(table([
+    { k: "position", t: "Ordre", n: true },
+    { k: "name", t: "Règle", r: r => esc(r.name) + (r.enabled ? "" : ' <span class="puce g">désactivée</span>') },
+    { k: "conditions", t: "Si", r: r => esc(r.conditions.map(c => `${c.field} ${c.op} ${JSON.stringify(c.value)}`).join(r.match_all ? " ET " : " OU ")) },
+    { k: "actions", t: "Alors", r: r => esc(r.actions.map(a => a.type).join(", ")) },
+    { k: "run_count", t: "Exéc.", n: true },
+    { k: "act", t: "", r: r => `<button data-e="${r.id}">Modifier</button> <button class="d" data-x="${r.id}">Suppr.</button>` },
+  ], d.rules));
+  const editer = (r = { conditions: [], actions: [], enabled: true, match_all: true, position: 50 }) => {
+    dialogue(r.id ? "Modifier la règle" : "Nouvelle règle", `
+      <label class="champ"><span>Nom</span><input id="rnm" value="${esc(r.name || "")}"></label>
+      <div class="grille">
+        <label class="champ"><span>Ordre</span><input type="number" id="rps" value="${r.position}"></label>
+        <label class="champ"><span>Correspondance</span><select id="rma"><option value="1"${r.match_all ? " selected" : ""}>Toutes les conditions</option><option value="0"${!r.match_all ? " selected" : ""}>Au moins une</option></select></label>
+        <label class="champ"><span>Active</span><select id="ren"><option value="1"${r.enabled ? " selected" : ""}>Oui</option><option value="0"${!r.enabled ? " selected" : ""}>Non</option></select></label>
+      </div>
+      <label class="champ"><span>Conditions — JSON. Champs : ${d.champs.join(", ")}. Opérateurs : ${d.operateurs.join(", ")}</span>
+        <textarea id="rco" style="min-height:120px">${esc(JSON.stringify(r.conditions, null, 1))}</textarea></label>
+      <label class="champ"><span>Actions — JSON. Types : ${d.actions.join(", ")}</span>
+        <textarea id="rac" style="min-height:100px">${esc(JSON.stringify(r.actions, null, 1))}</textarea></label>`,
+      async () => {
+        await api("/api/rules", { method: "POST", body: { id: r.id, name: $("#rnm").value,
+          position: Number($("#rps").value), match_all: $("#rma").value === "1", enabled: $("#ren").value === "1",
+          conditions: JSON.parse($("#rco").value), actions: JSON.parse($("#rac").value) } });
+        VUES.automatisation();
+      }, "Enregistrer");
+  };
+  $("#rn").onclick = () => editer();
+  $("#rt").querySelectorAll("[data-e]").forEach(b => b.onclick = (e) => { e.stopPropagation(); editer(d.rules.find(x => x.id == b.dataset.e)); });
+  $("#rt").querySelectorAll("[data-x]").forEach(b => b.onclick = async (e) => {
+    e.stopPropagation();
+    if (!confirm("Supprimer cette règle ?")) return;
+    await api("/api/rules/" + b.dataset.x, { method: "DELETE" }); VUES.automatisation();
+  });
+};
+
+// ---------------------------------------------------------------- gabarits
+VUES.gabarits = async () => {
+  const { templates: ts } = await api("/api/templates");
+  $("#vue").innerHTML = `<h2>Gabarits</h2>
+    <p class="sous">Bordereaux et courriels, en HTML avec variables <code>{{ }}</code>, conditions <code>{% if %}</code> et boucles <code>{% for %}</code>.</p>
+    <div class="barre"><button class="p" id="gn">Nouveau gabarit</button></div><div id="gt"></div>`;
+  $("#gt").append(table([
+    { k: "name", t: "Nom", r: t => esc(t.name) + (t.is_default ? ' <span class="puce v">par défaut</span>' : "") },
+    { k: "kind", t: "Type" }, { k: "subject", t: "Sujet" },
+  ], ts, { onLigne: (id) => editer(ts.find(t => t.id == id)) }));
+  const editer = (t = { kind: "packing_slip", body: "" }) => {
+    const c = dialogue(t.id ? `Gabarit — ${t.name}` : "Nouveau gabarit", `
+      <div class="grille">
+        <label class="champ"><span>Nom</span><input id="gnm" value="${esc(t.name || "")}"></label>
+        <label class="champ"><span>Type</span><select id="gkd">
+          <option value="packing_slip"${t.kind === "packing_slip" ? " selected" : ""}>Bordereau</option>
+          <option value="email"${t.kind === "email" ? " selected" : ""}>Courriel</option>
+          <option value="label_message"${t.kind === "label_message" ? " selected" : ""}>Message d'étiquette</option></select></label>
+        <label class="champ"><span>Par défaut</span><select id="gdf"><option value="0">Non</option><option value="1"${t.is_default ? " selected" : ""}>Oui</option></select></label>
+      </div>
+      <label class="champ"><span>Sujet (courriels)</span><input id="gsb" value="${esc(t.subject || "")}"></label>
+      <label class="champ"><span>Corps</span><textarea id="gbd">${esc(t.body || "")}</textarea></label>
+      <div class="barre"><button id="gpv">Aperçu sur une vraie commande</button></div>
+      <div id="gout"></div>`,
+      async () => {
+        await api("/api/templates", { method: "POST", body: { id: t.id, name: $("#gnm").value, kind: $("#gkd").value,
+          subject: $("#gsb").value, body: $("#gbd").value, is_default: $("#gdf").value === "1" } });
+        VUES.gabarits();
+      }, "Enregistrer");
+    $("#gpv", c).onclick = async () => {
+      const r = await api("/api/templates/preview", { method: "POST", body: { body: $("#gbd").value, subject: $("#gsb").value } });
+      $("#gout", c).innerHTML = r.error ? `<div class="avis">${esc(r.error)}</div>`
+        : `<div class="carte">${r.sujet ? `<b>Sujet :</b> ${esc(r.sujet)}<hr>` : ""}${r.html}</div>`;
+    };
+  };
+  $("#gn").onclick = () => editer();
+};
+
+// ------------------------------------------------------------ utilisateurs
+VUES.utilisateurs = async () => {
+  const d = await api("/api/users");
+  $("#vue").innerHTML = `<h2>Utilisateurs</h2>
+    <p class="sous">Permissions par domaine, comme ShipStation — avec des rôles pré-remplis pour éviter de cocher quinze cases.</p>
+    <div class="barre"><button class="p" id="un">Nouvel utilisateur</button></div><div id="ut"></div>`;
+  $("#ut").append(table([
+    { k: "name", t: "Nom" }, { k: "email", t: "Courriel" },
+    { k: "role", t: "Rôle", r: u => esc(u.permissions.role || "—") },
+    { k: "perms", t: "Peut", r: u => Object.entries(u.permissions).filter(([k, v]) => v === true).length + " permission(s)" },
+    { k: "totp_enabled", t: "2FA", r: u => u.totp_enabled ? '<span class="puce v">actif</span>' : '<span class="puce a">non</span>' },
+    { k: "active", t: "Actif", r: u => u.active ? '<span class="puce v">oui</span>' : '<span class="puce r">non</span>' },
+    { k: "act", t: "", r: u => u.totp_enabled ? `<button data-r2="${u.id}">Réinit. 2FA</button>` : "" },
+  ], d.users, { cle: "id" }));
+  $("#ut").querySelectorAll("[data-r2]").forEach(b => b.onclick = async (e) => {
+    e.stopPropagation();
+    if (!confirm("Réinitialiser le second facteur ? Ses sessions seront fermées et il devra le reconfigurer.")) return;
+    await api(`/api/users/${b.dataset.r2}/2fa/reset`, { method: "POST" });
+    VUES.utilisateurs();
+  });
+  $("#un").onclick = () => dialogue("Nouvel employé", `
+    <label class="champ"><span>Nom</span><input id="un1"></label>
+    <label class="champ"><span>Courriel</span><input id="un2" type="email"></label>
+    <label class="champ"><span>Rôle</span><select id="un3">${d.roles.map(r => `<option>${r}</option>`).join("")}</select></label>
+    <p class="doux">Un mot de passe provisoire sera généré et affiché une seule fois.
+      L'employé devra le changer à sa première connexion.</p>
+    <p class="doux" style="font-size:12px">Domaines : ${Object.values(d.domaines).join(", ")}.</p>`,
+    async () => {
+      const r = await api("/api/users", { method: "POST", body: { name: $("#un1").value, email: $("#un2").value, role: $("#un3").value } });
+      if (r.motDePasse) {
+        dialogue("Compte créé", `<p>Transmettre ces identifiants à <b>${esc($("#un1").value)}</b> —
+          ce mot de passe ne sera plus affiché.</p>
+          <div class="carte" style="font-family:ui-monospace,monospace;font-size:15px">
+            ${esc($("#un2").value)}<br><b>${esc(r.motDePasse)}</b></div>
+          <p class="doux">Il devra le changer à la première connexion.</p>`, null);
+      } else VUES.utilisateurs();
+      return false;
+    }, "Créer");
+  $("#ut").querySelectorAll("tbody tr").forEach(tr => tr.oncontextmenu = async (e) => {
+    e.preventDefault();
+    const u = d.users.find(x => x.id === tr.dataset.id);
+    if (!u || !confirm(`Réinitialiser le mot de passe de ${u.name} ?`)) return;
+    const r = await api(`/api/users/${u.id}/password`, { method: "POST", body: {} });
+    dialogue("Mot de passe réinitialisé",
+      `<div class="carte" style="font-family:ui-monospace,monospace;font-size:15px"><b>${esc(r.motDePasse)}</b></div>
+       <p class="doux">Toutes ses sessions ont été fermées. À changer à la prochaine connexion.</p>`, null);
+  });
+};
+
+// ---------------------------------------------------------------- réglages
+VUES.reglages = async () => {
+  const s = await api("/api/settings");
+  const w = await api("/api/webhooks");
+  $("#vue").innerHTML = `<h2>Réglages</h2>
+    <div class="carte"><b>Marque</b><p class="doux" style="margin:2px 0 10px">Utilisée dans les bordereaux et les courriels.</p>
+      <div class="grille">
+        <label class="champ"><span>Nom</span><input id="sn" value="${esc(s.marque.nom || "")}"></label>
+        <label class="champ"><span>Courriel</span><input id="se" value="${esc(s.marque.courriel || "")}"></label>
+        <label class="champ"><span>Adresse</span><input id="sa" value="${esc(s.marque.adresse || "")}"></label>
+        <label class="champ"><span>Logo (URL)</span><input id="sl" value="${esc(s.marque.logo || "")}"></label>
+      </div>
+      <label class="champ"><span>Message de bas de bordereau</span><input id="sm" value="${esc(s.marque.message_bordereau || "")}"></label>
+      <button class="p" id="ssave">Enregistrer</button></div>
+    <div class="carte"><b>Tarif drop-off cible</b>
+      <p class="doux" style="margin:2px 0 8px">Sert de référence dans l'analytique. Seuil de poids : ${s.seuil_dropoff_g} g.</p>
+      <input type="number" step="0.01" id="st" value="${s.tarif_dropoff_cible}"> <button id="stsave">Enregistrer</button></div>
+    <div class="carte"><b>Sécurité</b>
+      <p class="doux" style="margin:2px 0 8px">Imposer le second facteur oblige chaque employé à
+      configurer une application d'authentification à sa prochaine connexion, et interdit de le retirer.</p>
+      <label class="ch"><input type="checkbox" id="s2fa" ${S.config.exiger_2fa ? "checked" : ""}>
+        Second facteur obligatoire pour tous</label>
+      <button id="s2save" style="margin-left:10px">Enregistrer</button></div>
+    <div class="carte"><b>Webhooks</b>
+      <p class="doux" style="margin:2px 0 8px">Comme ShipStation, la charge utile ne contient que l'URL de la ressource à rappeler.</p>
+      <div class="barre"><select id="wev">${w.evenements.map(e => `<option>${e}</option>`).join("")}</select>
+        <input id="wurl" placeholder="https://…" style="min-width:260px">
+        <button id="wadd">Abonner</button></div><div id="wt"></div></div>
+    <div class="carte"><b>Migration depuis ShipStation</b>
+      <p class="doux" style="margin:2px 0 8px">Dernière : ${s.derniere_migration ? jour(s.derniere_migration) : "jamais"}.
+      À lancer <b>avant toute résiliation</b> — l'accès API disparaît avec l'abonnement.</p>
+      <button class="p" id="mig">Lancer la migration</button>
+      <span class="doux" style="margin-left:8px">peut prendre plusieurs minutes</span></div>`;
+  $("#ssave").onclick = async () => {
+    await api("/api/settings", { method: "POST", body: { marque: { nom: $("#sn").value, courriel: $("#se").value,
+      adresse: $("#sa").value, logo: $("#sl").value || null, message_bordereau: $("#sm").value } } });
+    alert("Enregistré.");
+  };
+  $("#s2save").onclick = async () => {
+    await api("/api/settings", { method: "POST", body: { exiger_2fa: $("#s2fa").checked } });
+    S.config = await api("/api/config");
+    alert($("#s2fa").checked
+      ? "Second facteur obligatoire. Chaque employé devra le configurer à sa prochaine connexion."
+      : "Second facteur redevenu facultatif.");
+  };
+  $("#stsave").onclick = async () => { await api("/api/settings", { method: "POST", body: { tarif_dropoff_cible: Number($("#st").value) } }); alert("Enregistré."); };
+  $("#wt").append(table([{ k: "event", t: "Événement" }, { k: "target_url", t: "URL" },
+    { k: "act", t: "", r: x => `<button class="d" data-w="${x.id}">Retirer</button>` }], w.webhooks));
+  $("#wt").querySelectorAll("[data-w]").forEach(b => b.onclick = async () => {
+    await api("/api/webhooks/" + b.dataset.w, { method: "DELETE" }); VUES.reglages();
+  });
+  $("#wadd").onclick = async () => {
+    try { await api("/api/webhooks", { method: "POST", body: { event: $("#wev").value, target_url: $("#wurl").value } }); VUES.reglages(); }
+    catch (e) { alert(e.message); }
+  };
+  $("#mig").onclick = () => dialogue("Migration depuis ShipStation",
+    `<p>Récupère commandes, expéditions, fulfillments, produits et référentiels par le General Proxy.</p>
+     <label class="champ"><span>Depuis (facultatif, AAAA-MM-JJ)</span><input id="mdd" placeholder="2025-08-01"></label>
+     <div class="avis info">Long — plusieurs minutes selon le volume. La fenêtre peut rester ouverte.</div>`,
+    async () => {
+      $("#dlgC").innerHTML = '<p class="doux">Migration en cours…</p>';
+      try {
+        const r = await api("/api/migrate", { method: "POST", body: { depuis: $("#mdd")?.value || null } });
+        $("#dlgC").innerHTML = `<div class="carte"><b>Terminé</b><pre>${esc(JSON.stringify(r.bilan, null, 2))}</pre></div>`;
+        rafraichirCompteurs();
+      } catch (e) { $("#dlgC").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+      return false;
+    }, "Lancer");
+};
+
+// ----------------------------------------------------------------- journal
+VUES.journal = async () => {
+  const { rows } = await api("/api/audit?limit=300");
+  $("#vue").innerHTML = `<h2>Journal</h2><p class="sous">Qui a fait quoi — ShipStation n'expose pas ça par API, nous si.</p>`;
+  $("#vue").append(table([
+    { k: "at", t: "Quand", r: r => String(r.at).slice(0, 19).replace("T", " ") },
+    { k: "action", t: "Action" }, { k: "entity", t: "Objet" }, { k: "entity_id", t: "Réf." },
+    { k: "detail", t: "Détail", r: r => `<span class="doux">${esc(JSON.stringify(r.detail || "")).slice(0, 90)}</span>` },
+  ], rows));
+};
+
+// ══════════════════════════════════════════════════════════════════ amorçage
+async function rafraichirCompteurs() {
+  try { S.compteurs = await api("/api/orders/counts"); majCompteursMenu(); } catch {}
+}
+
+async function rendre() {
+  $("#vue").innerHTML = '<p class="doux">Chargement…</p>';
+  try { await (VUES[S.page] || VUES.commandes)(); }
+  catch (e) { $("#vue").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+}
+
+// ══════════════════════════════════════════════════════════════════ connexion
+function montrerConnexion(message = "") {
+  $("#app").style.display = "none";
+  let ecran = $("#connexion");
+  if (!ecran) {
+    ecran = el(`<div id="connexion" style="display:grid;place-items:center;min-height:100vh;padding:20px">
+      <form class="carte" style="width:min(380px,92vw);padding:22px" id="fc">
+        <h2 style="margin:0 0 3px">Expéditions</h2>
+        <p class="sous" style="margin-bottom:16px">Connexion</p>
+        <label class="champ"><span>Courriel</span><input type="email" id="le" autocomplete="username" required></label>
+        <label class="champ"><span>Mot de passe</span><input type="password" id="lp" autocomplete="current-password" required></label>
+        <div id="lerr"></div>
+        <button class="p" style="width:100%;margin-top:6px" type="submit">Se connecter</button>
+      </form></div>`);
+    document.body.append(ecran);
+    $("#fc").onsubmit = async (e) => {
+      e.preventDefault();
+      $("#lerr").innerHTML = "";
+      try {
+        const r = await api("/api/login", { method: "POST", body: { email: $("#le").value, password: $("#lp").value } });
+        if (r.besoin2fa) return etape2facteur(ecran);
+        ecran.remove();
+        $("#app").style.display = "";
+        demarrer();
+      } catch (err) { $("#lerr").innerHTML = `<div class="avis">${esc(err.message)}</div>`; }
+    };
+  }
+  if (message) $("#lerr").innerHTML = `<div class="avis">${esc(message)}</div>`;
+  setTimeout(() => $("#le")?.focus(), 30);
+}
+
+/** Deuxième étape : le code de l'application d'authentification. */
+function etape2facteur(ecran) {
+  ecran.innerHTML = `<form class="carte" style="width:min(380px,92vw);padding:22px" id="f2">
+      <h2 style="margin:0 0 3px">Vérification</h2>
+      <p class="sous" style="margin-bottom:16px">Code à six chiffres de votre application d'authentification.</p>
+      <label class="champ"><span>Code</span>
+        <input id="c2" inputmode="numeric" autocomplete="one-time-code" maxlength="11"
+               placeholder="123456" style="font-size:22px;letter-spacing:5px;text-align:center" required></label>
+      <div id="e2"></div>
+      <button class="p" style="width:100%;margin-top:6px" type="submit">Vérifier</button>
+      <p class="doux" style="font-size:12px;margin:12px 0 0">Téléphone indisponible ? Saisir un
+        code de secours à la place.</p>
+      <p class="doux" style="font-size:12px;margin:6px 0 0"><a id="r2">Recommencer</a></p>
+    </form>`;
+  setTimeout(() => $("#c2").focus(), 30);
+  $("#r2").onclick = () => location.reload();
+  const envoyer = async (e) => {
+    e?.preventDefault();
+    $("#e2").innerHTML = "";
+    try {
+      await api("/api/login/2fa", { method: "POST", body: { code: $("#c2").value } });
+      ecran.remove();
+      $("#app").style.display = "";
+      demarrer();
+    } catch (err) {
+      $("#e2").innerHTML = `<div class="avis">${esc(err.message)}</div>`;
+      $("#c2").value = ""; $("#c2").focus();
+    }
+  };
+  $("#f2").onsubmit = envoyer;
+  // Six chiffres saisis : on valide sans attendre le clic.
+  $("#c2").oninput = () => { if (/^\d{6}$/.test($("#c2").value.trim())) envoyer(); };
+}
+
+// ══════════════════════════════════════════════════ activation du second facteur
+async function configurer2facteur() {
+  const etat = await api("/api/moi/2fa");
+  if (etat.actif) {
+    return dialogue("Second facteur", `
+      <p><span class="puce v">actif</span> Votre compte est protégé par une application d'authentification.</p>
+      <p class="doux">Codes de secours restants : <b>${etat.codes_restants}</b>.</p>
+      ${S.config.exiger_2fa
+        ? '<div class="avis">Le second facteur est obligatoire sur ce service : il ne peut pas être retiré.</div>'
+        : `<hr><label class="champ"><span>Pour le désactiver, confirmer avec votre mot de passe</span>
+             <input type="password" id="d2"></label>
+           <button class="d" id="db2">Désactiver</button>`}`,
+      null);
+  }
+  const p = await api("/api/moi/2fa/preparer", { method: "POST" });
+  const c = dialogue("Activer le second facteur", `
+    <p>1. Scanner ce code avec Google Authenticator, Authy, 1Password ou le trousseau de votre
+       téléphone.</p>
+    <div style="text-align:center;margin:12px 0">${p.qr}</div>
+    <p class="doux" style="font-size:12px">Le scan ne marche pas ? Saisir la clé à la main :<br>
+      <code style="font-size:14px;letter-spacing:1px">${esc(p.lisible)}</code></p>
+    <hr>
+    <p>2. Saisir le code affiché par l'application pour confirmer.</p>
+    <label class="champ"><input id="a2" inputmode="numeric" maxlength="6" placeholder="123456"
+      style="font-size:20px;letter-spacing:4px;text-align:center"></label>
+    <div id="ae2"></div>`,
+    async () => {
+      try {
+        const r = await api("/api/moi/2fa/activer", { method: "POST", body: { code: $("#a2").value } });
+        dialogue("Codes de secours", `
+          <div class="avis">Conserver ces codes hors du téléphone. Chacun ne sert qu'une fois, et
+            ils ne seront plus jamais affichés. Ils permettent d'entrer si le téléphone est perdu.</div>
+          <div class="carte" style="font-family:ui-monospace,monospace;font-size:15px;columns:2">
+            ${r.codes.map(x => esc(x)).join("<br>")}</div>
+          <button id="imp">Imprimer</button>`, null);
+        setTimeout(() => { const b = $("#imp"); if (b) b.onclick = () => window.print(); }, 30);
+        return false;
+      } catch (e) { $("#ae2").innerHTML = `<div class="avis">${esc(e.message)}</div>`; return false; }
+    }, "Activer");
+  setTimeout(() => {
+    const d = $("#db2", c);
+    if (d) d.onclick = async () => {
+      try { await api("/api/moi/2fa/desactiver", { method: "POST", body: { password: $("#d2").value } });
+        alert("Second facteur désactivé."); location.reload();
+      } catch (e) { alert(e.message); }
+    };
+  }, 30);
+}
+
+async function deconnexion() {
+  await api("/api/logout", { method: "POST" }).catch(() => {});
+  location.reload();
+}
+
+/** Changement de mot de passe — imposé si le compte est encore sur un provisoire. */
+function changerMotDePasse(impose = false) {
+  dialogue("Changer le mot de passe",
+    (impose ? '<div class="avis">Votre mot de passe est provisoire : choisissez-en un nouveau.</div>' : "") +
+    `<label class="champ"><span>Mot de passe actuel</span><input type="password" id="pa"></label>
+     <label class="champ"><span>Nouveau (10 caractères minimum)</span><input type="password" id="pn"></label>
+     <label class="champ"><span>Confirmer</span><input type="password" id="pc"></label>`,
+    async () => {
+      if ($("#pn").value !== $("#pc").value) { alert("Les deux saisies diffèrent."); return false; }
+      await api("/api/moi/password", { method: "POST", body: { ancien: $("#pa").value, nouveau: $("#pn").value } });
+      alert("Mot de passe changé. Reconnexion nécessaire.");
+      location.reload();
+    }, "Changer");
+}
+
+// ══════════════════════════════════════════════════════════════════ démarrage
+async function demarrer() {
+  const m = await api("/api/moi");
+  if (!m.user) return montrerConnexion();
+  S.moi = m.user;
+
+  S.config = await api("/api/config");
+  const av = [];
+  if (!S.config.etiquettes_actives) av.push(`Achat d'étiquettes <b>désactivé</b> — lancer avec <code>CLONE_ALLOW_LABELS=1</code>. Cotation et simulation restent disponibles.`);
+  if (S.config.adaptateur === "bouchon") av.push(`Transporteur <b>bouchon</b> : les tarifs sont des valeurs de démonstration. Passer à <code>CARRIER_ADAPTER=clickship</code> à réception des identifiants.`);
+  $("#bandeau").innerHTML = av.map(a => `<div class="avis">${a}</div>`).join("");
+  $("#navSous").innerHTML = `${esc(S.moi.name)}<br>` +
+    `<a id="l2f">${S.moi.totp_enabled ? "second facteur ✓" : "activer le 2FA"}</a> · ` +
+    `<a id="lqm">mot de passe</a> · <a id="lout">quitter</a>`;
+  $("#lout").onclick = deconnexion;
+  $("#lqm").onclick = () => changerMotDePasse(false);
+  $("#l2f").onclick = configurer2facteur;
+
+  try { S.refs = await api("/api/refs"); } catch { S.refs = {}; }
+  await rafraichirCompteurs();
+  S.page = (location.hash || "").slice(1) || "commandes";
+  if (!VUES[S.page]) S.page = "commandes";
+  menu();
+  rendre();
+  if (S.moi.must_change) changerMotDePasse(true);
+  else if (!S.moi.totp_enabled && S.config.exiger_2fa) configurer2facteur();
+  clearInterval(S.tick);
+  S.tick = setInterval(rafraichirCompteurs, 60000);
+}
+
+demarrer().catch(() => montrerConnexion());
+</script>
+</body>
+</html>

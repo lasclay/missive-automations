@@ -166,6 +166,35 @@ const shipstation = (() => {
       warehouses: () => get("/warehouses"),
       listtags: () => get("/accounts/listtags"),
 
+      // ---- LECTURE (suite) : reste de la surface v1, aucun effet de bord ----
+      // Un transporteur précis (soldes, exigences de compte). Params: carrierCode.
+      carrier: (p) => get("/carriers/getcarrier", requis(p, "carrierCode")),
+      // Services d'un transporteur = catalogue des serviceCode utilisables. Params: carrierCode.
+      listservices: (p) => get("/carriers/listservices", requis(p, "carrierCode")),
+      // Types de colis d'un transporteur = catalogue des packageCode. Params: carrierCode.
+      listpackages: (p) => get("/carriers/listpackages", requis(p, "carrierCode")),
+      // Fiches produit (SKU, poids, douane, entrepôt, défauts d'expédition).
+      // Filtres : sku, name, productCategoryId, tagId, showInactive, page, pageSize (max 500).
+      products: (p) => get("/products", p),
+      product: (p) => { requis(p, "productId"); return get(`/products/${encodeURIComponent(p.productId)}`); },
+      // Clients agrégés par ShipStation (adresse, nombre de commandes, valeur).
+      // Filtres : stateCode, countryCode, marketplaceId, tagId, page, pageSize.
+      customers: (p) => get("/customers", p),
+      customer: (p) => { requis(p, "customerId"); return get(`/customers/${encodeURIComponent(p.customerId)}`); },
+      // Utilisateurs du compte (userId GUID utilisé dans shipments/fulfillments).
+      users: (p) => get("/users", p),
+      // Un entrepôt / « Ship From Location » précis. Params: warehouseId.
+      warehouse: (p) => { requis(p, "warehouseId"); return get(`/warehouses/${encodeURIComponent(p.warehouseId)}`); },
+      // Une boutique précise + état de rafraîchissement. Params: storeId.
+      store: (p) => { requis(p, "storeId"); return get(`/stores/${encodeURIComponent(p.storeId)}`); },
+      storerefreshstatus: (p) => get("/stores/getrefreshstatus", requis(p, "storeId")),
+      // Marketplaces intégrables (catalogue des canaux de vente supportés).
+      marketplaces: () => get("/stores/marketplaces"),
+      // Commandes portant un tag donné. Params: orderStatus, tagId (+ page, pageSize).
+      listbytag: (p) => get("/orders/listbytag", requis(p, "orderStatus", "tagId")),
+      // Abonnements webhook existants (ORDER_NOTIFY, SHIP_NOTIFY, ITEM_*, FULFILLMENT_*).
+      webhooks: () => get("/webhooks"),
+
       // ---- ÉCRITURE (accès complet) ----
       // Tarifs (POST mais SANS effet de bord — devis seulement).
       // Params: carrierCode, fromPostalCode, toPostalCode, toCountry, weight {value, units},

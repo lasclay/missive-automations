@@ -40,6 +40,20 @@ Réponse : `{ ok: true, connector, action, data }` ou `{ error }`.
 | `stores` | `showInactive` | boutiques reliées |
 | `warehouses` | — | entrepôts |
 | `listtags` | — | tags de commande |
+| `carrier` | **carrierCode** | un transporteur (solde, compte à provisionner) |
+| `listservices` | **carrierCode** | **catalogue des `serviceCode`** du transporteur |
+| `listpackages` | **carrierCode** | **catalogue des `packageCode`** du transporteur |
+| `products` | `sku`, `name`, `productCategoryId`, `tagId`, `showInactive`, `page`, `pageSize` | fiches produit (poids, douane, défauts d'expédition) |
+| `product` | **productId** | une fiche produit |
+| `customers` | `stateCode`, `countryCode`, `marketplaceId`, `tagId`, `page`, `pageSize` | clients agrégés (adresse, volume) |
+| `customer` | **customerId** | un client |
+| `users` | `showInactive` | utilisateurs du compte (le `userId` GUID des expéditions) |
+| `warehouse` | **warehouseId** | un entrepôt / *Ship From Location* |
+| `store` | **storeId** | une boutique |
+| `storerefreshstatus` | **storeId** | état du dernier import de la boutique |
+| `marketplaces` | — | catalogue des canaux de vente intégrables |
+| `listbytag` | **orderStatus, tagId** | commandes portant un tag |
+| `webhooks` | — | abonnements webhook (`ORDER_NOTIFY`, `SHIP_NOTIFY`…) |
 
 ### Actions ShipStation — écriture (accès complet)
 

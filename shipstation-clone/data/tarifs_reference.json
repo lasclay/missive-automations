@@ -1,0 +1,183 @@
+{
+  "CA_canada_post": [
+    {
+      "serviceName": "Expedited Parcel (Carbon Neutral)",
+      "serviceCode": "expedited_parcel",
+      "shipmentCost": 9.09,
+      "otherCost": 4.52
+    },
+    {
+      "serviceName": "Priority",
+      "serviceCode": "priority",
+      "shipmentCost": 17.05,
+      "otherCost": 8.48
+    },
+    {
+      "serviceName": "Xpresspost",
+      "serviceCode": "xpresspost",
+      "shipmentCost": 10.56,
+      "otherCost": 5.25
+    }
+  ],
+  "CA_canada_post_walleted": [],
+  "CA_canpar_walleted": [
+    {
+      "serviceName": "Express",
+      "serviceCode": "express",
+      "shipmentCost": 32.24,
+      "otherCost": 15.55
+    },
+    {
+      "serviceName": "Select",
+      "serviceCode": "select",
+      "shipmentCost": 31.65,
+      "otherCost": 15.36
+    },
+    {
+      "serviceName": "Ground",
+      "serviceCode": "ground",
+      "shipmentCost": 13.18,
+      "otherCost": 9.44
+    }
+  ],
+  "CA_fedex_walleted": [
+    {
+      "serviceName": "FedEx First Overnight®",
+      "serviceCode": "fedex_first_overnight",
+      "shipmentCost": 113.28,
+      "otherCost": 53.63
+    },
+    {
+      "serviceName": "FedEx Priority Overnight®",
+      "serviceCode": "fedex_priority_overnight",
+      "shipmentCost": 41.07,
+      "otherCost": 19.44
+    },
+    {
+      "serviceName": "FedEx Economy",
+      "serviceCode": "fedex_economy",
+      "shipmentCost": 37.34,
+      "otherCost": 17.68
+    },
+    {
+      "serviceName": "FedEx 2Day®",
+      "serviceCode": "fedex_2day",
+      "shipmentCost": 37.34,
+      "otherCost": 17.68
+    },
+    {
+      "serviceName": "FedEx Standard Overnight®",
+      "serviceCode": "fedex_standard_overnight",
+      "shipmentCost": 37.34,
+      "otherCost": 17.68
+    },
+    {
+      "serviceName": "FedEx Ground®",
+      "serviceCode": "fedex_ground",
+      "shipmentCost": 12.95,
+      "otherCost": 6.31
+    }
+  ],
+  "CA_purolator_walleted": [
+    {
+      "serviceName": "Purolator Express 9 AM",
+      "serviceCode": "purolator_express_9am ",
+      "shipmentCost": 31.07,
+      "otherCost": 12.3
+    },
+    {
+      "serviceName": "Purolator Express 10:30 AM",
+      "serviceCode": "purolator_express_1030am ",
+      "shipmentCost": 24.02,
+      "otherCost": 9.86
+    },
+    {
+      "serviceName": null,
+      "serviceCode": null,
+      "shipmentCost": 17.89,
+      "otherCost": 8.32
+    },
+    {
+      "serviceName": "Purolator Express",
+      "serviceCode": "purolator_express",
+      "shipmentCost": 16.76,
+      "otherCost": 6.18
+    },
+    {
+      "serviceName": "Purolator Ground",
+      "serviceCode": "purolator_ground ",
+      "shipmentCost": 10.99,
+      "otherCost": 4.35
+    },
+    {
+      "serviceName": null,
+      "serviceCode": null,
+      "shipmentCost": 12.89,
+      "otherCost": 5.99
+    },
+    {
+      "serviceName": null,
+      "serviceCode": null,
+      "shipmentCost": 9.16,
+      "otherCost": 4.26
+    }
+  ],
+  "CA_ups_walleted": [
+    {
+      "serviceName": "UPS Express",
+      "serviceCode": "ups_next_day_air",
+      "shipmentCost": 25.8,
+      "otherCost": 2.64
+    },
+    {
+      "serviceName": "UPS Express Early",
+      "serviceCode": "ups_next_day_air_early_am",
+      "shipmentCost": 46.08,
+      "otherCost": 4.72
+    },
+    {
+      "serviceName": "UPS Express Saver",
+      "serviceCode": "ups_next_day_air_saver",
+      "shipmentCost": 21.96,
+      "otherCost": 2.25
+    },
+    {
+      "serviceName": "UPS Expedited",
+      "serviceCode": "ups_2nd_day_air",
+      "shipmentCost": 20.19,
+      "otherCost": 2.07
+    },
+    {
+      "serviceName": "UPS Standard",
+      "serviceCode": "ups_standard",
+      "shipmentCost": 12.82,
+      "otherCost": 1.31
+    }
+  ],
+  "US_canada_post": [
+    {
+      "serviceName": "Expedited Parcel USA",
+      "serviceCode": "expedited_parcel_usa",
+      "shipmentCost": 21.75,
+      "otherCost": 4.24
+    },
+    {
+      "serviceName": "Small Packet Air - USA",
+      "serviceCode": "small_packet_air_usa",
+      "shipmentCost": 13.05,
+      "otherCost": 2.28
+    },
+    {
+      "serviceName": "Tracked Packet - USA",
+      "serviceCode": "tracked_packet_usa",
+      "shipmentCost": 13.05,
+      "otherCost": 2.28
+    },
+    {
+      "serviceName": "Xpresspost USA",
+      "serviceCode": "xpresspost_usa",
+      "shipmentCost": 32.91,
+      "otherCost": 6.42
+    }
+  ]
+}

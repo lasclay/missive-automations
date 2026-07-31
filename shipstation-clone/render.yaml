@@ -1,0 +1,42 @@
+# Déploiement Render du clone ShipStation.
+#
+# Blueprint à appliquer depuis le tableau de bord Render (New → Blueprint), en pointant sur ce
+# dépôt. Render suit `main` : la branche de développement doit être fusionnée avant.
+#
+# Point crucial : le DISQUE PERSISTANT. Sans lui, le disque d'une instance Render est effacé à
+# chaque redéploiement — la base SQLite, et donc les 12 460 commandes migrées, disparaîtraient.
+# Un disque implique une offre payante ; c'est le prix d'un service partagé.
+services:
+  - type: web
+    name: lasclay-expeditions
+    runtime: node
+    plan: starter                 # requis pour un disque persistant (le plan gratuit n'en a pas)
+    region: ohio
+    branch: main
+    buildCommand: "true"          # aucune dépendance npm à installer
+    startCommand: node --no-warnings shipstation-clone/app/server.js
+    healthCheckPath: /healthz
+    disk:
+      name: donnees
+      mountPath: /var/data        # CLONE_DB pointe dedans
+      sizeGB: 1                   # ~40 Mo pour 12 000 commandes ; 1 Go voit venir
+    envVars:
+      - key: NODE_VERSION
+        value: "22.11.0"          # node:sqlite exige 22.5 ou plus
+      - key: CLONE_DB
+        value: /var/data/clone.db
+      - key: CARRIER_ADAPTER
+        value: bouchon            # passer à clickship à réception des identifiants
+      - key: CLONE_ALLOW_LABELS
+        value: "0"                # "1" seulement quand l'achat réel est voulu
+      - key: CLONE_SESSION_HEURES
+        value: "12"
+      # --- secrets : à saisir dans le tableau de bord, jamais ici ---
+      - key: GENERAL_PROXY_SECRET
+        sync: false               # pour la migration depuis ShipStation
+      - key: CLONE_ADMIN_EMAIL
+        sync: false               # courriel du premier administrateur
+      - key: CLONE_ADMIN_PASSWORD
+        sync: false               # facultatif : sinon un mot de passe est généré dans les logs
+      - key: CLICKSHIP_API_KEY
+        sync: false               # quand ClickShip aura répondu

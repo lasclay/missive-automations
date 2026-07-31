@@ -1,0 +1,79 @@
+{
+  "periode": "2025-08-01 → 2026-07-31",
+  "etiquettes_emises": 8518,
+  "actives": 8338,
+  "annulees": 75,
+  "retours": 107,
+  "depense_transport": 98827.56,
+  "par_mois": {
+    "2025-08": 270,
+    "2025-09": 504,
+    "2025-10": 382,
+    "2025-11": 985,
+    "2025-12": 2755,
+    "2026-01": 1288,
+    "2026-02": 1011,
+    "2026-03": 431,
+    "2026-04": 288,
+    "2026-05": 241,
+    "2026-06": 142,
+    "2026-07": 41
+  },
+  "bandes_poids": [
+    {
+      "min_g": 0,
+      "max_g": 500,
+      "envois": 6716,
+      "part_pct": 80.5,
+      "cout_moyen": 11.24,
+      "cout_median": 10.7,
+      "cout_total": 75498.32
+    },
+    {
+      "min_g": 500,
+      "max_g": 1000,
+      "envois": 1213,
+      "part_pct": 14.5,
+      "cout_moyen": 12.62,
+      "cout_median": 11.76,
+      "cout_total": 15311.9
+    },
+    {
+      "min_g": 1000,
+      "max_g": 2000,
+      "envois": 132,
+      "part_pct": 1.6,
+      "cout_moyen": 14.64,
+      "cout_median": 13.25,
+      "cout_total": 1932.02
+    },
+    {
+      "min_g": 2000,
+      "max_g": 5000,
+      "envois": 241,
+      "part_pct": 2.9,
+      "cout_moyen": 18.65,
+      "cout_median": 13.52,
+      "cout_total": 4494.2
+    },
+    {
+      "min_g": 5000,
+      "max_g": null,
+      "envois": 36,
+      "part_pct": 0.4,
+      "cout_moyen": 44.2,
+      "cout_median": 36.43,
+      "cout_total": 1591.12
+    }
+  ],
+  "scenario_dropoff": {
+    "envois_sous_500g": 6716,
+    "cout_actuel": 75498.32,
+    "sensibilite": {
+      "6.31": 33120.36,
+      "7.50": 25128.32,
+      "8.50": 18412.32,
+      "9.09": 14449.88
+    }
+  }
+}
