@@ -1,0 +1,32 @@
+[
+  {
+    "tagId": 37964,
+    "name": "JSB traité par LASCLAY",
+    "color": "#FF00FF"
+  },
+  {
+    "tagId": 43269,
+    "name": "Non expédiable avec Chit Chats",
+    "color": "#FF0000"
+  },
+  {
+    "tagId": 37367,
+    "name": "Non expédié",
+    "color": "#FFCC00"
+  },
+  {
+    "tagId": 15051,
+    "name": "Priority",
+    "color": "#FF6600"
+  },
+  {
+    "tagId": 37675,
+    "name": "Réexpédition",
+    "color": "#00FF00"
+  },
+  {
+    "tagId": 10614,
+    "name": "Timbre",
+    "color": "#00CCFF"
+  }
+]

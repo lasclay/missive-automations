@@ -41,10 +41,12 @@ endort le service au repos.
 **Introspection sans secret** : `GET /connectors` liste les connecteurs, leurs actions et leur état
 `enabled`. À utiliser plutôt que de deviner un nom d'action. Les listes ci-dessous en viennent.
 
-## ShipStation — accès complet, API v1, 19 actions
+## ShipStation — accès complet, API v1, 34 actions
 
-**Lecture (8).** `orders`, `order`, `shipments`, `fulfillments`, `carriers`, `stores`,
-`warehouses`, `listtags`.
+**Lecture (23).** `orders`, `order`, `shipments`, `fulfillments`, `carriers`, `carrier`,
+`listservices`, `listpackages`, `stores`, `store`, `storerefreshstatus`, `marketplaces`,
+`warehouses`, `warehouse`, `products`, `product`, `customers`, `customer`, `users`,
+`webhooks`, `listtags`, `listbytag`, plus `getrates` (POST sans effet de bord).
 
 - `orders` — `orderNumber`, `orderStatus` parmi `awaiting_shipment` / `shipped` / `on_hold` /
   `cancelled`, `customerName`, `storeId`, `createDateStart` et `createDateEnd`, `page`,
@@ -55,6 +57,11 @@ endort le service au repos.
 - `fulfillments` — les envois expédiés hors étiquette ShipStation. Un colis absent de `shipments`
   peut être ici.
 - `listtags` — indispensable pour obtenir un `tagId` avant `addtag`.
+- `listservices` / `listpackages` — **carrierCode** ; donnent les `serviceCode` et `packageCode`
+  valides d'un transporteur, à consulter avant `getrates` ou un achat d'étiquette.
+- `products` — fiches produit : poids, dimensions, `customsDescription`, `harmonizedTariffCode`,
+  `warehouseLocation`, défauts d'expédition. C'est le référentiel qui alimente les douanes.
+- `customers`, `users`, `webhooks`, `marketplaces` — le reste de la surface v1, en lecture.
 
 **Écriture (11), par risque croissant.**
 
