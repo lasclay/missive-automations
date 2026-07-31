@@ -14,7 +14,9 @@ const { resolve } = require("../lib/mapper");
 const m = (a) => ({ shopMoney: { amount: String(a) } });
 const li = (total, discount, taxes, opts = {}) => ({
   id: "li", title: opts.title || "Article", quantity: 1,
-  originalTotalSet: m(total), totalDiscountSet: m(discount),
+  originalTotalSet: m(total), totalDiscountSet: m(opts.allocations ? 0 : discount),
+  // Un rabais appliqué à toute la commande n'apparaît QUE dans discountAllocations.
+  discountAllocations: (opts.allocations || (discount ? [discount] : [])).map((a) => ({ allocatedAmountSet: m(a) })),
   taxLines: taxes.map((t) => ({ priceSet: m(t) })),
   product: opts.product === undefined ? { id: "p", isGiftCard: !!opts.giftCard } : opts.product,
   variant: opts.variant === undefined ? { id: "v" } : opts.variant,
@@ -34,6 +36,29 @@ const order = (o) => ({
 });
 
 const CASES = [
+  {
+    name: "L-50760 — rabais de 15 % sur TOUTE la commande (hors totalDiscountSet)",
+    total: 58.62,
+    order: order({
+      sourceName: "web",
+      shippingAddress: null,
+      billingAddress: { countryCodeV2: "CA", provinceCode: "QC" },
+      items: [li(29.99, 0, [1.27, 2.54], { allocations: [4.5] }), li(29.99, 0, [1.28, 2.54], { allocations: [4.49] })],
+      ships: [sl(0, 0, [])],
+    }),
+    expect: { ProductSales: 59.98, Discount: -8.99, Tax: 7.63 },
+  },
+  {
+    name: "L-50757 — rabais de 10 % sur toute la commande, avec livraison taxée",
+    total: 94.26,
+    order: order({
+      sourceName: "web",
+      shippingAddress: { countryCodeV2: "CA", provinceCode: "QC" },
+      items: [li(29.99, 0, [1.35, 2.69], { allocations: [3.0] }), li(49.99, 0, [2.25, 4.49], { allocations: [4.99] })],
+      ships: [sl(9.99, 9.99, [0.5, 1.0])],
+    }),
+    expect: { ProductSales: 79.98, Discount: -7.99, Shipping: 9.99, Tax: 10.78, ShippingTax: 1.5 },
+  },
   {
     name: "L-50762 — US avec pourboire (le pourboire est AUSSI un article)",
     total: 202.01,

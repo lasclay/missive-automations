@@ -59,9 +59,21 @@ function periodKey(docNumber) {
   return m ? m[1] : null;
 }
 
-const samePeriodAs = (docNumber) => {
+/**
+ * Le DocNumber ne porte pas l'année (« 28Jul-31Jul ») : sans garde-fou, une
+ * écriture de juillet 2025 est apparue comme couvrant un versement de juillet
+ * 2026. On exige donc aussi que la date de la pièce précède de peu l'émission
+ * du versement.
+ */
+const samePeriodAs = (docNumber, issuedAt) => {
   const k = periodKey(docNumber);
-  return (j) => k !== null && periodKey(j.docNumber) === k;
+  const end = issuedAt ? new Date(issuedAt) : null;
+  return (j) => {
+    if (k === null || periodKey(j.docNumber) !== k) return false;
+    if (!end || !j.txnDate) return true;
+    const days = (end - new Date(j.txnDate)) / 86400000;
+    return days >= -2 && days <= 60;
+  };
 };
 
 /**
@@ -85,7 +97,7 @@ async function findExisting({ docNumber, settlement, issuedAt, payoutId }, force
   // La période, elle, ne suffit JAMAIS : A2X produit plusieurs journaux couvrant
   // les mêmes dates (et des journaux mensuels hors Shopify Payments). Apparier
   // sur la période seule désignait une écriture sans rapport.
-  const inPeriod = samePeriodAs(docNumber);
+  const inPeriod = samePeriodAs(docNumber, issuedAt);
   const exact = all.find((j) => j.settlementCents === cents && inPeriod(j));
   if (exact) return { ...exact, match: "période et montant" };
 
@@ -104,10 +116,10 @@ async function findExisting({ docNumber, settlement, issuedAt, payoutId }, force
  * des correspondances — juste un contexte utile à afficher pour comprendre ce
  * qui existe déjà autour de ce versement.
  */
-async function relatedByPeriod({ docNumber, settlement }, force = false) {
+async function relatedByPeriod({ docNumber, settlement, issuedAt }, force = false) {
   const all = await postedJournals(force);
   const cents = settlement == null ? null : Math.round(settlement * 100);
-  const inPeriod = samePeriodAs(docNumber);
+  const inPeriod = samePeriodAs(docNumber, issuedAt);
   return all
     .filter((j) => j.settlementCents !== null && j.settlementCents !== cents && inPeriod(j))
     .map((j) => ({ ...j, settlement: j.settlementCents / 100 }));

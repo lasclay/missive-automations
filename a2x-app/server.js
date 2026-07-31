@@ -200,7 +200,7 @@ const routes = {
   "GET /api/payouts/:id": async (req, url, params) => {
     const { payout, journal, counts } = await computeJournal(params.id);
     const existing = await findExisting({ docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt, payoutId: journal.payoutId });
-    const related = await relatedByPeriod({ docNumber: journal.docNumber, settlement: journal.settlement });
+    const related = await relatedByPeriod({ docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt });
     return {
       payout: { id: String(payout.legacyResourceId), issuedAt: payout.issuedAt, status: payout.status, net: parseFloat(payout.net.amount), currency: payout.net.currencyCode },
       counts,

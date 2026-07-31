@@ -54,6 +54,19 @@ function ctx(order) {
   return { country: orderCountry(order), marketplace: orderMarketplace(order), order: order.name };
 }
 
+/**
+ * Rabais réellement appliqué à une ligne.
+ *
+ * `totalDiscountSet` ne porte QUE les rabais propres à la ligne : un code de
+ * rabais appliqué à toute la commande (allocationMethod ACROSS) y reste à zéro
+ * et n'apparaît que dans `discountAllocations`. Vérifié sur L-50760 : deux
+ * lignes à 29,99 avec totalDiscount à 0, mais 4,50 + 4,49 en allocations, et un
+ * sous-total de 50,99. `discountAllocations` couvre les deux familles — c'est
+ * donc la seule source à utiliser, jamais la somme des deux.
+ */
+const discountOf = (line) =>
+  sum(line.discountAllocations || [], (d) => money(d.allocatedAmountSet)) || money(line.totalDiscountSet);
+
 /** Composantes de la VENTE (hors frais de paiement, hors remboursements). */
 function saleComponents(order) {
   const items = nodes(order.lineItems);
@@ -72,16 +85,17 @@ function saleComponents(order) {
   const goods = items.filter((i) => !(i.product && i.product.isGiftCard) && !isTip(i));
 
   const goodsGross = sum(goods, (i) => money(i.originalTotalSet));
-  const goodsDiscount = sum(goods, (i) => money(i.totalDiscountSet));
+  const goodsDiscount = sum(goods, discountOf);
   const goodsTax = sum(goods, (i) => sum(i.taxLines || [], (t) => money(t.priceSet)));
 
   const giftGross = sum(gift, (i) => money(i.originalTotalSet));
-  const giftDiscount = sum(gift, (i) => money(i.totalDiscountSet));
+  const giftDiscount = sum(gift, discountOf);
 
   const shipGross = sum(ships, (i) => money(i.originalPriceSet));
   const shipNet = sum(ships, (i) => money(i.discountedPriceSet));
   const shipTax = sum(ships, (i) => sum(i.taxLines || [], (t) => money(t.priceSet)));
-  const shipDiscount = shipGross - shipNet;
+  const shipAllocated = sum(ships, discountOf);
+  const shipDiscount = shipAllocated || shipGross - shipNet;
 
   // Si le pourboire n'apparaît pas en article (commandes anciennes), on le prend
   // dans totalTipReceived ; sinon les deux coïncident et rien n'est perdu.

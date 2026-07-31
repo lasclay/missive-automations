@@ -26,12 +26,14 @@ const ORDER_FIELDS = `
     id title
     originalPriceSet { shopMoney { amount } }
     discountedPriceSet { shopMoney { amount } }
+    discountAllocations { allocatedAmountSet { shopMoney { amount } } }
     taxLines { title priceSet { shopMoney { amount } } }
   } } }
   lineItems(first: 250) { edges { node {
     id title quantity
     originalTotalSet { shopMoney { amount } }
     totalDiscountSet { shopMoney { amount } }
+    discountAllocations { allocatedAmountSet { shopMoney { amount } } }
     taxLines { title priceSet { shopMoney { amount } } }
     product { id isGiftCard }
     variant { id }
