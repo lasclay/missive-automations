@@ -195,6 +195,10 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
       if (depuis) params.createDateStart = depuis;
       const d = await ss("orders", params);
       const lot = d.orders || [];
+      if (page === maxPagesCommandes && lot.length === 500) {
+        journal(`  ⚠ plafond de ${maxPagesCommandes} pages atteint pour « ${statut} » — ` +
+          `il reste des commandes non migrées. Relancer avec maxPagesCommandes plus haut.`);
+      }
       tx(() => {
         for (const o of lot) {
           const c = convertirCommande(o);
@@ -215,7 +219,9 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
   journal("Expéditions…");
   let nExp = 0;
   for (let page = 1; page <= maxPagesCommandes; page++) {
-    const params = { pageSize: 500, page };
+    // Sans includeShipmentItems, ShipStation ne renvoie pas le détail des lignes expédiées —
+    // et le rattachement article ↔ expédition reste vide sans que rien ne le signale.
+    const params = { pageSize: 500, page, includeShipmentItems: true };
     if (depuis) params.shipDateStart = depuis;
     const d = await ss("shipments", params);
     const lot = d.shipments || [];
@@ -249,6 +255,13 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
     if (lot.length < 500) break;
   }
   bilan.expeditions = nExp;
+  bilan.expeditions_sans_commande = one(
+    "SELECT COUNT(*) n FROM shipments WHERE order_id IS NULL AND label_id IS NOT NULL").n;
+  if (bilan.expeditions_sans_commande) {
+    journal(`  ${bilan.expeditions_sans_commande} expédition(s) sans commande : leur commande a ` +
+      `été purgée chez ShipStation. Elles sont conservées — elles portent le coût réel, donc ` +
+      `elles comptent dans l'analytique.`);
+  }
 
   // -- lots : ShipStation n'expose pas les lots, mais chaque expédition porte son
   // batchNumber. On les reconstitue, ce qui rend l'historique des lots consultable.
@@ -291,9 +304,10 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
 
   // -- produits (action ajoutée au proxy ; absente tant qu'elle n'est pas déployée)
   try {
-    journal("Produits…");
+    const sondeP = await ss("products", { pageSize: 1 });
+    journal(`Produits… ${sondeP.total} au total`);
     let nProd = 0;
-    for (let page = 1; page <= 40; page++) {
+    for (let page = 1; page <= Math.ceil((sondeP.total || 0) / 500); page++) {
       const d = await ss("products", { pageSize: 500, page });
       const lot = d.products || [];
       tx(() => {
@@ -321,9 +335,11 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
 
   // -- clients tels que ShipStation les agrège (identifiants, marché d'origine)
   try {
-    journal("Clients ShipStation…");
+    const sonde = await ss("customers", { pageSize: 1 });
+    const pagesCli = Math.ceil((sonde.total || 0) / 500);
+    journal(`Clients ShipStation… ${sonde.total} au total, ${pagesCli} page(s)`);
     let nCli = 0;
-    for (let page = 1; page <= 40; page++) {
+    for (let page = 1; page <= pagesCli; page++) {
       const d = await ss("customers", { pageSize: 500, page });
       const lot = d.customers || [];
       tx(() => {
