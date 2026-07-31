@@ -139,6 +139,20 @@ async function main() {
     return;
   }
 
+  if (cmd === "raw") {
+    // Données brutes du versement, au format d'A2X — pour comparer les fichiers.
+    const ref = args[1];
+    if (!ref) throw new Error("Usage : node a2x/a2x.js raw <payoutId> [> fichier.csv]");
+    const { rawCsv } = require("./lib/rawcsv");
+    const payout = await getPayout(ref);
+    if (!payout) throw new Error(`Versement ${ref} introuvable.`);
+    const btx = await payoutTransactions(payout.legacyResourceId);
+    const ids = [...new Set(btx.map((t) => t.associatedOrder && t.associatedOrder.id).filter(Boolean))];
+    const orders = await ordersByIds(ids);
+    process.stdout.write(rawCsv(payout, btx, new Map(orders.map((o) => [String(gid(o.id)), o]))));
+    return;
+  }
+
   if (cmd === "coverage") {
     // Balaie les commandes récentes et signale les combinaisons qui n'ont pas de
     // compte : c'est ainsi qu'on repère un nouveau canal de vente (une app
@@ -205,6 +219,7 @@ async function main() {
     node a2x/a2x.js preview <payoutId>
     node a2x/a2x.js post <payoutId> [--force]
     node a2x/a2x.js sync [--since 2026-07-01] [--dry-run]
+    node a2x/a2x.js raw <payoutId> > donnees.csv   # données brutes, format A2X
     node a2x/a2x.js check                          # audite les mappings
     node a2x/a2x.js coverage [--from …] [--to …]   # combinaisons réelles sans compte
 

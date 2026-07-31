@@ -143,30 +143,43 @@ function buildLines(payout, btx, ordersById) {
     // Vente (charge).
     const comps = saleComponents(order);
     const expected = sum(comps, (c) => c.amount);
-    const gateway = t.sourceType === "charge" ? "shopify_payments" : "shopify_payments";
-    const pendingDetails = `PendingPayment - Gateway ${gateway}`;
+    const pendingDetails = "PendingPayment - Gateway shopify_payments";
 
-    // Déjà encaissé sur cette commande AVANT cette transaction.
-    const earlier = (order.transactions || [])
-      .filter((x) => /^(SALE|CAPTURE)$/i.test(x.kind || "") && /^SUCCESS$/i.test(x.status || ""))
-      .filter((x) => x.processedAt && t.transactionDate && new Date(x.processedAt) < new Date(t.transactionDate));
-    const already = sum(earlier, (x) => money(x.amountSet));
+    // Déjà encaissé sur cette commande AVANT cette transaction. On exclut
+    // explicitement la transaction qui EST celle-ci : son horodatage précède
+    // celui de la transaction de solde, elle serait sinon comptée en double et
+    // toute commande passerait à tort en paiement en attente.
+    const already = sum(
+      (order.transactions || []).filter((x) =>
+        /^(SALE|CAPTURE)$/i.test(x.kind || "") &&
+        /^SUCCESS$/i.test(x.status || "") &&
+        String(gid(x.id)) !== String(t.sourceOrderTransactionId) &&
+        x.processedAt && t.transactionDate && new Date(x.processedAt) < new Date(t.transactionDate)
+      ),
+      (x) => money(x.amountSet)
+    );
 
-    if (already + amount !== expected) {
-      // Commande pas encore soldée : comme A2X, on parque l'encaissement en
-      // paiement en attente plutôt que de reconnaître une vente — et surtout
-      // une TAXE — partielle. Vérifié sur L-50755 : A2X porte les 79,39 $
-      // reçus sur une commande de 429,39 $ au 1110, sans toucher au 2121.
+    const missing = expected - (already + amount);
+    // Un écart de quelques cents sur une commande en devise étrangère est une
+    // conversion, pas un impayé : A2X le porte en ForeignCurrencyGainLoss et
+    // reconnaît la vente entière (vérifié sur L-50736, 0,02 $ sur 155,75 $).
+    const fxOnly = missing !== 0 && Math.abs(missing) <= Math.max(10, Math.round(Math.abs(expected) * 0.01));
+    const reallyPending = missing > 0 && !fxOnly;
+
+    if (reallyPending) {
+      // Commande pas encore soldée : comme A2X, on parque l'encaissement plutôt
+      // que de reconnaître une vente — et surtout une TAXE — partielle. Vérifié
+      // sur L-50755 : A2X porte les 79,39 $ reçus sur une commande de 429,39 $
+      // au 1110, sans rien toucher au 2121.
       add("Pending Payments", pendingDetails, country, marketplace, amount, src);
       notes.push(`${src} : ${(amount / 100).toFixed(2)} encaissé sur une commande de ${(expected / 100).toFixed(2)} → paiement en attente, aucune vente reconnue.`);
     } else {
-      // La commande se solde : on reconnaît la vente entière et on vide le
-      // paiement en attente déjà comptabilisé.
       for (const c of comps) add(c.category, c.details, country, marketplace, c.amount, src);
       if (already) {
         add("Pending Payments", pendingDetails, country, marketplace, -already, src);
         notes.push(`${src} : commande soldée, ${(already / 100).toFixed(2)} de paiement en attente repris.`);
       }
+      if (missing) add("Other Expenses", "ForeignCurrencyGainLoss", country, marketplace, -missing, src);
     }
     if (fee) add("Payment and Selling Fees", "ShopifyFee", country, marketplace, -fee, src);
   }

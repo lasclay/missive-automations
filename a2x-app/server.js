@@ -20,6 +20,7 @@ const A2X = path.join(__dirname, "..", "a2x");
 const { listPayouts, getPayout, payoutTransactions } = require(path.join(A2X, "lib/payouts"));
 const { ordersByIds } = require(path.join(A2X, "lib/orders"));
 const { buildJournalEntry } = require(path.join(A2X, "lib/journal"));
+const { rawCsv } = require(path.join(A2X, "lib/rawcsv"));
 const { qbo } = require(path.join(A2X, "lib/qbo"));
 const { postedJournals, findExisting, relatedByPeriod, invalidate } = require(path.join(A2X, "lib/posted"));
 const { gid, tokenScopes, STORE, VER } = require(path.join(A2X, "lib/shopify"));
@@ -195,6 +196,16 @@ const routes = {
         };
       }),
     };
+  },
+
+  /** Données brutes du versement, au format « raw data » d'A2X. */
+  "GET /api/payouts/:id/raw": async (req, url, params) => {
+    const payout = await getPayout(params.id);
+    if (!payout) throw new Error(`Versement ${params.id} introuvable.`);
+    const btx = await payoutTransactions(payout.legacyResourceId);
+    const ids = [...new Set(btx.map((t) => t.associatedOrder && t.associatedOrder.id).filter(Boolean))];
+    const orders = await ordersByIds(ids);
+    return { csv: rawCsv(payout, btx, new Map(orders.map((o) => [String(gid(o.id)), o]))) };
   },
 
   "GET /api/payouts/:id": async (req, url, params) => {

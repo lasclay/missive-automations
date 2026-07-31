@@ -159,4 +159,47 @@ function prorate(components, settled, expected) {
   return scaled.filter((c) => c.amount);
 }
 
-module.exports = { cents, money, sum, nodes, ctx, orderCountry, orderMarketplace, saleComponents, refundComponents, prorate };
+/**
+ * Même ventilation, mais détaillée par article et par ligne de livraison —
+ * la granularité des « raw data » d'A2X, pour pouvoir comparer les deux
+ * fichiers ligne à ligne. La somme par type est identique à saleComponents
+ * (vérifié dans tools/csv_test.js).
+ */
+function saleRows(order) {
+  const items = nodes(order.lineItems);
+  const ships = nodes(order.shippingLines);
+  const isTip = (i) => !i.product && !i.variant && /^\s*(tip|pourboire|gratuity)/i.test(i.title || "");
+  const gift = items.filter((i) => i.product && i.product.isGiftCard);
+  const goods = items.filter((i) => !(i.product && i.product.isGiftCard) && !isTip(i));
+
+  const goodsTax = sum(goods, (i) => sum(i.taxLines || [], (t) => money(t.priceSet)));
+  const shipTax = sum(ships, (i) => sum(i.taxLines || [], (t) => money(t.priceSet)));
+  const taxed = goodsTax > 0;
+  const shipTaxed = shipTax > 0;
+
+  const rows = [];
+  const push = (type, amount, sku, qty) => { if (amount) rows.push({ type, amount, sku: sku || "", quantity: qty || 0 }); };
+
+  for (const i of goods) {
+    const sku = i.sku || (i.variant && i.variant.sku) || "";
+    push(taxed ? "ProductSales" : "ProductSalesNotTaxed", money(i.originalTotalSet), sku, i.quantity);
+    push(taxed ? "Discount" : "DiscountNotTaxed", -discountOf(i), sku, i.quantity);
+    push("Tax", sum(i.taxLines || [], (t) => money(t.priceSet)), sku, i.quantity);
+  }
+  for (const i of gift) {
+    const sku = i.sku || "";
+    push("GiftCardSaleLiability", money(i.originalTotalSet), sku, i.quantity);
+    push("GiftCardDiscount", -discountOf(i), sku, i.quantity);
+  }
+  for (const s of ships) {
+    const orig = money(s.originalPriceSet);
+    const alloc = discountOf(s) || orig - money(s.discountedPriceSet);
+    push(shipTaxed ? "Shipping" : "ShippingNotTaxed", orig);
+    push("ShippingDiscountNotTaxed", -alloc);
+    push("ShippingTax", sum(s.taxLines || [], (t) => money(t.priceSet)));
+  }
+  push("Tip", money(order.totalTipReceivedSet) || sum(items.filter(isTip), (i) => money(i.originalTotalSet)));
+  return rows;
+}
+
+module.exports = { cents, money, sum, nodes, ctx, orderCountry, orderMarketplace, saleComponents, saleRows, refundComponents, prorate, discountOf };

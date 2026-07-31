@@ -1,0 +1,8 @@
+"date","order_number","order_id","transaction_id","type","desc","amount","gateway_meta","sku","sku_quantity","business_entity_id","business_entity_name"
+"2026-07-20","50749","7307547869403",,"Discount"," - CA - Online store","-8.99",,"LUNCHB-23-PK","1","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-20","50749","7307547869403",,"Discount"," - CA - Online store","-8.99",,"LUNCHB-23-YL","1","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-20","50749","7307547869403",,"ProductSales"," - CA - Online store","59.99",,"LUNCHB-23-PK","1","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-20","50749","7307547869403",,"ProductSales"," - CA - Online store","59.99",,"LUNCHB-23-YL","1","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-20","50749","7307547869403",,"Tax"," - CA - Online store","7.64",,"LUNCHB-23-PK","1","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-20","50749","7307547869403",,"Tax"," - CA - Online store","7.64",,"LUNCHB-23-YL","1","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-20","50749","7307547869403","2920213971163","ShopifyFee"," - CA - Online store","-3.35",,,"0","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."

@@ -1,0 +1,6 @@
+"date","order_number","order_id","transaction_id","type","desc","amount","gateway_meta","sku","sku_quantity","business_entity_id","business_entity_name"
+"2026-07-21","50751","7309171851483",,"ProductSales"," - CA - Online store","21.99",,"INSOLES-23-8F-6M","1","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-21","50751","7309171851483",,"ProductSales"," - CA - Online store","79.98",,"S24-SEATPAD","2","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-21","50751","7309171851483",,"Tax"," - CA - Online store","3.29",,"INSOLES-23-8F-6M","1","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-21","50751","7309171851483",,"Tax"," - CA - Online store","11.98",,"S24-SEATPAD","2","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."
+"2026-07-21","50751","7309171851483","2921125642459","ShopifyFee"," - CA - Online store","-3.35",,,"0","MTQ3NTg5MzI3MDEw","Les Produits Lasclay inc."

@@ -203,6 +203,30 @@ La liste des versements, elle, n'apparie que par montant — connaître la péri
 suppose de charger ses transactions de solde, trop coûteux pour une liste. L'appariement fin se
 fait à l'ouverture du versement.
 
+## Données brutes, comme A2X
+
+```bash
+node a2x/a2x.js raw <payoutId> > donnees.csv
+```
+
+Dans l'interface, le bouton **Données brutes (CSV)** de l'aperçu produit le même fichier. Colonnes
+et tri identiques au « download the raw data » d'A2X — une ligne par article et par type, triée
+par type, frais Shopify en dernier — pour comparer les deux fichiers directement :
+
+```bash
+diff a2x/reference/a2x-2026-07-14_16.csv donnees.csv
+```
+
+Quatre exports d'A2X sont conservés dans `a2x/reference/` et servent de test :
+
+```bash
+node a2x/tools/csv_test.js
+```
+
+Il compare, **commande par commande**, le type et le montant de chaque composante, la granularité
+(nombre de lignes par type) et le libellé de pays. Huit commandes réelles, zéro écart. Le fichier
+produit pour le versement du 14 au 17 juillet est **identique octet pour octet** à celui d'A2X.
+
 ## Audit contre les écritures réelles d'A2X
 
 ```bash

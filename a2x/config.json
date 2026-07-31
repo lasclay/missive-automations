@@ -14,5 +14,7 @@
   "timezone": "America/New_York",
   "timezoneNote": "Fuseau de la boutique Shopify (ianaTimezone) — sert à dater la période et l'écriture comme le fait A2X.",
   "groupByProvince": false,
-  "groupByProvinceNote": "A2X écrit « CA » et regroupe les provinces sur une seule ligne. Mettre à true pour détailler CA (QC), CA (ON)… — la province sert de toute façon à choisir le compte."
+  "groupByProvinceNote": "A2X écrit « CA » et regroupe les provinces sur une seule ligne. Mettre à true pour détailler CA (QC), CA (ON)… — la province sert de toute façon à choisir le compte.",
+  "businessEntityId": "MTQ3NTg5MzI3MDEw",
+  "businessEntityName": "Les Produits Lasclay inc."
 }

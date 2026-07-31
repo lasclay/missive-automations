@@ -256,10 +256,27 @@ async function loadJournal(id) {
 
         <div class="row" style="margin-top:14px">
           <button class="act" id="post" ${d.existing || !j.balanced ? "disabled" : ""}>Publier dans QuickBooks</button>
+          <button class="ghost" id="raw" title="Mêmes colonnes que le « download the raw data » d'A2X">Données brutes (CSV)</button>
           <label class="muted"><input type="checkbox" id="force"> forcer (ignorer les avertissements)</label>
           <span id="postmsg" class="muted"></span>
         </div>
       </div>`;
+
+    $("#raw").onclick = async () => {
+      const btn = $("#raw");
+      btn.disabled = true; btn.textContent = "Extraction…";
+      try {
+        const r = await api(`/payouts/${encodeURIComponent(id)}/raw`);
+        const url = URL.createObjectURL(new Blob([r.csv], { type: "text/csv;charset=utf-8" }));
+        const a = document.createElement("a");
+        a.href = url; a.download = `${j.docNumber}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        $("#postmsg").innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
+      }
+      btn.disabled = false; btn.textContent = "Données brutes (CSV)";
+    };
 
     $("#force").onchange = (e) => ($("#post").disabled = !j.balanced || (!e.target.checked && !!d.existing));
     $("#post").onclick = async () => {

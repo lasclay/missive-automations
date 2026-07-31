@@ -30,7 +30,7 @@ const ORDER_FIELDS = `
     taxLines { title priceSet { shopMoney { amount } } }
   } } }
   lineItems(first: 250) { edges { node {
-    id title quantity
+    id title quantity sku
     originalTotalSet { shopMoney { amount } }
     totalDiscountSet { shopMoney { amount } }
     discountAllocations { allocatedAmountSet { shopMoney { amount } } }
