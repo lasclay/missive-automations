@@ -180,14 +180,20 @@ function verifier2facteur(token, code, { ip = null } = {}) {
  * transférer dans l'application d'authentification. Rien n'est actif tant qu'un premier
  * code n'a pas été vérifié — sinon une erreur de scan enfermerait l'employé dehors.
  */
-function preparer2facteur(userId) {
+function preparer2facteur(userId, { regenerer = false } = {}) {
   const u = one("SELECT * FROM users WHERE id = ?", userId);
   if (!u) throw new Error("compte inconnu");
   if (u.totp_enabled) throw new Error("le second facteur est déjà actif");
-  const secret = totp.genererSecret();
-  run("UPDATE users SET totp_secret = ? WHERE id = ?", secret, userId);
+  // On REPREND le secret en attente s'il existe. Regénérer à chaque ouverture invalidait le
+  // QR déjà scanné : le gestionnaire de mots de passe continuait de produire les codes de
+  // l'ancien secret, et l'activation échouait sur « code incorrect » sans raison visible.
+  const secret = (!regenerer && u.totp_secret) || totp.genererSecret();
+  if (secret !== u.totp_secret) run("UPDATE users SET totp_secret = ? WHERE id = ?", secret, userId);
   const lien = totp.uri(secret, { compte: u.email, emetteur: EMETTEUR });
-  return { secret, lisible: totp.lisible(secret), uri: lien, qr: qr.svg(lien, { module: 5 }) };
+  return {
+    secret, lisible: totp.lisible(secret), uri: lien, qr: qr.svg(lien, { module: 5 }),
+    repris: secret === u.totp_secret && !regenerer,
+  };
 }
 
 /** Active après vérification d'un premier code. Renvoie les codes de secours, affichés une fois. */

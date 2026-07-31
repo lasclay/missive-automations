@@ -1053,13 +1053,16 @@ async function configurer2facteur() {
            <button class="d" id="db2">Désactiver</button>`}`,
       null);
   }
-  const p = await api("/api/moi/2fa/preparer", { method: "POST" });
+  const p = await api("/api/moi/2fa/preparer", { method: "POST", body: {} });
   const c = dialogue("Activer le second facteur", `
     <p>1. Scanner ce code avec Google Authenticator, Authy, 1Password ou le trousseau de votre
        téléphone.</p>
     <div style="text-align:center;margin:12px 0">${p.qr}</div>
     <p class="doux" style="font-size:12px">Le scan ne marche pas ? Saisir la clé à la main :<br>
       <code style="font-size:14px;letter-spacing:1px">${esc(p.lisible)}</code></p>
+    <p class="doux" style="font-size:12px">Code refusé alors que vous venez de scanner ?
+      Votre gestionnaire a peut-être gardé une entrée plus ancienne pour ce site :
+      <b>la supprimer</b>, puis <a id="regen">repartir d'un secret neuf</a> et rescanner.</p>
     <hr>
     <p>2. Saisir le code affiché par l'application pour confirmer.</p>
     <label class="champ"><input id="a2" inputmode="numeric" maxlength="6" placeholder="123456"
@@ -1078,6 +1081,12 @@ async function configurer2facteur() {
         return false;
       } catch (e) { $("#ae2").innerHTML = `<div class="avis">${esc(e.message)}</div>`; return false; }
     }, "Activer");
+  const rg = $("#regen", c);
+  if (rg) rg.onclick = async () => {
+    if (!confirm("Générer un nouveau secret ? L'ancien QR ne vaudra plus rien.")) return;
+    await api("/api/moi/2fa/preparer", { method: "POST", body: { regenerer: true } });
+    $("#dlg").close(); configurer2facteur();
+  };
   setTimeout(() => {
     const d = $("#db2", c);
     if (d) d.onclick = async () => {
