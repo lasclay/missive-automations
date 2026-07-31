@@ -291,10 +291,50 @@ function amorcerAdmin({ email = process.env.CLONE_ADMIN_EMAIL, motDePasse = proc
   return { email: courriel, motDePasse: r.motDePasse, id: r.id };
 }
 
+/**
+ * Reprise d'accès sans shell : `CLONE_ADMIN_RESET=1` dans les variables du service.
+ *
+ * Au démarrage suivant, le compte `CLONE_ADMIN_EMAIL` est créé s'il manque, remis en
+ * administrateur actif, son mot de passe remplacé, son second facteur retiré et ses sessions
+ * fermées. Le mot de passe est imprimé dans les logs.
+ *
+ * C'est une porte volontairement large, mais elle n'est ouverte qu'à qui contrôle déjà les
+ * variables d'environnement du service — c'est-à-dire à qui pourrait de toute façon tout
+ * faire. Elle existe parce que l'onglet Shell n'est pas disponible partout, et qu'un service
+ * dont plus personne n'a la clé est inutilisable.
+ */
+function reprendreAcces({ email = process.env.CLONE_ADMIN_EMAIL, motDePasse = process.env.CLONE_ADMIN_PASSWORD } = {}) {
+  const accounts = require("./accounts");
+  const courriel = String(email || "admin@lasclay.com").trim().toLowerCase();
+  const mdp = motDePasse || suggerer();
+  const souci = valider(mdp);
+  if (souci) throw new Error(`CLONE_ADMIN_PASSWORD refusé : ${souci}`);
+
+  let u = one("SELECT * FROM users WHERE lower(email) = lower(?)", courriel);
+  if (!u) {
+    const r = creerCompte({ name: "Administrateur", email: courriel, role: "admin", motDePasse: mdp });
+    u = { id: r.id };
+  } else {
+    run(`UPDATE users SET password_hash = ?, must_change = 1, active = 1, permissions = ?,
+         totp_enabled = 0, totp_secret = NULL, totp_last_step = 0, recovery_codes = NULL
+         WHERE id = ?`,
+      hacher(mdp), dump({ role: "admin", ...accounts.ROLES.admin }), u.id);
+    run("DELETE FROM sessions WHERE user_id = ?", u.id);
+  }
+  run("DELETE FROM login_attempts WHERE lower(email) IN (?, ?)", courriel, `2fa:${courriel}`);
+  journaliser("auth.reprise_acces", "user", u.id, { email: courriel });
+  return { email: courriel, motDePasse: motDePasse ? null : mdp, id: u.id };
+}
+
+/** Comptes existants, sans aucun secret — pour que les logs disent avec quoi se connecter. */
+const inventaireComptes = () => all(
+  `SELECT email, name, active, totp_enabled, must_change, (password_hash IS NOT NULL) AS a_mdp
+   FROM users ORDER BY name`);
+
 module.exports = {
   hacher, verifier, valider, suggerer, creerCompte, changerMotDePasse,
   connecter, session, deconnecter, menage, sessionsDe, publiciser,
   lireCookie, poserCookie, effacerCookie, NOM_COOKIE, amorcerAdmin, DUREE_SESSION_H,
   verifier2facteur, preparer2facteur, activer2facteur, desactiver2facteur,
-  reinitialiser2facteur, etat2facteur, EMETTEUR,
+  reinitialiser2facteur, etat2facteur, EMETTEUR, reprendreAcces, inventaireComptes,
 };

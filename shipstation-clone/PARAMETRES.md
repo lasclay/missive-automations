@@ -22,7 +22,8 @@ sont saisis dans Render et n'y figurent jamais.
 
 | Variable | Défaut | Rôle |
 |---|---|---|
-| `CLONE_ADMIN_PASSWORD` | — | Mot de passe du premier administrateur. **Facultatif** : sans lui, un mot de passe est généré et affiché **une seule fois** dans les logs de démarrage. |
+| `CLONE_ADMIN_PASSWORD` | — | Mot de passe du premier administrateur. **Facultatif** : sans lui, un mot de passe est généré et affiché **une seule fois** dans les logs de démarrage. Doit faire 10 caractères minimum et ne pas être que des chiffres, sinon le compte n'est pas créé. |
+| `CLONE_ADMIN_RESET` | — | `1` : au démarrage suivant, le compte `CLONE_ADMIN_EMAIL` est créé s'il manque, remis administrateur actif, mot de passe remplacé, second facteur retiré, sessions fermées, et le tout imprimé dans les logs. **À retirer aussitôt.** Porte de secours quand plus personne ne peut entrer et que l'onglet Shell n'est pas disponible. |
 | `CLONE_COOKIE_SECURE` | activé | Cookies de session `Secure`. Mettre `0` **uniquement** en HTTP local. En production HTTPS, laisser tel quel : à `0`, les sessions circuleraient en clair. |
 | `CLONE_SESSION_HEURES` | `12` | Durée d'une session, glissante — toute activité repousse l'expiration. |
 | `CLONE_2FA_EMETTEUR` | `Lasclay Expéditions` | Nom affiché dans l'application d'authentification à côté du code. |

@@ -51,6 +51,14 @@ node shipstation-clone/admin.js sessions <courriel>
 Sert quand plus personne ne peut entrer par l'interface. L'outil touche la base directement,
 donc il exige un accès au serveur — c'est la bonne barrière.
 
+**Sans accès au Shell** (l'onglet n'existe pas sur tous les plans), la même chose se fait par une
+variable : poser `CLONE_ADMIN_RESET=1`, redéployer, lire le mot de passe dans les logs, puis
+**retirer la variable**. Le compte `CLONE_ADMIN_EMAIL` est créé s'il manque, remis administrateur
+actif, son second facteur retiré et ses sessions fermées.
+
+Les logs de démarrage listent aussi **les comptes existants** (courriels seuls, aucun secret) :
+un « mot de passe incorrect » ne dit pas s'il faut s'en prendre au mot de passe ou au courriel.
+
 **Mot de passe refusé alors qu'il semble bon ?** Deux causes, dans l'ordre :
 
 1. **Un espace collé au bout** en copiant depuis les logs. Un mot de passe est comparé tel quel :

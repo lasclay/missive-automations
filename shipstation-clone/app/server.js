@@ -625,9 +625,11 @@ if (require.main === module) {
   // Premier démarrage : créer l'administrateur, sans quoi personne ne peut se connecter.
   // Une erreur ici ne doit pas tuer le service : mieux vaut démarrer et le dire, puisque
   // l'outil en ligne de commande permet de rattraper (admin.js motdepasse …).
-  let admin = null, soucisAdmin = null;
-  try { admin = auth.amorcerAdmin(); }
-  catch (e) { soucisAdmin = String(e.message || e); }
+  let admin = null, soucisAdmin = null, reprise = null;
+  try {
+    if (process.env.CLONE_ADMIN_RESET === "1") reprise = auth.reprendreAcces();
+    else admin = auth.amorcerAdmin();
+  } catch (e) { soucisAdmin = String(e.message || e); }
   const liberees = orders.libererHolds();
 
   // Le bilan d'installation part dans les logs à chaque démarrage : ce sont les mêmes
@@ -644,6 +646,33 @@ if (require.main === module) {
       console.log(`\n  !! Compte administrateur NON créé : ${soucisAdmin}`);
       console.log("     Rattrapage : node shipstation-clone/admin.js creer <courriel> \"<nom>\" admin\n");
     }
+    // Quels comptes existent — sans secret. Sans ça, un « mot de passe incorrect » ne dit pas
+    // s'il faut s'en prendre au mot de passe ou au courriel.
+    const comptes = auth.inventaireComptes();
+    if (comptes.length) {
+      console.log("\n  Comptes en base :");
+      for (const c of comptes) {
+        console.log(`    ${c.active ? "●" : "○"} ${c.email}  ${c.name}` +
+          `  ${c.a_mdp ? "" : "[SANS MOT DE PASSE] "}${c.totp_enabled ? "[2FA] " : ""}${c.must_change ? "[provisoire]" : ""}`);
+      }
+      console.log();
+    }
+
+    if (reprise) {
+      console.log("\n  ── REPRISE D'ACCÈS (CLONE_ADMIN_RESET=1) ──────────────────────");
+      console.log("  courriel :");
+      console.log(`\n${reprise.email}\n`);
+      if (reprise.motDePasse) {
+        console.log("  mot de passe (à copier tel quel, sans espace) :");
+        console.log(`\n${reprise.motDePasse}\n`);
+      } else {
+        console.log("  mot de passe : celui de CLONE_ADMIN_PASSWORD\n");
+      }
+      console.log("  Second facteur retiré, sessions fermées, compte remis administrateur.");
+      console.log("  >> RETIRER MAINTENANT la variable CLONE_ADMIN_RESET des réglages du service.");
+      console.log("  ───────────────────────────────────────────────────────────────\n");
+    }
+
     setTimeout(bilan, 500);
     if (admin) {
       // Le mot de passe est imprimé SEUL sur sa ligne, sans cadre ni remplissage : dans un
