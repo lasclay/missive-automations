@@ -14,13 +14,40 @@ const { gid } = require("./shopify");
 const config = require("../config.json");
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const dayLabel = (iso) => { const d = new Date(iso); return `${String(d.getUTCDate()).padStart(2, "0")}${MONTHS[d.getUTCMonth()]}`; };
-const isoDate = (iso) => new Date(iso).toISOString().slice(0, 10);
 
-const PAYS = { "*": "N/A" };
+/**
+ * Les dates de Shopify sont en UTC, mais A2X raisonne dans le fuseau de la
+ * boutique : une transaction du 22 juillet 02 h UTC est du 21 juillet à
+ * Montréal, et A2X titre bien « Payout — 21 Jul 2026 ». Sans cette conversion
+ * la période et la date de l'écriture décalent d'un jour.
+ */
+const TZ = config.timezone || "America/New_York";
+
+/** Pour un horodatage réel (transaction) : la date telle que la voit la boutique. */
+const isoDate = (iso) =>
+  new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" })
+    .format(new Date(iso));
+
+/**
+ * Pour la date d'émission d'un versement, qui est une DATE et non un instant :
+ * Shopify la renvoie à minuit UTC, la convertir la reculerait d'un jour.
+ */
+const isoDay = (iso) => new Date(iso).toISOString().slice(0, 10);
+
+const label = (ymd) => { const [, mm, dd] = ymd.split("-"); return `${dd}${MONTHS[parseInt(mm, 10) - 1]}`; };
+const dayLabel = (iso) => label(isoDate(iso));
+
+/**
+ * Libellé de pays dans la description. A2X écrit « CA », pas « CA (QC) », et
+ * regroupe donc les provinces sur une seule ligne. On fait pareil : sur les 349
+ * règles, une seule voit son compte changer selon la province (`Underpayment`
+ * en Ontario), et elle ne concerne aucun type produit ici. La province reste
+ * utilisée pour CHOISIR le compte — seul l'affichage est regroupé.
+ */
 function countryLabel(c) {
   if (!c || c === "*") return "N/A";
-  return c.includes("-") ? `${c.split("-")[0]} (${c.split("-")[1]})` : c;
+  const [base, prov] = c.split("-");
+  return config.groupByProvince && prov ? `${base} (${prov})` : base;
 }
 function marketplaceLabel(m) {
   if (!m || m === "*") return "N/A";
@@ -113,13 +140,34 @@ function buildLines(payout, btx, ordersById) {
       continue;
     }
 
-    // Vente (charge) : on ventile la commande au prorata du montant réellement encaissé.
+    // Vente (charge).
     const comps = saleComponents(order);
     const expected = sum(comps, (c) => c.amount);
-    if (expected !== amount) {
-      notes.push(`${src} : encaissé ${(amount / 100).toFixed(2)} vs commande ${(expected / 100).toFixed(2)} → ventilation au prorata.`);
+    const gateway = t.sourceType === "charge" ? "shopify_payments" : "shopify_payments";
+    const pendingDetails = `PendingPayment - Gateway ${gateway}`;
+
+    // Déjà encaissé sur cette commande AVANT cette transaction.
+    const earlier = (order.transactions || [])
+      .filter((x) => /^(SALE|CAPTURE)$/i.test(x.kind || "") && /^SUCCESS$/i.test(x.status || ""))
+      .filter((x) => x.processedAt && t.transactionDate && new Date(x.processedAt) < new Date(t.transactionDate));
+    const already = sum(earlier, (x) => money(x.amountSet));
+
+    if (already + amount !== expected) {
+      // Commande pas encore soldée : comme A2X, on parque l'encaissement en
+      // paiement en attente plutôt que de reconnaître une vente — et surtout
+      // une TAXE — partielle. Vérifié sur L-50755 : A2X porte les 79,39 $
+      // reçus sur une commande de 429,39 $ au 1110, sans toucher au 2121.
+      add("Pending Payments", pendingDetails, country, marketplace, amount, src);
+      notes.push(`${src} : ${(amount / 100).toFixed(2)} encaissé sur une commande de ${(expected / 100).toFixed(2)} → paiement en attente, aucune vente reconnue.`);
+    } else {
+      // La commande se solde : on reconnaît la vente entière et on vide le
+      // paiement en attente déjà comptabilisé.
+      for (const c of comps) add(c.category, c.details, country, marketplace, c.amount, src);
+      if (already) {
+        add("Pending Payments", pendingDetails, country, marketplace, -already, src);
+        notes.push(`${src} : commande soldée, ${(already / 100).toFixed(2)} de paiement en attente repris.`);
+      }
     }
-    for (const c of prorate(comps, amount, expected)) add(c.category, c.details, country, marketplace, c.amount, src);
     if (fee) add("Payment and Selling Fees", "ShopifyFee", country, marketplace, -fee, src);
   }
 
@@ -139,7 +187,9 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
   const start = dates[0] || payout.issuedAt;
   const end = payout.issuedAt || dates[dates.length - 1];
   const legacy = String(payout.legacyResourceId || gid(payout.id) || "");
-  const docNumber = `${prefix}-${dayLabel(start)}-${dayLabel(end)}-${legacy.slice(-3)}`;
+  const startDay = isoDate(start);   // horodatage de transaction → fuseau boutique
+  const endDay = isoDay(end);        // date d'émission du versement → telle quelle
+  const docNumber = `${prefix}-${label(startDay)}-${label(endDay)}-${legacy.slice(-3)}`;
   // QuickBooks refuse un DocNumber de plus de 21 caractères.
   if (docNumber.length > 21) {
     throw new Error(`DocNumber « ${docNumber} » fait ${docNumber.length} caractères (max 21) — raccourcis docNumberPrefix dans a2x/config.json.`);
@@ -177,7 +227,7 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
 
   if (settlement) {
     Line.push({
-      Description: `Balance of settlement for: ${isoDate(start)}`,
+      Description: `Balance of settlement for: ${startDay}`,
       Amount: Math.abs(settlement) / 100,
       DetailType: "JournalEntryLineDetail",
       JournalEntryLineDetail: { PostingType: settlement > 0 ? "Debit" : "Credit", AccountRef: { value: String(settlementAccountId) } },
@@ -186,10 +236,10 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
 
   const body = {
     DocNumber: docNumber,
-    TxnDate: isoDate(start),
+    TxnDate: startDay,
     // Trace l'origine : c'est ce qui distingue nos écritures de celles d'A2X,
     // dont le suffixe de DocNumber n'est pas reconstituable.
-    PrivateNote: `Versement Shopify Payments ${legacy} · ${isoDate(start)} → ${isoDate(end)} · publié par a2x-app`,
+    PrivateNote: `Versement Shopify Payments ${legacy} · ${startDay} → ${endDay} · publié par a2x-app`,
     CurrencyRef: { value: config.currency || "CAD" },
     ExchangeRate: 1,
     Line,
@@ -199,7 +249,7 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     body,
     docNumber,
     payoutId: legacy,
-    period: { start: isoDate(start), end: isoDate(end) },
+    period: { start: startDay, end: endDay },
     settlement: settlement / 100,
     payoutNet: parseFloat((payout.net && payout.net.amount) || 0),
     drift: drift / 100,
@@ -210,4 +260,4 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
   };
 }
 
-module.exports = { buildLines, buildJournalEntry, countryLabel, marketplaceLabel, isoDate, dayLabel };
+module.exports = { buildLines, buildJournalEntry, countryLabel, marketplaceLabel, isoDate, isoDay, dayLabel };

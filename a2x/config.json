@@ -10,5 +10,9 @@
   "roundingAccountId": "214",
   "roundingAccountLabel": "9100 — Perte ou gain relié au taux de change",
   "posLocationId": "58394280098",
-  "posLocationLabel": "Entrepôt Lasclay"
+  "posLocationLabel": "Entrepôt Lasclay",
+  "timezone": "America/New_York",
+  "timezoneNote": "Fuseau de la boutique Shopify (ianaTimezone) — sert à dater la période et l'écriture comme le fait A2X.",
+  "groupByProvince": false,
+  "groupByProvinceNote": "A2X écrit « CA » et regroupe les provinces sur une seule ligne. Mettre à true pour détailler CA (QC), CA (ON)… — la province sert de toute façon à choisir le compte."
 }
