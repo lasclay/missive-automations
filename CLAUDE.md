@@ -52,6 +52,17 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   est régénéré par `node a2x/tools/import_mappings.js`.
 - Doc complète : `a2x/README.md`.
 
+## Meta MCP (Facebook, Instagram, WhatsApp, Meta Ads)
+
+- Serveur MCP **distant officiel de Meta**, rien à héberger : `https://mcp.facebook.com/devtools`
+  (Meta Developer Tools, transport HTTP, OAuth avec le compte Meta — aucune clé à stocker).
+- Branchement : `claude mcp add --transport http meta_developer_tools https://mcp.facebook.com/devtools`,
+  puis `/mcp` → Authenticate.
+- 10 outils `devtools_*` : config d'app, App Review, conformité, usage et limites d'API,
+  webhooks (liste, gestion, test), changelog, recherche dans la doc Meta.
+- Portée `Manage` = écriture sur les abonnements webhook uniquement — à n'accorder qu'au besoin.
+- Doc complète : `META_MCP.md`.
+
 ## Missive Proxy
 
 - Service Render séparé pour l'API Missive ; code : `missive-proxy/` (env `MISSIVE_PROXY_SECRET`).
