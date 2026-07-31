@@ -203,6 +203,51 @@ La liste des versements, elle, n'apparie que par montant — connaître la péri
 suppose de charger ses transactions de solde, trop coûteux pour une liste. L'appariement fin se
 fait à l'ouverture du versement.
 
+## Audit contre les écritures réelles d'A2X
+
+```bash
+node a2x/tools/audit_a2x.js [--limit 400] [--verbose]
+```
+
+Chaque ligne d'écriture A2X porte son libellé d'origine
+(`ProductSales  - CA - Online store`) et le compte qu'A2X a choisi. L'audit réinjecte ce libellé
+dans le moteur de mappage et compare le compte et le code de taxe obtenus. C'est la seule façon
+de valider le mappage sur des milliers de cas réels sans accès aux versements Shopify.
+
+Résultat au 31 juillet 2026, sur **400 écritures A2X / 5 682 lignes comparables** :
+
+| | |
+|---|---|
+| Comptes identiques | **5 670 (99,79 %)** |
+| Codes de taxe identiques | **5 678** |
+| Combinaisons distinctes rencontrées | 175 |
+
+Les 16 lignes en écart sont documentées ci-dessous — aucune ne concerne un type de ligne que ce
+moteur produit. L'audit ne valide pas les **montants**, qui viennent des versements Shopify.
+
+### Les écarts, un par un
+
+**12 lignes — `PendingPayment` en `exchange` et en `Manual order`.** A2X se contredit lui-même :
+sa table contient à la fois une règle générique (`PendingPayment / CA / exchange → 1110`) et une
+règle composée (`PendingPayment - CA - exchange → 4013`). Il a appliqué la composée d'avril 2025
+à avril 2026, puis la générique en mai et juin 2026. On suit la générique — son comportement le
+plus récent. Ces lignes n'apparaissent que dans ses journaux **mensuels** (paiements hors Shopify
+Payments), que ce moteur ne produit pas. **À trancher avec la comptable** si le volet mensuel est
+repris un jour.
+
+**4 lignes — code de taxe sur `ForeignCurrencyGainLoss - refund_discrepancy`.** Dérive
+historique : les 4 lignes sans code datent de mars à mai 2025 ; les 12 lignes suivantes, à partir
+de juin 2025, portent bien « Détaxé on Sales ». Notre comportement suit la table actuelle.
+
+**5 lignes — `ShopifyCashRounding Gateway cash`.** Type absent de la table de mappings d'A2X ; il
+l'a imputé au `4011` via sa règle d'automapping (montants de 0,01 à 0,02 $, arrondis de caisse au
+point de vente).
+
+**12 lignes — écritures de prêt ajoutées à la main.** Les pièces `10650`, `10461`, `10190` et
+`9735` sont des écritures A2X dans lesquelles quelqu'un a ajouté trois lignes de prêt BDC 10K
+(57,70 $ d'intérêt au débit, 57,70 $ de déboursé au crédit). Ce ne sont pas des lignes A2X. À
+savoir : si l'une de ces écritures était un jour republiée, ces ajouts manuels seraient perdus.
+
 ## Limites connues
 
 * **Shopify Payments seulement.** Les commandes payées par PayPal, carte-cadeau ou paiement

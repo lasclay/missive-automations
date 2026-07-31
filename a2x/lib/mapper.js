@@ -21,6 +21,34 @@ function load() {
 const baseCountry = (c) => (c && c.includes("-") ? c.split("-")[0] : c);
 const baseMarketplace = (m) => (m && m.startsWith("pos:") ? "pos" : m);
 
+/**
+ * A2X a deux familles de règles : les génériques, où pays et canal sont des
+ * colonnes (« PendingPayment / CA / exchange »), et celles où pays et canal sont
+ * écrits DANS le type (« PendingPayment - CA - exchange », colonnes à N/A).
+ * Les secondes l'emportent — vérifié sur ses propres écritures : pour
+ * « PendingPayment / CA / exchange » A2X impute 4013, la règle composée, et non
+ * 1110 que donnerait la règle générique.
+ */
+const A2X_MARKETPLACE = { online: "Online store", manual: "Manual order", edit: "Edit Order", exchange: "exchange" };
+
+function composedKeys(details, country, marketplace) {
+  const cfg = require("../config.json");
+  const cFull = country === "*" ? null : country.split("-").join(" - ");
+  const cBase = country === "*" ? null : baseCountry(country);
+  const mk = marketplace === "*" ? null
+    : marketplace.startsWith("pos:")
+      ? `Point of sale (location: ${cfg.posLocationLabel || "Entrepôt Lasclay"} - ${marketplace.slice(4)})`
+      : A2X_MARKETPLACE[marketplace] || marketplace;
+
+  const out = [];
+  if (cFull && mk) out.push(`${details} - ${cFull} - ${mk}`);
+  if (cBase && cBase !== cFull && mk) out.push(`${details} - ${cBase} - ${mk}`);
+  if (mk) out.push(`${details} - ${mk}`);
+  if (cFull) out.push(`${details} - ${cFull}`);
+  if (cBase && cBase !== cFull) out.push(`${details} - ${cBase}`);
+  return out;
+}
+
 /** Clé d'index — doit rester identique à celle de tools/import_mappings.js. */
 const key = (details, country, marketplace) => details + "|" + country + "|" + marketplace;
 
@@ -46,12 +74,20 @@ function score(k) {
 function resolve(category, details, country, marketplace) {
   const m = load();
   const exact = key(details, country, marketplace);
+
   const keys = candidates(details, country, marketplace);
   for (const k of keys) {
     const hit = m.index[k];
     if (hit && hit.accountId) {
       return { ...hit, matched: k, fallback: k === exact ? "exact" : "repli" };
     }
+  }
+
+  // Puis les règles composées, qui couvrent ce que les génériques n'ont pas
+  // (le point de vente, notamment).
+  for (const composed of composedKeys(details, country, marketplace)) {
+    const hit = m.index[key(composed, "*", "*")];
+    if (hit && hit.accountId) return { ...hit, matched: composed, fallback: "règle composée" };
   }
   const def = m.defaults[category];
   if (def && def.accountId) return { ...def, matched: `${category} (automapping)`, fallback: "automapping" };

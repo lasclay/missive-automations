@@ -2,10 +2,13 @@
   "currency": "CAD",
   "docNumberPrefix": "CLONE",
   "docNumberPrefixNote": "Nos écritures : CLONE-24Jul-29Jul-314. Celles d'A2X : A2XSH-24Jul-29Jul-314. QuickBooks limite le DocNumber à 21 caractères, d'où un préfixe de 5 lettres.",
-  "legacyDocNumberPrefixes": ["A2XSH"],
+  "legacyDocNumberPrefixes": [
+    "A2XSH"
+  ],
   "settlementAccountId": "13",
   "settlementAccountLabel": "13 — Compte chèques CAD (le compte où A2X déposait le net du payout)",
   "roundingAccountId": "214",
   "roundingAccountLabel": "9100 — Perte ou gain relié au taux de change",
-  "posLocationId": "58394280098"
+  "posLocationId": "58394280098",
+  "posLocationLabel": "Entrepôt Lasclay"
 }
