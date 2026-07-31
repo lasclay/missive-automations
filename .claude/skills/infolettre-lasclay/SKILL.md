@@ -9,52 +9,49 @@ Lasclay a envoyé **325 infolettres entre 2020 et 2026**. Elles sont archivées 
 mise en page complète, et un guide de style mesuré sur ce corpus existe. **Ne jamais écrire
 d'infolettre Lasclay de mémoire ou d'intuition : toujours charger le guide d'abord.**
 
+## Comment aller chercher les fichiers
+
+Le dépôt `lasclay/missive-automations` est **privé** : `curl` sur
+`raw.githubusercontent.com` renvoie 404 sans jeton. Deux chemins fonctionnent :
+
+1. **Si on travaille déjà dans le dépôt `missive-automations`** (le cas courant) : lire les
+   fichiers directement sur disque, dans `infolettres/`. C'est le plus simple et le plus rapide.
+2. **Sinon**, utiliser l'outil GitHub MCP :
+   `mcp__github__get_file_contents` avec `owner: lasclay`, `repo: missive-automations`,
+   `path: infolettres/GUIDE-REDACTION.md`. (Ajouter `ref` seulement si le contenu n'est pas
+   encore fusionné dans la branche par défaut.)
+
 ## Étape 1 — Charger le guide de style (obligatoire)
 
-```bash
-curl -sSL https://raw.githubusercontent.com/lasclay/missive-automations/main/infolettres/GUIDE-REDACTION.md
-```
+Fichier : **`infolettres/GUIDE-REDACTION.md`**
 
-Ce fichier contient tout : le ton et les sept règles non négociables, le tutoiement vs
-vouvoiement (⚠️ la marque **vouvoie** depuis 2025), la structure canonique en 11 blocs, les
-règles d'objet et de preview text, la palette exacte (`#D4AD67` doré signature, `#222222`
-texte, `#727272` pied), la typographie (Arial, 14 px, interligne 1.5, crénage 0), la
-spécification des boutons et des images, les formules réutilisables, le calendrier
-éditorial, les contraintes LCAP et la liste de contrôle finale.
-
-Si l'URL `main` échoue, essayer la branche de travail :
-`https://raw.githubusercontent.com/lasclay/missive-automations/claude/klaviyo-audit-alternatives-awlhbf/infolettres/GUIDE-REDACTION.md`
-
-Le dépôt est aussi disponible localement : lire `infolettres/GUIDE-REDACTION.md` directement
-si on travaille dans le dépôt `missive-automations`.
+Il contient tout : le ton et les sept règles non négociables, le tutoiement vs vouvoiement
+(⚠️ la marque **vouvoie** depuis 2025), la structure canonique en 11 blocs, les règles
+d'objet et de preview text, la palette exacte (`#D4AD67` doré signature, `#222222` texte,
+`#727272` pied), la typographie (Arial, 14 px, interligne 1.5, crénage 0), la spécification
+des boutons et des images, les formules réutilisables, le calendrier éditorial, les
+contraintes LCAP et la liste de contrôle finale.
 
 ## Étape 2 — Trouver les précédents pertinents
 
-L'index donne les 325 envois avec date, objet, preview, langue, type et audience :
-
-```bash
-curl -sSL https://raw.githubusercontent.com/lasclay/missive-automations/main/infolettres/INDEX.md
-```
+**`infolettres/INDEX.md`** donne les 325 envois avec date, objet, preview, langue, type et
+audience.
 
 Repérer 2 ou 3 envois du **même type** (prévente/lancement, promotion/vente, mission et
 plantation, concours, suivi de commande, infolettre générale saisonnière, B2B) et de la
 **même saison**, puis lire leur transcription intégrale dans le fichier de leur année :
+`infolettres/infolettres-2020.md` … `infolettres-2026.md`.
+
+**Privilégier 2025-2026** : c'est la voix actuelle (vouvoiement, objets courts, séries de
+réchauffement). Les fichiers d'année sont volumineux (jusqu'à ~650 Ko) — n'extraire que les
+sections utiles, par exemple :
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/lasclay/missive-automations/main/infolettres/infolettres-2026.md
-```
-
-Fichiers disponibles : `infolettres-2020.md` … `infolettres-2026.md`. **Privilégier
-2025-2026** : c'est la voix actuelle (vouvoiement, objets courts, séries de réchauffement).
-Les fichiers d'année sont volumineux (jusqu'à ~650 Ko) — extraire seulement les sections
-utiles, par exemple :
-
-```bash
-curl -sSL <url>/infolettres-2026.md | awk '/^## 2026-03-14/,/^## 2026-04/'
+awk '/^## 2026-03-14/,/^## 2026-04/' infolettres/infolettres-2026.md
 ```
 
 Pour le rendu exact (pixel-perfect) d'un envoi donné :
-`https://raw.githubusercontent.com/lasclay/missive-automations/main/infolettres/html/<date>-<slug>.html`
+`infolettres/html/<date>-<slug>.html`.
 
 ## Étape 3 — Rédiger
 
