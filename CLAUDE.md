@@ -4,16 +4,17 @@ Automatisations Lasclay (support Missive, proxys d'API). Quand on te demande d'*
 service tiers** (ShipStation, Omnisend, QuickBooks…), passe par les proxys ci-dessous — les
 clés API vivent côté Render, jamais dans l'environnement Claude ni dans le code.
 
-**N'explore pas le dépôt pour retrouver comment joindre un service : trois skills du projet
+**N'explore pas le dépôt pour retrouver comment joindre un service : quatre skills du projet
 contiennent déjà les actions exactes, les paramètres et les garde-fous.** Charge-les au lieu de
 chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, `/qbo`,
-`/proxygen`) :
+`/proxygen`, `/meta`) :
 
 | Skill | Couvre |
 | --- | --- |
 | `missive` | boîte support Missive, fils et brouillons, connaissances de service client et de marque, scripts de la boîte |
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
+| `meta` | Meta Proxy : campagnes Facebook/Instagram Ads, commentaires, publication, messagerie, veille |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
@@ -52,15 +53,31 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   est régénéré par `node a2x/tools/import_mappings.js`.
 - Doc complète : `a2x/README.md`.
 
-## Meta MCP (Facebook, Instagram, WhatsApp, Meta Ads)
+## Meta Proxy (Facebook, Instagram, Meta Ads) — service SÉPARÉ
 
-- Serveur MCP **distant officiel de Meta**, rien à héberger : `https://mcp.facebook.com/devtools`
-  (Meta Developer Tools, transport HTTP, OAuth avec le compte Meta — aucune clé à stocker).
-- Branchement : `claude mcp add --transport http meta_developer_tools https://mcp.facebook.com/devtools`,
-  puis `/mcp` → Authenticate.
-- 10 outils `devtools_*` : config d'app, App Review, conformité, usage et limites d'API,
-  webhooks (liste, gestion, test), changelog, recherche dans la doc Meta.
-- Portée `Manage` = écriture sur les abonnements webhook uniquement — à n'accorder qu'au besoin.
+- Service Render dédié (comme les finances : argent, voix publique et messagerie clients ne
+  partagent pas un secret avec les opérations) ; code : `meta-proxy/server.js`.
+- Client : `node meta_client.js <action> ['{...}']`
+  (env : `META_PROXY_URL` + `META_PROXY_SECRET` — secret DISTINCT du général et des finances).
+- Cinq usages : **audit des campagnes** (insights, dépense, ROAS), **gestion des campagnes**,
+  **commentaires** (lire, répondre, masquer), **gestes automatisés** (publier, aimer, messagerie
+  Messenger/Instagram), **veille** (insights de Page, Ad Library des concurrents).
+- Garde-fous : chaque action porte un niveau de risque ; `META_ALLOW_SPEND` et
+  `META_ALLOW_DELETE` sont **fermés par défaut** (rien ne peut dépenser ni détruire),
+  `META_READONLY=1` passe le service en lecture seule, et
+  `META_ALLOWED_PAGE_IDS` / `META_ALLOWED_AD_ACCOUNT_IDS` bornent les actifs adressables.
+- Introspection sans secret : `GET /actions` (actions + risques + garde-fous actifs),
+  `GET /token-status` (validité et portées du jeton, jamais sa valeur).
+- Vérifier un jeton avant déploiement : `META_ACCESS_TOKEN=… node meta_check.js`.
+- ⚠️ Conditions Meta : gestes automatisés sur NOS actifs seulement ; Messenger = fenêtre de 24 h.
+- Doc complète : `meta-proxy/META_PROXY.md`.
+
+## Meta MCP (gestion de l'app Meta, pas des données)
+
+- Serveur MCP distant officiel de Meta, rien à héberger : `https://mcp.facebook.com/devtools`.
+  Gère **l'app** (config, App Review, conformité, webhooks, quotas), pas les campagnes ni les
+  commentaires — pour ça, c'est le Meta Proxy ci-dessus.
+- Branchement : `claude mcp add --transport http meta_developer_tools https://mcp.facebook.com/devtools`.
 - Doc complète : `META_MCP.md`.
 
 ## Missive Proxy

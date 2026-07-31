@@ -15,6 +15,9 @@ Connecteurs actuels :
 - **QuickBooks Online** : DÉMÉNAGÉ dans un service dédié (`finance-proxy/`) pour isoler les
   finances — secrets Intuit et secret d'appel séparés de ce proxy. Voir
   `finance-proxy/FINANCE_PROXY.md`.
+- **Meta / Facebook / Instagram / Ads** : service dédié (`meta-proxy/`) pour la même raison —
+  budget publicitaire, voix publique de la marque et messagerie clients ne partagent pas un
+  secret avec les opérations. Voir `meta-proxy/META_PROXY.md`.
 
 ---
 

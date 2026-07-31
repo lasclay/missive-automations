@@ -147,6 +147,16 @@ les domaines Meta.
 
 ---
 
+## À ne pas confondre avec le meta-proxy
+
+Ce serveur MCP gère **l'app Meta elle-même** : configuration, App Review, conformité, webhooks,
+quotas d'API. Il ne touche ni aux campagnes, ni aux commentaires, ni aux messages — pour opérer
+sur les **données** (audit des campagnes, gestion des commentaires, gestes automatisés, veille),
+c'est le service Render dédié : `meta-proxy/META_PROXY.md`.
+
+Les deux se complètent : le MCP pour construire et surveiller l'intégration depuis un poste, le
+proxy pour la faire tourner **dans le cloud**, sans dépendre d'une session OAuth locale.
+
 ## Référence
 
 - [Vue d'ensemble Meta MCP](https://developers.facebook.com/documentation/mcp/)
