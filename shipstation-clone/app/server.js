@@ -30,10 +30,15 @@ const accounts = require("../lib/accounts");
 const ingest = require("../lib/ingest");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
+const auth = require("../lib/auth");
+
 const PORT = process.env.PORT || 3100;
-const SECRET = process.env.CLONE_APP_SECRET || "";
+const HOTE = process.env.HOST || "0.0.0.0";
 const ETIQUETTES = process.env.CLONE_ALLOW_LABELS === "1";
 const PUBLIC = path.join(__dirname, "public");
+/** Derrière le proxy de Render, l'IP réelle est dans X-Forwarded-For. */
+const ipDe = (req) => String(req.headers["x-forwarded-for"] || "").split(",")[0].trim()
+  || req.socket.remoteAddress || null;
 
 // ---------------------------------------------------------------- utilitaires
 
@@ -53,8 +58,11 @@ const corps = (req) => new Promise((ok, ko) => {
 });
 const q = (url) => Object.fromEntries(url.searchParams);
 
-/** Utilisateur courant — en-tête simple, suffisant pour un outil interne derrière un secret. */
-const utilisateurCourant = (req) => req.headers["x-user-id"] || null;
+/**
+ * Utilisateur courant — résolu par le cookie de session, jamais par un en-tête fourni par le
+ * client. Un `X-User-Id` se falsifie ; un jeton de session se vérifie en base.
+ */
+const utilisateurCourant = (req) => auth.session(auth.lireCookie(req));
 
 // ------------------------------------------------------------------- routage
 
@@ -399,11 +407,19 @@ route("POST /api/settings", async ({ req, user }) => {
   return { ok: true };
 });
 
-route("GET /api/users", () => ({ users: accounts.utilisateurs(), domaines: accounts.DOMAINES, roles: Object.keys(accounts.ROLES) }));
+route("GET /api/users", ({ user }) => {
+  accounts.exiger(user, "users_manage");
+  return {
+    users: accounts.utilisateurs().map((u) => ({ ...u, password_hash: undefined })),
+    domaines: accounts.DOMAINES, roles: Object.keys(accounts.ROLES),
+  };
+});
 route("POST /api/users", async ({ req, user }) => {
   accounts.exiger(user, "users_manage");
   const b = await corps(req);
-  return b.id ? (accounts.majUtilisateur(b.id, b), { id: b.id }) : { id: accounts.creerUtilisateur(b) };
+  if (b.id) { accounts.majUtilisateur(b.id, b); return { id: b.id }; }
+  // Création d'un employé : compte avec mot de passe provisoire à transmettre de vive voix.
+  return auth.creerCompte(b);
 });
 
 route("GET /api/webhooks", () => ({ webhooks: accounts.abonnements(), evenements: accounts.EVENEMENTS }));
@@ -454,39 +470,87 @@ route("GET /api/config", () => ({
   adaptateur: adaptateur().nom,
   etiquettes_actives: ETIQUETTES,
   seuil_dropoff_g: SEUIL_DROPOFF_G,
-  protege: !!SECRET,
-  db: db.CHEMIN,
   amorce: !!db.reglage("amorce"),
+  comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
 }));
 
+// ============================================================ AUTHENTIFICATION
+
+route("POST /api/login", async ({ req, res }) => {
+  const b = await corps(req);
+  const { token, expire, user } = auth.connecter(b.email, b.password,
+    { ip: ipDe(req), agent: req.headers["user-agent"] });
+  res.setHeader("Set-Cookie", auth.poserCookie(token, expire));
+  return { user };
+});
+
+route("POST /api/logout", async ({ req, res }) => {
+  auth.deconnecter(auth.lireCookie(req));
+  res.setHeader("Set-Cookie", auth.effacerCookie());
+  return { ok: true };
+});
+
+/** Qui suis-je — sert à l'interface pour savoir quoi afficher. */
+route("GET /api/moi", ({ moi }) => (moi ? { user: moi } : { user: null }));
+
+route("POST /api/moi/password", async ({ req, moi }) => {
+  const b = await corps(req);
+  if (!auth.verifier(b.ancien, db.one("SELECT password_hash h FROM users WHERE id = ?", moi.id).h))
+    return { error: "mot de passe actuel incorrect", code: 403 };
+  auth.changerMotDePasse(moi.id, b.nouveau);
+  return { ok: true, reconnexion: true };
+});
+
+route("GET /api/moi/sessions", ({ moi }) => ({ sessions: auth.sessionsDe(moi.id) }));
+
+/** Réinitialisation par un administrateur : renvoie un mot de passe provisoire. */
+route("POST /api/users/:id/password", async ({ req, params, user }) => {
+  accounts.exiger(user, "users_manage");
+  const b = await corps(req);
+  const mdp = b.password || auth.suggerer();
+  auth.changerMotDePasse(params.id, mdp, { parAdmin: true });
+  db.run("DELETE FROM sessions WHERE user_id = ?", params.id);
+  return { motDePasse: mdp };
+});
+
 // =================================================================== serveur
+
+/** Routes accessibles sans session. Tout le reste exige d'être connecté. */
+const PUBLIQUES = new Set(["GET /", "GET /index.html", "GET /api/config",
+  "POST /api/login", "POST /api/logout", "GET /api/moi", "GET /healthz"]);
 
 const serveur = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const chemin = url.pathname.replace(/\/+$/, "") || "/";
+  const spec = `${req.method} ${chemin}`;
 
   try {
-    // Statique
+    // Sonde de santé — Render l'interroge sans cookie.
+    if (chemin === "/healthz") return texte(res, 200, "ok");
+
+    // En-têtes de sécurité, sur toutes les réponses.
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("X-Frame-Options", "DENY");
+    res.setHeader("Referrer-Policy", "same-origin");
+
     if (chemin === "/" || chemin === "/index.html") {
       return texte(res, 200, fs.readFileSync(path.join(PUBLIC, "index.html"), "utf8"), "text/html; charset=utf-8");
     }
-    if (chemin === "/api/config") return json(res, 200, ROUTES["GET /api/config"]({}));
 
-    // Authentification
-    if (SECRET && (req.headers["x-app-secret"] || url.searchParams.get("secret")) !== SECRET) {
-      return json(res, 401, { error: "secret d'application requis" });
+    const moi = utilisateurCourant(req);
+    if (!PUBLIQUES.has(spec) && !moi) {
+      return json(res, 401, { error: "session requise", login: true });
     }
 
     const trouve = trouver(req.method, chemin);
-    if (!trouve) return json(res, 404, { error: `route inconnue : ${req.method} ${chemin}` });
+    if (!trouve) return json(res, 404, { error: `route inconnue : ${spec}` });
 
-    const user = utilisateurCourant(req);
-    const out = await trouve.fn({ req, res, url, params: trouve.params, user });
+    const out = await trouve.fn({ req, res, url, params: trouve.params, user: moi ? moi.id : null, moi });
     if (out === null) return;                       // le handler a déjà répondu
     if (out && out.error && out.code) return json(res, out.code, { error: out.error });
     return json(res, 200, out);
   } catch (e) {
-    const code = e.code === 403 ? 403 : 500;
+    const code = e.code === 403 ? 403 : e.code === 429 ? 429 : 500;
     return json(res, code, { error: String(e.message || e) });
   }
 });
@@ -494,16 +558,36 @@ const serveur = http.createServer(async (req, res) => {
 if (require.main === module) {
   db.db();
   ingest.amorcer();
+
+  // Premier démarrage : créer l'administrateur, sans quoi personne ne peut se connecter.
+  const admin = auth.amorcerAdmin();
   const liberees = orders.libererHolds();
-  serveur.listen(PORT, () => {
-    console.log(`shipstation-clone sur http://localhost:${PORT}`);
+
+  serveur.listen(PORT, HOTE, () => {
+    console.log(`shipstation-clone sur ${HOTE}:${PORT}`);
     console.log(`  base         : ${db.CHEMIN}`);
     console.log(`  transporteur : ${adaptateur().nom}`);
     console.log(`  étiquettes   : ${ETIQUETTES ? "ACHAT ACTIF (argent réel)" : "achat désactivé"}`);
     if (liberees) console.log(`  ${liberees} commande(s) sortie(s) d'attente au démarrage`);
+    if (admin) {
+      console.log("\n  ┌──────────────────────────────────────────────────────────────┐");
+      console.log("  │ PREMIER DÉMARRAGE — compte administrateur créé                │");
+      console.log(`  │  courriel     : ${admin.email.padEnd(44)}│`);
+      if (admin.motDePasse) {
+        console.log(`  │  mot de passe : ${admin.motDePasse.padEnd(44)}│`);
+        console.log("  │  À changer à la première connexion. Ce message ne             │");
+        console.log("  │  réapparaîtra pas : le mot de passe n'est stocké que haché.   │");
+      } else {
+        console.log("  │  mot de passe : celui de CLONE_ADMIN_PASSWORD                 │");
+      }
+      console.log("  └──────────────────────────────────────────────────────────────┘\n");
+    }
   });
+
   // Les holds arrivés à échéance repartent en file, comme la tâche de fond de ShipStation.
   setInterval(() => orders.libererHolds(), 15 * 60 * 1000).unref();
+  // Purge des sessions expirées.
+  setInterval(() => auth.menage(), 60 * 60 * 1000).unref();
 }
 
 module.exports = { serveur, ROUTES, trouver };

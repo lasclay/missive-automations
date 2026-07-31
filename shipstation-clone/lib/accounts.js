@@ -64,9 +64,16 @@ function majUtilisateur(id, { name, email, active, role, permissions }) {
   journaliser("user.update", "user", id, { role });
 }
 
-/** Vérifie une permission. Un utilisateur absent ou inactif n'a rien. */
+/**
+ * Vérifie une permission. **Refus par défaut** : pas de session, pas de droit.
+ *
+ * C'était l'inverse quand l'outil était local et mono-utilisateur. Sur un service partagé,
+ * une valeur par défaut permissive est un trou : une requête sans session prendrait les
+ * pleins pouvoirs. L'exception unique est un compte sans aucun utilisateur en base, le
+ * temps de l'amorçage du premier administrateur.
+ */
 function peut(userId, domaine) {
-  if (!userId) return !reglage("exiger_utilisateur", false);   // mono-utilisateur par défaut
+  if (!userId) return !one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n;
   const u = utilisateur(userId);
   if (!u || !u.active) return false;
   return u.permissions[domaine] === true;

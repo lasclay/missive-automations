@@ -54,8 +54,23 @@ CREATE TABLE IF NOT EXISTS tags (
 
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY, name TEXT NOT NULL, email TEXT UNIQUE,
-  active INTEGER DEFAULT 1, permissions TEXT DEFAULT '{}', created_at TEXT
+  active INTEGER DEFAULT 1, permissions TEXT DEFAULT '{}', created_at TEXT,
+  password_hash TEXT,              -- scrypt$N$r$p$sel$clé ; NULL = compte sans accès
+  must_change INTEGER DEFAULT 0    -- mot de passe provisoire, à changer à la connexion
 );
+
+CREATE TABLE IF NOT EXISTS sessions (
+  token_hash TEXT PRIMARY KEY,     -- sha256 du jeton ; le jeton lui-même n'est jamais stocké
+  user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  created_at TEXT, last_seen TEXT, expires_at TEXT NOT NULL, ip TEXT, agent TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_exp ON sessions(expires_at);
+
+CREATE TABLE IF NOT EXISTS login_attempts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, at TEXT, ok INTEGER, ip TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_attempts ON login_attempts(email, at);
 
 -- ------------------------------------------------------------------ commandes
 
@@ -248,6 +263,23 @@ CREATE TABLE IF NOT EXISTS settings (
 );
 `;
 
+/**
+ * Colonnes ajoutées après coup. `CREATE TABLE IF NOT EXISTS` ne touche pas une table
+ * existante : sans ceci, une base créée avant l'authentification resterait sans
+ * `password_hash` et le service refuserait toute connexion sans dire pourquoi.
+ */
+const AJOUTS = [
+  ["users", "password_hash", "TEXT"],
+  ["users", "must_change", "INTEGER DEFAULT 0"],
+];
+
+function migrer(d) {
+  for (const [table, colonne, type] of AJOUTS) {
+    const cols = d.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
+    if (!cols.includes(colonne)) d.exec(`ALTER TABLE ${table} ADD COLUMN ${colonne} ${type}`);
+  }
+}
+
 let _db = null;
 
 function db() {
@@ -255,6 +287,7 @@ function db() {
   fs.mkdirSync(path.dirname(CHEMIN), { recursive: true });
   _db = new DatabaseSync(CHEMIN);
   _db.exec(SCHEMA);
+  migrer(_db);
   return _db;
 }
 

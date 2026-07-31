@@ -4,49 +4,79 @@ Une application complète : commandes, expéditions, lots, manifestes, retours, 
 inventaire, clients, automatisation, gabarits, analytique, utilisateurs, webhooks, migration.
 Aucune dépendance npm — `http` et `node:sqlite` natifs, une page unique.
 
-## Démarrer
+## Déployer comme service web
 
-**Prérequis : Node 22.5 ou plus récent** — l'application utilise `node:sqlite`, absent avant.
-`node -v` pour vérifier ; sinon `brew install node@22` ou `nvm install 22`.
+L'application est un service multi-utilisateur : chaque employé a un **compte nominatif**, se
+connecte avec un mot de passe, et ses droits sont vérifiés côté serveur. Il n'y a plus de secret
+partagé — il ne disait pas qui avait fait quoi, ne se révoquait pas pour une seule personne, et
+circulait dans les URL.
+
+### Sur Render (recommandé)
+
+`render.yaml` est un blueprint prêt à appliquer : New → Blueprint, pointer sur ce dépôt.
+
+**Le disque persistant n'est pas optionnel.** Sans lui, le disque d'une instance Render est
+effacé à chaque redéploiement et la base SQLite disparaît avec les 12 460 commandes migrées.
+Cela impose l'offre *Starter* (le plan gratuit n'a pas de disque) — environ 7 $ US/mois plus le
+disque. C'est le coût d'un service partagé ; il reste sans commune mesure avec les 33 000 $ en jeu.
+
+Variables à saisir dans le tableau de bord Render, jamais dans le dépôt :
+
+| Variable | Rôle |
+|---|---|
+| `GENERAL_PROXY_SECRET` | migration depuis ShipStation |
+| `CLONE_ADMIN_EMAIL` | courriel du premier administrateur |
+| `CLONE_ADMIN_PASSWORD` | facultatif — sinon un mot de passe est généré et affiché **une fois** dans les logs |
+| `CLICKSHIP_API_KEY` | quand ClickShip aura répondu |
+
+Render sert le service en HTTPS avec un domaine `*.onrender.com` ; les cookies de session sont
+`Secure` par défaut. Pour un domaine à vous, l'ajouter dans Render — rien à changer dans le code.
+
+Rappel : Render suit `main`. La branche `claude/shipstation-audit-clone-0gwmgr` doit être
+fusionnée avant le premier déploiement.
+
+### Premier démarrage
+
+1. Le service crée un compte administrateur et **affiche son mot de passe dans les logs Render**.
+   Le récupérer là, puis le changer à la première connexion — il n'est stocké que haché et ne
+   réapparaîtra pas.
+2. **Réglages → Lancer la migration** pour verser les données de ShipStation (quelques minutes).
+   Sans migration, la grille est vide : c'est normal, pas une panne.
+3. **Utilisateurs → Nouvel employé** : chaque compte reçoit un mot de passe provisoire affiché
+   une seule fois, à transmettre de vive voix. L'employé doit le changer à sa première connexion.
+   Clic droit sur une ligne pour réinitialiser un mot de passe oublié.
+
+### Les rôles
+
+| Rôle | Peut |
+|---|---|
+| `admin` | tout, y compris utilisateurs et réglages |
+| `expediteur` | commandes, expéditions, **achat et annulation d'étiquettes**, retours |
+| `preparateur` | consultation seule des commandes, expéditions et produits |
+| `comptable` | consultation et rapports |
+
+Les permissions sont vérifiées **au niveau des routes**, pas seulement dans l'interface : un
+préparateur qui appellerait `/api/shipments/buy` directement reçoit un 403. Les menus auxquels il
+n'a pas droit ne s'affichent pas non plus, mais c'est du confort, pas la sécurité.
+
+### En local (développement)
 
 ```bash
 git clone https://github.com/lasclay/missive-automations.git
-cd missive-automations
-git checkout claude/shipstation-audit-clone-0gwmgr    # tant que la branche n'est pas fusionnée
-
-export GENERAL_PROXY_SECRET='…'                       # le même que pour connectors_client.js
-./shipstation-clone/demarrer.sh
+cd missive-automations && git checkout claude/shipstation-audit-clone-0gwmgr
+export GENERAL_PROXY_SECRET='…'
+CLONE_COOKIE_SECURE=0 ./shipstation-clone/demarrer.sh     # cookies non-Secure car HTTP
 ```
 
-Puis **http://localhost:3100**. Le script vérifie la version de Node, signale les variables
-manquantes et refuse d'activer l'achat d'étiquettes sans confirmation explicite.
+**Node 22.5 ou plus récent** — l'application utilise `node:sqlite`. Aucune dépendance npm.
 
-Au premier lancement l'application est **vide** : aller dans **Réglages → Lancer la migration**
-pour y verser les données de ShipStation (quelques minutes). Sans migration, la grille
-n'affiche rien — c'est normal, pas une panne.
+### Quand faudra-t-il PostgreSQL ?
 
-Il n'y a rien à installer : aucune dépendance npm, la base SQLite se crée toute seule dans
-`shipstation-clone/data/clone.db`.
-
-<details><summary>Sans le script</summary>
-
-```bash
-GENERAL_PROXY_SECRET='…' node shipstation-clone/app/server.js
-```
-</details>
-
-| Fichier | Rôle |
-|---|---|
-| `AUDIT.md` | l'audit : volumétrie réelle, modèle de données, inventaire fonctionnel, économie du drop-off, risques |
-| `BRIEF_CLICKSHIP.md` | les questions à poser aux conseillers techniques ClickShip, dans l'ordre |
-| `lib/` | la logique métier, un module par domaine |
-| `app/` | le serveur HTTP et l'interface |
-| `data/` | relevés de l'audit + la base SQLite du clone |
-
-**L'enjeu :** pas l'abonnement, mais le tarif Canada Post drop-off à 6,31 $ —
-**33 120 $ par an** sur les 12 derniers mois réels (`AUDIT.md` §7 bis).
-
----
+SQLite sur un disque persistant convient à une équipe qui prépare des envois : les lectures sont
+concurrentes, une seule écriture à la fois, et le volume est modeste (~700 envois/mois). Il faudra
+migrer si vous voulez **plusieurs instances Render** simultanées, ou des sauvegardes ponctuelles
+sans arrêt de service. `lib/db.js` est alors le seul fichier à reprendre : tout le reste passe par
+`all/one/run/tx`.
 
 ## Ce qui est fait, ce qui ne l'est pas
 
@@ -100,35 +130,29 @@ L'application ne peut pas dépenser d'argent par accident.
 |---|---|---|
 | `CLONE_ALLOW_LABELS` | **non** | l'achat d'étiquettes renvoie 403. Cotation et simulation restent ouvertes |
 | `CARRIER_ADAPTER` | `bouchon` | aucun appel transporteur réel |
-| `CLONE_APP_SECRET` | — | mot de passe de l'interface. **À poser avant tout déploiement** |
-| `CLONE_DB` | `data/clone.db` | fichier SQLite |
+| `CLONE_DB` | `data/clone.db` | fichier SQLite — sur Render, pointer dans le disque persistant |
 | `GENERAL_PROXY_SECRET` | — | requis uniquement pour la migration |
-| `PORT` | 3100 | |
+| `CLONE_COOKIE_SECURE` | oui | mettre `0` uniquement en HTTP local |
+| `CLONE_SESSION_HEURES` | 12 | durée d'une session (glissante) |
+| `PORT` / `HOST` | 3100 / `0.0.0.0` | Render fournit `PORT` |
 
 Les permissions sont vérifiées côté serveur, pas seulement dans l'interface : `labels_buy`,
 `orders_delete`, `settings_edit` et les autres bloquent la route même appelée directement.
 Tout passe au journal d'audit.
 
-Pour autoriser l'achat, `./shipstation-clone/demarrer.sh --etiquettes`. Sur un adaptateur réel,
-le script demande une confirmation tapée avant de démarrer.
+Pour autoriser l'achat, `./shipstation-clone/demarrer.sh --etiquettes` en local, ou
+`CLONE_ALLOW_LABELS=1` sur Render. Sur un adaptateur réel, le script demande une confirmation
+tapée avant de démarrer.
 
-### Et sur Render ?
-
-Les autres services du dépôt tournent sur Render ; **celui-ci ne devrait pas**, en tout cas pas
-tel quel. Le disque des instances Render est éphémère : la base SQLite — et donc les 12 460
-commandes migrées — disparaîtrait à chaque redéploiement. Trois options, par ordre de simplicité :
-
-1. **En local**, sur le poste qui prépare les envois. C'est le plus simple et le plus sûr : les
-   données ne quittent pas la machine, et l'outil sert justement au poste d'emballage.
-2. **Render avec un disque persistant** (offre payante) monté sur `data/`, `CLONE_APP_SECRET`
-   obligatoire.
-3. **PostgreSQL** si plusieurs postes doivent travailler en même temps — `lib/db.js` est le seul
-   fichier à reprendre, tout le reste passe par `all/one/run/tx`.
+Côté authentification : mots de passe hachés en scrypt avec sel par compte, jetons de session
+stockés hachés, cookies `HttpOnly` + `SameSite=Strict` + `Secure`, huit tentatives de connexion
+par quart d'heure et par compte, sessions fermées d'office au changement de mot de passe.
 
 ## Architecture
 
 ```
-lib/db.js         schéma SQLite (26 tables), transactions réentrantes, journal d'audit
+lib/db.js         schéma SQLite (29 tables), transactions réentrantes, migrations, audit
+lib/auth.js       comptes, scrypt, sessions par cookie, limitation des tentatives
 lib/orders.js     recherche filtrée, statuts, hold, tags, scission, fusion, alertes
 lib/shipments.js  cotation, achat, annulation, lots, manifestes, suivi
 lib/carrier.js    LE CONTRAT TRANSPORTEUR — quote/buy/void/track, bouchon, squelette ClickShip

@@ -22,7 +22,9 @@
   nav { background:var(--barre); color:#e8eaed; padding:12px 0; position:sticky; top:0; height:100vh; overflow:auto }
   nav h1 { font-size:14px; margin:0 0 4px; padding:0 16px 10px; border-bottom:1px solid rgba(255,255,255,.12);
            font-weight:650; letter-spacing:.2px }
-  nav h1 small { display:block; font-weight:400; color:#9aa3ad; font-size:11px; margin-top:2px }
+  nav h1 small { display:block; font-weight:400; color:#9aa3ad; font-size:11px; margin-top:2px; line-height:1.6 }
+  nav h1 small a { color:#9aa3ad; text-decoration:underline; cursor:pointer }
+  nav h1 small a:hover { color:#fff }
   nav a { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:7px 16px;
           color:#c7cdd4; text-decoration:none; font-size:13.5px; cursor:pointer; border-left:3px solid transparent }
   nav a:hover { background:rgba(255,255,255,.06); color:#fff }
@@ -106,12 +108,11 @@ const money = (v) => (Number(v) || 0).toFixed(2) + " $";
 const num = (v) => (Number(v) || 0).toLocaleString("fr-CA");
 const jour = (s) => (s ? String(s).slice(0, 10) : "—");
 
-let SECRET = localStorage.getItem("clone_secret") || "";
 async function api(route, opts = {}) {
-  const o = { headers: { "Content-Type": "application/json" }, ...opts };
-  if (SECRET) o.headers["X-App-Secret"] = SECRET;
+  const o = { headers: { "Content-Type": "application/json" }, credentials: "same-origin", ...opts };
   if (o.body && typeof o.body !== "string") o.body = JSON.stringify(o.body);
   const r = await fetch(route, o);
+  if (r.status === 401) { montrerConnexion(); throw new Error("session expirée"); }
   const t = await r.text();
   let j; try { j = JSON.parse(t); } catch { j = { error: t.slice(0, 200) }; }
   if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
@@ -157,7 +158,7 @@ function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null,
 }
 
 // ══════════════════════════════════════════════════════════════════ état
-const S = { page: "commandes", config: {}, refs: {}, compteurs: {}, sel: new Set(), filtres: {}, tri: "age", dir: "desc" };
+const S = { page: "commandes", moi: null, config: {}, refs: {}, compteurs: {}, sel: new Set(), filtres: {}, tri: "age", dir: "desc", tick: null };
 
 const PAGES = [
   { g: "Traitement" },
@@ -181,8 +182,16 @@ const PAGES = [
   { id: "journal", t: "Journal" },
 ];
 
+const PERM_PAGE = { utilisateurs: "users_manage", reglages: "settings_edit", journal: "reports_view",
+  analytique: "reports_view", produits: "products_view", retours: "returns_manage" };
+
+function autorise(id) {
+  const need = PERM_PAGE[id];
+  return !need || S.moi?.permissions?.[need] === true;
+}
+
 function menu() {
-  $("#menu").innerHTML = PAGES.map(p => p.g
+  $("#menu").innerHTML = PAGES.filter(p => p.g || autorise(p.id)).map(p => p.g
     ? `<div class="grp">${p.t || p.g}</div>`
     : `<a data-p="${p.id}" class="${S.page === p.id ? "actif" : ""}">${p.t}<span class="n" data-n="${p.id}"></span></a>`).join("");
   $("#menu").querySelectorAll("[data-p]").forEach(a => a.onclick = () => aller(a.dataset.p));
@@ -199,6 +208,7 @@ function majCompteursMenu() {
 }
 
 function aller(page) {
+  if (!autorise(page)) return;
   S.page = page; S.sel.clear(); S.filtres = {};
   location.hash = page;
   menu();
@@ -351,7 +361,7 @@ VUES.commandes = async (statutFixe) => {
       S.sel.clear(); charger(); rafraichirCompteurs();
     }, "Acheter");
 
-  $("#aSlip").onclick = () => window.open(`/api/packing-slip?ids=${ids().join(",")}${SECRET ? "&secret=" + encodeURIComponent(SECRET) : ""}`, "_blank");
+  $("#aSlip").onclick = () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank");
 
   $("#aHold").onclick = () => {
     const d = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
@@ -430,7 +440,7 @@ async function detailCommande(id) {
       ? `<div class="carte">${r.declenchees.map(d => `<b>${esc(d.name)}</b><br><span class="doux">${d.actions.map(a => esc(a.type)).join(", ")}</span>`).join("<hr>")}</div>`
       : '<p class="doux">Aucune règle ne s\'applique.</p>';
   };
-  $("#dSlip", c).onclick = () => window.open(`/api/packing-slip?ids=${id}${SECRET ? "&secret=" + encodeURIComponent(SECRET) : ""}`, "_blank");
+  $("#dSlip", c).onclick = () => window.open(`/api/packing-slip?ids=${id}`, "_blank");
 }
 
 // ------------------------------------------------------------------ alertes
@@ -490,7 +500,7 @@ VUES.expeditions = async () => {
     const p = new URLSearchParams(lire());
     const d = await api("/api/shipments?" + p);
     $("#r").innerHTML = `<b>${num(d.total)}</b> expéditions · coût affiché <b>${money(d.cout_total)}</b>`;
-    $("#exp").href = "/api/export/shipments?" + p + (SECRET ? "&secret=" + encodeURIComponent(SECRET) : "");
+    $("#exp").href = "/api/export/shipments?" + p;
     $("#t").innerHTML = ""; $("#t").append(table([
       { k: "order_number", t: "Commande" },
       { k: "tracking_number", t: "Suivi", r: s => esc(s.tracking_number || "—") + (s.drop_off ? ' <span class="puce v">drop</span>' : "") + (s.is_return ? ' <span class="puce g">retour</span>' : "") + (s.voided ? ' <span class="puce r">annulée</span>' : "") },
@@ -588,7 +598,7 @@ VUES.produits = async () => {
     const p = new URLSearchParams({ q: $("#pq").value, no_hs: $("#pnh").checked ? "1" : "", no_weight: $("#pnw").checked ? "1" : "", limit: 400 });
     const d = await api("/api/products?" + p);
     $("#pr").innerHTML = `<b>${num(d.total)}</b> produits`;
-    $("#pex").href = "/api/export/products?" + p + (SECRET ? "&secret=" + encodeURIComponent(SECRET) : "");
+    $("#pex").href = "/api/export/products?" + p;
     $("#pt").innerHTML = ""; $("#pt").append(table([
       { k: "sku", t: "SKU" }, { k: "name", t: "Nom" },
       { k: "weight_g", t: "Poids (g)", n: true, r: x => x.weight_g ? num(Math.round(x.weight_g)) : '<span class="puce a">—</span>' },
@@ -631,7 +641,7 @@ VUES.clients = async () => {
     const p = new URLSearchParams({ q: $("#cq").value, limit: 300 });
     const d = await api("/api/customers?" + p);
     $("#cr").innerHTML = `<b>${num(d.total)}</b> clients`;
-    $("#cex").href = "/api/export/customers?" + p + (SECRET ? "&secret=" + encodeURIComponent(SECRET) : "");
+    $("#cex").href = "/api/export/customers?" + p;
     $("#ct").innerHTML = ""; $("#ct").append(table([
       { k: "name", t: "Nom" }, { k: "email", t: "Courriel" },
       { k: "order_count", t: "Commandes", n: true },
@@ -778,13 +788,33 @@ VUES.utilisateurs = async () => {
     { k: "perms", t: "Peut", r: u => Object.entries(u.permissions).filter(([k, v]) => v === true).length + " permission(s)" },
     { k: "active", t: "Actif", r: u => u.active ? '<span class="puce v">oui</span>' : '<span class="puce r">non</span>' },
   ], d.users, { cle: "id" }));
-  $("#un").onclick = () => dialogue("Nouvel utilisateur", `
+  $("#un").onclick = () => dialogue("Nouvel employé", `
     <label class="champ"><span>Nom</span><input id="un1"></label>
     <label class="champ"><span>Courriel</span><input id="un2" type="email"></label>
     <label class="champ"><span>Rôle</span><select id="un3">${d.roles.map(r => `<option>${r}</option>`).join("")}</select></label>
-    <p class="doux">Détail des domaines : ${Object.values(d.domaines).join(", ")}.</p>`,
-    async () => { await api("/api/users", { method: "POST", body: { name: $("#un1").value, email: $("#un2").value, role: $("#un3").value } });
-      VUES.utilisateurs(); }, "Créer");
+    <p class="doux">Un mot de passe provisoire sera généré et affiché une seule fois.
+      L'employé devra le changer à sa première connexion.</p>
+    <p class="doux" style="font-size:12px">Domaines : ${Object.values(d.domaines).join(", ")}.</p>`,
+    async () => {
+      const r = await api("/api/users", { method: "POST", body: { name: $("#un1").value, email: $("#un2").value, role: $("#un3").value } });
+      if (r.motDePasse) {
+        dialogue("Compte créé", `<p>Transmettre ces identifiants à <b>${esc($("#un1").value)}</b> —
+          ce mot de passe ne sera plus affiché.</p>
+          <div class="carte" style="font-family:ui-monospace,monospace;font-size:15px">
+            ${esc($("#un2").value)}<br><b>${esc(r.motDePasse)}</b></div>
+          <p class="doux">Il devra le changer à la première connexion.</p>`, null);
+      } else VUES.utilisateurs();
+      return false;
+    }, "Créer");
+  $("#ut").querySelectorAll("tbody tr").forEach(tr => tr.oncontextmenu = async (e) => {
+    e.preventDefault();
+    const u = d.users.find(x => x.id === tr.dataset.id);
+    if (!u || !confirm(`Réinitialiser le mot de passe de ${u.name} ?`)) return;
+    const r = await api(`/api/users/${u.id}/password`, { method: "POST", body: {} });
+    dialogue("Mot de passe réinitialisé",
+      `<div class="carte" style="font-family:ui-monospace,monospace;font-size:15px"><b>${esc(r.motDePasse)}</b></div>
+       <p class="doux">Toutes ses sessions ont été fermées. À changer à la prochaine connexion.</p>`, null);
+  });
 };
 
 // ---------------------------------------------------------------- réglages
@@ -866,26 +896,83 @@ async function rendre() {
   catch (e) { $("#vue").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
 }
 
-(async () => {
-  try { S.config = await api("/api/config"); }
-  catch { S.config = {}; }
-  if (S.config.protege && !SECRET) {
-    SECRET = prompt("Secret de l'application :") || "";
-    localStorage.setItem("clone_secret", SECRET);
+// ══════════════════════════════════════════════════════════════════ connexion
+function montrerConnexion(message = "") {
+  $("#app").style.display = "none";
+  let ecran = $("#connexion");
+  if (!ecran) {
+    ecran = el(`<div id="connexion" style="display:grid;place-items:center;min-height:100vh;padding:20px">
+      <form class="carte" style="width:min(380px,92vw);padding:22px" id="fc">
+        <h2 style="margin:0 0 3px">Expéditions</h2>
+        <p class="sous" style="margin-bottom:16px">Connexion</p>
+        <label class="champ"><span>Courriel</span><input type="email" id="le" autocomplete="username" required></label>
+        <label class="champ"><span>Mot de passe</span><input type="password" id="lp" autocomplete="current-password" required></label>
+        <div id="lerr"></div>
+        <button class="p" style="width:100%;margin-top:6px" type="submit">Se connecter</button>
+      </form></div>`);
+    document.body.append(ecran);
+    $("#fc").onsubmit = async (e) => {
+      e.preventDefault();
+      $("#lerr").innerHTML = "";
+      try {
+        await api("/api/login", { method: "POST", body: { email: $("#le").value, password: $("#lp").value } });
+        ecran.remove();
+        $("#app").style.display = "";
+        demarrer();
+      } catch (err) { $("#lerr").innerHTML = `<div class="avis">${esc(err.message)}</div>`; }
+    };
   }
+  if (message) $("#lerr").innerHTML = `<div class="avis">${esc(message)}</div>`;
+  setTimeout(() => $("#le")?.focus(), 30);
+}
+
+async function deconnexion() {
+  await api("/api/logout", { method: "POST" }).catch(() => {});
+  location.reload();
+}
+
+/** Changement de mot de passe — imposé si le compte est encore sur un provisoire. */
+function changerMotDePasse(impose = false) {
+  dialogue("Changer le mot de passe",
+    (impose ? '<div class="avis">Votre mot de passe est provisoire : choisissez-en un nouveau.</div>' : "") +
+    `<label class="champ"><span>Mot de passe actuel</span><input type="password" id="pa"></label>
+     <label class="champ"><span>Nouveau (10 caractères minimum)</span><input type="password" id="pn"></label>
+     <label class="champ"><span>Confirmer</span><input type="password" id="pc"></label>`,
+    async () => {
+      if ($("#pn").value !== $("#pc").value) { alert("Les deux saisies diffèrent."); return false; }
+      await api("/api/moi/password", { method: "POST", body: { ancien: $("#pa").value, nouveau: $("#pn").value } });
+      alert("Mot de passe changé. Reconnexion nécessaire.");
+      location.reload();
+    }, "Changer");
+}
+
+// ══════════════════════════════════════════════════════════════════ démarrage
+async function demarrer() {
+  const m = await api("/api/moi");
+  if (!m.user) return montrerConnexion();
+  S.moi = m.user;
+
+  S.config = await api("/api/config");
   const av = [];
   if (!S.config.etiquettes_actives) av.push(`Achat d'étiquettes <b>désactivé</b> — lancer avec <code>CLONE_ALLOW_LABELS=1</code>. Cotation et simulation restent disponibles.`);
   if (S.config.adaptateur === "bouchon") av.push(`Transporteur <b>bouchon</b> : les tarifs sont des valeurs de démonstration. Passer à <code>CARRIER_ADAPTER=clickship</code> à réception des identifiants.`);
   $("#bandeau").innerHTML = av.map(a => `<div class="avis">${a}</div>`).join("");
-  $("#navSous").textContent = `${S.config.adaptateur || "?"} · ${S.config.etiquettes_actives ? "achat actif" : "lecture"}`;
-  try { S.refs = await api("/api/refs"); } catch {}
+  $("#navSous").innerHTML = `${esc(S.moi.name)} · <a id="lqm">changer le mot de passe</a> · <a id="lout">quitter</a>`;
+  $("#lout").onclick = deconnexion;
+  $("#lqm").onclick = () => changerMotDePasse(false);
+
+  try { S.refs = await api("/api/refs"); } catch { S.refs = {}; }
   await rafraichirCompteurs();
   S.page = (location.hash || "").slice(1) || "commandes";
   if (!VUES[S.page]) S.page = "commandes";
   menu();
   rendre();
-  setInterval(rafraichirCompteurs, 60000);
-})();
+  if (S.moi.must_change) changerMotDePasse(true);
+  clearInterval(S.tick);
+  S.tick = setInterval(rafraichirCompteurs, 60000);
+}
+
+demarrer().catch(() => montrerConnexion());
 </script>
 </body>
 </html>

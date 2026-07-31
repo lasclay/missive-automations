@@ -32,9 +32,10 @@ else
   vert "GENERAL_PROXY_SECRET présent — migration possible."
 fi
 
-# --- Mot de passe de l'interface : facultatif en local, obligatoire dès qu'on expose.
-if [ -z "${CLONE_APP_SECRET:-}" ]; then
-  gris "CLONE_APP_SECRET absent : interface ouverte. Acceptable en local, à poser avant tout déploiement."
+# --- Cookies Secure : impossible en HTTP local, on les relâche si rien n'est précisé.
+if [ -z "${CLONE_COOKIE_SECURE:-}" ]; then
+  export CLONE_COOKIE_SECURE=0
+  gris "Cookies non-Secure (HTTP local). En production HTTPS, laisser CLONE_COOKIE_SECURE par défaut."
 fi
 
 # --- Achat d'étiquettes : verrouillé sauf demande explicite.
