@@ -103,6 +103,28 @@ redémarrage et il faut tout réautoriser à la main. Trois protections :
 | **Un seul échange à la fois** | Deux rafraîchissements simultanés se périmaient mutuellement. Ils sont désormais sérialisés. |
 | **Repli sur les précédents** | Les 5 derniers jetons sont gardés en mémoire ; si le courant est refusé, on essaie les précédents avant d'abandonner. Intuit laisse un court sursis à l'ancien, ce qui rattrape une sauvegarde perdue. |
 
+### Réautoriser en un clic
+
+Plus besoin de terminal ni de copier-coller de jeton. Le service connaît déjà `QBO_CLIENT_ID` et
+`QBO_CLIENT_SECRET` : il mène le parcours lui-même et sauvegarde le résultat par le chemin normal.
+
+**Préparation, une seule fois** — dans l'app Intuit (developer.intuit.com → Keys & credentials),
+ajouter aux *Redirect URIs* :
+
+```
+https://<finance-proxy>/callback
+```
+
+**Ensuite, à chaque fois que c'est nécessaire** — ouvrir dans le navigateur :
+
+```
+https://<finance-proxy>/authorize?secret=<FINANCE_PROXY_SECRET>
+```
+
+Se connecter à QuickBooks, autoriser, et c'est fini : la page confirme, et prévient si la
+sauvegarde a échoué. Le service refuse le retour si le compte autorisé n'est pas le bon realm —
+autoriser la mauvaise entreprise écrirait dans les mauvais livres.
+
 **Vérifier avant la panne** — la route est publique mais n'expose aucune valeur :
 
 ```bash

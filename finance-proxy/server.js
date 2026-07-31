@@ -13,6 +13,9 @@
  * ROUTAGE (pas de préfixe connecteur — service mono-usage) :
  *   GET  /health              → sonde (sans auth)
  *   GET  /actions             → liste des actions (sans secret)
+ *   GET  /token-status        → état de la connexion QuickBooks (sans secret, sans valeur)
+ *   GET  /authorize?secret=…  → réautorisation Intuit en un clic
+ *   GET  /callback            → retour d'Intuit (appelé par le navigateur)
  *   POST /:action  {..params} → exécute (en-tête X-Proxy-Secret: FINANCE_PROXY_SECRET)
  *
  * Actions LECTURE : report, query, companyinfo, read
@@ -36,6 +39,7 @@
  *   QBO_ENV                "production" (défaut) ou "sandbox"                  [facultatif]
  *   QBO_MINORVERSION       défaut "75"                                         [facultatif]
  *   QBO_TOKEN_FILE         persistance fichier (si disque persistant monté)    [facultatif]
+ *   QBO_REDIRECT_URI       retour OAuth ; défaut <URL du service>/callback      [facultatif]
  *   PORT                   (auto, fourni par Render)
  *
  * Déploiement : New → Web Service, repo lasclay/missive-automations,
@@ -46,6 +50,7 @@
 
 const http = require("node:http");
 const fs = require("node:fs");
+const crypto = require("node:crypto");
 
 const SECRET = process.env.FINANCE_PROXY_SECRET;
 const PORT = process.env.PORT || 3000;
@@ -225,6 +230,54 @@ async function token() {
   return inFlight;
 }
 
+// --------------------------------------------------------------------------
+// Réautorisation en un clic.
+//
+// Sans ça, retrouver un refresh token vivant demandait un terminal, les deux
+// secrets de l'app Intuit sous la main, et un copier-coller de jeton vers
+// Render — assez pénible pour qu'on repousse, et l'intégration reste morte
+// entre-temps. Le service a déjà CLIENT_ID et CLIENT_SECRET : il peut mener
+// tout le parcours lui-même et sauvegarder le résultat par le chemin habituel.
+// --------------------------------------------------------------------------
+const SELF_URL = (process.env.RENDER_EXTERNAL_URL || process.env.SELF_URL || "").replace(/\/+$/, "");
+const REDIRECT_URI = process.env.QBO_REDIRECT_URI || (SELF_URL ? `${SELF_URL}/callback` : "");
+const pending = new Map(); // state → péremption
+
+function authorizeUrl(state) {
+  const u = new URL("https://appcenter.intuit.com/connect/oauth2");
+  u.searchParams.set("client_id", CLIENT_ID);
+  u.searchParams.set("response_type", "code");
+  u.searchParams.set("scope", "com.intuit.quickbooks.accounting");
+  u.searchParams.set("redirect_uri", REDIRECT_URI);
+  u.searchParams.set("state", state);
+  return u.toString();
+}
+
+async function exchangeCode(code) {
+  const res = await fetch("https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer", {
+    method: "POST",
+    headers: {
+      Authorization: "Basic " + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64"),
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+    },
+    body: new URLSearchParams({ grant_type: "authorization_code", code, redirect_uri: REDIRECT_URI }).toString(),
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`échange du code → ${res.status} ${text.slice(0, 400)}`);
+  return JSON.parse(text);
+}
+
+const page = (titre, corps) =>
+  `<!doctype html><html lang="fr"><meta charset="utf-8">
+   <meta name="viewport" content="width=device-width,initial-scale=1">
+   <title>${titre}</title>
+   <style>body{font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+   max-width:640px;margin:60px auto;padding:0 20px;color:#1a1d21}
+   code{background:#f2f4f7;padding:2px 6px;border-radius:4px;font-size:13px}
+   .ok{color:#157347}.bad{color:#b42318}</style>
+   <h1>${titre}</h1>${corps}`;
+
 const get = async (path, params) =>
   httpJson({
     method: "GET",
@@ -353,6 +406,70 @@ const server = http.createServer(async (req, res) => {
       });
     }
     if (req.method === "GET" && route === "/actions") return json(res, 200, { service: "finance-proxy", connector: "quickbooks", actions: Object.keys(ACTIONS) });
+
+    // Démarrer la réautorisation. Protégée par le secret du service : sans ça,
+    // n'importe qui pourrait lancer un parcours OAuth sur notre app Intuit.
+    if (req.method === "GET" && route === "/authorize") {
+      const url = new URL(req.url, "http://x");
+      if (url.searchParams.get("secret") !== SECRET) {
+        res.writeHead(401, { "Content-Type": "text/html; charset=utf-8" });
+        return res.end(page("Accès refusé", `<p class="bad">Ajoute <code>?secret=…</code> (le FINANCE_PROXY_SECRET) à l'URL.</p>`));
+      }
+      if (!REDIRECT_URI) {
+        res.writeHead(500, { "Content-Type": "text/html; charset=utf-8" });
+        return res.end(page("Configuration incomplète",
+          `<p class="bad">Aucune URL de redirection. Définis <code>QBO_REDIRECT_URI</code> sur ce service,
+           et ajoute la même valeur dans les <i>Redirect URIs</i> de l'app Intuit.</p>`));
+      }
+      const state = crypto.randomBytes(16).toString("hex");
+      pending.set(state, Date.now() + 10 * 60 * 1000);
+      res.writeHead(302, { Location: authorizeUrl(state) });
+      return res.end();
+    }
+
+    // Retour d'Intuit : on échange le code et on sauvegarde par le chemin normal.
+    if (req.method === "GET" && route === "/callback") {
+      const url = new URL(req.url, "http://x");
+      const state = url.searchParams.get("state");
+      const exp = pending.get(state);
+      pending.delete(state);
+      for (const [s, e] of pending) if (e < Date.now()) pending.delete(s);
+
+      const fail = (msg) => {
+        res.writeHead(400, { "Content-Type": "text/html; charset=utf-8" });
+        res.end(page("Échec de l'autorisation", `<p class="bad">${msg}</p>`));
+      };
+      if (!exp || exp < Date.now()) return fail("Requête non reconnue ou expirée. Relance depuis <code>/authorize</code>.");
+      const code = url.searchParams.get("code");
+      const realmId = url.searchParams.get("realmId");
+      if (!code) return fail("Intuit n'a pas renvoyé de code.");
+      // Garde-fou : autoriser la mauvaise entreprise écrirait dans les mauvais livres.
+      if (realmId && REALM && String(realmId) !== String(REALM)) {
+        return fail(`Ce compte QuickBooks (realm ${realmId}) n'est pas celui du service (${REALM}).
+                     Reconnecte-toi au bon compte, rien n'a été changé.`);
+      }
+      try {
+        const j = await exchangeCode(code);
+        if (!j.refresh_token) return fail("Intuit n'a pas renvoyé de refresh token.");
+        access = { token: j.access_token, exp: Date.now() + Math.max(60, (j.expires_in || 3600) - 120) * 1000 };
+        await saveRefresh(j.refresh_token);
+        const durable = TOKEN_FILE || (RENDER_KEY && RENDER_SVC);
+        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+        return res.end(page("QuickBooks reconnecté ✅", `
+          <p class="ok">Le nouveau jeton est en place${lastSyncOk === false ? "" : " et sauvegardé"}.</p>
+          ${durable
+            ? (lastSyncOk === false
+                ? `<p class="bad">⚠️ Mais la sauvegarde a échoué : il sera perdu au prochain redémarrage.
+                   Vérifie <code>RENDER_API_KEY</code> et <code>RENDER_SERVICE_ID</code>, puis regarde
+                   <a href="/token-status">/token-status</a>.</p>`
+                : `<p>Tu peux retourner dans l'app.</p>`)
+            : `<p class="bad">⚠️ Aucune persistance configurée : ce jeton sera perdu au prochain redémarrage.
+               Ajoute <code>RENDER_API_KEY</code> et <code>RENDER_SERVICE_ID</code> sur ce service.</p>`}
+          <p><a href="/token-status">Voir l'état de la connexion</a></p>`));
+      } catch (e) {
+        return fail(String(e.message || e));
+      }
+    }
     if (req.method !== "POST") return json(res, 404, { error: "not found" });
 
     if ((req.headers["x-proxy-secret"] || "") !== SECRET) return json(res, 401, { error: "unauthorized" });
