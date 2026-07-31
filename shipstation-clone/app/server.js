@@ -523,7 +523,8 @@ route("POST /api/login/2fa", async ({ req, res }) => {
 // --- gestion de son propre second facteur
 route("GET /api/moi/2fa", ({ moi }) => auth.etat2facteur(moi.id));
 
-route("POST /api/moi/2fa/preparer", ({ moi }) => auth.preparer2facteur(moi.id));
+route("POST /api/moi/2fa/preparer", async ({ req, moi }) =>
+  auth.preparer2facteur(moi.id, { regenerer: (await corps(req)).regenerer === true }));
 
 route("POST /api/moi/2fa/activer", async ({ req, moi }) => auth.activer2facteur(moi.id, (await corps(req)).code));
 
