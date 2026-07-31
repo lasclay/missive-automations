@@ -63,6 +63,11 @@ donc il exige un accès au serveur — c'est la bonne barrière.
 
 ### Vérifier avant d'ouvrir aux employés
 
+**Le bilan part tout seul dans les logs à chaque démarrage** — rien à lancer. Sur Render :
+onglet *Logs*, juste après les lignes de démarrage.
+
+Pour le relancer à la demande (Render → onglet *Shell*, ou en local) :
+
 ```bash
 node shipstation-clone/verifier.js
 ```
