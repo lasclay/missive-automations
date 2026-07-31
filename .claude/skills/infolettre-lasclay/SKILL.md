@@ -145,11 +145,31 @@ découvrir, cliquez ici »), jamais seul et nu.
 Vocabulaire de la mission : Québec (299), monarque (241), communauté (88), mission (81),
 soutien (44), pollinisateur (34).
 
-### Livrable
+### Livrable : un texte fini, jamais un gabarit à trous
 
-**Objet**, **preview text**, puis le corps avec les blocs `[IMAGE]` et `[BOUTON]` explicités
-(libellé, URL, couleurs) comme dans les transcriptions de l'archive, pour que le montage dans
-Klaviyo soit direct.
+**Ne jamais livrer de section `[[ À COMPLÉTER ]]`, de crochets à remplir ni de champ laissé en
+blanc.** Un brouillon troué crée plus de travail qu'il n'en épargne. C'est la même règle que
+`support.js` impose déjà aux brouillons du service client (« BROUILLON COMPLET, JAMAIS DE CHAMP
+À REMPLIR, règle critique »), et elle vaut pour les infolettres.
+
+S'il manque une donnée, il y a trois issues, jamais un trou :
+
+1. **Aller la chercher.** L'archive, l'INDEX, les envois précédents, le catalogue Shopify et
+   les campagnes Klaviyo déjà envoyées contiennent presque toujours la réponse. Une infolettre
+   qui vient d'être envoyée sur le même sujet est la meilleure source qui soit.
+2. **Reformuler pour ne plus en avoir besoin.** « On vise toujours l'automne 2026 » plutôt
+   qu'une date précise non confirmée. « Le numéro sera annoncé dans notre prochaine
+   infolettre » plutôt qu'un numéro inventé.
+3. **Écrire la version la plus plausible et signaler l'hypothèse à Gabriel dans la
+   conversation**, pas dans le courriel.
+
+Ne jamais inventer un chiffre, un prix, un rabais ni une date. Si le rabais exact est inconnu,
+présenter le produit et pointer la collection, sans pourcentage.
+
+**Format de livraison :** **objet**, **preview text**, puis le corps avec les blocs `[IMAGE]`
+et `[BOUTON]` explicités (libellé, URL, couleurs) comme dans les transcriptions de l'archive.
+Quand Gabriel prévoit insérer ses propres images, découper le texte en blocs séparés aux
+endroits naturels plutôt que de tout mettre dans un seul bloc.
 
 ## Étape 4. Vérifier
 
