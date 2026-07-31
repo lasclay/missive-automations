@@ -28,6 +28,7 @@ const templates = require("../lib/templates");
 const analytics = require("../lib/analytics");
 const accounts = require("../lib/accounts");
 const ingest = require("../lib/ingest");
+const channels = require("../lib/channels");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const auth = require("../lib/auth");
@@ -222,6 +223,27 @@ route("POST /api/batches/preview", async ({ req }) => {
   const ok = lignes.filter((l) => !l.erreur);
   return { lignes, total: Math.round(ok.reduce((s, l) => s + l.prix, 0) * 100) / 100,
     n: ok.length, bloquees: lignes.length - ok.length, drop_off: ok.filter((l) => l.dropOff).length };
+});
+
+// ---------------------------------------------- renvoi du suivi aux boutiques
+
+route("GET /api/channels", () => ({
+  canaux: channels.etat(), en_attente: channels.enAttente(200),
+  bascule: channels.dateBascule(), historique_ignore: channels.historiqueIgnore(),
+}));
+
+/** Prendre le relais : à partir de maintenant, c'est le clone qui notifie les boutiques. */
+route("POST /api/channels/bascule", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  return { bascule: channels.poserBascule(b.date || null) };
+});
+
+route("POST /api/channels/notify", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  if (b.shipment_id) return await channels.notifier(Number(b.shipment_id), { force: !!b.force });
+  return await channels.traiterFile({ limite: Number(b.limite) || 50 });
 });
 
 route("GET /api/manifests", () => ({ manifests: shipments.manifestes() }));
@@ -590,11 +612,22 @@ const serveur = http.createServer(async (req, res) => {
 });
 
 if (require.main === module) {
-  db.db();
+  // Une base inaccessible est fatale, mais le message doit être lisible : sur Render, une
+  // pile EACCES ne dit pas qu'il manque un disque.
+  try {
+    db.db();
+  } catch (e) {
+    console.error(`\n${e.message}\n`);
+    process.exit(1);
+  }
   ingest.amorcer();
 
   // Premier démarrage : créer l'administrateur, sans quoi personne ne peut se connecter.
-  const admin = auth.amorcerAdmin();
+  // Une erreur ici ne doit pas tuer le service : mieux vaut démarrer et le dire, puisque
+  // l'outil en ligne de commande permet de rattraper (admin.js motdepasse …).
+  let admin = null, soucisAdmin = null;
+  try { admin = auth.amorcerAdmin(); }
+  catch (e) { soucisAdmin = String(e.message || e); }
   const liberees = orders.libererHolds();
 
   serveur.listen(PORT, HOTE, () => {
@@ -603,18 +636,26 @@ if (require.main === module) {
     console.log(`  transporteur : ${adaptateur().nom}`);
     console.log(`  étiquettes   : ${ETIQUETTES ? "ACHAT ACTIF (argent réel)" : "achat désactivé"}`);
     if (liberees) console.log(`  ${liberees} commande(s) sortie(s) d'attente au démarrage`);
+    if (soucisAdmin) {
+      console.log(`\n  !! Compte administrateur NON créé : ${soucisAdmin}`);
+      console.log("     Rattrapage : node shipstation-clone/admin.js creer <courriel> \"<nom>\" admin\n");
+    }
     if (admin) {
-      console.log("\n  ┌──────────────────────────────────────────────────────────────┐");
-      console.log("  │ PREMIER DÉMARRAGE — compte administrateur créé                │");
-      console.log(`  │  courriel     : ${admin.email.padEnd(44)}│`);
+      // Le mot de passe est imprimé SEUL sur sa ligne, sans cadre ni remplissage : dans un
+      // encadré, le copier emporte les espaces de remplissage et la connexion échoue ensuite
+      // sur un mot de passe « correct » — piège vécu.
+      console.log("\n  ── PREMIER DÉMARRAGE — compte administrateur créé ─────────────");
+      console.log(`  courriel :`);
+      console.log(`\n${admin.email}\n`);
       if (admin.motDePasse) {
-        console.log(`  │  mot de passe : ${admin.motDePasse.padEnd(44)}│`);
-        console.log("  │  À changer à la première connexion. Ce message ne             │");
-        console.log("  │  réapparaîtra pas : le mot de passe n'est stocké que haché.   │");
+        console.log("  mot de passe (à copier tel quel, sans espace) :");
+        console.log(`\n${admin.motDePasse}\n`);
+        console.log("  À changer à la première connexion. Il n'est stocké que haché :");
+        console.log("  ce message ne réapparaîtra pas.");
       } else {
-        console.log("  │  mot de passe : celui de CLONE_ADMIN_PASSWORD                 │");
+        console.log("  mot de passe : celui de CLONE_ADMIN_PASSWORD");
       }
-      console.log("  └──────────────────────────────────────────────────────────────┘\n");
+      console.log("  ───────────────────────────────────────────────────────────────\n");
     }
   });
 
@@ -622,6 +663,9 @@ if (require.main === module) {
   setInterval(() => orders.libererHolds(), 15 * 60 * 1000).unref();
   // Purge des sessions expirées.
   setInterval(() => auth.menage(), 60 * 60 * 1000).unref();
+  // Reprise du renvoi de suivi : un canal momentanément indisponible ne doit pas laisser un
+  // client sans numéro de suivi.
+  setInterval(() => channels.traiterFile({ limite: 50 }).catch(() => {}), 10 * 60 * 1000).unref();
 }
 
 module.exports = { serveur, ROUTES, trouver };

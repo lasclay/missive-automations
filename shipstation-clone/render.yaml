@@ -22,7 +22,7 @@ services:
       sizeGB: 1                   # ~40 Mo pour 12 000 commandes ; 1 Go voit venir
     envVars:
       - key: NODE_VERSION
-        value: "22.11.0"          # node:sqlite exige 22.5 ou plus
+        value: "22.22.2"          # version de développement ; node:sqlite exige 22.5 minimum
       - key: CLONE_DB
         value: /var/data/clone.db
       - key: CARRIER_ADAPTER
@@ -31,12 +31,42 @@ services:
         value: "0"                # "1" seulement quand l'achat réel est voulu
       - key: CLONE_SESSION_HEURES
         value: "12"
+      - key: CLONE_2FA_EMETTEUR
+        value: Lasclay Expéditions  # nom affiché dans l'app d'authentification
+
+      # Volontairement absentes, leur défaut est le bon en production :
+      #   PORT                 fourni par Render
+      #   HOST                 0.0.0.0 — restreindre rendrait le service injoignable
+      #   CLONE_COOKIE_SECURE  activé ; à 0 les sessions circuleraient en clair
+      #   GENERAL_PROXY_URL    l'URL actuelle du proxy
+      #   SHOPIFY_API_VERSION  2025-01
+      # Liste complète et commentée : shipstation-clone/PARAMETRES.md
+
       # --- secrets : à saisir dans le tableau de bord, jamais ici ---
       - key: GENERAL_PROXY_SECRET
-        sync: false               # pour la migration depuis ShipStation
+        sync: false               # migration depuis ShipStation
       - key: CLONE_ADMIN_EMAIL
         sync: false               # courriel du premier administrateur
       - key: CLONE_ADMIN_PASSWORD
         sync: false               # facultatif : sinon un mot de passe est généré dans les logs
       - key: CLICKSHIP_API_KEY
         sync: false               # quand ClickShip aura répondu
+
+      # --- renvoi du suivi aux boutiques (sans eux, les clients perdent leur suivi) ---
+      # Shopify : l'app « Render connector » déjà utilisée par support.js et A2X.
+      # Jeton court renouvelé tout seul — rien de permanent à stocker ici.
+      # Portée à AJOUTER sur l'app : write_merchant_managed_fulfillment_orders
+      - key: SHOPIFY_STORE
+        sync: false               # lasclay.myshopify.com
+      - key: SHOPIFY_CLIENT_ID
+        sync: false
+      - key: SHOPIFY_CLIENT_SECRET
+        sync: false
+      - key: ETSY_API_KEY
+        sync: false
+      - key: ETSY_TOKEN
+        sync: false
+      - key: ETSY_SHOP_ID
+        sync: false
+      - key: FAIRE_ACCESS_TOKEN
+        sync: false

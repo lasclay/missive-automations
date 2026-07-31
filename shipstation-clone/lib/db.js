@@ -292,10 +292,41 @@ function migrer(d) {
 
 let _db = null;
 
+/**
+ * Ouvre la base, en expliquant la panne la plus probable plutôt qu'en laissant remonter un
+ * EACCES nu. Sur Render, `CLONE_DB=/var/data/clone.db` sans disque monté donne exactement ça :
+ * le dossier n'existe pas, et le service n'a pas le droit de créer à la racine.
+ *
+ * On ne se rabat PAS sur un dossier temporaire : ce serait démarrer sur une base vide, effacée
+ * au prochain déploiement, sans que personne ne s'en aperçoive avant d'avoir perdu des données.
+ */
 function db() {
   if (_db) return _db;
-  fs.mkdirSync(path.dirname(CHEMIN), { recursive: true });
-  _db = new DatabaseSync(CHEMIN);
+  const dossier = path.dirname(CHEMIN);
+  try {
+    fs.mkdirSync(dossier, { recursive: true });
+  } catch (e) {
+    {
+      const surRender = !!process.env.RENDER || !!process.env.RENDER_SERVICE_ID;
+      throw new Error(
+        `Impossible de créer « ${dossier} » (${e.code}) — la base ne peut pas être ouverte.\n\n` +
+        (surRender
+          ? `  Sur Render, cela veut presque toujours dire qu'AUCUN DISQUE n'est monté à cet endroit.\n` +
+            `  CLONE_DB vaut « ${CHEMIN} », donc un disque doit exister avec ce Mount Path.\n\n` +
+            `  Corriger, au choix :\n` +
+            `    • Settings → Disks → Add Disk : Name « donnees », Mount Path « ${dossier} », 1 GB\n` +
+            `      (un disque exige l'offre Starter ; le plan gratuit n'en a pas)\n` +
+            `    • ou aligner CLONE_DB sur le Mount Path du disque déjà en place\n\n` +
+            `  Sans disque, la base serait de toute façon effacée à chaque redéploiement.`
+          : `  Vérifier les droits sur ce dossier, ou pointer CLONE_DB ailleurs.`)
+      );
+    }
+  }
+  try {
+    _db = new DatabaseSync(CHEMIN);
+  } catch (e) {
+    throw new Error(`Base « ${CHEMIN} » illisible : ${e.message}`);
+  }
   _db.exec(SCHEMA);
   migrer(_db);
   return _db;
