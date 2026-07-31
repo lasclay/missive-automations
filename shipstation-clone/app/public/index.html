@@ -670,6 +670,13 @@ VUES.clients = async () => {
 };
 
 // -------------------------------------------------------------- analytique
+const EXPORTS = [
+  ["orders", "Commandes"], ["order-items", "Articles de commande"],
+  ["shipments", "Expéditions"], ["shipping-cost", "Coût réel vs encaissé"],
+  ["batches", "Lots"], ["returns", "Retours"], ["manifests", "Manifestes"],
+  ["products", "Produits"], ["customers", "Clients"],
+];
+
 VUES.analytique = async () => {
   const a = await api("/api/analytics");
   const d = a.drop_off, mx = Math.max(...a.par_mois.map(m => m.n), 1);
@@ -696,7 +703,14 @@ VUES.analytique = async () => {
       <b style="color:${a.cout_vs_encaisse.ecart >= 0 ? "var(--vert)" : "var(--rouge)"}">écart ${money(a.cout_vs_encaisse.ecart)}</b></p></div>
     <div class="carte"><b>Volume par mois</b><div id="mois" style="margin-top:8px"></div></div>
     <div class="carte"><b>Par bande de poids</b><div id="poids"></div></div>
-    <div class="carte"><b>Par transporteur et service</b><div id="serv"></div></div>`;
+    <div class="carte"><b>Par transporteur et service</b><div id="serv"></div></div>
+    <div class="carte"><b>Exports</b>
+      <p class="doux" style="margin:2px 0 8px">CSV lisibles par Excel (accents inclus).
+      La sauvegarde complète rend toute la base en JSON — pour qu'aucune donnée ne soit captive
+      de cet outil non plus.</p>
+      <div class="barre">${EXPORTS.map(([k, t]) =>
+        `<a class="ong" href="/api/export/${k}" download>${t}</a>`).join("")}
+        <a class="ong" href="/api/backup" download><b>Sauvegarde complète (JSON)</b></a></div></div>`;
   $("#mois").innerHTML = a.par_mois.map(m => `<div style="display:flex;align-items:center;gap:9px;margin-bottom:3px">
     <span style="width:64px;font-variant-numeric:tabular-nums" class="doux">${m.mois}</span>
     <span class="bar" style="flex:1"><i style="width:${Math.round(100 * m.n / mx)}%"></i></span>
@@ -856,6 +870,11 @@ VUES.reglages = async () => {
     <div class="carte"><b>Tarif drop-off cible</b>
       <p class="doux" style="margin:2px 0 8px">Sert de référence dans l'analytique. Seuil de poids : ${s.seuil_dropoff_g} g.</p>
       <input type="number" step="0.01" id="st" value="${s.tarif_dropoff_cible}"> <button id="stsave">Enregistrer</button></div>
+    <div class="carte" id="csh"><b>Import Shopify</b>
+      <p class="doux" style="margin:2px 0 8px">Les commandes arrivent directement de Shopify,
+      sans passer par ShipStation. Webhooks en temps réel, plus un rattrapage périodique qui
+      comble ce qu'un webhook manqué aurait laissé passer.</p>
+      <div id="cshc"></div></div>
     <div class="carte" id="cnx"><b>Renvoi du suivi aux boutiques</b>
       <p class="doux" style="margin:2px 0 8px">ShipStation renvoie aujourd'hui les numéros de suivi
       à Shopify, Etsy et Faire. Sans ce relais, vos clients perdent leur suivi à la bascule.</p>
@@ -881,6 +900,71 @@ VUES.reglages = async () => {
       adresse: $("#sa").value, logo: $("#sl").value || null, message_bordereau: $("#sm").value } } });
     alert("Enregistré.");
   };
+  // --- import Shopify
+  try {
+    const sh = await api("/api/shopify");
+    const abonnes = (sh.webhooks || []).filter(w => (w.url || "").includes("/webhooks/shopify"));
+    $("#cshc").innerHTML = `
+      <div class="grille" style="margin-bottom:10px">
+        <div class="kpi ${sh.configure ? "vert" : ""}"><div class="v" style="font-size:15px">
+          ${sh.configure ? esc(sh.boutique) : '<span class="puce a">non configuré</span>'}</div>
+          <div class="l">boutique</div></div>
+        <div class="kpi ${abonnes.length ? "vert" : "ambre"}"><div class="v">${abonnes.length}</div>
+          <div class="l">webhooks actifs</div></div>
+        <div class="kpi"><div class="v" style="font-size:15px">${sh.dernier_import ? jour(sh.dernier_import) : "jamais"}</div>
+          <div class="l">dernier import</div></div>
+      </div>
+      ${sh.secret_webhook ? "" : '<div class="avis">Aucun secret de webhook : les appels entrants seront tous refusés. Poser <code>SHOPIFY_WEBHOOK_SECRET</code>, ou laisser <code>SHOPIFY_CLIENT_SECRET</code> faire office.</div>'}
+      ${sh.webhooks_erreur ? `<div class="avis">${esc(sh.webhooks_erreur)}</div>` : ""}
+      <div class="barre">
+        <button class="p" id="shpull">Rattraper les commandes…</button>
+        <button id="shhook">Abonner aux webhooks</button>
+        <button id="shone">Importer une commande…</button>
+      </div>
+      ${abonnes.length ? `<div class="tbl" style="max-height:150px"><table><tbody>${
+        abonnes.map(w => `<tr><td>${esc(w.topic)}</td><td class="doux">${esc(w.url)}</td></tr>`).join("")
+      }</tbody></table></div>` : ""}`;
+
+    $("#shpull").onclick = () => dialogue("Rattraper les commandes Shopify", `
+      <label class="champ"><span>Depuis (AAAA-MM-JJ, vide = depuis le dernier import)</span>
+        <input id="shd" placeholder="2025-08-01"></label>
+      <p class="doux">Les commandes déjà présentes sont mises à jour, pas dupliquées : la clé
+        Shopify est la même que celle utilisée par la migration ShipStation.</p>`,
+      async () => {
+        $("#dlgC").innerHTML = '<p class="doux">Import en cours…</p>';
+        try {
+          const r = await api("/api/shopify/rattraper", { method: "POST",
+            body: { depuis: $("#shd")?.value ? $("#shd").value + "T00:00:00Z" : null } });
+          $("#dlgC").innerHTML = `<div class="carte"><b>${r.traitees} commande(s) traitée(s)</b>,
+            dont <b>${r.nouvelles}</b> nouvelle(s).<br>
+            <span class="doux">depuis ${jour(r.depuis)} jusqu'à ${jour(r.jusqua)}</span></div>`;
+          rafraichirCompteurs();
+        } catch (e) { $("#dlgC").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+        return false;
+      }, "Lancer");
+
+    $("#shhook").onclick = () => dialogue("Abonner Shopify aux webhooks", `
+      <label class="champ"><span>URL publique du service</span>
+        <input id="shu" value="${esc(location.origin)}"></label>
+      <p class="doux">Shopify appellera <code>/webhooks/shopify</code> à chaque commande créée,
+        modifiée ou annulée. Chaque appel est vérifié par signature HMAC.</p>`,
+      async () => {
+        const r = await api("/api/shopify/webhooks", { method: "POST", body: { base_url: $("#shu").value } });
+        alert(r.resultats.map(x => `${x.sujet} : ${x.erreur || "ok"}`).join("\n"));
+        VUES.reglages();
+      }, "Abonner");
+
+    $("#shone").onclick = () => dialogue("Importer une commande", `
+      <label class="champ"><span>Identifiant Shopify (numérique)</span><input id="shi"></label>`,
+      async () => {
+        const r = await api("/api/shopify/order", { method: "POST", body: { id: $("#shi").value } });
+        alert(`${r.order_number} ${r.nouvelle ? "importée" : "mise à jour"}.`);
+        rafraichirCompteurs();
+      }, "Importer");
+  } catch (e) {
+    $("#cshc").innerHTML = `<div class="avis">${esc(e.message)}</div>`;
+  }
+
   // --- canaux de vente
   const ch = await api("/api/channels");
   $("#cxt").innerHTML = `

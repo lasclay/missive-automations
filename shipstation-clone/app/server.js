@@ -29,6 +29,7 @@ const analytics = require("../lib/analytics");
 const accounts = require("../lib/accounts");
 const ingest = require("../lib/ingest");
 const channels = require("../lib/channels");
+const shopify = require("../lib/shopify_sync");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const auth = require("../lib/auth");
@@ -55,6 +56,11 @@ const texte = (res, code, s, type = "text/plain; charset=utf-8") => {
 const corps = (req) => new Promise((ok, ko) => {
   let d = ""; req.on("data", (c) => { d += c; if (d.length > 8e6) req.destroy(); });
   req.on("end", () => { try { ok(d ? JSON.parse(d) : {}); } catch (e) { ko(new Error("JSON invalide")); } });
+  req.on("error", ko);
+});
+const corpsBrut = (req) => new Promise((ok, ko) => {
+  let d = ""; req.on("data", (c) => { d += c; if (d.length > 8e6) req.destroy(); });
+  req.on("end", () => ok(d));
   req.on("error", ko);
 });
 const q = (url) => Object.fromEntries(url.searchParams);
@@ -252,6 +258,62 @@ route("POST /api/manifests", async ({ req, user }) => {
   return shipments.creerManifeste(b.carrier_code, { shipDate: b.ship_date, warehouseId: b.warehouse_id, userId: user });
 });
 
+// ================================================================ SHOPIFY
+
+route("GET /api/shopify", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  const e = shopify.etat();
+  if (!e.configure) return e;
+  try { e.webhooks = await shopify.webhooksExistants(); }
+  catch (err) { e.webhooks_erreur = String(err.message).slice(0, 200); }
+  return e;
+});
+
+route("POST /api/shopify/rattraper", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const lignes = [];
+  const r = await shopify.rattraper({ depuis: b.depuis || null, max: Number(b.max) || 2000,
+    journal: (m) => { lignes.push(m); console.error(m); } });
+  return { ...r, journal: lignes };
+});
+
+route("POST /api/shopify/order", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  return await shopify.importerUne((await corps(req)).id);
+});
+
+route("POST /api/shopify/webhooks", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  if (!b.base_url) return { error: "base_url requis (ex. https://shipstation-clone.onrender.com)", code: 400 };
+  return await shopify.abonnerWebhooks(b.base_url);
+});
+
+/**
+ * Point d'entrée des webhooks Shopify. Public par nécessité — Shopify n'a pas de session —
+ * mais protégé par la signature HMAC sur le corps brut. Un corps non signé est rejeté.
+ */
+route("POST /webhooks/shopify", async ({ req, res }) => {
+  const brut = await corpsBrut(req);
+  if (!shopify.signatureValide(brut, req.headers["x-shopify-hmac-sha256"])) {
+    db.journaliser("shopify.webhook_refuse", "system", null, { ip: ipDe(req) });
+    return { error: "signature invalide", code: 401 };
+  }
+  // On répond tout de suite : Shopify désactive un point de terminaison trop lent.
+  json(res, 200, { ok: true });
+  const sujet = req.headers["x-shopify-topic"] || "";
+  setImmediate(async () => {
+    try {
+      const r = await shopify.traiterWebhook(sujet, JSON.parse(brut));
+      db.journaliser("shopify.webhook", "order", r.id || null, r);
+    } catch (e) {
+      db.journaliser("shopify.webhook_erreur", "system", null, { sujet, erreur: String(e.message).slice(0, 300) });
+    }
+  });
+  return null;
+});
+
 // ==================================================================== RETOURS
 
 route("GET /api/returns", ({ url }) => catalog.chercherRetours(q(url)));
@@ -394,8 +456,31 @@ route("GET /api/export/:quoi", ({ params, url, res }) => {
       sku: p.sku, nom: p.name, poids_g: p.weight_g, code_sh: p.hs_code,
       origine: p.country_of_origin, description_douane: p.customs_description, actif: p.active ? 1 : 0 })),
     customers: () => catalog.chercherClients({ ...f, limit: 1000 }).customers.map((c) => ({
-      courriel: c.email, nom: c.name, commandes: c.order_count, total: c.total_spent,
-      premiere: c.first_order, derniere: c.last_order })),
+      courriel: c.email, nom: c.name, telephone: c.phone, commandes: c.order_count,
+      total: c.total_spent, premiere: c.first_order, derniere: c.last_order })),
+    batches: () => shipments.lots().map((b) => ({
+      lot: b.id, nom: b.name, cree: b.created_at, etiquettes: b.n, cout: b.cout, statut: b.status })),
+    returns: () => catalog.chercherRetours({ limit: 1000 }).returns.map((r) => ({
+      rma: r.rma, commande: r.order_number, client: r.customer_name, motif: r.reason,
+      resolution: r.resolution, statut: r.status, demande: r.requested_at, clos: r.closed_at })),
+    manifests: () => shipments.manifestes().map((m) => ({
+      manifeste: m.id, transporteur: m.carrier_code, date: m.ship_date,
+      expeditions: m.shipment_count, statut: m.status })),
+    /** Le « Shipping Cost Report » de ShipStation : payé contre encaissé, ligne à ligne. */
+    "shipping-cost": () => db.all(`
+      SELECT o.order_number commande, o.order_date date_commande, s.ship_date date_envoi,
+             s.carrier_code transporteur, s.service_id service, s.weight_g poids_g,
+             ROUND(s.cost,2) cout_reel, ROUND(o.shipping_paid,2) frais_encaisses,
+             ROUND(o.shipping_paid - s.cost, 2) ecart, s.drop_off,
+             json_extract(s.ship_to,'$.country') pays
+      FROM shipments s JOIN orders o ON o.id = s.order_id
+      WHERE s.voided = 0 ORDER BY s.ship_date DESC LIMIT 5000`),
+    /** Détail article par article, pour les rapprochements comptables. */
+    "order-items": () => db.all(`
+      SELECT o.order_number commande, o.order_date date, i.sku, i.name article,
+             i.quantity qte, i.unit_price prix, i.weight_g poids_g, o.status statut
+      FROM order_items i JOIN orders o ON o.id = i.order_id
+      WHERE i.adjustment = 0 ORDER BY o.order_date DESC LIMIT 10000`),
   };
   if (!jeux[params.quoi]) return { error: "export inconnu", code: 404 };
   const csv = analytics.csv(jeux[params.quoi]());
@@ -406,6 +491,32 @@ route("GET /api/export/:quoi", ({ params, url, res }) => {
 });
 
 // ============================================== RÉFÉRENTIELS, RÉGLAGES, ADMIN
+
+/**
+ * Sauvegarde complète en JSON — tout ce que contient la base, sans les PDF d'étiquettes.
+ * Existe pour qu'aucune donnée ne soit jamais captive de cet outil non plus.
+ */
+route("GET /api/backup", ({ res, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const tables = db.all(`SELECT name FROM sqlite_master WHERE type='table'
+                         AND name NOT LIKE 'sqlite_%' AND name NOT IN ('sessions','login_attempts')`)
+    .map((t) => t.name);
+  const sortie = { exporte_le: db.maintenant(), tables: {} };
+  for (const t of tables) {
+    sortie.tables[t] = t === "shipments"
+      ? db.all("SELECT * FROM shipments").map(({ label_pdf, customs_pdf, ...r }) => r)
+      : t === "users"
+        ? db.all("SELECT * FROM users").map(({ password_hash, totp_secret, recovery_codes, ...r }) => r)
+        : db.all(`SELECT * FROM ${t}`);
+  }
+  const b = Buffer.from(JSON.stringify(sortie, null, 1));
+  res.writeHead(200, { "Content-Type": "application/json; charset=utf-8",
+    "Content-Disposition": `attachment; filename="sauvegarde-${new Date().toISOString().slice(0, 10)}.json"`,
+    "Content-Length": b.length });
+  res.end(b);
+  db.journaliser("backup.export", "system", null, { tables: tables.length }, user);
+  return null;
+});
 
 route("GET /api/refs", () => ({
   stores: db.all("SELECT * FROM stores ORDER BY name"),
@@ -574,7 +685,8 @@ route("POST /api/users/:id/password", async ({ req, params, user }) => {
 
 /** Routes accessibles sans session. Tout le reste exige d'être connecté. */
 const PUBLIQUES = new Set(["GET /", "GET /index.html", "GET /api/config",
-  "POST /api/login", "POST /api/login/2fa", "POST /api/logout", "GET /api/moi", "GET /healthz"]);
+  "POST /api/login", "POST /api/login/2fa", "POST /api/logout", "GET /api/moi", "GET /healthz",
+  "POST /webhooks/shopify"]);   // authentifié par signature HMAC, pas par session
 
 const serveur = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
@@ -701,6 +813,11 @@ if (require.main === module) {
   // Reprise du renvoi de suivi : un canal momentanément indisponible ne doit pas laisser un
   // client sans numéro de suivi.
   setInterval(() => channels.traiterFile({ limite: 50 }).catch(() => {}), 10 * 60 * 1000).unref();
+  // Rattrapage Shopify : un webhook perdu ne doit pas coûter une commande.
+  if (shopify.configure()) {
+    setInterval(() => shopify.rattraper({ max: 200 }).catch((e) =>
+      console.error("rattrapage Shopify :", e.message)), 20 * 60 * 1000).unref();
+  }
 }
 
 module.exports = { serveur, ROUTES, trouver };

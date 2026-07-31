@@ -225,6 +225,9 @@ ne dépend pas de nous.
 | Exports CSV | fait |
 | Migration depuis ShipStation | fait |
 | Renvoi du suivi à Shopify, Etsy et Faire | fait — identifiants boutique à fournir |
+| **Import Shopify direct** : webhooks signés + rattrapage périodique | fait |
+| Migration : lots reconstitués, tags, utilisateurs, catalogues de services | fait |
+| Exports CSV (9 jeux, dont coût réel vs encaissé) + sauvegarde JSON complète | fait |
 | **Achat réel d'étiquettes** | **bloqué — en attente de l'API ClickShip** |
 
 Deux choses que ShipStation a et que le clone n'aura pas : l'application mobile (picking,
@@ -288,6 +291,7 @@ lib/analytics.js  rapports, dont l'écart au tarif drop-off
 lib/accounts.js   utilisateurs, permissions, webhooks, notifications
 lib/ingest.js     migration ShipStation + import normalisé pour Shopify/Etsy/Faire
 lib/channels.js   renvoi du suivi aux boutiques, file de reprise, date de bascule
+lib/shopify_sync.js  import Shopify : webhooks signés HMAC, rattrapage, conversion
 app/server.js     ~70 routes
 verifier.js       contrôle d'installation, à lancer après déploiement
 admin.js          outil en ligne de commande : comptes, mots de passe, 2FA
@@ -313,6 +317,20 @@ politique à l'achat : le moins cher, drop-off privilégié sous le seuil.
 L'onglet **Analytique** mesure en continu l'écart entre ce qui est capté et ce qui reste sur la
 table — c'est le tableau de bord du projet, pas un rapport décoratif.
 
+## Import Shopify
+
+Les nouvelles commandes arrivent directement de Shopify, sans ShipStation entre les deux.
+
+- **Webhooks** `orders/create`, `orders/updated`, `orders/cancelled` — Réglages → *Abonner aux
+  webhooks*. Chaque appel entrant est vérifié par **signature HMAC sur le corps brut** ; un appel
+  non signé est refusé et journalisé.
+- **Rattrapage** toutes les vingt minutes, et à la demande. Un webhook manqué ne coûte pas une
+  commande.
+- La clé est l'identifiant Shopify, la même que celle utilisée par la migration ShipStation : une
+  commande vue des deux côtés **converge** au lieu de se dupliquer.
+- Les règles ne s'appliquent qu'à l'arrivée d'une commande inconnue — un rattrapage n'écrase pas
+  un choix fait à la main dans la grille.
+
 ## Migration — à faire avant toute résiliation
 
 Réglages → *Lancer la migration*, ou :
@@ -330,6 +348,5 @@ avec l'abonnement** — une fois résilié, ces données sont perdues.
 1. **Obtenir l'accès API ClickShip** et coter un colis de 400 g Québec → Toronto. Si le tarif
    drop-off sort de l'API, le reste est de l'exécution (`BRIEF_CLICKSHIP.md` §A).
 2. Compléter `lib/carrier.js`.
-3. Brancher l'ingestion Shopify en direct (webhook `orders/create`), aujourd'hui via ShipStation.
 4. Brancher un envoi SMTP : les notifications sont générées et mises en file, jamais envoyées.
 6. Basculer entre mai et août : décembre fait 2 755 envois, juin en fait 142.

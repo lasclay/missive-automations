@@ -122,17 +122,30 @@ const stockBas = () => all(
 
 // ================================================================== clients
 
-/** Recalcule les agrégats client depuis les commandes. */
+/**
+ * Recalcule les agrégats client depuis les commandes.
+ *
+ * Non destructif : un client importé de ShipStation garde son téléphone et son adresse
+ * postale — que les commandes ne portent pas toujours — et ne reçoit que ses compteurs
+ * remis à jour. Un DELETE global perdrait ces champs à chaque recalcul.
+ */
 function reconstruireClients() {
   return tx(() => {
-    run("DELETE FROM customers");
     const lignes = all(`SELECT customer_email email, MAX(customer_name) name, MAX(store_id) store_id,
         COUNT(*) n, COALESCE(SUM(order_total),0) total, MIN(order_date) premiere, MAX(order_date) derniere,
         MAX(ship_to) adresse
       FROM orders WHERE customer_email IS NOT NULL AND customer_email <> '' GROUP BY customer_email`);
     for (const l of lignes) {
       run(`INSERT INTO customers (email,name,address,store_id,order_count,total_spent,first_order,last_order)
-           VALUES (?,?,?,?,?,?,?,?)`,
+           VALUES (?,?,?,?,?,?,?,?)
+           ON CONFLICT(email) DO UPDATE SET
+             name = COALESCE(customers.name, excluded.name),
+             address = COALESCE(customers.address, excluded.address),
+             store_id = COALESCE(customers.store_id, excluded.store_id),
+             order_count = excluded.order_count,
+             total_spent = excluded.total_spent,
+             first_order = excluded.first_order,
+             last_order = excluded.last_order`,
         l.email, l.name, l.adresse, l.store_id, l.n, l.total, l.premiere, l.derniere);
     }
     journaliser("customers.rebuild", "customer", null, { n: lignes.length });

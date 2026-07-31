@@ -8,7 +8,7 @@
  *      Etsy et Faire. Les règles d'automatisation s'appliquent à l'import, comme chez
  *      ShipStation.
  */
-const { all, one, run, tx, dump, maintenant, journaliser, poserReglage } = require("./db");
+const { all, one, run, tx, dump, parse, maintenant, journaliser, poserReglage } = require("./db");
 const orders = require("./orders");
 const rules = require("./rules");
 const catalog = require("./catalog");
@@ -67,6 +67,7 @@ function convertirCommande(o) {
     custom_field3: (o.advancedOptions || {}).customField3,
     source: (o.advancedOptions || {}).source,
     externally_fulfilled: !!o.externallyFulfilled,
+    tag_ids: o.tagIds || [],
     items: (o.items || []).map((i) => ({
       line_key: i.lineItemKey, sku: i.sku, name: i.name, image_url: i.imageUrl,
       quantity: i.quantity, unit_price: i.unitPrice, weight_g: grammes(i.weight),
@@ -119,6 +120,46 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
   });
   bilan.entrepots = warehouses.length;
 
+  try {
+    const users = await ss("users", { showInactive: true });
+    tx(() => {
+      for (const u of users) {
+        run(`INSERT INTO users (id,name,email,active,permissions,created_at) VALUES (?,?,?,1,?,?)
+             ON CONFLICT(id) DO UPDATE SET name = excluded.name`,
+          u.userId, u.name || u.userName, u.userName, dump({ role: "expediteur", importe: true }), maintenant());
+      }
+    });
+    bilan.utilisateurs = users.length;
+  } catch (e) { bilan.utilisateurs = `non migrés (${String(e.message).slice(0, 60)})`; }
+
+  // Catalogues de services et de colis, par transporteur : ce sont eux qui donnent les
+  // serviceCode et packageCode valides, indispensables pour rejouer une expédition.
+  let nServices = 0, nColis = 0;
+  for (const c of carriers) {
+    for (const [action, table, compteur] of [["listservices", "services", "s"], ["listpackages", "packages", "p"]]) {
+      try {
+        const liste = await ss(action, { carrierCode: c.code });
+        tx(() => {
+          for (const x of liste) {
+            if (table === "services") {
+              run(`INSERT INTO services (id,carrier_code,name,domestic,international,drop_off)
+                   VALUES (?,?,?,?,?,0) ON CONFLICT(id) DO UPDATE SET name = excluded.name`,
+                x.code, c.code, x.name, x.domestic ? 1 : 0, x.international ? 1 : 0);
+              nServices++;
+            } else {
+              run(`INSERT INTO packages (id,carrier_code,name,domestic) VALUES (?,?,?,?)
+                   ON CONFLICT(id) DO UPDATE SET name = excluded.name`,
+                x.code, c.code, x.name, x.domestic ? 1 : 0);
+              nColis++;
+            }
+          }
+        });
+      } catch { /* transporteur sans catalogue exposé */ }
+    }
+  }
+  bilan.services = nServices;
+  bilan.types_de_colis = nColis;
+
   const tags = await ss("listtags");
   tx(() => {
     for (const t of tags) {
@@ -137,7 +178,16 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
       if (depuis) params.createDateStart = depuis;
       const d = await ss("orders", params);
       const lot = d.orders || [];
-      tx(() => { for (const o of lot) { orders.upsert(convertirCommande(o)); nCommandes++; } });
+      tx(() => {
+        for (const o of lot) {
+          const c = convertirCommande(o);
+          const id = orders.upsert(c);
+          for (const t of c.tag_ids) {
+            try { orders.ajouterTag(id, t); } catch { /* tag absent du référentiel */ }
+          }
+          nCommandes++;
+        }
+      });
       journal(`  ${statut} p${page} : ${lot.length} (cumul ${nCommandes})`);
       if (lot.length < 500) break;
     }
@@ -165,6 +215,13 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
           s.shipDate, s.createDate, grammes(s.weight), dump(s.dimensions), dump(s.shipTo),
           s.warehouseId, s.isReturnLabel ? 1 : 0, s.voided ? 1 : 0, s.voidDate,
           s.marketplaceNotified ? 1 : 0, dump(s));
+        const sid = one("SELECT last_insert_rowid() r").r;
+        // Rattache les lignes expédiées, quand ShipStation les donne : c'est ce qui distingue
+        // une expédition partielle d'une expédition complète.
+        for (const it of s.shipmentItems || []) {
+          run(`UPDATE order_items SET shipment_id = ? WHERE order_id = ? AND (line_key = ? OR sku = ?)`,
+            sid, cmd ? cmd.id : null, it.lineItemKey || null, it.sku || null);
+        }
         nExp++;
       }
     });
@@ -172,6 +229,24 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
     if (lot.length < 500) break;
   }
   bilan.expeditions = nExp;
+
+  // -- lots : ShipStation n'expose pas les lots, mais chaque expédition porte son
+  // batchNumber. On les reconstitue, ce qui rend l'historique des lots consultable.
+  journal("Reconstitution des lots…");
+  const numeros = all(`SELECT DISTINCT json_extract(raw,'$.batchNumber') b FROM shipments
+                       WHERE json_extract(raw,'$.batchNumber') IS NOT NULL`).map((r) => r.b);
+  tx(() => {
+    for (const num of numeros) {
+      const membres = all(`SELECT id, created_at FROM shipments
+                           WHERE json_extract(raw,'$.batchNumber') = ?`, num);
+      if (!membres.length) continue;
+      run(`INSERT INTO batches (name, created_at, status, notes) VALUES (?,?, 'done', ?)`,
+        `Lot ${num}`, membres[0].created_at, dump({ batchNumber: num, importe: true }));
+      const batchId = one("SELECT last_insert_rowid() r").r;
+      for (const m of membres) run("UPDATE shipments SET batch_id = ? WHERE id = ?", batchId, m.id);
+    }
+  });
+  bilan.lots = numeros.length;
 
   // -- fulfillments (envois sans étiquette ShipStation)
   journal("Fulfillments…");
@@ -224,8 +299,54 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
     bilan.produits = `non migrés (${String(e.message).slice(0, 80)})`;
   }
 
+  // -- clients tels que ShipStation les agrège (identifiants, marché d'origine)
+  try {
+    journal("Clients ShipStation…");
+    let nCli = 0;
+    for (let page = 1; page <= 40; page++) {
+      const d = await ss("customers", { pageSize: 500, page });
+      const lot = d.customers || [];
+      tx(() => {
+        for (const c of lot) {
+          run(`INSERT INTO customers (email,name,phone,address,store_id,order_count,total_spent,
+                 first_order,last_order) VALUES (?,?,?,?,?,?,?,?,?)
+               ON CONFLICT(email) DO UPDATE SET name = excluded.name, address = excluded.address`,
+            c.email, c.name, c.phone, dump({
+              street1: c.street1, street2: c.street2, city: c.city, state: c.state,
+              postalCode: c.postalCode, country: c.countryCode,
+            }), c.marketplaceId || null, 0, 0, c.createDate, c.modifyDate);
+          nCli++;
+        }
+      });
+      if (lot.length < 500) break;
+    }
+    bilan.clients_shipstation = nCli;
+  } catch (e) { bilan.clients_shipstation = `non migrés (${String(e.message).slice(0, 60)})`; }
+
+  // -- abonnements webhook existants, pour ne pas les redécouvrir à la main
+  try {
+    const wh = await ss("webhooks");
+    const liste = wh.webhooks || wh || [];
+    tx(() => {
+      for (const w of liste) {
+        run(`INSERT INTO webhooks (event, target_url, store_id, friendly_name, active, created_at)
+             VALUES (?,?,?,?,0,?)`,
+          w.Event || w.event, w.Url || w.target_url, w.StoreID || null,
+          `(ShipStation) ${w.Name || w.friendly_name || ""}`.trim(), maintenant());
+      }
+    });
+    bilan.webhooks = liste.length;
+  } catch (e) { bilan.webhooks = `non migrés (${String(e.message).slice(0, 60)})`; }
+
+  // -- catalogue des canaux de vente intégrables
+  try {
+    const mk = await ss("marketplaces");
+    poserReglage("marketplaces_shipstation", mk);
+    bilan.marketplaces = (mk || []).length;
+  } catch { bilan.marketplaces = "non migrés"; }
+
   // -- dérivés
-  journal("Reconstruction des clients…");
+  journal("Consolidation des clients…");
   bilan.clients = catalog.reconstruireClients();
 
   poserReglage("derniere_migration", maintenant());
