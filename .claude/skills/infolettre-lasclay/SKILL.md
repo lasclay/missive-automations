@@ -25,7 +25,12 @@ Le dépôt `lasclay/missive-automations` est **privé** : `curl` sur
 
 Fichier : **`infolettres/GUIDE-REDACTION.md`**
 
-Il contient tout : le ton et les sept règles non négociables, le tutoiement vs vouvoiement
+Les **mesures brutes** qui fondent le guide sont dans **`infolettres/AUDIT-CORPUS.md`**
+(ponctuation, longueurs de phrase, lexique, cadence, structure). À consulter dès qu'une
+question de style se pose, ou avant de modifier une règle du guide : si le guide et l'audit se
+contredisent, **c'est l'audit qui a raison**.
+
+Le guide contient : le ton et les sept règles non négociables, le tutoiement vs vouvoiement
 (⚠️ la marque **vouvoie** depuis 2025), la structure canonique en 11 blocs, les règles
 d'objet et de preview text, la palette exacte (`#D4AD67` doré signature, `#222222` texte,
 `#727272` pied), la typographie (Arial, 14 px, interligne 1.5, crénage 0), la spécification
@@ -66,7 +71,9 @@ reconnaît immédiatement :
    **Gabriel** / Co-fondateur / Lasclay.
 6. **Jamais de tiret cadratin « — » ni de demi-cadratin « – »** (règle absolue de la maison,
    déjà codée dans `digest.js` et `support.js` via `noDash()`). Virgule, deux-points,
-   parenthèse ou point à la place.
+   parenthèse ou point à la place. **Ni de point-virgule** (4 occurrences en 221 envois FR).
+   À l'inverse, le deux-points (4,1 par envoi) et le point d'exclamation (3,3 par envoi) sont
+   la respiration de la voix : un texte sans aucun « ! » ne sonne pas Lasclay.
 7. Un fil conducteur clair, ~400 mots. Plusieurs sujets sont permis (beaucoup d'envois en
    portent), à condition que chacun ait sa section et son appel à l'action, sans être touffu.
 8. Objet ~36 caractères, preview text **complémentaire** (motif fréquent : « + autre chose »).

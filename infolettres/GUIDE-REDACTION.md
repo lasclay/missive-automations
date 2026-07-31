@@ -4,6 +4,14 @@
 > les 325 infolettres réellement envoyées entre octobre 2020 et juin 2026** (export Klaviyo
 > du 2026-07-31), pas inventé. Les chiffres entre parenthèses sont les fréquences observées
 > dans le corpus.
+>
+> **Les mesures brutes sont dans [`AUDIT-CORPUS.md`](AUDIT-CORPUS.md)** : ponctuation, longueurs,
+> lexique, structure, cadence. Toute règle énoncée ici doit pouvoir s'y retrouver. Si une règle
+> de ce guide contredit l'audit, c'est l'audit qui a raison.
+>
+> ⚠️ Limite connue : **27 envois sur 325 n'ont pas de corps exploitable** (gabarit d'origine
+> introuvable, surtout 2020-2021). Les mesures de contenu portent donc sur ~298 envois ; les
+> métadonnées sont complètes pour les 325.
 
 ---
 
@@ -107,8 +115,30 @@ Le corpus montre une **bascule nette** :
 - Phrases courtes alternant avec des phrases longues et amples quand on raconte.
 - Les **questions rhétoriques** ouvrent bien : « Est-ce que Lasclay fait vraiment un Boxing
   Day? », « As-tu reçu ta commande pour Noël? »
-- Anglicismes proscrits ; on écrit *infolettre*, *courriel*, *rabais*, *expédition*,
-  *précommande*, *prévente*.
+- Anglicismes proscrits, et c'est vérifié : *infolettre* 218 occurrences contre *newsletter*
+  **0** ; *courriel* 164 contre *email* **1** ; *rabais* 369 contre *discount* **0** ;
+  *expédition* / *livraison* 44 / 64 contre *shipping* **0**. On écrit aussi *précommande*
+  (95) et *prévente* (150).
+- **Rythme des phrases, mesuré : médiane 20 mots**, moyenne 23,1. Déciles 8 · 12 · 15 · 18 ·
+  20 · 24 · 28 · 32 · 40. **10 % des phrases font 8 mots ou moins, 26 % en font 30 ou plus.**
+  Les phrases longues et amples sont donc normales : ne pas hacher artificiellement le texte
+  en phrases courtes, c'est un tic d'IA.
+- **Blocs de texte : médiane 19 par envoi** (max 51). Paragraphes courts et nombreux, jamais
+  de pavés.
+- **Passages en gras : médiane 10 par envoi** (moyenne 12, max 55).
+
+### 2.3.1 Les emoji du corps de texte
+
+110 envois FR sur 221 en contiennent, pour 256 occurrences. Vocabulaire réel :
+
+👇×74 · 👉×36 · 😉×21 · 👈×16 · 😀×16 · 😅×15 · 🧡×6 · ✔×6 · 🚨×6 · 🙂×5 · 🦋×5 · ♥×4 · 🙏×4 · 😁×4
+
+- **👇** précède l'appel à l'action (« Pour revoir notre catalogue, c'est par ici 👇 »).
+- **👉 👈** encadrent une information ou pointent un lien.
+- **😉 😀 😅** désamorcent, souvent après un aveu ou une blague.
+
+Ce trio de binettes est une signature de la voix, et il est **absent des envois sérieux**
+(suivis de commande, B2B).
 
 ### 2.4 Ponctuation : jamais de tiret cadratin
 
@@ -117,16 +147,37 @@ Le corpus montre une **bascule nette** :
 
 Ce n'est pas une préférence, c'est mesuré et déjà codé ailleurs :
 
-- **Zéro occurrence** dans le corps de texte des 325 infolettres. Les deux seules occurrences
-  françaises jamais parues se trouvent dans un même envoi et portent des attributs
-  `data-start` / `data-end`, c'est-à-dire du texte généré par IA collé tel quel dans Klaviyo.
+- Sur 221 envois FR, le corpus compte **18 cadratins et 12 demi-cadratins**, soit 0,08 et 0,05
+  par envoi. Aucun ne relève de la prose courante : 12 sont un séparateur de prix dans des
+  listes de promo (`Foulard – 20 % de rabais`), 14 viennent d'**un bloc de texte produit rédigé
+  par IA** et recyclé dans 4 envois de novembre-décembre 2025 (dans le HTML, ces phrases portent
+  des attributs `data-start` / `data-end`, signature d'un copier-coller depuis une interface de
+  chat), et 2 sont une coquille sans espace (`des clients— autant`). Détail complet en
+  section 3 de `AUDIT-CORPUS.md`.
 - `digest.js` l'énonce comme règle absolue dans son prompt, puis **nettoie la sortie du modèle
   par programme** au cas où il désobéirait.
 - `support.js` définit `noDash()` et l'applique une vingtaine de fois : prompt de voix, contrôle
   qualité, vérificateur, pouls, catalogue, et chaque brouillon final.
 
-Le cadratin est la signature typographique la plus reconnaissable d'un texte écrit par IA.
-Vérifie le texte avant de le livrer : aucun « — » ne doit y figurer.
+Autrement dit : **le cadratin n'apparaît jamais dans la prose spontanée de Gabriel, et les seules
+occurrences en prose viennent d'un texte généré par IA.** C'est exactement pourquoi la règle
+existe. Vérifie le texte avant de le livrer : aucun « — » ne doit y figurer.
+
+### 2.5 Le reste de la ponctuation, mesuré
+
+Sur les 221 envois FR (détail en section 2 de `AUDIT-CORPUS.md`) :
+
+| Signe | Par envoi | Consigne |
+|---|---|---|
+| Deux-points `:` | **4,1** | outil principal d'annonce et d'énumération |
+| Point d'exclamation `!` | **3,3** | 181 envois sur 221 en contiennent ; un texte sans aucun `!` sonne faux |
+| Parenthèse `(` | 2,3 | fréquente, sert les apartés |
+| Point d'interrogation `?` | 1,2 | questions rhétoriques d'ouverture |
+| Points de suspension | 0,4 | rare |
+| **Point-virgule `;`** | **0,02** | **4 occurrences en 221 envois : ne pas en écrire** |
+
+Les seuls envois sans exclamation sont des suivis de commande et du B2B.
+(Le présent guide abuse du point-virgule dans sa propre prose : ne pas s'en inspirer.)
 
 ---
 
@@ -157,14 +208,16 @@ Séparateur `solid 1px #CCC` sur 100 % de largeur pour découper les grandes sec
 
 ### Variantes par type d'envoi
 
-| Type | Envois | Particularités |
-|---|---|---|
-| Prévente / lancement | 96 | Séquence de 3-4 « réchauffements » avant l'ouverture, puis rappel « il reste X heures », puis remerciement-bilan |
-| Transactionnel / suivi | 60 | Court, factuel, daté, sans promo ; objet « Suivi de ta précommande » |
-| Promotion / vente | 51 | Le rabais est nommé précisément (%, code, durée) ; jamais d'urgence artificielle |
-| Infolettre générale | 50 | Saisonnière : « L'automne, la saison de l'asclépiade », « L'été, saison de l'asclépiade » |
-| Mission / plantation | 37 | Campagne nationale de mars-avril ; le plus narratif, le plus long |
-| Concours | 15 | Prix mémorable (voyage au sanctuaire des monarques au Mexique) |
+| Type | Envois | Médiane | Particularités |
+|---|---|---|---|
+| Prévente / lancement | 96 | 396 mots | Séquence de 3-4 « réchauffements » avant l'ouverture, puis rappel « il reste X heures », puis remerciement-bilan |
+| Transactionnel / suivi | 60 | 255 mots | Court, factuel, daté, sans promo ; objet « Suivi de ta précommande » |
+| Promotion / vente | 51 | 382 mots | Le rabais est nommé précisément (%, code, durée) ; jamais d'urgence artificielle |
+| Infolettre générale | 50 | 378 mots | Saisonnière : « L'automne, la saison de l'asclépiade », « L'été, saison de l'asclépiade » |
+| Mission / plantation | 37 | **525 mots** | Campagne nationale de mars-avril ; le plus narratif, le plus long |
+| Concours | 15 | 248 mots | Prix mémorable (voyage au sanctuaire des monarques au Mexique) |
+| B2B / partenariats | 9 | 186 mots | Municipalités, urbanistes, services d'environnement ; ouvre sur « À l'intention de… » |
+| Éducatif / entretien produit | 7 | 322 mots | Comment laver, entretenir, faire durer |
 
 ---
 
@@ -177,8 +230,9 @@ Séparateur `solid 1px #CCC` sur 100 % de largeur pour découper les grandes sec
 - **Emoji dans l'objet : 18 % des envois seulement.** Vocabulaire réel : 🦋 (monarque),
   🌱 🌼 (plantation), 🎁 🎄 (Noël), 🍂 (automne), 🚨 👀 (urgence/dévoilement, série 2026),
   ⚜️ (Québec), 💪 😮. **Ne jamais en mettre plus de deux.**
-- **Preview text : présent dans 85 % des envois, médiane 34 caractères.** Ce n'est pas un
-  résumé : c'est un **complément** qui ajoute une information absente de l'objet.
+- **Preview text : présent dans 325 envois sur 325 (100 %), médiane 29 caractères.** Ce n'est
+  donc jamais optionnel. Ce n'est pas un résumé : c'est un **complément** qui ajoute une
+  information absente de l'objet.
   Exemples : objet `Vente de fin de saison 2026` → preview `Rabais + expédition gratuite` ;
   objet `Tirage du concours automnal 🚨🦋` → preview `+ autres nouvelles` ;
   objet `🚨 Annonce majeure 👀` → preview `Explication complète en vidéo`.
@@ -220,13 +274,34 @@ envois. Le style est plat, propre, sans effet. Ne pas en ajouter.
 - **Italique** : rare, pour les notes et mentions.
 - **Souligné** : réservé aux liens (les liens sont dorés **et** soulignés).
 
+### 5.2.1 Formatage des nombres (usage dominant, à respecter)
+
+| Écrire | Occ. | Ne pas écrire | Occ. |
+|---|---|---|---|
+| `20%` (collé) | 324 | `20 %` (avec espace) | 10 |
+| `99$` (collé) | 236 | `99 $` (avec espace) | **0** |
+| `99,99$` (virgule décimale) | 62 | `99.99$` | |
+| `1500 pieds carrés` (collé) | 259 | `1 500` (espace millier) | 7 |
+
+L'apostrophe typographique `’` (2 399) et l'apostrophe droite `'` (1 729) coexistent dans le
+corpus : aucune des deux n'est fautive, ne pas perdre de temps à uniformiser.
+
 ### 5.3 Liens
 
 ```
 couleur #D4AD67 · text-decoration: underline · souvent en gras
 ```
-Un lien est presque toujours un **groupe nominal explicite** (« [produits isolés] »,
-« [ce court questionnaire] », « [cette vidéo] »), jamais « cliquez ici ».
+Un lien est le plus souvent un **groupe nominal explicite**. Ancres réellement les plus
+fréquentes : `lasclay.com` (33×), `foulards` (23×), `cache-cous` (19×), `semelles` (19×),
+`mitaines` (16×), `tuques` (11×), ainsi que « ce court questionnaire », « cette vidéo »,
+« produits isolés ».
+
+**Nuance importante :** contrairement à ce que ce guide affirmait, « cliquez ici » **n'est pas
+proscrit**, la formule apparaît 24 fois. Elle est toujours précédée de son contexte (« pour les
+découvrir, cliquez ici », 19×) et jamais employée seule et nue. Privilégier le groupe nominal,
+mais ne pas traiter « cliquez ici » comme une faute.
+
+Médiane : **1 lien par envoi** (max 28).
 
 ### 5.4 Boutons
 
@@ -253,7 +328,10 @@ text-transform  none  (la MAJUSCULE, quand elle existe, est tapée dans le libel
 - « J'ai un terrain de plus de 1500 pi2, je veux y implanter l'asclépiade et m'inscrire. »
 - « PRÉCOMMANDER LES PRODUITS LASCLAY »
 
-Médiane : **0-1 bouton** par envoi, jusqu'à **5** quand il y a plusieurs offres parallèles.
+**205 envois sur 325 (63 %) n'ont aucun bouton :** l'appel à l'action passe alors par un lien
+texte doré et souligné. Le bouton est réservé aux lancements, préventes et campagnes de
+plantation. Répartition : 0 bouton 205 · 1 bouton 99 · 2 boutons 9 · 3 boutons 7 · 4 boutons 3 ·
+5 boutons 2. Longueur des libellés : **médiane 42 caractères** (min 14, max 88).
 Quand il y a plusieurs boutons, chacun est suivi de sa ligne de repli en petit gris :
 
 > \* Si le bouton ne fonctionne pas, voici le lien: `https://…`  *(italique, ~#707070)*
@@ -326,6 +404,18 @@ Vous ne voulez plus recevoir notre infolettre?
 
 ## 7. Calendrier éditorial observé
 
+### 7.1 Le créneau d'envoi : la fin de semaine
+
+samedi **148** · dimanche **71** · jeudi 31 · mercredi 28 · mardi 21 · vendredi 17 · lundi 9.
+
+**67 % des envois partent la fin de semaine, et 46 % le samedi.** C'est le créneau maison.
+Un envoi en semaine est l'exception : suivi de commande urgent ou erratum.
+
+Volume par mois : nov **45** · sept **39** · déc **37** · mai **36** · janv 27 · juin 26 ·
+mars 22 · oct 22 · avril 21 · août 19 · juil 17 · **févr 14** (le creux).
+
+### 7.2 Contenu par période
+
 | Période | Contenu récurrent |
 |---|---|
 | **Janvier** | Suivi des livraisons post-Noël ; promo « chaleur d'hiver » (cache-cous, foulards) |
@@ -363,6 +453,10 @@ Vous ne voulez plus recevoir notre infolettre?
 - [ ] Ouverture `Bonjour {{ first_name }},` avec repli vide
 - [ ] **Vouvoiement** cohérent d'un bout à l'autre
 - [ ] **Aucun tiret cadratin « — » ni demi-cadratin « – »** (règle absolue, voir 2.4)
+- [ ] **Aucun point-virgule** (4 occurrences en 221 envois)
+- [ ] Au moins un point d'exclamation (moyenne réelle : 3,3 par envoi)
+- [ ] Pourcentages et dollars collés : `20%`, `99,99$`
+- [ ] Pas de phrases artificiellement courtes (médiane réelle : 20 mots, 26 % en font 30+)
 - [ ] Chaque sujet a sa section et son appel à l'action ; l'ensemble n'est pas touffu
 - [ ] La mission (monarque / asclépiade / territoire) apparaît avant l'offre
 - [ ] Gras uniquement sur les idées porteuses
