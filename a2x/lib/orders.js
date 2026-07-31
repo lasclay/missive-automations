@@ -34,6 +34,7 @@ const ORDER_FIELDS = `
     totalDiscountSet { shopMoney { amount } }
     taxLines { title priceSet { shopMoney { amount } } }
     product { id isGiftCard }
+    variant { id }
   } } }
   refunds(first: 50) {
     id createdAt

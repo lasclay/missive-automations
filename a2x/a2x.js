@@ -139,6 +139,43 @@ async function main() {
     return;
   }
 
+  if (cmd === "coverage") {
+    // Balaie les commandes récentes et signale les combinaisons qui n'ont pas de
+    // compte : c'est ainsi qu'on repère un nouveau canal de vente (une app
+    // Shopify installée depuis l'export d'A2X, par exemple) avant qu'il ne
+    // bloque une publication.
+    const { ordersInRange } = require("./lib/orders");
+    const { saleComponents, ctx } = require("./lib/breakdown");
+    const to = flag("to", new Date().toISOString().slice(0, 10));
+    const from = flag("from", new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10));
+    const orders = await ordersInRange(from, to, { max: parseInt(flag("limit", "500"), 10) });
+    console.log(`\n  ${orders.length} commande(s) du ${from} au ${to}.`);
+
+    const combos = new Map();
+    const holes = new Map();
+    for (const o of orders) {
+      const { country, marketplace } = ctx(o);
+      for (const c of saleComponents(o)) {
+        const key = `${c.details} | ${country} | ${marketplace}`;
+        combos.set(key, (combos.get(key) || 0) + 1);
+        if (!mapper.resolve(c.category, c.details, country, marketplace).accountId) {
+          const h = holes.get(key) || { count: 0, amount: 0, category: c.category, order: o.name };
+          h.count++; h.amount += c.amount;
+          holes.set(key, h);
+        }
+      }
+    }
+    console.log(`  ${combos.size} combinaison(s) distincte(s) rencontrée(s).`);
+    if (!holes.size) { console.log(`\n  Toutes trouvent un compte. ✅\n`); return; }
+    console.log(`\n  ⚠️  ${holes.size} combinaison(s) SANS compte — elles bloqueraient la publication :\n`);
+    for (const [key, h] of [...holes].sort((a, b) => b[1].count - a[1].count)) {
+      console.log(`     ${String(h.count).padStart(4)} fois  ${(h.amount / 100).toFixed(2).padStart(10)} $  ${key}`);
+      console.log(`                                  catégorie ${h.category}, ex. commande ${h.order}`);
+    }
+    console.log(`\n  Ajoute les règles manquantes dans a2x/mappings.tsv (ou depuis l'onglet Mappings).\n`);
+    return;
+  }
+
   if (cmd === "check") {
     const m = mapper.all();
     console.log(`\n  mappings.json généré le ${m.generatedAt}`);
@@ -168,7 +205,8 @@ async function main() {
     node a2x/a2x.js preview <payoutId>
     node a2x/a2x.js post <payoutId> [--force]
     node a2x/a2x.js sync [--since 2026-07-01] [--dry-run]
-    node a2x/a2x.js check
+    node a2x/a2x.js check                          # audite les mappings
+    node a2x/a2x.js coverage [--from …] [--to …]   # combinaisons réelles sans compte
 
   L'app web (visualisation + édition des mappings) : node a2x-app/server.js
 `);

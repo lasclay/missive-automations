@@ -59,8 +59,17 @@ function saleComponents(order) {
   const items = nodes(order.lineItems);
   const ships = nodes(order.shippingLines);
 
+  const tipAmount = money(order.totalTipReceivedSet);
+
+  // Chez Shopify, le pourboire arrive DEUX fois : comme article de commande
+  // (« Tip », sans produit ni variante, non taxable) et dans totalTipReceived.
+  // Le compter des deux côtés gonflerait les ventes du montant du pourboire —
+  // vérifié sur L-50762 : 9,80 + 173,84 + 18,37 = 202,01, le total de la commande.
+  const isTip = (i) =>
+    !i.product && !i.variant && /^\s*(tip|pourboire|gratuity)/i.test(i.title || "");
+
   const gift = items.filter((i) => i.product && i.product.isGiftCard);
-  const goods = items.filter((i) => !(i.product && i.product.isGiftCard));
+  const goods = items.filter((i) => !(i.product && i.product.isGiftCard) && !isTip(i));
 
   const goodsGross = sum(goods, (i) => money(i.originalTotalSet));
   const goodsDiscount = sum(goods, (i) => money(i.totalDiscountSet));
@@ -74,7 +83,9 @@ function saleComponents(order) {
   const shipTax = sum(ships, (i) => sum(i.taxLines || [], (t) => money(t.priceSet)));
   const shipDiscount = shipGross - shipNet;
 
-  const tip = money(order.totalTipReceivedSet);
+  // Si le pourboire n'apparaît pas en article (commandes anciennes), on le prend
+  // dans totalTipReceived ; sinon les deux coïncident et rien n'est perdu.
+  const tip = tipAmount || sum(items.filter(isTip), (i) => money(i.originalTotalSet));
 
   const taxed = goodsTax > 0;
   const shipTaxed = shipTax > 0;
