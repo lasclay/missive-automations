@@ -145,6 +145,47 @@ découvrir, cliquez ici »), jamais seul et nu.
 Vocabulaire de la mission : Québec (299), monarque (241), communauté (88), mission (81),
 soutien (44), pollinisateur (34).
 
+### Adapter une source externe (post LinkedIn, note, brouillon de Gabriel)
+
+Gabriel écrit souvent d'abord ailleurs, puis demande d'intégrer le texte. **Ne jamais coller
+tel quel :** un post LinkedIn s'adresse à des entrepreneurs, une infolettre à des clients.
+Ce qui transfère et ce qui ne transfère pas, vérifié en pratique :
+
+| Transfère très bien | À écarter ou recadrer |
+|---|---|
+| L'aveu et l'émotion brute (« ça fait un sacré vide ») | Les chiffres de paie, de loyer, de marge |
+| La gratitude envers la clientèle, chiffrée | Tout ce qui ressemble à « on a coupé, donc on économise » |
+| Le concret sensoriel (l'usine, le conteneur, les machines) | Le vocabulaire de gestion (context switching, scalabilité) |
+| Ce que ça change **pour le lecteur** | Ce que ça change pour le fondateur, seul |
+
+Deux réflexes :
+
+1. **Un fait financier se raconte du côté de la communauté, pas du bilan.** « Notre loyer
+   passe de 9600 $ à 2500 $ » devient « nous transférons les pieds carrés dont nous n'avons
+   plus besoin à d'autres entrepreneurs, alors que les locaux abordables au centre-ville de
+   Québec sont à peu près inexistants ».
+2. **Attention aux juxtapositions qui créent un sous-entendu.** Parler d'automatisation par
+   l'IA juste après avoir annoncé des départs la désigne comme leur cause. Le même fait,
+   placé plus loin et encadré comme une pièce du service, devient rassurant.
+
+### Ordonner l'information selon ce que le lecteur attend
+
+**Quelqu'un qui attend une commande a droit à sa réponse avant le récit.** Dans un suivi de
+précommande, l'état de la commande vient en premier, l'histoire de l'entreprise ensuite.
+L'inverse se lit comme un détournement.
+
+Mais **ne pas ouvrir sur le compteur du retard**. « Vous attendez une commande, et ça fait
+deux mois » pointe le problème dès la première ligne. « Un petit coucou pour vous donner des
+nouvelles de votre précommande! » fait la même reconnaissance sans appuyer, et laisse
+« tout suit son cours » arriver tout de suite après. Le ton d'ouverture reste léger même
+quand le contenu est substantiel.
+
+Quand un envoi de suivi reprend la matière d'une infolettre générale, retitrer les sections
+du point de vue du destinataire : « Ce que ça change, concrètement » devient « Mais pour
+votre commande, ça change les choses dans le bon sens ». Et ajouter l'excuse explicite que
+la liste large ne requiert pas : devant quelqu'un qui a peut-être subi un des retards
+avoués, l'aveu sans excuse est trop court.
+
 ### Livrable : un texte fini, jamais un gabarit à trous
 
 **Ne jamais livrer de section `[[ À COMPLÉTER ]]`, de crochets à remplir ni de champ laissé en
@@ -215,6 +256,32 @@ semaine est l'exception.
 3. **« Estimated recipients » est inférieur au nombre de membres.** Klaviyo ne compte que les
    profils qui peuvent recevoir du marketing. L'écart vient des désabonnements et des
    suppressions manuelles, pas d'un problème de liste.
+
+### Montrer un aperçu à Gabriel
+
+Gabriel veut voir le rendu **dans la conversation**, pas télécharger un fichier. Publier un
+Artifact qui reproduit le contenu et les styles du gabarit : conteneur 600 px sur fond blanc,
+Arial 14 px sur interligne 1,5, texte `#222222`, liens et boutons `#D4AD67`, pied 12 px
+`#727272`. Ce qui rend l'aperçu réellement utile :
+
+- Les deux envois **côte à côte** quand il y en a deux, chaque colonne défilant séparément.
+- Un **entête d'inbox** par colonne: objet, preview text, audience et volume.
+- Une **bascule 600 px / 375 px**, puisque la majorité des lecteurs ouvrent sur téléphone et
+  que c'est là que les longs libellés de boutons cassent.
+- Les **jointures entre blocs de texte marquées en pointillé**, pour montrer où un bloc image
+  peut se glisser. Préciser que ces repères n'existent pas dans le courriel.
+- Le prénom substitué par un exemple, pour ne pas afficher la variable brute.
+
+Toujours dire que c'est une reproduction du contenu et des styles, **pas** le HTML tabulaire
+que Klaviyo génère: pour Outlook et Gmail, l'aperçu Klaviyo et un envoi test restent le juge
+final. À chaque modification demandée, mettre à jour le gabarit Klaviyo **et** republier
+l'Artifact au même chemin de fichier, ce qui conserve le lien.
+
+### Reprendre un travail en cours
+
+Si un fichier `infolettres/EN-COURS-<date>.md` existe, **le lire en entier avant tout**: il
+contient les IDs de campagne et de gabarit, l'état d'envoi, les décisions en suspens, les
+faits de la saison et le lien de l'aperçu. Le supprimer une fois les envois partis.
 
 ### Consentement
 

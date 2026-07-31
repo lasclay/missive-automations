@@ -1,0 +1,334 @@
+<title>Aperçu des infolettres Lasclay</title>
+
+<style>
+  :root {
+    --ground: #E9E4DA;
+    --raise: #F4F0E8;
+    --ink: #2B2723;
+    --muted: #756D62;
+    --line: #D2CABB;
+    --gold: #B98F3E;
+    --gold-soft: #F6EEDC;
+    --focus: #8A6A22;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #17150F;
+      --raise: #221F17;
+      --ink: #EFEAE0;
+      --muted: #9C9486;
+      --line: #38332A;
+      --gold: #D4AD67;
+      --gold-soft: #2C2618;
+      --focus: #E0BE7C;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #17150F; --raise: #221F17; --ink: #EFEAE0; --muted: #9C9486;
+    --line: #38332A; --gold: #D4AD67; --gold-soft: #2C2618; --focus: #E0BE7C;
+  }
+  :root[data-theme="light"] {
+    --ground: #E9E4DA; --raise: #F4F0E8; --ink: #2B2723; --muted: #756D62;
+    --line: #D2CABB; --gold: #B98F3E; --gold-soft: #F6EEDC; --focus: #8A6A22;
+  }
+
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1420px; margin: 0 auto; padding: 34px 22px 70px;
+          display: flex; flex-direction: column; gap: 24px; }
+
+  header { display: flex; flex-direction: column; gap: 10px;
+           border-bottom: 1px solid var(--line); padding-bottom: 20px; }
+  .eyebrow { font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+             font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+             color: var(--muted); }
+  h1 { margin: 0; font-size: clamp(22px, 3.4vw, 31px); font-weight: 400;
+       letter-spacing: -.01em; text-wrap: balance; }
+  .lede { margin: 0; max-width: 66ch; font-size: 15.5px; line-height: 1.65; color: var(--muted); }
+
+  .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+              font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .controls .lbl { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  button.w { font: inherit; font-size: 13px; padding: 7px 15px; cursor: pointer;
+             background: transparent; color: var(--ink);
+             border: 1px solid var(--line); border-radius: 2px; }
+  button.w[aria-pressed="true"] { background: var(--gold-soft); border-color: var(--gold); color: var(--ink); }
+  button.w:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  .grid { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); align-items: start; }
+
+  .card { display: flex; flex-direction: column; min-width: 0;
+          border: 1px solid var(--line); background: var(--raise); }
+  .meta { padding: 14px 16px; display: flex; flex-direction: column; gap: 5px;
+          border-bottom: 1px solid var(--line);
+          font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .tag { font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--gold); }
+  .subj { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .prev { font-size: 13px; color: var(--muted); }
+  .aud { font-size: 12px; color: var(--muted); }
+
+  .viewport { background: #6E675C; padding: 20px 0; max-height: 76vh; overflow-y: auto; }
+  @media (prefers-color-scheme: dark) { .viewport { background: #0E0C09; } }
+  :root[data-theme="dark"] .viewport { background: #0E0C09; }
+  :root[data-theme="light"] .viewport { background: #6E675C; }
+
+  /* The email itself is a fixed artifact: always white ground, Arial, #222222. */
+  .mail { width: var(--mailw, 600px); max-width: 100%; margin: 0 auto; background: #ffffff;
+          padding: 34px 0 18px; transition: width .18s ease; }
+  @media (prefers-reduced-motion: reduce) { .mail { transition: none; } }
+
+  .b { padding: 9px 18px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;
+       line-height: 1.5; color: #222222; letter-spacing: 0; text-align: left; }
+  .b p { margin: 0 0 1em; }
+  .b p:last-child { margin-bottom: 0; }
+  .b strong { font-weight: 700; }
+  .b a { color: #d4ad67; text-decoration: underline; }
+  .h18 { font-size: 18px; font-weight: 700; }
+
+  .btnwrap { padding: 9px 18px; text-align: center; }
+  .btn { display: inline-block; background: #d4ad67; color: #ffffff; text-decoration: none;
+         font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 700;
+         line-height: 1.15; border-radius: 30px; padding: 25px; letter-spacing: 0; }
+  .btn.wide { padding: 20px 40px; }
+  .note { padding: 9px 18px; font-family: Arial, Helvetica, sans-serif; font-size: 12px;
+          line-height: 1.5; color: #707070; font-style: italic; }
+  .note a { color: #d4ad67; }
+  .foot { padding: 9px 18px; font-family: Arial, Helvetica, sans-serif; font-size: 12px;
+          line-height: 1.5; color: #727272; text-align: center; }
+  .foot p { margin: 0 0 1em; }
+  .foot p:last-child { margin-bottom: 0; }
+
+  .slot { margin: 12px 18px; border: 1px dashed #C8A45C; background: #FCF7EC;
+          padding: 14px 12px; text-align: center;
+          font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+          font-size: 12.5px; color: #7A5F1E; }
+  .slot b { display: block; font-size: 10px; letter-spacing: .13em; text-transform: uppercase;
+            margin-bottom: 4px; opacity: .8; font-weight: 600; }
+
+  footer { border-top: 1px solid var(--line); padding-top: 18px;
+           font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 74ch; }
+  footer b { color: var(--ink); font-weight: 400; }
+  .key { display: inline-block; width: 26px; height: 13px; border: 1px dashed #C8A45C;
+         background: #FCF7EC; vertical-align: -2px; margin-right: 5px; }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Lasclay · brouillons Klaviyo du 31 juillet 2026</div>
+    <h1>Deux infolettres, côte à côte</h1>
+    <p class="lede">Le contenu et les styles viennent des gabarits Klaviyo: Arial 14&nbsp;px sur interligne 1,5, texte #222222, liens et boutons #D4AD67, pied de page 12&nbsp;px #727272. Prénom d'exemple: Marie. Les cadres pointillés marquent les jointures entre blocs de texte, là où vous pouvez glisser une image.</p>
+    <div class="controls">
+      <span class="lbl">Largeur</span>
+      <button class="w" id="wd" aria-pressed="true">Bureau · 600 px</button>
+      <button class="w" id="wm" aria-pressed="false">Mobile · 375 px</button>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- ============ SUIVI DE PRÉCOMMANDE ============ -->
+    <section class="card" aria-label="Suivi de précommande">
+      <div class="meta">
+        <div class="tag">Suivi de précommande</div>
+        <div class="subj">Des nouvelles de votre précommande</div>
+        <div class="prev">Tout suit son cours!</div>
+        <div class="aud">Segment Prévente mai 2026 · environ 355 profils</div>
+      </div>
+      <div class="viewport"><div class="mail">
+
+        <div class="b">
+          <p>Bonjour Marie,</p>
+          <p>Un petit coucou pour vous donner des nouvelles de votre précommande!</p>
+          <p><strong>Tout suit son cours.</strong> Le conteneur est parti pour la Tunisie il y a quelques semaines avec les matériaux et l'équipement spécialisé, la production avance bien, et <strong>on vise toujours l'automne 2026 pour l'expédition.</strong> Dès qu'une date plus précise se confirme, vous serez les premiers avertis.</p>
+          <p>Je vous partage quelques images des dernières semaines 👇</p>
+        </div>
+
+        <div class="slot"><b>Image 1</b>Production · chargement du conteneur</div>
+
+        <div class="b">
+          <p><span class="h18">Ce qui s'est passé chez nous cet été</span></p>
+          <p>En mai, je vous annonçais dans un <a href="https://youtu.be/GKyHh-Ok9JU">mini-documentaire</a> que Lasclay n'était plus manufacturier. Concrètement, ça veut dire que <strong>nous sommes passés de 8 à 2 employés en un mois.</strong></p>
+          <p>Quand on entre dans notre usine de 8000 pieds carrés aujourd'hui, les machines sont déconnectées ou vendues et il n'y a plus personne à la production. Ça fait un sacré vide, et il a fallu s'y faire.</p>
+          <p>C'est facile d'y voir un recul, et je ne vous en voudrais pas de le penser 👇</p>
+        </div>
+
+        <div class="slot"><b>Image 2</b>L'atelier vide</div>
+
+        <div class="b">
+          <p><span class="h18">Mais pour votre commande, ça change les choses dans le bon sens</span></p>
+          <p>Les étés précédents, on était dans le gros jus. On vendait des produits à peine profitables pour garder notre monde à tout prix, au lieu de préparer la saison suivante et de se mettre en position de livrer à temps. Résultat: on était systématiquement en retard, et on passait des nuits blanches en décembre.</p>
+          <p>Cette année, on fabrique d'avance. <strong>On n'a jamais été aussi prêts à livrer, aussi étrange que ça puisse paraître!</strong></p>
+        </div>
+
+        <div class="slot"><b>Image 3</b>facultatif</div>
+
+        <div class="b">
+          <p><span class="h18">Et le service, parlons-en franchement</span></p>
+          <p>On était tout le temps débordés. On faisait de notre mieux, mais en période de rush, on l'a échappé plusieurs fois. Des semaines à répondre à un courriel, des livraisons en retard, des commandes laissées en suspens sans nouvelles. Si ça vous est déjà arrivé avec nous, je m'en excuse sincèrement.</p>
+          <p>On a essayé bien des choses pour remédier à ça, incluant même une embauche en télétravail à Madagascar, qui n'a pas super bien viré. Alors on a pris le temps d'identifier les vraies causes du problème, et de bâtir un système à la fine pointe de la technologie, avec une touche humaine 👇</p>
+        </div>
+
+        <div class="b">
+          <p><strong>1. Fabriquer d'avance.</strong> Ça nous sort de la production « just in time » et ça nous oblige à ne vendre que ce qu'on a en main, sauf pour les préventes clairement annoncées comme la vôtre. Les livraisons accélèrent, et fini les commandes qui traînent sans communication.</p>
+          <p><strong>2. Des courriels informatifs après votre achat</strong>, pour que vous sachiez où en est votre commande sans avoir à le demander.</p>
+          <p><strong>3. Une première ligne de réponse propulsée par une IA entraînée avec les connaissances de Lasclay</strong>, pour les questions courantes.</p>
+          <p><strong>4. Et FINALEMENT, un numéro de téléphone!</strong> Dès septembre, vous pourrez nous appeler pour un problème ou une question plus complexe. Après des années à ne fonctionner que par courriel, c'était devenu nécessaire. Le numéro sera annoncé dans notre prochaine infolettre et affiché sur lasclay.com.</p>
+        </div>
+
+        <div class="slot"><b>Image 4</b>facultatif</div>
+
+        <div class="b">
+          <p>Ne plus fabriquer chez nous, on comprend que ça puisse faire l'objet de critiques. <strong>Mais c'est tout ça que ça débloque.</strong></p>
+          <p>Ce qui ne change pas, par contre: <strong>la fibre reste de l'asclépiade cultivée ici, et nous suivons chaque étape de près.</strong></p>
+        </div>
+
+        <div class="b">
+          <p><span class="h18">Deux petites choses qui nous aideraient d'ici la livraison</span></p>
+          <p><strong>1.</strong> Si votre commande contient un vêtement, c'est le bon moment pour revalider votre grandeur dans le courriel de confirmation reçu à la fin mai. L'échange est gratuit, mais c'est tellement plus simple avant la mise en boîte!</p>
+          <p><strong>2.</strong> Si vous avez déménagé depuis mai, répondez à ce courriel avec votre nouvelle adresse.</p>
+        </div>
+
+        <div class="b">
+          <p>Merci d'être encore là Marie. On travaille fort, et après tout ce qu'on a traversé ce printemps, votre précommande vaut bien plus qu'une vente à nos yeux 🦋</p>
+          <p>&nbsp;</p>
+          <p>Chaleureusement,</p>
+          <p><strong>Gabriel</strong><br>Co-fondateur<br>Lasclay</p>
+        </div>
+
+        <div class="foot">
+          <p>Lasclay, 298 Boulevard des Capucins, Québec, QC, G1J3R4</p>
+          <p>Vous ne voulez plus recevoir notre infolettre?<br>Se désabonner</p>
+        </div>
+
+      </div></div>
+    </section>
+
+    <!-- ============ INFOLETTRE GÉNÉRALE ============ -->
+    <section class="card" aria-label="Infolettre générale">
+      <div class="meta">
+        <div class="tag">Infolettre générale</div>
+        <div class="subj">Nous sommes passés de 8 à 2 employés</div>
+        <div class="prev">+ ce que ça débloque</div>
+        <div class="aud">Newsletter FR, Clients QC, JdC · moins 8 segments d'exclusion</div>
+      </div>
+      <div class="viewport"><div class="mail">
+
+        <div class="b">
+          <p>Bonjour Marie,</p>
+          <p>J'espère que l'été vous traite bien! Chez nous, c'est le mois où l'asclépiade fleurit partout au Québec. Si vous croisez une colonie ces jours-ci, arrêtez-vous et sentez: c'est une odeur qu'on n'oublie pas, et c'est gratuit 😉</p>
+          <p>En mai, je vous annonçais notre changement de cap dans un <a href="https://youtu.be/GKyHh-Ok9JU">mini-documentaire</a>: Lasclay n'est plus manufacturier. Deux mois plus tard, je vous dois un vrai portrait de ce que ça donne.</p>
+        </div>
+
+        <div class="slot"><b>Image 1</b>facultatif · photo d'ambiance</div>
+
+        <div class="b">
+          <p><span class="h18">Nous sommes passés de 8 à 2 employés en un mois</span></p>
+          <p>Voilà. C'est l'effet concret de la décision de sous-traiter tout ce qui ne touche pas la transformation de l'asclépiade.</p>
+          <p>Quand on entre dans notre usine de 8000 pieds carrés aujourd'hui, les machines sont déconnectées ou vendues, il n'y a plus personne à la production, et les matériaux et l'équipement spécialisé sont partis à l'étranger dans un conteneur. <strong>Ça fait un sacré vide.</strong></p>
+          <p>C'est facile d'y voir un recul, et je ne vous en voudrais pas de le penser 👇</p>
+        </div>
+
+        <div class="slot"><b>Image 2</b>L'atelier vide et le conteneur chargé</div>
+
+        <div class="b">
+          <p>Mais il faut parfois prendre un pas de recul pour mieux avancer ensuite.</p>
+          <p><span class="h18">Ce que je vois, moi</span></p>
+          <p><strong>Vous êtes restés.</strong> La Prévente printanière a généré plus de 70 000$ de ventes en une seule fin de semaine, juste après que je vous aie annoncé la nouvelle sans rien enjoliver. J'avais tellement peur que vous nous laissiez tomber. Ça, c'est vous, et je ne l'oublierai pas.</p>
+          <p><strong>L'espace repart au bon endroit</strong>, puisque nous transférons les pieds carrés dont nous n'avons plus besoin à d'autres entrepreneurs, alors que les locaux abordables au centre-ville de Québec sont à peu près inexistants.</p>
+          <p><strong>Et j'ai retrouvé du temps.</strong> C'est la ressource la plus rare, et j'avais complètement perdu le contrôle de mes journées: une question aux 30 minutes, sur la production, l'expédition, le web, la pub, une machine qui bug. J'ai enfin le temps de penser, et de revenir à l'essentiel.</p>
+          <p><strong>Je ne resterai pas à 2 employés longtemps.</strong> Mais dans cette transition, je commence à voir le chemin qui nous échappait dans nos premières années.</p>
+        </div>
+
+        <div class="slot"><b>Image 3</b>facultatif</div>
+
+        <div class="b">
+          <p><span class="h18">Ce que ça change, concrètement</span></p>
+          <p>Les étés précédents, on était dans le gros jus. On vendait des produits à peine profitables pour garder notre monde à tout prix, au lieu de préparer la saison suivante, d'optimiser et de se mettre en position de livrer à temps. Résultat: on était systématiquement en retard, et on passait des nuits blanches en décembre.</p>
+          <p>Cette année, on fabrique d'avance. <strong>On n'a jamais été aussi prêts à répondre à la demande, aussi étrange que ça puisse paraître!</strong></p>
+        </div>
+
+        <div class="b">
+          <p><span class="h18">Et surtout, ce que ça change au service</span></p>
+          <p>Je vais être honnête avec vous: on était tout le temps débordés. On faisait de notre mieux, mais en période de rush, on l'a échappé plusieurs fois. Des semaines à répondre à un courriel, des livraisons en retard, des commandes laissées en suspens sans nouvelles.</p>
+          <p>On a essayé bien des choses pour remédier à ça, incluant même une embauche en télétravail à Madagascar, qui n'a pas super bien viré. Alors on a pris le temps d'identifier les vraies causes du problème, et de bâtir un système à la fine pointe de la technologie, avec une touche humaine 👇</p>
+        </div>
+
+        <div class="b">
+          <p><strong>1. Fabriquer d'avance.</strong> Ça nous sort de la production « just in time » et ça nous oblige à ne vendre que ce qu'on a en main, sauf pour les préventes clairement annoncées. Les livraisons accélèrent, et fini les commandes qui traînent sans communication.</p>
+          <p><strong>2. Des courriels informatifs après votre achat</strong>, pour que vous sachiez où en est votre commande sans avoir à le demander.</p>
+          <p><strong>3. Une première ligne de réponse propulsée par une IA entraînée avec les connaissances de Lasclay</strong>, pour les questions courantes.</p>
+          <p><strong>4. Et FINALEMENT, un numéro de téléphone!</strong> Dès septembre, vous pourrez nous appeler pour un problème ou une question plus complexe. Après des années à ne fonctionner que par courriel, c'était devenu nécessaire. Le numéro sera annoncé dans notre prochaine infolettre et affiché sur lasclay.com.</p>
+        </div>
+
+        <div class="slot"><b>Image 4</b>facultatif</div>
+
+        <div class="b">
+          <p>Ne plus fabriquer chez nous, on comprend que ça puisse faire l'objet de critiques. <strong>Mais c'est tout ça que ça débloque.</strong></p>
+          <p>Ce qui ne change pas, par contre: <strong>la fibre reste de l'asclépiade cultivée ici, la mission reste exactement la même, et nous suivons chaque étape de près.</strong> Les personnes qui ont précommandé au printemps reçoivent d'ailleurs aujourd'hui une mise à jour: tout suit son cours.</p>
+        </div>
+
+        <div class="b">
+          <p><span class="h18">Le temps retrouvé va déjà quelque part: près de mille plants en terre</span></p>
+          <p><strong>Nous avons planté près d'un millier de plants d'asclépiade incarnate</strong> élevés en serre. C'est l'espèce préférée des monarques, et elle servira surtout à produire et redistribuer des graines pour créer de nouveaux habitats.</p>
+          <p>Et <strong>nous venons d'obtenir une subvention de la Ville de Québec</strong> pour développer des équipements abordables de culture d'asclépiade et créer un réseau de plantations dans la région. Ça change complètement l'ampleur de ce qu'on pourra faire.</p>
+        </div>
+
+        <div class="slot"><b>Image 5</b>Les plants d'asclépiade incarnate</div>
+
+        <div class="b">
+          <p>Le cœur du projet reste à venir: planter de l'asclépiade commune et nous impliquer davantage dans le volet agricole de la filière. <strong>Si vous avez un terrain de 1500 pieds carrés ou plus à valoriser, à 1h30 ou moins de route de Québec, il n'est pas trop tard pour vous inscrire</strong> 👇</p>
+        </div>
+
+        <div class="btnwrap"><a class="btn wide" href="https://forms.gle/z2Jri5LTzoiRUv2Z8">J'ai un terrain de plus de 1500 pi2, je veux y implanter l'asclépiade et m'inscrire.</a></div>
+        <div class="note">* Si le bouton ne fonctionne pas, voici le lien: <a href="https://forms.gle/z2Jri5LTzoiRUv2Z8">https://forms.gle/z2Jri5LTzoiRUv2Z8</a></div>
+
+        <div class="b">
+          <p><span class="h18">Et la rentrée qui approche</span></p>
+          <p>On le sait, personne n'a envie d'y penser le 1er août 😅 Mais nos <a href="https://lasclay.com/products/lunchbag">sacs à lunch</a> partent chaque année en quelques semaines. L'asclépiade y garde les repas au frais jusqu'à l'heure du dîner, même en pleine canicule et sans bloc réfrigérant 👇</p>
+        </div>
+
+        <div class="btnwrap"><a class="btn" href="https://lasclay.com/collections/sacs-isothermes-glacieres-asclepiade">Voir les sacs isothermes d'asclépiade</a></div>
+        <div class="note">* Si le bouton ne fonctionne pas, voici le lien: <a href="https://lasclay.com/collections/sacs-isothermes-glacieres-asclepiade">https://lasclay.com/collections/sacs-isothermes-glacieres-asclepiade</a></div>
+
+        <div class="b">
+          <p>Voilà. Un été chargé, et pas toujours facile. Mais un seul fil conducteur dans tout ça: <strong>chaque produit d'asclépiade vendu et chaque jardin planté soutient les cultivateurs qui s'accrochent</strong>, et avec eux les champs où les monarques passent l'été avant leur migration de 6400 km vers le Mexique.</p>
+          <p>Ils sont d'ailleurs ici en ce moment même, en train de pondre dans nos plantations. Bon reste d'été!</p>
+          <p>Merci d'être encore là Marie 🦋</p>
+          <p>&nbsp;</p>
+          <p>Chaleureusement,</p>
+          <p><strong>Gabriel</strong><br>Co-fondateur<br>Lasclay</p>
+        </div>
+
+        <div class="foot">
+          <p>Lasclay, 298 Boulevard des Capucins, Québec, QC, G1J3R4</p>
+          <p>Vous ne voulez plus recevoir notre infolettre?<br>Se désabonner</p>
+        </div>
+
+      </div></div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p><span class="key"></span> Les cadres pointillés sont des repères de montage: ils marquent les jointures entre blocs de texte dans Klaviyo, là où un bloc image se glisse. Ils n'apparaissent pas dans le courriel envoyé.</p>
+    <p><b>À savoir:</b> ceci reproduit le contenu et les styles des gabarits, pas le HTML tabulaire que Klaviyo génère. Pour valider le rendu réel dans Outlook et Gmail, l'aperçu de Klaviyo et un envoi test restent le juge final.</p>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var d = document.getElementById('wd'), m = document.getElementById('wm');
+    function set(width, on, off) {
+      document.querySelectorAll('.mail').forEach(function (el) { el.style.setProperty('--mailw', width); });
+      on.setAttribute('aria-pressed', 'true');
+      off.setAttribute('aria-pressed', 'false');
+    }
+    d.addEventListener('click', function () { set('600px', d, m); });
+    m.addEventListener('click', function () { set('375px', m, d); });
+  })();
+</script>
