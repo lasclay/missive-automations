@@ -173,8 +173,16 @@ async function loadJournal(id) {
         ${d.existing ? `<div class="banner ok">Une écriture couvre déjà ce versement —
           ${d.existing.source === "app" ? "publiée par cette app" : "<b>faite par A2X</b>, pas par cette app"} :
           <a href="${qboLink(d.existing.id)}" target="_blank" rel="noopener">pièce ${esc(d.existing.id)}</a>
-          <code>${esc(d.existing.docNumber)}</code> du ${esc(d.existing.txnDate)}, appariée par ${esc(d.existing.match)}.
-          Publier créerait un doublon.</div>` : ""}
+          <code>${esc(d.existing.docNumber)}</code> du ${esc(d.existing.txnDate)}.
+          Son règlement est de ${money(j.settlement)} $, identique au net de ce versement — appariement par ${esc(d.existing.match)}.
+          Publier créerait un doublon.</div>`
+        : `<div class="banner">Aucune écriture ne correspond au net de ce versement (${money(j.settlement)} $) dans QuickBooks.</div>`}
+
+        ${(d.related || []).length ? `<div class="banner"><b>Pour information</b> — ${d.related.length} écriture(s)
+          couvrent la même période mais pour un autre montant. <span class="muted">Ce ne sont pas des correspondances :
+          A2X produit plusieurs journaux sur des dates qui se chevauchent.</span>
+          ${d.related.map((r) => `<div><a href="${qboLink(r.id)}" target="_blank" rel="noopener">pièce ${esc(r.id)}</a>
+            <code>${esc(r.docNumber)}</code> · ${esc(r.txnDate)} · règlement ${money(r.settlement)} $</div>`).join("")}</div>` : ""}
 
         <div class="scroll"><table>
           <thead><tr><th>Description</th><th>Compte</th><th>Taxe</th><th class="num">Débit</th><th class="num">Crédit</th></tr></thead>

@@ -21,7 +21,7 @@ const { listPayouts, getPayout, payoutTransactions } = require(path.join(A2X, "l
 const { ordersByIds } = require(path.join(A2X, "lib/orders"));
 const { buildJournalEntry } = require(path.join(A2X, "lib/journal"));
 const { qbo } = require(path.join(A2X, "lib/qbo"));
-const { postedJournals, findExisting, invalidate } = require(path.join(A2X, "lib/posted"));
+const { postedJournals, findExisting, relatedByPeriod, invalidate } = require(path.join(A2X, "lib/posted"));
 const { gid, tokenScopes, STORE, VER } = require(path.join(A2X, "lib/shopify"));
 const mapper = require(path.join(A2X, "lib/mapper"));
 
@@ -200,6 +200,7 @@ const routes = {
   "GET /api/payouts/:id": async (req, url, params) => {
     const { payout, journal, counts } = await computeJournal(params.id);
     const existing = await findExisting({ docNumber: journal.docNumber, settlement: journal.settlement, issuedAt: payout.issuedAt, payoutId: journal.payoutId });
+    const related = await relatedByPeriod({ docNumber: journal.docNumber, settlement: journal.settlement });
     return {
       payout: { id: String(payout.legacyResourceId), issuedAt: payout.issuedAt, status: payout.status, net: parseFloat(payout.net.amount), currency: payout.net.currencyCode },
       counts,
@@ -217,6 +218,7 @@ const routes = {
         body: journal.body,
       },
       existing,
+      related,
     };
   },
 

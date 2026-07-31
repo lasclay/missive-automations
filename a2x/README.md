@@ -169,9 +169,16 @@ doublon).
 
 `lib/posted.js` apparie donc sur ce qui est vérifiable, dans cet ordre :
 
-1. **période + montant** — même préfixe de `DocNumber` (`A2XSH-21Jul-27Jul-`) et même net déposé
-2. **période** — même préfixe, montant différent ou inconnu
+1. **id du versement** — nos propres écritures le portent en `PrivateNote` : certitude
+2. **période + montant** — même préfixe de `DocNumber` (`A2XSH-21Jul-27Jul-`) et même net déposé
 3. **montant** — même net déposé, dans une fenêtre de 21 jours avant l'émission du versement
+
+**Le montant doit toujours concorder.** Une première version acceptait la période seule : elle
+désignait alors une écriture sans rapport, puisqu'A2X produit plusieurs journaux sur des dates
+qui se chevauchent (`A2XSH-24Jul-28Jul-200` et `A2XSH-24Jul-29Jul-314` par exemple). Le montant
+est un critère sûr — sur les 320 écritures de règlement existantes, les 320 montants sont
+distincts. Les écritures de même période mais d'un autre montant sont affichées séparément,
+comme contexte, jamais comme correspondance.
 
 Les journaux **mensuels** d'A2X (`A2XSH-01Jun-01Jul-469`, pour les paiements hors Shopify
 Payments) n'ont pas de ligne « Balance of settlement » : ils sont exclus de l'appariement, sans

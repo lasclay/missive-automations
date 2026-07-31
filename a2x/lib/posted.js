@@ -57,17 +57,18 @@ async function findExisting({ docNumber, settlement, issuedAt, payoutId }, force
     if (mine) return { ...mine, match: "id du versement" };
   }
 
-  // A2X produit aussi des journaux mensuels pour les paiements hors Shopify
-  // Payments (« A2XSH-01Jun-01Jul-469 ») : ils n'ont pas de ligne de règlement
-  // et ne correspondent à aucun versement. On ne les laisse jamais apparier.
-  const prefix = docPrefix(docNumber);
-  const periodHits = all.filter((j) => String(j.docNumber).startsWith(prefix));
-  const exact = periodHits.find((j) => j.settlementCents !== null && j.settlementCents === cents);
-  if (exact) return { ...exact, match: "période et montant" };
-  const periodOnly = periodHits.find((j) => j.settlementCents !== null);
-  if (periodOnly) return { ...periodOnly, match: "période" };
-
   if (cents == null) return null;
+
+  // Le montant déposé est le seul critère fiable pour les écritures d'A2X : sur
+  // les 320 écritures existantes, les 320 montants de règlement sont distincts.
+  // La période, elle, ne suffit JAMAIS : A2X produit plusieurs journaux couvrant
+  // les mêmes dates (et des journaux mensuels hors Shopify Payments). Apparier
+  // sur la période seule désignait une écriture sans rapport.
+  const prefix = docPrefix(docNumber);
+  const samePeriod = all.filter((j) => j.settlementCents !== null && String(j.docNumber).startsWith(prefix));
+  const exact = samePeriod.find((j) => j.settlementCents === cents);
+  if (exact) return { ...exact, match: "période et montant" };
+
   const end = issuedAt ? new Date(issuedAt) : null;
   const byAmount = all.find((j) => {
     if (j.settlementCents !== cents) return false;
@@ -78,4 +79,18 @@ async function findExisting({ docNumber, settlement, issuedAt, payoutId }, force
   return byAmount ? { ...byAmount, match: "montant" } : null;
 }
 
-module.exports = { postedJournals, findExisting, docPrefix, invalidate };
+/**
+ * Écritures couvrant la même période mais d'un AUTRE montant. Ce ne sont pas
+ * des correspondances — juste un contexte utile à afficher pour comprendre ce
+ * qui existe déjà autour de ce versement.
+ */
+async function relatedByPeriod({ docNumber, settlement }, force = false) {
+  const all = await postedJournals(force);
+  const cents = settlement == null ? null : Math.round(settlement * 100);
+  const prefix = docPrefix(docNumber);
+  return all
+    .filter((j) => j.settlementCents !== null && String(j.docNumber).startsWith(prefix) && j.settlementCents !== cents)
+    .map((j) => ({ ...j, settlement: j.settlementCents / 100 }));
+}
+
+module.exports = { postedJournals, findExisting, relatedByPeriod, docPrefix, invalidate };
