@@ -9,3 +9,4 @@ Relevés bruts servant de base au clonage (voir `../AUDIT.md`).
 | `tarifs_reference.json` | devis réels par transporteur et service — Québec (G1J3R4) → Toronto (M5V2T6) et → New York (10001), 500 g, 12×6×6 po. Sert de référence pour valider les tarifs obtenus en direct chez Canada Post |
 
 Régénérable avec `node connectors_client.js shipstation <action>` (voir `CONNECTORS_PROXY.md`).
+| `volumetrie_12mois.json` | volumétrie et dépense de transport réelles du 1ᵉʳ août 2025 au 31 juillet 2026, par mois et par bande de poids, avec l'analyse de sensibilité du scénario drop-off |

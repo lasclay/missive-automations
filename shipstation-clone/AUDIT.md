@@ -10,33 +10,44 @@ Objectif : réunir tout ce qu'il faut pour **reconstruire l'outil sans abonnemen
 
 ## 1. Résumé exécutif
 
-Trois constats sortent de l'audit, et ils décident du projet.
+**L'enjeu du projet n'est pas l'abonnement ShipStation — c'est le tarif de transport.**
+L'abonnement coûte quelques centaines à quelques milliers de dollars par an. Le passage au tarif
+**drop-off Canada Post à 6,31 $** via une plateforme courtier vaut, sur les 12 derniers mois
+réels, **33 100 $ par an**. L'un est du bruit, l'autre est le projet.
 
-**a) Le compte n'utilise qu'une fraction de ShipStation.** Sur les 3 000 expéditions les plus
-récentes (janv.→juill. 2026), **99,67 % partent chez Canada Post** et **98,6 % sur le seul service
-`expedited_parcel`**. Purolator prend 12 envois, les autres transporteurs zéro. Aucun tag n'est
-utilisé sur les 2 000 commandes récentes, aucun cadeau, deux fusions/scissions.
+Quatre constats.
 
-**b) Le tarif ne vient pas de ShipStation.** Les envois passent par `canada_post` —
-le **contrat Canada Post en propre de Lasclay** (compte `0005082011`, `requiresFundedAccount:
-false`), pas par le portefeuille One Balance de ShipStation. Cloner l'outil **ne coûte donc aucun
-tarif** : les mêmes prix sont accessibles directement par l'API Canada Post avec les mêmes
-identifiants de contrat. C'est le point qui rend le clonage viable.
+**a) 80,5 % des envois pèsent moins de 500 g et coûtent aujourd'hui 11,24 $ en moyenne.**
+Sur 12 mois (1ᵉʳ août 2025 → 31 juillet 2026) : 8 338 expéditions actives, **98 828 $ de
+transport**, dont 75 498 $ pour les seuls colis sous 500 g. Au tarif drop-off de 6,31 $, cette
+tranche tombe à 42 378 $ — **33 120 $ d'économie annuelle, soit 33,5 % de la facture de
+transport**.
 
-**c) Le travail restant est un logiciel de gestion, pas un logiciel de transport.** Ce qu'il faut
-reconstruire, c'est l'import des commandes (Shopify, Etsy, Faire), la grille d'expédition, l'achat
-d'étiquette, les notifications et les douanes. Tout est documenté ci-dessous, champ par champ, à
-partir des charges utiles réelles du compte.
+**b) Ce tarif est inaccessible au contrat commercial de Lasclay.** Christine Valin (Canada Post,
+27 juillet 2026) est formelle : *« ce service n'inclut pas le ramassage et est offert que par
+l'entremise de plate-forme d'expédition. Ce n'est pas offert pour les ententes commerciales. »*
+Aller en direct sur l'API Canada Post avec le contrat `0005082011` donnerait donc les tarifs
+d'aujourd'hui (≈ 9–11 $), pas 6,31 $. **La couche transporteur doit passer par un courtier —
+ClickShip / Freightcom.**
+
+**c) Le compte n'utilise qu'une fraction de ShipStation.** 99,6 % des envois partent chez Canada
+Post, 98,6 % sur le seul service `expedited_parcel`. Purolator prend 34 envois sur 12 mois, UPS
+un seul. Aucun tag utilisé, aucun cadeau, deux fusions sur 2 000 commandes. En revanche
+**96 % des étiquettes sont achetées en lot** — c'est le cœur du flux.
+
+**d) Ce qui reste à cloner est un outil de tri de backlog, pas un logiciel de transport.**
+ShipStation gagne sur la grille : filtres, vues sauvegardées, Hold, tri, traitement par lot. C'est
+précisément la couche à reconstruire ; le transport, lui, se sous-traite à l'API du courtier.
 
 | Ce qu'on remplace | Difficulté | Remplacement |
 |---|---|---|
+| Achat d'étiquette et tarifs | moyenne | **API ClickShip / Freightcom** — c'est là qu'est l'argent |
 | Import commandes Shopify / Etsy / Faire | moyenne | API des plateformes (déjà en place côté Shopify) |
-| Achat d'étiquette Canada Post | **moyenne** | API Canada Post *Ship & Track* directe, contrat existant |
-| Grille, filtres, vues, lots | faible | applicatif web maison |
-| Douanes / CN22 / facture commerciale | moyenne | généré par l'API Canada Post |
-| Manifeste fin de journée | faible | API Canada Post « transmit shipments » |
-| Notifications client + page de suivi | faible | courriel maison + webhook de suivi |
-| Portefeuille One Balance (UPS, FedEx, DHL, Purolator, Canpar) | **élevée** | non reproductible — voir §9 |
+| Grille, filtres, vues, Hold, lots | **c'est le cœur du clone** | applicatif web maison |
+| Douanes / CN22 / facture commerciale | moyenne | généré par le courtier |
+| Notifications client + page de suivi | faible | courriel maison + suivi du courtier |
+| Manifeste fin de journée | **sans objet en drop-off** | le dépôt au comptoir remplace le ramassage |
+| Portefeuille One Balance (UPS, FedEx, DHL, Purolator, Canpar) | élevée | non reproductible — mais 35 envois/an, voir §9 |
 
 ---
 
@@ -60,26 +71,43 @@ Le ratio est parlant : **près de 42 % des envois historiques n'ont pas d'étiqu
 ils sont marqués expédiés depuis une autre source. Un clone n'a donc pas à couvrir 100 % du flux
 pour être utile.
 
-### Cadence réelle (3 000 dernières expéditions)
+### Cadence et dépense — 12 mois réels (expéditions du 1ᵉʳ août 2025 au 31 juillet 2026)
 
-| Mois | Expéditions |
-|---|---|
-| 2026-01 | 797 |
-| 2026-02 | 1 030 |
-| 2026-03 | 451 |
-| 2026-04 | 291 |
-| 2026-05 | 246 |
-| 2026-06 | 144 |
-| 2026-07 (au 28) | 41 |
+8 518 étiquettes émises, dont **8 338 actives** (75 annulées, 107 étiquettes de retour), pour
+**98 828 $ de transport**.
 
-Saisonnalité forte : **le pic est en janvier-février** (semences), le creux en été. Moyenne ≈ 460
-expéditions/mois, coût de transport moyen **12,09 $** par envoi (36 265 $ sur l'échantillon).
+| Mois | Expéditions | | Mois | Expéditions |
+|---|---|---|---|---|
+| 2025-08 | 270 | | 2026-02 | 1 011 |
+| 2025-09 | 504 | | 2026-03 | 431 |
+| 2025-10 | 382 | | 2026-04 | 288 |
+| 2025-11 | 985 | | 2026-05 | 241 |
+| **2025-12** | **2 755** | | 2026-06 | 142 |
+| 2026-01 | 1 288 | | 2026-07 | 41 |
+
+**Le pic est décembre** — 2 755 envois, soit un tiers de l'année en un mois — suivi de janvier et
+février. Le creux est l'été : juin et juillet réunis font 183 envois, **quinze fois moins que
+décembre**. Novembre à février concentre 72 % du volume annuel.
+
+### Répartition par poids — la donnée qui décide
+
+| Bande | Envois | Part | Coût moyen | Coût médian | Total 12 mois |
+|---|---|---|---|---|---|
+| **< 500 g** | **6 716** | **80,5 %** | **11,24 $** | 10,70 $ | **75 498 $** |
+| 500 g – 1 kg | 1 213 | 14,5 % | 12,62 $ | 11,76 $ | 15 312 $ |
+| 1 – 2 kg | 132 | 1,6 % | 14,64 $ | 13,25 $ | 1 932 $ |
+| 2 – 5 kg | 241 | 2,9 % | 18,65 $ | 13,52 $ | 4 494 $ |
+| > 5 kg | 36 | 0,4 % | 44,20 $ | 36,43 $ | 1 591 $ |
+
+Quatre envois sur cinq entrent dans le programme Canada Post « envoi unique sous 1,1 lb (500 g) »
+mentionné dans l'interface ClickShip. C'est exactement la cible du tarif drop-off.
 
 ### Ce qui est réellement utilisé
 
 | Dimension | Observation |
 |---|---|
-| Transporteurs | `canada_post` 99,67 % · `purolator_walleted` 0,33 % |
+| Transporteurs (12 mois) | `canada_post` **8 303** · `purolator_walleted` **34** · `ups_walleted` **1** |
+| Destinations (12 mois) | Canada 8 308 · États-Unis 23 · France 5 · Belgique 1 · Chine 1 |
 | Services | `expedited_parcel` 98,6 % · `xpresspost` 0,7 % · `priority` 0,3 % · `xpresspost_international` 2 envois |
 | Types de colis | non renseigné 97,4 % · `package` 2,4 % · `customerpackage` 0,2 % |
 | Confirmation | aucune 98,7 % · `signature` 0,9 % · `delivery` 0,3 % |
@@ -475,11 +503,65 @@ remplacent les huit paliers précédents.
 Le prix monte par palier de volume ; au-delà de 20 000 expéditions/mois, tarif sur mesure. Toutes
 les formules incluent les connexions boutique illimitées et l'arbitrage de tarifs.
 
-**Pour Lasclay** — ≈ 460 expéditions/mois en moyenne, avec un pic à plus de 1 000 en février — le
-compte se situe dans les paliers intermédiaires. L'économie annuelle d'un clone se compte donc en
-centaines de dollars, **pas en milliers** : la justification du projet n'est pas seulement le prix,
-c'est aussi de ne plus dépendre d'un fournisseur pour un flux qui repose à 99,7 % sur un contrat
-Canada Post que Lasclay possède déjà en propre.
+**Pour Lasclay** — ≈ 695 expéditions/mois en moyenne, avec un pic à 2 755 en décembre — le compte
+se situe dans les paliers supérieurs du volume. Mais l'abonnement **n'est pas l'enjeu** : même à
+2 000 $/an, il pèse dix fois moins que l'écart de tarif documenté au §7 bis. Le clone se justifie
+par le tarif, pas par la licence.
+
+---
+
+## 7 bis. Le vrai gisement — le tarif drop-off à 6,31 $
+
+### Le fait
+
+Un devis ClickShip du 22 juillet 2026 (colis 9×6×1 po, 0,10 lb, Québec → Lac-Beauport) affiche
+**Canada Post Expedited Parcel « Drop-Off Only » à 6,31 $ CAD**, contre 9,12 $ chez GLS, 11,45 $
+chez Canpar, 15,51 $ chez UPS, 16,01 $ chez Purolator et 18,98 $ chez FedEx. L'interface signale un
+**« new program for single shipments under 1.1 lbs (0.5 kg or 500 grams) »**.
+
+Interrogée le 27 juillet 2026, Christine Valin, représentante Solutions d'affaires chez Canada
+Post, confirme et ferme la porte au contrat direct :
+
+> « Ce service n'inclut pas le ramassage et est offert que par l'entremise de plate-forme
+> d'expédition. Ce n'est pas offert pour les ententes commerciales. »
+
+Autrement dit : ce tarif **n'existe pas** sur l'entente commerciale de Lasclay. Il n'est
+accessible que par un courtier — ClickShip / Freightcom, ShipStation One Balance, ou équivalent.
+Toute architecture qui appelle l'API Canada Post en direct avec le contrat `0005082011` **perd
+d'office l'économie**.
+
+### Le calcul, sur 12 mois réels
+
+| | |
+|---|---|
+| Expéditions actives, 12 mois | 8 338 |
+| Dépense transport totale | **98 828 $** |
+| Dont colis < 500 g | 6 716 envois (80,5 %) · **75 498 $** · moyenne 11,24 $ |
+| Ces mêmes colis à 6,31 $ | 42 378 $ |
+| **Économie annuelle** | **33 120 $ — 33,5 % de la facture de transport** |
+
+### Sensibilité — si le tarif réel négocié n'est pas 6,31 $
+
+| Tarif obtenu par envoi < 500 g | Économie annuelle |
+|---|---|
+| 6,31 $ (devis observé) | **33 120 $** |
+| 7,50 $ | 25 128 $ |
+| 8,50 $ | 18 412 $ |
+| 9,09 $ (tarif contrat direct actuel) | 14 450 $ |
+
+Le projet reste largement rentable même dans l'hypothèse pessimiste. **Le seuil de rentabilité est
+très bas** : l'abonnement ShipStation est amorti par les 300 premiers envois de l'année.
+
+### Ce que le drop-off coûte en contrepartie
+
+Le tarif exclut le **ramassage**. Aujourd'hui, les colis partent de LAS Capucins (85,6 % du
+volume) par ramassage. En drop-off, quelqu'un dépose les colis au comptoir postal. À 2 755 envois
+en décembre — environ 130 colis par jour ouvrable — ce n'est pas un détail d'exploitation : c'est
+une tournée quotidienne à organiser, et le point à valider avant de s'engager.
+
+Piste d'arbitrage : appliquer le drop-off aux colis < 500 g (80,5 % du volume, tout l'argent) et
+garder un ramassage pour le reste. Le moteur de règles du clone (§8) doit pouvoir router selon le
+poids — c'est même sa fonction la plus rentable.
 
 ---
 
@@ -501,60 +583,99 @@ Shopify / Etsy / Faire ──(webhook + polling)──▶  Ingestion
                                                      │
                     ┌────────────────────────────────┼─────────────────────┐
                     ▼                                ▼                     ▼
-            Interface web                   Moteur de règles        Proxy transporteur
-       grille · lots · détail              IF/THEN à l'import       Canada Post Ship&Track
-       config expédition                   auto-routage/split       (+ Purolator si besoin)
+       Interface web (LE CŒUR)            Moteur de règles         Proxy transporteur
+   grille · filtres · vues · Hold        IF/THEN à l'import       ClickShip / Freightcom
+   tri backlog · lots · détail           routage par poids         (secret côté serveur,
+   config expédition                     <500 g → drop-off          même patron que
+                                                                    general-proxy)
                                                                             │
                                                      ┌──────────────────────┤
                                                      ▼                      ▼
-                                            étiquette PDF + suivi    manifeste fin de journée
+                                            étiquette PDF + suivi     douanes / CN22
 ```
 
-### Choix de la couche transporteur — trois options
+### Choix de la couche transporteur
 
-| Option | Ce que c'est | Pour | Contre |
-|---|---|---|---|
-| **A. API Canada Post directe** | *Ship & Track API*, contrat `0005082011` existant | tarifs identiques à aujourd'hui, zéro intermédiaire, zéro abonnement | à écrire pour chaque transporteur ajouté ensuite |
-| **B. Karrio auto-hébergé** | plateforme d'expédition multi-transporteur libre (Python/Django + PostgreSQL, Docker), couvre Canada Post, UPS, DHL, USPS et l'ajout de transporteurs par grille tarifaire | multi-transporteur, suivi et documents inclus, sans licence | une pile de plus à opérer |
-| **C. Agrégateur payant** (EasyPost, Shippo, ShipEngine) | API d'étiquettes commerciale | rapide à brancher | on remplace un abonnement par un autre — contraire à l'objectif |
+Le §7 bis tranche la question : **le tarif drop-off n'existe que chez un courtier**. L'option
+« API Canada Post directe », séduisante sur le papier, coûte 33 000 $/an d'économie manquée.
 
-**Recommandation : A, avec B en option de repli.** 99,7 % du volume passe par un seul contrat
-Canada Post ; écrire cet unique connecteur couvre l'essentiel, et Karrio reste disponible si le
-multi-transporteur redevient nécessaire.
+| Option | Ce que c'est | Verdict |
+|---|---|---|
+| **ClickShip / Freightcom API** | courtier canadien, plateforme gratuite payée à l'envoi ; c'est la source du devis à 6,31 $ | **retenu** — seul chemin vers le tarif drop-off |
+| API Canada Post directe | *Ship & Track*, contrat `0005082011` | **écarté** — perd le tarif drop-off (confirmé par Canada Post) |
+| Karrio auto-hébergé | plateforme d'expédition libre (Python/Django, Docker) | repli si le courtier déçoit ; n'apporte pas de tarif par lui-même |
+| EasyPost / Shippo / ShipEngine | agrégateurs commerciaux | à comparer sur le tarif Canada Post drop-off uniquement |
+
+### Vérifications à faire côté ClickShip / Freightcom — avant d'écrire une ligne
+
+Les domaines `developer.freightcom.com` et `clickship.com` sont **bloqués par la politique
+d'égress de cette session** ; je n'ai donc pas pu lire la documentation. Ce qui suit est la liste
+des points à confirmer sur le portail développeur, par ordre d'importance :
+
+1. **Le tarif drop-off est-il exposé par l'API, ou seulement dans l'interface web ?** C'est la
+   question qui décide de tout. Un devis d'API renvoyant 9 $ là où l'interface affiche 6,31 $
+   annulerait le projet. **À tester en premier**, avant tout développement.
+2. Le service porte-t-il un identifiant distinct (« Expedited Parcel Drop-Off ») ou est-ce une
+   option sur le service standard ?
+3. Accès API : ClickShip communique publiquement sur un formulaire de demande plutôt que sur une
+   documentation ouverte — il faut probablement **demander l'activation** à Freightcom. Compter du
+   délai commercial.
+4. Modèle de facturation : compte prépayé ou facturation à terme, et qui porte le risque.
+5. Rythme de rating : l'API Freightcom cote de façon **asynchrone** (on soumet une demande, on
+   récupère les tarifs ensuite) — le clone doit prévoir ce va-et-vient, pas un appel bloquant.
+6. Étiquettes en lot : 96 % des achats se font en lot. Vérifier s'il existe un appel de lot ou
+   s'il faut paralléliser des appels unitaires, et quelle est la limite de débit.
+7. Douanes et suivi : formats des documents, événements de suivi, webhooks disponibles.
+8. Annulation d'étiquette et remboursement.
+
+**Étape zéro du projet, avant tout code : obtenir un accès API Freightcom et coter un colis de
+400 g Québec → Toronto.** Si le tarif drop-off sort de l'API, le reste est de l'exécution. Sinon,
+il faut retourner voir ClickShip sur l'intégration, ou rester sur une plateforme d'interface.
 
 ### Périmètre par phase
+
+**Phase 0 — la question qui décide (quelques jours, aucun code)**
+
+0. Obtenir un accès API Freightcom/ClickShip et **coter un colis de 400 g Québec → Toronto**.
+   Le tarif drop-off sort-il de l'API ? Tant que la réponse est inconnue, tout développement est
+   spéculatif.
 
 **Phase 1 — le strict nécessaire (couvre ~99 % du flux réel)**
 
 1. Ingestion Shopify (webhook `orders/create` + rattrapage par polling) → table `orders`.
-2. Grille des commandes en attente, filtres statut/date/boutique, recherche.
+2. **La grille de tri du backlog** — c'est la raison d'être du projet, pas une commodité :
+   filtres cumulables (statut, date, âge, boutique, poids, pays, service demandé), **vues
+   sauvegardées**, tri par colonne, **Hold jusqu'à une date avec retour automatique en file**,
+   recherche rapide, sélection multiple et actions de masse.
 3. Fiche produit avec poids, dimensions, description douanière, code SH, pays d'origine.
-4. Configuration d'expédition : entrepôt, service Canada Post, poids, dimensions, confirmation.
+4. Configuration d'expédition : entrepôt, service, poids, dimensions, confirmation.
 5. **Traitement par lot** — 96 % des étiquettes sont achetées en lot, c'est la fonction n°1,
    pas une option.
-6. Achat d'étiquette Canada Post, stockage du PDF, impression 4×6.
+6. Achat d'étiquette via l'API du courtier, stockage du PDF, impression 4×6.
 7. Marquage expédié + renvoi du suivi vers Shopify (`fulfillment` avec `tracking_number`).
 8. Courriel de confirmation d'expédition au client.
 9. Annulation d'étiquette.
 
 **Phase 2 — parité de confort**
 
-10. Manifeste de fin de journée Canada Post.
+10. **Routage par poids** : < 500 g → drop-off, le reste → service avec ramassage. C'est la règle
+    qui matérialise les 33 000 $ ; à traiter tôt si le tri manuel devient pénible.
 11. Bordereaux d'emballage avec gabarit HTML éditable.
 12. Douanes automatiques depuis la fiche produit — avec code SH **obligatoire**, correction du
     trou constaté au §4.
 13. Étiquettes de retour et suivi des RMA.
 14. Moteur de règles IF/THEN à l'import (service par poids, entrepôt par boutique, tag).
 15. Import Etsy et Faire.
-16. Comparateur de tarifs multi-services.
+16. Comparateur de tarifs multi-services et multi-transporteurs.
 
 **Phase 3 — au-delà**
 
 17. Page de suivi de marque, notifications de livraison.
 18. Scan to Verify au poste d'emballage.
-19. Tableaux de bord de coûts (coût réel vs frais de port encaissés).
+19. Tableaux de bord de coûts (coût réel vs frais de port encaissés) — le seul rapport qui
+    manquait vraiment, vu l'écart de tarif en jeu.
 20. Inventaire et seuils d'alerte.
-21. Deuxième transporteur (Purolator en direct, ou Karrio).
+21. Second transporteur au besoin (34 envois Purolator sur 12 mois : très bas dans la liste).
 
 ### Migration des données
 
@@ -567,27 +688,35 @@ minute et 500 enregistrements par page**, l'export intégral tient en une trenta
 
 ## 9. Risques et points durs
 
+**Le tarif drop-off doit sortir de l'API — c'est le risque n°1.** Tout le projet repose sur un
+prix vu dans une interface web. Si l'API Freightcom ne l'expose pas, les 33 000 $ s'évaporent et
+il ne reste qu'un clone d'interface qui économise un abonnement. **À tester avant tout
+développement** (phase 0). Ce test coûte quelques jours ; se tromper d'ordre coûte des mois.
+
+**Le drop-off supprime le ramassage.** À 2 755 envois en décembre, soit ~130 colis par jour
+ouvrable, la tournée au comptoir postal devient une charge d'exploitation réelle. Le gain de
+33 000 $ est brut : il faut en déduire le temps de dépôt. Arbitrage possible — drop-off sur les
+< 500 g seulement, ramassage conservé pour le reste.
+
+**On change de dépendance, on ne s'en libère pas.** Sortir de ShipStation pour entrer chez
+Freightcom, c'est troquer un fournisseur contre un autre, avec le même risque de hausse de tarif
+ou de changement de programme. La différence : le clone possède l'interface et les données, et la
+couche transporteur devient interchangeable si elle est isolée derrière un proxy — d'où
+l'architecture du §8.
+
 **Le portefeuille One Balance n'est pas reproductible.** UPS, FedEx, DHL Express, Purolator et
-Canpar sont ici revendus par ShipStation à des tarifs négociés par elle. Les perdre signifie soit
-ouvrir des contrats en propre (tarifs à renégocier, probablement moins bons au volume de Lasclay),
-soit s'en passer. Vu l'usage réel — 12 envois Purolator sur 3 000 — **s'en passer est
-défendable**, mais c'est une décision d'affaires, pas technique.
-
-**Les tarifs Canada Post en direct doivent être confirmés.** L'audit montre que les envois passent
-sur le contrat propre de Lasclay, ce qui laisse attendre des prix identiques hors ShipStation. À
-**valider par un devis réel via l'API Canada Post** avant de s'engager — c'est le test qui décide
-du projet.
-
-**Le manifeste de fin de journée est une obligation transporteur, pas un confort.** Certains
-transporteurs refusent le ramassage sans manifeste. À traiter en phase 2 au plus tard.
+Canpar sont revendus par ShipStation à des tarifs négociés par elle. Vu l'usage réel — **34 envois
+Purolator et 1 UPS sur 12 mois** — s'en passer est sans conséquence, et ClickShip propose de toute
+façon GLS, Canpar, UPS, Purolator et FedEx.
 
 **Les notifications marketplace.** ShipStation renvoie automatiquement le suivi à Shopify, Etsy et
 Faire (`marketplaceNotified: true` sur les expéditions). Le clone doit reprendre cette
 responsabilité pour chaque canal, sans quoi les clients perdent leur suivi.
 
-**La saisonnalité concentre le risque.** Le pic de février dépasse 1 000 expéditions ; une bascule
-ratée à ce moment-là coûte cher. **Fenêtre de migration recommandée : juin-août**, où le volume
-descend sous 150/mois.
+**La saisonnalité concentre le risque, et le pic est décembre.** 2 755 expéditions en décembre
+2025, contre 142 en juin 2026 — un facteur vingt. Une bascule ratée en novembre-décembre coûte la
+saison. **Fenêtre de migration : mai à août**, où le volume reste sous 250/mois. En pratique, cela
+laisse le printemps 2027 comme cible réaliste si la phase 0 démarre maintenant.
 
 **Les 42 % de fulfillments hors étiquette** viennent d'ailleurs (Chit Chats, expéditions
 partenaires). Le clone doit accepter un suivi saisi manuellement ou importé, pas seulement des
@@ -659,10 +788,23 @@ Tarification :
 [Costbench](https://costbench.com/software/shipping-software/shipstation/) ·
 [Tekpon](https://tekpon.com/software/shipstation/pricing/)
 
+Couche transporteur envisagée :
+[Portail développeur Freightcom](https://developer.freightcom.com/) ·
+[API Freightcom](https://www.freightcom.com/shipping-api) ·
+[Demande d'accès API ClickShip](https://www.clickship.com/request-shipping-api) ·
+[ClickShip](https://www.clickship.com/)
+— **ces trois domaines sont bloqués par la politique d'égress de la session ; la documentation
+n'a pas pu être lue et reste à vérifier (voir §8).**
+
 Alternatives libres :
 [Karrio](https://github.com/karrioapi/karrio) ·
 [Documentation auto-hébergement Karrio](https://docs.karrio.io/product/self-hosting) ·
 [Purplship](https://github.com/EzeeSpace/purplship)
+
+Échanges Lasclay ↔ Canada Post : fil Missive « Tarif Drop-off », Gabriel Gouveia → Christine Valin
+(22 juillet 2026) et réponse de Christine Valin, représentante Solutions d'affaires, Canada Post
+(27 juillet 2026) — confirmation que le tarif drop-off est réservé aux plateformes d'expédition et
+exclu des ententes commerciales.
 
 Données du compte : API ShipStation v1 via `general-proxy-5muf.onrender.com`, 31 juillet 2026 —
 échantillons de 3 000 expéditions et 2 000 commandes, plus référentiels complets (transporteurs,
