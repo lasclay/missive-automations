@@ -630,6 +630,10 @@ if (require.main === module) {
   catch (e) { soucisAdmin = String(e.message || e); }
   const liberees = orders.libererHolds();
 
+  // Le bilan d'installation part dans les logs à chaque démarrage : ce sont les mêmes
+  // contrôles que `node shipstation-clone/verifier.js`, mais sans avoir à ouvrir un shell.
+  const bilan = () => require("../verifier").verifier().catch((e) => console.error(e.message));
+
   serveur.listen(PORT, HOTE, () => {
     console.log(`shipstation-clone sur ${HOTE}:${PORT}`);
     console.log(`  base         : ${db.CHEMIN}`);
@@ -640,6 +644,7 @@ if (require.main === module) {
       console.log(`\n  !! Compte administrateur NON créé : ${soucisAdmin}`);
       console.log("     Rattrapage : node shipstation-clone/admin.js creer <courriel> \"<nom>\" admin\n");
     }
+    setTimeout(bilan, 500);
     if (admin) {
       // Le mot de passe est imprimé SEUL sur sa ligne, sans cadre ni remplissage : dans un
       // encadré, le copier emporte les espaces de remplissage et la connexion échoue ensuite

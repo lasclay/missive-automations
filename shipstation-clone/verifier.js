@@ -18,7 +18,12 @@ const ok = (t, d = "") => console.log(`${V} ${t}${d ? `  ${G}${d}${R}` : ""}`);
 const ko = (t, d = "") => { bloquants++; console.log(`${X} ${t}${d ? `  ${G}${d}${R}` : ""}`); };
 const av = (t, d = "") => { avertissements++; console.log(`${A} ${t}${d ? `  ${G}${d}${R}` : ""}`); };
 
-(async () => {
+/**
+ * Lance les contrôles. Appelé en ligne de commande, et aussi au démarrage du serveur pour
+ * que le bilan soit dans les logs Render sans avoir à ouvrir un shell.
+ */
+async function verifier() {
+  bloquants = 0; avertissements = 0;
   console.log("\nVérification de l'installation\n" + "─".repeat(60));
 
   // --- Node
@@ -118,5 +123,11 @@ const av = (t, d = "") => { avertissements++; console.log(`${A} ${t}${d ? `  ${G
   console.log("─".repeat(60));
   if (bloquants) console.log(`\n\x1b[31m${bloquants} point(s) bloquant(s)\x1b[0m, ${avertissements} avertissement(s)\n`);
   else console.log(`\n\x1b[32mAucun point bloquant\x1b[0m, ${avertissements} avertissement(s)\n`);
-  process.exit(bloquants ? 1 : 0);
-})();
+  return { bloquants, avertissements };
+}
+
+module.exports = { verifier };
+
+if (require.main === module) {
+  verifier().then(({ bloquants: b }) => process.exit(b ? 1 : 0));
+}
