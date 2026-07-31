@@ -160,6 +160,29 @@ route("POST /api/orders/merge", async ({ req, user }) => {
   const b = await corps(req);
   return { cible: orders.fusionner(Number(b.target), (b.ids || []).map(Number), user) };
 });
+/**
+ * Configuration d'expédition appliquée à une sélection — l'équivalent du « Configure Shipment
+ * Widget » de ShipStation. Seuls les champs fournis sont écrits ; les autres restent tels quels,
+ * pour qu'on puisse corriger un poids sans effacer un service déjà choisi.
+ */
+route("POST /api/orders/configure", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const champs = ["carrier_code", "service_id", "package_id", "confirmation", "warehouse_id"];
+  const sets = [], vals = [];
+  for (const c of champs) if (b[c] !== undefined && b[c] !== "") { sets.push(`${c} = ?`); vals.push(b[c]); }
+  if (b.weight_g !== undefined && b.weight_g !== "") { sets.push("weight_g = ?"); vals.push(Number(b.weight_g)); }
+  if (b.dimensions) { sets.push("dimensions = ?"); vals.push(db.dump(b.dimensions)); }
+  if (!sets.length) return { error: "aucun champ à modifier", code: 400 };
+  let n = 0;
+  for (const id of (b.ids || []).map(Number)) {
+    db.run(`UPDATE orders SET ${sets.join(", ")}, modified_at = ? WHERE id = ?`, ...vals, db.maintenant(), id);
+    n++;
+  }
+  db.journaliser("order.configure", "order", null, { n, champs: sets.length }, user);
+  return { ok: true, n };
+});
+
 route("POST /api/orders/release-holds", ({ user }) => {
   accounts.exiger(user, "orders_edit");
   return { liberees: orders.libererHolds() };
@@ -523,6 +546,8 @@ route("GET /api/refs", () => ({
   warehouses: db.all("SELECT * FROM warehouses ORDER BY name").map((w) => ({ ...w, origin_address: db.parse(w.origin_address, {}) })),
   carriers: db.all("SELECT * FROM carriers ORDER BY name"),
   tags: db.all("SELECT * FROM tags ORDER BY name"),
+  services: db.all("SELECT * FROM services ORDER BY carrier_code, name"),
+  packages: db.all("SELECT * FROM packages ORDER BY carrier_code, name"),
   users: accounts.utilisateurs(),
   statuts: orders.STATUTS,
 }));

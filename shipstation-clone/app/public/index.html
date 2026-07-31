@@ -380,10 +380,14 @@ VUES.commandes = async (statutFixe) => {
     };
   };
   $("#fsave").onclick = () => dialogue("Sauvegarder la vue",
-    `<label class="champ"><span>Nom</span><input id="nv"></label>`,
+    `<label class="champ"><span>Nom</span><input id="nv"></label>
+     <p class="doux">La vue retient les filtres, <b>les colonnes affichées et leur ordre</b>,
+       les colonnes épinglées et le tri — comme chez ShipStation.</p>`,
     async () => {
       const nom = $("#nv").value.trim(); if (!nom) return false;
-      await api("/api/views", { method: "POST", body: { name: nom, scope: "orders", filters: lire() } });
+      await api("/api/views", { method: "POST", body: { name: nom, scope: "orders",
+        filters: { ...lire(), _colonnes: lireLocal("clone_colonnes", null),
+          _epingles: lireLocal("clone_epingles", []), _tri: S.tri, _dir: S.dir } } });
       chargerVues();
     }, "Sauvegarder");
 
@@ -394,7 +398,16 @@ VUES.commandes = async (statutFixe) => {
         : '<span class="doux" style="font-size:12px">aucune</span>');
     $("#vuesSauv").querySelectorAll("[data-v]").forEach(s => {
       const vv = views.find(x => x.id == s.dataset.v);
-      s.onclick = () => { poser(vv.filters); charger(); };
+      s.onclick = () => {
+        const f = { ...vv.filters };
+        // Une vue ancienne n'a que des filtres : on ne touche alors ni aux colonnes ni au tri.
+        if (f._colonnes) ecrireLocal("clone_colonnes", f._colonnes);
+        if (f._epingles) ecrireLocal("clone_epingles", f._epingles);
+        if (f._tri) { S.tri = f._tri; S.dir = f._dir || "desc"; }
+        delete f._colonnes; delete f._epingles; delete f._tri; delete f._dir;
+        etat.vueActive = vv.name;
+        poser(f); charger();
+      };
       s.oncontextmenu = async (e) => {
         e.preventDefault();
         if (!confirm(`Supprimer la vue « ${vv.name} » ?`)) return;
@@ -424,6 +437,7 @@ VUES.commandes = async (statutFixe) => {
   A.innerHTML = `<span class="doux" id="nsel">aucune sélection</span>
     <button id="aPreview">Simuler le lot</button>
     <button id="aBuy" class="p">Acheter les étiquettes…</button>
+    <button id="aConf">Configurer l'expédition…</button>
     <button id="aSlip">Bordereaux</button>
     <button id="aHold">Mettre en attente…</button>
     <button id="aRestore">Remettre en file</button>
@@ -434,7 +448,7 @@ VUES.commandes = async (statutFixe) => {
   const majActions = () => {
     const n = S.sel.size;
     $("#nsel").textContent = n ? `${n} sélectionnée${n > 1 ? "s" : ""}` : "aucune sélection";
-    ["aPreview","aBuy","aSlip","aHold","aRestore","aTag","aRules","aCancel"].forEach(i => $("#" + i).disabled = !n);
+    ["aPreview","aBuy","aSlip","aHold","aRestore","aTag","aRules","aCancel","aConf"].forEach(i => $("#" + i).disabled = !n);
     $("#aMerge").disabled = n < 2;
     $("#aBuy").disabled = !n || !S.config.etiquettes_actives;
   };
@@ -466,6 +480,33 @@ VUES.commandes = async (statutFixe) => {
       alert(`Lot ${r.batchId} : ${r.reussis} étiquette(s), ${r.echecs} échec(s).`);
       S.sel.clear(); charger(); rafraichirCompteurs();
     }, "Acheter");
+
+  $("#aConf").onclick = () => {
+    const services = (S.refs.services || []);
+    dialogue(`Configurer ${S.sel.size} expédition(s)`, `
+      <p class="doux">Seuls les champs remplis sont appliqués — laisser vide ce qu'on ne veut
+        pas toucher.</p>
+      <div class="grille">
+        <label class="champ"><span>Transporteur</span><select id="ccar"><option value="">—</option>
+          ${(S.refs.carriers || []).map(c => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Service</span><input id="csrv" placeholder="ex. expedited_parcel"></label>
+        <label class="champ"><span>Type de colis</span><input id="cpkg" placeholder="ex. package"></label>
+        <label class="champ"><span>Confirmation</span><select id="ccon"><option value="">—</option>
+          <option value="none">aucune</option><option value="delivery">livraison</option>
+          <option value="signature">signature</option><option value="adult_signature">signature adulte</option></select></label>
+        <label class="champ"><span>Poids (g)</span><input type="number" id="cwei"></label>
+        <label class="champ"><span>Entrepôt</span><select id="cwar"><option value="">—</option>
+          ${(S.refs.warehouses || []).map(w => `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select></label>
+      </div>`,
+      async () => {
+        const b = { ids: ids(), carrier_code: $("#ccar").value, service_id: $("#csrv").value,
+          package_id: $("#cpkg").value, confirmation: $("#ccon").value,
+          weight_g: $("#cwei").value, warehouse_id: $("#cwar").value };
+        try { const r = await api("/api/orders/configure", { method: "POST", body: b });
+          alert(`${r.n} commande(s) mise(s) à jour.`); S.sel.clear(); charger();
+        } catch (e) { alert(e.message); return false; }
+      }, "Appliquer");
+  };
 
   $("#aSlip").onclick = () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank");
 
@@ -528,7 +569,9 @@ async function detailCommande(id) {
     ${o.customer_notes ? `<div class="carte"><b>Note du client</b><br>${esc(o.customer_notes)}</div>` : ""}
     <div class="barre" style="margin-top:12px"><button id="dCoter">Coter</button>
       <button id="dRegles">Tester les règles</button>
-      <button id="dSlip">Bordereau</button></div>
+      <button id="dSlip">Bordereau</button>
+      ${o.items.filter(i => !i.adjustment).length > 1 ? '<button id="dSplit">Scinder…</button>' : ""}
+      <button id="dAssign">Assigner…</button></div>
     <div id="dOut"></div>`, null);
 
   $("#dCoter", c).onclick = async () => {
@@ -547,6 +590,33 @@ async function detailCommande(id) {
       : '<p class="doux">Aucune règle ne s\'applique.</p>';
   };
   $("#dSlip", c).onclick = () => window.open(`/api/packing-slip?ids=${id}`, "_blank");
+
+  const sp = $("#dSplit", c);
+  if (sp) sp.onclick = () => dialogue(`Scinder ${o.order_number}`, `
+    <p>Les articles cochés partent dans une nouvelle commande. La scission doit laisser
+      au moins un article de chaque côté.</p>
+    ${o.items.filter(i => !i.adjustment).map(i => `<label class="ch" style="display:flex;padding:4px 0">
+      <input type="checkbox" data-it="${i.id}"> ${i.quantity} × ${esc(i.name)}
+      <span class="doux">${esc(i.sku || "")}</span></label>`).join("")}`,
+    async () => {
+      const ids = [...document.querySelectorAll("#dlgC [data-it]:checked")].map(x => Number(x.dataset.it));
+      if (!ids.length) { alert("Cocher au moins un article."); return false; }
+      try {
+        const r = await api(`/api/orders/${id}/split`, { method: "POST", body: { item_ids: ids } });
+        alert(`Nouvelle commande créée (#${r.enfant}).`);
+        rafraichirCompteurs(); rendre();
+      } catch (e) { alert(e.message); return false; }
+    }, "Scinder");
+
+  $("#dAssign", c).onclick = () => dialogue("Assigner la commande", `
+    <label class="champ"><span>Utilisateur</span><select id="dau">
+      <option value="">— personne —</option>
+      ${(S.refs.users || []).map(u => `<option value="${esc(u.id)}"${o.assigned_user === u.id ? " selected" : ""}>${esc(u.name)}</option>`).join("")}
+    </select></label>`,
+    async () => {
+      await api("/api/orders/assign", { method: "POST", body: { ids: [id], user_id: $("#dau").value || null } });
+      rendre();
+    }, "Assigner");
 }
 
 // ------------------------------------------------------------------ alertes
@@ -699,6 +769,7 @@ VUES.produits = async () => {
       <label class="ch"><input type="checkbox" id="pnh"> sans code SH</label>
       <label class="ch"><input type="checkbox" id="pnw"> sans poids</label>
       <button class="p" id="pnew">Nouveau produit</button>
+      <button id="pgrp">Groupes de préréglages…</button>
       <a id="pex" class="doux">Exporter CSV</a></div><div id="pt"></div>`;
   async function charger() {
     const p = new URLSearchParams({ q: $("#pq").value, no_hs: $("#pnh").checked ? "1" : "", no_weight: $("#pnw").checked ? "1" : "", limit: 400 });
@@ -724,14 +795,66 @@ VUES.produits = async () => {
       <label class="champ"><span>Pays d'origine</span><input id="xo" value="${esc(p.country_of_origin || "CA")}"></label>
       <label class="champ"><span>Emplacement</span><input id="xl" value="${esc(p.warehouse_location || "")}"></label>
     </div>
-    <label class="champ"><span>Description douanière</span><input id="xd" value="${esc(p.customs_description || "")}"></label>`,
+    <label class="champ"><span>Description douanière</span><input id="xd" value="${esc(p.customs_description || "")}"></label>
+    ${p.id ? `<hr><b>Stock par entrepôt</b>
+      <p class="doux" style="font-size:12px">Le seuil déclenche l'alerte de stock bas.</p>
+      ${(S.refs.warehouses || []).map(w => {
+        const inv = (p.inventory || []).find(i => i.warehouse_id === w.id) || {};
+        return `<div class="grille" style="grid-template-columns:2fr 1fr 1fr;gap:8px;align-items:end">
+          <span class="doux">${esc(w.name)}</span>
+          <label class="champ"><span>En main</span><input type="number" data-inv="${w.id}" value="${inv.on_hand ?? ""}"></label>
+          <label class="champ"><span>Seuil</span><input type="number" data-seuil="${w.id}" value="${inv.low_threshold ?? ""}"></label>
+        </div>`; }).join("")}` : ""}`,
     async () => {
-      await api("/api/products", { method: "POST", body: { sku: $("#xs").value, name: $("#xn").value,
+      const r = await api("/api/products", { method: "POST", body: { sku: $("#xs").value, name: $("#xn").value,
         weight_g: Number($("#xw").value) || 0, price: Number($("#xp").value) || 0, hs_code: $("#xh").value,
         country_of_origin: $("#xo").value, warehouse_location: $("#xl").value, customs_description: $("#xd").value } });
+      for (const inp of document.querySelectorAll("#dlgC [data-inv]")) {
+        const w = Number(inp.dataset.inv);
+        const seuil = document.querySelector(`#dlgC [data-seuil="${w}"]`);
+        if (inp.value === "" && (!seuil || seuil.value === "")) continue;
+        await api("/api/inventory", { method: "POST", body: { product_id: r.id, warehouse_id: w,
+          on_hand: inp.value === "" ? null : Number(inp.value),
+          low_threshold: seuil && seuil.value !== "" ? Number(seuil.value) : null } });
+      }
       charger();
     }, "Enregistrer");
   $("#pnew").onclick = () => editerProduit();
+
+  /** Groupes de préréglages — les défauts d'expédition et de douane partagés par un groupe. */
+  $("#pgrp").onclick = async () => {
+    const { groups } = await api("/api/preset-groups");
+    const c = dialogue("Groupes de préréglages", `
+      <p class="doux">Un groupe applique ses réglages à tous ses produits. Un défaut posé sur
+        une fiche individuelle l'emporte sur celui du groupe — même règle que ShipStation.</p>
+      <div id="gl">${groups.length ? groups.map(g => `<div class="carte" style="padding:9px">
+          <b>${esc(g.name)}</b><br><span class="doux" style="font-size:12px">${esc(JSON.stringify(g.settings))}</span>
+          <button style="float:right" data-ge="${g.id}">Modifier</button></div>`).join("")
+        : '<p class="doux">Aucun groupe.</p>'}</div>
+      <hr><b>Nouveau groupe</b>
+      <label class="champ"><span>Nom</span><input id="gn"></label>
+      <div class="grille">
+        <label class="champ"><span>Transporteur</span><input id="gc" placeholder="canada_post"></label>
+        <label class="champ"><span>Service</span><input id="gs" placeholder="expedited_parcel"></label>
+        <label class="champ"><span>Type de colis</span><input id="gp" placeholder="package"></label>
+        <label class="champ"><span>Code SH</span><input id="gh"></label>
+        <label class="champ"><span>Pays d'origine</span><input id="go" value="CA"></label>
+      </div>`,
+      async () => {
+        if (!$("#gn").value.trim()) return false;
+        await api("/api/preset-groups", { method: "POST", body: { name: $("#gn").value.trim(),
+          settings: { carrier_code: $("#gc").value || undefined, service_id: $("#gs").value || undefined,
+            package_id: $("#gp").value || undefined, hs_code: $("#gh").value || undefined,
+            country_of_origin: $("#go").value || undefined } } });
+        return true;
+      }, "Créer");
+    $("#gl", c).querySelectorAll("[data-ge]").forEach(b => b.onclick = () => {
+      const g = groups.find(x => x.id == b.dataset.ge);
+      $("#gn", c).value = g.name;
+      for (const [id, k] of [["gc","carrier_code"],["gs","service_id"],["gp","package_id"],["gh","hs_code"],["go","country_of_origin"]])
+        $("#" + id, c).value = g.settings[k] || "";
+    });
+  };
   let d; $("#vue").querySelectorAll(".barre input").forEach(i =>
     i.addEventListener("input", () => { clearTimeout(d); d = setTimeout(charger, 250); }));
   charger();
