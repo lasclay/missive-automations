@@ -35,6 +35,32 @@ Render sert le service en HTTPS avec un domaine `*.onrender.com` ; les cookies d
 Rappel : Render suit `main`. La branche `claude/shipstation-audit-clone-0gwmgr` doit être
 fusionnée avant le premier déploiement.
 
+### Débloquer un accès
+
+Depuis le shell du service (Render → Shell) :
+
+```bash
+node shipstation-clone/admin.js comptes                     # qui existe, dans quel état
+node shipstation-clone/admin.js motdepasse <courriel>       # nouveau mot de passe, affiché une fois
+node shipstation-clone/admin.js creer <courriel> "<nom>" admin
+node shipstation-clone/admin.js 2fa-reset <courriel>        # téléphone perdu
+node shipstation-clone/admin.js activer|desactiver <courriel>
+node shipstation-clone/admin.js sessions <courriel>
+```
+
+Sert quand plus personne ne peut entrer par l'interface. L'outil touche la base directement,
+donc il exige un accès au serveur — c'est la bonne barrière.
+
+**Mot de passe refusé alors qu'il semble bon ?** Deux causes, dans l'ordre :
+
+1. **Un espace collé au bout** en copiant depuis les logs. Un mot de passe est comparé tel quel :
+   `harfang-erable-893 ` n'est pas `harfang-erable-893`. Recopier sans rien autour, ou
+   régénérer avec `admin.js motdepasse`.
+2. **La base n'est pas persistante.** Si `CLONE_DB` ne pointe pas dans le disque monté, chaque
+   redéploiement repart d'une base vide et recrée un administrateur avec un **nouveau** mot de
+   passe : celui noté au déploiement précédent ne vaut plus rien. `verifier.js` le signale comme
+   bloquant.
+
 ### Vérifier avant d'ouvrir aux employés
 
 ```bash
@@ -240,6 +266,7 @@ lib/ingest.js     migration ShipStation + import normalisé pour Shopify/Etsy/Fa
 lib/channels.js   renvoi du suivi aux boutiques, file de reprise, date de bascule
 app/server.js     ~70 routes
 verifier.js       contrôle d'installation, à lancer après déploiement
+admin.js          outil en ligne de commande : comptes, mots de passe, 2FA
 app/public/       l'interface, une page
 ```
 

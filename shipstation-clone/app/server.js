@@ -616,7 +616,11 @@ if (require.main === module) {
   ingest.amorcer();
 
   // Premier démarrage : créer l'administrateur, sans quoi personne ne peut se connecter.
-  const admin = auth.amorcerAdmin();
+  // Une erreur ici ne doit pas tuer le service : mieux vaut démarrer et le dire, puisque
+  // l'outil en ligne de commande permet de rattraper (admin.js motdepasse …).
+  let admin = null, soucisAdmin = null;
+  try { admin = auth.amorcerAdmin(); }
+  catch (e) { soucisAdmin = String(e.message || e); }
   const liberees = orders.libererHolds();
 
   serveur.listen(PORT, HOTE, () => {
@@ -625,18 +629,26 @@ if (require.main === module) {
     console.log(`  transporteur : ${adaptateur().nom}`);
     console.log(`  étiquettes   : ${ETIQUETTES ? "ACHAT ACTIF (argent réel)" : "achat désactivé"}`);
     if (liberees) console.log(`  ${liberees} commande(s) sortie(s) d'attente au démarrage`);
+    if (soucisAdmin) {
+      console.log(`\n  !! Compte administrateur NON créé : ${soucisAdmin}`);
+      console.log("     Rattrapage : node shipstation-clone/admin.js creer <courriel> \"<nom>\" admin\n");
+    }
     if (admin) {
-      console.log("\n  ┌──────────────────────────────────────────────────────────────┐");
-      console.log("  │ PREMIER DÉMARRAGE — compte administrateur créé                │");
-      console.log(`  │  courriel     : ${admin.email.padEnd(44)}│`);
+      // Le mot de passe est imprimé SEUL sur sa ligne, sans cadre ni remplissage : dans un
+      // encadré, le copier emporte les espaces de remplissage et la connexion échoue ensuite
+      // sur un mot de passe « correct » — piège vécu.
+      console.log("\n  ── PREMIER DÉMARRAGE — compte administrateur créé ─────────────");
+      console.log(`  courriel :`);
+      console.log(`\n${admin.email}\n`);
       if (admin.motDePasse) {
-        console.log(`  │  mot de passe : ${admin.motDePasse.padEnd(44)}│`);
-        console.log("  │  À changer à la première connexion. Ce message ne             │");
-        console.log("  │  réapparaîtra pas : le mot de passe n'est stocké que haché.   │");
+        console.log("  mot de passe (à copier tel quel, sans espace) :");
+        console.log(`\n${admin.motDePasse}\n`);
+        console.log("  À changer à la première connexion. Il n'est stocké que haché :");
+        console.log("  ce message ne réapparaîtra pas.");
       } else {
-        console.log("  │  mot de passe : celui de CLONE_ADMIN_PASSWORD                 │");
+        console.log("  mot de passe : celui de CLONE_ADMIN_PASSWORD");
       }
-      console.log("  └──────────────────────────────────────────────────────────────┘\n");
+      console.log("  ───────────────────────────────────────────────────────────────\n");
     }
   });
 
