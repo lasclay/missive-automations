@@ -324,7 +324,12 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(404, { "Content-Type": "text/plain" });
     return res.end("Not found");
   }
-  res.writeHead(200, { "Content-Type": MIME[path.extname(full)] || "application/octet-stream" });
+  // Pas de cache : l'interface évolue souvent, et une page périmée donne
+  // l'impression qu'un correctif déployé n'a pas été appliqué.
+  res.writeHead(200, {
+    "Content-Type": MIME[path.extname(full)] || "application/octet-stream",
+    "Cache-Control": "no-cache, must-revalidate",
+  });
   fs.createReadStream(full).pipe(res);
 });
 
