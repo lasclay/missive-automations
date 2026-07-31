@@ -308,17 +308,27 @@ function reprendreAcces({ email = process.env.CLONE_ADMIN_EMAIL, motDePasse = pr
   const courriel = String(email || "admin@lasclay.com").trim().toLowerCase();
   const mdp = motDePasse || suggerer();
   const souci = valider(mdp);
-  if (souci) throw new Error(`CLONE_ADMIN_PASSWORD refusé : ${souci}`);
+  if (souci) {
+    throw new Error(
+      `CLONE_ADMIN_PASSWORD refusé : ${souci}.\n` +
+      `  Le compte n'a PAS été modifié. Corriger la variable, ou la retirer pour qu'un mot de\n` +
+      `  passe soit généré à la place.`);
+  }
+
+  // Un mot de passe choisi par l'exploitant n'a pas à être changé à la connexion suivante ;
+  // un mot de passe généré, si.
+  const impose = motDePasse ? 0 : 1;
 
   let u = one("SELECT * FROM users WHERE lower(email) = lower(?)", courriel);
   if (!u) {
     const r = creerCompte({ name: "Administrateur", email: courriel, role: "admin", motDePasse: mdp });
     u = { id: r.id };
+    run("UPDATE users SET must_change = ? WHERE id = ?", impose, u.id);
   } else {
-    run(`UPDATE users SET password_hash = ?, must_change = 1, active = 1, permissions = ?,
+    run(`UPDATE users SET password_hash = ?, must_change = ?, active = 1, permissions = ?,
          totp_enabled = 0, totp_secret = NULL, totp_last_step = 0, recovery_codes = NULL
          WHERE id = ?`,
-      hacher(mdp), dump({ role: "admin", ...accounts.ROLES.admin }), u.id);
+      hacher(mdp), impose, dump({ role: "admin", ...accounts.ROLES.admin }), u.id);
     run("DELETE FROM sessions WHERE user_id = ?", u.id);
   }
   run("DELETE FROM login_attempts WHERE lower(email) IN (?, ?)", courriel, `2fa:${courriel}`);
