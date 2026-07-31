@@ -34,6 +34,14 @@ services:
       - key: CLONE_2FA_EMETTEUR
         value: Lasclay Expéditions  # nom affiché dans l'app d'authentification
 
+      # Volontairement absentes, leur défaut est le bon en production :
+      #   PORT                 fourni par Render
+      #   HOST                 0.0.0.0 — restreindre rendrait le service injoignable
+      #   CLONE_COOKIE_SECURE  activé ; à 0 les sessions circuleraient en clair
+      #   GENERAL_PROXY_URL    l'URL actuelle du proxy
+      #   SHOPIFY_API_VERSION  2025-01
+      # Liste complète et commentée : shipstation-clone/PARAMETRES.md
+
       # --- secrets : à saisir dans le tableau de bord, jamais ici ---
       - key: GENERAL_PROXY_SECRET
         sync: false               # migration depuis ShipStation
