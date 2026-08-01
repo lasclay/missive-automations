@@ -99,6 +99,15 @@
   .ssLi.actif { background:var(--sel); border-left-color:var(--accent); font-weight:650 }
   .ssLi .n { color:var(--doux); font-size:11.5px; font-variant-numeric:tabular-nums }
   .ssL .vide { padding:6px 12px; font-size:12px; color:var(--doux) }
+  .ssLi.enfant { padding-left:26px; font-size:12.5px; color:var(--doux) }
+  .ssLi.enfant.actif { color:var(--texte) }
+  .ssLi.ajout { color:var(--accent); font-size:12.5px }
+  .ssLi.lot .nom { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  .ssLi.lot .plus { border:1px solid var(--accent); color:var(--accent); background:var(--carte);
+                    border-radius:5px; padding:0 6px; font-size:13px; line-height:16px; margin-left:4px }
+  .ssLi.lot .plus:hover { background:var(--accent); color:#fff }
+  .lienCmd { color:var(--accent); font-weight:650; cursor:pointer; text-decoration:none }
+  .lienCmd:hover { text-decoration:underline }
   .ssC { display:flex; flex-direction:column; min-width:0; overflow:hidden }
   .ssR { border-left:1px solid var(--bord); background:var(--carte); overflow:auto; padding:0 0 60px;
          display:flex; flex-direction:column }
@@ -735,7 +744,11 @@ const VUES = {};
 
 /** Catalogue de colonnes (§2.3.1). `defaut` = visible dans la vue de base. */
 const COLONNES = [
-  { k: "order_number", t: "N° commande", defaut: 1, tri: "order_number", r: (o) => `<b>${esc(o.order_number)}</b>` },
+  // Le numéro ouvre la fiche complète. La sidebar de droite reste l'aperçu rapide : c'est la
+  // répartition de ShipStation — on configure à droite, on ouvre la commande quand il faut
+  // éditer les articles, l'adresse ou scinder.
+  { k: "order_number", t: "N° commande", defaut: 1, tri: "order_number",
+    r: (o) => `<a class="lienCmd" data-cmd="${o.id}">${esc(o.order_number)}</a>` },
   { k: "order_date", t: "Date", tri: "order_date", r: (o) => jour(o.order_date) },
   { k: "age", t: "Âge", defaut: 1, n: 1, tri: "age", r: (o) => `<span class="age">${o.age ?? "—"} j</span>` },
   { k: "paid_at", t: "Payée le", r: (o) => jour(o.paid_at) },
@@ -767,6 +780,8 @@ const COLONNES = [
   { k: "order_total", t: "Total", defaut: 1, n: 1, tri: "order_total", r: (o) => money(o.order_total) },
   { k: "shipping_paid", t: "Livraison payée", n: 1, r: (o) => money(o.shipping_paid) },
   { k: "tax_amount", t: "Taxes", n: 1, r: (o) => money(o.tax_amount) },
+  { k: "batch", t: "Lot", defaut: 1, r: (o) => o.batch_id
+      ? `<span class="puce g">${esc((LOTS.find((l) => l.id === o.batch_id) || {}).name || "lot " + o.batch_id)}</span>` : "" },
   { k: "assigned_user", t: "Assignée à", r: (o) => esc(IDX.users?.get(String(o.assigned_user))?.name) },
   { k: "tags", t: "Étiquettes", defaut: 1, r: (o) => (o.tags || []).map(pastilleTag).join(" ") },
   { k: "custom_field1", t: "Champ perso 1", r: (o) => esc(o.custom_field1) },
@@ -793,6 +808,8 @@ const arts = (o) => (o._arts || (o._arts = (o.items || []).filter((i) => !i.adju
  * colonnes, c'est treize mille balayages de tableau pour un seul rendu.
  */
 const IDX = {};
+/** Lots ouverts — lus aussi par le rendu de la colonne « Lot », donc au niveau du module. */
+let LOTS = [];
 function indexerRefs() {
   const m = (liste) => new Map((liste || []).map((x) => [String(x.id), x]));
   IDX.stores = m(S.refs.stores);
@@ -822,8 +839,10 @@ VUES.commandes = async (statutFixe) => {
   $("#vue").innerHTML = `
   <div class="ss">
     <aside class="ssL">
-      <div class="ssLt">Commandes</div>
       <div id="ssStatuts"></div>
+      <div class="ssLt">Lots ouverts</div>
+      <div id="ssLots"></div>
+      <a class="ssLi ajout" id="ssNouveauLot">+ Créer un lot</a>
       <div class="ssLt">Vues sauvegardées</div>
       <div id="ssVues"></div>
     </aside>
@@ -854,7 +873,10 @@ VUES.commandes = async (statutFixe) => {
     <button id="fdense" title="Densité de la grille">Dense</button>`;
 
   const lire = () => ({
-    q: $("#fq").value, status: S0.statut || "", store_id: $("#fstore").value, country: $("#fpays").value,
+    q: $("#fq").value, status: S0.statut || "",
+    store_id: S0.store || $("#fstore").value,
+    batch_id: S0.lot || "",
+    country: $("#fpays").value,
     drop_off: $("#fdrop").value, tag_id: $("#ftag").value,
     weight_min: $("#fpmin").value, weight_max: $("#fpmax").value,
     age_min: $("#fage").value, no_weight: $("#fnw").checked ? "1" : "",
@@ -877,17 +899,92 @@ VUES.commandes = async (statutFixe) => {
   // ------------------------------------------------------- statuts et vues
   let VUES_SAUV = [];
 
+  /**
+   * Panneau gauche — le **premier niveau** de tri, celui de ShipStation : les statuts, avec
+   * « À expédier » déplié par boutique. Les onglets du haut affinent ensuite à l'intérieur.
+   * Deux niveaux distincts, jamais l'un à la place de l'autre.
+   */
   function majStatuts() {
     const c = S.compteurs.statuts || {};
-    $("#ssStatuts").innerHTML = STATUTS_ORDRE.map((s) =>
-      `<a class="ssLi ${S0.statut === s && !S0.vue ? "actif" : ""}" data-s="${s}">${STATUT_FR[s]}<span class="n">${c[s] ? num(c[s]) : ""}</span></a>`).join("");
+    const b = S.compteurs.boutiques || {};
+    const ligne = (id, libelle, n, cls = "") =>
+      `<a class="ssLi ${cls} ${estActif(id) ? "actif" : ""}" data-s="${id}">${esc(libelle)}<span class="n">${n ? num(n) : ""}</span></a>`;
+
+    const boutiques = (S.refs.stores || []).filter((x) => x.active)
+      .map((x) => `<a class="ssLi enfant ${S0.statut === "awaiting_shipment" && String(S0.store) === String(x.id) ? "actif" : ""}"
+        data-b="${x.id}">${esc(x.name)}<span class="n">${b[x.id] ? num(b[x.id]) : ""}</span></a>`).join("");
+
+    $("#ssStatuts").innerHTML =
+      ligne("awaiting_payment", STATUT_FR.awaiting_payment, c.awaiting_payment) +
+      ligne("on_hold", STATUT_FR.on_hold, c.on_hold) +
+      ligne("awaiting_shipment", STATUT_FR.awaiting_shipment, c.awaiting_shipment) +
+      boutiques +
+      ligne("pending_fulfillment", STATUT_FR.pending_fulfillment, c.pending_fulfillment) +
+      ligne("shipped", STATUT_FR.shipped, c.shipped) +
+      ligne("cancelled", STATUT_FR.cancelled, c.cancelled) +
+      `<a class="ssLi" id="ssAlertes">Alertes de commandes<span class="n">${
+        num(Object.values(S.compteurs.alertes || {}).reduce((x, y) => x + y, 0)) || ""}</span></a>`;
+
     $("#ssStatuts").querySelectorAll("[data-s]").forEach((a) => a.onclick = () => {
-      S0.statut = a.dataset.s; S0.vue = null; S0.page = 0; S.sel.clear(); charger(); majStatuts(); majVues();
+      S0.statut = a.dataset.s; S0.store = null; S0.vue = null; S0.lot = null; S0.page = 0; S.sel.clear();
+      charger(); majStatuts(); chargerVues(); majLots();
+    });
+    $("#ssStatuts").querySelectorAll("[data-b]").forEach((a) => a.onclick = () => {
+      S0.statut = "awaiting_shipment"; S0.store = a.dataset.b; S0.vue = null; S0.lot = null;
+      S0.page = 0; S.sel.clear();
+      $("#fstore").value = a.dataset.b;
+      charger(); majStatuts(); majLots();
+    });
+    $("#ssAlertes").onclick = () => aller("alertes");
+  }
+
+  const estActif = (id) => S0.statut === id && !S0.store && !S0.vue && !S0.lot;
+
+  /**
+   * Lots ouverts. Le `+` apparaît dès qu'une commande est sélectionnée : c'est le geste que
+   * ShipStation met à cet endroit précis, et c'est ce qui rend le tri d'un arriéré fluide —
+   * on coche, on dépose, on passe à la suivante, sans jamais ouvrir de fenêtre.
+   */
+  async function majLots() {
+    try { LOTS = (await api("/api/batches/open")).batches || []; } catch { LOTS = []; }
+    const n = S.sel.size;
+    $("#ssLots").innerHTML = LOTS.length
+      ? LOTS.map((l) => `<a class="ssLi lot ${String(S0.lot) === String(l.id) ? "actif" : ""}" data-l="${l.id}">
+          <span class="nom">${esc(l.name)}</span>
+          <span class="n">${l.n ? num(l.n) : ""}</span>
+          ${n ? `<button class="plus" data-plus="${l.id}" title="Ajouter les ${n} commande(s) sélectionnée(s)">+</button>` : ""}
+        </a>`).join("")
+      : '<div class="vide">aucun lot ouvert</div>';
+
+    $("#ssLots").querySelectorAll("[data-l]").forEach((a) => a.onclick = (e) => {
+      if (e.target.dataset.plus) return;
+      S0.lot = S0.lot === a.dataset.l ? null : a.dataset.l;
+      S0.vue = null; S0.page = 0; S.sel.clear();
+      charger(); majStatuts(); majLots();
+    });
+    $("#ssLots").querySelectorAll("[data-plus]").forEach((b) => b.onclick = async (e) => {
+      e.stopPropagation();
+      const r = await api("/api/batches/add", { method: "POST",
+        body: { batch_id: Number(b.dataset.plus), ids: [...S.sel] } });
+      S.sel.clear();
+      charger(); majLots(); rafraichirCompteurs();
     });
   }
 
+  $("#ssNouveauLot").onclick = () => dialogue("Créer un lot", `
+    <label class="champ"><span>Nom du lot</span>
+      <input id="lnom" value="${esc("Lot du " + new Date().toISOString().slice(0, 10))}"></label>
+    <p class="doux">${S.sel.size
+      ? `Les <b>${S.sel.size}</b> commande(s) sélectionnée(s) y seront déposées.`
+      : "Le lot sera créé vide ; déposez-y des commandes avec le « + » du panneau gauche."}</p>`,
+    async () => {
+      await api("/api/batches/new", { method: "POST",
+        body: { name: $("#lnom").value, ids: [...S.sel] } });
+      S.sel.clear(); charger(); majLots(); rafraichirCompteurs();
+    }, "Créer");
+
   async function chargerVues() {
-    const d = await api("/api/views?scope=orders&counts=1");
+    const d = await api(`/api/views?scope=orders&counts=1&status=${encodeURIComponent(S0.statut || "")}`);
     VUES_SAUV = d.views;
     majVues();
   }
@@ -986,7 +1083,11 @@ VUES.commandes = async (statutFixe) => {
   let LIGNES = [], dernierIndex = null;
 
   async function charger() {
-    const f = S0.vue ? { q: $("#fq").value, view_id: S0.vue } : lire();
+    // Une vue sauvegardée est un **second niveau** de tri, pas un remplacement : elle
+    // s'applique à l'intérieur du statut choisi à gauche. Sans cela, « Graines x1 » ramenait
+    // aussi les commandes expédiées et annulées — ce que ShipStation ne fait jamais, puisque
+    // le panneau gauche filtre d'abord et les onglets du haut affinent ensuite.
+    const f = S0.vue ? { ...lire(), view_id: S0.vue } : lire();
     const p = new URLSearchParams({ ...f, sort: S.tri, dir: S.dir,
       limit: S0.taille, offset: S0.page * S0.taille });
     const d = await api("/api/orders?" + p);
@@ -1068,6 +1169,8 @@ VUES.commandes = async (statutFixe) => {
         d.orders.forEach((o) => e.target.checked ? S.sel.add(String(o.id)) : S.sel.delete(String(o.id)));
         return dessiner(d), majActions(), cote();
       }
+      const lien = e.target.closest("[data-cmd]");
+      if (lien) { e.stopPropagation(); return detailCommande(Number(lien.dataset.cmd)); }
       const chev = e.target.closest("[data-x]");
       if (chev) {
         e.stopPropagation();
@@ -1104,6 +1207,7 @@ VUES.commandes = async (statutFixe) => {
     document.querySelectorAll("tr[data-id]").forEach((r) => r.classList.toggle("sel", S.sel.has(r.dataset.id)));
     document.querySelectorAll("tbody input[type=checkbox]").forEach((c) => c.checked = S.sel.has(String(c.dataset.id)));
     majActions(); cote();
+    majLots();   // le « + » des lots n'existe que quand une sélection existe
   }
 
   function majPagination(d) {
@@ -1210,6 +1314,9 @@ VUES.commandes = async (statutFixe) => {
     { t: "Fusionner les expéditions", f: fusionner },
     { t: "Scinder la commande…", f: scinderSelection },
     { sep: 1 },
+    { t: "Ajouter à un lot…", f: ajouterAuLot },
+    { t: "Retirer du lot", f: async () => { await api("/api/batches/remove", { method: "POST", body: { ids: ids() } }); S.sel.clear(); charger(); majLots(); } },
+    { sep: 1 },
     { t: "Configuration d'expédition en masse…", f: configurerEnMasse },
     { t: "Mettre en attente…", f: mettreEnAttente },
     { t: "Remettre en file", f: async () => { await api("/api/orders/restore", { method: "POST", body: { ids: ids() } }); S.sel.clear(); charger(); rafraichirCompteurs(); } },
@@ -1314,6 +1421,25 @@ VUES.commandes = async (statutFixe) => {
         alert(`Nouvelle commande créée (#${r.enfant}).`);
         S.sel.clear(); charger(); rafraichirCompteurs();
       }, "Scinder");
+  }
+
+  /** Dépose la sélection dans un lot existant, ou dans un lot créé à la volée. */
+  function ajouterAuLot() {
+    dialogue(`Ajouter ${S.sel.size} commande(s) à un lot`, `
+      <label class="champ"><span>Lot</span><select id="alot">
+        ${LOTS.map((l) => `<option value="${l.id}">${esc(l.name)} (${num(l.n)})</option>`).join("")}
+        <option value="">— nouveau lot —</option></select></label>
+      <label class="champ" id="anomL" hidden><span>Nom du nouveau lot</span>
+        <input id="anom" value="${esc("Lot du " + new Date().toISOString().slice(0, 10))}"></label>`,
+      async () => {
+        const id = $("#alot").value;
+        if (id) await api("/api/batches/add", { method: "POST", body: { batch_id: Number(id), ids: ids() } });
+        else await api("/api/batches/new", { method: "POST", body: { name: $("#anom").value, ids: ids() } });
+        S.sel.clear(); charger(); majLots(); rafraichirCompteurs();
+      }, "Ajouter",
+      (c) => { const sel = c.querySelector("#alot");
+        sel.onchange = () => { c.querySelector("#anomL").hidden = !!sel.value; };
+        if (!LOTS.length) { sel.value = ""; c.querySelector("#anomL").hidden = false; } });
   }
 
   function mettreEnAttente() {
@@ -1576,6 +1702,7 @@ VUES.commandes = async (statutFixe) => {
   poser({});
   $("#fdense").classList.toggle("on", S0.dense);
   majStatuts();
+  await majLots();
   await chargerVues();
   try { const d = await api("/api/service-mappings"); S.nonMappes = (d.non_mappes || []).map((x) => x.libelle); } catch {}
   indexerRefs();

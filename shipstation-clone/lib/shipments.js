@@ -173,6 +173,55 @@ function marquerExpedie(orderId, { carrier, trackingNumber, shipDate, userId = n
 
 // ------------------------------------------------------------------ lots
 
+/**
+ * Crée un lot **vide**. Chez ShipStation un lot est d'abord un contenant : on y dépose des
+ * commandes au fil du tri, et l'achat des étiquettes vient plus tard. Le lot du panneau
+ * gauche est donc un objet de premier ordre, pas un sous-produit d'un achat groupé.
+ */
+function creerLotVide({ name = null, userId = null } = {}) {
+  run("INSERT INTO batches (name, created_at, created_by, status) VALUES (?,?,?,'open')",
+    name || `Lot du ${new Date().toISOString().slice(0, 16).replace("T", " ")}`, maintenant(), userId);
+  const batchId = one("SELECT last_insert_rowid() r").r;
+  journaliser("batch.create", "batch", batchId, { name }, userId);
+  return { batchId };
+}
+
+/** Dépose des commandes dans un lot. Une commande n'appartient qu'à un lot à la fois. */
+function ajouterAuLot(batchId, orderIds, userId = null) {
+  const b = one("SELECT * FROM batches WHERE id = ?", batchId);
+  if (!b) throw new Error("lot inconnu");
+  if (b.status !== "open") throw new Error(`le lot « ${b.name} » n'est plus ouvert`);
+  let n = 0;
+  tx(() => { for (const id of orderIds) { run("UPDATE orders SET batch_id = ? WHERE id = ?", batchId, Number(id)); n++; } });
+  journaliser("batch.add", "batch", batchId, { n }, userId);
+  return { batchId, ajoutees: n, nom: b.name };
+}
+
+/** Retire des commandes de leur lot, sans le supprimer. */
+function retirerDuLot(orderIds, userId = null) {
+  let n = 0;
+  tx(() => { for (const id of orderIds) { run("UPDATE orders SET batch_id = NULL WHERE id = ?", Number(id)); n++; } });
+  journaliser("batch.remove", "order", null, { n }, userId);
+  return { retirees: n };
+}
+
+/** Lots ouverts, avec le nombre de commandes qui y attendent — le panneau gauche. */
+const lotsOuverts = () => all(`
+  SELECT b.*, (SELECT COUNT(*) FROM orders o WHERE o.batch_id = b.id AND o.status NOT IN ('shipped','cancelled')) n
+  FROM batches b WHERE b.status = 'open' ORDER BY b.id DESC LIMIT 50`);
+
+/** Commandes en attente dans un lot. */
+const commandesDuLot = (batchId) => all(
+  "SELECT id FROM orders WHERE batch_id = ? AND status NOT IN ('shipped','cancelled') ORDER BY id", batchId)
+  .map((r) => r.id);
+
+/** Ferme un lot vide ou traité — il quitte le panneau gauche. */
+function fermerLot(batchId, userId = null) {
+  run("UPDATE batches SET status = 'done' WHERE id = ?", batchId);
+  journaliser("batch.close", "batch", batchId, {}, userId);
+  return { ok: true };
+}
+
 function creerLot(orderIds, { name = null, userId = null } = {}) {
   run("INSERT INTO batches (name, created_at, created_by, status) VALUES (?,?,?,'open')",
     name || `Lot du ${new Date().toISOString().slice(0, 16).replace("T", " ")}`, maintenant(), userId);
@@ -216,7 +265,8 @@ const lot = (id) => ({
   shipments: all("SELECT s.*, o.order_number FROM shipments s LEFT JOIN orders o ON o.id = s.order_id WHERE s.batch_id = ?", id),
 });
 
-const lots = () => all(`SELECT b.*, COUNT(s.id) n, COALESCE(SUM(s.cost),0) cout
+const lots = () => all(`SELECT b.*, COUNT(s.id) n, COALESCE(SUM(s.cost),0) cout,
+                          (SELECT COUNT(*) FROM orders o WHERE o.batch_id = b.id) en_attente
                         FROM batches b LEFT JOIN shipments s ON s.batch_id = b.id
                         GROUP BY b.id ORDER BY b.id DESC LIMIT 100`);
 
@@ -294,6 +344,7 @@ async function rafraichirSuivi(shipmentId) {
 module.exports = {
   marge,
   coter, acheterEtiquette, acheterRetour, annuler, marquerExpedie,
-  creerLot, traiterLot, lot, lots, creerManifeste, manifestes,
+  creerLot, creerLotVide, ajouterAuLot, retirerDuLot, lotsOuverts, commandesDuLot, fermerLot,
+  traiterLot, lot, lots, creerManifeste, manifestes,
   chercher, rafraichirSuivi, envoiDepuisCommande, SEUIL_DROPOFF_G,
 };

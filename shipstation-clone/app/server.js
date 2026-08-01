@@ -230,6 +230,31 @@ route("GET /api/shipments/:id/tracking", async ({ params }) => await shipments.r
 // ------------------------------------------------------------------- lots
 
 route("GET /api/batches", () => ({ batches: shipments.lots() }));
+/** Lots ouverts — le panneau gauche de l'écran Commandes. */
+route("GET /api/batches/open", () => ({ batches: shipments.lotsOuverts() }));
+/** Crée un lot vide, prêt à recevoir des commandes. */
+route("POST /api/batches/new", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const r = shipments.creerLotVide({ name: b.name || null, userId: user && user.id });
+  if ((b.ids || []).length) shipments.ajouterAuLot(r.batchId, b.ids.map(Number), user && user.id);
+  return r;
+});
+/** Dépose des commandes dans un lot existant. */
+route("POST /api/batches/add", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return shipments.ajouterAuLot(Number(b.batch_id), (b.ids || []).map(Number), user && user.id);
+});
+route("POST /api/batches/remove", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return shipments.retirerDuLot((b.ids || []).map(Number), user && user.id);
+});
+route("POST /api/batches/:id/close", ({ params, user }) => {
+  accounts.exiger(user, "orders_edit");
+  return shipments.fermerLot(Number(params.id), user && user.id);
+});
 route("GET /api/batches/:id", ({ params }) => shipments.lot(Number(params.id)));
 route("POST /api/batches", async ({ req, user }) => {
   accounts.exiger(user, "labels_buy");
@@ -771,10 +796,14 @@ route("GET /api/views", ({ url }) => {
       const vue = { ...v, filters: db.parse(v.filters, {}), criteres: cs, columns: db.parse(v.columns, null),
                     match_all: v.match_all !== 0, shared: !!v.shared };
       if (p.counts === "1" && (p.scope || "orders") === "orders") {
+        // Le compteur d'une vue se lit **dans le statut courant** : une vue est un second
+        // niveau de tri, pas une requête indépendante. Sinon « Graines x1 » annoncerait 38 000
+        // commandes dont 37 000 déjà expédiées, et le chiffre ne dirait plus rien de la file.
         const c = criteres.compiler(cs, vue.match_all);
-        vue.n = c.sql
-          ? db.one(`SELECT COUNT(*) n FROM orders o WHERE ${c.sql}`, ...c.params).n
-          : db.one("SELECT COUNT(*) n FROM orders").n;
+        const w = [], par = [];
+        if (c.sql) { w.push(c.sql); par.push(...c.params); }
+        if (p.status) { w.push("o.status = ?"); par.push(p.status); }
+        vue.n = db.one(`SELECT COUNT(*) n FROM orders o${w.length ? " WHERE " + w.join(" AND ") : ""}`, ...par).n;
       }
       return vue;
     }),

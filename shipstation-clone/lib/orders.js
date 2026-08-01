@@ -49,6 +49,8 @@ function chercher(f = {}) {
   if (f.untagged) add("NOT EXISTS (SELECT 1 FROM order_tags t WHERE t.order_id = o.id)");
   if (f.sku) add("EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND i.sku LIKE ?)", `%${f.sku}%`);
   if (f.single_item) add("(SELECT COUNT(*) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0) = 1");
+  if (f.batch_id) add("o.batch_id = ?", Number(f.batch_id));
+  if (f.sans_lot) add("o.batch_id IS NULL");
 
   // Critères d'une vue sauvegardée (§12.5) — compilés en SQL par `criteres.js`, le même
   // langage que les règles d'automatisation. C'est ce qui permet de rejouer les 27 vues de
@@ -334,9 +336,14 @@ function alertes() {
 function compteurs() {
   const parStatut = Object.fromEntries(
     all("SELECT status, COUNT(*) n FROM orders GROUP BY status").map((r) => [r.status, r.n]));
+  // Le panneau gauche de ShipStation déplie « À expédier » par boutique : ce sont ces
+  // compteurs-là, pas ceux de toutes les commandes de la boutique.
+  const parBoutique = all(`SELECT store_id, COUNT(*) n FROM orders
+                           WHERE status = 'awaiting_shipment' GROUP BY store_id`);
   const a = alertes();
   return {
     statuts: parStatut,
+    boutiques: Object.fromEntries(parBoutique.map((r) => [String(r.store_id), r.n])),
     alertes: Object.fromEntries(Object.entries(a).map(([k, v]) => [k, v.length])),
   };
 }

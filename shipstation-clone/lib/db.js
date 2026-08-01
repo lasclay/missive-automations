@@ -331,6 +331,9 @@ const AJOUTS = [
   ["stores", "guid", "TEXT"],
   // Suivi de l'impression d'étiquette (exigence E3) : imprimée ≠ achetée.
   ["orders", "print_state", "TEXT"],   // bordereau et étiquette imprimés
+  // Un lot regroupe des commandes AVANT l'achat des étiquettes : chez ShipStation, la colonne
+  // « Batch » de la grille Orders est renseignée bien avant qu'une expédition existe.
+  ["orders", "batch_id", "INTEGER"],
   ["shipping_presets", "hotkey", "TEXT"],
   ["shipping_presets", "notes", "TEXT"],
 ];
