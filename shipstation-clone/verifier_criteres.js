@@ -197,11 +197,11 @@ verifier("aucun courriel DDD (règle inactive chez ShipStation, inactive ici)",
 
 console.log("\n10. Préréglages et mappings de service");
 const presets = require("./lib/presets");
-verifier("17 préréglages", presets.lister().length === 17, `obtenu ${presets.lister().length}`);
-const usa = presets.parNom("USA Small poly");
+verifier("17 préréglages", presets.presets().length === 17, `obtenu ${presets.presets().length}`);
+const usa = presets.presetParNom("USA Small poly");
 verifier("« USA Small poly » : confirmation 1, service 109",
   usa.confirmation === "1" && usa.service_id === "109");
-const p11 = presets.parNom("11x11x12");
+const p11 = presets.presetParNom("11x11x12");
 verifier("« 11x11x12 » conserve ses 10 g erronés, avec la note", p11.weight_g === 10 && !!p11.notes);
 verifier("« Entrepôt Lasclay » résout vers le canal « ramassage »",
   presets.resoudre("Entrepôt Lasclay - ramassage sur place")?.channel === "ramassage");

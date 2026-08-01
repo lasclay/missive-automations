@@ -561,16 +561,8 @@ function charger({ remplacer = false, journal = () => {} } = {}) {
     }
     bilan.etiquettes = ETIQUETTES.length;
 
-    for (const p of PRESETS) {
-      run(`INSERT INTO shipping_presets (name,warehouse_id,carrier_code,service_id,package_id,confirmation,
-             weight_g,dimensions,hotkey,position,notes) VALUES (?,?,?,?,?,?,?,?,?,?,?)
-           ON CONFLICT(name) DO UPDATE SET warehouse_id=excluded.warehouse_id, carrier_code=excluded.carrier_code,
-             service_id=excluded.service_id, package_id=excluded.package_id, confirmation=excluded.confirmation,
-             weight_g=excluded.weight_g, dimensions=excluded.dimensions, hotkey=excluded.hotkey,
-             position=excluded.position, notes=excluded.notes`,
-        p.name, p.warehouse_id, p.carrier_code, p.service_id, p.package_id, p.confirmation,
-        p.weight_g ?? null, dump(p.dimensions || null), p.hotkey || null, p.position, p.notes || null);
-    }
+    const presetsLib = require("./presets");
+    for (const p of PRESETS) presetsLib.sauverPreset(p);
     bilan.presets = PRESETS.length;
 
     for (const m of MAPPINGS) {

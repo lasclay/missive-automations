@@ -1,74 +1,174 @@
 /**
- * Préréglages d'expédition et mappings de service (§13.5, §13.6).
+ * Préréglages d'expédition, mappings de service et référentiel produit étendu (§13.5, §13.6).
  *
- * Un préréglage applique d'un coup entrepôt, transporteur, service, colis, confirmation,
- * poids et dimensions à une sélection de commandes. C'est le geste le plus répété de
- * l'entrepôt — chez Lasclay, 17 préréglages pour 19 671 expéditions.
+ * Quatre fonctions de ShipStation réunies ici :
+ *   • les **préréglages d'expédition** — une configuration enregistrée, appliquée à la demande
+ *     sur une sélection. À ne pas confondre avec les défauts produit, qui s'appliquent seuls
+ *     à l'import : ceux-ci se choisissent. C'est le geste le plus répété de l'entrepôt —
+ *     17 préréglages pour 19 671 expéditions.
+ *   • les **mappings de service** — le libellé de livraison choisi au checkout traduit en
+ *     service transporteur réel.
+ *   • les **alias de SKU** — plusieurs SKU de boutiques différentes désignant la même fiche.
+ *   • les **bundles** — un SKU vendu qui recouvre plusieurs produits à prélever.
  *
- * Deux ajouts par rapport à ShipStation :
+ * Trois ajouts par rapport à ShipStation :
  *   • **Raccourci clavier** (`hotkey`). Les 17 préréglages du compte ont tous `hotKey: null` :
- *     l'accélérateur existait et n'a jamais été utilisé. Ici il est assigné et l'interface
- *     l'écoute (exigence C3, « tout au clavier »).
- *   • **Précédence explicite.** ShipStation ne documente nulle part qui gagne entre le
- *     préréglage, le profil produit, le produit et le type de colis — or c'est ce qui
- *     détermine le poids facturé. L'ordre est fixé ici et rendu dans `expliquer()`.
+ *     l'accélérateur existait et n'a jamais servi (exigence C3, « tout au clavier »).
+ *   • **Canal logistique** en enum sur les mappings. Chez ShipStation, « Entrepôt Lasclay »,
+ *     « Défricheuses » ou « DDD » ne vivent que comme sous-chaînes cherchées dans un texte
+ *     libre saisi dans Shopify : une faute de frappe et la règle cesse de se déclencher, sans
+ *     rien signaler (constat OBS6).
+ *   • **Précédence explicite** du poids et des dimensions. ShipStation ne documente nulle part
+ *     qui gagne entre le préréglage, le profil produit, le produit et le type de colis — or
+ *     c'est ce qui détermine le poids facturé.
  */
 const { all, one, run, tx, parse, dump, journaliser } = require("./db");
 
-const hydrater = (p) => p && ({ ...p, dimensions: parse(p.dimensions), insurance: parse(p.insurance) });
+// ------------------------------------------------------- préréglages d'expédition
 
-const lister = () => all("SELECT * FROM shipping_presets ORDER BY position, name").map(hydrater);
-const parId = (id) => hydrater(one("SELECT * FROM shipping_presets WHERE id = ?", id));
-const parNom = (nom) => hydrater(one("SELECT * FROM shipping_presets WHERE name = ?", nom));
-const parRaccourci = (touche) => hydrater(one("SELECT * FROM shipping_presets WHERE hotkey = ?", String(touche)));
+const presets = () => all("SELECT * FROM shipping_presets ORDER BY position, name")
+  .map((p) => ({ ...p, dimensions: parse(p.dimensions), insurance: parse(p.insurance),
+    is_default: !!p.is_default }));
 
-function sauver(p) {
-  const champs = [p.name, p.warehouse_id || null, p.carrier_code || null, p.service_id || null,
-    p.package_id || null, p.confirmation ?? null, p.weight_g ?? null, dump(p.dimensions || null),
-    p.hotkey || null, p.position || 0, p.notes || null];
+function sauverPreset(p) {
+  const champs = [p.name, p.carrier_code || null, p.service_id || null, p.package_id || null,
+    p.confirmation ?? null, p.weight_g ?? null, dump(p.dimensions || null),
+    dump(p.insurance || null), p.warehouse_id || null, p.is_default ? 1 : 0, p.position || 0,
+    p.hotkey || null, p.notes || null];
+  if (p.is_default) run("UPDATE shipping_presets SET is_default = 0");
+  // Un raccourci ne peut désigner qu'un préréglage : on libère le précédent porteur.
+  if (p.hotkey) run("UPDATE shipping_presets SET hotkey = NULL WHERE hotkey = ? AND name <> ?", String(p.hotkey), p.name);
   if (p.id) {
-    run(`UPDATE shipping_presets SET name=?, warehouse_id=?, carrier_code=?, service_id=?, package_id=?,
-         confirmation=?, weight_g=?, dimensions=?, hotkey=?, position=?, notes=? WHERE id=?`, ...champs, p.id);
+    run(`UPDATE shipping_presets SET name=?, carrier_code=?, service_id=?, package_id=?,
+         confirmation=?, weight_g=?, dimensions=?, insurance=?, warehouse_id=?, is_default=?,
+         position=?, hotkey=?, notes=? WHERE id=?`, ...champs, p.id);
     return p.id;
   }
-  run(`INSERT INTO shipping_presets (name,warehouse_id,carrier_code,service_id,package_id,confirmation,
-       weight_g,dimensions,hotkey,position,notes) VALUES (?,?,?,?,?,?,?,?,?,?,?)
-       ON CONFLICT(name) DO UPDATE SET warehouse_id=excluded.warehouse_id, carrier_code=excluded.carrier_code,
-         service_id=excluded.service_id, package_id=excluded.package_id, confirmation=excluded.confirmation,
-         weight_g=excluded.weight_g, dimensions=excluded.dimensions, hotkey=excluded.hotkey`, ...champs);
+  // Le nom fait foi : recharger la configuration ShipStation ne doit pas créer de doublons.
+  run(`INSERT INTO shipping_presets (name,carrier_code,service_id,package_id,confirmation,
+       weight_g,dimensions,insurance,warehouse_id,is_default,position,hotkey,notes)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+       ON CONFLICT(name) DO UPDATE SET carrier_code=excluded.carrier_code,
+         service_id=excluded.service_id, package_id=excluded.package_id,
+         confirmation=excluded.confirmation, weight_g=excluded.weight_g,
+         dimensions=excluded.dimensions, insurance=excluded.insurance,
+         warehouse_id=excluded.warehouse_id, position=excluded.position,
+         hotkey=excluded.hotkey, notes=excluded.notes`, ...champs);
   return one("SELECT id FROM shipping_presets WHERE name = ?", p.name).id;
 }
 
-const supprimer = (id) => run("DELETE FROM shipping_presets WHERE id = ?", id);
+const supprimerPreset = (id) => run("DELETE FROM shipping_presets WHERE id = ?", id);
 
 /**
- * Applique un préréglage à des commandes.
- *
- * `garderPoids` (défaut vrai) protège un poids déjà pesé : le préréglage donne un poids
- * *présumé*, la balance donne le poids *réel*, et écraser le second par le premier fait
- * payer le mauvais tarif. ShipStation écrase sans demander.
+ * Applique un préréglage à des commandes. Les champs vides du préréglage ne touchent à rien :
+ * un préréglage « service seulement » ne doit pas effacer les poids déjà saisis.
  */
-function appliquer(presetId, orderIds, { garderPoids = true, userId = null } = {}) {
-  const p = parId(presetId);
-  if (!p) throw new Error("préréglage introuvable");
+function appliquerPreset(presetId, orderIds, { userId = null, garderPoids = true } = {}) {
+  const p = one("SELECT * FROM shipping_presets WHERE id = ?", presetId);
+  if (!p) throw new Error("préréglage inconnu");
+  const cols = ["carrier_code", "service_id", "package_id", "confirmation", "warehouse_id", "dimensions"];
+  const sets = [], vals = [];
+  for (const c of cols) if (p[c] !== null && p[c] !== undefined && p[c] !== "") { sets.push(`${c} = ?`); vals.push(p[c]); }
+  if (p.insurance) { sets.push("insurance = ?"); vals.push(p.insurance); }
+  // Le poids est traité à part : `garderPoids` protège un poids déjà pesé. Le préréglage donne
+  // un poids *présumé*, la balance donne le poids *réel*, et écraser le second par le premier
+  // fait payer le mauvais tarif. ShipStation écrase sans demander.
+  if (p.weight_g != null && p.weight_g !== "")
+    sets.push(garderPoids ? "weight_g = CASE WHEN COALESCE(weight_g,0) > 0 THEN weight_g ELSE ? END" : "weight_g = ?"),
+    vals.push(p.weight_g);
+  if (!sets.length) return { n: 0, vide: true };
   let n = 0;
-  tx(() => {
-    for (const id of orderIds) {
-      const cmd = one("SELECT id, weight_g FROM orders WHERE id = ?", Number(id));
-      if (!cmd) continue;
-      const poids = (garderPoids && cmd.weight_g) ? cmd.weight_g : (p.weight_g ?? cmd.weight_g);
-      run(`UPDATE orders SET warehouse_id = COALESCE(?, warehouse_id), carrier_code = COALESCE(?, carrier_code),
-           service_id = COALESCE(?, service_id), package_id = COALESCE(?, package_id),
-           confirmation = COALESCE(?, confirmation), weight_g = ?, dimensions = COALESCE(?, dimensions),
-           modified_at = datetime('now') WHERE id = ?`,
-        p.warehouse_id, p.carrier_code, p.service_id, p.package_id, p.confirmation,
-        poids, dump(p.dimensions || null), cmd.id);
-      n++;
-    }
-  });
-  journaliser("preset.applied", "order", null, { preset: p.name, n }, userId);
-  return { applique: n, preset: p.name };
+  tx(() => { for (const id of orderIds) { run(`UPDATE orders SET ${sets.join(", ")} WHERE id = ?`, ...vals, id); n++; } });
+  journaliser("preset.apply", "order", null, { preset: p.name, n, garderPoids }, userId);
+  return { n, applique: n, preset: p.name };
 }
+
+// ------------------------------------------------------------------ alias de SKU
+
+const alias = () => all(`SELECT a.alias, a.store_id, p.sku, p.name FROM product_aliases a
+                         JOIN products p ON p.id = a.product_id ORDER BY p.sku, a.alias`);
+
+function poserAlias(aliasSku, sku, storeId = null) {
+  const p = one("SELECT id FROM products WHERE sku = ?", sku);
+  if (!p) throw new Error(`produit inconnu : ${sku}`);
+  if (aliasSku === sku) throw new Error("un alias ne peut pas être le SKU lui-même");
+  run(`INSERT INTO product_aliases (alias, product_id, store_id) VALUES (?,?,?)
+       ON CONFLICT(alias) DO UPDATE SET product_id = excluded.product_id`, aliasSku, p.id, storeId);
+  journaliser("alias.set", "product", p.id, { alias: aliasSku, sku });
+}
+
+const retirerAlias = (aliasSku) => run("DELETE FROM product_aliases WHERE alias = ?", aliasSku);
+
+/** Fiche produit d'un SKU, en suivant les alias. */
+function produitDeSku(sku) {
+  if (!sku) return null;
+  return one("SELECT * FROM products WHERE sku = ?", sku)
+    || one(`SELECT p.* FROM product_aliases a JOIN products p ON p.id = a.product_id
+            WHERE a.alias = ?`, sku);
+}
+
+// ------------------------------------------------------------------ bundles
+
+/**
+ * Composants d'un bundle. Un SKU vendu comme un tout recouvre plusieurs produits qu'il faut
+ * prélever séparément — c'est ce que la liste de prélèvement doit montrer.
+ */
+function composants(sku, quantite = 1) {
+  const p = produitDeSku(sku);
+  if (!p || !p.is_bundle) return null;
+  const items = parse(p.bundle_items, []) || [];
+  return items.map((i) => ({
+    sku: i.sku, quantity: (i.quantity || 1) * quantite,
+    name: (produitDeSku(i.sku) || {}).name || i.sku,
+    warehouse_location: (produitDeSku(i.sku) || {}).warehouse_location || null,
+  }));
+}
+
+function definirBundle(sku, items) {
+  const p = one("SELECT id FROM products WHERE sku = ?", sku);
+  if (!p) throw new Error(`produit inconnu : ${sku}`);
+  const propre = (items || []).filter((i) => i.sku && i.sku !== sku)
+    .map((i) => ({ sku: i.sku, quantity: Number(i.quantity) || 1 }));
+  run("UPDATE products SET is_bundle = ?, bundle_items = ? WHERE id = ?",
+    propre.length ? 1 : 0, dump(propre), p.id);
+  journaliser("bundle.set", "product", p.id, { sku, composants: propre.length });
+  return propre.length;
+}
+
+/**
+ * Liste de prélèvement : ce qu'il faut aller chercher en entrepôt, agrégé par article et
+ * trié par emplacement — les bundles éclatés en leurs composants.
+ */
+function listeDePrelevement(orderIds) {
+  const lignes = all(`SELECT i.sku, i.name, i.quantity, i.warehouse_location
+                      FROM order_items i WHERE i.adjustment = 0 AND i.order_id IN (${
+                        orderIds.map(() => "?").join(",") || "NULL"})`, ...orderIds);
+  const total = new Map();
+  const ajouter = (sku, nom, qte, empl) => {
+    const cle = sku || nom || "?";
+    const e = total.get(cle) || { sku, name: nom, quantity: 0, warehouse_location: empl };
+    e.quantity += qte;
+    if (!e.warehouse_location && empl) e.warehouse_location = empl;
+    total.set(cle, e);
+  };
+  for (const l of lignes) {
+    const comp = composants(l.sku, l.quantity);
+    if (comp) for (const c of comp) ajouter(c.sku, c.name, c.quantity, c.warehouse_location);
+    else {
+      const p = produitDeSku(l.sku);
+      ajouter(l.sku, l.name, l.quantity, l.warehouse_location || (p && p.warehouse_location));
+    }
+  }
+  return [...total.values()].sort((a, b) =>
+    String(a.warehouse_location || "zzz").localeCompare(String(b.warehouse_location || "zzz"))
+    || String(a.sku || "").localeCompare(String(b.sku || "")));
+}
+
+
+// ------------------------------------------------- raccourcis et fiche complète
+
+const presetParNom = (nom) => presets().find((p) => p.name === nom) || null;
+const presetParRaccourci = (touche) => presets().find((p) => p.hotkey === String(touche)) || null;
 
 /**
  * Précédence des dimensions et du poids — décidée ici, faute de documentation ShipStation.
@@ -164,6 +264,9 @@ const libellesNonMappes = () => all(`
   .slice(0, 50);
 
 module.exports = {
-  lister, parId, parNom, parRaccourci, sauver, supprimer, appliquer, expliquer,
+  presets, sauverPreset, supprimerPreset, appliquerPreset, presetParNom, presetParRaccourci,
+  expliquer,
   mappings, sauverMapping, supprimerMapping, resoudre, libellesNonMappes,
+  alias, poserAlias, retirerAlias, produitDeSku,
+  composants, definirBundle, listeDePrelevement,
 };

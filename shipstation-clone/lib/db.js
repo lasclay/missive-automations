@@ -199,6 +199,25 @@ CREATE TABLE IF NOT EXISTS products (
   fulfillment_sku TEXT, is_bundle INTEGER DEFAULT 0, bundle_items TEXT DEFAULT '[]'
 );
 
+-- Préréglages d'expédition (§13.5) : une configuration complète enregistrée puis appliquée
+-- en masse. Distincts des défauts produit — ceux-ci s'appliquent à l'import, ceux-là à la
+-- demande. La colonne hotkey est un ajout : les 17 préréglages du compte ShipStation
+-- avaient tous hotKey null, alors que c'était l'accélérateur le plus évident du poste.
+CREATE TABLE IF NOT EXISTS shipping_presets (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE,
+  carrier_code TEXT, service_id TEXT, package_id TEXT, confirmation TEXT,
+  weight_g REAL, dimensions TEXT, insurance TEXT, warehouse_id INTEGER,
+  is_default INTEGER DEFAULT 0, position INTEGER DEFAULT 0,
+  hotkey TEXT, notes TEXT
+);
+
+-- Alias de SKU : plusieurs SKU de boutiques différentes pointant sur une même fiche produit.
+CREATE TABLE IF NOT EXISTS product_aliases (
+  alias TEXT PRIMARY KEY,
+  product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  store_id INTEGER
+);
+
 CREATE TABLE IF NOT EXISTS preset_groups (
   id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE,
   settings TEXT DEFAULT '{}'   -- service, colis, douane appliqués au groupe
@@ -267,19 +286,6 @@ CREATE TABLE IF NOT EXISTS settings (
   key TEXT PRIMARY KEY, value TEXT
 );
 
--- ------------------------------------------------------------------ expédition : préréglages
-
--- Préréglages d'expédition (§13.5) — un clic applique service, colis, poids, dimensions et
--- confirmation à la sélection. Les 17 de Lasclay n'ont aucun raccourci clavier chez
--- ShipStation (hotKey null partout) ; ici la colonne hotkey existe et l'interface l'écoute.
-CREATE TABLE IF NOT EXISTS shipping_presets (
-  id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE,
-  warehouse_id INTEGER REFERENCES warehouses(id),
-  carrier_code TEXT, service_id TEXT, package_id TEXT, confirmation TEXT,
-  weight_g REAL, dimensions TEXT, hotkey TEXT, position INTEGER DEFAULT 0,
-  insurance TEXT, notes TEXT
-);
-
 -- Correspondance « libellé de service au checkout » → service transporteur (§13.6).
 -- Chez ShipStation c'est du texte libre par boutique, et les libellés opérationnels de
 -- Lasclay (« Entrepôt Lasclay », « Défricheuses », « DDD », « timbre ») n'y figurent même
@@ -324,7 +330,9 @@ const AJOUTS = [
   ["services", "hidden", "INTEGER DEFAULT 0"],
   ["stores", "guid", "TEXT"],
   // Suivi de l'impression d'étiquette (exigence E3) : imprimée ≠ achetée.
-  ["orders", "print_state", "TEXT"],
+  ["orders", "print_state", "TEXT"],   // bordereau et étiquette imprimés
+  ["shipping_presets", "hotkey", "TEXT"],
+  ["shipping_presets", "notes", "TEXT"],
 ];
 
 function migrer(d) {

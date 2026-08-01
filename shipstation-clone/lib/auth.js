@@ -62,7 +62,11 @@ function suggerer() {
 // ------------------------------------------------------------------ comptes
 
 function creerCompte({ name, email, role = "preparateur", motDePasse = null, permissions = null }) {
+  // Normalisé tout de suite : un espace collé en copiant crée sinon un compte qu'on ne peut
+  // plus atteindre depuis le formulaire, avec le même « mot de passe incorrect » à la clé.
+  email = String(email || "").trim().toLowerCase();
   if (!email) throw new Error("courriel requis");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error(`courriel invalide : « ${email} »`);
   const accounts = require("./accounts");
   const existe = one("SELECT id FROM users WHERE lower(email) = lower(?)", email);
   if (existe) throw new Error("un compte existe déjà avec ce courriel");
@@ -73,7 +77,7 @@ function creerCompte({ name, email, role = "preparateur", motDePasse = null, per
   const perms = permissions || { role, ...(accounts.ROLES[role] || {}) };
   run(`INSERT INTO users (id,name,email,active,permissions,created_at,password_hash,must_change)
        VALUES (?,?,?,1,?,?,?,?)`,
-    id, name, email.toLowerCase(), dump(perms), maintenant(), hacher(mdp), motDePasse ? 0 : 1);
+    id, name, email, dump(perms), maintenant(), hacher(mdp), motDePasse ? 0 : 1);
   journaliser("auth.account_create", "user", id, { email, role });
   return { id, motDePasse: motDePasse ? null : mdp };
 }
@@ -100,6 +104,7 @@ function tropDEssais(email) {
  */
 function connecter(email, motDePasse, { ip = null, agent = null } = {}) {
   const generique = new Error("courriel ou mot de passe incorrect");
+  email = String(email || "").trim();
   if (!email || !motDePasse) throw generique;
   if (tropDEssais(email)) {
     const e = new Error(`trop de tentatives — réessayer dans ${FENETRE_MIN} minutes`);
@@ -175,20 +180,33 @@ function verifier2facteur(token, code, { ip = null } = {}) {
  * transférer dans l'application d'authentification. Rien n'est actif tant qu'un premier
  * code n'a pas été vérifié — sinon une erreur de scan enfermerait l'employé dehors.
  */
-function preparer2facteur(userId) {
+function preparer2facteur(userId, { regenerer = false } = {}) {
   const u = one("SELECT * FROM users WHERE id = ?", userId);
   if (!u) throw new Error("compte inconnu");
   if (u.totp_enabled) throw new Error("le second facteur est déjà actif");
-  const secret = totp.genererSecret();
-  run("UPDATE users SET totp_secret = ? WHERE id = ?", secret, userId);
+  // On REPREND le secret en attente s'il existe. Regénérer à chaque ouverture invalidait le
+  // QR déjà scanné : le gestionnaire de mots de passe continuait de produire les codes de
+  // l'ancien secret, et l'activation échouait sur « code incorrect » sans raison visible.
+  const secret = (!regenerer && u.totp_secret) || totp.genererSecret();
+  if (secret !== u.totp_secret) run("UPDATE users SET totp_secret = ? WHERE id = ?", secret, userId);
   const lien = totp.uri(secret, { compte: u.email, emetteur: EMETTEUR });
-  return { secret, lisible: totp.lisible(secret), uri: lien, qr: qr.svg(lien, { module: 5 }) };
+  return {
+    secret, lisible: totp.lisible(secret), uri: lien, qr: qr.svg(lien, { module: 5 }),
+    repris: secret === u.totp_secret && !regenerer,
+  };
 }
 
 /** Active après vérification d'un premier code. Renvoie les codes de secours, affichés une fois. */
 function activer2facteur(userId, code) {
   const u = one("SELECT * FROM users WHERE id = ?", userId);
-  if (!u || !u.totp_secret) throw new Error("aucune configuration en cours");
+  // Le secret est posé par preparer2facteur puis relu ici. S'il a disparu entre les deux,
+  // c'est que la base a été réinitialisée — typiquement un redéploiement sans disque
+  // persistant. Le dire, plutôt que de laisser croire à un mauvais code.
+  if (!u) throw new Error("compte introuvable — se reconnecter");
+  if (!u.totp_secret) {
+    throw new Error("la configuration a été perdue entre l'affichage du QR et maintenant " +
+      "(redémarrage du service ?) — fermer et recommencer l'activation");
+  }
   const pas = totp.verifier(u.totp_secret, code, { dernierPas: 0 });
   if (!pas) throw new Error("code incorrect — vérifier l'heure du téléphone");
   const codes = totp.genererCodesSecours(10);

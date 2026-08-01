@@ -56,6 +56,12 @@
   th:hover { color:var(--accent) }
   td { padding:6px 10px; border-bottom:1px solid var(--bord); white-space:nowrap }
   tr.sel td { background:var(--sel) }
+  /* Colonnes épinglées : elles restent en place quand la grille défile latéralement. */
+  th.pin, td.pin { position:sticky; background:var(--carte); z-index:1 }
+  th.pin { z-index:3 }
+  th.pin1, td.pin1 { left:26px } th.pin2, td.pin2 { left:170px }
+  td.pin { box-shadow:1px 0 0 var(--bord) }
+  tr.sel td.pin { background:var(--sel) }
   tr.clic { cursor:pointer } tr.clic:hover td { background:var(--sel) }
   .n, th.n { text-align:right; font-variant-numeric:tabular-nums }
   .puce { font-size:10.5px; padding:1px 7px; border-radius:9px; font-weight:600; display:inline-block; white-space:nowrap }
@@ -225,10 +231,24 @@ const jour = (s) => (s ? String(s).slice(0, 10) : "—");
 async function api(route, opts = {}) {
   const o = { headers: { "Content-Type": "application/json" }, credentials: "same-origin", ...opts };
   if (o.body && typeof o.body !== "string") o.body = JSON.stringify(o.body);
-  const r = await fetch(route, o);
+  let r;
+  try {
+    r = await fetch(route, o);
+  } catch {
+    throw new Error("service injoignable — redémarrage en cours ? réessayer dans un instant");
+  }
   if (r.status === 401) { montrerConnexion(); throw new Error("session expirée"); }
   const t = await r.text();
-  let j; try { j = JSON.parse(t); } catch { j = { error: t.slice(0, 200) }; }
+  let j;
+  try {
+    j = JSON.parse(t);
+  } catch {
+    // Réponse non-JSON : c'est la page d'erreur de l'hébergeur, pas la nôtre. L'afficher
+    // telle quelle noierait l'utilisateur sous du HTML — on traduit.
+    if (r.status === 502 || r.status === 503 || r.status === 504)
+      throw new Error(`service indisponible (${r.status}) — il redémarre probablement, réessayer dans une minute`);
+    throw new Error(`réponse inattendue du serveur (HTTP ${r.status})`);
+  }
   if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
   return j;
 }
@@ -250,11 +270,12 @@ function dialogue(titre, html, onOk, texteOk = "Confirmer", apres = null) {
 const attendre = (t = "Un instant…") => dialogue(t, '<p class="doux">Traitement en cours…</p>', null);
 
 /** Table générique : colonnes, lignes, sélection, tri. */
-function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id" } = {}) {
-  const th = (sel ? '<th style="width:26px"></th>' : "") + cols.map(c =>
-    `<th class="${c.n ? "n" : ""}" data-c="${c.k}">${esc(c.t)}${tri === c.k ? (dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
+function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id", pins = 0 } = {}) {
+  const cl = (c, i) => [c.n ? "n" : "", i < pins ? `pin pin${i + 1}` : ""].filter(Boolean).join(" ");
+  const th = (sel ? '<th style="width:26px"></th>' : "") + cols.map((c, i) =>
+    `<th class="${cl(c, i)}" data-c="${c.k}">${esc(c.t)}${tri === c.k ? (dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
   const tr = lignes.map(l => {
-    const tds = cols.map(c => `<td class="${c.n ? "n" : ""}">${c.r ? c.r(l) : esc(l[c.k] ?? "—")}</td>`).join("");
+    const tds = cols.map((c, i) => `<td class="${cl(c, i)}">${c.r ? c.r(l) : esc(l[c.k] ?? "—")}</td>`).join("");
     return `<tr data-id="${esc(l[cle])}" class="${onLigne ? "clic" : ""}">${sel ? `<td><input type="checkbox" data-id="${esc(l[cle])}"></td>` : ""}${tds}</tr>`;
   }).join("");
   const t = el(`<div class="tbl"><table><thead><tr>${th}</tr></thead><tbody>${tr || `<tr><td colspan="${cols.length + 1}" class="doux" style="padding:22px;text-align:center">Aucun résultat</td></tr>`}</tbody></table></div>`);
@@ -271,6 +292,18 @@ function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null,
   });
   return t;
 }
+
+/**
+ * Catalogue des colonnes de la grille — l'équivalent du « Manage Columns » de ShipStation.
+ * `def` marque celles affichées par défaut ; le choix de l'utilisateur est conservé localement.
+ */
+/*
+ * Le catalogue de colonnes de la grille Commandes vit désormais dans `COLONNES`, avec l'écran
+ * Commandes lui-même, et la sélection est enregistrée **côté serveur** — par vue, ou dans le
+ * réglage `colonnes_commandes` hors vue. Le stockage local a été retiré : c'est précisément ce
+ * qui fait que les colonnes personnalisées de ShipStation se réinitialisent (bug communautaire
+ * connu, §6 des notes de réplication).
+ */
 
 // ══════════════════════════════════════════════════════════════════ état
 const S = { page: "commandes", moi: null, config: {}, refs: {}, compteurs: {}, sel: new Set(), filtres: {}, tri: "age", dir: "desc", tick: null };
@@ -733,7 +766,7 @@ VUES.commandes = async (statutFixe) => {
 
   $("#aPrint").onclick = () => menuFlottant("aPrint", [
     { t: "Bordereaux de préparation", hk: "P+S", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank") },
-    { t: "Liste de prélèvement", hk: "P+L", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}&pick=1`, "_blank") },
+    { t: "Liste de prélèvement", hk: "P+L", f: () => window.open(`/api/pick-list?ids=${ids().join(",")}`, "_blank") },
     { t: "Exporter la sélection (CSV)", f: () => window.open(`/api/export/orders?ids=${ids().join(",")}`, "_blank") },
   ]);
 
@@ -753,8 +786,10 @@ VUES.commandes = async (statutFixe) => {
   ]);
 
   $("#aAutres").onclick = () => menuFlottant("aAutres", [
+    { t: "Configurer l'expédition en masse…", f: configurerEnMasse },
     { t: "Marquer comme expédiée…", hk: "M+S", f: marquerExpedie },
     { t: "Fusionner les expéditions", f: fusionner },
+    { t: "Liste de prélèvement", hk: "P+L", f: () => window.open(`/api/pick-list?ids=${ids().join(",")}`, "_blank") },
     { t: "Mettre en attente…", f: mettreEnAttente },
     { t: "Remettre en file", f: async () => { await api("/api/orders/restore", { method: "POST", body: { ids: ids() } }); S.sel.clear(); charger(); rafraichirCompteurs(); } },
     { sep: 1 },
@@ -802,6 +837,38 @@ VUES.commandes = async (statutFixe) => {
         alert(`Lot ${r.batchId} : ${r.reussis} étiquette(s), ${r.echecs} échec(s).`);
         S.sel.clear(); charger(); rafraichirCompteurs();
       }, "Créer");
+  }
+
+  /**
+   * « Bulk Update » de ShipStation : service, colis, poids, dimensions, confirmation,
+   * entrepôt et assurance sur toute la sélection. Seuls les champs remplis sont appliqués —
+   * laisser vide ce qu'on ne veut pas toucher.
+   */
+  function configurerEnMasse() {
+    dialogue(`Configurer ${S.sel.size} expédition(s)`, `
+      <p class="doux">Seuls les champs remplis sont appliqués. Un champ laissé vide ne touche
+        à rien — c'est ce qui permet de corriger un service sans écraser les poids déjà pesés.</p>
+      <div class="grille">
+        <label class="champ"><span>Transporteur</span><select id="ccar"><option value="">—</option>
+          ${(S.refs.carriers || []).map((c) => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Service</span><select id="csrv"><option value="">—</option>
+          ${(S.refs.services || []).filter((x) => !x.hidden).map((x) => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Type de colis</span><select id="cpkg"><option value="">—</option>
+          ${(S.refs.packages || []).map((x) => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Confirmation</span><select id="ccon"><option value="">—</option>
+          ${(S.refs.confirmations || []).map((k) => `<option value="${esc(k.id)}">${esc(k.nom)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Poids (g)</span><input type="number" id="cwei"></label>
+        <label class="champ"><span>Expédié de</span><select id="cwar"><option value="">—</option>
+          ${(S.refs.warehouses || []).map((w) => `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select></label>
+      </div>`,
+      async () => {
+        const b = { ids: ids(), carrier_code: $("#ccar").value, service_id: $("#csrv").value,
+          package_id: $("#cpkg").value, confirmation: $("#ccon").value,
+          weight_g: $("#cwei").value, warehouse_id: $("#cwar").value };
+        const r = await api("/api/orders/configure", { method: "POST", body: b });
+        alert(`${r.n} commande(s) mise(s) à jour.`);
+        S.sel.clear(); charger();
+      }, "Appliquer");
   }
 
   function mettreEnAttente() {
@@ -1020,23 +1087,22 @@ async function importerShopify() {
     <div class="kv"><span>Dernier import</span><b>${e.dernier_import ? esc(e.dernier_import.slice(0, 16).replace("T", " ")) : "jamais"}</b></div>
     <div class="kv"><span>Commandes Shopify ici</span><b>${num(e.commandes)}</b></div>
     <div class="kv"><span>Synchronisation automatique</span><b>${e.sync_minutes ? `toutes les ${e.sync_minutes} min` : "désactivée"}</b></div>
+    <div class="kv"><span>Webhooks signés</span><b>${e.secret_webhook ? "oui" : "non — secret manquant"}</b></div>
     <hr>
-    <label class="ch"><input type="checkbox" id="siNon" checked> uniquement les commandes non expédiées</label>
-    <label class="champ" style="margin-top:8px"><span>Modifiées depuis (laisser vide = 7 derniers jours)</span>
+    <label class="champ" style="margin-top:8px"><span>Modifiées depuis (laisser vide = reprend au dernier passage)</span>
       <input type="date" id="siDate"></label>
     <p class="doux">L'import met à jour les commandes déjà présentes plutôt que de les
     dupliquer, et ne touche jamais à une commande déjà expédiée ici.</p>
     <div id="siJournal"></div>`,
     async () => {
       $("#siJournal").innerHTML = '<div class="doux">Import en cours…</div>';
-      const r = await api("/api/shopify/import", { method: "POST", body: {
-        non_expediees: $("#siNon").checked,
-        depuis: $("#siDate").value ? new Date($("#siDate").value).toISOString() : null } });
+      const r = await api("/api/shopify/rattraper", { method: "POST", body: {
+        depuis: $("#siDate").value ? new Date($("#siDate").value).toISOString() : null, max: 2000 } });
       $("#siJournal").innerHTML = `<div class="avis info">
-        ${r.bilan.creees} créée(s) · ${r.bilan.majs} mise(s) à jour · ${r.bilan.ignorees} ignorée(s)
-        ${r.bilan.erreurs.length ? ` · <b>${r.bilan.erreurs.length} erreur(s)</b>` : ""}</div>
-        ${r.bilan.erreurs.length ? `<div class="tbl"><table><tbody>${r.bilan.erreurs.map((x) =>
-          `<tr><td>${esc(x.commande)}</td><td>${esc(x.erreur)}</td></tr>`).join("")}</tbody></table></div>` : ""}`;
+        ${num(r.traitees)} commande(s) traitée(s) · <b>${num(r.nouvelles)}</b> nouvelle(s)
+        ${r.ignorees ? ` · ${num(r.ignorees)} déjà expédiée(s), non retouchée(s)` : ""}
+        ${r.annulees ? ` · ${num(r.annulees)} annulation(s) tardive(s) notée(s)` : ""}</div>
+        <div class="doux">Fenêtre : depuis ${esc(String(r.depuis).slice(0, 16).replace("T", " "))}</div>`;
       rafraichirCompteurs();
       if (S.cmdCharger) S.cmdCharger();
       return false;   // garde la fenêtre ouverte pour lire le bilan
@@ -1063,7 +1129,9 @@ async function detailCommande(id) {
     ${o.customer_notes ? `<div class="carte"><b>Note du client</b><br>${esc(o.customer_notes)}</div>` : ""}
     <div class="barre" style="margin-top:12px"><button id="dCoter">Coter</button>
       <button id="dRegles">Tester les règles</button>
-      <button id="dSlip">Bordereau</button></div>
+      <button id="dSlip">Bordereau</button>
+      ${o.items.filter(i => !i.adjustment).length > 1 ? '<button id="dSplit">Scinder…</button>' : ""}
+      <button id="dAssign">Assigner…</button></div>
     <div id="dOut"></div>`, null);
 
   $("#dCoter", c).onclick = async () => {
@@ -1082,6 +1150,33 @@ async function detailCommande(id) {
       : '<p class="doux">Aucune règle ne s\'applique.</p>';
   };
   $("#dSlip", c).onclick = () => window.open(`/api/packing-slip?ids=${id}`, "_blank");
+
+  const sp = $("#dSplit", c);
+  if (sp) sp.onclick = () => dialogue(`Scinder ${o.order_number}`, `
+    <p>Les articles cochés partent dans une nouvelle commande. La scission doit laisser
+      au moins un article de chaque côté.</p>
+    ${o.items.filter(i => !i.adjustment).map(i => `<label class="ch" style="display:flex;padding:4px 0">
+      <input type="checkbox" data-it="${i.id}"> ${i.quantity} × ${esc(i.name)}
+      <span class="doux">${esc(i.sku || "")}</span></label>`).join("")}`,
+    async () => {
+      const ids = [...document.querySelectorAll("#dlgC [data-it]:checked")].map(x => Number(x.dataset.it));
+      if (!ids.length) { alert("Cocher au moins un article."); return false; }
+      try {
+        const r = await api(`/api/orders/${id}/split`, { method: "POST", body: { item_ids: ids } });
+        alert(`Nouvelle commande créée (#${r.enfant}).`);
+        rafraichirCompteurs(); rendre();
+      } catch (e) { alert(e.message); return false; }
+    }, "Scinder");
+
+  $("#dAssign", c).onclick = () => dialogue("Assigner la commande", `
+    <label class="champ"><span>Utilisateur</span><select id="dau">
+      <option value="">— personne —</option>
+      ${(S.refs.users || []).map(u => `<option value="${esc(u.id)}"${o.assigned_user === u.id ? " selected" : ""}>${esc(u.name)}</option>`).join("")}
+    </select></label>`,
+    async () => {
+      await api("/api/orders/assign", { method: "POST", body: { ids: [id], user_id: $("#dau").value || null } });
+      rendre();
+    }, "Assigner");
 }
 
 // ------------------------------------------------------------------ alertes
@@ -1234,6 +1329,8 @@ VUES.produits = async () => {
       <label class="ch"><input type="checkbox" id="pnh"> sans code SH</label>
       <label class="ch"><input type="checkbox" id="pnw"> sans poids</label>
       <button class="p" id="pnew">Nouveau produit</button>
+      <button id="pgrp">Groupes de préréglages…</button>
+      <button id="palias">Alias de SKU…</button>
       <a id="pex" class="doux">Exporter CSV</a></div><div id="pt"></div>`;
   async function charger() {
     const p = new URLSearchParams({ q: $("#pq").value, no_hs: $("#pnh").checked ? "1" : "", no_weight: $("#pnw").checked ? "1" : "", limit: 400 });
@@ -1259,14 +1356,106 @@ VUES.produits = async () => {
       <label class="champ"><span>Pays d'origine</span><input id="xo" value="${esc(p.country_of_origin || "CA")}"></label>
       <label class="champ"><span>Emplacement</span><input id="xl" value="${esc(p.warehouse_location || "")}"></label>
     </div>
-    <label class="champ"><span>Description douanière</span><input id="xd" value="${esc(p.customs_description || "")}"></label>`,
+    <label class="champ"><span>Description douanière</span><input id="xd" value="${esc(p.customs_description || "")}"></label>
+    ${p.id ? `<hr><b>Bundle</b>
+      <p class="doux" style="font-size:12px">Un SKU vendu comme un tout qui recouvre plusieurs
+        produits à prélever. Une ligne par composant : SKU;quantité. Vide = produit simple.</p>
+      <textarea id="xb" style="min-height:70px">${esc((p.bundle_items || []).map(i => `${i.sku};${i.quantity}`).join("\n"))}</textarea>
+      <hr><b>Stock par entrepôt</b>
+      <p class="doux" style="font-size:12px">Le seuil déclenche l'alerte de stock bas.</p>
+      ${(S.refs.warehouses || []).map(w => {
+        const inv = (p.inventory || []).find(i => i.warehouse_id === w.id) || {};
+        return `<div class="grille" style="grid-template-columns:2fr 1fr 1fr;gap:8px;align-items:end">
+          <span class="doux">${esc(w.name)}</span>
+          <label class="champ"><span>En main</span><input type="number" data-inv="${w.id}" value="${inv.on_hand ?? ""}"></label>
+          <label class="champ"><span>Seuil</span><input type="number" data-seuil="${w.id}" value="${inv.low_threshold ?? ""}"></label>
+        </div>`; }).join("")}` : ""}`,
     async () => {
-      await api("/api/products", { method: "POST", body: { sku: $("#xs").value, name: $("#xn").value,
+      const r = await api("/api/products", { method: "POST", body: { sku: $("#xs").value, name: $("#xn").value,
         weight_g: Number($("#xw").value) || 0, price: Number($("#xp").value) || 0, hs_code: $("#xh").value,
         country_of_origin: $("#xo").value, warehouse_location: $("#xl").value, customs_description: $("#xd").value } });
+      const bt = document.querySelector("#dlgC #xb");
+      if (bt) {
+        await api("/api/bundles", { method: "POST", body: { sku: $("#xs").value,
+          items: bt.value.split("\n").map(l => l.trim()).filter(Boolean).map(l => {
+            const [sku, q] = l.split(";").map(x => (x || "").trim());
+            return { sku, quantity: Number(q) || 1 };
+          }) } });
+      }
+      for (const inp of document.querySelectorAll("#dlgC [data-inv]")) {
+        const w = Number(inp.dataset.inv);
+        const seuil = document.querySelector(`#dlgC [data-seuil="${w}"]`);
+        if (inp.value === "" && (!seuil || seuil.value === "")) continue;
+        await api("/api/inventory", { method: "POST", body: { product_id: r.id, warehouse_id: w,
+          on_hand: inp.value === "" ? null : Number(inp.value),
+          low_threshold: seuil && seuil.value !== "" ? Number(seuil.value) : null } });
+      }
       charger();
     }, "Enregistrer");
   $("#pnew").onclick = () => editerProduit();
+
+  /** Alias : plusieurs SKU de boutiques différentes désignant la même fiche produit. */
+  $("#palias").onclick = async () => {
+    const { aliases } = await api("/api/aliases");
+    const c = dialogue("Alias de SKU", `
+      <p class="doux">Une commande arrivée avec un alias hérite des défauts de la fiche visée —
+        poids, douane, service. Utile quand une même chose porte un SKU différent selon le canal.</p>
+      ${aliases.length ? `<div class="tbl" style="max-height:220px"><table>
+        <thead><tr><th>Alias</th><th>Fiche produit</th><th></th></tr></thead><tbody>
+        ${aliases.map(a => `<tr><td><code>${esc(a.alias)}</code></td>
+          <td>${esc(a.sku)} <span class="doux">${esc(a.name || "")}</span></td>
+          <td><button class="d" data-ad="${esc(a.alias)}">Retirer</button></td></tr>`).join("")}
+        </tbody></table></div>` : '<p class="doux">Aucun alias.</p>'}
+      <hr><div class="grille">
+        <label class="champ"><span>Alias (le SKU reçu)</span><input id="aa"></label>
+        <label class="champ"><span>SKU de la fiche</span><input id="ab"></label>
+      </div>`,
+      async () => {
+        if (!$("#aa").value.trim() || !$("#ab").value.trim()) return false;
+        try { await api("/api/aliases", { method: "POST",
+          body: { alias: $("#aa").value.trim(), sku: $("#ab").value.trim() } }); }
+        catch (e) { alert(e.message); return false; }
+      }, "Ajouter");
+    $("#dlgC", document).querySelectorAll("[data-ad]").forEach(b => b.onclick = async () => {
+      await api("/api/aliases", { method: "POST", body: { alias: b.dataset.ad, supprimer: true } });
+      $("#dlg").close();
+    });
+  };
+
+  /** Groupes de préréglages — les défauts d'expédition et de douane partagés par un groupe. */
+  $("#pgrp").onclick = async () => {
+    const { groups } = await api("/api/preset-groups");
+    const c = dialogue("Groupes de préréglages", `
+      <p class="doux">Un groupe applique ses réglages à tous ses produits. Un défaut posé sur
+        une fiche individuelle l'emporte sur celui du groupe — même règle que ShipStation.</p>
+      <div id="gl">${groups.length ? groups.map(g => `<div class="carte" style="padding:9px">
+          <b>${esc(g.name)}</b><br><span class="doux" style="font-size:12px">${esc(JSON.stringify(g.settings))}</span>
+          <button style="float:right" data-ge="${g.id}">Modifier</button></div>`).join("")
+        : '<p class="doux">Aucun groupe.</p>'}</div>
+      <hr><b>Nouveau groupe</b>
+      <label class="champ"><span>Nom</span><input id="gn"></label>
+      <div class="grille">
+        <label class="champ"><span>Transporteur</span><input id="gc" placeholder="canada_post"></label>
+        <label class="champ"><span>Service</span><input id="gs" placeholder="expedited_parcel"></label>
+        <label class="champ"><span>Type de colis</span><input id="gp" placeholder="package"></label>
+        <label class="champ"><span>Code SH</span><input id="gh"></label>
+        <label class="champ"><span>Pays d'origine</span><input id="go" value="CA"></label>
+      </div>`,
+      async () => {
+        if (!$("#gn").value.trim()) return false;
+        await api("/api/preset-groups", { method: "POST", body: { name: $("#gn").value.trim(),
+          settings: { carrier_code: $("#gc").value || undefined, service_id: $("#gs").value || undefined,
+            package_id: $("#gp").value || undefined, hs_code: $("#gh").value || undefined,
+            country_of_origin: $("#go").value || undefined } } });
+        return true;
+      }, "Créer");
+    $("#gl", c).querySelectorAll("[data-ge]").forEach(b => b.onclick = () => {
+      const g = groups.find(x => x.id == b.dataset.ge);
+      $("#gn", c).value = g.name;
+      for (const [id, k] of [["gc","carrier_code"],["gs","service_id"],["gp","package_id"],["gh","hs_code"],["go","country_of_origin"]])
+        $("#" + id, c).value = g.settings[k] || "";
+    });
+  };
   let d; $("#vue").querySelectorAll(".barre input").forEach(i =>
     i.addEventListener("input", () => { clearTimeout(d); d = setTimeout(charger, 250); }));
   charger();
@@ -1297,6 +1486,13 @@ VUES.clients = async () => {
 };
 
 // -------------------------------------------------------------- analytique
+const EXPORTS = [
+  ["orders", "Commandes"], ["order-items", "Articles de commande"],
+  ["shipments", "Expéditions"], ["shipping-cost", "Coût réel vs encaissé"],
+  ["batches", "Lots"], ["returns", "Retours"], ["manifests", "Manifestes"],
+  ["products", "Produits"], ["customers", "Clients"],
+];
+
 VUES.analytique = async () => {
   const a = await api("/api/analytics");
   const d = a.drop_off, mx = Math.max(...a.par_mois.map(m => m.n), 1);
@@ -1323,7 +1519,14 @@ VUES.analytique = async () => {
       <b style="color:${a.cout_vs_encaisse.ecart >= 0 ? "var(--vert)" : "var(--rouge)"}">écart ${money(a.cout_vs_encaisse.ecart)}</b></p></div>
     <div class="carte"><b>Volume par mois</b><div id="mois" style="margin-top:8px"></div></div>
     <div class="carte"><b>Par bande de poids</b><div id="poids"></div></div>
-    <div class="carte"><b>Par transporteur et service</b><div id="serv"></div></div>`;
+    <div class="carte"><b>Par transporteur et service</b><div id="serv"></div></div>
+    <div class="carte"><b>Exports</b>
+      <p class="doux" style="margin:2px 0 8px">CSV lisibles par Excel (accents inclus).
+      La sauvegarde complète rend toute la base en JSON — pour qu'aucune donnée ne soit captive
+      de cet outil non plus.</p>
+      <div class="barre">${EXPORTS.map(([k, t]) =>
+        `<a class="ong" href="/api/export/${k}" download>${t}</a>`).join("")}
+        <a class="ong" href="/api/backup" download><b>Sauvegarde complète (JSON)</b></a></div></div>`;
   $("#mois").innerHTML = a.par_mois.map(m => `<div style="display:flex;align-items:center;gap:9px;margin-bottom:3px">
     <span style="width:64px;font-variant-numeric:tabular-nums" class="doux">${m.mois}</span>
     <span class="bar" style="flex:1"><i style="width:${Math.round(100 * m.n / mx)}%"></i></span>
@@ -1517,6 +1720,16 @@ VUES.reglages = async () => {
     <div class="carte"><b>Tarif drop-off cible</b>
       <p class="doux" style="margin:2px 0 8px">Sert de référence dans l'analytique. Seuil de poids : ${s.seuil_dropoff_g} g.</p>
       <input type="number" step="0.01" id="st" value="${s.tarif_dropoff_cible}"> <button id="stsave">Enregistrer</button></div>
+    <div class="carte" id="cpre"><b>Préréglages d'expédition</b>
+      <p class="doux" style="margin:2px 0 8px">Une configuration enregistrée une fois, appliquée
+      ensuite en un clic sur une sélection de commandes. À distinguer des défauts produit, qui
+      s'appliquent seuls à l'import.</p>
+      <div id="cprec"></div></div>
+    <div class="carte" id="csh"><b>Import Shopify</b>
+      <p class="doux" style="margin:2px 0 8px">Les commandes arrivent directement de Shopify,
+      sans passer par ShipStation. Webhooks en temps réel, plus un rattrapage périodique qui
+      comble ce qu'un webhook manqué aurait laissé passer.</p>
+      <div id="cshc"></div></div>
     <div class="carte" id="cnx"><b>Renvoi du suivi aux boutiques</b>
       <p class="doux" style="margin:2px 0 8px">ShipStation renvoie aujourd'hui les numéros de suivi
       à Shopify, Etsy et Faire. Sans ce relais, vos clients perdent leur suivi à la bascule.</p>
@@ -1542,6 +1755,112 @@ VUES.reglages = async () => {
       adresse: $("#sa").value, logo: $("#sl").value || null, message_bordereau: $("#sm").value } } });
     alert("Enregistré.");
   };
+  // --- préréglages d'expédition
+  const { presets: lp } = await api("/api/presets");
+  $("#cprec").innerHTML = `
+    ${lp.length ? `<div class="tbl" style="max-height:200px;margin-bottom:8px"><table>
+      <thead><tr><th>Nom</th><th>Transporteur</th><th>Service</th><th>Colis</th><th class="n">Poids</th><th></th></tr></thead>
+      <tbody>${lp.map(p => `<tr><td>${esc(p.name)}${p.is_default ? ' <span class="puce v">défaut</span>' : ""}</td>
+        <td>${esc(p.carrier_code || "—")}</td><td>${esc(p.service_id || "—")}</td>
+        <td>${esc(p.package_id || "—")}</td><td class="n">${p.weight_g ? num(p.weight_g) + " g" : "—"}</td>
+        <td><button class="d" data-pd="${p.id}">Suppr.</button></td></tr>`).join("")}</tbody></table></div>`
+      : '<p class="doux">Aucun préréglage.</p>'}
+    <button class="p" id="pnew2">Nouveau préréglage</button>`;
+  $("#cprec").querySelectorAll("[data-pd]").forEach(b => b.onclick = async () => {
+    if (!confirm("Supprimer ce préréglage ?")) return;
+    await api("/api/presets/" + b.dataset.pd, { method: "DELETE" }); VUES.reglages();
+  });
+  $("#pnew2").onclick = () => dialogue("Nouveau préréglage d'expédition", `
+    <label class="champ"><span>Nom</span><input id="qn" placeholder="Semences drop-off"></label>
+    <div class="grille">
+      <label class="champ"><span>Transporteur</span><select id="qc"><option value="">—</option>
+        ${(S.refs.carriers || []).map(c => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Service</span><input id="qs" placeholder="expedited_parcel"></label>
+      <label class="champ"><span>Type de colis</span><input id="qp" placeholder="package"></label>
+      <label class="champ"><span>Confirmation</span><select id="qf"><option value="">—</option>
+        <option value="none">aucune</option><option value="delivery">livraison</option>
+        <option value="signature">signature</option></select></label>
+      <label class="champ"><span>Poids (g)</span><input type="number" id="qw"></label>
+      <label class="champ"><span>Entrepôt</span><select id="qh"><option value="">—</option>
+        ${(S.refs.warehouses || []).map(w => `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select></label>
+    </div>
+    <label class="ch"><input type="checkbox" id="qd"> préréglage par défaut</label>
+    <p class="doux" style="font-size:12px">Laisser vide ce qui ne doit pas être imposé : un champ
+      vide ne touche pas à la commande.</p>`,
+    async () => {
+      if (!$("#qn").value.trim()) return false;
+      await api("/api/presets", { method: "POST", body: { name: $("#qn").value.trim(),
+        carrier_code: $("#qc").value, service_id: $("#qs").value, package_id: $("#qp").value,
+        confirmation: $("#qf").value, weight_g: Number($("#qw").value) || null,
+        warehouse_id: Number($("#qh").value) || null, is_default: $("#qd").checked } });
+      VUES.reglages();
+    }, "Créer");
+
+  // --- import Shopify
+  try {
+    const sh = await api("/api/shopify");
+    const abonnes = (sh.webhooks || []).filter(w => (w.url || "").includes("/webhooks/shopify"));
+    $("#cshc").innerHTML = `
+      <div class="grille" style="margin-bottom:10px">
+        <div class="kpi ${sh.configure ? "vert" : ""}"><div class="v" style="font-size:15px">
+          ${sh.configure ? esc(sh.boutique) : '<span class="puce a">non configuré</span>'}</div>
+          <div class="l">boutique</div></div>
+        <div class="kpi ${abonnes.length ? "vert" : "ambre"}"><div class="v">${abonnes.length}</div>
+          <div class="l">webhooks actifs</div></div>
+        <div class="kpi"><div class="v" style="font-size:15px">${sh.dernier_import ? jour(sh.dernier_import) : "jamais"}</div>
+          <div class="l">dernier import</div></div>
+      </div>
+      ${sh.secret_webhook ? "" : '<div class="avis">Aucun secret de webhook : les appels entrants seront tous refusés. Poser <code>SHOPIFY_WEBHOOK_SECRET</code>, ou laisser <code>SHOPIFY_CLIENT_SECRET</code> faire office.</div>'}
+      ${sh.webhooks_erreur ? `<div class="avis">${esc(sh.webhooks_erreur)}</div>` : ""}
+      <div class="barre">
+        <button class="p" id="shpull">Rattraper les commandes…</button>
+        <button id="shhook">Abonner aux webhooks</button>
+        <button id="shone">Importer une commande…</button>
+      </div>
+      ${abonnes.length ? `<div class="tbl" style="max-height:150px"><table><tbody>${
+        abonnes.map(w => `<tr><td>${esc(w.topic)}</td><td class="doux">${esc(w.url)}</td></tr>`).join("")
+      }</tbody></table></div>` : ""}`;
+
+    $("#shpull").onclick = () => dialogue("Rattraper les commandes Shopify", `
+      <label class="champ"><span>Depuis (AAAA-MM-JJ, vide = depuis le dernier import)</span>
+        <input id="shd" placeholder="2025-08-01"></label>
+      <p class="doux">Les commandes déjà présentes sont mises à jour, pas dupliquées : la clé
+        Shopify est la même que celle utilisée par la migration ShipStation.</p>`,
+      async () => {
+        $("#dlgC").innerHTML = '<p class="doux">Import en cours…</p>';
+        try {
+          const r = await api("/api/shopify/rattraper", { method: "POST",
+            body: { depuis: $("#shd")?.value ? $("#shd").value + "T00:00:00Z" : null } });
+          $("#dlgC").innerHTML = `<div class="carte"><b>${r.traitees} commande(s) traitée(s)</b>,
+            dont <b>${r.nouvelles}</b> nouvelle(s).<br>
+            <span class="doux">depuis ${jour(r.depuis)} jusqu'à ${jour(r.jusqua)}</span></div>`;
+          rafraichirCompteurs();
+        } catch (e) { $("#dlgC").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+        return false;
+      }, "Lancer");
+
+    $("#shhook").onclick = () => dialogue("Abonner Shopify aux webhooks", `
+      <label class="champ"><span>URL publique du service</span>
+        <input id="shu" value="${esc(location.origin)}"></label>
+      <p class="doux">Shopify appellera <code>/webhooks/shopify</code> à chaque commande créée,
+        modifiée ou annulée. Chaque appel est vérifié par signature HMAC.</p>`,
+      async () => {
+        const r = await api("/api/shopify/webhooks", { method: "POST", body: { base_url: $("#shu").value } });
+        alert(r.resultats.map(x => `${x.sujet} : ${x.erreur || "ok"}`).join("\n"));
+        VUES.reglages();
+      }, "Abonner");
+
+    $("#shone").onclick = () => dialogue("Importer une commande", `
+      <label class="champ"><span>Identifiant Shopify (numérique)</span><input id="shi"></label>`,
+      async () => {
+        const r = await api("/api/shopify/order", { method: "POST", body: { id: $("#shi").value } });
+        alert(`${r.order_number} ${r.nouvelle ? "importée" : "mise à jour"}.`);
+        rafraichirCompteurs();
+      }, "Importer");
+  } catch (e) {
+    $("#cshc").innerHTML = `<div class="avis">${esc(e.message)}</div>`;
+  }
+
   // --- canaux de vente
   const ch = await api("/api/channels");
   $("#cxt").innerHTML = `
@@ -1598,7 +1917,7 @@ VUES.reglages = async () => {
   $("#shImp").onclick = importerShopify;
   $("#shRattraper").onclick = async () => {
     const r = await api("/api/shopify/rattraper", { method: "POST", body: {} });
-    alert(`${r.bilan.creees} créée(s), ${r.bilan.majs} mise(s) à jour, ${r.bilan.ignorees} ignorée(s).`);
+    alert(`${r.traitees} commande(s) traitée(s), ${r.nouvelles} nouvelle(s).`);
     rafraichirCompteurs(); VUES.reglages();
   };
 
@@ -1753,13 +2072,16 @@ async function configurer2facteur() {
            <button class="d" id="db2">Désactiver</button>`}`,
       null);
   }
-  const p = await api("/api/moi/2fa/preparer", { method: "POST" });
+  const p = await api("/api/moi/2fa/preparer", { method: "POST", body: {} });
   const c = dialogue("Activer le second facteur", `
     <p>1. Scanner ce code avec Google Authenticator, Authy, 1Password ou le trousseau de votre
        téléphone.</p>
     <div style="text-align:center;margin:12px 0">${p.qr}</div>
     <p class="doux" style="font-size:12px">Le scan ne marche pas ? Saisir la clé à la main :<br>
       <code style="font-size:14px;letter-spacing:1px">${esc(p.lisible)}</code></p>
+    <p class="doux" style="font-size:12px">Code refusé alors que vous venez de scanner ?
+      Votre gestionnaire a peut-être gardé une entrée plus ancienne pour ce site :
+      <b>la supprimer</b>, puis <a id="regen">repartir d'un secret neuf</a> et rescanner.</p>
     <hr>
     <p>2. Saisir le code affiché par l'application pour confirmer.</p>
     <label class="champ"><input id="a2" inputmode="numeric" maxlength="6" placeholder="123456"
@@ -1778,6 +2100,12 @@ async function configurer2facteur() {
         return false;
       } catch (e) { $("#ae2").innerHTML = `<div class="avis">${esc(e.message)}</div>`; return false; }
     }, "Activer");
+  const rg = $("#regen", c);
+  if (rg) rg.onclick = async () => {
+    if (!confirm("Générer un nouveau secret ? L'ancien QR ne vaudra plus rien.")) return;
+    await api("/api/moi/2fa/preparer", { method: "POST", body: { regenerer: true } });
+    $("#dlg").close(); configurer2facteur();
+  };
   setTimeout(() => {
     const d = $("#db2", c);
     if (d) d.onclick = async () => {
@@ -1831,7 +2159,7 @@ const RACCOURCIS = {
   "g a": ["Aller aux réglages", () => aller("reglages")],
   "m s": ["Marquer comme expédiée", () => S.cmdActions?.marquerExpedie()],
   "p s": ["Imprimer les bordereaux", () => S.sel.size && window.open(`/api/packing-slip?ids=${[...S.sel].join(",")}`, "_blank")],
-  "p l": ["Imprimer la liste de prélèvement", () => S.sel.size && window.open(`/api/packing-slip?ids=${[...S.sel].join(",")}&pick=1`, "_blank")],
+  "p l": ["Imprimer la liste de prélèvement", () => S.sel.size && window.open(`/api/pick-list?ids=${[...S.sel].join(",")}`, "_blank")],
   "o r": ["Recharger la grille", () => S.cmdCharger?.()],
   "u": ["Mettre à jour les boutiques (Shopify)", importerShopify],
   "v": ["Ouvrir le détail", () => S.sel.size && detailCommande(Number([...S.sel][0]))],

@@ -31,10 +31,10 @@ const ingest = require("../lib/ingest");
 const channels = require("../lib/channels");
 const criteres = require("../lib/criteres");
 const automation = require("../lib/automation");
-const presets = require("../lib/presets");
 const hs = require("../lib/hs");
 const lasclay = require("../lib/lasclay");
-const shopify = require("../lib/shopify_import");
+const shopify = require("../lib/shopify_sync");
+const presets = require("../lib/presets");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const auth = require("../lib/auth");
@@ -61,6 +61,11 @@ const texte = (res, code, s, type = "text/plain; charset=utf-8") => {
 const corps = (req) => new Promise((ok, ko) => {
   let d = ""; req.on("data", (c) => { d += c; if (d.length > 8e6) req.destroy(); });
   req.on("end", () => { try { ok(d ? JSON.parse(d) : {}); } catch (e) { ko(new Error("JSON invalide")); } });
+  req.on("error", ko);
+});
+const corpsBrut = (req) => new Promise((ok, ko) => {
+  let d = ""; req.on("data", (c) => { d += c; if (d.length > 8e6) req.destroy(); });
+  req.on("end", () => ok(d));
   req.on("error", ko);
 });
 const q = (url) => Object.fromEntries(url.searchParams);
@@ -160,6 +165,29 @@ route("POST /api/orders/merge", async ({ req, user }) => {
   const b = await corps(req);
   return { cible: orders.fusionner(Number(b.target), (b.ids || []).map(Number), user) };
 });
+/**
+ * Configuration d'expédition appliquée à une sélection — l'équivalent du « Configure Shipment
+ * Widget » de ShipStation. Seuls les champs fournis sont écrits ; les autres restent tels quels,
+ * pour qu'on puisse corriger un poids sans effacer un service déjà choisi.
+ */
+route("POST /api/orders/configure", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const champs = ["carrier_code", "service_id", "package_id", "confirmation", "warehouse_id"];
+  const sets = [], vals = [];
+  for (const c of champs) if (b[c] !== undefined && b[c] !== "") { sets.push(`${c} = ?`); vals.push(b[c]); }
+  if (b.weight_g !== undefined && b.weight_g !== "") { sets.push("weight_g = ?"); vals.push(Number(b.weight_g)); }
+  if (b.dimensions) { sets.push("dimensions = ?"); vals.push(db.dump(b.dimensions)); }
+  if (!sets.length) return { error: "aucun champ à modifier", code: 400 };
+  let n = 0;
+  for (const id of (b.ids || []).map(Number)) {
+    db.run(`UPDATE orders SET ${sets.join(", ")}, modified_at = ? WHERE id = ?`, ...vals, db.maintenant(), id);
+    n++;
+  }
+  db.journaliser("order.configure", "order", null, { n, champs: sets.length }, user);
+  return { ok: true, n };
+});
+
 route("POST /api/orders/release-holds", ({ user }) => {
   accounts.exiger(user, "orders_edit");
   return { liberees: orders.libererHolds() };
@@ -257,6 +285,137 @@ route("GET /api/manifests", () => ({ manifests: shipments.manifestes() }));
 route("POST /api/manifests", async ({ req, user }) => {
   const b = await corps(req);
   return shipments.creerManifeste(b.carrier_code, { shipDate: b.ship_date, warehouseId: b.warehouse_id, userId: user });
+});
+
+// ================================================================ SHOPIFY
+
+route("GET /api/shopify", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  const e = shopify.etat();
+  if (!e.configure) return e;
+  try { e.webhooks = await shopify.webhooksExistants(); }
+  catch (err) { e.webhooks_erreur = String(err.message).slice(0, 200); }
+  return e;
+});
+
+route("POST /api/shopify/rattraper", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const lignes = [];
+  const r = await shopify.rattraper({ depuis: b.depuis || null, max: Number(b.max) || 2000,
+    journal: (m) => { lignes.push(m); console.error(m); } });
+  return { ...r, journal: lignes };
+});
+
+route("POST /api/shopify/order", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  return await shopify.importerUne((await corps(req)).id);
+});
+
+route("POST /api/shopify/webhooks", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  if (!b.base_url) return { error: "base_url requis (ex. https://shipstation-clone.onrender.com)", code: 400 };
+  return await shopify.abonnerWebhooks(b.base_url);
+});
+
+/**
+ * Point d'entrée des webhooks Shopify. Public par nécessité — Shopify n'a pas de session —
+ * mais protégé par la signature HMAC sur le corps brut. Un corps non signé est rejeté.
+ */
+route("POST /webhooks/shopify", async ({ req, res }) => {
+  const brut = await corpsBrut(req);
+  if (!shopify.signatureValide(brut, req.headers["x-shopify-hmac-sha256"])) {
+    db.journaliser("shopify.webhook_refuse", "system", null, { ip: ipDe(req) });
+    return { error: "signature invalide", code: 401 };
+  }
+  // On répond tout de suite : Shopify désactive un point de terminaison trop lent.
+  json(res, 200, { ok: true });
+  const sujet = req.headers["x-shopify-topic"] || "";
+  setImmediate(async () => {
+    try {
+      const r = await shopify.traiterWebhook(sujet, JSON.parse(brut));
+      db.journaliser("shopify.webhook", "order", r.id || null, r);
+    } catch (e) {
+      db.journaliser("shopify.webhook_erreur", "system", null, { sujet, erreur: String(e.message).slice(0, 300) });
+    }
+  });
+  return null;
+});
+
+// ================================================= PRÉRÉGLAGES, ALIAS, BUNDLES
+
+route("GET /api/presets", () => ({ presets: presets.presets() }));
+route("POST /api/presets", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  return { id: presets.sauverPreset(await corps(req)) };
+});
+route("DELETE /api/presets/:id", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  presets.supprimerPreset(Number(params.id));
+  return { ok: true };
+});
+route("POST /api/presets/apply", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return presets.appliquerPreset(Number(b.preset_id), (b.ids || []).map(Number),
+    { userId: user && user.id, garderPoids: b.garder_poids !== false });
+});
+
+route("GET /api/aliases", ({ user }) => { accounts.exiger(user, "products_view"); return { aliases: presets.alias() }; });
+route("POST /api/aliases", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  const b = await corps(req);
+  if (b.supprimer) { presets.retirerAlias(b.alias); return { ok: true }; }
+  presets.poserAlias(b.alias, b.sku, b.store_id || null);
+  return { ok: true };
+});
+route("POST /api/bundles", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  const b = await corps(req);
+  return { composants: presets.definirBundle(b.sku, b.items || []) };
+});
+
+/** Liste de prélèvement — bundles éclatés, agrégée, triée par emplacement. */
+route("GET /api/pick-list", ({ url, res }) => {
+  const ids = String(q(url).ids || "").split(",").filter(Boolean).map(Number);
+  const lignes = presets.listeDePrelevement(ids);
+  const marque = db.reglage("marque", accounts.MARQUE_DEFAUT);
+  texte(res, 200, `<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<title>Liste de prélèvement</title><style>
+ body{font:13px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:18mm;color:#111}
+ h1{font-size:17px;margin:0 0 2px} .s{color:#666;margin:0 0 14px}
+ table{width:100%;border-collapse:collapse} th{text-align:left;border-bottom:2px solid #111;padding:6px 4px;font-size:11px}
+ td{padding:7px 4px;border-bottom:1px solid #ddd} .n{text-align:right;font-variant-numeric:tabular-nums}
+ .c{width:26px} .q{font-weight:700;font-size:15px}
+ @media print{body{padding:10mm}}
+</style></head><body>
+<h1>Liste de prélèvement — ${db.parse(JSON.stringify(marque.nom))}</h1>
+<p class="s">${ids.length} commande(s) · ${lignes.length} article(s) distinct(s) ·
+  ${lignes.reduce((s, l) => s + l.quantity, 0)} unité(s) — ${new Date().toISOString().slice(0, 16).replace("T", " ")}</p>
+<table><thead><tr><th class="c"></th><th>Emplacement</th><th>SKU</th><th>Article</th><th class="n">Qté</th></tr></thead>
+<tbody>${lignes.map((l) => `<tr><td class="c">☐</td><td><b>${l.warehouse_location || "—"}</b></td>
+  <td>${l.sku || "—"}</td><td>${String(l.name || "").replace(/[<>&]/g, "")}</td>
+  <td class="n q">${l.quantity}</td></tr>`).join("")}</tbody></table>
+</body></html>`, "text/html; charset=utf-8");
+  return null;
+});
+
+// ============================================ COMMANDES MANUELLES ET IMPORT CSV
+
+route("POST /api/orders/manual", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  return ingest.creerCommandeManuelle(await corps(req), { userId: user });
+});
+route("GET /api/orders/next-number", ({ user }) => {
+  accounts.exiger(user, "orders_edit");
+  return { order_number: ingest.prochainNumeroManuel() };
+});
+route("POST /api/import/csv", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  if (!b.csv) return { error: "aucun contenu", code: 400 };
+  return ingest.importerCsv(b.csv, { apercu: !!b.apercu, userId: user });
 });
 
 // ==================================================================== RETOURS
@@ -362,21 +521,7 @@ route("POST /api/automation/reprocess", async ({ req, user }) => {
   return automation.retraiter({ dryRun: !!b.dry_run, limite: Number(b.limite) || 5000 });
 });
 
-// ======================================================= PRÉRÉGLAGES ET MAPPINGS
-
-route("GET /api/presets", () => ({ presets: presets.lister() }));
-route("POST /api/presets", async ({ req, user }) => {
-  accounts.exiger(user, "settings_edit");
-  const b = await corps(req);
-  if (b.delete) { presets.supprimer(Number(b.id)); return { ok: true }; }
-  return { id: presets.sauver(b) };
-});
-route("POST /api/presets/apply", async ({ req, user }) => {
-  accounts.exiger(user, "orders_edit");
-  const b = await corps(req);
-  return presets.appliquer(Number(b.preset_id), (b.ids || []).map(Number),
-    { garderPoids: b.garder_poids !== false, userId: user && user.id });
-});
+// ================================================== MAPPINGS DE SERVICE (§13.6)
 
 route("GET /api/service-mappings", ({ url }) => ({
   mappings: presets.mappings(q(url).store_id ? Number(q(url).store_id) : null),
@@ -409,28 +554,6 @@ route("POST /api/lasclay/charger", async ({ req, user }) => {
   return { bilan, journal: lignes };
 });
 
-// ================================================================== SHOPIFY
-
-route("GET /api/shopify", () => shopify.etat());
-route("POST /api/shopify/import", async ({ req, user }) => {
-  accounts.exiger(user, "orders_edit");
-  const b = await corps(req);
-  const lignes = [];
-  const bilan = await shopify.importer({
-    depuis: b.depuis || null,
-    filtre: { nonExpediees: b.non_expediees !== false, depuisCreation: b.depuis_creation || null,
-              numero: b.numero || null },
-    max: Number(b.max) || 2000,
-    journal: (m) => { lignes.push(m); console.error("[shopify]", m); },
-  });
-  return { bilan, journal: lignes };
-});
-route("POST /api/shopify/rattraper", async ({ user }) => {
-  accounts.exiger(user, "orders_edit");
-  const lignes = [];
-  return { bilan: await shopify.rattraper({ journal: (m) => lignes.push(m) }), journal: lignes };
-});
-
 // =================================================================== GABARITS
 
 route("GET /api/templates", ({ url }) => ({ templates: templates.lister(q(url).kind || null) }));
@@ -455,8 +578,16 @@ route("GET /api/packing-slip", ({ url, res }) => {
     if (!cmd) return "";
     return `<article class="page">${templates.rendre(gabarit.body, { order: cmd, items: cmd.items, marque })}</article>`;
   }).join("");
+  const format = q(url).format || "full";
+  const styleFormat = format === "4x6"
+    ? `@page{size:4in 6in;margin:0} .page{padding:6mm;font-size:11px}`
+    : format === "2up"
+      ? `@page{size:letter;margin:0} .page{padding:8mm;height:5.5in;page-break-after:auto;
+         border-bottom:1px dashed #bbb} .page:nth-child(2n){page-break-after:always}`
+      : `@page{size:letter;margin:0}`;
   texte(res, 200, `<!doctype html><html lang="fr"><head><meta charset="utf-8">
 <title>Bordereaux</title><style>
+  ${styleFormat}
   body{font:12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;color:#111}
   .page{padding:18mm;page-break-after:always}
   .logo{max-height:60px} header{display:flex;gap:16px;align-items:center;border-bottom:2px solid #111;padding-bottom:8px}
@@ -506,8 +637,31 @@ route("GET /api/export/:quoi", ({ params, url, res }) => {
       sku: p.sku, nom: p.name, poids_g: p.weight_g, code_sh: p.hs_code,
       origine: p.country_of_origin, description_douane: p.customs_description, actif: p.active ? 1 : 0 })),
     customers: () => catalog.chercherClients({ ...f, limit: 1000 }).customers.map((c) => ({
-      courriel: c.email, nom: c.name, commandes: c.order_count, total: c.total_spent,
-      premiere: c.first_order, derniere: c.last_order })),
+      courriel: c.email, nom: c.name, telephone: c.phone, commandes: c.order_count,
+      total: c.total_spent, premiere: c.first_order, derniere: c.last_order })),
+    batches: () => shipments.lots().map((b) => ({
+      lot: b.id, nom: b.name, cree: b.created_at, etiquettes: b.n, cout: b.cout, statut: b.status })),
+    returns: () => catalog.chercherRetours({ limit: 1000 }).returns.map((r) => ({
+      rma: r.rma, commande: r.order_number, client: r.customer_name, motif: r.reason,
+      resolution: r.resolution, statut: r.status, demande: r.requested_at, clos: r.closed_at })),
+    manifests: () => shipments.manifestes().map((m) => ({
+      manifeste: m.id, transporteur: m.carrier_code, date: m.ship_date,
+      expeditions: m.shipment_count, statut: m.status })),
+    /** Le « Shipping Cost Report » de ShipStation : payé contre encaissé, ligne à ligne. */
+    "shipping-cost": () => db.all(`
+      SELECT o.order_number commande, o.order_date date_commande, s.ship_date date_envoi,
+             s.carrier_code transporteur, s.service_id service, s.weight_g poids_g,
+             ROUND(s.cost,2) cout_reel, ROUND(o.shipping_paid,2) frais_encaisses,
+             ROUND(o.shipping_paid - s.cost, 2) ecart, s.drop_off,
+             json_extract(s.ship_to,'$.country') pays
+      FROM shipments s JOIN orders o ON o.id = s.order_id
+      WHERE s.voided = 0 ORDER BY s.ship_date DESC LIMIT 5000`),
+    /** Détail article par article, pour les rapprochements comptables. */
+    "order-items": () => db.all(`
+      SELECT o.order_number commande, o.order_date date, i.sku, i.name article,
+             i.quantity qte, i.unit_price prix, i.weight_g poids_g, o.status statut
+      FROM order_items i JOIN orders o ON o.id = i.order_id
+      WHERE i.adjustment = 0 ORDER BY o.order_date DESC LIMIT 10000`),
   };
   if (!jeux[params.quoi]) return { error: "export inconnu", code: 404 };
   const csv = analytics.csv(jeux[params.quoi]());
@@ -519,16 +673,44 @@ route("GET /api/export/:quoi", ({ params, url, res }) => {
 
 // ============================================== RÉFÉRENTIELS, RÉGLAGES, ADMIN
 
+/**
+ * Sauvegarde complète en JSON — tout ce que contient la base, sans les PDF d'étiquettes.
+ * Existe pour qu'aucune donnée ne soit jamais captive de cet outil non plus.
+ */
+route("GET /api/backup", ({ res, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const tables = db.all(`SELECT name FROM sqlite_master WHERE type='table'
+                         AND name NOT LIKE 'sqlite_%' AND name NOT IN ('sessions','login_attempts')`)
+    .map((t) => t.name);
+  const sortie = { exporte_le: db.maintenant(), tables: {} };
+  for (const t of tables) {
+    sortie.tables[t] = t === "shipments"
+      ? db.all("SELECT * FROM shipments").map(({ label_pdf, customs_pdf, ...r }) => r)
+      : t === "users"
+        ? db.all("SELECT * FROM users").map(({ password_hash, totp_secret, recovery_codes, ...r }) => r)
+        : db.all(`SELECT * FROM ${t}`);
+  }
+  const b = Buffer.from(JSON.stringify(sortie, null, 1));
+  res.writeHead(200, { "Content-Type": "application/json; charset=utf-8",
+    "Content-Disposition": `attachment; filename="sauvegarde-${new Date().toISOString().slice(0, 10)}.json"`,
+    "Content-Length": b.length });
+  res.end(b);
+  db.journaliser("backup.export", "system", null, { tables: tables.length }, user);
+  return null;
+});
+
 route("GET /api/refs", () => ({
   stores: db.all("SELECT * FROM stores ORDER BY name"),
   warehouses: db.all("SELECT * FROM warehouses ORDER BY name").map((w) => ({ ...w, origin_address: db.parse(w.origin_address, {}) })),
   carriers: db.all("SELECT * FROM carriers ORDER BY name"),
   tags: db.all("SELECT * FROM tags ORDER BY name"),
+  services: db.all("SELECT * FROM services ORDER BY carrier_code, name"),
+  packages: db.all("SELECT * FROM packages ORDER BY carrier_code, name"),
   users: accounts.utilisateurs(),
   statuts: orders.STATUTS,
   services: db.all("SELECT * FROM services WHERE hidden IS NULL OR hidden = 0 ORDER BY carrier_code, CAST(id AS INTEGER), name"),
   packages: db.all("SELECT * FROM packages ORDER BY custom DESC, name").map((p) => ({ ...p, dimensions: db.parse(p.dimensions) })),
-  presets: presets.lister(),
+  presets: presets.presets(),
   confirmations: lasclay.CONFIRMATIONS,
 }));
 
@@ -664,7 +846,8 @@ route("POST /api/login/2fa", async ({ req, res }) => {
 // --- gestion de son propre second facteur
 route("GET /api/moi/2fa", ({ moi }) => auth.etat2facteur(moi.id));
 
-route("POST /api/moi/2fa/preparer", ({ moi }) => auth.preparer2facteur(moi.id));
+route("POST /api/moi/2fa/preparer", async ({ req, moi }) =>
+  auth.preparer2facteur(moi.id, { regenerer: (await corps(req)).regenerer === true }));
 
 route("POST /api/moi/2fa/activer", async ({ req, moi }) => auth.activer2facteur(moi.id, (await corps(req)).code));
 
@@ -714,7 +897,8 @@ route("POST /api/users/:id/password", async ({ req, params, user }) => {
 
 /** Routes accessibles sans session. Tout le reste exige d'être connecté. */
 const PUBLIQUES = new Set(["GET /", "GET /index.html", "GET /api/config",
-  "POST /api/login", "POST /api/login/2fa", "POST /api/logout", "GET /api/moi", "GET /healthz"]);
+  "POST /api/login", "POST /api/login/2fa", "POST /api/logout", "GET /api/moi", "GET /healthz",
+  "POST /webhooks/shopify"]);   // authentifié par signature HMAC, pas par session
 
 const serveur = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
@@ -841,9 +1025,14 @@ if (require.main === module) {
   // Reprise du renvoi de suivi : un canal momentanément indisponible ne doit pas laisser un
   // client sans numéro de suivi.
   setInterval(() => channels.traiterFile({ limite: 50 }).catch(() => {}), 10 * 60 * 1000).unref();
-  // Import Shopify récurrent — la synchronisation vivante (exigence B1). Sans clés Shopify
-  // configurées, la minuterie ne démarre pas et l'import reste disponible à la demande.
-  if (shopify.demarrerSync()) console.error(`[shopify] synchronisation toutes les ${process.env.CLONE_SHOPIFY_SYNC_MIN ?? 20} min`);
+  // Rattrapage Shopify — la synchronisation vivante (exigence B1), et le filet sous les
+  // webhooks : un webhook perdu ne doit pas coûter une commande.
+  const minutesSync = Number(process.env.CLONE_SHOPIFY_SYNC_MIN ?? 20);
+  if (shopify.configure() && minutesSync > 0) {
+    setInterval(() => shopify.rattraper({ max: 200 }).catch((e) =>
+      console.error("rattrapage Shopify :", e.message)), minutesSync * 60 * 1000).unref();
+    console.error(`[shopify] rattrapage toutes les ${minutesSync} min`);
+  }
 }
 
 module.exports = { serveur, ROUTES, trouver };

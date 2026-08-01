@@ -224,8 +224,10 @@ ne dépend pas de nous.
 | Webhooks, file de notifications, journal d'audit | fait |
 | Exports CSV | fait |
 | Migration depuis ShipStation | fait |
-| **Import direct des commandes Shopify** | fait — synchronisation vivante toutes les 20 min |
+| **Import Shopify direct** : webhooks signés HMAC + rattrapage périodique | fait |
 | Renvoi du suivi à Shopify, Etsy et Faire | fait — identifiants boutique à fournir |
+| Migration : lots reconstitués, tags, utilisateurs, catalogues de services | fait |
+| Exports CSV (9 jeux, dont coût réel vs encaissé) + sauvegarde JSON complète | fait |
 | Configuration réelle du compte : 11 règles, 27 vues, 17 préréglages, 17 colis, 6 étiquettes, 5 emplacements, 11 mappings | fait |
 | Pipeline des 6 couches d'automatisation, dans l'ordre de ShipStation | fait |
 | Interface : layout à 3 colonnes, vues en onglets avec compteurs, colonnes configurables et épinglées, raccourcis clavier | fait |
@@ -302,7 +304,8 @@ lib/analytics.js  rapports, dont l'écart au tarif drop-off
 lib/accounts.js   utilisateurs, permissions, webhooks, notifications
 lib/ingest.js     migration ShipStation + import normalisé pour Shopify/Etsy/Faire
 lib/channels.js   renvoi du suivi aux boutiques, file de reprise, date de bascule
-app/server.js     ~90 routes
+lib/shopify_sync.js  import Shopify : webhooks signés HMAC, rattrapage, conversion
+app/server.js     ~100 routes
 verifier.js       contrôle d'installation, à lancer après déploiement
 verifier_criteres.js  74 vérifications : accord SQL/JavaScript sur les 27 vues, portées
                   multi-articles, ordre des règles, préréglages, codes SH, marge
@@ -315,8 +318,9 @@ fournisseur, c'est écrire quatre fonctions.
 
 ## La règle qui porte l'économie
 
-`lib/rules.js` livre cinq règles de départ, **créées désactivées** — à relire avant usage. La
-première est celle qui compte :
+Au premier démarrage, le clone charge la **configuration réelle du compte ShipStation**
+(`lib/lasclay.js`) : les 11 règles dans leur état exact, les 27 vues, les 17 préréglages. La
+règle qui porte l'économie n'est pas dans ce jeu — elle se pose au-dessus :
 
 ```
 SI poids < 500 g ET poids > 0 ET pays = CA
@@ -328,6 +332,20 @@ politique à l'achat : le moins cher, drop-off privilégié sous le seuil.
 
 L'onglet **Analytique** mesure en continu l'écart entre ce qui est capté et ce qui reste sur la
 table — c'est le tableau de bord du projet, pas un rapport décoratif.
+
+## Import Shopify
+
+Les nouvelles commandes arrivent directement de Shopify, sans ShipStation entre les deux.
+
+- **Webhooks** `orders/create`, `orders/updated`, `orders/cancelled` — Réglages → *Abonner aux
+  webhooks*. Chaque appel entrant est vérifié par **signature HMAC sur le corps brut** ; un appel
+  non signé est refusé et journalisé.
+- **Rattrapage** toutes les vingt minutes, et à la demande. Un webhook manqué ne coûte pas une
+  commande.
+- La clé est l'identifiant Shopify, la même que celle utilisée par la migration ShipStation : une
+  commande vue des deux côtés **converge** au lieu de se dupliquer.
+- Les règles ne s'appliquent qu'à l'arrivée d'une commande inconnue — un rattrapage n'écrase pas
+  un choix fait à la main dans la grille.
 
 ## Migration — à faire avant toute résiliation
 
@@ -346,6 +364,5 @@ avec l'abonnement** — une fois résilié, ces données sont perdues.
 1. **Obtenir l'accès API ClickShip** et coter un colis de 400 g Québec → Toronto. Si le tarif
    drop-off sort de l'API, le reste est de l'exécution (`BRIEF_CLICKSHIP.md` §A).
 2. Compléter `lib/carrier.js`.
-3. Brancher l'ingestion Shopify en direct (webhook `orders/create`), aujourd'hui via ShipStation.
 4. Brancher un envoi SMTP : les notifications sont générées et mises en file, jamais envoyées.
 6. Basculer entre mai et août : décembre fait 2 755 envois, juin en fait 142.

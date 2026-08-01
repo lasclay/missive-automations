@@ -724,6 +724,43 @@ partenaires). Le clone doit accepter un suivi saisi manuellement ou importé, pa
 
 ---
 
+## 9 bis. État de la parité — mise à jour
+
+L'inventaire du §5 a servi de cahier des charges. Ce qui en a été construit :
+
+| Fonction ShipStation | Dans le clone |
+|---|---|
+| Grille : colonnes ajoutables, réordonnables, **deux épinglées** | fait — 27 colonnes au catalogue |
+| Vues sauvegardées (filtres, colonnes, tri) | fait, sans limite de nombre |
+| Tri par en-tête, recherche rapide, filtres cumulables | fait |
+| Actions de masse : hold, assigner, annuler, étiqueter, marquer expédié | fait |
+| **Configure Shipment Widget** | fait — configuration d'expédition sur une sélection |
+| Order Alerts | fait — six familles, dont douane et fusionnables |
+| Split Ship | fait — scission par article depuis le détail |
+| Combine | fait |
+| Lots : achat groupé, simulation de coût | fait, plus la **simulation avant achat** que ShipStation n'a pas |
+| Expéditions : annulation, réimpression, suivi | fait |
+| End of Day / manifestes | fait |
+| Retours : RMA, cycle de vie | fait — le portail public de marque, non |
+| Produits : fiches, défauts, **groupes de préréglages** | fait |
+| Inventaire : stock par entrepôt, seuils, alertes | fait — la synchronisation externe, non |
+| Clients | fait |
+| Analytics : coûts, volumes, transporteurs | fait, plus **l'écart au tarif drop-off** que ShipStation n'a pas |
+| Shipping Cost Report | fait — export dédié |
+| Exports de données brutes | fait — neuf jeux CSV, plus une sauvegarde JSON complète |
+| Automatisation SI/ALORS, chaînée | fait — 18 champs, 14 opérateurs, 14 actions, essai à blanc |
+| Gabarits bordereau et courriel, éditables | fait — HTML + variables, conditions, boucles |
+| Marque | fait |
+| Utilisateurs et permissions par domaine | fait, plus **2FA** que ShipStation n'impose pas |
+| Webhooks | fait |
+| Application mobile, picking, Scan to Verify | **non** — non utilisé aujourd'hui |
+| Portail de retours public | **non** |
+| Rate Shopper multi-transporteur | partiel — la politique existe, elle attend un vrai transporteur |
+
+Deux fonctions du clone n'existent pas chez ShipStation : la **simulation de lot** (ce que
+coûtera le lot, avant de l'acheter) et le **suivi de l'écart au tarif drop-off**, qui mesure en
+continu ce qui reste sur la table.
+
 ## 10. Note sur les captures d'écran
 
 L'objectif « images de l'interface » n'a **pas pu être rempli** : le proxy réseau de cette session
