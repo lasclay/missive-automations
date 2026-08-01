@@ -871,7 +871,23 @@ route("POST /api/logout", async ({ req, res }) => {
 });
 
 /** Qui suis-je — sert à l'interface pour savoir quoi afficher. */
-route("GET /api/moi", ({ moi }) => (moi ? { user: moi } : { user: null }));
+route("GET /api/moi", ({ moi }) => (moi ? { user: moi, pref: preferences(moi.id) } : { user: null }));
+
+/**
+ * Préférences d'affichage — portée **utilisateur**, pas compte (§6.12 des notes de
+ * réplication : langue, format de date, unités et écran de connexion sont personnels).
+ * Conservées en base plutôt que dans le navigateur : un employé qui change de poste garde
+ * sa langue, et ce n'est pas ce qui doit se réinitialiser en vidant un cache.
+ */
+const preferences = (userId) => db.reglage(`pref:${userId}`, { langue: "fr" }) || { langue: "fr" };
+
+route("GET /api/moi/preferences", ({ moi }) => preferences(moi.id));
+route("POST /api/moi/preferences", async ({ req, moi }) => {
+  const b = await corps(req);
+  const p = { ...preferences(moi.id), ...b };
+  db.poserReglage(`pref:${moi.id}`, p);
+  return p;
+});
 
 route("POST /api/moi/password", async ({ req, moi }) => {
   const b = await corps(req);

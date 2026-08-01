@@ -296,6 +296,213 @@ const money = (v) => (Number(v) || 0).toFixed(2) + " $";
 const num = (v) => (Number(v) || 0).toLocaleString("fr-CA");
 const jour = (s) => (s ? String(s).slice(0, 10) : "—");
 
+// ══════════════════════════════════════════════════════════════════ langue
+/**
+ * Deux langues d'interface, comme ShipStation (« English, Spanish, French, French (Canada) »).
+ *
+ * La traduction porte sur le **chrome** — navigation, statuts, barres de filtres et d'actions,
+ * menus, en-têtes de colonnes, sections de la sidebar, pagination, pieds de dialogue. Jamais
+ * sur les données : un client nommé « Total » ou une vue nommée « Colis Canada » traverse
+ * intact, puisque seuls les conteneurs d'interface sont parcourus.
+ *
+ * Le compte ShipStation de Lasclay tournait en `en-CA` : les réflexes de l'entrepôt sont en
+ * anglais, ceux des nouveaux employés en français. Le choix est **par utilisateur** (§6.12 —
+ * langue, format de date et unités sont des préférences personnelles, pas des réglages de
+ * compte) et conservé en base, pour qu'il suive l'employé d'un poste à l'autre.
+ */
+const EN = {
+  // — navigation et modules
+  "Insights": "Insights", "Commandes": "Orders", "Expéditions": "Shipments",
+  "Produits": "Products", "Clients": "Customers", "Retours": "Returns", "Lots": "Batches",
+  "Fin de journée": "End of Day", "Douanes (SH)": "Customs (HS)", "Alertes": "Alerts",
+  "Analytique": "Insights", "Gabarits": "Templates", "Utilisateurs": "Users",
+  "Réglages": "Settings", "Journal": "Audit Log", "Préréglages": "Presets",
+  "Automatisation": "Automation",
+  // — engrenage
+  "Compte, boutiques et import": "Account, Stores & Import",
+  "Règles d'automatisation": "Automation Rules",
+  "Préréglages d'expédition et mappings": "Shipping Presets & Service Mapping",
+  "Bordereaux et courriels": "Packing Slips & Emails",
+  "Utilisateurs et permissions": "Users & Permissions",
+  "Alertes de commandes": "Order Alerts", "Journal d'audit": "Audit Log",
+  // — profil
+  "Second facteur ✓": "Two-factor ✓", "Activer le second facteur": "Enable two-factor",
+  "Changer le mot de passe": "Change password", "Voir les alertes": "View Alerts",
+  "Se déconnecter": "Sign Out", "Langue : Français": "Language: English",
+  "Recherche rapide  ( / )": "Quicksearch  ( / )",
+  // — barre latérale et statuts
+  "Commandes": "Orders", "Vues sauvegardées": "Saved Filters",
+  "À expédier": "Awaiting Shipment", "En attente": "On Hold",
+  "Paiement attendu": "Awaiting Payment", "Préparation externe": "Pending Fulfillment",
+  "Expédiée": "Shipped", "Annulée": "Cancelled",
+  "aucune vue — charger la configuration Lasclay dans Réglages":
+    "no views — load the Lasclay configuration in Settings",
+  // — onglets de vues
+  "+ Enregistrer la vue": "+ Click to Save", "Toutes les vues": "All views",
+  // — barre de filtres
+  "N° commande, client, courriel, ville, SKU…  ( / )": "Order #, customer, email, city, SKU…  ( / )",
+  "N° commande, client, courriel, ville, SKU…": "Order #, customer, email, city, SKU…",
+  "Toutes boutiques": "All stores", "Tous pays": "All countries",
+  "Drop-off : tous": "Drop-off: all", "Toutes étiquettes": "All tags",
+  "poids min": "min weight", "poids max": "max weight", "âge min (j)": "min age (d)",
+  "sans poids": "no weight", "Effacer les filtres": "Clear Filters", "Dense": "Dense",
+  // — barre d'actions
+  "aucune sélection": "no selection", "Coter": "Get Rate", "Imprimer ▾": "Print ▾",
+  "Assigner ▾": "Assign To ▾", "Étiqueter ▾": "Tag ▾", "Préréglage ▾": "Apply Preset ▾",
+  "Créer + imprimer l'étiquette": "Create + Print Label", "Autres actions ▾": "Other Actions ▾",
+  "Grouper ▾": "Group By ▾", "Colonnes": "Columns",
+  // — menu Imprimer
+  "Étiquette": "Label", "Bordereau de préparation": "Packing Slip",
+  "Liste de prélèvement": "Pick List", "Résumé de commande": "Order Summary",
+  "Formulaires de douane": "Customs Forms", "Exporter la sélection (CSV)": "Export Orders (CSV)",
+  // — menu Autres actions
+  "Marquer comme expédiée…": "Mark as Shipped…", "Fusionner les expéditions": "Combine Shipments",
+  "Scinder la commande…": "Split Shipment…",
+  "Configuration d'expédition en masse…": "Bulk Update…", "Mettre en attente…": "Hold Until…",
+  "Remettre en file": "Restore to Awaiting Shipment",
+  "Simuler le lot (coût et blocages)": "Preview batch (cost and blockers)",
+  "Créer un lot…": "Create Batch…",
+  "Rejouer l'automatisation (simulation)": "Reprocess Automation Rules (dry run)",
+  "Rejouer l'automatisation": "Reprocess Automation Rules",
+  "Annuler les commandes…": "Cancel Orders…",
+  "Gérer les préréglages…": "Manage Presets…", "Retirer une étiquette…": "Remove a tag…",
+  "Retirer l'assignation": "Unassign",
+  // — regroupements
+  "Aucun regroupement": "No grouping", "Nombre de lignes": "Line Items",
+  "Quantité": "Quantity", "Article": "Item Name",
+  // — colonnes de la grille
+  "N° commande": "Order #", "Date": "Order Date", "Âge": "Age", "Payée le": "Paid Date",
+  "À expédier avant": "Ship By Date", "En attente jusqu'au": "Hold Until Date",
+  "Destinataire": "Recipient", "Société": "Company", "Courriel": "Email", "Adresse": "Address",
+  "Ville": "City", "Prov.": "State", "Code postal": "Postal Code", "Pays": "Country",
+  "Articles": "Items", "Lignes": "# Line Items", "Qté": "Qty",
+  "Emplacement": "Warehouse Location", "Boutique": "Store",
+  "Service demandé": "Requested Service", "Transporteur": "Carrier", "Colis": "Package",
+  "Poids": "Weight", "Poids (g)": "Weight (g)", "Expédié de": "Ship From",
+  "Payé": "Amount Paid", "Total": "Order Total", "Livraison payée": "Shipping Paid",
+  "Taxes": "Tax Paid", "Assignée à": "Assigned To", "Étiquettes": "Tags",
+  "Champ perso 1": "Custom Field 1", "Champ perso 2": "Custom Field 2",
+  "Champ perso 3": "Custom Field 3", "Impression": "Print Status", "Statut": "Status",
+  // — sidebar d'expédition
+  "Sélectionnez une commande pour configurer l'expédition.":
+    "Select an order to configure the shipment.",
+  "Configuration de l'expédition": "Configure Shipment", "Notes": "Notes",
+  "Communication client": "Customer Communication", "Activité": "Shipment Activity",
+  "Commandée le": "Order Date", "Livraison facturée": "Shipping Paid",
+  "Poids (g) — touche W": "Weight (g) — key W", "Service": "Service",
+  "Confirmation": "Confirmation", "Assurance ($, vide = aucune)": "Insurance ($, blank = none)",
+  "Date d'expédition": "Ship Date", "Autres options d'expédition": "Other Shipping Options",
+  "interdire le dépôt en bureau de poste": "block post-office drop-off",
+  "ne pas notifier la boutique": "do not notify marketplace",
+  "non mappé": "unmapped", "mappé": "mapped", "dépôt": "drop-off",
+  "Note interne…": "Internal note…", "De l'acheteur": "Note From Buyer",
+  "Message cadeau": "Gift Note", "Enregistrer la note": "Save note",
+  "Bordereau": "Packing Slip", "Avis d'expédition": "Shipment Notification",
+  "Boutique notifiée": "Marketplace Notified", "aucune": "none",
+  "Chargement…": "Loading…", "aucune activité enregistrée": "no activity recorded",
+  "manquant": "missing", "aucun": "none", "campagne datée": "dated campaign",
+  "⚠ à vérifier": "⚠ to verify", "note": "note",
+  // — pagination et états vides
+  "sur": "of", "← Précédent": "← Previous", "Suivant →": "Next →", "par page": "per page",
+  "Aucune commande": "No orders", "Importer depuis Shopify": "Import from Shopify",
+  "Cette vue ne ramène rien pour l'instant.": "This view returns nothing right now.",
+  "Rien à expédier dans ce statut.": "Nothing to ship in this status.",
+  // — pieds de dialogue
+  "— choisir —": "— select —", "Aucune confirmation": "None",
+  "Confirmation de livraison": "Delivery Confirmation", "Signature requise": "Signature Required",
+  "Do Not Safe Drop": "Do Not Safe Drop", "po": "in", "g": "g",
+  "Fermer": "Close", "Confirmer": "Confirm", "Enregistrer": "Save", "Appliquer": "Apply",
+  "Importer": "Import", "Annuler": "Cancel", "Créer": "Create", "Acheter": "Buy",
+  "Scinder": "Split", "Retraiter": "Reprocess",
+};
+
+/** Conteneurs d'interface — la traduction ne sort jamais de là, donc jamais dans les données. */
+// Les pastilles de la grille portent un vocabulaire fixe — statut, « dépôt », « manquant »,
+// « non mappé » — et non des données : elles font partie du chrome. Les étiquettes de commande,
+// elles, sont rendues en `.tag` et restent intactes.
+const CHROME = "header.top, .sousnav, .ssL, .ongVues, .barreF, .barreA, .pag, .ssR, .menuF, " +
+  "dialog, thead, table.tblCmd .puce, table.tblCmd .age, tr.grp, .vide2, .vide3";
+
+const langue = () => (S.pref && S.pref.langue) || "fr";
+
+/** Formulations variables — ce qui porte un nombre ne peut pas vivre dans un dictionnaire. */
+const EN_MOTIFS = [
+  [/^(\d+) sélectionnées?$/, (m, n) => `${n} selected`],
+  [/^(\d[\d  ]*)–(\d[\d  ]*) sur (.+)$/, (m, a, b, c) => `${a}–${b} of ${c}`],
+  [/^(\d+) j$/, (m, n) => `${n} d`],
+  [/^(\d+) sélectionnée$/, (m, n) => `${n} selected`],
+];
+
+/** Traduit un sous-arbre sans reposer la question du périmètre : l'appelant l'a tranchée. */
+function traduireDans(z) {
+  const it = document.createTreeWalker(z, NodeFilter.SHOW_TEXT);
+  for (let n = it.nextNode(); n; n = it.nextNode()) {
+    const brut = n.nodeValue.trim();
+    if (!brut) continue;
+    // Un en-tête de colonne trié porte sa flèche : « Âge ▼ » n'est pas une clé, « Âge » si.
+    const sansFleche = brut.replace(/\s*[▼▲]$/, "");
+    const cible = EN[brut] || (EN[sansFleche] && EN[sansFleche] + brut.slice(sansFleche.length));
+    // Réécrire une valeur identique déclenche quand même une mutation de `characterData` :
+    // avec l'observateur branché dessus, une correspondance neutre ferait boucler la page.
+    // On ne touche au nœud que si le texte change vraiment.
+    if (cible) { if (cible !== brut) n.nodeValue = n.nodeValue.replace(brut, cible); continue; }
+    for (const [re, fn] of EN_MOTIFS) {
+      const m = brut.match(re);
+      if (m) { const t = fn(...m); if (t !== brut) n.nodeValue = n.nodeValue.replace(brut, t); break; }
+    }
+  }
+  const porteurs = z.querySelectorAll ? [...z.querySelectorAll("[placeholder],[title]")] : [];
+  if (z.getAttribute && (z.getAttribute("placeholder") || z.getAttribute("title"))) porteurs.push(z);
+  for (const e of porteurs) {
+    for (const attr of ["placeholder", "title"]) {
+      const v = e.getAttribute(attr);
+      if (v && EN[v.trim()] && EN[v.trim()] !== v.trim()) e.setAttribute(attr, EN[v.trim()]);
+    }
+  }
+}
+
+/**
+ * Traduit le chrome d'une racine. Sans effet en français : le texte source EST le français.
+ *
+ * Trois cas à couvrir, et c'est le troisième qui compte : la racine **est** un conteneur de
+ * chrome, elle en **contient**, ou — le plus fréquent quand une section se redessine — elle
+ * se trouve **dedans**. Sans ce dernier cas, tout ce qu'un `innerHTML` écrit à l'intérieur
+ * de la sidebar ou de la pagination échappait à la traduction.
+ */
+function traduire(racine = document.body) {
+  if (langue() !== "en" || !racine || !racine.querySelectorAll) return;
+  const zones = new Set(racine.querySelectorAll(CHROME));
+  if (racine.matches && racine.matches(CHROME)) zones.add(racine);
+  else if (racine.closest && racine.closest(CHROME)) zones.add(racine);
+  zones.forEach(traduireDans);
+}
+
+/**
+ * Tout ce que l'interface écrit passe par le DOM : un observateur traduit ce qui arrive,
+ * plutôt que d'imposer un appel à `t()` sur chaque chaîne — et rien n'est oublié quand un
+ * écran change.
+ */
+function observerLangue() {
+  new MutationObserver((muts) => {
+    if (langue() !== "en") return;
+    for (const m of muts) {
+      if (m.type === "characterData") { traduire(m.target.parentElement); continue; }
+      for (const n of m.addedNodes) {
+        if (n.nodeType === 1) traduire(n);
+        // `element.textContent = …` remplace le nœud de texte : la mutation porte sur un
+        // nœud de type 3, qu'il faut traduire par son parent.
+        else if (n.nodeType === 3 && n.parentElement) traduire(n.parentElement);
+      }
+    }
+  }).observe(document.body, { childList: true, subtree: true, characterData: true });
+}
+
+async function basculerLangue() {
+  const cible = langue() === "fr" ? "en" : "fr";
+  S.pref = await api("/api/moi/preferences", { method: "POST", body: { langue: cible } });
+  location.reload();   // le plus simple et le plus sûr : tout est redessiné dans la langue choisie
+}
+
 async function api(route, opts = {}) {
   const o = { headers: { "Content-Type": "application/json" }, credentials: "same-origin", ...opts };
   if (o.body && typeof o.body !== "string") o.body = JSON.stringify(o.body);
@@ -374,7 +581,7 @@ function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null,
  */
 
 // ══════════════════════════════════════════════════════════════════ état
-const S = { page: "commandes", moi: null, config: {}, refs: {}, compteurs: {}, sel: new Set(), filtres: {}, tri: "age", dir: "desc", tick: null };
+const S = { page: "commandes", moi: null, pref: { langue: "fr" }, config: {}, refs: {}, compteurs: {}, sel: new Set(), filtres: {}, tri: "age", dir: "desc", tick: null };
 
 /**
  * Navigation — l'arborescence exacte de ShipStation (§1.1 de la spécification).
@@ -492,12 +699,13 @@ function menuProfil(ancre) {
     <div class="mi" data-a="2fa">${S.moi?.totp_enabled ? "Second facteur ✓" : "Activer le second facteur"}</div>
     <div class="mi" data-a="mdp">Changer le mot de passe</div>
     <div class="sep"></div>
+    <div class="mi" data-a="langue">${langue() === "fr" ? "Language: English" : "Langue : Français"}</div>
     <div class="mi" data-a="alertes">Voir les alertes</div>
     <div class="sep"></div>
     <div class="mi danger" data-a="out">Se déconnecter</div></div>`);
   document.body.append(m);
   const actions = { "2fa": configurer2facteur, mdp: () => changerMotDePasse(false),
-    alertes: () => aller("alertes"), out: deconnexion };
+    langue: basculerLangue, alertes: () => aller("alertes"), out: deconnexion };
   m.querySelectorAll("[data-a]").forEach((d) => d.onclick = () => { m.remove(); actions[d.dataset.a](); });
   setTimeout(() => document.addEventListener("click", () => m.remove(), { once: true }), 0);
 }
@@ -529,7 +737,7 @@ const VUES = {};
 const COLONNES = [
   { k: "order_number", t: "N° commande", defaut: 1, tri: "order_number", r: (o) => `<b>${esc(o.order_number)}</b>` },
   { k: "order_date", t: "Date", tri: "order_date", r: (o) => jour(o.order_date) },
-  { k: "age", t: "Âge", defaut: 1, n: 1, tri: "age", r: (o) => `${o.age ?? "—"} j` },
+  { k: "age", t: "Âge", defaut: 1, n: 1, tri: "age", r: (o) => `<span class="age">${o.age ?? "—"} j</span>` },
   { k: "paid_at", t: "Payée le", r: (o) => jour(o.paid_at) },
   { k: "ship_by_date", t: "À expédier avant", tri: "ship_by_date", r: (o) => jour(o.ship_by_date) },
   { k: "hold_until", t: "En attente jusqu'au", tri: "hold_until", r: (o) => o.hold_until ? `<span class="puce a">${jour(o.hold_until)}</span>` : "—" },
@@ -875,7 +1083,7 @@ VUES.commandes = async (statutFixe) => {
   function majPagination(d) {
     const debut = S0.page * S0.taille;
     $("#pag").innerHTML = `
-      <span class="doux">${num(debut + 1)}–${num(Math.min(debut + d.orders.length, d.total))} sur <b>${num(d.total)}</b></span>
+      <span class="doux">${num(debut + 1)}–${num(Math.min(debut + d.orders.length, d.total))} sur ${num(d.total)}</span>
       <button id="pPrec" ${S0.page ? "" : "disabled"}>← Précédent</button>
       <button id="pSuiv" ${debut + d.orders.length >= d.total ? "disabled" : ""}>Suivant →</button>
       <select id="pTaille">${[50, 100, 200, 500].map((n) => `<option ${n === S0.taille ? "selected" : ""}>${n}</option>`).join("")}</select>
@@ -2835,13 +3043,25 @@ async function demarrer() {
   const m = await api("/api/moi");
   if (!m.user) return montrerConnexion();
   S.moi = m.user;
+  S.pref = m.pref || { langue: "fr" };
+  document.documentElement.lang = langue();
+  observerLangue();
 
   S.config = await api("/api/config");
+  const tt = (fr, en) => (langue() === "en" ? en : fr);
   const av = [];
-  if (!S.config.etiquettes_actives) av.push(`Achat d'étiquettes <b>désactivé</b> — lancer avec <code>CLONE_ALLOW_LABELS=1</code>. Cotation et simulation restent disponibles.`);
-  if (S.config.adaptateur === "bouchon") av.push(`Transporteur <b>bouchon</b> : les tarifs sont des valeurs de démonstration. Passer à <code>CARRIER_ADAPTER=clickship</code> à réception des identifiants.`);
-  if (!S.config.config_lasclay) av.push(`Configuration Lasclay <b>non chargée</b> — règles, vues, préréglages, colis et étiquettes du compte ShipStation. À charger depuis <a onclick="aller('reglages')">l'engrenage → Compte, boutiques et import</a>.`);
-  if (S.config.shopify && !S.config.shopify.configure) av.push(`Import Shopify <b>indisponible</b> : variables <code>SHOPIFY_STORE</code> et <code>SHOPIFY_CLIENT_ID</code>/<code>SHOPIFY_CLIENT_SECRET</code> manquantes sur le service.`);
+  if (!S.config.etiquettes_actives) av.push(tt(
+    `Achat d'étiquettes <b>désactivé</b> — lancer avec <code>CLONE_ALLOW_LABELS=1</code>. Cotation et simulation restent disponibles.`,
+    `Label purchase <b>disabled</b> — start with <code>CLONE_ALLOW_LABELS=1</code>. Rating and batch preview stay available.`));
+  if (S.config.adaptateur === "bouchon") av.push(tt(
+    `Transporteur <b>bouchon</b> : les tarifs sont des valeurs de démonstration. Passer à <code>CARRIER_ADAPTER=clickship</code> à réception des identifiants.`,
+    `Carrier adapter is a <b>stub</b>: rates are demo values. Switch to <code>CARRIER_ADAPTER=clickship</code> once credentials arrive.`));
+  if (!S.config.config_lasclay) av.push(tt(
+    `Configuration Lasclay <b>non chargée</b> — règles, vues, préréglages, colis et étiquettes du compte ShipStation. À charger depuis <a onclick="aller('reglages')">l'engrenage → Compte, boutiques et import</a>.`,
+    `Lasclay configuration <b>not loaded</b> — rules, views, presets, package types and tags from the ShipStation account. Load it from <a onclick="aller('reglages')">the gear → Account, Stores &amp; Import</a>.`));
+  if (S.config.shopify && !S.config.shopify.configure) av.push(tt(
+    `Import Shopify <b>indisponible</b> : variables <code>SHOPIFY_STORE</code> et <code>SHOPIFY_CLIENT_ID</code>/<code>SHOPIFY_CLIENT_SECRET</code> manquantes sur le service.`,
+    `Shopify import <b>unavailable</b>: <code>SHOPIFY_STORE</code> and <code>SHOPIFY_CLIENT_ID</code>/<code>SHOPIFY_CLIENT_SECRET</code> are missing on the service.`));
   // Les bandeaux d'état tiennent sur une ligne et se referment : ils informent au démarrage,
   // ils ne doivent pas rogner la grille toute la journée.
   $("#bandeau").innerHTML = av.map((a, i) => `<div class="avis" data-b="${i}">${a}
@@ -2871,6 +3091,7 @@ async function demarrer() {
   if (!VUES[S.page]) S.page = "commandes";
   menu();
   rendre();
+  traduire();
   if (S.moi.must_change) changerMotDePasse(true);
   else if (!S.moi.totp_enabled && S.config.exiger_2fa) configurer2facteur();
   clearInterval(S.tick);
