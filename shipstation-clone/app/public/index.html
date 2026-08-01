@@ -125,17 +125,17 @@
   .barreA button.v { background:var(--vert); border-color:var(--vert); color:#fff; font-weight:650 }
 
   .grilleWrap { flex:1; overflow:auto; min-height:0 }
-  table.grille { border-collapse:separate; border-spacing:0; width:100%; font-size:13px }
-  table.grille th { position:sticky; top:0; z-index:3; background:var(--carte); border-bottom:1px solid var(--bord);
+  table.tblCmd { border-collapse:separate; border-spacing:0; width:100%; font-size:13px }
+  table.tblCmd th { position:sticky; top:0; z-index:3; background:var(--carte); border-bottom:1px solid var(--bord);
                     text-align:left; padding:7px 9px; font-weight:650; white-space:nowrap; cursor:pointer; font-size:12px }
-  table.grille td { padding:6px 9px; border-bottom:1px solid var(--bord); white-space:nowrap; max-width:320px;
+  table.tblCmd td { padding:6px 9px; border-bottom:1px solid var(--bord); white-space:nowrap; max-width:320px;
                     overflow:hidden; text-overflow:ellipsis }
-  .grilleWrap.dense table.grille td { padding:3px 9px; font-size:12.5px }
-  .grilleWrap.dense table.grille th { padding:5px 9px }
-  table.grille tr.sel td { background:var(--sel) }
-  table.grille tbody tr:hover td { background:var(--sel) }
-  table.grille .cx { width:26px; padding-left:8px; padding-right:0 }
-  table.grille [data-fig] { position:sticky; left:0; z-index:2; background:var(--carte) }
+  .grilleWrap.dense table.tblCmd td { padding:3px 9px; font-size:12.5px }
+  .grilleWrap.dense table.tblCmd th { padding:5px 9px }
+  table.tblCmd tr.sel td { background:var(--sel) }
+  table.tblCmd tbody tr:hover td { background:var(--sel) }
+  table.tblCmd .cx { width:26px; padding-left:8px; padding-right:0 }
+  table.tblCmd [data-fig] { position:sticky; left:0; z-index:2; background:var(--carte) }
   .chev { cursor:pointer; color:var(--doux); user-select:none }
   tr.arts td { background:var(--bg); white-space:normal }
   .artL > div, .artG > div { font-size:12.5px; padding:1px 0 }
@@ -671,7 +671,7 @@ VUES.commandes = async (statutFixe) => {
 
     $("#tbl").className = "grilleWrap" + (S0.dense ? " dense" : "");
     $("#tbl").innerHTML = d.orders.length
-      ? `<table class="grille"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`
+      ? `<table class="tblCmd"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`
       : `<div class="vide2"><b>Aucune commande</b><div class="doux">${S0.vue ? "Cette vue ne ramène rien pour l'instant." : "Rien à expédier dans ce statut."}</div>
          <button class="p" onclick="importerShopify()">Importer depuis Shopify</button></div>`;
 
@@ -1088,7 +1088,18 @@ VUES.commandes = async (statutFixe) => {
 };
 VUES.attente = () => VUES.commandes("on_hold");
 
-/** Import Shopify — accessible partout : bouton d'en-tête, état vide de la grille, raccourci U. */
+/**
+ * Import Shopify — accessible partout : bouton d'en-tête, état vide de la grille, raccourci U.
+ *
+ * La fenêtre est choisie à l'écran. Le rattrapage reprend par défaut au dernier passage réussi,
+ * ce qui est le bon comportement au quotidien mais trompe au premier import : sur une base
+ * neuve il ne remonte que trente jours, et l'entrepôt croit que l'import a échoué.
+ *
+ * L'import se fait par tranches. Chaque passage avance le curseur `shopify_dernier_import`,
+ * donc la tranche suivante reprend exactement là où la précédente s'est arrêtée : une seule
+ * requête pour 38 000 commandes dépasserait le délai du proxy, et on ne saurait pas où elle
+ * en était.
+ */
 async function importerShopify() {
   const e = await api("/api/shopify");
   if (!e.configure) return dialogue("Shopify non configuré", `
@@ -1097,29 +1108,64 @@ async function importerShopify() {
     <p class="doux">Ce sont exactement les mêmes identifiants que <code>support.js</code> et A2X —
     l'app « Render connector ». Aucun nouveau jeton à créer.</p>`, null, "Fermer");
 
+  const jours = (n) => new Date(Date.now() - n * 86400000).toISOString();
+  const TRANCHE = 500;
+  const FENETRES = [
+    { t: "Depuis le dernier passage (incrémental)", d: () => null, boucle: false },
+    { t: "30 derniers jours", d: () => jours(30), boucle: true },
+    { t: "12 derniers mois", d: () => jours(365), boucle: true },
+    { t: "Tout l'historique de la boutique", d: () => "2015-01-01T00:00:00Z", boucle: true },
+  ];
+
   dialogue("Importer depuis Shopify", `
     <div class="kv"><span>Boutique</span><b>${esc(e.boutique)}</b></div>
-    <div class="kv"><span>Dernier import</span><b>${e.dernier_import ? esc(e.dernier_import.slice(0, 16).replace("T", " ")) : "jamais"}</b></div>
-    <div class="kv"><span>Commandes Shopify ici</span><b>${num(e.commandes)}</b></div>
+    <div class="kv"><span>Dernier passage</span><b>${e.dernier_import ? esc(String(e.dernier_import).slice(0, 16).replace("T", " ")) : "jamais"}</b></div>
+    <div class="kv"><span>Commandes Shopify déjà ici</span><b>${num(e.commandes || 0)}</b></div>
     <div class="kv"><span>Synchronisation automatique</span><b>${e.sync_minutes ? `toutes les ${e.sync_minutes} min` : "désactivée"}</b></div>
     <div class="kv"><span>Webhooks signés</span><b>${e.secret_webhook ? "oui" : "non — secret manquant"}</b></div>
     <hr>
-    <label class="champ" style="margin-top:8px"><span>Modifiées depuis (laisser vide = reprend au dernier passage)</span>
-      <input type="date" id="siDate"></label>
-    <p class="doux">L'import met à jour les commandes déjà présentes plutôt que de les
-    dupliquer, et ne touche jamais à une commande déjà expédiée ici.</p>
+    <label class="champ"><span>Fenêtre à importer</span><select id="siFen">${
+      FENETRES.map((f, i) => `<option value="${i}"${!e.dernier_import && i === 3 ? " selected" : ""}>${esc(f.t)}</option>`).join("")}</select></label>
+    <p class="doux">L'import met à jour les commandes déjà présentes plutôt que de les dupliquer,
+      et ne retouche jamais une commande déjà expédiée ici. Un premier import complet prend
+      plusieurs minutes — la fenêtre reste ouverte et affiche l'avancement.</p>
+    <div class="avis info">Shopify ne contient que la boutique <b>LAS Shopify</b>. L'archive
+      complète — Etsy, Faire, commandes manuelles, expéditions, lots — se reprend par
+      <b>Réglages → Lancer la migration</b> depuis ShipStation.</div>
     <div id="siJournal"></div>`,
     async () => {
-      $("#siJournal").innerHTML = '<div class="doux">Import en cours…</div>';
-      const r = await api("/api/shopify/rattraper", { method: "POST", body: {
-        depuis: $("#siDate").value ? new Date($("#siDate").value).toISOString() : null, max: 2000 } });
-      $("#siJournal").innerHTML = `<div class="avis info">
-        ${num(r.traitees)} commande(s) traitée(s) · <b>${num(r.nouvelles)}</b> nouvelle(s)
-        ${r.ignorees ? ` · ${num(r.ignorees)} déjà expédiée(s), non retouchée(s)` : ""}
-        ${r.annulees ? ` · ${num(r.annulees)} annulation(s) tardive(s) notée(s)` : ""}</div>
-        <div class="doux">Fenêtre : depuis ${esc(String(r.depuis).slice(0, 16).replace("T", " "))}</div>`;
-      rafraichirCompteurs();
-      if (S.cmdCharger) S.cmdCharger();
+      const f = FENETRES[Number($("#siFen").value)];
+      const J = $("#siJournal");
+      let depuis = f.d(), total = 0, nouvelles = 0, ignorees = 0, tranches = 0, curseur = null;
+
+      for (;;) {
+        tranches++;
+        J.innerHTML = `<div class="doux">Tranche ${tranches} — ${num(total)} commande(s) traitée(s),
+          ${num(nouvelles)} nouvelle(s)… (ne pas fermer la fenêtre)</div>`;
+        let r;
+        try {
+          r = await api("/api/shopify/rattraper", { method: "POST", body: { depuis, max: TRANCHE } });
+        } catch (err) {
+          J.innerHTML = `<div class="avis">Interrompu après ${num(total)} commande(s) : ${esc(err.message)}</div>`;
+          break;
+        }
+        total += r.traitees; nouvelles += r.nouvelles; ignorees += r.ignorees || 0;
+        rafraichirCompteurs();
+        if (S.cmdCharger) S.cmdCharger();
+
+        // Fin : tranche incomplète, ou curseur qui n'avance plus — toutes les commandes de la
+        // tranche portant le même horodatage. Sans cette garde, la boucle tournerait en rond.
+        const fini = !f.boucle || r.traitees < TRANCHE || r.jusqua === curseur;
+        curseur = r.jusqua;
+        depuis = null;   // les tranches suivantes reprennent au curseur enregistré
+        if (fini) {
+          J.innerHTML = `<div class="avis info">Terminé — ${num(total)} commande(s) traitée(s) en
+            ${tranches} tranche(s) · <b>${num(nouvelles)}</b> nouvelle(s)
+            ${ignorees ? ` · ${num(ignorees)} déjà expédiée(s), non retouchée(s)` : ""}</div>
+            <div class="doux">Curseur : ${esc(String(r.jusqua || "").slice(0, 16).replace("T", " "))}</div>`;
+          break;
+        }
+      }
       return false;   // garde la fenêtre ouverte pour lire le bilan
     }, "Importer");
 }
