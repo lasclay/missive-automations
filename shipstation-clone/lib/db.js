@@ -266,6 +266,33 @@ CREATE INDEX IF NOT EXISTS idx_audit_at ON audit_log(at);
 CREATE TABLE IF NOT EXISTS settings (
   key TEXT PRIMARY KEY, value TEXT
 );
+
+-- ------------------------------------------------------------------ expédition : préréglages
+
+-- Préréglages d'expédition (§13.5) — un clic applique service, colis, poids, dimensions et
+-- confirmation à la sélection. Les 17 de Lasclay n'ont aucun raccourci clavier chez
+-- ShipStation (hotKey null partout) ; ici la colonne hotkey existe et l'interface l'écoute.
+CREATE TABLE IF NOT EXISTS shipping_presets (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE,
+  warehouse_id INTEGER REFERENCES warehouses(id),
+  carrier_code TEXT, service_id TEXT, package_id TEXT, confirmation TEXT,
+  weight_g REAL, dimensions TEXT, hotkey TEXT, position INTEGER DEFAULT 0,
+  insurance TEXT, notes TEXT
+);
+
+-- Correspondance « libellé de service au checkout » → service transporteur (§13.6).
+-- Chez ShipStation c'est du texte libre par boutique, et les libellés opérationnels de
+-- Lasclay (« Entrepôt Lasclay », « Défricheuses », « DDD », « timbre ») n'y figurent même
+-- pas : les règles les rattrapent en recherche de sous-chaîne. Ici le canal logistique est
+-- un enum de premier ordre (constat OBS6), et la colonne channel porte cette valeur.
+CREATE TABLE IF NOT EXISTS service_mappings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  store_id INTEGER, requested TEXT NOT NULL, channel TEXT,
+  carrier_code TEXT, service_id TEXT, package_id TEXT, confirmation TEXT,
+  match_mode TEXT DEFAULT 'contains',   -- contains | equals
+  position INTEGER DEFAULT 0,
+  UNIQUE(store_id, requested)
+);
 `;
 
 /**
@@ -281,6 +308,23 @@ const AJOUTS = [
   ["users", "totp_last_step", "INTEGER DEFAULT 0"],
   ["users", "recovery_codes", "TEXT"],
   ["sessions", "pending", "INTEGER DEFAULT 0"],
+  // Règle sans condition : « toutes les commandes », rendu explicite (§12.4, règle 1).
+  ["rules", "sans_condition", "INTEGER DEFAULT 0"],
+  ["rules", "notes", "TEXT"],
+  // Vues : les 27 vues de Lasclay portent des critères d'article, hors de portée de
+  // l'ancien objet `filters` qui ne connaissait que les colonnes simples.
+  ["views", "criteres", "TEXT"],
+  ["views", "match_all", "INTEGER DEFAULT 1"],
+  ["views", "position", "INTEGER DEFAULT 0"],
+  ["views", "notes", "TEXT"],
+  // Référentiels : dimensions des types de colis, code API du service, GUID de boutique.
+  ["packages", "dimensions", "TEXT"],
+  ["packages", "custom", "INTEGER DEFAULT 0"],
+  ["services", "code", "TEXT"],
+  ["services", "hidden", "INTEGER DEFAULT 0"],
+  ["stores", "guid", "TEXT"],
+  // Suivi de l'impression d'étiquette (exigence E3) : imprimée ≠ achetée.
+  ["orders", "print_state", "TEXT"],
 ];
 
 function migrer(d) {

@@ -53,19 +53,50 @@ function politiqueTarif(cmd) {
   };
 }
 
+// ------------------------------------------------------------------ marge
+
+/**
+ * Marge sur un envoi : ce que le client a payé pour la livraison, moins ce que l'étiquette
+ * coûte. Exigence A3, constat OBS9 — sur le compte audité la marge d'expédition était de
+ * **−703,52 $ en juillet 2026**, et rien dans ShipStation ne le disait avant l'achat.
+ *
+ * `niveau` : `ok` · `attention` (marge négative) · `alerte` (perte supérieure au seuil).
+ * L'achat n'est jamais bloqué — une commande doit pouvoir partir à perte quand c'est le bon
+ * choix commercial — mais il faut que ce soit vu.
+ */
+function marge(cmd, prix) {
+  const paye = Number(cmd.shipping_paid || 0);
+  const cout = Number(prix || 0);
+  const ecart = Math.round((paye - cout) * 100) / 100;
+  const seuil = Number(require("./db").reglage("seuil_alerte_marge", 5));
+  const niveau = ecart >= 0 ? "ok" : (ecart <= -seuil ? "alerte" : "attention");
+  return {
+    paye, cout, ecart, niveau, seuil,
+    message: ecart >= 0 ? null
+      : `Livraison facturée ${paye.toFixed(2)} $, étiquette ${cout.toFixed(2)} $ — perte de ${(-ecart).toFixed(2)} $ sur cette commande.`,
+  };
+}
+
 // ------------------------------------------------------------------ achat
 
 /**
  * ACHÈTE une étiquette. Argent réel dès que l'adaptateur n'est plus le bouchon.
  * `serviceId` facultatif : sans lui, on prend le tarif recommandé (rate shopping).
+ *
+ * `margeMax` (facultatif) refuse l'achat si la perte dépasse ce montant : c'est le garde-fou
+ * des achats en lot, où personne ne lit ligne à ligne.
  */
-async function acheterEtiquette(orderId, { serviceId = null, userId = null, batchId = null } = {}) {
+async function acheterEtiquette(orderId, { serviceId = null, userId = null, batchId = null, margeMax = null } = {}) {
   const cmd = orders.parId(orderId);
   if (!cmd) throw new Error("commande inconnue");
   if (cmd.status === "shipped") throw new Error("commande déjà expédiée");
   const { envoi, tarifs, recommande } = await coter(orderId);
   const choisi = serviceId ? tarifs.find((t) => t.serviceId === serviceId) : recommande;
   if (!choisi) throw new Error(serviceId ? `service indisponible : ${serviceId}` : "aucun tarif applicable");
+
+  const m = marge(cmd, choisi.price);
+  if (margeMax !== null && m.ecart < -Math.abs(Number(margeMax)))
+    throw new Error(`perte de ${(-m.ecart).toFixed(2)} $ supérieure au plafond de ${Number(margeMax).toFixed(2)} $ — ${m.message}`);
 
   const label = await adaptateur().buy(envoi, choisi.serviceId);
 
@@ -86,7 +117,7 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
     // Le renvoi du suivi vers la boutique part en arrière-plan : un canal indisponible ne doit
     // jamais faire échouer un achat déjà payé. L'échec reste dans la file de reprise.
     setImmediate(() => require("./channels").notifier(shipmentId).catch(() => {}));
-    return { shipmentId, ...label, dropOff: !!choisi.dropOff };
+    return { shipmentId, ...label, dropOff: !!choisi.dropOff, marge: m };
   });
 }
 
@@ -256,6 +287,7 @@ async function rafraichirSuivi(shipmentId) {
 }
 
 module.exports = {
+  marge,
   coter, acheterEtiquette, acheterRetour, annuler, marquerExpedie,
   creerLot, traiterLot, lot, lots, creerManifeste, manifestes,
   chercher, rafraichirSuivi, envoiDepuisCommande, SEUIL_DROPOFF_G,

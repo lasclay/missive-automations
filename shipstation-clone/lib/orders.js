@@ -50,6 +50,21 @@ function chercher(f = {}) {
   if (f.sku) add("EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND i.sku LIKE ?)", `%${f.sku}%`);
   if (f.single_item) add("(SELECT COUNT(*) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0) = 1");
 
+  // Critères d'une vue sauvegardée (§12.5) — compilés en SQL par `criteres.js`, le même
+  // langage que les règles d'automatisation. C'est ce qui permet de rejouer les 27 vues de
+  // ShipStation sur l'arriéré complet sans sortir les commandes de la base.
+  if (f.criteres && (Array.isArray(f.criteres) ? f.criteres.length : true)) {
+    const c = require("./criteres").compiler(
+      Array.isArray(f.criteres) ? f.criteres : parse(f.criteres, []),
+      f.match_all !== false && f.match_all !== 0);
+    if (c.sql) add(c.sql, ...c.params);
+  }
+  if (f.view_id) {
+    const v = one("SELECT criteres, match_all FROM views WHERE id = ?", Number(f.view_id));
+    const c = v && require("./criteres").compiler(parse(v.criteres, []), v.match_all !== 0);
+    if (c && c.sql) add(c.sql, ...c.params);
+  }
+
   if (f.q) {
     const q = `%${String(f.q).toLowerCase()}%`;
     add(`(lower(o.order_number) LIKE ? OR lower(o.customer_name) LIKE ? OR lower(o.customer_email) LIKE ?

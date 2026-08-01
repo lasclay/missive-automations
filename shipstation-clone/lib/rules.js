@@ -1,66 +1,84 @@
 /**
- * Moteur d'automatisation — la logique SI/ALORS de ShipStation.
+ * Moteur d'automatisation — spécification SHIPSTATIONSPECLASCLAY §12.
  *
- * Des conditions identifient les commandes, des actions leur sont appliquées à l'import.
- * Les règles sont ordonnées et chaînables : une règle voit le résultat des précédentes,
- * ce qui est le comportement de ShipStation et ce qui les rend réellement utiles.
+ * Une règle = un filtre + une liste ordonnée d'actions, exécutée à l'import.
  *
- * La règle qui compte chez Lasclay : « poids < 500 g → service drop-off ». C'est elle qui
- * matérialise les 33 000 $ de l'audit ; tout le reste est du confort.
+ * Trois choses que ShipStation fait mal et qui sont corrigées ici :
+ *
+ * 1. **Sémantique multi-articles** (exigence D1, la demande communautaire la plus ancienne).
+ *    Chez ShipStation, un critère `ItemSku Contains X` sur une commande de cinq articles ne dit
+ *    pas s'il faut qu'un article corresponde, que tous correspondent, ou que seuls ceux-là
+ *    soient présents. Ici, chaque critère d'article déclare sa portée : `any`, `all`, `only`,
+ *    `none`.
+ * 2. **Combinaison des critères** (§12.3) : colonnes différentes = ET, valeurs d'un même
+ *    critère = OU, et — c'est le point subtil — deux critères sur la **même colonne** = OU.
+ *    Sans cette dernière règle, la vue « QC-ON » serait vide.
+ * 3. **Ordre d'exécution et état mutant** (§12.3, piège critique). Le filtre s'évalue sur
+ *    l'état **courant** de la commande, donc sur ce que les règles précédentes ont écrit.
+ *    C'est explicite ici, et `dryRun` le montre.
  */
 const { all, one, run, parse, dump, maintenant, journaliser } = require("./db");
 const orders = require("./orders");
+const criteres = require("./criteres");
 
-/** Champs sur lesquels une condition peut porter. */
-const CHAMPS = {
-  weight_g: (c) => c.weight_g || 0,
-  order_total: (c) => c.order_total || 0,
-  country: (c) => (c.ship_to || {}).country,
-  state: (c) => (c.ship_to || {}).state,
-  postal_code: (c) => (c.ship_to || {}).postalCode,
-  city: (c) => (c.ship_to || {}).city,
-  store_id: (c) => c.store_id,
-  source: (c) => c.source,
-  requested_service: (c) => c.requested_service || "",
-  item_count: (c) => (c.items || []).filter((i) => !i.adjustment).reduce((s, i) => s + (i.quantity || 0), 0),
-  line_count: (c) => (c.items || []).filter((i) => !i.adjustment).length,
-  sku: (c) => (c.items || []).map((i) => i.sku).filter(Boolean),
-  tag: (c) => (c.tags || []).map((t) => t.name),
-  customer_email: (c) => c.customer_email || "",
-  gift: (c) => !!c.gift,
-  residential: (c) => !!(c.ship_to || {}).residential,
-  custom_field1: (c) => c.custom_field1 || "",
-  custom_field2: (c) => c.custom_field2 || "",
-  custom_field3: (c) => c.custom_field3 || "",
-};
+// Le langage de filtre est celui de `criteres.js` — partagé avec les vues sauvegardées, pour
+// qu'une règle et une vue qui décrivent la même chose sélectionnent exactement les mêmes
+// commandes. ShipStation a deux moteurs distincts ; c'est une source d'écarts constante.
+const { CHAMPS, OPERATEURS, PORTEES, vals, evaluerCritere: evaluerCondition } = criteres;
 
-/** Opérateurs. `contient`/`dans` acceptent aussi un champ multivalué (sku, tag). */
-const OPERATEURS = {
-  egal: (a, b) => (Array.isArray(a) ? a.includes(b) : String(a) === String(b)),
-  different: (a, b) => !OPERATEURS.egal(a, b),
-  contient: (a, b) => (Array.isArray(a) ? a.some((v) => String(v).toLowerCase().includes(String(b).toLowerCase()))
-    : String(a).toLowerCase().includes(String(b).toLowerCase())),
-  commence_par: (a, b) => (Array.isArray(a) ? a.some((v) => String(v).startsWith(b)) : String(a).startsWith(b)),
-  inferieur: (a, b) => Number(a) < Number(b),
-  inferieur_egal: (a, b) => Number(a) <= Number(b),
-  superieur: (a, b) => Number(a) > Number(b),
-  superieur_egal: (a, b) => Number(a) >= Number(b),
-  entre: (a, b) => Number(a) >= Number(b[0]) && Number(a) <= Number(b[1]),
-  dans: (a, b) => (Array.isArray(a) ? a.some((v) => b.includes(v)) : b.includes(a)),
-  vide: (a) => a === null || a === undefined || a === "" || (Array.isArray(a) && !a.length),
-  non_vide: (a) => !OPERATEURS.vide(a),
-  vrai: (a) => a === true,
-  faux: (a) => a === false,
-};
+const txt = (v) => String(v ?? "").toLowerCase();
 
-/** Actions applicables. Chacune reçoit la commande hydratée et son paramètre. */
+/**
+ * Une règle s'applique si son filtre est satisfait.
+ *
+ * Combinaison (§12.3) : critères regroupés par colonne et par portée ; OU dans un groupe,
+ * ET entre les groupes. `match_all: false` bascule le tout en OU global.
+ *
+ * Sans condition, une règle ne s'applique qu'avec `sans_condition: true` — l'équivalent
+ * explicite du filtre vide de la règle 1 de Lasclay (« Default Confirmation », qui vise
+ * bien toutes les commandes). Rendre ce cas explicite évite qu'une règle mal saisie
+ * s'applique silencieusement à tout l'arriéré.
+ */
+function correspond(cmd, regle) {
+  const conds = Array.isArray(regle.conditions) ? regle.conditions : (parse(regle.conditions, []) || []);
+  if (!conds.length) return regle.sans_condition === true || regle.sans_condition === 1;
+  return criteres.evaluer(cmd, conds, regle.match_all !== 0 && regle.match_all !== false);
+}
+
+// ------------------------------------------------------------------ actions
+
+/** Actions. Les sept réellement utilisées par Lasclay sont marquées d'un astérisque. */
 const ACTIONS = {
-  set_service: (cmd, v) => run("UPDATE orders SET carrier_code = ?, service_id = ? WHERE id = ?",
-    v.carrier_code || null, v.service_id || v, cmd.id),
-  set_package: (cmd, v) => run("UPDATE orders SET package_id = ? WHERE id = ?", v, cmd.id),
-  set_confirmation: (cmd, v) => run("UPDATE orders SET confirmation = ? WHERE id = ?", v, cmd.id),
+  // * Set Carrier/Service/Package
+  set_service: (cmd, v) => {
+    const o = typeof v === "string" ? { service_id: v } : (v || {});
+    run(`UPDATE orders SET carrier_code = COALESCE(?, carrier_code),
+         service_id = COALESCE(?, service_id), package_id = COALESCE(?, package_id) WHERE id = ?`,
+      o.carrier_code ?? null, o.service_id ?? null, o.package_id ?? null, cmd.id);
+  },
+  // * Request Confirmation (0 aucune, 1 livraison, 2 signature, 5 Do Not Safe Drop)
+  set_confirmation: (cmd, v) => run("UPDATE orders SET confirmation = ? WHERE id = ?", String(v), cmd.id),
+  // * Set Ship From Location
   set_warehouse: (cmd, v) => run("UPDATE orders SET warehouse_id = ? WHERE id = ?", Number(v), cmd.id),
+  // * Set Custom Field 1 / 2 / 3
+  set_custom_field1: (cmd, v) => run("UPDATE orders SET custom_field1 = ? WHERE id = ?", String(v), cmd.id),
+  set_custom_field2: (cmd, v) => run("UPDATE orders SET custom_field2 = ? WHERE id = ?", String(v), cmd.id),
+  set_custom_field3: (cmd, v) => run("UPDATE orders SET custom_field3 = ? WHERE id = ?", String(v), cmd.id),
+  // * Send an email (mise en file — l'envoi dépend du transport configuré)
+  email: (cmd, v) => {
+    const o = typeof v === "string" ? { to: v } : (v || {});
+    run(`INSERT INTO notifications (kind, order_id, recipient, subject, body, status)
+         VALUES ('rule', ?, ?, ?, ?, 'queued')`,
+      cmd.id, o.to || null, o.subject || `Commande ${cmd.order_number}`,
+      o.template ? `[gabarit ${o.template}]` : (o.body || ""));
+  },
+  // Arrêt du chaînage — primitive qui rend l'ordre des règles maîtrisable
+  stop: () => {},
+
+  set_package: (cmd, v) => run("UPDATE orders SET package_id = ? WHERE id = ?", String(v), cmd.id),
   set_weight: (cmd, v) => run("UPDATE orders SET weight_g = ? WHERE id = ?", Number(v), cmd.id),
+  adjust_weight: (cmd, v) => run("UPDATE orders SET weight_g = COALESCE(weight_g,0) + ? WHERE id = ?", Number(v), cmd.id),
+  set_dimensions: (cmd, v) => run("UPDATE orders SET dimensions = ? WHERE id = ?", dump(v), cmd.id),
   set_insurance: (cmd, v) => run("UPDATE orders SET insurance = ? WHERE id = ?", dump(v), cmd.id),
   add_tag: (cmd, v) => {
     const t = one("SELECT id FROM tags WHERE name = ? OR id = ?", String(v), Number(v) || -1);
@@ -72,119 +90,121 @@ const ACTIONS = {
   },
   assign_user: (cmd, v) => orders.assigner(cmd.id, v),
   hold_until: (cmd, v) => orders.hold(cmd.id, v),
-  set_custom_field: (cmd, v) => orders.poserChamps(cmd.id, v),
-  set_internal_notes: (cmd, v) => run("UPDATE orders SET internal_notes = ? WHERE id = ?", String(v), cmd.id),
-  /** Rate Shopper : marque la commande pour cotation automatique à l'achat. */
-  rate_shop: (cmd, v) => run("UPDATE orders SET service_id = NULL, carrier_code = NULL, internal_notes = COALESCE(internal_notes,'') || ? WHERE id = ?",
-    `\n[rate_shop:${typeof v === "string" ? v : "moins_cher"}]`, cmd.id),
-  /** Scission automatique par SKU — l'auto-split de ShipStation. */
+  internal_note: (cmd, v) => run(
+    "UPDATE orders SET internal_notes = TRIM(COALESCE(internal_notes,'') || char(10) || ?) WHERE id = ?", String(v), cmd.id),
+  set_ship_by_date: (cmd, v) => run("UPDATE orders SET ship_by_date = ? WHERE id = ?", String(v), cmd.id),
+  set_customs_content: (cmd, v) => {
+    const d = parse(one("SELECT customs FROM orders WHERE id = ?", cmd.id).customs, {}) || {};
+    run("UPDATE orders SET customs = ? WHERE id = ?", dump({ ...d, contents: String(v) }), cmd.id);
+  },
+  set_non_delivery: (cmd, v) => {
+    const d = parse(one("SELECT customs FROM orders WHERE id = ?", cmd.id).customs, {}) || {};
+    run("UPDATE orders SET customs = ? WHERE id = ?", dump({ ...d, nonDelivery: String(v) }), cmd.id);
+  },
+  rate_shop: (cmd, v) => run("UPDATE orders SET carrier_code = NULL, service_id = NULL WHERE id = ?", cmd.id),
+  /** Scission automatique par SKU — l'auto-split. */
   split_by_sku: (cmd, v) => {
-    const cibles = cmd.items.filter((i) => !i.adjustment && String(i.sku || "").includes(String(v)));
-    const autres = cmd.items.filter((i) => !cibles.includes(i));
+    const cibles = cmd.items.filter((i) => !i.adjustment && txt(i.sku).includes(txt(v)));
+    const autres = cmd.items.filter((i) => !i.adjustment && !cibles.includes(i));
     if (cibles.length && autres.length) orders.scinder(cmd.id, cibles.map((i) => i.id));
   },
 };
 
-// ------------------------------------------------------------------ évaluation
-
-function evaluerCondition(cmd, cond) {
-  const lecteur = CHAMPS[cond.field];
-  if (!lecteur) return false;
-  const op = OPERATEURS[cond.op];
-  if (!op) return false;
-  return !!op(lecteur(cmd), cond.value);
-}
-
-function correspond(cmd, regle) {
-  const conds = parse(regle.conditions, []) || [];
-  if (!conds.length) return false;                       // une règle sans condition ne s'applique jamais
-  return regle.match_all ? conds.every((c) => evaluerCondition(cmd, c))
-    : conds.some((c) => evaluerCondition(cmd, c));
-}
+// ---------------------------------------------------------------- exécution
 
 /**
- * Applique les règles actives à une commande, dans l'ordre. Renvoie la liste des règles
- * déclenchées — utile pour expliquer à l'utilisateur pourquoi une commande a tel service.
+ * Applique les règles actives à une commande, dans l'ordre.
+ *
+ * Le filtre s'évalue sur l'état **courant** — la commande est relue avant chaque règle, donc
+ * une règle voit ce que les précédentes ont écrit. C'est le comportement documenté au §12.3,
+ * et c'est celui qui rend l'ordre des règles signifiant.
+ *
+ * `dryRun` n'écrit rien et rend le détail : quelles règles se déclenchent, avec quelles
+ * actions, et laquelle arrête le chaînage (exigence D2).
  */
 function appliquer(orderId, { dryRun = false } = {}) {
   const regles = all("SELECT * FROM rules WHERE enabled = 1 ORDER BY position, id");
   const declenchees = [];
+  let arret = null;
+
   for (const r of regles) {
-    let cmd = orders.parId(orderId);                     // relu à chaque règle : les règles se chaînent
+    const cmd = orders.parId(orderId);
     if (!cmd) break;
     if (!correspond(cmd, r)) continue;
-    declenchees.push({ id: r.id, name: r.name, actions: [] });
-    if (!dryRun) {
-      for (const a of parse(r.actions, []) || []) {
-        const fn = ACTIONS[a.type];
-        if (!fn) { declenchees.at(-1).actions.push({ type: a.type, erreur: "action inconnue" }); continue; }
-        try { fn(cmd, a.value); declenchees.at(-1).actions.push({ type: a.type, ok: true }); }
-        catch (e) { declenchees.at(-1).actions.push({ type: a.type, erreur: String(e.message) }); }
-      }
-      run("UPDATE rules SET run_count = run_count + 1, last_run = ? WHERE id = ?", maintenant(), r.id);
-    } else {
-      declenchees.at(-1).actions = parse(r.actions, []) || [];
+
+    const actions = parse(r.actions, []) || [];
+    const trace = { id: r.id, name: r.name, position: r.position, actions: [] };
+    declenchees.push(trace);
+
+    for (const a of actions) {
+      const fn = ACTIONS[a.type];
+      if (!fn) { trace.actions.push({ type: a.type, erreur: "action inconnue" }); continue; }
+      if (dryRun) { trace.actions.push({ type: a.type, value: a.value, simule: true }); continue; }
+      try { fn(cmd, a.value); trace.actions.push({ type: a.type, value: a.value, ok: true }); }
+      catch (e) { trace.actions.push({ type: a.type, erreur: String(e.message) }); }
     }
-    if (r.stop_after) break;
+
+    if (!dryRun) run("UPDATE rules SET run_count = run_count + 1, last_run = ? WHERE id = ?", maintenant(), r.id);
+    if (actions.some((a) => a.type === "stop") || r.stop_after) { arret = r.name; break; }
   }
+
   if (declenchees.length && !dryRun)
-    journaliser("rules.applied", "order", orderId, { regles: declenchees.map((d) => d.name) });
-  return declenchees;
+    journaliser("rules.applied", "order", orderId, { regles: declenchees.map((d) => d.name), arret });
+  return dryRun ? { declenchees, arret } : declenchees;
 }
 
-/** Passe les règles sur un lot de commandes — l'application à l'import, ou en rattrapage. */
 function appliquerLot(orderIds, opts) {
   const resultat = {};
   for (const id of orderIds) resultat[id] = appliquer(id, opts);
   return resultat;
 }
 
-// ------------------------------------------------------------------ CRUD
+// ------------------------------------------------------------------- CRUD
 
-const lister = () => all("SELECT * FROM rules ORDER BY position, id")
-  .map((r) => ({ ...r, conditions: parse(r.conditions, []), actions: parse(r.actions, []), enabled: !!r.enabled, match_all: !!r.match_all, stop_after: !!r.stop_after }));
+const hydrater = (r) => ({
+  ...r, conditions: parse(r.conditions, []), actions: parse(r.actions, []),
+  enabled: !!r.enabled, match_all: !!r.match_all, stop_after: !!r.stop_after,
+  sans_condition: !!r.sans_condition,
+  resume: (parse(r.conditions, []) || []).map(criteres.decrire),
+});
+
+const lister = () => all("SELECT * FROM rules ORDER BY position, id").map(hydrater);
+const parId = (id) => { const r = one("SELECT * FROM rules WHERE id = ?", id); return r ? hydrater(r) : null; };
 
 function sauver(r) {
   const champs = [r.name, r.enabled === false ? 0 : 1, r.position || 0, r.match_all === false ? 0 : 1,
-    dump(r.conditions || []), dump(r.actions || []), r.stop_after ? 1 : 0];
+    dump(r.conditions || []), dump(r.actions || []), r.stop_after ? 1 : 0, r.sans_condition ? 1 : 0];
   if (r.id) {
-    run(`UPDATE rules SET name=?, enabled=?, position=?, match_all=?, conditions=?, actions=?, stop_after=? WHERE id=?`,
-      ...champs, r.id);
+    run(`UPDATE rules SET name=?, enabled=?, position=?, match_all=?, conditions=?, actions=?, stop_after=?, sans_condition=? WHERE id=?`, ...champs, r.id);
     return r.id;
   }
-  run(`INSERT INTO rules (name,enabled,position,match_all,conditions,actions,stop_after) VALUES (?,?,?,?,?,?,?)`, ...champs);
+  // Le nom fait foi : réamorcer ne doit pas créer un doublon de « Default Confirmation ».
+  const existante = one("SELECT id FROM rules WHERE name = ?", r.name);
+  if (existante) {
+    run(`UPDATE rules SET enabled=?, position=?, match_all=?, conditions=?, actions=?, stop_after=?, sans_condition=? WHERE id=?`,
+      ...champs.slice(1), existante.id);
+    return existante.id;
+  }
+  run(`INSERT INTO rules (name,enabled,position,match_all,conditions,actions,stop_after,sans_condition) VALUES (?,?,?,?,?,?,?,?)`, ...champs);
   return one("SELECT last_insert_rowid() r").r;
 }
 
 const supprimer = (id) => run("DELETE FROM rules WHERE id = ?", id);
 
-/**
- * Règles de départ, tirées de l'usage réel relevé dans l'audit. La première est celle
- * qui porte l'économie ; les autres reproduisent des habitudes observées sur le compte.
- */
-function reglesParDefaut() {
-  return [
-    { name: "Drop-off sous 500 g", position: 10, match_all: true,
-      conditions: [{ field: "weight_g", op: "inferieur", value: 500 },
-                   { field: "weight_g", op: "superieur", value: 0 },
-                   { field: "country", op: "egal", value: "CA" }],
-      actions: [{ type: "set_service", value: { carrier_code: "canada_post", service_id: "cp_expedited_dropoff" } }] },
-    { name: "Marque LASCLAY sur toutes les commandes", position: 20, match_all: true,
-      conditions: [{ field: "custom_field3", op: "vide" }],
-      actions: [{ type: "set_custom_field", value: { custom_field3: "LASCLAY" } }] },
-    { name: "Marquer le flux USA", position: 30, match_all: true,
-      conditions: [{ field: "country", op: "egal", value: "US" }],
-      actions: [{ type: "set_custom_field", value: { custom_field2: "USA" } }] },
-    { name: "Entrepôt par défaut : LAS Capucins", position: 40, match_all: true,
-      conditions: [{ field: "store_id", op: "non_vide" }],
-      actions: [{ type: "set_warehouse", value: 153232 }] },
-    { name: "Signature au-delà de 300 $", position: 50, match_all: true,
-      conditions: [{ field: "order_total", op: "superieur", value: 300 }],
-      actions: [{ type: "set_confirmation", value: "signature" }] },
-  ];
+/** Réordonnancement par glisser-déposer : la liste d'identifiants donne les positions. */
+function reordonner(ids) {
+  ids.forEach((id, i) => run("UPDATE rules SET position = ? WHERE id = ?", i + 1, Number(id)));
+  journaliser("rules.reordered", "system", null, { ids });
 }
 
+/**
+ * Jeu de règles de départ = la configuration réelle de Lasclay (§12.4), pas un exemple.
+ * Chargé depuis `lasclay.js` pour que l'amorçage et la migration disent la même chose.
+ */
+const reglesParDefaut = () => require("./lasclay").REGLES;
+
 module.exports = {
-  CHAMPS, OPERATEURS, ACTIONS, appliquer, appliquerLot, correspond, evaluerCondition,
-  lister, sauver, supprimer, reglesParDefaut,
+  CHAMPS, OPERATEURS, ACTIONS, PORTEES,
+  appliquer, appliquerLot, correspond, evaluerCondition, vals,
+  lister, parId, sauver, supprimer, reordonner, reglesParDefaut,
 };

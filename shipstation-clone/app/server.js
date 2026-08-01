@@ -29,6 +29,12 @@ const analytics = require("../lib/analytics");
 const accounts = require("../lib/accounts");
 const ingest = require("../lib/ingest");
 const channels = require("../lib/channels");
+const criteres = require("../lib/criteres");
+const automation = require("../lib/automation");
+const presets = require("../lib/presets");
+const hs = require("../lib/hs");
+const lasclay = require("../lib/lasclay");
+const shopify = require("../lib/shopify_import");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const auth = require("../lib/auth");
@@ -319,6 +325,111 @@ route("POST /api/rules/apply", async ({ req, user }) => {
   return { resultats: rules.appliquerLot((b.ids || []).map(Number)) };
 });
 
+/** Vocabulaire du moteur de critères — alimente l'éditeur de règles ET celui de vues. */
+route("GET /api/criteres", () => ({
+  champs: Object.entries(criteres.CHAMPS).map(([cle, c]) => ({
+    cle, article: !!c.article, num: !!c.num, bool: !!c.bool, date: !!c.date, liste: !!c.liste,
+    unite: c.unite || null, shipstation: c.ss || null,
+  })),
+  operateurs: Object.entries(criteres.OPERATEURS).map(([cle, o]) => ({
+    cle, libelle: o.libelle, num: !!o.num, bool: !!o.bool, date: !!o.date, shipstation: o.ss || null,
+  })),
+  portees: criteres.PORTEES,
+  actions: Object.keys(rules.ACTIONS),
+  confirmations: require("../lib/lasclay").CONFIRMATIONS,
+}));
+
+route("POST /api/rules/reorder", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  rules.reordonner((await corps(req)).ids || []);
+  return { ok: true };
+});
+
+// ------------------------------------------------- pipeline des 6 couches (§3.1)
+
+route("GET /api/automation", () => ({ couches: automation.COUCHES }));
+route("POST /api/automation/run", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return { resultats: automation.traiterLot((b.ids || []).map(Number),
+    { dryRun: !!b.dry_run, couches: b.couches || null }) };
+});
+/** Équivalent du « Reprocess Automation Rules » — couches 4, 5, 6 sur les commandes ouvertes. */
+route("POST /api/automation/reprocess", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  return automation.retraiter({ dryRun: !!b.dry_run, limite: Number(b.limite) || 5000 });
+});
+
+// ======================================================= PRÉRÉGLAGES ET MAPPINGS
+
+route("GET /api/presets", () => ({ presets: presets.lister() }));
+route("POST /api/presets", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  if (b.delete) { presets.supprimer(Number(b.id)); return { ok: true }; }
+  return { id: presets.sauver(b) };
+});
+route("POST /api/presets/apply", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return presets.appliquer(Number(b.preset_id), (b.ids || []).map(Number),
+    { garderPoids: b.garder_poids !== false, userId: user && user.id });
+});
+
+route("GET /api/service-mappings", ({ url }) => ({
+  mappings: presets.mappings(q(url).store_id ? Number(q(url).store_id) : null),
+  non_mappes: presets.libellesNonMappes(),
+}));
+route("POST /api/service-mappings", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  if (b.delete) { presets.supprimerMapping(Number(b.id)); return { ok: true }; }
+  return { id: presets.sauverMapping(b) };
+});
+
+// ============================================================ DOUANES (codes SH)
+
+route("GET /api/hs", () => ({ alertes: hs.alertes(), familles: hs.FAMILLES.map((f) => ({ code: f.code, libelle: f.libelle, revalider: !!f.revalider })) }));
+route("POST /api/hs/simuler", async ({ req }) => hs.simuler({ seulementSansCode: (await corps(req)).tous !== true }));
+route("POST /api/hs/appliquer", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  return hs.appliquer({ seulementSansCode: (await corps(req)).tous !== true, userId: user && user.id });
+});
+
+// ====================================================== CONFIGURATION LASCLAY
+
+route("GET /api/lasclay", () => lasclay.etat());
+route("POST /api/lasclay/charger", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  const lignes = [];
+  const bilan = lasclay.charger({ remplacer: !!b.remplacer, journal: (m) => lignes.push(m) });
+  return { bilan, journal: lignes };
+});
+
+// ================================================================== SHOPIFY
+
+route("GET /api/shopify", () => shopify.etat());
+route("POST /api/shopify/import", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const lignes = [];
+  const bilan = await shopify.importer({
+    depuis: b.depuis || null,
+    filtre: { nonExpediees: b.non_expediees !== false, depuisCreation: b.depuis_creation || null,
+              numero: b.numero || null },
+    max: Number(b.max) || 2000,
+    journal: (m) => { lignes.push(m); console.error("[shopify]", m); },
+  });
+  return { bilan, journal: lignes };
+});
+route("POST /api/shopify/rattraper", async ({ user }) => {
+  accounts.exiger(user, "orders_edit");
+  const lignes = [];
+  return { bilan: await shopify.rattraper({ journal: (m) => lignes.push(m) }), journal: lignes };
+});
+
 // =================================================================== GABARITS
 
 route("GET /api/templates", ({ url }) => ({ templates: templates.lister(q(url).kind || null) }));
@@ -414,6 +525,10 @@ route("GET /api/refs", () => ({
   tags: db.all("SELECT * FROM tags ORDER BY name"),
   users: accounts.utilisateurs(),
   statuts: orders.STATUTS,
+  services: db.all("SELECT * FROM services WHERE hidden IS NULL OR hidden = 0 ORDER BY carrier_code, CAST(id AS INTEGER), name"),
+  packages: db.all("SELECT * FROM packages ORDER BY custom DESC, name").map((p) => ({ ...p, dimensions: db.parse(p.dimensions) })),
+  presets: presets.lister(),
+  confirmations: lasclay.CONFIRMATIONS,
 }));
 
 route("GET /api/settings", () => ({
@@ -460,17 +575,38 @@ route("DELETE /api/webhooks/:id", ({ params, user }) => {
 
 route("GET /api/notifications", () => ({ queued: accounts.notificationsEnAttente() }));
 
-route("GET /api/views", ({ url }) => ({
-  views: db.all("SELECT * FROM views WHERE scope = ? ORDER BY name", q(url).scope || "orders")
-    .map((v) => ({ ...v, filters: db.parse(v.filters, {}) })),
-}));
+/**
+ * Vues sauvegardées. Le compteur est calculé ici : ShipStation l'affiche sur chaque onglet
+ * et c'est ce qui rend la barre de vues utilisable pour trier un arriéré d'un coup d'œil.
+ */
+route("GET /api/views", ({ url }) => {
+  const p = q(url);
+  const lignes = db.all("SELECT * FROM views WHERE scope = ? ORDER BY position, name", p.scope || "orders");
+  return {
+    views: lignes.map((v) => {
+      const cs = db.parse(v.criteres, []);
+      const vue = { ...v, filters: db.parse(v.filters, {}), criteres: cs, columns: db.parse(v.columns, null),
+                    match_all: v.match_all !== 0, shared: !!v.shared };
+      if (p.counts === "1" && (p.scope || "orders") === "orders") {
+        const c = criteres.compiler(cs, vue.match_all);
+        vue.n = c.sql
+          ? db.one(`SELECT COUNT(*) n FROM orders o WHERE ${c.sql}`, ...c.params).n
+          : db.one("SELECT COUNT(*) n FROM orders").n;
+      }
+      return vue;
+    }),
+  };
+});
 route("POST /api/views", async ({ req }) => {
   const b = await corps(req);
   if (b.delete) { db.run("DELETE FROM views WHERE id = ?", Number(b.id)); return { ok: true }; }
-  db.run(`INSERT INTO views (name, scope, filters) VALUES (?,?,?)
-          ON CONFLICT(name, scope) DO UPDATE SET filters = excluded.filters`,
-    b.name, b.scope || "orders", db.dump(b.filters || {}));
-  return { ok: true };
+  db.run(`INSERT INTO views (name, scope, filters, criteres, match_all, columns, position, notes)
+          VALUES (?,?,?,?,?,?,?,?)
+          ON CONFLICT(name, scope) DO UPDATE SET filters = excluded.filters, criteres = excluded.criteres,
+            match_all = excluded.match_all, columns = excluded.columns, notes = excluded.notes`,
+    b.name, b.scope || "orders", db.dump(b.filters || {}), db.dump(b.criteres || []),
+    b.match_all === false ? 0 : 1, db.dump(b.columns || null), b.position || 0, b.notes || null);
+  return { id: db.one("SELECT id FROM views WHERE name = ? AND scope = ?", b.name, b.scope || "orders").id };
 });
 
 route("GET /api/audit", ({ url }) => ({
@@ -496,6 +632,10 @@ route("GET /api/config", () => ({
   etiquettes_actives: ETIQUETTES,
   seuil_dropoff_g: SEUIL_DROPOFF_G,
   amorce: !!db.reglage("amorce"),
+  config_lasclay: !!db.reglage("config_lasclay"),
+  shopify: shopify.etat(),
+  unite_poids: db.reglage("unite_poids", "g"),
+  unite_dimension: db.reglage("unite_dimension", "in"),
   comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
   exiger_2fa: !!db.reglage("exiger_2fa", false),
 }));
@@ -700,6 +840,9 @@ if (require.main === module) {
   // Reprise du renvoi de suivi : un canal momentanément indisponible ne doit pas laisser un
   // client sans numéro de suivi.
   setInterval(() => channels.traiterFile({ limite: 50 }).catch(() => {}), 10 * 60 * 1000).unref();
+  // Import Shopify récurrent — la synchronisation vivante (exigence B1). Sans clés Shopify
+  // configurées, la minuterie ne démarre pas et l'import reste disponible à la demande.
+  if (shopify.demarrerSync()) console.error(`[shopify] synchronisation toutes les ${process.env.CLONE_SHOPIFY_SYNC_MIN ?? 20} min`);
 }
 
 module.exports = { serveur, ROUTES, trouver };
