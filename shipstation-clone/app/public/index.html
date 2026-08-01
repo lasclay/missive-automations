@@ -754,7 +754,7 @@ const COLONNES = [
   { k: "line_count", t: "Lignes", n: 1, r: (o) => arts(o).length },
   { k: "quantity", t: "Qté", defaut: 1, n: 1, r: (o) => arts(o).reduce((s, i) => s + (i.quantity || 0), 0) },
   { k: "location", t: "Emplacement", r: (o) => arts(o).map((i) => esc(i.warehouse_location)).filter(Boolean).join(", ") },
-  { k: "store", t: "Boutique", r: (o) => esc((S.refs.stores || []).find((s) => s.id === o.store_id)?.name || o.source) },
+  { k: "store", t: "Boutique", r: (o) => esc(IDX.stores?.get(String(o.store_id))?.name || o.source) },
   { k: "requested_service", t: "Service demandé", defaut: 1, r: (o) => rendreDemande(o) },
   { k: "carrier_code", t: "Transporteur", r: (o) => esc(o.carrier_code) },
   { k: "service_id", t: "Service", r: (o) => nomService(o.service_id) },
@@ -762,12 +762,12 @@ const COLONNES = [
   { k: "confirmation", t: "Confirmation", r: (o) => nomConfirmation(o.confirmation) },
   { k: "weight_g", t: "Poids", defaut: 1, n: 1, tri: "weight_g",
     r: (o) => o.weight_g ? `${num(Math.round(o.weight_g))} g` : '<span class="puce r">manquant</span>' },
-  { k: "warehouse_id", t: "Expédié de", r: (o) => esc((S.refs.warehouses || []).find((w) => w.id === o.warehouse_id)?.name) },
+  { k: "warehouse_id", t: "Expédié de", r: (o) => esc(IDX.warehouses?.get(String(o.warehouse_id))?.name) },
   { k: "amount_paid", t: "Payé", n: 1, r: (o) => money(o.amount_paid) },
   { k: "order_total", t: "Total", defaut: 1, n: 1, tri: "order_total", r: (o) => money(o.order_total) },
   { k: "shipping_paid", t: "Livraison payée", n: 1, r: (o) => money(o.shipping_paid) },
   { k: "tax_amount", t: "Taxes", n: 1, r: (o) => money(o.tax_amount) },
-  { k: "assigned_user", t: "Assignée à", r: (o) => esc((S.refs.users || []).find((u) => u.id === o.assigned_user)?.name) },
+  { k: "assigned_user", t: "Assignée à", r: (o) => esc(IDX.users?.get(String(o.assigned_user))?.name) },
   { k: "tags", t: "Étiquettes", defaut: 1, r: (o) => (o.tags || []).map(pastilleTag).join(" ") },
   { k: "custom_field1", t: "Champ perso 1", r: (o) => esc(o.custom_field1) },
   { k: "custom_field2", t: "Champ perso 2", r: (o) => esc(o.custom_field2) },
@@ -782,18 +782,35 @@ const STATUT_FR = {
 };
 const STATUTS_ORDRE = ["awaiting_shipment", "on_hold", "awaiting_payment", "pending_fulfillment", "shipped", "cancelled"];
 
-const arts = (o) => (o.items || []).filter((i) => !i.adjustment);
+/**
+ * Articles physiques d'une commande, mémorisés sur l'objet. À 1 000 lignes, plusieurs colonnes
+ * redemandent la même liste : la recalculer à chaque cellule coûte plus cher que la dessiner.
+ */
+const arts = (o) => (o._arts || (o._arts = (o.items || []).filter((i) => !i.adjustment)));
+
+/**
+ * Index des référentiels. Un `find()` linéaire par cellule, sur 1 000 lignes et treize
+ * colonnes, c'est treize mille balayages de tableau pour un seul rendu.
+ */
+const IDX = {};
+function indexerRefs() {
+  const m = (liste) => new Map((liste || []).map((x) => [String(x.id), x]));
+  IDX.stores = m(S.refs.stores);
+  IDX.services = m(S.refs.services);
+  IDX.packages = m(S.refs.packages);
+  IDX.warehouses = m(S.refs.warehouses);
+  IDX.users = m(S.refs.users);
+  IDX.confirmations = m(S.refs.confirmations);
+  IDX.nonMappes = new Set(S.nonMappes || []);
+}
 const pastilleTag = (t) => `<span class="tag" style="--c:${esc(t.color || "#888")}">${esc(t.name)}</span>`;
-const nomService = (id) => esc((S.refs.services || []).find((s) => s.id === String(id))?.name || id || "—");
-const nomColis = (id) => esc((S.refs.packages || []).find((p) => p.id === String(id))?.name || id || "—");
-const nomConfirmation = (c) => {
-  const x = (S.refs.confirmations || []).find((k) => k.id === String(c));
-  return x ? esc(x.nom) : (c ? esc(c) : "—");
-};
+const nomService = (id) => esc(IDX.services?.get(String(id))?.name || id || "—");
+const nomColis = (id) => esc(IDX.packages?.get(String(id))?.name || id || "—");
+const nomConfirmation = (c) => { const x = IDX.confirmations?.get(String(c)); return x ? esc(x.nom) : (c ? esc(c) : "—"); };
 /** Un libellé de checkout non couvert par un mapping est signalé, pas avalé (OBS6). */
 function rendreDemande(o) {
   if (!o.requested_service) return "—";
-  const connu = (S.nonMappes || []).includes(o.requested_service);
+  const connu = IDX.nonMappes ? IDX.nonMappes.has(o.requested_service) : false;
   return esc(o.requested_service) + (connu ? ' <span class="puce a" title="Aucun mapping de service — la commande partira au service par défaut">non mappé</span>' : "");
 }
 
@@ -987,7 +1004,7 @@ VUES.commandes = async (statutFixe) => {
   /** Clé de regroupement d'une commande, selon le « Group By » choisi. */
   function cleGroupe(o) {
     switch (S0.groupe) {
-      case "store": return (S.refs.stores || []).find((x) => x.id === o.store_id)?.name || "—";
+      case "store": return IDX.stores?.get(String(o.store_id))?.name || "—";
       case "line_count": return `${arts(o).length} ligne(s)`;
       case "quantity": return `${arts(o).reduce((n, i) => n + (i.quantity || 0), 0)} article(s)`;
       case "country": return o.ship_to?.country || "—";
@@ -1001,7 +1018,8 @@ VUES.commandes = async (statutFixe) => {
   function dessiner(d) {
     const cols = colonnesActives();
     const epingle = (k) => S0.epingles.includes(k) ? ` class="fig"` : "";
-    const th = `<th class="cx"><input type="checkbox" id="tout"></th><th class="cx"></th>` +
+    const toutes = d.orders.length > 0 && d.orders.every((o) => S.sel.has(String(o.id)));
+    const th = `<th class="cx"><input type="checkbox" id="tout"${toutes ? " checked" : ""}></th><th class="cx"></th>` +
       cols.map((c) => `<th data-t="${c.tri || ""}"${c.n ? ' class="n"' : ""}${S0.epingles.includes(c.k) ? " data-fig=1" : ""}>${esc(c.t)}${S.tri === c.tri ? (S.dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
     // Le regroupement suppose des lignes contiguës : on trie côté client sur la clé de groupe
     // avant de dessiner, sans toucher au tri de colonne choisi à l'intérieur d'un groupe.
@@ -1035,36 +1053,44 @@ VUES.commandes = async (statutFixe) => {
       : `<div class="vide2"><b>Aucune commande</b><div class="doux">${S0.vue ? "Cette vue ne ramène rien pour l'instant." : "Rien à expédier dans ce statut."}</div>
          <button class="p" onclick="importerShopify()">Importer depuis Shopify</button></div>`;
 
-    $("#tbl").querySelectorAll("th[data-t]").forEach((h) => h.onclick = () => {
-      const c = h.dataset.t; if (!c) return;
-      S.tri === c ? (S.dir = S.dir === "asc" ? "desc" : "asc") : (S.tri = c, S.dir = "desc");
-      charger();
-    });
-    const tout = $("#tout");
-    if (tout) tout.onclick = () => {
-      d.orders.forEach((o) => tout.checked ? S.sel.add(String(o.id)) : S.sel.delete(String(o.id)));
-      dessiner(d); majActions(); cote();
+    // Délégation : deux gestionnaires sur le conteneur, pas trois par ligne. À 1 000 lignes
+    // le câblage individuel représentait l'essentiel du temps de rendu — la requête met
+    // 200 ms, le DOM en mettait dix fois plus.
+    const T = $("#tbl");
+    T.onclick = (e) => {
+      const th = e.target.closest("th[data-t]");
+      if (th) {
+        const c = th.dataset.t; if (!c) return;
+        S.tri === c ? (S.dir = S.dir === "asc" ? "desc" : "asc") : (S.tri = c, S.dir = "desc");
+        return charger();
+      }
+      if (e.target.id === "tout") {
+        d.orders.forEach((o) => e.target.checked ? S.sel.add(String(o.id)) : S.sel.delete(String(o.id)));
+        return dessiner(d), majActions(), cote();
+      }
+      const chev = e.target.closest("[data-x]");
+      if (chev) {
+        e.stopPropagation();
+        const l = $(`[data-arts="${chev.dataset.x}"]`);
+        l.hidden = !l.hidden; chev.textContent = l.hidden ? "▸" : "▾";
+        return;
+      }
+      const tr = e.target.closest("tr[data-id]");
+      if (!tr) return;
+      const id = tr.dataset.id;
+      const i = LIGNES.findIndex((o) => String(o.id) === id);
+      if (e.target.tagName === "INPUT") return basculer(id, i, e.shiftKey);
+      if (e.ctrlKey || e.metaKey || e.shiftKey) return basculer(id, i, e.shiftKey);
+      S.sel.clear(); S.sel.add(id);
+      dernierIndex = i;   // ancre de la prochaine sélection de plage
+      T.querySelectorAll("tr[data-id]").forEach((x) => x.classList.toggle("sel", x.dataset.id === id));
+      T.querySelectorAll("tbody input[type=checkbox]").forEach((x) => x.checked = x.dataset.id === id);
+      majActions(); cote();
     };
-    $("#tbl").querySelectorAll("tbody input[type=checkbox]").forEach((b, i) => b.onclick = (e) => {
-      e.stopPropagation();
-      basculer(String(b.dataset.id), i, e.shiftKey);
-    });
-    $("#tbl").querySelectorAll("[data-x]").forEach((c) => c.onclick = (e) => {
-      e.stopPropagation();
-      const l = $(`[data-arts="${c.dataset.x}"]`);
-      l.hidden = !l.hidden; c.textContent = l.hidden ? "▸" : "▾";
-    });
-    $("#tbl").querySelectorAll("tr[data-id]").forEach((r, i) => {
-      r.onclick = (e) => {
-        if (e.target.tagName === "INPUT" || e.target.dataset.x) return;
-        if (e.ctrlKey || e.metaKey || e.shiftKey) return basculer(r.dataset.id, i, e.shiftKey);
-        S.sel.clear(); S.sel.add(r.dataset.id);
-        document.querySelectorAll("tr[data-id]").forEach((x) => x.classList.toggle("sel", x.dataset.id === r.dataset.id));
-        document.querySelectorAll("tbody input[type=checkbox]").forEach((x) => x.checked = x.dataset.id === r.dataset.id);
-        majActions(); cote();
-      };
-      r.ondblclick = () => detailCommande(Number(r.dataset.id));
-    });
+    T.ondblclick = (e) => {
+      const tr = e.target.closest("tr[data-id]");
+      if (tr) detailCommande(Number(tr.dataset.id));
+    };
   }
 
   function basculer(id, index, plage) {
@@ -1086,7 +1112,7 @@ VUES.commandes = async (statutFixe) => {
       <span class="doux">${num(debut + 1)}–${num(Math.min(debut + d.orders.length, d.total))} sur ${num(d.total)}</span>
       <button id="pPrec" ${S0.page ? "" : "disabled"}>← Précédent</button>
       <button id="pSuiv" ${debut + d.orders.length >= d.total ? "disabled" : ""}>Suivant →</button>
-      <select id="pTaille">${[50, 100, 200, 500].map((n) => `<option ${n === S0.taille ? "selected" : ""}>${n}</option>`).join("")}</select>
+      <select id="pTaille">${[50, 100, 200, 500, 1000].map((n) => `<option ${n === S0.taille ? "selected" : ""}>${n}</option>`).join("")}</select>
       <span class="doux">par page</span>`;
     $("#pPrec").onclick = () => { S0.page--; charger(); };
     $("#pSuiv").onclick = () => { S0.page++; charger(); };
@@ -1552,6 +1578,7 @@ VUES.commandes = async (statutFixe) => {
   majStatuts();
   await chargerVues();
   try { const d = await api("/api/service-mappings"); S.nonMappes = (d.non_mappes || []).map((x) => x.libelle); } catch {}
+  indexerRefs();
   await charger();
 };
 VUES.attente = () => VUES.commandes("on_hold");
@@ -3068,6 +3095,7 @@ async function demarrer() {
     <button class="fermer" data-f="${i}" title="Masquer">×</button></div>`).join("");
   $("#bandeau").querySelectorAll("[data-f]").forEach((b) => b.onclick = () => b.parentNode.remove());
   try { S.refs = await api("/api/refs"); } catch { S.refs = {}; }
+  indexerRefs();
 
   // ---- en-tête global, de gauche à droite comme chez ShipStation : marque, modules,
   //      recherche rapide, mise à jour des boutiques, alertes, profil, réglages, aide.
