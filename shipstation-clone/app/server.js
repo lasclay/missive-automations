@@ -209,7 +209,8 @@ route("POST /api/batches", async ({ req, user }) => {
   const b = await corps(req);
   const ids = (b.ids || []).map(Number);
   const { batchId } = shipments.creerLot(ids, { name: b.name, userId: user });
-  return await shipments.traiterLot(batchId, ids, { userId: user, serviceId: b.service_id });
+  return await shipments.traiterLot(batchId, ids, { userId: user, serviceId: b.service_id,
+    margeMax: b.marge_max === null || b.marge_max === undefined || b.marge_max === "" ? null : Number(b.marge_max) });
 });
 
 /** Simulation de lot : ce que coûterait le lot, sans rien acheter. Toujours disponible. */

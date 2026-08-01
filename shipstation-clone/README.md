@@ -224,7 +224,13 @@ ne dépend pas de nous.
 | Webhooks, file de notifications, journal d'audit | fait |
 | Exports CSV | fait |
 | Migration depuis ShipStation | fait |
+| **Import direct des commandes Shopify** | fait — synchronisation vivante toutes les 20 min |
 | Renvoi du suivi à Shopify, Etsy et Faire | fait — identifiants boutique à fournir |
+| Configuration réelle du compte : 11 règles, 27 vues, 17 préréglages, 17 colis, 6 étiquettes, 5 emplacements, 11 mappings | fait |
+| Pipeline des 6 couches d'automatisation, dans l'ordre de ShipStation | fait |
+| Interface : layout à 3 colonnes, vues en onglets avec compteurs, colonnes configurables et épinglées, raccourcis clavier | fait |
+| Classification douanière des 403 produits sans code SH | fait — 3 codes hérités à faire valider |
+| Alerte de marge avant achat d'étiquette | fait |
 | **Achat réel d'étiquettes** | **bloqué — en attente de l'API ClickShip** |
 
 Deux choses que ShipStation a et que le clone n'aura pas : l'application mobile (picking,
@@ -281,15 +287,25 @@ lib/qr.js         encodeur QR (octet, correction M, v1-10) — sortie SVG, aucun
 lib/orders.js     recherche filtrée, statuts, hold, tags, scission, fusion, alertes
 lib/shipments.js  cotation, achat, annulation, lots, manifestes, suivi
 lib/carrier.js    LE CONTRAT TRANSPORTEUR — quote/buy/void/track, bouchon, squelette ClickShip
-lib/rules.js      moteur SI/ALORS : 18 champs, 14 opérateurs, 14 actions
+lib/criteres.js   langage de filtre commun aux règles ET aux vues — évaluation en mémoire
+                  et compilation SQL, portées d'article any/all/only/none
+lib/rules.js      moteur SI/ALORS : 25 actions, simulation à sec, chaînage et arrêt
+lib/automation.js les 6 couches dans l'ordre : routage, scission, profils, défauts produit,
+                  mapping de service, règles
+lib/lasclay.js    la configuration réelle du compte ShipStation — la charge utile de migration
+lib/presets.js    préréglages d'expédition et mappings de service (canal logistique)
+lib/hs.js         classification douanière par mots-clés, 33 familles
+lib/shopify_import.js  import direct des commandes Shopify, synchronisation vivante
 lib/templates.js  moteur de gabarit (variables, if/else, for, filtres), échappement par défaut
 lib/catalog.js    produits, préréglages, inventaire, clients, retours
 lib/analytics.js  rapports, dont l'écart au tarif drop-off
 lib/accounts.js   utilisateurs, permissions, webhooks, notifications
 lib/ingest.js     migration ShipStation + import normalisé pour Shopify/Etsy/Faire
 lib/channels.js   renvoi du suivi aux boutiques, file de reprise, date de bascule
-app/server.js     ~70 routes
+app/server.js     ~90 routes
 verifier.js       contrôle d'installation, à lancer après déploiement
+verifier_criteres.js  74 vérifications : accord SQL/JavaScript sur les 27 vues, portées
+                  multi-articles, ordre des règles, préréglages, codes SH, marge
 admin.js          outil en ligne de commande : comptes, mots de passe, 2FA
 app/public/       l'interface, une page
 ```

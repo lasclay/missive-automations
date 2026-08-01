@@ -89,7 +89,7 @@ async function verifier() {
     const actives = regles.filter((r) => r.enabled).length;
     if (!regles.length) av("Aucune règle d'automatisation");
     else if (!actives) av(`${regles.length} règle(s), aucune active`,
-      "dont « Drop-off sous 500 g » — c'est elle qui porte l'économie");
+      "la configuration Lasclay n'a peut-être pas été chargée — Réglages");
     else ok(`${actives}/${regles.length} règle(s) active(s)`);
   }
 

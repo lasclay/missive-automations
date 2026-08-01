@@ -18,8 +18,8 @@
          background:var(--bg); color:var(--texte) }
   a { color:var(--accent) }
   /* ---- structure ---- */
-  #app { display:grid; grid-template-columns:210px 1fr; min-height:100vh }
-  nav { background:var(--barre); color:#e8eaed; padding:12px 0; position:sticky; top:0; height:100vh; overflow:auto }
+  #app { display:grid; grid-template-columns:196px 1fr; grid-template-rows:46px 1fr; min-height:100vh }
+  nav { background:var(--barre); color:#e8eaed; padding:8px 0; position:sticky; top:46px; height:calc(100vh - 46px); overflow:auto }
   nav h1 { font-size:14px; margin:0 0 4px; padding:0 16px 10px; border-bottom:1px solid rgba(255,255,255,.12);
            font-weight:650; letter-spacing:.2px }
   nav h1 small { display:block; font-weight:400; color:#9aa3ad; font-size:11px; margin-top:2px; line-height:1.6 }
@@ -82,10 +82,124 @@
   .champ input, .champ select { width:100% }
   .bar { height:7px; background:var(--bord); border-radius:4px; overflow:hidden; margin-top:5px }
   .bar i { display:block; height:100%; background:var(--vert) }
+
+  /* ══════════════════════ écran Commandes — layout ShipStation à 3 colonnes ══════════════════════
+     La densité n'est pas un choix esthétique : c'est un outil d'opérateur d'entrepôt, et le
+     nombre de commandes visibles d'un coup d'œil détermine la vitesse de tri d'un arriéré. */
+  .ss { display:grid; grid-template-columns:196px minmax(0,1fr) 336px; gap:0;
+        height:calc(100vh - 46px); margin:-16px -20px -60px }
+  .ssL { border-right:1px solid var(--bord); background:var(--carte); overflow:auto; padding:8px 0 24px }
+  .ssLt { font-size:10.5px; text-transform:uppercase; letter-spacing:.7px; color:var(--doux);
+          padding:12px 12px 5px; font-weight:700 }
+  .ssLi { display:flex; justify-content:space-between; align-items:center; gap:6px; padding:5px 12px;
+          font-size:13px; cursor:pointer; border-left:3px solid transparent; color:var(--texte) }
+  .ssLi:hover { background:var(--sel) }
+  .ssLi.actif { background:var(--sel); border-left-color:var(--accent); font-weight:650 }
+  .ssLi .n { color:var(--doux); font-size:11.5px; font-variant-numeric:tabular-nums }
+  .ssL .vide { padding:6px 12px; font-size:12px; color:var(--doux) }
+  .ssC { display:flex; flex-direction:column; min-width:0; overflow:hidden }
+  .ssR { border-left:1px solid var(--bord); background:var(--carte); overflow:auto; padding:0 0 40px }
+
+  .ongVues { display:flex; gap:2px; padding:6px 10px 0; overflow-x:auto; border-bottom:1px solid var(--bord); flex:none }
+  .ongVues .ong { padding:5px 11px; border:1px solid transparent; border-bottom:none; border-radius:6px 6px 0 0;
+                  font-size:12.5px; cursor:pointer; white-space:nowrap; color:var(--doux) }
+  .ongVues .ong i { font-style:normal; opacity:.65; font-variant-numeric:tabular-nums }
+  .ongVues .ong:hover { background:var(--sel); color:var(--texte) }
+  .ongVues .ong.actif { background:var(--bg); border-color:var(--bord); color:var(--texte); font-weight:650;
+                        margin-bottom:-1px; border-bottom:1px solid var(--bg) }
+
+  .barreF, .barreA { display:flex; gap:6px; align-items:center; padding:7px 10px; flex:none;
+                     border-bottom:1px solid var(--bord); overflow-x:auto }
+  .barreF input, .barreF select, .barreA button { padding:4px 8px; font-size:12.5px; border-radius:5px }
+  .barreF #fq { min-width:250px }
+  .barreF .sep { width:1px; height:20px; background:var(--bord); margin:0 3px; flex:none }
+  .barreF button.on { background:var(--sel); border-color:var(--accent); color:var(--accent) }
+  .barreA { background:var(--carte) }
+  .barreA .nsel { font-size:12.5px; color:var(--doux); min-width:118px }
+  .barreA button.v { background:var(--vert); border-color:var(--vert); color:#fff; font-weight:650 }
+
+  .grilleWrap { flex:1; overflow:auto; min-height:0 }
+  table.grille { border-collapse:separate; border-spacing:0; width:100%; font-size:13px }
+  table.grille th { position:sticky; top:0; z-index:3; background:var(--carte); border-bottom:1px solid var(--bord);
+                    text-align:left; padding:7px 9px; font-weight:650; white-space:nowrap; cursor:pointer; font-size:12px }
+  table.grille td { padding:6px 9px; border-bottom:1px solid var(--bord); white-space:nowrap; max-width:320px;
+                    overflow:hidden; text-overflow:ellipsis }
+  .grilleWrap.dense table.grille td { padding:3px 9px; font-size:12.5px }
+  .grilleWrap.dense table.grille th { padding:5px 9px }
+  table.grille tr.sel td { background:var(--sel) }
+  table.grille tbody tr:hover td { background:var(--sel) }
+  table.grille .cx { width:26px; padding-left:8px; padding-right:0 }
+  table.grille [data-fig] { position:sticky; left:0; z-index:2; background:var(--carte) }
+  .chev { cursor:pointer; color:var(--doux); user-select:none }
+  tr.arts td { background:var(--bg); white-space:normal }
+  .artL > div, .artG > div { font-size:12.5px; padding:1px 0 }
+  .sku { font-family:ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--doux) }
+  .tag { font-size:10.5px; padding:1px 7px; border-radius:9px; font-weight:600; white-space:nowrap;
+         background:color-mix(in srgb, var(--c) 20%, transparent); color:var(--c); border:1px solid var(--c) }
+  .pag { display:flex; gap:8px; align-items:center; padding:7px 10px; border-top:1px solid var(--bord); flex:none; font-size:12.5px }
+  .vide2 { padding:60px 20px; text-align:center }
+  .vide2 button { margin-top:12px }
+  .vide3 { padding:28px 16px; color:var(--doux); font-size:13px }
+
+  /* ---- sidebar d'expédition (Configure Shipment Widget) ---- */
+  .ssR .sec { border-bottom:1px solid var(--bord); padding:11px 13px }
+  .ssR h4 { margin:0 0 7px; font-size:13px; font-weight:650; display:flex; gap:6px; align-items:center }
+  .ssR .adr { font-size:12.5px; line-height:1.5 }
+  .ssR .kv { display:flex; justify-content:space-between; gap:8px; font-size:12.5px; padding:2px 0 }
+  .ssR .kv span { color:var(--doux) }
+  .ssR .champ { margin-bottom:6px } .ssR .champ span { font-size:11px }
+  .ssR .champ input, .ssR .champ select { padding:4px 7px; font-size:12.5px }
+  .ssR .dims { display:flex; gap:4px; align-items:center; margin-bottom:6px }
+  .ssR .dims input { width:100%; padding:4px 6px; font-size:12.5px }
+  .ssR .note { font-size:12.5px; background:var(--bg); border-radius:6px; padding:6px 8px; margin-bottom:6px }
+  textarea.petit { min-height:56px; font-size:12.5px; margin-bottom:6px }
+  .rouge { color:var(--rouge) } .vert { color:var(--vert) }
+
+  /* ---- menus flottants (Other Actions, Apply Preset, Print) ---- */
+  .menuF { position:fixed; z-index:40; background:var(--carte); border:1px solid var(--bord); border-radius:8px;
+           box-shadow:0 8px 26px rgba(0,0,0,.18); min-width:224px; padding:4px; max-height:70vh; overflow:auto }
+  .menuF .mi { padding:6px 10px; font-size:13px; cursor:pointer; border-radius:5px; display:flex;
+               justify-content:space-between; gap:12px; align-items:center }
+  .menuF .mi:hover { background:var(--sel) }
+  .menuF .mi.danger { color:var(--rouge) }
+  .menuF .sep { height:1px; background:var(--bord); margin:4px 2px }
+  kbd { font:11px ui-monospace,Menlo,monospace; background:var(--bg); border:1px solid var(--bord);
+        border-radius:4px; padding:0 4px; color:var(--doux) }
+  .cols { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:2px }
+  .cols .col { justify-content:flex-start; padding:3px 5px; border-radius:5px }
+  .cols .col:hover { background:var(--sel) }
+  .cols .pin { border:none; background:none; padding:0 4px; opacity:.25; font-size:12px }
+  .cols .pin.on { opacity:1 }
+  .listeVues .lv { padding:7px 9px; border-radius:6px; cursor:pointer; display:block }
+  .listeVues .lv:hover { background:var(--sel) }
+  .listeVues .lv .n { float:right; color:var(--doux); font-variant-numeric:tabular-nums }
+
+  /* ---- en-tête global ---- */
+  header.top { grid-column:1/-1; display:flex; align-items:center; gap:10px; padding:0 12px; height:46px;
+               background:var(--barre); color:#e8eaed; position:sticky; top:0; z-index:30 }
+  header.top .marque { font-weight:700; font-size:14px; letter-spacing:.2px; margin-right:6px }
+  header.top input { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.16); color:#fff;
+                     width:270px; padding:5px 9px; font-size:12.5px }
+  header.top input::placeholder { color:#9aa3ad }
+  header.top button { background:rgba(255,255,255,.10); border-color:rgba(255,255,255,.16); color:#e8eaed;
+                      padding:5px 10px; font-size:12.5px }
+  header.top button:hover { background:rgba(255,255,255,.18) }
+  header.top .droite { margin-left:auto; display:flex; gap:8px; align-items:center; font-size:12.5px; color:#c7cdd4 }
+  header.top .pastille { background:var(--rouge); color:#fff; border-radius:9px; padding:0 6px; font-size:11px; font-weight:700 }
 </style>
 </head>
 <body>
 <div id="app">
+  <header class="top">
+    <span class="marque">Lasclay · Expéditions</span>
+    <input type="search" id="quick" placeholder="Recherche rapide  ( / )">
+    <button id="btMaj" title="Importer les nouvelles commandes Shopify (U)">Mettre à jour</button>
+    <span class="droite">
+      <span id="hAlertes"></span>
+      <span id="hMoi"></span>
+      <button id="btAide" title="Raccourcis clavier (?)">?</button>
+    </span>
+  </header>
   <nav>
     <h1>Expéditions<small id="navSous">Lasclay</small></h1>
     <div id="menu"></div>
@@ -119,9 +233,10 @@ async function api(route, opts = {}) {
   return j;
 }
 
-function dialogue(titre, html, onOk, texteOk = "Confirmer") {
+function dialogue(titre, html, onOk, texteOk = "Confirmer", apres = null) {
   $("#dlgT").textContent = titre;
   $("#dlgC").innerHTML = html;
+  if (apres) apres($("#dlgC"));
   $("#dlgO").textContent = texteOk;
   $("#dlgO").style.display = onOk ? "" : "none";
   $("#dlgO").onclick = async () => {
@@ -171,6 +286,8 @@ const PAGES = [
   { id: "retours", t: "Retours" },
   { g: "Référentiels" },
   { id: "produits", t: "Produits" },
+  { id: "prereglages", t: "Préréglages" },
+  { id: "douanes", t: "Douanes (SH)" },
   { id: "clients", t: "Clients" },
   { g: "Pilotage" },
   { id: "analytique", t: "Analytique" },
@@ -219,188 +336,712 @@ function aller(page) {
 const VUES = {};
 
 // ---------------------------------------------------------------- commandes
-VUES.commandes = async (statutFixe) => {
-  const v = $("#vue");
-  v.innerHTML = `<h2>${statutFixe === "on_hold" ? "Commandes en attente" : "Commandes à expédier"}</h2>
-    <p class="sous" id="resume">Chargement…</p>
-    <div class="onglets" id="vuesSauv"></div>
-    <div class="barre" id="filtres"></div>
-    <div class="barre" id="actions"></div>
-    <div id="tbl"></div>`;
+/**
+ * Écran Commandes — reprend le layout ShipStation à trois colonnes :
+ *
+ *   [ statuts + vues ]   [ onglets · filtres · actions · grille ]   [ sidebar d'expédition ]
+ *
+ * Ce qui est repris tel quel : la hiérarchie verticale (onglets de vues avec compteurs →
+ * barre de filtres → barre d'actions + bouton Colonnes → grille → pagination), la très haute
+ * densité, l'expansion des articles par chevron, les colonnes épinglées (2 max), la sélection
+ * Maj+clic / Ctrl+clic, et les raccourcis clavier.
+ *
+ * Ce qui est corrigé :
+ *   • les compteurs des vues sont calculés en direct, pas seulement à l'ouverture ;
+ *   • les colonnes sont enregistrées **côté serveur, par vue** (chez ShipStation elles se
+ *     réinitialisent — bug communautaire connu) ;
+ *   • la marge d'expédition est affichée avant l'achat (constat OBS9) ;
+ *   • le mode dense se règle, au lieu d'un « Legacy vs New Layout » imposé à tout le compte ;
+ *   • un libellé de service non mappé est signalé au lieu de partir en silence au défaut.
+ */
 
-  const f = $("#filtres");
-  f.append(el(`<input type="search" id="fq" placeholder="N° commande, client, courriel, ville, SKU…" style="min-width:250px">`));
-  f.append(el(`<select id="fstatut"><option value="">Tous statuts</option>${(S.refs.statuts || []).map(s => `<option${s === statutFixe ? " selected" : ""}>${s}</option>`).join("")}</select>`));
-  f.append(el(`<select id="fdrop"><option value="">Drop-off : tous</option><option value="oui">Admissibles (&lt; ${S.config.seuil_dropoff_g} g)</option><option value="non">Non admissibles</option></select>`));
-  f.append(el(`<select id="fstore"><option value="">Toutes boutiques</option>${(S.refs.stores || []).map(s => `<option value="${s.id}">${esc(s.name)}</option>`).join("")}</select>`));
-  f.append(el(`<select id="fpays"><option value="">Tous pays</option><option>CA</option><option>US</option></select>`));
-  f.append(el(`<input type="number" id="fpmin" placeholder="poids min" style="width:105px">`));
-  f.append(el(`<input type="number" id="fpmax" placeholder="poids max" style="width:105px">`));
-  f.append(el(`<input type="number" id="fage" placeholder="âge min (j)" style="width:110px">`));
-  f.append(el(`<label class="ch"><input type="checkbox" id="fnw"> sans poids</label>`));
-  f.append(el(`<button id="freset">Réinitialiser</button>`));
-  f.append(el(`<button id="fsave">Sauver la vue…</button>`));
+/** Catalogue de colonnes (§2.3.1). `defaut` = visible dans la vue de base. */
+const COLONNES = [
+  { k: "order_number", t: "N° commande", defaut: 1, tri: "order_number", r: (o) => `<b>${esc(o.order_number)}</b>` },
+  { k: "order_date", t: "Date", tri: "order_date", r: (o) => jour(o.order_date) },
+  { k: "age", t: "Âge", defaut: 1, n: 1, tri: "age", r: (o) => `${o.age ?? "—"} j` },
+  { k: "paid_at", t: "Payée le", r: (o) => jour(o.paid_at) },
+  { k: "ship_by_date", t: "À expédier avant", tri: "ship_by_date", r: (o) => jour(o.ship_by_date) },
+  { k: "hold_until", t: "En attente jusqu'au", tri: "hold_until", r: (o) => o.hold_until ? `<span class="puce a">${jour(o.hold_until)}</span>` : "—" },
+  { k: "customer_name", t: "Destinataire", defaut: 1, tri: "customer_name", r: (o) => esc(o.customer_name) },
+  { k: "company", t: "Société", r: (o) => esc(o.ship_to?.company) },
+  { k: "customer_email", t: "Courriel", r: (o) => esc(o.customer_email) },
+  { k: "street1", t: "Adresse", r: (o) => esc(o.ship_to?.street1) },
+  { k: "city", t: "Ville", defaut: 1, r: (o) => esc(o.ship_to?.city) },
+  { k: "state", t: "Prov.", defaut: 1, r: (o) => esc(o.ship_to?.state) },
+  { k: "postal_code", t: "Code postal", r: (o) => esc(o.ship_to?.postalCode) },
+  { k: "country", t: "Pays", defaut: 1, r: (o) => esc(o.ship_to?.country) },
+  { k: "item_sku", t: "SKU", r: (o) => arts(o).map((i) => esc(i.sku)).join(", ") },
+  { k: "item_name", t: "Articles", r: (o) => arts(o).map((i) => esc(i.name)).join(" · ") },
+  { k: "line_count", t: "Lignes", n: 1, r: (o) => arts(o).length },
+  { k: "quantity", t: "Qté", defaut: 1, n: 1, r: (o) => arts(o).reduce((s, i) => s + (i.quantity || 0), 0) },
+  { k: "location", t: "Emplacement", r: (o) => arts(o).map((i) => esc(i.warehouse_location)).filter(Boolean).join(", ") },
+  { k: "store", t: "Boutique", r: (o) => esc((S.refs.stores || []).find((s) => s.id === o.store_id)?.name || o.source) },
+  { k: "requested_service", t: "Service demandé", defaut: 1, r: (o) => rendreDemande(o) },
+  { k: "carrier_code", t: "Transporteur", r: (o) => esc(o.carrier_code) },
+  { k: "service_id", t: "Service", r: (o) => nomService(o.service_id) },
+  { k: "package_id", t: "Colis", r: (o) => nomColis(o.package_id) },
+  { k: "confirmation", t: "Confirmation", r: (o) => nomConfirmation(o.confirmation) },
+  { k: "weight_g", t: "Poids", defaut: 1, n: 1, tri: "weight_g",
+    r: (o) => o.weight_g ? `${num(Math.round(o.weight_g))} g` : '<span class="puce r">manquant</span>' },
+  { k: "warehouse_id", t: "Expédié de", r: (o) => esc((S.refs.warehouses || []).find((w) => w.id === o.warehouse_id)?.name) },
+  { k: "amount_paid", t: "Payé", n: 1, r: (o) => money(o.amount_paid) },
+  { k: "order_total", t: "Total", defaut: 1, n: 1, tri: "order_total", r: (o) => money(o.order_total) },
+  { k: "shipping_paid", t: "Livraison payée", n: 1, r: (o) => money(o.shipping_paid) },
+  { k: "tax_amount", t: "Taxes", n: 1, r: (o) => money(o.tax_amount) },
+  { k: "assigned_user", t: "Assignée à", r: (o) => esc((S.refs.users || []).find((u) => u.id === o.assigned_user)?.name) },
+  { k: "tags", t: "Étiquettes", defaut: 1, r: (o) => (o.tags || []).map(pastilleTag).join(" ") },
+  { k: "custom_field1", t: "Champ perso 1", r: (o) => esc(o.custom_field1) },
+  { k: "custom_field2", t: "Champ perso 2", r: (o) => esc(o.custom_field2) },
+  { k: "custom_field3", t: "Champ perso 3", r: (o) => esc(o.custom_field3) },
+  { k: "print_state", t: "Impression", r: (o) => o.print_state ? `<span class="puce v">${esc(o.print_state)}</span>` : "—" },
+  { k: "status", t: "Statut", r: (o) => `<span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>` },
+];
+
+const STATUT_FR = {
+  awaiting_payment: "Paiement attendu", on_hold: "En attente", awaiting_shipment: "À expédier",
+  pending_fulfillment: "Préparation externe", shipped: "Expédiée", cancelled: "Annulée",
+};
+const STATUTS_ORDRE = ["awaiting_shipment", "on_hold", "awaiting_payment", "pending_fulfillment", "shipped", "cancelled"];
+
+const arts = (o) => (o.items || []).filter((i) => !i.adjustment);
+const pastilleTag = (t) => `<span class="tag" style="--c:${esc(t.color || "#888")}">${esc(t.name)}</span>`;
+const nomService = (id) => esc((S.refs.services || []).find((s) => s.id === String(id))?.name || id || "—");
+const nomColis = (id) => esc((S.refs.packages || []).find((p) => p.id === String(id))?.name || id || "—");
+const nomConfirmation = (c) => {
+  const x = (S.refs.confirmations || []).find((k) => k.id === String(c));
+  return x ? esc(x.nom) : (c ? esc(c) : "—");
+};
+/** Un libellé de checkout non couvert par un mapping est signalé, pas avalé (OBS6). */
+function rendreDemande(o) {
+  if (!o.requested_service) return "—";
+  const connu = (S.nonMappes || []).includes(o.requested_service);
+  return esc(o.requested_service) + (connu ? ' <span class="puce a" title="Aucun mapping de service — la commande partira au service par défaut">non mappé</span>' : "");
+}
+
+VUES.commandes = async (statutFixe) => {
+  const S0 = S.cmd = S.cmd || { colonnes: null, epingles: [], vue: null, dense: true, page: 0, taille: 100 };
+  if (statutFixe) S0.statut = statutFixe;
+  else if (!S0.statut) S0.statut = "awaiting_shipment";
+
+  $("#vue").innerHTML = `
+  <div class="ss">
+    <aside class="ssL">
+      <div class="ssLt">Commandes</div>
+      <div id="ssStatuts"></div>
+      <div class="ssLt">Vues sauvegardées</div>
+      <div id="ssVues"></div>
+    </aside>
+    <section class="ssC">
+      <div class="ongVues" id="ongVues"></div>
+      <div class="barreF" id="filtres"></div>
+      <div class="barreA" id="actions"></div>
+      <div id="tbl" class="grilleWrap"></div>
+      <div class="pag" id="pag"></div>
+    </section>
+    <aside class="ssR" id="cote"></aside>
+  </div>`;
+
+  // ------------------------------------------------------------- filtres
+  const F = $("#filtres");
+  F.innerHTML = `
+    <input type="search" id="fq" placeholder="N° commande, client, courriel, ville, SKU…  ( / )">
+    <select id="fstore"><option value="">Toutes boutiques</option>${(S.refs.stores || []).filter((s) => s.active).map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join("")}</select>
+    <select id="fpays"><option value="">Tous pays</option><option>CA</option><option>US</option></select>
+    <select id="fdrop"><option value="">Drop-off : tous</option><option value="oui">Admissibles (&lt; ${S.config.seuil_dropoff_g} g)</option><option value="non">Non admissibles</option></select>
+    <select id="ftag"><option value="">Toutes étiquettes</option>${(S.refs.tags || []).map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join("")}</select>
+    <input type="number" id="fpmin" placeholder="poids min" style="width:96px">
+    <input type="number" id="fpmax" placeholder="poids max" style="width:96px">
+    <input type="number" id="fage" placeholder="âge min (j)" style="width:104px">
+    <label class="ch"><input type="checkbox" id="fnw"> sans poids</label>
+    <span class="sep"></span>
+    <button id="freset" title="Réinitialiser les filtres">Effacer</button>
+    <button id="fcols">Colonnes…</button>
+    <button id="fdense" title="Densité de la grille">Dense</button>
+    <button id="fsave">Enregistrer la vue…</button>`;
 
   const lire = () => ({
-    q: $("#fq").value, status: $("#fstatut").value, drop_off: $("#fdrop").value,
-    store_id: $("#fstore").value, country: $("#fpays").value,
+    q: $("#fq").value, status: S0.statut || "", store_id: $("#fstore").value, country: $("#fpays").value,
+    drop_off: $("#fdrop").value, tag_id: $("#ftag").value,
     weight_min: $("#fpmin").value, weight_max: $("#fpmax").value,
     age_min: $("#fage").value, no_weight: $("#fnw").checked ? "1" : "",
   });
   const poser = (x = {}) => {
-    $("#fq").value = x.q || ""; $("#fstatut").value = x.status || ""; $("#fdrop").value = x.drop_off || "";
-    $("#fstore").value = x.store_id || ""; $("#fpays").value = x.country || "";
+    $("#fq").value = x.q || ""; $("#fstore").value = x.store_id || ""; $("#fpays").value = x.country || "";
+    $("#fdrop").value = x.drop_off || ""; $("#ftag").value = x.tag_id || "";
     $("#fpmin").value = x.weight_min || ""; $("#fpmax").value = x.weight_max || "";
     $("#fage").value = x.age_min || ""; $("#fnw").checked = x.no_weight === "1";
   };
 
   let deb;
-  f.querySelectorAll("input,select").forEach(i => i.addEventListener(
+  F.querySelectorAll("input,select").forEach((i) => i.addEventListener(
     i.type === "search" || i.type === "number" ? "input" : "change",
-    () => { clearTimeout(deb); deb = setTimeout(charger, 250); }));
-  $("#freset").onclick = () => { poser({}); charger(); };
-  $("#fsave").onclick = () => dialogue("Sauvegarder la vue",
-    `<label class="champ"><span>Nom</span><input id="nv"></label>`,
-    async () => {
-      const nom = $("#nv").value.trim(); if (!nom) return false;
-      await api("/api/views", { method: "POST", body: { name: nom, scope: "orders", filters: lire() } });
-      chargerVues();
-    }, "Sauvegarder");
+    () => { clearTimeout(deb); deb = setTimeout(() => { S0.page = 0; charger(); }, 250); }));
+  $("#freset").onclick = () => { poser({}); S0.vue = null; S0.page = 0; charger(); majVues(); };
+  $("#fdense").onclick = () => { S0.dense = !S0.dense; $("#tbl").classList.toggle("dense", S0.dense); $("#fdense").classList.toggle("on", S0.dense); };
+  $("#fcols").onclick = gererColonnes;
+  $("#fsave").onclick = enregistrerVue;
 
-  async function chargerVues() {
-    const { views } = await api("/api/views?scope=orders");
-    $("#vuesSauv").innerHTML = '<span class="doux" style="font-size:12px">Vues :</span>' +
-      (views.length ? views.map(x => `<span class="ong" data-v="${x.id}">${esc(x.name)}</span>`).join("")
-        : '<span class="doux" style="font-size:12px">aucune</span>');
-    $("#vuesSauv").querySelectorAll("[data-v]").forEach(s => {
-      const vv = views.find(x => x.id == s.dataset.v);
-      s.onclick = () => { poser(vv.filters); charger(); };
-      s.oncontextmenu = async (e) => {
-        e.preventDefault();
-        if (!confirm(`Supprimer la vue « ${vv.name} » ?`)) return;
-        await api("/api/views", { method: "POST", body: { id: vv.id, delete: true } });
-        chargerVues();
-      };
+  // ------------------------------------------------------- statuts et vues
+  let VUES_SAUV = [];
+
+  function majStatuts() {
+    const c = S.compteurs.statuts || {};
+    $("#ssStatuts").innerHTML = STATUTS_ORDRE.map((s) =>
+      `<a class="ssLi ${S0.statut === s && !S0.vue ? "actif" : ""}" data-s="${s}">${STATUT_FR[s]}<span class="n">${c[s] ? num(c[s]) : ""}</span></a>`).join("");
+    $("#ssStatuts").querySelectorAll("[data-s]").forEach((a) => a.onclick = () => {
+      S0.statut = a.dataset.s; S0.vue = null; S0.page = 0; S.sel.clear(); charger(); majStatuts(); majVues();
     });
   }
 
-  async function charger() {
-    const p = new URLSearchParams({ ...lire(), sort: S.tri, dir: S.dir, limit: 400 });
-    const d = await api("/api/orders?" + p);
-    const drop = d.orders.filter(o => o.weight_g > 0 && o.weight_g < d.seuil).length;
-    $("#resume").innerHTML = `<b>${num(d.total)}</b> commandes · ${num(d.orders.length)} affichées ·
-      <span class="puce v">${num(drop)} admissibles au drop-off</span>`;
-    $("#tbl").innerHTML = "";
-    $("#tbl").append(table([
-      { k: "order_number", t: "Commande", r: o => `${esc(o.order_number)}
-        ${o.weight_g > 0 && o.weight_g < d.seuil ? '<span class="puce v">drop</span>' : ""}
-        ${o.hold_until ? `<span class="puce a">→ ${jour(o.hold_until)}</span>` : ""}
-        ${(o.tags || []).map(t => `<span class="puce g">${esc(t.name)}</span>`).join("")}` },
-      { k: "age", t: "Âge (j)", n: true },
-      { k: "customer_name", t: "Client" },
-      { k: "ship_to", t: "Ville", r: o => esc(o.ship_to.city) },
-      { k: "state", t: "Prov.", r: o => esc(o.ship_to.state) },
-      { k: "country", t: "Pays", r: o => esc(o.ship_to.country) },
-      { k: "weight_g", t: "Poids (g)", n: true, r: o => o.weight_g ? num(Math.round(o.weight_g)) : '<span class="puce r">manquant</span>' },
-      { k: "items", t: "Art.", n: true, r: o => o.items.filter(i => !i.adjustment).reduce((s, i) => s + i.quantity, 0) },
-      { k: "order_total", t: "Total", n: true, r: o => money(o.order_total) },
-      { k: "requested_service", t: "Service demandé" },
-      { k: "status", t: "Statut", r: o => `<span class="puce g">${esc(o.status)}</span>` },
-    ], d.orders, {
-      sel: S.sel, tri: S.tri, dir: S.dir,
-      onTri: (c) => { S.tri === c ? (S.dir = S.dir === "asc" ? "desc" : "asc") : (S.tri = c, S.dir = "desc"); charger(); },
-      onLigne: (id) => detailCommande(Number(id)),
-    }));
-    majActions();
+  async function chargerVues() {
+    const d = await api("/api/views?scope=orders&counts=1");
+    VUES_SAUV = d.views;
+    majVues();
+  }
+  function majVues() {
+    const lien = (v) => `<a class="ssLi ${S0.vue === v.id ? "actif" : ""}" data-v="${v.id}" title="${esc(v.notes || "")}">
+        ${esc(v.name)}${v.notes && v.notes.includes("vérifier") ? ' <span class="puce a">?</span>' : ""}<span class="n">${v.n != null ? num(v.n) : ""}</span></a>`;
+    $("#ssVues").innerHTML = VUES_SAUV.length ? VUES_SAUV.map(lien).join("")
+      : '<div class="vide">aucune vue — charger la configuration Lasclay dans Réglages</div>';
+    $("#ongVues").innerHTML = `<span class="ong ${!S0.vue ? "actif" : ""}" data-v="">${STATUT_FR[S0.statut] || "Toutes"}</span>` +
+      VUES_SAUV.slice(0, 12).map((v) => `<span class="ong ${S0.vue === v.id ? "actif" : ""}" data-v="${v.id}">${esc(v.name)}${v.n != null ? ` <i>${num(v.n)}</i>` : ""}</span>`).join("") +
+      (VUES_SAUV.length > 12 ? `<span class="ong" id="ongPlus">+${VUES_SAUV.length - 12}…</span>` : "");
+
+    const choisir = (id) => {
+      S0.vue = id ? Number(id) : null;
+      S0.page = 0; S.sel.clear();
+      const v = VUES_SAUV.find((x) => x.id === S0.vue);
+      S0.colonnes = v && v.columns ? v.columns : null;
+      charger(); majStatuts(); majVues();
+    };
+    document.querySelectorAll("#ssVues [data-v], #ongVues [data-v]").forEach((a) => {
+      a.onclick = () => choisir(a.dataset.v);
+      a.oncontextmenu = async (e) => {
+        if (!a.dataset.v) return;
+        e.preventDefault();
+        const v = VUES_SAUV.find((x) => x.id == a.dataset.v);
+        if (!confirm(`Supprimer la vue « ${v.name} » ?`)) return;
+        await api("/api/views", { method: "POST", body: { id: v.id, delete: true } });
+        if (S0.vue === v.id) S0.vue = null;
+        chargerVues(); charger();
+      };
+    });
+    const plus = $("#ongPlus");
+    if (plus) plus.onclick = () => dialogue("Toutes les vues",
+      `<div class="listeVues">${VUES_SAUV.map((v) => `<div class="lv" data-v="${v.id}"><b>${esc(v.name)}</b>
+        <span class="n">${v.n != null ? num(v.n) : ""}</span>
+        ${v.notes ? `<div class="doux">${esc(v.notes)}</div>` : ""}</div>`).join("")}</div>`,
+      null, "Fermer", (c) => c.querySelectorAll("[data-v]").forEach((d) => d.onclick = () => { $("#dlg").close(); choisir(d.dataset.v); }));
   }
 
+  function enregistrerVue() {
+    dialogue("Enregistrer la vue", `
+      <label class="champ"><span>Nom</span><input id="nv"></label>
+      <p class="doux">Les filtres actifs et les colonnes visibles sont enregistrés ensemble, et
+      partagés avec toute l'équipe. Modifier une vue existante la remplace — chez ShipStation
+      cela en créait une nouvelle à chaque fois, d'où les 27 vues dont plusieurs datées.</p>`,
+      async () => {
+        const nom = $("#nv").value.trim(); if (!nom) return false;
+        await api("/api/views", { method: "POST", body: {
+          name: nom, scope: "orders", filters: lire(), columns: colonnesActives().map((c) => c.k) } });
+        chargerVues();
+      }, "Enregistrer");
+  }
+
+  // ---------------------------------------------------------- colonnes
+  const colonnesActives = () => {
+    const cles = S0.colonnes || COLONNES.filter((c) => c.defaut).map((c) => c.k);
+    return cles.map((k) => COLONNES.find((c) => c.k === k)).filter(Boolean);
+  };
+
+  function gererColonnes() {
+    const actives = colonnesActives().map((c) => c.k);
+    dialogue("Colonnes", `
+      <p class="doux">Cochez les colonnes à afficher, épinglez-en jusqu'à deux pour qu'elles
+      restent visibles pendant le défilement horizontal. L'ordre suit celui de la liste.</p>
+      <div class="cols">${COLONNES.map((c) => `<label class="ch col">
+        <input type="checkbox" data-c="${c.k}" ${actives.includes(c.k) ? "checked" : ""}>
+        <span>${esc(c.t)}</span>
+        <button class="pin ${S0.epingles.includes(c.k) ? "on" : ""}" data-pin="${c.k}" title="Épingler">📌</button>
+      </label>`).join("")}</div>`,
+      async () => {
+        S0.colonnes = COLONNES.filter((c) => $(`[data-c="${c.k}"]`).checked).map((c) => c.k);
+        // Persistance côté serveur, attachée à la vue : chez ShipStation les colonnes se
+        // réinitialisent parce qu'elles vivent côté navigateur.
+        if (S0.vue) {
+          const v = VUES_SAUV.find((x) => x.id === S0.vue);
+          if (v) await api("/api/views", { method: "POST", body: { ...v, columns: S0.colonnes } });
+        } else {
+          await api("/api/settings", { method: "POST", body: { colonnes_commandes: S0.colonnes } });
+        }
+        charger();
+      }, "Appliquer",
+      (c) => c.querySelectorAll("[data-pin]").forEach((b) => b.onclick = (e) => {
+        e.preventDefault();
+        const k = b.dataset.pin;
+        const i = S0.epingles.indexOf(k);
+        if (i >= 0) S0.epingles.splice(i, 1);
+        else { S0.epingles.push(k); if (S0.epingles.length > 2) S0.epingles.shift(); }
+        c.querySelectorAll("[data-pin]").forEach((x) => x.classList.toggle("on", S0.epingles.includes(x.dataset.pin)));
+      }));
+  }
+
+  // ------------------------------------------------------------- grille
+  let LIGNES = [], dernierIndex = null;
+
+  async function charger() {
+    const f = S0.vue ? { q: $("#fq").value, view_id: S0.vue } : lire();
+    const p = new URLSearchParams({ ...f, sort: S.tri, dir: S.dir,
+      limit: S0.taille, offset: S0.page * S0.taille });
+    const d = await api("/api/orders?" + p);
+    LIGNES = d.orders;
+    S.total = d.total;
+    dessiner(d);
+    majPagination(d);
+    majActions();
+    cote();
+  }
+
+  function dessiner(d) {
+    const cols = colonnesActives();
+    const epingle = (k) => S0.epingles.includes(k) ? ` class="fig"` : "";
+    const th = `<th class="cx"><input type="checkbox" id="tout"></th><th class="cx"></th>` +
+      cols.map((c) => `<th data-t="${c.tri || ""}"${c.n ? ' class="n"' : ""}${S0.epingles.includes(c.k) ? " data-fig=1" : ""}>${esc(c.t)}${S.tri === c.tri ? (S.dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
+    const tr = d.orders.map((o) => {
+      const drop = o.weight_g > 0 && o.weight_g < d.seuil;
+      return `<tr data-id="${o.id}" class="${S.sel.has(String(o.id)) ? "sel" : ""}">
+        <td class="cx"><input type="checkbox" data-id="${o.id}" ${S.sel.has(String(o.id)) ? "checked" : ""}></td>
+        <td class="cx">${arts(o).length > 1 ? `<span class="chev" data-x="${o.id}">▸</span>` : ""}</td>
+        ${cols.map((c) => `<td${c.n ? ' class="n"' : ""}${S0.epingles.includes(c.k) ? ' data-fig=1' : ""}>${c.r(o)}${
+          c.k === "order_number" && drop ? ' <span class="puce v" title="Admissible au tarif de dépôt en bureau de poste">dépôt</span>' : ""}</td>`).join("")}
+      </tr>` + (arts(o).length > 1 ? `<tr class="arts" data-arts="${o.id}" hidden><td></td><td></td>
+        <td colspan="${cols.length}"><div class="artL">${arts(o).map((i) =>
+          `<div><span class="sku">${esc(i.sku)}</span> ${esc(i.name)} <b>×${i.quantity}</b>
+           ${i.warehouse_location ? `<span class="doux">· ${esc(i.warehouse_location)}</span>` : ""}</div>`).join("")}</div></td></tr>` : "");
+    }).join("");
+
+    $("#tbl").className = "grilleWrap" + (S0.dense ? " dense" : "");
+    $("#tbl").innerHTML = d.orders.length
+      ? `<table class="grille"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`
+      : `<div class="vide2"><b>Aucune commande</b><div class="doux">${S0.vue ? "Cette vue ne ramène rien pour l'instant." : "Rien à expédier dans ce statut."}</div>
+         <button class="p" onclick="importerShopify()">Importer depuis Shopify</button></div>`;
+
+    $("#tbl").querySelectorAll("th[data-t]").forEach((h) => h.onclick = () => {
+      const c = h.dataset.t; if (!c) return;
+      S.tri === c ? (S.dir = S.dir === "asc" ? "desc" : "asc") : (S.tri = c, S.dir = "desc");
+      charger();
+    });
+    const tout = $("#tout");
+    if (tout) tout.onclick = () => {
+      d.orders.forEach((o) => tout.checked ? S.sel.add(String(o.id)) : S.sel.delete(String(o.id)));
+      dessiner(d); majActions(); cote();
+    };
+    $("#tbl").querySelectorAll("tbody input[type=checkbox]").forEach((b, i) => b.onclick = (e) => {
+      e.stopPropagation();
+      basculer(String(b.dataset.id), i, e.shiftKey);
+    });
+    $("#tbl").querySelectorAll("[data-x]").forEach((c) => c.onclick = (e) => {
+      e.stopPropagation();
+      const l = $(`[data-arts="${c.dataset.x}"]`);
+      l.hidden = !l.hidden; c.textContent = l.hidden ? "▸" : "▾";
+    });
+    $("#tbl").querySelectorAll("tr[data-id]").forEach((r, i) => {
+      r.onclick = (e) => {
+        if (e.target.tagName === "INPUT" || e.target.dataset.x) return;
+        if (e.ctrlKey || e.metaKey || e.shiftKey) return basculer(r.dataset.id, i, e.shiftKey);
+        S.sel.clear(); S.sel.add(r.dataset.id);
+        document.querySelectorAll("tr[data-id]").forEach((x) => x.classList.toggle("sel", x.dataset.id === r.dataset.id));
+        document.querySelectorAll("tbody input[type=checkbox]").forEach((x) => x.checked = x.dataset.id === r.dataset.id);
+        majActions(); cote();
+      };
+      r.ondblclick = () => detailCommande(Number(r.dataset.id));
+    });
+  }
+
+  function basculer(id, index, plage) {
+    if (plage && dernierIndex != null) {
+      const [a, b] = [Math.min(dernierIndex, index), Math.max(dernierIndex, index)];
+      LIGNES.slice(a, b + 1).forEach((o) => S.sel.add(String(o.id)));
+    } else {
+      S.sel.has(id) ? S.sel.delete(id) : S.sel.add(id);
+      dernierIndex = index;
+    }
+    document.querySelectorAll("tr[data-id]").forEach((r) => r.classList.toggle("sel", S.sel.has(r.dataset.id)));
+    document.querySelectorAll("tbody input[type=checkbox]").forEach((c) => c.checked = S.sel.has(String(c.dataset.id)));
+    majActions(); cote();
+  }
+
+  function majPagination(d) {
+    const debut = S0.page * S0.taille;
+    $("#pag").innerHTML = `
+      <span class="doux">${num(debut + 1)}–${num(Math.min(debut + d.orders.length, d.total))} sur <b>${num(d.total)}</b></span>
+      <button id="pPrec" ${S0.page ? "" : "disabled"}>← Précédent</button>
+      <button id="pSuiv" ${debut + d.orders.length >= d.total ? "disabled" : ""}>Suivant →</button>
+      <select id="pTaille">${[50, 100, 200, 500].map((n) => `<option ${n === S0.taille ? "selected" : ""}>${n}</option>`).join("")}</select>
+      <span class="doux">par page</span>`;
+    $("#pPrec").onclick = () => { S0.page--; charger(); };
+    $("#pSuiv").onclick = () => { S0.page++; charger(); };
+    $("#pTaille").onchange = (e) => { S0.taille = Number(e.target.value); S0.page = 0; charger(); };
+  }
+
+  // ------------------------------------------------------- barre d'actions
   const A = $("#actions");
-  A.innerHTML = `<span class="doux" id="nsel">aucune sélection</span>
-    <button id="aPreview">Simuler le lot</button>
-    <button id="aBuy" class="p">Acheter les étiquettes…</button>
-    <button id="aSlip">Bordereaux</button>
-    <button id="aHold">Mettre en attente…</button>
-    <button id="aRestore">Remettre en file</button>
-    <button id="aTag">Étiqueter…</button>
-    <button id="aRules">Appliquer les règles</button>
-    <button id="aMerge">Fusionner</button>
-    <button id="aCancel" class="d">Annuler…</button>`;
+  A.innerHTML = `
+    <span class="nsel" id="nsel">aucune sélection</span>
+    <button id="aRate" title="Coter (R)">Coter</button>
+    <button id="aPreset">Préréglage ▾</button>
+    <button id="aPrint">Imprimer ▾</button>
+    <button id="aTag">Étiqueter ▾</button>
+    <button id="aAssign">Assigner ▾</button>
+    <button id="aBuy" class="v" title="Créer les étiquettes (S)">Créer les étiquettes</button>
+    <button id="aAutres">Autres actions ▾</button>`;
+
+  const ids = () => [...S.sel];
   const majActions = () => {
     const n = S.sel.size;
     $("#nsel").textContent = n ? `${n} sélectionnée${n > 1 ? "s" : ""}` : "aucune sélection";
-    ["aPreview","aBuy","aSlip","aHold","aRestore","aTag","aRules","aCancel"].forEach(i => $("#" + i).disabled = !n);
-    $("#aMerge").disabled = n < 2;
-    $("#aBuy").disabled = !n || !S.config.etiquettes_actives;
+    ["aRate", "aPreset", "aPrint", "aTag", "aAssign", "aBuy", "aAutres"].forEach((i) => { const b = $("#" + i); if (b) b.disabled = !n; });
+    const b = $("#aBuy"); if (b) b.disabled = !n || !S.config.etiquettes_actives;
   };
-  document.addEventListener("selchange", majActions);
-  const ids = () => [...S.sel];
 
-  $("#aPreview").onclick = async () => {
+  const menuFlottant = (bouton, entrees) => {
+    const anc = $("#" + bouton).getBoundingClientRect();
+    document.querySelectorAll(".menuF").forEach((m) => m.remove());
+    const m = el(`<div class="menuF" style="top:${anc.bottom + 4}px;left:${anc.left}px">${
+      entrees.map((e, i) => e.sep ? '<div class="sep"></div>'
+        : `<div class="mi ${e.danger ? "danger" : ""}" data-i="${i}">${esc(e.t)}${e.hk ? `<kbd>${e.hk}</kbd>` : ""}</div>`).join("")}</div>`);
+    document.body.append(m);
+    m.querySelectorAll("[data-i]").forEach((d) => d.onclick = () => { m.remove(); entrees[d.dataset.i].f(); });
+    setTimeout(() => document.addEventListener("click", () => m.remove(), { once: true }), 0);
+  };
+
+  $("#aRate").onclick = async () => {
+    const id = Number(ids()[0]);
+    attendre("Cotation");
+    try {
+      const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: id } });
+      dialogue("Tarifs", tableauTarifs(r), null, "Fermer");
+    } catch (e) { dialogue("Cotation impossible", `<div class="avis">${esc(e.message)}</div>`, null, "Fermer"); }
+  };
+
+  $("#aPreset").onclick = () => menuFlottant("aPreset", [
+    ...(S.refs.presets || []).map((p) => ({ t: `${p.name}${p.hotkey ? "" : ""}`, hk: p.hotkey || "",
+      f: async () => { await api("/api/presets/apply", { method: "POST", body: { preset_id: p.id, ids: ids() } }); charger(); } })),
+    { sep: 1 }, { t: "Gérer les préréglages…", f: () => aller("prereglages") },
+  ]);
+
+  $("#aPrint").onclick = () => menuFlottant("aPrint", [
+    { t: "Bordereaux de préparation", hk: "P+S", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank") },
+    { t: "Liste de prélèvement", hk: "P+L", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}&pick=1`, "_blank") },
+    { t: "Exporter la sélection (CSV)", f: () => window.open(`/api/export/orders?ids=${ids().join(",")}`, "_blank") },
+  ]);
+
+  $("#aTag").onclick = () => menuFlottant("aTag", [
+    ...(S.refs.tags || []).map((t) => ({ t: t.name,
+      f: async () => { await api("/api/orders/tag", { method: "POST", body: { ids: ids(), tag_id: t.id } }); charger(); } })),
+    { sep: 1 },
+    { t: "Retirer une étiquette…", f: () => dialogue("Retirer une étiquette",
+      `<label class="champ"><span>Étiquette</span><select id="tg">${(S.refs.tags || []).map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join("")}</select></label>`,
+      async () => { await api("/api/orders/tag", { method: "POST", body: { ids: ids(), tag_id: Number($("#tg").value), remove: true } }); charger(); }) },
+  ]);
+
+  $("#aAssign").onclick = () => menuFlottant("aAssign", [
+    ...(S.refs.users || []).map((u) => ({ t: u.name,
+      f: async () => { await api("/api/orders/assign", { method: "POST", body: { ids: ids(), user_id: u.id } }); charger(); } })),
+    { sep: 1 }, { t: "Retirer l'assignation", f: async () => { await api("/api/orders/assign", { method: "POST", body: { ids: ids(), user_id: null } }); charger(); } },
+  ]);
+
+  $("#aAutres").onclick = () => menuFlottant("aAutres", [
+    { t: "Marquer comme expédiée…", hk: "M+S", f: marquerExpedie },
+    { t: "Fusionner les expéditions", f: fusionner },
+    { t: "Mettre en attente…", f: mettreEnAttente },
+    { t: "Remettre en file", f: async () => { await api("/api/orders/restore", { method: "POST", body: { ids: ids() } }); S.sel.clear(); charger(); rafraichirCompteurs(); } },
+    { sep: 1 },
+    { t: "Simuler le lot (coût et blocages)", f: simulerLot },
+    { t: "Créer un lot…", hk: "B", f: acheterLot },
+    { sep: 1 },
+    { t: "Rejouer l'automatisation (simulation)", f: () => rejouerAutomatisation(true) },
+    { t: "Rejouer l'automatisation", f: () => rejouerAutomatisation(false) },
+    { sep: 1 },
+    { t: "Annuler les commandes…", danger: 1, f: annuler },
+  ]);
+
+  $("#aBuy").onclick = acheterLot;
+
+  function simulerLot() {
     attendre("Simulation du lot");
-    const r = await api("/api/batches/preview", { method: "POST", body: { ids: ids() } });
-    dialogue(`Simulation — ${r.n} étiquette(s)`, `
-      <div class="grille" style="margin-bottom:12px">
-        <div class="kpi"><div class="v">${money(r.total)}</div><div class="l">coût total</div></div>
-        <div class="kpi vert"><div class="v">${r.drop_off}</div><div class="l">en drop-off</div></div>
-        <div class="kpi ${r.bloquees ? "ambre" : ""}"><div class="v">${r.bloquees}</div><div class="l">bloquées</div></div>
-      </div>
-      <div class="tbl"><table><thead><tr><th>Commande</th><th class="n">Poids</th><th>Service</th><th class="n">Prix</th></tr></thead>
-      <tbody>${r.lignes.map(l => `<tr><td>${esc(l.order_number)}</td><td class="n">${l.poids ? num(l.poids) + " g" : "—"}</td>
-        <td>${l.erreur ? `<span class="puce r">${esc(l.erreur)}</span>` : esc(l.service) + (l.dropOff ? ' <span class="puce v">drop</span>' : "")}</td>
-        <td class="n">${l.prix ? money(l.prix) : "—"}</td></tr>`).join("")}</tbody></table></div>`, null);
-  };
+    api("/api/batches/preview", { method: "POST", body: { ids: ids() } }).then((r) => {
+      dialogue(`Simulation — ${r.n} étiquette(s)`, `
+        <div class="grille" style="margin-bottom:12px">
+          <div class="kpi"><div class="v">${money(r.total)}</div><div class="l">coût total</div></div>
+          <div class="kpi vert"><div class="v">${r.drop_off}</div><div class="l">en dépôt</div></div>
+          <div class="kpi ${r.bloquees ? "ambre" : ""}"><div class="v">${r.bloquees}</div><div class="l">bloquées</div></div>
+        </div>
+        <div class="tbl"><table><thead><tr><th>Commande</th><th class="n">Poids</th><th>Service</th><th class="n">Prix</th></tr></thead>
+        <tbody>${r.lignes.map((l) => `<tr><td>${esc(l.order_number)}</td><td class="n">${l.poids ? num(l.poids) + " g" : "—"}</td>
+          <td>${l.erreur ? `<span class="puce r">${esc(l.erreur)}</span>` : esc(l.service) + (l.dropOff ? ' <span class="puce v">dépôt</span>' : "")}</td>
+          <td class="n">${l.prix ? money(l.prix) : "—"}</td></tr>`).join("")}</tbody></table></div>`, null, "Fermer");
+    });
+  }
 
-  $("#aBuy").onclick = () => dialogue(`Acheter ${S.sel.size} étiquette(s)`,
-    `<div class="avis">Ceci <b>achète réellement</b> les étiquettes et débite le compte transporteur.
-     Adaptateur actif : <b>${esc(S.config.adaptateur)}</b>.</div>
-     <label class="champ"><span>Nom du lot (facultatif)</span><input id="bn"></label>
-     <p class="doux">Sans service imposé, chaque commande prend le tarif recommandé (drop-off privilégié sous ${S.config.seuil_dropoff_g} g).</p>`,
-    async () => {
-      const r = await api("/api/batches", { method: "POST", body: { ids: ids(), name: $("#bn").value || null } });
-      alert(`Lot ${r.batchId} : ${r.reussis} étiquette(s), ${r.echecs} échec(s).`);
-      S.sel.clear(); charger(); rafraichirCompteurs();
-    }, "Acheter");
+  function acheterLot() {
+    if (!S.sel.size) return;
+    dialogue(`Créer ${S.sel.size} étiquette(s)`, `
+      <div class="avis">Ceci <b>achète réellement</b> les étiquettes et débite le compte transporteur.
+        Adaptateur actif : <b>${esc(S.config.adaptateur)}</b>.</div>
+      <label class="champ"><span>Nom du lot (facultatif)</span><input id="bn"></label>
+      <label class="champ"><span>Refuser au-delà d'une perte de (laisser vide pour ne rien bloquer)</span>
+        <input type="number" id="bm" step="0.01" placeholder="ex. 10.00"></label>
+      <p class="doux">Le garde-fou de marge compare la livraison facturée au coût réel de
+      l'étiquette, commande par commande. En juillet 2026, la marge d'expédition du compte
+      était de −703,52 $ et rien ne le signalait avant l'achat.</p>`,
+      async () => {
+        const r = await api("/api/batches", { method: "POST", body: {
+          ids: ids(), name: $("#bn").value || null, marge_max: $("#bm").value || null } });
+        alert(`Lot ${r.batchId} : ${r.reussis} étiquette(s), ${r.echecs} échec(s).`);
+        S.sel.clear(); charger(); rafraichirCompteurs();
+      }, "Créer");
+  }
 
-  $("#aSlip").onclick = () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank");
-
-  $("#aHold").onclick = () => {
+  function mettreEnAttente() {
     const d = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
     dialogue(`Mettre ${S.sel.size} commande(s) en attente`,
       `<label class="champ"><span>Jusqu'au</span><input type="date" id="hd" value="${d}"></label>
        <p class="doux">Retour automatique en file à cette date.</p>`,
       async () => { await api("/api/orders/hold", { method: "POST", body: { ids: ids(), hold_until: $("#hd").value } });
         S.sel.clear(); charger(); rafraichirCompteurs(); });
-  };
-  $("#aRestore").onclick = async () => {
-    await api("/api/orders/restore", { method: "POST", body: { ids: ids() } });
-    S.sel.clear(); charger(); rafraichirCompteurs();
-  };
-  $("#aTag").onclick = () => dialogue("Étiqueter", `<label class="champ"><span>Tag</span>
-      <select id="tg">${(S.refs.tags || []).map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join("")}</select></label>
-      <label class="ch"><input type="checkbox" id="trm"> retirer au lieu d'ajouter</label>`,
-    async () => { await api("/api/orders/tag", { method: "POST", body: { ids: ids(), tag_id: Number($("#tg").value), remove: $("#trm").checked } }); charger(); });
-  $("#aRules").onclick = async () => {
-    await api("/api/rules/apply", { method: "POST", body: { ids: ids() } });
-    charger();
-  };
-  $("#aMerge").onclick = () => {
+  }
+
+  function marquerExpedie() {
+    dialogue(`Marquer ${S.sel.size} commande(s) comme expédiée(s)`, `
+      <label class="champ"><span>Transporteur</span><input id="msc" placeholder="canada_post"></label>
+      <label class="champ"><span>N° de suivi (facultatif)</span><input id="mst"></label>
+      <label class="ch"><input type="checkbox" id="msn" checked> notifier la boutique</label>`,
+      async () => {
+        for (const id of ids())
+          await api("/api/shipments/mark-shipped", { method: "POST", body: {
+            order_id: Number(id), carrier_code: $("#msc").value || null,
+            tracking_number: $("#mst").value || null, notifier: $("#msn").checked } });
+        S.sel.clear(); charger(); rafraichirCompteurs();
+      }, "Marquer expédiée");
+  }
+
+  function fusionner() {
     const [cible, ...autres] = ids();
     dialogue("Fusionner", `<p>Les commandes seront fusionnées dans <b>#${cible}</b> (la première sélectionnée).
       Les autres passeront en annulé, leurs articles rejoignant la cible.</p>`,
       async () => { await api("/api/orders/merge", { method: "POST", body: { target: cible, ids: autres } });
         S.sel.clear(); charger(); rafraichirCompteurs(); });
-  };
-  $("#aCancel").onclick = () => dialogue(`Annuler ${S.sel.size} commande(s)`,
-    `<div class="avis">Action destructrice : les commandes passent en <b>cancelled</b>.</div>`,
-    async () => { const r = await api("/api/orders/cancel", { method: "POST", body: { ids: ids() } });
-      if (r.erreurs?.length) alert(r.erreurs.map(e => `#${e.id} : ${e.e}`).join("\n"));
-      S.sel.clear(); charger(); rafraichirCompteurs(); }, "Annuler les commandes");
+  }
 
-  poser(statutFixe ? { status: statutFixe } : {});
+  function annuler() {
+    dialogue(`Annuler ${S.sel.size} commande(s)`,
+      `<div class="avis">Action destructrice : les commandes passent en <b>annulée</b>.</div>`,
+      async () => { const r = await api("/api/orders/cancel", { method: "POST", body: { ids: ids() } });
+        if (r.erreurs?.length) alert(r.erreurs.map((e) => `#${e.id} : ${e.e}`).join("\n"));
+        S.sel.clear(); charger(); rafraichirCompteurs(); }, "Annuler les commandes");
+  }
+
+  async function rejouerAutomatisation(sec) {
+    const r = await api("/api/automation/run", { method: "POST", body: { ids: ids(), dry_run: sec } });
+    const lignes = Object.entries(r.resultats).map(([id, trace]) => {
+      const o = LIGNES.find((x) => String(x.id) === id);
+      return `<tr><td>${esc(o ? o.order_number : id)}</td><td>${trace.length
+        ? trace.map((t) => `<span class="puce g">${t.couche}. ${esc(t.nom)}</span> ${esc(t.effet || t.regle || t.arret || t.erreur || "")}`).join("<br>")
+        : '<span class="doux">aucun effet</span>'}</td></tr>`;
+    }).join("");
+    dialogue(sec ? "Simulation de l'automatisation" : "Automatisation appliquée", `
+      ${sec ? '<div class="avis info">Simulation : rien n\'a été écrit.</div>' : ""}
+      <div class="tbl"><table><thead><tr><th>Commande</th><th>Couches déclenchées</th></tr></thead>
+      <tbody>${lignes}</tbody></table></div>`, null, "Fermer");
+    if (!sec) charger();
+  }
+
+  // ------------------------------------------------ sidebar d'expédition
+  /**
+   * Le « Configure Shipment Widget » de ShipStation : expéditeur, poids, service, colis,
+   * dimensions, confirmation, puis le bouton d'achat portant le tarif. Ajouts : la marge
+   * avant achat, et la provenance du poids et des dimensions — ShipStation ne documente
+   * nulle part qui gagne entre préréglage, profil produit, produit et type de colis, alors
+   * que c'est ce qui détermine le poids facturé.
+   */
+  async function cote() {
+    const C = $("#cote");
+    if (S.sel.size === 0) {
+      C.innerHTML = `<div class="vide3">Sélectionnez une commande pour configurer l'expédition.
+        <div class="doux" style="margin-top:8px">Astuce : <kbd>?</kbd> affiche les raccourcis.</div></div>`;
+      return;
+    }
+    if (S.sel.size > 1) {
+      const sel = LIGNES.filter((o) => S.sel.has(String(o.id)));
+      const poids = sel.reduce((s, o) => s + (o.weight_g || 0), 0);
+      const sansPoids = sel.filter((o) => !o.weight_g).length;
+      C.innerHTML = `<div class="sec"><h4>${sel.length} commandes sélectionnées</h4>
+        <div class="kv"><span>Poids cumulé</span><b>${num(Math.round(poids))} g</b></div>
+        <div class="kv"><span>Sans poids</span><b class="${sansPoids ? "rouge" : ""}">${sansPoids}</b></div>
+        <div class="kv"><span>Valeur</span><b>${money(sel.reduce((s, o) => s + (o.order_total || 0), 0))}</b></div>
+        <div class="kv"><span>Livraison facturée</span><b>${money(sel.reduce((s, o) => s + (o.shipping_paid || 0), 0))}</b></div>
+      </div>
+      <div class="sec"><h4>Articles à préparer</h4>${listeArticlesGroupes(sel)}</div>`;
+      return;
+    }
+    const o = await api(`/api/orders/${[...S.sel][0]}`);
+    const svc = (S.refs.services || []).filter((s) => !s.hidden);
+    C.innerHTML = `
+      <div class="sec">
+        <h4>${esc(o.order_number)} <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span></h4>
+        <div class="adr">${esc(o.customer_name || "")}<br>${esc(o.ship_to.street1 || "")}
+          ${o.ship_to.street2 ? `<br>${esc(o.ship_to.street2)}` : ""}<br>
+          ${esc(o.ship_to.city || "")} ${esc(o.ship_to.state || "")} ${esc(o.ship_to.postalCode || "")}<br>
+          ${esc(o.ship_to.country || "")}</div>
+        ${o.requested_service ? `<div class="kv"><span>Demandé au checkout</span><b>${rendreDemande(o)}</b></div>` : ""}
+      </div>
+      <div class="sec"><h4>Articles</h4>${listeArticlesGroupes([o])}</div>
+      <div class="sec csw">
+        <h4>Expédition</h4>
+        <label class="champ"><span>Expédié de</span><select id="cw"> ${(S.refs.warehouses || []).map((w) =>
+          `<option value="${w.id}" ${o.warehouse_id === w.id ? "selected" : ""}>${esc(w.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Poids (g)</span><input type="number" id="cp" value="${o.weight_g || ""}"></label>
+        <label class="champ"><span>Service</span><select id="cs"><option value="">— choisir —</option>${svc.map((s) =>
+          `<option value="${s.id}" ${String(o.service_id) === s.id ? "selected" : ""}>${esc(s.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Colis</span><select id="cc"><option value="">— choisir —</option>${(S.refs.packages || []).map((p) =>
+          `<option value="${p.id}" ${String(o.package_id) === p.id ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></label>
+        <div class="dims">
+          <input type="number" id="cl" placeholder="L" value="${o.dimensions?.length || ""}">
+          <input type="number" id="cW" placeholder="l" value="${o.dimensions?.width || ""}">
+          <input type="number" id="ch" placeholder="H" value="${o.dimensions?.height || ""}">
+          <span class="doux">po</span>
+        </div>
+        <label class="champ"><span>Confirmation</span><select id="cf">${(S.refs.confirmations || []).map((k) =>
+          `<option value="${k.id}" ${String(o.confirmation) === k.id ? "selected" : ""}>${esc(k.nom)}</option>`).join("")}</select></label>
+        <div id="cMarge"></div>
+        <div class="barre">
+          <button id="cEnr">Enregistrer</button>
+          <button id="cCoter">Coter (R)</button>
+          <button class="v" id="cAcheter" ${S.config.etiquettes_actives ? "" : "disabled"}>Créer + imprimer</button>
+        </div>
+        <div id="cTarifs"></div>
+      </div>
+      <div class="sec"><h4>Notes</h4>
+        ${o.customer_notes ? `<div class="note"><span class="doux">De l'acheteur</span><br>${esc(o.customer_notes)}</div>` : ""}
+        <textarea id="cNote" class="petit" placeholder="Note interne…">${esc(o.internal_notes || "")}</textarea>
+        <button id="cNoteS">Enregistrer la note</button>
+      </div>
+      <div class="sec"><h4>Étiquettes</h4>${(o.tags || []).map(pastilleTag).join(" ") || '<span class="doux">aucune</span>'}</div>`;
+
+    const marge = () => {
+      const paye = Number(o.shipping_paid || 0);
+      $("#cMarge").innerHTML = paye === 0
+        ? `<div class="avis" style="margin:6px 0">Livraison offerte au client — tout le coût de l'étiquette est une perte sèche.</div>`
+        : `<div class="kv"><span>Livraison facturée</span><b>${money(paye)}</b></div>`;
+    };
+    marge();
+
+    $("#cEnr").onclick = async () => {
+      await api(`/api/orders`, { method: "POST", body: { ...o,
+        warehouse_id: Number($("#cw").value) || null, weight_g: Number($("#cp").value) || 0,
+        service_id: $("#cs").value || null, package_id: $("#cc").value || null,
+        confirmation: $("#cf").value || null,
+        dimensions: ($("#cl").value || $("#cW").value || $("#ch").value)
+          ? { length: Number($("#cl").value) || 0, width: Number($("#cW").value) || 0, height: Number($("#ch").value) || 0, units: "inches" } : null } });
+      charger();
+    };
+    $("#cNoteS").onclick = async () => {
+      await api(`/api/orders`, { method: "POST", body: { ...o, internal_notes: $("#cNote").value } });
+    };
+    $("#cCoter").onclick = async () => {
+      $("#cTarifs").innerHTML = '<div class="doux">Cotation…</div>';
+      try {
+        const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: o.id } });
+        $("#cTarifs").innerHTML = tableauTarifs(r, o);
+      } catch (e) { $("#cTarifs").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+    };
+    $("#cAcheter").onclick = acheterLot;
+  }
+
+  function listeArticlesGroupes(cmds) {
+    const par = new Map();
+    for (const o of cmds) for (const i of arts(o)) {
+      const cle = i.sku || i.name;
+      const x = par.get(cle) || { sku: i.sku, name: i.name, q: 0, loc: i.warehouse_location };
+      x.q += i.quantity || 0; par.set(cle, x);
+    }
+    return `<div class="artG">${[...par.values()].map((i) =>
+      `<div><b>×${i.q}</b> <span class="sku">${esc(i.sku)}</span> ${esc(i.name)}
+       ${i.loc ? `<span class="doux">· ${esc(i.loc)}</span>` : ""}</div>`).join("")}</div>`;
+  }
+
+  function tableauTarifs(r, o) {
+    const paye = o ? Number(o.shipping_paid || 0) : null;
+    return `<div class="tbl"><table><thead><tr><th>Transporteur</th><th>Service</th><th class="n">Prix</th>${
+      paye !== null ? '<th class="n">Marge</th>' : ""}</tr></thead><tbody>${
+      r.tarifs.map((t) => {
+        const m = paye !== null ? Math.round((paye - t.price) * 100) / 100 : null;
+        return `<tr><td>${esc(t.carrier)}</td>
+          <td>${esc(t.serviceName || t.serviceId)}${t.dropOff ? ' <span class="puce v">dépôt</span>' : ""}${
+            r.recommande && r.recommande.serviceId === t.serviceId ? ' <span class="puce v">recommandé</span>' : ""}</td>
+          <td class="n">${money(t.price)}</td>
+          ${m !== null ? `<td class="n ${m < 0 ? "rouge" : "vert"}">${m >= 0 ? "+" : ""}${money(m)}</td>` : ""}</tr>`;
+      }).join("")}</tbody></table></div>`;
+  }
+
+  // ------------------------------------------------------------- démarrage
+  S.cmdCharger = charger;
+  S.cmdIds = ids;
+  S.cmdPresetParTouche = async (touche) => {
+    const p = (S.refs.presets || []).find((x) => x.hotkey === touche);
+    if (!p || !S.sel.size) return;
+    await api("/api/presets/apply", { method: "POST", body: { preset_id: p.id, ids: ids() } });
+    charger();
+  };
+  S.cmdActions = { acheterLot, marquerExpedie, simulerLot, coter: () => $("#aRate").click() };
+
+  poser({});
+  $("#fdense").classList.toggle("on", S0.dense);
+  majStatuts();
   await chargerVues();
+  try { const d = await api("/api/service-mappings"); S.nonMappes = (d.non_mappes || []).map((x) => x.libelle); } catch {}
   await charger();
 };
 VUES.attente = () => VUES.commandes("on_hold");
+
+/** Import Shopify — accessible partout : bouton d'en-tête, état vide de la grille, raccourci U. */
+async function importerShopify() {
+  const e = await api("/api/shopify");
+  if (!e.configure) return dialogue("Shopify non configuré", `
+    <div class="avis">Il manque les variables <code>SHOPIFY_STORE</code> et
+    <code>SHOPIFY_CLIENT_ID</code> / <code>SHOPIFY_CLIENT_SECRET</code> sur le service.</div>
+    <p class="doux">Ce sont exactement les mêmes identifiants que <code>support.js</code> et A2X —
+    l'app « Render connector ». Aucun nouveau jeton à créer.</p>`, null, "Fermer");
+
+  dialogue("Importer depuis Shopify", `
+    <div class="kv"><span>Boutique</span><b>${esc(e.boutique)}</b></div>
+    <div class="kv"><span>Dernier import</span><b>${e.dernier_import ? esc(e.dernier_import.slice(0, 16).replace("T", " ")) : "jamais"}</b></div>
+    <div class="kv"><span>Commandes Shopify ici</span><b>${num(e.commandes)}</b></div>
+    <div class="kv"><span>Synchronisation automatique</span><b>${e.sync_minutes ? `toutes les ${e.sync_minutes} min` : "désactivée"}</b></div>
+    <hr>
+    <label class="ch"><input type="checkbox" id="siNon" checked> uniquement les commandes non expédiées</label>
+    <label class="champ" style="margin-top:8px"><span>Modifiées depuis (laisser vide = 7 derniers jours)</span>
+      <input type="date" id="siDate"></label>
+    <p class="doux">L'import met à jour les commandes déjà présentes plutôt que de les
+    dupliquer, et ne touche jamais à une commande déjà expédiée ici.</p>
+    <div id="siJournal"></div>`,
+    async () => {
+      $("#siJournal").innerHTML = '<div class="doux">Import en cours…</div>';
+      const r = await api("/api/shopify/import", { method: "POST", body: {
+        non_expediees: $("#siNon").checked,
+        depuis: $("#siDate").value ? new Date($("#siDate").value).toISOString() : null } });
+      $("#siJournal").innerHTML = `<div class="avis info">
+        ${r.bilan.creees} créée(s) · ${r.bilan.majs} mise(s) à jour · ${r.bilan.ignorees} ignorée(s)
+        ${r.bilan.erreurs.length ? ` · <b>${r.bilan.erreurs.length} erreur(s)</b>` : ""}</div>
+        ${r.bilan.erreurs.length ? `<div class="tbl"><table><tbody>${r.bilan.erreurs.map((x) =>
+          `<tr><td>${esc(x.commande)}</td><td>${esc(x.erreur)}</td></tr>`).join("")}</tbody></table></div>` : ""}`;
+      rafraichirCompteurs();
+      if (S.cmdCharger) S.cmdCharger();
+      return false;   // garde la fenêtre ouverte pour lire le bilan
+    }, "Importer");
+}
 
 async function detailCommande(id) {
   const o = await api("/api/orders/" + id);
@@ -829,7 +1470,41 @@ VUES.utilisateurs = async () => {
 VUES.reglages = async () => {
   const s = await api("/api/settings");
   const w = await api("/api/webhooks");
+  const L = await api("/api/lasclay");
+  const sh = await api("/api/shopify");
   $("#vue").innerHTML = `<h2>Réglages</h2>
+    <div class="carte"><b>Configuration ShipStation de Lasclay</b>
+      <p class="doux" style="margin:2px 0 8px">Règles d'automatisation, vues sauvegardées, préréglages,
+      types de colis, étiquettes, emplacements et mappings de service. Aucun de ces objets n'a de point
+      de terminaison dans l'API ShipStation : ils viennent de la spécification relevée le 31/07/2026.</p>
+      <div class="tbl" style="max-height:none"><table><tbody>
+        ${["entrepots", "boutiques", "services", "colis", "etiquettes", "presets", "regles", "vues", "mappings"].map((k) =>
+          `<tr><td>${k}</td><td class="n">${num(L[k])}</td><td class="doux">sur ${num(L.attendus[k])} attendus</td>
+           <td>${L[k] >= L.attendus[k] ? '<span class="puce v">complet</span>' : '<span class="puce a">incomplet</span>'}</td></tr>`).join("")}
+      </tbody></table></div>
+      <div class="barre" style="margin-top:10px">
+        <button class="p" id="lgCharger">${L.chargee ? "Recharger" : "Charger"} la configuration</button>
+        <button class="d" id="lgRemplacer">Réinitialiser aux valeurs ShipStation…</button>
+      </div>
+      <p class="doux">Le rechargement met à jour sans doublonner. La réinitialisation supprime d'abord
+      règles, vues, préréglages et mappings — utile après avoir bricolé, jamais nécessaire autrement.</p></div>
+    <div class="carte"><b>Import Shopify</b>
+      <p class="doux" style="margin:2px 0 8px">${sh.configure
+        ? `Boutique <b>${esc(sh.boutique)}</b> · ${num(sh.commandes)} commandes importées ·
+           dernier passage ${sh.dernier_import ? esc(sh.dernier_import.slice(0, 16).replace("T", " ")) : "jamais"} ·
+           synchronisation ${sh.sync_minutes ? `toutes les ${sh.sync_minutes} min` : "désactivée"}`
+        : `Non configuré — il manque <code>SHOPIFY_STORE</code> et <code>SHOPIFY_CLIENT_ID</code> /
+           <code>SHOPIFY_CLIENT_SECRET</code> (les mêmes que support.js et A2X).`}</p>
+      <div class="barre">
+        <button class="p" id="shImp" ${sh.configure ? "" : "disabled"}>Importer maintenant…</button>
+        <button id="shRattraper" ${sh.configure ? "" : "disabled"}>Rattraper depuis le dernier passage</button>
+      </div></div>
+    <div class="carte"><b>Automatisation — retraitement</b>
+      <p class="doux" style="margin:2px 0 8px">Rejoue les défauts produit, le mapping de service et les
+      règles sur les commandes ouvertes. ShipStation avertissait que cela « peut écraser les réglages
+      d'expédition faits depuis l'import » ; ici la simulation dit exactement ce qui changerait.</p>
+      <div class="barre"><button id="rpSec">Simuler</button><button class="p" id="rpGo">Retraiter</button></div>
+      <div id="rpOut"></div></div>
     <div class="carte"><b>Marque</b><p class="doux" style="margin:2px 0 10px">Utilisée dans les bordereaux et les courriels.</p>
       <div class="grille">
         <label class="champ"><span>Nom</span><input id="sn" value="${esc(s.marque.nom || "")}"></label>
@@ -906,6 +1581,38 @@ VUES.reglages = async () => {
     VUES.reglages();
   };
 
+  $("#lgCharger").onclick = async () => {
+    const r = await api("/api/lasclay/charger", { method: "POST", body: {} });
+    alert("Configuration chargée : " + Object.entries(r.bilan).map(([k, v]) => `${v} ${k}`).join(", "));
+    S.config = await api("/api/config");
+    S.refs = await api("/api/refs");
+    VUES.reglages();
+  };
+  $("#lgRemplacer").onclick = () => dialogue("Réinitialiser la configuration", `
+    <div class="avis">Les règles, vues, préréglages et mappings de service actuels seront
+    <b>supprimés</b> puis remplacés par ceux du compte ShipStation. Les commandes, expéditions
+    et produits ne sont pas touchés.</div>`,
+    async () => { await api("/api/lasclay/charger", { method: "POST", body: { remplacer: true } });
+      S.refs = await api("/api/refs"); VUES.reglages(); }, "Réinitialiser");
+
+  $("#shImp").onclick = importerShopify;
+  $("#shRattraper").onclick = async () => {
+    const r = await api("/api/shopify/rattraper", { method: "POST", body: {} });
+    alert(`${r.bilan.creees} créée(s), ${r.bilan.majs} mise(s) à jour, ${r.bilan.ignorees} ignorée(s).`);
+    rafraichirCompteurs(); VUES.reglages();
+  };
+
+  const retraiter = async (sec) => {
+    $("#rpOut").innerHTML = '<div class="doux">Traitement…</div>';
+    const r = await api("/api/automation/reprocess", { method: "POST", body: { dry_run: sec } });
+    $("#rpOut").innerHTML = `<div class="avis ${sec ? "info" : ""}">${num(r.commandes)} commande(s) examinée(s),
+      <b>${num(r.touchees)}</b> ${sec ? "seraient modifiées" : "modifiées"}.</div>`;
+  };
+  $("#rpSec").onclick = () => retraiter(true);
+  $("#rpGo").onclick = () => dialogue("Retraiter les commandes ouvertes",
+    `<div class="avis">Les réglages d'expédition faits à la main depuis l'import peuvent être écrasés.</div>`,
+    () => retraiter(false), "Retraiter");
+
   $("#s2save").onclick = async () => {
     await api("/api/settings", { method: "POST", body: { exiger_2fa: $("#s2fa").checked } });
     S.config = await api("/api/config");
@@ -951,7 +1658,14 @@ VUES.journal = async () => {
 
 // ══════════════════════════════════════════════════════════════════ amorçage
 async function rafraichirCompteurs() {
+  majEnTete();
   try { S.compteurs = await api("/api/orders/counts"); majCompteursMenu(); } catch {}
+}
+
+function majEnTete() {
+  const n = Object.values(S.compteurs.alertes || {}).reduce((a, b) => a + b, 0);
+  const h = $("#hAlertes");
+  if (h) h.innerHTML = n ? `<span class="pastille" title="Alertes">${num(n)}</span>` : "";
 }
 
 async function rendre() {
@@ -1095,6 +1809,251 @@ function changerMotDePasse(impose = false) {
 }
 
 // ══════════════════════════════════════════════════════════════════ démarrage
+// ------------------------------------------------------- raccourcis clavier
+/**
+ * Raccourcis de ShipStation (§2.12), y compris les séquences à deux touches (`G+O`, `M+S`).
+ * L'implémentation est un petit automate : une première touche « préfixe » ouvre une fenêtre
+ * de 900 ms pendant laquelle la seconde complète la commande.
+ *
+ * Ajout : les chiffres 1 à 9 appliquent les préréglages d'expédition. Les 17 préréglages du
+ * compte ShipStation n'avaient aucun raccourci — c'était l'accélérateur le plus évident et
+ * il n'a jamais servi.
+ */
+const PREFIXES = { g: "Aller à…", m: "Marquer…", p: "Imprimer…", o: "Commandes…" };
+const RACCOURCIS = {
+  "g o": ["Aller aux commandes", () => aller("commandes")],
+  "g s": ["Aller aux expéditions", () => aller("expeditions")],
+  "g b": ["Aller aux lots", () => aller("lots")],
+  "g r": ["Aller aux retours", () => aller("retours")],
+  "g e": ["Aller à la fin de journée", () => aller("manifestes")],
+  "g p": ["Aller aux produits", () => aller("produits")],
+  "g c": ["Aller aux clients", () => aller("clients")],
+  "g a": ["Aller aux réglages", () => aller("reglages")],
+  "m s": ["Marquer comme expédiée", () => S.cmdActions?.marquerExpedie()],
+  "p s": ["Imprimer les bordereaux", () => S.sel.size && window.open(`/api/packing-slip?ids=${[...S.sel].join(",")}`, "_blank")],
+  "p l": ["Imprimer la liste de prélèvement", () => S.sel.size && window.open(`/api/packing-slip?ids=${[...S.sel].join(",")}&pick=1`, "_blank")],
+  "o r": ["Recharger la grille", () => S.cmdCharger?.()],
+  "u": ["Mettre à jour les boutiques (Shopify)", importerShopify],
+  "v": ["Ouvrir le détail", () => S.sel.size && detailCommande(Number([...S.sel][0]))],
+  "r": ["Coter la sélection", () => S.cmdActions?.coter()],
+  "s": ["Créer les étiquettes", () => S.cmdActions?.acheterLot()],
+  "b": ["Créer un lot", () => S.cmdActions?.acheterLot()],
+  "/": ["Recherche rapide", () => { $("#quick").focus(); }],
+  "?": ["Afficher les raccourcis", () => aideRaccourcis()],
+};
+
+let prefixe = null, minuteurPrefixe = null;
+
+function raccourcis(e) {
+  const t = e.target;
+  if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable)) {
+    if (e.key === "Escape") t.blur();
+    return;
+  }
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+
+  if (prefixe) {
+    const combo = `${prefixe} ${k}`;
+    clearTimeout(minuteurPrefixe); prefixe = null; indice("");
+    if (RACCOURCIS[combo]) { e.preventDefault(); RACCOURCIS[combo][1](); }
+    return;
+  }
+  if (PREFIXES[k] && Object.keys(RACCOURCIS).some((c) => c.startsWith(k + " "))) {
+    e.preventDefault();
+    prefixe = k; indice(PREFIXES[k]);
+    minuteurPrefixe = setTimeout(() => { prefixe = null; indice(""); }, 900);
+    return;
+  }
+  if (/^[1-9]$/.test(k)) { e.preventDefault(); S.cmdPresetParTouche?.(k); return; }
+  if (RACCOURCIS[e.key] || RACCOURCIS[k]) { e.preventDefault(); (RACCOURCIS[e.key] || RACCOURCIS[k])[1](); }
+}
+
+function indice(txt) {
+  let b = $("#indiceHk");
+  if (!txt) { b?.remove(); return; }
+  if (!b) { b = el('<div id="indiceHk" class="menuF" style="bottom:14px;left:14px;top:auto;padding:7px 12px"></div>'); document.body.append(b); }
+  b.textContent = txt;
+}
+
+function aideRaccourcis() {
+  const lignes = Object.entries(RACCOURCIS)
+    .map(([k, [t]]) => `<tr><td><kbd>${esc(k.toUpperCase().replace(" ", " + "))}</kbd></td><td>${esc(t)}</td></tr>`).join("");
+  const presets = (S.refs.presets || []).filter((p) => p.hotkey)
+    .map((p) => `<tr><td><kbd>${esc(p.hotkey)}</kbd></td><td>Préréglage « ${esc(p.name)} »</td></tr>`).join("");
+  dialogue("Raccourcis clavier", `
+    <div class="tbl" style="max-height:60vh"><table><tbody>${lignes}
+      ${presets ? `<tr><td colspan="2" class="doux" style="padding-top:10px"><b>Préréglages d'expédition</b></td></tr>${presets}` : ""}
+      <tr><td colspan="2" class="doux" style="padding-top:10px"><b>Sélection</b></td></tr>
+      <tr><td><kbd>Maj + clic</kbd></td><td>Sélectionner une plage de lignes</td></tr>
+      <tr><td><kbd>Ctrl + clic</kbd></td><td>Basculer une ligne</td></tr>
+      <tr><td><kbd>Double-clic</kbd></td><td>Ouvrir le détail de la commande</td></tr>
+    </tbody></table></div>`, null, "Fermer");
+}
+
+// ------------------------------------------------------------ préréglages
+VUES.prereglages = async () => {
+  const [{ presets: P }, M] = await Promise.all([api("/api/presets"), api("/api/service-mappings")]);
+  const v = $("#vue");
+  v.innerHTML = `<h2>Préréglages et mappings de service</h2>
+    <p class="sous">Les 17 préréglages du compte ShipStation, plus la table qui traduit le
+      libellé de livraison choisi au checkout en service réel.</p>
+    <div class="carte">
+      <div class="barre"><b style="flex:1">Préréglages d'expédition</b><button id="pNouveau">Nouveau…</button></div>
+      <div id="tblP"></div>
+      <p class="doux" style="margin-top:8px">Un chiffre dans la colonne « Raccourci » applique le
+        préréglage à la sélection depuis la grille. Chez ShipStation, les 17 préréglages avaient
+        tous <code>hotKey: null</code>.</p>
+    </div>
+    <div class="carte">
+      <div class="barre"><b style="flex:1">Mappings de service</b><button id="mNouveau">Nouveau…</button></div>
+      <div id="tblM"></div>
+      ${M.non_mappes.length ? `<div class="avis" style="margin-top:10px"><b>${M.non_mappes.length} libellé(s) de checkout sans mapping</b> —
+        ces commandes partent au service par défaut sans que rien ne le signale chez ShipStation :
+        ${M.non_mappes.slice(0, 10).map((x) => `${esc(x.libelle)} <span class="doux">(${num(x.n)})</span>`).join(" · ")}</div>` : ""}
+    </div>`;
+
+  $("#tblP").append(table([
+    { k: "name", t: "Préréglage" },
+    { k: "hotkey", t: "Raccourci", r: (p) => p.hotkey ? `<kbd>${esc(p.hotkey)}</kbd>` : "—" },
+    { k: "warehouse_id", t: "Expédié de", r: (p) => esc((S.refs.warehouses || []).find((w) => w.id === p.warehouse_id)?.name) },
+    { k: "service_id", t: "Service", r: (p) => nomService(p.service_id) },
+    { k: "package_id", t: "Colis", r: (p) => nomColis(p.package_id) },
+    { k: "confirmation", t: "Confirmation", r: (p) => nomConfirmation(p.confirmation) },
+    { k: "weight_g", t: "Poids", n: true, r: (p) => p.weight_g != null ? `${num(p.weight_g)} g` : "—" },
+    { k: "dimensions", t: "Dimensions", r: (p) => p.dimensions ? `${p.dimensions.length}×${p.dimensions.width}×${p.dimensions.height} po` : "—" },
+    { k: "notes", t: "", r: (p) => p.notes ? `<span class="puce a" title="${esc(p.notes)}">note</span>` : "" },
+  ], P, { onLigne: (id) => editerPreset(P.find((x) => x.id == id)) }));
+
+  $("#tblM").append(table([
+    { k: "requested", t: "Libellé au checkout" },
+    { k: "channel", t: "Canal logistique", r: (m) => m.channel ? `<span class="puce g">${esc(m.channel)}</span>` : "—" },
+    { k: "match_mode", t: "Correspondance", r: (m) => m.match_mode === "equals" ? "exacte" : "contient" },
+    { k: "service_id", t: "Service", r: (m) => nomService(m.service_id) },
+    { k: "package_id", t: "Colis", r: (m) => nomColis(m.package_id) },
+  ], M.mappings, { onLigne: (id) => editerMapping(M.mappings.find((x) => x.id == id)) }));
+
+  $("#pNouveau").onclick = () => editerPreset({});
+  $("#mNouveau").onclick = () => editerMapping({});
+
+  function editerPreset(p) {
+    dialogue(p.id ? `Préréglage « ${p.name} »` : "Nouveau préréglage", `
+      ${p.notes ? `<div class="avis">${esc(p.notes)}</div>` : ""}
+      <label class="champ"><span>Nom</span><input id="pn" value="${esc(p.name || "")}"></label>
+      <label class="champ"><span>Raccourci clavier (1–9, facultatif)</span><input id="pk" maxlength="1" value="${esc(p.hotkey || "")}"></label>
+      <label class="champ"><span>Expédié de</span><select id="pw"><option value="">—</option>${(S.refs.warehouses || []).map((w) =>
+        `<option value="${w.id}" ${p.warehouse_id === w.id ? "selected" : ""}>${esc(w.name)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Service</span><select id="ps"><option value="">—</option>${(S.refs.services || []).map((s) =>
+        `<option value="${s.id}" ${p.service_id === s.id ? "selected" : ""}>${esc(s.name)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Colis</span><select id="pc"><option value="">—</option>${(S.refs.packages || []).map((c) =>
+        `<option value="${c.id}" ${p.package_id === c.id ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Confirmation</span><select id="pf"><option value="">—</option>${(S.refs.confirmations || []).map((k) =>
+        `<option value="${k.id}" ${p.confirmation === k.id ? "selected" : ""}>${esc(k.nom)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Poids (g)</span><input type="number" id="pp" value="${p.weight_g ?? ""}"></label>
+      <div class="barre"><input type="number" id="pl" placeholder="L" value="${p.dimensions?.length ?? ""}" style="width:80px">
+        <input type="number" id="pW" placeholder="l" value="${p.dimensions?.width ?? ""}" style="width:80px">
+        <input type="number" id="ph" placeholder="H" value="${p.dimensions?.height ?? ""}" style="width:80px"><span class="doux">po</span></div>
+      ${p.id ? `<button class="d" id="pSup">Supprimer ce préréglage</button>` : ""}`,
+      async () => {
+        await api("/api/presets", { method: "POST", body: {
+          id: p.id, name: $("#pn").value, hotkey: $("#pk").value || null,
+          warehouse_id: Number($("#pw").value) || null, carrier_code: p.carrier_code || "canada_post",
+          service_id: $("#ps").value || null, package_id: $("#pc").value || null,
+          confirmation: $("#pf").value || null, weight_g: $("#pp").value === "" ? null : Number($("#pp").value),
+          dimensions: $("#pl").value ? { length: Number($("#pl").value), width: Number($("#pW").value), height: Number($("#ph").value), units: "inches" } : null,
+          position: p.position || 0, notes: p.notes || null } });
+        rendre();
+      }, "Enregistrer",
+      (c) => { const b = c.querySelector("#pSup"); if (b) b.onclick = async () => {
+        if (!confirm("Supprimer ?")) return;
+        await api("/api/presets", { method: "POST", body: { id: p.id, delete: true } });
+        $("#dlg").close(); rendre(); }; });
+  }
+
+  function editerMapping(m) {
+    dialogue(m.id ? "Mapping de service" : "Nouveau mapping", `
+      <label class="champ"><span>Libellé au checkout</span><input id="mr" value="${esc(m.requested || "")}"></label>
+      <label class="champ"><span>Correspondance</span><select id="mm">
+        <option value="contains" ${m.match_mode !== "equals" ? "selected" : ""}>contient</option>
+        <option value="equals" ${m.match_mode === "equals" ? "selected" : ""}>exacte</option></select></label>
+      <label class="champ"><span>Canal logistique</span><select id="mc">
+        ${["", "colis", "timbre", "ramassage", "defricheuses", "ddd"].map((x) =>
+          `<option value="${x}" ${m.channel === x ? "selected" : ""}>${x || "—"}</option>`).join("")}</select></label>
+      <label class="champ"><span>Service</span><select id="ms"><option value="">—</option>${(S.refs.services || []).map((s) =>
+        `<option value="${s.id}" ${m.service_id === s.id ? "selected" : ""}>${esc(s.name)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Colis</span><select id="mp"><option value="">—</option>${(S.refs.packages || []).map((c) =>
+        `<option value="${c.id}" ${m.package_id === c.id ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label>
+      <p class="doux">Le canal logistique remplace la recherche de sous-chaîne dans un texte libre :
+        une faute de frappe côté Shopify devient un libellé « non mappé » visible, au lieu d'une
+        règle qui cesse silencieusement de se déclencher.</p>
+      ${m.id ? `<button class="d" id="mSup">Supprimer</button>` : ""}`,
+      async () => {
+        await api("/api/service-mappings", { method: "POST", body: {
+          id: m.id, store_id: m.store_id ?? 198670, requested: $("#mr").value,
+          match_mode: $("#mm").value, channel: $("#mc").value || null,
+          carrier_code: $("#ms").value ? "canada_post" : null,
+          service_id: $("#ms").value || null, package_id: $("#mp").value || null } });
+        rendre();
+      }, "Enregistrer",
+      (c) => { const b = c.querySelector("#mSup"); if (b) b.onclick = async () => {
+        await api("/api/service-mappings", { method: "POST", body: { id: m.id, delete: true } });
+        $("#dlg").close(); rendre(); }; });
+  }
+};
+
+// ---------------------------------------------------------------- douanes
+VUES.douanes = async () => {
+  const d = await api("/api/hs");
+  const v = $("#vue");
+  v.innerHTML = `<h2>Douanes — codes SH</h2>
+    <p class="sous">Un code SH manquant, c'est un colis international qui peut être retenu.
+      Sur le compte ShipStation, 403 produits actifs sur 472 n'en avaient aucun.</p>
+    <div class="grille">
+      <div class="kpi ${d.alertes.sans_code ? "ambre" : "vert"}"><div class="v">${num(d.alertes.sans_code)}</div><div class="l">produits actifs sans code SH</div></div>
+      <div class="kpi vert"><div class="v">${num(d.alertes.avec_code)}</div><div class="l">avec code</div></div>
+      <div class="kpi ${d.alertes.commandes_bloquantes.length ? "ambre" : ""}"><div class="v">${num(d.alertes.commandes_bloquantes.length)}</div><div class="l">commandes internationales à risque</div></div>
+    </div>
+    ${d.alertes.a_revalider.length ? `<div class="avis"><b>Codes hérités à faire valider par un courtier</b> —
+      ${d.alertes.a_revalider.map((c) => `${esc(c.hs_code)} <span class="doux">(${num(c.n)} produits)</span>`).join(" · ")}.
+      Ces classements (« pâtes à modeler », « confettis », « aliments pour chiens ») portent sur des
+      produits à base de graines : une déclaration inexacte engage l'exportateur. Repris tels quels,
+      pas validés.</div>` : ""}
+    <div class="carte">
+      <div class="barre"><b style="flex:1">Classification automatique</b>
+        <button id="hSim">Simuler</button>
+        <button class="p" id="hApp">Appliquer aux produits sans code</button></div>
+      <div id="hOut" class="doux">Le moteur classe par mots-clés, SKU d'abord puis nom de produit.</div>
+    </div>
+    <div class="carte"><b>Répartition actuelle</b>
+      <div id="tblH" style="margin-top:8px"></div></div>
+    ${d.alertes.commandes_bloquantes.length ? `<div class="carte"><b>Commandes internationales avec un article sans code SH</b>
+      <div id="tblB" style="margin-top:8px"></div></div>` : ""}`;
+
+  $("#tblH").append(table([{ k: "hs_code", t: "Code SH" }, { k: "n", t: "Produits", n: true }], d.alertes.repartition));
+  if (d.alertes.commandes_bloquantes.length)
+    $("#tblB").append(table([{ k: "order_number", t: "Commande" }, { k: "n", t: "Articles sans code", n: true }],
+      d.alertes.commandes_bloquantes, { onLigne: (id) => detailCommande(Number(id)) }));
+
+  $("#hSim").onclick = async () => {
+    $("#hOut").innerHTML = "Simulation…";
+    const r = await api("/api/hs/simuler", { method: "POST", body: {} });
+    $("#hOut").innerHTML = `<div class="avis info"><b>${num(r.classes)}</b> produits classés sur ${num(r.total)}
+      (${r.taux} %) · ${num(r.non_classes)} sans correspondance · ${num(r.exclus)} exclus des douanes
+      · <b>${num(r.a_revalider)}</b> avec un code à revalider</div>
+      <div class="tbl"><table><thead><tr><th>SKU</th><th>Produit</th><th>Code proposé</th><th>Libellé</th><th>Via</th></tr></thead>
+      <tbody>${r.detail.classes.slice(0, 200).map((p) => `<tr><td class="sku">${esc(p.sku)}</td><td>${esc(p.name)}</td>
+        <td>${esc(p.hs_code)}${p.revalider ? ' <span class="puce a">à revalider</span>' : ""}</td>
+        <td>${esc(p.customs_description)}</td><td class="doux">${esc(p.via)}</td></tr>`).join("")}</tbody></table></div>`;
+  };
+  $("#hApp").onclick = () => dialogue("Appliquer la classification", `
+    <p>Les codes SH seront écrits sur les produits qui n'en ont pas. Les 69 produits déjà
+    classés ne sont pas touchés.</p>
+    <div class="avis">Les familles marquées « à revalider » seront appliquées elles aussi —
+    c'est la convention existante du compte, à trancher avec un courtier.</div>`,
+    async () => { const r = await api("/api/hs/appliquer", { method: "POST", body: {} });
+      alert(`${r.applique} produit(s) classés, ${r.non_classes} sans correspondance.`); rendre(); }, "Appliquer");
+};
+
 async function demarrer() {
   const m = await api("/api/moi");
   if (!m.user) return montrerConnexion();
@@ -1104,6 +2063,8 @@ async function demarrer() {
   const av = [];
   if (!S.config.etiquettes_actives) av.push(`Achat d'étiquettes <b>désactivé</b> — lancer avec <code>CLONE_ALLOW_LABELS=1</code>. Cotation et simulation restent disponibles.`);
   if (S.config.adaptateur === "bouchon") av.push(`Transporteur <b>bouchon</b> : les tarifs sont des valeurs de démonstration. Passer à <code>CARRIER_ADAPTER=clickship</code> à réception des identifiants.`);
+  if (!S.config.config_lasclay) av.push(`Configuration Lasclay <b>non chargée</b> — règles, vues, préréglages, colis et étiquettes du compte ShipStation. À charger depuis <a onclick="aller('reglages')">Réglages</a>.`);
+  if (S.config.shopify && !S.config.shopify.configure) av.push(`Import Shopify <b>indisponible</b> : variables <code>SHOPIFY_STORE</code> et <code>SHOPIFY_CLIENT_ID</code>/<code>SHOPIFY_CLIENT_SECRET</code> manquantes sur le service.`);
   $("#bandeau").innerHTML = av.map(a => `<div class="avis">${a}</div>`).join("");
   $("#navSous").innerHTML = `${esc(S.moi.name)}<br>` +
     `<a id="l2f">${S.moi.totp_enabled ? "second facteur ✓" : "activer le 2FA"}</a> · ` +
@@ -1113,6 +2074,19 @@ async function demarrer() {
   $("#l2f").onclick = configurer2facteur;
 
   try { S.refs = await api("/api/refs"); } catch { S.refs = {}; }
+
+  // ---- en-tête global : recherche rapide, mise à jour des boutiques, raccourcis
+  $("#hMoi").textContent = S.moi.name;
+  $("#btAide").onclick = aideRaccourcis;
+  $("#btMaj").onclick = importerShopify;
+  $("#quick").onkeydown = (e) => {
+    if (e.key !== "Enter") return;
+    const q = $("#quick").value.trim();
+    if (!q) return;
+    if (S.page !== "commandes") aller("commandes");
+    setTimeout(() => { const f = $("#fq"); if (f) { f.value = q; f.dispatchEvent(new Event("input")); } }, 120);
+  };
+  document.addEventListener("keydown", raccourcis);
   await rafraichirCompteurs();
   S.page = (location.hash || "").slice(1) || "commandes";
   if (!VUES[S.page]) S.page = "commandes";

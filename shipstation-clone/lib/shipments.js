@@ -186,12 +186,12 @@ function creerLot(orderIds, { name = null, userId = null } = {}) {
  * détail. C'est le comportement attendu — une commande sans poids ne doit pas faire échouer
  * les 199 autres.
  */
-async function traiterLot(batchId, orderIds, { userId = null, serviceId = null } = {}) {
+async function traiterLot(batchId, orderIds, { userId = null, serviceId = null, margeMax = null } = {}) {
   run("UPDATE batches SET status = 'processing' WHERE id = ?", batchId);
   const resultats = [];
   for (const orderId of orderIds) {
     try {
-      const r = await acheterEtiquette(orderId, { serviceId, userId, batchId });
+      const r = await acheterEtiquette(orderId, { serviceId, userId, batchId, margeMax });
       resultats.push({ orderId, ok: true, ...r });
     } catch (e) {
       resultats.push({ orderId, ok: false, erreur: String(e.message || e) });
@@ -203,7 +203,12 @@ async function traiterLot(batchId, orderIds, { userId = null, serviceId = null }
   await require("./channels").traiterFile({ limite: resultats.length + 10 }).catch(() => {});
   journaliser("batch.process", "batch", batchId,
     { total: resultats.length, echecs, cout: resultats.filter(r => r.ok).reduce((s, r) => s + (r.price || 0), 0) }, userId);
-  return { batchId, total: resultats.length, reussis: resultats.length - echecs, echecs, resultats };
+  // La marge du lot est rendue avec le résultat : c'est le chiffre qui manquait au moment où
+  // il pouvait encore servir (constat OBS9).
+  const marges = resultats.filter((r) => r.ok && r.marge);
+  return { batchId, total: resultats.length, reussis: resultats.length - echecs, echecs, resultats,
+    marge_lot: Math.round(marges.reduce((s, r) => s + r.marge.ecart, 0) * 100) / 100,
+    a_perte: marges.filter((r) => r.marge.ecart < 0).length };
 }
 
 const lot = (id) => ({

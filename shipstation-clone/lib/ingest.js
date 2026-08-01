@@ -271,10 +271,13 @@ function amorcer() {
     poserReglage("marque", accounts.MARQUE_DEFAUT);
     poserReglage("tarif_dropoff_cible", 6.31);
     for (const t of templates.gabaritsParDefaut()) templates.sauver(t);
-    for (const r of rules.reglesParDefaut()) rules.sauver({ ...r, enabled: false }); // désactivées : à relire avant usage
     poserReglage("amorce", maintenant());
   });
-  return { amorce: true, regles: "créées désactivées — à relire dans Automatisation" };
+  // La configuration réelle de ShipStation est chargée d'emblée : c'est ce qui rend la
+  // bascule utilisable dès le premier démarrage plutôt qu'après une journée de re-saisie.
+  // Les règles y sont dans l'état exact du compte — la règle DDD email reste inactive.
+  const config = require("./lasclay").charger();
+  return { amorce: true, config };
 }
 
 module.exports = { migrerDepuisShipStation, importerCommandes, convertirCommande, grammes, amorcer, ss };

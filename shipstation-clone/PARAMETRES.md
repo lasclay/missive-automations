@@ -39,6 +39,21 @@ sont saisis dans Render et n'y figurent jamais.
 Les deux verrous sont indépendants : `CLONE_ALLOW_LABELS=1` sur le bouchon ne dépense rien.
 Il faut **les deux** pour qu'un achat coûte de l'argent.
 
+### Import Shopify
+
+Les commandes Shopify entrent directement dans le clone, sans passer par ShipStation. Les
+identifiants sont ceux de l'app **« Render connector »** listés plus bas — rien à créer de plus.
+
+| Variable | Défaut | Rôle |
+|---|---|---|
+| `CLONE_SHOPIFY_SYNC_MIN` | `20` | Minutes entre deux rattrapages automatiques. `0` désactive la minuterie ; l'import à la demande reste disponible dans Réglages et par le bouton « Mettre à jour » (raccourci `U`). |
+| `CLONE_SHOPIFY_STORE_ID` | `198670` | Identifiant de la boutique **LAS Shopify** repris de ShipStation. Les commandes importées s'y rattachent, comme les 38 000 commandes migrées. |
+
+La clé externe d'une commande est l'**identifiant numérique Shopify** — le même que le
+`orderKey` de ShipStation. Réimporter une commande déjà migrée la met à jour ; elle n'est
+jamais dupliquée. Une commande déjà expédiée dans le clone n'est plus retouchée, sauf pour
+noter une annulation tardive côté boutique.
+
 ### Renvoi du suivi aux boutiques
 
 Sans elles, les clients perdent leur numéro de suivi à la bascule. Chaque canal est actif
@@ -91,7 +106,13 @@ redéploiements — contrairement aux variables, ils n'exigent pas de redémarra
 | `exiger_2fa` | non | Réglages | Impose le second facteur à tous à la prochaine connexion, et interdit de le retirer. |
 | `bascule_canaux` | non posé | Réglages | Date à partir de laquelle le clone notifie les boutiques. **Rien d'antérieur n'est jamais notifié.** À poser le jour où vous cessez d'acheter vos étiquettes dans ShipStation. |
 | `derniere_migration` | — | automatique | Horodatage de la dernière migration. |
-| `amorce` | — | automatique | Marque l'amorçage initial (gabarits et règles de départ). |
+| `amorce` | — | automatique | Marque l'amorçage initial (gabarits, puis chargement de la configuration Lasclay). |
+| `config_lasclay` | — | automatique | Horodatage du dernier chargement de la configuration ShipStation (règles, vues, préréglages, colis, étiquettes, mappings). Rechargeable depuis Réglages. |
+| `shopify_dernier_import` | — | automatique | Borne du prochain rattrapage Shopify. Repris avec 30 min de recul, Shopify pouvant horodater en léger retard. |
+| `seuil_alerte_marge` | `5` | Réglages | Perte au-delà de laquelle l'achat d'une étiquette est signalé en alerte plutôt qu'en simple avertissement. En juillet 2026, la marge d'expédition du compte était de −703,52 $. |
+| `colonnes_commandes` | colonnes par défaut | Grille | Colonnes visibles hors vue sauvegardée. Les colonnes d'une **vue** sont enregistrées avec la vue — chez ShipStation elles vivaient côté navigateur et se réinitialisaient. |
+| `seuil_timbre_g` | `73` | automatique | Poids séparant le tarif timbre du colis (vues « TIMBRE 2.0 » et « ROC »). |
+| `seuil_bombes_ca` / `seuil_bombes_intl` | `65` / `80` | automatique | Seuils de valeur pour l'emballage des bombes semencières en petite enveloppe. |
 
 Le **seuil de poids du drop-off** (500 g) n'est pas un réglage : il vient du programme Canada Post
 « envoi unique sous 1,1 lb » et vit dans `lib/carrier.js` (`SEUIL_DROPOFF_G`).
