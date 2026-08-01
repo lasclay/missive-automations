@@ -18,8 +18,6 @@
          background:var(--bg); color:var(--texte) }
   a { color:var(--accent) }
   /* ---- structure ---- */
-  #app { display:grid; grid-template-columns:196px 1fr; grid-template-rows:46px 1fr; min-height:100vh }
-  nav { background:var(--barre); color:#e8eaed; padding:8px 0; position:sticky; top:46px; height:calc(100vh - 46px); overflow:auto }
   nav h1 { font-size:14px; margin:0 0 4px; padding:0 16px 10px; border-bottom:1px solid rgba(255,255,255,.12);
            font-weight:650; letter-spacing:.2px }
   nav h1 small { display:block; font-weight:400; color:#9aa3ad; font-size:11px; margin-top:2px; line-height:1.6 }
@@ -31,7 +29,6 @@
   nav a.actif { background:rgba(255,255,255,.10); color:#fff; border-left-color:var(--accent); font-weight:600 }
   nav .grp { padding:12px 16px 4px; font-size:10.5px; text-transform:uppercase; letter-spacing:.7px; color:#78828d }
   nav .n { background:rgba(255,255,255,.14); border-radius:9px; padding:0 7px; font-size:11px; font-variant-numeric:tabular-nums }
-  main { padding:16px 20px 60px; min-width:0 }
   h2 { font-size:17px; margin:0 0 3px; font-weight:650 }
   .sous { color:var(--doux); font-size:13px; margin:0 0 14px }
   /* ---- éléments ---- */
@@ -92,8 +89,7 @@
   /* ══════════════════════ écran Commandes — layout ShipStation à 3 colonnes ══════════════════════
      La densité n'est pas un choix esthétique : c'est un outil d'opérateur d'entrepôt, et le
      nombre de commandes visibles d'un coup d'œil détermine la vitesse de tri d'un arriéré. */
-  .ss { display:grid; grid-template-columns:196px minmax(0,1fr) 336px; gap:0;
-        height:calc(100vh - 46px); margin:-16px -20px -60px }
+  .ss { display:grid; grid-template-columns:196px minmax(0,1fr) 336px; gap:0; height:100%; min-height:0 }
   .ssL { border-right:1px solid var(--bord); background:var(--carte); overflow:auto; padding:8px 0 24px }
   .ssLt { font-size:10.5px; text-transform:uppercase; letter-spacing:.7px; color:var(--doux);
           padding:12px 12px 5px; font-weight:700 }
@@ -104,7 +100,8 @@
   .ssLi .n { color:var(--doux); font-size:11.5px; font-variant-numeric:tabular-nums }
   .ssL .vide { padding:6px 12px; font-size:12px; color:var(--doux) }
   .ssC { display:flex; flex-direction:column; min-width:0; overflow:hidden }
-  .ssR { border-left:1px solid var(--bord); background:var(--carte); overflow:auto; padding:0 0 40px }
+  .ssR { border-left:1px solid var(--bord); background:var(--carte); overflow:auto; padding:0 0 60px;
+         display:flex; flex-direction:column }
 
   .ongVues { display:flex; gap:2px; padding:6px 10px 0; overflow-x:auto; border-bottom:1px solid var(--bord); flex:none }
   .ongVues .ong { padding:5px 11px; border:1px solid transparent; border-bottom:none; border-radius:6px 6px 0 0;
@@ -115,7 +112,8 @@
                         margin-bottom:-1px; border-bottom:1px solid var(--bg) }
 
   .barreF, .barreA { display:flex; gap:6px; align-items:center; padding:7px 10px; flex:none;
-                     border-bottom:1px solid var(--bord); overflow-x:auto }
+                     border-bottom:1px solid var(--bord); overflow-x:auto; white-space:nowrap }
+  .barreF > *, .barreA > * { flex:none }
   .barreF input, .barreF select, .barreA button { padding:4px 8px; font-size:12.5px; border-radius:5px }
   .barreF #fq { min-width:250px }
   .barreF .sep { width:1px; height:20px; background:var(--bord); margin:0 3px; flex:none }
@@ -142,6 +140,9 @@
   .sku { font-family:ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--doux) }
   .tag { font-size:10.5px; padding:1px 7px; border-radius:9px; font-weight:600; white-space:nowrap;
          background:color-mix(in srgb, var(--c) 20%, transparent); color:var(--c); border:1px solid var(--c) }
+  table.tblCmd tr.grp td { background:var(--bg); font-size:12px; color:var(--doux);
+                           padding:5px 10px; border-bottom:1px solid var(--bord); position:sticky }
+  .ongVues .ong.sauver { color:var(--accent); border-style:dashed; border-color:var(--bord) }
   .pag { display:flex; gap:8px; align-items:center; padding:7px 10px; border-top:1px solid var(--bord); flex:none; font-size:12.5px }
   .vide2 { padding:60px 20px; text-align:center }
   .vide2 button { margin-top:12px }
@@ -161,6 +162,16 @@
   textarea.petit { min-height:56px; font-size:12.5px; margin-bottom:6px }
   .rouge { color:var(--rouge) } .vert { color:var(--vert) }
 
+  .ssR .pied { position:sticky; bottom:0; margin-top:auto; background:var(--carte); border-top:1px solid var(--bord);
+               padding:9px 13px; display:flex; gap:6px; z-index:5 }
+  .ssR .pied button.v { flex:1; background:var(--vert); border-color:var(--vert); color:#fff; font-weight:650 }
+  .ssR .autres { margin:6px 0 }
+  .ssR .autres summary { cursor:pointer; font-size:12.5px; color:var(--doux); padding:3px 0 }
+  .ssR .autres label.ch { display:flex; padding:3px 0; font-size:12.5px }
+  .valA { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px;
+          border-radius:50%; font-size:11px; font-weight:700; color:#fff }
+  .valA.ok { background:var(--vert) } .valA.warn { background:var(--ambre) } .valA.err { background:var(--rouge) }
+  .lienMap { color:var(--ambre); text-decoration:underline; cursor:pointer }
   /* ---- menus flottants (Other Actions, Apply Preset, Print) ---- */
   .menuF { position:fixed; z-index:40; background:var(--carte); border:1px solid var(--bord); border-radius:8px;
            box-shadow:0 8px 26px rgba(0,0,0,.18); min-width:224px; padding:4px; max-height:70vh; overflow:auto }
@@ -207,24 +218,66 @@
   div[data-act].critL { grid-template-columns:1fr 2.5fr 28px }
   .ordL .ordI { padding:6px 10px; border:1px solid var(--bord); border-radius:6px; margin-bottom:4px;
                 background:var(--carte); cursor:grab; font-size:13px }
+
+  /* ══════════════ chrome global — la disposition de ShipStation ══════════════
+     Navigation principale horizontale en haut (Insights · Orders · Shipments ·
+     Products · Customers), sous-onglets du module juste en dessous, et la barre
+     latérale gauche réservée aux statuts et aux filtres enregistrés de l'écran
+     Commandes. C'est la géographie du produit d'origine : la mémoire musculaire
+     de l'entrepôt en dépend plus que les libellés. */
+  #app { display:flex; flex-direction:column; height:100vh; overflow:hidden }
+  header.top { display:flex; align-items:center; gap:14px; padding:0 12px; height:46px;
+               background:var(--barre); color:#e8eaed; position:sticky; top:0; z-index:30; flex:none }
+  header.top .marque { font-weight:700; font-size:14.5px; letter-spacing:.2px; cursor:pointer; padding-right:4px }
+  header.top nav.mods { display:flex; gap:2px; height:100%; align-items:stretch }
+  header.top nav.mods a { display:flex; align-items:center; gap:6px; padding:0 13px; color:#c7cdd4;
+                          text-decoration:none; font-size:13.5px; cursor:pointer; border-bottom:3px solid transparent }
+  header.top nav.mods a:hover { background:rgba(255,255,255,.08); color:#fff }
+  header.top nav.mods a.actif { color:#fff; font-weight:650; border-bottom-color:#fff }
+  header.top nav.mods .n { background:rgba(255,255,255,.18); border-radius:9px; padding:0 6px;
+                           font-size:11px; font-variant-numeric:tabular-nums }
+  header.top .droite { margin-left:auto; display:flex; gap:6px; align-items:center }
+  header.top input#quick { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.16); color:#fff;
+                           width:250px; padding:5px 9px; font-size:12.5px }
+  header.top input#quick::placeholder { color:#9aa3ad }
+  header.top .ico, header.top .profil { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.14);
+                                        color:#e8eaed; padding:4px 9px; font-size:13px; position:relative }
+  header.top .ico:hover, header.top .profil:hover { background:rgba(255,255,255,.18) }
+  header.top .pastille { position:absolute; top:-5px; right:-5px; background:var(--rouge); color:#fff;
+                         border-radius:9px; padding:0 5px; font-size:10.5px; font-weight:700 }
+  .sousnav { display:flex; gap:2px; align-items:center; padding:0 12px; height:34px; flex:none;
+             background:var(--carte); border-bottom:1px solid var(--bord) }
+  .sousnav a { padding:4px 11px; font-size:12.5px; color:var(--doux); cursor:pointer; border-radius:6px }
+  .sousnav a:hover { background:var(--sel); color:var(--texte) }
+  .sousnav a.actif { background:var(--sel); color:var(--texte); font-weight:650 }
+  .sousnav:empty { display:none }
+  main { flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; overflow:hidden }
+  #vue { flex:1; min-height:0; overflow:auto; padding:16px 20px 60px }
+  /* L'écran Commandes gère lui-même sa disposition : pas de marge autour de la grille. */
+  body[data-page="commandes"] #vue, body[data-page="attente"] #vue { padding:0; overflow:hidden }
+  /* Bandeaux d'état : une ligne compacte, repliable — ils ne doivent pas manger la grille. */
+  #bandeau { flex:none; display:flex; gap:6px; flex-wrap:wrap; align-items:center;
+             padding:5px 12px; border-bottom:1px solid var(--bord); background:var(--carte) }
+  #bandeau:empty { display:none }
+  #bandeau .avis { margin:0; padding:3px 9px; font-size:11.5px; border-radius:5px }
+  #bandeau .fermer { border:none; background:none; color:var(--doux); padding:0 4px; font-size:14px }
 </style>
 </head>
 <body>
 <div id="app">
   <header class="top">
-    <span class="marque">Lasclay · Expéditions</span>
-    <input type="search" id="quick" placeholder="Recherche rapide  ( / )">
-    <button id="btMaj" title="Importer les nouvelles commandes Shopify (U)">Mettre à jour</button>
+    <span class="marque" id="btMarque">Lasclay</span>
+    <nav class="mods" id="mods"></nav>
     <span class="droite">
-      <span id="hAlertes"></span>
-      <span id="hMoi"></span>
-      <button id="btAide" title="Raccourcis clavier (?)">?</button>
+      <input type="search" id="quick" placeholder="Recherche rapide  ( / )">
+      <button id="btMaj" class="ico" title="Mettre à jour les boutiques (U)">⟳</button>
+      <button id="hAlertes" class="ico" title="Alertes">🔔<span class="pastille" hidden></span></button>
+      <button id="btProfil" class="profil" title="Profil"><span id="hMoi"></span> ▾</button>
+      <button id="btReglages" class="ico" title="Réglages">⚙</button>
+      <button id="btAide" class="ico" title="Raccourcis clavier (?)">?</button>
     </span>
   </header>
-  <nav>
-    <h1>Expéditions<small id="navSous">Lasclay</small></h1>
-    <div id="menu"></div>
-  </nav>
+  <div class="sousnav" id="sousnav"></div>
   <main>
     <div id="bandeau"></div>
     <div id="vue"></div>
@@ -323,32 +376,57 @@ function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null,
 // ══════════════════════════════════════════════════════════════════ état
 const S = { page: "commandes", moi: null, config: {}, refs: {}, compteurs: {}, sel: new Set(), filtres: {}, tri: "age", dir: "desc", tick: null };
 
-const PAGES = [
-  { g: "Traitement" },
+/**
+ * Navigation — l'arborescence exacte de ShipStation (§1.1 de la spécification).
+ *
+ * Les modules sont horizontaux en haut, dans cet ordre : Insights · Commandes ·
+ * Expéditions · Produits · Clients. Les sous-onglets d'un module apparaissent dans la
+ * barre juste en dessous — c'est là que ShipStation range Fulfillments, Retours, Lots,
+ * Fin de journée et Ramassage. Les écrans de configuration ne sont pas des modules : ils
+ * vivent derrière l'engrenage, comme l'espace Settings.
+ *
+ * Les raccourcis de navigation confirment l'arborescence : G+O commandes, G+S expéditions,
+ * G+R retours, G+B lots, G+E fin de journée, G+P produits, G+C clients.
+ */
+const MODULES = [
+  { id: "analytique", t: "Insights" },
   { id: "commandes", t: "Commandes", n: () => S.compteurs.statuts?.awaiting_shipment },
-  { id: "attente", t: "En attente", n: () => S.compteurs.statuts?.on_hold },
-  { id: "alertes", t: "Alertes", n: () => Object.values(S.compteurs.alertes || {}).reduce((a, b) => a + b, 0) },
-  { id: "lots", t: "Lots" },
-  { id: "expeditions", t: "Expéditions" },
-  { id: "manifestes", t: "Fin de journée" },
-  { id: "retours", t: "Retours" },
-  { g: "Référentiels" },
-  { id: "produits", t: "Produits" },
-  { id: "prereglages", t: "Préréglages" },
-  { id: "douanes", t: "Douanes (SH)" },
+  { id: "expeditions", t: "Expéditions", sous: [
+    { id: "expeditions", t: "Expéditions" },
+    { id: "retours", t: "Retours" },
+    { id: "lots", t: "Lots" },
+    { id: "manifestes", t: "Fin de journée" },
+  ] },
+  { id: "produits", t: "Produits", sous: [
+    { id: "produits", t: "Produits" },
+    { id: "douanes", t: "Douanes (SH)" },
+  ] },
   { id: "clients", t: "Clients" },
-  { g: "Pilotage" },
-  { id: "analytique", t: "Analytique" },
-  { id: "automatisation", t: "Automatisation" },
-  { id: "gabarits", t: "Gabarits" },
-  { g: "Administration" },
-  { id: "utilisateurs", t: "Utilisateurs" },
-  { id: "reglages", t: "Réglages" },
-  { id: "journal", t: "Journal" },
 ];
 
+/** Espace de configuration — derrière l'engrenage, comme le Settings de ShipStation. */
+const REGLAGES = [
+  { id: "reglages", t: "Compte, boutiques et import" },
+  { id: "automatisation", t: "Règles d'automatisation" },
+  { id: "prereglages", t: "Préréglages d'expédition et mappings" },
+  { id: "gabarits", t: "Bordereaux et courriels" },
+  { id: "utilisateurs", t: "Utilisateurs et permissions" },
+  { id: "alertes", t: "Alertes de commandes" },
+  { id: "journal", t: "Journal d'audit" },
+];
+
+/** Page → module qui l'héberge, pour savoir quel onglet allumer. */
+const MODULE_DE = {};
+for (const m of MODULES) {
+  MODULE_DE[m.id] = m.id;
+  for (const x of (m.sous || [])) MODULE_DE[x.id] = m.id;
+}
+MODULE_DE.attente = "commandes";
+
 const PERM_PAGE = { utilisateurs: "users_manage", reglages: "settings_edit", journal: "reports_view",
-  analytique: "reports_view", produits: "products_view", retours: "returns_manage" };
+  analytique: "reports_view", produits: "products_view", retours: "returns_manage",
+  prereglages: "settings_edit", automatisation: "settings_edit", gabarits: "settings_edit",
+  douanes: "products_view" };
 
 function autorise(id) {
   const need = PERM_PAGE[id];
@@ -356,28 +434,72 @@ function autorise(id) {
 }
 
 function menu() {
-  $("#menu").innerHTML = PAGES.filter(p => p.g || autorise(p.id)).map(p => p.g
-    ? `<div class="grp">${p.t || p.g}</div>`
-    : `<a data-p="${p.id}" class="${S.page === p.id ? "actif" : ""}">${p.t}<span class="n" data-n="${p.id}"></span></a>`).join("");
-  $("#menu").querySelectorAll("[data-p]").forEach(a => a.onclick = () => aller(a.dataset.p));
+  const actif = MODULE_DE[S.page] || S.page;
+  $("#mods").innerHTML = MODULES.filter((m) => autorise(m.id))
+    .map((m) => `<a data-p="${m.id}" class="${actif === m.id ? "actif" : ""}">${esc(m.t)}<span class="n" data-n="${m.id}"></span></a>`).join("");
+  $("#mods").querySelectorAll("[data-p]").forEach((a) => a.onclick = () => aller(a.dataset.p));
+
+  const mod = MODULES.find((m) => m.id === actif);
+  const sous = (mod && mod.sous || []).filter((x) => autorise(x.id));
+  $("#sousnav").innerHTML = sous.length
+    ? sous.map((x) => `<a data-s="${x.id}" class="${S.page === x.id ? "actif" : ""}">${esc(x.t)}</a>`).join("")
+    : "";
+  $("#sousnav").querySelectorAll("[data-s]").forEach((a) => a.onclick = () => aller(a.dataset.s));
   majCompteursMenu();
 }
+
 function majCompteursMenu() {
-  for (const p of PAGES.filter(p => p.n)) {
-    const s = $(`[data-n="${p.id}"]`);
+  for (const m of MODULES.filter((x) => x.n)) {
+    const s = $(`[data-n="${m.id}"]`);
     if (!s) continue;
-    const v = p.n();
+    const v = m.n();
     s.textContent = v ? num(v) : "";
     s.style.display = v ? "" : "none";
   }
+  const n = Object.values(S.compteurs.alertes || {}).reduce((a, b) => a + b, 0);
+  const p = $("#hAlertes .pastille");
+  if (p) { p.textContent = num(n); p.hidden = !n; }
 }
 
 function aller(page) {
   if (!autorise(page)) return;
+  // Un module qui a des sous-onglets ouvre le premier : cliquer « Expéditions » doit montrer
+  // les expéditions, pas une page d'accueil vide.
+  const mod = MODULES.find((m) => m.id === page);
+  if (mod && mod.sous && mod.sous.length && !mod.sous.some((x) => x.id === page)) page = mod.sous[0].id;
   S.page = page; S.sel.clear(); S.filtres = {};
   location.hash = page;
   menu();
   rendre();
+}
+
+/** Menu de configuration — le contenu de l'engrenage. */
+function menuReglages(ancre) {
+  const r = ancre.getBoundingClientRect();
+  document.querySelectorAll(".menuF").forEach((m) => m.remove());
+  const m = el(`<div class="menuF" style="top:${r.bottom + 4}px;right:8px;left:auto">${
+    REGLAGES.filter((x) => autorise(x.id)).map((x) => `<div class="mi" data-r="${x.id}">${esc(x.t)}</div>`).join("")}</div>`);
+  document.body.append(m);
+  m.querySelectorAll("[data-r]").forEach((d) => d.onclick = () => { m.remove(); aller(d.dataset.r); });
+  setTimeout(() => document.addEventListener("click", () => m.remove(), { once: true }), 0);
+}
+
+/** Menu de profil — second facteur, mot de passe, déconnexion. */
+function menuProfil(ancre) {
+  const r = ancre.getBoundingClientRect();
+  document.querySelectorAll(".menuF").forEach((m) => m.remove());
+  const m = el(`<div class="menuF" style="top:${r.bottom + 4}px;right:8px;left:auto">
+    <div class="mi" data-a="2fa">${S.moi?.totp_enabled ? "Second facteur ✓" : "Activer le second facteur"}</div>
+    <div class="mi" data-a="mdp">Changer le mot de passe</div>
+    <div class="sep"></div>
+    <div class="mi" data-a="alertes">Voir les alertes</div>
+    <div class="sep"></div>
+    <div class="mi danger" data-a="out">Se déconnecter</div></div>`);
+  document.body.append(m);
+  const actions = { "2fa": configurer2facteur, mdp: () => changerMotDePasse(false),
+    alertes: () => aller("alertes"), out: deconnexion };
+  m.querySelectorAll("[data-a]").forEach((d) => d.onclick = () => { m.remove(); actions[d.dataset.a](); });
+  setTimeout(() => document.addEventListener("click", () => m.remove(), { once: true }), 0);
 }
 
 // ══════════════════════════════════════════════════════════════════ pages
@@ -503,10 +625,8 @@ VUES.commandes = async (statutFixe) => {
     <input type="number" id="fage" placeholder="âge min (j)" style="width:104px">
     <label class="ch"><input type="checkbox" id="fnw"> sans poids</label>
     <span class="sep"></span>
-    <button id="freset" title="Réinitialiser les filtres">Effacer</button>
-    <button id="fcols">Colonnes…</button>
-    <button id="fdense" title="Densité de la grille">Dense</button>
-    <button id="fsave">Enregistrer la vue…</button>`;
+    <button id="freset" title="Réinitialiser les filtres">Effacer les filtres</button>
+    <button id="fdense" title="Densité de la grille">Dense</button>`;
 
   const lire = () => ({
     q: $("#fq").value, status: S0.statut || "", store_id: $("#fstore").value, country: $("#fpays").value,
@@ -527,8 +647,7 @@ VUES.commandes = async (statutFixe) => {
     () => { clearTimeout(deb); deb = setTimeout(() => { S0.page = 0; charger(); }, 250); }));
   $("#freset").onclick = () => { poser({}); S0.vue = null; S0.page = 0; charger(); majVues(); };
   $("#fdense").onclick = () => { S0.dense = !S0.dense; $("#tbl").classList.toggle("dense", S0.dense); $("#fdense").classList.toggle("on", S0.dense); };
-  $("#fcols").onclick = gererColonnes;
-  $("#fsave").onclick = enregistrerVue;
+  $("#fdense").classList.toggle("on", S0.dense);
 
   // ------------------------------------------------------- statuts et vues
   let VUES_SAUV = [];
@@ -554,7 +673,8 @@ VUES.commandes = async (statutFixe) => {
       : '<div class="vide">aucune vue — charger la configuration Lasclay dans Réglages</div>';
     $("#ongVues").innerHTML = `<span class="ong ${!S0.vue ? "actif" : ""}" data-v="">${STATUT_FR[S0.statut] || "Toutes"}</span>` +
       VUES_SAUV.slice(0, 12).map((v) => `<span class="ong ${S0.vue === v.id ? "actif" : ""}" data-v="${v.id}">${esc(v.name)}${v.n != null ? ` <i>${num(v.n)}</i>` : ""}</span>`).join("") +
-      (VUES_SAUV.length > 12 ? `<span class="ong" id="ongPlus">+${VUES_SAUV.length - 12}…</span>` : "");
+      (VUES_SAUV.length > 12 ? `<span class="ong" id="ongPlus">+${VUES_SAUV.length - 12}…</span>` : "") +
+      `<span class="ong sauver" id="ongSave" title="Enregistrer les filtres et les colonnes actuels comme vue">+ Enregistrer la vue</span>`;
 
     const choisir = (id) => {
       S0.vue = id ? Number(id) : null;
@@ -575,6 +695,8 @@ VUES.commandes = async (statutFixe) => {
         chargerVues(); charger();
       };
     });
+    const bs = $("#ongSave");
+    if (bs) bs.onclick = enregistrerVue;
     const plus = $("#ongPlus");
     if (plus) plus.onclick = () => dialogue("Toutes les vues",
       `<div class="listeVues">${VUES_SAUV.map((v) => `<div class="lv" data-v="${v.id}"><b>${esc(v.name)}</b>
@@ -651,14 +773,44 @@ VUES.commandes = async (statutFixe) => {
     cote();
   }
 
+  const LIBELLE_GROUPE = { store: "Boutique", line_count: "Lignes", quantity: "Quantité",
+    country: "Pays", item_name: "Article", item_sku: "SKU", requested_service: "Service demandé" };
+
+  /** Clé de regroupement d'une commande, selon le « Group By » choisi. */
+  function cleGroupe(o) {
+    switch (S0.groupe) {
+      case "store": return (S.refs.stores || []).find((x) => x.id === o.store_id)?.name || "—";
+      case "line_count": return `${arts(o).length} ligne(s)`;
+      case "quantity": return `${arts(o).reduce((n, i) => n + (i.quantity || 0), 0)} article(s)`;
+      case "country": return o.ship_to?.country || "—";
+      case "item_name": return arts(o)[0]?.name || "—";
+      case "item_sku": return arts(o)[0]?.sku || "—";
+      case "requested_service": return o.requested_service || "—";
+      default: return null;
+    }
+  }
+
   function dessiner(d) {
     const cols = colonnesActives();
     const epingle = (k) => S0.epingles.includes(k) ? ` class="fig"` : "";
     const th = `<th class="cx"><input type="checkbox" id="tout"></th><th class="cx"></th>` +
       cols.map((c) => `<th data-t="${c.tri || ""}"${c.n ? ' class="n"' : ""}${S0.epingles.includes(c.k) ? " data-fig=1" : ""}>${esc(c.t)}${S.tri === c.tri ? (S.dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
+    // Le regroupement suppose des lignes contiguës : on trie côté client sur la clé de groupe
+    // avant de dessiner, sans toucher au tri de colonne choisi à l'intérieur d'un groupe.
+    if (S0.groupe) d.orders.sort((a, b) => String(cleGroupe(a)).localeCompare(String(cleGroupe(b)), "fr"));
+    let groupeCourant = null;
     const tr = d.orders.map((o) => {
       const drop = o.weight_g > 0 && o.weight_g < d.seuil;
-      return `<tr data-id="${o.id}" class="${S.sel.has(String(o.id)) ? "sel" : ""}">
+      let enTeteGroupe = "";
+      if (S0.groupe) {
+        const g = cleGroupe(o);
+        if (g !== groupeCourant) {
+          groupeCourant = g;
+          enTeteGroupe = `<tr class="grp"><td colspan="${cols.length + 2}">
+            ${esc(LIBELLE_GROUPE[S0.groupe] || S0.groupe)} : <b>${esc(g)}</b></td></tr>`;
+        }
+      }
+      return enTeteGroupe + `<tr data-id="${o.id}" class="${S.sel.has(String(o.id)) ? "sel" : ""}">
         <td class="cx"><input type="checkbox" data-id="${o.id}" ${S.sel.has(String(o.id)) ? "checked" : ""}></td>
         <td class="cx">${arts(o).length > 1 ? `<span class="chev" data-x="${o.id}">▸</span>` : ""}</td>
         ${cols.map((c) => `<td${c.n ? ' class="n"' : ""}${S0.epingles.includes(c.k) ? ' data-fig=1' : ""}>${c.r(o)}${
@@ -735,15 +887,21 @@ VUES.commandes = async (statutFixe) => {
 
   // ------------------------------------------------------- barre d'actions
   const A = $("#actions");
+  // Ordre repris tel quel de ShipStation (§2.7) : Coter · Imprimer · Assigner · Étiqueter ·
+  // Préréglage · Créer + imprimer l'étiquette · Autres actions. Le bouton Colonnes est à
+  // l'extrémité droite de cette même barre, pas dans les filtres.
   A.innerHTML = `
     <span class="nsel" id="nsel">aucune sélection</span>
-    <button id="aRate" title="Coter (R)">Coter</button>
-    <button id="aPreset">Préréglage ▾</button>
+    <button id="aRate" title="Coter la sélection (R)">Coter</button>
     <button id="aPrint">Imprimer ▾</button>
-    <button id="aTag">Étiqueter ▾</button>
     <button id="aAssign">Assigner ▾</button>
-    <button id="aBuy" class="v" title="Créer les étiquettes (S)">Créer les étiquettes</button>
-    <button id="aAutres">Autres actions ▾</button>`;
+    <button id="aTag">Étiqueter ▾</button>
+    <button id="aPreset">Préréglage ▾</button>
+    <button id="aBuy" class="v" title="Créer et imprimer les étiquettes (S)">Créer + imprimer l'étiquette</button>
+    <button id="aAutres">Autres actions ▾</button>
+    <span style="margin-left:auto"></span>
+    <button id="aGroupe" title="Grouper les commandes">Grouper ▾</button>
+    <button id="aCols">Colonnes</button>`;
 
   const ids = () => [...S.sel];
   const majActions = () => {
@@ -752,6 +910,15 @@ VUES.commandes = async (statutFixe) => {
     ["aRate", "aPreset", "aPrint", "aTag", "aAssign", "aBuy", "aAutres"].forEach((i) => { const b = $("#" + i); if (b) b.disabled = !n; });
     const b = $("#aBuy"); if (b) b.disabled = !n || !S.config.etiquettes_actives;
   };
+  $("#aCols").onclick = gererColonnes;
+  // « Group By » de l'onglet À expédier : les sept regroupements documentés (§2.3.3).
+  $("#aGroupe").onclick = () => menuFlottant("aGroupe", [
+    { t: "Aucun regroupement", f: () => { S0.groupe = null; charger(); } },
+    ...[["store", "Boutique"], ["line_count", "Nombre de lignes"], ["quantity", "Quantité"],
+        ["country", "Pays"], ["item_name", "Article"], ["item_sku", "SKU"],
+        ["requested_service", "Service demandé"]]
+      .map(([k, t]) => ({ t, f: () => { S0.groupe = k; charger(); } })),
+  ]);
 
   const menuFlottant = (bouton, entrees) => {
     const anc = $("#" + bouton).getBoundingClientRect();
@@ -780,8 +947,12 @@ VUES.commandes = async (statutFixe) => {
   ]);
 
   $("#aPrint").onclick = () => menuFlottant("aPrint", [
-    { t: "Bordereaux de préparation", hk: "P+S", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank") },
+    { t: "Étiquette", f: () => window.open(`/api/labels?ids=${ids().join(",")}`, "_blank") },
+    { t: "Bordereau de préparation", hk: "P+S", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank") },
     { t: "Liste de prélèvement", hk: "P+L", f: () => window.open(`/api/pick-list?ids=${ids().join(",")}`, "_blank") },
+    { t: "Résumé de commande", hk: "O+S", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}&resume=1`, "_blank") },
+    { t: "Formulaires de douane", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}&douane=1`, "_blank") },
+    { sep: 1 },
     { t: "Exporter la sélection (CSV)", f: () => window.open(`/api/export/orders?ids=${ids().join(",")}`, "_blank") },
   ]);
 
@@ -801,10 +972,11 @@ VUES.commandes = async (statutFixe) => {
   ]);
 
   $("#aAutres").onclick = () => menuFlottant("aAutres", [
-    { t: "Configurer l'expédition en masse…", f: configurerEnMasse },
     { t: "Marquer comme expédiée…", hk: "M+S", f: marquerExpedie },
     { t: "Fusionner les expéditions", f: fusionner },
-    { t: "Liste de prélèvement", hk: "P+L", f: () => window.open(`/api/pick-list?ids=${ids().join(",")}`, "_blank") },
+    { t: "Scinder la commande…", f: scinderSelection },
+    { sep: 1 },
+    { t: "Configuration d'expédition en masse…", f: configurerEnMasse },
     { t: "Mettre en attente…", f: mettreEnAttente },
     { t: "Remettre en file", f: async () => { await api("/api/orders/restore", { method: "POST", body: { ids: ids() } }); S.sel.clear(); charger(); rafraichirCompteurs(); } },
     { sep: 1 },
@@ -884,6 +1056,30 @@ VUES.commandes = async (statutFixe) => {
         alert(`${r.n} commande(s) mise(s) à jour.`);
         S.sel.clear(); charger();
       }, "Appliquer");
+  }
+
+  /**
+   * « Split Ship » : les articles cochés partent dans une nouvelle commande. La scission doit
+   * laisser au moins un article de chaque côté, sinon elle ne fait que renommer la commande.
+   */
+  async function scinderSelection() {
+    if (S.sel.size !== 1) return dialogue("Scinder", "<p>Sélectionner une seule commande.</p>", null, "Fermer");
+    const o = await api(`/api/orders/${[...S.sel][0]}`);
+    const arts2 = (o.items || []).filter((i) => !i.adjustment);
+    if (arts2.length < 2) return dialogue("Scinder", "<p>Cette commande n'a qu'un article.</p>", null, "Fermer");
+    dialogue(`Scinder ${o.order_number}`, `
+      <p class="doux">Les articles cochés partent dans une nouvelle commande, avec ses propres
+        détails, étiquettes, notes et bordereau. La grille les affichera « 1 sur 2 » et « 2 sur 2 ».</p>
+      ${arts2.map((i) => `<label class="ch" style="display:flex;padding:4px 0;gap:8px">
+        <input type="checkbox" data-it="${i.id}"> ${i.quantity} × ${esc(i.name)}
+        <span class="sku">${esc(i.sku || "")}</span></label>`).join("")}`,
+      async () => {
+        const items = [...document.querySelectorAll("#dlgC [data-it]:checked")].map((x) => Number(x.dataset.it));
+        if (!items.length || items.length === arts2.length) { alert("Cocher au moins un article, mais pas tous."); return false; }
+        const r = await api(`/api/orders/${o.id}/split`, { method: "POST", body: { item_ids: items } });
+        alert(`Nouvelle commande créée (#${r.enfant}).`);
+        S.sel.clear(); charger(); rafraichirCompteurs();
+      }, "Scinder");
   }
 
   function mettreEnAttente() {
@@ -969,26 +1165,44 @@ VUES.commandes = async (statutFixe) => {
       return;
     }
     const o = await api(`/api/orders/${[...S.sel][0]}`);
-    const svc = (S.refs.services || []).filter((s) => !s.hidden);
+    const svc = (S.refs.services || []).filter((x) => !x.hidden);
+    const colis = (S.refs.packages || []);
+    const mapped = o.requested_service ? !(S.nonMappes || []).includes(o.requested_service) : null;
+
+    // Sections dans l'ordre exact de la Shipping Sidebar (§2.6) : résumé, destinataire,
+    // articles, widget de configuration, notes, étiquettes, communication client, activité.
+    // Le bouton d'achat est en bas et porte le tarif, comme « Create + Print Label $X.XX ».
     C.innerHTML = `
       <div class="sec">
         <h4>${esc(o.order_number)} <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span></h4>
-        <div class="adr">${esc(o.customer_name || "")}<br>${esc(o.ship_to.street1 || "")}
+        <div class="kv"><span>Boutique</span><b>${esc((S.refs.stores || []).find((x) => x.id === o.store_id)?.name || o.source || "—")}</b></div>
+        <div class="kv"><span>Commandée le</span><b>${jour(o.order_date)}</b></div>
+        <div class="kv"><span>Âge</span><b>${o.age ?? "—"} j</b></div>
+        <div class="kv"><span>Total</span><b>${money(o.order_total)}</b></div>
+        <div class="kv"><span>Livraison facturée</span><b>${money(o.shipping_paid)}</b></div>
+      </div>
+
+      <div class="sec">
+        <h4>Destinataire ${adresseValide(o.ship_to)}</h4>
+        <div class="adr">${esc(o.customer_name || "")}
+          ${o.ship_to.company ? `<br>${esc(o.ship_to.company)}` : ""}<br>${esc(o.ship_to.street1 || "")}
           ${o.ship_to.street2 ? `<br>${esc(o.ship_to.street2)}` : ""}<br>
           ${esc(o.ship_to.city || "")} ${esc(o.ship_to.state || "")} ${esc(o.ship_to.postalCode || "")}<br>
           ${esc(o.ship_to.country || "")}</div>
-        ${o.requested_service ? `<div class="kv"><span>Demandé au checkout</span><b>${rendreDemande(o)}</b></div>` : ""}
+        ${o.customer_email ? `<div class="kv"><span>Courriel</span><b>${esc(o.customer_email)}</b></div>` : ""}
       </div>
+
       <div class="sec"><h4>Articles</h4>${listeArticlesGroupes([o])}</div>
+
       <div class="sec csw">
-        <h4>Expédition</h4>
-        <label class="champ"><span>Expédié de</span><select id="cw"> ${(S.refs.warehouses || []).map((w) =>
+        <h4>Configuration de l'expédition</h4>
+        <label class="champ"><span>Expédié de</span><select id="cw">${(S.refs.warehouses || []).map((w) =>
           `<option value="${w.id}" ${o.warehouse_id === w.id ? "selected" : ""}>${esc(w.name)}</option>`).join("")}</select></label>
-        <label class="champ"><span>Poids (g)</span><input type="number" id="cp" value="${o.weight_g || ""}"></label>
-        <label class="champ"><span>Service</span><select id="cs"><option value="">— choisir —</option>${svc.map((s) =>
-          `<option value="${s.id}" ${String(o.service_id) === s.id ? "selected" : ""}>${esc(s.name)}</option>`).join("")}</select></label>
-        <label class="champ"><span>Colis</span><select id="cc"><option value="">— choisir —</option>${(S.refs.packages || []).map((p) =>
-          `<option value="${p.id}" ${String(o.package_id) === p.id ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Poids (g) — touche W</span><input type="number" id="cp" value="${o.weight_g || ""}"></label>
+        <label class="champ"><span>Service</span><select id="cs"><option value="">— choisir —</option>${svc.map((x) =>
+          `<option value="${x.id}" ${String(o.service_id) === x.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Colis</span><select id="cc"><option value="">— choisir —</option>${colis.map((x) =>
+          `<option value="${x.id}" ${String(o.package_id) === x.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
         <div class="dims">
           <input type="number" id="cl" placeholder="L" value="${o.dimensions?.length || ""}">
           <input type="number" id="cW" placeholder="l" value="${o.dimensions?.width || ""}">
@@ -997,49 +1211,95 @@ VUES.commandes = async (statutFixe) => {
         </div>
         <label class="champ"><span>Confirmation</span><select id="cf">${(S.refs.confirmations || []).map((k) =>
           `<option value="${k.id}" ${String(o.confirmation) === k.id ? "selected" : ""}>${esc(k.nom)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Assurance ($, vide = aucune)</span>
+          <input type="number" step="0.01" id="ci" value="${o.insurance?.montant ?? ""}"></label>
+        <label class="champ"><span>Date d'expédition</span>
+          <input type="date" id="cd" value="${(o.ship_by_date || "").slice(0, 10)}"></label>
+        <details class="autres"><summary>Autres options d'expédition</summary>
+          <label class="ch"><input type="checkbox" id="cnd" ${String(o.internal_notes || "").includes("[no_dropoff]") ? "checked" : ""}>
+            interdire le dépôt en bureau de poste</label>
+          <label class="ch"><input type="checkbox" id="cnm"> ne pas notifier la boutique</label>
+        </details>
+        ${o.requested_service ? `<div class="kv" style="margin-top:6px"><span>Service demandé</span>
+          <b>${esc(o.requested_service)} ${mapped
+            ? '<span class="puce v">mappé</span>'
+            : '<a class="lienMap" id="cMap">non mappé</a>'}</b></div>` : ""}
         <div id="cMarge"></div>
-        <div class="barre">
-          <button id="cEnr">Enregistrer</button>
-          <button id="cCoter">Coter (R)</button>
-          <button class="v" id="cAcheter" ${S.config.etiquettes_actives ? "" : "disabled"}>Créer + imprimer</button>
-        </div>
-        <div id="cTarifs"></div>
       </div>
+
       <div class="sec"><h4>Notes</h4>
         ${o.customer_notes ? `<div class="note"><span class="doux">De l'acheteur</span><br>${esc(o.customer_notes)}</div>` : ""}
+        ${o.gift_message ? `<div class="note"><span class="doux">Message cadeau</span><br>${esc(o.gift_message)}</div>` : ""}
         <textarea id="cNote" class="petit" placeholder="Note interne…">${esc(o.internal_notes || "")}</textarea>
         <button id="cNoteS">Enregistrer la note</button>
       </div>
-      <div class="sec"><h4>Étiquettes</h4>${(o.tags || []).map(pastilleTag).join(" ") || '<span class="doux">aucune</span>'}</div>`;
 
-    const marge = () => {
-      const paye = Number(o.shipping_paid || 0);
-      $("#cMarge").innerHTML = paye === 0
-        ? `<div class="avis" style="margin:6px 0">Livraison offerte au client — tout le coût de l'étiquette est une perte sèche.</div>`
-        : `<div class="kv"><span>Livraison facturée</span><b>${money(paye)}</b></div>`;
-    };
-    marge();
+      <div class="sec"><h4>Étiquettes</h4>
+        ${(o.tags || []).map(pastilleTag).join(" ") || '<span class="doux">aucune</span>'}</div>
 
-    $("#cEnr").onclick = async () => {
-      await api(`/api/orders`, { method: "POST", body: { ...o,
-        warehouse_id: Number($("#cw").value) || null, weight_g: Number($("#cp").value) || 0,
-        service_id: $("#cs").value || null, package_id: $("#cc").value || null,
-        confirmation: $("#cf").value || null,
-        dimensions: ($("#cl").value || $("#cW").value || $("#ch").value)
-          ? { length: Number($("#cl").value) || 0, width: Number($("#cW").value) || 0, height: Number($("#ch").value) || 0, units: "inches" } : null } });
-      charger();
-    };
-    $("#cNoteS").onclick = async () => {
-      await api(`/api/orders`, { method: "POST", body: { ...o, internal_notes: $("#cNote").value } });
-    };
+      <div class="sec"><h4>Communication client</h4>
+        <div class="kv"><span>Bordereau</span><b>Default 4″ × 6″</b></div>
+        <div class="kv"><span>Avis d'expédition</span><b>${esc(S.refs.gabarit_expedition || "Gabarit par défaut")}</b></div>
+        <div class="kv"><span>Boutique notifiée</span><b>${o.status === "shipped" ? "à l'achat de l'étiquette" : "pas encore"}</b></div>
+      </div>
+
+      <div class="sec"><h4>Activité</h4><div id="cActivite" class="doux">Chargement…</div></div>
+
+      <div class="pied">
+        <button id="cCoter" title="Coter (R)">Coter</button>
+        <button class="v" id="cAcheter" ${S.config.etiquettes_actives ? "" : "disabled"}>
+          Créer + imprimer l'étiquette<span id="cPrix"></span></button>
+      </div>
+      <div class="sec" id="cTarifs"></div>`;
+
+    // marge : ce que le client a payé pour la livraison, avant l'achat (constat OBS9)
+    const paye = Number(o.shipping_paid || 0);
+    $("#cMarge").innerHTML = paye === 0
+      ? `<div class="avis" style="margin:6px 0 0">Livraison offerte — le coût de l'étiquette est une perte sèche.</div>`
+      : "";
+
+    const enregistrer = async (extra = {}) => api("/api/orders", { method: "POST", body: { ...o,
+      warehouse_id: Number($("#cw").value) || null, weight_g: Number($("#cp").value) || 0,
+      service_id: $("#cs").value || null, package_id: $("#cc").value || null,
+      confirmation: $("#cf").value || null,
+      ship_by_date: $("#cd").value || null,
+      insurance: $("#ci").value ? { montant: Number($("#ci").value), devise: "CAD" } : null,
+      dimensions: ($("#cl").value || $("#cW").value || $("#ch").value)
+        ? { length: Number($("#cl").value) || 0, width: Number($("#cW").value) || 0,
+            height: Number($("#ch").value) || 0, units: "inches" } : null, ...extra } });
+
+    // Chaque champ du widget enregistre en sortant : ShipStation applique au fil de la saisie,
+    // et un bouton « Enregistrer » oublié fait acheter l'étiquette avec l'ancien service.
+    C.querySelectorAll(".csw input, .csw select").forEach((x) => x.onchange = async () => {
+      await enregistrer(); charger();
+    });
+    const map = $("#cMap");
+    if (map) map.onclick = () => aller("prereglages");
+
+    $("#cNoteS").onclick = () => enregistrer({ internal_notes: $("#cNote").value });
     $("#cCoter").onclick = async () => {
       $("#cTarifs").innerHTML = '<div class="doux">Cotation…</div>';
       try {
         const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: o.id } });
         $("#cTarifs").innerHTML = tableauTarifs(r, o);
+        if (r.recommande) $("#cPrix").textContent = "  " + money(r.recommande.price);
       } catch (e) { $("#cTarifs").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
     };
     $("#cAcheter").onclick = acheterLot;
+
+    api(`/api/audit?limit=8`).then((j) => {
+      const l = (j.rows || []).filter((r) => String(r.entity_id) === String(o.id) || r.entity === "order");
+      $("#cActivite").innerHTML = l.length
+        ? l.slice(0, 6).map((r) => `<div>${esc(String(r.at).slice(0, 16).replace("T", " "))} — ${esc(r.action)}</div>`).join("")
+        : "aucune activité enregistrée";
+    }).catch(() => { $("#cActivite").textContent = "—"; });
+  }
+
+  /** Icône de validation d'adresse — vert immeuble/maison, orange avertissement, rouge erreur. */
+  function adresseValide(a) {
+    if (!a || !a.street1 || !a.city || !a.postalCode) return '<span class="valA err" title="Adresse incomplète">!</span>';
+    if (!a.country) return '<span class="valA warn" title="Pays manquant">?</span>';
+    return `<span class="valA ok" title="Adresse complète">${a.country === "CA" || a.country === "US" ? "⌂" : "◍"}</span>`;
   }
 
   function listeArticlesGroupes(cmds) {
@@ -2172,17 +2432,11 @@ VUES.journal = async () => {
 
 // ══════════════════════════════════════════════════════════════════ amorçage
 async function rafraichirCompteurs() {
-  majEnTete();
   try { S.compteurs = await api("/api/orders/counts"); majCompteursMenu(); } catch {}
 }
 
-function majEnTete() {
-  const n = Object.values(S.compteurs.alertes || {}).reduce((a, b) => a + b, 0);
-  const h = $("#hAlertes");
-  if (h) h.innerHTML = n ? `<span class="pastille" title="Alertes">${num(n)}</span>` : "";
-}
-
 async function rendre() {
+  document.body.dataset.page = S.page;
   $("#vue").innerHTML = '<p class="doux">Chargement…</p>';
   try { await (VUES[S.page] || VUES.commandes)(); }
   catch (e) { $("#vue").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
@@ -2586,22 +2840,24 @@ async function demarrer() {
   const av = [];
   if (!S.config.etiquettes_actives) av.push(`Achat d'étiquettes <b>désactivé</b> — lancer avec <code>CLONE_ALLOW_LABELS=1</code>. Cotation et simulation restent disponibles.`);
   if (S.config.adaptateur === "bouchon") av.push(`Transporteur <b>bouchon</b> : les tarifs sont des valeurs de démonstration. Passer à <code>CARRIER_ADAPTER=clickship</code> à réception des identifiants.`);
-  if (!S.config.config_lasclay) av.push(`Configuration Lasclay <b>non chargée</b> — règles, vues, préréglages, colis et étiquettes du compte ShipStation. À charger depuis <a onclick="aller('reglages')">Réglages</a>.`);
+  if (!S.config.config_lasclay) av.push(`Configuration Lasclay <b>non chargée</b> — règles, vues, préréglages, colis et étiquettes du compte ShipStation. À charger depuis <a onclick="aller('reglages')">l'engrenage → Compte, boutiques et import</a>.`);
   if (S.config.shopify && !S.config.shopify.configure) av.push(`Import Shopify <b>indisponible</b> : variables <code>SHOPIFY_STORE</code> et <code>SHOPIFY_CLIENT_ID</code>/<code>SHOPIFY_CLIENT_SECRET</code> manquantes sur le service.`);
-  $("#bandeau").innerHTML = av.map(a => `<div class="avis">${a}</div>`).join("");
-  $("#navSous").innerHTML = `${esc(S.moi.name)}<br>` +
-    `<a id="l2f">${S.moi.totp_enabled ? "second facteur ✓" : "activer le 2FA"}</a> · ` +
-    `<a id="lqm">mot de passe</a> · <a id="lout">quitter</a>`;
-  $("#lout").onclick = deconnexion;
-  $("#lqm").onclick = () => changerMotDePasse(false);
-  $("#l2f").onclick = configurer2facteur;
-
+  // Les bandeaux d'état tiennent sur une ligne et se referment : ils informent au démarrage,
+  // ils ne doivent pas rogner la grille toute la journée.
+  $("#bandeau").innerHTML = av.map((a, i) => `<div class="avis" data-b="${i}">${a}
+    <button class="fermer" data-f="${i}" title="Masquer">×</button></div>`).join("");
+  $("#bandeau").querySelectorAll("[data-f]").forEach((b) => b.onclick = () => b.parentNode.remove());
   try { S.refs = await api("/api/refs"); } catch { S.refs = {}; }
 
-  // ---- en-tête global : recherche rapide, mise à jour des boutiques, raccourcis
+  // ---- en-tête global, de gauche à droite comme chez ShipStation : marque, modules,
+  //      recherche rapide, mise à jour des boutiques, alertes, profil, réglages, aide.
   $("#hMoi").textContent = S.moi.name;
+  $("#btMarque").onclick = () => aller("analytique");
   $("#btAide").onclick = aideRaccourcis;
   $("#btMaj").onclick = importerShopify;
+  $("#hAlertes").onclick = () => aller("alertes");
+  $("#btProfil").onclick = (e) => { e.stopPropagation(); menuProfil($("#btProfil")); };
+  $("#btReglages").onclick = (e) => { e.stopPropagation(); menuReglages($("#btReglages")); };
   $("#quick").onkeydown = (e) => {
     if (e.key !== "Enter") return;
     const q = $("#quick").value.trim();
