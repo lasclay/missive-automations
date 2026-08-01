@@ -192,6 +192,21 @@
   header.top button:hover { background:rgba(255,255,255,.18) }
   header.top .droite { margin-left:auto; display:flex; gap:8px; align-items:center; font-size:12.5px; color:#c7cdd4 }
   header.top .pastille { background:var(--rouge); color:#fff; border-radius:9px; padding:0 6px; font-size:11px; font-weight:700 }
+
+  /* ---- automatisation : couches et éditeur de règles ---- */
+  .couches { display:flex; align-items:center; gap:6px; flex-wrap:wrap }
+  .couche { border:1px solid var(--bord); border-radius:7px; padding:6px 10px; font-size:12.5px; background:var(--bg) }
+  .couche.gris { opacity:.55 }
+  .couche b { display:inline-block; width:16px; color:var(--accent) }
+  .couche .doux { display:block; font-size:11px }
+  .fleche { color:var(--doux) }
+  .critL { display:grid; grid-template-columns:1.3fr 1fr 1fr 1.6fr 28px; gap:5px; margin-bottom:5px; align-items:center }
+  .critL select, .critL input { padding:4px 7px; font-size:12.5px; width:100% }
+  .critL [data-suppr] { padding:2px 6px; border-color:var(--rouge); color:var(--rouge) }
+  .critL [data-act] { grid-template-columns:1fr 2fr 28px }
+  div[data-act].critL { grid-template-columns:1fr 2.5fr 28px }
+  .ordL .ordI { padding:6px 10px; border:1px solid var(--bord); border-radius:6px; margin-bottom:4px;
+                background:var(--carte); cursor:grab; font-size:13px }
 </style>
 </head>
 <body>
@@ -1541,46 +1556,180 @@ VUES.analytique = async () => {
 };
 
 // ----------------------------------------------------------- automatisation
+/**
+ * Automatisation — les 6 couches, et l'éditeur de règles.
+ *
+ * L'éditeur remplace les zones de texte JSON par un vrai formulaire, parce que le champ qui
+ * compte le plus n'existe pas chez ShipStation : la **portée** d'un critère d'article. « SKU
+ * contient X » sur une commande de cinq articles ne dit pas s'il faut qu'un article
+ * corresponde, que tous correspondent, ou qu'aucun ne corresponde — c'est la demande
+ * communautaire la plus ancienne restée sans réponse. Ici elle se choisit dans une liste.
+ */
 VUES.automatisation = async () => {
-  const d = await api("/api/rules");
+  const [d, voc, couches] = await Promise.all([
+    api("/api/rules"), api("/api/criteres"), api("/api/automation")]);
+  S.voc = voc;
+
+  const ordreCouches = Object.entries(couches.couches).sort((a, b) => a[1].n - b[1].n);
+
   $("#vue").innerHTML = `<h2>Automatisation</h2>
-    <p class="sous">Règles SI/ALORS appliquées à l'import, dans l'ordre. Une règle voit le résultat des précédentes.</p>
-    <div class="barre"><button class="p" id="rn">Nouvelle règle</button></div><div id="rt"></div>`;
+    <p class="sous">Les six couches s'exécutent dans cet ordre à chaque import. Les règles
+      passent en dernier : elles voient ce que les couches précédentes ont écrit.</p>
+    <div class="carte"><div class="couches">${ordreCouches.map(([cle, c]) =>
+      `<div class="couche ${c.rejouable ? "" : "gris"}">
+        <b>${c.n}</b> ${esc(c.nom)}
+        <span class="doux">${c.rejouable ? "rejouable" : "à l'import seulement"}</span>
+      </div>`).join('<span class="fleche">→</span>')}</div>
+      <p class="doux" style="margin-top:8px">« Rejouable » = repris par le retraitement des
+        commandes ouvertes (Réglages). ShipStation ne rejoue que les trois dernières couches, et
+        c'est la même règle ici.</p></div>
+    <div class="barre">
+      <button class="p" id="rn">Nouvelle règle</button>
+      <button id="rOrdre">Réordonner…</button>
+      <span class="doux" style="margin-left:auto">${d.rules.filter((r) => r.enabled).length} active(s) sur ${d.rules.length}</span>
+    </div>
+    <div id="rt"></div>`;
+
   $("#rt").append(table([
     { k: "position", t: "Ordre", n: true },
-    { k: "name", t: "Règle", r: r => esc(r.name) + (r.enabled ? "" : ' <span class="puce g">désactivée</span>') },
-    { k: "conditions", t: "Si", r: r => esc(r.conditions.map(c => `${c.field} ${c.op} ${JSON.stringify(c.value)}`).join(r.match_all ? " ET " : " OU ")) },
-    { k: "actions", t: "Alors", r: r => esc(r.actions.map(a => a.type).join(", ")) },
+    { k: "name", t: "Règle", r: (r) => esc(r.name) + (r.enabled ? "" : ' <span class="puce g">désactivée</span>')
+      + (r.notes ? ` <span class="puce a" title="${esc(r.notes)}">note</span>` : "") },
+    { k: "conditions", t: "Si", r: (r) => r.conditions.length
+      ? esc((r.resume || r.conditions.map(decrireCritere)).join(r.match_all ? "  ET  " : "  OU  "))
+      : (r.sans_condition ? '<span class="puce a">toutes les commandes</span>' : '<span class="puce r">sans condition</span>') },
+    { k: "actions", t: "Alors", r: (r) => esc(r.actions.map((a) => decrireAction(a)).join(" · ")) },
     { k: "run_count", t: "Exéc.", n: true },
-    { k: "act", t: "", r: r => `<button data-e="${r.id}">Modifier</button> <button class="d" data-x="${r.id}">Suppr.</button>` },
+    { k: "act", t: "", r: (r) => `<button data-e="${r.id}">Modifier</button> <button class="d" data-x="${r.id}">Suppr.</button>` },
   ], d.rules));
-  const editer = (r = { conditions: [], actions: [], enabled: true, match_all: true, position: 50 }) => {
-    dialogue(r.id ? "Modifier la règle" : "Nouvelle règle", `
-      <label class="champ"><span>Nom</span><input id="rnm" value="${esc(r.name || "")}"></label>
-      <div class="grille">
-        <label class="champ"><span>Ordre</span><input type="number" id="rps" value="${r.position}"></label>
-        <label class="champ"><span>Correspondance</span><select id="rma"><option value="1"${r.match_all ? " selected" : ""}>Toutes les conditions</option><option value="0"${!r.match_all ? " selected" : ""}>Au moins une</option></select></label>
-        <label class="champ"><span>Active</span><select id="ren"><option value="1"${r.enabled ? " selected" : ""}>Oui</option><option value="0"${!r.enabled ? " selected" : ""}>Non</option></select></label>
-      </div>
-      <label class="champ"><span>Conditions — JSON. Champs : ${d.champs.join(", ")}. Opérateurs : ${d.operateurs.join(", ")}</span>
-        <textarea id="rco" style="min-height:120px">${esc(JSON.stringify(r.conditions, null, 1))}</textarea></label>
-      <label class="champ"><span>Actions — JSON. Types : ${d.actions.join(", ")}</span>
-        <textarea id="rac" style="min-height:100px">${esc(JSON.stringify(r.actions, null, 1))}</textarea></label>`,
-      async () => {
-        await api("/api/rules", { method: "POST", body: { id: r.id, name: $("#rnm").value,
-          position: Number($("#rps").value), match_all: $("#rma").value === "1", enabled: $("#ren").value === "1",
-          conditions: JSON.parse($("#rco").value), actions: JSON.parse($("#rac").value) } });
-        VUES.automatisation();
-      }, "Enregistrer");
-  };
-  $("#rn").onclick = () => editer();
-  $("#rt").querySelectorAll("[data-e]").forEach(b => b.onclick = (e) => { e.stopPropagation(); editer(d.rules.find(x => x.id == b.dataset.e)); });
-  $("#rt").querySelectorAll("[data-x]").forEach(b => b.onclick = async (e) => {
+
+  $("#rn").onclick = () => editerRegle();
+  $("#rt").querySelectorAll("[data-e]").forEach((b) => b.onclick = (e) => {
+    e.stopPropagation(); editerRegle(d.rules.find((x) => x.id == b.dataset.e));
+  });
+  $("#rt").querySelectorAll("[data-x]").forEach((b) => b.onclick = async (e) => {
     e.stopPropagation();
     if (!confirm("Supprimer cette règle ?")) return;
-    await api("/api/rules/" + b.dataset.x, { method: "DELETE" }); VUES.automatisation();
+    await api("/api/rules/" + b.dataset.x, { method: "DELETE" });
+    VUES.automatisation();
   });
+  $("#rOrdre").onclick = () => dialogue("Ordre d'exécution", `
+    <p class="doux">Glissez pour réordonner. L'ordre est signifiant : une règle voit l'état
+      laissé par les précédentes. C'est ce qui fait que « LAS Cost Centre » doit passer
+      <b>après</b> l'affectation d'entrepôt et non avant, comme chez ShipStation où elle ne se
+      déclenchait jamais.</p>
+    <div id="ordL" class="ordL">${d.rules.map((r) =>
+      `<div class="ordI" draggable="true" data-id="${r.id}">☰ ${esc(r.name)}</div>`).join("")}</div>`,
+    async () => {
+      const ids = [...document.querySelectorAll("#ordL .ordI")].map((x) => Number(x.dataset.id));
+      await api("/api/rules/reorder", { method: "POST", body: { ids } });
+      VUES.automatisation();
+    }, "Enregistrer l'ordre", (c) => glisserDeposer(c.querySelector("#ordL")));
 };
+
+/** Réordonnancement par glisser-déposer — le geste de ShipStation sur la liste des règles. */
+function glisserDeposer(liste) {
+  let porte = null;
+  liste.querySelectorAll("[draggable]").forEach((it) => {
+    it.ondragstart = () => { porte = it; it.style.opacity = ".4"; };
+    it.ondragend = () => { it.style.opacity = ""; porte = null; };
+    it.ondragover = (e) => {
+      e.preventDefault();
+      if (!porte || porte === it) return;
+      const r = it.getBoundingClientRect();
+      it.parentNode.insertBefore(porte, e.clientY - r.top < r.height / 2 ? it : it.nextSibling);
+    };
+  });
+}
+
+const PORTEE_FR = { any: "au moins un article", all: "tous les articles",
+  only: "uniquement ces articles", none: "aucun article" };
+
+function decrireCritere(c) {
+  const v = Array.isArray(c.value) ? c.value.join(" ou ") : c.value;
+  const p = c.scope ? `[${PORTEE_FR[c.scope] || c.scope}] ` : "";
+  return `${p}${c.field} ${c.op} ${v ?? ""}`.trim();
+}
+const decrireAction = (a) => a.type + (a.value != null && typeof a.value !== "object"
+  ? ` = ${a.value}` : (a.value ? " …" : ""));
+
+/** Éditeur de règle : critères et actions en lignes, pas en JSON. */
+function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all: true, position: 50 }) {
+  const voc = S.voc;
+  const champArticle = (cle) => (voc.champs.find((c) => c.cle === cle) || {}).article;
+
+  const ligneCritere = (c = { field: "item_sku", op: "contient", scope: "any", value: "" }) => `
+    <div class="critL" data-crit>
+      <select data-f>${voc.champs.map((x) => `<option value="${x.cle}" ${x.cle === c.field ? "selected" : ""}>${x.cle}${x.shipstation ? ` (${x.shipstation})` : ""}</option>`).join("")}</select>
+      <select data-p ${champArticle(c.field) ? "" : "disabled"}>${Object.entries(PORTEE_FR).map(([k, t]) =>
+        `<option value="${k}" ${(c.scope || "any") === k ? "selected" : ""}>${t}</option>`).join("")}</select>
+      <select data-o>${voc.operateurs.map((x) => `<option value="${x.cle}" ${x.cle === c.op ? "selected" : ""}>${esc(x.libelle)}</option>`).join("")}</select>
+      <input data-v value="${esc(Array.isArray(c.value) ? c.value.join(" ; ") : (c.value ?? ""))}" placeholder="valeurs séparées par ;">
+      <button data-suppr title="Retirer">×</button>
+    </div>`;
+
+  const ligneAction = (a = { type: "add_tag", value: "" }) => `
+    <div class="critL" data-act>
+      <select data-t>${voc.actions.map((x) => `<option value="${x}" ${x === a.type ? "selected" : ""}>${x}</option>`).join("")}</select>
+      <input data-av value="${esc(typeof a.value === "object" ? JSON.stringify(a.value) : (a.value ?? ""))}" placeholder="valeur (ou JSON)">
+      <button data-suppr title="Retirer">×</button>
+    </div>`;
+
+  dialogue(r.id ? `Règle « ${r.name} »` : "Nouvelle règle", `
+    ${r.notes ? `<div class="avis info">${esc(r.notes)}</div>` : ""}
+    <label class="champ"><span>Nom</span><input id="rnm" value="${esc(r.name || "")}"></label>
+    <div class="grille">
+      <label class="champ"><span>Ordre</span><input type="number" id="rps" value="${r.position}"></label>
+      <label class="champ"><span>Combinaison</span><select id="rma">
+        <option value="1"${r.match_all ? " selected" : ""}>Toutes les conditions (ET)</option>
+        <option value="0"${!r.match_all ? " selected" : ""}>Au moins une (OU)</option></select></label>
+      <label class="champ"><span>Active</span><select id="ren">
+        <option value="1"${r.enabled ? " selected" : ""}>Oui</option>
+        <option value="0"${!r.enabled ? " selected" : ""}>Non</option></select></label>
+    </div>
+    <p class="doux">Deux critères sur la <b>même colonne</b> se combinent en OU même en mode ET —
+      sans quoi « province = ON » et « province = QC » ne pourraient jamais coexister.</p>
+    <b>Si</b><div id="crits">${(r.conditions || []).map(ligneCritere).join("")}</div>
+    <div class="barre"><button id="critPlus">+ Critère</button>
+      <label class="ch"><input type="checkbox" id="rsc" ${r.sans_condition ? "checked" : ""}>
+        sans condition — s'applique à toutes les commandes</label></div>
+    <b>Alors</b><div id="acts">${(r.actions || []).map(ligneAction).join("")}</div>
+    <div class="barre"><button id="actPlus">+ Action</button>
+      <label class="ch"><input type="checkbox" id="rst" ${r.stop_after ? "checked" : ""}>
+        arrêter le chaînage si cette règle s'applique</label></div>`,
+    async () => {
+      const conditions = [...document.querySelectorAll("[data-crit]")].map((l) => {
+        const f = l.querySelector("[data-f]").value;
+        const brut = l.querySelector("[data-v]").value;
+        const c = { field: f, op: l.querySelector("[data-o]").value,
+          value: brut.includes(";") ? brut.split(";").map((x) => x.trim()).filter(Boolean) : brut };
+        if (champArticle(f)) c.scope = l.querySelector("[data-p]").value;
+        return c;
+      });
+      const actions = [...document.querySelectorAll("[data-act]")].map((l) => {
+        const brut = l.querySelector("[data-av]").value.trim();
+        let value = brut;
+        if (brut.startsWith("{") || brut.startsWith("[")) { try { value = JSON.parse(brut); } catch {} }
+        return { type: l.querySelector("[data-t]").value, value };
+      });
+      await api("/api/rules", { method: "POST", body: { id: r.id, name: $("#rnm").value,
+        position: Number($("#rps").value), match_all: $("#rma").value === "1",
+        enabled: $("#ren").value === "1", sans_condition: $("#rsc").checked,
+        stop_after: $("#rst").checked, conditions, actions } });
+      VUES.automatisation();
+    }, "Enregistrer",
+    (c) => {
+      const brancher = () => {
+        c.querySelectorAll("[data-suppr]").forEach((b) => b.onclick = (e) => { e.preventDefault(); b.parentNode.remove(); });
+        c.querySelectorAll("[data-f]").forEach((sel) => sel.onchange = () => {
+          const p = sel.parentNode.querySelector("[data-p]");
+          p.disabled = !champArticle(sel.value);
+        });
+      };
+      c.querySelector("#critPlus").onclick = (e) => { e.preventDefault(); c.querySelector("#crits").insertAdjacentHTML("beforeend", ligneCritere()); brancher(); };
+      c.querySelector("#actPlus").onclick = (e) => { e.preventDefault(); c.querySelector("#acts").insertAdjacentHTML("beforeend", ligneAction()); brancher(); };
+      brancher();
+    });
+}
 
 // ---------------------------------------------------------------- gabarits
 VUES.gabarits = async () => {
