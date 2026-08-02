@@ -233,7 +233,6 @@
   .ssLi.enfant::before { content:""; position:absolute; margin-left:-12px; width:1px; height:16px; background:var(--bord) }
   .ssLi.enfant.actif { color:var(--texte); background:var(--sel) }
   #ssStatuts { padding-bottom:4px }
-  #ssVues .ssLi { font-size:12.5px; padding:4px 12px }
 
   /* ---- fiche de commande ---- */
   dialog.large { max-width:1080px }
@@ -512,13 +511,28 @@ const EN = {
   "Se déconnecter": "Sign Out", "Langue : Français": "Language: English",
   "Recherche rapide  ( / )": "Quicksearch  ( / )",
   // — barre latérale et statuts
-  "Commandes": "Orders", "Vues sauvegardées": "Saved Filters",
+  "Commandes": "Orders", "Filtres sauvegardés": "Saved Filters",
   "Analytique": "Analytics", "Automatisations": "Automations", "Scan": "Scan", "Tarifs": "Rates",
   "Préparations externes": "Fulfillments", "Inventaire": "Inventory",
   "Rechercher des commandes…": "Search Orders…", "Recherche avancée": "Advanced Search",
   "↻ Recharger": "↻ Reload", "Filtrer par :": "Filter By:", "Grouper… ▾": "Group By… ▾",
   "Créer + imprimer les étiquettes": "Create + Print Labels", "Nouvelle commande": "New Order",
   "Mise à jour en masse ▾": "Bulk Update ▾",
+  // — pastilles de filtre : la clé porte le « ▾ » quand la pastille est vide, sans lui
+  //   quand elle affiche une valeur. Les deux formes sont donc nécessaires.
+  "Boutique ▾": "Store ▾", "Boutique": "Store",
+  "Destination ▾": "Destination ▾",
+  "Assignée à ▾": "Assignee ▾", "Assignée à": "Assignee",
+  "Étiquette ▾": "Tag ▾", "Étiquette": "Tag",
+  "Statut d'allocation ▾": "Allocation Status ▾", "Statut d'allocation": "Allocation Status",
+  "Date de commande ▾": "Order Date ▾", "Date de commande": "Order Date",
+  "Autre ▾": "Other ▾", "Autre": "Other",
+  "Filtres sauvegardés ▾": "Saved Filters ▾",
+  // — barre d'actions
+  "Créer + imprimer les étiquettes ▾": "Create + Print Label ▾", "Coter": "Get Rate",
+  "Imprimer ▾": "Print ▾", "Prêtes à prélever": "Ready To Pick", "Mettre en attente": "Hold",
+  "Assigner à ▾": "Assign To ▾", "Étiqueter ▾": "Tag ▾", "Allouer ▾": "Allocate ▾",
+  "Autres actions ▾": "Other Actions ▾",
   // — lots
   "Lots ouverts": "Open Batches", "+ Créer un lot": "+ Create New Batch",
   "aucun lot ouvert": "no open batch", "Lot": "Batch", "Lot ▾": "Batch ▾",
@@ -1172,8 +1186,6 @@ VUES.commandes = async (statutFixe) => {
       <div class="ssLt">Lots ouverts</div>
       <div id="ssLots"></div>
       <a class="ssLi ajout" id="ssNouveauLot">+ Créer un lot</a>
-      <div class="ssLt">Vues sauvegardées</div>
-      <div id="ssVues"></div>
     </aside>
     <section class="ssC">
       <div class="enteteE">
@@ -1444,17 +1456,26 @@ VUES.commandes = async (statutFixe) => {
     VUES_SAUV = d.views;
     majVues();
   }
+  /**
+   * Les vues vivent **au-dessus de la grille**, en onglets, et nulle part ailleurs.
+   *
+   * La description générique du produit (§2.2) place une section « Saved Filters » sous les
+   * statuts dans le panneau gauche : c'est l'ancienne disposition. La capture réelle du
+   * compte (§2.1 du fichier de configuration) montre un panneau gauche qui s'arrête aux
+   * statuts, aux boutiques, aux alertes et aux lots ouverts. Deux endroits pour choisir une
+   * vue, c'est un endroit de trop — le panneau gauche est le premier niveau de tri, les
+   * onglets le second.
+   */
   function majVues() {
-    const lien = (v) => `<a class="ssLi ${S0.vue === v.id ? "actif" : ""}" data-v="${v.id}" title="${esc(v.notes || "")}">
-        ${esc(v.name)}${v.notes && v.notes.includes("vérifier") ? ' <span class="puce a">?</span>' : ""}<span class="n">${v.n != null ? num(v.n) : ""}</span></a>`;
-    $("#ssVues").innerHTML = VUES_SAUV.length ? VUES_SAUV.map(lien).join("")
-      : '<div class="vide">aucune vue — charger la configuration Lasclay dans Réglages</div>';
     $("#ongVues").innerHTML = `<span class="ong ${!S0.vue ? "actif" : ""}" data-v="">${STATUT_FR[S0.statut] || "Toutes"}</span>` +
-      VUES_SAUV.slice(0, 12).map((v) => `<span class="ong ${S0.vue === v.id ? "actif" : ""}" data-v="${v.id}">${esc(v.name)}${v.n != null ? ` <i>${num(v.n)}</i>` : ""}</span>`).join("") +
+      VUES_SAUV.slice(0, 12).map((v) => `<span class="ong ${S0.vue === v.id ? "actif" : ""}" data-v="${v.id}"${
+        v.notes ? ` title="${esc(v.notes)}"` : ""}>${esc(v.name)}${
+        v.notes && v.notes.includes("vérifier") ? ' <span class="puce a">?</span>' : ""}${
+        v.n != null ? ` <i>${num(v.n)}</i>` : ""}</span>`).join("") +
       (VUES_SAUV.length > 12 ? `<span class="ong" id="ongPlus">+${VUES_SAUV.length - 12}…</span>` : "") +
       `<span class="ong sauver" id="ongSave" title="Enregistrer les filtres et les colonnes actuels comme vue">+ Enregistrer la vue</span>`;
 
-    document.querySelectorAll("#ssVues [data-v], #ongVues [data-v]").forEach((a) => {
+    document.querySelectorAll("#ongVues [data-v]").forEach((a) => {
       a.onclick = () => choisirVue(a.dataset.v);
       a.oncontextmenu = async (e) => {
         if (!a.dataset.v) return;
