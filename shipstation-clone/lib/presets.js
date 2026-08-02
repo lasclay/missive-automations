@@ -255,18 +255,42 @@ function resoudre(requested, storeId = null) {
   return null;
 }
 
-/** Libellés vus dans les commandes et non couverts par un mapping — le diagnostic manquant. */
-const libellesNonMappes = () => all(`
+/** Libellés de service vus dans les commandes, avec leur résolution. */
+const libellesVus = () => all(`
   SELECT requested_service AS libelle, COUNT(*) n
   FROM orders WHERE requested_service IS NOT NULL AND requested_service <> ''
-  GROUP BY requested_service ORDER BY n DESC`)
-  .filter((l) => !resoudre(l.libelle))
+  GROUP BY requested_service ORDER BY n DESC`).slice(0, 80);
+
+/**
+ * Résolution de chaque libellé de checkout observé.
+ *
+ * Trois issues, et la nuance compte : un libellé peut être **mappé vers un canal qui
+ * n'expédie pas** — `ramassage` (le client vient chercher), `ddd` et `defricheuses` (un
+ * partenaire livre). Ces commandes n'ont pas besoin de service transporteur et ne sont
+ * pas en défaut. Les traiter comme « non mappées » noierait le vrai signal.
+ */
+const CANAUX_SANS_TRANSPORTEUR = new Set(["ramassage", "ddd", "defricheuses"]);
+
+const resolutions = () => libellesVus().map((l) => {
+  const r = resoudre(l.libelle);
+  if (!r) return { ...l, etat: "non_mappe" };
+  if (r.service_id) return { ...l, etat: "mappe", channel: r.channel, service_id: r.service_id };
+  if (CANAUX_SANS_TRANSPORTEUR.has(r.channel)) return { ...l, etat: "sans_transporteur", channel: r.channel };
+  // Mappé vers un canal d'expédition mais sans service précis : c'est la réserve du §13.6 —
+  // la table capturée ne donnait que le transporteur. La commande partirait au service par
+  // défaut sans que personne ne le voie.
+  return { ...l, etat: "service_manquant", channel: r.channel };
+});
+
+/** Libellés qui exigent une intervention : rien du tout, ou un canal d'expédition sans service. */
+const libellesNonMappes = () => resolutions()
+  .filter((r) => r.etat === "non_mappe" || r.etat === "service_manquant")
   .slice(0, 50);
 
 module.exports = {
   presets, sauverPreset, supprimerPreset, appliquerPreset, presetParNom, presetParRaccourci,
   expliquer,
-  mappings, sauverMapping, supprimerMapping, resoudre, libellesNonMappes,
+  mappings, sauverMapping, supprimerMapping, resoudre, libellesNonMappes, resolutions,
   alias, poserAlias, retirerAlias, produitDeSku,
   composants, definirBundle, listeDePrelevement,
 };

@@ -368,6 +368,40 @@ route("POST /api/batches/:id/close", ({ params, user }) => {
   return shipments.fermerLot(Number(params.id), user && user.id);
 });
 route("GET /api/batches/:id", ({ params }) => shipments.lot(Number(params.id)));
+
+/**
+ * Renommer un lot ou lui poser une note. La note est une consigne d'atelier partagée —
+ * ShipStation la met en tête de l'écran du lot, à côté de son nom.
+ */
+route("POST /api/batches/:id/update", async ({ req, params, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const id = Number(params.id);
+  const sets = [], vals = [];
+  if (b.name !== undefined) { sets.push("name = ?"); vals.push(String(b.name).trim() || null); }
+  if (b.notes !== undefined) { sets.push("notes = ?"); vals.push(String(b.notes).trim() || null); }
+  if (b.assigned_to !== undefined) { sets.push("created_by = ?"); vals.push(b.assigned_to || null); }
+  if (!sets.length) return { error: "rien à modifier", code: 400 };
+  db.run(`UPDATE batches SET ${sets.join(", ")} WHERE id = ?`, ...vals, id);
+  db.journaliser("batch.update", "batch", id, b, user);
+  return { ok: true };
+});
+
+/**
+ * « Cancel Batch » : retire toutes les commandes du lot puis supprime le lot — la
+ * définition exacte de ShipStation. Les commandes retournent à leur statut, intactes.
+ */
+route("POST /api/batches/:id/cancel", ({ params, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const id = Number(params.id);
+  const n = db.one("SELECT COUNT(*) n FROM orders WHERE batch_id = ?", id).n;
+  db.tx(() => {
+    db.run("UPDATE orders SET batch_id = NULL WHERE batch_id = ?", id);
+    db.run("DELETE FROM batches WHERE id = ?", id);
+  });
+  db.journaliser("batch.cancel", "batch", id, { commandes_liberees: n }, user);
+  return { ok: true, liberees: n };
+});
 route("POST /api/batches", async ({ req, user }) => {
   accounts.exiger(user, "labels_buy");
   if (!ETIQUETTES) return { error: "achat d'étiquettes désactivé — lancer avec CLONE_ALLOW_LABELS=1", code: 403 };
@@ -387,13 +421,48 @@ route("POST /api/batches/preview", async ({ req }) => {
       const { recommande } = await shipments.coter(id);
       const c = orders.parId(id);
       lignes.push({ order_id: id, order_number: c.order_number, poids: c.weight_g,
-        service: recommande.service, serviceId: recommande.serviceId, prix: recommande.price, dropOff: !!recommande.dropOff });
+        service: recommande.service, serviceId: recommande.serviceId,
+        serviceName: recommande.serviceName || recommande.service,
+        carrier: recommande.carrier || c.carrier_code || null,
+        prix: recommande.price, frais: Number(recommande.otherCost || recommande.surcharges || 0),
+        dropOff: !!recommande.dropOff });
     } catch (e) {
       lignes.push({ order_id: id, order_number: (orders.parId(id) || {}).order_number, erreur: String(e.message) });
     }
   }
   const ok = lignes.filter((l) => !l.erreur);
-  return { lignes, total: Math.round(ok.reduce((s, l) => s + l.prix, 0) * 100) / 100,
+  const sou = (n) => Math.round(n * 100) / 100;
+
+  // « Cost Review » de ShipStation : une carte par compte transporteur, le détail par
+  // service, et surtout la distinction entre ce que coûte l'affranchissement et ce qui est
+  // réellement facturé ici. Lasclay affranchit sur son propre compte Postes Canada : le
+  // coût est réel, le montant facturé par l'outil est nul. Confondre les deux, c'est la
+  // plainte de facturation n°1 relevée dans l'audit (exigence A3).
+  const parTransporteur = {};
+  for (const l of ok) {
+    const t = l.carrier || "inconnu";
+    const g = parTransporteur[t] || (parTransporteur[t] = { carrier: t, services: {}, frais: 0, total: 0 });
+    const s = g.services[l.serviceName] || (g.services[l.serviceName] = { nom: l.serviceName, n: 0, montant: 0 });
+    s.n++; s.montant = sou(s.montant + l.prix - (l.frais || 0));
+    g.frais = sou(g.frais + (l.frais || 0));
+    g.total = sou(g.total + l.prix);
+  }
+  const cartes = Object.values(parTransporteur).map((g) => {
+    // L'adaptateur rend tantôt le code (`canada_post`), tantôt le nom affiché
+    // (« Canada Post ») : on accepte les deux plutôt que de rater le compte et de
+    // facturer un affranchissement que le transporteur facture déjà lui-même.
+    const c = db.one(
+      "SELECT name, account, requires_funding FROM carriers WHERE code = ? OR name = ? COLLATE NOCASE",
+      g.carrier, g.carrier);
+    return { ...g, services: Object.values(g.services),
+      nom: c ? c.name : g.carrier, compte: c ? c.account : null,
+      // Compte propre chez le transporteur : il facture directement, l'outil ne prélève rien.
+      facture_ici: c ? !!c.requires_funding : true };
+  });
+
+  return { lignes, cartes,
+    total: sou(ok.reduce((s, l) => s + l.prix, 0)),
+    a_facturer: sou(cartes.filter((c) => c.facture_ici).reduce((s, c) => s + c.total, 0)),
     n: ok.length, bloquees: lignes.length - ok.length, drop_off: ok.filter((l) => l.dropOff).length };
 });
 
@@ -663,6 +732,10 @@ route("POST /api/automation/reprocess", async ({ req, user }) => {
 route("GET /api/service-mappings", ({ url }) => ({
   mappings: presets.mappings(q(url).store_id ? Number(q(url).store_id) : null),
   non_mappes: presets.libellesNonMappes(),
+  // État de chaque libellé observé : mappé, mappé sans transporteur (ramassage, partenaire),
+  // service manquant, ou pas de mapping du tout. La grille et la fiche s'en servent pour
+  // dire la vérité plutôt que « mappé / non mappé ».
+  resolutions: presets.resolutions(),
 }));
 route("POST /api/service-mappings", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");
@@ -1100,9 +1173,26 @@ route("GET /api/moi", ({ moi }) => (moi ? { user: moi, pref: preferences(moi.id)
 const preferences = (userId) => db.reglage(`pref:${userId}`, { langue: "fr" }) || { langue: "fr" };
 
 route("GET /api/moi/preferences", ({ moi }) => preferences(moi.id));
+/**
+ * Préférences d'affichage — portée utilisateur (§6.12). Liste blanche : l'objet est
+ * relu et fusionné à chaque appel, donc un champ non prévu s'y installerait pour de bon.
+ */
+const PREFERENCES = {
+  langue: (v) => (["fr", "en"].includes(v) ? v : null),
+  theme: (v) => (["clair", "sombre", "systeme"].includes(v) ? v : null),
+  densite: (v) => (["compacte", "confortable", "spacieuse"].includes(v) ? v : null),
+  page_size: (v) => ([100, 250, 500, 1000].includes(Number(v)) ? Number(v) : null),
+};
+
 route("POST /api/moi/preferences", async ({ req, moi }) => {
   const b = await corps(req);
-  const p = { ...preferences(moi.id), ...b };
+  const p = { ...preferences(moi.id) };
+  for (const [cle, valider] of Object.entries(PREFERENCES)) {
+    if (!(cle in b)) continue;
+    const v = valider(b[cle]);
+    if (v === null) return { error: `valeur refusée pour « ${cle} »`, code: 400 };
+    p[cle] = v;
+  }
   db.poserReglage(`pref:${moi.id}`, p);
   return p;
 });
@@ -1165,8 +1255,17 @@ const serveur = http.createServer(async (req, res) => {
     if (out && out.error && out.code) return json(res, out.code, { error: out.error });
     return json(res, 200, out);
   } catch (e) {
-    const code = e.code === 403 ? 403 : e.code === 429 ? 429 : 500;
-    return json(res, code, { error: String(e.message || e) });
+    // Une règle métier qui refuse n'est pas une panne : « lot inconnu », « poids manquant »,
+    // « le lot n'est plus ouvert » sont des 400 avec un message que l'utilisateur peut
+    // suivre. Réserver la 500 aux vraies erreurs de programme, dont la trace part au
+    // journal — c'est le constat OBS1 : jamais d'erreur brute non actionnable à l'écran.
+    const message = String(e.message || e);
+    const metier = e.code === 400 || (e instanceof Error && !(e instanceof TypeError)
+      && !(e instanceof ReferenceError) && !(e instanceof SyntaxError) && !!e.message);
+    const code = e.code === 403 ? 403 : e.code === 429 ? 429 : metier ? 400 : 500;
+    if (code === 500) console.error(`[500] ${spec}`, e);
+    else console.warn(`[${code}] ${spec} — ${message}`);
+    return json(res, code, { error: message });
   }
 });
 

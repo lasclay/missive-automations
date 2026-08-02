@@ -5,13 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Expéditions — Lasclay</title>
 <style>
+  /* ---- thème ----
+     Clair par défaut, comme ShipStation. Le choix est une préférence d'utilisateur
+     (§6.12 : Display Options = portée utilisateur), posée en `data-theme` sur <html> :
+     `clair`, `sombre`, ou `systeme` pour suivre le réglage du poste. Le mode sombre
+     n'est donc jamais imposé par le système sans que l'utilisateur l'ait demandé. */
   :root {
     --bg:#f5f6f8; --carte:#fff; --bord:#dde1e6; --texte:#181c20; --doux:#6b7480;
     --accent:#1a56db; --vert:#0b7a4b; --ambre:#9a5b06; --rouge:#c0392b; --sel:#eaf1ff; --barre:#1f2937;
+    color-scheme: light;
+  }
+  :root[data-theme="sombre"] {
+    --bg:#131619; --carte:#1b1f23; --bord:#2b3137; --texte:#e6e9ec; --doux:#98a1ab;
+    --accent:#5b8cf5; --vert:#3dc98a; --ambre:#e0a33e; --rouge:#f0705f; --sel:#1d2740; --barre:#0e1114;
+    color-scheme: dark;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#131619; --carte:#1b1f23; --bord:#2b3137; --texte:#e6e9ec; --doux:#98a1ab;
-            --accent:#5b8cf5; --vert:#3dc98a; --ambre:#e0a33e; --rouge:#f0705f; --sel:#1d2740; --barre:#0e1114; }
+    :root[data-theme="systeme"] {
+      --bg:#131619; --carte:#1b1f23; --bord:#2b3137; --texte:#e6e9ec; --doux:#98a1ab;
+      --accent:#5b8cf5; --vert:#3dc98a; --ambre:#e0a33e; --rouge:#f0705f; --sel:#1d2740; --barre:#0e1114;
+      color-scheme: dark;
+    }
   }
   * { box-sizing:border-box }
   body { margin:0; font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
@@ -160,7 +174,29 @@
   /* ---- en-tête de l'écran Commandes ---- */
   .enteteE { display:flex; align-items:center; gap:12px; padding:9px 12px; flex:none;
              border-bottom:1px solid var(--bord); background:var(--carte) }
-  .enteteE h2 { margin:0; font-size:17px; font-weight:650 }
+  .enteteE h2 { margin:0; font-size:17px; font-weight:650; display:flex; align-items:center; gap:8px; flex-wrap:wrap }
+  .enteteE .etqT { font-size:13px; font-weight:600; color:var(--doux) }
+  .enteteE .lotChip { font-size:13.5px; font-weight:650; background:var(--sel); color:var(--accent);
+                      border:1px solid var(--bord); border-radius:5px; padding:2px 9px }
+  .enteteE .lienNote { font-size:12.5px; font-weight:400; color:var(--accent); cursor:pointer; text-decoration:underline }
+
+  /* ---- révision des coûts d'un lot (« Label Batch Status: Cost Review ») ---- */
+  .crCarte { border:1px solid var(--bord); border-radius:8px; padding:11px 13px; margin-bottom:10px }
+  .crCarte .crT { font-size:13.5px; margin-bottom:7px }
+  .crL { display:flex; justify-content:space-between; gap:10px; font-size:13px; padding:3px 0 }
+  .crL span { color:var(--doux) }
+  .crL.crTot { border-top:1px solid var(--bord); margin-top:5px; padding-top:6px; font-weight:650 }
+  .crL.crTot span { color:var(--texte) }
+  .crF summary { display:flex; justify-content:space-between; font-size:13px; cursor:pointer;
+                 color:var(--doux); padding:3px 0 }
+  .crF summary b { color:var(--texte) }
+  .crF > div { font-size:11.5px; padding:3px 0 6px }
+  .crNote { font-size:11.5px; color:var(--vert); margin-top:6px }
+  .crVert { background:color-mix(in srgb, var(--vert) 9%, transparent); border:1px solid color-mix(in srgb, var(--vert) 30%, transparent);
+            border-radius:8px; padding:11px 13px; margin-top:4px }
+  .crVert .champ.enLigne { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px }
+  .crVert .champ.enLigne > span { font-size:12.5px; color:var(--doux) }
+  .crVert .champ.enLigne input { width:170px; padding:4px 7px; font-size:12.5px; border-radius:5px }
   .enteteE .recharger { font-size:12.5px; color:var(--accent); cursor:pointer }
   .ssRech { padding:10px 12px 8px; border-bottom:1px solid var(--bord) }
   .ssRech input { width:100%; padding:5px 8px; font-size:12.5px }
@@ -183,7 +219,7 @@
   .barreF .lien { background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px;
                   text-decoration:underline; padding:0 4px }
 
-  .panF { position:fixed; z-index:60; width:298px; background:var(--carte); border:1px solid var(--bord);
+  .panF { position:fixed; z-index:90; width:298px; background:var(--carte); border:1px solid var(--bord);
           border-radius:9px; box-shadow:0 12px 32px rgba(0,0,0,.22); overflow:hidden }
   .panF .panT { padding:8px 12px; font-size:12px; font-weight:650; color:var(--doux);
                 border-bottom:1px solid var(--bord); background:var(--bg) }
@@ -318,6 +354,8 @@
   .fConfB { flex:1; overflow:auto; padding:12px 13px; display:flex; flex-direction:column; gap:9px }
   .fConf .cDem { font-size:12.5px; display:flex; align-items:center; gap:9px; flex-wrap:wrap }
   .fConf .cPoids { display:grid; grid-template-columns:1fr auto auto; gap:6px; align-items:end }
+  .fiche .enregistre { outline:2px solid var(--vert); outline-offset:1px; transition:outline-color .5s }
+  .fiche .erreur { outline:2px solid var(--rouge); outline-offset:1px }
   .fConf .cPoids .cU { font-size:12px; color:var(--doux); padding-bottom:5px }
   .fConf .cPoids button { padding:4px 9px; font-size:12px; border-radius:5px }
   .fConf .cDim { display:grid; grid-template-columns:repeat(3,1fr); gap:6px }
@@ -353,7 +391,10 @@
   .menuF .mt { padding:5px 10px 3px; font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--doux) }
   .menuF .cpt { color:var(--doux); font-size:11.5px; font-variant-numeric:tabular-nums }
   /* ---- menus flottants (Other Actions, Apply Preset, Print) ---- */
-  .menuF { position:fixed; z-index:40; background:var(--carte); border:1px solid var(--bord); border-radius:8px;
+  /* Au-dessus de la fiche de commande (z-index 80) : un menu ouvert depuis la colonne
+     d'expédition doit passer par-dessus elle, sinon il est peint derrière et devient
+     invisible et incliquable — panne silencieuse qu'un test lisant le DOM ne voit pas. */
+  .menuF { position:fixed; z-index:90; background:var(--carte); border:1px solid var(--bord); border-radius:8px;
            box-shadow:0 8px 26px rgba(0,0,0,.18); min-width:224px; padding:4px; max-height:70vh; overflow:auto }
   .menuF .mi { padding:6px 10px; font-size:13px; cursor:pointer; border-radius:5px; display:flex;
                justify-content:space-between; gap:12px; align-items:center }
@@ -719,6 +760,33 @@ async function basculerLangue() {
   location.reload();   // le plus simple et le plus sûr : tout est redessiné dans la langue choisie
 }
 
+// ------------------------------------------------------------------- thème
+/**
+ * Thème d'affichage. Clair par défaut — c'est ce que montre ShipStation, et l'entrepôt
+ * travaille sous néon, pas dans le noir. Le mode sombre reste un choix, jamais une
+ * conséquence du réglage du système : c'est la préférence de l'utilisateur qui tranche.
+ */
+const THEMES = [["clair", "Thème clair"], ["sombre", "Thème sombre"], ["systeme", "Thème du système"]];
+const theme = () => (S.pref && S.pref.theme) || "clair";
+
+function appliquerTheme(t = theme()) {
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem("theme", t); } catch {}
+}
+
+async function poserTheme(t) {
+  appliquerTheme(t);                       // effet immédiat, avant l'aller-retour réseau
+  S.pref = { ...(S.pref || {}), theme: t };
+  try { S.pref = await api("/api/moi/preferences", { method: "POST", body: { theme: t } }); }
+  catch { /* le thème reste appliqué localement même si l'enregistrement échoue */ }
+  appliquerTheme();
+}
+
+// Le thème est posé avant le premier rendu utile : appliqué depuis le dernier choix connu,
+// gardé en localStorage uniquement pour éviter le flash blanc au chargement. La préférence
+// qui fait foi reste celle du serveur, relue à l'ouverture de session.
+try { document.documentElement.dataset.theme = localStorage.getItem("theme") || "clair"; } catch {}
+
 async function api(route, opts = {}) {
   const o = { headers: { "Content-Type": "application/json" }, credentials: "same-origin", ...opts };
   if (o.body && typeof o.body !== "string") o.body = JSON.stringify(o.body);
@@ -923,13 +991,21 @@ function menuProfil(ancre) {
     <div class="mi" data-a="mdp">Changer le mot de passe</div>
     <div class="sep"></div>
     <div class="mi" data-a="langue">${langue() === "fr" ? "Language: English" : "Langue : Français"}</div>
+    <div class="mt">Thème</div>
+    ${THEMES.map(([v, t]) => `<div class="mi" data-a="th:${v}">${t}${theme() === v ? " ✓" : ""}</div>`).join("")}
+    <div class="sep"></div>
     <div class="mi" data-a="alertes">Voir les alertes</div>
     <div class="sep"></div>
     <div class="mi danger" data-a="out">Se déconnecter</div></div>`);
   document.body.append(m);
   const actions = { "2fa": configurer2facteur, mdp: () => changerMotDePasse(false),
     langue: basculerLangue, alertes: () => aller("alertes"), out: deconnexion };
-  m.querySelectorAll("[data-a]").forEach((d) => d.onclick = () => { m.remove(); actions[d.dataset.a](); });
+  m.querySelectorAll("[data-a]").forEach((d) => d.onclick = () => {
+    m.remove();
+    const a = d.dataset.a;
+    if (a.startsWith("th:")) return poserTheme(a.slice(3));
+    actions[a]();
+  });
   setTimeout(() => document.addEventListener("click", () => m.remove(), { once: true }), 0);
 }
 
@@ -1138,6 +1214,7 @@ function indexerRefs() {
   IDX.tags = m(S.refs.tags);
   IDX.confirmations = m(S.refs.confirmations);
   IDX.nonMappes = new Set(S.nonMappes || []);
+  IDX.resolutions = new Map((S.resolutions || []).map((r) => [r.libelle, r]));
 }
 /**
  * Pastille de validation d'adresse — vert immeuble ou maison, orange avertissement, rouge
@@ -1163,10 +1240,78 @@ const nomService = (id) => esc(IDX.services?.get(String(id))?.name || id || "—
 const nomColis = (id) => esc(IDX.packages?.get(String(id))?.name || id || "—");
 const nomConfirmation = (c) => { const x = IDX.confirmations?.get(String(c)); return x ? esc(x.nom) : (c ? esc(c) : "—"); };
 /** Un libellé de checkout non couvert par un mapping est signalé, pas avalé (OBS6). */
-function rendreDemande(o) {
+const CANAL_FR = { ramassage: "ramassage", ddd: "DDD", defricheuses: "Défricheuses",
+  colis: "colis", timbre: "timbre" };
+
+/**
+ * Libellé de service demandé au paiement, avec son état de mapping.
+ *
+ * Quatre issues, pas deux. Un libellé peut être mappé vers un canal qui **n'expédie pas** —
+ * ramassage en entrepôt, ou remise à un partenaire (DDD, Défricheuses) : ces commandes
+ * n'ont pas besoin de service transporteur et ne sont pas en défaut. Les afficher comme
+ * « non mappé » noierait le vrai signal, qui est le cas `service_manquant` : mappé vers un
+ * canal d'expédition, mais sans service précis — la commande partirait au service par
+ * défaut sans que personne ne le voie (réserve du §13.6, constat OBS6).
+ */
+function rendreDemande(o, cliquable = false) {
   if (!o.requested_service) return "—";
-  const connu = IDX.nonMappes ? IDX.nonMappes.has(o.requested_service) : false;
-  return esc(o.requested_service) + (connu ? ' <span class="puce a" title="Aucun mapping de service — la commande partira au service par défaut">non mappé</span>' : "");
+  const r = IDX.resolutions ? IDX.resolutions.get(o.requested_service) : null;
+  const nom = esc(o.requested_service);
+  const lien = (txt, titre) => cliquable
+    ? ` <a class="lienMap" id="cMapper" title="${esc(titre)}">${txt}</a>`
+    : ` <span class="puce a" title="${esc(titre)}">${txt}</span>`;
+
+  if (!r || r.etat === "non_mappe")
+    return nom + lien("non mappé", "Aucun mapping — la commande partira au service par défaut");
+  if (r.etat === "service_manquant")
+    return nom + lien("service manquant", `Mappé vers le canal « ${CANAL_FR[r.channel] || r.channel} » mais sans service transporteur précis`);
+  if (r.etat === "sans_transporteur")
+    return `${nom} <span class="puce g" title="Ce canal n'utilise pas de transporteur">${
+      esc(CANAL_FR[r.channel] || r.channel)}</span>`;
+  return nom + (cliquable ? ' <a class="fEdit" id="cMapper" title="Modifier le mapping">mappé</a>' : "");
+}
+
+/**
+ * Modale de Service Mapping (§3.7). Le mapping est enregistré au niveau de la boutique et
+ * s'applique à **toutes** les commandes à expédier du même magasin portant le même libellé
+ * de checkout — c'est la portée qu'annonce ShipStation, et elle mérite d'être écrite à
+ * l'écran : on croit corriger une commande, on en corrige quarante.
+ */
+function modaleMapping(o, apres = () => {}) {
+  const svc = (S.refs.services || []).filter((x) => !x.hidden);
+  const boutique = IDX.stores?.get(String(o.store_id))?.name || "cette boutique";
+  dialogue(`Mapper « ${o.requested_service} »`, `
+    <p class="doux">Le libellé choisi par le client au paiement est traduit en service
+      transporteur réel. Le mapping s'appliquera à <b>toutes les commandes à expédier de
+      ${esc(boutique)}</b> portant ce même libellé — pas seulement à celle-ci.</p>
+    <label class="champ"><span>Service d'expédition</span><select id="mpS">
+      <option value="">— choisir —</option>${svc.map((x) =>
+        `<option value="${esc(x.id)}"${String(o.service_id) === String(x.id) ? " selected" : ""}>${esc(x.name)}</option>`).join("")}
+    </select></label>
+    <label class="champ"><span>Type de colis</span><select id="mpP">
+      <option value="">— choisir —</option>${(S.refs.packages || []).map((x) =>
+        `<option value="${esc(x.id)}"${String(o.package_id) === String(x.id) ? " selected" : ""}>${esc(x.name)}</option>`).join("")}
+    </select></label>
+    <label class="ch"><input type="checkbox" id="mpO" checked> Appliquer aussi aux commandes déjà importées</label>`,
+    async () => {
+      const service = $("#mpS").value;
+      if (!service) { alert("Choisir un service."); return false; }
+      const svcObj = svc.find((x) => String(x.id) === String(service));
+      await api("/api/service-mappings", { method: "POST", body: {
+        store_id: o.store_id || null, requested: o.requested_service, match_mode: "equals",
+        carrier_code: svcObj ? svcObj.carrier_code : null,
+        service_id: service, package_id: $("#mpP").value || null } });
+      if ($("#mpO").checked)
+        await api("/api/automation/reprocess", { method: "POST", body: { statuts: ["awaiting_shipment"] } })
+          .catch(() => {});
+      try {
+        const d = await api("/api/service-mappings");
+        S.nonMappes = (d.non_mappes || []).map((x) => x.libelle);
+        S.resolutions = d.resolutions || [];
+        indexerRefs();
+      } catch {}
+      apres();
+    }, "Enregistrer le mapping");
 }
 
 VUES.commandes = async (statutFixe) => {
@@ -1577,13 +1722,37 @@ VUES.commandes = async (statutFixe) => {
     S.total = d.total;
     const vue = VUES_SAUV.find((x) => x.id === S0.vue);
     const lotA = LOTS.find((l) => String(l.id) === String(S0.lot));
-    $("#titreE").textContent = lotA ? `Lot : ${lotA.name}`
-      : vue ? vue.name
-      : (STATUT_FR[S0.statut] || "Commandes");
+    majEnteteEcran(lotA, vue);
+    majBarreLot();
     dessiner(d);
     majPagination(d);
     majActions();
     cote();
+  }
+
+  /**
+   * En-tête d'écran. En mode lot, ShipStation ne titre pas « Lot : X » : il affiche
+   * « Label Batch: [X] » avec le nom en pastille, suivi de « Batch Notes: Add a note ».
+   * La note du lot est une consigne d'atelier — « ne pas expédier avant lundi », « tout en
+   * dépôt » — et elle doit se lire sans ouvrir quoi que ce soit.
+   */
+  function majEnteteEcran(lotA, vue) {
+    const T = $("#titreE");
+    if (!lotA) {
+      T.innerHTML = esc(vue ? vue.name : (STATUT_FR[S0.statut] || "Commandes"));
+      return;
+    }
+    T.innerHTML = `<span class="etqT">Lot d'étiquettes :</span> <span class="lotChip">${esc(lotA.name)}</span>
+      <span class="etqT">Notes du lot :</span> ${lotA.notes
+        ? `<a class="lienNote" id="lotNote">${esc(lotA.notes)}</a>`
+        : `<a class="lienNote" id="lotNote">Ajouter une note</a>`}`;
+    $("#lotNote").onclick = () => dialogue(`Notes — ${lotA.name}`, `
+      <label class="champ"><span>Note du lot</span><textarea id="lnT" rows="3">${esc(lotA.notes || "")}</textarea></label>
+      <p class="doux">Visible par toute l'équipe en tête de l'écran du lot.</p>`,
+      async () => {
+        await api(`/api/batches/${lotA.id}/update`, { method: "POST", body: { notes: $("#lnT").value } });
+        await chargerLots(); charger(); majLots();
+      }, "Enregistrer");
   }
 
   const LIBELLE_GROUPE = { store: "Boutique", line_count: "Lignes", quantity: "Quantité",
@@ -1722,7 +1891,7 @@ VUES.commandes = async (statutFixe) => {
   // d'un bouton est de la mémoire musculaire : la déplacer coûte plus cher que tout le
   // reste de l'écran. « Préréglage » vit sous Mise à jour en masse et « Lot » sous Autres
   // actions, exactement comme là-bas.
-  A.innerHTML = `
+  const BARRE_STANDARD = `
     <button id="aBuy" class="v" title="Créer et imprimer les étiquettes (S)">Créer + imprimer les étiquettes ▾</button>
     <button id="aRate" title="Coter la sélection (R)">Coter</button>
     <button id="aPrint">Imprimer ▾</button>
@@ -1737,8 +1906,134 @@ VUES.commandes = async (statutFixe) => {
     <button id="aPreset" hidden></button>
     <button id="aLotB" hidden></button>
     <span class="nsel" id="nsel">aucune sélection</span>`;
+  A.innerHTML = BARRE_STANDARD;
+
+  /**
+   * Les gestionnaires de la barre d'actions passent par un seul écouteur délégué. La barre
+   * est remplacée entièrement quand on ouvre un lot ; recâbler bouton par bouton à chaque
+   * bascule serait une source d'oublis silencieux — un bouton mort ne se voit pas.
+   */
+  const ACT = {};
+  A.onclick = (e) => {
+    const b = e.target.closest("button[id]");
+    if (!b || !A.contains(b) || b.disabled) return;
+    const fn = ACT[b.id];
+    if (fn) { e.stopPropagation(); fn(e); }
+  };
+  const cablerActions = () => majActions();
 
   const ids = () => [...S.sel];
+  /**
+   * Barre d'actions du lot (§ écran Batch de ShipStation). Un lot ouvert n'est pas une
+   * grille de commandes filtrée : c'est un poste de travail. La barre change donc
+   * entièrement — « Traiter les expéditions » en tête, et les actions propres au lot
+   * (retirer, arrêter le prélèvement, annuler le lot, scanner pour ajouter).
+   */
+  function majBarreLot() {
+    const lotA = LOTS.find((l) => String(l.id) === String(S0.lot));
+    if (!lotA) { A.innerHTML = BARRE_STANDARD; cablerActions(); return; }
+    A.innerHTML = `
+      <button id="bTraiter" class="v">Traiter les expéditions</button>
+      <button id="bTraiterM">▾</button>
+      <button id="aPrint">Imprimer ▾</button>
+      <button id="aTag">Étiqueter ▾</button>
+      <button id="aMasse">Mise à jour en masse ▾</button>
+      <button id="bRetirer">Retirer du lot</button>
+      <button id="aPrelever">Prêtes à prélever</button>
+      <button id="bStopPick">Arrêter le prélèvement</button>
+      <button id="bAnnulerLot">Annuler le lot</button>
+      <button id="bScanAdd">Scanner pour ajouter</button>
+      <button id="bScanCmd">Scanner les commandes</button>
+      <button id="bExport">Exporter les commandes</button>
+      <button id="aPreset" hidden></button><button id="aLotB" hidden></button>
+      <button id="aBuy" hidden></button><button id="aRate" hidden></button>
+      <button id="aAssign" hidden></button><button id="aNouvelle" hidden></button>
+      <button id="aAlloc" hidden></button><button id="aHold" hidden></button>
+      <button id="aAutres" hidden></button>
+      <span class="nsel" id="nsel">aucune sélection</span>`;
+    cablerActions();
+
+    ACT.bTraiter = () => revueDesCouts(lotA);
+    ACT.bTraiterM = (e) => { e.stopPropagation(); menuAncre($("#bTraiterM"), [
+      { t: "Traiter et imprimer", f: () => revueDesCouts(lotA) },
+      { t: "Simuler sans acheter", f: simulerLot },
+    ]); };
+    ACT.bRetirer = async () => {
+      if (!S.sel.size) return alert("Sélectionner au moins une commande.");
+      await api("/api/batches/remove", { method: "POST", body: { ids: ids() } });
+      S.sel.clear(); charger(); majLots();
+    };
+    ACT.bStopPick = async () => {
+      await api("/api/orders/bulk", { method: "POST",
+        body: { ids: S.sel.size ? ids() : LIGNES.map((o) => String(o.id)), champs: { picking_status: "" } } });
+      S.sel.clear(); charger();
+    };
+    ACT.bAnnulerLot = () => dialogue(`Annuler le lot « ${lotA.name} »`, `
+      <div class="avis">Les ${num(S.total || 0)} commandes sortiront du lot et le lot sera
+        supprimé. Les commandes elles-mêmes ne sont pas touchées.</div>`,
+      async () => {
+        const r = await api(`/api/batches/${lotA.id}/cancel`, { method: "POST" });
+        S0.lot = null; S.sel.clear();
+        await chargerLots(); charger(); majLots(); majStatuts();
+        return r;
+      }, "Annuler le lot");
+    ACT.bScanAdd = () => aller("scan");
+    ACT.bScanCmd = () => aller("scan");
+    ACT.bExport = () => window.open(
+      `/api/export/orders?ids=${(S.sel.size ? ids() : LIGNES.map((o) => o.id)).join(",")}`, "_blank");
+  }
+
+  /**
+   * « Label Batch Status: Cost Review » — l'écran que ShipStation impose avant d'acheter.
+   * Une carte par compte transporteur, le détail par service, les frais additionnels
+   * dépliables, puis le bloc vert : date d'expédition, coût d'affranchissement et **montant
+   * réellement facturé**. Les deux derniers diffèrent quand on affranchit sur son propre
+   * compte — c'est exactement le cas de Lasclay chez Postes Canada.
+   */
+  async function revueDesCouts(lotA) {
+    const cmdIds = LIGNES.map((o) => String(o.id));
+    if (!cmdIds.length) return alert("Ce lot est vide.");
+    attendre("Calcul des tarifs du lot");
+    let r;
+    try { r = await api("/api/batches/preview", { method: "POST", body: { ids: cmdIds } }); }
+    catch (e) { $("#dlg").close(); return dialogue("Cotation impossible", `<div class="avis">${esc(e.message)}</div>`, null, "Fermer"); }
+    $("#dlg").close();
+
+    const demain = new Date().toISOString().slice(0, 10);
+    const cartes = (r.cartes || []).map((c) => `
+      <div class="crCarte">
+        <div class="crT"><b>${esc(c.nom)}</b>${c.compte ? ` <span class="doux">(${esc(c.compte)})</span>` : ""}</div>
+        ${c.services.map((s) => `<div class="crL"><span>${esc(s.nom)}${
+          s.n > 1 ? ` <span class="doux">× ${s.n}</span>` : ""}</span><b>${money(s.montant)}</b></div>`).join("")}
+        ${c.frais ? `<details class="crF"><summary>Frais additionnels<b>${money(c.frais)}</b></summary>
+          <div class="doux">Surcharges transporteur — carburant, zone étendue, dimensions.</div></details>` : ""}
+        <div class="crL crTot"><span>Sous-total d'affranchissement</span><b>${money(c.total)}</b></div>
+        ${c.facture_ici ? "" : `<div class="crNote">Affranchi sur votre compte — ${esc(c.nom)} vous facture directement.</div>`}
+      </div>`).join("");
+
+    dialogue(`État du lot : révision des coûts`, `
+      ${r.bloquees ? `<div class="avis">${r.bloquees} commande(s) ne peuvent pas être cotées et
+        seront ignorées. Voir « Simuler le lot » pour le détail.</div>` : ""}
+      ${cartes || '<p class="doux">Aucun tarif disponible.</p>'}
+      <div class="crVert">
+        <label class="champ enLigne"><span>Date d'expédition prévue</span>
+          <input type="date" id="crDate" value="${demain}"></label>
+        <div class="crL"><span>Coût d'affranchissement transporteur</span><b>${money(r.total)}</b></div>
+        <div class="crL crTot"><span>Total à facturer</span><b>${money(r.a_facturer)}</b></div>
+      </div>`,
+      async () => {
+        if (!S.config.etiquettes_actives) {
+          alert("Achat d'étiquettes désactivé sur ce service — la révision des coûts reste disponible.");
+          return false;
+        }
+        const res = await api(`/api/batches/${lotA.id}/process`, { method: "POST",
+          body: { ids: cmdIds, ship_date: $("#crDate").value } });
+        if (res.error) { alert(res.error); return false; }
+        window.open(`/api/labels?batch_id=${lotA.id}`, "_blank");
+        await chargerLots(); charger(); majLots(); rafraichirCompteurs();
+      }, "Continuer");
+  }
+
   const majActions = () => {
     const n = S.sel.size;
     $("#nsel").textContent = n ? `${n} sélectionnée${n > 1 ? "s" : ""}` : "aucune sélection";
@@ -1765,14 +2060,14 @@ VUES.commandes = async (statutFixe) => {
         sku: $("#raS").value, date_from: $("#raA").value, date_to: $("#raB").value };
       S0.page = 0; charger();
     }, "Chercher");
-  $("#aNouvelle").onclick = () => nouvelleCommande();
+  ACT.aNouvelle = () => nouvelleCommande();
   /**
    * « Bulk Update » (§2.3) : deux intertitres non cliquables — Commande, Expédition — et les
    * vingt-et-un champs modifiables en masse, dans l'ordre de ShipStation. Ceux qui ne sont
    * pas encore branchés le disent au lieu de disparaître : une entrée absente se cherche,
    * une entrée grisée s'explique.
    */
-  $("#aMasse").onclick = () => menuFlottant("aMasse", [
+  ACT.aMasse = () => menuFlottant("aMasse", [
     { titre: "Commande" },
     { t: "Date limite d'expédition…", f: () => champEnMasse("ship_by_date", "Date limite d'expédition", "date") },
     { t: "Ajouter une note…", f: () => champEnMasse("internal_notes", "Note interne", "texte") },
@@ -1821,7 +2116,7 @@ VUES.commandes = async (statutFixe) => {
         S.sel.clear(); charger();
       }, "Appliquer");
   }
-  $("#aLotB").onclick = (e) => { e.stopPropagation(); menuLots($("#aLotB"), ids(), () => { charger(); majLots(); }); };
+  ACT.aLotB = (e) => { e.stopPropagation(); menuLots($("#aLotB"), ids(), () => { charger(); majLots(); }); };
   // « Group By » de l'onglet À expédier : les sept regroupements documentés (§2.3.3).
   $("#aGroupe").onclick = () => menuFlottant("aGroupe", [
     { t: "Aucun regroupement", f: () => { S0.groupe = null; charger(); } },
@@ -1833,7 +2128,7 @@ VUES.commandes = async (statutFixe) => {
 
   const menuFlottant = (bouton, entrees) => menuAncre($("#" + bouton), entrees);
 
-  $("#aRate").onclick = async () => {
+  ACT.aRate = async () => {
     const id = Number(ids()[0]);
     attendre("Cotation");
     try {
@@ -1847,9 +2142,9 @@ VUES.commandes = async (statutFixe) => {
       f: async () => { await api("/api/presets/apply", { method: "POST", body: { preset_id: p.id, ids: ids() } }); charger(); } })),
     { sep: 1 }, { t: "Gérer les préréglages…", f: () => aller("prereglages") },
   ]);
-  $("#aPreset").onclick = menuPreset;
+  ACT.aPreset = menuPreset;
 
-  $("#aPrint").onclick = () => menuFlottant("aPrint", [
+  ACT.aPrint = () => menuFlottant("aPrint", [
     { t: "Étiquette", f: () => window.open(`/api/labels?ids=${ids().join(",")}`, "_blank") },
     { t: "Bordereau de préparation", hk: "P+S", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank") },
     { t: "Liste de prélèvement", hk: "P+L", f: () => window.open(`/api/pick-list?ids=${ids().join(",")}`, "_blank") },
@@ -1859,7 +2154,7 @@ VUES.commandes = async (statutFixe) => {
     { t: "Exporter la sélection (CSV)", f: () => window.open(`/api/export/orders?ids=${ids().join(",")}`, "_blank") },
   ]);
 
-  $("#aTag").onclick = () => menuFlottant("aTag", [
+  ACT.aTag = () => menuFlottant("aTag", [
     ...(S.refs.tags || []).map((t) => ({ t: t.name,
       f: async () => { await api("/api/orders/tag", { method: "POST", body: { ids: ids(), tag_id: t.id } }); charger(); } })),
     { sep: 1 },
@@ -1868,14 +2163,14 @@ VUES.commandes = async (statutFixe) => {
       async () => { await api("/api/orders/tag", { method: "POST", body: { ids: ids(), tag_id: Number($("#tg").value), remove: true } }); charger(); }) },
   ]);
 
-  $("#aAssign").onclick = () => menuFlottant("aAssign", [
+  ACT.aAssign = () => menuFlottant("aAssign", [
     ...(S.refs.users || []).map((u) => ({ t: u.name,
       f: async () => { await api("/api/orders/assign", { method: "POST", body: { ids: ids(), user_id: u.id } }); charger(); } })),
     { sep: 1 }, { t: "Retirer l'assignation", f: async () => { await api("/api/orders/assign", { method: "POST", body: { ids: ids(), user_id: null } }); charger(); } },
   ]);
 
   /** « Other Actions » (§2.2) — les douze entrées de ShipStation, dans son ordre. */
-  $("#aAutres").onclick = () => menuFlottant("aAutres", [
+  ACT.aAutres = () => menuFlottant("aAutres", [
     { t: "Annuler les commandes…", danger: 1, f: annuler },
     { t: "Fusionner les expéditions", f: fusionner },
     { t: "Scinder la commande…", f: scinderSelection },
@@ -1907,12 +2202,12 @@ VUES.commandes = async (statutFixe) => {
   ]);
 
   // Boutons ajoutés pour coller à la barre de ShipStation.
-  $("#aHold").onclick = mettreEnAttente;
-  $("#aPrelever").onclick = async () => {
+  ACT.aHold = mettreEnAttente;
+  ACT.aPrelever = async () => {
     await api("/api/orders/bulk", { method: "POST", body: { ids: ids(), champs: { picking_status: "ready_to_pick" } } });
     S.sel.clear(); charger();
   };
-  $("#aAlloc").onclick = () => menuFlottant("aAlloc", [
+  ACT.aAlloc = () => menuFlottant("aAlloc", [
     { t: "Allouer l'inventaire", f: () => allouer("allocated") },
     { t: "Désallouer", f: () => allouer("unallocated") },
     { sep: 1 },
@@ -1923,7 +2218,7 @@ VUES.commandes = async (statutFixe) => {
     S.sel.clear(); charger();
   };
 
-  $("#aBuy").onclick = acheterLot;
+  ACT.aBuy = acheterLot;
 
   function simulerLot() {
     attendre("Simulation du lot");
@@ -2336,7 +2631,11 @@ VUES.commandes = async (statutFixe) => {
   majStatuts();
   await majLots();
   await chargerVues();
-  try { const d = await api("/api/service-mappings"); S.nonMappes = (d.non_mappes || []).map((x) => x.libelle); } catch {}
+  try {
+    const d = await api("/api/service-mappings");
+    S.nonMappes = (d.non_mappes || []).map((x) => x.libelle);
+    S.resolutions = d.resolutions || [];
+  } catch {}
   indexerRefs();
   await charger();
 };
@@ -2634,7 +2933,7 @@ async function detailCommande(id) {
           </div>
 
           <div class="fLab">Demandé</div>
-          <div class="cDem">${rendreDemande(o)}
+          <div class="cDem">${rendreDemande(o, true)}
             <a class="fEdit" id="cBrowse">Parcourir les tarifs</a></div>
 
           <label class="champ"><span>Expédié de</span><select id="cWh">
@@ -2646,7 +2945,7 @@ async function detailCommande(id) {
           <div class="cPoids">
             <label class="champ"><span>Poids</span><input type="number" id="cPds" value="${o.weight_g || ""}" placeholder="0"></label>
             <span class="cU">g</span>
-            <button id="cBal" title="Lire la balance connectée">Balance</button>
+            <button id="cBal" title="Aucune balance détectée sur ce poste">Balance</button>
           </div>
 
           <label class="champ"><span>Service</span><select id="cSvc">
@@ -2935,19 +3234,42 @@ async function detailCommande(id) {
   }).catch(() => { $("#fComm", f).textContent = "—"; });
 
   // -------------------------------------------------- colonne Configure Shipment
-  const conf = async () => {
-    await api("/api/orders/configure", { method: "POST", body: { ids,
-      service_id: $("#cSvc", f).value, package_id: $("#cPkg", f).value,
-      confirmation: $("#cConf", f).value, warehouse_id: $("#cWh", f).value,
-      weight_g: $("#cPds", f).value,
-      dimensions: ($("#cL", f).value || $("#cW", f).value || $("#cH", f).value)
-        ? { length: Number($("#cL", f).value) || 0, width: Number($("#cW", f).value) || 0,
-            height: Number($("#cH", f).value) || 0, unit: "in" } : null } });
+  /**
+   * Toute modification de la colonne d'expédition est enregistrée immédiatement et recote.
+   * Le champ modifié cligne en vert une seconde : sans ce retour, on ne sait pas si la
+   * saisie a pris, et on la refait — c'est le reproche fait au champ Poids.
+   */
+  const conf = async (source = null) => {
+    try {
+      await api("/api/orders/configure", { method: "POST", body: { ids,
+        service_id: $("#cSvc", f).value, package_id: $("#cPkg", f).value,
+        confirmation: $("#cConf", f).value, warehouse_id: $("#cWh", f).value,
+        weight_g: $("#cPds", f).value,
+        dimensions: ($("#cL", f).value || $("#cW", f).value || $("#cH", f).value)
+          ? { length: Number($("#cL", f).value) || 0, width: Number($("#cW", f).value) || 0,
+              height: Number($("#cH", f).value) || 0, unit: "in" } : null } });
+      if (source) {
+        source.classList.add("enregistre");
+        setTimeout(() => source.classList.remove("enregistre"), 1000);
+      }
+    } catch (e) {
+      if (source) source.classList.add("erreur");
+      $("#cOut", f).innerHTML = `<div class="avis mini">${esc(e.message)}</div>`;
+      return;
+    }
     rafraichirGrille();
     coter();
   };
   ["#cSvc", "#cPkg", "#cConf", "#cWh", "#cPds", "#cL", "#cW", "#cH"].forEach((sel) => {
-    const e = $(sel, f); if (e) e.onchange = conf;
+    const e = $(sel, f);
+    if (!e) return;
+    e.onchange = () => { e.classList.remove("erreur"); conf(e); };
+    // Le poids se tape : attendre le `change` (donc la perte de focus) fait croire que la
+    // saisie est perdue. On enregistre aussi à la frappe, une fois la saisie stabilisée.
+    if (e.type === "number") {
+      let t;
+      e.oninput = () => { clearTimeout(t); t = setTimeout(() => { e.classList.remove("erreur"); conf(e); }, 600); };
+    }
   });
   $("#cCompte", f).onchange = () => api("/api/orders/bulk", { method: "POST",
     body: { ids, champs: { shipping_account: $("#cCompte", f).value } } });
@@ -2971,7 +3293,22 @@ async function detailCommande(id) {
       f: () => api("/api/orders/bulk", { method: "POST", body: { ids, champs: { ship_by_date: d } } }).then(recharger) };
   }), { droite: true }); };
 
-  $("#cBal", f).onclick = () => alert("Aucune balance connectée. La lecture USB passe par WebHID — à brancher une fois le poste d'emballage équipé (exigence OBS4 : aucun agent local obligatoire).");
+  // La balance se lit par WebHID, sans agent local (exigence OBS4). Tant qu'aucune n'est
+  // appairée, le bouton le dit au lieu de faire semblant de fonctionner.
+  const balanceDispo = !!(navigator.hid && window.isSecureContext);
+  $("#cBal", f).onclick = async () => {
+    if (!balanceDispo)
+      return dialogue("Balance", `<p>Ce navigateur n'expose pas WebHID, ou la page n'est pas
+        servie en HTTPS. La lecture de balance nécessite les deux.</p>
+        <p class="doux">En attendant, saisir le poids à la main dans le champ Poids.</p>`, null, "Fermer");
+    try {
+      const [d] = await navigator.hid.requestDevice({ filters: [{ usagePage: 0x8d }] });
+      if (!d) return;
+      dialogue("Balance", `<p>Balance « ${esc(d.productName || "sans nom")} » appairée.</p>
+        <p class="doux">La lecture continue sera branchée sur ce périphérique.</p>`, null, "Fermer");
+    } catch (e) { dialogue("Balance", `<div class="avis">${esc(e.message)}</div>`, null, "Fermer"); }
+  };
+  $("#cMapper", f) && ($("#cMapper", f).onclick = () => modaleMapping(o, recharger));
   $("#cAddPkg", f).onclick = () => alert("Le multi-colis arrive avec la scission d'expédition : scindez la commande, chaque expédition porte son colis.");
   $("#cAssurE", f).onclick = () => aller("reglages");
   $("#cBrowse", f).onclick = () => { fermer(); aller("tarifs"); };
@@ -4662,6 +4999,7 @@ async function demarrer() {
   if (!m.user) return montrerConnexion();
   S.moi = m.user;
   S.pref = m.pref || { langue: "fr" };
+  appliquerTheme();
   document.documentElement.lang = langue();
   observerLangue();
 
