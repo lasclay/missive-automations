@@ -292,9 +292,15 @@ route("POST /api/rates", async ({ req }) => {
 route("GET /api/batches/:id/orders", ({ params }) => ({
   orders: orders.chercher({ batch_id: Number(params.id), limit: 1000 }).orders,
 }));
+/**
+ * Cotation. Une commande sans poids n'est pas une panne du serveur : c'est une commande
+ * incomplète. Elle répond donc 400 avec un message que l'utilisateur peut suivre, jamais
+ * une 500 anonyme — c'est précisément le défaut relevé en OBS1.
+ */
 route("POST /api/shipments/quote", async ({ req }) => {
   const b = await corps(req);
-  return await shipments.coter(Number(b.order_id));
+  try { return await shipments.coter(Number(b.order_id)); }
+  catch (e) { return { error: e.message, code: 400 }; }
 });
 
 route("POST /api/shipments/buy", async ({ req, user }) => {
@@ -925,6 +931,83 @@ route("POST /api/views", async ({ req }) => {
     b.name, b.scope || "orders", db.dump(b.filters || {}), db.dump(b.criteres || []),
     b.match_all === false ? 0 : 1, db.dump(b.columns || null), b.position || 0, b.notes || null);
   return { id: db.one("SELECT id FROM views WHERE name = ? AND scope = ?", b.name, b.scope || "orders").id };
+});
+
+/**
+ * « Shipment Activity » (§2.6 ⑥) : le journal horodaté et attribué d'une commande. Il
+ * agrège le journal d'audit, les changements d'état, les expéditions et les notifications
+ * de boutique — chaque événement porte son auteur (Système, ou l'utilisateur). ShipStation
+ * n'expose ce fil nulle part ailleurs que dans la fiche ; c'est pourtant la première chose
+ * qu'on lit quand un client demande « où est ma commande ».
+ */
+route("GET /api/orders/:id/activity", ({ params }) => {
+  const id = Number(params.id);
+  const o = orders.parId(id);
+  if (!o) return { error: "commande inconnue", code: 404 };
+  const noms = new Map(db.all("SELECT id, name FROM users").map((u) => [u.id, u.name]));
+  const ev = [];
+  const pousser = (le, qui, texte) => le && ev.push({ le, qui, texte });
+
+  pousser(o.order_date, "Boutique", `Commande ${o.order_number} importée depuis ${o.source || "la boutique"}`);
+  pousser(o.paid_at, "Boutique", "Paiement reçu");
+  for (const a of db.all(
+    "SELECT * FROM audit_log WHERE entity = 'order' AND entity_id = ? ORDER BY id", String(id))) {
+    const d = db.parse(a.detail) || {};
+    pousser(a.at, a.user_id ? (noms.get(a.user_id) || a.user_id) : "Système",
+      `${a.action}${Object.keys(d).length ? " — " + JSON.stringify(d) : ""}`);
+  }
+  for (const s of db.all("SELECT * FROM shipments WHERE order_id = ? ORDER BY id", id)) {
+    pousser(s.created_at, s.user_id ? (noms.get(s.user_id) || s.user_id) : "Système",
+      `${s.is_return ? "Étiquette de retour" : "Étiquette"} ${s.tracking_number || "(sans suivi)"} créée — ${
+        (s.cost || 0).toFixed(2)} ${s.currency || "CAD"}`);
+    if (s.marketplace_notified) pousser(s.ship_date || s.created_at, "Système", "Boutique notifiée de l'expédition");
+    if (s.notify_error) pousser(s.created_at, "Système", `Échec de notification : ${s.notify_error}`);
+    if (s.voided) pousser(s.voided_at, "Système", `Étiquette ${s.tracking_number || ""} annulée`);
+  }
+  const v = (o.ship_to || {}).verification;
+  if (v) pousser(v.le, "Système", `Adresse : ${v.statut}${v.motifs?.length ? " — " + v.motifs.join(", ") : ""}`);
+
+  ev.sort((a, b) => String(b.le).localeCompare(String(a.le)));
+  return { activite: ev };
+});
+
+/**
+ * Déclarations de douane (§2.6 ③). Une déclaration par article, avec code SH et pays
+ * d'origine. Le code SH est **obligatoire à l'international** (exigence OBS8) : la fiche
+ * refuse d'enregistrer une déclaration incomplète plutôt que de laisser partir un colis
+ * qui sera bloqué à la frontière.
+ */
+route("POST /api/orders/:id/customs", async ({ req, params, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const id = Number(params.id);
+  const o = orders.parId(id);
+  if (!o) return { error: "commande inconnue", code: 404 };
+  const b = await corps(req);
+  const international = (o.ship_to || {}).country && o.ship_to.country !== "CA";
+  const decl = (b.declarations || []).map((d) => ({
+    order_item_id: d.order_item_id ?? null,
+    description: String(d.description || "").trim(),
+    sku: d.sku || null,
+    quantity: Number(d.quantity) || 0,
+    value: Number(d.value) || 0,
+    hs_code: String(d.hs_code || "").trim() || null,
+    country_of_origin: (d.country_of_origin || "CA").toUpperCase(),
+  }));
+  if (international && !b.forcer) {
+    const manquants = decl.filter((d) => !d.hs_code || !d.description || !d.country_of_origin);
+    if (manquants.length) return {
+      error: `${manquants.length} déclaration(s) sans code SH, description ou pays d'origine — ` +
+        "obligatoire pour une expédition internationale",
+      code: 400, manquants: manquants.map((d) => d.sku || d.description),
+    };
+  }
+  db.run("UPDATE orders SET customs = ?, modified_at = ? WHERE id = ?",
+    db.dump({ contents: b.contents || "merchandise", non_delivery: b.non_delivery || "return_to_sender",
+      duties_paid: b.duties_paid || null, invoice_number: b.invoice_number || null,
+      export_declaration_number: b.export_declaration_number || null, declarations: decl }),
+    db.maintenant(), id);
+  db.journaliser("order.customs", "order", id, { n: decl.length }, user);
+  return { ok: true, n: decl.length };
 });
 
 route("GET /api/audit", ({ url }) => ({
