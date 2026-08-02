@@ -196,6 +196,27 @@ route("POST /api/orders/release-holds", ({ user }) => {
 // ================================================================ EXPÉDITIONS
 
 route("GET /api/shipments", ({ url }) => shipments.chercher(q(url)));
+
+/**
+ * Calculatrice de tarifs — l'onglet « Rates » de ShipStation. Cote un envoi hypothétique,
+ * sans commande : c'est l'outil qu'on ouvre pour répondre à « combien ça coûterait ».
+ */
+route("POST /api/rates", async ({ req }) => {
+  const b = await corps(req);
+  const entrepot = b.warehouse_id
+    ? db.one("SELECT * FROM warehouses WHERE id = ?", Number(b.warehouse_id))
+    : db.one("SELECT * FROM warehouses ORDER BY is_default DESC, id LIMIT 1");
+  const envoi = {
+    from: entrepot ? db.parse(entrepot.origin_address, {}) : {},
+    to: { postalCode: b.postal || "", country: b.country || "CA", state: b.state || null,
+          city: b.city || null, residential: b.residential !== false },
+    parcel: { weightG: Number(b.weight_g) || 0, lengthIn: Number(b.length) || 9,
+              widthIn: Number(b.width) || 6, heightIn: Number(b.height) || 1 },
+    value: Number(b.value) || 0, currency: "CAD",
+  };
+  const tarifs = await adaptateur().quote(envoi);
+  return { envoi, tarifs, recommande: require("../lib/carrier").choisirTarif(tarifs, envoi) };
+});
 route("GET /api/batches/:id/orders", ({ params }) => ({
   orders: orders.chercher({ batch_id: Number(params.id), limit: 1000 }).orders,
 }));

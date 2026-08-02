@@ -157,6 +157,16 @@
   .vide2 button { margin-top:12px }
   .vide3 { padding:28px 16px; color:var(--doux); font-size:13px }
 
+  /* ---- en-tête de l'écran Commandes ---- */
+  .enteteE { display:flex; align-items:center; gap:12px; padding:9px 12px; flex:none;
+             border-bottom:1px solid var(--bord); background:var(--carte) }
+  .enteteE h2 { margin:0; font-size:17px; font-weight:650 }
+  .enteteE .recharger { font-size:12.5px; color:var(--accent); cursor:pointer }
+  .ssRech { padding:10px 12px 8px; border-bottom:1px solid var(--bord) }
+  .ssRech input { width:100%; padding:5px 8px; font-size:12.5px }
+  .ssRech a { display:block; margin-top:5px; font-size:11.5px; color:var(--accent); cursor:pointer }
+  .barreF .fpar { font-size:12px; color:var(--doux); font-weight:600 }
+  .barreA .nsel { margin-left:auto; font-size:12.5px; color:var(--doux) }
   /* ---- sidebar d'expédition (Configure Shipment Widget) ---- */
   .ssR .sec { border-bottom:1px solid var(--bord); padding:11px 13px }
   .ssR h4 { margin:0 0 7px; font-size:13px; font-weight:650; display:flex; gap:6px; align-items:center }
@@ -371,6 +381,12 @@ const EN = {
   "Recherche rapide  ( / )": "Quicksearch  ( / )",
   // — barre latérale et statuts
   "Commandes": "Orders", "Vues sauvegardées": "Saved Filters",
+  "Analytique": "Analytics", "Automatisations": "Automations", "Scan": "Scan", "Tarifs": "Rates",
+  "Préparations externes": "Fulfillments", "Inventaire": "Inventory",
+  "Rechercher des commandes…": "Search Orders…", "Recherche avancée": "Advanced Search",
+  "↻ Recharger": "↻ Reload", "Filtrer par :": "Filter By:", "Grouper… ▾": "Group By… ▾",
+  "Créer + imprimer les étiquettes": "Create + Print Labels", "Nouvelle commande": "New Order",
+  "Mise à jour en masse ▾": "Bulk Update ▾",
   // — lots
   "Lots ouverts": "Open Batches", "+ Créer un lot": "+ Create New Batch",
   "aucun lot ouvert": "no open batch", "Lot": "Batch", "Lot ▾": "Batch ▾",
@@ -652,19 +668,24 @@ const S = { page: "commandes", moi: null, pref: { langue: "fr" }, config: {}, re
  * G+R retours, G+B lots, G+E fin de journée, G+P produits, G+C clients.
  */
 const MODULES = [
-  { id: "analytique", t: "Insights" },
+  { id: "analytique", t: "Analytique" },
+  { id: "automatisation", t: "Automatisations" },
   { id: "commandes", t: "Commandes", n: () => S.compteurs.statuts?.awaiting_shipment },
   { id: "expeditions", t: "Expéditions", sous: [
     { id: "expeditions", t: "Expéditions" },
-    { id: "retours", t: "Retours" },
+    { id: "fulfillments", t: "Préparations externes" },
     { id: "lots", t: "Lots" },
     { id: "manifestes", t: "Fin de journée" },
   ] },
+  { id: "retours", t: "Retours" },
   { id: "produits", t: "Produits", sous: [
     { id: "produits", t: "Produits" },
+    { id: "inventaire", t: "Inventaire" },
     { id: "douanes", t: "Douanes (SH)" },
   ] },
   { id: "clients", t: "Clients" },
+  { id: "scan", t: "Scan" },
+  { id: "tarifs", t: "Tarifs" },
 ];
 
 /** Espace de configuration — derrière l'engrenage, comme le Settings de ShipStation. */
@@ -953,6 +974,10 @@ VUES.commandes = async (statutFixe) => {
   $("#vue").innerHTML = `
   <div class="ss">
     <aside class="ssL">
+      <div class="ssRech">
+        <input type="search" id="fq" placeholder="Rechercher des commandes…">
+        <a id="ssAvance">Recherche avancée</a>
+      </div>
       <div id="ssStatuts"></div>
       <div class="ssLt">Lots ouverts</div>
       <div id="ssLots"></div>
@@ -961,9 +986,16 @@ VUES.commandes = async (statutFixe) => {
       <div id="ssVues"></div>
     </aside>
     <section class="ssC">
+      <div class="enteteE">
+        <h2 id="titreE">À expédier</h2>
+        <a id="btRecharger" class="recharger">↻ Recharger</a>
+        <span style="margin-left:auto"></span>
+        <button id="aGroupe">Grouper… ▾</button>
+        <button id="aCols">Colonnes</button>
+      </div>
+      <div class="barreA" id="actions"></div>
       <div class="ongVues" id="ongVues"></div>
       <div class="barreF" id="filtres"></div>
-      <div class="barreA" id="actions"></div>
       <div id="tbl" class="grilleWrap"></div>
       <div class="pag" id="pag"></div>
     </section>
@@ -973,7 +1005,7 @@ VUES.commandes = async (statutFixe) => {
   // ------------------------------------------------------------- filtres
   const F = $("#filtres");
   F.innerHTML = `
-    <input type="search" id="fq" placeholder="N° commande, client, courriel, ville, SKU…  ( / )">
+    <span class="fpar">Filtrer par :</span>
     <select id="fstore"><option value="">Toutes boutiques</option>${(S.refs.stores || []).filter((s) => s.active).map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join("")}</select>
     <select id="fpays"><option value="">Tous pays</option><option>CA</option><option>US</option></select>
     <select id="fdrop"><option value="">Drop-off : tous</option><option value="oui">Admissibles (&lt; ${S.config.seuil_dropoff_g} g)</option><option value="non">Non admissibles</option></select>
@@ -994,6 +1026,7 @@ VUES.commandes = async (statutFixe) => {
     drop_off: $("#fdrop").value, tag_id: $("#ftag").value,
     weight_min: $("#fpmin").value, weight_max: $("#fpmax").value,
     age_min: $("#fage").value, no_weight: $("#fnw").checked ? "1" : "",
+    ...(S0.avance || {}),
   });
   const poser = (x = {}) => {
     $("#fq").value = x.q || ""; $("#fstore").value = x.store_id || ""; $("#fpays").value = x.country || "";
@@ -1207,6 +1240,11 @@ VUES.commandes = async (statutFixe) => {
     const d = await api("/api/orders?" + p);
     LIGNES = d.orders;
     S.total = d.total;
+    const vue = VUES_SAUV.find((x) => x.id === S0.vue);
+    const lotA = LOTS.find((l) => String(l.id) === String(S0.lot));
+    $("#titreE").textContent = lotA ? `Lot : ${lotA.name}`
+      : vue ? vue.name
+      : (STATUT_FR[S0.statut] || "Commandes");
     dessiner(d);
     majPagination(d);
     majActions();
@@ -1342,27 +1380,55 @@ VUES.commandes = async (statutFixe) => {
   // Ordre repris tel quel de ShipStation (§2.7) : Coter · Imprimer · Assigner · Étiqueter ·
   // Préréglage · Créer + imprimer l'étiquette · Autres actions. Le bouton Colonnes est à
   // l'extrémité droite de cette même barre, pas dans les filtres.
+  // Ordre de la barre d'actions de la nouvelle disposition : le bouton vert en tête, puis
+  // Coter, Imprimer, Préréglage, Assigner, Étiqueter, Nouvelle commande, Mise à jour en
+  // masse, Lot, Autres actions. Grouper et Colonnes sont montés dans l'en-tête de l'écran.
   A.innerHTML = `
-    <span class="nsel" id="nsel">aucune sélection</span>
+    <button id="aBuy" class="v" title="Créer et imprimer les étiquettes (S)">Créer + imprimer les étiquettes</button>
     <button id="aRate" title="Coter la sélection (R)">Coter</button>
     <button id="aPrint">Imprimer ▾</button>
+    <button id="aPreset">Préréglage ▾</button>
     <button id="aAssign">Assigner ▾</button>
     <button id="aTag">Étiqueter ▾</button>
-    <button id="aPreset">Préréglage ▾</button>
-    <button id="aBuy" class="v" title="Créer et imprimer les étiquettes (S)">Créer + imprimer l'étiquette</button>
+    <button id="aNouvelle">Nouvelle commande</button>
+    <button id="aMasse">Mise à jour en masse ▾</button>
+    <button id="aLotB">Lot ▾</button>
     <button id="aAutres">Autres actions ▾</button>
-    <span style="margin-left:auto"></span>
-    <button id="aGroupe" title="Grouper les commandes">Grouper ▾</button>
-    <button id="aCols">Colonnes</button>`;
+    <span class="nsel" id="nsel">aucune sélection</span>`;
 
   const ids = () => [...S.sel];
   const majActions = () => {
     const n = S.sel.size;
     $("#nsel").textContent = n ? `${n} sélectionnée${n > 1 ? "s" : ""}` : "aucune sélection";
-    ["aRate", "aPreset", "aPrint", "aTag", "aAssign", "aBuy", "aAutres"].forEach((i) => { const b = $("#" + i); if (b) b.disabled = !n; });
+    ["aRate", "aPreset", "aPrint", "aTag", "aAssign", "aBuy", "aAutres", "aMasse", "aLotB"]
+      .forEach((i) => { const b = $("#" + i); if (b) b.disabled = !n; });
     const b = $("#aBuy"); if (b) b.disabled = !n || !S.config.etiquettes_actives;
   };
   $("#aCols").onclick = gererColonnes;
+  $("#btRecharger").onclick = () => { charger(); majLots(); rafraichirCompteurs(); };
+  $("#ssAvance").onclick = () => dialogue("Recherche avancée", `
+    <p class="doux">La recherche rapide cherche « commence par » sur le numéro, le client, le
+      courriel, la ville et les SKU. Ici, chaque champ cherche « contient ».</p>
+    <div class="grille">
+      <label class="champ"><span>Numéro de commande</span><input id="raN"></label>
+      <label class="champ"><span>Destinataire</span><input id="raD"></label>
+      <label class="champ"><span>Courriel</span><input id="raC"></label>
+      <label class="champ"><span>SKU</span><input id="raS"></label>
+      <label class="champ"><span>Commandée depuis</span><input type="date" id="raA"></label>
+      <label class="champ"><span>Commandée jusqu'au</span><input type="date" id="raB"></label>
+    </div>`,
+    async () => {
+      S0.avance = { q: $("#raN").value || $("#raD").value || $("#raC").value,
+        sku: $("#raS").value, date_from: $("#raA").value, date_to: $("#raB").value };
+      S0.page = 0; charger();
+    }, "Chercher");
+  $("#aNouvelle").onclick = () => nouvelleCommande();
+  $("#aMasse").onclick = () => menuFlottant("aMasse", [
+    { t: "Configuration d'expédition…", f: configurerEnMasse },
+    { t: "Appliquer un préréglage…", f: () => $("#aPreset").click() },
+    { t: "Rejouer l'automatisation", f: () => rejouerAutomatisation(false) },
+  ]);
+  $("#aLotB").onclick = (e) => { e.stopPropagation(); menuLots($("#aLotB"), ids(), () => { charger(); majLots(); }); };
   // « Group By » de l'onglet À expédier : les sept regroupements documentés (§2.3.3).
   $("#aGroupe").onclick = () => menuFlottant("aGroupe", [
     { t: "Aucun regroupement", f: () => { S0.groupe = null; charger(); } },
@@ -1545,6 +1611,43 @@ VUES.commandes = async (statutFixe) => {
       (c) => { const sel = c.querySelector("#alot");
         sel.onchange = () => { c.querySelector("#anomL").hidden = !!sel.value; };
         if (!LOTS.length) { sel.value = ""; c.querySelector("#anomL").hidden = false; } });
+  }
+
+  /** Commande manuelle — le « New Order » de la barre d'actions. */
+  function nouvelleCommande() {
+    dialogue("Nouvelle commande", `
+      <div class="grille">
+        <label class="champ"><span>Numéro</span><input id="nn" value="M-${Date.now().toString().slice(-6)}"></label>
+        <label class="champ"><span>Boutique</span><select id="nb">${(S.refs.stores || []).filter((x) => x.active)
+          .map((x) => `<option value="${x.id}" ${x.marketplace === "manual" ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Destinataire</span><input id="nd"></label>
+        <label class="champ"><span>Courriel</span><input id="ne"></label>
+        <label class="champ"><span>Adresse</span><input id="na"></label>
+        <label class="champ"><span>Ville</span><input id="nv"></label>
+        <label class="champ"><span>Province</span><input id="np" value="QC"></label>
+        <label class="champ"><span>Code postal</span><input id="ncp"></label>
+        <label class="champ"><span>Pays</span><select id="npy"><option>CA</option><option>US</option></select></label>
+        <label class="champ"><span>Poids (g)</span><input type="number" id="npo"></label>
+      </div>
+      <label class="champ"><span>Articles — une ligne par article : SKU ; quantité ; prix</span>
+        <textarea id="ni" style="min-height:90px" placeholder="ASCL-SYRIACA-1.25ML-x1 ; 1 ; 8.99"></textarea></label>`,
+      async () => {
+        const items = $("#ni").value.split("\n").map((l) => l.trim()).filter(Boolean).map((l) => {
+          const [sku, q, prix] = l.split(";").map((x) => (x || "").trim());
+          return { sku, name: sku, quantity: Number(q) || 1, unit_price: Number(prix) || 0 };
+        });
+        const total = items.reduce((t, i) => t + i.unit_price * i.quantity, 0);
+        await api("/api/orders", { method: "POST", body: {
+          order_number: $("#nn").value, order_key: "manuel-" + $("#nn").value,
+          store_id: Number($("#nb").value), status: "awaiting_shipment",
+          order_date: new Date().toISOString(), customer_email: $("#ne").value || null,
+          customer_name: $("#nd").value, order_total: total, amount_paid: total,
+          weight_g: Number($("#npo").value) || 0,
+          ship_to: { name: $("#nd").value, street1: $("#na").value, city: $("#nv").value,
+            state: $("#np").value, postalCode: $("#ncp").value, country: $("#npy").value },
+          items } });
+        charger(); rafraichirCompteurs();
+      }, "Créer");
   }
 
   function mettreEnAttente() {
@@ -2722,6 +2825,202 @@ function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all
       brancher();
     });
 }
+
+// ------------------------------------------------------------------ tarifs
+/**
+ * Calculatrice de tarifs — l'onglet « Rates ». Cote un envoi hypothétique sans commande :
+ * c'est l'écran qu'on ouvre pour répondre à « combien coûterait un colis de 800 g vers
+ * Vancouver », sans avoir à créer quoi que ce soit.
+ */
+VUES.tarifs = async () => {
+  $("#vue").innerHTML = `<h2>Tarifs</h2>
+    <p class="sous">Cotation d'un envoi hypothétique. Le seuil de dépôt en bureau de poste est
+      de ${S.config.seuil_dropoff_g} g — sous ce poids, le tarif de dépôt est privilégié.</p>
+    <div class="carte">
+      <div class="grille">
+        <label class="champ"><span>Expédié de</span><select id="tw">${(S.refs.warehouses || []).map((w) =>
+          `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Pays</span><select id="tp"><option>CA</option><option>US</option><option>FR</option></select></label>
+        <label class="champ"><span>Province / État</span><input id="ts" placeholder="QC"></label>
+        <label class="champ"><span>Code postal</span><input id="tc" placeholder="H2X 1Y4"></label>
+        <label class="champ"><span>Poids (g)</span><input type="number" id="tg" value="500"></label>
+        <label class="champ"><span>Valeur ($)</span><input type="number" id="tv" value="50"></label>
+      </div>
+      <div class="barre"><input type="number" id="tl" placeholder="L (po)" style="width:110px">
+        <input type="number" id="tla" placeholder="l (po)" style="width:110px">
+        <input type="number" id="th" placeholder="H (po)" style="width:110px">
+        <button class="p" id="tGo">Coter</button></div>
+    </div>
+    <div id="tOut"></div>`;
+
+  $("#tGo").onclick = async () => {
+    $("#tOut").innerHTML = '<p class="doux">Cotation…</p>';
+    try {
+      const r = await api("/api/rates", { method: "POST", body: {
+        warehouse_id: $("#tw").value, country: $("#tp").value, state: $("#ts").value,
+        postal: $("#tc").value, weight_g: $("#tg").value, value: $("#tv").value,
+        length: $("#tl").value, width: $("#tla").value, height: $("#th").value } });
+      $("#tOut").innerHTML = `<div class="carte"><b>${r.tarifs.length} service(s)</b>
+        <div class="tbl" style="margin-top:8px"><table>
+        <thead><tr><th>Transporteur</th><th>Service</th><th class="n">Prix</th><th>Délai</th></tr></thead>
+        <tbody>${r.tarifs.map((t) => `<tr${r.recommande && t.serviceId === r.recommande.serviceId ? ' style="font-weight:650"' : ""}>
+          <td>${esc(t.carrier)}</td>
+          <td>${esc(t.serviceName || t.serviceId)}${t.dropOff ? ' <span class="puce v">dépôt</span>' : ""}${
+            r.recommande && t.serviceId === r.recommande.serviceId ? ' <span class="puce v">recommandé</span>' : ""}</td>
+          <td class="n">${money(t.price)}</td><td class="doux">${esc(t.delivery || "—")}</td></tr>`).join("")}
+        </tbody></table></div></div>`;
+    } catch (e) { $("#tOut").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+  };
+};
+
+// -------------------------------------------------------------------- scan
+/**
+ * Scan — poste d'emballage. Un seul champ actif, qui attend un code-barres ou un numéro de
+ * commande ; la commande s'ouvre, on vérifie les articles un à un, puis on imprime.
+ *
+ * Le point important est ergonomique : après chaque étiquette, le champ reprend le focus tout
+ * seul. L'opérateur ne touche jamais la souris de la journée.
+ */
+VUES.scan = async () => {
+  $("#vue").innerHTML = `<h2>Scan</h2>
+    <p class="sous">Scannez le code-barres du bordereau ou saisissez un numéro de commande.
+      Le champ reprend le focus après chaque étiquette — le poste s'utilise sans souris.</p>
+    <div class="carte">
+      <div class="barre">
+        <input id="scq" placeholder="Numéro de commande ou code-barres…" style="min-width:340px;font-size:16px;padding:10px">
+        <select id="scm">
+          <option value="verifier">Vérifier puis imprimer</option>
+          <option value="imprimer">Imprimer directement</option>
+        </select>
+      </div>
+      <div class="doux">Raccourcis dans cet écran : <kbd>V</kbd> marquer vérifié · <kbd>P</kbd> imprimer l'étiquette</div>
+    </div>
+    <div id="scOut"></div>`;
+
+  const champ = $("#scq");
+  champ.focus();
+  let courante = null, verifies = new Set();
+
+  const rendreCommande = (o) => {
+    courante = o;
+    const arts2 = (o.items || []).filter((i) => !i.adjustment);
+    const tousVerifies = arts2.every((i) => verifies.has(i.id));
+    $("#scOut").innerHTML = `
+      <div class="carte">
+        <div class="barre"><h3 style="margin:0;flex:1">${esc(o.order_number)}
+          <span class="puce ${tousVerifies ? "v" : "g"}">${tousVerifies ? "vérifiée" : esc(STATUT_FR[o.status] || o.status)}</span></h3>
+          <button id="scTout">Tout vérifier</button>
+          <button id="scVer" ${tousVerifies ? "" : "disabled"}>Marquer vérifiée (V)</button>
+          <button class="v" id="scImp">Imprimer l'étiquette (P)</button></div>
+        <div class="doux">${esc(o.customer_name || "")} — ${esc(o.ship_to.city || "")} ${esc(o.ship_to.state || "")}
+          · ${num(Math.round(o.weight_g || 0))} g</div>
+        <div class="tbl" style="margin-top:10px"><table>
+          <thead><tr><th></th><th>Article</th><th>SKU</th><th class="n">Qté</th></tr></thead>
+          <tbody>${arts2.map((i) => `<tr class="${verifies.has(i.id) ? "sel" : ""}">
+            <td><input type="checkbox" data-v="${i.id}" ${verifies.has(i.id) ? "checked" : ""}></td>
+            <td>${esc(i.name)}</td><td class="sku">${esc(i.sku || "—")}</td>
+            <td class="n">${i.quantity}</td></tr>`).join("")}</tbody></table></div>
+      </div>`;
+    $("#scOut").querySelectorAll("[data-v]").forEach((c) => c.onclick = () => {
+      const id = Number(c.dataset.v);
+      verifies.has(id) ? verifies.delete(id) : verifies.add(id);
+      rendreCommande(o);
+    });
+    $("#scTout").onclick = () => { arts2.forEach((i) => verifies.add(i.id)); rendreCommande(o); };
+    $("#scVer").onclick = async () => {
+      await api("/api/orders", { method: "POST", body: { ...o, print_state: "verifiee" } });
+      champ.value = ""; champ.focus();
+      $("#scOut").innerHTML = `<div class="avis info">${esc(o.order_number)} vérifiée. Scannez la suivante.</div>`;
+      courante = null;
+    };
+    $("#scImp").onclick = imprimer;
+  };
+
+  const imprimer = async () => {
+    if (!courante) return;
+    if (!S.config.etiquettes_actives) {
+      window.open(`/api/packing-slip?ids=${courante.id}`, "_blank");
+      champ.value = ""; champ.focus();
+      return;
+    }
+    const r = await api("/api/shipments/buy", { method: "POST", body: { order_id: courante.id } });
+    $("#scOut").innerHTML = r.error
+      ? `<div class="avis">${esc(r.error)}</div>`
+      : `<div class="avis info">${esc(courante.order_number)} — ${esc(r.trackingNumber)} · ${money(r.price)}</div>`;
+    courante = null; verifies = new Set();
+    champ.value = ""; champ.focus();
+    rafraichirCompteurs();
+  };
+
+  champ.onkeydown = async (e) => {
+    if (e.key !== "Enter") return;
+    const q = champ.value.trim();
+    if (!q) return;
+    verifies = new Set();
+    const d = await api("/api/orders?limit=2&q=" + encodeURIComponent(q));
+    if (!d.orders.length) {
+      $("#scOut").innerHTML = `<div class="avis">Aucune commande pour « ${esc(q)} ».</div>`;
+      champ.select();
+      return;
+    }
+    const o = await api("/api/orders/" + d.orders[0].id);
+    if ($("#scm").value === "imprimer") { courante = o; return imprimer(); }
+    rendreCommande(o);
+  };
+
+  // Raccourcis propres à l'écran : V vérifie, P imprime — les touches du poste d'emballage.
+  $("#vue").onkeydown = null;
+  document.addEventListener("keydown", (e) => {
+    if (S.page !== "scan" || document.activeElement === champ) return;
+    if (e.key.toLowerCase() === "v") { const b = $("#scVer"); if (b && !b.disabled) b.click(); }
+    if (e.key.toLowerCase() === "p") { const b = $("#scImp"); if (b) b.click(); }
+  });
+};
+
+// --------------------------------------------------- préparations externes
+/**
+ * Fulfillments — les commandes confiées à un tiers (dropship, 3PL). Chez ShipStation elles
+ * ont leur propre sous-onglet parce qu'elles ne suivent pas le cycle d'une étiquette achetée :
+ * elles partent sans que nous ayons acheté quoi que ce soit.
+ */
+VUES.fulfillments = async () => {
+  const d = await api("/api/orders?status=pending_fulfillment&limit=500");
+  $("#vue").innerHTML = `<h2>Préparations externes</h2>
+    <p class="sous">Commandes confiées à un tiers — dropship, 3PL, sous-traitance par courriel.
+      Chez Lasclay, deux règles envoient des commandes à la boutique DDD et à Lucie Veilleux.</p>
+    <div id="fT"></div>`;
+  $("#fT").append(table([
+    { k: "order_number", t: "Commande" },
+    { k: "customer_name", t: "Destinataire" },
+    { k: "city", t: "Ville", r: (o) => esc(o.ship_to?.city) },
+    { k: "custom_field1", t: "Canal", r: (o) => o.custom_field1 ? `<span class="puce g">${esc(o.custom_field1)}</span>` : "—" },
+    { k: "order_date", t: "Commandée le", r: (o) => jour(o.order_date) },
+    { k: "order_total", t: "Total", n: true, r: (o) => money(o.order_total) },
+  ], d.orders, { onLigne: (id) => detailCommande(Number(id)) }));
+};
+
+// -------------------------------------------------------------- inventaire
+VUES.inventaire = async () => {
+  const [bas, prod] = await Promise.all([api("/api/inventory/low"), api("/api/products?limit=500")]);
+  $("#vue").innerHTML = `<h2>Inventaire</h2>
+    <p class="sous">Stock par entrepôt, seuils de réapprovisionnement et alertes.</p>
+    ${bas.low.length ? `<div class="avis"><b>${bas.low.length} produit(s) sous le seuil</b></div>` : ""}
+    <div class="carte"><b>Sous le seuil</b><div id="iBas" style="margin-top:8px"></div></div>
+    <div class="carte"><b>Catalogue</b><div id="iTout" style="margin-top:8px"></div></div>`;
+  $("#iBas").append(table([
+    { k: "sku", t: "SKU" }, { k: "name", t: "Produit" },
+    { k: "warehouse_name", t: "Entrepôt" },
+    { k: "on_hand", t: "En stock", n: true },
+    { k: "allocated", t: "Réservé", n: true },
+    { k: "low_threshold", t: "Seuil", n: true },
+  ], bas.low));
+  $("#iTout").append(table([
+    { k: "sku", t: "SKU" }, { k: "name", t: "Produit" },
+    { k: "weight_g", t: "Poids", n: true, r: (p) => `${num(Math.round(p.weight_g || 0))} g` },
+    { k: "warehouse_location", t: "Emplacement" },
+    { k: "hs_code", t: "Code SH", r: (p) => p.hs_code || '<span class="puce a">manquant</span>' },
+  ], prod.products, { onLigne: (id) => aller("produits") }));
+};
 
 // ---------------------------------------------------------------- gabarits
 VUES.gabarits = async () => {
