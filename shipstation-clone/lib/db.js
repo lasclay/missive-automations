@@ -336,6 +336,21 @@ const AJOUTS = [
   ["orders", "batch_id", "INTEGER"],
   ["shipping_presets", "hotkey", "TEXT"],
   ["shipping_presets", "notes", "TEXT"],
+  // Colonnes de la grille Orders de ShipStation (§2.5) qui manquaient encore. Chaque
+  // événement sortant est tracé séparément — c'est le modèle de la vue « Shipped » (§3.2),
+  // où « bordereau imprimé », « étiquette créée », « étiquette imprimée » et « marketplace
+  // notifiée » sont quatre indicateurs distincts, pas un seul champ d'état.
+  ["orders", "deliver_by_date", "TEXT"],
+  ["orders", "packing_slip_printed_at", "TEXT"],
+  ["orders", "pick_list_printed_at", "TEXT"],
+  ["orders", "label_printed_at", "TEXT"],
+  ["orders", "allocation_status", "TEXT"],     // allocated | partial | unallocated
+  ["orders", "picking_status", "TEXT"],        // ready_to_pick | picking | picked
+  ["orders", "tote", "TEXT"],
+  ["orders", "zone", "INTEGER"],
+  ["orders", "shipping_account", "TEXT"],      // my_account | third_party | recipient
+  ["orders", "buyer_id", "TEXT"],
+  ["orders", "premium_programs", "TEXT"],
 ];
 
 function migrer(d) {

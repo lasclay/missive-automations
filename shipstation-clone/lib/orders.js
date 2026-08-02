@@ -85,8 +85,16 @@ function chercher(f = {}) {
   const offset = Number(f.offset) || 0;
 
   const total = one(`SELECT COUNT(*) n FROM orders o ${where}`, ...p).n;
+  // Les colonnes « Rate », « Ship Date » et « Fulfillment Status » de ShipStation lisent
+  // l'expédition, pas la commande. Trois sous-requêtes corrélées valent mieux qu'un aller-
+  // retour par ligne : à 1 000 lignes, la boucle côté application coûterait 3 000 requêtes.
   const lignes = all(
-    `SELECT o.*, CAST(julianday('now') - julianday(o.order_date) AS INTEGER) AS age
+    `SELECT o.*, CAST(julianday('now') - julianday(o.order_date) AS INTEGER) AS age,
+            (SELECT s.cost FROM shipments s WHERE s.order_id = o.id AND s.voided = 0
+               ORDER BY s.id DESC LIMIT 1) AS ship_cost,
+            (SELECT s.ship_date FROM shipments s WHERE s.order_id = o.id AND s.voided = 0
+               ORDER BY s.id DESC LIMIT 1) AS ship_date,
+            (SELECT COUNT(*) FROM shipments s WHERE s.order_id = o.id AND s.voided = 0) AS n_shipments
      FROM orders o ${where} ORDER BY ${col} ${sens} LIMIT ? OFFSET ?`, ...p, limite, offset);
 
   return { total, orders: lignes.map(hydrater) };
@@ -348,8 +356,40 @@ function compteurs() {
   };
 }
 
+/**
+ * Validation d'adresse. Volontairement **non destructive** : on qualifie, on n'écrase pas.
+ * ShipStation réécrit le code postal en silence (« Postal Code changed from 94305 to
+ * 94305-1014 ») et l'utilisateur ne l'apprend qu'en lisant le journal d'activité. Ici le
+ * verdict et ses motifs sont enregistrés, la correction reste une décision humaine.
+ *
+ * Retourne `{ statut: verified | warning | error, motifs: [] }`.
+ */
+function validerAdresse(o) {
+  const a = (o && o.ship_to) || {};
+  const motifs = [];
+  if (!a.street1) motifs.push("adresse manquante");
+  if (!a.city) motifs.push("ville manquante");
+  if (!a.postalCode) motifs.push("code postal manquant");
+  if (!a.country) motifs.push("pays manquant");
+  const statut = motifs.length ? "error" : (() => {
+    const m = [];
+    // Les formats postaux CA et US sont les seuls que Lasclay expédie en volume ; ailleurs
+    // on ne prétend pas savoir, on ne signale donc rien plutôt que d'inventer une erreur.
+    if (a.country === "CA" && !/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(String(a.postalCode).trim()))
+      m.push("code postal canadien mal formé");
+    if (a.country === "US" && !/^\d{5}(-\d{4})?$/.test(String(a.postalCode).trim()))
+      m.push("code postal américain mal formé");
+    if ((a.country === "CA" || a.country === "US") && !a.state) m.push("province ou état manquant");
+    motifs.push(...m);
+    return m.length ? "warning" : "verified";
+  })();
+  run("UPDATE orders SET ship_to = ? WHERE id = ?",
+    dump({ ...a, verification: { statut, motifs, le: maintenant() } }), o.id);
+  return { statut, motifs };
+}
+
 module.exports = {
   STATUTS, chercher, parId, parNumero, hydrater, upsert, changerStatut, hold, restaurer,
   libererHolds, assigner, ajouterTag, retirerTag, poserChamps, supprimer, scinder, fusionner,
-  alertes, compteurs,
+  alertes, compteurs, validerAdresse,
 };

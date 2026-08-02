@@ -193,6 +193,78 @@ route("POST /api/orders/release-holds", ({ user }) => {
   return { liberees: orders.libererHolds() };
 });
 
+/**
+ * Mise à jour en masse d'un champ (menu « Bulk Update », §2.3). Liste blanche stricte :
+ * l'appelant nomme la colonne, donc rien ne doit pouvoir sortir de cet ensemble.
+ */
+const CHAMPS_MASSE = new Set(["ship_by_date", "deliver_by_date", "hold_until", "internal_notes",
+  "customer_notes", "custom_field1", "custom_field2", "custom_field3", "shipping_account",
+  "weight_g", "warehouse_id", "confirmation", "service_id", "package_id", "carrier_code",
+  "picking_status", "allocation_status", "tote", "assigned_user"]);
+
+route("POST /api/orders/bulk", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const ids = (b.ids || []).map(Number).filter(Boolean);
+  const sets = [], vals = [];
+  for (const [c, v] of Object.entries(b.champs || {})) {
+    if (!CHAMPS_MASSE.has(c)) continue;
+    sets.push(`${c} = ?`);
+    // Un champ vidé efface la valeur : c'est le comportement attendu quand on retire une
+    // date limite ou un champ personnalisé sur cent commandes d'un coup.
+    vals.push(v === "" || v == null ? null : (c === "weight_g" ? Number(v) : v));
+  }
+  if (!sets.length) return { error: "aucun champ modifiable fourni", code: 400 };
+  if (!ids.length) return { error: "aucune commande sélectionnée", code: 400 };
+  db.tx(() => {
+    for (const id of ids)
+      db.run(`UPDATE orders SET ${sets.join(", ")}, modified_at = ? WHERE id = ?`, ...vals, db.maintenant(), id);
+  });
+  db.journaliser("order.bulk", "order", null, { n: ids.length, champs: Object.keys(b.champs || {}) }, user);
+  return { ok: true, n: ids.length };
+});
+
+/**
+ * « Refresh Selected Orders » : relit la commande chez la boutique d'origine. C'est
+ * l'exigence B1 — une commande reste un objet vivant, pas un import figé.
+ */
+route("POST /api/orders/refresh", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const ids = (b.ids || []).map(Number).filter(Boolean);
+  let rafraichies = 0; const erreurs = [];
+  for (const id of ids) {
+    const o = orders.parId(id);
+    if (!o) continue;
+    if (o.source !== "shopify" || !o.order_key) {
+      erreurs.push({ id, numero: o.order_number, motif: "pas de source rejouable" });
+      continue;
+    }
+    // `importerUne` refait l'upsert par `order_key` : c'est la même clé d'idempotence que
+    // l'import initial, donc pas de doublon possible (exigence B3).
+    try { await shopify.importerUne(o.order_key, { appliquerRegles: false }); rafraichies++; }
+    catch (e) { erreurs.push({ id, numero: o.order_number, motif: e.message }); }
+  }
+  return { ok: true, rafraichies, erreurs };
+});
+
+/**
+ * Validation d'adresse en masse. Le statut est conservé tel quel sur la commande — jamais
+ * de correction silencieuse : l'exigence OBS1 est qu'on voie ce qui a changé et pourquoi.
+ */
+route("POST /api/orders/validate-address", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const r = { ok: 0, avertissements: 0, erreurs: 0 };
+  for (const id of (b.ids || []).map(Number).filter(Boolean)) {
+    const o = orders.parId(id);
+    if (!o) continue;
+    const v = orders.validerAdresse(o);
+    r[v.statut === "verified" ? "ok" : v.statut === "warning" ? "avertissements" : "erreurs"]++;
+  }
+  return r;
+});
+
 // ================================================================ EXPÉDITIONS
 
 route("GET /api/shipments", ({ url }) => shipments.chercher(q(url)));
