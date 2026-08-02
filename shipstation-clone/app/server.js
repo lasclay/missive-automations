@@ -196,6 +196,9 @@ route("POST /api/orders/release-holds", ({ user }) => {
 // ================================================================ EXPÉDITIONS
 
 route("GET /api/shipments", ({ url }) => shipments.chercher(q(url)));
+route("GET /api/batches/:id/orders", ({ params }) => ({
+  orders: orders.chercher({ batch_id: Number(params.id), limit: 1000 }).orders,
+}));
 route("POST /api/shipments/quote", async ({ req }) => {
   const b = await corps(req);
   return await shipments.coter(Number(b.order_id));
@@ -250,6 +253,16 @@ route("POST /api/batches/remove", async ({ req, user }) => {
   accounts.exiger(user, "orders_edit");
   const b = await corps(req);
   return shipments.retirerDuLot((b.ids || []).map(Number), user && user.id);
+});
+/** Traite un lot : achète les étiquettes de toutes les commandes qui y attendent. */
+route("POST /api/batches/:id/process", async ({ req, params, user }) => {
+  accounts.exiger(user, "labels_buy");
+  if (!ETIQUETTES) return { error: "achat d'étiquettes désactivé — lancer avec CLONE_ALLOW_LABELS=1", code: 403 };
+  const b = await corps(req);
+  const ids = shipments.commandesDuLot(Number(params.id));
+  if (!ids.length) return { error: "ce lot ne contient aucune commande à expédier", code: 400 };
+  return await shipments.traiterLot(Number(params.id), ids, { userId: user,
+    margeMax: b.marge_max === "" || b.marge_max === undefined || b.marge_max === null ? null : Number(b.marge_max) });
 });
 route("POST /api/batches/:id/close", ({ params, user }) => {
   accounts.exiger(user, "orders_edit");

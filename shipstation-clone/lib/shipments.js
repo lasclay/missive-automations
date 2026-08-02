@@ -303,6 +303,7 @@ const TRIABLE = new Set(["ship_date", "created_at", "cost", "tracking_number", "
 function chercher(f = {}) {
   const w = [], p = [];
   const add = (sql, ...v) => { w.push(sql); p.push(...v); };
+  if (f.order_id) add("s.order_id = ?", Number(f.order_id));
   if (f.tracking_number) add("s.tracking_number LIKE ?", `%${f.tracking_number}%`);
   if (f.order_number) add("o.order_number LIKE ?", `%${f.order_number}%`);
   if (f.carrier_code) add("s.carrier_code = ?", f.carrier_code);

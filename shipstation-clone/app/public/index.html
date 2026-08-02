@@ -181,6 +181,36 @@
           border-radius:50%; font-size:11px; font-weight:700; color:#fff }
   .valA.ok { background:var(--vert) } .valA.warn { background:var(--ambre) } .valA.err { background:var(--rouge) }
   .lienMap { color:var(--ambre); text-decoration:underline; cursor:pointer }
+  /* ---- panneau gauche : hiérarchie lisible ---- */
+  .ssL { padding:6px 0 30px }
+  .ssLt { font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--doux);
+          padding:16px 12px 6px; font-weight:700; border-top:1px solid var(--bord); margin-top:8px }
+  .ssL > div:first-child + .ssLt, .ssL > .ssLt:first-child { border-top:none; margin-top:0; padding-top:10px }
+  .ssLi { display:flex; justify-content:space-between; align-items:center; gap:6px; padding:6px 12px;
+          font-size:13.5px; cursor:pointer; border-left:3px solid transparent; color:var(--texte); line-height:1.3 }
+  .ssLi .n { color:var(--doux); font-size:11.5px; font-variant-numeric:tabular-nums; font-weight:500 }
+  .ssLi.actif { background:var(--sel); border-left-color:var(--accent); font-weight:650 }
+  .ssLi.actif .n { color:var(--accent) }
+  .ssLi.enfant { padding:3px 12px 3px 28px; font-size:12.5px; color:var(--doux); border-left-color:transparent }
+  .ssLi.enfant::before { content:""; position:absolute; margin-left:-12px; width:1px; height:16px; background:var(--bord) }
+  .ssLi.enfant.actif { color:var(--texte); background:var(--sel) }
+  #ssStatuts { padding-bottom:4px }
+  #ssVues .ssLi { font-size:12.5px; padding:4px 12px }
+
+  /* ---- fiche de commande ---- */
+  dialog.large { max-width:1080px }
+  .fcBarre { display:flex; gap:6px; align-items:center; padding:0 0 10px; border-bottom:1px solid var(--bord); margin-bottom:12px }
+  .fcGrille { display:grid; grid-template-columns:1.55fr 1fr; gap:14px; align-items:start }
+  .fcSec { border:1px solid var(--bord); border-radius:9px; padding:11px 13px; margin-bottom:12px }
+  .fcSec h4 { margin:0 0 8px; font-size:13px; font-weight:650; display:flex; align-items:center; gap:8px }
+  .fcDeux { display:grid; grid-template-columns:1fr 1fr; gap:14px }
+  .fcSec .kv { display:flex; justify-content:space-between; gap:8px; font-size:12.5px; padding:2px 0 }
+  .fcSec .kv span { color:var(--doux) }
+  .fcSec .adr { font-size:12.5px; line-height:1.5; margin-top:3px }
+  button.mini { padding:2px 8px; font-size:12px; border-radius:5px }
+  .ssR .sec.entete h4 { align-items:center }
+  .menuF .mt { padding:5px 10px 3px; font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--doux) }
+  .menuF .cpt { color:var(--doux); font-size:11.5px; font-variant-numeric:tabular-nums }
   /* ---- menus flottants (Other Actions, Apply Preset, Print) ---- */
   .menuF { position:fixed; z-index:40; background:var(--carte); border:1px solid var(--bord); border-radius:8px;
            box-shadow:0 8px 26px rgba(0,0,0,.18); min-width:224px; padding:4px; max-height:70vh; overflow:auto }
@@ -341,6 +371,21 @@ const EN = {
   "Recherche rapide  ( / )": "Quicksearch  ( / )",
   // — barre latérale et statuts
   "Commandes": "Orders", "Vues sauvegardées": "Saved Filters",
+  // — lots
+  "Lots ouverts": "Open Batches", "+ Créer un lot": "+ Create New Batch",
+  "aucun lot ouvert": "no open batch", "Lot": "Batch", "Lot ▾": "Batch ▾",
+  "Ajouter à un lot…": "Add To Batch…", "Retirer du lot": "Remove from Batch",
+  "Nouveau lot…": "New Batch…", "Gérer les lots…": "Manage Batches…",
+  "Lots traités": "Processed Batches", "Créer un lot": "Create Batch",
+  "Commandes en attente": "Orders waiting", "Traiter…": "Process…", "Voir": "View", "Fermer": "Close",
+  // — fiche de commande
+  "Actions ▾": "Actions ▾", "Détails de l'expédition": "Shipment Details",
+  "Expédition": "Shipping", "Expéditions et retours": "Shipments & Returns",
+  "Scinder…": "Split Ship…", "Produits": "Product", "Livraison": "Shipping",
+  "Payé": "Total Paid", "Créer une étiquette de retour": "Create Return Label",
+  "Ouvrir un retour (RMA)…": "Create Return (RMA)…", "Annuler la commande…": "Cancel Order…",
+  "Assigner…": "Assign To…", "Étiqueter…": "Tag…", "aucune expédition": "no shipment",
+  "Alertes de commandes": "Order Alerts",
   "À expédier": "Awaiting Shipment", "En attente": "On Hold",
   "Paiement attendu": "Awaiting Payment", "Préparation externe": "Pending Fulfillment",
   "Expédiée": "Shipped", "Annulée": "Cancelled",
@@ -538,6 +583,8 @@ async function api(route, opts = {}) {
 }
 
 function dialogue(titre, html, onOk, texteOk = "Confirmer", apres = null) {
+  // La fiche de commande est un écran, pas une question : elle prend toute la largeur utile.
+  $("#dlg").classList.toggle("large", /^Commande /.test(titre));
   $("#dlgT").textContent = titre;
   $("#dlgC").innerHTML = html;
   if (apres) apres($("#dlgC"));
@@ -810,6 +857,62 @@ const arts = (o) => (o._arts || (o._arts = (o.items || []).filter((i) => !i.adju
 const IDX = {};
 /** Lots ouverts — lus aussi par le rendu de la colonne « Lot », donc au niveau du module. */
 let LOTS = [];
+
+/** Menu flottant ancré sur un élément. Une seule implémentation pour toute l'application. */
+function menuAncre(ancre, entrees, { droite = false } = {}) {
+  const r = ancre.getBoundingClientRect();
+  document.querySelectorAll(".menuF").forEach((m) => m.remove());
+  const pos = droite ? `right:${Math.max(8, innerWidth - r.right)}px;left:auto` : `left:${r.left}px`;
+  const m = el(`<div class="menuF" style="top:${r.bottom + 4}px;${pos}">${
+    entrees.map((e, i) => e.sep ? '<div class="sep"></div>'
+      : e.titre ? `<div class="mt">${esc(e.titre)}</div>`
+      : `<div class="mi ${e.danger ? "danger" : ""}" data-i="${i}">${esc(e.t)}${e.hk ? `<kbd>${e.hk}</kbd>` : ""}${
+          e.n != null ? `<span class="cpt">${num(e.n)}</span>` : ""}</div>`).join("")}</div>`);
+  document.body.append(m);
+  m.querySelectorAll("[data-i]").forEach((d) => d.onclick = () => { m.remove(); entrees[d.dataset.i].f(); });
+  setTimeout(() => document.addEventListener("click", () => m.remove(), { once: true }), 0);
+  return m;
+}
+
+/** Recharge la liste des lots ouverts. */
+async function chargerLots() {
+  try { LOTS = (await api("/api/batches/open")).batches || []; } catch { LOTS = []; }
+  return LOTS;
+}
+
+/**
+ * Menu « Lot » — le même depuis la grille, la sidebar et la fiche de commande.
+ *
+ * Plusieurs chemins mènent au même geste, parce que le tri d'un arriéré ne suit pas un chemin
+ * unique : on dépose parfois depuis la liste, parfois en regardant une commande de près.
+ */
+async function menuLots(ancre, ids, apres = () => {}) {
+  await chargerLots();
+  const n = ids.length;
+  const entrees = [
+    { titre: n ? `Déposer ${n} commande(s) dans…` : "Aucune commande sélectionnée" },
+    ...LOTS.map((l) => ({ t: l.name, n: l.n, f: async () => {
+      await api("/api/batches/add", { method: "POST", body: { batch_id: l.id, ids } });
+      await chargerLots(); apres();
+    } })),
+    ...(LOTS.length ? [{ sep: 1 }] : []),
+    { t: "Nouveau lot…", f: () => dialogue("Créer un lot", `
+        <label class="champ"><span>Nom du lot</span>
+          <input id="lnom2" value="${esc("Lot du " + new Date().toISOString().slice(0, 10))}"></label>
+        <p class="doux">${n ? `Les <b>${n}</b> commande(s) y seront déposées.` : "Le lot sera créé vide."}</p>`,
+        async () => {
+          await api("/api/batches/new", { method: "POST", body: { name: $("#lnom2").value, ids } });
+          await chargerLots(); apres();
+        }, "Créer") },
+    { t: "Retirer du lot", f: async () => {
+      await api("/api/batches/remove", { method: "POST", body: { ids } });
+      await chargerLots(); apres();
+    } },
+    { sep: 1 },
+    { t: "Gérer les lots…", f: () => aller("lots") },
+  ];
+  menuAncre(ancre, entrees, { droite: true });
+}
 function indexerRefs() {
   const m = (liste) => new Map((liste || []).map((x) => [String(x.id), x]));
   IDX.stores = m(S.refs.stores);
@@ -820,6 +923,17 @@ function indexerRefs() {
   IDX.confirmations = m(S.refs.confirmations);
   IDX.nonMappes = new Set(S.nonMappes || []);
 }
+/**
+ * Pastille de validation d'adresse — vert immeuble ou maison, orange avertissement, rouge
+ * erreur, comme les icônes de la grille d'origine. Utilisée par la sidebar ET par la fiche
+ * de commande, donc au niveau du module.
+ */
+function adresseValide(a) {
+  if (!a || !a.street1 || !a.city || !a.postalCode) return '<span class="valA err" title="Adresse incomplète">!</span>';
+  if (!a.country) return '<span class="valA warn" title="Pays manquant">?</span>';
+  return `<span class="valA ok" title="Adresse complète">${a.country === "CA" || a.country === "US" ? "⌂" : "◍"}</span>`;
+}
+
 const pastilleTag = (t) => `<span class="tag" style="--c:${esc(t.color || "#888")}">${esc(t.name)}</span>`;
 const nomService = (id) => esc(IDX.services?.get(String(id))?.name || id || "—");
 const nomColis = (id) => esc(IDX.packages?.get(String(id))?.name || id || "—");
@@ -946,7 +1060,7 @@ VUES.commandes = async (statutFixe) => {
    * on coche, on dépose, on passe à la suivante, sans jamais ouvrir de fenêtre.
    */
   async function majLots() {
-    try { LOTS = (await api("/api/batches/open")).batches || []; } catch { LOTS = []; }
+    await chargerLots();
     const n = S.sel.size;
     $("#ssLots").innerHTML = LOTS.length
       ? LOTS.map((l) => `<a class="ssLi lot ${String(S0.lot) === String(l.id) ? "actif" : ""}" data-l="${l.id}">
@@ -954,7 +1068,7 @@ VUES.commandes = async (statutFixe) => {
           <span class="n">${l.n ? num(l.n) : ""}</span>
           ${n ? `<button class="plus" data-plus="${l.id}" title="Ajouter les ${n} commande(s) sélectionnée(s)">+</button>` : ""}
         </a>`).join("")
-      : '<div class="vide">aucun lot ouvert</div>';
+      : `<div class="vide">aucun lot ouvert${n ? " — « + Créer un lot » y déposera la sélection" : ""}</div>`;
 
     $("#ssLots").querySelectorAll("[data-l]").forEach((a) => a.onclick = (e) => {
       if (e.target.dataset.plus) return;
@@ -1258,16 +1372,7 @@ VUES.commandes = async (statutFixe) => {
       .map(([k, t]) => ({ t, f: () => { S0.groupe = k; charger(); } })),
   ]);
 
-  const menuFlottant = (bouton, entrees) => {
-    const anc = $("#" + bouton).getBoundingClientRect();
-    document.querySelectorAll(".menuF").forEach((m) => m.remove());
-    const m = el(`<div class="menuF" style="top:${anc.bottom + 4}px;left:${anc.left}px">${
-      entrees.map((e, i) => e.sep ? '<div class="sep"></div>'
-        : `<div class="mi ${e.danger ? "danger" : ""}" data-i="${i}">${esc(e.t)}${e.hk ? `<kbd>${e.hk}</kbd>` : ""}</div>`).join("")}</div>`);
-    document.body.append(m);
-    m.querySelectorAll("[data-i]").forEach((d) => d.onclick = () => { m.remove(); entrees[d.dataset.i].f(); });
-    setTimeout(() => document.addEventListener("click", () => m.remove(), { once: true }), 0);
-  };
+  const menuFlottant = (bouton, entrees) => menuAncre($("#" + bouton), entrees);
 
   $("#aRate").onclick = async () => {
     const id = Number(ids()[0]);
@@ -1515,13 +1620,16 @@ VUES.commandes = async (statutFixe) => {
       const sel = LIGNES.filter((o) => S.sel.has(String(o.id)));
       const poids = sel.reduce((s, o) => s + (o.weight_g || 0), 0);
       const sansPoids = sel.filter((o) => !o.weight_g).length;
-      C.innerHTML = `<div class="sec"><h4>${sel.length} commandes sélectionnées</h4>
+      C.innerHTML = `<div class="sec entete"><h4>${sel.length} commandes sélectionnées
+        <span style="margin-left:auto"></span>
+        <button id="cLotM" class="mini">Lot ▾</button></h4>
         <div class="kv"><span>Poids cumulé</span><b>${num(Math.round(poids))} g</b></div>
         <div class="kv"><span>Sans poids</span><b class="${sansPoids ? "rouge" : ""}">${sansPoids}</b></div>
         <div class="kv"><span>Valeur</span><b>${money(sel.reduce((s, o) => s + (o.order_total || 0), 0))}</b></div>
         <div class="kv"><span>Livraison facturée</span><b>${money(sel.reduce((s, o) => s + (o.shipping_paid || 0), 0))}</b></div>
       </div>
       <div class="sec"><h4>Articles à préparer</h4>${listeArticlesGroupes(sel)}</div>`;
+      $("#cLotM").onclick = (e) => { e.stopPropagation(); menuLots($("#cLotM"), [...S.sel], () => { charger(); majLots(); }); };
       return;
     }
     const o = await api(`/api/orders/${[...S.sel][0]}`);
@@ -1533,8 +1641,13 @@ VUES.commandes = async (statutFixe) => {
     // articles, widget de configuration, notes, étiquettes, communication client, activité.
     // Le bouton d'achat est en bas et porte le tarif, comme « Create + Print Label $X.XX ».
     C.innerHTML = `
-      <div class="sec">
-        <h4>${esc(o.order_number)} <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span></h4>
+      <div class="sec entete">
+        <h4><a class="lienCmd" id="cOuvrir">${esc(o.order_number)}</a>
+          <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>
+          <span style="margin-left:auto"></span>
+          <button id="cLot" class="mini">Lot ▾</button>
+          <button id="cPrint" class="mini">Imprimer ▾</button></h4>
+        ${o.batch_id ? `<div class="kv"><span>Lot</span><b>${esc((LOTS.find((l) => l.id === o.batch_id) || {}).name || "—")}</b></div>` : ""}
         <div class="kv"><span>Boutique</span><b>${esc((S.refs.stores || []).find((x) => x.id === o.store_id)?.name || o.source || "—")}</b></div>
         <div class="kv"><span>Commandée le</span><b>${jour(o.order_date)}</b></div>
         <div class="kv"><span>Âge</span><b>${o.age ?? "—"} j</b></div>
@@ -1646,6 +1759,13 @@ VUES.commandes = async (statutFixe) => {
       } catch (e) { $("#cTarifs").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
     };
     $("#cAcheter").onclick = acheterLot;
+    $("#cOuvrir").onclick = () => detailCommande(o.id);
+    $("#cLot").onclick = (e) => { e.stopPropagation(); menuLots($("#cLot"), [...S.sel], () => { charger(); majLots(); }); };
+    $("#cPrint").onclick = (e) => { e.stopPropagation(); menuAncre($("#cPrint"), [
+      { t: "Bordereau de préparation", f: () => window.open(`/api/packing-slip?ids=${o.id}`, "_blank") },
+      { t: "Liste de prélèvement", f: () => window.open(`/api/pick-list?ids=${o.id}`, "_blank") },
+      { t: "Étiquette", f: () => window.open(`/api/labels?ids=${o.id}`, "_blank") },
+    ], { droite: true }); };
 
     api(`/api/audit?limit=8`).then((j) => {
       const l = (j.rows || []).filter((r) => String(r.entity_id) === String(o.id) || r.entity === "order");
@@ -1655,12 +1775,6 @@ VUES.commandes = async (statutFixe) => {
     }).catch(() => { $("#cActivite").textContent = "—"; });
   }
 
-  /** Icône de validation d'adresse — vert immeuble/maison, orange avertissement, rouge erreur. */
-  function adresseValide(a) {
-    if (!a || !a.street1 || !a.city || !a.postalCode) return '<span class="valA err" title="Adresse incomplète">!</span>';
-    if (!a.country) return '<span class="valA warn" title="Pays manquant">?</span>';
-    return `<span class="valA ok" title="Adresse complète">${a.country === "CA" || a.country === "US" ? "⌂" : "◍"}</span>`;
-  }
 
   function listeArticlesGroupes(cmds) {
     const par = new Map();
@@ -1792,74 +1906,219 @@ async function importerShopify() {
     }, "Importer");
 }
 
+/**
+ * Fiche de commande — la fenêtre qu'ouvre le numéro de commande.
+ *
+ * La sidebar de droite sert à expédier ; cette fiche sert à **agir sur la commande** :
+ * la déposer dans un lot, l'expédier, la marquer expédiée, créer un retour, la mettre en
+ * attente, la scinder, l'annuler. C'est la répartition de ShipStation, où la fiche porte son
+ * propre bandeau d'actions (`Batch`, `Print`, `Shipment Actions`).
+ */
 async function detailCommande(id) {
   const o = await api("/api/orders/" + id);
+  await chargerLots();
+  const lot = LOTS.find((l) => l.id === o.batch_id);
+  const arts2 = (o.items || []).filter((i) => !i.adjustment);
+
   const c = dialogue(`Commande ${o.order_number}`, `
-    <div class="grille" style="margin-bottom:12px">
-      <div class="kpi"><div class="v">${money(o.order_total)}</div><div class="l">total</div></div>
-      <div class="kpi"><div class="v">${num(Math.round(o.weight_g))} g</div><div class="l">poids</div></div>
-      <div class="kpi"><div class="v">${o.age ?? "—"}</div><div class="l">jours</div></div>
-      <div class="kpi"><div class="v" style="font-size:15px">${esc(o.status)}</div><div class="l">statut</div></div>
+    <div class="fcBarre">
+      <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>
+      ${lot ? `<span class="puce v">lot : ${esc(lot.name)}</span>` : ""}
+      ${(o.tags || []).map(pastilleTag).join(" ")}
+      <span style="margin-left:auto"></span>
+      <button id="fcLot">Lot ▾</button>
+      <button id="fcPrint">Imprimer ▾</button>
+      <button id="fcActions">Actions ▾</button>
     </div>
-    <div class="carte"><b>Expédier à</b><br>${esc(o.ship_to.name)}<br>${esc(o.ship_to.street1 || "")}
-      ${o.ship_to.street2 ? "<br>" + esc(o.ship_to.street2) : ""}<br>
-      ${esc(o.ship_to.city)}, ${esc(o.ship_to.state)} ${esc(o.ship_to.postalCode)} — ${esc(o.ship_to.country)}<br>
-      <span class="doux">${esc(o.customer_email || "")}</span></div>
-    <div class="tbl" style="max-height:none"><table><thead><tr><th>Article</th><th>SKU</th><th class="n">Qté</th><th class="n">Prix</th><th class="n">Poids</th></tr></thead>
-      <tbody>${o.items.map(i => `<tr><td>${esc(i.name)}${i.adjustment ? ' <span class="puce g">ajustement</span>' : ""}</td>
-        <td>${esc(i.sku || "—")}</td><td class="n">${i.quantity}</td><td class="n">${money(i.unit_price)}</td>
-        <td class="n">${num(Math.round(i.weight_g || 0))} g</td></tr>`).join("")}</tbody></table></div>
-    ${o.customer_notes ? `<div class="carte"><b>Note du client</b><br>${esc(o.customer_notes)}</div>` : ""}
-    <div class="barre" style="margin-top:12px"><button id="dCoter">Coter</button>
-      <button id="dRegles">Tester les règles</button>
-      <button id="dSlip">Bordereau</button>
-      ${o.items.filter(i => !i.adjustment).length > 1 ? '<button id="dSplit">Scinder…</button>' : ""}
-      <button id="dAssign">Assigner…</button></div>
-    <div id="dOut"></div>`, null);
 
-  $("#dCoter", c).onclick = async () => {
-    try {
-      const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: id } });
-      $("#dOut", c).innerHTML = `<div class="tbl"><table><thead><tr><th>Transporteur</th><th>Service</th><th class="n">Prix</th></tr></thead>
-        <tbody>${r.tarifs.map(t => `<tr${t.serviceId === r.recommande?.serviceId ? ' style="font-weight:650"' : ""}>
-        <td>${esc(t.carrier)}</td><td>${esc(t.service)}${t.dropOff ? ' <span class="puce v">drop</span>' : ""}</td>
-        <td class="n">${money(t.price)}</td></tr>`).join("")}</tbody></table></div>`;
-    } catch (e) { $("#dOut", c).innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
-  };
-  $("#dRegles", c).onclick = async () => {
-    const r = await api("/api/rules/test", { method: "POST", body: { order_id: id } });
-    $("#dOut", c).innerHTML = r.declenchees.length
-      ? `<div class="carte">${r.declenchees.map(d => `<b>${esc(d.name)}</b><br><span class="doux">${d.actions.map(a => esc(a.type)).join(", ")}</span>`).join("<hr>")}</div>`
-      : '<p class="doux">Aucune règle ne s\'applique.</p>';
-  };
-  $("#dSlip", c).onclick = () => window.open(`/api/packing-slip?ids=${id}`, "_blank");
+    <div class="fcGrille">
+      <div>
+        <div class="fcSec"><h4>Détails de l'expédition</h4>
+          <div class="fcDeux">
+            <div>
+              <div class="doux">Expédier à ${adresseValide(o.ship_to)}</div>
+              <div class="adr">${esc(o.customer_name || "")}
+                ${o.ship_to.company ? `<br>${esc(o.ship_to.company)}` : ""}<br>${esc(o.ship_to.street1 || "")}
+                ${o.ship_to.street2 ? `<br>${esc(o.ship_to.street2)}` : ""}<br>
+                ${esc(o.ship_to.city || "")} ${esc(o.ship_to.state || "")} ${esc(o.ship_to.postalCode || "")}<br>
+                ${esc(o.ship_to.country || "")}</div>
+              ${o.customer_email ? `<div class="doux" style="margin-top:5px">${esc(o.customer_email)}</div>` : ""}
+            </div>
+            <div>
+              <div class="kv"><span>Produits</span><b>${money(o.order_total - (o.shipping_paid || 0) - (o.tax_amount || 0))}</b></div>
+              <div class="kv"><span>Livraison</span><b>${money(o.shipping_paid)}</b></div>
+              <div class="kv"><span>Taxes</span><b>${money(o.tax_amount)}</b></div>
+              <div class="kv"><span>Total</span><b>${money(o.order_total)}</b></div>
+              <div class="kv"><span>Payé</span><b>${money(o.amount_paid)}</b></div>
+              <hr>
+              <div class="kv"><span>Commandée le</span><b>${jour(o.order_date)}</b></div>
+              <div class="kv"><span>Âge</span><b>${o.age ?? "—"} j</b></div>
+              <div class="kv"><span>À expédier avant</span><b>${jour(o.ship_by_date)}</b></div>
+              <div class="kv"><span>En attente jusqu'au</span><b>${jour(o.hold_until)}</b></div>
+              <div class="kv"><span>Poids</span><b>${num(Math.round(o.weight_g || 0))} g</b></div>
+            </div>
+          </div>
+        </div>
 
-  const sp = $("#dSplit", c);
+        <div class="fcSec"><h4>Articles ${arts2.length > 1 ? '<button id="fcSplit" class="mini">Scinder…</button>' : ""}</h4>
+          <div class="tbl" style="max-height:none"><table>
+            <thead><tr><th>Article</th><th>SKU</th><th class="n">Qté</th><th class="n">Prix</th><th class="n">Poids</th></tr></thead>
+            <tbody>${o.items.map((i) => `<tr><td>${esc(i.name)}${i.adjustment ? ' <span class="puce g">ajustement</span>' : ""}</td>
+              <td class="sku">${esc(i.sku || "—")}</td><td class="n">${i.quantity}</td>
+              <td class="n">${money(i.unit_price)}</td>
+              <td class="n">${num(Math.round(i.weight_g || 0))} g</td></tr>`).join("")}</tbody></table></div>
+        </div>
+
+        <div class="fcSec"><h4>Notes</h4>
+          ${o.customer_notes ? `<div class="note"><span class="doux">De l'acheteur</span><br>${esc(o.customer_notes)}</div>` : ""}
+          ${o.gift_message ? `<div class="note"><span class="doux">Message cadeau</span><br>${esc(o.gift_message)}</div>` : ""}
+          <textarea id="fcNote" class="petit" placeholder="Note interne…">${esc(o.internal_notes || "")}</textarea>
+          <div class="fcDeux">
+            <label class="champ"><span>Champ perso 1</span><input id="fcC1" value="${esc(o.custom_field1 || "")}"></label>
+            <label class="champ"><span>Champ perso 2</span><input id="fcC2" value="${esc(o.custom_field2 || "")}"></label>
+          </div>
+          <button id="fcNoteS">Enregistrer</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="fcSec"><h4>Expédition</h4>
+          <div class="kv"><span>Service demandé</span><b>${esc(o.requested_service || "—")}</b></div>
+          <div class="kv"><span>Transporteur</span><b>${esc(o.carrier_code || "—")}</b></div>
+          <div class="kv"><span>Service</span><b>${nomService(o.service_id)}</b></div>
+          <div class="kv"><span>Colis</span><b>${nomColis(o.package_id)}</b></div>
+          <div class="kv"><span>Confirmation</span><b>${nomConfirmation(o.confirmation)}</b></div>
+          <div class="barre" style="margin-top:8px">
+            <button id="fcCoter">Coter</button>
+            <button id="fcRegles">Tester les règles</button>
+          </div>
+          <div id="fcOut"></div>
+        </div>
+        <div class="fcSec"><h4>Expéditions et retours</h4><div id="fcExp" class="doux">Chargement…</div></div>
+      </div>
+    </div>`, null, "Fermer");
+
+  const recharger = () => { $("#dlg").close(); detailCommande(id); };
+  const ids = [id];
+
+  $("#fcLot", c).onclick = (e) => { e.stopPropagation(); menuLots($("#fcLot", c), ids, () => { recharger(); if (S.cmdCharger) S.cmdCharger(); }); };
+  $("#fcPrint", c).onclick = (e) => { e.stopPropagation(); menuAncre($("#fcPrint", c), [
+    { t: "Bordereau de préparation", f: () => window.open(`/api/packing-slip?ids=${id}`, "_blank") },
+    { t: "Liste de prélèvement", f: () => window.open(`/api/pick-list?ids=${id}`, "_blank") },
+    { t: "Étiquette", f: () => window.open(`/api/labels?ids=${id}`, "_blank") },
+  ], { droite: true }); };
+
+  $("#fcActions", c).onclick = (e) => { e.stopPropagation(); menuAncre($("#fcActions", c), [
+    { t: "Créer + imprimer l'étiquette", f: async () => {
+      if (!S.config.etiquettes_actives) return alert("Achat d'étiquettes désactivé sur ce service.");
+      const r = await api("/api/shipments/buy", { method: "POST", body: { order_id: id } });
+      alert(r.error ? r.error : `Étiquette ${r.trackingNumber} — ${money(r.price)}`);
+      recharger(); if (S.cmdCharger) S.cmdCharger();
+    } },
+    { t: "Marquer comme expédiée…", f: () => dialogue("Marquer comme expédiée", `
+        <label class="champ"><span>Transporteur</span><input id="mc" placeholder="canada_post"></label>
+        <label class="champ"><span>N° de suivi</span><input id="mt"></label>
+        <label class="ch"><input type="checkbox" id="mn" checked> notifier la boutique</label>`,
+      async () => {
+        await api("/api/shipments/mark-shipped", { method: "POST", body: {
+          order_id: id, carrier_code: $("#mc").value || null,
+          tracking_number: $("#mt").value || null, notifier: $("#mn").checked } });
+        recharger(); if (S.cmdCharger) S.cmdCharger(); rafraichirCompteurs();
+      }, "Marquer") },
+    { t: "Créer une étiquette de retour", f: async () => {
+      if (!S.config.etiquettes_actives) return alert("Achat d'étiquettes désactivé sur ce service.");
+      const r = await api("/api/shipments/return", { method: "POST", body: { order_id: id } });
+      alert(r.error ? r.error : `Retour ${r.trackingNumber}`);
+      recharger();
+    } },
+    { t: "Ouvrir un retour (RMA)…", f: () => dialogue("Ouvrir un retour", `
+        <label class="champ"><span>Motif</span><input id="rm"></label>
+        <label class="champ"><span>Résolution</span><select id="rr">
+          <option value="refund">remboursement</option><option value="exchange">échange</option>
+          <option value="store_credit">crédit en boutique</option></select></label>`,
+      async () => {
+        await api("/api/returns", { method: "POST", body: { order_id: id, reason: $("#rm").value, resolution: $("#rr").value } });
+        alert("Retour ouvert."); recharger();
+      }, "Ouvrir") },
+    { sep: 1 },
+    { t: "Mettre en attente…", f: () => {
+      const d7 = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
+      dialogue("Mettre en attente", `<label class="champ"><span>Jusqu'au</span><input type="date" id="hd2" value="${d7}"></label>`,
+        async () => { await api("/api/orders/hold", { method: "POST", body: { ids, hold_until: $("#hd2").value } });
+          recharger(); if (S.cmdCharger) S.cmdCharger(); rafraichirCompteurs(); });
+    } },
+    { t: "Remettre en file", f: async () => {
+      await api("/api/orders/restore", { method: "POST", body: { ids } });
+      recharger(); if (S.cmdCharger) S.cmdCharger(); rafraichirCompteurs();
+    } },
+    { t: "Assigner…", f: () => dialogue("Assigner", `
+        <label class="champ"><span>Utilisateur</span><select id="au2"><option value="">— personne —</option>
+          ${(S.refs.users || []).map((u) => `<option value="${esc(u.id)}" ${o.assigned_user === u.id ? "selected" : ""}>${esc(u.name)}</option>`).join("")}
+        </select></label>`,
+      async () => { await api("/api/orders/assign", { method: "POST", body: { ids, user_id: $("#au2").value || null } }); recharger(); }) },
+    { t: "Étiqueter…", f: () => dialogue("Étiqueter", `
+        <label class="champ"><span>Étiquette</span><select id="tg2">${(S.refs.tags || []).map((t) =>
+          `<option value="${t.id}">${esc(t.name)}</option>`).join("")}</select></label>
+        <label class="ch"><input type="checkbox" id="trm2"> retirer au lieu d'ajouter</label>`,
+      async () => { await api("/api/orders/tag", { method: "POST", body: { ids, tag_id: Number($("#tg2").value), remove: $("#trm2").checked } }); recharger(); }) },
+    { t: "Rejouer l'automatisation", f: async () => {
+      await api("/api/automation/run", { method: "POST", body: { ids } });
+      recharger(); if (S.cmdCharger) S.cmdCharger();
+    } },
+    { sep: 1 },
+    { t: "Annuler la commande…", danger: 1, f: () => dialogue("Annuler la commande",
+      `<div class="avis">La commande passera en <b>annulée</b>.</div>`,
+      async () => { await api("/api/orders/cancel", { method: "POST", body: { ids } });
+        $("#dlg").close(); if (S.cmdCharger) S.cmdCharger(); rafraichirCompteurs(); }, "Annuler la commande") },
+  ], { droite: true }); };
+
+  const sp = $("#fcSplit", c);
   if (sp) sp.onclick = () => dialogue(`Scinder ${o.order_number}`, `
-    <p>Les articles cochés partent dans une nouvelle commande. La scission doit laisser
-      au moins un article de chaque côté.</p>
-    ${o.items.filter(i => !i.adjustment).map(i => `<label class="ch" style="display:flex;padding:4px 0">
+    <p class="doux">Les articles cochés partent dans une nouvelle commande.</p>
+    ${arts2.map((i) => `<label class="ch" style="display:flex;padding:4px 0;gap:8px">
       <input type="checkbox" data-it="${i.id}"> ${i.quantity} × ${esc(i.name)}
-      <span class="doux">${esc(i.sku || "")}</span></label>`).join("")}`,
+      <span class="sku">${esc(i.sku || "")}</span></label>`).join("")}`,
     async () => {
-      const ids = [...document.querySelectorAll("#dlgC [data-it]:checked")].map(x => Number(x.dataset.it));
-      if (!ids.length) { alert("Cocher au moins un article."); return false; }
-      try {
-        const r = await api(`/api/orders/${id}/split`, { method: "POST", body: { item_ids: ids } });
-        alert(`Nouvelle commande créée (#${r.enfant}).`);
-        rafraichirCompteurs(); rendre();
-      } catch (e) { alert(e.message); return false; }
+      const items = [...document.querySelectorAll("#dlgC [data-it]:checked")].map((x) => Number(x.dataset.it));
+      if (!items.length || items.length === arts2.length) { alert("Cocher au moins un article, mais pas tous."); return false; }
+      const r = await api(`/api/orders/${id}/split`, { method: "POST", body: { item_ids: items } });
+      alert(`Nouvelle commande créée (#${r.enfant}).`);
+      if (S.cmdCharger) S.cmdCharger(); rafraichirCompteurs();
     }, "Scinder");
 
-  $("#dAssign", c).onclick = () => dialogue("Assigner la commande", `
-    <label class="champ"><span>Utilisateur</span><select id="dau">
-      <option value="">— personne —</option>
-      ${(S.refs.users || []).map(u => `<option value="${esc(u.id)}"${o.assigned_user === u.id ? " selected" : ""}>${esc(u.name)}</option>`).join("")}
-    </select></label>`,
-    async () => {
-      await api("/api/orders/assign", { method: "POST", body: { ids: [id], user_id: $("#dau").value || null } });
-      rendre();
-    }, "Assigner");
+  $("#fcNoteS", c).onclick = async () => {
+    await api("/api/orders", { method: "POST", body: { ...o, internal_notes: $("#fcNote", c).value,
+      custom_field1: $("#fcC1", c).value, custom_field2: $("#fcC2", c).value } });
+    if (S.cmdCharger) S.cmdCharger();
+  };
+  $("#fcCoter", c).onclick = async () => {
+    $("#fcOut", c).innerHTML = '<div class="doux">Cotation…</div>';
+    try {
+      const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: id } });
+      $("#fcOut", c).innerHTML = `<div class="tbl"><table><thead><tr><th>Transporteur</th><th>Service</th><th class="n">Prix</th></tr></thead>
+        <tbody>${r.tarifs.map((t) => `<tr${t.serviceId === r.recommande?.serviceId ? ' style="font-weight:650"' : ""}>
+        <td>${esc(t.carrier)}</td><td>${esc(t.serviceName || t.serviceId)}${t.dropOff ? ' <span class="puce v">dépôt</span>' : ""}</td>
+        <td class="n">${money(t.price)}</td></tr>`).join("")}</tbody></table></div>`;
+    } catch (e) { $("#fcOut", c).innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+  };
+  $("#fcRegles", c).onclick = async () => {
+    const r = await api("/api/rules/test", { method: "POST", body: { order_id: id } });
+    const l = r.declenchees.declenchees || r.declenchees;
+    $("#fcOut", c).innerHTML = (l || []).length
+      ? `<div class="carte">${l.map((x) => `<b>${esc(x.name)}</b><br><span class="doux">${
+          (x.actions || []).map((a) => esc(a.type)).join(", ")}</span>`).join("<hr>")}</div>`
+      : '<p class="doux">Aucune règle ne s\'applique.</p>';
+  };
+
+  api(`/api/shipments?order_id=${id}`).then((j) => {
+    const l = j.shipments || [];
+    $("#fcExp", c).innerHTML = l.length
+      ? `<div class="tbl"><table><thead><tr><th>Suivi</th><th>Service</th><th class="n">Coût</th><th>Date</th></tr></thead>
+         <tbody>${l.map((x) => `<tr><td>${esc(x.tracking_number || "—")}${x.is_return ? ' <span class="puce a">retour</span>' : ""}${
+           x.voided ? ' <span class="puce r">annulée</span>' : ""}</td><td>${nomService(x.service_id)}</td>
+           <td class="n">${money(x.cost)}</td><td>${jour(x.ship_date)}</td></tr>`).join("")}</tbody></table></div>`
+      : "aucune expédition";
+  }).catch(() => { $("#fcExp", c).textContent = "—"; });
 }
 
 // ------------------------------------------------------------------ alertes
@@ -1939,20 +2198,85 @@ VUES.expeditions = async () => {
 };
 
 // ------------------------------------------------------------------- lots
+/**
+ * Lots — les contenants du tri, et leur traitement.
+ *
+ * Un lot ouvert reçoit des commandes au fil du tri ; le traiter achète les étiquettes de
+ * toutes celles qui y attendent. Chez Lasclay, 96 % des étiquettes du compte audité sont
+ * achetées en lot : c'est le chemin principal, pas un cas particulier.
+ */
 VUES.lots = async () => {
   const { batches } = await api("/api/batches");
-  $("#vue").innerHTML = `<h2>Lots</h2><p class="sous">96 % des étiquettes du compte audité sont achetées en lot — c'est le chemin principal.</p>`;
-  $("#vue").append(table([
+  const ouverts = batches.filter((b) => b.status === "open");
+  const traites = batches.filter((b) => b.status !== "open");
+
+  $("#vue").innerHTML = `<h2>Lots</h2>
+    <p class="sous">Un lot ouvert attend des commandes ; le traiter achète les étiquettes de
+      tout ce qu'il contient. 96 % des étiquettes du compte audité passaient par un lot.</p>
+    <div class="barre"><button class="p" id="lNouveau">Créer un lot</button></div>
+    <div class="carte"><b>Lots ouverts</b><div id="lOuverts" style="margin-top:8px"></div></div>
+    <div class="carte"><b>Lots traités</b><div id="lTraites" style="margin-top:8px"></div></div>`;
+
+  $("#lOuverts").append(table([
+    { k: "name", t: "Nom" },
+    { k: "created_at", t: "Créé", r: (b) => jour(b.created_at) },
+    { k: "en_attente", t: "Commandes en attente", n: true },
+    { k: "act", t: "", r: (b) => `<button data-voir="${b.id}">Voir</button>
+      <button class="v" data-traiter="${b.id}">Traiter…</button>
+      <button data-fermer="${b.id}">Fermer</button>` },
+  ], ouverts));
+
+  $("#lTraites").append(table([
     { k: "id", t: "Lot" }, { k: "name", t: "Nom" },
-    { k: "created_at", t: "Créé", r: b => jour(b.created_at) },
+    { k: "created_at", t: "Créé", r: (b) => jour(b.created_at) },
     { k: "n", t: "Étiquettes", n: true },
-    { k: "cout", t: "Coût", n: true, r: b => money(b.cout) },
-    { k: "status", t: "Statut", r: b => `<span class="puce ${b.status === "done" ? "v" : b.status === "error" ? "r" : "g"}">${esc(b.status)}</span>` },
-  ], batches, { onLigne: async (id) => {
+    { k: "cout", t: "Coût", n: true, r: (b) => money(b.cout) },
+    { k: "status", t: "Statut", r: (b) => `<span class="puce ${b.status === "done" ? "v" : b.status === "error" ? "r" : "g"}">${esc(b.status)}</span>` },
+  ], traites, { onLigne: async (id) => {
     const l = await api("/api/batches/" + id);
-    dialogue(`Lot ${id}`, table([{ k: "order_number", t: "Commande" }, { k: "tracking_number", t: "Suivi" },
-      { k: "service_id", t: "Service" }, { k: "cost", t: "Coût", n: true, r: s => money(s.cost) }], l.shipments).outerHTML, null);
+    dialogue(`Lot ${esc(l.name || id)}`, table([
+      { k: "order_number", t: "Commande" }, { k: "tracking_number", t: "Suivi" },
+      { k: "service_id", t: "Service", r: (x) => nomService(x.service_id) },
+      { k: "cost", t: "Coût", n: true, r: (x) => money(x.cost) }], l.shipments).outerHTML, null, "Fermer");
   } }));
+
+  $("#lNouveau").onclick = () => dialogue("Créer un lot",
+    `<label class="champ"><span>Nom du lot</span>
+       <input id="ln3" value="${esc("Lot du " + new Date().toISOString().slice(0, 10))}"></label>`,
+    async () => { await api("/api/batches/new", { method: "POST", body: { name: $("#ln3").value } }); rendre(); }, "Créer");
+
+  $("#vue").querySelectorAll("[data-voir]").forEach((b) => b.onclick = async (e) => {
+    e.stopPropagation();
+    const d = await api(`/api/batches/${b.dataset.voir}/orders`);
+    dialogue("Commandes du lot", d.orders.length
+      ? table([{ k: "order_number", t: "Commande" }, { k: "customer_name", t: "Destinataire" },
+          { k: "weight_g", t: "Poids", n: true, r: (o) => `${num(Math.round(o.weight_g || 0))} g` },
+          { k: "order_total", t: "Total", n: true, r: (o) => money(o.order_total) }], d.orders).outerHTML
+      : "<p class='doux'>Ce lot est vide. Déposez-y des commandes depuis l'écran Commandes.</p>", null, "Fermer");
+  });
+
+  $("#vue").querySelectorAll("[data-traiter]").forEach((b) => b.onclick = (e) => {
+    e.stopPropagation();
+    const lot = ouverts.find((x) => String(x.id) === b.dataset.traiter);
+    dialogue(`Traiter « ${lot.name} »`, `
+      <div class="avis">Ceci <b>achète réellement</b> les étiquettes des ${num(lot.en_attente)} commande(s)
+        du lot. Adaptateur actif : <b>${esc(S.config.adaptateur)}</b>.</div>
+      <label class="champ"><span>Refuser au-delà d'une perte de (vide = ne rien bloquer)</span>
+        <input type="number" id="lm" step="0.01" placeholder="ex. 10.00"></label>`,
+      async () => {
+        const r = await api(`/api/batches/${lot.id}/process`, { method: "POST", body: { marge_max: $("#lm").value } });
+        if (r.error) { alert(r.error); return false; }
+        alert(`${r.reussis} étiquette(s), ${r.echecs} échec(s) · marge du lot ${money(r.marge_lot)}`);
+        rendre(); rafraichirCompteurs();
+      }, "Traiter");
+  });
+
+  $("#vue").querySelectorAll("[data-fermer]").forEach((b) => b.onclick = async (e) => {
+    e.stopPropagation();
+    if (!confirm("Fermer ce lot ? Il quittera le panneau gauche.")) return;
+    await api(`/api/batches/${b.dataset.fermer}/close`, { method: "POST", body: {} });
+    rendre();
+  });
 };
 
 // --------------------------------------------------------------- manifestes
