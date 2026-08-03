@@ -371,6 +371,14 @@ const AJOUTS = [
   ["orders", "premium_programs", "TEXT"],
   // Secret de signature par abonnement (exigence G2) : rotatif, propre à chaque cible.
   ["webhooks", "secret", "TEXT"],
+  // Réconciliation des montants (BUG-016). Sans ces quatre colonnes, une commande remisée
+  // ou remboursée affiche des lignes au prix catalogue sous un total à zéro : l'écran se
+  // contredit lui-même. La remise et le remboursement sont des montants à part entière,
+  // pas des différences à deviner entre le total et la somme des lignes.
+  ["orders", "discount_amount", "REAL DEFAULT 0"],
+  ["orders", "refunded_amount", "REAL DEFAULT 0"],
+  ["order_items", "quantity_ordered", "INTEGER"],   // quantité d'origine ; `quantity` est la courante
+  ["order_items", "discount", "REAL DEFAULT 0"],    // remise allouée à la ligne
 ];
 
 /**

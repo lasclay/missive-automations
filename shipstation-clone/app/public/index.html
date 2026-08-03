@@ -401,6 +401,13 @@
   .fiche .kv { display:flex; justify-content:space-between; gap:8px; font-size:12.5px; padding:2px 0 }
   .fiche .kv span { color:var(--doux) }
   .fiche .kv.tot { border-top:1px solid var(--bord); margin-top:3px; padding-top:5px; font-weight:650 }
+  /* Remise et remboursement : des montants qui sortent, écrits comme tels. */
+  .fiche .kv.rem b { color:var(--vert) }
+  .avertMontants { margin-top:6px; padding:6px 8px; border-radius:5px; font-size:12px; line-height:1.45;
+    background:rgba(154,91,6,.12); border:1px solid rgba(154,91,6,.3); color:var(--ambre) }
+  .avertMontants .doux { display:block; margin-top:2px; opacity:.85 }
+  /* Ligne dont la quantité courante est tombée à zéro : remboursée, plus à préparer. */
+  .fiche tr.ligneAnnulee td { opacity:.55; text-decoration:line-through }
   .fiche .adr { font-size:12.5px; line-height:1.5; margin-top:3px }
   .fiche .barre { display:flex; gap:8px; align-items:center; margin-top:10px }
   .fiche .avis.mini { font-size:11.5px; padding:4px 8px; margin-top:5px }
@@ -593,6 +600,40 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"
 const money = (v) => (Number(v) || 0).toFixed(2) + " $";
 const num = (v) => (Number(v) || 0).toLocaleString("fr-CA");
 const jour = (s) => (s ? String(s).slice(0, 10) : "—");
+
+/**
+ * Résumé des coûts — reconstitué depuis les lignes, remise et remboursement compris.
+ *
+ * L'ancienne version affichait `Produits = total − taxes − livraison`. Sur une commande
+ * remisée, ce chiffre contredisait la ligne juste à côté sans que rien ne le dise. Le
+ * serveur fournit désormais `couts` ; quand la somme ne se referme pas, on l'annonce au
+ * lieu de la maquiller — l'opérateur qui voit « 0,00 $ » sous des articles valorisés doit
+ * savoir que c'est l'import qui manque de données, pas la commande qui vaut zéro.
+ */
+function resumeCouts(o) {
+  const c = o.couts || {
+    produits: (o.items || []).filter(i => !i.adjustment)
+      .reduce((s, i) => s + (i.unit_price || 0) * (i.quantity ?? 0), 0),
+    remise: o.discount_amount || 0, ajustements: 0,
+    livraison: o.shipping_paid || 0, taxes: o.tax_amount || 0,
+    total: o.order_total || 0, paye: o.amount_paid || 0,
+    rembourse: o.refunded_amount || 0, coherent: true, motif: null,
+  };
+  const ligne = (nom, v, cls = "") => `<div class="kv ${cls}"><span>${nom}</span><b>${money(v)}</b></div>`;
+  return [
+    ligne("Produits", c.produits),
+    c.remise ? ligne("Remise", -c.remise, "rem") : "",
+    c.ajustements ? ligne("Ajustements", c.ajustements) : "",
+    ligne("Livraison", c.livraison),
+    ligne("Taxes", c.taxes),
+    ligne("Total", c.total, "tot"),
+    ligne("Total payé", c.paye),
+    c.rembourse ? ligne("Remboursé", -c.rembourse, "rem") : "",
+    c.coherent ? "" :
+      `<div class="avertMontants" role="status">Montants non synchronisés — ${esc(c.motif || "")}.
+       <span class="doux">Reconstitué depuis les lignes : ${money(c.reconstitue)}.</span></div>`,
+  ].join("");
+}
 
 // ══════════════════════════════════════════════════════════════════ langue
 /**
@@ -3108,11 +3149,7 @@ async function detailCommande(id) {
             </div>
             <div>
               <div class="fLab">Résumé des coûts</div>
-              <div class="kv"><span>Produits</span><b>${money(o.order_total - (o.shipping_paid || 0) - (o.tax_amount || 0))}</b></div>
-              <div class="kv"><span>Livraison</span><b>${money(o.shipping_paid)}</b></div>
-              <div class="kv"><span>Taxes</span><b>${money(o.tax_amount)}</b></div>
-              <div class="kv tot"><span>Total</span><b>${money(o.order_total)}</b></div>
-              <div class="kv"><span>Total payé</span><b>${money(o.amount_paid)}</b></div>
+              ${resumeCouts(o)}
               <hr>
               <div class="fDates">
                 <label class="champ"><span>Livrer avant</span><input type="date" id="fDeliv" value="${esc(jour2(o.deliver_by_date))}"></label>
@@ -3141,14 +3178,23 @@ async function detailCommande(id) {
               <button type="button" class="fEdit" id="fScan">Vérifier au scan</button>
             </span></h4>
           <table class="fArt">
-            <thead><tr><th>Article</th><th>Image</th><th class="n">Prix unitaire</th><th class="n">Quantité</th><th class="n">Total</th></tr></thead>
-            <tbody>${o.items.map((i) => `<tr>
+            <thead><tr><th>Article</th><th>Image</th><th class="n">Prix unitaire</th><th class="n">Remise</th><th class="n">Quantité</th><th class="n">Total</th></tr></thead>
+            <tbody>${o.items.map((i) => {
+              // Quantité courante contre quantité commandée : une ligne remboursée tombe à
+              // zéro chez Shopify comme chez ShipStation. L'afficher rayée évite qu'elle
+              // soit préparée quand même — et explique le total sans qu'on ait à chercher.
+              const cmde = i.quantity_ordered ?? i.quantity;
+              const retiree = (i.quantity ?? 0) === 0 && cmde > 0;
+              return `<tr class="${retiree ? "ligneAnnulee" : ""}">
               <td><b>${esc(i.name)}</b>${i.adjustment ? ' <span class="puce g">ajustement</span>' : ""}
+                  ${retiree ? ' <span class="puce a">remboursée</span>' : ""}
                   <div class="sku">${esc(i.sku || "sans SKU")}</div></td>
               <td>${i.image_url ? `<img src="${esc(i.image_url)}" alt="">` : '<span class="doux">—</span>'}</td>
               <td class="n">${money(i.unit_price)}</td>
-              <td class="n">${i.quantity}</td>
-              <td class="n">${money((i.unit_price || 0) * (i.quantity || 0))}</td></tr>`).join("")}</tbody>
+              <td class="n">${i.discount ? "−" + money(i.discount) : '<span class="doux">—</span>'}</td>
+              <td class="n">${i.quantity}${cmde !== i.quantity ? ` <span class="doux">sur ${cmde}</span>` : ""}</td>
+              <td class="n">${money((i.unit_price || 0) * (i.quantity || 0) - (i.discount || 0))}</td></tr>`;
+            }).join("")}</tbody>
           </table>
         </section>
 
@@ -3733,6 +3779,26 @@ VUES.alertes = async () => {
     <div class="doux" style="font-size:12px;margin:3px 0 8px">Requis à six chiffres sur les envois commerciaux internationaux.</div></div>`);
   if (douane.sans_hs.length) cd.append(table([{ k: "sku", t: "SKU" }, { k: "name", t: "Produit" }], douane.sans_hs.slice(0, 25)));
   $("#vue").append(cd);
+
+  // Montants désynchronisés — la seule alerte qui ne bloque pas un lot mais fausse tout le
+  // reste : marge, réconciliation comptable, réponse au client qui demande son remboursement.
+  const rec = await api("/api/orders/reconciliation?limite=25");
+  const cm = el(`<div class="carte"><b>Montants non synchronisés</b>
+    <span class="puce ${rec.incoherentes ? "a" : "v"}">${num(rec.incoherentes)}</span>
+    <div class="doux" style="font-size:12px;margin:3px 0 8px">Le total de la boutique contredit la somme
+      des lignes — remises, remboursements ou quantités courantes non importés.
+      ${rec.incoherentes ? `${num(rec.a_expedier)} à expédier · écart cumulé ${money(rec.ecart_cumule)}${
+        rec.total_nul_lignes_valorisees.n
+          ? ` · ${num(rec.total_nul_lignes_valorisees.n)} à total nul pour ${money(rec.total_nul_lignes_valorisees.valeur)} de marchandise`
+          : ""}` : "Rien à signaler."}</div></div>`);
+  if (rec.exemples.length) cm.append(table([
+    { k: "order_number", t: "Commande" },
+    { k: "produits", t: "Lignes", n: true, r: (c) => money(c.produits) },
+    { k: "total", t: "Total annoncé", n: true, r: (c) => money(c.total) },
+    { k: "ecart", t: "Écart", n: true, r: (c) => money(c.ecart) },
+    { k: "motif", t: "Motif" },
+  ], rec.exemples.slice(0, 25), { cle: "id" }));
+  $("#vue").append(cm);
   if (bas.low.length) {
     const cb = el(`<div class="carte"><b>Stock bas</b> <span class="puce a">${bas.low.length}</span></div>`);
     cb.append(table([{ k: "sku", t: "SKU" }, { k: "name", t: "Produit" }, { k: "warehouse_name", t: "Entrepôt" },
@@ -4895,6 +4961,7 @@ VUES.reglages = async () => {
         <button class="p" id="shpull">Rattraper les commandes…</button>
         <button id="shhook">Abonner aux webhooks</button>
         <button id="shone">Importer une commande…</button>
+        <button id="shbout">Réattribuer les boutiques…</button>
       </div>
       ${abonnes.length ? `<div class="tbl" style="max-height:150px"><table><tbody>${
         abonnes.map(w => `<tr><td>${esc(w.topic)}</td><td class="doux">${esc(w.url)}</td></tr>`).join("")
@@ -4936,6 +5003,34 @@ VUES.reglages = async () => {
         alert(`${r.order_number} ${r.nouvelle ? "importée" : "mise à jour"}.`);
         rafraichirCompteurs();
       }, "Importer");
+
+    // Réattribution des boutiques : toujours à blanc d'abord. Une réécriture de masse sur
+    // des commandes réelles se regarde avant de se lancer — la boîte montre ce qui bougera,
+    // et il faut un second geste pour l'appliquer.
+    $("#shbout").onclick = async () => {
+      const rep = (t) => Object.entries(t || {}).map(([n, v]) =>
+        `<tr><td>${esc(n)}</td><td class="n">${num(v)}</td></tr>`).join("");
+      const essai = await api("/api/shopify/boutiques", { method: "POST", body: {} });
+      dialogue("Réattribuer les boutiques d'origine", `
+        <p>Chaque commande retourne sur la boutique d'où elle vient — Shopify, Etsy, Faire
+          ou saisie manuelle — au lieu d'être toutes rangées sous la boutique principale.</p>
+        <p><b>${num(essai.mouvements)}</b> commande(s) changeraient de boutique.
+          ${essai.fantomes.length ? `La boutique
+          ${essai.fantomes.map(f => `« ${esc(f.name)} »`).join(", ")} sera supprimée une fois vidée.` : ""}</p>
+        <div class="tbl" style="max-height:190px"><table>
+          <thead><tr><th scope="col">Boutique</th><th scope="col" class="n">À expédier</th></tr></thead>
+          <tbody>${rep(essai.avant)}</tbody></table></div>
+        ${essai.mouvements ? '<p class="avis">Faire une sauvegarde vérifiée avant d\'appliquer.</p>' : ""}`,
+        essai.mouvements ? async () => {
+          const r = await api("/api/shopify/boutiques", { method: "POST", body: { appliquer: true } });
+          $("#dlgC").innerHTML = `<div class="carte"><b>${num(r.mouvements)} commande(s) réattribuée(s).</b>
+            <div class="tbl" style="margin-top:8px"><table>
+              <thead><tr><th scope="col">Boutique</th><th scope="col" class="n">À expédier</th></tr></thead>
+              <tbody>${rep(r.apres)}</tbody></table></div></div>`;
+          rafraichirCompteurs();
+          return false;
+        } : null, essai.mouvements ? "Appliquer" : "Fermer");
+    };
   } catch (e) {
     $("#cshc").innerHTML = `<div class="avis">${esc(e.message)}</div>`;
   }

@@ -232,6 +232,70 @@ verifier("livraison gratuite à 9,09 $ → alerte", perte.niveau === "alerte" &&
 const gain = shipments.marge({ shipping_paid: 15 }, 9.09);
 verifier("15 $ facturés pour 9,09 $ → ok", gain.niveau === "ok" && gain.ecart === 5.91);
 
+console.log("\n13. Réconciliation des montants (BUG-016)");
+const cmds = require("./lib/orders");
+const art = (p, q, r = 0) => ({ unit_price: p, quantity: q, discount: r, adjustment: false });
+
+// L-50765, relevé à l'audit : une ligne à 59,99 $ sous « Produits 51,00 $ ». L'écart de
+// 8,99 $ était une remise que rien n'affichait — le bloc se contredisait tout seul.
+const remisee = cmds.couts({ items: [art(59.99, 1, 8.99)], order_total: 70.13,
+  shipping_paid: 9.99, tax_amount: 9.14, discount_amount: 8.99, amount_paid: 70.13 });
+verifier("commande remisée : le résumé se referme", remisee.coherent && remisee.ecart === 0,
+  `produits ${remisee.produits} − remise ${remisee.remise} + 9,99 + 9,14 = ${remisee.reconstitue}`);
+verifier("la remise apparaît comme un montant, pas comme un écart", remisee.remise === 8.99);
+
+// L-46628 : 4 lignes remboursées, quantités à zéro chez Shopify comme chez ShipStation.
+// Total nul et lignes nulles se répondent : il n'y a rien à signaler.
+const remboursee = cmds.couts({ items: [art(114.99, 0), art(89.99, 0), art(39.99, 0), art(114.99, 0)],
+  order_total: 0, shipping_paid: 0, tax_amount: 0, amount_paid: 0, refunded_amount: 351.83 });
+verifier("commande entièrement remboursée : cohérente et signalée comme telle",
+  remboursee.coherent && remboursee.tout_rembourse && remboursee.rembourse === 351.83);
+
+// Le cas que l'audit voulait voir dénoncé : total à zéro sous des lignes valorisées.
+const muette = cmds.couts({ items: [art(6.49, 1)], order_total: 0, shipping_paid: 0,
+  tax_amount: 0, amount_paid: 0 });
+verifier("total nul sous des lignes valorisées : incohérence annoncée",
+  !muette.coherent && /remises ou remboursements non importés/.test(muette.motif || ""),
+  muette.motif || "aucun motif");
+
+// L'ajustement (frais, don, emballage cadeau) entre dans le total sans être un article.
+const avecAjustement = cmds.couts({
+  items: [art(20, 1), { unit_price: 5, quantity: 1, adjustment: true }],
+  order_total: 25, shipping_paid: 0, tax_amount: 0, amount_paid: 25 });
+verifier("les ajustements comptent dans le total sans compter dans les produits",
+  avecAjustement.coherent && avecAjustement.produits === 20 && avecAjustement.ajustements === 5);
+
+// Conversion Shopify : les champs « current… » doivent primer sur les champs d'origine.
+const sync = require("./lib/shopify_sync");
+const brut = sync.convertir({
+  id: "gid://shopify/Order/999", name: "L-99999", createdAt: "2026-07-01T00:00:00Z",
+  displayFinancialStatus: "PARTIALLY_REFUNDED", displayFulfillmentStatus: "UNFULFILLED",
+  sourceName: "etsy",
+  currentTotalPriceSet: { shopMoney: { amount: "51.00" } },
+  currentTotalTaxSet: { shopMoney: { amount: "0.00" } },
+  currentShippingPriceSet: { shopMoney: { amount: "0.00" } },
+  totalReceivedSet: { shopMoney: { amount: "70.13" } },
+  totalRefundedSet: { shopMoney: { amount: "19.13" } },
+  lineItems: { edges: [{ node: { id: "gid://shopify/LineItem/1", sku: "MIT-001", name: "Mitaines",
+    quantity: 2, currentQuantity: 1,
+    originalUnitPriceSet: { shopMoney: { amount: "59.99" } },
+    totalDiscountSet: { shopMoney: { amount: "17.98" } } } }] },
+});
+verifier("conversion : la quantité courante l'emporte sur la commandée",
+  brut.items[0].quantity === 1 && brut.items[0].quantity_ordered === 2);
+verifier("conversion : la remise de ligne est mise au prorata du restant",
+  brut.items[0].discount === 8.99, `obtenu ${brut.items[0].discount}`);
+verifier("conversion : le montant payé est net du remboursement",
+  brut.amount_paid === 51 && brut.refunded_amount === 19.13,
+  `payé ${brut.amount_paid}, remboursé ${brut.refunded_amount}`);
+verifier("conversion : la provenance Etsy est reconnue", sync.marcheDe({ sourceName: "etsy" }) === "etsy");
+verifier("conversion : une commande web reste sur la boutique Shopify",
+  sync.marcheDe({ sourceName: "web" }) === "shopify");
+verifier("conversion : un brouillon part sur les commandes manuelles",
+  sync.marcheDe({ sourceName: "shopify_draft_order" }) === "manual");
+verifier("statut : ON_HOLD devient « en attente »",
+  sync.statut({ displayFulfillmentStatus: "ON_HOLD" }) === "on_hold");
+
 // ------------------------------------------------------------------ bilan
 
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);

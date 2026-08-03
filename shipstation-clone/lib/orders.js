@@ -103,7 +103,7 @@ function chercher(f = {}) {
 /** Transforme une ligne SQL en objet utilisable (JSON décodé, articles, tags). */
 function hydrater(r) {
   if (!r) return null;
-  return {
+  const o = {
     ...r,
     ship_to: parse(r.ship_to, {}),
     bill_to: parse(r.bill_to, {}),
@@ -116,6 +116,58 @@ function hydrater(r) {
       .map((i) => ({ ...i, options: parse(i.options, []), adjustment: !!i.adjustment })),
     tags: all("SELECT t.id, t.name, t.color FROM order_tags ot JOIN tags t ON t.id = ot.tag_id WHERE ot.order_id = ?", r.id),
     raw: undefined,
+  };
+  o.couts = couts(o);
+  return o;
+}
+
+/**
+ * Résumé des coûts — reconstitué depuis les lignes, pas déduit du total (BUG-016).
+ *
+ * L'ancien calcul affichait `Produits = total − taxes − livraison`. Une remise ou un
+ * remboursement le rendait faux sans que rien ne le signale : 879 commandes montraient
+ * `Total 0,00 $` au-dessus de lignes valorisées, et l'écart dépassait un cent sur 8 758
+ * commandes. Ici les lignes sont la vérité — c'est ce que l'entrepôt a sous les yeux — et
+ * ce qui ne se referme pas est **annoncé** plutôt que masqué par une soustraction.
+ *
+ * `coherent` est faux quand le total déclaré par la boutique s'écarte de plus d'un cent de
+ * ce que les lignes, la remise, la livraison et les taxes permettent de reconstituer. Ce
+ * n'est pas une erreur de calcul : c'est le signe que l'import n'a pas tout rapatrié.
+ */
+const CENT = 0.01;
+const sou = (n) => Math.round((Number(n) || 0) * 100) / 100;
+
+function couts(o) {
+  const lignes = (o.items || []).filter((i) => !i.adjustment);
+  const ajustements = (o.items || []).filter((i) => i.adjustment);
+  const produits = sou(lignes.reduce((s, i) => s + (i.unit_price || 0) * (i.quantity ?? 0), 0));
+  const remiseLignes = sou(lignes.reduce((s, i) => s + (i.discount || 0), 0));
+  // La remise de commande l'emporte sur la somme des remises de ligne quand les deux
+  // existent : Shopify alloue les remises de panier aux lignes, les additionner doublerait.
+  const remise = sou(o.discount_amount || remiseLignes);
+  const ajuste = sou(ajustements.reduce((s, i) => s + (i.unit_price || 0) * (i.quantity ?? 0), 0));
+  const livraison = sou(o.shipping_paid);
+  const taxes = sou(o.tax_amount);
+  const rembourse = sou(o.refunded_amount);
+  const reconstitue = sou(produits - remise + ajuste + livraison + taxes);
+  const declare = sou(o.order_total);
+  const ecart = sou(declare - reconstitue);
+
+  // Une commande dont TOUTES les quantités courantes sont à zéro est entièrement
+  // remboursée : total nul et lignes nulles se répondent, il n'y a rien à signaler.
+  const toutRembourse = lignes.length > 0 && lignes.every((i) => (i.quantity ?? 0) === 0);
+
+  return {
+    produits, remise, ajustements: ajuste, livraison, taxes,
+    total: declare, reconstitue, ecart,
+    paye: sou(o.amount_paid), rembourse,
+    coherent: Math.abs(ecart) <= CENT,
+    tout_rembourse: toutRembourse,
+    // Ce que l'opérateur doit savoir en une phrase, quand il y a quelque chose à savoir.
+    motif: Math.abs(ecart) <= CENT ? null
+      : declare === 0 && produits > 0
+        ? "total à zéro alors que les lignes sont valorisées — remises ou remboursements non importés"
+        : `le total de la boutique s'écarte de ${sou(Math.abs(ecart))} $ de la somme des lignes`,
   };
 }
 
@@ -142,6 +194,7 @@ function upsert(cmd) {
       bill_to: dump(cmd.bill_to || null), ship_to: dump(cmd.ship_to || {}),
       order_total: cmd.order_total || 0, amount_paid: cmd.amount_paid || 0,
       tax_amount: cmd.tax_amount || 0, shipping_paid: cmd.shipping_paid || 0,
+      discount_amount: cmd.discount_amount || 0, refunded_amount: cmd.refunded_amount || 0,
       customer_notes: cmd.customer_notes || null, internal_notes: cmd.internal_notes || null,
       gift: cmd.gift ? 1 : 0, gift_message: cmd.gift_message || null,
       requested_service: cmd.requested_service || null,
@@ -171,11 +224,12 @@ function upsert(cmd) {
     }
 
     for (const it of cmd.items || []) {
-      run(`INSERT INTO order_items (order_id,line_key,sku,name,image_url,quantity,unit_price,
-             weight_g,tax,warehouse_location,upc,product_id,adjustment,options)
-           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      run(`INSERT INTO order_items (order_id,line_key,sku,name,image_url,quantity,quantity_ordered,
+             unit_price,discount,weight_g,tax,warehouse_location,upc,product_id,adjustment,options)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
         id, it.line_key || null, it.sku || null, it.name || null, it.image_url || null,
-        it.quantity ?? 1, it.unit_price || 0, it.weight_g || 0, it.tax || 0,
+        it.quantity ?? 1, it.quantity_ordered ?? it.quantity ?? 1,
+        it.unit_price || 0, it.discount || 0, it.weight_g || 0, it.tax || 0,
         it.warehouse_location || null, it.upc || null, it.product_id || null,
         it.adjustment ? 1 : 0, dump(it.options || []));
     }
@@ -388,8 +442,45 @@ function validerAdresse(o) {
   return { statut, motifs };
 }
 
+/**
+ * Ampleur de la désynchronisation des montants, sur toute la base (BUG-016).
+ *
+ * Le SQL fait le gros du tri — 28 565 commandes ne passent pas par la mémoire — puis les
+ * seules candidates sont rejouées ligne à ligne pour obtenir l'écart exact. Le chiffre
+ * sert autant à mesurer les progrès d'une réconciliation qu'à décider s'il faut la lancer.
+ */
+function reconciliation({ limite = 200 } = {}) {
+  const suspectes = all(`
+    SELECT o.id, o.order_number, o.status, o.order_total, o.amount_paid, o.tax_amount,
+           o.shipping_paid, o.discount_amount, o.refunded_amount,
+           (SELECT COALESCE(SUM(i.unit_price * i.quantity), 0) FROM order_items i
+             WHERE i.order_id = o.id AND i.adjustment = 0) AS somme_lignes
+      FROM orders o
+     WHERE ABS(o.order_total - o.tax_amount - o.shipping_paid + COALESCE(o.discount_amount,0)
+               - (SELECT COALESCE(SUM(i.unit_price * i.quantity), 0) FROM order_items i
+                    WHERE i.order_id = o.id AND i.adjustment = 0)) > 0.01
+     ORDER BY o.order_date DESC`);
+
+  const detail = suspectes.map((r) => {
+    const o = parId(r.id);
+    return { id: r.id, order_number: r.order_number, status: r.status, ...o.couts };
+  }).filter((c) => !c.coherent && !c.tout_rembourse);
+
+  const total = one("SELECT COUNT(*) n FROM orders").n;
+  const nulles = detail.filter((c) => c.total === 0 && c.produits > 0);
+  return {
+    commandes: total,
+    incoherentes: detail.length,
+    part: total ? Math.round((detail.length / total) * 1000) / 10 : 0,
+    a_expedier: detail.filter((c) => c.status === "awaiting_shipment").length,
+    total_nul_lignes_valorisees: { n: nulles.length, valeur: sou(nulles.reduce((s, c) => s + c.produits, 0)) },
+    ecart_cumule: sou(detail.reduce((s, c) => s + Math.abs(c.ecart), 0)),
+    exemples: detail.slice(0, limite),
+  };
+}
+
 module.exports = {
   STATUTS, chercher, parId, parNumero, hydrater, upsert, changerStatut, hold, restaurer,
   libererHolds, assigner, ajouterTag, retirerTag, poserChamps, supprimer, scinder, fusionner,
-  alertes, compteurs, validerAdresse,
+  alertes, compteurs, validerAdresse, couts, reconciliation,
 };

@@ -584,6 +584,29 @@ route("POST /api/shopify/order", async ({ req, user }) => {
   return await shopify.importerUne((await corps(req)).id);
 });
 
+/**
+ * État de la réconciliation des montants (BUG-016) — combien de commandes affichent un
+ * total qui contredit leurs lignes, et pour quel écart cumulé. Sert à décider s'il faut
+ * relancer un rattrapage, et à mesurer ce qu'il a réparé.
+ */
+route("GET /api/orders/reconciliation", ({ url, user }) => {
+  accounts.exiger(user, "orders_view");
+  return orders.reconciliation({ limite: Math.min(Number(q(url).limite) || 100, 1000) });
+});
+
+/**
+ * Réattribution des boutiques d'origine (BUG-013).
+ *
+ * **À blanc par défaut** : sans `appliquer: true`, la route ne fait que compter et rendre
+ * la répartition actuelle. C'est une réécriture de masse sur des commandes réelles ; elle
+ * se regarde avant de se lancer, et jamais sans sauvegarde vérifiée.
+ */
+route("POST /api/shopify/boutiques", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  return shopify.reparerBoutiques({ appliquer: b.appliquer === true });
+});
+
 route("POST /api/shopify/webhooks", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");
   const b = await corps(req);
