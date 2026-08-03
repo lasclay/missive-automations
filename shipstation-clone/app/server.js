@@ -23,6 +23,7 @@ const crypto = require("crypto");
 const db = require("../lib/db");
 const orders = require("../lib/orders");
 const shipments = require("../lib/shipments");
+const pickups = require("../lib/pickups");
 const catalog = require("../lib/catalog");
 const rules = require("../lib/rules");
 const templates = require("../lib/templates");
@@ -383,6 +384,30 @@ route("GET /api/shipments", ({ url }) => shipments.chercher(q(url)));
  * `voidlabel` reste dehors : annuler une étiquette touche l'argent et garde sa route propre,
  * une expédition à la fois.
  */
+/**
+ * Cueillettes transporteur — BUG-051.
+ *
+ * `GET /api/pickups` rendait 404. Chez Lasclay, cinq comptes ont un ramassage et c'est un
+ * geste quotidien : sa perte à la bascule se paierait tous les matins.
+ */
+route("GET /api/pickups", ({ url, user }) => {
+  accounts.exiger(user, "shipments_view");
+  const p = q(url);
+  return { comptes: pickups.COMPTES, statuts: pickups.STATUTS,
+    pickups: pickups.lister({ depuis: p.depuis || null, jusqua: p.jusqua || null, statut: p.statut || null }) };
+});
+
+route("POST /api/pickups", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  return pickups.programmer(await corps(req), user);
+});
+
+route("POST /api/pickups/:id", async ({ req, params, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return pickups.majStatut(Number(params.id), b.statut, b, user);
+});
+
 route("GET /api/shipments/actions", ({ user }) => {
   accounts.exiger(user, "shipments_view");
   return { actions: Object.entries(shipments.ACTIONS_MASSE)

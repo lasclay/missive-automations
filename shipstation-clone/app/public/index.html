@@ -1073,6 +1073,7 @@ const MODULES = [
     { id: "expeditions", t: "Expéditions" },
     { id: "fulfillments", t: "Préparations externes" },
     { id: "lots", t: "Lots" },
+    { id: "cueillettes", t: "Cueillettes" },
     { id: "manifestes", t: "Fin de journée" },
   ] },
   { id: "retours", t: "Retours" },
@@ -1108,7 +1109,7 @@ MODULE_DE.attente = "commandes";
 const PERM_PAGE = { utilisateurs: "users_manage", reglages: "settings_edit", journal: "reports_view",
   analytique: "reports_view", produits: "products_view", retours: "returns_manage",
   prereglages: "settings_edit", automatisation: "settings_edit", gabarits: "settings_edit",
-  douanes: "products_view" };
+  douanes: "products_view", cueillettes: "shipments_view" };
 
 function autorise(id) {
   const need = PERM_PAGE[id];
@@ -4217,6 +4218,119 @@ VUES.expeditions = async () => {
  * toutes celles qui y attendent. Chez Lasclay, 96 % des étiquettes du compte audité sont
  * achetées en lot : c'est le chemin principal, pas un cas particulier.
  */
+/**
+ * Cueillettes transporteur — BUG-051.
+ *
+ * L'écran manquait entièrement (`GET /api/pickups` → 404) alors que Lasclay a cinq comptes
+ * avec ramassage et que c'est un geste quotidien.
+ *
+ * Une chose est dite partout sur cet écran, et c'est la plus importante : tant qu'aucun
+ * identifiant transporteur n'est en place, un ramassage est **noté ici**, pas **confirmé
+ * par le transporteur**. Laisser croire qu'un camion viendra parce qu'une ligne existe en
+ * base ferait préparer des colis pour rien.
+ */
+VUES.cueillettes = async () => {
+  const d = await api("/api/pickups");
+  const aujourdhui = new Date().toISOString().slice(0, 10);
+  const demain = new Date(Date.now() + 864e5).toISOString().slice(0, 10);
+  const attendus = d.pickups.filter(p => p.statut === "demande" || p.statut === "confirme");
+
+  $("#vue").innerHTML = `<h1>Cueillettes transporteur</h1>
+    <p class="sous">Programmer, mettre à jour ou annuler un ramassage, pour les
+      ${num(d.comptes.length)} comptes du compte Lasclay.</p>
+    <div class="avis">Aucun identifiant transporteur n'est en place : un ramassage est
+      <b>noté ici</b>, il n'est pas <b>confirmé par le transporteur</b>. La confirmation
+      reste vide tant que personne n'a appelé ou que l'API du transporteur n'est pas
+      branchée — c'est ce que dit la colonne « Confirmation ».</div>
+    <div class="barre"><button class="p" id="puNew">Programmer un ramassage…</button>
+      <select id="puF"><option value="">Tous les statuts</option>
+        ${d.statuts.map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join("")}</select></div>
+    <div id="puT"></div>`;
+
+  const rendreTable = (lignes) => {
+    $("#puT").innerHTML = "";
+    if (!lignes.length) {
+      $("#puT").append(etatVideG({ titre: "Aucun ramassage",
+        detail: "Programmez celui de demain en fin de journée, comme dans ShipStation.",
+        action: { t: "Programmer un ramassage…", f: () => $("#puNew").click() } }));
+      return;
+    }
+    $("#puT").append(table([
+      { k: "date", t: "Date", r: p => jour(p.date) + (p.date === aujourdhui ? ' <span class="puce a">aujourd\'hui</span>'
+        : p.date === demain ? ' <span class="puce g">demain</span>' : "") },
+      { k: "nom", t: "Compte" },
+      { k: "creneau", t: "Créneau", r: p => p.creneau_debut ? `${esc(p.creneau_debut)} – ${esc(p.creneau_fin || "…")}` : '<span class="doux">à convenir</span>' },
+      { k: "colis", t: "Colis annoncés", n: true, r: p => num(p.colis) },
+      // L'écart entre ce qui a été annoncé et ce qui est réellement prêt est le seul
+      // chiffre qui dit s'il faut rappeler le transporteur.
+      { k: "colis_reels", t: "Colis prêts", n: true, r: p => {
+          const ecart = p.colis_reels - p.colis;
+          return `${num(p.colis_reels)}${p.colis && ecart ? ` <span class="puce ${ecart > 0 ? "a" : "g"}">${ecart > 0 ? "+" : ""}${num(ecart)}</span>` : ""}`;
+        } },
+      { k: "statut", t: "Statut", r: p => `<span class="puce ${p.statut === "confirme" ? "v" : p.statut === "annule" ? "r" : p.statut === "effectue" ? "g" : "a"}">${esc(p.statut)}</span>` },
+      { k: "confirmation", t: "Confirmation", r: p => p.confirmation
+          ? `<span class="sku">${esc(p.confirmation)}</span>`
+          : '<span class="doux" title="Aucune confirmation du transporteur">non confirmé</span>' },
+      { k: "act", t: "", r: p => p.statut === "annule" || p.statut === "effectue" ? ""
+          : `<button data-pc="${p.id}">Confirmer…</button> <button class="d" data-pa="${p.id}">Annuler</button>` },
+    ], lignes, { cle: "id" }));
+
+    $("#puT").querySelectorAll("[data-pc]").forEach(b => b.onclick = () => {
+      dialogue("Confirmer le ramassage", `
+        <p>À remplir quand le transporteur a confirmé — par téléphone, par courriel ou par
+          son portail. Sans numéro, la ligne reste « noté ici ».</p>
+        <label class="champ"><span>Numéro de confirmation</span><input id="puC" placeholder="ex. CP-8841203"></label>`,
+        async () => {
+          await api("/api/pickups/" + b.dataset.pc, { method: "POST",
+            body: { statut: "confirme", confirmation: $("#puC").value.trim() || null } });
+          VUES.cueillettes();
+        }, "Confirmer");
+    });
+    $("#puT").querySelectorAll("[data-pa]").forEach(b => b.onclick = () => {
+      dialogue("Annuler le ramassage",
+        "<p>Le ramassage sera marqué annulé ici. <b>Si le transporteur l'avait confirmé, il faut aussi l'annuler chez lui</b> — le clone ne le fait pas à votre place.</p>",
+        async () => {
+          await api("/api/pickups/" + b.dataset.pa, { method: "POST", body: { statut: "annule" } });
+          VUES.cueillettes();
+        }, "Annuler le ramassage");
+    });
+  };
+
+  $("#puNew").onclick = () => dialogue("Programmer un ramassage", `
+    <label class="champ"><span>Compte</span><select id="puA">${
+      d.comptes.map((c, i) => `<option value="${i}">${esc(c.nom)}</option>`).join("")}</select></label>
+    <div class="grille">
+      <label class="champ"><span>Date</span><input type="date" id="puD" value="${demain}" min="${aujourdhui}"></label>
+      <label class="champ"><span>Entrepôt</span><select id="puW"><option value="">— défaut —</option>${
+        (S.refs.warehouses || []).map(w => `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Créneau — début</span><input type="time" id="pu1"></label>
+      <label class="champ"><span>Créneau — fin</span><input type="time" id="pu2"></label>
+      <label class="champ"><span>Colis attendus</span><input type="number" id="puN" min="0" value="${num(attendus.length ? 0 : 0)}"></label>
+      <label class="champ"><span>Contact sur place</span><input id="puP"></label>
+    </div>
+    <label class="champ"><span>Instructions</span><input id="puI" placeholder="porte arrière, sonner, colis sur la palette…"></label>`,
+    async () => {
+      const c = d.comptes[Number($("#puA").value)];
+      try {
+        await api("/api/pickups", { method: "POST", body: {
+          carrier_code: c.carrier_code, compte: c.compte, date: $("#puD").value,
+          warehouse_id: $("#puW").value || null,
+          creneau_debut: $("#pu1").value || null, creneau_fin: $("#pu2").value || null,
+          colis: $("#puN").value || 0, contact: $("#puP").value || null,
+          instructions: $("#puI").value || null } });
+      } catch (e) {
+        $("#dlgC").insertAdjacentHTML("afterbegin", `<div class="avis">${esc(e.message)}</div>`);
+        return false;
+      }
+      VUES.cueillettes();
+    }, "Programmer");
+
+  $("#puF").onchange = () => rendreTable($("#puF").value
+    ? d.pickups.filter(p => p.statut === $("#puF").value) : d.pickups);
+  rendreTable(d.pickups);
+  S.rafraichirEcran = () => VUES.cueillettes();
+};
+
 VUES.lots = async () => {
   const { batches } = await api("/api/batches");
   const ouverts = batches.filter((b) => b.status === "open");
@@ -4233,7 +4347,7 @@ VUES.lots = async () => {
     { k: "name", t: "Nom" },
     { k: "created_at", t: "Créé", r: (b) => jour(b.created_at) },
     { k: "en_attente", t: "Commandes en attente", n: true },
-    { k: "act", t: "", r: (b) => `<button data-voir="${b.id}">Voir</button>
+    { k: "act", t: "", r: (b) => `<button data-voir="${b.id}">Ouvrir</button>
       <button class="v" data-traiter="${b.id}">Traiter…</button>
       <button data-fermer="${b.id}">Fermer</button>` },
   ], ouverts));
@@ -4257,14 +4371,25 @@ VUES.lots = async () => {
        <input id="ln3" value="${esc("Lot du " + new Date().toISOString().slice(0, 10))}"></label>`,
     async () => { await api("/api/batches/new", { method: "POST", body: { name: $("#ln3").value } }); rendre(); }, "Créer");
 
-  $("#vue").querySelectorAll("[data-voir]").forEach((b) => b.onclick = async (e) => {
+  /**
+   * « Ouvrir » un lot — BUG-052.
+   *
+   * La modale « Voir » était en lecture seule avec un seul bouton `Fermer` : impossible de
+   * retirer une commande, d'imprimer les bordereaux, de coter, d'étiqueter ou de scanner.
+   * Un lot mal composé ne pouvait être corrigé qu'en le fermant entièrement.
+   *
+   * Plutôt que de reconstruire une page de lot, on ouvre **la grille des commandes filtrée
+   * sur ce lot** : elle porte déjà les onze actions que ShipStation offre sur cet écran —
+   * traiter, imprimer, étiqueter, mise à jour en masse, retirer du lot, prêtes à prélever,
+   * scanner, exporter — plus les filtres, le regroupement et le choix des colonnes.
+   */
+  $("#vue").querySelectorAll("[data-voir]").forEach((b) => b.onclick = (e) => {
     e.stopPropagation();
-    const d = await api(`/api/batches/${b.dataset.voir}/orders`);
-    dialogue("Commandes du lot", d.orders.length
-      ? table([{ k: "order_number", t: "Commande" }, { k: "customer_name", t: "Destinataire" },
-          { k: "weight_g", t: "Poids", n: true, r: (o) => `${num(Math.round(o.weight_g || 0))} g` },
-          { k: "order_total", t: "Total", n: true, r: (o) => money(o.order_total) }], d.orders).outerHTML
-      : "<p class='doux'>Ce lot est vide. Déposez-y des commandes depuis l'écran Commandes.</p>", null, "Fermer");
+    const S0 = S.cmd = S.cmd || { colonnes: null, epingles: [], vue: null, dense: true, page: 0, taille: 250 };
+    S0.lot = Number(b.dataset.voir);
+    S0.statut = ""; S0.vue = null; S0.store = null; S0.page = 0; S0.avance = null;
+    S.sel.clear();
+    aller("commandes");
   });
 
   $("#vue").querySelectorAll("[data-traiter]").forEach((b) => b.onclick = (e) => {

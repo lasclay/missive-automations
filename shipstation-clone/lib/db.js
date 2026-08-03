@@ -167,6 +167,31 @@ CREATE TABLE IF NOT EXISTS manifests (
   document TEXT, status TEXT DEFAULT 'created'
 );
 
+/*
+ * Cueillettes transporteur — BUG-051.
+ *
+ * Lasclay a cinq comptes transporteur avec ramassage, et c'est un geste quotidien : le
+ * clone n'en avait aucune trace. La table enregistre ce qui a été demandé, à qui, pour
+ * quand, et ce que le transporteur a répondu. La confirmation reste vide tant qu'aucun
+ * adaptateur réel n'a répondu — c'est ce qui distingue « noté ici » de « confirmé par le
+ * transporteur », et l'écran le dit au lieu de laisser croire que le camion viendra.
+ */
+CREATE TABLE IF NOT EXISTS pickups (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  carrier_code TEXT NOT NULL,
+  compte TEXT,                        -- « LASCLAY », « Rotule », « CC Gabriel »…
+  warehouse_id INTEGER REFERENCES warehouses(id),
+  date TEXT NOT NULL,                 -- jour du ramassage
+  creneau_debut TEXT, creneau_fin TEXT,
+  colis INTEGER DEFAULT 0, poids_g REAL DEFAULT 0,
+  contact TEXT, telephone TEXT, instructions TEXT,
+  statut TEXT NOT NULL DEFAULT 'demande',  -- demande | confirme | annule | effectue
+  confirmation TEXT,                  -- numéro rendu par le transporteur, NULL si non confirmé
+  erreur TEXT,
+  cree_le TEXT, cree_par TEXT REFERENCES users(id), annule_le TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_pickups_date ON pickups(date);
+
 CREATE TABLE IF NOT EXISTS tracking_events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   shipment_id INTEGER NOT NULL REFERENCES shipments(id) ON DELETE CASCADE,
