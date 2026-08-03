@@ -65,15 +65,13 @@
          background:var(--bg); color:var(--texte) }
   a { color:var(--accent) }
   /* ---- structure ---- */
-  nav h1 { font-size:14px; margin:0 0 4px; padding:0 16px 10px; border-bottom:1px solid rgba(255,255,255,.12);
-           font-weight:650; letter-spacing:.2px }
-  nav h1 small { display:block; font-weight:400; color:#9aa3ad; font-size:11px; margin-top:2px; line-height:1.6 }
-  nav h1 small a { color:#9aa3ad; text-decoration:underline; cursor:pointer }
-  nav h1 small a:hover { color:#fff }
   nav a { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:7px 16px;
-          color:#c7cdd4; text-decoration:none; font-size:13.5px; cursor:pointer; border-left:3px solid transparent }
+          color:#c7cdd4; text-decoration:none; font-size:13.5px; cursor:pointer }
   nav a:hover { background:rgba(255,255,255,.06); color:#fff }
-  nav a.actif { background:rgba(255,255,255,.10); color:#fff; border-left-color:var(--accent); font-weight:600 }
+  /* `border-left` est un vestige d'une navigation verticale abandonnée : sur la barre
+     horizontale actuelle il produisait un second indicateur d'onglet actif, en plus du
+     soulignement voulu (§4.5). */
+  nav a.actif { background:rgba(255,255,255,.10); color:#fff; font-weight:600 }
   nav .grp { padding:12px 16px 4px; font-size:10.5px; text-transform:uppercase; letter-spacing:.7px; color:#78828d }
   nav .n { background:rgba(255,255,255,.14); border-radius:var(--r2); padding:0 7px; font-size:11px; font-variant-numeric:tabular-nums }
   h2 { font-size:17px; margin:0 0 3px; font-weight:650 }
@@ -133,10 +131,19 @@
   tr.clic { cursor:pointer } tr.clic:hover td { background:var(--sel) }
   .n, th.n { text-align:right; font-variant-numeric:tabular-nums }
   .puce { font-size:10.5px; padding:1px 7px; border-radius:var(--r2); font-weight:600; display:inline-block; white-space:nowrap }
+  /* Les quatre badges ne se distinguaient que par la couleur, à 10,5 px : « complet »,
+     « configuré », « variables absentes » et « désactivée » étaient indiscernables en
+     niveaux de gris — donc pour un daltonien, et sur une impression noir et blanc. Un
+     glyphe préfixe porte l'information une seconde fois, sans couleur. */
+  .puce::before { font-weight:700; margin-right:4px; font-size:9.5px }
   .puce.v { background:rgba(11,122,75,.15); color:var(--puce-v) }
+  .puce.v::before { content:"✓" }
   .puce.a { background:rgba(154,91,6,.16); color:var(--puce-a) }
+  .puce.a::before { content:"!" }
   .puce.r { background:rgba(192,57,43,.14); color:var(--puce-r) }
+  .puce.r::before { content:"✕" }
   .puce.g { background:rgba(120,130,140,.16); color:var(--puce-g) }
+  .puce.g::before { content:"•" }
   .doux { color:var(--doux) }
   .avis { padding:9px 12px; border-radius:var(--r1); margin-bottom:12px; font-size:13px;
           background:rgba(154,91,6,.12); color:var(--ambre); border:1px solid rgba(154,91,6,.3) }
@@ -188,7 +195,6 @@
 
   .ongVues { display:flex; gap:2px; padding:6px 10px 0; overflow-x:auto; border-bottom:1px solid var(--bord); flex:none }
   .ongVues .ong { padding:5px 11px; border:1px solid transparent; border-bottom:none; border-radius:var(--r1) var(--r1) 0 0;
-                  font-size:12.5px; cursor:pointer; white-space:nowrap; color:var(--doux) }
   .ongVues .ong i { font-style:normal; opacity:.65; font-variant-numeric:tabular-nums }
   .ongVues .ong:hover { background:var(--sel); color:var(--texte) }
   .ongVues .ong.actif { background:var(--bg); border-color:var(--bord); color:var(--texte); font-weight:650;
@@ -208,14 +214,12 @@
   .grilleWrap { flex:1; overflow:auto; min-height:0 }
   table.tblCmd { border-collapse:separate; border-spacing:0; width:100%; font-size:13px }
   table.tblCmd th { position:sticky; top:0; z-index:3; background:var(--carte); border-bottom:1px solid var(--bord);
-                    text-align:left; padding:7px 9px; font-weight:650; white-space:nowrap; font-size:12px }
   /* Seules les colonnes triables se comportent comme telles : le curseur main sur une colonne
      inerte promet un tri qui n'arrive jamais (BUG-036). */
   table.tblCmd th.triable { cursor:pointer }
   table.tblCmd th.triable:hover { background:var(--sel) }
   button.chev { background:none; border:none; cursor:pointer; color:var(--doux); font:inherit; padding:0 }
   table.tblCmd td { padding:6px 9px; border-bottom:1px solid var(--bord); white-space:nowrap; max-width:320px;
-                    overflow:hidden; text-overflow:ellipsis }
   .grilleWrap.dense table.tblCmd td { padding:3px 9px; font-size:12.5px }
   .grilleWrap.dense table.tblCmd th { padding:5px 9px }
   table.tblCmd tr.sel td { background:var(--sel) }
@@ -1530,9 +1534,25 @@ function menuAncre(ancre, entrees, { droite = false } = {}) {
   return m;
 }
 
-/** Recharge la liste des lots ouverts. */
+/**
+ * Recharge la liste des lots ouverts — §4.3 de l'audit visuel.
+ *
+ * Le `catch` remettait `LOTS = []`, si bien qu'une panne réseau transformait « Lot du
+ * 2026-08-02 · 2 » en « aucun lot ouvert ». L'utilisateur voyait une **information fausse**,
+ * pas une absence d'information — et c'est pire, parce qu'on agit dessus : on recrée un lot
+ * qui existe déjà, on y dépose des commandes qui étaient ailleurs.
+ *
+ * En cas d'échec on garde donc la dernière liste connue et on le dit ; `LOTS_PERIMES`
+ * permet au rail de la marquer comme datée plutôt que de la présenter comme à jour.
+ */
+let LOTS_PERIMES = false;
 async function chargerLots() {
-  try { LOTS = (await api("/api/batches/open")).batches || []; } catch { LOTS = []; }
+  try {
+    LOTS = (await api("/api/batches/open")).batches || [];
+    LOTS_PERIMES = false;
+  } catch {
+    LOTS_PERIMES = true;   // on conserve LOTS tel quel : périmé vaut mieux que faux
+  }
   return LOTS;
 }
 
@@ -1681,7 +1701,7 @@ function modaleMapping(o, apres = () => {}) {
 
 VUES.commandes = async (statutFixe) => {
   // 250 par page : la valeur réelle du compte Lasclay (`orders:grid:pagesize = 250`, §13.9).
-  const S0 = S.cmd = S.cmd || { colonnes: null, epingles: [], vue: null, dense: true, page: 0, taille: 250 };
+  const S0 = S.cmd = S.cmd || { colonnes: null, epingles: [], vue: null, dense: S.pref?.dense ?? true, page: 0, taille: 250 };
   if (statutFixe) S0.statut = statutFixe;
   else if (!S0.statut) S0.statut = "awaiting_shipment";
 
@@ -1854,6 +1874,11 @@ VUES.commandes = async (statutFixe) => {
       S0.dense = !S0.dense;
       $("#tbl").classList.toggle("dense", S0.dense);
       $("#fdense").classList.toggle("on", S0.dense);
+      // Mémorisé côté compte : +31 % de lignes visibles qu'on ne redemande plus chaque
+      // matin, et qui suivent l'opérateur d'un poste à l'autre.
+      S.pref = { ...(S.pref || {}), dense: S0.dense };
+      api("/api/moi/preferences", { method: "POST", body: { dense: S0.dense } })
+        .catch(() => { /* la densité reste appliquée localement même si l'écriture échoue */ });
     };
     if (langue() !== "fr") traduireDans(F);
   }
@@ -2025,6 +2050,11 @@ VUES.commandes = async (statutFixe) => {
           ${n ? `<button class="plus" data-plus="${l.id}" title="Ajouter les ${n} commande(s) sélectionnée(s)">+</button>` : ""}
         </a>`).join("")
       : `<div class="vide">aucun lot ouvert${n ? " — « + Créer un lot » y déposera la sélection" : ""}</div>`;
+
+    // Liste conservée d'un échec réseau : elle est datée, on le dit. Sans cette mention, une
+    // liste périmée se lit exactement comme une liste à jour.
+    if (LOTS_PERIMES) $("#ssLots").insertAdjacentHTML("afterbegin",
+      `<div class="vide" style="color:var(--ambre)">⚠ liste non rafraîchie — service injoignable</div>`);
 
     $("#ssLots").querySelectorAll("[data-l]").forEach((a) => a.onclick = (e) => {
       if (e.target.dataset.plus) return;
@@ -2989,7 +3019,15 @@ VUES.commandes = async (statutFixe) => {
   ACT.aHold = mettreEnAttente;
   ACT.aPrelever = async () => {
     const envoyer = async () => {
-      await api("/api/orders/bulk", { method: "POST", body: { ids: ids(), champs: { picking_status: "ready_to_pick" } } });
+      // §4.4 — l'état était muté sans aucun retour visuel : on ne savait pas si le clic avait
+      // porté, ni sur combien de commandes. Un geste de masse silencieux se répète, et le
+      // second passage porte sur une sélection qu'on croit encore intacte.
+      const n = ids().length;
+      const r = await tenter(() => api("/api/orders/bulk", {
+        method: "POST", body: { ids: ids(), champs: { picking_status: "ready_to_pick" } } }),
+        { message: "Envoi en prélèvement impossible" });
+      if (r === null) return;
+      toast(`${num(n)} commande(s) envoyée(s) en prélèvement.`, { type: "succes" });
       S.sel.clear(); charger();
     };
     // Action sans boîte de confirmation : on n'en ouvre une que si la sélection déborde de
@@ -3012,7 +3050,12 @@ VUES.commandes = async (statutFixe) => {
     ]);
   };
   const allouer = async (etat) => {
-    await api("/api/orders/bulk", { method: "POST", body: { ids: ids(), champs: { allocation_status: etat } } });
+    const n = ids().length;
+    const r = await tenter(() => api("/api/orders/bulk", {
+      method: "POST", body: { ids: ids(), champs: { allocation_status: etat } } }),
+      { message: "Allocation impossible" });
+    if (r === null) return;
+    toast(`${num(n)} commande(s) ${etat === "allocated" ? "allouée(s)" : "désallouée(s)"}.`, { type: "succes" });
     S.sel.clear(); charger();
   };
 
@@ -4849,7 +4892,7 @@ VUES.lots = async () => {
    */
   $("#vue").querySelectorAll("[data-voir]").forEach((b) => b.onclick = (e) => {
     e.stopPropagation();
-    const S0 = S.cmd = S.cmd || { colonnes: null, epingles: [], vue: null, dense: true, page: 0, taille: 250 };
+    const S0 = S.cmd = S.cmd || { colonnes: null, epingles: [], vue: null, dense: S.pref?.dense ?? true, page: 0, taille: 250 };
     S0.lot = Number(b.dataset.voir);
     S0.statut = ""; S0.vue = null; S0.store = null; S0.page = 0; S0.avance = null;
     S.sel.clear();
@@ -8118,18 +8161,22 @@ async function demarrer() {
   S.config = await api("/api/config");
   const tt = (fr, en) => (langue() === "en" ? en : fr);
   const av = [];
+  // §4.9 — les bandeaux exposaient `CLONE_ALLOW_LABELS=1` et `CARRIER_ADAPTER=clickship`.
+  // Un opérateur d'entrepôt ne peut rien faire d'une variable d'environnement : il lui faut
+  // savoir ce qu'il peut faire aujourd'hui, et qui débloque le reste. Le détail technique
+  // reste disponible, en info-bulle, pour qui déploie.
   if (!S.config.etiquettes_actives) av.push(tt(
-    `Achat d'étiquettes <b>désactivé</b> — lancer avec <code>CLONE_ALLOW_LABELS=1</code>. Cotation et simulation restent disponibles.`,
-    `Label purchase <b>disabled</b> — start with <code>CLONE_ALLOW_LABELS=1</code>. Rating and batch preview stay available.`));
+    `<b>Aucune étiquette ne peut être achetée</b> pour l'instant — préparez et cotez normalement, l'impression viendra. <span title="Le service doit être lancé avec CLONE_ALLOW_LABELS=1">Activation par l'administrateur.</span>`,
+    `<b>Labels cannot be purchased</b> yet — keep preparing and rating; printing will follow. <span title="Service must run with CLONE_ALLOW_LABELS=1">Enabled by the administrator.</span>`));
   if (S.config.adaptateur === "bouchon") av.push(tt(
-    `Transporteur <b>bouchon</b> : les tarifs sont des valeurs de démonstration. Passer à <code>CARRIER_ADAPTER=clickship</code> à réception des identifiants.`,
-    `Carrier adapter is a <b>stub</b>: rates are demo values. Switch to <code>CARRIER_ADAPTER=clickship</code> once credentials arrive.`));
+    `<b>Prix d'exercice, pas de vrais tarifs.</b> Ne vous en servez pas pour choisir un envoi réel. <span title="Adaptateur transporteur : bouchon. Passer à CARRIER_ADAPTER=clickship à réception des identifiants.">En attente des identifiants transporteur.</span>`,
+    `<b>Practice prices, not real rates.</b> Do not use them to choose a real shipment. <span title="Carrier adapter: stub. Switch to CARRIER_ADAPTER=clickship once credentials arrive.">Waiting on carrier credentials.</span>`));
   if (!S.config.config_lasclay) av.push(tt(
     `Configuration Lasclay <b>non chargée</b> — règles, vues, préréglages, colis et étiquettes du compte ShipStation. À charger depuis <a href="#reglages" data-nav="reglages">l'engrenage → Compte, boutiques et import</a>.`,
     `Lasclay configuration <b>not loaded</b> — rules, views, presets, package types and tags from the ShipStation account. Load it from <a href="#reglages" data-nav="reglages">the gear → Account, Stores &amp; Import</a>.`));
   if (S.config.shopify && !S.config.shopify.configure) av.push(tt(
-    `Import Shopify <b>indisponible</b> : variables <code>SHOPIFY_STORE</code> et <code>SHOPIFY_CLIENT_ID</code>/<code>SHOPIFY_CLIENT_SECRET</code> manquantes sur le service.`,
-    `Shopify import <b>unavailable</b>: <code>SHOPIFY_STORE</code> and <code>SHOPIFY_CLIENT_ID</code>/<code>SHOPIFY_CLIENT_SECRET</code> are missing on the service.`));
+    `<b>Les commandes Shopify n'arrivent pas</b> — la connexion à la boutique n'est pas configurée. <span title="Variables SHOPIFY_STORE et SHOPIFY_CLIENT_ID / SHOPIFY_CLIENT_SECRET manquantes sur le service">À faire par l'administrateur.</span>`,
+    `<b>Shopify orders are not coming in</b> — the store connection is not configured. <span title="SHOPIFY_STORE and SHOPIFY_CLIENT_ID / SHOPIFY_CLIENT_SECRET are missing on the service">Administrator action required.</span>`));
   // Les bandeaux d'état tiennent sur une ligne et se referment : ils informent au démarrage,
   // ils ne doivent pas rogner la grille toute la journée.
   // Le bandeau « transporteur bouchon » ne se referme pas : il dit que les prix affichés sont
@@ -8204,7 +8251,7 @@ async function demarrer() {
    * gardant la moitié des filtres.
    */
   const rechercheRapide = (q) => {
-    const S0 = S.cmd = S.cmd || { colonnes: null, epingles: [], vue: null, dense: true, page: 0, taille: 250 };
+    const S0 = S.cmd = S.cmd || { colonnes: null, epingles: [], vue: null, dense: S.pref?.dense ?? true, page: 0, taille: 250 };
     S0.statut = ""; S0.store = null; S0.lot = null; S0.vue = null;
     S0.avance = null; S0.f = {}; S0.page = 0;
     S0.recherche = q;                     // l'en-tête s'en sert pour se nommer

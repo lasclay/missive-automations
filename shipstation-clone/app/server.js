@@ -2004,6 +2004,12 @@ const PREFERENCES = {
   theme: (v) => (["clair", "sombre", "systeme"].includes(v) ? v : null),
   densite: (v) => (["compacte", "confortable", "spacieuse"].includes(v) ? v : null),
   page_size: (v) => ([100, 250, 500, 1000].includes(Number(v)) ? Number(v) : null),
+  // Le mode dense fait passer la grille de 16 à 21 lignes visibles (+31 %) et n'était
+  // jamais mémorisé : l'opérateur le réactivait à chaque session. Il vit avec le compte,
+  // pas dans le navigateur — un poste d'emballage est partagé.
+  dense: (v) => (typeof v === "boolean" ? v : null),
+  // Les bandeaux fermés revenaient à chaque rechargement, soit 26 px reperdus par session.
+  bandeaux_fermes: (v) => (Array.isArray(v) ? v.filter((x) => typeof x === "string").slice(0, 20) : null),
 };
 
 route("POST /api/moi/preferences", async ({ req, moi }) => {
