@@ -218,6 +218,10 @@
   .permG { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:2px 12px; margin:6px 0 }
   .permL { padding:3px 0; font-size:12.5px }
   /* Un titre de carte est un titre : `<b>` ne structure rien pour un lecteur d'écran. */
+  body.sansPanneau .ssR { display:none }
+  body.sansPanneau .ss { grid-template-columns:196px minmax(0,1fr) }
+  .pagN { display:inline-flex; align-items:center; gap:4px; color:var(--doux) }
+  .pagN input { width:56px; padding:2px 4px; font-size:12.5px; text-align:center }
   .titreCarte { font-size:13px; font-weight:650; margin:0 0 2px }
   .frais { font-size:11.5px; margin-left:2px; white-space:nowrap }
   .ico.tourne { animation:tourner .8s linear infinite }
@@ -1591,6 +1595,10 @@ VUES.commandes = async (statutFixe) => {
       <div class="enteteE">
         <h1 id="titreE">À expédier</h1>
         <button type="button" id="btRecharger" class="recharger">↻ Recharger</button>
+      <!-- « Show Sidebar » de ShipStation : rendre ~270 px à la grille quand on trie un
+           arriéré et qu'on ne configure rien. Le choix est mémorisé. -->
+      <label class="ch" style="margin-left:8px"><input type="checkbox" id="btPanneau"
+        ${localStorage.getItem("clone.panneau") === "0" ? "" : "checked"}> Panneau de droite</label>
         <span style="margin-left:auto"></span>
         <button id="aGroupe">Grouper… ▾</button>
         <button id="aCols">Colonnes</button>
@@ -1797,7 +1805,13 @@ VUES.commandes = async (statutFixe) => {
         num(Object.values(S.compteurs.alertes || {}).reduce((x, y) => x + y, 0)) || ""}</span></button>`;
 
     $("#ssStatuts").querySelectorAll("[data-s]").forEach((a) => a.onclick = () => {
-      S0.statut = a.dataset.s; S0.store = null; S0.vue = null; S0.lot = null; S0.page = 0; S.sel.clear();
+      // Changer de statut sort de tout le reste — boutique, vue, lot, recherche avancée et
+      // recherche rapide. Sinon la barre latérale annonce « À expédier 856 » au-dessus d'une
+      // grille vide, et rien n'explique l'écart.
+      S0.statut = a.dataset.s; S0.store = null; S0.vue = null; S0.lot = null;
+      S0.avance = null; S0.recherche = null; S0.page = 0; S.sel.clear(); S.toutLeFiltre = false;
+      const fq = $("#fq"); if (fq) fq.value = "";
+      const qk = $("#quick"); if (qk) qk.value = "";
       charger(); majStatuts(); chargerVues(); majLots();
     });
     $("#ssStatuts").querySelectorAll("[data-b]").forEach((a) => a.onclick = () => {
@@ -2281,15 +2295,28 @@ VUES.commandes = async (statutFixe) => {
     const pages = Math.max(1, Math.ceil(d.total / S0.taille));
     if (S0.page >= pages && S0.page > 0) { S0.page = pages - 1; return charger(); }
     const debut = S0.page * S0.taille;
+    // Pagination complète : sans numéro de page saisissable ni nombre total de pages, aller
+    // à la page 31 d'un arriéré coûte trente clics. ShipStation offre les deux, plus les
+    // sauts aux extrémités et la taille 50 pour les petits écrans.
     $("#pag").innerHTML = `
       <span class="doux">${d.total ? `${num(debut + 1)}–${num(Math.min(debut + d.orders.length, d.total))} sur ${num(d.total)}`
         : "aucune commande"}</span>
-      <button id="pPrec" ${S0.page ? "" : "disabled"}>← Précédent</button>
-      <button id="pSuiv" ${debut + d.orders.length >= d.total ? "disabled" : ""}>Suivant →</button>
-      <select id="pTaille">${[100, 250, 500, 1000].map((n) => `<option ${n === S0.taille ? "selected" : ""}>${n}</option>`).join("")}</select>
+      <button type="button" id="pDeb" title="Première page" aria-label="Première page" ${S0.page ? "" : "disabled"}>«</button>
+      <button type="button" id="pPrec" ${S0.page ? "" : "disabled"}>← Précédent</button>
+      <label class="pagN">page <input type="number" id="pNum" min="1" max="${pages}" value="${S0.page + 1}"
+        aria-label="Numéro de page"> sur ${num(pages)}</label>
+      <button type="button" id="pSuiv" ${debut + d.orders.length >= d.total ? "disabled" : ""}>Suivant →</button>
+      <button type="button" id="pFin" title="Dernière page" aria-label="Dernière page" ${S0.page + 1 < pages ? "" : "disabled"}>»</button>
+      <select id="pTaille" aria-label="Lignes par page">${[50, 100, 250, 500, 1000].map((n) => `<option ${n === S0.taille ? "selected" : ""}>${n}</option>`).join("")}</select>
       <span class="doux">par page</span>`;
+    $("#pDeb").onclick = () => { S0.page = 0; charger(); };
     $("#pPrec").onclick = () => { S0.page--; charger(); };
     $("#pSuiv").onclick = () => { S0.page++; charger(); };
+    $("#pFin").onclick = () => { S0.page = pages - 1; charger(); };
+    $("#pNum").onchange = (e) => {
+      const n = Math.min(Math.max(1, Number(e.target.value) || 1), pages);
+      S0.page = n - 1; charger();
+    };
     $("#pTaille").onchange = (e) => { S0.taille = Number(e.target.value); S0.page = 0; charger(); };
   }
 
@@ -2523,22 +2550,68 @@ VUES.commandes = async (statutFixe) => {
   };
   $("#aCols").onclick = gererColonnes;
   $("#btRecharger").onclick = () => { charger(); majLots(); rafraichirCompteurs(); };
-  $("#ssAvance").onclick = () => dialogue("Recherche avancée", `
+  const poserPanneau = (visible) => {
+    document.body.classList.toggle("sansPanneau", !visible);
+    localStorage.setItem("clone.panneau", visible ? "1" : "0");
+  };
+  $("#btPanneau").onchange = (e) => poserPanneau(e.target.checked);
+  poserPanneau(localStorage.getItem("clone.panneau") !== "0");
+  /**
+   * Recherche avancée — six champs contre dix chez ShipStation, et pas de réinitialisation.
+   *
+   * Manquaient `Statut`, `Boutique`, `Article` et `Option d'article` : chercher « toutes les
+   * commandes annulées de LAS Etsy contenant des mitaines » était impossible. Le bouton
+   * `Réinitialiser` manquait aussi — sans lui, on ferme la boîte et on recommence.
+   */
+  $("#ssAvance").onclick = () => {
+    const av = S0.avance || {};
+    dialogue("Recherche avancée", `
     <p class="doux">La recherche rapide cherche « commence par » sur le numéro, le client, le
-      courriel, la ville et les SKU. Ici, chaque champ cherche « contient ».</p>
+      courriel, la ville et les SKU. Ici, chaque champ cherche « contient », et les champs se
+      cumulent.</p>
     <div class="grille">
-      <label class="champ"><span>Numéro de commande</span><input id="raN"></label>
-      <label class="champ"><span>Destinataire</span><input id="raD"></label>
-      <label class="champ"><span>Courriel</span><input id="raC"></label>
-      <label class="champ"><span>SKU</span><input id="raS"></label>
-      <label class="champ"><span>Commandée depuis</span><input type="date" id="raA"></label>
-      <label class="champ"><span>Commandée jusqu'au</span><input type="date" id="raB"></label>
+      <label class="champ"><span>Numéro de commande</span><input id="raN" value="${esc(av.order_number || "")}"></label>
+      <label class="champ"><span>Destinataire</span><input id="raD" value="${esc(av.destinataire || "")}"></label>
+      <label class="champ"><span>Courriel</span><input id="raC" value="${esc(av.courriel || "")}"></label>
+      <label class="champ"><span>SKU</span><input id="raS" value="${esc(av.sku || "")}"></label>
+      <label class="champ"><span>Article (nom)</span><input id="raI" value="${esc(av.item_name || "")}"></label>
+      <label class="champ"><span>Option d'article</span><input id="raO" value="${esc(av.item_option || "")}"></label>
+      <label class="champ"><span>Statut</span><select id="raT">
+        <option value="">— tous —</option>
+        ${(S.refs.statuts || []).map(x => `<option value="${esc(x)}"${av.status === x ? " selected" : ""}>${esc(STATUT_FR[x] || x)}</option>`).join("")}
+      </select></label>
+      <label class="champ"><span>Boutique</span><select id="raB2">
+        <option value="">— toutes —</option>
+        ${(S.refs.stores || []).filter(x => x.active).map(x => `<option value="${x.id}"${String(av.store_id) === String(x.id) ? " selected" : ""}>${esc(x.name)}</option>`).join("")}
+      </select></label>
+      <label class="champ"><span>Commandée depuis</span><input type="date" id="raA" value="${esc(av.date_from || "")}"></label>
+      <label class="champ"><span>Commandée jusqu'au</span><input type="date" id="raB" value="${esc(av.date_to || "")}"></label>
+    </div>
+    <div class="barre" style="margin-top:8px">
+      <button type="button" id="raReset">Réinitialiser</button>
+      <span class="doux">efface les dix champs et sort de la recherche avancée</span>
     </div>`,
     async () => {
-      S0.avance = { q: $("#raN").value || $("#raD").value || $("#raC").value,
-        sku: $("#raS").value, date_from: $("#raA").value, date_to: $("#raB").value };
+      S0.avance = {
+        order_number: $("#raN").value.trim(), destinataire: $("#raD").value.trim(),
+        courriel: $("#raC").value.trim(), sku: $("#raS").value.trim(),
+        item_name: $("#raI").value.trim(), item_option: $("#raO").value.trim(),
+        status: $("#raT").value, store_id: $("#raB2").value,
+        date_from: $("#raA").value, date_to: $("#raB").value,
+      };
+      // Un objet vide ne doit pas rester accroché : sinon l'écran reste « en recherche
+      // avancée » sans qu'aucun critère ne s'applique.
+      if (!Object.values(S0.avance).some((v) => v)) S0.avance = null;
       S0.page = 0; charger();
-    }, "Chercher");
+    }, "Chercher",
+    (c) => { c.querySelector("#raReset").onclick = (e) => {
+      e.preventDefault();
+      c.querySelectorAll("input").forEach((i) => { i.value = ""; });
+      c.querySelectorAll("select").forEach((x) => { x.value = ""; });
+      S0.avance = null; S0.page = 0;
+      $("#dlg").close(); charger();
+    }; });
+  };
   ACT.aNouvelle = () => nouvelleCommande();
   /**
    * « Bulk Update » (§2.3) : deux intertitres non cliquables — Commande, Expédition — et les
@@ -5138,6 +5211,20 @@ function glisserDeposer(liste) {
   });
 }
 
+/**
+ * Pays de destination — trois valeurs seulement (`CA`, `US`, `FR`) rendaient la calculatrice
+ * inutilisable dès qu'un client commandait d'ailleurs. La liste couvre les destinations
+ * réelles de Lasclay et les grands marchés, avec le Canada en tête.
+ */
+const PAYS_EXPEDITION = [
+  ["CA", "Canada"], ["US", "États-Unis"], ["FR", "France"], ["BE", "Belgique"],
+  ["CH", "Suisse"], ["GB", "Royaume-Uni"], ["DE", "Allemagne"], ["IT", "Italie"],
+  ["ES", "Espagne"], ["NL", "Pays-Bas"], ["IE", "Irlande"], ["LU", "Luxembourg"],
+  ["AU", "Australie"], ["NZ", "Nouvelle-Zélande"], ["JP", "Japon"], ["MX", "Mexique"],
+  ["SE", "Suède"], ["NO", "Norvège"], ["DK", "Danemark"], ["FI", "Finlande"],
+  ["AT", "Autriche"], ["PT", "Portugal"], ["PL", "Pologne"], ["CZ", "Tchéquie"],
+];
+
 const PORTEE_FR = { any: "au moins un article", all: "tous les articles",
   only: "uniquement ces articles", none: "aucun article" };
 
@@ -5356,37 +5443,65 @@ VUES.tarifs = async () => {
              point d'origine sans que rien ne le signale. Même résolution que la fiche de
              commande : la valeur portée, à défaut le défaut. -->
         <label class="champ"><span>Expédié de</span><select id="tw">${optionsEntrepot(null)}</select></label>
-        <label class="champ"><span>Pays</span><select id="tp"><option>CA</option><option>US</option><option>FR</option></select></label>
+        <label class="champ"><span>Pays</span><select id="tp">${
+          PAYS_EXPEDITION.map(([c, n]) => `<option value="${esc(c)}">${esc(n)}</option>`).join("")}</select></label>
         <label class="champ"><span>Province / État</span><input id="ts" placeholder="QC"></label>
+        <label class="champ"><span>Ville</span><input id="tvi" placeholder="Montréal"></label>
         <label class="champ"><span>Code postal</span><input id="tc" placeholder="H2X 1Y4"></label>
-        <label class="champ"><span>Poids (g)</span><input type="number" id="tg" value="500"></label>
-        <label class="champ"><span>Valeur ($)</span><input type="number" id="tv" value="50"></label>
+        <label class="champ"><span>Poids (g)</span><input type="number" id="tg" value="500" min="1"></label>
+        <label class="champ"><span>Valeur ($)</span><input type="number" id="tv" value="50" min="0"></label>
+        <label class="champ"><span>Type de colis</span><select id="tpk"><option value="">— aucun —</option>${
+          (S.refs.packages || []).map((x) => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Confirmation</span><select id="tcf"><option value="">— aucune —</option>${
+          (S.refs.confirmations || []).map((c) => `<option value="${esc(c.id)}">${esc(c.nom)}</option>`).join("")}</select></label>
       </div>
-      <div class="barre"><input type="number" id="tl" placeholder="L (po)" style="width:110px">
-        <input type="number" id="tla" placeholder="l (po)" style="width:110px">
-        <input type="number" id="th" placeholder="H (po)" style="width:110px">
-        <button class="p" id="tGo">Coter</button></div>
+      <!-- Les trois champs de dimensions n'avaient qu'un espace réservé : dès qu'on saisit,
+           le libellé disparaît et on ne sait plus lequel est la longueur. -->
+      <div class="grille" style="margin-top:8px">
+        <label class="champ"><span>Longueur (po)</span><input type="number" id="tl" min="0" step="0.25"></label>
+        <label class="champ"><span>Largeur (po)</span><input type="number" id="tla" min="0" step="0.25"></label>
+        <label class="champ"><span>Hauteur (po)</span><input type="number" id="th" min="0" step="0.25"></label>
+      </div>
+      <div class="barre" style="margin-top:8px">
+        <label class="ch"><input type="checkbox" id="tres"> Adresse résidentielle</label>
+        <button class="p" id="tGo">Coter</button>
+        <span class="doux" id="tErr" role="alert"></span>
+      </div>
     </div>
     <div id="tOut"></div>`;
 
   $("#tGo").onclick = async () => {
-    $("#tOut").innerHTML = '<p class="doux">Cotation…</p>';
+    // Aucune validation auparavant : un poids vide était coté comme 0 g, sans message, et un
+    // code postal vide donnait un prix quand même. Un tarif calculé sur rien est un piège.
+    const manque = [];
+    const poids = Number($("#tg").value);
+    if (!poids || poids <= 0) manque.push("un poids supérieur à zéro");
+    if (!$("#tc").value.trim()) manque.push("un code postal de destination");
+    $("#tErr").textContent = "";
+    if (manque.length) {
+      $("#tErr").innerHTML = `<span class="rouge">Il manque ${esc(manque.join(" et "))}.</span>`;
+      ($("#tg").value && $("#tc")).focus();
+      return;
+    }
+    $("#tOut").innerHTML = squelette(4);
     try {
       const r = await api("/api/rates", { method: "POST", body: {
         warehouse_id: $("#tw").value, country: $("#tp").value, state: $("#ts").value,
-        postal: $("#tc").value, weight_g: $("#tg").value, value: $("#tv").value,
+        city: $("#tvi").value, postal: $("#tc").value, weight_g: poids, value: $("#tv").value,
+        package_id: $("#tpk").value || null, confirmation: $("#tcf").value || null,
+        residential: $("#tres").checked,
         length: $("#tl").value, width: $("#tla").value, height: $("#th").value } });
-      $("#tOut").innerHTML = `<div class="carte"><b>${r.tarifs.length} service(s)</b>
-        <div class="tbl" style="margin-top:8px"><table>
-        <thead><tr><th>Transporteur</th><th>Service</th><th class="n">Prix</th><th>Délai</th></tr></thead>
-        <tbody>${r.tarifs.map((t) => `<tr${r.recommande && t.serviceId === r.recommande.serviceId ? ' style="font-weight:650"' : ""}>
-          <td>${esc(t.carrier)}</td>
-          <td>${esc(t.serviceName || t.serviceId)}${t.dropOff ? ' <span class="puce v">dépôt</span>' : ""}${
-            r.recommande && t.serviceId === r.recommande.serviceId ? ' <span class="puce v">recommandé</span>' : ""}</td>
-          <td class="n">${money(t.price)}</td><td class="doux">${esc(t.delivery || "—")}</td></tr>`).join("")}
-        </tbody></table></div></div>`;
-    } catch (e) { $("#tOut").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+      // Même rendu que partout ailleurs : les libellés de service, les délais et la mention
+      // « démo » viennent d'un seul endroit, sinon ils divergent — c'est ce qui est arrivé.
+      $("#tOut").innerHTML = `<div class="carte">
+        <h2 class="titreCarte">${num(r.tarifs.length)} service(s) pour ${num(poids)} g vers ${esc($("#tp").value)}</h2>
+        ${tableauTarifs(r, null)}</div>`;
+    } catch (e) {
+      $("#tOut").innerHTML = "";
+      $("#tOut").append(panneauErreur(e, () => $("#tGo").click()));
+    }
   };
+  S.rafraichirEcran = () => VUES.tarifs();
 };
 
 // -------------------------------------------------------------------- scan

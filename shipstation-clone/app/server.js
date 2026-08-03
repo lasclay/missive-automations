@@ -431,12 +431,19 @@ route("POST /api/rates", async ({ req }) => {
     : db.one("SELECT * FROM warehouses ORDER BY is_default DESC, id LIMIT 1");
   const envoi = {
     from: entrepot ? db.parse(entrepot.origin_address, {}) : {},
+    // `residential` était codé en dur à vrai côté serveur alors que la case n'existait pas
+    // à l'écran : le tarif résidentiel s'appliquait à une livraison commerciale sans qu'on
+    // puisse le dire. La case existe maintenant, et sa valeur est respectée.
     to: { postalCode: b.postal || "", country: b.country || "CA", state: b.state || null,
-          city: b.city || null, residential: b.residential !== false },
+          city: b.city || null, residential: b.residential === true },
     parcel: { weightG: Number(b.weight_g) || 0, lengthIn: Number(b.length) || 9,
-              widthIn: Number(b.width) || 6, heightIn: Number(b.height) || 1 },
+              widthIn: Number(b.width) || 6, heightIn: Number(b.height) || 1,
+              packageId: b.package_id || null },
+    confirmation: b.confirmation || null,
     value: Number(b.value) || 0, currency: "CAD",
   };
+  // Un poids nul donnait un tarif sans un mot. Une cotation sur rien n'est pas une cotation.
+  if (!envoi.parcel.weightG) return { error: "poids requis pour coter un envoi", code: 400 };
   const tarifs = await adaptateur().quote(envoi);
   return { envoi, tarifs, recommande: require("../lib/carrier").choisirTarif(tarifs, envoi) };
 });
@@ -1126,28 +1133,56 @@ const COLONNES_EXPORT = {
   audit: ["quand", "qui", "action", "objet", "reference", "detail"],
 };
 
-const PLAFONDS_EXPORT = { "order-items": 10000, "shipping-cost": 5000, audit: 20000 };
+/**
+ * Plafonds d'export — relevés à la volumétrie réelle du compte.
+ *
+ * L'ancien plafond de 1 000 lignes rendait l'export de commandes inutilisable : 1 000 sur
+ * 28 566, soit 3,5 % des données, dans un fichier de taille plausible. Le plafond est
+ * maintenant au-dessus de l'historique complet (38 852 commandes, 77 000 lignes d'article,
+ * 34 000 expéditions), et il reste annoncé s'il est atteint — un export tronqué qui ne le
+ * dit pas est pire qu'un export refusé.
+ */
+const PLAFOND_EXPORT_DEFAUT = 60000;
+const PLAFONDS_EXPORT = { "order-items": 150000, "shipping-cost": 60000, audit: 60000 };
 
 route("GET /api/export/:quoi", ({ params, url, res, user }) => {
   const f = q(url);
+  const plafondDe = (quoi) => PLAFONDS_EXPORT[quoi] || PLAFOND_EXPORT_DEFAUT;
+
+  /**
+   * Les recherches plafonnent à 1 000 lignes par appel — c'est la bonne limite pour une
+   * grille, pas pour un export. On pagine derrière, jusqu'au plafond d'export, plutôt que
+   * de relever la limite de la grille : un export de 28 566 commandes ne doit pas rendre
+   * possible une requête d'écran de 28 566 lignes.
+   */
+  const paginer = (chercher, cle, quoi) => {
+    const out = [], plafond = plafondDe(quoi);
+    for (let offset = 0; offset < plafond; offset += 1000) {
+      const lot = chercher({ ...f, limit: 1000, offset })[cle];
+      out.push(...lot);
+      if (lot.length < 1000) break;
+    }
+    return out.slice(0, plafond);
+  };
+
   const jeux = {
-    orders: () => orders.chercher({ ...f, limit: 1000 }).orders.map((o) => ({
+    orders: () => paginer(orders.chercher, "orders", "orders").map((o) => ({
       commande: o.order_number, date: o.order_date, statut: o.status, client: o.customer_name,
       courriel: o.customer_email, ville: o.ship_to.city, province: o.ship_to.state, pays: o.ship_to.country,
       poids_g: o.weight_g, total: o.order_total, service_demande: o.requested_service })),
-    shipments: () => shipments.chercher({ ...f, limit: 1000 }).shipments.map((s) => ({
+    shipments: () => paginer(shipments.chercher, "shipments", "shipments").map((s) => ({
       commande: s.order_number, suivi: s.tracking_number, transporteur: s.carrier_code,
       service: s.service_id, date: s.ship_date, cout: s.cost, drop_off: s.drop_off ? 1 : 0,
       annulee: s.voided ? 1 : 0, retour: s.is_return ? 1 : 0 })),
-    products: () => catalog.chercherProduits({ ...f, limit: 1000 }).products.map((p) => ({
+    products: () => paginer(catalog.chercherProduits, "products", "products").map((p) => ({
       sku: p.sku, nom: p.name, poids_g: p.weight_g, code_sh: p.hs_code,
       origine: p.country_of_origin, description_douane: p.customs_description, actif: p.active ? 1 : 0 })),
-    customers: () => catalog.chercherClients({ ...f, limit: 1000 }).customers.map((c) => ({
+    customers: () => paginer(catalog.chercherClients, "customers", "customers").map((c) => ({
       courriel: c.email, nom: c.name, telephone: c.phone, commandes: c.order_count,
       total: c.total_spent, premiere: c.first_order, derniere: c.last_order })),
     batches: () => shipments.lots().map((b) => ({
       lot: b.id, nom: b.name, cree: b.created_at, etiquettes: b.n, cout: b.cout, statut: b.status })),
-    returns: () => catalog.chercherRetours({ limit: 1000 }).returns.map((r) => ({
+    returns: () => paginer(catalog.chercherRetours, "returns", "returns").map((r) => ({
       rma: r.rma, commande: r.order_number, client: r.customer_name, motif: r.reason,
       resolution: r.resolution, statut: r.status, demande: r.requested_at, clos: r.closed_at })),
     manifests: () => shipments.manifestes().map((m) => ({
@@ -1161,7 +1196,7 @@ route("GET /api/export/:quoi", ({ params, url, res, user }) => {
              ROUND(o.shipping_paid - s.cost, 2) ecart, s.drop_off,
              json_extract(s.ship_to,'$.country') pays
       FROM shipments s JOIN orders o ON o.id = s.order_id
-      WHERE s.voided = 0 ORDER BY s.ship_date DESC LIMIT 5000`),
+      WHERE s.voided = 0 ORDER BY s.ship_date DESC LIMIT 60000`),
     /** Journal d'audit — exportable, comme tout le reste. */
     audit: () => {
       const w = [], v = [];
@@ -1176,7 +1211,7 @@ route("GET /api/export/:quoi", ({ params, url, res, user }) => {
                             a.entity objet, a.entity_id reference, a.detail
                      FROM audit_log a LEFT JOIN users u ON u.id = a.user_id
                      ${w.length ? "WHERE " + w.join(" AND ") : ""}
-                     ORDER BY a.id DESC LIMIT 20000`, ...v);
+                     ORDER BY a.id DESC LIMIT 60000`, ...v);
     },
 
     /** Détail article par article, pour les rapprochements comptables. */
@@ -1184,7 +1219,7 @@ route("GET /api/export/:quoi", ({ params, url, res, user }) => {
       SELECT o.order_number commande, o.order_date date, i.sku, i.name article,
              i.quantity qte, i.unit_price prix, i.weight_g poids_g, o.status statut
       FROM order_items i JOIN orders o ON o.id = i.order_id
-      WHERE i.adjustment = 0 ORDER BY o.order_date DESC LIMIT 10000`),
+      WHERE i.adjustment = 0 ORDER BY o.order_date DESC LIMIT 150000`),
   };
   if (!jeux[params.quoi]) return { error: "export inconnu", code: 404 };
 
@@ -1198,7 +1233,7 @@ route("GET /api/export/:quoi", ({ params, url, res, user }) => {
   // BUG-027 — l'export était plafonné en silence à 1 000 ou 10 000 lignes. Un plafond
   // atteint est désormais annoncé dans l'en-tête HTTP **et** dans une dernière ligne du
   // fichier : un comptable qui rapproche 1 000 lignes sur 28 500 doit le savoir.
-  const plafond = PLAFONDS_EXPORT[params.quoi] || 1000;
+  const plafond = PLAFONDS_EXPORT[params.quoi] || PLAFOND_EXPORT_DEFAUT;
   const tronque = lignes.length >= plafond;
   const entetes = { "Content-Type": "text/csv; charset=utf-8",
     "Content-Disposition": `attachment; filename="${params.quoi}.csv"`,
