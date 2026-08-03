@@ -403,6 +403,7 @@
   .fiche .kv.tot { border-top:1px solid var(--bord); margin-top:3px; padding-top:5px; font-weight:650 }
   /* Remise et remboursement : des montants qui sortent, écrits comme tels. */
   .fiche .kv.rem b { color:var(--vert) }
+  .motifAchat { font-size:11.5px; line-height:1.4; color:var(--ambre); padding:4px 0 }
   .avertMontants { margin-top:6px; padding:6px 8px; border-radius:5px; font-size:12px; line-height:1.45;
     background:rgba(154,91,6,.12); border:1px solid rgba(154,91,6,.3); color:var(--ambre) }
   .avertMontants .doux { display:block; margin-top:2px; opacity:.85 }
@@ -2833,8 +2834,7 @@ VUES.commandes = async (statutFixe) => {
 
       <div class="sec csw">
         <h4>Configuration de l'expédition</h4>
-        <label class="champ"><span>Expédié de</span><select id="cw">${(S.refs.warehouses || []).map((w) =>
-          `<option value="${w.id}" ${o.warehouse_id === w.id ? "selected" : ""}>${esc(w.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Expédié de</span><select id="cw">${optionsEntrepot(o)}</select></label>
         <label class="champ"><span>Poids (g) — touche W</span><input type="number" id="cp" value="${o.weight_g || ""}"></label>
         <label class="champ"><span>Service</span><select id="cs"><option value="">— choisir —</option>${svc.map((x) =>
           `<option value="${x.id}" ${String(o.service_id) === x.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
@@ -2883,9 +2883,10 @@ VUES.commandes = async (statutFixe) => {
       <div class="sec"><h4>Activité</h4><div id="cActivite" class="doux">Chargement…</div></div>
 
       <div class="pied">
+        ${motifAchat(o, "cRaisonP")}
         <button id="cCoter" title="Coter (R)">Coter</button>
         <button type="button" class="v" id="cAcheter" ${etatAchat(o).ok ? "" : "disabled"}
-          title="${esc(etatAchat(o).motif || "")}">
+          aria-describedby="cRaisonP" title="${esc(etatAchat(o).motif || "")}">
           Créer + imprimer l'étiquette<span id="cPrix"></span></button>
       </div>
       <div class="sec" id="cTarifs"></div>`;
@@ -3331,8 +3332,7 @@ async function detailCommande(id) {
             <button type="button" class="fEdit" id="cBrowse">Parcourir les tarifs</button></div>
 
           <label class="champ"><span>Expédié de</span><select id="cWh">
-            <option value="">— défaut —</option>${(S.refs.warehouses || []).map((w) =>
-              `<option value="${w.id}"${String(o.warehouse_id) === String(w.id) ? " selected" : ""}>${esc(w.name)}</option>`).join("")}
+            ${optionsEntrepot(o)}
           </select></label>
           <div id="cWhAvis"></div>
 
@@ -3382,8 +3382,9 @@ async function detailCommande(id) {
         <footer class="fPied">
           <div class="fPiedC"><span class="doux">Coût estimé</span><b id="cCout">—</b></div>
           <button id="cRevue">Vérifier le coût</button>
+          ${motifAchat(o, "cRaisonM")}
           <button type="button" id="cAcheter" class="v"${etatAchat(o).ok ? "" : " disabled"}
-            title="${esc(etatAchat(o).motif || "")}">Créer + imprimer l'étiquette</button>
+            aria-describedby="cRaisonM" title="${esc(etatAchat(o).motif || "")}">Créer + imprimer l'étiquette</button>
           <div class="doux" id="cArrivee"></div>
         </footer>
       </aside>
@@ -3766,14 +3767,62 @@ async function detailCommande(id) {
  * Une seule fonction désormais, et le motif du refus part en info-bulle plutôt que de
  * laisser un bouton gris sans explication.
  */
+/**
+ * Peut-on acheter l'étiquette ? — BUG-028.
+ *
+ * Une seule fonction de décision, appelée par la modale **et** par le panneau latéral. Elles
+ * répondaient chacune de leur côté et se contredisaient : le même bouton était actif dans
+ * l'une et grisé dans l'autre pour la même commande. Les motifs sont énumérés au complet —
+ * un bouton grisé qui ne dit pas ce qui manque oblige à chercher.
+ */
 function etatAchat(o = null) {
+  const manques = [];
   if (!S.config || !S.config.etiquettes_actives)
-    return { ok: false, motif: "Achat d'étiquettes désactivé sur ce service (CLONE_ALLOW_LABELS)" };
-  if (o && !o.weight_g)
-    return { ok: false, motif: "Poids manquant — la cotation est impossible" };
-  if (o && !["awaiting_shipment", "on_hold"].includes(o.status))
-    return { ok: false, motif: `Commande ${STATUT_FR[o.status] || o.status} — rien à expédier` };
-  return { ok: true, motif: "" };
+    manques.push("l'achat d'étiquettes est désactivé sur ce service (CLONE_ALLOW_LABELS)");
+  if (o) {
+    if (!["awaiting_shipment", "on_hold"].includes(o.status))
+      manques.push(`la commande est ${(STATUT_FR[o.status] || o.status).toLowerCase()} — rien à expédier`);
+    if (!o.weight_g) manques.push("aucun poids saisi");
+    if (!o.service_id) manques.push("aucun service choisi");
+    if (!o.package_id) manques.push("aucun type de colis choisi");
+    if (!entrepotResolu(o).id) manques.push("aucun emplacement d'expédition");
+  }
+  return { ok: manques.length === 0, manques,
+    motif: manques.length ? "Impossible : " + manques.join(" ; ") + "." : "" };
+}
+
+/**
+ * Entrepôt d'expédition — BUG-029.
+ *
+ * La valeur de la commande, à défaut l'entrepôt marqué par défaut. Le panneau latéral
+ * présélectionnait la première ligne de la liste et la modale affichait « — défaut — » :
+ * selon l'écran emprunté, l'étiquette partait d'un entrepôt différent. Chez Lasclay, le
+ * champ personnalisé 3 sert de centre de coût Postes Canada et dépend de cet entrepôt.
+ */
+function entrepotResolu(o) {
+  const liste = S.refs.warehouses || [];
+  if (o && o.warehouse_id && liste.some((w) => String(w.id) === String(o.warehouse_id)))
+    return { id: o.warehouse_id, source: "commande" };
+  const def = liste.find((w) => w.is_default);
+  return def ? { id: def.id, source: "defaut" } : { id: null, source: "aucun" };
+}
+
+/**
+ * Ce qui manque pour acheter, écrit à l'écran et pas seulement en infobulle : une infobulle
+ * ne s'ouvre qu'à la souris, et jamais sur un bouton désactivé dans certains navigateurs.
+ */
+function motifAchat(o, id) {
+  const e = etatAchat(o);
+  return `<div class="motifAchat" id="${id}" ${e.ok ? "hidden" : ""}>${
+    e.ok ? "" : `Il manque : ${esc(e.manques.join(" ; "))}.`}</div>`;
+}
+
+/** Liste d'entrepôts, la valeur résolue présélectionnée — jamais deux rendus divergents. */
+function optionsEntrepot(o) {
+  const r = entrepotResolu(o);
+  return (S.refs.warehouses || []).map((w) =>
+    `<option value="${w.id}"${String(w.id) === String(r.id) ? " selected" : ""}>${esc(w.name)}${
+      w.is_default && r.source === "defaut" ? " (par défaut)" : ""}</option>`).join("");
 }
 
 /** Motifs de retour du système ShipStation (§4) — les treize, tels quels. */
