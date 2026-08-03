@@ -43,6 +43,25 @@ const vues = db.all("SELECT * FROM views WHERE scope = 'orders' ORDER BY positio
 const cmds = db.all("SELECT * FROM orders").map(orders.hydrater);
 console.log(`${vues.length} vues, ${cmds.length} commandes en base\n`);
 
+/**
+ * Une suite qui n'a rien à vérifier ne « passe » pas — elle échoue.
+ *
+ * Sur une base vide, la boucle des 27 vues ne tournait tout simplement pas et le bilan
+ * annonçait « 26/26 vérifications passées » en vert. Un vert obtenu parce que le
+ * dénominateur est nul n'est pas un succès : c'est exactement le défaut que l'audit
+ * reproche à l'écran Douanes (« 0 produit sans code SH » sur un catalogue vide).
+ *
+ * La suite exige donc les 27 vues attendues, et dit comment les remettre en place.
+ */
+const VUES_ATTENDUES = 27;
+if (vues.length < VUES_ATTENDUES) {
+  console.error(`\x1b[31m✗ ${vues.length} vue(s) en base sur ${VUES_ATTENDUES} attendues.\x1b[0m`);
+  console.error("  La moitié des contrôles ne peut pas tourner, et un bilan vert le cacherait.");
+  console.error("  Chargez la configuration Lasclay d'abord :");
+  console.error("    node -e \"require('./lib/lasclay').charger()\"\n");
+  process.exit(1);
+}
+
 // ── 1. accord SQL / mémoire sur chaque vue ─────────────────────────────────
 console.log("1. Accord SQL / mémoire sur les vues sauvegardées");
 for (const v of vues) {
