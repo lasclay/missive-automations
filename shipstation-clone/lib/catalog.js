@@ -197,11 +197,33 @@ function prochainRma() {
   return `RMA-${new Date().getFullYear()}-${String(n).padStart(5, "0")}`;
 }
 
+/**
+ * Motifs de retour de ShipStation (§4) — normalisés, pas en texte libre (BUG-055).
+ *
+ * « taille », « Taille », « trop petit » et « TROP PETIT » sont quatre motifs distincts pour
+ * qui compte, et rendent la donnée inexploitable. La précision libre vit dans `notes`, à
+ * côté : on garde la nuance sans perdre le dénombrement.
+ */
+const MOTIFS_RETOUR = ["courtesy", "wrong_item_ordered", "warranty", "changed_mind",
+  "wrong_item_received", "rental", "damaged", "defective", "arrived_late",
+  "missing_parts", "not_as_described", "other", "exchange"];
+
+const RESOLUTIONS = ["refund", "exchange", "store_credit"];
+
 function creerRetour({ order_id, reason, resolution, items = [], notes = null, userId = null }) {
+  // La commande est obligatoire et doit exister : sans cette vérification, un champ vide
+  // rattachait le RMA à la première commande venue (BUG-054).
+  if (!order_id) throw new Error("un retour se rattache à une commande — numéro manquant");
+  const cmd = one("SELECT id, order_number FROM orders WHERE id = ?", Number(order_id));
+  if (!cmd) throw new Error(`commande inconnue : ${order_id}`);
+  if (reason && !MOTIFS_RETOUR.includes(reason))
+    throw new Error(`motif de retour inconnu : ${reason} — motifs possibles : ${MOTIFS_RETOUR.join(", ")}`);
+  if (resolution && !RESOLUTIONS.includes(resolution))
+    throw new Error(`résolution inconnue : ${resolution}`);
   const rma = prochainRma();
   run(`INSERT INTO returns (rma, order_id, status, reason, resolution, requested_at, notes, items)
        VALUES (?,?,'requested',?,?,?,?,?)`,
-    rma, order_id || null, reason || null, resolution || "refund", maintenant(), notes, dump(items));
+    rma, cmd.id, reason || null, resolution || "refund", maintenant(), notes, dump(items));
   const id = one("SELECT last_insert_rowid() r").r;
   journaliser("return.create", "return", id, { rma, order_id }, userId);
   return { id, rma };
@@ -211,6 +233,7 @@ const STATUTS_RETOUR = ["requested", "approved", "in_transit", "received", "refu
 
 function majRetour(id, { status, resolution, notes, shipment_id }, userId = null) {
   if (status && !STATUTS_RETOUR.includes(status)) throw new Error(`statut de retour inconnu : ${status}`);
+  if (resolution && !RESOLUTIONS.includes(resolution)) throw new Error(`résolution inconnue : ${resolution}`);
   run(`UPDATE returns SET status = COALESCE(?, status), resolution = COALESCE(?, resolution),
        notes = COALESCE(?, notes), shipment_id = COALESCE(?, shipment_id),
        closed_at = CASE WHEN ? IN ('refunded','rejected') THEN ? ELSE closed_at END WHERE id = ?`,
@@ -235,5 +258,5 @@ module.exports = {
   chercherProduits, produit, produitParSku, sauverProduit, defautsPour, alertesDouane,
   groupes, sauverGroupe, poserStock, consommerStock, stockBas,
   reconstruireClients, chercherClients,
-  creerRetour, majRetour, chercherRetours, STATUTS_RETOUR,
+  creerRetour, majRetour, chercherRetours, STATUTS_RETOUR, MOTIFS_RETOUR, RESOLUTIONS,
 };

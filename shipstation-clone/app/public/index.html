@@ -4316,19 +4316,74 @@ VUES.retours = async () => {
   const d = await api("/api/returns");
   $("#vue").innerHTML = `<h1>Retours</h1><p class="sous">${num(d.total)} RMA. Cycle complet : demande, approbation, transit, réception, remboursement.</p>
     <div class="barre"><button class="p" id="rnew">Nouveau retour</button></div><div id="rt"></div>`;
-  $("#rnew").onclick = () => dialogue("Nouveau retour", `
-    <label class="champ"><span>N° de commande</span><input id="ron" placeholder="L-50123"></label>
-    <label class="champ"><span>Motif</span><input id="rre" placeholder="Taille, défaut, changement d'avis…"></label>
-    <label class="champ"><span>Résolution</span><select id="rso"><option value="refund">Remboursement</option>
-      <option value="exchange">Échange</option><option value="store_credit">Crédit en boutique</option></select></label>`,
-    async () => {
-      const o = await api("/api/orders?q=" + encodeURIComponent($("#ron").value) + "&limit=1");
-      await api("/api/returns", { method: "POST", body: { order_id: o.orders[0]?.id, reason: $("#rre").value, resolution: $("#rso").value } });
-      VUES.retours();
-    }, "Créer");
+  /**
+   * Nouveau retour — BUG-054 et BUG-055.
+   *
+   * L'ancienne version faisait `GET /api/orders?q=<champ>&limit=1` puis prenait
+   * `orders[0]`. Un champ vide n'étant pas filtrant, le RMA se rattachait à **la première
+   * commande de la base**. Une saisie partielle rattachait à la première correspondance,
+   * sans le dire. Ici la commande est cherchée, montrée, et confirmée avant d'écrire.
+   *
+   * Le motif était en texte libre : « taille », « Taille », « trop petit », « TROP PETIT »
+   * sont quatre motifs distincts pour qui compte. Les treize motifs de ShipStation sont
+   * proposés, avec une précision libre à côté — on garde la nuance sans perdre le
+   * dénombrement.
+   */
+  $("#rnew").onclick = () => {
+    let cible = null;
+    dialogue("Nouveau retour", `
+      <label class="champ"><span>N° de commande</span>
+        <input id="ron" placeholder="L-50123" autocomplete="off"></label>
+      <div id="ronOut" aria-live="polite"></div>
+      <label class="champ"><span>Motif</span><select id="rre">
+        <option value="">— choisir —</option>
+        ${MOTIFS_RETOUR.map(([v, t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join("")}
+      </select></label>
+      <label class="champ"><span>Précision (facultatif)</span><input id="rno" placeholder="ce que le client a écrit"></label>
+      <label class="champ"><span>Résolution</span><select id="rso"><option value="refund">Remboursement</option>
+        <option value="exchange">Échange</option><option value="store_credit">Crédit en boutique</option></select></label>`,
+      async () => {
+        if (!cible) { $("#ronOut").innerHTML = '<div class="avis">Saisir un numéro de commande existant.</div>'; return false; }
+        if (!$("#rre").value) { $("#ronOut").innerHTML = '<div class="avis">Choisir un motif.</div>'; return false; }
+        await api("/api/returns", { method: "POST", body: { order_id: cible.id,
+          reason: $("#rre").value, notes: $("#rno").value || null, resolution: $("#rso").value } });
+        VUES.retours();
+      }, "Créer",
+      (ct) => {
+        const champ = ct.querySelector("#ron"), sortie = ct.querySelector("#ronOut");
+        let deb;
+        const chercher = async () => {
+          const v = champ.value.trim();
+          cible = null;
+          if (!v) { sortie.innerHTML = ""; return; }
+          const r = await api("/api/orders?q=" + encodeURIComponent(v) + "&limit=6");
+          const exacte = r.orders.find(o => String(o.order_number).toLowerCase() === v.toLowerCase());
+          if (exacte) {
+            cible = exacte;
+            sortie.innerHTML = `<div class="avis info"><b>${esc(exacte.order_number)}</b> —
+              ${esc(exacte.customer_name || "")} · ${money(exacte.order_total)} ·
+              ${esc(STATUT_FR[exacte.status] || exacte.status)}</div>`;
+            return;
+          }
+          sortie.innerHTML = r.orders.length
+            ? `<div class="avis">Aucune correspondance exacte. ${r.orders.length} approchante(s) :
+                 ${r.orders.map(o => `<button type="button" class="lienB" data-pick="${esc(o.order_number)}">${esc(o.order_number)}</button>`).join(" · ")}</div>`
+            : '<div class="avis">Aucune commande ne porte ce numéro.</div>';
+          sortie.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => {
+            champ.value = b.dataset.pick; chercher();
+          });
+        };
+        champ.addEventListener("input", () => { clearTimeout(deb); deb = setTimeout(chercher, 250); });
+      });
+  };
   $("#rt").append(table([
     { k: "rma", t: "RMA" }, { k: "order_number", t: "Commande" }, { k: "customer_name", t: "Client" },
-    { k: "reason", t: "Motif" }, { k: "resolution", t: "Résolution" },
+    { k: "reason", t: "Motif", r: r => {
+        const m = MOTIFS_RETOUR.find(([v]) => v === r.reason);
+        return esc(m ? m[1] : (r.reason || "—")) + (r.notes ? ` <span class="doux" title="${esc(r.notes)}">✎</span>` : "");
+      } },
+    { k: "resolution", t: "Résolution", r: r => esc(({ refund: "Remboursement", exchange: "Échange",
+        store_credit: "Crédit en boutique" })[r.resolution] || r.resolution || "—") },
     { k: "requested_at", t: "Demandé", r: r => jour(r.requested_at) },
     { k: "status", t: "Statut", r: r => `<span class="puce ${r.status === "refunded" ? "v" : r.status === "rejected" ? "r" : "a"}">${esc(r.status)}</span>` },
     { k: "act", t: "", r: r => `<select data-rid="${r.id}"><option value="">changer…</option>
@@ -4679,15 +4734,29 @@ VUES.analytique = async () => {
       <div class="barre">${EXPORTS.map(([k, t]) =>
         `<a class="ong" href="/api/export/${k}" download>${t}</a>`).join("")}
         <a class="ong" href="/api/backup" download><b>Sauvegarde complète (JSON)</b></a></div></div>`;
-  $("#mois").innerHTML = a.par_mois.map(m => `<div style="display:flex;align-items:center;gap:9px;margin-bottom:3px">
+  // BUG-070 — les trois cartes se peignaient sans état vide : un titre en gras suspendu
+  // au-dessus de huit pixels de blanc, impossible de distinguer « aucune donnée » de
+  // « le composant a planté ». Chacune dit maintenant laquelle des deux.
+  const carteVide = (cible, quoi) => {
+    $(cible).innerHTML = "";
+    $(cible).append(etatVideG({ titre: `Aucune donnée — ${quoi}`,
+      detail: "Les chiffres apparaîtront dès la première étiquette achetée ou importée." }));
+  };
+
+  if (!a.par_mois.length) carteVide("#mois", "volume par mois");
+  else $("#mois").innerHTML = a.par_mois.map(m => `<div style="display:flex;align-items:center;gap:9px;margin-bottom:3px">
     <span style="width:64px;font-variant-numeric:tabular-nums" class="doux">${m.mois}</span>
     <span class="bar" style="flex:1"><i style="width:${Math.round(100 * m.n / mx)}%"></i></span>
     <span style="width:60px;text-align:right;font-variant-numeric:tabular-nums">${num(m.n)}</span>
     <span style="width:92px;text-align:right" class="doux">${money(m.cout)}</span></div>`).join("");
-  $("#poids").append(table([{ k: "bande", t: "Bande" }, { k: "n", t: "Envois", n: true },
+
+  if (!a.par_poids.length) carteVide("#poids", "répartition par poids");
+  else $("#poids").append(table([{ k: "bande", t: "Bande" }, { k: "n", t: "Envois", n: true },
     { k: "moyen", t: "Coût moyen", n: true, r: r => money(r.moyen) }, { k: "cout", t: "Total", n: true, r: r => money(r.cout) }],
     a.par_poids, { cle: "bande" }));
-  $("#serv").append(table([{ k: "carrier_code", t: "Transporteur" }, { k: "service_id", t: "Service" },
+
+  if (!a.par_service.length) carteVide("#serv", "transporteurs et services");
+  else $("#serv").append(table([{ k: "carrier_code", t: "Transporteur" }, { k: "service_id", t: "Service" },
     { k: "n", t: "Envois", n: true }, { k: "moyen", t: "Moyen", n: true, r: r => money(r.moyen) },
     { k: "drop_off", t: "Drop-off", n: true }], a.par_service, { cle: "service_id" }));
 };
