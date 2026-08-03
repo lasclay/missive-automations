@@ -410,6 +410,49 @@ verifier("fin de journée : reclôturer une journée déjà close est refusé av
   (() => { try { shipments.cloturerJournee(jourEssai); return false; }
            catch (e) { return e.message.includes(jourEssai); } })());
 
+// --------------------------------------------- poste de scan : à l'unité
+/**
+ * Le poste de vérification comptait **à la ligne, pas à l'unité** : une ligne « Mitaines × 2 »
+ * se soldait d'un clic et la seconde paire partait sans que personne l'ait vue. C'est
+ * exactement ce que ce poste existe pour attraper.
+ */
+console.log("\n7. Poste de scan — vérification à l'unité");
+const idScan = orders.upsert({
+  order_number: "T-SCAN", order_key: "tscan", store_id: 198670, order_total: 98, amount_paid: 98,
+  ship_to: { name: "Z", city: "Stanford", state: "CA", country: "US", postalCode: "94305" },
+  items: [
+    { sku: "SC-MIT", name: "Mitaines", quantity: 2, unit_price: 49, upc: "0628055123456" },
+    { sku: "SC-SB", name: "Bombes", quantity: 1, unit_price: 15, upc: "0628055987654" },
+  ],
+});
+const lignesScan = db.all("SELECT id, sku, quantity FROM order_items WHERE order_id = ? ORDER BY id", idScan);
+const ligneMit = lignesScan.find((l) => l.sku === "SC-MIT");
+
+const poser = (id, qty) => {
+  const it = db.one("SELECT quantity FROM order_items WHERE id = ?", id);
+  const vise = Math.max(0, Math.min(it.quantity, qty));
+  db.run("UPDATE order_items SET verified_qty = ?, verified_at = ? WHERE id = ?",
+    vise, vise >= it.quantity ? db.maintenant() : null, id);
+};
+poser(ligneMit.id, 1);
+const apres1 = db.one("SELECT verified_qty, verified_at FROM order_items WHERE id = ?", ligneMit.id);
+verifier("scan : une unité sur deux ne solde pas la ligne",
+  apres1.verified_qty === 1 && apres1.verified_at === null,
+  `qty ${apres1.verified_qty}, verified_at ${apres1.verified_at}`);
+poser(ligneMit.id, 2);
+verifier("scan : la seconde unité solde la ligne et l'horodate",
+  db.one("SELECT verified_at FROM order_items WHERE id = ?", ligneMit.id).verified_at !== null);
+poser(ligneMit.id, 5);
+verifier("scan : on ne peut pas compter plus d'unités qu'il n'y en a de commandées",
+  db.one("SELECT verified_qty FROM order_items WHERE id = ?", ligneMit.id).verified_qty === 2);
+
+const restantes = () => db.all("SELECT quantity, COALESCE(verified_qty,0) v FROM order_items WHERE order_id = ? AND adjustment = 0", idScan)
+  .reduce((s, l) => s + (l.quantity - l.v), 0);
+verifier("scan : le compteur restant décompte des unités, pas des lignes", restantes() === 1,
+  `${restantes()} restante(s)`);
+poser(lignesScan.find((l) => l.sku === "SC-SB").id, 1);
+verifier("scan : la commande n'est complète qu'à zéro unité restante", restantes() === 0);
+
 // ------------------------------------------------------------------ bilan
 
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);

@@ -6173,62 +6173,158 @@ VUES.scan = async () => {
   const aPreparer = (o) => (o.items || []).filter((i) =>
     !i.adjustment && (i.quantity ?? 0) > 0 && !NON_PHYSIQUE.test(String(i.name || "")));
 
+  /**
+   * Vérification à l'unité, par scan de code — §3.7 de l'audit visuel.
+   *
+   * Trois défauts se tenaient ensemble. La vérification se faisait **à la souris**, ce qui
+   * contredisait le sous-titre de l'écran (« le poste s'utilise sans souris »). Il y avait
+   * **une case par ligne, pas par unité** : une ligne « Mitaines × 2 » se soldait d'un clic,
+   * et la seconde paire partait sans que personne l'ait vue — soit exactement ce que le poste
+   * de vérification existe pour attraper. Et il manquait le pendant de « Tout vérifier » :
+   * une erreur de comptage n'avait aucune sortie sinon recharger la page.
+   *
+   * Le champ de scan d'article prend le focus dès qu'une commande est ouverte, et le rend au
+   * champ principal quand tout est compté : la douchette enchaîne colis après colis.
+   */
   const rendreCommande = (o) => {
     courante = o;
     const arts2 = aPreparer(o);
     const ecartees = (o.items || []).length - arts2.length;
     // La vérification vit sur la ligne, pas dans la page : revenir sur une commande la
     // retrouve où on l'avait laissée (BUG-069).
-    for (const i of arts2) if (i.verified_at) verifies.add(i.id);
-    const nVerifies = arts2.filter((i) => verifies.has(i.id)).length;
-    const tousVerifies = arts2.length > 0 && nVerifies === arts2.length;
+    const compte = (i) => Math.max(0, Math.min(i.quantity || 0,
+      i.verified_qty != null ? i.verified_qty : (i.verified_at ? i.quantity || 0 : 0)));
+    for (const i of arts2) { i.verified_qty = compte(i); if (i.verified_qty >= (i.quantity || 0)) verifies.add(i.id); }
     const unites = arts2.reduce((s, i) => s + (i.quantity || 0), 0);
-    const restantes = arts2.filter((i) => !verifies.has(i.id)).reduce((s, i) => s + (i.quantity || 0), 0);
+    const comptees = arts2.reduce((s, i) => s + i.verified_qty, 0);
+    const restantes = unites - comptees;
+    const tousVerifies = arts2.length > 0 && restantes === 0;
+    const sansCode = arts2.filter((i) => !i.upc && !i.sku).length;
     // Le statut de la commande et l'avancement de la vérification sont deux choses distinctes :
     // les confondre faisait afficher « vérifiée » à la place de « Expédiée » (BUG-069).
     $("#scOut").innerHTML = `
       <div class="carte">
         <div class="barre"><h3 style="margin:0;flex:1">${esc(o.order_number)}
           <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>
-          <span class="puce ${tousVerifies ? "v" : "a"}">${restantes ? `${num(restantes)} à vérifier` : "tout vérifié"}</span></h3>
+          <span class="puce ${tousVerifies ? "v" : "a"}">${restantes
+            ? `${num(restantes)} unité${restantes > 1 ? "s" : ""} restante${restantes > 1 ? "s" : ""}`
+            : "tout vérifié"}</span></h3>
           <button type="button" id="scTout">Tout vérifier</button>
+          <button type="button" id="scRien" ${comptees ? "" : "disabled"}
+            title="${comptees ? "Remettre le décompte à zéro" : "Rien n'est encore compté"}">Tout effacer</button>
           <button type="button" id="scVer" ${tousVerifies ? "" : "disabled"}
-            title="${tousVerifies ? "" : "Vérifier tous les articles d'abord"}">Marquer vérifiée (V)</button>
+            title="${tousVerifies ? "" : `Il reste ${restantes} unité(s) à vérifier`}">Marquer vérifiée (V)</button>
           <button type="button" class="v" id="scImp" ${tousVerifies || $("#scm").value === "imprimer" ? "" : "disabled"}
             title="${tousVerifies || $("#scm").value === "imprimer" ? "" : "Vérifier tous les articles avant d'imprimer"}">Imprimer l'étiquette (P)</button></div>
         <div class="doux">${esc(o.customer_name || "")} — ${esc(o.ship_to.city || "")} ${esc(o.ship_to.state || "")}
           · ${num(Math.round(o.weight_g || 0))} g · ${num(unites)} unité${unites > 1 ? "s" : ""} sur ${arts2.length} ligne${arts2.length > 1 ? "s" : ""}
           ${ecartees ? `· <span title="pourboires, dons, frais et lignes remboursées">${ecartees} ligne(s) non physique(s) écartée(s)</span>` : ""}</div>
+
+        <div class="barre" style="margin-top:9px">
+          <label class="visuellement-cache" for="scUpc">Code-barres de l'article</label>
+          <input id="scUpc" autocomplete="off" spellcheck="false"
+                 placeholder="Scannez un article (UPC ou SKU)…"
+                 style="min-width:280px;font-size:15px;padding:8px" ${tousVerifies ? "disabled" : ""}>
+          <span class="doux" id="scUpcEtat" role="status" aria-live="polite">${tousVerifies
+            ? "Tout est compté — imprimez, ou scannez la commande suivante."
+            : `${num(comptees)} sur ${num(unites)} unité(s) comptée(s).`}</span>
+        </div>
+        ${sansCode ? `<div class="avis" style="margin-top:8px">${sansCode} ligne(s) sans UPC ni SKU :
+          elles ne peuvent pas être scannées et doivent être comptées à la main ci-dessous.
+          Renseigner l'UPC sur la fiche produit rend le scan possible.</div>` : ""}
+
         <div class="tbl" style="margin-top:10px"><table>
-          <thead><tr><th scope="col"><span class="visuellement-cache">Vérifié</span></th>
-            <th scope="col">Article</th><th scope="col">SKU</th><th scope="col" class="n">Qté</th></tr></thead>
-          <tbody>${arts2.map((i) => `<tr class="${verifies.has(i.id) ? "sel" : ""}">
-            <td><input type="checkbox" data-v="${i.id}" ${verifies.has(i.id) ? "checked" : ""}
-                 aria-label="Vérifier ${esc(i.name)}"></td>
+          <thead><tr><th scope="col">Article</th><th scope="col">SKU</th><th scope="col">UPC</th>
+            <th scope="col" class="n">Commandée</th><th scope="col" class="n">Comptée</th>
+            <th scope="col"><span class="visuellement-cache">À la main</span></th></tr></thead>
+          <tbody>${arts2.map((i) => {
+            const fait = i.verified_qty >= (i.quantity || 0);
+            return `<tr class="${fait ? "sel" : ""}">
             <td>${esc(i.name)}</td><td class="sku">${esc(i.sku || "—")}</td>
-            <td class="n">${i.quantity}</td></tr>`).join("")}</tbody></table></div>
+            <td class="sku">${i.upc ? esc(i.upc) : '<span class="puce a">absent</span>'}</td>
+            <td class="n">${i.quantity}</td>
+            <td class="n"><b class="${fait ? "" : "doux"}">${i.verified_qty}</b></td>
+            <td><button type="button" data-moins="${i.id}" ${i.verified_qty ? "" : "disabled"}
+                  aria-label="Retirer une unité de ${esc(i.name)}">−</button>
+                <button type="button" data-plus="${i.id}" ${fait ? "disabled" : ""}
+                  aria-label="Ajouter une unité de ${esc(i.name)}">+</button></td></tr>`; }).join("")}</tbody></table></div>
       </div>`;
-    /** Coche ou décoche des lignes, et l'écrit tout de suite : la page n'est pas la mémoire. */
-    const marquer = async (ids, verifie) => {
-      for (const id of ids) verifie ? verifies.add(id) : verifies.delete(id);
-      for (const i of arts2) if (ids.includes(i.id)) i.verified_at = verifie ? "maintenant" : null;
+
+    /** Pose un décompte sur une ligne et l'écrit tout de suite : la page n'est pas la mémoire. */
+    const poser = async (id, qty) => {
+      const i = arts2.find((x) => x.id === id);
+      if (!i) return;
+      const avant = i.verified_qty;
+      i.verified_qty = Math.max(0, Math.min(i.quantity || 0, qty));
       rendreCommande(o);
-      try { await api("/api/scan/verifier", { method: "POST", body: { item_ids: ids, verifie } }); }
+      try { await api("/api/scan/verifier", { method: "POST", body: { item_ids: [id], qty: i.verified_qty } }); }
       catch (e) {
         // L'écriture a échoué : on remet l'écran dans l'état réel plutôt que de laisser
-        // croire que c'est enregistré. Une case cochée qui ne l'est pas est pire que pas de case.
-        for (const id of ids) verifie ? verifies.delete(id) : verifies.add(id);
-        for (const i of arts2) if (ids.includes(i.id)) i.verified_at = verifie ? null : "maintenant";
+        // croire que c'est enregistré. Un décompte affiché qui n'est pas enregistré est pire
+        // que pas de décompte.
+        i.verified_qty = avant;
         rendreCommande(o);
         refus(`Vérification non enregistrée : ${esc(e.message)}`);
       }
     };
 
-    $("#scOut").querySelectorAll("[data-v]").forEach((c) => c.onclick = () => {
-      const id = Number(c.dataset.v);
-      marquer([id], !verifies.has(id));
+    $("#scOut").querySelectorAll("[data-plus]").forEach((b) => b.onclick = () => {
+      const i = arts2.find((x) => x.id === Number(b.dataset.plus));
+      poser(i.id, i.verified_qty + 1);
     });
-    $("#scTout").onclick = () => marquer(arts2.filter((i) => !verifies.has(i.id)).map((i) => i.id), true);
+    $("#scOut").querySelectorAll("[data-moins]").forEach((b) => b.onclick = () => {
+      const i = arts2.find((x) => x.id === Number(b.dataset.moins));
+      poser(i.id, i.verified_qty - 1);
+    });
+
+    /** Scan d'article : le geste principal du poste, clavier seul. */
+    // Le focus suit le geste : sur le champ d'article tant qu'il reste à compter, sur le
+    // champ principal dès que tout est compté — la douchette enchaîne le colis suivant sans
+    // qu'on touche la souris.
+    const champUpc = $("#scUpc");
+    if (champUpc) (tousVerifies ? champ : champUpc).focus();
+    if (champUpc) champUpc.onkeydown = async (e) => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      const code = champUpc.value.trim();
+      if (!code) return;
+      try {
+        const r = await api("/api/scan/article", { method: "POST", body: { order_id: o.id, code } });
+        if (!r.trouve) {
+          bip("refus");
+          $("#scUpcEtat").textContent = r.message;
+          // Le code fautif reste dans le champ et est sélectionné : on voit ce qui a été lu,
+          // et le scan suivant l'écrase — comme le toast de ShipStation qui conserve la saisie.
+          champUpc.select();
+          return;
+        }
+        const i = arts2.find((x) => x.id === r.item.id);
+        if (i) i.verified_qty = r.item.verified_qty;
+        bip(r.restantes === 0 ? "termine" : "lu");
+        annoncer(r.restantes === 0 ? `${o.order_number} : tout est compté` : `${r.restantes} unité(s) restante(s)`);
+        rendreCommande(o);
+      } catch (err) {
+        bip("refus");
+        $("#scUpcEtat").textContent = `Scan non enregistré : ${err.message}`;
+        champUpc.select();
+      }
+    };
+
+    const marquer = async (ids, verifie) => {
+      const avant = arts2.map((i) => [i.id, i.verified_qty]);
+      for (const i of arts2) if (ids.includes(i.id)) i.verified_qty = verifie ? (i.quantity || 0) : 0;
+      if (!verifie) verifies.clear();
+      rendreCommande(o);
+      try { await api("/api/scan/verifier", { method: "POST", body: { item_ids: ids, verifie } }); }
+      catch (e) {
+        for (const [id, q] of avant) { const i = arts2.find((x) => x.id === id); if (i) i.verified_qty = q; }
+        rendreCommande(o);
+        refus(`Vérification non enregistrée : ${esc(e.message)}`);
+      }
+    };
+
+    $("#scTout").onclick = () => marquer(arts2.filter((i) => i.verified_qty < (i.quantity || 0)).map((i) => i.id), true);
+    $("#scRien").onclick = () => marquer(arts2.filter((i) => i.verified_qty > 0).map((i) => i.id), false);
     $("#scVer").onclick = async () => {
       try {
         await api("/api/orders", { method: "POST", body: { ...o, print_state: "verifiee" } });
@@ -6306,7 +6402,11 @@ VUES.scan = async () => {
     } finally {
       $("#scEtat").textContent = "";
       champ.value = "";      // BUG-032 : sans ça, le deuxième code se colle au premier
-      champ.focus();
+      // Le focus ne revient ici que si aucune commande n'est ouverte : quand il y en a une,
+      // c'est le champ de scan d'article qui doit l'avoir, sinon le premier article scanné
+      // atterrit dans le champ de recherche et rouvre la commande au lieu de la vérifier.
+      const suite = $("#scUpc");
+      if (suite && !suite.disabled) suite.focus(); else champ.focus();
     }
   }
 

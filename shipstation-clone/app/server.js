@@ -247,17 +247,78 @@ const STATUTS_SCANNABLES = new Set(["awaiting_shipment", "on_hold"]);
  * ligne elle-même, avec qui l'a vérifiée et quand — c'est ce qu'on veut relire le jour où
  * un client dit qu'il manquait un article.
  */
+/**
+ * Vérification d'articles — à l'unité, pas à la ligne.
+ *
+ * `qty` fixe le nombre d'unités vérifiées sur chaque ligne désignée ; omis, il vaut la
+ * quantité entière (le comportement de « Tout vérifier »). `verifie: false` remet à zéro.
+ * `verified_at` ne porte plus que la ligne *entièrement* vérifiée : c'est lui qui décide si
+ * la commande peut partir, et une ligne à moitié comptée ne doit pas y suffire.
+ */
 route("POST /api/scan/verifier", async ({ req, user }) => {
   accounts.exiger(user, "orders_view");
   const b = await corps(req);
   const ids = (b.item_ids || []).map(Number).filter(Boolean);
   if (!ids.length) return { error: "aucune ligne désignée", code: 400 };
   const marque = b.verifie !== false;
-  const n = db.run(
-    `UPDATE order_items SET verified_at = ?, verified_by = ?
-      WHERE id IN (${ids.map(() => "?").join(",")})`,
-    marque ? db.maintenant() : null, marque ? user : null, ...ids).changes;
-  return { n, verifie: marque };
+  let n = 0;
+  const lignes = [];
+  db.tx(() => {
+    for (const id of ids) {
+      const it = db.one("SELECT id, quantity FROM order_items WHERE id = ?", id);
+      if (!it) continue;
+      const total = it.quantity || 0;
+      const vise = !marque ? 0
+        : b.qty === undefined ? total
+        : Math.max(0, Math.min(total, Number(b.qty)));
+      const complet = vise >= total && total > 0;
+      db.run(`UPDATE order_items SET verified_qty = ?, verified_at = ?, verified_by = ? WHERE id = ?`,
+        vise, complet ? db.maintenant() : null, complet ? user : null, id);
+      lignes.push({ id, verified_qty: vise, quantity: total, complet });
+      n++;
+    }
+  });
+  return { n, verifie: marque, lignes };
+});
+
+/**
+ * Vérification par scan d'un code — le geste de ShipStation (« Scan or enter a UPC to
+ * continue »), impossible ici tant que le catalogue n'avait ni UPC ni chemin d'import.
+ *
+ * Le code est cherché sur l'UPC puis sur le SKU, parmi les seules lignes qui restent à
+ * vérifier : rescanner un article déjà compté est refusé plutôt que d'incrémenter en
+ * silence. Un code qui désigne plusieurs lignes prend la première non soldée — les lignes
+ * sont interchangeables pour un même produit.
+ */
+route("POST /api/scan/article", async ({ req, user }) => {
+  accounts.exiger(user, "orders_view");
+  const b = await corps(req);
+  const code = String(b.code || "").trim();
+  if (!code || !b.order_id) return { error: "code et order_id requis", code: 400 };
+
+  const lignes = db.all(
+    `SELECT id, sku, name, upc, quantity, COALESCE(verified_qty, 0) verified_qty
+       FROM order_items WHERE order_id = ? AND adjustment = 0 ORDER BY id`, Number(b.order_id));
+  const eq = (a) => String(a || "").trim().toLowerCase() === code.toLowerCase();
+  const candidates = lignes.filter((l) => eq(l.upc) || eq(l.sku));
+  if (!candidates.length)
+    return { trouve: false, motif: "inconnu",
+      message: `« ${code} » ne correspond à aucun article de cette commande.` };
+
+  const cible = candidates.find((l) => l.verified_qty < l.quantity);
+  if (!cible) {
+    const l = candidates[0];
+    return { trouve: false, motif: "deja_complet", item: l,
+      message: `${l.name} : les ${l.quantity} unité(s) sont déjà vérifiées.` };
+  }
+  const vise = cible.verified_qty + 1;
+  const complet = vise >= cible.quantity;
+  db.run(`UPDATE order_items SET verified_qty = ?, verified_at = ?, verified_by = ? WHERE id = ?`,
+    vise, complet ? db.maintenant() : null, complet ? user : null, cible.id);
+
+  const restantes = lignes.reduce((s, l) =>
+    s + (l.id === cible.id ? cible.quantity - vise : l.quantity - l.verified_qty), 0);
+  return { trouve: true, item: { ...cible, verified_qty: vise, complet }, restantes };
 });
 
 route("GET /api/scan/lookup", ({ url, user }) => {

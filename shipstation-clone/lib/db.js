@@ -410,6 +410,10 @@ const AJOUTS = [
   // un rechargement de page perdait toutes les cases cochées sans un mot.
   ["order_items", "verified_at", "TEXT"],
   ["order_items", "verified_by", "TEXT"],
+  // Vérification à l'unité, pas à la ligne : une ligne « Mitaines × 2 » se coche en deux
+  // scans. Une case unique par ligne fait passer la seconde paire sans que personne
+  // l'ait vue — c'est exactement ce que le poste de vérification existe pour attraper.
+  ["order_items", "verified_qty", "INTEGER DEFAULT 0"],
   // Les six colonnes d'état de communication de l'écran Shipped (BUG-049). ShipStation en
   // affiche un pictogramme **et un horodatage** pour chacune : « Printed 22/07 10:17 ».
   // Un booléen ne suffit pas — la question posée à l'écran est « quand », pas « oui/non ».
