@@ -949,6 +949,9 @@ route("GET /api/criteres", ({ req, res }) => jsonCache(req, res, {
   })),
   portees: criteres.PORTEES,
   actions: Object.keys(rules.ACTIONS),
+  // Forme attendue du paramètre de chaque action (BUG-076) : l'éditeur en tire de vraies
+  // listes au lieu d'un champ de JSON brut.
+  formes: rules.FORME_ACTIONS,
   confirmations: require("../lib/lasclay").CONFIRMATIONS,
 }));
 

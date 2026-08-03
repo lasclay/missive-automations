@@ -551,6 +551,13 @@
   .critL select, .critL input { padding:4px 7px; font-size:12.5px; width:100% }
   .critL [data-suppr] { padding:2px 6px; border-color:var(--rouge); color:var(--rouge) }
   .critL [data-act] { grid-template-columns:1fr 2fr 28px }
+  /* Paramètre typé d'une action (BUG-076) : autant de champs nommés que la forme en demande. */
+  .actP { display:block }
+  .actP > select, .actP > input { width:100% }
+  .actObj { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:4px }
+  .actC { display:flex; flex-direction:column; gap:2px }
+  .actC > span { font-size:10.5px; color:var(--doux) }
+  .actC select, .actC input { width:100% }
   div[data-act].critL { grid-template-columns:1fr 2.5fr 28px }
   .ordL .ordI { padding:6px 10px; border:1px solid var(--bord); border-radius:6px; margin-bottom:4px;
                 background:var(--carte); cursor:grab; font-size:13px }
@@ -4987,6 +4994,9 @@ const decrireAction = (a) => a.type + (a.value != null && typeof a.value !== "ob
 function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all: true, position: 50 }) {
   const voc = S.voc;
   const champArticle = (cle) => (voc.champs.find((c) => c.cle === cle) || {}).article;
+  // Les gabarits alimentent la liste de l'action « email » ; on les charge une fois, sans
+  // bloquer l'ouverture de l'éditeur si l'appel échoue.
+  if (!S.gabarits) api("/api/templates").then((d) => { S.gabarits = d.templates || []; }).catch(() => { S.gabarits = []; });
 
   /**
    * Une valeur stockée hors du vocabulaire ne doit **jamais** faire retomber le sélecteur sur
@@ -5018,10 +5028,62 @@ function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all
       <button type="button" data-suppr title="Retirer" aria-label="Retirer ce critère">×</button>
     </div>`;
 
+  /**
+   * Paramètre d'une action — BUG-076.
+   *
+   * C'était un champ texte contenant du JSON brut :
+   * `{"carrier_code":"canada_post","service_id":"99","package_id":"115317"}`. Une faute de
+   * frappe cassait la règle sans validation, et l'opérateur devait connaître les
+   * identifiants internes — `99`, `115317`. L'application possédait déjà les listes qu'il
+   * fallait, ailleurs. Le serveur décrit la forme attendue de chaque action ; on la rend.
+   *
+   * Le JSON reste accessible en repli pour les formes qu'on n'a pas décrites : mieux vaut
+   * un champ brut assumé qu'une action qu'on ne peut plus configurer du tout.
+   */
+  const LISTES = {
+    service: () => (S.refs.services || []).filter((x) => !x.hidden).map((x) => [String(x.id), x.name]),
+    colis: () => (S.refs.packages || []).map((x) => [String(x.id), x.name]),
+    entrepot: () => (S.refs.warehouses || []).map((w) => [String(w.id), w.name + (w.is_default ? " (défaut)" : "")]),
+    transporteur: () => (S.refs.carriers || []).map((c) => [String(c.code), c.name]),
+    etiquette: () => (S.refs.tags || []).map((t) => [String(t.name), t.name]),
+    utilisateur: () => (S.refs.users || []).map((u) => [String(u.id), u.name]),
+    confirmation: () => (S.refs.confirmations || []).map((c) => [String(c.id), c.nom]),
+    gabarit: () => (S.gabarits || []).map((g) => [String(g.id), g.name]),
+  };
+
+  const champTypé = (type, valeur, options, attrs = "") => {
+    const v = valeur ?? "";
+    if (type === "nombre") return `<input type="number" step="any" ${attrs} value="${esc(v)}">`;
+    if (type === "date") return `<input type="date" ${attrs} value="${esc(String(v).slice(0, 10))}">`;
+    const liste = type === "choix" ? options : (LISTES[type] && LISTES[type]());
+    if (!liste) return `<input ${attrs} value="${esc(v)}">`;
+    // Une valeur enregistrée absente du référentiel ne doit pas disparaître en silence —
+    // même principe que pour les critères (BUG-017).
+    const connue = liste.some(([k]) => String(k) === String(v));
+    return `<select ${attrs}>
+      <option value="">— aucun —</option>
+      ${!connue && v !== "" ? `<option value="${esc(v)}" selected data-orphelin>⚠ valeur inconnue : ${esc(v)}</option>` : ""}
+      ${liste.map(([k, t]) => `<option value="${esc(k)}"${String(k) === String(v) ? " selected" : ""}>${esc(t)}</option>`).join("")}
+    </select>`;
+  };
+
+  const parametreAction = (type, valeur) => {
+    const f = (voc.formes || {})[type];
+    if (!f) return `<input data-av aria-label="Paramètre" value="${esc(typeof valeur === "object" ? JSON.stringify(valeur) : (valeur ?? ""))}" placeholder="valeur (ou JSON)">`;
+    if (f.type === "rien") return `<span class="doux" data-vide>cette action n'a pas de paramètre</span>`;
+    if (f.type === "objet") {
+      const o = (valeur && typeof valeur === "object") ? valeur : {};
+      return `<span class="actObj">${f.champs.map((c) =>
+        `<label class="actC"><span>${esc(c.libelle)}</span>${
+          champTypé(c.type, o[c.cle], c.options, `data-ao="${esc(c.cle)}"`)}</label>`).join("")}</span>`;
+    }
+    return champTypé(f.type, valeur, f.options, `data-av aria-label="${esc(f.libelle || "Paramètre")}"`);
+  };
+
   const ligneAction = (a = { type: "add_tag", value: "" }) => `
-    <div class="critL" data-act>
+    <div class="critL actL" data-act>
       <select data-t aria-label="Action">${optionsAvec(voc.actions.map((x) => ({ cle: x })), a.type)}</select>
-      <input data-av aria-label="Paramètre" value="${esc(typeof a.value === "object" ? JSON.stringify(a.value) : (a.value ?? ""))}" placeholder="valeur (ou JSON)">
+      <span data-param class="actP">${parametreAction(a.type, a.value)}</span>
       <button type="button" data-suppr title="Retirer" aria-label="Retirer cette action">×</button>
     </div>`;
 
@@ -5068,10 +5130,21 @@ function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all
         return c;
       });
       const actions = [...document.querySelectorAll("[data-act]")].map((l) => {
-        const brut = l.querySelector("[data-av]").value.trim();
+        const type = l.querySelector("[data-t]").value;
+        // Action composée : chaque champ nommé donne une clé. On n'envoie que ce qui est
+        // rempli — un champ vide veut dire « ne pas y toucher », pas « mettre à vide ».
+        const parties = [...l.querySelectorAll("[data-ao]")];
+        if (parties.length) {
+          const o = {};
+          for (const c of parties) if (String(c.value).trim() !== "") o[c.dataset.ao] = c.value;
+          return { type, value: o };
+        }
+        const champ = l.querySelector("[data-av]");
+        if (!champ) return { type, value: null };       // action sans paramètre
+        const brut = String(champ.value).trim();
         let value = brut;
         if (brut.startsWith("{") || brut.startsWith("[")) { try { value = JSON.parse(brut); } catch {} }
-        return { type: l.querySelector("[data-t]").value, value };
+        return { type, value };
       });
       try {
         await api("/api/rules", { method: "POST", body: { id: r.id, name: $("#rnm").value,
@@ -5093,6 +5166,13 @@ function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all
           const p = sel.parentNode.querySelector("[data-p]");
           p.disabled = !champArticle(sel.value);
         });
+        // Changer d'action change la forme de son paramètre : une date n'a pas la même
+        // saisie qu'un service. On repeint le champ plutôt que de garder l'ancien, qui
+        // porterait une valeur qui n'a plus de sens.
+        c.querySelectorAll("[data-act] [data-t]").forEach((sel) => sel.onchange = () => {
+          const zone = sel.parentNode.querySelector("[data-param]");
+          if (zone) zone.innerHTML = parametreAction(sel.value, null);
+        });
       };
       c.querySelector("#critPlus").onclick = (e) => { e.preventDefault(); c.querySelector("#crits").insertAdjacentHTML("beforeend", ligneCritere()); brancher(); };
       c.querySelector("#actPlus").onclick = (e) => { e.preventDefault(); c.querySelector("#acts").insertAdjacentHTML("beforeend", ligneAction()); brancher(); };
@@ -5112,8 +5192,11 @@ VUES.tarifs = async () => {
       de ${S.config.seuil_dropoff_g} g — sous ce poids, le tarif de dépôt est privilégié.</p>
     <div class="carte">
       <div class="grille">
-        <label class="champ"><span>Expédié de</span><select id="tw">${(S.refs.warehouses || []).map((w) =>
-          `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select></label>
+        <!-- BUG-067 — la liste prenait sa première ligne, « Jean-Simon Begin », alors que
+             l'entrepôt par défaut est « LAS Capucins ». Une cotation partait donc du mauvais
+             point d'origine sans que rien ne le signale. Même résolution que la fiche de
+             commande : la valeur portée, à défaut le défaut. -->
+        <label class="champ"><span>Expédié de</span><select id="tw">${optionsEntrepot(null)}</select></label>
         <label class="champ"><span>Pays</span><select id="tp"><option>CA</option><option>US</option><option>FR</option></select></label>
         <label class="champ"><span>Province / État</span><input id="ts" placeholder="QC"></label>
         <label class="champ"><span>Code postal</span><input id="tc" placeholder="H2X 1Y4"></label>
