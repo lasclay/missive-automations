@@ -98,6 +98,66 @@ et dis-le à l'humain. Ne ferme pas le fil.
 heures », « dès que possible » sur un dossier déjà en retard sont des fautes. Une date
 ferme, ou l'aveu qu'on ne l'a pas encore.
 
+## Temporalité — la source d'erreur la plus coûteuse
+
+Les fils de l'arriéré ont des mois. `support.js` (v2.24 et v2.29) encode tout un régime
+là-dessus, et c'est ce qui se viole le plus facilement.
+
+**Raisonne toujours à partir d'aujourd'hui, jamais de la date du message.** Convertis les
+dates en temps écoulé avant de décider quoi que ce soit.
+
+| Âge du dernier message client | Ce qu'on fait |
+| --- | --- |
+| ≤ 3 jours | aucune excuse, ou très légère |
+| 4 à 10 jours | excuse simple, jamais en ouverture, + admission qu'on aurait dû faire mieux |
+| > 10 jours, **ou** 2 messages sans réponse | excuse appuyée : « inacceptable », « pas dans nos habitudes » |
+| ≥ 1 mois | excuse maximale : une explication **concrète** (main-d'œuvre, période intense) |
+| > ~3 semaines | **ne promets plus rien d'actif** — le dossier est presque sûrement déjà traité |
+
+Les interdits, tous appris d'erreurs réelles :
+
+- **Ne chiffre jamais l'ancienneté au client.** « votre commande de janvier », « depuis
+  novembre », « ta question du 24 février », « ce dossier traîne depuis 2020 » : ça
+  souligne notre lenteur. L'âge sert au **ton** et à la **décision**, il ne s'énonce pas.
+- **Sur un fil vieux, ne promets aucune action** (« j'expédie », « j'ajoute à ta
+  commande », « je t'envoie le lien »). Vérifie l'état réel, puis **demande si c'est
+  encore d'actualité**. Une note de Gabriel le dit mot pour mot : « problème de
+  temporalité. Sa demande date du 27 janvier. Faut lui demander si sa demande a été
+  traitée en fait! »
+- **Commande expédiée ou livrée = reçue.** Interdiction absolue de dire « on prépare » sur
+  une commande déjà partie. On confirme l'envoi, ou on ferme si le fil est vieux et sans
+  question.
+- **Excuse jamais nue.** « Désolé du délai » seul est banni : robotique et vide. Toute
+  excuse porte un **pourquoi** concret ou un cadrage « ce n'est pas dans nos habitudes ».
+- **Un seul marqueur d'excuse, deux au maximum.** On ne s'auto-flagelle pas. Bannis :
+  « tu méritais mieux », « pas à la hauteur », « ça ne me ressemble pas », « c'est
+  gênant », et l'empilement « inacceptable + pas dans nos habitudes ». Après l'excuse, on
+  regarde devant.
+- **Jamais deux fois la même excuse au même client.** Idem pour la vidéo du pivot
+  (`youtube.com/watch?v=GKyHh-Ok9JU`), qui ne se sert qu'une fois.
+- **Aucun souhait daté ou saisonnier décalé.** Pas de « joyeuses Fêtes » en janvier, pas de
+  « bonne plantation » à quelqu'un qui a semé il y a un mois. Le souhait colle à
+  aujourd'hui ou disparaît.
+- **Aucun délai chiffré non sourcé.** « dans les prochaines heures », « d'ici la fin de la
+  journée », « dans les prochains jours » sont des dates inventées. Le seul délai chiffré
+  autorisé d'office : 5 à 12 jours ouvrables pour un envoi par timbre.
+
+**Un vieux fil sans question — un remerciement, un dossier résolu — se FERME avec une note
+interne, sans écrire au client.** Écrire pour écrire rouvre un dossier clos.
+
+Deux effets de bord saisonniers à connaître :
+
+- **Semences.** L'automne est le bon moment pour semer l'asclépiade : l'hiver lève la
+  dormance. Un envoi tardif n'est pas un pis-aller, c'est la bonne fenêtre — et ça se dit.
+  Des graines mal conservées qui ont germé donnent droit à un renvoi gratuit **programmé à
+  la bonne période**, pas expédié n'importe quand.
+- **Contrainte de date du client.** Un cadeau de Noël, un départ en voyage, une expédition
+  qui part : ces cas passent en priorité. Un fil documenté a coûté l'usage prévu —
+  « pour les cache-cou que je devais donner en cadeau c'est foutu. Noël est passé ».
+
+Rappel : une **contestation PayPal** non répondue en 10 jours devient un remboursement
+automatique et irréversible.
+
 ## Règles de décision internes
 
 Elles viennent de `connaissance_support.md` (section 3), formulées par Gabriel. Les plus
