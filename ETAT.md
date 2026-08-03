@@ -45,6 +45,62 @@ un test qui lit l'arbre peut passer pendant que l'écran est cassé (leçon du z
 
 ---
 
+## Vague 2 — parité opérationnelle
+
+| # | Item | Anomalie | État | Note |
+|---|---|---|---|---|
+| V2-01 | Importer expéditions, exécutions, lots | BUG-004/048 | **fait en recette** | 19 671 expéditions, 14 406 exécutions, 955 lots |
+| V2-02 | Importer les 278 retours | BUG-005 | **fait en recette** | reconstitués depuis les étiquettes de retour — l'API v1 n'expose aucun RMA. Motif et articles restent à saisir : ShipStation ne les stocke pas non plus |
+| V2-03 | Sélection de lignes sur Expéditions | BUG-050 | **fait** | |
+| V2-04 | Actions en masse sur les expéditions | BUG-050 | **fait** | cinq actions ; l'annulation d'étiquette garde sa confirmation propre, elle touche l'argent |
+| V2-05 | Six colonnes d'état de communication | BUG-049 | **fait** | pictogramme + horodatage, filtre « client non prévenu » |
+| V2-06 | Écran Cueillettes transporteur | BUG-051 | **fait** | cinq comptes ; « noté ici » ≠ « confirmé par le transporteur », dit à l'écran |
+| V2-07 | Page de lot au lieu d'une modale | BUG-052 | **fait** | « Ouvrir » mène à la grille filtrée, qui porte déjà les onze actions |
+| V2-08 | Fiche client | BUG-065 | **fait** | cumuls recalculés depuis les commandes, écart signalé |
+| V2-09 | Paginer l'écran Clients | BUG-064 | **fait** | 372 pages au lieu d'un plafond muet à 300 |
+| V2-10 | Sécuriser « Reconstruire depuis les commandes » | BUG-063 | **fait** | confirmation, état, erreurs |
+| V2-11 | Réparer les exports CSV | BUG-027/057/116 | **fait** | |
+| V2-12 à V2-14 | Journal d'activité et d'audit | BUG-043/079/080 | **fait** | |
+| V2-15/16 | Webhooks signés + file de redélivrance | BUG-022 | **fait** | |
+| V2-17 | Douze permissions éditables | BUG-081 | **fait** | + garde-fou sur la dernière clé de gestion des comptes |
+| V2-18 | Accessibilité phase 1 | BUG-031 | **fait** | |
+| V2-20 | `ETag` sur les référentiels | BUG-134 | **fait** | 304 sur revalidation |
+| V2-21/22 | États de chargement et états vides | BUG-035/037/115 | **fait** | |
+| V2-23 | Course de rendu | BUG-085 | **fait** | jeton de génération + abandon des lectures en vol, sur la grille **et** sur les écrans |
+| V2-24 | Douze colonnes triables | BUG-036 | **fait** | tri sur expression pour les colonnes d'articles et d'étiquettes |
+| V2-25 | Sélection inter-pages | BUG-041 | **fait** | « les N du filtre », plafond annoncé |
+| V2-26 | `Autres actions` sans sélection | BUG-040 | **fait** | entrées globales actives, les autres grisées avec le motif |
+| V2-28 | Dissocier ⟳ de l'import Shopify | BUG-071 | **fait** | + horodatage de fraîcheur |
+| V2-29 | Zone de danger, `Simuler` primaire | BUG-084/118 | **fait** | la migration y rejoint le reste |
+| V2-30 | Piège de défilement des Réglages | BUG-082 | **fait** | zéro conteneur piégeant mesuré |
+| V2-31 | Expéditions combinables : exclure les clés nulles | BUG-083 | **fait** | |
+| V2-32 | Badge d'auto-contrôle à trois états | BUG-033 | **fait** | |
+| V2-34 | `V` et `P` atteignables au poste de scan | BUG-066 | **fait** | `F2`/`F3` toujours, `V`/`P` sur champ vide après 250 ms |
+| V2-35 | Statut et avancement séparés au scan | BUG-069 | **fait** | vérification persistée sur la ligne |
+| V2-36 | Trois sons + `aria-live` au scan | BUG-122 | **fait** | |
+| V2-37 | Exclure les lignes non physiques | BUG-120 | **fait** | pourboires, dons, frais, lignes remboursées |
+| V2-38 | Valider la création d'un retour | BUG-054/055 | **fait** | commande vérifiée et montrée, treize motifs normalisés |
+| V2-39 | « Volume par mois » : état vide | BUG-070 | **fait** | les trois cartes de l'analytique |
+| V2-19 | Contrastes et cibles tactiles | BUG-086 | à faire | |
+| V2-27 | Recherche rapide : écran de résultats | BUG-042 | à faire | |
+| V2-33 | `t.service` / `t.transitDays` | BUG-067/068 | à faire | |
+| V2-40 | Paramétrage typé des actions de règle | BUG-076 | à faire | |
+
+### Ce que la base migrée a appris
+
+Le jeu de développement fait 427 lignes et taisait tout ceci ; il a fallu 39 122 commandes
+réelles pour le voir.
+
+| Constat | Avant | Après |
+|---|---|---|
+| Écran Lots | 5,4 s | 479 ms (huit index) |
+| Écrans qui s'écrasaient l'un l'autre | « Lots » affiché au-dessus des clients | chaque rendu numéroté, lectures en vol abandonnées |
+| Pagination hors bornes | « 10 251–856 sur 856 » | ramenée dans les bornes |
+| Compteur « en drop-off » | 0 sur 33 789 | 15 879 admissibles — le drapeau n'existe pas chez ShipStation |
+| Migration des produits | aurait écrit 403 lignes sur 473 | 473, dont 39 sans SKU et 32 doublons |
+
+---
+
 ## Arbitrages et divergences avec le rapport
 
 **BUG-007 — la cause n'est pas celle qui était supposée.** Le rapport attribue le « 0 au lieu de
