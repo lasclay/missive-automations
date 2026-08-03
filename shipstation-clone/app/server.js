@@ -1336,6 +1336,10 @@ route("GET /api/refs", ({ req, res }) => jsonCache(req, res, {
   packages: db.all("SELECT * FROM packages ORDER BY custom DESC, name").map((p) => ({ ...p, dimensions: db.parse(p.dimensions) })),
   presets: presets.presets(),
   confirmations: lasclay.CONFIRMATIONS,
+  // Volumétrie des référentiels : c'est ce qui permet à l'écran de griser une action qui
+  // n'aurait rien sur quoi s'appliquer, plutôt que de la proposer et de ne rien faire.
+  produits_n: db.one("SELECT COUNT(*) n FROM products").n,
+  groupes_n: db.one("SELECT COUNT(*) n FROM preset_groups").n,
 }));
 
 route("GET /api/settings", () => ({

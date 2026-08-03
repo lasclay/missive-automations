@@ -217,6 +217,8 @@
   .jal time { font-variant-numeric:tabular-nums }
   .permG { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:2px 12px; margin:6px 0 }
   .permL { padding:3px 0; font-size:12.5px }
+  /* Un titre de carte est un titre : `<b>` ne structure rien pour un lecteur d'écran. */
+  .titreCarte { font-size:13px; font-weight:650; margin:0 0 2px }
   .frais { font-size:11.5px; margin-left:2px; white-space:nowrap }
   .ico.tourne { animation:tourner .8s linear infinite }
   @keyframes tourner { to { transform:rotate(360deg) } }
@@ -499,6 +501,17 @@
   .fConf .cAutres { display:flex; flex-direction:column; gap:7px }
   .fConf .cAutres[open] { padding-bottom:5px }
   .fConf .ch { display:flex; gap:7px; align-items:center; font-size:12.5px; cursor:pointer }
+  /*
+   * Tableau de tarifs dans un panneau étroit — BUG-036 du document visuel.
+   *
+   * Le conteneur mesurait 284 px pour 494 px de contenu, sans défilement : deux lignes
+   * visibles sur sept, et les colonnes Prix et Marge coupées — c'est-à-dire les deux seules
+   * qu'on regarde. Le tableau défile horizontalement dans son propre cadre plutôt que de
+   * rogner ce qu'il montre.
+   */
+  #cOut .tbl, #cTarifs .tbl { max-height:46vh; overflow:auto }
+  #cOut .tbl table, #cTarifs .tbl table { min-width:440px }
+  #cOut .tbl th, #cTarifs .tbl th { position:sticky; top:0; background:var(--carte); z-index:1 }
   .fPied { flex:none; border-top:1px solid var(--bord); padding:10px 13px; display:flex;
            flex-direction:column; gap:7px; background:var(--carte) }
   .fPiedC { display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px }
@@ -2610,15 +2623,29 @@ VUES.commandes = async (statutFixe) => {
   ]);
   ACT.aPreset = menuPreset;
 
-  ACT.aPrint = () => menuFlottant("aPrint", [
-    { t: "Étiquette", f: () => window.open(`/api/labels?ids=${ids().join(",")}`, "_blank") },
+  /**
+   * « Imprimer ▾ » — trois entrées étaient toujours actives quel que soit le contexte.
+   *
+   * `Étiquette` proposait d'imprimer une étiquette qui n'existe pas, et `Formulaires de
+   * douane` un formulaire pour une commande domestique. ShipStation grise ces entrées selon
+   * le contexte ; ici elles disent en plus **pourquoi** elles sont grisées.
+   */
+  ACT.aPrint = () => {
+    const sel = LIGNES.filter((o) => S.sel.has(String(o.id)));
+    const avecEtiquette = sel.some((o) => (o.n_shipments || 0) > 0);
+    const international = sel.some((o) => (o.ship_to || {}).country && o.ship_to.country !== "CA");
+    return menuFlottant("aPrint", [
+    { t: "Étiquette", inactif: avecEtiquette ? null : "Aucune étiquette achetée sur la sélection",
+      f: () => window.open(`/api/labels?ids=${ids().join(",")}`, "_blank") },
     { t: "Bordereau de préparation", hk: "P+S", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}`, "_blank") },
     { t: "Liste de prélèvement", hk: "P+L", f: () => window.open(`/api/pick-list?ids=${ids().join(",")}`, "_blank") },
     { t: "Résumé de commande", hk: "O+S", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}&resume=1`, "_blank") },
-    { t: "Formulaires de douane", f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}&douane=1`, "_blank") },
+    { t: "Formulaires de douane", inactif: international ? null : "Aucune commande internationale dans la sélection",
+      f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}&douane=1`, "_blank") },
     { sep: 1 },
     { t: "Exporter la sélection (CSV)", f: () => window.open(`/api/export/orders?ids=${ids().join(",")}`, "_blank") },
-  ]);
+    ]);
+  };
 
   ACT.aTag = () => menuFlottant("aTag", [
     ...(S.refs.tags || []).map((t) => ({ t: t.name,
@@ -2692,12 +2719,20 @@ VUES.commandes = async (statutFixe) => {
     if (!(S.selHorsVue || []).length) return envoyer();
     dialogue("Envoyer vers la file de prélèvement", mentionPortee(), envoyer, "Envoyer");
   };
-  ACT.aAlloc = () => menuFlottant("aAlloc", [
-    { t: "Allouer l'inventaire", f: () => allouer("allocated") },
-    { t: "Désallouer", f: () => allouer("unallocated") },
-    { sep: 1 },
-    { t: "Voir l'inventaire", f: () => aller("inventaire") },
-  ]);
+  /**
+   * « Allouer ▾ » proposait trois actions actives alors que le catalogue produits était vide :
+   * allouer un inventaire qui n'existe pas ne fait rien et ne le dit pas.
+   */
+  ACT.aAlloc = () => {
+    const sansCatalogue = !(S.refs.produits_n ?? 1);
+    const motif = sansCatalogue ? "Le catalogue produits est vide — rien à allouer" : null;
+    return menuFlottant("aAlloc", [
+      { t: "Allouer l'inventaire", inactif: motif, f: () => allouer("allocated") },
+      { t: "Désallouer", inactif: motif, f: () => allouer("unallocated") },
+      { sep: 1 },
+      { t: "Voir l'inventaire", f: () => aller("inventaire") },
+    ]);
+  };
   const allouer = async (etat) => {
     await api("/api/orders/bulk", { method: "POST", body: { ids: ids(), champs: { allocation_status: etat } } });
     S.sel.clear(); charger();
@@ -2735,7 +2770,7 @@ VUES.commandes = async (statutFixe) => {
       async () => {
         const r = await api("/api/batches", { method: "POST", body: {
           ids: ids(), name: $("#bn").value || null, marge_max: $("#bm").value || null } });
-        alert(`Lot ${r.batchId} : ${r.reussis} étiquette(s), ${r.echecs} échec(s).`);
+        toast(`Lot ${r.batchId} — ${num(r.reussis)} étiquette(s), ${num(r.echecs)} échec(s).`);
         S.sel.clear(); charger(); rafraichirCompteurs();
       }, "Créer");
   }
@@ -2768,7 +2803,7 @@ VUES.commandes = async (statutFixe) => {
           package_id: $("#cpkg").value, confirmation: $("#ccon").value,
           weight_g: $("#cwei").value, warehouse_id: $("#cwar").value };
         const r = await api("/api/orders/configure", { method: "POST", body: b });
-        alert(`${r.n} commande(s) mise(s) à jour.`);
+        toast(`${num(r.n)} commande(s) mise(s) à jour.`);
         S.sel.clear(); charger();
       }, "Appliquer");
   }
@@ -2792,7 +2827,7 @@ VUES.commandes = async (statutFixe) => {
         const items = [...document.querySelectorAll("#dlgC [data-it]:checked")].map((x) => Number(x.dataset.it));
         if (!items.length || items.length === arts2.length) { alert("Cocher au moins un article, mais pas tous."); return false; }
         const r = await api(`/api/orders/${o.id}/split`, { method: "POST", body: { item_ids: items } });
-        alert(`Nouvelle commande créée (#${r.enfant}).`);
+        toast(`Nouvelle commande créée (#${r.enfant}).`);
         S.sel.clear(); charger(); rafraichirCompteurs();
       }, "Scinder");
   }
@@ -3316,27 +3351,48 @@ let ficheOuverte = null;
  * moins cher, ressortait avant-dernier. Un bandeau refermable au-dessus du tableau ne suffit
  * pas : la mention « démo » est répétée **sur chaque ligne**, là où l'œil se pose.
  */
+/**
+ * Tableau de tarifs — BUG-068.
+ *
+ * Le rendu lisait `serviceName` et `delivery_days` ; l'adaptateur renvoie `service` et
+ * `transitDays`. Deux noms de champ qui ne se rencontrent jamais, et c'est tout l'arbitrage
+ * prix/délai qui disparaît : la colonne Service affichait des identifiants techniques
+ * (`cp_expedited_dropoff`) et la colonne Délai était vide sur toutes les lignes, alors que
+ * l'API renvoyait déjà « Expedited Parcel » et 1 jour. On accepte les deux vocabulaires
+ * plutôt que d'en imposer un : l'adaptateur réel n'aura pas forcément le même.
+ */
+const nomTarif = (t) => t.serviceName || t.service || nomService(t.serviceId) || t.serviceId || "—";
+const delaiTarif = (t) => {
+  const j = t.transitDays ?? t.delivery_days ?? t.transit_days;
+  if (j != null && j !== "") return `${num(j)} jour${Number(j) > 1 ? "s" : ""}`;
+  const d = t.estimated_delivery_date || t.estimatedDeliveryDate;
+  return d ? jour(d) : "—";
+};
+
 function tableauTarifs(r, o) {
   const paye = o ? Number(o.shipping_paid || 0) : null;
   const demo = S.config && S.config.adaptateur === "bouchon";
+  // Un compte transporteur n'est pas un détail : Lasclay a deux comptes Canada Post à
+  // 1,08 $ d'écart sur le même service. La colonne n'apparaît que s'il y a de quoi la remplir.
+  const comptes = r.tarifs.some((t) => t.compte);
   return `${demo ? `<div class="avis bloquant" style="margin-bottom:10px">
-      <b>Tarifs de démonstration.</b> L'adaptateur transporteur n'est pas branché : ces prix ne
-      dépendent que du poids et sont identiques pour tous les transporteurs. <b>Le classement
-      n'a aucune valeur.</b> Brancher <code>CARRIER_ADAPTER</code> avant de s'y fier.</div>` : ""}
+      <b>Tarifs de démonstration.</b> L'adaptateur transporteur n'est pas branché : ces prix
+      sont ceux relevés une fois chez ShipStation et ne varient pas avec la destination.
+      <b>Ne pas s'en servir pour arbitrer un envoi réel.</b> Brancher
+      <code>CARRIER_ADAPTER</code> à réception des identifiants.</div>` : ""}
     <div class="tbl"><table>
-    <thead><tr><th scope="col">Transporteur</th><th scope="col">Service</th>
+    <thead><tr><th scope="col">Transporteur</th>${comptes ? '<th scope="col">Compte</th>' : ""}
+      <th scope="col">Service</th>
       <th scope="col">Délai</th><th scope="col" class="n">Prix</th>${
       paye !== null ? '<th scope="col" class="n">Marge</th>' : ""}</tr></thead><tbody>${
     r.tarifs.map((t) => {
       const m = paye !== null ? Math.round((paye - t.price) * 100) / 100 : null;
-      const nom = t.serviceName || nomService(t.serviceId) || t.serviceId;
-      const delai = t.delivery_days ? `${t.delivery_days} j`
-        : t.estimated_delivery_date ? jour(t.estimated_delivery_date) : "—";
       return `<tr><td>${esc(t.carrier)}</td>
-        <td><span title="${esc(t.serviceId || "")}">${esc(nom)}</span>${
+        ${comptes ? `<td class="doux">${esc(t.compte || "—")}</td>` : ""}
+        <td><span title="${esc(t.serviceId || "")}">${esc(nomTarif(t))}</span>${
           t.dropOff ? ' <span class="puce v">dépôt</span>' : ""}${
           r.recommande && r.recommande.serviceId === t.serviceId ? ' <span class="puce v">recommandé</span>' : ""}</td>
-        <td>${esc(delai)}</td>
+        <td>${esc(delaiTarif(t))}</td>
         <td class="n">${money(t.price)}${demo ? ' <span class="puce a" title="Valeur de démonstration, non contractuelle">démo</span>' : ""}</td>
         ${m !== null ? `<td class="n ${m < 0 ? "rouge" : "vert"}">${m >= 0 ? "+" : ""}${money(m)}</td>` : ""}</tr>`;
     }).join("")}</tbody></table></div>`;
@@ -3717,8 +3773,22 @@ async function detailCommande(id) {
     }, "Scinder");
   $("#fSplit", f).onclick = scinder;
   const s2 = $("#fSplit2", f); if (s2) s2.onclick = scinder;
-  $("#fScan", f).onclick = () => aller("scan");
-  $("#fEditArt", f).onclick = () => alert("L'édition des lignes se fait à la source (Shopify) puis « Rafraîchir depuis la boutique » — c'est la seule façon de ne pas désynchroniser la commande.");
+  $("#fScan", f).onclick = () => dialogue("Vérifier au scan",
+    `<p>Le poste de scan s'ouvre sur son propre écran, avec le champ prêt à recevoir la
+       douchette. La fiche de <b>${esc(o.order_number)}</b> se fermera.</p>`,
+    () => { f.remove(); ficheOuverte = null; aller("scan"); }, "Ouvrir le poste de scan");
+  // Le message était juste ; le véhicule ne l'était pas. Un `alert()` natif est bloquant,
+  // non stylé, non traduisible, et il n'offre pas le geste qu'il recommande.
+  $("#fEditArt", f).onclick = () => dialogue("Modifier les articles", `
+    <p>Les lignes d'une commande se modifient <b>à la source</b>, dans Shopify, puis se
+      rapatrient ici. C'est la seule façon de ne pas désynchroniser la commande : une ligne
+      changée des deux côtés ne se réconcilie plus.</p>
+    <p class="doux">Modifiez la commande dans Shopify, puis revenez rafraîchir.</p>`,
+    async () => {
+      await api("/api/orders/refresh", { method: "POST", body: { ids: [o.id] } });
+      $("#dlg").close();
+      detailCommande(o.id);
+    }, "Rafraîchir depuis la boutique");
 
   // ------------------------------------------------------ déclarations douane
   const declOf = () => {
@@ -3738,7 +3808,11 @@ async function detailCommande(id) {
       <div class="dQ">
         <label class="champ"><span>Quantité *</span><input type="number" data-d="${i}" data-k="quantity" value="${esc(d.quantity)}"></label>
         <label class="champ"><span>Valeur unitaire *</span><input type="number" step="0.01" data-d="${i}" data-k="value" value="${esc(d.value)}"></label>
-        <label class="champ"><span>Code SH ${international ? "*" : ""}</span><input data-d="${i}" data-k="hs_code" value="${esc(d.hs_code)}" placeholder="1209.30"></label>
+        <!-- L'espace réservé montrait « 1209.30 » — le code des semences — sur des
+             déclarations de textiles. Il ressemble à une valeur saisie : un opérateur pressé
+             déclarait un cache-cou comme des semences. Un gabarit neutre ne peut pas être
+             pris pour une réponse. -->
+        <label class="champ"><span>Code SH ${international ? "*" : ""}</span><input data-d="${i}" data-k="hs_code" value="${esc(d.hs_code)}" placeholder="6 chiffres — ex. 0000.00" inputmode="numeric"></label>
         <label class="champ"><span>Pays d'origine *</span><input data-d="${i}" data-k="country_of_origin" value="${esc(d.country_of_origin)}" maxlength="2"></label>
       </div>
       ${!d.hs_code && international ? '<div class="avis mini">Code SH manquant — le colis sera bloqué en douane.</div>' : ""}
@@ -3895,7 +3969,12 @@ async function detailCommande(id) {
   };
   $("#cMapper", f) && ($("#cMapper", f).onclick = () => modaleMapping(o, recharger));
   $("#cAddPkg", f).onclick = () => alert("Le multi-colis arrive avec la scission d'expédition : scindez la commande, chaque expédition porte son colis.");
-  $("#cAssurE", f).onclick = () => aller("reglages");
+  // Naviguer « derrière » la modale éjectait l'opérateur sur un autre écran, sans sa
+  // commande et sans retour visuel. On ferme d'abord, on dit où l'on va.
+  $("#cAssurE", f).onclick = () => dialogue("Assurance",
+    `<p>Les règles d'assurance se configurent dans les réglages d'expédition, pas par commande.</p>
+     <p class="doux">La fiche de <b>${esc(o.order_number)}</b> se fermera.</p>`,
+    () => { f.remove(); ficheOuverte = null; aller("reglages"); }, "Ouvrir les réglages");
   $("#cBrowse", f).onclick = () => { fermer(); aller("tarifs"); };
 
   async function coter() {
@@ -4871,10 +4950,33 @@ const EXPORTS = [
   ["products", "Produits"], ["customers", "Clients"],
 ];
 
+/**
+ * Analytique — le sélecteur de période était le manque n° 1 de l'audit visuel.
+ *
+ * Sans lui, la page ne sait afficher qu'un « tout l'historique » implicite : « économie
+ * restante sur la période » n'a pas de référent et « combien ai-je dépensé le mois
+ * dernier ? » est sans réponse. Sept préréglages, aux libellés de ShipStation, plus une
+ * plage libre — et le titre dit toujours sur quoi portent les chiffres affichés.
+ */
 VUES.analytique = async () => {
-  const a = await api("/api/analytics");
+  const S0 = S.ana = S.ana || { periode: "tout", from: "", to: "" };
+  const p = new URLSearchParams({ periode: S0.periode });
+  if (S0.periode === "personnalise") { if (S0.from) p.set("from", S0.from); if (S0.to) p.set("to", S0.to); }
+  const a = await api("/api/analytics?" + p);
   const d = a.drop_off, mx = Math.max(...a.par_mois.map(m => m.n), 1);
-  $("#vue").innerHTML = `<h1>Analytique</h1><p class="sous">Coûts, volumes, et l'écart au tarif drop-off.</p>
+  $("#vue").innerHTML = `<h1>Analytique</h1>
+    <p class="sous">Coûts, volumes, et l'écart au tarif drop-off.</p>
+    <div class="barre" id="anaP">
+      <label class="champ" style="margin:0"><span class="visuellement-cache">Période</span>
+        <select id="anaSel" aria-label="Période analysée">${
+          (a.periodes || []).map(([k, t]) => `<option value="${esc(k)}"${a.periode.cle === k ? " selected" : ""}>${esc(t)}</option>`).join("")}
+        </select></label>
+      ${a.periode.cle === "personnalise" ? `
+        <label class="champ" style="margin:0"><span>Du</span><input type="date" id="anaF" value="${esc(S0.from || "")}"></label>
+        <label class="champ" style="margin:0"><span>Au</span><input type="date" id="anaT" value="${esc(S0.to || "")}"></label>` : ""}
+      <span class="doux">Chiffres pour : <b>${esc(a.periode.libelle)}</b>${
+        a.periode.from ? ` (${esc(jour(a.periode.from))} → ${esc(jour(a.periode.to))})` : ""}</span>
+    </div>
     <div class="grille">
       <div class="kpi"><div class="v">${num(a.resume.expeditions)}</div><div class="l">expéditions</div></div>
       <div class="kpi"><div class="v">${money(a.resume.cout_total)}</div><div class="l">dépense transport</div></div>
@@ -4891,15 +4993,23 @@ VUES.analytique = async () => {
         <div class="kpi ambre"><div class="v">${num(d.non_captes)}</div><div class="l">non captés</div></div>
         <div class="kpi ${d.economie_restante > 0 ? "ambre" : "vert"}"><div class="v">${money(d.economie_restante)}</div><div class="l">économie restante sur la période</div></div>
       </div>
-      <div class="bar"><i style="width:${d.admissibles ? Math.round(100 * d.deja_en_drop_off / d.admissibles) : 0}%"></i></div>
+      <!-- Une barre de 7 px sans étiquette ni valeur est indiscernable d'une barre de
+           défilement, et invisible pour un lecteur d'écran. Elle se nomme et se chiffre. -->
+      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+           aria-valuenow="${d.admissibles ? Math.round(100 * d.deja_en_drop_off / d.admissibles) : 0}"
+           aria-label="Part des envois admissibles déjà partis au tarif de dépôt"
+        ><i style="width:${d.admissibles ? Math.round(100 * d.deja_en_drop_off / d.admissibles) : 0}%"></i></div>
+      <div class="doux" style="font-size:11.5px">${d.admissibles
+        ? `${num(d.deja_en_drop_off)} sur ${num(d.admissibles)} envois admissibles sont déjà partis au tarif de dépôt (${Math.round(100 * d.deja_en_drop_off / d.admissibles)} %).`
+        : "Aucun envoi admissible sur la période — rien à mesurer."}</div>
     </div>
-    <div class="carte"><b>Coût réel contre frais de port encaissés</b>
+    <div class="carte"><h2 class="titreCarte">Coût réel contre frais de port encaissés</h2>
       <p class="doux" style="margin:4px 0 0">Encaissé ${money(a.cout_vs_encaisse.encaisse)} · payé ${money(a.cout_vs_encaisse.cout)} ·
       <b style="color:${a.cout_vs_encaisse.ecart >= 0 ? "var(--vert)" : "var(--rouge)"}">écart ${money(a.cout_vs_encaisse.ecart)}</b></p></div>
-    <div class="carte"><b>Volume par mois</b><div id="mois" style="margin-top:8px"></div></div>
-    <div class="carte"><b>Par bande de poids</b><div id="poids"></div></div>
-    <div class="carte"><b>Par transporteur et service</b><div id="serv"></div></div>
-    <div class="carte"><b>Exports</b>
+    <div class="carte"><h2 class="titreCarte">Volume par mois</h2><div id="mois" style="margin-top:8px"></div></div>
+    <div class="carte"><h2 class="titreCarte">Par bande de poids</h2><div id="poids"></div></div>
+    <div class="carte"><h2 class="titreCarte">Par transporteur et service</h2><div id="serv"></div></div>
+    <div class="carte"><h2 class="titreCarte">Exports</h2>
       <p class="doux" style="margin:2px 0 8px">CSV lisibles par Excel (accents inclus).
       La sauvegarde complète rend toute la base en JSON — pour qu'aucune donnée ne soit captive
       de cet outil non plus.</p>
@@ -4918,7 +5028,7 @@ VUES.analytique = async () => {
   if (!a.par_mois.length) carteVide("#mois", "volume par mois");
   else $("#mois").innerHTML = a.par_mois.map(m => `<div style="display:flex;align-items:center;gap:9px;margin-bottom:3px">
     <span style="width:64px;font-variant-numeric:tabular-nums" class="doux">${m.mois}</span>
-    <span class="bar" style="flex:1"><i style="width:${Math.round(100 * m.n / mx)}%"></i></span>
+    <span class="bar" style="flex:1" role="img" aria-label="${num(m.n)} envois en ${esc(m.mois)}"><i style="width:${Math.round(100 * m.n / mx)}%"></i></span>
     <span style="width:60px;text-align:right;font-variant-numeric:tabular-nums">${num(m.n)}</span>
     <span style="width:92px;text-align:right" class="doux">${money(m.cout)}</span></div>`).join("");
 
@@ -4928,9 +5038,18 @@ VUES.analytique = async () => {
     a.par_poids, { cle: "bande" }));
 
   if (!a.par_service.length) carteVide("#serv", "transporteurs et services");
-  else $("#serv").append(table([{ k: "carrier_code", t: "Transporteur" }, { k: "service_id", t: "Service" },
+  else $("#serv").append(table([{ k: "carrier_code", t: "Transporteur" },
+    // Le service s'affichait en identifiant technique alors que le référentiel porte le
+    // libellé commercial : `cp_expedited` au lieu d'« Expedited Parcel ».
+    { k: "service_id", t: "Service", r: r => esc(nomService(r.service_id) || r.service_id || "—") },
     { k: "n", t: "Envois", n: true }, { k: "moyen", t: "Moyen", n: true, r: r => money(r.moyen) },
     { k: "drop_off", t: "Drop-off", n: true }], a.par_service, { cle: "service_id" }));
+
+  $("#anaSel").onchange = () => { S0.periode = $("#anaSel").value; VUES.analytique(); };
+  const f = $("#anaF"), t = $("#anaT");
+  if (f) f.onchange = () => { S0.from = f.value; VUES.analytique(); };
+  if (t) t.onchange = () => { S0.to = t.value; VUES.analytique(); };
+  S.rafraichirEcran = () => VUES.analytique();
 };
 
 // ----------------------------------------------------------- automatisation
@@ -6131,7 +6250,7 @@ VUES.reglages = async () => {
       ? "Second facteur obligatoire. Chaque employé devra le configurer à sa prochaine connexion."
       : "Second facteur redevenu facultatif.");
   };
-  $("#stsave").onclick = async () => { await api("/api/settings", { method: "POST", body: { tarif_dropoff_cible: Number($("#st").value) } }); alert("Enregistré."); };
+  $("#stsave").onclick = async () => { await api("/api/settings", { method: "POST", body: { tarif_dropoff_cible: Number($("#st").value) } }); toast("Tarif de dépôt cible enregistré."); };
   $("#wt").append(table([{ k: "event", t: "Événement" }, { k: "target_url", t: "URL" },
     { k: "act", t: "", r: x => `<button class="d" data-w="${x.id}">Retirer</button>` }], w.webhooks));
   $("#wt").querySelectorAll("[data-w]").forEach(b => b.onclick = async () => {
@@ -6259,8 +6378,26 @@ VUES.journal = async () => {
 };
 
 // ══════════════════════════════════════════════════════════════════ amorçage
-async function rafraichirCompteurs() {
-  try { S.compteurs = await api("/api/orders/counts"); majCompteursMenu(); } catch {}
+/**
+ * Compteurs de la barre latérale — appelés 11 fois par minute à l'audit, y compris sur des
+ * écrans qui n'affichent aucune commande, avec une latence qui se dégradait de 66 à 393 ms.
+ *
+ * Deux garde-fous. Les appels rapprochés se fondent en un seul : après une action en masse,
+ * trois `charger(); majLots(); rafraichirCompteurs()` se suivent en quelques millisecondes
+ * et une seule lecture suffit. Et l'onglet caché ne compte rien : un onglet oublié en
+ * arrière-plan interrogeait le service toute la journée.
+ */
+let _compteursEnVol = null, _compteursAt = 0;
+async function rafraichirCompteurs({ force = false } = {}) {
+  if (!force && document.hidden) return;
+  const maintenant = Date.now();
+  if (!force && _compteursEnVol && maintenant - _compteursAt < 1500) return _compteursEnVol;
+  _compteursAt = maintenant;
+  _compteursEnVol = (async () => {
+    try { S.compteurs = await api("/api/orders/counts"); majCompteursMenu(); } catch {}
+    finally { _compteursEnVol = null; }
+  })();
+  return _compteursEnVol;
 }
 
 /**
@@ -7015,7 +7152,10 @@ async function demarrer() {
   if (S.moi.must_change) changerMotDePasse(true);
   else if (!S.moi.totp_enabled && S.config.exiger_2fa) configurer2facteur();
   clearInterval(S.tick);
-  S.tick = setInterval(rafraichirCompteurs, 60000);
+  S.tick = setInterval(() => rafraichirCompteurs(), 60000);
+  // Revenir sur l'onglet doit remettre les compteurs à jour tout de suite : c'est le moment
+  // où l'on regarde, et où ils ont le plus vieilli.
+  addEventListener("visibilitychange", () => { if (!document.hidden) rafraichirCompteurs({ force: true }); });
 }
 
 demarrer().catch(() => montrerConnexion());
