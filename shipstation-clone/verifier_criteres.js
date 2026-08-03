@@ -623,6 +623,32 @@ verifier("accents : l'écran Produits les ignore dans les deux sens",
   prod("asclepiade").length === 2 && prod("asclépiade").length === 2,
   JSON.stringify(prod("asclépiade")));
 
+// ---------------------------------------- gabarits : les deux syntaxes
+/**
+ * Correction n° 5 des « 15 corrections à faire en premier ». Deux syntaxes coexistaient :
+ * `{{ order.order_number }}` fonctionnait, `{{numero}}` se rendait en chaîne vide. Le même
+ * bouton d'aperçu rendait donc correctement un gabarit et vidait l'autre, sans rien dire —
+ * un bordereau imprimé à 300 exemplaires sans le nom du client se découvre à l'emballage.
+ */
+console.log("\n11. Gabarits — noms courts hérités et variables inconnues");
+const tpl = require("./lib/templates");
+const ctxT = { order: { order_number: "L-27344", customer_name: "Josée Ferland", order_total: 120 },
+  items: [{ name: "Mitaines" }, { name: "Bombes" }], marque: { nom: "Lasclay" } };
+verifier("gabarit : le nom court « numero » rend la même chose que le chemin complet",
+  tpl.rendre("{{numero}}", ctxT) === tpl.rendre("{{ order.order_number }}", ctxT)
+  && tpl.rendre("{{numero}}", ctxT) === "L-27344");
+verifier("gabarit : « client », « total » et « boutique » se transposent aussi",
+  tpl.rendre("{{client}}|{{total | money}}|{{boutique}}", ctxT) === "Josée Ferland|120.00 $|Lasclay",
+  tpl.rendre("{{client}}|{{total | money}}|{{boutique}}", ctxT));
+verifier("gabarit : « articles » est un alias de la collection bouclable",
+  tpl.rendre("{% for i in articles %}{{i.name}} {% endfor %}", ctxT).trim() === "Mitaines Bombes");
+verifier("gabarit : un alias n'est pas signalé comme variable inconnue",
+  !tpl.variablesInconnues("{{numero}} {{client}}").length);
+verifier("gabarit : une vraie faute reste signalée et bloque l'enregistrement",
+  tpl.variablesInconnues("{{numero}} {{zzz}}").length === 1);
+verifier("gabarit : les filtres continuent de s'appliquer sur un alias",
+  tpl.rendre("{{total | money}}", ctxT) === "120.00 $");
+
 // ------------------------------------------------------------------ bilan
 
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);
