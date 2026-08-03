@@ -3,7 +3,7 @@
 Suivi des items du backlog de l'audit comparatif (`RAPPORT-TECHNIQUE.md`, § 11).
 Conventions : `à faire` · `en cours` · `fait` · `bloqué (raison)`.
 
-Dernière mise à jour : 2026-08-03. Rapport de fin de Vague 1 : `RAPPORT-VAGUE-1.md`.
+Dernière mise à jour : 2026-08-03. Rapports de fin de vague : `RAPPORT-VAGUE-1.md`, `RAPPORT-VAGUE-2.md`.
 
 Tests : `verifier_criteres.js` **87/87**, `verifier_vues.js` **53/53**, `verifier.js` sans point
 bloquant. Chaque correctif d'interface est vérifié au navigateur, pas seulement dans le DOM —
@@ -81,10 +81,10 @@ un test qui lit l'arbre peut passer pendant que l'écran est cassé (leçon du z
 | V2-37 | Exclure les lignes non physiques | BUG-120 | **fait** | pourboires, dons, frais, lignes remboursées |
 | V2-38 | Valider la création d'un retour | BUG-054/055 | **fait** | commande vérifiée et montrée, treize motifs normalisés |
 | V2-39 | « Volume par mois » : état vide | BUG-070 | **fait** | les trois cartes de l'analytique |
-| V2-19 | Contrastes et cibles tactiles | BUG-086 | à faire | |
-| V2-27 | Recherche rapide : écran de résultats | BUG-042 | à faire | |
-| V2-33 | `t.service` / `t.transitDays` | BUG-067/068 | à faire | |
-| V2-40 | Paramétrage typé des actions de règle | BUG-076 | à faire | |
+| V2-19 | Contrastes et cibles tactiles | BUG-086 | **fait** | 0 échec AA en clair comme en sombre, balayage complet ; deux échecs du thème sombre trouvés qui n'étaient pas au rapport |
+| V2-27 | Recherche rapide : écran de résultats | BUG-042 | **fait** | sort de la vue, écran nommé, retour à la vue |
+| V2-33 | `t.service` / `t.transitDays` ; `selected` sur `is_default` | BUG-067/068 | **fait** | la calculatrice partait de « Jean-Simon Begin » au lieu de « LAS Capucins » |
+| V2-40 | Paramétrage typé des actions de règle | BUG-076 | **fait** | listes de services, colis, entrepôts, étiquettes… au lieu de JSON brut ; aller-retour vérifié |
 
 ### Ce que la base migrée a appris
 
