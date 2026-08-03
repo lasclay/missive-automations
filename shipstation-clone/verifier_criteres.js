@@ -296,6 +296,70 @@ verifier("conversion : un brouillon part sur les commandes manuelles",
 verifier("statut : ON_HOLD devient « en attente »",
   sync.statut({ displayFulfillmentStatus: "ON_HOLD" }) === "on_hold");
 
+// ---------------------------------------------- catalogue : import et héritage
+/**
+ * L'import CSV est la seule réponse raisonnable aux ~3 800 saisies qu'aurait coûté la
+ * reconstruction manuelle du catalogue. Trois propriétés doivent tenir, parce que les trois
+ * détruisent des données quand elles lâchent :
+ *
+ *   1. **Rien n'est écrit sans passage à blanc.** Le rapport à blanc doit compter juste et
+ *      ne rien laisser en base.
+ *   2. **Un CSV partiel ne vide pas les colonnes qu'il n'apporte pas.** `sauverProduit`
+ *      réécrit toutes les colonnes ; un fichier « sku,poids » effacerait sinon tous les noms.
+ *   3. **La collision de nom de groupe est un cas nommé**, pas un message brut de SQLite.
+ */
+console.log("\n5. Catalogue — import CSV, héritage, collisions");
+const catalog = require("./lib/catalog");
+
+const csv1 = "sku,nom,poids,code_sh,longueur,largeur,hauteur\n" +
+  "T-001,Mitaines,200,6116.93,7,12,2.25\nT-002,Sac,460,4202.92,12,6,6\nT-BAD,Mauvais,50,ABC,,,";
+const blanc = catalog.importerProduits(csv1, { appliquer: false });
+verifier("import à blanc : compte juste et n'écrit rien",
+  blanc.lus === 3 && blanc.crees === 2 && blanc.refuses.length === 1 && blanc.a_blanc
+  && catalog.chercherProduits({ q: "T-00" }).total === 0,
+  `lus ${blanc.lus}, créés ${blanc.crees}, refusés ${blanc.refuses.length}`);
+verifier("import : un code SH mal formé est refusé avec son motif",
+  /code SH mal formé/.test(blanc.refuses[0].motif) && blanc.refuses[0].sku === "T-BAD");
+
+const applique = catalog.importerProduits(csv1, { appliquer: true });
+verifier("import appliqué : les produits valides entrent, l'invalide reste dehors",
+  applique.crees === 2 && catalog.chercherProduits({ q: "T-" }).total === 2);
+verifier("import : les dimensions sont reconstruites depuis longueur/largeur/hauteur",
+  catalog.produitParSku("T-001").dimensions.length === 7
+  && catalog.produitParSku("T-001").dimensions.height === 2.25);
+
+// Un second passage n'apportant que le poids ne doit pas effacer le nom ni le code SH.
+catalog.importerProduits("sku,poids\nT-001,250", { appliquer: true });
+const apresPartiel = catalog.produitParSku("T-001");
+verifier("import partiel : les colonnes absentes du fichier sont préservées",
+  apresPartiel.weight_g === 250 && apresPartiel.name === "Mitaines" && apresPartiel.hs_code === "6116.93",
+  `poids ${apresPartiel.weight_g}, nom ${apresPartiel.name}, SH ${apresPartiel.hs_code}`);
+
+verifier("import : « ignorer » laisse la fiche existante intacte",
+  catalog.importerProduits("sku,nom\nT-001,Écrasé", { appliquer: true, collision: "ignorer" }).ignores === 1
+  && catalog.produitParSku("T-001").name === "Mitaines");
+verifier("import : un fichier sans colonne « sku » est refusé, pas deviné",
+  (() => { try { catalog.importerProduits("nom,poids\nX,1", {}); return false; }
+           catch (e) { return /sku/.test(e.message); } })());
+
+// Héritage groupe → produit : le mécanisme que la fiche affiche sous chaque champ.
+const gid = catalog.sauverGroupe({ name: "Groupe d'essai",
+  settings: { weight_g: 200, dimensions: { length: 7, width: 12, height: 2.25, unit: "in" },
+    customs: { hs_code: "6116.93", value: 49 } } });
+catalog.masseProduits([catalog.produitParSku("T-002").id], { preset_group_id: gid });
+const herite = catalog.produitParSku("T-002").herite;
+verifier("héritage : la fiche sait ce que son groupe lui fournit",
+  herite.groupe === "Groupe d'essai" && herite.weight_g === 200 && herite.declared_value === 49,
+  JSON.stringify(herite));
+verifier("action de masse : le rattachement à un groupe inconnu est refusé",
+  (() => { try { catalog.masseProduits([1], { preset_group_id: 999999 }); return false; }
+           catch (e) { return /groupe inconnu/.test(e.message); } })());
+verifier("groupe : un nom déjà pris est nommé comme collision, pas comme erreur SQLite",
+  (() => { try { catalog.sauverGroupe({ name: "groupe d'essai", settings: {} }); return false; }
+           catch (e) { return /s'appelle déjà/.test(e.message) && e.collision === gid; } })());
+verifier("groupe : renommer un groupe existant ne se heurte pas à lui-même",
+  catalog.sauverGroupe({ id: gid, name: "Groupe d'essai", settings: { weight_g: 210 } }) === gid);
+
 // ------------------------------------------------------------------ bilan
 
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);

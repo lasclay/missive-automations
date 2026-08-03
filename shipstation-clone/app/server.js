@@ -827,10 +827,53 @@ route("POST /api/products", async ({ req, user }) => {
   accounts.exiger(user, "products_edit");
   return { id: catalog.sauverProduit(await corps(req)) };
 });
+/**
+ * Import de produits par CSV — le catalogue se répare enfin depuis l'interface.
+ *
+ * **À blanc par défaut**, comme la réattribution des boutiques : sans `appliquer: true`,
+ * la route compte ce que l'import ferait et n'écrit rien. La stratégie de collision est
+ * transmise telle quelle et vaut « maj » par défaut ; « ignorer » préserve les fiches déjà
+ * saisies à la main.
+ */
+route("POST /api/products/import", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  const b = await corps(req);
+  if (!b.csv || !String(b.csv).trim()) return { error: "csv requis", code: 400 };
+  try {
+    return catalog.importerProduits(b.csv, {
+      collision: b.collision === "ignorer" ? "ignorer" : "maj",
+      appliquer: b.appliquer === true,
+      userId: user,
+    });
+  } catch (e) { return { error: e.message, code: 400 }; }
+});
+
+/**
+ * Gabarit d'import — chez ShipStation c'est l'export qui sert de gabarit. Ici le gabarit
+ * existe même quand le catalogue est vide, parce que c'est précisément dans ce cas qu'on
+ * en a besoin : un export de zéro octet n'apprend pas quelles colonnes écrire.
+ */
+route("GET /api/products/template", ({ res }) => {
+  const l = [catalog.COLONNES_IMPORT.join(","),
+    "LAS-MIT-001,Mitaines en fibre d'asclépiade,200,49.00,6116.93,CA,A-01,Gants et mitaines en bonneterie,49.00,,7,12,2.25"];
+  res.writeHead(200, { "content-type": "text/csv; charset=utf-8",
+    "content-disposition": 'attachment; filename="gabarit-produits.csv"' });
+  res.end("﻿" + l.join("\n") + "\n");
+  return null;
+});
+
+route("POST /api/products/bulk", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  const b = await corps(req);
+  try { return catalog.masseProduits(b.ids, { ...b, userId: user }); }
+  catch (e) { return { error: e.message, code: 400 }; }
+});
+
 route("GET /api/preset-groups", () => ({ groups: catalog.groupes() }));
 route("POST /api/preset-groups", async ({ req, user }) => {
   accounts.exiger(user, "products_edit");
-  return { id: catalog.sauverGroupe(await corps(req)) };
+  try { return { id: catalog.sauverGroupe(await corps(req)) }; }
+  catch (e) { return { error: e.message, collision: e.collision, code: 400 }; }
 });
 route("GET /api/inventory/low", () => ({ low: catalog.stockBas() }));
 route("POST /api/inventory", async ({ req, user }) => {

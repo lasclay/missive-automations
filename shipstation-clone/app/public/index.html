@@ -119,6 +119,9 @@
   .ong { padding:4px 11px; border:1px solid var(--bord); border-radius:14px; background:var(--carte);
          cursor:pointer; font-size:12.5px }
   .ong.actif { background:var(--accent); border-color:var(--accent); color:var(--sur-plein); font-weight:600 }
+  /* Valeur héritée d'un groupe de préréglages, sous le champ — le « Preset - 200 » de
+     ShipStation. Sans elle, un poids vide sur la fiche est indistinguable de « 0 g ». */
+  .herite { display:block; font-size:11px; color:var(--doux); margin-top:2px; font-style:italic }
   dialog { border:1px solid var(--bord); border-radius:11px; background:var(--carte); color:var(--texte);
            padding:0; max-width:800px; width:94vw; max-height:88vh }
   dialog h3 { margin:0; padding:12px 16px; border-bottom:1px solid var(--bord); font-size:15px }
@@ -1048,6 +1051,9 @@ function dialogue(titre, html, onOk, texteOk = "Confirmer", apres = null) {
   $("#dlgC").innerHTML = html;
   if (apres) apres($("#dlgC"));
   $("#dlgO").textContent = texteOk;
+  // Un dialogue qui a désactivé son bouton (l'import, tant qu'aucun passage à blanc n'a été
+  // joué) le laissait désactivé pour le dialogue suivant : l'état se réarme à chaque ouverture.
+  $("#dlgO").disabled = false;
   $("#dlgO").style.display = onOk ? "" : "none";
   $("#dlgO").onclick = async () => {
     try { if (await onOk?.() !== false) $("#dlg").close(); }
@@ -1060,9 +1066,12 @@ function dialogue(titre, html, onOk, texteOk = "Confirmer", apres = null) {
 const attendre = (t = "Un instant…") => dialogue(t, '<p class="doux">Traitement en cours…</p>', null);
 
 /** Table générique : colonnes, lignes, sélection, tri. */
-function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id", pins = 0 } = {}) {
+function table(cols, lignes, { sel = null, onSel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id", pins = 0 } = {}) {
   const cl = (c, i) => [c.n ? "n" : "", i < pins ? `pin pin${i + 1}` : ""].filter(Boolean).join(" ");
-  const th = (sel ? '<th scope="col" style="width:26px"><span class="visuellement-cache">Sélection</span></th>' : "") + cols.map((c, i) =>
+  // « Tout sélectionner » manquait : les cases existaient ligne par ligne, sans moyen de
+  // prendre la page entière — ShipStation l'a en tête de colonne, et c'est de là qu'il ouvre
+  // son bandeau « sélectionner les N de la vue ».
+  const th = (sel ? '<th scope="col" style="width:26px"><input type="checkbox" id="selTout" aria-label="Tout sélectionner sur cette page"></th>' : "") + cols.map((c, i) =>
     `<th scope="col" class="${cl(c, i)}" data-c="${c.k}"${
         tri === c.k ? ` aria-sort="${dir === "asc" ? "ascending" : "descending"}"` : ""
       }>${esc(c.t)}${tri === c.k ? (dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
@@ -1072,12 +1081,41 @@ function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null,
   }).join("");
   const t = el(`<div class="tbl"><table><thead><tr>${th}</tr></thead><tbody>${tr || `<tr><td colspan="${cols.length + 1}" class="doux" style="padding:22px;text-align:center">Aucun résultat</td></tr>`}</tbody></table></div>`);
   if (onTri) t.querySelectorAll("th[data-c]").forEach(h => h.onclick = () => onTri(h.dataset.c));
-  if (sel) t.querySelectorAll("tbody input").forEach(cb => cb.onchange = () => {
-    const id = Number(cb.dataset.id);
-    cb.checked ? sel.add(id) : sel.delete(id);
-    cb.closest("tr").classList.toggle("sel", cb.checked);
-    document.dispatchEvent(new Event("selchange"));
-  });
+  if (sel) {
+    const cases = [...t.querySelectorAll("tbody input[type=checkbox][data-id]")];
+    const majTout = () => {
+      const tout = t.querySelector("#selTout");
+      if (!tout) return;
+      const n = cases.filter((c) => c.checked).length;
+      tout.checked = n > 0 && n === cases.length;
+      tout.indeterminate = n > 0 && n < cases.length;
+    };
+    const signaler = () => {
+      majTout();
+      onSel?.(sel);
+      document.dispatchEvent(new Event("selchange"));
+    };
+    cases.forEach(cb => {
+      cb.checked = sel.has(Number(cb.dataset.id));
+      cb.closest("tr").classList.toggle("sel", cb.checked);
+      cb.onchange = () => {
+        const id = Number(cb.dataset.id);
+        cb.checked ? sel.add(id) : sel.delete(id);
+        cb.closest("tr").classList.toggle("sel", cb.checked);
+        signaler();
+      };
+    });
+    const tout = t.querySelector("#selTout");
+    if (tout) tout.onchange = () => {
+      cases.forEach((cb) => {
+        cb.checked = tout.checked;
+        cb.checked ? sel.add(Number(cb.dataset.id)) : sel.delete(Number(cb.dataset.id));
+        cb.closest("tr").classList.toggle("sel", cb.checked);
+      });
+      signaler();
+    };
+    majTout();
+  }
   if (onLigne) t.querySelectorAll("tbody tr.clic").forEach(r => r.onclick = (e) => {
     if (e.target.tagName === "INPUT") return;
     onLigne(r.dataset.id);
@@ -4721,75 +4759,403 @@ VUES.retours = async () => {
 };
 
 // ---------------------------------------------------------------- produits
+/**
+ * Produits, groupes de préréglages et import — §3.5 de l'audit visuel.
+ *
+ * Le module le plus contrasté de l'audit : l'écran Douanes n'a aucun équivalent chez
+ * ShipStation, et à côté le catalogue n'avait **aucun chemin d'import**. Le réparer à la
+ * main était chiffré à ~3 800 saisies. Trois manques structurels sont traités ici :
+ *
+ * 1. **L'import CSV** (avec gabarit téléchargeable et passage à blanc obligatoire avant
+ *    écriture). Chez ShipStation c'est l'export qui sert de gabarit ; ici le gabarit existe
+ *    même catalogue vide, puisque c'est justement là qu'on en a besoin.
+ * 2. **Le rattachement à un groupe de préréglages**, absent de la fiche produit — alors que
+ *    ce sont les 4 groupes de Lasclay qui portent *tous* les poids et *toutes* les dimensions
+ *    du catalogue (200 g / 460 g / 70 g / 200 g). Sans ce champ, la règle d'héritage était
+ *    affirmée dans l'aide et inapplicable à l'écran.
+ * 3. **L'affichage de la valeur héritée sous chaque champ vide** (le « Preset - 200 » de
+ *    ShipStation). C'est ce qui rend l'héritage vérifiable : un poids vide veut-il dire
+ *    « 0 g » ou « 200 g hérités » ? Sans la mention, rien ne permet de trancher.
+ *
+ * Le formulaire de groupe passe aussi en listes fermées : il exposait `canada_post`,
+ * `expedited_parcel`, `package` en saisie libre, où une faute de frappe créait un préréglage
+ * silencieusement inopérant.
+ */
 VUES.produits = async () => {
+  S.prod = S.prod || { page: 0, taille: 100, tri: "sku", dir: "asc" };
+  const P = S.prod;
+  const sel = new Set();
+  let groupes = [];
+  try { groupes = (await api("/api/preset-groups")).groups || []; } catch { groupes = []; }
+  const nomGroupe = (id) => (groupes.find((g) => g.id == id) || {}).name || "";
+
   $("#vue").innerHTML = `<h1>Produits</h1><p class="sous" id="pr">…</p>
     <div class="barre"><input type="search" id="pq" placeholder="SKU ou nom">
       <label class="ch"><input type="checkbox" id="pnh"> sans code SH</label>
       <label class="ch"><input type="checkbox" id="pnw"> sans poids</label>
+      <label class="ch"><input type="checkbox" id="png"> sans groupe</label>
+      <select id="pgf" aria-label="Groupe de préréglages">
+        <option value="">Tous les groupes</option>
+        ${groupes.map((g) => `<option value="${g.id}">${esc(g.name)}</option>`).join("")}</select>
+      <label class="ch"><input type="checkbox" id="pia"> afficher les inactifs</label>
       <button class="p" id="pnew">Nouveau produit</button>
+      <button id="pimp">Importer un CSV…</button>
       <button id="pgrp">Groupes de préréglages…</button>
       <button id="palias">Alias de SKU…</button>
-      <a id="pex" class="doux">Exporter CSV</a></div><div id="pt"></div>`;
+      <a id="pex" class="doux">Exporter CSV</a>
+      <a id="pgab" class="doux" href="/api/products/template">Gabarit d'import</a></div>
+    <div class="barre" id="pMasse" hidden>
+      <b id="pSelN" style="flex:1"></b>
+      <button id="pmg">Rattacher à un groupe…</button>
+      <button id="pmOn">Activer</button>
+      <button class="d" id="pmOff">Désactiver</button>
+      <button id="pmX">Tout désélectionner</button></div>
+    <div id="pt"></div>
+    <div class="pag" id="pPag" hidden>
+      <button id="pPrev">◀</button><span id="pInfo" class="doux"></span><button id="pNext">▶</button>
+      <select id="pTaille" aria-label="Lignes par page">
+        ${[50, 100, 200, 500].map((n) => `<option value="${n}"${P.taille === n ? " selected" : ""}>${n} par page</option>`).join("")}</select></div>`;
+
+  const params = () => new URLSearchParams({
+    q: $("#pq").value, no_hs: $("#pnh").checked ? "1" : "", no_weight: $("#pnw").checked ? "1" : "",
+    sans_groupe: $("#png").checked ? "1" : "", preset_group_id: $("#pgf").value,
+    active: $("#pia").checked ? "" : "oui",
+    sort: P.tri, dir: P.dir, limit: P.taille, offset: P.page * P.taille,
+  });
+
+  let derniere = { products: [], total: 0 };
   async function charger() {
-    const p = new URLSearchParams({ q: $("#pq").value, no_hs: $("#pnh").checked ? "1" : "", no_weight: $("#pnw").checked ? "1" : "", limit: 400 });
-    const d = await api("/api/products?" + p);
-    $("#pr").innerHTML = `<b>${num(d.total)}</b> produits`;
-    $("#pex").href = "/api/export/products?" + p;
-    $("#pt").innerHTML = ""; $("#pt").append(table([
+    let d;
+    try { d = await api("/api/products?" + params()); }
+    catch (e) { $("#pt").innerHTML = ""; return $("#pt").append(panneauErreur(e, charger)); }
+    derniere = d;
+    $("#pr").innerHTML = `<b>${num(d.total)}</b> produit${d.total > 1 ? "s" : ""}`;
+    $("#pex").href = "/api/export/products?" + params();
+
+    $("#pt").innerHTML = "";
+    // Catalogue vide : l'audit reprochait un « Aucun résultat » nu là où l'écran Commandes
+    // du même produit a un état vide rédigé avec appel à l'action. Le vide a une cause et
+    // une sortie ; les deux se disent.
+    if (!d.total && !$("#pq").value && !$("#pnh").checked && !$("#pnw").checked && !$("#png").checked && !$("#pgf").value) {
+      $("#pt").innerHTML = `<div class="carte" style="text-align:center;padding:26px">
+        <b>Le catalogue est vide.</b>
+        <p class="doux" style="max-width:52ch;margin:8px auto">Sans produits, les codes SH, les
+          poids, les emplacements d'entrepôt et le scan par code-barres n'ont aucune source :
+          les couches 3 et 4 de l'automatisation ne font rien, et l'écran Douanes affiche un
+          zéro qui ne mesure rien.</p>
+        <div class="barre" style="justify-content:center">
+          <button class="p" id="pv1">Importer un CSV…</button>
+          <a class="doux" href="/api/products/template">Télécharger le gabarit</a>
+          <button id="pv2">Créer un produit à la main</button></div></div>`;
+      $("#pv1").onclick = () => importer();
+      $("#pv2").onclick = () => editerProduit();
+      $("#pPag").hidden = true;
+      return majMasse();
+    }
+
+    $("#pt").append(table([
       { k: "sku", t: "SKU" }, { k: "name", t: "Nom" },
-      { k: "weight_g", t: "Poids (g)", n: true, r: x => x.weight_g ? num(Math.round(x.weight_g)) : '<span class="puce a">—</span>' },
-      { k: "hs_code", t: "Code SH", r: x => x.hs_code ? esc(x.hs_code) : '<span class="puce a">manquant</span>' },
+      { k: "weight_g", t: "Poids (g)", n: true, r: (x) => x.weight_g ? num(Math.round(x.weight_g))
+        : (x.herite && x.herite.weight_g ? `<span class="doux">${num(x.herite.weight_g)} hérité</span>`
+          : '<span class="puce a">—</span>') },
+      { k: "dimensions", t: "Dimensions", r: (x) => dimsTexte(x.dimensions)
+        || (x.herite && x.herite.dimensions ? `<span class="doux">${esc(dimsTexte(x.herite.dimensions))} hérité</span>` : "—") },
+      { k: "preset_group_id", t: "Groupe", r: (x) => x.preset_group_id
+        ? esc(nomGroupe(x.preset_group_id)) : '<span class="puce a">aucun</span>' },
+      { k: "hs_code", t: "Code SH", r: (x) => x.hs_code ? esc(x.hs_code) : '<span class="puce a">manquant</span>' },
       { k: "country_of_origin", t: "Origine" },
+      { k: "upc", t: "UPC", r: (x) => x.upc ? esc(x.upc) : '<span class="doux">—</span>' },
       { k: "warehouse_location", t: "Emplacement" },
-      { k: "price", t: "Prix", n: true, r: x => money(x.price) },
-    ], d.products, { onLigne: (id) => editerProduit(d.products.find(x => x.id == id)) }));
+      { k: "declared_value", t: "Valeur déclarée", n: true, r: (x) => x.declared_value != null ? money(x.declared_value) : "—" },
+      { k: "price", t: "Prix", n: true, r: (x) => money(x.price) },
+      { k: "active", t: "Actif", r: (x) => x.active ? '<span class="puce v">oui</span>' : '<span class="puce r">non</span>' },
+    ], d.products, {
+      sel, onSel: majMasse,
+      tri: P.tri, dir: P.dir,
+      onTri: (k) => { P.dir = P.tri === k && P.dir === "asc" ? "desc" : "asc"; P.tri = k; P.page = 0; charger(); },
+      onLigne: (id) => editerProduit(d.products.find((x) => x.id == id)),
+    }));
+    majPage(d.total);
+    majMasse();
   }
-  const editerProduit = (p = {}) => dialogue(p.id ? `Produit ${p.sku}` : "Nouveau produit", `
-    <label class="champ"><span>SKU</span><input id="xs" value="${esc(p.sku || "")}"></label>
-    <label class="champ"><span>Nom</span><input id="xn" value="${esc(p.name || "")}"></label>
-    <div class="grille">
-      <label class="champ"><span>Poids (g)</span><input type="number" id="xw" value="${p.weight_g || ""}"></label>
-      <label class="champ"><span>Prix</span><input type="number" step="0.01" id="xp" value="${p.price || ""}"></label>
-      <label class="champ"><span>Code SH (6 chiffres)</span><input id="xh" value="${esc(p.hs_code || "")}"></label>
-      <label class="champ"><span>Pays d'origine</span><input id="xo" value="${esc(p.country_of_origin || "CA")}"></label>
-      <label class="champ"><span>Emplacement</span><input id="xl" value="${esc(p.warehouse_location || "")}"></label>
-    </div>
-    <label class="champ"><span>Description douanière</span><input id="xd" value="${esc(p.customs_description || "")}"></label>
-    ${p.id ? `<hr><b>Bundle</b>
-      <p class="doux" style="font-size:12px">Un SKU vendu comme un tout qui recouvre plusieurs
-        produits à prélever. Une ligne par composant : SKU;quantité. Vide = produit simple.</p>
-      <textarea id="xb" style="min-height:70px">${esc((p.bundle_items || []).map(i => `${i.sku};${i.quantity}`).join("\n"))}</textarea>
-      <hr><b>Stock par entrepôt</b>
-      <p class="doux" style="font-size:12px">Le seuil déclenche l'alerte de stock bas.</p>
-      ${(S.refs.warehouses || []).map(w => {
-        const inv = (p.inventory || []).find(i => i.warehouse_id === w.id) || {};
-        return `<div class="grille" style="grid-template-columns:2fr 1fr 1fr;gap:8px;align-items:end">
-          <span class="doux">${esc(w.name)}</span>
-          <label class="champ"><span>En main</span><input type="number" data-inv="${w.id}" value="${inv.on_hand ?? ""}"></label>
-          <label class="champ"><span>Seuil</span><input type="number" data-seuil="${w.id}" value="${inv.low_threshold ?? ""}"></label>
-        </div>`; }).join("")}` : ""}`,
-    async () => {
-      const r = await api("/api/products", { method: "POST", body: { sku: $("#xs").value, name: $("#xn").value,
-        weight_g: Number($("#xw").value) || 0, price: Number($("#xp").value) || 0, hs_code: $("#xh").value,
-        country_of_origin: $("#xo").value, warehouse_location: $("#xl").value, customs_description: $("#xd").value } });
-      const bt = document.querySelector("#dlgC #xb");
-      if (bt) {
-        await api("/api/bundles", { method: "POST", body: { sku: $("#xs").value,
-          items: bt.value.split("\n").map(l => l.trim()).filter(Boolean).map(l => {
-            const [sku, q] = l.split(";").map(x => (x || "").trim());
-            return { sku, quantity: Number(q) || 1 };
-          }) } });
+
+  const dimsTexte = (d) => d && (d.length || d.width || d.height)
+    ? `${d.length || 0} × ${d.width || 0} × ${d.height || 0} ${d.unit || "in"}` : "";
+
+  // ------------------------------------------------------------- pagination
+  function majPage(total) {
+    const p = $("#pPag");
+    p.hidden = total <= P.taille;
+    const deb = P.page * P.taille + 1, fin = Math.min((P.page + 1) * P.taille, total);
+    $("#pInfo").textContent = `${num(deb)} – ${num(fin)} sur ${num(total)}`;
+    $("#pPrev").disabled = P.page === 0;
+    $("#pNext").disabled = fin >= total;
+  }
+  $("#pPrev").onclick = () => { if (P.page > 0) { P.page--; charger(); } };
+  $("#pNext").onclick = () => { P.page++; charger(); };
+  $("#pTaille").onchange = () => { P.taille = Number($("#pTaille").value); P.page = 0; charger(); };
+
+  // --------------------------------------------------------- actions de masse
+  function majMasse() {
+    $("#pMasse").hidden = !sel.size;
+    $("#pSelN").textContent = `${num(sel.size)} produit${sel.size > 1 ? "s" : ""} sélectionné${sel.size > 1 ? "s" : ""}`;
+  }
+  // La table rappelle `majMasse` directement (option `onSel`) plutôt que par un événement
+  // global : revenir dix fois sur Produits laissait sinon dix handlers accrochés à
+  // `document`, chacun avec sa fermeture périmée sur un `sel` abandonné.
+  $("#pmX").onclick = () => { sel.clear(); charger(); };
+  // `tenter` avale l'échec dans un toast et rend `null` : sans ce `=== null ? false`, le
+  // dialogue se refermait sur une action qui n'avait rien fait, ce qui se lit comme un succès.
+  const masse = async (body, quoi) => {
+    const r = await tenter(() => api("/api/products/bulk", { method: "POST", body: { ...body, ids: [...sel] } }), {
+      message: "Action de masse impossible",
+      apres: (r) => { toast(`${num(r.n)} produit(s) ${quoi}.`, { type: "succes" }); sel.clear(); charger(); },
+    });
+    return r === null ? false : r;
+  };
+  $("#pmOn").onclick = () => masse({ active: true }, "activés");
+  $("#pmOff").onclick = () => masse({ active: false }, "désactivés");
+  $("#pmg").onclick = () => {
+    if (!groupes.length) return dialogue("Aucun groupe", `<div class="avis">Aucun groupe de
+      préréglages n'existe encore. Créez-en un d'abord : ce sont les groupes qui portent les
+      poids et les dimensions du catalogue.</div>`, null, "Fermer");
+    dialogue("Rattacher à un groupe", `
+      <p class="doux">Les valeurs du groupe s'appliqueront à ces produits partout où leur fiche
+        est vide. Un défaut posé sur la fiche l'emporte toujours sur celui du groupe.</p>
+      <label class="champ"><span>Groupe</span><select id="mg">
+        <option value="">— détacher du groupe —</option>
+        ${groupes.map((g) => `<option value="${g.id}">${esc(g.name)}</option>`).join("")}</select></label>`,
+      () => masse({ preset_group_id: $("#mg").value ? Number($("#mg").value) : null },
+        $("#mg").value ? "rattachés" : "détachés"),
+      "Appliquer à la sélection");
+  };
+
+  // ------------------------------------------------------------ import CSV
+  /**
+   * L'import tourne **à blanc d'abord**, sans exception : le bouton d'écriture reste
+   * désactivé tant qu'aucun passage à blanc n'a été joué, comme la classification douanière.
+   * Écraser 473 fiches saisies à la main est irréversible sans sauvegarde.
+   */
+  function importer() {
+    let blanc = null;
+    const c = dialogue("Importer des produits", `
+      <p class="doux">Un fichier CSV, une ligne par produit. La colonne <code>sku</code> est
+        obligatoire : c'est la clé de rapprochement. Les autres colonnes sont facultatives et
+        celles qu'on n'apporte pas ne sont pas touchées.</p>
+      <p class="doux" style="font-size:12px">Colonnes reconnues : <code>sku, name, weight_g,
+        price, hs_code, country_of_origin, warehouse_location, customs_description,
+        declared_value, upc, length, width, height</code> — les en-têtes français
+        (<code>nom</code>, <code>poids</code>, <code>code_sh</code>, <code>origine</code>…)
+        sont acceptés aussi. <a href="/api/products/template">Télécharger le gabarit</a>.</p>
+      <div class="grille">
+        <label class="champ"><span>Fichier</span><input type="file" id="if" accept=".csv,text/csv"></label>
+        <label class="champ"><span>Si le SKU existe déjà</span><select id="ic">
+          <option value="maj">Mettre à jour la fiche</option>
+          <option value="ignorer">Ne pas y toucher</option></select></label>
+      </div>
+      <label class="champ"><span>…ou coller le contenu</span><textarea id="it" style="min-height:110px"
+        placeholder="sku,name,weight_g&#10;LAS-MIT-001,Mitaines,200"></textarea></label>
+      <div class="barre"><button type="button" class="p" id="ib">Passer à blanc</button>
+        <span class="doux" style="font-size:12px">rien n'est écrit tant qu'on n'a pas regardé</span></div>
+      <div id="iOut"></div>`,
+      async () => {
+        if (!blanc) { toast("Passez d'abord l'import à blanc.", { type: "avis" }); return false; }
+        const r = await api("/api/products/import", { method: "POST",
+          body: { csv: await texte(), collision: $("#ic").value, appliquer: true } });
+        toast(`${num(r.crees)} créés, ${num(r.majs)} mis à jour, ${num(r.ignores)} ignorés, ${num(r.refuses.length)} refusés.`,
+          { type: "succes" });
+        P.page = 0; charger();
+      }, "Importer pour de vrai");
+
+    const bOk = $("#dlgO");
+    bOk.disabled = true;
+    const texte = async () => {
+      const f = $("#if", c).files[0];
+      return f ? await f.text() : $("#it", c).value;
+    };
+    $("#if", c).onchange = async () => {
+      const f = $("#if", c).files[0];
+      if (f) $("#it", c).value = (await f.text()).split(/\r?\n/).slice(0, 12).join("\n");
+    };
+    $("#ib", c).onclick = async () => {
+      const t = await texte();
+      if (!t.trim()) return toast("Aucun contenu à importer.", { type: "avis" });
+      $("#iOut", c).innerHTML = squelette(2);
+      try {
+        const r = await api("/api/products/import", { method: "POST",
+          body: { csv: t, collision: $("#ic").value, appliquer: false } });
+        blanc = r;
+        bOk.disabled = false;
+        bOk.textContent = `Importer ${num(r.crees + r.majs)} produit${r.crees + r.majs > 1 ? "s" : ""}`;
+        $("#iOut", c).innerHTML = `<div class="avis info"><b>${num(r.lus)}</b> lignes lues ·
+          <b>${num(r.crees)}</b> à créer · <b>${num(r.majs)}</b> à mettre à jour ·
+          ${num(r.ignores)} ignorées · <b>${num(r.refuses.length)}</b> refusées.
+          <br><span class="doux">Colonnes reconnues : ${r.colonnes_reconnues.map(esc).join(", ") || "aucune"}.
+          Rien n'a encore été écrit.</span></div>
+          ${r.refuses.length ? `<div class="tbl" style="max-height:190px"><table>
+            <thead><tr><th scope="col">Ligne</th><th scope="col">SKU</th><th scope="col">Motif du refus</th></tr></thead>
+            <tbody>${r.refuses.slice(0, 100).map((x) => `<tr><td class="n">${x.ligne}</td>
+              <td>${esc(x.sku || "—")}</td><td>${esc(x.motif)}</td></tr>`).join("")}</tbody></table></div>` : ""}`;
+      } catch (e) {
+        blanc = null; bOk.disabled = true;
+        $("#iOut", c).innerHTML = "";
+        $("#iOut", c).append(panneauErreur(e, () => $("#ib", c).click(), "Lecture du fichier impossible"));
       }
-      for (const inp of document.querySelectorAll("#dlgC [data-inv]")) {
-        const w = Number(inp.dataset.inv);
-        const seuil = document.querySelector(`#dlgC [data-seuil="${w}"]`);
-        if (inp.value === "" && (!seuil || seuil.value === "")) continue;
-        await api("/api/inventory", { method: "POST", body: { product_id: r.id, warehouse_id: w,
-          on_hand: inp.value === "" ? null : Number(inp.value),
-          low_threshold: seuil && seuil.value !== "" ? Number(seuil.value) : null } });
-      }
-      charger();
-    }, "Enregistrer");
+    };
+  }
+  $("#pimp").onclick = () => importer();
+
+  // ------------------------------------------------------------ fiche produit
+  /**
+   * La fiche passe de 8 champs sur un écran à quatre onglets — Général, Expédition, Douane,
+   * Inventaire — sur le découpage de ShipStation. Sous chaque champ que le groupe renseigne,
+   * une mention `Groupe — …` : c'est le mécanisme qui rend l'héritage vérifiable.
+   */
+  const editerProduit = (p = {}) => {
+    const h = p.herite || {};
+    const svc = (S.refs.services || []).filter((x) => !x.hidden);
+    const d = p.dimensions || {};
+    // La mention héritée affiche le **libellé**, jamais l'identifiant technique : « Preset -
+    // Expedited Parcel (Carbon Neutral) » chez ShipStation, pas « 115317 ». Un identifiant
+    // affiché à l'opérateur est illisible, et l'audit le reprochait déjà au formulaire de groupe.
+    const hint = (v, fmt = (x) => x) => v === undefined || v === null || v === ""
+      ? "" : `<span class="herite">Groupe — ${esc(String(fmt(v)))}</span>`;
+    const libelle = (liste, cle, v) => {
+      const t = (liste || []).find((x) => String(x[cle]) === String(v));
+      return t ? (t.name || t.nom) : v;
+    };
+    const opt = (liste, valeur, vide = "— aucun —") =>
+      `<option value="">${vide}</option>` + liste.map(([v, t]) =>
+        `<option value="${esc(String(v))}"${String(valeur ?? "") === String(v) ? " selected" : ""}>${esc(t)}</option>`).join("");
+
+    return dialogue(p.id ? `Produit ${p.sku || p.id}` : "Nouveau produit", `
+      <div class="onglets" role="tablist">
+        ${[["g", "Général"], ["e", "Expédition"], ["d", "Douane"], ["i", "Inventaire"]].map(([k, t], i) =>
+          `<button type="button" role="tab" data-o="${k}" class="ong${i ? "" : " actif"}" aria-selected="${!i}">${t}</button>`).join("")}
+      </div>
+
+      <section data-p="g">
+        <div class="grille">
+          <label class="champ"><span>SKU</span><input id="xs" value="${esc(p.sku || "")}"></label>
+          <label class="champ"><span>UPC / code-barres</span><input id="xu" value="${esc(p.upc || "")}"
+            placeholder="scan inopérant sans UPC"></label>
+        </div>
+        <label class="champ"><span>Nom</span><input id="xn" value="${esc(p.name || "")}"></label>
+        <div class="grille">
+          <label class="champ"><span>Prix</span><input type="number" step="0.01" id="xp" value="${p.price ?? ""}"></label>
+          <label class="champ"><span>Catégorie</span><input id="xc" value="${esc(p.category || "")}"></label>
+          <label class="champ"><span>État</span><select id="xa">
+            <option value="1"${p.active === false ? "" : " selected"}>Actif</option>
+            <option value="0"${p.active === false ? " selected" : ""}>Inactif</option></select></label>
+        </div>
+      </section>
+
+      <section data-p="e" hidden>
+        <label class="champ"><span>Groupe de préréglages</span>
+          <select id="xg">${opt(groupes.map((g) => [g.id, g.name]), p.preset_group_id, "— aucun groupe —")}</select></label>
+        <p class="doux" style="font-size:12px;margin:2px 0 10px">Le groupe fournit ce que la fiche
+          laisse vide. Un défaut posé ici l'emporte toujours sur celui du groupe.</p>
+        <div class="grille">
+          <label class="champ"><span>Poids du colis (g)</span>
+            <input type="number" id="xw" value="${p.weight_g || ""}">${hint(h.weight_g, (x) => `${x} g`)}</label>
+          <label class="champ"><span>Type de colis</span>
+            <select id="xk">${opt((S.refs.packages || []).map((x) => [x.id, x.name]), p.default_package)}</select>
+            ${hint(h.package_id, (x) => libelle(S.refs.packages, "id", x))}</label>
+          <label class="champ"><span>Service par défaut</span>
+            <select id="xv">${opt(svc.map((x) => [x.id, x.name]), p.default_service)}</select></label>
+          <label class="champ"><span>Confirmation</span>
+            <select id="xf">${opt((S.refs.confirmations || []).map((x) => [x.id, x.nom]), p.confirmation)}</select>
+            ${hint(h.confirmation, (x) => libelle(S.refs.confirmations, "id", x))}</label>
+        </div>
+        <div class="fLab">Dimensions du colis (po)</div>
+        <div class="grille" style="grid-template-columns:repeat(3,1fr)">
+          <label class="champ"><span>Longueur</span><input type="number" step="0.01" id="xdl" value="${d.length || ""}"></label>
+          <label class="champ"><span>Largeur</span><input type="number" step="0.01" id="xdw" value="${d.width || ""}"></label>
+          <label class="champ"><span>Hauteur</span><input type="number" step="0.01" id="xdh" value="${d.height || ""}"></label>
+        </div>
+        ${h.dimensions ? `<span class="herite">Groupe — ${esc(dimsTexte(h.dimensions))}</span>` : ""}
+      </section>
+
+      <section data-p="d" hidden>
+        <div class="grille">
+          <label class="champ"><span>Code SH (6 chiffres)</span>
+            <input id="xh" value="${esc(p.hs_code || "")}" placeholder="0000.00" inputmode="numeric">
+            ${hint(h.hs_code)}</label>
+          <label class="champ"><span>Pays d'origine</span>
+            <select id="xo">${opt(PAYS_EXPEDITION.map((x) => [x[0], x[1]]), p.country_of_origin || "CA", "— non déclaré —")}</select>
+            ${hint(h.country_of_origin)}</label>
+          <label class="champ"><span>Valeur déclarée (CA$)</span>
+            <input type="number" step="0.01" id="xdv" value="${p.declared_value ?? ""}">
+            ${hint(h.declared_value, (x) => money(x))}</label>
+        </div>
+        <label class="champ"><span>Description douanière</span>
+          <textarea id="xd" style="min-height:64px">${esc(p.customs_description || "")}</textarea></label>
+        <p class="doux" style="font-size:12px">Décrivez la matière et l'usage, pas la marque :
+          « mitaines tricotées en fibre d'asclépiade » plutôt que « Lasclay Mitaines ». Une
+          description vague est le premier motif de retenue en douane.</p>
+        ${hint(h.customs_description)}
+      </section>
+
+      <section data-p="i" hidden>
+        ${p.id ? `<div class="fLab">Stock par entrepôt</div>
+          <p class="doux" style="font-size:12px">Le seuil déclenche l'alerte de stock bas.</p>
+          ${(S.refs.warehouses || []).length ? (S.refs.warehouses || []).map((w) => {
+            const inv = (p.inventory || []).find((i) => i.warehouse_id === w.id) || {};
+            return `<div class="grille" style="grid-template-columns:2fr 1fr 1fr;gap:8px;align-items:end">
+              <span class="doux">${esc(w.name)}</span>
+              <label class="champ"><span>En main</span><input type="number" data-inv="${w.id}" value="${inv.on_hand ?? ""}"></label>
+              <label class="champ"><span>Seuil</span><input type="number" data-seuil="${w.id}" value="${inv.low_threshold ?? ""}"></label>
+            </div>`; }).join("")
+            : '<div class="avis">Aucun entrepôt configuré : le stock n\'a nulle part où être posé.</div>'}
+          <hr><div class="fLab">Produit assemblé (bundle)</div>
+          <p class="doux" style="font-size:12px">Un SKU vendu comme un tout qui recouvre plusieurs
+            produits à prélever. Une ligne par composant : SKU;quantité. Vide = produit simple.</p>
+          <textarea id="xb" style="min-height:70px">${esc((p.bundle_items || []).map((i) => `${i.sku};${i.quantity}`).join("\n"))}</textarea>`
+        : '<p class="doux">Enregistrez le produit une première fois pour lui poser du stock.</p>'}
+      </section>`,
+      async () => {
+        const dims = ["xdl", "xdw", "xdh"].some((i) => $("#" + i).value)
+          ? { length: Number($("#xdl").value) || 0, width: Number($("#xdw").value) || 0,
+              height: Number($("#xdh").value) || 0, unit: "in" }
+          : null;
+        const r = await api("/api/products", { method: "POST", body: {
+          ...(p.id ? { external_id: p.external_id } : {}),
+          sku: $("#xs").value, name: $("#xn").value, upc: $("#xu").value,
+          price: Number($("#xp").value) || 0, category: $("#xc").value,
+          active: $("#xa").value === "1",
+          preset_group_id: $("#xg").value ? Number($("#xg").value) : null,
+          weight_g: Number($("#xw").value) || 0, dimensions: dims,
+          default_package: $("#xk").value || null, default_service: $("#xv").value || null,
+          hs_code: $("#xh").value, country_of_origin: $("#xo").value,
+          declared_value: $("#xdv").value === "" ? null : Number($("#xdv").value),
+          customs_description: $("#xd").value,
+          is_bundle: p.is_bundle, bundle_items: p.bundle_items,
+        } });
+        const bt = document.querySelector("#dlgC #xb");
+        if (bt) {
+          await api("/api/bundles", { method: "POST", body: { sku: $("#xs").value,
+            items: bt.value.split("\n").map((l) => l.trim()).filter(Boolean).map((l) => {
+              const [sku, q] = l.split(";").map((x) => (x || "").trim());
+              return { sku, quantity: Number(q) || 1 };
+            }) } });
+        }
+        for (const inp of document.querySelectorAll("#dlgC [data-inv]")) {
+          const w = Number(inp.dataset.inv);
+          const seuil = document.querySelector(`#dlgC [data-seuil="${w}"]`);
+          if (inp.value === "" && (!seuil || seuil.value === "")) continue;
+          await api("/api/inventory", { method: "POST", body: { product_id: r.id, warehouse_id: w,
+            on_hand: inp.value === "" ? null : Number(inp.value),
+            low_threshold: seuil && seuil.value !== "" ? Number(seuil.value) : null } });
+        }
+        charger();
+      }, "Enregistrer",
+      (c) => c.querySelectorAll("[data-o]").forEach((b) => b.onclick = () => {
+        c.querySelectorAll("[data-o]").forEach((x) => {
+          x.classList.toggle("actif", x === b); x.setAttribute("aria-selected", x === b);
+        });
+        c.querySelectorAll("[data-p]").forEach((s) => { s.hidden = s.dataset.p !== b.dataset.o; });
+      }));
+  };
   $("#pnew").onclick = () => editerProduit();
 
   /** Alias : plusieurs SKU de boutiques différentes désignant la même fiche produit. */
@@ -4799,7 +5165,7 @@ VUES.produits = async () => {
       <p class="doux">Une commande arrivée avec un alias hérite des défauts de la fiche visée —
         poids, douane, service. Utile quand une même chose porte un SKU différent selon le canal.</p>
       ${aliases.length ? `<div class="tbl" style="max-height:220px"><table>
-        <thead><tr><th>Alias</th><th>Fiche produit</th><th></th></tr></thead><tbody>
+        <thead><tr><th scope="col">Alias</th><th scope="col">Fiche produit</th><th scope="col"><span class="visuellement-cache">Action</span></th></tr></thead><tbody>
         ${aliases.map(a => `<tr><td><code>${esc(a.alias)}</code></td>
           <td>${esc(a.sku)} <span class="doux">${esc(a.name || "")}</span></td>
           <td><button class="d" data-ad="${esc(a.alias)}">Retirer</button></td></tr>`).join("")}
@@ -4820,43 +5186,138 @@ VUES.produits = async () => {
     });
   };
 
-  /** Groupes de préréglages — les défauts d'expédition et de douane partagés par un groupe. */
+  /**
+   * Groupes de préréglages — la source unique des poids et des dimensions de Lasclay.
+   *
+   * Deux corrections de l'audit. Le formulaire était en **saisie libre** avec des identifiants
+   * techniques en repère (`canada_post`, `expedited_parcel`, `package`) : une faute de frappe
+   * créait un préréglage silencieusement inopérant. Il passe en listes fermées. Et surtout, il
+   * n'avait **ni poids ni dimensions** — alors que c'est exactement ce que les 4 groupes du
+   * compte portent (200 g / 460 g / 70 g / 200 g ; 7×12×2,25 / 12×6×6 / 7,5×12×1 / 6×9×1 po),
+   * les fiches produit étant à 0 g et 0×0×0 et héritant.
+   */
   $("#pgrp").onclick = async () => {
     const { groups } = await api("/api/preset-groups");
+    groupes = groups;
+    const svc = (S.refs.services || []).filter((x) => !x.hidden);
+    const resume = (s) => [
+      s.weight_g ? `${num(s.weight_g)} g` : null,
+      s.dimensions ? dimsTexte(s.dimensions) : null,
+      s.service_id ? (svc.find((x) => String(x.id) === String(s.service_id)) || {}).name || s.service_id : null,
+      s.package_id ? ((S.refs.packages || []).find((x) => String(x.id) === String(s.package_id)) || {}).name || s.package_id : null,
+      (s.customs || {}).hs_code || s.hs_code || null,
+    ].filter(Boolean).join(" · ") || "aucun réglage";
+    const opt = (liste, valeur, vide) => `<option value="">${vide}</option>` + liste.map(([v, t]) =>
+      `<option value="${esc(String(v))}"${String(valeur ?? "") === String(v) ? " selected" : ""}>${esc(t)}</option>`).join("");
+
     const c = dialogue("Groupes de préréglages", `
       <p class="doux">Un groupe applique ses réglages à tous ses produits. Un défaut posé sur
-        une fiche individuelle l'emporte sur celui du groupe — même règle que ShipStation.</p>
-      <div id="gl">${groups.length ? groups.map(g => `<div class="carte" style="padding:9px">
-          <b>${esc(g.name)}</b><br><span class="doux" style="font-size:12px">${esc(JSON.stringify(g.settings))}</span>
-          <button style="float:right" data-ge="${g.id}">Modifier</button></div>`).join("")
-        : '<p class="doux">Aucun groupe.</p>'}</div>
-      <hr><b>Nouveau groupe</b>
-      <label class="champ"><span>Nom</span><input id="gn"></label>
+        une fiche individuelle l'emporte sur celui du groupe — même règle que ShipStation.
+        Chez Lasclay ce sont les groupes qui portent les poids et les dimensions du catalogue.</p>
+      <div id="gl">${groups.length ? groups.map((g) => `<div class="carte" style="padding:9px">
+          <b>${esc(g.name)}</b>
+          <button style="float:right" data-ge="${g.id}">Modifier</button>
+          <br><span class="doux" style="font-size:12px">${esc(resume(g.settings || {}))}</span>
+        </div>`).join("")
+        : `<div class="avis"><b>Aucun groupe.</b> Sans groupe, le clone n'a aucun poids ni
+           aucune dimension de référence pour coter un envoi : chaque fiche produit doit alors
+           porter les siens.</div>`}</div>
+      <hr><b id="gTitre">Nouveau groupe</b>
+      <input type="hidden" id="gid">
+      <label class="champ"><span>Nom</span><input id="gn" placeholder="Mitaines Seules"></label>
       <div class="grille">
-        <label class="champ"><span>Transporteur</span><input id="gc" placeholder="canada_post"></label>
-        <label class="champ"><span>Service</span><input id="gs" placeholder="expedited_parcel"></label>
-        <label class="champ"><span>Type de colis</span><input id="gp" placeholder="package"></label>
-        <label class="champ"><span>Code SH</span><input id="gh"></label>
-        <label class="champ"><span>Pays d'origine</span><input id="go" value="CA"></label>
-      </div>`,
+        <label class="champ"><span>Poids (g)</span><input type="number" id="gw"></label>
+        <label class="champ"><span>Transporteur</span>
+          <select id="gc">${opt((S.refs.carriers || []).map((x) => [x.code, x.name]), "", "— aucun —")}</select></label>
+        <label class="champ"><span>Service</span>
+          <select id="gs">${opt(svc.map((x) => [x.id, x.name]), "", "— aucun —")}</select></label>
+        <label class="champ"><span>Type de colis</span>
+          <select id="gp">${opt((S.refs.packages || []).map((x) => [x.id, x.name]), "", "— aucun —")}</select></label>
+        <label class="champ"><span>Confirmation</span>
+          <select id="gf">${opt((S.refs.confirmations || []).map((x) => [x.id, x.nom]), "", "— aucune —")}</select></label>
+      </div>
+      <div class="fLab">Dimensions (po)</div>
+      <div class="grille" style="grid-template-columns:repeat(3,1fr)">
+        <label class="champ"><span>Longueur</span><input type="number" step="0.01" id="gdl"></label>
+        <label class="champ"><span>Largeur</span><input type="number" step="0.01" id="gdw"></label>
+        <label class="champ"><span>Hauteur</span><input type="number" step="0.01" id="gdh"></label>
+      </div>
+      <div class="fLab">Douane</div>
+      <div class="grille">
+        <label class="champ"><span>Code SH</span><input id="gh" placeholder="6116.93" inputmode="numeric"></label>
+        <label class="champ"><span>Pays d'origine</span>
+          <select id="go">${opt(PAYS_EXPEDITION.map((x) => [x[0], x[1]]), "CA", "— non déclaré —")}</select></label>
+        <label class="champ"><span>Valeur déclarée (CA$)</span><input type="number" step="0.01" id="gv"></label>
+      </div>
+      <label class="champ"><span>Description douanière</span><input id="gdd"></label>
+      <div id="gErr"></div>`,
       async () => {
-        if (!$("#gn").value.trim()) return false;
-        await api("/api/preset-groups", { method: "POST", body: { name: $("#gn").value.trim(),
-          settings: { carrier_code: $("#gc").value || undefined, service_id: $("#gs").value || undefined,
-            package_id: $("#gp").value || undefined, hs_code: $("#gh").value || undefined,
-            country_of_origin: $("#go").value || undefined } } });
-        return true;
+        if (!$("#gn").value.trim()) { toast("Le nom du groupe est obligatoire.", { type: "avis" }); return false; }
+        const dims = ["gdl", "gdw", "gdh"].some((i) => $("#" + i).value)
+          ? { length: Number($("#gdl").value) || 0, width: Number($("#gdw").value) || 0,
+              height: Number($("#gdh").value) || 0, unit: "in" }
+          : undefined;
+        // Le nom est unique en base : une collision remontait le message brut de SQLite dans
+        // une alerte native. Elle se dit ici en clair, avec la sortie — ouvrir le groupe qui
+        // porte déjà ce nom plutôt que d'en réinventer un.
+        const dejaLa = groups.find((x) => x.name.toLowerCase() === $("#gn").value.trim().toLowerCase()
+          && String(x.id) !== $("#gid").value);
+        if (dejaLa) {
+          $("#gErr").innerHTML = `<div class="avis">Un groupe s'appelle déjà
+            « ${esc(dejaLa.name)} ». <button type="button" class="lienB" id="gOuvre">L'ouvrir pour
+            le modifier</button>, ou donnez un autre nom.</div>`;
+          $("#gOuvre").onclick = () => { $("#gErr").innerHTML = ""; $(`[data-ge="${dejaLa.id}"]`, c).click(); };
+          return false;
+        }
+        await api("/api/preset-groups", { method: "POST", body: {
+          id: $("#gid").value ? Number($("#gid").value) : undefined,
+          name: $("#gn").value.trim(),
+          settings: {
+            weight_g: $("#gw").value === "" ? undefined : Number($("#gw").value),
+            dimensions: dims,
+            carrier_code: $("#gc").value || undefined, service_id: $("#gs").value || undefined,
+            package_id: $("#gp").value || undefined, confirmation: $("#gf").value || undefined,
+            customs: {
+              hs_code: $("#gh").value || undefined,
+              country_of_origin: $("#go").value || undefined,
+              value: $("#gv").value === "" ? undefined : Number($("#gv").value),
+              description: $("#gdd").value || undefined,
+            },
+          } } });
+        toast($("#gid").value ? "Groupe mis à jour." : "Groupe créé.", { type: "succes" });
+        groupes = (await api("/api/preset-groups")).groups || [];
+        charger();
       }, "Créer");
-    $("#gl", c).querySelectorAll("[data-ge]").forEach(b => b.onclick = () => {
-      const g = groups.find(x => x.id == b.dataset.ge);
+
+    $("#gl", c).querySelectorAll("[data-ge]").forEach((b) => b.onclick = () => {
+      const g = groups.find((x) => x.id == b.dataset.ge);
+      const s = g.settings || {}, cu = s.customs || {}, dm = s.dimensions || {};
+      $("#gid", c).value = g.id;
+      $("#gTitre", c).textContent = `Modifier « ${g.name} »`;
+      $("#dlgO").textContent = "Enregistrer";
       $("#gn", c).value = g.name;
-      for (const [id, k] of [["gc","carrier_code"],["gs","service_id"],["gp","package_id"],["gh","hs_code"],["go","country_of_origin"]])
-        $("#" + id, c).value = g.settings[k] || "";
+      $("#gw", c).value = s.weight_g ?? "";
+      for (const [id, v] of [["gc", s.carrier_code], ["gs", s.service_id], ["gp", s.package_id],
+        ["gf", s.confirmation], ["go", cu.country_of_origin || s.country_of_origin]])
+        $("#" + id, c).value = v ?? "";
+      $("#gdl", c).value = dm.length ?? ""; $("#gdw", c).value = dm.width ?? ""; $("#gdh", c).value = dm.height ?? "";
+      $("#gh", c).value = cu.hs_code || s.hs_code || "";
+      $("#gv", c).value = cu.value ?? "";
+      $("#gdd", c).value = cu.description || "";
+      $("#gn", c).focus();
     });
   };
-  let d; $("#vue").querySelectorAll(".barre input").forEach(i =>
-    i.addEventListener("input", () => { clearTimeout(d); d = setTimeout(charger, 250); }));
-  charger();
+
+  let deb; $("#vue").querySelectorAll(".barre input, .barre select").forEach((i) =>
+    i.addEventListener("input", () => { clearTimeout(deb); deb = setTimeout(() => { P.page = 0; charger(); }, 250); }));
+  await charger();
+
+  // Une ligne d'inventaire ouvre la fiche du produit qu'elle décrit : l'écran Inventaire
+  // renvoyait vers la liste des produits sans dire lequel, ce qui obligeait à le rechercher.
+  if (S.produitAOuvrir) {
+    const id = S.produitAOuvrir; S.produitAOuvrir = null;
+    try { editerProduit(await api("/api/products/" + id)); } catch { /* fiche disparue entre-temps */ }
+  }
 };
 
 // ----------------------------------------------------------------- clients
@@ -5821,26 +6282,110 @@ VUES.fulfillments = async () => {
 };
 
 // -------------------------------------------------------------- inventaire
+/**
+ * L'audit qualifiait cet écran de « page morte à colonnes mortes » : zéro bouton, zéro
+ * filtre, zéro lien, et des colonnes *Entrepôt*, *Réservé*, *Seuil* qui promettaient des
+ * concepts sans écran de saisie. Chez ShipStation le même onglet a huit boutons, et surtout
+ * son état vide **dit pourquoi** il est vide et propose l'action corrective.
+ *
+ * Trois manques comblés : la réception de stock (le geste quotidien de l'entrepôt), le lien
+ * vers la fiche produit depuis chaque ligne, et un état vide qui distingue « rien à
+ * afficher » de « rien à mesurer ».
+ */
 VUES.inventaire = async () => {
-  const [bas, prod] = await Promise.all([api("/api/inventory/low"), api("/api/products?limit=500")]);
+  let bas, prod;
+  try { [bas, prod] = await Promise.all([api("/api/inventory/low"), api("/api/products?limit=500")]); }
+  catch (e) { $("#vue").innerHTML = ""; return $("#vue").append(panneauErreur(e, () => VUES.inventaire())); }
+  const entrepots = S.refs.warehouses || [];
+  const suivi = prod.products.some((p) => (p.inventory || []).length);
+
   $("#vue").innerHTML = `<h1>Inventaire</h1>
     <p class="sous">Stock par entrepôt, seuils de réapprovisionnement et alertes.</p>
+    ${!entrepots.length ? `<div class="avis"><b>Aucun entrepôt configuré.</b> Le stock se compte
+      par entrepôt : sans entrepôt, les colonnes ci-dessous n'ont nulle part où pointer.
+      <button type="button" class="lienB" id="iVersEnt">Configurer un entrepôt</button></div>`
+      : !prod.total ? `<div class="avis"><b>Le catalogue est vide.</b> Il n'y a aucun produit
+        dont compter le stock — ce n'est pas un inventaire à zéro, c'est un inventaire sans
+        objet. <button type="button" class="lienB" id="iVersProd">Importer les produits</button></div>`
+      : !suivi ? `<div class="avis"><b>Aucun suivi de stock posé.</b> ${num(prod.total)} produits
+        au catalogue, et aucun n'a de quantité par entrepôt : les alertes de stock bas ne se
+        déclencheront jamais. Recevez du stock, ou posez les quantités depuis les fiches.</div>` : ""}
     ${bas.low.length ? `<div class="avis"><b>${bas.low.length} produit(s) sous le seuil</b></div>` : ""}
-    <div class="carte"><b>Sous le seuil</b><div id="iBas" style="margin-top:8px"></div></div>
-    <div class="carte"><b>Catalogue</b><div id="iTout" style="margin-top:8px"></div></div>`;
+
+    <div class="barre">
+      <button class="p" id="iRec"${entrepots.length && prod.total ? "" : " disabled"}
+        title="${entrepots.length && prod.total ? "" : "Il faut un entrepôt et au moins un produit"}">Recevoir du stock…</button>
+      <input type="search" id="iq" placeholder="SKU ou nom">
+      <a class="doux" href="/api/export/products">Exporter le catalogue</a></div>
+
+    <div class="carte"><b class="titreCarte">Sous le seuil</b><div id="iBas" style="margin-top:8px"></div></div>
+    <div class="carte"><b class="titreCarte">Catalogue</b><div id="iTout" style="margin-top:8px"></div></div>`;
+
+  const bE = $("#iVersEnt"); if (bE) bE.onclick = () => aller("reglages");
+  const bP = $("#iVersProd"); if (bP) bP.onclick = () => aller("produits");
+
   $("#iBas").append(table([
     { k: "sku", t: "SKU" }, { k: "name", t: "Produit" },
     { k: "warehouse_name", t: "Entrepôt" },
     { k: "on_hand", t: "En stock", n: true },
     { k: "allocated", t: "Réservé", n: true },
     { k: "low_threshold", t: "Seuil", n: true },
-  ], bas.low));
-  $("#iTout").append(table([
-    { k: "sku", t: "SKU" }, { k: "name", t: "Produit" },
-    { k: "weight_g", t: "Poids", n: true, r: (p) => `${num(Math.round(p.weight_g || 0))} g` },
-    { k: "warehouse_location", t: "Emplacement" },
-    { k: "hs_code", t: "Code SH", r: (p) => p.hs_code || '<span class="puce a">manquant</span>' },
-  ], prod.products, { onLigne: (id) => aller("produits") }));
+  ], bas.low, { onLigne: (id) => ouvrirProduit(Number(id)), cle: "product_id" }));
+
+  function rendreCatalogue() {
+    const q = ($("#iq").value || "").toLowerCase();
+    const l = q ? prod.products.filter((p) => `${p.sku} ${p.name}`.toLowerCase().includes(q)) : prod.products;
+    $("#iTout").innerHTML = "";
+    $("#iTout").append(table([
+      { k: "sku", t: "SKU" }, { k: "name", t: "Produit" },
+      { k: "weight_g", t: "Poids", n: true, r: (p) => p.weight_g ? `${num(Math.round(p.weight_g))} g`
+        : (p.herite && p.herite.weight_g ? `<span class="doux">${num(p.herite.weight_g)} g hérité</span>`
+          : '<span class="puce a">—</span>') },
+      { k: "on_hand", t: "En stock", n: true, r: (p) => (p.inventory || []).length
+        ? num((p.inventory || []).reduce((s, i) => s + (i.on_hand || 0), 0))
+        : '<span class="doux">non suivi</span>' },
+      { k: "warehouse_location", t: "Emplacement" },
+      { k: "hs_code", t: "Code SH", r: (p) => p.hs_code || '<span class="puce a">manquant</span>' },
+    ], l, { onLigne: (id) => ouvrirProduit(Number(id)) }));
+  }
+  let deb; $("#iq").addEventListener("input", () => { clearTimeout(deb); deb = setTimeout(rendreCatalogue, 200); });
+  rendreCatalogue();
+
+  /** Une ligne d'inventaire ouvre sa fiche produit, sur l'onglet Inventaire. */
+  function ouvrirProduit(id) {
+    S.produitAOuvrir = id;
+    aller("produits");
+  }
+
+  /**
+   * Réception de stock — la quantité s'**ajoute** à l'existant plutôt que de le remplacer :
+   * recevoir 40 unités sur un stock de 12 doit donner 52, pas 40. C'est le geste que
+   * `Receive Stock` fait chez ShipStation, et le confondre avec un ajustement fait perdre
+   * du stock en silence.
+   */
+  $("#iRec").onclick = () => dialogue("Recevoir du stock", `
+    <p class="doux">La quantité reçue s'ajoute au stock en main de l'entrepôt choisi.
+      Pour corriger un comptage plutôt qu'enregistrer une réception, passez par la fiche produit.</p>
+    <div class="grille">
+      <label class="champ"><span>SKU</span><input id="rs" list="rsL" placeholder="LAS-MIT-001">
+        <datalist id="rsL">${prod.products.slice(0, 500).map((p) =>
+          `<option value="${esc(p.sku || "")}">${esc(p.name || "")}</option>`).join("")}</datalist></label>
+      <label class="champ"><span>Entrepôt</span><select id="rw">${entrepots.map((w) =>
+        `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Quantité reçue</span><input type="number" id="rq" min="1" value="1"></label>
+    </div>`,
+    async () => {
+      const p = prod.products.find((x) => (x.sku || "").toLowerCase() === $("#rs").value.trim().toLowerCase());
+      if (!p) { toast("SKU inconnu au catalogue.", { type: "avis" }); return false; }
+      const q = Number($("#rq").value);
+      if (!(q > 0)) { toast("La quantité reçue doit être positive.", { type: "avis" }); return false; }
+      const w = Number($("#rw").value);
+      const actuel = (p.inventory || []).find((i) => i.warehouse_id === w) || {};
+      await api("/api/inventory", { method: "POST",
+        body: { product_id: p.id, warehouse_id: w, on_hand: (actuel.on_hand || 0) + q } });
+      toast(`${num(q)} unité(s) reçue(s) — ${p.sku} passe à ${num((actuel.on_hand || 0) + q)}.`, { type: "succes" });
+      VUES.inventaire();
+    }, "Enregistrer la réception");
 };
 
 // ---------------------------------------------------------------- gabarits

@@ -420,6 +420,9 @@ const AJOUTS = [
   ["shipments", "marketplace_notified_at", "TEXT"],
   ["shipments", "shipment_notified_at", "TEXT"],
   ["shipments", "delivery_notified_at", "TEXT"],
+  // Valeur déclarée en douane : distincte du prix de vente, et c'est elle qui figure sur la
+  // déclaration. ShipStation a les deux champs ; le clone n'en avait qu'un.
+  ["products", "declared_value", "REAL"],
 ];
 
 /**
