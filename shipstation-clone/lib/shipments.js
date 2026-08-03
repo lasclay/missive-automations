@@ -178,9 +178,25 @@ function marquerExpedie(orderId, { carrier, trackingNumber, shipDate, userId = n
  * commandes au fil du tri, et l'achat des étiquettes vient plus tard. Le lot du panneau
  * gauche est donc un objet de premier ordre, pas un sous-produit d'un achat groupé.
  */
+/**
+ * Un nom de lot qui n'est pas déjà pris — BUG relevé à l'audit : « Créer un lot » proposait
+ * par défaut `Lot du 2026-08-02`, identique au lot déjà ouvert, et la liste des lots ouverts
+ * n'a pas de colonne identifiant pour distinguer les doublons. Deux lots homonymes dans le
+ * panneau gauche, c'est une commande déposée dans le mauvais et découverte à l'expédition.
+ *
+ * Le nom reste lisible : on suffixe « (2) », « (3) »… plutôt que d'y coller un horodatage.
+ */
+function nomDeLotLibre(base = null) {
+  const racine = (base || `Lot du ${new Date().toISOString().slice(0, 10)}`).trim();
+  const pris = new Set(all("SELECT name FROM batches WHERE status = 'open'").map((b) => (b.name || "").trim()));
+  if (!pris.has(racine)) return racine;
+  for (let i = 2; i < 200; i++) if (!pris.has(`${racine} (${i})`)) return `${racine} (${i})`;
+  return `${racine} ${new Date().toISOString().slice(11, 19)}`;
+}
+
 function creerLotVide({ name = null, userId = null } = {}) {
   run("INSERT INTO batches (name, created_at, created_by, status) VALUES (?,?,?,'open')",
-    name || `Lot du ${new Date().toISOString().slice(0, 16).replace("T", " ")}`, maintenant(), userId);
+    nomDeLotLibre(name), maintenant(), userId);
   const batchId = one("SELECT last_insert_rowid() r").r;
   journaliser("batch.create", "batch", batchId, { name }, userId);
   return { batchId };
@@ -224,7 +240,7 @@ function fermerLot(batchId, userId = null) {
 
 function creerLot(orderIds, { name = null, userId = null } = {}) {
   run("INSERT INTO batches (name, created_at, created_by, status) VALUES (?,?,?,'open')",
-    name || `Lot du ${new Date().toISOString().slice(0, 16).replace("T", " ")}`, maintenant(), userId);
+    nomDeLotLibre(name), maintenant(), userId);
   const batchId = one("SELECT last_insert_rowid() r").r;
   journaliser("batch.create", "batch", batchId, { n: orderIds.length }, userId);
   return { batchId, orderIds };
@@ -295,6 +311,43 @@ function creerManifeste(carrierCode, { shipDate = null, warehouseId = null, user
 }
 
 const manifestes = () => all("SELECT * FROM manifests ORDER BY id DESC LIMIT 100");
+
+/**
+ * Ce qui reste à clôturer un jour donné, transporteur par transporteur — l'onglet
+ * « Open Shipments » de ShipStation, que le clone n'avait pas.
+ *
+ * Sans ce décompte, le bouton « Clôturer » était actif en permanence, y compris quand il
+ * n'y avait rien à clôturer : on apprenait qu'il n'y avait rien à faire *après* avoir
+ * cliqué, par un message d'erreur. Et le sélecteur de transporteur n'avait pas de « Tous »,
+ * alors qu'une journée mêle Postes Canada et Purolator.
+ */
+function aCloturer(shipDate = null, warehouseId = null) {
+  const date = shipDate || new Date().toISOString().slice(0, 10);
+  const lignes = all(
+    `SELECT s.carrier_code, COUNT(*) n, SUM(s.cost) cout,
+            SUM(CASE WHEN s.drop_off = 1 THEN 1 ELSE 0 END) drop_off
+       FROM shipments s
+      WHERE s.ship_date = ? AND s.voided = 0 AND s.manifest_id IS NULL
+        ${warehouseId ? "AND s.warehouse_id = ?" : ""}
+      GROUP BY s.carrier_code ORDER BY n DESC`,
+    ...(warehouseId ? [date, warehouseId] : [date]));
+  return { date, transporteurs: lignes, total: lignes.reduce((s, l) => s + l.n, 0) };
+}
+
+/**
+ * Clôture tous les transporteurs d'une journée d'un coup. Une journée de Lasclay mêle
+ * Postes Canada et Purolator ; les clôturer un par un multipliait les allers-retours et
+ * laissait facilement un transporteur oublié derrière.
+ */
+function cloturerJournee(shipDate = null, { warehouseId = null, userId = null } = {}) {
+  const { date, transporteurs } = aCloturer(shipDate, warehouseId);
+  if (!transporteurs.length) throw new Error(`aucune expédition à clôturer le ${date}`);
+  return {
+    date,
+    manifestes: transporteurs.map((t) =>
+      creerManifeste(t.carrier_code, { shipDate: date, warehouseId, userId })),
+  };
+}
 
 // ------------------------------------------------------------------ recherche et suivi
 
@@ -420,7 +473,7 @@ function actionMasse(action, ids, opts = {}, userId = null) {
 module.exports = {
   marge, ACTIONS_MASSE, actionMasse,
   coter, acheterEtiquette, acheterRetour, annuler, marquerExpedie,
-  creerLot, creerLotVide, ajouterAuLot, retirerDuLot, lotsOuverts, commandesDuLot, fermerLot,
-  traiterLot, lot, lots, creerManifeste, manifestes,
+  creerLot, creerLotVide, nomDeLotLibre, ajouterAuLot, retirerDuLot, lotsOuverts, commandesDuLot, fermerLot,
+  traiterLot, lot, lots, creerManifeste, manifestes, aCloturer, cloturerJournee,
   chercher, rafraichirSuivi, envoiDepuisCommande, SEUIL_DROPOFF_G,
 };

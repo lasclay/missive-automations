@@ -1486,7 +1486,7 @@ async function menuLots(ancre, ids, apres = () => {}) {
     ...(LOTS.length ? [{ sep: 1 }] : []),
     { t: "Nouveau lot…", f: () => dialogue("Créer un lot", `
         <label class="champ"><span>Nom du lot</span>
-          <input id="lnom2" value="${esc("Lot du " + new Date().toISOString().slice(0, 10))}"></label>
+          <input id="lnom2" value="${esc(nomDeLotPropose())}"></label>
         <p class="doux">${n ? `Les <b>${n}</b> commande(s) y seront déposées.` : "Le lot sera créé vide."}</p>`,
         async () => {
           await api("/api/batches/new", { method: "POST", body: { name: $("#lnom2").value, ids } });
@@ -1896,7 +1896,7 @@ VUES.commandes = async (statutFixe) => {
 
   $("#ssNouveauLot").onclick = () => dialogue("Créer un lot", `
     <label class="champ"><span>Nom du lot</span>
-      <input id="lnom" value="${esc("Lot du " + new Date().toISOString().slice(0, 10))}"></label>
+      <input id="lnom" value="${esc(nomDeLotPropose())}"></label>
     <p class="doux">${S.sel.size
       ? `Les <b>${S.sel.size}</b> commande(s) sélectionnée(s) y seront déposées.`
       : "Le lot sera créé vide ; déposez-y des commandes avec le « + » du panneau gauche."}</p>`,
@@ -2950,7 +2950,7 @@ VUES.commandes = async (statutFixe) => {
         ${LOTS.map((l) => `<option value="${l.id}">${esc(l.name)} (${num(l.n)})</option>`).join("")}
         <option value="">— nouveau lot —</option></select></label>
       <label class="champ" id="anomL" hidden><span>Nom du nouveau lot</span>
-        <input id="anom" value="${esc("Lot du " + new Date().toISOString().slice(0, 10))}"></label>`,
+        <input id="anom" value="${esc(nomDeLotPropose())}"></label>`,
       async () => {
         const id = $("#alot").value;
         if (id) await api("/api/batches/add", { method: "POST", body: { batch_id: Number(id), ids: ids() } });
@@ -4605,7 +4605,7 @@ VUES.lots = async () => {
 
   $("#lNouveau").onclick = () => dialogue("Créer un lot",
     `<label class="champ"><span>Nom du lot</span>
-       <input id="ln3" value="${esc("Lot du " + new Date().toISOString().slice(0, 10))}"></label>`,
+       <input id="ln3" value="${esc(nomDeLotPropose(ouverts))}"></label>`,
     async () => { await api("/api/batches/new", { method: "POST", body: { name: $("#ln3").value } }); rendre(); }, "Créer");
 
   /**
@@ -4654,23 +4654,110 @@ VUES.lots = async () => {
 };
 
 // --------------------------------------------------------------- manifestes
+/**
+ * Fin de journée — trois défauts relevés à l'audit sur un écran de trois contrôles.
+ *
+ * Le sélecteur de transporteur n'avait **pas d'option « Tous »**, alors qu'une journée chez
+ * Lasclay mêle Postes Canada et Purolator : il fallait clôturer transporteur par
+ * transporteur, en devinant lesquels avaient tourné. Le bouton **« Clôturer » restait actif
+ * même sans rien à clôturer** : on l'apprenait après le clic, par un message d'erreur. Et
+ * il manquait la **séparation ouvertes / clôturées** que ShipStation met en deux onglets,
+ * avec la réimpression des documents déjà produits.
+ *
+ * L'écran s'ouvre donc sur ce qui reste ouvert pour la date choisie, transporteur par
+ * transporteur, et le bouton porte le nombre qu'il va traiter.
+ */
 VUES.manifestes = async () => {
-  const { manifests } = await api("/api/manifests");
+  const date0 = (S.manifDate ||= new Date().toISOString().slice(0, 10));
+  let d;
+  try { d = await api("/api/manifests?ship_date=" + encodeURIComponent(date0)); }
+  catch (e) { $("#vue").innerHTML = ""; return $("#vue").append(panneauErreur(e, () => VUES.manifestes())); }
+  const ouv = d.ouvertes || { transporteurs: [], total: 0 };
+  const nomTransporteur = (code) =>
+    ((S.refs.carriers || []).find((c) => c.code === code) || {}).name || code;
+
   $("#vue").innerHTML = `<h1>Fin de journée</h1>
     <p class="sous">Clôture des expéditions par transporteur. En drop-off, le document sert de bordereau de dépôt.</p>
     <div class="barre">
-      <select id="mc">${(S.refs.carriers || []).map(c => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select>
-      <input type="date" id="md" value="${new Date().toISOString().slice(0, 10)}">
-      <button class="p" id="mgo">Clôturer</button></div><div id="mt"></div>`;
-  $("#mgo").onclick = async () => {
-    try {
-      const r = await api("/api/manifests", { method: "POST", body: { carrier_code: $("#mc").value, ship_date: $("#md").value } });
-      alert(`Manifeste ${r.manifestId} : ${r.shipments} expédition(s).`); VUES.manifestes();
-    } catch (e) { alert(e.message); }
+      <label class="champ" style="flex:0 0 auto"><span>Date d'expédition</span>
+        <input type="date" id="md" value="${esc(date0)}"></label>
+      <label class="champ" style="flex:0 0 auto"><span>Transporteur</span>
+        <select id="mc"><option value="">Tous les transporteurs</option>
+          ${(S.refs.carriers || []).map((c) => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select></label>
+      <button class="p" id="mgo">Clôturer</button></div>
+
+    <div class="carte"><b class="titreCarte">Expéditions ouvertes — ${esc(jour(date0))}</b>
+      <div id="mOuv" style="margin-top:8px"></div></div>
+
+    <div class="carte"><b class="titreCarte">Documents déjà produits</b>
+      <div class="doux" style="font-size:12px;margin:3px 0 8px">Une ligne par clôture.
+        Le document se réimprime autant de fois qu'il le faut — un bordereau de dépôt égaré
+        ne doit pas obliger à reclôturer.</div>
+      <div id="mt"></div></div>`;
+
+  // Le tableau des ouvertes remplace le « Aucun résultat » nu : quand il n'y a rien, il dit
+  // pourquoi, et le bouton de clôture est désactivé plutôt que trompeusement disponible.
+  if (ouv.transporteurs.length) {
+    $("#mOuv").append(table([
+      { k: "carrier_code", t: "Transporteur", r: (l) => esc(nomTransporteur(l.carrier_code)) },
+      { k: "n", t: "Expéditions", n: true, r: (l) => num(l.n) },
+      { k: "drop_off", t: "Dont drop-off", n: true, r: (l) => num(l.drop_off || 0) },
+      { k: "cout", t: "Coût des étiquettes", n: true, r: (l) => money(l.cout || 0) },
+    ], ouv.transporteurs, { cle: "carrier_code" }));
+  } else {
+    $("#mOuv").innerHTML = `<div class="avis">Aucune expédition ouverte le ${esc(jour(date0))}.
+      Soit rien n'est parti ce jour-là, soit la journée est déjà clôturée — la liste ci-dessous
+      le dira.</div>`;
+  }
+
+  const majBouton = () => {
+    const code = $("#mc").value;
+    const n = code ? (ouv.transporteurs.find((t) => t.carrier_code === code) || {}).n || 0 : ouv.total;
+    const b = $("#mgo");
+    b.disabled = !n;
+    b.textContent = n
+      ? `Clôturer ${num(n)} expédition${n > 1 ? "s" : ""}${code ? "" : ouv.transporteurs.length > 1
+        ? ` (${ouv.transporteurs.length} transporteurs)` : ""}`
+      : "Rien à clôturer";
+    b.title = n ? "" : code
+      ? `Aucune expédition ${nomTransporteur(code)} ouverte le ${jour(date0)}`
+      : `Aucune expédition ouverte le ${jour(date0)}`;
   };
-  $("#mt").append(table([{ k: "id", t: "N°" }, { k: "carrier_code", t: "Transporteur" },
-    { k: "ship_date", t: "Date", r: m => jour(m.ship_date) },
-    { k: "shipment_count", t: "Expéditions", n: true }, { k: "status", t: "Statut" }], manifests));
+  $("#mc").onchange = majBouton;
+  majBouton();
+
+  $("#md").onchange = () => { S.manifDate = $("#md").value; VUES.manifestes(); };
+
+  $("#mgo").onclick = () => {
+    const code = $("#mc").value;
+    const n = code ? (ouv.transporteurs.find((t) => t.carrier_code === code) || {}).n || 0 : ouv.total;
+    dialogue("Clôturer la journée", `
+      <p>${code ? `Les <b>${num(n)}</b> expéditions ${esc(nomTransporteur(code))} du
+        ${esc(jour(date0))} seront clôturées.`
+        : `Les <b>${num(n)}</b> expéditions du ${esc(jour(date0))} seront clôturées, sur
+          <b>${ouv.transporteurs.length}</b> transporteur(s) : ${ouv.transporteurs
+            .map((t) => `${esc(nomTransporteur(t.carrier_code))} (${num(t.n)})`).join(", ")}.`}</p>
+      <p class="doux">Une expédition clôturée ne réapparaît pas dans les ouvertes. Le document
+        reste réimprimable ensuite.</p>`,
+      () => tenter(() => api("/api/manifests", { method: "POST",
+        body: { carrier_code: code || null, ship_date: date0 } }), {
+        message: "Clôture impossible",
+        apres: (r) => {
+          const liste = r.manifestes || [r];
+          toast(`${liste.length} document(s) produit(s), ${num(liste.reduce((s, m) => s + (m.shipments || 0), 0))} expédition(s).`,
+            { type: "succes" });
+          VUES.manifestes();
+        },
+      }), `Clôturer ${num(n)} expédition${n > 1 ? "s" : ""}`);
+  };
+
+  $("#mt").append(table([{ k: "id", t: "N°" },
+    { k: "carrier_code", t: "Transporteur", r: (m) => esc(nomTransporteur(m.carrier_code)) },
+    { k: "ship_date", t: "Date", r: (m) => jour(m.ship_date) },
+    { k: "shipment_count", t: "Expéditions", n: true },
+    { k: "status", t: "Statut" },
+    { k: "id", t: "Document", r: (m) => `<a href="/api/manifests/${m.id}/document" target="_blank">Réimprimer</a>` },
+  ], d.manifests));
 };
 
 // ----------------------------------------------------------------- retours
@@ -4757,6 +4844,23 @@ VUES.retours = async () => {
     VUES.retours();
   });
 };
+
+/**
+ * Nom de lot proposé par défaut — jamais un nom déjà porté par un lot ouvert.
+ *
+ * L'audit relevait que « Créer un lot » proposait `Lot du 2026-08-02`, identique au lot
+ * déjà ouvert, et que la liste des lots ouverts n'a aucune colonne d'identifiant pour
+ * distinguer les homonymes. Deux lots du même nom dans le panneau gauche, c'est une commande
+ * déposée dans le mauvais et découverte à l'expédition. Le serveur refait le même calcul à
+ * la création (`nomDeLotLibre`) : la proposition d'ici est un confort, pas la garantie.
+ */
+function nomDeLotPropose(lots = null) {
+  const racine = "Lot du " + new Date().toISOString().slice(0, 10);
+  const pris = new Set((lots || LOTS || []).map((l) => (l.name || "").trim()));
+  if (!pris.has(racine)) return racine;
+  for (let i = 2; i < 200; i++) if (!pris.has(`${racine} (${i})`)) return `${racine} (${i})`;
+  return racine;
+}
 
 // ---------------------------------------------------------------- produits
 /**

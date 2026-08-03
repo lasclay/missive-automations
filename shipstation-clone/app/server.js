@@ -645,10 +645,23 @@ route("POST /api/channels/notify", async ({ req, user }) => {
   return await channels.traiterFile({ limite: Number(b.limite) || 50 });
 });
 
-route("GET /api/manifests", () => ({ manifests: shipments.manifestes() }));
+route("GET /api/manifests", ({ url }) => {
+  const f = q(url);
+  return {
+    manifests: shipments.manifestes(),
+    // Ce qui reste ouvert pour la date demandée : c'est ce décompte qui décide si le bouton
+    // « Clôturer » a quoi que ce soit à faire, plutôt que de le laisser actif à vide.
+    ouvertes: shipments.aCloturer(f.ship_date || null, f.warehouse_id ? Number(f.warehouse_id) : null),
+  };
+});
 route("POST /api/manifests", async ({ req, user }) => {
   const b = await corps(req);
-  return shipments.creerManifeste(b.carrier_code, { shipDate: b.ship_date, warehouseId: b.warehouse_id, userId: user });
+  try {
+    // `carrier_code` vide = toute la journée, tous transporteurs confondus.
+    return b.carrier_code
+      ? shipments.creerManifeste(b.carrier_code, { shipDate: b.ship_date, warehouseId: b.warehouse_id, userId: user })
+      : shipments.cloturerJournee(b.ship_date, { warehouseId: b.warehouse_id, userId: user });
+  } catch (e) { return { error: e.message, code: 400 }; }
 });
 
 // ================================================================ SHOPIFY
@@ -1101,6 +1114,55 @@ route("DELETE /api/templates/:id", ({ params, user }) => {
 });
 
 /** Rend un bordereau pour une ou plusieurs commandes — la sortie imprimable. */
+/**
+ * Document de fin de journée — le bordereau de dépôt, réimprimable.
+ *
+ * ShipStation garde ses formulaires sous un onglet « Previously Created End of Day Forms »
+ * précisément parce qu'un bordereau s'égare : le comptoir en garde un exemplaire, le nôtre
+ * finit sous une pile. Sans réimpression, la seule issue serait de reclôturer — ce qui est
+ * impossible, les expéditions étant déjà rattachées au manifeste.
+ */
+route("GET /api/manifests/:id/document", ({ params, res }) => {
+  const m = db.one("SELECT * FROM manifests WHERE id = ?", Number(params.id));
+  if (!m) return { error: "manifeste inconnu", code: 404 };
+  const doc = db.parse(m.document, {}) || {};
+  const suivis = doc.trackingNumbers || [];
+  const envois = db.all(`SELECT s.tracking_number, s.service_id, s.cost, s.drop_off, o.order_number, o.customer_name
+                         FROM shipments s LEFT JOIN orders o ON o.id = s.order_id
+                         WHERE s.manifest_id = ? ORDER BY s.id`, m.id);
+  const marque = db.reglage("marque", accounts.MARQUE_DEFAUT);
+  const transporteur = (db.one("SELECT name FROM carriers WHERE code = ?", m.carrier_code) || {}).name || m.carrier_code;
+  const ech = (v) => String(v ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  texte(res, 200, `<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<title>Fin de journée ${m.id} — ${ech(transporteur)}</title><style>
+  @page{size:letter;margin:14mm}
+  body{font:12px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111}
+  h1{font-size:19px;margin:0 0 2px} .sous{color:#555;margin:0 0 14px}
+  .kv{display:flex;gap:26px;margin:10px 0 16px;flex-wrap:wrap}
+  .kv div{font-size:12px} .kv b{display:block;font-size:16px}
+  table{width:100%;border-collapse:collapse} th{text-align:left;border-bottom:2px solid #111;padding:5px 4px;font-size:11px}
+  td{padding:5px 4px;border-bottom:1px solid #ddd} .n{text-align:right}
+  footer{margin-top:20px;border-top:1px solid #ddd;padding-top:8px;color:#666;font-size:11px}
+</style></head><body>
+  <h1>Fin de journée — ${ech(transporteur)}</h1>
+  <p class="sous">${ech(marque.nom || marque.name || "")} · document n° ${m.id} ·
+    expéditions du ${ech(m.ship_date)} · clôturé le ${ech(String(m.created_at || "").slice(0, 16).replace("T", " "))}</p>
+  <div class="kv">
+    <div>Expéditions<b>${m.shipment_count}</b></div>
+    <div>Dont drop-off<b>${envois.filter((e) => e.drop_off).length}</b></div>
+    <div>Coût des étiquettes<b>${envois.reduce((s, e) => s + (e.cost || 0), 0).toFixed(2)} $</b></div>
+  </div>
+  <table><thead><tr><th>N° de suivi</th><th>Commande</th><th>Destinataire</th><th>Service</th><th class="n">Coût</th></tr></thead>
+  <tbody>${(envois.length ? envois : suivis.map((t) => ({ tracking_number: t }))).map((e) => `<tr>
+    <td>${ech(e.tracking_number)}</td><td>${ech(e.order_number || "")}</td>
+    <td>${ech(e.customer_name || "")}</td><td>${ech(e.service_id || "")}</td>
+    <td class="n">${e.cost != null ? Number(e.cost).toFixed(2) + " $" : ""}</td></tr>`).join("")}</tbody></table>
+  <footer>En drop-off, ce document sert de bordereau de dépôt : le comptoir en garde un
+    exemplaire. Il se réimprime autant de fois qu'il le faut.</footer>
+</body></html>`, "text/html; charset=utf-8");
+  return null;
+});
+
 route("GET /api/packing-slip", ({ url, res }) => {
   const ids = String(q(url).ids || "").split(",").filter(Boolean).map(Number);
   const gabarit = q(url).template_id ? templates.parId(Number(q(url).template_id)) : templates.defaut("packing_slip");

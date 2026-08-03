@@ -360,6 +360,56 @@ verifier("groupe : un nom déjà pris est nommé comme collision, pas comme erre
 verifier("groupe : renommer un groupe existant ne se heurte pas à lui-même",
   catalog.sauverGroupe({ id: gid, name: "Groupe d'essai", settings: { weight_g: 210 } }) === gid);
 
+// ------------------------------------------------- lots et fin de journée
+/**
+ * Deux défauts de l'audit qui se ressemblent : une valeur proposée par défaut qui entre en
+ * collision, et une action offerte alors qu'elle n'a rien à faire.
+ */
+console.log("\n6. Lots et fin de journée");
+
+const l1 = shipments.creerLotVide({});
+const l2 = shipments.creerLotVide({});
+const noms = db.all("SELECT name FROM batches WHERE id IN (?,?)", l1.batchId, l2.batchId).map((b) => b.name);
+verifier("lot : deux créations d'affilée ne portent pas le même nom",
+  noms[0] !== noms[1] && /\(2\)$/.test(noms[1]), noms.join(" / "));
+verifier("lot : le nom reste lisible plutôt qu'horodaté",
+  /^Lot du \d{4}-\d{2}-\d{2}( \(\d+\))?$/.test(noms[1]), noms[1]);
+verifier("lot : un nom explicite déjà pris est suffixé, pas refusé",
+  shipments.nomDeLotLibre(noms[0]) === `${noms[0]} (3)`, shipments.nomDeLotLibre(noms[0]));
+shipments.fermerLot(l1.batchId); shipments.fermerLot(l2.batchId);
+verifier("lot : un nom libéré par la fermeture redevient proposable",
+  shipments.nomDeLotLibre(noms[0]) === noms[0]);
+
+const jourEssai = "2026-08-01";
+db.run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,cost,
+          currency,ship_date,created_at,drop_off,voided)
+        VALUES (NULL,'LT1','T1','canada_post','cp_expedited',6.31,'CAD',?,?,1,0)`, jourEssai, db.maintenant());
+db.run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,cost,
+          currency,ship_date,created_at,drop_off,voided)
+        VALUES (NULL,'LT2','T2','purolator_ob','pu_ground',10.82,'CAD',?,?,0,0)`, jourEssai, db.maintenant());
+db.run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,cost,
+          currency,ship_date,created_at,drop_off,voided)
+        VALUES (NULL,'LT3','T3','canada_post','cp_expedited',8.38,'CAD',?,?,0,1)`, jourEssai, db.maintenant());
+
+const ouvertes = shipments.aCloturer(jourEssai);
+verifier("fin de journée : le décompte des ouvertes exclut les étiquettes annulées",
+  ouvertes.total === 2 && ouvertes.transporteurs.length === 2,
+  `${ouvertes.total} ouvertes sur ${ouvertes.transporteurs.length} transporteur(s)`);
+verifier("fin de journée : le drop-off est compté à part",
+  (ouvertes.transporteurs.find((t) => t.carrier_code === "canada_post") || {}).drop_off === 1);
+verifier("fin de journée : une date sans expédition rend zéro, pas une erreur",
+  shipments.aCloturer("2020-01-01").total === 0);
+
+const cloture = shipments.cloturerJournee(jourEssai);
+verifier("fin de journée : « tous transporteurs » produit un document par transporteur",
+  cloture.manifestes.length === 2
+  && cloture.manifestes.reduce((s, m) => s + m.shipments, 0) === 2);
+verifier("fin de journée : après clôture il ne reste rien d'ouvert",
+  shipments.aCloturer(jourEssai).total === 0);
+verifier("fin de journée : reclôturer une journée déjà close est refusé avec sa date",
+  (() => { try { shipments.cloturerJournee(jourEssai); return false; }
+           catch (e) { return e.message.includes(jourEssai); } })());
+
 // ------------------------------------------------------------------ bilan
 
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);
