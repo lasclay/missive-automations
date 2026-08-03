@@ -18,6 +18,8 @@
  *   node missive_client.js task <convId>             (lit un JSON {title,assignees[],label} sur stdin)
  *   node missive_client.js note <convId> "texte markdown"
  *   node missive_client.js close <convId> "note optionnelle"
+ *   node missive_client.js labels <convId>   (JSON {add:[],remove:[],markdown,keepClosed} sur stdin ;
+ *                                             keepClosed:true sur un fil déjà fermé, sinon il rouvre)
  *   node missive_client.js reply <convId>   (lit un JSON de brouillon sur stdin)
  */
 
@@ -53,6 +55,7 @@ function readStdin() {
     else if (cmd === "task") { const t = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/task", { id: a1, ...t }), null, 2)); }
     else if (cmd === "note") console.log(JSON.stringify(await call("/note", { id: a1, markdown: a2 }), null, 2));
     else if (cmd === "close") console.log(JSON.stringify(await call("/close", { id: a1, note: a2 }), null, 2));
+    else if (cmd === "labels") { const l = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/labels", { id: a1, ...l }), null, 2)); }
     else if (cmd === "reply") { const draft = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/reply", { id: a1, ...draft }), null, 2)); }
     else { console.error("Commande inconnue. Voir l'en-tête du fichier."); process.exit(1); }
   } catch (e) { console.error("Erreur:", e.message); process.exit(1); }

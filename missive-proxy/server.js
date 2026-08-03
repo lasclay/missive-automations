@@ -299,6 +299,23 @@ async function closeConversation(id, note) {
   });
 }
 
+// Étiquettes partagées d'un fil. `close` ne touche pas aux étiquettes, et support.js ne retire
+// « Draft AI Support » que des fils fermés : sans cette route, un fil répondu mais laissé ouvert
+// (parce qu'un envoi reste dû) garde son étiquette de brouillon indéfiniment.
+// `keepClosed` reprend la mécanique de support.js : sur un fil déjà fermé, poster sans ce drapeau
+// le rouvrirait.
+async function setLabels({ id, add, remove, markdown, keepClosed }) {
+  const post = {
+    conversation: id, organization: ORG,
+    markdown: markdown || "_Étiquettes mises à jour._",
+    notification: { title: "Étiquettes", body: (markdown || "Étiquettes mises à jour").slice(0, 100) },
+  };
+  if (Array.isArray(add) && add.length) post.add_shared_labels = add;
+  if (Array.isArray(remove) && remove.length) post.remove_shared_labels = remove;
+  if (keepClosed) post.reopen = true;
+  return mSend("POST", "/posts", { posts: post });
+}
+
 async function reply({ id, from, to, cc, subject, body, send, closeAfter, attachments }) {
   const draft = {
     conversation: id, organization: ORG,
@@ -382,6 +399,11 @@ const server = http.createServer(async (req, res) => {
     if (route === "/note") {
       if (!body.id || !body.markdown) return json(res, 400, { error: "id et markdown requis" });
       await postNote(body.id, body.markdown); return json(res, 200, { ok: true });
+    }
+    if (route === "/labels") {
+      if (!body.id) return json(res, 400, { error: "id requis" });
+      if (!body.add && !body.remove) return json(res, 400, { error: "add[] ou remove[] requis" });
+      await setLabels(body); return json(res, 200, { ok: true });
     }
     if (route === "/close") {
       if (!body.id) return json(res, 400, { error: "id requis" });
