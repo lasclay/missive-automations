@@ -25,6 +25,13 @@
  *                     attachments[]}  → crée un brouillon (send=true pour envoyer),
  *                                       ferme après si closeAfter=true.
  *                                       attachments: [{base64_data, filename}] (≤ ~20 Mo au total)
+ *   POST /send       {from, to[], cc[], bcc[], subject, body, send,
+ *                     attachments[]}  → COURRIEL NEUF, hors de tout fil existant.
+ *                                       Même endpoint Missive que /reply, sans
+ *                                       `conversation` : ouvre un nouveau fil.
+ *                                       Défaut = BROUILLON. Il faut send=true pour
+ *                                       que ça parte. Maximum 5 destinataires : cette
+ *                                       route sert au contact ciblé, pas à l'envoi de masse.
  *
  * AUTH : chaque route (sauf /health) exige l'en-tête  X-Proxy-Secret: <PROXY_SECRET>.
  * Le proxy est public sur Render : ce secret est la seule porte. Révocable en
@@ -319,6 +326,37 @@ async function reply({ id, from, to, cc, subject, body, send, closeAfter, attach
   return res;
 }
 
+// Courriel NEUF, vers quelqu'un qui ne nous a jamais écrit (prospection, relance,
+// prise de contact). Même endpoint Missive que reply(), à une différence près :
+// on omet `conversation`, ce qui fait ouvrir un nouveau fil au lieu d'en continuer un.
+//
+// Le défaut est VOLONTAIREMENT le brouillon : sans `send: true`, le message
+// apparaît dans Missive et attend qu'un humain appuie sur envoyer. C'est le
+// garde-fou principal de cette route, un courriel envoyé ne se rappelle pas.
+const MAX_DEST = 5; // barrière anti-envoi de masse : cette route sert au contact ciblé
+async function sendNew({ from, to, cc, bcc, subject, body, send, attachments }) {
+  const dest = [...(to || []), ...(cc || []), ...(bcc || [])];
+  if (dest.length > MAX_DEST) {
+    throw new Error(`${dest.length} destinataires demandés, maximum ${MAX_DEST}. Cette route sert au contact ciblé, pas à l'envoi de masse.`);
+  }
+  const draft = {
+    organization: ORG,
+    from_field: { address: from },
+    to_fields: (to || []).map((a) => ({ address: a })),
+    subject,
+    body: (body || "").replace(/\n/g, "<br>"),
+  };
+  if (cc && cc.length) draft.cc_fields = cc.map((a) => ({ address: a }));
+  if (bcc && bcc.length) draft.bcc_fields = bcc.map((a) => ({ address: a }));
+  if (Array.isArray(attachments) && attachments.length) {
+    draft.attachments = attachments
+      .filter((a) => a && a.base64_data && a.filename)
+      .map((a) => ({ base64_data: a.base64_data, filename: String(a.filename).slice(0, 255) }));
+  }
+  if (send) draft.send = true;
+  return mSend("POST", "/drafts", { drafts: draft });
+}
+
 // --- Serveur HTTP ---
 function readBody(req) {
   return new Promise((resolve) => {
@@ -390,6 +428,18 @@ const server = http.createServer(async (req, res) => {
     if (route === "/reply") {
       if (!body.id || !body.from || !body.body) return json(res, 400, { error: "id, from, body requis" });
       const r = await reply(body); return json(res, 200, { ok: true, sent: !!body.send, closed: !!body.closeAfter, draft: r.drafts?.id || null });
+    }
+    if (route === "/send") {
+      if (!body.from || !Array.isArray(body.to) || !body.to.length || !body.subject || !body.body) {
+        return json(res, 400, { error: "from, to[], subject et body requis" });
+      }
+      const r = await sendNew(body);
+      return json(res, 200, {
+        ok: true,
+        sent: !!body.send,
+        draft: r.drafts?.id || null,
+        conversation: r.drafts?.conversation || null,
+      });
     }
     return json(res, 404, { error: "route inconnue" });
   } catch (e) {
