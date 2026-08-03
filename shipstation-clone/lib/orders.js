@@ -5,7 +5,7 @@
  * tri, statuts, Hold, assignation, tags, scission (split), fusion (combine), alertes,
  * champs personnalisés, et l'upsert par clé externe utilisé par l'ingestion.
  */
-const { all, one, run, tx, parse, dump, maintenant, plier, journaliser } = require("./db");
+const { all, one, run, tx, parse, dump, maintenant, plier, sansAccent, journaliser } = require("./db");
 
 const STATUTS = ["awaiting_payment", "awaiting_shipment", "pending_fulfillment", "shipped", "on_hold", "cancelled"];
 
@@ -84,19 +84,19 @@ function chercher(f = {}) {
       `EXISTS (SELECT 1 FROM order_tags t WHERE t.order_id = o.id AND t.tag_id IN (${l.map(() => "?").join(",")}))`, ...l);
   }
   if (f.untagged) add("NOT EXISTS (SELECT 1 FROM order_tags t WHERE t.order_id = o.id)");
-  if (f.sku) add("EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND i.sku LIKE ?)", `%${f.sku}%`);
+  if (f.sku) add("EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND sansaccent(COALESCE(i.sku,'')) LIKE ?)", `%${sansAccent(f.sku)}%`);
   // Champs de la recherche avancée — chacun cherche « contient », et ils se cumulent.
   // Sans eux, « les commandes annulées de LAS Etsy contenant des mitaines » était hors de
   // portée : le clone n'offrait que six des dix champs de ShipStation.
-  if (f.order_number) add("lower(o.order_number) LIKE ?", `%${String(f.order_number).toLowerCase()}%`);
-  if (f.destinataire) add("lower(o.customer_name) LIKE ?", `%${String(f.destinataire).toLowerCase()}%`);
-  if (f.courriel) add("lower(o.customer_email) LIKE ?", `%${String(f.courriel).toLowerCase()}%`);
+  if (f.order_number) add("sansaccent(COALESCE(o.order_number,'')) LIKE ?", `%${sansAccent(f.order_number)}%`);
+  if (f.destinataire) add("sansaccent(COALESCE(o.customer_name,'')) LIKE ?", `%${sansAccent(f.destinataire)}%`);
+  if (f.courriel) add("sansaccent(COALESCE(o.customer_email,'')) LIKE ?", `%${sansAccent(f.courriel)}%`);
   if (f.item_name) add(
-    "EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND lower(i.name) LIKE ?)",
-    `%${String(f.item_name).toLowerCase()}%`);
+    "EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND sansaccent(COALESCE(i.name,'')) LIKE ?)",
+    `%${sansAccent(f.item_name)}%`);
   if (f.item_option) add(
-    "EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND lower(COALESCE(i.options,'')) LIKE ?)",
-    `%${String(f.item_option).toLowerCase()}%`);
+    "EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND sansaccent(COALESCE(i.options,'')) LIKE ?)",
+    `%${sansAccent(f.item_option)}%`);
   if (f.single_item) add("(SELECT COUNT(*) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0) = 1");
   if (f.batch_id) add("o.batch_id = ?", Number(f.batch_id));
   if (f.sans_lot) add("o.batch_id IS NULL");

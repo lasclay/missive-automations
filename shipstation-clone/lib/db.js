@@ -382,6 +382,9 @@ const AJOUTS = [
   // Ferland ». Une colonne pliée à l'écriture règle le problème une fois pour toutes,
   // et permet en prime de chercher sur le suivi et le nom d'article.
   ["orders", "recherche", "TEXT"],
+  // Même index plié sur les clients : ils sont 37 158, et `sansaccent()` appliqué ligne à
+  // ligne coûtait ~200 ms par frappe — assez pour figer le service, qui est mono-fil.
+  ["customers", "recherche", "TEXT"],
   // Un lot regroupe des commandes AVANT l'achat des étiquettes : chez ShipStation, la colonne
   // « Batch » de la grille Orders est renseignée bien avant qu'une expédition existe.
   ["orders", "batch_id", "INTEGER"],
@@ -604,6 +607,24 @@ function indexerRecherche(d) {
   try { d.exec("CREATE INDEX IF NOT EXISTS idx_orders_recherche ON orders(recherche)"); } catch {}
 }
 
+/** Le même index, pour les clients : nom et courriel repliés en une colonne. */
+function indexerClients(d) {
+  let reste;
+  try { reste = d.prepare("SELECT COUNT(*) n FROM customers WHERE recherche IS NULL").get().n; }
+  catch { return; }
+  if (!reste) return;
+  console.log(`[db] index de recherche à construire sur ${reste} client(s)…`);
+  try {
+    d.exec("BEGIN");
+    d.exec(`UPDATE customers SET recherche =
+              sansaccent(COALESCE(name,'')) || ' ' || sansaccent(COALESCE(email,''))
+            WHERE recherche IS NULL`);
+    d.exec("COMMIT");
+    d.exec("CREATE INDEX IF NOT EXISTS idx_customers_recherche ON customers(recherche)");
+  } catch (e) { try { d.exec("ROLLBACK"); } catch {} console.warn("[db] index clients :", e.message); }
+  console.log("[db] index de recherche des clients construit.");
+}
+
 function migrer(d) {
   reconstruireProduits(d);
   for (const [table, colonne, type] of AJOUTS) {
@@ -623,6 +644,7 @@ function migrer(d) {
     console.warn("[db] unicité des positions de règle non posée :", e.message);
   }
   indexerRecherche(d);
+  indexerClients(d);
 
   // Table de suivi de migration : reprise au curseur, § 6.3 étape 1. Une migration de
   // 37 693 clients interrompue à 20 000 doit reprendre à 20 000, pas à zéro.
@@ -673,8 +695,11 @@ function db() {
     throw new Error(`Base « ${CHEMIN} » illisible : ${e.message}`);
   }
   _db.exec(SCHEMA);
-  migrer(_db);
+  // Les fonctions SQL sont enregistrées **avant** la migration : celle-ci s'en sert pour
+  // remplir les index de recherche, et l'ordre inverse les faisait échouer en silence sur
+  // « no such function: sansaccent » — l'index restait vide, la recherche muette.
   enregistrerFonctions(_db);
+  migrer(_db);
   return _db;
 }
 
@@ -728,6 +753,19 @@ const maintenant = () => new Date().toISOString();
  * La ponctuation devient de l'espace pour que « L-27344 » se retrouve aussi bien par
  * « L-27344 » que par « 27344 », et « Ferland, Josée » par « josee ferland ».
  */
+/**
+ * Pendant JavaScript **exact** de la fonction SQL `sansaccent()` : minuscules et diacritiques
+ * retirés, ponctuation conservée. Les deux doivent produire la même chaîne, sinon le motif
+ * `LIKE` et la colonne comparée ne parlent pas la même langue — un courriel replié en
+ * « josee example com » ne correspondrait jamais à « josee@example.com ».
+ *
+ * À ne pas confondre avec `plier()` ci-dessous, qui va plus loin (la ponctuation devient de
+ * l'espace) et ne sert qu'à l'index de recherche des commandes, où les deux côtés sont pliés.
+ */
+const sansAccent = (s) => String(s ?? "")
+  .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase();
+
 const plier = (s) => String(s ?? "")
   .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   .toLowerCase()
@@ -750,4 +788,4 @@ function journaliser(action, entite, entiteId, detail, userId = null) {
     maintenant(), userId, action, entite, String(entiteId ?? ""), dump(detail));
 }
 
-module.exports = { db, all, one, run, tx, parse, dump, maintenant, plier, reglage, poserReglage, journaliser, CHEMIN };
+module.exports = { db, all, one, run, tx, parse, dump, maintenant, plier, sansAccent, reglage, poserReglage, journaliser, CHEMIN };

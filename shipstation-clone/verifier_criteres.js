@@ -556,6 +556,73 @@ verifier("recherche : la répartition dit dans quels statuts sont les résultats
 verifier("recherche : pas de répartition calculée hors recherche",
   orders.chercher({ limit: 5 }).repartition === undefined);
 
+// ------------------------------------- accents : les quatre combinaisons
+/**
+ * L'insensibilité aux accents doit valoir **dans les deux sens**, et partout.
+ *
+ * Une cliente peut être enregistrée « Josee » et cherchée « Josée », ou l'inverse : les
+ * quatre combinaisons doivent trouver. Corriger un seul sens ne sert à rien, puisque
+ * personne ne sait comment la fiche a été saisie au départ — c'est justement la question
+ * à laquelle la recherche doit répondre.
+ */
+console.log("\n10. Accents — les quatre combinaisons, sur tous les écrans");
+const idSans = orders.upsert({ order_number: "L-SANS", order_key: "ksans", store_id: 198670,
+  customer_name: "Josee Ferland", customer_email: "josee@example.com",
+  ship_to: { name: "Josee Ferland", city: "Levis", country: "CA" },
+  items: [{ sku: "AC-1", name: "Mitaines asclepiade", quantity: 1, unit_price: 10 }] });
+const idAvec = orders.upsert({ order_number: "L-AVEC", order_key: "kavec", store_id: 198670,
+  customer_name: "Josée Ferland", customer_email: "josee2@example.com",
+  ship_to: { name: "Josée Ferland", city: "Lévis", country: "CA" },
+  items: [{ sku: "AC-2", name: "Mitaines asclépiade", quantity: 1, unit_price: 10 }] });
+
+const lesDeux = (q) => {
+  const n = orders.chercher({ q, limit: 20 }).orders.map((o) => o.order_number);
+  return n.includes("L-SANS") && n.includes("L-AVEC");
+};
+verifier("accents : « Josee » (sans) trouve les deux fiches", lesDeux("Josee"));
+verifier("accents : « Josée » (avec) trouve les deux fiches", lesDeux("Josée"));
+verifier("accents : la combinaison complète nom + prénom marche des deux façons",
+  lesDeux("josee ferland") && lesDeux("josée ferland"));
+verifier("accents : une ville accentuée se cherche des deux façons",
+  lesDeux("levis") && lesDeux("Lévis"));
+verifier("accents : un nom d'article accentué aussi",
+  lesDeux("asclepiade") && lesDeux("asclépiade"));
+
+// Recherche avancée : les six champs texte passaient à côté des accents.
+const avancee = (f) => orders.chercher({ ...f, limit: 20 }).orders.map((o) => o.order_number);
+// On compare les deux graphies entre elles plutôt qu'à un compte figé : d'autres commandes
+// d'essai portent le même nom, et un nombre en dur casserait au prochain ajout.
+const memeResultat = (a, b) => {
+  const x = avancee(a).sort().join(","), y = avancee(b).sort().join(",");
+  return x === y && x.includes("L-SANS") && x.includes("L-AVEC");
+};
+verifier("accents : le champ « destinataire » de la recherche avancée les ignore",
+  memeResultat({ destinataire: "josée" }, { destinataire: "josee" }),
+  `${avancee({ destinataire: "josée" })} vs ${avancee({ destinataire: "josee" })}`);
+verifier("accents : le champ « nom d'article » aussi",
+  memeResultat({ item_name: "asclépiade" }, { item_name: "asclepiade" }),
+  `${avancee({ item_name: "asclépiade" })} vs ${avancee({ item_name: "asclepiade" })}`);
+
+// Clients et produits : mêmes règles, autres écrans.
+db.run("INSERT OR IGNORE INTO customers (email, name) VALUES ('a@x.test','Josee Ferland')");
+db.run("INSERT OR IGNORE INTO customers (email, name) VALUES ('b@x.test','Josée Ferland')");
+db.run("UPDATE customers SET recherche = sansaccent(COALESCE(name,'')) || ' ' || sansaccent(COALESCE(email,''))");
+const cli = (q) => catalog.chercherClients({ q, limit: 20 }).customers.map((c) => c.email).sort();
+verifier("accents : l'écran Clients trouve les deux fiches dans les deux sens",
+  cli("josée ferland").length === 2 && cli("josee ferland").length === 2,
+  JSON.stringify(cli("josée ferland")));
+verifier("accents : l'ordre des mots est libre côté Clients",
+  cli("ferland josée").length === 2);
+verifier("accents : un courriel reste cherchable tel quel (la ponctuation est gardée)",
+  cli("a@x.test").length === 1, JSON.stringify(cli("a@x.test")));
+
+catalog.sauverProduit({ sku: "P-SANS", name: "Mitaines asclepiade" });
+catalog.sauverProduit({ sku: "P-AVEC", name: "Mitaines asclépiade" });
+const prod = (q) => catalog.chercherProduits({ q, limit: 20 }).products.map((p) => p.sku).sort();
+verifier("accents : l'écran Produits les ignore dans les deux sens",
+  prod("asclepiade").length === 2 && prod("asclépiade").length === 2,
+  JSON.stringify(prod("asclépiade")));
+
 // ------------------------------------------------------------------ bilan
 
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);

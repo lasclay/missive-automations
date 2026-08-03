@@ -8,7 +8,7 @@
  * Le traitement par lot n'est pas une commodité : 96 % des étiquettes du compte audité sont
  * achetées en lot (AUDIT.md §2). C'est le chemin principal, pas un cas particulier.
  */
-const { all, one, run, tx, parse, dump, maintenant, journaliser } = require("./db");
+const { all, one, run, tx, parse, dump, maintenant, sansAccent, journaliser } = require("./db");
 const orders = require("./orders");
 const { adaptateur, choisirTarif, SEUIL_DROPOFF_G } = require("./carrier");
 
@@ -361,8 +361,8 @@ function chercher(f = {}) {
   const w = [], p = [];
   const add = (sql, ...v) => { w.push(sql); p.push(...v); };
   if (f.order_id) add("s.order_id = ?", Number(f.order_id));
-  if (f.tracking_number) add("s.tracking_number LIKE ?", `%${f.tracking_number}%`);
-  if (f.order_number) add("o.order_number LIKE ?", `%${f.order_number}%`);
+  if (f.tracking_number) add("sansaccent(COALESCE(s.tracking_number,'')) LIKE ?", `%${sansAccent(f.tracking_number)}%`);
+  if (f.order_number) add("sansaccent(COALESCE(o.order_number,'')) LIKE ?", `%${sansAccent(f.order_number)}%`);
   if (f.carrier_code) add("s.carrier_code = ?", f.carrier_code);
   if (f.batch_id) add("s.batch_id = ?", Number(f.batch_id));
   if (f.date_from) add("s.ship_date >= ?", f.date_from);

@@ -5,14 +5,16 @@
  * d'expédition. L'audit a montré que les codes SH manquaient sur le compte : ici le champ
  * existe, `alertesDouane()` signale les manques, et l'export les liste.
  */
-const { all, one, run, tx, parse, dump, maintenant, journaliser } = require("./db");
+const { all, one, run, tx, parse, dump, maintenant, sansAccent, journaliser } = require("./db");
 
 // ================================================================== produits
 
 function chercherProduits(f = {}) {
   const w = [], p = [];
   const add = (sql, ...v) => { w.push(sql); p.push(...v); };
-  if (f.q) { const q = `%${String(f.q).toLowerCase()}%`; add("(lower(sku) LIKE ? OR lower(name) LIKE ?)", q, q); }
+  // `sansaccent()` des deux côtés : « asclépiade » et « asclepiade » doivent ramener la même
+  // fiche, quelle que soit l'orthographe retenue à la saisie du catalogue.
+  if (f.q) { const q = `%${sansAccent(f.q)}%`; add("(sansaccent(COALESCE(sku,'')) LIKE ? OR sansaccent(COALESCE(name,'')) LIKE ?)", q, q); }
   if (f.category) add("category = ?", f.category);
   if (f.active !== undefined && f.active !== "") add("active = ?", f.active === "oui" || f.active === true ? 1 : 0);
   if (f.no_hs) add("(hs_code IS NULL OR hs_code = '')");
@@ -327,6 +329,11 @@ function reconstruireClients() {
       WHERE customer_email IS NOT NULL AND customer_email <> ''
         AND (customer_id IS NULL OR customer_id NOT IN (SELECT id FROM customers))`).changes;
 
+    // L'index de recherche suit la reconstruction : sinon un client renommé resterait
+    // trouvable sous son ancien nom, et introuvable sous le nouveau.
+    run(`UPDATE customers SET recherche =
+           sansaccent(COALESCE(name,'')) || ' ' || sansaccent(COALESCE(email,''))`);
+
     journaliser("customers.rebuild", "customer", null, { n: lignes.length, commandes_rattachees: rattachees });
     return lignes.length;
   });
@@ -334,7 +341,17 @@ function reconstruireClients() {
 
 function chercherClients(f = {}) {
   const w = [], p = [];
-  if (f.q) { const q = `%${String(f.q).toLowerCase()}%`; w.push("(lower(email) LIKE ? OR lower(name) LIKE ?)"); p.push(q, q); }
+  // Sur l'index plié plutôt que sur `sansaccent()` ligne à ligne : à 37 158 clients, la
+  // seconde forme coûtait ~200 ms par frappe et bloquait le service, qui est mono-fil.
+  // Chaque mot doit être présent, dans n'importe quel ordre — « ferland josée » trouve
+  // « Josee Ferland » comme « josée ferland ».
+  if (f.q) {
+    for (const m of sansAccent(f.q).split(/\s+/).filter(Boolean).slice(0, 6)) {
+      const like = `%${m}%`;
+      w.push("(COALESCE(recherche, sansaccent(COALESCE(name,'')) || ' ' || sansaccent(COALESCE(email,''))) LIKE ?)");
+      p.push(like);
+    }
+  }
   if (f.min_orders) { w.push("order_count >= ?"); p.push(Number(f.min_orders)); }
   const where = w.length ? "WHERE " + w.join(" AND ") : "";
   const total = one(`SELECT COUNT(*) n FROM customers ${where}`, ...p).n;
@@ -402,7 +419,8 @@ function majRetour(id, { status, resolution, notes, shipment_id }, userId = null
 const chercherRetours = (f = {}) => {
   const w = [], p = [];
   if (f.status) { w.push("r.status = ?"); p.push(f.status); }
-  if (f.q) { const q = `%${String(f.q).toLowerCase()}%`; w.push("(lower(r.rma) LIKE ? OR lower(o.order_number) LIKE ?)"); p.push(q, q); }
+  if (f.q) { const q = `%${sansAccent(f.q)}%`;
+    w.push("(sansaccent(COALESCE(r.rma,'')) LIKE ? OR sansaccent(COALESCE(o.order_number,'')) LIKE ?)"); p.push(q, q); }
   const where = w.length ? "WHERE " + w.join(" AND ") : "";
   return {
     total: one(`SELECT COUNT(*) n FROM returns r LEFT JOIN orders o ON o.id = r.order_id ${where}`, ...p).n,
