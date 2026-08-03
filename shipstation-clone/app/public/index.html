@@ -187,6 +187,11 @@
   .pag { display:flex; gap:8px; align-items:center; padding:7px 10px; border-top:1px solid var(--bord); flex:none; font-size:12.5px }
   /* Lien d'export sans rien à exporter : visible mais inopérant, plutôt que disparu. */
   .inerte { opacity:.45; pointer-events:none; cursor:default }
+  /* Bandeau de sélection inter-pages : discret quand il ne dit rien, visible dès qu'il
+     annonce que la sélection dépasse ce qui est à l'écran (BUG-041). */
+  .selTout:empty { display:none }
+  .selTout { flex:none; padding:6px 12px; font-size:12.5px; text-align:center;
+    background:rgba(26,86,219,.10); color:var(--accent); border-bottom:1px solid var(--bord) }
   .menuF .mi.inactifM { opacity:.42; cursor:default }
   .menuF .mi.inactifM:hover { background:transparent }
   .jal { display:inline-flex; gap:3px; align-items:center; font-size:11px; white-space:nowrap }
@@ -1256,20 +1261,20 @@ const COLONNES = [
   { k: "order_date", t: "Date de commande", defaut: 1, tri: "order_date", r: (o) => jour(o.order_date) },
   // « Notes » chez ShipStation est une colonne unique qui agrège les trois notes ; l'icône
   // dit qu'il y en a, le survol dit lesquelles. Sans ça, la colonne fait 400 px de large.
-  { k: "notes", t: "Notes", defaut: 1, r: (o) => {
+  { k: "notes", t: "Notes", defaut: 1, tri: "notes", r: (o) => {
       const n = [["Client", o.customer_notes], ["Interne", o.internal_notes], ["Cadeau", o.gift_message]]
         .filter(([, v]) => v && String(v).trim());
       return n.length ? `<span class="puce g" title="${esc(n.map(([t, v]) => `${t} : ${v}`).join("\n"))}">✎ ${n.length}</span>` : "";
     } },
-  { k: "gift", t: "Cadeau", defaut: 1, r: (o) => o.gift ? '<span class="puce a" title="Commande cadeau">🎁</span>' : "" },
-  { k: "item_sku", t: "SKU", defaut: 1, r: (o) => arts(o).map((i) => esc(i.sku)).join(", ") },
-  { k: "item_name", t: "Article", defaut: 1, r: (o) => arts(o).map((i) => esc(i.name)).join(" · ") },
-  { k: "batch", t: "Lot", defaut: 1, r: (o) => o.batch_id
+  { k: "gift", t: "Cadeau", defaut: 1, tri: "gift", r: (o) => o.gift ? '<span class="puce a" title="Commande cadeau">🎁</span>' : "" },
+  { k: "item_sku", t: "SKU", defaut: 1, tri: "item_sku", r: (o) => arts(o).map((i) => esc(i.sku)).join(", ") },
+  { k: "item_name", t: "Article", defaut: 1, tri: "item_name", r: (o) => arts(o).map((i) => esc(i.name)).join(" · ") },
+  { k: "batch", t: "Lot", defaut: 1, tri: "batch", r: (o) => o.batch_id
       ? `<span class="puce g">${esc((LOTS.find((l) => l.id === o.batch_id) || {}).name || "lot " + o.batch_id)}</span>` : "" },
   { k: "customer_name", t: "Destinataire", defaut: 1, tri: "customer_name", r: (o) => esc(o.customer_name) },
-  { k: "quantity", t: "Quantité", defaut: 1, n: 1, r: (o) => arts(o).reduce((s, i) => s + (i.quantity || 0), 0) },
+  { k: "quantity", t: "Quantité", defaut: 1, n: 1, tri: "quantity", r: (o) => arts(o).reduce((s, i) => s + (i.quantity || 0), 0) },
   { k: "order_total", t: "Total", defaut: 1, n: 1, tri: "order_total", r: (o) => money(o.order_total) },
-  { k: "tags", t: "Étiquettes", defaut: 1, r: (o) => (o.tags || []).map(pastilleTag).join(" ") },
+  { k: "tags", t: "Étiquettes", defaut: 1, tri: "tags", r: (o) => (o.tags || []).map(pastilleTag).join(" ") },
 
   // ---- le reste des 51, masquées par défaut, activables via « Colonnes »
   { k: "allocation_status", t: "Statut d'allocation", r: (o) => {
@@ -1547,6 +1552,7 @@ VUES.commandes = async (statutFixe) => {
         <button id="aCols">Colonnes</button>
       </div>
       <div class="barreA" id="actions"></div>
+      <div class="selTout" id="selTout" role="status" aria-live="polite"></div>
       <div class="ongVues" id="ongVues"></div>
       <div class="barreF" id="filtres"></div>
       <div id="tbl" class="grilleWrap"></div>
@@ -1982,6 +1988,7 @@ VUES.commandes = async (statutFixe) => {
     majBarreLot();
     dessiner(d);
     majPagination(d);
+    majBandeauSelection(d);
     majActions();
     cote();
   }
@@ -2158,7 +2165,11 @@ VUES.commandes = async (statutFixe) => {
       }
       if (e.target.id === "tout") {
         d.orders.forEach((o) => e.target.checked ? S.sel.add(String(o.id)) : S.sel.delete(String(o.id)));
-        return dessiner(d), majActions(), cote();
+        // BUG-041 — cocher l'en-tête sélectionnait 250 lignes sur 474 en annonçant
+        // « 250 sélectionnées », sans dire que 224 restaient dehors. Une mise à jour en
+        // masse « sur tout » n'en traitait alors que 53 %.
+        S.toutLeFiltre = false;
+        return dessiner(d), majBandeauSelection(d), majActions(), cote();
       }
       const lien = e.target.closest("[data-cmd]");
       if (lien) { e.stopPropagation(); return detailCommande(Number(lien.dataset.cmd)); }
@@ -2388,6 +2399,46 @@ VUES.commandes = async (statutFixe) => {
         window.open(`/api/labels?batch_id=${lotA.id}`, "_blank");
         await chargerLots(); charger(); majLots(); rafraichirCompteurs();
       }, "Continuer");
+  }
+
+  /**
+   * Bandeau de sélection inter-pages — BUG-041.
+   *
+   * ShipStation dit : « 250 orders are selected. Select all 427 orders in Awaiting Shipment. »
+   * Le clone disait « 250 sélectionnées » et s'arrêtait là. La phrase manquante n'est pas un
+   * confort : sans elle, l'opérateur croit agir sur son filtre entier.
+   */
+  function majBandeauSelection(d) {
+    const zone = $("#selTout");
+    if (!zone) return;
+    const page = d.orders.length;
+    const reste = (d.total || 0) - page;
+    const toutCoche = page > 0 && d.orders.every((o) => S.sel.has(String(o.id)));
+    if (!toutCoche || reste <= 0) { zone.innerHTML = ""; S.toutLeFiltre = false; return; }
+    zone.innerHTML = S.toutLeFiltre
+      ? `<b>Les ${num(d.total)} commandes du filtre sont sélectionnées.</b>
+         <button type="button" class="lienB" id="selAnnuler">Ne garder que les ${num(page)} affichées</button>`
+      : `Les <b>${num(page)}</b> commandes de cette page sont sélectionnées.
+         <button type="button" class="lienB" id="selTous">Sélectionner les ${num(d.total)} du filtre</button>`;
+    const t = $("#selTous"), a = $("#selAnnuler");
+    if (t) t.onclick = async () => {
+      // On demande les identifiants au serveur : cocher « tout » doit vouloir dire tout,
+      // pas « tout ce que la page a chargé ».
+      const f = S0.vue ? { ...lire(), view_id: S0.vue } : lire();
+      const r = await api("/api/orders/ids?" + new URLSearchParams({ ...f, sort: S.tri, dir: S.dir }));
+      S.sel = new Set(r.ids.map(String));
+      S.toutLeFiltre = true;
+      // Un plafond qui ne se dit pas ferait croire à une sélection complète : c'est
+      // exactement le défaut qu'on est en train de corriger.
+      if (r.tronque) toast(`Sélection plafonnée à ${num(r.tronque)} commandes sur ${num(r.total)}.`);
+      S.selHorsVue = r.ids.filter((id) => !d.orders.some((o) => o.id === id)).map(String);
+      majBandeauSelection(d); majActions(); cote();
+    };
+    if (a) a.onclick = () => {
+      S.sel = new Set(d.orders.map((o) => String(o.id)));
+      S.toutLeFiltre = false; S.selHorsVue = [];
+      majBandeauSelection(d); majActions(); cote();
+    };
   }
 
   const majActions = () => {

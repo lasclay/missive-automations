@@ -11,9 +11,30 @@ const STATUTS = ["awaiting_payment", "awaiting_shipment", "pending_fulfillment",
 
 // ------------------------------------------------------------------ lecture
 
-/** Colonnes triables — liste blanche, l'entrée vient de l'interface. */
-const TRIABLE = new Set(["order_number", "order_date", "created_at", "status", "customer_name",
-  "order_total", "weight_g", "ship_by_date", "hold_until", "age"]);
+/**
+ * Colonnes triables — BUG-036.
+ *
+ * Sept en-têtes sur douze réagissaient au survol et ne triaient rien : le curseur promettait
+ * un tri qui n'existait pas. Plutôt que de retirer l'affordance, on l'honore — ShipStation
+ * trie sur les douze. Les colonnes qui portent sur les articles ou les étiquettes trient sur
+ * une expression, pas sur une colonne : c'est ce qui manquait pour qu'elles existent.
+ */
+const TRIABLE = new Map([
+  ["order_number", "o.order_number"], ["order_date", "o.order_date"],
+  ["created_at", "o.created_at"], ["status", "o.status"],
+  ["customer_name", "o.customer_name"], ["order_total", "o.order_total"],
+  ["weight_g", "o.weight_g"], ["ship_by_date", "o.ship_by_date"],
+  ["hold_until", "o.hold_until"], ["age", "o.order_date"],
+  ["amount_paid", "o.amount_paid"], ["requested_service", "o.requested_service"],
+  ["quantity", "(SELECT COALESCE(SUM(i.quantity),0) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0)"],
+  ["item_sku", "(SELECT MIN(i.sku) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0)"],
+  ["item_name", "(SELECT MIN(i.name) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0)"],
+  ["batch", "o.batch_id"],
+  ["gift", "o.gift"],
+  ["notes", "(CASE WHEN COALESCE(o.customer_notes,'') <> '' OR COALESCE(o.internal_notes,'') <> '' " +
+            "OR COALESCE(o.gift_message,'') <> '' THEN 1 ELSE 0 END)"],
+  ["tags", "(SELECT COUNT(*) FROM order_tags t WHERE t.order_id = o.id)"],
+]);
 
 /**
  * Recherche filtrée. Chaque filtre est facultatif et se cumule aux autres — c'est
@@ -77,7 +98,7 @@ function chercher(f = {}) {
 
   const where = w.length ? "WHERE " + w.join(" AND ") : "";
   const tri = TRIABLE.has(f.sort) ? f.sort : "order_date";
-  const col = tri === "age" ? "o.order_date" : `o.${tri}`;
+  const col = TRIABLE.get(tri);
   // « âge décroissant » = les plus vieilles d'abord = date croissante. On inverse pour
   // que l'interface parle d'âge sans que l'utilisateur ait à y penser.
   const sens = (f.dir === "asc") === (tri === "age") ? "DESC" : "ASC";

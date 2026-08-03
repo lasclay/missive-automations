@@ -810,6 +810,32 @@ route("POST /api/inventory", async ({ req, user }) => {
 
 // ==================================================================== CLIENTS
 
+/**
+ * Identifiants de tout un filtre — BUG-041.
+ *
+ * « Sélectionner les 427 commandes du filtre » ne peut pas se contenter de ce que la page a
+ * chargé. Seuls les identifiants partent : c'est ce qui permet de couvrir un filtre entier
+ * sans rapatrier 39 000 commandes complètes dans le navigateur. Plafonné, et le plafond est
+ * annoncé plutôt que silencieux.
+ */
+const PLAFOND_SELECTION = 5000;
+route("GET /api/orders/ids", ({ url, user }) => {
+  accounts.exiger(user, "orders_view");
+  const base = q(url);
+  // `chercher` plafonne à 1 000 lignes par appel — c'est une bonne limite pour une grille.
+  // Ici on pagine derrière, jusqu'au plafond de sélection, plutôt que de la relever.
+  const ids = [];
+  let total = 0;
+  for (let offset = 0; offset < PLAFOND_SELECTION; offset += 1000) {
+    const r = orders.chercher({ ...base, limit: 1000, offset });
+    total = r.total;
+    ids.push(...r.orders.map((o) => o.id));
+    if (r.orders.length < 1000 || ids.length >= total) break;
+  }
+  return { total, ids: ids.slice(0, PLAFOND_SELECTION),
+    tronque: total > PLAFOND_SELECTION ? PLAFOND_SELECTION : null };
+});
+
 route("GET /api/customers", ({ url }) => catalog.chercherClients(q(url)));
 
 /**
