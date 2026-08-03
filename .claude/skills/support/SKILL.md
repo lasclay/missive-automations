@@ -94,6 +94,18 @@ qui a mis le dossier en retard. Ces gestes exigent un humain **avant** l'envoi :
 Dans ces cas : laisse le brouillon, pose une note interne disant précisément quoi faire,
 et dis-le à l'humain. Ne ferme pas le fil.
 
+**Les étiquettes de retour ne se génèrent pas automatiquement.** C'est le piège le plus
+facile à tomber, parce que les réponses types renvoient vers le portail : diriger un client
+vers `lasclay.happyreturns.com` en lui disant qu'il « obtiendra une étiquette prépayée » ne
+produit rien. Il suit la marche à suivre et se heurte à un mur — ce qui, sur un retour déjà
+en retard, coûte plus cher que le silence.
+
+Chaque étiquette se crée **à la main dans ShipStation**, puis s'envoie par courriel. Donc :
+n'annonce jamais une étiquette qui n'existe pas encore. Mets le fil dans la to-do
+« étiquettes de retour », laisse le brouillon, et signale-le. Rappel de la règle 6 : sur un
+défaut de fabrication, les frais sont à notre charge et les 9,99 $ facturés d'office par
+Happy Returns doivent être **remboursés manuellement**.
+
 **Ne donne jamais une date que tu n'as pas.** « Aujourd'hui », « dans les prochaines
 heures », « dès que possible » sur un dossier déjà en retard sont des fautes. Une date
 ferme, ou l'aveu qu'on ne l'a pas encore.
