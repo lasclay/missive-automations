@@ -35,9 +35,19 @@ const hydraterProduit = (r) => r && ({
 const produit = (id) => hydraterProduit(one("SELECT * FROM products WHERE id = ?", id));
 const produitParSku = (sku) => hydraterProduit(one("SELECT * FROM products WHERE sku = ?", sku));
 
+/**
+ * Enregistre un produit — BUG-002.
+ *
+ * L'identité est `external_id` quand la source en fournit un (le `productId` de
+ * ShipStation), sinon le SKU. Chercher d'abord par SKU faisait fondre en un seul produit
+ * les 39 articles du catalogue qui n'en ont pas, et écrasait un produit de chaque paire de
+ * SKU en double. Un produit sans SKU reste un produit.
+ */
 function sauverProduit(p) {
+  const sku = p.sku && String(p.sku).trim() ? String(p.sku).trim() : null;
   const champs = {
-    sku: p.sku, name: p.name || null, image_url: p.image_url || null, upc: p.upc || null,
+    external_id: p.external_id != null ? String(p.external_id) : null,
+    sku, name: p.name || null, image_url: p.image_url || null, upc: p.upc || null,
     weight_g: p.weight_g || 0, dimensions: dump(p.dimensions || null), price: p.price || 0,
     active: p.active === false ? 0 : 1, warehouse_location: p.warehouse_location || null,
     category: p.category || null, customs_description: p.customs_description || null,
@@ -47,7 +57,10 @@ function sauverProduit(p) {
     fulfillment_sku: p.fulfillment_sku || null, is_bundle: p.is_bundle ? 1 : 0,
     bundle_items: dump(p.bundle_items || []),
   };
-  const existe = one("SELECT id FROM products WHERE sku = ?", p.sku);
+  const existe = (champs.external_id && one("SELECT id FROM products WHERE external_id = ?", champs.external_id))
+    || (sku && one("SELECT id FROM products WHERE sku = ? AND (external_id IS NULL OR external_id = ?)",
+        sku, champs.external_id ?? ""))
+    || (sku && !champs.external_id && one("SELECT id FROM products WHERE sku = ?", sku));
   if (existe) {
     run(`UPDATE products SET ${Object.keys(champs).map((k) => `${k}=?`).join(",")} WHERE id = ?`,
       ...Object.values(champs), existe.id);

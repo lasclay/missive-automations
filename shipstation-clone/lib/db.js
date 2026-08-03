@@ -189,7 +189,8 @@ CREATE TABLE IF NOT EXISTS returns (
 
 CREATE TABLE IF NOT EXISTS products (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  sku TEXT UNIQUE NOT NULL, name TEXT, image_url TEXT, upc TEXT,
+  external_id TEXT UNIQUE,                  -- identité de la source (productId ShipStation)
+  sku TEXT, name TEXT, image_url TEXT, upc TEXT,   -- le SKU manque sur 39 produits, et se répète
   weight_g REAL DEFAULT 0, dimensions TEXT,
   price REAL DEFAULT 0, active INTEGER DEFAULT 1,
   warehouse_location TEXT, category TEXT,
@@ -412,7 +413,62 @@ function renumeroterRegles(d) {
   lignes.forEach((r, i) => maj.run((i + 1) * 10, r.id));
 }
 
+/**
+ * Identité des produits — BUG-002.
+ *
+ * `products.sku TEXT UNIQUE NOT NULL` supposait que tout produit a un SKU, et qu'il est
+ * unique. Le compte ShipStation dit le contraire : sur 473 produits, **39 n'ont aucun SKU**
+ * et une dizaine de SKU sont portés par deux produits. Migrer sous cette contrainte aurait
+ * fondu les 39 en un seul et perdu un produit de chaque paire — silencieusement, puisque
+ * `sauverProduit` fait un `UPDATE` quand il trouve le SKU.
+ *
+ * L'identité devient `external_id` (le `productId` de ShipStation) ; le SKU redevient ce
+ * qu'il est, un attribut facultatif qui sert au rapprochement quand il existe. La table est
+ * reconstruite plutôt qu'altérée : SQLite ne sait pas retirer une contrainte de colonne.
+ */
+function reconstruireProduits(d) {
+  const cols = d.prepare("PRAGMA table_info(products)").all().map((c) => c.name);
+  if (cols.includes("external_id")) return;
+
+  // `ALTER TABLE … RENAME` repointerait les clés étrangères des autres tables vers l'ancien
+  // nom. On désactive donc la propagation le temps de l'échange, et les clés étrangères
+  // pendant la bascule — elles sont revérifiées juste après.
+  d.exec("PRAGMA foreign_keys = OFF");
+  try {
+    d.exec(`
+      CREATE TABLE products_nouveau (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        external_id TEXT UNIQUE,           -- productId ShipStation : l'identité réelle
+        sku TEXT, name TEXT, image_url TEXT, upc TEXT,
+        weight_g REAL DEFAULT 0, dimensions TEXT,
+        price REAL DEFAULT 0, active INTEGER DEFAULT 1,
+        warehouse_location TEXT, category TEXT,
+        customs_description TEXT, hs_code TEXT, country_of_origin TEXT DEFAULT 'CA',
+        default_carrier TEXT, default_service TEXT, default_package TEXT,
+        preset_group_id INTEGER REFERENCES preset_groups(id),
+        fulfillment_sku TEXT, is_bundle INTEGER DEFAULT 0, bundle_items TEXT DEFAULT '[]'
+      );
+      INSERT INTO products_nouveau (id, sku, name, image_url, upc, weight_g, dimensions, price,
+        active, warehouse_location, category, customs_description, hs_code, country_of_origin,
+        default_carrier, default_service, default_package, preset_group_id, fulfillment_sku,
+        is_bundle, bundle_items)
+        SELECT id, sku, name, image_url, upc, weight_g, dimensions, price,
+          active, warehouse_location, category, customs_description, hs_code, country_of_origin,
+          default_carrier, default_service, default_package, preset_group_id, fulfillment_sku,
+          is_bundle, bundle_items FROM products;
+      DROP TABLE products;
+      ALTER TABLE products_nouveau RENAME TO products;
+      CREATE INDEX IF NOT EXISTS ix_products_sku ON products(sku);
+    `);
+  } finally {
+    d.exec("PRAGMA foreign_keys = ON");
+  }
+  const orphelins = d.prepare("PRAGMA foreign_key_check").all();
+  if (orphelins.length) console.warn(`[db] ${orphelins.length} référence(s) orpheline(s) après la reconstruction de products`);
+}
+
 function migrer(d) {
+  reconstruireProduits(d);
   for (const [table, colonne, type] of AJOUTS) {
     const cols = d.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
     if (!cols.includes(colonne)) d.exec(`ALTER TABLE ${table} ADD COLUMN ${colonne} ${type}`);
