@@ -132,20 +132,47 @@ async function getConversation(id) {
   });
 }
 
+// Le listage des brouillons ne renvoie qu'un `preview` tronqué (~130 caractères), jamais le
+// corps complet — comme pour les messages. On va donc chercher le corps un brouillon à la fois,
+// sinon on ne peut pas relire un brouillon avant de l'envoyer. Les routes possibles diffèrent
+// selon la ressource, d'où la chaîne d'essais; à défaut on dégrade sur le preview.
+async function fetchDraftBody(draftId) {
+  for (const path of [`/drafts/${draftId}`, `/messages/${draftId}`]) {
+    try {
+      const r = await mGet(path);
+      const d = r.drafts || r.messages || r.draft || r.message;
+      const one = Array.isArray(d) ? d[0] : d;
+      if (one && (one.body || one.preview)) return one.body || one.preview;
+    } catch { /* on essaie la route suivante */ }
+  }
+  return null;
+}
+
 // Brouillons laissés par le script IA (support.js) — la réponse déjà rédigée.
 async function getDrafts(id, raw) {
   const { drafts = [] } = await mGet(`/conversations/${id}/drafts?limit=10`);
   if (raw) return { raw: drafts };
   const sorted = drafts.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
+  const bodies = new Map();
+  for (const d of sorted) {
+    if (d.body) continue;
+    const b = await fetchDraftBody(d.id);
+    if (b) bodies.set(d.id, b);
+  }
   return sorted.map((d) => {
     const ts = (d.delivered_at || d.created_at || 0) * 1000;
+    const body = d.body || bodies.get(d.id) || "";
     return {
       id: d.id,
       from: d.from_field?.address || null,
       to: (d.to_fields || []).map((f) => f.address).filter(Boolean),
       subject: d.subject || null,
       date: ts ? new Date(ts).toISOString().slice(0, 10) : null,
-      body: stripHtml(d.body || ""),
+      body: stripHtml(body),
+      // Vrai quand seul le preview tronqué a pu être récupéré : le brouillon N'EST PAS
+      // relisible en entier, donc pas envoyable les yeux fermés.
+      tronque: !body || (!d.body && !bodies.has(d.id)) ? true : undefined,
+      preview: d.preview || null,
     };
   });
 }

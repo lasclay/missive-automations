@@ -11,6 +11,8 @@
  *   node missive_client.js list "shared_label=ID"
  *   node missive_client.js read <convId>
  *   node missive_client.js drafts <convId>   (brouillons déjà rédigés par le script IA)
+ *   node missive_client.js draftsraw <convId> (idem, réponse brute — le corps du brouillon
+ *                                              n'est pas renvoyé par la vue résumée)
  *   node missive_client.js notes <convId>    (notes internes / commentaires)
  *   node missive_client.js users                     (membres de l'org: id, nom, courriel)
  *   node missive_client.js task <convId>             (lit un JSON {title,assignees[],label} sur stdin)
@@ -45,6 +47,7 @@ function readStdin() {
     else if (cmd === "list") console.log(JSON.stringify(await call("/list", { filter: a1 }), null, 2));
     else if (cmd === "read") console.log(JSON.stringify(await call("/conversation", { id: a1 }), null, 2));
     else if (cmd === "drafts") console.log(JSON.stringify(await call("/drafts", { id: a1 }), null, 2));
+    else if (cmd === "draftsraw") console.log(JSON.stringify(await call("/drafts", { id: a1, raw: true }), null, 2));
     else if (cmd === "notes") console.log(JSON.stringify(await call("/comments", { id: a1 }), null, 2));
     else if (cmd === "users") console.log(JSON.stringify(await call("/users", {}), null, 2));
     else if (cmd === "task") { const t = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/task", { id: a1, ...t }), null, 2)); }
