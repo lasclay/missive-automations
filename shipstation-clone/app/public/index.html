@@ -10,20 +10,38 @@
      (§6.12 : Display Options = portée utilisateur), posée en `data-theme` sur <html> :
      `clair`, `sombre`, ou `systeme` pour suivre le réglage du poste. Le mode sombre
      n'est donc jamais imposé par le système sans que l'utilisateur l'ait demandé. */
+  /*
+   * Contrastes — BUG-086, valeurs mesurées et non devinées.
+   *
+   * `--doux` sur `--bg` donnait 4,38 en texte de 12 px : sous le seuil AA de 4,5. Passé à
+   * #5c6673, il monte à 5,39 sur le fond de page et 5,83 sur une carte. Les pastilles
+   * portent une couleur de texte propre, plus sombre que la couleur de leur famille : elles
+   * s'affichent en 10,5 px sur un fond teinté, ce qui est le cas le plus exigeant de
+   * l'interface. La pire — la grise, la plus utilisée — passe de 3,96 à 7,64.
+   */
   :root {
-    --bg:#f5f6f8; --carte:#fff; --bord:#dde1e6; --texte:#181c20; --doux:#6b7480;
+    --bg:#f5f6f8; --carte:#fff; --bord:#d3d8de; --texte:#181c20; --doux:#5c6673;
     --accent:#1a56db; --vert:#0b7a4b; --ambre:#9a5b06; --rouge:#c0392b; --sel:#eaf1ff; --barre:#1f2937;
+    --puce-v:#06603a; --puce-a:#7a4805; --puce-r:#9c2d22; --puce-g:#414952;
+    /* Texte posé SUR une couleur pleine. En thème clair les pleins sont sombres, le blanc
+       convient (5,4 à 6,2). En thème sombre ils sont clairs : le blanc y tombe à 2,1 sur le
+       vert du bouton d'achat. La variable bascule, la règle CSS ne bouge pas (BUG-086). */
+    --sur-plein:#ffffff;
     color-scheme: light;
   }
   :root[data-theme="sombre"] {
     --bg:#131619; --carte:#1b1f23; --bord:#2b3137; --texte:#e6e9ec; --doux:#98a1ab;
     --accent:#5b8cf5; --vert:#3dc98a; --ambre:#e0a33e; --rouge:#f0705f; --sel:#1d2740; --barre:#0e1114;
+    --puce-v:#3dc98a; --puce-a:#e0a33e; --puce-r:#f0705f; --puce-g:#b6bec8;
+    --sur-plein:#10151a;
     color-scheme: dark;
   }
   @media (prefers-color-scheme: dark) {
     :root[data-theme="systeme"] {
       --bg:#131619; --carte:#1b1f23; --bord:#2b3137; --texte:#e6e9ec; --doux:#98a1ab;
       --accent:#5b8cf5; --vert:#3dc98a; --ambre:#e0a33e; --rouge:#f0705f; --sel:#1d2740; --barre:#0e1114;
+      --puce-v:#3dc98a; --puce-a:#e0a33e; --puce-r:#f0705f; --puce-g:#b6bec8;
+      --sur-plein:#10151a;
       color-scheme: dark;
     }
   }
@@ -51,7 +69,7 @@
   textarea { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px; width:100%; min-height:280px }
   button { cursor:pointer } button:hover:not(:disabled) { border-color:var(--accent) }
   button:disabled { opacity:.45; cursor:not-allowed }
-  button.p { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600 }
+  button.p { background:var(--accent); border-color:var(--accent); color:var(--sur-plein); font-weight:600 }
   button.d { border-color:var(--rouge); color:var(--rouge) }
   .barre { display:flex; gap:7px; flex-wrap:wrap; align-items:center; margin-bottom:10px }
   .carte { background:var(--carte); border:1px solid var(--bord); border-radius:9px; padding:14px; margin-bottom:12px }
@@ -89,10 +107,10 @@
   tr.clic { cursor:pointer } tr.clic:hover td { background:var(--sel) }
   .n, th.n { text-align:right; font-variant-numeric:tabular-nums }
   .puce { font-size:10.5px; padding:1px 7px; border-radius:9px; font-weight:600; display:inline-block; white-space:nowrap }
-  .puce.v { background:rgba(11,122,75,.15); color:var(--vert) }
-  .puce.a { background:rgba(154,91,6,.16); color:var(--ambre) }
-  .puce.r { background:rgba(192,57,43,.14); color:var(--rouge) }
-  .puce.g { background:rgba(120,130,140,.16); color:var(--doux) }
+  .puce.v { background:rgba(11,122,75,.15); color:var(--puce-v) }
+  .puce.a { background:rgba(154,91,6,.16); color:var(--puce-a) }
+  .puce.r { background:rgba(192,57,43,.14); color:var(--puce-r) }
+  .puce.g { background:rgba(120,130,140,.16); color:var(--puce-g) }
   .doux { color:var(--doux) }
   .avis { padding:9px 12px; border-radius:7px; margin-bottom:12px; font-size:13px;
           background:rgba(154,91,6,.12); color:var(--ambre); border:1px solid rgba(154,91,6,.3) }
@@ -100,7 +118,7 @@
   .onglets { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; align-items:center }
   .ong { padding:4px 11px; border:1px solid var(--bord); border-radius:14px; background:var(--carte);
          cursor:pointer; font-size:12.5px }
-  .ong.actif { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600 }
+  .ong.actif { background:var(--accent); border-color:var(--accent); color:var(--sur-plein); font-weight:600 }
   dialog { border:1px solid var(--bord); border-radius:11px; background:var(--carte); color:var(--texte);
            padding:0; max-width:800px; width:94vw; max-height:88vh }
   dialog h3 { margin:0; padding:12px 16px; border-bottom:1px solid var(--bord); font-size:15px }
@@ -132,7 +150,7 @@
   .ssLi.lot .nom { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
   .ssLi.lot .plus { border:1px solid var(--accent); color:var(--accent); background:var(--carte);
                     border-radius:5px; padding:0 6px; font-size:13px; line-height:16px; margin-left:4px }
-  .ssLi.lot .plus:hover { background:var(--accent); color:#fff }
+  .ssLi.lot .plus:hover { background:var(--accent); color:var(--sur-plein) }
   .lienCmd { color:var(--accent); font-weight:650; cursor:pointer; text-decoration:none }
   .lienCmd:hover { text-decoration:underline }
   .ssC { display:flex; flex-direction:column; min-width:0; overflow:hidden }
@@ -156,7 +174,7 @@
   .barreF button.on { background:var(--sel); border-color:var(--accent); color:var(--accent) }
   .barreA { background:var(--carte) }
   .barreA .nsel { font-size:12.5px; color:var(--doux); min-width:118px }
-  .barreA button.v { background:var(--vert); border-color:var(--vert); color:#fff; font-weight:650 }
+  .barreA button.v { background:var(--vert); border-color:var(--vert); color:var(--sur-plein); font-weight:650 }
 
   .grilleWrap { flex:1; overflow:auto; min-height:0 }
   table.tblCmd { border-collapse:separate; border-spacing:0; width:100%; font-size:13px }
@@ -354,7 +372,7 @@
 
   .ssR .pied { position:sticky; bottom:0; margin-top:auto; background:var(--carte); border-top:1px solid var(--bord);
                padding:9px 13px; display:flex; gap:6px; z-index:5 }
-  .ssR .pied button.v { flex:1; background:var(--vert); border-color:var(--vert); color:#fff; font-weight:650 }
+  .ssR .pied button.v { flex:1; background:var(--vert); border-color:var(--vert); color:var(--sur-plein); font-weight:650 }
   .ssR .autres { margin:6px 0 }
   .ssR .autres summary { cursor:pointer; font-size:12.5px; color:var(--doux); padding:3px 0 }
   .ssR .autres label.ch { display:flex; padding:3px 0; font-size:12.5px }
@@ -486,7 +504,7 @@
   .fPiedC { display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px }
   .fPiedC b { font-size:17px; font-weight:650 }
   .fPied button { padding:6px 11px; font-size:13px; border-radius:6px }
-  .fPied button.v { background:var(--vert); border-color:var(--vert); color:#fff; font-weight:650 }
+  .fPied button.v { background:var(--vert); border-color:var(--vert); color:var(--sur-plein); font-weight:650 }
   @media (max-width:1180px) {
     .fCorps { grid-template-columns:1fr; overflow:auto }
     .fRail, .fConf { border:none; border-bottom:1px solid var(--bord) }
@@ -534,11 +552,15 @@
   header.top input { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.16); color:#fff;
                      width:270px; padding:5px 9px; font-size:12.5px }
   header.top input::placeholder { color:#9aa3ad }
+  /* La barre du haut est sombre dans les deux thèmes : `--doux`, calibré pour un fond clair,
+     y tombe à 2,5 de contraste. Le texte discret de l'en-tête a donc sa propre teinte
+     (BUG-086). */
+  header.top .doux { color:#b6c0cb }
   header.top button { background:rgba(255,255,255,.10); border-color:rgba(255,255,255,.16); color:#e8eaed;
                       padding:5px 10px; font-size:12.5px }
   header.top button:hover { background:rgba(255,255,255,.18) }
   header.top .droite { margin-left:auto; display:flex; gap:8px; align-items:center; font-size:12.5px; color:#c7cdd4 }
-  header.top .pastille { background:var(--rouge); color:#fff; border-radius:9px; padding:0 6px; font-size:11px; font-weight:700 }
+  header.top .pastille { background:var(--rouge); color:var(--sur-plein); border-radius:9px; padding:0 6px; font-size:11px; font-weight:700 }
 
   /* ---- automatisation : couches et éditeur de règles ---- */
   .couches { display:flex; align-items:center; gap:6px; flex-wrap:wrap }
@@ -586,7 +608,7 @@
   header.top .ico, header.top .profil { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.14);
                                         color:#e8eaed; padding:4px 9px; font-size:13px; position:relative }
   header.top .ico:hover, header.top .profil:hover { background:rgba(255,255,255,.18) }
-  header.top .pastille { position:absolute; top:-5px; right:-5px; background:var(--rouge); color:#fff;
+  header.top .pastille { position:absolute; top:-5px; right:-5px; background:var(--rouge); color:var(--sur-plein);
                          border-radius:9px; padding:0 5px; font-size:10.5px; font-weight:700 }
   .sousnav { display:flex; gap:2px; align-items:center; padding:0 12px; height:34px; flex:none;
              background:var(--carte); border-bottom:1px solid var(--bord) }
@@ -612,7 +634,8 @@
     <span class="marque" id="btMarque">Lasclay</span>
     <nav class="mods" id="mods"></nav>
     <span class="droite">
-      <input type="search" id="quick" placeholder="Recherche rapide  ( / )">
+      <input type="search" id="quick" placeholder="Recherche rapide  ( / )" aria-label="Recherche rapide dans toutes les commandes">
+      <button type="button" id="quickVider" class="ico" title="Vider la recherche" aria-label="Vider la recherche">✕</button>
       <button id="btMaj" class="ico" title="Rafraîchir cet écran (U)" aria-label="Rafraîchir cet écran">⟳</button>
       <span class="doux frais" id="hFrais" aria-live="polite"></span>
       <button id="hAlertes" class="ico" title="Alertes">🔔<span class="pastille" hidden></span></button>
@@ -1957,7 +1980,8 @@ VUES.commandes = async (statutFixe) => {
     // s'applique à l'intérieur du statut choisi à gauche. Sans cela, « Graines x1 » ramenait
     // aussi les commandes expédiées et annulées — ce que ShipStation ne fait jamais, puisque
     // le panneau gauche filtre d'abord et les onglets du haut affinent ensuite.
-    const f = S0.vue ? { ...lire(), view_id: S0.vue } : lire();
+    // Une recherche rapide sort de la vue : garder `view_id` la ferait mentir sur sa portée.
+    const f = (S0.vue && !S0.recherche) ? { ...lire(), view_id: S0.vue } : lire();
     const p = new URLSearchParams({ ...f, sort: S.tri, dir: S.dir,
       limit: S0.taille, offset: S0.page * S0.taille });
 
@@ -2034,6 +2058,21 @@ VUES.commandes = async (statutFixe) => {
    */
   function majEnteteEcran(lotA, vue) {
     const T = $("#titreE");
+    // Un écran de résultats se nomme comme tel — BUG-042. L'ancien gardait le titre
+    // « À expédier » au-dessus d'une liste qui ne respectait plus ce statut.
+    if (S0.recherche && !lotA) {
+      T.innerHTML = `Résultats pour « ${esc(S0.recherche)} »
+        <span class="doux" style="font-weight:400;font-size:12.5px">— toutes les commandes, tous statuts</span>
+        <button type="button" class="lienB" id="titreRetour">Revenir à la vue</button>`;
+      $("#titreRetour").onclick = () => {
+        S0.recherche = null;
+        const q = $("#quick"); if (q) q.value = "";
+        const f = $("#fq"); if (f) { f.value = ""; }
+        S0.statut = "awaiting_shipment"; S0.page = 0;
+        charger(); majLots();
+      };
+      return;
+    }
     if (!lotA) {
       T.innerHTML = esc(vue ? vue.name : (STATUT_FR[S0.statut] || "Commandes"));
       return;
@@ -2432,7 +2471,8 @@ VUES.commandes = async (statutFixe) => {
     if (t) t.onclick = async () => {
       // On demande les identifiants au serveur : cocher « tout » doit vouloir dire tout,
       // pas « tout ce que la page a chargé ».
-      const f = S0.vue ? { ...lire(), view_id: S0.vue } : lire();
+      // Une recherche rapide sort de la vue : garder `view_id` la ferait mentir sur sa portée.
+    const f = (S0.vue && !S0.recherche) ? { ...lire(), view_id: S0.vue } : lire();
       const r = await api("/api/orders/ids?" + new URLSearchParams({ ...f, sort: S.tri, dir: S.dir }));
       S.sel = new Set(r.ids.map(String));
       S.toutLeFiltre = true;
@@ -6922,12 +6962,44 @@ async function demarrer() {
   $("#hAlertes").onclick = () => aller("alertes");
   $("#btProfil").onclick = (e) => { e.stopPropagation(); menuProfil($("#btProfil")); };
   $("#btReglages").onclick = (e) => { e.stopPropagation(); menuReglages($("#btReglages")); };
+  /**
+   * Recherche rapide — BUG-042.
+   *
+   * Elle ignorait le filtre de statut mais **conservait** les critères de la vue
+   * sauvegardée : chercher un numéro depuis « Graines x5 » rendait « Aucune commande » avec
+   * un bouton « Importer depuis Shopify », alors que la même recherche depuis « À expédier »
+   * en trouvait dix-neuf. L'utilisateur en concluait que la commande n'existait pas.
+   *
+   * Une recherche rapide **sort de la vue** : statut, boutique, lot, vue et filtres avancés
+   * sont effacés, et l'écran le dit dans son en-tête. C'est le comportement de ShipStation,
+   * et c'est le seul qui ne mente pas — on ne peut pas prétendre chercher « partout » en
+   * gardant la moitié des filtres.
+   */
+  const rechercheRapide = (q) => {
+    const S0 = S.cmd = S.cmd || { colonnes: null, epingles: [], vue: null, dense: true, page: 0, taille: 250 };
+    S0.statut = ""; S0.store = null; S0.lot = null; S0.vue = null;
+    S0.avance = null; S0.f = {}; S0.page = 0;
+    S0.recherche = q;                     // l'en-tête s'en sert pour se nommer
+    S.sel.clear(); S.toutLeFiltre = false;
+    if (S.page !== "commandes") aller("commandes");
+    setTimeout(() => {
+      const f = $("#fq");
+      if (f) { f.value = q; f.dispatchEvent(new Event("input")); }
+    }, 120);
+  };
+
   $("#quick").onkeydown = (e) => {
+    if (e.key === "Escape") { $("#quick").value = ""; $("#quick").blur(); return; }
     if (e.key !== "Enter") return;
     const q = $("#quick").value.trim();
     if (!q) return;
-    if (S.page !== "commandes") aller("commandes");
-    setTimeout(() => { const f = $("#fq"); if (f) { f.value = q; f.dispatchEvent(new Event("input")); } }, 120);
+    rechercheRapide(q);
+  };
+  $("#quickVider").onclick = () => {
+    $("#quick").value = "";
+    const S0 = S.cmd;
+    if (S0 && S0.recherche) { S0.recherche = null; const f = $("#fq"); if (f) { f.value = ""; f.dispatchEvent(new Event("input")); } }
+    $("#quick").focus();
   };
   document.addEventListener("keydown", raccourcis);
   // BUG-053 — le routage ignorait l'historique : le bouton Retour changeait l'URL sans changer
