@@ -2441,10 +2441,11 @@ VUES.commandes = async (statutFixe) => {
           aria-expanded="false" aria-label="Afficher les ${arts(o).length} articles">▸</button>` : ""}</td>
         ${cols.map((c) => `<td${c.n ? ' class="n"' : ""}${S0.epingles.includes(c.k) ? ' data-fig=1' : ""}>${c.r(o)}${
           c.k === "order_number" && drop ? ' <span class="puce v" title="Admissible au tarif de dépôt en bureau de poste">dépôt</span>' : ""}</td>`).join("")}
-      </tr>` + (arts(o).length > 1 ? `<tr class="arts" data-arts="${o.id}" hidden><td></td><td></td>
-        <td colspan="${cols.length}"><div class="artL">${arts(o).map((i) =>
-          `<div><span class="sku">${esc(i.sku)}</span> ${esc(i.name)} <b>×${i.quantity}</b>
-           ${i.warehouse_location ? `<span class="doux">· ${esc(i.warehouse_location)}</span>` : ""}</div>`).join("")}</div></td></tr>` : "");
+      </tr>`;
+      // §6.3 réserve n° 2 — la sous-ligne des articles était rendue pour **chaque** commande
+      // multi-articles, même repliée : 457 `<tr>` pour 250 commandes, 843 et 15 144 nœuds à
+      // 500 par page. Elle est désormais construite au premier dépliage, à partir des données
+      // déjà en mémoire. Une grille de 250 lignes rend 250 `<tr>`, pas 457.
     }).join("");
 
     $("#tbl").className = "grilleWrap" + (S0.dense ? " dense" : "");
@@ -2500,7 +2501,24 @@ VUES.commandes = async (statutFixe) => {
       const chev = e.target.closest("[data-x]");
       if (chev) {
         e.stopPropagation();
-        const l = $(`[data-arts="${chev.dataset.x}"]`);
+        let l = $(`[data-arts="${chev.dataset.x}"]`);
+        if (!l) {
+          // Première ouverture : on fabrique la ligne à partir de la commande en mémoire.
+          const o = LIGNES.find((x) => String(x.id) === String(chev.dataset.x));
+          if (!o) return;
+          const rangee = chev.closest("tr");
+          const nCol = rangee.children.length;
+          // `insertAdjacentHTML` et non `el()` : un `<tr>` construit dans un `<div>` est
+          // **jeté par le parseur HTML**, qui n'accepte une rangée que dans un contexte de
+          // tableau. Ici le contexte est la rangée elle-même, donc l'analyse est correcte.
+          rangee.insertAdjacentHTML("afterend", `<tr class="arts" data-arts="${o.id}"><td></td><td></td>
+            <td colspan="${nCol}"><div class="artL">${arts(o).map((i) =>
+              `<div><span class="sku">${esc(i.sku)}</span> ${esc(i.name)} <b>×${i.quantity}</b>
+               ${i.warehouse_location ? `<span class="doux">· ${esc(i.warehouse_location)}</span>` : ""}</div>`).join("")}</div></td></tr>`);
+          chev.textContent = "▾";
+          chev.setAttribute("aria-expanded", "true");
+          return;
+        }
         l.hidden = !l.hidden;
         chev.textContent = l.hidden ? "▸" : "▾";
         chev.setAttribute("aria-expanded", String(!l.hidden));
@@ -2557,7 +2575,13 @@ VUES.commandes = async (statutFixe) => {
         aria-label="Numéro de page"> sur ${num(pages)}</label>
       <button type="button" id="pSuiv" ${debut + d.orders.length >= d.total ? "disabled" : ""}>Suivant →</button>
       <button type="button" id="pFin" title="Dernière page" aria-label="Dernière page" ${S0.page + 1 < pages ? "" : "disabled"}>»</button>
-      <select id="pTaille" aria-label="Lignes par page">${[50, 100, 250, 500, 1000].map((n) => `<option ${n === S0.taille ? "selected" : ""}>${n}</option>`).join("")}</select>
+      <select id="pTaille" aria-label="Lignes par page">${[50, 100, 250, 500, 1000].map((n) =>
+        // §6.3 réserve n° 2 — la taille 1 000 était proposée sans filet. La grille n'est pas
+        // virtualisée : sur un parc plus gros que les 474 commandes actuelles, le rendu
+        // devient bloquant. L'option le dit plutôt que de laisser découvrir le gel.
+        `<option ${n === S0.taille ? "selected" : ""}${n >= 500
+          ? ` title="Sans virtualisation, ${n} lignes rendent l'écran lent à peindre — à réserver aux exports et aux tris ponctuels"` : ""
+        }>${n}${n >= 500 ? " ⚠" : ""}</option>`).join("")}</select>
       <span class="doux">par page</span>`;
     $("#pDeb").onclick = () => { S0.page = 0; charger(); };
     $("#pPrec").onclick = () => { S0.page--; charger(); };
@@ -5977,6 +6001,17 @@ VUES.analytique = async () => {
   S.rafraichirEcran = () => VUES.analytique();
 };
 
+/**
+ * Référentiel des critères — gardé en mémoire pour la session.
+ *
+ * `/api/criteres` est strictement statique (39 champs, 19 opérateurs, 23 actions) et était
+ * retéléchargé à **chaque** affichage de l'écran Automatisation (§6.3). La route porte déjà
+ * un `ETag`, donc le coût réseau était faible ; le coût inutile restait l'aller-retour et
+ * l'attente qu'il impose au rendu de l'écran.
+ */
+let _criteres = null;
+const criteresEnCache = async () => (_criteres ||= await api("/api/criteres"));
+
 // ----------------------------------------------------------- automatisation
 /**
  * Automatisation — les 6 couches, et l'éditeur de règles.
@@ -5989,7 +6024,7 @@ VUES.analytique = async () => {
  */
 VUES.automatisation = async () => {
   const [d, voc, couches] = await Promise.all([
-    api("/api/rules"), api("/api/criteres"), api("/api/automation")]);
+    api("/api/rules"), criteresEnCache(), api("/api/automation")]);
   S.voc = voc;
 
   const ordreCouches = Object.entries(couches.couches).sort((a, b) => a[1].n - b[1].n);

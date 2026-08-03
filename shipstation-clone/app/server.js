@@ -80,6 +80,49 @@ const json = (res, code, body) => {
  * réponse tient en un 304 sans corps. `no-cache` plutôt qu'un `max-age` : le navigateur
  * revalide toujours, donc une modification de référentiel est visible tout de suite.
  */
+/**
+ * Le document servi, son empreinte et sa politique de sécurité — calculés une fois.
+ *
+ * L'ancienne version injectait un **nonce aléatoire par requête** dans le `<script>` et le
+ * `<style>`. C'était correct côté sécurité, mais cela rendait le corps différent à chaque
+ * appel : aucun `ETag` ne pouvait correspondre, donc aucun 304, donc 85,8 Ko retransférés à
+ * chaque F5 sur un poste d'entrepôt qu'on rouvre dix fois par jour.
+ *
+ * Le CSP par **empreinte** (`'sha256-…'`) offre exactement la même garantie — seuls ces deux
+ * blocs précis peuvent s'exécuter, tout le reste est interdit sans `'unsafe-inline'` — et
+ * rend le document identique d'une requête à l'autre, donc cachable.
+ *
+ * L'empreinte est recalculée si le fichier change sur disque (taille + date), pour que le
+ * développement ne demande pas de redémarrage.
+ */
+let _doc = null;
+function documentIndex() {
+  const chemin = path.join(PUBLIC, "index.html");
+  const st = fs.statSync(chemin);
+  const cle = `${st.size}:${st.mtimeMs}`;
+  if (_doc && _doc.cle === cle) return _doc;
+
+  const html = fs.readFileSync(chemin, "utf8");
+  // L'empreinte porte sur le contenu **entre** les balises, exactement comme le calcule le
+  // navigateur — les balises elles-mêmes n'en font pas partie.
+  const empreintes = (balise) => [...html.matchAll(new RegExp(`<${balise}>([\\s\\S]*?)</${balise}>`, "g"))]
+    .map((m) => `'sha256-${crypto.createHash("sha256").update(m[1], "utf8").digest("base64")}'`);
+  const scripts = empreintes("script"), styles = empreintes("style");
+
+  // `style-src-attr 'unsafe-inline'` : les attributs `style=` de la mise en page ne sont pas
+  // couverts par une empreinte, et un attribut de style ne peut pas exécuter de script.
+  // `script-src-attr 'none'` interdit en revanche tout gestionnaire `onclick=` inline —
+  // c'est là qu'est le vrai risque, et le code n'en contient plus aucun.
+  const csp = `default-src 'none'; script-src ${scripts.join(" ")}; script-src-attr 'none'; ` +
+    `style-src ${styles.join(" ")}; style-src-attr 'unsafe-inline'; ` +
+    "img-src 'self' data:; connect-src 'self'; font-src 'self'; form-action 'self'; " +
+    "frame-ancestors 'none'; base-uri 'none'; object-src 'none'";
+
+  _doc = { cle, html, csp,
+    etag: `W/"${crypto.createHash("sha1").update(html).digest("base64url")}"` };
+  return _doc;
+}
+
 function jsonCache(req, res, body) {
   const b = JSON.stringify(body);
   const etag = `W/"${crypto.createHash("sha1").update(b).digest("base64url")}"`;
@@ -2075,24 +2118,16 @@ const serveur = http.createServer(async (req, res) => {
       res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
 
     if (chemin === "/" || chemin === "/index.html") {
-      // CSP à nonce : l'architecture mono-fichier n'a qu'un <script> et un <style> à annoter,
-      // ce qui permet d'interdire tout le reste sans 'unsafe-inline'.
-      const nonce = crypto.randomBytes(16).toString("base64");
-      const html = fs.readFileSync(path.join(PUBLIC, "index.html"), "utf8")
-        .replace(/<script>/g, `<script nonce="${nonce}">`)
-        .replace(/<style>/g, `<style nonce="${nonce}">`);
-      // `style-src-attr 'unsafe-inline'` : les attributs `style=` de la mise en page ne sont
-      // pas couverts par un nonce, et un attribut de style ne peut pas exécuter de script.
-      // `script-src-attr 'none'` interdit en revanche tout gestionnaire `onclick=` inline —
-      // c'est là qu'est le vrai risque, et le code n'en contient plus aucun.
-      res.setHeader("Content-Security-Policy",
-        `default-src 'none'; script-src 'nonce-${nonce}'; script-src-attr 'none'; ` +
-        `style-src 'nonce-${nonce}'; style-src-attr 'unsafe-inline'; ` +
-        "img-src 'self' data:; connect-src 'self'; font-src 'self'; form-action 'self'; " +
-        "frame-ancestors 'none'; base-uri 'none'; object-src 'none'");
-      res.setHeader("Cache-Control", "no-cache");
+      const doc = documentIndex();
+      res.setHeader("Content-Security-Policy", doc.csp);
+      // §6.3 réserve n° 1 — sans `ETag`, `no-cache` fait retransférer les 85,8 Ko compressés
+      // (312 Ko décodés) à chaque visite, **y compris pour un simple F5**. Avec, un
+      // rechargement tient en un 304 sans corps.
+      res.setHeader("ETag", doc.etag);
+      res.setHeader("Cache-Control", "private, no-cache, must-revalidate");
       res.setHeader("Vary", "Accept-Encoding");
-      return texte(res, 200, html, "text/html; charset=utf-8");
+      if (req.headers["if-none-match"] === doc.etag) { res.writeHead(304); return res.end(); }
+      return texte(res, 200, doc.html, "text/html; charset=utf-8");
     }
 
     const moi = utilisateurCourant(req);
