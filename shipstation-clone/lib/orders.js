@@ -47,13 +47,25 @@ function chercher(f = {}) {
   if (f.status) Array.isArray(f.status)
     ? add(`o.status IN (${f.status.map(() => "?").join(",")})`, ...f.status)
     : add("o.status = ?", f.status);
-  if (f.store_id) add("o.store_id = ?", Number(f.store_id));
+  // Boutique et étiquette acceptent plusieurs valeurs : chez Lasclay « Shopify OU Etsy »
+  // est un cas quotidien, et le filtre mono-valeur obligeait à faire deux passes. Une liste
+  // au même endroit = OU, comme le fait déjà le moteur de critères des vues.
+  const liste = (v) => (Array.isArray(v) ? v : String(v).split(","))
+    .map((x) => String(x).trim()).filter(Boolean);
+  if (f.store_id) {
+    const l = liste(f.store_id).map(Number).filter(Boolean);
+    if (l.length === 1) add("o.store_id = ?", l[0]);
+    else if (l.length) add(`o.store_id IN (${l.map(() => "?").join(",")})`, ...l);
+  }
   if (f.warehouse_id) add("o.warehouse_id = ?", Number(f.warehouse_id));
   if (f.country) add("json_extract(o.ship_to,'$.country') = ?", f.country);
   if (f.state) add("json_extract(o.ship_to,'$.state') = ?", f.state);
   if (f.carrier_code) add("o.carrier_code = ?", f.carrier_code);
   if (f.service_id) add("o.service_id = ?", f.service_id);
   if (f.assigned_user) add("o.assigned_user = ?", f.assigned_user);
+  // « Non assignée » manquait : c'est pourtant la file de travail par défaut d'un poste
+  // d'emballage — ce que personne n'a encore pris.
+  if (f.non_assignee) add("(o.assigned_user IS NULL OR o.assigned_user = '')");
   if (f.source) add("o.source = ?", f.source);
   if (f.weight_min) add("o.weight_g >= ?", Number(f.weight_min));
   if (f.weight_max) add("o.weight_g <= ?", Number(f.weight_max));
@@ -66,7 +78,11 @@ function chercher(f = {}) {
   if (f.age_max) add("julianday('now') - julianday(o.order_date) <= ?", Number(f.age_max));
   if (f.drop_off === "oui") add("o.weight_g > 0 AND o.weight_g < ?", Number(f.seuil || 500));
   if (f.drop_off === "non") add("(o.weight_g = 0 OR o.weight_g >= ?)", Number(f.seuil || 500));
-  if (f.tag_id) add("EXISTS (SELECT 1 FROM order_tags t WHERE t.order_id = o.id AND t.tag_id = ?)", Number(f.tag_id));
+  if (f.tag_id) {
+    const l = liste(f.tag_id).map(Number).filter(Boolean);
+    if (l.length) add(
+      `EXISTS (SELECT 1 FROM order_tags t WHERE t.order_id = o.id AND t.tag_id IN (${l.map(() => "?").join(",")}))`, ...l);
+  }
   if (f.untagged) add("NOT EXISTS (SELECT 1 FROM order_tags t WHERE t.order_id = o.id)");
   if (f.sku) add("EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND i.sku LIKE ?)", `%${f.sku}%`);
   // Champs de la recherche avancée — chacun cherche « contient », et ils se cumulent.

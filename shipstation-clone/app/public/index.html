@@ -1466,6 +1466,47 @@ const arts = (o) => (o._arts || (o._arts = (o.items || []).filter((i) => !i.adju
  * Index des référentiels. Un `find()` linéaire par cellule, sur 1 000 lignes et treize
  * colonnes, c'est treize mille balayages de tableau pour un seul rendu.
  */
+/**
+ * Les treize plages de dates nommées de ShipStation, calculées à l'ouverture du menu et non
+ * figées au chargement de la page : un poste d'emballage reste ouvert toute la journée, et
+ * « aujourd'hui » doit vouloir dire aujourd'hui même après minuit.
+ *
+ * Chaque entrée rend `{ from, to }` en dates locales — passer par `toISOString()` sur un
+ * `Date` local décale d'un jour à l'ouest de Greenwich, ce qui est exactement le cas du
+ * Québec, et « aujourd'hui » y ramènerait les commandes d'hier.
+ */
+const jourLocal = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const ilYA = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return jourLocal(d); };
+const PLAGES_DATE = [
+  ["aujourdhui", "Aujourd'hui", () => ({ from: ilYA(0), to: ilYA(0) })],
+  ["hier", "Hier", () => ({ from: ilYA(1), to: ilYA(1) })],
+  ["7j", "7 derniers jours", () => ({ from: ilYA(6), to: ilYA(0) })],
+  ["14j", "14 derniers jours", () => ({ from: ilYA(13), to: ilYA(0) })],
+  ["30j", "30 derniers jours", () => ({ from: ilYA(29), to: ilYA(0) })],
+  ["90j", "90 derniers jours", () => ({ from: ilYA(89), to: ilYA(0) })],
+  ["mois", "Ce mois-ci", () => { const d = new Date();
+    return { from: jourLocal(new Date(d.getFullYear(), d.getMonth(), 1)), to: ilYA(0) }; }],
+  ["mois_dernier", "Le mois dernier", () => { const d = new Date();
+    return { from: jourLocal(new Date(d.getFullYear(), d.getMonth() - 1, 1)),
+             to: jourLocal(new Date(d.getFullYear(), d.getMonth(), 0)) }; }],
+  ["semaine", "Cette semaine", () => { const d = new Date();
+    // Semaine à la québécoise : elle commence le lundi.
+    const recul = (d.getDay() + 6) % 7;
+    return { from: ilYA(recul), to: ilYA(0) }; }],
+  ["annee", "Cette année", () => ({ from: `${new Date().getFullYear()}-01-01`, to: ilYA(0) })],
+  ["avant_7j", "Il y a plus de 7 jours", () => ({ from: "", to: ilYA(7) })],
+  ["avant_30j", "Il y a plus de 30 jours", () => ({ from: "", to: ilYA(30) })],
+  ["tout", "Tout l'historique", () => ({ from: "", to: "" })],
+];
+
+/**
+ * Une valeur de filtre peut désormais être unique ou multiple (les chips Boutique et
+ * Étiquette acceptent plusieurs valeurs). La comparaison se fait en chaîne parce que la
+ * valeur revient de l'URL en texte et de la liste en nombre.
+ */
+const estChoisi = (f, v) => f == null ? false
+  : (Array.isArray(f) ? f : String(f).split(",")).map(String).includes(String(v));
+
 const IDX = {};
 /** Lots ouverts — lus aussi par le rendu de la colonne « Lot », donc au niveau du module. */
 let LOTS = [];
@@ -1693,10 +1734,12 @@ VUES.commandes = async (statutFixe) => {
   const PASTILLES = [
     { id: "store", t: "Boutique", cles: ["store_id"],
       resume: (f) => f.store_id && (IDX.stores?.get(String(f.store_id))?.name || "boutique " + f.store_id),
-      html: (f) => `<label class="champ"><span>Boutique</span><select data-f="store_id">
+      html: (f) => `<label class="champ"><span>Boutique</span><select data-f="store_id" multiple size="4">
           <option value="">Toutes les boutiques</option>${(S.refs.stores || []).filter((s) => s.active)
-            .map((s) => `<option value="${s.id}"${String(f.store_id) === String(s.id) ? " selected" : ""}>${esc(s.name)}</option>`).join("")}
-        </select></label>` },
+            .map((s) => `<option value="${s.id}"${estChoisi(f.store_id, s.id) ? " selected" : ""}>${esc(s.name)}</option>`).join("")}
+        </select></label>
+        <p class="doux" style="font-size:12px;margin:5px 0 0">Cochez-en plusieurs avec Ctrl
+          (⌘ sur Mac) : « Shopify ou Etsy » est une seule recherche, pas deux.</p>` },
 
     { id: "dest", t: "Destination", cles: ["country", "state"],
       resume: (f) => [f.country, f.state].filter(Boolean).join(" · "),
@@ -1706,19 +1749,32 @@ VUES.commandes = async (statutFixe) => {
         <label class="champ"><span>Province / État</span>
           <input data-f="state" value="${esc(f.state || "")}" placeholder="QC, ON, CA-QC…"></label>` },
 
-    { id: "assignee", t: "Assignée à", cles: ["assigned_user"],
-      resume: (f) => f.assigned_user && (IDX.users?.get(String(f.assigned_user))?.name || f.assigned_user),
-      html: (f) => `<label class="champ"><span>Utilisateur</span><select data-f="assigned_user">
-          <option value="">N'importe qui</option>${(S.refs.users || [])
-            .map((u) => `<option value="${esc(u.id)}"${String(f.assigned_user) === String(u.id) ? " selected" : ""}>${esc(u.name)}</option>`).join("")}
-        </select></label>` },
+    // « Non assignée » manquait — c'est pourtant la file de travail par défaut d'un poste
+    // d'emballage : ce que personne n'a encore pris. Et deux comptes homonymes (« Administrateur »
+    // apparaissait deux fois, dont un dont l'adresse est `lasclay.myshopify.com`, qui n'est pas
+    // une adresse) sont indiscernables sans leur courriel.
+    { id: "assignee", t: "Assignée à", cles: ["assigned_user", "non_assignee"],
+      resume: (f) => f.non_assignee ? "non assignée"
+        : f.assigned_user && (IDX.users?.get(String(f.assigned_user))?.name || f.assigned_user),
+      html: (f) => `<label class="champ"><span>Utilisateur</span><select data-f="assigned_user"${f.non_assignee ? " disabled" : ""}>
+          <option value="">N'importe qui</option>${(() => {
+            const us = S.refs.users || [];
+            const doublons = new Set(us.map((u) => u.name)
+              .filter((n, i, l) => l.indexOf(n) !== i));
+            return us.map((u) => `<option value="${esc(u.id)}"${String(f.assigned_user) === String(u.id) ? " selected" : ""}>${
+              esc(u.name)}${doublons.has(u.name) && u.email ? ` — ${esc(u.email)}` : ""}</option>`).join("");
+          })()}
+        </select></label>
+        <label class="ch"><input type="checkbox" data-f="non_assignee"${f.non_assignee ? " checked" : ""}> Non assignée</label>` },
 
     { id: "tag", t: "Étiquette", cles: ["tag_id", "untagged"],
       resume: (f) => f.untagged ? "sans étiquette" : (f.tag_id && (IDX.tags?.get(String(f.tag_id))?.name || f.tag_id)),
-      html: (f) => `<label class="champ"><span>Étiquette</span><select data-f="tag_id">
-          <option value="">Toutes les étiquettes</option>${(S.refs.tags || [])
-            .map((t) => `<option value="${t.id}"${String(f.tag_id) === String(t.id) ? " selected" : ""}>${esc(t.name)}</option>`).join("")}
+      html: (f) => `<label class="champ"><span>Étiquette</span><select data-f="tag_id" multiple size="5">
+          ${(S.refs.tags || [])
+            .map((t) => `<option value="${t.id}"${estChoisi(f.tag_id, t.id) ? " selected" : ""}>${esc(t.name)}</option>`).join("")}
         </select></label>
+        <p class="doux" style="font-size:12px;margin:5px 0 0">Plusieurs étiquettes = OU.
+          Ne rien sélectionner = toutes.</p>
         <label class="ch"><input type="checkbox" data-f="untagged"${f.untagged ? " checked" : ""}> Sans aucune étiquette</label>` },
 
     { id: "alloc", t: "Statut d'allocation", cles: ["allocation_status"],
@@ -1728,10 +1784,17 @@ VUES.commandes = async (statutFixe) => {
             .map(([v, t]) => `<option value="${v}"${f.allocation_status === v ? " selected" : ""}>${t}</option>`).join("")}
         </select></label>` },
 
+    // ShipStation offre treize plages nommées ; le clone en avait trois plus un « Du / Au ».
+    // La différence compte à l'usage : « hier » et « ce mois-ci » sont les deux questions
+    // qu'on pose le plus souvent, et les recalculer à la main chaque matin est une friction
+    // quotidienne. Chaque raccourci pose les deux bornes, jamais une seule à moitié.
     { id: "date", t: "Date de commande", cles: ["date_from", "date_to"],
-      resume: (f) => (f.date_from || f.date_to) && `${f.date_from || "…"} → ${f.date_to || "…"}`,
-      html: (f) => `<div class="rapides">${[["7", "7 derniers jours"], ["30", "30 derniers jours"], ["90", "90 derniers jours"]]
-          .map(([j, t]) => `<button data-jours="${j}">${t}</button>`).join("")}</div>
+      resume: (f) => (f.date_from || f.date_to)
+        && (PLAGES_DATE.find(([, , calc]) => { const r = calc(); return r.from === f.date_from && r.to === f.date_to; })?.[1]
+            || `${f.date_from || "…"} → ${f.date_to || "…"}`),
+      html: (f) => `<div class="rapides">${PLAGES_DATE
+          .map(([id, t]) => `<button data-plage="${id}">${esc(t)}</button>`).join("")}</div>
+        <div class="fLab" style="margin-top:8px">Plage personnalisée</div>
         <label class="champ"><span>Du</span><input type="date" data-f="date_from" value="${esc(f.date_from || "")}"></label>
         <label class="champ"><span>Au</span><input type="date" data-f="date_to" value="${esc(f.date_to || "")}"></label>` },
 
@@ -1808,14 +1871,25 @@ VUES.commandes = async (statutFixe) => {
     pan.querySelectorAll("[data-f]").forEach((i) => {
       const ev = i.tagName === "SELECT" || i.type === "checkbox" || i.type === "date" ? "change" : "input";
       i.addEventListener(ev, () => {
-        const v = i.type === "checkbox" ? (i.checked ? "1" : "") : i.value;
-        if (v === "" || v === false) delete S0.f[i.dataset.f]; else S0.f[i.dataset.f] = v;
+        // Une liste à choix multiples rend un tableau ; le filtre le transmet tel quel et
+        // `orders.chercher` en fait un `IN (…)`. Zéro sélection = pas de filtre, pas
+        // « aucune boutique ».
+        const v = i.type === "checkbox" ? (i.checked ? "1" : "")
+          : i.multiple ? [...i.selectedOptions].map((o) => o.value).filter(Boolean)
+          : i.value;
+        const vide = v === "" || v === false || (Array.isArray(v) && !v.length);
+        if (vide) delete S0.f[i.dataset.f]; else S0.f[i.dataset.f] = v;
         clearTimeout(deb); deb = setTimeout(appliquer, ev === "input" ? 300 : 0);
       });
     });
-    pan.querySelectorAll("[data-jours]").forEach((b) => b.onclick = () => {
-      const d = new Date(); d.setDate(d.getDate() - Number(b.dataset.jours));
-      S0.f.date_from = d.toISOString().slice(0, 10); delete S0.f.date_to;
+    pan.querySelectorAll("[data-plage]").forEach((b) => b.onclick = () => {
+      const p = PLAGES_DATE.find(([id]) => id === b.dataset.plage);
+      if (!p) return;
+      const { from, to } = p[2]();
+      // Les deux bornes sont posées ensemble : une plage à moitié définie (« du 1er au … »)
+      // ramène tout l'avenir, ce qui n'est jamais ce qu'on voulait dire.
+      if (from) S0.f.date_from = from; else delete S0.f.date_from;
+      if (to) S0.f.date_to = to; else delete S0.f.date_to;
       pan.remove(); appliquer();
     });
     setTimeout(() => document.addEventListener("click", function fermer(e) {

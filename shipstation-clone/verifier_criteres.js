@@ -453,6 +453,53 @@ verifier("scan : le compteur restant décompte des unités, pas des lignes", res
 poser(lignesScan.find((l) => l.sku === "SC-SB").id, 1);
 verifier("scan : la commande n'est complète qu'à zéro unité restante", restantes() === 0);
 
+// ------------------------------------------- filtres multi-valeurs et dates
+/**
+ * Les chips Boutique et Étiquette étaient mono-sélection, et « non assignée » — la file de
+ * travail par défaut d'un poste d'emballage — n'existait pas.
+ */
+console.log("\n8. Filtres : multi-valeurs, non assignée");
+const idsAutre = orders.upsert({ order_number: "T-AUTRE", order_key: "tautre", store_id: 198711,
+  order_total: 20, amount_paid: 20,
+  ship_to: { name: "M", city: "Québec", state: "CA-QC", country: "CA", postalCode: "G1J 3R4" },
+  items: [{ sku: "X-1", name: "Objet", quantity: 1, unit_price: 20 }] });
+
+const nBoutique1 = orders.chercher({ store_id: 198670, limit: 200 }).total;
+const nBoutique2 = orders.chercher({ store_id: 198711, limit: 200 }).total;
+const nDeux = orders.chercher({ store_id: "198670,198711", limit: 200 }).total;
+verifier("filtre : deux boutiques au même endroit se lisent comme un OU",
+  nDeux === nBoutique1 + nBoutique2 && nDeux > nBoutique1,
+  `${nBoutique1} + ${nBoutique2} = ${nDeux}`);
+verifier("filtre : une boutique seule se comporte comme avant",
+  orders.chercher({ store_id: [198711], limit: 200 }).total === nBoutique2);
+
+const total = orders.chercher({ limit: 300 }).total;
+verifier("filtre : « non assignée » ramène ce que personne n'a pris",
+  orders.chercher({ non_assignee: 1, limit: 300 }).total === total,
+  "aucune commande d'essai n'est assignée");
+// `assigned_user` référence `users(id)` : il faut un vrai compte, pas une chaîne inventée.
+const qqn = db.one("SELECT id FROM users LIMIT 1")
+  || (db.run("INSERT INTO users (id, name, email) VALUES ('u-essai','Emballeur','e@essai.test')"),
+      db.one("SELECT id FROM users LIMIT 1"));
+db.run("UPDATE orders SET assigned_user = ? WHERE id = ?", qqn.id, idsAutre);
+verifier("filtre : une commande assignée sort de « non assignée »",
+  orders.chercher({ non_assignee: 1, limit: 300 }).total === total - 1);
+
+// Étiquettes : deux étiquettes distinctes sur deux commandes distinctes.
+const etiq = (nom) => {
+  db.run("INSERT OR IGNORE INTO tags (name) VALUES (?)", nom);
+  return db.one("SELECT id FROM tags WHERE name = ?", nom).id;
+};
+const eA = etiq("Essai A"), eB = etiq("Essai B");
+db.run("INSERT OR IGNORE INTO order_tags (order_id, tag_id) VALUES (?,?)", parNumero["T-QC"], eA);
+db.run("INSERT OR IGNORE INTO order_tags (order_id, tag_id) VALUES (?,?)", parNumero["T-ON"], eB);
+verifier("filtre : deux étiquettes se lisent comme un OU",
+  orders.chercher({ tag_id: `${eA},${eB}`, limit: 200 }).total === 2
+  && orders.chercher({ tag_id: eA, limit: 200 }).total === 1,
+  `deux ${orders.chercher({ tag_id: `${eA},${eB}`, limit: 200 }).total}, une ${orders.chercher({ tag_id: eA, limit: 200 }).total}`);
+verifier("filtre : une liste d'étiquettes vide ne filtre rien",
+  orders.chercher({ tag_id: [], limit: 300 }).total === total);
+
 // ------------------------------------------------------------------ bilan
 
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);
