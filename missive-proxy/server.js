@@ -106,8 +106,12 @@ async function listConversations(filter) {
   return [...byId.values()];
 }
 
-async function getConversation(id) {
-  const { messages = [] } = await mGet(`/conversations/${id}/messages?limit=10`);
+// `limit` plafonnait à 10 messages : sur un fil de 25, on répondait en n'ayant lu que les 10
+// derniers, sans le savoir. La profondeur est maintenant réglable, et `tronque` dit franchement
+// qu'il reste des messages non lus au lieu de laisser croire au fil complet.
+async function getConversation(id, limit) {
+  const n = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 200);
+  const { messages = [] } = await mGet(`/conversations/${id}/messages?limit=${n}`);
   const sorted = messages.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
   const ids = sorted.map((m) => m.id).filter(Boolean);
   const bodies = new Map();
@@ -119,7 +123,7 @@ async function getConversation(id) {
       for (const m of arr) if (m && m.id) bodies.set(m.id, m.body || m.preview || "");
     } catch { /* on garde le preview */ }
   }
-  return sorted.map((m) => {
+  const out = sorted.map((m) => {
     const ts = (m.delivered_at || m.created_at || 0) * 1000;
     return {
       from: m.from_field?.name || m.from_field?.address || "?",
@@ -130,6 +134,9 @@ async function getConversation(id) {
       text: stripHtml(bodies.get(m.id) || m.body || m.preview || ""),
     };
   });
+  // Autant de messages que demandé => il en reste probablement avant. À signaler, pas à taire.
+  out.tronque = messages.length >= n;
+  return out;
 }
 
 // Le listage des brouillons ne renvoie qu'un `preview` tronqué (~130 caractères), jamais le
@@ -367,7 +374,8 @@ const server = http.createServer(async (req, res) => {
     }
     if (route === "/conversation") {
       if (!body.id) return json(res, 400, { error: "id requis" });
-      return json(res, 200, { messages: await getConversation(body.id) });
+      const msgs = await getConversation(body.id, body.limit);
+      return json(res, 200, { messages: msgs, tronque: msgs.tronque || undefined });
     }
     if (route === "/drafts") {
       if (!body.id) return json(res, 400, { error: "id requis" });

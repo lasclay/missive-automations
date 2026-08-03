@@ -9,7 +9,8 @@
  *   node missive_client.js structure   (carte : organisations, équipes, étiquettes, membres)
  *                                      → à mettre en cache : > missive_structure.json
  *   node missive_client.js list "shared_label=ID"
- *   node missive_client.js read <convId>
+ *   node missive_client.js read <convId> [nbMessages]   (défaut 10, max 200 ; le champ
+ *                                              `tronque` signale qu'il reste des messages avant)
  *   node missive_client.js drafts <convId>   (brouillons déjà rédigés par le script IA)
  *   node missive_client.js draftsraw <convId> (idem, réponse brute — le corps du brouillon
  *                                              n'est pas renvoyé par la vue résumée)
@@ -47,7 +48,7 @@ function readStdin() {
     if (cmd === "health") console.log(JSON.stringify(await call("/health", null, "GET"), null, 2));
     else if (cmd === "structure") console.log(JSON.stringify(await call("/structure", {}), null, 2));
     else if (cmd === "list") console.log(JSON.stringify(await call("/list", { filter: a1 }), null, 2));
-    else if (cmd === "read") console.log(JSON.stringify(await call("/conversation", { id: a1 }), null, 2));
+    else if (cmd === "read") console.log(JSON.stringify(await call("/conversation", { id: a1, limit: a2 }), null, 2));
     else if (cmd === "drafts") console.log(JSON.stringify(await call("/drafts", { id: a1 }), null, 2));
     else if (cmd === "draftsraw") console.log(JSON.stringify(await call("/drafts", { id: a1, raw: true }), null, 2));
     else if (cmd === "notes") console.log(JSON.stringify(await call("/comments", { id: a1 }), null, 2));
