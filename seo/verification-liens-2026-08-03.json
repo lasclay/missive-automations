@@ -1,0 +1,848 @@
+[
+ {
+  "row": 5,
+  "org": "Rando Québec (blogue)",
+  "url": "https://blogue.randoquebec.ca/lasclay-super-pouvoirs-asclepiade/",
+  "status": 200,
+  "final_url": "https://blogue.randoquebec.ca/lasclay-super-pouvoirs-asclepiade/",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com/",
+   "https://lasclay.com/pages/monarch-butterfly",
+   "https://lasclay.com/products/mittens",
+   "https://www.lasclay.com"
+  ],
+  "anchors": [
+   {
+    "ancre": "Lasclay",
+    "nofollow": false
+   },
+   {
+    "ancre": "l’asclépiade est essentielle à la reproduction du papillon m",
+    "nofollow": false
+   },
+   {
+    "ancre": "les mitaines Lasclay",
+    "nofollow": false
+   },
+   {
+    "ancre": "Découvrir Lasclay",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 6,
+  "org": "Géo Plein Air",
+  "url": "https://www.geopleinair.com/reportage/la-deuxieme-chance-de-lasclepiade/",
+  "status": 202,
+  "final_url": "https://www.geopleinair.com/reportage/la-deuxieme-chance-de-lasclepiade/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 7,
+  "org": "La Presse (Affaires, févr. 2026)",
+  "url": "https://www.lapresse.ca/affaires/2026-02-23/asclepiade/la-sinueuse-route-de-la-soie-du-nord.php",
+  "status": 200,
+  "final_url": "https://www.lapresse.ca/affaires/2026-02-23/asclepiade/la-sinueuse-route-de-la-soie-du-nord.php",
+  "mentions_lasclay": true,
+  "hrefs": [],
+  "verdict": "Mention sans lien"
+ },
+ {
+  "row": 8,
+  "org": "Le Devoir",
+  "url": "https://ledevoir.com/vivre/593344/terroir-la-soie-d-amerique-le-pari-de-deux-ambitieux",
+  "status": 403,
+  "final_url": "https://www.ledevoir.com/vivre/593344/terroir-la-soie-d-amerique-le-pari-de-deux-ambitieux",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_CONNECTION_RESET at https://ledevoir.com/vivre/593344/terroir-la-soie-d-amerique-le-pari-d"
+ },
+ {
+  "row": 9,
+  "org": "Jardinier paresseux",
+  "url": "https://jardinierparesseux.com/ma-mission-monarque/",
+  "status": 200,
+  "final_url": "https://jardinierparesseux.com/ma-mission-monarque/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 10,
+  "org": "Le Droit (déc. 2025)",
+  "url": "https://www.ledroit.com/affaires/2025/12/01/lasclay-devant-le-dilemme-de-fabriquer-au-quebec-QDRJRZ4NNNGLTI5EOEXQB5BVS4/",
+  "status": 200,
+  "final_url": "https://www.ledroit.com/affaires/2025/12/01/lasclay-devant-le-dilemme-de-fabriquer-au-quebec-QDRJRZ4NNNGLTI5EOEXQB5BVS4/",
+  "mentions_lasclay": true,
+  "hrefs": [],
+  "verdict": "Mention sans lien"
+ },
+ {
+  "row": 11,
+  "org": "Baron Mag",
+  "url": "https://baronmag.com/2020/11/lasclay-des-accessoires-dhiver-isoles-a-lasclepiade/",
+  "status": 200,
+  "final_url": "https://baronmag.com/2020/11/lasclay-des-accessoires-dhiver-isoles-a-lasclepiade/",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com/"
+  ],
+  "anchors": [
+   {
+    "ancre": "Lasclay",
+    "nofollow": false
+   },
+   {
+    "ancre": "site web",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 12,
+  "org": "Fondation David Suzuki",
+  "url": "https://fr.davidsuzuki.org/publication-scientifique/guide-de-plantation-dasclepiade/",
+  "status": 403,
+  "final_url": "https://fr.davidsuzuki.org/publication-scientifique/guide-de-plantation-dasclepiade/",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_CONNECTION_RESET at https://fr.davidsuzuki.org/publication-scientifique/guide-de-plantatio"
+ },
+ {
+  "row": 13,
+  "org": "Wikipédia, « Soie d'Amérique »",
+  "url": "https://fr.wikipedia.org/wiki/Soie_d'Am%C3%A9rique",
+  "status": 200,
+  "final_url": "https://fr.wikipedia.org/wiki/Soie_d'Am%C3%A9rique",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 14,
+  "org": "Radio-Canada (récit numérique)",
+  "url": "https://ici.radio-canada.ca/recit-numerique/2072/asclepiade-agriculture-amerique-textile-production-vetements-quebec",
+  "status": 200,
+  "final_url": "https://ici.radio-canada.ca/recit-numerique/2072/asclepiade-agriculture-amerique-textile-production-vetements-quebec",
+  "mentions_lasclay": true,
+  "hrefs": [],
+  "verdict": "Mention sans lien"
+ },
+ {
+  "row": 15,
+  "org": "Cégep Limoilou",
+  "url": "https://www.cegeplimoilou.ca/blogue/titans/2022/lasclay-un-succes-pour-gabriel-gouveia-fortin-diplome/",
+  "status": 200,
+  "final_url": "https://www.cegeplimoilou.ca/nouvelles-et-evenements/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 16,
+  "org": "Aiglon Indigo",
+  "url": "https://www.aiglonindigo.com/outils-references",
+  "status": 200,
+  "final_url": "https://www.aiglonindigo.com/outils-references",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 17,
+  "org": "Coopérative Monark",
+  "url": "https://coopmonark.com/",
+  "status": 200,
+  "final_url": "https://coopmonark.com/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 18,
+  "org": "La Presse (plein air, nov. 2021)",
+  "url": "https://www.lapresse.ca/voyage/plein-air/2021-11-08/le-timide-retour-de-l-asclepiade.php",
+  "status": 200,
+  "final_url": "https://www.lapresse.ca/voyage/plein-air/2021-11-08/le-timide-retour-de-l-asclepiade.php",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com/"
+  ],
+  "anchors": [
+   {
+    "ancre": "Consultez le site web de Lasclay",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 19,
+  "org": "DDD, Dédié au Design Durable",
+  "url": "https://boutiqueddd.com/en/collections/lasclay",
+  "status": 200,
+  "final_url": "https://boutiqueddd.com/en/collections/lasclay",
+  "mentions_lasclay": true,
+  "hrefs": [],
+  "verdict": "Mention sans lien"
+ },
+ {
+  "row": 20,
+  "org": "Espace pour la vie / Mission monarque",
+  "url": "https://espacepourlavie.ca/les-asclepiades-indigenes-du-quebec",
+  "status": 403,
+  "final_url": "https://espacepourlavie.ca/les-asclepiades-indigenes-du-quebec",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_CONNECTION_RESET at https://espacepourlavie.ca/les-asclepiades-indigenes-du-quebec\nCall lo"
+ },
+ {
+  "row": 21,
+  "org": "Le Soleil (avril 2024)",
+  "url": "https://www.lesoleil.com/magazines/le-soleil-affaires/2024/04/20/lasclepiade-plus-que-la-fibre-de-demain-ASSLP74H2FBINE7ZLOS2LWJRIQ/",
+  "status": 200,
+  "final_url": "https://www.lesoleil.com/magazines/le-soleil-affaires/2024/04/20/lasclepiade-plus-que-la-fibre-de-demain-ASSLP74H2FBINE7ZLOS2LWJRIQ/",
+  "mentions_lasclay": true,
+  "hrefs": [],
+  "verdict": "Mention sans lien"
+ },
+ {
+  "row": 22,
+  "org": "Monquartier (Québec)",
+  "url": "https://monquartier.quebec/2024/les-produits-dasclepiade-de-lasclay-une-solution-gagnant-gagnant-pour-la-nature-et-les-humains/",
+  "status": 200,
+  "final_url": "https://monquartier.quebec/2024/les-produits-dasclepiade-de-lasclay-une-solution-gagnant-gagnant-pour-la-nature-et-les-humains/",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com",
+   "https://lasclay.com/pages/milkweed-asclepiade",
+   "https://lasclay.com/pages/mission"
+  ],
+  "anchors": [
+   {
+    "ancre": "https://lasclay.com",
+    "nofollow": false
+   },
+   {
+    "ancre": "https://lasclay.com/pages/mission",
+    "nofollow": false
+   },
+   {
+    "ancre": "https://lasclay.com/pages/milkweed-asclepiade",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 23,
+  "org": "Fibershed Québec (UQAM)",
+  "url": "https://fibershed.uqam.ca/en/repertoire/",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_TUNNEL_CONNECTION_FAILED at https://fibershed.uqam.ca/en/repertoire/\nCall log:\n  - navigat"
+ },
+ {
+  "row": 24,
+  "org": "Craque-Bitume",
+  "url": "https://craquebitume.org/blogs/ressources-en-jardinage/semences-dasclepiades-fiche-informative",
+  "status": 200,
+  "final_url": "https://craquebitume.org/blogs/ressources-en-jardinage/semences-dasclepiades-fiche-informative",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 25,
+  "org": "Du jardin dans ma vie",
+  "url": "https://dujardindansmavie.com/conseils-idees/asclepiade-plante-survie-des-monarques/",
+  "status": 200,
+  "final_url": "https://dujardindansmavie.com/conseils-idees/asclepiade-plante-survie-des-monarques/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 26,
+  "org": "Les Pages Vertes",
+  "url": "https://lespagesvertes.ca/entreprise/lasclay/",
+  "status": 200,
+  "final_url": "https://lespagesvertes.ca/entreprise/lasclay/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "anchors": [
+   {
+    "ancre": "",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 27,
+  "org": "Arbres en ligne",
+  "url": "https://arbresenligne.com/blogs/nouvelles/en-quoi-planter-des-asclepiades-au-quebec-peut-aider-les-populations-de-papillon-monarque",
+  "status": 200,
+  "final_url": "https://arbresenligne.com/blogs/nouvelles/en-quoi-planter-des-asclepiades-au-quebec-peut-aider-les-populations-de-papillon-monarque",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 28,
+  "org": "La Presse (cadeaux écoresponsables, déc. 2023)",
+  "url": "https://www.lapresse.ca/voyage/plein-air/2023-12-09/des-idees-de-cadeaux-ecoresponsables-et-quebecois.php",
+  "status": 200,
+  "final_url": "https://www.lapresse.ca/voyage/plein-air/2023-12-09/des-idees-de-cadeaux-ecoresponsables-et-quebecois.php",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com/"
+  ],
+  "anchors": [
+   {
+    "ancre": "Consultez le site de Lasclay",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 29,
+  "org": "ICI Explora",
+  "url": "https://ici.exploratv.ca/blogue/asclepiade-environnement-plante-braver-froid-isolant/",
+  "status": 200,
+  "final_url": "https://ici.exploratv.ca/blogue/asclepiade-environnement-plante-braver-froid-isolant/",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com/"
+  ],
+  "anchors": [
+   {
+    "ancre": "Lasclay",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 30,
+  "org": "Les Mauvaises Herbes",
+  "url": "https://boutique.lesmauvaisesherbes.com/",
+  "status": 200,
+  "final_url": "https://boutique.lesmauvaisesherbes.com/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 31,
+  "org": "Idée Cadeau Québec",
+  "url": "https://www.ideecadeauquebec.com/boutiques-quebecoises/",
+  "status": 200,
+  "final_url": "https://www.ideecadeauquebec.com/boutiques-quebecoises/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 32,
+  "org": "Le Nouvelliste / Le Soleil",
+  "url": "https://lenouvelliste.ca/affaires/la-deuxieme-vie-de-lasclepiade-0f31e3d5aaa1770d7f092c6d46c5a2e2",
+  "status": 200,
+  "final_url": "https://www.lenouvelliste.ca/2020/10/09/la-deuxieme-vie-de-lasclepiade-0f31e3d5aaa1770d7f092c6d46c5a2e2/",
+  "mentions_lasclay": true,
+  "hrefs": [],
+  "verdict": "Mention sans lien"
+ },
+ {
+  "row": 33,
+  "org": "Les Défricheuses",
+  "url": "https://lesdefricheuses.ca/",
+  "status": 200,
+  "final_url": "https://lesdefricheuses.ca/",
+  "mentions_lasclay": true,
+  "hrefs": [],
+  "verdict": "Mention sans lien"
+ },
+ {
+  "row": 34,
+  "org": "Couture & Violette Textiles",
+  "url": "https://www.coutureviolettetextiles.ca/en/blogs/informations/l-asclepiade-une-richesse-ecoresponsable-du-quebec",
+  "status": 200,
+  "final_url": "https://www.coutureviolettetextiles.ca/index.php",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 35,
+  "org": "Fibre2Fashion",
+  "url": "https://www.fibre2fashion.com/news/technical-textiles/canada-s-vegeto-launches-milkweed-insulation-material-for-clothing-278528-newsdetails.htm",
+  "status": 200,
+  "final_url": "https://www.fibre2fashion.com/news/technical-textiles/canada-s-vegeto-launches-milkweed-insulation-material-for-clothing-278528-newsdetails.htm",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 36,
+  "org": "Le Soleil (janv. 2023)",
+  "url": "https://www.lesoleil.com/2023/01/27/quebec-la-reine-du-manteau-dhiver-3668e9313463872226b311ed014ef20a/",
+  "status": 200,
+  "final_url": "https://www.lesoleil.com/2023/01/27/quebec-la-reine-du-manteau-dhiver-3668e9313463872226b311ed014ef20a/",
+  "mentions_lasclay": true,
+  "hrefs": [],
+  "verdict": "Mention sans lien"
+ },
+ {
+  "row": 37,
+  "org": "GRAME",
+  "url": "https://grame.org/blogue/papillon-monarque-et-asclepiade/",
+  "status": 200,
+  "final_url": "https://grame.org/blogue/papillon-monarque-et-asclepiade/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 38,
+  "org": "Grenier aux nouvelles",
+  "url": "https://www.grenier.qc.ca/rubriques/personnalite-de-la-semaine/29142/personnalite-de-la-semaine-gabriel-gouveia-fortin-lasclay",
+  "status": 200,
+  "final_url": "https://www.grenier.qc.ca/rubriques/personnalite-de-la-semaine/29142/personnalite-de-la-semaine-gabriel-gouveia-fortin-lasclay",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com"
+  ],
+  "anchors": [
+   {
+    "ancre": "Lasclay",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 39,
+  "org": "Véronique Cloutier (guide cadeaux)",
+  "url": "https://veroniquecloutier.com/maison/guide-cadeaux-noel-2025-achat-local",
+  "status": 200,
+  "final_url": "https://veroniquecloutier.com/maison/guide-cadeaux-noel-2025-achat-local",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 40,
+  "org": "Sépaq, parc des Îles-de-Boucherville",
+  "url": "https://www.sepaq.com/",
+  "status": 403,
+  "final_url": "https://www.sepaq.com/",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_CONNECTION_RESET at https://www.sepaq.com/\nCall log:\n  - navigating to \"https://www.sepaq."
+ },
+ {
+  "row": 41,
+  "org": "Xerces Society",
+  "url": "https://www.xerces.org/milkweed",
+  "status": 200,
+  "final_url": "https://www.xerces.org/milkweed",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 42,
+  "org": "Semences du Portage",
+  "url": "https://semencesduportage.com/collections/semences-dasclepiade",
+  "status": 200,
+  "final_url": "https://semencesduportage.com/collections/semences-dasclepiade",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 43,
+  "org": "La Terre de chez nous",
+  "url": "https://www.laterre.ca/actualites/cultures/producteurs-dasclepiade-recherches",
+  "status": 403,
+  "final_url": "https://www.laterre.ca/actualites/cultures/producteurs-dasclepiade-recherches",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_CONNECTION_RESET at https://www.laterre.ca/actualites/cultures/producteurs-dasclepiade-rec"
+ },
+ {
+  "row": 44,
+  "org": "Monarch Joint Venture",
+  "url": "https://monarchjointventure.org/about-us/partners",
+  "status": 200,
+  "final_url": "https://monarchjointventure.org/about-us/partners",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 45,
+  "org": "Innovation in Textiles",
+  "url": "https://www.innovationintextiles.com/tubular-milkweed-the-key-to-vegeto-insulation/",
+  "status": 200,
+  "final_url": "https://innovationintextiles.com/tubular-milkweed-the-key-to-vegeto-insulation/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 46,
+  "org": "Répertoire CVDM (manufacturiers)",
+  "url": "https://www.cvdm.org/fr/repertoire-des-manufacturiers/detailorganization/id/17552",
+  "status": 200,
+  "final_url": "https://www.cvdm.org/fr/repertoire-des-manufacturiers/detailorganization/id/17552",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com/"
+  ],
+  "anchors": [],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 47,
+  "org": "TechniTextile Québec",
+  "url": "https://www.technitextile.ca/fr/trouver-un-fournisseur/",
+  "status": 200,
+  "final_url": "https://www.technitextile.ca/fr/trouver-un-fournisseur/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 48,
+  "org": "CBC News",
+  "url": "https://www.cbc.ca/news/canada/montreal/quebec-milkweed-winter-coat-1.3804138",
+  "status": 200,
+  "final_url": "https://www.cbc.ca/news/canada/montreal/quebec-milkweed-winter-coat-1.3804138",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 49,
+  "org": "Le Panier Bleu",
+  "url": "https://lepanierbleu.ca/",
+  "status": 200,
+  "final_url": "https://lepanierbleu.ca/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 50,
+  "org": "BAnQ",
+  "url": "https://www.banq.qc.ca/explorer/articles/lasclepiade-plante-au-fil-du-temps-dans-les-collections/",
+  "status": 200,
+  "final_url": "https://validate.perfdrive.com/56d6dba1ed7630e3755997247e3dd0ba/?ssa=ddb0c5a7-8f87-4db2-bd48-ebefccb5c97e&ssb=93751209855&ssc=https%3A%2F%2Fwww.banq.qc.ca%2Fexplorer%2Farticles%2Flasclepiade-plante-au-fil-du-temps-dans-les-collections%2F&ssi=9c42d3f4-ch8n-4e37-9269-d4340be4f665&ssk=botmanager_support@radware.com&ssm=75152526613787033103802643624283&ssn=2ce138029ac1060580ba6ec07b9ddcb5084f029bcf80-b772-4663-8c5fc7&sso=66a8e980-8b69718c55a8805c0b0dd2b99226dc31e8b9b618fdb59d54&ssp=35311160131785709284178574089924143&ssq=77809938404910185483284049920502709581054&ssr=MTYwLjc5LjEwNi43Ng==&sst=Mozilla/5.0%20(Macintosh;%20Intel%20Mac%20OS%20X%2010_15_7)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/126.0.0.0%20Safari/537.36&ssu=&ssv=&ssw=&ssx=eyJfX3V6bWYiOiI3ZjkwMDAwMjliY2Y4MC1iNzcyLTQ2NjMtODk4MC04YjY5NzE4YzU1YTgxLTE3ODU3ODQwNDk0NjEwLTAwNDRhNGU3OGEzMGFiMjNhYTgxMCIsInJkIjoiYmFucS5xYy5jYSIsInV6bXgiOiI3ZjkwMDBiM2U1MDUzMS1hZjhmLTQ1OTUtYjk3NC03ZDNhMjJjODBjNjExLTE3ODU3ODQwNDk0NjEwLTlkNGY1MzUxM2UyOGE3ZGUxMCJ9",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 51,
+  "org": "Agriculture du Coin",
+  "url": "https://agricultureducoin.ca/",
+  "status": 200,
+  "final_url": "https://agricultureducoin.ca/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 52,
+  "org": "Next Chance (blogue Les Emballées)",
+  "url": "https://www.nextchance.ca/en/blogs/blogue-les-emballees/99-idees-cadeaux-100-quebecoises-on-adore",
+  "status": 200,
+  "final_url": "https://www.nextchance.ca/en/blogs/blogue-les-emballees/99-idees-cadeaux-100-quebecoises-on-adore",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com/products/mittens?srsltid=AfmBOooC9j1XC-7QUJKTQZAQImpM-gbGP2ONu3Vlo0i_8K3iSnVhp4L_"
+  ],
+  "anchors": [
+   {
+    "ancre": "Small insulated milkweed mittens",
+    "nofollow": false
+   },
+   {
+    "ancre": "Lasclay",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 53,
+  "org": "Ville de Saint-Philippe",
+  "url": "https://ville.saintphilippe.quebec/2025/05/19/lasclepiade-les-monarques/",
+  "status": 200,
+  "final_url": "https://ville.saintphilippe.quebec/2025/05/19/lasclepiade-les-monarques/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 54,
+  "org": "Goûtez le Québec",
+  "url": "https://goutezlequebec.com/articles/asclepias-syriaca-du-champ-jusqua-vous/",
+  "status": 200,
+  "final_url": "https://goutezlequebec.com/articles/asclepias-syriaca-du-champ-jusqua-vous/",
+  "mentions_lasclay": true,
+  "hrefs": [
+   "https://lasclay.com",
+   "https://lasclay.com/",
+   "https://lasclay.com/collections/milkweed-oven-mitts-pot-holders",
+   "https://lasclay.com/products/insulated-tote-bag",
+   "https://lasclay.com/products/mittens",
+   "https://lasclay.com/products/neckwarmer"
+  ],
+  "anchors": [
+   {
+    "ancre": "Lasclay",
+    "nofollow": false
+   },
+   {
+    "ancre": "Lasclay",
+    "nofollow": false
+   },
+   {
+    "ancre": "mitaine",
+    "nofollow": false
+   },
+   {
+    "ancre": "cache-cou",
+    "nofollow": false
+   },
+   {
+    "ancre": "semelles",
+    "nofollow": false
+   },
+   {
+    "ancre": "sac isotherme",
+    "nofollow": false
+   }
+  ],
+  "verdict": "Lien présent"
+ },
+ {
+  "row": 55,
+  "org": "Québec Circulaire",
+  "url": "https://www.quebeccirculaire.org/",
+  "status": 403,
+  "final_url": "https://www.quebeccirculaire.org/",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_CONNECTION_RESET at https://www.quebeccirculaire.org/\nCall log:\n  - navigating to \"https:/"
+ },
+ {
+  "row": 56,
+  "org": "Écohabitation",
+  "url": "https://www.ecohabitation.com/entreprises/",
+  "status": 200,
+  "final_url": "https://www.ecohabitation.com/entreprises/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 57,
+  "org": "Semences Ancestrales",
+  "url": "https://semencesancestrales.com/semences/asclepiade-commune/",
+  "status": 200,
+  "final_url": "https://semencesancestrales.com/semences/asclepiade-commune/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 58,
+  "org": "Québec.ca, fiche asclépiade",
+  "url": "https://www.quebec.ca/agriculture-environnement-et-ressources-naturelles/flore/fiches-especes-floristiques/asclepiade-interieur",
+  "status": 200,
+  "final_url": "https://www.quebec.ca/agriculture-environnement-et-ressources-naturelles/flore/fiches-especes-floristiques/asclepiade-interieur",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 59,
+  "org": "Pollinator.org",
+  "url": "https://www.pollinator.org/monarch/monarch-resources",
+  "status": 200,
+  "final_url": "https://www.pollinator.org/monarch/monarch-resources",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 60,
+  "org": "Bee City Canada",
+  "url": "https://beecitycanada.org/native-plant-nurseries/",
+  "status": 200,
+  "final_url": "https://beecitycanada.org/native-plant-nurseries/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 61,
+  "org": "Espace-inc",
+  "url": "https://www.espace-inc.org/blogue/lasclay-rien-ne-se-perd-tout-se-cree/",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_CONNECTION_RESET at https://www.espace-inc.org/blogue/lasclay-rien-ne-se-perd-tout-se-cree"
+ },
+ {
+  "row": 62,
+  "org": "En Mode Responsable",
+  "url": "https://enmoderesponsable.com/blogs/repertoires",
+  "status": 200,
+  "final_url": "https://enmoderesponsable.com/blogs/repertoires",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 63,
+  "org": "Accès savoirs, Université Laval",
+  "url": "https://www.accessavoirs.ulaval.ca/projets/mecaniser-la-recolte-de-follicules-dasclepiade-cooperative-monark",
+  "status": 200,
+  "final_url": "https://www.accessavoirs.ulaval.ca/projets/mecaniser-la-recolte-de-follicules-dasclepiade-cooperative-monark",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 64,
+  "org": "Produits Artémis",
+  "url": "https://www.produitsartemis.com/single-post/lasclay-a-la-croisee-de-la-tradition-et-de-l-innovation",
+  "status": 404,
+  "final_url": "https://www.produitsartemis.com/single-post/lasclay-a-la-croisee-de-la-tradition-et-de-l-innovation",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_CONNECTION_RESET at https://www.produitsartemis.com/single-post/lasclay-a-la-croisee-de-la"
+ },
+ {
+  "row": 65,
+  "org": "mmode, grappe métropolitaine de la mode",
+  "url": "https://www.mmode.ca/repertoire/",
+  "status": 200,
+  "final_url": "https://www.mmode.ca/sous-traitance",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 66,
+  "org": "Espace local",
+  "url": "https://espacelocal.co/",
+  "status": 200,
+  "final_url": "https://espacelocal.co/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 67,
+  "org": "North American Monarchs (namonarchs.org)",
+  "url": "https://www.namonarchs.org/bmp/project-milkweed/",
+  "status": 200,
+  "final_url": "https://www.namonarchs.org/bmp/project-milkweed/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 68,
+  "org": "Municipalité de Notre-Dame-du-Portage",
+  "url": "http://municipalite.notre-dame-du-portage.qc.ca/communiques/?id=e201952241",
+  "status": 405,
+  "final_url": "http://municipalite.notre-dame-du-portage.qc.ca/communiques/?id=e201952241",
+  "verdict": "Page inaccessible (HTTP 405)",
+  "titre": "",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "anchors": [],
+  "methode": "navigateur"
+ },
+ {
+  "row": 69,
+  "org": "WTiN",
+  "url": "https://www.wtin.com/article/2022/february/07-02-22/milkweed-produces-natural-high-performance-insulation/",
+  "status": 200,
+  "final_url": "https://www.wtin.com/article/2022/february/07-02-22/milkweed-produces-natural-high-performance-insulation/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 70,
+  "org": "Lanauweb",
+  "url": "https://lanauweb.info/lasclepiade-et-les-monarques-en-mission/",
+  "status": 200,
+  "final_url": "https://lanauweb.info/lasclepiade-et-les-monarques-en-mission/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 71,
+  "org": "L'Axe du Malt",
+  "url": "https://www.axedumalt.com/",
+  "verdict": "Non vérifiable automatiquement",
+  "error": "Error: Page.goto: net::ERR_TUNNEL_CONNECTION_FAILED at https://www.axedumalt.com/\nCall log:\n  - navigating to \"https:"
+ },
+ {
+  "row": 72,
+  "org": "Ma Communauté (bottin)",
+  "url": "https://macommunaute.ca/bottin-des-entreprises/",
+  "status": 200,
+  "final_url": "https://macommunaute.ca/bottin-des-entreprises/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 73,
+  "org": "Textile Network",
+  "url": "https://textile-network.com/en/Fashion/Insulation-material-made-of-milkweed",
+  "status": 200,
+  "final_url": "https://textile-network.com/en/Fashion/Insulation-material-made-of-milkweed",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 74,
+  "org": "Made to Measure Magazine",
+  "url": "https://www.madetomeasuremag.com/vegeto-launches-sustainable-heavy-duty-insulation-material-made-of-milkweed",
+  "status": 200,
+  "final_url": "https://www.madetomeasuremag.com/vegeto-launches-sustainable-heavy-duty-insulation-material-made-of-milkweed",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 75,
+  "org": "Marché aux trésors",
+  "url": "https://lemarcheauxtresors.company.site/",
+  "status": 200,
+  "final_url": "https://lemarcheauxtresors.company.site/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ },
+ {
+  "row": 76,
+  "org": "L'Hebdo du St-Maurice",
+  "url": "https://www.lhebdodustmaurice.com/actualites/nouveau-partenaire-developpement-de-lasclepiade/",
+  "status": 200,
+  "final_url": "https://www.lhebdodustmaurice.com/actualites/nouveau-partenaire-developpement-de-lasclepiade/",
+  "mentions_lasclay": false,
+  "hrefs": [],
+  "verdict": "Aucune mention, aucun lien"
+ }
+]
