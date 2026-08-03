@@ -159,6 +159,22 @@ CREATE TABLE IF NOT EXISTS shipments (
 CREATE INDEX IF NOT EXISTS idx_ship_order ON shipments(order_id);
 CREATE INDEX IF NOT EXISTS idx_ship_tracking ON shipments(tracking_number);
 CREATE INDEX IF NOT EXISTS idx_ship_date ON shipments(ship_date);
+/*
+ * Index mesurés sur la base migrée — 39 122 commandes, 34 077 expéditions, 955 lots.
+ *
+ * L'écran Lots mettait **5,4 secondes** à s'afficher : le regroupement des expéditions par
+ * lot et le comptage des commandes par lot balayaient les deux grandes tables en entier,
+ * une fois par lot. Le reste du service tenait parce que le jeu de développement faisait
+ * 427 lignes ; il ne le dit qu'à l'échelle réelle.
+ */
+CREATE INDEX IF NOT EXISTS idx_ship_batch ON shipments(batch_id);
+CREATE INDEX IF NOT EXISTS idx_ship_manifest ON shipments(manifest_id);
+CREATE INDEX IF NOT EXISTS idx_orders_batch ON orders(batch_id);
+CREATE INDEX IF NOT EXISTS idx_orders_customer ON orders(customer_id);
+CREATE INDEX IF NOT EXISTS idx_orders_email ON orders(customer_email);
+CREATE INDEX IF NOT EXISTS idx_items_shipment ON order_items(shipment_id);
+CREATE INDEX IF NOT EXISTS idx_returns_shipment ON returns(shipment_id);
+CREATE INDEX IF NOT EXISTS idx_tags_order ON order_tags(order_id);
 
 CREATE TABLE IF NOT EXISTS manifests (
   id INTEGER PRIMARY KEY AUTOINCREMENT, carrier_code TEXT, warehouse_id INTEGER,

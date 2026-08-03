@@ -950,6 +950,12 @@ try { document.documentElement.dataset.theme = localStorage.getItem("theme") || 
 async function api(route, opts = {}) {
   const o = { headers: { "Content-Type": "application/json" }, credentials: "same-origin", ...opts };
   if (o.body && typeof o.body !== "string") o.body = JSON.stringify(o.body);
+  // Une lecture lancée pour peindre un écran n'a plus d'objet quand on a changé d'écran :
+  // sans cela, un écran lent finit de se peindre par-dessus le suivant. On n'attache le
+  // signal qu'aux lectures — abandonner un POST ne l'annule pas côté serveur, cela ne fait
+  // qu'ignorer sa réponse, ce qui serait pire que de l'attendre.
+  const lecture = !o.method || String(o.method).toUpperCase() === "GET";
+  if (lecture && !o.signal && S.abortEcran) o.signal = S.abortEcran.signal;
   let r;
   try {
     r = await fetch(route, o);
@@ -1955,7 +1961,7 @@ VUES.commandes = async (statutFixe) => {
       marquerPerime(e);
       return;
     }
-    if (ma !== generation) return;      // une demande plus récente a déjà pris la main
+    if (ma !== generation || !$("#tbl")) return;   // demande dépassée, ou écran quitté
     enCours = null;
     zone.removeAttribute("aria-busy");
     demarquerPerime();
@@ -2198,9 +2204,15 @@ VUES.commandes = async (statutFixe) => {
   }
 
   function majPagination(d) {
+    // Une page au-delà de la dernière donne un intervalle absurde (« 10 251–856 sur 856 »).
+    // Le filtre a pu se resserrer entre-temps : on ramène la page dans les bornes et on
+    // recharge, plutôt que d'afficher un compte qui ne veut rien dire.
+    const pages = Math.max(1, Math.ceil(d.total / S0.taille));
+    if (S0.page >= pages && S0.page > 0) { S0.page = pages - 1; return charger(); }
     const debut = S0.page * S0.taille;
     $("#pag").innerHTML = `
-      <span class="doux">${num(debut + 1)}–${num(Math.min(debut + d.orders.length, d.total))} sur ${num(d.total)}</span>
+      <span class="doux">${d.total ? `${num(debut + 1)}–${num(Math.min(debut + d.orders.length, d.total))} sur ${num(d.total)}`
+        : "aucune commande"}</span>
       <button id="pPrec" ${S0.page ? "" : "disabled"}>← Précédent</button>
       <button id="pSuiv" ${debut + d.orders.length >= d.total ? "disabled" : ""}>Suivant →</button>
       <select id="pTaille">${[100, 250, 500, 1000].map((n) => `<option ${n === S0.taille ? "selected" : ""}>${n}</option>`).join("")}</select>
@@ -4419,6 +4431,69 @@ VUES.produits = async () => {
 
 // ----------------------------------------------------------------- clients
 /**
+ * Fiche client — BUG-065.
+ *
+ * Aucune ligne n'était ouvrable : 37 158 clients listés, et pas moyen de voir l'adresse,
+ * le téléphone ou l'historique de l'un d'eux. Or c'est exactement ce qu'on ouvre quand un
+ * client écrit. Les cumuls sont **recalculés depuis les commandes** plutôt que lus dans les
+ * champs figés de la fiche : une fiche importée porte les totaux du jour de l'import, qui
+ * vieillissent sans que rien ne le dise.
+ */
+async function ficheClient(id) {
+  let d;
+  try { d = await api(`/api/customers/${id}`); }
+  catch (e) { return dialogue("Fiche indisponible", `<div class="avis">${esc(e.message)}</div>`, null, "Fermer"); }
+  const c = d.client, a = c.address || {};
+  const ecart = Math.abs((c.total_spent || 0) - d.cumul.depense) > 0.01 || (c.order_count || 0) !== d.cumul.commandes;
+
+  dialogue(c.name || c.email || `Client ${id}`, `
+    <div class="fDeux">
+      <div>
+        <div class="fLab">Identité</div>
+        <div class="kv"><span>Courriel</span><b>${esc(c.email || "—")}</b></div>
+        <div class="kv"><span>Téléphone</span><b>${esc(c.phone || "—")}</b></div>
+        <div class="fLab" style="margin-top:10px">Adresse la plus récente</div>
+        <div class="adr">${esc(a.street1 || "—")}${a.street2 ? `<br>${esc(a.street2)}` : ""}<br>
+          ${esc(a.city || "")} ${esc(a.state || "")} ${esc(a.postalCode || "")}<br>${esc(a.country || "")}</div>
+        ${d.adresses.length > 1 ? `<details style="margin-top:6px"><summary class="doux">
+          ${d.adresses.length} adresses de livraison distinctes</summary>
+          <ul class="doux" style="margin:4px 0 0 16px;font-size:12px">${d.adresses.map(x =>
+            `<li>${esc([x.rue, x.ville, x.province, x.cp].filter(Boolean).join(", "))} — ${num(x.n)} envoi(s)</li>`).join("")}</ul>
+        </details>` : ""}
+      </div>
+      <div>
+        <div class="fLab">Cumuls — recalculés depuis les commandes</div>
+        <div class="kv"><span>Commandes</span><b>${num(d.cumul.commandes)}</b></div>
+        <div class="kv"><span>Total dépensé</span><b>${money(d.cumul.depense)}</b></div>
+        <div class="kv"><span>Première</span><b>${jour(d.cumul.premiere)}</b></div>
+        <div class="kv"><span>Dernière</span><b>${jour(d.cumul.derniere)}</b></div>
+        ${ecart ? `<div class="avis" style="margin-top:8px">La fiche importée annonce
+          ${num(c.order_count || 0)} commande(s) pour ${money(c.total_spent)} — les commandes
+          en base disent autre chose. « Reconstruire depuis les commandes » remet les deux d'accord.</div>` : ""}
+      </div>
+    </div>
+    <div class="fLab" style="margin-top:12px">Historique — ${num(d.total)} commande(s)</div>
+    <div class="tbl" style="max-height:44vh"><table>
+      <thead><tr><th scope="col">Commande</th><th scope="col">Boutique</th><th scope="col">Date</th>
+        <th scope="col" class="n">Lignes</th><th scope="col" class="n">Total</th><th scope="col">Statut</th></tr></thead>
+      <tbody>${d.commandes.map(o => `<tr>
+        <td><button type="button" class="lienCmd" data-o="${o.id}">${esc(o.order_number)}</button></td>
+        <td class="doux">${esc(o.boutique || "—")}</td>
+        <td>${jour(o.order_date)}</td>
+        <td class="n">${num(o.lignes)}</td>
+        <td class="n">${money(o.order_total)}</td>
+        <td><span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span></td></tr>`).join("")}</tbody>
+    </table></div>
+    ${d.total > d.commandes.length ? `<p class="doux">${num(d.commandes.length)} plus récentes affichées
+      sur ${num(d.total)}.</p>` : ""}`,
+    null, "Fermer",
+    (ct) => ct.querySelectorAll("[data-o]").forEach(b => b.onclick = () => {
+      $("#dlg").close();
+      detailCommande(Number(b.dataset.o));
+    }));
+}
+
+/**
  * Clients — BUG-064.
  *
  * L'écran demandait `limit=300` et n'affichait rien de plus : sur 37 693 clients, il en
@@ -4469,7 +4544,15 @@ VUES.clients = async () => {
         { k: "total_spent", t: "Total dépensé", n: true, r: c => money(c.total_spent) },
         { k: "first_order", t: "Première", r: c => jour(c.first_order) },
         { k: "last_order", t: "Dernière", r: c => jour(c.last_order) },
-      ], d.customers, { cle: "email" }));
+        { k: "act", t: "", r: c => `<button type="button" data-cf="${c.id}">Ouvrir</button>` },
+      ], d.customers, { cle: "id" }));
+      // Ligne entière cliquable, et un bouton pour qui navigue au clavier : une ligne
+      // `role=button` sans cible atteignable au Tab n'existe pas pour tout le monde.
+      $("#ct").querySelectorAll("[data-cf]").forEach(b => b.onclick = (e) => {
+        e.stopPropagation(); ficheClient(Number(b.dataset.cf));
+      });
+      $("#ct").querySelectorAll("tbody tr[data-id]").forEach(tr =>
+        tr.onclick = () => ficheClient(Number(tr.dataset.id)));
     }
     const pages = Math.max(1, Math.ceil(d.total / S0.taille));
     $("#cpag").innerHTML = `
@@ -4518,7 +4601,8 @@ VUES.analytique = async () => {
       <div class="kpi"><div class="v">${num(a.resume.expeditions)}</div><div class="l">expéditions</div></div>
       <div class="kpi"><div class="v">${money(a.resume.cout_total)}</div><div class="l">dépense transport</div></div>
       <div class="kpi"><div class="v">${money(a.resume.cout_moyen)}</div><div class="l">coût moyen</div></div>
-      <div class="kpi vert"><div class="v">${num(a.resume.drop_off)}</div><div class="l">en drop-off</div></div>
+      <div class="kpi vert"><div class="v">${num(a.resume.admissibles_depot ?? a.resume.drop_off)}</div>
+        <div class="l" title="Sous le seuil de poids, hors retours — l'historique migré ne dit pas si le dépôt a réellement été utilisé">admissibles au dépôt</div></div>
       <div class="kpi"><div class="v">${num(a.resume.backlog)}</div><div class="l">à expédier</div></div>
       <div class="kpi"><div class="v">${a.delai.jours_moyen ?? "—"}</div><div class="l">jours commande → envoi</div></div>
     </div>
@@ -5812,6 +5896,18 @@ async function rafraichirCompteurs() {
 }
 
 /**
+ * Une lecture abandonnée parce qu'on a changé d'écran n'est pas une erreur de programme.
+ *
+ * Plusieurs appels sont lancés sans être attendus — le panneau latéral, les compteurs, le
+ * diagnostic de sécurité. Leur promesse rejetée remontait en « signal is aborted without
+ * reason » dans la console, ce qui noie les vraies erreurs. On tait celles-là, et seulement
+ * celles-là : tout le reste continue de remonter.
+ */
+addEventListener("unhandledrejection", (e) => {
+  if (e.reason && e.reason.name === "AbortError") e.preventDefault();
+});
+
+/**
  * Rendu d'un écran, avec ses trois états — BUG-014, BUG-035, BUG-037.
  *
  * L'audit a montré que **aucune erreur d'API n'atteignait jamais l'écran** : les messages
@@ -5821,15 +5917,33 @@ async function rafraichirCompteurs() {
  *
  * Trois états distincts, jamais confondus : chargement, erreur (avec `Réessayer`), vide.
  */
+/**
+ * Rendu d'écran — course de navigation.
+ *
+ * Un écran lent qui finit de se peindre après qu'on est passé au suivant écrase ce dernier :
+ * sur la base migrée, cliquer « Lots » puis « Clients » affichait le titre « Lots » au-dessus
+ * de la liste des clients, et deux écrans levaient « Cannot set properties of null » en
+ * écrivant dans un DOM remplacé. Chaque rendu porte un numéro ; le retardataire se tait.
+ */
+let generationEcran = 0;
+const ecranCourant = () => generationEcran;
+const ecranPerime = (n) => n !== generationEcran;
+
 async function rendre() {
+  const ma = ++generationEcran;
+  if (S.abortEcran) S.abortEcran.abort();
+  S.abortEcran = new AbortController();
   document.body.dataset.page = S.page;
   // La classe d'écran est posée par la vue qui en a besoin ; on la retire ici pour qu'elle
   // ne survive pas à un changement de page.
   $("#vue").classList.remove("ecranReglages");
+  S.rafraichirEcran = null;
   $("#vue").innerHTML = squelette();
   try {
     await (VUES[S.page] || VUES.commandes)();
   } catch (e) {
+    // Écran abandonné parce qu'on a navigué ailleurs : ce n'est pas une panne à afficher.
+    if (ecranPerime(ma) || (e && e.name === "AbortError")) return;
     $("#vue").innerHTML = "";
     $("#vue").append(panneauErreur(e, () => rendre()));
   }
@@ -6141,7 +6255,7 @@ function aideRaccourcis() {
 VUES.prereglages = async () => {
   const [{ presets: P }, M] = await Promise.all([api("/api/presets"), api("/api/service-mappings")]);
   const v = $("#vue");
-  v.innerHTML = `<h2>Préréglages et mappings de service</h2>
+  v.innerHTML = `<h1>Préréglages et mappings de service</h1>
     <p class="sous">Les 17 préréglages du compte ShipStation, plus la table qui traduit le
       libellé de livraison choisi au checkout en service réel.</p>
     <div class="carte">

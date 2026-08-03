@@ -13,13 +13,20 @@ function resume({ from = null, to = null } = {}) {
   if (to) { w.push("s.ship_date <= ?"); p.push(to); }
   w.push("s.voided = 0");
   const where = "WHERE " + w.join(" AND ");
+  // `drop_off` n'existe que sur les expéditions achetées ici : ShipStation ne l'enregistre
+  // pas, et 34 000 envois migrés le portent donc à zéro. Compter l'**admissibilité** au
+  // dépôt — sous le seuil de poids, hors retour — dit quelque chose de vrai sur
+  // l'historique, là où le drapeau ne dirait que « on ne sait pas » en faisant croire à
+  // « non ». C'est la même règle que celle qui décide au moment de coter.
   const r = one(`SELECT COUNT(*) n, COALESCE(SUM(cost),0) cout, COALESCE(AVG(cost),0) moyen,
                    COALESCE(SUM(CASE WHEN drop_off = 1 THEN 1 ELSE 0 END),0) drop_off,
+                   COALESCE(SUM(CASE WHEN is_return = 0 AND weight_g > 0 AND weight_g < 500
+                                     THEN 1 ELSE 0 END),0) admissibles_depot,
                    COALESCE(SUM(CASE WHEN is_return = 1 THEN 1 ELSE 0 END),0) retours
                  FROM shipments s ${where}`, ...p);
   return {
     expeditions: r.n, cout_total: round(r.cout), cout_moyen: round(r.moyen),
-    drop_off: r.drop_off, retours: r.retours,
+    drop_off: r.drop_off, admissibles_depot: r.admissibles_depot, retours: r.retours,
     backlog: one("SELECT COUNT(*) n FROM orders WHERE status = 'awaiting_shipment'").n,
     en_attente: one("SELECT COUNT(*) n FROM orders WHERE status = 'on_hold'").n,
   };

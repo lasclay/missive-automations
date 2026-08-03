@@ -811,6 +811,53 @@ route("POST /api/inventory", async ({ req, user }) => {
 // ==================================================================== CLIENTS
 
 route("GET /api/customers", ({ url }) => catalog.chercherClients(q(url)));
+
+/**
+ * Fiche client — BUG-065.
+ *
+ * L'écran Clients listait 37 158 lignes sans qu'aucune soit ouvrable : pas d'adresse, pas de
+ * téléphone, pas d'historique. Le rapprochement se fait par le courriel **et** par
+ * `customer_id`, parce que l'historique migré n'a pas toujours les deux.
+ */
+route("GET /api/customers/:id", ({ params, url, user }) => {
+  accounts.exiger(user, "orders_view");
+  const c = db.one("SELECT * FROM customers WHERE id = ?", Number(params.id));
+  if (!c) return { error: "client inconnu", code: 404 };
+
+  const p = q(url);
+  const limite = Math.min(Number(p.limit) || 50, 200);
+  const offset = Number(p.offset) || 0;
+  const cond = "(o.customer_id = ? OR (o.customer_email IS NOT NULL AND lower(o.customer_email) = lower(?)))";
+  const args = [c.id, c.email || ""];
+
+  const total = db.one(`SELECT COUNT(*) n FROM orders o WHERE ${cond}`, ...args).n;
+  const commandes = db.all(
+    `SELECT o.id, o.order_number, o.order_date, o.status, o.order_total, s.name AS boutique,
+            (SELECT COUNT(*) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0) AS lignes
+       FROM orders o LEFT JOIN stores s ON s.id = o.store_id
+      WHERE ${cond} ORDER BY o.order_date DESC LIMIT ? OFFSET ?`, ...args, limite, offset);
+
+  // Les chiffres cumulés viennent des commandes, pas du champ figé : une fiche importée
+  // porte les totaux du jour de l'import, qui vieillissent en silence.
+  const cumul = db.one(
+    `SELECT COUNT(*) n, COALESCE(SUM(o.order_total),0) total, MIN(o.order_date) premiere,
+            MAX(o.order_date) derniere
+       FROM orders o WHERE ${cond} AND o.status <> 'cancelled'`, ...args);
+
+  return {
+    client: { ...c, address: db.parse(c.address, {}) },
+    commandes, total,
+    cumul: { commandes: cumul.n, depense: Math.round((cumul.total || 0) * 100) / 100,
+      premiere: cumul.premiere, derniere: cumul.derniere },
+    adresses: db.all(
+      `SELECT DISTINCT json_extract(o.ship_to,'$.street1') rue,
+              json_extract(o.ship_to,'$.city') ville, json_extract(o.ship_to,'$.state') province,
+              json_extract(o.ship_to,'$.postalCode') cp, json_extract(o.ship_to,'$.country') pays,
+              COUNT(*) n
+         FROM orders o WHERE ${cond} AND json_extract(o.ship_to,'$.street1') IS NOT NULL
+        GROUP BY rue, ville, cp ORDER BY n DESC LIMIT 8`, ...args),
+  };
+});
 route("POST /api/customers/rebuild", ({ user }) => {
   accounts.exiger(user, "orders_edit");
   return { n: catalog.reconstruireClients() };
