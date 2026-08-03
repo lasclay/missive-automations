@@ -5,7 +5,7 @@
  * tri, statuts, Hold, assignation, tags, scission (split), fusion (combine), alertes,
  * champs personnalisés, et l'upsert par clé externe utilisé par l'ingestion.
  */
-const { all, one, run, tx, parse, dump, maintenant, journaliser } = require("./db");
+const { all, one, run, tx, parse, dump, maintenant, plier, journaliser } = require("./db");
 
 const STATUTS = ["awaiting_payment", "awaiting_shipment", "pending_fulfillment", "shipped", "on_hold", "cancelled"];
 
@@ -116,12 +116,27 @@ function chercher(f = {}) {
     if (c && c.sql) add(c.sql, ...c.params);
   }
 
+  /**
+   * Recherche libre — sur l'index plié (`orders.recherche`), mot à mot.
+   *
+   * Trois défauts corrigés d'un coup. Les accents : `lower('Josee') LIKE '%josée%'` est
+   * faux, donc chercher « josée ferland » ne trouvait jamais « Josee Ferland » — que
+   * ShipStation, lui, trouvait. Les mots multiples : « josée ferland » était un seul motif
+   * contigu, et « Ferland, Josée » n'y répondait pas. Et la portée : le suivi, le nom
+   * d'article, l'adresse et les notes n'étaient pas cherchés du tout.
+   *
+   * Chaque mot doit être présent (ET), n'importe où et dans n'importe quel ordre. Un repli
+   * de secours sur les colonnes brutes couvre les commandes pas encore réindexées.
+   */
   if (f.q) {
-    const q = `%${String(f.q).toLowerCase()}%`;
-    add(`(lower(o.order_number) LIKE ? OR lower(o.customer_name) LIKE ? OR lower(o.customer_email) LIKE ?
-          OR lower(json_extract(o.ship_to,'$.city')) LIKE ? OR lower(json_extract(o.ship_to,'$.postalCode')) LIKE ?
-          OR EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND lower(i.sku) LIKE ?))`,
-      q, q, q, q, q, q);
+    const mots = plier(f.q).split(" ").filter(Boolean).slice(0, 8);
+    for (const m of mots) {
+      const like = `%${m}%`;
+      add(`(o.recherche LIKE ?
+            OR (o.recherche IS NULL AND (lower(o.order_number) LIKE ? OR lower(o.customer_name) LIKE ?
+                OR lower(o.customer_email) LIKE ?)))`,
+        like, like, like, like);
+    }
   }
 
   const where = w.length ? "WHERE " + w.join(" AND ") : "";
@@ -146,7 +161,19 @@ function chercher(f = {}) {
             (SELECT COUNT(*) FROM shipments s WHERE s.order_id = o.id AND s.voided = 0) AS n_shipments
      FROM orders o ${where} ORDER BY ${col} ${sens} LIMIT ? OFFSET ?`, ...p, limite, offset);
 
-  return { total, orders: lignes.map(hydrater) };
+  // Répartition par statut et par boutique — le rail gauche de ShipStation pendant une
+  // recherche (« All Search Results 1 », « LAS Shopify 1 », « Shipped 1 »). Sans elle, un
+  // résultat unique dans « Expédiée » se cherche à l'aveugle statut par statut. Calculée
+  // seulement pendant une recherche : sur une grille ordinaire, ce sont deux agrégats de
+  // plus pour rien.
+  const repartition = f.q ? {
+    statuts: Object.fromEntries(all(`SELECT o.status s, COUNT(*) n FROM orders o ${where} GROUP BY o.status`, ...p)
+      .map((r) => [r.s, r.n])),
+    boutiques: Object.fromEntries(all(`SELECT o.store_id s, COUNT(*) n FROM orders o ${where} GROUP BY o.store_id`, ...p)
+      .filter((r) => r.s != null).map((r) => [r.s, r.n])),
+  } : null;
+
+  return { total, orders: lignes.map(hydrater), ...(repartition ? { repartition } : {}) };
 }
 
 /** Transforme une ligne SQL en objet utilisable (JSON décodé, articles, tags). */
@@ -290,9 +317,51 @@ function upsert(cmd) {
       if (s) run("UPDATE orders SET weight_g = ? WHERE id = ?", s, id);
     }
 
+    indexerRecherche(id);
     journaliser(existante ? "order.update" : "order.create", "order", id, { order_number: cmd.order_number });
     return id;
   });
+}
+
+/**
+ * (Re)calcule l'index de recherche d'une commande.
+ *
+ * Tout ce sur quoi on peut vouloir retomber sur une commande finit dans une seule colonne
+ * pliée : numéro, client, courriel, adresse complète, SKU, noms d'articles, numéros de
+ * suivi, notes, champs personnalisés. La recherche devient alors un simple LIKE par mot,
+ * insensible aux accents et à la casse.
+ *
+ * Appelé après l'écriture des articles — l'index les contient, il ne peut pas être calculé
+ * avant qu'ils existent.
+ */
+function indexerRecherche(id) {
+  const o = one("SELECT * FROM orders WHERE id = ?", id);
+  if (!o) return;
+  const adr = parse(o.ship_to, {}) || {};
+  const arts = all("SELECT sku, name, upc FROM order_items WHERE order_id = ?", id);
+  const suivis = all("SELECT tracking_number FROM shipments WHERE order_id = ?", id);
+  const morceaux = [
+    o.order_number, o.customer_name, o.customer_email,
+    adr.name, adr.company, adr.street1, adr.street2, adr.city, adr.state, adr.postalCode, adr.country, adr.phone,
+    o.requested_service, o.customer_notes, o.internal_notes, o.gift_message,
+    o.custom_field1, o.custom_field2, o.custom_field3,
+    ...arts.flatMap((a) => [a.sku, a.name, a.upc]),
+    ...suivis.map((s) => s.tracking_number),
+  ];
+  // Sur un identifiant, les séparateurs sont cosmétiques : « L-27344 » se tape aussi
+  // « l27344 », et un code postal « G8T 1A1 » se colle en « g8t1a1 ». On indexe donc les
+  // deux formes — mais seulement pour les identifiants, jamais pour les noms : recoller
+  // « josee ferland » en « joseeferland » n'aide personne et gonfle l'index.
+  const identifiants = [o.order_number, adr.postalCode,
+    ...arts.flatMap((a) => [a.sku, a.upc]), ...suivis.map((s) => s.tracking_number)];
+
+  // Les doublons sont retirés : sur une commande de dix lignes du même produit, l'index
+  // répéterait dix fois le même nom pour rien.
+  const texte = [...new Set([
+    ...morceaux.map(plier),
+    ...identifiants.map((x) => plier(x).replace(/ /g, "")),
+  ].filter(Boolean))].join(" ");
+  run("UPDATE orders SET recherche = ? WHERE id = ?", texte, id);
 }
 
 /** Change le statut, avec les effets de bord attendus. */
@@ -536,6 +605,7 @@ function reconciliation({ limite = 200 } = {}) {
 }
 
 module.exports = {
+  indexerRecherche,
   STATUTS, chercher, parId, parNumero, hydrater, upsert, changerStatut, hold, restaurer,
   libererHolds, assigner, ajouterTag, retirerTag, poserChamps, supprimer, scinder, fusionner,
   alertes, compteurs, validerAdresse, couts, reconciliation,

@@ -376,6 +376,12 @@ const AJOUTS = [
   ["stores", "guid", "TEXT"],
   // Suivi de l'impression d'étiquette (exigence E3) : imprimée ≠ achetée.
   ["orders", "print_state", "TEXT"],   // bordereau et étiquette imprimés
+  // Index de recherche plein texte, replié : minuscules et accents retirés. SQLite n'a pas
+  // de comparaison insensible aux accents, et `lower('Josee') LIKE '%josée%'` est faux —
+  // chercher « josée ferland » ne trouvait donc jamais la cliente enregistrée « Josee
+  // Ferland ». Une colonne pliée à l'écriture règle le problème une fois pour toutes,
+  // et permet en prime de chercher sur le suivi et le nom d'article.
+  ["orders", "recherche", "TEXT"],
   // Un lot regroupe des commandes AVANT l'achat des étiquettes : chez ShipStation, la colonne
   // « Batch » de la grille Orders est renseignée bien avant qu'une expédition existe.
   ["orders", "batch_id", "INTEGER"],
@@ -535,6 +541,69 @@ const INDEX_TARDIFS = [
   "CREATE INDEX IF NOT EXISTS idx_tags_order ON order_tags(order_id)",
 ];
 
+/**
+ * Remplit l'index de recherche des commandes qui ne l'ont pas encore.
+ *
+ * Se fait par paquets, au démarrage, et seulement sur les lignes à NULL : sur 28 500
+ * commandes le premier passage prend quelques secondes, les suivants zéro. C'est le prix à
+ * payer une fois pour que « josée ferland » retrouve « Josee Ferland ».
+ *
+ * Le calcul est ici plutôt que dans `orders.js` parce que `orders` dépend déjà de ce
+ * module : l'appeler d'ici créerait un cycle.
+ */
+function indexerRecherche(d) {
+  let reste;
+  try { reste = d.prepare("SELECT COUNT(*) n FROM orders WHERE recherche IS NULL").get().n; }
+  catch { return; }                          // colonne absente : rien à faire
+  if (!reste) return;
+  console.log(`[db] index de recherche à construire sur ${reste} commande(s)…`);
+
+  const lot = d.prepare(`SELECT id, order_number, customer_name, customer_email, ship_to,
+                                requested_service, customer_notes, internal_notes, gift_message,
+                                custom_field1, custom_field2, custom_field3
+                         FROM orders WHERE recherche IS NULL LIMIT 2000`);
+  const arts = d.prepare("SELECT sku, name, upc FROM order_items WHERE order_id = ?");
+  const suivis = d.prepare("SELECT tracking_number FROM shipments WHERE order_id = ?");
+  const poser = d.prepare("UPDATE orders SET recherche = ? WHERE id = ?");
+
+  let faits = 0;
+  for (;;) {
+    const lignes = lot.all();
+    if (!lignes.length) break;
+    d.exec("BEGIN");
+    try {
+      for (const o of lignes) {
+        let adr = {};
+        try { adr = JSON.parse(o.ship_to || "{}") || {}; } catch { adr = {}; }
+        const morceaux = [
+          o.order_number, o.customer_name, o.customer_email,
+          adr.name, adr.company, adr.street1, adr.street2, adr.city, adr.state,
+          adr.postalCode, adr.country, adr.phone,
+          o.requested_service, o.customer_notes, o.internal_notes, o.gift_message,
+          o.custom_field1, o.custom_field2, o.custom_field3,
+          ...arts.all(o.id).flatMap((a) => [a.sku, a.name, a.upc]),
+          ...suivis.all(o.id).map((s) => s.tracking_number),
+        ];
+        // Les séparateurs des identifiants sont cosmétiques : « L-27344 » se tape aussi
+        // « l27344 ». On indexe les deux formes, pour les identifiants seulement.
+        const ids = [o.order_number, adr.postalCode,
+          ...arts.all(o.id).flatMap((a) => [a.sku, a.upc]),
+          ...suivis.all(o.id).map((x) => x.tracking_number)];
+        // Une chaîne vide, jamais NULL : sinon la commande repasserait dans le lot suivant
+        // et la boucle ne finirait pas.
+        poser.run([...new Set([
+          ...morceaux.map(plier),
+          ...ids.map((x) => plier(x).replace(/ /g, "")),
+        ].filter(Boolean))].join(" ") || "", o.id);
+        faits++;
+      }
+      d.exec("COMMIT");
+    } catch (e) { d.exec("ROLLBACK"); console.warn("[db] index de recherche :", e.message); break; }
+  }
+  console.log(`[db] index de recherche : ${faits} commande(s) indexée(s).`);
+  try { d.exec("CREATE INDEX IF NOT EXISTS idx_orders_recherche ON orders(recherche)"); } catch {}
+}
+
 function migrer(d) {
   reconstruireProduits(d);
   for (const [table, colonne, type] of AJOUTS) {
@@ -553,6 +622,8 @@ function migrer(d) {
     // dit dans les logs, l'exploitant tranche.
     console.warn("[db] unicité des positions de règle non posée :", e.message);
   }
+  indexerRecherche(d);
+
   // Table de suivi de migration : reprise au curseur, § 6.3 étape 1. Une migration de
   // 37 693 clients interrompue à 20 000 doit reprendre à 20 000, pas à zéro.
   d.exec(`CREATE TABLE IF NOT EXISTS migration_suivi (
@@ -645,6 +716,24 @@ const dump = (o) => (o === undefined || o === null ? null : JSON.stringify(o));
 
 const maintenant = () => new Date().toISOString();
 
+/**
+ * Repli d'une chaîne pour la recherche : minuscules, accents retirés, ponctuation réduite
+ * à des espaces, espaces compactés.
+ *
+ * SQLite ne sait pas comparer sans tenir compte des accents. `lower('Josee') LIKE '%josée%'`
+ * est faux, et chercher « josée ferland » ne trouvait donc jamais la cliente enregistrée
+ * « Josee Ferland » — pendant que ShipStation, lui, la trouvait. Le repli se fait à
+ * l'écriture, une fois, plutôt qu'à chaque requête sur 28 500 commandes.
+ *
+ * La ponctuation devient de l'espace pour que « L-27344 » se retrouve aussi bien par
+ * « L-27344 » que par « 27344 », et « Ferland, Josée » par « josee ferland ».
+ */
+const plier = (s) => String(s ?? "")
+  .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, " ")
+  .trim();
+
 /** Réglage global, avec valeur par défaut. */
 function reglage(cle, defaut = null) {
   const r = one("SELECT value FROM settings WHERE key = ?", cle);
@@ -661,4 +750,4 @@ function journaliser(action, entite, entiteId, detail, userId = null) {
     maintenant(), userId, action, entite, String(entiteId ?? ""), dump(detail));
 }
 
-module.exports = { db, all, one, run, tx, parse, dump, maintenant, reglage, poserReglage, journaliser, CHEMIN };
+module.exports = { db, all, one, run, tx, parse, dump, maintenant, plier, reglage, poserReglage, journaliser, CHEMIN };

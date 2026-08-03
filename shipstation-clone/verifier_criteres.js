@@ -500,6 +500,62 @@ verifier("filtre : deux étiquettes se lisent comme un OU",
 verifier("filtre : une liste d'étiquettes vide ne filtre rien",
   orders.chercher({ tag_id: [], limit: 300 }).total === total);
 
+// --------------------------------------------------- recherche libre globale
+/**
+ * La recherche du clone était deux fois défaillante, et le second défaut masquait le premier.
+ *
+ * Elle était **limitée à la vue courante** : chercher depuis « À expédier » ne regardait que
+ * les commandes à expédier, et rendait « Aucune commande » sur une commande expédiée qui
+ * existait bel et bien.
+ *
+ * Et elle était **sensible aux accents** : `lower('Josee') LIKE '%josée%'` est faux en SQLite.
+ * Chercher « josée ferland » ne pouvait donc jamais trouver la cliente enregistrée « Josee
+ * Ferland » — que ShipStation, lui, trouvait. Même sans le premier défaut, la recherche
+ * aurait échoué.
+ */
+console.log("\n9. Recherche libre — globale, sans accents, mot à mot");
+const idRech = orders.upsert({
+  order_number: "L-27344", order_key: "l27344", store_id: 198670,
+  order_total: 120, amount_paid: 120,
+  customer_name: "Josee Ferland", customer_email: "josee.ferland@example.com",
+  ship_to: { name: "Josee Ferland", city: "Trois-Rivieres", state: "CA-QC", country: "CA",
+    postalCode: "G8T 1A1", street1: "12 rue des Ormes" },
+  items: [{ sku: "LAS-MIT-001", name: "Mitaines asclépiade", quantity: 7, unit_price: 17 }],
+});
+db.run("UPDATE orders SET status = 'shipped' WHERE id = ?", idRech);
+db.run(`INSERT INTO shipments (order_id, label_id, tracking_number, carrier_code, cost, currency,
+          ship_date, created_at, voided)
+        VALUES (?,'LXR','1234567890123456','canada_post',9.31,'CAD','2026-06-01',?,0)`,
+  idRech, db.maintenant());
+orders.indexerRecherche(idRech);
+
+const trouve = (q) => orders.chercher({ q, limit: 20 }).orders.map((o) => o.order_number);
+verifier("recherche : « josée » (accentué) trouve « Josee » (sans accent)",
+  trouve("josée ferland").includes("L-27344"), JSON.stringify(trouve("josée ferland")));
+verifier("recherche : l'inverse marche aussi — « josee » trouve « Josée »",
+  trouve("josee").includes("L-27344"));
+verifier("recherche : les mots peuvent être dans n'importe quel ordre",
+  trouve("ferland josee").includes("L-27344"));
+verifier("recherche : la casse est ignorée", trouve("JOSÉE FERLAND").includes("L-27344"));
+verifier("recherche : chaque mot doit être présent — « josée tremblay » ne ramène rien",
+  !trouve("josée tremblay").includes("L-27344"));
+verifier("recherche : le numéro de suivi retrouve la commande",
+  trouve("1234567890123456").includes("L-27344"));
+verifier("recherche : un nom d'article retrouve la commande",
+  trouve("asclepiade").includes("L-27344") && trouve("asclépiade").includes("L-27344"));
+verifier("recherche : la ville et le code postal comptent",
+  trouve("Trois-Rivières").includes("L-27344") && trouve("g8t 1a1").includes("L-27344"));
+verifier("recherche : les séparateurs d'un identifiant sont cosmétiques",
+  trouve("L-27344").includes("L-27344") && trouve("l27344").includes("L-27344")
+  && trouve("27344").includes("L-27344"));
+verifier("recherche : elle ignore le statut — une commande expédiée se trouve quand même",
+  db.one("SELECT status FROM orders WHERE id = ?", idRech).status === "shipped"
+  && trouve("josée ferland").includes("L-27344"));
+verifier("recherche : la répartition dit dans quels statuts sont les résultats",
+  (orders.chercher({ q: "josée ferland", limit: 20 }).repartition || {}).statuts?.shipped === 1);
+verifier("recherche : pas de répartition calculée hors recherche",
+  orders.chercher({ limit: 5 }).repartition === undefined);
+
 // ------------------------------------------------------------------ bilan
 
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);

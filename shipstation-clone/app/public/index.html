@@ -286,6 +286,7 @@
   .crVert .champ.enLigne input { width:170px; padding:4px 7px; font-size:12.5px; border-radius:var(--r1) }
   .enteteE .recharger { font-size:12.5px; color:var(--accent); cursor:pointer }
   .ssRech { padding:10px 12px 8px; border-bottom:1px solid var(--bord) }
+  .ssAide { padding:2px 12px 8px; font-size:11px; color:var(--doux); line-height:1.35 }
   .ssRech input { width:100%; padding:5px 8px; font-size:12.5px }
   .ssRech a { display:block; margin-top:5px; font-size:11.5px; color:var(--accent); cursor:pointer }
   .barreF .fpar { font-size:12px; color:var(--doux); font-weight:600 }
@@ -1906,9 +1907,42 @@ VUES.commandes = async (statutFixe) => {
     ...(S0.avance || {}),
   });
 
+  /**
+   * Le champ de recherche de la barre latérale — **globale**, comme celui de l'en-tête.
+   *
+   * Il ne l'était pas : il gardait le statut, la boutique, le lot, la vue et les filtres
+   * avancés courants, et se contentait de filtrer à l'intérieur. Chercher « josée ferland »
+   * depuis « À expédier » rendait « Aucune commande » alors que la commande existait, en
+   * Expédiée — et l'écran proposait « Importer depuis Shopify », ce qui laisse conclure que
+   * la cliente n'a jamais commandé. ShipStation, lui, ouvre « All Search Results » sur tout
+   * le compte.
+   *
+   * Deux champs de recherche qui se ressemblent et ne cherchent pas dans le même périmètre
+   * sont pires qu'un seul : le résultat dépend de celui qu'on a utilisé, sans que rien ne le
+   * dise. Ils font désormais la même chose.
+   */
   let debQ;
   $("#fq").addEventListener("input", () => {
-    clearTimeout(debQ); debQ = setTimeout(() => { S0.page = 0; charger(); }, 250);
+    clearTimeout(debQ);
+    debQ = setTimeout(() => {
+      const q = $("#fq").value.trim();
+      if (q) {
+        // On sort de la vue : on ne peut pas prétendre chercher « partout » en gardant la
+        // moitié des filtres. Ce qui est effacé est annoncé dans l'en-tête de l'écran.
+        S0.statut = ""; S0.store = null; S0.lot = null; S0.vue = null;
+        S0.avance = null; S0.f = {};
+        S0.recherche = q;
+        S.sel.clear(); S.toutLeFiltre = false;
+        const qk = $("#quick"); if (qk) qk.value = q;
+        majStatuts(); majVues(); majLots(); dessinerFiltres();
+      } else if (S0.recherche) {
+        // Champ vidé : on revient à la file de travail, pas à un écran vide sans statut.
+        S0.recherche = null; S0.statut = "awaiting_shipment";
+        const qk = $("#quick"); if (qk) qk.value = "";
+        majStatuts(); majVues(); majLots(); dessinerFiltres();
+      }
+      S0.page = 0; charger();
+    }, 250);
   });
 
   // ------------------------------------------------------- statuts et vues
@@ -1920,8 +1954,14 @@ VUES.commandes = async (statutFixe) => {
    * Deux niveaux distincts, jamais l'un à la place de l'autre.
    */
   function majStatuts() {
-    const c = S.compteurs.statuts || {};
-    const b = S.compteurs.boutiques || {};
+    // Pendant une recherche, le rail montre **où sont les résultats** plutôt que la
+    // volumétrie habituelle : c'est le « All Search Results / LAS Shopify 1 / Shipped 1 »
+    // de ShipStation. Un résultat unique en « Expédiée » se voit d'un coup d'œil, au lieu
+    // de se chercher statut par statut.
+    const enRecherche = !!S0.recherche;
+    const rep = enRecherche ? (S0.repartition || { statuts: {}, boutiques: {} }) : null;
+    const c = enRecherche ? rep.statuts : (S.compteurs.statuts || {});
+    const b = enRecherche ? rep.boutiques : (S.compteurs.boutiques || {});
     const ligne = (id, libelle, n, cls = "") =>
       `<button type="button" class="ssLi ${cls} ${estActif(id) ? "actif" : ""}" data-s="${id}"
          aria-pressed="${estActif(id)}">${esc(libelle)}<span class="n">${n ? num(n) : ""}</span></button>`;
@@ -1931,7 +1971,14 @@ VUES.commandes = async (statutFixe) => {
         data-b="${x.id}" aria-pressed="${S0.statut === "awaiting_shipment" && String(S0.store) === String(x.id)}"
         >${esc(x.name)}<span class="n">${b[x.id] ? num(b[x.id]) : ""}</span></button>`).join("");
 
-    $("#ssStatuts").innerHTML =
+    const enTeteRecherche = enRecherche
+      ? `<button type="button" class="ssLi actif" id="ssTousResultats" aria-pressed="true"
+           >Tous les résultats<span class="n">${num(S0.totalRecherche || 0)}</span></button>
+         <div class="ssAide">Recherche sur tout le compte, tous statuts confondus.
+           Cliquez un statut pour y revenir et quitter la recherche.</div>`
+      : "";
+
+    $("#ssStatuts").innerHTML = enTeteRecherche +
       ligne("awaiting_payment", STATUT_FR.awaiting_payment, c.awaiting_payment) +
       ligne("on_hold", STATUT_FR.on_hold, c.on_hold) +
       ligne("awaiting_shipment", STATUT_FR.awaiting_shipment, c.awaiting_shipment) +
@@ -2167,6 +2214,11 @@ VUES.commandes = async (statutFixe) => {
     if (ma !== generation || !$("#tbl")) return;   // demande dépassée, ou écran quitté
     enCours = null;
     zone.removeAttribute("aria-busy");
+    // Répartition des résultats de recherche : le rail gauche s'en sert pour dire où ils
+    // sont. Elle n'arrive qu'avec une recherche en cours ; sinon on l'oublie, pour ne pas
+    // afficher les comptes de la recherche précédente sur la grille suivante.
+    if (S0.recherche) { S0.repartition = d.repartition || null; S0.totalRecherche = d.total; majStatuts(); }
+    else { S0.repartition = null; S0.totalRecherche = 0; }
     demarquerPerime();
     LIGNES = d.orders;
     // BUG-025 — la sélection survivait au changement de filtre : la grille montrait une
@@ -2286,6 +2338,17 @@ VUES.commandes = async (statutFixe) => {
     const vue = VUES_SAUV.find((x) => x.id === S0.vue);
     const filtre = actifs.length || q || vue;
 
+    // Une recherche qui ne trouve rien n'est pas un statut vide, et surtout pas une invitation
+    // à importer : proposer « Importer depuis Shopify » sous une recherche infructueuse laisse
+    // conclure que la commande n'existe pas, alors que le mot était peut-être mal orthographié.
+    // On dit sur quoi on a cherché et où, et on rappelle qu'on a bien cherché partout.
+    if (S0.recherche) return `<div class="vide2"><b>Aucune commande pour « ${esc(S0.recherche)} »</b>
+      <div class="doux" style="max-width:52ch;margin:8px auto">Cherché sur <b>tout le compte</b>,
+        tous statuts confondus — numéro de commande, client, courriel, adresse, SKU, nom
+        d'article et numéro de suivi. Les accents et la casse sont ignorés.</div>
+      <div class="doux" style="font-size:12px">Chaque mot doit apparaître : essayez avec moins de mots.</div>
+      <button type="button" class="p" id="videEffacer">Effacer la recherche</button></div>`;
+
     if (!filtre) return `<div class="vide2"><b>Rien à expédier dans ce statut</b>
       <div class="doux">Les commandes arrivent par l'import de la boutique.</div>
       <button type="button" class="p" id="videImport">Importer depuis Shopify</button></div>`;
@@ -2351,8 +2414,12 @@ VUES.commandes = async (statutFixe) => {
     const bi = $("#videImport"); if (bi) bi.onclick = () => importerShopify();
     const be = $("#videEffacer"); if (be) be.onclick = () => {
       S0.f = {}; S0.vue = null; S0.page = 0;
-      const fq = $("#fq"); if (fq) fq.value = "";
-      dessinerFiltres(); charger(); majVues();
+      // Effacer une recherche remet la file de travail, pas un écran sans statut : le champ
+      // est vidé et son gestionnaire fait le reste, pour qu'il n'y ait qu'un seul chemin de
+      // sortie de la recherche.
+      const fq = $("#fq"); if (fq) { fq.value = ""; fq.dispatchEvent(new Event("input")); }
+      const qk = $("#quick"); if (qk) qk.value = "";
+      if (!S0.recherche) { dessinerFiltres(); charger(); majVues(); }
     };
 
     // Délégation : deux gestionnaires sur le conteneur, pas trois par ligne. À 1 000 lignes

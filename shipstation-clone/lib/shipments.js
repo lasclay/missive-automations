@@ -112,6 +112,9 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
       label.labelPdf || null, label.customsPdf || null, userId);
     const shipmentId = one("SELECT last_insert_rowid() r").r;
     orders.changerStatut(orderId, "shipped", userId);
+    // Le numéro de suivi entre dans l'index de recherche : c'est par lui qu'on retombe sur
+    // une commande quand un client écrit « où est mon colis 1234567890 ».
+    orders.indexerRecherche(orderId);
     journaliser("shipment.buy", "shipment", shipmentId,
       { orderId, service: choisi.serviceId, prix: label.price, dropOff: !!choisi.dropOff }, userId);
     // Le renvoi du suivi vers la boutique part en arrière-plan : un canal indisponible ne doit
@@ -166,6 +169,7 @@ function marquerExpedie(orderId, { carrier, trackingNumber, shipDate, userId = n
     dump(cmd.ship_to), cmd.warehouse_id, userId);
   const id = one("SELECT last_insert_rowid() r").r;
   orders.changerStatut(orderId, "shipped", userId);
+  orders.indexerRecherche(orderId);
   journaliser("shipment.mark_shipped", "shipment", id, { orderId, notifier }, userId);
   if (notifier) setImmediate(() => require("./channels").notifier(id).catch(() => {}));
   return { shipmentId: id, notifier };
