@@ -136,6 +136,11 @@
      niveaux de gris — donc pour un daltonien, et sur une impression noir et blanc. Un
      glyphe préfixe porte l'information une seconde fois, sans couleur. */
   .puce::before { font-weight:700; margin-right:4px; font-size:9.5px }
+  /* Une note doit être atteignable autrement qu'en survolant à la souris : bouton réel,
+     focusable, activable au doigt, et dont le nom accessible porte déjà le texte (§5.3). */
+  .noteB { border:none; background:none; padding:0 3px; cursor:pointer; color:var(--accent);
+           font:inherit; min-height:0 }
+  button.puce.noteB { border:none; cursor:pointer }
   .puce.v { background:rgba(11,122,75,.15); color:var(--puce-v) }
   .puce.v::before { content:"✓" }
   .puce.a { background:rgba(154,91,6,.16); color:var(--puce-a) }
@@ -689,10 +694,10 @@
       <button type="button" id="quickVider" class="ico" title="Vider la recherche" aria-label="Vider la recherche">✕</button>
       <button id="btMaj" class="ico" title="Rafraîchir cet écran (U)" aria-label="Rafraîchir cet écran">⟳</button>
       <span class="doux frais" id="hFrais" aria-live="polite"></span>
-      <button id="hAlertes" class="ico" title="Alertes">🔔<span class="pastille" hidden></span></button>
+      <button id="hAlertes" aria-label="Alertes de commandes" class="ico" title="Alertes">🔔<span class="pastille" hidden></span></button>
       <button id="btProfil" class="profil" title="Profil"><span id="hMoi"></span> ▾</button>
-      <button id="btReglages" class="ico" title="Réglages">⚙</button>
-      <button id="btAide" class="ico" title="Raccourcis clavier (?)">?</button>
+      <button id="btReglages" aria-label="Réglages" class="ico" title="Réglages">⚙</button>
+      <button id="btAide" aria-label="Raccourcis clavier" class="ico" title="Raccourcis clavier (?)">?</button>
     </span>
   </header>
   <div class="sousnav" id="sousnav"></div>
@@ -1097,7 +1102,7 @@ function dialogue(titre, html, onOk, texteOk = "Confirmer", apres = null) {
 const attendre = (t = "Un instant…") => dialogue(t, '<p class="doux">Traitement en cours…</p>', null);
 
 /** Table générique : colonnes, lignes, sélection, tri. */
-function table(cols, lignes, { sel = null, onSel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id", pins = 0 } = {}) {
+function table(cols, lignes, { sel = null, onSel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id", pins = 0, legende = null } = {}) {
   const cl = (c, i) => [c.n ? "n" : "", i < pins ? `pin pin${i + 1}` : ""].filter(Boolean).join(" ");
   // « Tout sélectionner » manquait : les cases existaient ligne par ligne, sans moyen de
   // prendre la page entière — ShipStation l'a en tête de colonne, et c'est de là qu'il ouvre
@@ -1110,7 +1115,9 @@ function table(cols, lignes, { sel = null, onSel = null, onTri = null, tri = nul
     const tds = cols.map((c, i) => `<td class="${cl(c, i)}">${c.r ? c.r(l) : esc(l[c.k] ?? "—")}</td>`).join("");
     return `<tr data-id="${esc(l[cle])}" class="${onLigne ? "clic" : ""}">${sel ? `<td><input type="checkbox" data-id="${esc(l[cle])}" aria-label="Sélectionner ${esc(l[cle])}"></td>` : ""}${tds}</tr>`;
   }).join("");
-  const t = el(`<div class="tbl"><table><thead><tr>${th}</tr></thead><tbody>${tr || `<tr><td colspan="${cols.length + 1}" class="doux" style="padding:22px;text-align:center">Aucun résultat</td></tr>`}</tbody></table></div>`);
+  const t = el(`<div class="tbl"><table>${
+    legende ? `<caption class="visuellement-cache">${esc(legende)}</caption>` : ""
+  }<thead><tr>${th}</tr></thead><tbody>${tr || `<tr><td colspan="${cols.length + 1}" class="doux" style="padding:22px;text-align:center">Aucun résultat</td></tr>`}</tbody></table></div>`);
   if (onTri) t.querySelectorAll("th[data-c]").forEach(h => h.onclick = () => onTri(h.dataset.c));
   if (sel) {
     const cases = [...t.querySelectorAll("tbody input[type=checkbox][data-id]")];
@@ -1709,7 +1716,11 @@ VUES.commandes = async (statutFixe) => {
   <div class="ss">
     <aside class="ssL">
       <div class="ssRech">
-        <input type="search" id="fq" placeholder="Rechercher des commandes…">
+        <label class="visuellement-cache" for="fq">Rechercher dans toutes les commandes</label>
+        <input type="search" id="fq" placeholder="Rechercher des commandes…"
+               aria-describedby="fqAide">
+        <span id="fqAide" class="visuellement-cache">La recherche porte sur tout le compte,
+          tous statuts confondus.</span>
         <button type="button" id="ssAvance" class="lienB">Recherche avancée</button>
       </div>
       <div id="ssStatuts"></div>
@@ -2438,7 +2449,11 @@ VUES.commandes = async (statutFixe) => {
 
     $("#tbl").className = "grilleWrap" + (S0.dense ? " dense" : "");
     $("#tbl").innerHTML = d.orders.length
-      ? `<table class="tblCmd"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`
+      ? `<table class="tblCmd">
+           <caption class="visuellement-cache">${esc(S0.recherche
+             ? `Résultats de recherche pour « ${S0.recherche} », ${d.total} commande(s)`
+             : `${STATUT_FR[S0.statut] || "Commandes"}, ${d.total} commande(s)`)}</caption>
+           <thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`
       : etatVide();
 
     const bi = $("#videImport"); if (bi) bi.onclick = () => importerShopify();
@@ -5099,7 +5114,9 @@ VUES.retours = async () => {
     { k: "rma", t: "RMA" }, { k: "order_number", t: "Commande" }, { k: "customer_name", t: "Client" },
     { k: "reason", t: "Motif", r: r => {
         const m = MOTIFS_RETOUR.find(([v]) => v === r.reason);
-        return esc(m ? m[1] : (r.reason || "—")) + (r.notes ? ` <span class="doux" title="${esc(r.notes)}">✎</span>` : "");
+        return esc(m ? m[1] : (r.reason || "—")) + (r.notes
+          ? ` <button type="button" class="noteB" data-note="${esc(r.notes)}"
+               aria-label="Note de migration : ${esc(r.notes)}" title="${esc(r.notes)}">✎</button>` : "");
       } },
     { k: "resolution", t: "Résolution", r: r => esc(({ refund: "Remboursement", exchange: "Échange",
         store_credit: "Crédit en boutique" })[r.resolution] || r.resolution || "—") },
@@ -5998,7 +6015,8 @@ VUES.automatisation = async () => {
   $("#rt").append(table([
     { k: "position", t: "Ordre", n: true },
     { k: "name", t: "Règle", r: (r) => esc(r.name) + (r.enabled ? "" : ' <span class="puce g">désactivée</span>')
-      + (r.notes ? ` <span class="puce a" title="${esc(r.notes)}">note</span>` : "") },
+      + (r.notes ? ` <button type="button" class="puce a noteB" data-note="${esc(r.notes)}"
+           aria-label="Note de migration : ${esc(r.notes)}" title="${esc(r.notes)}">note</button>` : "") },
     { k: "conditions", t: "Si", r: (r) => r.conditions.length
       ? esc((r.resume || r.conditions.map(decrireCritere)).join(r.match_all ? "  ET  " : "  OU  "))
       : (r.sans_condition ? '<span class="puce a">toutes les commandes</span>' : '<span class="puce r">sans condition</span>') },
@@ -6022,8 +6040,15 @@ VUES.automatisation = async () => {
       laissé par les précédentes. C'est ce qui fait que « LAS Cost Centre » doit passer
       <b>après</b> l'affectation d'entrepôt et non avant, comme chez ShipStation où elle ne se
       déclenchait jamais.</p>
-    <div id="ordL" class="ordL">${d.rules.map((r) =>
-      `<div class="ordI" draggable="true" data-id="${r.id}">☰ ${esc(r.name)}</div>`).join("")}</div>`,
+    <div id="ordL" class="ordL" role="list">${d.rules.map((r, i) =>
+      `<div class="ordI" draggable="true" data-id="${r.id}" role="listitem">
+         <span aria-hidden="true">☰</span> <span class="nomR">${esc(r.name)}</span>
+         <span class="ordB">
+           <button type="button" data-monter="${r.id}" ${i === 0 ? "disabled" : ""}
+             aria-label="Monter « ${esc(r.name)} »" title="Monter">▲</button>
+           <button type="button" data-descendre="${r.id}" ${i === d.rules.length - 1 ? "disabled" : ""}
+             aria-label="Descendre « ${esc(r.name)} »" title="Descendre">▼</button>
+         </span></div>`).join("")}</div>`,
     async () => {
       const ids = [...document.querySelectorAll("#ordL .ordI")].map((x) => Number(x.dataset.id));
       await api("/api/rules/reorder", { method: "POST", body: { ids } });
@@ -6031,7 +6056,14 @@ VUES.automatisation = async () => {
     }, "Enregistrer l'ordre", (c) => glisserDeposer(c.querySelector("#ordL")));
 };
 
-/** Réordonnancement par glisser-déposer — le geste de ShipStation sur la liste des règles. */
+/**
+ * Réordonnancement — glisser-déposer **et** flèches, §5.3 point 5 de l'audit.
+ *
+ * La modale reposait exclusivement sur le glisser-déposer : l'ordre d'exécution de
+ * l'automatisation — celui qui décide qu'une règle voit ou non ce que la précédente a écrit —
+ * n'était pas modifiable au clavier, ni au doigt sur la tablette du poste d'emballage. Deux
+ * boutons par ligne suffisent, et le focus suit la ligne déplacée pour qu'on puisse enchaîner.
+ */
 function glisserDeposer(liste) {
   let porte = null;
   liste.querySelectorAll("[draggable]").forEach((it) => {
@@ -6044,6 +6076,35 @@ function glisserDeposer(liste) {
       it.parentNode.insertBefore(porte, e.clientY - r.top < r.height / 2 ? it : it.nextSibling);
     };
   });
+
+  const deplacer = (id, sens) => {
+    const it = liste.querySelector(`.ordI[data-id="${id}"]`);
+    if (!it) return;
+    const voisin = sens < 0 ? it.previousElementSibling : it.nextElementSibling;
+    if (!voisin) return;
+    sens < 0 ? liste.insertBefore(it, voisin) : liste.insertBefore(voisin, it);
+    majFleches();
+    // Le focus reste sur le bouton qui vient d'agir : monter une règle de trois rangs se
+    // fait en trois pressions, sans repointer.
+    it.querySelector(sens < 0 ? "[data-monter]" : "[data-descendre]")?.focus();
+  };
+
+  /** Les extrémités ne peuvent pas monter ni descendre : le bouton le dit plutôt que de ne rien faire. */
+  function majFleches() {
+    const items = [...liste.querySelectorAll(".ordI")];
+    items.forEach((it, i) => {
+      const m = it.querySelector("[data-monter]"), d = it.querySelector("[data-descendre]");
+      if (m) m.disabled = i === 0;
+      if (d) d.disabled = i === items.length - 1;
+    });
+  }
+
+  liste.addEventListener("click", (e) => {
+    const m = e.target.closest("[data-monter]"), d = e.target.closest("[data-descendre]");
+    if (m) deplacer(m.dataset.monter, -1);
+    else if (d) deplacer(d.dataset.descendre, +1);
+  });
+  majFleches();
 }
 
 /**
@@ -8276,6 +8337,14 @@ async function demarrer() {
     if (S0 && S0.recherche) { S0.recherche = null; const f = $("#fq"); if (f) { f.value = ""; f.dispatchEvent(new Event("input")); } }
     $("#quick").focus();
   };
+  // Une note de migration s'ouvre au clic, au doigt et à la touche Entrée — pas seulement
+  // au survol de la souris. Délégation globale : ces boutons naissent dans plusieurs écrans.
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest(".noteB");
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    dialogue("Note de migration", `<p>${esc(b.dataset.note || "")}</p>`, null, "Fermer");
+  });
   document.addEventListener("keydown", raccourcis);
   // BUG-053 — le routage ignorait l'historique : le bouton Retour changeait l'URL sans changer
   // l'écran, et l'on se retrouvait avec « #tarifs » affichant « Scan ».
