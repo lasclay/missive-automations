@@ -191,4 +191,32 @@ function gabaritsParDefaut() {
   ];
 }
 
-module.exports = { rendre, lister, parId, defaut, sauver, supprimer, gabaritsParDefaut, FILTRES, echapper };
+/**
+ * Racines de variables connues du moteur. Toute autre racine dans un gabarit produit un vide
+ * silencieux à l'envoi — c'est ainsi que deux courriels partaient à des sous-traitants avec
+ * « Commande : Client : Articles : » (BUG-012).
+ */
+const RACINES = ["order", "items", "marque", "shipment", "forloop"];
+
+/**
+ * Contrôle les variables d'un gabarit. Rend la liste des expressions non résolubles.
+ * Utilisé à l'enregistrement pour refuser, et dans l'éditeur pour signaler en rouge.
+ */
+function variablesInconnues(source) {
+  const vues = new Set();
+  const texte = String(source ?? "");
+  for (const m of texte.matchAll(/\{\{\s*([^}|]+?)\s*(?:\|[^}]*)?\}\}/g)) {
+    const expr = m[1].trim();
+    if (!expr || expr.startsWith("'") || expr.startsWith('"') || /^-?\d/.test(expr)) continue;
+    const racine = expr.split(".")[0].trim();
+    if (!RACINES.includes(racine)) vues.add(m[0].trim());
+  }
+  // Les variables de boucle déclarées par `{% for x in … %}` sont légitimes.
+  for (const m of texte.matchAll(/\{%\s*for\s+(\w+)\s+in\s/g)) {
+    for (const v of [...vues]) if (v.includes(`{{ ${m[1]}`) || v.includes(`{{${m[1]}`)) vues.delete(v);
+  }
+  return [...vues];
+}
+
+module.exports = { rendre, lister, parId, defaut, sauver, supprimer, gabaritsParDefaut,
+  FILTRES, echapper, variablesInconnues, RACINES };

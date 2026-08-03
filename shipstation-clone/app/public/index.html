@@ -148,7 +148,12 @@
   .grilleWrap { flex:1; overflow:auto; min-height:0 }
   table.tblCmd { border-collapse:separate; border-spacing:0; width:100%; font-size:13px }
   table.tblCmd th { position:sticky; top:0; z-index:3; background:var(--carte); border-bottom:1px solid var(--bord);
-                    text-align:left; padding:7px 9px; font-weight:650; white-space:nowrap; cursor:pointer; font-size:12px }
+                    text-align:left; padding:7px 9px; font-weight:650; white-space:nowrap; font-size:12px }
+  /* Seules les colonnes triables se comportent comme telles : le curseur main sur une colonne
+     inerte promet un tri qui n'arrive jamais (BUG-036). */
+  table.tblCmd th.triable { cursor:pointer }
+  table.tblCmd th.triable:hover { background:var(--sel) }
+  button.chev { background:none; border:none; cursor:pointer; color:var(--doux); font:inherit; padding:0 }
   table.tblCmd td { padding:6px 9px; border-bottom:1px solid var(--bord); white-space:nowrap; max-width:320px;
                     overflow:hidden; text-overflow:ellipsis }
   .grilleWrap.dense table.tblCmd td { padding:3px 9px; font-size:12.5px }
@@ -174,7 +179,6 @@
   /* ---- en-tête de l'écran Commandes ---- */
   .enteteE { display:flex; align-items:center; gap:12px; padding:9px 12px; flex:none;
              border-bottom:1px solid var(--bord); background:var(--carte) }
-  .enteteE h2 { margin:0; font-size:17px; font-weight:650; display:flex; align-items:center; gap:8px; flex-wrap:wrap }
   .enteteE .etqT { font-size:13px; font-weight:600; color:var(--doux) }
   .enteteE .lotChip { font-size:13.5px; font-weight:650; background:var(--sel); color:var(--accent);
                       border:1px solid var(--bord); border-radius:5px; padding:2px 9px }
@@ -203,6 +207,66 @@
   .ssRech a { display:block; margin-top:5px; font-size:11.5px; color:var(--accent); cursor:pointer }
   .barreF .fpar { font-size:12px; color:var(--doux); font-weight:600 }
   .barreA .nsel { margin-left:auto; font-size:12.5px; color:var(--doux) }
+
+  /* Un seul <h1> par écran (§8.2.6) : correction sémantique, l'échelle visuelle ne bouge pas. */
+  #vue > h1, .enteteE h1 { font-size:17px; font-weight:650; margin:0 0 4px }
+  .enteteE h1 { display:flex; align-items:center; gap:8px; flex-wrap:wrap }
+
+  /* ---- accessibilité : les contrôles sont de vrais boutons, stylés comme avant ---- */
+  button.ssLi, button.ong, button.lienCmd, button.fEdit, button.lienMap, button.lienNote,
+  button.lienB, button.recharger {
+    font:inherit; background:none; border:none; cursor:pointer; text-align:left }
+  button.lienCmd { color:var(--accent); padding:0; font-weight:600 }
+  button.lienCmd:hover { text-decoration:underline }
+  button.lienB, button.recharger { color:var(--accent); padding:0 }
+  button.lienB:hover, button.recharger:hover { text-decoration:underline }
+  /* Un anneau de focus visible : sans lui, la tabulation qu'on vient de rétablir reste aveugle. */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline:2px solid var(--accent); outline-offset:2px; border-radius:3px }
+
+  /* ---- états : chargement, erreur, périmé, vide ---- */
+  .squelette { padding:10px 12px; display:flex; flex-direction:column; gap:7px }
+  .sqL { height:19px; border-radius:4px;
+         background:linear-gradient(90deg, var(--bord) 25%, var(--sel) 50%, var(--bord) 75%);
+         background-size:200% 100%; animation:sqAnim 1.1s ease-in-out infinite }
+  @keyframes sqAnim { 0% { background-position:200% 0 } 100% { background-position:-200% 0 } }
+  @media (prefers-reduced-motion: reduce) { .sqL { animation:none } }
+
+  .panErr { border:1px solid var(--rouge); border-radius:9px; padding:16px 18px; margin:14px;
+            background:color-mix(in srgb, var(--rouge) 8%, transparent) }
+  .panErrT { font-weight:650; font-size:14.5px; margin-bottom:4px }
+  .panErrM { font-size:13px; color:var(--doux); margin-bottom:10px }
+
+  .bandPerime { display:flex; align-items:center; gap:10px; padding:7px 12px; font-size:12.5px;
+                background:color-mix(in srgb, var(--ambre) 14%, transparent);
+                border-bottom:1px solid var(--ambre); color:var(--texte) }
+  .bandPerime button { padding:3px 10px; font-size:12px; border-radius:5px; margin-left:auto }
+  .grilleWrap.perime table.tblCmd { opacity:.55 }
+  .pag.perime { opacity:.55 }
+  .pag.perime::after { content:"— total possiblement périmé"; color:var(--ambre); font-size:12px }
+
+  #toasts { position:fixed; right:14px; bottom:14px; z-index:120; display:flex;
+            flex-direction:column; gap:8px; max-width:420px }
+  .toast { display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:8px;
+           background:var(--carte); border:1px solid var(--bord); font-size:13px;
+           box-shadow:0 8px 24px rgba(0,0,0,.18); animation:toastEntre .18s ease-out }
+  .toast.erreur { border-color:var(--rouge); background:color-mix(in srgb, var(--rouge) 10%, var(--carte)) }
+  .toast.succes { border-color:var(--vert); background:color-mix(in srgb, var(--vert) 10%, var(--carte)) }
+  .toast button { padding:2px 9px; font-size:12px; border-radius:5px; cursor:pointer }
+  .toast .x { border:none; background:none; font-size:16px; color:var(--doux); padding:0 2px }
+  .toast.sort { opacity:0; transform:translateY(6px); transition:.24s }
+  @keyframes toastEntre { from { opacity:0; transform:translateY(8px) } }
+
+  /* ---- poste de scan ---- */
+  .avis.bloquant { border-left:4px solid var(--rouge); font-size:14px; line-height:1.5 }
+  .listeAmbigu { display:flex; flex-wrap:wrap; gap:7px; margin-top:9px }
+  .listeAmbigu .amb { display:flex; align-items:center; gap:7px; padding:5px 11px; border-radius:6px;
+                      cursor:pointer; font-size:13px }
+  .listeAmbigu .amb:disabled { opacity:.45; cursor:not-allowed }
+
+  /* Contenu réservé aux lecteurs d'écran : présent dans l'arbre d'accessibilité, invisible. */
+  .visuellement-cache { position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+                        overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0 }
 
   /* ---- pastilles de filtre (« Filter By » de ShipStation, §2.4) ---- */
   .barreF .chip { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; font-size:12.5px;
@@ -815,6 +879,10 @@ async function api(route, opts = {}) {
 function dialogue(titre, html, onOk, texteOk = "Confirmer", apres = null) {
   // La fiche de commande est un écran, pas une question : elle prend toute la largeur utile.
   $("#dlg").classList.toggle("large", /^Commande /.test(titre));
+  // §8.2.4 — le <dialog> natif porte déjà le rôle et le piège de focus ; il lui manquait
+  // seulement d'être nommé par son titre pour être annoncé correctement.
+  $("#dlg").setAttribute("aria-labelledby", "dlgT");
+  $("#dlg").setAttribute("aria-modal", "true");
   $("#dlgT").textContent = titre;
   $("#dlgC").innerHTML = html;
   if (apres) apres($("#dlgC"));
@@ -833,11 +901,13 @@ const attendre = (t = "Un instant…") => dialogue(t, '<p class="doux">Traitemen
 /** Table générique : colonnes, lignes, sélection, tri. */
 function table(cols, lignes, { sel = null, onTri = null, tri = null, dir = null, onLigne = null, cle = "id", pins = 0 } = {}) {
   const cl = (c, i) => [c.n ? "n" : "", i < pins ? `pin pin${i + 1}` : ""].filter(Boolean).join(" ");
-  const th = (sel ? '<th style="width:26px"></th>' : "") + cols.map((c, i) =>
-    `<th class="${cl(c, i)}" data-c="${c.k}">${esc(c.t)}${tri === c.k ? (dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
+  const th = (sel ? '<th scope="col" style="width:26px"><span class="visuellement-cache">Sélection</span></th>' : "") + cols.map((c, i) =>
+    `<th scope="col" class="${cl(c, i)}" data-c="${c.k}"${
+        tri === c.k ? ` aria-sort="${dir === "asc" ? "ascending" : "descending"}"` : ""
+      }>${esc(c.t)}${tri === c.k ? (dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
   const tr = lignes.map(l => {
     const tds = cols.map((c, i) => `<td class="${cl(c, i)}">${c.r ? c.r(l) : esc(l[c.k] ?? "—")}</td>`).join("");
-    return `<tr data-id="${esc(l[cle])}" class="${onLigne ? "clic" : ""}">${sel ? `<td><input type="checkbox" data-id="${esc(l[cle])}"></td>` : ""}${tds}</tr>`;
+    return `<tr data-id="${esc(l[cle])}" class="${onLigne ? "clic" : ""}">${sel ? `<td><input type="checkbox" data-id="${esc(l[cle])}" aria-label="Sélectionner ${esc(l[cle])}"></td>` : ""}${tds}</tr>`;
   }).join("");
   const t = el(`<div class="tbl"><table><thead><tr>${th}</tr></thead><tbody>${tr || `<tr><td colspan="${cols.length + 1}" class="doux" style="padding:22px;text-align:center">Aucun résultat</td></tr>`}</tbody></table></div>`);
   if (onTri) t.querySelectorAll("th[data-c]").forEach(h => h.onclick = () => onTri(h.dataset.c));
@@ -933,16 +1003,26 @@ function autorise(id) {
 
 function menu() {
   const actif = MODULE_DE[S.page] || S.page;
+  // Un `href` réel plutôt qu'un `onclick` nu : la tabulation atteint la navigation, le lecteur
+  // d'écran annonce un lien, et « ouvrir dans un nouvel onglet » redevient possible (§8.2.1).
   $("#mods").innerHTML = MODULES.filter((m) => autorise(m.id))
-    .map((m) => `<a data-p="${m.id}" class="${actif === m.id ? "actif" : ""}">${esc(m.t)}<span class="n" data-n="${m.id}"></span></a>`).join("");
-  $("#mods").querySelectorAll("[data-p]").forEach((a) => a.onclick = () => aller(a.dataset.p));
+    .map((m) => `<a href="#${m.id}" data-p="${m.id}" class="${actif === m.id ? "actif" : ""}"${
+      actif === m.id ? ' aria-current="page"' : ""}>${esc(m.t)}<span class="n" data-n="${m.id}"></span></a>`).join("");
+  $("#mods").querySelectorAll("[data-p]").forEach((a) => a.onclick = (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey) return;   // laisser le navigateur ouvrir un onglet
+    e.preventDefault(); aller(a.dataset.p);
+  });
 
   const mod = MODULES.find((m) => m.id === actif);
   const sous = (mod && mod.sous || []).filter((x) => autorise(x.id));
   $("#sousnav").innerHTML = sous.length
-    ? sous.map((x) => `<a data-s="${x.id}" class="${S.page === x.id ? "actif" : ""}">${esc(x.t)}</a>`).join("")
+    ? sous.map((x) => `<a href="#${x.id}" data-s="${x.id}" class="${S.page === x.id ? "actif" : ""}"${
+        S.page === x.id ? ' aria-current="page"' : ""}>${esc(x.t)}</a>`).join("")
     : "";
-  $("#sousnav").querySelectorAll("[data-s]").forEach((a) => a.onclick = () => aller(a.dataset.s));
+  $("#sousnav").querySelectorAll("[data-s]").forEach((a) => a.onclick = (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault(); aller(a.dataset.s);
+  });
   majCompteursMenu();
 }
 
@@ -966,7 +1046,22 @@ function aller(page) {
   const mod = MODULES.find((m) => m.id === page);
   if (mod && mod.sous && mod.sous.length && !mod.sous.some((x) => x.id === page)) page = mod.sous[0].id;
   S.page = page; S.sel.clear(); S.filtres = {};
-  location.hash = page;
+  if ((location.hash || "").slice(1) !== page) location.hash = page;
+  menu();
+  rendre();
+}
+
+/**
+ * Routage par l'historique — BUG-053.
+ *
+ * `aller()` posait le hash sans que personne n'écoute son changement : le bouton Retour du
+ * navigateur modifiait l'URL et laissait l'écran en place. On se retrouvait avec « #tarifs »
+ * affiché au-dessus de l'écran Scan, et deux comptages contradictoires sur la même page.
+ */
+function suivreHash() {
+  const cible = (location.hash || "").slice(1) || "commandes";
+  if (cible === S.page || !VUES[cible] || !autorise(cible)) return;
+  S.page = cible; S.sel.clear(); S.filtres = {};
   menu();
   rendre();
 }
@@ -1047,7 +1142,7 @@ const COLONNES = [
   // répartition de ShipStation — on configure à droite, on ouvre la commande quand il faut
   // éditer les articles, l'adresse ou scinder.
   { k: "order_number", t: "N° commande", defaut: 1, tri: "order_number",
-    r: (o) => `<a class="lienCmd" data-cmd="${o.id}">${esc(o.order_number)}</a>` },
+    r: (o) => `<button type="button" class="lienCmd" data-cmd="${o.id}">${esc(o.order_number)}</button>` },
   { k: "age", t: "Âge", defaut: 1, n: 1, tri: "age", r: (o) => `<span class="age">${o.age ?? "—"} j</span>` },
   { k: "order_date", t: "Date de commande", defaut: 1, tri: "order_date", r: (o) => jour(o.order_date) },
   // « Notes » chez ShipStation est une colonne unique qui agrège les trois notes ; l'icône
@@ -1258,7 +1353,7 @@ function rendreDemande(o, cliquable = false) {
   const r = IDX.resolutions ? IDX.resolutions.get(o.requested_service) : null;
   const nom = esc(o.requested_service);
   const lien = (txt, titre) => cliquable
-    ? ` <a class="lienMap" id="cMapper" title="${esc(titre)}">${txt}</a>`
+    ? ` <button type="button" class="lienMap" id="cMapper" title="${esc(titre)}">${txt}</button>`
     : ` <span class="puce a" title="${esc(titre)}">${txt}</span>`;
 
   if (!r || r.etat === "non_mappe")
@@ -1268,7 +1363,7 @@ function rendreDemande(o, cliquable = false) {
   if (r.etat === "sans_transporteur")
     return `${nom} <span class="puce g" title="Ce canal n'utilise pas de transporteur">${
       esc(CANAL_FR[r.channel] || r.channel)}</span>`;
-  return nom + (cliquable ? ' <a class="fEdit" id="cMapper" title="Modifier le mapping">mappé</a>' : "");
+  return nom + (cliquable ? ' <button type="button" class="fEdit" id="cMapper" title="Modifier le mapping">mappé</button>' : "");
 }
 
 /**
@@ -1325,17 +1420,17 @@ VUES.commandes = async (statutFixe) => {
     <aside class="ssL">
       <div class="ssRech">
         <input type="search" id="fq" placeholder="Rechercher des commandes…">
-        <a id="ssAvance">Recherche avancée</a>
+        <button type="button" id="ssAvance" class="lienB">Recherche avancée</button>
       </div>
       <div id="ssStatuts"></div>
       <div class="ssLt">Lots ouverts</div>
       <div id="ssLots"></div>
-      <a class="ssLi ajout" id="ssNouveauLot">+ Créer un lot</a>
+      <button type="button" class="ssLi ajout" id="ssNouveauLot">+ Créer un lot</button>
     </aside>
     <section class="ssC">
       <div class="enteteE">
-        <h2 id="titreE">À expédier</h2>
-        <a id="btRecharger" class="recharger">↻ Recharger</a>
+        <h1 id="titreE">À expédier</h1>
+        <button type="button" id="btRecharger" class="recharger">↻ Recharger</button>
         <span style="margin-left:auto"></span>
         <button id="aGroupe">Grouper… ▾</button>
         <button id="aCols">Colonnes</button>
@@ -1521,11 +1616,13 @@ VUES.commandes = async (statutFixe) => {
     const c = S.compteurs.statuts || {};
     const b = S.compteurs.boutiques || {};
     const ligne = (id, libelle, n, cls = "") =>
-      `<a class="ssLi ${cls} ${estActif(id) ? "actif" : ""}" data-s="${id}">${esc(libelle)}<span class="n">${n ? num(n) : ""}</span></a>`;
+      `<button type="button" class="ssLi ${cls} ${estActif(id) ? "actif" : ""}" data-s="${id}"
+         aria-pressed="${estActif(id)}">${esc(libelle)}<span class="n">${n ? num(n) : ""}</span></button>`;
 
     const boutiques = (S.refs.stores || []).filter((x) => x.active)
-      .map((x) => `<a class="ssLi enfant ${S0.statut === "awaiting_shipment" && String(S0.store) === String(x.id) ? "actif" : ""}"
-        data-b="${x.id}">${esc(x.name)}<span class="n">${b[x.id] ? num(b[x.id]) : ""}</span></a>`).join("");
+      .map((x) => `<button type="button" class="ssLi enfant ${S0.statut === "awaiting_shipment" && String(S0.store) === String(x.id) ? "actif" : ""}"
+        data-b="${x.id}" aria-pressed="${S0.statut === "awaiting_shipment" && String(S0.store) === String(x.id)}"
+        >${esc(x.name)}<span class="n">${b[x.id] ? num(b[x.id]) : ""}</span></button>`).join("");
 
     $("#ssStatuts").innerHTML =
       ligne("awaiting_payment", STATUT_FR.awaiting_payment, c.awaiting_payment) +
@@ -1535,8 +1632,8 @@ VUES.commandes = async (statutFixe) => {
       ligne("pending_fulfillment", STATUT_FR.pending_fulfillment, c.pending_fulfillment) +
       ligne("shipped", STATUT_FR.shipped, c.shipped) +
       ligne("cancelled", STATUT_FR.cancelled, c.cancelled) +
-      `<a class="ssLi" id="ssAlertes">Alertes de commandes<span class="n">${
-        num(Object.values(S.compteurs.alertes || {}).reduce((x, y) => x + y, 0)) || ""}</span></a>`;
+      `<button type="button" class="ssLi" id="ssAlertes">Alertes de commandes<span class="n">${
+        num(Object.values(S.compteurs.alertes || {}).reduce((x, y) => x + y, 0)) || ""}</span></button>`;
 
     $("#ssStatuts").querySelectorAll("[data-s]").forEach((a) => a.onclick = () => {
       S0.statut = a.dataset.s; S0.store = null; S0.vue = null; S0.lot = null; S0.page = 0; S.sel.clear();
@@ -1562,7 +1659,7 @@ VUES.commandes = async (statutFixe) => {
     await chargerLots();
     const n = S.sel.size;
     $("#ssLots").innerHTML = LOTS.length
-      ? LOTS.map((l) => `<a class="ssLi lot ${String(S0.lot) === String(l.id) ? "actif" : ""}" data-l="${l.id}">
+      ? LOTS.map((l) => `<button type="button" class="ssLi lot ${String(S0.lot) === String(l.id) ? "actif" : ""}" data-l="${l.id}" aria-pressed="${String(S0.lot) === String(l.id)}">
           <span class="nom">${esc(l.name)}</span>
           <span class="n">${l.n ? num(l.n) : ""}</span>
           ${n ? `<button class="plus" data-plus="${l.id}" title="Ajouter les ${n} commande(s) sélectionnée(s)">+</button>` : ""}
@@ -1612,13 +1709,15 @@ VUES.commandes = async (statutFixe) => {
    * onglets le second.
    */
   function majVues() {
-    $("#ongVues").innerHTML = `<span class="ong ${!S0.vue ? "actif" : ""}" data-v="">${STATUT_FR[S0.statut] || "Toutes"}</span>` +
-      VUES_SAUV.slice(0, 12).map((v) => `<span class="ong ${S0.vue === v.id ? "actif" : ""}" data-v="${v.id}"${
+    $("#ongVues").setAttribute("role", "tablist");
+    $("#ongVues").innerHTML = `<button type="button" role="tab" class="ong ${!S0.vue ? "actif" : ""}" data-v=""
+      aria-selected="${!S0.vue}">${STATUT_FR[S0.statut] || "Toutes"}</button>` +
+      VUES_SAUV.slice(0, 12).map((v) => `<button type="button" role="tab" class="ong ${S0.vue === v.id ? "actif" : ""}" data-v="${v.id}" aria-selected="${S0.vue === v.id}"${
         v.notes ? ` title="${esc(v.notes)}"` : ""}>${esc(v.name)}${
         v.notes && v.notes.includes("vérifier") ? ' <span class="puce a">?</span>' : ""}${
-        v.n != null ? ` <i>${num(v.n)}</i>` : ""}</span>`).join("") +
-      (VUES_SAUV.length > 12 ? `<span class="ong" id="ongPlus">+${VUES_SAUV.length - 12}…</span>` : "") +
-      `<span class="ong sauver" id="ongSave" title="Enregistrer les filtres et les colonnes actuels comme vue">+ Enregistrer la vue</span>`;
+        v.n != null ? ` <i>${num(v.n)}</i>` : ""}</button>`).join("") +
+      (VUES_SAUV.length > 12 ? `<button type="button" class="ong" id="ongPlus">+${VUES_SAUV.length - 12}…</button>` : "") +
+      `<button type="button" class="ong sauver" id="ongSave" title="Enregistrer les filtres et les colonnes actuels comme vue">+ Enregistrer la vue</button>`;
 
     document.querySelectorAll("#ongVues [data-v]").forEach((a) => {
       a.onclick = () => choisirVue(a.dataset.v);
@@ -1706,6 +1805,15 @@ VUES.commandes = async (statutFixe) => {
   // ------------------------------------------------------------- grille
   let LIGNES = [], dernierIndex = null;
 
+  /**
+   * Chargement de la grille — BUG-014, BUG-035.
+   *
+   * Un échec ne doit jamais laisser l'écran tel quel : avant ce correctif, un HTTP 500 suivi
+   * de « ↻ Recharger » ne changeait rien, la grille gardait ses 250 lignes et le pied
+   * annonçait toujours « 1–250 sur 474 ». On marque donc les données comme **périmées**, on
+   * dit pourquoi, et on propose de réessayer — sans effacer ce qui est à l'écran, qui reste
+   * la meilleure information disponible tant qu'on prévient qu'elle date.
+   */
   async function charger() {
     // Une vue sauvegardée est un **second niveau** de tri, pas un remplacement : elle
     // s'applique à l'intérieur du statut choisi à gauche. Sans cela, « Graines x1 » ramenait
@@ -1714,7 +1822,21 @@ VUES.commandes = async (statutFixe) => {
     const f = S0.vue ? { ...lire(), view_id: S0.vue } : lire();
     const p = new URLSearchParams({ ...f, sort: S.tri, dir: S.dir,
       limit: S0.taille, offset: S0.page * S0.taille });
-    const d = await api("/api/orders?" + p);
+
+    const zone = $("#tbl");
+    zone.setAttribute("aria-busy", "true");
+    if (!LIGNES.length) zone.innerHTML = squelette(10);
+
+    let d;
+    try {
+      d = await api("/api/orders?" + p);
+    } catch (e) {
+      zone.removeAttribute("aria-busy");
+      marquerPerime(e);
+      return;
+    }
+    zone.removeAttribute("aria-busy");
+    demarquerPerime();
     LIGNES = d.orders;
     // Les flèches ‹ › de la fiche de commande naviguent dans CETTE liste, dans l'ordre où
     // elle est triée à l'écran — pas dans l'ordre des identifiants.
@@ -1728,6 +1850,31 @@ VUES.commandes = async (statutFixe) => {
     majPagination(d);
     majActions();
     cote();
+  }
+
+  /** Bandeau « données périmées » : la grille reste lisible, mais elle cesse de faire foi. */
+  function marquerPerime(e) {
+    S0.perime = true;
+    $("#tbl").classList.add("perime");
+    let b = $("#bandPerime");
+    if (!b) {
+      b = el(`<div class="bandPerime" id="bandPerime" role="alert"></div>`);
+      $("#tbl").before(b);
+    }
+    b.innerHTML = `<b>Ces données ne sont plus à jour.</b> ${esc(e.message)}
+      <button type="button" id="bpR">Réessayer</button>`;
+    $("#bpR").onclick = () => charger();
+    // Le pied de page annonçait un total qui n'a plus cours : on le dit.
+    const pg = $("#pag");
+    if (pg) pg.classList.add("perime");
+  }
+
+  function demarquerPerime() {
+    if (!S0.perime) return;
+    S0.perime = false;
+    $("#tbl").classList.remove("perime");
+    $("#pag")?.classList.remove("perime");
+    $("#bandPerime")?.remove();
   }
 
   /**
@@ -1744,8 +1891,8 @@ VUES.commandes = async (statutFixe) => {
     }
     T.innerHTML = `<span class="etqT">Lot d'étiquettes :</span> <span class="lotChip">${esc(lotA.name)}</span>
       <span class="etqT">Notes du lot :</span> ${lotA.notes
-        ? `<a class="lienNote" id="lotNote">${esc(lotA.notes)}</a>`
-        : `<a class="lienNote" id="lotNote">Ajouter une note</a>`}`;
+        ? `<button type="button" class="lienNote" id="lotNote">${esc(lotA.notes)}</button>`
+        : `<button type="button" class="lienNote" id="lotNote">Ajouter une note</button>`}`;
     $("#lotNote").onclick = () => dialogue(`Notes — ${lotA.name}`, `
       <label class="champ"><span>Note du lot</span><textarea id="lnT" rows="3">${esc(lotA.notes || "")}</textarea></label>
       <p class="doux">Visible par toute l'équipe en tête de l'écran du lot.</p>`,
@@ -1772,12 +1919,49 @@ VUES.commandes = async (statutFixe) => {
     }
   }
 
+  /**
+   * État vide — BUG-037.
+   *
+   * Deux situations que l'ancien écran confondait : « ce statut est vide » et « ce filtre ne
+   * ramène rien ». La seconde proposait « Importer depuis Shopify », ce qui n'a aucun rapport
+   * avec un filtre trop étroit. On rappelle donc le critère et on propose de l'effacer.
+   */
+  function etatVide() {
+    const f = S0.f || {};
+    const actifs = PASTILLES.filter((x) => x.resume(f)).map((x) => x.t);
+    const q = $("#fq") && $("#fq").value.trim();
+    const vue = VUES_SAUV.find((x) => x.id === S0.vue);
+    const filtre = actifs.length || q || vue;
+
+    if (!filtre) return `<div class="vide2"><b>Rien à expédier dans ce statut</b>
+      <div class="doux">Les commandes arrivent par l'import de la boutique.</div>
+      <button type="button" class="p" id="videImport">Importer depuis Shopify</button></div>`;
+
+    return `<div class="vide2"><b>Aucun résultat pour ce filtre</b>
+      <div class="doux">${vue ? `Vue « ${esc(vue.name)} »` : ""}${vue && (actifs.length || q) ? " · " : ""}${
+        actifs.length ? esc(actifs.join(" · ")) : ""}${(vue || actifs.length) && q ? " · " : ""}${
+        q ? `recherche « ${esc(q)} »` : ""}</div>
+      <button type="button" class="p" id="videEffacer">Tout effacer</button></div>`;
+  }
+
   function dessiner(d) {
     const cols = colonnesActives();
     const epingle = (k) => S0.epingles.includes(k) ? ` class="fig"` : "";
     const toutes = d.orders.length > 0 && d.orders.every((o) => S.sel.has(String(o.id)));
-    const th = `<th class="cx"><input type="checkbox" id="tout"${toutes ? " checked" : ""}></th><th class="cx"></th>` +
-      cols.map((c) => `<th data-t="${c.tri || ""}"${c.n ? ' class="n"' : ""}${S0.epingles.includes(c.k) ? " data-fig=1" : ""}>${esc(c.t)}${S.tri === c.tri ? (S.dir === "asc" ? " ▲" : " ▼") : ""}</th>`).join("");
+    // BUG-036 — sept colonnes sur douze n'ont pas de clé de tri et simulaient pourtant un tri :
+    // le curseur changeait, le clic ne faisait rien. Seules les colonnes triables sont
+    // annoncées comme telles, aux voyants comme aux lecteurs d'écran.
+    const th = `<th scope="col" class="cx"><input type="checkbox" id="tout"${toutes ? " checked" : ""}
+        aria-label="Tout sélectionner sur cette page"></th><th scope="col" class="cx"></th>` +
+      cols.map((c) => {
+        const triable = !!c.tri;
+        const actif = triable && S.tri === c.tri;
+        return `<th scope="col"${triable ? ` data-t="${c.tri}" class="triable${c.n ? " n" : ""}" tabindex="0" role="columnheader"` +
+            ` aria-sort="${actif ? (S.dir === "asc" ? "ascending" : "descending") : "none"}"` +
+            ` title="Trier par ${esc(c.t)}"` : `${c.n ? ' class="n"' : ""}`}${
+          S0.epingles.includes(c.k) ? " data-fig=1" : ""}>${esc(c.t)}${
+          actif ? (S.dir === "asc" ? " ▲" : " ▼") : ""}</th>`;
+      }).join("");
     // Le regroupement suppose des lignes contiguës : on trie côté client sur la clé de groupe
     // avant de dessiner, sans toucher au tri de colonne choisi à l'intérieur d'un groupe.
     if (S0.groupe) d.orders.sort((a, b) => String(cleGroupe(a)).localeCompare(String(cleGroupe(b)), "fr"));
@@ -1794,8 +1978,10 @@ VUES.commandes = async (statutFixe) => {
         }
       }
       return enTeteGroupe + `<tr data-id="${o.id}" class="${S.sel.has(String(o.id)) ? "sel" : ""}">
-        <td class="cx"><input type="checkbox" data-id="${o.id}" ${S.sel.has(String(o.id)) ? "checked" : ""}></td>
-        <td class="cx">${arts(o).length > 1 ? `<span class="chev" data-x="${o.id}">▸</span>` : ""}</td>
+        <td class="cx"><input type="checkbox" data-id="${o.id}" ${S.sel.has(String(o.id)) ? "checked" : ""}
+          aria-label="Sélectionner la commande ${esc(o.order_number)}"></td>
+        <td class="cx">${arts(o).length > 1 ? `<button type="button" class="chev" data-x="${o.id}"
+          aria-expanded="false" aria-label="Afficher les ${arts(o).length} articles">▸</button>` : ""}</td>
         ${cols.map((c) => `<td${c.n ? ' class="n"' : ""}${S0.epingles.includes(c.k) ? ' data-fig=1' : ""}>${c.r(o)}${
           c.k === "order_number" && drop ? ' <span class="puce v" title="Admissible au tarif de dépôt en bureau de poste">dépôt</span>' : ""}</td>`).join("")}
       </tr>` + (arts(o).length > 1 ? `<tr class="arts" data-arts="${o.id}" hidden><td></td><td></td>
@@ -1807,13 +1993,28 @@ VUES.commandes = async (statutFixe) => {
     $("#tbl").className = "grilleWrap" + (S0.dense ? " dense" : "");
     $("#tbl").innerHTML = d.orders.length
       ? `<table class="tblCmd"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`
-      : `<div class="vide2"><b>Aucune commande</b><div class="doux">${S0.vue ? "Cette vue ne ramène rien pour l'instant." : "Rien à expédier dans ce statut."}</div>
-         <button class="p" onclick="importerShopify()">Importer depuis Shopify</button></div>`;
+      : etatVide();
+
+    const bi = $("#videImport"); if (bi) bi.onclick = () => importerShopify();
+    const be = $("#videEffacer"); if (be) be.onclick = () => {
+      S0.f = {}; S0.vue = null; S0.page = 0;
+      const fq = $("#fq"); if (fq) fq.value = "";
+      dessinerFiltres(); charger(); majVues();
+    };
 
     // Délégation : deux gestionnaires sur le conteneur, pas trois par ligne. À 1 000 lignes
     // le câblage individuel représentait l'essentiel du temps de rendu — la requête met
     // 200 ms, le DOM en mettait dix fois plus.
     const T = $("#tbl");
+    // Un en-tête focalisable doit s'activer au clavier, sinon le `tabindex` ne fait que
+    // piéger la tabulation sans rien offrir.
+    T.onkeydown = (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const th = e.target.closest("th[data-t]");
+      if (!th) return;
+      e.preventDefault();
+      th.click();
+    };
     T.onclick = (e) => {
       const th = e.target.closest("th[data-t]");
       if (th) {
@@ -1831,7 +2032,9 @@ VUES.commandes = async (statutFixe) => {
       if (chev) {
         e.stopPropagation();
         const l = $(`[data-arts="${chev.dataset.x}"]`);
-        l.hidden = !l.hidden; chev.textContent = l.hidden ? "▸" : "▾";
+        l.hidden = !l.hidden;
+        chev.textContent = l.hidden ? "▸" : "▾";
+        chev.setAttribute("aria-expanded", String(!l.hidden));
         return;
       }
       const tr = e.target.closest("tr[data-id]");
@@ -2469,7 +2672,7 @@ VUES.commandes = async (statutFixe) => {
     // Le bouton d'achat est en bas et porte le tarif, comme « Create + Print Label $X.XX ».
     C.innerHTML = `
       <div class="sec entete">
-        <h4><a class="lienCmd" id="cOuvrir">${esc(o.order_number)}</a>
+        <h4><button type="button" class="lienCmd" id="cOuvrir">${esc(o.order_number)}</button>
           <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>
           <span style="margin-left:auto"></span>
           <button id="cLot" class="mini">Lot ▾</button>
@@ -2523,7 +2726,7 @@ VUES.commandes = async (statutFixe) => {
         ${o.requested_service ? `<div class="kv" style="margin-top:6px"><span>Service demandé</span>
           <b>${esc(o.requested_service)} ${mapped
             ? '<span class="puce v">mappé</span>'
-            : '<a class="lienMap" id="cMap">non mappé</a>'}</b></div>` : ""}
+            : '<button type="button" class="lienMap" id="cMap">non mappé</button>'}</b></div>` : ""}
         <div id="cMarge"></div>
       </div>
 
@@ -2624,7 +2827,35 @@ VUES.commandes = async (statutFixe) => {
     await api("/api/presets/apply", { method: "POST", body: { preset_id: p.id, ids: ids() } });
     charger();
   };
-  S.cmdActions = { acheterLot, marquerExpedie, simulerLot, coter: () => $("#aRate").click() };
+  /**
+   * Actions exposées aux raccourcis clavier.
+   *
+   * `confirmerAchat` est délibérément distinct d'`acheterLot` : une touche ne doit pas pouvoir
+   * dépenser. On affiche le nombre de commandes et le coût estimé, et on exige un clic —
+   * c'est le garde-fou qui manquait quand « b » et « s » appelaient la même fonction.
+   */
+  S.cmdActions = {
+    acheterLot, marquerExpedie, simulerLot, coter: () => $("#aRate").click(),
+    creerLot: () => { S.sel.size ? ajouterAuLot() : $("#ssNouveauLot")?.click(); },
+    confirmerAchat: async () => {
+      const n = S.sel.size;
+      if (!n) return;
+      if (!S.config.etiquettes_actives)
+        return dialogue("Achat d'étiquettes désactivé",
+          `<p>Ce service tourne sans <code>CLONE_ALLOW_LABELS=1</code>. La cotation et la
+           simulation de lot restent disponibles.</p>`, null, "Fermer");
+      let cout = "";
+      try {
+        const r = await api("/api/batches/preview", { method: "POST", body: { ids: ids() } });
+        cout = `<div class="kv"><span>Coût estimé</span><b>${money(r.total)}</b></div>` +
+               (r.bloquees ? `<div class="avis mini">${r.bloquees} commande(s) ne peuvent pas être cotées.</div>` : "");
+      } catch { /* la confirmation reste possible même sans cotation */ }
+      dialogue(`Acheter ${n} étiquette${n > 1 ? "s" : ""} ?`,
+        `<p>Cette action <b>dépense réellement</b> et n'est pas annulable sans passer par
+         l'annulation d'étiquette chez le transporteur.</p>${cout}`,
+        acheterLot, `Acheter ${n} étiquette${n > 1 ? "s" : ""}`);
+    },
+  };
 
   indexerRefs();
   dessinerFiltres();
@@ -2749,16 +2980,39 @@ let ficheOuverte = null;
  * n'apparaît que si on sait ce que le client a payé — c'est l'alerte du constat OBS9 : la
  * marge d'expédition de Lasclay était négative de 703 $ sur un seul mois.
  */
+/**
+ * Tableau de tarifs — BUG-018, BUG-068.
+ *
+ * Deux corrections issues de l'audit. D'abord le nom : la colonne affichait l'identifiant
+ * technique (`cp_expedited`) au lieu du libellé commercial, et « Délai » restait vide alors
+ * que l'API renvoie la durée de transit. Ensuite, et surtout, l'honnêteté du chiffre :
+ * l'adaptateur de démonstration calcule un prix **qui ne dépend que du poids**, identique pour
+ * les six transporteurs, ce qui rend le classement faux — Purolator, réellement quatrième
+ * moins cher, ressortait avant-dernier. Un bandeau refermable au-dessus du tableau ne suffit
+ * pas : la mention « démo » est répétée **sur chaque ligne**, là où l'œil se pose.
+ */
 function tableauTarifs(r, o) {
   const paye = o ? Number(o.shipping_paid || 0) : null;
-  return `<div class="tbl"><table><thead><tr><th>Transporteur</th><th>Service</th><th class="n">Prix</th>${
-    paye !== null ? '<th class="n">Marge</th>' : ""}</tr></thead><tbody>${
+  const demo = S.config && S.config.adaptateur === "bouchon";
+  return `${demo ? `<div class="avis bloquant" style="margin-bottom:10px">
+      <b>Tarifs de démonstration.</b> L'adaptateur transporteur n'est pas branché : ces prix ne
+      dépendent que du poids et sont identiques pour tous les transporteurs. <b>Le classement
+      n'a aucune valeur.</b> Brancher <code>CARRIER_ADAPTER</code> avant de s'y fier.</div>` : ""}
+    <div class="tbl"><table>
+    <thead><tr><th scope="col">Transporteur</th><th scope="col">Service</th>
+      <th scope="col">Délai</th><th scope="col" class="n">Prix</th>${
+      paye !== null ? '<th scope="col" class="n">Marge</th>' : ""}</tr></thead><tbody>${
     r.tarifs.map((t) => {
       const m = paye !== null ? Math.round((paye - t.price) * 100) / 100 : null;
+      const nom = t.serviceName || nomService(t.serviceId) || t.serviceId;
+      const delai = t.delivery_days ? `${t.delivery_days} j`
+        : t.estimated_delivery_date ? jour(t.estimated_delivery_date) : "—";
       return `<tr><td>${esc(t.carrier)}</td>
-        <td>${esc(t.serviceName || t.serviceId)}${t.dropOff ? ' <span class="puce v">dépôt</span>' : ""}${
+        <td><span title="${esc(t.serviceId || "")}">${esc(nom)}</span>${
+          t.dropOff ? ' <span class="puce v">dépôt</span>' : ""}${
           r.recommande && r.recommande.serviceId === t.serviceId ? ' <span class="puce v">recommandé</span>' : ""}</td>
-        <td class="n">${money(t.price)}</td>
+        <td>${esc(delai)}</td>
+        <td class="n">${money(t.price)}${demo ? ' <span class="puce a" title="Valeur de démonstration, non contractuelle">démo</span>' : ""}</td>
         ${m !== null ? `<td class="n ${m < 0 ? "rouge" : "vert"}">${m >= 0 ? "+" : ""}${money(m)}</td>` : ""}</tr>`;
     }).join("")}</tbody></table></div>`;
 }
@@ -2779,10 +3033,10 @@ async function detailCommande(id) {
   const suite = S.cmdIds || [];
   const pos = suite.indexOf(id);
 
-  const f = el(`<div class="fiche" id="fiche">
+  const f = el(`<div class="fiche" id="fiche" role="dialog" aria-modal="true" aria-labelledby="fNum">
     <header class="fTete">
       <span class="fBout">${esc(boutique)}</span>
-      <b class="fNum">Commande ${esc(o.order_number)}</b>
+      <b class="fNum" id="fNum">Commande ${esc(o.order_number)}</b>
       <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>
       ${lot ? `<span class="puce v">lot : ${esc(lot.name)}</span>` : ""}
       ${(o.tags || []).map(pastilleTag).join(" ")}
@@ -2813,7 +3067,7 @@ async function detailCommande(id) {
           <div class="fDeux">
             <div>
               <div class="fLab">Expédier à ${adresseValide(o.ship_to)}
-                <a class="fEdit" id="fEditAdr">Modifier</a></div>
+                <button type="button" class="fEdit" id="fEditAdr">Modifier</button></div>
               <div class="adr">${esc(o.customer_name || "")}
                 ${o.ship_to.company ? `<br>${esc(o.ship_to.company)}` : ""}<br>${esc(o.ship_to.street1 || "")}
                 ${o.ship_to.street2 ? `<br>${esc(o.ship_to.street2)}` : ""}<br>
@@ -2853,9 +3107,9 @@ async function detailCommande(id) {
         <section class="fSec">
           <h4>Articles de l'expédition
             <span class="fH4a">
-              <a class="fEdit" id="fEditArt">Modifier</a>
-              ${artsF.length > 1 ? '<a class="fEdit" id="fSplit2">Scinder l\'expédition</a>' : ""}
-              <a class="fEdit" id="fScan">Vérifier au scan</a>
+              <button type="button" class="fEdit" id="fEditArt">Modifier</button>
+              ${artsF.length > 1 ? '<button type="button" class="fEdit" id="fSplit2">Scinder l\'expédition</button>' : ""}
+              <button type="button" class="fEdit" id="fScan">Vérifier au scan</button>
             </span></h4>
           <table class="fArt">
             <thead><tr><th>Article</th><th>Image</th><th class="n">Prix unitaire</th><th class="n">Quantité</th><th class="n">Total</th></tr></thead>
@@ -2934,7 +3188,7 @@ async function detailCommande(id) {
 
           <div class="fLab">Demandé</div>
           <div class="cDem">${rendreDemande(o, true)}
-            <a class="fEdit" id="cBrowse">Parcourir les tarifs</a></div>
+            <button type="button" class="fEdit" id="cBrowse">Parcourir les tarifs</button></div>
 
           <label class="champ"><span>Expédié de</span><select id="cWh">
             <option value="">— défaut —</option>${(S.refs.warehouses || []).map((w) =>
@@ -2953,7 +3207,7 @@ async function detailCommande(id) {
               `<option value="${esc(x.id)}"${String(o.service_id) === String(x.id) ? " selected" : ""}>${esc(x.name)}</option>`).join("")}
           </select></label>
 
-          <label class="champ"><span>Colis <a class="fEdit" id="cAddPkg">+ Ajouter un colis</a></span><select id="cPkg">
+          <label class="champ"><span>Colis <button type="button" class="fEdit" id="cAddPkg">+ Ajouter un colis</button></span><select id="cPkg">
             <option value="">— choisir —</option>${(S.refs.packages || []).map((x) =>
               `<option value="${esc(x.id)}"${String(o.package_id) === String(x.id) ? " selected" : ""}>${esc(x.name)}</option>`).join("")}
           </select></label>
@@ -2971,7 +3225,7 @@ async function detailCommande(id) {
           </select></label>
 
           <div class="cAssur">Assurance : <b>${o.insurance?.provider ? esc(o.insurance.provider) : "aucune"}</b>
-            <a class="fEdit" id="cAssurE">Modifier</a></div>
+            <button type="button" class="fEdit" id="cAssurE">Modifier</button></div>
 
           <details class="cAutres"><summary>Autres options d'expédition</summary>
             <label class="champ"><span>Compte d'expédition</span><select id="cCompte">${
@@ -3415,7 +3669,7 @@ VUES.alertes = async () => {
     fusionnables: ["Expéditions combinables", "Même destinataire, même code postal."],
     vieilles: ["En attente depuis plus de 14 jours", ""],
   };
-  $("#vue").innerHTML = `<h2>Alertes</h2><p class="sous">Ce qui bloquera le prochain lot, détecté avant de le lancer.</p>`;
+  $("#vue").innerHTML = `<h1>Alertes</h1><p class="sous">Ce qui bloquera le prochain lot, détecté avant de le lancer.</p>`;
   for (const [k, lignes] of Object.entries(a)) {
     const [t, d] = titres[k] || [k, ""];
     const carte = el(`<div class="carte"><b>${esc(t)}</b> <span class="puce ${lignes.length ? "a" : "v"}">${lignes.length}</span>
@@ -3441,7 +3695,7 @@ VUES.alertes = async () => {
 
 // ------------------------------------------------------------ expéditions
 VUES.expeditions = async () => {
-  $("#vue").innerHTML = `<h2>Expéditions</h2><p class="sous" id="r">…</p>
+  $("#vue").innerHTML = `<h1>Expéditions</h1><p class="sous" id="r">…</p>
     <div class="barre">
       <input type="search" id="ftr" placeholder="Numéro de suivi">
       <input type="search" id="fon" placeholder="N° commande">
@@ -3491,7 +3745,7 @@ VUES.lots = async () => {
   const ouverts = batches.filter((b) => b.status === "open");
   const traites = batches.filter((b) => b.status !== "open");
 
-  $("#vue").innerHTML = `<h2>Lots</h2>
+  $("#vue").innerHTML = `<h1>Lots</h1>
     <p class="sous">Un lot ouvert attend des commandes ; le traiter achète les étiquettes de
       tout ce qu'il contient. 96 % des étiquettes du compte audité passaient par un lot.</p>
     <div class="barre"><button class="p" id="lNouveau">Créer un lot</button></div>
@@ -3563,7 +3817,7 @@ VUES.lots = async () => {
 // --------------------------------------------------------------- manifestes
 VUES.manifestes = async () => {
   const { manifests } = await api("/api/manifests");
-  $("#vue").innerHTML = `<h2>Fin de journée</h2>
+  $("#vue").innerHTML = `<h1>Fin de journée</h1>
     <p class="sous">Clôture des expéditions par transporteur. En drop-off, le document sert de bordereau de dépôt.</p>
     <div class="barre">
       <select id="mc">${(S.refs.carriers || []).map(c => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select>
@@ -3583,7 +3837,7 @@ VUES.manifestes = async () => {
 // ----------------------------------------------------------------- retours
 VUES.retours = async () => {
   const d = await api("/api/returns");
-  $("#vue").innerHTML = `<h2>Retours</h2><p class="sous">${num(d.total)} RMA. Cycle complet : demande, approbation, transit, réception, remboursement.</p>
+  $("#vue").innerHTML = `<h1>Retours</h1><p class="sous">${num(d.total)} RMA. Cycle complet : demande, approbation, transit, réception, remboursement.</p>
     <div class="barre"><button class="p" id="rnew">Nouveau retour</button></div><div id="rt"></div>`;
   $("#rnew").onclick = () => dialogue("Nouveau retour", `
     <label class="champ"><span>N° de commande</span><input id="ron" placeholder="L-50123"></label>
@@ -3612,7 +3866,7 @@ VUES.retours = async () => {
 
 // ---------------------------------------------------------------- produits
 VUES.produits = async () => {
-  $("#vue").innerHTML = `<h2>Produits</h2><p class="sous" id="pr">…</p>
+  $("#vue").innerHTML = `<h1>Produits</h1><p class="sous" id="pr">…</p>
     <div class="barre"><input type="search" id="pq" placeholder="SKU ou nom">
       <label class="ch"><input type="checkbox" id="pnh"> sans code SH</label>
       <label class="ch"><input type="checkbox" id="pnw"> sans poids</label>
@@ -3751,7 +4005,7 @@ VUES.produits = async () => {
 
 // ----------------------------------------------------------------- clients
 VUES.clients = async () => {
-  $("#vue").innerHTML = `<h2>Clients</h2><p class="sous" id="cr">…</p>
+  $("#vue").innerHTML = `<h1>Clients</h1><p class="sous" id="cr">…</p>
     <div class="barre"><input type="search" id="cq" placeholder="Courriel ou nom">
       <button id="crb">Reconstruire depuis les commandes</button>
       <a id="cex" class="doux">Exporter CSV</a></div><div id="ct"></div>`;
@@ -3784,7 +4038,7 @@ const EXPORTS = [
 VUES.analytique = async () => {
   const a = await api("/api/analytics");
   const d = a.drop_off, mx = Math.max(...a.par_mois.map(m => m.n), 1);
-  $("#vue").innerHTML = `<h2>Analytique</h2><p class="sous">Coûts, volumes, et l'écart au tarif drop-off.</p>
+  $("#vue").innerHTML = `<h1>Analytique</h1><p class="sous">Coûts, volumes, et l'écart au tarif drop-off.</p>
     <div class="grille">
       <div class="kpi"><div class="v">${num(a.resume.expeditions)}</div><div class="l">expéditions</div></div>
       <div class="kpi"><div class="v">${money(a.resume.cout_total)}</div><div class="l">dépense transport</div></div>
@@ -3845,7 +4099,7 @@ VUES.automatisation = async () => {
 
   const ordreCouches = Object.entries(couches.couches).sort((a, b) => a[1].n - b[1].n);
 
-  $("#vue").innerHTML = `<h2>Automatisation</h2>
+  $("#vue").innerHTML = `<h1>Automatisation</h1>
     <p class="sous">Les six couches s'exécutent dans cet ordre à chaque import. Les règles
       passent en dernier : elles voient ce que les couches précédentes ont écrit.</p>
     <div class="carte"><div class="couches">${ordreCouches.map(([cle, c]) =>
@@ -4011,7 +4265,7 @@ function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all
  * Vancouver », sans avoir à créer quoi que ce soit.
  */
 VUES.tarifs = async () => {
-  $("#vue").innerHTML = `<h2>Tarifs</h2>
+  $("#vue").innerHTML = `<h1>Tarifs</h1>
     <p class="sous">Cotation d'un envoi hypothétique. Le seuil de dépôt en bureau de poste est
       de ${S.config.seuil_dropoff_g} g — sous ce poids, le tarif de dépôt est privilégié.</p>
     <div class="carte">
@@ -4059,17 +4313,37 @@ VUES.tarifs = async () => {
  * Le point important est ergonomique : après chaque étiquette, le champ reprend le focus tout
  * seul. L'opérateur ne touche jamais la souris de la journée.
  */
+/**
+ * Poste de scan — refondu après l'audit (BUG-008, 009, 015, 032, 033, 034, 066).
+ *
+ * Ce que l'audit a trouvé et qui coûtait de l'argent : une commande déjà expédiée s'ouvrait
+ * avec le bouton d'impression actif ; une saisie partielle ouvrait silencieusement la première
+ * commande trouvée ; le champ n'était pas vidé, donc le deuxième code de la journée se
+ * concaténait au premier et n'était jamais trouvé ; une erreur d'API laissait la commande
+ * précédente à l'écran ; et chaque visite de l'écran ajoutait un écouteur clavier de plus.
+ *
+ * Les quatre règles retenues :
+ *   • correspondance exacte, jamais `orders[0]` — plusieurs résultats se choisissent à la main ;
+ *   • statut expédiable obligatoire, avec la date d'expédition et le suivi si on refuse ;
+ *   • le champ est vidé et repris **dans un `finally`**, quoi qu'il arrive ;
+ *   • l'écran est effacé **avant** l'appel : on ne regarde jamais la commande précédente.
+ */
 VUES.scan = async () => {
-  $("#vue").innerHTML = `<h2>Scan</h2>
+  $("#vue").innerHTML = `<h1>Scan</h1>
     <p class="sous">Scannez le code-barres du bordereau ou saisissez un numéro de commande.
-      Le champ reprend le focus après chaque étiquette — le poste s'utilise sans souris.</p>
+      Le champ se vide et reprend le focus après chaque lecture — le poste s'utilise sans souris.</p>
     <div class="carte">
       <div class="barre">
-        <input id="scq" placeholder="Numéro de commande ou code-barres…" style="min-width:340px;font-size:16px;padding:10px">
+        <label class="visuellement-cache" for="scq">Numéro de commande ou code-barres</label>
+        <input id="scq" autocomplete="off" spellcheck="false"
+               placeholder="Numéro de commande ou code-barres…"
+               style="min-width:340px;font-size:16px;padding:10px">
+        <label class="visuellement-cache" for="scm">Mode de travail</label>
         <select id="scm">
           <option value="verifier">Vérifier puis imprimer</option>
           <option value="imprimer">Imprimer directement</option>
         </select>
+        <span class="doux" id="scEtat" role="status" aria-live="polite"></span>
       </div>
       <div class="doux">Raccourcis dans cet écran : <kbd>V</kbd> marquer vérifié · <kbd>P</kbd> imprimer l'étiquette</div>
     </div>
@@ -4079,23 +4353,47 @@ VUES.scan = async () => {
   champ.focus();
   let courante = null, verifies = new Set();
 
+  /** Retour sonore : à l'emballage, personne ne regarde l'écran entre deux colis. */
+  const bip = (ok) => {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = ok ? 880 : 220;
+      o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.06, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (ok ? 0.12 : 0.35));
+      o.start(); o.stop(ctx.currentTime + (ok ? 0.12 : 0.35));
+      setTimeout(() => ctx.close(), 600);
+    } catch { /* l'audio est un confort, pas une dépendance */ }
+  };
+
+  const refus = (html) => { bip(false); $("#scOut").innerHTML = `<div class="avis bloquant">${html}</div>`; };
+
   const rendreCommande = (o) => {
     courante = o;
     const arts2 = (o.items || []).filter((i) => !i.adjustment);
-    const tousVerifies = arts2.every((i) => verifies.has(i.id));
+    const nVerifies = arts2.filter((i) => verifies.has(i.id)).length;
+    const tousVerifies = arts2.length > 0 && nVerifies === arts2.length;
+    // Le statut de la commande et l'avancement de la vérification sont deux choses distinctes :
+    // les confondre faisait afficher « vérifiée » à la place de « Expédiée » (BUG-069).
     $("#scOut").innerHTML = `
       <div class="carte">
         <div class="barre"><h3 style="margin:0;flex:1">${esc(o.order_number)}
-          <span class="puce ${tousVerifies ? "v" : "g"}">${tousVerifies ? "vérifiée" : esc(STATUT_FR[o.status] || o.status)}</span></h3>
-          <button id="scTout">Tout vérifier</button>
-          <button id="scVer" ${tousVerifies ? "" : "disabled"}>Marquer vérifiée (V)</button>
-          <button class="v" id="scImp">Imprimer l'étiquette (P)</button></div>
+          <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>
+          <span class="puce ${tousVerifies ? "v" : "a"}">${nVerifies}/${arts2.length} vérifié${nVerifies > 1 ? "s" : ""}</span></h3>
+          <button type="button" id="scTout">Tout vérifier</button>
+          <button type="button" id="scVer" ${tousVerifies ? "" : "disabled"}
+            title="${tousVerifies ? "" : "Vérifier tous les articles d'abord"}">Marquer vérifiée (V)</button>
+          <button type="button" class="v" id="scImp" ${tousVerifies || $("#scm").value === "imprimer" ? "" : "disabled"}
+            title="${tousVerifies || $("#scm").value === "imprimer" ? "" : "Vérifier tous les articles avant d'imprimer"}">Imprimer l'étiquette (P)</button></div>
         <div class="doux">${esc(o.customer_name || "")} — ${esc(o.ship_to.city || "")} ${esc(o.ship_to.state || "")}
           · ${num(Math.round(o.weight_g || 0))} g</div>
         <div class="tbl" style="margin-top:10px"><table>
-          <thead><tr><th></th><th>Article</th><th>SKU</th><th class="n">Qté</th></tr></thead>
+          <thead><tr><th scope="col"><span class="visuellement-cache">Vérifié</span></th>
+            <th scope="col">Article</th><th scope="col">SKU</th><th scope="col" class="n">Qté</th></tr></thead>
           <tbody>${arts2.map((i) => `<tr class="${verifies.has(i.id) ? "sel" : ""}">
-            <td><input type="checkbox" data-v="${i.id}" ${verifies.has(i.id) ? "checked" : ""}></td>
+            <td><input type="checkbox" data-v="${i.id}" ${verifies.has(i.id) ? "checked" : ""}
+                 aria-label="Vérifier ${esc(i.name)}"></td>
             <td>${esc(i.name)}</td><td class="sku">${esc(i.sku || "—")}</td>
             <td class="n">${i.quantity}</td></tr>`).join("")}</tbody></table></div>
       </div>`;
@@ -4106,53 +4404,99 @@ VUES.scan = async () => {
     });
     $("#scTout").onclick = () => { arts2.forEach((i) => verifies.add(i.id)); rendreCommande(o); };
     $("#scVer").onclick = async () => {
-      await api("/api/orders", { method: "POST", body: { ...o, print_state: "verifiee" } });
-      champ.value = ""; champ.focus();
-      $("#scOut").innerHTML = `<div class="avis info">${esc(o.order_number)} vérifiée. Scannez la suivante.</div>`;
-      courante = null;
+      try {
+        await api("/api/orders", { method: "POST", body: { ...o, print_state: "verifiee" } });
+        $("#scOut").innerHTML = `<div class="avis info">${esc(o.order_number)} vérifiée. Scannez la suivante.</div>`;
+        bip(true);
+      } catch (e) { refus(`Échec de l'enregistrement : ${esc(e.message)}`); }
+      finally { courante = null; verifies = new Set(); champ.value = ""; champ.focus(); }
     };
     $("#scImp").onclick = imprimer;
   };
 
   const imprimer = async () => {
     if (!courante) return;
-    if (!S.config.etiquettes_actives) {
-      window.open(`/api/packing-slip?ids=${courante.id}`, "_blank");
+    const o = courante;
+    try {
+      if (!S.config.etiquettes_actives) {
+        window.open(`/api/packing-slip?ids=${o.id}`, "_blank", "noopener,noreferrer");
+        $("#scOut").innerHTML = `<div class="avis info">Bordereau de ${esc(o.order_number)} ouvert.
+          L'achat d'étiquettes est désactivé sur ce service.</div>`;
+        bip(true);
+        return;
+      }
+      const r = await api("/api/shipments/buy", { method: "POST", body: { order_id: o.id } });
+      $("#scOut").innerHTML = `<div class="avis info">${esc(o.order_number)} — ${esc(r.trackingNumber)} · ${money(r.price)}</div>`;
+      bip(true);
+      rafraichirCompteurs();
+    } catch (e) {
+      refus(`Impression impossible pour ${esc(o.order_number)} : ${esc(e.message)}`);
+    } finally {
+      // Quoi qu'il arrive : plus de commande courante, champ vidé, focus repris. C'est ce
+      // `finally` qui manquait — sans lui, le code suivant se concaténait au précédent.
+      courante = null; verifies = new Set();
       champ.value = ""; champ.focus();
-      return;
     }
-    const r = await api("/api/shipments/buy", { method: "POST", body: { order_id: courante.id } });
-    $("#scOut").innerHTML = r.error
-      ? `<div class="avis">${esc(r.error)}</div>`
-      : `<div class="avis info">${esc(courante.order_number)} — ${esc(r.trackingNumber)} · ${money(r.price)}</div>`;
+  };
+
+  async function chercher(code) {
+    // On efface AVANT l'appel : garder la commande précédente à l'écran pendant qu'on en
+    // cherche une autre est le meilleur moyen d'emballer la mauvaise (BUG-015).
     courante = null; verifies = new Set();
-    champ.value = ""; champ.focus();
-    rafraichirCompteurs();
-  };
-
-  champ.onkeydown = async (e) => {
-    if (e.key !== "Enter") return;
-    const q = champ.value.trim();
-    if (!q) return;
-    verifies = new Set();
-    const d = await api("/api/orders?limit=2&q=" + encodeURIComponent(q));
-    if (!d.orders.length) {
-      $("#scOut").innerHTML = `<div class="avis">Aucune commande pour « ${esc(q)} ».</div>`;
-      champ.select();
-      return;
+    $("#scOut").innerHTML = "";
+    $("#scEtat").textContent = "Recherche…";
+    try {
+      const r = await api("/api/scan/lookup?q=" + encodeURIComponent(code));
+      if (r.trouve) {
+        if ($("#scm").value === "imprimer") { courante = r.commande; return imprimer(); }
+        bip(true);
+        return rendreCommande(r.commande);
+      }
+      if (r.motif === "non_expediable") {
+        const st = STATUT_FR[r.statut] || r.statut;
+        return refus(`<b>${esc(r.order_number)} — ${esc(st)}.</b> Cette commande n'est pas à expédier.
+          ${r.expediee_le ? `Expédiée le ${esc(jour(r.expediee_le))}` : ""}
+          ${r.suivi ? ` · suivi <span class="sku">${esc(r.suivi)}</span>` : ""}
+          <div class="doux" style="margin-top:5px">Aucune étiquette ne peut être imprimée depuis ce poste
+          pour une commande déjà partie ou annulée.</div>`);
+      }
+      if (r.motif === "ambigu") {
+        bip(false);
+        $("#scOut").innerHTML = `<div class="avis">
+          <b>${r.total} commandes correspondent à « ${esc(r.q)} ».</b> Choisissez laquelle —
+          le poste n'en ouvre jamais une à votre place.
+          <div class="listeAmbigu">${r.candidats.map((c) => `<button type="button" class="amb"
+            data-id="${c.id}" ${STATUT_FR[c.status] && c.status !== "awaiting_shipment" && c.status !== "on_hold" ? "disabled" : ""}>
+            <b>${esc(c.order_number)}</b> <span class="puce g">${esc(STATUT_FR[c.status] || c.status)}</span>
+          </button>`).join("")}</div></div>`;
+        $("#scOut").querySelectorAll(".amb").forEach((b) =>
+          b.onclick = () => chercher(b.querySelector("b").textContent));
+        return;
+      }
+      refus(`Aucune commande pour « ${esc(r.q || code)} ».`);
+    } catch (e) {
+      refus(`Recherche impossible : ${esc(e.message)}`);
+    } finally {
+      $("#scEtat").textContent = "";
+      champ.value = "";      // BUG-032 : sans ça, le deuxième code se colle au premier
+      champ.focus();
     }
-    const o = await api("/api/orders/" + d.orders[0].id);
-    if ($("#scm").value === "imprimer") { courante = o; return imprimer(); }
-    rendreCommande(o);
+  }
+
+  champ.onkeydown = (e) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    const q = champ.value.trim();
+    if (q) chercher(q);
   };
 
-  // Raccourcis propres à l'écran : V vérifie, P imprime — les touches du poste d'emballage.
-  $("#vue").onkeydown = null;
-  document.addEventListener("keydown", (e) => {
-    if (S.page !== "scan" || document.activeElement === champ) return;
-    if (e.key.toLowerCase() === "v") { const b = $("#scVer"); if (b && !b.disabled) b.click(); }
-    if (e.key.toLowerCase() === "p") { const b = $("#scImp"); if (b) b.click(); }
-  });
+  // Les raccourcis V et P de cet écran passent par la table globale : un écouteur ajouté ici
+  // à chaque visite en laissait un de plus derrière lui à chaque fois (BUG-034).
+  S.scanActions = {
+    verifier: () => { const b = $("#scVer"); if (b && !b.disabled) b.click(); },
+    imprimer: () => { const b = $("#scImp"); if (b && !b.disabled) b.click(); },
+    focus: () => champ.focus(),
+  };
 };
 
 // --------------------------------------------------- préparations externes
@@ -4163,7 +4507,7 @@ VUES.scan = async () => {
  */
 VUES.fulfillments = async () => {
   const d = await api("/api/orders?status=pending_fulfillment&limit=500");
-  $("#vue").innerHTML = `<h2>Préparations externes</h2>
+  $("#vue").innerHTML = `<h1>Préparations externes</h1>
     <p class="sous">Commandes confiées à un tiers — dropship, 3PL, sous-traitance par courriel.
       Chez Lasclay, deux règles envoient des commandes à la boutique DDD et à Lucie Veilleux.</p>
     <div id="fT"></div>`;
@@ -4180,7 +4524,7 @@ VUES.fulfillments = async () => {
 // -------------------------------------------------------------- inventaire
 VUES.inventaire = async () => {
   const [bas, prod] = await Promise.all([api("/api/inventory/low"), api("/api/products?limit=500")]);
-  $("#vue").innerHTML = `<h2>Inventaire</h2>
+  $("#vue").innerHTML = `<h1>Inventaire</h1>
     <p class="sous">Stock par entrepôt, seuils de réapprovisionnement et alertes.</p>
     ${bas.low.length ? `<div class="avis"><b>${bas.low.length} produit(s) sous le seuil</b></div>` : ""}
     <div class="carte"><b>Sous le seuil</b><div id="iBas" style="margin-top:8px"></div></div>
@@ -4203,7 +4547,7 @@ VUES.inventaire = async () => {
 // ---------------------------------------------------------------- gabarits
 VUES.gabarits = async () => {
   const { templates: ts } = await api("/api/templates");
-  $("#vue").innerHTML = `<h2>Gabarits</h2>
+  $("#vue").innerHTML = `<h1>Gabarits</h1>
     <p class="sous">Bordereaux et courriels, en HTML avec variables <code>{{ }}</code>, conditions <code>{% if %}</code> et boucles <code>{% for %}</code>.</p>
     <div class="barre"><button class="p" id="gn">Nouveau gabarit</button></div><div id="gt"></div>`;
   $("#gt").append(table([
@@ -4241,7 +4585,7 @@ VUES.gabarits = async () => {
 // ------------------------------------------------------------ utilisateurs
 VUES.utilisateurs = async () => {
   const d = await api("/api/users");
-  $("#vue").innerHTML = `<h2>Utilisateurs</h2>
+  $("#vue").innerHTML = `<h1>Utilisateurs</h1>
     <p class="sous">Permissions par domaine, comme ShipStation — avec des rôles pré-remplis pour éviter de cocher quinze cases.</p>
     <div class="barre"><button class="p" id="un">Nouvel utilisateur</button></div><div id="ut"></div>`;
   $("#ut").append(table([
@@ -4293,7 +4637,7 @@ VUES.reglages = async () => {
   const w = await api("/api/webhooks");
   const L = await api("/api/lasclay");
   const sh = await api("/api/shopify");
-  $("#vue").innerHTML = `<h2>Réglages</h2>
+  $("#vue").innerHTML = `<h1>Réglages</h1>
     <div class="carte"><b>Configuration ShipStation de Lasclay</b>
       <p class="doux" style="margin:2px 0 8px">Règles d'automatisation, vues sauvegardées, préréglages,
       types de colis, étiquettes, emplacements et mappings de service. Aucun de ces objets n'a de point
@@ -4585,7 +4929,7 @@ VUES.reglages = async () => {
 // ----------------------------------------------------------------- journal
 VUES.journal = async () => {
   const { rows } = await api("/api/audit?limit=300");
-  $("#vue").innerHTML = `<h2>Journal</h2><p class="sous">Qui a fait quoi — ShipStation n'expose pas ça par API, nous si.</p>`;
+  $("#vue").innerHTML = `<h1>Journal</h1><p class="sous">Qui a fait quoi — ShipStation n'expose pas ça par API, nous si.</p>`;
   $("#vue").append(table([
     { k: "at", t: "Quand", r: r => String(r.at).slice(0, 19).replace("T", " ") },
     { k: "action", t: "Action" }, { k: "entity", t: "Objet" }, { k: "entity_id", t: "Réf." },
@@ -4598,11 +4942,78 @@ async function rafraichirCompteurs() {
   try { S.compteurs = await api("/api/orders/counts"); majCompteursMenu(); } catch {}
 }
 
+/**
+ * Rendu d'un écran, avec ses trois états — BUG-014, BUG-035, BUG-037.
+ *
+ * L'audit a montré que **aucune erreur d'API n'atteignait jamais l'écran** : les messages
+ * étaient rédigés dans `api()` mais aucun appelant ne posait de `.catch`. Un HTTP 500 sur
+ * la grille suivi de « ↻ Recharger » ne changeait rien — l'opérateur pouvait imprimer une
+ * heure sur une liste périmée.
+ *
+ * Trois états distincts, jamais confondus : chargement, erreur (avec `Réessayer`), vide.
+ */
 async function rendre() {
   document.body.dataset.page = S.page;
-  $("#vue").innerHTML = '<p class="doux">Chargement…</p>';
-  try { await (VUES[S.page] || VUES.commandes)(); }
-  catch (e) { $("#vue").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+  $("#vue").innerHTML = squelette();
+  try {
+    await (VUES[S.page] || VUES.commandes)();
+  } catch (e) {
+    $("#vue").innerHTML = "";
+    $("#vue").append(panneauErreur(e, () => rendre()));
+  }
+}
+
+/** Squelette de chargement : des lignes grises, pas un mot « Chargement… » qui ne bouge pas. */
+const squelette = (n = 8) =>
+  `<div class="squelette" aria-busy="true" aria-live="polite">
+     <span class="visuellement-cache">Chargement en cours</span>
+     ${Array.from({ length: n }, () => '<div class="sqL"></div>').join("")}
+   </div>`;
+
+/**
+ * Panneau d'erreur d'une zone. Il nomme l'erreur, propose de réessayer, et **ne remplace
+ * jamais silencieusement** des données valides par un vide trompeur.
+ */
+function panneauErreur(e, reessayer, titre = "Chargement impossible") {
+  const p = el(`<div class="panErr" role="alert">
+    <div class="panErrT">${esc(titre)}</div>
+    <div class="panErrM">${esc(e && e.message ? e.message : String(e))}</div>
+    <div class="barre"><button type="button" class="v" data-r>Réessayer</button></div>
+  </div>`);
+  p.querySelector("[data-r]").onclick = () => reessayer();
+  return p;
+}
+
+/**
+ * Notification passagère. Utilisée pour les échecs d'actions ponctuelles — celles qui ne
+ * remplissent pas une zone et n'ont donc nulle part où afficher leur erreur.
+ */
+function toast(message, { type = "info", reessayer = null, duree = 6000 } = {}) {
+  let z = $("#toasts");
+  if (!z) { z = el('<div id="toasts" role="status" aria-live="polite"></div>'); document.body.append(z); }
+  const t = el(`<div class="toast ${esc(type)}">
+    <span>${esc(message)}</span>
+    ${reessayer ? '<button type="button" data-r>Réessayer</button>' : ""}
+    <button type="button" class="x" data-x aria-label="Fermer">×</button></div>`);
+  z.append(t);
+  const partir = () => { t.classList.add("sort"); setTimeout(() => t.remove(), 250); };
+  t.querySelector("[data-x]").onclick = partir;
+  const r = t.querySelector("[data-r]");
+  if (r) r.onclick = () => { partir(); reessayer(); };
+  if (duree) setTimeout(partir, duree);
+  return t;
+}
+
+/** Enveloppe d'action ponctuelle : exécute, et en cas d'échec le dit au lieu de se taire. */
+async function tenter(action, { message = "L'action a échoué", apres = null } = {}) {
+  try {
+    const r = await action();
+    if (apres) apres(r);
+    return r;
+  } catch (e) {
+    toast(`${message} : ${e.message}`, { type: "erreur", reessayer: () => tenter(action, { message, apres }) });
+    return null;
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════ connexion
@@ -4776,11 +5187,24 @@ const RACCOURCIS = {
   "u": ["Mettre à jour les boutiques (Shopify)", importerShopify],
   "v": ["Ouvrir le détail", () => S.sel.size && detailCommande(Number([...S.sel][0]))],
   "r": ["Coter la sélection", () => S.cmdActions?.coter()],
-  "s": ["Créer les étiquettes", () => S.cmdActions?.acheterLot()],
-  "b": ["Créer un lot", () => S.cmdActions?.acheterLot()],
+  // BUG-010 — « b » appelait `acheterLot()`, la même fonction que « s ». Inoffensif tant que
+  // l'achat d'étiquettes est coupé ; le jour où il est activé, c'est une dépense irréversible
+  // au premier appui d'une touche de navigation. « b » ouvre la création de lot, rien d'autre.
+  "s": ["Créer les étiquettes", () => S.cmdActions?.confirmerAchat()],
+  "b": ["Créer un lot", () => S.cmdActions?.creerLot()],
+  "v": ["Vérifier (poste de scan)", () => S.scanActions?.verifier()],
+  "p": ["Imprimer l'étiquette (poste de scan)", () => S.scanActions?.imprimer()],
   "/": ["Recherche rapide", () => { $("#quick").focus(); }],
   "?": ["Afficher les raccourcis", () => aideRaccourcis()],
 };
+
+/**
+ * Raccourcis qui modifient quelque chose. Ils sont neutralisés dès qu'une modale ou la fiche
+ * de commande est ouverte : appuyer sur « s » en remplissant un formulaire ne doit pas acheter
+ * les étiquettes de la grille qu'on ne voit plus (BUG-026).
+ */
+const RACCOURCIS_MUTANTS = new Set(["s", "b", "u", "m s", "v", "p"]);
+const contexteModal = () => !!(document.querySelector("#dlg[open]") || document.querySelector("#fiche"));
 
 let prefixe = null, minuteurPrefixe = null;
 
@@ -4792,6 +5216,14 @@ function raccourcis(e) {
   }
   if (e.ctrlKey || e.metaKey || e.altKey) return;
   const k = e.key.toLowerCase();
+
+  // Une modale ouverte capte le contexte : aucun raccourci mutant ne doit agir sur l'écran
+  // qu'elle recouvre. Les raccourcis de navigation et l'aide restent disponibles.
+  const modal = contexteModal();
+  if (modal && (RACCOURCIS_MUTANTS.has(k) || /^[0-9]$/.test(k))) return;
+
+  // Les raccourcis du poste de scan n'existent que sur cet écran.
+  if ((k === "v" || k === "p") && S.page !== "scan" && !S.sel.size) return;
 
   if (prefixe) {
     const combo = `${prefixe} ${k}`;
@@ -4805,7 +5237,9 @@ function raccourcis(e) {
     minuteurPrefixe = setTimeout(() => { prefixe = null; indice(""); }, 900);
     return;
   }
-  if (/^[1-9]$/.test(k)) { e.preventDefault(); S.cmdPresetParTouche?.(k); return; }
+  // Sept préréglages portent un raccourci : au-delà, la touche ne doit rien faire plutôt que
+  // d'appliquer silencieusement un préréglage inexistant (BUG-026).
+  if (/^[1-7]$/.test(k)) { e.preventDefault(); S.cmdPresetParTouche?.(k); return; }
   if (RACCOURCIS[e.key] || RACCOURCIS[k]) { e.preventDefault(); (RACCOURCIS[e.key] || RACCOURCIS[k])[1](); }
 }
 
@@ -5013,16 +5447,25 @@ async function demarrer() {
     `Transporteur <b>bouchon</b> : les tarifs sont des valeurs de démonstration. Passer à <code>CARRIER_ADAPTER=clickship</code> à réception des identifiants.`,
     `Carrier adapter is a <b>stub</b>: rates are demo values. Switch to <code>CARRIER_ADAPTER=clickship</code> once credentials arrive.`));
   if (!S.config.config_lasclay) av.push(tt(
-    `Configuration Lasclay <b>non chargée</b> — règles, vues, préréglages, colis et étiquettes du compte ShipStation. À charger depuis <a onclick="aller('reglages')">l'engrenage → Compte, boutiques et import</a>.`,
-    `Lasclay configuration <b>not loaded</b> — rules, views, presets, package types and tags from the ShipStation account. Load it from <a onclick="aller('reglages')">the gear → Account, Stores &amp; Import</a>.`));
+    `Configuration Lasclay <b>non chargée</b> — règles, vues, préréglages, colis et étiquettes du compte ShipStation. À charger depuis <a href="#reglages" data-nav="reglages">l'engrenage → Compte, boutiques et import</a>.`,
+    `Lasclay configuration <b>not loaded</b> — rules, views, presets, package types and tags from the ShipStation account. Load it from <a href="#reglages" data-nav="reglages">the gear → Account, Stores &amp; Import</a>.`));
   if (S.config.shopify && !S.config.shopify.configure) av.push(tt(
     `Import Shopify <b>indisponible</b> : variables <code>SHOPIFY_STORE</code> et <code>SHOPIFY_CLIENT_ID</code>/<code>SHOPIFY_CLIENT_SECRET</code> manquantes sur le service.`,
     `Shopify import <b>unavailable</b>: <code>SHOPIFY_STORE</code> and <code>SHOPIFY_CLIENT_ID</code>/<code>SHOPIFY_CLIENT_SECRET</code> are missing on the service.`));
   // Les bandeaux d'état tiennent sur une ligne et se referment : ils informent au démarrage,
   // ils ne doivent pas rogner la grille toute la journée.
-  $("#bandeau").innerHTML = av.map((a, i) => `<div class="avis" data-b="${i}">${a}
-    <button class="fermer" data-f="${i}" title="Masquer">×</button></div>`).join("");
+  // Le bandeau « transporteur bouchon » ne se referme pas : il dit que les prix affichés sont
+  // faux, et c'est vrai tant que l'adaptateur n'est pas branché. Les autres se masquent.
+  $("#bandeau").innerHTML = av.map((a, i) => {
+    const permanent = /bouchon|stub/.test(a);
+    return `<div class="avis${permanent ? " permanent" : ""}" data-b="${i}">${a}
+      ${permanent ? "" : `<button type="button" class="fermer" data-f="${i}" title="Masquer" aria-label="Masquer cet avis">×</button>`}</div>`;
+  }).join("");
   $("#bandeau").querySelectorAll("[data-f]").forEach((b) => b.onclick = () => b.parentNode.remove());
+  $("#bandeau").querySelectorAll("[data-nav]").forEach((a) => a.onclick = (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault(); aller(a.dataset.nav);
+  });
   try { S.refs = await api("/api/refs"); } catch { S.refs = {}; }
   indexerRefs();
 
@@ -5043,6 +5486,10 @@ async function demarrer() {
     setTimeout(() => { const f = $("#fq"); if (f) { f.value = q; f.dispatchEvent(new Event("input")); } }, 120);
   };
   document.addEventListener("keydown", raccourcis);
+  // BUG-053 — le routage ignorait l'historique : le bouton Retour changeait l'URL sans changer
+  // l'écran, et l'on se retrouvait avec « #tarifs » affichant « Scan ».
+  addEventListener("hashchange", suivreHash);
+  addEventListener("popstate", suivreHash);
   await rafraichirCompteurs();
   S.page = (location.hash || "").slice(1) || "commandes";
   if (!VUES[S.page]) S.page = "commandes";

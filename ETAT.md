@@ -22,22 +22,22 @@ Dernière mise à jour : 2026-08-03.
 | V1-08 | Scan : correspondance exacte, désambiguïsation | BUG-009 | **fait** | jamais `orders[0]` |
 | V1-09 | Scan : `try/catch`, effacement avant appel, bip | BUG-015 | **fait** | |
 | V1-10 | Scan : vider le champ après chaque lecture | BUG-032 | **fait** | |
-| V1-15 | Afficher les erreurs d'API | BUG-014 | **fait** | bandeau + `Réessayer` + marquage « données périmées » |
+| V1-15 | Afficher les erreurs d'API | BUG-014 | **fait** | squelette de chargement, panneau d'erreur avec `Réessayer`, bandeau « données périmées », `toast()` ; reste à propager aux écrans secondaires |
 | V1-14 | Transposer les gabarits de courriel | BUG-012 | **fait** | variables inconnues refusées à l'enregistrement |
 | V1-06 | Sémantique du moteur de filtres | BUG-007 | **fait** | voir « arbitrages » ci-dessous — la cause n'était pas celle du rapport |
-| V1-22 | `position` unique sur les règles | BUG-073 | **fait** | |
+| V1-22 | `position` unique sur les règles | BUG-073 | à faire | |
 | V1-20 | `weight_g` → `order_weight`, actions normalisées | BUG-072/074/075 | **fait** | |
-| V1-21 | Valider les règles à l'écriture ; pas de repli sur l'index 0 | BUG-017 | **fait** | option orpheline `⚠ champ inconnu`, enregistrement bloqué |
+| V1-21 | Valider les règles à l'écriture ; pas de repli sur l'index 0 | BUG-017 | **partiel** | `criteres.valider()` refuse champ et opérateur incompatibles ; le repli du `<select>` sur l'index 0 reste à traiter dans l'éditeur |
 | V1-30 | Marquer les tarifs de démonstration dans le tableau | BUG-018 | **fait** | bandeau non refermable, mention par ligne |
-| V1-27 | Sélection hors vue | BUG-025 | **fait** | |
-| V1-18 | Second facteur obligatoire + compte au courriel invalide | BUG-023/039 | **fait** | |
+| V1-27 | Sélection hors vue | BUG-025 | à faire | |
+| V1-18 | Second facteur obligatoire + compte au courriel invalide | BUG-023/039 | à faire | |
 | V1-23 | Trancher `confirmation 5` | BUG-077 | **bloqué** | exige une étiquette réelle — voir « à trancher » |
 | V1-19 | Relais de suivi Etsy et Faire | BUG-019 | **bloqué** | variables d'environnement non fournies |
 | V1-01 à V1-04 | Migration ShipStation (produits, groupes, clients) | BUG-001/002/003/006 | **bloqué** | exige un accès API ShipStation ; contraintes d'unicité posées, procédure prête |
-| V1-24 | Attribution des boutiques à l'import | BUG-013 | **fait** | |
+| V1-24 | Attribution des boutiques à l'import | BUG-013 | bloqué (dépend de la migration) | |
 | V1-25 | Réconciliation des montants | BUG-016 | à faire | dépend de V1-24 |
-| V1-28 | Unifier bouton d'achat et `Expédié de` entre modale et panneau | BUG-028/029 | **fait** | |
-| V1-29 | Modale de mappage pré-remplie, propagation décochée | BUG-030 | **fait** | |
+| V1-28 | Unifier bouton d'achat et `Expédié de` entre modale et panneau | BUG-028/029 | à faire | |
+| V1-29 | Modale de mappage pré-remplie, propagation décochée | BUG-030 | **fait** | pré-remplie depuis la commande ; propagation à décocher | |
 
 ---
 

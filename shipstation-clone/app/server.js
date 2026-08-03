@@ -204,6 +204,56 @@ route("POST /api/orders/configure", async ({ req, user }) => {
   return { ok: true, n };
 });
 
+/**
+ * Recherche du poste de scan — BUG-008, BUG-009.
+ *
+ * Trois règles, apprises de ce que ShipStation refuse et que le clone acceptait :
+ *
+ *   1. **Correspondance exacte** sur le numéro de commande. Une saisie partielle ouvrait
+ *      silencieusement la première trouvée : « L-507 » ramenait 84 résultats et ouvrait
+ *      « L-50778 ». On rend la liste, on n'en choisit jamais une à la place de l'opérateur.
+ *   2. **Statut expédiable obligatoire.** Une commande déjà expédiée ou annulée est refusée,
+ *      avec la date et le suivi — réexpédier un colis déjà parti est une perte sèche.
+ *   3. **Aucune ambiguïté silencieuse** : plusieurs correspondances ⇒ on les liste toutes.
+ */
+const STATUTS_SCANNABLES = new Set(["awaiting_shipment", "on_hold"]);
+
+route("GET /api/scan/lookup", ({ url, user }) => {
+  accounts.exiger(user, "orders_view");
+  const code = String(q(url).q || "").trim();
+  if (!code) return { error: "code vide", code: 400 };
+
+  // Correspondance exacte d'abord, insensible à la casse et aux espaces du lecteur.
+  const exact = db.all(
+    "SELECT id FROM orders WHERE upper(trim(order_number)) = upper(?) ORDER BY id DESC", code);
+  let candidats = exact;
+  if (!candidats.length) {
+    // Pas de correspondance exacte : on propose, on n'ouvre pas.
+    const proches = db.all(
+      `SELECT id, order_number, status FROM orders
+       WHERE upper(order_number) LIKE upper(?) ORDER BY order_number LIMIT 25`, `%${code}%`);
+    if (!proches.length) return { trouve: false, motif: "aucune", q: code };
+    return { trouve: false, motif: "ambigu", q: code, candidats: proches, total: proches.length };
+  }
+  if (candidats.length > 1)
+    return { trouve: false, motif: "ambigu", q: code,
+      candidats: candidats.map((c) => orders.parId(c.id)).map((o) =>
+        ({ id: o.id, order_number: o.order_number, status: o.status })), total: candidats.length };
+
+  const o = orders.parId(candidats[0].id);
+  if (!STATUTS_SCANNABLES.has(o.status)) {
+    const exp = db.one(
+      `SELECT tracking_number, ship_date FROM shipments
+       WHERE order_id = ? AND voided = 0 ORDER BY id DESC LIMIT 1`, o.id);
+    return {
+      trouve: false, motif: "non_expediable", q: code,
+      order_number: o.order_number, statut: o.status,
+      expediee_le: exp ? exp.ship_date : null, suivi: exp ? exp.tracking_number : null,
+    };
+  }
+  return { trouve: true, commande: o };
+});
+
 route("POST /api/orders/release-holds", ({ user }) => {
   accounts.exiger(user, "orders_edit");
   return { liberees: orders.libererHolds() };
@@ -785,7 +835,30 @@ route("POST /api/lasclay/charger", async ({ req, user }) => {
 route("GET /api/templates", ({ url }) => ({ templates: templates.lister(q(url).kind || null) }));
 route("POST /api/templates", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");
-  return { id: templates.sauver(await corps(req)) };
+  const b = await corps(req);
+  // BUG-012 — une variable que le moteur ne connaît pas rend une chaîne vide **en silence**.
+  // Sur un courriel qui part à un sous-traitant, cela veut dire une commande perdue. On
+  // refuse l'enregistrement plutôt que de laisser le gabarit se dégrader sans bruit.
+  const inconnues = [
+    ...templates.variablesInconnues(b.subject || ""),
+    ...templates.variablesInconnues(b.body || ""),
+  ];
+  if (inconnues.length && !b.forcer) return {
+    error: `variable${inconnues.length > 1 ? "s" : ""} inconnue${inconnues.length > 1 ? "s" : ""} : ` +
+           `${[...new Set(inconnues)].join(", ")} — elle${inconnues.length > 1 ? "s rendraient" : " rendrait"} du vide à l'envoi`,
+    code: 400, variables_inconnues: [...new Set(inconnues)], racines: templates.RACINES,
+  };
+  return { id: templates.sauver(b) };
+});
+
+/** Contrôle d'un gabarit sans l'enregistrer — alimente le signalement en rouge de l'éditeur. */
+route("POST /api/templates/verifier", async ({ req }) => {
+  const b = await corps(req);
+  const inconnues = [...new Set([
+    ...templates.variablesInconnues(b.subject || ""),
+    ...templates.variablesInconnues(b.body || ""),
+  ])];
+  return { ok: !inconnues.length, variables_inconnues: inconnues, racines: templates.RACINES };
 });
 route("DELETE /api/templates/:id", ({ params, user }) => {
   accounts.exiger(user, "settings_edit");
@@ -1366,8 +1439,13 @@ const serveur = http.createServer(async (req, res) => {
       const html = fs.readFileSync(path.join(PUBLIC, "index.html"), "utf8")
         .replace(/<script>/g, `<script nonce="${nonce}">`)
         .replace(/<style>/g, `<style nonce="${nonce}">`);
+      // `style-src-attr 'unsafe-inline'` : les attributs `style=` de la mise en page ne sont
+      // pas couverts par un nonce, et un attribut de style ne peut pas exécuter de script.
+      // `script-src-attr 'none'` interdit en revanche tout gestionnaire `onclick=` inline —
+      // c'est là qu'est le vrai risque, et le code n'en contient plus aucun.
       res.setHeader("Content-Security-Policy",
-        `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}'; ` +
+        `default-src 'none'; script-src 'nonce-${nonce}'; script-src-attr 'none'; ` +
+        `style-src 'nonce-${nonce}'; style-src-attr 'unsafe-inline'; ` +
         "img-src 'self' data:; connect-src 'self'; font-src 'self'; form-action 'self'; " +
         "frame-ancestors 'none'; base-uri 'none'; object-src 'none'");
       res.setHeader("Cache-Control", "no-cache");

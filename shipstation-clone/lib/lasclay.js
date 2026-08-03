@@ -487,11 +487,33 @@ const REGLAGES = {
 };
 
 /** Gabarits de courriel référencés par les règles 11 et 12 (§13.8). */
+/**
+ * Gabarits de courriel — BUG-012.
+ *
+ * Les deux gabarits relevés sur le compte utilisaient `{{numero}}`, `{{client}}` et
+ * `{{articles}}`, que le moteur ne connaît pas : le rendu réel donnait « Nouvelle commande de
+ * bijoux — » puis « Commande : Client : Articles : ». Ils sont branchés sur des règles dont
+ * l'une est active, et partent à des **sous-traitants externes** — la donnée était perdue, pas
+ * retardée. Transposés vers la syntaxe du moteur, avec la boucle d'articles que la version
+ * plate ne pouvait pas rendre.
+ */
+const CORPS_SOUS_TRAITANT = (salutation) =>
+  `${salutation}\n\nUne nouvelle commande est à préparer.\n\n` +
+  `Commande : {{ order.order_number }}\n` +
+  `Client : {{ order.customer_name }}\n` +
+  `Adresse : {{ order.ship_to.street1 }}, {{ order.ship_to.city }} ` +
+  `{{ order.ship_to.state }} {{ order.ship_to.postalCode }}\n` +
+  `Articles :\n` +
+  `{% for i in items %}  - {{ i.quantity }} × {{ i.name }} ({{ i.sku | default: 'sans SKU' }})\n{% endfor %}` +
+  `\nMerci,\nLasclay`;
+
 const GABARITS = [
-  { name: "DDD Template", kind: "email", subject: "Nouvelle commande à préparer — {{numero}}",
-    body: "Bonjour,\n\nUne nouvelle commande est à préparer.\n\nCommande : {{numero}}\nClient : {{client}}\nArticles :\n{{articles}}\n\nMerci,\nLasclay" },
-  { name: "Lucie Veilleux", kind: "email", subject: "Nouvelle commande de bijoux — {{numero}}",
-    body: "Bonjour Lucie,\n\nUne nouvelle commande de bijoux est arrivée.\n\nCommande : {{numero}}\nClient : {{client}}\nArticles :\n{{articles}}\n\nMerci,\nLasclay" },
+  { name: "DDD Template", kind: "email",
+    subject: "Nouvelle commande à préparer — {{ order.order_number }}",
+    body: CORPS_SOUS_TRAITANT("Bonjour,") },
+  { name: "Lucie Veilleux", kind: "email",
+    subject: "Nouvelle commande de bijoux — {{ order.order_number }}",
+    body: CORPS_SOUS_TRAITANT("Bonjour Lucie,") },
 ];
 
 // ================================================================= chargement
