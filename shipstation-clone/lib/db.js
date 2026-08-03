@@ -353,6 +353,19 @@ const AJOUTS = [
   ["orders", "premium_programs", "TEXT"],
 ];
 
+/**
+ * `sansaccent(x)` — repli de casse ET de diacritiques, côté SQL.
+ *
+ * Le moteur de critères normalise le texte en JavaScript (`NFD` puis suppression des marques
+ * combinantes) pour que « Défricheuses » corresponde à « defricheuses ». Sans l'équivalent en
+ * SQL, la grille et l'évaluateur en mémoire donnent deux résultats différents pour la même vue :
+ * c'est exactement le genre d'écart qui rend un moteur de filtres impossible à croire.
+ */
+function enregistrerFonctions(d) {
+  d.function("sansaccent", { deterministic: true, varargs: false },
+    (v) => (v == null ? null
+      : String(v).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()));
+}
 function migrer(d) {
   for (const [table, colonne, type] of AJOUTS) {
     const cols = d.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
@@ -399,6 +412,7 @@ function db() {
   }
   _db.exec(SCHEMA);
   migrer(_db);
+  enregistrerFonctions(_db);
   return _db;
 }
 

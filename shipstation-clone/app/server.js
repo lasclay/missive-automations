@@ -18,6 +18,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const db = require("../lib/db");
 const orders = require("../lib/orders");
@@ -43,6 +44,21 @@ const PORT = process.env.PORT || 3100;
 const HOTE = process.env.HOST || "0.0.0.0";
 const ETIQUETTES = process.env.CLONE_ALLOW_LABELS === "1";
 const PUBLIC = path.join(__dirname, "public");
+/** En développement local, HSTS ferait basculer `localhost` en HTTPS et rendrait l'outil injoignable. */
+const CLONE_DEV = process.env.CLONE_COOKIE_INSECURE === "1";
+
+/**
+ * `hid`, `serial` et `usb` restent autorisés à l'origine : ce sont les interfaces de la balance
+ * et de la douchette, qui doivent fonctionner **sans agent local** (exigences E1/E2). Tout le
+ * reste est fermé.
+ */
+const PERMISSIONS_POLICY = [
+  "accelerometer=()", "ambient-light-sensor=()", "autoplay=()", "battery=()", "camera=()",
+  "display-capture=()", "encrypted-media=()", "fullscreen=(self)", "geolocation=()",
+  "gyroscope=()", "hid=(self)", "idle-detection=()", "magnetometer=()", "microphone=()",
+  "midi=()", "payment=()", "picture-in-picture=()", "publickey-credentials-get=(self)",
+  "screen-wake-lock=()", "serial=(self)", "usb=(self)", "xr-spatial-tracking=()",
+].join(", ");
 /** Derrière le proxy de Render, l'IP réelle est dans X-Forwarded-For. */
 const ipDe = (req) => String(req.headers["x-forwarded-for"] || "").split(",")[0].trim()
   || req.socket.remoteAddress || null;
@@ -887,26 +903,109 @@ route("GET /api/export/:quoi", ({ params, url, res }) => {
  * Sauvegarde complète en JSON — tout ce que contient la base, sans les PDF d'étiquettes.
  * Existe pour qu'aucune donnée ne soit jamais captive de cet outil non plus.
  */
-route("GET /api/backup", ({ res, user }) => {
+/**
+ * Sauvegarde complète — BUG-011.
+ *
+ * L'ancienne version sérialisait toute la base dans un seul objet JSON : sur 28 500 commandes
+ * et leurs lignes, le worker Render dépassait sa mémoire et se faisait tuer. Résultat mesuré :
+ * 502 après 6,7 s, **application entière indisponible ~30 s**, et un `<a download>` qui
+ * enregistrait silencieusement 218 Ko de page d'erreur sous le nom d'une sauvegarde.
+ *
+ * Ici : NDJSON, une ligne par enregistrement, lu par tranches de 1 000 et écrit avec
+ * contre-pression — la mémoire reste bornée quelle que soit la taille de la base. Le flux
+ * s'ouvre par un manifeste et se ferme par un marqueur `fin` : un fichier tronqué est donc
+ * détectable à la relecture, au lieu de passer pour complet.
+ */
+const TABLES_HORS_SAUVEGARDE = new Set(["sessions", "login_attempts"]);
+
+/** Colonnes retirées de la sauvegarde : secrets, et pièces jointes volumineuses. */
+const CHAMPS_EXCLUS = {
+  users: ["password_hash", "totp_secret", "recovery_codes"],
+  shipments: ["label_pdf", "customs_pdf"],
+};
+
+route("GET /api/backup", async ({ res, user }) => {
   accounts.exiger(user, "settings_edit");
   const tables = db.all(`SELECT name FROM sqlite_master WHERE type='table'
-                         AND name NOT LIKE 'sqlite_%' AND name NOT IN ('sessions','login_attempts')`)
-    .map((t) => t.name);
-  const sortie = { exporte_le: db.maintenant(), tables: {} };
-  for (const t of tables) {
-    sortie.tables[t] = t === "shipments"
-      ? db.all("SELECT * FROM shipments").map(({ label_pdf, customs_pdf, ...r }) => r)
-      : t === "users"
-        ? db.all("SELECT * FROM users").map(({ password_hash, totp_secret, recovery_codes, ...r }) => r)
-        : db.all(`SELECT * FROM ${t}`);
+                         AND name NOT LIKE 'sqlite_%' ORDER BY name`)
+    .map((t) => t.name).filter((t) => !TABLES_HORS_SAUVEGARDE.has(t));
+
+  res.writeHead(200, {
+    "Content-Type": "application/x-ndjson; charset=utf-8",
+    "Content-Disposition": `attachment; filename="sauvegarde-${new Date().toISOString().slice(0, 10)}.ndjson"`,
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff",
+  });
+
+  const ecrire = (o) => new Promise((resoudre) => {
+    // `write` rend false quand le tampon du noyau est plein : on attend le drain plutôt que
+    // d'empiler en mémoire. C'est toute la différence entre un flux et une bombe mémoire.
+    if (res.write(JSON.stringify(o) + "\n")) return resoudre();
+    res.once("drain", resoudre);
+  });
+
+  let total = 0;
+  try {
+    await ecrire({ __meta: "debut", version: 1, genere_le: db.maintenant(), tables });
+    for (const table of tables) {
+      const exclus = CHAMPS_EXCLUS[table] || [];
+      // Pagination par rowid : stable, indexée, et valable même sans colonne `id`.
+      let dernier = 0, lot;
+      do {
+        lot = db.all(`SELECT rowid AS __rowid, * FROM ${table} WHERE rowid > ? ORDER BY rowid LIMIT 1000`, dernier);
+        for (const ligne of lot) {
+          dernier = ligne.__rowid;
+          const propre = { ...ligne };
+          delete propre.__rowid;
+          for (const c of exclus) delete propre[c];
+          await ecrire({ __t: table, ...propre });
+          total++;
+        }
+      } while (lot.length === 1000);
+    }
+    await ecrire({ __meta: "fin", enregistrements: total });
+    db.journaliser("backup.export", "system", null, { tables: tables.length, enregistrements: total }, user);
+  } catch (e) {
+    // Le fichier est déjà parti en partie : on marque l'échec dans le flux lui-même, pour que
+    // la relecture le refuse au lieu de le prendre pour une sauvegarde valide.
+    console.error("[backup]", e);
+    try { await ecrire({ __meta: "erreur", message: String(e.message || e), enregistrements: total }); } catch {}
   }
-  const b = Buffer.from(JSON.stringify(sortie, null, 1));
-  res.writeHead(200, { "Content-Type": "application/json; charset=utf-8",
-    "Content-Disposition": `attachment; filename="sauvegarde-${new Date().toISOString().slice(0, 10)}.json"`,
-    "Content-Length": b.length });
-  res.end(b);
-  db.journaliser("backup.export", "system", null, { tables: tables.length }, user);
+  res.end();
   return null;
+});
+
+/**
+ * Relecture d'une sauvegarde : contrôle d'intégrité sans rien écrire. C'est le pendant
+ * indispensable de la route ci-dessus — une sauvegarde qu'on n'a jamais relue n'est pas
+ * une sauvegarde.
+ */
+route("POST /api/backup/verifier", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const brut = await corpsBrut(req);
+  const lignes = brut.split("\n").filter((l) => l.trim());
+  if (!lignes.length) return { error: "fichier vide", code: 400 };
+  let debut = null, fin = null, erreur = null, n = 0;
+  const parTable = {};
+  for (const [i, l] of lignes.entries()) {
+    let o;
+    try { o = JSON.parse(l); }
+    catch { return { error: `ligne ${i + 1} illisible — fichier corrompu`, code: 400 }; }
+    if (o.__meta === "debut") { debut = o; continue; }
+    if (o.__meta === "fin") { fin = o; continue; }
+    if (o.__meta === "erreur") { erreur = o; continue; }
+    parTable[o.__t] = (parTable[o.__t] || 0) + 1;
+    n++;
+  }
+  return {
+    valide: !!debut && !!fin && !erreur && fin.enregistrements === n,
+    debut, fin, erreur, enregistrements: n, par_table: parTable,
+    motif: !debut ? "manifeste d'ouverture absent"
+      : erreur ? `la sauvegarde s'est interrompue : ${erreur.message}`
+      : !fin ? "marqueur de fin absent — fichier tronqué, ne pas conserver"
+      : fin.enregistrements !== n ? `compte incohérent : ${fin.enregistrements} annoncés, ${n} lus`
+      : null,
+  };
 });
 
 route("GET /api/refs", () => ({
@@ -1101,18 +1200,32 @@ route("POST /api/migrate", async ({ req, user }) => {
   return { bilan, journal: lignes };
 });
 
-route("GET /api/config", () => ({
-  adaptateur: adaptateur().nom,
-  etiquettes_actives: ETIQUETTES,
-  seuil_dropoff_g: SEUIL_DROPOFF_G,
-  amorce: !!db.reglage("amorce"),
-  config_lasclay: !!db.reglage("config_lasclay"),
-  shopify: shopify.etat(),
-  unite_poids: db.reglage("unite_poids", "g"),
-  unite_dimension: db.reglage("unite_dimension", "in"),
-  comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
-  exiger_2fa: !!db.reglage("exiger_2fa", false),
-}));
+/**
+ * Configuration publique — BUG-020.
+ *
+ * Sans session, la réponse se limite à ce dont la page de connexion a besoin pour s'afficher.
+ * L'ancienne version publiait `comptes: 2` et `exiger_2fa: false` : elle disait à un anonyme
+ * qu'il n'y a que deux comptes à deviner et qu'aucun second facteur ne les protège. Elle
+ * publiait aussi le domaine Shopify, l'identifiant de boutique et le volume de commandes.
+ */
+route("GET /api/config", ({ moi }) => {
+  const publique = {
+    adaptateur: adaptateur().nom,
+    etiquettes_actives: ETIQUETTES,
+    unite_poids: db.reglage("unite_poids", "g"),
+    unite_dimension: db.reglage("unite_dimension", "in"),
+  };
+  if (!moi) return publique;
+  return {
+    ...publique,
+    seuil_dropoff_g: SEUIL_DROPOFF_G,
+    amorce: !!db.reglage("amorce"),
+    config_lasclay: !!db.reglage("config_lasclay"),
+    shopify: shopify.etat(),
+    comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
+    exiger_2fa: !!db.reglage("exiger_2fa", false),
+  };
+});
 
 // ============================================================ AUTHENTIFICATION
 
@@ -1233,13 +1346,33 @@ const serveur = http.createServer(async (req, res) => {
     // Sonde de santé — Render l'interroge sans cookie.
     if (chemin === "/healthz") return texte(res, 200, "ok");
 
-    // En-têtes de sécurité, sur toutes les réponses.
+    // En-têtes de sécurité, sur toutes les réponses (BUG-021).
+    // `hid`, `serial` et `usb` restent ouverts à l'origine : ce sont les API qui permettront
+    // la balance et la douchette sans agent local (exigences E1/E2). Les fermer maintenant
+    // reviendrait à se condamner à installer un agent plus tard.
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("X-Frame-Options", "DENY");
     res.setHeader("Referrer-Policy", "same-origin");
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+    res.setHeader("Cross-Origin-Resource-Policy", "same-origin");
+    res.setHeader("Permissions-Policy", PERMISSIONS_POLICY);
+    if (req.headers["x-forwarded-proto"] === "https" || !CLONE_DEV)
+      res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
 
     if (chemin === "/" || chemin === "/index.html") {
-      return texte(res, 200, fs.readFileSync(path.join(PUBLIC, "index.html"), "utf8"), "text/html; charset=utf-8");
+      // CSP à nonce : l'architecture mono-fichier n'a qu'un <script> et un <style> à annoter,
+      // ce qui permet d'interdire tout le reste sans 'unsafe-inline'.
+      const nonce = crypto.randomBytes(16).toString("base64");
+      const html = fs.readFileSync(path.join(PUBLIC, "index.html"), "utf8")
+        .replace(/<script>/g, `<script nonce="${nonce}">`)
+        .replace(/<style>/g, `<style nonce="${nonce}">`);
+      res.setHeader("Content-Security-Policy",
+        `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}'; ` +
+        "img-src 'self' data:; connect-src 'self'; font-src 'self'; form-action 'self'; " +
+        "frame-ancestors 'none'; base-uri 'none'; object-src 'none'");
+      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader("Vary", "Accept-Encoding");
+      return texte(res, 200, html, "text/html; charset=utf-8");
     }
 
     const moi = utilisateurCourant(req);

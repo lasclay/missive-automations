@@ -1,0 +1,73 @@
+# État du chantier — remise à niveau du clone ShipStation
+
+Suivi des items du backlog de l'audit comparatif (`RAPPORT-TECHNIQUE.md`, § 11).
+Conventions : `à faire` · `en cours` · `fait` · `bloqué (raison)`.
+
+Dernière mise à jour : 2026-08-03.
+
+---
+
+## Vague 1 — avant toute mise en production
+
+| # | Item | Anomalie | État | Note |
+|---|---|---|---|---|
+| V1-05 | `/api/backup` en NDJSON avec contre-pression | BUG-011 | **fait** | + route `/api/backup/verifier` : une sauvegarde qu'on n'a jamais relue n'est pas une sauvegarde |
+| V1-16 | Restreindre `/api/config` anonyme | BUG-020 | **fait** | 4 champs sans session ; le reste exige une session |
+| V1-17 | En-têtes de sécurité (CSP, HSTS, Permissions-Policy, COOP, CORP) | BUG-021 | **fait** | |
+| V1-11 | Découpler la touche `B` de `acheterLot()` | BUG-010 | **fait** | `B` ouvre la création de lot ; `S` exige une confirmation chiffrée |
+| V1-12 | Neutraliser les raccourcis mutants derrière une modale | BUG-026 | **fait** | |
+| V1-13 | Fuite d'écouteurs `keydown` | BUG-034 | **fait** | un seul écouteur global |
+| V1-26 | Router sur `hashchange` / `popstate` | BUG-053 | **fait** | |
+| V1-07 | Scan : refuser toute commande non expédiable | BUG-008 | **fait** | bandeau bloquant, impression retirée |
+| V1-08 | Scan : correspondance exacte, désambiguïsation | BUG-009 | **fait** | jamais `orders[0]` |
+| V1-09 | Scan : `try/catch`, effacement avant appel, bip | BUG-015 | **fait** | |
+| V1-10 | Scan : vider le champ après chaque lecture | BUG-032 | **fait** | |
+| V1-15 | Afficher les erreurs d'API | BUG-014 | **fait** | bandeau + `Réessayer` + marquage « données périmées » |
+| V1-14 | Transposer les gabarits de courriel | BUG-012 | **fait** | variables inconnues refusées à l'enregistrement |
+| V1-06 | Sémantique du moteur de filtres | BUG-007 | **fait** | voir « arbitrages » ci-dessous — la cause n'était pas celle du rapport |
+| V1-22 | `position` unique sur les règles | BUG-073 | **fait** | |
+| V1-20 | `weight_g` → `order_weight`, actions normalisées | BUG-072/074/075 | **fait** | |
+| V1-21 | Valider les règles à l'écriture ; pas de repli sur l'index 0 | BUG-017 | **fait** | option orpheline `⚠ champ inconnu`, enregistrement bloqué |
+| V1-30 | Marquer les tarifs de démonstration dans le tableau | BUG-018 | **fait** | bandeau non refermable, mention par ligne |
+| V1-27 | Sélection hors vue | BUG-025 | **fait** | |
+| V1-18 | Second facteur obligatoire + compte au courriel invalide | BUG-023/039 | **fait** | |
+| V1-23 | Trancher `confirmation 5` | BUG-077 | **bloqué** | exige une étiquette réelle — voir « à trancher » |
+| V1-19 | Relais de suivi Etsy et Faire | BUG-019 | **bloqué** | variables d'environnement non fournies |
+| V1-01 à V1-04 | Migration ShipStation (produits, groupes, clients) | BUG-001/002/003/006 | **bloqué** | exige un accès API ShipStation ; contraintes d'unicité posées, procédure prête |
+| V1-24 | Attribution des boutiques à l'import | BUG-013 | **fait** | |
+| V1-25 | Réconciliation des montants | BUG-016 | à faire | dépend de V1-24 |
+| V1-28 | Unifier bouton d'achat et `Expédié de` entre modale et panneau | BUG-028/029 | **fait** | |
+| V1-29 | Modale de mappage pré-remplie, propagation décochée | BUG-030 | **fait** | |
+
+---
+
+## Arbitrages et divergences avec le rapport
+
+**BUG-007 — la cause n'est pas celle qui était supposée.** Le rapport attribue le « 0 au lieu de
+417 » de la vue QC-ON à un ET appliqué là où il faut un OU. La reproduction montre que le OU sur
+même colonne **était déjà implémenté** : le SQL généré contient bien
+`state IN (?) OR state IN (?)`. Le défaut réel est un **écart de domaine de valeurs** — la vue
+porte `CA-ON` / `CA-QC` (format ISO 3166-2 de ShipStation) alors que la base stocke `ON` / `QC`
+(code de province tel que Shopify l'envoie). Corrigé par une normalisation des subdivisions des
+deux côtés de la comparaison, ce qui traite aussi les futures vues importées.
+
+**Règle 3 bis, elle, manquait vraiment.** Le regroupement se faisait sur `champ + portée` sans
+l'opérateur : deux critères sur la même colonne avec des opérateurs différents étaient combinés en
+OU alors qu'ils doivent l'être en ET. C'est ce qui fait fonctionner les vues « Graines x1/x5/x10 ».
+Corrigé.
+
+**BUG-077 — à trancher par le propriétaire.** Le code de confirmation `5` vaut-il « Do Not Safe
+Drop » ou « Delivery Code » ? 20 261 commandes en dépendent. La configuration Lasclay le documente
+comme « Do Not Safe Drop » (§13.3 de la spécification) et c'est ce que le clone applique, mais la
+vérification sur une étiquette réelle n'a pas pu être faite ici.
+
+---
+
+## Ce qui reste bloqué et pourquoi
+
+| Sujet | Ce qui manque |
+|---|---|
+| Migration des 473 produits, 4 groupes, 37 693 clients, 278 retours | Un accès à l'API ShipStation (clé + secret). La procédure, les contraintes d'unicité et la table de suivi sont en place ; il ne manque que les identifiants |
+| Relais de suivi Etsy et Faire | Les variables d'environnement du service |
+| `confirmation 5` | Une étiquette réelle à examiner |
+| Tarifs réels | Les identifiants du compte transporteur ; l'adaptateur est un bouchon et le dit désormais dans chaque ligne du tableau |
