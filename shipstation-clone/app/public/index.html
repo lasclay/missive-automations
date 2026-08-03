@@ -27,6 +27,19 @@
        convient (5,4 à 6,2). En thème sombre ils sont clairs : le blanc y tombe à 2,1 sur le
        vert du bouton d'achat. La variable bascule, la règle CSS ne bouge pas (BUG-086). */
     --sur-plein:#ffffff;
+    /* Bouton inactif : neutre et lisible. #eef0f3 sur #6a7480 donne 4,6 : 1 — au-dessus
+       du seuil AA, et sans aucune parenté avec une couleur d'action. */
+    --inactif-fond:#eef0f3; --inactif-texte:#5f6874;
+    /* Échelle de rayons — l'audit relevait 5, 6, 7, 9, 11 et 14 px cohabitant, contre
+       4 px partout chez ShipStation. Trois crans et une pilule, plutôt qu'une valeur
+       unique : un dialogue plein écran et une puce de statut n'ont pas le même rayon
+       optique. Ce qui comptait, c'est qu'il y ait une règle. */
+    --r1:6px; --r2:9px; --r3:12px; --rp:999px;
+    /* Hauteurs de contrôle — l'audit comptait 20, 28, 29, 32 et 34 px sur un seul écran,
+       contre 32 px partout chez ShipStation. Deux crans : le cran dense pour les barres
+       de filtres et les puces, le cran normal pour tout le reste. Ce sont des `min-height`
+       et non des `height` : un bouton qui passe à la ligne reste lisible. */
+    --h1:28px; --h2:32px;
     color-scheme: light;
   }
   :root[data-theme="sombre"] {
@@ -34,6 +47,7 @@
     --accent:#5b8cf5; --vert:#3dc98a; --ambre:#e0a33e; --rouge:#f0705f; --sel:#1d2740; --barre:#0e1114;
     --puce-v:#3dc98a; --puce-a:#e0a33e; --puce-r:#f0705f; --puce-g:#b6bec8;
     --sur-plein:#10151a;
+    --inactif-fond:#23282d; --inactif-texte:#8b949e;
     color-scheme: dark;
   }
   @media (prefers-color-scheme: dark) {
@@ -42,6 +56,7 @@
       --accent:#5b8cf5; --vert:#3dc98a; --ambre:#e0a33e; --rouge:#f0705f; --sel:#1d2740; --barre:#0e1114;
       --puce-v:#3dc98a; --puce-a:#e0a33e; --puce-r:#f0705f; --puce-g:#b6bec8;
       --sur-plein:#10151a;
+    --inactif-fond:#23282d; --inactif-texte:#8b949e;
       color-scheme: dark;
     }
   }
@@ -60,25 +75,36 @@
   nav a:hover { background:rgba(255,255,255,.06); color:#fff }
   nav a.actif { background:rgba(255,255,255,.10); color:#fff; border-left-color:var(--accent); font-weight:600 }
   nav .grp { padding:12px 16px 4px; font-size:10.5px; text-transform:uppercase; letter-spacing:.7px; color:#78828d }
-  nav .n { background:rgba(255,255,255,.14); border-radius:9px; padding:0 7px; font-size:11px; font-variant-numeric:tabular-nums }
+  nav .n { background:rgba(255,255,255,.14); border-radius:var(--r2); padding:0 7px; font-size:11px; font-variant-numeric:tabular-nums }
   h2 { font-size:17px; margin:0 0 3px; font-weight:650 }
   .sous { color:var(--doux); font-size:13px; margin:0 0 14px }
   /* ---- éléments ---- */
   input,select,textarea,button { font:inherit; padding:6px 9px; border:1px solid var(--bord);
-    border-radius:6px; background:var(--carte); color:var(--texte) }
+    border-radius:var(--r1); background:var(--carte); color:var(--texte) }
+  input:not([type=checkbox]):not([type=radio]),select,button { min-height:var(--h2) }
+  /* La hauteur du bouton doit être déterministe : sans interligne fixe, elle suit la
+     police de chaque contexte et un même écran retombe à trois hauteurs différentes.
+     Interligne posé + `min-height` : le cran est atteint par le bas, jamais dépassé. */
+  button { line-height:1.15; padding:5px 10px }
   textarea { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px; width:100%; min-height:280px }
   button { cursor:pointer } button:hover:not(:disabled) { border-color:var(--accent) }
-  button:disabled { opacity:.45; cursor:not-allowed }
+  /* Un bouton désactivé ne doit pas ressembler à une action disponible. L'ancienne règle
+     posait `opacity:.45` sur tous les boutons, y compris le primaire vert plein : le résultat
+     était un vert délavé à ~2,05 : 1 de contraste, illisible ET encore engageant. Un bouton
+     inactif perd donc sa couleur d'action et devient neutre, en gardant un texte lisible. */
+  button:disabled, button.p:disabled, button.v:disabled, button.d:disabled {
+    background:var(--inactif-fond); border-color:var(--bord); color:var(--inactif-texte);
+    opacity:1; cursor:not-allowed; font-weight:400; box-shadow:none }
   button.p { background:var(--accent); border-color:var(--accent); color:var(--sur-plein); font-weight:600 }
   button.d { border-color:var(--rouge); color:var(--rouge) }
   .barre { display:flex; gap:7px; flex-wrap:wrap; align-items:center; margin-bottom:10px }
-  .carte { background:var(--carte); border:1px solid var(--bord); border-radius:9px; padding:14px; margin-bottom:12px }
+  .carte { background:var(--carte); border:1px solid var(--bord); border-radius:var(--r2); padding:14px; margin-bottom:12px }
   .grille { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)) }
-  .kpi { background:var(--carte); border:1px solid var(--bord); border-radius:9px; padding:12px 14px }
+  .kpi { background:var(--carte); border:1px solid var(--bord); border-radius:var(--r2); padding:12px 14px }
   .kpi .v { font-size:23px; font-weight:660; font-variant-numeric:tabular-nums; letter-spacing:-.4px }
   .kpi .l { color:var(--doux); font-size:12px; margin-top:2px }
   .kpi.vert .v { color:var(--vert) } .kpi.ambre .v { color:var(--ambre) }
-  .tbl { background:var(--carte); border:1px solid var(--bord); border-radius:9px; overflow:auto; max-height:66vh }
+  .tbl { background:var(--carte); border:1px solid var(--bord); border-radius:var(--r2); overflow:auto; max-height:66vh }
   /*
    * Piège de défilement — BUG-082.
    *
@@ -106,23 +132,23 @@
   tr.sel td.pin { background:var(--sel) }
   tr.clic { cursor:pointer } tr.clic:hover td { background:var(--sel) }
   .n, th.n { text-align:right; font-variant-numeric:tabular-nums }
-  .puce { font-size:10.5px; padding:1px 7px; border-radius:9px; font-weight:600; display:inline-block; white-space:nowrap }
+  .puce { font-size:10.5px; padding:1px 7px; border-radius:var(--r2); font-weight:600; display:inline-block; white-space:nowrap }
   .puce.v { background:rgba(11,122,75,.15); color:var(--puce-v) }
   .puce.a { background:rgba(154,91,6,.16); color:var(--puce-a) }
   .puce.r { background:rgba(192,57,43,.14); color:var(--puce-r) }
   .puce.g { background:rgba(120,130,140,.16); color:var(--puce-g) }
   .doux { color:var(--doux) }
-  .avis { padding:9px 12px; border-radius:7px; margin-bottom:12px; font-size:13px;
+  .avis { padding:9px 12px; border-radius:var(--r1); margin-bottom:12px; font-size:13px;
           background:rgba(154,91,6,.12); color:var(--ambre); border:1px solid rgba(154,91,6,.3) }
   .avis.info { background:rgba(26,86,219,.10); color:var(--accent); border-color:rgba(26,86,219,.3) }
   .onglets { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; align-items:center }
-  .ong { padding:4px 11px; border:1px solid var(--bord); border-radius:14px; background:var(--carte);
+  .ong { padding:4px 11px; border:1px solid var(--bord); border-radius:var(--rp); background:var(--carte);
          cursor:pointer; font-size:12.5px }
   .ong.actif { background:var(--accent); border-color:var(--accent); color:var(--sur-plein); font-weight:600 }
   /* Valeur héritée d'un groupe de préréglages, sous le champ — le « Preset - 200 » de
      ShipStation. Sans elle, un poids vide sur la fiche est indistinguable de « 0 g ». */
   .herite { display:block; font-size:11px; color:var(--doux); margin-top:2px; font-style:italic }
-  dialog { border:1px solid var(--bord); border-radius:11px; background:var(--carte); color:var(--texte);
+  dialog { border:1px solid var(--bord); border-radius:var(--r3); background:var(--carte); color:var(--texte);
            padding:0; max-width:800px; width:94vw; max-height:88vh }
   dialog h3 { margin:0; padding:12px 16px; border-bottom:1px solid var(--bord); font-size:15px }
   dialog .c { padding:14px 16px; overflow:auto; max-height:64vh }
@@ -131,7 +157,7 @@
   label.ch { display:inline-flex; align-items:center; gap:5px; font-size:13px }
   .champ { display:block; margin-bottom:9px } .champ span { display:block; font-size:12px; color:var(--doux); margin-bottom:3px }
   .champ input, .champ select { width:100% }
-  .bar { height:7px; background:var(--bord); border-radius:4px; overflow:hidden; margin-top:5px }
+  .bar { height:7px; background:var(--bord); border-radius:var(--r1); overflow:hidden; margin-top:5px }
   .bar i { display:block; height:100%; background:var(--vert) }
 
   /* ══════════════════════ écran Commandes — layout ShipStation à 3 colonnes ══════════════════════
@@ -152,7 +178,7 @@
   .ssLi.ajout { color:var(--accent); font-size:12.5px }
   .ssLi.lot .nom { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
   .ssLi.lot .plus { border:1px solid var(--accent); color:var(--accent); background:var(--carte);
-                    border-radius:5px; padding:0 6px; font-size:13px; line-height:16px; margin-left:4px }
+                    border-radius:var(--r1); padding:0 6px; font-size:13px; line-height:16px; margin-left:4px }
   .ssLi.lot .plus:hover { background:var(--accent); color:var(--sur-plein) }
   .lienCmd { color:var(--accent); font-weight:650; cursor:pointer; text-decoration:none }
   .lienCmd:hover { text-decoration:underline }
@@ -161,7 +187,7 @@
          display:flex; flex-direction:column }
 
   .ongVues { display:flex; gap:2px; padding:6px 10px 0; overflow-x:auto; border-bottom:1px solid var(--bord); flex:none }
-  .ongVues .ong { padding:5px 11px; border:1px solid transparent; border-bottom:none; border-radius:6px 6px 0 0;
+  .ongVues .ong { padding:5px 11px; border:1px solid transparent; border-bottom:none; border-radius:var(--r1) var(--r1) 0 0;
                   font-size:12.5px; cursor:pointer; white-space:nowrap; color:var(--doux) }
   .ongVues .ong i { font-style:normal; opacity:.65; font-variant-numeric:tabular-nums }
   .ongVues .ong:hover { background:var(--sel); color:var(--texte) }
@@ -171,7 +197,7 @@
   .barreF, .barreA { display:flex; gap:6px; align-items:center; padding:7px 10px; flex:none;
                      border-bottom:1px solid var(--bord); overflow-x:auto; white-space:nowrap }
   .barreF > *, .barreA > * { flex:none }
-  .barreF input, .barreF select, .barreA button { padding:4px 8px; font-size:12.5px; border-radius:5px }
+  .barreF input, .barreF select, .barreA button { padding:4px 8px; font-size:12.5px; border-radius:var(--r1); min-height:var(--h1) }
   .barreF #fq { min-width:250px }
   .barreF .sep { width:1px; height:20px; background:var(--bord); margin:0 3px; flex:none }
   .barreF button.on { background:var(--sel); border-color:var(--accent); color:var(--accent) }
@@ -200,7 +226,7 @@
   tr.arts td { background:var(--bg); white-space:normal }
   .artL > div, .artG > div { font-size:12.5px; padding:1px 0 }
   .sku { font-family:ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--doux) }
-  .tag { font-size:10.5px; padding:1px 7px; border-radius:9px; font-weight:600; white-space:nowrap;
+  .tag { font-size:10.5px; padding:1px 7px; border-radius:var(--r2); font-weight:600; white-space:nowrap;
          background:color-mix(in srgb, var(--c) 20%, transparent); color:var(--c); border:1px solid var(--c) }
   table.tblCmd tr.grp td { background:var(--bg); font-size:12px; color:var(--doux);
                            padding:5px 10px; border-bottom:1px solid var(--bord); position:sticky }
@@ -238,11 +264,11 @@
              border-bottom:1px solid var(--bord); background:var(--carte) }
   .enteteE .etqT { font-size:13px; font-weight:600; color:var(--doux) }
   .enteteE .lotChip { font-size:13.5px; font-weight:650; background:var(--sel); color:var(--accent);
-                      border:1px solid var(--bord); border-radius:5px; padding:2px 9px }
+                      border:1px solid var(--bord); border-radius:var(--r1); padding:2px 9px }
   .enteteE .lienNote { font-size:12.5px; font-weight:400; color:var(--accent); cursor:pointer; text-decoration:underline }
 
   /* ---- révision des coûts d'un lot (« Label Batch Status: Cost Review ») ---- */
-  .crCarte { border:1px solid var(--bord); border-radius:8px; padding:11px 13px; margin-bottom:10px }
+  .crCarte { border:1px solid var(--bord); border-radius:var(--r2); padding:11px 13px; margin-bottom:10px }
   .crCarte .crT { font-size:13.5px; margin-bottom:7px }
   .crL { display:flex; justify-content:space-between; gap:10px; font-size:13px; padding:3px 0 }
   .crL span { color:var(--doux) }
@@ -254,10 +280,10 @@
   .crF > div { font-size:11.5px; padding:3px 0 6px }
   .crNote { font-size:11.5px; color:var(--vert); margin-top:6px }
   .crVert { background:color-mix(in srgb, var(--vert) 9%, transparent); border:1px solid color-mix(in srgb, var(--vert) 30%, transparent);
-            border-radius:8px; padding:11px 13px; margin-top:4px }
+            border-radius:var(--r2); padding:11px 13px; margin-top:4px }
   .crVert .champ.enLigne { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px }
   .crVert .champ.enLigne > span { font-size:12.5px; color:var(--doux) }
-  .crVert .champ.enLigne input { width:170px; padding:4px 7px; font-size:12.5px; border-radius:5px }
+  .crVert .champ.enLigne input { width:170px; padding:4px 7px; font-size:12.5px; border-radius:var(--r1) }
   .enteteE .recharger { font-size:12.5px; color:var(--accent); cursor:pointer }
   .ssRech { padding:10px 12px 8px; border-bottom:1px solid var(--bord) }
   .ssRech input { width:100%; padding:5px 8px; font-size:12.5px }
@@ -279,13 +305,13 @@
   button.lienB:hover, button.recharger:hover { text-decoration:underline }
   /* Un anneau de focus visible : sans lui, la tabulation qu'on vient de rétablir reste aveugle. */
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-    outline:2px solid var(--accent); outline-offset:2px; border-radius:3px }
+    outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r1) }
 
   /* Indicateur non calculable : gris, jamais vert — un zéro sur une table vide n'est pas
      une conformité (BUG-056). */
   .kpi.gris { border-color:var(--bord); opacity:.75 }
   /* Zone de danger : repliée par défaut, bordée de rouge, jamais mêlée aux actions ordinaires. */
-  .zoneDanger { border:1px solid var(--rouge); border-radius:8px; padding:0 12px; margin-top:14px;
+  .zoneDanger { border:1px solid var(--rouge); border-radius:var(--r2); padding:0 12px; margin-top:14px;
                 background:color-mix(in srgb, var(--rouge) 5%, transparent) }
   .zoneDanger summary { padding:9px 0; cursor:pointer; font-weight:650; font-size:13px; color:var(--rouge) }
   .zoneDanger[open] { padding-bottom:11px }
@@ -296,13 +322,13 @@
 
   /* ---- états : chargement, erreur, périmé, vide ---- */
   .squelette { padding:10px 12px; display:flex; flex-direction:column; gap:7px }
-  .sqL { height:19px; border-radius:4px;
+  .sqL { height:19px; border-radius:var(--r1);
          background:linear-gradient(90deg, var(--bord) 25%, var(--sel) 50%, var(--bord) 75%);
          background-size:200% 100%; animation:sqAnim 1.1s ease-in-out infinite }
   @keyframes sqAnim { 0% { background-position:200% 0 } 100% { background-position:-200% 0 } }
   @media (prefers-reduced-motion: reduce) { .sqL { animation:none } }
 
-  .panErr { border:1px solid var(--rouge); border-radius:9px; padding:16px 18px; margin:14px;
+  .panErr { border:1px solid var(--rouge); border-radius:var(--r2); padding:16px 18px; margin:14px;
             background:color-mix(in srgb, var(--rouge) 8%, transparent) }
   .panErrT { font-weight:650; font-size:14.5px; margin-bottom:4px }
   .panErrM { font-size:13px; color:var(--doux); margin-bottom:10px }
@@ -310,19 +336,19 @@
   .bandPerime { display:flex; align-items:center; gap:10px; padding:7px 12px; font-size:12.5px;
                 background:color-mix(in srgb, var(--ambre) 14%, transparent);
                 border-bottom:1px solid var(--ambre); color:var(--texte) }
-  .bandPerime button { padding:3px 10px; font-size:12px; border-radius:5px; margin-left:auto }
+  .bandPerime button { padding:3px 10px; font-size:12px; border-radius:var(--r1); margin-left:auto; min-height:var(--h1) }
   .grilleWrap.perime table.tblCmd { opacity:.55 }
   .pag.perime { opacity:.55 }
   .pag.perime::after { content:"— total possiblement périmé"; color:var(--ambre); font-size:12px }
 
   #toasts { position:fixed; right:14px; bottom:14px; z-index:120; display:flex;
             flex-direction:column; gap:8px; max-width:420px }
-  .toast { display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:8px;
+  .toast { display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:var(--r2);
            background:var(--carte); border:1px solid var(--bord); font-size:13px;
            box-shadow:0 8px 24px rgba(0,0,0,.18); animation:toastEntre .18s ease-out }
   .toast.erreur { border-color:var(--rouge); background:color-mix(in srgb, var(--rouge) 10%, var(--carte)) }
   .toast.succes { border-color:var(--vert); background:color-mix(in srgb, var(--vert) 10%, var(--carte)) }
-  .toast button { padding:2px 9px; font-size:12px; border-radius:5px; cursor:pointer }
+  .toast button { padding:2px 9px; font-size:12px; border-radius:var(--r1); cursor:pointer; min-height:var(--h1) }
   .toast .x { border:none; background:none; font-size:16px; color:var(--doux); padding:0 2px }
   .toast.sort { opacity:0; transform:translateY(6px); transition:.24s }
   @keyframes toastEntre { from { opacity:0; transform:translateY(8px) } }
@@ -330,7 +356,7 @@
   /* ---- poste de scan ---- */
   .avis.bloquant { border-left:4px solid var(--rouge); font-size:14px; line-height:1.5 }
   .listeAmbigu { display:flex; flex-wrap:wrap; gap:7px; margin-top:9px }
-  .listeAmbigu .amb { display:flex; align-items:center; gap:7px; padding:5px 11px; border-radius:6px;
+  .listeAmbigu .amb { display:flex; align-items:center; gap:7px; padding:5px 11px; border-radius:var(--r1);
                       cursor:pointer; font-size:13px }
   .listeAmbigu .amb:disabled { opacity:.45; cursor:not-allowed }
 
@@ -340,31 +366,31 @@
 
   /* ---- pastilles de filtre (« Filter By » de ShipStation, §2.4) ---- */
   .barreF .chip { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; font-size:12.5px;
-                  border:1px solid var(--bord); border-radius:14px; background:var(--carte); cursor:pointer;
+                  border:1px solid var(--bord); border-radius:var(--rp); background:var(--carte); cursor:pointer;
                   color:var(--doux); line-height:1.7 }
   .barreF .chip:hover { border-color:var(--accent); color:var(--texte) }
   .barreF .chip.on { background:var(--sel); border-color:var(--accent); color:var(--accent); font-weight:600 }
   .barreF .chip.on b { font-weight:650; color:var(--texte); max-width:200px; overflow:hidden;
                        text-overflow:ellipsis; white-space:nowrap }
   .barreF .chip.on b::before { content:"·"; margin-right:5px; opacity:.5 }
-  .barreF .chip i { font-style:normal; opacity:.6; padding:0 1px; border-radius:8px }
+  .barreF .chip i { font-style:normal; opacity:.6; padding:0 1px; border-radius:var(--r2) }
   .barreF .chip i:hover { opacity:1; background:var(--bord) }
   .barreF .chip.sauv { border-style:dashed }
   .barreF .lien { background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px;
                   text-decoration:underline; padding:0 4px }
 
   .panF { position:fixed; z-index:90; width:298px; background:var(--carte); border:1px solid var(--bord);
-          border-radius:9px; box-shadow:0 12px 32px rgba(0,0,0,.22); overflow:hidden }
+          border-radius:var(--r2); box-shadow:0 12px 32px rgba(0,0,0,.22); overflow:hidden }
   .panF .panT { padding:8px 12px; font-size:12px; font-weight:650; color:var(--doux);
                 border-bottom:1px solid var(--bord); background:var(--bg) }
   .panF .panB { padding:11px 12px; display:flex; flex-direction:column; gap:9px }
   .panF .champ { display:flex; flex-direction:column; gap:3px; font-size:12.5px }
   .panF .champ > span { font-size:11.5px; color:var(--doux) }
-  .panF .champ input, .panF .champ select { width:100%; padding:4px 7px; font-size:12.5px; border-radius:5px }
+  .panF .champ input, .panF .champ select { width:100%; padding:4px 7px; font-size:12.5px; border-radius:var(--r1) }
   .panF .ch { display:flex; align-items:center; gap:6px; font-size:12.5px; cursor:pointer }
   .panF .deux { display:grid; grid-template-columns:1fr 1fr; gap:8px }
   .panF .rapides { display:flex; gap:5px; flex-wrap:wrap }
-  .panF .rapides button { font-size:11.5px; padding:3px 8px; border-radius:11px; cursor:pointer }
+  .panF .rapides button { font-size:11.5px; padding:3px 8px; border-radius:var(--rp); cursor:pointer; min-height:var(--h1) }
   /* ---- sidebar d'expédition (Configure Shipment Widget) ---- */
   .ssR .sec { border-bottom:1px solid var(--bord); padding:11px 13px }
   .ssR h4 { margin:0 0 7px; font-size:13px; font-weight:650; display:flex; gap:6px; align-items:center }
@@ -375,7 +401,7 @@
   .ssR .champ input, .ssR .champ select { padding:4px 7px; font-size:12.5px }
   .ssR .dims { display:flex; gap:4px; align-items:center; margin-bottom:6px }
   .ssR .dims input { width:100%; padding:4px 6px; font-size:12.5px }
-  .ssR .note { font-size:12.5px; background:var(--bg); border-radius:6px; padding:6px 8px; margin-bottom:6px }
+  .ssR .note { font-size:12.5px; background:var(--bg); border-radius:var(--r1); padding:6px 8px; margin-bottom:6px }
   textarea.petit { min-height:56px; font-size:12.5px; margin-bottom:6px }
   .rouge { color:var(--rouge) } .vert { color:var(--vert) }
 
@@ -410,9 +436,9 @@
   .fiche { position:fixed; inset:0; z-index:80; background:var(--bg); display:flex; flex-direction:column }
   .fTete { display:flex; align-items:center; gap:9px; padding:9px 13px; background:var(--carte);
            border-bottom:1px solid var(--bord); flex:none }
-  .fTete .fBout { font-size:12px; color:var(--doux); padding:2px 8px; border:1px solid var(--bord); border-radius:11px }
+  .fTete .fBout { font-size:12px; color:var(--doux); padding:2px 8px; border:1px solid var(--bord); border-radius:var(--rp) }
   .fTete .fNum { font-size:15.5px; font-weight:650 }
-  .fTete button { padding:4px 10px; font-size:12.5px; border-radius:5px }
+  .fTete button { padding:4px 10px; font-size:12.5px; border-radius:var(--r1); min-height:var(--h1) }
   .fTete .fNav { display:flex; gap:2px; margin-left:6px }
   .fTete .fNav button { padding:3px 9px; font-size:15px; line-height:1 }
   .fTete .fFerme { border:none; background:none; font-size:17px; color:var(--doux); cursor:pointer; padding:2px 6px }
@@ -428,18 +454,18 @@
   .fRailE.actif { border-left-color:var(--accent); background:var(--sel) }
   .fRailE b { font-size:12.5px; font-weight:650 }
   .fRailPlus { display:block; margin:8px 12px; width:calc(100% - 24px); padding:5px; font-size:15px;
-               line-height:1; border:1px dashed var(--bord); border-radius:6px; cursor:pointer;
+               line-height:1; border:1px dashed var(--bord); border-radius:var(--r1); cursor:pointer;
                background:none; color:var(--doux) }
   .fRailPlus:hover { border-color:var(--accent); color:var(--accent) }
   .fRailC { display:flex; align-items:center; gap:6px; padding:6px 12px; font-size:11.5px; color:var(--doux) }
   .fRailC b { font-size:13px; color:var(--texte); font-variant-numeric:tabular-nums }
 
   .fCentre { overflow:auto; padding:13px; min-width:0 }
-  .fCentre .fSec { border:1px solid var(--bord); border-radius:9px; padding:12px 14px; margin-bottom:12px;
+  .fCentre .fSec { border:1px solid var(--bord); border-radius:var(--r2); padding:12px 14px; margin-bottom:12px;
                    background:var(--carte) }
   .fCentre .fSec.repli { opacity:.72 }
   .fCentre h4 { margin:0 0 10px; font-size:13.5px; font-weight:650; display:flex; align-items:center; gap:9px }
-  .fCentre h4 .cpt { font-size:11px; background:var(--sel); color:var(--accent); border-radius:9px; padding:1px 7px }
+  .fCentre h4 .cpt { font-size:11px; background:var(--sel); color:var(--accent); border-radius:var(--r2); padding:1px 7px }
   .fCentre h4 .fH4a { margin-left:auto; display:flex; gap:11px }
   .fEdit { font-size:11.5px; color:var(--accent); cursor:pointer; text-decoration:none;
            text-transform:none; letter-spacing:0; font-weight:400 }
@@ -453,15 +479,15 @@
   .fiche .champ { display:flex; flex-direction:column; gap:3px; font-size:12.5px }
   .fiche .champ > span { font-size:11px; color:var(--doux) }
   .fiche .champ input, .fiche .champ select, .fiche .champ textarea {
-    width:100%; padding:4px 7px; font-size:12.5px; border-radius:5px; font-family:inherit }
-  .fiche .champ button.plein { width:100%; padding:4px 7px; font-size:12.5px; border-radius:5px; text-align:left }
+    width:100%; padding:4px 7px; font-size:12.5px; border-radius:var(--r1); font-family:inherit }
+  .fiche .champ button.plein { width:100%; padding:4px 7px; font-size:12.5px; border-radius:var(--r1); text-align:left }
   .fiche .kv { display:flex; justify-content:space-between; gap:8px; font-size:12.5px; padding:2px 0 }
   .fiche .kv span { color:var(--doux) }
   .fiche .kv.tot { border-top:1px solid var(--bord); margin-top:3px; padding-top:5px; font-weight:650 }
   /* Remise et remboursement : des montants qui sortent, écrits comme tels. */
   .fiche .kv.rem b { color:var(--vert) }
   .motifAchat { font-size:11.5px; line-height:1.4; color:var(--ambre); padding:4px 0 }
-  .avertMontants { margin-top:6px; padding:6px 8px; border-radius:5px; font-size:12px; line-height:1.45;
+  .avertMontants { margin-top:6px; padding:6px 8px; border-radius:var(--r1); font-size:12px; line-height:1.45;
     background:rgba(154,91,6,.12); border:1px solid rgba(154,91,6,.3); color:var(--ambre) }
   .avertMontants .doux { display:block; margin-top:2px; opacity:.85 }
   /* Ligne dont la quantité courante est tombée à zéro : remboursée, plus à préparer. */
@@ -474,11 +500,11 @@
   table.fArt th { text-align:left; font-size:11px; color:var(--doux); font-weight:600;
                   border-bottom:1px solid var(--bord); padding:4px 7px }
   table.fArt td { padding:7px; border-bottom:1px solid var(--bord); vertical-align:top }
-  table.fArt img { width:38px; height:38px; object-fit:contain; border-radius:4px }
+  table.fArt img { width:38px; height:38px; object-fit:contain; border-radius:var(--r1) }
   table.fArt .n, table.fArt th.n { text-align:right; font-variant-numeric:tabular-nums }
 
   .dDecl { display:flex; flex-direction:column; gap:10px; margin-top:10px }
-  .dLigne { border:1px solid var(--bord); border-radius:7px; padding:9px 11px; background:var(--bg) }
+  .dLigne { border:1px solid var(--bord); border-radius:var(--r1); padding:9px 11px; background:var(--bg) }
   .dLigne .dT { font-size:11.5px; font-weight:650; margin-bottom:6px; display:flex; gap:8px; align-items:baseline }
   .dQ { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:7px }
 
@@ -499,10 +525,10 @@
   .fiche .enregistre { outline:2px solid var(--vert); outline-offset:1px; transition:outline-color .5s }
   .fiche .erreur { outline:2px solid var(--rouge); outline-offset:1px }
   .fConf .cPoids .cU { font-size:12px; color:var(--doux); padding-bottom:5px }
-  .fConf .cPoids button { padding:4px 9px; font-size:12px; border-radius:5px }
+  .fConf .cPoids button { padding:4px 9px; font-size:12px; border-radius:var(--r1); min-height:var(--h1) }
   .fConf .cDim { display:grid; grid-template-columns:repeat(3,1fr); gap:6px }
-  .fConf .cDim input { width:100%; padding:4px 7px; font-size:12.5px; border-radius:5px }
-  .fConf .cAssur { font-size:12px; color:var(--doux); background:var(--bg); border-radius:6px;
+  .fConf .cDim input { width:100%; padding:4px 7px; font-size:12.5px; border-radius:var(--r1) }
+  .fConf .cAssur { font-size:12px; color:var(--doux); background:var(--bg); border-radius:var(--r1);
                    padding:6px 9px; display:flex; gap:8px; align-items:center }
   .fConf .cAutres summary { font-size:12.5px; cursor:pointer; padding:4px 0; font-weight:600 }
   .fConf .cAutres { display:flex; flex-direction:column; gap:7px }
@@ -523,7 +549,7 @@
            flex-direction:column; gap:7px; background:var(--carte) }
   .fPiedC { display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px }
   .fPiedC b { font-size:17px; font-weight:650 }
-  .fPied button { padding:6px 11px; font-size:13px; border-radius:6px }
+  .fPied button { padding:6px 11px; font-size:13px; border-radius:var(--r1) }
   .fPied button.v { background:var(--vert); border-color:var(--vert); color:var(--sur-plein); font-weight:650 }
   @media (max-width:1180px) {
     .fCorps { grid-template-columns:1fr; overflow:auto }
@@ -533,13 +559,13 @@
 
   .fcBarre { display:flex; gap:6px; align-items:center; padding:0 0 10px; border-bottom:1px solid var(--bord); margin-bottom:12px }
   .fcGrille { display:grid; grid-template-columns:1.55fr 1fr; gap:14px; align-items:start }
-  .fcSec { border:1px solid var(--bord); border-radius:9px; padding:11px 13px; margin-bottom:12px }
+  .fcSec { border:1px solid var(--bord); border-radius:var(--r2); padding:11px 13px; margin-bottom:12px }
   .fcSec h4 { margin:0 0 8px; font-size:13px; font-weight:650; display:flex; align-items:center; gap:8px }
   .fcDeux { display:grid; grid-template-columns:1fr 1fr; gap:14px }
   .fcSec .kv { display:flex; justify-content:space-between; gap:8px; font-size:12.5px; padding:2px 0 }
   .fcSec .kv span { color:var(--doux) }
   .fcSec .adr { font-size:12.5px; line-height:1.5; margin-top:3px }
-  button.mini { padding:2px 8px; font-size:12px; border-radius:5px }
+  button.mini { padding:2px 8px; font-size:12px; border-radius:var(--r1); min-height:var(--h1) }
   .ssR .sec.entete h4 { align-items:center }
   .menuF .mt { padding:5px 10px 3px; font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--doux) }
   .menuF .cpt { color:var(--doux); font-size:11.5px; font-variant-numeric:tabular-nums }
@@ -547,21 +573,21 @@
   /* Au-dessus de la fiche de commande (z-index 80) : un menu ouvert depuis la colonne
      d'expédition doit passer par-dessus elle, sinon il est peint derrière et devient
      invisible et incliquable — panne silencieuse qu'un test lisant le DOM ne voit pas. */
-  .menuF { position:fixed; z-index:90; background:var(--carte); border:1px solid var(--bord); border-radius:8px;
+  .menuF { position:fixed; z-index:90; background:var(--carte); border:1px solid var(--bord); border-radius:var(--r2);
            box-shadow:0 8px 26px rgba(0,0,0,.18); min-width:224px; padding:4px; max-height:70vh; overflow:auto }
-  .menuF .mi { padding:6px 10px; font-size:13px; cursor:pointer; border-radius:5px; display:flex;
+  .menuF .mi { padding:6px 10px; font-size:13px; cursor:pointer; border-radius:var(--r1); display:flex;
                justify-content:space-between; gap:12px; align-items:center }
   .menuF .mi:hover { background:var(--sel) }
   .menuF .mi.danger { color:var(--rouge) }
   .menuF .sep { height:1px; background:var(--bord); margin:4px 2px }
   kbd { font:11px ui-monospace,Menlo,monospace; background:var(--bg); border:1px solid var(--bord);
-        border-radius:4px; padding:0 4px; color:var(--doux) }
+        border-radius:var(--r1); padding:0 4px; color:var(--doux) }
   .cols { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:2px }
-  .cols .col { justify-content:flex-start; padding:3px 5px; border-radius:5px }
+  .cols .col { justify-content:flex-start; padding:3px 5px; border-radius:var(--r1) }
   .cols .col:hover { background:var(--sel) }
   .cols .pin { border:none; background:none; padding:0 4px; opacity:.25; font-size:12px }
   .cols .pin.on { opacity:1 }
-  .listeVues .lv { padding:7px 9px; border-radius:6px; cursor:pointer; display:block }
+  .listeVues .lv { padding:7px 9px; border-radius:var(--r1); cursor:pointer; display:block }
   .listeVues .lv:hover { background:var(--sel) }
   .listeVues .lv .n { float:right; color:var(--doux); font-variant-numeric:tabular-nums }
 
@@ -580,11 +606,11 @@
                       padding:5px 10px; font-size:12.5px }
   header.top button:hover { background:rgba(255,255,255,.18) }
   header.top .droite { margin-left:auto; display:flex; gap:8px; align-items:center; font-size:12.5px; color:#c7cdd4 }
-  header.top .pastille { background:var(--rouge); color:var(--sur-plein); border-radius:9px; padding:0 6px; font-size:11px; font-weight:700 }
+  header.top .pastille { background:var(--rouge); color:var(--sur-plein); border-radius:var(--r2); padding:0 6px; font-size:11px; font-weight:700 }
 
   /* ---- automatisation : couches et éditeur de règles ---- */
   .couches { display:flex; align-items:center; gap:6px; flex-wrap:wrap }
-  .couche { border:1px solid var(--bord); border-radius:7px; padding:6px 10px; font-size:12.5px; background:var(--bg) }
+  .couche { border:1px solid var(--bord); border-radius:var(--r1); padding:6px 10px; font-size:12.5px; background:var(--bg) }
   .couche.gris { opacity:.55 }
   .couche b { display:inline-block; width:16px; color:var(--accent) }
   .couche .doux { display:block; font-size:11px }
@@ -601,7 +627,7 @@
   .actC > span { font-size:10.5px; color:var(--doux) }
   .actC select, .actC input { width:100% }
   div[data-act].critL { grid-template-columns:1fr 2.5fr 28px }
-  .ordL .ordI { padding:6px 10px; border:1px solid var(--bord); border-radius:6px; margin-bottom:4px;
+  .ordL .ordI { padding:6px 10px; border:1px solid var(--bord); border-radius:var(--r1); margin-bottom:4px;
                 background:var(--carte); cursor:grab; font-size:13px }
 
   /* ══════════════ chrome global — la disposition de ShipStation ══════════════
@@ -619,7 +645,7 @@
                           text-decoration:none; font-size:13.5px; cursor:pointer; border-bottom:3px solid transparent }
   header.top nav.mods a:hover { background:rgba(255,255,255,.08); color:#fff }
   header.top nav.mods a.actif { color:#fff; font-weight:650; border-bottom-color:#fff }
-  header.top nav.mods .n { background:rgba(255,255,255,.18); border-radius:9px; padding:0 6px;
+  header.top nav.mods .n { background:rgba(255,255,255,.18); border-radius:var(--r2); padding:0 6px;
                            font-size:11px; font-variant-numeric:tabular-nums }
   header.top .droite { margin-left:auto; display:flex; gap:6px; align-items:center }
   header.top input#quick { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.16); color:#fff;
@@ -629,10 +655,10 @@
                                         color:#e8eaed; padding:4px 9px; font-size:13px; position:relative }
   header.top .ico:hover, header.top .profil:hover { background:rgba(255,255,255,.18) }
   header.top .pastille { position:absolute; top:-5px; right:-5px; background:var(--rouge); color:var(--sur-plein);
-                         border-radius:9px; padding:0 5px; font-size:10.5px; font-weight:700 }
+                         border-radius:var(--r2); padding:0 5px; font-size:10.5px; font-weight:700 }
   .sousnav { display:flex; gap:2px; align-items:center; padding:0 12px; height:34px; flex:none;
              background:var(--carte); border-bottom:1px solid var(--bord) }
-  .sousnav a { padding:4px 11px; font-size:12.5px; color:var(--doux); cursor:pointer; border-radius:6px }
+  .sousnav a { padding:4px 11px; font-size:12.5px; color:var(--doux); cursor:pointer; border-radius:var(--r1) }
   .sousnav a:hover { background:var(--sel); color:var(--texte) }
   .sousnav a.actif { background:var(--sel); color:var(--texte); font-weight:650 }
   .sousnav:empty { display:none }
@@ -644,7 +670,7 @@
   #bandeau { flex:none; display:flex; gap:6px; flex-wrap:wrap; align-items:center;
              padding:5px 12px; border-bottom:1px solid var(--bord); background:var(--carte) }
   #bandeau:empty { display:none }
-  #bandeau .avis { margin:0; padding:3px 9px; font-size:11.5px; border-radius:5px }
+  #bandeau .avis { margin:0; padding:3px 9px; font-size:11.5px; border-radius:var(--r1) }
   #bandeau .fermer { border:none; background:none; color:var(--doux); padding:0 4px; font-size:14px }
 </style>
 </head>
