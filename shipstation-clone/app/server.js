@@ -1836,7 +1836,14 @@ route("POST /api/orders/:id/customs", async ({ req, params, user }) => {
   }
   db.run("UPDATE orders SET customs = ?, modified_at = ? WHERE id = ?",
     db.dump({ contents: b.contents || "merchandise", non_delivery: b.non_delivery || "return_to_sender",
-      duties_paid: b.duties_paid || null, invoice_number: b.invoice_number || null,
+      duties_paid: b.duties_paid || null,
+      // Port payé et identifiants d'exportateur : le bloc n'en portait que 5 des 12 champs
+      // de ShipStation, et les manquants n'avaient donc aucun endroit où exister.
+      postage_paid: b.postage_paid || null,
+      mid_code: b.mid_code || null,
+      certificate_version_id: b.certificate_version_id || null,
+      certifier_id: b.certifier_id || null,
+      invoice_number: b.invoice_number || null,
       export_declaration_number: b.export_declaration_number || null, declarations: decl }),
     db.maintenant(), id);
   db.journaliser("order.customs", "order", id, { n: decl.length }, user);

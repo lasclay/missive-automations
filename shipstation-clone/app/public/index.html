@@ -3654,7 +3654,10 @@ async function detailCommande(id) {
           <div class="fDeux">
             <label class="champ"><span>Contenu</span><select id="dContenu">${
               [["merchandise", "Marchandise"], ["gift", "Cadeau"], ["documents", "Documents"],
-               ["sample", "Échantillon"], ["returned_goods", "Marchandise retournée"]]
+               ["sample", "Échantillon"], ["returned_goods", "Marchandise retournée"],
+               ["ecommerce_goods", "Marchandise de commerce en ligne"],
+               ["commercial_sale", "Vente commerciale (B2B)"],
+               ["return_repair_warranty", "Retour, réparation ou garantie"]]
               .map(([v, t]) => `<option value="${v}"${(douane.contents || "merchandise") === v ? " selected" : ""}>${t}</option>`).join("")}
             </select></label>
             <label class="champ"><span>Si non livrable</span><select id="dNonLiv">${
@@ -3663,10 +3666,34 @@ async function detailCommande(id) {
             </select></label>
             <label class="champ"><span>N° de facture</span><input id="dFacture" value="${esc(douane.invoice_number || "")}"></label>
             <label class="champ"><span>N° de déclaration d'exportation</span><input id="dExport" value="${esc(douane.export_declaration_number || "")}"></label>
+            <label class="champ"><span>Droits et taxes payés par</span><select id="dDroits">${
+              [["recipient", "Le destinataire (DDU)"], ["sender", "L'expéditeur (DDP)"]]
+              .map(([v, t]) => `<option value="${v}"${(douane.duties_paid || "recipient") === v ? " selected" : ""}>${t}</option>`).join("")}
+            </select></label>
+            <label class="champ"><span>Port payé par</span><select id="dPort">${
+              [["sender", "L'expéditeur"], ["recipient", "Le destinataire"]]
+              .map(([v, t]) => `<option value="${v}"${(douane.postage_paid || "sender") === v ? " selected" : ""}>${t}</option>`).join("")}
+            </select></label>
           </div>
+          <!-- Identifiants d'exportateur : rarement remplis, jamais inventés. Repliés parce
+               qu'ils ne concernent qu'une minorité d'envois, mais présents — sans eux, une
+               expédition qui les exige n'a aucun endroit où les porter. -->
+          <details class="fPliant" style="margin:6px 0 2px">
+            <summary>Identifiants d'exportateur (code MID, certificat)</summary>
+            <div class="fTrois">
+              <label class="champ"><span>Code MID</span><input id="dMid" value="${esc(douane.mid_code || "")}"
+                placeholder="identifiant du fabricant"></label>
+              <label class="champ"><span>Certificate Version ID</span><input id="dCertV" value="${esc(douane.certificate_version_id || "")}"></label>
+              <label class="champ"><span>Certifier ID</span><input id="dCertI" value="${esc(douane.certifier_id || "")}"></label>
+            </div>
+            <p class="doux" style="font-size:12px;margin:6px 0 0">Exigés par certains accords
+              commerciaux (ACEUM notamment) pour des marchandises précises. Laissez vides si le
+              transporteur ne les réclame pas : une valeur inventée est pire qu'un champ vide.</p>
+          </details>
           <div id="dDecl" class="dDecl"></div>
           <div class="barre">
             <button id="dEnr" class="v">Enregistrer les déclarations</button>
+            <button id="dAjout">Ajouter une déclaration</button>
             <button id="dHS">Proposer les codes SH</button>
             <span class="doux" id="dMsg"></span>
           </div>
@@ -3940,25 +3967,55 @@ async function detailCommande(id) {
   let DECL = declOf();
   function dessinerDecl() {
     $("#dDecl", f).innerHTML = DECL.map((d, i) => `<div class="dLigne">
-      <div class="dT">Déclaration ${i + 1} <span class="sku">${esc(d.sku || "sans SKU")}</span></div>
+      <div class="dT">Déclaration ${i + 1}
+        <span class="sku">${esc(d.sku || "sans SKU")}</span>
+        <button type="button" class="fEdit" data-suppr="${i}" style="margin-left:auto">Supprimer</button></div>
       <label class="champ"><span>Description *</span><input data-d="${i}" data-k="description" value="${esc(d.description)}"></label>
       <div class="dQ">
+        <label class="champ"><span>SKU</span><input data-d="${i}" data-k="sku" value="${esc(d.sku || "")}"></label>
         <label class="champ"><span>Quantité *</span><input type="number" data-d="${i}" data-k="quantity" value="${esc(d.quantity)}"></label>
         <label class="champ"><span>Valeur unitaire *</span><input type="number" step="0.01" data-d="${i}" data-k="value" value="${esc(d.value)}"></label>
+        <label class="champ"><span>Valeur totale</span>
+          <input value="${money((Number(d.quantity) || 0) * (Number(d.value) || 0))}" disabled
+                 title="Quantité × valeur unitaire — c'est ce montant que la douane lit"></label>
         <!-- L'espace réservé montrait « 1209.30 » — le code des semences — sur des
              déclarations de textiles. Il ressemble à une valeur saisie : un opérateur pressé
              déclarait un cache-cou comme des semences. Un gabarit neutre ne peut pas être
              pris pour une réponse. -->
         <label class="champ"><span>Code SH ${international ? "*" : ""}</span><input data-d="${i}" data-k="hs_code" value="${esc(d.hs_code)}" placeholder="6 chiffres — ex. 0000.00" inputmode="numeric"></label>
-        <label class="champ"><span>Pays d'origine *</span><input data-d="${i}" data-k="country_of_origin" value="${esc(d.country_of_origin)}" maxlength="2"></label>
+        <!-- Le pays d'origine était en saisie libre : « CAN », « Canada », « ca » et une
+             faute de frappe sont quatre déclarations différentes pour un douanier, et une
+             seule d'entre elles est valide. Liste fermée, comme chez ShipStation. -->
+        <label class="champ"><span>Pays d'origine *</span><select data-d="${i}" data-k="country_of_origin">${
+          PAYS_EXPEDITION.map(([c, n]) => `<option value="${esc(c)}"${d.country_of_origin === c ? " selected" : ""}>${esc(n)}</option>`).join("")}
+        </select></label>
       </div>
       ${!d.hs_code && international ? '<div class="avis mini">Code SH manquant — le colis sera bloqué en douane.</div>' : ""}
     </div>`).join("");
     $("#dDecl", f).querySelectorAll("[data-d]").forEach((i) =>
-      i.onchange = () => { DECL[Number(i.dataset.d)][i.dataset.k] = i.value; });
+      i.onchange = () => {
+        DECL[Number(i.dataset.d)][i.dataset.k] = i.value;
+        // La valeur totale est ce que la douane lit ; elle doit suivre la saisie tout de
+        // suite, pas au prochain rechargement.
+        if (i.dataset.k === "quantity" || i.dataset.k === "value") dessinerDecl();
+      });
+    // Ajouter et supprimer une déclaration : une commande peut porter une ligne qui n'a pas
+    // d'article correspondant (un envoi groupé, un remplacement), et une ligne non physique
+    // n'a rien à faire dans une déclaration douanière.
+    $("#dDecl", f).querySelectorAll("[data-suppr]").forEach((b) =>
+      b.onclick = () => { DECL.splice(Number(b.dataset.suppr), 1); dessinerDecl(); });
     $("#fnDoc", f).textContent = DECL.filter((d) => d.hs_code).length;
   }
   dessinerDecl();
+
+  $("#dAjout", f).onclick = () => {
+    DECL.push({ order_item_id: null, description: "", sku: "", quantity: 1, value: 0,
+      hs_code: "", country_of_origin: "CA" });
+    dessinerDecl();
+    // Le focus va sur la description de la ligne créée : c'est le champ obligatoire.
+    const champs = $("#dDecl", f).querySelectorAll('[data-k="description"]');
+    champs[champs.length - 1]?.focus();
+  };
 
   $("#dHS", f).onclick = async () => {
     $("#dMsg", f).textContent = "Classification…";
@@ -3979,6 +4036,9 @@ async function detailCommande(id) {
   $("#dEnr", f).onclick = async () => {
     const corps = { contents: $("#dContenu", f).value, non_delivery: $("#dNonLiv", f).value,
       invoice_number: $("#dFacture", f).value, export_declaration_number: $("#dExport", f).value,
+      duties_paid: $("#dDroits", f).value, postage_paid: $("#dPort", f).value,
+      mid_code: $("#dMid", f).value, certificate_version_id: $("#dCertV", f).value,
+      certifier_id: $("#dCertI", f).value,
       declarations: DECL };
     const r = await api(`/api/orders/${id}/customs`, { method: "POST", body: corps }).catch((e) => ({ error: e.message }));
     if (r.error) {
