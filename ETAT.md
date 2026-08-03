@@ -3,7 +3,7 @@
 Suivi des items du backlog de l'audit comparatif (`RAPPORT-TECHNIQUE.md`, § 11).
 Conventions : `à faire` · `en cours` · `fait` · `bloqué (raison)`.
 
-Dernière mise à jour : 2026-08-03.
+Dernière mise à jour : 2026-08-03. Rapport de fin de Vague 1 : `RAPPORT-VAGUE-1.md`.
 
 Tests : `verifier_criteres.js` **87/87**, `verifier_vues.js` **53/53**, `verifier.js` sans point
 bloquant. Chaque correctif d'interface est vérifié au navigateur, pas seulement dans le DOM —
@@ -37,7 +37,7 @@ un test qui lit l'arbre peut passer pendant que l'écran est cassé (leçon du z
 | V1-18 | Second facteur obligatoire + compte au courriel invalide | BUG-023/039 | **fait** | activation refusée tant qu'un compte actif n'a pas d'adresse valide, avec la liste ; liste blanche des réglages modifiables |
 | V1-23 | Trancher `confirmation 5` | BUG-077 | **bloqué** | exige une étiquette réelle — voir « à trancher » |
 | V1-19 | Relais de suivi Etsy et Faire | BUG-019 | **bloqué** | variables d'environnement non fournies |
-| V1-01 à V1-04 | Migration ShipStation (produits, groupes, clients) | BUG-001/002/003/006 | **bloqué** | exige un accès API ShipStation ; contraintes d'unicité posées, procédure prête |
+| V1-01 à V1-04 | Migration ShipStation (produits, groupes, clients) | BUG-001/002/003/006 | **fait en recette** | jouée de bout en bout sur une copie : 38 852 commandes, 19 671 expéditions, 14 406 exécutions, 955 lots, 473 produits, 37 694 clients, 278 retours en 814 s. Le passage en production appartient au propriétaire — voir `RAPPORT-VAGUE-1.md` |
 | V1-24 | Attribution des boutiques à l'import | BUG-013 | **fait** | la provenance se lit sur la commande ; `reparerBoutiques()` réattribue l'arriéré, à blanc par défaut |
 | V1-25 | Réconciliation des montants | BUG-016 | **fait** | remises, remboursements et quantités courantes importés ; le résumé se reconstitue depuis les lignes et annonce ce qui ne se referme pas |
 | V1-28 | Unifier bouton d'achat et `Expédié de` entre modale et panneau | BUG-028/029 | **fait** | `etatAchat()` et `entrepotResolu()` sont les règles uniques ; parité vérifiée au navigateur sur six commandes |
@@ -71,7 +71,7 @@ vérification sur une étiquette réelle n'a pas pu être faite ici.
 
 | Sujet | Ce qui manque |
 |---|---|
-| Migration des 473 produits, 4 groupes, 37 693 clients, 278 retours | Un accès à l'API ShipStation (clé + secret). La procédure, les contraintes d'unicité et la table de suivi sont en place ; il ne manque que les identifiants |
+| ~~Migration~~ | **Débloquée.** Le General Proxy expose 33 actions ShipStation et répond ; la migration existait et n'avait jamais été lancée. Faite en recette, reste à confirmer en production |
 | Relais de suivi Etsy et Faire | Les variables d'environnement du service |
 | `confirmation 5` | Une étiquette réelle à examiner |
 | Tarifs réels | Les identifiants du compte transporteur ; l'adaptateur est un bouchon et le dit désormais dans chaque ligne du tableau |
