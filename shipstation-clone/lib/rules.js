@@ -171,9 +171,29 @@ const hydrater = (r) => ({
 const lister = () => all("SELECT * FROM rules ORDER BY position, id").map(hydrater);
 const parId = (id) => { const r = one("SELECT * FROM rules WHERE id = ?", id); return r ? hydrater(r) : null; };
 
+/**
+ * Enregistrement d'une règle — BUG-017, BUG-073.
+ *
+ * Deux garde-fous ajoutés après l'audit :
+ *
+ *   • **Validation des critères.** Un champ hors vocabulaire était accepté puis ignoré à
+ *     l'exécution : la règle s'appliquait alors à toutes les commandes sans que personne ne
+ *     le voie. On refuse, en nommant le champ fautif.
+ *   • **Position unique.** Deux règles portaient la position 10 et toute nouvelle règle
+ *     naissait en collision. Une création sans position demandée prend `max + 10`.
+ */
 function sauver(r) {
-  const champs = [r.name, r.enabled === false ? 0 : 1, r.position || 0, r.match_all === false ? 0 : 1,
-    dump(r.conditions || []), dump(r.actions || []), r.stop_after ? 1 : 0, r.sans_condition ? 1 : 0];
+  const criteres = require("./criteres");
+  const conditions = criteres.migrerCles(r.conditions || []);
+  for (const c of conditions) {
+    const motif = criteres.valider(c);
+    if (motif) { const e = new Error(`règle « ${r.name || "sans nom"} » : ${motif}`); e.code = 400; throw e; }
+  }
+  const position = r.position != null && r.position !== ""
+    ? Number(r.position)
+    : (one("SELECT COALESCE(MAX(position), 0) m FROM rules").m + 10);
+  const champs = [r.name, r.enabled === false ? 0 : 1, position, r.match_all === false ? 0 : 1,
+    dump(conditions), dump(r.actions || []), r.stop_after ? 1 : 0, r.sans_condition ? 1 : 0];
   if (r.id) {
     run(`UPDATE rules SET name=?, enabled=?, position=?, match_all=?, conditions=?, actions=?, stop_after=?, sans_condition=? WHERE id=?`, ...champs, r.id);
     return r.id;

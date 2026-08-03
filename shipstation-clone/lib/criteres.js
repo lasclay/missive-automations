@@ -86,7 +86,7 @@ function valider(c) {
   const numerique = ["superieur", "superieur_egal", "inferieur", "inferieur_egal", "entre"];
   if (numerique.includes(c.op) && !champ.num && !champ.date)
     return `opérateur « ${op.libelle} » incompatible avec « ${cle} » (champ non numérique)`;
-  if (champ.article && c.scope && !PORTEES.some((p) => p.cle === c.scope))
+  if (champ.article && c.scope && !(c.scope in PORTEES))
     return `portée inconnue « ${c.scope} »`;
   return null;
 }

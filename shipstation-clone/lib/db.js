@@ -366,11 +366,46 @@ function enregistrerFonctions(d) {
     (v) => (v == null ? null
       : String(v).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()));
 }
+/**
+ * Contraintes d'idempotence — § 6.3 étape 0 de l'audit.
+ *
+ * Sans elles, une migration interrompue puis reprise crée des doublons au lieu de reprendre
+ * là où elle s'était arrêtée. La plupart existent déjà en clause `UNIQUE` de colonne
+ * (`orders.order_key`, `products.sku`, `customers.email`, `returns.rma`) ; ce qui manquait,
+ * c'est l'unicité de `rules.position` — deux règles portaient la position 10, et toute
+ * nouvelle règle naissait en collision (BUG-073).
+ */
+function renumeroterRegles(d) {
+  const lignes = d.prepare("SELECT id, position FROM rules ORDER BY position, id").all();
+  const doublons = lignes.length !== new Set(lignes.map((r) => r.position)).size;
+  if (!doublons) return;
+  // Renumérotation par pas de 10 : laisse de la place pour insérer sans tout renuméroter.
+  const maj = d.prepare("UPDATE rules SET position = ? WHERE id = ?");
+  lignes.forEach((r, i) => maj.run((i + 1) * 10, r.id));
+}
+
 function migrer(d) {
   for (const [table, colonne, type] of AJOUTS) {
     const cols = d.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
     if (!cols.includes(colonne)) d.exec(`ALTER TABLE ${table} ADD COLUMN ${colonne} ${type}`);
   }
+  try {
+    renumeroterRegles(d);
+    d.exec("CREATE UNIQUE INDEX IF NOT EXISTS ux_rules_position ON rules(position)");
+  } catch (e) {
+    // Une contrainte impossible à poser ne doit pas empêcher le service de démarrer : on le
+    // dit dans les logs, l'exploitant tranche.
+    console.warn("[db] unicité des positions de règle non posée :", e.message);
+  }
+  // Table de suivi de migration : reprise au curseur, § 6.3 étape 1. Une migration de
+  // 37 693 clients interrompue à 20 000 doit reprendre à 20 000, pas à zéro.
+  d.exec(`CREATE TABLE IF NOT EXISTS migration_suivi (
+    objet TEXT PRIMARY KEY,          -- produits | clients | expeditions | retours | …
+    curseur TEXT,                    -- dernier identifiant source traité
+    lus INTEGER DEFAULT 0, ecrits INTEGER DEFAULT 0, ignores INTEGER DEFAULT 0,
+    statut TEXT DEFAULT 'en_attente',-- en_attente | en_cours | termine | echec
+    demarre_le TEXT, fini_le TEXT, erreur TEXT
+  )`);
 }
 
 let _db = null;

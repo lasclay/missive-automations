@@ -224,6 +224,9 @@
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
     outline:2px solid var(--accent); outline-offset:2px; border-radius:3px }
 
+  option[data-orphelin] { color:var(--rouge); font-weight:650 }
+  select:has(option[data-orphelin]:checked) { border-color:var(--rouge); background:color-mix(in srgb, var(--rouge) 8%, transparent) }
+
   /* ---- états : chargement, erreur, périmé, vide ---- */
   .squelette { padding:10px 12px; display:flex; flex-direction:column; gap:7px }
   .sqL { height:19px; border-radius:4px;
@@ -1838,6 +1841,12 @@ VUES.commandes = async (statutFixe) => {
     zone.removeAttribute("aria-busy");
     demarquerPerime();
     LIGNES = d.orders;
+    // BUG-025 — la sélection survivait au changement de filtre : la grille montrait une
+    // commande, le compteur en annonçait une autre, et le panneau de droite en configurait
+    // une troisième, invisible. On signale explicitement ce qui est sélectionné hors vue,
+    // avec le moyen de le vider.
+    const visibles = new Set(LIGNES.map((o) => String(o.id)));
+    S.selHorsVue = [...S.sel].filter((id) => !visibles.has(id));
     // Les flèches ‹ › de la fiche de commande naviguent dans CETTE liste, dans l'ordre où
     // elle est triée à l'écran — pas dans l'ordre des identifiants.
     S.cmdIds = LIGNES.map((o) => o.id);
@@ -2239,11 +2248,20 @@ VUES.commandes = async (statutFixe) => {
 
   const majActions = () => {
     const n = S.sel.size;
-    $("#nsel").textContent = n ? `${n} sélectionnée${n > 1 ? "s" : ""}` : "aucune sélection";
+    const hors = (S.selHorsVue || []).length;
+    $("#nsel").innerHTML = n
+      ? `${n} sélectionnée${n > 1 ? "s" : ""}` +
+        (hors ? ` <span class="puce a" title="Sélectionnées mais absentes de la vue courante">dont ${hors} hors vue</span>
+                 <button type="button" class="lienB" id="nselVider">vider</button>` : "")
+      : "aucune sélection";
+    const bv = $("#nselVider");
+    if (bv) bv.onclick = () => { S.sel.clear(); S.selHorsVue = []; charger(); };
     ["aRate", "aPreset", "aPrint", "aTag", "aAssign", "aBuy", "aAutres", "aMasse", "aLotB",
      "aPrelever", "aHold", "aAlloc"]
       .forEach((i) => { const b = $("#" + i); if (b) b.disabled = !n; });
-    const b = $("#aBuy"); if (b) b.disabled = !n || !S.config.etiquettes_actives;
+    const e = etatAchat();
+    const b = $("#aBuy");
+    if (b) { b.disabled = !n || !e.ok; b.title = !n ? "Sélectionner au moins une commande" : (e.motif || ""); }
   };
   $("#aCols").onclick = gererColonnes;
   $("#btRecharger").onclick = () => { charger(); majLots(); rafraichirCompteurs(); };
@@ -2750,7 +2768,8 @@ VUES.commandes = async (statutFixe) => {
 
       <div class="pied">
         <button id="cCoter" title="Coter (R)">Coter</button>
-        <button class="v" id="cAcheter" ${S.config.etiquettes_actives ? "" : "disabled"}>
+        <button type="button" class="v" id="cAcheter" ${etatAchat(o).ok ? "" : "disabled"}
+          title="${esc(etatAchat(o).motif || "")}">
           Créer + imprimer l'étiquette<span id="cPrix"></span></button>
       </div>
       <div class="sec" id="cTarifs"></div>`;
@@ -3242,7 +3261,8 @@ async function detailCommande(id) {
         <footer class="fPied">
           <div class="fPiedC"><span class="doux">Coût estimé</span><b id="cCout">—</b></div>
           <button id="cRevue">Vérifier le coût</button>
-          <button id="cAcheter" class="v">Créer + imprimer l'étiquette</button>
+          <button type="button" id="cAcheter" class="v"${etatAchat(o).ok ? "" : " disabled"}
+            title="${esc(etatAchat(o).motif || "")}">Créer + imprimer l'étiquette</button>
           <div class="doux" id="cArrivee"></div>
         </footer>
       </aside>
@@ -3615,6 +3635,24 @@ async function detailCommande(id) {
     } catch (e) { alert(e.message); }
     finally { const b = $("#cAcheter", f); if (b) b.disabled = false; }
   };
+}
+
+/**
+ * Règle unique d'activation de l'achat d'étiquette — BUG-028.
+ *
+ * L'audit a trouvé le bouton **actif dans la modale et désactivé dans le panneau latéral**
+ * pour la même commande : deux conditions écrites à deux endroits, qui avaient divergé.
+ * Une seule fonction désormais, et le motif du refus part en info-bulle plutôt que de
+ * laisser un bouton gris sans explication.
+ */
+function etatAchat(o = null) {
+  if (!S.config || !S.config.etiquettes_actives)
+    return { ok: false, motif: "Achat d'étiquettes désactivé sur ce service (CLONE_ALLOW_LABELS)" };
+  if (o && !o.weight_g)
+    return { ok: false, motif: "Poids manquant — la cotation est impossible" };
+  if (o && !["awaiting_shipment", "on_hold"].includes(o.status))
+    return { ok: false, motif: `Commande ${STATUT_FR[o.status] || o.status} — rien à expédier` };
+  return { ok: true, motif: "" };
 }
 
 /** Motifs de retour du système ShipStation (§4) — les treize, tels quels. */
@@ -4184,21 +4222,40 @@ function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all
   const voc = S.voc;
   const champArticle = (cle) => (voc.champs.find((c) => c.cle === cle) || {}).article;
 
+  /**
+   * Une valeur stockée hors du vocabulaire ne doit **jamais** faire retomber le sélecteur sur
+   * son premier choix — BUG-017.
+   *
+   * C'est ainsi qu'ouvrir la règle « Drop-off sous 500 g » affichait `order_number` à la place
+   * de son champ réel : un simple ouvrir-fermer suivi d'« Enregistrer » l'aurait corrompue
+   * en silence. On injecte une option orpheline signalée, et on bloque l'enregistrement tant
+   * qu'elle est sélectionnée.
+   */
+  const optionsAvec = (liste, valeur, libelle = (x) => x.cle, cle = (x) => x.cle) => {
+    const connu = liste.some((x) => cle(x) === valeur);
+    const orpheline = !connu && valeur != null && valeur !== ""
+      ? `<option value="${esc(valeur)}" selected data-orphelin>⚠ valeur inconnue : ${esc(valeur)}</option>`
+      : "";
+    return orpheline + liste.map((x) =>
+      `<option value="${esc(cle(x))}"${cle(x) === valeur ? " selected" : ""}>${libelle(x)}</option>`).join("");
+  };
+
   const ligneCritere = (c = { field: "item_sku", op: "contient", scope: "any", value: "" }) => `
     <div class="critL" data-crit>
-      <select data-f>${voc.champs.map((x) => `<option value="${x.cle}" ${x.cle === c.field ? "selected" : ""}>${x.cle}${x.shipstation ? ` (${x.shipstation})` : ""}</option>`).join("")}</select>
-      <select data-p ${champArticle(c.field) ? "" : "disabled"}>${Object.entries(PORTEE_FR).map(([k, t]) =>
+      <select data-f aria-label="Champ">${optionsAvec(voc.champs, c.field,
+        (x) => esc(x.cle) + (x.shipstation ? ` (${esc(x.shipstation)})` : ""))}</select>
+      <select data-p aria-label="Portée" ${champArticle(c.field) ? "" : "disabled"}>${Object.entries(PORTEE_FR).map(([k, t]) =>
         `<option value="${k}" ${(c.scope || "any") === k ? "selected" : ""}>${t}</option>`).join("")}</select>
-      <select data-o>${voc.operateurs.map((x) => `<option value="${x.cle}" ${x.cle === c.op ? "selected" : ""}>${esc(x.libelle)}</option>`).join("")}</select>
-      <input data-v value="${esc(Array.isArray(c.value) ? c.value.join(" ; ") : (c.value ?? ""))}" placeholder="valeurs séparées par ;">
-      <button data-suppr title="Retirer">×</button>
+      <select data-o aria-label="Opérateur">${optionsAvec(voc.operateurs, c.op, (x) => esc(x.libelle))}</select>
+      <input data-v aria-label="Valeur" value="${esc(Array.isArray(c.value) ? c.value.join(" ; ") : (c.value ?? ""))}" placeholder="valeurs séparées par ;">
+      <button type="button" data-suppr title="Retirer" aria-label="Retirer ce critère">×</button>
     </div>`;
 
   const ligneAction = (a = { type: "add_tag", value: "" }) => `
     <div class="critL" data-act>
-      <select data-t>${voc.actions.map((x) => `<option value="${x}" ${x === a.type ? "selected" : ""}>${x}</option>`).join("")}</select>
-      <input data-av value="${esc(typeof a.value === "object" ? JSON.stringify(a.value) : (a.value ?? ""))}" placeholder="valeur (ou JSON)">
-      <button data-suppr title="Retirer">×</button>
+      <select data-t aria-label="Action">${optionsAvec(voc.actions.map((x) => ({ cle: x })), a.type)}</select>
+      <input data-av aria-label="Paramètre" value="${esc(typeof a.value === "object" ? JSON.stringify(a.value) : (a.value ?? ""))}" placeholder="valeur (ou JSON)">
+      <button type="button" data-suppr title="Retirer" aria-label="Retirer cette action">×</button>
     </div>`;
 
   dialogue(r.id ? `Règle « ${r.name} »` : "Nouvelle règle", `
@@ -4224,6 +4281,17 @@ function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all
       <label class="ch"><input type="checkbox" id="rst" ${r.stop_after ? "checked" : ""}>
         arrêter le chaînage si cette règle s'applique</label></div>`,
     async () => {
+      // Une option orpheline sélectionnée signifie que la donnée stockée n'est plus dans le
+      // vocabulaire. Enregistrer la remplacerait par autre chose : on refuse (BUG-017).
+      const orphelines = [...document.querySelectorAll("#dlgC [data-crit] select, #dlgC [data-act] select")]
+        .filter((sel) => sel.selectedOptions[0] && sel.selectedOptions[0].hasAttribute("data-orphelin"))
+        .map((sel) => sel.value);
+      if (orphelines.length) {
+        alert(`Cette règle contient ${orphelines.length} valeur(s) que le moteur ne connaît pas : ` +
+          `${[...new Set(orphelines)].join(", ")}.\n\n` +
+          `Corrigez-les avant d'enregistrer — sinon elles seraient remplacées silencieusement.`);
+        return false;
+      }
       const conditions = [...document.querySelectorAll("[data-crit]")].map((l) => {
         const f = l.querySelector("[data-f]").value;
         const brut = l.querySelector("[data-v]").value;
@@ -4238,10 +4306,17 @@ function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all
         if (brut.startsWith("{") || brut.startsWith("[")) { try { value = JSON.parse(brut); } catch {} }
         return { type: l.querySelector("[data-t]").value, value };
       });
-      await api("/api/rules", { method: "POST", body: { id: r.id, name: $("#rnm").value,
-        position: Number($("#rps").value), match_all: $("#rma").value === "1",
-        enabled: $("#ren").value === "1", sans_condition: $("#rsc").checked,
-        stop_after: $("#rst").checked, conditions, actions } });
+      try {
+        await api("/api/rules", { method: "POST", body: { id: r.id, name: $("#rnm").value,
+          position: Number($("#rps").value), match_all: $("#rma").value === "1",
+          enabled: $("#ren").value === "1", sans_condition: $("#rsc").checked,
+          stop_after: $("#rst").checked, conditions, actions } });
+      } catch (e) {
+        // Le serveur refuse un champ ou un opérateur incompatible : on le dit ici plutôt que
+        // de fermer la modale en laissant croire que c'est enregistré.
+        toast(`Règle refusée : ${e.message}`, { type: "erreur", duree: 12000 });
+        return false;
+      }
       VUES.automatisation();
     }, "Enregistrer",
     (c) => {
