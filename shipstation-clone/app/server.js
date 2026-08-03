@@ -70,6 +70,26 @@ const json = (res, code, body) => {
   res.writeHead(code, { "Content-Type": "application/json; charset=utf-8", "Content-Length": Buffer.byteLength(b) });
   res.end(b);
 };
+/**
+ * Réponse mise en cache par empreinte — BUG-134.
+ *
+ * `/api/refs` et `/api/criteres` sont rechargés à chaque changement d'écran et ne bougent
+ * qu'à la configuration : plusieurs dizaines de kilo-octets renvoyés à l'identique, dizaines
+ * de fois par session. L'empreinte du corps sert d'`ETag` ; quand elle n'a pas changé, la
+ * réponse tient en un 304 sans corps. `no-cache` plutôt qu'un `max-age` : le navigateur
+ * revalide toujours, donc une modification de référentiel est visible tout de suite.
+ */
+function jsonCache(req, res, body) {
+  const b = JSON.stringify(body);
+  const etag = `W/"${crypto.createHash("sha1").update(b).digest("base64url")}"`;
+  res.setHeader("ETag", etag);
+  res.setHeader("Cache-Control", "private, no-cache");
+  if (req.headers["if-none-match"] === etag) { res.writeHead(304); res.end(); return null; }
+  res.writeHead(200, { "Content-Type": "application/json; charset=utf-8", "Content-Length": Buffer.byteLength(b) });
+  res.end(b);
+  return null;                       // le handler a répondu lui-même
+}
+
 const texte = (res, code, s, type = "text/plain; charset=utf-8") => {
   res.writeHead(code, { "Content-Type": type });
   res.end(s);
@@ -781,7 +801,7 @@ route("POST /api/rules/apply", async ({ req, user }) => {
 });
 
 /** Vocabulaire du moteur de critères — alimente l'éditeur de règles ET celui de vues. */
-route("GET /api/criteres", () => ({
+route("GET /api/criteres", ({ req, res }) => jsonCache(req, res, {
   champs: Object.entries(criteres.CHAMPS).map(([cle, c]) => ({
     cle, article: !!c.article, num: !!c.num, bool: !!c.bool, date: !!c.date, liste: !!c.liste,
     unite: c.unite || null, shipstation: c.ss || null,
@@ -1161,15 +1181,16 @@ route("POST /api/backup/verifier", async ({ req, user }) => {
   };
 });
 
-route("GET /api/refs", () => ({
+route("GET /api/refs", ({ req, res }) => jsonCache(req, res, {
   stores: db.all("SELECT * FROM stores ORDER BY name"),
   warehouses: db.all("SELECT * FROM warehouses ORDER BY name").map((w) => ({ ...w, origin_address: db.parse(w.origin_address, {}) })),
   carriers: db.all("SELECT * FROM carriers ORDER BY name"),
   tags: db.all("SELECT * FROM tags ORDER BY name"),
-  services: db.all("SELECT * FROM services ORDER BY carrier_code, name"),
-  packages: db.all("SELECT * FROM packages ORDER BY carrier_code, name"),
   users: accounts.utilisateurs(),
   statuts: orders.STATUTS,
+  // Deux jeux de `services` et de `packages` coexistaient dans cet objet ; le second
+  // écrasait le premier en silence, et deux requêtes SQL tournaient pour rien à chaque
+  // chargement d'écran. Ce sont ces deux-là qui étaient effectivement servis.
   services: db.all("SELECT * FROM services WHERE hidden IS NULL OR hidden = 0 ORDER BY carrier_code, CAST(id AS INTEGER), name"),
   packages: db.all("SELECT * FROM packages ORDER BY custom DESC, name").map((p) => ({ ...p, dimensions: db.parse(p.dimensions) })),
   presets: presets.presets(),

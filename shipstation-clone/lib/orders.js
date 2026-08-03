@@ -383,9 +383,16 @@ function alertes() {
                    WHERE o.status = 'awaiting_shipment' AND o.ship_to IS NOT NULL
                      AND json_extract(o.ship_to,'$.country') <> 'CA' AND i.adjustment = 0
                      AND (p.hs_code IS NULL OR p.hs_code = '')`),
+    // Deux commandes sans code postal ni nom ne sont pas « le même destinataire » : elles
+    // sont deux adresses inconnues. Les regrouper proposait de fusionner des commandes
+    // sans rapport, ce qui est la pire suggestion possible avant un achat d'étiquette.
     fusionnables: q(`SELECT json_extract(ship_to,'$.postalCode') cp, json_extract(ship_to,'$.name') nom,
                      COUNT(*) n, GROUP_CONCAT(id) ids FROM orders
                    WHERE status = 'awaiting_shipment' AND merged_into IS NULL
+                     AND json_extract(ship_to,'$.postalCode') IS NOT NULL
+                     AND TRIM(json_extract(ship_to,'$.postalCode')) <> ''
+                     AND json_extract(ship_to,'$.name') IS NOT NULL
+                     AND TRIM(json_extract(ship_to,'$.name')) <> ''
                    GROUP BY cp, nom HAVING n > 1`),
     vieilles: q(`SELECT id, order_number, customer_name,
                    CAST(julianday('now') - julianday(order_date) AS INTEGER) age FROM orders

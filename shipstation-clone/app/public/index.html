@@ -172,6 +172,8 @@
                            padding:5px 10px; border-bottom:1px solid var(--bord); position:sticky }
   .ongVues .ong.sauver { color:var(--accent); border-style:dashed; border-color:var(--bord) }
   .pag { display:flex; gap:8px; align-items:center; padding:7px 10px; border-top:1px solid var(--bord); flex:none; font-size:12.5px }
+  /* Lien d'export sans rien à exporter : visible mais inopérant, plutôt que disparu. */
+  .inerte { opacity:.45; pointer-events:none; cursor:default }
   .vide2 { padding:60px 20px; text-align:center }
   .vide2 button { margin-top:12px }
   .vide3 { padding:28px 16px; color:var(--doux); font-size:13px }
@@ -603,6 +605,21 @@ const num = (v) => (Number(v) || 0).toLocaleString("fr-CA");
 const jour = (s) => (s ? String(s).slice(0, 10) : "—");
 
 /**
+ * État vide générique — BUG-037, BUG-115.
+ *
+ * Trois formes, une seule fonction : rien à montrer, rien qui corresponde au filtre, ou
+ * rien encore importé. Un tableau qui disparaît sans un mot laisse croire à une panne ;
+ * dire ce qui manque et proposer le geste suivant coûte trois lignes.
+ */
+function etatVideG({ titre, detail = "", action = null }) {
+  const d = el(`<div class="vide2"><b>${esc(titre)}</b>
+    ${detail ? `<div class="doux">${esc(detail)}</div>` : ""}
+    ${action ? `<button type="button" class="p" data-cta>${esc(action.t)}</button>` : ""}</div>`);
+  if (action) d.querySelector("[data-cta]").onclick = action.f;
+  return d;
+}
+
+/**
  * Résumé des coûts — reconstitué depuis les lignes, remise et remboursement compris.
  *
  * L'ancienne version affichait `Produits = total − taxes − livraison`. Sur une commande
@@ -912,7 +929,10 @@ async function api(route, opts = {}) {
   let r;
   try {
     r = await fetch(route, o);
-  } catch {
+  } catch (err) {
+    // Une requête que l'appelant a lui-même abandonnée n'est pas une panne de service :
+    // la confondre ferait clignoter « service injoignable » à chaque frappe rapide.
+    if (err && err.name === "AbortError") throw err;
     throw new Error("service injoignable — redémarrage en cours ? réessayer dans un instant");
   }
   if (r.status === 401) { montrerConnexion(); throw new Error("session expirée"); }
@@ -1873,7 +1893,17 @@ VUES.commandes = async (statutFixe) => {
    * dit pourquoi, et on propose de réessayer — sans effacer ce qui est à l'écran, qui reste
    * la meilleure information disponible tant qu'on prévient qu'elle date.
    */
+  // Course de rendu (BUG-085). Taper vite dans la recherche lance plusieurs requêtes ; si
+  // la première revient après la seconde, la grille affiche un résultat périmé sous un
+  // champ qui dit autre chose. Chaque chargement porte un numéro et seul le dernier peint ;
+  // les précédents sont abandonnés côté réseau plutôt que laissés courir.
+  let generation = 0, enCours = null;
+
   async function charger() {
+    const ma = ++generation;
+    if (enCours) enCours.abort();
+    const ctrl = enCours = new AbortController();
+
     // Une vue sauvegardée est un **second niveau** de tri, pas un remplacement : elle
     // s'applique à l'intérieur du statut choisi à gauche. Sans cela, « Graines x1 » ramenait
     // aussi les commandes expédiées et annulées — ce que ShipStation ne fait jamais, puisque
@@ -1888,12 +1918,16 @@ VUES.commandes = async (statutFixe) => {
 
     let d;
     try {
-      d = await api("/api/orders?" + p);
+      d = await api("/api/orders?" + p, { signal: ctrl.signal });
     } catch (e) {
+      // Une requête annulée n'est pas une panne : c'est nous qui l'avons abandonnée.
+      if (e.name === "AbortError" || ma !== generation) return;
       zone.removeAttribute("aria-busy");
       marquerPerime(e);
       return;
     }
+    if (ma !== generation) return;      // une demande plus récente a déjà pris la main
+    enCours = null;
     zone.removeAttribute("aria-busy");
     demarquerPerime();
     LIGNES = d.orders;
@@ -4232,26 +4266,86 @@ VUES.produits = async () => {
 };
 
 // ----------------------------------------------------------------- clients
+/**
+ * Clients — BUG-064.
+ *
+ * L'écran demandait `limit=300` et n'affichait rien de plus : sur 37 693 clients, il en
+ * montrait 0,8 % en annonçant le total complet juste au-dessus. Un client au-delà de la
+ * 300e ligne était introuvable autrement qu'en devinant son courriel. Pagination réelle,
+ * et le compteur dit quelle tranche est à l'écran.
+ */
 VUES.clients = async () => {
+  const S0 = S.clients = S.clients || { page: 0, taille: 100, tri: "total_spent" };
   $("#vue").innerHTML = `<h1>Clients</h1><p class="sous" id="cr">…</p>
     <div class="barre"><input type="search" id="cq" placeholder="Courriel ou nom">
+      <select id="ctri">
+        <option value="total_spent">Total dépensé</option>
+        <option value="order_count">Nombre de commandes</option>
+        <option value="last_order">Dernière commande</option>
+        <option value="name">Nom</option>
+      </select>
       <button id="crb">Reconstruire depuis les commandes</button>
-      <a id="cex" class="doux">Exporter CSV</a></div><div id="ct"></div>`;
+      <a id="cex" class="doux">Exporter CSV</a></div>
+    <div id="ct"></div>
+    <div class="pag" id="cpag"></div>`;
+  $("#ctri").value = S0.tri;
+
   async function charger() {
-    const p = new URLSearchParams({ q: $("#cq").value, limit: 300 });
+    const p = new URLSearchParams({ q: $("#cq").value, sort: S0.tri,
+      limit: S0.taille, offset: S0.page * S0.taille });
     const d = await api("/api/customers?" + p);
-    $("#cr").innerHTML = `<b>${num(d.total)}</b> clients`;
-    $("#cex").href = "/api/export/customers?" + p;
-    $("#ct").innerHTML = ""; $("#ct").append(table([
-      { k: "name", t: "Nom" }, { k: "email", t: "Courriel" },
-      { k: "order_count", t: "Commandes", n: true },
-      { k: "total_spent", t: "Total dépensé", n: true, r: c => money(c.total_spent) },
-      { k: "first_order", t: "Première", r: c => jour(c.first_order) },
-      { k: "last_order", t: "Dernière", r: c => jour(c.last_order) },
-    ], d.customers, { cle: "email" }));
+    const debut = d.total ? S0.page * S0.taille + 1 : 0;
+    const fin = Math.min((S0.page + 1) * S0.taille, d.total);
+    $("#cr").innerHTML = d.total
+      ? `<b>${num(debut)}–${num(fin)}</b> sur <b>${num(d.total)}</b> clients`
+      : "Aucun client";
+    // L'export porte sur la recherche, pas sur la page : exporter 100 lignes quand on en
+    // voit 100 sur 37 693 serait une trappe.
+    $("#cex").href = "/api/export/customers?" + new URLSearchParams({ q: $("#cq").value, sort: S0.tri });
+    $("#cex").classList.toggle("inerte", !d.total);
+    $("#ct").innerHTML = "";
+    if (!d.customers.length) {
+      $("#ct").append(etatVideG($("#cq").value
+        ? { titre: "Aucun client ne correspond", detail: "Essayer une partie du courriel ou du nom." }
+        : { titre: "Aucun client", detail: "Les clients se construisent à partir des commandes importées.",
+            action: { t: "Reconstruire depuis les commandes", f: () => $("#crb").click() } }));
+    } else {
+      $("#ct").append(table([
+        { k: "name", t: "Nom" }, { k: "email", t: "Courriel" },
+        { k: "order_count", t: "Commandes", n: true },
+        { k: "total_spent", t: "Total dépensé", n: true, r: c => money(c.total_spent) },
+        { k: "first_order", t: "Première", r: c => jour(c.first_order) },
+        { k: "last_order", t: "Dernière", r: c => jour(c.last_order) },
+      ], d.customers, { cle: "email" }));
+    }
+    const pages = Math.max(1, Math.ceil(d.total / S0.taille));
+    $("#cpag").innerHTML = `
+      <button type="button" id="cprev" ${S0.page ? "" : "disabled"}>‹ Précédent</button>
+      <span class="doux">page ${num(S0.page + 1)} sur ${num(pages)}</span>
+      <button type="button" id="cnext" ${S0.page + 1 < pages ? "" : "disabled"}>Suivant ›</button>`;
+    $("#cprev").onclick = () => { S0.page--; charger(); };
+    $("#cnext").onclick = () => { S0.page++; charger(); };
   }
-  $("#crb").onclick = async () => { const r = await api("/api/customers/rebuild", { method: "POST" }); alert(`${r.n} clients.`); charger(); };
-  let d; $("#cq").addEventListener("input", () => { clearTimeout(d); d = setTimeout(charger, 250); });
+
+  $("#crb").onclick = () => dialogue("Reconstruire les clients",
+    `<p>Les fiches clients sont recalculées à partir des commandes : nombre de commandes,
+       total dépensé, première et dernière commande, et rattachement des commandes orphelines.</p>
+     <p class="doux">Rien n'est supprimé. L'opération porte sur toute la base et peut prendre
+       un moment sur un gros historique.</p>`,
+    async () => {
+      $("#dlgC").innerHTML = '<p class="doux">Reconstruction en cours…</p>';
+      try {
+        const r = await api("/api/customers/rebuild", { method: "POST" });
+        $("#dlgC").innerHTML = `<div class="carte"><b>${num(r.n)} client(s)</b> consolidé(s).</div>`;
+        S0.page = 0; charger();
+      } catch (e) { $("#dlgC").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+      return false;
+    }, "Reconstruire");
+
+  $("#ctri").onchange = () => { S0.tri = $("#ctri").value; S0.page = 0; charger(); };
+  let d; $("#cq").addEventListener("input", () => {
+    clearTimeout(d); d = setTimeout(() => { S0.page = 0; charger(); }, 250);
+  });
   charger();
 };
 
