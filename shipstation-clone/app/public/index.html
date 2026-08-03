@@ -4434,8 +4434,9 @@ function editerRegle(r = { conditions: [], actions: [], enabled: true, match_all
     <div class="critL" data-crit>
       <select data-f aria-label="Champ">${optionsAvec(voc.champs, c.field,
         (x) => esc(x.cle) + (x.shipstation ? ` (${esc(x.shipstation)})` : ""))}</select>
-      <select data-p aria-label="Portée" ${champArticle(c.field) ? "" : "disabled"}>${Object.entries(PORTEE_FR).map(([k, t]) =>
-        `<option value="${k}" ${(c.scope || "any") === k ? "selected" : ""}>${t}</option>`).join("")}</select>
+      <select data-p aria-label="Portée" ${champArticle(c.field) ? "" : "disabled"}>${
+        optionsAvec(Object.entries(PORTEE_FR).map(([cle, t]) => ({ cle, t })),
+          c.scope || "any", (x) => esc(x.t))}</select>
       <select data-o aria-label="Opérateur">${optionsAvec(voc.operateurs, c.op, (x) => esc(x.libelle))}</select>
       <input data-v aria-label="Valeur" value="${esc(Array.isArray(c.value) ? c.value.join(" ; ") : (c.value ?? ""))}" placeholder="valeurs séparées par ;">
       <button type="button" data-suppr title="Retirer" aria-label="Retirer ce critère">×</button>
