@@ -18,16 +18,17 @@ admin@lasclay.com | lasclay.com
 **À :** cpouliot@lesoleil.com
 **Fait vérifié :** signature confirmée dans les métadonnées et le fil d'ariane de la page, « Par Chloé Pouliot, Le Soleil », 1er décembre 2025. L'article nomme Lasclay dix fois. Aucun lien vers lasclay.com.
 **Ce qu'on demande :** que le nom de l'entreprise devienne cliquable.
+**Registre :** tutoiement, sur décision de Lasclay. Les trois autres restent au vouvoiement.
 
 > **Objet :** Votre article de décembre sur notre dilemme de fabrication
 >
 > Bonjour Chloé,
 >
-> Gabriel Gouveia-Fortin, de Lasclay. Vous avez signé en décembre un article sur notre dilemme entre fabriquer ici et fabriquer ailleurs. Vous avez rendu la nuance correctement, ce qui n'était pas évident sur ce sujet-là, et je vous en remercie.
+> Gabriel, de Lasclay. Tu as signé en décembre un article sur notre dilemme entre fabriquer ici et fabriquer ailleurs. Tu as rendu la nuance correctement, ce qui n'était pas évident sur ce sujet-là, et je t'en remercie.
 >
-> Une demande toute simple : le nom de l'entreprise n'est pas cliquable dans l'article. Les lecteurs qui veulent voir de quoi on parle doivent chercher. Serait-il possible d'ajouter le lien vers lasclay.com?
+> Une demande toute simple : le nom de l'entreprise n'est pas cliquable dans l'article. Les lecteurs qui veulent voir de quoi on parle doivent chercher. Est-ce que tu pourrais ajouter le lien vers lasclay.com?
 >
-> Et si le sujet vous intéresse encore : depuis décembre, on a tranché une partie de la question. Je peux vous raconter où on a abouti, sans obligation d'en faire quoi que ce soit.
+> Et si le sujet t'intéresse encore : depuis décembre, on a tranché une partie de la question. Je peux te raconter où on a abouti, sans obligation d'en faire quoi que ce soit.
 >
 > Merci,
 > [signature]
@@ -39,16 +40,17 @@ admin@lasclay.com | lasclay.com
 **À :** groy@lequotidien.com
 **Fait vérifié :** signature confirmée, « Par Guillaume Roy, Initiative de journalisme local ». L'article nomme Lasclay dès le premier paragraphe. Aucun lien vers lasclay.com.
 **Ce qu'on demande :** le lien, et se rendre disponible comme source.
+**Registre :** vouvoiement conservé. Le message reconnaît d'emblée les six ans écoulés depuis l'article du 9 octobre 2020, qui annonçait les mitaines au futur.
 
-> **Objet :** Votre article sur la deuxième vie de l'asclépiade
+> **Objet :** Six ans après votre article sur l'asclépiade
 >
 > Bonjour Guillaume,
 >
-> Gabriel Gouveia-Fortin, cofondateur de Lasclay, à Québec. Vous nous citez dans votre article sur la deuxième vie de l'asclépiade.
+> Gabriel Gouveia-Fortin, de Lasclay. Ça fait six ans. Vous nous aviez consacré un passage dans « La deuxième vie de l'asclépiade », à l'automne 2020, quand les mitaines n'étaient encore qu'une mise en marché annoncée pour novembre. Elles existent depuis, et l'entreprise aussi.
 >
-> Deux choses. D'abord, le nom de l'entreprise n'est pas cliquable : est-ce qu'on pourrait ajouter le lien vers lasclay.com pour vos lecteurs?
+> Deux choses, si vous avez une minute. D'abord, le nom de l'entreprise n'est pas cliquable dans l'article : est-ce qu'on pourrait ajouter le lien vers lasclay.com pour vos lecteurs?
 >
-> Ensuite, la filière a beaucoup bougé depuis. Il y a eu une faillite, des reprises, et le portrait des acheteurs n'est plus le même. Si vous y revenez un jour, je suis disponible, y compris sur ce qui ne marche pas encore. On répond vite.
+> Ensuite, la filière a beaucoup bougé en six ans. Il y a eu une faillite, des reprises, et le portrait des acheteurs n'est plus le même. Si vous y revenez un jour, je suis disponible, y compris sur ce qui ne marche pas encore. On répond vite.
 >
 > Bonne journée,
 > [signature]
