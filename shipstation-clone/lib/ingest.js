@@ -108,7 +108,7 @@ function convertirCommande(o) {
  * suivantes continuent. Perdre les produits ne doit pas faire perdre les commandes.
  */
 const ETAPES = ["referentiels", "commandes", "expeditions", "lots", "fulfillments",
-  "produits", "clients", "webhooks", "marketplaces", "consolidation"];
+  "produits", "clients", "webhooks", "marketplaces", "retours", "consolidation"];
 
 async function migrerDepuisShipStation({ journal = console.error, maxPagesCommandes = 100,
   depuis = null, objets = null } = {}) {
@@ -457,6 +457,40 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
       bilan.marketplaces = (mk || []).length;
     } catch { bilan.marketplaces = "non migrés"; }
 
+  });
+
+  // -- retours : ShipStation n'expose pas les RMA, mais chaque étiquette de retour en est
+  // un. Les reconstituer rend l'historique des retours consultable — c'est la seule source
+  // qui existe, et elle porte le coût réel de chaque renvoi.
+  await etape("retours", async () => {
+    journal("Reconstitution des retours…");
+    const etiquettes = all(`SELECT s.id, s.order_id, s.created_at, s.ship_date, s.tracking_number,
+                                   s.voided, o.order_number
+                              FROM shipments s LEFT JOIN orders o ON o.id = s.order_id
+                             WHERE s.is_return = 1`);
+    let n = 0;
+    tx(() => {
+      for (const e of etiquettes) {
+        // Le RMA reprend le numéro de commande quand on l'a : c'est ce que le client cite au
+        // téléphone. À défaut, l'identifiant de l'expédition, qui est au moins stable.
+        // Une même commande peut être retournée deux fois : on suffixe plutôt que d'ignorer
+        // la seconde étiquette — dix retours disparaissaient ainsi de l'historique.
+        if (one("SELECT id FROM returns WHERE shipment_id = ?", e.id)) continue;
+        const base = `RMA-${e.order_number || `EXP${e.id}`}`;
+        let rma = base, suite = 1;
+        while (one("SELECT id FROM returns WHERE rma = ?", rma)) rma = `${base}-${++suite}`;
+        run(`INSERT INTO returns (rma, order_id, shipment_id, status, reason, requested_at, notes, items)
+             VALUES (?,?,?,?,?,?,?,'[]')`,
+          rma, e.order_id, e.id,
+          e.voided ? "rejected" : (e.ship_date ? "in_transit" : "approved"),
+          null,                                   // le motif n'existe pas côté ShipStation
+          e.created_at || e.ship_date,
+          "Reconstitué depuis l'étiquette de retour ShipStation — motif et articles à saisir");
+        n++;
+      }
+    });
+    bilan.retours = n;
+    journal(`  ${n} retour(s) reconstitué(s) depuis les étiquettes de retour`);
   });
 
   await etape("consolidation", async () => {
