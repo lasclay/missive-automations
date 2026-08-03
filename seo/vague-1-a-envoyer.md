@@ -13,15 +13,15 @@ admin@lasclay.com | lasclay.com
 
 ---
 
-## 1. Le Soleil, Carl Pouliot
+## 1. Le Soleil, Chloé Pouliot  ✅ APPROUVÉ PAR LASCLAY
 
 **À :** cpouliot@lesoleil.com
-**Fait vérifié :** l'article « Lasclay devant le dilemme de fabriquer au Québec » (1er décembre 2025) nomme Lasclay dix fois. Aucun lien vers lasclay.com.
+**Fait vérifié :** signature confirmée dans les métadonnées et le fil d'ariane de la page, « Par Chloé Pouliot, Le Soleil », 1er décembre 2025. L'article nomme Lasclay dix fois. Aucun lien vers lasclay.com.
 **Ce qu'on demande :** que le nom de l'entreprise devienne cliquable.
 
 > **Objet :** Votre article de décembre sur notre dilemme de fabrication
 >
-> Bonjour,
+> Bonjour Chloé,
 >
 > Gabriel Gouveia-Fortin, de Lasclay. Vous avez signé en décembre un article sur notre dilemme entre fabriquer ici et fabriquer ailleurs. Vous avez rendu la nuance correctement, ce qui n'était pas évident sur ce sujet-là, et je vous en remercie.
 >
@@ -37,12 +37,12 @@ admin@lasclay.com | lasclay.com
 ## 2. Le Quotidien, Guillaume Roy
 
 **À :** groy@lequotidien.com
-**Fait vérifié :** l'article « La deuxième vie de l'asclépiade » nomme Lasclay. Aucun lien vers lasclay.com.
+**Fait vérifié :** signature confirmée, « Par Guillaume Roy, Initiative de journalisme local ». L'article nomme Lasclay dès le premier paragraphe. Aucun lien vers lasclay.com.
 **Ce qu'on demande :** le lien, et se rendre disponible comme source.
 
 > **Objet :** Votre article sur la deuxième vie de l'asclépiade
 >
-> Bonjour,
+> Bonjour Guillaume,
 >
 > Gabriel Gouveia-Fortin, cofondateur de Lasclay, à Québec. Vous nous citez dans votre article sur la deuxième vie de l'asclépiade.
 >
