@@ -110,8 +110,22 @@ async function listConversations(filter) {
 // derniers, sans le savoir. La profondeur est maintenant réglable, et `tronque` dit franchement
 // qu'il reste des messages non lus au lieu de laisser croire au fil complet.
 async function getConversation(id, limit) {
-  const n = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 200);
-  const { messages = [] } = await mGet(`/conversations/${id}/messages?limit=${n}`);
+  // L'API Missive REFUSE limit > 10 sur les messages. Pour remonter un fil complet il faut
+  // paginer avec `until`, exactement comme listConversations le fait pour les conversations.
+  const vise = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 200);
+  const parId = new Map();
+  let until = null;
+  while (parId.size < vise) {
+    let p = `/conversations/${id}/messages?limit=10`;
+    if (until) p += `&until=${until}`;
+    const { messages: lot = [] } = await mGet(p);
+    if (!lot.length) break;
+    for (const m of lot) parId.set(m.id, m);
+    const plusVieux = lot[lot.length - 1].delivered_at || lot[lot.length - 1].created_at;
+    if (lot.length < 10 || plusVieux === until) break;
+    until = plusVieux;
+  }
+  const messages = [...parId.values()];
   const sorted = messages.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
   const ids = sorted.map((m) => m.id).filter(Boolean);
   const bodies = new Map();
@@ -134,8 +148,8 @@ async function getConversation(id, limit) {
       text: stripHtml(bodies.get(m.id) || m.body || m.preview || ""),
     };
   });
-  // Autant de messages que demandé => il en reste probablement avant. À signaler, pas à taire.
-  out.tronque = messages.length >= n;
+  // On s'est arrêté au plafond demandé => il reste probablement des messages avant.
+  out.tronque = messages.length >= vise;
   return out;
 }
 
