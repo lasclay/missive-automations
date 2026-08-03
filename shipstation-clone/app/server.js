@@ -377,6 +377,25 @@ route("POST /api/orders/validate-address", async ({ req, user }) => {
 route("GET /api/shipments", ({ url }) => shipments.chercher(q(url)));
 
 /**
+ * Actions en masse sur les expéditions — BUG-050.
+ *
+ * L'écran Shipped de ShipStation en offre six ; le clone n'avait même pas de cases à cocher.
+ * `voidlabel` reste dehors : annuler une étiquette touche l'argent et garde sa route propre,
+ * une expédition à la fois.
+ */
+route("GET /api/shipments/actions", ({ user }) => {
+  accounts.exiger(user, "shipments_view");
+  return { actions: Object.entries(shipments.ACTIONS_MASSE)
+    .map(([cle, a]) => ({ cle, libelle: a.libelle })) };
+});
+
+route("POST /api/shipments/action", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return shipments.actionMasse(b.action, (b.ids || []).map(Number), b.options || {}, user);
+});
+
+/**
  * Calculatrice de tarifs — l'onglet « Rates » de ShipStation. Cote un envoi hypothétique,
  * sans commande : c'est l'outil qu'on ouvre pour répondre à « combien ça coûterait ».
  */

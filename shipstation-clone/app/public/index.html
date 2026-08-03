@@ -189,6 +189,9 @@
   .inerte { opacity:.45; pointer-events:none; cursor:default }
   .menuF .mi.inactifM { opacity:.42; cursor:default }
   .menuF .mi.inactifM:hover { background:transparent }
+  .jal { display:inline-flex; gap:3px; align-items:center; font-size:11px; white-space:nowrap }
+  .jal.ok { color:var(--vert) } .jal.non { color:var(--doux) }
+  .jal time { font-variant-numeric:tabular-nums }
   .permG { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:2px 12px; margin:6px 0 }
   .permL { padding:3px 0; font-size:12.5px }
   .frais { font-size:11.5px; margin-left:2px; white-space:nowrap }
@@ -3997,7 +4000,25 @@ VUES.alertes = async () => {
 };
 
 // ------------------------------------------------------------ expéditions
+/**
+ * État de communication — BUG-049.
+ *
+ * ShipStation affiche pour chacun des six jalons un pictogramme **et un horodatage** :
+ * « Printed 22/07 10:17 ». La question posée à l'écran est « quand », pas « oui/non » — sans
+ * elle, impossible de repérer un colis parti sans que le client soit prévenu, ni de le
+ * rattraper.
+ */
+const jalon = (h, libelle) => h
+  ? `<span class="jal ok" title="${esc(libelle)} : ${esc(String(h).slice(0, 16).replace("T", " "))}">
+       <span aria-hidden="true">✔</span>
+       <span class="visuellement-cache">${esc(libelle)} le ${esc(jour(h))}</span>
+       <time datetime="${esc(h)}">${esc(String(h).slice(5, 10))}</time></span>`
+  : `<span class="jal non"><span aria-hidden="true">—</span>
+       <span class="visuellement-cache">${esc(libelle)} : non</span></span>`;
+
 VUES.expeditions = async () => {
+  const S0 = S.exp = S.exp || {};
+  const sel = S.selExp = new Set();
   $("#vue").innerHTML = `<h1>Expéditions</h1><p class="sous" id="r">…</p>
     <div class="barre">
       <input type="search" id="ftr" placeholder="Numéro de suivi">
@@ -4005,33 +4026,123 @@ VUES.expeditions = async () => {
       <select id="fca"><option value="">Tous transporteurs</option></select>
       <select id="fvo"><option value="non">Actives</option><option value="oui">Annulées</option><option value="">Toutes</option></select>
       <select id="fdr"><option value="">Toutes</option><option value="oui">Drop-off seulement</option></select>
+      <select id="fnn"><option value="">Toutes communications</option>
+        <option value="client">Client non prévenu</option>
+        <option value="boutique">Boutique non notifiée</option></select>
       <input type="date" id="fd1"><input type="date" id="fd2">
       <a id="exp" class="doux">Exporter CSV</a>
-    </div><div id="t"></div>`;
+    </div>
+    <div class="barreA" id="expA">
+      <span class="nsel" id="expN">aucune sélection</span>
+      <button type="button" id="expNotif" disabled>Renvoyer les notifications</button>
+      <button type="button" id="expBout" disabled>Notifier la boutique</button>
+      <button type="button" id="expImpr" disabled>Marquer imprimé ▾</button>
+      <button type="button" id="expSuivi" disabled>Corriger le suivi…</button>
+      <button type="button" id="expVoid" class="d" disabled>Annuler l'étiquette…</button>
+    </div>
+    <div id="t"></div>`;
   $("#fca").innerHTML += (S.refs.carriers || []).map(c => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("");
   const lire = () => ({ tracking_number: $("#ftr").value, order_number: $("#fon").value,
     carrier_code: $("#fca").value, voided: $("#fvo").value, drop_off: $("#fdr").value,
+    non_notifiees: $("#fnn").value === "client" ? "1" : "",
+    boutique_non_notifiee: $("#fnn").value === "boutique" ? "1" : "",
     date_from: $("#fd1").value, date_to: $("#fd2").value, limit: 400 });
+
+  let LIGNES = [];
+
+  const majBarre = () => {
+    const n = sel.size;
+    const uniques = [...sel].map(id => LIGNES.find(x => x.id === id)).filter(Boolean);
+    $("#expN").textContent = n ? `${num(n)} sélectionnée${n > 1 ? "s" : ""}` : "aucune sélection";
+    for (const [id, ok] of [["expNotif", n], ["expBout", n], ["expImpr", n],
+                            ["expSuivi", n === 1], ["expVoid", n === 1 && uniques[0] && !uniques[0].voided]])
+      $("#" + id).disabled = !ok;
+  };
+
+  const agir = async (action, options = {}) => {
+    try {
+      const r = await api("/api/shipments/action", { method: "POST",
+        body: { action, ids: [...sel], options } });
+      // On dit ce qui n'a pas été fait et pourquoi : « 12 sur 15 » sans les trois manquantes
+      // oblige à tout revérifier à la main.
+      toast(`${r.libelle} — ${num(r.faites)} faite(s)` +
+        (r.refusees.length ? `, ${num(r.refusees.length)} refusée(s)` : ""));
+      if (r.refusees.length)
+        dialogue("Refusées", `<ul style="margin:0 0 0 16px">${r.refusees.map(x =>
+          `<li>${esc(x.order_number || "#" + x.id)} — ${esc(x.motif)}</li>`).join("")}</ul>`, null, "Fermer");
+      sel.clear(); charger();
+    } catch (e) { dialogue("Action impossible", `<div class="avis">${esc(e.message)}</div>`, null, "Fermer"); }
+  };
+
   async function charger() {
+    if (!$("#ftr")) return;
     const p = new URLSearchParams(lire());
     const d = await api("/api/shipments?" + p);
-    $("#r").innerHTML = `<b>${num(d.total)}</b> expéditions · coût affiché <b>${money(d.cout_total)}</b>`;
+    LIGNES = d.shipments;
+    const nonNotifiees = d.shipments.filter(s => !s.voided && !s.shipment_notified_at).length;
+    $("#r").innerHTML = `<b>${num(d.total)}</b> expéditions · coût affiché <b>${money(d.cout_total)}</b>` +
+      (nonNotifiees ? ` · <span class="puce a">${num(nonNotifiees)} sans notification client</span>` : "");
     $("#exp").href = "/api/export/shipments?" + p;
-    $("#t").innerHTML = ""; $("#t").append(table([
+    $("#exp").classList.toggle("inerte", !d.total);
+    $("#t").innerHTML = "";
+    if (!d.shipments.length) {
+      $("#t").append(etatVideG({ titre: "Aucune expédition", detail: "Aucune ne correspond à ces filtres." }));
+      majBarre(); return;
+    }
+    $("#t").append(table([
+      { k: "cx", t: "", r: s => `<input type="checkbox" data-s="${s.id}"${sel.has(s.id) ? " checked" : ""}
+          aria-label="Sélectionner ${esc(s.tracking_number || s.order_number || s.id)}">` },
       { k: "order_number", t: "Commande" },
       { k: "tracking_number", t: "Suivi", r: s => esc(s.tracking_number || "—") + (s.drop_off ? ' <span class="puce v">drop</span>' : "") + (s.is_return ? ' <span class="puce g">retour</span>' : "") + (s.voided ? ' <span class="puce r">annulée</span>' : "") },
       { k: "carrier_code", t: "Transporteur" }, { k: "service_id", t: "Service" },
       { k: "ship_date", t: "Date", r: s => jour(s.ship_date) },
       { k: "cost", t: "Coût", n: true, r: s => money(s.cost) },
+      { k: "bs", t: "Bordereau", r: s => jalon(s.packing_slip_printed_at, "Bordereau imprimé") },
+      { k: "lc", t: "Étiq. créée", r: s => jalon(s.label_created_at || (s.label_id ? s.created_at : null), "Étiquette créée") },
+      { k: "lp", t: "Étiq. imprimée", r: s => jalon(s.label_printed_at, "Étiquette imprimée") },
+      { k: "mn", t: "Boutique", r: s => jalon(s.marketplace_notified_at || (s.marketplace_notified ? s.ship_date : null), "Boutique notifiée") },
+      { k: "sn", t: "Client — envoi", r: s => jalon(s.shipment_notified_at, "Client prévenu de l'envoi") },
+      { k: "dn", t: "Client — livraison", r: s => jalon(s.delivery_notified_at, "Client prévenu de la livraison") },
       { k: "customer_name", t: "Client" },
-      { k: "act", t: "", r: s => s.voided ? "" : `<button data-void="${s.id}">Annuler</button>` },
     ], d.shipments));
-    $("#t").querySelectorAll("[data-void]").forEach(b => b.onclick = () => dialogue("Annuler l'étiquette",
-      "<p>L'étiquette sera annulée auprès du transporteur. Le remboursement dépend de lui.</p>",
-      async () => { await api("/api/shipments/void", { method: "POST", body: { shipment_id: Number(b.dataset.void) } }); charger(); }));
+    $("#t").querySelectorAll("[data-s]").forEach(c => c.onclick = (e) => {
+      e.stopPropagation();
+      const id = Number(c.dataset.s);
+      c.checked ? sel.add(id) : sel.delete(id);
+      majBarre();
+    });
+    majBarre();
   }
+
+  $("#expNotif").onclick = () => agir("notifier_client");
+  $("#expBout").onclick = () => agir("notifier_boutique");
+  $("#expImpr").onclick = () => menuAncre($("#expImpr"), [
+    { t: "Bordereau imprimé", f: () => agir("bordereau_imprime") },
+    { t: "Étiquette imprimée", f: () => agir("etiquette_imprimee") },
+  ]);
+  $("#expSuivi").onclick = () => {
+    const s = LIGNES.find(x => x.id === [...sel][0]);
+    dialogue(`Suivi — ${s ? s.order_number || "#" + s.id : ""}`, `
+      <label class="champ"><span>Numéro de suivi</span><input id="expT" value="${esc(s?.tracking_number || "")}"></label>
+      <p class="doux">Se corrige une expédition à la fois : un même numéro posé sur dix colis
+        est une erreur, pas un gain de temps.</p>`,
+      () => agir("suivi", { tracking_number: $("#expT").value }), "Enregistrer");
+  };
+  $("#expVoid").onclick = () => {
+    const s = LIGNES.find(x => x.id === [...sel][0]);
+    dialogue("Annuler l'étiquette", `
+      <p>L'étiquette de <b>${esc(s?.order_number || "#" + [...sel][0])}</b> sera annulée auprès
+        du transporteur. Le remboursement dépend de lui et n'est pas garanti.</p>
+      ${s?.cost ? `<p class="doux">Coût de l'étiquette : ${money(s.cost)}.</p>` : ""}`,
+      async () => {
+        await api("/api/shipments/void", { method: "POST", body: { shipment_id: [...sel][0] } });
+        sel.clear(); charger();
+      }, "Annuler l'étiquette");
+  };
+
   let d; $("#vue").querySelectorAll(".barre input,.barre select").forEach(i =>
-    i.addEventListener("input", () => { clearTimeout(d); d = setTimeout(charger, 250); }));
+    i.addEventListener("input", () => { clearTimeout(d); d = setTimeout(() => { sel.clear(); charger(); }, 250); }));
+  S.rafraichirEcran = charger;
   charger();
 };
 

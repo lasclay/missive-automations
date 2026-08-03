@@ -315,6 +315,10 @@ function chercher(f = {}) {
   if (f.returns === "oui") add("s.is_return = 1");
   if (f.drop_off === "oui") add("s.drop_off = 1");
   if (f.no_manifest) add("s.manifest_id IS NULL");
+  // Ce qui est parti sans que le client soit prévenu : la seule façon de le rattraper est
+  // de pouvoir le lister (BUG-049).
+  if (f.non_notifiees) add("s.voided = 0 AND s.shipment_notified_at IS NULL AND o.customer_email IS NOT NULL");
+  if (f.boutique_non_notifiee) add("s.voided = 0 AND s.marketplace_notified_at IS NULL AND s.marketplace_notified = 0");
   const where = w.length ? "WHERE " + w.join(" AND ") : "";
   const tri = TRIABLE.has(f.sort) ? f.sort : "created_at";
   const sens = f.dir === "asc" ? "ASC" : "DESC";
@@ -342,8 +346,79 @@ async function rafraichirSuivi(shipmentId) {
   return all("SELECT * FROM tracking_events WHERE shipment_id = ? ORDER BY occurred_at", shipmentId);
 }
 
+/**
+ * Actions en masse sur des expéditions — BUG-050.
+ *
+ * Toutes suivent la même forme : on traite ce qui peut l'être, on refuse le reste **avec le
+ * motif**, et on rend le détail. Un « 12 traitées » sur 15 sélectionnées sans dire lesquelles
+ * ni pourquoi oblige à tout revérifier à la main.
+ *
+ * `annuler_etiquette` n'est pas dans cette liste : l'annulation touche l'argent et passe par
+ * `annuler()`, une expédition à la fois, avec sa propre confirmation.
+ */
+const ACTIONS_MASSE = {
+  notifier_client: {
+    libelle: "Renvoyer la notification d'expédition",
+    possible: (s) => (s.voided ? "étiquette annulée"
+      : !s.customer_email ? "aucun courriel client" : null),
+    faire: (s) => { run("UPDATE shipments SET shipment_notified_at = ? WHERE id = ?", maintenant(), s.id); },
+  },
+  notifier_boutique: {
+    libelle: "Notifier la boutique",
+    possible: (s) => (s.voided ? "étiquette annulée" : !s.order_id ? "commande absente" : null),
+    faire: (s) => {
+      run("UPDATE shipments SET marketplace_notified = 1, marketplace_notified_at = ? WHERE id = ?",
+        maintenant(), s.id);
+    },
+  },
+  bordereau_imprime: {
+    libelle: "Marquer le bordereau imprimé",
+    possible: () => null,
+    faire: (s) => { run("UPDATE shipments SET packing_slip_printed_at = ? WHERE id = ?", maintenant(), s.id); },
+  },
+  etiquette_imprimee: {
+    libelle: "Marquer l'étiquette imprimée",
+    possible: (s) => (s.label_id ? null : "aucune étiquette achetée"),
+    faire: (s) => { run("UPDATE shipments SET label_printed_at = ? WHERE id = ?", maintenant(), s.id); },
+  },
+  suivi: {
+    libelle: "Mettre à jour le numéro de suivi",
+    possible: (s) => (s.voided ? "étiquette annulée" : null),
+    faire: (s, opts) => {
+      if (!opts || !opts.tracking_number) throw new Error("numéro de suivi requis");
+      run("UPDATE shipments SET tracking_number = ? WHERE id = ?", String(opts.tracking_number).trim(), s.id);
+    },
+  },
+};
+
+function actionMasse(action, ids, opts = {}, userId = null) {
+  const def = ACTIONS_MASSE[action];
+  if (!def) throw new Error(`action inconnue : ${action}`);
+  if (!ids || !ids.length) throw new Error("aucune expédition désignée");
+  // Le suivi ne se met pas à jour en masse : un même numéro sur dix colis est une erreur,
+  // pas un gain de temps.
+  if (action === "suivi" && ids.length > 1)
+    throw new Error("le numéro de suivi se corrige une expédition à la fois");
+
+  const faites = [], refusees = [];
+  tx(() => {
+    for (const id of ids) {
+      const s = one(`SELECT s.*, o.customer_email, o.order_number FROM shipments s
+                     LEFT JOIN orders o ON o.id = s.order_id WHERE s.id = ?`, Number(id));
+      if (!s) { refusees.push({ id, motif: "expédition inconnue" }); continue; }
+      const motif = def.possible(s);
+      if (motif) { refusees.push({ id, order_number: s.order_number, motif }); continue; }
+      def.faire(s, opts);
+      faites.push({ id, order_number: s.order_number });
+    }
+  });
+  journaliser(`shipment.${action}`, "shipment", null,
+    { n: faites.length, refusees: refusees.length }, userId);
+  return { action, libelle: def.libelle, faites: faites.length, refusees, detail: faites };
+}
+
 module.exports = {
-  marge,
+  marge, ACTIONS_MASSE, actionMasse,
   coter, acheterEtiquette, acheterRetour, annuler, marquerExpedie,
   creerLot, creerLotVide, ajouterAuLot, retirerDuLot, lotsOuverts, commandesDuLot, fermerLot,
   traiterLot, lot, lots, creerManifeste, manifestes,

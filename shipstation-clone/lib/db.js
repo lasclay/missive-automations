@@ -384,6 +384,16 @@ const AJOUTS = [
   // un rechargement de page perdait toutes les cases cochées sans un mot.
   ["order_items", "verified_at", "TEXT"],
   ["order_items", "verified_by", "TEXT"],
+  // Les six colonnes d'état de communication de l'écran Shipped (BUG-049). ShipStation en
+  // affiche un pictogramme **et un horodatage** pour chacune : « Printed 22/07 10:17 ».
+  // Un booléen ne suffit pas — la question posée à l'écran est « quand », pas « oui/non ».
+  // Sans elles, impossible de repérer un colis parti sans que le client soit prévenu.
+  ["shipments", "packing_slip_printed_at", "TEXT"],
+  ["shipments", "label_created_at", "TEXT"],
+  ["shipments", "label_printed_at", "TEXT"],
+  ["shipments", "marketplace_notified_at", "TEXT"],
+  ["shipments", "shipment_notified_at", "TEXT"],
+  ["shipments", "delivery_notified_at", "TEXT"],
 ];
 
 /**
