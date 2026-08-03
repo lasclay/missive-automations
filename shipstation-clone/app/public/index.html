@@ -4705,7 +4705,9 @@ VUES.scan = async () => {
         </select>
         <span class="doux" id="scEtat" role="status" aria-live="polite"></span>
       </div>
-      <div class="doux">Raccourcis dans cet écran : <kbd>V</kbd> marquer vérifié · <kbd>P</kbd> imprimer l'étiquette</div>
+      <div class="doux">Raccourcis : <kbd>F2</kbd> marquer vérifié · <kbd>F3</kbd> imprimer l'étiquette.
+        <kbd>V</kbd> et <kbd>P</kbd> font la même chose quand le champ est vide — le temps de
+        laisser passer un code-barres qui commencerait par cette lettre.</div>
     </div>
     <div id="scOut"></div>`;
 
@@ -4713,41 +4715,86 @@ VUES.scan = async () => {
   champ.focus();
   let courante = null, verifies = new Set();
 
-  /** Retour sonore : à l'emballage, personne ne regarde l'écran entre deux colis. */
-  const bip = (ok) => {
+  /**
+   * Retour sonore — trois sons, pas deux (BUG-122).
+   *
+   * À l'emballage, personne ne regarde l'écran entre deux colis. « lu » et « terminé » ne
+   * doivent pas se confondre : le premier veut dire « continue », le second « ferme la
+   * boîte ». Un carillon à deux notes marque la fin, un bip aigu la lecture, un grave le
+   * refus. Ce qui est dit à l'oreille est aussi écrit dans la zone `aria-live`, pour qui
+   * travaille sans son ou avec un lecteur d'écran.
+   */
+  const SONS = {
+    lu:      [[880, 0.10]],
+    refus:   [[220, 0.32]],
+    termine: [[880, 0.10], [1320, 0.16]],
+  };
+  const bip = (quoi) => {
+    const notes = SONS[quoi === true ? "lu" : quoi === false ? "refus" : quoi] || SONS.lu;
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.frequency.value = ok ? 880 : 220;
-      o.connect(g); g.connect(ctx.destination);
-      g.gain.setValueAtTime(0.06, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (ok ? 0.12 : 0.35));
-      o.start(); o.stop(ctx.currentTime + (ok ? 0.12 : 0.35));
-      setTimeout(() => ctx.close(), 600);
+      let t = ctx.currentTime;
+      for (const [freq, duree] of notes) {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.frequency.value = freq;
+        o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.06, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + duree);
+        o.start(t); o.stop(t + duree);
+        t += duree;
+      }
+      setTimeout(() => ctx.close(), 1200);
     } catch { /* l'audio est un confort, pas une dépendance */ }
   };
 
-  const refus = (html) => { bip(false); $("#scOut").innerHTML = `<div class="avis bloquant">${html}</div>`; };
+  /** Ce que le son vient de dire, écrit — pour qui n'a pas de son (BUG-122). */
+  const annoncer = (texte) => { const e = $("#scEtat"); if (e) e.textContent = texte; };
+
+  const refus = (html) => {
+    bip("refus");
+    annoncer("Refusé");
+    $("#scOut").innerHTML = `<div class="avis bloquant">${html}</div>`;
+  };
+
+  /**
+   * Lignes à préparer — BUG-120.
+   *
+   * `adjustment` ne suffit pas : Shopify envoie les pourboires, les dons et les frais
+   * d'emballage comme des lignes ordinaires. Demander à l'emballeur de « vérifier » un
+   * pourboire lui apprend à cocher sans regarder, ce qui est exactement ce qu'on veut
+   * éviter d'un poste de vérification. Une ligne à quantité nulle est remboursée : elle
+   * n'est plus à préparer non plus.
+   */
+  const NON_PHYSIQUE = /^(tip|pourboire|don|donation|carbon|frais|shipping|livraison|insurance|assurance|gift ?wrap|emballage cadeau)\b/i;
+  const aPreparer = (o) => (o.items || []).filter((i) =>
+    !i.adjustment && (i.quantity ?? 0) > 0 && !NON_PHYSIQUE.test(String(i.name || "")));
 
   const rendreCommande = (o) => {
     courante = o;
-    const arts2 = (o.items || []).filter((i) => !i.adjustment);
+    const arts2 = aPreparer(o);
+    const ecartees = (o.items || []).length - arts2.length;
+    // La vérification vit sur la ligne, pas dans la page : revenir sur une commande la
+    // retrouve où on l'avait laissée (BUG-069).
+    for (const i of arts2) if (i.verified_at) verifies.add(i.id);
     const nVerifies = arts2.filter((i) => verifies.has(i.id)).length;
     const tousVerifies = arts2.length > 0 && nVerifies === arts2.length;
+    const unites = arts2.reduce((s, i) => s + (i.quantity || 0), 0);
+    const restantes = arts2.filter((i) => !verifies.has(i.id)).reduce((s, i) => s + (i.quantity || 0), 0);
     // Le statut de la commande et l'avancement de la vérification sont deux choses distinctes :
     // les confondre faisait afficher « vérifiée » à la place de « Expédiée » (BUG-069).
     $("#scOut").innerHTML = `
       <div class="carte">
         <div class="barre"><h3 style="margin:0;flex:1">${esc(o.order_number)}
           <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>
-          <span class="puce ${tousVerifies ? "v" : "a"}">${nVerifies}/${arts2.length} vérifié${nVerifies > 1 ? "s" : ""}</span></h3>
+          <span class="puce ${tousVerifies ? "v" : "a"}">${restantes ? `${num(restantes)} à vérifier` : "tout vérifié"}</span></h3>
           <button type="button" id="scTout">Tout vérifier</button>
           <button type="button" id="scVer" ${tousVerifies ? "" : "disabled"}
             title="${tousVerifies ? "" : "Vérifier tous les articles d'abord"}">Marquer vérifiée (V)</button>
           <button type="button" class="v" id="scImp" ${tousVerifies || $("#scm").value === "imprimer" ? "" : "disabled"}
             title="${tousVerifies || $("#scm").value === "imprimer" ? "" : "Vérifier tous les articles avant d'imprimer"}">Imprimer l'étiquette (P)</button></div>
         <div class="doux">${esc(o.customer_name || "")} — ${esc(o.ship_to.city || "")} ${esc(o.ship_to.state || "")}
-          · ${num(Math.round(o.weight_g || 0))} g</div>
+          · ${num(Math.round(o.weight_g || 0))} g · ${num(unites)} unité${unites > 1 ? "s" : ""} sur ${arts2.length} ligne${arts2.length > 1 ? "s" : ""}
+          ${ecartees ? `· <span title="pourboires, dons, frais et lignes remboursées">${ecartees} ligne(s) non physique(s) écartée(s)</span>` : ""}</div>
         <div class="tbl" style="margin-top:10px"><table>
           <thead><tr><th scope="col"><span class="visuellement-cache">Vérifié</span></th>
             <th scope="col">Article</th><th scope="col">SKU</th><th scope="col" class="n">Qté</th></tr></thead>
@@ -4757,17 +4804,33 @@ VUES.scan = async () => {
             <td>${esc(i.name)}</td><td class="sku">${esc(i.sku || "—")}</td>
             <td class="n">${i.quantity}</td></tr>`).join("")}</tbody></table></div>
       </div>`;
+    /** Coche ou décoche des lignes, et l'écrit tout de suite : la page n'est pas la mémoire. */
+    const marquer = async (ids, verifie) => {
+      for (const id of ids) verifie ? verifies.add(id) : verifies.delete(id);
+      for (const i of arts2) if (ids.includes(i.id)) i.verified_at = verifie ? "maintenant" : null;
+      rendreCommande(o);
+      try { await api("/api/scan/verifier", { method: "POST", body: { item_ids: ids, verifie } }); }
+      catch (e) {
+        // L'écriture a échoué : on remet l'écran dans l'état réel plutôt que de laisser
+        // croire que c'est enregistré. Une case cochée qui ne l'est pas est pire que pas de case.
+        for (const id of ids) verifie ? verifies.delete(id) : verifies.add(id);
+        for (const i of arts2) if (ids.includes(i.id)) i.verified_at = verifie ? null : "maintenant";
+        rendreCommande(o);
+        refus(`Vérification non enregistrée : ${esc(e.message)}`);
+      }
+    };
+
     $("#scOut").querySelectorAll("[data-v]").forEach((c) => c.onclick = () => {
       const id = Number(c.dataset.v);
-      verifies.has(id) ? verifies.delete(id) : verifies.add(id);
-      rendreCommande(o);
+      marquer([id], !verifies.has(id));
     });
-    $("#scTout").onclick = () => { arts2.forEach((i) => verifies.add(i.id)); rendreCommande(o); };
+    $("#scTout").onclick = () => marquer(arts2.filter((i) => !verifies.has(i.id)).map((i) => i.id), true);
     $("#scVer").onclick = async () => {
       try {
         await api("/api/orders", { method: "POST", body: { ...o, print_state: "verifiee" } });
         $("#scOut").innerHTML = `<div class="avis info">${esc(o.order_number)} vérifiée. Scannez la suivante.</div>`;
-        bip(true);
+        bip("termine");
+        annoncer(`${o.order_number} vérifiée`);
       } catch (e) { refus(`Échec de l'enregistrement : ${esc(e.message)}`); }
       finally { courante = null; verifies = new Set(); champ.value = ""; champ.focus(); }
     };
@@ -4843,18 +4906,55 @@ VUES.scan = async () => {
     }
   }
 
+  /**
+   * Clavier du poste — BUG-066.
+   *
+   * Les raccourcis globaux se taisent dès que le focus est dans un champ, et cet écran
+   * garde le focus dans le champ en permanence : `V` et `P` n'étaient donc atteignables
+   * qu'après un clic de souris, l'exact contraire de ce que le sous-titre promet.
+   *
+   * Deux chemins désormais. `F2` et `F3` agissent toujours — un lecteur de code-barres
+   * n'émet pas de touches de fonction, il n'y a rien à départager. `V` et `P` agissent
+   * aussi, mais seulement si le champ est vide **et** que rien d'autre n'arrive dans les
+   * 250 ms qui suivent : un code-barres qui commencerait par « V » aura déjà ajouté ses
+   * autres caractères, et la lettre reste alors une lettre.
+   */
+  let differe = null;
+  const agir = (quoi) => {
+    const b = $(quoi === "verifier" ? "#scVer" : "#scImp");
+    if (b && !b.disabled) b.click();
+    else annoncer(quoi === "verifier" ? "Rien à marquer vérifié" : "Impression indisponible");
+  };
+
   champ.onkeydown = (e) => {
-    if (e.key !== "Enter") return;
-    e.preventDefault();
-    const q = champ.value.trim();
-    if (q) chercher(q);
+    if (e.key === "F2") { e.preventDefault(); return agir("verifier"); }
+    if (e.key === "F3") { e.preventDefault(); return agir("imprimer"); }
+    if (e.key === "Enter") {
+      e.preventDefault();
+      clearTimeout(differe); differe = null;
+      const q = champ.value.trim();
+      if (q) chercher(q);
+      return;
+    }
+    const k = e.key.toLowerCase();
+    if ((k === "v" || k === "p") && !champ.value && !e.ctrlKey && !e.metaKey && !e.altKey && courante) {
+      clearTimeout(differe);
+      differe = setTimeout(() => {
+        differe = null;
+        // Le champ ne contient toujours que cette lettre : personne n'était en train de
+        // scanner. On la retire et on exécute le raccourci.
+        if (champ.value.trim().toLowerCase() !== k) return;
+        champ.value = "";
+        agir(k === "v" ? "verifier" : "imprimer");
+      }, 250);
+    }
   };
 
   // Les raccourcis V et P de cet écran passent par la table globale : un écouteur ajouté ici
   // à chaque visite en laissait un de plus derrière lui à chaque fois (BUG-034).
   S.scanActions = {
-    verifier: () => { const b = $("#scVer"); if (b && !b.disabled) b.click(); },
-    imprimer: () => { const b = $("#scImp"); if (b && !b.disabled) b.click(); },
+    verifier: () => agir("verifier"),
+    imprimer: () => agir("imprimer"),
     focus: () => champ.focus(),
   };
 };

@@ -380,6 +380,10 @@ const AJOUTS = [
   ["orders", "refunded_amount", "REAL DEFAULT 0"],
   ["order_items", "quantity_ordered", "INTEGER"],   // quantité d'origine ; `quantity` est la courante
   ["order_items", "discount", "REAL DEFAULT 0"],    // remise allouée à la ligne
+  // Vérification au poste de scan (BUG-069). L'avancement vivait dans une `Set` en mémoire :
+  // un rechargement de page perdait toutes les cases cochées sans un mot.
+  ["order_items", "verified_at", "TEXT"],
+  ["order_items", "verified_by", "TEXT"],
 ];
 
 /**

@@ -238,6 +238,27 @@ route("POST /api/orders/configure", async ({ req, user }) => {
  */
 const STATUTS_SCANNABLES = new Set(["awaiting_shipment", "on_hold"]);
 
+/**
+ * Vérification d'une ligne au poste de scan — BUG-069.
+ *
+ * L'avancement vivait dans une `Set` en mémoire : recharger la page, ou simplement scanner
+ * une autre commande puis revenir, effaçait tout sans un mot. Il est désormais porté par la
+ * ligne elle-même, avec qui l'a vérifiée et quand — c'est ce qu'on veut relire le jour où
+ * un client dit qu'il manquait un article.
+ */
+route("POST /api/scan/verifier", async ({ req, user }) => {
+  accounts.exiger(user, "orders_view");
+  const b = await corps(req);
+  const ids = (b.item_ids || []).map(Number).filter(Boolean);
+  if (!ids.length) return { error: "aucune ligne désignée", code: 400 };
+  const marque = b.verifie !== false;
+  const n = db.run(
+    `UPDATE order_items SET verified_at = ?, verified_by = ?
+      WHERE id IN (${ids.map(() => "?").join(",")})`,
+    marque ? db.maintenant() : null, marque ? user : null, ...ids).changes;
+  return { n, verifie: marque };
+});
+
 route("GET /api/scan/lookup", ({ url, user }) => {
   accounts.exiger(user, "orders_view");
   const code = String(q(url).q || "").trim();
