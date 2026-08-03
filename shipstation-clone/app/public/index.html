@@ -224,6 +224,16 @@
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
     outline:2px solid var(--accent); outline-offset:2px; border-radius:3px }
 
+  /* Indicateur non calculable : gris, jamais vert — un zéro sur une table vide n'est pas
+     une conformité (BUG-056). */
+  .kpi.gris { border-color:var(--bord); opacity:.75 }
+  /* Zone de danger : repliée par défaut, bordée de rouge, jamais mêlée aux actions ordinaires. */
+  .zoneDanger { border:1px solid var(--rouge); border-radius:8px; padding:0 12px; margin-top:14px;
+                background:color-mix(in srgb, var(--rouge) 5%, transparent) }
+  .zoneDanger summary { padding:9px 0; cursor:pointer; font-weight:650; font-size:13px; color:var(--rouge) }
+  .zoneDanger[open] { padding-bottom:11px }
+  .kpi.gris .v { color:var(--doux) }
+
   option[data-orphelin] { color:var(--rouge); font-weight:650 }
   select:has(option[data-orphelin]:checked) { border-color:var(--rouge); background:color-mix(in srgb, var(--rouge) 8%, transparent) }
 
@@ -4707,6 +4717,13 @@ VUES.utilisateurs = async () => {
 };
 
 // ---------------------------------------------------------------- réglages
+/** Libellés des lignes d'auto-contrôle — une clé technique n'est pas un nom d'objet. */
+const LIBELLE_CONFIG = {
+  entrepots: "Emplacements d'expédition", boutiques: "Boutiques", services: "Services transporteur",
+  colis: "Types de colis", etiquettes: "Étiquettes", presets: "Préréglages d'expédition",
+  regles: "Règles d'automatisation", vues: "Vues sauvegardées", mappings: "Mappings de service",
+};
+
 VUES.reglages = async () => {
   const s = await api("/api/settings");
   const w = await api("/api/webhooks");
@@ -4718,16 +4735,36 @@ VUES.reglages = async () => {
       types de colis, étiquettes, emplacements et mappings de service. Aucun de ces objets n'a de point
       de terminaison dans l'API ShipStation : ils viennent de la spécification relevée le 31/07/2026.</p>
       <div class="tbl" style="max-height:none"><table><tbody>
-        ${["entrepots", "boutiques", "services", "colis", "etiquettes", "presets", "regles", "vues", "mappings"].map((k) =>
-          `<tr><td>${k}</td><td class="n">${num(L[k])}</td><td class="doux">sur ${num(L.attendus[k])} attendus</td>
-           <td>${L[k] >= L.attendus[k] ? '<span class="puce v">complet</span>' : '<span class="puce a">incomplet</span>'}</td></tr>`).join("")}
+        ${["entrepots", "boutiques", "services", "colis", "etiquettes", "presets", "regles", "vues", "mappings"].map((k) => {
+          // BUG-033 — « boutiques 12 sur 11 » était peint en vert « complet ». Un excédent
+          // n'est pas une réussite : c'est un doublon ou un objet parasite, et il se traite.
+          const i = indicateur(L[k], { total: L.attendus[k] });
+          const pastille = { vert: "v", ambre: "a", gris: "g" }[i.classe];
+          return `<tr><td>${esc(LIBELLE_CONFIG[k] || k)}</td><td class="n">${num(L[k])}</td>
+            <td class="doux">sur ${num(L.attendus[k])} attendus</td>
+            <td><span class="puce ${pastille}" title="${esc(i.note)}">${esc(i.etat)}</span></td></tr>`;
+        }).join("")}
       </tbody></table></div>
       <div class="barre" style="margin-top:10px">
-        <button class="p" id="lgCharger">${L.chargee ? "Recharger" : "Charger"} la configuration</button>
-        <button class="d" id="lgRemplacer">Réinitialiser aux valeurs ShipStation…</button>
+        <button type="button" class="p" id="lgCharger">${L.chargee ? "Recharger" : "Charger"} la configuration</button>
       </div>
-      <p class="doux">Le rechargement met à jour sans doublonner. La réinitialisation supprime d'abord
-      règles, vues, préréglages et mappings — utile après avoir bricolé, jamais nécessaire autrement.</p></div>
+      <p class="doux">Le rechargement met à jour sans doublonner : il ajoute ce qui manque et
+      corrige ce qui a changé, sans rien supprimer.</p>
+
+      <!-- BUG-084 — les actions destructrices se tenaient côte à côte avec les actions
+           ordinaires, « Retraiter » en bleu primaire et « Simuler » en gris. Elles vivent
+           désormais dans une zone isolée, en secondaire, avec ce qu'elles touchent écrit
+           avant le clic. -->
+      <details class="zoneDanger">
+        <summary>Zone de danger — actions destructrices</summary>
+        <p class="doux">Ces actions suppriment ou réécrivent des données existantes. Elles ne
+          sont pas nécessaires en exploitation normale.</p>
+        <div class="barre">
+          <button type="button" class="d" id="lgRemplacer">Réinitialiser aux valeurs ShipStation…</button>
+          <span class="doux">supprimera ${num(L.regles)} règles, ${num(L.vues)} vues,
+            ${num(L.presets)} préréglages et ${num(L.mappings)} mappings avant de les réécrire</span>
+        </div>
+      </details></div>
     <div class="carte"><b>Import Shopify</b>
       <p class="doux" style="margin:2px 0 8px">${sh.configure
         ? `Boutique <b>${esc(sh.boutique)}</b> · ${num(sh.commandes)} commandes importées ·
@@ -4743,7 +4780,11 @@ VUES.reglages = async () => {
       <p class="doux" style="margin:2px 0 8px">Rejoue les défauts produit, le mapping de service et les
       règles sur les commandes ouvertes. ShipStation avertissait que cela « peut écraser les réglages
       d'expédition faits depuis l'import » ; ici la simulation dit exactement ce qui changerait.</p>
-      <div class="barre"><button id="rpSec">Simuler</button><button class="p" id="rpGo">Retraiter</button></div>
+      <div class="barre">
+        <button type="button" class="p" id="rpSec">Simuler</button>
+        <button type="button" id="rpGo" disabled
+          title="Jouez d'abord une simulation — on ne réécrit pas sans avoir vu ce qu'on réécrit">Retraiter</button>
+      </div>
       <div id="rpOut"></div></div>
     <div class="carte"><b>Marque</b><p class="doux" style="margin:2px 0 10px">Utilisée dans les bordereaux et les courriels.</p>
       <div class="grille">
@@ -4958,16 +4999,39 @@ VUES.reglages = async () => {
     rafraichirCompteurs(); VUES.reglages();
   };
 
+  // BUG-084 — « Retraiter » était en primaire et « Simuler » en secondaire : l'écran invitait
+  // à écrire avant de regarder. Inversé, et le bouton mutant reste inactif tant qu'aucune
+  // simulation n'a été jouée. Il annonce ensuite combien de commandes il touchera.
+  let derniereSim = null;
   const retraiter = async (sec) => {
-    $("#rpOut").innerHTML = '<div class="doux">Traitement…</div>';
-    const r = await api("/api/automation/reprocess", { method: "POST", body: { dry_run: sec } });
-    $("#rpOut").innerHTML = `<div class="avis ${sec ? "info" : ""}">${num(r.commandes)} commande(s) examinée(s),
-      <b>${num(r.touchees)}</b> ${sec ? "seraient modifiées" : "modifiées"}.</div>`;
+    $("#rpOut").innerHTML = squelette(2);
+    try {
+      const r = await api("/api/automation/reprocess", { method: "POST", body: { dry_run: sec } });
+      if (sec) {
+        derniereSim = r;
+        const b = $("#rpGo");
+        b.disabled = !r.touchees;
+        b.textContent = r.touchees ? `Retraiter ${num(r.touchees)} commande${r.touchees > 1 ? "s" : ""}` : "Rien à retraiter";
+        b.title = r.touchees ? "" : "La simulation n'a trouvé aucune commande à modifier";
+      }
+      $("#rpOut").innerHTML = `<div class="avis ${sec ? "info" : ""}">${num(r.commandes)} commande(s) examinée(s),
+        <b>${num(r.touchees)}</b> ${sec ? "seraient modifiées" : "modifiées"}.</div>`;
+    } catch (e) {
+      $("#rpOut").innerHTML = "";
+      $("#rpOut").append(panneauErreur(e, () => retraiter(sec), sec ? "Simulation impossible" : "Retraitement impossible"));
+    }
   };
   $("#rpSec").onclick = () => retraiter(true);
-  $("#rpGo").onclick = () => dialogue("Retraiter les commandes ouvertes",
-    `<div class="avis">Les réglages d'expédition faits à la main depuis l'import peuvent être écrasés.</div>`,
-    () => retraiter(false), "Retraiter");
+  $("#rpGo").onclick = () => {
+    if (!derniereSim) return;
+    dialogue("Retraiter les commandes ouvertes",
+      `<p><b>${num(derniereSim.touchees)}</b> commande(s) seront modifiées, sur
+       ${num(derniereSim.commandes)} examinées.</p>
+       <div class="avis">Les réglages d'expédition faits à la main depuis l'import peuvent être
+       écrasés — c'est le même avertissement que donnait ShipStation, mais ici vous savez
+       combien de commandes sont concernées.</div>`,
+      () => retraiter(false), `Retraiter ${num(derniereSim.touchees)} commande(s)`);
+  };
 
   $("#s2save").onclick = async () => {
     await api("/api/settings", { method: "POST", body: { exiger_2fa: $("#s2fa").checked } });
@@ -5537,56 +5601,152 @@ VUES.prereglages = async () => {
 };
 
 // ---------------------------------------------------------------- douanes
+/**
+ * Indicateur à trois états — BUG-056, BUG-033.
+ *
+ * « 0 produit sans code SH » s'affichait **en vert** alors que le catalogue était vide : un
+ * compteur à zéro sur une table vide est une **absence de donnée**, pas un succès. De même,
+ * l'auto-contrôle des réglages peignait « boutiques 12 sur 11 » en vert « complet » alors
+ * qu'un excédent est une anomalie. Quatre états, jamais deux.
+ */
+function indicateur(valeur, { total = null, zeroEstBon = true } = {}) {
+  if (total === 0 || total === null && valeur === 0 && zeroEstBon === null)
+    return { classe: "gris", etat: "non calculable", note: "aucune donnée de référence" };
+  if (total !== null && valeur > total)
+    return { classe: "ambre", etat: "excédent", note: `${valeur} pour ${total} attendus` };
+  if (total !== null && valeur < total)
+    return { classe: "ambre", etat: "incomplet", note: `${valeur} sur ${total}` };
+  if (valeur === 0) return zeroEstBon
+    ? { classe: "vert", etat: "complet", note: "" }
+    : { classe: "gris", etat: "non calculable", note: "" };
+  return { classe: "vert", etat: "complet", note: "" };
+}
+
 VUES.douanes = async () => {
-  const d = await api("/api/hs");
+  let d;
+  try { d = await api("/api/hs"); }
+  catch (e) { $("#vue").innerHTML = ""; return $("#vue").append(panneauErreur(e, () => VUES.douanes())); }
+
+  const a = d.alertes;
+  const catalogueVide = (a.sans_code + a.avec_code) === 0;
   const v = $("#vue");
-  v.innerHTML = `<h2>Douanes — codes SH</h2>
+  v.innerHTML = `<h1>Douanes — codes SH</h1>
     <p class="sous">Un code SH manquant, c'est un colis international qui peut être retenu.
-      Sur le compte ShipStation, 403 produits actifs sur 472 n'en avaient aucun.</p>
+      Sur le compte ShipStation, 403 produits actifs sur 473 n'en avaient aucun.</p>
+
+    ${catalogueVide ? `<div class="avis bloquant"><b>Le catalogue est vide.</b>
+      Les compteurs ci-dessous ne mesurent rien : ils diront « 0 produit sans code SH » tant
+      qu'aucun produit n'aura été importé. Ce n'est pas une conformité, c'est une absence de
+      donnée. Lancez la migration des produits avant de vous fier à cet écran.
+      <button type="button" class="lienB" id="hVersMigration">Aller à la migration</button></div>` : ""}
+
     <div class="grille">
-      <div class="kpi ${d.alertes.sans_code ? "ambre" : "vert"}"><div class="v">${num(d.alertes.sans_code)}</div><div class="l">produits actifs sans code SH</div></div>
-      <div class="kpi vert"><div class="v">${num(d.alertes.avec_code)}</div><div class="l">avec code</div></div>
-      <div class="kpi ${d.alertes.commandes_bloquantes.length ? "ambre" : ""}"><div class="v">${num(d.alertes.commandes_bloquantes.length)}</div><div class="l">commandes internationales à risque</div></div>
+      <div class="kpi ${catalogueVide ? "gris" : (a.sans_code ? "ambre" : "vert")}">
+        <div class="v">${catalogueVide ? "—" : num(a.sans_code)}</div>
+        <div class="l">produits actifs sans code SH</div>
+        ${catalogueVide ? '<div class="l doux">non calculable — catalogue vide</div>' : ""}</div>
+      <div class="kpi ${catalogueVide ? "gris" : "vert"}">
+        <div class="v">${catalogueVide ? "—" : num(a.avec_code)}</div><div class="l">avec code</div></div>
+      <div class="kpi ${a.commandes_bloquantes.length ? "ambre" : ""}">
+        <div class="v">${num(a.commandes_bloquantes.length)}</div>
+        <div class="l">commandes internationales à risque</div></div>
     </div>
-    ${d.alertes.a_revalider.length ? `<div class="avis"><b>Codes hérités à faire valider par un courtier</b> —
-      ${d.alertes.a_revalider.map((c) => `${esc(c.hs_code)} <span class="doux">(${num(c.n)} produits)</span>`).join(" · ")}.
+
+    ${a.a_revalider.length ? `<div class="avis"><b>Codes hérités à faire valider par un courtier</b> —
+      ${a.a_revalider.map((c) => `${esc(c.hs_code)} <span class="doux">(${num(c.n)} produits)</span>`).join(" · ")}.
       Ces classements (« pâtes à modeler », « confettis », « aliments pour chiens ») portent sur des
       produits à base de graines : une déclaration inexacte engage l'exportateur. Repris tels quels,
       pas validés.</div>` : ""}
+
     <div class="carte">
       <div class="barre"><b style="flex:1">Classification automatique</b>
-        <button id="hSim">Simuler</button>
-        <button class="p" id="hApp">Appliquer aux produits sans code</button></div>
-      <div id="hOut" class="doux">Le moteur classe par mots-clés, SKU d'abord puis nom de produit.</div>
+        <button type="button" class="p" id="hSim">Simuler</button>
+        <button type="button" id="hApp" disabled
+          title="Jouez d'abord une simulation — on n'écrit pas sans avoir vu ce qu'on écrit">
+          Appliquer aux produits sans code</button></div>
+      <div id="hOut" class="doux">Le moteur classe par mots-clés, SKU d'abord puis nom de produit.
+        ${catalogueVide ? "Aucun produit à classer pour l'instant." : ""}</div>
     </div>
+
+    <div class="carte"><b>Référentiel des familles</b>
+      <div class="doux" style="font-size:12px;margin:3px 0 8px">Les ${d.familles.length} familles
+        que le moteur sait reconnaître, avec leur libellé douanier français. ShipStation n'a
+        aucun équivalent : il faut y saisir chaque code à la main, produit par produit.</div>
+      <div id="tblF"></div></div>
+
     <div class="carte"><b>Répartition actuelle</b>
       <div id="tblH" style="margin-top:8px"></div></div>
-    ${d.alertes.commandes_bloquantes.length ? `<div class="carte"><b>Commandes internationales avec un article sans code SH</b>
+
+    ${a.commandes_bloquantes.length ? `<div class="carte"><b>Commandes internationales avec un article sans code SH</b>
       <div id="tblB" style="margin-top:8px"></div></div>` : ""}`;
 
-  $("#tblH").append(table([{ k: "hs_code", t: "Code SH" }, { k: "n", t: "Produits", n: true }], d.alertes.repartition));
-  if (d.alertes.commandes_bloquantes.length)
-    $("#tblB").append(table([{ k: "order_number", t: "Commande" }, { k: "n", t: "Articles sans code", n: true }],
-      d.alertes.commandes_bloquantes, { onLigne: (id) => detailCommande(Number(id)) }));
+  const bm = $("#hVersMigration"); if (bm) bm.onclick = () => aller("reglages");
 
+  // BUG-059 — le référentiel des 35 familles n'était visible nulle part dans l'interface.
+  $("#tblF").append(table([
+    { k: "code", t: "Code SH" },
+    { k: "libelle", t: "Libellé douanier" },
+    { k: "revalider", t: "État", r: (f) => f.revalider
+      ? '<span class="puce a">à revalider</span>'
+      : '<span class="puce v">conventionnel</span>' },
+  ], d.familles));
+
+  $("#tblH").append(table([{ k: "hs_code", t: "Code SH" }, { k: "n", t: "Produits", n: true }], a.repartition));
+  if (a.commandes_bloquantes.length)
+    $("#tblB").append(table([{ k: "order_number", t: "Commande" }, { k: "n", t: "Articles sans code", n: true }],
+      a.commandes_bloquantes, { onLigne: (id) => detailCommande(Number(id)) }));
+
+  /**
+   * BUG-046, BUG-084 — « Appliquer » était le bouton primaire face à « Simuler » en
+   * secondaire, l'inverse de ce qu'il faut : on ne mute pas avant d'avoir regardé. Le bouton
+   * mutant reste désactivé tant qu'aucune simulation n'a été jouée, et il annonce combien de
+   * produits il touchera.
+   */
+  let derniereSimulation = null;
   $("#hSim").onclick = async () => {
-    $("#hOut").innerHTML = "Simulation…";
-    const r = await api("/api/hs/simuler", { method: "POST", body: {} });
-    $("#hOut").innerHTML = `<div class="avis info"><b>${num(r.classes)}</b> produits classés sur ${num(r.total)}
-      (${r.taux} %) · ${num(r.non_classes)} sans correspondance · ${num(r.exclus)} exclus des douanes
-      · <b>${num(r.a_revalider)}</b> avec un code à revalider</div>
-      <div class="tbl"><table><thead><tr><th>SKU</th><th>Produit</th><th>Code proposé</th><th>Libellé</th><th>Via</th></tr></thead>
-      <tbody>${r.detail.classes.slice(0, 200).map((p) => `<tr><td class="sku">${esc(p.sku)}</td><td>${esc(p.name)}</td>
-        <td>${esc(p.hs_code)}${p.revalider ? ' <span class="puce a">à revalider</span>' : ""}</td>
-        <td>${esc(p.customs_description)}</td><td class="doux">${esc(p.via)}</td></tr>`).join("")}</tbody></table></div>`;
+    $("#hOut").innerHTML = squelette(3);
+    try {
+      const r = await api("/api/hs/simuler", { method: "POST", body: {} });
+      derniereSimulation = r;
+      const bApp = $("#hApp");
+      bApp.disabled = !r.classes;
+      bApp.title = r.classes ? "" : "La simulation n'a rien à proposer";
+      bApp.textContent = r.classes
+        ? `Appliquer à ${num(r.classes)} produit${r.classes > 1 ? "s" : ""}`
+        : "Aucun produit à classer";
+      $("#hOut").innerHTML = r.total === 0
+        ? `<div class="avis">Aucun produit dans le catalogue : rien à classer. Ce n'est pas un
+           succès de classification, c'est une base vide.</div>`
+        : `<div class="avis info"><b>${num(r.classes)}</b> produits classés sur ${num(r.total)}
+        (${r.taux} %) · ${num(r.non_classes)} sans correspondance · ${num(r.exclus)} exclus des douanes
+        · <b>${num(r.a_revalider)}</b> avec un code à revalider</div>
+        ${r.detail.classes.length ? `<div class="tbl"><table>
+        <thead><tr><th scope="col">SKU</th><th scope="col">Produit</th><th scope="col">Code proposé</th>
+          <th scope="col">Libellé</th><th scope="col">Via</th></tr></thead>
+        <tbody>${r.detail.classes.slice(0, 200).map((p) => `<tr><td class="sku">${esc(p.sku)}</td><td>${esc(p.name)}</td>
+          <td>${esc(p.hs_code)}${p.revalider ? ' <span class="puce a">à revalider</span>' : ""}</td>
+          <td>${esc(p.customs_description)}</td><td class="doux">${esc(p.via)}</td></tr>`).join("")}</tbody></table></div>` : ""}`;
+    } catch (e) {
+      $("#hOut").innerHTML = "";
+      $("#hOut").append(panneauErreur(e, () => $("#hSim").click(), "Simulation impossible"));
+    }
   };
-  $("#hApp").onclick = () => dialogue("Appliquer la classification", `
-    <p>Les codes SH seront écrits sur les produits qui n'en ont pas. Les 69 produits déjà
-    classés ne sont pas touchés.</p>
-    <div class="avis">Les familles marquées « à revalider » seront appliquées elles aussi —
-    c'est la convention existante du compte, à trancher avec un courtier.</div>`,
-    async () => { const r = await api("/api/hs/appliquer", { method: "POST", body: {} });
-      alert(`${r.applique} produit(s) classés, ${r.non_classes} sans correspondance.`); rendre(); }, "Appliquer");
+
+  $("#hApp").onclick = () => {
+    if (!derniereSimulation) return;
+    const n = derniereSimulation.classes;
+    dialogue("Appliquer la classification", `
+      <p>Le code SH sera écrit sur <b>${num(n)} produit${n > 1 ? "s" : ""}</b> qui n'en ont pas.
+      Les ${num(derniereSimulation.total - derniereSimulation.non_classes - n)} déjà classés ne sont
+      pas touchés.</p>
+      <div class="avis">Les familles marquées « à revalider » seront appliquées elles aussi —
+      c'est la convention existante du compte, à trancher avec un courtier en douane.</div>`,
+      () => tenter(() => api("/api/hs/appliquer", { method: "POST", body: {} }), {
+        message: "Application impossible",
+        apres: (r) => { toast(`${r.applique} produit(s) classés, ${r.non_classes} sans correspondance.`,
+          { type: "succes" }); rendre(); },
+      }), `Appliquer à ${num(n)} produit${n > 1 ? "s" : ""}`);
+  };
 };
 
 async function demarrer() {

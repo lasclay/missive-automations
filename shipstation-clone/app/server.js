@@ -1176,12 +1176,60 @@ route("GET /api/users", ({ user }) => {
     domaines: accounts.DOMAINES, roles: Object.keys(accounts.ROLES),
   };
 });
+/**
+ * Création et modification d'un compte — BUG-039.
+ *
+ * L'audit a trouvé un compte administrateur dont le courriel était `lasclay.myshopify.com`,
+ * c'est-à-dire un domaine de boutique et non une adresse : aucun courriel de réinitialisation
+ * ne pourrait lui parvenir. Et deux comptes nommés « Administrateur », ce qui rend tous les
+ * menus d'assignation ambigus — on ne sait pas à qui on assigne.
+ */
+const COURRIEL_VALIDE = /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/;
+
 route("POST /api/users", async ({ req, user }) => {
   accounts.exiger(user, "users_manage");
   const b = await corps(req);
+
+  if (b.email !== undefined) {
+    const e = String(b.email || "").trim();
+    if (!COURRIEL_VALIDE.test(e)) return {
+      error: `« ${e} » n'est pas une adresse de courriel — un compte sans adresse joignable ne ` +
+             "peut ni recevoir de réinitialisation, ni être identifié dans le journal",
+      code: 400 };
+    const pris = db.one("SELECT id, name FROM users WHERE lower(email) = lower(?) AND id <> ?", e, b.id || "");
+    if (pris) return { error: `cette adresse est déjà celle de « ${pris.name} »`, code: 400 };
+  }
+  if (b.name !== undefined) {
+    const n = String(b.name || "").trim();
+    if (n.length < 2) return { error: "le nom doit faire au moins deux caractères", code: 400 };
+    const homonyme = db.one("SELECT id, email FROM users WHERE lower(name) = lower(?) AND id <> ?", n, b.id || "");
+    if (homonyme) return {
+      error: `« ${n} » est déjà le nom de ${homonyme.email} — deux comptes homonymes rendent ` +
+             "les menus d'assignation impossibles à lire",
+      code: 400 };
+  }
+
   if (b.id) { accounts.majUtilisateur(b.id, b); return { id: b.id }; }
   // Création d'un employé : compte avec mot de passe provisoire à transmettre de vive voix.
   return auth.creerCompte(b);
+});
+
+/**
+ * Contrôle d'hygiène des comptes : ce que l'audit a trouvé, exposé en permanence pour que
+ * ça ne se reforme pas.
+ */
+route("GET /api/users/hygiene", ({ user }) => {
+  accounts.exiger(user, "users_manage");
+  const tous = db.all("SELECT id, name, email, active, totp_enabled FROM users");
+  return {
+    courriels_invalides: tous.filter((u) => !COURRIEL_VALIDE.test(String(u.email || ""))),
+    homonymes: Object.values(tous.reduce((a, u) => {
+      const k = String(u.name || "").toLowerCase();
+      (a[k] = a[k] || []).push(u); return a;
+    }, {})).filter((g) => g.length > 1),
+    sans_second_facteur: tous.filter((u) => u.active && !u.totp_enabled),
+    exiger_2fa: !!db.reglage("exiger_2fa", false),
+  };
 });
 
 route("GET /api/webhooks", () => ({ webhooks: accounts.abonnements(), evenements: accounts.EVENEMENTS }));
@@ -1454,7 +1502,18 @@ route("GET /api/moi/2fa", ({ moi }) => auth.etat2facteur(moi.id));
 route("POST /api/moi/2fa/preparer", async ({ req, moi }) =>
   auth.preparer2facteur(moi.id, { regenerer: (await corps(req)).regenerer === true }));
 
-route("POST /api/moi/2fa/activer", async ({ req, moi }) => auth.activer2facteur(moi.id, (await corps(req)).code));
+/**
+ * Activation du second facteur. Si la session était en attente d'enrôlement (second facteur
+ * rendu obligatoire, compte qui n'en avait pas), elle devient pleine ici — sinon l'utilisateur
+ * s'enrôlerait sans jamais pouvoir entrer.
+ */
+route("POST /api/moi/2fa/activer", async ({ req, res, moi }) => {
+  const r = auth.activer2facteur(moi.id, (await corps(req)).code);
+  const jeton = auth.lireCookie(req);
+  const promu = auth.promouvoirSession(jeton);
+  if (promu) res.setHeader("Set-Cookie", auth.poserCookie(jeton, promu.expire));
+  return { ...r, session_promue: !!promu };
+});
 
 route("POST /api/moi/2fa/desactiver", async ({ req, moi }) => {
   if (db.reglage("exiger_2fa", false)) return { error: "le second facteur est obligatoire sur ce service", code: 403 };
