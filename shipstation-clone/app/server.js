@@ -1182,10 +1182,47 @@ route("GET /api/settings", () => ({
   derniere_migration: db.reglage("derniere_migration", null),
   seuil_dropoff_g: SEUIL_DROPOFF_G,
 }));
+/**
+ * Réglages modifiables depuis l'interface — liste blanche.
+ *
+ * `settings` sert aussi de mémoire au service : `config_lasclay`,
+ * `shopify_dernier_import`, `derniere_migration` y sont écrits par les traitements. Les
+ * exposer à un formulaire, c'est offrir de rejouer un import complet en écrasant un
+ * curseur. La liste ci-dessous ne contient que ce qui relève d'un choix humain.
+ */
+/** Une adresse, pas un domaine : `lasclay.myshopify.com` ne reçoit aucun courriel. */
+const COURRIEL_VALIDE = /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/;
+
+const REGLAGES_MODIFIABLES = new Set([
+  "exiger_2fa", "marque", "bascule_canaux", "tarif_dropoff_cible", "seuil_alerte_marge",
+  "unite_poids", "unite_dimension", "locale", "format_date", "format_heure", "devise",
+  "confirmation_defaut", "service_defaut", "entrepot_defaut",
+  "seuil_timbre_g", "seuil_bombes_ca", "seuil_bombes_intl", "exercice_debut",
+  "colonnes_commandes", "columns",
+]);
+
 route("POST /api/settings", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");
   const b = await corps(req);
+
+  const refuses = Object.keys(b).filter((k) => !REGLAGES_MODIFIABLES.has(k));
+  if (refuses.length)
+    return { error: `réglage non modifiable depuis l'interface : ${refuses.join(", ")}`, code: 400 };
+
+  // BUG-023, troisième volet. Imposer le second facteur à des comptes qui ne peuvent pas
+  // s'enrôler, c'est les mettre dehors : un compte sans adresse valide ne reçoit ni code de
+  // secours ni consigne. On refuse d'armer l'exigence tant qu'ils n'ont pas été corrigés.
+  if (b.exiger_2fa === true) {
+    const invalides = db.all("SELECT id, name, email FROM users WHERE active = 1")
+      .filter((u) => !COURRIEL_VALIDE.test(String(u.email || "")));
+    if (invalides.length)
+      return { code: 422, error: "Corriger d'abord ces comptes : sans courriel valide, ils ne " +
+        "pourront pas s'enrôler au second facteur et perdront leur accès.",
+        comptes: invalides.map((u) => `${u.name} <${u.email || "sans courriel"}>`) };
+  }
+
   for (const [k, v] of Object.entries(b)) db.poserReglage(k, v);
+  db.journaliser("settings.update", "system", null, { cles: Object.keys(b) }, user && user.id);
   return { ok: true };
 });
 
@@ -1207,8 +1244,6 @@ route("GET /api/users", ({ user }) => {
  * ne pourrait lui parvenir. Et deux comptes nommés « Administrateur », ce qui rend tous les
  * menus d'assignation ambigus — on ne sait pas à qui on assigne.
  */
-const COURRIEL_VALIDE = /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/;
-
 route("POST /api/users", async ({ req, user }) => {
   accounts.exiger(user, "users_manage");
   const b = await corps(req);
@@ -1673,7 +1708,13 @@ const serveur = http.createServer(async (req, res) => {
 
     const out = await trouve.fn({ req, res, url, params: trouve.params, user: moi ? moi.id : null, moi });
     if (out === null) return;                       // le handler a déjà répondu
-    if (out && out.error && out.code) return json(res, out.code, { error: out.error });
+    // Un refus peut porter plus qu'un message : la liste des comptes à corriger, celle des
+    // commandes bloquantes. Tout ce que le handler a joint part avec, sinon l'écran doit
+    // redemander au serveur ce qu'il vient de lui dire.
+    if (out && out.error && out.code) {
+      const { code, ...reste } = out;
+      return json(res, code, reste);
+    }
     return json(res, 200, out);
   } catch (e) {
     // Une règle métier qui refuse n'est pas une panne : « lot inconnu », « poids manquant »,

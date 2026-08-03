@@ -926,7 +926,11 @@ async function api(route, opts = {}) {
       throw new Error(`service indisponible (${r.status}) — il redémarre probablement, réessayer dans une minute`);
     throw new Error(`réponse inattendue du serveur (HTTP ${r.status})`);
   }
-  if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+  if (!r.ok) {
+    const e = new Error(j.error || `HTTP ${r.status}`);
+    e.detail = j;              // le serveur joint parfois la liste de ce qui bloque
+    throw e;
+  }
   return j;
 }
 
@@ -2186,6 +2190,19 @@ VUES.commandes = async (statutFixe) => {
   const cablerActions = () => majActions();
 
   const ids = () => [...S.sel];
+
+  /**
+   * Périmètre exact d'une action en masse — BUG-025, troisième volet.
+   *
+   * « 12 commandes sélectionnées » ne suffit pas quand trois d'entre elles ne sont plus à
+   * l'écran : l'opérateur croit agir sur ce qu'il voit. Chaque boîte de confirmation
+   * rappelle donc combien de commandes elle touche, et combien sont invisibles.
+   */
+  function mentionPortee() {
+    const n = S.sel.size, hors = (S.selHorsVue || []).length;
+    return `<p class="${hors ? "avis" : "doux"}">Portée : <b>${num(n)}</b> commande${n > 1 ? "s" : ""}` +
+      (hors ? `, dont <b>${num(hors)}</b> non affichée${hors > 1 ? "s" : ""} par le filtre courant.` : ".") + "</p>";
+  }
   /**
    * Barre d'actions du lot (§ écran Batch de ShipStation). Un lot ouvert n'est pas une
    * grille de commandes filtrée : c'est un poste de travail. La barre change donc
@@ -2381,7 +2398,7 @@ VUES.commandes = async (statutFixe) => {
     dialogue(`${libelle} — ${n} commande${n > 1 ? "s" : ""}`,
       `<label class="champ"><span>${esc(libelle)}</span>${saisie}</label>
        <p class="doux">La valeur remplace celle des ${n} commandes sélectionnées. Vider le champ
-       efface la valeur existante.</p>`,
+       efface la valeur existante.</p>${mentionPortee()}`,
       async () => {
         await api("/api/orders/bulk", { method: "POST",
           body: { ids: ids(), champs: { [champ]: $("#bmV").value } } });
@@ -2476,8 +2493,14 @@ VUES.commandes = async (statutFixe) => {
   // Boutons ajoutés pour coller à la barre de ShipStation.
   ACT.aHold = mettreEnAttente;
   ACT.aPrelever = async () => {
-    await api("/api/orders/bulk", { method: "POST", body: { ids: ids(), champs: { picking_status: "ready_to_pick" } } });
-    S.sel.clear(); charger();
+    const envoyer = async () => {
+      await api("/api/orders/bulk", { method: "POST", body: { ids: ids(), champs: { picking_status: "ready_to_pick" } } });
+      S.sel.clear(); charger();
+    };
+    // Action sans boîte de confirmation : on n'en ouvre une que si la sélection déborde de
+    // la vue, pour ne pas alourdir le geste courant tout en nommant le périmètre réel.
+    if (!(S.selHorsVue || []).length) return envoyer();
+    dialogue("Envoyer vers la file de prélèvement", mentionPortee(), envoyer, "Envoyer");
   };
   ACT.aAlloc = () => menuFlottant("aAlloc", [
     { t: "Allouer l'inventaire", f: () => allouer("allocated") },
@@ -2536,6 +2559,7 @@ VUES.commandes = async (statutFixe) => {
     dialogue(`Configurer ${S.sel.size} expédition(s)`, `
       <p class="doux">Seuls les champs remplis sont appliqués. Un champ laissé vide ne touche
         à rien — c'est ce qui permet de corriger un service sans écraser les poids déjà pesés.</p>
+      ${mentionPortee()}
       <div class="grille">
         <label class="champ"><span>Transporteur</span><select id="ccar"><option value="">—</option>
           ${(S.refs.carriers || []).map((c) => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select></label>
@@ -2643,7 +2667,7 @@ VUES.commandes = async (statutFixe) => {
     const d = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
     dialogue(`Mettre ${S.sel.size} commande(s) en attente`,
       `<label class="champ"><span>Jusqu'au</span><input type="date" id="hd" value="${d}"></label>
-       <p class="doux">Retour automatique en file à cette date.</p>`,
+       <p class="doux">Retour automatique en file à cette date.</p>${mentionPortee()}`,
       async () => { await api("/api/orders/hold", { method: "POST", body: { ids: ids(), hold_until: $("#hd").value } });
         S.sel.clear(); charger(); rafraichirCompteurs(); });
   }
@@ -2715,11 +2739,25 @@ VUES.commandes = async (statutFixe) => {
         <div class="doux" style="margin-top:8px">Astuce : <kbd>?</kbd> affiche les raccourcis.</div></div>`;
       return;
     }
+    // BUG-025, deuxième volet. Le panneau lisait la sélection sans vérifier qu'elle est à
+    // l'écran : il configurait une commande que la grille n'affichait plus. Le poids, la
+    // valeur et les articles ne portaient que sur les lignes visibles, sans le dire.
+    const hors = (S.selHorsVue || []).length;
+    const avertHorsVue = hors
+      ? `<div class="avis" style="margin:8px 11px 0">${hors} commande(s) sélectionnée(s) ne sont pas
+           affichées par le filtre courant. Les totaux ci-dessous ne les comptent pas.
+           <button type="button" class="lienB" id="cViderHors">Vider la sélection</button></div>`
+      : "";
+    const brancherVider = () => {
+      const b = $("#cViderHors");
+      if (b) b.onclick = () => { S.sel.clear(); S.selHorsVue = []; charger(); };
+    };
+
     if (S.sel.size > 1) {
       const sel = LIGNES.filter((o) => S.sel.has(String(o.id)));
       const poids = sel.reduce((s, o) => s + (o.weight_g || 0), 0);
       const sansPoids = sel.filter((o) => !o.weight_g).length;
-      C.innerHTML = `<div class="sec entete"><h4>${sel.length} commandes sélectionnées
+      C.innerHTML = avertHorsVue + `<div class="sec entete"><h4>${sel.length} commandes sélectionnées
         <span style="margin-left:auto"></span>
         <button id="cLotM" class="mini">Lot ▾</button></h4>
         <div class="kv"><span>Poids cumulé</span><b>${num(Math.round(poids))} g</b></div>
@@ -2729,8 +2767,35 @@ VUES.commandes = async (statutFixe) => {
       </div>
       <div class="sec"><h4>Articles à préparer</h4>${listeArticlesGroupes(sel)}</div>`;
       $("#cLotM").onclick = (e) => { e.stopPropagation(); menuLots($("#cLotM"), [...S.sel], () => { charger(); majLots(); }); };
+      brancherVider();
       return;
     }
+    // Une seule commande sélectionnée, mais absente de la grille : ne pas la configurer en
+    // douce. Le panneau le dit et propose de la rejoindre plutôt que de laisser croire que
+    // ce qui est à l'écran et ce qui est en cours d'expédition sont la même commande.
+    if (hors) {
+      const seule = await api(`/api/orders/${[...S.sel][0]}`).catch(() => null);
+      C.innerHTML = `<div class="vide3">La commande sélectionnée${seule ? ` <b>${esc(seule.order_number)}</b>` : ""}
+          n'est pas affichée par le filtre courant.
+        <div class="barre" style="justify-content:center;margin-top:10px">
+          <button type="button" class="p" id="cAllerSel">L'afficher</button>
+          <button type="button" id="cViderHors">Vider la sélection</button>
+        </div></div>`;
+      brancherVider();
+      $("#cAllerSel").onclick = () => {
+        // On rejoint la commande par son numéro : c'est le seul filtre qui la ramène à coup
+        // sûr, quels que soient le statut, la boutique ou la vue en cours.
+        if (!seule) return;
+        // Chercher par numéro est le seul filtre qui la ramène à coup sûr : on efface
+        // statut, boutique, lot et vue plutôt que de deviner lequel la cachait.
+        S0.statut = ""; S0.store = null; S0.lot = null; S0.vue = null;
+        S0.avance = null; S0.f = {}; S0.page = 0;
+        $("#fq").value = seule.order_number;
+        charger();
+      };
+      return;
+    }
+
     const o = await api(`/api/orders/${[...S.sel][0]}`);
     const svc = (S.refs.services || []).filter((x) => !x.hidden);
     const colis = (S.refs.packages || []);
@@ -4884,7 +4949,8 @@ VUES.reglages = async () => {
       configurer une application d'authentification à sa prochaine connexion, et interdit de le retirer.</p>
       <label class="ch"><input type="checkbox" id="s2fa" ${S.config.exiger_2fa ? "checked" : ""}>
         Second facteur obligatoire pour tous</label>
-      <button id="s2save" style="margin-left:10px">Enregistrer</button></div>
+      <button id="s2save" style="margin-left:10px">Enregistrer</button>
+      <div id="s2h" aria-live="polite"></div></div>
     <div class="carte"><b>Webhooks</b>
       <p class="doux" style="margin:2px 0 8px">Comme ShipStation, la charge utile ne contient que l'URL de la ressource à rappeler.</p>
       <div class="barre"><select id="wev">${w.evenements.map(e => `<option>${e}</option>`).join("")}</select>
@@ -5129,10 +5195,39 @@ VUES.reglages = async () => {
       () => retraiter(false), `Retraiter ${num(derniereSim.touchees)} commande(s)`);
   };
 
+  // Hygiène des comptes — ce qui empêchera d'imposer le second facteur, montré avant qu'on
+  // essaie plutôt qu'en refus sec. Un compte sans adresse valide ne peut pas s'enrôler ;
+  // armer l'exigence sans le corriger, c'est le mettre dehors.
+  (async () => {
+    try {
+      const h = await api("/api/users/hygiene");
+      const ennuis = [
+        ...h.courriels_invalides.map(u => `${u.name} — courriel invalide (${u.email || "vide"})`),
+        ...h.homonymes.map(g => `${g.length} comptes nommés « ${g[0].name} » — les menus d'assignation deviennent ambigus`),
+      ];
+      $("#s2h").innerHTML = ennuis.length
+        ? `<div class="avis" style="margin-top:8px">À corriger avant d'imposer le second facteur :
+             <ul style="margin:4px 0 0 16px">${ennuis.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>`
+        : (h.sans_second_facteur.length && !h.exiger_2fa
+            ? `<div class="doux" style="font-size:12px;margin-top:6px">${num(h.sans_second_facteur.length)}
+                 compte(s) actif(s) sans second facteur — ils s'enrôleront à leur prochaine connexion.</div>`
+            : "");
+    } catch { /* l'écran reste utilisable sans le diagnostic */ }
+  })();
+
   $("#s2save").onclick = async () => {
-    await api("/api/settings", { method: "POST", body: { exiger_2fa: $("#s2fa").checked } });
+    try {
+      await api("/api/settings", { method: "POST", body: { exiger_2fa: $("#s2fa").checked } });
+    } catch (e) {
+      $("#s2fa").checked = !!S.config.exiger_2fa;   // rien n'a été écrit : l'affichage suit
+      const liste = (e.detail && e.detail.comptes) || [];
+      return dialogue("Second facteur non imposé",
+        `<div class="avis">${esc(e.message)}</div>${liste.length
+          ? `<ul style="margin:8px 0 0 16px">${liste.map(c => `<li>${esc(c)}</li>`).join("")}</ul>` : ""}`,
+        null, "Fermer");
+    }
     S.config = await api("/api/config");
-    alert($("#s2fa").checked
+    toast($("#s2fa").checked
       ? "Second facteur obligatoire. Chaque employé devra le configurer à sa prochaine connexion."
       : "Second facteur redevenu facultatif.");
   };
