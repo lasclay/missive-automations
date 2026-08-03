@@ -61,6 +61,19 @@
   .kpi .l { color:var(--doux); font-size:12px; margin-top:2px }
   .kpi.vert .v { color:var(--vert) } .kpi.ambre .v { color:var(--ambre) }
   .tbl { background:var(--carte); border:1px solid var(--bord); border-radius:9px; overflow:auto; max-height:66vh }
+  /*
+   * Piège de défilement — BUG-082.
+   *
+   * Un tableau à hauteur fixe posé au milieu d'une page longue capte la molette : on croit
+   * faire défiler la page et on fait défiler le tableau. Sur l'écran Réglages, cela rendait
+   * les blocs Sécurité, Webhooks et Migration — les plus sensibles — littéralement
+   * inatteignables à la souris, et `Fin` ne servait à rien puisque le conteneur défilant
+   * n'est pas le document. `overscroll-behavior: contain` rend la molette à la page dès que
+   * le tableau touche son extrémité ; les tableaux courts n'ont plus d'ascenseur du tout.
+   */
+  .tbl { overscroll-behavior:contain }
+  .ecranReglages .tbl { max-height:none }
+  .ecranReglages .tblLong { max-height:52vh }
   table { border-collapse:separate; border-spacing:0; width:100%; font-size:13px }
   th { position:sticky; top:0; background:var(--carte); border-bottom:1px solid var(--bord); text-align:left;
        padding:8px 10px; font-weight:600; white-space:nowrap; z-index:2; cursor:pointer }
@@ -174,8 +187,13 @@
   .pag { display:flex; gap:8px; align-items:center; padding:7px 10px; border-top:1px solid var(--bord); flex:none; font-size:12.5px }
   /* Lien d'export sans rien à exporter : visible mais inopérant, plutôt que disparu. */
   .inerte { opacity:.45; pointer-events:none; cursor:default }
+  .menuF .mi.inactifM { opacity:.42; cursor:default }
+  .menuF .mi.inactifM:hover { background:transparent }
   .permG { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:2px 12px; margin:6px 0 }
   .permL { padding:3px 0; font-size:12.5px }
+  .frais { font-size:11.5px; margin-left:2px; white-space:nowrap }
+  .ico.tourne { animation:tourner .8s linear infinite }
+  @keyframes tourner { to { transform:rotate(360deg) } }
   .vide2 { padding:60px 20px; text-align:center }
   .vide2 button { margin-top:12px }
   .vide3 { padding:28px 16px; color:var(--doux); font-size:13px }
@@ -580,7 +598,8 @@
     <nav class="mods" id="mods"></nav>
     <span class="droite">
       <input type="search" id="quick" placeholder="Recherche rapide  ( / )">
-      <button id="btMaj" class="ico" title="Mettre à jour les boutiques (U)">⟳</button>
+      <button id="btMaj" class="ico" title="Rafraîchir cet écran (U)" aria-label="Rafraîchir cet écran">⟳</button>
+      <span class="doux frais" id="hFrais" aria-live="polite"></span>
       <button id="hAlertes" class="ico" title="Alertes">🔔<span class="pastille" hidden></span></button>
       <button id="btProfil" class="profil" title="Profil"><span id="hMoi"></span> ▾</button>
       <button id="btReglages" class="ico" title="Réglages">⚙</button>
@@ -1333,7 +1352,9 @@ function menuAncre(ancre, entrees, { droite = false } = {}) {
   const m = el(`<div class="menuF" style="top:${r.bottom + 4}px;${pos}">${
     entrees.map((e, i) => e.sep ? '<div class="sep"></div>'
       : e.titre ? `<div class="mt">${esc(e.titre)}</div>`
-      : `<div class="mi ${e.danger ? "danger" : ""}" data-i="${i}">${esc(e.t)}${e.hk ? `<kbd>${e.hk}</kbd>` : ""}${
+      : `<div class="mi ${e.danger ? "danger" : ""}${e.inactif ? " inactifM" : ""}"
+           ${e.inactif ? `title="${esc(e.inactif)}" aria-disabled="true"` : `data-i="${i}"`}>${esc(e.t)}${
+          e.hk ? `<kbd>${e.hk}</kbd>` : ""}${
           e.n != null ? `<span class="cpt">${num(e.n)}</span>` : ""}</div>`).join("")}</div>`);
   document.body.append(m);
   m.querySelectorAll("[data-i]").forEach((d) => d.onclick = () => { m.remove(); entrees[d.dataset.i].f(); });
@@ -1902,6 +1923,9 @@ VUES.commandes = async (statutFixe) => {
   let generation = 0, enCours = null;
 
   async function charger() {
+    // L'écran a pu changer entre la frappe et l'échéance du minuteur anti-rebond : les
+    // champs qu'on s'apprête à lire n'existent alors plus. On abandonne au lieu de lever.
+    if (!$("#fq")) return;
     const ma = ++generation;
     if (enCours) enCours.abort();
     const ctrl = enCours = new AbortController();
@@ -2361,7 +2385,9 @@ VUES.commandes = async (statutFixe) => {
       : "aucune sélection";
     const bv = $("#nselVider");
     if (bv) bv.onclick = () => { S.sel.clear(); S.selHorsVue = []; charger(); };
-    ["aRate", "aPreset", "aPrint", "aTag", "aAssign", "aBuy", "aAutres", "aMasse", "aLotB",
+    // « Autres actions » reste ouvrable sans sélection : ses entrées globales — importer,
+    // exporter, scanner, préréglages — sont justement ce dont on a besoin sur un écran vide.
+    ["aRate", "aPreset", "aPrint", "aTag", "aAssign", "aBuy", "aMasse", "aLotB",
      "aPrelever", "aHold", "aAlloc"]
       .forEach((i) => { const b = $("#" + i); if (b) b.disabled = !n; });
     const e = etatAchat();
@@ -2495,24 +2521,37 @@ VUES.commandes = async (statutFixe) => {
     { sep: 1 }, { t: "Retirer l'assignation", f: async () => { await api("/api/orders/assign", { method: "POST", body: { ids: ids(), user_id: null } }); charger(); } },
   ]);
 
-  /** « Other Actions » (§2.2) — les douze entrées de ShipStation, dans son ordre. */
+  /**
+   * « Other Actions » (§2.2) — BUG-040.
+   *
+   * Le menu entier était désactivé tant qu'aucune ligne n'était cochée. Or `Importer des
+   * commandes` y vit : sur un écran à zéro commande — exactement le moment où l'on veut
+   * importer — la barre d'outils n'offrait plus aucun chemin. ShipStation garde `Other
+   * Actions` ouvrable en permanence et n'active que ce qui a du sens. Une entrée grisée dit
+   * pourquoi elle l'est ; une entrée absente se cherche.
+   */
+  const SANS_SELECTION = "Sélectionner au moins une commande";
   ACT.aAutres = () => menuFlottant("aAutres", [
-    { t: "Annuler les commandes…", danger: 1, f: annuler },
-    { t: "Fusionner les expéditions", f: fusionner },
-    { t: "Scinder la commande…", f: scinderSelection },
-    { t: "Marquer comme expédiée…", hk: "M+S", f: marquerExpedie },
-    { t: "Marquer comme expédiée en masse…", f: () => marquerExpedie(true) },
-    { t: "Rafraîchir les commandes sélectionnées", f: async () => {
+    { t: "Annuler les commandes…", danger: 1, inactif: S.sel.size ? null : SANS_SELECTION, f: annuler },
+    { t: "Fusionner les expéditions", inactif: S.sel.size > 1 ? null : "Sélectionner au moins deux commandes", f: fusionner },
+    { t: "Scinder la commande…", inactif: S.sel.size === 1 ? null : "Sélectionner une seule commande", f: scinderSelection },
+    { t: "Marquer comme expédiée…", hk: "M+S", inactif: S.sel.size ? null : SANS_SELECTION, f: marquerExpedie },
+    { t: "Marquer comme expédiée en masse…", inactif: S.sel.size ? null : SANS_SELECTION, f: () => marquerExpedie(true) },
+    { t: "Rafraîchir les commandes sélectionnées", inactif: S.sel.size ? null : SANS_SELECTION, f: async () => {
         attendre("Rafraîchissement");
         try { await api("/api/orders/refresh", { method: "POST", body: { ids: ids() } }); }
         finally { $("#dlg").close(); }
         charger();
       } },
+    // Les cinq entrées globales de ShipStation restent actives sans sélection.
     { t: "Importer des commandes…", f: () => importerShopify() },
-    { t: "Exporter les commandes (CSV)", f: () => window.open(`/api/export/orders?ids=${ids().join(",")}`, "_blank") },
-    { t: "Ajouter à un lot…", f: ajouterAuLot },
+    { t: S.sel.size ? "Exporter la sélection (CSV)" : "Exporter les commandes du filtre (CSV)",
+      f: () => window.open(S.sel.size
+        ? `/api/export/orders?ids=${ids().join(",")}`
+        : "/api/export/orders?" + new URLSearchParams(S0.vue ? { ...lire(), view_id: S0.vue } : lire()), "_blank") },
+    { t: "Ajouter à un lot…", inactif: S.sel.size ? null : SANS_SELECTION, f: ajouterAuLot },
     { t: "Recherche par code-barres…", f: () => aller("scan") },
-    { t: "Valider les adresses", f: async () => {
+    { t: "Valider les adresses", inactif: S.sel.size ? null : SANS_SELECTION, f: async () => {
         const r = await api("/api/orders/validate-address", { method: "POST", body: { ids: ids() } });
         dialogue("Validation d'adresse", `<p>${num(r.ok || 0)} validée(s), ${num(r.avertissements || 0)}
           avertissement(s), ${num(r.erreurs || 0)} en erreur.</p>`, null, "Fermer");
@@ -2521,9 +2560,9 @@ VUES.commandes = async (statutFixe) => {
     { t: "Gérer les préréglages…", f: () => aller("prereglages") },
     { sep: 1 },
     // Au-delà des douze : ce que ShipStation n'offre pas et qui sert ici tous les jours.
-    { t: "Retirer du lot", f: async () => { await api("/api/batches/remove", { method: "POST", body: { ids: ids() } }); S.sel.clear(); charger(); majLots(); } },
-    { t: "Remettre en file", f: async () => { await api("/api/orders/restore", { method: "POST", body: { ids: ids() } }); S.sel.clear(); charger(); rafraichirCompteurs(); } },
-    { t: "Simuler le lot (coût et blocages)", f: simulerLot },
+    { t: "Retirer du lot", inactif: S.sel.size ? null : SANS_SELECTION, f: async () => { await api("/api/batches/remove", { method: "POST", body: { ids: ids() } }); S.sel.clear(); charger(); majLots(); } },
+    { t: "Remettre en file", inactif: S.sel.size ? null : SANS_SELECTION, f: async () => { await api("/api/orders/restore", { method: "POST", body: { ids: ids() } }); S.sel.clear(); charger(); rafraichirCompteurs(); } },
+    { t: "Simuler le lot (coût et blocages)", inactif: S.sel.size ? null : SANS_SELECTION, f: simulerLot },
     { t: "Rejouer l'automatisation (simulation)", f: () => rejouerAutomatisation(true) },
   ]);
 
@@ -4293,6 +4332,7 @@ VUES.clients = async () => {
   $("#ctri").value = S0.tri;
 
   async function charger() {
+    if (!$("#cq")) return;          // écran quitté entre-temps
     const p = new URLSearchParams({ q: $("#cq").value, sort: S0.tri,
       limit: S0.taille, offset: S0.page * S0.taille });
     const d = await api("/api/customers?" + p);
@@ -5152,6 +5192,7 @@ VUES.reglages = async () => {
   const w = await api("/api/webhooks");
   const L = await api("/api/lasclay");
   const sh = await api("/api/shopify");
+  $("#vue").classList.add("ecranReglages");
   $("#vue").innerHTML = `<h1>Réglages</h1>
     <div class="carte"><b>Configuration ShipStation de Lasclay</b>
       <p class="doux" style="margin:2px 0 8px">Règles d'automatisation, vues sauvegardées, préréglages,
@@ -5188,17 +5229,6 @@ VUES.reglages = async () => {
             ${num(L.presets)} préréglages et ${num(L.mappings)} mappings avant de les réécrire</span>
         </div>
       </details></div>
-    <div class="carte"><b>Import Shopify</b>
-      <p class="doux" style="margin:2px 0 8px">${sh.configure
-        ? `Boutique <b>${esc(sh.boutique)}</b> · ${num(sh.commandes)} commandes importées ·
-           dernier passage ${sh.dernier_import ? esc(sh.dernier_import.slice(0, 16).replace("T", " ")) : "jamais"} ·
-           synchronisation ${sh.sync_minutes ? `toutes les ${sh.sync_minutes} min` : "désactivée"}`
-        : `Non configuré — il manque <code>SHOPIFY_STORE</code> et <code>SHOPIFY_CLIENT_ID</code> /
-           <code>SHOPIFY_CLIENT_SECRET</code> (les mêmes que support.js et A2X).`}</p>
-      <div class="barre">
-        <button class="p" id="shImp" ${sh.configure ? "" : "disabled"}>Importer maintenant…</button>
-        <button id="shRattraper" ${sh.configure ? "" : "disabled"}>Rattraper depuis le dernier passage</button>
-      </div></div>
     <div class="carte"><b>Automatisation — retraitement</b>
       <p class="doux" style="margin:2px 0 8px">Rejoue les défauts produit, le mapping de service et les
       règles sur les commandes ouvertes. ShipStation avertissait que cela « peut écraser les réglages
@@ -5250,8 +5280,17 @@ VUES.reglages = async () => {
     <div class="carte"><b>Migration depuis ShipStation</b>
       <p class="doux" style="margin:2px 0 8px">Dernière : ${s.derniere_migration ? jour(s.derniere_migration) : "jamais"}.
       À lancer <b>avant toute résiliation</b> — l'accès API disparaît avec l'abonnement.</p>
-      <button class="p" id="mig">Lancer la migration</button>
-      <span class="doux" style="margin-left:8px">peut prendre plusieurs minutes</span></div>`;
+      <details class="zoneDanger">
+        <summary>Lancer la migration — écrit dans onze tables</summary>
+        <p class="doux">Commandes, lignes, expéditions, lots, exécutions, produits, clients,
+          retours et référentiels. Sur le compte Lasclay, cela représente environ 38 800
+          commandes et 13 minutes. La même opération se joue d'abord sur une copie en ligne
+          de commande : <code>node migrer.js --recette</code>.</p>
+        <div class="barre">
+          <button type="button" id="mig">Lancer la migration…</button>
+          <span class="doux">faire une sauvegarde relue d'abord</span>
+        </div>
+      </details></div>`;
   $("#ssave").onclick = async () => {
     await api("/api/settings", { method: "POST", body: { marque: { nom: $("#sn").value, courriel: $("#se").value,
       adresse: $("#sa").value, logo: $("#sl").value || null, message_bordereau: $("#sm").value } } });
@@ -5260,7 +5299,7 @@ VUES.reglages = async () => {
   // --- préréglages d'expédition
   const { presets: lp } = await api("/api/presets");
   $("#cprec").innerHTML = `
-    ${lp.length ? `<div class="tbl" style="max-height:200px;margin-bottom:8px"><table>
+    ${lp.length ? `<div class="tbl" style="margin-bottom:8px"><table>
       <thead><tr><th>Nom</th><th>Transporteur</th><th>Service</th><th>Colis</th><th class="n">Poids</th><th></th></tr></thead>
       <tbody>${lp.map(p => `<tr><td>${esc(p.name)}${p.is_default ? ' <span class="puce v">défaut</span>' : ""}</td>
         <td>${esc(p.carrier_code || "—")}</td><td>${esc(p.service_id || "—")}</td>
@@ -5316,11 +5355,12 @@ VUES.reglages = async () => {
       ${sh.webhooks_erreur ? `<div class="avis">${esc(sh.webhooks_erreur)}</div>` : ""}
       <div class="barre">
         <button class="p" id="shpull">Rattraper les commandes…</button>
+        <button id="shRattraper" ${sh.configure ? "" : "disabled"}>Rattraper depuis le dernier passage</button>
         <button id="shhook">Abonner aux webhooks</button>
         <button id="shone">Importer une commande…</button>
         <button id="shbout">Réattribuer les boutiques…</button>
       </div>
-      ${abonnes.length ? `<div class="tbl" style="max-height:150px"><table><tbody>${
+      ${abonnes.length ? `<div class="tbl"><table><tbody>${
         abonnes.map(w => `<tr><td>${esc(w.topic)}</td><td class="doux">${esc(w.url)}</td></tr>`).join("")
       }</tbody></table></div>` : ""}`;
 
@@ -5374,7 +5414,7 @@ VUES.reglages = async () => {
         <p><b>${num(essai.mouvements)}</b> commande(s) changeraient de boutique.
           ${essai.fantomes.length ? `La boutique
           ${essai.fantomes.map(f => `« ${esc(f.name)} »`).join(", ")} sera supprimée une fois vidée.` : ""}</p>
-        <div class="tbl" style="max-height:190px"><table>
+        <div class="tbl tblLong"><table>
           <thead><tr><th scope="col">Boutique</th><th scope="col" class="n">À expédier</th></tr></thead>
           <tbody>${rep(essai.avant)}</tbody></table></div>
         ${essai.mouvements ? '<p class="avis">Faire une sauvegarde vérifiée avant d\'appliquer.</p>' : ""}`,
@@ -5445,11 +5485,17 @@ VUES.reglages = async () => {
     async () => { await api("/api/lasclay/charger", { method: "POST", body: { remplacer: true } });
       S.refs = await api("/api/refs"); VUES.reglages(); }, "Réinitialiser");
 
-  $("#shImp").onclick = importerShopify;
-  $("#shRattraper").onclick = async () => {
-    const r = await api("/api/shopify/rattraper", { method: "POST", body: {} });
-    alert(`${r.traitees} commande(s) traitée(s), ${r.nouvelles} nouvelle(s).`);
-    rafraichirCompteurs(); VUES.reglages();
+  // Deux cartes « Import Shopify » coexistaient sur cet écran, l'une résumé de l'autre.
+  // La complète a gardé les deux boutons de la petite.
+  const btRat = $("#shRattraper");
+  if (btRat) btRat.onclick = async () => {
+    btRat.disabled = true;
+    try {
+      const r = await api("/api/shopify/rattraper", { method: "POST", body: {} });
+      toast(`${num(r.traitees)} commande(s) traitée(s), ${num(r.nouvelles)} nouvelle(s).`);
+      rafraichirCompteurs(); VUES.reglages();
+    } catch (e) { dialogue("Rattrapage impossible", `<div class="avis">${esc(e.message)}</div>`, null, "Fermer"); }
+    finally { btRat.disabled = false; }
   };
 
   // BUG-084 — « Retraiter » était en primaire et « Simuler » en secondaire : l'écran invitait
@@ -5533,9 +5579,14 @@ VUES.reglages = async () => {
     catch (e) { alert(e.message); }
   };
   $("#mig").onclick = () => dialogue("Migration depuis ShipStation",
-    `<p>Récupère commandes, expéditions, fulfillments, produits et référentiels par le General Proxy.</p>
+    `<p>Récupère commandes, expéditions, exécutions, lots, produits, clients, retours et
+       référentiels par le General Proxy, et les écrit dans cette base.</p>
      <label class="champ"><span>Depuis (facultatif, AAAA-MM-JJ)</span><input id="mdd" placeholder="2025-08-01"></label>
-     <div class="avis info">Long — plusieurs minutes selon le volume. La fenêtre peut rester ouverte.</div>`,
+     <div class="avis">Rien n'est supprimé — les objets existants sont mis à jour par leur clé
+       d'origine. Mais c'est une écriture de masse : <b>faire une sauvegarde et la relire</b>
+       (<code>/api/backup</code> puis <code>/api/backup/verifier</code>) avant de lancer.</div>
+     <div class="avis info">Long — comptez une dizaine de minutes sur l'historique complet.
+       La fenêtre peut rester ouverte, la migration continue côté serveur.</div>`,
     async () => {
       $("#dlgC").innerHTML = '<p class="doux">Migration en cours…</p>';
       try {
@@ -5661,6 +5712,9 @@ async function rafraichirCompteurs() {
  */
 async function rendre() {
   document.body.dataset.page = S.page;
+  // La classe d'écran est posée par la vue qui en a besoin ; on la retire ici pour qu'elle
+  // ne survive pas à un changement de page.
+  $("#vue").classList.remove("ecranReglages");
   $("#vue").innerHTML = squelette();
   try {
     await (VUES[S.page] || VUES.commandes)();
@@ -5891,7 +5945,7 @@ const RACCOURCIS = {
   "p s": ["Imprimer les bordereaux", () => S.sel.size && window.open(`/api/packing-slip?ids=${[...S.sel].join(",")}`, "_blank")],
   "p l": ["Imprimer la liste de prélèvement", () => S.sel.size && window.open(`/api/pick-list?ids=${[...S.sel].join(",")}`, "_blank")],
   "o r": ["Recharger la grille", () => S.cmdCharger?.()],
-  "u": ["Mettre à jour les boutiques (Shopify)", importerShopify],
+  "u": ["Rafraîchir cet écran", () => $("#btMaj").click()],
   "v": ["Ouvrir le détail", () => S.sel.size && detailCommande(Number([...S.sel][0]))],
   "r": ["Coter la sélection", () => S.cmdActions?.coter()],
   // BUG-010 — « b » appelait `acheterLot()`, la même fonction que « s ». Inoffensif tant que
@@ -5910,7 +5964,7 @@ const RACCOURCIS = {
  * de commande est ouverte : appuyer sur « s » en remplissant un formulaire ne doit pas acheter
  * les étiquettes de la grille qu'on ne voit plus (BUG-026).
  */
-const RACCOURCIS_MUTANTS = new Set(["s", "b", "u", "m s", "v", "p"]);
+const RACCOURCIS_MUTANTS = new Set(["s", "b", "m s", "v", "p"]);
 const contexteModal = () => !!(document.querySelector("#dlg[open]") || document.querySelector("#fiche"));
 
 let prefixe = null, minuteurPrefixe = null;
@@ -6277,7 +6331,41 @@ async function demarrer() {
   $("#hMoi").textContent = S.moi.name;
   $("#btMarque").onclick = () => aller("analytique");
   $("#btAide").onclick = aideRaccourcis;
-  $("#btMaj").onclick = importerShopify;
+  /**
+   * ⟳ rafraîchit, point — BUG-071.
+   *
+   * Il ouvrait la modale « Importer depuis Shopify », c'est-à-dire un bouton **mutant** à un
+   * clic d'une flèche circulaire. Sur l'écran Analytique, où l'on cherche précisément à
+   * rafraîchir des chiffres périmés, c'était un piège. L'import garde son entrée, dans
+   * « Autres actions » et dans les réglages, là où l'on va quand on veut importer.
+   */
+  $("#btMaj").onclick = async () => {
+    const b = $("#btMaj");
+    b.disabled = true; b.classList.add("tourne");
+    try {
+      await rafraichirCompteurs();
+      // Chaque écran sait se recharger ; à défaut on rejoue le rendu de la page courante.
+      if (S.rafraichirEcran) await S.rafraichirEcran();
+      else if (VUES[S.page]) await VUES[S.page]();
+      majFraicheur();
+    } finally { b.disabled = false; b.classList.remove("tourne"); }
+  };
+
+  /** Depuis quand ce qui est à l'écran date — l'information manquait entièrement. */
+  let derniereMaj = Date.now();
+  function majFraicheur() {
+    derniereMaj = Date.now();
+    const e = $("#hFrais");
+    if (e) e.textContent = "à l'instant";
+  }
+  setInterval(() => {
+    const e = $("#hFrais");
+    if (!e) return;
+    const s = Math.round((Date.now() - derniereMaj) / 1000);
+    e.textContent = s < 45 ? "à l'instant"
+      : s < 3600 ? `il y a ${Math.round(s / 60)} min`
+      : `il y a ${Math.round(s / 3600)} h`;
+  }, 20000);
   $("#hAlertes").onclick = () => aller("alertes");
   $("#btProfil").onclick = (e) => { e.stopPropagation(); menuProfil($("#btProfil")); };
   $("#btReglages").onclick = (e) => { e.stopPropagation(); menuReglages($("#btReglages")); };
