@@ -4722,6 +4722,7 @@ const LIBELLE_CONFIG = {
   entrepots: "Emplacements d'expédition", boutiques: "Boutiques", services: "Services transporteur",
   colis: "Types de colis", etiquettes: "Étiquettes", presets: "Préréglages d'expédition",
   regles: "Règles d'automatisation", vues: "Vues sauvegardées", mappings: "Mappings de service",
+  groupes: "Groupes de préréglages produit",
 };
 
 VUES.reglages = async () => {
@@ -4735,7 +4736,7 @@ VUES.reglages = async () => {
       types de colis, étiquettes, emplacements et mappings de service. Aucun de ces objets n'a de point
       de terminaison dans l'API ShipStation : ils viennent de la spécification relevée le 31/07/2026.</p>
       <div class="tbl" style="max-height:none"><table><tbody>
-        ${["entrepots", "boutiques", "services", "colis", "etiquettes", "presets", "regles", "vues", "mappings"].map((k) => {
+        ${["entrepots", "boutiques", "services", "colis", "etiquettes", "presets", "groupes", "regles", "vues", "mappings"].map((k) => {
           // BUG-033 — « boutiques 12 sur 11 » était peint en vert « complet ». Un excédent
           // n'est pas une réussite : c'est un doublon ou un objet parasite, et il se traite.
           const i = indicateur(L[k], { total: L.attendus[k] });

@@ -214,6 +214,37 @@ const MAPPINGS = [
   { requested: "DDD", channel: "ddd", carrier_code: null, service_id: null, package_id: null },
 ].map((m, i) => ({ store_id: 198670, match_mode: "contains", position: i + 1, ...m }));
 
+/**
+ * Groupes de préréglages produit — § 5.4 de la spécification, BUG-006.
+ *
+ * Ce sont la **source unique des poids et dimensions par défaut** de Lasclay : sans eux,
+ * aucune cotation n'est fiable, et les couches 3 et 4 de l'automatisation sont inertes.
+ * L'API ShipStation ne les expose pas — comme les règles et les vues, ils n'existent que
+ * dans l'interface, d'où leur transcription ici.
+ *
+ * Les valeurs sont reprises telles quelles, y compris le code SH vide de « Mitaines Seules »
+ * et la convention « Modeling pastes » des bombes semencières, qui reste à faire valider par
+ * un courtier en douane.
+ */
+const GROUPES_PRESETS = [
+  { id: 1266, name: "Mitaines Seules", settings: {
+      weight_g: 200, dimensions: { length: 7, width: 12, height: 2.25, unit: "in" },
+      package_id: "115317", confirmation: "5",
+      customs: { description: "Mittens", value: 99.99, country_of_origin: "CA", hs_code: null },
+      note: "Code SH vide chez ShipStation — à compléter avant tout envoi international." } },
+  { id: 1267, name: "Sac Lunch", settings: {
+      weight_g: 460, dimensions: { length: 12, width: 6, height: 6, unit: "in" },
+      package_id: "115209", confirmation: "1", customs: {} } },
+  { id: 1274, name: "Petit Article Seul", settings: {
+      weight_g: 70, dimensions: { length: 7.5, width: 12, height: 1.5, unit: "in" },
+      package_id: "115317", confirmation: "1", customs: {} } },
+  { id: 2512, name: "Seed bombs", settings: {
+      weight_g: 200, dimensions: { length: 6, width: 9, height: 1, unit: "in" },
+      package_id: null, confirmation: null,
+      customs: { description: "Modeling pastes", value: 8, hs_code: "3407.00", country_of_origin: "CA" },
+      note: "Classement hérité, à revalider avec un courtier : ce sont des bombes semencières." } },
+];
+
 // ================================================================== règles
 
 const SERVICES_CP_CANADA = ["98", "99", "100", "101", "102",
@@ -597,6 +628,13 @@ function charger({ remplacer = false, journal = () => {} } = {}) {
     bilan.mappings = MAPPINGS.length;
 
     const templates = require("./templates");
+    // Groupes de préréglages : la source des poids par défaut (BUG-006).
+    for (const g of GROUPES_PRESETS) {
+      run(`INSERT INTO preset_groups (id, name, settings) VALUES (?,?,?)
+           ON CONFLICT(id) DO UPDATE SET name = excluded.name, settings = excluded.settings`,
+        g.id, g.name, dump(g.settings));
+    }
+
     for (const g of GABARITS) {
       const existant = one("SELECT id FROM templates WHERE name = ? AND kind = ?", g.name, g.kind);
       templates.sauver(existant ? { ...g, id: existant.id } : g);
@@ -641,13 +679,15 @@ const etat = () => ({
   regles: one("SELECT COUNT(*) n FROM rules").n,
   vues: one("SELECT COUNT(*) n FROM views WHERE scope = 'orders'").n,
   mappings: one("SELECT COUNT(*) n FROM service_mappings").n,
+  groupes: one("SELECT COUNT(*) n FROM preset_groups").n,
   attendus: { entrepots: ENTREPOTS.length, boutiques: BOUTIQUES.length, services: SERVICES_CP.length,
     colis: COLIS.length, etiquettes: ETIQUETTES.length, presets: PRESETS.length,
-    regles: REGLES.length, vues: VUES.length, mappings: MAPPINGS.length },
+    regles: REGLES.length, vues: VUES.length, mappings: MAPPINGS.length,
+    groupes: GROUPES_PRESETS.length },
 });
 
 module.exports = {
   ENTREPOTS, BOUTIQUES, TRANSPORTEURS, SERVICES_CP, CONFIRMATIONS, COLIS, ETIQUETTES,
-  PRESETS, MAPPINGS, REGLES, VUES, REGLAGES, GABARITS, LISTE_E,
+  PRESETS, MAPPINGS, REGLES, VUES, REGLAGES, GABARITS, LISTE_E, GROUPES_PRESETS,
   charger, etat,
 };

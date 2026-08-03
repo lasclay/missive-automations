@@ -148,7 +148,15 @@ function reconstruireClients() {
              last_order = excluded.last_order`,
         l.email, l.name, l.adresse, l.store_id, l.n, l.total, l.premiere, l.derniere);
     }
-    journaliser("customers.rebuild", "customer", null, { n: lignes.length });
+    // BUG-024 — `customer_id` était nul sur 100 % des commandes : le service après-vente ne
+    // pouvait pas remonter l'historique d'un client, et une réexpédition demandait de
+    // rechercher à la main. Le rattachement se fait ici, une fois les clients consolidés.
+    const rattachees = run(`UPDATE orders SET customer_id = (
+        SELECT c.id FROM customers c WHERE lower(c.email) = lower(orders.customer_email))
+      WHERE customer_email IS NOT NULL AND customer_email <> ''
+        AND (customer_id IS NULL OR customer_id NOT IN (SELECT id FROM customers))`).changes;
+
+    journaliser("customers.rebuild", "customer", null, { n: lignes.length, commandes_rattachees: rattachees });
     return lignes.length;
   });
 }
