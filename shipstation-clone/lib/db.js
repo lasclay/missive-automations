@@ -271,6 +271,24 @@ CREATE TABLE IF NOT EXISTS webhooks (
   store_id INTEGER, friendly_name TEXT, active INTEGER DEFAULT 1, created_at TEXT
 );
 
+-- Journal de livraison des webhooks (exigences G1 à G3).
+-- ShipStation n'offre aucune garantie de redélivrance — « do not assume you will receive
+-- every webhook ». Ici chaque tentative est tracée et rejouable : sans journal, un abonné
+-- qui a raté un événement n'a aucun moyen de le savoir, ni de le récupérer.
+CREATE TABLE IF NOT EXISTS webhook_livraisons (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  webhook_id INTEGER REFERENCES webhooks(id) ON DELETE CASCADE,
+  event_id TEXT NOT NULL,            -- identifiant d'événement, stable entre les tentatives
+  event TEXT NOT NULL,
+  payload TEXT NOT NULL,             -- la charge utile COMPLÈTE, telle qu'envoyée
+  tentative INTEGER DEFAULT 1,
+  statut_http INTEGER, reponse TEXT, erreur TEXT,
+  reussi INTEGER DEFAULT 0,
+  cree_le TEXT, prochaine_tentative TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_wl_webhook ON webhook_livraisons(webhook_id, cree_le);
+CREATE INDEX IF NOT EXISTS idx_wl_retry ON webhook_livraisons(prochaine_tentative) WHERE reussi = 0;
+
 CREATE TABLE IF NOT EXISTS notifications (
   id INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT, order_id INTEGER, shipment_id INTEGER,
   recipient TEXT, subject TEXT, body TEXT, sent_at TEXT, status TEXT DEFAULT 'queued', error TEXT
@@ -351,6 +369,8 @@ const AJOUTS = [
   ["orders", "shipping_account", "TEXT"],      // my_account | third_party | recipient
   ["orders", "buyer_id", "TEXT"],
   ["orders", "premium_programs", "TEXT"],
+  // Secret de signature par abonnement (exigence G2) : rotatif, propre à chaque cible.
+  ["webhooks", "secret", "TEXT"],
 ];
 
 /**

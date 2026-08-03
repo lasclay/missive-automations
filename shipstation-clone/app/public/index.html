@@ -5002,14 +5002,100 @@ VUES.reglages = async () => {
 };
 
 // ----------------------------------------------------------------- journal
+/**
+ * Phrases du journal d'audit — BUG-043, BUG-079.
+ *
+ * L'écran affichait du JSON brut : `order.update — {"order_number":"#2270"}`. ShipStation
+ * écrit des phrases, et c'est ce qu'on lit quand un client demande où en est sa commande.
+ * Le nom de l'auteur manquait aussi, alors que l'écran promettait « qui a fait quoi ».
+ */
+const PHRASES_JOURNAL = {
+  "order.create": (d) => `Commande ${d.order_number || ""} créée`,
+  "order.update": (d) => `Commande ${d.order_number || ""} modifiée`,
+  "order.bulk": (d) => `${d.n} commande${d.n > 1 ? "s" : ""} mise${d.n > 1 ? "s" : ""} à jour — ${(d.champs || []).join(", ")}`,
+  "order.configure": (d) => `${d.n} commande${d.n > 1 ? "s" : ""} reconfigurée${d.n > 1 ? "s" : ""} (${d.champs} champ${d.champs > 1 ? "s" : ""})`,
+  "order.status": (d) => `Statut passé à « ${STATUT_FR[d.status] || d.status} »`,
+  "order.hold": (d) => `Mise en attente jusqu'au ${jour(d.hold_until)}`,
+  "order.cancel": (d) => `${d.n || 1} commande${(d.n || 1) > 1 ? "s" : ""} annulée${(d.n || 1) > 1 ? "s" : ""}`,
+  "order.tag": (d) => `Étiquette ${d.remove ? "retirée" : "appliquée"} sur ${d.n || 1} commande(s)`,
+  "order.customs": (d) => `${d.n} déclaration${d.n > 1 ? "s" : ""} de douane enregistrée${d.n > 1 ? "s" : ""}`,
+  "batch.add": (d) => `${d.n} commande${d.n > 1 ? "s" : ""} ajoutée${d.n > 1 ? "s" : ""} au lot ${d.nom ? `« ${d.nom} »` : ""}`,
+  "batch.cancel": (d) => `Lot annulé — ${d.commandes_liberees} commande(s) libérée(s)`,
+  "batch.update": (d) => d.notes !== undefined ? "Note du lot modifiée" : "Lot renommé",
+  "label.buy": (d) => `Étiquette ${d.tracking || ""} achetée — ${money(d.cout || 0)}`,
+  "label.void": (d) => `Étiquette ${d.tracking || ""} annulée`,
+  "backup.export": (d) => `Sauvegarde exportée — ${num(d.enregistrements || 0)} enregistrements, ${d.tables} tables`,
+  "export.csv": (d) => `Export « ${d.jeu} » — ${num(d.lignes)} ligne(s)${d.tronque ? " (tronqué)" : ""}`,
+  "webhook.emit": (d) => `Événement ${d.event} émis vers ${(d.resultats || []).length} abonné(s)`,
+  "webhook.subscribe": (d) => `Abonnement ${d.event} vers ${d.target_url}`,
+  "rules.apply": (d) => `Automatisation rejouée sur ${d.n || 0} commande(s)`,
+  "shopify.webhook": () => "Commande reçue de Shopify",
+  "shopify.import": (d) => `Import Shopify — ${d.nouvelles || 0} nouvelle(s), ${d.traitees || 0} traitée(s)`,
+};
+
+function phraseJournal(r) {
+  const d = r.detail || {};
+  const f = PHRASES_JOURNAL[r.action];
+  if (f) { try { return f(d); } catch { /* on retombe sur la forme générique */ } }
+  // Forme générique lisible : « action — clé : valeur, clé : valeur ».
+  const paires = Object.entries(d)
+    .filter(([, v]) => v !== null && v !== undefined && typeof v !== "object")
+    .map(([k, v]) => `${k.replace(/_/g, " ")} : ${v}`).join(", ");
+  return `${r.action}${paires ? ` — ${paires}` : ""}`;
+}
+
 VUES.journal = async () => {
-  const { rows } = await api("/api/audit?limit=300");
-  $("#vue").innerHTML = `<h1>Journal</h1><p class="sous">Qui a fait quoi — ShipStation n'expose pas ça par API, nous si.</p>`;
-  $("#vue").append(table([
-    { k: "at", t: "Quand", r: r => String(r.at).slice(0, 19).replace("T", " ") },
-    { k: "action", t: "Action" }, { k: "entity", t: "Objet" }, { k: "entity_id", t: "Réf." },
-    { k: "detail", t: "Détail", r: r => `<span class="doux">${esc(JSON.stringify(r.detail || "")).slice(0, 90)}</span>` },
-  ], rows));
+  const S0 = S.journal = S.journal || { page: 0, taille: 100, q: "", action: "" };
+  $("#vue").innerHTML = `<h1>Journal d'audit</h1>
+    <p class="sous">Qui a fait quoi, et quand. ShipStation n'expose pas cet historique — ni par
+      API, ni dans son interface.</p>
+    <div class="barre" style="margin-bottom:10px">
+      <label class="visuellement-cache" for="jq">Rechercher</label>
+      <input id="jq" type="search" placeholder="Rechercher (objet, référence, auteur)…" style="min-width:280px">
+      <label class="visuellement-cache" for="ja">Filtrer par action</label>
+      <select id="ja"><option value="">Toutes les actions</option></select>
+      <button type="button" id="jExp">Exporter (CSV)</button>
+      <span class="doux" id="jN"></span>
+    </div>
+    <div id="jT"></div>
+    <div class="pag" id="jP"></div>`;
+
+  async function charger() {
+    const p = new URLSearchParams({ limit: S0.taille, offset: S0.page * S0.taille,
+      q: S0.q, action: S0.action });
+    let d;
+    try { d = await api("/api/audit?" + p); }
+    catch (e) { $("#jT").innerHTML = ""; $("#jT").append(panneauErreur(e, charger)); return; }
+
+    $("#jN").textContent = `${num(d.total)} entrée${d.total > 1 ? "s" : ""}`;
+    const sel = $("#ja");
+    if (sel.options.length === 1 && d.actions) {
+      sel.innerHTML = '<option value="">Toutes les actions</option>' +
+        d.actions.map((a) => `<option value="${esc(a.action)}">${esc(a.action)} (${num(a.n)})</option>`).join("");
+      sel.value = S0.action;
+    }
+    $("#jT").innerHTML = "";
+    $("#jT").append(table([
+      { k: "at", t: "Quand", r: (r) => String(r.at).slice(0, 19).replace("T", " ") },
+      { k: "qui", t: "Qui", r: (r) => esc(r.qui || "Système") },
+      { k: "phrase", t: "Ce qui s'est passé", r: (r) => esc(phraseJournal(r)) },
+      { k: "entity", t: "Objet", r: (r) => r.entity ? `${esc(r.entity)}${r.entity_id ? ` #${esc(r.entity_id)}` : ""}` : "" },
+    ], d.rows));
+
+    const debut = S0.page * S0.taille;
+    $("#jP").innerHTML = `<span class="doux">${num(debut + 1)}–${num(Math.min(debut + d.rows.length, d.total))} sur ${num(d.total)}</span>
+      <button type="button" id="jPrec" ${S0.page ? "" : "disabled"}>← Précédent</button>
+      <button type="button" id="jSuiv" ${debut + d.rows.length >= d.total ? "disabled" : ""}>Suivant →</button>`;
+    $("#jPrec").onclick = () => { S0.page--; charger(); };
+    $("#jSuiv").onclick = () => { S0.page++; charger(); };
+  }
+
+  let deb;
+  $("#jq").oninput = () => { clearTimeout(deb); deb = setTimeout(() => { S0.q = $("#jq").value; S0.page = 0; charger(); }, 250); };
+  $("#ja").onchange = () => { S0.action = $("#ja").value; S0.page = 0; charger(); };
+  $("#jExp").onclick = () => window.open("/api/export/audit?" + new URLSearchParams({ q: S0.q, action: S0.action }), "_blank", "noopener,noreferrer");
+  $("#jq").value = S0.q;
+  await charger();
 };
 
 // ══════════════════════════════════════════════════════════════════ amorçage

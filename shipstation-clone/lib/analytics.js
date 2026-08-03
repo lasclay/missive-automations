@@ -115,9 +115,17 @@ const delaiTraitement = () => one(
    WHERE s.voided = 0 AND s.ship_date IS NOT NULL AND o.order_date IS NOT NULL`);
 
 /** Export CSV d'un jeu de lignes — l'export brut de ShipStation. */
-function csv(lignes) {
-  if (!lignes.length) return "";
-  const cols = Object.keys(lignes[0]);
+/**
+ * Sérialisation CSV — BUG-057.
+ *
+ * L'ancienne version rendait une chaîne **vide** quand le jeu était vide : six exports sur
+ * neuf produisaient un fichier de 3 octets (le seul BOM), sans même une ligne d'en-tête. On
+ * ne pouvait donc pas distinguer « aucune donnée » de « l'export a échoué ». Les colonnes
+ * peuvent désormais être déclarées, ce qui garantit un en-tête même sur un jeu vide.
+ */
+function csv(lignes, colonnes = null) {
+  const cols = colonnes || (lignes.length ? Object.keys(lignes[0]) : []);
+  if (!cols.length) return "";
   const esc = (v) => {
     const s = v === null || v === undefined ? "" : String(v);
     return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;

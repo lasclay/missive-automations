@@ -921,7 +921,30 @@ route("GET /api/analytics/dropoff", ({ url }) => analytics.economieDropOff({
   tarif: Number(q(url).tarif) || db.reglage("tarif_dropoff_cible", 6.31), ...q(url) }));
 
 /** Export CSV — l'export brut de ShipStation. */
-route("GET /api/export/:quoi", ({ params, url, res }) => {
+/**
+ * Colonnes déclarées de chaque export. Elles garantissent un en-tête même sur un jeu vide,
+ * et fixent l'ordre — un CSV dont les colonnes changent d'ordre casse tous les tableurs qui
+ * s'en nourrissent.
+ */
+const COLONNES_EXPORT = {
+  orders: ["commande", "date", "statut", "client", "courriel", "ville", "province", "pays",
+    "poids_g", "total", "service_demande"],
+  shipments: ["commande", "suivi", "transporteur", "service", "date", "cout", "drop_off",
+    "annulee", "retour"],
+  products: ["sku", "nom", "poids_g", "code_sh", "origine", "description_douane", "actif"],
+  customers: ["courriel", "nom", "telephone", "commandes", "total", "premiere", "derniere"],
+  batches: ["lot", "nom", "cree", "etiquettes", "cout", "statut"],
+  returns: ["rma", "commande", "client", "motif", "resolution", "statut", "demande", "clos"],
+  manifests: ["manifeste", "transporteur", "date", "expeditions", "statut"],
+  "shipping-cost": ["commande", "date_commande", "date_envoi", "transporteur", "service",
+    "poids_g", "cout_reel", "frais_encaisses", "ecart", "drop_off", "pays"],
+  "order-items": ["commande", "date", "sku", "article", "qte", "prix", "poids_g", "statut"],
+  audit: ["quand", "qui", "action", "objet", "reference", "detail"],
+};
+
+const PLAFONDS_EXPORT = { "order-items": 10000, "shipping-cost": 5000, audit: 20000 };
+
+route("GET /api/export/:quoi", ({ params, url, res, user }) => {
   const f = q(url);
   const jeux = {
     orders: () => orders.chercher({ ...f, limit: 1000 }).orders.map((o) => ({
@@ -955,6 +978,23 @@ route("GET /api/export/:quoi", ({ params, url, res }) => {
              json_extract(s.ship_to,'$.country') pays
       FROM shipments s JOIN orders o ON o.id = s.order_id
       WHERE s.voided = 0 ORDER BY s.ship_date DESC LIMIT 5000`),
+    /** Journal d'audit — exportable, comme tout le reste. */
+    audit: () => {
+      const w = [], v = [];
+      if (f.action) { w.push("a.action = ?"); v.push(f.action); }
+      if (f.q) {
+        const like = `%${String(f.q).toLowerCase()}%`;
+        w.push(`(lower(a.entity) LIKE ? OR lower(a.entity_id) LIKE ? OR lower(a.detail) LIKE ?
+                 OR lower(COALESCE(u.name,'')) LIKE ? OR lower(a.action) LIKE ?)`);
+        v.push(like, like, like, like, like);
+      }
+      return db.all(`SELECT a.at quand, COALESCE(u.name,'Système') qui, a.action,
+                            a.entity objet, a.entity_id reference, a.detail
+                     FROM audit_log a LEFT JOIN users u ON u.id = a.user_id
+                     ${w.length ? "WHERE " + w.join(" AND ") : ""}
+                     ORDER BY a.id DESC LIMIT 20000`, ...v);
+    },
+
     /** Détail article par article, pour les rapprochements comptables. */
     "order-items": () => db.all(`
       SELECT o.order_number commande, o.order_date date, i.sku, i.name article,
@@ -963,10 +1003,27 @@ route("GET /api/export/:quoi", ({ params, url, res }) => {
       WHERE i.adjustment = 0 ORDER BY o.order_date DESC LIMIT 10000`),
   };
   if (!jeux[params.quoi]) return { error: "export inconnu", code: 404 };
-  const csv = analytics.csv(jeux[params.quoi]());
-  res.writeHead(200, { "Content-Type": "text/csv; charset=utf-8",
-    "Content-Disposition": `attachment; filename="${params.quoi}.csv"` });
-  res.end("﻿" + csv);   // BOM : Excel lit correctement les accents
+
+  const lignes = jeux[params.quoi]();
+  // BUG-057 — un jeu vide produisait 3 octets (le seul BOM), sans ligne d'en-tête : on ne
+  // distinguait pas « rien à exporter » de « l'export a échoué ». Les colonnes sont donc
+  // déclarées, et l'en-tête part même quand il n'y a aucune ligne.
+  const colonnes = COLONNES_EXPORT[params.quoi] || (lignes.length ? Object.keys(lignes[0]) : []);
+  const csv = analytics.csv(lignes, colonnes);
+
+  // BUG-027 — l'export était plafonné en silence à 1 000 ou 10 000 lignes. Un plafond
+  // atteint est désormais annoncé dans l'en-tête HTTP **et** dans une dernière ligne du
+  // fichier : un comptable qui rapproche 1 000 lignes sur 28 500 doit le savoir.
+  const plafond = PLAFONDS_EXPORT[params.quoi] || 1000;
+  const tronque = lignes.length >= plafond;
+  const entetes = { "Content-Type": "text/csv; charset=utf-8",
+    "Content-Disposition": `attachment; filename="${params.quoi}.csv"`,
+    "Cache-Control": "no-store" };
+  if (tronque) entetes["X-Export-Tronque"] = `oui; plafond=${plafond}`;
+  res.writeHead(200, entetes);
+  res.end("﻿" + csv +
+    (tronque ? `\n# EXPORT TRONQUÉ — ${plafond} lignes maximum. Affinez les filtres pour tout obtenir.` : ""));
+  db.journaliser("export.csv", "system", null, { jeu: params.quoi, lignes: lignes.length, tronque }, user);
   return null;
 });
 
@@ -1132,6 +1189,47 @@ route("POST /api/webhooks", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");
   return { id: accounts.abonner(await corps(req)) };
 });
+/**
+ * Journal de livraison et redélivrance — exigences G1 à G3.
+ *
+ * ShipStation n'offre aucune garantie : « do not assume you will receive every webhook », et
+ * rien dans son interface ne dit ce qui est parti ni ce qui a échoué. Ici chaque tentative
+ * est visible et rejouable à la main.
+ */
+route("GET /api/webhooks/livraisons", ({ url, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const p = q(url);
+  return { livraisons: accounts.livraisons({
+    webhook_id: p.webhook_id ? Number(p.webhook_id) : null,
+    limite: Math.min(Number(p.limite) || 100, 500) }) };
+});
+
+route("POST /api/webhooks/redelivrer", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  return { rejouees: await accounts.redelivrer({ limite: 100 }) };
+});
+
+/** Le secret d'un abonnement, pour que l'intégrateur puisse vérifier nos signatures. */
+route("POST /api/webhooks/:id/secret", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const secret = accounts.secretDe(Number(params.id));
+  db.journaliser("webhook.secret_lu", "webhook", Number(params.id), {}, user);
+  return { secret, entete: "X-Lasclay-Signature", format: "t=<epoch>,v1=<hmac-sha256 hex de `t.corps`>",
+    fenetre_s: 300 };
+});
+
+/** Envoi d'un événement de test, pour valider une intégration avant de compter dessus. */
+route("POST /api/webhooks/:id/test", async ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const w = db.one("SELECT * FROM webhooks WHERE id = ?", Number(params.id));
+  if (!w) return { error: "abonnement inconnu", code: 404 };
+  const r = await accounts.emettre(w.event, {
+    storeId: w.store_id,
+    donnees: { test: true, message: "Événement de test émis depuis l'écran Réglages." },
+  });
+  return { resultats: r };
+});
+
 route("DELETE /api/webhooks/:id", ({ params, user }) => {
   accounts.exiger(user, "settings_edit");
   accounts.desabonner(Number(params.id));
@@ -1255,10 +1353,40 @@ route("POST /api/orders/:id/customs", async ({ req, params, user }) => {
   return { ok: true, n: decl.length };
 });
 
-route("GET /api/audit", ({ url }) => ({
-  rows: db.all("SELECT * FROM audit_log ORDER BY id DESC LIMIT ?", Math.min(Number(q(url).limit) || 100, 500))
-    .map((r) => ({ ...r, detail: db.parse(r.detail) })),
-}));
+/**
+ * Journal d'audit — BUG-079, BUG-080.
+ *
+ * L'écran promettait « qui a fait quoi » et n'affichait jamais « qui » : le journal ne
+ * joignait pas la table des utilisateurs. Il n'avait par ailleurs ni filtre, ni recherche,
+ * ni pagination, ni export — sur 57 757 entrées, c'était illisible.
+ */
+route("GET /api/audit", ({ url, user }) => {
+  accounts.exiger(user, "reports_view");
+  const p = q(url);
+  const limite = Math.min(Number(p.limit) || 100, 500);
+  const offset = Math.max(Number(p.offset) || 0, 0);
+  const w = [], v = [];
+  if (p.action) { w.push("a.action = ?"); v.push(p.action); }
+  if (p.entity) { w.push("a.entity = ?"); v.push(p.entity); }
+  if (p.q) {
+    const like = `%${String(p.q).toLowerCase()}%`;
+    w.push(`(lower(a.entity) LIKE ? OR lower(a.entity_id) LIKE ? OR lower(a.detail) LIKE ?
+             OR lower(COALESCE(u.name,'')) LIKE ? OR lower(a.action) LIKE ?)`);
+    v.push(like, like, like, like, like);
+  }
+  const where = w.length ? "WHERE " + w.join(" AND ") : "";
+  const total = db.one(`SELECT COUNT(*) n FROM audit_log a LEFT JOIN users u ON u.id = a.user_id ${where}`, ...v).n;
+  const rows = db.all(
+    `SELECT a.*, u.name AS qui FROM audit_log a LEFT JOIN users u ON u.id = a.user_id
+     ${where} ORDER BY a.id DESC LIMIT ? OFFSET ?`, ...v, limite, offset)
+    .map((r) => ({ ...r, detail: db.parse(r.detail) }));
+  return {
+    rows, total,
+    // Les actions réellement présentes, avec leur volume : de quoi remplir le filtre sans
+    // deviner le vocabulaire.
+    actions: db.all("SELECT action, COUNT(*) n FROM audit_log GROUP BY action ORDER BY n DESC"),
+  };
+});
 
 /** Migration depuis ShipStation — longue, à lancer sciemment. */
 route("POST /api/migrate", async ({ req, user }) => {
@@ -1569,6 +1697,9 @@ if (require.main === module) {
   // Reprise du renvoi de suivi : un canal momentanément indisponible ne doit pas laisser un
   // client sans numéro de suivi.
   setInterval(() => channels.traiterFile({ limite: 50 }).catch(() => {}), 10 * 60 * 1000).unref();
+  // Redélivrance des webhooks échoués (exigence G3). Sans elle, un abonné momentanément
+  // indisponible perd l'événement sans que personne ne le sache.
+  setInterval(() => accounts.redelivrer({ limite: 50 }).catch(() => {}), 5 * 60 * 1000).unref();
   // Rattrapage Shopify — la synchronisation vivante (exigence B1), et le filet sous les
   // webhooks : un webhook perdu ne doit pas coûter une commande.
   const minutesSync = Number(process.env.CLONE_SHOPIFY_SYNC_MIN ?? 20);
