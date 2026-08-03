@@ -174,6 +174,8 @@
   .pag { display:flex; gap:8px; align-items:center; padding:7px 10px; border-top:1px solid var(--bord); flex:none; font-size:12.5px }
   /* Lien d'export sans rien à exporter : visible mais inopérant, plutôt que disparu. */
   .inerte { opacity:.45; pointer-events:none; cursor:default }
+  .permG { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:2px 12px; margin:6px 0 }
+  .permL { padding:3px 0; font-size:12.5px }
   .vide2 { padding:60px 20px; text-align:center }
   .vide2 button { margin-top:12px }
   .vide3 { padding:28px 16px; color:var(--doux); font-size:13px }
@@ -5051,16 +5053,61 @@ VUES.utilisateurs = async () => {
   $("#ut").append(table([
     { k: "name", t: "Nom" }, { k: "email", t: "Courriel" },
     { k: "role", t: "Rôle", r: u => esc(u.permissions.role || "—") },
-    { k: "perms", t: "Peut", r: u => Object.entries(u.permissions).filter(([k, v]) => v === true).length + " permission(s)" },
+    { k: "perms", t: "Peut", r: u => {
+        const n = Object.entries(u.permissions).filter(([k, v]) => v === true).length;
+        const total = Object.keys(d.domaines).length;
+        // Deux comptes à « 12 permissions » ne se distinguent pas ; ce qui compte est ce
+        // qu'ils peuvent faire d'irréversible.
+        const cles = [["labels_buy", "achat"], ["users_manage", "comptes"], ["settings_edit", "réglages"]]
+          .filter(([k]) => u.permissions[k] === true).map(([, t]) => t);
+        return `${n}/${total}${cles.length ? ` <span class="doux">· ${cles.join(", ")}</span>` : ""}`;
+      } },
     { k: "totp_enabled", t: "2FA", r: u => u.totp_enabled ? '<span class="puce v">actif</span>' : '<span class="puce a">non</span>' },
     { k: "active", t: "Actif", r: u => u.active ? '<span class="puce v">oui</span>' : '<span class="puce r">non</span>' },
-    { k: "act", t: "", r: u => u.totp_enabled ? `<button data-r2="${u.id}">Réinit. 2FA</button>` : "" },
+    { k: "act", t: "", r: u => `<button data-perm="${u.id}">Permissions…</button>` +
+        (u.totp_enabled ? ` <button data-r2="${u.id}">Réinit. 2FA</button>` : "") },
   ], d.users, { cle: "id" }));
   $("#ut").querySelectorAll("[data-r2]").forEach(b => b.onclick = async (e) => {
     e.stopPropagation();
     if (!confirm("Réinitialiser le second facteur ? Ses sessions seront fermées et il devra le reconfigurer.")) return;
     await api(`/api/users/${b.dataset.r2}/2fa/reset`, { method: "POST" });
     VUES.utilisateurs();
+  });
+
+  /**
+   * Éditeur de permissions — BUG-081.
+   *
+   * Les douze domaines existaient en base, et le sous-titre les annonçait ; ils n'étaient
+   * nulle part cochables. Un rôle ne fait que **pré-remplir** les cases, comme chez
+   * ShipStation : on part d'un modèle et on ajuste. La case décochée est aussi importante
+   * que la cochée — c'est elle qui empêche un préparateur d'acheter une étiquette.
+   */
+  $("#ut").querySelectorAll("[data-perm]").forEach(b => b.onclick = (e) => {
+    e.stopPropagation();
+    const u = d.users.find(x => x.id === b.dataset.perm);
+    const cases = () => Object.entries(d.domaines).map(([k, t]) => `
+      <label class="ch permL"><input type="checkbox" data-d="${esc(k)}"
+        ${u.permissions[k] === true ? "checked" : ""}> ${esc(t)}</label>`).join("");
+    dialogue(`Permissions — ${u.name}`, `
+      <label class="champ"><span>Rôle (pré-remplit les cases)</span><select id="upr">
+        <option value="">— sur mesure —</option>
+        ${d.roles.map(r => `<option value="${esc(r)}"${u.permissions.role === r ? " selected" : ""}>${esc(r)}</option>`).join("")}
+      </select></label>
+      <div class="permG" id="upc">${cases()}</div>
+      <p class="doux">Changer de rôle recoche les cases de ce rôle ; les ajustements faits
+        ensuite sont conservés tels quels.</p>`,
+      async () => {
+        const perms = { role: $("#upr").value || u.permissions.role || null };
+        $("#upc").querySelectorAll("[data-d]").forEach(c => { perms[c.dataset.d] = c.checked; });
+        await api("/api/users", { method: "POST", body: { id: u.id, permissions: perms } });
+        VUES.utilisateurs();
+      }, "Enregistrer",
+      (c) => {
+        c.querySelector("#upr").onchange = () => {
+          const modele = (d.modeles || {})[c.querySelector("#upr").value] || {};
+          c.querySelectorAll("[data-d]").forEach(x => { x.checked = modele[x.dataset.d] === true; });
+        };
+      });
   });
   $("#un").onclick = () => dialogue("Nouvel employé", `
     <label class="champ"><span>Nom</span><input id="un1"></label>

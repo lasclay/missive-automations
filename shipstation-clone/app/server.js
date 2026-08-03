@@ -1276,6 +1276,9 @@ route("GET /api/users", ({ user }) => {
       totp_enabled: !!u.totp_enabled,
     })),
     domaines: accounts.DOMAINES, roles: Object.keys(accounts.ROLES),
+    // Les cases que chaque rôle pré-remplit : l'écran doit pouvoir les recocher sans
+    // redemander au serveur à chaque changement de rôle dans une liste déroulante.
+    modeles: accounts.ROLES,
   };
 });
 /**
@@ -1307,6 +1310,20 @@ route("POST /api/users", async ({ req, user }) => {
       error: `« ${n} » est déjà le nom de ${homonyme.email} — deux comptes homonymes rendent ` +
              "les menus d'assignation impossibles à lire",
       code: 400 };
+  }
+
+  // Un service dont plus personne ne gère les comptes ne se répare que par la ligne de
+  // commande. On refuse le dernier retrait de `users_manage` — et on refuse aussi qu'un
+  // administrateur se le retire à lui-même, qui est la façon la plus courante d'y arriver.
+  if (b.id && b.permissions && b.permissions.users_manage !== true) {
+    const restants = db.all("SELECT id, permissions FROM users WHERE active = 1 AND id <> ?", b.id)
+      .filter((u) => db.parse(u.permissions, {}).users_manage === true).length;
+    if (!restants) return {
+      error: "ce compte est le dernier à pouvoir gérer les utilisateurs — lui retirer ce " +
+             "droit fermerait l'administration à tout le monde", code: 409 };
+    if (b.id === user) return {
+      error: "on ne se retire pas soi-même la gestion des comptes : demander à un autre " +
+             "administrateur de le faire", code: 409 };
   }
 
   if (b.id) { accounts.majUtilisateur(b.id, b); return { id: b.id }; }
