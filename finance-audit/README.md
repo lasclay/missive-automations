@@ -52,6 +52,8 @@ classeur en 1,2 seconde.
 | `fix_ar.py` | Met le journal d'audit au diapason du recollage. |
 | `recache.py` | Rafraîchit les valeurs en cache de tout le classeur. **À lancer en dernier**, après toute écriture. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
+| `traduire.py` `glossaire_en.py` | Dérive le mémo anglais du mémo français. Les deux sortent du même `pdf_data.json`, donc un chiffre ne peut pas diverger d'une langue à l'autre ; seul le texte change. `--manquants` liste les segments non traduits et le script refuse d'écrire tant qu'il en reste. Les nombres passent au format anglais mécaniquement. |
+| `traduire_xlsx.py` | Dérive la copie anglaise du chiffrier. Traduit la table des chaînes partagées **et** les chaînes en ligne des feuilles visibles, sans toucher aux formules, aux valeurs ni aux styles, puis vérifie que les deux fichiers calculent à l'identique. Le glossaire du classeur reste à remplir. |
 | `pdftxt.py` | Extrait le texte d'un PDF en passant par les tables ToUnicode de chaque police. Les PDF exportés de Google dessinent leur texte en hexadécimal avec des polices sous-ensemblées : sans la table, on ne lit rien. Sert à dépouiller les annexes et les lettres de soutien. |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
 | `fix_y.py` | Réparation de la mise en page : remet la table `cellXfs` dans l'ordre et donne un format aux cellules créées par la révision. À exécuter après toute série d'écritures. |
@@ -178,6 +180,26 @@ classeur en 1,2 seconde.
 - **Le séparateur de milliers se pose sur le nombre, pas sur la phrase.** Un
   `.replace(',', ' ')` appliqué au texte complet mange les virgules de la prose. Même
   piège que la virgule décimale dans les coordonnées SVG.
+- **La version anglaise se dérive, elle ne se tient pas en parallèle.** Deux documents
+  entretenus à la main divergent au premier dépôt. Le mémo et le chiffrier anglais
+  sortent des mêmes données que les français, et les outils refusent d'écrire tant qu'il
+  reste du texte non traduit : c'est ce refus qui empêche l'anglais de prendre du retard.
+- **Traduire un classeur, c'est traduire deux tables de texte.** Excel range les chaînes
+  soit dans `sharedStrings.xml`, soit « en ligne » dans la feuille. Tout ce que les phases
+  d'audit ont écrit est en ligne, parce que `xledit` écrit ainsi : ne traduire que la table
+  partagée laisse le journal d'audit et les libellés ajoutés en français.
+- **409 cellules servent de critère à un SUMIF.** Traduire un côté sans l'autre casse tous
+  les rapprochements QuickBooks. Traduire la table de chaînes les traduit tous les deux du
+  même coup, donc le rapprochement tient par construction. La copie anglaise reste une
+  **sortie** : un nouveau collage QuickBooks se fait sur le fichier français, jamais sur
+  l'anglais.
+- **Le séparateur de milliers du chiffrier est une espace fine insécable (U+202F).** Une
+  classe de caractères qui ne connaît que l'espace ordinaire laisse « 4 500 $ » sortir en
+  « 4 $500 ».
+- **Une décimale française a une ou deux décimales, un groupe de milliers anglais en a
+  trois.** C'est ce qui permet de convertir « 44,3 » sans abîmer « 10,000 » déjà écrit en
+  anglais — et il faut convertir la décimale AVANT les milliers, sinon « 160 000 » devient
+  « 160,000 » puis « 160.000 ».
 - **Une formule posée sur une feuille référence cette feuille.** `$D$143` écrit dans le
   bilan désigne une cellule vide du bilan, pas `Inputs!$D$143`. Le calcul tombe à zéro
   sans rien signaler : le solde reste simplement plat.
