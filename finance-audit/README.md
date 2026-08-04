@@ -56,6 +56,7 @@ classeur en 1,2 seconde.
 | `fix_av.py` | Le contrôle du tirage de marge de crédit balaie aussi le premier mois projeté, qui est justement celui du sommet. |
 | `fix_aw.py` | Corrige au journal une affirmation que la phase suivante avait rendue fausse, et pose le constat de clôture. |
 | `fix_ax.py` | L'avance de 80 000 $ du 15 août 2026 **s'ajoute** aux 3 678 $ déjà inscrits chez QuickBooks au lieu de les remplacer. L'échéancier s'arrête sur le solde préexistant, qui reste au bilan sur tout l'horizon. |
+| `fix_az.py` | La marge autorisée passe de 130 000 $ à 150 000 $ : le compte du grand livre s'appelle « EDC LC1 - 150K » et le mémo calculait déjà son coussin sur 150 000 $. Le contrôle annonçait un dépassement d'une limite qui n'était pas la bonne. |
 | `fix_ay.py` | Nomme les deux méthodes du budget de caisse et dit laquelle fait foi. La rangée de contrôle 36 n'est pas à zéro : elle mesure l'écart entre une vue directe bâtie sur le résultat et la chaîne de trésorerie complète. |
 | `recache.py` | Rafraîchit les valeurs en cache de tout le classeur. **À lancer en dernier**, après toute écriture. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
