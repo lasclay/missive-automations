@@ -7266,11 +7266,17 @@ function reduireImage(fichierOuUri, typeConnu = null) {
 async function peindreLogos() {
   const cible = $("#clogc");
   if (!cible) return;
-  const boutiques = (S.refs.stores || []).slice().sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-  if (!boutiques.length) { cible.innerHTML = '<p class="doux">Aucune boutique.</p>'; return; }
+  // Le compte ShipStation traîne sept boutiques désactivées — des essais, des comptes d'un
+  // autre projet, deux « New Shopify Store » sans lendemain. Elles sont correctement marquées
+  // inactives en base : il n'y a rien à supprimer, seulement à ne pas les mettre sur le même
+  // plan que les quatre canaux vivants. Les ranger derrière un repli suffit, et c'est
+  // réversible — contrairement à un ménage qui effacerait des lignes.
+  const toutes = (S.refs.stores || []).slice().sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+  const boutiques = toutes.filter((b) => b.active !== 0);
+  const dormantes = toutes.filter((b) => b.active === 0);
+  if (!toutes.length) { cible.innerHTML = '<p class="doux">Aucune boutique.</p>'; return; }
 
-  cible.innerHTML = `<div class="tbl" style="max-height:none"><table><tbody>${
-    boutiques.map((b) => {
+  const ligne = (b) => {
       const m = marcheDe(b);
       const icone = b.logo || m.icone || null;
       // Trois états, trois messages : votre image, celle de la marque, ou rien encore. La
@@ -7290,7 +7296,17 @@ async function peindreLogos() {
         <button type="button" data-lgu="${esc(b.id)}">Depuis une URL…</button>
         ${b.logo ? `<button type="button" class="d" data-lgx="${esc(b.id)}">Retirer</button>` : ""}
       </td></tr>`;
-    }).join("")}</tbody></table></div>
+  };
+
+  cible.innerHTML = `<div class="tbl" style="max-height:none"><table><tbody>${
+    boutiques.map(ligne).join("")}</tbody></table></div>
+    ${dormantes.length ? `<details style="margin-top:8px">
+      <summary>${num(dormantes.length)} boutique(s) désactivée(s) — anciens canaux du compte ShipStation</summary>
+      <p class="doux" style="font-size:12px">Elles ne reçoivent plus de commandes et n'apparaissent
+        ni dans le rail ni dans les filtres. Rien à supprimer : leur icône ne sert qu'à relire
+        l'historique.</p>
+      <div class="tbl" style="max-height:none"><table><tbody>${
+        dormantes.map(ligne).join("")}</tbody></table></div></details>` : ""}
     <input type="file" id="lgFile" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" hidden>
     <p class="doux" style="font-size:12px;margin:6px 0 0">Un carré de 64 px suffit ; les images plus
       grandes sont réduites automatiquement avant l'envoi. PNG, JPEG, WebP, GIF ou SVG.</p>
