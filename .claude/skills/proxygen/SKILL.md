@@ -30,6 +30,31 @@ proxy : la session ne porte que le secret d'appel.
 | `GENERAL_PROXY_SECRET` | requis |
 | `GENERAL_PROXY_URL` | facultatif, défaut `https://general-proxy-5muf.onrender.com` |
 
+### Trois couches — ne prends jamais la plus étroite pour la plus large
+
+**Avant d'écrire qu'une chose est impossible, tu DOIS avoir lu les couches 2 et 3.** Sans ça, tu
+n'as pas constaté une limite, tu as constaté ton ignorance.
+
+| # | Couche | Ce que ça vaut comme preuve |
+| --- | --- | --- |
+| 1 | `connectors_client.js` et `GET /connectors` | **aucune.** La liste des actions est une commodité, pas une frontière |
+| 2 | `server.js` à la racine | le périmètre réellement exposé aujourd'hui |
+| 3 | API du service tiers (ShipStation, Omnisend, Klaviyo) | le vrai plafond |
+
+Lis la couche 2 en entier : le bloc de commentaire vieillit, le dispatch de routes et les
+fonctions disent la vérité. Une fonction existante fait souvent déjà presque ce que tu cherches, à
+un champ près. Demande-toi toujours : « qu'est-ce qui, dans ce code, force cette limite? » Si la
+réponse est une valeur codée en dur ou une validation, ce n'est pas une limite du service, c'est
+une ligne à changer.
+
+La bonne formulation n'est jamais « ShipStation ne peut pas ». C'est « le proxy ne l'expose pas
+encore, l'API le permet, voici le correctif ». Et n'oublie pas : les services Render suivent
+`main`, une route ajoutée sur une branche reste inerte tant que la fusion n'est pas faite.
+
+Ce garde-fou vient d'un vrai incident sur le proxy Missive : on a cru longtemps qu'il ne pouvait
+pas envoyer un courriel neuf, parce que le client n'exposait que `reply`. La capacité était là
+depuis le début, à quinze lignes près, dans une fonction que personne n'avait ouverte.
+
 ```bash
 node connectors_client.js                                   # sonde /health
 node connectors_client.js <connecteur> <action> '{"param":"valeur"}'
