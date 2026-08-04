@@ -188,6 +188,7 @@ function adaptateur(nom = process.env.CARRIER_ADAPTER || "bouchon") {
   // Chargé à la demande : `postescanada` lit la base, et `carrier.js` est requis par des
   // scripts qui n'ont pas de base ouverte. Un require en tête les casserait tous.
   if (nom === "postescanada" || nom === "canada_post") return require("./postescanada").adaptateurPostesCanada;
+  if (nom === "freightcom") return require("./freightcom").adaptateurFreightcom;
   throw new Error(`adaptateur transporteur inconnu : ${nom}`);
 }
 

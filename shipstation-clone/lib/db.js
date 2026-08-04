@@ -168,6 +168,33 @@ CREATE TABLE IF NOT EXISTS manifests (
 );
 
 /*
+ * Cache de cotation.
+ *
+ * La cotation Freightcom est ASYNCHRONE : on soumet, puis on interroge jusqu'à ce que le
+ * panel de transporteurs ait répondu. Vu du préparateur, c'est une attente — et l'attente
+ * arrive au pire moment, celui où il a la commande sous les yeux et veut son étiquette.
+ *
+ * Ce cache est la réponse. Il vit en base plutôt qu'en mémoire pour deux raisons : il
+ * survit à un redémarrage de Render (le processus repart froid plusieurs fois par jour sur
+ * un plan avec veille), et il est partagé entre le préchauffage en arrière-plan et la
+ * consultation à l'écran. Sans persistance, préchauffer un lot de 250 commandes le soir ne
+ * servirait à rien le lendemain matin.
+ *
+ * La clé est une empreinte du scénario d'envoi, pas de la commande : deux commandes du même
+ * poids vers le même code postal partagent le même tarif, et c'est le cas courant chez
+ * Lasclay où 80 % des colis font moins de 500 g avec les mêmes articles.
+ */
+CREATE TABLE IF NOT EXISTS rate_cache (
+  cle TEXT PRIMARY KEY,
+  tarifs TEXT NOT NULL,          -- JSON du tableau de Rate
+  cree_a TEXT NOT NULL,
+  expire_a TEXT NOT NULL,        -- le plus tôt entre valid_until et le TTL local
+  complet INTEGER DEFAULT 1,     -- 0 = panel partiel, à réactualiser
+  ms INTEGER                     -- durée de la cotation, pour mesurer ce qu'on économise
+);
+CREATE INDEX IF NOT EXISTS idx_rate_cache_exp ON rate_cache(expire_a);
+
+/*
  * Cueillettes transporteur — BUG-051.
  *
  * Lasclay a cinq comptes transporteur avec ramassage, et c'est un geste quotidien : le
