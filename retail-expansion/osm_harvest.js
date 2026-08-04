@@ -127,9 +127,15 @@ async function interroger(z, tags, mirror, rayon) {
             prov: z.prov,
             adresse: [t['addr:housenumber'], t['addr:street']].filter(Boolean).join(' '),
             cp: t['addr:postcode'] || '',
-            tel: t.phone || t['contact:phone'] || '',
+            tel: t.phone || t['contact:phone'] || t['contact:mobile'] || t['phone:mobile'] || '',
             courriel: t.email || t['contact:email'] || '',
-            web: t.website || t['contact:website'] || '',
+            web: t.website || t['contact:website'] || t['website:shop'] || '',
+            // pour une petite boutique, une page Facebook ou Instagram est un
+            // moyen de contact aussi valable qu'un telephone
+            fb: t['contact:facebook'] || t.facebook || '',
+            ig: t['contact:instagram'] || t.instagram || '',
+            operateur: t.operator || '',
+            marque: t.brand || '',
             lat, lon,
           });
           n++;

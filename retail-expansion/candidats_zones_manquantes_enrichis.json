@@ -1,0 +1,413 @@
+[
+ {
+  "nom": "Boutique Amandine",
+  "type": "Cadeaux / produits quebecois",
+  "ville": "Joliette",
+  "prov": "QC",
+  "web": "https://www.amandinejoliette.com",
+  "courriel": "info@amandinejoliette.com",
+  "tel": "450-752-2618",
+  "_scrape": {
+   "emails": [
+    "info@amandinejoliette.com"
+   ],
+   "phones": [
+    "450-752-2618"
+   ]
+  }
+ },
+ {
+  "nom": "Boutique Amandine Saint-Hyacinthe",
+  "type": "Cadeaux / produits quebecois",
+  "ville": "Saint-Hyacinthe",
+  "prov": "QC",
+  "web": "https://boutiqueamandine.ca",
+  "courriel": "info@boutiqueamandine.ca",
+  "tel": "450-774-2618",
+  "adresse": "1598 Des Cascades, Saint-Hyacinthe, Québec, Canada,",
+  "cp": "J2S 3H8",
+  "_scrape": {
+   "emails": [
+    "info@boutiqueamandine.ca",
+    "exemple@e-mail.com",
+    "jean.dupont@e-mail.com"
+   ],
+   "phones": [
+    "450-774-2618"
+   ]
+  }
+ },
+ {
+  "nom": "Le Portique",
+  "type": "Metiers d'art",
+  "ville": "Havre-aux-Maisons",
+  "prov": "QC",
+  "web": "https://www.lamanufacturefaitmain.com",
+  "adresse": "954 route 199, Havre-Aubert",
+  "cp": "G4T 9C7",
+  "_scrape": {
+   "emails": [],
+   "phones": []
+  }
+ },
+ {
+  "nom": "La Vieille Usine",
+  "type": "Metiers d'art",
+  "ville": "Percé",
+  "prov": "QC",
+  "web": "https://www.lavieilleusine.com",
+  "courriel": "info@monsite.fr",
+  "tel": "418-782-2277",
+  "adresse": "55 Rue à Bonfils",
+  "cp": "G0C 1G0",
+  "_scrape": {
+   "emails": [
+    "info@monsite.fr",
+    "info@lavieilleusine.qc.ca",
+    "dg@lavieilleusine.qc.ca"
+   ],
+   "phones": [
+    "418-782-2277",
+    "558-999-9998"
+   ]
+  }
+ },
+ {
+  "nom": "Célina Laine & Tricot",
+  "type": "Artisans",
+  "ville": "Bonaventure",
+  "prov": "QC",
+  "web": "",
+  "tel": "418-392-0715"
+ },
+ {
+  "nom": "Boutique La Malécite",
+  "type": "Metiers d'art",
+  "ville": "Tadoussac",
+  "prov": "QC",
+  "web": "",
+  "adresse": "195 rue des Pionniers",
+  "cp": "G0T 2A0",
+  "tel": "418-235-1090"
+ },
+ {
+  "nom": "Boutique de l'Artisan",
+  "type": "Metiers d'art",
+  "ville": "Tadoussac",
+  "prov": "QC",
+  "web": "https://tadoussac.com",
+  "adresse": "162 rue des Jésuites",
+  "cp": "G0T 2A0",
+  "tel": "418-235-4446",
+  "courriel": "ville@tadoussac.com",
+  "_scrape": {
+   "emails": [
+    "ville@tadoussac.com"
+   ],
+   "phones": [
+    "418-235-4446"
+   ]
+  }
+ },
+ {
+  "nom": "Boutique Nima",
+  "type": "Artisans",
+  "ville": "Tadoussac",
+  "prov": "QC",
+  "web": "",
+  "tel": "418-235-4858"
+ },
+ {
+  "nom": "Les savons de l'atelier",
+  "type": "Eco / artisans",
+  "ville": "Tadoussac",
+  "prov": "QC",
+  "web": "",
+  "tel": "581-327-1014"
+ },
+ {
+  "nom": "Place des artisans",
+  "type": "Metiers d'art",
+  "ville": "Havre-Saint-Pierre",
+  "prov": "QC",
+  "web": "",
+  "adresse": "997 promenade des Anciens",
+  "cp": "G0G 1P0",
+  "tel": "418-538-2787"
+ },
+ {
+  "nom": "Les Dériveuses",
+  "type": "Artisans",
+  "ville": "Havre-Saint-Pierre",
+  "prov": "QC",
+  "web": "",
+  "tel": "581-991-7282"
+ },
+ {
+  "nom": "Ébénisterie artisanale B. D'Auteuil",
+  "type": "Artisans",
+  "ville": "Maniwaki",
+  "prov": "QC",
+  "web": "",
+  "adresse": "447 rue Père Laporte",
+  "cp": "J9E 1H2",
+  "tel": "819-441-0639"
+ },
+ {
+  "nom": "Ecolocado Saguenay",
+  "type": "Cadeaux / produits quebecois",
+  "ville": "Chicoutimi",
+  "prov": "QC",
+  "web": "https://ecolocado.com",
+  "_scrape": {
+   "emails": [],
+   "phones": []
+  }
+ },
+ {
+  "nom": "La Réserve – Vrac Zéro Déchet",
+  "type": "Eco / zero dechet",
+  "ville": "Jonquière",
+  "prov": "QC",
+  "web": "https://lareservevrac.com",
+  "_mort": true
+ },
+ {
+  "nom": "Fairyza – Produits naturels",
+  "type": "Eco / zero dechet",
+  "ville": "La Baie",
+  "prov": "QC",
+  "web": "https://www.fairyza.com",
+  "courriel": "info@fairyza.com",
+  "_scrape": {
+   "emails": [
+    "info@fairyza.com"
+   ],
+   "phones": []
+  }
+ },
+ {
+  "nom": "Tickle Your Fancy Gift Shop",
+  "type": "Cadeaux / artisans",
+  "ville": "Cornwall",
+  "prov": "ON",
+  "web": "",
+  "fb": "https://www.facebook.com/Cornwallgiftshop"
+ },
+ {
+  "nom": "The Little Gift Shop (Mann Art Gallery)",
+  "type": "Boutique de musee",
+  "ville": "Prince Albert",
+  "prov": "SK",
+  "web": "https://www.mannartgallery.ca",
+  "courriel": "reception@mannartgallery.ca",
+  "tel": "306-763-7080",
+  "adresse": "142 12 Street West",
+  "cp": "S6V 3B5",
+  "_scrape": {
+   "emails": [
+    "reception@mannartgallery.ca",
+    "artdir@mannartgallery.ca"
+   ],
+   "phones": [
+    "306-763-7080"
+   ]
+  }
+ },
+ {
+  "nom": "Western Development Museum Gift Shop",
+  "type": "Boutique de musee",
+  "ville": "Yorkton",
+  "prov": "SK",
+  "web": "https://wdm.ca/yorkton",
+  "courriel": "yorkton@wdm.ca",
+  "tel": "306-783-8361",
+  "adresse": "98, Hwy 16 A West Yorkton, SK",
+  "cp": "S3N 2V6",
+  "_scrape": {
+   "emails": [
+    "yorkton@wdm.ca"
+   ],
+   "phones": [
+    "306-783-8361"
+   ]
+  }
+ },
+ {
+  "nom": "Allen Sapp Gallery",
+  "type": "Boutique de musee",
+  "ville": "North Battleford",
+  "prov": "SK",
+  "web": "https://allensapp.com",
+  "courriel": "admin01@mrinternet.ca",
+  "_scrape": {
+   "emails": [
+    "admin01@mrinternet.ca"
+   ],
+   "phones": []
+  }
+ },
+ {
+  "nom": "Light & Shadow Woodworking & Gifts",
+  "type": "Cadeaux / artisans",
+  "ville": "Fort McMurray",
+  "prov": "AB",
+  "web": "",
+  "tel": "780-742-7454"
+ },
+ {
+  "nom": "Stem to Petals Flowers & Gift Studio",
+  "type": "Fleuriste / jardin",
+  "ville": "Fort McMurray",
+  "prov": "AB",
+  "web": "",
+  "adresse": "3-10015 Centennial Dr."
+ },
+ {
+  "nom": "Peace River Museum, Archives and Mackenzie Centre",
+  "type": "Boutique de musee",
+  "ville": "Peace River",
+  "prov": "AB",
+  "web": "https://www.peaceriver.ca",
+  "courriel": "info@peaceriver.ca",
+  "tel": "780-624-2574",
+  "adresse": "9911 100 Street, Box 6600 Peace River, Alberta",
+  "cp": "T8S 1S4",
+  "_scrape": {
+   "emails": [
+    "info@peaceriver.ca"
+   ],
+   "phones": [
+    "780-624-2574",
+    "780-624-3085"
+   ]
+  }
+ },
+ {
+  "nom": "Twig Boutique",
+  "type": "Cadeaux / artisans",
+  "ville": "Camrose",
+  "prov": "AB",
+  "web": "https://twigboutique.ca",
+  "_mort": true
+ },
+ {
+  "nom": "Buckskins Emporium",
+  "type": "Cadeaux / artisans",
+  "ville": "Camrose",
+  "prov": "AB",
+  "web": ""
+ },
+ {
+  "nom": "Hands On Crafts",
+  "type": "Metiers d'art",
+  "ville": "Yarmouth",
+  "prov": "NS",
+  "web": "",
+  "adresse": "314 Main Street",
+  "cp": "B5A 1E4",
+  "tel": "902-742-3515"
+ },
+ {
+  "nom": "Hook 'n' Sea Crafts & Gift Shop",
+  "type": "Metiers d'art",
+  "ville": "Yarmouth",
+  "prov": "NS",
+  "web": "",
+  "adresse": "3147 Highway 1, Port Maitland",
+  "cp": "B0W 2V0",
+  "tel": "902-649-3326"
+ },
+ {
+  "nom": "The Store Next Door",
+  "type": "Cadeaux / artisans",
+  "ville": "Yarmouth",
+  "prov": "NS",
+  "web": "",
+  "adresse": "6A Central Street",
+  "cp": "B5A 3H1",
+  "tel": "902-742-7867"
+ },
+ {
+  "nom": "Northern Sun Gallery & Gifts",
+  "type": "Metiers d'art",
+  "ville": "New Glasgow",
+  "prov": "NS",
+  "web": "https://northernsungallery.com",
+  "courriel": "info@northernsungallery.com",
+  "tel": "902-531-3000",
+  "adresse": "8 Edgewater St Mahone Bay, NS",
+  "cp": "B0J2E0",
+  "_scrape": {
+   "emails": [
+    "info@northernsungallery.com"
+   ],
+   "phones": [
+    "902-531-3000"
+   ]
+  }
+ },
+ {
+  "nom": "Park Place Gifts",
+  "type": "Cadeaux / artisans",
+  "ville": "Miramichi",
+  "prov": "NB",
+  "web": "https://www.livingoutloudgifts.ca",
+  "adresse": "135 Henry Street",
+  "tel": "506-365-5204",
+  "courriel": "4ba272aa-05a2-43bd-bbad-91c23c7688f0_700x@2x.jpeg",
+  "_scrape": {
+   "emails": [
+    "4ba272aa-05a2-43bd-bbad-91c23c7688f0_700x@2x.jpeg"
+   ],
+   "phones": [
+    "506-365-5204"
+   ]
+  }
+ },
+ {
+  "nom": "C & S Unique Gifts & Nfld Souvenirs",
+  "type": "Cadeaux / artisans",
+  "ville": "Grand Falls-Windsor",
+  "prov": "NL",
+  "web": "",
+  "adresse": "28 Cromer Avenue",
+  "tel": "709-489-9510",
+  "courriel": "candsuniquegifts@hotmail.com"
+ },
+ {
+  "nom": "Ice House Gallery",
+  "type": "Galerie / artisans",
+  "ville": "Prince Rupert",
+  "prov": "BC",
+  "web": "https://www.icehousegallery.ca",
+  "courriel": "icehouse@citywest.ca",
+  "tel": "250-624-4546",
+  "adresse": "217 1 st Ave East Prince Rupert, BC,",
+  "cp": "V8J 1A8",
+  "_scrape": {
+   "emails": [
+    "icehouse@citywest.ca"
+   ],
+   "phones": [
+    "250-624-4546"
+   ]
+  }
+ },
+ {
+  "nom": "Cow Bay Gift Galley",
+  "type": "Cadeaux / artisans",
+  "ville": "Prince Rupert",
+  "prov": "BC",
+  "web": "",
+  "fb": "https://www.facebook.com/CowBayGiftGalley"
+ },
+ {
+  "nom": "Malikkaat",
+  "type": "Metiers d'art",
+  "ville": "Iqaluit",
+  "prov": "NU",
+  "web": "https://malikkaat.com",
+  "_mort": true
+ }
+]

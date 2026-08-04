@@ -1,4 +1,5 @@
 *.log
-wd*.json
 *.err
-osm_brut.json
+osm_brut*.json
+wd*.json
+a_scraper.json

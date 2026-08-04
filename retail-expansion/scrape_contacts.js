@@ -9,8 +9,7 @@ const FILE = path.join(__dirname, process.argv[2] || 'candidats.json');
 const OUT = path.join(__dirname, process.argv[3] || 'candidats_enrichis.json');
 const CONC = parseInt(process.argv[4] || '12', 10);
 
-const PATHS = ['', '/pages/contact', '/contact', '/contact-us', '/pages/nous-joindre',
-  '/nous-joindre', '/pages/contact-us', '/pages/about', '/about', '/a-propos'];
+const PATHS = ['', '/pages/contact', '/contact', '/contact-us', '/nous-joindre'];
 
 const BAD_MAIL = /(sentry|wixpress|example\.|\.png|\.jpg|\.gif|\.svg|godaddy|shopify\.com|squarespace|sentry\.io|domain\.com|yourdomain|email@|name@)/i;
 const POSTAL = /\b[A-Z]\d[A-Z][ -]?\d[A-Z]\d\b/;
@@ -18,10 +17,13 @@ const POSTAL = /\b[A-Z]\d[A-Z][ -]?\d[A-Z]\d\b/;
 function fetchUrl(url) {
   return new Promise((resolve) => {
     const { execFile } = require('child_process');
-    execFile('curl', ['-sSL', '--max-time', '25', '--compressed',
+    execFile('curl', ['-sSL', '--max-time', '12', '--connect-timeout', '6', '--compressed',
       '-A', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36',
-      url], { maxBuffer: 20 * 1024 * 1024 }, (err, stdout) => {
-      resolve(err ? '' : (stdout || ''));
+      url], { maxBuffer: 8 * 1024 * 1024 }, (err, stdout) => {
+      // certaines pages font plusieurs megaoctets: passer les regex dessus
+      // bloque le processus pendant des minutes. Les coordonnees sont dans
+      // l'entete ou le pied de page, donc les premiers 400 ko suffisent.
+      resolve(err ? '' : (stdout || '').slice(0, 400000));
     });
   });
 }
@@ -103,7 +105,12 @@ async function enrich(c) {
   const found = { emails: [], phones: [], adresse: '', cp: '' };
   for (const p of PATHS) {
     const html = await fetchUrl(base + p);
-    if (!html || html.length < 200) continue;
+    // si la page d'accueil ne repond pas, le domaine est mort: inutile d'essayer
+    // les autres chemins pendant douze secondes chacun
+    if (!html || html.length < 200) {
+      if (p === '') return { ...c, _mort: true };
+      continue;
+    }
     const ld = jsonLd(html);
     if (ld.tel) found.phones.unshift(ld.tel.replace(/[^\d]/g, '').replace(/^1/, '').replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
     if (ld.courriel) found.emails.unshift(ld.courriel);
@@ -140,7 +147,11 @@ async function enrich(c) {
       if (done % 10 === 0) process.stderr.write(`${done}/${list.length}\n`);
     }
   }
+  const sauve = setInterval(() => {
+    fs.writeFileSync(OUT, JSON.stringify(results.filter(Boolean), null, 1));
+  }, 30000);
   await Promise.all(Array.from({ length: CONC }, worker));
+  clearInterval(sauve);
   fs.writeFileSync(OUT, JSON.stringify(results, null, 1));
   const withTel = results.filter(r => r.tel).length;
   const withMail = results.filter(r => r.courriel).length;

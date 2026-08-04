@@ -10,7 +10,7 @@ Outillage de prospection pancanadienne pour la consignation en boutique.
 | --- | --- |
 | Lisez-moi | méthode, règles d'exclusivité et de distance, sources, limites |
 | Réseau actuel | les 10 points de vente en place et leur nature |
-| Candidats | 1500 candidats (500 QC, 1000 hors QC) avec coordonnées, classés par rang dans leur zone |
+| Candidats | 1426 candidats triés (426 QC, 1000 hors QC), tous joignables, classés par rang dans leur zone |
 | Couverture par zone | les 192 zones, leur statut et le meilleur candidat |
 | Grille de qualification | 12 critères pour trancher avant de signer |
 
@@ -26,8 +26,22 @@ Outillage de prospection pancanadienne pour la consignation en boutique.
    archétypes retenus. 37 000 commerces bruts.
 4. **Coordonnées** (`scrape_contacts.js`) : extraction du téléphone, du courriel et de
    l'adresse depuis les sites des boutiques (JSON-LD puis pied de page).
-5. **Montage** (`build_xlsx.py`) : exclusion des chaînes, affectation à la zone-ancre la
-   plus proche, pointage, classement par rang, écriture du chiffrier.
+5. **Montage et tri** (`build_xlsx.py`) : affectation à la zone-ancre la plus proche,
+   puis un tri au jugement avant le pointage.
+
+## Le tri
+
+- **Contact obligatoire.** Une fiche sans téléphone, courriel, page sociale ni site web
+  vivant est retirée: elle n'est pas exploitable. Les domaines morts sont détectés au
+  scraping et ne comptent pas comme moyen de contact.
+- **Chaînes.** Une enseigne présente dans quatre zones ou plus est retirée: elle achète
+  par centrale et ne fera pas de consignation, quel que soit son nom. Cette règle attrape
+  les chaînes régionales qu'aucune liste écrite d'avance ne contient.
+- **Archétypes écartés.** Fournitures de bricolage, friperies, maroquineries.
+- **Archétypes conditionnels.** Alcool, sport et fleuriste ne passent que si le nom porte
+  un signal de spécialité (cave, vignoble, microbrasserie, outfitter, jardin, pépinière).
+- **Signaux du nom.** Artisan, local, coop, marché, terroir, ferme, atelier, vrac, éco,
+  magasin général, mercantile, créateur et les noms de région donnent un bonus.
 
 ## Reproduire
 
@@ -48,6 +62,11 @@ python3 build_xlsx.py                                     # 2e passe avec les co
   déborde. Sans vérification, les grandes villes rendent 0 résultat en silence.
 - Les requêtes par boîte englobante provinciale ramassent des commerces américains le
   long de la frontière. Le rayon autour d'une ville canadienne évite le problème.
+- Les noms de zone portent des tirets cadratins: toute comparaison doit passer par
+  `norm()`, sinon la détection des zones déjà couvertes échoue en silence.
+- Le scraper doit tronquer les pages: les regex sur un document de plusieurs mégaoctets
+  bloquent le processus pendant des minutes. Il doit aussi abandonner un domaine dès que
+  la page d'accueil ne répond pas, plutôt que d'essayer chaque chemin.
 
 ## Limites
 

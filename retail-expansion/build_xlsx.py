@@ -103,7 +103,10 @@ CHAINES = [
     "canex", "hudson's bay", "la baie", "simons", "holt renfrew", "nordstrom",
     "michaels", "deserres", "omer deserres", "staples", "bureau en gros",
     "sherwin", "benjamin moore", "pet valu", "mondou", "petsmart",
-    "gift shop", "souvenir", "duty free", "hors taxe", "airport",
+    # « gift shop » et « souvenir » ne sont pas disqualifiants: ce sont des
+    # descriptifs que portent de vraies boutiques d'artisans. Seuls les points
+    # de vente captifs le sont.
+    "duty free", "hors taxe", "airport", "aeroport",
     # succursales et grandes surfaces d'alcool: achat par centrale, aucun interet
     "liquor", "lcbo", "saq ", "societe des alcools", "beer store", "brewers retail",
     "wine rack", "cold beer", "spirits", "alcool", "wine & beyond", "ace discount",
@@ -141,6 +144,13 @@ def clean_addr(a):
     a = re.sub(r"\d{1,2}\s?h\s?(a|à|-)\s?\d{1,2}\s?h", "", a)
     return re.sub(r"\s+", " ", a).strip(" ,;|-")[:90]
 
+MAUVAIS_MAIL = re.compile(r"\.(png|jpe?g|gif|svg|webp|css|js)$|^[0-9a-f-]{24,}@", re.I)
+
+def clean_mail(m):
+    m = (m or "").strip().lower()
+    # le scraper ramasse parfois un nom de fichier d'image comme adresse
+    return "" if (not m or MAUVAIS_MAIL.search(m) or len(m) > 60) else m
+
 def clean_tel(t):
     if not t: return ""
     d = re.sub(r"\D", "", str(t))
@@ -154,6 +164,80 @@ def haversine(a, b, c, d):
     dp, dl = math.radians(c - a), math.radians(d - b)
     h = math.sin(dp/2)**2 + math.cos(p1)*math.cos(p2)*math.sin(dl/2)**2
     return 2 * R * math.asin(math.sqrt(h))
+
+
+# ------------------------------------------------------------------- jugement
+# Les etiquettes OpenStreetMap sont larges. Ces regles font le tri qu'un humain
+# ferait en lisant la liste: elles ecartent ce qui ne peut pas porter Lasclay et
+# remontent ce qui a les signaux d'une boutique independante a recit.
+
+# archetypes ecartes d'office: aucun lien plausible avec la gamme
+ARCHETYPES_EXCLUS = {
+    "Artisanat / materiaux creatifs",   # fournitures de bricolage, pas de vente d'objets finis
+    "Friperie / eco",                   # seconde main: ne prend pas de neuf en consignation
+    "Eco / friperie",
+    "Maroquinerie / sacs",              # concurrence directe sur le sac
+}
+
+# archetypes gardes seulement si le nom porte un signal de specialite
+ARCHETYPES_CONDITIONNELS = {
+    "Vin / spiritueux": ("cave", "vignoble", "vigneron", "winery", "cellar", "microbrasserie",
+                         "brasserie", "brewing", "brewery", "malt", "cidrerie", "hydromel",
+                         "distillerie", "distillery", "terroir", "importation privee"),
+    "Plein air / sport": ("plein air", "outdoor", "outfitter", "adventure", "aventure",
+                          "mountain", "montagne", "trail", "camp", "canoe", "kayak",
+                          "randonnee", "hiking", "ski", "nature", "expedition"),
+    "Fleuriste / jardin": ("jardin", "garden", "centre", "center", "serre", "pepiniere",
+                           "nursery", "greenhouse", "horticole"),
+    # Deco et articles de maison restent sans condition de nom: Chez
+    # Georges-Emile, deja detaillant, est precisement une boutique cadeaux et
+    # deco. Coussins, mitaines de four, sous-plats et couvertures y ont leur
+    # place. Leur pointage plus bas suffit a les classer apres les autres.
+}
+
+# mots du nom qui trahissent une boutique independante a recit
+SIGNAUX_POSITIFS = ("artisan", "artisans", "artisanat", "local", "locaux", "made in",
+                    "coop", "cooperative", "marche", "market", "terroir", "ferme", "farm",
+                    "atelier", "nature", "jardin", "garden", "vrac", "bulk", "refill",
+                    "eco", "ecolo", "vert", "green", "zero dechet", "zero waste",
+                    "general store", "magasin general", "mercantile", "trading post",
+                    "handmade", "fait main", "createur", "createurs", "maker", "craft",
+                    "boutique", "du coin", "village", "heritage", "quebec", "gaspesie",
+                    "charlevoix", "acadie", "maritimes")
+
+# mots du nom qui disent grande surface, liquidation ou franchise
+SIGNAUX_NEGATIFS = ("outlet", "liquidation", "clearance", "discount", "depot", "mart",
+                    "superstore", "megastore", "warehouse", "wholesale", "franchise",
+                    "express", "express inc", "self serve", "vending")
+
+def jugement(r):
+    """Renvoie (bonus, motif_de_rejet). Un motif non vide ecarte le candidat."""
+    nom = strip_acc(r["nom"]).lower()
+    typ = r["type"]
+
+    if typ in ARCHETYPES_EXCLUS:
+        return 0, f"archetype ecarte ({typ})"
+
+    cond = ARCHETYPES_CONDITIONNELS.get(typ)
+    if cond and not any(m in nom for m in cond):
+        return 0, f"{typ} sans signal de specialite dans le nom"
+
+    if any(m in nom for m in SIGNAUX_NEGATIFS):
+        return 0, "nom de grande surface ou de liquidation"
+
+    bonus = 0
+    touches = [m for m in SIGNAUX_POSITIFS if m in nom]
+    if touches:
+        bonus += min(12, 4 * len(touches))
+    return bonus, ""
+
+def moyens_de_contact(r):
+    m = []
+    if r.get("tel"): m.append("téléphone")
+    if r.get("courriel"): m.append("courriel")
+    if r.get("fb") or r.get("ig"): m.append("réseaux sociaux")
+    if r.get("web"): m.append("site web")
+    return ", ".join(m)
 
 # ------------------------------------------------------------------------ zones
 zones = J("zones.json")
@@ -192,7 +276,7 @@ rows, vus = [], set()
 zone_par_nom = {z["zone"]: z for z in zones}
 
 def ajouter(nom, typ, ville, prov, adresse, cp, tel, mail, web, source,
-            lat=None, lon=None, zone=None):
+            lat=None, lon=None, zone=None, fb="", ig=""):
     if not nom or len(nom) < 2: return
     n = norm(nom)
     if any(c in strip_acc(nom).lower() for c in CHAINES): return
@@ -216,13 +300,19 @@ def ajouter(nom, typ, ville, prov, adresse, cp, tel, mail, web, source,
                      palier=z["palier"], pop=z.get("pop", 0),
                      ville=(ville or "").strip(), prov=z["prov"],
                      adresse=clean_addr(adresse), cp=(cp or "").strip().upper(),
-                     tel=clean_tel(tel), courriel=(mail or "").strip().lower(),
-                     web=(web or "").strip(), source=source, rattachement=moyen))
+                     tel=clean_tel(tel), courriel=clean_mail(mail),
+                     web=(web or "").strip(), fb=(fb or "").strip(), ig=(ig or "").strip(),
+                     source=source, rattachement=moyen))
 
-for c in J("candidats_enrichis.json"):
-    ajouter(c.get("nom"), strip_acc(c.get("type", "")), c.get("ville"), c.get("prov"),
-            c.get("adresse"), c.get("cp"), c.get("tel"), c.get("courriel"),
-            c.get("web"), "Recherche web ciblee")
+for fichier in ("candidats_enrichis.json", "candidats_zones_manquantes_enrichis.json"):
+    try:
+        lot = J(fichier)
+    except Exception:
+        continue
+    for c in lot:
+        ajouter(c.get("nom"), strip_acc(c.get("type", "")), c.get("ville"), c.get("prov"),
+                c.get("adresse"), c.get("cp"), c.get("tel"), c.get("courriel"),
+                c.get("web"), "Recherche web ciblee", fb=c.get("fb", ""), ig=c.get("ig", ""))
 
 try:
     osm = J("osm_brut.json")
@@ -231,7 +321,54 @@ except Exception:
 for c in osm:
     ajouter(c.get("nom"), strip_acc(c.get("type", "")), c.get("ville"), c.get("prov"),
             c.get("adresse"), c.get("cp"), c.get("tel"), c.get("courriel"),
-            c.get("web"), "OpenStreetMap", c.get("lat"), c.get("lon"), c.get("zone"))
+            c.get("web"), "OpenStreetMap", c.get("lat"), c.get("lon"), c.get("zone"),
+            c.get("fb"), c.get("ig"))
+
+# --- coordonnees trouvees sur les sites des boutiques -------------------------
+par_web = {}
+for r in rows:
+    if r["web"]:
+        par_web.setdefault(r["web"].rstrip("/").lower(), []).append(r)
+sites_morts = set()
+try:
+    for e in J("a_scraper_enrichi.json"):
+        if e.get("_mort"): sites_morts.add((e.get("web") or "").rstrip("/").lower())
+        for r in par_web.get((e.get("web") or "").rstrip("/").lower(), []):
+            if not r["tel"] and e.get("tel"): r["tel"] = clean_tel(e["tel"])
+            if not r["courriel"] and e.get("courriel"): r["courriel"] = clean_mail(e["courriel"])
+            if not r["adresse"] and e.get("adresse"): r["adresse"] = clean_addr(e["adresse"])
+            if not r["cp"] and e.get("cp"): r["cp"] = e["cp"]
+except Exception:
+    pass
+
+# --- tri au jugement -----------------------------------------------------------
+# 1. une enseigne presente dans trois zones ou plus est une chaine: elle achete
+#    par centrale et ne fera pas de consignation, quel que soit son nom.
+zones_par_enseigne = {}
+for r in rows:
+    zones_par_enseigne.setdefault(norm(r["nom"]), set()).add(r["zone"])
+
+garde, rejets = [], {}
+for r in rows:
+    if len(zones_par_enseigne[norm(r["nom"])]) >= 4:
+        rejets["enseigne presente dans 4 zones ou plus"] = rejets.get("enseigne presente dans 4 zones ou plus", 0) + 1
+        continue
+    bonus, motif = jugement(r)
+    if motif:
+        rejets[motif.split(" (")[0]] = rejets.get(motif.split(" (")[0], 0) + 1
+        continue
+    # 2. sans moyen de joindre le commerce, la fiche est inutilisable. Un site
+    #    qui repond compte: on y trouve un formulaire. Un domaine mort, non.
+    site_vivant = bool(r["web"]) and r["web"].rstrip("/").lower() not in sites_morts
+    if not (r["tel"] or r["courriel"] or r["fb"] or r["ig"] or site_vivant):
+        rejets["aucun moyen de contact"] = rejets.get("aucun moyen de contact", 0) + 1
+        continue
+    r["bonus"] = bonus
+    garde.append(r)
+rows = garde
+print("Ecartes au tri :")
+for k, v in sorted(rejets.items(), key=lambda x: -x[1]):
+    print(f"  {v:>6}  {k}")
 
 # ---------------------------------------------------------------------- pointage
 for r in rows:
@@ -242,6 +379,8 @@ for r in rows:
     s += 6 if r["adresse"] else 0
     s += 5 if r["web"] else 0
     if r["source"] == "Recherche web ciblee": s += 10  # archetype valide a la lecture
+    s += r.get("bonus", 0)                              # signaux du nom
+    if r["tel"] and r["courriel"]: s += 5                # joignable de deux facons
     if cle_zone(r["zone"]) in {cle_zone(x) for x in ZONES_COUVERTES}:
         s -= 20
         r["statut_zone"] = "Zone deja couverte"
@@ -401,8 +540,17 @@ lignes = [
     ["Montréal", "Le centre et le Plateau sont couverts par Les Défricheuses. L'île est découpée: l'Ouest-de-l'Île et l'Est sont des zones distinctes, ouvertes. La Rive-Sud et la Rive-Nord aussi."],
     ["Rive-Sud", "La boutique du parc des Îles-de-Boucherville est saisonnière et ne porte qu'une partie de la gamme: la zone reste à ouvrir pour un détaillant à l'année."],
     ["", ""],
+    ["Le tri appliqué", ""],
+    ["Contact obligatoire", "Toute fiche sans téléphone, courriel, page sociale ni site web vivant a été retirée: elle n'est pas exploitable."],
+    ["Chaînes", "Une enseigne présente dans quatre zones ou plus est retirée: elle achète par centrale et ne fera pas de consignation."],
+    ["Archétypes écartés", "Fournitures de bricolage, friperies et maroquineries. Les friperies ne prennent pas de neuf en consignation; la maroquinerie nous concurrence sur le sac."],
+    ["Archétypes conditionnels", "Alcool, sport et fleuriste ne sont gardés que si le nom porte un signal de spécialité (cave, vignoble, microbrasserie, plein air, outfitter, jardin, pépinière...)."],
+    ["Signaux du nom", "Les mots artisan, local, coop, marché, terroir, ferme, atelier, vrac, éco, général, mercantile, créateur et les noms de région donnent un bonus."],
+    ["Ce qui reste à faire", "Les zones marquées AUCUN candidat dans la feuille Couverture demandent une recherche manuelle: les données publiques n'y donnent aucun commerce joignable."],
+    ["", ""],
     ["Sources", ""],
-    ["Recherche web ciblée", "Annuaires écoresponsables, répertoires d'artisans, presse régionale, sites des boutiques. Archétype validé à la lecture."],
+    ["Recherche web ciblée", "Annuaires écoresponsables, répertoires d'artisans, presse régionale, offices de tourisme régionaux, sites des boutiques. Archétype validé à la lecture."],
+    ["Sites des boutiques", "3213 sites interrogés pour en extraire téléphone, courriel et adresse (données structurées puis pied de page)."],
     ["OpenStreetMap", "Moisson Overpass des commerces canadiens correspondant aux archétypes retenus, dans un rayon de 30 km autour de chaque ville-ancre."],
     ["", ""],
     ["Limites à connaître", ""],
@@ -430,14 +578,15 @@ feuille(ws, ["Nom", "Nature du commerce", "Ville", "Prov", "Adresse", "Code post
 # --- Candidats
 ws = wb.create_sheet("Candidats")
 data = [[fr(r["priorite"]), r["rang"], r["zone"], r["ville"], r["prov"], r["nom"], fr(r["type"]),
-         r["adresse"], r["cp"], r["tel"], r["courriel"], r["web"], r["score"],
-         r["pop"] or "", fr(tranche_population(r["pop"])),
+         r["adresse"], r["cp"], r["tel"], r["courriel"], r["fb"] or r["ig"], r["web"],
+         moyens_de_contact(r), r["score"], r["pop"] or "", fr(tranche_population(r["pop"])),
          fr(r["statut_zone"]), fr(r["source"])] for r in retenus]
 feuille(ws, ["Priorité", "Rang zone", "Zone (1 seul détaillant)", "Ville", "Prov", "Nom",
-             "Archétype", "Adresse", "Code postal", "Téléphone", "Courriel", "Site web",
-             "Score", "Population de la zone", "Tranche de population",
+             "Archétype", "Adresse", "Code postal", "Téléphone", "Courriel",
+             "Page sociale", "Site web", "Moyens de contact", "Score",
+             "Population de la zone", "Tranche de population",
              "Statut de la zone", "Source"],
-        data, [22, 10, 30, 20, 6, 34, 26, 34, 12, 15, 30, 36, 8, 14, 20, 20, 20])
+        data, [22, 10, 30, 20, 6, 34, 26, 34, 12, 15, 30, 34, 36, 24, 8, 14, 20, 20, 20])
 
 # --- Couverture
 ws = wb.create_sheet("Couverture par zone")
