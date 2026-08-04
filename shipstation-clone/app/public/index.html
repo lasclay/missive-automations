@@ -1056,7 +1056,16 @@ async function api(route, opts = {}) {
     if (err && err.name === "AbortError") throw err;
     throw new Error("service injoignable — redémarrage en cours ? réessayer dans un instant");
   }
-  if (r.status === 401) { montrerConnexion(); throw new Error("session expirée"); }
+  if (r.status === 401) {
+    // La session a expiré : l'écran de connexion **est** le traitement de cette erreur. On
+    // lève quand même pour interrompre l'appelant, mais en marquant l'erreur comme déjà
+    // traitée — sinon elle finit en rejet non géré dans la console, où elle noie les vraies
+    // pannes que le §4.3 demande justement de rendre visibles.
+    montrerConnexion();
+    const e = new Error("session expirée");
+    e.traitee = true;
+    throw e;
+  }
   const t = await r.text();
   let j;
   try {
@@ -7639,7 +7648,10 @@ async function rafraichirCompteurs({ force = false } = {}) {
  * celles-là : tout le reste continue de remonter.
  */
 addEventListener("unhandledrejection", (e) => {
-  if (e.reason && e.reason.name === "AbortError") e.preventDefault();
+  // Deux cas sont normaux et ne doivent pas polluer la console : une requête que nous avons
+  // nous-mêmes abandonnée, et une session expirée dont l'écran de connexion est la réponse.
+  // Tout le reste doit rester visible — c'est ce qui permet de repérer les vraies pannes.
+  if (e.reason && (e.reason.name === "AbortError" || e.reason.traitee)) e.preventDefault();
 });
 
 /**
