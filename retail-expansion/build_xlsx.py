@@ -1,0 +1,456 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Assemble le chiffrier des points de vente candidats de Lasclay."""
+
+import json, math, re, unicodedata, os
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.utils import get_column_letter
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+J = lambda n: json.load(open(os.path.join(BASE, n), encoding='utf-8'))
+
+# ---------------------------------------------------------------- reseau actuel
+ACTUELS = [
+    ("Lasclay – Boutique et Atelier", "Boutique et atelier de la marque", "Québec", "QC",
+     "254 boul. des Capucins, 2e étage", "G1J 3R4", "", "", "https://lasclay.com", "Tous + exclusivités + prototypes"),
+    ("Les Défricheuses", "Boutique écoresponsable / créatrices d'ici", "Montréal", "QC",
+     "1319 rue Beaubien E", "H2G 1K7", "514-374-5325", "", "https://lesdefricheuses.ca", "Tous les produits"),
+    ("L'Axe du Malt", "Boutique de bière et de brassage", "Québec", "QC",
+     "601 rue D'Aiguillon", "G1R 3H3", "", "", "", "Sacs à lunch, glacières, manchons isothermes"),
+    ("Vert métal", "Boutique écoresponsable", "L'Ancienne-Lorette", "QC",
+     "2051 rue Saint-Jean-Baptiste", "G2E 1R6", "", "", "https://www.vertmetal.com", "Sacs à lunch, sacs à vin, coussins, cuisine, manchons"),
+    ("Agriculture du Coin", "Jardinerie et agriculture urbaine", "Montréal", "QC",
+     "235 av. Laurier O", "H2T 2N9", "514-273-4332", "", "https://agricultureducoin.ca", "Sacs à lunch"),
+    ("Parc national des Îles-de-Boucherville (Sépaq)", "Boutique de parc national", "Boucherville", "QC",
+     "55 Île Sainte-Marguerite", "J4B 5J6", "450-928-5088", "", "https://www.sepaq.com/pq/bou", "Selon la saison"),
+    ("Belle et Rebelle", "Boutique de créateurs québécois", "Sherbrooke", "QC",
+     "90 rue Wellington N", "J1H 5B8", "819-791-2299", "", "https://www.belleetrebellesherbrooke.ca", "Mitaines"),
+    ("Chez Georges-Émile", "Boutique cadeaux et déco", "Rimouski", "QC",
+     "92 rue St-Germain O", "G5L 4B5", "418-725-8533", "", "", "Sacs à lunch"),
+    ("Librairie Alpha", "Librairie indépendante", "Gaspé", "QC",
+     "168 rue de la Reine", "G4X 1T4", "418-368-5514", "", "https://alpha.leslibraires.ca", "Sacs à lunch"),
+    ("Local Refillery", "Refillery / zéro déchet", "Courtenay", "BC",
+     "420 Fitzgerald Ave", "V9N 7N2", "250-871-6600", "", "https://www.localrefillery.com", "Sacs à lunch"),
+]
+ZONES_COUVERTES = {
+    "Quebec - centre et Limoilou", "Montreal - centre et Plateau", "Longueuil et Rive-Sud",
+    "Sherbrooke", "Rimouski", "Gaspe et Perce", "Comox Valley",
+}
+
+# ------------------------------------------------------------------- referentiel
+SCORE_TYPE = {
+    "Cadeaux / artisans": 40, "Artisans quebecois": 40, "Artisans canadiens": 40,
+    "Artisans atlantiques": 40, "Artisans et designers quebecois": 40,
+    "Cadeaux / produits quebecois": 40, "Designers canadiens": 40,
+    "Metiers d'art": 36, "Artisans / metiers d'art": 36, "Artisans": 34,
+    "Artisans / cadeaux": 38, "Artisans / galerie": 32, "Galerie / artisans": 30,
+    "Eco / zero dechet": 35, "Magasin general ecoresponsable": 35,
+    "Magasin general eco": 35, "Eco / boutique": 34, "Eco / artisans": 38,
+    "Eco / produits quebecois": 38, "Boutique eco": 32, "Eco / plein air": 38,
+    "Plein air": 35, "Jardinerie / horticulture": 32,
+    "Epicerie fine / terroir": 30, "Terroir / cadeaux quebecois": 38,
+    "Terroir / epicerie fine": 30, "Terroir / produits regionaux": 36,
+    "Fromagerie / terroir": 28, "Kiosque fermier / terroir": 28,
+    "Ornithologie / nature": 40, "Boutique de musee": 34,
+    "Librairie / artisans": 34, "Librairie independante": 26,
+    "Alimentation sante / bio": 24, "Epicerie bio / vrac": 24, "Epicerie bio / eco": 24,
+    "Epicerie zero dechet": 28, "Epicerie sante / eco": 24, "Epicerie / vrac": 24,
+    "Epicerie vrac": 24, "Marche / eco": 26, "Eco / marche local": 30,
+    "Cafe-boutique eco": 30, "Eco / cosmetiques": 20, "Eco / apothicaire": 22,
+    "Eco / sante": 20, "Eco / bien-etre": 20, "Cadeaux / eco": 34,
+    "Sante naturelle / boutique": 20, "Coop artisans": 36, "Cooperative artisans": 36,
+    "Artisanat / materiaux creatifs": 18, "Friperie / eco": 16, "Eco / friperie": 18,
+    "Fleuriste / jardin": 18, "Plein air / sport": 22, "Chasse et peche": 28,
+    "Vin / spiritueux": 14, "Boissons / brassage": 28, "Maroquinerie / sacs": 24,
+    "Deco / maison": 26, "Articles de maison": 26,
+    "Eco / grande boutique verte": 30, "Boutique / cadeaux": 30,
+}
+SCORE_PALIER = {"Metropole": 15, "Grande ville": 14, "Ville moyenne": 12,
+                "Petite ville": 9, "Region eloignee": 5}
+
+# chaines et grandes surfaces a exclure (ne correspondent pas au modele consignation)
+CHAINES = [
+    "dollarama", "dollar tree", "hallmark", "carlton card", "things engraved", "winners",
+    "walmart", "canadian tire", "home hardware", "rona", "home depot", "lowe", "costco",
+    "sport chek", "atmosphere", "sportium", "decathlon", "mountain equipment", "mec ",
+    "bulk barn", "nutrition house", "gnc", "popeye", "vitamin shop", "sephora", "lush",
+    "the body shop", "bath & body", "yves rocher", "saje", "davidstea", "second cup",
+    "starbucks", "tim horton", "mcdonald", "subway", "shoppers drug", "pharmaprix",
+    "jean coutu", "uniprix", "familiprix", "metro ", "iga ", "provigo", "maxi ", "loblaw",
+    "sobeys", "safeway", "save-on-food", "no frills", "super c", "food basics",
+    "indigo", "chapters", "coles", "renaud-bray", "archambault", "toys r us",
+    "spencer", "claire's", "ardene", "la senza", "dynamite", "garage", "reitmans",
+    "value village", "goodwill", "salvation army", "armee du salut", "talize",
+    "canex", "hudson's bay", "la baie", "simons", "holt renfrew", "nordstrom",
+    "michaels", "deserres", "omer deserres", "staples", "bureau en gros",
+    "sherwin", "benjamin moore", "pet valu", "mondou", "petsmart",
+    "gift shop", "souvenir", "duty free", "hors taxe", "airport",
+    # succursales et grandes surfaces d'alcool: achat par centrale, aucun interet
+    "liquor", "lcbo", "saq ", "societe des alcools", "beer store", "brewers retail",
+    "wine rack", "cold beer", "spirits", "alcool", "wine & beyond", "ace discount",
+    "cannabis", "vape", "smoke shop", "tobacco",
+    # autres enseignes sans pertinence
+    "petro", "esso", "shell", "circle k", "couche-tard", "7-eleven", "ultramar",
+    "electrolux", "vacuum", "aspirateur", "kirby", "rent-a-center", "cash",
+    "u-haul", "storage", "self storage", "car wash", "lave-auto",
+]
+
+def strip_acc(s):
+    if not s: return ""
+    return "".join(c for c in unicodedata.normalize("NFD", str(s))
+                   if unicodedata.category(c) != "Mn")
+
+def norm(s):
+    return re.sub(r"[^a-z0-9]+", "", strip_acc(s).lower())
+
+def clean_addr(a):
+    if not a: return ""
+    a = re.sub(r"\s+", " ", str(a)).strip(" ,;|-")
+    # coupe le bruit d'horaires ramasse par le scraper
+    a = re.split(r"(?i)\b(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|monday|tuesday|hours|heures|ouvert|open)\b", a)[0]
+    a = re.sub(r"\d{1,2}\s?h\s?(a|à|-)\s?\d{1,2}\s?h", "", a)
+    return re.sub(r"\s+", " ", a).strip(" ,;|-")[:90]
+
+def clean_tel(t):
+    if not t: return ""
+    d = re.sub(r"\D", "", str(t))
+    if len(d) == 11 and d.startswith("1"): d = d[1:]
+    if len(d) != 10: return str(t)[:24]
+    return f"{d[0:3]}-{d[3:6]}-{d[6:10]}"
+
+def haversine(a, b, c, d):
+    R = 6371.0
+    p1, p2 = math.radians(a), math.radians(c)
+    dp, dl = math.radians(c - a), math.radians(d - b)
+    h = math.sin(dp/2)**2 + math.cos(p1)*math.cos(p2)*math.sin(dl/2)**2
+    return 2 * R * math.asin(math.sqrt(h))
+
+# ------------------------------------------------------------------------ zones
+zones = J("zones.json")
+ville2zone = {}
+for z in zones:
+    for v in z["villes"]:
+        ville2zone.setdefault((z["prov"], norm(v)), z)
+    ville2zone.setdefault((z["prov"], norm(z["ancre"])), z)
+
+def zone_la_plus_proche(lat, lon, seuil=90.0):
+    best, bd = None, 1e9
+    for z in zones:
+        if not z.get("lat"): continue
+        d = haversine(lat, lon, z["lat"], z["lon"])
+        if d < bd: best, bd = z, d
+    if best and bd <= seuil:
+        return best, f"a {bd:.0f} km de {best['ancre']}"
+    return None, ""
+
+def trouver_zone(prov, ville, lat=None, lon=None):
+    z = ville2zone.get((prov, norm(ville)))
+    if z: return z, "ville"
+    if lat and lon:
+        best, bd = None, 1e9
+        for zz in zones:
+            if not zz.get("lat"): continue
+            d = haversine(float(lat), float(lon), zz["lat"], zz["lon"])
+            if d < bd: best, bd = zz, d
+        if best and bd <= 60:
+            return best, f"proximite ({bd:.0f} km)"
+    return None, ""
+
+# -------------------------------------------------------------------- chargement
+rows, vus = [], set()
+
+zone_par_nom = {z["zone"]: z for z in zones}
+
+def ajouter(nom, typ, ville, prov, adresse, cp, tel, mail, web, source,
+            lat=None, lon=None, zone=None):
+    if not nom or len(nom) < 2: return
+    n = norm(nom)
+    if any(c in strip_acc(nom).lower() for c in CHAINES): return
+    # les coordonnees priment: chaque commerce va a la zone-ancre la plus proche.
+    # a defaut, on utilise la ville inscrite, puis la zone du rayon de moisson.
+    z, moyen = (None, "")
+    if lat and lon:
+        z, moyen = zone_la_plus_proche(float(lat), float(lon))
+    if not z and ville:
+        z, moyen = ville2zone.get((prov, norm(ville))), "ville"
+    if not z and zone and zone in zone_par_nom:
+        z, moyen = zone_par_nom[zone], "rayon de la ville-ancre"
+    if not z:
+        z, moyen = trouver_zone(prov, ville, lat, lon)
+    if not z: return
+    # dedoublonnage global: les rayons de moisson se chevauchent
+    cle = (n, round(float(lat), 3), round(float(lon), 3)) if lat and lon else (n, z["zone"])
+    if cle in vus: return
+    vus.add(cle)
+    rows.append(dict(nom=nom.strip(), type=typ, zone=z["zone"], ancre=z["ancre"],
+                     palier=z["palier"], ville=(ville or "").strip(), prov=z["prov"],
+                     adresse=clean_addr(adresse), cp=(cp or "").strip().upper(),
+                     tel=clean_tel(tel), courriel=(mail or "").strip().lower(),
+                     web=(web or "").strip(), source=source, rattachement=moyen))
+
+for c in J("candidats_enrichis.json"):
+    ajouter(c.get("nom"), strip_acc(c.get("type", "")), c.get("ville"), c.get("prov"),
+            c.get("adresse"), c.get("cp"), c.get("tel"), c.get("courriel"),
+            c.get("web"), "Recherche web ciblee")
+
+try:
+    osm = J("osm_brut.json")
+except Exception:
+    osm = []
+for c in osm:
+    ajouter(c.get("nom"), strip_acc(c.get("type", "")), c.get("ville"), c.get("prov"),
+            c.get("adresse"), c.get("cp"), c.get("tel"), c.get("courriel"),
+            c.get("web"), "OpenStreetMap", c.get("lat"), c.get("lon"), c.get("zone"))
+
+# ---------------------------------------------------------------------- pointage
+for r in rows:
+    s = SCORE_TYPE.get(r["type"], 22)
+    s += SCORE_PALIER.get(strip_acc(r["palier"]), 8)
+    s += 7 if r["tel"] else 0
+    s += 7 if r["courriel"] else 0
+    s += 6 if r["adresse"] else 0
+    s += 5 if r["web"] else 0
+    if r["source"] == "Recherche web ciblee": s += 10  # archetype valide a la lecture
+    if strip_acc(r["zone"]) in {strip_acc(x) for x in ZONES_COUVERTES}:
+        s -= 20
+        r["statut_zone"] = "Zone deja couverte"
+    else:
+        s += 15
+        r["statut_zone"] = "Zone a ouvrir"
+    r["score"] = s
+
+rows.sort(key=lambda r: (-r["score"], r["zone"], r["nom"]))
+
+# rang a l'interieur de la zone (regle d'exclusivite: on approche le rang 1 d'abord)
+par_zone = {}
+for r in rows:
+    par_zone.setdefault(r["zone"], []).append(r)
+    r["rang"] = len(par_zone[r["zone"]])
+    r["priorite"] = ("A - approcher en premier" if r["rang"] == 1 and r["statut_zone"] == "Zone a ouvrir"
+                     else "B - releve" if r["rang"] <= 3 and r["statut_zone"] == "Zone a ouvrir"
+                     else "C - reserve")
+
+# cibles: 500 candidats au Quebec, 1000 dans le reste du Canada.
+# on ratisse en largeur d'abord (le rang 1 de chaque zone), puis en profondeur.
+CIBLES = {"QC": 500, "ROC": 1000}
+retenus = []
+for groupe, cible in CIBLES.items():
+    pool = [r for r in rows if (r["prov"] == "QC") == (groupe == "QC")]
+    pris, rang = [], 1
+    while len(pris) < cible and rang <= 60:
+        vague = sorted([r for r in pool if r["rang"] == rang], key=lambda r: -r["score"])
+        if not vague and rang > 20: break
+        pris += vague[:cible - len(pris)]
+        rang += 1
+    retenus += pris
+retenus.sort(key=lambda r: (r["prov"], r["zone"], r["rang"]))
+
+# coordonnees completees a partir des sites web (scrape_contacts.js)
+cle_contact = {(norm(r["nom"]), r["zone"]): r for r in retenus}
+try:
+    for e in J("selection_enrichie.json"):
+        c = cle_contact.get((norm(e.get("nom")), e.get("zone")))
+        if not c: continue
+        for champ in ("tel", "courriel", "adresse", "cp"):
+            if not c.get(champ) and e.get(champ):
+                c[champ] = clean_tel(e[champ]) if champ == "tel" else (
+                    clean_addr(e[champ]) if champ == "adresse" else e[champ])
+except Exception:
+    pass
+
+json.dump([{k: v for k, v in r.items()} for r in retenus],
+          open(os.path.join(BASE, "selection.json"), "w", encoding="utf-8"),
+          ensure_ascii=False, indent=1)
+
+
+# Les libelles internes sont sans accents (comparaisons robustes). On les
+# retablit au moment d'ecrire, parce que le chiffrier se lit en francais.
+ACCENTS = {
+    "Eco / zero dechet": "Éco / zéro déchet",
+    "Eco / artisans": "Éco / artisans",
+    "Eco / produits quebecois": "Éco / produits québécois",
+    "Eco / boutique": "Éco / boutique",
+    "Eco / plein air": "Éco / plein air",
+    "Eco / marche local": "Éco / marché local",
+    "Eco / cosmetiques": "Éco / cosmétiques",
+    "Eco / apothicaire": "Éco / apothicaire",
+    "Eco / sante": "Éco / santé",
+    "Eco / bien-etre": "Éco / bien-être",
+    "Eco / friperie": "Éco / friperie",
+    "Eco / grande boutique verte": "Éco / grande boutique verte",
+    "Magasin general ecoresponsable": "Magasin général écoresponsable",
+    "Magasin general eco": "Magasin général éco",
+    "Epicerie zero dechet": "Épicerie zéro déchet",
+    "Epicerie fine / terroir": "Épicerie fine / terroir",
+    "Epicerie bio / vrac": "Épicerie bio / vrac",
+    "Epicerie bio / eco": "Épicerie bio / éco",
+    "Epicerie sante / eco": "Épicerie santé / éco",
+    "Epicerie / vrac": "Épicerie / vrac",
+    "Epicerie vrac": "Épicerie vrac",
+    "Alimentation sante / bio": "Alimentation santé / bio",
+    "Artisans quebecois": "Artisans québécois",
+    "Artisans et designers quebecois": "Artisans et designers québécois",
+    "Cadeaux / produits quebecois": "Cadeaux / produits québécois",
+    "Terroir / cadeaux quebecois": "Terroir / cadeaux québécois",
+    "Terroir / epicerie fine": "Terroir / épicerie fine",
+    "Terroir / produits regionaux": "Terroir / produits régionaux",
+    "Metiers d'art": "Métiers d'art",
+    "Artisans / metiers d'art": "Artisans / métiers d'art",
+    "Artisanat / materiaux creatifs": "Artisanat / matériaux créatifs",
+    "Boutique de musee": "Boutique de musée",
+    "Librairie independante": "Librairie indépendante",
+    "Marche / eco": "Marché / éco",
+    "Cafe-boutique eco": "Café-boutique éco",
+    "Sante naturelle / boutique": "Santé naturelle / boutique",
+    "Cooperative artisans": "Coopérative artisans",
+    "Coop artisans": "Coop artisans",
+    "Chasse et peche": "Chasse et pêche",
+    "Deco / maison": "Déco / maison",
+    "Fleuriste / jardin": "Fleuriste / jardin",
+    "Boissons / brassage": "Boissons / brassage",
+    "Metropole": "Métropole",
+    "Region eloignee": "Région éloignée",
+    "Zone deja couverte": "Zone déjà couverte",
+    "Zone a ouvrir": "Zone à ouvrir",
+    "Recherche web ciblee": "Recherche web ciblée",
+    "A - approcher en premier": "A - approcher en premier",
+    "B - releve": "B - relève",
+    "C - reserve": "C - réserve",
+}
+def fr(v):
+    return ACCENTS.get(v, v)
+
+# --------------------------------------------------------------------- chiffrier
+wb = Workbook()
+TITRE = PatternFill("solid", fgColor="1F4E3D")
+FTITRE = Font(bold=True, color="FFFFFF", size=11)
+BORD = Border(*[Side(style="thin", color="D9D9D9")] * 4)
+
+def feuille(ws, entetes, data, largeurs):
+    ws.append(entetes)
+    for i, c in enumerate(ws[1], 1):
+        c.fill, c.font = TITRE, FTITRE
+        c.alignment = Alignment(vertical="center", wrap_text=True)
+    ws.row_dimensions[1].height = 30
+    for d in data:
+        ws.append(d)
+    for i, w in enumerate(largeurs, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+    ws.freeze_panes = "A2"
+    ws.auto_filter.ref = ws.dimensions
+    for row in ws.iter_rows(min_row=2):
+        for c in row:
+            c.border = BORD
+            c.alignment = Alignment(vertical="top", wrap_text=False)
+
+# --- Lisez-moi
+ws = wb.active
+ws.title = "Lisez-moi"
+lignes = [
+    ["Points de vente Lasclay – liste de prospection pancanadienne", ""],
+    ["", ""],
+    ["Objectif du réseau", "100 à 200 points de vente actifs en consignation, dans des zones peuplées."],
+    ["Règle d'exclusivité", "Un seul détaillant retenu par zone. Les candidats sont classés par rang: on approche le rang 1, puis le 2, puis le 3."],
+    ["Règle de distance", "Le découpage en zones vise à ce que personne n'ait plus d'une heure de route pour atteindre un point de vente."],
+    ["Nombre de zones", f"{len(zones)} zones couvrant les régions habitées du Canada."],
+    ["Candidats listés", f"{len(retenus)}: {sum(1 for r in retenus if r['prov'] == 'QC')} au Québec et {sum(1 for r in retenus if r['prov'] != 'QC')} ailleurs au Canada."],
+    ["Profondeur", "Plusieurs candidats par zone. C'est un bassin de prospection, pas une liste de détaillants approuvés."],
+    ["", ""],
+    ["Comment lire la feuille Candidats", ""],
+    ["Priorité A", "Rang 1 dans une zone non encore couverte: à contacter en premier."],
+    ["Priorité B", "Rang 2 ou 3 dans une zone non couverte: relève si le rang 1 refuse."],
+    ["Priorité C", "Zone déjà couverte par un détaillant Lasclay, ou rang 4 et plus."],
+    ["Pointage", "Archétype du commerce (jusqu'à 40) + taille du marché (jusqu'à 15) + coordonnées complètes (jusqu'à 25) + zone à ouvrir (15) + validation à la lecture (10)."],
+    ["", ""],
+    ["Sources", ""],
+    ["Recherche web ciblée", "Annuaires écoresponsables, répertoires d'artisans, presse régionale, sites des boutiques. Archétype validé à la lecture."],
+    ["OpenStreetMap", "Moisson Overpass des commerces canadiens correspondant aux archétypes retenus, dans un rayon de 30 km autour de chaque ville-ancre."],
+    ["", ""],
+    ["Limites à connaître", ""],
+    ["Champs vides", "Une case vide veut dire non vérifiée, pas inexistante. Ne rien inventer: valider avant tout envoi."],
+    ["Colonne Ville", "Vide quand la source ne la donne pas. La zone et l'adresse situent quand même le commerce."],
+    ["Fraîcheur", "Des commerces peuvent avoir fermé, déménagé ou changé de vocation. Vérifier avant d'approcher."],
+    ["Bruit de la moisson", "Les étiquettes OpenStreetMap sont larges: quelques commerces listés ne conviendront pas à Lasclay. Le tri final reste humain."],
+    ["Adresses extraites des sites", "Récupérées automatiquement dans les pieds de page. Fiables en général, à relire avant un envoi postal."],
+]
+for l in lignes: ws.append(l)
+ws.column_dimensions["A"].width = 34
+ws.column_dimensions["B"].width = 105
+ws["A1"].font = Font(bold=True, size=14, color="1F4E3D")
+for r in ws.iter_rows(min_row=1, max_col=1):
+    if r[0].value and r[0].row > 2: r[0].font = Font(bold=True)
+for r in ws.iter_rows(min_row=2, max_col=2):
+    r[1].alignment = Alignment(wrap_text=True, vertical="top")
+
+# --- Reseau actuel
+ws = wb.create_sheet("Réseau actuel")
+feuille(ws, ["Nom", "Nature du commerce", "Ville", "Prov", "Adresse", "Code postal",
+             "Téléphone", "Courriel", "Site web", "Produits en boutique"],
+        ACTUELS, [34, 34, 18, 6, 34, 12, 15, 26, 34, 46])
+
+# --- Candidats
+ws = wb.create_sheet("Candidats")
+data = [[fr(r["priorite"]), r["rang"], r["zone"], r["ville"], r["prov"], r["nom"], fr(r["type"]),
+         r["adresse"], r["cp"], r["tel"], r["courriel"], r["web"], r["score"],
+         fr(r["palier"]), fr(r["statut_zone"]), fr(r["source"])] for r in retenus]
+feuille(ws, ["Priorité", "Rang zone", "Zone (1 seul détaillant)", "Ville", "Prov", "Nom",
+             "Archétype", "Adresse", "Code postal", "Téléphone", "Courriel", "Site web",
+             "Score", "Taille du marché", "Statut de la zone", "Source"],
+        data, [22, 10, 30, 20, 6, 34, 26, 34, 12, 15, 30, 36, 8, 15, 20, 20])
+
+# --- Couverture
+ws = wb.create_sheet("Couverture par zone")
+cov = []
+for z in zones:
+    cands = par_zone.get(z["zone"], [])
+    couverte = strip_acc(z["zone"]) in {strip_acc(x) for x in ZONES_COUVERTES}
+    if couverte: statut = "Couverte - detaillant en place"
+    elif cands: statut = "A ouvrir - candidats identifies"
+    else: statut = "A ouvrir - AUCUN candidat trouve"
+    cov.append([z["prov"], z["zone"], z["ancre"], fr(z["palier"]), statut, len(cands),
+                cands[0]["nom"] if cands else "", cands[0]["tel"] if cands else "",
+                cands[0]["courriel"] if cands else ""])
+cov.sort(key=lambda r: (r[0], r[1]))
+feuille(ws, ["Prov", "Zone", "Ville-ancre", "Taille du marché", "Statut", "Candidats trouvés",
+             "Meilleur candidat", "Téléphone", "Courriel"],
+        cov, [6, 32, 22, 16, 32, 16, 34, 15, 30])
+
+# --- Grille de qualification
+ws = wb.create_sheet("Grille de qualification")
+grille = [
+    ["1. Récit", "La boutique sait-elle raconter d'où vient un produit?", "Éliminatoire",
+     "L'asclépiade ne se vend pas toute seule. Sans quelqu'un qui explique le monarque et la fibre, le produit dort sur la tablette."],
+    ["2. Indépendance", "Commerce indépendant, pas une succursale de chaîne", "Éliminatoire",
+     "Une chaîne achète par centrale et ne fait pas de consignation."],
+    ["3. Clientèle", "Clientèle nature, plein air, jardin, achat local ou cadeau", "Éliminatoire",
+     "Correspond aux clientèles Odette, Suzanne et Gilbert, Alexandra."],
+    ["4. Achalandage", "Passage suffisant, en zone habitée ou touristique", "Fort", ""],
+    ["5. Saison", "Ouvert à l'année, ou complémentaire à notre saisonnalité", "Fort",
+     "Une boutique estivale porte les glacières et les sacs à lunch; une boutique d'hiver, les mitaines."],
+    ["6. Vitrine", "Espace pour une présentation dédiée avec une affichette explicative", "Fort", ""],
+    ["7. Exclusivité", "Accepte d'être le seul détaillant de sa zone", "Fort",
+     "C'est la contrepartie offerte au commerce, et ce qui justifie qu'il s'investisse."],
+    ["8. Inventaire", "Capable de suivre la consignation et de faire un rapport périodique", "Moyen", ""],
+    ["9. Numérique", "Présence en ligne active (site, réseaux sociaux, infolettre)", "Moyen",
+     "Un détaillant qui publie prolonge notre portée sans coût d'acquisition."],
+    ["10. Prix", "Accepte le prix de détail suggéré", "Moyen",
+     "Évite qu'un même produit se retrouve à deux prix trop différents de lasclay.com."],
+    ["11. Produits d'entrée", "Commence par les produits sans taille ni saison", "Méthode",
+     "Sacs à lunch, manchons, glacières et semences: le détaillant risque peu et apprend le produit. Les mitaines et manteaux viennent après."],
+    ["12. Semences", "Prend les semences d'asclépiade", "Méthode",
+     "Achat d'impulsion à petit prix, et c'est le coeur du récit du monarque. Ça ouvre la conversation en magasin."],
+]
+feuille(ws, ["Critère", "Question à poser", "Poids", "Pourquoi ça compte"],
+        grille, [24, 58, 16, 78])
+
+out = os.path.join(BASE, "points-de-vente-lasclay.xlsx")
+wb.save(out)
+
+n_zones_ok = sum(1 for z in zones if par_zone.get(z["zone"]))
+print(f"Candidats retenus : {len(retenus)} (bassin total {len(rows)})")
+print(f"Zones avec au moins un candidat : {n_zones_ok}/{len(zones)}")
+print(f"Avec telephone : {sum(1 for r in retenus if r['tel'])}")
+print(f"Avec courriel  : {sum(1 for r in retenus if r['courriel'])}")
+print(f"Avec adresse   : {sum(1 for r in retenus if r['adresse'])}")
+print(f"Fichier : {out}")

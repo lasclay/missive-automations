@@ -1,0 +1,2674 @@
+[
+ {
+  "zone": "Montréal – centre et Plateau",
+  "prov": "QC",
+  "ancre": "Montréal",
+  "palier": "Métropole",
+  "villes": [
+   "Montréal",
+   "Montreal",
+   "Westmount",
+   "Outremont",
+   "Verdun",
+   "Lachine",
+   "LaSalle",
+   "Saint-Laurent",
+   "Mont-Royal",
+   "Côte-Saint-Luc",
+   "Montréal-Ouest",
+   "Anjou",
+   "Saint-Léonard",
+   "Montréal-Nord",
+   "Rivière-des-Prairies",
+   "Pointe-Claire",
+   "Dorval",
+   "Beaconsfield",
+   "Kirkland",
+   "Baie-D'Urfé",
+   "Sainte-Anne-de-Bellevue",
+   "Dollard-des-Ormeaux"
+  ],
+  "lat": 45.5031824,
+  "lon": -73.5698065
+ },
+ {
+  "zone": "Laval",
+  "prov": "QC",
+  "ancre": "Laval",
+  "palier": "Grande ville",
+  "villes": [
+   "Laval",
+   "Sainte-Rose",
+   "Sainte-Dorothée"
+  ],
+  "lat": 45.605589,
+  "lon": -73.7345601
+ },
+ {
+  "zone": "Longueuil et Rive-Sud",
+  "prov": "QC",
+  "ancre": "Longueuil",
+  "palier": "Grande ville",
+  "villes": [
+   "Longueuil",
+   "Brossard",
+   "Saint-Lambert",
+   "Boucherville",
+   "Saint-Bruno-de-Montarville",
+   "Saint-Hubert",
+   "Greenfield Park",
+   "La Prairie",
+   "Candiac",
+   "Sainte-Julie",
+   "Varennes",
+   "Chambly",
+   "Saint-Basile-le-Grand"
+  ],
+  "lat": 45.521906,
+  "lon": -73.4644578
+ },
+ {
+  "zone": "Vallée-du-Richelieu",
+  "prov": "QC",
+  "ancre": "Beloeil",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Beloeil",
+   "Mont-Saint-Hilaire",
+   "McMasterville",
+   "Otterburn Park",
+   "Saint-Mathieu-de-Beloeil"
+  ],
+  "lat": 45.5643183,
+  "lon": -73.2040066
+ },
+ {
+  "zone": "Saint-Jean-sur-Richelieu",
+  "prov": "QC",
+  "ancre": "Saint-Jean-sur-Richelieu",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Saint-Jean-sur-Richelieu",
+   "Iberville",
+   "Lacolle",
+   "Napierville"
+  ],
+  "lat": 45.3056879,
+  "lon": -73.2533401
+ },
+ {
+  "zone": "Saint-Hyacinthe",
+  "prov": "QC",
+  "ancre": "Saint-Hyacinthe",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Saint-Hyacinthe",
+   "Saint-Césaire",
+   "Acton Vale"
+  ],
+  "lat": 45.627484,
+  "lon": -72.940636
+ },
+ {
+  "zone": "Sorel-Tracy",
+  "prov": "QC",
+  "ancre": "Sorel-Tracy",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Sorel-Tracy",
+   "Sorel",
+   "Contrecoeur"
+  ],
+  "lat": 46.0435235,
+  "lon": -73.1165159
+ },
+ {
+  "zone": "Valleyfield et Beauharnois",
+  "prov": "QC",
+  "ancre": "Salaberry-de-Valleyfield",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Salaberry-de-Valleyfield",
+   "Beauharnois",
+   "Sainte-Martine",
+   "Châteauguay",
+   "Mercier",
+   "Vaudreuil-Dorion",
+   "Saint-Lazare",
+   "Hudson",
+   "Rigaud"
+  ],
+  "lat": 45.2555575,
+  "lon": -74.1316718
+ },
+ {
+  "zone": "Granby et Haute-Yamaska",
+  "prov": "QC",
+  "ancre": "Granby",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Granby",
+   "Waterloo",
+   "Bromont",
+   "Cowansville",
+   "Farnham"
+  ],
+  "lat": 45.3990409,
+  "lon": -72.721834
+ },
+ {
+  "zone": "Sherbrooke",
+  "prov": "QC",
+  "ancre": "Sherbrooke",
+  "palier": "Grande ville",
+  "villes": [
+   "Sherbrooke",
+   "Lennoxville",
+   "Rock Forest",
+   "Windsor"
+  ],
+  "lat": 45.403271,
+  "lon": -71.889038
+ },
+ {
+  "zone": "Magog et Memphrémagog",
+  "prov": "QC",
+  "ancre": "Magog",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Magog",
+   "North Hatley",
+   "Ayer's Cliff",
+   "Stanstead"
+  ],
+  "lat": 45.2658014,
+  "lon": -72.1480686
+ },
+ {
+  "zone": "Lac-Mégantic",
+  "prov": "QC",
+  "ancre": "Lac-Mégantic",
+  "palier": "Petite ville",
+  "villes": [
+   "Lac-Mégantic",
+   "Coaticook",
+   "East Angus"
+  ],
+  "lat": 45.5772636,
+  "lon": -70.8819927
+ },
+ {
+  "zone": "Drummondville",
+  "prov": "QC",
+  "ancre": "Drummondville",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Drummondville"
+  ],
+  "lat": 45.8864303,
+  "lon": -72.5018764
+ },
+ {
+  "zone": "Victoriaville et Bois-Francs",
+  "prov": "QC",
+  "ancre": "Victoriaville",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Victoriaville",
+   "Plessisville",
+   "Princeville",
+   "Warwick"
+  ],
+  "lat": 46.0554948,
+  "lon": -71.9598586
+ },
+ {
+  "zone": "Trois-Rivières",
+  "prov": "QC",
+  "ancre": "Trois-Rivières",
+  "palier": "Grande ville",
+  "villes": [
+   "Trois-Rivières",
+   "Bécancour",
+   "Nicolet",
+   "Sainte-Geneviève-de-Batiscan"
+  ],
+  "lat": 46.3432325,
+  "lon": -72.5428485
+ },
+ {
+  "zone": "Shawinigan et Mékinac",
+  "prov": "QC",
+  "ancre": "Shawinigan",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Shawinigan",
+   "Grand-Mère",
+   "Sainte-Thècle",
+   "Saint-Tite"
+  ],
+  "lat": 46.5396581,
+  "lon": -72.7518637
+ },
+ {
+  "zone": "La Tuque",
+  "prov": "QC",
+  "ancre": "La Tuque",
+  "palier": "Région éloignée",
+  "villes": [
+   "La Tuque"
+  ],
+  "lat": 47.441092,
+  "lon": -72.78511
+ },
+ {
+  "zone": "Joliette et Lanaudière",
+  "prov": "QC",
+  "ancre": "Joliette",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Joliette",
+   "Rawdon",
+   "Saint-Charles-Borromée",
+   "Berthierville",
+   "Sainte-Julienne"
+  ],
+  "lat": 46.0239798,
+  "lon": -73.4419936
+ },
+ {
+  "zone": "Terrebonne et Repentigny",
+  "prov": "QC",
+  "ancre": "Terrebonne",
+  "palier": "Grande ville",
+  "villes": [
+   "Terrebonne",
+   "Repentigny",
+   "Mascouche",
+   "L'Assomption",
+   "Lachenaie",
+   "Le Gardeur"
+  ],
+  "lat": 45.6951527,
+  "lon": -73.6350148
+ },
+ {
+  "zone": "Saint-Jérôme et Basses-Laurentides",
+  "prov": "QC",
+  "ancre": "Saint-Jérôme",
+  "palier": "Grande ville",
+  "villes": [
+   "Saint-Jérôme",
+   "Blainville",
+   "Sainte-Thérèse",
+   "Rosemère",
+   "Boisbriand",
+   "Prévost",
+   "Mirabel",
+   "Sainte-Marthe-sur-le-Lac",
+   "Deux-Montagnes",
+   "Saint-Eustache",
+   "Lorraine"
+  ],
+  "lat": 45.7780402,
+  "lon": -74.0033272
+ },
+ {
+  "zone": "Pays-d'en-Haut",
+  "prov": "QC",
+  "ancre": "Saint-Sauveur",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Saint-Sauveur",
+   "Sainte-Adèle",
+   "Piedmont",
+   "Morin-Heights",
+   "Val-David",
+   "Sainte-Agathe-des-Monts"
+  ],
+  "lat": 45.894309,
+  "lon": -74.158058
+ },
+ {
+  "zone": "Mont-Tremblant",
+  "prov": "QC",
+  "ancre": "Mont-Tremblant",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Mont-Tremblant",
+   "Saint-Jovite",
+   "Brébeuf",
+   "Sainte-Agathe"
+  ],
+  "lat": 46.11588,
+  "lon": -74.5891426
+ },
+ {
+  "zone": "Hautes-Laurentides",
+  "prov": "QC",
+  "ancre": "Mont-Laurier",
+  "palier": "Petite ville",
+  "villes": [
+   "Mont-Laurier",
+   "Rivière-Rouge",
+   "Ferme-Neuve"
+  ],
+  "lat": 46.5524071,
+  "lon": -75.4968899
+ },
+ {
+  "zone": "Gatineau et Outaouais",
+  "prov": "QC",
+  "ancre": "Gatineau",
+  "palier": "Grande ville",
+  "villes": [
+   "Gatineau",
+   "Hull",
+   "Aylmer",
+   "Chelsea",
+   "Wakefield",
+   "Buckingham",
+   "Val-des-Monts"
+  ],
+  "lat": 45.4277659,
+  "lon": -75.710976
+ },
+ {
+  "zone": "Vallée-de-la-Gatineau",
+  "prov": "QC",
+  "ancre": "Maniwaki",
+  "palier": "Région éloignée",
+  "villes": [
+   "Maniwaki",
+   "Gracefield"
+  ],
+  "lat": 46.3778839,
+  "lon": -75.9807967
+ },
+ {
+  "zone": "Rouyn-Noranda",
+  "prov": "QC",
+  "ancre": "Rouyn-Noranda",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Rouyn-Noranda"
+  ],
+  "lat": 48.2420524,
+  "lon": -79.0205378
+ },
+ {
+  "zone": "Val-d'Or",
+  "prov": "QC",
+  "ancre": "Val-d'Or",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Val-d'Or",
+   "Malartic",
+   "Senneterre"
+  ],
+  "lat": 48.1023356,
+  "lon": -77.7875715
+ },
+ {
+  "zone": "Amos et Abitibi-Ouest",
+  "prov": "QC",
+  "ancre": "Amos",
+  "palier": "Petite ville",
+  "villes": [
+   "Amos",
+   "La Sarre",
+   "Macamic"
+  ],
+  "lat": 48.5718519,
+  "lon": -78.1160856
+ },
+ {
+  "zone": "Témiscamingue",
+  "prov": "QC",
+  "ancre": "Ville-Marie",
+  "palier": "Région éloignée",
+  "villes": [
+   "Ville-Marie",
+   "Témiscaming"
+  ],
+  "lat": 45.5010803,
+  "lon": -73.5681257
+ },
+ {
+  "zone": "Québec – centre et Limoilou",
+  "prov": "QC",
+  "ancre": "Québec",
+  "palier": "Métropole",
+  "villes": [
+   "Québec",
+   "Quebec",
+   "Quebec City",
+   "Sainte-Foy",
+   "Charlesbourg",
+   "Beauport",
+   "Loretteville",
+   "L'Ancienne-Lorette",
+   "Sainte-Brigitte-de-Laval",
+   "Stoneham",
+   "Boischatel"
+  ],
+  "lat": 46.8137431,
+  "lon": -71.2084061
+ },
+ {
+  "zone": "Lévis et rive sud de Québec",
+  "prov": "QC",
+  "ancre": "Lévis",
+  "palier": "Grande ville",
+  "villes": [
+   "Lévis",
+   "Saint-Romuald",
+   "Charny",
+   "Saint-Nicolas",
+   "Sainte-Marie"
+  ],
+  "lat": 46.8033114,
+  "lon": -71.1778792
+ },
+ {
+  "zone": "Portneuf",
+  "prov": "QC",
+  "ancre": "Donnacona",
+  "palier": "Petite ville",
+  "villes": [
+   "Donnacona",
+   "Pont-Rouge",
+   "Saint-Raymond",
+   "Neuville"
+  ],
+  "lat": 46.676532,
+  "lon": -71.73008
+ },
+ {
+  "zone": "Charlevoix – Baie-Saint-Paul",
+  "prov": "QC",
+  "ancre": "Baie-Saint-Paul",
+  "palier": "Petite ville",
+  "villes": [
+   "Baie-Saint-Paul",
+   "Petite-Rivière-Saint-François",
+   "Saint-Urbain"
+  ],
+  "lat": 47.444343,
+  "lon": -70.505447
+ },
+ {
+  "zone": "Charlevoix – La Malbaie",
+  "prov": "QC",
+  "ancre": "La Malbaie",
+  "palier": "Petite ville",
+  "villes": [
+   "La Malbaie",
+   "Clermont",
+   "Pointe-au-Pic"
+  ],
+  "lat": 47.657525,
+  "lon": -70.153885
+ },
+ {
+  "zone": "Beauce",
+  "prov": "QC",
+  "ancre": "Saint-Georges",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Saint-Georges",
+   "Beauceville",
+   "Sainte-Marie de Beauce",
+   "Saint-Joseph-de-Beauce"
+  ],
+  "lat": 46.122987,
+  "lon": -70.671959
+ },
+ {
+  "zone": "Thetford Mines",
+  "prov": "QC",
+  "ancre": "Thetford Mines",
+  "palier": "Petite ville",
+  "villes": [
+   "Thetford Mines",
+   "Black Lake",
+   "Disraeli"
+  ],
+  "lat": 46.091329,
+  "lon": -71.30127
+ },
+ {
+  "zone": "Montmagny et Côte-du-Sud",
+  "prov": "QC",
+  "ancre": "Montmagny",
+  "palier": "Petite ville",
+  "villes": [
+   "Montmagny",
+   "L'Islet",
+   "Saint-Jean-Port-Joli",
+   "Berthier-sur-Mer"
+  ],
+  "lat": 46.8529223,
+  "lon": -70.3551125
+ },
+ {
+  "zone": "Rivière-du-Loup",
+  "prov": "QC",
+  "ancre": "Rivière-du-Loup",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Rivière-du-Loup",
+   "Cacouna",
+   "Saint-Antonin"
+  ],
+  "lat": 47.8541229,
+  "lon": -69.5333016
+ },
+ {
+  "zone": "Kamouraska et Témiscouata",
+  "prov": "QC",
+  "ancre": "La Pocatière",
+  "palier": "Petite ville",
+  "villes": [
+   "La Pocatière",
+   "Saint-Pascal",
+   "Dégelis",
+   "Témiscouata-sur-le-Lac"
+  ],
+  "lat": 47.3672849,
+  "lon": -70.0397252
+ },
+ {
+  "zone": "Rimouski",
+  "prov": "QC",
+  "ancre": "Rimouski",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Rimouski",
+   "Le Bic",
+   "Mont-Joli",
+   "Pointe-au-Père"
+  ],
+  "lat": 48.450155,
+  "lon": -68.529968
+ },
+ {
+  "zone": "Matapédia et Amqui",
+  "prov": "QC",
+  "ancre": "Amqui",
+  "palier": "Région éloignée",
+  "villes": [
+   "Amqui",
+   "Causapscal",
+   "Sayabec"
+  ],
+  "lat": 48.4656706,
+  "lon": -67.4315171
+ },
+ {
+  "zone": "Matane",
+  "prov": "QC",
+  "ancre": "Matane",
+  "palier": "Petite ville",
+  "villes": [
+   "Matane",
+   "Sainte-Félicité"
+  ],
+  "lat": 48.8468883,
+  "lon": -67.5295198
+ },
+ {
+  "zone": "Haute-Gaspésie",
+  "prov": "QC",
+  "ancre": "Sainte-Anne-des-Monts",
+  "palier": "Région éloignée",
+  "villes": [
+   "Sainte-Anne-des-Monts",
+   "Cap-Chat",
+   "Mont-Saint-Pierre"
+  ],
+  "lat": 49.1263278,
+  "lon": -66.4849502
+ },
+ {
+  "zone": "Gaspé et Percé",
+  "prov": "QC",
+  "ancre": "Gaspé",
+  "palier": "Petite ville",
+  "villes": [
+   "Gaspé",
+   "Percé",
+   "Rivière-au-Renard"
+  ],
+  "lat": 48.6146774,
+  "lon": -66.0665726
+ },
+ {
+  "zone": "Chandler et Pabos",
+  "prov": "QC",
+  "ancre": "Chandler",
+  "palier": "Région éloignée",
+  "villes": [
+   "Chandler",
+   "Pabos",
+   "Grande-Rivière",
+   "Port-Daniel"
+  ],
+  "lat": 48.3491804,
+  "lon": -64.6775915
+ },
+ {
+  "zone": "Baie-des-Chaleurs",
+  "prov": "QC",
+  "ancre": "Bonaventure",
+  "palier": "Petite ville",
+  "villes": [
+   "Bonaventure",
+   "New Richmond",
+   "Caplan",
+   "Paspébiac",
+   "New Carlisle"
+  ],
+  "lat": 45.4981853,
+  "lon": -73.5669583
+ },
+ {
+  "zone": "Avignon et Carleton",
+  "prov": "QC",
+  "ancre": "Carleton-sur-Mer",
+  "palier": "Petite ville",
+  "villes": [
+   "Carleton-sur-Mer",
+   "Carleton",
+   "Maria",
+   "Nouvelle"
+  ],
+  "lat": 48.101464,
+  "lon": -66.1140521
+ },
+ {
+  "zone": "Îles-de-la-Madeleine",
+  "prov": "QC",
+  "ancre": "Cap-aux-Meules",
+  "palier": "Région éloignée",
+  "villes": [
+   "Cap-aux-Meules",
+   "Les Îles-de-la-Madeleine",
+   "Havre-aux-Maisons"
+  ],
+  "lat": 47.377501,
+  "lon": -61.8661738
+ },
+ {
+  "zone": "Saguenay – Chicoutimi",
+  "prov": "QC",
+  "ancre": "Chicoutimi",
+  "palier": "Grande ville",
+  "villes": [
+   "Chicoutimi",
+   "Saguenay"
+  ],
+  "lat": 48.4286352,
+  "lon": -71.0637121
+ },
+ {
+  "zone": "Saguenay – Jonquière",
+  "prov": "QC",
+  "ancre": "Jonquière",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Jonquière",
+   "Arvida",
+   "Kénogami"
+  ],
+  "lat": 48.405959,
+  "lon": -71.069183
+ },
+ {
+  "zone": "Saguenay – La Baie et Bas-Saguenay",
+  "prov": "QC",
+  "ancre": "La Baie",
+  "palier": "Petite ville",
+  "villes": [
+   "La Baie",
+   "Petit-Saguenay",
+   "L'Anse-Saint-Jean"
+  ],
+  "lat": 48.405959,
+  "lon": -71.069183
+ },
+ {
+  "zone": "Lac-Saint-Jean – Alma",
+  "prov": "QC",
+  "ancre": "Alma",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Alma",
+   "Métabetchouan",
+   "Hébertville"
+  ],
+  "lat": 48.548887,
+  "lon": -71.651459
+ },
+ {
+  "zone": "Lac-Saint-Jean – Roberval et Saint-Félicien",
+  "prov": "QC",
+  "ancre": "Roberval",
+  "palier": "Petite ville",
+  "villes": [
+   "Roberval",
+   "Saint-Félicien",
+   "Saint-Prime",
+   "Chambord"
+  ],
+  "lat": 48.514785,
+  "lon": -72.224808
+ },
+ {
+  "zone": "Lac-Saint-Jean – Dolbeau",
+  "prov": "QC",
+  "ancre": "Dolbeau-Mistassini",
+  "palier": "Petite ville",
+  "villes": [
+   "Dolbeau-Mistassini",
+   "Normandin",
+   "Mistassini"
+  ],
+  "lat": 48.883231,
+  "lon": -72.233734
+ },
+ {
+  "zone": "Haute-Côte-Nord et Tadoussac",
+  "prov": "QC",
+  "ancre": "Tadoussac",
+  "palier": "Région éloignée",
+  "villes": [
+   "Tadoussac",
+   "Les Escoumins",
+   "Forestville",
+   "Sacré-Coeur"
+  ],
+  "lat": 48.1433429,
+  "lon": -69.7174574
+ },
+ {
+  "zone": "Baie-Comeau et Manicouagan",
+  "prov": "QC",
+  "ancre": "Baie-Comeau",
+  "palier": "Petite ville",
+  "villes": [
+   "Baie-Comeau",
+   "Chute-aux-Outardes",
+   "Pointe-Lebel"
+  ],
+  "lat": 49.2118373,
+  "lon": -68.1801406
+ },
+ {
+  "zone": "Sept-Îles",
+  "prov": "QC",
+  "ancre": "Sept-Îles",
+  "palier": "Petite ville",
+  "villes": [
+   "Sept-Îles",
+   "Port-Cartier"
+  ],
+  "lat": 50.2109579,
+  "lon": -66.3790642
+ },
+ {
+  "zone": "Basse-Côte-Nord",
+  "prov": "QC",
+  "ancre": "Havre-Saint-Pierre",
+  "palier": "Région éloignée",
+  "villes": [
+   "Havre-Saint-Pierre",
+   "Natashquan"
+  ],
+  "lat": 50.2463647,
+  "lon": -63.6003951
+ },
+ {
+  "zone": "Toronto – centre",
+  "prov": "ON",
+  "ancre": "Toronto",
+  "palier": "Métropole",
+  "villes": [
+   "Toronto",
+   "East York",
+   "Old Toronto"
+  ],
+  "lat": 43.6534817,
+  "lon": -79.3839347
+ },
+ {
+  "zone": "Toronto – ouest et Etobicoke",
+  "prov": "ON",
+  "ancre": "Etobicoke",
+  "palier": "Grande ville",
+  "villes": [
+   "Etobicoke",
+   "York"
+  ],
+  "lat": 43.6435559,
+  "lon": -79.5656326
+ },
+ {
+  "zone": "Toronto – North York et Scarborough",
+  "prov": "ON",
+  "ancre": "North York",
+  "palier": "Grande ville",
+  "villes": [
+   "North York",
+   "Scarborough",
+   "Willowdale"
+  ],
+  "lat": 43.7543217,
+  "lon": -79.4491057
+ },
+ {
+  "zone": "Mississauga",
+  "prov": "ON",
+  "ancre": "Mississauga",
+  "palier": "Grande ville",
+  "villes": [
+   "Mississauga",
+   "Port Credit",
+   "Streetsville"
+  ],
+  "lat": 43.5884727,
+  "lon": -79.643658
+ },
+ {
+  "zone": "Brampton et Caledon",
+  "prov": "ON",
+  "ancre": "Brampton",
+  "palier": "Grande ville",
+  "villes": [
+   "Brampton",
+   "Bolton",
+   "Caledon",
+   "Caledon East"
+  ],
+  "lat": 43.685832,
+  "lon": -79.7599366
+ },
+ {
+  "zone": "Oakville et Milton",
+  "prov": "ON",
+  "ancre": "Oakville",
+  "palier": "Grande ville",
+  "villes": [
+   "Oakville",
+   "Milton",
+   "Georgetown",
+   "Halton Hills"
+  ],
+  "lat": 43.447436,
+  "lon": -79.666672
+ },
+ {
+  "zone": "Burlington",
+  "prov": "ON",
+  "ancre": "Burlington",
+  "palier": "Grande ville",
+  "villes": [
+   "Burlington",
+   "Waterdown"
+  ],
+  "lat": 43.3248924,
+  "lon": -79.7966835
+ },
+ {
+  "zone": "Hamilton",
+  "prov": "ON",
+  "ancre": "Hamilton",
+  "palier": "Grande ville",
+  "villes": [
+   "Hamilton",
+   "Dundas",
+   "Ancaster",
+   "Stoney Creek",
+   "Grimsby"
+  ],
+  "lat": 43.2560802,
+  "lon": -79.8728583
+ },
+ {
+  "zone": "Niagara",
+  "prov": "ON",
+  "ancre": "St. Catharines",
+  "palier": "Ville moyenne",
+  "villes": [
+   "St. Catharines",
+   "Niagara-on-the-Lake",
+   "Niagara Falls",
+   "Welland",
+   "Fort Erie",
+   "Port Colborne"
+  ],
+  "lat": 43.1579812,
+  "lon": -79.2441003
+ },
+ {
+  "zone": "Brantford",
+  "prov": "ON",
+  "ancre": "Brantford",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Brantford",
+   "Paris",
+   "Simcoe"
+  ],
+  "lat": 43.1408157,
+  "lon": -80.2631733
+ },
+ {
+  "zone": "Kitchener-Waterloo",
+  "prov": "ON",
+  "ancre": "Kitchener",
+  "palier": "Grande ville",
+  "villes": [
+   "Kitchener",
+   "Waterloo",
+   "Cambridge",
+   "Elmira",
+   "St. Jacobs",
+   "Elora",
+   "Fergus"
+  ],
+  "lat": 43.451291,
+  "lon": -80.4927815
+ },
+ {
+  "zone": "Guelph",
+  "prov": "ON",
+  "ancre": "Guelph",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Guelph",
+   "Rockwood"
+  ],
+  "lat": 43.5460516,
+  "lon": -80.2493276
+ },
+ {
+  "zone": "London",
+  "prov": "ON",
+  "ancre": "London",
+  "palier": "Grande ville",
+  "villes": [
+   "London",
+   "St. Thomas",
+   "Strathroy"
+  ],
+  "lat": 42.9836747,
+  "lon": -81.2496068
+ },
+ {
+  "zone": "Woodstock et Oxford",
+  "prov": "ON",
+  "ancre": "Woodstock",
+  "palier": "Petite ville",
+  "villes": [
+   "Woodstock",
+   "Ingersoll",
+   "Tillsonburg"
+  ],
+  "lat": 43.1301111,
+  "lon": -80.7562977
+ },
+ {
+  "zone": "Stratford",
+  "prov": "ON",
+  "ancre": "Stratford",
+  "palier": "Petite ville",
+  "villes": [
+   "Stratford",
+   "St. Marys",
+   "Mitchell"
+  ],
+  "lat": 43.3700899,
+  "lon": -80.9818016
+ },
+ {
+  "zone": "Sarnia-Lambton",
+  "prov": "ON",
+  "ancre": "Sarnia",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Sarnia",
+   "Petrolia",
+   "Thedford",
+   "Grand Bend",
+   "Forest"
+  ],
+  "lat": 42.9743821,
+  "lon": -82.403533
+ },
+ {
+  "zone": "Chatham-Kent",
+  "prov": "ON",
+  "ancre": "Chatham",
+  "palier": "Petite ville",
+  "villes": [
+   "Chatham",
+   "Wallaceburg",
+   "Blenheim",
+   "Ridgetown"
+  ],
+  "lat": 42.4057219,
+  "lon": -82.1853837
+ },
+ {
+  "zone": "Windsor et Essex",
+  "prov": "ON",
+  "ancre": "Windsor",
+  "palier": "Grande ville",
+  "villes": [
+   "Windsor",
+   "Leamington",
+   "Amherstburg",
+   "Kingsville",
+   "Tecumseh"
+  ],
+  "lat": 42.2858536,
+  "lon": -82.9780695
+ },
+ {
+  "zone": "Goderich et Huron",
+  "prov": "ON",
+  "ancre": "Goderich",
+  "palier": "Petite ville",
+  "villes": [
+   "Goderich",
+   "Clinton",
+   "Exeter",
+   "Bayfield",
+   "Seaforth"
+  ],
+  "lat": 43.7430924,
+  "lon": -81.7110949
+ },
+ {
+  "zone": "Owen Sound et Bruce",
+  "prov": "ON",
+  "ancre": "Owen Sound",
+  "palier": "Petite ville",
+  "villes": [
+   "Owen Sound",
+   "Port Elgin",
+   "Southampton",
+   "Kincardine",
+   "Meaford",
+   "Markdale",
+   "Kimberley",
+   "Wiarton"
+  ],
+  "lat": 44.5678105,
+  "lon": -80.9430094
+ },
+ {
+  "zone": "Collingwood et Blue Mountains",
+  "prov": "ON",
+  "ancre": "Collingwood",
+  "palier": "Petite ville",
+  "villes": [
+   "Collingwood",
+   "Thornbury",
+   "Wasaga Beach",
+   "Creemore",
+   "Stayner"
+  ],
+  "lat": 44.5027226,
+  "lon": -80.2172379
+ },
+ {
+  "zone": "Orangeville et Dufferin",
+  "prov": "ON",
+  "ancre": "Orangeville",
+  "palier": "Petite ville",
+  "villes": [
+   "Orangeville",
+   "Shelburne",
+   "Grand Valley"
+  ],
+  "lat": 43.9193171,
+  "lon": -80.0973754
+ },
+ {
+  "zone": "Barrie et Simcoe",
+  "prov": "ON",
+  "ancre": "Barrie",
+  "palier": "Grande ville",
+  "villes": [
+   "Barrie",
+   "Innisfil",
+   "Alliston",
+   "Angus",
+   "Bradford"
+  ],
+  "lat": 44.3893208,
+  "lon": -79.6901302
+ },
+ {
+  "zone": "Orillia et Midland",
+  "prov": "ON",
+  "ancre": "Orillia",
+  "palier": "Petite ville",
+  "villes": [
+   "Orillia",
+   "Midland",
+   "Penetanguishene",
+   "Coldwater"
+  ],
+  "lat": 44.6066135,
+  "lon": -79.4169256
+ },
+ {
+  "zone": "Muskoka",
+  "prov": "ON",
+  "ancre": "Bracebridge",
+  "palier": "Petite ville",
+  "villes": [
+   "Bracebridge",
+   "Gravenhurst",
+   "Huntsville",
+   "Port Carling",
+   "Baysville"
+  ],
+  "lat": 45.041508,
+  "lon": -79.310989
+ },
+ {
+  "zone": "Parry Sound",
+  "prov": "ON",
+  "ancre": "Parry Sound",
+  "palier": "Petite ville",
+  "villes": [
+   "Parry Sound",
+   "Rosseau",
+   "Pointe au Baril"
+  ],
+  "lat": 45.6675279,
+  "lon": -80.1055284
+ },
+ {
+  "zone": "York – Newmarket et Aurora",
+  "prov": "ON",
+  "ancre": "Newmarket",
+  "palier": "Grande ville",
+  "villes": [
+   "Newmarket",
+   "Aurora",
+   "Richmond Hill",
+   "Markham",
+   "Vaughan",
+   "Woodbridge",
+   "Stouffville",
+   "King City"
+  ],
+  "lat": 44.056258,
+  "lon": -79.461708
+ },
+ {
+  "zone": "Durham – Oshawa et Whitby",
+  "prov": "ON",
+  "ancre": "Oshawa",
+  "palier": "Grande ville",
+  "villes": [
+   "Oshawa",
+   "Whitby",
+   "Ajax",
+   "Pickering",
+   "Bowmanville",
+   "Newcastle",
+   "Port Perry",
+   "Uxbridge"
+  ],
+  "lat": 43.8975558,
+  "lon": -78.8635324
+ },
+ {
+  "zone": "Kawartha Lakes",
+  "prov": "ON",
+  "ancre": "Lindsay",
+  "palier": "Petite ville",
+  "villes": [
+   "Lindsay",
+   "Bobcaygeon",
+   "Fenelon Falls",
+   "Omemee"
+  ],
+  "lat": 44.3551266,
+  "lon": -78.7369939
+ },
+ {
+  "zone": "Peterborough",
+  "prov": "ON",
+  "ancre": "Peterborough",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Peterborough",
+   "Lakefield",
+   "Millbrook",
+   "Norwood"
+  ],
+  "lat": 44.3048009,
+  "lon": -78.3199496
+ },
+ {
+  "zone": "Northumberland et Cobourg",
+  "prov": "ON",
+  "ancre": "Cobourg",
+  "palier": "Petite ville",
+  "villes": [
+   "Cobourg",
+   "Port Hope",
+   "Brighton",
+   "Colborne"
+  ],
+  "lat": 43.9595998,
+  "lon": -78.1677784
+ },
+ {
+  "zone": "Belleville et Quinte",
+  "prov": "ON",
+  "ancre": "Belleville",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Belleville",
+   "Trenton",
+   "Picton",
+   "Stirling",
+   "Quinte West",
+   "Bloomfield",
+   "Wellington"
+  ],
+  "lat": 44.2436328,
+  "lon": -77.3607597
+ },
+ {
+  "zone": "Kingston",
+  "prov": "ON",
+  "ancre": "Kingston",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Kingston",
+   "Napanee",
+   "Gananoque"
+  ],
+  "lat": 44.3054151,
+  "lon": -76.4283781
+ },
+ {
+  "zone": "Brockville et Mille-Îles",
+  "prov": "ON",
+  "ancre": "Brockville",
+  "palier": "Petite ville",
+  "villes": [
+   "Brockville",
+   "Prescott",
+   "Gananoque",
+   "Athens"
+  ],
+  "lat": 44.6039207,
+  "lon": -75.7016829
+ },
+ {
+  "zone": "Cornwall",
+  "prov": "ON",
+  "ancre": "Cornwall",
+  "palier": "Petite ville",
+  "villes": [
+   "Cornwall",
+   "Alexandria",
+   "Morrisburg",
+   "Hawkesbury"
+  ],
+  "lat": 45.0469989,
+  "lon": -74.7333845
+ },
+ {
+  "zone": "Ottawa",
+  "prov": "ON",
+  "ancre": "Ottawa",
+  "palier": "Métropole",
+  "villes": [
+   "Ottawa",
+   "Nepean",
+   "Kanata",
+   "Orleans",
+   "Orléans",
+   "Stittsville",
+   "Barrhaven",
+   "Manotick",
+   "Carp"
+  ],
+  "lat": 45.4208777,
+  "lon": -75.6901106
+ },
+ {
+  "zone": "Perth et Smiths Falls",
+  "prov": "ON",
+  "ancre": "Perth",
+  "palier": "Petite ville",
+  "villes": [
+   "Perth",
+   "Smiths Falls",
+   "Carleton Place",
+   "Almonte",
+   "Merrickville"
+  ],
+  "lat": 43.4935991,
+  "lon": -81.0164111
+ },
+ {
+  "zone": "Renfrew et Vallée de l'Outaouais",
+  "prov": "ON",
+  "ancre": "Pembroke",
+  "palier": "Petite ville",
+  "villes": [
+   "Pembroke",
+   "Renfrew",
+   "Deep River",
+   "Arnprior",
+   "Petawawa"
+  ],
+  "lat": 45.8209741,
+  "lon": -77.1115433
+ },
+ {
+  "zone": "Bancroft et Haliburton",
+  "prov": "ON",
+  "ancre": "Bancroft",
+  "palier": "Région éloignée",
+  "villes": [
+   "Bancroft",
+   "Haliburton",
+   "Minden"
+  ],
+  "lat": 45.0570769,
+  "lon": -77.8537127
+ },
+ {
+  "zone": "North Bay",
+  "prov": "ON",
+  "ancre": "North Bay",
+  "palier": "Petite ville",
+  "villes": [
+   "North Bay",
+   "Callander",
+   "Sturgeon Falls",
+   "Mattawa"
+  ],
+  "lat": 46.3092115,
+  "lon": -79.4607617
+ },
+ {
+  "zone": "Grand Sudbury",
+  "prov": "ON",
+  "ancre": "Sudbury",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Sudbury",
+   "Greater Sudbury",
+   "Lively",
+   "Espanola"
+  ],
+  "lat": 46.49272,
+  "lon": -80.991211
+ },
+ {
+  "zone": "Sault Ste. Marie",
+  "prov": "ON",
+  "ancre": "Sault Ste. Marie",
+  "palier": "Petite ville",
+  "villes": [
+   "Sault Ste. Marie",
+   "Elliot Lake",
+   "Blind River"
+  ],
+  "lat": 46.5126554,
+  "lon": -84.3330301
+ },
+ {
+  "zone": "Timmins",
+  "prov": "ON",
+  "ancre": "Timmins",
+  "palier": "Petite ville",
+  "villes": [
+   "Timmins",
+   "Iroquois Falls",
+   "Cochrane"
+  ],
+  "lat": 48.477473,
+  "lon": -81.330414
+ },
+ {
+  "zone": "Kapuskasing et Hearst",
+  "prov": "ON",
+  "ancre": "Kapuskasing",
+  "palier": "Région éloignée",
+  "villes": [
+   "Kapuskasing",
+   "Hearst",
+   "Smooth Rock Falls"
+  ],
+  "lat": 49.416667,
+  "lon": -82.433333
+ },
+ {
+  "zone": "Thunder Bay",
+  "prov": "ON",
+  "ancre": "Thunder Bay",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Thunder Bay",
+   "Murillo",
+   "Nipigon",
+   "Marathon"
+  ],
+  "lat": 48.406414,
+  "lon": -89.259796
+ },
+ {
+  "zone": "Kenora et Dryden",
+  "prov": "ON",
+  "ancre": "Kenora",
+  "palier": "Région éloignée",
+  "villes": [
+   "Kenora",
+   "Dryden",
+   "Sioux Lookout",
+   "Fort Frances"
+  ],
+  "lat": 54.0245941,
+  "lon": -89.1618188
+ },
+ {
+  "zone": "Winnipeg",
+  "prov": "MB",
+  "ancre": "Winnipeg",
+  "palier": "Métropole",
+  "villes": [
+   "Winnipeg",
+   "Saint-Boniface",
+   "Selkirk",
+   "Stonewall"
+  ],
+  "lat": 49.8955367,
+  "lon": -97.1384584
+ },
+ {
+  "zone": "Steinbach et Sud-Est",
+  "prov": "MB",
+  "ancre": "Steinbach",
+  "palier": "Petite ville",
+  "villes": [
+   "Steinbach",
+   "Niverville",
+   "Ste. Anne"
+  ],
+  "lat": 49.5254414,
+  "lon": -96.6854275
+ },
+ {
+  "zone": "Brandon",
+  "prov": "MB",
+  "ancre": "Brandon",
+  "palier": "Petite ville",
+  "villes": [
+   "Brandon",
+   "Virden",
+   "Neepawa"
+  ],
+  "lat": 49.8511143,
+  "lon": -99.9608924
+ },
+ {
+  "zone": "Portage la Prairie",
+  "prov": "MB",
+  "ancre": "Portage la Prairie",
+  "palier": "Petite ville",
+  "villes": [
+   "Portage la Prairie",
+   "Carman"
+  ],
+  "lat": 49.972422,
+  "lon": -98.289185
+ },
+ {
+  "zone": "Dauphin et Parkland",
+  "prov": "MB",
+  "ancre": "Dauphin",
+  "palier": "Région éloignée",
+  "villes": [
+   "Dauphin",
+   "Swan River",
+   "Roblin"
+  ],
+  "lat": 51.1482866,
+  "lon": -100.0509099
+ },
+ {
+  "zone": "Thompson et Nord",
+  "prov": "MB",
+  "ancre": "Thompson",
+  "palier": "Région éloignée",
+  "villes": [
+   "Thompson",
+   "Flin Flon",
+   "The Pas"
+  ],
+  "lat": 55.743347,
+  "lon": -97.863464
+ },
+ {
+  "zone": "Regina",
+  "prov": "SK",
+  "ancre": "Regina",
+  "palier": "Grande ville",
+  "villes": [
+   "Regina",
+   "White City",
+   "Pilot Butte"
+  ],
+  "lat": 50.4479733,
+  "lon": -104.6158764
+ },
+ {
+  "zone": "Saskatoon",
+  "prov": "SK",
+  "ancre": "Saskatoon",
+  "palier": "Grande ville",
+  "villes": [
+   "Saskatoon",
+   "Warman",
+   "Martensville"
+  ],
+  "lat": 52.131802,
+  "lon": -106.660767
+ },
+ {
+  "zone": "Moose Jaw",
+  "prov": "SK",
+  "ancre": "Moose Jaw",
+  "palier": "Petite ville",
+  "villes": [
+   "Moose Jaw",
+   "Assiniboia"
+  ],
+  "lat": 50.3967209,
+  "lon": -105.535666
+ },
+ {
+  "zone": "Prince Albert",
+  "prov": "SK",
+  "ancre": "Prince Albert",
+  "palier": "Petite ville",
+  "villes": [
+   "Prince Albert",
+   "Melfort",
+   "Nipawin"
+  ],
+  "lat": 53.2020289,
+  "lon": -105.7558962
+ },
+ {
+  "zone": "Swift Current",
+  "prov": "SK",
+  "ancre": "Swift Current",
+  "palier": "Petite ville",
+  "villes": [
+   "Swift Current",
+   "Maple Creek"
+  ],
+  "lat": 50.2849138,
+  "lon": -107.7984496
+ },
+ {
+  "zone": "Yorkton et Est",
+  "prov": "SK",
+  "ancre": "Yorkton",
+  "palier": "Petite ville",
+  "villes": [
+   "Yorkton",
+   "Melville",
+   "Esterhazy"
+  ],
+  "lat": 51.212045,
+  "lon": -102.461243
+ },
+ {
+  "zone": "North Battleford",
+  "prov": "SK",
+  "ancre": "North Battleford",
+  "palier": "Petite ville",
+  "villes": [
+   "North Battleford",
+   "Battleford",
+   "Meadow Lake"
+  ],
+  "lat": 52.776186,
+  "lon": -108.300476
+ },
+ {
+  "zone": "Estevan et Weyburn",
+  "prov": "SK",
+  "ancre": "Estevan",
+  "palier": "Région éloignée",
+  "villes": [
+   "Estevan",
+   "Weyburn"
+  ],
+  "lat": 49.1428076,
+  "lon": -102.991075
+ },
+ {
+  "zone": "Calgary",
+  "prov": "AB",
+  "ancre": "Calgary",
+  "palier": "Métropole",
+  "villes": [
+   "Calgary",
+   "Airdrie",
+   "Chestermere",
+   "Okotoks",
+   "Cochrane",
+   "High River"
+  ],
+  "lat": 51.0456064,
+  "lon": -114.057541
+ },
+ {
+  "zone": "Banff et Canmore",
+  "prov": "AB",
+  "ancre": "Canmore",
+  "palier": "Petite ville",
+  "villes": [
+   "Canmore",
+   "Banff",
+   "Lake Louise"
+  ],
+  "lat": 51.0866897,
+  "lon": -115.3481135
+ },
+ {
+  "zone": "Edmonton",
+  "prov": "AB",
+  "ancre": "Edmonton",
+  "palier": "Métropole",
+  "villes": [
+   "Edmonton",
+   "St. Albert",
+   "Sherwood Park",
+   "Spruce Grove",
+   "Stony Plain",
+   "Leduc",
+   "Fort Saskatchewan",
+   "Beaumont"
+  ],
+  "lat": 53.5462055,
+  "lon": -113.491241
+ },
+ {
+  "zone": "Red Deer",
+  "prov": "AB",
+  "ancre": "Red Deer",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Red Deer",
+   "Lacombe",
+   "Sylvan Lake",
+   "Innisfail",
+   "Blackfalds",
+   "Red Deer County"
+  ],
+  "lat": 52.2690628,
+  "lon": -113.8141464
+ },
+ {
+  "zone": "Lethbridge",
+  "prov": "AB",
+  "ancre": "Lethbridge",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Lethbridge",
+   "Coaldale",
+   "Taber",
+   "Fort Macleod"
+  ],
+  "lat": 49.6945782,
+  "lon": -112.8331033
+ },
+ {
+  "zone": "Medicine Hat",
+  "prov": "AB",
+  "ancre": "Medicine Hat",
+  "palier": "Petite ville",
+  "villes": [
+   "Medicine Hat",
+   "Brooks",
+   "Redcliff"
+  ],
+  "lat": 50.04303,
+  "lon": -110.679016
+ },
+ {
+  "zone": "Grande Prairie",
+  "prov": "AB",
+  "ancre": "Grande Prairie",
+  "palier": "Petite ville",
+  "villes": [
+   "Grande Prairie",
+   "Beaverlodge",
+   "Sexsmith"
+  ],
+  "lat": 55.17108,
+  "lon": -118.7949873
+ },
+ {
+  "zone": "Fort McMurray",
+  "prov": "AB",
+  "ancre": "Fort McMurray",
+  "palier": "Région éloignée",
+  "villes": [
+   "Fort McMurray",
+   "Wood Buffalo"
+  ],
+  "lat": 56.7291997,
+  "lon": -111.3885221
+ },
+ {
+  "zone": "Camrose et Wetaskiwin",
+  "prov": "AB",
+  "ancre": "Camrose",
+  "palier": "Petite ville",
+  "villes": [
+   "Camrose",
+   "Wetaskiwin",
+   "Ponoka"
+  ],
+  "lat": 53.013131,
+  "lon": -112.840576
+ },
+ {
+  "zone": "Lloydminster et Vermilion",
+  "prov": "AB",
+  "ancre": "Lloydminster",
+  "palier": "Petite ville",
+  "villes": [
+   "Lloydminster",
+   "Vermilion",
+   "Wainwright"
+  ],
+  "lat": 53.279995,
+  "lon": -110.00885
+ },
+ {
+  "zone": "Jasper et Hinton",
+  "prov": "AB",
+  "ancre": "Jasper",
+  "palier": "Petite ville",
+  "villes": [
+   "Jasper",
+   "Hinton",
+   "Edson"
+  ],
+  "lat": 52.8752336,
+  "lon": -118.0824291
+ },
+ {
+  "zone": "Peace River et Nord",
+  "prov": "AB",
+  "ancre": "Peace River",
+  "palier": "Région éloignée",
+  "villes": [
+   "Peace River",
+   "High Level",
+   "Slave Lake"
+  ],
+  "lat": 56.2337111,
+  "lon": -117.2910839
+ },
+ {
+  "zone": "Vancouver – centre et est",
+  "prov": "BC",
+  "ancre": "Vancouver",
+  "palier": "Métropole",
+  "villes": [
+   "Vancouver",
+   "Kitsilano",
+   "Mount Pleasant"
+  ],
+  "lat": 49.2608724,
+  "lon": -123.113952
+ },
+ {
+  "zone": "North Shore",
+  "prov": "BC",
+  "ancre": "North Vancouver",
+  "palier": "Grande ville",
+  "villes": [
+   "North Vancouver",
+   "West Vancouver",
+   "Lions Bay"
+  ],
+  "lat": 49.3206294,
+  "lon": -123.0737925
+ },
+ {
+  "zone": "Burnaby et New Westminster",
+  "prov": "BC",
+  "ancre": "Burnaby",
+  "palier": "Grande ville",
+  "villes": [
+   "Burnaby",
+   "New Westminster",
+   "Coquitlam",
+   "Port Moody",
+   "Port Coquitlam"
+  ],
+  "lat": 49.2433804,
+  "lon": -122.972545
+ },
+ {
+  "zone": "Richmond et Delta",
+  "prov": "BC",
+  "ancre": "Richmond",
+  "palier": "Grande ville",
+  "villes": [
+   "Richmond",
+   "Delta",
+   "Ladner",
+   "Tsawwassen"
+  ],
+  "lat": 49.163168,
+  "lon": -123.137414
+ },
+ {
+  "zone": "Surrey et Langley",
+  "prov": "BC",
+  "ancre": "Surrey",
+  "palier": "Grande ville",
+  "villes": [
+   "Surrey",
+   "Langley",
+   "White Rock",
+   "Cloverdale",
+   "Aldergrove"
+  ],
+  "lat": 49.1913033,
+  "lon": -122.849143
+ },
+ {
+  "zone": "Abbotsford et Mission",
+  "prov": "BC",
+  "ancre": "Abbotsford",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Abbotsford",
+   "Mission",
+   "Maple Ridge",
+   "Pitt Meadows"
+  ],
+  "lat": 49.0521162,
+  "lon": -122.329479
+ },
+ {
+  "zone": "Chilliwack et Fraser Valley Est",
+  "prov": "BC",
+  "ancre": "Chilliwack",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Chilliwack",
+   "Agassiz",
+   "Hope",
+   "Harrison Hot Springs"
+  ],
+  "lat": 49.1709788,
+  "lon": -121.95255
+ },
+ {
+  "zone": "Squamish",
+  "prov": "BC",
+  "ancre": "Squamish",
+  "palier": "Petite ville",
+  "villes": [
+   "Squamish",
+   "Britannia Beach"
+  ],
+  "lat": 49.6980743,
+  "lon": -123.155861
+ },
+ {
+  "zone": "Whistler et Pemberton",
+  "prov": "BC",
+  "ancre": "Whistler",
+  "palier": "Petite ville",
+  "villes": [
+   "Whistler",
+   "Pemberton"
+  ],
+  "lat": 50.1171903,
+  "lon": -122.9543022
+ },
+ {
+  "zone": "Sunshine Coast",
+  "prov": "BC",
+  "ancre": "Sechelt",
+  "palier": "Petite ville",
+  "villes": [
+   "Sechelt",
+   "Gibsons",
+   "Powell River"
+  ],
+  "lat": 49.4721147,
+  "lon": -123.763124
+ },
+ {
+  "zone": "Victoria et Saanich",
+  "prov": "BC",
+  "ancre": "Victoria",
+  "palier": "Grande ville",
+  "villes": [
+   "Victoria",
+   "Saanich",
+   "Oak Bay",
+   "Esquimalt",
+   "Sidney",
+   "Sooke",
+   "Langford",
+   "Colwood"
+  ],
+  "lat": 48.4283182,
+  "lon": -123.364953
+ },
+ {
+  "zone": "Cowichan Valley",
+  "prov": "BC",
+  "ancre": "Duncan",
+  "palier": "Petite ville",
+  "villes": [
+   "Duncan",
+   "Chemainus",
+   "Ladysmith",
+   "Cowichan Bay"
+  ],
+  "lat": 48.7786872,
+  "lon": -123.7080446
+ },
+ {
+  "zone": "Nanaimo",
+  "prov": "BC",
+  "ancre": "Nanaimo",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Nanaimo",
+   "Lantzville",
+   "Gabriola",
+   "Gabriola Island"
+  ],
+  "lat": 49.163877,
+  "lon": -123.938122
+ },
+ {
+  "zone": "Parksville et Qualicum",
+  "prov": "BC",
+  "ancre": "Parksville",
+  "palier": "Petite ville",
+  "villes": [
+   "Parksville",
+   "Qualicum Beach"
+  ],
+  "lat": 49.3179514,
+  "lon": -124.311739
+ },
+ {
+  "zone": "Port Alberni",
+  "prov": "BC",
+  "ancre": "Port Alberni",
+  "palier": "Petite ville",
+  "villes": [
+   "Port Alberni"
+  ],
+  "lat": 49.2343668,
+  "lon": -124.8056517
+ },
+ {
+  "zone": "Tofino et Ucluelet",
+  "prov": "BC",
+  "ancre": "Tofino",
+  "palier": "Petite ville",
+  "villes": [
+   "Tofino",
+   "Ucluelet"
+  ],
+  "lat": 49.1528473,
+  "lon": -125.9048279
+ },
+ {
+  "zone": "Comox Valley",
+  "prov": "BC",
+  "ancre": "Courtenay",
+  "palier": "Petite ville",
+  "villes": [
+   "Courtenay",
+   "Comox",
+   "Cumberland"
+  ],
+  "lat": 49.6894061,
+  "lon": -124.9954959
+ },
+ {
+  "zone": "Campbell River",
+  "prov": "BC",
+  "ancre": "Campbell River",
+  "palier": "Petite ville",
+  "villes": [
+   "Campbell River",
+   "Quadra Island"
+  ],
+  "lat": 50.023071,
+  "lon": -125.244153
+ },
+ {
+  "zone": "Île de Vancouver Nord",
+  "prov": "BC",
+  "ancre": "Port McNeill",
+  "palier": "Région éloignée",
+  "villes": [
+   "Port McNeill",
+   "Port Hardy",
+   "Alert Bay"
+  ],
+  "lat": 50.5893452,
+  "lon": -127.0839027
+ },
+ {
+  "zone": "Îles Gulf et Salt Spring",
+  "prov": "BC",
+  "ancre": "Salt Spring Island",
+  "palier": "Petite ville",
+  "villes": [
+   "Salt Spring Island",
+   "Ganges",
+   "Pender Island"
+  ],
+  "lat": 48.8296672,
+  "lon": -123.5151614
+ },
+ {
+  "zone": "Kelowna",
+  "prov": "BC",
+  "ancre": "Kelowna",
+  "palier": "Grande ville",
+  "villes": [
+   "Kelowna",
+   "West Kelowna",
+   "Lake Country",
+   "Peachland"
+  ],
+  "lat": 49.8879177,
+  "lon": -119.495902
+ },
+ {
+  "zone": "Vernon",
+  "prov": "BC",
+  "ancre": "Vernon",
+  "palier": "Petite ville",
+  "villes": [
+   "Vernon",
+   "Armstrong",
+   "Coldstream",
+   "Enderby"
+  ],
+  "lat": 50.2668671,
+  "lon": -119.2718157
+ },
+ {
+  "zone": "Penticton et Summerland",
+  "prov": "BC",
+  "ancre": "Penticton",
+  "palier": "Petite ville",
+  "villes": [
+   "Penticton",
+   "Summerland",
+   "Oliver",
+   "Osoyoos"
+  ],
+  "lat": 49.5003268,
+  "lon": -119.593249
+ },
+ {
+  "zone": "Kamloops",
+  "prov": "BC",
+  "ancre": "Kamloops",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Kamloops",
+   "Merritt",
+   "Chase"
+  ],
+  "lat": 50.6758269,
+  "lon": -120.339415
+ },
+ {
+  "zone": "Shuswap et Salmon Arm",
+  "prov": "BC",
+  "ancre": "Salmon Arm",
+  "palier": "Petite ville",
+  "villes": [
+   "Salmon Arm",
+   "Sicamous",
+   "Sorrento"
+  ],
+  "lat": 50.7005059,
+  "lon": -119.2790529
+ },
+ {
+  "zone": "Revelstoke et Golden",
+  "prov": "BC",
+  "ancre": "Revelstoke",
+  "palier": "Petite ville",
+  "villes": [
+   "Revelstoke",
+   "Golden"
+  ],
+  "lat": 50.998045,
+  "lon": -118.1956709
+ },
+ {
+  "zone": "Nelson et Kootenay Ouest",
+  "prov": "BC",
+  "ancre": "Nelson",
+  "palier": "Petite ville",
+  "villes": [
+   "Nelson",
+   "Castlegar",
+   "Trail",
+   "Rossland",
+   "Kaslo"
+  ],
+  "lat": 49.494891,
+  "lon": -117.290039
+ },
+ {
+  "zone": "Cranbrook et Kootenay Est",
+  "prov": "BC",
+  "ancre": "Cranbrook",
+  "palier": "Petite ville",
+  "villes": [
+   "Cranbrook",
+   "Kimberley",
+   "Fernie",
+   "Invermere",
+   "Creston"
+  ],
+  "lat": 49.5107477,
+  "lon": -115.7672772
+ },
+ {
+  "zone": "Prince George",
+  "prov": "BC",
+  "ancre": "Prince George",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Prince George",
+   "Vanderhoof",
+   "Mackenzie"
+  ],
+  "lat": 53.9128645,
+  "lon": -122.7453699
+ },
+ {
+  "zone": "Cariboo – Williams Lake et Quesnel",
+  "prov": "BC",
+  "ancre": "Williams Lake",
+  "palier": "Petite ville",
+  "villes": [
+   "Williams Lake",
+   "Quesnel",
+   "100 Mile House"
+  ],
+  "lat": 52.1292657,
+  "lon": -122.1397259
+ },
+ {
+  "zone": "Terrace et Kitimat",
+  "prov": "BC",
+  "ancre": "Terrace",
+  "palier": "Région éloignée",
+  "villes": [
+   "Terrace",
+   "Kitimat",
+   "Smithers",
+   "Hazelton"
+  ],
+  "lat": 54.5172715,
+  "lon": -128.599548
+ },
+ {
+  "zone": "Prince Rupert et Haida Gwaii",
+  "prov": "BC",
+  "ancre": "Prince Rupert",
+  "palier": "Région éloignée",
+  "villes": [
+   "Prince Rupert",
+   "Masset",
+   "Queen Charlotte"
+  ],
+  "lat": 54.3126572,
+  "lon": -130.32549
+ },
+ {
+  "zone": "Peace River BC",
+  "prov": "BC",
+  "ancre": "Fort St. John",
+  "palier": "Région éloignée",
+  "villes": [
+   "Fort St. John",
+   "Dawson Creek",
+   "Chetwynd"
+  ],
+  "lat": 56.2527571,
+  "lon": -120.8472064
+ },
+ {
+  "zone": "Halifax et Dartmouth",
+  "prov": "NS",
+  "ancre": "Halifax",
+  "palier": "Grande ville",
+  "villes": [
+   "Halifax",
+   "Dartmouth",
+   "Bedford",
+   "Sackville",
+   "Hydrostone"
+  ],
+  "lat": 44.648618,
+  "lon": -63.5859487
+ },
+ {
+  "zone": "Truro et Colchester",
+  "prov": "NS",
+  "ancre": "Truro",
+  "palier": "Petite ville",
+  "villes": [
+   "Truro",
+   "Bible Hill",
+   "Stewiacke",
+   "Milford"
+  ],
+  "lat": 45.3656974,
+  "lon": -63.2864971
+ },
+ {
+  "zone": "New Glasgow et Pictou",
+  "prov": "NS",
+  "ancre": "New Glasgow",
+  "palier": "Petite ville",
+  "villes": [
+   "New Glasgow",
+   "Pictou",
+   "Stellarton",
+   "Trenton"
+  ],
+  "lat": 45.5869474,
+  "lon": -62.6483547
+ },
+ {
+  "zone": "Antigonish",
+  "prov": "NS",
+  "ancre": "Antigonish",
+  "palier": "Petite ville",
+  "villes": [
+   "Antigonish",
+   "Guysborough"
+  ],
+  "lat": 45.6213607,
+  "lon": -61.9904928
+ },
+ {
+  "zone": "Cap-Breton – Sydney",
+  "prov": "NS",
+  "ancre": "Sydney",
+  "palier": "Petite ville",
+  "villes": [
+   "Sydney",
+   "Glace Bay",
+   "North Sydney",
+   "Baddeck",
+   "Inverness"
+  ],
+  "lat": 46.1382112,
+  "lon": -60.1941912
+ },
+ {
+  "zone": "Vallée d'Annapolis",
+  "prov": "NS",
+  "ancre": "Kentville",
+  "palier": "Petite ville",
+  "villes": [
+   "Kentville",
+   "Wolfville",
+   "New Minas",
+   "Berwick",
+   "Windsor NS"
+  ],
+  "lat": 45.0784875,
+  "lon": -64.495212
+ },
+ {
+  "zone": "Annapolis Royal et Digby",
+  "prov": "NS",
+  "ancre": "Annapolis Royal",
+  "palier": "Région éloignée",
+  "villes": [
+   "Annapolis Royal",
+   "Digby",
+   "Bridgetown"
+  ],
+  "lat": 44.7419775,
+  "lon": -65.5160971
+ },
+ {
+  "zone": "Bridgewater et Rive-Sud",
+  "prov": "NS",
+  "ancre": "Bridgewater",
+  "palier": "Petite ville",
+  "villes": [
+   "Bridgewater",
+   "Lunenburg",
+   "Mahone Bay",
+   "Chester",
+   "Liverpool"
+  ],
+  "lat": 44.3774134,
+  "lon": -64.5193946
+ },
+ {
+  "zone": "Yarmouth",
+  "prov": "NS",
+  "ancre": "Yarmouth",
+  "palier": "Région éloignée",
+  "villes": [
+   "Yarmouth",
+   "Shelburne",
+   "Barrington"
+  ],
+  "lat": 43.8372648,
+  "lon": -66.1157
+ },
+ {
+  "zone": "Amherst et Cumberland",
+  "prov": "NS",
+  "ancre": "Amherst",
+  "palier": "Petite ville",
+  "villes": [
+   "Amherst",
+   "Springhill",
+   "Parrsboro"
+  ],
+  "lat": 45.8192941,
+  "lon": -64.2333504
+ },
+ {
+  "zone": "Moncton et Sud-Est",
+  "prov": "NB",
+  "ancre": "Moncton",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Moncton",
+   "Dieppe",
+   "Riverview",
+   "Shediac",
+   "Sackville NB"
+  ],
+  "lat": 46.0985679,
+  "lon": -64.8004265
+ },
+ {
+  "zone": "Saint John",
+  "prov": "NB",
+  "ancre": "Saint John",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Saint John",
+   "Rothesay",
+   "Quispamsis",
+   "St. Andrews",
+   "St. Stephen"
+  ],
+  "lat": 45.2787992,
+  "lon": -66.0585188
+ },
+ {
+  "zone": "Fredericton",
+  "prov": "NB",
+  "ancre": "Fredericton",
+  "palier": "Ville moyenne",
+  "villes": [
+   "Fredericton",
+   "Oromocto",
+   "Nackawic"
+  ],
+  "lat": 45.9488278,
+  "lon": -66.6291827
+ },
+ {
+  "zone": "Bathurst et Acadie-Bathurst",
+  "prov": "NB",
+  "ancre": "Bathurst",
+  "palier": "Petite ville",
+  "villes": [
+   "Bathurst",
+   "Caraquet",
+   "Tracadie",
+   "Shippagan"
+  ],
+  "lat": 47.6208671,
+  "lon": -65.6537546
+ },
+ {
+  "zone": "Miramichi",
+  "prov": "NB",
+  "ancre": "Miramichi",
+  "palier": "Petite ville",
+  "villes": [
+   "Miramichi",
+   "Neguac"
+  ],
+  "lat": 47.0298004,
+  "lon": -65.4704158
+ },
+ {
+  "zone": "Edmundston et Madawaska",
+  "prov": "NB",
+  "ancre": "Edmundston",
+  "palier": "Petite ville",
+  "villes": [
+   "Edmundston",
+   "Saint-Basile",
+   "Grand-Sault",
+   "Grand Falls"
+  ],
+  "lat": 47.3637203,
+  "lon": -68.3288825
+ },
+ {
+  "zone": "Campbellton et Restigouche",
+  "prov": "NB",
+  "ancre": "Campbellton",
+  "palier": "Région éloignée",
+  "villes": [
+   "Campbellton",
+   "Dalhousie"
+  ],
+  "lat": 48.0046634,
+  "lon": -66.6765986
+ },
+ {
+  "zone": "Charlottetown",
+  "prov": "PE",
+  "ancre": "Charlottetown",
+  "palier": "Petite ville",
+  "villes": [
+   "Charlottetown",
+   "Stratford PE",
+   "Cornwall PE"
+  ],
+  "lat": 46.2354187,
+  "lon": -63.1265388
+ },
+ {
+  "zone": "Summerside et Ouest",
+  "prov": "PE",
+  "ancre": "Summerside",
+  "palier": "Petite ville",
+  "villes": [
+   "Summerside",
+   "Kensington",
+   "Tignish"
+  ],
+  "lat": 46.394259,
+  "lon": -63.7892386
+ },
+ {
+  "zone": "Montague et Est",
+  "prov": "PE",
+  "ancre": "Montague",
+  "palier": "Région éloignée",
+  "villes": [
+   "Montague",
+   "Souris",
+   "Georgetown"
+  ],
+  "lat": 46.1708855,
+  "lon": -62.6538278
+ },
+ {
+  "zone": "St. John's",
+  "prov": "NL",
+  "ancre": "St. John's",
+  "palier": "Ville moyenne",
+  "villes": [
+   "St. John's",
+   "Mount Pearl",
+   "Paradise",
+   "Conception Bay South",
+   "Torbay"
+  ],
+  "lat": 47.5646794,
+  "lon": -52.7066964
+ },
+ {
+  "zone": "Clarenville et Bonavista",
+  "prov": "NL",
+  "ancre": "Clarenville",
+  "palier": "Région éloignée",
+  "villes": [
+   "Clarenville",
+   "Bonavista",
+   "Brookfield",
+   "Trinity"
+  ],
+  "lat": 48.1679902,
+  "lon": -53.9646413
+ },
+ {
+  "zone": "Gander et Notre Dame Bay",
+  "prov": "NL",
+  "ancre": "Gander",
+  "palier": "Petite ville",
+  "villes": [
+   "Gander",
+   "Twillingate",
+   "Lewisporte",
+   "King's Point"
+  ],
+  "lat": 48.9592291,
+  "lon": -54.6187879
+ },
+ {
+  "zone": "Grand Falls-Windsor",
+  "prov": "NL",
+  "ancre": "Grand Falls-Windsor",
+  "palier": "Petite ville",
+  "villes": [
+   "Grand Falls-Windsor",
+   "Botwood",
+   "Bishop's Falls"
+  ],
+  "lat": 48.944151,
+  "lon": -55.652618
+ },
+ {
+  "zone": "Corner Brook et Ouest",
+  "prov": "NL",
+  "ancre": "Corner Brook",
+  "palier": "Petite ville",
+  "villes": [
+   "Corner Brook",
+   "Deer Lake",
+   "Stephenville",
+   "Rocky Harbour"
+  ],
+  "lat": 48.95317,
+  "lon": -57.947388
+ },
+ {
+  "zone": "Labrador",
+  "prov": "NL",
+  "ancre": "Happy Valley-Goose Bay",
+  "palier": "Région éloignée",
+  "villes": [
+   "Happy Valley-Goose Bay",
+   "Labrador City",
+   "Wabush"
+  ],
+  "lat": 53.2964352,
+  "lon": -60.3111895
+ },
+ {
+  "zone": "Whitehorse",
+  "prov": "YT",
+  "ancre": "Whitehorse",
+  "palier": "Petite ville",
+  "villes": [
+   "Whitehorse",
+   "Dawson City",
+   "Haines Junction"
+  ],
+  "lat": 60.721571,
+  "lon": -135.054932
+ },
+ {
+  "zone": "Yellowknife",
+  "prov": "NT",
+  "ancre": "Yellowknife",
+  "palier": "Petite ville",
+  "villes": [
+   "Yellowknife",
+   "Hay River",
+   "Fort Smith",
+   "Inuvik"
+  ],
+  "lat": 62.4540807,
+  "lon": -114.377385
+ },
+ {
+  "zone": "Iqaluit",
+  "prov": "NU",
+  "ancre": "Iqaluit",
+  "palier": "Région éloignée",
+  "villes": [
+   "Iqaluit",
+   "Rankin Inlet",
+   "Cambridge Bay"
+  ],
+  "lat": 63.7492738,
+  "lon": -68.5213763
+ }
+]
