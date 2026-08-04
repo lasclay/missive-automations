@@ -28,6 +28,31 @@ Node de ce dépôt, non déployé.
 | `FINANCE_PROXY_SECRET` | requis — **distinct** du `GENERAL_PROXY_SECRET`, aucun repli |
 | `FINANCE_PROXY_URL` | requis |
 
+### Trois couches — ne prends jamais la plus étroite pour la plus large
+
+**Avant d'écrire qu'une chose est impossible dans QBO, tu DOIS avoir lu les couches 2 et 3.** Sans
+ça, tu n'as pas constaté une limite, tu as constaté ton ignorance.
+
+| # | Couche | Ce que ça vaut comme preuve |
+| --- | --- | --- |
+| 1 | `finance_client.js` | **aucune.** La liste des actions est une commodité, pas une frontière |
+| 2 | `finance-proxy/server.js` | le périmètre réellement exposé aujourd'hui |
+| 3 | API QuickBooks Online d'Intuit | le vrai plafond |
+
+Lis la couche 2 en entier : le bloc de commentaire vieillit, le dispatch de routes et les
+fonctions disent la vérité. Demande-toi toujours : « qu'est-ce qui, dans ce code, force cette
+limite? » Si la réponse est une valeur codée en dur ou une validation, ce n'est pas une limite
+d'Intuit, c'est une ligne à changer.
+
+La bonne formulation n'est jamais « QBO ne peut pas ». C'est « le proxy ne l'expose pas encore,
+l'API le permet, voici le correctif ». Le service Render suit `main` : une route ajoutée sur une
+branche reste inerte tant que la fusion n'est pas faite.
+
+**Nuance propre aux finances.** Ici, une capacité manquante n'est pas toujours un oubli : le
+périmètre du proxy finance est volontairement étroit, parce qu'il touche les livres réels. Avant
+d'élargir quoi que ce soit, demande. Constater que l'API permet plus ne veut pas dire qu'on doit
+l'exposer.
+
 Ce secret n'est jamais donné aux environnements opérationnels : c'est le point de l'isolation.
 Si le répertoire courant n'est pas le dépôt, vérifie avec `ls finance_client.js` et signale-le
 plutôt que de reconstruire un appel à la main.

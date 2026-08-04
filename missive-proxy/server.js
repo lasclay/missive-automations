@@ -25,6 +25,10 @@
  *                     attachments[]}  → crée un brouillon (send=true pour envoyer),
  *                                       ferme après si closeAfter=true.
  *                                       attachments: [{base64_data, filename}] (≤ ~20 Mo au total)
+ *   POST /contact-books {}            → carnets d'adresses accessibles (id, nom)
+ *   POST /contacts   {search, book, limit} → retrouve un contact déjà connu de la boîte.
+ *                                       `search` porte sur nom, courriel, téléphone,
+ *                                       organisation. Sans `book`, balaie tous les carnets.
  *   POST /send       {from, to[], cc[], bcc[], subject, body, send,
  *                     attachments[]}  → COURRIEL NEUF, hors de tout fil existant.
  *                                       Même endpoint Missive que /reply, sans
@@ -364,6 +368,42 @@ async function reply({ id, from, to, cc, subject, body, send, closeAfter, attach
   return res;
 }
 
+// Carnets d'adresses. Missive range les contacts dans des « contact books »,
+// privés ou partagés : il en faut l'id avant toute recherche.
+async function contactBooks() {
+  const { contact_books = [] } = await mGet("/contact_books?limit=200");
+  return contact_books.map((b) => ({ id: b.id, name: b.name, organization: b.organization || null }));
+}
+
+// Retrouver quelqu'un déjà connu de la boîte, par nom, courriel, téléphone ou
+// organisation. Missive fait la recherche côté serveur sur toutes les fiches.
+// Sans `book`, on balaie tous les carnets accessibles et on fusionne.
+async function findContacts({ search, book, limit }) {
+  const books = book ? [{ id: book }] : await contactBooks();
+  const lim = Math.min(Math.max(parseInt(limit, 10) || 20, 1), 200);
+  const vus = new Map();
+  for (const b of books) {
+    let path = `/contacts?contact_book=${encodeURIComponent(b.id)}&limit=${lim}`;
+    if (search) path += `&search=${encodeURIComponent(search)}`;
+    let lot = [];
+    try { ({ contacts: lot = [] } = await mGet(path)); } catch { continue; } // un carnet illisible ne casse pas les autres
+    for (const c of lot) {
+      if (vus.has(c.id)) continue;
+      const nom = [c.first_name, c.last_name].filter(Boolean).join(" ") || c.nickname || null;
+      const infos = (c.infos || []).map((i) => ({ kind: i.kind, value: i.value, label: i.label || null }));
+      vus.set(c.id, {
+        id: c.id, nom, job_title: c.job_title || null, notes: c.notes || null,
+        carnet: b.name || b.id,
+        courriels: infos.filter((i) => /email/i.test(i.kind || "")).map((i) => i.value),
+        telephones: infos.filter((i) => /phone/i.test(i.kind || "")).map((i) => i.value),
+        organisations: (c.memberships || []).map((m) => m.name || m.organization).filter(Boolean),
+        autres_infos: infos.filter((i) => !/email|phone/i.test(i.kind || "")),
+      });
+    }
+  }
+  return [...vus.values()];
+}
+
 // Courriel NEUF, vers quelqu'un qui ne nous a jamais écrit (prospection, relance,
 // prise de contact). Même endpoint Missive que reply(), à une différence près :
 // on omet `conversation`, ce qui fait ouvrir un nouveau fil au lieu d'en continuer un.
@@ -472,6 +512,13 @@ const server = http.createServer(async (req, res) => {
     if (route === "/reply") {
       if (!body.id || !body.from || !body.body) return json(res, 400, { error: "id, from, body requis" });
       const r = await reply(body); return json(res, 200, { ok: true, sent: !!body.send, closed: !!body.closeAfter, draft: r.drafts?.id || null });
+    }
+    if (route === "/contact-books") {
+      return json(res, 200, { ok: true, books: await contactBooks() });
+    }
+    if (route === "/contacts") {
+      const found = await findContacts(body);
+      return json(res, 200, { ok: true, count: found.length, contacts: found });
     }
     if (route === "/send") {
       if (!body.from || !Array.isArray(body.to) || !body.to.length || !body.subject || !body.body) {
