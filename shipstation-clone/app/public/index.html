@@ -1558,11 +1558,29 @@ const PLAGES_DATE = [
  * inutile ici, et un aplat lisible dans les deux thèmes vaut mieux qu'un logo illisible en
  * 16 px. Le CSP interdit d'ailleurs toute image externe.
  */
+/**
+ * Icônes de marque, intégrées au document.
+ *
+ * Provenance, pour que personne n'ait à la deviner : Shopify et Etsy viennent de leur propre
+ * `apple-touch-icon.png` officiel, rapatrié une fois puis normalisé à 64 px ; le F de Faire est
+ * dessiné ici, leur site refusant toute requête automatisée.
+ *
+ * Ce ne sont que des valeurs par défaut : une icône déposée dans les réglages passe devant.
+ * Elles existent pour que les trois canaux de Lasclay soient reconnaissables sans avoir rien
+ * à configurer — et elles sont en URI de données, comme le reste : la page n'appelle jamais
+ * l'extérieur pour afficher une image.
+ */
+const ICONES = {
+  shopify: "data:image/png;base64,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",
+  etsy: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMH0lEQVR4AdRaDXQU1RX+3szsbrIbgn/gz0FUsKhAioIiigWx/mEt0IqKopWSGKPYek7PqdpjbdUWi38Vi9gCUbF41CN6LBUFxQqotVahKlCF+geKAqKUJGwSsjPz/O5sdtkk+/+DIZk78+bNvffd+8197933Zg2U+K/pcvRuqDauaai2ZjbUmI82VJsv7KyxVu+sNj/dWWM2e+SVrdXyLMpDXsqIbInNQ0kAEMObajCNtEIFsMVU7mxT2deZcCabyjnbgj3UUs7hFpxyj7yyPVSeRXnISxlFWdHRVI1rRGcpwCgqALtq8JNd1VhpBLCNiu8njVaAoWh5nmSIDiqYLTpFd0sNLqO6oh3UX7iu8FSMo3Fr6eQjSmFU4RqTaxDdLrCAQK8JV+MHyblyqy0IgOYajAjX4F8wsIjGDc6t6fy5CXQVFBYThNeaqzEyf02g6XlI61r46Pj9GnQeGJGHiuKIKIzUCq8RiFn6QvjzUZpzBLTWon+z6zk+LZ8GSyKjcG1zJV5tnYLv5Ko/JwCI9ATHxTsAhpG616Ew3Daxmt1yYi6GZQWAnoIyCXn2u2eovILULQ+OQz00sJAvSrpEeTZGZgRAQj5sYRWVdZ+QpzFpD3aJcE/8O5sukREAx8EfFDAosUG1fx8YRwyDOmxglA49DjigL7B/O1UcBJT1LJwqD/F0ql79ofoMgTFgNKzhl0TpjGuh+g4FfOWJpsXLtLnKtvC7eEWKgpGi3qvmfHsjw/5C7ybhZAw6G76LZ8J/6ewoTX4AgSseRGBKfZSqFyBQ+1jhNHW+p89/+Rz4L/kTfBfMgDX2xiid8TOoA48EVGoXCMLFng9I/ZdSeteVOIcKpicTVeU9YfDtm8ecjjgNPBPmwLOiNPhcmFXnFU6DzonqO+77MAeMgtlvBIw+343SwQOg/MnffqLN4gMTtbGJdYnlpADQ+ePh4kkyJn3ufvAqIktmIPLSTNhvPQnn4zegd++C1szTKJR4aNeB27AF9huP5kXOe8vgfr0JoJ5EvV7Z3g1oxyumORnawOMcGE9IxpPUQWj8VSlUJhOQOnfjKtjL7kVk8XTYL9wF++X74ax9HmhpkscdyW6D3vYBAbsjP2I7zqqFcLf9r6NeuaPupMDIswRiFPTk7DAzoSpe7AIAU8tJFKiKc6QquDYQ/gruplVw3nqCQNwD3fRlV26HADRtg/5iXV7krlsCe+UcOKufhm7tBLBDGzRd69pqlxq+0FGMggmdH3QAgOmkydTy9s5MGe9dF+7WDUCkNSNrPgx6+4dw1jwLibxEed0WBuRFJFamL98iPiaydAAg3AOX8+FRpJwOzT5jt3IMSNZPc9KUmlk3fgn3o9fjDDrLNx8XkILCkHYf5c6jOACa2R5nlN94tXmcTDicMfMQzFJEcyB11i/fwy3dIbe378myK9wsvno3PMUBaLFQx/uc3z5lPMc5bjAcI0CSmUB4CiYOeLpxK9yvNrar0u3XHC8K/dp99QTjADCiJnk1BZw0pyXN8aAAFWlE6XBLI9xP3ojyRFqAPNtK9NUDIFyLQ6l1OKmwwzOIhhamJaW0bm2E8/4/4G5ZD5dTq440p+TN8GA4k6PDhMcDgGPYeMaxF8VS+a2TVQb06AVUkKQcM4ijvrv+ZUSWzvByD73zi9iT3K6K3poYJ0IeAAyJCXLTXcg4fAisky+FedJFUL0ShiXO+3r7x3BefwTOKiaqTdvzNjnms6Eno5IRMCZvTYmCMg1Sc2JVPmXzxImwzr0RvtF1MA45Jh8VmWU0xjAn8BuNZeZ5DAh/ZoksOGwmQoXOAoYJ44gTocqZictAx9E/i5ZzZ1HwN1ZaZxhQ6tjcpUslwc4ZOpBh348rvSBQhGhKa6nCCENpzV2HtGx77yHfvupTBWVGA1K3NUNHuOIrkQXiu8Hcv3sAoEyoyoPhO/9mILif57KWLuCUDgDx3YBWpQXACkD1Phrm6No4WWdeB+usX8Aa+yv4xt0C3wV3wM/dH3/t4+z/wwArGgFg4oM2JjweHCU40XeDC5nSAsBwNg7qD9+Ya+NkjaqDNaoW1mnVME+5AubJk2EO+SHM/qdCBSo4LBlRbyXXl5klelf0s/huKIXSAgDJDEkMccRIZgrDBHyMDn85lJ+JjyQ8UldkN9OpU/SdEQDOXenYCnzG9YHsFUS4c9SR7ob94j2ILPsjIi/eC3v5LNirn+Kg18rBn4BJs+w+MH1SKgmxlVbOAmprSbTHlDoR6B2bmL3N70ivzIEte4pL74T9/HREnrmJW2y3wf30bYCgeeL+IOLjgVdR3JPSaqvBkbC0AGRrMxMezUWOs+IBQNb62coVwCe+Gwq6ewAgjjDXt9c8h+gOMwNU6qC8cylO4rtMg90HABkwm/8PvY37i1z5qRJ3AUS7gFs8AMRgg6N7ga/LeXcxnA0r4H6+FmjeWaC2NOLK3chB0JDP3Wm4cnlUnHCVLfDIUzdwkLyPGx9JvgfkYlI6Xm2sNyqD9nINNKTj29vPZO9Pb3kPevtHAL84pWrfPG0qfPwuaZ7E3bzQAanYktZzndVY2Wi/bKhZ2M33tjQpVzeuVL36waLjFkGQ75S5msokaIlaiDbDE3SxzwFgDuY2Rq+jAabKetfXAL9LeL5ke2r32QPAMPASmBhnK5uSz7QA5alEyf5Ef3A/mMeP4+qxN3R4B3TzDoCf4LJuk74qCy8Iv2dtsB6befMmqaBD+YL0v/BZIK0RTI8NLprkM7kKhJDX2wfeDM3FFmnHA0AKUAV2A3kzHEw8XSU7KaiKA7mqnAaU9Yi20trI9UNuS2ZmgH+LCgNxAII2ZrDyE1IehwLKewJFyAHSNu4vg9H3BO+HF16SRGa9izvDuaTOGhtDNmai/S8OgJqPVq5Sb2uvz+2iVBQAlST8Az1g9B4AyG+IVLy53PQLN5Ms48iT4Zvwe7nbQ2EmStw621ORvsTp71ZFX2NcHSwKNWEBcwKmX7HHWVzplAoxLEf+1AvPzhKKI6yi8/7xt0L6rmOVc7ztzJX83mW/1OX7QX6QZZ1+NXeObofqtE0uv0nQsnPUriLdhc6vC9HHRJ4OAHBedGjd9YkMycqq8hAYx46BOfoq+CbeCX/1ApgjpwChFMkIt7jNIePhu/BulNU9iUDdU/Bf+ZgnJ7JJqfYJlF39NALk8026D9aYaQSC2+VWoINJWlLl7CPgl56PCRo6ACD1FQ9iKaNgpZRTkXHMaPjkw8Xp18AccRnMwefA4FtWKTYvFMcGFdofZj+G8JDzYZ0wAebQC2AOm5iahv6YfONhVY2FefRIGAcdhaT6ZfG0O5zK1Hi9+CS+xSvaC10AkHqfgToKpEyPVc/DoA4dGO33DD+XHyo9+nwd3M1rM9MX70Fv3QD57VBK4t6A+/l/+SH0fa4HPthDX34Id8fmOOkGruUyRABDv9FSqBXfOlNSAAJzsV5pTCazS+pyuJ+9A/v1+bD/+TDsV+ftoZV/gb3iz8WlV+bu0e+1VR9tW9onCfCQzdMuVsYrXBi4qGwekq6qkgIgoqEH8ZwGbpJyZ3I3LIe96GbYz94K71di3O/zrstnw15JAIpJsm0W0y/XpXdE25b2SXrr+53N63Cv6UPFvGjW1+FB+01KAOR5RT1mMHwek/I+SRoLxYd0tqcFQARDJq7k9T+kfe14J9iIKzIZnREANRfNQQPfo6JFpH3lWBxswKmc8loyGZwRAFHggVCPH7H8a2j+s9AtD7FN47fBeozLxnnxISsAhFEBOlSP6VAQIJqlrptRC0f7cRy8bxNbs7UtawBiCgnCIsbAaaTY79Vij769q8YmrmNOCc3D4lyNyBkAaYAovx1sw2BOMdcTCGYiUrv3ie1v4yx1Q7ANgyoewrv5WJAXANKQWoAwp5i7gg6OUi5+TiA+k/q9Qhofs726kI0jmd7eKbbk227eAMQaVFxaBh/CLEZFX76RqaRlsWdFvWrwqymWUP9UttWfNEfaLrSNggFINIAR8TDp7OBuVMDFeObRczWwmcQXxlGUzDmWN4sOik0INuIAOn0e9T/M+6IdRQUgZpWEZOgh/L1HPa6iwYezn1bZrnmxC+N6B+ZsR5vP2rDW2DAbomStYf1i0mzhYd0kkRFZ0RGqx6JU01qszXyv3wAAAP//VBXLWQAAAAZJREFUAwBuJm6P1yIJlAAAAABJRU5ErkJggg==",
+  faire: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACmElEQVR4AeyaP68xQRTGn70JH0GnISERIRKdRoECBZVECIVCVDT+FBoFISIUQo9QSkSh0miJ+AgaX0BHeLM3qt17X+vu7GYnO5tM1o4zZ8/5zXPYHL6eOj++oPODAdC5AMAUwBSgcwKsBHQuAPYhyEqAlYDOCbAS0LkA9PctINxwoiXAcRw4TtlRqVSEOci6JgqgXC4jkUjA5/PBbDbLCkytxUQBtNttLBYL7HY7nM9nZDIZUR69Xg/b7VY01us1ZrMZRqMRWq0WarUaCoUCUqkUotEojEajyBeJCaIApATkcrng9/tFIxwOI5lMIp/Po1qtotlsYjgcYjKZYLVawW63S3H/sY3qAD6O8LXAarW+XpE9UQPAYrGQzfzljRoAuleA7gF4PB40Gg0EAoGXeMmcqCkBk8mEer2OYDBIJvOXF2oAvOIlfmIAiCOlzKFmFXC73WAwGJDL5RRFqlkAh8MB9/td0eR555oFcDwe+fhkj3cOGIB3hEi/zz/IcNz7psl4PCZ96x/9aVYBP0arwKTqAH5riAibJJFIRIF0xS5VB/BbQ8QvaJLwbTVxuORnVAcgNQWHwyHVVJadZgE4nU5ZiUldrFkAfAcoFArBZrNJzeVPdpoFwHEcNpsN+Fb7nzKTuEizACTGL9uMAZCNkHIHTAGUb6Ds8JkCZCPUmINPw2EK+JTY/+z3+z06nQ7S6TS8Xu/3L7tC+1gsBrfbjXg8jlKphMFg8P3AI7RT65qoArrdLvh/cEynU/AwHo+HKI/r9YrT6YTlcol+v49isYhsNiuyU2uCKID5fI7n8/nxuFwuauUrug9RACLvFEwwABRskqIhMgUoipcC50wBFGySoiEyBSiKlwLnTAEUbJKiIVKvALl0/gEAAP//Nu8tbAAAAAZJREFUAwBJmcWQ5D5P6QAAAABJRU5ErkJggg==",
+};
+
 const MARCHES = {
-  shopify: { lettre: "S", nom: "Shopify", fond: "#0b7a4b", texte: "#ffffff" },
+  shopify: { lettre: "S", nom: "Shopify", fond: "#0b7a4b", texte: "#ffffff", icone: ICONES.shopify },
   // #c8542a sortait à 4,41 : sous le seuil AA. Assombri jusqu'à passer, teinte conservée.
-  etsy:    { lettre: "E", nom: "Etsy", fond: "#bd4e26", texte: "#ffffff" },
-  faire:   { lettre: "F", nom: "Faire", fond: "#1f2937", texte: "#ffffff" },
+  etsy:    { lettre: "E", nom: "Etsy", fond: "#bd4e26", texte: "#ffffff", icone: ICONES.etsy },
+  faire:   { lettre: "F", nom: "Faire", fond: "#1f2937", texte: "#ffffff", icone: ICONES.faire },
   manual:  { lettre: "M", nom: "Commandes manuelles", fond: "#5c6673", texte: "#ffffff" },
   amazon:  { lettre: "A", nom: "Amazon", fond: "#8a5a00", texte: "#ffffff" },
   ebay:    { lettre: "b", nom: "eBay", fond: "#1a56db", texte: "#ffffff" },
@@ -1591,14 +1609,16 @@ function pastilleBoutique(storeId, { avecNom = false } = {}) {
   const m = marcheDe(b);
   const nom = b ? b.name : "Boutique inconnue";
   const titre = b && m.nom !== nom ? `${nom} · ${m.nom}` : nom;
-  // Le logo, quand il y en a un. Le nom accessible reste porté par le conteneur et non par
-  // l'image : une icône qui ne charge pas ne doit pas emporter avec elle le nom de la
-  // boutique. L'`alt` vide évite que le lecteur d'écran annonce la chose deux fois.
-  const dedans = b && b.logo
-    ? `<img src="${esc(b.logo)}" alt="" width="16" height="16">`
+  // L'icône déposée d'abord, celle de la marque ensuite, la lettre en dernier recours. Le nom
+  // accessible reste porté par le conteneur et non par l'image : une icône qui ne charge pas
+  // ne doit pas emporter avec elle le nom de la boutique. L'`alt` vide évite que le lecteur
+  // d'écran annonce la chose deux fois.
+  const icone = (b && b.logo) || m.icone || null;
+  const dedans = icone
+    ? `<img src="${esc(icone)}" alt="" width="16" height="16">`
     : esc(m.lettre);
-  const fond = b && b.logo ? "" : `style="background:${m.fond};color:${m.texte}"`;
-  return `<span class="mk${b && b.logo ? " img" : ""}" ${fond}
+  const fond = icone ? "" : `style="background:${m.fond};color:${m.texte}"`;
+  return `<span class="mk${icone ? " img" : ""}" ${fond}
     title="${esc(titre)}" aria-label="${esc(titre)}" role="img">${dedans}</span>${
     avecNom ? ` ${esc(nom)}` : ""}`;
 }
@@ -7250,19 +7270,27 @@ async function peindreLogos() {
   if (!boutiques.length) { cible.innerHTML = '<p class="doux">Aucune boutique.</p>'; return; }
 
   cible.innerHTML = `<div class="tbl" style="max-height:none"><table><tbody>${
-    boutiques.map((b) => `<tr data-lg="${esc(b.id)}">
-      <td style="width:44px">${b.logo
-        ? `<img class="logoAp" src="${esc(b.logo)}" alt="Icône de ${esc(b.name)}">`
+    boutiques.map((b) => {
+      const m = marcheDe(b);
+      const icone = b.logo || m.icone || null;
+      // Trois états, trois messages : votre image, celle de la marque, ou rien encore. La
+      // nuance compte — « il y a une icône » et « c'est la vôtre » ne se remplacent pas.
+      const etat = b.logo ? "votre image"
+        : m.icone ? `icône ${esc(m.nom)} intégrée — déposez la vôtre pour la remplacer`
+        : `lettre « ${esc(m.lettre)} » — déposez une image ici`;
+      return `<tr data-lg="${esc(b.id)}">
+      <td style="width:44px">${icone
+        ? `<img class="logoAp" src="${esc(icone)}" alt="Icône de ${esc(b.name)}">`
         : `<span class="logoAp" aria-hidden="true" style="display:inline-flex;align-items:center;
-             justify-content:center;background:${marcheDe(b).fond};color:${marcheDe(b).texte};
-             font-weight:700">${esc(marcheDe(b).lettre)}</span>`}</td>
-      <td>${esc(b.name)}<div class="doux" style="font-size:12px">${
-        b.logo ? "icône en place" : `lettre « ${esc(marcheDe(b).lettre)} » — déposez une image ici`}</div></td>
+             justify-content:center;background:${m.fond};color:${m.texte};
+             font-weight:700">${esc(m.lettre)}</span>`}</td>
+      <td>${esc(b.name)}<div class="doux" style="font-size:12px">${etat}</div></td>
       <td style="text-align:right;white-space:nowrap">
         <button type="button" data-lgf="${esc(b.id)}">Choisir un fichier…</button>
         <button type="button" data-lgu="${esc(b.id)}">Depuis une URL…</button>
         ${b.logo ? `<button type="button" class="d" data-lgx="${esc(b.id)}">Retirer</button>` : ""}
-      </td></tr>`).join("")}</tbody></table></div>
+      </td></tr>`;
+    }).join("")}</tbody></table></div>
     <input type="file" id="lgFile" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" hidden>
     <p class="doux" style="font-size:12px;margin:6px 0 0">Un carré de 64 px suffit ; les images plus
       grandes sont réduites automatiquement avant l'envoi. PNG, JPEG, WebP, GIF ou SVG.</p>
