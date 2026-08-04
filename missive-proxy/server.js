@@ -106,8 +106,26 @@ async function listConversations(filter) {
   return [...byId.values()];
 }
 
-async function getConversation(id) {
-  const { messages = [] } = await mGet(`/conversations/${id}/messages?limit=10`);
+// `limit` plafonnait à 10 messages : sur un fil de 25, on répondait en n'ayant lu que les 10
+// derniers, sans le savoir. La profondeur est maintenant réglable, et `tronque` dit franchement
+// qu'il reste des messages non lus au lieu de laisser croire au fil complet.
+async function getConversation(id, limit) {
+  // L'API Missive REFUSE limit > 10 sur les messages. Pour remonter un fil complet il faut
+  // paginer avec `until`, exactement comme listConversations le fait pour les conversations.
+  const vise = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 200);
+  const parId = new Map();
+  let until = null;
+  while (parId.size < vise) {
+    let p = `/conversations/${id}/messages?limit=10`;
+    if (until) p += `&until=${until}`;
+    const { messages: lot = [] } = await mGet(p);
+    if (!lot.length) break;
+    for (const m of lot) parId.set(m.id, m);
+    const plusVieux = lot[lot.length - 1].delivered_at || lot[lot.length - 1].created_at;
+    if (lot.length < 10 || plusVieux === until) break;
+    until = plusVieux;
+  }
+  const messages = [...parId.values()];
   const sorted = messages.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
   const ids = sorted.map((m) => m.id).filter(Boolean);
   const bodies = new Map();
@@ -119,7 +137,7 @@ async function getConversation(id) {
       for (const m of arr) if (m && m.id) bodies.set(m.id, m.body || m.preview || "");
     } catch { /* on garde le preview */ }
   }
-  return sorted.map((m) => {
+  const out = sorted.map((m) => {
     const ts = (m.delivered_at || m.created_at || 0) * 1000;
     return {
       from: m.from_field?.name || m.from_field?.address || "?",
@@ -130,6 +148,25 @@ async function getConversation(id) {
       text: stripHtml(bodies.get(m.id) || m.body || m.preview || ""),
     };
   });
+  // On s'est arrêté au plafond demandé => il reste probablement des messages avant.
+  out.tronque = messages.length >= vise;
+  return out;
+}
+
+// Le listage des brouillons ne renvoie qu'un `preview` tronqué (~130 caractères), jamais le
+// corps complet — comme pour les messages. On va donc chercher le corps un brouillon à la fois,
+// sinon on ne peut pas relire un brouillon avant de l'envoyer. Les routes possibles diffèrent
+// selon la ressource, d'où la chaîne d'essais; à défaut on dégrade sur le preview.
+async function fetchDraftBody(draftId) {
+  for (const path of [`/drafts/${draftId}`, `/messages/${draftId}`]) {
+    try {
+      const r = await mGet(path);
+      const d = r.drafts || r.messages || r.draft || r.message;
+      const one = Array.isArray(d) ? d[0] : d;
+      if (one && (one.body || one.preview)) return one.body || one.preview;
+    } catch { /* on essaie la route suivante */ }
+  }
+  return null;
 }
 
 // Brouillons laissés par le script IA (support.js) — la réponse déjà rédigée.
@@ -137,15 +174,26 @@ async function getDrafts(id, raw) {
   const { drafts = [] } = await mGet(`/conversations/${id}/drafts?limit=10`);
   if (raw) return { raw: drafts };
   const sorted = drafts.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
+  const bodies = new Map();
+  for (const d of sorted) {
+    if (d.body) continue;
+    const b = await fetchDraftBody(d.id);
+    if (b) bodies.set(d.id, b);
+  }
   return sorted.map((d) => {
     const ts = (d.delivered_at || d.created_at || 0) * 1000;
+    const body = d.body || bodies.get(d.id) || "";
     return {
       id: d.id,
       from: d.from_field?.address || null,
       to: (d.to_fields || []).map((f) => f.address).filter(Boolean),
       subject: d.subject || null,
       date: ts ? new Date(ts).toISOString().slice(0, 10) : null,
-      body: stripHtml(d.body || ""),
+      body: stripHtml(body),
+      // Vrai quand seul le preview tronqué a pu être récupéré : le brouillon N'EST PAS
+      // relisible en entier, donc pas envoyable les yeux fermés.
+      tronque: !body || (!d.body && !bodies.has(d.id)) ? true : undefined,
+      preview: d.preview || null,
     };
   });
 }
@@ -272,6 +320,23 @@ async function closeConversation(id, note) {
   });
 }
 
+// Étiquettes partagées d'un fil. `close` ne touche pas aux étiquettes, et support.js ne retire
+// « Draft AI Support » que des fils fermés : sans cette route, un fil répondu mais laissé ouvert
+// (parce qu'un envoi reste dû) garde son étiquette de brouillon indéfiniment.
+// `keepClosed` reprend la mécanique de support.js : sur un fil déjà fermé, poster sans ce drapeau
+// le rouvrirait.
+async function setLabels({ id, add, remove, markdown, keepClosed }) {
+  const post = {
+    conversation: id, organization: ORG,
+    markdown: markdown || "_Étiquettes mises à jour._",
+    notification: { title: "Étiquettes", body: (markdown || "Étiquettes mises à jour").slice(0, 100) },
+  };
+  if (Array.isArray(add) && add.length) post.add_shared_labels = add;
+  if (Array.isArray(remove) && remove.length) post.remove_shared_labels = remove;
+  if (keepClosed) post.reopen = true;
+  return mSend("POST", "/posts", { posts: post });
+}
+
 async function reply({ id, from, to, cc, subject, body, send, closeAfter, attachments }) {
   const draft = {
     conversation: id, organization: ORG,
@@ -323,7 +388,8 @@ const server = http.createServer(async (req, res) => {
     }
     if (route === "/conversation") {
       if (!body.id) return json(res, 400, { error: "id requis" });
-      return json(res, 200, { messages: await getConversation(body.id) });
+      const msgs = await getConversation(body.id, body.limit);
+      return json(res, 200, { messages: msgs, tronque: msgs.tronque || undefined });
     }
     if (route === "/drafts") {
       if (!body.id) return json(res, 400, { error: "id requis" });
@@ -355,6 +421,11 @@ const server = http.createServer(async (req, res) => {
     if (route === "/note") {
       if (!body.id || !body.markdown) return json(res, 400, { error: "id et markdown requis" });
       await postNote(body.id, body.markdown); return json(res, 200, { ok: true });
+    }
+    if (route === "/labels") {
+      if (!body.id) return json(res, 400, { error: "id requis" });
+      if (!body.add && !body.remove) return json(res, 400, { error: "add[] ou remove[] requis" });
+      await setLabels(body); return json(res, 200, { ok: true });
     }
     if (route === "/close") {
       if (!body.id) return json(res, 400, { error: "id requis" });
