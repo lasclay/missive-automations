@@ -29,6 +29,19 @@ qu'un seul chemin dans le code : écraser un fichier existant, ou en créer un n
 supprimer ou déplacer quoi que ce soit, il faut passer par le connecteur Google Drive de
 la session — qui, lui, ne sait pas supprimer non plus — ou le faire à la main.
 
+Deux conséquences à retenir, vérifiées :
+
+- `--name` **est ignoré quand on pousse avec `--id`.** Le fichier est bien remplacé, mais
+  il garde son ancien titre. Renommer suppose de passer par l'interface Drive.
+- **Faute de suppression, le seul ménage possible depuis la session est d'écraser le
+  contenu d'un fichier périmé par un avertissement.** Le fichier reste dans le dossier,
+  mais plus personne ne peut se tromper en l'ouvrant, et l'historique des versions du
+  document permet de le restaurer.
+
+Le correctif qui ajoute la vraie suppression est prêt : `references/corbeille.gs`. Le
+client `drive_push.js` sait déjà l'appeler (`--corbeille <id>[,<id>…]`) et lire sa
+réponse; il ne manque que le déploiement du bloc côté Apps Script.
+
 ## Prérequis
 
 Le client est `drive_push.js`, à la racine du dépôt **`lasclay/missive-automations`**.
