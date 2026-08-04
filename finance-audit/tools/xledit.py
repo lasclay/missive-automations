@@ -222,8 +222,17 @@ class Editor:
         wb = re.sub(r'(<sheet state=")hidden(" name="%s")' % re.escape(name), r'\1visible\2', wb)
         self.parts['xl/workbook.xml'] = wb.encode('utf8')
 
-    def add_sheet(self, name, rows, after=None):
-        """rows: list of (coord, value) ; creates a bare new worksheet."""
+    def add_sheet(self, name, rows, after=None, styles=None, widths=None,
+                  first=False):
+        """rows: list of (coord, value) ; creates a bare new worksheet.
+
+        styles: {coord: index de `cellXfs`} — un nombre sans format se lit
+        « 977339.12 » au lieu de « 977 339 $ », ce qui suffit à faire douter
+        un lecteur du reste de la feuille.
+        widths: [(colonne_min, colonne_max, largeur)] ; first: mettre l'onglet
+        en tête plutôt qu'à la fin.
+        """
+        styles = styles or {}
         nums = [int(m.group(1)) for m in re.finditer(r'sheet(\d+)\.xml',
                 ' '.join(self.order))]
         n = max(nums) + 1
@@ -238,19 +247,22 @@ class Editor:
             for _, coord, val in sorted(cells[r]):
                 if val is None:
                     continue
+                s = f' s="{styles[coord]}"' if coord in styles else ''
                 if isinstance(val, str) and val.startswith('='):
-                    body.append(f'<c r="{coord}"><f>{esc(val[1:])}</f><v>0</v></c>')
+                    body.append(f'<c r="{coord}"{s}><f>{esc(val[1:])}</f><v>0</v></c>')
                 elif isinstance(val, (int, float)) and not isinstance(val, bool):
-                    body.append(f'<c r="{coord}"><v>{val!r}</v></c>')
+                    body.append(f'<c r="{coord}"{s}><v>{val!r}</v></c>')
                 else:
-                    body.append(f'<c r="{coord}" t="inlineStr"><is><t xml:space="preserve">{esc(val)}</t></is></c>')
+                    body.append(f'<c r="{coord}"{s} t="inlineStr"><is><t xml:space="preserve">{esc(val)}</t></is></c>')
             body.append('</row>')
+        cols = widths or [(1, 1, 52), (2, 8, 16)]
+        colxml = ''.join(f'<col min="{a}" max="{b}" width="{w}" customWidth="1"/>'
+                         for a, b, w in cols)
         xml = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
                '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
                '<sheetPr/><sheetViews><sheetView workbookViewId="0"/></sheetViews>'
                '<sheetFormatPr defaultRowHeight="15"/>'
-               '<cols><col min="1" max="1" width="52" customWidth="1"/>'
-               '<col min="2" max="8" width="16" customWidth="1"/></cols>'
+               f'<cols>{colxml}</cols>'
                '<sheetData>' + ''.join(body) + '</sheetData></worksheet>')
         self.parts[part] = xml.encode('utf8')
         self.order.append(part)
@@ -277,6 +289,8 @@ class Editor:
         if after:
             m = re.search(r'<sheet [^>]*name="%s"[^>]*/>' % re.escape(after), wb)
             wb = wb[:m.end()] + entry + wb[m.end():]
+        elif first:
+            wb = re.sub(r'<sheets>', '<sheets>' + entry, wb, count=1)
         else:
             wb = wb.replace('</sheets>', entry + '</sheets>')
         self.parts['xl/workbook.xml'] = wb.encode('utf8')

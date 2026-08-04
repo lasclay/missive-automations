@@ -140,14 +140,24 @@ ALLC=(list('DEFGHIJKLMNO')
       +['AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ']
       +['AT','AU','AV','AW','AX','AY','AZ','BA','BB','BC','BD','BE'])
 marge=max(bk.get(P,c+'183') for c in ALLC)
-PRET=460000.0; CAPITAL_MARCHAND=367479.0
-EDC_AUTORISEE=150000.0; EDC_JUILLET=143026.40
+PRET=460000.0
+# Le capital marchand à refinancer se lit au bilan du 31 août 2026, pas d'une
+# constante : l'échéancier disait 367 479 $ là où QuickBooks montre des soldes
+# plus bas au 31 juillet. Le mémo affirmerait sinon un refinancement de
+# 62 608 $ de plus que la dette qui existe.
+CAPITAL_MARCHAND=round(bk.get(B,'O48')+bk.get(B,'O58'),2)
+EDC_AUTORISEE=150000.0
+EDC_JUILLET=round(bk.get(P,'N183'),2)
 out['sommaire']={
   'cac25':20.11,'cac26':31.88,'aov25':56.47,'aov26':79.92,
   'ltv25':48.76,'ltv26':64.62,'clients25':11509.0,'clients26':8443.0,
   'marge_demandee':round(marge,2),'pret':PRET,
+  'shopify_capital':round(bk.get(B,'O48'),2),
+  'merchant_growth':round(bk.get(B,'O58'),2),
+  'capital_marchand':CAPITAL_MARCHAND,
   'argent_neuf':round(PRET-CAPITAL_MARCHAND+marge,2),
-  'encaisse_juin':round(bk.get('Bilan2026-27-28','M6'),2),
+  'encaisse_juil':round(bk.get(B,'N6'),2),
+  'tirage_du_mois':round(bk.get(P,'N183')-bk.get(P,'M183'),2),
   'edc_juil':EDC_JUILLET,'coussin':round(EDC_AUTORISEE-EDC_JUILLET,2)}
 json.dump(out,open('pdf_data.json','w'),indent=1,ensure_ascii=False)
 print(json.dumps(out,indent=1,ensure_ascii=False)[:2600])

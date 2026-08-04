@@ -518,7 +518,7 @@ P.append(f"""<div class="page cover">
     subvention non confirmée.</div>
 
   <div class="meta">LES PRODUITS LASCLAY INC. &nbsp;·&nbsp; QUÉBEC (LIMOILOU)
-    &nbsp;·&nbsp; 30 JUILLET 2026<br>Exercice financier du 1<sup>er</sup> septembre au
+    &nbsp;·&nbsp; 4 AOÛT 2026<br>Exercice financier du 1<sup>er</sup> septembre au
     31 août : « 2025-2026 » couvre septembre 2025 à août 2026 · Modèle mensuel de
     48 mois rapproché de QuickBooks</div>
 </div>""")
@@ -823,20 +823,21 @@ P.append(f"""<div class="page">
   <h3>Pourquoi la trésorerie a manqué</h3>
   <div class="two">
     <div class="card o"><h4>Le capital marchand</h4>
-      <table style="margin:4px 0 0"><tr><td>Shopify Capital</td><td>202 609 $</td></tr>
-      <tr><td>Merchant Growth</td><td>164 870 $</td></tr>
-      <tr class="tot"><td>Total au 31 août 2026</td><td>367 479 $</td></tr></table>
+      <table style="margin:4px 0 0"><tr><td>Shopify Capital</td><td>{fr(S['shopify_capital'])}</td></tr>
+      <tr><td>Merchant Growth</td><td>{fr(S['merchant_growth'])}</td></tr>
+      <tr class="tot"><td>Total au 31 août 2026</td><td>{fr(S['capital_marchand'])}</td></tr></table>
       <p style="margin-top:7px;font-size:8.5pt;color:{GRIS}">Shopify Capital prélève
       <strong>28,75 % de chaque dollar vendu</strong>, tous les jours. Plus l'entreprise
       vend, moins il lui reste pour acheter le stock suivant. Un mécanisme procyclique,
       qui punit la croissance.</p></div>
-    <div class="card o"><h4>Ce qu'il en restait au 30 juin</h4>
-      <table style="margin:4px 0 0"><tr><td>Encaisse</td><td>{fr(S['encaisse_juin'])}</td></tr>
+    <div class="card o"><h4>Ce qu'il en restait au 31 juillet</h4>
+      <table style="margin:4px 0 0"><tr><td>Encaisse</td><td>{fr(S['encaisse_juil'])}</td></tr>
       <tr><td>Marge EDC autorisée</td><td>150 000 $</td></tr>
-      <tr><td>Tirée au 30 juillet</td><td>{fr(S['edc_juil'])}</td></tr>
+      <tr><td>Tirée au 31 juillet</td><td>{fr(S['edc_juil'])}</td></tr>
       <tr class="tot"><td>Coussin restant</td><td class="neg">{fr(S['coussin'])}</td></tr></table>
       <p style="margin-top:7px;font-size:8.5pt;color:{GRIS}">En un mois, juillet, la
-      marge a été tirée de 59 475 $ de plus, dans le mois le plus mort de l'année.</p></div>
+      marge a été tirée de {fr(S['tirage_du_mois'])} de plus, dans le mois le plus mort
+      de l'année.</p></div>
   </div>
 
   <p style="margin-top:6px">Le manque à gagner : <strong>117 037 $</strong> de ventes
@@ -1363,7 +1364,7 @@ P.append(f"""<div class="page">
   <div class="kicker">Projections</div>
   <div class="sect"><span class="num">15</span><h2>Les projections : deux scénarios</h2></div>
   <div class="lede">Un chiffrier mensuel de 48 mois rapproché de QuickBooks compte par
-    compte, dont dix mois de 2025-2026 sont du réel. Une seule cellule bascule d'un scénario
+    compte, dont onze mois de 2025-2026 sont du réel. Une seule cellule bascule d'un scénario
     à l'autre.</div>
 
 
@@ -1426,8 +1427,8 @@ P.append(f"""<div class="page">
   <table>
     <tr><th>Instrument</th><th>Montant</th><th style="text-align:left">Objet</th></tr>
     <tr><td>Prêt à terme (fonds de roulement et refinancement)</td><td>{fr(S['pret'])}</td>
-      <td style="text-align:left">Solder Shopify Capital (202 609 $) et Merchant Growth
-      (164 870 $), financer le stock</td></tr>
+      <td style="text-align:left">Solder Shopify Capital ({fr(S['shopify_capital'])}) et
+      Merchant Growth ({fr(S['merchant_growth'])}), financer le stock</td></tr>
     <tr><td>Marge de crédit d'exploitation saisonnière</td><td>{fr(S['marge_demandee'])}</td>
       <td style="text-align:left">Couvrir le creux d'automne : le stock s'achète avant de
       se vendre</td></tr>
@@ -1440,7 +1441,7 @@ P.append(f"""<div class="page">
 
   <p>Shopify Capital ne se rembourse pas par mensualité mais par prélèvement de 28,75 %
   sur chaque vente, au moment même où l'entreprise devrait accumuler la trésorerie de
-  l'automne. Remplacer ces 367 479 $ par un prêt à terme amortissable transforme un
+  l'automne. Remplacer ces {fr(S['capital_marchand'])} par un prêt à terme amortissable transforme un
   prélèvement procyclique en une mensualité prévisible.</p>
 
   <h3>Facteurs de risque</h3>
@@ -1458,7 +1459,7 @@ P.append(f"""<div class="page">
   </div>
   <div class="two" style="margin-top:11px">
     <div class="card o"><h4>2026-2027 sous le seuil bancaire</h4>
-      <p style="font-size:8.5pt;margin:0">Couverture de {C['dscr'][1]:.2f} et résultat
+      <p style="font-size:8.5pt;margin:0">Couverture de {fr(C['dscr'][1],2,'')} et résultat
       négatif hors aides. Un moratoire de capital de 12 mois, pratique courante de la BDC,
       déplacerait la pression d'un exercice.</p></div>
     <div class="card o"><h4>Capitaux propres négatifs au départ</h4>
@@ -1490,12 +1491,14 @@ P.append(f"""<div class="page">
   <h3>Ancrage comptable</h3>
   <p>Le modèle est un chiffrier mensuel de 48 mois, de septembre 2025 à août 2029. Chaque
   compte du grand livre QuickBooks est apparié à une ligne du modèle par son numéro de
-  compte. <strong>Dix mois de 2025-2026 sont du réel</strong>, bilan comme état des
-  résultats, collés directement depuis QuickBooks : septembre 2025 à juin 2026. Juillet et
-  août restent prévisionnels, parce que la colonne de juillet chez QuickBooks est une photo
-  du mois en cours et non un mois fermé.</p>
+  compte. <strong>Onze mois de 2025-2026 sont du réel</strong>, bilan comme état des
+  résultats, collés directement depuis QuickBooks : septembre 2025 à juillet 2026. Seul
+  août 2026 reste prévisionnel. Un mois réel et un mois prévisionnel ne se distinguent pas
+  par une étiquette mais par la forme de leurs formules : un mois réel va chercher
+  QuickBooks compte par compte, un mois prévisionnel applique les moteurs du modèle. Le
+  résultat avant impôts de juillet tombe au cent près sur celui de QuickBooks.</p>
 
-  <h3>Ce que la révision du 30 juillet 2026 a corrigé</h3>
+  <h3>Ce que la révision de juillet et août 2026 a corrigé</h3>
   <ul>
     <li>Les 76 produits ont été recalés sur les <strong>unités réellement vendues</strong>
       chez Shopify. Le total modélisé de 2025-2026 reconcilie au revenu QuickBooks à 3 826 $
@@ -1516,6 +1519,16 @@ P.append(f"""<div class="page">
       facturées et crédits sur intrants chez QuickBooks — et tiennent compte de la baisse
       des crédits quand la couture quitte le Québec. Le versement du 30 novembre passe de
       <strong>13 910 $ en 2026 à 48 510 $ en 2028</strong></li>
+    <li>Juillet 2026 est passé du prévisionnel au réel. Le résultat du mois s'établit à
+      <strong>-48 225 $</strong> contre -39 272 $ en prévision, et la marge de crédit
+      était tirée à <strong>143 026 $ au 31 juillet</strong> là où le modèle projetait
+      27 825 $</li>
+    <li>Le premier mois projeté ouvrait sur des soldes d'ancrage plutôt que sur le réel du
+      mois précédent : le bilan d'août lisait l'échéancier de dette — 202 609 $ d'emprunt
+      Shopify là où QuickBooks en montre 186 437 $ — et le modèle lisait la différence
+      comme un encaissement. Avec Merchant Growth et le stock de produits finis,
+      <strong>124 000 $ de liquidités que personne n'a avancées</strong>. Août ouvre
+      désormais sur le solde réel de juillet</li>
     <li>Le mappage des comptes portait cinq défauts qui faisaient disparaître des soldes
       réels, dont 54 266 $ de prêt BDC qui ne tombaient nulle part</li>
     <li>Aucune cellule des feuilles actives du plan n'est en erreur et aucune référence
@@ -1575,7 +1588,7 @@ P.append(f"""<div class="page">
   <div class="tiles" style="margin:20px 0">
     <div class="tile"><div class="v">{fr(S['pret'], 0, '')} $</div>
       <div class="k">Prêt à terme demandé</div>
-      <div class="n">dont 367 479 $ de refinancement</div></div>
+      <div class="n">dont {fr(S['capital_marchand'])} de refinancement</div></div>
     <div class="tile"><div class="v">{fr(S['marge_demandee'], 0, '')} $</div>
       <div class="k">Marge saisonnière</div><div class="n">creux d'automne</div></div>
     <div class="tile o"><div class="v">{fr(S['argent_neuf'], 0, '')} $</div>

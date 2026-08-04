@@ -2,9 +2,10 @@
 """Produire la copie anglaise du chiffrier à partir de la copie française.
 
 Comme pour le mémo, l'anglais est **dérivé**, jamais tenu en parallèle. Aucune
-formule, aucune valeur, aucun format n'est touché : seules les chaînes de texte
-changent. Les deux fichiers calculent donc exactement la même chose, et c'est
-vérifié après coup, cellule à cellule.
+formule et aucune valeur ne changent : seuls le texte et, pour les deux formats
+monétaires à la française, la place du symbole du dollar. Les deux fichiers
+calculent donc exactement la même chose, et c'est vérifié après coup, cellule à
+cellule.
 
 ## Pourquoi c'est sûr malgré les SUMIF
 
@@ -49,6 +50,7 @@ LETTRE = re.compile(r'[A-Za-zÀ-ÿ]{2}')
 # CHAQUE formule qui la référence. Renommer sans réécrire les formules casse
 # tout le classeur, alors les deux se font ensemble ou pas du tout.
 ONGLETS = {
+    'Sommaire': 'Summary',
     'Résultats-Prev 2025-2029': 'Income-Forecast 2025-2029',
     'Notes d’audit': 'Audit log',
     'Inputs': 'Inputs',
@@ -62,9 +64,52 @@ ONGLETS = {
     'Ventes prévisionnelles ': 'Sales forecast ',
     'QBOBS à maj': 'QBOBS to update',
 }
+FORMULE = re.compile(r'(<f[^>]*>)(.*?)(</f>)', re.S)
+LITTERAL = re.compile(r'"((?:[^"]|"")*)"')
 SI = re.compile(r'<si>(.*?)</si>', re.S)
 TEXTE = re.compile(r'(<t(?:\s[^>]*)?>)(.*?)(</t>)', re.S)
 EN_LIGNE = re.compile(r'(<is>\s*<t(?:\s[^>]*)?>)(.*?)(</t>\s*</is>)', re.S)
+
+
+def litteraux(x, glossaire):
+    """Traduit le texte écrit **dans** une formule.
+
+    La page sommaire affiche le scénario actif par un `IF` dont les deux
+    branches sont des phrases françaises. Ce texte n'est ni dans la table des
+    chaînes partagées ni dans un `<is>` : il vit à l'intérieur de la formule,
+    et la copie anglaise l'affichait donc en français.
+
+    Seuls les littéraux dont le texte exact figure au glossaire sont touchés.
+    Un critère de `SUMIF` — « <0 », un libellé de compte — n'est remplacé que
+    si le glossaire le porte, et dans ce cas la rangée qu'il vise est traduite
+    du même mouvement : le rapprochement reste vrai.
+    """
+    def dans_formule(m):
+        def un(lit):
+            brut = html.unescape(lit.group(1)).replace('""', '"')
+            cle = ' '.join(brut.split())
+            if cle not in glossaire:
+                return lit.group(0)
+            return '"' + html.escape(glossaire[cle].replace('"', '""'),
+                                     quote=False) + '"'
+        return m.group(1) + LITTERAL.sub(un, m.group(2)) + m.group(3)
+
+    return FORMULE.sub(dans_formule, x)
+
+
+def formats_en(x):
+    """Met le symbole du dollar devant le nombre, comme l'anglais l'écrit.
+
+    Le classeur porte une vingtaine de formats monétaires hérités, dont le
+    symbole est déjà tantôt devant tantôt derrière. Seuls les deux qui le
+    mettent **derrière à la française** — « 977 339 $ » — sont retournés :
+    réécrire les vingt pour uniformiser irait bien au-delà d'une traduction,
+    et casserait la comparaison cellule à cellule avec le français.
+    """
+    for avant, apres in ((r'#,##0&quot; $&quot;', r'&quot;$&quot;#,##0'),
+                         (r'#,##0.00\ &quot;$&quot;', r'&quot;$&quot;#,##0.00')):
+        x = x.replace(f'formatCode="{avant}"', f'formatCode="{apres}"')
+    return x
 
 
 def chaines(chemin):
@@ -188,10 +233,15 @@ def build(src=SRC, dst=DST, essai=False):
                 data = zin.read(item.filename)
                 if item.filename == 'xl/sharedStrings.xml':
                     data = onglets(neuf).encode('utf8')
+                elif item.filename == 'xl/styles.xml':
+                    data = formats_en(data.decode('utf8')).encode('utf8')
                 elif item.filename in ('xl/workbook.xml',):
                     data = onglets(data.decode('utf8')).encode('utf8')
                 elif item.filename.startswith('xl/worksheets/'):
-                    data = onglets(data.decode('utf8')).encode('utf8')
+                    x = onglets(data.decode('utf8'))
+                    if item.filename in feuilles:
+                        x = litteraux(x, GLOSSAIRE)
+                    data = x.encode('utf8')
                 if item.filename in feuilles:
                     x = data.decode('utf8')
                     data = EN_LIGNE.sub(

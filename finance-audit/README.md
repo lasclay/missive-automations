@@ -50,10 +50,15 @@ classeur en 1,2 seconde.
 | `fix_ap.py` | Finitions de livraison : les 54 étiquettes « FY20xx » passent au gabarit « 2026-2027 » ; les descriptions de scénario d'`Inputs` A71 et A72, qui annonçaient des déploiements périmés, sont régénérées depuis les rangées qu'elles décrivent ; les rangées ajoutées reçoivent un format ; la limite de la marge de crédit et le contrôle du tirage sont posés à la rangée 163 d'`Inputs` ; le journal d'audit est mis à jour. |
 | `fix_aq.py` | Recolle le réel de QuickBooks dans « QBO P&L à maj » et « QBOBS à maj » après une séance de tenue de livres, en appariant par libellé. `--essai` montre ce qui bougerait sans rien écrire. |
 | `fix_ar.py` | Met le journal d'audit au diapason du recollage. |
+| `fix_as.py` | Fait passer juillet 2026 du prévisionnel au réel. Un mois réel ne se distingue pas d'un mois prévisionnel par une étiquette mais par la **forme de ses formules** : la colonne de juillet reçoit celle de juin, transposée, au résultat comme au bilan. |
+| `fix_at.py` | La page « Sommaire », posée en première feuille et faite uniquement de formules, plus la remise à jour des entrées périmées du journal. |
+| `fix_au.py` | Le premier mois projeté ouvre désormais sur les soldes réels du dernier mois comptabilisé, échéanciers de dette et fonds de roulement compris. |
+| `fix_av.py` | Le contrôle du tirage de marge de crédit balaie aussi le premier mois projeté, qui est justement celui du sommet. |
+| `fix_aw.py` | Corrige au journal une affirmation que la phase suivante avait rendue fausse, et pose le constat de clôture. |
 | `recache.py` | Rafraîchit les valeurs en cache de tout le classeur. **À lancer en dernier**, après toute écriture. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `traduire.py` `glossaire_en.py` | Dérive le mémo anglais du mémo français. Les deux sortent du même `pdf_data.json`, donc un chiffre ne peut pas diverger d'une langue à l'autre ; seul le texte change. `--manquants` liste les segments non traduits et le script refuse d'écrire tant qu'il en reste. Les nombres passent au format anglais mécaniquement. |
-| `traduire_xlsx.py` `glossaire_x_*.py` | Dérive la copie anglaise du chiffrier : chaînes partagées, chaînes en ligne des feuilles visibles et noms d'onglets, avec les références de feuille réécrites dans toutes les formules. Ne touche ni aux formules elles-mêmes, ni aux valeurs, ni aux styles, et vérifie ensuite que les deux fichiers calculent à l'identique. 1 346 chaînes, aucune manquante. |
+| `traduire_xlsx.py` `glossaire_x_*.py` | Dérive la copie anglaise du chiffrier : chaînes partagées, chaînes en ligne des feuilles visibles, noms d'onglets, texte écrit **à l'intérieur** des formules, et les deux formats monétaires à la française. Ne touche ni à la logique des formules ni aux valeurs, et vérifie ensuite que les deux fichiers calculent à l'identique. Aucune chaîne manquante. |
 | `pdftxt.py` | Extrait le texte d'un PDF en passant par les tables ToUnicode de chaque police. Les PDF exportés de Google dessinent leur texte en hexadécimal avec des polices sous-ensemblées : sans la table, on ne lit rien. Sert à dépouiller les annexes et les lettres de soutien. |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
 | `fix_y.py` | Réparation de la mise en page : remet la table `cellXfs` dans l'ordre et donne un format aux cellules créées par la révision. À exécuter après toute série d'écritures. |
@@ -177,6 +182,25 @@ classeur en 1,2 seconde.
   il y en a un, le libellé complet sinon.
 - **Un compte que QuickBooks ne renvoie plus doit être remis à zéro.** Le laisser à sa
   valeur d'hier fait compter deux fois une dépense qu'une reclassification a déplacée.
+- **Une colonne entière n'a pas de numéro de rangée, donc `xlread.translate` ne la
+  décale pas.** Transposer une formule d'un mois au suivant laisse
+  `'QBO P&L à maj'!AJ:AJ` intact : la colonne de juillet se met à lire celle de juin et
+  recopie le mois précédent au dollar près, sans qu'aucune formule n'ait l'air fausse. Les
+  plages de colonnes se décalent à part, avant la transposition.
+- **La frontière entre le réel et le projeté est un endroit dangereux.** Le premier mois
+  projeté doit ouvrir sur les soldes du dernier mois réel. Quand il ouvre sur ses propres
+  ancrages — un échéancier saisi à la main, l'inventaire de l'an dernier majoré de 10 % —
+  le modèle lit l'écart comme un **mouvement de trésorerie**. En août 2026 : 56 596 $
+  d'emprunts que personne n'a avancés et 67 780 $ de stock qui n'a pas bougé, soit
+  110 000 $ de moins au tirage de marge de crédit affiché. Le niveau vient du réel, la
+  variation vient du modèle.
+- **Un contrôle qui balaie « les mois projetés » doit suivre la frontière.** Le contrôle du
+  tirage partait de septembre 2026, ce qui était juste tant que 2025-2026 était réel de bout
+  en bout. Août 2026 devenu le premier mois projeté, le contrôle sautait précisément le mois
+  du sommet et affichait zéro dépassement.
+- **Le texte écrit dans une formule échappe à la traduction.** Les deux branches d'un
+  `IF` qui affiche le scénario actif ne sont ni dans `sharedStrings` ni dans un `<is>` :
+  elles vivent dans la formule. La copie anglaise les gardait en français.
 - **Le séparateur de milliers se pose sur le nombre, pas sur la phrase.** Un
   `.replace(',', ' ')` appliqué au texte complet mange les virgules de la prose. Même
   piège que la virgule décimale dans les coordonnées SVG.
