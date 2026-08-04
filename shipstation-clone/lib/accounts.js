@@ -107,30 +107,144 @@ const abonnements = () => all("SELECT * FROM webhooks ORDER BY id").map((w) => (
 const desabonner = (id) => run("DELETE FROM webhooks WHERE id = ?", id);
 
 /**
- * Émet un événement. Comme ShipStation, on n'envoie pas la donnée : on envoie une URL de
- * ressource que l'abonné rappellera. Ça évite de diffuser des données personnelles vers un
- * point de terminaison qui n'est peut-être plus le bon.
+ * Émission d'un événement — exigences G1, G2, G3 de l'audit.
+ *
+ * Le clone reproduisait le webhook « mince » de ShipStation : une simple `resource_url` que
+ * l'abonné devait rappeler. La spécification listait précisément ce comportement comme le
+ * **défaut G1 à corriger**, pas comme un modèle — le rappel consomme le quota de l'appelant
+ * et double les allers-retours. Trois corrections :
+ *
+ *   • **charge utile complète**, avec `resource_url` en complément et non à la place ;
+ *   • **signature HMAC-SHA256** sur `horodatage.corps`, avec un secret par abonnement, et
+ *     un horodatage qui rend le rejeu détectable (G2) ;
+ *   • **journal de livraison et redélivrance** avec temporisation croissante (G3).
  */
-async function emettre(event, { resourceUrl, storeId = null } = {}) {
+/** Fenêtre d'acceptation d'un horodatage, côté récepteur. Cinq minutes, comme Stripe. */
+const FENETRE_REJEU_S = 300;
+
+/** Temporisation de redélivrance : 1 min, 5, 30, 2 h, 6 h, puis abandon. */
+const PALIERS_RETRY_MIN = [1, 5, 30, 120, 360];
+
+function secretDe(webhookId) {
+  const w = one("SELECT secret FROM webhooks WHERE id = ?", webhookId);
+  if (w && w.secret) return w.secret;
+  const s = crypto.randomBytes(32).toString("base64url");
+  run("UPDATE webhooks SET secret = ? WHERE id = ?", s, webhookId);
+  return s;
+}
+
+/** Signature d'une charge utile : `t=<epoch>,v1=<hmac hex>` sur `<epoch>.<corps>`. */
+function signer(secret, corps, horodatage = Math.floor(Date.now() / 1000)) {
+  const hmac = crypto.createHmac("sha256", secret).update(`${horodatage}.${corps}`).digest("hex");
+  return { entete: `t=${horodatage},v1=${hmac}`, horodatage, hmac };
+}
+
+/**
+ * Vérifie une signature reçue. Comparaison à temps constant — un `===` sur un HMAC laisse
+ * fuir sa valeur par le temps de réponse.
+ */
+function verifierSignature(secret, corps, entete) {
+  const m = /t=(\d+),v1=([a-f0-9]+)/.exec(String(entete || ""));
+  if (!m) return { ok: false, motif: "en-tête de signature absent ou mal formé" };
+  const [, t, recu] = m;
+  const age = Math.abs(Math.floor(Date.now() / 1000) - Number(t));
+  if (age > FENETRE_REJEU_S) return { ok: false, motif: `horodatage périmé (${age} s)` };
+  const attendu = signer(secret, corps, Number(t)).hmac;
+  const a = Buffer.from(attendu, "hex"), b = Buffer.from(recu, "hex");
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b))
+    return { ok: false, motif: "signature invalide" };
+  return { ok: true };
+}
+
+async function livrer(cible, evenement) {
+  const corps = JSON.stringify(evenement);
+  const secret = secretDe(cible.id);
+  const { entete } = signer(secret, corps);
+  const t0 = Date.now();
+  try {
+    const res = await fetch(cible.target_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Lasclay-Signature": entete,
+        "X-Lasclay-Event": evenement.event,
+        "X-Lasclay-Event-Id": evenement.event_id,
+        "X-Lasclay-Delivery-Attempt": String(evenement.__tentative || 1),
+      },
+      body: corps,
+      signal: AbortSignal.timeout(10000),
+    });
+    const texte = (await res.text().catch(() => "")).slice(0, 500);
+    return { statut: res.status, reussi: res.ok, reponse: texte, ms: Date.now() - t0 };
+  } catch (e) {
+    return { statut: null, reussi: false, erreur: String(e.message), ms: Date.now() - t0 };
+  }
+}
+
+function tracer(cible, evenement, r, tentative) {
+  const prochaine = r.reussi || tentative > PALIERS_RETRY_MIN.length ? null
+    : new Date(Date.now() + PALIERS_RETRY_MIN[tentative - 1] * 60000).toISOString();
+  run(`INSERT INTO webhook_livraisons
+       (webhook_id,event_id,event,payload,tentative,statut_http,reponse,erreur,reussi,cree_le,prochaine_tentative)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
+    cible.id, evenement.event_id, evenement.event, JSON.stringify(evenement), tentative,
+    r.statut ?? null, r.reponse ?? null, r.erreur ?? null, r.reussi ? 1 : 0,
+    maintenant(), prochaine);
+  return prochaine;
+}
+
+async function emettre(event, { resourceUrl = null, storeId = null, donnees = null } = {}) {
   const cibles = all("SELECT * FROM webhooks WHERE event = ? AND active = 1 AND (store_id IS NULL OR store_id = ?)",
     event, storeId);
   const resultats = [];
   for (const c of cibles) {
-    try {
-      const res = await fetch(c.target_url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ resource_url: resourceUrl, resource_type: event }),
-        signal: AbortSignal.timeout(10000),
-      });
-      resultats.push({ id: c.id, status: res.status });
-    } catch (e) {
-      resultats.push({ id: c.id, erreur: String(e.message) });
-    }
+    const evenement = {
+      event_id: crypto.randomUUID(),
+      event,
+      cree_le: new Date().toISOString(),
+      // La charge utile complète — c'est tout l'objet de la correction G1. `resource_url`
+      // reste fourni pour qui préfère relire la source, mais il n'est plus obligatoire.
+      donnees: donnees ?? null,
+      resource_url: resourceUrl,
+    };
+    const r = await livrer(c, { ...evenement, __tentative: 1 });
+    tracer(c, evenement, r, 1);
+    resultats.push({ id: c.id, event_id: evenement.event_id, statut: r.statut, reussi: r.reussi, erreur: r.erreur });
   }
   if (resultats.length) journaliser("webhook.emit", "webhook", null, { event, resultats });
   return resultats;
 }
+
+/**
+ * Rejoue les livraisons échouées dont l'heure de reprise est passée. Appelé par la boucle
+ * périodique du serveur, et disponible à la main depuis l'écran des webhooks.
+ */
+async function redelivrer({ limite = 50 } = {}) {
+  const attente = all(`SELECT l.*, w.target_url, w.active FROM webhook_livraisons l
+                       JOIN webhooks w ON w.id = l.webhook_id
+                       WHERE l.reussi = 0 AND l.prochaine_tentative IS NOT NULL
+                         AND l.prochaine_tentative <= ? AND w.active = 1
+                       ORDER BY l.prochaine_tentative LIMIT ?`, maintenant(), limite);
+  const faits = [];
+  for (const l of attente) {
+    // Une tentative plus récente a-t-elle déjà réussi pour cet événement ?
+    const dejaOk = one("SELECT 1 x FROM webhook_livraisons WHERE event_id = ? AND reussi = 1", l.event_id);
+    if (dejaOk) { run("UPDATE webhook_livraisons SET prochaine_tentative = NULL WHERE id = ?", l.id); continue; }
+    const evenement = JSON.parse(l.payload);
+    const tentative = l.tentative + 1;
+    const r = await livrer({ id: l.webhook_id, target_url: l.target_url }, { ...evenement, __tentative: tentative });
+    run("UPDATE webhook_livraisons SET prochaine_tentative = NULL WHERE id = ?", l.id);
+    tracer({ id: l.webhook_id }, evenement, r, tentative);
+    faits.push({ event_id: l.event_id, tentative, reussi: r.reussi });
+  }
+  return faits;
+}
+
+/** Journal de livraison d'un abonnement — ce que ShipStation n'expose nulle part. */
+const livraisons = ({ webhook_id = null, limite = 100 } = {}) => all(
+  `SELECT id, webhook_id, event_id, event, tentative, statut_http, erreur, reussi, cree_le, prochaine_tentative
+   FROM webhook_livraisons ${webhook_id ? "WHERE webhook_id = ?" : ""}
+   ORDER BY id DESC LIMIT ?`, ...(webhook_id ? [webhook_id, limite] : [limite]));
 
 // ============================================================== notifications
 
@@ -178,6 +292,7 @@ const MARQUE_DEFAUT = {
 
 module.exports = {
   DOMAINES, ROLES, creerUtilisateur, utilisateurs, utilisateur, majUtilisateur, peut, exiger,
-  EVENEMENTS, abonner, abonnements, desabonner, emettre,
+  EVENEMENTS, abonner, abonnements, desabonner, emettre, redelivrer, livraisons,
+  signer, verifierSignature, secretDe,
   filerNotification, notificationsEnAttente, marquerEnvoyee, MARQUE_DEFAUT,
 };

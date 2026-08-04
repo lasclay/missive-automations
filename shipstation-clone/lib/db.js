@@ -160,11 +160,37 @@ CREATE INDEX IF NOT EXISTS idx_ship_order ON shipments(order_id);
 CREATE INDEX IF NOT EXISTS idx_ship_tracking ON shipments(tracking_number);
 CREATE INDEX IF NOT EXISTS idx_ship_date ON shipments(ship_date);
 
+
 CREATE TABLE IF NOT EXISTS manifests (
   id INTEGER PRIMARY KEY AUTOINCREMENT, carrier_code TEXT, warehouse_id INTEGER,
   created_at TEXT, ship_date TEXT, shipment_count INTEGER DEFAULT 0,
   document TEXT, status TEXT DEFAULT 'created'
 );
+
+/*
+ * Cueillettes transporteur — BUG-051.
+ *
+ * Lasclay a cinq comptes transporteur avec ramassage, et c'est un geste quotidien : le
+ * clone n'en avait aucune trace. La table enregistre ce qui a été demandé, à qui, pour
+ * quand, et ce que le transporteur a répondu. La confirmation reste vide tant qu'aucun
+ * adaptateur réel n'a répondu — c'est ce qui distingue « noté ici » de « confirmé par le
+ * transporteur », et l'écran le dit au lieu de laisser croire que le camion viendra.
+ */
+CREATE TABLE IF NOT EXISTS pickups (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  carrier_code TEXT NOT NULL,
+  compte TEXT,                        -- « LASCLAY », « Rotule », « CC Gabriel »…
+  warehouse_id INTEGER REFERENCES warehouses(id),
+  date TEXT NOT NULL,                 -- jour du ramassage
+  creneau_debut TEXT, creneau_fin TEXT,
+  colis INTEGER DEFAULT 0, poids_g REAL DEFAULT 0,
+  contact TEXT, telephone TEXT, instructions TEXT,
+  statut TEXT NOT NULL DEFAULT 'demande',  -- demande | confirme | annule | effectue
+  confirmation TEXT,                  -- numéro rendu par le transporteur, NULL si non confirmé
+  erreur TEXT,
+  cree_le TEXT, cree_par TEXT REFERENCES users(id), annule_le TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_pickups_date ON pickups(date);
 
 CREATE TABLE IF NOT EXISTS tracking_events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -189,7 +215,8 @@ CREATE TABLE IF NOT EXISTS returns (
 
 CREATE TABLE IF NOT EXISTS products (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  sku TEXT UNIQUE NOT NULL, name TEXT, image_url TEXT, upc TEXT,
+  external_id TEXT UNIQUE,                  -- identité de la source (productId ShipStation)
+  sku TEXT, name TEXT, image_url TEXT, upc TEXT,   -- le SKU manque sur 39 produits, et se répète
   weight_g REAL DEFAULT 0, dimensions TEXT,
   price REAL DEFAULT 0, active INTEGER DEFAULT 1,
   warehouse_location TEXT, category TEXT,
@@ -271,6 +298,24 @@ CREATE TABLE IF NOT EXISTS webhooks (
   store_id INTEGER, friendly_name TEXT, active INTEGER DEFAULT 1, created_at TEXT
 );
 
+-- Journal de livraison des webhooks (exigences G1 à G3).
+-- ShipStation n'offre aucune garantie de redélivrance — « do not assume you will receive
+-- every webhook ». Ici chaque tentative est tracée et rejouable : sans journal, un abonné
+-- qui a raté un événement n'a aucun moyen de le savoir, ni de le récupérer.
+CREATE TABLE IF NOT EXISTS webhook_livraisons (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  webhook_id INTEGER REFERENCES webhooks(id) ON DELETE CASCADE,
+  event_id TEXT NOT NULL,            -- identifiant d'événement, stable entre les tentatives
+  event TEXT NOT NULL,
+  payload TEXT NOT NULL,             -- la charge utile COMPLÈTE, telle qu'envoyée
+  tentative INTEGER DEFAULT 1,
+  statut_http INTEGER, reponse TEXT, erreur TEXT,
+  reussi INTEGER DEFAULT 0,
+  cree_le TEXT, prochaine_tentative TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_wl_webhook ON webhook_livraisons(webhook_id, cree_le);
+CREATE INDEX IF NOT EXISTS idx_wl_retry ON webhook_livraisons(prochaine_tentative) WHERE reussi = 0;
+
 CREATE TABLE IF NOT EXISTS notifications (
   id INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT, order_id INTEGER, shipment_id INTEGER,
   recipient TEXT, subject TEXT, body TEXT, sent_at TEXT, status TEXT DEFAULT 'queued', error TEXT
@@ -331,6 +376,15 @@ const AJOUTS = [
   ["stores", "guid", "TEXT"],
   // Suivi de l'impression d'étiquette (exigence E3) : imprimée ≠ achetée.
   ["orders", "print_state", "TEXT"],   // bordereau et étiquette imprimés
+  // Index de recherche plein texte, replié : minuscules et accents retirés. SQLite n'a pas
+  // de comparaison insensible aux accents, et `lower('Josee') LIKE '%josée%'` est faux —
+  // chercher « josée ferland » ne trouvait donc jamais la cliente enregistrée « Josee
+  // Ferland ». Une colonne pliée à l'écriture règle le problème une fois pour toutes,
+  // et permet en prime de chercher sur le suivi et le nom d'article.
+  ["orders", "recherche", "TEXT"],
+  // Même index plié sur les clients : ils sont 37 158, et `sansaccent()` appliqué ligne à
+  // ligne coûtait ~200 ms par frappe — assez pour figer le service, qui est mono-fil.
+  ["customers", "recherche", "TEXT"],
   // Un lot regroupe des commandes AVANT l'achat des étiquettes : chez ShipStation, la colonne
   // « Batch » de la grille Orders est renseignée bien avant qu'une expédition existe.
   ["orders", "batch_id", "INTEGER"],
@@ -351,13 +405,256 @@ const AJOUTS = [
   ["orders", "shipping_account", "TEXT"],      // my_account | third_party | recipient
   ["orders", "buyer_id", "TEXT"],
   ["orders", "premium_programs", "TEXT"],
+  // Secret de signature par abonnement (exigence G2) : rotatif, propre à chaque cible.
+  ["webhooks", "secret", "TEXT"],
+  // Réconciliation des montants (BUG-016). Sans ces quatre colonnes, une commande remisée
+  // ou remboursée affiche des lignes au prix catalogue sous un total à zéro : l'écran se
+  // contredit lui-même. La remise et le remboursement sont des montants à part entière,
+  // pas des différences à deviner entre le total et la somme des lignes.
+  ["orders", "discount_amount", "REAL DEFAULT 0"],
+  ["orders", "refunded_amount", "REAL DEFAULT 0"],
+  ["order_items", "quantity_ordered", "INTEGER"],   // quantité d'origine ; `quantity` est la courante
+  ["order_items", "discount", "REAL DEFAULT 0"],    // remise allouée à la ligne
+  // Vérification au poste de scan (BUG-069). L'avancement vivait dans une `Set` en mémoire :
+  // un rechargement de page perdait toutes les cases cochées sans un mot.
+  ["order_items", "verified_at", "TEXT"],
+  ["order_items", "verified_by", "TEXT"],
+  // Vérification à l'unité, pas à la ligne : une ligne « Mitaines × 2 » se coche en deux
+  // scans. Une case unique par ligne fait passer la seconde paire sans que personne
+  // l'ait vue — c'est exactement ce que le poste de vérification existe pour attraper.
+  ["order_items", "verified_qty", "INTEGER DEFAULT 0"],
+  // Les six colonnes d'état de communication de l'écran Shipped (BUG-049). ShipStation en
+  // affiche un pictogramme **et un horodatage** pour chacune : « Printed 22/07 10:17 ».
+  // Un booléen ne suffit pas — la question posée à l'écran est « quand », pas « oui/non ».
+  // Sans elles, impossible de repérer un colis parti sans que le client soit prévenu.
+  ["shipments", "packing_slip_printed_at", "TEXT"],
+  ["shipments", "label_created_at", "TEXT"],
+  ["shipments", "label_printed_at", "TEXT"],
+  ["shipments", "marketplace_notified_at", "TEXT"],
+  ["shipments", "shipment_notified_at", "TEXT"],
+  ["shipments", "delivery_notified_at", "TEXT"],
+  // Valeur déclarée en douane : distincte du prix de vente, et c'est elle qui figure sur la
+  // déclaration. ShipStation a les deux champs ; le clone n'en avait qu'un.
+  ["products", "declared_value", "REAL"],
 ];
 
+/**
+ * `sansaccent(x)` — repli de casse ET de diacritiques, côté SQL.
+ *
+ * Le moteur de critères normalise le texte en JavaScript (`NFD` puis suppression des marques
+ * combinantes) pour que « Défricheuses » corresponde à « defricheuses ». Sans l'équivalent en
+ * SQL, la grille et l'évaluateur en mémoire donnent deux résultats différents pour la même vue :
+ * c'est exactement le genre d'écart qui rend un moteur de filtres impossible à croire.
+ */
+function enregistrerFonctions(d) {
+  d.function("sansaccent", { deterministic: true, varargs: false },
+    (v) => (v == null ? null
+      : String(v).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()));
+}
+/**
+ * Contraintes d'idempotence — § 6.3 étape 0 de l'audit.
+ *
+ * Sans elles, une migration interrompue puis reprise crée des doublons au lieu de reprendre
+ * là où elle s'était arrêtée. La plupart existent déjà en clause `UNIQUE` de colonne
+ * (`orders.order_key`, `products.sku`, `customers.email`, `returns.rma`) ; ce qui manquait,
+ * c'est l'unicité de `rules.position` — deux règles portaient la position 10, et toute
+ * nouvelle règle naissait en collision (BUG-073).
+ */
+function renumeroterRegles(d) {
+  const lignes = d.prepare("SELECT id, position FROM rules ORDER BY position, id").all();
+  const doublons = lignes.length !== new Set(lignes.map((r) => r.position)).size;
+  if (!doublons) return;
+  // Renumérotation par pas de 10 : laisse de la place pour insérer sans tout renuméroter.
+  const maj = d.prepare("UPDATE rules SET position = ? WHERE id = ?");
+  lignes.forEach((r, i) => maj.run((i + 1) * 10, r.id));
+}
+
+/**
+ * Identité des produits — BUG-002.
+ *
+ * `products.sku TEXT UNIQUE NOT NULL` supposait que tout produit a un SKU, et qu'il est
+ * unique. Le compte ShipStation dit le contraire : sur 473 produits, **39 n'ont aucun SKU**
+ * et une dizaine de SKU sont portés par deux produits. Migrer sous cette contrainte aurait
+ * fondu les 39 en un seul et perdu un produit de chaque paire — silencieusement, puisque
+ * `sauverProduit` fait un `UPDATE` quand il trouve le SKU.
+ *
+ * L'identité devient `external_id` (le `productId` de ShipStation) ; le SKU redevient ce
+ * qu'il est, un attribut facultatif qui sert au rapprochement quand il existe. La table est
+ * reconstruite plutôt qu'altérée : SQLite ne sait pas retirer une contrainte de colonne.
+ */
+function reconstruireProduits(d) {
+  const cols = d.prepare("PRAGMA table_info(products)").all().map((c) => c.name);
+  if (cols.includes("external_id")) return;
+
+  // `ALTER TABLE … RENAME` repointerait les clés étrangères des autres tables vers l'ancien
+  // nom. On désactive donc la propagation le temps de l'échange, et les clés étrangères
+  // pendant la bascule — elles sont revérifiées juste après.
+  d.exec("PRAGMA foreign_keys = OFF");
+  try {
+    d.exec(`
+      CREATE TABLE products_nouveau (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        external_id TEXT UNIQUE,           -- productId ShipStation : l'identité réelle
+        sku TEXT, name TEXT, image_url TEXT, upc TEXT,
+        weight_g REAL DEFAULT 0, dimensions TEXT,
+        price REAL DEFAULT 0, active INTEGER DEFAULT 1,
+        warehouse_location TEXT, category TEXT,
+        customs_description TEXT, hs_code TEXT, country_of_origin TEXT DEFAULT 'CA',
+        default_carrier TEXT, default_service TEXT, default_package TEXT,
+        preset_group_id INTEGER REFERENCES preset_groups(id),
+        fulfillment_sku TEXT, is_bundle INTEGER DEFAULT 0, bundle_items TEXT DEFAULT '[]'
+      );
+      INSERT INTO products_nouveau (id, sku, name, image_url, upc, weight_g, dimensions, price,
+        active, warehouse_location, category, customs_description, hs_code, country_of_origin,
+        default_carrier, default_service, default_package, preset_group_id, fulfillment_sku,
+        is_bundle, bundle_items)
+        SELECT id, sku, name, image_url, upc, weight_g, dimensions, price,
+          active, warehouse_location, category, customs_description, hs_code, country_of_origin,
+          default_carrier, default_service, default_package, preset_group_id, fulfillment_sku,
+          is_bundle, bundle_items FROM products;
+      DROP TABLE products;
+      ALTER TABLE products_nouveau RENAME TO products;
+      CREATE INDEX IF NOT EXISTS ix_products_sku ON products(sku);
+    `);
+  } finally {
+    d.exec("PRAGMA foreign_keys = ON");
+  }
+  const orphelins = d.prepare("PRAGMA foreign_key_check").all();
+  if (orphelins.length) console.warn(`[db] ${orphelins.length} référence(s) orpheline(s) après la reconstruction de products`);
+}
+
+/*
+ * Index mesurés sur la base migrée — 39 122 commandes, 34 077 expéditions, 955 lots.
+ *
+ * L'écran Lots mettait **5,4 secondes** : le regroupement des expéditions par lot et le
+ * comptage des commandes par lot balayaient les deux grandes tables en entier, une fois par
+ * lot. Le jeu de développement fait 427 lignes et ne le disait pas.
+ *
+ * Ils sont posés **après** les ajouts de colonnes : `orders.batch_id` n'existe pas dans le
+ * schéma d'origine, et une base neuve refusait de démarrer quand l'index le précédait.
+ */
+const INDEX_TARDIFS = [
+  "CREATE INDEX IF NOT EXISTS idx_ship_batch ON shipments(batch_id)",
+  "CREATE INDEX IF NOT EXISTS idx_ship_manifest ON shipments(manifest_id)",
+  "CREATE INDEX IF NOT EXISTS idx_orders_batch ON orders(batch_id)",
+  "CREATE INDEX IF NOT EXISTS idx_orders_customer ON orders(customer_id)",
+  "CREATE INDEX IF NOT EXISTS idx_orders_email ON orders(customer_email)",
+  "CREATE INDEX IF NOT EXISTS idx_items_shipment ON order_items(shipment_id)",
+  "CREATE INDEX IF NOT EXISTS idx_returns_shipment ON returns(shipment_id)",
+  "CREATE INDEX IF NOT EXISTS idx_tags_order ON order_tags(order_id)",
+];
+
+/**
+ * Remplit l'index de recherche des commandes qui ne l'ont pas encore.
+ *
+ * Se fait par paquets, au démarrage, et seulement sur les lignes à NULL : sur 28 500
+ * commandes le premier passage prend quelques secondes, les suivants zéro. C'est le prix à
+ * payer une fois pour que « josée ferland » retrouve « Josee Ferland ».
+ *
+ * Le calcul est ici plutôt que dans `orders.js` parce que `orders` dépend déjà de ce
+ * module : l'appeler d'ici créerait un cycle.
+ */
+function indexerRecherche(d) {
+  let reste;
+  try { reste = d.prepare("SELECT COUNT(*) n FROM orders WHERE recherche IS NULL").get().n; }
+  catch { return; }                          // colonne absente : rien à faire
+  if (!reste) return;
+  console.log(`[db] index de recherche à construire sur ${reste} commande(s)…`);
+
+  const lot = d.prepare(`SELECT id, order_number, customer_name, customer_email, ship_to,
+                                requested_service, customer_notes, internal_notes, gift_message,
+                                custom_field1, custom_field2, custom_field3
+                         FROM orders WHERE recherche IS NULL LIMIT 2000`);
+  const arts = d.prepare("SELECT sku, name, upc FROM order_items WHERE order_id = ?");
+  const suivis = d.prepare("SELECT tracking_number FROM shipments WHERE order_id = ?");
+  const poser = d.prepare("UPDATE orders SET recherche = ? WHERE id = ?");
+
+  let faits = 0;
+  for (;;) {
+    const lignes = lot.all();
+    if (!lignes.length) break;
+    d.exec("BEGIN");
+    try {
+      for (const o of lignes) {
+        let adr = {};
+        try { adr = JSON.parse(o.ship_to || "{}") || {}; } catch { adr = {}; }
+        const morceaux = [
+          o.order_number, o.customer_name, o.customer_email,
+          adr.name, adr.company, adr.street1, adr.street2, adr.city, adr.state,
+          adr.postalCode, adr.country, adr.phone,
+          o.requested_service, o.customer_notes, o.internal_notes, o.gift_message,
+          o.custom_field1, o.custom_field2, o.custom_field3,
+          ...arts.all(o.id).flatMap((a) => [a.sku, a.name, a.upc]),
+          ...suivis.all(o.id).map((s) => s.tracking_number),
+        ];
+        // Les séparateurs des identifiants sont cosmétiques : « L-27344 » se tape aussi
+        // « l27344 ». On indexe les deux formes, pour les identifiants seulement.
+        const ids = [o.order_number, adr.postalCode,
+          ...arts.all(o.id).flatMap((a) => [a.sku, a.upc]),
+          ...suivis.all(o.id).map((x) => x.tracking_number)];
+        // Une chaîne vide, jamais NULL : sinon la commande repasserait dans le lot suivant
+        // et la boucle ne finirait pas.
+        poser.run([...new Set([
+          ...morceaux.map(plier),
+          ...ids.map((x) => plier(x).replace(/ /g, "")),
+        ].filter(Boolean))].join(" ") || "", o.id);
+        faits++;
+      }
+      d.exec("COMMIT");
+    } catch (e) { d.exec("ROLLBACK"); console.warn("[db] index de recherche :", e.message); break; }
+  }
+  console.log(`[db] index de recherche : ${faits} commande(s) indexée(s).`);
+  try { d.exec("CREATE INDEX IF NOT EXISTS idx_orders_recherche ON orders(recherche)"); } catch {}
+}
+
+/** Le même index, pour les clients : nom et courriel repliés en une colonne. */
+function indexerClients(d) {
+  let reste;
+  try { reste = d.prepare("SELECT COUNT(*) n FROM customers WHERE recherche IS NULL").get().n; }
+  catch { return; }
+  if (!reste) return;
+  console.log(`[db] index de recherche à construire sur ${reste} client(s)…`);
+  try {
+    d.exec("BEGIN");
+    d.exec(`UPDATE customers SET recherche =
+              sansaccent(COALESCE(name,'')) || ' ' || sansaccent(COALESCE(email,''))
+            WHERE recherche IS NULL`);
+    d.exec("COMMIT");
+    d.exec("CREATE INDEX IF NOT EXISTS idx_customers_recherche ON customers(recherche)");
+  } catch (e) { try { d.exec("ROLLBACK"); } catch {} console.warn("[db] index clients :", e.message); }
+  console.log("[db] index de recherche des clients construit.");
+}
+
 function migrer(d) {
+  reconstruireProduits(d);
   for (const [table, colonne, type] of AJOUTS) {
     const cols = d.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
     if (!cols.includes(colonne)) d.exec(`ALTER TABLE ${table} ADD COLUMN ${colonne} ${type}`);
   }
+  for (const sql of INDEX_TARDIFS) {
+    try { d.exec(sql); }
+    catch (e) { console.warn("[db] index non posé :", e.message); }
+  }
+  try {
+    renumeroterRegles(d);
+    d.exec("CREATE UNIQUE INDEX IF NOT EXISTS ux_rules_position ON rules(position)");
+  } catch (e) {
+    // Une contrainte impossible à poser ne doit pas empêcher le service de démarrer : on le
+    // dit dans les logs, l'exploitant tranche.
+    console.warn("[db] unicité des positions de règle non posée :", e.message);
+  }
+  indexerRecherche(d);
+  indexerClients(d);
+
+  // Table de suivi de migration : reprise au curseur, § 6.3 étape 1. Une migration de
+  // 37 693 clients interrompue à 20 000 doit reprendre à 20 000, pas à zéro.
+  d.exec(`CREATE TABLE IF NOT EXISTS migration_suivi (
+    objet TEXT PRIMARY KEY,          -- produits | clients | expeditions | retours | …
+    curseur TEXT,                    -- dernier identifiant source traité
+    lus INTEGER DEFAULT 0, ecrits INTEGER DEFAULT 0, ignores INTEGER DEFAULT 0,
+    statut TEXT DEFAULT 'en_attente',-- en_attente | en_cours | termine | echec
+    demarre_le TEXT, fini_le TEXT, erreur TEXT
+  )`);
 }
 
 let _db = null;
@@ -398,6 +695,10 @@ function db() {
     throw new Error(`Base « ${CHEMIN} » illisible : ${e.message}`);
   }
   _db.exec(SCHEMA);
+  // Les fonctions SQL sont enregistrées **avant** la migration : celle-ci s'en sert pour
+  // remplir les index de recherche, et l'ordre inverse les faisait échouer en silence sur
+  // « no such function: sansaccent » — l'index restait vide, la recherche muette.
+  enregistrerFonctions(_db);
   migrer(_db);
   return _db;
 }
@@ -440,6 +741,37 @@ const dump = (o) => (o === undefined || o === null ? null : JSON.stringify(o));
 
 const maintenant = () => new Date().toISOString();
 
+/**
+ * Repli d'une chaîne pour la recherche : minuscules, accents retirés, ponctuation réduite
+ * à des espaces, espaces compactés.
+ *
+ * SQLite ne sait pas comparer sans tenir compte des accents. `lower('Josee') LIKE '%josée%'`
+ * est faux, et chercher « josée ferland » ne trouvait donc jamais la cliente enregistrée
+ * « Josee Ferland » — pendant que ShipStation, lui, la trouvait. Le repli se fait à
+ * l'écriture, une fois, plutôt qu'à chaque requête sur 28 500 commandes.
+ *
+ * La ponctuation devient de l'espace pour que « L-27344 » se retrouve aussi bien par
+ * « L-27344 » que par « 27344 », et « Ferland, Josée » par « josee ferland ».
+ */
+/**
+ * Pendant JavaScript **exact** de la fonction SQL `sansaccent()` : minuscules et diacritiques
+ * retirés, ponctuation conservée. Les deux doivent produire la même chaîne, sinon le motif
+ * `LIKE` et la colonne comparée ne parlent pas la même langue — un courriel replié en
+ * « josee example com » ne correspondrait jamais à « josee@example.com ».
+ *
+ * À ne pas confondre avec `plier()` ci-dessous, qui va plus loin (la ponctuation devient de
+ * l'espace) et ne sert qu'à l'index de recherche des commandes, où les deux côtés sont pliés.
+ */
+const sansAccent = (s) => String(s ?? "")
+  .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase();
+
+const plier = (s) => String(s ?? "")
+  .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, " ")
+  .trim();
+
 /** Réglage global, avec valeur par défaut. */
 function reglage(cle, defaut = null) {
   const r = one("SELECT value FROM settings WHERE key = ?", cle);
@@ -456,4 +788,4 @@ function journaliser(action, entite, entiteId, detail, userId = null) {
     maintenant(), userId, action, entite, String(entiteId ?? ""), dump(detail));
 }
 
-module.exports = { db, all, one, run, tx, parse, dump, maintenant, reglage, poserReglage, journaliser, CHEMIN };
+module.exports = { db, all, one, run, tx, parse, dump, maintenant, plier, sansAccent, reglage, poserReglage, journaliser, CHEMIN };

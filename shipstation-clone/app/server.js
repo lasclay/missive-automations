@@ -18,10 +18,12 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const db = require("../lib/db");
 const orders = require("../lib/orders");
 const shipments = require("../lib/shipments");
+const pickups = require("../lib/pickups");
 const catalog = require("../lib/catalog");
 const rules = require("../lib/rules");
 const templates = require("../lib/templates");
@@ -43,6 +45,21 @@ const PORT = process.env.PORT || 3100;
 const HOTE = process.env.HOST || "0.0.0.0";
 const ETIQUETTES = process.env.CLONE_ALLOW_LABELS === "1";
 const PUBLIC = path.join(__dirname, "public");
+/** En développement local, HSTS ferait basculer `localhost` en HTTPS et rendrait l'outil injoignable. */
+const CLONE_DEV = process.env.CLONE_COOKIE_INSECURE === "1";
+
+/**
+ * `hid`, `serial` et `usb` restent autorisés à l'origine : ce sont les interfaces de la balance
+ * et de la douchette, qui doivent fonctionner **sans agent local** (exigences E1/E2). Tout le
+ * reste est fermé.
+ */
+const PERMISSIONS_POLICY = [
+  "accelerometer=()", "ambient-light-sensor=()", "autoplay=()", "battery=()", "camera=()",
+  "display-capture=()", "encrypted-media=()", "fullscreen=(self)", "geolocation=()",
+  "gyroscope=()", "hid=(self)", "idle-detection=()", "magnetometer=()", "microphone=()",
+  "midi=()", "payment=()", "picture-in-picture=()", "publickey-credentials-get=(self)",
+  "screen-wake-lock=()", "serial=(self)", "usb=(self)", "xr-spatial-tracking=()",
+].join(", ");
 /** Derrière le proxy de Render, l'IP réelle est dans X-Forwarded-For. */
 const ipDe = (req) => String(req.headers["x-forwarded-for"] || "").split(",")[0].trim()
   || req.socket.remoteAddress || null;
@@ -54,6 +71,69 @@ const json = (res, code, body) => {
   res.writeHead(code, { "Content-Type": "application/json; charset=utf-8", "Content-Length": Buffer.byteLength(b) });
   res.end(b);
 };
+/**
+ * Réponse mise en cache par empreinte — BUG-134.
+ *
+ * `/api/refs` et `/api/criteres` sont rechargés à chaque changement d'écran et ne bougent
+ * qu'à la configuration : plusieurs dizaines de kilo-octets renvoyés à l'identique, dizaines
+ * de fois par session. L'empreinte du corps sert d'`ETag` ; quand elle n'a pas changé, la
+ * réponse tient en un 304 sans corps. `no-cache` plutôt qu'un `max-age` : le navigateur
+ * revalide toujours, donc une modification de référentiel est visible tout de suite.
+ */
+/**
+ * Le document servi, son empreinte et sa politique de sécurité — calculés une fois.
+ *
+ * L'ancienne version injectait un **nonce aléatoire par requête** dans le `<script>` et le
+ * `<style>`. C'était correct côté sécurité, mais cela rendait le corps différent à chaque
+ * appel : aucun `ETag` ne pouvait correspondre, donc aucun 304, donc 85,8 Ko retransférés à
+ * chaque F5 sur un poste d'entrepôt qu'on rouvre dix fois par jour.
+ *
+ * Le CSP par **empreinte** (`'sha256-…'`) offre exactement la même garantie — seuls ces deux
+ * blocs précis peuvent s'exécuter, tout le reste est interdit sans `'unsafe-inline'` — et
+ * rend le document identique d'une requête à l'autre, donc cachable.
+ *
+ * L'empreinte est recalculée si le fichier change sur disque (taille + date), pour que le
+ * développement ne demande pas de redémarrage.
+ */
+let _doc = null;
+function documentIndex() {
+  const chemin = path.join(PUBLIC, "index.html");
+  const st = fs.statSync(chemin);
+  const cle = `${st.size}:${st.mtimeMs}`;
+  if (_doc && _doc.cle === cle) return _doc;
+
+  const html = fs.readFileSync(chemin, "utf8");
+  // L'empreinte porte sur le contenu **entre** les balises, exactement comme le calcule le
+  // navigateur — les balises elles-mêmes n'en font pas partie.
+  const empreintes = (balise) => [...html.matchAll(new RegExp(`<${balise}>([\\s\\S]*?)</${balise}>`, "g"))]
+    .map((m) => `'sha256-${crypto.createHash("sha256").update(m[1], "utf8").digest("base64")}'`);
+  const scripts = empreintes("script"), styles = empreintes("style");
+
+  // `style-src-attr 'unsafe-inline'` : les attributs `style=` de la mise en page ne sont pas
+  // couverts par une empreinte, et un attribut de style ne peut pas exécuter de script.
+  // `script-src-attr 'none'` interdit en revanche tout gestionnaire `onclick=` inline —
+  // c'est là qu'est le vrai risque, et le code n'en contient plus aucun.
+  const csp = `default-src 'none'; script-src ${scripts.join(" ")}; script-src-attr 'none'; ` +
+    `style-src ${styles.join(" ")}; style-src-attr 'unsafe-inline'; ` +
+    "img-src 'self' data:; connect-src 'self'; font-src 'self'; form-action 'self'; " +
+    "frame-ancestors 'none'; base-uri 'none'; object-src 'none'";
+
+  _doc = { cle, html, csp,
+    etag: `W/"${crypto.createHash("sha1").update(html).digest("base64url")}"` };
+  return _doc;
+}
+
+function jsonCache(req, res, body) {
+  const b = JSON.stringify(body);
+  const etag = `W/"${crypto.createHash("sha1").update(b).digest("base64url")}"`;
+  res.setHeader("ETag", etag);
+  res.setHeader("Cache-Control", "private, no-cache");
+  if (req.headers["if-none-match"] === etag) { res.writeHead(304); res.end(); return null; }
+  res.writeHead(200, { "Content-Type": "application/json; charset=utf-8", "Content-Length": Buffer.byteLength(b) });
+  res.end(b);
+  return null;                       // le handler a répondu lui-même
+}
+
 const texte = (res, code, s, type = "text/plain; charset=utf-8") => {
   res.writeHead(code, { "Content-Type": type });
   res.end(s);
@@ -188,6 +268,138 @@ route("POST /api/orders/configure", async ({ req, user }) => {
   return { ok: true, n };
 });
 
+/**
+ * Recherche du poste de scan — BUG-008, BUG-009.
+ *
+ * Trois règles, apprises de ce que ShipStation refuse et que le clone acceptait :
+ *
+ *   1. **Correspondance exacte** sur le numéro de commande. Une saisie partielle ouvrait
+ *      silencieusement la première trouvée : « L-507 » ramenait 84 résultats et ouvrait
+ *      « L-50778 ». On rend la liste, on n'en choisit jamais une à la place de l'opérateur.
+ *   2. **Statut expédiable obligatoire.** Une commande déjà expédiée ou annulée est refusée,
+ *      avec la date et le suivi — réexpédier un colis déjà parti est une perte sèche.
+ *   3. **Aucune ambiguïté silencieuse** : plusieurs correspondances ⇒ on les liste toutes.
+ */
+const STATUTS_SCANNABLES = new Set(["awaiting_shipment", "on_hold"]);
+
+/**
+ * Vérification d'une ligne au poste de scan — BUG-069.
+ *
+ * L'avancement vivait dans une `Set` en mémoire : recharger la page, ou simplement scanner
+ * une autre commande puis revenir, effaçait tout sans un mot. Il est désormais porté par la
+ * ligne elle-même, avec qui l'a vérifiée et quand — c'est ce qu'on veut relire le jour où
+ * un client dit qu'il manquait un article.
+ */
+/**
+ * Vérification d'articles — à l'unité, pas à la ligne.
+ *
+ * `qty` fixe le nombre d'unités vérifiées sur chaque ligne désignée ; omis, il vaut la
+ * quantité entière (le comportement de « Tout vérifier »). `verifie: false` remet à zéro.
+ * `verified_at` ne porte plus que la ligne *entièrement* vérifiée : c'est lui qui décide si
+ * la commande peut partir, et une ligne à moitié comptée ne doit pas y suffire.
+ */
+route("POST /api/scan/verifier", async ({ req, user }) => {
+  accounts.exiger(user, "orders_view");
+  const b = await corps(req);
+  const ids = (b.item_ids || []).map(Number).filter(Boolean);
+  if (!ids.length) return { error: "aucune ligne désignée", code: 400 };
+  const marque = b.verifie !== false;
+  let n = 0;
+  const lignes = [];
+  db.tx(() => {
+    for (const id of ids) {
+      const it = db.one("SELECT id, quantity FROM order_items WHERE id = ?", id);
+      if (!it) continue;
+      const total = it.quantity || 0;
+      const vise = !marque ? 0
+        : b.qty === undefined ? total
+        : Math.max(0, Math.min(total, Number(b.qty)));
+      const complet = vise >= total && total > 0;
+      db.run(`UPDATE order_items SET verified_qty = ?, verified_at = ?, verified_by = ? WHERE id = ?`,
+        vise, complet ? db.maintenant() : null, complet ? user : null, id);
+      lignes.push({ id, verified_qty: vise, quantity: total, complet });
+      n++;
+    }
+  });
+  return { n, verifie: marque, lignes };
+});
+
+/**
+ * Vérification par scan d'un code — le geste de ShipStation (« Scan or enter a UPC to
+ * continue »), impossible ici tant que le catalogue n'avait ni UPC ni chemin d'import.
+ *
+ * Le code est cherché sur l'UPC puis sur le SKU, parmi les seules lignes qui restent à
+ * vérifier : rescanner un article déjà compté est refusé plutôt que d'incrémenter en
+ * silence. Un code qui désigne plusieurs lignes prend la première non soldée — les lignes
+ * sont interchangeables pour un même produit.
+ */
+route("POST /api/scan/article", async ({ req, user }) => {
+  accounts.exiger(user, "orders_view");
+  const b = await corps(req);
+  const code = String(b.code || "").trim();
+  if (!code || !b.order_id) return { error: "code et order_id requis", code: 400 };
+
+  const lignes = db.all(
+    `SELECT id, sku, name, upc, quantity, COALESCE(verified_qty, 0) verified_qty
+       FROM order_items WHERE order_id = ? AND adjustment = 0 ORDER BY id`, Number(b.order_id));
+  const eq = (a) => String(a || "").trim().toLowerCase() === code.toLowerCase();
+  const candidates = lignes.filter((l) => eq(l.upc) || eq(l.sku));
+  if (!candidates.length)
+    return { trouve: false, motif: "inconnu",
+      message: `« ${code} » ne correspond à aucun article de cette commande.` };
+
+  const cible = candidates.find((l) => l.verified_qty < l.quantity);
+  if (!cible) {
+    const l = candidates[0];
+    return { trouve: false, motif: "deja_complet", item: l,
+      message: `${l.name} : les ${l.quantity} unité(s) sont déjà vérifiées.` };
+  }
+  const vise = cible.verified_qty + 1;
+  const complet = vise >= cible.quantity;
+  db.run(`UPDATE order_items SET verified_qty = ?, verified_at = ?, verified_by = ? WHERE id = ?`,
+    vise, complet ? db.maintenant() : null, complet ? user : null, cible.id);
+
+  const restantes = lignes.reduce((s, l) =>
+    s + (l.id === cible.id ? cible.quantity - vise : l.quantity - l.verified_qty), 0);
+  return { trouve: true, item: { ...cible, verified_qty: vise, complet }, restantes };
+});
+
+route("GET /api/scan/lookup", ({ url, user }) => {
+  accounts.exiger(user, "orders_view");
+  const code = String(q(url).q || "").trim();
+  if (!code) return { error: "code vide", code: 400 };
+
+  // Correspondance exacte d'abord, insensible à la casse et aux espaces du lecteur.
+  const exact = db.all(
+    "SELECT id FROM orders WHERE upper(trim(order_number)) = upper(?) ORDER BY id DESC", code);
+  let candidats = exact;
+  if (!candidats.length) {
+    // Pas de correspondance exacte : on propose, on n'ouvre pas.
+    const proches = db.all(
+      `SELECT id, order_number, status FROM orders
+       WHERE upper(order_number) LIKE upper(?) ORDER BY order_number LIMIT 25`, `%${code}%`);
+    if (!proches.length) return { trouve: false, motif: "aucune", q: code };
+    return { trouve: false, motif: "ambigu", q: code, candidats: proches, total: proches.length };
+  }
+  if (candidats.length > 1)
+    return { trouve: false, motif: "ambigu", q: code,
+      candidats: candidats.map((c) => orders.parId(c.id)).map((o) =>
+        ({ id: o.id, order_number: o.order_number, status: o.status })), total: candidats.length };
+
+  const o = orders.parId(candidats[0].id);
+  if (!STATUTS_SCANNABLES.has(o.status)) {
+    const exp = db.one(
+      `SELECT tracking_number, ship_date FROM shipments
+       WHERE order_id = ? AND voided = 0 ORDER BY id DESC LIMIT 1`, o.id);
+    return {
+      trouve: false, motif: "non_expediable", q: code,
+      order_number: o.order_number, statut: o.status,
+      expediee_le: exp ? exp.ship_date : null, suivi: exp ? exp.tracking_number : null,
+    };
+  }
+  return { trouve: true, commande: o };
+});
+
 route("POST /api/orders/release-holds", ({ user }) => {
   accounts.exiger(user, "orders_edit");
   return { liberees: orders.libererHolds() };
@@ -270,6 +482,49 @@ route("POST /api/orders/validate-address", async ({ req, user }) => {
 route("GET /api/shipments", ({ url }) => shipments.chercher(q(url)));
 
 /**
+ * Actions en masse sur les expéditions — BUG-050.
+ *
+ * L'écran Shipped de ShipStation en offre six ; le clone n'avait même pas de cases à cocher.
+ * `voidlabel` reste dehors : annuler une étiquette touche l'argent et garde sa route propre,
+ * une expédition à la fois.
+ */
+/**
+ * Cueillettes transporteur — BUG-051.
+ *
+ * `GET /api/pickups` rendait 404. Chez Lasclay, cinq comptes ont un ramassage et c'est un
+ * geste quotidien : sa perte à la bascule se paierait tous les matins.
+ */
+route("GET /api/pickups", ({ url, user }) => {
+  accounts.exiger(user, "shipments_view");
+  const p = q(url);
+  return { comptes: pickups.COMPTES, statuts: pickups.STATUTS,
+    pickups: pickups.lister({ depuis: p.depuis || null, jusqua: p.jusqua || null, statut: p.statut || null }) };
+});
+
+route("POST /api/pickups", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  return pickups.programmer(await corps(req), user);
+});
+
+route("POST /api/pickups/:id", async ({ req, params, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return pickups.majStatut(Number(params.id), b.statut, b, user);
+});
+
+route("GET /api/shipments/actions", ({ user }) => {
+  accounts.exiger(user, "shipments_view");
+  return { actions: Object.entries(shipments.ACTIONS_MASSE)
+    .map(([cle, a]) => ({ cle, libelle: a.libelle })) };
+});
+
+route("POST /api/shipments/action", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  return shipments.actionMasse(b.action, (b.ids || []).map(Number), b.options || {}, user);
+});
+
+/**
  * Calculatrice de tarifs — l'onglet « Rates » de ShipStation. Cote un envoi hypothétique,
  * sans commande : c'est l'outil qu'on ouvre pour répondre à « combien ça coûterait ».
  */
@@ -280,12 +535,19 @@ route("POST /api/rates", async ({ req }) => {
     : db.one("SELECT * FROM warehouses ORDER BY is_default DESC, id LIMIT 1");
   const envoi = {
     from: entrepot ? db.parse(entrepot.origin_address, {}) : {},
+    // `residential` était codé en dur à vrai côté serveur alors que la case n'existait pas
+    // à l'écran : le tarif résidentiel s'appliquait à une livraison commerciale sans qu'on
+    // puisse le dire. La case existe maintenant, et sa valeur est respectée.
     to: { postalCode: b.postal || "", country: b.country || "CA", state: b.state || null,
-          city: b.city || null, residential: b.residential !== false },
+          city: b.city || null, residential: b.residential === true },
     parcel: { weightG: Number(b.weight_g) || 0, lengthIn: Number(b.length) || 9,
-              widthIn: Number(b.width) || 6, heightIn: Number(b.height) || 1 },
+              widthIn: Number(b.width) || 6, heightIn: Number(b.height) || 1,
+              packageId: b.package_id || null },
+    confirmation: b.confirmation || null,
     value: Number(b.value) || 0, currency: "CAD",
   };
+  // Un poids nul donnait un tarif sans un mot. Une cotation sur rien n'est pas une cotation.
+  if (!envoi.parcel.weightG) return { error: "poids requis pour coter un envoi", code: 400 };
   const tarifs = await adaptateur().quote(envoi);
   return { envoi, tarifs, recommande: require("../lib/carrier").choisirTarif(tarifs, envoi) };
 });
@@ -487,10 +749,23 @@ route("POST /api/channels/notify", async ({ req, user }) => {
   return await channels.traiterFile({ limite: Number(b.limite) || 50 });
 });
 
-route("GET /api/manifests", () => ({ manifests: shipments.manifestes() }));
+route("GET /api/manifests", ({ url }) => {
+  const f = q(url);
+  return {
+    manifests: shipments.manifestes(),
+    // Ce qui reste ouvert pour la date demandée : c'est ce décompte qui décide si le bouton
+    // « Clôturer » a quoi que ce soit à faire, plutôt que de le laisser actif à vide.
+    ouvertes: shipments.aCloturer(f.ship_date || null, f.warehouse_id ? Number(f.warehouse_id) : null),
+  };
+});
 route("POST /api/manifests", async ({ req, user }) => {
   const b = await corps(req);
-  return shipments.creerManifeste(b.carrier_code, { shipDate: b.ship_date, warehouseId: b.warehouse_id, userId: user });
+  try {
+    // `carrier_code` vide = toute la journée, tous transporteurs confondus.
+    return b.carrier_code
+      ? shipments.creerManifeste(b.carrier_code, { shipDate: b.ship_date, warehouseId: b.warehouse_id, userId: user })
+      : shipments.cloturerJournee(b.ship_date, { warehouseId: b.warehouse_id, userId: user });
+  } catch (e) { return { error: e.message, code: 400 }; }
 });
 
 // ================================================================ SHOPIFY
@@ -516,6 +791,29 @@ route("POST /api/shopify/rattraper", async ({ req, user }) => {
 route("POST /api/shopify/order", async ({ req, user }) => {
   accounts.exiger(user, "orders_edit");
   return await shopify.importerUne((await corps(req)).id);
+});
+
+/**
+ * État de la réconciliation des montants (BUG-016) — combien de commandes affichent un
+ * total qui contredit leurs lignes, et pour quel écart cumulé. Sert à décider s'il faut
+ * relancer un rattrapage, et à mesurer ce qu'il a réparé.
+ */
+route("GET /api/orders/reconciliation", ({ url, user }) => {
+  accounts.exiger(user, "orders_view");
+  return orders.reconciliation({ limite: Math.min(Number(q(url).limite) || 100, 1000) });
+});
+
+/**
+ * Réattribution des boutiques d'origine (BUG-013).
+ *
+ * **À blanc par défaut** : sans `appliquer: true`, la route ne fait que compter et rendre
+ * la répartition actuelle. C'est une réécriture de masse sur des commandes réelles ; elle
+ * se regarde avant de se lancer, et jamais sans sauvegarde vérifiée.
+ */
+route("POST /api/shopify/boutiques", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  return shopify.reparerBoutiques({ appliquer: b.appliquer === true });
 });
 
 route("POST /api/shopify/webhooks", async ({ req, user }) => {
@@ -646,10 +944,53 @@ route("POST /api/products", async ({ req, user }) => {
   accounts.exiger(user, "products_edit");
   return { id: catalog.sauverProduit(await corps(req)) };
 });
+/**
+ * Import de produits par CSV — le catalogue se répare enfin depuis l'interface.
+ *
+ * **À blanc par défaut**, comme la réattribution des boutiques : sans `appliquer: true`,
+ * la route compte ce que l'import ferait et n'écrit rien. La stratégie de collision est
+ * transmise telle quelle et vaut « maj » par défaut ; « ignorer » préserve les fiches déjà
+ * saisies à la main.
+ */
+route("POST /api/products/import", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  const b = await corps(req);
+  if (!b.csv || !String(b.csv).trim()) return { error: "csv requis", code: 400 };
+  try {
+    return catalog.importerProduits(b.csv, {
+      collision: b.collision === "ignorer" ? "ignorer" : "maj",
+      appliquer: b.appliquer === true,
+      userId: user,
+    });
+  } catch (e) { return { error: e.message, code: 400 }; }
+});
+
+/**
+ * Gabarit d'import — chez ShipStation c'est l'export qui sert de gabarit. Ici le gabarit
+ * existe même quand le catalogue est vide, parce que c'est précisément dans ce cas qu'on
+ * en a besoin : un export de zéro octet n'apprend pas quelles colonnes écrire.
+ */
+route("GET /api/products/template", ({ res }) => {
+  const l = [catalog.COLONNES_IMPORT.join(","),
+    "LAS-MIT-001,Mitaines en fibre d'asclépiade,200,49.00,6116.93,CA,A-01,Gants et mitaines en bonneterie,49.00,,7,12,2.25"];
+  res.writeHead(200, { "content-type": "text/csv; charset=utf-8",
+    "content-disposition": 'attachment; filename="gabarit-produits.csv"' });
+  res.end("﻿" + l.join("\n") + "\n");
+  return null;
+});
+
+route("POST /api/products/bulk", async ({ req, user }) => {
+  accounts.exiger(user, "products_edit");
+  const b = await corps(req);
+  try { return catalog.masseProduits(b.ids, { ...b, userId: user }); }
+  catch (e) { return { error: e.message, code: 400 }; }
+});
+
 route("GET /api/preset-groups", () => ({ groups: catalog.groupes() }));
 route("POST /api/preset-groups", async ({ req, user }) => {
   accounts.exiger(user, "products_edit");
-  return { id: catalog.sauverGroupe(await corps(req)) };
+  try { return { id: catalog.sauverGroupe(await corps(req)) }; }
+  catch (e) { return { error: e.message, collision: e.collision, code: 400 }; }
 });
 route("GET /api/inventory/low", () => ({ low: catalog.stockBas() }));
 route("POST /api/inventory", async ({ req, user }) => {
@@ -661,7 +1002,80 @@ route("POST /api/inventory", async ({ req, user }) => {
 
 // ==================================================================== CLIENTS
 
+/**
+ * Identifiants de tout un filtre — BUG-041.
+ *
+ * « Sélectionner les 427 commandes du filtre » ne peut pas se contenter de ce que la page a
+ * chargé. Seuls les identifiants partent : c'est ce qui permet de couvrir un filtre entier
+ * sans rapatrier 39 000 commandes complètes dans le navigateur. Plafonné, et le plafond est
+ * annoncé plutôt que silencieux.
+ */
+const PLAFOND_SELECTION = 5000;
+route("GET /api/orders/ids", ({ url, user }) => {
+  accounts.exiger(user, "orders_view");
+  const base = q(url);
+  // `chercher` plafonne à 1 000 lignes par appel — c'est une bonne limite pour une grille.
+  // Ici on pagine derrière, jusqu'au plafond de sélection, plutôt que de la relever.
+  const ids = [];
+  let total = 0;
+  for (let offset = 0; offset < PLAFOND_SELECTION; offset += 1000) {
+    const r = orders.chercher({ ...base, limit: 1000, offset });
+    total = r.total;
+    ids.push(...r.orders.map((o) => o.id));
+    if (r.orders.length < 1000 || ids.length >= total) break;
+  }
+  return { total, ids: ids.slice(0, PLAFOND_SELECTION),
+    tronque: total > PLAFOND_SELECTION ? PLAFOND_SELECTION : null };
+});
+
 route("GET /api/customers", ({ url }) => catalog.chercherClients(q(url)));
+
+/**
+ * Fiche client — BUG-065.
+ *
+ * L'écran Clients listait 37 158 lignes sans qu'aucune soit ouvrable : pas d'adresse, pas de
+ * téléphone, pas d'historique. Le rapprochement se fait par le courriel **et** par
+ * `customer_id`, parce que l'historique migré n'a pas toujours les deux.
+ */
+route("GET /api/customers/:id", ({ params, url, user }) => {
+  accounts.exiger(user, "orders_view");
+  const c = db.one("SELECT * FROM customers WHERE id = ?", Number(params.id));
+  if (!c) return { error: "client inconnu", code: 404 };
+
+  const p = q(url);
+  const limite = Math.min(Number(p.limit) || 50, 200);
+  const offset = Number(p.offset) || 0;
+  const cond = "(o.customer_id = ? OR (o.customer_email IS NOT NULL AND lower(o.customer_email) = lower(?)))";
+  const args = [c.id, c.email || ""];
+
+  const total = db.one(`SELECT COUNT(*) n FROM orders o WHERE ${cond}`, ...args).n;
+  const commandes = db.all(
+    `SELECT o.id, o.order_number, o.order_date, o.status, o.order_total, s.name AS boutique,
+            (SELECT COUNT(*) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0) AS lignes
+       FROM orders o LEFT JOIN stores s ON s.id = o.store_id
+      WHERE ${cond} ORDER BY o.order_date DESC LIMIT ? OFFSET ?`, ...args, limite, offset);
+
+  // Les chiffres cumulés viennent des commandes, pas du champ figé : une fiche importée
+  // porte les totaux du jour de l'import, qui vieillissent en silence.
+  const cumul = db.one(
+    `SELECT COUNT(*) n, COALESCE(SUM(o.order_total),0) total, MIN(o.order_date) premiere,
+            MAX(o.order_date) derniere
+       FROM orders o WHERE ${cond} AND o.status <> 'cancelled'`, ...args);
+
+  return {
+    client: { ...c, address: db.parse(c.address, {}) },
+    commandes, total,
+    cumul: { commandes: cumul.n, depense: Math.round((cumul.total || 0) * 100) / 100,
+      premiere: cumul.premiere, derniere: cumul.derniere },
+    adresses: db.all(
+      `SELECT DISTINCT json_extract(o.ship_to,'$.street1') rue,
+              json_extract(o.ship_to,'$.city') ville, json_extract(o.ship_to,'$.state') province,
+              json_extract(o.ship_to,'$.postalCode') cp, json_extract(o.ship_to,'$.country') pays,
+              COUNT(*) n
+         FROM orders o WHERE ${cond} AND json_extract(o.ship_to,'$.street1') IS NOT NULL
+        GROUP BY rue, ville, cp ORDER BY n DESC LIMIT 8`, ...args),
+  };
+});
 route("POST /api/customers/rebuild", ({ user }) => {
   accounts.exiger(user, "orders_edit");
   return { n: catalog.reconstruireClients() };
@@ -692,7 +1106,7 @@ route("POST /api/rules/apply", async ({ req, user }) => {
 });
 
 /** Vocabulaire du moteur de critères — alimente l'éditeur de règles ET celui de vues. */
-route("GET /api/criteres", () => ({
+route("GET /api/criteres", ({ req, res }) => jsonCache(req, res, {
   champs: Object.entries(criteres.CHAMPS).map(([cle, c]) => ({
     cle, article: !!c.article, num: !!c.num, bool: !!c.bool, date: !!c.date, liste: !!c.liste,
     unite: c.unite || null, shipstation: c.ss || null,
@@ -702,6 +1116,9 @@ route("GET /api/criteres", () => ({
   })),
   portees: criteres.PORTEES,
   actions: Object.keys(rules.ACTIONS),
+  // Forme attendue du paramètre de chaque action (BUG-076) : l'éditeur en tire de vraies
+  // listes au lieu d'un champ de JSON brut.
+  formes: rules.FORME_ACTIONS,
   confirmations: require("../lib/lasclay").CONFIRMATIONS,
 }));
 
@@ -769,7 +1186,30 @@ route("POST /api/lasclay/charger", async ({ req, user }) => {
 route("GET /api/templates", ({ url }) => ({ templates: templates.lister(q(url).kind || null) }));
 route("POST /api/templates", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");
-  return { id: templates.sauver(await corps(req)) };
+  const b = await corps(req);
+  // BUG-012 — une variable que le moteur ne connaît pas rend une chaîne vide **en silence**.
+  // Sur un courriel qui part à un sous-traitant, cela veut dire une commande perdue. On
+  // refuse l'enregistrement plutôt que de laisser le gabarit se dégrader sans bruit.
+  const inconnues = [
+    ...templates.variablesInconnues(b.subject || ""),
+    ...templates.variablesInconnues(b.body || ""),
+  ];
+  if (inconnues.length && !b.forcer) return {
+    error: `variable${inconnues.length > 1 ? "s" : ""} inconnue${inconnues.length > 1 ? "s" : ""} : ` +
+           `${[...new Set(inconnues)].join(", ")} — elle${inconnues.length > 1 ? "s rendraient" : " rendrait"} du vide à l'envoi`,
+    code: 400, variables_inconnues: [...new Set(inconnues)], racines: templates.RACINES,
+  };
+  return { id: templates.sauver(b) };
+});
+
+/** Contrôle d'un gabarit sans l'enregistrer — alimente le signalement en rouge de l'éditeur. */
+route("POST /api/templates/verifier", async ({ req }) => {
+  const b = await corps(req);
+  const inconnues = [...new Set([
+    ...templates.variablesInconnues(b.subject || ""),
+    ...templates.variablesInconnues(b.body || ""),
+  ])];
+  return { ok: !inconnues.length, variables_inconnues: inconnues, racines: templates.RACINES };
 });
 route("DELETE /api/templates/:id", ({ params, user }) => {
   accounts.exiger(user, "settings_edit");
@@ -778,6 +1218,55 @@ route("DELETE /api/templates/:id", ({ params, user }) => {
 });
 
 /** Rend un bordereau pour une ou plusieurs commandes — la sortie imprimable. */
+/**
+ * Document de fin de journée — le bordereau de dépôt, réimprimable.
+ *
+ * ShipStation garde ses formulaires sous un onglet « Previously Created End of Day Forms »
+ * précisément parce qu'un bordereau s'égare : le comptoir en garde un exemplaire, le nôtre
+ * finit sous une pile. Sans réimpression, la seule issue serait de reclôturer — ce qui est
+ * impossible, les expéditions étant déjà rattachées au manifeste.
+ */
+route("GET /api/manifests/:id/document", ({ params, res }) => {
+  const m = db.one("SELECT * FROM manifests WHERE id = ?", Number(params.id));
+  if (!m) return { error: "manifeste inconnu", code: 404 };
+  const doc = db.parse(m.document, {}) || {};
+  const suivis = doc.trackingNumbers || [];
+  const envois = db.all(`SELECT s.tracking_number, s.service_id, s.cost, s.drop_off, o.order_number, o.customer_name
+                         FROM shipments s LEFT JOIN orders o ON o.id = s.order_id
+                         WHERE s.manifest_id = ? ORDER BY s.id`, m.id);
+  const marque = db.reglage("marque", accounts.MARQUE_DEFAUT);
+  const transporteur = (db.one("SELECT name FROM carriers WHERE code = ?", m.carrier_code) || {}).name || m.carrier_code;
+  const ech = (v) => String(v ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  texte(res, 200, `<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<title>Fin de journée ${m.id} — ${ech(transporteur)}</title><style>
+  @page{size:letter;margin:14mm}
+  body{font:12px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111}
+  h1{font-size:19px;margin:0 0 2px} .sous{color:#555;margin:0 0 14px}
+  .kv{display:flex;gap:26px;margin:10px 0 16px;flex-wrap:wrap}
+  .kv div{font-size:12px} .kv b{display:block;font-size:16px}
+  table{width:100%;border-collapse:collapse} th{text-align:left;border-bottom:2px solid #111;padding:5px 4px;font-size:11px}
+  td{padding:5px 4px;border-bottom:1px solid #ddd} .n{text-align:right}
+  footer{margin-top:20px;border-top:1px solid #ddd;padding-top:8px;color:#666;font-size:11px}
+</style></head><body>
+  <h1>Fin de journée — ${ech(transporteur)}</h1>
+  <p class="sous">${ech(marque.nom || marque.name || "")} · document n° ${m.id} ·
+    expéditions du ${ech(m.ship_date)} · clôturé le ${ech(String(m.created_at || "").slice(0, 16).replace("T", " "))}</p>
+  <div class="kv">
+    <div>Expéditions<b>${m.shipment_count}</b></div>
+    <div>Dont drop-off<b>${envois.filter((e) => e.drop_off).length}</b></div>
+    <div>Coût des étiquettes<b>${envois.reduce((s, e) => s + (e.cost || 0), 0).toFixed(2)} $</b></div>
+  </div>
+  <table><thead><tr><th>N° de suivi</th><th>Commande</th><th>Destinataire</th><th>Service</th><th class="n">Coût</th></tr></thead>
+  <tbody>${(envois.length ? envois : suivis.map((t) => ({ tracking_number: t }))).map((e) => `<tr>
+    <td>${ech(e.tracking_number)}</td><td>${ech(e.order_number || "")}</td>
+    <td>${ech(e.customer_name || "")}</td><td>${ech(e.service_id || "")}</td>
+    <td class="n">${e.cost != null ? Number(e.cost).toFixed(2) + " $" : ""}</td></tr>`).join("")}</tbody></table>
+  <footer>En drop-off, ce document sert de bordereau de dépôt : le comptoir en garde un
+    exemplaire. Il se réimprime autant de fois qu'il le faut.</footer>
+</body></html>`, "text/html; charset=utf-8");
+  return null;
+});
+
 route("GET /api/packing-slip", ({ url, res }) => {
   const ids = String(q(url).ids || "").split(",").filter(Boolean).map(Number);
   const gabarit = q(url).template_id ? templates.parId(Number(q(url).template_id)) : templates.defaut("packing_slip");
@@ -832,26 +1321,77 @@ route("GET /api/analytics/dropoff", ({ url }) => analytics.economieDropOff({
   tarif: Number(q(url).tarif) || db.reglage("tarif_dropoff_cible", 6.31), ...q(url) }));
 
 /** Export CSV — l'export brut de ShipStation. */
-route("GET /api/export/:quoi", ({ params, url, res }) => {
+/**
+ * Colonnes déclarées de chaque export. Elles garantissent un en-tête même sur un jeu vide,
+ * et fixent l'ordre — un CSV dont les colonnes changent d'ordre casse tous les tableurs qui
+ * s'en nourrissent.
+ */
+const COLONNES_EXPORT = {
+  orders: ["commande", "date", "statut", "client", "courriel", "ville", "province", "pays",
+    "poids_g", "total", "service_demande"],
+  shipments: ["commande", "suivi", "transporteur", "service", "date", "cout", "drop_off",
+    "annulee", "retour"],
+  products: ["sku", "nom", "poids_g", "code_sh", "origine", "description_douane", "actif"],
+  customers: ["courriel", "nom", "telephone", "commandes", "total", "premiere", "derniere"],
+  batches: ["lot", "nom", "cree", "etiquettes", "cout", "statut"],
+  returns: ["rma", "commande", "client", "motif", "resolution", "statut", "demande", "clos"],
+  manifests: ["manifeste", "transporteur", "date", "expeditions", "statut"],
+  "shipping-cost": ["commande", "date_commande", "date_envoi", "transporteur", "service",
+    "poids_g", "cout_reel", "frais_encaisses", "ecart", "drop_off", "pays"],
+  "order-items": ["commande", "date", "sku", "article", "qte", "prix", "poids_g", "statut"],
+  audit: ["quand", "qui", "action", "objet", "reference", "detail"],
+};
+
+/**
+ * Plafonds d'export — relevés à la volumétrie réelle du compte.
+ *
+ * L'ancien plafond de 1 000 lignes rendait l'export de commandes inutilisable : 1 000 sur
+ * 28 566, soit 3,5 % des données, dans un fichier de taille plausible. Le plafond est
+ * maintenant au-dessus de l'historique complet (38 852 commandes, 77 000 lignes d'article,
+ * 34 000 expéditions), et il reste annoncé s'il est atteint — un export tronqué qui ne le
+ * dit pas est pire qu'un export refusé.
+ */
+const PLAFOND_EXPORT_DEFAUT = 60000;
+const PLAFONDS_EXPORT = { "order-items": 150000, "shipping-cost": 60000, audit: 60000 };
+
+route("GET /api/export/:quoi", ({ params, url, res, user }) => {
   const f = q(url);
+  const plafondDe = (quoi) => PLAFONDS_EXPORT[quoi] || PLAFOND_EXPORT_DEFAUT;
+
+  /**
+   * Les recherches plafonnent à 1 000 lignes par appel — c'est la bonne limite pour une
+   * grille, pas pour un export. On pagine derrière, jusqu'au plafond d'export, plutôt que
+   * de relever la limite de la grille : un export de 28 566 commandes ne doit pas rendre
+   * possible une requête d'écran de 28 566 lignes.
+   */
+  const paginer = (chercher, cle, quoi) => {
+    const out = [], plafond = plafondDe(quoi);
+    for (let offset = 0; offset < plafond; offset += 1000) {
+      const lot = chercher({ ...f, limit: 1000, offset })[cle];
+      out.push(...lot);
+      if (lot.length < 1000) break;
+    }
+    return out.slice(0, plafond);
+  };
+
   const jeux = {
-    orders: () => orders.chercher({ ...f, limit: 1000 }).orders.map((o) => ({
+    orders: () => paginer(orders.chercher, "orders", "orders").map((o) => ({
       commande: o.order_number, date: o.order_date, statut: o.status, client: o.customer_name,
       courriel: o.customer_email, ville: o.ship_to.city, province: o.ship_to.state, pays: o.ship_to.country,
       poids_g: o.weight_g, total: o.order_total, service_demande: o.requested_service })),
-    shipments: () => shipments.chercher({ ...f, limit: 1000 }).shipments.map((s) => ({
+    shipments: () => paginer(shipments.chercher, "shipments", "shipments").map((s) => ({
       commande: s.order_number, suivi: s.tracking_number, transporteur: s.carrier_code,
       service: s.service_id, date: s.ship_date, cout: s.cost, drop_off: s.drop_off ? 1 : 0,
       annulee: s.voided ? 1 : 0, retour: s.is_return ? 1 : 0 })),
-    products: () => catalog.chercherProduits({ ...f, limit: 1000 }).products.map((p) => ({
+    products: () => paginer(catalog.chercherProduits, "products", "products").map((p) => ({
       sku: p.sku, nom: p.name, poids_g: p.weight_g, code_sh: p.hs_code,
       origine: p.country_of_origin, description_douane: p.customs_description, actif: p.active ? 1 : 0 })),
-    customers: () => catalog.chercherClients({ ...f, limit: 1000 }).customers.map((c) => ({
+    customers: () => paginer(catalog.chercherClients, "customers", "customers").map((c) => ({
       courriel: c.email, nom: c.name, telephone: c.phone, commandes: c.order_count,
       total: c.total_spent, premiere: c.first_order, derniere: c.last_order })),
     batches: () => shipments.lots().map((b) => ({
       lot: b.id, nom: b.name, cree: b.created_at, etiquettes: b.n, cout: b.cout, statut: b.status })),
-    returns: () => catalog.chercherRetours({ limit: 1000 }).returns.map((r) => ({
+    returns: () => paginer(catalog.chercherRetours, "returns", "returns").map((r) => ({
       rma: r.rma, commande: r.order_number, client: r.customer_name, motif: r.reason,
       resolution: r.resolution, statut: r.status, demande: r.requested_at, clos: r.closed_at })),
     manifests: () => shipments.manifestes().map((m) => ({
@@ -865,19 +1405,53 @@ route("GET /api/export/:quoi", ({ params, url, res }) => {
              ROUND(o.shipping_paid - s.cost, 2) ecart, s.drop_off,
              json_extract(s.ship_to,'$.country') pays
       FROM shipments s JOIN orders o ON o.id = s.order_id
-      WHERE s.voided = 0 ORDER BY s.ship_date DESC LIMIT 5000`),
+      WHERE s.voided = 0 ORDER BY s.ship_date DESC LIMIT 60000`),
+    /** Journal d'audit — exportable, comme tout le reste. */
+    audit: () => {
+      const w = [], v = [];
+      if (f.action) { w.push("a.action = ?"); v.push(f.action); }
+      if (f.q) {
+        const like = `%${String(f.q).toLowerCase()}%`;
+        w.push(`(lower(a.entity) LIKE ? OR lower(a.entity_id) LIKE ? OR lower(a.detail) LIKE ?
+                 OR lower(COALESCE(u.name,'')) LIKE ? OR lower(a.action) LIKE ?)`);
+        v.push(like, like, like, like, like);
+      }
+      return db.all(`SELECT a.at quand, COALESCE(u.name,'Système') qui, a.action,
+                            a.entity objet, a.entity_id reference, a.detail
+                     FROM audit_log a LEFT JOIN users u ON u.id = a.user_id
+                     ${w.length ? "WHERE " + w.join(" AND ") : ""}
+                     ORDER BY a.id DESC LIMIT 60000`, ...v);
+    },
+
     /** Détail article par article, pour les rapprochements comptables. */
     "order-items": () => db.all(`
       SELECT o.order_number commande, o.order_date date, i.sku, i.name article,
              i.quantity qte, i.unit_price prix, i.weight_g poids_g, o.status statut
       FROM order_items i JOIN orders o ON o.id = i.order_id
-      WHERE i.adjustment = 0 ORDER BY o.order_date DESC LIMIT 10000`),
+      WHERE i.adjustment = 0 ORDER BY o.order_date DESC LIMIT 150000`),
   };
   if (!jeux[params.quoi]) return { error: "export inconnu", code: 404 };
-  const csv = analytics.csv(jeux[params.quoi]());
-  res.writeHead(200, { "Content-Type": "text/csv; charset=utf-8",
-    "Content-Disposition": `attachment; filename="${params.quoi}.csv"` });
-  res.end("﻿" + csv);   // BOM : Excel lit correctement les accents
+
+  const lignes = jeux[params.quoi]();
+  // BUG-057 — un jeu vide produisait 3 octets (le seul BOM), sans ligne d'en-tête : on ne
+  // distinguait pas « rien à exporter » de « l'export a échoué ». Les colonnes sont donc
+  // déclarées, et l'en-tête part même quand il n'y a aucune ligne.
+  const colonnes = COLONNES_EXPORT[params.quoi] || (lignes.length ? Object.keys(lignes[0]) : []);
+  const csv = analytics.csv(lignes, colonnes);
+
+  // BUG-027 — l'export était plafonné en silence à 1 000 ou 10 000 lignes. Un plafond
+  // atteint est désormais annoncé dans l'en-tête HTTP **et** dans une dernière ligne du
+  // fichier : un comptable qui rapproche 1 000 lignes sur 28 500 doit le savoir.
+  const plafond = PLAFONDS_EXPORT[params.quoi] || PLAFOND_EXPORT_DEFAUT;
+  const tronque = lignes.length >= plafond;
+  const entetes = { "Content-Type": "text/csv; charset=utf-8",
+    "Content-Disposition": `attachment; filename="${params.quoi}.csv"`,
+    "Cache-Control": "no-store" };
+  if (tronque) entetes["X-Export-Tronque"] = `oui; plafond=${plafond}`;
+  res.writeHead(200, entetes);
+  res.end("﻿" + csv +
+    (tronque ? `\n# EXPORT TRONQUÉ — ${plafond} lignes maximum. Affinez les filtres pour tout obtenir.` : ""));
+  db.journaliser("export.csv", "system", null, { jeu: params.quoi, lignes: lignes.length, tronque }, user);
   return null;
 });
 
@@ -887,41 +1461,129 @@ route("GET /api/export/:quoi", ({ params, url, res }) => {
  * Sauvegarde complète en JSON — tout ce que contient la base, sans les PDF d'étiquettes.
  * Existe pour qu'aucune donnée ne soit jamais captive de cet outil non plus.
  */
-route("GET /api/backup", ({ res, user }) => {
+/**
+ * Sauvegarde complète — BUG-011.
+ *
+ * L'ancienne version sérialisait toute la base dans un seul objet JSON : sur 28 500 commandes
+ * et leurs lignes, le worker Render dépassait sa mémoire et se faisait tuer. Résultat mesuré :
+ * 502 après 6,7 s, **application entière indisponible ~30 s**, et un `<a download>` qui
+ * enregistrait silencieusement 218 Ko de page d'erreur sous le nom d'une sauvegarde.
+ *
+ * Ici : NDJSON, une ligne par enregistrement, lu par tranches de 1 000 et écrit avec
+ * contre-pression — la mémoire reste bornée quelle que soit la taille de la base. Le flux
+ * s'ouvre par un manifeste et se ferme par un marqueur `fin` : un fichier tronqué est donc
+ * détectable à la relecture, au lieu de passer pour complet.
+ */
+const TABLES_HORS_SAUVEGARDE = new Set(["sessions", "login_attempts"]);
+
+/** Colonnes retirées de la sauvegarde : secrets, et pièces jointes volumineuses. */
+const CHAMPS_EXCLUS = {
+  users: ["password_hash", "totp_secret", "recovery_codes"],
+  shipments: ["label_pdf", "customs_pdf"],
+};
+
+route("GET /api/backup", async ({ res, user }) => {
   accounts.exiger(user, "settings_edit");
   const tables = db.all(`SELECT name FROM sqlite_master WHERE type='table'
-                         AND name NOT LIKE 'sqlite_%' AND name NOT IN ('sessions','login_attempts')`)
-    .map((t) => t.name);
-  const sortie = { exporte_le: db.maintenant(), tables: {} };
-  for (const t of tables) {
-    sortie.tables[t] = t === "shipments"
-      ? db.all("SELECT * FROM shipments").map(({ label_pdf, customs_pdf, ...r }) => r)
-      : t === "users"
-        ? db.all("SELECT * FROM users").map(({ password_hash, totp_secret, recovery_codes, ...r }) => r)
-        : db.all(`SELECT * FROM ${t}`);
+                         AND name NOT LIKE 'sqlite_%' ORDER BY name`)
+    .map((t) => t.name).filter((t) => !TABLES_HORS_SAUVEGARDE.has(t));
+
+  res.writeHead(200, {
+    "Content-Type": "application/x-ndjson; charset=utf-8",
+    "Content-Disposition": `attachment; filename="sauvegarde-${new Date().toISOString().slice(0, 10)}.ndjson"`,
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff",
+  });
+
+  const ecrire = (o) => new Promise((resoudre) => {
+    // `write` rend false quand le tampon du noyau est plein : on attend le drain plutôt que
+    // d'empiler en mémoire. C'est toute la différence entre un flux et une bombe mémoire.
+    if (res.write(JSON.stringify(o) + "\n")) return resoudre();
+    res.once("drain", resoudre);
+  });
+
+  let total = 0;
+  try {
+    await ecrire({ __meta: "debut", version: 1, genere_le: db.maintenant(), tables });
+    for (const table of tables) {
+      const exclus = CHAMPS_EXCLUS[table] || [];
+      // Pagination par rowid : stable, indexée, et valable même sans colonne `id`.
+      let dernier = 0, lot;
+      do {
+        lot = db.all(`SELECT rowid AS __rowid, * FROM ${table} WHERE rowid > ? ORDER BY rowid LIMIT 1000`, dernier);
+        for (const ligne of lot) {
+          dernier = ligne.__rowid;
+          const propre = { ...ligne };
+          delete propre.__rowid;
+          for (const c of exclus) delete propre[c];
+          await ecrire({ __t: table, ...propre });
+          total++;
+        }
+      } while (lot.length === 1000);
+    }
+    await ecrire({ __meta: "fin", enregistrements: total });
+    db.journaliser("backup.export", "system", null, { tables: tables.length, enregistrements: total }, user);
+  } catch (e) {
+    // Le fichier est déjà parti en partie : on marque l'échec dans le flux lui-même, pour que
+    // la relecture le refuse au lieu de le prendre pour une sauvegarde valide.
+    console.error("[backup]", e);
+    try { await ecrire({ __meta: "erreur", message: String(e.message || e), enregistrements: total }); } catch {}
   }
-  const b = Buffer.from(JSON.stringify(sortie, null, 1));
-  res.writeHead(200, { "Content-Type": "application/json; charset=utf-8",
-    "Content-Disposition": `attachment; filename="sauvegarde-${new Date().toISOString().slice(0, 10)}.json"`,
-    "Content-Length": b.length });
-  res.end(b);
-  db.journaliser("backup.export", "system", null, { tables: tables.length }, user);
+  res.end();
   return null;
 });
 
-route("GET /api/refs", () => ({
+/**
+ * Relecture d'une sauvegarde : contrôle d'intégrité sans rien écrire. C'est le pendant
+ * indispensable de la route ci-dessus — une sauvegarde qu'on n'a jamais relue n'est pas
+ * une sauvegarde.
+ */
+route("POST /api/backup/verifier", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const brut = await corpsBrut(req);
+  const lignes = brut.split("\n").filter((l) => l.trim());
+  if (!lignes.length) return { error: "fichier vide", code: 400 };
+  let debut = null, fin = null, erreur = null, n = 0;
+  const parTable = {};
+  for (const [i, l] of lignes.entries()) {
+    let o;
+    try { o = JSON.parse(l); }
+    catch { return { error: `ligne ${i + 1} illisible — fichier corrompu`, code: 400 }; }
+    if (o.__meta === "debut") { debut = o; continue; }
+    if (o.__meta === "fin") { fin = o; continue; }
+    if (o.__meta === "erreur") { erreur = o; continue; }
+    parTable[o.__t] = (parTable[o.__t] || 0) + 1;
+    n++;
+  }
+  return {
+    valide: !!debut && !!fin && !erreur && fin.enregistrements === n,
+    debut, fin, erreur, enregistrements: n, par_table: parTable,
+    motif: !debut ? "manifeste d'ouverture absent"
+      : erreur ? `la sauvegarde s'est interrompue : ${erreur.message}`
+      : !fin ? "marqueur de fin absent — fichier tronqué, ne pas conserver"
+      : fin.enregistrements !== n ? `compte incohérent : ${fin.enregistrements} annoncés, ${n} lus`
+      : null,
+  };
+});
+
+route("GET /api/refs", ({ req, res }) => jsonCache(req, res, {
   stores: db.all("SELECT * FROM stores ORDER BY name"),
   warehouses: db.all("SELECT * FROM warehouses ORDER BY name").map((w) => ({ ...w, origin_address: db.parse(w.origin_address, {}) })),
   carriers: db.all("SELECT * FROM carriers ORDER BY name"),
   tags: db.all("SELECT * FROM tags ORDER BY name"),
-  services: db.all("SELECT * FROM services ORDER BY carrier_code, name"),
-  packages: db.all("SELECT * FROM packages ORDER BY carrier_code, name"),
   users: accounts.utilisateurs(),
   statuts: orders.STATUTS,
+  // Deux jeux de `services` et de `packages` coexistaient dans cet objet ; le second
+  // écrasait le premier en silence, et deux requêtes SQL tournaient pour rien à chaque
+  // chargement d'écran. Ce sont ces deux-là qui étaient effectivement servis.
   services: db.all("SELECT * FROM services WHERE hidden IS NULL OR hidden = 0 ORDER BY carrier_code, CAST(id AS INTEGER), name"),
   packages: db.all("SELECT * FROM packages ORDER BY custom DESC, name").map((p) => ({ ...p, dimensions: db.parse(p.dimensions) })),
   presets: presets.presets(),
   confirmations: lasclay.CONFIRMATIONS,
+  // Volumétrie des référentiels : c'est ce qui permet à l'écran de griser une action qui
+  // n'aurait rien sur quoi s'appliquer, plutôt que de la proposer et de ne rien faire.
+  produits_n: db.one("SELECT COUNT(*) n FROM products").n,
+  groupes_n: db.one("SELECT COUNT(*) n FROM preset_groups").n,
 }));
 
 route("GET /api/settings", () => ({
@@ -930,10 +1592,47 @@ route("GET /api/settings", () => ({
   derniere_migration: db.reglage("derniere_migration", null),
   seuil_dropoff_g: SEUIL_DROPOFF_G,
 }));
+/**
+ * Réglages modifiables depuis l'interface — liste blanche.
+ *
+ * `settings` sert aussi de mémoire au service : `config_lasclay`,
+ * `shopify_dernier_import`, `derniere_migration` y sont écrits par les traitements. Les
+ * exposer à un formulaire, c'est offrir de rejouer un import complet en écrasant un
+ * curseur. La liste ci-dessous ne contient que ce qui relève d'un choix humain.
+ */
+/** Une adresse, pas un domaine : `lasclay.myshopify.com` ne reçoit aucun courriel. */
+const COURRIEL_VALIDE = /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/;
+
+const REGLAGES_MODIFIABLES = new Set([
+  "exiger_2fa", "marque", "bascule_canaux", "tarif_dropoff_cible", "seuil_alerte_marge",
+  "unite_poids", "unite_dimension", "locale", "format_date", "format_heure", "devise",
+  "confirmation_defaut", "service_defaut", "entrepot_defaut",
+  "seuil_timbre_g", "seuil_bombes_ca", "seuil_bombes_intl", "exercice_debut",
+  "colonnes_commandes", "columns",
+]);
+
 route("POST /api/settings", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");
   const b = await corps(req);
+
+  const refuses = Object.keys(b).filter((k) => !REGLAGES_MODIFIABLES.has(k));
+  if (refuses.length)
+    return { error: `réglage non modifiable depuis l'interface : ${refuses.join(", ")}`, code: 400 };
+
+  // BUG-023, troisième volet. Imposer le second facteur à des comptes qui ne peuvent pas
+  // s'enrôler, c'est les mettre dehors : un compte sans adresse valide ne reçoit ni code de
+  // secours ni consigne. On refuse d'armer l'exigence tant qu'ils n'ont pas été corrigés.
+  if (b.exiger_2fa === true) {
+    const invalides = db.all("SELECT id, name, email FROM users WHERE active = 1")
+      .filter((u) => !COURRIEL_VALIDE.test(String(u.email || "")));
+    if (invalides.length)
+      return { code: 422, error: "Corriger d'abord ces comptes : sans courriel valide, ils ne " +
+        "pourront pas s'enrôler au second facteur et perdront leur accès.",
+        comptes: invalides.map((u) => `${u.name} <${u.email || "sans courriel"}>`) };
+  }
+
   for (const [k, v] of Object.entries(b)) db.poserReglage(k, v);
+  db.journaliser("settings.update", "system", null, { cles: Object.keys(b) }, user && user.id);
   return { ok: true };
 });
 
@@ -945,14 +1644,77 @@ route("GET /api/users", ({ user }) => {
       totp_enabled: !!u.totp_enabled,
     })),
     domaines: accounts.DOMAINES, roles: Object.keys(accounts.ROLES),
+    // Les cases que chaque rôle pré-remplit : l'écran doit pouvoir les recocher sans
+    // redemander au serveur à chaque changement de rôle dans une liste déroulante.
+    modeles: accounts.ROLES,
   };
 });
+/**
+ * Création et modification d'un compte — BUG-039.
+ *
+ * L'audit a trouvé un compte administrateur dont le courriel était `lasclay.myshopify.com`,
+ * c'est-à-dire un domaine de boutique et non une adresse : aucun courriel de réinitialisation
+ * ne pourrait lui parvenir. Et deux comptes nommés « Administrateur », ce qui rend tous les
+ * menus d'assignation ambigus — on ne sait pas à qui on assigne.
+ */
 route("POST /api/users", async ({ req, user }) => {
   accounts.exiger(user, "users_manage");
   const b = await corps(req);
+
+  if (b.email !== undefined) {
+    const e = String(b.email || "").trim();
+    if (!COURRIEL_VALIDE.test(e)) return {
+      error: `« ${e} » n'est pas une adresse de courriel — un compte sans adresse joignable ne ` +
+             "peut ni recevoir de réinitialisation, ni être identifié dans le journal",
+      code: 400 };
+    const pris = db.one("SELECT id, name FROM users WHERE lower(email) = lower(?) AND id <> ?", e, b.id || "");
+    if (pris) return { error: `cette adresse est déjà celle de « ${pris.name} »`, code: 400 };
+  }
+  if (b.name !== undefined) {
+    const n = String(b.name || "").trim();
+    if (n.length < 2) return { error: "le nom doit faire au moins deux caractères", code: 400 };
+    const homonyme = db.one("SELECT id, email FROM users WHERE lower(name) = lower(?) AND id <> ?", n, b.id || "");
+    if (homonyme) return {
+      error: `« ${n} » est déjà le nom de ${homonyme.email} — deux comptes homonymes rendent ` +
+             "les menus d'assignation impossibles à lire",
+      code: 400 };
+  }
+
+  // Un service dont plus personne ne gère les comptes ne se répare que par la ligne de
+  // commande. On refuse le dernier retrait de `users_manage` — et on refuse aussi qu'un
+  // administrateur se le retire à lui-même, qui est la façon la plus courante d'y arriver.
+  if (b.id && b.permissions && b.permissions.users_manage !== true) {
+    const restants = db.all("SELECT id, permissions FROM users WHERE active = 1 AND id <> ?", b.id)
+      .filter((u) => db.parse(u.permissions, {}).users_manage === true).length;
+    if (!restants) return {
+      error: "ce compte est le dernier à pouvoir gérer les utilisateurs — lui retirer ce " +
+             "droit fermerait l'administration à tout le monde", code: 409 };
+    if (b.id === user) return {
+      error: "on ne se retire pas soi-même la gestion des comptes : demander à un autre " +
+             "administrateur de le faire", code: 409 };
+  }
+
   if (b.id) { accounts.majUtilisateur(b.id, b); return { id: b.id }; }
   // Création d'un employé : compte avec mot de passe provisoire à transmettre de vive voix.
   return auth.creerCompte(b);
+});
+
+/**
+ * Contrôle d'hygiène des comptes : ce que l'audit a trouvé, exposé en permanence pour que
+ * ça ne se reforme pas.
+ */
+route("GET /api/users/hygiene", ({ user }) => {
+  accounts.exiger(user, "users_manage");
+  const tous = db.all("SELECT id, name, email, active, totp_enabled FROM users");
+  return {
+    courriels_invalides: tous.filter((u) => !COURRIEL_VALIDE.test(String(u.email || ""))),
+    homonymes: Object.values(tous.reduce((a, u) => {
+      const k = String(u.name || "").toLowerCase();
+      (a[k] = a[k] || []).push(u); return a;
+    }, {})).filter((g) => g.length > 1),
+    sans_second_facteur: tous.filter((u) => u.active && !u.totp_enabled),
+    exiger_2fa: !!db.reglage("exiger_2fa", false),
+  };
 });
 
 route("GET /api/webhooks", () => ({ webhooks: accounts.abonnements(), evenements: accounts.EVENEMENTS }));
@@ -960,6 +1722,47 @@ route("POST /api/webhooks", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");
   return { id: accounts.abonner(await corps(req)) };
 });
+/**
+ * Journal de livraison et redélivrance — exigences G1 à G3.
+ *
+ * ShipStation n'offre aucune garantie : « do not assume you will receive every webhook », et
+ * rien dans son interface ne dit ce qui est parti ni ce qui a échoué. Ici chaque tentative
+ * est visible et rejouable à la main.
+ */
+route("GET /api/webhooks/livraisons", ({ url, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const p = q(url);
+  return { livraisons: accounts.livraisons({
+    webhook_id: p.webhook_id ? Number(p.webhook_id) : null,
+    limite: Math.min(Number(p.limite) || 100, 500) }) };
+});
+
+route("POST /api/webhooks/redelivrer", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  return { rejouees: await accounts.redelivrer({ limite: 100 }) };
+});
+
+/** Le secret d'un abonnement, pour que l'intégrateur puisse vérifier nos signatures. */
+route("POST /api/webhooks/:id/secret", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const secret = accounts.secretDe(Number(params.id));
+  db.journaliser("webhook.secret_lu", "webhook", Number(params.id), {}, user);
+  return { secret, entete: "X-Lasclay-Signature", format: "t=<epoch>,v1=<hmac-sha256 hex de `t.corps`>",
+    fenetre_s: 300 };
+});
+
+/** Envoi d'un événement de test, pour valider une intégration avant de compter dessus. */
+route("POST /api/webhooks/:id/test", async ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const w = db.one("SELECT * FROM webhooks WHERE id = ?", Number(params.id));
+  if (!w) return { error: "abonnement inconnu", code: 404 };
+  const r = await accounts.emettre(w.event, {
+    storeId: w.store_id,
+    donnees: { test: true, message: "Événement de test émis depuis l'écran Réglages." },
+  });
+  return { resultats: r };
+});
+
 route("DELETE /api/webhooks/:id", ({ params, user }) => {
   accounts.exiger(user, "settings_edit");
   accounts.desabonner(Number(params.id));
@@ -1076,17 +1879,54 @@ route("POST /api/orders/:id/customs", async ({ req, params, user }) => {
   }
   db.run("UPDATE orders SET customs = ?, modified_at = ? WHERE id = ?",
     db.dump({ contents: b.contents || "merchandise", non_delivery: b.non_delivery || "return_to_sender",
-      duties_paid: b.duties_paid || null, invoice_number: b.invoice_number || null,
+      duties_paid: b.duties_paid || null,
+      // Port payé et identifiants d'exportateur : le bloc n'en portait que 5 des 12 champs
+      // de ShipStation, et les manquants n'avaient donc aucun endroit où exister.
+      postage_paid: b.postage_paid || null,
+      mid_code: b.mid_code || null,
+      certificate_version_id: b.certificate_version_id || null,
+      certifier_id: b.certifier_id || null,
+      invoice_number: b.invoice_number || null,
       export_declaration_number: b.export_declaration_number || null, declarations: decl }),
     db.maintenant(), id);
   db.journaliser("order.customs", "order", id, { n: decl.length }, user);
   return { ok: true, n: decl.length };
 });
 
-route("GET /api/audit", ({ url }) => ({
-  rows: db.all("SELECT * FROM audit_log ORDER BY id DESC LIMIT ?", Math.min(Number(q(url).limit) || 100, 500))
-    .map((r) => ({ ...r, detail: db.parse(r.detail) })),
-}));
+/**
+ * Journal d'audit — BUG-079, BUG-080.
+ *
+ * L'écran promettait « qui a fait quoi » et n'affichait jamais « qui » : le journal ne
+ * joignait pas la table des utilisateurs. Il n'avait par ailleurs ni filtre, ni recherche,
+ * ni pagination, ni export — sur 57 757 entrées, c'était illisible.
+ */
+route("GET /api/audit", ({ url, user }) => {
+  accounts.exiger(user, "reports_view");
+  const p = q(url);
+  const limite = Math.min(Number(p.limit) || 100, 500);
+  const offset = Math.max(Number(p.offset) || 0, 0);
+  const w = [], v = [];
+  if (p.action) { w.push("a.action = ?"); v.push(p.action); }
+  if (p.entity) { w.push("a.entity = ?"); v.push(p.entity); }
+  if (p.q) {
+    const like = `%${String(p.q).toLowerCase()}%`;
+    w.push(`(lower(a.entity) LIKE ? OR lower(a.entity_id) LIKE ? OR lower(a.detail) LIKE ?
+             OR lower(COALESCE(u.name,'')) LIKE ? OR lower(a.action) LIKE ?)`);
+    v.push(like, like, like, like, like);
+  }
+  const where = w.length ? "WHERE " + w.join(" AND ") : "";
+  const total = db.one(`SELECT COUNT(*) n FROM audit_log a LEFT JOIN users u ON u.id = a.user_id ${where}`, ...v).n;
+  const rows = db.all(
+    `SELECT a.*, u.name AS qui FROM audit_log a LEFT JOIN users u ON u.id = a.user_id
+     ${where} ORDER BY a.id DESC LIMIT ? OFFSET ?`, ...v, limite, offset)
+    .map((r) => ({ ...r, detail: db.parse(r.detail) }));
+  return {
+    rows, total,
+    // Les actions réellement présentes, avec leur volume : de quoi remplir le filtre sans
+    // deviner le vocabulaire.
+    actions: db.all("SELECT action, COUNT(*) n FROM audit_log GROUP BY action ORDER BY n DESC"),
+  };
+});
 
 /** Migration depuis ShipStation — longue, à lancer sciemment. */
 route("POST /api/migrate", async ({ req, user }) => {
@@ -1101,18 +1941,32 @@ route("POST /api/migrate", async ({ req, user }) => {
   return { bilan, journal: lignes };
 });
 
-route("GET /api/config", () => ({
-  adaptateur: adaptateur().nom,
-  etiquettes_actives: ETIQUETTES,
-  seuil_dropoff_g: SEUIL_DROPOFF_G,
-  amorce: !!db.reglage("amorce"),
-  config_lasclay: !!db.reglage("config_lasclay"),
-  shopify: shopify.etat(),
-  unite_poids: db.reglage("unite_poids", "g"),
-  unite_dimension: db.reglage("unite_dimension", "in"),
-  comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
-  exiger_2fa: !!db.reglage("exiger_2fa", false),
-}));
+/**
+ * Configuration publique — BUG-020.
+ *
+ * Sans session, la réponse se limite à ce dont la page de connexion a besoin pour s'afficher.
+ * L'ancienne version publiait `comptes: 2` et `exiger_2fa: false` : elle disait à un anonyme
+ * qu'il n'y a que deux comptes à deviner et qu'aucun second facteur ne les protège. Elle
+ * publiait aussi le domaine Shopify, l'identifiant de boutique et le volume de commandes.
+ */
+route("GET /api/config", ({ moi }) => {
+  const publique = {
+    adaptateur: adaptateur().nom,
+    etiquettes_actives: ETIQUETTES,
+    unite_poids: db.reglage("unite_poids", "g"),
+    unite_dimension: db.reglage("unite_dimension", "in"),
+  };
+  if (!moi) return publique;
+  return {
+    ...publique,
+    seuil_dropoff_g: SEUIL_DROPOFF_G,
+    amorce: !!db.reglage("amorce"),
+    config_lasclay: !!db.reglage("config_lasclay"),
+    shopify: shopify.etat(),
+    comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
+    exiger_2fa: !!db.reglage("exiger_2fa", false),
+  };
+});
 
 // ============================================================ AUTHENTIFICATION
 
@@ -1140,7 +1994,18 @@ route("GET /api/moi/2fa", ({ moi }) => auth.etat2facteur(moi.id));
 route("POST /api/moi/2fa/preparer", async ({ req, moi }) =>
   auth.preparer2facteur(moi.id, { regenerer: (await corps(req)).regenerer === true }));
 
-route("POST /api/moi/2fa/activer", async ({ req, moi }) => auth.activer2facteur(moi.id, (await corps(req)).code));
+/**
+ * Activation du second facteur. Si la session était en attente d'enrôlement (second facteur
+ * rendu obligatoire, compte qui n'en avait pas), elle devient pleine ici — sinon l'utilisateur
+ * s'enrôlerait sans jamais pouvoir entrer.
+ */
+route("POST /api/moi/2fa/activer", async ({ req, res, moi }) => {
+  const r = auth.activer2facteur(moi.id, (await corps(req)).code);
+  const jeton = auth.lireCookie(req);
+  const promu = auth.promouvoirSession(jeton);
+  if (promu) res.setHeader("Set-Cookie", auth.poserCookie(jeton, promu.expire));
+  return { ...r, session_promue: !!promu };
+});
 
 route("POST /api/moi/2fa/desactiver", async ({ req, moi }) => {
   if (db.reglage("exiger_2fa", false)) return { error: "le second facteur est obligatoire sur ce service", code: 403 };
@@ -1182,6 +2047,12 @@ const PREFERENCES = {
   theme: (v) => (["clair", "sombre", "systeme"].includes(v) ? v : null),
   densite: (v) => (["compacte", "confortable", "spacieuse"].includes(v) ? v : null),
   page_size: (v) => ([100, 250, 500, 1000].includes(Number(v)) ? Number(v) : null),
+  // Le mode dense fait passer la grille de 16 à 21 lignes visibles (+31 %) et n'était
+  // jamais mémorisé : l'opérateur le réactivait à chaque session. Il vit avec le compte,
+  // pas dans le navigateur — un poste d'emballage est partagé.
+  dense: (v) => (typeof v === "boolean" ? v : null),
+  // Les bandeaux fermés revenaient à chaque rechargement, soit 26 px reperdus par session.
+  bandeaux_fermes: (v) => (Array.isArray(v) ? v.filter((x) => typeof x === "string").slice(0, 20) : null),
 };
 
 route("POST /api/moi/preferences", async ({ req, moi }) => {
@@ -1233,13 +2104,30 @@ const serveur = http.createServer(async (req, res) => {
     // Sonde de santé — Render l'interroge sans cookie.
     if (chemin === "/healthz") return texte(res, 200, "ok");
 
-    // En-têtes de sécurité, sur toutes les réponses.
+    // En-têtes de sécurité, sur toutes les réponses (BUG-021).
+    // `hid`, `serial` et `usb` restent ouverts à l'origine : ce sont les API qui permettront
+    // la balance et la douchette sans agent local (exigences E1/E2). Les fermer maintenant
+    // reviendrait à se condamner à installer un agent plus tard.
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("X-Frame-Options", "DENY");
     res.setHeader("Referrer-Policy", "same-origin");
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+    res.setHeader("Cross-Origin-Resource-Policy", "same-origin");
+    res.setHeader("Permissions-Policy", PERMISSIONS_POLICY);
+    if (req.headers["x-forwarded-proto"] === "https" || !CLONE_DEV)
+      res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
 
     if (chemin === "/" || chemin === "/index.html") {
-      return texte(res, 200, fs.readFileSync(path.join(PUBLIC, "index.html"), "utf8"), "text/html; charset=utf-8");
+      const doc = documentIndex();
+      res.setHeader("Content-Security-Policy", doc.csp);
+      // §6.3 réserve n° 1 — sans `ETag`, `no-cache` fait retransférer les 85,8 Ko compressés
+      // (312 Ko décodés) à chaque visite, **y compris pour un simple F5**. Avec, un
+      // rechargement tient en un 304 sans corps.
+      res.setHeader("ETag", doc.etag);
+      res.setHeader("Cache-Control", "private, no-cache, must-revalidate");
+      res.setHeader("Vary", "Accept-Encoding");
+      if (req.headers["if-none-match"] === doc.etag) { res.writeHead(304); return res.end(); }
+      return texte(res, 200, doc.html, "text/html; charset=utf-8");
     }
 
     const moi = utilisateurCourant(req);
@@ -1252,7 +2140,13 @@ const serveur = http.createServer(async (req, res) => {
 
     const out = await trouve.fn({ req, res, url, params: trouve.params, user: moi ? moi.id : null, moi });
     if (out === null) return;                       // le handler a déjà répondu
-    if (out && out.error && out.code) return json(res, out.code, { error: out.error });
+    // Un refus peut porter plus qu'un message : la liste des comptes à corriger, celle des
+    // commandes bloquantes. Tout ce que le handler a joint part avec, sinon l'écran doit
+    // redemander au serveur ce qu'il vient de lui dire.
+    if (out && out.error && out.code) {
+      const { code, ...reste } = out;
+      return json(res, code, reste);
+    }
     return json(res, 200, out);
   } catch (e) {
     // Une règle métier qui refuse n'est pas une panne : « lot inconnu », « poids manquant »,
@@ -1358,6 +2252,9 @@ if (require.main === module) {
   // Reprise du renvoi de suivi : un canal momentanément indisponible ne doit pas laisser un
   // client sans numéro de suivi.
   setInterval(() => channels.traiterFile({ limite: 50 }).catch(() => {}), 10 * 60 * 1000).unref();
+  // Redélivrance des webhooks échoués (exigence G3). Sans elle, un abonné momentanément
+  // indisponible perd l'événement sans que personne ne le sache.
+  setInterval(() => accounts.redelivrer({ limite: 50 }).catch(() => {}), 5 * 60 * 1000).unref();
   // Rattrapage Shopify — la synchronisation vivante (exigence B1), et le filet sous les
   // webhooks : un webhook perdu ne doit pas coûter une commande.
   const minutesSync = Number(process.env.CLONE_SHOPIFY_SYNC_MIN ?? 20);

@@ -48,6 +48,59 @@ function correspond(cmd, regle) {
 // ------------------------------------------------------------------ actions
 
 /** Actions. Les sept réellement utilisées par Lasclay sont marquées d'un astérisque. */
+/**
+ * Forme du paramètre de chaque action — BUG-076.
+ *
+ * L'éditeur demandait un champ texte contenant du JSON brut :
+ * `{"carrier_code":"canada_post","service_id":"99","package_id":"115317"}`. Une faute de
+ * frappe cassait la règle sans un mot, et l'opérateur d'entrepôt devait connaître les
+ * identifiants internes. Ce descripteur permet à l'écran de construire de vraies listes —
+ * il les possède déjà ailleurs — et au serveur de refuser ce qui n'existe pas.
+ *
+ * `type` : rien (l'action n'a pas de paramètre) | texte | nombre | date | service | colis |
+ *          entrepot | etiquette | utilisateur | confirmation | choix | objet
+ */
+const FORME_ACTIONS = {
+  set_service: { type: "objet", champs: [
+    { cle: "carrier_code", libelle: "Transporteur", type: "transporteur" },
+    { cle: "service_id", libelle: "Service", type: "service" },
+    { cle: "package_id", libelle: "Type de colis", type: "colis" }] },
+  set_confirmation: { type: "confirmation", libelle: "Confirmation" },
+  set_warehouse: { type: "entrepot", libelle: "Expédié de" },
+  set_custom_field1: { type: "texte", libelle: "Champ personnalisé 1" },
+  set_custom_field2: { type: "texte", libelle: "Champ personnalisé 2" },
+  set_custom_field3: { type: "texte", libelle: "Champ personnalisé 3" },
+  email: { type: "objet", champs: [
+    { cle: "to", libelle: "Destinataire", type: "texte" },
+    { cle: "subject", libelle: "Objet", type: "texte" },
+    { cle: "template", libelle: "Gabarit", type: "gabarit" }] },
+  stop: { type: "rien" },
+  set_package: { type: "colis", libelle: "Type de colis" },
+  set_weight: { type: "nombre", libelle: "Poids (g)", unite: "g" },
+  adjust_weight: { type: "nombre", libelle: "Ajustement de poids (g)", unite: "g" },
+  set_dimensions: { type: "objet", champs: [
+    { cle: "length", libelle: "Longueur", type: "nombre" },
+    { cle: "width", libelle: "Largeur", type: "nombre" },
+    { cle: "height", libelle: "Hauteur", type: "nombre" },
+    { cle: "unit", libelle: "Unité", type: "choix", options: [["in", "pouces"], ["cm", "cm"]] }] },
+  set_insurance: { type: "objet", champs: [
+    { cle: "provider", libelle: "Fournisseur", type: "texte" },
+    { cle: "insured_value", libelle: "Valeur assurée", type: "nombre" }] },
+  add_tag: { type: "etiquette", libelle: "Étiquette" },
+  remove_tag: { type: "etiquette", libelle: "Étiquette" },
+  assign_user: { type: "utilisateur", libelle: "Assigner à" },
+  hold_until: { type: "date", libelle: "En attente jusqu'au" },
+  internal_note: { type: "texte", libelle: "Note interne" },
+  set_ship_by_date: { type: "date", libelle: "Expédier avant" },
+  set_customs_content: { type: "choix", libelle: "Contenu douanier", options: [
+    ["merchandise", "Marchandise"], ["gift", "Cadeau"], ["documents", "Documents"],
+    ["sample", "Échantillon"], ["returned_goods", "Marchandise retournée"]] },
+  set_non_delivery: { type: "choix", libelle: "Si non livrable", options: [
+    ["return_to_sender", "Retour à l'expéditeur"], ["treat_as_abandoned", "Traiter comme abandonné"]] },
+  rate_shop: { type: "rien" },
+  split_by_sku: { type: "texte", libelle: "SKU à isoler" },
+};
+
 const ACTIONS = {
   // * Set Carrier/Service/Package
   set_service: (cmd, v) => {
@@ -171,9 +224,29 @@ const hydrater = (r) => ({
 const lister = () => all("SELECT * FROM rules ORDER BY position, id").map(hydrater);
 const parId = (id) => { const r = one("SELECT * FROM rules WHERE id = ?", id); return r ? hydrater(r) : null; };
 
+/**
+ * Enregistrement d'une règle — BUG-017, BUG-073.
+ *
+ * Deux garde-fous ajoutés après l'audit :
+ *
+ *   • **Validation des critères.** Un champ hors vocabulaire était accepté puis ignoré à
+ *     l'exécution : la règle s'appliquait alors à toutes les commandes sans que personne ne
+ *     le voie. On refuse, en nommant le champ fautif.
+ *   • **Position unique.** Deux règles portaient la position 10 et toute nouvelle règle
+ *     naissait en collision. Une création sans position demandée prend `max + 10`.
+ */
 function sauver(r) {
-  const champs = [r.name, r.enabled === false ? 0 : 1, r.position || 0, r.match_all === false ? 0 : 1,
-    dump(r.conditions || []), dump(r.actions || []), r.stop_after ? 1 : 0, r.sans_condition ? 1 : 0];
+  const criteres = require("./criteres");
+  const conditions = criteres.migrerCles(r.conditions || []);
+  for (const c of conditions) {
+    const motif = criteres.valider(c);
+    if (motif) { const e = new Error(`règle « ${r.name || "sans nom"} » : ${motif}`); e.code = 400; throw e; }
+  }
+  const position = r.position != null && r.position !== ""
+    ? Number(r.position)
+    : (one("SELECT COALESCE(MAX(position), 0) m FROM rules").m + 10);
+  const champs = [r.name, r.enabled === false ? 0 : 1, position, r.match_all === false ? 0 : 1,
+    dump(conditions), dump(r.actions || []), r.stop_after ? 1 : 0, r.sans_condition ? 1 : 0];
   if (r.id) {
     run(`UPDATE rules SET name=?, enabled=?, position=?, match_all=?, conditions=?, actions=?, stop_after=?, sans_condition=? WHERE id=?`, ...champs, r.id);
     return r.id;
@@ -204,7 +277,7 @@ function reordonner(ids) {
 const reglesParDefaut = () => require("./lasclay").REGLES;
 
 module.exports = {
-  CHAMPS, OPERATEURS, ACTIONS, PORTEES,
+  CHAMPS, OPERATEURS, ACTIONS, PORTEES, FORME_ACTIONS,
   appliquer, appliquerLot, correspond, evaluerCondition, vals,
   lister, parId, sauver, supprimer, reordonner, reglesParDefaut,
 };

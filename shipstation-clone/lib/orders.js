@@ -5,15 +5,36 @@
  * tri, statuts, Hold, assignation, tags, scission (split), fusion (combine), alertes,
  * champs personnalisés, et l'upsert par clé externe utilisé par l'ingestion.
  */
-const { all, one, run, tx, parse, dump, maintenant, journaliser } = require("./db");
+const { all, one, run, tx, parse, dump, maintenant, plier, sansAccent, journaliser } = require("./db");
 
 const STATUTS = ["awaiting_payment", "awaiting_shipment", "pending_fulfillment", "shipped", "on_hold", "cancelled"];
 
 // ------------------------------------------------------------------ lecture
 
-/** Colonnes triables — liste blanche, l'entrée vient de l'interface. */
-const TRIABLE = new Set(["order_number", "order_date", "created_at", "status", "customer_name",
-  "order_total", "weight_g", "ship_by_date", "hold_until", "age"]);
+/**
+ * Colonnes triables — BUG-036.
+ *
+ * Sept en-têtes sur douze réagissaient au survol et ne triaient rien : le curseur promettait
+ * un tri qui n'existait pas. Plutôt que de retirer l'affordance, on l'honore — ShipStation
+ * trie sur les douze. Les colonnes qui portent sur les articles ou les étiquettes trient sur
+ * une expression, pas sur une colonne : c'est ce qui manquait pour qu'elles existent.
+ */
+const TRIABLE = new Map([
+  ["order_number", "o.order_number"], ["order_date", "o.order_date"],
+  ["created_at", "o.created_at"], ["status", "o.status"],
+  ["customer_name", "o.customer_name"], ["order_total", "o.order_total"],
+  ["weight_g", "o.weight_g"], ["ship_by_date", "o.ship_by_date"],
+  ["hold_until", "o.hold_until"], ["age", "o.order_date"],
+  ["amount_paid", "o.amount_paid"], ["requested_service", "o.requested_service"],
+  ["quantity", "(SELECT COALESCE(SUM(i.quantity),0) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0)"],
+  ["item_sku", "(SELECT MIN(i.sku) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0)"],
+  ["item_name", "(SELECT MIN(i.name) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0)"],
+  ["batch", "o.batch_id"],
+  ["gift", "o.gift"],
+  ["notes", "(CASE WHEN COALESCE(o.customer_notes,'') <> '' OR COALESCE(o.internal_notes,'') <> '' " +
+            "OR COALESCE(o.gift_message,'') <> '' THEN 1 ELSE 0 END)"],
+  ["tags", "(SELECT COUNT(*) FROM order_tags t WHERE t.order_id = o.id)"],
+]);
 
 /**
  * Recherche filtrée. Chaque filtre est facultatif et se cumule aux autres — c'est
@@ -26,13 +47,25 @@ function chercher(f = {}) {
   if (f.status) Array.isArray(f.status)
     ? add(`o.status IN (${f.status.map(() => "?").join(",")})`, ...f.status)
     : add("o.status = ?", f.status);
-  if (f.store_id) add("o.store_id = ?", Number(f.store_id));
+  // Boutique et étiquette acceptent plusieurs valeurs : chez Lasclay « Shopify OU Etsy »
+  // est un cas quotidien, et le filtre mono-valeur obligeait à faire deux passes. Une liste
+  // au même endroit = OU, comme le fait déjà le moteur de critères des vues.
+  const liste = (v) => (Array.isArray(v) ? v : String(v).split(","))
+    .map((x) => String(x).trim()).filter(Boolean);
+  if (f.store_id) {
+    const l = liste(f.store_id).map(Number).filter(Boolean);
+    if (l.length === 1) add("o.store_id = ?", l[0]);
+    else if (l.length) add(`o.store_id IN (${l.map(() => "?").join(",")})`, ...l);
+  }
   if (f.warehouse_id) add("o.warehouse_id = ?", Number(f.warehouse_id));
   if (f.country) add("json_extract(o.ship_to,'$.country') = ?", f.country);
   if (f.state) add("json_extract(o.ship_to,'$.state') = ?", f.state);
   if (f.carrier_code) add("o.carrier_code = ?", f.carrier_code);
   if (f.service_id) add("o.service_id = ?", f.service_id);
   if (f.assigned_user) add("o.assigned_user = ?", f.assigned_user);
+  // « Non assignée » manquait : c'est pourtant la file de travail par défaut d'un poste
+  // d'emballage — ce que personne n'a encore pris.
+  if (f.non_assignee) add("(o.assigned_user IS NULL OR o.assigned_user = '')");
   if (f.source) add("o.source = ?", f.source);
   if (f.weight_min) add("o.weight_g >= ?", Number(f.weight_min));
   if (f.weight_max) add("o.weight_g <= ?", Number(f.weight_max));
@@ -45,9 +78,25 @@ function chercher(f = {}) {
   if (f.age_max) add("julianday('now') - julianday(o.order_date) <= ?", Number(f.age_max));
   if (f.drop_off === "oui") add("o.weight_g > 0 AND o.weight_g < ?", Number(f.seuil || 500));
   if (f.drop_off === "non") add("(o.weight_g = 0 OR o.weight_g >= ?)", Number(f.seuil || 500));
-  if (f.tag_id) add("EXISTS (SELECT 1 FROM order_tags t WHERE t.order_id = o.id AND t.tag_id = ?)", Number(f.tag_id));
+  if (f.tag_id) {
+    const l = liste(f.tag_id).map(Number).filter(Boolean);
+    if (l.length) add(
+      `EXISTS (SELECT 1 FROM order_tags t WHERE t.order_id = o.id AND t.tag_id IN (${l.map(() => "?").join(",")}))`, ...l);
+  }
   if (f.untagged) add("NOT EXISTS (SELECT 1 FROM order_tags t WHERE t.order_id = o.id)");
-  if (f.sku) add("EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND i.sku LIKE ?)", `%${f.sku}%`);
+  if (f.sku) add("EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND sansaccent(COALESCE(i.sku,'')) LIKE ?)", `%${sansAccent(f.sku)}%`);
+  // Champs de la recherche avancée — chacun cherche « contient », et ils se cumulent.
+  // Sans eux, « les commandes annulées de LAS Etsy contenant des mitaines » était hors de
+  // portée : le clone n'offrait que six des dix champs de ShipStation.
+  if (f.order_number) add("sansaccent(COALESCE(o.order_number,'')) LIKE ?", `%${sansAccent(f.order_number)}%`);
+  if (f.destinataire) add("sansaccent(COALESCE(o.customer_name,'')) LIKE ?", `%${sansAccent(f.destinataire)}%`);
+  if (f.courriel) add("sansaccent(COALESCE(o.customer_email,'')) LIKE ?", `%${sansAccent(f.courriel)}%`);
+  if (f.item_name) add(
+    "EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND sansaccent(COALESCE(i.name,'')) LIKE ?)",
+    `%${sansAccent(f.item_name)}%`);
+  if (f.item_option) add(
+    "EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND sansaccent(COALESCE(i.options,'')) LIKE ?)",
+    `%${sansAccent(f.item_option)}%`);
   if (f.single_item) add("(SELECT COUNT(*) FROM order_items i WHERE i.order_id = o.id AND i.adjustment = 0) = 1");
   if (f.batch_id) add("o.batch_id = ?", Number(f.batch_id));
   if (f.sans_lot) add("o.batch_id IS NULL");
@@ -67,17 +116,32 @@ function chercher(f = {}) {
     if (c && c.sql) add(c.sql, ...c.params);
   }
 
+  /**
+   * Recherche libre — sur l'index plié (`orders.recherche`), mot à mot.
+   *
+   * Trois défauts corrigés d'un coup. Les accents : `lower('Josee') LIKE '%josée%'` est
+   * faux, donc chercher « josée ferland » ne trouvait jamais « Josee Ferland » — que
+   * ShipStation, lui, trouvait. Les mots multiples : « josée ferland » était un seul motif
+   * contigu, et « Ferland, Josée » n'y répondait pas. Et la portée : le suivi, le nom
+   * d'article, l'adresse et les notes n'étaient pas cherchés du tout.
+   *
+   * Chaque mot doit être présent (ET), n'importe où et dans n'importe quel ordre. Un repli
+   * de secours sur les colonnes brutes couvre les commandes pas encore réindexées.
+   */
   if (f.q) {
-    const q = `%${String(f.q).toLowerCase()}%`;
-    add(`(lower(o.order_number) LIKE ? OR lower(o.customer_name) LIKE ? OR lower(o.customer_email) LIKE ?
-          OR lower(json_extract(o.ship_to,'$.city')) LIKE ? OR lower(json_extract(o.ship_to,'$.postalCode')) LIKE ?
-          OR EXISTS (SELECT 1 FROM order_items i WHERE i.order_id = o.id AND lower(i.sku) LIKE ?))`,
-      q, q, q, q, q, q);
+    const mots = plier(f.q).split(" ").filter(Boolean).slice(0, 8);
+    for (const m of mots) {
+      const like = `%${m}%`;
+      add(`(o.recherche LIKE ?
+            OR (o.recherche IS NULL AND (lower(o.order_number) LIKE ? OR lower(o.customer_name) LIKE ?
+                OR lower(o.customer_email) LIKE ?)))`,
+        like, like, like, like);
+    }
   }
 
   const where = w.length ? "WHERE " + w.join(" AND ") : "";
   const tri = TRIABLE.has(f.sort) ? f.sort : "order_date";
-  const col = tri === "age" ? "o.order_date" : `o.${tri}`;
+  const col = TRIABLE.get(tri);
   // « âge décroissant » = les plus vieilles d'abord = date croissante. On inverse pour
   // que l'interface parle d'âge sans que l'utilisateur ait à y penser.
   const sens = (f.dir === "asc") === (tri === "age") ? "DESC" : "ASC";
@@ -97,13 +161,25 @@ function chercher(f = {}) {
             (SELECT COUNT(*) FROM shipments s WHERE s.order_id = o.id AND s.voided = 0) AS n_shipments
      FROM orders o ${where} ORDER BY ${col} ${sens} LIMIT ? OFFSET ?`, ...p, limite, offset);
 
-  return { total, orders: lignes.map(hydrater) };
+  // Répartition par statut et par boutique — le rail gauche de ShipStation pendant une
+  // recherche (« All Search Results 1 », « LAS Shopify 1 », « Shipped 1 »). Sans elle, un
+  // résultat unique dans « Expédiée » se cherche à l'aveugle statut par statut. Calculée
+  // seulement pendant une recherche : sur une grille ordinaire, ce sont deux agrégats de
+  // plus pour rien.
+  const repartition = f.q ? {
+    statuts: Object.fromEntries(all(`SELECT o.status s, COUNT(*) n FROM orders o ${where} GROUP BY o.status`, ...p)
+      .map((r) => [r.s, r.n])),
+    boutiques: Object.fromEntries(all(`SELECT o.store_id s, COUNT(*) n FROM orders o ${where} GROUP BY o.store_id`, ...p)
+      .filter((r) => r.s != null).map((r) => [r.s, r.n])),
+  } : null;
+
+  return { total, orders: lignes.map(hydrater), ...(repartition ? { repartition } : {}) };
 }
 
 /** Transforme une ligne SQL en objet utilisable (JSON décodé, articles, tags). */
 function hydrater(r) {
   if (!r) return null;
-  return {
+  const o = {
     ...r,
     ship_to: parse(r.ship_to, {}),
     bill_to: parse(r.bill_to, {}),
@@ -116,6 +192,58 @@ function hydrater(r) {
       .map((i) => ({ ...i, options: parse(i.options, []), adjustment: !!i.adjustment })),
     tags: all("SELECT t.id, t.name, t.color FROM order_tags ot JOIN tags t ON t.id = ot.tag_id WHERE ot.order_id = ?", r.id),
     raw: undefined,
+  };
+  o.couts = couts(o);
+  return o;
+}
+
+/**
+ * Résumé des coûts — reconstitué depuis les lignes, pas déduit du total (BUG-016).
+ *
+ * L'ancien calcul affichait `Produits = total − taxes − livraison`. Une remise ou un
+ * remboursement le rendait faux sans que rien ne le signale : 879 commandes montraient
+ * `Total 0,00 $` au-dessus de lignes valorisées, et l'écart dépassait un cent sur 8 758
+ * commandes. Ici les lignes sont la vérité — c'est ce que l'entrepôt a sous les yeux — et
+ * ce qui ne se referme pas est **annoncé** plutôt que masqué par une soustraction.
+ *
+ * `coherent` est faux quand le total déclaré par la boutique s'écarte de plus d'un cent de
+ * ce que les lignes, la remise, la livraison et les taxes permettent de reconstituer. Ce
+ * n'est pas une erreur de calcul : c'est le signe que l'import n'a pas tout rapatrié.
+ */
+const CENT = 0.01;
+const sou = (n) => Math.round((Number(n) || 0) * 100) / 100;
+
+function couts(o) {
+  const lignes = (o.items || []).filter((i) => !i.adjustment);
+  const ajustements = (o.items || []).filter((i) => i.adjustment);
+  const produits = sou(lignes.reduce((s, i) => s + (i.unit_price || 0) * (i.quantity ?? 0), 0));
+  const remiseLignes = sou(lignes.reduce((s, i) => s + (i.discount || 0), 0));
+  // La remise de commande l'emporte sur la somme des remises de ligne quand les deux
+  // existent : Shopify alloue les remises de panier aux lignes, les additionner doublerait.
+  const remise = sou(o.discount_amount || remiseLignes);
+  const ajuste = sou(ajustements.reduce((s, i) => s + (i.unit_price || 0) * (i.quantity ?? 0), 0));
+  const livraison = sou(o.shipping_paid);
+  const taxes = sou(o.tax_amount);
+  const rembourse = sou(o.refunded_amount);
+  const reconstitue = sou(produits - remise + ajuste + livraison + taxes);
+  const declare = sou(o.order_total);
+  const ecart = sou(declare - reconstitue);
+
+  // Une commande dont TOUTES les quantités courantes sont à zéro est entièrement
+  // remboursée : total nul et lignes nulles se répondent, il n'y a rien à signaler.
+  const toutRembourse = lignes.length > 0 && lignes.every((i) => (i.quantity ?? 0) === 0);
+
+  return {
+    produits, remise, ajustements: ajuste, livraison, taxes,
+    total: declare, reconstitue, ecart,
+    paye: sou(o.amount_paid), rembourse,
+    coherent: Math.abs(ecart) <= CENT,
+    tout_rembourse: toutRembourse,
+    // Ce que l'opérateur doit savoir en une phrase, quand il y a quelque chose à savoir.
+    motif: Math.abs(ecart) <= CENT ? null
+      : declare === 0 && produits > 0
+        ? "total à zéro alors que les lignes sont valorisées — remises ou remboursements non importés"
+        : `le total de la boutique s'écarte de ${sou(Math.abs(ecart))} $ de la somme des lignes`,
   };
 }
 
@@ -142,6 +270,7 @@ function upsert(cmd) {
       bill_to: dump(cmd.bill_to || null), ship_to: dump(cmd.ship_to || {}),
       order_total: cmd.order_total || 0, amount_paid: cmd.amount_paid || 0,
       tax_amount: cmd.tax_amount || 0, shipping_paid: cmd.shipping_paid || 0,
+      discount_amount: cmd.discount_amount || 0, refunded_amount: cmd.refunded_amount || 0,
       customer_notes: cmd.customer_notes || null, internal_notes: cmd.internal_notes || null,
       gift: cmd.gift ? 1 : 0, gift_message: cmd.gift_message || null,
       requested_service: cmd.requested_service || null,
@@ -171,11 +300,12 @@ function upsert(cmd) {
     }
 
     for (const it of cmd.items || []) {
-      run(`INSERT INTO order_items (order_id,line_key,sku,name,image_url,quantity,unit_price,
-             weight_g,tax,warehouse_location,upc,product_id,adjustment,options)
-           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      run(`INSERT INTO order_items (order_id,line_key,sku,name,image_url,quantity,quantity_ordered,
+             unit_price,discount,weight_g,tax,warehouse_location,upc,product_id,adjustment,options)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
         id, it.line_key || null, it.sku || null, it.name || null, it.image_url || null,
-        it.quantity ?? 1, it.unit_price || 0, it.weight_g || 0, it.tax || 0,
+        it.quantity ?? 1, it.quantity_ordered ?? it.quantity ?? 1,
+        it.unit_price || 0, it.discount || 0, it.weight_g || 0, it.tax || 0,
         it.warehouse_location || null, it.upc || null, it.product_id || null,
         it.adjustment ? 1 : 0, dump(it.options || []));
     }
@@ -187,9 +317,51 @@ function upsert(cmd) {
       if (s) run("UPDATE orders SET weight_g = ? WHERE id = ?", s, id);
     }
 
+    indexerRecherche(id);
     journaliser(existante ? "order.update" : "order.create", "order", id, { order_number: cmd.order_number });
     return id;
   });
+}
+
+/**
+ * (Re)calcule l'index de recherche d'une commande.
+ *
+ * Tout ce sur quoi on peut vouloir retomber sur une commande finit dans une seule colonne
+ * pliée : numéro, client, courriel, adresse complète, SKU, noms d'articles, numéros de
+ * suivi, notes, champs personnalisés. La recherche devient alors un simple LIKE par mot,
+ * insensible aux accents et à la casse.
+ *
+ * Appelé après l'écriture des articles — l'index les contient, il ne peut pas être calculé
+ * avant qu'ils existent.
+ */
+function indexerRecherche(id) {
+  const o = one("SELECT * FROM orders WHERE id = ?", id);
+  if (!o) return;
+  const adr = parse(o.ship_to, {}) || {};
+  const arts = all("SELECT sku, name, upc FROM order_items WHERE order_id = ?", id);
+  const suivis = all("SELECT tracking_number FROM shipments WHERE order_id = ?", id);
+  const morceaux = [
+    o.order_number, o.customer_name, o.customer_email,
+    adr.name, adr.company, adr.street1, adr.street2, adr.city, adr.state, adr.postalCode, adr.country, adr.phone,
+    o.requested_service, o.customer_notes, o.internal_notes, o.gift_message,
+    o.custom_field1, o.custom_field2, o.custom_field3,
+    ...arts.flatMap((a) => [a.sku, a.name, a.upc]),
+    ...suivis.map((s) => s.tracking_number),
+  ];
+  // Sur un identifiant, les séparateurs sont cosmétiques : « L-27344 » se tape aussi
+  // « l27344 », et un code postal « G8T 1A1 » se colle en « g8t1a1 ». On indexe donc les
+  // deux formes — mais seulement pour les identifiants, jamais pour les noms : recoller
+  // « josee ferland » en « joseeferland » n'aide personne et gonfle l'index.
+  const identifiants = [o.order_number, adr.postalCode,
+    ...arts.flatMap((a) => [a.sku, a.upc]), ...suivis.map((s) => s.tracking_number)];
+
+  // Les doublons sont retirés : sur une commande de dix lignes du même produit, l'index
+  // répéterait dix fois le même nom pour rien.
+  const texte = [...new Set([
+    ...morceaux.map(plier),
+    ...identifiants.map((x) => plier(x).replace(/ /g, "")),
+  ].filter(Boolean))].join(" ");
+  run("UPDATE orders SET recherche = ? WHERE id = ?", texte, id);
 }
 
 /** Change le statut, avec les effets de bord attendus. */
@@ -329,9 +501,16 @@ function alertes() {
                    WHERE o.status = 'awaiting_shipment' AND o.ship_to IS NOT NULL
                      AND json_extract(o.ship_to,'$.country') <> 'CA' AND i.adjustment = 0
                      AND (p.hs_code IS NULL OR p.hs_code = '')`),
+    // Deux commandes sans code postal ni nom ne sont pas « le même destinataire » : elles
+    // sont deux adresses inconnues. Les regrouper proposait de fusionner des commandes
+    // sans rapport, ce qui est la pire suggestion possible avant un achat d'étiquette.
     fusionnables: q(`SELECT json_extract(ship_to,'$.postalCode') cp, json_extract(ship_to,'$.name') nom,
                      COUNT(*) n, GROUP_CONCAT(id) ids FROM orders
                    WHERE status = 'awaiting_shipment' AND merged_into IS NULL
+                     AND json_extract(ship_to,'$.postalCode') IS NOT NULL
+                     AND TRIM(json_extract(ship_to,'$.postalCode')) <> ''
+                     AND json_extract(ship_to,'$.name') IS NOT NULL
+                     AND TRIM(json_extract(ship_to,'$.name')) <> ''
                    GROUP BY cp, nom HAVING n > 1`),
     vieilles: q(`SELECT id, order_number, customer_name,
                    CAST(julianday('now') - julianday(order_date) AS INTEGER) age FROM orders
@@ -388,8 +567,46 @@ function validerAdresse(o) {
   return { statut, motifs };
 }
 
+/**
+ * Ampleur de la désynchronisation des montants, sur toute la base (BUG-016).
+ *
+ * Le SQL fait le gros du tri — 28 565 commandes ne passent pas par la mémoire — puis les
+ * seules candidates sont rejouées ligne à ligne pour obtenir l'écart exact. Le chiffre
+ * sert autant à mesurer les progrès d'une réconciliation qu'à décider s'il faut la lancer.
+ */
+function reconciliation({ limite = 200 } = {}) {
+  const suspectes = all(`
+    SELECT o.id, o.order_number, o.status, o.order_total, o.amount_paid, o.tax_amount,
+           o.shipping_paid, o.discount_amount, o.refunded_amount,
+           (SELECT COALESCE(SUM(i.unit_price * i.quantity), 0) FROM order_items i
+             WHERE i.order_id = o.id AND i.adjustment = 0) AS somme_lignes
+      FROM orders o
+     WHERE ABS(o.order_total - o.tax_amount - o.shipping_paid + COALESCE(o.discount_amount,0)
+               - (SELECT COALESCE(SUM(i.unit_price * i.quantity), 0) FROM order_items i
+                    WHERE i.order_id = o.id AND i.adjustment = 0)) > 0.01
+     ORDER BY o.order_date DESC`);
+
+  const detail = suspectes.map((r) => {
+    const o = parId(r.id);
+    return { id: r.id, order_number: r.order_number, status: r.status, ...o.couts };
+  }).filter((c) => !c.coherent && !c.tout_rembourse);
+
+  const total = one("SELECT COUNT(*) n FROM orders").n;
+  const nulles = detail.filter((c) => c.total === 0 && c.produits > 0);
+  return {
+    commandes: total,
+    incoherentes: detail.length,
+    part: total ? Math.round((detail.length / total) * 1000) / 10 : 0,
+    a_expedier: detail.filter((c) => c.status === "awaiting_shipment").length,
+    total_nul_lignes_valorisees: { n: nulles.length, valeur: sou(nulles.reduce((s, c) => s + c.produits, 0)) },
+    ecart_cumule: sou(detail.reduce((s, c) => s + Math.abs(c.ecart), 0)),
+    exemples: detail.slice(0, limite),
+  };
+}
+
 module.exports = {
+  indexerRecherche,
   STATUTS, chercher, parId, parNumero, hydrater, upsert, changerStatut, hold, restaurer,
   libererHolds, assigner, ajouterTag, retirerTag, poserChamps, supprimer, scinder, fusionner,
-  alertes, compteurs, validerAdresse,
+  alertes, compteurs, validerAdresse, couts, reconciliation,
 };

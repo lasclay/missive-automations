@@ -11,7 +11,7 @@
  */
 const crypto = require("crypto");
 const path = require("path");
-const { one, all, run, parse, dump, maintenant, journaliser, reglage, poserReglage } = require("./db");
+const { one, all, run, tx, parse, dump, maintenant, journaliser, reglage, poserReglage } = require("./db");
 const orders = require("./orders");
 const automation = require("./automation");
 
@@ -22,13 +22,29 @@ const configure = () => !!(process.env.SHOPIFY_STORE &&
 
 // ------------------------------------------------------------------ conversion
 
+/**
+ * Champs lus sur chaque commande.
+ *
+ * Les préfixes `current…` ne sont pas décoratifs : ce sont les montants **après** remises,
+ * modifications de commande et remboursements. Lire `originalUnitPriceSet` et `quantity`
+ * pendant qu'on lit `currentTotalPriceSet` produit exactement la contradiction relevée à
+ * l'audit — des lignes au prix catalogue sous un total à zéro (BUG-016). Les deux versions
+ * sont donc rapatriées : la courante pour ce qui est dû, l'originale pour la trace.
+ */
 const CHAMPS_COMMANDE = `
   id name createdAt processedAt cancelledAt closedAt
   displayFinancialStatus displayFulfillmentStatus
+  sourceName channelInformation { channelDefinition { handle channelName } }
   email note tags
   currentTotalPriceSet { shopMoney { amount } }
   currentTotalTaxSet { shopMoney { amount } }
+  currentSubtotalPriceSet { shopMoney { amount } }
+  currentTotalDiscountsSet { shopMoney { amount } }
+  totalDiscountsSet { shopMoney { amount } }
+  currentShippingPriceSet { shopMoney { amount } }
   totalShippingPriceSet { shopMoney { amount } }
+  totalRefundedSet { shopMoney { amount } }
+  totalReceivedSet { shopMoney { amount } }
   customer { id email firstName lastName }
   shippingAddress { firstName lastName name company address1 address2 city provinceCode zip countryCodeV2 phone }
   billingAddress  { firstName lastName name company address1 address2 city provinceCode zip countryCodeV2 phone }
@@ -36,8 +52,10 @@ const CHAMPS_COMMANDE = `
   customAttributes { key value }
   lineItems(first: 100) {
     edges { node {
-      id sku name quantity
+      id sku name quantity currentQuantity
       originalUnitPriceSet { shopMoney { amount } }
+      discountedUnitPriceSet { shopMoney { amount } }
+      totalDiscountSet { shopMoney { amount } }
       variant { id inventoryItem { measurement { weight { value unit } } } }
     } }
   }`;
@@ -72,16 +90,38 @@ function convertir(o, { storeId = null } = {}) {
   const items = (o.lineItems?.edges || []).map((e) => {
     const n = e.node;
     const w = n.variant?.inventoryItem?.measurement?.weight;
+    // `currentQuantity` tombe à 0 quand la ligne est remboursée ou retirée d'une commande
+    // modifiée. C'est ce que ShipStation affiche, et c'est ce qu'il reste à préparer.
+    const commandee = n.quantity ?? 0;
+    const courante = n.currentQuantity ?? commandee;
+    // La ligne garde le prix catalogue — c'est ce qui figure sur le bordereau et ce que le
+    // préparateur reconnaît. La remise est portée à part, au prorata de ce qu'il reste :
+    // une ligne remboursée n'emporte plus sa remise, sinon le résumé ne se referme pas.
+    const remise = montant(n.totalDiscountSet) * (commandee ? courante / commandee : 0);
     return {
       line_key: String(n.id).split("/").pop(),
       sku: n.sku || null,
       name: n.name || null,
-      quantity: n.quantity || 0,
+      quantity: courante,
+      quantity_ordered: commandee,
       unit_price: montant(n.originalUnitPriceSet),
+      discount: Math.round(remise * 100) / 100,
       weight_g: w ? (Number(w.value) || 0) * (GRAMMES[w.unit] || 1) : 0,
       adjustment: false,
     };
   });
+
+  // Le montant réellement encaissé : ce qui est entré moins ce qui est ressorti. Le seul
+  // chiffre qui compte quand un client rappelle pour un remboursement partiel.
+  const rembourse = montant(o.totalRefundedSet);
+  const recu = montant(o.totalReceivedSet);
+  const paye = o.totalReceivedSet ? Math.round((recu - rembourse) * 100) / 100
+    : (o.displayFinancialStatus === "PAID" ? montant(o.currentTotalPriceSet) : 0);
+  // La remise retenue est celle des lignes, prorata compris : c'est la seule qui referme
+  // le résumé avec les prix qu'on vient d'y écrire. La remise de commande ne sert que
+  // lorsqu'aucune ligne n'en porte — une remise de livraison, par exemple.
+  const remiseLignes = Math.round(items.reduce((s, i) => s + i.discount, 0) * 100) / 100;
+  const remise = remiseLignes || montant(o.currentTotalDiscountsSet ?? o.totalDiscountsSet);
 
   return {
     order_number: o.name,                              // « L-50123 »
@@ -94,9 +134,11 @@ function convertir(o, { storeId = null } = {}) {
     ship_to: adresse(o.shippingAddress),
     bill_to: adresse(o.billingAddress),
     order_total: montant(o.currentTotalPriceSet),
-    amount_paid: o.displayFinancialStatus === "PAID" ? montant(o.currentTotalPriceSet) : 0,
+    amount_paid: paye,
     tax_amount: montant(o.currentTotalTaxSet),
-    shipping_paid: montant(o.totalShippingPriceSet),
+    shipping_paid: montant(o.currentShippingPriceSet ?? o.totalShippingPriceSet),
+    discount_amount: remise,
+    refunded_amount: rembourse,
     customer_notes: o.note || null,
     requested_service: o.shippingLine?.title || null,
     gift: /gift|cadeau/i.test(o.tags?.join(" ") || ""),
@@ -104,30 +146,83 @@ function convertir(o, { storeId = null } = {}) {
     custom_field3: "LASCLAY",
     source: "shopify",
     items,
-    raw: { shopify_gid: o.id, tags: o.tags, attributs },
+    raw: { shopify_gid: o.id, tags: o.tags, attributs,
+      marche: marcheDe(o), source_name: o.sourceName || null,
+      canal: o.channelInformation?.channelDefinition?.channelName || null },
   };
 }
 
-/** Statut Shopify → statut interne. L'ordre des tests compte. */
+/**
+ * Statut Shopify → statut interne. L'ordre des tests compte.
+ *
+ * `ON_HOLD` et `SCHEDULED` étaient absents : les compteurs « En attente » du panneau
+ * gauche restaient vides alors que ShipStation en comptait deux (BUG-013).
+ */
 function statut(o) {
   if (o.cancelledAt) return "cancelled";
   const f = o.displayFulfillmentStatus;
   if (f === "FULFILLED") return "shipped";
+  if (f === "ON_HOLD" || f === "SCHEDULED" || f === "REQUEST_DECLINED") return "on_hold";
   if (o.displayFinancialStatus === "PENDING" || o.displayFinancialStatus === "AUTHORIZED")
     return "awaiting_payment";
+  if (f === "PARTIALLY_FULFILLED" || f === "IN_PROGRESS") return "pending_fulfillment";
   return "awaiting_shipment";
 }
 
 // ------------------------------------------------------------------ import
 
-/** La boutique Shopify du référentiel, pour rattacher les commandes importées. */
+/**
+ * La boutique Shopify du référentiel, pour rattacher les commandes importées.
+ *
+ * Ne prend que des boutiques **actives** : l'ancienne version triait par identifiant sur
+ * toutes les boutiques `shopify`, ce qui pouvait rattacher l'arriéré à « Fake Poparide
+ * Store ». Et elle n'invente une boutique que si le référentiel n'a jamais été chargé —
+ * la boutique fantôme « Shopify (direct) » observée à l'audit venait de là.
+ */
 function storeShopify() {
-  const s = one("SELECT id FROM stores WHERE lower(marketplace) = 'shopify' ORDER BY id LIMIT 1");
+  const s = one(`SELECT id FROM stores WHERE lower(marketplace) = 'shopify' AND active = 1
+                 ORDER BY id LIMIT 1`)
+    || one("SELECT id FROM stores WHERE lower(marketplace) = 'shopify' ORDER BY id LIMIT 1");
   if (s) return s.id;
   run(`INSERT INTO stores (id, name, marketplace, active, auto_refresh) VALUES (?,?,?,1,1)`,
     900001, "Shopify (direct)", "Shopify");
   return 900001;
 }
+
+/**
+ * Boutique d'origine d'une commande (BUG-013).
+ *
+ * Chez ShipStation, `LAS Shopify`, `LAS Etsy`, `Manual Orders` et `FAIRE Lasclay` sont
+ * quatre boutiques distinctes, et les sous-entrées du panneau gauche comptent les commandes
+ * de chacune. Le clone les recevant toutes par Shopify, la provenance se lit sur la
+ * commande elle-même — `sourceName` ou le canal de vente — au lieu d'être écrasée par la
+ * boutique Shopify principale. Sans cela, la règle « LAS Incoming Orders Warehouse
+ * Selection », qui filtre sur trois identifiants de boutique, n'en verrait jamais qu'un.
+ */
+const MARCHES = [
+  [/etsy/i, "etsy"],
+  [/faire/i, "faire"],
+  [/(^|\W)(pos|draft|manual)(\W|$)|shopify_draft_order|iphone|android/i, "manual"],
+];
+
+function marcheDe(o) {
+  const indices = [o.sourceName, o.channelInformation?.channelDefinition?.handle,
+    o.channelInformation?.channelDefinition?.channelName].filter(Boolean).join(" ");
+  for (const [motif, marche] of MARCHES) if (motif.test(indices)) return marche;
+  return "shopify";
+}
+
+/** Cache des boutiques par marché — une requête par import, pas une par commande. */
+function boutiquesParMarche() {
+  const m = {};
+  for (const s of all(`SELECT id, marketplace FROM stores WHERE active = 1 ORDER BY id`)) {
+    const k = String(s.marketplace || "").toLowerCase();
+    if (!(k in m)) m[k] = s.id;
+  }
+  return m;
+}
+
+const boutiqueDe = (o, table, defaut) => table[marcheDe(o)] ?? defaut;
 
 /**
  * Importe une commande par son identifiant Shopify (numérique ou GID).
@@ -138,7 +233,7 @@ async function importerUne(idOuGid, { appliquerRegles = true } = {}) {
   const gid = String(idOuGid).startsWith("gid://") ? idOuGid : `gid://shopify/Order/${idOuGid}`;
   const d = await client().gql(`query($id: ID!) { order(id: $id) { ${CHAMPS_COMMANDE} } }`, { id: gid });
   if (!d.order) throw new Error(`commande Shopify introuvable : ${idOuGid}`);
-  const cmd = convertir(d.order, { storeId: storeShopify() });
+  const cmd = convertir(d.order, { storeId: boutiqueDe(d.order, boutiquesParMarche(), storeShopify()) });
   const existait = !!one("SELECT id FROM orders WHERE order_key = ?", cmd.order_key);
   const id = orders.upsert(cmd);
   // Les règles ne s'appliquent qu'à l'arrivée : les rejouer sur une commande déjà traitée
@@ -159,7 +254,8 @@ async function rattraper({ depuis = null, max = 2000, journal = () => {} } = {})
   const filtre = `updated_at:>='${debut.slice(0, 19)}Z'`;
 
   let apres = null, n = 0, nouvelles = 0, ignorees = 0, annulees = 0, plusRecent = debut;
-  const storeId = storeShopify();
+  const defaut = storeShopify();
+  const marches = boutiquesParMarche();
 
   for (;;) {
     const d = await gql(`
@@ -172,7 +268,7 @@ async function rattraper({ depuis = null, max = 2000, journal = () => {} } = {})
 
     const lot = d.orders?.edges || [];
     for (const e of lot) {
-      const cmd = convertir(e.node, { storeId });
+      const cmd = convertir(e.node, { storeId: boutiqueDe(e.node, marches, defaut) });
       const avant = one("SELECT id, status FROM orders WHERE order_key = ?", cmd.order_key);
       // Une commande déjà expédiée ici n'est plus retouchée : passé l'achat de l'étiquette,
       // l'entrepôt a raison contre la boutique. Seule une annulation tardive est notée.
@@ -282,6 +378,58 @@ async function webhooksExistants() {
   }));
 }
 
+/**
+ * Réparation de l'attribution des boutiques sur l'arriéré déjà importé (BUG-013).
+ *
+ * Ne relit pas Shopify : la provenance est déjà dans `raw.marche` pour tout ce qui a été
+ * importé depuis, et se déduit du reste par le préfixe du numéro de commande. Ce qu'on ne
+ * sait pas rattacher reste où il est plutôt que d'être rangé au hasard.
+ *
+ * **À blanc par défaut.** Rien n'est écrit sans `appliquer: true` : c'est une réécriture de
+ * masse sur des commandes réelles, elle se regarde avant de se lancer.
+ */
+function reparerBoutiques({ appliquer = false } = {}) {
+  const marches = boutiquesParMarche();
+  const defaut = storeShopify();
+  const fantomes = all(`SELECT id, name FROM stores WHERE id >= 900000`);
+
+  const cible = (r) => {
+    const m = parse(r.raw, {}).marche;
+    if (m && marches[m]) return marches[m];
+    // Repli sur le numéro : les commandes Etsy et Faire portent un préfixe distinct.
+    const n = String(r.order_number || "");
+    if (/etsy/i.test(n)) return marches.etsy ?? null;
+    if (/faire/i.test(n)) return marches.faire ?? null;
+    return null;
+  };
+
+  const lignes = all(`SELECT id, order_number, store_id, raw FROM orders`);
+  const mouvements = [];
+  for (const r of lignes) {
+    const vers = cible(r) ?? (fantomes.some((f) => f.id === r.store_id) || r.store_id == null ? defaut : null);
+    if (vers && vers !== r.store_id) mouvements.push({ id: r.id, de: r.store_id, vers });
+  }
+
+  const repartition = (col) => Object.fromEntries(
+    all(`SELECT s.name, COUNT(*) n FROM orders o LEFT JOIN stores s ON s.id = o.store_id
+         WHERE o.status = 'awaiting_shipment' GROUP BY ${col} ORDER BY n DESC`)
+      .map((r) => [r.name || "— sans boutique —", r.n]));
+
+  const avant = repartition("o.store_id");
+  if (!appliquer) return { a_blanc: true, mouvements: mouvements.length, avant, fantomes };
+
+  tx(() => {
+    for (const m of mouvements) run("UPDATE orders SET store_id = ? WHERE id = ?", m.vers, m.id);
+    // La boutique fantôme ne disparaît qu'une fois vidée — sinon on casserait la référence.
+    for (const f of fantomes)
+      if (!one("SELECT 1 x FROM orders WHERE store_id = ?", f.id))
+        run("DELETE FROM stores WHERE id = ?", f.id);
+  });
+  const apres = repartition("o.store_id");
+  journaliser("shopify.boutiques", "store", null, { deplacees: mouvements.length, avant, apres });
+  return { a_blanc: false, mouvements: mouvements.length, avant, apres, fantomes };
+}
+
 const etat = () => ({
   configure: configure(),
   boutique: process.env.SHOPIFY_STORE || null,
@@ -293,6 +441,7 @@ const etat = () => ({
 });
 
 module.exports = {
-  configure, convertir, statut, importerUne, rattraper, traiterWebhook,
+  configure, convertir, statut, importerUne, rattraper, traiterWebhook, reparerBoutiques,
+  marcheDe, boutiquesParMarche,
   signatureValide, abonnerWebhooks, webhooksExistants, etat, SUJETS, storeShopify,
 };

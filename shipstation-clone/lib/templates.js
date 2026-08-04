@@ -27,9 +27,33 @@ const FILTRES = {
   raw: (v) => ({ __brut: String(v ?? "") }),   // sortie non échappée, à utiliser sciemment
 };
 
-/** Résout `a.b.c` dans le contexte, sans jamais lancer. */
+/**
+ * Noms courts hérités — second volet de la correction n° 5 de l'audit (§8).
+ *
+ * Le refus à l'enregistrement empêche d'écrire un nouveau gabarit fautif, mais ne répare pas
+ * ceux qui sont **déjà en base** : `{{numero}}` continuait de se rendre en chaîne vide, et le
+ * même bouton d'aperçu rendait correctement un gabarit et vidait l'autre. Transposer plutôt
+ * que refuser laisse ces gabarits fonctionner sans réécriture, ce qui est précisément ce que
+ * l'audit demande — « transposer vers la syntaxe qui fonctionne ».
+ */
+const ALIAS = {
+  numero: "order.order_number", commande: "order.order_number",
+  client: "order.customer_name", courriel: "order.customer_email",
+  total: "order.order_total", taxes: "order.tax_amount",
+  livraison: "order.shipping_paid", poids: "order.weight_g",
+  statut: "order.status", articles: "items", lignes: "items",
+  adresse: "order.ship_to", destinataire: "order.ship_to.name",
+  ville: "order.ship_to.city", pays: "order.ship_to.country",
+  suivi: "shipment.tracking_number", transporteur: "order.carrier_code",
+  message: "order.gift_message", note: "order.customer_notes",
+  boutique: "marque.nom",
+};
+
+/** Résout `a.b.c` dans le contexte, sans jamais lancer. Les noms courts sont transposés. */
 function resoudre(chemin, ctx) {
-  return String(chemin).trim().split(".").reduce((o, k) => (o === null || o === undefined ? undefined : o[k]), ctx);
+  const c = String(chemin).trim();
+  return (ALIAS[c.toLowerCase()] || c)
+    .split(".").reduce((o, k) => (o === null || o === undefined ? undefined : o[k]), ctx);
 }
 
 function evaluerExpression(expr, ctx) {
@@ -191,4 +215,33 @@ function gabaritsParDefaut() {
   ];
 }
 
-module.exports = { rendre, lister, parId, defaut, sauver, supprimer, gabaritsParDefaut, FILTRES, echapper };
+/**
+ * Racines de variables connues du moteur. Toute autre racine dans un gabarit produit un vide
+ * silencieux à l'envoi — c'est ainsi que deux courriels partaient à des sous-traitants avec
+ * « Commande : Client : Articles : » (BUG-012).
+ */
+const RACINES = ["order", "items", "marque", "shipment", "forloop"];
+
+/**
+ * Contrôle les variables d'un gabarit. Rend la liste des expressions non résolubles.
+ * Utilisé à l'enregistrement pour refuser, et dans l'éditeur pour signaler en rouge.
+ */
+function variablesInconnues(source) {
+  const vues = new Set();
+  const texte = String(source ?? "");
+  for (const m of texte.matchAll(/\{\{\s*([^}|]+?)\s*(?:\|[^}]*)?\}\}/g)) {
+    const expr = m[1].trim();
+    if (!expr || expr.startsWith("'") || expr.startsWith('"') || /^-?\d/.test(expr)) continue;
+    if (ALIAS[expr.toLowerCase()]) continue;      // nom court reconnu, transposé au rendu
+    const racine = expr.split(".")[0].trim();
+    if (!RACINES.includes(racine)) vues.add(m[0].trim());
+  }
+  // Les variables de boucle déclarées par `{% for x in … %}` sont légitimes.
+  for (const m of texte.matchAll(/\{%\s*for\s+(\w+)\s+in\s/g)) {
+    for (const v of [...vues]) if (v.includes(`{{ ${m[1]}`) || v.includes(`{{${m[1]}`)) vues.delete(v);
+  }
+  return [...vues];
+}
+
+module.exports = { rendre, lister, parId, defaut, sauver, supprimer, gabaritsParDefaut,
+  FILTRES, echapper, variablesInconnues, RACINES, ALIAS };

@@ -11,7 +11,7 @@
  * Secure dès que le service est derrière HTTPS.
  */
 const crypto = require("crypto");
-const { all, one, run, maintenant, journaliser, dump, parse } = require("./db");
+const { all, one, run, maintenant, journaliser, dump, parse, reglage } = require("./db");
 const totp = require("./totp");
 const qr = require("./qr");
 
@@ -120,13 +120,37 @@ function connecter(email, motDePasse, { ip = null, agent = null } = {}) {
   // Second facteur activé : la session naît « en attente ». Tant qu'elle l'est, elle
   // n'ouvre aucun accès — le mot de passe seul ne suffit pas.
   const attente = !!u.totp_enabled;
+
+  // BUG-023 — le second facteur était **implémenté mais jamais imposé** : le réglage
+  // « obligatoire pour tous » existait, décoché, et rien ne se passait quand on le cochait.
+  // Un compte sans second facteur doit désormais s'enrôler avant d'obtenir un accès.
+  const doitEnroler = !attente && !!reglage("exiger_2fa", false);
+
   const token = crypto.randomBytes(32).toString("base64url");
-  const expire = new Date(Date.now() + (attente ? 5 * 60000 : DUREE_SESSION_H * 3600000)).toISOString();
+  const enAttente = attente || doitEnroler;
+  const expire = new Date(Date.now() + (enAttente ? 10 * 60000 : DUREE_SESSION_H * 3600000)).toISOString();
   run(`INSERT INTO sessions (token_hash, user_id, created_at, expires_at, ip, agent, pending)
        VALUES (?,?,?,?,?,?,?)`,
-    hacherJeton(token), u.id, maintenant(), expire, ip, String(agent || "").slice(0, 200), attente ? 1 : 0);
-  journaliser(attente ? "auth.login_facteur1" : "auth.login", "user", u.id, { ip }, u.id);
-  return { token, expire, besoin2fa: attente, user: attente ? null : publiciser(u) };
+    hacherJeton(token), u.id, maintenant(), expire, ip, String(agent || "").slice(0, 200), enAttente ? 1 : 0);
+  journaliser(enAttente ? "auth.login_facteur1" : "auth.login", "user", u.id, { ip, enrolement: doitEnroler }, u.id);
+  return { token, expire, besoin2fa: attente, enrolement2fa: doitEnroler,
+    user: enAttente ? null : publiciser(u) };
+}
+
+/**
+ * Promeut une session « en attente » en session pleine, après enrôlement au second facteur.
+ * Distinct de `verifier2facteur` : là, on valide un code ; ici, on constate que le compte
+ * vient de s'enrôler et on lui rend l'accès qu'il attendait.
+ */
+function promouvoirSession(token) {
+  const s = one("SELECT * FROM sessions WHERE token_hash = ?", hacherJeton(token || ""));
+  if (!s || !s.pending) return null;
+  const u = one("SELECT * FROM users WHERE id = ?", s.user_id);
+  if (!u || !u.totp_enabled) return null;
+  const expire = new Date(Date.now() + DUREE_SESSION_H * 3600000).toISOString();
+  run("UPDATE sessions SET pending = 0, expires_at = ? WHERE token_hash = ?", expire, hacherJeton(token));
+  journaliser("auth.2fa_enrole", "user", u.id, {}, u.id);
+  return { expire, user: publiciser(u) };
 }
 
 // ------------------------------------------------------------------ second facteur
@@ -361,7 +385,7 @@ const inventaireComptes = () => all(
 
 module.exports = {
   hacher, verifier, valider, suggerer, creerCompte, changerMotDePasse,
-  connecter, session, deconnecter, menage, sessionsDe, publiciser,
+  connecter, session, deconnecter, promouvoirSession, menage, sessionsDe, publiciser,
   lireCookie, poserCookie, effacerCookie, NOM_COOKIE, amorcerAdmin, DUREE_SESSION_H,
   verifier2facteur, preparer2facteur, activer2facteur, desactiver2facteur,
   reinitialiser2facteur, etat2facteur, EMETTEUR, reprendreAcces, inventaireComptes,

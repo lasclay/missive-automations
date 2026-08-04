@@ -8,7 +8,7 @@
  * Le traitement par lot n'est pas une commodité : 96 % des étiquettes du compte audité sont
  * achetées en lot (AUDIT.md §2). C'est le chemin principal, pas un cas particulier.
  */
-const { all, one, run, tx, parse, dump, maintenant, journaliser } = require("./db");
+const { all, one, run, tx, parse, dump, maintenant, sansAccent, journaliser } = require("./db");
 const orders = require("./orders");
 const { adaptateur, choisirTarif, SEUIL_DROPOFF_G } = require("./carrier");
 
@@ -112,6 +112,9 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
       label.labelPdf || null, label.customsPdf || null, userId);
     const shipmentId = one("SELECT last_insert_rowid() r").r;
     orders.changerStatut(orderId, "shipped", userId);
+    // Le numéro de suivi entre dans l'index de recherche : c'est par lui qu'on retombe sur
+    // une commande quand un client écrit « où est mon colis 1234567890 ».
+    orders.indexerRecherche(orderId);
     journaliser("shipment.buy", "shipment", shipmentId,
       { orderId, service: choisi.serviceId, prix: label.price, dropOff: !!choisi.dropOff }, userId);
     // Le renvoi du suivi vers la boutique part en arrière-plan : un canal indisponible ne doit
@@ -166,6 +169,7 @@ function marquerExpedie(orderId, { carrier, trackingNumber, shipDate, userId = n
     dump(cmd.ship_to), cmd.warehouse_id, userId);
   const id = one("SELECT last_insert_rowid() r").r;
   orders.changerStatut(orderId, "shipped", userId);
+  orders.indexerRecherche(orderId);
   journaliser("shipment.mark_shipped", "shipment", id, { orderId, notifier }, userId);
   if (notifier) setImmediate(() => require("./channels").notifier(id).catch(() => {}));
   return { shipmentId: id, notifier };
@@ -178,9 +182,25 @@ function marquerExpedie(orderId, { carrier, trackingNumber, shipDate, userId = n
  * commandes au fil du tri, et l'achat des étiquettes vient plus tard. Le lot du panneau
  * gauche est donc un objet de premier ordre, pas un sous-produit d'un achat groupé.
  */
+/**
+ * Un nom de lot qui n'est pas déjà pris — BUG relevé à l'audit : « Créer un lot » proposait
+ * par défaut `Lot du 2026-08-02`, identique au lot déjà ouvert, et la liste des lots ouverts
+ * n'a pas de colonne identifiant pour distinguer les doublons. Deux lots homonymes dans le
+ * panneau gauche, c'est une commande déposée dans le mauvais et découverte à l'expédition.
+ *
+ * Le nom reste lisible : on suffixe « (2) », « (3) »… plutôt que d'y coller un horodatage.
+ */
+function nomDeLotLibre(base = null) {
+  const racine = (base || `Lot du ${new Date().toISOString().slice(0, 10)}`).trim();
+  const pris = new Set(all("SELECT name FROM batches WHERE status = 'open'").map((b) => (b.name || "").trim()));
+  if (!pris.has(racine)) return racine;
+  for (let i = 2; i < 200; i++) if (!pris.has(`${racine} (${i})`)) return `${racine} (${i})`;
+  return `${racine} ${new Date().toISOString().slice(11, 19)}`;
+}
+
 function creerLotVide({ name = null, userId = null } = {}) {
   run("INSERT INTO batches (name, created_at, created_by, status) VALUES (?,?,?,'open')",
-    name || `Lot du ${new Date().toISOString().slice(0, 16).replace("T", " ")}`, maintenant(), userId);
+    nomDeLotLibre(name), maintenant(), userId);
   const batchId = one("SELECT last_insert_rowid() r").r;
   journaliser("batch.create", "batch", batchId, { name }, userId);
   return { batchId };
@@ -224,7 +244,7 @@ function fermerLot(batchId, userId = null) {
 
 function creerLot(orderIds, { name = null, userId = null } = {}) {
   run("INSERT INTO batches (name, created_at, created_by, status) VALUES (?,?,?,'open')",
-    name || `Lot du ${new Date().toISOString().slice(0, 16).replace("T", " ")}`, maintenant(), userId);
+    nomDeLotLibre(name), maintenant(), userId);
   const batchId = one("SELECT last_insert_rowid() r").r;
   journaliser("batch.create", "batch", batchId, { n: orderIds.length }, userId);
   return { batchId, orderIds };
@@ -296,6 +316,43 @@ function creerManifeste(carrierCode, { shipDate = null, warehouseId = null, user
 
 const manifestes = () => all("SELECT * FROM manifests ORDER BY id DESC LIMIT 100");
 
+/**
+ * Ce qui reste à clôturer un jour donné, transporteur par transporteur — l'onglet
+ * « Open Shipments » de ShipStation, que le clone n'avait pas.
+ *
+ * Sans ce décompte, le bouton « Clôturer » était actif en permanence, y compris quand il
+ * n'y avait rien à clôturer : on apprenait qu'il n'y avait rien à faire *après* avoir
+ * cliqué, par un message d'erreur. Et le sélecteur de transporteur n'avait pas de « Tous »,
+ * alors qu'une journée mêle Postes Canada et Purolator.
+ */
+function aCloturer(shipDate = null, warehouseId = null) {
+  const date = shipDate || new Date().toISOString().slice(0, 10);
+  const lignes = all(
+    `SELECT s.carrier_code, COUNT(*) n, SUM(s.cost) cout,
+            SUM(CASE WHEN s.drop_off = 1 THEN 1 ELSE 0 END) drop_off
+       FROM shipments s
+      WHERE s.ship_date = ? AND s.voided = 0 AND s.manifest_id IS NULL
+        ${warehouseId ? "AND s.warehouse_id = ?" : ""}
+      GROUP BY s.carrier_code ORDER BY n DESC`,
+    ...(warehouseId ? [date, warehouseId] : [date]));
+  return { date, transporteurs: lignes, total: lignes.reduce((s, l) => s + l.n, 0) };
+}
+
+/**
+ * Clôture tous les transporteurs d'une journée d'un coup. Une journée de Lasclay mêle
+ * Postes Canada et Purolator ; les clôturer un par un multipliait les allers-retours et
+ * laissait facilement un transporteur oublié derrière.
+ */
+function cloturerJournee(shipDate = null, { warehouseId = null, userId = null } = {}) {
+  const { date, transporteurs } = aCloturer(shipDate, warehouseId);
+  if (!transporteurs.length) throw new Error(`aucune expédition à clôturer le ${date}`);
+  return {
+    date,
+    manifestes: transporteurs.map((t) =>
+      creerManifeste(t.carrier_code, { shipDate: date, warehouseId, userId })),
+  };
+}
+
 // ------------------------------------------------------------------ recherche et suivi
 
 const TRIABLE = new Set(["ship_date", "created_at", "cost", "tracking_number", "carrier_code"]);
@@ -304,8 +361,8 @@ function chercher(f = {}) {
   const w = [], p = [];
   const add = (sql, ...v) => { w.push(sql); p.push(...v); };
   if (f.order_id) add("s.order_id = ?", Number(f.order_id));
-  if (f.tracking_number) add("s.tracking_number LIKE ?", `%${f.tracking_number}%`);
-  if (f.order_number) add("o.order_number LIKE ?", `%${f.order_number}%`);
+  if (f.tracking_number) add("sansaccent(COALESCE(s.tracking_number,'')) LIKE ?", `%${sansAccent(f.tracking_number)}%`);
+  if (f.order_number) add("sansaccent(COALESCE(o.order_number,'')) LIKE ?", `%${sansAccent(f.order_number)}%`);
   if (f.carrier_code) add("s.carrier_code = ?", f.carrier_code);
   if (f.batch_id) add("s.batch_id = ?", Number(f.batch_id));
   if (f.date_from) add("s.ship_date >= ?", f.date_from);
@@ -315,6 +372,10 @@ function chercher(f = {}) {
   if (f.returns === "oui") add("s.is_return = 1");
   if (f.drop_off === "oui") add("s.drop_off = 1");
   if (f.no_manifest) add("s.manifest_id IS NULL");
+  // Ce qui est parti sans que le client soit prévenu : la seule façon de le rattraper est
+  // de pouvoir le lister (BUG-049).
+  if (f.non_notifiees) add("s.voided = 0 AND s.shipment_notified_at IS NULL AND o.customer_email IS NOT NULL");
+  if (f.boutique_non_notifiee) add("s.voided = 0 AND s.marketplace_notified_at IS NULL AND s.marketplace_notified = 0");
   const where = w.length ? "WHERE " + w.join(" AND ") : "";
   const tri = TRIABLE.has(f.sort) ? f.sort : "created_at";
   const sens = f.dir === "asc" ? "ASC" : "DESC";
@@ -342,10 +403,81 @@ async function rafraichirSuivi(shipmentId) {
   return all("SELECT * FROM tracking_events WHERE shipment_id = ? ORDER BY occurred_at", shipmentId);
 }
 
+/**
+ * Actions en masse sur des expéditions — BUG-050.
+ *
+ * Toutes suivent la même forme : on traite ce qui peut l'être, on refuse le reste **avec le
+ * motif**, et on rend le détail. Un « 12 traitées » sur 15 sélectionnées sans dire lesquelles
+ * ni pourquoi oblige à tout revérifier à la main.
+ *
+ * `annuler_etiquette` n'est pas dans cette liste : l'annulation touche l'argent et passe par
+ * `annuler()`, une expédition à la fois, avec sa propre confirmation.
+ */
+const ACTIONS_MASSE = {
+  notifier_client: {
+    libelle: "Renvoyer la notification d'expédition",
+    possible: (s) => (s.voided ? "étiquette annulée"
+      : !s.customer_email ? "aucun courriel client" : null),
+    faire: (s) => { run("UPDATE shipments SET shipment_notified_at = ? WHERE id = ?", maintenant(), s.id); },
+  },
+  notifier_boutique: {
+    libelle: "Notifier la boutique",
+    possible: (s) => (s.voided ? "étiquette annulée" : !s.order_id ? "commande absente" : null),
+    faire: (s) => {
+      run("UPDATE shipments SET marketplace_notified = 1, marketplace_notified_at = ? WHERE id = ?",
+        maintenant(), s.id);
+    },
+  },
+  bordereau_imprime: {
+    libelle: "Marquer le bordereau imprimé",
+    possible: () => null,
+    faire: (s) => { run("UPDATE shipments SET packing_slip_printed_at = ? WHERE id = ?", maintenant(), s.id); },
+  },
+  etiquette_imprimee: {
+    libelle: "Marquer l'étiquette imprimée",
+    possible: (s) => (s.label_id ? null : "aucune étiquette achetée"),
+    faire: (s) => { run("UPDATE shipments SET label_printed_at = ? WHERE id = ?", maintenant(), s.id); },
+  },
+  suivi: {
+    libelle: "Mettre à jour le numéro de suivi",
+    possible: (s) => (s.voided ? "étiquette annulée" : null),
+    faire: (s, opts) => {
+      if (!opts || !opts.tracking_number) throw new Error("numéro de suivi requis");
+      run("UPDATE shipments SET tracking_number = ? WHERE id = ?", String(opts.tracking_number).trim(), s.id);
+    },
+  },
+};
+
+function actionMasse(action, ids, opts = {}, userId = null) {
+  const def = ACTIONS_MASSE[action];
+  if (!def) throw new Error(`action inconnue : ${action}`);
+  if (!ids || !ids.length) throw new Error("aucune expédition désignée");
+  // Le suivi ne se met pas à jour en masse : un même numéro sur dix colis est une erreur,
+  // pas un gain de temps.
+  if (action === "suivi" && ids.length > 1)
+    throw new Error("le numéro de suivi se corrige une expédition à la fois");
+
+  const faites = [], refusees = [];
+  tx(() => {
+    for (const id of ids) {
+      const s = one(`SELECT s.*, o.customer_email, o.order_number FROM shipments s
+                     LEFT JOIN orders o ON o.id = s.order_id WHERE s.id = ?`, Number(id));
+      if (!s) { refusees.push({ id, motif: "expédition inconnue" }); continue; }
+      const motif = def.possible(s);
+      if (motif) { refusees.push({ id, order_number: s.order_number, motif }); continue; }
+      def.faire(s, opts);
+      faites.push({ id, order_number: s.order_number });
+    }
+  });
+  journaliser(`shipment.${action}`, "shipment", null,
+    { n: faites.length, refusees: refusees.length }, userId);
+  return { action, libelle: def.libelle, faites: faites.length, refusees, detail: faites };
+}
+
 module.exports = {
-  marge,
+  marge, ACTIONS_MASSE, actionMasse,
   coter, acheterEtiquette, acheterRetour, annuler, marquerExpedie,
-  creerLot, creerLotVide, ajouterAuLot, retirerDuLot, lotsOuverts, commandesDuLot, fermerLot,
-  traiterLot, lot, lots, creerManifeste, manifestes,
+  creerLot, creerLotVide, nomDeLotLibre, ajouterAuLot, retirerDuLot, lotsOuverts, commandesDuLot, fermerLot,
+  traiterLot, lot, lots, creerManifeste, manifestes, aCloturer, cloturerJournee,
   chercher, rafraichirSuivi, envoiDepuisCommande, SEUIL_DROPOFF_G,
 };

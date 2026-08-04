@@ -53,29 +53,67 @@ function choisirTarif(rates, shipment, politique = {}) {
 }
 
 /**
+ * Grille du bouchon — recalée sur la cotation réelle relevée à l'audit visuel (§3.8).
+ *
+ * L'ancienne grille cotait **GLS**, que Lasclay n'a pas, et **FedEx**, qui ne renvoie aucun
+ * tarif réel chez ShipStation. Elle plaçait Purolator avant-dernier alors qu'il est
+ * quatrième et moins cher qu'UPS, et Canpar devant UPS alors qu'il est derrière. Sur quatre
+ * transporteurs comparés, trois étaient mal classés : un comparateur qui se trompe d'ordre
+ * est pire qu'un comparateur absent, parce qu'on le croit.
+ *
+ * Les prix ci-dessous sont ceux du Rate Browser de ShipStation pour l'envoi de référence
+ * (LAS Capucins → Montréal H2X 1Y4, 500 g, 9 × 6 × 2 po), plus le tarif de dépôt Lasclay
+ * que ShipStation ne connaît pas. Ils restent **non contractuels** : le bouchon ne fait pas
+ * varier le prix avec la distance, et chaque ligne le dit à l'écran.
+ *
+ * `compte` porte la notion que ShipStation modélise et que le clone ignorait : Lasclay a
+ * deux comptes Canada Post, à 1,08 $ d'écart sur le même service.
+ */
+const GRILLE_BOUCHON = [
+  { carrier: "Canada Post", compte: "LASCLAY", service: "Expedited Parcel (Drop-Off)", serviceId: "cp_expedited_dropoff", price: 6.31, transitDays: 1, dropOff: true },
+  { carrier: "Canada Post", compte: "LASCLAY", service: "Expedited Parcel (Carbon Neutral)", serviceId: "cp_expedited", price: 8.38, transitDays: 1, dropOff: false },
+  { carrier: "Canada Post", compte: "LASCLAY", service: "Xpresspost", serviceId: "cp_xpresspost", price: 9.01, transitDays: 1, dropOff: false },
+  { carrier: "Canada Post", compte: "Rotule", service: "Expedited Parcel (Carbon Neutral)", serviceId: "cp_expedited_rotule", price: 9.46, transitDays: 1, dropOff: false },
+  { carrier: "Purolator", compte: "CC Gabriel", service: "Purolator Ground", serviceId: "purolator_ground", price: 10.82, transitDays: 1, dropOff: false },
+  { carrier: "UPS", compte: "CC Gabriel", service: "UPS Standard", serviceId: "ups_standard", price: 11.68, transitDays: 1, dropOff: false },
+  { carrier: "Canada Post", compte: "LASCLAY", service: "Priority", serviceId: "cp_priority", price: 15.32, transitDays: 1, dropOff: false },
+  { carrier: "Canpar", compte: "CC Gabriel", service: "Canpar Ground", serviceId: "canpar_ground", price: 14.04, transitDays: 2, dropOff: false },
+];
+
+/**
  * Bouchon de test — reproduit la forme des réponses attendues, avec les prix réellement
- * observés (devis ClickShip du 22 juillet 2026 et devis ShipStation de l'audit). Sert à
- * développer et à tester l'application sans identifiants et sans dépenser.
+ * relevés chez ShipStation. Sert à développer et à tester sans identifiants et sans dépenser.
  *
  * Ce n'est PAS une simulation de tarification : les prix ne varient pas avec la distance.
+ * Ils ne cotent en revanche plus que des transporteurs que le compte possède réellement.
  */
 const bouchon = {
   nom: "bouchon",
   async quote(shipment) {
     const kg = shipment.parcel.weightG / 1000;
     const majoration = Math.max(0, Math.ceil(kg - 0.5)) * 2.4; // grossier, assumé
-    const rates = [
-      { carrier: "Canada Post", service: "Expedited Parcel (Drop-Off)", serviceId: "cp_expedited_dropoff", price: 6.31, transitDays: 1, dropOff: true },
-      { carrier: "Canada Post", service: "Expedited Parcel", serviceId: "cp_expedited", price: 9.09, transitDays: 1, dropOff: false },
-      { carrier: "GLS", service: "GLS Ground", serviceId: "gls_ground", price: 9.12, transitDays: 1, dropOff: false },
-      { carrier: "Canpar", service: "Canpar Ground", serviceId: "canpar_ground", price: 11.45, transitDays: 2, dropOff: false },
-      { carrier: "UPS", service: "UPS Standard", serviceId: "ups_standard", price: 15.51, transitDays: 1, dropOff: false },
-      { carrier: "Purolator", service: "Purolator Ground", serviceId: "purolator_ground", price: 16.01, transitDays: 1, dropOff: false },
-      { carrier: "FedEx", service: "FedEx Ground", serviceId: "fedex_ground", price: 18.98, transitDays: 1, dropOff: false },
-    ];
-    return rates
+    // Un transporteur absent du référentiel n'est pas coté : c'est ce qui a fait apparaître
+    // GLS et FedEx dans un comparateur alors que Lasclay n'a de compte ni chez l'un ni chez
+    // l'autre. Quand le référentiel est vide (base neuve), on cote tout plutôt que rien.
+    let connus = null;
+    try {
+      const { all } = require("./db");
+      const noms = all("SELECT name, code FROM carriers WHERE active = 1")
+        .flatMap((c) => [c.name, c.code]).filter(Boolean)
+        .map((x) => String(x).toLowerCase());
+      if (noms.length) connus = noms;
+    } catch { /* base indisponible : on ne filtre pas */ }
+
+    const admis = (r) => !connus
+      || connus.some((n) => n.includes(r.carrier.toLowerCase().replace(/\s+/g, "_"))
+        || r.carrier.toLowerCase().includes(n) || n.includes(r.carrier.toLowerCase()));
+
+    return GRILLE_BOUCHON
+      .filter(admis)
       .filter((r) => !r.dropOff || shipment.parcel.weightG < SEUIL_DROPOFF_G)
-      .map((r) => ({ ...r, price: Math.round((r.price + majoration) * 100) / 100, currency: "CAD" }));
+      .map((r) => ({ ...r, price: Math.round((r.price + majoration) * 100) / 100,
+        currency: "CAD", demonstration: true }))
+      .sort((a, b) => a.price - b.price);
   },
   async buy(shipment, serviceId) {
     const tarif = (await this.quote(shipment)).find((r) => r.serviceId === serviceId);

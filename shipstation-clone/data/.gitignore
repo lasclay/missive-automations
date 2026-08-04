@@ -1,2 +1,5 @@
 clone.db
 clone.db-*
+# Bases de recette : copies de travail, elles portent des données clients réelles.
+recette-*.db
+recette-*.db-*

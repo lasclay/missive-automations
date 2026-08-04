@@ -232,6 +232,423 @@ verifier("livraison gratuite à 9,09 $ → alerte", perte.niveau === "alerte" &&
 const gain = shipments.marge({ shipping_paid: 15 }, 9.09);
 verifier("15 $ facturés pour 9,09 $ → ok", gain.niveau === "ok" && gain.ecart === 5.91);
 
+console.log("\n13. Réconciliation des montants (BUG-016)");
+const cmds = require("./lib/orders");
+const art = (p, q, r = 0) => ({ unit_price: p, quantity: q, discount: r, adjustment: false });
+
+// L-50765, relevé à l'audit : une ligne à 59,99 $ sous « Produits 51,00 $ ». L'écart de
+// 8,99 $ était une remise que rien n'affichait — le bloc se contredisait tout seul.
+const remisee = cmds.couts({ items: [art(59.99, 1, 8.99)], order_total: 70.13,
+  shipping_paid: 9.99, tax_amount: 9.14, discount_amount: 8.99, amount_paid: 70.13 });
+verifier("commande remisée : le résumé se referme", remisee.coherent && remisee.ecart === 0,
+  `produits ${remisee.produits} − remise ${remisee.remise} + 9,99 + 9,14 = ${remisee.reconstitue}`);
+verifier("la remise apparaît comme un montant, pas comme un écart", remisee.remise === 8.99);
+
+// L-46628 : 4 lignes remboursées, quantités à zéro chez Shopify comme chez ShipStation.
+// Total nul et lignes nulles se répondent : il n'y a rien à signaler.
+const remboursee = cmds.couts({ items: [art(114.99, 0), art(89.99, 0), art(39.99, 0), art(114.99, 0)],
+  order_total: 0, shipping_paid: 0, tax_amount: 0, amount_paid: 0, refunded_amount: 351.83 });
+verifier("commande entièrement remboursée : cohérente et signalée comme telle",
+  remboursee.coherent && remboursee.tout_rembourse && remboursee.rembourse === 351.83);
+
+// Le cas que l'audit voulait voir dénoncé : total à zéro sous des lignes valorisées.
+const muette = cmds.couts({ items: [art(6.49, 1)], order_total: 0, shipping_paid: 0,
+  tax_amount: 0, amount_paid: 0 });
+verifier("total nul sous des lignes valorisées : incohérence annoncée",
+  !muette.coherent && /remises ou remboursements non importés/.test(muette.motif || ""),
+  muette.motif || "aucun motif");
+
+// L'ajustement (frais, don, emballage cadeau) entre dans le total sans être un article.
+const avecAjustement = cmds.couts({
+  items: [art(20, 1), { unit_price: 5, quantity: 1, adjustment: true }],
+  order_total: 25, shipping_paid: 0, tax_amount: 0, amount_paid: 25 });
+verifier("les ajustements comptent dans le total sans compter dans les produits",
+  avecAjustement.coherent && avecAjustement.produits === 20 && avecAjustement.ajustements === 5);
+
+// Conversion Shopify : les champs « current… » doivent primer sur les champs d'origine.
+const sync = require("./lib/shopify_sync");
+const brut = sync.convertir({
+  id: "gid://shopify/Order/999", name: "L-99999", createdAt: "2026-07-01T00:00:00Z",
+  displayFinancialStatus: "PARTIALLY_REFUNDED", displayFulfillmentStatus: "UNFULFILLED",
+  sourceName: "etsy",
+  currentTotalPriceSet: { shopMoney: { amount: "51.00" } },
+  currentTotalTaxSet: { shopMoney: { amount: "0.00" } },
+  currentShippingPriceSet: { shopMoney: { amount: "0.00" } },
+  totalReceivedSet: { shopMoney: { amount: "70.13" } },
+  totalRefundedSet: { shopMoney: { amount: "19.13" } },
+  lineItems: { edges: [{ node: { id: "gid://shopify/LineItem/1", sku: "MIT-001", name: "Mitaines",
+    quantity: 2, currentQuantity: 1,
+    originalUnitPriceSet: { shopMoney: { amount: "59.99" } },
+    totalDiscountSet: { shopMoney: { amount: "17.98" } } } }] },
+});
+verifier("conversion : la quantité courante l'emporte sur la commandée",
+  brut.items[0].quantity === 1 && brut.items[0].quantity_ordered === 2);
+verifier("conversion : la remise de ligne est mise au prorata du restant",
+  brut.items[0].discount === 8.99, `obtenu ${brut.items[0].discount}`);
+verifier("conversion : le montant payé est net du remboursement",
+  brut.amount_paid === 51 && brut.refunded_amount === 19.13,
+  `payé ${brut.amount_paid}, remboursé ${brut.refunded_amount}`);
+verifier("conversion : la provenance Etsy est reconnue", sync.marcheDe({ sourceName: "etsy" }) === "etsy");
+verifier("conversion : une commande web reste sur la boutique Shopify",
+  sync.marcheDe({ sourceName: "web" }) === "shopify");
+verifier("conversion : un brouillon part sur les commandes manuelles",
+  sync.marcheDe({ sourceName: "shopify_draft_order" }) === "manual");
+verifier("statut : ON_HOLD devient « en attente »",
+  sync.statut({ displayFulfillmentStatus: "ON_HOLD" }) === "on_hold");
+
+// ---------------------------------------------- catalogue : import et héritage
+/**
+ * L'import CSV est la seule réponse raisonnable aux ~3 800 saisies qu'aurait coûté la
+ * reconstruction manuelle du catalogue. Trois propriétés doivent tenir, parce que les trois
+ * détruisent des données quand elles lâchent :
+ *
+ *   1. **Rien n'est écrit sans passage à blanc.** Le rapport à blanc doit compter juste et
+ *      ne rien laisser en base.
+ *   2. **Un CSV partiel ne vide pas les colonnes qu'il n'apporte pas.** `sauverProduit`
+ *      réécrit toutes les colonnes ; un fichier « sku,poids » effacerait sinon tous les noms.
+ *   3. **La collision de nom de groupe est un cas nommé**, pas un message brut de SQLite.
+ */
+console.log("\n5. Catalogue — import CSV, héritage, collisions");
+const catalog = require("./lib/catalog");
+
+const csv1 = "sku,nom,poids,code_sh,longueur,largeur,hauteur\n" +
+  "T-001,Mitaines,200,6116.93,7,12,2.25\nT-002,Sac,460,4202.92,12,6,6\nT-BAD,Mauvais,50,ABC,,,";
+const blanc = catalog.importerProduits(csv1, { appliquer: false });
+verifier("import à blanc : compte juste et n'écrit rien",
+  blanc.lus === 3 && blanc.crees === 2 && blanc.refuses.length === 1 && blanc.a_blanc
+  && catalog.chercherProduits({ q: "T-00" }).total === 0,
+  `lus ${blanc.lus}, créés ${blanc.crees}, refusés ${blanc.refuses.length}`);
+verifier("import : un code SH mal formé est refusé avec son motif",
+  /code SH mal formé/.test(blanc.refuses[0].motif) && blanc.refuses[0].sku === "T-BAD");
+
+const applique = catalog.importerProduits(csv1, { appliquer: true });
+verifier("import appliqué : les produits valides entrent, l'invalide reste dehors",
+  applique.crees === 2 && catalog.chercherProduits({ q: "T-" }).total === 2);
+verifier("import : les dimensions sont reconstruites depuis longueur/largeur/hauteur",
+  catalog.produitParSku("T-001").dimensions.length === 7
+  && catalog.produitParSku("T-001").dimensions.height === 2.25);
+
+// Un second passage n'apportant que le poids ne doit pas effacer le nom ni le code SH.
+catalog.importerProduits("sku,poids\nT-001,250", { appliquer: true });
+const apresPartiel = catalog.produitParSku("T-001");
+verifier("import partiel : les colonnes absentes du fichier sont préservées",
+  apresPartiel.weight_g === 250 && apresPartiel.name === "Mitaines" && apresPartiel.hs_code === "6116.93",
+  `poids ${apresPartiel.weight_g}, nom ${apresPartiel.name}, SH ${apresPartiel.hs_code}`);
+
+verifier("import : « ignorer » laisse la fiche existante intacte",
+  catalog.importerProduits("sku,nom\nT-001,Écrasé", { appliquer: true, collision: "ignorer" }).ignores === 1
+  && catalog.produitParSku("T-001").name === "Mitaines");
+verifier("import : un fichier sans colonne « sku » est refusé, pas deviné",
+  (() => { try { catalog.importerProduits("nom,poids\nX,1", {}); return false; }
+           catch (e) { return /sku/.test(e.message); } })());
+
+// Héritage groupe → produit : le mécanisme que la fiche affiche sous chaque champ.
+const gid = catalog.sauverGroupe({ name: "Groupe d'essai",
+  settings: { weight_g: 200, dimensions: { length: 7, width: 12, height: 2.25, unit: "in" },
+    customs: { hs_code: "6116.93", value: 49 } } });
+catalog.masseProduits([catalog.produitParSku("T-002").id], { preset_group_id: gid });
+const herite = catalog.produitParSku("T-002").herite;
+verifier("héritage : la fiche sait ce que son groupe lui fournit",
+  herite.groupe === "Groupe d'essai" && herite.weight_g === 200 && herite.declared_value === 49,
+  JSON.stringify(herite));
+verifier("action de masse : le rattachement à un groupe inconnu est refusé",
+  (() => { try { catalog.masseProduits([1], { preset_group_id: 999999 }); return false; }
+           catch (e) { return /groupe inconnu/.test(e.message); } })());
+verifier("groupe : un nom déjà pris est nommé comme collision, pas comme erreur SQLite",
+  (() => { try { catalog.sauverGroupe({ name: "groupe d'essai", settings: {} }); return false; }
+           catch (e) { return /s'appelle déjà/.test(e.message) && e.collision === gid; } })());
+verifier("groupe : renommer un groupe existant ne se heurte pas à lui-même",
+  catalog.sauverGroupe({ id: gid, name: "Groupe d'essai", settings: { weight_g: 210 } }) === gid);
+
+// ------------------------------------------------- lots et fin de journée
+/**
+ * Deux défauts de l'audit qui se ressemblent : une valeur proposée par défaut qui entre en
+ * collision, et une action offerte alors qu'elle n'a rien à faire.
+ */
+console.log("\n6. Lots et fin de journée");
+
+const l1 = shipments.creerLotVide({});
+const l2 = shipments.creerLotVide({});
+const noms = db.all("SELECT name FROM batches WHERE id IN (?,?)", l1.batchId, l2.batchId).map((b) => b.name);
+verifier("lot : deux créations d'affilée ne portent pas le même nom",
+  noms[0] !== noms[1] && /\(2\)$/.test(noms[1]), noms.join(" / "));
+verifier("lot : le nom reste lisible plutôt qu'horodaté",
+  /^Lot du \d{4}-\d{2}-\d{2}( \(\d+\))?$/.test(noms[1]), noms[1]);
+verifier("lot : un nom explicite déjà pris est suffixé, pas refusé",
+  shipments.nomDeLotLibre(noms[0]) === `${noms[0]} (3)`, shipments.nomDeLotLibre(noms[0]));
+shipments.fermerLot(l1.batchId); shipments.fermerLot(l2.batchId);
+verifier("lot : un nom libéré par la fermeture redevient proposable",
+  shipments.nomDeLotLibre(noms[0]) === noms[0]);
+
+const jourEssai = "2026-08-01";
+db.run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,cost,
+          currency,ship_date,created_at,drop_off,voided)
+        VALUES (NULL,'LT1','T1','canada_post','cp_expedited',6.31,'CAD',?,?,1,0)`, jourEssai, db.maintenant());
+db.run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,cost,
+          currency,ship_date,created_at,drop_off,voided)
+        VALUES (NULL,'LT2','T2','purolator_ob','pu_ground',10.82,'CAD',?,?,0,0)`, jourEssai, db.maintenant());
+db.run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,cost,
+          currency,ship_date,created_at,drop_off,voided)
+        VALUES (NULL,'LT3','T3','canada_post','cp_expedited',8.38,'CAD',?,?,0,1)`, jourEssai, db.maintenant());
+
+const ouvertes = shipments.aCloturer(jourEssai);
+verifier("fin de journée : le décompte des ouvertes exclut les étiquettes annulées",
+  ouvertes.total === 2 && ouvertes.transporteurs.length === 2,
+  `${ouvertes.total} ouvertes sur ${ouvertes.transporteurs.length} transporteur(s)`);
+verifier("fin de journée : le drop-off est compté à part",
+  (ouvertes.transporteurs.find((t) => t.carrier_code === "canada_post") || {}).drop_off === 1);
+verifier("fin de journée : une date sans expédition rend zéro, pas une erreur",
+  shipments.aCloturer("2020-01-01").total === 0);
+
+const cloture = shipments.cloturerJournee(jourEssai);
+verifier("fin de journée : « tous transporteurs » produit un document par transporteur",
+  cloture.manifestes.length === 2
+  && cloture.manifestes.reduce((s, m) => s + m.shipments, 0) === 2);
+verifier("fin de journée : après clôture il ne reste rien d'ouvert",
+  shipments.aCloturer(jourEssai).total === 0);
+verifier("fin de journée : reclôturer une journée déjà close est refusé avec sa date",
+  (() => { try { shipments.cloturerJournee(jourEssai); return false; }
+           catch (e) { return e.message.includes(jourEssai); } })());
+
+// --------------------------------------------- poste de scan : à l'unité
+/**
+ * Le poste de vérification comptait **à la ligne, pas à l'unité** : une ligne « Mitaines × 2 »
+ * se soldait d'un clic et la seconde paire partait sans que personne l'ait vue. C'est
+ * exactement ce que ce poste existe pour attraper.
+ */
+console.log("\n7. Poste de scan — vérification à l'unité");
+const idScan = orders.upsert({
+  order_number: "T-SCAN", order_key: "tscan", store_id: 198670, order_total: 98, amount_paid: 98,
+  ship_to: { name: "Z", city: "Stanford", state: "CA", country: "US", postalCode: "94305" },
+  items: [
+    { sku: "SC-MIT", name: "Mitaines", quantity: 2, unit_price: 49, upc: "0628055123456" },
+    { sku: "SC-SB", name: "Bombes", quantity: 1, unit_price: 15, upc: "0628055987654" },
+  ],
+});
+const lignesScan = db.all("SELECT id, sku, quantity FROM order_items WHERE order_id = ? ORDER BY id", idScan);
+const ligneMit = lignesScan.find((l) => l.sku === "SC-MIT");
+
+const poser = (id, qty) => {
+  const it = db.one("SELECT quantity FROM order_items WHERE id = ?", id);
+  const vise = Math.max(0, Math.min(it.quantity, qty));
+  db.run("UPDATE order_items SET verified_qty = ?, verified_at = ? WHERE id = ?",
+    vise, vise >= it.quantity ? db.maintenant() : null, id);
+};
+poser(ligneMit.id, 1);
+const apres1 = db.one("SELECT verified_qty, verified_at FROM order_items WHERE id = ?", ligneMit.id);
+verifier("scan : une unité sur deux ne solde pas la ligne",
+  apres1.verified_qty === 1 && apres1.verified_at === null,
+  `qty ${apres1.verified_qty}, verified_at ${apres1.verified_at}`);
+poser(ligneMit.id, 2);
+verifier("scan : la seconde unité solde la ligne et l'horodate",
+  db.one("SELECT verified_at FROM order_items WHERE id = ?", ligneMit.id).verified_at !== null);
+poser(ligneMit.id, 5);
+verifier("scan : on ne peut pas compter plus d'unités qu'il n'y en a de commandées",
+  db.one("SELECT verified_qty FROM order_items WHERE id = ?", ligneMit.id).verified_qty === 2);
+
+const restantes = () => db.all("SELECT quantity, COALESCE(verified_qty,0) v FROM order_items WHERE order_id = ? AND adjustment = 0", idScan)
+  .reduce((s, l) => s + (l.quantity - l.v), 0);
+verifier("scan : le compteur restant décompte des unités, pas des lignes", restantes() === 1,
+  `${restantes()} restante(s)`);
+poser(lignesScan.find((l) => l.sku === "SC-SB").id, 1);
+verifier("scan : la commande n'est complète qu'à zéro unité restante", restantes() === 0);
+
+// ------------------------------------------- filtres multi-valeurs et dates
+/**
+ * Les chips Boutique et Étiquette étaient mono-sélection, et « non assignée » — la file de
+ * travail par défaut d'un poste d'emballage — n'existait pas.
+ */
+console.log("\n8. Filtres : multi-valeurs, non assignée");
+const idsAutre = orders.upsert({ order_number: "T-AUTRE", order_key: "tautre", store_id: 198711,
+  order_total: 20, amount_paid: 20,
+  ship_to: { name: "M", city: "Québec", state: "CA-QC", country: "CA", postalCode: "G1J 3R4" },
+  items: [{ sku: "X-1", name: "Objet", quantity: 1, unit_price: 20 }] });
+
+const nBoutique1 = orders.chercher({ store_id: 198670, limit: 200 }).total;
+const nBoutique2 = orders.chercher({ store_id: 198711, limit: 200 }).total;
+const nDeux = orders.chercher({ store_id: "198670,198711", limit: 200 }).total;
+verifier("filtre : deux boutiques au même endroit se lisent comme un OU",
+  nDeux === nBoutique1 + nBoutique2 && nDeux > nBoutique1,
+  `${nBoutique1} + ${nBoutique2} = ${nDeux}`);
+verifier("filtre : une boutique seule se comporte comme avant",
+  orders.chercher({ store_id: [198711], limit: 200 }).total === nBoutique2);
+
+const total = orders.chercher({ limit: 300 }).total;
+verifier("filtre : « non assignée » ramène ce que personne n'a pris",
+  orders.chercher({ non_assignee: 1, limit: 300 }).total === total,
+  "aucune commande d'essai n'est assignée");
+// `assigned_user` référence `users(id)` : il faut un vrai compte, pas une chaîne inventée.
+const qqn = db.one("SELECT id FROM users LIMIT 1")
+  || (db.run("INSERT INTO users (id, name, email) VALUES ('u-essai','Emballeur','e@essai.test')"),
+      db.one("SELECT id FROM users LIMIT 1"));
+db.run("UPDATE orders SET assigned_user = ? WHERE id = ?", qqn.id, idsAutre);
+verifier("filtre : une commande assignée sort de « non assignée »",
+  orders.chercher({ non_assignee: 1, limit: 300 }).total === total - 1);
+
+// Étiquettes : deux étiquettes distinctes sur deux commandes distinctes.
+const etiq = (nom) => {
+  db.run("INSERT OR IGNORE INTO tags (name) VALUES (?)", nom);
+  return db.one("SELECT id FROM tags WHERE name = ?", nom).id;
+};
+const eA = etiq("Essai A"), eB = etiq("Essai B");
+db.run("INSERT OR IGNORE INTO order_tags (order_id, tag_id) VALUES (?,?)", parNumero["T-QC"], eA);
+db.run("INSERT OR IGNORE INTO order_tags (order_id, tag_id) VALUES (?,?)", parNumero["T-ON"], eB);
+verifier("filtre : deux étiquettes se lisent comme un OU",
+  orders.chercher({ tag_id: `${eA},${eB}`, limit: 200 }).total === 2
+  && orders.chercher({ tag_id: eA, limit: 200 }).total === 1,
+  `deux ${orders.chercher({ tag_id: `${eA},${eB}`, limit: 200 }).total}, une ${orders.chercher({ tag_id: eA, limit: 200 }).total}`);
+verifier("filtre : une liste d'étiquettes vide ne filtre rien",
+  orders.chercher({ tag_id: [], limit: 300 }).total === total);
+
+// --------------------------------------------------- recherche libre globale
+/**
+ * La recherche du clone était deux fois défaillante, et le second défaut masquait le premier.
+ *
+ * Elle était **limitée à la vue courante** : chercher depuis « À expédier » ne regardait que
+ * les commandes à expédier, et rendait « Aucune commande » sur une commande expédiée qui
+ * existait bel et bien.
+ *
+ * Et elle était **sensible aux accents** : `lower('Josee') LIKE '%josée%'` est faux en SQLite.
+ * Chercher « josée ferland » ne pouvait donc jamais trouver la cliente enregistrée « Josee
+ * Ferland » — que ShipStation, lui, trouvait. Même sans le premier défaut, la recherche
+ * aurait échoué.
+ */
+console.log("\n9. Recherche libre — globale, sans accents, mot à mot");
+const idRech = orders.upsert({
+  order_number: "L-27344", order_key: "l27344", store_id: 198670,
+  order_total: 120, amount_paid: 120,
+  customer_name: "Josee Ferland", customer_email: "josee.ferland@example.com",
+  ship_to: { name: "Josee Ferland", city: "Trois-Rivieres", state: "CA-QC", country: "CA",
+    postalCode: "G8T 1A1", street1: "12 rue des Ormes" },
+  items: [{ sku: "LAS-MIT-001", name: "Mitaines asclépiade", quantity: 7, unit_price: 17 }],
+});
+db.run("UPDATE orders SET status = 'shipped' WHERE id = ?", idRech);
+db.run(`INSERT INTO shipments (order_id, label_id, tracking_number, carrier_code, cost, currency,
+          ship_date, created_at, voided)
+        VALUES (?,'LXR','1234567890123456','canada_post',9.31,'CAD','2026-06-01',?,0)`,
+  idRech, db.maintenant());
+orders.indexerRecherche(idRech);
+
+const trouve = (q) => orders.chercher({ q, limit: 20 }).orders.map((o) => o.order_number);
+verifier("recherche : « josée » (accentué) trouve « Josee » (sans accent)",
+  trouve("josée ferland").includes("L-27344"), JSON.stringify(trouve("josée ferland")));
+verifier("recherche : l'inverse marche aussi — « josee » trouve « Josée »",
+  trouve("josee").includes("L-27344"));
+verifier("recherche : les mots peuvent être dans n'importe quel ordre",
+  trouve("ferland josee").includes("L-27344"));
+verifier("recherche : la casse est ignorée", trouve("JOSÉE FERLAND").includes("L-27344"));
+verifier("recherche : chaque mot doit être présent — « josée tremblay » ne ramène rien",
+  !trouve("josée tremblay").includes("L-27344"));
+verifier("recherche : le numéro de suivi retrouve la commande",
+  trouve("1234567890123456").includes("L-27344"));
+verifier("recherche : un nom d'article retrouve la commande",
+  trouve("asclepiade").includes("L-27344") && trouve("asclépiade").includes("L-27344"));
+verifier("recherche : la ville et le code postal comptent",
+  trouve("Trois-Rivières").includes("L-27344") && trouve("g8t 1a1").includes("L-27344"));
+verifier("recherche : les séparateurs d'un identifiant sont cosmétiques",
+  trouve("L-27344").includes("L-27344") && trouve("l27344").includes("L-27344")
+  && trouve("27344").includes("L-27344"));
+verifier("recherche : elle ignore le statut — une commande expédiée se trouve quand même",
+  db.one("SELECT status FROM orders WHERE id = ?", idRech).status === "shipped"
+  && trouve("josée ferland").includes("L-27344"));
+verifier("recherche : la répartition dit dans quels statuts sont les résultats",
+  (orders.chercher({ q: "josée ferland", limit: 20 }).repartition || {}).statuts?.shipped === 1);
+verifier("recherche : pas de répartition calculée hors recherche",
+  orders.chercher({ limit: 5 }).repartition === undefined);
+
+// ------------------------------------- accents : les quatre combinaisons
+/**
+ * L'insensibilité aux accents doit valoir **dans les deux sens**, et partout.
+ *
+ * Une cliente peut être enregistrée « Josee » et cherchée « Josée », ou l'inverse : les
+ * quatre combinaisons doivent trouver. Corriger un seul sens ne sert à rien, puisque
+ * personne ne sait comment la fiche a été saisie au départ — c'est justement la question
+ * à laquelle la recherche doit répondre.
+ */
+console.log("\n10. Accents — les quatre combinaisons, sur tous les écrans");
+const idSans = orders.upsert({ order_number: "L-SANS", order_key: "ksans", store_id: 198670,
+  customer_name: "Josee Ferland", customer_email: "josee@example.com",
+  ship_to: { name: "Josee Ferland", city: "Levis", country: "CA" },
+  items: [{ sku: "AC-1", name: "Mitaines asclepiade", quantity: 1, unit_price: 10 }] });
+const idAvec = orders.upsert({ order_number: "L-AVEC", order_key: "kavec", store_id: 198670,
+  customer_name: "Josée Ferland", customer_email: "josee2@example.com",
+  ship_to: { name: "Josée Ferland", city: "Lévis", country: "CA" },
+  items: [{ sku: "AC-2", name: "Mitaines asclépiade", quantity: 1, unit_price: 10 }] });
+
+const lesDeux = (q) => {
+  const n = orders.chercher({ q, limit: 20 }).orders.map((o) => o.order_number);
+  return n.includes("L-SANS") && n.includes("L-AVEC");
+};
+verifier("accents : « Josee » (sans) trouve les deux fiches", lesDeux("Josee"));
+verifier("accents : « Josée » (avec) trouve les deux fiches", lesDeux("Josée"));
+verifier("accents : la combinaison complète nom + prénom marche des deux façons",
+  lesDeux("josee ferland") && lesDeux("josée ferland"));
+verifier("accents : une ville accentuée se cherche des deux façons",
+  lesDeux("levis") && lesDeux("Lévis"));
+verifier("accents : un nom d'article accentué aussi",
+  lesDeux("asclepiade") && lesDeux("asclépiade"));
+
+// Recherche avancée : les six champs texte passaient à côté des accents.
+const avancee = (f) => orders.chercher({ ...f, limit: 20 }).orders.map((o) => o.order_number);
+// On compare les deux graphies entre elles plutôt qu'à un compte figé : d'autres commandes
+// d'essai portent le même nom, et un nombre en dur casserait au prochain ajout.
+const memeResultat = (a, b) => {
+  const x = avancee(a).sort().join(","), y = avancee(b).sort().join(",");
+  return x === y && x.includes("L-SANS") && x.includes("L-AVEC");
+};
+verifier("accents : le champ « destinataire » de la recherche avancée les ignore",
+  memeResultat({ destinataire: "josée" }, { destinataire: "josee" }),
+  `${avancee({ destinataire: "josée" })} vs ${avancee({ destinataire: "josee" })}`);
+verifier("accents : le champ « nom d'article » aussi",
+  memeResultat({ item_name: "asclépiade" }, { item_name: "asclepiade" }),
+  `${avancee({ item_name: "asclépiade" })} vs ${avancee({ item_name: "asclepiade" })}`);
+
+// Clients et produits : mêmes règles, autres écrans.
+db.run("INSERT OR IGNORE INTO customers (email, name) VALUES ('a@x.test','Josee Ferland')");
+db.run("INSERT OR IGNORE INTO customers (email, name) VALUES ('b@x.test','Josée Ferland')");
+db.run("UPDATE customers SET recherche = sansaccent(COALESCE(name,'')) || ' ' || sansaccent(COALESCE(email,''))");
+const cli = (q) => catalog.chercherClients({ q, limit: 20 }).customers.map((c) => c.email).sort();
+verifier("accents : l'écran Clients trouve les deux fiches dans les deux sens",
+  cli("josée ferland").length === 2 && cli("josee ferland").length === 2,
+  JSON.stringify(cli("josée ferland")));
+verifier("accents : l'ordre des mots est libre côté Clients",
+  cli("ferland josée").length === 2);
+verifier("accents : un courriel reste cherchable tel quel (la ponctuation est gardée)",
+  cli("a@x.test").length === 1, JSON.stringify(cli("a@x.test")));
+
+catalog.sauverProduit({ sku: "P-SANS", name: "Mitaines asclepiade" });
+catalog.sauverProduit({ sku: "P-AVEC", name: "Mitaines asclépiade" });
+const prod = (q) => catalog.chercherProduits({ q, limit: 20 }).products.map((p) => p.sku).sort();
+verifier("accents : l'écran Produits les ignore dans les deux sens",
+  prod("asclepiade").length === 2 && prod("asclépiade").length === 2,
+  JSON.stringify(prod("asclépiade")));
+
+// ---------------------------------------- gabarits : les deux syntaxes
+/**
+ * Correction n° 5 des « 15 corrections à faire en premier ». Deux syntaxes coexistaient :
+ * `{{ order.order_number }}` fonctionnait, `{{numero}}` se rendait en chaîne vide. Le même
+ * bouton d'aperçu rendait donc correctement un gabarit et vidait l'autre, sans rien dire —
+ * un bordereau imprimé à 300 exemplaires sans le nom du client se découvre à l'emballage.
+ */
+console.log("\n11. Gabarits — noms courts hérités et variables inconnues");
+const tpl = require("./lib/templates");
+const ctxT = { order: { order_number: "L-27344", customer_name: "Josée Ferland", order_total: 120 },
+  items: [{ name: "Mitaines" }, { name: "Bombes" }], marque: { nom: "Lasclay" } };
+verifier("gabarit : le nom court « numero » rend la même chose que le chemin complet",
+  tpl.rendre("{{numero}}", ctxT) === tpl.rendre("{{ order.order_number }}", ctxT)
+  && tpl.rendre("{{numero}}", ctxT) === "L-27344");
+verifier("gabarit : « client », « total » et « boutique » se transposent aussi",
+  tpl.rendre("{{client}}|{{total | money}}|{{boutique}}", ctxT) === "Josée Ferland|120.00 $|Lasclay",
+  tpl.rendre("{{client}}|{{total | money}}|{{boutique}}", ctxT));
+verifier("gabarit : « articles » est un alias de la collection bouclable",
+  tpl.rendre("{% for i in articles %}{{i.name}} {% endfor %}", ctxT).trim() === "Mitaines Bombes");
+verifier("gabarit : un alias n'est pas signalé comme variable inconnue",
+  !tpl.variablesInconnues("{{numero}} {{client}}").length);
+verifier("gabarit : une vraie faute reste signalée et bloque l'enregistrement",
+  tpl.variablesInconnues("{{numero}} {{zzz}}").length === 1);
+verifier("gabarit : les filtres continuent de s'appliquer sur un alias",
+  tpl.rendre("{{total | money}}", ctxT) === "120.00 $");
+
 // ------------------------------------------------------------------ bilan
 
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);

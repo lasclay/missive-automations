@@ -1,0 +1,1399 @@
+
+
+═══ PAGE 81 / 110 ═══
+Divers — Copy d'une règle, colonne « Dernière modiﬁcation », 5 valeurs de conﬁrmation, le fulfillment provider dans le
+mapping, et le sélecteur de boutique dans les mappings.
+Ce qui cloche
+Ouvrir puis enregistrer « Drop-oﬀ sous 500 g » corrompt silencieusement la règle. CRITIQUE. Le champ
+stocké (weight_g) n'existe pas dans le vocabulaire ; le <select> retombe sur order_number et l'enregistrement écrase
+la règle. Aucun avertissement, aucun retour arrière.
+La même cause produit les « ? » de la liste : weight_g inferieur ? ET weight_g superieur ? au lieu de < 500 et >
+0. Et le moteur d'évaluation utilise le même vocabulaire : la règle ne peut jamais se déclencher (Exéc. = 0).
+Deux règles portent la position 10 ; l'ordre d'exécution est indéterminé. Aggravant : la modale « Nouvelle règle »
+pré-remplit l'ordre à 50, valeur déjà occupée — le produit fabrique ses propres collisions.
+Deux schémas d'action incompatibles cohabitent pour la même opération (set_custom_field3 vs
+set_custom_field avec un objet), le second n'existant pas dans le vocabulaire : ces règles sont inexécutables et non
+éditables sans corruption.
+Une valeur de conﬁrmation invalide dans la règle 50 ("signature" au lieu du code "2"), aﬃchée d'une façon qui a
+l'air correcte.
+La légende contredit le bandeau qu'elle légende : « ShipStation ne rejoue que les trois dernières couches »
+alors que quatre couches portent la mention rejouable.
+Divergence sémantique sur la règle la plus déclenchée du compte (Do Not Safe Drop Auto, 20 261 exécutions)
+: ShipStation y pose Delivery Code, le clone pose un code 5 libellé « Do Not Safe Drop ». Ce sont deux entrées
+distinctes de la même liste chez ShipStation. À trancher avant bascule.
+L'entrée ⚙ « Règles d'automatisation » n'ouvre aucun écran de réglages : elle mène exactement au même
+écran que l'onglet de navigation.
+Le paramétrage des actions se fait en JSON brut, avec des identiﬁants internes (99, 115317) — alors que le
+clone possède déjà les listes déroulantes correspondantes ailleurs.
+20 des 30 libellés non mappés sont inaccessibles. On croit avoir traité le sujet après 10 mappings alors qu'il en
+reste 20 — dont Free Shipping, Livraison gratuite, free, Free et expedition gratuite, cinq libellés distincts dont
+un seul est mappé.
+Accessibilité nulle : les 9 notes de migration, meilleur contenu du module, sont dans des attributs title sur des
+<span> non focusables ; la modale de réordonnancement repose exclusivement sur le glisser-déposer.
+Ce que le clone fait mieux
+1. Le bandeau des 6 couches d'exécution. ShipStation n'expose jamais l'ordre Auto-Routing → Auto-Split → Product
+Preset Groups → Product Defaults → Service Mapping → Automation Rules, ni ce qui est rejoué au retraitement. C'est
+de la documentation exécutable.
+2. La colonne « Exéc. » : on voit instantanément quelles règles portent le traﬁc et lesquelles sont mortes.
+3. Le compteur « 10 active(s) sur 16 » et l'aﬃchage permanent des règles désactivées, contre une case décochée
+par défaut qui en masque une chez ShipStation.
+4. Les conditions rendues en français lisible dans la liste, sans avoir à ouvrir la règle.
+5. La portée sur les lignes d'article — c'est la limite structurelle du moteur ShipStation, explicitement documentée
+dans une note du clone, et elle est levée.
+6. Le choix ET / OU, et la règle « deux critères sur la même colonne se combinent en OU » écrite dans l'interface
+avec son exemple.
+7. L'ordre des règles 2 et 3 corrigé : chez ShipStation, LAS Cost Centre teste l'entrepôt avant que Warehouse
+Selection ne l'ait écrit — la règle ne peut jamais se déclencher. Le clone les a inversées et le dit.
+8. Les 9 notes de migration, qui documentent les décisions et les anomalies héritées (l'espace ﬁnale dans « DDD », le
+poids de 10 g manifestement faux, la règle « USA » qui attrape tout l'international).
+9. L'encart « 30 libellés de checkout sans mapping » avec les volumes — ShipStation laisse 6 750 commandes «
+Express » partir au service par défaut sans jamais le signaler.
+10. Le « canal logistique » et le mode de correspondance explicite.
+11. 7 raccourcis clavier sur les préréglages, là où les 17 préréglages ShipStation avaient tous hotKey: null.
+12. La correspondance ShipStation aﬃchée dans le sélecteur de champ (requested_service
+(RequestedServiceMarketPlace)) : traçabilité de migration directement dans l'interface.
+13. remove_tag et split_by_sku, deux actions sans équivalent ShipStation.
+14. La simulation Tester les règles — ShipStation n'oﬀre aucun essai à blanc.
+Audit comparatif ShipStation / clone — Lasclay p. 81 / 110
+
+═══ PAGE 82 / 110 ═══
+3.11 Réglages
+34 pages en 12 sections contre 7 écrans. L'écart de surface est le plus grand de l'audit — mais le clone y place
+quatre idées que ShipStation n'a pas.
+Figure 115 — ShipStation — page d'accueil Settings, les Quick Links. À voir : une arborescence à deux niveaux, un ﬁl d'Ariane, et 12
+sections (Account, Selling Channels, Branded Customer Pages, Templates, Automation, Shipping, Printing, Inventory
+Management, Warehouse, Add-Ons, Integration Partners, Labs) donnant sur 34 pages.
+Figure 116 — Clone — écran Réglages, haut de page. À voir la meilleure idée du module : le tableau d'auto-contrôle « Conﬁguration
+ShipStation de Lasclay », qui compare le présent à l'attendu ligne à ligne (entrepots 5/5, boutiques 12/11, services 23/23, colis 18/18,
+etiquettes 6/6, presets 17/17, regles 16/11, vues 27/27, mappings 11/11). ShipStation n'a rien de tel. Mais le badge se calcule en >= : les
+lignes boutiques 12 sur 11 et regles 16 sur 11 sont peintes en vert « complet » alors qu'elles sont en excédent. L'écran censé prouver
+la ﬁdélité de la migration est aveugle à la moitié des divergences possibles.
+Audit comparatif ShipStation / clone — Lasclay p. 82 / 110
+
+═══ PAGE 83 / 110 ═══
+Figure 117 — Clone — blocs Marque, Tarif drop-off cible et Préréglages d'expédition. À voir : la marque est conﬁgurable
+globalement (nom, courriel, adresse, logo, message de bas de bordereau) mais pas par boutique comme chez ShipStation ; le tarif de dépôt
+cible est éditable (6,31 $) mais le seuil de 500 g ne l'est pas ; et le tableau des 17 préréglages est enfermé dans un conteneur à hauteur ﬁxe
+de 198 px pour 815 px de contenu, au milieu d'une page de 2 560 px. Toute molette au-dessus de ce tableau fait déﬁler le tableau, pas la
+page : l'utilisateur n'atteint jamais les blocs Sécurité, Webhooks et Migration, qui sont pourtant les plus sensibles.
+Figure 118 — Clone — blocs Import Shopify (2e du même nom sur la page), Renvoi du suivi aux boutiques et Sécurité. À voir un
+risque opérationnel majeur : shopify est conﬁguré, mais etsy et faire aﬃchent « variables absentes », et un bandeau ambre
+annonce « Relais non activé. Tant qu'il ne l'est pas, aucun suivi n'est renvoyé ». À la bascule, les clients Etsy et Faire ne recevraient
+aucun numéro de suivi. À voir aussi le raisonnement anti-spam, qui est un vrai savoir-faire : « les 0 expéditions déjà en base ne seront jamais
+notiﬁées, ce qui évite d'écrire à des clients dont la commande est arrivée depuis des mois ». Enﬁn, la case « Second facteur obligatoire pour
+tous » est décochée.
+Audit comparatif ShipStation / clone — Lasclay p. 83 / 110
+
+═══ PAGE 84 / 110 ═══
+Figure 119 — Clone — blocs Webhooks et Migration depuis ShipStation. À voir deux points structurants. Webhooks : le texte d'aide
+revendique la copie de l'anti-patron — « Comme ShipStation, la charge utile ne contient que l'URL de la ressource à rappeler. » Le
+formulaire n'a aucun champ secret, aucune signature, aucun réglage de réessai ; 8 événements, 0 abonnement. Migration : « Dernière :
+jamais. À lancer avant toute résiliation — l'accès API disparaît avec l'abonnement. » C'est la cause directe des 0 produit, 0 client, 0
+expédition et 0 retour de tout cet audit.
+Figure 120 — ShipStation — Selling Channels › Store Setup. À voir : 4 boutiques × 10 onglets chacune (General, Checkout
+Rates, Branding, Tracking Page, Returns, Emails, Packing Slips, Products, Shipping Services, Activity). Le clone n'a
+qu'un bloc Shopify et deux tuiles non conﬁgurées.
+Audit comparatif ShipStation / clone — Lasclay p. 84 / 110
+
+═══ PAGE 85 / 110 ═══
+Figure 121 — ShipStation — modale d'erreur d'import d'une boutique. À voir : l'échec est nommé, horodaté et actionnable. Côté clone,
+aucune boutique ne remonte jamais d'état d'erreur.
+Figure 122 — Clone — aperçu du gabarit « Conﬁrmation d'expédition » sur une vraie commande. À voir : la fonction est excellente et sans
+équivalent (ShipStation n'oﬀre qu'un Send Test Email asynchrone qui pollue une boîte), et le rendu est correct : Sujet : « Votre commande L-
+50779 est en route » ; corps : « Bonjour Jacques Croussette … ». La syntaxe {{ order.order_number }} fonctionne.
+Audit comparatif ShipStation / clone — Lasclay p. 85 / 110
+
+═══ PAGE 86 / 110 ═══
+Figure 123 — Clone — le même bouton d'aperçu sur le gabarit « DDD Template ». À voir : Sujet : « Nouvelle commande à préparer — » ;
+corps : « … Commande : Client : Articles : Merci, Lasclay ». Les variables {{numero}}, {{client}} et {{articles}} sont remplacées
+par la chaîne vide : aucune erreur, aucun avertissement, aucun surlignage. Le courriel produit est grammaticalement correct et vide de toute
+information. CRITIQUE : ce gabarit et « Lucie Veilleux » sont branchés sur des règles actives (11 et 34 exécutions). Le jour où l'envoi sera
+activé, un partenaire recevra « Nouvelle commande de bijoux — » sans numéro, sans client, sans articles.
+Figure 124 — Clone — écran Utilisateurs. À voir : le sous-titre promet « Permissions par domaine, comme ShipStation — avec des rôles
+pré-remplis », et la colonne aﬃche « 12 permission(s) ». Or aucune ligne n'est éditable, il n'y a pas de bouton Modifier, et la modale de
+création ne contient aucune case à cocher : les 12 domaines y sont un simple paragraphe de texte. Les 12 clés existent en base et sont
+toutes à true pour les deux comptes : la granularité est stockée mais inatteignable. À voir aussi : deux comptes homonymes «
+Administrateur », dont l'un a pour courriel lasclay.myshopify.com — un nom de domaine, pas une adresse — sans 2FA et sans aucune
+action disponible : un compte administrateur complet, non authentiﬁable en second facteur et non gérable depuis l'interface.
+Audit comparatif ShipStation / clone — Lasclay p. 86 / 110
+
+═══ PAGE 87 / 110 ═══
+Figure 125 — Clone — écran Alertes de commandes, sans équivalent chez ShipStation. À voir : « Ce qui bloquera le prochain lot, détecté
+avant de le lancer », en 7 sections chiﬀrées dont la somme fait exactement les 105 de la pastille — Sans poids 4 (« Bloquent l'achat
+d'étiquette »), Adresse incomplète 34, Sans courriel 0, Douane incomplète 9, Expéditions combinables 8, En attente depuis
+plus de 14 jours 50, Produits sans code SH 0. Défaut visible : la première ligne d'« Expéditions combinables » regroupe 34
+commandes sans destinataire ni code postal en un seul envoi — un regroupement sur NULL == NULL.
+Figure 126 — Clone — écran Journal d'audit. À voir : le sous-titre promet « Qui a fait quoi — ShipStation n'expose pas ça par API, nous si
+», et le fondement existe réellement (57 757 entrées transverses : commandes, règles, lots, authentiﬁcation). Mais le tableau a 5 colonnes et
+aucune n'est « qui » ; à la vériﬁcation, 94 lignes sur 100 ont user_id: null. Il n'y a par ailleurs ni ﬁltre, ni recherche, ni pagination,
+ni export — 300 lignes dans un conteneur à ascenseur — et la colonne Détail aﬃche du JSON brut tronqué en plein milieu d'une clé, sans
+ellipse.
+Tableau comparatif — Réglages
+Élément ShipStation Clone Verdict
+Nombre d'écrans de réglages 34 (12 sections) 7 ⚠
+Navigation arborescence 2 niveaux + ﬁl
+d'Ariane + Quick Links
+menu ⚙ plat, 7 entrées, pas de ﬁl
+d'Ariane
+⚠
+Proﬁl, mot de passe, SSO, communications du compte Sign In & Security absents ❌
+Audit comparatif ShipStation / clone — Lasclay p. 87 / 110
+
+═══ PAGE 88 / 110 ═══
+Élément ShipStation Clone Verdict
+MFA par utilisateur connecté 2FA par utilisateur + Réinit. 2FA
++ case « obligatoire pour tous »
+➕
+Fuseau horaire, formats de date et d'heure, unités
+(po/cm, lb/kg)
+Display Options absents (g et po codés en dur,
+dates en ISO)
+❌
+Page d'atterrissage à la connexion (9 choix) oui absente ❌
+Facturation, abonnement, solde, auto-funding,
+TPS/TVQ
+complet absent ❌
+Gestion des utilisateurs sièges 1/10, licences
+Analytics, inactifs, Edit
+2 comptes, rôle, 2FA, actif ⚠
+Permissions ﬁnes par domaine, éditables 12 clés en base, 0 contrôle dans
+l'interface
+⚠
+Rôles pré-remplis inexistants (permissions à la
+carte)
+4 rôles (admin, expediteur,
+preparateur, comptable)
+➕
+Clés API (créer, expirer, révoquer, versions) oui absentes ❌
+Adresses expéditrices + authentiﬁcation de domaine page dédiée absente ❌
+Boutiques 4 boutiques × 10 onglets 1 bloc Shopify + 2 tuiles non
+conﬁgurées
+⚠
+Normalisation / vériﬁcation d'adresse (11 pays) par boutique absente ❌
+Pages client de marque (suivi, retours, ~20 réglages) 2 niveaux absentes ❌
+Marque (nom, courriel, adresse, logo, pied de
+bordereau)
+par boutique globale, 5 champs ⚠
+Couleur de marque Custom Colors (3 couleurs) en base (#0b7a4b) mais pas dans
+l'interface
+❌
+Gabarits de bordereau éditeur HTML réservé aux
+plans Silver+, désactivé ici
+1 gabarit HTML éditable, ouvert
+à tous
+➕
+Gabarits de liste de prélèvement 1 gabarit + New Template absents ❌
+Gabarits courriel 4, avec copie et Send Test
+Email
+4 + éditeur + aperçu sur une vraie
+commande
+➕  / ⚠
+Déclencheurs de notiﬁcation (5 conditions), BCC par boutique absents ❌
+Règles d'automatisation 11, liste, actif/inactif 16 + ordre + compteur
+d'exécutions + frise des 6
+couches
+➕
+Retraitement Reprocess + avertissement
+en prose
+Simuler puis Retraiter ➕
+SmartFill, Transporteurs, Assurance, 3PL, Rate
+Shopper, Workﬂow, International, Colis, Ship From,
+Retours, Impression
+11 pages aucune ❌
+Inventaire, prélèvement, emballage 6 pages, ~50 réglages aucune ❌
+Add-Ons, partenaires d'intégration, Labs 3 pages absentes ❌
+Webhooks sortants via Integration Partners 8 événements + abonnement par
+URL
+✅
+Signature HMAC des webhooks sortants aucune aucune — anti-patron reproduit
+volontairement
+⚠
+Renvoi du suivi aux boutiques implicite bloc explicite shopify / etsy / faire +
+garde-fou anti-spam
+➕
+Migration / export du compte inexistante Lancer la migration ➕
+Auto-contrôle « attendu vs présent » inexistant tableau 9 lignes ➕  (logique
+fautive)
+Alertes pré-lot inexistantes (dispersées) 7 catégories, 105 items ➕
+Journal d'audit central inexistant (seulement Store
+Activity par boutique)
+57 757 entrées ➕  (sans «
+qui »)
+Aperçu de gabarit sur une vraie commande inexistant oui, instantané ➕
+Audit comparatif ShipStation / clone — Lasclay p. 88 / 110
+
+═══ PAGE 89 / 110 ═══
+Élément ShipStation Clone Verdict
+Accessibilité correcte (rôles, libellés) aria = 1, role = 1, tabindex =
+0, h1 = 0, th[scope] = 0
+⚠
+Ce qui manque
+Environ 95 réglages sans équivalent, groupés en 12 thèmes :
+A. Compte et identité (11) — nom, courriel de proﬁl, digest hebdomadaire, changement de mot de passe, SSO,
+téléphone, consentement SMS, écran de gestion MFA, page d'atterrissage, QuickShip, distinction réglage utilisateur /
+réglage compte.
+B. Aﬃchage et localisation (8) — format d'heure, format de date, fuseau horaire, unité de dimension, unité de
+poids, popover client, comportement au changement de statut.
+C. Facturation (9) — solde, ajout de fonds, auto-funding, moyens de paiement, forfait, factures, résiliation, TPS/TVH,
+historique de transactions.
+D. Utilisateurs et sécurité (6) — sièges, licences Analytics, utilisateurs inactifs, édition des permissions, dernière
+connexion, désactivation d'un compte.
+E. API et intégrations (6) — clés API, version d'API, documentation, 8 partenaires, Add-Ons, Labs.
+F. Boutiques (11) — connexion / déconnexion, activation, fréquence d'import, normalisation d'adresse US et non-US,
+indicateur résidentiel, Checkout Rates, synchronisation des produits, création automatique des ﬁches, traitement des
+remises, journal d'activité par boutique.
+G. Pages client de marque (13) — modèle, couleurs, logo, réseaux sociaux, liens additionnels, politique de retour,
+contact, image promotionnelle, détail de commande, choix page de marque vs page transporteur.
+H. Gabarits et notiﬁcations (8) — liste de prélèvement, bordereaux multiples, Copy, Send Test Email, déclencheur
+d'envoi (5 conditions), notiﬁcation de livraison distincte, BCC, pied de bordereau par boutique.
+I. Transporteurs, tarifs, colis (12) — 7 comptes transporteurs et leur activation, sélection service par service,
+Carrier IDs, politique d'assurance, 3PL, Rate Shopper, types de colis transporteur, colis personnalisés (17 en
+production), jeux multi-colis, emplacements d'expédition (5 adresses), service et colis de retour par défaut.
+J. Flux d'expédition et international (11) — action par défaut du bouton, 5 options QuickShip, scan-to-verify par
+UPC/SKU, étape « Mark as Veriﬁed », type de contenu douanier par défaut, option de non-livraison, mode de
+déclaration, signataire, ITN/AES, devise d'import, identiﬁants ﬁscaux et importateur de référence.
+K. Impression (5) — imprimante par type de document (9 types), format, options, avertissements de réimpression,
+ShipStation Connect.
+L. Inventaire, entrepôt, prélèvement, emballage (14) — blocage à stock nul, activation du suivi, seuils, import
+CSV, stratégie d'allocation, entrepôts et bacs, Inventory Sync, conﬁguration mobile de prélèvement, liste de
+prélèvement imprimée, scan d'emballage, bordereau imprimé, partage de gabarits avec un prestataire.
+Ce qui cloche
+Deux syntaxes de variables de gabarit cohabitent, et l'une rend silencieusement du vide. CRITIQUE. Deux
+gabarits branchés sur des règles actives produiront des courriels sans aucune information. Rien dans l'interface ne
+liste les variables disponibles.
+Le badge d'auto-contrôle aﬃche « complet » sur un excédent (boutiques 12 sur 11, regles 16 sur 11). L'écran
+censé prouver la ﬁdélité de la migration certiﬁe « complet » alors que le clone a 5 règles et 1 boutique de plus que la
+référence.
+Les webhooks sortants n'ont ni signature, ni anti-rejeu, ni réessai, ni historique de livraison — et la charge
+utile ne contient que l'URL de la ressource, ce qui oblige le récepteur à détenir une clé d'API… alors que le clone n'a
+aucun écran de clés API. L'anti-patron est copié sans le mécanisme qui le rendait exploitable.
+Le journal d'audit promet « qui a fait quoi » et n'aﬃche jamais « qui » : pas de colonne, et user_id nul sur 94
+lignes sur 100. En cas de litige (commande annulée, étiquette achetée), aucune imputation n'est possible. Il n'a en
+outre ni ﬁltre, ni recherche, ni pagination, ni export.
+« Permissions par domaine » est annoncé, zéro contrôle existe : 12 clés stockées, toutes à true, aucune case
+à cocher, aucun bouton Modifier.
+Un compte administrateur fantôme avec un courriel invalide (lasclay.myshopify.com), sans 2FA et irrévocable
+depuis l'interface.
+Un tableau interne capte la molette au milieu d'une page de 2 560 px : l'utilisateur n'atteint jamais les blocs
+Sécurité, Webhooks et Migration. La touche Fin ne fonctionne pas non plus.
+Deux blocs diﬀérents portent le même titre « Import Shopify » sur le même écran, avec cinq boutons dont
+deux paires de synonymes (Importer maintenant… / Importer une commande…, Rattraper depuis le dernier passage /
+Rattraper les commandes…).
+Audit comparatif ShipStation / clone — Lasclay p. 89 / 110
+
+═══ PAGE 90 / 110 ═══
+« Expéditions combinables » regroupe 34 commandes sans destinataire en un seul lot : un opérateur qui
+suit l'alerte fusionnerait 34 commandes sans rapport.
+Aucun garde-fou sur les actions dangereuses : Retraiter (peut écraser les réglages d'expédition de 475
+commandes ouvertes), Réinitialiser aux valeurs ShipStation…, Prendre le relais à partir de maintenant, Lancer la
+migration cohabitent sans séparation visuelle, sans compte d'impact aﬃché, sans conﬁrmation typée. Retraiter est
+même plus proéminent que Simuler, l'action prudente.
+Les 4 rôles sont des identiﬁants techniques non traduits (expediteur, preparateur) dans une interface à 100 %
+française — et aucune description n'indique ce que chaque rôle autorise.
+Deux réglages exposés par l'API n'ont aucun champ : marque.couleur et seuil_dropoff_g.
+Ce que le clone fait mieux
+1. Le tableau d'auto-contrôle « attendu vs présent » : comparer l'état réel à une spéciﬁcation datée est une
+excellente idée, sans équivalent. C'est la logique du badge qu'il faut corriger, pas le concept.
+2. Le journal d'audit central : ShipStation ne journalise qu'au niveau boutique et ne l'expose pas par API. La fondation
+(57 757 entrées transverses) n'existe pas chez la référence.
+3. Les alertes pré-lot : 7 catégories chiﬀrées qui anticipent les échecs d'achat d'étiquette. Chez ShipStation, ces
+informations sont dispersées entre la grille, les douanes et les produits ; il n'y a pas d'écran « ce qui va bloquer ».
+4. La frise des 6 couches et le compteur d'exécutions par règle.
+5. Simuler avant Retraiter : ShipStation n'oﬀre qu'un Reprocess avec un avertissement en prose ; une simulation qui «
+dit exactement ce qui changerait » est supérieure.
+6. Le bloc « Renvoi du suivi aux boutiques », avec l'état par canal, la ﬁle d'attente chiﬀrée et le garde-fou anti-
+spam rétroactif.
+7. La 2FA obligatoire à l'échelle du compte (« oblige chaque employé à conﬁgurer une application d'authentiﬁcation
+à sa prochaine connexion, et interdit de le retirer ») — ShipStation ne gère la MFA qu'au niveau de l'utilisateur
+connecté.
+8. Le bloc Migration et son conseil opérationnel juste (« À lancer avant toute résiliation — l'accès API disparaît avec
+l'abonnement »).
+9. L'aperçu de gabarit sur une vraie commande, instantané et dans la modale.
+10. L'éditeur de bordereau HTML ouvert à tous, alors qu'il est réservé aux plans Silver+ chez ShipStation et que le
+bouton New Template y est désactivé sur ce compte.
+11. Les rôles pré-remplis, absents de ShipStation.
+12. Les textes d'aide, systématiquement écrits en langage d'opérateur et souvent comparatifs (« ShipStation avertissait
+que… », « Aucun de ces objets n'a de point de terminaison dans l'API ShipStation »). Densité d'information très
+supérieure.
+4. Défauts d'interface transversaux
+Ces défauts ne relèvent d'aucun module en particulier : ils se répètent sur tous les écrans du clone. Ce sont donc, à eﬀort
+de correction égal, ceux qui rapportent le plus.
+Audit comparatif ShipStation / clone — Lasclay p. 90 / 110
+
+═══ PAGE 91 / 110 ═══
+4.1 États vides — deux styles concurrents, dont un qui trompe
+Figure 127 — Clone — style d'état vide n° 1 (écran Commandes) : un bloc centré avec titre (« Aucune commande »), phrase d'explication («
+Cette vue ne ramène rien pour l'instant. ») et bouton bleu Importer depuis Shopify. À voir : la forme est bonne, mais le CTA est faux dans
+100 % des cas rencontrés — la vue est vide à cause de ses critères, pas d'un import manquant. Et l'en-tête du tableau disparaît, ce qui fait
+perdre le contexte des colonnes.
+Figure 128 — Clone — style d'état vide n° 2 (Clients, Produits, Expéditions, Retours, Lots, Fin de journée) : « Aucun résultat » seul, en gris,
+dans la cellule du tableau. Pas de titre, pas d'explication, pas d'action. Impossible de distinguer « la base est vide », « le ﬁltre est trop restrictif »
+et « la fonction n'est pas conﬁgurée ».
+Audit comparatif ShipStation / clone — Lasclay p. 91 / 110
+
+═══ PAGE 92 / 110 ═══
+Figure 129 — ShipStation — pour comparaison, l'état de chargement : écran blanc avec un spinner animé à 10 points, puis un spinner
+localisé dans la zone de grille pendant que le reste du chrome est déjà peint. Les états vides de ShipStation sont eux aussi dessinés et rédigés («
+Your Queue is empty! / Recent, unarchived labels will show up here. » + un lien de repli « load older labels.. »).
+Bilan : 5 occurrences du Aucun résultat nu sur le seul module Produits, 6 écrans concernés au total, et une même
+page (Analytique) qui applique trois traitements diﬀérents à trois sections vides — « Aucun résultat » pour deux
+tableaux, un cadratin — pour une tuile, et rien du tout pour la carte « Volume par mois ».
+4.2 États de chargement — un caractère
+Le seul indicateur de chargement du clone est un « … » littéral injecté sous le titre, plus les chaînes « Chargement… » et
+« Traitement en cours… ». Aucun squelette, aucun spinner, aucune animation — la feuille de style contient 0
+@keyframes.
+Conséquence mesurée : sur /api/orders ralenti à 4 secondes, l'écran est strictement identique pendant 4 secondes, la
+barre d'outils reste active et les boutons de pagination restent cliquables. Un double-clic sur Suivant → pendant une
+requête lente produit des requêtes concurrentes et un résultat non déterministe.
+4.3 États d'erreur — les messages existent, ils ne s'aﬃchent jamais
+C'est le défaut le plus coûteux du clone, parce qu'il est déjà à moitié résolu. La couche d'appel API du clone contient
+quatre messages d'erreur rédigés, distincts et en bon français : « service injoignable — redémarrage en cours,
+réessayer dans un instant » (réseau), la bascule vers l'écran de connexion (401), « service indisponible (n) — il redémarre
+probablement, réessayer dans une minute » (502/503/504), « réponse inattendue du serveur (HTTP n) ». Aucun de ces
+messages n'atteint jamais l'écran : les appelants n'ont pas de catch, et l'exception part en rejet non géré dans la
+console.
+Audit comparatif ShipStation / clone — Lasclay p. 92 / 110
+
+═══ PAGE 93 / 110 ═══
+Figure 130 — Clone — panne réseau simulée, puis clic sur ↻ Recharger. À voir : rien à l'écran. Pas de toast, pas de bandeau, pas de
+message ; la grille garde ses données périmées. Pire, un eﬀet de bord : la barre latérale, elle, se réécrit — « LOTS OUVERTS / Lot du 2026-08-02 ·
+2 » devient « aucun lot ouvert ». L'utilisateur voit une information fausse, pas une absence d'information.
+Figure 131 — Clone — même panne, navigation vers Produits. À voir : la page reste entièrement blanche, bloquée sur le placeholder « … »,
+sans ﬁn. Aucun message, aucun bouton Réessayer.
+4.4 Retours d'action — le silence par défaut
+Le clone exécute beaucoup d'actions sans aucun retour visuel :
+Action Retour attendu Retour observé
+Prêtes à prélever conﬁrmation + possibilité
+d'annuler
+rien — l'état est muté silencieusement (constaté accidentellement
+sur la commande #2270)
+Changement de statut d'un RMA conﬁrmation pour refunded /
+rejected
+rien, aucun journal
+Reconstruire depuis les
+commandes
+conﬁrmation chiﬀrée +
+progression
+rien avant, alert() native « N clients. » après
+Les 10 exports état de chargement, succès,
+erreur
+rien — y compris pour /api/backup qui met 6,7 s puis échoue
+Audit comparatif ShipStation / clone — Lasclay p. 93 / 110
+
+═══ PAGE 94 / 110 ═══
+Action Retour attendu Retour observé
+Créer + imprimer
+l'étiquette (modale)
+erreur explicite si service et colis
+vides
+bouton actif, sans validation
+Scan d'un code pendant une
+panne d'API
+erreur + eﬀacement de l'écran rien, la commande précédente reste aﬃchée
+À l'inverse, deux bons points : Simuler produit bien un bandeau de résultat sur l'écran Douanes, et les modales
+sont maison (pas de confirm() natif) sur la quasi-totalité des écrans.
+4.5 Cohérence visuelle
+Incohérence Détail mesuré
+Rayons de bordure 5 · 6 · 7 · 9 · 14 px cohabitent (ShipStation : 4 px partout)
+Hauteurs de bouton 20 · 28 · 29 · 32 · 34 px sur un seul écran (ShipStation : 32 px)
+Élévation 1 seule ombre dans 355 règles CSS ; design totalement plat, sans hiérarchie de profondeur
+Double indicateur
+d'onglet actif
+l'entrée active de la barre supérieure calcule un border-left: 3px solid rgb(26,86,219) en plus du
+soulignement blanc voulu — vestige d'une navigation verticale abandonnée, dont la feuille de style contient encore
+tout le reste (nav h1, nav .grp…) alors que le DOM ne contient aucun <h1>
+Position des bandeaux variable : sous la barre de nav sur Commandes et Clients, sous la rangée de sous-onglets sur Produits
+Identiﬁants techniques
+exposés
+cp_expedited_dropoff, ups_standard, set_confirmation, canada_post, expedited_parcel, 153232,
+115317, admin, expediteur — dans une interface par ailleurs intégralement traduite
+Deux titres identiques
+sur un même écran
+« Import Shopify » ×2 dans les Réglages
+Préférences non
+mémorisées
+le mode Dense (16 → 21 lignes, +31 %) n'est jamais persisté ; les bandeaux fermés reviennent à chaque F5 ;
+seul theme est stocké, et uniquement en localStorage — donc par navigateur, pas par compte
+4.6 Densité
+C'est un point fort net du clone, et il est mesuré :
+Mesure ShipStation Clone
+Hauteur du chrome supérieur 90 px 72 px
+Hauteur de ligne de grille 31 px, non réglable 34 px / 27 px en dense
+Lignes visibles en 1080p 19 16 / 21
+Nœuds DOM (250 lignes) 12 874 8 240
+Deux réserves : le mode dense n'est pas mémorisé, et les cibles de clic rétrécissent en conséquence (voir §4.8).
+4.7 Contrastes
+Six paires de couleurs du clone échouent au seuil WCAG AA :
+Élément Ratio Seuil Usage
+Texte secondaire --doux sur --bg 4,38 4,5 libellés secondaires, compteurs latéraux, textes d'aide — 12 à
+12,5 px
+Badge .puce.g (gris) 3,96 4,5 notes, lots, mappings — le plus fréquent
+Badge .puce.a (ambre) 4,35 4,5 badges note, désactivée
+Badge .puce.v (vert) 4,36 4,5 badges complet, mappé
+Badge .puce.r (rouge) 4,40 4,5 alertes
+Libellé de Créer + imprimer les étiquettes
+désactivé
+≈
+2,05
+4,5 le bouton le plus proéminent de l'application
+Le thème sombre est meilleur que le clair sur ce point (--doux à 6,33). Et ShipStation n'est pas exempt : sa colonne
+Age orange est à 3,50 : 1.
+Autre point de cohérence : les badges ne reposent que sur la couleur et la taille (~10 px), sans forme ni icône
+distinctive — complet, configuré, variables absentes, désactivée sont indiscernables en niveaux de gris.
+Audit comparatif ShipStation / clone — Lasclay p. 94 / 110
+
+═══ PAGE 95 / 110 ═══
+4.8 Cibles de clic
+Mesure ShipStation Clone
+Contrôles visibles mesurés 71 56
+Cibles < 44 × 44 px 70 47
+Cibles < 24 × 24 px 14 9
+Les pires cas côté clone : le × des bandeaux (18 × 20 px) et les entrées de la barre latérale (195 × 22 px). Les deux
+applications sont fautives, mais le clone l'est un peu moins.
+4.9 Bandeaux
+Critère ShipStation Clone
+Nombre 1 système (Tax ID) + 1
+marketing selon la page
+2, sur toutes les pages
+Refermables Tax ID non, marketing oui oui, les deux
+Persistance de la
+fermeture
+— aucune : ils reviennent à chaque rechargement, soit 26 px reperdus à chaque
+session
+Rédaction orientée utilisateur expose des variables d'environnement (CLONE_ALLOW_LABELS=1,
+CARRIER_ADAPTER=clickship) — un opérateur d'entrepôt ne peut rien en faire
+Position ﬁxe, au-dessus de la barre variable selon l'écran
+Redondance — réaﬃchés sur chacun des 4 sous-onglets d'Expéditions
+Point aggravant : le bandeau « transporteur bouchon » est le seul avertissement indiquant que les six prix aﬃchés
+dans l'écran Tarifs sont faux de 18 à 48 % — et il se ferme d'un clic. Rien dans le tableau lui-même ne le rappelle.
+4.10 Deux comportements transversaux qui cassent la conﬁance
+Figure 132 — Clone — sélection fantôme. Reproduction : cliquer une ligne (L-17804), puis chercher L-50125. À voir : la grille n'aﬃche plus
+que L-50125, case décochée ; la barre d'actions aﬃche « 1 sélectionnée » ; et le panneau de droite reste sur L-17804. Toutes les actions
+de masse (Coter, Imprimer, Prêtes à prélever, Mettre en attente, Assigner à, Étiqueter, Mise à jour en masse)
+s'appliqueraient donc à une commande invisible à l'écran.
+Audit comparatif ShipStation / clone — Lasclay p. 95 / 110
+
+═══ PAGE 96 / 110 ═══
+Figure 133 — ShipStation — pour comparaison, la recherche produit un écran de résultats dédié : titre All Search Results for "L-
+50125", URL partageable (?quickSearch=), colonnes adaptées au résultat, et la barre latérale devient une facette (par boutique et par
+statut). La recherche traverse tous les statuts, et l'écran le dit. Côté clone, la recherche ignore le ﬁltre de statut (une commande expédiée
+apparaît dans « À expédier ») mais conserve les critères de vue sauvegardée (chercher MIT22 depuis la vue « Graines x5 » donne 0 résultat,
+contre 19 depuis « À expédier ») — le titre, l'onglet actif et le compteur latéral continuent pendant ce temps d'annoncer « À expédier 476 ».
+Le bouton Retour du navigateur est cassé dans toute l'application : le code ne contient aucune occurrence de
+hashchange, popstate ni pushState. L'URL change, la vue non. Conséquences observées sur quatre modules diﬀérents :
+un lien profond partagé entre collègues n'ouvre pas le bon écran si l'onglet est déjà ouvert ; et sur la page Analytique,
+cela a produit deux comptages contradictoires de la même grandeur au même instant (474 dans la tuile, 475
+dans la pastille et dans les deux points de terminaison).
+Enﬁn, une course de rendu produit une erreur JavaScript non capturée quand on change de module rapidement
+(TypeError: Cannot set properties of null (setting 'innerHTML')), laissant une section vide sans explication.
+5. Accessibilité
+5.1 Les chiﬀres, côte à côte
+Mesures prises dans les mêmes conditions, sur la grille Commandes chargée à 250 lignes.
+Mesure ShipStation Clone
+Attributs aria-* 1 094 0
+Attributs role 4 384 0
+Attributs tabindex 816 0
+<label> / label[for] 253 / 253 (100 % liés) 0 / 0
+Champs sans libellé associé 0 % 100 % (5 sur 5 hors grille, 254 sur 254 avec
+les cases de ligne)
+<table> / <th> / th[scope] 0 / 0 / 0 (grille en <div>, sans role="grid") 1 / 14 / 0
+<caption> — 0
+Titres (h1…h6) aucun titre du tout h2, h3 — mais 0 <h1>
+Repères de page
+(header/nav/main/aside/footer)
+0 / 0 / 0 / 0 / 0 1 / 1 / 1 / 2 / 0
+lang du document en (pour une interface dont toutes les données
+sont françaises)
+fr
+Focus visible outline-style: none calculé → anneau
+supprimé
+anneau natif conservé (0 règle outline:
+none)
+Audit comparatif ShipStation / clone — Lasclay p. 96 / 110
+
+═══ PAGE 97 / 110 ═══
+Mesure ShipStation Clone
+<img> sans alt 20 sur 21 0 (aucune image : tout est en emoji texte)
+<a> totaux / avec href tous avec href 275 / 0
+Cibles < 44 × 44 px 70 sur 71 47 sur 56
+Contrastes sous AA 1 relevé (Age orange, 3,50) 6 relevés (4,38 · 4,40 · 4,36 · 4,35 · 3,96 ·
+2,05)
+Le tableau est en demi-teinte : le clone gagne sur la structure du document (repères sémantiques, vrai tableau,
+titres, lang="fr", focus visible) et perd totalement sur l'exposition des données (aucun attribut ARIA, aucun libellé,
+aucune navigation clavier).
+5.2 Ce que la tabulation atteint — et n'atteint pas
+Mesure : 20 tabulations depuis le haut de la page.
+Ce que le focus atteint (dans l'ordre réel) : le champ de recherche, les 5 icônes d'en-tête, le × d'un bandeau, la
+recherche latérale, Grouper…, Colonnes, Nouvelle commande, le conteneur d'onglets de vues (qui prend le focus sans
+qu'aucun onglet ne soit activable), puis les 8 puces de ﬁltre.
+Ce que le focus n'atteint JAMAIS :
+les 9 modules de la barre supérieure ;
+les 15 entrées de la barre latérale (statuts, boutiques, lots) ;
+les 27 onglets de vues sauvegardées ;
+les 250 numéros de commande de la grille.
+Tous sont des <a> sans href et sans tabindex. Correctif à coût quasi nul : ce sont déjà des routes de hachage ; poser
+href="#commandes" rendrait au passage possibles « ouvrir dans un nouvel onglet » et « copier le lien ».
+L'ordre de tabulation part par ailleurs en zigzag : il saute deux fois d'un bord à l'autre de l'écran (du ? à x = 1882 vers
+le × du bandeau à x = 719, puis de la recherche latérale à x = 12 vers Grouper… à x = 1386), parce que les bandeaux
+sont rendus dans <main>, entre l'en-tête et la barre latérale.
+Figure 134 — Clone — écran Alertes, atteint par la cloche 105. À voir un défaut de repère qui aggrave le problème d'accessibilité : aucune
+entrée de la barre supérieure ne porte l'état actif sur cet écran. L'utilisateur perd tout indice de position, sans ﬁl d'Ariane ni bouton de
+retour — et le bouton Retour du navigateur, on l'a vu, ne fonctionne pas.
+5.3 Ce que ça veut dire pour un opérateur d'entrepôt
+Concrètement, chez Lasclay :
+1. Un opérateur qui travaille au clavier ne peut pas changer de module ni de vue. La seule échappatoire réelle
+est la série de raccourcis G + O/S/B/R/E/P/C/A, qui fonctionne — mais elle n'est découvrable que par la modale ?, et
+rien à l'écran ne dit qu'elle est le seul moyen de naviguer sans souris.
+Audit comparatif ShipStation / clone — Lasclay p. 97 / 110
+
+═══ PAGE 98 / 110 ═══
+2. Un lecteur d'écran annonce 250 fois « case à cocher » sans jamais dire de quelle commande il s'agit : les cases
+de ligne n'ont aucun nom accessible.
+3. Les six boutons d'en-tête sont des emojis ( ⟳, 🔔, ⚙, ?) sans aria-label ; seul l'attribut title sauve la mise, et
+il n'est pas lu de façon ﬁable en mode navigation.
+4. Les 9 notes de migration du module Automatisation — le meilleur contenu documentaire de toute l'application
+— sont dans des title sur des <span> non focusables : invisibles au clavier, invisibles au tactile, donc perdues
+pour tout opérateur sur tablette au poste d'emballage.
+5. La modale de réordonnancement des règles repose exclusivement sur le glisser-déposer, sans ﬂèches
+haut/bas ni champ de position : l'ordre d'exécution de l'automatisation n'est pas modiﬁable au clavier.
+6. Les textes secondaires et les badges sont sous le seuil de contraste en 10 à 12,5 px — dans un entrepôt, sous
+un éclairage inégal, sur un écran à faible luminosité, c'est la première chose qui devient illisible.
+7. Aucune annonce vocale ni sonore au poste de scan : 0 son, 0 vibration, 0 aria-live. Un emballeur qui regarde le
+colis et non l'écran n'a aucun signal de succès ou d'échec — alors que le bip aigu/grave est le standard du poste
+d'emballage.
+À décharge, le clone part de mieux que ShipStation sur trois points structurants — la sémantique du document
+(repères, titres, vrai tableau), le focus visible (ShipStation le supprime !) et la langue déclarée (fr contre en). Le
+socle de 29 raccourcis clavier déjà en place rend le chantier d'accessibilité peu coûteux et très rentable : il ne manque
+que la couche ARIA et les href.
+6. Performance ressentie
+6.1 Les chiﬀres, côte à côte
+Mesures au chargement du premier écran utile, ShipStation à cache chaud (donc dans sa meilleure conﬁguration).
+Mesure ShipStation Clone Rapport
+Requêtes 250 11 (1 document + 10 appels) × 23
+Hôtes distincts 25 1 × 25
+Poids total décodé 4 292 Ko (dont 3 984 Ko de JSON) 376 Ko × 11
+Document 40,6 Ko encodé / 138,4 Ko décodé 85,8 Ko (brotli) / 312,2 Ko × 0,5 en encodé
+Protocole h2 h3 —
+TTFB 289 ms 128 ms × 2,3
+domInteractive 1 081 ms 661 ms × 1,6
+DOMContentLoaded 2 596 ms 661 ms × 3,9
+load 3 024 ms 750 ms × 4
+Mémoire JS 187 Mo utilisés / 195 alloués 15 Mo / 16 × 12,5
+Nœuds DOM (page) 12 874 8 240 × 1,6
+API — médiane 101 ms 83 ms —
+API — p90 565 ms 115 ms × 4,9
+API — maximum 1 752 ms 211 ms × 8,3
+Déﬁlement (120 pas + layout forcé) 0,5 ms 1,9 ms ShipStation devant
+Virtualisation de la grille aucune aucune égalité
+Erreurs console aucune aucune égalité
+6.2 Ce que ça change à l'usage
+Au démarrage de la journée. Ouvrir l'application prend 750 ms au lieu de 3 secondes. Sur un poste d'entrepôt qu'on
+rouvre plusieurs fois par jour, c'est la diﬀérence entre un outil qui répond et un outil qu'on attend.
+Pendant le travail. C'est la prévisibilité qui compte plus que la moyenne : aucun appel du clone n'excède 211 ms,
+tandis que ShipStation a une queue lourde (p90 à 565 ms, pointe à 1 752 ms). Un opérateur ne perçoit pas une médiane,
+il perçoit les à-coups — et le clone n'en a pas.
+Audit comparatif ShipStation / clone — Lasclay p. 98 / 110
+
+═══ PAGE 99 / 110 ═══
+Sur la mémoire. 15 Mo contre 187 Mo, soit 12,5 fois moins. Sur un poste modeste avec plusieurs onglets ouverts
+(Shopify, courriel, l'outil d'expédition), c'est ce qui évite le ralentissement de ﬁn d'après-midi.
+Sur le réseau. 1 hôte contre 25, 0 webfont, 0 image, 0 pixel de suivi. Dans un entrepôt sur un lien partagé, un outil
+qui ne parle qu'à un seul serveur est un outil qui ne tombe pas quand un tiers tombe.
+Densité et performance se cumulent : 21 lignes visibles au lieu de 19, sur un écran qui répond 4 fois plus vite. Le
+nombre de commandes traitées par heure en dépend directement.
+6.3 Les deux réserves
+1. Aucun en-tête Cache-Control. L'application est un mono-ﬁchier : 270 Ko de JavaScript et 36 Ko de CSS en ligne, 0
+ﬁchier externe. Sans en-tête de cache, les 85,8 Ko compressés (312 Ko décodés) sont retransférés à chaque
+visite, y compris pour un simple F5. À l'inverse, ShipStation ne repaie que 40,6 Ko de document — ses 51 scripts et 9
+CSS (dont 278 Ko de CSS) viennent du cache pour 0,3 Ko. Le bilan reste massivement favorable au clone, mais
+un simple Cache-Control: public, max-age=0, must-revalidate avec ETag ramènerait le coût récurrent à quasiment
+zéro.
+2. Aucune virtualisation — comme ShipStation, d'ailleurs. Le clone rend 457 <tr> pour 250 commandes (les sous-
+lignes d'articles sont pré-rendues même repliées) et 843 <tr> / 15 144 nœuds à 500 lignes par page. La taille de
+page 1 000 est proposée dans le sélecteur sans ﬁlet : sur un parc plus gros que les 474 commandes actuelles, le
+rendu deviendra bloquant.
+Deux défauts de performance mineurs relevés au passage : /api/orders/counts est appelé 11 fois par minute, y
+compris sur des écrans qui n'aﬃchent aucune commande, avec une latence qui se dégrade de 66 ms à 393 ms ; et
+/api/criteres, qui est strictement statique (39 champs, 19 opérateurs, 23 actions), est retéléchargé à chaque
+aﬃchage de l'écran Automatisation.
+7. Ce que le clone fait mieux que ShipStation
+Cet audit relève 157 défauts dans le clone. Il serait malhonnête de s'arrêter là : sur une douzaine de points, le clone ne
+rattrape pas ShipStation, il le dépasse. Voici les gains classés par valeur métier pour Lasclay, du plus fort au plus faible.
+7.1 Les cinq gains structurants
+1. L'écart au tarif de dépôt — le seul indicateur véritablement neuf. Le bloc Écart au tarif drop-off (6.31 $ sous
+500 g) quantiﬁe, colis par colis, l'écart entre le tarif payé et le tarif de dépôt-comptoir applicable sous 500 g, et le
+décompose en admissibles / déjà captés / non captés / économie restante. La même règle est appliquée
+automatiquement dans le comparateur de tarifs : à 400 g, une septième ligne apparaît en tête, pastille dépôt et
+recommandé, à 6,31 $ contre 9,09 $ — 2,78 $ économisés par colis. ShipStation, sur les 21 tarifs qu'il retourne pour
+la même cotation, n'en propose aucun en dépôt : le concept n'existe pas chez lui. Son Net Shipping Revenue dit qu'on
+perd de l'argent (−642,58 $ sur 30 jours) ; il ne dit jamais quel geste précis corrige la perte. C'est la diﬀérence entre un
+constat et une consigne opératoire. Valeur métier : élevée et directement monétisable, l'essentiel du volume de
+Lasclay étant du petit colis Canada Post.
+2. La précédence des six couches d'automatisation, enﬁn visible. 1 Auto-Routing → 2 Auto-Split → 3 Product
+Preset Groups → 4 Product Defaults → 5 Service Mapping → 6 Automation Rules, chacune marquée rejouable ou à
+l'import seulement, avec la phrase « Les règles passent en dernier : elles voient ce que les couches précédentes ont écrit.
+» ShipStation n'expose jamais cet ordre. C'est ce qui rend enﬁn diagnosticable la question la plus fréquente d'un
+administrateur : « pourquoi ma règle ne fait rien ? ». Le clone va plus loin : il a corrigé un piège réel en inversant les
+règles 2 et 3 — chez ShipStation, LAS Cost Centre teste l'entrepôt avant que Warehouse Selection ne l'ait écrit, donc elle
+ne se déclenche jamais — et il le documente dans deux notes et dans la modale de réordonnancement.
+3. Les 27 vues sauvegardées, avec compteur en direct et notes documentaires. ShipStation n'a qu'un seul
+ﬁltre sauvegardé dans tout le compte, et n'aﬃche aucun compteur de vue. Le clone en expose 27 en onglets,
+chacune avec son volume à jour (ROC 256, Colis Canada 430, TIMBRE 2.0 47…), et une modale « Toutes les vues » où
+chaque vue porte l'explication écrite de sa règle métier : seuil de 73 g qui sépare le tarif timbre du colis, seuils
+d'emballage 65 $ au Canada et 80 $ à l'international, convention « kaseme », plus des marqueurs ⚠ à vérifier et
+campagne datée. Cette traçabilité du savoir-faire n'existe nulle part chez ShipStation.
+4. L'analyse d'écart plutôt que la conﬁguration muette. Trois écrans le font, et aucun n'a d'équivalent :
+« 30 libellé(s) de checkout sans mapping », avec les volumes : Express (6 750), Expédition (503), Livraison
+gratuite (447), Shipping (283)… Chez ShipStation, l'écran Shipping Services aﬃche 27 lignes dont 22 vides, sans
+jamais dire lesquelles ont du traﬁc : 6 750 commandes partent au service par défaut, en silence.
+Audit comparatif ShipStation / clone — Lasclay p. 99 / 110
+
+═══ PAGE 100 / 110 ═══
+Les alertes pré-lot : 7 catégories chiﬀrées, « ce qui bloquera le prochain lot, détecté avant de le lancer » (sans poids
+4, adresse incomplète 34, douane incomplète 9, combinables 8, en attente > 14 j 50). Chez ShipStation, ces
+informations sont dispersées entre la grille, les douanes et les produits.
+Le tableau d'auto-contrôle « attendu vs présent » de la conﬁguration migrée. Le concept est excellent (la
+logique du badge est à corriger).
+5. Le pilotage de la conformité douanière. ShipStation possède les champs douaniers mais aucune vue de
+pilotage : impossible d'y répondre à « combien de mes produits n'ont pas de code SH ? ». Le clone en fait un écran de
+premier plan, avec un référentiel de 35 familles SH libellées en français et taillées pour le catalogue Lasclay, un
+moteur de classiﬁcation dont l'ordre de résolution est explicité (SKU d'abord, puis nom), un mode simulation avant
+écriture dont la colonne Via trace pourquoi chaque code est proposé, un drapeau « à revalider » sur trois familles
+ambiguës, une catégorie d'exclusion explicite, et surtout le lien douane ↔ commandes : la liste des 9 commandes
+internationales bloquantes et de leurs 20 lignes fautives. Le manque de référentiel devient une liste de travail.
+7.2 Les gains d'ergonomie quotidienne
+Figure 135 — Clone — table des 17 préréglages d'expédition, avec la colonne Raccourci qui câble les 7 premiers sur les touches 1 à 7,
+et 8 colonnes lisibles (Préréglage, Raccourci, Expédié de, Service, Colis, Confirmation, Poids, Dimensions). La note de bas de
+tableau est un modèle du genre : « Un chiﬀre dans la colonne « Raccourci » applique le préréglage à la sélection depuis la grille. Chez
+ShipStation, les 17 préréglages avaient tous hotKey: null. » L'accélérateur le plus évident du métier existait chez ShipStation et n'avait
+jamais servi.
+Audit comparatif ShipStation / clone — Lasclay p. 100 / 110
+
+═══ PAGE 101 / 110 ═══
+Figure 136 — Clone — écran Préréglages et mappings de service au complet. À voir : les deux tables réunies sur un seul écran, la
+colonne Canal logistique (colis / timbre / ramassage / defricheuses / ddd) qui remplace une recherche de sous-chaîne fragile par
+une catégorie stable, la colonne Correspondance (contient / exacte) rendue explicite, et une table de 11 mappings utiles là où
+ShipStation en aligne 27 dont 22 coquilles vides.
+Figure 137 — Clone — la grille avec le mode Dense désactivé (lignes de 34 px). Comparer avec les captures précédentes en mode dense (27
+px) : la bascule fait passer de 16 à 21 lignes visibles, soit +31 %. ShipStation n'oﬀre aucun réglage de densité et aﬃche 19 lignes, sans
+alternative. Défaut du clone : le réglage n'est pas mémorisé d'une session à l'autre.
+6. Le comparateur de tarifs intégré partout. Coter depuis la grille, Vérifier le coût depuis le panneau
+d'expédition, l'écran Tarifs — trois points d'entrée pour un comparateur qui désigne un gagnant (ligne en gras +
+pastille recommandé) au lieu de simplement lister. ShipStation exige de choisir un service avant d'en connaître le prix.
+7. La marge aﬃchée sur le coût (6,31 $ −6,31 $) et en colonne du comparateur. ShipStation n'aﬃche jamais l'écart
+entre livraison facturée et coût réel au niveau de la commande.
+8. Le panneau multi-sélection orienté préparation : Poids cumulé, Sans poids, Valeur, Livraison facturée, et «
+Articles à préparer » — l'agrégat des SKU et quantités de la sélection, c'est-à-dire une liste de prélèvement
+instantanée. ShipStation n'aﬃche qu'un tarif agrégé.
+9. La simulation avant exécution, partout : Simuler avant Retraiter (Réglages), Simuler avant Appliquer (Douanes),
+Simuler le lot (coût et blocages) et Rejouer l'automatisation (simulation) (Commandes), Tester les règles
+(simulation) (ﬁche commande). ShipStation n'oﬀre aucun essai à blanc, nulle part.
+Audit comparatif ShipStation / clone — Lasclay p. 101 / 110
+
+═══ PAGE 102 / 110 ═══
+10. Le garde-fou ﬁnancier au traitement d'un lot : Refuser au-delà d'une perte de. Process Shipments de ShipStation
+s'exécute sans aucun plafond de coût.
+11. La portée sur les lignes d'article dans les règles (au moins un / tous / uniquement ceux-ci / aucun) : c'est la limite
+structurelle du moteur ShipStation, et elle est levée. Plus le choix ET / OU au niveau de la règle, que ShipStation
+impose en ET.
+12. La colonne « Exéc. » : 28 431 / 20 261 / 3 297 / 187 / 34 / 11 / 0. On voit instantanément quelles règles portent le
+traﬁc et lesquelles sont mortes. ShipStation ne le dit nulle part.
+13. Le journal d'audit central (57 757 entrées transverses) : ShipStation ne journalise qu'au niveau boutique et ne
+l'expose pas par API.
+14. Le bloc « Renvoi du suivi aux boutiques », et son raisonnement anti-spam rétroactif : « les 0 expéditions déjà en
+base ne seront jamais notiﬁées, ce qui évite d'écrire à des clients dont la commande est arrivée depuis des mois. »
+15. Les métriques de valeur client en colonne (Commandes, Total dépensé, Première, Dernière) : chez ShipStation, ces
+quatre informations n'existent dans aucune colonne.
+16. Les états et la sécurité du poste de scan côté navigateur : zéro dépendance à un agent local, quand 2
+workﬂows sur 3 sont purement bloqués chez ShipStation par « ShipStation Connect Missing ». Plus le poids de la
+commande aﬃché au poste (· 32 g).
+17. La découvrabilité des raccourcis : bouton ? dans l'en-tête, touche ?, astuce aﬃchée en permanence dans le
+panneau latéral, et pastille d'indice de 900 ms pendant une séquence à deux touches. Chez ShipStation, ils sont à
+trois clics de profondeur et aucune séquence n'a de retour visuel.
+18. L'aperçu de gabarit sur une vraie commande, instantané, contre un Send Test Email asynchrone qui pollue une
+boîte. Et l'éditeur de bordereau HTML ouvert à tous, alors qu'il est réservé aux plans Silver+ et désactivé sur ce
+compte chez ShipStation.
+19. La qualité de la rédaction. C'est un avantage diﬀus mais réel : les textes d'aide du clone sont écrits en langage
+d'opérateur, souvent chiﬀrés (« 96 % des étiquettes du compte audité passaient par un lot »), souvent comparatifs («
+ShipStation avertissait que… »), et ils expliquent le pourquoi. Interface intégralement en français, lang="fr",
+vocabulaire métier québécois cohérent.
+20. L'hygiène technique : une fonction d'échappement centrale appliquée 364 fois, aucune interpolation non échappée
+de donnée client trouvée, aucun eval ni document.write, cookie de session HttpOnly conﬁrmé, 12 points de
+terminaison sur 14 correctement protégés, Referrer-Policy: same-origin plus strict que celui de ShipStation, 0
+erreur console sur l'intégralité de l'audit, et aucune webfont, aucune image, aucun pixel de suivi.
+7.3 Une réserve à garder en tête
+Sur les 20 points ci-dessus, six ne sont aujourd'hui démontrables que sur le papier : l'écart au tarif de dépôt, le
+coût réel contre frais encaissés, les alertes de douane, la classiﬁcation SH, les métriques de valeur client et la colonne
+Exéc. des règles produit-dépendantes aﬃchent tous 0, faute d'expéditions, de produits et de clients en base. La
+migration depuis ShipStation n'a jamais été lancée. Les bonnes idées du clone ne deviendront des gains
+mesurables qu'après cette étape.
+8. Les 15 corrections d'interface à faire en premier
+Classées par gravité décroissante. Chaque entrée renvoie à la ﬁgure qui la motive (numérotation de l'annexe) et se
+limite à une phrase de correction : le détail technique, la cause racine et le correctif de code sont dans le
+document technique d'accompagnement.
+Bloquants — à corriger avant toute bascule
+1. Découpler la touche B de l'achat d'étiquettes. Motivation : ﬁgure 5 (les 40 raccourcis de ShipStation) et ﬁgure 6
+(les 29 du clone, où B est documentée « Créer un lot »). Câbler B sur la même boîte que + Créer un lot, et ajouter un
+garde qui neutralise tous les raccourcis mutants quand une modale est ouverte.
+2. Refuser au poste de scan toute commande qui n'est pas « à expédier ». Motivation : ﬁgures 85 et 86
+(ShipStation refuse L-50760, le clone l'ouvre avec l'impression active) et ﬁgure 87 (la pastille Expédiée remplacée par
+vérifiée). Bandeau rouge bloquant « Commande déjà expédiée le JJ/MM — suivi XXXX », bouton d'impression désactivé,
+et séparer le statut de la commande de l'avancement de la vériﬁcation.
+3. Ne jamais faire retomber un sélecteur sur sa première option. Motivation : ﬁgure 108 (l'éditeur de la règle «
+Drop-oﬀ sous 500 g » aﬃche order_number (OrderNumber) à la place de son champ réel). Injecter une option orpheline
+signalée (⚠ champ inconnu) et bloquer l'enregistrement tant qu'elle est sélectionnée — un ouvrir-fermer ne doit jamais
+pouvoir corrompre une règle.
+Audit comparatif ShipStation / clone — Lasclay p. 102 / 110
+
+═══ PAGE 103 / 110 ═══
+4. Aﬃcher les erreurs d'API — les messages sont déjà écrits. Motivation : ﬁgures 130 et 131 (panne réseau : rien à
+l'écran, puis page blanche inﬁnie) et ﬁgure 23 (HTTP 500 sur la grille : aucun changement visuel). Brancher les quatre
+messages existants sur un bandeau d'erreur avec bouton Réessayer, et marquer visiblement que les données
+aﬃchées ne sont plus à jour.
+5. Uniﬁer la syntaxe des variables de gabarit, ou refuser d'enregistrer. Motivation : ﬁgures 122 et 123 (le même
+bouton d'aperçu rend correctement un gabarit et vide l'autre). Transposer {{numero}} / {{client}} / {{articles}} vers la
+syntaxe qui fonctionne, et marquer en rouge toute variable inconnue dans l'éditeur.
+Majeurs — à corriger avant la mise en production
+6. Modéliser explicitement les trois états de chaque écran : chargement, erreur, vide. Motivation : ﬁgures 127
+et 128 (deux styles d'état vide concurrents), ﬁgure 129 (le spinner de ShipStation). Un squelette pendant le chargement
+avec la pagination désactivée, un bandeau d'erreur avec Réessayer, et deux variantes d'état vide — « rien dans ce
+statut » et « aucun résultat pour ce ﬁltre », cette dernière rappelant le critère et proposant Tout effacer plutôt qu'un
+import.
+7. Corriger la correspondance de scan et vider le champ après chaque lecture. Motivation : ﬁgure 84 (deux
+scans consécutifs produisent L-50762L-50763). Correspondance exacte obligatoire sur le numéro, liste de
+désambiguïsation si plusieurs résultats, et vidage systématique du champ après un scan résolu.
+8. Rendre les noms de service et les délais lisibles dans le comparateur. Motivation : ﬁgure 91 (colonne Service
+en cp_expedited, colonne Délai vide sur toutes les lignes) et ﬁgure 90 (ShipStation aﬃche libellés et délais). Utiliser les
+libellés commerciaux et la durée de transit que l'API renvoie déjà, et garder le code technique en info-bulle.
+9. Estampiller les tarifs de démonstration dans le tableau lui-même. Motivation : ﬁgure 91 (six prix crédibles au
+centime près, dont trois faux de 18 à 48 %, et deux transporteurs que Lasclay n'a pas). Rendre le bandeau non
+refermable et répéter la mention « DÉMO » dans chaque ligne tant que l'adaptateur transporteur n'est pas le vrai.
+10. Rendre la sélection cohérente avec ce qui est aﬃché. Motivation : ﬁgure 132 (grille ﬁltrée sur une commande,
+« 1 sélectionnée », panneau droit sur une autre commande, invisible). Vider la sélection au changement de ﬁltre, ou
+aﬃcher explicitement « 1 sélectionnée hors de la vue courante » avec un moyen de la voir — et ajouter le bandeau de
+sélection inter-pages de la ﬁgure 15.
+11. Rendre la navigation atteignable au clavier. Motivation : ﬁgure 133 (l'écran de résultats dédié de ShipStation,
+avec ses facettes) et ﬁgure 134 (l'écran Alertes du clone, où aucune entrée de navigation n'est active). Poser un href sur
+les 275 liens de navigation — ce sont déjà des routes de hachage — ce qui rétablit d'un coup la tabulation vers les 9
+modules, les 15 entrées latérales et les 27 onglets de vues, et rend possible « ouvrir dans un nouvel onglet ».
+12. Réparer le bouton Retour du navigateur. Motivation : ﬁgure 94 (l'URL aﬃche #tarifs, l'écran aﬃche Scan).
+Écouter le changement de hachage et l'historique, ce qui supprime au passage les comptages contradictoires observés
+sur la page Analytique.
+Finition à fort rendement
+13. Corriger le badge d'auto-contrôle et les indicateurs qui rassurent à tort. Motivation : ﬁgure 116 (boutiques
+12 sur 11 et regles 16 sur 11 peintes en vert « complet ») et ﬁgure 71 (deux tuiles 0 en vert sur un catalogue vide).
+Trois états au lieu de deux (manquant / complet / excédent), et un état « indicateur non calculable » quand le
+dénominateur est nul.
+14. Inverser la hiérarchie visuelle des actions dangereuses. Motivation : ﬁgure 71 (Appliquer aux produits sans
+code en bleu primaire, Simuler en secondaire) et ﬁgure 116 pour le même schéma dans les Réglages. Simuler en
+primaire, l'action mutante en secondaire et désactivée tant qu'aucune simulation n'a été jouée, avec le nombre
+d'objets touchés aﬃché avant le clic ; et regrouper Retraiter, Réinitialiser, Prendre le relais et Lancer la migration
+dans une zone de danger isolée.
+15. Restyler les états désactivés et remonter les six contrastes sous le seuil. Motivation : ﬁgure 10 (le bouton
+Créer + imprimer les étiquettes rendu en vert plein saturé à 45 % d'opacité, contraste eﬀectif 2,05 : 1) et ﬁgure 2 (les
+badges et textes secondaires). Fond neutre pour les boutons désactivés avec une info-bulle qui dit pourquoi, et
+remontée des quatre variantes de badge et du texte secondaire au-dessus de 4,5 : 1.
+Ce qui n'est pas dans cette liste, et pourquoi
+Les quatre référentiels vides (0 produit, 0 client, 0 expédition, 0 retour) ne ﬁgurent pas ci-dessus : ce ne sont pas
+des défauts d'interface mais la conséquence d'une migration jamais lancée. C'est le préalable à tout le reste — sans
+elle, la moitié des écrans de ce document ne peuvent pas être validés, et six des vingt gains du chapitre 7 restent
+théoriques. Le traitement de ce point relève du document technique.
+Audit comparatif ShipStation / clone — Lasclay p. 103 / 110
+
+═══ PAGE 104 / 110 ═══
+9. Annexe — index des ﬁgures
+137 ﬁgures, dans l'ordre d'apparition. Les chemins sont absolus et ont tous été vériﬁés sur disque. Les captures
+/tmp/claude-chrome-screenshots-mejjtK/ proviennent de l'audit du 2–3 août 2026 ; les ﬁchiers /root/shipstation-spec/img/
+sont les captures de référence ShipStation classées.
+Répartition : 64 ﬁgures ShipStation, 73 ﬁgures du clone.
+# Fichier Légende abrégée
+1 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785718740043-
+378.jpg
+ShipStation — écran Awaiting Shipment, la fenêtre de référence
+2 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785718747635-
+379.jpg
+Clone — écran À expédier, même architecture, même ordre des 9 modules, traduits
+3 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785718908557-
+382.jpg
+ShipStation — menu compte
+4 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785719022802-
+385.jpg
+Clone — menu proﬁl
+5 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785718899026-
+381.jpg
+ShipStation — modale Hotkeys, 40 raccourcis en 5 sections, avec un interrupteur
+Advanced Hotkeys Enabled et Save Changes
+6 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785719049265-
+387.jpg
+Clone — modale Raccourcis clavier, 29 raccourcis en 3 blocs
+7 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785718835959-
+380.jpg
+ShipStation — panneau 3 Active Stores déroulé par l'icône ⟳
+8 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785718956950-
+383.jpg
+Clone — la même icône ⟳ ouvre une modale Importer depuis Shopify
+9 /root/shipstation-spec/img/orders-
+grid.jpg
+ShipStation — grille Awaiting Shipment, 427 commandes
+10 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785707733456-
+47.jpg
+Clone — grille À expédier, 474 commandes
+11 /root/shipstation-spec/img/manage-
+columns.jpg
+ShipStation — modale Manage Columns
+12 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785708706535-
+52.jpg
+Clone — modale Colonnes
+13 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785708336591-
+49.jpg
+ShipStation — panneau Advanced Search, 10 champs : Order Status (7 statuts à
+cocher), Store, Order #, Recipient Name, Email, `Item…
+14 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785708810085-
+53.jpg
+Clone — modale Recherche avancée, 6 champs seulement : Numéro de
+commande, Destinataire, Courriel, SKU, Commandée depuis,…
+15 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785709150794-
+61.jpg
+ShipStation — 250 lignes sélectionnées
+16 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785709163607-
+62.jpg
+Clone — 250 lignes sélectionnées
+17 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785708431966-
+50.jpg
+ShipStation — ligne extensible
+Audit comparatif ShipStation / clone — Lasclay p. 104 / 110
+
+═══ PAGE 105 / 110 ═══
+# Fichier Légende abrégée
+18 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785709102822-
+59.jpg
+Clone — ligne extensible
+19 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785708317360-
+48.jpg
+ShipStation — reproduction exacte des critères de la vue QC-ON du clone (Other →
+Country Is Canada + Other → State Is (Ontario, Quebec))
+20 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785709278413-
+63.jpg
+Clone — le même moteur de vues, ici sur le ﬁltre boutique Shopify (direct) : 0
+résultat
+21 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785708958781-
+56.jpg
+ShipStation — état vide de recherche
+22 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785708938418-
+55.jpg
+Clone — état vide après la recherche ZZZZQQQ
+23 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785709014473-
+58.jpg
+Clone — après un HTTP 500 forcé sur /api/orders puis un clic sur ↻ Recharger
+24 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785709359571-
+64.jpg
+Clone — la modale Tarifs ouverte par le bouton Coter
+25 /root/shipstation-spec/img/order-
+detail-top.jpg
+ShipStation — haut de la modale de commande
+26 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710668375-
+122.jpg
+Clone — même commande (L-50724) dans la modale du clone
+27 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710474353-
+109.jpg
+Clone — commande #2270
+28 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785711428209-
+142.png
+Clone — zoom sur le résumé des coûts de L-50765 : Produits 51,00 $, Livraison
+9,99 $, Taxes 9,14 $, Total 70,13 $
+29 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785711439130-
+143.png
+Clone — zoom sur l'unique ligne d'article de la même commande L-50765 : 59,99 $
+× 1
+30 /root/shipstation-spec/img/order-
+detail-customs.jpg
+ShipStation — bloc Customs Declarations, ici en Tab View (6 déclarations)
+31 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710974644-
+126.jpg
+Clone — bloc Déclarations de douane de la même commande
+32 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710223328-
+83.jpg
+ShipStation — résultat de ✨  Find HS Code sur « Cache-cou d'asclépiade - Vert » : le
+code 650500 et sa description oﬃcielle. Côté…
+33 /root/shipstation-spec/img/order-
+detail-notes-activity.jpg
+ShipStation — blocs Notes, Customer Communication et Shipment Activity
+34 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785711049161-
+128.jpg
+Clone — les mêmes blocs
+35 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710242660-
+84.jpg
+ShipStation — panneau Configure Shipment
+36 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785711098344-
+133.jpg
+Clone — le tableau produit par le bouton Vérifier le coût
+37 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785711268387-
+141.jpg
+Clone — panneau latéral rapide de la grille, pour la commande L-50124
+Audit comparatif ShipStation / clone — Lasclay p. 105 / 110
+
+═══ PAGE 106 / 110 ═══
+# Fichier Légende abrégée
+38 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710388372-
+103.jpg
+ShipStation — modale Edit Shipment Items : édition réelle des lignes, avec + Add
+Item
+39 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785711162343-
+137.jpg
+Clone — le lien Modifier du bloc Articles de l'expédition
+40 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710058367-
+75.jpg
+ShipStation — commande expédiée (L-50689)
+41 /root/shipstation-spec/img/shipments-
+shipped.jpg
+ShipStation — Shipments > Shipped, 16 expéditions récentes
+42 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785709900303-
+65.jpg
+Clone — écran Expéditions
+43 /root/shipstation-
+spec/img/fulfillments.jpg
+ShipStation — écran Fulfillments
+44 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710615645-
+118.jpg
+Clone — onglet Préparations externes, présenté comme l'équivalent
+45 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710562167-
+116.jpg
+ShipStation — écran d'un lot ouvert
+46 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710645191-
+120.jpg
+Clone — la modale Commandes du lot ouverte par le bouton Voir
+47 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710664346-
+121.jpg
+Clone — modale Traiter « Lot du 2026-08-02 »
+48 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710250399-
+88.jpg
+ShipStation — End of Day / Manifests, onglet Open Shipments
+49 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710704969-
+124.jpg
+Clone — écran Fin de journée
+50 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710308317-
+96.jpg
+ShipStation — Carrier Pickups / Scheduled Pickups, avec le menu Schedule a
+Pickup ▾ listant 5 couples transporteur/compte (Canada Post…
+51 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785710146845-
+78.jpg
+ShipStation — Shipped / Delivery Exceptions, état vide illustré, avec un titre, une
+explication du cycle de vie et un appel à l'action. À…
+52 /root/shipstation-
+spec/img/returns.jpg
+ShipStation — écran Returns, onglet Outstanding
+53 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713309599-
+192.jpg
+Clone — écran Retours
+54 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712348274-
+155.jpg
+ShipStation — ﬁche RMA #100308
+55 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712597730-
+165.jpg
+ShipStation — la liste déroulante des 13 motifs de retour normalisés : Courtesy
+Return, Ordered Wrong Item, Warranty, Changed Mind,…
+56 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712912913-
+182.jpg
+Clone — modale Nouveau retour
+57 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712187027-
+150.jpg
+ShipStation — onglet Received (222 RMA), avec sa colonne Received Date. Le clone
+a bien un statut received dans son <select> inline, mais…
+Audit comparatif ShipStation / clone — Lasclay p. 106 / 110
+
+═══ PAGE 107 / 110 ═══
+# Fichier Légende abrégée
+58 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712201489-
+151.jpg
+ShipStation — onglet Voided (2 RMA), numéro de suivi barré. Le clone n'a pas de
+notion d'annulation : seul le statut rejected existe
+59 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712214240-
+152.jpg
+ShipStation — vue LAS Shopify du module Returns & Exchanges, non activé sur
+ce compte
+60 /root/shipstation-
+spec/img/products.jpg
+ShipStation — écran Products, 473 produits actifs (484 avec les inactifs)
+61 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712081098-
+147.jpg
+Clone — écran Produits
+62 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712338213-
+154.jpg
+ShipStation — ﬁche produit, onglet General
+63 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712356246-
+156.jpg
+ShipStation — ﬁche produit, onglet Shipping
+64 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712383390-
+158.jpg
+ShipStation — ﬁche produit, onglet Customs : bascule d'activation de la déclaration,
+description douanière multi-lignes avec exemple et…
+65 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713044328-
+188.jpg
+Clone — modale Nouveau produit, 8 champs sur un seul écran : SKU, Nom,
+Poids (g), Prix, Code SH (6 chiffres), Pays d'origine…
+66 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712534935-
+161.jpg
+ShipStation — écran Preset Groups, 4 groupes : Mitaines Seules, Sac Lunch,
+Petit Article Seul, Seed bombs
+67 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713063896-
+189.jpg
+Clone — modale Groupes de préréglages
+68 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712638265-
+167.jpg
+ShipStation — Products > Inventory, avec un bandeau de diagnostic qui explique
+l'état vide : « Inventory tracking is not currently enabled……
+69 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712913497-
+183.jpg
+Clone — sous-onglet Inventaire
+70 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712952893-
+184.jpg
+Clone — sous-onglet Douanes — codes SH, une fonction qui n'existe pas du tout
+dans ShipStation
+71 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713024783-
+187.jpg
+Clone — le même écran après un clic sur Simuler
+72 /root/shipstation-
+spec/img/customers.jpg
+ShipStation — écran All Customers
+73 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713007969-
+186.jpg
+Clone — écran Clients
+74 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712784459-
+174.jpg
+ShipStation — ﬁche Customer Information
+75 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712833916-
+179.jpg
+ShipStation — modale Create New Customer, 10 champs dont Full Name et Email
+marqués obligatoires par un astérisque rouge, avec le bouton…
+76 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785712852902-
+181.jpg
+ShipStation — modale Import Customers
+77 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713241868-
+191.jpg
+Clone — recherche tremblay dans le champ Courriel ou nom
+Audit comparatif ShipStation / clone — Lasclay p. 107 / 110
+
+═══ PAGE 108 / 110 ═══
+# Fichier Légende abrégée
+78 /root/shipstation-spec/img/scan.jpg ShipStation — écran Scan
+79 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713989388-
+208.jpg
+Clone — écran Scan
+80 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713830342-
+193.jpg
+ShipStation — le prix de l'agent local
+81 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713907417-
+201.jpg
+ShipStation — écran de vériﬁcation de L-50762 en Scan to Verify
+82 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785714132100-
+215.jpg
+Clone — la même commande L-50762
+83 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713940965-
+204.jpg
+ShipStation — numéro inexistant
+84 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785714165047-
+218.jpg
+Clone — après deux scans consécutifs
+85 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785714249977-
+225.jpg
+ShipStation — scan d'une commande déjà expédiée (L-50760)
+86 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785714179140-
+219.jpg
+Clone — la même commande expédiée s'ouvre normalement au poste d'emballage,
+pastille Expédiée, et le bouton **Imprimer l'étiquette (P) est…
+87 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785715333470-
+291.jpg
+Clone — la même commande expédiée après un clic sur Tout vérifier
+88 /root/shipstation-spec/img/rate-
+browser.jpg
+ShipStation — modale Rate Browser, 3 volets
+89 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785714921659-
+281.jpg
+Clone — écran Tarifs
+90 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785714787192-
+270.jpg
+ShipStation — cotation réelle : 21 tarifs sur 6 comptes actifs
+91 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785715026118-
+288.jpg
+Clone — la même cotation (LAS Capucins → Montréal H2X 1Y4, 500 g, 9 × 6 × 2 po)
+92 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785715116080-
+289.jpg
+Clone — la même cotation à 400 g, sous le seuil
+93 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785714876171-
+275.jpg
+ShipStation — un tarif sélectionné active le bouton Configure Label → : la cotation
+débouche directement sur l'achat. Le clone n'a **aucun…
+94 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785714898105-
+279.jpg
+Clone — bogue de routage transversal, visible ici : l'URL aﬃche #tarifs et l'écran
+aﬃché est Scan. Le code ne contient **aucune…
+95 /root/shipstation-spec/img/analytics-
+shipments.jpg
+ShipStation — Shipments Overview, la page native de référence
+96 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785714991730-
+287.jpg
+Clone — page Analytique, haut de page
+97 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713905320-
+200.jpg
+ShipStation — Open Order Aging, l'indicateur d'exploitation quotidien
+Audit comparatif ShipStation / clone — Lasclay p. 108 / 110
+
+═══ PAGE 109 / 110 ═══
+# Fichier Légende abrégée
+98 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713940961-
+203.jpg
+ShipStation — modale Define Fill Time SLA, ouverte puis annulée
+99 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785713873074-
+195.jpg
+ShipStation — le sélecteur de plage de dates, mot pour mot : Today · Yesterday · In
+the Last 7 Days · In the Last 30 days · This Month ·…
+100 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785715376833-
+293.jpg
+Clone — bas de la page Analytique, bloc Exports
+101 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785715428142-
+294.jpg
+Clone — le clic sur l'icône ⟳ de l'en-tête, depuis la page Analytique
+102 /root/shipstation-
+spec/img/automations-overview.jpg
+ShipStation — page Automations > Overview
+103 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717259986-
+347.jpg
+Clone — écran Automatisation
+104 /root/shipstation-
+spec/img/automation-rules-list.jpg
+ShipStation — Settings › Automation › Automation Rules, 11 règles (10 actives
++ 1 inactive)
+105 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717696830-
+365.jpg
+Clone — la table des règles, 16 règles, 6 colonnes
+106 /root/shipstation-
+spec/img/automation-rule-editor.jpg
+ShipStation — éditeur Define Rule
+107 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717632946-
+360.jpg
+Clone — éditeur d'une règle
+108 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717679462-
+363.jpg
+Clone — le défaut le plus insidieux de l'audit
+109 /root/shipstation-spec/img/service-
+mappings.jpg
+ShipStation — Service Mappings d'une boutique
+110 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717826338-
+374.jpg
+Clone — table Mappings de service, 11 lignes utiles au lieu de 27 dont 22
+coquilles
+111 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785716510043-
+307.jpg
+ShipStation — la table Shipping Services de la boutique LAS Etsy : entièrement
+vide, sans même un état vide. Même chose pour `FAIRE…
+112 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717141649-
+341.jpg
+ShipStation — Settings › Automation › SmartFill, 5 bascules actives. C'est le
+mécanisme qui apprend le poids et les dimensions à partir de…
+113 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717162021-
+342.jpg
+ShipStation — Settings › Shipping › Rate Shopper, écran de conﬁguration (0
+conﬁguration ici, badge Inactive). Côté clone, l'action…
+114 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717758086-
+369.jpg
+Clone — modale Ordre d'exécution
+115 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785716200551-
+296.jpg
+ShipStation — page d'accueil Settings, les Quick Links
+116 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717318062-
+350.jpg
+Clone — écran Réglages, haut de page
+117 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717481268-
+351.jpg
+Clone — blocs Marque, Tarif drop-off cible et Préréglages d'expédition
+Audit comparatif ShipStation / clone — Lasclay p. 109 / 110
+
+═══ PAGE 110 / 110 ═══
+# Fichier Légende abrégée
+118 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717481269-
+352.jpg
+Clone — blocs Import Shopify (2e du même nom sur la page), Renvoi du suivi
+aux boutiques et Sécurité
+119 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717481269-
+353.jpg
+Clone — blocs Webhooks et Migration depuis ShipStation
+120 /root/shipstation-spec/img/store-
+setup.jpg
+ShipStation — Selling Channels › Store Setup
+121 /root/shipstation-spec/img/store-
+error-modal.jpg
+ShipStation — modale d'erreur d'import d'une boutique
+122 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717596608-
+358.jpg
+Clone — aperçu du gabarit « Conﬁrmation d'expédition » sur une vraie commande
+123 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717634451-
+361.jpg
+Clone — le même bouton d'aperçu sur le gabarit « DDD Template »
+124 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717669950-
+362.jpg
+Clone — écran Utilisateurs
+125 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717717204-
+366.jpg
+Clone — écran Alertes de commandes, sans équivalent chez ShipStation
+126 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717743474-
+368.jpg
+Clone — écran Journal d'audit
+127 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785720484883-
+401.jpg
+Clone — style d'état vide n° 1 (écran Commandes) : un bloc centré avec titre («
+Aucune commande »), phrase d'explication (« Cette vue ne…
+128 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785720018843-
+394.jpg
+Clone — style d'état vide n° 2 (Clients, Produits, Expéditions, Retours, Lots, Fin de
+journée) : « Aucun résultat » seul, en gris, dans la…
+129 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785720232325-
+395.jpg
+ShipStation — pour comparaison, l'état de chargement : écran blanc avec un
+spinner animé à 10 points, puis un spinner localisé dans la zone de…
+130 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785719989030-
+392.jpg
+Clone — panne réseau simulée, puis clic sur ↻ Recharger
+131 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785720004660-
+393.jpg
+Clone — même panne, navigation vers Produits
+132 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785719167806-
+390.jpg
+Clone — sélection fantôme. Reproduction : cliquer une ligne (L-17804), puis
+chercher L-50125
+133 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785720294466-
+399.jpg
+ShipStation — pour comparaison, la recherche produit un écran de résultats dédié :
+titre All Search Results for "L-50125", URL partageable…
+134 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785718986904-
+384.jpg
+Clone — écran Alertes, atteint par la cloche 105
+135 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717813145-
+372.jpg
+Clone — table des 17 préréglages d'expédition, avec la colonne Raccourci qui
+câble les 7 premiers sur les touches 1 à 7, et 8 colonnes…
+136 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785717531715-
+355.jpg
+Clone — écran Préréglages et mappings de service au complet
+137 /tmp/claude-chrome-screenshots-
+mejjtK/screenshot-1785709116483-
+60.jpg
+Clone — la grille avec le mode Dense désactivé (lignes de 34 px). Comparer avec les
+captures précédentes en mode dense (27 px) : la bascule…
+Audit comparatif ShipStation / clone — Lasclay p. 110 / 110
