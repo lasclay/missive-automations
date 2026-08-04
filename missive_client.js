@@ -22,6 +22,12 @@
  *   node missive_client.js labels <convId>   (JSON {add:[],remove:[],markdown,keepClosed} sur stdin ;
  *                                             keepClosed:true sur un fil déjà fermé, sinon il rouvre)
  *   node missive_client.js reply <convId>   (lit un JSON de brouillon sur stdin)
+ *   node missive_client.js send             (courriel NEUF, hors de tout fil existant.
+ *                                            Lit sur stdin un JSON
+ *                                            {from, to[], cc[], bcc[], subject, body, send}.
+ *                                            Sans "send": true, ça crée un BROUILLON dans
+ *                                            Missive et un humain appuie sur envoyer.
+ *                                            Maximum 5 destinataires.)
  */
 
 const URL = process.env.MISSIVE_PROXY_URL || "https://proxy-missive.onrender.com";
@@ -58,6 +64,7 @@ function readStdin() {
     else if (cmd === "close") console.log(JSON.stringify(await call("/close", { id: a1, note: a2 }), null, 2));
     else if (cmd === "labels") { const l = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/labels", { id: a1, ...l }), null, 2)); }
     else if (cmd === "reply") { const draft = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/reply", { id: a1, ...draft }), null, 2)); }
+    else if (cmd === "send") { const mail = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/send", mail), null, 2)); }
     else { console.error("Commande inconnue. Voir l'en-tête du fichier."); process.exit(1); }
   } catch (e) { console.error("Erreur:", e.message); process.exit(1); }
 })();
