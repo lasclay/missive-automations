@@ -81,8 +81,8 @@ GLOSSAIRE = {
         'The income statement month by month, 48 months. Columns D to O are 2025-2026.',
     'Le bilan aux mêmes 48 mois. La rangée 76 est un contrôle : elle doit rester à zéro partout.':
         'The balance sheet over the same 48 months. Row 76 is a control: it must stay at zero everywhere.',
-    'Les encaissements et décaissements qui produisent la trésorerie du résultat.':
-        'The receipts and disbursements that produce the income statement’s cash.',
+    'Une seconde lecture de la trésorerie, en méthode directe. C’est la chaîne du résultat (rangées 153 à 189) qui fait foi ; voir la note de la rangée 37 de cette feuille.':
+        'A second reading of cash, on a direct basis. The income statement’s chain (rows 153 to 189) is the authority; see the note in row 37 of that sheet.',
     'Toutes les hypothèses, et la bascule de scénario (C70).':
         'All the assumptions, and the scenario switch (C70).',
     'Le moteur de ventes, produit par produit.':
@@ -163,4 +163,21 @@ GLOSSAIRE = {
         'August 2026 to August 2029. August 2026 is the first forecast month: the model’s actuals stop at 31 July.',
     'Le dépassement est réel, pas une erreur de formule : la marge EDC était déjà tirée à 143 026 $ au 31 juillet 2026. C’est le besoin de financement que le modèle est censé montrer.':
         'The overrun is real, not a formula error: the EDC line was already drawn at $143,026 at 31 July 2026. That is the financing need the model is meant to show.',
+
+    # ------------------------------------------------------ budget de caisse
+    'Variation de trésorerie — méthode directe (encaissements moins décaissements ci-dessus)':
+        'Change in cash — direct method (receipts less disbursements above)',
+    'Écart entre la méthode directe ci-dessus et la chaîne de trésorerie du résultat (rangée 184)':
+        'Gap between the direct method above and the income statement’s cash chain (row 184)',
+    'Attendu, pas nul': 'Expected, not nil',
+    'Les deux méthodes ne mesurent pas la même chose. Les rangées 12 à 32 partent des postes de l’état des résultats : elles ne portent ni la constitution des stocks ni le calendrier des fournisseurs. Les rangées 33 à 35 viennent de la chaîne de trésorerie du résultat (rangées 153 à 189), qui porte le fonds de roulement au complet. C’est cette dernière qui fait foi : c’est elle qui produit l’encaisse du bilan, le tirage de marge de crédit et le besoin de financement du dossier. L’écart de la rangée 36 mesure la différence entre les deux méthodes ; il ne signale pas une erreur.':
+        'The two methods do not measure the same thing. Rows 12 to 32 start from the income statement lines: they carry neither the build-up of inventory nor supplier timing. Rows 33 to 35 come from the income statement’s cash chain (rows 153 to 189), which carries working capital in full. That chain is the authority: it is what produces the balance sheet’s cash, the credit line draw and the financing need in this file. The gap in row 36 measures the difference between the two methods; it does not signal an error.',
+    'CONTRÔLE — encaisse réelle au 31 juillet 2026 (QuickBooks)':
+        'CONTROL — actual cash at 31 July 2026 (QuickBooks)',
+    'Bilan réel de QuickBooks : onze mois, septembre 2025 à juillet 2026 (colonnes AC à AM de « QBOBS à maj »). Seul août 2026 reste prévisionnel.':
+        'QuickBooks actual balance sheet: eleven months, September 2025 to July 2026 (columns AC to AM of “QBOBS to update”). Only August 2026 remains forecast.',
+
+    # ------------------------------------------------- signalement au journal
+    '• Signalé, non corrigé : la feuille « Budget de caisse » porte deux méthodes côte à côte. Les rangées 12 à 32 sont une vue directe bâtie sur les postes du résultat, sans les stocks ni le calendrier des fournisseurs ; les rangées 33 à 35 viennent de la chaîne de trésorerie du résultat, qui est complète et qui fait foi. La rangée de contrôle 36 mesure l’écart entre les deux : il va de -50 000 $ à +69 000 $ sur 39 des 48 mois. Les deux méthodes sont désormais nommées sur la feuille et la note de la rangée 37 dit laquelle produit l’encaisse du bilan. Boucher l’écart par un chiffre de bouclement aurait fait disparaître le contrôle plutôt que le problème : refaire la vue directe en méthode d’encaissement complète reste à décider.':
+        '• Reported, not corrected: the “Cash budget” sheet carries two methods side by side. Rows 12 to 32 are a direct view built on the income statement lines, without inventory or supplier timing; rows 33 to 35 come from the income statement’s cash chain, which is complete and authoritative. Control row 36 measures the gap between them: it runs from −$50,000 to +$69,000 across 39 of the 48 months. Both methods are now named on the sheet and the note in row 37 says which one produces the balance sheet’s cash. Plugging the gap with a balancing figure would have removed the control rather than the problem: rebuilding the direct view as a full receipts-and-disbursements method remains to be decided.',
 }

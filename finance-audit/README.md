@@ -56,6 +56,7 @@ classeur en 1,2 seconde.
 | `fix_av.py` | Le contrôle du tirage de marge de crédit balaie aussi le premier mois projeté, qui est justement celui du sommet. |
 | `fix_aw.py` | Corrige au journal une affirmation que la phase suivante avait rendue fausse, et pose le constat de clôture. |
 | `fix_ax.py` | L'avance de 80 000 $ du 15 août 2026 **s'ajoute** aux 3 678 $ déjà inscrits chez QuickBooks au lieu de les remplacer. L'échéancier s'arrête sur le solde préexistant, qui reste au bilan sur tout l'horizon. |
+| `fix_ay.py` | Nomme les deux méthodes du budget de caisse et dit laquelle fait foi. La rangée de contrôle 36 n'est pas à zéro : elle mesure l'écart entre une vue directe bâtie sur le résultat et la chaîne de trésorerie complète. |
 | `recache.py` | Rafraîchit les valeurs en cache de tout le classeur. **À lancer en dernier**, après toute écriture. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `traduire.py` `glossaire_en.py` | Dérive le mémo anglais du mémo français. Les deux sortent du même `pdf_data.json`, donc un chiffre ne peut pas diverger d'une langue à l'autre ; seul le texte change. `--manquants` liste les segments non traduits et le script refuse d'écrire tant qu'il en reste. Les nombres passent au format anglais mécaniquement. |
@@ -199,6 +200,20 @@ classeur en 1,2 seconde.
   tirage partait de septembre 2026, ce qui était juste tant que 2025-2026 était réel de bout
   en bout. Août 2026 devenu le premier mois projeté, le contrôle sautait précisément le mois
   du sommet et affichait zéro dépassement.
+- **Une rangée de contrôle qui n'est pas à zéro ne se bouche pas, elle s'explique.** Le
+  budget de caisse porte une vue directe (rangées 12 à 32) et la chaîne de trésorerie du
+  résultat (33 à 35). Elles divergent de -50 000 $ à +69 000 $ sur 39 des 48 mois parce
+  qu'elles ne mesurent pas la même chose : la première ne porte ni les stocks ni le
+  calendrier des fournisseurs. Poser un chiffre de bouclement ferait disparaître le
+  contrôle plutôt que l'écart.
+- **Chromium coupe ce qui déborde d'une page sans rien dire.** La page 17 du mémo a perdu
+  son bloc « Sources » pendant deux versions. `overflow.py` compare, page par page, le bas
+  du contenu au cadre ; il faut le lancer après **chaque** ajout de texte, et lire le
+  rendu PNG, parce que du contenu peut rester dans le cadre tout en recouvrant le pied de
+  page.
+- **L'espace qui précède « $ » ou « % » doit être insécable.** Sinon le symbole part seul à
+  la ligne suivante, et un tableau de financement affiche « 298 156 » d'un côté, « $ » de
+  l'autre.
 - **Le texte écrit dans une formule échappe à la traduction.** Les deux branches d'un
   `IF` qui affiche le scénario actif ne sont ni dans `sharedStrings` ni dans un `<is>` :
   elles vivent dans la formule. La copie anglaise les gardait en français.

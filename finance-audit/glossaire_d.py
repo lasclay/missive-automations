@@ -79,4 +79,31 @@ GLOSSAIRE = {
     ". The founder’s energy returns to markets, products and the farming network. And the fixed structure frees $123,868 from 2026-2027, not counting the $52,129 of digital infrastructure that is not even in the projections.",
 
 "dont 304 871 $ de refinancement": "of which $304,871 is refinancing",
+
+# --------------------------------------------- audit du 4 août : segments réécrits
+"Revenu par exercice, après escomptes et transport de vente compris — la ligne « revenus » d'un état des résultats. 2021-2022 selon les registres internes ; 2022-2023 à 2024-2025 selon les états financiers compilés ; 2025-2026 selon QuickBooks pour onze mois, août 2026 projeté. Marge brute : 44,3 % · 65,5 % · 73,0 % en trois exercices.":
+    "Revenue by fiscal year, after discounts and including shipping revenue — the “revenue” line of an income statement. 2021-2022 from internal records; 2022-2023 to 2024-2025 from the compiled financial statements; 2025-2026 from QuickBooks for eleven months, August 2026 forecast. Gross margin: 44.3% · 65.5% · 73.0% over three years.",
+
+"Aucune subvention non demandée : le PARI-CNRC (75 000 $) et la bourse Vision Topping sont exclus. Présenter au CNRC des prévisions qui présument son propre financement serait circulaire. Les aides qui figurent au résultat — RSDE, crédits Visa Design, La Ruche, Ville de Québec — sont énumérées à la":
+    "No grant that has not been applied for: IRAP ($75,000) and the Vision Topping award are excluded. Presenting the NRC with projections that assume its own funding would be circular. The support that does appear in the result — SR&ED, Visa Design credits, La Ruche, Ville de Québec — is listed in",
+
+"section 17": "section 17",
+
+"Juillet 2026 est passé du prévisionnel au réel :":
+    "July 2026 moved from forecast to actual:",
+
+"contre -39 272 $ en prévision, et la marge de crédit tirée à":
+    "against -$39,272 in the forecast, and the credit line drawn at",
+
+"Le premier mois projeté ouvrait sur des soldes d'ancrage et non sur le réel du mois précédent — l'échéancier disait 202 609 $ d'emprunt Shopify, QuickBooks en montre 186 437 $ — et le modèle lisait l'écart comme un encaissement :":
+    "The first forecast month opened on anchor balances rather than the previous month’s actuals — the schedule said $202,609 of Shopify borrowing, QuickBooks shows $186,437 — and the model read the difference as a cash receipt:",
+
+". Août ouvre maintenant sur le solde réel de juillet":
+    ". August now opens on July’s actual balance",
+
+"Les aides publiques portées au résultat — RSDE, crédits Visa Design, La Ruche (50 000 $, nov. 2026) et Ville de Québec (35 000 $) — sont à documenter par leurs lettres d'octroi. Elles pèsent 167 365 $ du résultat de 2026-2027, qui est négatif sans elles":
+    "The public support carried in the result — SR&ED, Visa Design credits, La Ruche ($50,000, Nov. 2026) and Ville de Québec ($35,000) — needs its award letters on file. It carries $167,365 of the 2026-2027 result, which is negative without it",
+
+"La feuille « Budget de caisse » porte une vue directe, bâtie sur les postes du résultat, qui ne reprend ni les stocks ni le calendrier des fournisseurs. C'est la chaîne de trésorerie du résultat qui produit l'encaisse, le tirage de marge et le besoin de financement ; sa rangée de contrôle 36 mesure l'écart entre les deux méthodes":
+    "The “Cash budget” sheet carries a direct view, built on the income statement lines, which picks up neither inventory nor supplier timing. It is the income statement’s cash chain that produces cash, the credit line draw and the financing need; its control row 36 measures the gap between the two methods",
 }

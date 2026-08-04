@@ -699,7 +699,7 @@ P.append(f"""<div class="page">
              fmt=lambda v: f'{v/1000:.0f} k$')}
   <div class="fig">Revenu par exercice, après escomptes et transport de vente compris —
     la ligne « revenus » d'un état des résultats. 2021-2022 selon les registres internes ;
-    2022-2023 à 2024-2025 selon les états financiers compilés ; 2025-2026 selon QuickBooks.
+    2022-2023 à 2024-2025 selon les états financiers compilés ; 2025-2026 selon QuickBooks pour onze mois, août 2026 projeté.
     Marge brute : 44,3 % · 65,5 % · 73,0 % en trois exercices.</div>
 
   <h3>Quatre contraintes ont empêché de servir cette demande</h3>
@@ -1470,9 +1470,10 @@ P.append(f"""<div class="page">
 
   <h3>Ce que le modèle ne suppose pas</h3>
   <ul>
-    <li>Aucune subvention non confirmée : le PARI-CNRC (75 000 $) et la bourse Vision
+    <li>Aucune subvention non demandée : le PARI-CNRC (75 000 $) et la bourse Vision
       Topping sont exclus. Présenter au CNRC des prévisions qui présument son propre
-      financement serait circulaire</li>
+      financement serait circulaire. Les aides qui figurent au résultat — RSDE, crédits
+      Visa Design, La Ruche, Ville de Québec — sont énumérées à la <em>section 17</em></li>
     <li>Aucune économie d'infrastructure numérique, alors que 52 129 $ sont sur la table</li>
     <li>Aucun dividende pendant le terme des prêts</li>
     <li>Aucune amélioration du rendement publicitaire : la publicité reste à 22 %, 20,5 %
@@ -1486,6 +1487,7 @@ P.append(f"""<div class="page">
 P.append(f"""<div class="page">
   <div class="kicker">Méthode</div>
   <div class="sect"><span class="num">17</span><h2>La méthode et les sources</h2></div>
+  <div style="font-size:8.4pt;line-height:1.3">
   <div class="lede">Une projection ne vaut que par la rigueur de son suivi.</div>
 
   <h3>Ancrage comptable</h3>
@@ -1519,16 +1521,14 @@ P.append(f"""<div class="page">
       facturées et crédits sur intrants chez QuickBooks — et tiennent compte de la baisse
       des crédits quand la couture quitte le Québec. Le versement du 30 novembre passe de
       <strong>13 910 $ en 2026 à 48 510 $ en 2028</strong></li>
-    <li>Juillet 2026 est passé du prévisionnel au réel. Le résultat du mois s'établit à
-      <strong>-48 225 $</strong> contre -39 272 $ en prévision, et la marge de crédit
-      était tirée à <strong>143 026 $ au 31 juillet</strong> là où le modèle projetait
-      27 825 $</li>
-    <li>Le premier mois projeté ouvrait sur des soldes d'ancrage plutôt que sur le réel du
-      mois précédent : le bilan d'août lisait l'échéancier de dette — 202 609 $ d'emprunt
-      Shopify là où QuickBooks en montre 186 437 $ — et le modèle lisait la différence
-      comme un encaissement. Avec Merchant Growth et le stock de produits finis,
+    <li>Juillet 2026 est passé du prévisionnel au réel : <strong>-48 225 $</strong> contre
+      -39 272 $ en prévision, et la marge de crédit tirée à <strong>143 026 $ au
+      31 juillet</strong> là où le modèle projetait 27 825 $</li>
+    <li>Le premier mois projeté ouvrait sur des soldes d'ancrage et non sur le réel du mois
+      précédent — l'échéancier disait 202 609 $ d'emprunt Shopify, QuickBooks en montre
+      186 437 $ — et le modèle lisait l'écart comme un encaissement :
       <strong>124 000 $ de liquidités que personne n'a avancées</strong>. Août ouvre
-      désormais sur le solde réel de juillet</li>
+      maintenant sur le solde réel de juillet</li>
     <li>Le mappage des comptes portait cinq défauts qui faisaient disparaître des soldes
       réels, dont 54 266 $ de prêt BDC qui ne tombaient nulle part</li>
     <li>Aucune cellule des feuilles actives du plan n'est en erreur et aucune référence
@@ -1541,12 +1541,21 @@ P.append(f"""<div class="page">
     <li>Les pertes fiscales reportables (151 649 $) restent un estimé du comptable</li>
     <li>Une vente d'équipement est toujours dans la file « À réviser » de QuickBooks</li>
     <li>Le contrat de l'avance de 80 000 $ du 15 août 2026 reste à signer</li>
+    <li>Les aides publiques portées au résultat — RSDE, crédits Visa Design, La Ruche
+      (50 000 $, nov. 2026) et Ville de Québec (35 000 $) — sont à documenter par leurs
+      lettres d'octroi. Elles pèsent {fr(C['aides'][1])} du résultat de 2026-2027, qui est
+      négatif sans elles</li>
     <li>Les soldes réels des prêts Accord D, privés et BDC 11K au 31 août 2026 sont à
       confirmer auprès des prêteurs</li>
+    <li>La feuille « Budget de caisse » porte une vue directe, bâtie sur les postes du
+      résultat, qui ne reprend ni les stocks ni le calendrier des fournisseurs. C'est la
+      chaîne de trésorerie du résultat qui produit l'encaisse, le tirage de marge et le
+      besoin de financement ; sa rangée de contrôle 36 mesure l'écart entre les deux
+      méthodes</li>
   </ul>
 
-  <h3>Sources</h3>
-  <p style="font-size:8.5pt;color:{GRIS}">États financiers compilés 2022-2023 à 2024-2025
+  <h3 style="margin-bottom:2px">Sources</h3>
+  <p style="font-size:7.8pt;line-height:1.25;margin-top:0;color:{GRIS}">États financiers compilés 2022-2023 à 2024-2025
   (mission de compilation, sans audit ni examen) · QuickBooks Online pour le réel 2025-2026 ·
   Shopify pour les ventes, commandes, clients, sessions et ventes par ville de
   facturation · rapports de consignation mensuels de Les Défricheuses, septembre 2025 à
@@ -1555,6 +1564,7 @@ P.append(f"""<div class="page">
   d'isolation de la membrane · Chaire de recherche industrielle sur les matériaux innovants en composites de l'Université de Sherbrooke pour la comparaison au duvet · World Wildlife Fund-México pour les colonies de monarques ·
   registre public des espèces en péril du gouvernement du Canada pour le statut du
   monarque.</p>
+  </div>
   {foot(17)}""")
 
 # ------------------------------------------------------------------ 12 CONCLUSION
@@ -1626,7 +1636,11 @@ html = CSS + ''.join(P)
 # doit pas se couper en fin de ligne. Les blocs SVG sont laissés intacts, leurs
 # attributs contenant des suites de nombres séparés par des espaces.
 def _nbsp(part):
-    return re.sub(r'(?<=\d) (?=\d{3}(?!\d))', '\u202f', part)
+    part = re.sub(r'(?<=\d) (?=\d{3}(?!\d))', '\u202f', part)
+    # Le symbole qui suit un nombre ne doit jamais tomber seul à la ligne
+    # suivante : « 298 156 » d'un côté, « $ » de l'autre, dans un tableau de
+    # financement, ça se remarque tout de suite.
+    return re.sub(r'(?<=\d) (?=[$%])', '\u00a0', part)
 
 
 _out, _last = [], 0
