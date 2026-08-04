@@ -4,16 +4,17 @@ Automatisations Lasclay (support Missive, proxys d'API). Quand on te demande d'*
 service tiers** (ShipStation, Omnisend, QuickBooks…), passe par les proxys ci-dessous — les
 clés API vivent côté Render, jamais dans l'environnement Claude ni dans le code.
 
-**N'explore pas le dépôt pour retrouver comment joindre un service : trois skills du projet
+**N'explore pas le dépôt pour retrouver comment joindre un service : quatre skills du projet
 contiennent déjà les actions exactes, les paramètres et les garde-fous.** Charge-les au lieu de
 chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, `/qbo`,
-`/proxygen`) :
+`/proxygen`, `/pousseur`) :
 
 | Skill | Couvre |
 | --- | --- |
 | `missive` | boîte support Missive, fils et brouillons, connaissances de service client et de marque, scripts de la boîte |
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
+| `pousseur` | Pousseur Lasclay Google : écrire un fichier dans le Drive, remplacer un fichier existant sans casser son lien |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
@@ -55,6 +56,18 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 ## Missive Proxy
 
 - Service Render séparé pour l'API Missive ; code : `missive-proxy/` (env `MISSIVE_PROXY_SECRET`).
+
+## Pousseur Lasclay Google (Drive)
+
+- Application Google Apps Script d'`admin@lasclay.com`, déployée en application web.
+  Elle **écrit** des fichiers dans le Drive : elle ne supprime ni ne déplace rien.
+- Client : `node drive_push.js <fichier> --id <idFichier> | --folder <idDossier> [--name …]`
+  (env : `LASCLAY_DRIVE_PUSH_URL` + `LASCLAY_DRIVE_PUSH_TOKEN`). Sonde : `--check`.
+- `--id` remplace un fichier existant **en conservant son lien et ses partages** ; c'est le
+  mode à préférer dès que la cible existe.
+- Garde-fous du script : plancher de 100 Ko à l'écrasement seulement, vérification de la
+  signature binaire par type, refus du corps vide. Un refus ne modifie jamais la cible.
+- Doc complète : skill `pousseur`.
 
 ## Scripts principaux
 
