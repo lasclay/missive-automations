@@ -185,6 +185,9 @@ function clickship({ apiKey, baseUrl = "https://external-api.freightcom.com", fe
 function adaptateur(nom = process.env.CARRIER_ADAPTER || "bouchon") {
   if (nom === "bouchon") return bouchon;
   if (nom === "clickship") return clickship({ apiKey: process.env.CLICKSHIP_API_KEY });
+  // Chargé à la demande : `postescanada` lit la base, et `carrier.js` est requis par des
+  // scripts qui n'ont pas de base ouverte. Un require en tête les casserait tous.
+  if (nom === "postescanada" || nom === "canada_post") return require("./postescanada").adaptateurPostesCanada;
   throw new Error(`adaptateur transporteur inconnu : ${nom}`);
 }
 

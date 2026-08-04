@@ -1636,6 +1636,43 @@ route("POST /api/settings", async ({ req, user }) => {
   return { ok: true };
 });
 
+// ------------------------------------------------------- transporteur Postes Canada
+
+/**
+ * Branchement du compte Postes Canada.
+ *
+ * ShipStation fait ça dans une fenêtre contextuelle — le DRC de Postes Canada, réservé aux
+ * plateformes multi-marchands enregistrées. Un marchand unique passe par sa propre clé
+ * d'API : c'est ce formulaire. Voir POSTESCANADA.md pour l'obtenir.
+ *
+ * Trois routes, trois niveaux de risque, et c'est délibéré : lire l'état ne coûte rien,
+ * enregistrer touche un secret, tester sort sur le réseau mais **en lecture seule** — une
+ * cotation, jamais un achat. Aucune de ces routes ne peut créer d'étiquette.
+ */
+route("GET /api/carriers/postescanada", ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  return require("../lib/postescanada").etat();
+});
+
+route("POST /api/carriers/postescanada", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  // Le milieu de production achète pour de vrai : il ne s'arme pas par inadvertance.
+  if (b.env && String(b.env).startsWith("prod") && b.confirme !== true)
+    return { error: "passer en production exige une confirmation explicite", code: 400 };
+  return require("../lib/postescanada").enregistrer(b, user && user.id);
+});
+
+route("POST /api/carriers/postescanada/test", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  return await require("../lib/postescanada").tester();
+});
+
+route("POST /api/carriers/postescanada/forget", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  return require("../lib/postescanada").oublier(user && user.id);
+});
+
 route("GET /api/users", ({ user }) => {
   accounts.exiger(user, "users_manage");
   return {

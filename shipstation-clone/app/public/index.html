@@ -7183,6 +7183,132 @@ const LIBELLE_CONFIG = {
   groupes: "Groupes de préréglages produit",
 };
 
+/**
+ * Compte transporteur Postes Canada — la carte des Réglages.
+ *
+ * Deux choses doivent rester lisibles d'un coup d'œil, parce qu'elles décident si un clic
+ * coûte de l'argent : **dans quel milieu** on est branché (essai ou production) et **si un
+ * contrat** est joint (sans contrat, ce sont les tarifs du comptoir, pas les tarifs négociés).
+ * Le reste est secondaire. La clé n'est jamais réaffichée : le serveur ne la renvoie pas.
+ */
+async function peindreCarteCP() {
+  const cible = $("#ccpc");
+  if (!cible) return;
+  cible.innerHTML = squelette(2);
+  const e = await tenter(() => api("/api/carriers/postescanada"),
+    { message: "État Postes Canada illisible" });
+  if (!e) { cible.innerHTML = ""; return; }
+
+  const verrou = (champ) => e.verrouille_par_env[champ]
+    ? ' <span class="puce g" title="Défini par une variable d\'environnement Render — l\'écran ne peut pas le changer">env</span>' : "";
+
+  cible.innerHTML = !e.configure
+    ? `<div class="avis">Aucun compte Postes Canada branché. La cotation et l'achat d'étiquette
+         passent par le bouchon de démonstration — <b>les prix affichés ne sont pas des tarifs réels</b>.</div>
+       <div class="barre"><button type="button" class="p" id="cpSet">Brancher le compte Postes Canada…</button></div>`
+    : `<div class="tbl" style="max-height:none"><table><tbody>
+         <tr><td>Milieu</td><td><span class="puce ${e.production ? "a" : "g"}">${
+           e.production ? "production — argent réel" : "essai — aucune facturation"}</span>${verrou("milieu")}</td></tr>
+         <tr><td>Clé d'API</td><td><code>${esc(e.username)}</code>${verrou("username")}</td></tr>
+         <tr><td>Numéro de client</td><td><code>${esc(e.client || "—")}</code>${verrou("client")}</td></tr>
+         <tr><td>Contrat</td><td>${e.contrat ? `<code>${esc(e.contrat)}</code>${verrou("contrat")}`
+           : '<span class="puce a" title="Sans contrat, Postes Canada cote au tarif du comptoir">absent — tarifs du comptoir</span>'}</td></tr>
+         <tr><td>Passerelle</td><td class="doux">${esc(e.hote)}</td></tr>
+       </tbody></table></div>
+       <div class="barre" style="margin-top:10px">
+         <button type="button" class="p" id="cpTest">Tester la connexion</button>
+         <button type="button" id="cpSet">Modifier…</button>
+         <button type="button" class="d" id="cpDel">Oublier les identifiants</button>
+       </div>
+       <p class="doux" style="font-size:12px;margin:6px 0 0">Le test ne fait qu'une <b>cotation</b> :
+         il ne crée aucune étiquette et ne débite rien.</p>
+       <div id="cpOut"></div>`;
+
+  const bSet = $("#cpSet");
+  if (bSet) bSet.onclick = () => dialogueCP(e);
+
+  const bTest = $("#cpTest");
+  if (bTest) bTest.onclick = async () => {
+    $("#cpOut").innerHTML = squelette(3);
+    const r = await tenter(() => api("/api/carriers/postescanada/test", { method: "POST" }),
+      { message: "Test impossible" });
+    if (!r) { $("#cpOut").innerHTML = ""; return; }
+    $("#cpOut").innerHTML = !r.ok
+      ? `<div class="avis"><b>Connexion refusée.</b> ${esc(r.erreur)}</div>`
+      : `<div class="avis info"><b>Connexion établie</b> — ${r.n} service(s) cotés en ${num(r.ms)} ms,
+           milieu ${esc(r.milieu)}, client ${esc(r.client)}.</div>
+         ${r.avis ? `<div class="avis">${esc(r.avis)}</div>` : ""}
+         <div class="tbl"><table>
+           <thead><tr><th scope="col">Service</th><th scope="col">Code</th>
+             <th scope="col" class="n">Tarif</th><th scope="col" class="n">Délai</th></tr></thead>
+           <tbody>${r.tarifs.map((x) => `<tr><td>${esc(x.service)}</td>
+             <td><code>${esc(x.serviceId)}</code></td>
+             <td class="n">${money(x.price)}</td>
+             <td class="n">${x.transitDays === null ? "—" : `${x.transitDays} j`}</td></tr>`).join("")}</tbody>
+         </table></div>
+         <p class="doux" style="font-size:12px">Envoi de référence : Québec → Montréal, 500 g, 9 × 6 × 2 po.</p>`;
+  };
+
+  const bDel = $("#cpDel");
+  if (bDel) bDel.onclick = () => dialogue("Oublier les identifiants Postes Canada",
+    `<p>La clé d'API, le numéro de client et le contrat enregistrés ici seront effacés.
+      La cotation retombera sur le bouchon de démonstration.</p>
+     <p class="doux">Les valeurs définies par variables d'environnement sur Render ne sont pas
+      touchées : elles reviendront au prochain chargement.</p>`,
+    async () => { await api("/api/carriers/postescanada/forget", { method: "POST" }); peindreCarteCP(); },
+    "Oublier");
+}
+
+/**
+ * Le formulaire d'identifiants.
+ *
+ * Le mot de passe est le seul champ qu'on ne peut pas pré-remplir — le serveur ne le renvoie
+ * jamais. Laissé vide, il n'écrase rien : on peut donc corriger un numéro de contrat sans
+ * avoir à retrouver la clé.
+ */
+function dialogueCP(e) {
+  dialogue("Compte Postes Canada",
+    `<p class="doux">Ces identifiants viennent du <b>Programme des développeurs</b> de Postes Canada,
+      pas de vos accès au site web. Chaque milieu a sa propre paire : la clé d'essai ne
+      fonctionne pas en production, et l'inverse est vrai aussi.</p>
+     <div class="grille">
+       <label class="champ"><span>Nom d'utilisateur d'API</span>
+         <input id="cpU" autocomplete="off" placeholder="${esc(e.username || "xxxxxxxxxxxxxxxx")}"></label>
+       <label class="champ"><span>Mot de passe d'API</span>
+         <input id="cpP" type="password" autocomplete="new-password"
+           placeholder="${e.motdepasse_present ? "inchangé" : ""}"></label>
+       <label class="champ"><span>Numéro de client</span>
+         <input id="cpC" value="${esc(e.client || "")}" placeholder="0005082011"></label>
+       <label class="champ"><span>Numéro de contrat</span>
+         <input id="cpK" value="${esc(e.contrat || "")}" placeholder="sans contrat : tarifs du comptoir"></label>
+     </div>
+     <label class="champ"><span>Milieu</span>
+       <select id="cpE">
+         <option value="essai"${e.milieu === "essai" ? " selected" : ""}>Essai — étiquettes non facturées, non livrables</option>
+         <option value="prod"${e.milieu === "prod" ? " selected" : ""}>Production — argent réel</option>
+       </select></label>
+     <div class="avis" id="cpAvis" hidden><b>Milieu de production.</b> Les étiquettes achetées
+       seront facturées au compte ${esc(e.client || "Postes Canada")} et réellement livrables.
+       L'achat reste bloqué tant que <code>CLONE_ALLOW_LABELS</code> n'est pas armé.</div>`,
+    async () => {
+      const env = $("#cpE").value;
+      const r = await api("/api/carriers/postescanada", { method: "POST", body: {
+        username: $("#cpU").value.trim() || undefined,
+        password: $("#cpP").value || undefined,
+        customer: $("#cpC").value.trim(),
+        contract: $("#cpK").value.trim(),
+        env, confirme: env === "prod",
+      } });
+      if (r && r.error) throw new Error(r.error);
+      peindreCarteCP();
+    },
+    "Enregistrer",
+    (c) => {
+      const maj = () => { c.querySelector("#cpAvis").hidden = c.querySelector("#cpE").value !== "prod"; };
+      c.querySelector("#cpE").onchange = maj; maj();
+    });
+}
+
 VUES.reglages = async () => {
   const s = await api("/api/settings");
   const w = await api("/api/webhooks");
@@ -7261,6 +7387,12 @@ VUES.reglages = async () => {
       <p class="doux" style="margin:2px 0 8px">ShipStation renvoie aujourd'hui les numéros de suivi
       à Shopify, Etsy et Faire. Sans ce relais, vos clients perdent leur suivi à la bascule.</p>
       <div id="cxt"></div></div>
+    <div class="carte" id="ccp"><b>Compte transporteur — Postes Canada</b>
+      <p class="doux" style="margin:2px 0 8px">ShipStation ouvre une fenêtre contextuelle pour brancher
+      un compte Postes Canada. Cette fenêtre est réservée aux plateformes multi-marchands enregistrées
+      chez Postes Canada ; un marchand qui branche <b>son propre</b> compte passe par sa clé d'API.
+      Marche à suivre et contacts : <code>POSTESCANADA.md</code>.</p>
+      <div id="ccpc"></div></div>
     <div class="carte"><b>Sécurité</b>
       <p class="doux" style="margin:2px 0 8px">Imposer le second facteur oblige chaque employé à
       configurer une application d'authentification à sa prochaine connexion, et interdit de le retirer.</p>
@@ -7335,6 +7467,7 @@ VUES.reglages = async () => {
       $("#reconOut").append(panneauErreur(e, () => $("#recon").click(), "Rapprochement impossible"));
     }
   };
+  peindreCarteCP();
   $("#ssave").onclick = async () => {
     await api("/api/settings", { method: "POST", body: { marque: { nom: $("#sn").value, courriel: $("#se").value,
       adresse: $("#sa").value, logo: $("#sl").value || null, message_bordereau: $("#sm").value } } });
