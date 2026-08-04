@@ -1,3 +1,4 @@
 *.log
+wd*.json
 *.err
 osm_brut.json

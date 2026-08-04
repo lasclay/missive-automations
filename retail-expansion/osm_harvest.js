@@ -94,9 +94,13 @@ async function interroger(z, tags, mirror, rayon) {
 }
 
 (async () => {
+  // argument facultatif: ne moissonner que les zones dont le nom contient ce texte
+  const filtre = process.argv[2] || '';
   const zones = JSON.parse(fs.readFileSync(path.join(__dirname, 'zones.json'), 'utf8'))
-    .filter(z => z.lat);
-  const rows = [];
+    .filter(z => z.lat && (!filtre || z.zone.includes(filtre)));
+  // en moisson partielle, on conserve ce qui a deja ete ramasse
+  let rows = [];
+  if (filtre) { try { rows = JSON.parse(fs.readFileSync(SORTIE, 'utf8')); } catch { rows = []; } }
   let i = 0, fini = 0, echecs = 0;
 
   async function worker(mirror) {

@@ -15,21 +15,56 @@
    "Saint-Laurent",
    "Mont-Royal",
    "Côte-Saint-Luc",
-   "Montréal-Ouest",
-   "Anjou",
-   "Saint-Léonard",
-   "Montréal-Nord",
-   "Rivière-des-Prairies",
+   "Montréal-Ouest"
+  ],
+  "lat": 45.5031824,
+  "lon": -73.5698065,
+  "pop": 2512622
+ },
+ {
+  "zone": "Montréal – Ouest-de-l'Île",
+  "prov": "QC",
+  "ancre": "Pointe-Claire",
+  "palier": "Grande ville",
+  "villes": [
    "Pointe-Claire",
    "Dorval",
    "Beaconsfield",
    "Kirkland",
    "Baie-D'Urfé",
    "Sainte-Anne-de-Bellevue",
-   "Dollard-des-Ormeaux"
+   "Dollard-des-Ormeaux",
+   "Pierrefonds",
+   "Roxboro",
+   "L'Île-Bizard",
+   "Senneville",
+   "Sainte-Geneviève",
+   "Pierrefonds-Roxboro",
+   "L'Île-Bizard–Sainte-Geneviève"
   ],
-  "lat": 45.5031824,
-  "lon": -73.5698065
+  "lat": 45.4487,
+  "lon": -73.8163,
+  "pop": 153591
+ },
+ {
+  "zone": "Montréal – Est et Rivière-des-Prairies",
+  "prov": "QC",
+  "ancre": "Anjou",
+  "palier": "Grande ville",
+  "villes": [
+   "Anjou",
+   "Saint-Léonard",
+   "Montréal-Nord",
+   "Rivière-des-Prairies",
+   "Pointe-aux-Trembles",
+   "Montréal-Est",
+   "Mercier-Hochelaga",
+   "Rivière-des-Prairies–Pointe-aux-Trembles",
+   "Mercier–Hochelaga-Maisonneuve"
+  ],
+  "lat": 45.6103,
+  "lon": -73.5573,
+  "pop": 112749
  },
  {
   "zone": "Laval",
@@ -42,7 +77,8 @@
    "Sainte-Dorothée"
   ],
   "lat": 45.605589,
-  "lon": -73.7345601
+  "lon": -73.7345601,
+  "pop": 450629
  },
  {
   "zone": "Longueuil et Rive-Sud",
@@ -65,7 +101,8 @@
    "Saint-Basile-le-Grand"
   ],
   "lat": 45.521906,
-  "lon": -73.4644578
+  "lon": -73.4644578,
+  "pop": 756723
  },
  {
   "zone": "Vallée-du-Richelieu",
@@ -80,7 +117,8 @@
    "Saint-Mathieu-de-Beloeil"
   ],
   "lat": 45.5643183,
-  "lon": -73.2040066
+  "lon": -73.2040066,
+  "pop": 62389
  },
  {
   "zone": "Saint-Jean-sur-Richelieu",
@@ -94,7 +132,8 @@
    "Napierville"
   ],
   "lat": 45.3056879,
-  "lon": -73.2533401
+  "lon": -73.2533401,
+  "pop": 108937
  },
  {
   "zone": "Saint-Hyacinthe",
@@ -107,7 +146,8 @@
    "Acton Vale"
   ],
   "lat": 45.627484,
-  "lon": -72.940636
+  "lon": -72.940636,
+  "pop": 73400
  },
  {
   "zone": "Sorel-Tracy",
@@ -120,7 +160,8 @@
    "Contrecoeur"
   ],
   "lat": 46.0435235,
-  "lon": -73.1165159
+  "lon": -73.1165159,
+  "pop": 35849
  },
  {
   "zone": "Valleyfield et Beauharnois",
@@ -139,7 +180,8 @@
    "Rigaud"
   ],
   "lat": 45.2555575,
-  "lon": -74.1316718
+  "lon": -74.1316718,
+  "pop": 214427
  },
  {
   "zone": "Granby et Haute-Yamaska",
@@ -154,7 +196,8 @@
    "Farnham"
   ],
   "lat": 45.3990409,
-  "lon": -72.721834
+  "lon": -72.721834,
+  "pop": 236680
  },
  {
   "zone": "Sherbrooke",
@@ -168,7 +211,8 @@
    "Windsor"
   ],
   "lat": 45.403271,
-  "lon": -71.889038
+  "lon": -71.889038,
+  "pop": 429687
  },
  {
   "zone": "Magog et Memphrémagog",
@@ -182,7 +226,8 @@
    "Stanstead"
   ],
   "lat": 45.2658014,
-  "lon": -72.1480686
+  "lon": -72.1480686,
+  "pop": 31699
  },
  {
   "zone": "Lac-Mégantic",
@@ -195,7 +240,8 @@
    "East Angus"
   ],
   "lat": 45.5772636,
-  "lon": -70.8819927
+  "lon": -70.8819927,
+  "pop": 28695
  },
  {
   "zone": "Drummondville",
@@ -206,7 +252,8 @@
    "Drummondville"
   ],
   "lat": 45.8864303,
-  "lon": -72.5018764
+  "lon": -72.5018764,
+  "pop": 82790
  },
  {
   "zone": "Victoriaville et Bois-Francs",
@@ -220,7 +267,8 @@
    "Warwick"
   ],
   "lat": 46.0554948,
-  "lon": -71.9598586
+  "lon": -71.9598586,
+  "pop": 69497
  },
  {
   "zone": "Trois-Rivières",
@@ -234,7 +282,8 @@
    "Sainte-Geneviève-de-Batiscan"
   ],
   "lat": 46.3432325,
-  "lon": -72.5428485
+  "lon": -72.5428485,
+  "pop": 173946
  },
  {
   "zone": "Shawinigan et Mékinac",
@@ -248,7 +297,8 @@
    "Saint-Tite"
   ],
   "lat": 46.5396581,
-  "lon": -72.7518637
+  "lon": -72.7518637,
+  "pop": 55843
  },
  {
   "zone": "La Tuque",
@@ -259,7 +309,8 @@
    "La Tuque"
   ],
   "lat": 47.441092,
-  "lon": -72.78511
+  "lon": -72.78511,
+  "pop": 11307
  },
  {
   "zone": "Joliette et Lanaudière",
@@ -274,7 +325,8 @@
    "Sainte-Julienne"
   ],
   "lat": 46.0239798,
-  "lon": -73.4419936
+  "lon": -73.4419936,
+  "pop": 157300
  },
  {
   "zone": "Terrebonne et Repentigny",
@@ -290,7 +342,8 @@
    "Le Gardeur"
   ],
   "lat": 45.6951527,
-  "lon": -73.6350148
+  "lon": -73.6350148,
+  "pop": 425013
  },
  {
   "zone": "Saint-Jérôme et Basses-Laurentides",
@@ -311,7 +364,8 @@
    "Lorraine"
   ],
   "lat": 45.7780402,
-  "lon": -74.0033272
+  "lon": -74.0033272,
+  "pop": 540025
  },
  {
   "zone": "Pays-d'en-Haut",
@@ -327,7 +381,8 @@
    "Sainte-Agathe-des-Monts"
   ],
   "lat": 45.894309,
-  "lon": -74.158058
+  "lon": -74.158058,
+  "pop": 52612
  },
  {
   "zone": "Mont-Tremblant",
@@ -341,7 +396,8 @@
    "Sainte-Agathe"
   ],
   "lat": 46.11588,
-  "lon": -74.5891426
+  "lon": -74.5891426,
+  "pop": 11621
  },
  {
   "zone": "Hautes-Laurentides",
@@ -354,7 +410,8 @@
    "Ferme-Neuve"
   ],
   "lat": 46.5524071,
-  "lon": -75.4968899
+  "lon": -75.4968899,
+  "pop": 22040
  },
  {
   "zone": "Gatineau et Outaouais",
@@ -371,7 +428,8 @@
    "Val-des-Monts"
   ],
   "lat": 45.4277659,
-  "lon": -75.710976
+  "lon": -75.710976,
+  "pop": 333783
  },
  {
   "zone": "Vallée-de-la-Gatineau",
@@ -383,7 +441,8 @@
    "Gracefield"
   ],
   "lat": 46.3778839,
-  "lon": -75.9807967
+  "lon": -75.9807967,
+  "pop": 6238
  },
  {
   "zone": "Rouyn-Noranda",
@@ -394,7 +453,8 @@
    "Rouyn-Noranda"
   ],
   "lat": 48.2420524,
-  "lon": -79.0205378
+  "lon": -79.0205378,
+  "pop": 42827
  },
  {
   "zone": "Val-d'Or",
@@ -407,7 +467,8 @@
    "Senneterre"
   ],
   "lat": 48.1023356,
-  "lon": -77.7875715
+  "lon": -77.7875715,
+  "pop": 39237
  },
  {
   "zone": "Amos et Abitibi-Ouest",
@@ -420,7 +481,8 @@
    "Macamic"
   ],
   "lat": 48.5718519,
-  "lon": -78.1160856
+  "lon": -78.1160856,
+  "pop": 23951
  },
  {
   "zone": "Témiscamingue",
@@ -432,7 +494,8 @@
    "Témiscaming"
   ],
   "lat": 45.5010803,
-  "lon": -73.5681257
+  "lon": -73.5681257,
+  "pop": 86381
  },
  {
   "zone": "Québec – centre et Limoilou",
@@ -453,7 +516,8 @@
    "Boischatel"
   ],
   "lat": 46.8137431,
-  "lon": -71.2084061
+  "lon": -71.2084061,
+  "pop": 1352888
  },
  {
   "zone": "Lévis et rive sud de Québec",
@@ -468,7 +532,8 @@
    "Sainte-Marie"
   ],
   "lat": 46.8033114,
-  "lon": -71.1778792
+  "lon": -71.1778792,
+  "pop": 169599
  },
  {
   "zone": "Portneuf",
@@ -482,7 +547,8 @@
    "Neuville"
   ],
   "lat": 46.676532,
-  "lon": -71.73008
+  "lon": -71.73008,
+  "pop": 34768
  },
  {
   "zone": "Charlevoix – Baie-Saint-Paul",
@@ -495,7 +561,8 @@
    "Saint-Urbain"
   ],
   "lat": 47.444343,
-  "lon": -70.505447
+  "lon": -70.505447,
+  "pop": 7600
  },
  {
   "zone": "Charlevoix – La Malbaie",
@@ -508,7 +575,8 @@
    "Pointe-au-Pic"
   ],
   "lat": 47.657525,
-  "lon": -70.153885
+  "lon": -70.153885,
+  "pop": 11525
  },
  {
   "zone": "Beauce",
@@ -522,7 +590,8 @@
    "Saint-Joseph-de-Beauce"
   ],
   "lat": 46.122987,
-  "lon": -70.671959
+  "lon": -70.671959,
+  "pop": 45039
  },
  {
   "zone": "Thetford Mines",
@@ -535,7 +604,8 @@
    "Disraeli"
   ],
   "lat": 46.091329,
-  "lon": -71.30127
+  "lon": -71.30127,
+  "pop": 29046
  },
  {
   "zone": "Montmagny et Côte-du-Sud",
@@ -549,7 +619,8 @@
    "Berthier-sur-Mer"
   ],
   "lat": 46.8529223,
-  "lon": -70.3551125
+  "lon": -70.3551125,
+  "pop": 43408
  },
  {
   "zone": "Rivière-du-Loup",
@@ -562,7 +633,8 @@
    "Saint-Antonin"
   ],
   "lat": 47.8541229,
-  "lon": -69.5333016
+  "lon": -69.5333016,
+  "pop": 39864
  },
  {
   "zone": "Kamouraska et Témiscouata",
@@ -576,7 +648,8 @@
    "Témiscouata-sur-le-Lac"
   ],
   "lat": 47.3672849,
-  "lon": -70.0397252
+  "lon": -70.0397252,
+  "pop": 17914
  },
  {
   "zone": "Rimouski",
@@ -590,7 +663,8 @@
    "Pointe-au-Père"
   ],
   "lat": 48.450155,
-  "lon": -68.529968
+  "lon": -68.529968,
+  "pop": 56445
  },
  {
   "zone": "Matapédia et Amqui",
@@ -603,7 +677,8 @@
    "Sayabec"
   ],
   "lat": 48.4656706,
-  "lon": -67.4315171
+  "lon": -67.4315171,
+  "pop": 8276
  },
  {
   "zone": "Matane",
@@ -615,7 +690,8 @@
    "Sainte-Félicité"
   ],
   "lat": 48.8468883,
-  "lon": -67.5295198
+  "lon": -67.5295198,
+  "pop": 14316
  },
  {
   "zone": "Haute-Gaspésie",
@@ -628,7 +704,8 @@
    "Mont-Saint-Pierre"
   ],
   "lat": 49.1263278,
-  "lon": -66.4849502
+  "lon": -66.4849502,
+  "pop": 8694
  },
  {
   "zone": "Gaspé et Percé",
@@ -641,7 +718,8 @@
    "Rivière-au-Renard"
   ],
   "lat": 48.6146774,
-  "lon": -66.0665726
+  "lon": -66.0665726,
+  "pop": 18263
  },
  {
   "zone": "Chandler et Pabos",
@@ -655,7 +733,8 @@
    "Port-Daniel"
   ],
   "lat": 48.3491804,
-  "lon": -64.6775915
+  "lon": -64.6775915,
+  "pop": 10874
  },
  {
   "zone": "Baie-des-Chaleurs",
@@ -670,7 +749,8 @@
    "New Carlisle"
   ],
   "lat": 45.4981853,
-  "lon": -73.5669583
+  "lon": -73.5669583,
+  "pop": 24442
  },
  {
   "zone": "Avignon et Carleton",
@@ -684,7 +764,8 @@
    "Nouvelle"
   ],
   "lat": 48.101464,
-  "lon": -66.1140521
+  "lon": -66.1140521,
+  "pop": 138275
  },
  {
   "zone": "Îles-de-la-Madeleine",
@@ -697,7 +778,8 @@
    "Havre-aux-Maisons"
   ],
   "lat": 47.377501,
-  "lon": -61.8661738
+  "lon": -61.8661738,
+  "pop": 14944
  },
  {
   "zone": "Saguenay – Chicoutimi",
@@ -709,7 +791,8 @@
    "Saguenay"
   ],
   "lat": 48.4286352,
-  "lon": -71.0637121
+  "lon": -71.0637121,
+  "pop": 218956
  },
  {
   "zone": "Saguenay – Jonquière",
@@ -722,7 +805,8 @@
    "Kénogami"
   ],
   "lat": 48.405959,
-  "lon": -71.069183
+  "lon": -71.069183,
+  "pop": 91073
  },
  {
   "zone": "Saguenay – La Baie et Bas-Saguenay",
@@ -735,7 +819,8 @@
    "L'Anse-Saint-Jean"
   ],
   "lat": 48.405959,
-  "lon": -71.069183
+  "lon": -71.069183,
+  "pop": 18719
  },
  {
   "zone": "Lac-Saint-Jean – Alma",
@@ -748,7 +833,8 @@
    "Hébertville"
   ],
   "lat": 48.548887,
-  "lon": -71.651459
+  "lon": -71.651459,
+  "pop": 37146
  },
  {
   "zone": "Lac-Saint-Jean – Roberval et Saint-Félicien",
@@ -762,7 +848,8 @@
    "Chambord"
   ],
   "lat": 48.514785,
-  "lon": -72.224808
+  "lon": -72.224808,
+  "pop": 22925
  },
  {
   "zone": "Lac-Saint-Jean – Dolbeau",
@@ -775,7 +862,8 @@
    "Mistassini"
   ],
   "lat": 48.883231,
-  "lon": -72.233734
+  "lon": -72.233734,
+  "pop": 16744
  },
  {
   "zone": "Haute-Côte-Nord et Tadoussac",
@@ -789,7 +877,8 @@
    "Sacré-Coeur"
   ],
   "lat": 48.1433429,
-  "lon": -69.7174574
+  "lon": -69.7174574,
+  "pop": 2892
  },
  {
   "zone": "Baie-Comeau et Manicouagan",
@@ -802,7 +891,8 @@
    "Pointe-Lebel"
   ],
   "lat": 49.2118373,
-  "lon": -68.1801406
+  "lon": -68.1801406,
+  "pop": 20687
  },
  {
   "zone": "Sept-Îles",
@@ -814,7 +904,8 @@
    "Port-Cartier"
   ],
   "lat": 50.2109579,
-  "lon": -66.3790642
+  "lon": -66.3790642,
+  "pop": 31136
  },
  {
   "zone": "Basse-Côte-Nord",
@@ -826,7 +917,8 @@
    "Natashquan"
   ],
   "lat": 50.2463647,
-  "lon": -63.6003951
+  "lon": -63.6003951,
+  "pop": 3347
  },
  {
   "zone": "Toronto – centre",
@@ -839,7 +931,8 @@
    "Old Toronto"
   ],
   "lat": 43.6534817,
-  "lon": -79.3839347
+  "lon": -79.3839347,
+  "pop": 2794356
  },
  {
   "zone": "Toronto – ouest et Etobicoke",
@@ -851,7 +944,8 @@
    "York"
   ],
   "lat": 43.6435559,
-  "lon": -79.5656326
+  "lon": -79.5656326,
+  "pop": 365143
  },
  {
   "zone": "Toronto – North York et Scarborough",
@@ -864,7 +958,8 @@
    "Willowdale"
   ],
   "lat": 43.7543217,
-  "lon": -79.4491057
+  "lon": -79.4491057,
+  "pop": 1434409
  },
  {
   "zone": "Mississauga",
@@ -877,7 +972,8 @@
    "Streetsville"
   ],
   "lat": 43.5884727,
-  "lon": -79.643658
+  "lon": -79.643658,
+  "pop": 717961
  },
  {
   "zone": "Brampton et Caledon",
@@ -891,7 +987,8 @@
    "Caledon East"
   ],
   "lat": 43.685832,
-  "lon": -79.7599366
+  "lon": -79.7599366,
+  "pop": 749360
  },
  {
   "zone": "Oakville et Milton",
@@ -905,7 +1002,8 @@
    "Halton Hills"
   ],
   "lat": 43.447436,
-  "lon": -79.666672
+  "lon": -79.666672,
+  "pop": 448049
  },
  {
   "zone": "Burlington",
@@ -917,7 +1015,8 @@
    "Waterdown"
   ],
   "lat": 43.3248924,
-  "lon": -79.7966835
+  "lon": -79.7966835,
+  "pop": 186948
  },
  {
   "zone": "Hamilton",
@@ -932,7 +1031,8 @@
    "Grimsby"
   ],
   "lat": 43.2560802,
-  "lon": -79.8728583
+  "lon": -79.8728583,
+  "pop": 569353
  },
  {
   "zone": "Niagara",
@@ -948,7 +1048,8 @@
    "Port Colborne"
   ],
   "lat": 43.1579812,
-  "lon": -79.2441003
+  "lon": -79.2441003,
+  "pop": 396082
  },
  {
   "zone": "Brantford",
@@ -961,7 +1062,8 @@
    "Simcoe"
   ],
   "lat": 43.1408157,
-  "lon": -80.2631733
+  "lon": -80.2631733,
+  "pop": 132913
  },
  {
   "zone": "Kitchener-Waterloo",
@@ -978,7 +1080,8 @@
    "Fergus"
   ],
   "lat": 43.451291,
-  "lon": -80.4927815
+  "lon": -80.4927815,
+  "pop": 532760
  },
  {
   "zone": "Guelph",
@@ -990,7 +1093,8 @@
    "Rockwood"
   ],
   "lat": 43.5460516,
-  "lon": -80.2493276
+  "lon": -80.2493276,
+  "pop": 151563
  },
  {
   "zone": "London",
@@ -1003,7 +1107,8 @@
    "Strathroy"
   ],
   "lat": 42.9836747,
-  "lon": -81.2496068
+  "lon": -81.2496068,
+  "pop": 461233
  },
  {
   "zone": "Woodstock et Oxford",
@@ -1016,7 +1121,8 @@
    "Tillsonburg"
   ],
   "lat": 43.1301111,
-  "lon": -80.7562977
+  "lon": -80.7562977,
+  "pop": 75334
  },
  {
   "zone": "Stratford",
@@ -1029,7 +1135,8 @@
    "Mitchell"
   ],
   "lat": 43.3700899,
-  "lon": -80.9818016
+  "lon": -80.9818016,
+  "pop": 31465
  },
  {
   "zone": "Sarnia-Lambton",
@@ -1044,7 +1151,8 @@
    "Forest"
   ],
   "lat": 42.9743821,
-  "lon": -82.403533
+  "lon": -82.403533,
+  "pop": 80339
  },
  {
   "zone": "Chatham-Kent",
@@ -1058,7 +1166,8 @@
    "Ridgetown"
   ],
   "lat": 42.4057219,
-  "lon": -82.1853837
+  "lon": -82.1853837,
+  "pop": 10098
  },
  {
   "zone": "Windsor et Essex",
@@ -1073,7 +1182,8 @@
    "Tecumseh"
   ],
   "lat": 42.2858536,
-  "lon": -82.9780695
+  "lon": -82.9780695,
+  "pop": 302420
  },
  {
   "zone": "Goderich et Huron",
@@ -1088,7 +1198,8 @@
    "Seaforth"
   ],
   "lat": 43.7430924,
-  "lon": -81.7110949
+  "lon": -81.7110949,
+  "pop": 3113
  },
  {
   "zone": "Owen Sound et Bruce",
@@ -1106,7 +1217,8 @@
    "Wiarton"
   ],
   "lat": 44.5678105,
-  "lon": -80.9430094
+  "lon": -80.9430094,
+  "pop": 40863
  },
  {
   "zone": "Collingwood et Blue Mountains",
@@ -1121,7 +1233,8 @@
    "Stayner"
   ],
   "lat": 44.5027226,
-  "lon": -80.2172379
+  "lon": -80.2172379,
+  "pop": 0
  },
  {
   "zone": "Orangeville et Dufferin",
@@ -1134,7 +1247,8 @@
    "Grand Valley"
   ],
   "lat": 43.9193171,
-  "lon": -80.0973754
+  "lon": -80.0973754,
+  "pop": 38293
  },
  {
   "zone": "Barrie et Simcoe",
@@ -1149,7 +1263,8 @@
    "Bradford"
   ],
   "lat": 44.3893208,
-  "lon": -79.6901302
+  "lon": -79.6901302,
+  "pop": 166638
  },
  {
   "zone": "Orillia et Midland",
@@ -1163,7 +1278,8 @@
    "Coldwater"
   ],
   "lat": 44.6066135,
-  "lon": -79.4169256
+  "lon": -79.4169256,
+  "pop": 47450
  },
  {
   "zone": "Muskoka",
@@ -1178,7 +1294,8 @@
    "Baysville"
   ],
   "lat": 45.041508,
-  "lon": -79.310989
+  "lon": -79.310989,
+  "pop": 47541
  },
  {
   "zone": "Parry Sound",
@@ -1191,7 +1308,8 @@
    "Pointe au Baril"
   ],
   "lat": 45.6675279,
-  "lon": -80.1055284
+  "lon": -80.1055284,
+  "pop": 0
  },
  {
   "zone": "York – Newmarket et Aurora",
@@ -1209,7 +1327,8 @@
    "King City"
   ],
   "lat": 44.056258,
-  "lon": -79.461708
+  "lon": -79.461708,
+  "pop": 1010267
  },
  {
   "zone": "Durham – Oshawa et Whitby",
@@ -1227,7 +1346,8 @@
    "Uxbridge"
   ],
   "lat": 43.8975558,
-  "lon": -78.8635324
+  "lon": -78.8635324,
+  "pop": 602321
  },
  {
   "zone": "Kawartha Lakes",
@@ -1241,7 +1361,8 @@
    "Omemee"
   ],
   "lat": 44.3551266,
-  "lon": -78.7369939
+  "lon": -78.7369939,
+  "pop": 20713
  },
  {
   "zone": "Peterborough",
@@ -1255,7 +1376,8 @@
    "Norwood"
   ],
   "lat": 44.3048009,
-  "lon": -78.3199496
+  "lon": -78.3199496,
+  "pop": 81032
  },
  {
   "zone": "Northumberland et Cobourg",
@@ -1269,7 +1391,8 @@
    "Colborne"
   ],
   "lat": 43.9595998,
-  "lon": -78.1677784
+  "lon": -78.1677784,
+  "pop": 20519
  },
  {
   "zone": "Belleville et Quinte",
@@ -1286,7 +1409,8 @@
    "Wellington"
   ],
   "lat": 44.2436328,
-  "lon": -77.3607597
+  "lon": -77.3607597,
+  "pop": 100017
  },
  {
   "zone": "Kingston",
@@ -1299,7 +1423,8 @@
    "Gananoque"
   ],
   "lat": 44.3054151,
-  "lon": -76.4283781
+  "lon": -76.4283781,
+  "pop": 132485
  },
  {
   "zone": "Brockville et Mille-Îles",
@@ -1313,7 +1438,8 @@
    "Athens"
   ],
   "lat": 44.6039207,
-  "lon": -75.7016829
+  "lon": -75.7016829,
+  "pop": 29094
  },
  {
   "zone": "Cornwall",
@@ -1327,7 +1453,8 @@
    "Hawkesbury"
   ],
   "lat": 45.0469989,
-  "lon": -74.7333845
+  "lon": -74.7333845,
+  "pop": 46589
  },
  {
   "zone": "Ottawa",
@@ -1346,7 +1473,8 @@
    "Carp"
   ],
   "lat": 45.4208777,
-  "lon": -75.6901106
+  "lon": -75.6901106,
+  "pop": 1451300
  },
  {
   "zone": "Perth et Smiths Falls",
@@ -1361,7 +1489,8 @@
    "Merrickville"
   ],
   "lat": 43.4935991,
-  "lon": -81.0164111
+  "lon": -81.0164111,
+  "pop": 14710
  },
  {
   "zone": "Renfrew et Vallée de l'Outaouais",
@@ -1376,7 +1505,8 @@
    "Petawawa"
   ],
   "lat": 45.8209741,
-  "lon": -77.1115433
+  "lon": -77.1115433,
+  "pop": 30900
  },
  {
   "zone": "Bancroft et Haliburton",
@@ -1389,7 +1519,8 @@
    "Minden"
   ],
   "lat": 45.0570769,
-  "lon": -77.8537127
+  "lon": -77.8537127,
+  "pop": 0
  },
  {
   "zone": "North Bay",
@@ -1403,7 +1534,8 @@
    "Mattawa"
   ],
   "lat": 46.3092115,
-  "lon": -79.4607617
+  "lon": -79.4607617,
+  "pop": 57439
  },
  {
   "zone": "Grand Sudbury",
@@ -1417,7 +1549,8 @@
    "Espanola"
   ],
   "lat": 46.49272,
-  "lon": -80.991211
+  "lon": -80.991211,
+  "pop": 266905
  },
  {
   "zone": "Sault Ste. Marie",
@@ -1430,7 +1563,8 @@
    "Blind River"
   ],
   "lat": 46.5126554,
-  "lon": -84.3330301
+  "lon": -84.3330301,
+  "pop": 103241
  },
  {
   "zone": "Timmins",
@@ -1443,7 +1577,8 @@
    "Cochrane"
   ],
   "lat": 48.477473,
-  "lon": -81.330414
+  "lon": -81.330414,
+  "pop": 78524
  },
  {
   "zone": "Kapuskasing et Hearst",
@@ -1456,7 +1591,8 @@
    "Smooth Rock Falls"
   ],
   "lat": 49.416667,
-  "lon": -82.433333
+  "lon": -82.433333,
+  "pop": 13362
  },
  {
   "zone": "Thunder Bay",
@@ -1470,7 +1606,8 @@
    "Marathon"
   ],
   "lat": 48.406414,
-  "lon": -89.259796
+  "lon": -89.259796,
+  "pop": 108843
  },
  {
   "zone": "Kenora et Dryden",
@@ -1484,7 +1621,8 @@
    "Fort Frances"
   ],
   "lat": 54.0245941,
-  "lon": -89.1618188
+  "lon": -89.1618188,
+  "pop": 83512
  },
  {
   "zone": "Winnipeg",
@@ -1498,7 +1636,8 @@
    "Stonewall"
   ],
   "lat": 49.8955367,
-  "lon": -97.1384584
+  "lon": -97.1384584,
+  "pop": 849120
  },
  {
   "zone": "Steinbach et Sud-Est",
@@ -1511,7 +1650,8 @@
    "Ste. Anne"
   ],
   "lat": 49.5254414,
-  "lon": -96.6854275
+  "lon": -96.6854275,
+  "pop": 24780
  },
  {
   "zone": "Brandon",
@@ -1524,7 +1664,8 @@
    "Neepawa"
   ],
   "lat": 49.8511143,
-  "lon": -99.9608924
+  "lon": -99.9608924,
+  "pop": 54635
  },
  {
   "zone": "Portage la Prairie",
@@ -1536,7 +1677,8 @@
    "Carman"
   ],
   "lat": 49.972422,
-  "lon": -98.289185
+  "lon": -98.289185,
+  "pop": 13304
  },
  {
   "zone": "Dauphin et Parkland",
@@ -1549,7 +1691,8 @@
    "Roblin"
   ],
   "lat": 51.1482866,
-  "lon": -100.0509099
+  "lon": -100.0509099,
+  "pop": 12417
  },
  {
   "zone": "Thompson et Nord",
@@ -1562,7 +1705,8 @@
    "The Pas"
   ],
   "lat": 55.743347,
-  "lon": -97.863464
+  "lon": -97.863464,
+  "pop": 25423
  },
  {
   "zone": "Regina",
@@ -1575,7 +1719,8 @@
    "Pilot Butte"
   ],
   "lat": 50.4479733,
-  "lon": -104.6158764
+  "lon": -104.6158764,
+  "pop": 229042
  },
  {
   "zone": "Saskatoon",
@@ -1588,7 +1733,8 @@
    "Martensville"
   ],
   "lat": 52.131802,
-  "lon": -106.660767
+  "lon": -106.660767,
+  "pop": 275786
  },
  {
   "zone": "Moose Jaw",
@@ -1600,7 +1746,8 @@
    "Assiniboia"
   ],
   "lat": 50.3967209,
-  "lon": -105.535666
+  "lon": -105.535666,
+  "pop": 33665
  },
  {
   "zone": "Prince Albert",
@@ -1613,7 +1760,8 @@
    "Nipawin"
   ],
   "lat": 53.2020289,
-  "lon": -105.7558962
+  "lon": -105.7558962,
+  "pop": 86800
  },
  {
   "zone": "Swift Current",
@@ -1625,7 +1773,8 @@
    "Maple Creek"
   ],
   "lat": 50.2849138,
-  "lon": -107.7984496
+  "lon": -107.7984496,
+  "pop": 17587
  },
  {
   "zone": "Yorkton et Est",
@@ -1638,7 +1787,8 @@
    "Esterhazy"
   ],
   "lat": 51.212045,
-  "lon": -102.461243
+  "lon": -102.461243,
+  "pop": 23181
  },
  {
   "zone": "North Battleford",
@@ -1651,7 +1801,8 @@
    "Meadow Lake"
   ],
   "lat": 52.776186,
-  "lon": -108.300476
+  "lon": -108.300476,
+  "pop": 23632
  },
  {
   "zone": "Estevan et Weyburn",
@@ -1663,7 +1814,8 @@
    "Weyburn"
   ],
   "lat": 49.1428076,
-  "lon": -102.991075
+  "lon": -102.991075,
+  "pop": 22502
  },
  {
   "zone": "Calgary",
@@ -1679,7 +1831,8 @@
    "High River"
   ],
   "lat": 51.0456064,
-  "lon": -114.057541
+  "lon": -114.057541,
+  "pop": 1479975
  },
  {
   "zone": "Banff et Canmore",
@@ -1692,7 +1845,8 @@
    "Lake Louise"
   ],
   "lat": 51.0866897,
-  "lon": -115.3481135
+  "lon": -115.3481135,
+  "pop": 24295
  },
  {
   "zone": "Edmonton",
@@ -1710,7 +1864,8 @@
    "Beaumont"
   ],
   "lat": 53.5462055,
-  "lon": -113.491241
+  "lon": -113.491241,
+  "pop": 1288856
  },
  {
   "zone": "Red Deer",
@@ -1726,7 +1881,8 @@
    "Red Deer County"
   ],
   "lat": 52.2690628,
-  "lon": -113.8141464
+  "lon": -113.8141464,
+  "pop": 182754
  },
  {
   "zone": "Lethbridge",
@@ -1740,7 +1896,8 @@
    "Fort Macleod"
   ],
   "lat": 49.6945782,
-  "lon": -112.8331033
+  "lon": -112.8331033,
+  "pop": 144777
  },
  {
   "zone": "Medicine Hat",
@@ -1753,7 +1910,8 @@
    "Redcliff"
   ],
   "lat": 50.04303,
-  "lon": -110.679016
+  "lon": -110.679016,
+  "pop": 83795
  },
  {
   "zone": "Grande Prairie",
@@ -1766,7 +1924,8 @@
    "Sexsmith"
   ],
   "lat": 55.17108,
-  "lon": -118.7949873
+  "lon": -118.7949873,
+  "pop": 69226
  },
  {
   "zone": "Fort McMurray",
@@ -1778,7 +1937,8 @@
    "Wood Buffalo"
   ],
   "lat": 56.7291997,
-  "lon": -111.3885221
+  "lon": -111.3885221,
+  "pop": 140328
  },
  {
   "zone": "Camrose et Wetaskiwin",
@@ -1791,7 +1951,8 @@
    "Ponoka"
   ],
   "lat": 53.013131,
-  "lon": -112.840576
+  "lon": -112.840576,
+  "pop": 134017
  },
  {
   "zone": "Lloydminster et Vermilion",
@@ -1804,7 +1965,8 @@
    "Wainwright"
   ],
   "lat": 53.279995,
-  "lon": -110.00885
+  "lon": -110.00885,
+  "pop": 30429
  },
  {
   "zone": "Jasper et Hinton",
@@ -1817,7 +1979,8 @@
    "Edson"
   ],
   "lat": 52.8752336,
-  "lon": -118.0824291
+  "lon": -118.0824291,
+  "pop": 23034
  },
  {
   "zone": "Peace River et Nord",
@@ -1830,7 +1993,8 @@
    "Slave Lake"
   ],
   "lat": 56.2337111,
-  "lon": -117.2910839
+  "lon": -117.2910839,
+  "pop": 148767
  },
  {
   "zone": "Vancouver – centre et est",
@@ -1843,7 +2007,8 @@
    "Mount Pleasant"
   ],
   "lat": 49.2608724,
-  "lon": -123.113952
+  "lon": -123.113952,
+  "pop": 662248
  },
  {
   "zone": "North Shore",
@@ -1856,7 +2021,8 @@
    "Lions Bay"
   ],
   "lat": 49.3206294,
-  "lon": -123.0737925
+  "lon": -123.0737925,
+  "pop": 165498
  },
  {
   "zone": "Burnaby et New Westminster",
@@ -1871,7 +2037,8 @@
    "Port Coquitlam"
   ],
   "lat": 49.2433804,
-  "lon": -122.972545
+  "lon": -122.972545,
+  "pop": 502297
  },
  {
   "zone": "Richmond et Delta",
@@ -1885,7 +2052,8 @@
    "Tsawwassen"
   ],
   "lat": 49.163168,
-  "lon": -123.137414
+  "lon": -123.137414,
+  "pop": 364439
  },
  {
   "zone": "Surrey et Langley",
@@ -1900,7 +2068,8 @@
    "Aldergrove"
   ],
   "lat": 49.1913033,
-  "lon": -122.849143
+  "lon": -122.849143,
+  "pop": 720877
  },
  {
   "zone": "Abbotsford et Mission",
@@ -1914,7 +2083,8 @@
    "Pitt Meadows"
   ],
   "lat": 49.0521162,
-  "lon": -122.329479
+  "lon": -122.329479,
+  "pop": 293186
  },
  {
   "zone": "Chilliwack et Fraser Valley Est",
@@ -1928,7 +2098,8 @@
    "Harrison Hot Springs"
   ],
   "lat": 49.1709788,
-  "lon": -121.95255
+  "lon": -121.95255,
+  "pop": 83788
  },
  {
   "zone": "Squamish",
@@ -1940,7 +2111,8 @@
    "Britannia Beach"
   ],
   "lat": 49.6980743,
-  "lon": -123.155861
+  "lon": -123.155861,
+  "pop": 23819
  },
  {
   "zone": "Whistler et Pemberton",
@@ -1952,7 +2124,8 @@
    "Pemberton"
   ],
   "lat": 50.1171903,
-  "lon": -122.9543022
+  "lon": -122.9543022,
+  "pop": 11854
  },
  {
   "zone": "Sunshine Coast",
@@ -1965,7 +2138,8 @@
    "Powell River"
   ],
   "lat": 49.4721147,
-  "lon": -123.763124
+  "lon": -123.763124,
+  "pop": 13157
  },
  {
   "zone": "Victoria et Saanich",
@@ -1983,7 +2157,8 @@
    "Colwood"
   ],
   "lat": 48.4283182,
-  "lon": -123.364953
+  "lon": -123.364953,
+  "pop": 305886
  },
  {
   "zone": "Cowichan Valley",
@@ -1997,7 +2172,8 @@
    "Cowichan Bay"
   ],
   "lat": 48.7786872,
-  "lon": -123.7080446
+  "lon": -123.7080446,
+  "pop": 13481
  },
  {
   "zone": "Nanaimo",
@@ -2011,7 +2187,8 @@
    "Gabriola Island"
   ],
   "lat": 49.163877,
-  "lon": -123.938122
+  "lon": -123.938122,
+  "pop": 104363
  },
  {
   "zone": "Parksville et Qualicum",
@@ -2023,7 +2200,8 @@
    "Qualicum Beach"
   ],
   "lat": 49.3179514,
-  "lon": -124.311739
+  "lon": -124.311739,
+  "pop": 21457
  },
  {
   "zone": "Port Alberni",
@@ -2034,7 +2212,8 @@
    "Port Alberni"
   ],
   "lat": 49.2343668,
-  "lon": -124.8056517
+  "lon": -124.8056517,
+  "pop": 17678
  },
  {
   "zone": "Tofino et Ucluelet",
@@ -2046,7 +2225,8 @@
    "Ucluelet"
   ],
   "lat": 49.1528473,
-  "lon": -125.9048279
+  "lon": -125.9048279,
+  "pop": 0
  },
  {
   "zone": "Comox Valley",
@@ -2059,7 +2239,8 @@
    "Cumberland"
   ],
   "lat": 49.6894061,
-  "lon": -124.9954959
+  "lon": -124.9954959,
+  "pop": 29352
  },
  {
   "zone": "Campbell River",
@@ -2071,7 +2252,8 @@
    "Quadra Island"
   ],
   "lat": 50.023071,
-  "lon": -125.244153
+  "lon": -125.244153,
+  "pop": 35060
  },
  {
   "zone": "Île de Vancouver Nord",
@@ -2084,7 +2266,8 @@
    "Alert Bay"
   ],
   "lat": 50.5893452,
-  "lon": -127.0839027
+  "lon": -127.0839027,
+  "pop": 4132
  },
  {
   "zone": "Îles Gulf et Salt Spring",
@@ -2097,7 +2280,8 @@
    "Pender Island"
   ],
   "lat": 48.8296672,
-  "lon": -123.5151614
+  "lon": -123.5151614,
+  "pop": 13007
  },
  {
   "zone": "Kelowna",
@@ -2111,7 +2295,8 @@
    "Peachland"
   ],
   "lat": 49.8879177,
-  "lon": -119.495902
+  "lon": -119.495902,
+  "pop": 144576
  },
  {
   "zone": "Vernon",
@@ -2125,7 +2310,8 @@
    "Enderby"
   ],
   "lat": 50.2668671,
-  "lon": -119.2718157
+  "lon": -119.2718157,
+  "pop": 52870
  },
  {
   "zone": "Penticton et Summerland",
@@ -2139,7 +2325,8 @@
    "Osoyoos"
   ],
   "lat": 49.5003268,
-  "lon": -119.593249
+  "lon": -119.593249,
+  "pop": 16709
  },
  {
   "zone": "Kamloops",
@@ -2152,7 +2339,8 @@
    "Chase"
   ],
   "lat": 50.6758269,
-  "lon": -120.339415
+  "lon": -120.339415,
+  "pop": 97902
  },
  {
   "zone": "Shuswap et Salmon Arm",
@@ -2165,7 +2353,8 @@
    "Sorrento"
   ],
   "lat": 50.7005059,
-  "lon": -119.2790529
+  "lon": -119.2790529,
+  "pop": 17706
  },
  {
   "zone": "Revelstoke et Golden",
@@ -2177,7 +2366,8 @@
    "Golden"
   ],
   "lat": 50.998045,
-  "lon": -118.1956709
+  "lon": -118.1956709,
+  "pop": 7547
  },
  {
   "zone": "Nelson et Kootenay Ouest",
@@ -2192,7 +2382,8 @@
    "Kaslo"
   ],
   "lat": 49.494891,
-  "lon": -117.290039
+  "lon": -117.290039,
+  "pop": 15748
  },
  {
   "zone": "Cranbrook et Kootenay Est",
@@ -2207,7 +2398,8 @@
    "Creston"
   ],
   "lat": 49.5107477,
-  "lon": -115.7672772
+  "lon": -115.7672772,
+  "pop": 3391
  },
  {
   "zone": "Prince George",
@@ -2220,7 +2412,8 @@
    "Mackenzie"
   ],
   "lat": 53.9128645,
-  "lon": -122.7453699
+  "lon": -122.7453699,
+  "pop": 74003
  },
  {
   "zone": "Cariboo – Williams Lake et Quesnel",
@@ -2233,7 +2426,8 @@
    "100 Mile House"
   ],
   "lat": 52.1292657,
-  "lon": -122.1397259
+  "lon": -122.1397259,
+  "pop": 20632
  },
  {
   "zone": "Terrace et Kitimat",
@@ -2247,7 +2441,8 @@
    "Hazelton"
   ],
   "lat": 54.5172715,
-  "lon": -128.599548
+  "lon": -128.599548,
+  "pop": 25549
  },
  {
   "zone": "Prince Rupert et Haida Gwaii",
@@ -2260,7 +2455,8 @@
    "Queen Charlotte"
   ],
   "lat": 54.3126572,
-  "lon": -130.32549
+  "lon": -130.32549,
+  "pop": 12220
  },
  {
   "zone": "Peace River BC",
@@ -2273,7 +2469,8 @@
    "Chetwynd"
   ],
   "lat": 56.2527571,
-  "lon": -120.8472064
+  "lon": -120.8472064,
+  "pop": 29580
  },
  {
   "zone": "Halifax et Dartmouth",
@@ -2288,7 +2485,8 @@
    "Hydrostone"
   ],
   "lat": 44.648618,
-  "lon": -63.5859487
+  "lon": -63.5859487,
+  "pop": 531894
  },
  {
   "zone": "Truro et Colchester",
@@ -2302,7 +2500,8 @@
    "Milford"
   ],
   "lat": 45.3656974,
-  "lon": -63.2864971
+  "lon": -63.2864971,
+  "pop": 18030
  },
  {
   "zone": "New Glasgow et Pictou",
@@ -2316,7 +2515,8 @@
    "Trenton"
   ],
   "lat": 45.5869474,
-  "lon": -62.6483547
+  "lon": -62.6483547,
+  "pop": 19974
  },
  {
   "zone": "Antigonish",
@@ -2328,7 +2528,8 @@
    "Guysborough"
   ],
   "lat": 45.6213607,
-  "lon": -61.9904928
+  "lon": -61.9904928,
+  "pop": 4656
  },
  {
   "zone": "Cap-Breton – Sydney",
@@ -2343,7 +2544,8 @@
    "Inverness"
   ],
   "lat": 46.1382112,
-  "lon": -60.1941912
+  "lon": -60.1941912,
+  "pop": 29904
  },
  {
   "zone": "Vallée d'Annapolis",
@@ -2358,7 +2560,8 @@
    "Windsor NS"
   ],
   "lat": 45.0784875,
-  "lon": -64.495212
+  "lon": -64.495212,
+  "pop": 14196
  },
  {
   "zone": "Annapolis Royal et Digby",
@@ -2371,7 +2574,8 @@
    "Bridgetown"
   ],
   "lat": 44.7419775,
-  "lon": -65.5160971
+  "lon": -65.5160971,
+  "pop": 2152
  },
  {
   "zone": "Bridgewater et Rive-Sud",
@@ -2386,7 +2590,8 @@
    "Liverpool"
   ],
   "lat": 44.3774134,
-  "lon": -64.5193946
+  "lon": -64.5193946,
+  "pop": 11195
  },
  {
   "zone": "Yarmouth",
@@ -2399,7 +2604,8 @@
    "Barrington"
   ],
   "lat": 43.8372648,
-  "lon": -66.1157
+  "lon": -66.1157,
+  "pop": 15288
  },
  {
   "zone": "Amherst et Cumberland",
@@ -2412,7 +2618,8 @@
    "Parrsboro"
   ],
   "lat": 45.8192941,
-  "lon": -64.2333504
+  "lon": -64.2333504,
+  "pop": 9717
  },
  {
   "zone": "Moncton et Sud-Est",
@@ -2427,7 +2634,8 @@
    "Sackville NB"
   ],
   "lat": 46.0985679,
-  "lon": -64.8004265
+  "lon": -64.8004265,
+  "pop": 99137
  },
  {
   "zone": "Saint John",
@@ -2442,7 +2650,8 @@
    "St. Stephen"
   ],
   "lat": 45.2787992,
-  "lon": -66.0585188
+  "lon": -66.0585188,
+  "pop": 98501
  },
  {
   "zone": "Fredericton",
@@ -2455,7 +2664,8 @@
    "Nackawic"
   ],
   "lat": 45.9488278,
-  "lon": -66.6291827
+  "lon": -66.6291827,
+  "pop": 87436
  },
  {
   "zone": "Bathurst et Acadie-Bathurst",
@@ -2469,7 +2679,8 @@
    "Shippagan"
   ],
   "lat": 47.6208671,
-  "lon": -65.6537546
+  "lon": -65.6537546,
+  "pop": 0
  },
  {
   "zone": "Miramichi",
@@ -2481,7 +2692,8 @@
    "Neguac"
   ],
   "lat": 47.0298004,
-  "lon": -65.4704158
+  "lon": -65.4704158,
+  "pop": 18129
  },
  {
   "zone": "Edmundston et Madawaska",
@@ -2495,7 +2707,8 @@
    "Grand Falls"
   ],
   "lat": 47.3637203,
-  "lon": -68.3288825
+  "lon": -68.3288825,
+  "pop": 19956
  },
  {
   "zone": "Campbellton et Restigouche",
@@ -2507,7 +2720,8 @@
    "Dalhousie"
   ],
   "lat": 48.0046634,
-  "lon": -66.6765986
+  "lon": -66.6765986,
+  "pop": 0
  },
  {
   "zone": "Charlottetown",
@@ -2520,7 +2734,8 @@
    "Cornwall PE"
   ],
   "lat": 46.2354187,
-  "lon": -63.1265388
+  "lon": -63.1265388,
+  "pop": 38809
  },
  {
   "zone": "Summerside et Ouest",
@@ -2533,7 +2748,8 @@
    "Tignish"
   ],
   "lat": 46.394259,
-  "lon": -63.7892386
+  "lon": -63.7892386,
+  "pop": 16001
  },
  {
   "zone": "Montague et Est",
@@ -2546,7 +2762,8 @@
    "Georgetown"
   ],
   "lat": 46.1708855,
-  "lon": -62.6538278
+  "lon": -62.6538278,
+  "pop": 43911
  },
  {
   "zone": "St. John's",
@@ -2561,7 +2778,8 @@
    "Torbay"
   ],
   "lat": 47.5646794,
-  "lon": -52.7066964
+  "lon": -52.7066964,
+  "pop": 133482
  },
  {
   "zone": "Clarenville et Bonavista",
@@ -2575,7 +2793,8 @@
    "Trinity"
   ],
   "lat": 48.1679902,
-  "lon": -53.9646413
+  "lon": -53.9646413,
+  "pop": 8771
  },
  {
   "zone": "Gander et Notre Dame Bay",
@@ -2589,7 +2808,8 @@
    "King's Point"
   ],
   "lat": 48.9592291,
-  "lon": -54.6187879
+  "lon": -54.6187879,
+  "pop": 11054
  },
  {
   "zone": "Grand Falls-Windsor",
@@ -2602,7 +2822,8 @@
    "Bishop's Falls"
   ],
   "lat": 48.944151,
-  "lon": -55.652618
+  "lon": -55.652618,
+  "pop": 14171
  },
  {
   "zone": "Corner Brook et Ouest",
@@ -2616,7 +2837,8 @@
    "Rocky Harbour"
   ],
   "lat": 48.95317,
-  "lon": -57.947388
+  "lon": -57.947388,
+  "pop": 4000
  },
  {
   "zone": "Labrador",
@@ -2629,7 +2851,8 @@
    "Wabush"
   ],
   "lat": 53.2964352,
-  "lon": -60.3111895
+  "lon": -60.3111895,
+  "pop": 15329
  },
  {
   "zone": "Whitehorse",
@@ -2642,7 +2865,8 @@
    "Haines Junction"
   ],
   "lat": 60.721571,
-  "lon": -135.054932
+  "lon": -135.054932,
+  "pop": 28201
  },
  {
   "zone": "Yellowknife",
@@ -2656,7 +2880,8 @@
    "Inuvik"
   ],
   "lat": 62.4540807,
-  "lon": -114.377385
+  "lon": -114.377385,
+  "pop": 29253
  },
  {
   "zone": "Iqaluit",
@@ -2669,6 +2894,7 @@
    "Cambridge Bay"
   ],
   "lat": 63.7492738,
-  "lon": -68.5213763
+  "lon": -68.5213763,
+  "pop": 10404
  }
 ]

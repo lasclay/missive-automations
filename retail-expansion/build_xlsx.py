@@ -33,8 +33,11 @@ ACTUELS = [
     ("Local Refillery", "Refillery / zéro déchet", "Courtenay", "BC",
      "420 Fitzgerald Ave", "V9N 7N2", "250-871-6600", "", "https://www.localrefillery.com", "Sacs à lunch"),
 ]
+# Zones ou un detaillant Lasclay est deja en place. La Rive-Sud n'y figure pas:
+# la boutique du parc des Iles-de-Boucherville est saisonniere et ne porte qu'une
+# partie de la gamme, donc un detaillant a l'annee reste a trouver.
 ZONES_COUVERTES = {
-    "Quebec - centre et Limoilou", "Montreal - centre et Plateau", "Longueuil et Rive-Sud",
+    "Quebec - centre et Limoilou", "Montreal - centre et Plateau",
     "Sherbrooke", "Rimouski", "Gaspe et Perce", "Comox Valley",
 }
 
@@ -66,8 +69,23 @@ SCORE_TYPE = {
     "Deco / maison": 26, "Articles de maison": 26,
     "Eco / grande boutique verte": 30, "Boutique / cadeaux": 30,
 }
-SCORE_PALIER = {"Metropole": 15, "Grande ville": 14, "Ville moyenne": 12,
-                "Petite ville": 9, "Region eloignee": 5}
+# Le marche compte plus que l'etiquette: on note la population reelle de la zone.
+# Consigne: privilegier les villes de 50 000 habitants et plus.
+def score_population(p):
+    if p >= 500000: return 30
+    if p >= 150000: return 26
+    if p >= 50000:  return 22
+    if p >= 20000:  return 10
+    if p >= 5000:   return 5
+    return 2
+
+def tranche_population(p):
+    if p >= 500000: return "500 000 et plus"
+    if p >= 150000: return "150 000 a 500 000"
+    if p >= 50000:  return "50 000 a 150 000"
+    if p >= 20000:  return "20 000 a 50 000"
+    if p >= 5000:   return "5 000 a 20 000"
+    return "moins de 5 000"
 
 # chaines et grandes surfaces a exclure (ne correspondent pas au modele consignation)
 CHAINES = [
@@ -93,6 +111,12 @@ CHAINES = [
     # autres enseignes sans pertinence
     "petro", "esso", "shell", "circle k", "couche-tard", "7-eleven", "ultramar",
     "electrolux", "vacuum", "aspirateur", "kirby", "rent-a-center", "cash",
+    # etablissements qui ne sont pas des commerces de detail
+    "karate", "dojo", "taekwondo", "judo", "jiu-jitsu", "crossfit", "gym ",
+    "fitness", "arena", "curling", "bowling", "golf club", "country club",
+    "distribution", "distributeur", "wholesale", "grossiste", "manufactur",
+    "warehouse inc", "entrepot", "imports inc", "holdings", "vileda",
+    "cleaning products", "supply co. ltd", "industries",
     "u-haul", "storage", "self storage", "car wash", "lave-auto",
 ]
 
@@ -102,7 +126,12 @@ def strip_acc(s):
                    if unicodedata.category(c) != "Mn")
 
 def norm(s):
+    # les noms de zone utilisent des tirets cadratins: on ecrase toute
+    # ponctuation, sinon la comparaison avec ZONES_COUVERTES echoue en silence.
     return re.sub(r"[^a-z0-9]+", "", strip_acc(s).lower())
+
+def cle_zone(s):
+    return norm(s)
 
 def clean_addr(a):
     if not a: return ""
@@ -184,7 +213,8 @@ def ajouter(nom, typ, ville, prov, adresse, cp, tel, mail, web, source,
     if cle in vus: return
     vus.add(cle)
     rows.append(dict(nom=nom.strip(), type=typ, zone=z["zone"], ancre=z["ancre"],
-                     palier=z["palier"], ville=(ville or "").strip(), prov=z["prov"],
+                     palier=z["palier"], pop=z.get("pop", 0),
+                     ville=(ville or "").strip(), prov=z["prov"],
                      adresse=clean_addr(adresse), cp=(cp or "").strip().upper(),
                      tel=clean_tel(tel), courriel=(mail or "").strip().lower(),
                      web=(web or "").strip(), source=source, rattachement=moyen))
@@ -206,13 +236,13 @@ for c in osm:
 # ---------------------------------------------------------------------- pointage
 for r in rows:
     s = SCORE_TYPE.get(r["type"], 22)
-    s += SCORE_PALIER.get(strip_acc(r["palier"]), 8)
+    s += score_population(r["pop"])
     s += 7 if r["tel"] else 0
     s += 7 if r["courriel"] else 0
     s += 6 if r["adresse"] else 0
     s += 5 if r["web"] else 0
     if r["source"] == "Recherche web ciblee": s += 10  # archetype valide a la lecture
-    if strip_acc(r["zone"]) in {strip_acc(x) for x in ZONES_COUVERTES}:
+    if cle_zone(r["zone"]) in {cle_zone(x) for x in ZONES_COUVERTES}:
         s -= 20
         r["statut_zone"] = "Zone deja couverte"
     else:
@@ -231,18 +261,20 @@ for r in rows:
                      else "B - releve" if r["rang"] <= 3 and r["statut_zone"] == "Zone a ouvrir"
                      else "C - reserve")
 
-# cibles: 500 candidats au Quebec, 1000 dans le reste du Canada.
-# on ratisse en largeur d'abord (le rang 1 de chaque zone), puis en profondeur.
+# Cibles: 500 candidats au Quebec, 1000 dans le reste du Canada.
+# Deux temps. D'abord le rang 1 de chaque zone, pour que la regle de l'heure de
+# route tienne partout. Ensuite on approfondit, en servant les zones de 50 000
+# habitants et plus avant les autres.
 CIBLES = {"QC": 500, "ROC": 1000}
+GROS = 50000
 retenus = []
 for groupe, cible in CIBLES.items():
     pool = [r for r in rows if (r["prov"] == "QC") == (groupe == "QC")]
-    pris, rang = [], 1
-    while len(pris) < cible and rang <= 60:
-        vague = sorted([r for r in pool if r["rang"] == rang], key=lambda r: -r["score"])
-        if not vague and rang > 20: break
-        pris += vague[:cible - len(pris)]
-        rang += 1
+    pris = sorted([r for r in pool if r["rang"] == 1], key=lambda r: -r["score"])[:cible]
+    deja = {id(r) for r in pris}
+    reste = sorted([r for r in pool if id(r) not in deja],
+                   key=lambda r: (r["pop"] < GROS, r["rang"], -r["score"]))
+    pris += reste[:max(0, cible - len(pris))]
     retenus += pris
 retenus.sort(key=lambda r: (r["prov"], r["zone"], r["rang"]))
 
@@ -363,7 +395,11 @@ lignes = [
     ["Priorité A", "Rang 1 dans une zone non encore couverte: à contacter en premier."],
     ["Priorité B", "Rang 2 ou 3 dans une zone non couverte: relève si le rang 1 refuse."],
     ["Priorité C", "Zone déjà couverte par un détaillant Lasclay, ou rang 4 et plus."],
-    ["Pointage", "Archétype du commerce (jusqu'à 40) + taille du marché (jusqu'à 15) + coordonnées complètes (jusqu'à 25) + zone à ouvrir (15) + validation à la lecture (10)."],
+    ["Pointage", "Archétype du commerce (jusqu'à 40) + population de la zone (jusqu'à 30) + coordonnées complètes (jusqu'à 25) + zone à ouvrir (15) + validation à la lecture (10)."],
+    ["Priorité aux 50 000+", "Chaque zone reçoit d'abord son meilleur candidat, pour que la règle de l'heure de route tienne partout. Le reste des places va aux zones de 50 000 habitants et plus avant les petites."],
+    ["Population", "Population de la ville-ancre (Wikidata). Elle sert d'ordre de grandeur du marché de la zone, pas de compte exact des habitants desservis."],
+    ["Montréal", "Le centre et le Plateau sont couverts par Les Défricheuses. L'île est découpée: l'Ouest-de-l'Île et l'Est sont des zones distinctes, ouvertes. La Rive-Sud et la Rive-Nord aussi."],
+    ["Rive-Sud", "La boutique du parc des Îles-de-Boucherville est saisonnière et ne porte qu'une partie de la gamme: la zone reste à ouvrir pour un détaillant à l'année."],
     ["", ""],
     ["Sources", ""],
     ["Recherche web ciblée", "Annuaires écoresponsables, répertoires d'artisans, presse régionale, sites des boutiques. Archétype validé à la lecture."],
@@ -395,28 +431,30 @@ feuille(ws, ["Nom", "Nature du commerce", "Ville", "Prov", "Adresse", "Code post
 ws = wb.create_sheet("Candidats")
 data = [[fr(r["priorite"]), r["rang"], r["zone"], r["ville"], r["prov"], r["nom"], fr(r["type"]),
          r["adresse"], r["cp"], r["tel"], r["courriel"], r["web"], r["score"],
-         fr(r["palier"]), fr(r["statut_zone"]), fr(r["source"])] for r in retenus]
+         r["pop"] or "", fr(tranche_population(r["pop"])),
+         fr(r["statut_zone"]), fr(r["source"])] for r in retenus]
 feuille(ws, ["Priorité", "Rang zone", "Zone (1 seul détaillant)", "Ville", "Prov", "Nom",
              "Archétype", "Adresse", "Code postal", "Téléphone", "Courriel", "Site web",
-             "Score", "Taille du marché", "Statut de la zone", "Source"],
-        data, [22, 10, 30, 20, 6, 34, 26, 34, 12, 15, 30, 36, 8, 15, 20, 20])
+             "Score", "Population de la zone", "Tranche de population",
+             "Statut de la zone", "Source"],
+        data, [22, 10, 30, 20, 6, 34, 26, 34, 12, 15, 30, 36, 8, 14, 20, 20, 20])
 
 # --- Couverture
 ws = wb.create_sheet("Couverture par zone")
 cov = []
 for z in zones:
     cands = par_zone.get(z["zone"], [])
-    couverte = strip_acc(z["zone"]) in {strip_acc(x) for x in ZONES_COUVERTES}
+    couverte = cle_zone(z["zone"]) in {cle_zone(x) for x in ZONES_COUVERTES}
     if couverte: statut = "Couverte - detaillant en place"
     elif cands: statut = "A ouvrir - candidats identifies"
     else: statut = "A ouvrir - AUCUN candidat trouve"
-    cov.append([z["prov"], z["zone"], z["ancre"], fr(z["palier"]), statut, len(cands),
+    cov.append([z["prov"], z["zone"], z["ancre"], z.get("pop", 0) or "", statut, len(cands),
                 cands[0]["nom"] if cands else "", cands[0]["tel"] if cands else "",
                 cands[0]["courriel"] if cands else ""])
 cov.sort(key=lambda r: (r[0], r[1]))
-feuille(ws, ["Prov", "Zone", "Ville-ancre", "Taille du marché", "Statut", "Candidats trouvés",
+feuille(ws, ["Prov", "Zone", "Ville-ancre", "Population", "Statut", "Candidats trouvés",
              "Meilleur candidat", "Téléphone", "Courriel"],
-        cov, [6, 32, 22, 16, 32, 16, 34, 15, 30])
+        cov, [6, 34, 22, 13, 32, 16, 34, 15, 30])
 
 # --- Grille de qualification
 ws = wb.create_sheet("Grille de qualification")
