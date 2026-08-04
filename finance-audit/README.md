@@ -53,7 +53,7 @@ classeur en 1,2 seconde.
 | `recache.py` | Rafraîchit les valeurs en cache de tout le classeur. **À lancer en dernier**, après toute écriture. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `traduire.py` `glossaire_en.py` | Dérive le mémo anglais du mémo français. Les deux sortent du même `pdf_data.json`, donc un chiffre ne peut pas diverger d'une langue à l'autre ; seul le texte change. `--manquants` liste les segments non traduits et le script refuse d'écrire tant qu'il en reste. Les nombres passent au format anglais mécaniquement. |
-| `traduire_xlsx.py` | Dérive la copie anglaise du chiffrier. Traduit la table des chaînes partagées **et** les chaînes en ligne des feuilles visibles, sans toucher aux formules, aux valeurs ni aux styles, puis vérifie que les deux fichiers calculent à l'identique. Le glossaire du classeur reste à remplir. |
+| `traduire_xlsx.py` `glossaire_x_*.py` | Dérive la copie anglaise du chiffrier : chaînes partagées, chaînes en ligne des feuilles visibles et noms d'onglets, avec les références de feuille réécrites dans toutes les formules. Ne touche ni aux formules elles-mêmes, ni aux valeurs, ni aux styles, et vérifie ensuite que les deux fichiers calculent à l'identique. 1 346 chaînes, aucune manquante. |
 | `pdftxt.py` | Extrait le texte d'un PDF en passant par les tables ToUnicode de chaque police. Les PDF exportés de Google dessinent leur texte en hexadécimal avec des polices sous-ensemblées : sans la table, on ne lit rien. Sert à dépouiller les annexes et les lettres de soutien. |
 | `overflow.py` | Mesure, page par page, la hauteur du contenu contre celle du cadre. Chromium coupe ce qui déborde sans rien dire ; c'est la seule façon de le voir sans ouvrir les quinze pages. |
 | `fix_y.py` | Réparation de la mise en page : remet la table `cellXfs` dans l'ordre et donne un format aux cellules créées par la révision. À exécuter après toute série d'écritures. |
@@ -200,6 +200,15 @@ classeur en 1,2 seconde.
   trois.** C'est ce qui permet de convertir « 44,3 » sans abîmer « 10,000 » déjà écrit en
   anglais — et il faut convertir la décimale AVANT les milliers, sinon « 160 000 » devient
   « 160,000 » puis « 160.000 ».
+- **Renommer un onglet, c'est réécrire toutes les formules qui le citent.** Le nom vit
+  dans `workbook.xml` ET dans chaque référence. Trois pièges s'y cachent. Le nom
+  « QBO P&L à maj » porte une esperluette, écrite `&amp;` dans le XML : chercher le nom
+  non échappé ne le trouve pas, la référence reste française et le `SUMIF` pointe dans le
+  vide — la rangée tombe à zéro sans que rien ne le signale. « Immos » n'avait pas
+  d'espace et se citait sans apostrophes ; « Capital assets » en a une, alors la
+  référence doit en gagner, sinon Excel lit « Capital » comme un nom défini et rend
+  #NOM?. Et le comparateur qui vérifie l'égalité des deux fichiers doit lui aussi passer
+  les noms par la table, sans quoi il annonce quarante mille écarts qui n'existent pas.
 - **Une formule posée sur une feuille référence cette feuille.** `$D$143` écrit dans le
   bilan désigne une cellule vide du bilan, pas `Inputs!$D$143`. Le calcul tombe à zéro
   sans rien signaler : le solde reste simplement plat.
