@@ -54,12 +54,15 @@ function interprete(rep) {
       ok: false,
       code: "unauthorized",
       message:
-        "Jeton refusé. Deux causes possibles, dans cet ordre de probabilité :\n" +
-        "  1. Le déploiement sert une ancienne version du script. Dans l'éditeur :\n" +
-        "     Déployer › Gérer les déploiements › crayon › Version : Nouvelle version.\n" +
-        "  2. Une propriété de script nommée TOKEN existe et supplante la constante\n" +
-        "     SECRET du code (jeton() renvoie getProperty('TOKEN') || SECRET).\n" +
-        "     Paramètres du projet › Propriétés du script.",
+        "Jeton refusé. Vérifie L'URL AVANT le jeton : le projet compte plusieurs\n" +
+        "déploiements actifs, chacun avec sa propre URL et sa version figée du code.\n" +
+        "Une URL périmée refuse un jeton pourtant valide.\n" +
+        "  1. Éditeur › Déployer › Gérer les déploiements. Le déploiement courant est\n" +
+        "     en haut de la liste Active. Compare son URL à LASCLAY_DRIVE_PUSH_URL.\n" +
+        "  2. Sinon, le déploiement sert une vieille version : crayon › Version :\n" +
+        "     Nouvelle version. Jamais « Nouveau déploiement », ça ajoute une URL.\n" +
+        "  3. Sinon, une propriété de script TOKEN supplante la constante SECRET\n" +
+        "     (jeton() renvoie getProperty('TOKEN') || SECRET).",
     };
   }
   const m = rep.match(/^status:(\d+):(ok|cree|refus):(.*)$/s);

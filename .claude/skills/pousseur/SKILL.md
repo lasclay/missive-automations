@@ -89,19 +89,42 @@ html, png, jpg, jpeg, svg, zip. Le reste part en `application/octet-stream`.
 
 ## Quand ça répond `unauthorized`
 
-Le jeton est comparé à `PropertiesService.getScriptProperties().getProperty('TOKEN')`,
-avec repli sur la constante `SECRET` du code. Deux causes, dans cet ordre :
+**Commence par l'URL, pas par le jeton.** Le projet compte **plusieurs déploiements
+actifs** — « Pousseur v13 », « Pousseur v12 », « Untitled », « pousseur v12 »,
+« Pousseur Lasclay… », « Lasclay Pousseur… ». Chacun a sa propre URL et sert une version
+figée du code. Une URL périmée valide donc l'ancien secret et répond `unauthorized`,
+même quand le jeton de l'environnement est rigoureusement le bon.
 
-1. **Le déploiement sert une ancienne version du script.** C'est le cas le plus fréquent
-   après une modification du code : Apps Script continue de servir la version déployée,
-   pas la version enregistrée. Correction : dans l'éditeur, *Déployer › Gérer les
-   déploiements › crayon › Version : Nouvelle version*.
-2. **Une propriété de script `TOKEN` existe et supplante `SECRET`.** Vérifier dans
-   *Paramètres du projet › Propriétés du script*, et aligner avec
-   `LASCLAY_DRIVE_PUSH_TOKEN`.
+C'est la cause qui a coûté le plus de temps la première fois, et elle ne se voit pas :
+le jeton correspond, l'URL a la bonne forme, le script s'exécute et répond. Seul le
+déploiement diffère.
+
+1. **Vérifie l'URL avant tout.** Dans l'éditeur : *Déployer › Gérer les déploiements*.
+   Le déploiement courant est celui du haut de la liste Active. Compare son URL à
+   `LASCLAY_DRIVE_PUSH_URL`. Si elles diffèrent, c'est réglé — mets l'environnement à jour.
+2. **Sinon, le déploiement sert une ancienne version du code.** Apps Script sert la
+   version *déployée*, pas la version enregistrée. Correction : *crayon › Version :
+   Nouvelle version*. Surtout pas « Nouveau déploiement », qui créerait une septième URL.
+3. **Sinon, une propriété de script `TOKEN` supplante `SECRET`.** Le jeton effectif est
+   `getScriptProperties().getProperty('TOKEN') || SECRET`. Vérifier dans *Paramètres du
+   projet › Propriétés du script*.
+
+Pour trancher entre 2 et 3, exécuter dans l'éditeur :
+
+```js
+function verif() {
+  Logger.log('SECRET du code  : ' + SECRET);
+  Logger.log('propriété TOKEN : ' + PropertiesService.getScriptProperties().getProperty('TOKEN'));
+  Logger.log('jeton effectif  : ' + jeton());
+}
+```
 
 Ne pars pas à deviner des noms de champs : le jeton va en **paramètre d'URL**, sous le nom
 `token`, et nulle part ailleurs. Le script lit `e.parameter.token`.
+
+**Ménage recommandé.** Six déploiements actifs pour une seule application, c'est six URL
+qui ouvrent le Drive du compte, dont cinq oubliées. Archiver tout sauf le courant supprime
+le piège et réduit la surface. *Gérer les déploiements › icône d'archive.*
 
 ## Les autres réponses
 
