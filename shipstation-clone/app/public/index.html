@@ -136,6 +136,12 @@
      niveaux de gris — donc pour un daltonien, et sur une impression noir et blanc. Un
      glyphe préfixe porte l'information une seconde fois, sans couleur. */
   .puce::before { font-weight:700; margin-right:4px; font-size:9.5px }
+  /* Pastille de canal de vente : carrée, lisible à 16 px, la lettre porte l'information
+     autant que la couleur. `flex:none` l'empêche d'être écrasée dans une ligne serrée. */
+  .mk { display:inline-flex; align-items:center; justify-content:center; flex:none;
+        width:16px; height:16px; border-radius:4px; font-size:10px; font-weight:700;
+        line-height:1; vertical-align:-3px; margin-right:5px; letter-spacing:0 }
+  .ssLi .mk { margin-right:6px }
   /* Une note doit être atteignable autrement qu'en survolant à la souris : bouton réel,
      focusable, activable au doigt, et dont le nom accessible porte déjà le texte (§5.3). */
   .noteB { border:none; background:none; padding:0 3px; cursor:pointer; color:var(--accent);
@@ -1407,7 +1413,10 @@ const COLONNES = [
   { k: "item_name", t: "Article", defaut: 1, tri: "item_name", r: (o) => arts(o).map((i) => esc(i.name)).join(" · ") },
   { k: "batch", t: "Lot", defaut: 1, tri: "batch", r: (o) => o.batch_id
       ? `<span class="puce g">${esc((LOTS.find((l) => l.id === o.batch_id) || {}).name || "lot " + o.batch_id)}</span>` : "" },
-  { k: "customer_name", t: "Destinataire", defaut: 1, tri: "customer_name", r: (o) => esc(o.customer_name) },
+  // La pastille vit sur le destinataire, comme chez ShipStation : c'est la colonne qu'on lit
+  // pour identifier une commande, et le canal de vente change la façon de la traiter.
+  { k: "customer_name", t: "Destinataire", defaut: 1, tri: "customer_name",
+    r: (o) => pastilleBoutique(o.store_id) + esc(o.customer_name) },
   { k: "quantity", t: "Quantité", defaut: 1, n: 1, tri: "quantity", r: (o) => arts(o).reduce((s, i) => s + (i.quantity || 0), 0) },
   { k: "order_total", t: "Total", defaut: 1, n: 1, tri: "order_total", r: (o) => money(o.order_total) },
   { k: "tags", t: "Étiquettes", defaut: 1, tri: "tags", r: (o) => (o.tags || []).map(pastilleTag).join(" ") },
@@ -1456,7 +1465,9 @@ const COLONNES = [
   { k: "source", t: "Source", r: (o) => esc(o.source) },
   { k: "state", t: "Province / État", r: (o) => esc(o.ship_to?.state) },
   { k: "status", t: "Statut", r: (o) => `<span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>` },
-  { k: "store", t: "Boutique", r: (o) => esc(IDX.stores?.get(String(o.store_id))?.name || o.source) },
+  { k: "store", t: "Boutique", r: (o) => IDX.stores?.get(String(o.store_id))
+      ? pastilleBoutique(o.store_id, { avecNom: true })
+      : esc(o.source || "—") },
   { k: "tax_amount", t: "Taxes payées", n: 1, r: (o) => money(o.tax_amount) },
   { k: "tote", t: "Bac", r: (o) => esc(o.tote) },
   { k: "location", t: "Emplacement en entrepôt", r: (o) =>
@@ -1522,6 +1533,61 @@ const PLAGES_DATE = [
   ["avant_30j", "Il y a plus de 30 jours", () => ({ from: "", to: ilYA(30) })],
   ["tout", "Tout l'historique", () => ({ from: "", to: "" })],
 ];
+
+/**
+ * Pastilles de canal de vente — repérage visuel des boutiques.
+ *
+ * ShipStation marque chaque boutique d'une icône de place de marché, dans le rail gauche
+ * **et** sur chaque ligne de la grille. Chez Lasclay, cinq canaux cohabitent (Shopify, Etsy,
+ * Faire, commandes manuelles, Shopify direct) et les distinguer d'un coup d'œil change le
+ * temps qu'on met à retrouver une commande.
+ *
+ * Deux règles de conception. La pastille porte une **lettre**, pas seulement une couleur :
+ * c'est le défaut que le §4.7 de l'audit reproche aux badges, indiscernables en niveaux de
+ * gris et pour un daltonien. Et elle **complète** le nom de la boutique, elle ne le remplace
+ * jamais — un repère de plus, pas un rébus.
+ *
+ * Les couleurs sont des teintes de repérage, pas des logos : reproduire les marques serait
+ * inutile ici, et un aplat lisible dans les deux thèmes vaut mieux qu'un logo illisible en
+ * 16 px. Le CSP interdit d'ailleurs toute image externe.
+ */
+const MARCHES = {
+  shopify: { lettre: "S", nom: "Shopify", fond: "#0b7a4b", texte: "#ffffff" },
+  // #c8542a sortait à 4,41 : sous le seuil AA. Assombri jusqu'à passer, teinte conservée.
+  etsy:    { lettre: "E", nom: "Etsy", fond: "#bd4e26", texte: "#ffffff" },
+  faire:   { lettre: "F", nom: "Faire", fond: "#1f2937", texte: "#ffffff" },
+  manual:  { lettre: "M", nom: "Commandes manuelles", fond: "#5c6673", texte: "#ffffff" },
+  amazon:  { lettre: "A", nom: "Amazon", fond: "#8a5a00", texte: "#ffffff" },
+  ebay:    { lettre: "b", nom: "eBay", fond: "#1a56db", texte: "#ffffff" },
+  walmart: { lettre: "W", nom: "Walmart", fond: "#0a5ca8", texte: "#ffffff" },
+  autre:   { lettre: "?", nom: "Autre canal", fond: "#78828d", texte: "#ffffff" },
+};
+
+/** Le marché d'une boutique, avec repli sur son nom quand le champ n'est pas renseigné. */
+function marcheDe(boutique) {
+  if (!boutique) return MARCHES.autre;
+  const m = String(boutique.marketplace || "").toLowerCase();
+  if (MARCHES[m]) return MARCHES[m];
+  const n = String(boutique.name || "").toLowerCase();
+  for (const cle of Object.keys(MARCHES)) if (n.includes(cle)) return MARCHES[cle];
+  if (/manuel|manual/.test(n)) return MARCHES.manual;
+  return MARCHES.autre;
+}
+
+/**
+ * Pastille d'une boutique, par identifiant. `avecNom` place le nom à côté ; sinon la pastille
+ * seule, mais toujours avec le nom en info-bulle et en nom accessible — jamais une couleur
+ * muette.
+ */
+function pastilleBoutique(storeId, { avecNom = false } = {}) {
+  const b = IDX.stores?.get(String(storeId));
+  const m = marcheDe(b);
+  const nom = b ? b.name : "Boutique inconnue";
+  const titre = b && m.nom !== nom ? `${nom} · ${m.nom}` : nom;
+  return `<span class="mk" style="background:${m.fond};color:${m.texte}"
+    title="${esc(titre)}" aria-label="${esc(titre)}" role="img">${esc(m.lettre)}</span>${
+    avecNom ? ` ${esc(nom)}` : ""}`;
+}
 
 /**
  * Une valeur de filtre peut désormais être unique ou multiple (les chips Boutique et
@@ -1777,7 +1843,12 @@ VUES.commandes = async (statutFixe) => {
 
   const PASTILLES = [
     { id: "store", t: "Boutique", cles: ["store_id"],
-      resume: (f) => f.store_id && (IDX.stores?.get(String(f.store_id))?.name || "boutique " + f.store_id),
+      resume: (f) => {
+        if (!f.store_id) return null;
+        const ids = (Array.isArray(f.store_id) ? f.store_id : String(f.store_id).split(",")).filter(Boolean);
+        if (ids.length > 1) return `${ids.length} boutiques`;
+        return IDX.stores?.get(String(ids[0]))?.name || "boutique " + ids[0];
+      },
       html: (f) => `<label class="champ"><span>Boutique</span><select data-f="store_id" multiple size="4">
           <option value="">Toutes les boutiques</option>${(S.refs.stores || []).filter((s) => s.active)
             .map((s) => `<option value="${s.id}"${estChoisi(f.store_id, s.id) ? " selected" : ""}>${esc(s.name)}</option>`).join("")}
@@ -2017,7 +2088,7 @@ VUES.commandes = async (statutFixe) => {
     const boutiques = (S.refs.stores || []).filter((x) => x.active)
       .map((x) => `<button type="button" class="ssLi enfant ${S0.statut === "awaiting_shipment" && String(S0.store) === String(x.id) ? "actif" : ""}"
         data-b="${x.id}" aria-pressed="${S0.statut === "awaiting_shipment" && String(S0.store) === String(x.id)}"
-        >${esc(x.name)}<span class="n">${b[x.id] ? num(b[x.id]) : ""}</span></button>`).join("");
+        >${pastilleBoutique(x.id)}${esc(x.name)}<span class="n">${b[x.id] ? num(b[x.id]) : ""}</span></button>`).join("");
 
     const enTeteRecherche = enRecherche
       ? `<button type="button" class="ssLi actif" id="ssTousResultats" aria-pressed="true"
@@ -3788,7 +3859,8 @@ async function detailCommande(id) {
 
   const f = el(`<div class="fiche" id="fiche" role="dialog" aria-modal="true" aria-labelledby="fNum">
     <header class="fTete">
-      <span class="fBout">${esc(boutique)}</span>
+      <span class="fBout">${IDX.stores?.get(String(o.store_id))
+        ? pastilleBoutique(o.store_id, { avecNom: true }) : esc(boutique)}</span>
       <b class="fNum" id="fNum">Commande ${esc(o.order_number)}</b>
       <span class="puce g">${esc(STATUT_FR[o.status] || o.status)}</span>
       ${lot ? `<span class="puce v">lot : ${esc(lot.name)}</span>` : ""}
