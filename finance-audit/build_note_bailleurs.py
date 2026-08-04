@@ -453,7 +453,7 @@ ul.o li:before {{ background:{ORANGE}; }}
 </style>"""
 
 
-def foot(n, tot=18):
+def foot(n, tot=19):
     return (f'<div class="foot"><span>LASCLAY · PRÉVISIONS FINANCIÈRES 2026-2029</span>'
             f'<span>{n} / {tot}</span></div></div>')
 
@@ -476,19 +476,19 @@ SOMMAIRE = [
     ('03', 'Pourquoi nous, et pourquoi ça continue', 3),
     ('04', 'Ce que disent six ans de ventes', 4),
     ('05', 'La demande, testée trois fois', 5),
-    ('06', 'Juin et juillet 2026 : le coût du manque de trésorerie', 6),
-    ('07', 'Le coût de la fibre, et le réseau qui le fera baisser', 7),
-    ('08', 'De la production artisanale à l’isolant en rouleau', 8),
-    ('09', 'Le marketing et le développement des marchés', 9),
-    ('10', 'Les coûts fixes et l’infrastructure numérique', 10),
-    ('11', 'Deux moteurs, et le plus gros existe déjà', 11),
-    ('12', 'Le détail au Canada, construit ville par ville', 12),
-    ('13', 'Les quarante villes, et le calendrier', 13),
-    ('14', 'Trois marchés qui ne sont pas dans les chiffres', 14),
-    ('15', 'Les projections : deux scénarios', 15),
-    ('16', 'Structure de financement et facteurs de risque', 16),
-    ('17', 'La méthode et les sources', 17),
-    ('18', 'Synthèse', 18),
+    ('06', 'Juin et juillet 2026 : l\'été qu\'on a choisi de ne pas faire', 6),
+    ('07', 'Le coût de la fibre, et le réseau qui le fera baisser', 8),
+    ('08', 'De la production artisanale à l’isolant en rouleau', 9),
+    ('09', 'Le marketing et le développement des marchés', 10),
+    ('10', 'Les coûts fixes et l’infrastructure numérique', 11),
+    ('11', 'Deux moteurs, et le plus gros existe déjà', 12),
+    ('12', 'Le détail au Canada, construit ville par ville', 13),
+    ('13', 'Les quarante villes, et le calendrier', 14),
+    ('14', 'Trois marchés qui ne sont pas dans les chiffres', 15),
+    ('15', 'Les projections : deux scénarios', 16),
+    ('16', 'Structure de financement et facteurs de risque', 17),
+    ('17', 'La méthode et les sources', 18),
+    ('18', 'Synthèse', 19),
 ]
 toc = ''.join(
     f'<div class="toci"><span class="n">{n}</span><span class="t">{t}</span>'
@@ -793,15 +793,80 @@ P.append(f"""<div class="page">
   {foot(5)}""")
 
 # ------------------------------------------------------------------ 03 JUIN
+E = D['ete']
 P.append(f"""<div class="page">
   <div class="kicker">Trésorerie</div>
-  <div class="sect"><span class="num">06</span><h2>Juin et juillet 2026 : ce que coûte le manque de trésorerie</h2></div>
-  <div class="lede">Le budget publicitaire est tombé à zéro en juillet 2026. L'effet sur
-    les ventes se mesure au mois près.</div>
+  <div class="sect"><span class="num">06</span><h2>Juin et juillet 2026&nbsp;: l'été qu'on a
+    choisi de ne pas faire</h2></div>
+  <div class="lede">L'activité de l'été n'a pas été subie, elle a été arrêtée. Servir la
+    saison chaude demandait de produire au Québec, et le Québec avait déjà démontré qu'il
+    ne payait pas.</div>
+
+  <h3>Ce que coûtait un été de production au Québec</h3>
+  <table>
+    <tr><th></th><th>Juin 2025</th><th>Juillet 2025</th><th>Les deux mois</th></tr>
+    <tr><td>Ventes nettes</td><td>{fr(E['juin25']['ventes'])}</td>
+      <td>{fr(E['juillet25']['ventes'])}</td>
+      <td>{fr(E['juin25']['ventes'] + E['juillet25']['ventes'])}</td></tr>
+    <tr><td>Contribution marginale</td>
+      <td>{fr(E['juin25']['contrib'])} &nbsp;({pct(E['juin25']['contrib']/E['juin25']['ventes'], 0)})</td>
+      <td>{fr(E['juillet25']['contrib'])} &nbsp;({pct(E['juillet25']['contrib']/E['juillet25']['ventes'], 0)})</td>
+      <td>{fr(E['juin25']['contrib'] + E['juillet25']['contrib'])}</td></tr>
+    <tr><td>dont main-d'œuvre de production</td><td>{fr(E['juin25']['mod'])}</td>
+      <td>{fr(E['juillet25']['mod'])}</td>
+      <td>{fr(E['juin25']['mod'] + E['juillet25']['mod'])}</td></tr>
+    <tr><td>Frais généraux</td><td>{fr(E['juin25']['fg'])}</td>
+      <td>{fr(E['juillet25']['fg'])}</td>
+      <td>{fr(E['juin25']['fg'] + E['juillet25']['fg'])}</td></tr>
+    <tr class="hi"><td>Reste, avant vente, marketing, administration et financement</td>
+      <td class="neg">{fr(E['juin25']['reste'])}</td><td>{fr(E['juillet25']['reste'])}</td>
+      <td class="neg">{fr(E['juin25']['reste'] + E['juillet25']['reste'])}</td></tr>
+    <caption>Novembre et décembre de la même année dégagent {pct(E['nov25_pct'], 0)} et
+      {pct(E['dec25_pct'], 0)} de contribution marginale. L'été en dégage
+      {pct(E['juin25']['contrib']/E['juin25']['ventes'], 0)} et
+      {pct(E['juillet25']['contrib']/E['juillet25']['ventes'], 0)}, et c'est là que la
+      main-d'œuvre de production atteint son sommet de l'année. Source&nbsp;: QuickBooks.</caption>
+  </table>
+
+  <h3>La décision, et ce qu'elle laisse dans les livres</h3>
+  <p>Plutôt que de refaire cet été-là, l'entreprise a arrêté la production québécoise, mis
+  à pied les employés de production et transféré l'assemblage à l'étranger — en prenant
+  l'avance nécessaire pour que la saison d'hiver, elle, soit servie à marge complète.</p>
+
+  <table>
+    <tr><th>Mai à juillet</th><th>2025</th><th>2026</th><th></th></tr>
+    <tr><td>Main-d'œuvre de production</td><td>{fr(E['mod'][0])}</td>
+      <td>{fr(E['mod'][1])}</td><td class="neg">{pct(E['mod'][1]/E['mod'][0] - 1, 0)}</td></tr>
+    <tr><td>Sous-traitance d'assemblage</td><td>{fr(E['sous'][0])}</td>
+      <td>{fr(E['sous'][1])}</td><td class="neg">{pct(E['sous'][1]/E['sous'][0] - 1, 0)}</td></tr>
+    <tr><td>Publicité numérique</td><td>{fr(E['pub'][0])}</td>
+      <td>{fr(E['pub'][1])}</td><td class="neg">{pct(E['pub'][1]/E['pub'][0] - 1, 0)}</td></tr>
+    <tr class="hi"><td>Achats de matières premières</td><td>{fr(E['mp'][0])}</td>
+      <td>{fr(E['mp'][1])}</td><td>+{pct(E['mp'][1]/E['mp'][0] - 1, 0)}</td></tr>
+    <caption>Une entreprise à court d'argent coupe ses achats. Ceux-ci montent de
+      {pct(E['mp'][1]/E['mp'][0] - 1, 0)} pendant que la main-d'œuvre de production tombe
+      de {pct(1 - E['mod'][1]/E['mod'][0], 0)}&nbsp;: c'est la signature d'un stock
+      constitué d'avance, pour un assemblage fait ailleurs.</caption>
+  </table>
+
+  <p><strong>La publicité suit la production, pas l'inverse.</strong> On n'achète pas de
+  la demande qu'on ne pourrait servir qu'à perte. Le budget baisse dès avril, quand la
+  décision est prise, et il tombe à zéro en juillet. Les ventes suivent à trois semaines
+  de décalage — et c'est, pour la suite, la bonne nouvelle&nbsp;: le moteur répond.</p>
+  {foot(6)}""")
+
+# ------------------------------------------------------------------ 03b TRÉSORERIE
+P.append(f"""<div class="page">
+  <div class="kicker">Trésorerie</div>
+  <div class="sect"><span class="num">06</span><h2>Ce que le virage laisse à financer</h2></div>
+  <div class="lede">Réduire l'activité libère du temps, pas des liquidités. Le stock
+    d'hiver s'achète pendant que les ventes de l'été sont volontairement absentes.</div>
 
   {combo_chart(MOIS, D['fy26_mois']['ventes'], D['fy26_mois']['pub'])}
-  <div class="fig">Exercice 2025-2026, septembre 2025 à août 2026. Barres : publicité
-    numérique réelle (QuickBooks). Ligne : ventes nettes mensuelles.</div>
+  <div class="fig">Exercice 2025-2026, septembre 2025 à août 2026. Barres&nbsp;: publicité
+    numérique réelle (QuickBooks). Ligne&nbsp;: ventes nettes mensuelles. Les mêmes mois de
+    l'exercice précédent avaient produit 1 272 et 672 commandes&nbsp;: ce n'est ni la
+    saison ni la demande qui manquent.</div>
 
   <table>
     <tr><th></th><th>Mars</th><th>Avril</th><th>Mai</th><th>Juin</th><th>Juillet</th></tr>
@@ -811,39 +876,35 @@ P.append(f"""<div class="page">
     <tr><td>Mêmes mois, 2024-2025</td><td>1 450</td><td>2 193</td><td>2 314</td>
       <td>1 272</td><td>672</td></tr>
     <tr class="hi"><td>Ventes nettes</td><td>{fr(D['fy26_mois']['ventes'][6])}</td><td>{fr(D['fy26_mois']['ventes'][7])}</td><td>{fr(D['fy26_mois']['ventes'][8])}</td><td>{fr(D['fy26_mois']['ventes'][9])}</td><td>{fr(D['fy26_mois']['ventes'][10])}</td></tr>
-    <caption>Taux de conversion : 3,58 % en mai, 0,58 % en juin. Sessions : 25 333
-      puis 10 392. Sources : QuickBooks et Shopify.</caption>
+    <caption>Taux de conversion&nbsp;: 3,58 % en mai, 0,58 % en juin. Sessions&nbsp;: 25 333
+      puis 10 392. Sources&nbsp;: QuickBooks et Shopify.</caption>
   </table>
 
-  <p>Les mêmes mois de l'exercice précédent avaient produit 1 272 et 672 commandes. Ce
-  n'est donc ni la saison ni la demande. <strong>La publicité s'est arrêtée faute de
-  trésorerie, et les ventes se sont arrêtées avec elle</strong>, à trois semaines de
-  décalage.</p>
-
-  <h3>Pourquoi la trésorerie a manqué</h3>
   <div class="two">
-    <div class="card o"><h4>Le capital marchand</h4>
+    <div class="card o"><h4>Le capital marchand, et pourquoi il fallait en sortir</h4>
       <table style="margin:4px 0 0"><tr><td>Shopify Capital</td><td>{fr(S['shopify_capital'])}</td></tr>
       <tr><td>Merchant Growth</td><td>{fr(S['merchant_growth'])}</td></tr>
       <tr class="tot"><td>Total au 31 août 2026</td><td>{fr(S['capital_marchand'])}</td></tr></table>
       <p style="margin-top:7px;font-size:8.5pt;color:{GRIS}">Shopify Capital prélève
       <strong>28,75 % de chaque dollar vendu</strong>, tous les jours. Plus l'entreprise
       vend, moins il lui reste pour acheter le stock suivant. Un mécanisme procyclique,
-      qui punit la croissance.</p></div>
+      qui punit la croissance&nbsp;: c'est la seconde raison du virage.</p></div>
     <div class="card o"><h4>Ce qu'il en restait au 31 juillet</h4>
       <table style="margin:4px 0 0"><tr><td>Encaisse</td><td>{fr(S['encaisse_juil'])}</td></tr>
       <tr><td>Marge EDC autorisée</td><td>150 000 $</td></tr>
       <tr><td>Tirée au 31 juillet</td><td>{fr(S['edc_juil'])}</td></tr>
       <tr class="tot"><td>Coussin restant</td><td class="neg">{fr(S['coussin'])}</td></tr></table>
-      <p style="margin-top:7px;font-size:8.5pt;color:{GRIS}">En un mois, juillet, la
-      marge a été tirée de {fr(S['tirage_du_mois'])} de plus, dans le mois le plus mort
-      de l'année.</p></div>
+      <p style="margin-top:7px;font-size:8.5pt;color:{GRIS}">La marge a été tirée de
+      {fr(S['tirage_du_mois'])} de plus en juillet&nbsp;: le stock d'hiver s'achète
+      maintenant, la saison qui le paie commence en septembre.</p></div>
   </div>
 
-  <p style="margin-top:6px">Le manque à gagner : <strong>117 037 $</strong> de ventes
-  brutes en juin et juillet 2025, contre <strong>15 466 $</strong> aux mêmes mois de
-  2026. Plus de 100 000 $ perdus, faute de 40 000 $ de publicité.</p>
-  {foot(6)}""")
+  <p style="margin-top:6px">Les ventes non faites — <strong>{fr(E['brut'][0])}</strong> en
+  juin et juillet 2025 contre <strong>{fr(E['brut'][1])}</strong> aux mêmes mois de 2026 —
+  sont le prix du virage, pas une perte subie. Elles auraient été produites au Québec, au
+  coût que montre le tableau de la page précédente. Ce qui reste à financer, c'est
+  l'intervalle&nbsp;: le stock part avant que la saison ne rentre.</p>
+  {foot(7)}""")
 
 # ------------------------------------------------------------------ 04 VERROU 1
 P.append(f"""<div class="page">
@@ -913,7 +974,7 @@ P.append(f"""<div class="page">
   encadrement et un débouché stable. Le financement de ce développement fait l’objet
   d’une demande au Fonds Vision Topping et d’un dossier Défi-Québec, et
   <strong>n’est pas dans les projections de ce document</strong>.</p>
-  {foot(7)}""")
+  {foot(8)}""")
 
 # ------------------------------------------------------------------ 05 VERROU 2
 P.append(f"""<div class="page">
@@ -976,7 +1037,7 @@ P.append(f"""<div class="page">
   (oreillers, coussins). C'est le cœur stratégique et la source de l'avantage : une fibre
   locale que personne d'autre ne maîtrise à cette échelle. Ce qui part, c'est l'assemblage
   textile, une compétence que le Québec a perdue il y a trente ans.</p>
-  {foot(8)}""")
+  {foot(9)}""")
 
 # ------------------------------------------------------------------ 06 VERROU 3
 P.append(f"""<div class="page">
@@ -1039,7 +1100,7 @@ P.append(f"""<div class="page">
   creuse la perte, puisqu'elle se rembourse dès la première commande, mais son rendement
   se dégrade quand personne n'a le temps de l'optimiser. Le canal détail, qui ne consomme
   aucune publicité, réduit structurellement cette dépendance.</p>
-  {foot(9)}""")
+  {foot(10)}""")
 
 # ------------------------------------------------------------------ 07 VERROU 4
 P.append(f"""<div class="page">
@@ -1110,7 +1171,7 @@ P.append(f"""<div class="page">
   </ul>
 
   <p>Ces économies ne sont <strong>pas</strong> comptabilisées dans les projections.</p>
-  {foot(10)}""")
+  {foot(11)}""")
 
 # ------------------------------------------------------------------ 08 MOTEURS
 CROI_A = A['dtc'][3] + A['detail'][3] - A['dtc'][0]
@@ -1176,7 +1237,7 @@ P.append(f"""<div class="page">
       prix du commerce en ligne. Le catalogue cesse d'être borné par la capacité de deux
       personnes en atelier.</p></div>
   </div>
-  {foot(11)}""")
+  {foot(12)}""")
 
 # ------------------------------------------------------------------ 09 DÉTAIL
 D_ = D['detail']
@@ -1241,7 +1302,7 @@ P.append(f"""<div class="page">
     Le transport net a coûté 65 212 $ en 2025-2026, soit 6,6 % des ventes nettes ; aucune
     économie de ce côté n'est inscrite dans les prévisions.</p></div>
 
-  {foot(12)}""")
+  {foot(13)}""")
 
 # ------------------------------------------------------------------ 10 VILLES
 P.append(f"""<div class="page">
@@ -1298,7 +1359,7 @@ P.append(f"""<div class="page">
       800 $ de présentoir par point de vente et la coordination. Le point de vente le
       plus modeste du réseau ambitieux encaisse {fr(D_['marginal_a'])} par année.</caption>
   </table>
-  {foot(13)}""")
+  {foot(14)}""")
 
 # ------------------------------------------------------------------ 11 MARCHÉS
 P.append(f"""<div class="page">
@@ -1357,7 +1418,7 @@ P.append(f"""<div class="page">
       fois Les Défricheuses, soit {fr(D_['sensibilite'][0]['par_pdv'])} par point de
       vente et par année, le plan reste rentable hors aides publiques en 2028-2029.</caption>
   </table>
-  {foot(14)}""")
+  {foot(15)}""")
 
 # ------------------------------------------------------------------ 09 CHIFFRES
 P.append(f"""<div class="page">
@@ -1415,7 +1476,7 @@ P.append(f"""<div class="page">
   le commerce en ligne apporte {pct((C['dtc'][3] - C['dtc'][0])
   / (C['dtc'][3] + C['detail'][3] - C['dtc'][0]), 0)} de la croissance de la période et
   le canal détail le reste.</p>
-  {foot(15)}""")
+  {foot(16)}""")
 
 # ------------------------------------------------------------------ 10 FINANCEMENT
 P.append(f"""<div class="page">
@@ -1481,7 +1542,7 @@ P.append(f"""<div class="page">
     <li>Aucune reprise de stock sur le canal détail. Cette hypothèse est favorable : une
       reprise de 5 % coûterait environ 12 000 $ en 2028-2029</li>
   </ul>
-  {foot(16)}""")
+  {foot(17)}""")
 
 # ------------------------------------------------------------------ 11 FIABILITÉ
 P.append(f"""<div class="page">
@@ -1565,7 +1626,7 @@ P.append(f"""<div class="page">
   registre public des espèces en péril du gouvernement du Canada pour le statut du
   monarque.</p>
   </div>
-  {foot(17)}""")
+  {foot(18)}""")
 
 # ------------------------------------------------------------------ 12 CONCLUSION
 P.append(f"""<div class="page">
@@ -1628,7 +1689,7 @@ P.append(f"""<div class="page">
     modèle financier et ne constituent pas une garantie de résultats futurs. Les repères
     de performance de la fibre décrivent la matière en laboratoire et non un produit fini.
   </div>
-  {foot(18)}""")
+  {foot(19)}""")
 
 html = CSS + ''.join(P)
 

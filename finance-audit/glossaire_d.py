@@ -106,4 +106,69 @@ GLOSSAIRE = {
 
 "La feuille « Budget de caisse » porte une vue directe, bâtie sur les postes du résultat, qui ne reprend ni les stocks ni le calendrier des fournisseurs. C'est la chaîne de trésorerie du résultat qui produit l'encaisse, le tirage de marge et le besoin de financement ; sa rangée de contrôle 36 mesure l'écart entre les deux méthodes":
     "The “Cash budget” sheet carries a direct view, built on the income statement lines, which picks up neither inventory nor supplier timing. It is the income statement’s cash chain that produces cash, the credit line draw and the financing need; its control row 36 measures the gap between the two methods",
+
+# ----------------------------- section 06, réécrite : l'été 2026 est une décision
+"Juin et juillet 2026 : l'été qu'on a choisi de ne pas faire":
+    "June and July 2026: the summer we chose not to run",
+
+"L'activité de l'été n'a pas été subie, elle a été arrêtée. Servir la saison chaude demandait de produire au Québec, et le Québec avait déjà démontré qu'il ne payait pas.":
+    "The summer’s activity was not endured, it was stopped. Serving the warm season meant producing in Quebec, and Quebec had already shown it did not pay.",
+
+"Ce que coûtait un été de production au Québec":
+    "What a summer of Quebec production cost",
+
+"Juin 2025": "June 2025",
+"Juillet 2025": "July 2025",
+"Les deux mois": "Both months",
+"Contribution marginale": "Contribution margin",
+"dont main-d'œuvre de production": "of which production labour",
+"Frais généraux": "General expenses",
+"Reste, avant vente, marketing, administration et financement":
+    "What is left, before selling, marketing, administration and financing",
+
+"Novembre et décembre de la même année dégagent 80 % et 72 % de contribution marginale. L'été en dégage 30 % et 58 %, et c'est là que la main-d'œuvre de production atteint son sommet de l'année. Source : QuickBooks.":
+    "November and December of the same year deliver 80% and 72% contribution margin. The summer delivers 30% and 58%, and that is where production labour peaks for the year. Source: QuickBooks.",
+
+"La décision, et ce qu'elle laisse dans les livres":
+    "The decision, and what it leaves in the books",
+
+"Plutôt que de refaire cet été-là, l'entreprise a arrêté la production québécoise, mis à pied les employés de production et transféré l'assemblage à l'étranger — en prenant l'avance nécessaire pour que la saison d'hiver, elle, soit servie à marge complète.":
+    "Rather than run that summer again, the company stopped Quebec production, laid off the production staff and moved assembly offshore — building the lead time needed so that the winter season, at least, is served at full margin.",
+
+"Mai à juillet": "May to July",
+"Sous-traitance d'assemblage": "Assembly subcontracting",
+"Achats de matières premières": "Raw material purchases",
+
+"Une entreprise à court d'argent coupe ses achats. Ceux-ci montent de 48 % pendant que la main-d'œuvre de production tombe de 88 % : c'est la signature d'un stock constitué d'avance, pour un assemblage fait ailleurs.":
+    "A company short of cash cuts its purchases. These rise 48% while production labour falls 88%: that is the signature of inventory built ahead, for assembly done elsewhere.",
+
+"La publicité suit la production, pas l'inverse.":
+    "Advertising follows production, not the other way round.",
+
+"On n'achète pas de la demande qu'on ne pourrait servir qu'à perte. Le budget baisse dès avril, quand la décision est prise, et il tombe à zéro en juillet. Les ventes suivent à trois semaines de décalage — et c'est, pour la suite, la bonne nouvelle : le moteur répond.":
+    "You do not buy demand you could only serve at a loss. The budget falls from April, when the decision is taken, and reaches zero in July. Sales follow three weeks behind — and that, for what comes next, is the good news: the engine responds.",
+
+"Ce que le virage laisse à financer": "What the pivot leaves to finance",
+
+"Réduire l'activité libère du temps, pas des liquidités. Le stock d'hiver s'achète pendant que les ventes de l'été sont volontairement absentes.":
+    "Cutting activity frees time, not cash. The winter inventory is bought while the summer’s sales are deliberately absent.",
+
+"Exercice 2025-2026, septembre 2025 à août 2026. Barres : publicité numérique réelle (QuickBooks). Ligne : ventes nettes mensuelles. Les mêmes mois de l'exercice précédent avaient produit 1 272 et 672 commandes : ce n'est ni la saison ni la demande qui manquent.":
+    "Fiscal year 2025-2026, September 2025 to August 2026. Bars: actual digital advertising (QuickBooks). Line: monthly net sales. The same months of the previous year produced 1,272 and 672 orders: neither the season nor the demand is missing.",
+
+"Le capital marchand, et pourquoi il fallait en sortir":
+    "Merchant capital, and why it had to go",
+
+", tous les jours. Plus l'entreprise vend, moins il lui reste pour acheter le stock suivant. Un mécanisme procyclique, qui punit la croissance : c'est la seconde raison du virage.":
+    ", every day. The more the company sells, the less is left to buy the next batch of stock. A procyclical mechanism that punishes growth: it is the second reason for the pivot.",
+
+"La marge a été tirée de 59 475 $ de plus en juillet : le stock d'hiver s'achète maintenant, la saison qui le paie commence en septembre.":
+    "The line was drawn $59,475 deeper in July: the winter inventory is bought now, the season that pays for it starts in September.",
+
+"Les ventes non faites —": "The sales not made —",
+
+"en juin et juillet 2025 contre": "in June and July 2025 against",
+
+"aux mêmes mois de 2026 — sont le prix du virage, pas une perte subie. Elles auraient été produites au Québec, au coût que montre le tableau de la page précédente. Ce qui reste à financer, c'est l'intervalle : le stock part avant que la saison ne rentre.":
+    "in the same months of 2026 — are the price of the pivot, not a loss suffered. They would have been produced in Quebec, at the cost shown in the table on the previous page. What remains to be financed is the gap: the stock goes out before the season comes in.",
 }

@@ -148,6 +148,27 @@ PRET=460000.0
 CAPITAL_MARCHAND=round(bk.get(B,'O48')+bk.get(B,'O58'),2)
 EDC_AUTORISEE=150000.0
 EDC_JUILLET=round(bk.get(P,'N183'),2)
+# L'été 2026 : ce que la production québécoise coûtait, et ce que le virage a
+# changé. Les mois d'été de 2024-2025 vivent sur « Résultats2025maj », qui porte
+# la même géométrie de colonnes : D à O, septembre à août.
+E25='Résultats2025maj'
+ETE=['L','M','N']                      # mai, juin, juillet
+def _ete(sh,r): return round(sum(bk.get(sh,c+str(r)) for c in ETE))
+def _mois(sh,c):
+    return {'ventes':round(bk.get(sh,c+'26')), 'contrib':round(bk.get(sh,c+'32')),
+            'mod':round(bk.get(sh,c+'38')), 'fg':round(bk.get(sh,c+'44')),
+            'reste':round(bk.get(sh,c+'32')-bk.get(sh,c+'44'))}
+out['ete']={
+  'juin25':_mois(E25,'M'), 'juillet25':_mois(E25,'N'),
+  'nov25_pct':round(bk.get(P,'F32')/bk.get(P,'F26'),3),
+  'dec25_pct':round(bk.get(P,'G32')/bk.get(P,'G26'),3),
+  # Mai à juillet, l'année du virage contre l'année d'avant.
+  'mod':[_ete(E25,38),_ete(P,38)], 'sous':[_ete(E25,35),_ete(P,35)],
+  'mp':[_ete(E25,34),_ete(P,34)], 'pub':[_ete(E25,78),_ete(P,78)],
+  # Juin et juillet seuls, en ventes escomptées (ligne 18).
+  'brut':[round(sum(bk.get(E25,c+'18') for c in ('M','N'))),
+          round(sum(bk.get(P,c+'18') for c in ('M','N')))],
+}
 out['sommaire']={
   'cac25':20.11,'cac26':31.88,'aov25':56.47,'aov26':79.92,
   'ltv25':48.76,'ltv26':64.62,'clients25':11509.0,'clients26':8443.0,
