@@ -1928,6 +1928,19 @@ route("GET /api/audit", ({ url, user }) => {
   };
 });
 
+/**
+ * Rapprochement clone ↔ ShipStation — lecture seule, à lancer aussi souvent qu'on veut.
+ *
+ * C'est le contrôle qui doit passer au vert avant de résilier ShipStation. Sans lui, le clone
+ * affiche ses compteurs avec l'aplomb d'un chiffre complet sans qu'aucun écran ne dise s'il
+ * l'est.
+ */
+route("GET /api/migrate/reconciliation", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  try { return await ingest.reconcilier(); }
+  catch (e) { return { error: e.message, code: 400 }; }
+});
+
 /** Migration depuis ShipStation — longue, à lancer sciemment. */
 route("POST /api/migrate", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");

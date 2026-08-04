@@ -7214,7 +7214,55 @@ VUES.reglages = async () => {
           <button type="button" id="mig">Lancer la migration…</button>
           <span class="doux">faire une sauvegarde relue d'abord</span>
         </div>
-      </details></div>`;
+      </details>
+
+      <!-- Le contrôle qui manquait : le clone affichait « Expédiée 27 974 » avec l'aplomb
+           d'un chiffre complet alors que ShipStation en comptait 38 126. Rien à l'écran ne
+           disait que 26 % de l'historique n'était pas là. -->
+      <hr>
+      <div class="barre" style="margin-bottom:4px">
+        <b style="flex:1">Rapprochement avec ShipStation</b>
+        <button type="button" id="recon">Compter des deux côtés</button>
+      </div>
+      <p class="doux" style="font-size:12px;margin:0 0 6px">Lecture seule. C'est ce contrôle qui
+        doit être au vert <b>avant</b> de résilier : tant qu'il ne l'est pas, l'historique n'est
+        que partiellement ici, et l'abonnement reste nécessaire.</p>
+      <div id="reconOut"></div></div>`;
+
+  $("#recon").onclick = async () => {
+    $("#reconOut").innerHTML = squelette(3);
+    try {
+      const r = await api("/api/migrate/reconciliation");
+      const cls = { complet: "v", "presque complet": "a", incomplet: "r", indisponible: "g" }[r.verdict];
+      $("#reconOut").innerHTML = `
+        <div class="avis ${r.verdict === "complet" ? "info" : ""}">
+          <b>${r.verdict === "complet" ? "Historique complet."
+            : r.verdict === "indisponible" ? "Rapprochement partiel — ShipStation n'a pas répondu pour tout."
+            : `${num(r.manquantes)} commande(s) absente(s) du clone.`}</b>
+          ${r.taux !== null ? ` ${r.taux} % de l'historique ShipStation est ici
+            (${num(r.present)} sur ${num(r.attendu)}).` : ""}
+          ${r.manquantes ? " Relancer la migration : elle reprend au curseur, elle ne redouble rien." : ""}
+        </div>
+        <div class="tbl"><table>
+          <thead><tr><th scope="col">Statut</th><th scope="col" class="n">ShipStation</th>
+            <th scope="col" class="n">Clone</th><th scope="col" class="n">Écart</th></tr></thead>
+          <tbody>${r.lignes.map((l) => `<tr>
+            <td>${esc(STATUT_FR[l.statut] || l.statut)}${l.distant ? "" :
+              ' <span class="puce g">propre au clone</span>'}</td>
+            <td class="n">${l.erreur ? '<span class="puce r">indisponible</span>'
+              : l.attendu === null ? "—" : num(l.attendu)}</td>
+            <td class="n">${num(l.present)}</td>
+            <td class="n">${l.ecart === null ? "—"
+              : l.ecart === 0 ? '<span class="puce v">à jour</span>'
+              : `<span class="puce ${l.ecart < 0 ? "r" : "a"}">${l.ecart > 0 ? "+" : ""}${num(l.ecart)}</span>`}</td>
+          </tr>`).join("")}</tbody></table></div>
+        ${r.lignes.filter((l) => l.erreur).map((l) =>
+          `<div class="avis">« ${esc(l.distant)} » : ${esc(l.erreur)}</div>`).join("")}`;
+    } catch (e) {
+      $("#reconOut").innerHTML = "";
+      $("#reconOut").append(panneauErreur(e, () => $("#recon").click(), "Rapprochement impossible"));
+    }
+  };
   $("#ssave").onclick = async () => {
     await api("/api/settings", { method: "POST", body: { marque: { nom: $("#sn").value, courriel: $("#se").value,
       adresse: $("#sa").value, logo: $("#sl").value || null, message_bordereau: $("#sm").value } } });

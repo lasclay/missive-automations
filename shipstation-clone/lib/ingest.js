@@ -556,7 +556,69 @@ function amorcer() {
   return { amorce: true, config };
 }
 
-module.exports = { migrerDepuisShipStation, importerCommandes, convertirCommande, grammes, amorcer, ss };
+/**
+ * Rapprochement clone ↔ ShipStation — combien de commandes manquent, et où.
+ *
+ * Il n'existait aucun moyen de savoir si la migration avait tout ramené. Le clone affichait
+ * « Expédiée 27 974 » avec l'aplomb d'un chiffre complet, alors que ShipStation en comptait
+ * 38 126 : **10 152 commandes absentes, soit 26 % de l'historique**, et rien à l'écran ne le
+ * disait. Le symptôme visible était ailleurs — une recherche « josée » qui rendait 330
+ * résultats au lieu de 391 — ce qui envoie chercher un défaut de recherche là où le défaut
+ * est un défaut de données.
+ *
+ * C'est le contrôle qui doit passer au vert **avant** de résilier ShipStation : tant qu'il ne
+ * l'est pas, l'historique n'est que partiellement chez nous et l'abonnement reste nécessaire.
+ *
+ * Lit uniquement — aucune écriture, aucun effet de bord. Une étape en échec n'interrompt pas
+ * les autres : un rapprochement partiel vaut mieux que pas de rapprochement.
+ */
+async function reconcilier() {
+  if (!SECRET) throw new Error("GENERAL_PROXY_SECRET requis pour le rapprochement");
+
+  // Les statuts de ShipStation, et leur équivalent chez nous. `pending_fulfillment` n'existe
+  // que côté clone (préparations externes) : il est compté à part, sans référence distante.
+  const PAIRES = [
+    ["awaiting_payment", "awaiting_payment"],
+    ["awaiting_shipment", "awaiting_shipment"],
+    ["on_hold", "on_hold"],
+    ["shipped", "shipped"],
+    ["cancelled", "cancelled"],
+  ];
+
+  const lignes = [];
+  for (const [distant, local] of PAIRES) {
+    let attendu = null, erreur = null;
+    try {
+      // `pageSize: 1` suffit : c'est `total` qu'on lit, pas les commandes.
+      attendu = (await ss("orders", { orderStatus: distant, pageSize: 1 })).total ?? null;
+    } catch (e) { erreur = String(e.message || e).slice(0, 160); }
+    const present = one("SELECT COUNT(*) n FROM orders WHERE status = ?", local).n;
+    lignes.push({ statut: local, distant, attendu, present,
+      ecart: attendu === null ? null : present - attendu, erreur });
+  }
+
+  const hors = one("SELECT COUNT(*) n FROM orders WHERE status = 'pending_fulfillment'").n;
+  if (hors) lignes.push({ statut: "pending_fulfillment", distant: null, attendu: null,
+    present: hors, ecart: null, erreur: null });
+
+  const mesurables = lignes.filter((l) => l.attendu !== null);
+  const attendu = mesurables.reduce((s, l) => s + l.attendu, 0);
+  const present = mesurables.reduce((s, l) => s + l.present, 0);
+  const manquantes = Math.max(0, attendu - present);
+
+  return {
+    lignes, attendu, present, manquantes,
+    taux: attendu ? Math.round((present / attendu) * 1000) / 10 : null,
+    // Un rapprochement dont une étape a échoué n'est pas « complet » : on le dit.
+    incomplet: lignes.some((l) => l.erreur),
+    verdict: lignes.some((l) => l.erreur) ? "indisponible"
+      : manquantes === 0 ? "complet"
+      : manquantes < attendu * 0.01 ? "presque complet" : "incomplet",
+    a: maintenant(),
+  };
+}
+
+module.exports = { migrerDepuisShipStation, importerCommandes, convertirCommande, grammes, amorcer, ss, reconcilier };
 
 // ============================================================ commandes manuelles
 
