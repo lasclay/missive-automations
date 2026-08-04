@@ -55,6 +55,7 @@ classeur en 1,2 seconde.
 | `fix_au.py` | Le premier mois projeté ouvre désormais sur les soldes réels du dernier mois comptabilisé, échéanciers de dette et fonds de roulement compris. |
 | `fix_av.py` | Le contrôle du tirage de marge de crédit balaie aussi le premier mois projeté, qui est justement celui du sommet. |
 | `fix_aw.py` | Corrige au journal une affirmation que la phase suivante avait rendue fausse, et pose le constat de clôture. |
+| `fix_ax.py` | L'avance de 80 000 $ du 15 août 2026 **s'ajoute** aux 3 678 $ déjà inscrits chez QuickBooks au lieu de les remplacer. L'échéancier s'arrête sur le solde préexistant, qui reste au bilan sur tout l'horizon. |
 | `recache.py` | Rafraîchit les valeurs en cache de tout le classeur. **À lancer en dernier**, après toute écriture. |
 | `data_pdf.py` `build_note_bailleurs.py` | Relève les deux scénarios et produit le mémo explicatif PDF (HTML + SVG posés à la main, rendu par Chromium sans en-tête). |
 | `traduire.py` `glossaire_en.py` | Dérive le mémo anglais du mémo français. Les deux sortent du même `pdf_data.json`, donc un chiffre ne peut pas diverger d'une langue à l'autre ; seul le texte change. `--manquants` liste les segments non traduits et le script refuse d'écrire tant qu'il en reste. Les nombres passent au format anglais mécaniquement. |

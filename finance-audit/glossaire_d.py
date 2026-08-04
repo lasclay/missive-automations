@@ -30,8 +30,8 @@ GLOSSAIRE = {
 "Un chiffrier mensuel de 48 mois rapproché de QuickBooks compte par compte, dont onze mois de 2025-2026 sont du réel. Une seule cellule bascule d'un scénario à l'autre.":
     "A 48-month monthly model reconciled to QuickBooks account by account, of which eleven months of 2025-2026 are actuals. A single cell switches from one scenario to the other.",
 
-"2026-2027 reste l'exercice tendu, à 0,91 de couverture et -37 923 $ hors aides.":
-    "2026-2027 remains the tight year, at 0.91 coverage and −$37,923 excluding aid.",
+"2026-2027 reste l'exercice tendu, à 0,91 de couverture et -38 175 $ hors aides.":
+    "2026-2027 remains the tight year, at 0.91 coverage and −$38,175 excluding aid.",
 
 "Solder Shopify Capital (185 169 $) et Merchant Growth (119 702 $), financer le stock":
     "Pay off Shopify Capital ($185,169) and Merchant Growth ($119,702), finance inventory",
