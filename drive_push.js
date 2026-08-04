@@ -16,6 +16,7 @@
  *   node drive_push.js <fichier> --folder <idDossier> [--name <nom>]
  *   node drive_push.js <fichier> --cle controle                 liste blanche du script
  *   node drive_push.js --check                                  test d'authentification
+ *   node drive_push.js --corbeille <id>[,<id>…]                 met à la corbeille
  *
  * Options : --mime <type>   force le type (deviné d'après l'extension sinon)
  *           --min <octets>  plancher de taille (défaut 100 000 à l'écrasement, 0 au neuf)
@@ -105,6 +106,35 @@ async function main() {
       process.exit(1);
     }
     console.log("AUTH OK — le script répond : " + rep);
+    return;
+  }
+
+  const iCorbeille = args.indexOf("--corbeille");
+  if (iCorbeille !== -1) {
+    const ids = args[iCorbeille + 1];
+    if (!ids) meurs("--corbeille attend un id, ou plusieurs séparés par des virgules.");
+    const rep = await appelle({ action: "corbeille", ids }, "");
+    if (rep === "unauthorized") {
+      console.error(interprete(rep).message);
+      process.exit(1);
+    }
+    const m = rep.match(/^status:200:corbeille:(\d+):(.*)$/s);
+    if (!m) {
+      console.error("ÉCHEC : " + rep);
+      console.error(
+        "\nSi la réponse parle d'un corps vide ou illisible, l'action `corbeille`\n" +
+          "n'est pas encore déployée. Ajoute-la au script, puis redéploie en\n" +
+          "modifiant le déploiement courant (crayon › Version : Nouvelle version)."
+      );
+      process.exit(1);
+    }
+    const [, n, detail] = m;
+    const [ok, echecs] = detail.split(":echecs:");
+    console.log(`${n} fichier(s) mis à la corbeille` + (ok ? `\n  ${ok.split(" | ").join("\n  ")}` : ""));
+    if (echecs) {
+      console.error("Échecs : " + echecs);
+      process.exit(1);
+    }
     return;
   }
 
