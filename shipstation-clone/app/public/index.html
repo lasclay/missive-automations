@@ -200,6 +200,7 @@
 
   .ongVues { display:flex; gap:2px; padding:6px 10px 0; overflow-x:auto; border-bottom:1px solid var(--bord); flex:none }
   .ongVues .ong { padding:5px 11px; border:1px solid transparent; border-bottom:none; border-radius:var(--r1) var(--r1) 0 0;
+                  font-size:12.5px; cursor:pointer; white-space:nowrap; color:var(--doux) }
   .ongVues .ong i { font-style:normal; opacity:.65; font-variant-numeric:tabular-nums }
   .ongVues .ong:hover { background:var(--sel); color:var(--texte) }
   .ongVues .ong.actif { background:var(--bg); border-color:var(--bord); color:var(--texte); font-weight:650;
@@ -219,12 +220,14 @@
   .grilleWrap { flex:1; overflow:auto; min-height:0 }
   table.tblCmd { border-collapse:separate; border-spacing:0; width:100%; font-size:13px }
   table.tblCmd th { position:sticky; top:0; z-index:3; background:var(--carte); border-bottom:1px solid var(--bord);
+                    text-align:left; padding:7px 9px; font-weight:650; white-space:nowrap; font-size:12px }
   /* Seules les colonnes triables se comportent comme telles : le curseur main sur une colonne
      inerte promet un tri qui n'arrive jamais (BUG-036). */
   table.tblCmd th.triable { cursor:pointer }
   table.tblCmd th.triable:hover { background:var(--sel) }
   button.chev { background:none; border:none; cursor:pointer; color:var(--doux); font:inherit; padding:0 }
   table.tblCmd td { padding:6px 9px; border-bottom:1px solid var(--bord); white-space:nowrap; max-width:320px;
+                    overflow:hidden; text-overflow:ellipsis }
   .grilleWrap.dense table.tblCmd td { padding:3px 9px; font-size:12.5px }
   .grilleWrap.dense table.tblCmd th { padding:5px 9px }
   table.tblCmd tr.sel td { background:var(--sel) }
