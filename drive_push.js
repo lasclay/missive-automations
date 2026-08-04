@@ -17,6 +17,8 @@
  *   node drive_push.js <fichier> --cle controle                 liste blanche du script
  *   node drive_push.js --check                                  test d'authentification
  *   node drive_push.js --corbeille <id>[,<id>…]                 met à la corbeille
+ *   node drive_push.js --deplace <id>[,<id>…] --vers <idDossier>  range dans un dossier
+ *   node drive_push.js --deplace <id>[,<id>…] --creer <nom> [--sous <idParent>]
  *
  * Options : --mime <type>   force le type (deviné d'après l'extension sinon)
  *           --min <octets>  plancher de taille (défaut 100 000 à l'écrasement, 0 au neuf)
@@ -131,6 +133,51 @@ async function main() {
     const [, n, detail] = m;
     const [ok, echecs] = detail.split(":echecs:");
     console.log(`${n} fichier(s) mis à la corbeille` + (ok ? `\n  ${ok.split(" | ").join("\n  ")}` : ""));
+    if (echecs) {
+      console.error("Échecs : " + echecs);
+      process.exit(1);
+    }
+    return;
+  }
+
+  const iDeplace = args.indexOf("--deplace");
+  if (iDeplace !== -1) {
+    const lire = (nom) => {
+      const i = args.indexOf("--" + nom);
+      return i !== -1 ? args[i + 1] : undefined;
+    };
+    const ids = args[iDeplace + 1];
+    if (!ids) meurs("--deplace attend un id, ou plusieurs séparés par des virgules.");
+    const vers = lire("vers");
+    const creer = lire("creer");
+    if (!vers && !creer) meurs("--deplace attend --vers <idDossier> ou --creer <nom>.");
+    const params = { action: "deplace", ids };
+    if (vers) params.vers = vers;
+    if (creer) params.creer = creer;
+    const sous = lire("sous");
+    if (sous) params.sous = sous;
+
+    const rep = await appelle(params, "");
+    if (rep === "unauthorized") {
+      console.error(interprete(rep).message);
+      process.exit(1);
+    }
+    const m = rep.match(/^status:200:deplace:(\d+):(.*)$/s);
+    if (!m) {
+      console.error("ÉCHEC : " + rep);
+      console.error(
+        "\nSi la réponse parle d'un corps vide ou illisible, l'action `deplace`\n" +
+          "n'est pas encore déployée. Voir .claude/skills/pousseur/references/actions.gs."
+      );
+      process.exit(1);
+    }
+    const [, n, detail] = m;
+    const [ok, echecs] = detail.split(":echecs:");
+    const [dossier, liste] = ok.split(" > ");
+    console.log(
+      `${n} fichier(s) rangé(s) dans ${dossier}` +
+        (liste ? `\n  ${liste.split(" | ").join("\n  ")}` : "")
+    );
     if (echecs) {
       console.error("Échecs : " + echecs);
       process.exit(1);

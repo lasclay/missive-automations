@@ -38,9 +38,16 @@ Deux conséquences à retenir, vérifiées :
   mais plus personne ne peut se tromper en l'ouvrant, et l'historique des versions du
   document permet de le restaurer.
 
-Le correctif qui ajoute la vraie suppression est prêt : `references/corbeille.gs`. Le
-client `drive_push.js` sait déjà l'appeler (`--corbeille <id>[,<id>…]`) et lire sa
-réponse; il ne manque que le déploiement du bloc côté Apps Script.
+Le correctif qui lève ces limites est prêt : **`references/actions.gs`**. Il ajoute deux
+actions, `corbeille` et `deplace` — cette dernière sachant aussi créer le dossier cible.
+Le client `drive_push.js` sait déjà les appeler et lire leurs réponses ; il ne manque que
+le déploiement des blocs côté Apps Script.
+
+```bash
+node drive_push.js --corbeille <id>[,<id>…]
+node drive_push.js --deplace <id>[,<id>…] --vers <idDossier>
+node drive_push.js --deplace <id>[,<id>…] --creer "Nom du dossier" --sous <idParent>
+```
 
 ## Prérequis
 
