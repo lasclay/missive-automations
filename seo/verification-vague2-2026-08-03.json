@@ -1,0 +1,783 @@
+[
+ {
+  "org": "Innofibre (CCTT, Trois-Rivières)",
+  "url": "https://innofibre.ca/4548-2/",
+  "famille": "recherche",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "innofibre@cegeptr.qc.ca"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "ÉMA, Université de Sherbrooke",
+  "url": "http://ema.recherche.usherbrooke.ca/?p=629",
+  "famille": "recherche",
+  "status": 403,
+  "verdict": "À ouvrir à la main (HTTP 403)"
+ },
+ {
+  "org": "Magazine FORMES",
+  "url": "https://www.formes.ca/materiaux/articles/fibre-d-asclepiade-des-revetements-durables-fabriques-au-quebec",
+  "famille": "presse spec",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "info@formes.ca"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Vegeto Textiles",
+  "url": "https://vegetotextiles.com/en/milkweed/",
+  "famille": "filiere",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "info@vegetotextiles.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "TechniTextile (fiche Vegeto)",
+  "url": "https://www.technitextile.ca/fr/trouver-un-fournisseur/vegeto",
+  "famille": "repertoire",
+  "status": 200,
+  "ascl": false,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "info@technitextile.com"
+  ],
+  "verdict": "Hors sujet ou page vide"
+ },
+ {
+  "org": "La Voix de l'Est (Eko-Terre, 2020)",
+  "url": "https://www.lavoixdelest.ca/2020/07/04/eko-terre-se-lance-dans-lasclepiade-16afb8b96791ccda5a56dfea345582fe/",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "La Voix de l'Est (Vegeto, 2021)",
+  "url": "https://www.lavoixdelest.ca/2021/04/02/la-fibre-dasclepiade-devient-vegeto-b277caf08ef272d82887a1bd1d8d4dde/",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "La Tribune (Vegeto, 2021)",
+  "url": "https://www.latribune.ca/2021/04/02/la-fibre-dasclepiade-devient-vegeto-b277caf08ef272d82887a1bd1d8d4dde/",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "La Tribune (premiers manteaux, 2016)",
+  "url": "https://www.latribune.ca/2016/10/18/deux-premiers-manteaux-dhiver-isoles-alasclepiade-dici-sont-lances-1fe354379dc11b9e0b261b091509c2a1/",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Le Quotidien (deuxième vie, 2020)",
+  "url": "https://www.lequotidien.com/2020/10/09/la-deuxieme-vie-de-lasclepiade-0f31e3d5aaa1770d7f092c6d46c5a2e2/",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": true,
+  "hrefs": [],
+  "mails": [
+   "groy@lequotidien.com"
+  ],
+  "verdict": "Mention sans lien"
+ },
+ {
+  "org": "Le Droit (monarques et manteaux, 2018)",
+  "url": "https://www.ledroit.com/2018/08/22/lasclepiade-pour-aider-les-monarques-et-fabriquer-des-manteaux-dhiver-840420f683cdf7801cacbb70e3f28809/",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "lgelinas@lesoleil.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Radio-Canada (premier manteau)",
+  "url": "https://ici.radio-canada.ca/nouvelle/808202/premier-manteau-asclepiade-marche-quartz-soie-amerique",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "correction-grp@radio-canada.ca",
+   "moncourriel@exemple.com",
+   "vincent.maisonneuve@radio-canada.ca"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Radio-Canada (production industrielle)",
+  "url": "https://ici.radio-canada.ca/nouvelle/745682/asclepiade-soie-amerique-production-recolte-soyer-du-quebec",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "correction-grp@radio-canada.ca",
+   "jean-michel.leprince@radio-canada.ca",
+   "moncourriel@exemple.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Radio-Canada (eldorado)",
+  "url": "https://ici.radio-canada.ca/nouvelle/689991/asclepiade-soie-amerique-test-quebec-vetements",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "correction-grp@radio-canada.ca",
+   "moncourriel@exemple.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Radio-Canada (Encore 3, St-Tite)",
+  "url": "https://ici.radio-canada.ca/nouvelle/1070305/asclepiade-manteau-isolant-plante-soyer-quebec-encore3-st-tite-mauricie",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "correction-grp@radio-canada.ca",
+   "moncourriel@exemple.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Radio-Canada (Bilodeau)",
+  "url": "https://ici.radio-canada.ca/nouvelle/1841219/bilodeau-canada-isolant-asclepiade",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "annie-claude.brisson@radio-canada.ca",
+   "correction-grp@radio-canada.ca",
+   "moncourriel@exemple.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "ICI Explora (soie végétale)",
+  "url": "https://ici.exploratv.ca/blogue/une-soie-vegetale-fa/",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Espaces (le soyer du Québec)",
+  "url": "https://www.espaces.ca/articles/actualites/1672-le-soyer-du-quebec-la-mauvaise-herbe-qui-remplacera-le-duvet",
+  "famille": "presse plein air",
+  "status": 403,
+  "verdict": "À ouvrir à la main (HTTP 403)"
+ },
+ {
+  "org": "Espaces (manteaux mauvaises herbes)",
+  "url": "https://www.espaces.ca/articles/actualites/2556-des-manteaux-fabriques-a-partir-de-mauvaises-herbes-du-quebec",
+  "famille": "presse plein air",
+  "status": 403,
+  "verdict": "À ouvrir à la main (HTTP 403)"
+ },
+ {
+  "org": "Altitude Sports (blogue)",
+  "url": "https://fr.altitude-sports.com/a/blog/altitude-sports-x-quartz-co-une-urbaine-manteau-dhiver-en-asclepiade/",
+  "famille": "detaillant",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "UPA",
+  "url": "https://www.upa.qc.ca/producteur/centre-des-communications/nouvelles/toutes-les-nouvelles/mauvaise-herbe-aux-proprietes-royales",
+  "famille": "agricole",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "Exemple@courriel.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "mmode (article Bilodeau)",
+  "url": "https://www.mmode.ca/mmodeeco/bilodeau-canada-rien-ne-se-perd-tout-se-transforme",
+  "famille": "mode",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "info@mmode.ca"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "MTL Style",
+  "url": "https://mtlstyle.com/en/blogs/news/mmodeeco-bilodeau-canada-rien-ne-se-perd-tout-se-transforme",
+  "famille": "mode",
+  "status": 200,
+  "ascl": false,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Hors sujet ou page vide"
+ },
+ {
+  "org": "États de Splendeur",
+  "url": "https://www.etatsdesplendeur.com/2018/12/27/asclepiade-soyer-du-quebec-fibre-du-futur/",
+  "famille": "blogue",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "info@etatsddespleneur.com",
+   "rtailleur2005@yahoo.ca"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Lokta (Martine Gautier)",
+  "url": "https://lokta.fr/2022/11/asclepiade-soyer-du-quebec.html",
+  "famille": "artisanat",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Atelier Retailles (papier d'asclépiade)",
+  "url": "https://www.atelierretailles.com/programmation-cours-et-formations/fabrication-de-papier-avec-lasclpiade-de-la-plante-la-feuille",
+  "famille": "artisanat",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "info@atelierretailles.com",
+   "utilisateur@domaine.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Textile Blog (EN)",
+  "url": "https://www.textileblog.com/milkweed-fiber-properties-processing-and-applications/",
+  "famille": "presse spec EN",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "mh18.bd@gmail.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Fleurs sauvages du Québec (commune)",
+  "url": "https://www.fleursduquebec.com/encyclopedie/1776-asclepiade-commune.html",
+  "famille": "botanique",
+  "verdict": "À ouvrir à la main (ConnectionError)"
+ },
+ {
+  "org": "Fleurs sauvages du Québec (incarnate)",
+  "url": "https://www.fleursduquebec.com/encyclopedie/1827-asclepiade-incarnate.html",
+  "famille": "botanique",
+  "verdict": "À ouvrir à la main (ConnectionError)"
+ },
+ {
+  "org": "Agora / Histoire vivante",
+  "url": "https://hv.agora.qc.ca/dossiers/asclepiade_commune",
+  "famille": "botanique",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "editeurs@agora.ca"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Conservation Nature (FR)",
+  "url": "https://www.conservation-nature.fr/plantes/asclepias/",
+  "famille": "botanique",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Semences Nouveau Monde",
+  "url": "https://www.semencesnouveaumonde.com/page-d-articles/ascl%C3%A9piade-commune",
+  "famille": "semencier",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Wikipédia EN, Asclepias syriaca",
+  "url": "https://en.wikipedia.org/wiki/Asclepias_syriaca",
+  "famille": "encyclopedie",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Gallica, BnF",
+  "url": "https://gallica.bnf.fr/accueil/fr/html/lasclepiade",
+  "famille": "patrimoine",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Espace pour la vie (carnet horticole)",
+  "url": "https://espacepourlavie.ca/carnet-horticole/asclepiade-commune",
+  "famille": "institution",
+  "status": 403,
+  "verdict": "À ouvrir à la main (HTTP 403)"
+ },
+ {
+  "org": "MFFP jeunesse (monarque)",
+  "url": "https://mffp.gouv.qc.ca/jeunesse/monarque/",
+  "famille": "education",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Culture-Éducation (Mission monarque)",
+  "url": "https://classe.culture-education.ca/ressources/mission-monarque/",
+  "famille": "education",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Cultive ta ville",
+  "url": "https://cultivetaville.com/encyclopedie/apiculture-urbaine/la-flore-mellifere-spontanee-1/asclepiade/",
+  "famille": "apiculture",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "MRC des Laurentides (fiche PFNL)",
+  "url": "https://www.mrclaurentides.qc.ca/wp-content/uploads/2024/04/asclepiade-PFNL.pdf",
+  "famille": "institution",
+  "status": 200,
+  "ascl": false,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Hors sujet ou page vide"
+ },
+ {
+  "org": "Conseils phyto-aroma",
+  "url": "https://conseilsphytoaroma.com/2018/07/05/lasclepiade-lherbe-aux-perruches-une-plante-aux-milles-vertues-la-fibre-du-futur-le-soyer-du-quebec/",
+  "famille": "herboristerie",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Vitalité Québec",
+  "url": "https://vitalitequebec-magazine.com/flore-sauvage-nutritive-du-printemps/",
+  "famille": "comestible",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Ville de Québec (monarque)",
+  "url": "https://www.ville.quebec.qc.ca/citoyens/environnement/milieux-naturels/monarque.aspx",
+  "famille": "municipal",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Ville de Candiac",
+  "url": "https://candiac.ca/developpementdurable/changements-climatiques/ville-amie-des-monarques",
+  "famille": "municipal",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "nom@courriel.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Ville de Saguenay",
+  "url": "https://ville.saguenay.ca/services-aux-citoyens/environnement/developpement-durable/ville-amie-des-monarques",
+  "famille": "municipal",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Ville de Mercier",
+  "url": "https://www.ville.mercier.qc.ca/communique/mercier-ville-amie-des-monarques/",
+  "famille": "municipal",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "L'Éveil (Oka)",
+  "url": "https://leveil.com/actualites/la-municipalite-doka-devient-ville-amie-des-monarques",
+  "famille": "presse locale",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "casselin@groupejcl.ca",
+   "leveil@groupejcl.ca"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "EnBeauce (Saint-Georges)",
+  "url": "https://www.enbeauce.com/actualites/societe/358355/ville-de-saint-georges-38e-ville-certifiee-amie-des-monarques",
+  "famille": "presse locale",
+  "status": 200,
+  "ascl": false,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Hors sujet ou page vide"
+ },
+ {
+  "org": "Journal des Citoyens",
+  "url": "https://www.jdc.quebec/2022/05/24/oasis-pour-les-monarques/",
+  "famille": "presse locale",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "L'Hebdo du St-Maurice (miel)",
+  "url": "https://www.lhebdodustmaurice.com/actualite/miel-dasclepiade-une-premiere-en-amerique-du-nord/",
+  "famille": "apiculture",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "La Terre de chez nous (miel)",
+  "url": "https://www.laterre.ca/actualites/lasclepiade-conquiert-marche-miel/",
+  "famille": "apiculture",
+  "status": 403,
+  "verdict": "À ouvrir à la main (HTTP 403)"
+ },
+ {
+  "org": "La Centrale agricole",
+  "url": "https://centrale.coop/asclepiade-apiculture/",
+  "famille": "apiculture",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "asclepiade.apiculture@gmail.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Hapiculture (FR)",
+  "url": "https://hapiculture.fr/asclepiade-une-plante-mellifere-aux-multiples-facettes/",
+  "famille": "apiculture",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "La Terre (faillite acheteur)",
+  "url": "https://www.laterre.ca/actualites/vie-rurale/principal-acheteur-dasclepiade-faillite-producteurs-soulages/",
+  "famille": "agricole",
+  "status": 403,
+  "verdict": "À ouvrir à la main (HTTP 403)"
+ },
+ {
+  "org": "La Terre (bisbille production)",
+  "url": "https://www.laterre.ca/actualites/bisbille-production-dasclepiade/",
+  "famille": "agricole",
+  "status": 403,
+  "verdict": "À ouvrir à la main (HTTP 403)"
+ },
+ {
+  "org": "Signé Local",
+  "url": "https://www.signelocal.com/en/blogs/le-repertoire",
+  "famille": "repertoire",
+  "status": 200,
+  "ascl": false,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "bonjour@signelocal.com"
+  ],
+  "verdict": "Hors sujet ou page vide"
+ },
+ {
+  "org": "Shop moi ça",
+  "url": "https://www.shopmoica.ca/pages/devenir-fournisseur",
+  "famille": "repertoire",
+  "status": 200,
+  "ascl": false,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "commandes@shopmoica.ca",
+   "info@shopmoica.ca"
+  ],
+  "verdict": "Hors sujet ou page vide"
+ },
+ {
+  "org": "Idée Cadeau Québec corporatif",
+  "url": "https://corpo.ideecadeauquebec.com/",
+  "famille": "repertoire",
+  "status": 200,
+  "ascl": false,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Hors sujet ou page vide"
+ },
+ {
+  "org": "Salon des Artisans de Québec",
+  "url": "https://salondesartisans.com/liste-des-exposants/",
+  "famille": "evenement",
+  "status": 200,
+  "ascl": false,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "info@groupeproexpo.com"
+  ],
+  "verdict": "Hors sujet ou page vide"
+ },
+ {
+  "org": "Ecolocado",
+  "url": "https://ecolocado.com/cadeaux-corporatifs/",
+  "famille": "repertoire",
+  "status": 200,
+  "ascl": false,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Hors sujet ou page vide"
+ },
+ {
+  "org": "Silo 57",
+  "url": "https://www.silo57.ca/quoi-faire-marches-de-noel-quebec-montreal-cadeaux-liste-ultime",
+  "famille": "media",
+  "status": 403,
+  "verdict": "À ouvrir à la main (HTTP 403)"
+ },
+ {
+  "org": "Monarch Joint Venture (blogue)",
+  "url": "https://monarchjointventure.org/blog/more-than-monarchs-the-untold-story-of-milkweed",
+  "famille": "conservation EN",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "info@monarchjointventure.org"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Britannica (milkweed floss)",
+  "url": "https://www.britannica.com/topic/milkweed-floss",
+  "famille": "encyclopedie EN",
+  "status": 403,
+  "verdict": "À ouvrir à la main (HTTP 403)"
+ },
+ {
+  "org": "Nature Up North",
+  "url": "https://www.natureupnorth.org/justmynature/paul-j-hetzler/multi-purpose-milkweed",
+  "famille": "conservation EN",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Countryside (iamcountryside)",
+  "url": "https://www.iamcountryside.com/growing/milkweed-plant-wild-vegetable/",
+  "famille": "media EN",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "dmdox07@gmail.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Kane County Connects",
+  "url": "https://kanecountyconnects.com/article/milkweedfloss-milkweed-monarchbutterly-environment-kanecounty",
+  "famille": "media EN",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "potto@stcparks.org"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Christian Science Monitor",
+  "url": "https://www.csmonitor.com/The-Culture/Gardening/2008/1026/the-heroic-milkweed",
+  "famille": "presse EN",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Latulippe (fiche Quartz asclépiade)",
+  "url": "https://latulippe.com/en/product/533200/women-s-milkweed-genia-coat/",
+  "famille": "detaillant",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "L'Orignal Fringant",
+  "url": "https://orignalfringant.ca/boutique/fr/bilodeau-canada/bilodeau-mitaines-de-ville-loup-marin-naturel-et-doublure-asclepiade-p905/",
+  "famille": "detaillant",
+  "status": 200,
+  "ascl": true,
+  "lasclay": false,
+  "hrefs": [],
+  "mails": [
+   "donate@opencart.com"
+  ],
+  "verdict": "Sujet pertinent, aucune mention"
+ },
+ {
+  "org": "Le Soleil (Lasclay, déc. 2025)",
+  "url": "https://www.lesoleil.com/affaires/affaires-locales/2025/12/01/lasclay-devant-le-dilemme-de-fabriquer-au-quebec-QDRJRZ4NNNGLTI5EOEXQB5BVS4/",
+  "famille": "presse",
+  "status": 200,
+  "ascl": true,
+  "lasclay": true,
+  "hrefs": [],
+  "mails": [
+   "cpouliot@lesoleil.com"
+  ],
+  "verdict": "Mention sans lien"
+ }
+]
