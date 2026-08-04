@@ -142,6 +142,13 @@
         width:16px; height:16px; border-radius:4px; font-size:10px; font-weight:700;
         line-height:1; vertical-align:-3px; margin-right:5px; letter-spacing:0 }
   .ssLi .mk { margin-right:6px }
+  /* Avec un logo, la pastille n'a plus de fond à elle : l'icône EST la pastille. Le coin
+     arrondi reste, il rattache visuellement les deux formes dans une même colonne. */
+  .mk.img { background:none; overflow:hidden }
+  .mk.img img { width:16px; height:16px; object-fit:contain; display:block }
+  /* Aperçu dans les réglages — même image, à une taille où l'on juge ce qu'on dépose. */
+  .logoAp { width:32px; height:32px; object-fit:contain; border-radius:6px;
+            background:var(--inactif-fond); flex:none }
   /* Une note doit être atteignable autrement qu'en survolant à la souris : bouton réel,
      focusable, activable au doigt, et dont le nom accessible porte déjà le texte (§5.3). */
   .noteB { border:none; background:none; padding:0 3px; cursor:pointer; color:var(--accent);
@@ -1584,8 +1591,15 @@ function pastilleBoutique(storeId, { avecNom = false } = {}) {
   const m = marcheDe(b);
   const nom = b ? b.name : "Boutique inconnue";
   const titre = b && m.nom !== nom ? `${nom} · ${m.nom}` : nom;
-  return `<span class="mk" style="background:${m.fond};color:${m.texte}"
-    title="${esc(titre)}" aria-label="${esc(titre)}" role="img">${esc(m.lettre)}</span>${
+  // Le logo, quand il y en a un. Le nom accessible reste porté par le conteneur et non par
+  // l'image : une icône qui ne charge pas ne doit pas emporter avec elle le nom de la
+  // boutique. L'`alt` vide évite que le lecteur d'écran annonce la chose deux fois.
+  const dedans = b && b.logo
+    ? `<img src="${esc(b.logo)}" alt="" width="16" height="16">`
+    : esc(m.lettre);
+  const fond = b && b.logo ? "" : `style="background:${m.fond};color:${m.texte}"`;
+  return `<span class="mk${b && b.logo ? " img" : ""}" ${fond}
+    title="${esc(titre)}" aria-label="${esc(titre)}" role="img">${dedans}</span>${
     avecNom ? ` ${esc(nom)}` : ""}`;
 }
 
@@ -7184,6 +7198,136 @@ const LIBELLE_CONFIG = {
 };
 
 /**
+ * Réduit une image à la taille d'une icône, dans le navigateur, avant de l'envoyer.
+ *
+ * C'est ce qui permet d'accepter n'importe quel fichier — une photo de 4 Mo, un logo exporté
+ * en 2000 px — sans que la base grossisse : ce qui part vers le serveur fait déjà 2 à 6 ko.
+ * Le SVG échappe au redimensionnement : il est vectoriel, il pèse déjà peu, et le rasteriser
+ * lui ferait perdre exactement ce qui fait son intérêt.
+ *
+ * `object-fit: contain` en version manuelle : on garde les proportions et on centre, plutôt
+ * que d'étirer. Un logo déformé se remarque tout de suite dans une colonne.
+ */
+const COTE_ICONE = 64;
+function reduireImage(fichierOuUri, typeConnu = null) {
+  return new Promise((resolve, reject) => {
+    const fini = (uri, type) => {
+      if (type === "image/svg+xml") return resolve(uri);
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement("canvas");
+        c.width = c.height = COTE_ICONE;
+        const g = c.getContext("2d");
+        const e = Math.min(COTE_ICONE / img.width, COTE_ICONE / img.height, 1);
+        const l = Math.round(img.width * e), h = Math.round(img.height * e);
+        g.drawImage(img, Math.round((COTE_ICONE - l) / 2), Math.round((COTE_ICONE - h) / 2), l, h);
+        resolve(c.toDataURL("image/png"));
+      };
+      img.onerror = () => reject(new Error("fichier illisible comme image"));
+      img.src = uri;
+    };
+    if (typeof fichierOuUri === "string") return fini(fichierOuUri, typeConnu
+      || (fichierOuUri.slice(0, 30).includes("image/svg+xml") ? "image/svg+xml" : null));
+    const l = new FileReader();
+    l.onload = () => fini(String(l.result), fichierOuUri.type);
+    l.onerror = () => reject(new Error("lecture du fichier impossible"));
+    l.readAsDataURL(fichierOuUri);
+  });
+}
+
+/**
+ * Icônes des boutiques — la carte des Réglages.
+ *
+ * Trois façons de donner une image, parce qu'elles correspondent à trois situations réelles :
+ * le fichier est sur le poste (dépôt ou parcours), il est sur le Drive ou un site (URL), il
+ * n'y en a pas encore (la lettre continue de servir). Dans les trois cas, l'image finit rangée
+ * en base — la page n'appelle jamais l'extérieur pour l'afficher.
+ */
+async function peindreLogos() {
+  const cible = $("#clogc");
+  if (!cible) return;
+  const boutiques = (S.refs.stores || []).slice().sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+  if (!boutiques.length) { cible.innerHTML = '<p class="doux">Aucune boutique.</p>'; return; }
+
+  cible.innerHTML = `<div class="tbl" style="max-height:none"><table><tbody>${
+    boutiques.map((b) => `<tr data-lg="${esc(b.id)}">
+      <td style="width:44px">${b.logo
+        ? `<img class="logoAp" src="${esc(b.logo)}" alt="Icône de ${esc(b.name)}">`
+        : `<span class="logoAp" aria-hidden="true" style="display:inline-flex;align-items:center;
+             justify-content:center;background:${marcheDe(b).fond};color:${marcheDe(b).texte};
+             font-weight:700">${esc(marcheDe(b).lettre)}</span>`}</td>
+      <td>${esc(b.name)}<div class="doux" style="font-size:12px">${
+        b.logo ? "icône en place" : `lettre « ${esc(marcheDe(b).lettre)} » — déposez une image ici`}</div></td>
+      <td style="text-align:right;white-space:nowrap">
+        <button type="button" data-lgf="${esc(b.id)}">Choisir un fichier…</button>
+        <button type="button" data-lgu="${esc(b.id)}">Depuis une URL…</button>
+        ${b.logo ? `<button type="button" class="d" data-lgx="${esc(b.id)}">Retirer</button>` : ""}
+      </td></tr>`).join("")}</tbody></table></div>
+    <input type="file" id="lgFile" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" hidden>
+    <p class="doux" style="font-size:12px;margin:6px 0 0">Un carré de 64 px suffit ; les images plus
+      grandes sont réduites automatiquement avant l'envoi. PNG, JPEG, WebP, GIF ou SVG.</p>
+    <div id="lgOut" aria-live="polite"></div>`;
+
+  const enregistrer = async (id, uri) => {
+    const r = await tenter(() => api(`/api/stores/${id}/logo`, { method: "POST", body: { data_uri: uri } }),
+      { message: "Icône refusée" });
+    if (!r) return;
+    if (r.error) { $("#lgOut").innerHTML = `<div class="avis">${esc(r.error)}</div>`; return; }
+    $("#lgOut").innerHTML = `<div class="avis info">Icône enregistrée — ${num(Math.max(1, Math.round(r.octets / 1024)))} ko.</div>`;
+    S.refs = await api("/api/refs");
+    IDX.stores = new Map((S.refs.stores || []).map((s) => [String(s.id), s]));
+    peindreLogos();
+  };
+
+  const depuisFichier = async (id, fichier) => {
+    if (!fichier) return;
+    try { await enregistrer(id, await reduireImage(fichier)); }
+    catch (e) { $("#lgOut").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+  };
+
+  const champ = $("#lgFile");
+  cible.querySelectorAll("[data-lgf]").forEach((b) => b.onclick = () => {
+    champ.value = "";
+    champ.onchange = () => depuisFichier(b.dataset.lgf, champ.files[0]);
+    champ.click();
+  });
+
+  // Le dépôt direct sur la ligne : c'est le geste que l'on fait spontanément avec une image.
+  cible.querySelectorAll("[data-lg]").forEach((tr) => {
+    tr.ondragover = (e) => { e.preventDefault(); tr.style.outline = "2px dashed var(--accent)"; };
+    tr.ondragleave = () => { tr.style.outline = ""; };
+    tr.ondrop = (e) => {
+      e.preventDefault(); tr.style.outline = "";
+      depuisFichier(tr.dataset.lg, e.dataTransfer?.files?.[0]);
+    };
+  });
+
+  cible.querySelectorAll("[data-lgu]").forEach((b) => b.onclick = () => dialogue(
+    "Icône depuis une URL",
+    `<p class="doux">Le serveur va chercher l'image <b>une seule fois</b> et la range dans la base.
+      Après ça, plus aucun appel vers l'extérieur — c'est ce qui permet de garder la page verrouillée
+      sur ses propres images.</p>
+     <label class="champ"><span>Adresse de l'image</span>
+       <input id="lgU" placeholder="https://… ou un lien de partage Google Drive"></label>
+     <p class="doux" style="font-size:12px">Un lien Drive de la forme <code>…/file/d/ID/view</code> est
+       converti automatiquement, à condition que le fichier soit partagé publiquement.</p>`,
+    async () => {
+      const r = await api("/api/images/fetch", { method: "POST", body: { url: $("#lgU").value.trim() } });
+      if (r.error) throw new Error(r.error);
+      await enregistrer(b.dataset.lgu, await reduireImage(r.data_uri, r.type));
+    },
+    "Récupérer"));
+
+  cible.querySelectorAll("[data-lgx]").forEach((b) => b.onclick = async () => {
+    await tenter(() => api(`/api/stores/${b.dataset.lgx}/logo`, { method: "DELETE" }),
+      { message: "Retrait impossible" });
+    S.refs = await api("/api/refs");
+    IDX.stores = new Map((S.refs.stores || []).map((s) => [String(s.id), s]));
+    peindreLogos();
+  });
+}
+
+/**
  * Compte transporteur Postes Canada — la carte des Réglages.
  *
  * Deux choses doivent rester lisibles d'un coup d'œil, parce qu'elles décident si un clic
@@ -7387,6 +7531,12 @@ VUES.reglages = async () => {
       <p class="doux" style="margin:2px 0 8px">ShipStation renvoie aujourd'hui les numéros de suivi
       à Shopify, Etsy et Faire. Sans ce relais, vos clients perdent leur suivi à la bascule.</p>
       <div id="cxt"></div></div>
+    <div class="carte" id="clog"><b>Icônes des boutiques</b>
+      <p class="doux" style="margin:2px 0 8px">Sans icône, chaque boutique porte sa lettre sur un
+      fond de couleur. Déposez une image et elle la remplace partout — rail, colonne Destinataire,
+      colonne Boutique, fiche de commande. L'image est <b>rangée dans la base</b>, sur le disque
+      persistant : la page ne va jamais la chercher ailleurs.</p>
+      <div id="clogc"></div></div>
     <div class="carte" id="ccp"><b>Compte transporteur — Postes Canada</b>
       <p class="doux" style="margin:2px 0 8px">ShipStation ouvre une fenêtre contextuelle pour brancher
       un compte Postes Canada. Cette fenêtre est réservée aux plateformes multi-marchands enregistrées
@@ -7467,6 +7617,7 @@ VUES.reglages = async () => {
       $("#reconOut").append(panneauErreur(e, () => $("#recon").click(), "Rapprochement impossible"));
     }
   };
+  peindreLogos();
   peindreCarteCP();
   $("#ssave").onclick = async () => {
     await api("/api/settings", { method: "POST", body: { marque: { nom: $("#sn").value, courriel: $("#se").value,

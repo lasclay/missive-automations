@@ -1636,6 +1636,44 @@ route("POST /api/settings", async ({ req, user }) => {
   return { ok: true };
 });
 
+// ------------------------------------------------------------------ logos de boutique
+
+/**
+ * Logo d'une boutique.
+ *
+ * Deux entrées, une seule sortie : que l'image soit déposée depuis l'ordinateur ou pointée
+ * par une URL, elle finit rangée en URI de données dans la base. L'URL ne sert qu'ici, une
+ * fois — la page, elle, n'appelle jamais l'extérieur.
+ */
+route("POST /api/images/fetch", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  if (!b.url) return { error: "url requise", code: 400 };
+  try { return await require("../lib/images").rapatrier(b.url); }
+  catch (e) { return { error: e.message, code: 400 }; }
+});
+
+route("POST /api/stores/:id/logo", async ({ req, params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  const boutique = db.one("SELECT id, name FROM stores WHERE id = ?", params.id);
+  if (!boutique) return { error: "boutique inconnue", code: 404 };
+  try {
+    const v = require("../lib/images").validerDataUri(b.data_uri);
+    db.run("UPDATE stores SET logo = ? WHERE id = ?", v.data_uri, params.id);
+    db.journaliser("store.logo", "store", params.id,
+      { nom: boutique.name, type: v.type, octets: v.octets }, user && user.id);
+    return { ok: true, octets: v.octets, type: v.type };
+  } catch (e) { return { error: e.message, code: 400 }; }
+});
+
+route("DELETE /api/stores/:id/logo", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  db.run("UPDATE stores SET logo = NULL WHERE id = ?", params.id);
+  db.journaliser("store.logo.remove", "store", params.id, {}, user && user.id);
+  return { ok: true };
+});
+
 // ------------------------------------------------------- transporteur Postes Canada
 
 /**

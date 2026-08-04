@@ -374,6 +374,10 @@ const AJOUTS = [
   ["services", "code", "TEXT"],
   ["services", "hidden", "INTEGER DEFAULT 0"],
   ["stores", "guid", "TEXT"],
+  // Logo de boutique, rangé en URI de données. Pas une URL : la page interdit `img-src`
+  // vers l'extérieur, et une icône qui dépend d'un serveur tiers disparaît le jour où ce
+  // serveur change d'avis. L'image est rapatriée une fois, puis servie par le clone.
+  ["stores", "logo", "TEXT"],
   // Suivi de l'impression d'étiquette (exigence E3) : imprimée ≠ achetée.
   ["orders", "print_state", "TEXT"],   // bordereau et étiquette imprimés
   // Index de recherche plein texte, replié : minuscules et accents retirés. SQLite n'a pas
