@@ -16,16 +16,50 @@ const catalog = require("./catalog");
 const PROXY = process.env.GENERAL_PROXY_URL || "https://general-proxy-5muf.onrender.com";
 const SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET || "";
 
-async function ss(action, params) {
-  const res = await fetch(`${PROXY}/shipstation/${action}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Proxy-Secret": SECRET },
-    body: JSON.stringify(params || {}),
-  });
-  const txt = await res.text();
-  let j; try { j = JSON.parse(txt); } catch { j = null; }
-  if (!res.ok || !j || j.error) throw new Error(`${action} → ${res.status} ${txt.slice(0, 200)}`);
-  return j.data;
+/**
+ * Appel au proxy, avec reprise sur les pannes passagères.
+ *
+ * Sans cette reprise, la migration s'arrêtait toujours au même endroit : page 59 des
+ * commandes expédiées, cumul 29 442 sur 38 126, sur un **502 du proxy Render**. C'est
+ * l'explication du trou de 10 284 commandes que le rapprochement signalait — pas un oubli
+ * de lancer la migration, une coupure au milieu, une seule fois suffisante pour perdre le
+ * quart de l'historique.
+ *
+ * Un 502 après cinquante-neuf pages n'est pas une erreur de programme : c'est un service qui
+ * a hoqueté. La distinction se fait sur le code — on réessaie les 5xx, les 429 et les coupures
+ * réseau, jamais un 400 ou un 401, qui ne guériront pas d'être redemandés.
+ */
+const TRANSITOIRE = (statut) => statut === 429 || (statut >= 500 && statut <= 599);
+const PAUSES = [2000, 4000, 8000, 16000, 32000];
+
+async function ss(action, params, { essais = PAUSES.length, journal = null } = {}) {
+  let derniere = null;
+  for (let n = 0; n <= essais; n++) {
+    let res, txt;
+    try {
+      res = await fetch(`${PROXY}/shipstation/${action}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Proxy-Secret": SECRET },
+        body: JSON.stringify(params || {}),
+      });
+      txt = await res.text();
+    } catch (e) {
+      // Coupure réseau, DNS, socket fermée : toujours passager.
+      derniere = new Error(`${action} → réseau : ${e.message}`);
+      if (n === essais) break;
+      journal?.(`  ↻ ${action} : ${e.message} — reprise dans ${PAUSES[n] / 1000} s`);
+      await new Promise((ok) => setTimeout(ok, PAUSES[n]));
+      continue;
+    }
+    let j; try { j = JSON.parse(txt); } catch { j = null; }
+    if (res.ok && j && !j.error) return j.data;
+
+    derniere = new Error(`${action} → ${res.status} ${txt.slice(0, 200)}`);
+    if (!TRANSITOIRE(res.status) || n === essais) break;
+    journal?.(`  ↻ ${action} : ${res.status} — reprise dans ${PAUSES[n] / 1000} s (essai ${n + 1}/${essais})`);
+    await new Promise((ok) => setTimeout(ok, PAUSES[n]));
+  }
+  throw derniere;
 }
 
 /**
@@ -240,7 +274,7 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
       for (let page = 1; page <= maxPagesCommandes; page++) {
         const params = { orderStatus: statut, pageSize: 500, page };
         if (depuis) params.createDateStart = depuis;
-        const d = await ss("orders", params);
+        const d = await ss("orders", params, { journal });
         const lot = d.orders || [];
         if (page === maxPagesCommandes && lot.length === 500) {
           journal(`  ⚠ plafond de ${maxPagesCommandes} pages atteint pour « ${statut} » — ` +
@@ -274,7 +308,7 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
       // et le rattachement article ↔ expédition reste vide sans que rien ne le signale.
       const params = { pageSize: 500, page, includeShipmentItems: true };
       if (depuis) params.shipDateStart = depuis;
-      const d = await ss("shipments", params);
+      const d = await ss("shipments", params, { journal });
       const lot = d.shipments || [];
       let refusees = 0;
       tx(() => {
@@ -343,7 +377,7 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
     journal("Fulfillments…");
     let nFul = 0;
     for (let page = 1; page <= maxPagesCommandes; page++) {
-      const d = await ss("fulfillments", { pageSize: 500, page });
+      const d = await ss("fulfillments", { pageSize: 500, page }, { journal });
       const lot = d.fulfillments || [];
       tx(() => {
         for (const f of lot) {
@@ -370,7 +404,7 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
       journal(`Produits… ${sondeP.total} au total`);
       let nProd = 0;
       for (let page = 1; page <= Math.ceil((sondeP.total || 0) / 500); page++) {
-        const d = await ss("products", { pageSize: 500, page });
+        const d = await ss("products", { pageSize: 500, page }, { journal });
         const lot = d.products || [];
         tx(() => {
           for (const p of lot) {
@@ -408,7 +442,7 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
       journal(`Clients ShipStation… ${sonde.total} au total, ${pagesCli} page(s)`);
       let nCli = 0;
       for (let page = 1; page <= pagesCli; page++) {
-        const d = await ss("customers", { pageSize: 500, page });
+        const d = await ss("customers", { pageSize: 500, page }, { journal });
         const lot = d.customers || [];
         tx(() => {
           for (const c of lot) {
