@@ -219,6 +219,20 @@ const TARIF = (id, cents, nom) => ({
   global.fetch = vraiFetch;
   run("DELETE FROM rate_cache");
 
+  // `--sync` existe pour être tapé sans guillemets : le Web Shell de Render mange les
+  // séquences de collage, et un `node -e '…'` avec guillemets imbriqués n'y arrive jamais
+  // intact. Un drapeau, aucune ponctuation, rien à échapper.
+  if (process.argv.includes("--sync")) {
+    console.log("\nSynchronisation du panel dans le référentiel\n" + "─".repeat(64));
+    if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
+    else delete process.env.FREIGHTCOM_API_KEY;
+    try {
+      const r = await fc.synchroniserServices();
+      console.log(`${V} ${r.total} services versés  ${G}${r.ajoutes} nouveaux, ${r.majs} mis à jour, ${r.depot} au tarif de dépôt${R}`);
+      passes++;
+    } catch (e) { console.log(`${X} ${e.message}`); echecs++; }
+  }
+
   if (process.argv.includes("--reel")) {
     console.log("\nAppel réel — GET /services, lecture pure\n" + "─".repeat(64));
     if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
