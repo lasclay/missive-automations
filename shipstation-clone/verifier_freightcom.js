@@ -219,6 +219,39 @@ const TARIF = (id, cents, nom) => ({
   global.fetch = vraiFetch;
   run("DELETE FROM rate_cache");
 
+  // `--coter` fait UNE cotation réelle sur l'envoi de référence de l'audit — Québec →
+  // Lac-Beauport, 9 × 6 × 1 po, 45 g. C'est le devis exact qui avait donné 6,31 $ « Drop-Off
+  // Only » dans l'interface web le 22 juillet 2026, et donc la seule façon de répondre à la
+  // question A1 du brief : ce tarif sort-il de l'API ? Lecture pure, aucune réservation.
+  if (process.argv.includes("--coter")) {
+    console.log("\nCotation réelle — envoi de référence de l'audit\n" + "─".repeat(64));
+    if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
+    else delete process.env.FREIGHTCOM_API_KEY;
+    const reference = {
+      from: { name: "Lasclay", company: "Les Produits Lasclay", street1: "1 rue des Capucins",
+        city: "Québec", state: "QC", country: "CA", postalCode: "G1J 3R4" },
+      to: { name: "Essai", street1: "1 chemin du Village", city: "Lac-Beauport", state: "QC",
+        country: "CA", postalCode: "G3B 0P2", residential: true },
+      parcel: { weightG: 45, lengthIn: 9, widthIn: 6, heightIn: 1 },
+      value: 40, currency: "CAD",
+    };
+    try {
+      const r = await fc.coterDirect(reference, { deadlineMs: 25000 });
+      console.log(`${V} ${r.tarifs.length} tarif(s) en ${r.ms} ms  ${G}${
+        r.statut.complete}/${r.statut.total} services interrogés, ${r.complet ? "panel complet" : "panel partiel"}${R}`);
+      for (const t of r.tarifs) {
+        console.log(`   ${t.dropOff ? "▼" : " "} ${String(t.price).padStart(7)} $  ${
+          String(t.serviceId).padEnd(24)} ${t.carrier} · ${t.service}${t.transitDays ? ` · ${t.transitDays} j` : ""}`);
+      }
+      const depot = r.tarifs.filter((t) => t.dropOff);
+      console.log(depot.length
+        ? `\n   ${V} ${depot.length} tarif(s) de DÉPÔT exposés par l'API — c'est la réponse à la question A1`
+        : `\n   ${G}aucun tarif marqué dépôt. Soit le compte d'essai ne les expose pas, soit ils\n` +
+          `   portent un autre libellé : comparer avec l'interface web sur le même envoi.${R}`);
+      passes++;
+    } catch (e) { console.log(`${X} ${e.message}`); echecs++; }
+  }
+
   // `--sync` existe pour être tapé sans guillemets : le Web Shell de Render mange les
   // séquences de collage, et un `node -e '…'` avec guillemets imbriqués n'y arrive jamais
   // intact. Un drapeau, aucune ponctuation, rien à échapper.
