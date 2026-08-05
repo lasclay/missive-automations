@@ -3592,7 +3592,8 @@ VUES.commandes = async (statutFixe) => {
         <h4>Configuration de l'expédition</h4>
         <label class="champ"><span>Expédié de</span><select id="cw">${optionsEntrepot(o)}</select></label>
         <label class="champ"><span>Poids (g) — touche W</span><input type="number" id="cp" value="${o.weight_g || ""}"></label>
-        <label class="champ"><span>Service</span><select id="cs">${optionsService(o.service_id || "")}</select></label>
+        <label class="champ"><span id="csL">Service — coter pour voir les tarifs</span>
+          <select id="cs">${optionsService(o.service_id || "")}</select></label>
         <label class="champ"><span>Colis</span><select id="cc"><option value="">— choisir —</option>${colis.map((x) =>
           `<option value="${x.id}" ${String(o.package_id) === x.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
         <div class="dims">
@@ -3677,6 +3678,16 @@ VUES.commandes = async (statutFixe) => {
         const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: o.id } });
         $("#cTarifs").innerHTML = tableauTarifs(r, o);
         if (r.recommande) $("#cPrix").textContent = "  " + money(r.recommande.price);
+        // La cotation remplace le contenu du champ Service : les tarifs du moment sont la
+        // seule liste dont on sait qu'elle s'applique à CET envoi. Le référentiel statique
+        // reste le repli quand aucune cotation n'a encore été faite.
+        const ops = optionsTarifs(r, $("#cs") && $("#cs").value);
+        if (ops && $("#cs")) {
+          $("#cs").innerHTML = ops;
+          $("#cs").dataset.tarifs = "1";
+          const l = $("#csL");
+          if (l) l.textContent = `Service — ${r.tarifs.length} tarif(s) du moment`;
+        }
       } catch (e) { $("#cTarifs").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
     };
     $("#cAcheter").onclick = acheterLot;
@@ -3927,6 +3938,36 @@ function tableauTarifs(r, o) {
         <td class="n">${money(t.price)}${demo ? ' <span class="puce a" title="Valeur de démonstration, non contractuelle">démo</span>' : ""}</td>
         ${m !== null ? `<td class="n ${m < 0 ? "rouge" : "vert"}">${m >= 0 ? "+" : ""}${money(m)}</td>` : ""}</tr>`;
     }).join("")}</tbody></table></div>`;
+}
+
+/**
+ * Les tarifs du moment, en options de liste déroulante.
+ *
+ * Le référentiel statique ne peut pas être la liste des choix d'expédition : Freightcom cote
+ * 153 services et n'en retourne qu'une vingtaine pour un envoi donné — ceux qui desservent
+ * cette destination, à ce poids, ce jour-là. Mapper les 153 à la main reviendrait à recopier
+ * un catalogue pour ensuite proposer des services qui ne s'appliquent pas.
+ *
+ * Alors la cotation **devient** le menu. Chaque ligne porte son prix, parce que c'est sur le
+ * prix qu'on choisit, et le tarif de dépôt est marqué : c'est lui qui porte l'économie.
+ */
+function optionsTarifs(r, selection = "") {
+  const tarifs = (r && r.tarifs) || [];
+  if (!tarifs.length) return null;
+  const choisi = selection || (r.recommande && r.recommande.serviceId) || "";
+  const groupes = new Map();
+  for (const t of tarifs) {
+    if (!groupes.has(t.carrier)) groupes.set(t.carrier, []);
+    groupes.get(t.carrier).push(t);
+  }
+  // Le transporteur le moins cher d'abord : c'est l'ordre dans lequel on décide.
+  const ordonnes = [...groupes.entries()]
+    .sort((a, b) => Math.min(...a[1].map((x) => x.price)) - Math.min(...b[1].map((x) => x.price)));
+  return `<option value="">— choisir —</option>${ordonnes.map(([carrier, liste]) =>
+    `<optgroup label="${esc(carrier)}">${liste.sort((a, b) => a.price - b.price).map((t) =>
+      `<option value="${esc(t.serviceId)}"${String(t.serviceId) === String(choisi) ? " selected" : ""}>${
+        money(t.price)} — ${esc(nomTarif(t))}${t.dropOff ? " · dépôt" : ""}${
+        t.transitDays ? ` · ${t.transitDays} j` : ""}</option>`).join("")}</optgroup>`).join("")}`;
 }
 
 

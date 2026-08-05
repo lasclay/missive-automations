@@ -229,9 +229,24 @@ function lireTarif(t) {
 const IDS_DEPOT = String(process.env.FREIGHTCOM_SERVICES_DEPOT || "")
   .split(",").map((s) => s.trim()).filter(Boolean);
 
+/**
+ * Reconnaître le tarif de dépôt.
+ *
+ * Première cotation réelle, 5 août 2026, envoi de référence de l'audit : 20 tarifs, dont
+ * `canadapost-exclusive.expedited-parcel` à **6,61 $** — quand le suivant, GLS Ground, est à
+ * 10,41 $. C'est le programme « envoi unique sous 500 g » que l'audit chiffrait à 6,31 $ dans
+ * l'interface web, et il ne porte **nulle part** la mention « drop-off » : Freightcom
+ * l'appelle *Canada Post Exclusive Program*.
+ *
+ * Le repérage par libellé seul serait donc passé à côté du seul tarif qui compte. On ajoute
+ * le préfixe observé, et `FREIGHTCOM_SERVICES_DEPOT` permet de figer la liste par identifiant
+ * dès qu'elle est confirmée — parce qu'une reconnaissance par motif finit toujours par se
+ * tromper le jour où le fournisseur renomme.
+ */
 function estDepot(t) {
   if (IDS_DEPOT.length) return IDS_DEPOT.includes(String(t.service_id));
-  return /drop[\s-]?off|depot|dépôt/i.test(`${t.service_name || ""} ${t.service_id || ""}`);
+  const texte = `${t.service_name || ""} ${t.service_id || ""}`;
+  return /drop[\s-]?off|depot|dépôt|canadapost-exclusive|canada post exclusive/i.test(texte);
 }
 
 /**
