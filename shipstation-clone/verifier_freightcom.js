@@ -53,6 +53,10 @@ const TARIF = (id, cents, nom) => ({
 });
 
 (async () => {
+  // La vraie clé est mise de côté puis rendue : sur Render, les contrôles hors ligne tournent
+  // dans un processus qui a la clé de production en environnement, et l'écraser sans la
+  // restaurer faisait échouer `--reel` juste après.
+  const CLE_REELLE = process.env.FREIGHTCOM_API_KEY;
   process.env.FREIGHTCOM_API_KEY = "cle-essai";
   delete process.env.FREIGHTCOM_SERVICES;
   run("DELETE FROM rate_cache");
@@ -217,7 +221,8 @@ const TARIF = (id, cents, nom) => ({
 
   if (process.argv.includes("--reel")) {
     console.log("\nAppel réel — GET /services, lecture pure\n" + "─".repeat(64));
-    delete process.env.FREIGHTCOM_API_KEY;
+    if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
+    else delete process.env.FREIGHTCOM_API_KEY;
     const t = await fc.tester();
     if (t.ok) {
       console.log(`${V} ${t.n} services, ${t.transporteurs.length} transporteurs, ${t.ms} ms`);
