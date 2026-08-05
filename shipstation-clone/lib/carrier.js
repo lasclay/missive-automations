@@ -192,4 +192,30 @@ function adaptateur(nom = process.env.CARRIER_ADAPTER || "bouchon") {
   throw new Error(`adaptateur transporteur inconnu : ${nom}`);
 }
 
-module.exports = { adaptateur, bouchon, clickship, choisirTarif, SEUIL_DROPOFF_G };
+/**
+ * Les fournisseurs d'étiquettes que le clone sait joindre, et leur état.
+ *
+ * Cette liste existe pour que l'interface n'ait **aucun fournisseur en dur**. Freightcom est
+ * celui d'aujourd'hui ; Postes Canada en direct est déjà écrit, et le jour où Lasclay branche
+ * ses propres comptes transporteur, il suffira d'ajouter une entrée ici. L'écran affichera le
+ * nouveau choix sans qu'on y touche.
+ *
+ * `configure` dit si les identifiants sont là ; `defaut` marque celui que
+ * `CARRIER_ADAPTER` désigne. Un fournisseur non configuré reste visible mais désactivé —
+ * c'est ainsi qu'on découvre qu'il existe et qu'il manque une clé, plutôt que par son absence.
+ */
+function fournisseurs() {
+  const defaut = process.env.CARRIER_ADAPTER || "bouchon";
+  const teste = (fn) => { try { return !!fn(); } catch { return false; } };
+  const liste = [
+    { nom: "freightcom", libelle: "Freightcom", detail: "courtier — panel multi-transporteurs",
+      configure: teste(() => require("./freightcom").configure()) },
+    { nom: "postescanada", libelle: "Postes Canada", detail: "compte propre, contrat Niveau 9",
+      configure: teste(() => require("./postescanada").etat().configure) },
+    { nom: "bouchon", libelle: "Démonstration", detail: "prix d'exercice, aucun achat possible",
+      configure: true, demonstration: true },
+  ];
+  return liste.map((f) => ({ ...f, defaut: f.nom === defaut }));
+}
+
+module.exports = { adaptateur, fournisseurs, bouchon, clickship, choisirTarif, SEUIL_DROPOFF_G };

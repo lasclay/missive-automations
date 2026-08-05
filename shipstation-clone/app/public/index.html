@@ -3594,7 +3594,9 @@ VUES.commandes = async (statutFixe) => {
         <h4>Configuration de l'expédition</h4>
         <label class="champ"><span>Expédié de</span><select id="cw">${optionsEntrepot(o)}</select></label>
         <label class="champ"><span>Poids (g) — touche W</span><input type="number" id="cp" value="${o.weight_g || ""}"></label>
-        <label class="champ"><span id="csL">Service — coter pour voir les tarifs</span>
+        <label class="champ"><span>Fournisseur d'étiquettes</span>
+          <select id="cf">${optionsFournisseur()}</select></label>
+        <label class="champ"><span id="csL">Service — choisir un fournisseur</span>
           <select id="cs">${optionsService(o.service_id || "")}</select></label>
         <label class="champ"><span>Colis</span><select id="cc"><option value="">— choisir —</option>${colis.map((x) =>
           `<option value="${x.id}" ${String(o.package_id) === x.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
@@ -3674,10 +3676,18 @@ VUES.commandes = async (statutFixe) => {
     if (map) map.onclick = () => aller("prereglages");
 
     $("#cNoteS").onclick = () => enregistrer({ internal_notes: $("#cNote").value });
+    // Changer de fournisseur relance la cotation : le deuxième menu n'a de sens que rempli
+    // par celui qu'on vient de choisir. C'est le geste attendu, on ne le fait pas attendre
+    // un second clic.
+    const champFournisseur = $("#cf");
+    if (champFournisseur) champFournisseur.onchange = () => $("#cCoter").click();
+
     $("#cCoter").onclick = async () => {
       $("#cTarifs").innerHTML = '<div class="doux">Cotation…</div>';
       try {
-        const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: o.id } });
+        const fournisseur = champFournisseur ? champFournisseur.value : "";
+        const r = await api("/api/shipments/quote", { method: "POST",
+          body: { order_id: o.id, fournisseur: fournisseur || undefined } });
         $("#cTarifs").innerHTML = tableauTarifs(r, o);
         if (r.recommande) $("#cPrix").textContent = "  " + money(r.recommande.price);
         // La cotation remplace le contenu du champ Service : les tarifs du moment sont la
@@ -3688,7 +3698,12 @@ VUES.commandes = async (statutFixe) => {
           $("#cs").innerHTML = ops;
           $("#cs").dataset.tarifs = "1";
           const l = $("#csL");
-          if (l) l.textContent = `Service — ${r.tarifs.length} tarif(s) du moment`;
+          // Dire de qui viennent ces tarifs : sans ça, on compare deux fournisseurs sans
+          // savoir lequel on regarde. `r.fournisseur` vient du serveur, pas du menu — c'est
+          // celui qui a réellement répondu.
+          const nomF = (S.fournisseurs || []).find((f) => f.nom === r.fournisseur);
+          if (l) l.textContent = `Service — ${r.tarifs.length} tarif(s) chez ${
+            nomF ? nomF.libelle : r.fournisseur || "le fournisseur par défaut"}`;
         }
       } catch (e) { $("#cTarifs").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
     };
@@ -3940,6 +3955,24 @@ function tableauTarifs(r, o) {
         <td class="n">${money(t.price)}${demo ? ' <span class="puce a" title="Valeur de démonstration, non contractuelle">démo</span>' : ""}</td>
         ${m !== null ? `<td class="n ${m < 0 ? "rouge" : "vert"}">${m >= 0 ? "+" : ""}${money(m)}</td>` : ""}</tr>`;
     }).join("")}</tbody></table></div>`;
+}
+
+/**
+ * Le premier menu : chez qui on achète.
+ *
+ * Rien n'y est écrit en dur. La liste vient de `/api/carriers/adapters`, donc brancher un
+ * jour les comptes transporteur propres de Lasclay les fera apparaître ici sans toucher à
+ * l'interface. Un fournisseur sans identifiants reste **visible mais désactivé** : c'est
+ * ainsi qu'on apprend qu'il existe et qu'il lui manque une clé, plutôt que par son absence.
+ */
+function optionsFournisseur(selection = "") {
+  const liste = S.fournisseurs || [];
+  if (!liste.length) return `<option value="">— chargement…</option>`;
+  const choisi = selection || (liste.find((f) => f.defaut) || {}).nom || "";
+  return `<option value="">— choisir —</option>${liste.map((f) =>
+    `<option value="${esc(f.nom)}"${f.configure ? "" : " disabled"}${
+      String(f.nom) === String(choisi) ? " selected" : ""}>${esc(f.libelle)} — ${
+      f.configure ? esc(f.detail) : "identifiants manquants"}</option>`).join("")}`;
 }
 
 /**
@@ -8814,6 +8847,10 @@ async function demarrer() {
   observerLangue();
 
   S.config = await api("/api/config");
+  // Les fournisseurs d'étiquettes, chargés une fois. Un échec ne bloque rien : le premier
+  // menu se contentera du fournisseur par défaut, comme avant qu'il existe.
+  api("/api/carriers/adapters").then((r) => { S.fournisseurs = r.fournisseurs || []; })
+    .catch(() => { S.fournisseurs = []; });
   const tt = (fr, en) => (langue() === "en" ? en : fr);
   const av = [];
   // §4.9 — les bandeaux exposaient `CLONE_ALLOW_LABELS=1` et `CARRIER_ADAPTER=clickship`.

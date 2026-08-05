@@ -561,7 +561,7 @@ route("GET /api/batches/:id/orders", ({ params }) => ({
  */
 route("POST /api/shipments/quote", async ({ req }) => {
   const b = await corps(req);
-  try { return await shipments.coter(Number(b.order_id)); }
+  try { return await shipments.coter(Number(b.order_id), { fournisseur: b.fournisseur || null }); }
   catch (e) { return { error: e.message, code: 400 }; }
 });
 
@@ -1675,6 +1675,15 @@ route("DELETE /api/stores/:id/logo", ({ params, user }) => {
 });
 
 // ------------------------------------------------------------------ transporteur Freightcom
+
+/**
+ * Les fournisseurs d'étiquettes joignables — le premier menu de l'écran d'expédition.
+ *
+ * Aucun fournisseur n'est écrit en dur côté navigateur : ajouter un adaptateur dans
+ * `lib/carrier.js` suffit à le faire apparaître. C'est ce qui permettra de brancher les
+ * comptes transporteur propres de Lasclay sans retoucher l'interface.
+ */
+route("GET /api/carriers/adapters", () => ({ fournisseurs: require("../lib/carrier").fournisseurs() }));
 
 route("GET /api/carriers/freightcom", ({ user }) => {
   accounts.exiger(user, "settings_edit");

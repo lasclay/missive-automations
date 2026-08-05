@@ -36,13 +36,20 @@ function envoiDepuisCommande(cmd) {
   };
 }
 
-async function coter(orderId) {
+/**
+ * `fournisseur` permet de coter chez un autre que celui de `CARRIER_ADAPTER` — c'est ce qui
+ * rend le premier menu de l'écran d'expédition possible, et ce qui permettra de comparer un
+ * courtier à un compte propre sans changer une variable d'environnement.
+ */
+async function coter(orderId, { fournisseur = null } = {}) {
   const cmd = orders.parId(orderId);
   if (!cmd) throw new Error("commande inconnue");
   if (!cmd.weight_g) throw new Error("poids manquant — corriger la commande avant de coter");
   const envoi = envoiDepuisCommande(cmd);
-  const tarifs = await adaptateur().quote(envoi);
-  return { envoi, tarifs, recommande: choisirTarif(tarifs, envoi, politiqueTarif(cmd)) };
+  const a = fournisseur ? adaptateur(fournisseur) : adaptateur();
+  const tarifs = await a.quote(envoi);
+  return { envoi, tarifs, fournisseur: a.nom,
+    recommande: choisirTarif(tarifs, envoi, politiqueTarif(cmd)) };
 }
 
 /** Politique de choix : le service imposé sur la commande, sinon le moins cher drop-off d'abord. */
