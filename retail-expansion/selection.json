@@ -133,7 +133,7 @@
   "tel": "403-244-9330",
   "courriel": "kricketscalgary@yahoo.com",
   "web": "https://www.thecardroom.ca",
-  "fb": "https://www.facebook.com/pg/kricketscalgary/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Calgary",
@@ -446,37 +446,13 @@
   "courriel": "theplantplacecochrane@gmail.com",
   "web": "https://theplantplacecochrane.com/",
   "fb": "",
-  "ig": "theplantplacemardaloop",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 4 km de Calgary",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 107,
   "rang": 18,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "Calgary North Decorating",
-  "type": "Deco / maison",
-  "zone": "Calgary",
-  "ancre": "Calgary",
-  "palier": "Métropole",
-  "pop": 1479975,
-  "ville": "Calgary",
-  "prov": "AB",
-  "adresse": "920 Northmount Drive NW",
-  "cp": "T2L 0A9",
-  "tel": "403-289-6227",
-  "courriel": "eben@eyebytes.com",
-  "web": "https://calgarynorthdecorating.com/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 6 km de Calgary",
-  "bonus": 4,
-  "statut_zone": "Zone a ouvrir",
-  "score": 105,
-  "rang": 19,
   "priorite": "C - reserve"
  },
  {
@@ -500,7 +476,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 20,
+  "rang": 19,
   "priorite": "C - reserve"
  },
  {
@@ -524,7 +500,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 21,
+  "rang": 20,
   "priorite": "C - reserve"
  },
  {
@@ -548,7 +524,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 22,
+  "rang": 21,
   "priorite": "C - reserve"
  },
  {
@@ -572,7 +548,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 23,
+  "rang": 22,
   "priorite": "C - reserve"
  },
  {
@@ -596,7 +572,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 24,
+  "rang": 23,
   "priorite": "C - reserve"
  },
  {
@@ -620,7 +596,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 25,
+  "rang": 24,
   "priorite": "C - reserve"
  },
  {
@@ -644,7 +620,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 26,
+  "rang": 25,
   "priorite": "C - reserve"
  },
  {
@@ -668,7 +644,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 27,
+  "rang": 26,
   "priorite": "C - reserve"
  },
  {
@@ -692,7 +668,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 103,
-  "rang": 28,
+  "rang": 27,
   "priorite": "C - reserve"
  },
  {
@@ -713,6 +689,30 @@
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 14 km de Calgary",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 103,
+  "rang": 28,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Peasant Cheese Shop",
+  "type": "Fromagerie / terroir",
+  "zone": "Calgary",
+  "ancre": "Calgary",
+  "palier": "Métropole",
+  "pop": 1479975,
+  "ville": "Calgary",
+  "prov": "AB",
+  "adresse": "12 Kensington Road NW",
+  "cp": "T2N 3P8",
+  "tel": "587-353-3599",
+  "courriel": "kensington@peasantcheese.com",
+  "web": "https://peasantcheese.com/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 2 km de Calgary",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 103,
@@ -950,7 +950,7 @@
   "courriel": "hello@tinyscheeseshop.com",
   "web": "https://tinyscheeseshop.com/",
   "fb": "",
-  "ig": "https://ig.me/m/tinyscheeseshop",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Edmonton",
   "bonus": 0,
@@ -997,7 +997,7 @@
   "tel": "780-423-3487",
   "courriel": "audrey@audreys.ca",
   "web": "https://audreys.ca",
-  "fb": "https://www.facebook.com/AudreysBooksLtd",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Edmonton",
@@ -1045,7 +1045,7 @@
   "tel": "780-452-9886",
   "courriel": "comics@variantedmonton.com",
   "web": "https://variantedmonton.com/",
-  "fb": "https://www.facebook.com/variantedmonton/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 8 km de Edmonton",
@@ -1189,8 +1189,8 @@
   "tel": "877-299-3970",
   "courriel": "customercare@mycnf.com",
   "web": "",
-  "fb": "https://www.facebook.com/myCNFyyc",
-  "ig": "https://www.instagram.com/mycnf/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Edmonton",
   "bonus": 0,
@@ -1365,30 +1365,6 @@
   "statut_zone": "Zone a ouvrir",
   "score": 81,
   "rang": 26,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "The Alternative Health Collective",
-  "type": "Alimentation sante / bio",
-  "zone": "Edmonton",
-  "ancre": "Edmonton",
-  "palier": "Métropole",
-  "pop": 1288856,
-  "ville": "",
-  "prov": "AB",
-  "adresse": "6328A 104 Street NW",
-  "cp": "",
-  "tel": "",
-  "courriel": "",
-  "web": "https://thealthealthco.com",
-  "fb": "",
-  "ig": "https://www.instagram.com/thealthealth",
-  "source": "OpenStreetMap",
-  "rattachement": "a 5 km de Edmonton",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 80,
-  "rang": 27,
   "priorite": "C - reserve"
  },
  {
@@ -1800,30 +1776,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Made With Love",
-  "type": "Galerie / artisans",
-  "zone": "Red Deer",
-  "ancre": "Red Deer",
-  "palier": "Ville moyenne",
-  "pop": 182754,
-  "ville": "",
-  "prov": "AB",
-  "adresse": "4801 51 Avenue",
-  "cp": "",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "https://business.facebook.com/madewithlovereddeer/?fref=mentions",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 0 km de Red Deer",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 77,
-  "rang": 5,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Clayburn Village Store & Gift Shop",
   "type": "Cadeaux / artisans",
   "zone": "Abbotsford et Mission",
@@ -2125,8 +2077,8 @@
   "tel": "509-904-4954",
   "courriel": "oakmeadows.farm@yahoo.com",
   "web": "https://www.oakmeadowsfarmllc.com/",
-  "fb": "https://www.facebook.com/oakmeadowsfarm",
-  "ig": "https://www.instagram.com/oakmeadowsfarm",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 25 km de Abbotsford",
   "bonus": 4,
@@ -2493,6 +2445,30 @@
   "statut_zone": "Zone a ouvrir",
   "score": 97,
   "rang": 28,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Grow Supreme Garden Supplies",
+  "type": "Jardinerie / horticulture",
+  "zone": "Abbotsford et Mission",
+  "ancre": "Abbotsford",
+  "palier": "Ville moyenne",
+  "pop": 293186,
+  "ville": "",
+  "prov": "BC",
+  "adresse": "31780 South Fraser Way",
+  "cp": "V2T 1T9",
+  "tel": "604-776-1800",
+  "courriel": "",
+  "web": "https://facebook.com/growsupreme.gs/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 1 km de Abbotsford",
+  "bonus": 4,
+  "statut_zone": "Zone a ouvrir",
+  "score": 95,
+  "rang": 29,
   "priorite": "C - reserve"
  },
  {
@@ -3013,8 +2989,8 @@
   "tel": "604-537-6505",
   "courriel": "",
   "web": "",
-  "fb": "https://www.facebook.com/p/Lochdale-Village-Market-61574768544685/",
-  "ig": "https://www.instagram.com/lochdalevillagemarket/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 4 km de Burnaby",
   "bonus": 8,
@@ -3168,6 +3144,30 @@
   "priorite": "C - reserve"
  },
  {
+  "nom": "BC Market",
+  "type": "Epicerie fine / terroir",
+  "zone": "Burnaby et New Westminster",
+  "ancre": "Burnaby",
+  "palier": "Grande ville",
+  "pop": 502297,
+  "ville": "",
+  "prov": "BC",
+  "adresse": "928 Twelfth Street",
+  "cp": "",
+  "tel": "604-522-3733",
+  "courriel": "",
+  "web": "",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 4 km de Burnaby",
+  "bonus": 4,
+  "statut_zone": "Zone a ouvrir",
+  "score": 92,
+  "rang": 29,
+  "priorite": "C - reserve"
+ },
+ {
   "nom": "Mystic Earth Creations",
   "type": "Cadeaux / artisans",
   "zone": "Campbell River",
@@ -3301,8 +3301,8 @@
   "tel": "+16043929990;+1-604-997-",
   "courriel": "stormy@stormys.ca",
   "web": "http://stormys.ca/",
-  "fb": "stormysfoodtruck",
-  "ig": "stormysfoodtruck",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 8 km de Chilliwack",
   "bonus": 8,
@@ -3875,7 +3875,7 @@
   "adresse": "6225 Lake Bay Road",
   "cp": "V0E 1Z1",
   "tel": "250-578-0781",
-  "courriel": "eben@eyebytes.com",
+  "courriel": "",
   "web": "https://honeyberryfarm.ca/",
   "fb": "",
   "ig": "",
@@ -3883,7 +3883,7 @@
   "rattachement": "a 28 km de Kamloops",
   "bonus": 8,
   "statut_zone": "Zone a ouvrir",
-  "score": 103,
+  "score": 91,
   "rang": 7,
   "priorite": "C - reserve"
  },
@@ -4117,7 +4117,7 @@
   "tel": "236-425-2727",
   "courriel": "",
   "web": "",
-  "fb": "https://www.facebook.com/castingloops/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Kamloops",
@@ -4126,54 +4126,6 @@
   "score": 78,
   "rang": 17,
   "priorite": "C - reserve"
- },
- {
-  "nom": "High Octane Comics",
-  "type": "Librairie independante",
-  "zone": "Kamloops",
-  "ancre": "Kamloops",
-  "palier": "Ville moyenne",
-  "pop": 97902,
-  "ville": "Kamloops",
-  "prov": "BC",
-  "adresse": "250 3rd Avenue",
-  "cp": "V2C 3M3",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "HighOctaneComics",
-  "ig": "highoctanecomics",
-  "source": "OpenStreetMap",
-  "rattachement": "a 0 km de Kamloops",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 69,
-  "rang": 18,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "Funktional",
-  "type": "Artisans canadiens",
-  "zone": "Kelowna",
-  "ancre": "Kelowna",
-  "palier": "Grande ville",
-  "pop": 144576,
-  "ville": "Kelowna",
-  "prov": "BC",
-  "adresse": "447 Bernard Avenue Kelowna, BC",
-  "cp": "V1Y 6N8",
-  "tel": "250-763-0744",
-  "courriel": "img-8626_195x195@2x.heic",
-  "web": "https://funktional.ca",
-  "fb": "",
-  "ig": "",
-  "source": "Recherche web ciblee",
-  "rattachement": "ville",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 117,
-  "rang": 1,
-  "priorite": "A - approcher en premier"
  },
  {
   "nom": "On Beach Boutique & Gifts",
@@ -4196,8 +4148,8 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 111,
-  "rang": 2,
-  "priorite": "B - releve"
+  "rang": 1,
+  "priorite": "A - approcher en premier"
  },
  {
   "nom": "Bee Yours",
@@ -4220,32 +4172,32 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 107,
-  "rang": 3,
+  "rang": 2,
   "priorite": "B - releve"
  },
  {
-  "nom": "funktional.",
-  "type": "Cadeaux / artisans",
+  "nom": "Funktional",
+  "type": "Artisans canadiens",
   "zone": "Kelowna",
   "ancre": "Kelowna",
   "palier": "Grande ville",
   "pop": 144576,
-  "ville": "",
+  "ville": "Kelowna",
   "prov": "BC",
-  "adresse": "447 Bernard Avenue",
+  "adresse": "447 Bernard Avenue Kelowna, BC",
   "cp": "V1Y 6N8",
   "tel": "250-763-0744",
-  "courriel": "img-8626_195x195@2x.heic",
-  "web": "https://www.funktional.ca",
+  "courriel": "",
+  "web": "https://funktional.ca",
   "fb": "",
   "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 0 km de Kelowna",
+  "source": "Recherche web ciblee",
+  "rattachement": "ville",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
-  "score": 107,
-  "rang": 4,
-  "priorite": "C - reserve"
+  "score": 105,
+  "rang": 3,
+  "priorite": "B - releve"
  },
  {
   "nom": "FILL – Kelowna's Refill Store",
@@ -4268,7 +4220,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 104,
-  "rang": 5,
+  "rang": 4,
   "priorite": "C - reserve"
  },
  {
@@ -4292,7 +4244,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 102,
-  "rang": 6,
+  "rang": 5,
   "priorite": "C - reserve"
  },
  {
@@ -4316,7 +4268,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 99,
-  "rang": 7,
+  "rang": 6,
   "priorite": "C - reserve"
  },
  {
@@ -4340,7 +4292,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 97,
-  "rang": 8,
+  "rang": 7,
   "priorite": "C - reserve"
  },
  {
@@ -4364,7 +4316,7 @@
   "bonus": 8,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
-  "rang": 9,
+  "rang": 8,
   "priorite": "C - reserve"
  },
  {
@@ -4388,7 +4340,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
-  "rang": 10,
+  "rang": 9,
   "priorite": "C - reserve"
  },
  {
@@ -4412,7 +4364,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
-  "rang": 11,
+  "rang": 10,
   "priorite": "C - reserve"
  },
  {
@@ -4436,7 +4388,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
-  "rang": 12,
+  "rang": 11,
   "priorite": "C - reserve"
  },
  {
@@ -4457,6 +4409,30 @@
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 4 km de Kelowna",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 95,
+  "rang": 12,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "funktional.",
+  "type": "Cadeaux / artisans",
+  "zone": "Kelowna",
+  "ancre": "Kelowna",
+  "palier": "Grande ville",
+  "pop": 144576,
+  "ville": "",
+  "prov": "BC",
+  "adresse": "447 Bernard Avenue",
+  "cp": "V1Y 6N8",
+  "tel": "250-763-0744",
+  "courriel": "img-8626_195x195@2x.heic",
+  "web": "https://www.funktional.ca",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 0 km de Kelowna",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
@@ -4909,8 +4885,8 @@
   "tel": "250-390-3669",
   "courriel": "info@thebackyard.ca",
   "web": "https://thebackyard.ca/",
-  "fb": "share/1BuMQbeGAx",
-  "ig": "thebirdstore_nanaimo",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 11 km de Nanaimo",
   "bonus": 4,
@@ -5221,8 +5197,8 @@
   "tel": "250-754-8988",
   "courriel": "info@lcvi.ca",
   "web": "https://lcvi.ca/",
-  "fb": "https://www.facebook.com/literacycentralvi",
-  "ig": "https://www.instagram.com/literacycentralvi/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 0 km de Nanaimo",
   "bonus": 0,
@@ -5509,8 +5485,8 @@
   "tel": "250-226-7062",
   "courriel": "info@crookedhornfarm.ca",
   "web": "https://www.facebook.com/crookedhornfarm",
-  "fb": "crookedhornfarm",
-  "ig": "crookedhornfarm",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 23 km de Nelson",
   "bonus": 4,
@@ -5760,30 +5736,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Artisan Collective",
-  "type": "Deco / maison",
-  "zone": "North Shore",
-  "ancre": "North Vancouver",
-  "palier": "Grande ville",
-  "pop": 165498,
-  "ville": "",
-  "prov": "BC",
-  "adresse": "121 East 1st Street",
-  "cp": "",
-  "tel": "604-787-7610",
-  "courriel": "impallari@gmail.com",
-  "web": "https://artisancollective.ca/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 1 km de North Vancouver",
-  "bonus": 4,
-  "statut_zone": "Zone a ouvrir",
-  "score": 101,
-  "rang": 11,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Cove Creek Gallery and Cappuccino Bar",
   "type": "Galerie / artisans",
   "zone": "North Shore",
@@ -5804,7 +5756,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 12,
+  "rang": 11,
   "priorite": "C - reserve"
  },
  {
@@ -5828,7 +5780,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 13,
+  "rang": 12,
   "priorite": "C - reserve"
  },
  {
@@ -5852,7 +5804,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 14,
+  "rang": 13,
   "priorite": "C - reserve"
  },
  {
@@ -5876,7 +5828,7 @@
   "bonus": 8,
   "statut_zone": "Zone a ouvrir",
   "score": 99,
-  "rang": 15,
+  "rang": 14,
   "priorite": "C - reserve"
  },
  {
@@ -5893,14 +5845,14 @@
   "tel": "778-379-6322",
   "courriel": "info@tamaorganic.com",
   "web": "https://tamaorganic.com",
-  "fb": "tamaorganiclife",
-  "ig": "tama_organic_life",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de North Vancouver",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 99,
-  "rang": 16,
+  "rang": 15,
   "priorite": "C - reserve"
  },
  {
@@ -5924,7 +5876,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 97,
-  "rang": 17,
+  "rang": 16,
   "priorite": "C - reserve"
  },
  {
@@ -5948,7 +5900,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 97,
-  "rang": 18,
+  "rang": 17,
   "priorite": "C - reserve"
  },
  {
@@ -5972,7 +5924,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 94,
-  "rang": 19,
+  "rang": 18,
   "priorite": "C - reserve"
  },
  {
@@ -5990,13 +5942,13 @@
   "courriel": "",
   "web": "",
   "fb": "",
-  "ig": "https://www.instagram.com/favouritegifts/",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de North Vancouver",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 94,
-  "rang": 20,
+  "rang": 19,
   "priorite": "C - reserve"
  },
  {
@@ -6020,7 +5972,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 94,
-  "rang": 21,
+  "rang": 20,
   "priorite": "C - reserve"
  },
  {
@@ -6044,6 +5996,30 @@
   "bonus": 8,
   "statut_zone": "Zone a ouvrir",
   "score": 90,
+  "rang": 21,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Artisan Collective",
+  "type": "Deco / maison",
+  "zone": "North Shore",
+  "ancre": "North Vancouver",
+  "palier": "Grande ville",
+  "pop": 165498,
+  "ville": "",
+  "prov": "BC",
+  "adresse": "121 East 1st Street",
+  "cp": "",
+  "tel": "604-787-7610",
+  "courriel": "",
+  "web": "https://artisancollective.ca/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 1 km de North Vancouver",
+  "bonus": 4,
+  "statut_zone": "Zone a ouvrir",
+  "score": 89,
   "rang": 22,
   "priorite": "C - reserve"
  },
@@ -6301,8 +6277,8 @@
   "tel": "250-563-6637",
   "courriel": "booksandco@shaw.ca",
   "web": "https://booksandcompany.ca",
-  "fb": "booksandcompanyprincegeorge",
-  "ig": "booksandcompanypg",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Prince George",
   "bonus": 0,
@@ -6949,8 +6925,8 @@
   "tel": "604-370-3375",
   "courriel": "",
   "web": "",
-  "fb": "https://facebook.com/StevestonsBestBritish",
-  "ig": "https://instagram.com/stevestonsbestofbritish",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Richmond",
   "bonus": 0,
@@ -7080,6 +7056,30 @@
   "priorite": "C - reserve"
  },
  {
+  "nom": "West Coast Hunting Supplies",
+  "type": "Chasse et peche",
+  "zone": "Richmond et Delta",
+  "ancre": "Richmond",
+  "palier": "Grande ville",
+  "pop": 364439,
+  "ville": "Richmond",
+  "prov": "BC",
+  "adresse": "4200 Number 3 Road",
+  "cp": "",
+  "tel": "604-279-9956",
+  "courriel": "",
+  "web": "https://www.richmondgunshop.ca",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 2 km de Richmond",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 87,
+  "rang": 29,
+  "priorite": "C - reserve"
+ },
+ {
   "nom": "High Mountain Garden",
   "type": "Jardinerie / horticulture",
   "zone": "Shuswap et Salmon Arm",
@@ -7141,8 +7141,8 @@
   "tel": "604-399-8103",
   "courriel": "info@ecofreako.ca",
   "web": "https://ecofreako.ca/",
-  "fb": "https://www.facebook.com/ecofreakocanada",
-  "ig": "https://www.instagram.com/ecofreakorobertscreekbc",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 10 km de Sechelt",
   "bonus": 4,
@@ -7165,8 +7165,8 @@
   "tel": "604-365-6867",
   "courriel": "info@bipoclocal.ca",
   "web": "https://bipoclocal.ca/",
-  "fb": "https://www.facebook.com/bipoclocalmarketplace/",
-  "ig": "https://www.instagram.com/bipocandlocalmarketplace",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 17 km de Surrey",
   "bonus": 12,
@@ -7824,6 +7824,30 @@
   "priorite": "C - reserve"
  },
  {
+  "nom": "Angels Ice Cream",
+  "type": "Cadeaux / artisans",
+  "zone": "Surrey et Langley",
+  "ancre": "Surrey",
+  "palier": "Grande ville",
+  "pop": 720877,
+  "ville": "White Rock",
+  "prov": "BC",
+  "adresse": "15555 Marine Drive",
+  "cp": "V4B 1C9",
+  "tel": "778-294-0017",
+  "courriel": "",
+  "web": "",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 20 km de Surrey",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 98,
+  "rang": 29,
+  "priorite": "C - reserve"
+ },
+ {
   "nom": "Northwest Refillery Inc.",
   "type": "Eco / zero dechet",
   "zone": "Terrace et Kitimat",
@@ -8136,30 +8160,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Spirithouse",
-  "type": "Cadeaux / artisans",
-  "zone": "Vancouver – centre et est",
-  "ancre": "Vancouver",
-  "palier": "Métropole",
-  "pop": 662248,
-  "ville": "",
-  "prov": "BC",
-  "adresse": "4267 Main Street",
-  "cp": "V5V 3P8",
-  "tel": "888-969-0990",
-  "courriel": "mllegeorgesand@gmail.com",
-  "web": "https://spirithouse.ca/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 2 km de Vancouver",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 115,
-  "rang": 12,
-  "priorite": "C - reserve"
- },
- {
   "nom": "TCS Antiques",
   "type": "Cadeaux / artisans",
   "zone": "Vancouver – centre et est",
@@ -8180,7 +8180,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 115,
-  "rang": 13,
+  "rang": 12,
   "priorite": "C - reserve"
  },
  {
@@ -8204,7 +8204,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 115,
-  "rang": 14,
+  "rang": 13,
   "priorite": "C - reserve"
  },
  {
@@ -8228,7 +8228,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 115,
-  "rang": 15,
+  "rang": 14,
   "priorite": "C - reserve"
  },
  {
@@ -8252,7 +8252,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 110,
-  "rang": 16,
+  "rang": 15,
   "priorite": "C - reserve"
  },
  {
@@ -8276,7 +8276,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 109,
-  "rang": 17,
+  "rang": 16,
   "priorite": "C - reserve"
  },
  {
@@ -8300,7 +8300,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 107,
-  "rang": 18,
+  "rang": 17,
   "priorite": "C - reserve"
  },
  {
@@ -8324,7 +8324,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 107,
-  "rang": 19,
+  "rang": 18,
   "priorite": "C - reserve"
  },
  {
@@ -8348,7 +8348,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 107,
-  "rang": 20,
+  "rang": 19,
   "priorite": "C - reserve"
  },
  {
@@ -8372,7 +8372,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 107,
-  "rang": 21,
+  "rang": 20,
   "priorite": "C - reserve"
  },
  {
@@ -8396,7 +8396,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 107,
-  "rang": 22,
+  "rang": 21,
   "priorite": "C - reserve"
  },
  {
@@ -8420,7 +8420,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 23,
+  "rang": 22,
   "priorite": "C - reserve"
  },
  {
@@ -8438,13 +8438,13 @@
   "courriel": "your@email.com",
   "web": "https://billywould.com/",
   "fb": "",
-  "ig": "billywoulddesigns",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 4 km de Vancouver",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 24,
+  "rang": 23,
   "priorite": "C - reserve"
  },
  {
@@ -8468,7 +8468,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 25,
+  "rang": 24,
   "priorite": "C - reserve"
  },
  {
@@ -8492,7 +8492,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 26,
+  "rang": 25,
   "priorite": "C - reserve"
  },
  {
@@ -8516,7 +8516,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 27,
+  "rang": 26,
   "priorite": "C - reserve"
  },
  {
@@ -8540,7 +8540,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 28,
+  "rang": 27,
   "priorite": "C - reserve"
  },
  {
@@ -8557,6 +8557,30 @@
   "tel": "604-689-1650",
   "courriel": "info@dundaraveprintworkshop.com",
   "web": "https://www.dundaraveprintworkshop.com/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 2 km de Vancouver",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 105,
+  "rang": 28,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Duso's Italia",
+  "type": "Epicerie fine / terroir",
+  "zone": "Vancouver – centre et est",
+  "ancre": "Vancouver",
+  "palier": "Métropole",
+  "pop": 662248,
+  "ville": "",
+  "prov": "BC",
+  "adresse": "1689 Johnston Street",
+  "cp": "V3C 5W9",
+  "tel": "604-464-8101",
+  "courriel": "hello@dusos.com",
+  "web": "https://dusos.com/",
   "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
@@ -8821,8 +8845,8 @@
   "tel": "250-595-4200",
   "courriel": "amccloskey@gardenworks.ca",
   "web": "https://www.gardenworks.ca/oak-bay",
-  "fb": "gardenworkscanada",
-  "ig": "gardenworkscanada",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Victoria",
   "bonus": 4,
@@ -8894,7 +8918,7 @@
   "courriel": "masonstreetfarm@gmail.com",
   "web": "https://www.victoriaediblenursery.com",
   "fb": "",
-  "ig": "masonstreetfarm",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Victoria",
   "bonus": 4,
@@ -9110,7 +9134,7 @@
   "courriel": "hello@softerdrink.ca",
   "web": "https://softerdrink.ca/",
   "fb": "",
-  "ig": "https://www.instagram.com/softer.drink",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Victoria",
   "bonus": 0,
@@ -9336,6 +9360,30 @@
   "priorite": "C - reserve"
  },
  {
+  "nom": "Health Essentials",
+  "type": "Alimentation sante / bio",
+  "zone": "Victoria et Saanich",
+  "ancre": "Victoria",
+  "palier": "Grande ville",
+  "pop": 305886,
+  "ville": "",
+  "prov": "BC",
+  "adresse": "300 Gorge Road West",
+  "cp": "",
+  "tel": "250-590-5524",
+  "courriel": "hello@myhealthessentials.ca",
+  "web": "https://myhealthessentials.ca",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 3 km de Victoria",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 95,
+  "rang": 29,
+  "priorite": "C - reserve"
+ },
+ {
   "nom": "Gallery and Gift Shop",
   "type": "Galerie / artisans",
   "zone": "Whistler et Pemberton",
@@ -9446,7 +9494,7 @@
   "courriel": "info@collectaco.ca",
   "web": "https://www.collectaco.ca/",
   "fb": "",
-  "ig": "collectaco.ca",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Steinbach",
   "bonus": 0,
@@ -9469,8 +9517,8 @@
   "tel": "204-947-2169",
   "courriel": "distantcaravans@shaw.ca",
   "web": "https://distantcaravans.ca/",
-  "fb": "https://www.facebook.com/distantcaravans",
-  "ig": "https://www.instagram.com/distantcaravans/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Winnipeg",
   "bonus": 0,
@@ -9733,8 +9781,8 @@
   "tel": "204-957-7140",
   "courriel": "info@pulsegallery.ca",
   "web": "https://pulsegallery.ca/",
-  "fb": "https://www.facebook.com/PulseGalleryWinnipeg",
-  "ig": "https://www.instagram.com/pulsegallerywinnipeg",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Winnipeg",
   "bonus": 0,
@@ -10069,8 +10117,8 @@
   "tel": "204-888-4586",
   "courriel": "info@olympiacycle.com",
   "web": "https://olympiacycle.com/",
-  "fb": "https://www.facebook.com/OlympiaPortage",
-  "ig": "https://www.instagram.com/olympiaportage/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 6 km de Winnipeg",
   "bonus": 0,
@@ -10125,6 +10173,30 @@
   "statut_zone": "Zone a ouvrir",
   "score": 95,
   "rang": 28,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Pastrami & Things Delicatessen",
+  "type": "Epicerie fine / terroir",
+  "zone": "Winnipeg",
+  "ancre": "Winnipeg",
+  "palier": "Métropole",
+  "pop": 849120,
+  "ville": "",
+  "prov": "MB",
+  "adresse": "400 Taché Avenue",
+  "cp": "",
+  "tel": "204-233-3354",
+  "courriel": "",
+  "web": "https://www.pastramiandthings.com/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 2 km de Winnipeg",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 93,
+  "rang": 29,
   "priorite": "C - reserve"
  },
  {
@@ -10213,7 +10285,7 @@
   "tel": "506-455-1945",
   "courriel": "andrea@artisandistrict.ca",
   "web": "https://artisandistrict.ca/",
-  "fb": "https://www.facebook.com/artisandistrict",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Fredericton",
@@ -10597,7 +10669,7 @@
   "tel": "506-854-2941",
   "courriel": "",
   "web": "",
-  "fb": "CornCribMoncton",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Moncton",
@@ -11976,30 +12048,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Dockyard by Thornbloom",
-  "type": "Articles de maison",
-  "zone": "Halifax et Dartmouth",
-  "ancre": "Halifax",
-  "palier": "Grande ville",
-  "pop": 531894,
-  "ville": "Bedford",
-  "prov": "NS",
-  "adresse": "1595 Bedford Highway",
-  "cp": "B4A 3Y4",
-  "tel": "902-425-5533",
-  "courriel": "info@stagheaddesigns.com",
-  "web": "https://thornbloom.com/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 11 km de Halifax",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 101,
-  "rang": 19,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Otis & Clementine's",
   "type": "Librairie independante",
   "zone": "Halifax et Dartmouth",
@@ -12020,7 +12068,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 20,
+  "rang": 19,
   "priorite": "C - reserve"
  },
  {
@@ -12044,7 +12092,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 21,
+  "rang": 20,
   "priorite": "C - reserve"
  },
  {
@@ -12068,7 +12116,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 22,
+  "rang": 21,
   "priorite": "C - reserve"
  },
  {
@@ -12092,7 +12140,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 99,
-  "rang": 23,
+  "rang": 22,
   "priorite": "C - reserve"
  },
  {
@@ -12116,7 +12164,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 96,
-  "rang": 24,
+  "rang": 23,
   "priorite": "C - reserve"
  },
  {
@@ -12140,7 +12188,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
-  "rang": 25,
+  "rang": 24,
   "priorite": "C - reserve"
  },
  {
@@ -12164,7 +12212,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 93,
-  "rang": 26,
+  "rang": 25,
   "priorite": "C - reserve"
  },
  {
@@ -12188,7 +12236,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 91,
-  "rang": 27,
+  "rang": 26,
   "priorite": "C - reserve"
  },
  {
@@ -12205,14 +12253,62 @@
   "tel": "902-876-3166",
   "courriel": "",
   "web": "",
-  "fb": "https://www.facebook.com/CountryMarketTimberlea",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 10 km de Halifax",
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 90,
+  "rang": 27,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Bishop's Cellar",
+  "type": "Vin / spiritueux",
+  "zone": "Halifax et Dartmouth",
+  "ancre": "Halifax",
+  "palier": "Grande ville",
+  "pop": 531894,
+  "ville": "Halifax",
+  "prov": "NS",
+  "adresse": "1477 Lower Water Street",
+  "cp": "B3J 3Z4",
+  "tel": "902-490-2675",
+  "courriel": "online@bishopscellar.com",
+  "web": "https://bishopscellar.com/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 1 km de Halifax",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 89,
   "rang": 28,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Dockyard by Thornbloom",
+  "type": "Articles de maison",
+  "zone": "Halifax et Dartmouth",
+  "ancre": "Halifax",
+  "palier": "Grande ville",
+  "pop": 531894,
+  "ville": "Bedford",
+  "prov": "NS",
+  "adresse": "1595 Bedford Highway",
+  "cp": "B4A 3Y4",
+  "tel": "902-425-5533",
+  "courriel": "",
+  "web": "https://thornbloom.com/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 11 km de Halifax",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 89,
+  "rang": 29,
   "priorite": "C - reserve"
  },
  {
@@ -12397,7 +12493,7 @@
   "tel": "705-725-9913",
   "courriel": "barrie@bghl.ca",
   "web": "https://shop.bradfordgreenhouses.com/",
-  "fb": "https://www.facebook.com/bgreenhouses",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 6 km de Barrie",
@@ -12781,7 +12877,7 @@
   "tel": "705-737-5671",
   "courriel": "",
   "web": "",
-  "fb": "https://www.facebook.com/bellbookandcandlebarrie/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 0 km de Barrie",
@@ -12816,30 +12912,6 @@
   "priorite": "A - approcher en premier"
  },
  {
-  "nom": "Struisvogel Ranch",
-  "type": "Kiosque fermier / terroir",
-  "zone": "Belleville et Quinte",
-  "ancre": "Belleville",
-  "palier": "Ville moyenne",
-  "pop": 100017,
-  "ville": "",
-  "prov": "ON",
-  "adresse": "3555 Rednersville Road",
-  "cp": "K0K 1L0",
-  "tel": "613-970-4367",
-  "courriel": "info@stagheaddesigns.com",
-  "web": "https://struisvogel.ca/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 26 km de Belleville",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 95,
-  "rang": 2,
-  "priorite": "B - releve"
- },
- {
   "nom": "Jysk",
   "type": "Articles de maison",
   "zone": "Belleville et Quinte",
@@ -12860,7 +12932,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 93,
-  "rang": 3,
+  "rang": 2,
   "priorite": "B - releve"
  },
  {
@@ -12884,6 +12956,30 @@
   "bonus": 8,
   "statut_zone": "Zone a ouvrir",
   "score": 89,
+  "rang": 3,
+  "priorite": "B - releve"
+ },
+ {
+  "nom": "Struisvogel Ranch",
+  "type": "Kiosque fermier / terroir",
+  "zone": "Belleville et Quinte",
+  "ancre": "Belleville",
+  "palier": "Ville moyenne",
+  "pop": 100017,
+  "ville": "",
+  "prov": "ON",
+  "adresse": "3555 Rednersville Road",
+  "cp": "K0K 1L0",
+  "tel": "613-970-4367",
+  "courriel": "info@stagheaddesigns.com",
+  "web": "https://struisvogel.ca/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 26 km de Belleville",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 83,
   "rang": 4,
   "priorite": "C - reserve"
  },
@@ -13118,7 +13214,7 @@
   "courriel": "",
   "web": "https://www.andrewsscenicacres.com/",
   "fb": "",
-  "ig": "andrewsscenic",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 19 km de Brampton",
   "bonus": 8,
@@ -13429,7 +13525,7 @@
   "tel": "905-768-9023",
   "courriel": "",
   "web": "",
-  "fb": "https://www.facebook.com/iandscraftsandsupplies/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 22 km de Brantford",
@@ -13536,78 +13632,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Big Chiefs Trading Post",
-  "type": "Cadeaux / artisans",
-  "zone": "Brantford",
-  "ancre": "Brantford",
-  "palier": "Ville moyenne",
-  "pop": 132913,
-  "ville": "",
-  "prov": "ON",
-  "adresse": "",
-  "cp": "",
-  "tel": "",
-  "courriel": "",
-  "web": "http://www.bigchiefstradingpost.com/",
-  "fb": "https://www.facebook.com/bigchieftradingpost/",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 17 km de Brantford",
-  "bonus": 4,
-  "statut_zone": "Zone a ouvrir",
-  "score": 86,
-  "rang": 7,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "Talking Earth Pottery",
-  "type": "Cadeaux / artisans",
-  "zone": "Brantford",
-  "ancre": "Brantford",
-  "palier": "Ville moyenne",
-  "pop": 132913,
-  "ville": "",
-  "prov": "ON",
-  "adresse": "986 2nd Line",
-  "cp": "",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "www.facebook.com/talkingearthpottery",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 12 km de Brantford",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 83,
-  "rang": 8,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "The Hungery Farmer",
-  "type": "Epicerie fine / terroir",
-  "zone": "Brantford",
-  "ancre": "Brantford",
-  "palier": "Ville moyenne",
-  "pop": 132913,
-  "ville": "",
-  "prov": "ON",
-  "adresse": "7793 Indian Line",
-  "cp": "",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "https://www.facebook.com/The-Hungry-Farmer-456671911138345/",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 16 km de Brantford",
-  "bonus": 4,
-  "statut_zone": "Zone a ouvrir",
-  "score": 77,
-  "rang": 9,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Paris Health Store",
   "type": "Alimentation sante / bio",
   "zone": "Brantford",
@@ -13628,7 +13652,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 74,
-  "rang": 10,
+  "rang": 7,
   "priorite": "C - reserve"
  },
  {
@@ -13652,7 +13676,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 69,
-  "rang": 11,
+  "rang": 8,
   "priorite": "C - reserve"
  },
  {
@@ -13909,7 +13933,7 @@
   "tel": "289-527-1860",
   "courriel": "",
   "web": "",
-  "fb": "https://www.facebook.com/Farm-Gate-To-Your-Plate-146531095416442/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 24 km de Burlington",
@@ -14256,30 +14280,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Nature's Pantry",
-  "type": "Epicerie sante / eco",
-  "zone": "Durham – Oshawa et Whitby",
-  "ancre": "Oshawa",
-  "palier": "Grande ville",
-  "pop": 602321,
-  "ville": "Newcastle",
-  "prov": "ON",
-  "adresse": "",
-  "cp": "",
-  "tel": "",
-  "courriel": "hi@mystore.com",
-  "web": "https://naturespantry.ca",
-  "fb": "",
-  "ig": "",
-  "source": "Recherche web ciblee",
-  "rattachement": "ville",
-  "bonus": 4,
-  "statut_zone": "Zone a ouvrir",
-  "score": 95,
-  "rang": 7,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Gagnon Sports",
   "type": "Chasse et peche",
   "zone": "Durham – Oshawa et Whitby",
@@ -14300,7 +14300,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 91,
-  "rang": 8,
+  "rang": 7,
   "priorite": "C - reserve"
  },
  {
@@ -14324,6 +14324,30 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 89,
+  "rang": 8,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Nature's Pantry",
+  "type": "Epicerie sante / eco",
+  "zone": "Durham – Oshawa et Whitby",
+  "ancre": "Oshawa",
+  "palier": "Grande ville",
+  "pop": 602321,
+  "ville": "Newcastle",
+  "prov": "ON",
+  "adresse": "",
+  "cp": "",
+  "tel": "",
+  "courriel": "hi@mystore.com",
+  "web": "https://naturespantry.ca",
+  "fb": "",
+  "ig": "",
+  "source": "Recherche web ciblee",
+  "rattachement": "ville",
+  "bonus": 4,
+  "statut_zone": "Zone a ouvrir",
+  "score": 88,
   "rang": 9,
   "priorite": "C - reserve"
  },
@@ -14581,8 +14605,8 @@
   "tel": "289-242-9342",
   "courriel": "info@curlycreekfarm.com",
   "web": "https://curlycreekfarm.com/index.html",
-  "fb": "FarmerMarkG",
-  "ig": "curly_creek_farm",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 22 km de Guelph",
   "bonus": 4,
@@ -14856,30 +14880,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Secret Garden Boutique",
-  "type": "Jardinerie / horticulture",
-  "zone": "Guelph",
-  "ancre": "Guelph",
-  "palier": "Ville moyenne",
-  "pop": 151563,
-  "ville": "Guelph",
-  "prov": "ON",
-  "adresse": "84 Norfolk Street",
-  "cp": "N1H 4J2",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "https://www.facebook.com/secretgardenguelph/",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 0 km de Guelph",
-  "bonus": 8,
-  "statut_zone": "Zone a ouvrir",
-  "score": 87,
-  "rang": 15,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Gospel Lighthouse Christian Bookstore",
   "type": "Librairie independante",
   "zone": "Guelph",
@@ -14900,7 +14900,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 85,
-  "rang": 16,
+  "rang": 15,
   "priorite": "C - reserve"
  },
  {
@@ -14924,7 +14924,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 85,
-  "rang": 17,
+  "rang": 16,
   "priorite": "C - reserve"
  },
  {
@@ -14942,13 +14942,13 @@
   "courriel": "info@royalcitybrew.ca",
   "web": "https://royalcitybrew.ca/",
   "fb": "",
-  "ig": "https://www.instagram.com/royalcitybrew/?hl=en",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Guelph",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 85,
-  "rang": 18,
+  "rang": 17,
   "priorite": "C - reserve"
  },
  {
@@ -14972,7 +14972,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 85,
-  "rang": 19,
+  "rang": 18,
   "priorite": "C - reserve"
  },
  {
@@ -14996,7 +14996,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 84,
-  "rang": 20,
+  "rang": 19,
   "priorite": "C - reserve"
  },
  {
@@ -15020,31 +15020,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 80,
-  "rang": 21,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "Johnny's Corn Stand",
-  "type": "Kiosque fermier / terroir",
-  "zone": "Guelph",
-  "ancre": "Guelph",
-  "palier": "Ville moyenne",
-  "pop": 151563,
-  "ville": "Township of Guelph/Eramosa",
-  "prov": "ON",
-  "adresse": "8323 Wellington Road 124",
-  "cp": "",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "",
-  "ig": "Johnnyscornstand",
-  "source": "OpenStreetMap",
-  "rattachement": "a 13 km de Guelph",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 75,
-  "rang": 22,
+  "rang": 20,
   "priorite": "C - reserve"
  },
  {
@@ -15068,7 +15044,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 72,
-  "rang": 23,
+  "rang": 21,
   "priorite": "C - reserve"
  },
  {
@@ -15133,8 +15109,8 @@
   "tel": "905-648-2157",
   "courriel": "hello@harpersgardencentre.com",
   "web": "https://harpersgardencentre.ca/",
-  "fb": "https://www.facebook.com/HarpersGardenC",
-  "ig": "harpersgardenc",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 7 km de Hamilton",
   "bonus": 4,
@@ -15205,8 +15181,8 @@
   "tel": "905-318-9636",
   "courriel": "hamilton@bigbcomics.com",
   "web": "https://bigbcomics.com/",
-  "fb": "bigbcomics",
-  "ig": "bigbcomics",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 4 km de Hamilton",
   "bonus": 0,
@@ -15229,8 +15205,8 @@
   "tel": "905-525-6538",
   "courriel": "info@epicbooks.ca",
   "web": "https://epicbooks.ca",
-  "fb": "epicbooks",
-  "ig": "epicbookshamilton",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Hamilton",
   "bonus": 0,
@@ -15301,8 +15277,8 @@
   "tel": "905-393-7809",
   "courriel": "hello@prettygrit.ca",
   "web": "https://prettygrit.ca/",
-  "fb": "https://facebook.com/prettygrithamilton",
-  "ig": "prettygrithamilton",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Hamilton",
   "bonus": 0,
@@ -16093,8 +16069,8 @@
   "tel": "519-622-9696",
   "courriel": "dotcambridge@dot-furniture.com",
   "web": "https://dot-furniture.com/Cambridge/",
-  "fb": "https://www.facebook.com/DOTFurniture",
-  "ig": "https://www.instagram.com/dot_furniture/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 14 km de Kitchener",
   "bonus": 0,
@@ -16440,6 +16416,30 @@
   "priorite": "C - reserve"
  },
  {
+  "nom": "Gmach Gardens",
+  "type": "Kiosque fermier / terroir",
+  "zone": "Kitchener-Waterloo",
+  "ancre": "Kitchener",
+  "palier": "Grande ville",
+  "pop": 532760,
+  "ville": "Wilmot",
+  "prov": "ON",
+  "adresse": "1383 Huron Road",
+  "cp": "N0B 2H0",
+  "tel": "",
+  "courriel": "",
+  "web": "https://gmach.ca",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 10 km de Kitchener",
+  "bonus": 4,
+  "statut_zone": "Zone a ouvrir",
+  "score": 88,
+  "rang": 29,
+  "priorite": "C - reserve"
+ },
+ {
   "nom": "Curiosities Gift Shop",
   "type": "Artisans canadiens",
   "zone": "London",
@@ -16549,8 +16549,8 @@
   "tel": "519-652-9109",
   "courriel": "info@thelivingcentre.com",
   "web": "https://www.thelivingcentre.com/",
-  "fb": "thelivingcentre",
-  "ig": "the.living.centre",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 15 km de London",
   "bonus": 0,
@@ -16718,7 +16718,7 @@
   "courriel": "",
   "web": "",
   "fb": "",
-  "ig": "https://www.instagram.com/sacredearthfoods/",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 0 km de London",
   "bonus": 4,
@@ -17221,7 +17221,7 @@
   "tel": "905-828-6686",
   "courriel": "",
   "web": "https://summitgarden.com/",
-  "fb": "summitgardenchinesecuisine",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 8 km de Mississauga",
@@ -17653,8 +17653,8 @@
   "tel": "905-382-2661",
   "courriel": "info@slsi.ca",
   "web": "",
-  "fb": "https://www.facebook.com/StevensvilleGardenGallery",
-  "ig": "https://www.instagram.com/stevensville_gg/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 28 km de St. Catharines",
   "bonus": 4,
@@ -17725,7 +17725,7 @@
   "tel": "905-262-4071",
   "courriel": "horbachsgreenhouses@bellnet.ca",
   "web": "https://www.horbachsgreenhouse.com/",
-  "fb": "https://www.facebook.com/Horbachs-Greenhouses-106357237674406",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 13 km de St. Catharines",
@@ -18253,8 +18253,8 @@
   "tel": "+1-905-849-5646;+1-866-7",
   "courriel": "info@promotionalsource.ca",
   "web": "https://promotionalsource.ca/",
-  "fb": "promotionalsource",
-  "ig": "promotionalsource",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 7 km de Oakville",
   "bonus": 0,
@@ -18528,30 +18528,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Saltcreek House",
-  "type": "Cadeaux / artisans",
-  "zone": "Oakville et Milton",
-  "ancre": "Oakville",
-  "palier": "Grande ville",
-  "pop": 448049,
-  "ville": "",
-  "prov": "ON",
-  "adresse": "",
-  "cp": "",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "https://www.facebook.com/saltcreekhouse",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 7 km de Oakville",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 81,
-  "rang": 13,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Laurentide Kitchen & Bath Studio",
   "type": "Deco / maison",
   "zone": "Oakville et Milton",
@@ -18572,7 +18548,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 79,
-  "rang": 14,
+  "rang": 13,
   "priorite": "C - reserve"
  },
  {
@@ -18596,7 +18572,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 79,
-  "rang": 15,
+  "rang": 14,
   "priorite": "C - reserve"
  },
  {
@@ -18620,7 +18596,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 72,
-  "rang": 16,
+  "rang": 15,
   "priorite": "C - reserve"
  },
  {
@@ -18644,7 +18620,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 72,
-  "rang": 17,
+  "rang": 16,
   "priorite": "C - reserve"
  },
  {
@@ -18782,7 +18758,7 @@
   "courriel": "info@hokum.ca",
   "web": "https://www.hokum.ca",
   "fb": "",
-  "ig": "https://www.instagram.com/hokum_ottawa/",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Ottawa",
   "bonus": 0,
@@ -18925,7 +18901,7 @@
   "tel": "819-663-0880",
   "courriel": "info@emerycentrejardin.ca",
   "web": "https://www.emerycentrejardin.ca/en/",
-  "fb": "emeryjardin",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 8 km de Ottawa",
@@ -18960,30 +18936,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Ritchie Feed & Seed",
-  "type": "Jardinerie / horticulture",
-  "zone": "Ottawa",
-  "ancre": "Ottawa",
-  "palier": "Métropole",
-  "pop": 1451300,
-  "ville": "",
-  "prov": "ON",
-  "adresse": "1390 Windmill Lane",
-  "cp": "K1B 4V5",
-  "tel": "613-741-4430",
-  "courriel": "info@stagheaddesigns.com",
-  "web": "https://www.ritchiefeed.com/ottawa/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 6 km de Ottawa",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 107,
-  "rang": 12,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Cleroux Farm Produce Inc.",
   "type": "Jardinerie / horticulture",
   "zone": "Ottawa",
@@ -18997,14 +18949,14 @@
   "tel": "613-913-2386",
   "courriel": "clerouxfarmproduce@gmail.com",
   "web": "",
-  "fb": "https://www.facebook.com/profile.php/?id=100067256640237",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 12 km de Ottawa",
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 106,
-  "rang": 13,
+  "rang": 12,
   "priorite": "C - reserve"
  },
  {
@@ -19028,7 +18980,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 14,
+  "rang": 13,
   "priorite": "C - reserve"
  },
  {
@@ -19052,7 +19004,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 15,
+  "rang": 14,
   "priorite": "C - reserve"
  },
  {
@@ -19076,7 +19028,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 16,
+  "rang": 15,
   "priorite": "C - reserve"
  },
  {
@@ -19100,7 +19052,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 17,
+  "rang": 16,
   "priorite": "C - reserve"
  },
  {
@@ -19124,7 +19076,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 18,
+  "rang": 17,
   "priorite": "C - reserve"
  },
  {
@@ -19148,7 +19100,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 19,
+  "rang": 18,
   "priorite": "C - reserve"
  },
  {
@@ -19172,7 +19124,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 103,
-  "rang": 20,
+  "rang": 19,
   "priorite": "C - reserve"
  },
  {
@@ -19196,7 +19148,7 @@
   "bonus": 8,
   "statut_zone": "Zone a ouvrir",
   "score": 103,
-  "rang": 21,
+  "rang": 20,
   "priorite": "C - reserve"
  },
  {
@@ -19220,7 +19172,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 103,
-  "rang": 22,
+  "rang": 21,
   "priorite": "C - reserve"
  },
  {
@@ -19244,7 +19196,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 23,
+  "rang": 22,
   "priorite": "C - reserve"
  },
  {
@@ -19268,7 +19220,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 24,
+  "rang": 23,
   "priorite": "C - reserve"
  },
  {
@@ -19292,7 +19244,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 25,
+  "rang": 24,
   "priorite": "C - reserve"
  },
  {
@@ -19316,7 +19268,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 26,
+  "rang": 25,
   "priorite": "C - reserve"
  },
  {
@@ -19340,7 +19292,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 27,
+  "rang": 26,
   "priorite": "C - reserve"
  },
  {
@@ -19364,7 +19316,55 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
+  "rang": 27,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Christopher Griffin Art Studio",
+  "type": "Galerie / artisans",
+  "zone": "Ottawa",
+  "ancre": "Ottawa",
+  "palier": "Métropole",
+  "pop": 1451300,
+  "ville": "",
+  "prov": "ON",
+  "adresse": "",
+  "cp": "",
+  "tel": "613-866-7022",
+  "courriel": "griffinartstudio@gmail.com",
+  "web": "https://www.christophergriffin.ca",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 1 km de Ottawa",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 99,
   "rang": 28,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "L'Archerot",
+  "type": "Plein air",
+  "zone": "Ottawa",
+  "ancre": "Ottawa",
+  "palier": "Métropole",
+  "pop": 1451300,
+  "ville": "Gatineau",
+  "prov": "ON",
+  "adresse": "574 Boulevard Maloney Est",
+  "cp": "J8P 1G1",
+  "tel": "819-663-3131",
+  "courriel": "",
+  "web": "https://www.larcherot.com/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 8 km de Ottawa",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 98,
+  "rang": 29,
   "priorite": "C - reserve"
  },
  {
@@ -19381,8 +19381,8 @@
   "tel": "519-372-1130",
   "courriel": "info@themilkmaidcheese.ca",
   "web": "https://themilkmaidcheese.com",
-  "fb": "https://www.facebook.com/themilkmaidcheese",
-  "ig": "https://instagram.com/themilkmaidcheese",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 0 km de Owen Sound",
   "bonus": 0,
@@ -19704,30 +19704,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Minh's Chinese Grocery",
-  "type": "Epicerie fine / terroir",
-  "zone": "Peterborough",
-  "ancre": "Peterborough",
-  "palier": "Ville moyenne",
-  "pop": 81032,
-  "ville": "",
-  "prov": "ON",
-  "adresse": "430 George Street North",
-  "cp": "",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "https://www.facebook.com/MinhsChineseGrocery/",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 0 km de Peterborough",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 73,
-  "rang": 12,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Algonquin Bound Outfitters - Barron Canyon",
   "type": "Plein air",
   "zone": "Renfrew et Vallée de l'Outaouais",
@@ -19862,7 +19838,7 @@
   "courriel": "info@sarniabookkeeper.com",
   "web": "https://www.sarniabookkeeper.com/",
   "fb": "",
-  "ig": "sarniabookkeeper",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Sarnia",
   "bonus": 0,
@@ -20085,30 +20061,6 @@
   "statut_zone": "Zone a ouvrir",
   "score": 78,
   "rang": 5,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "Four Season's Market & Deli",
-  "type": "Epicerie fine / terroir",
-  "zone": "Sault Ste. Marie",
-  "ancre": "Sault Ste. Marie",
-  "palier": "Petite ville",
-  "pop": 103241,
-  "ville": "Brimley",
-  "prov": "ON",
-  "adresse": "9253 West 6 Mile Road",
-  "cp": "49715",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "FourSeasonsMarketDeli",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 20 km de Sault Ste. Marie",
-  "bonus": 4,
-  "statut_zone": "Zone a ouvrir",
-  "score": 77,
-  "rang": 6,
   "priorite": "C - reserve"
  },
  {
@@ -20365,7 +20317,7 @@
   "tel": "416-666-8361",
   "courriel": "info@alexandriagifts.ca",
   "web": "https://alexandriagiftbaskets.ca/",
-  "fb": "https://www.facebook.com/giftsbyalexandria/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 4 km de North York",
@@ -20448,30 +20400,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Sutton's Garden & Building Supplies",
-  "type": "Jardinerie / horticulture",
-  "zone": "Toronto – North York et Scarborough",
-  "ancre": "North York",
-  "palier": "Grande ville",
-  "pop": 1434409,
-  "ville": "Toronto",
-  "prov": "ON",
-  "adresse": "113 Finch Avenue East",
-  "cp": "M2N 4R4",
-  "tel": "416-221-8022",
-  "courriel": "impallari@gmail.com",
-  "web": "https://suttonsgardensupplies.com/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 5 km de North York",
-  "bonus": 4,
-  "statut_zone": "Zone a ouvrir",
-  "score": 111,
-  "rang": 6,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Valleyview Gardens",
   "type": "Jardinerie / horticulture",
   "zone": "Toronto – North York et Scarborough",
@@ -20492,7 +20420,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 111,
-  "rang": 7,
+  "rang": 6,
   "priorite": "C - reserve"
  },
  {
@@ -20516,7 +20444,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 109,
-  "rang": 8,
+  "rang": 7,
   "priorite": "C - reserve"
  },
  {
@@ -20540,7 +20468,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 105,
-  "rang": 9,
+  "rang": 8,
   "priorite": "C - reserve"
  },
  {
@@ -20564,7 +20492,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 103,
-  "rang": 10,
+  "rang": 9,
   "priorite": "C - reserve"
  },
  {
@@ -20588,31 +20516,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 103,
-  "rang": 11,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "My Baskets",
-  "type": "Cadeaux / artisans",
-  "zone": "Toronto – North York et Scarborough",
-  "ancre": "North York",
-  "palier": "Grande ville",
-  "pop": 1434409,
-  "ville": "Vaughan",
-  "prov": "ON",
-  "adresse": "750 Millway Avenue",
-  "cp": "L4K 3T7",
-  "tel": "905-669-6965",
-  "courriel": "",
-  "web": "www.mybaskets.ca",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 9 km de North York",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 103,
-  "rang": 12,
+  "rang": 10,
   "priorite": "C - reserve"
  },
  {
@@ -20636,7 +20540,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 13,
+  "rang": 11,
   "priorite": "C - reserve"
  },
  {
@@ -20660,7 +20564,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 14,
+  "rang": 12,
   "priorite": "C - reserve"
  },
  {
@@ -20678,13 +20582,13 @@
   "courriel": "info@archizone.ca",
   "web": "https://archizone.ca",
   "fb": "",
-  "ig": "https://www.instagram.com/archizonefirm/",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 8 km de North York",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 15,
+  "rang": 13,
   "priorite": "C - reserve"
  },
  {
@@ -20708,7 +20612,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 16,
+  "rang": 14,
   "priorite": "C - reserve"
  },
  {
@@ -20732,7 +20636,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 17,
+  "rang": 15,
   "priorite": "C - reserve"
  },
  {
@@ -20756,7 +20660,31 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 18,
+  "rang": 16,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Sutton's Garden & Building Supplies",
+  "type": "Jardinerie / horticulture",
+  "zone": "Toronto – North York et Scarborough",
+  "ancre": "North York",
+  "palier": "Grande ville",
+  "pop": 1434409,
+  "ville": "Toronto",
+  "prov": "ON",
+  "adresse": "113 Finch Avenue East",
+  "cp": "M2N 4R4",
+  "tel": "416-221-8022",
+  "courriel": "",
+  "web": "https://suttonsgardensupplies.com/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 5 km de North York",
+  "bonus": 4,
+  "statut_zone": "Zone a ouvrir",
+  "score": 99,
+  "rang": 17,
   "priorite": "C - reserve"
  },
  {
@@ -20780,7 +20708,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 99,
-  "rang": 19,
+  "rang": 18,
   "priorite": "C - reserve"
  },
  {
@@ -20804,7 +20732,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 98,
-  "rang": 20,
+  "rang": 19,
   "priorite": "C - reserve"
  },
  {
@@ -20828,7 +20756,7 @@
   "bonus": 8,
   "statut_zone": "Zone a ouvrir",
   "score": 98,
-  "rang": 21,
+  "rang": 20,
   "priorite": "C - reserve"
  },
  {
@@ -20852,7 +20780,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 98,
-  "rang": 22,
+  "rang": 21,
   "priorite": "C - reserve"
  },
  {
@@ -20876,7 +20804,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 97,
-  "rang": 23,
+  "rang": 22,
   "priorite": "C - reserve"
  },
  {
@@ -20900,7 +20828,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
-  "rang": 24,
+  "rang": 23,
   "priorite": "C - reserve"
  },
  {
@@ -20924,7 +20852,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
-  "rang": 25,
+  "rang": 24,
   "priorite": "C - reserve"
  },
  {
@@ -20948,7 +20876,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 93,
-  "rang": 26,
+  "rang": 25,
   "priorite": "C - reserve"
  },
  {
@@ -20972,7 +20900,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 92,
-  "rang": 27,
+  "rang": 26,
   "priorite": "C - reserve"
  },
  {
@@ -20996,7 +20924,55 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 92,
+  "rang": 27,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Chatime",
+  "type": "Boissons / brassage",
+  "zone": "Toronto – North York et Scarborough",
+  "ancre": "North York",
+  "palier": "Grande ville",
+  "pop": 1434409,
+  "ville": "",
+  "prov": "ON",
+  "adresse": "5981 Steeles Avenue East",
+  "cp": "M1V 5P7",
+  "tel": "416-299-9777",
+  "courriel": "",
+  "web": "https://chatime.ca/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 18 km de North York",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 91,
   "rang": 28,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Coca-Cola Refresh Station",
+  "type": "Boissons / brassage",
+  "zone": "Toronto – North York et Scarborough",
+  "ancre": "North York",
+  "palier": "Grande ville",
+  "pop": 1434409,
+  "ville": "",
+  "prov": "ON",
+  "adresse": "306b\\\",\\\"_type\\\":\\\"internationalizedArrayStringValue\\\",\\\"language\\\":\\\"en\\\",\\\"value\\\":\\\"Inv",
+  "cp": "A1A 1A1",
+  "tel": "883-566-6461",
+  "courriel": "",
+  "web": "https://www.canadaswonderland.com/play/drinks-dining/refreshment-centre",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 12 km de North York",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 91,
+  "rang": 29,
   "priorite": "C - reserve"
  },
  {
@@ -21373,7 +21349,7 @@
   "tel": "416-782-3232",
   "courriel": "gifts@nutcrackersweet.com",
   "web": "https://www.nutcrackersweet.com/",
-  "fb": "https://www.facebook.com/NutcrackerSweetGiftBaskets",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Toronto",
@@ -22368,30 +22344,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "City Bird",
-  "type": "Cadeaux / artisans",
-  "zone": "Windsor et Essex",
-  "ancre": "Windsor",
-  "palier": "Grande ville",
-  "pop": 302420,
-  "ville": "Detroit",
-  "prov": "ON",
-  "adresse": "460 West Canfield Street",
-  "cp": "48201",
-  "tel": "313-831-9146",
-  "courriel": "mllegeorgesand@gmail.com",
-  "web": "http://www.ilovecitybird.com",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 10 km de Windsor",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 111,
-  "rang": 1,
-  "priorite": "A - approcher en premier"
- },
- {
   "nom": "The Green Butlers",
   "type": "Jardinerie / horticulture",
   "zone": "Windsor et Essex",
@@ -22412,8 +22364,8 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 107,
-  "rang": 2,
-  "priorite": "B - releve"
+  "rang": 1,
+  "priorite": "A - approcher en premier"
  },
  {
   "nom": "Whiskeyjack Boutique",
@@ -22436,7 +22388,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 103,
-  "rang": 3,
+  "rang": 2,
   "priorite": "B - releve"
  },
  {
@@ -22460,8 +22412,8 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 4,
-  "priorite": "C - reserve"
+  "rang": 3,
+  "priorite": "B - releve"
  },
  {
   "nom": "International Art Designs",
@@ -22484,7 +22436,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 5,
+  "rang": 4,
   "priorite": "C - reserve"
  },
  {
@@ -22508,7 +22460,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 6,
+  "rang": 5,
   "priorite": "C - reserve"
  },
  {
@@ -22532,7 +22484,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 7,
+  "rang": 6,
   "priorite": "C - reserve"
  },
  {
@@ -22556,7 +22508,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 8,
+  "rang": 7,
   "priorite": "C - reserve"
  },
  {
@@ -22580,7 +22532,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 9,
+  "rang": 8,
   "priorite": "C - reserve"
  },
  {
@@ -22604,7 +22556,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 10,
+  "rang": 9,
   "priorite": "C - reserve"
  },
  {
@@ -22621,14 +22573,14 @@
   "tel": "313-646-9040",
   "courriel": "stuffmypickles@gmail.com",
   "web": "https://www.stuffmypickles.com",
-  "fb": "https://www.facebook.com/Whatsthedill313",
-  "ig": "https://www.instagram.com/whatsthedill_detroit",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 20 km de Windsor",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 101,
-  "rang": 11,
+  "rang": 10,
   "priorite": "C - reserve"
  },
  {
@@ -22652,7 +22604,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 99,
-  "rang": 12,
+  "rang": 11,
   "priorite": "C - reserve"
  },
  {
@@ -22673,6 +22625,30 @@
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 8 km de Windsor",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 99,
+  "rang": 12,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "City Bird",
+  "type": "Cadeaux / artisans",
+  "zone": "Windsor et Essex",
+  "ancre": "Windsor",
+  "palier": "Grande ville",
+  "pop": 302420,
+  "ville": "Detroit",
+  "prov": "ON",
+  "adresse": "460 West Canfield Street",
+  "cp": "48201",
+  "tel": "313-831-9146",
+  "courriel": "mllegeorgesand@gmail.com",
+  "web": "http://www.ilovecitybird.com",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 10 km de Windsor",
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 99,
@@ -22717,7 +22693,7 @@
   "tel": "586-992-5585",
   "courriel": "mcnutritionmi@gmail.com",
   "web": "https://boards.com/a/k4N0jz.3Cvcam",
-  "fb": "https://www.facebook.com/macombcountynutrition/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 30 km de Windsor",
@@ -22861,7 +22837,7 @@
   "tel": "248-439-0409",
   "courriel": "toadvinebooks@gmail.com",
   "web": "https://www.toadvinebooks.com/",
-  "fb": "https://www.facebook.com/Toadvine-Books-858721890987673/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 29 km de Windsor",
@@ -22933,8 +22909,8 @@
   "tel": "313-687-0370",
   "courriel": "orders@themushhub.com",
   "web": "https://www.themushroomhub.com/",
-  "fb": "https://www.facebook.com/themushroomhubs/",
-  "ig": "https://www.instagram.com/themushroomhub/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 10 km de Windsor",
   "bonus": 0,
@@ -23005,7 +22981,7 @@
   "tel": "586-838-4224",
   "courriel": "gardensbeyond@yahoo.com",
   "web": "http://eckertsgreenhouse.com",
-  "fb": "https://www.facebook.com/gardensbeyond",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 30 km de Windsor",
@@ -23037,6 +23013,30 @@
   "statut_zone": "Zone a ouvrir",
   "score": 92,
   "rang": 28,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Better Health Market",
+  "type": "Kiosque fermier / terroir",
+  "zone": "Windsor et Essex",
+  "ancre": "Windsor",
+  "palier": "Grande ville",
+  "pop": 302420,
+  "ville": "Southgate",
+  "prov": "ON",
+  "adresse": "17825 Eureka Road",
+  "cp": "48195",
+  "tel": "734-374-1973",
+  "courriel": "",
+  "web": "https://www.thebetterhealthstore.com/better-health-southgate.html",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 22 km de Windsor",
+  "bonus": 4,
+  "statut_zone": "Zone a ouvrir",
+  "score": 91,
+  "rang": 29,
   "priorite": "C - reserve"
  },
  {
@@ -23389,7 +23389,7 @@
   "tel": "418-364-3858",
   "courriel": "capricesdecuisine@gmail.com",
   "web": "https://www.capricesdecuisine.com/",
-  "fb": "https://www.facebook.com/capricesdecuisine",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Carleton-sur-Mer",
@@ -24277,7 +24277,7 @@
   "tel": "418-435-2483",
   "courriel": "fermeoiseaubleu@hotmail.com",
   "web": "https://www.fermeoiseaubleu.com/",
-  "fb": "100070202706055",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Baie-Saint-Paul",
@@ -24397,8 +24397,8 @@
   "tel": "",
   "courriel": "info@azulee.ca",
   "web": "https://azulee-ca.myshopify.com/",
-  "fb": "azulee.ca",
-  "ig": "azulee.ca",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Baie-Saint-Paul",
   "bonus": 0,
@@ -24806,7 +24806,7 @@
   "courriel": "info@chillychiles.com",
   "web": "https://chillychiles.com/",
   "fb": "",
-  "ig": "https://www.instagram.com/chilly_chiles/",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 15 km de Gatineau",
   "bonus": 0,
@@ -24901,8 +24901,8 @@
   "tel": "819-243-6411",
   "courriel": "info@trappeafromage.com",
   "web": "https://trappeafromage.com/",
-  "fb": "trappeafromage",
-  "ig": "trappeafromage",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 11 km de Gatineau",
   "bonus": 0,
@@ -24936,30 +24936,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Re-Read Used Books",
-  "type": "Librairie independante",
-  "zone": "Gatineau et Outaouais",
-  "ancre": "Gatineau",
-  "palier": "Grande ville",
-  "pop": 333783,
-  "ville": "",
-  "prov": "QC",
-  "adresse": "1488 Stittsville Main Street",
-  "cp": "K2S 1P3",
-  "tel": "613-435-8344",
-  "courriel": "eben@eyebytes.com",
-  "web": "http://rereadusedbooks.com",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 25 km de Gatineau",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 97,
-  "rang": 13,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Natural Food Pantry",
   "type": "Alimentation sante / bio",
   "zone": "Gatineau et Outaouais",
@@ -24980,7 +24956,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
-  "rang": 14,
+  "rang": 13,
   "priorite": "C - reserve"
  },
  {
@@ -25004,7 +24980,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 94,
-  "rang": 15,
+  "rang": 14,
   "priorite": "C - reserve"
  },
  {
@@ -25028,7 +25004,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 94,
-  "rang": 16,
+  "rang": 15,
   "priorite": "C - reserve"
  },
  {
@@ -25052,7 +25028,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 94,
-  "rang": 17,
+  "rang": 16,
   "priorite": "C - reserve"
  },
  {
@@ -25076,7 +25052,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 94,
-  "rang": 18,
+  "rang": 17,
   "priorite": "C - reserve"
  },
  {
@@ -25093,14 +25069,14 @@
   "tel": "819-684-2772",
   "courriel": "ventes@aujardindesylvie.com",
   "web": "https://aujardindesylvie.com/",
-  "fb": "aujardindesylvie",
-  "ig": "aujardindesylvie",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 10 km de Gatineau",
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 93,
-  "rang": 19,
+  "rang": 18,
   "priorite": "C - reserve"
  },
  {
@@ -25124,7 +25100,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 89,
-  "rang": 20,
+  "rang": 19,
   "priorite": "C - reserve"
  },
  {
@@ -25148,7 +25124,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 89,
-  "rang": 21,
+  "rang": 20,
   "priorite": "C - reserve"
  },
  {
@@ -25172,7 +25148,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 89,
-  "rang": 22,
+  "rang": 21,
   "priorite": "C - reserve"
  },
  {
@@ -25196,7 +25172,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 89,
-  "rang": 23,
+  "rang": 22,
   "priorite": "C - reserve"
  },
  {
@@ -25220,6 +25196,30 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 85,
+  "rang": 23,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Re-Read Used Books",
+  "type": "Librairie independante",
+  "zone": "Gatineau et Outaouais",
+  "ancre": "Gatineau",
+  "palier": "Grande ville",
+  "pop": 333783,
+  "ville": "",
+  "prov": "QC",
+  "adresse": "1488 Stittsville Main Street",
+  "cp": "K2S 1P3",
+  "tel": "613-435-8344",
+  "courriel": "",
+  "web": "http://rereadusedbooks.com",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 25 km de Gatineau",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 85,
   "rang": 24,
   "priorite": "C - reserve"
  },
@@ -25238,7 +25238,7 @@
   "courriel": "",
   "web": "https://thespanielstale.ca",
   "fb": "",
-  "ig": "thespanielstale",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Gatineau",
   "bonus": 0,
@@ -25317,30 +25317,6 @@
   "statut_zone": "Zone a ouvrir",
   "score": 80,
   "rang": 28,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "Pietro's Corner",
-  "type": "Epicerie fine / terroir",
-  "zone": "Gatineau et Outaouais",
-  "ancre": "Gatineau",
-  "palier": "Grande ville",
-  "pop": 333783,
-  "ville": "",
-  "prov": "QC",
-  "adresse": "106 Preston Street",
-  "cp": "",
-  "tel": "",
-  "courriel": "",
-  "web": "",
-  "fb": "https://www.facebook.com/pietroscorner/",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 2 km de Gatineau",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 77,
-  "rang": 29,
   "priorite": "C - reserve"
  },
  {
@@ -25621,7 +25597,7 @@
   "tel": "418-856-4515",
   "courriel": "info@fermecybele.com",
   "web": "https://fermecybele.com",
-  "fb": "FermeCybeleLaPocatiere",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de La Pocatière",
@@ -25800,30 +25776,6 @@
   "priorite": "B - releve"
  },
  {
-  "nom": "Renaissance Librarie",
-  "type": "Librairie independante",
-  "zone": "Laval",
-  "ancre": "Laval",
-  "palier": "Grande ville",
-  "pop": 450629,
-  "ville": "",
-  "prov": "QC",
-  "adresse": "1499 Rue Fleury Est",
-  "cp": "H2C 1S3",
-  "tel": "438-387-4180",
-  "courriel": "information@renaissancequebec.ca",
-  "web": "https://renaissancequebec.ca/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 8 km de Laval",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 97,
-  "rang": 3,
-  "priorite": "B - releve"
- },
- {
   "nom": "Marché Laflèche",
   "type": "Epicerie fine / terroir",
   "zone": "Laval",
@@ -25844,8 +25796,8 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 93,
-  "rang": 4,
-  "priorite": "C - reserve"
+  "rang": 3,
+  "priorite": "B - releve"
  },
  {
   "nom": "Les fermes Serbi",
@@ -25868,7 +25820,7 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 91,
-  "rang": 5,
+  "rang": 4,
   "priorite": "C - reserve"
  },
  {
@@ -25892,6 +25844,30 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 87,
+  "rang": 5,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Renaissance Librarie",
+  "type": "Librairie independante",
+  "zone": "Laval",
+  "ancre": "Laval",
+  "palier": "Grande ville",
+  "pop": 450629,
+  "ville": "",
+  "prov": "QC",
+  "adresse": "1499 Rue Fleury Est",
+  "cp": "H2C 1S3",
+  "tel": "438-387-4180",
+  "courriel": "information@renaissancequebec.ca",
+  "web": "https://renaissancequebec.ca/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 8 km de Laval",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 85,
   "rang": 6,
   "priorite": "C - reserve"
  },
@@ -26029,7 +26005,7 @@
   "tel": "514-568-8418",
   "courriel": "info.delicesduverger@gmail.com",
   "web": "",
-  "fb": "https://www.facebook.com/people/%C3%89picerie-fine-Les-d%C3%A9lices-du-Verger/100063538810575/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Longueuil",
@@ -26245,8 +26221,8 @@
   "tel": "418-265-6042",
   "courriel": "felix@haiespro.com",
   "web": "https://haiespro.com/",
-  "fb": "https://www.facebook.com/Haiespro",
-  "ig": "https://www.instagram.com/lhaiespro",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Lévis",
   "bonus": 0,
@@ -26509,7 +26485,7 @@
   "tel": "771-323-2345",
   "courriel": "",
   "web": "https://www.lafermedelaube.com/",
-  "fb": "lafermedelaube",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 27 km de Mont-Tremblant",
@@ -26701,38 +26677,14 @@
   "tel": "514-254-9419",
   "courriel": "info@frankfleuriste.com",
   "web": "",
-  "fb": "https://www.facebook.com/frankfleuriste/",
-  "ig": "https://www.instagram.com/frankfleuriste/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Anjou",
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 98,
   "rang": 2,
-  "priorite": "B - releve"
- },
- {
-  "nom": "Librairie Asselin",
-  "type": "Librairie independante",
-  "zone": "Montréal – Est et Rivière-des-Prairies",
-  "ancre": "Anjou",
-  "palier": "Grande ville",
-  "pop": 112749,
-  "ville": "",
-  "prov": "QC",
-  "adresse": "5580 Boulevard Henri-Bourassa Est",
-  "cp": "G1K 2Z9",
-  "tel": "855-948-8775",
-  "courriel": "u003ecomptabilite@leslibraires.ca",
-  "web": "https://asselin.leslibraires.ca",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 5 km de Anjou",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 93,
-  "rang": 3,
   "priorite": "B - releve"
  },
  {
@@ -26756,6 +26708,30 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 93,
+  "rang": 3,
+  "priorite": "B - releve"
+ },
+ {
+  "nom": "Librairie Asselin",
+  "type": "Librairie independante",
+  "zone": "Montréal – Est et Rivière-des-Prairies",
+  "ancre": "Anjou",
+  "palier": "Grande ville",
+  "pop": 112749,
+  "ville": "",
+  "prov": "QC",
+  "adresse": "5580 Boulevard Henri-Bourassa Est",
+  "cp": "G1K 2Z9",
+  "tel": "855-948-8775",
+  "courriel": "",
+  "web": "https://asselin.leslibraires.ca",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 5 km de Anjou",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 81,
   "rang": 4,
   "priorite": "C - reserve"
  },
@@ -26870,7 +26846,7 @@
   "courriel": "",
   "web": "",
   "fb": "",
-  "ig": "hibiscusnutrition",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Pointe-Claire",
   "bonus": 0,
@@ -27013,8 +26989,8 @@
   "tel": "514-242-0062",
   "courriel": "kitschalos@gmail.com",
   "web": "https://kitschalos.com/",
-  "fb": "https://www.facebook.com/kitschalos",
-  "ig": "https://www.instagram.com/kitschalos/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Montréal",
   "bonus": 0,
@@ -27061,8 +27037,8 @@
   "tel": "514-844-6458",
   "courriel": "info@atelierobnl.com",
   "web": "https://atelierobnl.com/",
-  "fb": "100064637897808",
-  "ig": "latelier3680",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Montréal",
   "bonus": 4,
@@ -27133,8 +27109,8 @@
   "tel": "438-527-3036",
   "courriel": "boutique@soletflore.com",
   "web": "https://soletflore.com",
-  "fb": "https://www.facebook.com/SoletFlore",
-  "ig": "https://www.instagram.com/sol.et.flore",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 4 km de Montréal",
   "bonus": 0,
@@ -27432,30 +27408,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "Fromagerie Yannick",
-  "type": "Fromagerie / terroir",
-  "zone": "Montréal – centre et Plateau",
-  "ancre": "Montréal",
-  "palier": "Métropole",
-  "pop": 2512622,
-  "ville": "Montréal",
-  "prov": "QC",
-  "adresse": "1001 Rue Beaubien Est",
-  "cp": "H2V 1V6",
-  "tel": "514-903-0932",
-  "courriel": "info@yannickfromagerie.ca",
-  "web": "https://www.yannickfromagerie.ca/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 5 km de Montréal",
-  "bonus": 0,
-  "statut_zone": "Zone deja couverte",
-  "score": 68,
-  "rang": 23,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Fruiterie Anka",
   "type": "Kiosque fermier / terroir",
   "zone": "Montréal – centre et Plateau",
@@ -27476,7 +27428,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 68,
-  "rang": 24,
+  "rang": 23,
   "priorite": "C - reserve"
  },
  {
@@ -27493,14 +27445,14 @@
   "tel": "514-727-1437",
   "courriel": "info@lapommedapi.ca",
   "web": "http://lapommedapi.ca/",
-  "fb": "https://www.facebook.com/lapommedapi",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Montréal",
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 68,
-  "rang": 25,
+  "rang": 24,
   "priorite": "C - reserve"
  },
  {
@@ -27517,30 +27469,6 @@
   "tel": "438-383-7446",
   "courriel": "lefrigodebacchus@gmail.com",
   "web": "https://www.lefrigodebacchus.com/fr/",
-  "fb": "https://www.facebook.com/lefrigodebacchus",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 5 km de Montréal",
-  "bonus": 0,
-  "statut_zone": "Zone deja couverte",
-  "score": 68,
-  "rang": 26,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "Leopoldo Fruits & Vegetables",
-  "type": "Kiosque fermier / terroir",
-  "zone": "Montréal – centre et Plateau",
-  "ancre": "Montréal",
-  "palier": "Métropole",
-  "pop": 2512622,
-  "ville": "Montréal",
-  "prov": "QC",
-  "adresse": "182 Place du Marché-du-Nord",
-  "cp": "H2S1A1",
-  "tel": "514-273-5456",
-  "courriel": "utilisateur@domaine.com",
-  "web": "https://www.leopoldo.ca/",
   "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
@@ -27548,7 +27476,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 68,
-  "rang": 27,
+  "rang": 25,
   "priorite": "C - reserve"
  },
  {
@@ -27572,7 +27500,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 68,
-  "rang": 28,
+  "rang": 26,
   "priorite": "C - reserve"
  },
  {
@@ -27596,7 +27524,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 68,
-  "rang": 29,
+  "rang": 27,
   "priorite": "C - reserve"
  },
  {
@@ -27620,31 +27548,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 68,
-  "rang": 30,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "Yannick Fromagerie",
-  "type": "Fromagerie / terroir",
-  "zone": "Montréal – centre et Plateau",
-  "ancre": "Montréal",
-  "palier": "Métropole",
-  "pop": 2512622,
-  "ville": "Montréal",
-  "prov": "QC",
-  "adresse": "1218 Avenue Bernard",
-  "cp": "H2V 1V6",
-  "tel": "514-279-9376",
-  "courriel": "info@yannickfromagerie.ca",
-  "web": "https://www.yannickfromagerie.ca",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 4 km de Montréal",
-  "bonus": 0,
-  "statut_zone": "Zone deja couverte",
-  "score": 68,
-  "rang": 31,
+  "rang": 28,
   "priorite": "C - reserve"
  },
  {
@@ -27661,14 +27565,14 @@
   "tel": "514-524-3113",
   "courriel": "info@carrefoursolidaire.org",
   "web": "https://www.carrefoursolidaire.org/activites/epicerie-solidaire/",
-  "fb": "carrefoursolidaireCCA",
-  "ig": "carrefoursolidaire",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Montréal",
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 68,
-  "rang": 32,
+  "rang": 29,
   "priorite": "C - reserve"
  },
  {
@@ -27692,7 +27596,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 67,
-  "rang": 33,
+  "rang": 30,
   "priorite": "C - reserve"
  },
  {
@@ -27716,7 +27620,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 34,
+  "rang": 31,
   "priorite": "C - reserve"
  },
  {
@@ -27740,7 +27644,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 35,
+  "rang": 32,
   "priorite": "C - reserve"
  },
  {
@@ -27764,7 +27668,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 36,
+  "rang": 33,
   "priorite": "C - reserve"
  },
  {
@@ -27788,7 +27692,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 37,
+  "rang": 34,
   "priorite": "C - reserve"
  },
  {
@@ -27812,7 +27716,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 38,
+  "rang": 35,
   "priorite": "C - reserve"
  },
  {
@@ -27836,7 +27740,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 39,
+  "rang": 36,
   "priorite": "C - reserve"
  },
  {
@@ -27860,31 +27764,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 40,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "La Librairie du Square",
-  "type": "Librairie independante",
-  "zone": "Montréal – centre et Plateau",
-  "ancre": "Montréal",
-  "palier": "Métropole",
-  "pop": 2512622,
-  "ville": "",
-  "prov": "QC",
-  "adresse": "3453 Rue Saint-Denis",
-  "cp": "H2V1V1",
-  "tel": "514-845-7617",
-  "courriel": "u003ecomptabilite@leslibraires.ca",
-  "web": "https://dusquare.leslibraires.ca/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 2 km de Montréal",
-  "bonus": 0,
-  "statut_zone": "Zone deja couverte",
-  "score": 66,
-  "rang": 41,
+  "rang": 37,
   "priorite": "C - reserve"
  },
  {
@@ -27901,14 +27781,14 @@
   "tel": "438-476-6647",
   "courriel": "info@lalivrerie.com",
   "web": "https://www.lalivrerie.com/",
-  "fb": "lalivrerie",
-  "ig": "lalivrerie",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Montréal",
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 42,
+  "rang": 38,
   "priorite": "C - reserve"
  },
  {
@@ -27925,14 +27805,14 @@
   "tel": "438-375-1745",
   "courriel": "info@maisondesfeuilles.ca",
   "web": "https://maisondesfeuilles.ca/",
-  "fb": "lamaisondesfeuilles",
-  "ig": "la.maison.des.feuilles",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Montréal",
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 43,
+  "rang": 39,
   "priorite": "C - reserve"
  },
  {
@@ -27956,7 +27836,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 44,
+  "rang": 40,
   "priorite": "C - reserve"
  },
  {
@@ -27980,7 +27860,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 45,
+  "rang": 41,
   "priorite": "C - reserve"
  },
  {
@@ -28004,7 +27884,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 46,
+  "rang": 42,
   "priorite": "C - reserve"
  },
  {
@@ -28028,7 +27908,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 47,
+  "rang": 43,
   "priorite": "C - reserve"
  },
  {
@@ -28052,7 +27932,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 48,
+  "rang": 44,
   "priorite": "C - reserve"
  },
  {
@@ -28069,14 +27949,14 @@
   "tel": "514-507-8009",
   "courriel": "contact@parenthese.ca",
   "web": "https://parenthese.ca/",
-  "fb": "https://www.facebook.com/librairieparenthese/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Montréal",
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 49,
+  "rang": 45,
   "priorite": "C - reserve"
  },
  {
@@ -28100,7 +27980,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 50,
+  "rang": 46,
   "priorite": "C - reserve"
  },
  {
@@ -28124,7 +28004,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 51,
+  "rang": 47,
   "priorite": "C - reserve"
  },
  {
@@ -28148,31 +28028,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 52,
-  "priorite": "C - reserve"
- },
- {
-  "nom": "Librairie du Square - Outremont",
-  "type": "Librairie independante",
-  "zone": "Montréal – centre et Plateau",
-  "ancre": "Montréal",
-  "palier": "Métropole",
-  "pop": 2512622,
-  "ville": "Montréal",
-  "prov": "QC",
-  "adresse": "1061 Avenue Bernard",
-  "cp": "H2V1V1",
-  "tel": "514-303-0612",
-  "courriel": "u003ecomptabilite@leslibraires.ca",
-  "web": "https://dusquare.leslibraires.ca/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 4 km de Montréal",
-  "bonus": 0,
-  "statut_zone": "Zone deja couverte",
-  "score": 66,
-  "rang": 53,
+  "rang": 48,
   "priorite": "C - reserve"
  },
  {
@@ -28196,7 +28052,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 54,
+  "rang": 49,
   "priorite": "C - reserve"
  },
  {
@@ -28220,7 +28076,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 55,
+  "rang": 50,
   "priorite": "C - reserve"
  },
  {
@@ -28244,7 +28100,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 56,
+  "rang": 51,
   "priorite": "C - reserve"
  },
  {
@@ -28268,7 +28124,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 57,
+  "rang": 52,
   "priorite": "C - reserve"
  },
  {
@@ -28292,7 +28148,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 58,
+  "rang": 53,
   "priorite": "C - reserve"
  },
  {
@@ -28316,7 +28172,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 59,
+  "rang": 54,
   "priorite": "C - reserve"
  },
  {
@@ -28340,7 +28196,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 60,
+  "rang": 55,
   "priorite": "C - reserve"
  },
  {
@@ -28364,7 +28220,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 61,
+  "rang": 56,
   "priorite": "C - reserve"
  },
  {
@@ -28388,7 +28244,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 62,
+  "rang": 57,
   "priorite": "C - reserve"
  },
  {
@@ -28412,7 +28268,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 64,
-  "rang": 63,
+  "rang": 58,
   "priorite": "C - reserve"
  },
  {
@@ -28436,7 +28292,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 64,
-  "rang": 64,
+  "rang": 59,
   "priorite": "C - reserve"
  },
  {
@@ -28460,7 +28316,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 63,
-  "rang": 65,
+  "rang": 60,
   "priorite": "C - reserve"
  },
  {
@@ -28484,7 +28340,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 62,
-  "rang": 66,
+  "rang": 61,
   "priorite": "C - reserve"
  },
  {
@@ -28501,14 +28357,14 @@
   "tel": "514-495-7880",
   "courriel": "admin@cafeeclair.com",
   "web": "",
-  "fb": "https://www.facebook.com/eclair.montreal/",
-  "ig": "https://www.instagram.com/eclair.montreal/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Montréal",
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 61,
-  "rang": 67,
+  "rang": 62,
   "priorite": "C - reserve"
  },
  {
@@ -28532,7 +28388,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 60,
-  "rang": 68,
+  "rang": 63,
   "priorite": "C - reserve"
  },
  {
@@ -28549,14 +28405,14 @@
   "tel": "",
   "courriel": "",
   "web": "https://www.marchealpin.ca/",
-  "fb": "https://www.facebook.com/marchealpin/",
-  "ig": "https://www.instagram.com/marchealpin",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Montréal",
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 60,
-  "rang": 69,
+  "rang": 64,
   "priorite": "C - reserve"
  },
  {
@@ -28580,7 +28436,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 70,
+  "rang": 65,
   "priorite": "C - reserve"
  },
  {
@@ -28604,7 +28460,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 71,
+  "rang": 66,
   "priorite": "C - reserve"
  },
  {
@@ -28621,14 +28477,14 @@
   "tel": "438-389-8394",
   "courriel": "",
   "web": "https://www.bouche-bee.ca/",
-  "fb": "https://www.facebook.com/bouchebeemtl/",
-  "ig": "https://www.instagram.com/bouchebeemtl/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Montréal",
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 72,
+  "rang": 67,
   "priorite": "C - reserve"
  },
  {
@@ -28652,7 +28508,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 73,
+  "rang": 68,
   "priorite": "C - reserve"
  },
  {
@@ -28676,7 +28532,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 74,
+  "rang": 69,
   "priorite": "C - reserve"
  },
  {
@@ -28700,7 +28556,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 75,
+  "rang": 70,
   "priorite": "C - reserve"
  },
  {
@@ -28724,7 +28580,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 76,
+  "rang": 71,
   "priorite": "C - reserve"
  },
  {
@@ -28748,7 +28604,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 77,
+  "rang": 72,
   "priorite": "C - reserve"
  },
  {
@@ -28772,7 +28628,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 78,
+  "rang": 73,
   "priorite": "C - reserve"
  },
  {
@@ -28796,7 +28652,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 79,
+  "rang": 74,
   "priorite": "C - reserve"
  },
  {
@@ -28820,7 +28676,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 80,
+  "rang": 75,
   "priorite": "C - reserve"
  },
  {
@@ -28844,7 +28700,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 58,
-  "rang": 81,
+  "rang": 76,
   "priorite": "C - reserve"
  },
  {
@@ -28868,7 +28724,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 57,
-  "rang": 82,
+  "rang": 77,
   "priorite": "C - reserve"
  },
  {
@@ -28885,14 +28741,14 @@
   "tel": "514-278-3377",
   "courriel": "",
   "web": "https://bio-terre.com/",
-  "fb": "BioTerreEpicerieSante",
-  "ig": "bioterreepiceriesante",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Montréal",
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 56,
-  "rang": 83,
+  "rang": 78,
   "priorite": "C - reserve"
  },
  {
@@ -28916,7 +28772,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 56,
-  "rang": 84,
+  "rang": 79,
   "priorite": "C - reserve"
  },
  {
@@ -28940,7 +28796,55 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 56,
-  "rang": 85,
+  "rang": 80,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Fromagerie Yannick",
+  "type": "Fromagerie / terroir",
+  "zone": "Montréal – centre et Plateau",
+  "ancre": "Montréal",
+  "palier": "Métropole",
+  "pop": 2512622,
+  "ville": "Montréal",
+  "prov": "QC",
+  "adresse": "1001 Rue Beaubien Est",
+  "cp": "H2V 1V6",
+  "tel": "514-903-0932",
+  "courriel": "",
+  "web": "https://www.yannickfromagerie.ca/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 5 km de Montréal",
+  "bonus": 0,
+  "statut_zone": "Zone deja couverte",
+  "score": 56,
+  "rang": 81,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Leopoldo Fruits & Vegetables",
+  "type": "Kiosque fermier / terroir",
+  "zone": "Montréal – centre et Plateau",
+  "ancre": "Montréal",
+  "palier": "Métropole",
+  "pop": 2512622,
+  "ville": "Montréal",
+  "prov": "QC",
+  "adresse": "182 Place du Marché-du-Nord",
+  "cp": "H2S1A1",
+  "tel": "514-273-5456",
+  "courriel": "",
+  "web": "https://www.leopoldo.ca/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 5 km de Montréal",
+  "bonus": 0,
+  "statut_zone": "Zone deja couverte",
+  "score": 56,
+  "rang": 82,
   "priorite": "C - reserve"
  },
  {
@@ -28964,7 +28868,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 56,
-  "rang": 86,
+  "rang": 83,
   "priorite": "C - reserve"
  },
  {
@@ -28988,7 +28892,31 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 56,
-  "rang": 87,
+  "rang": 84,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Yannick Fromagerie",
+  "type": "Fromagerie / terroir",
+  "zone": "Montréal – centre et Plateau",
+  "ancre": "Montréal",
+  "palier": "Métropole",
+  "pop": 2512622,
+  "ville": "Montréal",
+  "prov": "QC",
+  "adresse": "1218 Avenue Bernard",
+  "cp": "H2V 1V6",
+  "tel": "514-279-9376",
+  "courriel": "",
+  "web": "https://www.yannickfromagerie.ca",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 4 km de Montréal",
+  "bonus": 0,
+  "statut_zone": "Zone deja couverte",
+  "score": 56,
+  "rang": 85,
   "priorite": "C - reserve"
  },
  {
@@ -29012,7 +28940,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 56,
-  "rang": 88,
+  "rang": 86,
   "priorite": "C - reserve"
  },
  {
@@ -29036,7 +28964,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 56,
-  "rang": 89,
+  "rang": 87,
   "priorite": "C - reserve"
  },
  {
@@ -29060,7 +28988,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 55,
-  "rang": 90,
+  "rang": 88,
   "priorite": "C - reserve"
  },
  {
@@ -29084,7 +29012,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 55,
-  "rang": 91,
+  "rang": 89,
   "priorite": "C - reserve"
  },
  {
@@ -29108,7 +29036,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 54,
-  "rang": 92,
+  "rang": 90,
   "priorite": "C - reserve"
  },
  {
@@ -29132,7 +29060,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 54,
-  "rang": 93,
+  "rang": 91,
   "priorite": "C - reserve"
  },
  {
@@ -29156,7 +29084,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 54,
-  "rang": 94,
+  "rang": 92,
   "priorite": "C - reserve"
  },
  {
@@ -29180,7 +29108,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 54,
-  "rang": 95,
+  "rang": 93,
   "priorite": "C - reserve"
  },
  {
@@ -29204,7 +29132,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 54,
-  "rang": 96,
+  "rang": 94,
   "priorite": "C - reserve"
  },
  {
@@ -29225,6 +29153,54 @@
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 6 km de Montréal",
+  "bonus": 0,
+  "statut_zone": "Zone deja couverte",
+  "score": 54,
+  "rang": 95,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "La Librairie du Square",
+  "type": "Librairie independante",
+  "zone": "Montréal – centre et Plateau",
+  "ancre": "Montréal",
+  "palier": "Métropole",
+  "pop": 2512622,
+  "ville": "",
+  "prov": "QC",
+  "adresse": "3453 Rue Saint-Denis",
+  "cp": "H2V1V1",
+  "tel": "514-845-7617",
+  "courriel": "",
+  "web": "https://dusquare.leslibraires.ca/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 2 km de Montréal",
+  "bonus": 0,
+  "statut_zone": "Zone deja couverte",
+  "score": 54,
+  "rang": 96,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Librairie du Square - Outremont",
+  "type": "Librairie independante",
+  "zone": "Montréal – centre et Plateau",
+  "ancre": "Montréal",
+  "palier": "Métropole",
+  "pop": 2512622,
+  "ville": "Montréal",
+  "prov": "QC",
+  "adresse": "1061 Avenue Bernard",
+  "cp": "H2V1V1",
+  "tel": "514-303-0612",
+  "courriel": "",
+  "web": "https://dusquare.leslibraires.ca/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 4 km de Montréal",
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 54,
@@ -29605,7 +29581,7 @@
   "tel": "",
   "courriel": "info@poubelleduski.ca",
   "web": "https://poubelleduski.ca",
-  "fb": "https://www.facebook.com/poubelleduski/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 6 km de Montréal",
@@ -29725,7 +29701,7 @@
   "tel": "438-381-3100",
   "courriel": "",
   "web": "",
-  "fb": "https://www.facebook.com/librairielerenardperche/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 5 km de Montréal",
@@ -30192,30 +30168,6 @@
   "priorite": "C - reserve"
  },
  {
-  "nom": "La Boutique de Noël de Québec",
-  "type": "Cadeaux / artisans",
-  "zone": "Québec – centre et Limoilou",
-  "ancre": "Québec",
-  "palier": "Métropole",
-  "pop": 1352888,
-  "ville": "",
-  "prov": "QC",
-  "adresse": "47 Rue de Buade",
-  "cp": "G1R 4A2",
-  "tel": "418-692-2457",
-  "courriel": "donate@opencart.com",
-  "web": "http://www.boutiquedenoel.ca/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 0 km de Québec",
-  "bonus": 8,
-  "statut_zone": "Zone deja couverte",
-  "score": 88,
-  "rang": 4,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Le Minimaliste",
   "type": "Eco / zero dechet",
   "zone": "Québec – centre et Limoilou",
@@ -30236,31 +30188,31 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 85,
-  "rang": 5,
+  "rang": 4,
   "priorite": "C - reserve"
  },
  {
-  "nom": "Fromagerie Yannick Quebec",
-  "type": "Fromagerie / terroir",
+  "nom": "La Boutique de Noël de Québec",
+  "type": "Cadeaux / artisans",
   "zone": "Québec – centre et Limoilou",
   "ancre": "Québec",
   "palier": "Métropole",
   "pop": 1352888,
-  "ville": "Québec",
+  "ville": "",
   "prov": "QC",
-  "adresse": "901 3e Avenue",
-  "cp": "G1L 2X2",
-  "tel": "450-436-8469",
-  "courriel": "info@yannickfromagerie.ca",
-  "web": "http://www.yannickfromagerie.ca",
+  "adresse": "47 Rue de Buade",
+  "cp": "G1R 4A2",
+  "tel": "418-692-2457",
+  "courriel": "donate@opencart.com",
+  "web": "http://www.boutiquedenoel.ca/",
   "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
-  "rattachement": "a 2 km de Québec",
-  "bonus": 4,
+  "rattachement": "a 0 km de Québec",
+  "bonus": 8,
   "statut_zone": "Zone deja couverte",
-  "score": 72,
-  "rang": 6,
+  "score": 76,
+  "rang": 5,
   "priorite": "C - reserve"
  },
  {
@@ -30284,7 +30236,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 72,
-  "rang": 7,
+  "rang": 6,
   "priorite": "C - reserve"
  },
  {
@@ -30308,7 +30260,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 72,
-  "rang": 8,
+  "rang": 7,
   "priorite": "C - reserve"
  },
  {
@@ -30332,7 +30284,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 70,
-  "rang": 9,
+  "rang": 8,
   "priorite": "C - reserve"
  },
  {
@@ -30356,7 +30308,7 @@
   "bonus": 4,
   "statut_zone": "Zone deja couverte",
   "score": 70,
-  "rang": 10,
+  "rang": 9,
   "priorite": "C - reserve"
  },
  {
@@ -30380,7 +30332,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 68,
-  "rang": 11,
+  "rang": 10,
   "priorite": "C - reserve"
  },
  {
@@ -30404,7 +30356,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 68,
-  "rang": 12,
+  "rang": 11,
   "priorite": "C - reserve"
  },
  {
@@ -30428,7 +30380,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 13,
+  "rang": 12,
   "priorite": "C - reserve"
  },
  {
@@ -30452,7 +30404,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 14,
+  "rang": 13,
   "priorite": "C - reserve"
  },
  {
@@ -30476,7 +30428,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 15,
+  "rang": 14,
   "priorite": "C - reserve"
  },
  {
@@ -30500,7 +30452,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 16,
+  "rang": 15,
   "priorite": "C - reserve"
  },
  {
@@ -30524,7 +30476,7 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 66,
-  "rang": 17,
+  "rang": 16,
   "priorite": "C - reserve"
  },
  {
@@ -30548,6 +30500,30 @@
   "bonus": 0,
   "statut_zone": "Zone deja couverte",
   "score": 63,
+  "rang": 17,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Fromagerie Yannick Quebec",
+  "type": "Fromagerie / terroir",
+  "zone": "Québec – centre et Limoilou",
+  "ancre": "Québec",
+  "palier": "Métropole",
+  "pop": 1352888,
+  "ville": "Québec",
+  "prov": "QC",
+  "adresse": "901 3e Avenue",
+  "cp": "G1L 2X2",
+  "tel": "450-436-8469",
+  "courriel": "",
+  "web": "http://www.yannickfromagerie.ca",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 2 km de Québec",
+  "bonus": 4,
+  "statut_zone": "Zone deja couverte",
+  "score": 60,
   "rang": 18,
   "priorite": "C - reserve"
  },
@@ -30925,7 +30901,7 @@
   "tel": "418-621-9111",
   "courriel": "",
   "web": "",
-  "fb": "pages/Bouquinerie-Rockn-livre-rocknlivre/243192946905",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Québec",
@@ -30973,7 +30949,7 @@
   "tel": "418-569-1346",
   "courriel": "",
   "web": "",
-  "fb": "https://www.facebook.com/bouquinerie4saisons/?locale=fr_FR",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Québec",
@@ -31069,7 +31045,7 @@
   "tel": "418-493-2616",
   "courriel": "",
   "web": "",
-  "fb": "https://www.facebook.com/p/Maison-de-la-prune-100064751764154/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 22 km de Rivière-du-Loup",
@@ -31200,30 +31176,6 @@
   "priorite": "A - approcher en premier"
  },
  {
-  "nom": "Atelier Tréma",
-  "type": "Deco / maison",
-  "zone": "Saint-Jean-sur-Richelieu",
-  "ancre": "Saint-Jean-sur-Richelieu",
-  "palier": "Ville moyenne",
-  "pop": 108937,
-  "ville": "Bedford",
-  "prov": "QC",
-  "adresse": "133 Rue de la Rivière",
-  "cp": "",
-  "tel": "450-590-0172",
-  "courriel": "utilisateur@domaine.com",
-  "web": "https://www.ateliertrema.com/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 30 km de Saint-Jean-sur-Richelieu",
-  "bonus": 4,
-  "statut_zone": "Zone a ouvrir",
-  "score": 97,
-  "rang": 2,
-  "priorite": "B - releve"
- },
- {
   "nom": "Les Vergers Pierre Tremblay & Fils",
   "type": "Kiosque fermier / terroir",
   "zone": "Saint-Jean-sur-Richelieu",
@@ -31244,7 +31196,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 95,
-  "rang": 3,
+  "rang": 2,
   "priorite": "B - releve"
  },
  {
@@ -31268,8 +31220,8 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 89,
-  "rang": 4,
-  "priorite": "C - reserve"
+  "rang": 3,
+  "priorite": "B - releve"
  },
  {
   "nom": "Les Ballons Messagers",
@@ -31292,7 +31244,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 88,
-  "rang": 5,
+  "rang": 4,
   "priorite": "C - reserve"
  },
  {
@@ -31316,6 +31268,30 @@
   "bonus": 4,
   "statut_zone": "Zone a ouvrir",
   "score": 87,
+  "rang": 5,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Atelier Tréma",
+  "type": "Deco / maison",
+  "zone": "Saint-Jean-sur-Richelieu",
+  "ancre": "Saint-Jean-sur-Richelieu",
+  "palier": "Ville moyenne",
+  "pop": 108937,
+  "ville": "Bedford",
+  "prov": "QC",
+  "adresse": "133 Rue de la Rivière",
+  "cp": "",
+  "tel": "450-590-0172",
+  "courriel": "utilisateur@domaine.com",
+  "web": "https://www.ateliertrema.com/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 30 km de Saint-Jean-sur-Richelieu",
+  "bonus": 4,
+  "statut_zone": "Zone a ouvrir",
+  "score": 85,
   "rang": 6,
   "priorite": "C - reserve"
  },
@@ -31765,7 +31741,7 @@
   "tel": "",
   "courriel": "",
   "web": "www.distilleriecotedessaints.com",
-  "fb": "https://www.facebook.com/Distilleriecotedessaints/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 14 km de Saint-Jérôme",
@@ -31819,7 +31795,7 @@
   "rattachement": "a 0 km de Shawinigan",
   "bonus": 12,
   "statut_zone": "Zone a ouvrir",
-  "score": 119,
+  "score": 107,
   "rang": 1,
   "priorite": "A - approcher en premier"
  },
@@ -33085,8 +33061,8 @@
   "tel": "514-755-7550",
   "courriel": "manager@wachiya.com",
   "web": "https://wachiya.com/",
-  "fb": "wachiyastore",
-  "ig": "wachiyastore",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 1 km de Ville-Marie",
   "bonus": 0,
@@ -33408,30 +33384,6 @@
   "priorite": "B - releve"
  },
  {
-  "nom": "Librairie Larico",
-  "type": "Librairie independante",
-  "zone": "Vallée-du-Richelieu",
-  "ancre": "Beloeil",
-  "palier": "Ville moyenne",
-  "pop": 62389,
-  "ville": "Chambly",
-  "prov": "QC",
-  "adresse": "1255 Boulevard De Périgny",
-  "cp": "J3L 2Y7",
-  "tel": "450-658-4141",
-  "courriel": "u003ecomptabilite@leslibraires.ca",
-  "web": "https://larico.leslibraires.ca/",
-  "fb": "",
-  "ig": "",
-  "source": "OpenStreetMap",
-  "rattachement": "a 15 km de Beloeil",
-  "bonus": 0,
-  "statut_zone": "Zone a ouvrir",
-  "score": 93,
-  "rang": 4,
-  "priorite": "C - reserve"
- },
- {
   "nom": "Au Pavillon de la Pomme",
   "type": "Kiosque fermier / terroir",
   "zone": "Vallée-du-Richelieu",
@@ -33452,7 +33404,7 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 83,
-  "rang": 5,
+  "rang": 4,
   "priorite": "C - reserve"
  },
  {
@@ -33476,6 +33428,30 @@
   "bonus": 0,
   "statut_zone": "Zone a ouvrir",
   "score": 83,
+  "rang": 5,
+  "priorite": "C - reserve"
+ },
+ {
+  "nom": "Librairie Larico",
+  "type": "Librairie independante",
+  "zone": "Vallée-du-Richelieu",
+  "ancre": "Beloeil",
+  "palier": "Ville moyenne",
+  "pop": 62389,
+  "ville": "Chambly",
+  "prov": "QC",
+  "adresse": "1255 Boulevard De Périgny",
+  "cp": "J3L 2Y7",
+  "tel": "450-658-4141",
+  "courriel": "u003ecomptabilite@leslibraires.ca",
+  "web": "https://larico.leslibraires.ca/",
+  "fb": "",
+  "ig": "",
+  "source": "OpenStreetMap",
+  "rattachement": "a 15 km de Beloeil",
+  "bonus": 0,
+  "statut_zone": "Zone a ouvrir",
+  "score": 81,
   "rang": 6,
   "priorite": "C - reserve"
  },
@@ -33709,8 +33685,8 @@
   "tel": "306-988-0202",
   "courriel": "support@quickbitvending.com",
   "web": "https://www.thecryptoboutique.ca/",
-  "fb": "https://www.facebook.com/quickbitcrypto/",
-  "ig": "https://www.instagram.com/quickbitcrypto/",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 3 km de Regina",
   "bonus": 4,
@@ -34141,7 +34117,7 @@
   "tel": "306-343-6624",
   "courriel": "",
   "web": "https://8thcomics.com/",
-  "fb": "https://www.facebook.com/8thstreetbooksandcomics/",
+  "fb": "",
   "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 2 km de Saskatoon",
@@ -34165,8 +34141,8 @@
   "tel": "+1-306-773-6560; +1-306-",
   "courriel": "swiftcurrent@nutters.ca",
   "web": "https://nutters.com/find-a-store/swift-current/",
-  "fb": "NuttersNaturalSwiftCurren",
-  "ig": "nuttersswift",
+  "fb": "",
+  "ig": "",
   "source": "OpenStreetMap",
   "rattachement": "a 0 km de Swift Current",
   "bonus": 0,

@@ -144,7 +144,8 @@ def clean_addr(a):
     a = re.sub(r"\d{1,2}\s?h\s?(a|à|-)\s?\d{1,2}\s?h", "", a)
     return re.sub(r"\s+", " ", a).strip(" ,;|-")[:90]
 
-MAUVAIS_MAIL = re.compile(r"\.(png|jpe?g|gif|svg|webp|css|js)$|^[0-9a-f-]{24,}@", re.I)
+MAUVAIS_MAIL = re.compile(
+    r"\.(png|jpe?g|gif|svg|webp|avif|heic|bmp|tiff?|css|js|woff2?)$|^[0-9a-f-]{24,}@", re.I)
 
 def clean_mail(m):
     m = (m or "").strip().lower()
@@ -340,6 +341,22 @@ try:
             if not r["cp"] and e.get("cp"): r["cp"] = e["cp"]
 except Exception:
     pass
+
+# --- adresses qui ne sont pas celles du commerce --------------------------------
+# Le scraper ramasse ce qui ressemble a un courriel dans la page, y compris
+# l'adresse du developpeur dans le pied de page ou celle de l'auteur d'une
+# police dans un commentaire CSS. Signature: une meme adresse rattachee a trois
+# commerces de noms differents. On la retire, la fiche garde son telephone.
+noms_par_mail = {}
+for r in rows:
+    if r["courriel"]:
+        noms_par_mail.setdefault(r["courriel"], set()).add(norm(r["nom"]))
+etrangeres = {m for m, n in noms_par_mail.items() if len(n) >= 3}
+if etrangeres:
+    print(f"Adresses retirees (rattachees a 3 commerces ou plus) : {len(etrangeres)}")
+    for r in rows:
+        if r["courriel"] in etrangeres:
+            r["courriel"] = ""
 
 # --- tri au jugement -----------------------------------------------------------
 # 1. une enseigne presente dans trois zones ou plus est une chaine: elle achete
