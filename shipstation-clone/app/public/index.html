@@ -1588,6 +1588,47 @@ const MARCHES = {
   autre:   { lettre: "?", nom: "Autre canal", fond: "#78828d", texte: "#ffffff" },
 };
 
+/**
+ * Les options d'une liste « Service », groupées par transporteur et honnêtes sur l'achat.
+ *
+ * Trois défauts corrigés d'un coup :
+ *
+ * 1. **Aucun regroupement.** Quatre-vingt-dix-sept lignes à plat, transporteurs mélangés.
+ *    `<optgroup>` sépare, et le navigateur le rend nativement.
+ * 2. **Rien du transporteur réellement branché.** La liste ne contenait que le référentiel
+ *    migré ; les services de Freightcom n'y étaient pas tant qu'on ne les avait pas versés.
+ * 3. **Des choix qui échouent à l'achat.** Les identifiants hérités de ShipStation n'ont de
+ *    sens que chez ShipStation. Les laisser au même rang que les vrais, c'est un piège qui
+ *    ne se referme qu'au moment de payer. Ils restent — l'historique s'y réfère — mais dans
+ *    un groupe nommé, en fin de liste, et dits non achetables.
+ */
+function optionsService(selection = "", { vide = "— choisir —" } = {}) {
+  const svc = (S.refs.services || []).filter((x) => !x.hidden);
+  const nomTransporteur = (code) => (S.refs.carriers || [])
+    .find((c) => String(c.code) === String(code))?.name || code || "Sans transporteur";
+  // `source` est nul sur une base qui n'a pas encore synchronisé : dans ce cas on ne peut
+  // rien affirmer, et on n'invente pas une mention « non achetable » qui serait fausse.
+  const connait = svc.some((x) => x.source);
+  const groupes = new Map();
+  for (const x of svc) {
+    const herite = connait && x.source === "shipstation";
+    const cle = herite ? "\u{10FFFF}hérité" : `${nomTransporteur(x.carrier_code)}`;
+    if (!groupes.has(cle)) groupes.set(cle, []);
+    groupes.get(cle).push(x);
+  }
+  const ordonnes = [...groupes.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  return `${vide === null ? "" : `<option value="">${esc(vide)}</option>`}${
+    ordonnes.map(([cle, liste]) => {
+      const herite = cle.startsWith("\u{10FFFF}");
+      const titre = herite
+        ? "Hérités de ShipStation — non achetables ici"
+        : cle;
+      return `<optgroup label="${esc(titre)}">${liste.map((x) =>
+        `<option value="${esc(x.id)}"${String(x.id) === String(selection) ? " selected" : ""}>${
+          esc(x.name)}${x.drop_off ? " · dépôt" : ""}</option>`).join("")}</optgroup>`;
+    }).join("")}`;
+}
+
 /** Le marché d'une boutique, avec repli sur son nom quand le champ n'est pas renseigné. */
 function marcheDe(boutique) {
   if (!boutique) return MARCHES.autre;
@@ -1789,8 +1830,7 @@ function modaleMapping(o, apres = () => {}) {
       transporteur réel. Le mapping s'appliquera à <b>toutes les commandes à expédier de
       ${esc(boutique)}</b> portant ce même libellé — pas seulement à celle-ci.</p>
     <label class="champ"><span>Service d'expédition</span><select id="mpS">
-      <option value="">— choisir —</option>${svc.map((x) =>
-        `<option value="${esc(x.id)}"${String(o.service_id) === String(x.id) ? " selected" : ""}>${esc(x.name)}</option>`).join("")}
+      ${optionsService(o.service_id || "")}
     </select></label>
     <label class="champ"><span>Type de colis</span><select id="mpP">
       <option value="">— choisir —</option>${(S.refs.packages || []).map((x) =>
@@ -3265,8 +3305,7 @@ VUES.commandes = async (statutFixe) => {
       <div class="grille">
         <label class="champ"><span>Transporteur</span><select id="ccar"><option value="">—</option>
           ${(S.refs.carriers || []).map((c) => `<option value="${esc(c.code)}">${esc(c.name)}</option>`).join("")}</select></label>
-        <label class="champ"><span>Service</span><select id="csrv"><option value="">—</option>
-          ${(S.refs.services || []).filter((x) => !x.hidden).map((x) => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Service</span><select id="csrv">${optionsService("", { vide: "—" })}</select></label>
         <label class="champ"><span>Type de colis</span><select id="cpkg"><option value="">—</option>
           ${(S.refs.packages || []).map((x) => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("")}</select></label>
         <label class="champ"><span>Confirmation</span><select id="ccon"><option value="">—</option>
@@ -3537,8 +3576,7 @@ VUES.commandes = async (statutFixe) => {
         <h4>Configuration de l'expédition</h4>
         <label class="champ"><span>Expédié de</span><select id="cw">${optionsEntrepot(o)}</select></label>
         <label class="champ"><span>Poids (g) — touche W</span><input type="number" id="cp" value="${o.weight_g || ""}"></label>
-        <label class="champ"><span>Service</span><select id="cs"><option value="">— choisir —</option>${svc.map((x) =>
-          `<option value="${x.id}" ${String(o.service_id) === x.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
+        <label class="champ"><span>Service</span><select id="cs">${optionsService(o.service_id || "")}</select></label>
         <label class="champ"><span>Colis</span><select id="cc"><option value="">— choisir —</option>${colis.map((x) =>
           `<option value="${x.id}" ${String(o.package_id) === x.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
         <div class="dims">
@@ -4093,8 +4131,7 @@ async function detailCommande(id) {
           </div>
 
           <label class="champ"><span>Service</span><select id="cSvc">
-            <option value="">— choisir —</option>${(S.refs.services || []).filter((x) => !x.hidden).map((x) =>
-              `<option value="${esc(x.id)}"${String(o.service_id) === String(x.id) ? " selected" : ""}>${esc(x.name)}</option>`).join("")}
+            ${optionsService(o.service_id || "")}
           </select></label>
 
           <label class="champ"><span>Colis <button type="button" class="fEdit" id="cAddPkg">+ Ajouter un colis</button></span><select id="cPkg">
@@ -5595,7 +5632,7 @@ VUES.produits = async () => {
             <select id="xk">${opt((S.refs.packages || []).map((x) => [x.id, x.name]), p.default_package)}</select>
             ${hint(h.package_id, (x) => libelle(S.refs.packages, "id", x))}</label>
           <label class="champ"><span>Service par défaut</span>
-            <select id="xv">${opt(svc.map((x) => [x.id, x.name]), p.default_service)}</select></label>
+            <select id="xv">${optionsService(p.default_service || "", { vide: "— choisir —" })}</select></label>
           <label class="champ"><span>Confirmation</span>
             <select id="xf">${opt((S.refs.confirmations || []).map((x) => [x.id, x.nom]), p.confirmation)}</select>
             ${hint(h.confirmation, (x) => libelle(S.refs.confirmations, "id", x))}</label>
@@ -5763,7 +5800,7 @@ VUES.produits = async () => {
         <label class="champ"><span>Transporteur</span>
           <select id="gc">${opt((S.refs.carriers || []).map((x) => [x.code, x.name]), "", "— aucun —")}</select></label>
         <label class="champ"><span>Service</span>
-          <select id="gs">${opt(svc.map((x) => [x.id, x.name]), "", "— aucun —")}</select></label>
+          <select id="gs">${optionsService("", { vide: "— aucun —" })}</select></label>
         <label class="champ"><span>Type de colis</span>
           <select id="gp">${opt((S.refs.packages || []).map((x) => [x.id, x.name]), "", "— aucun —")}</select></label>
         <label class="champ"><span>Confirmation</span>

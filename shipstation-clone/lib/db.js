@@ -400,6 +400,12 @@ const AJOUTS = [
   ["packages", "custom", "INTEGER DEFAULT 0"],
   ["services", "code", "TEXT"],
   ["services", "hidden", "INTEGER DEFAULT 0"],
+  // D'où vient le service, et donc s'il est **achetable**. Les 97 services migrés depuis
+  // ShipStation sont des libellés : leurs identifiants n'ont de sens que pour ShipStation, et
+  // aucun transporteur branché ici ne les reconnaîtra. Les mélanger aux services réels dans
+  // une liste déroulante, c'est proposer un choix qui échouera à l'achat — le genre de piège
+  // qui ne se découvre qu'au moment de payer.
+  ["services", "source", "TEXT"],
   ["stores", "guid", "TEXT"],
   // Logo de boutique, rangé en URI de données. Pas une URL : la page interdit `img-src`
   // vers l'extérieur, et une icône qui dépend d'un serveur tiers disparaît le jour où ce

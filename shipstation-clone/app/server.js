@@ -1576,7 +1576,7 @@ route("GET /api/refs", ({ req, res }) => jsonCache(req, res, {
   // Deux jeux de `services` et de `packages` coexistaient dans cet objet ; le second
   // écrasait le premier en silence, et deux requêtes SQL tournaient pour rien à chaque
   // chargement d'écran. Ce sont ces deux-là qui étaient effectivement servis.
-  services: db.all("SELECT * FROM services WHERE hidden IS NULL OR hidden = 0 ORDER BY carrier_code, CAST(id AS INTEGER), name"),
+  services: db.all("SELECT * FROM services WHERE hidden IS NULL OR hidden = 0 ORDER BY CASE WHEN source = 'shipstation' THEN 1 ELSE 0 END, carrier_code, name"),
   packages: db.all("SELECT * FROM packages ORDER BY custom DESC, name").map((p) => ({ ...p, dimensions: db.parse(p.dimensions) })),
   presets: presets.presets(),
   confirmations: lasclay.CONFIRMATIONS,
@@ -1672,6 +1672,32 @@ route("DELETE /api/stores/:id/logo", ({ params, user }) => {
   db.run("UPDATE stores SET logo = NULL WHERE id = ?", params.id);
   db.journaliser("store.logo.remove", "store", params.id, {}, user && user.id);
   return { ok: true };
+});
+
+// ------------------------------------------------------------------ transporteur Freightcom
+
+route("GET /api/carriers/freightcom", ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  return require("../lib/freightcom").etat();
+});
+
+route("POST /api/carriers/freightcom/test", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  return await require("../lib/freightcom").tester();
+});
+
+/**
+ * Verse le panel réel de Freightcom dans le référentiel des services.
+ *
+ * Sans ça, la liste déroulante « Service » d'un envoi n'offre que les 97 libellés migrés
+ * depuis ShipStation — dont aucun n'est achetable ici, parce que leurs identifiants n'ont de
+ * sens que chez ShipStation. Proposer un choix qui échouera à l'achat est pire que ne rien
+ * proposer : l'erreur se découvre au moment de payer.
+ */
+route("POST /api/carriers/freightcom/services", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  try { return await require("../lib/freightcom").synchroniserServices(); }
+  catch (e) { return { error: e.message, code: 400 }; }
 });
 
 // ------------------------------------------------------- transporteur Postes Canada

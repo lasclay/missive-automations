@@ -296,6 +296,36 @@ async function services() {
 }
 
 /**
+ * Verse le panel réel dans la table `services`, marqué `source = 'freightcom'`.
+ *
+ * C'est ce qui rend la liste déroulante d'expédition honnête : jusqu'ici elle n'offrait que
+ * les 97 libellés migrés depuis ShipStation, dont aucun n'est achetable ici. Les anciens ne
+ * sont pas supprimés — ils servent à relire l'historique — mais ils sont marqués pour ce
+ * qu'ils sont, et l'écran les sépare.
+ */
+function synchroniserServices() {
+  return services().then((liste) => {
+    const codeDe = (t) => String(t || "autre").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+    let ajoutes = 0, majs = 0;
+    for (const s of liste) {
+      const existe = one("SELECT id FROM services WHERE id = ?", String(s.id));
+      run(`INSERT INTO services(id,carrier_code,name,domestic,international,drop_off,source)
+           VALUES(?,?,?,1,1,?,'freightcom')
+           ON CONFLICT(id) DO UPDATE SET carrier_code=excluded.carrier_code, name=excluded.name,
+             drop_off=excluded.drop_off, source='freightcom'`,
+        String(s.id), codeDe(s.transporteur), s.nom,
+        estDepot({ service_name: s.nom, service_id: s.id }) ? 1 : 0);
+      existe ? majs++ : ajoutes++;
+    }
+    // Tout ce qui n'a pas de source est antérieur : c'est de l'héritage ShipStation.
+    run("UPDATE services SET source = 'shipstation' WHERE source IS NULL");
+    journaliser("freightcom.services", "services", "sync", { ajoutes, majs, total: liste.length }, null);
+    return { ajoutes, majs, total: liste.length,
+      depot: liste.filter((s) => estDepot({ service_name: s.nom, service_id: s.id })).length };
+  });
+}
+
+/**
  * Préchauffage.
  *
  * 96 % des étiquettes de Lasclay sont achetées en lot. Le moment où l'on connaît le besoin
@@ -465,7 +495,7 @@ const adaptateurFreightcom = {
 };
 
 module.exports = {
-  adaptateurFreightcom, coter, coterDirect, prechauffer, reserver, annuler, suivre,
+  adaptateurFreightcom, coter, coterDirect, prechauffer, reserver, annuler, suivre, synchroniserServices,
   expedition, services, tester, etat, purgerCache, empreinte, lireCache, ecrireCache,
   identifiantUnique, scenario, lireTarif, configure, BASE,
 };
