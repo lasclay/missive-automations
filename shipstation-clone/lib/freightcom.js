@@ -127,11 +127,16 @@ function scenario(envoi, { services = null, dateExpedition = null } = {}) {
       destination: adresseFC(envoi.to, { residentiel: true }),
       expected_ship_date: dateExpedition || jour(),
       packaging_type: "package",
+      // `packaging_properties` est un `oneOf` à quatre variantes ; celle-ci est reconnue par
+      // la présence de `packages`. Deux pièges que la première version a payés d'un « 400 bad
+      // or missing data » sans détail : les mesures sont des **nombres**, pas des chaînes
+      // (contrairement aux montants, qui eux sont des chaînes en cents), et `description` est
+      // **obligatoire** sur chaque colis.
       packaging_properties: {
-        pallet_type: undefined,
         packages: [{
+          description: envoi.description || "Marchandise",
           measurements: {
-            weight: { unit: "kg", value: String(kg(p.weightG)) },
+            weight: { unit: "kg", value: kg(p.weightG) },
             cuboid: { unit: "cm", l: cm(p.lengthIn), w: cm(p.widthIn), h: cm(p.heightIn) },
           },
         }],

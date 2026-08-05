@@ -1603,30 +1603,46 @@ const MARCHES = {
  *    un groupe nommé, en fin de liste, et dits non achetables.
  */
 function optionsService(selection = "", { vide = "— choisir —" } = {}) {
-  const svc = (S.refs.services || []).filter((x) => !x.hidden);
+  const tous = (S.refs.services || []).filter((x) => !x.hidden);
   const nomTransporteur = (code) => (S.refs.carriers || [])
     .find((c) => String(c.code) === String(code))?.name || code || "Sans transporteur";
-  // `source` est nul sur une base qui n'a pas encore synchronisé : dans ce cas on ne peut
-  // rien affirmer, et on n'invente pas une mention « non achetable » qui serait fausse.
-  const connait = svc.some((x) => x.source);
+
+  // Les services hérités de ShipStation sont retirés de la liste : leurs identifiants n'ont
+  // de sens que chez ShipStation, aucun transporteur branché ici ne les reconnaîtra, et un
+  // choix qui échoue à l'achat est pire qu'une liste courte. Ils restent en base — la fiche
+  // d'une commande ancienne doit encore pouvoir afficher le nom de son service.
+  const svc = tous.filter((x) => x.source !== "shipstation");
+
+  // Une exception, et elle compte : si la commande ouverte porte justement un de ces
+  // services, on le garde dans la liste. Sinon le `<select>` perdrait silencieusement sa
+  // valeur, et le premier enregistrement effacerait le service de la commande sans que
+  // personne ne l'ait demandé.
+  const actuel = selection && !svc.some((x) => String(x.id) === String(selection))
+    ? tous.find((x) => String(x.id) === String(selection)) : null;
+
   const groupes = new Map();
   for (const x of svc) {
-    const herite = connait && x.source === "shipstation";
-    const cle = herite ? "\u{10FFFF}hérité" : `${nomTransporteur(x.carrier_code)}`;
+    const cle = nomTransporteur(x.carrier_code);
     if (!groupes.has(cle)) groupes.set(cle, []);
     groupes.get(cle).push(x);
   }
   const ordonnes = [...groupes.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-  return `${vide === null ? "" : `<option value="">${esc(vide)}</option>`}${
-    ordonnes.map(([cle, liste]) => {
-      const herite = cle.startsWith("\u{10FFFF}");
-      const titre = herite
-        ? "Hérités de ShipStation — non achetables ici"
-        : cle;
-      return `<optgroup label="${esc(titre)}">${liste.map((x) =>
-        `<option value="${esc(x.id)}"${String(x.id) === String(selection) ? " selected" : ""}>${
-          esc(x.name)}${x.drop_off ? " · dépôt" : ""}</option>`).join("")}</optgroup>`;
-    }).join("")}`;
+
+  const corps = ordonnes.map(([titre, liste]) =>
+    `<optgroup label="${esc(titre)}">${liste.map((x) =>
+      `<option value="${esc(x.id)}"${String(x.id) === String(selection) ? " selected" : ""}>${
+        esc(x.name)}${x.drop_off ? " · dépôt" : ""}</option>`).join("")}</optgroup>`).join("");
+
+  const conserve = actuel
+    ? `<optgroup label="Service actuel — hérité de ShipStation">
+         <option value="${esc(actuel.id)}" selected>${esc(actuel.name)}</option></optgroup>`
+    : "";
+
+  // Une liste vide sans explication ressemble à une panne. Elle dit donc ce qu'il manque.
+  const rien = !svc.length && !actuel
+    ? `<option value="" disabled>Aucun transporteur branché — voir Réglages</option>` : "";
+
+  return `${vide === null ? "" : `<option value="">${esc(vide)}</option>`}${rien}${conserve}${corps}`;
 }
 
 /** Le marché d'une boutique, avec repli sur son nom quand le champ n'est pas renseigné. */

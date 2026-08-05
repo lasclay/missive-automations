@@ -77,7 +77,16 @@ const TARIF = (id, cents, nom) => ({
   verifier("code postal normalisé sans espace, en majuscules",
     d.destination.address.postal_code === "H2X1Y4", d.destination.address.postal_code);
   verifier("poids converti en kg, au palier supérieur",
-    d.packaging_properties.packages[0].measurements.weight.value === "0.49", "483 g → palier 485 g → 0,49 kg");
+    d.packaging_properties.packages[0].measurements.weight.value === 0.49, "483 g → palier 485 g → 0,49 kg");
+  // La spec type les mesures en nombres. Les envoyer en chaînes valait un « 400 bad or
+  // missing data » sans plus d explication ; le contrôle fige la distinction.
+  verifier("les mesures partent en nombres, pas en chaînes",
+    typeof d.packaging_properties.packages[0].measurements.weight.value === "number"
+    && typeof d.packaging_properties.packages[0].measurements.cuboid.l === "number");
+  verifier("chaque colis porte la description exigée",
+    !!d.packaging_properties.packages[0].description, d.packaging_properties.packages[0].description);
+  verifier("pas de pallet_type parasite dans la variante colis",
+    !("pallet_type" in d.packaging_properties));
   verifier("dimensions converties en cm",
     JSON.stringify(d.packaging_properties.packages[0].measurements.cuboid) === '{"unit":"cm","l":23,"w":15,"h":5}',
     "9×6×2 po → 23×15×5 cm");
@@ -114,7 +123,7 @@ const TARIF = (id, cents, nom) => ({
   verifier("un colis d'un autre palier est bel et bien recoté",
     r3b.source === "reseau", "488 g → palier 490 g, empreinte distincte");
   verifier("le poids coté est le palier, jamais le gramme exact",
-    vus[0].corps.details.packaging_properties.packages[0].measurements.weight.value === "0.49",
+    vus[0].corps.details.packaging_properties.packages[0].measurements.weight.value === 0.49,
     "488 g coté à 0,49 kg — vers le haut, jamais en dessous du réel");
 
   const ailleurs = { ...ENVOI, to: { ...ENVOI.to, postalCode: "K1A 0B1" } };

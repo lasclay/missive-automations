@@ -683,6 +683,14 @@ function migrer(d) {
   indexerRecherche(d);
   indexerClients(d);
 
+  // Tout service déjà en base sans provenance vient de l'import ShipStation : c'est le seul
+  // chemin qui en écrivait avant que la colonne existe. Le marquer permet à l'écran de les
+  // écarter de la liste d'expédition — leurs identifiants n'ont de sens que chez ShipStation
+  // et échoueraient à l'achat — sans les supprimer, puisqu'une commande ancienne doit encore
+  // pouvoir afficher le nom de son service.
+  try { d.exec("UPDATE services SET source = 'shipstation' WHERE source IS NULL"); }
+  catch (e) { console.warn("[db] provenance des services non marquée :", e.message); }
+
   // Table de suivi de migration : reprise au curseur, § 6.3 étape 1. Une migration de
   // 37 693 clients interrompue à 20 000 doit reprendre à 20 000, pas à zéro.
   d.exec(`CREATE TABLE IF NOT EXISTS migration_suivi (
