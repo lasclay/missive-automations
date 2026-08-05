@@ -1638,9 +1638,11 @@ function optionsService(selection = "", { vide = "— choisir —" } = {}) {
          <option value="${esc(actuel.id)}" selected>${esc(actuel.name)}</option></optgroup>`
     : "";
 
-  // Une liste vide sans explication ressemble à une panne. Elle dit donc ce qu'il manque.
+  // Une liste vide sans explication ressemble à une panne. Elle dit donc quoi faire — et ce
+  // n'est pas « voir Réglages » : chez un courtier, la liste des services applicables dépend
+  // de l'envoi, elle vient de la cotation. Le bouton Coter est la réponse, pas un réglage.
   const rien = !svc.length && !actuel
-    ? `<option value="" disabled>Aucun transporteur branché — voir Réglages</option>` : "";
+    ? `<option value="" disabled>Cliquer « Coter » pour voir les tarifs applicables</option>` : "";
 
   return `${vide === null ? "" : `<option value="">${esc(vide)}</option>`}${rien}${conserve}${corps}`;
 }

@@ -323,8 +323,35 @@ async function services() {
  * sont pas supprimés — ils servent à relire l'historique — mais ils sont marqués pour ce
  * qu'ils sont, et l'écran les sépare.
  */
+/**
+ * L'envoi qui sert à découvrir le panel quand `GET /services` ne dit rien.
+ *
+ * Sur le compte d'essai, cet appel renvoie **zéro service** alors qu'une cotation en ramène
+ * vingt sur cent cinquante-trois interrogés. L'endpoint de catalogue n'est donc pas une
+ * source fiable, et s'y fier laissait le référentiel vide. Une cotation de référence l'est :
+ * elle dit ce que le compte sait vraiment vendre.
+ */
+const ENVOI_SONDE = {
+  from: { name: "Lasclay", company: "Les Produits Lasclay", street1: "1 rue des Capucins",
+    city: "Québec", state: "QC", country: "CA", postalCode: "G1J 3R4" },
+  to: { name: "Sonde", street1: "1 chemin du Village", city: "Lac-Beauport", state: "QC",
+    country: "CA", postalCode: "G3B 0P2", residential: true },
+  parcel: { weightG: 45, lengthIn: 9, widthIn: 6, heightIn: 1 },
+  value: 40, currency: "CAD",
+};
+
+async function panelReel() {
+  const liste = await services();
+  if (liste.length) return { liste, via: "catalogue" };
+  const r = await coterDirect(ENVOI_SONDE, { deadlineMs: 25000 });
+  return {
+    liste: r.tarifs.map((t) => ({ id: t.serviceId, transporteur: t.carrier, nom: t.service })),
+    via: "cotation",
+  };
+}
+
 function synchroniserServices() {
-  return services().then((liste) => {
+  return panelReel().then(({ liste, via }) => {
     const codeDe = (t) => String(t || "autre").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
     let ajoutes = 0, majs = 0;
     for (const s of liste) {
@@ -339,8 +366,8 @@ function synchroniserServices() {
     }
     // Tout ce qui n'a pas de source est antérieur : c'est de l'héritage ShipStation.
     run("UPDATE services SET source = 'shipstation' WHERE source IS NULL");
-    journaliser("freightcom.services", "services", "sync", { ajoutes, majs, total: liste.length }, null);
-    return { ajoutes, majs, total: liste.length,
+    journaliser("freightcom.services", "services", "sync", { ajoutes, majs, total: liste.length, via }, null);
+    return { ajoutes, majs, total: liste.length, via,
       depot: liste.filter((s) => estDepot({ service_name: s.nom, service_id: s.id })).length };
   });
 }

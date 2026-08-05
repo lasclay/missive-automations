@@ -270,7 +270,7 @@ const TARIF = (id, cents, nom) => ({
     else delete process.env.FREIGHTCOM_API_KEY;
     try {
       const r = await fc.synchroniserServices();
-      console.log(`${V} ${r.total} services versés  ${G}${r.ajoutes} nouveaux, ${r.majs} mis à jour, ${r.depot} au tarif de dépôt${R}`);
+      console.log(`${V} ${r.total} services versés  ${G}via ${r.via}, ${r.ajoutes} nouveaux, ${r.majs} mis à jour, ${r.depot} au tarif de dépôt${R}`);
       passes++;
     } catch (e) { console.log(`${X} ${e.message}`); echecs++; }
   }
