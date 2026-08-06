@@ -31,23 +31,21 @@ compris les messages privés sur les réseaux sociaux.
 
 Version française:
 
-Les Produits Lasclay inc., [ADRESSE À CONFIRMER], Québec (Québec) [CP], 581 982-5857.
+Les Produits Lasclay inc., 298 boulevard des Capucins, 2e étage, Québec (Québec) G1J 3R4, 581 982-5857.
 Vous recevez ce message parce que [Boutique] est un commerce de détail dont
 l'adresse courriel est publiée publiquement. Répondez « retirez-moi » et je ne
 vous réécris plus.
 
 Version anglaise:
 
-Les Produits Lasclay inc., [ADDRESS TO CONFIRM], Quebec City, QC [POSTAL CODE], 581 982-5857.
+Les Produits Lasclay inc., 298 boulevard des Capucins, 2nd floor, Quebec City, QC G1J 3R4, 581 982-5857.
 You're receiving this because [Boutique] is a retail business with a publicly
 listed email address. Reply "remove me" and I won't write again.
 
-**L'adresse reste à trancher.** Les réponses types de Missive se contredisent: 298,
-260 et 254 boulevard des Capucins apparaissent tous les trois, et le fichier de
-connaissances signale lui-même la contradiction. L'adresse légale inscrite dans
-Shopify est le 1286 avenue de la Ronde, Québec (Québec) G1J 4B7. Une adresse
-inexacte dans un pied de page légal envoyé à 130 commerces ne se rattrape pas:
-la valeur doit être confirmée avant le premier envoi.
+Adresse confirmée par Gabriel le 2026-08-06: **298 boulevard des Capucins, 2e étage,
+Québec (Québec) G1J 3R4**. Les réponses types de Missive donnaient aussi 260 et 254;
+la page publique des points de vente affiche encore 254, ce qui est à corriger
+séparément puisque des clients s'y présentent pour un ramassage.
 
 ---
 

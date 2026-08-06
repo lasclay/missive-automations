@@ -13,7 +13,7 @@ J = lambda n: json.load(open(os.path.join(BASE, n), encoding='utf-8'))
 # ---------------------------------------------------------------- reseau actuel
 ACTUELS = [
     ("Lasclay – Boutique et Atelier", "Boutique et atelier de la marque", "Québec", "QC",
-     "254 boul. des Capucins, 2e étage", "G1J 3R4", "", "", "https://lasclay.com", "Tous + exclusivités + prototypes"),
+     "298 boul. des Capucins, 2e étage", "G1J 3R4", "", "", "https://lasclay.com", "Tous + exclusivités + prototypes"),
     ("Les Défricheuses", "Boutique écoresponsable / créatrices d'ici", "Montréal", "QC",
      "1319 rue Beaubien E", "H2G 1K7", "514-374-5325", "", "https://lesdefricheuses.ca", "Tous les produits"),
     ("L'Axe du Malt", "Boutique de bière et de brassage", "Québec", "QC",
