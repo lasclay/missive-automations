@@ -163,37 +163,52 @@ function marge(cmd, prix) {
  * `margeMax` (facultatif) refuse l'achat si la perte dépasse ce montant : c'est le garde-fou
  * des achats en lot, où personne ne lit ligne à ligne.
  */
-async function acheterEtiquette(orderId, { serviceId = null, userId = null, batchId = null, margeMax = null } = {}) {
+async function acheterEtiquette(orderId, { serviceId = null, userId = null, batchId = null,
+  margeMax = null, fournisseur = null } = {}) {
   const cmd = orders.parId(orderId);
   if (!cmd) throw new Error("commande inconnue");
   if (cmd.status === "shipped") throw new Error("commande déjà expédiée");
-  const { envoi, tarifs, recommande } = await coter(orderId);
+  const { envoi, tarifs, recommande } = await coter(orderId, { fournisseur });
   const choisi = serviceId ? tarifs.find((t) => t.serviceId === serviceId) : recommande;
   if (!choisi) throw new Error(serviceId ? `service indisponible : ${serviceId}` : "aucun tarif applicable");
+
+  // L'achat part chez celui qui a donné CE tarif, pas chez le fournisseur par défaut.
+  //
+  // La cotation croisée marque chaque tarif de sa provenance ; c'est elle qui fait foi. Sans
+  // cela, choisir un service Chit Chats dans la liste envoyait quand même l'achat chez
+  // Freightcom, avec un identifiant de service qu'il ne connaît pas — et, quand par malchance
+  // les deux panels partagent un identifiant, une étiquette achetée chez le mauvais
+  // transporteur, au mauvais prix, avec la mauvaise assurance. Chaque fournisseur porte sa
+  // propre couverture : Freightcom la vend en `insurance`, Chit Chats en
+  // `insurance_requested`, Postes Canada en option `COV`. Router l'achat, c'est aussi router
+  // l'assurance.
+  const chez = choisi.fournisseur || (fournisseur && fournisseur !== "tous" ? fournisseur : null);
+  const a = chez ? adaptateur(chez) : adaptateur();
 
   const m = marge(cmd, choisi.price);
   if (margeMax !== null && m.ecart < -Math.abs(Number(margeMax)))
     throw new Error(`perte de ${(-m.ecart).toFixed(2)} $ supérieure au plafond de ${Number(margeMax).toFixed(2)} $ — ${m.message}`);
 
-  const label = await adaptateur().buy(envoi, choisi.serviceId);
+  const label = await a.buy(envoi, choisi.serviceId);
 
   return tx(() => {
     run(`INSERT INTO shipments (order_id,batch_id,label_id,tracking_number,carrier_code,service_id,
            package_id,confirmation,cost,currency,drop_off,ship_date,created_at,weight_g,dimensions,
-           ship_to,warehouse_id,is_return,label_pdf,customs_pdf,user_id)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?)`,
+           ship_to,warehouse_id,is_return,label_pdf,customs_pdf,user_id,provider)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?)`,
       orderId, batchId, label.labelId, label.trackingNumber, choisi.carrier, choisi.serviceId,
       cmd.package_id, cmd.confirmation, label.price, label.currency || "CAD",
       choisi.dropOff ? 1 : 0, new Date().toISOString().slice(0, 10), maintenant(),
       cmd.weight_g, dump(cmd.dimensions), dump(cmd.ship_to), cmd.warehouse_id,
-      label.labelPdf || null, label.customsPdf || null, userId);
+      label.labelPdf || null, label.customsPdf || null, userId, a.nom || chez || null);
     const shipmentId = one("SELECT last_insert_rowid() r").r;
     orders.changerStatut(orderId, "shipped", userId);
     // Le numéro de suivi entre dans l'index de recherche : c'est par lui qu'on retombe sur
     // une commande quand un client écrit « où est mon colis 1234567890 ».
     orders.indexerRecherche(orderId);
     journaliser("shipment.buy", "shipment", shipmentId,
-      { orderId, service: choisi.serviceId, prix: label.price, dropOff: !!choisi.dropOff }, userId);
+      { orderId, fournisseur: a.nom || chez, service: choisi.serviceId, prix: label.price,
+        assurance: envoi.insurance || 0, dropOff: !!choisi.dropOff }, userId);
     // Le renvoi du suivi vers la boutique part en arrière-plan : un canal indisponible ne doit
     // jamais faire échouer un achat déjà payé. L'échec reste dans la file de reprise.
     setImmediate(() => require("./channels").notifier(shipmentId).catch(() => {}));
@@ -202,21 +217,24 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
 }
 
 /** Étiquette de retour — rattachée à la commande, comptée à part. */
-async function acheterRetour(orderId, { serviceId = null, userId = null } = {}) {
+async function acheterRetour(orderId, { serviceId = null, userId = null, fournisseur = null } = {}) {
   const cmd = orders.parId(orderId);
   if (!cmd) throw new Error("commande inconnue");
   const envoi = envoiDepuisCommande(cmd);
   const retour = { ...envoi, from: envoi.to, to: envoi.from, isReturn: true };
-  const tarifs = await adaptateur().quote(retour);
+  // Un seul fournisseur du début à la fin : coter chez l'un et acheter chez l'autre donnerait
+  // un identifiant de service inconnu, ou pire, un homonyme.
+  const a = adaptateur(fournisseur || undefined);
+  const tarifs = await a.quote(retour);
   const choisi = serviceId ? tarifs.find((t) => t.serviceId === serviceId) : choisirTarif(tarifs, retour);
   if (!choisi) throw new Error("aucun tarif applicable pour le retour");
-  const label = await adaptateur().buy(retour, choisi.serviceId);
+  const label = await a.buy(retour, choisi.serviceId);
   run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,cost,currency,
-         ship_date,created_at,weight_g,ship_to,is_return,label_pdf,user_id)
-       VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,?)`,
+         ship_date,created_at,weight_g,ship_to,is_return,label_pdf,user_id,provider)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,?,?)`,
     orderId, label.labelId, label.trackingNumber, choisi.carrier, choisi.serviceId,
     label.price, label.currency || "CAD", new Date().toISOString().slice(0, 10), maintenant(),
-    cmd.weight_g, dump(retour.to), label.labelPdf || null, userId);
+    cmd.weight_g, dump(retour.to), label.labelPdf || null, userId, a.nom || fournisseur || null);
   const id = one("SELECT last_insert_rowid() r").r;
   journaliser("shipment.return", "shipment", id, { orderId }, userId);
   return { shipmentId: id, ...label };
@@ -227,7 +245,9 @@ async function annuler(shipmentId, userId = null) {
   const s = one("SELECT * FROM shipments WHERE id = ?", shipmentId);
   if (!s) throw new Error("expédition inconnue");
   if (s.voided) throw new Error("étiquette déjà annulée");
-  const r = await adaptateur().void_(s.label_id);
+  // Chez celui qui l'a vendue. Une étiquette Chit Chats présentée à Freightcom est un
+  // identifiant inconnu : l'annulation échoue, et le remboursement est perdu.
+  const r = await adaptateur(s.provider || undefined).void_(s.label_id);
   run("UPDATE shipments SET voided = 1, voided_at = ? WHERE id = ?", maintenant(), shipmentId);
   const restantes = one("SELECT COUNT(*) n FROM shipments WHERE order_id = ? AND voided = 0 AND is_return = 0", s.order_id).n;
   if (!restantes && s.order_id) orders.changerStatut(s.order_id, "awaiting_shipment", userId);
@@ -332,12 +352,13 @@ function creerLot(orderIds, { name = null, userId = null } = {}) {
  * détail. C'est le comportement attendu — une commande sans poids ne doit pas faire échouer
  * les 199 autres.
  */
-async function traiterLot(batchId, orderIds, { userId = null, serviceId = null, margeMax = null } = {}) {
+async function traiterLot(batchId, orderIds, { userId = null, serviceId = null, margeMax = null,
+  fournisseur = null } = {}) {
   run("UPDATE batches SET status = 'processing' WHERE id = ?", batchId);
   const resultats = [];
   for (const orderId of orderIds) {
     try {
-      const r = await acheterEtiquette(orderId, { serviceId, userId, batchId, margeMax });
+      const r = await acheterEtiquette(orderId, { serviceId, userId, batchId, margeMax, fournisseur });
       resultats.push({ orderId, ok: true, ...r });
     } catch (e) {
       resultats.push({ orderId, ok: false, erreur: String(e.message || e) });
@@ -472,7 +493,7 @@ function chercher(f = {}) {
 async function rafraichirSuivi(shipmentId) {
   const s = one("SELECT * FROM shipments WHERE id = ?", shipmentId);
   if (!s || !s.label_id) throw new Error("expédition sans étiquette");
-  const evts = await adaptateur().track(s.label_id);
+  const evts = await adaptateur(s.provider || undefined).track(s.label_id);
   for (const e of evts) {
     run(`INSERT OR IGNORE INTO tracking_events (shipment_id, occurred_at, status, description, location)
          VALUES (?,?,?,?,?)`, shipmentId, e.date || maintenant(), e.status || "", e.description || "", e.location || null);

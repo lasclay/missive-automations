@@ -4486,7 +4486,8 @@ async function detailCommande(id) {
       }, "Marquer") },
     { t: "Créer une étiquette de retour", f: async () => {
         if (!S.config.etiquettes_actives) return alert("Achat d'étiquettes désactivé sur ce service.");
-        const r = await api("/api/shipments/return", { method: "POST", body: { order_id: id } });
+        const r = await api("/api/shipments/return", { method: "POST", body: {
+          order_id: id, fournisseur: ($("#cFour", f) && $("#cFour", f).value) || null } });
         alert(r.error ? r.error : `Retour ${r.trackingNumber}`);
         recharger();
       } },
@@ -4911,7 +4912,12 @@ async function detailCommande(id) {
       return alert("Code SH manquant sur au moins une déclaration : l'étiquette internationale est bloquée tant que la douane n'est pas complète.");
     $("#cAcheter", f).disabled = true;
     try {
-      const r = await api("/api/shipments/buy", { method: "POST", body: { order_id: id } });
+      // Le fournisseur du premier menu part avec l'achat. Sans lui, le serveur retombait
+      // sur le réglage par défaut : on comparait trois courtiers pour finir par acheter
+      // chez un quatrième, avec son tarif et son assurance à lui.
+      const r = await api("/api/shipments/buy", { method: "POST", body: {
+        order_id: id, fournisseur: ($("#cFour", f) && $("#cFour", f).value) || null,
+        service_id: ($("#cSvc", f) && $("#cSvc", f).value) || null } });
       if (r.error) alert(r.error);
       else { window.open(`/api/labels?ids=${id}`, "_blank"); recharger(); rafraichirGrille(); rafraichirCompteurs(); }
     } catch (e) { alert(e.message); }
@@ -7186,7 +7192,9 @@ VUES.scan = async () => {
         bip(true);
         return;
       }
-      const r = await api("/api/shipments/buy", { method: "POST", body: { order_id: o.id } });
+      const r = await api("/api/shipments/buy", { method: "POST", body: {
+        order_id: o.id, fournisseur: ($("#cfour") && $("#cfour").value) || null,
+        service_id: ($("#cs") && $("#cs").value) || null } });
       $("#scOut").innerHTML = `<div class="avis info">${esc(o.order_number)} — ${esc(r.trackingNumber)} · ${money(r.price)}</div>`;
       bip(true);
       rafraichirCompteurs();

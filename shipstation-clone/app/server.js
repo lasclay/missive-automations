@@ -569,13 +569,17 @@ route("POST /api/shipments/buy", async ({ req, user }) => {
   accounts.exiger(user, "labels_buy");
   if (!ETIQUETTES) return { error: "achat d'étiquettes désactivé — lancer avec CLONE_ALLOW_LABELS=1", code: 403 };
   const b = await corps(req);
-  return await shipments.acheterEtiquette(Number(b.order_id), { serviceId: b.service_id, userId: user });
+  // Le fournisseur choisi à l'écran voyage avec l'achat : sans lui, un tarif Chit Chats
+  // partait acheter chez Freightcom.
+  return await shipments.acheterEtiquette(Number(b.order_id),
+    { serviceId: b.service_id, fournisseur: b.fournisseur || null, userId: user });
 });
 route("POST /api/shipments/return", async ({ req, user }) => {
   accounts.exiger(user, "labels_buy");
   if (!ETIQUETTES) return { error: "achat d'étiquettes désactivé — lancer avec CLONE_ALLOW_LABELS=1", code: 403 };
   const b = await corps(req);
-  return await shipments.acheterRetour(Number(b.order_id), { serviceId: b.service_id, userId: user });
+  return await shipments.acheterRetour(Number(b.order_id),
+    { serviceId: b.service_id, fournisseur: b.fournisseur || null, userId: user });
 });
 route("POST /api/shipments/void", async ({ req, user }) => {
   accounts.exiger(user, "labels_void");
@@ -634,6 +638,7 @@ route("POST /api/batches/:id/process", async ({ req, params, user }) => {
   const ids = shipments.commandesDuLot(Number(params.id));
   if (!ids.length) return { error: "ce lot ne contient aucune commande à expédier", code: 400 };
   return await shipments.traiterLot(Number(params.id), ids, { userId: user,
+    fournisseur: b.fournisseur || null,
     margeMax: b.marge_max === "" || b.marge_max === undefined || b.marge_max === null ? null : Number(b.marge_max) });
 });
 route("POST /api/batches/:id/close", ({ params, user }) => {
@@ -682,6 +687,7 @@ route("POST /api/batches", async ({ req, user }) => {
   const ids = (b.ids || []).map(Number);
   const { batchId } = shipments.creerLot(ids, { name: b.name, userId: user });
   return await shipments.traiterLot(batchId, ids, { userId: user, serviceId: b.service_id,
+    fournisseur: b.fournisseur || null,
     margeMax: b.marge_max === null || b.marge_max === undefined || b.marge_max === "" ? null : Number(b.marge_max) });
 });
 

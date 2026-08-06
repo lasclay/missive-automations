@@ -447,6 +447,14 @@ const AJOUTS = [
   ["orders", "batch_id", "INTEGER"],
   ["shipping_presets", "hotkey", "TEXT"],
   ["shipping_presets", "notes", "TEXT"],
+  // Chez QUI l'étiquette a été achetée : « freightcom », « chitchats », « postescanada ».
+  //
+  // Le clone compare plusieurs fournisseurs avant d'acheter, et rien ne garantit que celui
+  // retenu soit celui du réglage par défaut. Une étiquette Chit Chats ne s'annule pas chez
+  // Freightcom et ne se suit pas non plus : sans cette colonne, « Annuler » et « Rafraîchir
+  // le suivi » partaient chez le fournisseur par défaut, donc chez le mauvais dès qu'on avait
+  // acheté ailleurs. C'est aussi ce qui dit quelle assurance a réellement couvert le colis.
+  ["shipments", "provider", "TEXT"],
   // Colonnes de la grille Orders de ShipStation (§2.5) qui manquaient encore. Chaque
   // événement sortant est tracé séparément — c'est le modèle de la vue « Shipped » (§3.2),
   // où « bordereau imprimé », « étiquette créée », « étiquette imprimée » et « marketplace
