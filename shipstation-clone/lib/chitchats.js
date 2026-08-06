@@ -151,11 +151,25 @@ function corpsExpedition(envoi, { ordre = null } = {}) {
     phone: to.phone || undefined,
     email: to.email || undefined,
 
-    return_name: from.company || from.name || undefined,
-    return_address_1: from.street1 || undefined,
-    return_city: from.city || undefined,
-    return_province_code: province(from.state),
-    return_postal_code: codePostal(from.postalCode, from.country || "CA"),
+    /*
+     * L'adresse de retour n'est PAS envoyée par défaut.
+     *
+     * Chit Chats en a déjà une, configurée dans le compte, et c'est elle qui est imprimée sur
+     * l'étiquette. En envoyer une autre a valu deux refus successifs — « return_province_code
+     * field is invalid and return_postal_code field is invalid » — sur des données pourtant
+     * correctes (QC, G1J 3R4), y compris après avoir corrigé le format du code postal.
+     *
+     * Chercher plus loin serait deviner. Le compte sait déjà d'où part le colis ; lui redire
+     * n'apporte rien, et le champ que l'API refuse cesse d'exister. `CHITCHATS_RETOUR=1`
+     * remet l'envoi si un jour le besoin se présente — expédier pour un tiers, par exemple.
+     */
+    ...(process.env.CHITCHATS_RETOUR === "1" ? {
+      return_name: from.company || from.name || undefined,
+      return_address_1: from.street1 || undefined,
+      return_city: from.city || undefined,
+      return_province_code: province(from.state),
+      return_postal_code: codePostal(from.postalCode, from.country || "CA"),
+    } : {}),
 
     description: (envoi.description || "Marchandise").slice(0, 100),
     value: String(Number(envoi.value || 0).toFixed(2)),

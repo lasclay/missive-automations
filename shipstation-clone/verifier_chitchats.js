@@ -79,7 +79,8 @@ const ENVOI_US = {
   // « return_postal_code field is invalid » puis déclare la province invalide en cascade,
   // ce qui envoie chercher le problème au mauvais endroit.
   verifier("code postal canadien AVEC son espace",
-    c.return_postal_code === "G1J 3R4", c.return_postal_code);
+    cc.corpsExpedition({ ...ENVOI_US, to: { ...ENVOI_US.to, country: "CA", postalCode: "j8y6e1" } })
+      .postal_code === "J8Y 6E1", "j8y6e1 → J8Y 6E1");
   verifier("province ramenée à deux lettres",
     cc.corpsExpedition({ ...ENVOI_US, to: { ...ENVOI_US.to, country: "CA", state: "Québec", postalCode: "j8y6e1" } }).province_code === "QC");
   verifier("poids en grammes, sans conversion inutile", c.weight === 300 && c.weight_unit === "g");
@@ -90,7 +91,15 @@ const ENVOI_US = {
     "ce que Freightcom ne sait pas transmettre");
   verifier("DDP activé d'office vers les États-Unis", c.duties_paid_requested === true,
     "le client ne paie rien au facteur");
-  verifier("adresse de retour renseignée", c.return_postal_code === "G1J 3R4");
+  // L adresse de retour vit dans le compte Chit Chats : en envoyer une autre a valu deux
+  // refus sur des données pourtant correctes. Le champ que l API refuse cesse d exister.
+  verifier("adresse de retour laissée au compte Chit Chats",
+    c.return_postal_code === undefined && c.return_province_code === undefined);
+  verifier("CHITCHATS_RETOUR=1 la remet, au bon format",
+    (() => { process.env.CHITCHATS_RETOUR = "1";
+      const x = cc.corpsExpedition(ENVOI_US);
+      delete process.env.CHITCHATS_RETOUR;
+      return x.return_postal_code === "G1J 3R4" && x.return_province_code === "QC"; })());
   verifier("numéro de commande porté", String(c.order_id) === "4242");
 
   console.log("\nLecture des tarifs\n" + "─".repeat(64));
