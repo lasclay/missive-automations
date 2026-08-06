@@ -413,6 +413,13 @@ const AJOUTS = [
   ["stores", "logo", "TEXT"],
   // Suivi de l'impression d'étiquette (exigence E3) : imprimée ≠ achetée.
   ["orders", "print_state", "TEXT"],   // bordereau et étiquette imprimés
+  // La charge d'origine ShipStation, conservée après fusion d'un doublon.
+  //
+  // Shopify est la vérité pour la commande — client, articles, montants. ShipStation n'apporte
+  // que l'historique d'expédition. Quand les deux copies d'une commande fusionnent, celle de
+  // Shopify survit, et le `raw` de ShipStation atterrit ici plutôt qu'à la poubelle : c'est la
+  // seule trace des champs que ShipStation portait et que Shopify ignore.
+  ["orders", "raw_shipstation", "TEXT"],
   // Index de recherche plein texte, replié : minuscules et accents retirés. SQLite n'a pas
   // de comparaison insensible aux accents, et `lower('Josee') LIKE '%josée%'` est faux —
   // chercher « josée ferland » ne trouvait donc jamais la cliente enregistrée « Josee

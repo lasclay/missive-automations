@@ -1,42 +1,48 @@
 #!/usr/bin/env node
 /**
- * Dédoublonnage des commandes — réparation d'après migration.
+ * Fusion des commandes en double — réparation d'après migration.
  *
  * Pourquoi cet outil existe
  * -------------------------
- * Le clone remplit ses commandes par **deux chemins** : la migration ShipStation et l'import
- * Shopify direct. Chacun dédoublonne sur `order_key`, mais les deux ne fabriquent pas la même
- * clé pour une même commande. La L-45672 existe donc deux fois, une copie par chemin, et
- * aucun des deux imports ne peut voir celle de l'autre. Résultat en production le 5 août
+ * Le clone remplit ses commandes par **deux chemins** : l'import Shopify direct et la
+ * migration ShipStation. Chacun dédoublonne sur `order_key`, mais les deux ne fabriquent pas
+ * la même clé pour une même commande. La L-45672 existe donc deux fois, une copie par chemin,
+ * et aucun des deux imports ne peut voir celle de l'autre. Résultat en production le 5 août
  * 2026 : 63 248 commandes là où ShipStation en compte 38 858.
  *
- * Deux erreurs de ma part valent d'être écrites ici, parce qu'elles se répéteront sinon.
+ * Qui a raison sur quoi
+ * ---------------------
+ * **Shopify est la vérité de la commande** : client, articles, montants, adresse. ShipStation
+ * n'a jamais été qu'un outil d'expédition ; ce qu'il apporte d'irremplaçable, c'est
+ * **l'historique de ce qui a été expédié** — étiquettes achetées, numéros de suivi, coûts,
+ * transporteur, poids réellement pesé.
  *
- * 1. La répétition de migration partait d'une base **vide** : elle ne pouvait heurter aucune
- *    ligne préexistante, donc rien révéler. Une répétition se fait sur une copie de la
- *    PRODUCTION, pas sur une base neuve.
- * 2. La première version de cet outil groupait sur `raw.orderId` et a annoncé « aucun
- *    doublon » sur 63 248 commandes. C'était faux : les copies venues de Shopify n'ont pas
- *    d'identifiant ShipStation, elles étaient donc hors du groupement. Un contrôle qui ne
- *    regarde qu'une partie de la base doit dire laquelle, jamais conclure au vert.
+ * Fusionner, pas choisir. Une version antérieure de cet outil supprimait la copie Shopify et
+ * gardait celle de ShipStation : elle aurait effacé la source de vérité pour garder la copie.
  *
- * Ce que l'outil fait
- * -------------------
- * Il regroupe sur ce que les deux chemins ont forcément en commun — le **numéro de commande**
- * dans sa boutique — et ne conserve qu'une ligne par groupe.
+ * Ce que la fusion préserve
+ * -------------------------
+ *   survivante  = la copie Shopify (ou, à défaut de Shopify, la plus riche)
+ *   déplacés    → expéditions, étiquettes, suivis, lots, préparations externes, étiquettes de
+ *                 tri (tags), lignes d'articles si la survivante n'en a aucune
+ *   comblés     → transporteur, service, colis, confirmation, poids, dimensions, entrepôt,
+ *                 champs personnalisés 1-3 : repris de ShipStation **là où Shopify est vide**,
+ *                 jamais par-dessus une valeur existante
+ *   notes       → concaténées, aucune n'est perdue
+ *   statut      → si ShipStation dit « expédiée » et Shopify non, la réalité est qu'un colis
+ *                 est parti : c'est ShipStation qui a raison, et le statut suit
+ *   raw         → celui de ShipStation est rangé dans `orders.raw_shipstation`, jamais jeté
  *
- * Laquelle ? **La plus riche**, pas la plus récente : le plus d'expéditions, puis le plus de
- * lignes d'articles, puis la copie venue de ShipStation (elle porte l'historique
- * transporteur), puis le plus grand `id`. Un doublon récent mais vide effacerait sinon un
- * historique complet.
+ * Rien n'est supprimé avant que tout ait été déplacé, et le tout dans une transaction : une
+ * interruption au milieu ne peut pas laisser une expédition orpheline.
  *
  *   node dedoublonner.js               simule, n'écrit rien
- *   node dedoublonner.js --confirmer   supprime réellement
+ *   node dedoublonner.js --confirmer   fusionne réellement
  *   node dedoublonner.js --limite 100  ne traite que les 100 premiers groupes
  *
  * Sans `--confirmer`, RIEN n'est écrit. C'est la consigne du §2.1 de l'audit.
  */
-const { all, one, run, tx, maintenant, journaliser } = require("./lib/db");
+const { all, one, run, tx, journaliser } = require("./lib/db");
 
 const args = process.argv.slice(2);
 const confirme = args.includes("--confirmer");
@@ -44,26 +50,32 @@ const limite = Number((args[args.indexOf("--limite") + 1] || 0)) || 0;
 
 const V = "\x1b[32m✓\x1b[0m", A = "\x1b[33m!\x1b[0m", G = "\x1b[90m", R = "\x1b[0m";
 
+/** Champs d'expédition que Shopify ne connaît pas et que ShipStation peut combler. */
+const COMBLABLES = ["carrier_code", "service_id", "package_id", "confirmation",
+  "weight_g", "dimensions", "warehouse_id", "requested_service",
+  "custom_field1", "custom_field2", "custom_field3"];
+
+/** Une valeur « vide » au sens où il vaut la peine de la combler. */
+const vide = (v) => v === null || v === undefined || v === "" || v === 0;
+
+function fiche(id) {
+  const o = one("SELECT * FROM orders WHERE id = ?", id);
+  return {
+    id, o,
+    ss: !!(o.raw && String(o.raw).includes('"orderId"')),
+    envois: one("SELECT COUNT(*) n FROM shipments WHERE order_id = ?", id).n,
+    lignes: one("SELECT COUNT(*) n FROM order_items WHERE order_id = ?", id).n,
+  };
+}
+
 function main() {
-  console.log(`\nDédoublonnage des commandes — ${confirme ? "\x1b[31mMODE RÉEL\x1b[0m" : "simulation"}\n` + "─".repeat(70));
+  console.log(`\nFusion des commandes en double — ${confirme ? "\x1b[31mMODE RÉEL\x1b[0m" : "simulation"}\n` + "─".repeat(72));
 
   const total = one("SELECT COUNT(*) n FROM orders").n;
-  console.log(`Commandes en base : ${total.toLocaleString("fr-CA")}`);
-
-  // Diagnostic AVANT de conclure.
-  //
-  // La première version groupait sur `raw.orderId` et annonçait « aucun doublon » sur
-  // 63 248 commandes. C'était faux, et le pire genre de faux : un vert sur une base qu'on
-  // n'a pas regardée. Les deux copies d'une commande ne viennent pas de la même source —
-  // l'une de la migration ShipStation, l'autre de l'import Shopify direct — donc elles
-  // n'ont ni la même clé, ni le même `raw`, ni le même identifiant ShipStation. Grouper
-  // là-dessus ne pouvait rien trouver.
-  //
-  // Le seul point commun de deux copies d'une même commande, c'est ce que le client a
-  // acheté : son **numéro de commande**, dans sa boutique.
   const avecRaw = one("SELECT COUNT(*) n FROM orders WHERE raw IS NOT NULL AND json_extract(raw,'$.orderId') IS NOT NULL").n;
-  console.log(`  dont porteuses d'un orderId ShipStation : ${avecRaw.toLocaleString("fr-CA")}`);
-  console.log(`  dont sans orderId (import direct) : ${(total - avecRaw).toLocaleString("fr-CA")}`);
+  console.log(`Commandes en base : ${total.toLocaleString("fr-CA")}`);
+  console.log(`  portant un orderId ShipStation : ${avecRaw.toLocaleString("fr-CA")}`);
+  console.log(`  sans orderId (import Shopify)  : ${(total - avecRaw).toLocaleString("fr-CA")}`);
 
   const groupes = all(`
     SELECT order_number, COALESCE(store_id, -1) sid, COUNT(*) n, GROUP_CONCAT(id) ids
@@ -74,77 +86,109 @@ function main() {
     ${limite ? `LIMIT ${limite}` : ""}`);
 
   if (!groupes.length) {
-    console.log(`${V} aucun doublon : chaque numéro de commande n'apparaît qu'une fois par boutique.`);
+    console.log(`\n${V} aucun doublon : chaque numéro de commande n'apparaît qu'une fois par boutique.`);
     return 0;
   }
 
-  const aSupprimer = [];
+  const plans = [];
   for (const g of groupes) {
-    const ids = String(g.ids).split(",").map(Number);
-    const fiches = ids.map((id) => ({
-      id,
-      envois: one("SELECT COUNT(*) n FROM shipments WHERE order_id = ?", id).n,
-      lignes: one("SELECT COUNT(*) n FROM order_items WHERE order_id = ?", id).n,
-      cle: one("SELECT order_key FROM orders WHERE id = ?", id).order_key,
-      ss: !!one("SELECT 1 v FROM orders WHERE id = ? AND json_extract(raw,'$.orderId') IS NOT NULL", id),
-    }));
-    // La plus riche gagne : expéditions, puis lignes, puis provenance ShipStation (elle porte
-    // l identifiant transporteur et l historique), puis id le plus grand.
-    fiches.sort((a, b) => b.envois - a.envois || b.lignes - a.lignes || (b.ss ? 1 : 0) - (a.ss ? 1 : 0) || b.id - a.id);
-    for (const f of fiches.slice(1)) aSupprimer.push({ ...f, ss_id: g.order_number, garde: fiches[0].id });
+    const fiches = String(g.ids).split(",").map(Number).map(fiche);
+    // La survivante est la copie Shopify — la vérité de la commande. Si toutes viennent de
+    // ShipStation (commande jamais passée par Shopify), on garde la plus riche.
+    const shopify = fiches.filter((f) => !f.ss);
+    const candidats = shopify.length ? shopify : fiches;
+    candidats.sort((a, b) => b.lignes - a.lignes || b.envois - a.envois || a.id - b.id);
+    const garde = candidats[0];
+    const donneurs = fiches.filter((f) => f.id !== garde.id);
+
+    const comble = COMBLABLES.filter((c) => vide(garde.o[c]) && donneurs.some((d) => !vide(d.o[c])));
+    plans.push({
+      numero: g.order_number, garde, donneurs,
+      envoisDeplaces: donneurs.reduce((s, d) => s + d.envois, 0),
+      lignesReprises: garde.lignes === 0 ? donneurs.reduce((s, d) => s + d.lignes, 0) : 0,
+      comble,
+      statut: donneurs.some((d) => d.o.status === "shipped") && garde.o.status !== "shipped"
+        && garde.o.status !== "cancelled" ? "shipped" : null,
+    });
   }
 
-  const avecEnvois = aSupprimer.filter((x) => x.envois > 0);
-  console.log(`Groupes en double : ${groupes.length.toLocaleString("fr-CA")}`);
-  console.log(`Lignes à supprimer : ${aSupprimer.length.toLocaleString("fr-CA")}`);
-  console.log(`Après nettoyage    : ${(total - aSupprimer.length).toLocaleString("fr-CA")}`);
-  if (avecEnvois.length) {
-    console.log(`${A} ${avecEnvois.length} doublon(s) à supprimer portent pourtant des expéditions.`);
-    console.log(`  ${G}Elles sont conservées : on ne supprime jamais une ligne qui porte un envoi,`);
-    console.log(`  parce qu'une étiquette achetée ne se réinvente pas.${R}`);
+  const nDonneurs = plans.reduce((s, p) => s + p.donneurs.length, 0);
+  console.log(`\nGroupes en double  : ${groupes.length.toLocaleString("fr-CA")}`);
+  console.log(`Lignes à fusionner : ${nDonneurs.toLocaleString("fr-CA")}`);
+  console.log(`Après fusion       : ${(total - nDonneurs).toLocaleString("fr-CA")}` +
+    `  ${G}(ShipStation en compte 38 858)${R}`);
+  console.log(`Survivantes Shopify: ${plans.filter((p) => !p.garde.ss).length.toLocaleString("fr-CA")}` +
+    ` sur ${plans.length.toLocaleString("fr-CA")}`);
+  console.log(`\nCe qui est récupéré depuis ShipStation :`);
+  console.log(`  expéditions déplacées : ${plans.reduce((s, p) => s + p.envoisDeplaces, 0).toLocaleString("fr-CA")}`);
+  console.log(`  articles repris (survivante sans ligne) : ${plans.reduce((s, p) => s + p.lignesReprises, 0).toLocaleString("fr-CA")}`);
+  console.log(`  statuts corrigés en « expédiée » : ${plans.filter((p) => p.statut).length.toLocaleString("fr-CA")}`);
+  const parChamp = {};
+  for (const p of plans) for (const c of p.comble) parChamp[c] = (parChamp[c] || 0) + 1;
+  for (const [c, n] of Object.entries(parChamp).sort((a, b) => b[1] - a[1])) {
+    console.log(`  ${c.padEnd(20)} comblé sur ${n.toLocaleString("fr-CA")} commande(s)`);
   }
 
   console.log("\nÉchantillon :");
-  for (const x of aSupprimer.slice(0, 8)) {
-    console.log(`  ${String(x.ss_id).padEnd(12)} supprime #${String(x.id).padEnd(7)}` +
-      ` (${x.lignes} ligne(s), ${x.envois} envoi(s), clé « ${String(x.cle).slice(0, 28)} »)` +
-      ` → garde #${x.garde}`);
+  for (const p of plans.slice(0, 6)) {
+    console.log(`  ${String(p.numero).padEnd(12)} garde #${String(p.garde.id).padEnd(7)}` +
+      `${p.garde.ss ? "(ShipStation)" : "(Shopify)"} ${p.garde.lignes} ligne(s)` +
+      ` ← fusionne ${p.donneurs.map((d) => `#${d.id}`).join(", ")}` +
+      ` [${p.envoisDeplaces} envoi(s)${p.comble.length ? `, comble ${p.comble.join("/")}` : ""}${
+        p.statut ? ", → expédiée" : ""}]`);
   }
-
-  // Un doublon qui porte une expédition n'est pas un doublon inerte : le supprimer perdrait
-  // une étiquette achetée. On le laisse et on le signale, quitte à ce que le compte reste
-  // imparfait — un chiffre légèrement faux vaut mieux qu'une étiquette effacée.
-  const sûrs = aSupprimer.filter((x) => x.envois === 0);
-  console.log(`\nSuppressions sûres : ${sûrs.length.toLocaleString("fr-CA")} sur ${aSupprimer.length.toLocaleString("fr-CA")}`);
 
   if (!confirme) {
     console.log(`\n${A} Simulation — rien n'a été écrit.`);
-    console.log(`  Relancer avec ${G}--confirmer${R} pour supprimer les ${sûrs.length.toLocaleString("fr-CA")} lignes sûres.`);
+    console.log(`  Relancer avec ${G}--confirmer${R} pour fusionner.`);
+    console.log(`  ${G}Aucune donnée n'est jetée : le raw ShipStation est rangé dans orders.raw_shipstation.${R}`);
     return 0;
   }
 
-  let n = 0;
-  const paquet = 500;
-  for (let i = 0; i < sûrs.length; i += paquet) {
-    const lot = sûrs.slice(i, i + paquet);
+  let n = 0, envois = 0;
+  for (const p of plans) {
+    // Une transaction par groupe : une interruption ne peut pas laisser une expédition
+    // orpheline entre le déplacement et la suppression.
     tx(() => {
-      for (const x of lot) {
-        run("DELETE FROM order_items WHERE order_id = ?", x.id);
-        run("DELETE FROM order_tags WHERE order_id = ?", x.id);
-        run("DELETE FROM orders WHERE id = ?", x.id);
+      for (const d of p.donneurs) {
+        run("UPDATE shipments SET order_id = ? WHERE order_id = ?", p.garde.id, d.id);
+        envois += d.envois;
+        run("INSERT OR IGNORE INTO order_tags(order_id, tag_id) SELECT ?, tag_id FROM order_tags WHERE order_id = ?",
+          p.garde.id, d.id);
+        if (p.lignesReprises) run("UPDATE order_items SET order_id = ? WHERE order_id = ?", p.garde.id, d.id);
+
+        for (const c of p.comble) {
+          if (!vide(d.o[c])) run(`UPDATE orders SET ${c} = ? WHERE id = ? AND (${c} IS NULL OR ${c} = '' OR ${c} = 0)`,
+            d.o[c], p.garde.id);
+        }
+        if (d.o.internal_notes && d.o.internal_notes !== p.garde.o.internal_notes) {
+          run("UPDATE orders SET internal_notes = TRIM(COALESCE(internal_notes,'') || ' ' || ?) WHERE id = ?",
+            d.o.internal_notes, p.garde.id);
+        }
+        if (d.ss && d.o.raw) run("UPDATE orders SET raw_shipstation = ? WHERE id = ?", d.o.raw, p.garde.id);
+
+        run("DELETE FROM order_items WHERE order_id = ?", d.id);
+        run("DELETE FROM order_tags WHERE order_id = ?", d.id);
+        run("DELETE FROM orders WHERE id = ?", d.id);
         n++;
       }
+      if (p.statut) run("UPDATE orders SET status = ? WHERE id = ?", p.statut, p.garde.id);
     });
-    process.stderr.write(`\r  supprimées : ${n.toLocaleString("fr-CA")}`);
+    if (n % 500 === 0) process.stderr.write(`\r  fusionnées : ${n.toLocaleString("fr-CA")}`);
   }
-  process.stderr.write("\n");
-  journaliser("orders.dedupe", "system", null,
-    { groupes: groupes.length, supprimees: n, conservees_avec_envois: avecEnvois.length }, null);
+  process.stderr.write(`\r  fusionnées : ${n.toLocaleString("fr-CA")}\n`);
+
+  journaliser("orders.fusion", "system", null,
+    { groupes: plans.length, fusionnees: n, envois_deplaces: envois }, null);
 
   const reste = one("SELECT COUNT(*) n FROM orders").n;
-  console.log(`\n${V} ${n.toLocaleString("fr-CA")} doublon(s) supprimé(s). Commandes restantes : ${reste.toLocaleString("fr-CA")}`);
+  const orphelins = one("SELECT COUNT(*) n FROM shipments WHERE order_id IS NOT NULL AND order_id NOT IN (SELECT id FROM orders)").n;
+  console.log(`\n${V} ${n.toLocaleString("fr-CA")} doublon(s) fusionné(s), ${envois.toLocaleString("fr-CA")} expédition(s) rattachée(s).`);
+  console.log(`  Commandes restantes : ${reste.toLocaleString("fr-CA")}`);
+  console.log(orphelins ? `${A} ${orphelins} expédition(s) orpheline(s) — à signaler.`
+    : `${V} aucune expédition orpheline.`);
   console.log(`  ${G}Vérifier ensuite avec « Compter des deux côtés » dans les Réglages.${R}`);
-  return 0;
+  return orphelins ? 1 : 0;
 }
 
 process.exit(main());
