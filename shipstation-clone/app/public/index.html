@@ -4355,7 +4355,9 @@ async function detailCommande(id) {
             <button id="cBal" title="Aucune balance détectée sur ce poste">Balance</button>
           </div>
 
-          <label class="champ"><span>Service</span><select id="cSvc">
+          <label class="champ"><span>Fournisseur d'étiquettes</span>
+            <select id="cFour">${optionsFournisseur()}</select></label>
+          <label class="champ"><span id="cSvcL">Service</span><select id="cSvc">
             ${optionsService(o.service_id || "")}
           </select></label>
 
@@ -4777,18 +4779,44 @@ async function detailCommande(id) {
     () => { f.remove(); ficheOuverte = null; aller("reglages"); }, "Ouvrir les réglages");
   $("#cBrowse", f).onclick = () => { fermer(); aller("tarifs"); };
 
+  /**
+   * L'écran plein cote comme le panneau de droite — mêmes fournisseurs, mêmes tarifs vivants.
+   *
+   * Il était resté sur l'ancien fonctionnement : liste de services figée, aucun choix de
+   * fournisseur, donc aucun moyen d'appeler Freightcom depuis la fiche ouverte par le numéro
+   * de commande. Deux écrans qui font le même travail doivent le faire pareil, sans quoi
+   * l'un des deux ment.
+   */
   async function coter() {
     $("#cCout", f).textContent = "…";
     f.querySelectorAll(".avisPoids").forEach((x) => x.remove());
     try {
-      const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: id } });
-      const t = r.recommande || (r.tarifs || [])[0];
-      $("#cCout", f).textContent = t ? money(t.price) : "—";
-      $("#cArrivee", f).textContent = t?.delivery_days ? `Arrivée estimée : ${t.delivery_days} j` : "";
-      // Alerte de marge (constat OBS9) : ce que le client a payé vs ce que l'étiquette coûte.
-      if (t && (o.shipping_paid || 0) < t.price) {
-        const ecart = t.price - (o.shipping_paid || 0);
-        $("#cCout", f).innerHTML = `${money(t.price)} <span class="puce r" title="Livraison facturée ${
+      const four = $("#cFour", f) && $("#cFour", f).value;
+      const r = await api("/api/shipments/quote", { method: "POST",
+        body: { order_id: id, fournisseur: four || undefined } });
+
+      // Les tarifs du moment remplacent la liste : ce sont les seuls dont on sait qu'ils
+      // s'appliquent à CET envoi.
+      const ops = optionsTarifs(r, ($("#cSvc", f) && $("#cSvc", f).value) || o.service_id || "");
+      if (ops && $("#cSvc", f)) {
+        $("#cSvc", f).innerHTML = ops;
+        const nomF = (S.fournisseurs || []).find((x) => x.nom === r.fournisseur);
+        const l = $("#cSvcL", f);
+        if (l) l.textContent = `Service — ${r.tarifs.length} tarif(s) chez ${
+          nomF ? nomF.libelle : r.fournisseur || "le fournisseur par défaut"}`;
+      }
+
+      const choisi = $("#cSvc", f) && $("#cSvc", f).value;
+      const t = r.tarifs.find((x) => String(x.serviceId) === String(choisi))
+        || r.recommande || (r.tarifs || [])[0];
+      // Hors taxes des deux côtés : les frais de port encaissés le sont, et les taxes se
+      // récupèrent en crédits sur intrants.
+      const cout = t ? (t.prixHT ?? t.price) : null;
+      $("#cCout", f).textContent = t ? money(cout) : "—";
+      $("#cArrivee", f).textContent = t?.transitDays ? `Arrivée estimée : ${t.transitDays} j` : "";
+      if (t && (o.shipping_paid || 0) < cout) {
+        const ecart = Math.round((cout - (o.shipping_paid || 0)) * 100) / 100;
+        $("#cCout", f).innerHTML = `${money(cout)} <span class="puce r" title="Livraison facturée ${
           money(o.shipping_paid)}">−${money(ecart)}</span>`;
       }
     } catch (e) {
@@ -4804,11 +4832,23 @@ async function detailCommande(id) {
     }
   }
   coter();
+  // Changer de fournisseur recote ; choisir un tarif l'enregistre et met le coût à jour.
+  // Sans ça, les deux menus étaient décoratifs — le reproche exact fait au menu Colis.
+  const chFour = $("#cFour", f);
+  if (chFour) chFour.onchange = () => coter();
+  const chSvc = $("#cSvc", f);
+  if (chSvc) chSvc.onchange = async () => {
+    await tenter(() => api("/api/orders", { method: "POST",
+      body: { ...o, service_id: chSvc.value || null } }), { message: "Service non enregistré" });
+    coter();
+  };
 
   $("#cRevue", f).onclick = async () => {
     $("#cOut", f).innerHTML = '<div class="doux">Cotation…</div>';
     try {
-      const r = await api("/api/shipments/quote", { method: "POST", body: { order_id: id } });
+      const four = $("#cFour", f) && $("#cFour", f).value;
+      const r = await api("/api/shipments/quote", { method: "POST",
+        body: { order_id: id, fournisseur: four || undefined } });
       $("#cOut", f).innerHTML = tableauTarifs(r, o);
     } catch (e) { $("#cOut", f).innerHTML = `<div class="avis mini">${esc(e.message)}</div>`; }
   };
