@@ -93,6 +93,41 @@ const nombre = (v) => (v === null || v === undefined || v === "" ? null : Math.r
 const cm = (po) => Math.max(0.1, Math.round(Number(po || 0) * 2.54 * 10) / 10);
 
 /**
+ * Code postal, au format que Chit Chats attend.
+ *
+ * Je retirais l'espace, comme pour Freightcom et Postes Canada. Chit Chats, lui, l'exige :
+ * son exemple de documentation écrit `"postal_code": "V6K 1A1"`, et sans l'espace il répond
+ * « return_postal_code field is invalid » — puis, en cascade, déclare la province invalide
+ * elle aussi, ce qui envoie chercher le problème au mauvais endroit.
+ *
+ * La leçon vaut au-delà de ce champ : chaque transporteur a sa façon d'écrire la même donnée,
+ * et normaliser « pour faire propre » n'est pas neutre.
+ */
+function codePostal(v, pays = "CA") {
+  const brut = String(v || "").toUpperCase().replace(/\s+/g, "");
+  if (!brut) return undefined;
+  if (String(pays).toUpperCase() !== "CA") return brut;
+  return /^[A-Z]\d[A-Z]\d[A-Z]\d$/.test(brut) ? `${brut.slice(0, 3)} ${brut.slice(3)}` : brut;
+}
+
+/** Province en deux lettres : « Québec » ou « Quebec » écrits en toutes lettres sont refusés. */
+const PROVINCES = {
+  quebec: "QC", québec: "QC", ontario: "ON", alberta: "AB", manitoba: "MB",
+  saskatchewan: "SK", "nova scotia": "NS", "nouvelle-écosse": "NS",
+  "new brunswick": "NB", "nouveau-brunswick": "NB", "british columbia": "BC",
+  "colombie-britannique": "BC", "newfoundland and labrador": "NL",
+  "terre-neuve-et-labrador": "NL", "prince edward island": "PE",
+  "île-du-prince-édouard": "PE", yukon: "YT", nunavut: "NU",
+  "northwest territories": "NT", "territoires du nord-ouest": "NT",
+};
+function province(v) {
+  const s = String(v || "").trim();
+  if (!s) return undefined;
+  if (s.length === 2) return s.toUpperCase();
+  return PROVINCES[s.toLowerCase()] || s.toUpperCase().slice(0, 2);
+}
+
+/**
  * Le colis, tel que Chit Chats le veut.
  *
  * `package_type` a seize valeurs, dont douze propres aux enveloppes à tarif fixe de l'USPS.
@@ -110,8 +145,8 @@ function corpsExpedition(envoi, { ordre = null } = {}) {
     address_1: to.street1 || "",
     address_2: to.street2 || undefined,
     city: to.city || "",
-    province_code: to.state || undefined,
-    postal_code: String(to.postalCode || "").toUpperCase().replace(/\s/g, "") || undefined,
+    province_code: province(to.state),
+    postal_code: codePostal(to.postalCode, pays),
     country_code: pays,
     phone: to.phone || undefined,
     email: to.email || undefined,
@@ -119,8 +154,8 @@ function corpsExpedition(envoi, { ordre = null } = {}) {
     return_name: from.company || from.name || undefined,
     return_address_1: from.street1 || undefined,
     return_city: from.city || undefined,
-    return_province_code: from.state || undefined,
-    return_postal_code: String(from.postalCode || "").toUpperCase().replace(/\s/g, "") || undefined,
+    return_province_code: province(from.state),
+    return_postal_code: codePostal(from.postalCode, from.country || "CA"),
 
     description: (envoi.description || "Marchandise").slice(0, 100),
     value: String(Number(envoi.value || 0).toFixed(2)),
@@ -203,7 +238,7 @@ function oublierBrouillon(ordre) {
 function empreinteEnvoi(envoi) {
   const p = envoi.parcel || {};
   return JSON.stringify([
-    String(envoi.to?.postalCode || "").toUpperCase().replace(/\s/g, ""),
+    codePostal(envoi.to?.postalCode, envoi.to?.country),
     (envoi.to?.country || "CA").toUpperCase(),
     Math.round(Number(p.weightG || 0)), cm(p.lengthIn), cm(p.widthIn), cm(p.heightIn),
     !!envoi.signature, !!envoi.insurance,

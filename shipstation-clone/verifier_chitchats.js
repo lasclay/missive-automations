@@ -74,7 +74,14 @@ const ENVOI_US = {
   verifier("bac à sable par défaut", req.url.startsWith("https://staging.chitchats.com/api/v1/clients/essai-client"),
     "aucune étiquette facturée tant que CHITCHATS_ENV n'est pas « prod »");
   verifier("jeton en en-tête Authorization brut", req.entetes.Authorization === "essai-jeton");
-  verifier("code postal normalisé", c.postal_code === "05401" && c.country_code === "US");
+  verifier("code postal américain sans espace", c.postal_code === "05401" && c.country_code === "US");
+  // Chit Chats EXIGE l espace dans un code postal canadien : sans lui, il répond
+  // « return_postal_code field is invalid » puis déclare la province invalide en cascade,
+  // ce qui envoie chercher le problème au mauvais endroit.
+  verifier("code postal canadien AVEC son espace",
+    c.return_postal_code === "G1J 3R4", c.return_postal_code);
+  verifier("province ramenée à deux lettres",
+    cc.corpsExpedition({ ...ENVOI_US, to: { ...ENVOI_US.to, country: "CA", state: "Québec", postalCode: "j8y6e1" } }).province_code === "QC");
   verifier("poids en grammes, sans conversion inutile", c.weight === 300 && c.weight_unit === "g");
   verifier("dimensions converties en cm",
     c.size_unit === "cm" && c.size_x === 22.9 && c.size_y === 12.7 && c.size_z === 5.1,
@@ -83,7 +90,7 @@ const ENVOI_US = {
     "ce que Freightcom ne sait pas transmettre");
   verifier("DDP activé d'office vers les États-Unis", c.duties_paid_requested === true,
     "le client ne paie rien au facteur");
-  verifier("adresse de retour renseignée", c.return_postal_code === "G1J3R4");
+  verifier("adresse de retour renseignée", c.return_postal_code === "G1J 3R4");
   verifier("numéro de commande porté", String(c.order_id) === "4242");
 
   console.log("\nLecture des tarifs\n" + "─".repeat(64));
