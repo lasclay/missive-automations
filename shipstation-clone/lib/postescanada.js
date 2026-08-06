@@ -356,8 +356,31 @@ async function coter(envoi) {
       // Le tarif de dépôt au comptoir n'est pas exposé par cette API : ne pas le prétendre.
       dropOff: false,
       options: optionsDe(envoi),
+      // La couverture apparaît comme un **ajustement** de code `COV`, à côté du prix de base.
+      // C'est la seule trace que l'option a été acceptée : Postes Canada ne renvoie pas de
+      // champ « assurance ». Un envoi assuré sans ajustement COV veut dire que ce service ne
+      // la porte pas, et il vaut mieux le voir avant l'achat qu'après le sinistre.
+      assurance: assuranceDe(q, Number(envoi.insurance || 0)),
     };
   }).sort((a, b) => a.price - b.price);
+}
+
+/**
+ * Ce que le devis dit de la couverture. `COV` est le code d'ajustement « Coverage » de la
+ * SOA ; son montant est le prix réel de la protection, distinct du port.
+ */
+function assuranceDe(q, demandee) {
+  const lignes = tableau(q["adjustments"]?.["adjustment"]);
+  const cov = lignes.find((a) => String(a["adjustment-code"] || "").toUpperCase() === "COV");
+  return {
+    demandee: demandee || 0,
+    appliquee: !!cov,
+    cout: cov ? Math.round(Number(cov["adjustment-cost"] || 0) * 100) / 100 : 0,
+    mention: cov ? (cov["adjustment-name"] || "Coverage (COV)") : null,
+    type: demandee > 0 ? "postescanada" : null,
+    note: !demandee ? "aucune couverture demandée"
+      : cov ? null : "demandée, absente du devis — ce service ne la porte pas",
+  };
 }
 
 /**

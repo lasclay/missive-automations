@@ -87,6 +87,29 @@ const GRILLE_BOUCHON = [
  * Ce n'est PAS une simulation de tarification : les prix ne varient pas avec la distance.
  * Ils ne cotent en revanche plus que des transporteurs que le compte possède réellement.
  */
+/**
+ * L'assurance du fournisseur de démonstration. Elle n'assure rien — c'est un exercice — mais
+ * elle porte la forme exacte que rendent Freightcom, Chit Chats et Postes Canada, y compris
+ * le cas qui compte : couverture demandée, service qui ne la vend pas.
+ */
+function assuranceBouchon(shipment, tarif) {
+  const demandee = Number(shipment.insurance || 0);
+  const international = String(shipment.to?.country || "CA").toUpperCase() !== "CA";
+  // Un service de dépôt au comptoir ne porte pas de couverture : c'est le cas réel qu'il faut
+  // pouvoir voir à l'écran avant d'acheter.
+  const vendue = demandee > 0 && !tarif.dropOff;
+  return {
+    demandee,
+    appliquee: vendue,
+    cout: vendue ? Math.round(demandee * (international ? 0.015 : 0.011) * 100) / 100 : 0,
+    mention: vendue ? "Démonstration — couverture d'exercice" : null,
+    type: demandee > 0 ? "demonstration" : null,
+    note: !demandee ? "aucune couverture demandée"
+      : vendue ? "prix d'exercice : aucune couverture réelle"
+      : "demandée, absente de la réponse — ce service ne la vend pas",
+  };
+}
+
 const bouchon = {
   nom: "bouchon",
   async quote(shipment) {
@@ -112,7 +135,12 @@ const bouchon = {
       .filter(admis)
       .filter((r) => !r.dropOff || shipment.parcel.weightG < SEUIL_DROPOFF_G)
       .map((r) => ({ ...r, price: Math.round((r.price + majoration) * 100) / 100,
-        currency: "CAD", demonstration: true }))
+        currency: "CAD", demonstration: true,
+        // Le bouchon rend la MÊME forme d'assurance que les vrais adaptateurs, pour que
+        // l'écran de preuve s'exerce sans clé, sans réseau et sans dépense. Le taux imite
+        // celui de XCover — 1,10 % en domestique, 1,50 % à l'international — de sorte que
+        // l'ordre de grandeur affiché ressemble à ce qu'on verra en production.
+        assurance: assuranceBouchon(shipment, r) }))
       .sort((a, b) => a.price - b.price);
   },
   async buy(shipment, serviceId) {

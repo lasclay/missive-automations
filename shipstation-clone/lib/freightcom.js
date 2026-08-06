@@ -244,7 +244,25 @@ function purgerCache() {
 
 // ------------------------------------------------------------------- cotation
 
-function lireTarif(t) {
+function lireTarif(t, demandee = 0) {
+  // Ce que l'API dit de la couverture, pas ce qu'on espérait qu'elle en dise.
+  //
+  // Freightcom ne renvoie pas de champ « assurance » : la couverture, quand elle est
+  // accordée, apparaît comme une **surcharge**. Sa présence est donc la seule preuve que
+  // l'appel a été routé et accepté — et son montant, le prix réel de la protection.
+  // L'absence de surcharge alors qu'on a demandé une couverture est un signal, pas un
+  // silence : elle veut dire que le transporteur ne la vend pas sur ce service.
+  const ligne = (t.surcharges || []).find((s) =>
+    /insur|assur|coverage|declared/i.test(`${s.type || ""} ${s.name || ""}`));
+  const assurance = {
+    demandee: Number(demandee) || 0,
+    appliquee: !!ligne,
+    cout: ligne ? enDollars(ligne.amount || ligne.total) : 0,
+    mention: ligne ? (ligne.name || ligne.type) : null,
+    type: demandee > 0 ? (process.env.FREIGHTCOM_ASSURANCE_TYPE || "carrier") : null,
+    note: !demandee ? "aucune couverture demandée"
+      : ligne ? null : "demandée, absente de la réponse — ce service ne la vend pas",
+  };
   return {
     carrier: t.carrier_name || "",
     service: t.service_name || "",
@@ -276,6 +294,7 @@ function lireTarif(t) {
     // on le déduit du libellé — et `FREIGHTCOM_SERVICES_DEPOT` permet de le figer par
     // identifiant dès que la première cotation réelle nous les aura donnés.
     dropOff: estDepot(t),
+    assurance,
   };
 }
 
@@ -323,7 +342,8 @@ async function coterDirect(envoi, { services = null, deadlineMs = DELAI_INTERACT
   for (let essai = 0; ; essai++) {
     const r = await appel("GET", `/rate/${encodeURIComponent(id)}`);
     statut = r?.status || statut;
-    if (Array.isArray(r?.rates) && r.rates.length) tarifs = r.rates.map(lireTarif);
+    if (Array.isArray(r?.rates) && r.rates.length)
+      tarifs = r.rates.map((t) => lireTarif(t, Number(envoi.insurance || 0)));
     if (statut.done) break;
     if (signal?.aborted) break;
     if (Date.now() - debut > deadlineMs) break;

@@ -115,6 +115,56 @@ const ENVOI = {
       decoche.insurance_requested === false);
   }
 
+  console.log("\nLa preuve rendue par chaque fournisseur\n" + "─".repeat(64));
+
+  // Un routage qui marche mais qu'on ne voit pas ne vaut rien à l'écran : c'est la promesse
+  // « ce colis est assuré » qu'on ne peut pas vérifier après le sinistre. Chaque tarif doit
+  // donc porter ce que l'API a répondu — y compris quand elle a répondu « non ».
+  {
+    process.env.FREIGHTCOM_API_KEY = "cle-essai";
+    const fc = require("./lib/freightcom");
+    const TARIF = (surcharges) => ({
+      carrier_name: "GLS", service_name: "Standard", service_id: "gls-standard",
+      total: { currency: "CAD", value: "1106" }, base: { currency: "CAD", value: "900" },
+      surcharges, valid_until: { year: 2099, month: 12, day: 31 },
+    });
+
+    const couvert = fc.lireTarif(TARIF([
+      { type: "fuel", name: "Carburant", amount: { currency: "CAD", value: "60" } },
+      { type: "insurance", name: "Declared Value Coverage", amount: { currency: "CAD", value: "350" } },
+    ]), 240);
+    verifier("Freightcom — couverture reconnue dans les surcharges", couvert.assurance.appliquee === true);
+    verifier("Freightcom — coût de la couverture lu", couvert.assurance.cout === 3.5,
+      `${couvert.assurance.cout} $`);
+    verifier("Freightcom — champ prouvant la couverture",
+      couvert.assurance.mention === "Declared Value Coverage", couvert.assurance.mention);
+    verifier("Freightcom — la couverture compte dans le prix HT",
+      couvert.prixHT === 13.1, `${couvert.prixHT} $`);
+
+    // Le cas dangereux : l'appel réussit, aucune couverture n'est vendue, le colis part nu.
+    const nu = fc.lireTarif(TARIF([{ type: "fuel", name: "Carburant", amount: { currency: "CAD", value: "60" } }]), 240);
+    verifier("Freightcom — demandée sans réponse : signalée", nu.assurance.appliquee === false && !!nu.assurance.note,
+      nu.assurance.note);
+    const rien = fc.lireTarif(TARIF([]), 0);
+    verifier("Freightcom — rien demandé, rien promis",
+      rien.assurance.appliquee === false && rien.assurance.demandee === 0);
+  }
+
+  {
+    process.env.CHITCHATS_TOKEN = "jeton-essai";
+    process.env.CHITCHATS_CLIENT_ID = "0000";
+    const cc = require("./lib/chitchats");
+    const t = cc.lireTarif({ postage_type: "chit_chats_us_edge", postage_description: "US Edge",
+      purchase_amount: "7.25", payment_amount: "7.25",
+      insurance_description: "Chit Chats Insurance up to $100" }, { insurance_requested: true });
+    verifier("Chit Chats — couverture reconnue", t.assurance.appliquee === true, t.assurance.mention);
+    verifier("Chit Chats — type nommé", t.assurance.type === "chitchats");
+    const sans = cc.lireTarif({ postage_type: "chit_chats_canada_tracked",
+      purchase_amount: "7.14", payment_amount: "7.14" }, { insurance_requested: true });
+    verifier("Chit Chats — demandée sans réponse : signalée",
+      sans.assurance.appliquee === false && !!sans.assurance.note, sans.assurance.note);
+  }
+
   global.fetch = vraiFetch;
   console.log("\n" + "─".repeat(64));
   console.log(`${echecs ? X : V} ${passes}/${passes + echecs} contrôles passés`);

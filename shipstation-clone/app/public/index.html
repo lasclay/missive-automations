@@ -161,6 +161,15 @@
   .puce.r { background:rgba(192,57,43,.14); color:var(--puce-r) }
   .puce.r::before { content:"✕" }
   .puce.g { background:rgba(120,130,140,.16); color:var(--puce-g) }
+  /* Preuve d'assurance : discrète quand tout va bien, dépliée d'office quand la couverture
+     a été demandée sans être accordée — c'est le seul cas qu'on ne peut pas rattraper après. */
+  .cAssurD { margin-top:6px; border-top:1px solid var(--bordure); padding-top:5px }
+  .cAssurD > summary { cursor:pointer; font-size:12.5px; color:var(--doux);
+                       display:flex; align-items:center; gap:6px }
+  .cAssurD .kv { display:flex; justify-content:space-between; gap:8px; font-size:12.5px; padding:2px 0 }
+  .cAssurD .kv span:first-child { color:var(--doux) }
+  .cAssurJ { font-size:11.5px; margin:4px 0 0; padding:6px 8px; border-radius:var(--r1);
+             background:var(--inactif-fond); overflow-x:auto; white-space:pre }
   .puce.g::before { content:"•" }
   .doux { color:var(--doux) }
   .avis { padding:9px 12px; border-radius:var(--r1); margin-bottom:12px; font-size:13px;
@@ -3753,7 +3762,8 @@ VUES.commandes = async (statutFixe) => {
         t.prixHT !== undefined && t.prixHT !== t.price
           ? ` · ${money(t.price)} taxes comprises` : ""}${
         marge !== null ? ` · marge <span class="${marge < 0 ? "rouge" : "vert"}">${
-          marge >= 0 ? "+" : ""}${money(marge)}</span>` : ""}</div>`;
+          marge >= 0 ? "+" : ""}${money(marge)}</span>` : ""}</div>
+        ${blocAssurance(t)}`;
       $("#cPrix").textContent = "  " + money(cout);
     };
 
@@ -4152,6 +4162,45 @@ function optionsFournisseur(selection = "") {
  * Alors la cotation **devient** le menu. Chaque ligne porte son prix, parce que c'est sur le
  * prix qu'on choisit, et le tarif de dépôt est marqué : c'est lui qui porte l'économie.
  */
+/**
+ * Ce que le fournisseur a répondu au sujet de l'assurance, pour le tarif sous les yeux.
+ *
+ * Le routage par fournisseur est invisible : rien, à l'écran, ne distinguait un colis assuré
+ * chez Chit Chats d'un colis parti sans couverture. Or c'est exactement ce qu'on ne peut pas
+ * découvrir après coup — un sinistre sur un envoi qu'on croyait protégé ne se rattrape pas.
+ *
+ * Le bloc montre donc trois choses côte à côte : ce qu'on a DEMANDÉ, ce que l'API a RENDU, et
+ * le champ brut qui le prouve. Trois, parce que « demandé » sans « rendu » est le cas
+ * dangereux : le service ne vend pas de couverture, l'appel a réussi, et le colis part nu.
+ */
+function blocAssurance(t) {
+  const a = t && t.assurance;
+  if (!a) return `<div class="doux" style="font-size:12px">Ce fournisseur ne rapporte rien sur l'assurance.</div>`;
+  const demandee = Number(a.demandee || 0);
+  const etat = !demandee ? { p: "g", txt: "aucune couverture demandée" }
+    : a.appliquee ? { p: "v", txt: `couverte — ${money(a.cout)}` }
+    : { p: "r", txt: "demandée, NON couverte" };
+  const ligne = (k, v) => `<div class="kv"><span>${esc(k)}</span><span>${v}</span></div>`;
+  return `<details class="cAssurD"${!demandee || a.appliquee ? "" : " open"}>
+    <summary>Assurance <span class="puce ${etat.p}">${esc(etat.txt)}</span></summary>
+    ${ligne("valeur déclarée", demandee ? money(demandee) : "—")}
+    ${ligne("acceptée par l'API", a.appliquee ? "oui" : "non")}
+    ${ligne("coût de la couverture", a.cout ? money(a.cout) : "—")}
+    ${ligne("champ renvoyé", a.mention ? `<code>${esc(a.mention)}</code>` : "—")}
+    ${ligne("type demandé", a.type ? `<code>${esc(a.type)}</code>` : "—")}
+    ${a.note ? `<div class="doux" style="font-size:12px;margin-top:4px">${esc(a.note)}</div>` : ""}
+    <details style="margin-top:6px"><summary class="doux" style="font-size:12px">Réponse brute</summary>
+      <pre class="cAssurJ">${esc(JSON.stringify(a, null, 2))}</pre></details>
+  </details>`;
+}
+
+/** Le marqueur d'assurance collé au libellé d'un tarif, dans la liste déroulante. */
+function marqueAssurance(t) {
+  const a = t && t.assurance;
+  if (!a || !Number(a.demandee || 0)) return "";
+  return a.appliquee ? ` · assuré ${money(a.cout)}` : " · NON assuré";
+}
+
 function optionsTarifs(r, selection = "") {
   const tarifs = (r && r.tarifs) || [];
   if (!tarifs.length) return null;
@@ -4172,7 +4221,7 @@ function optionsTarifs(r, selection = "") {
         // En comparaison croisée, deux services homonymes chez deux courtiers seraient
         // indiscernables : le fournisseur est écrit dans le libellé.
         t.fournisseur ? ` · ${esc((S.fournisseurs || []).find((f) => f.nom === t.fournisseur)?.libelle || t.fournisseur)}` : ""
-      }</option>`).join("")}</optgroup>`).join("")}`;
+      }${marqueAssurance(t)}</option>`).join("")}</optgroup>`).join("")}`;
 }
 
 
@@ -4437,6 +4486,7 @@ async function detailCommande(id) {
           <button type="button" id="cAcheter" class="v"${etatAchat(o).ok ? "" : " disabled"}
             aria-describedby="cRaisonM" title="${esc(etatAchat(o).motif || "")}">Créer + imprimer l'étiquette</button>
           <div class="doux" id="cArrivee"></div>
+          <div id="cAssurB"></div>
         </footer>
       </aside>
     </div>
@@ -4861,6 +4911,8 @@ async function detailCommande(id) {
       const cout = t ? (t.prixHT ?? t.price) : null;
       $("#cCout", f).textContent = t ? money(cout) : "—";
       $("#cArrivee", f).textContent = t?.transitDays ? `Arrivée estimée : ${t.transitDays} j` : "";
+      // La preuve d'assurance vit sous le coût, à l'endroit où l'on décide d'acheter.
+      if ($("#cAssurB", f)) $("#cAssurB", f).innerHTML = t ? blocAssurance(t) : "";
       if (t && (o.shipping_paid || 0) < cout) {
         const ecart = Math.round((cout - (o.shipping_paid || 0)) * 100) / 100;
         $("#cCout", f).innerHTML = `${money(cout)} <span class="puce r" title="Livraison facturée ${
@@ -4872,6 +4924,7 @@ async function detailCommande(id) {
       // Et la liste de services précédente est effacée : la garder ferait croire que les
       // tarifs d'un fournisseur s'appliquent à celui qu'on vient de choisir.
       if ($("#cSvc", f)) $("#cSvc", f).innerHTML = optionsService(o.service_id || "");
+      if ($("#cAssurB", f)) $("#cAssurB", f).innerHTML = "";
       const nomF = (S.fournisseurs || []).find((x) => x.nom === ($("#cFour", f) && $("#cFour", f).value));
       const lbl = $("#cSvcL", f);
       if (lbl) lbl.textContent = `Service — aucun tarif${nomF ? ` chez ${nomF.libelle}` : ""}`;

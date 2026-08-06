@@ -216,7 +216,32 @@ function corpsExpedition(envoi, { ordre = null } = {}) {
 }
 
 /** Un tarif Chit Chats, ramené au contrat commun de `lib/carrier.js`. */
-function lireTarif(t) {
+function lireTarif(t, exp = null) {
+  /**
+   * Chez Chit Chats, la preuve n'est pas une surcharge mais un champ nommé.
+   *
+   * L'expédition renvoyée porte `insurance_requested`, et chaque tarif porte le libellé de la
+   * couverture applicable — ce que le consolidateur a réellement accepté, pas ce qu'on a
+   * demandé. Le brouillon est créé AVANT d'avoir un prix (Chit Chats n'a pas d'endpoint de
+   * cotation) : c'est donc la réponse à la création qui dit si la demande a été retenue.
+   *
+   * Un colis assuré dont le tarif ne mentionne aucune couverture veut dire que ce mode de
+   * port ne la porte pas — la lettre suivie, par exemple. Le dire vaut mieux que laisser
+   * croire qu'un colis est protégé.
+   */
+  const libelle = t.insurance_description || t.insurance_type_description || null;
+  const cout = nombre(t.insurance_amount) ?? nombre(t.insurance_cost) ?? 0;
+  const demande = exp ? !!exp.insurance_requested : null;
+  const assurance = {
+    demandee: demande === null ? null : demande,
+    appliquee: !!(libelle || cout),
+    cout: cout || 0,
+    mention: libelle,
+    type: demande ? "chitchats" : null,
+    note: demande === false ? "aucune couverture demandée"
+      : (libelle || cout) ? null
+      : "demandée, absente de la réponse — ce mode de port ne la porte pas",
+  };
   const taxes = (nombre(t.provincial_tax) || 0) + (nombre(t.federal_tax) || 0);
   const total = nombre(t.payment_amount) ?? nombre(t.purchase_amount);
   return {
@@ -237,6 +262,7 @@ function lireTarif(t) {
     // Chit Chats est un consolidateur : on dépose chez eux, jamais de ramassage à la porte.
     // Le drapeau dit donc vrai, et le comparateur ne promet pas un service qu'on n'a pas.
     dropOff: true,
+    assurance,
   };
 }
 
@@ -288,7 +314,7 @@ async function coter(envoi, { ordre = null } = {}) {
   if (memo && memo.empreinte === empreinte) {
     const r = await appel("PATCH", `/shipments/${memo.id}/refresh`, {});
     const exp = r?.shipment || r;
-    return { tarifs: (exp.rates || []).map(lireTarif).sort(cheap), shipmentId: exp.id, reutilise: true };
+    return { tarifs: (exp.rates || []).map((t) => lireTarif(t, exp)).sort(cheap), shipmentId: exp.id, reutilise: true };
   }
 
   // L'envoi a changé (ou il n'y avait rien) : l'ancien brouillon ne vaut plus rien.
@@ -296,7 +322,7 @@ async function coter(envoi, { ordre = null } = {}) {
 
   const r = await appel("POST", "/shipments", corpsExpedition(envoi, { ordre }));
   const exp = r?.shipment || r;
-  const tarifs = (exp.rates || []).map(lireTarif).sort(cheap);
+  const tarifs = (exp.rates || []).map((t) => lireTarif(t, exp)).sort(cheap);
 
   if (ordre) memoriserBrouillon(ordre, exp.id, empreinte);
   else await supprimer(exp.id).catch(() => {});   // cotation exploratoire : on ne laisse rien
