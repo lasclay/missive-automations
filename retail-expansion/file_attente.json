@@ -1400,7 +1400,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Lethbridge|Purple Carrot Health Foods & Wellness Inc.",
@@ -2343,7 +2343,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Burnaby et New Westminster|Eco Refillery",
@@ -5218,7 +5218,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "North Shore|The Stanley Park Trading Post",
@@ -5885,7 +5885,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Peace River BC|Dunvegan Gardens",
@@ -5977,7 +5977,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Prince George|Homespun Refillery",
@@ -9772,7 +9772,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Fredericton|BackTrails - By Radical Edge",
@@ -10554,7 +10554,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "St. John's|The Bee's Knees",
@@ -11014,7 +11014,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Halifax et Dartmouth|Made in the Maritimes Artisan Boutique",
@@ -12210,7 +12210,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Belleville et Quinte|Jysk",
@@ -13327,7 +13327,7 @@
   "vague": 1,
   "langue": "EN",
   "canal": "courriel",
-  "courriel": "derek.earthworksgarden@gmail.com",
+  "courriel": "myearthworks@gmail.com",
   "tel": "519-352-7171",
   "social": "",
   "web": "https://www.myearthworks.com",
@@ -13337,7 +13337,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse corrigee depuis derek.earthworksgarden@gmail.com"
  },
  {
   "id": "Collingwood et Blue Mountains|Pine Eco + Refillery Boutique",
@@ -14947,7 +14947,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Kitchener-Waterloo|W Store",
@@ -16616,7 +16616,7 @@
   "vague": 1,
   "langue": "EN",
   "canal": "courriel",
-  "courriel": "bracebridge@drcomics.ca",
+  "courriel": "store@drcomics.ca",
   "tel": "705-640-5444",
   "social": "",
   "web": "http://www.drcomics.ca/",
@@ -16626,7 +16626,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse corrigee depuis bracebridge@drcomics.ca"
  },
  {
   "id": "Niagara|NEOB Lavender Boutique",
@@ -18460,8 +18460,8 @@
   "tel": "519-595-3203",
   "social": "",
   "web": "https://cedarcrestacres.ca/",
-  "etat": "en_attente",
-  "motif_ecart": "",
+  "etat": "adresse_ecartee",
+  "motif_ecart": "adresse de remplissage du gabarit du site",
   "envoye_le": "",
   "relance_le": "",
   "repondu_le": "",
@@ -18742,7 +18742,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Sarnia-Lambton|Great Lakes Refill Co.",
@@ -21249,7 +21249,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Windsor et Essex|Whiskeyjack Boutique",
@@ -22261,7 +22261,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Baie-des-Chaleurs|Boutique Brock-Art",
@@ -23020,7 +23020,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Chandler et Pabos|La Société Secrète Distillerie",
@@ -23043,7 +23043,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Charlevoix – Baie-Saint-Paul|Boutique L'Artisane",
@@ -23250,7 +23250,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Charlevoix – La Malbaie|Fromagerie St-Fidèle",
@@ -24055,7 +24055,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Granby et Haute-Yamaska|Les Vergers de la Colline",
@@ -24308,7 +24308,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Kamouraska et Témiscouata|Fromagerie Le Mouton Blanc",
@@ -29611,7 +29611,7 @@
   "vague": 1,
   "langue": "FR",
   "canal": "courriel",
-  "courriel": "info@cooparto.com",
+  "courriel": "direction@cooparto.com",
   "tel": "450-346-9036",
   "social": "",
   "web": "https://cooparto.com/",
@@ -29621,7 +29621,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse corrigee depuis info@cooparto.com"
  },
  {
   "id": "Saint-Jean-sur-Richelieu|Les Vergers Pierre Tremblay & Fils",
@@ -30771,7 +30771,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Terrebonne et Repentigny|Boutique Ecolocado",
@@ -31589,7 +31589,7 @@
   "vague": 1,
   "langue": "FR",
   "canal": "courriel",
-  "courriel": "info@fermetournesol.qc.ca",
+  "courriel": "admin@fermetournesol.qc.ca",
   "tel": "450-452-4271",
   "social": "",
   "web": "https://www.fermetournesol.qc.ca",
@@ -31599,7 +31599,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse corrigee depuis info@fermetournesol.qc.ca"
  },
  {
   "id": "Valleyfield et Beauharnois|Pépinière Cité des Jeunes",
@@ -32473,7 +32473,7 @@
   "relance_le": "",
   "repondu_le": "",
   "conversation": "",
-  "note": ""
+  "note": "adresse non retrouvee sur le site du commerce"
  },
  {
   "id": "Yorkton et Est|Western Development Museum Gift Shop",
