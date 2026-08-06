@@ -69,6 +69,49 @@ function envoiDepuisCommande(cmd) {
 }
 
 /**
+ * Chez qui acheter, quand personne ne l'a dit à l'écran.
+ *
+ * C'est le cas du lot : on sélectionne cinquante commandes et on lance, sans menu déroulant.
+ * ShipStation fait alors ce qu'on attend — chaque commande part avec les options qui lui sont
+ * mappées, pas avec un réglage global. Le service mappé sur la commande suffit à désigner son
+ * fournisseur, puisqu'un identifiant de service n'a de sens que chez celui qui le publie.
+ *
+ * La provenance est apprise à la cotation (`noterServices`) : dès qu'un fournisseur a rendu
+ * un tarif, on sait que ce service est le sien. Sans correspondance connue, on ne devine
+ * pas — le fournisseur par défaut reprend la main, comme avant.
+ */
+function fournisseurDuService(serviceId) {
+  if (!serviceId) return null;
+  const r = one("SELECT source FROM services WHERE id = ?", String(serviceId));
+  const src = r && r.source;
+  if (!src || src === "shipstation") return null;
+  try { return adaptateur(src) ? src : null; } catch { return null; }
+}
+
+/**
+ * Retient de quel fournisseur vient chaque service coté.
+ *
+ * Le référentiel ne connaissait la provenance que des services Freightcom, versés par
+ * `synchroniserServices`. Chit Chats et Postes Canada n'ont pas d'endpoint de catalogue :
+ * leurs services n'existent qu'au retour d'une cotation. On les note donc au passage, ce qui
+ * rend la correspondance service → fournisseur complète sans un appel de plus.
+ */
+function noterServices(tarifs, fournisseur) {
+  if (!fournisseur || fournisseur === "bouchon" || !Array.isArray(tarifs)) return;
+  try {
+    for (const t of tarifs) {
+      if (!t.serviceId) continue;
+      run(`INSERT INTO services (id, carrier_code, name, domestic, international, drop_off, source)
+           VALUES (?,?,?,1,1,?,?)
+           ON CONFLICT(id) DO UPDATE SET source = excluded.source,
+             name = COALESCE(NULLIF(services.name,''), excluded.name)`,
+        String(t.serviceId), String(t.carrier || fournisseur).toLowerCase().replace(/[^a-z0-9]+/g, "_"),
+        t.service || String(t.serviceId), t.dropOff ? 1 : 0, fournisseur);
+    }
+  } catch { /* le référentiel n'est pas critique : une cotation ne doit pas échouer pour ça */ }
+}
+
+/**
  * `fournisseur` permet de coter chez un autre que celui de `CARRIER_ADAPTER` — c'est ce qui
  * rend le premier menu de l'écran d'expédition possible, et ce qui permettra de comparer un
  * courtier à un compte propre sans changer une variable d'environnement.
@@ -87,8 +130,12 @@ async function coter(orderId, { fournisseur = null } = {}) {
   // voir trois cents d'écart, et personne ne le fait vingt fois par jour.
   if (fournisseur === "tous") return await coterPartout(cmd, envoi);
 
-  const a = fournisseur ? adaptateur(fournisseur) : adaptateur();
+  // Sans consigne, on suit le service mappé sur la commande — c'est ce qui fait qu'un lot
+  // achète comme ShipStation : commande par commande, avec les options de chacune.
+  const vise = fournisseur || fournisseurDuService(cmd.service_id);
+  const a = vise ? adaptateur(vise) : adaptateur();
   const tarifs = await a.quote(envoi);
+  noterServices(tarifs, a.nom);
   return { envoi, tarifs, fournisseur: a.nom,
     recommande: choisirTarif(tarifs, envoi, politiqueTarif(cmd)) };
 }
@@ -108,6 +155,7 @@ async function coterPartout(cmd, envoi) {
       const tarifs = await adaptateur(f.nom).quote(envoi);
       // Chaque tarif porte son fournisseur : sans ça, deux services homonymes chez deux
       // courtiers deviennent indiscernables au moment d'acheter.
+      noterServices(tarifs, f.nom);
       return { nom: f.nom, libelle: f.libelle, tarifs: tarifs.map((t) => ({ ...t, fournisseur: f.nom })) };
     } catch (e) { return { nom: f.nom, libelle: f.libelle, tarifs: [], erreur: String(e.message || e) }; }
   }));
@@ -168,7 +216,8 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
   const cmd = orders.parId(orderId);
   if (!cmd) throw new Error("commande inconnue");
   if (cmd.status === "shipped") throw new Error("commande déjà expédiée");
-  const { envoi, tarifs, recommande } = await coter(orderId, { fournisseur });
+  const cotation = await coter(orderId, { fournisseur });
+  const { envoi, tarifs, recommande } = cotation;
   const choisi = serviceId ? tarifs.find((t) => t.serviceId === serviceId) : recommande;
   if (!choisi) throw new Error(serviceId ? `service indisponible : ${serviceId}` : "aucun tarif applicable");
 
@@ -182,7 +231,12 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
   // propre couverture : Freightcom la vend en `insurance`, Chit Chats en
   // `insurance_requested`, Postes Canada en option `COV`. Router l'achat, c'est aussi router
   // l'assurance.
-  const chez = choisi.fournisseur || (fournisseur && fournisseur !== "tous" ? fournisseur : null);
+  // Trois sources, de la plus précise à la plus générale : la provenance du tarif retenu
+  // (cotation croisée), puis celle que `coter` a résolue — c'est elle qui porte le service
+  // mappé sur la commande, donc le lot —, puis la consigne explicite de l'écran.
+  const chez = choisi.fournisseur
+    || (cotation.fournisseur && cotation.fournisseur !== "tous" ? cotation.fournisseur : null)
+    || (fournisseur && fournisseur !== "tous" ? fournisseur : null);
   const a = chez ? adaptateur(chez) : adaptateur();
 
   const m = marge(cmd, choisi.price);

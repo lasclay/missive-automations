@@ -127,6 +127,45 @@ const vraiFournisseurs = carrier.fournisseurs;
   verifier("l'expédition le retient aussi",
     one("SELECT provider p FROM shipments WHERE id = ?", achat2.shipmentId).p === "alpha");
 
+  console.log("\nLot : chaque commande avec les options qui lui sont mappées\n" + "─".repeat(64));
+
+  // Un lot n'a pas de menu déroulant : on sélectionne cinquante commandes et on lance. C'est
+  // le comportement de ShipStation qu'on reproduit — chaque commande part avec SON service,
+  // SON assurance, SON fournisseur, et non avec un réglage global appliqué à tout le lot.
+  const faireCommande = (numero, service, assurance) => {
+    run(`INSERT INTO orders (order_key,order_number,store_id,status,order_date,ship_to,weight_g,
+           warehouse_id,shipping_paid,order_total,service_id,insurance)
+         VALUES (?,?,77,'awaiting_shipment','2026-08-06',?,483,1,12,240,?,?)`,
+      `lot-${numero}`, numero,
+      JSON.stringify({ name: "Josée Ferland", street1: "12 rue Saint-Denis", city: "Montréal",
+        state: "QC", country: "CA", postalCode: "H2X 1Y4", residential: true }),
+      service, assurance === null ? null : JSON.stringify({ montant: assurance, devise: "CAD" }));
+    return one("SELECT last_insert_rowid() r").r;
+  };
+  // Les deux services ont été notés au référentiel par la cotation croisée plus haut.
+  const chezA = faireCommande("L-LOT-A", "A-express", 300);
+  const chezB = faireCommande("L-LOT-B", "B-express", null);
+
+  journal.length = 0;
+  const lot = await shipments.traiterLot(
+    shipments.creerLotVide({ name: "Lot d'essai" }).batchId, [chezA, chezB], {});
+  verifier("les deux étiquettes sont achetées", lot.reussis === 2,
+    lot.resultats.map((r) => r.erreur).filter(Boolean).join(" | ") || "");
+  const parNom = Object.fromEntries(all(
+    "SELECT o.order_number n, s.provider p FROM shipments s JOIN orders o ON o.id = s.order_id " +
+    "WHERE o.order_number LIKE 'L-LOT-%'").map((r) => [r.n, r.p]));
+  verifier("la commande mappée sur alpha achète chez alpha", parNom["L-LOT-A"] === "alpha", parNom["L-LOT-A"]);
+  verifier("la commande mappée sur beta achète chez beta", parNom["L-LOT-B"] === "beta", parNom["L-LOT-B"]);
+  verifier("un seul fournisseur global n'a PAS été imposé",
+    parNom["L-LOT-A"] !== parNom["L-LOT-B"]);
+
+  // L'assurance suit la commande, pas le lot.
+  const achats = journal.filter((j) => j.geste === "buy");
+  const chez = (n) => achats.find((a) => a.nom === n);
+  verifier("l'assurance de chaque commande la suit dans le lot",
+    chez("alpha")?.assurance === 300 && !chez("beta")?.assurance,
+    `alpha ${chez("alpha")?.assurance} · beta ${chez("beta")?.assurance}`);
+
   carrier.adaptateur = vraiAdaptateur;
   carrier.fournisseurs = vraiFournisseurs;
   console.log("\n" + "─".repeat(64));
