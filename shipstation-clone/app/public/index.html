@@ -3683,6 +3683,34 @@ VUES.commandes = async (statutFixe) => {
     if (champFournisseur) champFournisseur.onchange = () => $("#cCoter").click();
 
     /**
+     * Choisir un colis applique ses dimensions, et recote.
+     *
+     * Le menu ne faisait rien : on choisissait « Box 12 x 6 x 6 » et les trois champs
+     * restaient vides. Un contrôle qui porte un nom sans produire d'effet est pire qu'un
+     * contrôle absent — on croit avoir agi.
+     *
+     * Les types de colis dont le référentiel ne connaît pas les dimensions ne peuvent rien
+     * appliquer : plutôt que de rester muets, ils le disent, parce que c'est une donnée à
+     * corriger dans les réglages et non une panne.
+     */
+    if ($("#cc")) $("#cc").onchange = async () => {
+      const p = (S.refs.packages || []).find((x) => String(x.id) === String($("#cc").value));
+      const d = p && p.dimensions;
+      if (d && (d.length || d.width || d.height)) {
+        $("#cl").value = d.length || "";
+        $("#cW").value = d.width || "";
+        $("#ch").value = d.height || "";
+      } else if (p) {
+        toast(`« ${p.name} » n'a pas de dimensions enregistrées — à compléter dans Réglages ▸ Types de colis.`,
+          { type: "info" });
+      }
+      await tenter(() => enregistrer(), { message: "Colis non enregistré" });
+      // Les dimensions changent le prix : recoter est le geste suivant, on ne le fait pas
+      // attendre un clic.
+      if (Number($("#cp").value || 0)) $("#cCoter").click();
+    };
+
+    /**
      * Le tarif choisi, en une ligne.
      *
      * Le panneau de droite fait 300 px : un tableau à six colonnes y arrive tronqué, et il
@@ -3735,6 +3763,20 @@ VUES.commandes = async (statutFixe) => {
             nomF ? nomF.libelle : r.fournisseur || "le fournisseur par défaut"}`;
         }
         resumerTarif();
+
+        // Dire pourquoi le tarif de dépôt n'est pas là.
+        //
+        // Sur une commande de 600 g, la liste passait de 6,61 $ à 12,70 $ sans un mot, et il
+        // a fallu essayer trois commandes pour comprendre que le seuil des 500 g était en
+        // cause. Une absence inexpliquée coûte plus cher qu'un avertissement : elle fait
+        // douter de l'outil. Le poids exact est écrit, pas seulement la règle.
+        const seuil = Number((S.config && S.config.seuil_dropoff_g) || 500);
+        const poids = Number($("#cp").value || o.weight_g || 0);
+        if (!r.tarifs.some((t) => t.dropOff) && poids >= seuil) {
+          $("#cTarifs").insertAdjacentHTML("beforeend",
+            `<div class="doux" style="font-size:12px;margin-top:6px">Pas de tarif de dépôt :
+              ce colis fait ${num(poids)} g, le programme s'arrête à ${num(seuil)} g.</div>`);
+        }
       } catch (e) { $("#cTarifs").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
     };
     // Coter dès l'ouverture. Le cache de cotation rend l'appel quasi gratuit sur une commande
