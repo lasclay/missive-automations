@@ -232,6 +232,43 @@ const TARIF = (id, cents, nom) => ({
   // Lac-Beauport, 9 × 6 × 1 po, 45 g. C'est le devis exact qui avait donné 6,31 $ « Drop-Off
   // Only » dans l'interface web le 22 juillet 2026, et donc la seule façon de répondre à la
   // question A1 du brief : ce tarif sort-il de l'API ? Lecture pure, aucune réservation.
+  // `--balayage` cote le MÊME envoi à plusieurs poids.
+  //
+  // « Postes Canada ne sort pas au-delà de 500 g » peut vouloir dire deux choses très
+  // différentes : soit le programme Exclusive s'arrête là et un autre service Canada Post
+  // prend le relais, soit le compte n'a QUE ce programme et Canada Post disparaît
+  // complètement. La première se contourne, la seconde se règle chez Freightcom. Une seule
+  // cotation ne permet pas de trancher ; une série au même envoi, si.
+  if (process.argv.includes("--balayage")) {
+    console.log("\nBalayage de poids — où Canada Post décroche\n" + "─".repeat(72));
+    if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
+    else delete process.env.FREIGHTCOM_API_KEY;
+    const base = {
+      from: { name: "Lasclay", company: "Les Produits Lasclay", street1: "1 rue des Capucins",
+        city: "Québec", state: "QC", country: "CA", postalCode: "G1J 3R4" },
+      to: { name: "Essai", street1: "1 chemin du Village", city: "Lac-Beauport", state: "QC",
+        country: "CA", postalCode: "G3B 0P2", residential: true },
+      parcel: { lengthIn: 9, widthIn: 6, heightIn: 1 }, value: 40, currency: "CAD",
+    };
+    const poids = [100, 400, 480, 495, 505, 600, 1000, 2000, 5000];
+    console.log(`  ${"poids".padEnd(8)} ${"tarifs".padStart(6)}  ${"moins cher".padStart(11)}   services Canada Post`);
+    for (const g of poids) {
+      try {
+        const r = await fc.coterDirect({ ...base, parcel: { ...base.parcel, weightG: g } },
+          { deadlineMs: 25000 });
+        const cp = r.tarifs.filter((t) => /canada.?post|canadapost/i.test(`${t.carrier} ${t.serviceId}`));
+        const min = r.tarifs.length ? r.tarifs[0] : null;
+        console.log(`  ${String(g + " g").padEnd(8)} ${String(r.tarifs.length).padStart(6)}` +
+          `  ${String(min ? `${min.price} $ ${min.carrier}` : "—").padStart(11)}   ${
+          cp.length ? cp.map((t) => `${t.serviceId} ${t.price}$`).join(", ") : `${G}aucun${R}`}`);
+      } catch (e) { console.log(`  ${String(g + " g").padEnd(8)} ${X} ${e.message}`); }
+    }
+    console.log(`\n  ${G}Si Canada Post disparaît d'un seul coup et ne revient jamais, le compte n'a que`);
+    console.log(`  le programme Exclusive : c'est un contrat à demander à Freightcom. S'il revient`);
+    console.log(`  sous un autre identifiant, il n'y a rien à demander — juste à le reconnaître.${R}`);
+    passes++;
+  }
+
   // `--commande L-50145` cote une commande RÉELLE et montre ce qui part et ce qui revient.
   //
   // « Postes Canada n'apparaît pas dans les options » ne se répond pas par une hypothèse : il
