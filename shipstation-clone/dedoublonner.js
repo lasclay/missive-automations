@@ -146,12 +146,32 @@ function main() {
   }
 
   let n = 0, envois = 0;
+  const rates = [];
   for (const p of plans) {
     // Une transaction par groupe : une interruption ne peut pas laisser une expédition
     // orpheline entre le déplacement et la suppression.
+    //
+    // Et un groupe qui échoue ne fait plus tomber la course entière. La première version
+    // s'est arrêtée sur une trace de pile après plusieurs milliers de fusions déjà commises,
+    // laissant l'exploitant sans bilan ni idée de l'état de sa base. Un cas particulier se
+    // note et se traite après ; il ne prend pas les 12 000 autres en otage.
+    try {
     tx(() => {
       for (const d of p.donneurs) {
+        // TOUT ce qui pointe vers la commande absorbée doit être repointé avant de la
+        // supprimer. La première version n'avait déplacé que les expéditions et les
+        // étiquettes, et le DELETE a échoué sur « FOREIGN KEY constraint failed » à mi-course
+        // — les retours, les notifications et les liens de scission/fusion restaient
+        // accrochés. La liste vient de PRAGMA foreign_key_list, pas de mémoire.
         run("UPDATE shipments SET order_id = ? WHERE order_id = ?", p.garde.id, d.id);
+        run("UPDATE returns SET order_id = ? WHERE order_id = ?", p.garde.id, d.id);
+        run("UPDATE notifications SET order_id = ? WHERE order_id = ?", p.garde.id, d.id);
+        // Auto-références : une commande scindée pointe vers sa mère, une commande fusionnée
+        // vers celle qui l'a absorbée. Les laisser pendantes bloquerait la suppression.
+        run("UPDATE orders SET parent_id = ? WHERE parent_id = ?", p.garde.id, d.id);
+        run("UPDATE orders SET merged_into = ? WHERE merged_into = ?", p.garde.id, d.id);
+        run("UPDATE orders SET parent_id = NULL WHERE id = ? AND parent_id = ?", p.garde.id, p.garde.id);
+        run("UPDATE orders SET merged_into = NULL WHERE id = ? AND merged_into = ?", p.garde.id, p.garde.id);
         envois += d.envois;
         run("INSERT OR IGNORE INTO order_tags(order_id, tag_id) SELECT ?, tag_id FROM order_tags WHERE order_id = ?",
           p.garde.id, d.id);
@@ -174,9 +194,17 @@ function main() {
       }
       if (p.statut) run("UPDATE orders SET status = ? WHERE id = ?", p.statut, p.garde.id);
     });
+    } catch (e) { rates.push({ numero: p.numero, garde: p.garde.id, erreur: String(e.message || e) }); }
     if (n % 500 === 0) process.stderr.write(`\r  fusionnées : ${n.toLocaleString("fr-CA")}`);
   }
   process.stderr.write(`\r  fusionnées : ${n.toLocaleString("fr-CA")}\n`);
+
+  if (rates.length) {
+    console.log(`\n${A} ${rates.length} groupe(s) non fusionné(s) — laissés intacts :`);
+    for (const r of rates.slice(0, 10)) console.log(`  ${String(r.numero).padEnd(12)} ${r.erreur}`);
+    if (rates.length > 10) console.log(`  … et ${rates.length - 10} autre(s).`);
+    console.log(`  ${G}Relancer l'outil les reprendra : il est rejouable sans risque.${R}`);
+  }
 
   journaliser("orders.fusion", "system", null,
     { groupes: plans.length, fusionnees: n, envois_deplaces: envois }, null);
