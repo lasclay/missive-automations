@@ -68,7 +68,56 @@ function fiche(id) {
   };
 }
 
+/**
+ * D'où vient l'écart avec ShipStation, une fois les doublons fusionnés.
+ *
+ * Le clone en compte 51 016, ShipStation 38 858. Un excédent n'est pas forcément une erreur :
+ * Shopify garde tout depuis l'ouverture de la boutique, ShipStation ne connaît que ce qui lui
+ * a été transmis pour expédition. Une commande annulée avant préparation, un ramassage local,
+ * une carte-cadeau : Shopify les a, ShipStation jamais.
+ *
+ * Ce rapport ne conclut pas à la place de personne. Il montre les trois populations et leurs
+ * dates, pour qu'on voie si l'excédent ressemble à de l'historique supplémentaire — auquel cas
+ * tout va bien — ou à des doublons que le numéro de commande n'a pas rapprochés.
+ */
+function ecart() {
+  console.log("\nD'où vient l'écart avec ShipStation\n" + "─".repeat(72));
+  const q = (where) => one(`SELECT COUNT(*) n, MIN(order_date) d1, MAX(order_date) d2 FROM orders WHERE ${where}`);
+  const ss = "json_extract(raw,'$.orderId') IS NOT NULL";
+  const fus = "raw_shipstation IS NOT NULL";
+
+  const pops = [
+    ["Connue des deux (fusionnée)", fus],
+    ["ShipStation seulement", `${ss} AND raw_shipstation IS NULL`],
+    ["Shopify seulement", `NOT (${ss}) AND raw_shipstation IS NULL`],
+  ];
+  for (const [nom, w] of pops) {
+    const r = q(w);
+    console.log(`${nom.padEnd(30)} ${String(r.n).padStart(7)}` +
+      `  ${G}${(r.d1 || "—").slice(0, 10)} → ${(r.d2 || "—").slice(0, 10)}${R}`);
+  }
+
+  console.log(`\nCommandes vues seulement par Shopify, par année :`);
+  for (const r of all(`SELECT substr(order_date,1,4) a, COUNT(*) n FROM orders
+      WHERE NOT (${ss}) AND raw_shipstation IS NULL GROUP BY a ORDER BY a`)) {
+    console.log(`  ${r.a || "—"}  ${String(r.n).padStart(6)}`);
+  }
+
+  console.log(`\n  ${G}Une année antérieure au branchement de ShipStation explique l'excédent sans`);
+  console.log(`  qu'il y ait rien à corriger. Un excédent concentré sur les années récentes,`);
+  console.log(`  au contraire, signale des doublons que le numéro de commande n'a pas rapprochés.${R}`);
+
+  console.log(`\nCommandes sans expédition ni numéro de suivi, par statut :`);
+  for (const r of all(`SELECT status, COUNT(*) n FROM orders o
+      WHERE NOT EXISTS (SELECT 1 FROM shipments s WHERE s.order_id = o.id)
+      GROUP BY status ORDER BY n DESC`)) {
+    console.log(`  ${String(r.status).padEnd(20)} ${String(r.n).padStart(6)}`);
+  }
+  return 0;
+}
+
 function main() {
+  if (args.includes("--ecart")) return ecart();
   console.log(`\nFusion des commandes en double — ${confirme ? "\x1b[31mMODE RÉEL\x1b[0m" : "simulation"}\n` + "─".repeat(72));
 
   const total = one("SELECT COUNT(*) n FROM orders").n;
