@@ -51,10 +51,48 @@ async function coter(orderId, { fournisseur = null } = {}) {
   if (!cmd) throw new Error("commande inconnue");
   if (!cmd.weight_g) throw new Error("poids manquant — corriger la commande avant de coter");
   const envoi = envoiDepuisCommande(cmd);
+
+  // « tous » : interroger chaque fournisseur configuré et fondre les résultats.
+  //
+  // C'est le seul mode qui répond à la vraie question — quel est le prix le plus bas, tous
+  // comptes confondus. Sur la commande L-50145 : Chit Chats 7,25 $, Freightcom 7,28 $,
+  // ShipStation 11,82 $. Sans vue commune, il faut changer de fournisseur à la main pour
+  // voir trois cents d'écart, et personne ne le fait vingt fois par jour.
+  if (fournisseur === "tous") return await coterPartout(cmd, envoi);
+
   const a = fournisseur ? adaptateur(fournisseur) : adaptateur();
   const tarifs = await a.quote(envoi);
   return { envoi, tarifs, fournisseur: a.nom,
     recommande: choisirTarif(tarifs, envoi, politiqueTarif(cmd)) };
+}
+
+/**
+ * Cotation croisée. Un fournisseur en panne n'empêche pas les autres de répondre : son échec
+ * est rapporté à côté des tarifs, jamais à leur place. Une comparaison amputée qui ne le dit
+ * pas ferait choisir le moins cher d'une liste incomplète.
+ */
+async function coterPartout(cmd, envoi) {
+  const { fournisseurs } = require("./carrier");
+  const dispo = fournisseurs().filter((f) => f.configure && !f.demonstration);
+  const liste = dispo.length ? dispo : fournisseurs().filter((f) => f.demonstration);
+
+  const resultats = await Promise.all(liste.map(async (f) => {
+    try {
+      const tarifs = await adaptateur(f.nom).quote(envoi);
+      // Chaque tarif porte son fournisseur : sans ça, deux services homonymes chez deux
+      // courtiers deviennent indiscernables au moment d'acheter.
+      return { nom: f.nom, libelle: f.libelle, tarifs: tarifs.map((t) => ({ ...t, fournisseur: f.nom })) };
+    } catch (e) { return { nom: f.nom, libelle: f.libelle, tarifs: [], erreur: String(e.message || e) }; }
+  }));
+
+  const tarifs = resultats.flatMap((r) => r.tarifs)
+    .sort((a, b) => (a.prixHT ?? a.price ?? 1e9) - (b.prixHT ?? b.price ?? 1e9));
+  return {
+    envoi, tarifs, fournisseur: "tous",
+    sources: resultats.map((r) => ({ nom: r.nom, libelle: r.libelle, n: r.tarifs.length, erreur: r.erreur || null })),
+    incomplet: resultats.some((r) => r.erreur),
+    recommande: choisirTarif(tarifs, envoi, politiqueTarif(cmd)),
+  };
 }
 
 /** Politique de choix : le service imposé sur la commande, sinon le moins cher drop-off d'abord. */

@@ -4102,7 +4102,13 @@ function optionsFournisseur(selection = "") {
   const liste = S.fournisseurs || [];
   if (!liste.length) return `<option value="">— chargement…</option>`;
   const choisi = selection || (liste.find((f) => f.defaut) || {}).nom || "";
-  return `<option value="">— choisir —</option>${liste.map((f) =>
+  // « Tous » en tête : c'est la question qu'on se pose vraiment — le prix le plus bas, tous
+  // comptes confondus. Sur une même commande, trois cents séparaient Chit Chats de Freightcom
+  // et quatre dollars les séparaient de l'ancien compte. On ne trouve pas ça en changeant de
+  // menu vingt fois par jour. L'option n'apparaît qu'à partir de deux fournisseurs branchés :
+  // « comparer » un seul compte ne veut rien dire.
+  const n = liste.filter((f) => f.configure && !f.demonstration).length;
+  return `${n > 1 ? `<option value="tous"${choisi === "tous" ? " selected" : ""}>Tous les fournisseurs — comparer ${n} comptes</option>` : ""}<option value="">— choisir —</option>${liste.map((f) =>
     `<option value="${esc(f.nom)}"${f.configure ? "" : " disabled"}${
       String(f.nom) === String(choisi) ? " selected" : ""}>${esc(f.libelle)} — ${
       f.configure ? esc(f.detail) : "identifiants manquants"}</option>`).join("")}`;
@@ -4134,8 +4140,12 @@ function optionsTarifs(r, selection = "") {
   return `<option value="">— choisir —</option>${ordonnes.map(([carrier, liste]) =>
     `<optgroup label="${esc(carrier)}">${liste.sort((a, b) => a.price - b.price).map((t) =>
       `<option value="${esc(t.serviceId)}"${String(t.serviceId) === String(choisi) ? " selected" : ""}>${
-        money(t.price)} — ${esc(nomTarif(t))}${t.dropOff ? " · dépôt" : ""}${
-        t.transitDays ? ` · ${t.transitDays} j` : ""}</option>`).join("")}</optgroup>`).join("")}`;
+        money(t.prixHT ?? t.price)} — ${esc(nomTarif(t))}${t.dropOff ? " · dépôt" : ""}${
+        t.transitDays ? ` · ${t.transitDays} j` : ""}${
+        // En comparaison croisée, deux services homonymes chez deux courtiers seraient
+        // indiscernables : le fournisseur est écrit dans le libellé.
+        t.fournisseur ? ` · ${esc((S.fournisseurs || []).find((f) => f.nom === t.fournisseur)?.libelle || t.fournisseur)}` : ""
+      }</option>`).join("")}</optgroup>`).join("")}`;
 }
 
 
