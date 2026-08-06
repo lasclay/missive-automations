@@ -22,6 +22,11 @@ function envoiDepuisCommande(cmd) {
   const origine = entrepot ? parse(entrepot.origin_address, {}) : {};
   const dims = cmd.dimensions || {};
   return {
+    // Chit Chats n a pas d endpoint de cotation : il faut créer un brouillon d expédition
+    // pour connaître un prix. L identifiant de commande est ce qui permet de le retrouver et
+    // de le réutiliser à l achat, au lieu d en créer un second à chaque cotation.
+    orderId: cmd.id,
+    description: (cmd.items || []).map((i) => i.name).filter(Boolean)[0] || null,
     from: origine,
     to: cmd.ship_to || {},
     parcel: {

@@ -1685,6 +1685,21 @@ route("DELETE /api/stores/:id/logo", ({ params, user }) => {
  */
 route("GET /api/carriers/adapters", () => ({ fournisseurs: require("../lib/carrier").fournisseurs() }));
 
+route("GET /api/carriers/chitchats", ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  return require("../lib/chitchats").etat();
+});
+route("POST /api/carriers/chitchats/test", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  return await require("../lib/chitchats").tester();
+});
+/** Supprime les brouillons de cotation jamais achetés — voir lib/chitchats.js. */
+route("POST /api/carriers/chitchats/menage", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  try { return await require("../lib/chitchats").menage(); }
+  catch (e) { return { error: e.message, code: 400 }; }
+});
+
 route("GET /api/carriers/freightcom", ({ user }) => {
   accounts.exiger(user, "settings_edit");
   return require("../lib/freightcom").etat();

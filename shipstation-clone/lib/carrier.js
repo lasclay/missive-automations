@@ -189,6 +189,7 @@ function adaptateur(nom = process.env.CARRIER_ADAPTER || "bouchon") {
   // scripts qui n'ont pas de base ouverte. Un require en tête les casserait tous.
   if (nom === "postescanada" || nom === "canada_post") return require("./postescanada").adaptateurPostesCanada;
   if (nom === "freightcom") return require("./freightcom").adaptateurFreightcom;
+  if (nom === "chitchats") return require("./chitchats").adaptateurChitChats;
   throw new Error(`adaptateur transporteur inconnu : ${nom}`);
 }
 
@@ -210,6 +211,8 @@ function fournisseurs() {
   const liste = [
     { nom: "freightcom", libelle: "Freightcom", detail: "courtier — panel multi-transporteurs",
       configure: teste(() => require("./freightcom").configure()) },
+    { nom: "chitchats", libelle: "Chit Chats", detail: "consolidateur — dépôt, DDP vers les États-Unis",
+      configure: teste(() => require("./chitchats").configure()) },
     { nom: "postescanada", libelle: "Postes Canada", detail: "compte propre, contrat Niveau 9",
       configure: teste(() => require("./postescanada").etat().configure) },
     { nom: "bouchon", libelle: "Démonstration", detail: "prix d'exercice, aucun achat possible",
