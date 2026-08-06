@@ -39,6 +39,38 @@ function montantAssure(v) {
   return Number.isFinite(n) && n > 0 ? n : 0;
 }
 
+/**
+ * La couverture par défaut, quand la commande n'en porte aucune.
+ *
+ * XCover s'appliquait par une règle ShipStation, pas commande par commande : après la
+ * bascule, 51 000 commandes se retrouvent sans montant d'assurance inscrit, et un lot les
+ * expédierait toutes nues. Une règle rétablit ce que la règle ShipStation faisait.
+ *
+ * Deux paliers, parce qu'une valeur déclarée n'a pas le même sens selon le panier. En dessous
+ * du seuil, un montant plancher suffit — c'est la couverture de base, celle qu'on ne réclame
+ * presque jamais et qui coûte quelques cents. Au-dessus, on assure ce que le colis vaut
+ * vraiment : à 400 $ de marchandise, un plafond à 100 $ n'est pas une assurance, c'est une
+ * ligne sur une facture.
+ *
+ *   assurance_defaut   100 $   ce qu'on assure en dessous du seuil
+ *   assurance_seuil    300 $   au-delà, on assure la valeur de la commande
+ *   assurance_active   1       met toute la règle hors circuit
+ *
+ * Un montant inscrit sur la commande gagne toujours : la règle comble un vide, elle ne
+ * contredit personne.
+ */
+function assuranceParDefaut(cmd) {
+  const { reglage } = require("./db");
+  if (String(reglage("assurance_active", "1")) === "0") return 0;
+  const plancher = Number(reglage("assurance_defaut", 100)) || 0;
+  const seuil = Number(reglage("assurance_seuil", 300)) || 0;
+  const total = Math.round(Number(cmd.order_total || 0) * 100) / 100;
+  if (seuil > 0 && total >= seuil) return total;
+  // Assurer 100 $ un colis qui en vaut 40 ne rembourse pas 100 $ : les transporteurs
+  // indemnisent la valeur réelle. On ne déclare donc jamais plus que la commande.
+  return total > 0 ? Math.min(plancher, total) : plancher;
+}
+
 function envoiDepuisCommande(cmd) {
   const entrepot = cmd.warehouse_id
     ? one("SELECT * FROM warehouses WHERE id = ?", cmd.warehouse_id)
@@ -63,7 +95,7 @@ function envoiDepuisCommande(cmd) {
     value: cmd.order_total || 0,
     currency: "CAD",
     signature: cmd.confirmation === "signature",
-    insurance: montantAssure(cmd.insurance) || null,
+    insurance: montantAssure(cmd.insurance) || assuranceParDefaut(cmd) || null,
     customs: cmd.customs || null,
   };
 }
@@ -631,5 +663,6 @@ module.exports = {
   coter, acheterEtiquette, acheterRetour, annuler, marquerExpedie,
   creerLot, creerLotVide, nomDeLotLibre, ajouterAuLot, retirerDuLot, lotsOuverts, commandesDuLot, fermerLot,
   traiterLot, lot, lots, creerManifeste, manifestes, aCloturer, cloturerJournee,
-  chercher, rafraichirSuivi, envoiDepuisCommande, montantAssure, SEUIL_DROPOFF_G,
+  chercher, rafraichirSuivi, envoiDepuisCommande, montantAssure, assuranceParDefaut,
+  SEUIL_DROPOFF_G,
 };

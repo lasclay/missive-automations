@@ -1607,6 +1607,9 @@ route("GET /api/settings", () => ({
   marque: db.reglage("marque", accounts.MARQUE_DEFAUT),
   tarif_dropoff_cible: db.reglage("tarif_dropoff_cible", 6.31),
   derniere_migration: db.reglage("derniere_migration", null),
+  assurance_active: String(db.reglage("assurance_active", "1")) !== "0",
+  assurance_defaut: Number(db.reglage("assurance_defaut", 100)) || 0,
+  assurance_seuil: Number(db.reglage("assurance_seuil", 300)) || 0,
   seuil_dropoff_g: SEUIL_DROPOFF_G,
 }));
 /**
@@ -1625,6 +1628,10 @@ const REGLAGES_MODIFIABLES = new Set([
   "unite_poids", "unite_dimension", "locale", "format_date", "format_heure", "devise",
   "confirmation_defaut", "service_defaut", "entrepot_defaut",
   "seuil_timbre_g", "seuil_bombes_ca", "seuil_bombes_intl", "exercice_debut",
+  // Règle d'assurance par défaut : elle remplace celle que ShipStation appliquait par
+  // XCover, et elle engage de l'argent réel à chaque étiquette. Modifiable, donc, sans
+  // passer par une variable d'environnement ni un déploiement.
+  "assurance_active", "assurance_defaut", "assurance_seuil",
   "colonnes_commandes", "columns",
 ]);
 
@@ -2120,6 +2127,14 @@ route("GET /api/config", ({ moi }) => {
     shopify: shopify.etat(),
     comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
     exiger_2fa: !!db.reglage("exiger_2fa", false),
+    // La règle d'assurance voyage jusqu'au navigateur : le menu de l'écran d'expédition doit
+    // présélectionner ce que le serveur appliquerait, sinon l'opérateur lit « Aucune » sur
+    // une commande que le lot assurerait quand même.
+    assurance: {
+      active: String(db.reglage("assurance_active", "1")) !== "0",
+      defaut: Number(db.reglage("assurance_defaut", 100)) || 0,
+      seuil: Number(db.reglage("assurance_seuil", 300)) || 0,
+    },
   };
 });
 

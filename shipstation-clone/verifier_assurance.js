@@ -14,6 +14,7 @@
  * arrive intact dans ce que chaque fournisseur reçoit vraiment.
  */
 const { montantAssure } = require("./lib/shipments");
+const { run } = require("./lib/db");
 
 const V = "\x1b[32m✓\x1b[0m", X = "\x1b[31m✗\x1b[0m", G = "\x1b[90m", R = "\x1b[0m";
 let passes = 0, echecs = 0;
@@ -68,6 +69,49 @@ const ENVOI = {
   // toujours vrai chez Chit Chats. Ce contrôle est là pour que la régression se voie.
   verifier("aucune forme ne produit NaN",
     cas.every(([, e]) => Number.isFinite(montantAssure(e))));
+
+  console.log("\nLa règle par défaut\n" + "─".repeat(64));
+
+  // XCover s'appliquait par une règle ShipStation, pas commande par commande. Après la
+  // bascule, 51 000 commandes n'ont aucun montant inscrit : sans règle, un lot les
+  // expédierait toutes nues. C'est le contrôle qui garde ce filet en place.
+  const { assuranceParDefaut } = require("./lib/shipments");
+  const { poserReglage } = require("./lib/db");
+  poserReglage("assurance_active", "1");
+  poserReglage("assurance_defaut", 100);
+  poserReglage("assurance_seuil", 300);
+
+  const casRegle = [
+    ["commande à 40 $ — jamais plus qu'elle ne vaut", 40, 40],
+    ["commande à 150 $ — le plancher", 150, 100],
+    ["commande à 299 $ — encore le plancher", 299, 100],
+    ["commande à 300 $ — bascule sur la valeur", 300, 300],
+    ["commande à 850 $ — la valeur", 850, 850],
+  ];
+  for (const [nom, total, attendu] of casRegle) {
+    const r = assuranceParDefaut({ order_total: total });
+    verifier(`${nom} → ${attendu} $`, r === attendu, r === attendu ? "" : `obtenu ${r}`);
+  }
+
+  poserReglage("assurance_active", "0");
+  verifier("règle désactivée : aucune couverture d'office",
+    assuranceParDefaut({ order_total: 850 }) === 0);
+  poserReglage("assurance_active", "1");
+
+  // Un montant inscrit sur la commande gagne : la règle comble un vide, elle ne contredit pas.
+  const { envoiDepuisCommande } = require("./lib/shipments");
+  run("INSERT OR IGNORE INTO warehouses (id,name,origin_address,is_default) VALUES (1,'T','{}',1)");
+  const envoiDe = (total, insurance) => envoiDepuisCommande({
+    id: 1, store_id: null, warehouse_id: null, order_total: total, ship_to: {},
+    weight_g: 100, insurance, items: [] });
+  verifier("la règle s'applique quand la commande ne dit rien",
+    envoiDe(850, null).insurance === 850);
+  verifier("un montant inscrit l'emporte sur la règle",
+    envoiDe(850, { montant: 200, devise: "CAD" }).insurance === 200);
+  // Le cas ShipStation « case décochée » vaut 0 après normalisation : la règle reprend donc
+  // la main, et c'est voulu — sans elle ce colis partirait nu.
+  verifier("case ShipStation décochée : la règle reprend la main",
+    envoiDe(850, { insureShipment: false, insuredValue: 900 }).insurance === 850);
 
   console.log("\nCe que chaque fournisseur reçoit vraiment\n" + "─".repeat(64));
 

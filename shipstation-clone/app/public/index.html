@@ -163,6 +163,7 @@
   .puce.g { background:rgba(120,130,140,.16); color:var(--puce-g) }
   /* Preuve d'assurance : discrète quand tout va bien, dépliée d'office quand la couverture
      a été demandée sans être accordée — c'est le seul cas qu'on ne peut pas rattraper après. */
+  .cGrille2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px }
   .ciX { width:100%; margin-top:4px }
   .cAssurD { margin-top:6px; border-top:1px solid var(--bordure); padding-top:5px }
   .cAssurD > summary { cursor:pointer; font-size:12.5px; color:var(--doux);
@@ -941,6 +942,10 @@ const EN = {
   "Poids (g) — touche W": "Weight (g) — key W", "Service": "Service",
   "Confirmation": "Confirmation", "Assurance": "Insurance",
   "Aucune assurance": "No insurance", "Autre montant…": "Other amount…",
+  "Assurance par défaut": "Default insurance", "appliquer la règle": "apply the rule",
+  "Montant assuré par défaut ($)": "Default insured amount ($)",
+  "Au-delà de ce total, assurer la valeur de la commande ($)":
+    "Above this total, insure the order value ($)",
   "montant à assurer": "amount to insure", "refusée": "declined",
   "Date d'expédition": "Ship Date", "Autres options d'expédition": "Other Shipping Options",
   "interdire le dépôt en bureau de poste": "block post-office drop-off",
@@ -983,6 +988,7 @@ const EN_MOTIFS = [
   [/^(\d+) j$/, (m, n) => `${n} d`],
   [/^(\d+) sélectionnée$/, (m, n) => `${n} selected`],
   [/^Valeur de la commande — (.+)$/, (m, v) => `Order value — ${v}`],
+  [/^Règle par défaut — (.+)$/, (m, v) => `Default rule — ${v}`],
   [/^(.+) \(enregistré\)$/, (m, v) => `${v} (saved)`],
   [/^Assurance — (.+)$/, (m, f) => `Insurance — ${f}`],
   [/^Assurance (.+)$/, (m, f) => `Insurance ${f}`],
@@ -4248,14 +4254,30 @@ function marqueAssurance(t) {
  * « Autre… » reste offert : une commande à 3 000 $ existe, et un menu qui la refuse serait
  * un menu qu'on contourne.
  */
+function assuranceDeRegle(o) {
+  const r = (S.config && S.config.assurance) || {};
+  if (r.active === false) return 0;
+  const plancher = Number(r.defaut ?? 100) || 0;
+  const seuil = Number(r.seuil ?? 300) || 0;
+  const total = Math.round(Number(o.order_total || 0) * 100) / 100;
+  if (seuil > 0 && total >= seuil) return total;
+  return total > 0 ? Math.min(plancher, total) : plancher;
+}
+
 function optionsAssurance(o) {
-  const actuel = assure(o.insurance);
+  // Ce que la règle appliquerait, et donc ce que le lot achèterait. Le montant inscrit sur la
+  // commande gagne ; sans lui, c'est la règle qui est présélectionnée — afficher « Aucune »
+  // sur une commande que le serveur assurerait quand même serait un mensonge d'écran.
+  const regle = assuranceDeRegle(o);
+  const actuel = assure(o.insurance) || regle;
   const total = Math.round(Number(o.order_total || 0) * 100) / 100;
   const paliers = [50, 100, 250, 500, 1000, 2000];
   const liste = [];
   liste.push({ v: "0", t: "Aucune assurance" });
-  if (total > 0) liste.push({ v: String(total), t: `Valeur de la commande — ${money(total)}` });
-  for (const p of paliers) if (p !== total) liste.push({ v: String(p), t: money(p) });
+  if (regle > 0) liste.push({ v: String(regle), t: `Règle par défaut — ${money(regle)}` });
+  if (total > 0 && total !== regle)
+    liste.push({ v: String(total), t: `Valeur de la commande — ${money(total)}` });
+  for (const p of paliers) if (p !== total && p !== regle) liste.push({ v: String(p), t: money(p) });
   // Un montant déjà enregistré qui ne tombe sur aucun palier garde sa place : sans quoi
   // ouvrir la commande le remplacerait en silence par le premier de la liste.
   if (actuel && !liste.some((x) => Number(x.v) === actuel))
@@ -8078,6 +8100,22 @@ VUES.reglages = async () => {
     <div class="carte"><b>Tarif drop-off cible</b>
       <p class="doux" style="margin:2px 0 8px">Sert de référence dans l'analytique. Seuil de poids : ${s.seuil_dropoff_g} g.</p>
       <input type="number" step="0.01" id="st" value="${s.tarif_dropoff_cible}"> <button id="stsave">Enregistrer</button></div>
+    <div class="carte"><b>Assurance par défaut</b>
+      <p class="doux" style="margin:2px 0 8px">Remplace la règle XCover de ShipStation, qui
+      assurait sans que rien ne soit inscrit sur la commande. Sans cette règle, un lot
+      expédierait toutes ses commandes sans couverture. Un montant inscrit sur une commande
+      l'emporte toujours.</p>
+      <label class="ch"><input type="checkbox" id="sav" ${s.assurance_active ? "checked" : ""}>
+        appliquer la règle</label>
+      <div class="cGrille2">
+        <label class="champ"><span>Montant assuré par défaut ($)</span>
+          <input type="number" step="1" min="0" id="sad" value="${s.assurance_defaut}"></label>
+        <label class="champ"><span>Au-delà de ce total, assurer la valeur de la commande ($)</span>
+          <input type="number" step="1" min="0" id="sas" value="${s.assurance_seuil}"></label>
+      </div>
+      <p class="doux" style="margin:6px 0 8px">Jamais plus que la valeur de la commande : les
+      transporteurs indemnisent ce que le colis vaut, pas ce qu'on a déclaré au-dessus.</p>
+      <button class="p" id="sasave">Enregistrer</button></div>
     <div class="carte" id="cpre"><b>Préréglages d'expédition</b>
       <p class="doux" style="margin:2px 0 8px">Une configuration enregistrée une fois, appliquée
       ensuite en un clic sur une sélection de commandes. À distinguer des défauts produit, qui
@@ -8456,6 +8494,16 @@ VUES.reglages = async () => {
     toast($("#s2fa").checked
       ? "Second facteur obligatoire. Chaque employé devra le configurer à sa prochaine connexion."
       : "Second facteur redevenu facultatif.");
+  };
+  $("#sasave").onclick = async () => {
+    await api("/api/settings", { method: "POST", body: {
+      assurance_active: $("#sav").checked ? "1" : "0",
+      assurance_defaut: Number($("#sad").value) || 0,
+      assurance_seuil: Number($("#sas").value) || 0 } });
+    // La règle voyage dans /api/config : sans relecture, le menu de l'écran d'expédition
+    // continuerait de présélectionner l'ancienne valeur jusqu'au prochain rechargement.
+    S.config = await api("/api/config");
+    toast("Règle d'assurance enregistrée.");
   };
   $("#stsave").onclick = async () => { await api("/api/settings", { method: "POST", body: { tarif_dropoff_cible: Number($("#st").value) } }); toast("Tarif de dépôt cible enregistré."); };
   $("#wt").append(table([{ k: "event", t: "Événement" }, { k: "target_url", t: "URL" },

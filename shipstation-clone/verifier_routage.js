@@ -159,12 +159,14 @@ const vraiFournisseurs = carrier.fournisseurs;
   verifier("un seul fournisseur global n'a PAS été imposé",
     parNom["L-LOT-A"] !== parNom["L-LOT-B"]);
 
-  // L'assurance suit la commande, pas le lot.
+  // L'assurance suit la commande, pas le lot. Et là où la commande ne dit rien, c'est la
+  // règle par défaut qui comble — sinon ce colis-là partirait nu au milieu du lot.
   const achats = journal.filter((j) => j.geste === "buy");
   const chez = (n) => achats.find((a) => a.nom === n);
-  verifier("l'assurance de chaque commande la suit dans le lot",
-    chez("alpha")?.assurance === 300 && !chez("beta")?.assurance,
-    `alpha ${chez("alpha")?.assurance} · beta ${chez("beta")?.assurance}`);
+  verifier("le montant inscrit sur la commande la suit dans le lot",
+    chez("alpha")?.assurance === 300, `alpha ${chez("alpha")?.assurance}`);
+  verifier("la commande sans montant reçoit la règle par défaut",
+    chez("beta")?.assurance === 100, `beta ${chez("beta")?.assurance} (commande à 240 $)`);
 
   carrier.adaptateur = vraiAdaptateur;
   carrier.fournisseurs = vraiFournisseurs;
