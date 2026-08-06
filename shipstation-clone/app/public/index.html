@@ -163,6 +163,7 @@
   .puce.g { background:rgba(120,130,140,.16); color:var(--puce-g) }
   /* Preuve d'assurance : discrète quand tout va bien, dépliée d'office quand la couverture
      a été demandée sans être accordée — c'est le seul cas qu'on ne peut pas rattraper après. */
+  .ciX { width:100%; margin-top:4px }
   .cAssurD { margin-top:6px; border-top:1px solid var(--bordure); padding-top:5px }
   .cAssurD > summary { cursor:pointer; font-size:12.5px; color:var(--doux);
                        display:flex; align-items:center; gap:6px }
@@ -938,7 +939,9 @@ const EN = {
   "Communication client": "Customer Communication", "Activité": "Shipment Activity",
   "Commandée le": "Order Date", "Livraison facturée": "Shipping Paid",
   "Poids (g) — touche W": "Weight (g) — key W", "Service": "Service",
-  "Confirmation": "Confirmation", "Assurance ($, vide = aucune)": "Insurance ($, blank = none)",
+  "Confirmation": "Confirmation", "Assurance": "Insurance",
+  "Aucune assurance": "No insurance", "Autre montant…": "Other amount…",
+  "montant à assurer": "amount to insure", "refusée": "declined",
   "Date d'expédition": "Ship Date", "Autres options d'expédition": "Other Shipping Options",
   "interdire le dépôt en bureau de poste": "block post-office drop-off",
   "ne pas notifier la boutique": "do not notify marketplace",
@@ -979,6 +982,11 @@ const EN_MOTIFS = [
   [/^(\d[\d  ]*)–(\d[\d  ]*) sur (.+)$/, (m, a, b, c) => `${a}–${b} of ${c}`],
   [/^(\d+) j$/, (m, n) => `${n} d`],
   [/^(\d+) sélectionnée$/, (m, n) => `${n} selected`],
+  [/^Valeur de la commande — (.+)$/, (m, v) => `Order value — ${v}`],
+  [/^(.+) \(enregistré\)$/, (m, v) => `${v} (saved)`],
+  [/^Assurance — (.+)$/, (m, f) => `Insurance — ${f}`],
+  [/^Assurance (.+)$/, (m, f) => `Insurance ${f}`],
+  [/^couverte (.+)$/, (m, v) => `covered ${v}`],
 ];
 
 /** Traduit un sous-arbre sans reposer la question du périmètre : l'appelant l'a tranchée. */
@@ -3632,8 +3640,10 @@ VUES.commandes = async (statutFixe) => {
         </div>
         <label class="champ"><span>Confirmation</span><select id="cf">${(S.refs.confirmations || []).map((k) =>
           `<option value="${k.id}" ${String(o.confirmation) === k.id ? "selected" : ""}>${esc(k.nom)}</option>`).join("")}</select></label>
-        <label class="champ"><span>Assurance ($, vide = aucune)</span>
-          <input type="number" step="0.01" id="ci" value="${assure(o.insurance) || ""}"></label>
+        <label class="champ"><span id="ciL">Assurance</span>
+          <select id="ci">${optionsAssurance(o)}</select></label>
+        <input type="number" step="0.01" id="ciX" class="ciX" placeholder="montant à assurer"
+          value="${assure(o.insurance) || ""}" hidden>
         <label class="champ"><span>Date d'expédition</span>
           <input type="date" id="cd" value="${(o.ship_by_date || "").slice(0, 10)}"></label>
         <details class="autres"><summary>Autres options d'expédition</summary>
@@ -3686,7 +3696,7 @@ VUES.commandes = async (statutFixe) => {
       service_id: $("#cs").value || null, package_id: $("#cc").value || null,
       confirmation: $("#cf").value || null,
       ship_by_date: $("#cd").value || null,
-      insurance: $("#ci").value ? { montant: Number($("#ci").value), devise: "CAD" } : null,
+      insurance: valeurAssurance() ? { montant: valeurAssurance(), devise: "CAD" } : null,
       dimensions: ($("#cl").value || $("#cW").value || $("#ch").value)
         ? { length: Number($("#cl").value) || 0, width: Number($("#cW").value) || 0,
             height: Number($("#ch").value) || 0, units: "inches" } : null, ...extra } });
@@ -3705,6 +3715,30 @@ VUES.commandes = async (statutFixe) => {
     // un second clic.
     const champFournisseur = $("#cfour");
     if (champFournisseur) champFournisseur.onchange = () => $("#cCoter").click();
+
+    /*
+     * Changer le montant assuré recote.
+     *
+     * La couverture se facture en surcharge : elle change le prix affiché juste au-dessus du
+     * bouton d'achat. Laisser l'ancien prix après avoir assuré le colis, c'est acheter en
+     * croyant payer autre chose — et c'est aussi le seul moyen de savoir, avant de payer, si
+     * le fournisseur accepte la couverture sur ce service-là.
+     */
+    // Le gestionnaire générique ci-dessus enregistre chaque champ en sortant ; on le remplace
+    // ici pour ces deux-là, donc on refait l'enregistrement avant de recoter. L'oublier
+    // laisserait le montant à l'écran sans jamais l'écrire sur la commande.
+    const champAssur = $("#ci"), champAssurX = $("#ciX");
+    const appliquerAssurance = async () => {
+      await enregistrer();
+      const b = $("#cCoter");
+      if (b) b.click();
+    };
+    if (champAssur) champAssur.onchange = async () => {
+      const autre = champAssur.value === "autre";
+      if (champAssurX) { champAssurX.hidden = !autre; if (autre) { champAssurX.focus(); return; } }
+      await appliquerAssurance();
+    };
+    if (champAssurX) champAssurX.onchange = appliquerAssurance;
 
     /**
      * Choisir un colis applique ses dimensions, et recote.
@@ -3746,7 +3780,8 @@ VUES.commandes = async (statutFixe) => {
       const boite = $("#cTarifs");
       if (!boite || !derniereCotation) return;
       const t = derniereCotation.tarifs.find((x) => String(x.serviceId) === String($("#cs").value));
-      if (!t) { boite.innerHTML = ""; $("#cPrix").textContent = ""; return; }
+      if (!t) { boite.innerHTML = ""; $("#cPrix").textContent = "";
+        libelleAssurance(null, derniereCotation.fournisseur); return; }
       const paye = Number(o.shipping_paid || 0);
       // La marge se calcule HORS TAXES, des deux côtés.
       //
@@ -3764,6 +3799,7 @@ VUES.commandes = async (statutFixe) => {
         marge !== null ? ` · marge <span class="${marge < 0 ? "rouge" : "vert"}">${
           marge >= 0 ? "+" : ""}${money(marge)}</span>` : ""}</div>
         ${blocAssurance(t)}`;
+      libelleAssurance(t, derniereCotation.fournisseur);
       $("#cPrix").textContent = "  " + money(cout);
     };
 
@@ -4201,6 +4237,61 @@ function marqueAssurance(t) {
   return a.appliquee ? ` · assuré ${money(a.cout)}` : " · NON assuré";
 }
 
+/**
+ * Les montants d'assurance proposés, taillés sur la commande.
+ *
+ * Un champ numérique libre ne dit rien : on tape 0,01 pour voir si « ça marche » et on ne sait
+ * toujours pas qui vend la couverture ni à quel prix. Le menu propose donc les seuls montants
+ * qui ont un sens ici — rien, la valeur de la commande, quelques paliers ronds — et le
+ * libellé au-dessus nomme le fournisseur réellement appelé une fois la cotation revenue.
+ *
+ * « Autre… » reste offert : une commande à 3 000 $ existe, et un menu qui la refuse serait
+ * un menu qu'on contourne.
+ */
+function optionsAssurance(o) {
+  const actuel = assure(o.insurance);
+  const total = Math.round(Number(o.order_total || 0) * 100) / 100;
+  const paliers = [50, 100, 250, 500, 1000, 2000];
+  const liste = [];
+  liste.push({ v: "0", t: "Aucune assurance" });
+  if (total > 0) liste.push({ v: String(total), t: `Valeur de la commande — ${money(total)}` });
+  for (const p of paliers) if (p !== total) liste.push({ v: String(p), t: money(p) });
+  // Un montant déjà enregistré qui ne tombe sur aucun palier garde sa place : sans quoi
+  // ouvrir la commande le remplacerait en silence par le premier de la liste.
+  if (actuel && !liste.some((x) => Number(x.v) === actuel))
+    liste.splice(1, 0, { v: String(actuel), t: `${money(actuel)} (enregistré)` });
+  liste.push({ v: "autre", t: "Autre montant…" });
+  return liste.map((x) => `<option value="${esc(x.v)}"${
+    String(x.v) === String(actuel || 0) ? " selected" : ""}>${esc(x.t)}</option>`).join("");
+}
+
+/** Le montant retenu par les deux contrôles jumelés : le menu, ou le champ libre s'il est ouvert. */
+function valeurAssurance() {
+  const sel = $("#ci"), libre = $("#ciX");
+  if (!sel) return 0;
+  if (sel.value === "autre") return Math.max(0, Number(libre && libre.value) || 0);
+  return Math.max(0, Number(sel.value) || 0);
+}
+
+/**
+ * Le libellé du menu, mis à jour par la réponse du fournisseur.
+ *
+ * C'est la confirmation en temps réel demandée : tant qu'on n'a pas coté, le libellé dit
+ * simplement « Assurance » ; dès qu'un tarif revient, il nomme QUI vend la couverture et si
+ * elle a été accordée. « Assurance Chit Chats · couverte 2,64 $ » est une phrase vérifiable ;
+ * « Assurance ($) » ne l'était pas.
+ */
+function libelleAssurance(t, fournisseur) {
+  const l = $("#ciL");
+  if (!l) return;
+  const nomF = (S.fournisseurs || []).find((f) => f.nom === (t?.fournisseur || fournisseur));
+  const nom = nomF ? nomF.libelle : (t?.fournisseur || fournisseur || "");
+  const a = t && t.assurance;
+  if (!a || !Number(a.demandee || 0)) { l.textContent = nom ? `Assurance — ${nom}` : "Assurance"; return; }
+  l.innerHTML = `Assurance ${esc(nom)} <span class="puce ${a.appliquee ? "v" : "r"}">${
+    a.appliquee ? `couverte ${money(a.cout)}` : "refusée"}</span>`;
+}
+
 function optionsTarifs(r, selection = "") {
   const tarifs = (r && r.tarifs) || [];
   if (!tarifs.length) return null;
@@ -4465,6 +4556,7 @@ async function detailCommande(id) {
           </select></label>
 
           <div class="cAssur">Assurance : <b>${assure(o.insurance) ? money(assure(o.insurance)) : "aucune"}</b>
+            <span id="cAssurF"></span>
             <button type="button" class="fEdit" id="cAssurE">Modifier</button></div>
 
           <details class="cAutres"><summary>Autres options d'expédition</summary>
@@ -4913,6 +5005,16 @@ async function detailCommande(id) {
       $("#cArrivee", f).textContent = t?.transitDays ? `Arrivée estimée : ${t.transitDays} j` : "";
       // La preuve d'assurance vit sous le coût, à l'endroit où l'on décide d'acheter.
       if ($("#cAssurB", f)) $("#cAssurB", f).innerHTML = t ? blocAssurance(t) : "";
+      // Et le fournisseur qui la vend est nommé à côté du montant, en haut du rail : c'est là
+      // qu'on lit « Assurance : 240,00 $ » sans savoir, sinon, qui la porte.
+      const marque = $("#cAssurF", f);
+      if (marque) {
+        const as = t && t.assurance;
+        const nomF = (S.fournisseurs || []).find((x) => x.nom === (t?.fournisseur || four));
+        marque.innerHTML = !as || !Number(as.demandee || 0) ? ""
+          : ` <span class="puce ${as.appliquee ? "v" : "r"}">${esc(nomF ? nomF.libelle : (t?.fournisseur || ""))} ${
+              as.appliquee ? `couverte ${money(as.cout)}` : "refusée"}</span>`;
+      }
       if (t && (o.shipping_paid || 0) < cout) {
         const ecart = Math.round((cout - (o.shipping_paid || 0)) * 100) / 100;
         $("#cCout", f).innerHTML = `${money(cout)} <span class="puce r" title="Livraison facturée ${
