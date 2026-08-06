@@ -68,8 +68,19 @@ async function appel(methode, chemin, corps = null, { essais = 3 } = {}) {
     let j = null;
     try { j = texte ? JSON.parse(texte) : null; } catch { /* réponse non JSON */ }
     if (!r.ok) {
-      const m = j?.error || j?.message
-        || (j?.errors && (Array.isArray(j.errors) ? j.errors.join(" · ") : JSON.stringify(j.errors)));
+      // Chit Chats rend ses erreurs sous trois formes : une chaîne, un tableau, ou un objet
+      // `{ champ: [messages] }`. La première version concaténait naïvement et affichait
+      // « [object Object] » — un message d'erreur illisible vaut une erreur de plus.
+      const aplatir = (v) => {
+        if (v === null || v === undefined) return null;
+        if (typeof v === "string") return v;
+        if (Array.isArray(v)) return v.map(aplatir).filter(Boolean).join(" · ");
+        if (typeof v === "object") {
+          return Object.entries(v).map(([k, x]) => `${k} : ${aplatir(x)}`).filter(Boolean).join(" · ");
+        }
+        return String(v);
+      };
+      const m = aplatir(j?.error) || aplatir(j?.message) || aplatir(j?.errors);
       throw new Error(`Chit Chats ${r.status}${m ? ` : ${m}` : texte ? ` : ${texte.slice(0, 200)}` : ""}`);
     }
     return j;
@@ -354,7 +365,24 @@ async function tester() {
       avis: ESSAI() ? "Bac à sable staging.chitchats.com — aucune étiquette facturée ni livrable." : null,
     };
   } catch (e) {
-    return { ok: false, ms: Date.now() - debut, milieu: ESSAI() ? "essai" : "prod", erreur: String(e.message || e) };
+    const msg = String(e.message || e);
+    // Un 404 sur le chemin du client ne veut pas dire « endpoint absent » : il veut dire que
+    // Chit Chats ne connaît pas ce client sur CE site. Or `staging.chitchats.com` est un site
+    // séparé, avec ses propres comptes et ses propres jetons — un identifiant de production
+    // n'y existe pas. C'est l'explication la plus fréquente, et elle mérite d'être dite plutôt
+    // que laissée à deviner.
+    return {
+      ok: false, ms: Date.now() - debut, milieu: ESSAI() ? "essai" : "prod",
+      hote: ESSAI() ? "https://staging.chitchats.com" : "https://chitchats.com",
+      erreur: msg,
+      piste: /404/.test(msg) && ESSAI()
+        ? "Le bac à sable est un site distinct : un compte et un jeton créés sur chitchats.com "
+          + "n'existent pas sur staging.chitchats.com. Soit créer un compte d'essai là-bas, soit "
+          + "poser CHITCHATS_ENV=prod — la lecture du compte ne coûte rien, seul l'achat débite."
+        : /404/.test(msg)
+          ? "Vérifier CHITCHATS_CLIENT_ID : le 404 porte sur le chemin du client, pas sur l'action."
+          : null,
+    };
   }
 }
 

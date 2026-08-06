@@ -176,6 +176,12 @@ const ENVOI_US = {
   verifier("annulation d'un brouillon → suppression", ann2.mode === "brouillon supprimé",
     "Chit Chats distingue les deux, appeler l'un pour l'autre échoue");
 
+  vus = espion([[/GET .*count/, { statut: 422, corps: { errors: { postal_code: ["is invalid"], weight: ["too heavy"] } } }]]);
+  const ko = await cc.tester();
+  verifier("un objet d erreurs devient un message lisible",
+    !ko.ok && /postal_code : is invalid/.test(ko.erreur) && /weight : too heavy/.test(ko.erreur),
+    ko.erreur);
+
   const e = cc.etat();
   verifier("l'état ne divulgue ni le jeton ni le client entier",
     !JSON.stringify(e).includes("essai-jeton") && e.jeton_present === true && e.client.includes("•"), e.client);
@@ -199,7 +205,11 @@ const ENVOI_US = {
       console.log(`${V} connexion établie  ${G}${t.milieu} · client ${t.client} · ${t.ms} ms · ${t.expeditions ?? "?"} expédition(s)${R}`);
       if (t.avis) console.log(`   ${G}${t.avis}${R}`);
       passes++;
-    } else { console.log(`${X} ${t.erreur}`); echecs++; }
+    } else {
+      console.log(`${X} ${t.erreur}  ${G}(${t.hote})${R}`);
+      if (t.piste) console.log(`   ${A} ${t.piste}`);
+      echecs++;
+    }
   }
 
   if (process.argv.includes("--menage")) {
