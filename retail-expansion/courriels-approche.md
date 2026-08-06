@@ -16,6 +16,38 @@ Règles tenues dans ces textes:
 - Jamais « fabriqué au Québec » pour un produit fini. L'isolant l'est, le
   produit assemblé ne l'est plus.
 - Pas de signature dans le corps: elle s'ajoute automatiquement.
+- Adresse d'envoi: `admin@lasclay.com`. Ce n'est pas la boîte du service client
+  (Shopify pointe sur `hey@lasclay.com`), donc la prospection n'encombre pas les
+  réponses aux clientes.
+
+## Bloc légal, obligatoire dans chaque message
+
+La Loi canadienne anti-pourriel exige, dans tout message commercial, l'identification
+de l'expéditeur et un mécanisme de désabonnement valide 60 jours. Le fond du message
+tient sur le consentement tacite prévu pour une adresse d'affaires publiée
+publiquement, quand le contenu concerne le rôle professionnel du destinataire. Il
+manque seulement ce pied de page, qui va dans **tous** les gabarits ci-dessous, y
+compris les messages privés sur les réseaux sociaux.
+
+Version française:
+
+Les Produits Lasclay inc., [ADRESSE À CONFIRMER], Québec (Québec) [CP], 581 982-5857.
+Vous recevez ce message parce que [Boutique] est un commerce de détail dont
+l'adresse courriel est publiée publiquement. Répondez « retirez-moi » et je ne
+vous réécris plus.
+
+Version anglaise:
+
+Les Produits Lasclay inc., [ADDRESS TO CONFIRM], Quebec City, QC [POSTAL CODE], 581 982-5857.
+You're receiving this because [Boutique] is a retail business with a publicly
+listed email address. Reply "remove me" and I won't write again.
+
+**L'adresse reste à trancher.** Les réponses types de Missive se contredisent: 298,
+260 et 254 boulevard des Capucins apparaissent tous les trois, et le fichier de
+connaissances signale lui-même la contradiction. L'adresse légale inscrite dans
+Shopify est le 1286 avenue de la Ronde, Québec (Québec) G1J 4B7. Une adresse
+inexacte dans un pied de page légal envoyé à 130 commerces ne se rattrape pas:
+la valeur doit être confirmée avant le premier envoi.
 
 ---
 
