@@ -302,7 +302,15 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
   await etape("expeditions", async () => {
     // -- expéditions
     journal("Expéditions…");
-    let nExp = 0;
+    let nExp = 0, revues = 0;
+    // Rejouer une étape ne doit pas doubler ce qu'elle a déjà écrit. La table n'a pas de
+    // contrainte d'unicité sur `label_id` — en ajouter une casserait les envois marqués
+    // expédiés à la main, qui n'en portent pas. On lit donc une fois les identifiants déjà
+    // en base : 14 000 chaînes en mémoire contre 14 000 requêtes, et une deuxième passe
+    // devient sûre. Sans cela, `--objets expeditions` sur une base déjà migrée créait un
+    // second exemplaire de chaque expédition, avec son coût compté deux fois en analytique.
+    const dejaVues = new Set(all("SELECT label_id FROM shipments WHERE label_id IS NOT NULL")
+      .map((r) => String(r.label_id)));
     for (let page = 1; page <= maxPagesCommandes; page++) {
       // Sans includeShipmentItems, ShipStation ne renvoie pas le détail des lignes expédiées —
       // et le rattachement article ↔ expédition reste vide sans que rien ne le signale.
@@ -314,6 +322,7 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
       tx(() => {
         for (const s of lot) {
          try {
+          if (dejaVues.has(String(s.shipmentId))) { revues++; continue; }
           const cmd = one("SELECT id FROM orders WHERE order_key = ? OR order_number = ?",
             s.orderKey || `ss-${s.orderId}`, s.orderNumber);
           run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,package_id,
@@ -332,15 +341,18 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
             run(`UPDATE order_items SET shipment_id = ? WHERE order_id = ? AND (line_key = ? OR sku = ?)`,
               sid, cmd ? cmd.id : null, it.lineItemKey || null, it.sku || null);
           }
+          dejaVues.add(String(s.shipmentId));
           nExp++;
          } catch (e) { refusees++; journal(`    expédition ${s.shipmentId} refusée : ${String(e.message).slice(0, 70)}`); }
         }
       });
-      curseur("expeditions", `p${page}`, nExp + refusees, nExp);
-      journal(`  expéditions p${page} : ${lot.length} (cumul ${nExp}${refusees ? `, ${refusees} refusée(s)` : ""})`);
+      curseur("expeditions", `p${page}`, nExp + refusees + revues, nExp);
+      journal(`  expéditions p${page} : ${lot.length} (cumul ${nExp}` +
+        `${revues ? `, ${revues} déjà en base` : ""}${refusees ? `, ${refusees} refusée(s)` : ""})`);
       if (lot.length < 500) break;
     }
     bilan.expeditions = nExp;
+    if (revues) { bilan.expeditions_deja_en_base = revues; journal(`  ${revues} expédition(s) déjà en base, ignorée(s)`); }
     bilan.expeditions_sans_commande = one(
       "SELECT COUNT(*) n FROM shipments WHERE order_id IS NULL AND label_id IS NOT NULL").n;
     if (bilan.expeditions_sans_commande) {
@@ -374,25 +386,39 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
 
   await etape("fulfillments", async () => {
     // -- fulfillments (envois sans étiquette ShipStation)
+    //
+    // C'est ici que vivent les envois timbrés : un colis affranchi au comptoir, aucune
+    // étiquette achetée par ShipStation, donc aucune expédition — seulement un
+    // « Mark as Shipped » qui pose un fulfillment au numéro de suivi vide. Ils sont
+    // 14 406 chez Lasclay, presque tous « Canada Post » sans suivi. Une commande expédiée
+    // sans expédition rattachée dans le clone vient le plus souvent de là, et c'est cette
+    // étape-ci qui la comble — pas `expeditions`, qui ne liste que les étiquettes achetées.
     journal("Fulfillments…");
-    let nFul = 0;
+    let nFul = 0, revus = 0;
+    const dejaVus = new Set(all(`SELECT json_extract(raw,'$.fulfillmentId') f FROM shipments
+      WHERE json_extract(raw,'$.fulfillmentId') IS NOT NULL`).map((r) => String(r.f)));
     for (let page = 1; page <= maxPagesCommandes; page++) {
       const d = await ss("fulfillments", { pageSize: 500, page }, { journal });
       const lot = d.fulfillments || [];
       tx(() => {
         for (const f of lot) {
+          if (dejaVus.has(String(f.fulfillmentId))) { revus++; continue; }
           const cmd = one("SELECT id FROM orders WHERE order_number = ?", f.orderNumber);
           run(`INSERT INTO shipments (order_id,tracking_number,carrier_code,cost,ship_date,created_at,
                  ship_to,voided,marketplace_notified,raw) VALUES (?,?,?,0,?,?,?,?,?,?)`,
             cmd ? cmd.id : null, f.trackingNumber || null, f.carrierCode, f.shipDate, f.createDate,
             dump(f.shipTo), f.voided ? 1 : 0, f.marketplaceNotified ? 1 : 0, dump(f));
+          dejaVus.add(String(f.fulfillmentId));
           nFul++;
         }
       });
-      curseur("fulfillments", `p${page}`, nFul, nFul);
-      journal(`  fulfillments p${page} : ${lot.length} (cumul ${nFul})`);
+      curseur("fulfillments", `p${page}`, nFul + revus, nFul);
+      journal(`  fulfillments p${page} : ${lot.length} (cumul ${nFul}${revus ? `, ${revus} déjà en base` : ""})`);
       if (lot.length < 500) break;
     }
+    if (revus) bilan.fulfillments_deja_en_base = revus;
+    bilan.fulfillments_sans_commande = one(`SELECT COUNT(*) n FROM shipments
+      WHERE order_id IS NULL AND json_extract(raw,'$.fulfillmentId') IS NOT NULL`).n;
     bilan.fulfillments = nFul;
 
   });

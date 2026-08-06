@@ -129,8 +129,27 @@ function ecart() {
   console.log(`\nCommandes expédiées sans expédition rattachée — d'où viennent-elles :`);
   const ligne = (nom, r, note) => console.log(`  ${nom.padEnd(28)} ${String(r.n).padStart(6)}` +
     `  ${G}${(r.d1 || "—").slice(0, 10)} → ${(r.d2 || "—").slice(0, 10)}  ${note}${R}`);
-  ligne("connues de ShipStation", connues, "vrai trou : rejouer --objets expeditions");
+  ligne("connues de ShipStation", connues, "vrai trou : rejouer la migration");
   ligne("jamais vues par ShipStation", shopifySeul, "rien à migrer : le suivi est chez Shopify");
+
+  // Quelle étape rejouer dépend de la façon dont l'envoi a été fait. Une étiquette achetée
+  // par ShipStation donne une expédition ; un envoi timbré au comptoir, marqué expédié à la
+  // main, ne donne qu'un fulfillment au suivi vide. Les deux étapes de migration sont
+  // distinctes, et une base où le compteur ci-dessous est à zéro n'a jamais joué la seconde.
+  const parEtape = [
+    ["étiquettes achetées (expeditions)", "label_id IS NOT NULL"],
+    ["envois timbrés (fulfillments)", "json_extract(raw,'$.fulfillmentId') IS NOT NULL"],
+    ["marqués expédiés dans le clone", "label_id IS NULL AND json_extract(raw,'$.fulfillmentId') IS NULL"],
+  ];
+  console.log(`\nExpéditions en base, par provenance :`);
+  for (const [nom, w] of parEtape) {
+    const n = one(`SELECT COUNT(*) n FROM shipments WHERE ${w}`).n;
+    const sansSuivi = one(`SELECT COUNT(*) n FROM shipments
+      WHERE (${w}) AND (tracking_number IS NULL OR tracking_number = '')`).n;
+    console.log(`  ${nom.padEnd(34)} ${String(n).padStart(6)}  ${G}dont ${sansSuivi} sans n° de suivi${R}`);
+  }
+  console.log(`\n  ${G}Ligne « envois timbrés » à zéro : lancer`);
+  console.log(`  node shipstation-clone/migrer.js --confirmer --objets fulfillments${R}`);
   return 0;
 }
 

@@ -585,9 +585,20 @@ route("POST /api/shipments/void", async ({ req, user }) => {
 route("POST /api/shipments/mark-shipped", async ({ req, user }) => {
   accounts.exiger(user, "orders_edit");
   const b = await corps(req);
-  const r = [];
-  for (const id of b.ids || []) r.push(shipments.marquerExpedie(Number(id), { ...b, userId: user }));
-  return { ok: true, n: r.length };
+  // Les deux écrans qui appellent cette route envoient `order_id` (une commande à la fois),
+  // pas `ids` : la boucle ne trouvait rien, la route répondait `ok` et rien n'était marqué.
+  // On accepte les deux formes, et les deux graphies des champs — la grille poste
+  // `carrier_code`/`tracking_number`, l'adaptateur attend `carrier`/`trackingNumber`.
+  const cibles = (b.ids && b.ids.length ? b.ids : [b.order_id]).filter((v) => v != null);
+  if (!cibles.length) throw new Error("aucune commande à marquer");
+  const champs = {
+    carrier: b.carrier ?? b.carrier_code ?? null,
+    trackingNumber: b.trackingNumber ?? b.tracking_number ?? null,
+    shipDate: b.shipDate ?? b.ship_date ?? null,
+    notifier: b.notifier !== false,
+  };
+  const r = cibles.map((id) => shipments.marquerExpedie(Number(id), { ...champs, userId: user }));
+  return { ok: true, n: r.length, shipments: r.map((x) => x.shipmentId) };
 });
 route("GET /api/shipments/:id/tracking", async ({ params }) => await shipments.rafraichirSuivi(Number(params.id)));
 
