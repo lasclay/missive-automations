@@ -127,6 +127,10 @@ function province(v) {
   return PROVINCES[s.toLowerCase()] || s.toUpperCase().slice(0, 2);
 }
 
+/** Les dix seules valeurs que Chit Chats accepte pour la boutique d origine. */
+const MAGASINS = new Set(["adobe_commerce", "amazon", "bigcommerce", "ebay", "etsy",
+  "shipstation", "shopify", "squarespace", "woocommerce", "other"]);
+
 /**
  * Le colis, tel que Chit Chats le veut.
  *
@@ -197,7 +201,16 @@ function corpsExpedition(envoi, { ordre = null } = {}) {
       : (pays !== "CA" && process.env.CHITCHATS_DDP !== "0"),
 
     order_id: ordre ? String(ordre) : undefined,
-    order_store: "Lasclay",
+    /*
+     * `order_store` est un ensemble FERMÉ de dix valeurs — la boutique d'origine, pas le nom
+     * du marchand. J'y avais mis « Lasclay », et Chit Chats a répondu « Unknown order_store ».
+     *
+     * C'est la boutique qui a pris la commande qui compte : Shopify pour l'essentiel du
+     * volume, Etsy pour le reste. `envoi.boutique` porte le marché quand l'appelant le
+     * connaît ; « other » couvre le reste sans rien inventer.
+     */
+    order_store: MAGASINS.has(String(envoi.boutique || "").toLowerCase())
+      ? String(envoi.boutique).toLowerCase() : "other",
     ship_date: "today",
   };
 }

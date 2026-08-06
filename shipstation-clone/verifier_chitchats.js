@@ -101,6 +101,14 @@ const ENVOI_US = {
       delete process.env.CHITCHATS_RETOUR;
       return x.return_postal_code === "G1J 3R4" && x.return_province_code === "QC"; })());
   verifier("numéro de commande porté", String(c.order_id) === "4242");
+  // order_store est un ensemble fermé de dix valeurs — la boutique d origine, pas le nom du
+  // marchand. « Lasclay » a valu « Unknown order_store ».
+  verifier("boutique d origine dans les valeurs acceptées",
+    cc.corpsExpedition({ ...ENVOI_US, boutique: "shopify" }).order_store === "shopify"
+    && cc.corpsExpedition({ ...ENVOI_US, boutique: "Etsy" }).order_store === "etsy");
+  verifier("une boutique inconnue devient « other », jamais son nom",
+    cc.corpsExpedition({ ...ENVOI_US, boutique: "faire" }).order_store === "other"
+    && cc.corpsExpedition(ENVOI_US).order_store === "other");
 
   console.log("\nLecture des tarifs\n" + "─".repeat(64));
   verifier("2 tarifs lus", r1.tarifs.length === 2, r1.tarifs.map((t) => `${t.serviceId} ${t.price}$`).join(" · "));

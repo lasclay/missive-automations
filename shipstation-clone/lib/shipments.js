@@ -26,6 +26,9 @@ function envoiDepuisCommande(cmd) {
     // pour connaître un prix. L identifiant de commande est ce qui permet de le retrouver et
     // de le réutiliser à l achat, au lieu d en créer un second à chaque cotation.
     orderId: cmd.id,
+    // La boutique d origine, pour les fournisseurs qui la demandent (Chit Chats en a une
+    // liste fermée de dix valeurs). Le marché de la boutique, pas son nom.
+    boutique: (one("SELECT marketplace FROM stores WHERE id = ?", cmd.store_id) || {}).marketplace || null,
     description: (cmd.items || []).map((i) => i.name).filter(Boolean)[0] || null,
     from: origine,
     to: cmd.ship_to || {},
