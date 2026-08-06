@@ -3765,6 +3765,32 @@ VUES.commandes = async (statutFixe) => {
         resumerTarif();
 
         /*
+         * Un tarif moins cher existe, et le choix en place ne le voit pas.
+         *
+         * Le service sélectionné est enregistré sur la commande : il survit à un changement
+         * de poids, et c'est voulu — un choix délibéré ne doit pas être défait dans le dos de
+         * celui qui l'a fait. Mais quand le poids passe de 300 g à 99 g, le tarif de dépôt
+         * apparaît sans que rien ne le dise, et l'écran continue d'afficher 11,06 $ comme si
+         * de rien n'était. On a cru que la cotation n'avait pas bougé.
+         *
+         * Donc : on ne change rien tout seul, on le signale, et on offre le clic.
+         */
+        const choisiId = $("#cs") && $("#cs").value;
+        const actuel = r.tarifs.find((t) => String(t.serviceId) === String(choisiId));
+        const meilleur = r.tarifs[0];
+        if (actuel && meilleur && meilleur.serviceId !== actuel.serviceId
+            && meilleur.price < actuel.price) {
+          const gain = Math.round((actuel.price - meilleur.price) * 100) / 100;
+          $("#cTarifs").insertAdjacentHTML("beforeend",
+            `<div class="avis info" style="margin-top:6px">${esc(meilleur.carrier)} ·
+              ${esc(nomTarif(meilleur))} est à ${money(meilleur.price)} —
+              <b>${money(gain)} de moins</b>.
+              <button type="button" class="lienB" id="cMieux">Prendre celui-là</button></div>`);
+          const b = $("#cMieux");
+          if (b) b.onclick = () => { $("#cs").value = meilleur.serviceId; $("#cs").onchange(); };
+        }
+
+        /*
          * La confirmation de livraison ne traverse pas tous les fournisseurs.
          *
          * La spécification Freightcom 2.10.0 n'a AUCUN champ pour la confirmation : ni
