@@ -4,16 +4,29 @@ Automatisations Lasclay (support Missive, proxys d'API). Quand on te demande d'*
 service tiers** (ShipStation, Omnisend, QuickBooks…), passe par les proxys ci-dessous — les
 clés API vivent côté Render, jamais dans l'environnement Claude ni dans le code.
 
-**N'explore pas le dépôt pour retrouver comment joindre un service : trois skills du projet
+**N'explore pas le dépôt pour retrouver comment joindre un service : quatre skills du projet
 contiennent déjà les actions exactes, les paramètres et les garde-fous.** Charge-les au lieu de
 chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, `/qbo`,
-`/proxygen`) :
+`/proxygen`, `/drivepush`) :
 
 | Skill | Couvre |
 | --- | --- |
 | `missive` | boîte support Missive, fils et brouillons, connaissances de service client et de marque, scripts de la boîte |
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
+| `drivepush` | écriture de fichiers dans le Google Drive (pousseur Apps Script) |
+
+## Écrire dans le Google Drive
+
+Le connecteur Google Drive sert à **lire** : chercher, lire, lister, créer un dossier, copier un
+fichier. Il ne peut pas téléverser de binaire d'une taille utile, parce que le contenu devrait
+transiter en base64 dans l'appel d'outil.
+
+Pour **déposer ou remplacer un fichier**, passe par le pousseur Apps Script (env
+`LASCLAY_DRIVE_PUSH_URL` + `LASCLAY_DRIVE_PUSH_TOKEN`) et charge le skill `drivepush`. Le
+paramètre de destination est `folder`, pas `folderId` : un nom inconnu est ignoré en silence et
+l'appel écrase alors le chiffrier de prévisions. Ne sonde jamais l'endpoint « pour voir », chaque
+POST valide écrit quelque part.
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
