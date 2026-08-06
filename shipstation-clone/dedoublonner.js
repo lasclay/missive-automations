@@ -113,6 +113,24 @@ function ecart() {
       GROUP BY status ORDER BY n DESC`)) {
     console.log(`  ${String(r.status).padEnd(20)} ${String(r.n).padStart(6)}`);
   }
+
+  // Une commande expédiée sans expédition rattachée n'a pas toujours la même cause, et les
+  // deux causes n'appellent pas le même remède. Si ShipStation a connu la commande, il détient
+  // l'expédition et le numéro de suivi : c'est un vrai trou de migration, que rejouer l'étape
+  // « expeditions » comble. Si seul Shopify l'a connue — le cas de la plupart des commandes
+  // 2020-2023 —, ShipStation n'a jamais eu d'expédition à donner : rejouer l'étape ne ramènera
+  // rien, le suivi de ces commandes vit chez Shopify. Les compter séparément évite de lancer
+  // une migration de plusieurs heures en croyant récupérer 19 521 suivis qui n'existent pas.
+  const sansEnvoi = (extra) => one(`SELECT COUNT(*) n, MIN(order_date) d1, MAX(order_date) d2
+      FROM orders o WHERE o.status = 'shipped'
+      AND NOT EXISTS (SELECT 1 FROM shipments s WHERE s.order_id = o.id) AND ${extra}`);
+  const connues = sansEnvoi(`(${ss} OR ${fus})`);
+  const shopifySeul = sansEnvoi(`NOT (${ss}) AND raw_shipstation IS NULL`);
+  console.log(`\nCommandes expédiées sans expédition rattachée — d'où viennent-elles :`);
+  const ligne = (nom, r, note) => console.log(`  ${nom.padEnd(28)} ${String(r.n).padStart(6)}` +
+    `  ${G}${(r.d1 || "—").slice(0, 10)} → ${(r.d2 || "—").slice(0, 10)}  ${note}${R}`);
+  ligne("connues de ShipStation", connues, "vrai trou : rejouer --objets expeditions");
+  ligne("jamais vues par ShipStation", shopifySeul, "rien à migrer : le suivi est chez Shopify");
   return 0;
 }
 
