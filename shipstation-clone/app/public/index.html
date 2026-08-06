@@ -3832,7 +3832,19 @@ VUES.commandes = async (statutFixe) => {
             `<div class="doux" style="font-size:12px;margin-top:6px">Pas de tarif de dépôt :
               ce colis fait ${num(poids)} g, le programme s'arrête à ${num(seuil)} g.</div>`);
         }
-      } catch (e) { $("#cTarifs").innerHTML = `<div class="avis">${esc(e.message)}</div>`; }
+      } catch (e) {
+        // Une cotation qui échoue doit EFFACER la liste précédente, pas la laisser en place.
+        // Choisir Chit Chats et continuer de voir les tarifs Freightcom, avec leur étiquette,
+        // donne une liste qui a l air valide et ne l est plus — on achèterait chez l un en
+        // croyant l avoir comparé chez l autre.
+        $("#cTarifs").innerHTML = `<div class="avis">${esc(e.message)}</div>`;
+        derniereCotation = null;
+        if ($("#cs")) $("#cs").innerHTML = optionsService(o.service_id || "");
+        const l = $("#csL");
+        const nomF = (S.fournisseurs || []).find((x) => x.nom === (champFournisseur && champFournisseur.value));
+        if (l) l.textContent = `Service — aucun tarif${nomF ? ` chez ${nomF.libelle}` : ""}`;
+        $("#cPrix").textContent = "";
+      }
     };
     // Coter dès l'ouverture. Le cache de cotation rend l'appel quasi gratuit sur une commande
     // déjà vue, et le préparateur n'a plus à cliquer pour voir un prix — il ouvre, il voit.
@@ -4832,6 +4844,12 @@ async function detailCommande(id) {
     } catch (e) {
       // Message actionnable à l'endroit du problème, pas une bannière d'erreur générique.
       $("#cCout", f).textContent = "—";
+      // Et la liste de services précédente est effacée : la garder ferait croire que les
+      // tarifs d'un fournisseur s'appliquent à celui qu'on vient de choisir.
+      if ($("#cSvc", f)) $("#cSvc", f).innerHTML = optionsService(o.service_id || "");
+      const nomF = (S.fournisseurs || []).find((x) => x.nom === ($("#cFour", f) && $("#cFour", f).value));
+      const lbl = $("#cSvcL", f);
+      if (lbl) lbl.textContent = `Service — aucun tarif${nomF ? ` chez ${nomF.libelle}` : ""}`;
       const cible = /poids/i.test(e.message) ? $("#cPds", f).closest(".cPoids") : null;
       if (cible && !cible.nextElementSibling?.classList?.contains("avisPoids")) {
         const a = el(`<div class="avis mini avisPoids">${esc(e.message)}</div>`);
