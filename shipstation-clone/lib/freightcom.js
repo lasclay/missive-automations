@@ -121,7 +121,20 @@ function adresseFC(a = {}, { residentiel = false } = {}) {
       country: (a.country || "CA").toUpperCase(),
       postal_code: String(a.postalCode || "").toUpperCase().replace(/\s/g, ""),
     },
-    residential: residentiel || !!a.residential,
+    // Résidentiel : la donnée de l'adresse d'abord, le défaut ensuite.
+    //
+    // La première version forçait `true` sur toute destination. C'était une hypothèse de ma
+    // part, pas une contrainte de l'API — et elle coûte : la surtaxe résidentielle de GLS
+    // tourne autour d'un dollar, soit une bonne part de l'écart entre le clone et
+    // l'interface web de ClickShip.
+    //
+    // Le défaut reste `true` pour une destination client, parce que c'est la vérité dans la
+    // quasi-totalité des envois de Lasclay, et parce que déclarer commercial un domicile fait
+    // arriver la surtaxe **sur la facture** plutôt que dans le devis. Un tarif plus bas qui
+    // se corrige après coup est pire qu'un tarif juste. Mais l'adresse peut désormais dire
+    // le contraire, et `FREIGHTCOM_RESIDENTIEL=0` permet de trancher globalement.
+    residential: a.residential !== undefined ? !!a.residential
+      : (process.env.FREIGHTCOM_RESIDENTIEL === "0" ? false : residentiel),
     contact_name: a.name || undefined,
     phone_number: a.phone ? { number: String(a.phone).replace(/\D/g, "").slice(0, 15) } : undefined,
     email_addresses: a.email ? [a.email] : undefined,
