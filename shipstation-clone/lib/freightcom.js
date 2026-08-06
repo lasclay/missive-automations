@@ -95,7 +95,20 @@ const cm = (po) => Math.max(1, Math.round(Number(po || 0) * 2.54));
  * de l'admissibilité au tarif de dépôt.
  */
 const palier = (g) => Math.max(5, Math.ceil(Number(g || 0) / 5) * 5);
-const kg = (g) => Math.max(0.005, Math.round(palier(g) / 10) / 100);
+
+/**
+ * Le palier en kilogrammes, sans arrondi supplémentaire.
+ *
+ * La première version faisait `Math.round(palier / 10) / 100`, soit un second arrondi à deux
+ * décimales : **495 g partait à 0,50 kg**. Le balayage de poids l'a montré — le tarif de
+ * dépôt disparaissait entre 480 et 495 g alors que le programme va jusqu'à 500. Cinq
+ * grammes de rembourrage inventés faisaient perdre le seul tarif qui porte l'économie du
+ * projet, sur toute la bande 491–500 g.
+ *
+ * Trois décimales suffisent au gramme près, et l'API type ce champ en nombre : rien
+ * n'obligeait à arrondir.
+ */
+const kg = (g) => Math.max(0.005, Math.round(palier(g)) / 1000);
 
 function adresseFC(a = {}, { residentiel = false } = {}) {
   return {

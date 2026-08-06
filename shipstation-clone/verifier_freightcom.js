@@ -77,7 +77,7 @@ const TARIF = (id, cents, nom) => ({
   verifier("code postal normalisé sans espace, en majuscules",
     d.destination.address.postal_code === "H2X1Y4", d.destination.address.postal_code);
   verifier("poids converti en kg, au palier supérieur",
-    d.packaging_properties.packages[0].measurements.weight.value === 0.49, "483 g → palier 485 g → 0,49 kg");
+    d.packaging_properties.packages[0].measurements.weight.value === 0.485, "483 g → palier 485 g → 0,485 kg");
   // La spec type les mesures en nombres. Les envoyer en chaînes valait un « 400 bad or
   // missing data » sans plus d explication ; le contrôle fige la distinction.
   verifier("les mesures partent en nombres, pas en chaînes",
@@ -125,6 +125,13 @@ const TARIF = (id, cents, nom) => ({
   verifier("le poids coté est le palier, jamais le gramme exact",
     vus[0].corps.details.packaging_properties.packages[0].measurements.weight.value === 0.49,
     "488 g coté à 0,49 kg — vers le haut, jamais en dessous du réel");
+  // Le balayage de poids a montré que 495 g partait à 0,50 kg : un second arrondi inventait
+  // cinq grammes et faisait perdre le tarif de dépôt sur toute la bande 491-500 g.
+  verifier("un colis de 495 g ne franchit pas le seuil des 500 g",
+    JSON.parse(JSON.stringify({ v: require("./lib/freightcom").scenario(
+      { ...ENVOI, parcel: { ...ENVOI.parcel, weightG: 495 } }) }))
+      .v.details.packaging_properties.packages[0].measurements.weight.value === 0.495,
+    "495 g → 0,495 kg, pas 0,50");
 
   const ailleurs = { ...ENVOI, to: { ...ENVOI.to, postalCode: "K1A 0B1" } };
   vus = espion([{ statut: 202, corps: { request_id: "req-2" } },
