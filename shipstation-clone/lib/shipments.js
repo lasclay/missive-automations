@@ -15,6 +15,30 @@ const { adaptateur, choisirTarif, SEUIL_DROPOFF_G } = require("./carrier");
 // ------------------------------------------------------------------ cotation
 
 /** Construit l'objet d'envoi attendu par l'adaptateur à partir d'une commande. */
+/**
+ * Le montant à assurer, en dollars, quelle que soit la façon dont il a été écrit.
+ *
+ * Trois formes cohabitent en base, et les adaptateurs n'en attendaient qu'une — un nombre.
+ * ShipStation écrit `{provider, insureShipment, insuredValue}` ; l'écran d'expédition du clone
+ * écrit `{montant, devise}` ; une règle d'automatisation peut poser un nombre nu. Passer
+ * l'objet tel quel à Freightcom donnait `NaN` en cents, et à Chit Chats un `!!objet` toujours
+ * vrai — donc une assurance demandée là où personne ne l'avait demandée, ou l'inverse.
+ *
+ * Ce n'est pas un détail de forme : XCover appartient à ShipStation et disparaît avec
+ * l'abonnement. À partir de là, la seule assurance disponible est celle que le transporteur
+ * ou le courtier vend par l'API, et elle ne part que si ce montant arrive juste.
+ */
+function montantAssure(v) {
+  if (v === null || v === undefined || v === false) return 0;
+  if (typeof v === "number") return v > 0 ? v : 0;
+  if (typeof v === "string") { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : 0; }
+  if (typeof v !== "object") return 0;
+  // ShipStation : un montant sans `insureShipment` ne doit pas partir.
+  if ("insureShipment" in v) return v.insureShipment ? Number(v.insuredValue || 0) || 0 : 0;
+  const n = Number(v.montant ?? v.amount ?? v.valeur ?? v.value ?? 0);
+  return Number.isFinite(n) && n > 0 ? n : 0;
+}
+
 function envoiDepuisCommande(cmd) {
   const entrepot = cmd.warehouse_id
     ? one("SELECT * FROM warehouses WHERE id = ?", cmd.warehouse_id)
@@ -39,7 +63,7 @@ function envoiDepuisCommande(cmd) {
     value: cmd.order_total || 0,
     currency: "CAD",
     signature: cmd.confirmation === "signature",
-    insurance: cmd.insurance || null,
+    insurance: montantAssure(cmd.insurance) || null,
     customs: cmd.customs || null,
   };
 }
@@ -532,5 +556,5 @@ module.exports = {
   coter, acheterEtiquette, acheterRetour, annuler, marquerExpedie,
   creerLot, creerLotVide, nomDeLotLibre, ajouterAuLot, retirerDuLot, lotsOuverts, commandesDuLot, fermerLot,
   traiterLot, lot, lots, creerManifeste, manifestes, aCloturer, cloturerJournee,
-  chercher, rafraichirSuivi, envoiDepuisCommande, SEUIL_DROPOFF_G,
+  chercher, rafraichirSuivi, envoiDepuisCommande, montantAssure, SEUIL_DROPOFF_G,
 };

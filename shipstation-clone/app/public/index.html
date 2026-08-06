@@ -734,6 +734,21 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"
 const money = (v) => (Number(v) || 0).toFixed(2) + " $";
 const num = (v) => (Number(v) || 0).toLocaleString("fr-CA");
 const jour = (s) => (s ? String(s).slice(0, 10) : "—");
+/**
+ * Le montant assuré, en dollars, quelle que soit la forme écrite en base — jumeau de
+ * `montantAssure` côté serveur. Une commande migrée porte la forme ShipStation
+ * `{provider, insureShipment, insuredValue}` ; une commande saisie ici porte `{montant}`.
+ * Le champ ne lisait que la seconde : sur les 38 000 commandes migrées il s'affichait vide,
+ * et le premier enregistrement effaçait l'assurance sans que rien ne le dise.
+ */
+const assure = (v) => {
+  if (v === null || v === undefined || v === false) return 0;
+  if (typeof v === "number") return v > 0 ? v : 0;
+  if (typeof v !== "object") { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : 0; }
+  if ("insureShipment" in v) return v.insureShipment ? Number(v.insuredValue || 0) || 0 : 0;
+  const n = Number(v.montant ?? v.amount ?? v.valeur ?? v.value ?? 0);
+  return Number.isFinite(n) && n > 0 ? n : 0;
+};
 
 /**
  * État vide générique — BUG-037, BUG-115.
@@ -3609,7 +3624,7 @@ VUES.commandes = async (statutFixe) => {
         <label class="champ"><span>Confirmation</span><select id="cf">${(S.refs.confirmations || []).map((k) =>
           `<option value="${k.id}" ${String(o.confirmation) === k.id ? "selected" : ""}>${esc(k.nom)}</option>`).join("")}</select></label>
         <label class="champ"><span>Assurance ($, vide = aucune)</span>
-          <input type="number" step="0.01" id="ci" value="${o.insurance?.montant ?? ""}"></label>
+          <input type="number" step="0.01" id="ci" value="${assure(o.insurance) || ""}"></label>
         <label class="champ"><span>Date d'expédition</span>
           <input type="date" id="cd" value="${(o.ship_by_date || "").slice(0, 10)}"></label>
         <details class="autres"><summary>Autres options d'expédition</summary>
@@ -4400,7 +4415,7 @@ async function detailCommande(id) {
               `<option value="${esc(x.id)}"${String(o.confirmation) === String(x.id) ? " selected" : ""}>${esc(x.nom)}</option>`).join("")}
           </select></label>
 
-          <div class="cAssur">Assurance : <b>${o.insurance?.provider ? esc(o.insurance.provider) : "aucune"}</b>
+          <div class="cAssur">Assurance : <b>${assure(o.insurance) ? money(assure(o.insurance)) : "aucune"}</b>
             <button type="button" class="fEdit" id="cAssurE">Modifier</button></div>
 
           <details class="cAutres"><summary>Autres options d'expédition</summary>
@@ -4793,12 +4808,21 @@ async function detailCommande(id) {
   };
   $("#cMapper", f) && ($("#cMapper", f).onclick = () => modaleMapping(o, recharger));
   $("#cAddPkg", f).onclick = () => alert("Le multi-colis arrive avec la scission d'expédition : scindez la commande, chaque expédition porte son colis.");
-  // Naviguer « derrière » la modale éjectait l'opérateur sur un autre écran, sans sa
-  // commande et sans retour visuel. On ferme d'abord, on dit où l'on va.
+  // L'assurance se règle bel et bien commande par commande : c'est le montant déclaré au
+  // transporteur, et il vaut la valeur de CETTE commande. Le bouton renvoyait vers les
+  // réglages, qui ne portent qu'une politique par défaut — l'opérateur qui voulait assurer
+  // un colis à 400 $ n'avait aucun endroit où le dire.
   $("#cAssurE", f).onclick = () => dialogue("Assurance",
-    `<p>Les règles d'assurance se configurent dans les réglages d'expédition, pas par commande.</p>
-     <p class="doux">La fiche de <b>${esc(o.order_number)}</b> se fermera.</p>`,
-    () => { f.remove(); ficheOuverte = null; aller("reglages"); }, "Ouvrir les réglages");
+    `<label class="champ"><span>Valeur assurée ($, vide = aucune)</span>
+       <input type="number" step="0.01" id="aiv" value="${assure(o.insurance) || ""}"></label>
+     <p class="doux">Par défaut, la valeur de la commande : <b>${money(o.order_total)}</b>.
+       La couverture se facture en surcharge et apparaît dans le prix coté.</p>`,
+    async () => {
+      const v = Number($("#aiv").value) || 0;
+      await api("/api/orders", { method: "POST", body: { ...o,
+        insurance: v > 0 ? { montant: v, devise: "CAD" } : null } });
+      recharger();
+    }, "Enregistrer");
   $("#cBrowse", f).onclick = () => { fermer(); aller("tarifs"); };
 
   /**

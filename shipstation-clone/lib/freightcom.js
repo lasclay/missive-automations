@@ -170,9 +170,21 @@ function scenario(envoi, { services = null, dateExpedition = null } = {}) {
       shipment_classification: "B2C",
     },
   };
-  if (envoi.insurance) {
-    corps.details.insurance = { type: "carrier",
-      total_cost: { currency: envoi.currency || "CAD", value: enCents(envoi.insurance) } };
+  // XCover est un service de ShipStation, pas du transporteur : il s'éteint avec
+  // l'abonnement. Ce qui le remplace passe par ce champ-ci, et par lui seul.
+  //
+  // `type` distingue qui porte le risque : « carrier » achète la couverture du transporteur
+  // qui livre, « freightcom » celle du courtier, qui couvre en général plus haut et sur plus
+  // de transporteurs. Les deux se facturent en surcharge, donc apparaissent déjà dans
+  // `prixHT` — l'assurance n'est pas un supplément invisible au moment de comparer.
+  //
+  // Le défaut est réglable parce qu'aucune des deux valeurs n'a encore été prouvée contre le
+  // compte réel : l'assurance ne partait jamais, le montant arrivait en `NaN` (voir
+  // `montantAssure`). `verifier_freightcom.js --assurance` tranche en interrogeant l'API.
+  const montant = Number(envoi.insurance || 0);
+  if (montant > 0) {
+    corps.details.insurance = { type: process.env.FREIGHTCOM_ASSURANCE_TYPE || "carrier",
+      total_cost: { currency: envoi.currency || "CAD", value: enCents(montant) } };
   }
   if (services && services.length) corps.services = services;
   return corps;

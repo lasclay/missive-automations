@@ -3,6 +3,7 @@
  *
  *   node shipstation-clone/verifier_freightcom.js          hors ligne, `fetch` espionné
  *   node shipstation-clone/verifier_freightcom.js --reel   appelle GET /services, en lecture
+ *   node shipstation-clone/verifier_freightcom.js --assurance   quel `insurance.type` passe
  *
  * Le mode hors ligne valide la forme des requêtes, la conversion des unités, le cache,
  * l'idempotence et les refus d'achat — sans clé, sans réseau, sans dépense. Le mode `--reel`
@@ -368,6 +369,49 @@ const TARIF = (id, cents, nom) => ({
       console.log(`${V} ${r.total} services versés  ${G}via ${r.via}, ${r.ajoutes} nouveaux, ${r.majs} mis à jour, ${r.depot} au tarif de dépôt${R}`);
       passes++;
     } catch (e) { console.log(`${X} ${e.message}`); echecs++; }
+  }
+
+  // ------------------------------------------------------------- assurance
+  //
+  // Quelle valeur `insurance.type` accepte le compte ? La question n'est pas théorique :
+  // XCover s'éteint avec l'abonnement ShipStation, et ce champ est ce qui le remplace. Le
+  // spécimen envoyé est une **cotation**, pas un achat — rien n'est réservé, rien n'est
+  // facturé, et l'API répond ce qu'aurait coûté la couverture.
+  //
+  // Une valeur volontairement fausse est envoyée en dernier : c'est le message d'erreur qui
+  // énumère les valeurs permises, comme Chit Chats l'avait fait pour `order_store`. Deviner
+  // l'énumération coûte moins cher que la deviner mal en production.
+  if (process.argv.includes("--assurance")) {
+    console.log("\nAssurance Freightcom — quel `insurance.type` le compte accepte\n" + "─".repeat(64));
+    if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
+    else delete process.env.FREIGHTCOM_API_KEY;
+    global.fetch = vraiFetch;
+    const envoi = { ...ENVOI, insurance: 100, currency: "CAD" };
+    for (const type of ["carrier", "freightcom", "valeur-inexistante"]) {
+      process.env.FREIGHTCOM_ASSURANCE_TYPE = type;
+      const sansAssurance = { ...ENVOI, insurance: 0 };
+      try {
+        const [avec, sans] = await Promise.all([
+          fc.coter(envoi, { deadlineMs: 25000 }),
+          type === "carrier" ? fc.coter(sansAssurance, { deadlineMs: 25000 }) : Promise.resolve(null),
+        ]);
+        const t = (avec.tarifs || [])[0];
+        const t0 = sans && (sans.tarifs || [])[0];
+        const prix = (x) => (x ? (x.prixHT ?? x.price) : null);
+        const ecart = t && t0 ? ` ${G}(+${(prix(t) - prix(t0)).toFixed(2)} $ sur ${t.service_name || t.service})${R}` : "";
+        verifier(`type « ${type} » accepté`, (avec.tarifs || []).length > 0,
+          `${(avec.tarifs || []).length} tarif(s)${ecart}`);
+      } catch (e) {
+        // Sur la valeur bidon, l'échec EST le résultat cherché : il nomme les valeurs permises.
+        const attendu = type === "valeur-inexistante";
+        verifier(`type « ${type} » ${attendu ? "refusé, et l'erreur énumère" : "accepté"}`,
+          attendu, String(e.message).slice(0, 220));
+      }
+    }
+    delete process.env.FREIGHTCOM_ASSURANCE_TYPE;
+    console.log(`\n  ${G}Le type retenu se fige avec FREIGHTCOM_ASSURANCE_TYPE dans les réglages Render.`);
+    console.log(`  L'écart de prix ci-dessus est le coût réel de la couverture — à comparer aux`);
+    console.log(`  1,10 % domestique / 1,50 % international que facturait XCover.${R}`);
   }
 
   if (process.argv.includes("--reel")) {
