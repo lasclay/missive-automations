@@ -3724,13 +3724,22 @@ VUES.commandes = async (statutFixe) => {
       const t = derniereCotation.tarifs.find((x) => String(x.serviceId) === String($("#cs").value));
       if (!t) { boite.innerHTML = ""; $("#cPrix").textContent = ""; return; }
       const paye = Number(o.shipping_paid || 0);
-      const marge = paye ? Math.round((paye - t.price) * 100) / 100 : null;
+      // La marge se calcule HORS TAXES, des deux côtés.
+      //
+      // Le tarif que rend Freightcom inclut TPS et TVQ ; les frais de port encaissés sur la
+      // commande, eux, sont hors taxes. Comparer les deux surestimait la perte de 15 % — sur
+      // un envoi à 7,28 $, la marge paraissait 0,95 $ plus mauvaise qu'elle n'est. Et ces
+      // taxes se récupèrent en crédits de taxe sur intrants : elles ne sont pas une dépense.
+      const cout = t.prixHT ?? t.price;
+      const marge = paye ? Math.round((paye - cout) * 100) / 100 : null;
       boite.innerHTML = `<div class="crL"><span>${esc(t.carrier)} · ${esc(nomTarif(t))}${
-        t.dropOff ? ' <span class="puce v">dépôt</span>' : ""}</span><b>${money(t.price)}</b></div>
+        t.dropOff ? ' <span class="puce v">dépôt</span>' : ""}</span><b>${money(cout)}</b></div>
         <div class="doux" style="font-size:12px">${esc(delaiTarif(t))}${
+        t.prixHT !== undefined && t.prixHT !== t.price
+          ? ` · ${money(t.price)} taxes comprises` : ""}${
         marge !== null ? ` · marge <span class="${marge < 0 ? "rouge" : "vert"}">${
           marge >= 0 ? "+" : ""}${money(marge)}</span>` : ""}</div>`;
-      $("#cPrix").textContent = "  " + money(t.price);
+      $("#cPrix").textContent = "  " + money(cout);
     };
 
     // Choisir un tarif l'enregistre, sans second clic. C'était la plainte : on sélectionnait,
