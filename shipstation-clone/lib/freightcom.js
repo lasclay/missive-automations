@@ -238,9 +238,24 @@ function lireTarif(t) {
     service: t.service_name || "",
     serviceId: t.service_id || "",
     price: enDollars(t.total),
+    /**
+     * Le prix hors taxes — base + surcharges.
+     *
+     * ClickShip affiche ce montant dans sa colonne « Total Price » ; l API, elle, rend un
+     * `total` qui inclut les taxes. C est toute la différence relevée : GLS 10,01 $ contre
+     * 11,06 $, UPS 13,72 $ contre 15,17 $, soit +10,5 % des deux côtés — et zéro sur le
+     * programme Canada Post, qui n en porte pas.
+     *
+     * C est aussi le montant à employer pour raisonner : Lasclay récupère la TPS et la TVQ en
+     * crédits de taxe sur intrants. Comparer des prix taxes comprises fausserait chaque calcul
+     * de marge de l application.
+     */
+    prixHT: Math.round((enDollars(t.base) || 0) * 100
+      + (t.surcharges || []).reduce((n, x) => n + Math.round((enDollars(x.amount || x.total) || 0) * 100), 0)) / 100,
     base: enDollars(t.base),
     surcharges: (t.surcharges || []).map((s) => ({ type: s.type, nom: s.name || s.type, montant: enDollars(s.amount || s.total) })),
     taxes: (t.taxes || []).reduce((s, x) => s + (enDollars(x.amount || x.total) || 0), 0) || 0,
+    detailTaxes: (t.taxes || []).map((x) => ({ type: x.type, montant: enDollars(x.amount || x.total) })),
     currency: t.total?.currency || "CAD",
     transitDays: t.transit_time_days ?? t.transit_time?.days ?? null,
     validJusquau: deJour(t.valid_until),

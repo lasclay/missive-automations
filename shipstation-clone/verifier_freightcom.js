@@ -307,7 +307,12 @@ const TARIF = (id, cents, nom) => ({
           for (const x of t.surcharges || []) {
             if (x.montant) console.log(`        ${G}+${String(x.montant).padStart(6)} $  ${x.nom || x.type}${R}`);
           }
-          if (t.base !== null && t.base !== undefined) console.log(`        ${G} base ${t.base} $${R}`);
+          for (const x of t.detailTaxes || []) {
+            if (x.montant) console.log(`        ${G}+${String(x.montant).padStart(6)} $  TAXE ${x.type}${R}`);
+          }
+          if (t.base !== null && t.base !== undefined) {
+            console.log(`        ${G} base ${t.base} $ · hors taxes ${t.prixHT} $ · total ${t.price} $${R}`);
+          }
         }
         const cp = r.tarifs.filter((t) => /canada.?post/i.test(`${t.carrier} ${t.serviceId}`));
         console.log(cp.length
