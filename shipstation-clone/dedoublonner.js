@@ -200,7 +200,7 @@ function main() {
     // connexion. Une pause tous les deux cents groupes suffit à laisser passer les écritures
     // de l'application, pour un coût total de quelques secondes sur la course entière.
     if (n % 200 === 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 25);
-    if (n % 500 === 0) process.stderr.write(`\r  fusionnées : ${n.toLocaleString("fr-CA")}`);
+    if (n % 100 === 0) process.stderr.write(`  fusionnées : ${n.toLocaleString("fr-CA")}\n`);
   }
   process.stderr.write(`\r  fusionnées : ${n.toLocaleString("fr-CA")}\n`);
 

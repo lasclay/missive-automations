@@ -599,6 +599,14 @@ const INDEX_TARDIFS = [
   "CREATE INDEX IF NOT EXISTS idx_items_shipment ON order_items(shipment_id)",
   "CREATE INDEX IF NOT EXISTS idx_returns_shipment ON returns(shipment_id)",
   "CREATE INDEX IF NOT EXISTS idx_tags_order ON order_tags(order_id)",
+  // Quatre colonnes que l'on met à jour par lot mais qu'aucun index ne couvrait. Sur une
+  // base de 63 000 commandes, chaque écriture déclenchait un balayage complet de la table :
+  // la fusion des doublons y passait des minutes à ne rien faire d'utile. Ce sont aussi les
+  // colonnes qu'on lit pour reconstituer une scission ou une fusion.
+  "CREATE INDEX IF NOT EXISTS idx_orders_parent ON orders(parent_id)",
+  "CREATE INDEX IF NOT EXISTS idx_orders_merged ON orders(merged_into)",
+  "CREATE INDEX IF NOT EXISTS idx_returns_order ON returns(order_id)",
+  "CREATE INDEX IF NOT EXISTS idx_notif_order ON notifications(order_id)",
 ];
 
 /**
