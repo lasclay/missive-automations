@@ -21,6 +21,19 @@ const SCHEMA = `
 PRAGMA journal_mode = WAL;
 PRAGMA foreign_keys = ON;
 
+/*
+ * Attendre son tour plutôt qu'abandonner.
+ *
+ * SQLite n'accepte qu'un seul écrivain. Sans ce délai, une écriture qui tombe pendant celle
+ * d'un autre processus échoue **immédiatement** sur « database is locked » — et c'est ainsi
+ * qu'une simple connexion à l'application a été refusée pendant que le script de fusion
+ * travaillait, alors qu'il aurait suffi d'attendre quelques millisecondes.
+ *
+ * Dix secondes : très au-delà de la plus longue transaction du clone, et assez court pour
+ * qu'un vrai blocage se voie au lieu de faire patienter indéfiniment.
+ */
+PRAGMA busy_timeout = 10000;
+
 -- ------------------------------------------------------------------ référentiels
 
 CREATE TABLE IF NOT EXISTS stores (

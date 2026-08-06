@@ -195,6 +195,11 @@ function main() {
       if (p.statut) run("UPDATE orders SET status = ? WHERE id = ?", p.statut, p.garde.id);
     });
     } catch (e) { rates.push({ numero: p.numero, garde: p.garde.id, erreur: String(e.message || e) }); }
+    // Rendre la main régulièrement : douze mille transactions enchaînées monopolisent
+    // l'unique écrivain de SQLite, et l'application n'arrivait plus à créer une session de
+    // connexion. Une pause tous les deux cents groupes suffit à laisser passer les écritures
+    // de l'application, pour un coût total de quelques secondes sur la course entière.
+    if (n % 200 === 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 25);
     if (n % 500 === 0) process.stderr.write(`\r  fusionnées : ${n.toLocaleString("fr-CA")}`);
   }
   process.stderr.write(`\r  fusionnées : ${n.toLocaleString("fr-CA")}\n`);
