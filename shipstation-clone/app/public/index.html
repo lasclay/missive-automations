@@ -3764,6 +3764,26 @@ VUES.commandes = async (statutFixe) => {
         }
         resumerTarif();
 
+        /*
+         * La confirmation de livraison ne traverse pas tous les fournisseurs.
+         *
+         * La spécification Freightcom 2.10.0 n'a AUCUN champ pour la confirmation : ni
+         * signature, ni preuve d'âge, ni « Do Not Safe Drop ». Or la règle 6 du compte
+         * ShipStation appliquait `Confirmation = 5` à tout envoi Canada Post — c'est une
+         * politique de livraison, pas un détail. Acheter chez ce courtier la perd en silence,
+         * et on ne s'en apercevrait qu'au premier colis laissé sur un perron.
+         *
+         * L'écran le dit donc avant l'achat. Postes Canada en direct, lui, la transmet.
+         */
+        const conf = $("#cf") && $("#cf").value;
+        if (conf && conf !== "0" && r.fournisseur === "freightcom") {
+          const nomConf = (S.refs.confirmations || []).find((c) => String(c.id) === String(conf));
+          $("#cTarifs").insertAdjacentHTML("beforeend",
+            `<div class="avis" style="margin-top:6px">« ${esc(nomConf ? nomConf.nom : conf)} »
+              ne sera <b>pas transmis</b> : l'API Freightcom n'a pas de champ pour la
+              confirmation de livraison. Passer par Postes Canada pour la conserver.</div>`);
+        }
+
         // Dire pourquoi le tarif de dépôt n'est pas là.
         //
         // Sur une commande de 600 g, la liste passait de 6,61 $ à 12,70 $ sans un mot, et il
