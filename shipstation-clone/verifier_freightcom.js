@@ -232,6 +232,46 @@ const TARIF = (id, cents, nom) => ({
   // Lac-Beauport, 9 × 6 × 1 po, 45 g. C'est le devis exact qui avait donné 6,31 $ « Drop-Off
   // Only » dans l'interface web le 22 juillet 2026, et donc la seule façon de répondre à la
   // question A1 du brief : ce tarif sort-il de l'API ? Lecture pure, aucune réservation.
+  // `--commande L-50145` cote une commande RÉELLE et montre ce qui part et ce qui revient.
+  //
+  // « Postes Canada n'apparaît pas dans les options » ne se répond pas par une hypothèse : il
+  // faut voir le corps envoyé — poids, dimensions, destination — et le panel interrogé.
+  // Freightcom dit combien de services il a cherchés ; si Canada Post n'est pas dans les
+  // réponses alors que le panel était complet, c'est le transporteur qui décline, pas nous.
+  const iCmd = process.argv.indexOf("--commande");
+  if (iCmd >= 0) {
+    const numero = process.argv[iCmd + 1];
+    console.log(`\nCotation réelle de la commande ${numero}\n` + "─".repeat(64));
+    if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
+    else delete process.env.FREIGHTCOM_API_KEY;
+    const { one } = require("./lib/db");
+    const cmd = one("SELECT id FROM orders WHERE order_number = ? ORDER BY id DESC LIMIT 1", numero);
+    if (!cmd) { console.log(`${X} commande introuvable : ${numero}`); echecs++; }
+    else {
+      const shipments = require("./lib/shipments");
+      try {
+        const r = await shipments.coter(cmd.id, { fournisseur: "freightcom" });
+        const p = r.envoi.parcel;
+        console.log(`  envoi : ${p.weightG} g · ${p.lengthIn}×${p.widthIn}×${p.heightIn} po` +
+          ` · ${r.envoi.from.postalCode || "?"} → ${r.envoi.to.postalCode || "?"} (${r.envoi.to.country || "CA"})`);
+        console.log(`  ${r.tarifs.length} tarif(s) :`);
+        for (const t of r.tarifs) {
+          console.log(`   ${t.dropOff ? "▼" : " "} ${String(t.price).padStart(7)} $  ${
+            String(t.serviceId).padEnd(30)} ${t.carrier}`);
+        }
+        const cp = r.tarifs.filter((t) => /canada.?post/i.test(`${t.carrier} ${t.serviceId}`));
+        console.log(cp.length
+          ? `\n  ${V} Postes Canada répond : ${cp.map((t) => `${t.serviceId} ${t.price} $`).join(", ")}`
+          : `\n  ${A} Postes Canada ne répond pas pour cet envoi.\n` +
+            `  ${G}Le programme « Canada Post Exclusive » est réservé aux envois d'un seul colis\n` +
+            `  sous 500 g. À ${p.weightG} g, ce n'est pas lui. Si AUCUN service Canada Post ne sort\n` +
+            `  — ni Expedited, ni Xpresspost — c'est que le compte Freightcom n'a pas de contrat\n` +
+            `  Canada Post ordinaire : à demander à Freightcom, ce n'est pas réglable ici.${R}`);
+        passes++;
+      } catch (e) { console.log(`${X} ${e.message}`); echecs++; }
+    }
+  }
+
   if (process.argv.includes("--coter")) {
     console.log("\nCotation réelle — envoi de référence de l'audit\n" + "─".repeat(64));
     if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
