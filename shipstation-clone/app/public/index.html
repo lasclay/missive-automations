@@ -948,6 +948,7 @@ const EN = {
   "Confirmation": "Confirmation", "Assurance": "Insurance",
   "Aucune assurance": "No insurance", "Autre montant…": "Other amount…",
   "Assurance par défaut": "Default insurance", "appliquer la règle": "apply the rule",
+  "Éteinte.": "Off.",
   "Article": "Item", "SKU": "SKU", "Qté": "Qty", "Prix unitaire": "Unit price",
   "Poids (g)": "Weight (g)", "+ Ajouter une ligne": "+ Add a line", "Description": "Description",
   "Enregistrer": "Save",
@@ -4294,7 +4295,9 @@ function marqueAssurance(t) {
  */
 function assuranceDeRegle(o) {
   const r = (S.config && S.config.assurance) || {};
-  if (r.active === false) return 0;
+  // Éteinte par défaut : sans réponse du serveur, on ne présume aucune couverture. Afficher
+  // un montant présélectionné que rien n'appliquerait serait pire que de n'en afficher aucun.
+  if (!r.active) return 0;
   const plancher = Number(r.defaut ?? 100) || 0;
   const seuil = Number(r.seuil ?? 300) || 0;
   const total = Math.round(Number(o.order_total || 0) * 100) / 100;
@@ -8234,10 +8237,12 @@ VUES.reglages = async () => {
       <p class="doux" style="margin:2px 0 8px">Sert de référence dans l'analytique. Seuil de poids : ${s.seuil_dropoff_g} g.</p>
       <input type="number" step="0.01" id="st" value="${s.tarif_dropoff_cible}"> <button id="stsave">Enregistrer</button></div>
     <div class="carte"><b>Assurance par défaut</b>
-      <p class="doux" style="margin:2px 0 8px">Remplace la règle XCover de ShipStation, qui
-      assurait sans que rien ne soit inscrit sur la commande. Sans cette règle, un lot
-      expédierait toutes ses commandes sans couverture. Un montant inscrit sur une commande
-      l'emporte toujours.</p>
+      <p class="doux" style="margin:2px 0 8px"><b>Éteinte.</b> Les transporteurs de colis
+      incluent déjà une responsabilité de base — de l'ordre de 100 $ chez Postes Canada, UPS,
+      FedEx, Purolator, GLS et Canpar, sans rien demander. Assurer 100 $ d'office revenait
+      donc à racheter, en payant, une protection déjà acquise. À n'allumer que pour des envois
+      dont la valeur dépasse cette responsabilité incluse. Un montant inscrit sur une commande
+      s'applique de toute façon, règle allumée ou non.</p>
       <label class="ch"><input type="checkbox" id="sav" ${s.assurance_active ? "checked" : ""}>
         appliquer la règle</label>
       <div class="cGrille2">

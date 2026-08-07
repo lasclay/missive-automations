@@ -143,6 +143,9 @@ const vraiFournisseurs = carrier.fournisseurs;
     return one("SELECT last_insert_rowid() r").r;
   };
   // Les deux services ont été notés au référentiel par la cotation croisée plus haut.
+  // La règle par défaut est éteinte de série — les transporteurs incluent déjà une
+  // responsabilité de base. On l'allume ici parce que c'est SON acheminement qu'on éprouve.
+  require("./lib/db").poserReglage("assurance_active", "1");
   const chezA = faireCommande("L-LOT-A", "A-express", 300);
   const chezB = faireCommande("L-LOT-B", "B-express", null);
 

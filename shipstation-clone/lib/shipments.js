@@ -54,14 +54,23 @@ function montantAssure(v) {
  *
  *   assurance_defaut   100 $   ce qu'on assure en dessous du seuil
  *   assurance_seuil    300 $   au-delà, on assure la valeur de la commande
- *   assurance_active   1       met toute la règle hors circuit
+ *   assurance_active   0       la règle est HORS CIRCUIT par défaut — voir ci-dessous
  *
  * Un montant inscrit sur la commande gagne toujours : la règle comble un vide, elle ne
  * contredit personne.
+ *
+ * POURQUOI ELLE EST ÉTEINTE PAR DÉFAUT. Les transporteurs de colis incluent déjà une
+ * responsabilité de base — de l'ordre de 100 $ chez Postes Canada, UPS, FedEx, Purolator,
+ * GLS et Canpar, sans rien demander. Le plancher de 100 $ rachetait donc, en payant, une
+ * protection qu'on avait déjà. Et chez Freightcom, la demander coûtait 14 tarifs sur 23,
+ * FedEx et UPS compris, sans rien couvrir du tout.
+ *
+ * La règle reste là, entière, pour le cas où elle sert : un envoi de valeur au-dessus de la
+ * responsabilité incluse. Elle s'allume dans Réglages ▸ Assurance par défaut.
  */
 function assuranceParDefaut(cmd) {
   const { reglage } = require("./db");
-  if (String(reglage("assurance_active", "1")) === "0") return 0;
+  if (String(reglage("assurance_active", "0")) === "0") return 0;
   const plancher = Number(reglage("assurance_defaut", 100)) || 0;
   const seuil = Number(reglage("assurance_seuil", 300)) || 0;
   const total = Math.round(Number(cmd.order_total || 0) * 100) / 100;

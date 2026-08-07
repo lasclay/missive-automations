@@ -76,7 +76,12 @@ const ENVOI = {
   // bascule, 51 000 commandes n'ont aucun montant inscrit : sans règle, un lot les
   // expédierait toutes nues. C'est le contrôle qui garde ce filet en place.
   const { assuranceParDefaut } = require("./lib/shipments");
-  const { poserReglage } = require("./lib/db");
+  const { poserReglage, reglage } = require("./lib/db");
+  // De série, la règle est éteinte : les transporteurs incluent déjà une responsabilité de
+  // base d'environ 100 $. C'est le premier contrôle, parce que le défaut EST la décision.
+  verifier("de série, aucune couverture n'est ajoutée d'office",
+    assuranceParDefaut({ order_total: 850 }) === 0,
+    `réglage lu : ${reglage("assurance_active", "0")}`);
   poserReglage("assurance_active", "1");
   poserReglage("assurance_defaut", 100);
   poserReglage("assurance_seuil", 300);

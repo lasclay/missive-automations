@@ -1613,7 +1613,7 @@ route("GET /api/settings", () => ({
   marque: db.reglage("marque", accounts.MARQUE_DEFAUT),
   tarif_dropoff_cible: db.reglage("tarif_dropoff_cible", 6.31),
   derniere_migration: db.reglage("derniere_migration", null),
-  assurance_active: String(db.reglage("assurance_active", "1")) !== "0",
+  assurance_active: String(db.reglage("assurance_active", "0")) !== "0",
   assurance_defaut: Number(db.reglage("assurance_defaut", 100)) || 0,
   assurance_seuil: Number(db.reglage("assurance_seuil", 300)) || 0,
   seuil_dropoff_g: SEUIL_DROPOFF_G,
@@ -2137,7 +2137,7 @@ route("GET /api/config", ({ moi }) => {
     // présélectionner ce que le serveur appliquerait, sinon l'opérateur lit « Aucune » sur
     // une commande que le lot assurerait quand même.
     assurance: {
-      active: String(db.reglage("assurance_active", "1")) !== "0",
+      active: String(db.reglage("assurance_active", "0")) !== "0",
       defaut: Number(db.reglage("assurance_defaut", 100)) || 0,
       seuil: Number(db.reglage("assurance_seuil", 300)) || 0,
     },
