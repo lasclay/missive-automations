@@ -470,8 +470,38 @@ const TARIF = (id, cents, nom) => ({
       } catch (e) { console.log(`\n${nom}\n  ${X} ${e.message}`); }
     }
 
+    // Le panel du COMPTE, pas celui d'une cotation : si Postes Canada n'y figure pas, aucune
+    // cotation ne le fera apparaître, et la question n'est plus technique mais commerciale.
+    try {
+      const panel = await fc.services();
+      const cpPanel = panel.filter((x) => /canada\s*post|postes\s*canada/i.test(
+        `${x.transporteur} ${x.nom} ${x.id}`));
+      console.log(`\nCatalogue du compte — GET /services : ${panel.length} services`);
+      console.log(`  services Postes Canada au catalogue : ${cpPanel.length ? `${V} ` +
+        cpPanel.map((x) => x.id).join(", ") : `${X} aucun`}`);
+      if (cpPanel.length) {
+        console.log(`  ${G}Ils sont au catalogue mais ne rendent aucun tarif sur cet envoi :`);
+        console.log(`  restriction de poids, de destination, ou compte non provisionné.${R}`);
+      } else {
+        console.log(`  ${G}Le programme Postes Canada n'est pas au catalogue de ce compte.`);
+        console.log(`  Aucun réglage du clone n'y changera rien — c'est à activer chez Freightcom.${R}`);
+      }
+    } catch (e) { console.log(`\n${X} catalogue illisible : ${e.message}`); }
+
     console.log("\n" + "─".repeat(64));
     const [nu, assure, court] = vus;
+
+    // Le coût caché de la demande d'assurance : ce n'est pas son prix, c'est ce qu'elle
+    // retire du comparateur. Un transporteur absent ne se remarque pas.
+    if (nu && assure) {
+      const perdus = nu.transporteurs.filter((t) => !assure.transporteurs.includes(t));
+      if (assure.n < nu.n) {
+        console.log(`${X} ${G}DEMANDER L'ASSURANCE COÛTE ${nu.n - assure.n} TARIF(S) SUR ${nu.n}.`);
+        if (perdus.length) console.log(`  Transporteurs qui disparaissent : ${perdus.join(", ")}`);
+        console.log(`  Freightcom filtre les services qui ne peuvent pas honorer le champ.`);
+        console.log(`  Avec un « type » que le compte n'accepte pas, il les filtre presque tous.${R}`);
+      }
+    }
     if (nu && assure) {
       if (nu.cp && !assure.cp) {
         console.log(`${X} ${G}L'ASSURANCE EXCLUT POSTES CANADA du panel. Demander une couverture`);

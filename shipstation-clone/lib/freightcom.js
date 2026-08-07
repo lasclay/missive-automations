@@ -174,16 +174,29 @@ function scenario(envoi, { services = null, dateExpedition = null } = {}) {
   // l'abonnement. Ce qui le remplace passe par ce champ-ci, et par lui seul.
   //
   // `type` distingue qui porte le risque : « carrier » achète la couverture du transporteur
-  // qui livre, « freightcom » celle du courtier, qui couvre en général plus haut et sur plus
-  // de transporteurs. Les deux se facturent en surcharge, donc apparaissent déjà dans
-  // `prixHT` — l'assurance n'est pas un supplément invisible au moment de comparer.
+  // qui livre, « freightcom » celle du courtier. Les deux se facturent en surcharge, donc
+  // apparaissent dans `prixHT` — l'assurance n'est pas un supplément invisible au moment de
+  // comparer.
   //
-  // Le défaut est réglable parce qu'aucune des deux valeurs n'a encore été prouvée contre le
-  // compte réel : l'assurance ne partait jamais, le montant arrivait en `NaN` (voir
-  // `montantAssure`). `verifier_freightcom.js --assurance` tranche en interrogeant l'API.
+  // ON N'ENVOIE RIEN TANT QUE `FREIGHTCOM_ASSURANCE_TYPE` N'EST PAS POSÉE. Mesuré sur le
+  // compte réel, à 300 g, panel complet des deux côtés (153/153 services) :
+  //
+  //     sans assurance      23 tarifs   Canpar, FedEx, GLS, ICS, Purolator, UPS
+  //     assuré 100 $         9 tarifs   Canpar, GLS, ICS, Purolator
+  //                                     et 0 des 9 ne porte la couverture
+  //
+  // Demander la couverture coûtait donc **14 tarifs sur 23** — FedEx et UPS disparaissaient
+  // entièrement du comparateur — et n'achetait aucune protection. Une opération strictement
+  // perdante ne doit pas être le défaut. Freightcom filtre les services qui ne peuvent pas
+  // honorer le champ ; avec un `type` que le compte n'accepte pas, il les filtre tous.
+  //
+  // `verifier_freightcom.js --assurance` cherche le type que le compte accepte ; une fois
+  // trouvé, on le pose dans les réglages Render et la couverture repart. D'ici là, mieux vaut
+  // un panel entier sans assurance qu'un panel amputé sans assurance non plus.
   const montant = Number(envoi.insurance || 0);
-  if (montant > 0) {
-    corps.details.insurance = { type: process.env.FREIGHTCOM_ASSURANCE_TYPE || "carrier",
+  const typeAssurance = process.env.FREIGHTCOM_ASSURANCE_TYPE || "";
+  if (montant > 0 && typeAssurance) {
+    corps.details.insurance = { type: typeAssurance,
       total_cost: { currency: envoi.currency || "CAD", value: enCents(montant) } };
   }
   if (services && services.length) corps.services = services;
@@ -254,13 +267,16 @@ function lireTarif(t, demandee = 0) {
   // silence : elle veut dire que le transporteur ne la vend pas sur ce service.
   const ligne = (t.surcharges || []).find((s) =>
     /insur|assur|coverage|declared/i.test(`${s.type || ""} ${s.name || ""}`));
+  const type = process.env.FREIGHTCOM_ASSURANCE_TYPE || "";
   const assurance = {
     demandee: Number(demandee) || 0,
     appliquee: !!ligne,
     cout: ligne ? enDollars(ligne.amount || ligne.total) : 0,
     mention: ligne ? (ligne.name || ligne.type) : null,
-    type: demandee > 0 ? (process.env.FREIGHTCOM_ASSURANCE_TYPE || "carrier") : null,
+    type: demandee > 0 ? (type || null) : null,
     note: !demandee ? "aucune couverture demandée"
+      : !type ? "non transmise à Freightcom : aucun type d'assurance validé sur ce compte "
+        + "(la demander retirait 14 tarifs sur 23 sans rien couvrir) — voir FREIGHTCOM_ASSURANCE_TYPE"
       : ligne ? null : "demandée, absente de la réponse — ce service ne la vend pas",
   };
   return {

@@ -140,7 +140,24 @@ const ENVOI = {
     try { await fc.coter({ ...ENVOI, insurance: 0 }, { deadlineMs: 2000 }); } catch { /* idem */ }
     verifier("Freightcom — aucun champ assurance si montant nul",
       vus2[0]?.corps?.details?.insurance === undefined);
+
+    // Sans type validé, on n'envoie rien. Mesuré sur le compte : demander la couverture avec
+    // un type que Freightcom n'accepte pas retirait 14 tarifs sur 23 — FedEx et UPS
+    // disparaissaient — sans rien couvrir. Un panel entier sans assurance vaut mieux qu'un
+    // panel amputé sans assurance non plus.
     delete process.env.FREIGHTCOM_ASSURANCE_TYPE;
+    const vus3 = espion([
+      { corps: { request_id: "r3" } },
+      { corps: { status: { done: 1, total: 1, complete: true }, rates: [] } },
+    ]);
+    try { await fc.coter({ ...ENVOI, insurance: 250 }, { deadlineMs: 2000 }); } catch { /* idem */ }
+    verifier("Freightcom — aucun type validé : le champ n'est pas envoyé",
+      vus3[0]?.corps?.details?.insurance === undefined);
+    const muet = fc.lireTarif({ carrier_name: "GLS", service_name: "Standard",
+      service_id: "gls", total: { currency: "CAD", value: "1106" },
+      base: { currency: "CAD", value: "1106" }, surcharges: [] }, 250);
+    verifier("Freightcom — et l'écran dit pourquoi, au lieu de « refusée »",
+      /aucun type d'assurance validé/.test(muet.assurance.note || ""), muet.assurance.note);
   }
 
   // -- Chit Chats : un booléen, pas un montant — la valeur déclarée vient des articles.
@@ -166,6 +183,9 @@ const ENVOI = {
   // donc porter ce que l'API a répondu — y compris quand elle a répondu « non ».
   {
     process.env.FREIGHTCOM_API_KEY = "cle-essai";
+    // Ce bloc éprouve la LECTURE d'une réponse, donc il se place dans le cas où un type a été
+    // validé — sans quoi la note dirait « non transmise » et masquerait ce qu'on vérifie.
+    process.env.FREIGHTCOM_ASSURANCE_TYPE = "freightcom";
     const fc = require("./lib/freightcom");
     const TARIF = (surcharges) => ({
       carrier_name: "GLS", service_name: "Standard", service_id: "gls-standard",
@@ -192,6 +212,7 @@ const ENVOI = {
     const rien = fc.lireTarif(TARIF([]), 0);
     verifier("Freightcom — rien demandé, rien promis",
       rien.assurance.appliquee === false && rien.assurance.demandee === 0);
+    delete process.env.FREIGHTCOM_ASSURANCE_TYPE;
   }
 
   {
