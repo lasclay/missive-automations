@@ -5068,7 +5068,13 @@ async function detailCommande(id) {
         order_id: id, fournisseur: ($("#cFour", f) && $("#cFour", f).value) || null,
         service_id: ($("#cSvc", f) && $("#cSvc", f).value) || null } });
       if (r.error) alert(r.error);
-      else { window.open(`/api/labels?ids=${id}`, "_blank"); recharger(); rafraichirGrille(); rafraichirCompteurs(); }
+      else {
+        // Une étiquette réservée sans document ni suivi ne s'imprime pas. Le dire avant
+        // d'ouvrir la fenêtre, plutôt que de laisser découvrir une page vide.
+        if (r.avertissement) alert(r.avertissement);
+        else window.open(`/api/labels?ids=${id}`, "_blank");
+        recharger(); rafraichirGrille(); rafraichirCompteurs();
+      }
     } catch (e) { alert(e.message); }
     finally { const b = $("#cAcheter", f); if (b) b.disabled = false; }
   };

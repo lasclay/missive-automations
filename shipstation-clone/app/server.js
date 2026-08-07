@@ -1294,6 +1294,79 @@ route("GET /api/manifests/:id/document", ({ params, res }) => {
   return null;
 });
 
+/**
+ * Les étiquettes achetées, prêtes à imprimer.
+ *
+ * Cette route n'existait pas. Cinq endroits de l'interface l'ouvraient — après un achat,
+ * depuis le menu d'une commande, depuis un lot — et tous tombaient sur
+ * « route inconnue : GET /api/labels ». On payait l'étiquette, la commande passait à
+ * « expédiée », et la seule chose qui manquait était l'étiquette elle-même.
+ *
+ * Deux entrées : `ids` (des commandes) ou `batch_id` (un lot entier). Une expédition annulée
+ * n'est jamais rendue : réimprimer une étiquette remboursée, c'est coller au comptoir un
+ * code-barres que le transporteur refusera.
+ *
+ * Le PDF du transporteur est affiché tel quel quand il existe. Quand il n'existe pas — envoi
+ * marqué expédié à la main, ou fournisseur qui n'en rend pas — on l'écrit noir sur blanc au
+ * lieu d'ouvrir une page vide : c'est la différence entre « rien à imprimer » et « quelque
+ * chose s'est mal passé ».
+ */
+route("GET /api/labels", ({ url, res }) => {
+  const p = q(url);
+  const ids = String(p.ids || "").split(",").filter(Boolean).map(Number);
+  const lot = p.batch_id ? Number(p.batch_id) : null;
+  const envois = lot
+    ? db.all(`SELECT s.*, o.order_number FROM shipments s LEFT JOIN orders o ON o.id = s.order_id
+              WHERE s.batch_id = ? AND s.voided = 0 ORDER BY s.id`, lot)
+    : ids.length
+      ? db.all(`SELECT s.*, o.order_number FROM shipments s LEFT JOIN orders o ON o.id = s.order_id
+                WHERE s.order_id IN (${ids.map(() => "?").join(",")}) AND s.voided = 0
+                ORDER BY s.id`, ...ids)
+      : [];
+
+  const esc = (v) => String(v ?? "").replace(/[&<>"]/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  const page = (s) => {
+    const pdf = s.label_pdf || "";
+    // Une base64 est intégrée telle quelle ; une URL est chargée. Les deux formes existent
+    // selon le fournisseur, et deviner à la place de l'un ou de l'autre ferait une page vide.
+    const src = !pdf ? null
+      : /^https?:\/\//i.test(pdf) ? pdf
+      : `data:application/pdf;base64,${pdf.replace(/^data:[^,]*,/, "")}`;
+    const entete = `<div class="ent"><b>${esc(s.order_number || "—")}</b>
+      <span>${esc(s.carrier_code || "")} ${esc(s.service_id || "")}</span>
+      <span>${s.tracking_number ? esc(s.tracking_number) : "sans numéro de suivi"}</span>
+      <span>${(Number(s.cost) || 0).toFixed(2)} ${esc(s.currency || "CAD")}</span></div>`;
+    if (!src) {
+      return `<article class="page">${entete}
+        <div class="vide"><b>Aucune étiquette à imprimer pour cette expédition.</b>
+        <p>Le fournisseur n'a pas rendu de document. C'est le cas d'un envoi marqué expédié
+           à la main, et celui d'un achat qui n'a pas abouti côté transporteur — auquel cas
+           l'expédition est à annuler plutôt qu'à réimprimer.</p></div></article>`;
+    }
+    return `<article class="page">${entete}
+      <embed src="${esc(src)}" type="application/pdf" class="pdf"></article>`;
+  };
+
+  texte(res, 200, `<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<title>Étiquettes</title><style>
+  @page{size:4in 6in;margin:0}
+  body{font:12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;color:#111}
+  .page{page-break-after:always;padding:0}
+  .ent{display:flex;gap:10px;flex-wrap:wrap;padding:6px 8px;border-bottom:1px solid #ddd;
+       font-size:11px;color:#555}
+  .ent b{color:#111}
+  .pdf{width:100%;height:calc(100vh - 30px);border:0}
+  .vide{padding:20px}
+  .vide p{color:#555}
+  @media print{.ent{border:0}}
+</style></head><body>${envois.map(page).join("")
+    || "<p style=\"padding:20px\">Aucune étiquette : ces commandes n'ont pas d'expédition non annulée.</p>"}</body></html>`,
+    "text/html; charset=utf-8");
+  return null;   // réponse déjà écrite
+});
+
 route("GET /api/packing-slip", ({ url, res }) => {
   const ids = String(q(url).ids || "").split(",").filter(Boolean).map(Number);
   const gabarit = q(url).template_id ? templates.parId(Number(q(url).template_id)) : templates.defaut("packing_slip");

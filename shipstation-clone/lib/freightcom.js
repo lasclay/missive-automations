@@ -50,6 +50,9 @@ function cle() {
 
 const configure = () => !!process.env.FREIGHTCOM_API_KEY;
 
+/** L'hôte visé est-il celui du bac à sable ? Relu à chaud : la variable peut changer. */
+const essai = () => /ssd-test|sandbox|\btest\./i.test(BASE);
+
 // ------------------------------------------------------------------- transport
 
 async function appel(methode, chemin, corps = null) {
@@ -552,6 +555,24 @@ function identifiantUnique(envoi, serviceId, tentative = 0) {
  *   3. `unique_id` rend l'opération rejouable sans risque.
  */
 async function reserver(envoi, serviceId, { tentative = 0, methodePaiement = null, references = [] } = {}) {
+  /*
+   * On n'achète pas dans le bac à sable.
+   *
+   * L'hôte d'essai de Freightcom accepte la réservation, rend un identifiant, et ne produit
+   * RIEN : aucune étiquette, aucun numéro de suivi, aucune facture chez ClickShip. Le clone
+   * a pourtant fait ce qu'il fait après un achat réussi — écrire l'expédition, passer la
+   * commande à « expédiée », dire « Étiquette créée — 10,41 CAD ». La commande était donc
+   * marquée expédiée sans que rien ne parte, et c'est le pire des deux mondes : le colis
+   * n'existe pas et l'écran affirme le contraire.
+   *
+   * La cotation reste permise sur cet hôte — c'est à ça qu'il sert. L'achat, non.
+   */
+  if (essai()) {
+    throw new Error(`achat refusé : ${BASE} est l'hôte d'ESSAI de Freightcom. `
+      + `Il accepte la réservation mais ne produit ni étiquette ni suivi, et rien n'apparaît `
+      + `sur la facture ClickShip. Retirer FREIGHTCOM_URL des réglages pour revenir à la `
+      + `production, avec la clé de production.`);
+  }
   const cotation = await coter(envoi, { frais: true, deadlineMs: 20000 });
   const tarif = cotation.tarifs.find((t) => String(t.serviceId) === String(serviceId));
   if (!tarif) throw new Error(`service ${serviceId} absent de la cotation du moment — recoter avant d'acheter`);
@@ -680,5 +701,5 @@ const adaptateurFreightcom = {
 module.exports = {
   adaptateurFreightcom, coter, coterDirect, prechauffer, reserver, annuler, suivre, synchroniserServices,
   expedition, services, tester, etat, purgerCache, empreinte, lireCache, ecrireCache,
-  identifiantUnique, scenario, lireTarif, configure, BASE,
+  identifiantUnique, scenario, lireTarif, configure, essai, BASE,
 };

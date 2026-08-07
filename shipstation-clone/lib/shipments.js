@@ -298,6 +298,23 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
 
   const label = await a.buy(envoi, choisi.serviceId);
 
+  // Un achat qui ne rend NI identifiant NI suivi n'a rien acheté.
+  //
+  // Le code écrivait quand même l'expédition et passait la commande à « expédiée ». Un colis
+  // inexistant marqué parti, c'est un client qui attend, un suivi qu'on ne peut pas donner, et
+  // la découverte trois jours plus tard. Mieux vaut un achat qui échoue bruyamment.
+  if (!label || (!label.labelId && !label.trackingNumber)) {
+    throw new Error(`le fournisseur ${a.nom} n'a rendu ni identifiant d'étiquette ni numéro `
+      + `de suivi : rien n'a été acheté. La commande reste à expédier.`);
+  }
+  // Rendue sans document ni suivi : ce n'est pas un échec — certains transporteurs les
+  // attribuent après coup — mais ça ne s'imprime pas, et il faut le dire plutôt que d'ouvrir
+  // une page vide.
+  const avertissement = (!label.labelPdf && !label.trackingNumber)
+    ? `Étiquette réservée chez ${a.nom} sans document ni numéro de suivi. Rafraîchir le suivi `
+      + `avant de déposer le colis ; si rien n'arrive, annuler l'expédition.`
+    : null;
+
   return tx(() => {
     run(`INSERT INTO shipments (order_id,batch_id,label_id,tracking_number,carrier_code,service_id,
            package_id,confirmation,cost,currency,drop_off,ship_date,created_at,weight_g,dimensions,
@@ -319,7 +336,9 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
     // Le renvoi du suivi vers la boutique part en arrière-plan : un canal indisponible ne doit
     // jamais faire échouer un achat déjà payé. L'échec reste dans la file de reprise.
     setImmediate(() => require("./channels").notifier(shipmentId).catch(() => {}));
-    return { shipmentId, ...label, dropOff: !!choisi.dropOff, marge: m };
+    if (avertissement) journaliser("shipment.sans_document", "shipment", shipmentId,
+      { orderId, fournisseur: a.nom }, userId);
+    return { shipmentId, ...label, dropOff: !!choisi.dropOff, marge: m, avertissement };
   });
 }
 
