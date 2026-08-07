@@ -495,16 +495,53 @@ async function manifeste(id) {
 }
 
 /**
- * Ramassage à la porte. Freightcom le pose sur une expédition déjà réservée, et le valide
- * avant : un créneau refusé au moment de la demande vaut mieux qu'un camion qui ne vient pas.
+ * Ramassage à la porte — UN seul pour la journée, pas un par commande.
+ *
+ * Le transporteur vient à une adresse, dans une fenêtre horaire, et prend ce qui est prêt. La
+ * décision est donc quotidienne : on achète ses étiquettes le matin, on demande le camion une
+ * fois. Poser la question à chaque commande serait la poser cinquante fois pour une seule
+ * réponse — et c'est exactement ce que ShipStation fait mal.
+ *
+ * Freightcon rattache techniquement le créneau à UNE expédition (`POST /shipment/{id}/schedule`).
+ * On y attache donc la première du lot, et le camion emporte le reste : c'est le fonctionnement
+ * réel d'un ramassage, pas une approximation.
+ *
+ * Champs relevés sur la spec : `pickup_details` { pre_scheduled_pickup, date {year,month,day},
+ * ready_at {hour,minute}, ready_until, pickup_location, contact_name, phone_number }.
  */
-async function validerRamassage(details) {
-  return await appel("POST", "/shipment/schedule/validate", details);
+function detailsRamassage({ date, pret = "09:00", jusqua = "17:00", lieu = null,
+  contact = null, telephone = null } = {}) {
+  const [a, m, j] = String(date || new Date().toISOString().slice(0, 10)).split("-").map(Number);
+  const heure = (t) => {
+    const [h, mi] = String(t).split(":").map(Number);
+    return { hour: Number.isFinite(h) ? h : 9, minute: Number.isFinite(mi) ? mi : 0 };
+  };
+  return {
+    pickup_details: {
+      pre_scheduled_pickup: false,
+      date: { year: a, month: m, day: j },
+      ready_at: heure(pret),
+      ready_until: heure(jusqua),
+      ...(lieu ? { pickup_location: String(lieu) } : {}),
+      ...(contact ? { contact_name: String(contact) } : {}),
+      ...(telephone ? { phone_number: { number: String(telephone).replace(/\D/g, "").slice(0, 15) } } : {}),
+    },
+  };
 }
 
-async function planifierRamassage(shipmentId, details) {
-  const r = await appel("POST", `/shipment/${encodeURIComponent(shipmentId)}/schedule`, details);
-  return { confirmation: r?.pickup_confirmation_number || r?.confirmation_number || null, brut: r };
+/** Éprouve le créneau avant de l'engager : un refus maintenant vaut mieux qu'un camion absent. */
+async function validerRamassage(options) {
+  return await appel("POST", "/shipment/schedule/validate", detailsRamassage(options));
+}
+
+async function planifierRamassage(shipmentId, options) {
+  const r = await appel("POST", `/shipment/${encodeURIComponent(shipmentId)}/schedule`,
+    detailsRamassage(options));
+  return {
+    confirmation: r?.pickup_confirmation_number || r?.confirmation_number
+      || r?.shipment?.pickup_confirmation_number || null,
+    brut: r,
+  };
 }
 
 async function ramassage(shipmentId) {
@@ -881,6 +918,6 @@ module.exports = {
   identifiantUnique, scenario, lireTarif, configure, essai, attendreDocuments,
   methodesPaiement, soldeDisponible, facturesDe,
   demanderManifeste, manifeste,
-  validerRamassage, planifierRamassage, ramassage, annulerRamassage,
+  validerRamassage, planifierRamassage, ramassage, annulerRamassage, detailsRamassage,
   BASE,
 };

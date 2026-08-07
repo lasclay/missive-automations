@@ -167,6 +167,7 @@
   .tArt td { padding:2px 4px }
   .tArt input { width:100%; min-width:52px }
   .tScroll { overflow-x:auto; max-height:46vh; overflow-y:auto }
+  .cGrilleR { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px }
   .doux { color:var(--doux) }
   .avis { padding:9px 12px; border-radius:var(--r1); margin-bottom:12px; font-size:13px;
           background:rgba(154,91,6,.12); color:var(--ambre); border:1px solid rgba(154,91,6,.3) }
@@ -822,7 +823,15 @@ const EN = {
   // — navigation et modules
   "Insights": "Insights", "Commandes": "Orders", "Expéditions": "Shipments",
   "Produits": "Products", "Clients": "Customers", "Retours": "Returns", "Lots": "Batches",
-  "Fin de journée": "End of Day", "Douanes (SH)": "Customs (HS)", "Alertes": "Alerts",
+  "Fin de journée": "End of Day",
+  "Le camion de la journée": "Today's pickup", "Demander le ramassage du jour…": "Request today's pickup…",
+  "Ramassage du jour": "Today's pickup", "Demander le ramassage": "Request pickup",
+  "Prêt à": "Ready at", "Jusqu'à": "Until", "Contact sur place": "On-site contact",
+  "Lot Chit Chats — le sac du comptoir": "Chit Chats batch — the counter bag",
+  "Créer un lot…": "Create a batch…", "Y déposer les expéditions du jour": "Add today's shipments",
+  "Manifeste Freightcom": "Freightcom manifest",
+  "Demander le manifeste du jour": "Request today's manifest",
+  "Étiquette du sac": "Bag label", "reçu au comptoir": "received at counter", "Douanes (SH)": "Customs (HS)", "Alertes": "Alerts",
   "Analytique": "Insights", "Gabarits": "Templates", "Utilisateurs": "Users",
   "Réglages": "Settings", "Journal": "Audit Log", "Préréglages": "Presets",
   "Automatisation": "Automation",
@@ -5467,14 +5476,70 @@ VUES.cueillettes = async () => {
   $("#vue").innerHTML = `<h1>Cueillettes transporteur</h1>
     <p class="sous">Programmer, mettre à jour ou annuler un ramassage, pour les
       ${num(d.comptes.length)} comptes du compte Lasclay.</p>
-    <div class="avis">Aucun identifiant transporteur n'est en place : un ramassage est
-      <b>noté ici</b>, il n'est pas <b>confirmé par le transporteur</b>. La confirmation
-      reste vide tant que personne n'a appelé ou que l'API du transporteur n'est pas
-      branchée — c'est ce que dit la colonne « Confirmation ».</div>
-    <div class="barre"><button class="p" id="puNew">Programmer un ramassage…</button>
+    <div class="carte"><b class="titreCarte">Le camion de la journée</b>
+      <div class="doux" style="font-size:12px;margin:3px 0 8px">Un ramassage se demande
+        <b>une fois par jour</b>, après l'achat des étiquettes — le transporteur vient à une
+        adresse, dans une fenêtre horaire, et prend ce qui est prêt. La question ne se pose
+        pas commande par commande. Les envois <b>au dépôt</b> en sont exclus : faire venir un
+        camion pour des colis qu'on porte soi-même se facture chez certains transporteurs.</div>
+      <div class="barre"><button class="p" id="puJour">Demander le ramassage du jour…</button></div>
+      <div id="puJourR">${(() => {
+        const r = S.dernierRamassage;
+        if (!r) return "";
+        return `<div class="avis ${r.confirmation ? "info" : ""}">
+          ${num(r.expeditions)} expédition(s) à faire ramasser.
+          ${r.confirmation
+            ? `Confirmé par le transporteur — <b>${esc(r.confirmation)}</b>.`
+            : "<b>Aucune confirmation du transporteur</b> : la demande est notée ici seulement."}
+          ${r.avertissement ? `<br><span class="doux">${esc(r.avertissement)}</span>` : ""}</div>`;
+      })()}</div></div>
+    <div class="barre"><button type="button" id="puNew">Programmer un ramassage à la main…</button>
       <select id="puF"><option value="">Tous les statuts</option>
         ${d.statuts.map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join("")}</select></div>
     <div id="puT"></div>`;
+
+  /*
+   * Un seul ramassage pour la journée.
+   *
+   * Le serveur compte les expéditions non déposées du jour, valide le créneau auprès du
+   * transporteur puis l'engage, et note le numéro de confirmation — celui du transporteur,
+   * pas le nôtre. Deux demandes le même jour pour le même compte sont refusées : le camion
+   * ne vient qu'une fois, et une seconde demande est une erreur de saisie bien plus souvent
+   * qu'une intention.
+   */
+  $("#puJour").onclick = () => dialogue("Ramassage du jour", `
+    <div class="cGrilleR">
+      <label class="champ"><span>Date</span>
+        <input type="date" id="pjD" value="${esc(aujourdhui)}"></label>
+      <label class="champ"><span>Transporteur</span>
+        <select id="pjC"><option value="">Celui des expéditions du jour</option>
+          ${d.comptes.map((x) => `<option value="${esc(x.carrier_code)}|${esc(x.compte)}">${esc(x.nom)}</option>`).join("")}</select></label>
+      <label class="champ"><span>Prêt à</span><input type="time" id="pjA" value="09:00"></label>
+      <label class="champ"><span>Jusqu'à</span><input type="time" id="pjB" value="17:00"></label>
+    </div>
+    <label class="champ"><span>Contact sur place</span><input id="pjN" placeholder="Nom"></label>
+    <label class="champ"><span>Téléphone</span><input id="pjT" placeholder="418-555-0100"></label>
+    <label class="champ"><span>Instructions</span><input id="pjI" placeholder="Porte arrière, sonner"></label>
+    <p class="doux">Les colis destinés au dépôt au comptoir ne sont pas comptés : le camion
+      n'a pas à venir pour eux.</p>`,
+    () => {
+      const [code, compte] = ($("#pjC").value || "|").split("|");
+      return tenter(() => api("/api/pickups/journee", { method: "POST", body: {
+        date: $("#pjD").value, carrier_code: code || null, compte: compte || null,
+        creneau_debut: $("#pjA").value, creneau_fin: $("#pjB").value,
+        contact: $("#pjN").value || null, telephone: $("#pjT").value || null,
+        instructions: $("#pjI").value || null } }), {
+        message: "Ramassage refusé",
+        // Le résultat est retenu AVANT de redessiner : la vue se reconstruit entièrement, et
+        // écrire dans l'ancien DOM faisait disparaître la confirmation aussitôt affichée.
+        apres: (r) => {
+          S.dernierRamassage = r;
+          toast(r.confirmation ? `Ramassage confirmé — ${r.confirmation}` : "Ramassage noté, non confirmé.",
+            { type: r.confirmation ? "succes" : "info" });
+          VUES.cueillettes();
+        },
+      });
+    }, "Demander le ramassage");
 
   const rendreTable = (lignes) => {
     $("#puT").innerHTML = "";
@@ -5681,6 +5746,21 @@ VUES.manifestes = async () => {
     <div class="carte"><b class="titreCarte">Expéditions ouvertes — ${esc(jour(date0))}</b>
       <div id="mOuv" style="margin-top:8px"></div></div>
 
+    <div class="carte" id="cLotCC" hidden><b class="titreCarte">Lot Chit Chats — le sac du comptoir</b>
+      <div class="doux" style="font-size:12px;margin:3px 0 8px">Chit Chats consolide : on lui
+        remet un <b>sac</b>, pas des colis. Le comptoir scanne l'étiquette du lot — sans elle,
+        le dépôt est refusé. Un lot passé à « reçu » signale que le dépôt a eu lieu.</div>
+      <div class="barre"><button class="p" id="ccNew">Créer un lot…</button>
+        <button type="button" id="ccAdd">Y déposer les expéditions du jour</button></div>
+      <div id="ccT"></div></div>
+
+    <div class="carte" id="cManifFC" hidden><b class="titreCarte">Manifeste Freightcom</b>
+      <div class="doux" style="font-size:12px;margin:3px 0 8px">Le bordereau ci-dessus est le
+        nôtre : il sert au comptoir mais n'engage que nous. Celui-ci est celui du courtier,
+        que le transporteur reconnaît — c'est lui qui clôt la journée de son côté.</div>
+      <div class="barre"><button class="p" id="fcManif">Demander le manifeste du jour</button></div>
+      <div id="fcManifR"></div></div>
+
     <div class="carte"><b class="titreCarte">Documents déjà produits</b>
       <div class="doux" style="font-size:12px;margin:3px 0 8px">Une ligne par clôture.
         Le document se réimprime autant de fois qu'il le faut — un bordereau de dépôt égaré
@@ -5742,6 +5822,95 @@ VUES.manifestes = async () => {
         },
       }), `Clôturer ${num(n)} expédition${n > 1 ? "s" : ""}`);
   };
+
+  // --------------------------------------------------- lot Chit Chats
+  //
+  // Les deux cartes n'apparaissent que si le fournisseur est branché : proposer un geste
+  // impossible est pire que ne rien proposer.
+  const branche = (nom) => (S.fournisseurs || []).some((f) => f.nom === nom && f.configure);
+
+  if (branche("chitchats")) {
+    $("#cLotCC").hidden = false;
+    const peindreLots = async () => {
+      const r = await tenter(() => api("/api/carriers/chitchats/lots"),
+        { message: "Lots Chit Chats illisibles" });
+      const lots = (r && r.lots) || [];
+      $("#ccT").innerHTML = lots.length ? "" : `<div class="avis">Aucun lot ouvert.
+        Créez-en un avant d'acheter vos étiquettes Chit Chats de la journée.</div>`;
+      if (!lots.length) return;
+      $("#ccT").append(table([
+        { k: "id", t: "N°" },
+        { k: "description", t: "Description", r: (l) => esc(l.description || "—") },
+        { k: "statut", t: "Statut", r: (l) => l.recu
+          ? '<span class="puce v">reçu au comptoir</span>'
+          : `<span class="puce g">${esc(l.statut || "—")}</span>` },
+        { k: "creeLe", t: "Créé", r: (l) => jour(l.creeLe) },
+        { k: "id", t: "Étiquette du sac", r: (l) => l.recu
+          ? '<span class="doux">déposé</span>'
+          : [["etiquettePdf", "PDF"], ["etiquettePng", "PNG"], ["etiquetteZpl", "ZPL"]]
+              .filter(([c]) => l[c])
+              .map(([c, t]) => `<a href="${esc(l[c])}" target="_blank" rel="noopener">${t}</a>`)
+              .join(" · ") || '<span class="doux">—</span>' },
+      ], lots, { cle: "id" }));
+    };
+    peindreLots();
+
+    $("#ccNew").onclick = () => dialogue("Créer un lot Chit Chats", `
+      <label class="champ"><span>Description</span>
+        <input id="ccD" value="Dépôt du ${esc(jour(date0))}"></label>
+      <p class="doux">Le lot regroupe les colis d'un même dépôt. Son étiquette se colle sur le
+        sac que vous remettez au comptoir.</p>`,
+      () => tenter(() => api("/api/carriers/chitchats/lots", { method: "POST",
+        body: { description: $("#ccD").value || null } }),
+        { message: "Lot non créé", apres: (l) => { toast(`Lot ${l.id} créé.`, { type: "succes" }); peindreLots(); } }),
+      "Créer le lot");
+
+    $("#ccAdd").onclick = async () => {
+      const r = await tenter(() => api("/api/carriers/chitchats/lots"), { message: "Lots illisibles" });
+      const ouverts = ((r && r.lots) || []).filter((l) => !l.recu);
+      if (!ouverts.length) return alert("Aucun lot ouvert : créez-en un d'abord.");
+      const envois = await api(`/api/shipments?ship_date=${encodeURIComponent(date0)}`);
+      const aDeposer = (envois.shipments || []).filter((x) => !x.voided && !x.is_return);
+      if (!aDeposer.length) return alert(`Aucune expédition le ${jour(date0)}.`);
+      dialogue("Déposer dans un lot", `
+        <label class="champ"><span>Lot</span><select id="ccL">${ouverts.map((l) =>
+          `<option value="${l.id}">${esc(l.description || "Lot " + l.id)}</option>`).join("")}</select></label>
+        <p>Les expéditions <b>Chit Chats</b> du ${esc(jour(date0))} y seront déposées.
+          Les autres transporteurs sont ignorés — un lot Chit Chats ne contient que du
+          Chit Chats.</p>`,
+        () => tenter(() => api("/api/carriers/chitchats/lots", { method: "POST",
+          body: { action: "ajouter", batch_id: Number($("#ccL").value),
+            shipment_ids: aDeposer.map((x) => x.id) } }),
+          { message: "Dépôt impossible",
+            apres: (x) => { toast(`${num(x.ajoutees)} expédition(s) déposée(s) dans le lot.`,
+              { type: x.ajoutees ? "succes" : "info" }); peindreLots(); } }),
+        "Déposer");
+    };
+  }
+
+  // --------------------------------------------------- manifeste Freightcom
+  if (branche("freightcom")) {
+    $("#cManifFC").hidden = false;
+    $("#fcManif").onclick = () => dialogue("Manifeste Freightcom", `
+      <p>Les expéditions Freightcom du <b>${esc(jour(date0))}</b> seront manifestées auprès du
+        courtier. C'est ce document que le transporteur reconnaît.</p>
+      <p class="doux">La production peut prendre quelques secondes. Un manifeste déjà demandé
+        se relit avec son numéro — le redemander clôturerait deux fois.</p>`,
+      () => tenter(() => api("/api/carriers/freightcom/manifeste", { method: "POST",
+        body: { ship_date: date0 } }), {
+        message: "Manifeste refusé",
+        apres: (m) => {
+          $("#fcManifR").innerHTML = m.documents && m.documents.length
+            ? `<div class="avis info">Manifeste <b>${esc(m.id)}</b> — ${num(m.expeditions)}
+                 expédition(s). ${m.documents.map((u, i) =>
+                 `<a href="${esc(u)}" target="_blank" rel="noopener">Document ${i + 1}</a>`).join(" · ")}</div>`
+            : `<div class="avis">Manifeste <b>${esc(m.id)}</b> demandé, document pas encore prêt
+                 (${esc(m.statut || "en cours")}). Il se relit avec ce numéro.</div>`;
+          toast(m.documents?.length ? "Manifeste produit." : "Manifeste en cours de production.",
+            { type: m.documents?.length ? "succes" : "info" });
+        },
+      }), "Demander le manifeste");
+  }
 
   $("#mt").append(table([{ k: "id", t: "N°" },
     { k: "carrier_code", t: "Transporteur", r: (m) => esc(nomTransporteur(m.carrier_code)) },

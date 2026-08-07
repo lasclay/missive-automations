@@ -38,7 +38,10 @@ const ESSAI = () => process.env.CHITCHATS_ENV !== "prod";
 const configure = () => !!(CLIENT() && JETON());
 
 function base() {
-  const hote = ESSAI() ? "https://staging.chitchats.com" : "https://chitchats.com";
+  // `CHITCHATS_URL` n'existe que pour les bancs d'essai locaux : elle permet de dérouler le
+  // workflow complet — lot, dépôt, étiquette du sac — sans toucher au compte réel.
+  const hote = process.env.CHITCHATS_URL
+    || (ESSAI() ? "https://staging.chitchats.com" : "https://chitchats.com");
   if (!CLIENT() || !JETON()) {
     throw new Error("CHITCHATS_CLIENT_ID et CHITCHATS_TOKEN requis — dans l'environnement Render, jamais en base");
   }

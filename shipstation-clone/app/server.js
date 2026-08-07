@@ -506,6 +506,85 @@ route("POST /api/pickups", async ({ req, user }) => {
   return pickups.programmer(await corps(req), user);
 });
 
+/**
+ * UN ramassage pour la journée, demandé au transporteur — pas un par commande.
+ *
+ * Le camion vient à une adresse, dans une fenêtre horaire, et prend ce qui est prêt. La
+ * décision est donc quotidienne : on achète ses étiquettes le matin, on demande le camion une
+ * fois. La poser commande par commande, c'est la poser cinquante fois pour une seule réponse.
+ *
+ * La route compte les expéditions du jour, valide le créneau auprès du transporteur, puis
+ * l'engage sur la première du lot — le camion emporte le reste. Le ramassage est ensuite noté
+ * ici avec son numéro de confirmation, celui du transporteur, pas le nôtre.
+ */
+route("POST /api/pickups/journee", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const date = b.date || new Date().toISOString().slice(0, 10);
+  const options = { date, pret: b.creneau_debut || "09:00", jusqua: b.creneau_fin || "17:00",
+    lieu: b.lieu || null, contact: b.contact || null, telephone: b.telephone || null };
+
+  // Les expéditions du jour qui attendent le camion. Le dépôt au comptoir n'en fait pas
+  // partie : demander un ramassage pour des colis qu'on va porter soi-même fait venir un
+  // camion pour rien, et certains transporteurs le facturent.
+  const envois = db.all(`SELECT s.id, s.label_id, s.provider, s.carrier_code, s.weight_g
+      FROM shipments s WHERE s.voided = 0 AND s.is_return = 0 AND s.drop_off = 0
+        AND substr(COALESCE(s.ship_date,''),1,10) = ?
+        ${b.carrier_code ? "AND s.carrier_code = ?" : ""}
+      ORDER BY s.id`, ...(b.carrier_code ? [date, b.carrier_code] : [date]));
+  if (!envois.length) {
+    return { error: `aucune expédition à faire ramasser le ${date}`
+      + ` — les envois au dépôt n'en ont pas besoin`, code: 400 };
+  }
+
+  const chezFreightcom = envois.filter((e) => e.provider === "freightcom" && e.label_id);
+  let confirmation = null, valide = null, avertissement = null;
+  if (chezFreightcom.length) {
+    const fc = require("../lib/freightcom");
+    try { valide = await fc.validerRamassage(options); }
+    catch (e) { avertissement = `créneau non validé : ${e.message}`; }
+    try {
+      const r = await fc.planifierRamassage(chezFreightcom[0].label_id, options);
+      confirmation = r.confirmation;
+    } catch (e) {
+      return { error: `le transporteur a refusé le ramassage : ${e.message}`, code: 502 };
+    }
+  } else {
+    // Aucun fournisseur branché sur cette journée : on note la demande sans prétendre
+    // qu'un transporteur l'a acceptée. La colonne « Confirmation » restera vide, et c'est
+    // l'information juste.
+    avertissement = "aucune expédition Freightcom ce jour-là : le ramassage est noté, "
+      + "pas confirmé par un transporteur.";
+  }
+
+  // Le compte de ramassage : celui demandé, sinon le premier déclaré pour ce transporteur.
+  // `programmer` refuse un couple inconnu, et c'est voulu — un ramassage se rattache à un
+  // compte réel, pas à un transporteur en général.
+  const codeT = b.carrier_code || envois[0].carrier_code || null;
+  const compte = b.compte
+    || (pickups.COMPTES.find((c) => c.carrier_code === codeT) || {}).compte
+    || null;
+  if (!compte) {
+    return { error: `aucun compte de ramassage déclaré pour « ${codeT || "—"} ». `
+      + `Choisir un transporteur qui en a un, ou déposer au comptoir.`, code: 400 };
+  }
+
+  const cree = pickups.programmer({
+    carrier_code: codeT,
+    compte,
+    warehouse_id: b.warehouse_id || null,
+    date, creneau_debut: options.pret, creneau_fin: options.jusqua,
+    colis: envois.length,
+    poids_g: envois.reduce((n, e) => n + (Number(e.weight_g) || 0), 0),
+    contact: b.contact || null, telephone: b.telephone || null,
+    instructions: b.instructions || null,
+    confirmation,
+    statut: confirmation ? "confirme" : "demande",
+  }, user);
+
+  return { ...cree, expeditions: envois.length, confirmation, valide, avertissement };
+});
+
 route("POST /api/pickups/:id", async ({ req, params, user }) => {
   accounts.exiger(user, "orders_edit");
   const b = await corps(req);
@@ -1849,6 +1928,45 @@ route("POST /api/carriers/chitchats/menage", async ({ user }) => {
  * si l'achat passera ; la facture d'une expédition prouve qu'un achat a eu lieu. Les trois
  * sont en lecture seule et sans effet de bord.
  */
+/**
+ * Manifeste Freightcom — le « Close Shipments » que le transporteur reconnaît.
+ *
+ * Le clone produit déjà son bordereau de dépôt, qui sert au comptoir mais n'engage que nous.
+ * Celui-ci est celui du courtier : c'est lui qui clôt la journée côté transporteur. La demande
+ * est asynchrone, comme la cotation — on la pose, puis on relit jusqu'à ce que le document
+ * existe.
+ */
+route("POST /api/carriers/freightcom/manifeste", async ({ req, user }) => {
+  accounts.exiger(user, "labels_buy");
+  const b = await corps(req);
+  const fc = require("../lib/freightcom");
+  if (b.manifest_id) return await fc.manifeste(b.manifest_id);
+
+  // Les expéditions Freightcom du jour, non annulées et pas déjà manifestées.
+  const date = b.ship_date || new Date().toISOString().slice(0, 10);
+  const envois = db.all(`SELECT id, label_id FROM shipments
+      WHERE provider = 'freightcom' AND voided = 0 AND is_return = 0
+        AND manifest_id IS NULL AND substr(COALESCE(ship_date,''),1,10) = ?`, date);
+  if (!envois.length) return { error: `aucune expédition Freightcom ouverte le ${date}`, code: 400 };
+
+  const dem = await fc.demanderManifeste({ shipmentIds: envois.map((e) => e.label_id).filter(Boolean) });
+  if (!dem.id) return { error: "Freightcom n'a pas rendu d'identifiant de manifeste", code: 502 };
+
+  // On attend le document, sans bloquer indéfiniment : un manifeste qui traîne se relit avec
+  // le même identifiant plutôt que d'être redemandé — le redemander clôturerait deux fois.
+  let etat = await fc.manifeste(dem.id);
+  const debut = Date.now();
+  while (!etat.documents.length && Date.now() - debut < 20000) {
+    await new Promise((ok) => setTimeout(ok, 1500));
+    etat = await fc.manifeste(dem.id);
+  }
+  db.journaliser("freightcom.manifeste", "manifest", dem.id,
+    { date, expeditions: envois.length, statut: etat.statut }, user);
+  return { ...etat, expeditions: envois.length, date,
+    // Sans document au bout de vingt secondes, ce n'est pas un échec : c'est en cours.
+    enCours: !etat.documents.length };
+});
+
 route("GET /api/carriers/freightcom/paiement", async ({ user }) => {
   accounts.exiger(user, "settings_edit");
   const fc = require("../lib/freightcom");
