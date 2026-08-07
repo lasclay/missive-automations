@@ -565,8 +565,12 @@ route("POST /api/shipments/quote", async ({ req }) => {
   // délai interactif. C'est le geste « Attendre la réponse complète » de l'écran, réservé au
   // moment où l'on soupçonne qu'un transporteur moins cher manque à l'appel.
   try {
-    return await shipments.coter(Number(b.order_id),
-      { fournisseur: b.fournisseur || null, complet: !!b.complet });
+    return await shipments.coter(Number(b.order_id), {
+      fournisseur: b.fournisseur || null, complet: !!b.complet,
+      // `assurance` : montant demandé explicitement pour CETTE cotation, sans toucher à la
+      // commande. C'est le bouton « Assurance » de l'écran d'expédition.
+      assurance: b.assurance === undefined || b.assurance === null ? null : Number(b.assurance),
+    });
   }
   catch (e) { return { error: e.message, code: 400 }; }
 });

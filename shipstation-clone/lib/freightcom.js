@@ -193,8 +193,15 @@ function scenario(envoi, { services = null, dateExpedition = null } = {}) {
   // `verifier_freightcom.js --assurance` cherche le type que le compte accepte ; une fois
   // trouvé, on le pose dans les réglages Render et la couverture repart. D'ici là, mieux vaut
   // un panel entier sans assurance qu'un panel amputé sans assurance non plus.
+  //
+  // `assuranceForcee` court-circuite tout ça : c'est le bouton « Assurance » de l'écran, où
+  // l'opérateur demande explicitement la couverture EN SACHANT qu'il va perdre des tarifs.
+  // C'est le modèle de ClickShip — les prix d'abord, « + Additional Insurance » ensuite — et
+  // c'est le bon : perdre des tarifs à son insu est un défaut, les perdre volontairement est
+  // un arbitrage.
   const montant = Number(envoi.insurance || 0);
-  const typeAssurance = process.env.FREIGHTCOM_ASSURANCE_TYPE || "";
+  const typeAssurance = process.env.FREIGHTCOM_ASSURANCE_TYPE
+    || (envoi.assuranceForcee ? "freightcom" : "");
   if (montant > 0 && typeAssurance) {
     corps.details.insurance = { type: typeAssurance,
       total_cost: { currency: envoi.currency || "CAD", value: enCents(montant) } };
@@ -215,6 +222,9 @@ function scenario(envoi, { services = null, dateExpedition = null } = {}) {
 function empreinte(envoi, services) {
   const p = envoi.parcel || {};
   const norme = {
+    // La demande explicite fait partie du scénario : sans elle, une cotation assurée
+    // récupérerait le prix nu mis en cache une minute plus tôt.
+    f: !!envoi.assuranceForcee,
     o: String(envoi.from?.postalCode || "").toUpperCase().replace(/\s/g, ""),
     d: String(envoi.to?.postalCode || "").toUpperCase().replace(/\s/g, ""),
     pays: (envoi.to?.country || "CA").toUpperCase(),
@@ -257,7 +267,7 @@ function purgerCache() {
 
 // ------------------------------------------------------------------- cotation
 
-function lireTarif(t, demandee = 0) {
+function lireTarif(t, demandee = 0, force = false) {
   // Ce que l'API dit de la couverture, pas ce qu'on espérait qu'elle en dise.
   //
   // Freightcom ne renvoie pas de champ « assurance » : la couverture, quand elle est
@@ -267,7 +277,7 @@ function lireTarif(t, demandee = 0) {
   // silence : elle veut dire que le transporteur ne la vend pas sur ce service.
   const ligne = (t.surcharges || []).find((s) =>
     /insur|assur|coverage|declared/i.test(`${s.type || ""} ${s.name || ""}`));
-  const type = process.env.FREIGHTCOM_ASSURANCE_TYPE || "";
+  const type = process.env.FREIGHTCOM_ASSURANCE_TYPE || (force ? "freightcom" : "");
   const assurance = {
     demandee: Number(demandee) || 0,
     // Trois états, pas deux. « Non transmise » n'est pas « refusée » : la première est une
@@ -364,7 +374,7 @@ async function coterDirect(envoi, { services = null, deadlineMs = DELAI_INTERACT
     const r = await appel("GET", `/rate/${encodeURIComponent(id)}`);
     statut = r?.status || statut;
     if (Array.isArray(r?.rates) && r.rates.length)
-      tarifs = r.rates.map((t) => lireTarif(t, Number(envoi.insurance || 0)));
+      tarifs = r.rates.map((t) => lireTarif(t, Number(envoi.insurance || 0), !!envoi.assuranceForcee));
     if (statut.done) break;
     if (signal?.aborted) break;
     if (Date.now() - debut > deadlineMs) break;

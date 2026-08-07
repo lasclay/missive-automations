@@ -157,11 +157,21 @@ function noterServices(tarifs, fournisseur) {
  * rend le premier menu de l'écran d'expédition possible, et ce qui permettra de comparer un
  * courtier à un compte propre sans changer une variable d'environnement.
  */
-async function coter(orderId, { fournisseur = null, complet = false } = {}) {
+async function coter(orderId, { fournisseur = null, complet = false, assurance = null } = {}) {
   const cmd = orders.parId(orderId);
   if (!cmd) throw new Error("commande inconnue");
   if (!cmd.weight_g) throw new Error("poids manquant — corriger la commande avant de coter");
   const envoi = envoiDepuisCommande(cmd);
+
+  // Cotation assurée À LA DEMANDE. Chez Freightcom, demander une couverture retire les
+  // services qui ne peuvent pas la porter — quatorze tarifs sur vingt-trois, mesuré sur le
+  // compte. La perte est un arbitrage légitime quand on veut la protection ; elle n'est
+  // acceptable que consentie. On sépare donc les deux gestes : la cotation ordinaire ne
+  // demande rien, un bouton demande la couverture en sachant ce qu'elle coûte.
+  if (assurance !== null) {
+    envoi.insurance = Math.max(0, Number(assurance) || 0) || null;
+    envoi.assuranceForcee = !!envoi.insurance;
+  }
 
   // « tous » : interroger chaque fournisseur configuré et fondre les résultats.
   //

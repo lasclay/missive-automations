@@ -935,6 +935,9 @@ const EN = {
   "Commandée le": "Order Date", "Livraison facturée": "Shipping Paid",
   "Poids (g) — touche W": "Weight (g) — key W", "Service": "Service",
   "Confirmation": "Confirmation", "Assurance ($, vide = aucune)": "Insurance ($, blank = none)",
+  "Assurance…": "Insurance…", "Coter avec assurance": "Quote with insurance",
+  "Valeur à assurer ($)": "Value to insure ($)", "Coter assuré": "Quote insured",
+  "Recoter sans assurance": "Re-quote without insurance",
   "Article": "Item", "Qté": "Qty", "Prix unitaire": "Unit price", "Poids (g)": "Weight (g)",
   "+ Ajouter une ligne": "+ Add a line", "Description": "Description", "Enregistrer": "Save",
   "Date d'expédition": "Ship Date", "Autres options d'expédition": "Other Shipping Options",
@@ -3667,11 +3670,13 @@ VUES.commandes = async (statutFixe) => {
       <div class="pied">
         ${motifAchat(o, "cRaisonP")}
         <button id="cCoter" title="Coter (R)">Coter</button>
+        <button type="button" id="cAssur" title="Coter avec assurance — des tarifs peuvent disparaître">Assurance…</button>
         <button type="button" class="v" id="cAcheter" ${etatAchat(o).ok ? "" : "disabled"}
           aria-describedby="cRaisonP" title="${esc(etatAchat(o).motif || "")}">
           Créer + imprimer l'étiquette<span id="cPrix"></span></button>
       </div>
-      <div class="sec" id="cTarifs"></div>`;
+      <div class="sec" id="cTarifs"></div>
+      <div class="sec" id="cAssurR"></div>`;
 
     // marge : ce que le client a payé pour la livraison, avant l'achat (constat OBS9)
     const paye = Number(o.shipping_paid || 0);
@@ -3771,8 +3776,62 @@ VUES.commandes = async (statutFixe) => {
       await tenter(() => enregistrer(), { message: "Service non enregistré" });
     };
 
+    /*
+     * Coter AVEC assurance, sur demande.
+     *
+     * Chez Freightcom, demander une couverture retire du panel les services qui ne peuvent
+     * pas la porter : quatorze tarifs sur vingt-trois, mesuré sur le compte, FedEx et UPS
+     * compris. Envoyer le champ à chaque cotation amputait donc le comparateur en silence.
+     *
+     * ClickShip règle ça en séparant les deux gestes — les prix d'abord, « + Additional
+     * Insurance » ensuite. On fait pareil : la cotation ordinaire ne demande rien, ce bouton
+     * demande la couverture. Perdre des tarifs à son insu est un défaut ; les perdre
+     * volontairement, en sachant combien, est un arbitrage. L'écran affiche donc les deux
+     * comptes côte à côte.
+     */
+    $("#cAssur").onclick = () => dialogue("Coter avec assurance", `
+      <label class="champ"><span>Valeur à assurer ($)</span>
+        <input type="number" step="0.01" min="0" id="qaV" value="${assure(o.insurance) || Math.round(Number(o.order_total || 0) * 100) / 100}"></label>
+      <p class="doux">Cette cotation-ci seulement — la commande n'est pas modifiée.
+        Des tarifs peuvent disparaître : les transporteurs qui ne vendent pas la couverture
+        sortent du panel. Le compte avant/après s'affiche sous la liste.</p>`,
+      async () => {
+        const montant = Number($("#qaV").value) || 0;
+        const zone = $("#cAssurR");
+        if (zone) zone.innerHTML = '<div class="doux">Cotation assurée…</div>';
+        try {
+          const fournisseur = champFournisseur ? champFournisseur.value : "";
+          const avant = derniereCotation ? derniereCotation.tarifs.length : null;
+          const r = await api("/api/shipments/quote", { method: "POST",
+            body: { order_id: o.id, fournisseur: fournisseur || undefined, assurance: montant } });
+          if (r.error) throw new Error(r.error);
+          derniereCotation = r;
+          const ops = optionsTarifs(r, ($("#cs") && $("#cs").value) || (o.service_id || ""));
+          if (ops && $("#cs")) { $("#cs").innerHTML = ops; $("#cs").dataset.tarifs = "1"; }
+          resumerTarif();
+          const perdus = avant === null ? null : avant - r.tarifs.length;
+          const couverts = r.tarifs.filter((t) => t.assurance && t.assurance.appliquee);
+          const cout = couverts.length ? couverts[0].assurance.cout : null;
+          if (zone) zone.innerHTML = `<div class="avis ${couverts.length ? "info" : ""}">
+            Coté assuré à <b>${money(montant)}</b> — ${num(r.tarifs.length)} tarif(s)${
+            perdus > 0 ? `, <b>${num(perdus)} de moins</b> qu'à la cotation nue` : ""}.<br>
+            ${couverts.length
+              ? `${num(couverts.length)} service(s) portent la couverture${
+                  cout ? `, à partir de <b>${money(cout)}</b>` : ""}.`
+              : `<b>Aucun service ne porte la couverture.</b> La demander ne fait ici que
+                 retirer des tarifs : recoter sans assurance, ou passer par Chit Chats, qui
+                 vend la sienne sans amputer le panel.`}
+            <button type="button" class="lienB" id="cAssurN">Recoter sans assurance</button></div>`;
+          const bn = $("#cAssurN");
+          if (bn) bn.onclick = () => { zone.innerHTML = ""; $("#cCoter").click(); };
+        } catch (e) {
+          if (zone) zone.innerHTML = `<div class="avis mini">${esc(e.message)}</div>`;
+        }
+      }, "Coter assuré");
+
     $("#cCoter").onclick = async () => {
       $("#cTarifs").innerHTML = '<div class="doux">Cotation…</div>';
+      if ($("#cAssurR")) $("#cAssurR").innerHTML = "";
       try {
         const fournisseur = champFournisseur ? champFournisseur.value : "";
         const r = await api("/api/shipments/quote", { method: "POST",
