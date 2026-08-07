@@ -161,23 +161,12 @@
   .puce.r { background:rgba(192,57,43,.14); color:var(--puce-r) }
   .puce.r::before { content:"✕" }
   .puce.g { background:rgba(120,130,140,.16); color:var(--puce-g) }
-  /* Preuve d'assurance : discrète quand tout va bien, dépliée d'office quand la couverture
-     a été demandée sans être accordée — c'est le seul cas qu'on ne peut pas rattraper après. */
+  .puce.g::before { content:"•" }
   .tArt { width:100%; border-collapse:collapse; font-size:13px }
   .tArt th { text-align:left; font-weight:600; color:var(--doux); padding:2px 4px }
   .tArt td { padding:2px 4px }
   .tArt input { width:100%; min-width:52px }
   .tScroll { overflow-x:auto; max-height:46vh; overflow-y:auto }
-  .cGrille2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px }
-  .ciX { width:100%; margin-top:4px }
-  .cAssurD { margin-top:6px; border-top:1px solid var(--bordure); padding-top:5px }
-  .cAssurD > summary { cursor:pointer; font-size:12.5px; color:var(--doux);
-                       display:flex; align-items:center; gap:6px }
-  .cAssurD .kv { display:flex; justify-content:space-between; gap:8px; font-size:12.5px; padding:2px 0 }
-  .cAssurD .kv span:first-child { color:var(--doux) }
-  .cAssurJ { font-size:11.5px; margin:4px 0 0; padding:6px 8px; border-radius:var(--r1);
-             background:var(--inactif-fond); overflow-x:auto; white-space:pre }
-  .puce.g::before { content:"•" }
   .doux { color:var(--doux) }
   .avis { padding:9px 12px; border-radius:var(--r1); margin-bottom:12px; font-size:13px;
           background:rgba(154,91,6,.12); color:var(--ambre); border:1px solid rgba(154,91,6,.3) }
@@ -945,18 +934,9 @@ const EN = {
   "Communication client": "Customer Communication", "Activité": "Shipment Activity",
   "Commandée le": "Order Date", "Livraison facturée": "Shipping Paid",
   "Poids (g) — touche W": "Weight (g) — key W", "Service": "Service",
-  "Confirmation": "Confirmation", "Assurance": "Insurance",
-  "Aucune assurance": "No insurance", "Autre montant…": "Other amount…",
-  "Assurance par défaut": "Default insurance", "appliquer la règle": "apply the rule",
-  "Éteinte.": "Off.", "non transmise — à configurer": "not sent — needs setup",
-  "envoyée au fournisseur": "sent to provider",
-  "Article": "Item", "SKU": "SKU", "Qté": "Qty", "Prix unitaire": "Unit price",
-  "Poids (g)": "Weight (g)", "+ Ajouter une ligne": "+ Add a line", "Description": "Description",
-  "Enregistrer": "Save",
-  "Montant assuré par défaut ($)": "Default insured amount ($)",
-  "Au-delà de ce total, assurer la valeur de la commande ($)":
-    "Above this total, insure the order value ($)",
-  "montant à assurer": "amount to insure", "refusée": "declined",
+  "Confirmation": "Confirmation", "Assurance ($, vide = aucune)": "Insurance ($, blank = none)",
+  "Article": "Item", "Qté": "Qty", "Prix unitaire": "Unit price", "Poids (g)": "Weight (g)",
+  "+ Ajouter une ligne": "+ Add a line", "Description": "Description", "Enregistrer": "Save",
   "Date d'expédition": "Ship Date", "Autres options d'expédition": "Other Shipping Options",
   "interdire le dépôt en bureau de poste": "block post-office drop-off",
   "ne pas notifier la boutique": "do not notify marketplace",
@@ -997,12 +977,6 @@ const EN_MOTIFS = [
   [/^(\d[\d  ]*)–(\d[\d  ]*) sur (.+)$/, (m, a, b, c) => `${a}–${b} of ${c}`],
   [/^(\d+) j$/, (m, n) => `${n} d`],
   [/^(\d+) sélectionnée$/, (m, n) => `${n} selected`],
-  [/^Valeur de la commande — (.+)$/, (m, v) => `Order value — ${v}`],
-  [/^Règle par défaut — (.+)$/, (m, v) => `Default rule — ${v}`],
-  [/^(.+) \(enregistré\)$/, (m, v) => `${v} (saved)`],
-  [/^Assurance — (.+)$/, (m, f) => `Insurance — ${f}`],
-  [/^Assurance (.+)$/, (m, f) => `Insurance ${f}`],
-  [/^couverte (.+)$/, (m, v) => `covered ${v}`],
 ];
 
 /** Traduit un sous-arbre sans reposer la question du périmètre : l'appelant l'a tranchée. */
@@ -3656,10 +3630,8 @@ VUES.commandes = async (statutFixe) => {
         </div>
         <label class="champ"><span>Confirmation</span><select id="cf">${(S.refs.confirmations || []).map((k) =>
           `<option value="${k.id}" ${String(o.confirmation) === k.id ? "selected" : ""}>${esc(k.nom)}</option>`).join("")}</select></label>
-        <label class="champ"><span id="ciL">Assurance</span>
-          <select id="ci">${optionsAssurance(o)}</select></label>
-        <input type="number" step="0.01" id="ciX" class="ciX" placeholder="montant à assurer"
-          value="${assure(o.insurance) || ""}" hidden>
+        <label class="champ"><span>Assurance ($, vide = aucune)</span>
+          <input type="number" step="0.01" id="ci" value="${assure(o.insurance) || ""}"></label>
         <label class="champ"><span>Date d'expédition</span>
           <input type="date" id="cd" value="${(o.ship_by_date || "").slice(0, 10)}"></label>
         <details class="autres"><summary>Autres options d'expédition</summary>
@@ -3712,15 +3684,7 @@ VUES.commandes = async (statutFixe) => {
       service_id: $("#cs").value || null, package_id: $("#cc").value || null,
       confirmation: $("#cf").value || null,
       ship_by_date: $("#cd").value || null,
-      // Une SUGGESTION affichée ne doit pas devenir une donnée écrite.
-      //
-      // Le menu présélectionne un montant — la règle par défaut, ou celui de la commande. Or
-      // chaque champ du widget enregistre en sortant : peser un colis, changer de service,
-      // n'importe quoi, et la valeur simplement PROPOSÉE partait en base. Une commande qu'on
-      // n'a jamais voulu assurer se retrouvait assurée, et le montant restait ensuite comme
-      // s'il avait été choisi. On n'écrit donc l'assurance que si l'opérateur a touché le
-      // contrôle ; sinon on renvoie ce que la commande portait déjà, inchangé.
-      insurance: valeurAssurance() ? { montant: valeurAssurance(), devise: "CAD" } : null,
+      insurance: $("#ci").value ? { montant: Number($("#ci").value), devise: "CAD" } : null,
       dimensions: ($("#cl").value || $("#cW").value || $("#ch").value)
         ? { length: Number($("#cl").value) || 0, width: Number($("#cW").value) || 0,
             height: Number($("#ch").value) || 0, units: "inches" } : null, ...extra } });
@@ -3739,34 +3703,6 @@ VUES.commandes = async (statutFixe) => {
     // un second clic.
     const champFournisseur = $("#cfour");
     if (champFournisseur) champFournisseur.onchange = () => $("#cCoter").click();
-
-    /*
-     * Changer le montant assuré recote.
-     *
-     * La couverture se facture en surcharge : elle change le prix affiché juste au-dessus du
-     * bouton d'achat. Laisser l'ancien prix après avoir assuré le colis, c'est acheter en
-     * croyant payer autre chose — et c'est aussi le seul moyen de savoir, avant de payer, si
-     * le fournisseur accepte la couverture sur ce service-là.
-     */
-    // Le gestionnaire générique ci-dessus enregistre chaque champ en sortant ; on le remplace
-    // ici pour ces deux-là, donc on refait l'enregistrement avant de recoter. L'oublier
-    // laisserait le montant à l'écran sans jamais l'écrire sur la commande.
-    const champAssur = $("#ci"), champAssurX = $("#ciX");
-    const appliquerAssurance = async () => {
-      assuranceTouchee = true;
-      await enregistrer();
-      const b = $("#cCoter");
-      if (b) b.click();
-    };
-    if (champAssur) champAssur.onchange = async () => {
-      const autre = champAssur.value === "autre";
-      if (champAssurX) { champAssurX.hidden = !autre; if (autre) { champAssurX.focus(); return; } }
-      await appliquerAssurance();
-    };
-    // Le gestionnaire générique enregistre tous les champs du widget ; il ne doit pas
-    // emporter l'assurance avec lui.
-    if (champAssurX) champAssurX.oninput = () => { assuranceTouchee = true; };
-    if (champAssurX) champAssurX.onchange = appliquerAssurance;
 
     /**
      * Choisir un colis applique ses dimensions, et recote.
@@ -3804,16 +3740,11 @@ VUES.commandes = async (statutFixe) => {
      * prix, délai, dépôt — et elle tient sans barre de défilement horizontale.
      */
     let derniereCotation = null;
-    // Vrai dès que l'opérateur touche au montant assuré. Voir `enregistrer` : sans ce
-    // drapeau, la valeur seulement proposée par le menu partait en base au premier
-    // enregistrement d'un champ voisin.
-    let assuranceTouchee = false;
     const resumerTarif = () => {
       const boite = $("#cTarifs");
       if (!boite || !derniereCotation) return;
       const t = derniereCotation.tarifs.find((x) => String(x.serviceId) === String($("#cs").value));
-      if (!t) { boite.innerHTML = ""; $("#cPrix").textContent = "";
-        libelleAssurance(null, derniereCotation.fournisseur); return; }
+      if (!t) { boite.innerHTML = ""; $("#cPrix").textContent = ""; return; }
       const paye = Number(o.shipping_paid || 0);
       // La marge se calcule HORS TAXES, des deux côtés.
       //
@@ -3829,9 +3760,7 @@ VUES.commandes = async (statutFixe) => {
         t.prixHT !== undefined && t.prixHT !== t.price
           ? ` · ${money(t.price)} taxes comprises` : ""}${
         marge !== null ? ` · marge <span class="${marge < 0 ? "rouge" : "vert"}">${
-          marge >= 0 ? "+" : ""}${money(marge)}</span>` : ""}</div>
-        ${blocAssurance(t)}`;
-      libelleAssurance(t, derniereCotation.fournisseur);
+          marge >= 0 ? "+" : ""}${money(marge)}</span>` : ""}</div>`;
       $("#cPrix").textContent = "  " + money(cout);
     };
 
@@ -3890,36 +3819,6 @@ VUES.commandes = async (statutFixe) => {
               <button type="button" class="lienB" id="cMieux">Prendre celui-là</button></div>`);
           const b = $("#cMieux");
           if (b) b.onclick = () => { $("#cs").value = meilleur.serviceId; $("#cs").onchange(); };
-        }
-
-        /*
-         * Un panel incomplet doit se dire.
-         *
-         * Freightcom cote en asynchrone : on soumet, on interroge, et au bout de trois
-         * secondes et demie on rend ce qui est arrivé. Douze services sur quarante, ça
-         * ressemble à un panel complet — même liste, même « moins cher » en tête — sauf que
-         * le transporteur le moins cher manque peut-être. C'est exactement le cas où l'écran
-         * doit dire qu'il ne sait pas encore, et offrir d'attendre.
-         */
-        const pan = r.panel || (r.sources || []).map((x) => x.panel).find((x) => x && !x.complet);
-        if (pan && !pan.complet) {
-          $("#cTarifs").insertAdjacentHTML("beforeend",
-            `<div class="avis info" style="margin-top:6px">Panel incomplet :
-              <b>${num(pan.repondu)}${pan.total ? ` sur ${num(pan.total)}` : ""}</b>
-              service(s) ont répondu. Un transporteur moins cher peut manquer.
-              <button type="button" class="lienB" id="cAttendre">Attendre la réponse complète</button></div>`);
-          const ba = $("#cAttendre");
-          if (ba) ba.onclick = async () => {
-            ba.disabled = true; ba.textContent = "Cotation complète…";
-            // `frais` force le réseau : le cache partiel serait resservi tel quel.
-            const r2 = await api("/api/shipments/quote", { method: "POST",
-              body: { order_id: o.id, fournisseur: $("#cfour") ? $("#cfour").value : undefined,
-                complet: true } });
-            derniereCotation = r2;
-            const ops2 = optionsTarifs(r2, $("#cs") && $("#cs").value);
-            if (ops2 && $("#cs")) { $("#cs").innerHTML = ops2; $("#cs").dataset.tarifs = "1"; }
-            resumerTarif();
-          };
         }
 
         /*
@@ -4260,134 +4159,6 @@ function optionsFournisseur(selection = "") {
  * Alors la cotation **devient** le menu. Chaque ligne porte son prix, parce que c'est sur le
  * prix qu'on choisit, et le tarif de dépôt est marqué : c'est lui qui porte l'économie.
  */
-/**
- * Ce que le fournisseur a répondu au sujet de l'assurance, pour le tarif sous les yeux.
- *
- * Le routage par fournisseur est invisible : rien, à l'écran, ne distinguait un colis assuré
- * chez Chit Chats d'un colis parti sans couverture. Or c'est exactement ce qu'on ne peut pas
- * découvrir après coup — un sinistre sur un envoi qu'on croyait protégé ne se rattrape pas.
- *
- * Le bloc montre donc trois choses côte à côte : ce qu'on a DEMANDÉ, ce que l'API a RENDU, et
- * le champ brut qui le prouve. Trois, parce que « demandé » sans « rendu » est le cas
- * dangereux : le service ne vend pas de couverture, l'appel a réussi, et le colis part nu.
- */
-function blocAssurance(t) {
-  const a = t && t.assurance;
-  if (!a) return `<div class="doux" style="font-size:12px">Ce fournisseur ne rapporte rien sur l'assurance.</div>`;
-  const demandee = Number(a.demandee || 0);
-  // Trois états, pas deux. « Non transmise » est une décision de notre côté — l'assurance
-  // Freightcom n'a pas de type validé sur le compte, et la demander coûtait quatorze tarifs
-  // sur vingt-trois sans rien couvrir. Ce n'est pas un refus du transporteur, et l'afficher
-  // en rouge comme tel faisait clignoter une alarme permanente sur un choix délibéré.
-  const etat = !demandee ? { p: "g", txt: "aucune couverture demandée" }
-    : a.transmise === false ? { p: "a", txt: "non transmise — à configurer" }
-    : a.appliquee ? { p: "v", txt: a.cout > 0 ? `couverte — ${money(a.cout)}` : "couverte, comprise au tarif" }
-    : { p: "r", txt: "demandée, NON couverte" };
-  const ligne = (k, v) => `<div class="kv"><span>${esc(k)}</span><span>${v}</span></div>`;
-  return `<details class="cAssurD"${!demandee || a.appliquee || a.transmise === false ? "" : " open"}>
-    <summary>Assurance <span class="puce ${etat.p}">${esc(etat.txt)}</span></summary>
-    ${ligne("valeur déclarée", demandee ? money(demandee) : "—")}
-    ${ligne("envoyée au fournisseur", a.transmise === false ? "non" : demandee ? "oui" : "—")}
-    ${ligne("acceptée par l'API", a.transmise === false ? "—" : a.appliquee ? "oui" : "non")}
-    ${ligne("coût de la couverture", a.cout ? money(a.cout) : "—")}
-    ${ligne("champ renvoyé", a.mention ? `<code>${esc(a.mention)}</code>` : "—")}
-    ${ligne("type demandé", a.type ? `<code>${esc(a.type)}</code>` : "—")}
-    ${a.note ? `<div class="doux" style="font-size:12px;margin-top:4px">${esc(a.note)}</div>` : ""}
-    <details style="margin-top:6px"><summary class="doux" style="font-size:12px">Réponse brute</summary>
-      <pre class="cAssurJ">${esc(JSON.stringify(a, null, 2))}</pre></details>
-  </details>`;
-}
-
-/** Le marqueur d'assurance collé au libellé d'un tarif, dans la liste déroulante. */
-function marqueAssurance(t) {
-  const a = t && t.assurance;
-  if (!a || !Number(a.demandee || 0)) return "";
-  // Rien dans la liste quand la demande n'est pas transmise : le motif est le même sur les
-  // vingt-trois lignes, il se lit une fois dans le bloc, pas vingt-trois fois dans le menu.
-  if (a.transmise === false) return "";
-  // Une couverture accordée sans surcharge chiffrée existe : elle est comprise dans le tarif.
-  // Afficher « assuré 0,00 $ » ferait douter qu'elle le soit ; « assuré » tout court, non.
-  if (!a.appliquee) return " · NON assuré";
-  return a.cout > 0 ? ` · assuré ${money(a.cout)}` : " · assuré";
-}
-
-/**
- * Les montants d'assurance proposés, taillés sur la commande.
- *
- * Un champ numérique libre ne dit rien : on tape 0,01 pour voir si « ça marche » et on ne sait
- * toujours pas qui vend la couverture ni à quel prix. Le menu propose donc les seuls montants
- * qui ont un sens ici — rien, la valeur de la commande, quelques paliers ronds — et le
- * libellé au-dessus nomme le fournisseur réellement appelé une fois la cotation revenue.
- *
- * « Autre… » reste offert : une commande à 3 000 $ existe, et un menu qui la refuse serait
- * un menu qu'on contourne.
- */
-function assuranceDeRegle(o) {
-  const r = (S.config && S.config.assurance) || {};
-  // Éteinte par défaut : sans réponse du serveur, on ne présume aucune couverture. Afficher
-  // un montant présélectionné que rien n'appliquerait serait pire que de n'en afficher aucun.
-  if (!r.active) return 0;
-  const plancher = Number(r.defaut ?? 100) || 0;
-  const seuil = Number(r.seuil ?? 300) || 0;
-  const total = Math.round(Number(o.order_total || 0) * 100) / 100;
-  if (seuil > 0 && total >= seuil) return total;
-  return total > 0 ? Math.min(plancher, total) : plancher;
-}
-
-function optionsAssurance(o) {
-  // Ce que la règle appliquerait, et donc ce que le lot achèterait. Le montant inscrit sur la
-  // commande gagne ; sans lui, c'est la règle qui est présélectionnée — afficher « Aucune »
-  // sur une commande que le serveur assurerait quand même serait un mensonge d'écran.
-  const regle = assuranceDeRegle(o);
-  const actuel = assure(o.insurance) || regle;
-  const total = Math.round(Number(o.order_total || 0) * 100) / 100;
-  const paliers = [50, 100, 250, 500, 1000, 2000];
-  const liste = [];
-  liste.push({ v: "0", t: "Aucune assurance" });
-  if (regle > 0) liste.push({ v: String(regle), t: `Règle par défaut — ${money(regle)}` });
-  if (total > 0 && total !== regle)
-    liste.push({ v: String(total), t: `Valeur de la commande — ${money(total)}` });
-  for (const p of paliers) if (p !== total && p !== regle) liste.push({ v: String(p), t: money(p) });
-  // Un montant déjà enregistré qui ne tombe sur aucun palier garde sa place : sans quoi
-  // ouvrir la commande le remplacerait en silence par le premier de la liste.
-  if (actuel && !liste.some((x) => Number(x.v) === actuel))
-    liste.splice(1, 0, { v: String(actuel), t: `${money(actuel)} (enregistré)` });
-  liste.push({ v: "autre", t: "Autre montant…" });
-  return liste.map((x) => `<option value="${esc(x.v)}"${
-    String(x.v) === String(actuel || 0) ? " selected" : ""}>${esc(x.t)}</option>`).join("");
-}
-
-/** Le montant retenu par les deux contrôles jumelés : le menu, ou le champ libre s'il est ouvert. */
-function valeurAssurance() {
-  const sel = $("#ci"), libre = $("#ciX");
-  if (!sel) return 0;
-  if (sel.value === "autre") return Math.max(0, Number(libre && libre.value) || 0);
-  return Math.max(0, Number(sel.value) || 0);
-}
-
-/**
- * Le libellé du menu, mis à jour par la réponse du fournisseur.
- *
- * C'est la confirmation en temps réel demandée : tant qu'on n'a pas coté, le libellé dit
- * simplement « Assurance » ; dès qu'un tarif revient, il nomme QUI vend la couverture et si
- * elle a été accordée. « Assurance Chit Chats · couverte 2,64 $ » est une phrase vérifiable ;
- * « Assurance ($) » ne l'était pas.
- */
-function libelleAssurance(t, fournisseur) {
-  const l = $("#ciL");
-  if (!l) return;
-  const nomF = (S.fournisseurs || []).find((f) => f.nom === (t?.fournisseur || fournisseur));
-  const nom = nomF ? nomF.libelle : (t?.fournisseur || fournisseur || "");
-  const a = t && t.assurance;
-  if (!a || !Number(a.demandee || 0)) { l.textContent = nom ? `Assurance — ${nom}` : "Assurance"; return; }
-  if (a.transmise === false) {
-    l.innerHTML = `Assurance ${esc(nom)} <span class="puce a">non configurée</span>`;
-    return;
-  }
-  l.innerHTML = `Assurance ${esc(nom)} <span class="puce ${a.appliquee ? "v" : "r"}">${
-    a.appliquee ? (a.cout > 0 ? `couverte ${money(a.cout)}` : "couverte") : "refusée"}</span>`;
-}
-
 function optionsTarifs(r, selection = "") {
   const tarifs = (r && r.tarifs) || [];
   if (!tarifs.length) return null;
@@ -4408,7 +4179,7 @@ function optionsTarifs(r, selection = "") {
         // En comparaison croisée, deux services homonymes chez deux courtiers seraient
         // indiscernables : le fournisseur est écrit dans le libellé.
         t.fournisseur ? ` · ${esc((S.fournisseurs || []).find((f) => f.nom === t.fournisseur)?.libelle || t.fournisseur)}` : ""
-      }${marqueAssurance(t)}</option>`).join("")}</optgroup>`).join("")}`;
+      }</option>`).join("")}</optgroup>`).join("")}`;
 }
 
 
@@ -4652,7 +4423,6 @@ async function detailCommande(id) {
           </select></label>
 
           <div class="cAssur">Assurance : <b>${assure(o.insurance) ? money(assure(o.insurance)) : "aucune"}</b>
-            <span id="cAssurF"></span>
             <button type="button" class="fEdit" id="cAssurE">Modifier</button></div>
 
           <details class="cAutres"><summary>Autres options d'expédition</summary>
@@ -4674,7 +4444,6 @@ async function detailCommande(id) {
           <button type="button" id="cAcheter" class="v"${etatAchat(o).ok ? "" : " disabled"}
             aria-describedby="cRaisonM" title="${esc(etatAchat(o).motif || "")}">Créer + imprimer l'étiquette</button>
           <div class="doux" id="cArrivee"></div>
-          <div id="cAssurB"></div>
         </footer>
       </aside>
     </div>
@@ -4827,14 +4596,9 @@ async function detailCommande(id) {
   /*
    * Modifier les articles — selon d'où vient la commande.
    *
-   * Le refus était juste pour une commande Shopify : une ligne changée des deux côtés ne se
-   * réconcilie plus, et la source doit rester la source. Mais il s'appliquait à TOUTES les
-   * commandes, y compris celles saisies à la main dans le clone. Renvoyer vers Shopify
-   * quelqu'un qui vient de créer sa commande ici, c'est lui fermer la seule porte qui existe :
-   * il n'y a pas d'amont où aller la corriger.
-   *
-   * On distingue donc sur la boutique. Une boutique « manual » n'a pas d'amont — les lignes
-   * s'éditent ici, et c'est le seul endroit où elles peuvent l'être.
+   * Le refus est juste pour une commande importée : une ligne changée des deux côtés ne se
+   * réconcilie plus. Mais il s'appliquait à TOUTES les commandes, y compris celles saisies à
+   * la main dans le clone — qui n'ont aucun amont où aller les corriger.
    */
   const boutiqueDeCmd = (S.refs.stores || []).find((x) => String(x.id) === String(o.store_id));
   const manuelle = String(boutiqueDeCmd?.marketplace || "").toLowerCase() === "manual" || !o.store_id;
@@ -4854,8 +4618,7 @@ async function detailCommande(id) {
 
   /** L'éditeur de lignes des commandes manuelles. */
   function editerArticles() {
-    const lignes = (o.items || []).filter((i) => !i.adjustment)
-      .map((i) => ({ ...i }));
+    const lignes = (o.items || []).filter((i) => !i.adjustment).map((i) => ({ ...i }));
     const ligneHtml = (i, n) => `<tr data-n="${n}">
       <td><input data-c="name" value="${esc(i.name || "")}" placeholder="Description"></td>
       <td><input data-c="sku" value="${esc(i.sku || "")}" placeholder="SKU" size="10"></td>
@@ -4878,15 +4641,14 @@ async function detailCommande(id) {
             quantity: Number(v("quantity")) || 0, unit_price: Number(v("unit_price")) || 0,
             weight_g: Number(v("weight_g")) || 0 };
         }).filter((i) => i.quantity > 0 && (i.name || i.sku));
-        // Les lignes d'ajustement (remises, pourboires) ne sont pas éditables mais ne doivent
-        // pas disparaître : l'enregistrement remplace TOUTES les lignes de la commande.
+        // Les lignes d'ajustement ne sont pas éditables mais ne doivent pas disparaître :
+        // l'enregistrement remplace TOUTES les lignes de la commande.
         const ajustements = (o.items || []).filter((i) => i.adjustment);
         await api("/api/orders", { method: "POST",
           body: { ...o, items: [...finales, ...ajustements] } });
         $("#dlg").close();
         detailCommande(o.id);
       }, "Enregistrer");
-    // Une ligne neuve n'a pas d'index dans `lignes` : elle se lit telle quelle.
     let n = lignes.length;
     $("#eaAdd").onclick = () => {
       $("#eaB").insertAdjacentHTML("beforeend",
@@ -5066,8 +4828,7 @@ async function detailCommande(id) {
    * Le correctif n'avait été posé que dans le panneau latéral. Dans l'écran plein, le menu
    * enregistrait bien le type de colis mais laissait les trois champs de taille tels quels :
    * on sélectionnait « 7,5 × 2,5 × 4,5 » et l'écran continuait d'afficher 20 × 20 × 18, donc
-   * de coter — et d'acheter — sur les mauvaises dimensions. Un contrôle qui porte un nom sans
-   * produire d'effet est pire qu'un contrôle absent : on croit avoir agi.
+   * de coter — et d'acheter — sur les mauvaises dimensions.
    */
   const pkg = $("#cPkg", f);
   if (pkg) pkg.addEventListener("change", async () => {
@@ -5077,16 +4838,12 @@ async function detailCommande(id) {
       $("#cL", f).value = d.length || "";
       $("#cLg", f).value = d.width || "";
       $("#cH", f).value = d.height || "";
-      // Enregistrer et recoter : les dimensions changent le prix, et laisser l'ancien sous le
-      // bouton d'achat ferait payer autre chose que ce qui est affiché.
       await tenter(() => api("/api/orders", { method: "POST", body: { ...o,
         package_id: pkg.value || null,
         dimensions: { length: Number(d.length) || 0, width: Number(d.width) || 0,
           height: Number(d.height) || 0, unit: "in" } } }), { message: "Dimensions non enregistrées" });
       coter();
     } else if (p) {
-      // Un type de colis sans dimensions au référentiel ne peut rien appliquer. Le dire, au
-      // lieu de rester muet : c'est une donnée à compléter, pas une panne.
       toast(`« ${p.name} » n'a pas de dimensions enregistrées — à compléter dans Réglages ▸ Types de colis.`,
         { type: "info" });
     }
@@ -5194,20 +4951,6 @@ async function detailCommande(id) {
       const cout = t ? (t.prixHT ?? t.price) : null;
       $("#cCout", f).textContent = t ? money(cout) : "—";
       $("#cArrivee", f).textContent = t?.transitDays ? `Arrivée estimée : ${t.transitDays} j` : "";
-      // La preuve d'assurance vit sous le coût, à l'endroit où l'on décide d'acheter.
-      if ($("#cAssurB", f)) $("#cAssurB", f).innerHTML = t ? blocAssurance(t) : "";
-      // Et le fournisseur qui la vend est nommé à côté du montant, en haut du rail : c'est là
-      // qu'on lit « Assurance : 240,00 $ » sans savoir, sinon, qui la porte.
-      const marque = $("#cAssurF", f);
-      if (marque) {
-        const as = t && t.assurance;
-        const nomF = (S.fournisseurs || []).find((x) => x.nom === (t?.fournisseur || four));
-        const nomAff = esc(nomF ? nomF.libelle : (t?.fournisseur || ""));
-        marque.innerHTML = !as || !Number(as.demandee || 0) ? ""
-          : as.transmise === false ? ` <span class="puce a">${nomAff} — assurance non configurée</span>`
-          : ` <span class="puce ${as.appliquee ? "v" : "r"}">${nomAff} ${
-              as.appliquee ? (as.cout > 0 ? `couverte ${money(as.cout)}` : "couverte") : "refusée"}</span>`;
-      }
       if (t && (o.shipping_paid || 0) < cout) {
         const ecart = Math.round((cout - (o.shipping_paid || 0)) * 100) / 100;
         $("#cCout", f).innerHTML = `${money(cout)} <span class="puce r" title="Livraison facturée ${
@@ -5219,7 +4962,6 @@ async function detailCommande(id) {
       // Et la liste de services précédente est effacée : la garder ferait croire que les
       // tarifs d'un fournisseur s'appliquent à celui qu'on vient de choisir.
       if ($("#cSvc", f)) $("#cSvc", f).innerHTML = optionsService(o.service_id || "");
-      if ($("#cAssurB", f)) $("#cAssurB", f).innerHTML = "";
       const nomF = (S.fournisseurs || []).find((x) => x.nom === ($("#cFour", f) && $("#cFour", f).value));
       const lbl = $("#cSvcL", f);
       if (lbl) lbl.textContent = `Service — aucun tarif${nomF ? ` chez ${nomF.libelle}` : ""}`;
@@ -8271,24 +8013,6 @@ VUES.reglages = async () => {
     <div class="carte"><b>Tarif drop-off cible</b>
       <p class="doux" style="margin:2px 0 8px">Sert de référence dans l'analytique. Seuil de poids : ${s.seuil_dropoff_g} g.</p>
       <input type="number" step="0.01" id="st" value="${s.tarif_dropoff_cible}"> <button id="stsave">Enregistrer</button></div>
-    <div class="carte"><b>Assurance par défaut</b>
-      <p class="doux" style="margin:2px 0 8px"><b>Éteinte.</b> Les transporteurs de colis
-      incluent déjà une responsabilité de base — de l'ordre de 100 $ chez Postes Canada, UPS,
-      FedEx, Purolator, GLS et Canpar, sans rien demander. Assurer 100 $ d'office revenait
-      donc à racheter, en payant, une protection déjà acquise. À n'allumer que pour des envois
-      dont la valeur dépasse cette responsabilité incluse. Un montant inscrit sur une commande
-      s'applique de toute façon, règle allumée ou non.</p>
-      <label class="ch"><input type="checkbox" id="sav" ${s.assurance_active ? "checked" : ""}>
-        appliquer la règle</label>
-      <div class="cGrille2">
-        <label class="champ"><span>Montant assuré par défaut ($)</span>
-          <input type="number" step="1" min="0" id="sad" value="${s.assurance_defaut}"></label>
-        <label class="champ"><span>Au-delà de ce total, assurer la valeur de la commande ($)</span>
-          <input type="number" step="1" min="0" id="sas" value="${s.assurance_seuil}"></label>
-      </div>
-      <p class="doux" style="margin:6px 0 8px">Jamais plus que la valeur de la commande : les
-      transporteurs indemnisent ce que le colis vaut, pas ce qu'on a déclaré au-dessus.</p>
-      <button class="p" id="sasave">Enregistrer</button></div>
     <div class="carte" id="cpre"><b>Préréglages d'expédition</b>
       <p class="doux" style="margin:2px 0 8px">Une configuration enregistrée une fois, appliquée
       ensuite en un clic sur une sélection de commandes. À distinguer des défauts produit, qui
@@ -8667,16 +8391,6 @@ VUES.reglages = async () => {
     toast($("#s2fa").checked
       ? "Second facteur obligatoire. Chaque employé devra le configurer à sa prochaine connexion."
       : "Second facteur redevenu facultatif.");
-  };
-  $("#sasave").onclick = async () => {
-    await api("/api/settings", { method: "POST", body: {
-      assurance_active: $("#sav").checked ? "1" : "0",
-      assurance_defaut: Number($("#sad").value) || 0,
-      assurance_seuil: Number($("#sas").value) || 0 } });
-    // La règle voyage dans /api/config : sans relecture, le menu de l'écran d'expédition
-    // continuerait de présélectionner l'ancienne valeur jusqu'au prochain rechargement.
-    S.config = await api("/api/config");
-    toast("Règle d'assurance enregistrée.");
   };
   $("#stsave").onclick = async () => { await api("/api/settings", { method: "POST", body: { tarif_dropoff_cible: Number($("#st").value) } }); toast("Tarif de dépôt cible enregistré."); };
   $("#wt").append(table([{ k: "event", t: "Événement" }, { k: "target_url", t: "URL" },
