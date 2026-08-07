@@ -163,6 +163,11 @@
   .puce.g { background:rgba(120,130,140,.16); color:var(--puce-g) }
   /* Preuve d'assurance : discrète quand tout va bien, dépliée d'office quand la couverture
      a été demandée sans être accordée — c'est le seul cas qu'on ne peut pas rattraper après. */
+  .tArt { width:100%; border-collapse:collapse; font-size:13px }
+  .tArt th { text-align:left; font-weight:600; color:var(--doux); padding:2px 4px }
+  .tArt td { padding:2px 4px }
+  .tArt input { width:100%; min-width:52px }
+  .tScroll { overflow-x:auto; max-height:46vh; overflow-y:auto }
   .cGrille2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px }
   .ciX { width:100%; margin-top:4px }
   .cAssurD { margin-top:6px; border-top:1px solid var(--bordure); padding-top:5px }
@@ -943,6 +948,9 @@ const EN = {
   "Confirmation": "Confirmation", "Assurance": "Insurance",
   "Aucune assurance": "No insurance", "Autre montant…": "Other amount…",
   "Assurance par défaut": "Default insurance", "appliquer la règle": "apply the rule",
+  "Article": "Item", "SKU": "SKU", "Qté": "Qty", "Prix unitaire": "Unit price",
+  "Poids (g)": "Weight (g)", "+ Ajouter une ligne": "+ Add a line", "Description": "Description",
+  "Enregistrer": "Save",
   "Montant assuré par défaut ($)": "Default insured amount ($)",
   "Au-delà de ce total, assurer la valeur de la commande ($)":
     "Above this total, insure the order value ($)",
@@ -4568,7 +4576,7 @@ async function detailCommande(id) {
           <div class="fLab">Taille (po)</div>
           <div class="cDim">
             <input type="number" id="cL" placeholder="L" value="${esc(o.dimensions?.length ?? "")}">
-            <input type="number" id="cW" placeholder="l" value="${esc(o.dimensions?.width ?? "")}">
+            <input type="number" id="cLg" placeholder="l" value="${esc(o.dimensions?.width ?? "")}">
             <input type="number" id="cH" placeholder="H" value="${esc(o.dimensions?.height ?? "")}">
           </div>
 
@@ -4750,16 +4758,79 @@ async function detailCommande(id) {
     () => { f.remove(); ficheOuverte = null; aller("scan"); }, "Ouvrir le poste de scan");
   // Le message était juste ; le véhicule ne l'était pas. Un `alert()` natif est bloquant,
   // non stylé, non traduisible, et il n'offre pas le geste qu'il recommande.
-  $("#fEditArt", f).onclick = () => dialogue("Modifier les articles", `
-    <p>Les lignes d'une commande se modifient <b>à la source</b>, dans Shopify, puis se
-      rapatrient ici. C'est la seule façon de ne pas désynchroniser la commande : une ligne
-      changée des deux côtés ne se réconcilie plus.</p>
-    <p class="doux">Modifiez la commande dans Shopify, puis revenez rafraîchir.</p>`,
+  /*
+   * Modifier les articles — selon d'où vient la commande.
+   *
+   * Le refus était juste pour une commande Shopify : une ligne changée des deux côtés ne se
+   * réconcilie plus, et la source doit rester la source. Mais il s'appliquait à TOUTES les
+   * commandes, y compris celles saisies à la main dans le clone. Renvoyer vers Shopify
+   * quelqu'un qui vient de créer sa commande ici, c'est lui fermer la seule porte qui existe :
+   * il n'y a pas d'amont où aller la corriger.
+   *
+   * On distingue donc sur la boutique. Une boutique « manual » n'a pas d'amont — les lignes
+   * s'éditent ici, et c'est le seul endroit où elles peuvent l'être.
+   */
+  const boutiqueDeCmd = (S.refs.stores || []).find((x) => String(x.id) === String(o.store_id));
+  const manuelle = String(boutiqueDeCmd?.marketplace || "").toLowerCase() === "manual" || !o.store_id;
+
+  $("#fEditArt", f).onclick = () => manuelle ? editerArticles() : dialogue("Modifier les articles", `
+    <p>Les lignes d'une commande se modifient <b>à la source</b>, dans ${
+      esc(boutiqueDeCmd?.name || "la boutique")}, puis se rapatrient ici. C'est la seule façon
+      de ne pas désynchroniser la commande : une ligne changée des deux côtés ne se réconcilie
+      plus.</p>
+    <p class="doux">Modifiez la commande dans ${esc(boutiqueDeCmd?.name || "la boutique")},
+      puis revenez rafraîchir.</p>`,
     async () => {
       await api("/api/orders/refresh", { method: "POST", body: { ids: [o.id] } });
       $("#dlg").close();
       detailCommande(o.id);
     }, "Rafraîchir depuis la boutique");
+
+  /** L'éditeur de lignes des commandes manuelles. */
+  function editerArticles() {
+    const lignes = (o.items || []).filter((i) => !i.adjustment)
+      .map((i) => ({ ...i }));
+    const ligneHtml = (i, n) => `<tr data-n="${n}">
+      <td><input data-c="name" value="${esc(i.name || "")}" placeholder="Description"></td>
+      <td><input data-c="sku" value="${esc(i.sku || "")}" placeholder="SKU" size="10"></td>
+      <td><input type="number" data-c="quantity" min="0" step="1" value="${esc(i.quantity ?? 1)}" size="4"></td>
+      <td><input type="number" data-c="unit_price" min="0" step="0.01" value="${esc(i.unit_price ?? 0)}" size="7"></td>
+      <td><input type="number" data-c="weight_g" min="0" step="1" value="${esc(i.weight_g ?? 0)}" size="6"></td>
+      <td><button type="button" class="lienB" data-sup="${n}" aria-label="Retirer la ligne">✕</button></td></tr>`;
+    dialogue("Modifier les articles", `
+      <p class="doux">Commande saisie à la main : les lignes se modifient ici, il n'y a pas de
+        boutique d'où les rapatrier. Une quantité à zéro retire la ligne.</p>
+      <div class="tScroll"><table class="tArt"><thead><tr>
+        <th>Article</th><th>SKU</th><th>Qté</th><th>Prix unitaire</th><th>Poids (g)</th><th></th>
+      </tr></thead><tbody id="eaB">${lignes.map(ligneHtml).join("")}</tbody></table></div>
+      <button type="button" class="lienB" id="eaAdd">+ Ajouter une ligne</button>`,
+      async () => {
+        const finales = [...$("#eaB").querySelectorAll("tr")].map((tr) => {
+          const v = (c) => tr.querySelector(`[data-c="${c}"]`).value;
+          const base = lignes[Number(tr.dataset.n)] || {};
+          return { ...base, name: v("name"), sku: v("sku") || null,
+            quantity: Number(v("quantity")) || 0, unit_price: Number(v("unit_price")) || 0,
+            weight_g: Number(v("weight_g")) || 0 };
+        }).filter((i) => i.quantity > 0 && (i.name || i.sku));
+        // Les lignes d'ajustement (remises, pourboires) ne sont pas éditables mais ne doivent
+        // pas disparaître : l'enregistrement remplace TOUTES les lignes de la commande.
+        const ajustements = (o.items || []).filter((i) => i.adjustment);
+        await api("/api/orders", { method: "POST",
+          body: { ...o, items: [...finales, ...ajustements] } });
+        $("#dlg").close();
+        detailCommande(o.id);
+      }, "Enregistrer");
+    // Une ligne neuve n'a pas d'index dans `lignes` : elle se lit telle quelle.
+    let n = lignes.length;
+    $("#eaAdd").onclick = () => {
+      $("#eaB").insertAdjacentHTML("beforeend",
+        ligneHtml({ name: "", sku: "", quantity: 1, unit_price: 0, weight_g: 0 }, n++));
+    };
+    $("#eaB").onclick = (e) => {
+      const b = e.target.closest("[data-sup]");
+      if (b) b.closest("tr").remove();
+    };
+  }
 
   // ------------------------------------------------------ déclarations douane
   const declOf = () => {
@@ -4908,8 +4979,8 @@ async function detailCommande(id) {
         service_id: $("#cSvc", f).value, package_id: $("#cPkg", f).value,
         confirmation: $("#cConf", f).value, warehouse_id: $("#cWh", f).value,
         weight_g: $("#cPds", f).value,
-        dimensions: ($("#cL", f).value || $("#cW", f).value || $("#cH", f).value)
-          ? { length: Number($("#cL", f).value) || 0, width: Number($("#cW", f).value) || 0,
+        dimensions: ($("#cL", f).value || $("#cLg", f).value || $("#cH", f).value)
+          ? { length: Number($("#cL", f).value) || 0, width: Number($("#cLg", f).value) || 0,
               height: Number($("#cH", f).value) || 0, unit: "in" } : null } });
       if (source) {
         source.classList.add("enregistre");
@@ -4923,7 +4994,39 @@ async function detailCommande(id) {
     rafraichirGrille();
     coter();
   };
-  ["#cSvc", "#cPkg", "#cConf", "#cWh", "#cPds", "#cL", "#cW", "#cH"].forEach((sel) => {
+  /*
+   * Choisir un colis applique ses dimensions — ici aussi.
+   *
+   * Le correctif n'avait été posé que dans le panneau latéral. Dans l'écran plein, le menu
+   * enregistrait bien le type de colis mais laissait les trois champs de taille tels quels :
+   * on sélectionnait « 7,5 × 2,5 × 4,5 » et l'écran continuait d'afficher 20 × 20 × 18, donc
+   * de coter — et d'acheter — sur les mauvaises dimensions. Un contrôle qui porte un nom sans
+   * produire d'effet est pire qu'un contrôle absent : on croit avoir agi.
+   */
+  const pkg = $("#cPkg", f);
+  if (pkg) pkg.addEventListener("change", async () => {
+    const p = (S.refs.packages || []).find((x) => String(x.id) === String(pkg.value));
+    const d = p && p.dimensions;
+    if (d && (d.length || d.width || d.height)) {
+      $("#cL", f).value = d.length || "";
+      $("#cLg", f).value = d.width || "";
+      $("#cH", f).value = d.height || "";
+      // Enregistrer et recoter : les dimensions changent le prix, et laisser l'ancien sous le
+      // bouton d'achat ferait payer autre chose que ce qui est affiché.
+      await tenter(() => api("/api/orders", { method: "POST", body: { ...o,
+        package_id: pkg.value || null,
+        dimensions: { length: Number(d.length) || 0, width: Number(d.width) || 0,
+          height: Number(d.height) || 0, unit: "in" } } }), { message: "Dimensions non enregistrées" });
+      coter();
+    } else if (p) {
+      // Un type de colis sans dimensions au référentiel ne peut rien appliquer. Le dire, au
+      // lieu de rester muet : c'est une donnée à compléter, pas une panne.
+      toast(`« ${p.name} » n'a pas de dimensions enregistrées — à compléter dans Réglages ▸ Types de colis.`,
+        { type: "info" });
+    }
+  });
+
+  ["#cSvc", "#cPkg", "#cConf", "#cWh", "#cPds", "#cL", "#cLg", "#cH"].forEach((sel) => {
     const e = $(sel, f);
     if (!e) return;
     e.onchange = () => { e.classList.remove("erreur"); conf(e); };
