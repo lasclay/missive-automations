@@ -561,7 +561,13 @@ route("GET /api/batches/:id/orders", ({ params }) => ({
  */
 route("POST /api/shipments/quote", async ({ req }) => {
   const b = await corps(req);
-  try { return await shipments.coter(Number(b.order_id), { fournisseur: b.fournisseur || null }); }
+  // `complet` : attendre que TOUS les services aient répondu, au lieu de rendre au bout du
+  // délai interactif. C'est le geste « Attendre la réponse complète » de l'écran, réservé au
+  // moment où l'on soupçonne qu'un transporteur moins cher manque à l'appel.
+  try {
+    return await shipments.coter(Number(b.order_id),
+      { fournisseur: b.fournisseur || null, complet: !!b.complet });
+  }
   catch (e) { return { error: e.message, code: 400 }; }
 });
 

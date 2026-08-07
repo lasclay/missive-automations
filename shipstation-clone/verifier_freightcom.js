@@ -4,6 +4,8 @@
  *   node shipstation-clone/verifier_freightcom.js          hors ligne, `fetch` espionné
  *   node shipstation-clone/verifier_freightcom.js --reel   appelle GET /services, en lecture
  *   node shipstation-clone/verifier_freightcom.js --assurance   quel `insurance.type` passe
+ *   node shipstation-clone/verifier_freightcom.js --panel [--poids 300]   qui répond, et si
+ *     l'assurance ou le délai fait disparaître un transporteur du panel
  *
  * Le mode hors ligne valide la forme des requêtes, la conversion des unités, le cache,
  * l'idempotence et les refus d'achat — sans clé, sans réseau, sans dépense. Le mode `--reel`
@@ -412,6 +414,83 @@ const TARIF = (id, cents, nom) => ({
     console.log(`\n  ${G}Le type retenu se fige avec FREIGHTCOM_ASSURANCE_TYPE dans les réglages Render.`);
     console.log(`  L'écart de prix ci-dessus est le coût réel de la couverture — à comparer aux`);
     console.log(`  1,10 % domestique / 1,50 % international que facturait XCover.${R}`);
+  }
+
+  // --------------------------------------------------------------- panel
+  //
+  // Deux constats à expliquer, et une seule façon honnête de les départager : demander deux
+  // fois le même envoi, une fois nu et une fois assuré, en attendant à chaque coup que
+  // l'API ait fini de répondre.
+  //
+  //   1. Postes Canada absent du panel, même à 300 g.
+  //   2. « NON assuré » sur tous les services.
+  //
+  // Si Postes Canada apparaît sans assurance et disparaît avec, c'est la demande de
+  // couverture qui l'exclut — Freightcom ne rend pas les services qui ne peuvent pas la
+  // porter. Si elle est absente des deux, ce n'est pas l'assurance : c'est le compte ou le
+  // délai. Le troisième appel, borné au délai interactif, dit si le panel arrivait
+  // simplement trop tard.
+  if (process.argv.includes("--panel")) {
+    const iP = process.argv.indexOf("--poids");
+    const poids = iP >= 0 ? Number(process.argv[iP + 1]) : 300;
+    console.log(`\nPanel Freightcom à ${poids} g — nu, assuré, et sous délai interactif\n` + "─".repeat(64));
+    if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
+    else delete process.env.FREIGHTCOM_API_KEY;
+    global.fetch = vraiFetch;
+
+    const base = { ...ENVOI, parcel: { ...ENVOI.parcel, weightG: poids } };
+    const LONG = Number(process.env.FREIGHTCOM_DELAI_COMPLET_MS || 60000);
+    const essais = [
+      ["sans assurance, réponse complète", { ...base, insurance: 0 }, LONG],
+      ["assuré 100 $, réponse complète", { ...base, insurance: 100 }, LONG],
+      ["sans assurance, délai interactif", { ...base, insurance: 0 }, undefined],
+    ];
+    const vus = [];
+    for (const [nom, envoi, delai] of essais) {
+      try {
+        const r = await fc.coter(envoi, { deadlineMs: delai, frais: true });
+        const transporteurs = [...new Set(r.tarifs.map((t) => t.carrier))].sort();
+        const cp = r.tarifs.filter((t) => /canada\s*post|postes\s*canada/i.test(
+          `${t.carrier} ${t.service} ${t.serviceId}`));
+        const assures = r.tarifs.filter((t) => t.assurance?.appliquee).length;
+        vus.push({ nom, transporteurs, cp: cp.length, n: r.tarifs.length });
+        console.log(`\n${nom}`);
+        console.log(`  ${r.tarifs.length} tarif(s), ${r.complet ? "panel complet" : "PANEL INCOMPLET"}` +
+          `${r.statut?.total ? ` (${r.statut.complete}/${r.statut.total} services)` : ""}, ${r.ms} ms`);
+        console.log(`  transporteurs : ${G}${transporteurs.join(", ") || "aucun"}${R}`);
+        console.log(`  Postes Canada : ${cp.length ? `${V} ${cp.length} tarif(s) — ` +
+          cp.map((t) => `${t.serviceId} ${t.prixHT ?? t.price} $`).join(", ") : `${X} absent`}`);
+        if (envoi.insurance) {
+          console.log(`  assurance     : ${assures}/${r.tarifs.length} service(s) la portent` +
+            `${assures ? "" : `  ${G}type demandé « ${process.env.FREIGHTCOM_ASSURANCE_TYPE || "carrier"} »${R}`}`);
+          const ex = r.tarifs[0];
+          if (ex) console.log(`  surcharges du 1er tarif : ${G}${
+            (ex.surcharges || []).map((x) => `${x.nom} ${x.montant} $`).join(" · ") || "aucune"}${R}`);
+        }
+      } catch (e) { console.log(`\n${nom}\n  ${X} ${e.message}`); }
+    }
+
+    console.log("\n" + "─".repeat(64));
+    const [nu, assure, court] = vus;
+    if (nu && assure) {
+      if (nu.cp && !assure.cp) {
+        console.log(`${X} ${G}L'ASSURANCE EXCLUT POSTES CANADA du panel. Demander une couverture`);
+        console.log(`  retire les services qui ne peuvent pas la porter — et c'est le moins cher`);
+        console.log(`  qui disparaît. Régler assurance_active à 0, ou n'assurer qu'à l'achat.${R}`);
+      } else if (!nu.cp && !assure.cp) {
+        console.log(`${G}Postes Canada est absent DANS LES DEUX CAS : l'assurance n'y est pour rien.`);
+        console.log(`  Reste le compte (programme non activé chez Freightcom) ou le poids.`);
+        console.log(`  À poser à Freightcom avec cette sortie en pièce jointe.${R}`);
+      } else if (nu.cp && assure.cp) {
+        console.log(`${V} ${G}Postes Canada répond dans les deux cas. Si l'écran ne le montre pas,`);
+        console.log(`  c'est le délai : voir la troisième ligne ci-dessus.${R}`);
+      }
+    }
+    if (court && nu && court.n < nu.n) {
+      console.log(`\n${G}Le délai interactif ne rend que ${court.n} tarif(s) sur ${nu.n} :`);
+      console.log(`  le panel affiché est tronqué. Le bouton « Attendre la réponse complète »`);
+      console.log(`  de l'écran d'expédition sert exactement à ça.${R}`);
+    }
   }
 
   if (process.argv.includes("--reel")) {

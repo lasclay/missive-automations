@@ -3875,6 +3875,36 @@ VUES.commandes = async (statutFixe) => {
         }
 
         /*
+         * Un panel incomplet doit se dire.
+         *
+         * Freightcom cote en asynchrone : on soumet, on interroge, et au bout de trois
+         * secondes et demie on rend ce qui est arrivé. Douze services sur quarante, ça
+         * ressemble à un panel complet — même liste, même « moins cher » en tête — sauf que
+         * le transporteur le moins cher manque peut-être. C'est exactement le cas où l'écran
+         * doit dire qu'il ne sait pas encore, et offrir d'attendre.
+         */
+        const pan = r.panel || (r.sources || []).map((x) => x.panel).find((x) => x && !x.complet);
+        if (pan && !pan.complet) {
+          $("#cTarifs").insertAdjacentHTML("beforeend",
+            `<div class="avis info" style="margin-top:6px">Panel incomplet :
+              <b>${num(pan.repondu)}${pan.total ? ` sur ${num(pan.total)}` : ""}</b>
+              service(s) ont répondu. Un transporteur moins cher peut manquer.
+              <button type="button" class="lienB" id="cAttendre">Attendre la réponse complète</button></div>`);
+          const ba = $("#cAttendre");
+          if (ba) ba.onclick = async () => {
+            ba.disabled = true; ba.textContent = "Cotation complète…";
+            // `frais` force le réseau : le cache partiel serait resservi tel quel.
+            const r2 = await api("/api/shipments/quote", { method: "POST",
+              body: { order_id: o.id, fournisseur: $("#cfour") ? $("#cfour").value : undefined,
+                complet: true } });
+            derniereCotation = r2;
+            const ops2 = optionsTarifs(r2, $("#cs") && $("#cs").value);
+            if (ops2 && $("#cs")) { $("#cs").innerHTML = ops2; $("#cs").dataset.tarifs = "1"; }
+            resumerTarif();
+          };
+        }
+
+        /*
          * La confirmation de livraison ne traverse pas tous les fournisseurs.
          *
          * La spécification Freightcom 2.10.0 n'a AUCUN champ pour la confirmation : ni

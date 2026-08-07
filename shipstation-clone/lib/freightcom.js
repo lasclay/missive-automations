@@ -608,7 +608,24 @@ function etat() {
 
 const adaptateurFreightcom = {
   nom: "freightcom",
-  async quote(envoi) { return (await coter(envoi)).tarifs; },
+  /**
+   * La cotation est asynchrone et bornée dans le temps : au bout de `deadlineMs` on rend ce
+   * qui est arrivé. Un panel de quarante services dont douze ont répondu **ressemble** à un
+   * panel complet — même liste déroulante, même « moins cher » en tête — alors qu'il manque
+   * peut-être le transporteur le moins cher. On fait donc voyager l'état du panel avec les
+   * tarifs, pour que l'écran puisse le dire au lieu de laisser croire.
+   */
+  async quote(envoi, { complet = false } = {}) {
+    // `complet` : on attend que `status.done` soit vrai, quitte à y passer une minute. C'est
+    // le seul mode qui garantit que le moins cher affiché EST le moins cher.
+    const r = await coter(envoi, complet
+      ? { deadlineMs: Number(process.env.FREIGHTCOM_DELAI_COMPLET_MS || 60000), frais: true }
+      : {});
+    const t = r.tarifs || [];
+    t.panel = { complet: !!r.complet, repondu: r.statut?.complete ?? t.length,
+      total: r.statut?.total ?? null, source: r.source, ms: r.ms };
+    return t;
+  },
   async buy(envoi, serviceId) { return await reserver(envoi, serviceId); },
   async void_(labelId) { return await annuler(labelId); },
   async track(labelId) { return await suivre(labelId); },

@@ -148,7 +148,7 @@ function noterServices(tarifs, fournisseur) {
  * rend le premier menu de l'écran d'expédition possible, et ce qui permettra de comparer un
  * courtier à un compte propre sans changer une variable d'environnement.
  */
-async function coter(orderId, { fournisseur = null } = {}) {
+async function coter(orderId, { fournisseur = null, complet = false } = {}) {
   const cmd = orders.parId(orderId);
   if (!cmd) throw new Error("commande inconnue");
   if (!cmd.weight_g) throw new Error("poids manquant — corriger la commande avant de coter");
@@ -160,15 +160,15 @@ async function coter(orderId, { fournisseur = null } = {}) {
   // comptes confondus. Sur la commande L-50145 : Chit Chats 7,25 $, Freightcom 7,28 $,
   // ShipStation 11,82 $. Sans vue commune, il faut changer de fournisseur à la main pour
   // voir trois cents d'écart, et personne ne le fait vingt fois par jour.
-  if (fournisseur === "tous") return await coterPartout(cmd, envoi);
+  if (fournisseur === "tous") return await coterPartout(cmd, envoi, { complet });
 
   // Sans consigne, on suit le service mappé sur la commande — c'est ce qui fait qu'un lot
   // achète comme ShipStation : commande par commande, avec les options de chacune.
   const vise = fournisseur || fournisseurDuService(cmd.service_id);
   const a = vise ? adaptateur(vise) : adaptateur();
-  const tarifs = await a.quote(envoi);
+  const tarifs = await a.quote(envoi, { complet });
   noterServices(tarifs, a.nom);
-  return { envoi, tarifs, fournisseur: a.nom,
+  return { envoi, tarifs, fournisseur: a.nom, panel: tarifs.panel || null,
     recommande: choisirTarif(tarifs, envoi, politiqueTarif(cmd)) };
 }
 
@@ -177,18 +177,19 @@ async function coter(orderId, { fournisseur = null } = {}) {
  * est rapporté à côté des tarifs, jamais à leur place. Une comparaison amputée qui ne le dit
  * pas ferait choisir le moins cher d'une liste incomplète.
  */
-async function coterPartout(cmd, envoi) {
+async function coterPartout(cmd, envoi, { complet = false } = {}) {
   const { fournisseurs } = require("./carrier");
   const dispo = fournisseurs().filter((f) => f.configure && !f.demonstration);
   const liste = dispo.length ? dispo : fournisseurs().filter((f) => f.demonstration);
 
   const resultats = await Promise.all(liste.map(async (f) => {
     try {
-      const tarifs = await adaptateur(f.nom).quote(envoi);
+      const tarifs = await adaptateur(f.nom).quote(envoi, { complet });
       // Chaque tarif porte son fournisseur : sans ça, deux services homonymes chez deux
       // courtiers deviennent indiscernables au moment d'acheter.
       noterServices(tarifs, f.nom);
-      return { nom: f.nom, libelle: f.libelle, tarifs: tarifs.map((t) => ({ ...t, fournisseur: f.nom })) };
+      return { nom: f.nom, libelle: f.libelle, panel: tarifs.panel || null,
+        tarifs: tarifs.map((t) => ({ ...t, fournisseur: f.nom })) };
     } catch (e) { return { nom: f.nom, libelle: f.libelle, tarifs: [], erreur: String(e.message || e) }; }
   }));
 
@@ -196,7 +197,8 @@ async function coterPartout(cmd, envoi) {
     .sort((a, b) => (a.prixHT ?? a.price ?? 1e9) - (b.prixHT ?? b.price ?? 1e9));
   return {
     envoi, tarifs, fournisseur: "tous",
-    sources: resultats.map((r) => ({ nom: r.nom, libelle: r.libelle, n: r.tarifs.length, erreur: r.erreur || null })),
+    sources: resultats.map((r) => ({ nom: r.nom, libelle: r.libelle, n: r.tarifs.length,
+      panel: r.panel || null, erreur: r.erreur || null })),
     incomplet: resultats.some((r) => r.erreur),
     recommande: choisirTarif(tarifs, envoi, politiqueTarif(cmd)),
   };
