@@ -374,6 +374,8 @@ function assuranceDe(q, demandee) {
   const cov = lignes.find((a) => String(a["adjustment-code"] || "").toUpperCase() === "COV");
   return {
     demandee: demandee || 0,
+    // L'option COV part avec le devis dès qu'un montant existe : rien à configurer.
+    transmise: demandee > 0,
     appliquee: !!cov,
     cout: cov ? Math.round(Number(cov["adjustment-cost"] || 0) * 100) / 100 : 0,
     mention: cov ? (cov["adjustment-name"] || "Coverage (COV)") : null,

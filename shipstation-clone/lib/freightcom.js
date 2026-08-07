@@ -270,6 +270,11 @@ function lireTarif(t, demandee = 0) {
   const type = process.env.FREIGHTCOM_ASSURANCE_TYPE || "";
   const assurance = {
     demandee: Number(demandee) || 0,
+    // Trois états, pas deux. « Non transmise » n'est pas « refusée » : la première est une
+    // décision de notre côté, la seconde un refus du transporteur. Les confondre faisait
+    // clignoter une alarme rouge sur un champ qu'on a choisi de ne pas envoyer — et un écran
+    // qui crie tout le temps ne prévient plus de rien.
+    transmise: Number(demandee) > 0 && !!type,
     appliquee: !!ligne,
     cout: ligne ? enDollars(ligne.amount || ligne.total) : 0,
     mention: ligne ? (ligne.name || ligne.type) : null,

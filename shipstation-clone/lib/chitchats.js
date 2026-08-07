@@ -234,6 +234,9 @@ function lireTarif(t, exp = null) {
   const demande = exp ? !!exp.insurance_requested : null;
   const assurance = {
     demandee: demande === null ? null : demande,
+    // Chit Chats reçoit toujours la demande quand elle existe : `insurance_requested` part
+    // avec le brouillon, sans réglage préalable.
+    transmise: !!demande,
     appliquee: !!(libelle || cout),
     cout: cout || 0,
     mention: libelle,

@@ -948,7 +948,8 @@ const EN = {
   "Confirmation": "Confirmation", "Assurance": "Insurance",
   "Aucune assurance": "No insurance", "Autre montant…": "Other amount…",
   "Assurance par défaut": "Default insurance", "appliquer la règle": "apply the rule",
-  "Éteinte.": "Off.",
+  "Éteinte.": "Off.", "non transmise — à configurer": "not sent — needs setup",
+  "envoyée au fournisseur": "sent to provider",
   "Article": "Item", "SKU": "SKU", "Qté": "Qty", "Prix unitaire": "Unit price",
   "Poids (g)": "Weight (g)", "+ Ajouter une ligne": "+ Add a line", "Description": "Description",
   "Enregistrer": "Save",
@@ -4258,14 +4259,20 @@ function blocAssurance(t) {
   const a = t && t.assurance;
   if (!a) return `<div class="doux" style="font-size:12px">Ce fournisseur ne rapporte rien sur l'assurance.</div>`;
   const demandee = Number(a.demandee || 0);
+  // Trois états, pas deux. « Non transmise » est une décision de notre côté — l'assurance
+  // Freightcom n'a pas de type validé sur le compte, et la demander coûtait quatorze tarifs
+  // sur vingt-trois sans rien couvrir. Ce n'est pas un refus du transporteur, et l'afficher
+  // en rouge comme tel faisait clignoter une alarme permanente sur un choix délibéré.
   const etat = !demandee ? { p: "g", txt: "aucune couverture demandée" }
-    : a.appliquee ? { p: "v", txt: `couverte — ${money(a.cout)}` }
+    : a.transmise === false ? { p: "a", txt: "non transmise — à configurer" }
+    : a.appliquee ? { p: "v", txt: a.cout > 0 ? `couverte — ${money(a.cout)}` : "couverte, comprise au tarif" }
     : { p: "r", txt: "demandée, NON couverte" };
   const ligne = (k, v) => `<div class="kv"><span>${esc(k)}</span><span>${v}</span></div>`;
-  return `<details class="cAssurD"${!demandee || a.appliquee ? "" : " open"}>
+  return `<details class="cAssurD"${!demandee || a.appliquee || a.transmise === false ? "" : " open"}>
     <summary>Assurance <span class="puce ${etat.p}">${esc(etat.txt)}</span></summary>
     ${ligne("valeur déclarée", demandee ? money(demandee) : "—")}
-    ${ligne("acceptée par l'API", a.appliquee ? "oui" : "non")}
+    ${ligne("envoyée au fournisseur", a.transmise === false ? "non" : demandee ? "oui" : "—")}
+    ${ligne("acceptée par l'API", a.transmise === false ? "—" : a.appliquee ? "oui" : "non")}
     ${ligne("coût de la couverture", a.cout ? money(a.cout) : "—")}
     ${ligne("champ renvoyé", a.mention ? `<code>${esc(a.mention)}</code>` : "—")}
     ${ligne("type demandé", a.type ? `<code>${esc(a.type)}</code>` : "—")}
@@ -4279,7 +4286,13 @@ function blocAssurance(t) {
 function marqueAssurance(t) {
   const a = t && t.assurance;
   if (!a || !Number(a.demandee || 0)) return "";
-  return a.appliquee ? ` · assuré ${money(a.cout)}` : " · NON assuré";
+  // Rien dans la liste quand la demande n'est pas transmise : le motif est le même sur les
+  // vingt-trois lignes, il se lit une fois dans le bloc, pas vingt-trois fois dans le menu.
+  if (a.transmise === false) return "";
+  // Une couverture accordée sans surcharge chiffrée existe : elle est comprise dans le tarif.
+  // Afficher « assuré 0,00 $ » ferait douter qu'elle le soit ; « assuré » tout court, non.
+  if (!a.appliquee) return " · NON assuré";
+  return a.cout > 0 ? ` · assuré ${money(a.cout)}` : " · assuré";
 }
 
 /**
@@ -4351,8 +4364,12 @@ function libelleAssurance(t, fournisseur) {
   const nom = nomF ? nomF.libelle : (t?.fournisseur || fournisseur || "");
   const a = t && t.assurance;
   if (!a || !Number(a.demandee || 0)) { l.textContent = nom ? `Assurance — ${nom}` : "Assurance"; return; }
+  if (a.transmise === false) {
+    l.innerHTML = `Assurance ${esc(nom)} <span class="puce a">non configurée</span>`;
+    return;
+  }
   l.innerHTML = `Assurance ${esc(nom)} <span class="puce ${a.appliquee ? "v" : "r"}">${
-    a.appliquee ? `couverte ${money(a.cout)}` : "refusée"}</span>`;
+    a.appliquee ? (a.cout > 0 ? `couverte ${money(a.cout)}` : "couverte") : "refusée"}</span>`;
 }
 
 function optionsTarifs(r, selection = "") {
@@ -5169,9 +5186,11 @@ async function detailCommande(id) {
       if (marque) {
         const as = t && t.assurance;
         const nomF = (S.fournisseurs || []).find((x) => x.nom === (t?.fournisseur || four));
+        const nomAff = esc(nomF ? nomF.libelle : (t?.fournisseur || ""));
         marque.innerHTML = !as || !Number(as.demandee || 0) ? ""
-          : ` <span class="puce ${as.appliquee ? "v" : "r"}">${esc(nomF ? nomF.libelle : (t?.fournisseur || ""))} ${
-              as.appliquee ? `couverte ${money(as.cout)}` : "refusée"}</span>`;
+          : as.transmise === false ? ` <span class="puce a">${nomAff} — assurance non configurée</span>`
+          : ` <span class="puce ${as.appliquee ? "v" : "r"}">${nomAff} ${
+              as.appliquee ? (as.cout > 0 ? `couverte ${money(as.cout)}` : "couverte") : "refusée"}</span>`;
       }
       if (t && (o.shipping_paid || 0) < cout) {
         const ecart = Math.round((cout - (o.shipping_paid || 0)) * 100) / 100;

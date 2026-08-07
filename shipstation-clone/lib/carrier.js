@@ -100,6 +100,7 @@ function assuranceBouchon(shipment, tarif) {
   const vendue = demandee > 0 && !tarif.dropOff;
   return {
     demandee,
+    transmise: demandee > 0,
     appliquee: vendue,
     cout: vendue ? Math.round(demandee * (international ? 0.015 : 0.011) * 100) / 100 : 0,
     mention: vendue ? "Démonstration — couverture d'exercice" : null,

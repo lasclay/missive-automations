@@ -79,9 +79,14 @@ const ENVOI = {
   const { poserReglage, reglage } = require("./lib/db");
   // De série, la règle est éteinte : les transporteurs incluent déjà une responsabilité de
   // base d'environ 100 $. C'est le premier contrôle, parce que le défaut EST la décision.
+  //
+  // On efface d'abord le réglage : ces contrôles partagent parfois un fichier de base avec
+  // d'autres vérificateurs, et un « 1 » laissé par un voisin faisait échouer l'assertion du
+  // DÉFAUT — un faux négatif qui ne dit rien du code.
+  run("DELETE FROM settings WHERE key = 'assurance_active'");
   verifier("de série, aucune couverture n'est ajoutée d'office",
     assuranceParDefaut({ order_total: 850 }) === 0,
-    `réglage lu : ${reglage("assurance_active", "0")}`);
+    `réglage lu : ${reglage("assurance_active", "0 (absent)")}`);
   poserReglage("assurance_active", "1");
   poserReglage("assurance_defaut", 100);
   poserReglage("assurance_seuil", 300);
@@ -163,6 +168,17 @@ const ENVOI = {
       base: { currency: "CAD", value: "1106" }, surcharges: [] }, 250);
     verifier("Freightcom — et l'écran dit pourquoi, au lieu de « refusée »",
       /aucun type d'assurance validé/.test(muet.assurance.note || ""), muet.assurance.note);
+    // Le drapeau que lit l'écran : « non transmise » n'est pas « refusée ». Sans lui, une
+    // alarme rouge s'allumait en permanence sur un champ qu'on choisit de ne pas envoyer.
+    verifier("Freightcom — la demande est marquée NON TRANSMISE",
+      muet.assurance.transmise === false && muet.assurance.demandee === 250);
+    process.env.FREIGHTCOM_ASSURANCE_TYPE = "freightcom";
+    const envoye = fc.lireTarif({ carrier_name: "GLS", service_name: "Standard",
+      service_id: "gls", total: { currency: "CAD", value: "1106" },
+      base: { currency: "CAD", value: "1106" }, surcharges: [] }, 250);
+    verifier("Freightcom — avec un type validé, elle est transmise et le refus est réel",
+      envoye.assurance.transmise === true && envoye.assurance.appliquee === false);
+    delete process.env.FREIGHTCOM_ASSURANCE_TYPE;
   }
 
   // -- Chit Chats : un booléen, pas un montant — la valeur déclarée vient des articles.
@@ -228,6 +244,7 @@ const ENVOI = {
       purchase_amount: "7.25", payment_amount: "7.25",
       insurance_description: "Chit Chats Insurance up to $100" }, { insurance_requested: true });
     verifier("Chit Chats — couverture reconnue", t.assurance.appliquee === true, t.assurance.mention);
+    verifier("Chit Chats — toujours transmise, aucun réglage requis", t.assurance.transmise === true);
     verifier("Chit Chats — type nommé", t.assurance.type === "chitchats");
     const sans = cc.lireTarif({ postage_type: "chit_chats_canada_tracked",
       purchase_amount: "7.14", payment_amount: "7.14" }, { insurance_requested: true });
