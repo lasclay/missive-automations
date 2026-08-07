@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Unique Plastique — dossier complet</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 14mm 15mm; }
+  html, body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+
+  :root{
+    --vert:#2B9359;
+    --vert-titre:#23A44D;
+    --vert-fonce:#1B6B41;
+    --menthe:#D5EBD8;
+    --rouge:#A42325;
+    --noir:#111111;
+    --gris:#F1F1F1;
+    --gris-txt:#5A5F5C;
+    --trait:#DCE5DE;
+  }
+
+  body{
+    margin:0;
+    font-family:"Liberation Sans","Helvetica Neue",Arial,sans-serif;
+    font-size:9.6pt; line-height:1.52; color:var(--noir);
+  }
+
+  h1,h2,h3,h4{ margin:0; font-weight:700; }
+  p{ margin:0 0 3.2mm 0; }
+  a{ color:var(--vert-fonce); text-decoration:none; }
+
+  .saut{ page-break-before:always; break-before:page; }
+  .bloc{ page-break-inside:avoid; break-inside:avoid; }
+
+  /* ---------- COUVERTURE ---------- */
+  .cover{ display:flex; flex-direction:column; }
+  .cover-top{ background:var(--menthe); margin:-16mm -15mm 0 -15mm; padding:16mm 15mm 12mm 15mm; }
+  .cover-logo{ width:62mm; display:block; margin-bottom:14mm; }
+  .cover h1{ font-size:33pt; line-height:1.04; letter-spacing:-0.6pt; color:var(--noir); }
+  .cover h1 em{ font-style:normal; color:var(--vert); }
+  .cover .kicker{ font-size:8.4pt; letter-spacing:2.2pt; text-transform:uppercase; color:var(--vert-fonce); font-weight:700; margin-bottom:5mm; }
+  .cover .sub{ font-size:11.6pt; line-height:1.42; color:#2B3330; margin-top:7mm; max-width:150mm; }
+
+  .cover-hero{ margin:0 -15mm; }
+  .cover-hero img{ width:100%; height:60mm; object-fit:cover; object-position:center 52%; display:block; }
+
+  .cover-bottom{ padding-top:8mm; display:flex; justify-content:space-between; align-items:flex-end; gap:8mm; }
+  .cover-bottom .meta{ font-size:8.6pt; color:var(--gris-txt); line-height:1.6; }
+  .cover-bottom .meta strong{ color:var(--noir); }
+
+  .stat-row{ display:flex; gap:3mm; margin-top:7mm; }
+  .stat{ flex:1; background:#fff; border:0.4mm solid var(--trait); border-top:1.4mm solid var(--vert); padding:4mm 3.5mm; }
+  .stat .n{ font-size:17pt; font-weight:700; color:var(--vert-fonce); line-height:1; letter-spacing:-0.4pt; }
+  .stat .l{ font-size:7.3pt; color:var(--gris-txt); margin-top:2mm; line-height:1.35; text-transform:uppercase; letter-spacing:0.5pt; }
+
+  /* ---------- SECTIONS ---------- */
+  .sec-head{ display:flex; align-items:baseline; gap:4mm; border-bottom:0.8mm solid var(--vert); padding-bottom:2.5mm; margin:0 0 5mm 0; }
+  .sec-num{ font-size:9pt; font-weight:700; color:var(--vert); letter-spacing:1pt; }
+  .sec-head h2{ font-size:17pt; letter-spacing:-0.3pt; }
+
+  h3{ font-size:11.2pt; color:var(--vert-fonce); margin:6mm 0 2.5mm 0; }
+  h4{ font-size:9.6pt; margin:4.5mm 0 1.6mm 0; }
+
+  /* ---------- TABLEAUX ---------- */
+  table{ width:100%; border-collapse:collapse; margin:3mm 0 4mm 0; font-size:8.7pt; }
+  th{ background:var(--vert); color:#fff; text-align:left; padding:2.2mm 2.6mm; font-weight:700; font-size:8.2pt;
+      text-transform:uppercase; letter-spacing:0.4pt; }
+  td{ padding:2mm 2.6mm; border-bottom:0.25mm solid var(--trait); vertical-align:top; }
+  tr:nth-child(even) td{ background:#FAFCFA; }
+  table.fiche th{ background:var(--noir); }
+  table.fiche td:first-child{ width:42mm; font-weight:700; }
+
+  /* ---------- ENCADRÉS ---------- */
+  .cite{ border-left:1.2mm solid var(--vert); background:var(--menthe); padding:4mm 5mm; margin:4mm 0;
+         font-size:9.6pt; line-height:1.5; }
+  .cite p:last-child{ margin-bottom:0; }
+  .cite .qui{ display:block; margin-top:2.5mm; font-size:8pt; color:var(--vert-fonce); font-weight:700;
+              text-transform:uppercase; letter-spacing:0.6pt; }
+
+  .callout{ border:0.4mm solid var(--trait); border-left:1.4mm solid var(--rouge); padding:4mm 5mm; margin:4mm 0; background:#FEFAFA; }
+  .callout h4{ margin-top:0; color:var(--rouge); }
+  .callout p:last-child{ margin-bottom:0; }
+
+  ul,ol{ margin:0 0 3.5mm 0; padding-left:5mm; }
+  li{ margin-bottom:1.4mm; }
+
+  /* ---------- VISUELS ---------- */
+  figure{ margin:4mm 0; }
+  figure img{ width:100%; display:block; }
+  /* Une figure pleine largeur ne doit jamais manger une page entière. */
+  section > figure > img{ max-height:100mm; object-fit:cover; object-position:center 50%; }
+  .duo figure img{ max-height:78mm; object-fit:cover; }
+  figcaption{ font-size:7.6pt; color:var(--gris-txt); margin-top:1.8mm; line-height:1.4; }
+  .duo{ display:flex; gap:3mm; }
+  .duo figure{ flex:1; margin:4mm 0; }
+  .trio{ display:flex; gap:3mm; }
+  .trio figure{ flex:1; margin:4mm 0; }
+
+  /* ---------- PALETTE ---------- */
+  .pal{ display:flex; flex-wrap:wrap; gap:2.5mm; margin:3mm 0 5mm 0; }
+  .sw{ width:31mm; border:0.3mm solid var(--trait); }
+  .sw .chip{ height:15mm; }
+  .sw .txt{ padding:1.8mm 2mm; font-size:7.2pt; line-height:1.3; }
+  .sw .txt b{ display:block; font-size:7.8pt; }
+  .sw .txt code{ font-family:"DejaVu Sans Mono",monospace; font-size:7pt; color:var(--gris-txt); }
+
+  /* ---------- BARRES ---------- */
+  .barres{ margin:4mm 0 5mm 0; }
+  .barre{ display:flex; align-items:center; gap:3mm; margin-bottom:2.6mm; }
+  .barre .lab{ width:38mm; font-size:8pt; color:var(--gris-txt); text-align:right; }
+  .barre .piste{ flex:1; height:7mm; background:var(--gris); position:relative; }
+  .barre .rempli{ height:7mm; background:var(--vert); }
+  .barre .rempli.pale{ background:var(--menthe); }
+  .barre .val{ width:32mm; font-size:8.4pt; font-weight:700; color:var(--vert-fonce); }
+
+  /* ---------- DIVERS ---------- */
+  .lede{ font-size:11pt; line-height:1.5; color:#2B3330; margin-bottom:4mm; }
+  .deux-col{ column-count:2; column-gap:7mm; }
+  .deux-col p, .deux-col li{ break-inside:avoid; }
+  .pied{ margin-top:6mm; padding-top:3mm; border-top:0.3mm solid var(--trait); font-size:7.6pt; color:var(--gris-txt); }
+  .src{ font-size:8.1pt; line-height:1.5; }
+  .src li{ margin-bottom:1.2mm; }
+  .tag{ display:inline-block; background:var(--menthe); color:var(--vert-fonce); font-size:7.2pt; font-weight:700;
+        padding:0.8mm 2mm; letter-spacing:0.5pt; text-transform:uppercase; }
+</style>
+</head>
+<body>
+
+<!-- ======================= COUVERTURE ======================= -->
+<section class="cover">
+  <div class="cover-top">
+    <img class="cover-logo" src="visuels/logo.png" alt="Unique Plastique">
+    <div class="kicker">Dossier d'entreprise · recherche en sources ouvertes</div>
+    <h1>Unique&nbsp;Plastique<br><em>le déchet comme signature</em></h1>
+    <p class="sub">Comment un projet d'école secondaire de Lévis, parti d'une presse à panini,
+      est devenu un manufacturier de 45&nbsp;000 pinces par mois vendues dans 345 points de vente —
+      et pourquoi les cinq dragons lui ont prêté 20&nbsp;000&nbsp;$ sans prendre une seule part.</p>
+  </div>
+
+  <div class="cover-hero">
+    <img src="visuels/gamme-couleurs.jpg" alt="La gamme de couleurs Unique Plastique">
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n">45–60 k</div><div class="l">pinces par mois</div></div>
+    <div class="stat"><div class="n">345</div><div class="l">points de vente</div></div>
+    <div class="stat"><div class="n">4,89 ★</div><div class="l">sur 1 236 avis</div></div>
+    <div class="stat"><div class="n">100 %</div><div class="l">plastique recyclé</div></div>
+    <div class="stat"><div class="n">19 ans</div><div class="l">âge du président</div></div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="meta">
+      <strong>Unique Plastique S.E.N.C.</strong> · NEQ 3380145428<br>
+      16, rue du Tisserand, Lévis (Québec) G6V 7E4<br>
+      uniqueplastique.ca
+    </div>
+    <div class="meta" style="text-align:right">
+      Compilé pour Lasclay<br>
+      <strong>7 août 2026</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 1. EN UNE PAGE ======================= -->
+<section class="saut">
+  <div class="sec-head"><span class="sec-num">01</span><h2>En une page</h2></div>
+
+  <p class="lede"><strong>Unique Plastique</strong> est une jeune entreprise manufacturière de
+    <strong>Lévis</strong> qui récupère du plastique post-consommation et le réinjecte en
+    <strong>pinces à cheveux 100 % recyclées</strong>, « les seules faites au Québec ».</p>
+
+  <p>Fondée par <strong>Alexandre Tanguay</strong>, aujourd'hui 19 ans, à partir d'un projet d'école
+    secondaire — une presse à panini empruntée à sa grand-mère pour fondre des ratés d'imprimante 3D.</p>
+
+  <p>En moins de deux ans d'existence officielle, l'entreprise est passée de <strong>3 000 pinces par
+    mois</strong> à <strong>45 000–60 000</strong>, a placé ses produits dans <strong>plus de 345 points
+    de vente</strong> au Québec (dont plusieurs Jean Coutu), a raflé un <strong>prix national
+    OSEntreprendre 2025</strong>, et a convaincu <strong>les cinq dragons</strong> de
+    <em>Dans l'œil du dragon</em> en juin 2026 de lui prêter 20 000 $ <strong>sans prendre une seule
+    part</strong>.</p>
+
+  <p>La proposition est simple et lisible : le plastique garde sa couleur d'origine, la pince porte une
+    texture marbrée qui trahit sa provenance, et le client comprend d'un coup d'œil que son bac de
+    recyclage sert à quelque chose. Le marketing est né sur TikTok et Instagram — des vidéos de cônes
+    orange de chantier broyés en accessoires mode ont dépassé les <strong>2,5 millions de vues</strong>.</p>
+
+  <table class="fiche bloc">
+    <tr><td>Raison sociale</td><td>Unique Plastique S.E.N.C.</td></tr>
+    <tr><td>NEQ</td><td>3380145428</td></tr>
+    <tr><td>Forme juridique</td><td>Société en nom collectif</td></tr>
+    <tr><td>Constituée</td><td>1<sup>er</sup> septembre 2024 · immatriculée le 3 septembre 2024</td></tr>
+    <tr><td>Siège</td><td>16, rue du Tisserand, Lévis (Québec) G6V 7E4</td></tr>
+    <tr><td>Production</td><td>dans les installations de Plastiques Gagnon, Lévis</td></tr>
+    <tr><td>Activité déclarée</td><td>code 1699 — procédé d'injection de plastique adapté au recyclage</td></tr>
+    <tr><td>Effectif au registre</td><td>1 à 5 employés (mise à jour annuelle : 24 mai 2025)</td></tr>
+    <tr><td>Site</td><td>uniqueplastique.ca (Shopify)</td></tr>
+    <tr><td>Courriel distributeurs</td><td>distributeur@uniqueplastique.ca</td></tr>
+    <tr><td>Réseaux</td><td>@unique.plastique_ (IG) · @unique.plastique (TikTok) · Unique Plastique (FB)</td></tr>
+  </table>
+
+  <figure class="bloc">
+    <img src="visuels/dragon.jpg" alt="Alexandre Tanguay avec les cinq dragons">
+    <figcaption>17 juin 2026 — Alexandre Tanguay, en t-shirt vert « UP! », entouré des cinq dragons.
+      Il demandait 20 000 $ pour 10 % ; il est reparti avec 20 000 $ en prêt et 100 % de son entreprise.
+      <em>Source : Radio-Canada / uniqueplastique.ca</em></figcaption>
+  </figure>
+</section>
+
+<!-- ======================= 2. L'HISTOIRE ======================= -->
+<section class="saut">
+  <div class="sec-head"><span class="sec-num">02</span><h2>L'histoire</h2></div>
+
+  <h3>2022–2024 — la presse à panini</h3>
+  <p>Le point de départ est une irritation d'élève. Alexandre Tanguay et son ami
+    <strong>Antoine Lachance</strong>, tous deux au secondaire en sciences naturelles à Lévis, voient
+    partir aux poubelles les ratés de l'imprimante 3D de leur école, et constatent la contamination
+    des bacs de recyclage. Le site de l'entreprise raconte la scène sans détour :</p>
+
+  <div class="cite bloc">
+    <p>« L'idée du recyclage nous semblait évidente lorsqu'on ne pouvait que jeter les échecs de
+      l'imprimante 3D et lorsqu'on voyait la contamination dans les bacs. »</p>
+    <span class="qui">Page « À propos », uniqueplastique.ca</span>
+  </div>
+
+  <p>Premier prototype : faire fondre du plastique dans <strong>la vieille presse à panini de la
+    grand-mère</strong> d'Alexandre pour couler des sous-verres. Deux ans d'essais suivent. Le premier
+    produit vendu sera un porte-clés.</p>
+
+  <h3>Septembre 2024 — l'immatriculation</h3>
+  <p>Unique Plastique S.E.N.C. est constituée le <strong>1<sup>er</sup> septembre 2024</strong> et
+    immatriculée le <strong>3 septembre</strong>. Alexandre a 17–18 ans, Antoine 18. L'équipe compte
+    alors six personnes, toutes du même âge, toutes aux études à temps plein. Le modèle
+    d'approvisionnement est déjà là, et il est astucieux : on ramasse <strong>gratuitement</strong> les
+    pots de pilules dans les pharmacies et les bouteilles de shampoing dans les salons de coiffure,
+    on les transforme, <strong>et on revend les pinces au même endroit</strong>.</p>
+
+  <div class="cite bloc">
+    <p>« On prend leurs pots de pilules, on les transforme en pinces et on les revend en pharmacie
+      après. »</p>
+    <span class="qui">Antoine Lachance, cofondateur — Le Soleil, avril 2025</span>
+  </div>
+
+  <p>Volume à ce stade : plus de <strong>50 kilos</strong> de plastique récupéré par semaine, environ
+    <strong>2 pinces par contenant</strong>. Les premières bourses collégiales servent à acheter
+    l'équipement.</p>
+
+  <h3>2025 — l'accélération</h3>
+  <p>Trois choses arrivent coup sur coup.</p>
+
+  <p><strong>Le prix.</strong> Quelques mois seulement après le lancement officiel, Unique Plastique est
+    <strong>lauréate nationale 2025 du Défi OSEntreprendre</strong>, catégorie <em>Exploitation,
+    transformation, production</em>, et reçoit aussi un <strong>prix spécial scientifique des Fonds de
+    recherche du Québec</strong> au volet Chaudière-Appalaches. L'entreprise décroche également une
+    reconnaissance au <strong>Grand Prix national de l'entrepreneuriat jeunesse</strong>.</p>
+
+  <p><strong>L'usine.</strong> <strong>Plastiques Gagnon</strong>, un manufacturier de pièces de plastique
+    de Lévis, loue de l'espace à l'entreprise.</p>
+
+  <div class="cite bloc">
+    <p>« On a loué de l'espace à Alexandre parce qu'il a du drive. »</p>
+    <span class="qui">Guillaume Joly, directeur, Plastiques Gagnon</span>
+  </div>
+
+  <p><strong>La machine.</strong> En juillet 2025, achat d'une <strong>presse à injection</strong>.
+    La cadence saute d'<strong>une pince aux quatre minutes</strong> à <strong>180 pinces à
+    l'heure</strong>, avec une cible de <strong>250 à l'heure</strong>.</p>
+
+  <div class="barres bloc">
+    <div class="barre">
+      <div class="lab">avant juillet 2025</div>
+      <div class="piste"><div class="rempli pale" style="width:5%"></div></div>
+      <div class="val">3 000 / mois</div>
+    </div>
+    <div class="barre">
+      <div class="lab">après l'injection</div>
+      <div class="piste"><div class="rempli" style="width:75%"></div></div>
+      <div class="val">45 000 / mois</div>
+    </div>
+    <div class="barre">
+      <div class="lab">pointe actuelle</div>
+      <div class="piste"><div class="rempli" style="width:100%"></div></div>
+      <div class="val">60 000 / mois</div>
+    </div>
+  </div>
+
+  <p>Le départ d'Antoine Lachance vers des études en médecine laisse Alexandre seul à la barre.
+    L'équipe se recompose autour de quatre amis du secondaire, en quarts de <strong>18 h à 23 h</strong>
+    après les cours.</p>
+
+  <h3>Juin 2026 — les cinq dragons</h3>
+  <p>Le <strong>17 juin 2026</strong>, Unique Plastique passe à <em>Dans l'œil du dragon</em> (saison 15,
+    ICI Télé), aux côtés de Flyos, Mountain Coffee Co et Zensor Care. Alexandre demande
+    <strong>20 000 $ pour 10 %</strong>.</p>
+
+  <div class="callout bloc">
+    <h4>Le dénouement</h4>
+    <p>Les <strong>cinq dragons s'unissent</strong> et retournent une offre meilleure que la demande :
+      <strong>un prêt de 20 000 $ sans aucune prise de participation</strong>, plus leur mentorat.
+      Alexandre garde 100 % de son entreprise. Le segment fait exploser la demande — plus de
+      <strong>200 nouvelles commandes</strong> dans la foulée.</p>
+  </div>
+
+  <p>L'argent va au marketing, pas à la machinerie. Les données d'audience montraient
+    <strong>60 à 70 % d'hommes</strong> sur les vidéos — pour un produit dont le marché est
+    majoritairement féminin. Alexandre retravaille le ton, l'énergie et le décor de ses vidéos pour
+    corriger la cible.</p>
+</section>
+
+<!-- ======================= 3. LE PRODUIT ======================= -->
+<section class="saut">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Le produit</h2></div>
+
+  <p>Une pince à cheveux à mâchoire (<em>claw clip</em>), injectée en <strong>HDPE / PP recyclé</strong>,
+    ressort en <strong>acier renforcé</strong>. Deux formats.</p>
+
+  <table class="bloc">
+    <tr><th></th><th>Petite</th><th>Moyenne</th></tr>
+    <tr><td>Taille</td><td>6 cm</td><td>9 cm</td></tr>
+    <tr><td>Cheveux</td><td>fins à moyens</td><td>moyens à épais</td></tr>
+    <tr><td>Prix courant</td><td>11,99 $</td><td>14,99 $</td></tr>
+    <tr><td>Prix distributeur (coûtant)</td><td>7,19 $</td><td>8,99 $</td></tr>
+    <tr><td>Prix suggéré en boutique</td><td>12,00 $</td><td>15,00 $</td></tr>
+    <tr><td>Marge distributeur</td><td>40 %</td><td>40 %</td></tr>
+  </table>
+
+  <h3>La signature visuelle : la texture marbrée</h3>
+  <p>C'est l'argument central, et il est répété mot pour mot sur chaque fiche produit :</p>
+
+  <div class="cite bloc">
+    <p>« Chaque pince présente une texture marbrée unique, signature de notre procédé de recyclage,
+      rendant chaque pièce authentique et différente. »</p>
+    <span class="qui">Fiches produit, uniqueplastique.ca</span>
+  </div>
+
+  <div class="duo bloc">
+    <figure>
+      <img src="visuels/pince-marbree.jpg" alt="Détail de la texture marbrée">
+      <figcaption>La veinure trahit le mélange de plastiques d'origines différentes. Personne ne peut
+        la copier industriellement.</figcaption>
+    </figure>
+    <figure>
+      <img src="visuels/pince-exterieur.jpg" alt="Logo de recyclage moulé en relief">
+      <figcaption>Le symbole de recyclage est moulé en relief sur la mâchoire de chaque pince.</figcaption>
+    </figure>
+  </div>
+
+  <p>Le défaut de fabrication devient la preuve d'authenticité. Le mélange de plastiques d'origines
+    différentes crée des veinures qui disent, sans texte, « je viens d'un bac de recyclage ».</p>
+
+  <div class="cite bloc">
+    <p>« Notre objectif, c'est de montrer le plastique sous un nouvel angle, en laissant sa couleur
+      authentique. »</p>
+    <span class="qui">Alexandre Tanguay, président</span>
+  </div>
+
+  <h3>Les matières premières</h3>
+  <p>Sourcées localement, souvent gratuitement, et régulièrement mises en scène dans le contenu social :</p>
+  <ul class="deux-col">
+    <li>pots de pilules de pharmacie (HDPE — la matière principale)</li>
+    <li>bouteilles de shampoing de salons de coiffure</li>
+    <li><strong>cônes orange de chantier</strong> — 1 cône ≈ <strong>110 pinces</strong></li>
+    <li>civières périmées → édition « Bleu Marin — Civière », 15,99 $</li>
+    <li>sièges de toilette → édition « Toilette rouge », 12,99 $</li>
+    <li>pancartes électorales, gobelets à café, bidons de lave-glace</li>
+    <li>blocs LEGO, casques de sécurité périmés, masques, chaises</li>
+  </ul>
+
+  <div class="callout bloc">
+    <h4>Le coup de génie du positionnement</h4>
+    <p>Les éditions limitées nommées d'après leur déchet d'origine — <em>Civière</em>, <em>Toilette
+      rouge</em> — transforment la traçabilité en objet de collection. Ce qui devrait être une gêne
+      devient le nom du produit.</p>
+  </div>
+
+  <h3>Le procédé</h3>
+  <p>Collecte → tri → lavage → <strong>broyage en granules</strong> → fonte → <strong>injection dans
+    un moule</strong> → pince. Entièrement développé à l'interne. Les moules sont conçus par Alexandre
+    lui-même ; un moule d'acier pour un nouveau produit coûte <strong>jusqu'à 50 000 $</strong>, ce qui
+    est le principal frein à la diversification.</p>
+
+  <h3>Le catalogue — 26 SKU actifs au 7 août 2026</h3>
+  <p><strong>Moyennes — 14,99 $</strong> · Blanche, Charbon, Brun, Beige, Jade, Bleuet, Rouge, Noire,
+    Rose, Orange Corail, Aqua, Jaune, Menthe <em>(13 couleurs)</em></p>
+  <p><strong>Petites — 11,99 $</strong> · Noire, Brune, Bleu ciel, Orange · <em>éditions limitées</em>
+    Baby pink (11,99 $), Toilette rouge (12,99 $)</p>
+  <p><strong>Édition limitée</strong> · Bleu Marin — Civière, 15,99 $ <em>(épuisée)</em></p>
+
+  <table class="bloc">
+    <tr><th>Lot</th><th>Prix promo</th><th>Prix régulier</th><th>Rabais</th></tr>
+    <tr><td>Ton kit passe-partout — 6 pour 4</td><td>65,78 $</td><td>81,12 $</td><td>19 %</td></tr>
+    <tr><td>Collection Classique — 7 pour 5</td><td>79,30 $</td><td>104,93 $</td><td>24 %</td></tr>
+    <tr><td>Collection d'été — 7 pour 5</td><td>79,30 $</td><td>104,93 $</td><td>24 %</td></tr>
+    <tr><td>Le tout compris — Moyenne, 14 pour 9</td><td>139,35 $</td><td>209,86 $</td><td>34 %</td></tr>
+    <tr><td>Campagne de financement — Boîte de 12</td><td colspan="3">84,00 $ (8 moyennes + 4 petites)</td></tr>
+  </table>
+
+  <p style="font-size:8.4pt;color:var(--gris-txt)">Collections publiées : <em>frontpage, artisanat,
+    édition limitée de la semaine, pinces flexibles, distribution, petites, lots, Noël, été,
+    collection été pharmacie.</em></p>
+</section>
+
+<!-- ======================= 4. MODÈLE D'AFFAIRES ======================= -->
+<section class="saut">
+  <div class="sec-head"><span class="sec-num">04</span><h2>Le modèle d'affaires</h2></div>
+  <p class="lede">Quatre canaux, chacun avec sa propre mécanique.</p>
+
+  <h3>a) Direct en ligne — uniqueplastique.ca</h3>
+  <p>Boutique Shopify, français, multidevise (CAD par défaut, EUR, USD, GBP, CHF…),
+    <strong>livraison gratuite dès 50 $</strong>. Applications installées : Judge.me (avis),
+    BSS Store Locator, HulkApps Form Builder, Shopify Forms.</p>
+
+  <div class="callout bloc" style="border-left-color:var(--vert)">
+    <h4 style="color:var(--vert-fonce)">Le chiffre le plus révélateur du dossier</h4>
+    <p><strong>4,89 ★ sur 1 236 avis.</strong> Un produit à 12–15 $ qui accumule plus de mille avis
+      vérifiés à cette note-là a un vrai <em>product–market fit</em>, pas seulement une viralité.</p>
+  </div>
+
+  <h3>b) Détail — plus de 345 points de vente</h3>
+  <p>L'outil de localisation du site déclare <strong>345 emplacements</strong>, et la fiche « campagne
+    de financement » en annonce <strong>plus de 350</strong>. Concentration en Chaudière-Appalaches,
+    Québec, Montréal et Estrie, avec des points jusqu'en Abitibi, sur la Côte-Nord et en Gaspésie.
+    Plusieurs <strong>Jean Coutu</strong>. Une opération conjointe est menée avec
+    <strong>Nora Pharma</strong>.</p>
+
+  <figure class="bloc">
+    <img src="visuels/points-de-vente.jpg" alt="Carte des points de vente">
+    <figcaption>Le réseau de détail au 7 août 2026 : 345 points, avec un noyau dur autour de Québec
+      (37), Montréal (34) et la Rive-Sud. <em>Source : localisateur BSS, uniqueplastique.ca</em></figcaption>
+  </figure>
+
+  <h3>c) Programme distributeur — la boucle fermée</h3>
+  <p>C'est la partie la plus élégante du modèle. Le site vend l'adhésion en quatre points :</p>
+  <ol>
+    <li><strong>Livraison incluse.</strong> Achat de base : une boîte d'introduction. Délai 5–7 jours ouvrables.</li>
+    <li><strong>La boîte d'introduction</strong> : présentoir de comptoir de 16 po de haut, 12 pinces
+      moyennes (vendant 15,00 $) + 6 petites (vendant 12,00 $), couleurs variées.</li>
+    <li><strong>Réapprovisionnement</strong> par simple formulaire.</li>
+    <li><strong>Tournée d'approvisionnement</strong> — et voici la boucle.</li>
+  </ol>
+
+  <div class="cite bloc">
+    <p>« Ne ramassez pas vos pots de pilules avant ! On va vous écrire quand on passera. »</p>
+    <p style="font-size:8.6pt;margin-top:2mm">Fréquence : tous les 2 à 4 mois selon le secteur, avec un
+      préavis de 1 à 2 semaines. Plastique visé : surtout du HDPE (pots de pilules, bouteilles de
+      shampoing).</p>
+    <span class="qui">Page fournisseur / distributeur, uniqueplastique.ca</span>
+  </div>
+
+  <p><strong>Le même camion livre les pinces et repart avec la matière première du prochain lot.</strong>
+    La pharmacie est simultanément fournisseur et détaillant. Le coût d'acquisition de matière tend
+    vers zéro, et le détaillant a une raison de participer qui dépasse la marge.</p>
+
+  <h3>d) Campagnes de financement — le « modèle boîte de chocolat »</h3>
+  <p>Positionné frontalement contre le classique du financement scolaire québécois :</p>
+
+  <div class="cite bloc">
+    <p>« Le modèle est simple, inspiré du principe de la "boîte de chocolat" : aucune gestion complexe,
+      tu gères ta propre mini-campagne. »</p>
+    <p style="margin-top:2mm"><strong>Pas de chocolat. Pas de produits jetables. Un produit durable et
+      local.</strong></p>
+  </div>
+
+  <p>Boîte de 12 à 84,00 $, revendue 15 $ / 12 $ l'unité (168 $ de ventes) → <strong>50 % de la vente
+    revient directement au jeune</strong>. Aucun minimum, aucun retour compliqué. Une billetterie
+    Zeffy accompagne le programme.</p>
+</section>
+
+<!-- ======================= 5. CHIFFRES ======================= -->
+<section class="saut">
+  <div class="sec-head"><span class="sec-num">05</span><h2>Chiffres clés</h2></div>
+
+  <table class="bloc">
+    <tr><th>Indicateur</th><th>Valeur</th><th>Date / source</th></tr>
+    <tr><td>Production mensuelle</td><td><strong>45 000 – 60 000</strong> pinces</td><td>2026, après emménagement chez Plastiques Gagnon</td></tr>
+    <tr><td>Production mensuelle (avant)</td><td>3 000 pinces</td><td>avant 2025</td></tr>
+    <tr><td>Cadence machine</td><td>180 pinces/h (cible 250)</td><td>après juillet 2025</td></tr>
+    <tr><td>Cadence artisanale (avant)</td><td>1 pince / 4 minutes</td><td>avant juillet 2025</td></tr>
+    <tr><td>Pinces vendues</td><td>30 000+ <span style="color:var(--gris-txt)">(une source : 20 000+)</span></td><td>2026</td></tr>
+    <tr><td>Points de vente</td><td>345 (site) / « plus de 350 » (fiche produit)</td><td>août 2026</td></tr>
+    <tr><td>Avis clients</td><td><strong>1 236 avis · 4,89 ★</strong></td><td>août 2026, Judge.me</td></tr>
+    <tr><td>Employés</td><td>5 (Alexandre + 4) ; 4 embauches après <em>Dragon</em></td><td>2026</td></tr>
+    <tr><td>Matière récupérée</td><td>50+ kg / semaine</td><td>2025</td></tr>
+    <tr><td>Rendement</td><td>1 cône orange ≈ 110 pinces · 1 contenant ≈ 2 pinces</td><td>2026</td></tr>
+    <tr><td>Vues sur une seule vidéo</td><td>2,5 M+</td><td>2026</td></tr>
+    <tr><td>Investissement <em>Dragon</em></td><td><strong>20 000 $, prêt, 0 % d'équité</strong></td><td>17 juin 2026</td></tr>
+    <tr><td>Commandes post-diffusion</td><td>200+</td><td>juin 2026</td></tr>
+    <tr><td>Coût d'un moule d'acier</td><td>jusqu'à 50 000 $</td><td>2026</td></tr>
+    <tr><td>SKU actifs</td><td>26</td><td>7 août 2026</td></tr>
+  </table>
+
+  <h3>Marchés</h3>
+  <p>Québec d'abord et massivement. Ventes internationales confirmées par les réseaux sociaux vers la
+    <strong>Suisse, la France, la Belgique, le Royaume-Uni et les États-Unis</strong>. La boutique est
+    configurée pour la multidevise mondiale, mais le contenu reste unilingue français — l'international
+    est <em>subi</em> (pull par le contenu viral) plutôt que construit.</p>
+
+  <div class="sec-head" style="margin-top:9mm"><span class="sec-num">06</span><h2>L'équipe</h2></div>
+
+  <table class="bloc">
+    <tr><th>Nom</th><th>Rôle (selon le site)</th></tr>
+    <tr><td><strong>Alexandre Tanguay</strong></td><td>Président. Recherche et développement, production, conception des moules, développement de produits. Assure aussi les relations publiques et le marketing.</td></tr>
+    <tr><td><strong>Tristan</strong></td><td>Associé au marketing. Gestionnaire des ventes et des relations clients.</td></tr>
+    <tr><td><strong>Florent</strong></td><td>Technicien spécialisé et opérateur.</td></tr>
+    <tr><td><strong>Mathis</strong></td><td>Responsable adjoint de la production et opérateur.</td></tr>
+    <tr><td><strong>Olivier</strong></td><td>Opérateur et responsable de la production.</td></tr>
+    <tr><td><em>Antoine Lachance</em></td><td>Cofondateur, parti poursuivre des études en médecine.</td></tr>
+  </table>
+
+  <p>Alexandre Tanguay a été <strong>coprésident d'honneur de la 28<sup>e</sup> édition du Défi
+    OSEntreprendre Chaudière-Appalaches</strong> — l'entreprise est passée de participante à figure de
+    proue régionale en une année.</p>
+
+  <div class="callout bloc">
+    <h4>Note de structure</h4>
+    <p>Le président cumule R&amp;D, production, moules, produit, RP et marketing. C'est la force
+      (cohérence totale, décision instantanée) et la fragilité (tout passe par une personne) de
+      l'entreprise.</p>
+  </div>
+</section>
+
+<!-- ======================= 7. MARQUE ======================= -->
+<section class="saut">
+  <div class="sec-head"><span class="sec-num">07</span><h2>Marque, ton et univers visuel</h2></div>
+
+  <h3>Le logo</h3>
+  <figure class="bloc" style="width:78mm;margin-top:2mm">
+    <img src="visuels/logo.png" alt="Logo Unique Plastique">
+  </figure>
+  <p>Symbole de recyclage formé de <strong>trois pétales verts pleins</strong> reliés par des
+    <strong>arcs noirs terminés par des points</strong> — une boucle de Möbius stylisée, organique
+    plutôt que technique. À droite, le mot-symbole <strong>« unique plastique »</strong> en bas-de-casse,
+    sans-serif géométrique arrondi, sur deux lignes. Détail signature : les descendantes et terminaisons
+    portent des <strong>points ronds</strong> qui font écho aux points des arcs du symbole.</p>
+  <p><em>Lecture :</em> le vert dit l'écologie, le noir dit l'industriel. Le bas-de-casse et les formes
+    rondes disent l'accessibilité, la jeunesse, le non-institutionnel. C'est un logo de manufacturier
+    qui refuse de ressembler à un manufacturier.</p>
+
+  <h3>Palette de marque</h3>
+  <div class="pal bloc">
+    <div class="sw"><div class="chip" style="background:#2B9359"></div><div class="txt"><b>Vert principal</b><code>#2B9359</code></div></div>
+    <div class="sw"><div class="chip" style="background:#23A44D"></div><div class="txt"><b>Vert titres</b><code>#23A44D</code></div></div>
+    <div class="sw"><div class="chip" style="background:#D5EBD8"></div><div class="txt"><b>Menthe pâle</b><code>#D5EBD8</code></div></div>
+    <div class="sw"><div class="chip" style="background:#A42325"></div><div class="txt"><b>Rouge accent</b><code>#A42325</code></div></div>
+    <div class="sw"><div class="chip" style="background:#000000"></div><div class="txt"><b>Noir</b><code>#000000</code></div></div>
+    <div class="sw"><div class="chip" style="background:#F1F1F1"></div><div class="txt"><b>Gris de fond</b><code>#F1F1F1</code></div></div>
+  </div>
+
+  <h3>Palette produit</h3>
+  <div class="pal bloc">
+    <div class="sw"><div class="chip" style="background:#4ACCD4"></div><div class="txt"><b>Aqua</b><code>#4ACCD4</code></div></div>
+    <div class="sw"><div class="chip" style="background:#DDF4CF"></div><div class="txt"><b>Menthe</b><code>#DDF4CF</code></div></div>
+    <div class="sw"><div class="chip" style="background:#B6D5BD"></div><div class="txt"><b>Jade</b><code>#B6D5BD</code></div></div>
+    <div class="sw"><div class="chip" style="background:#FDD327"></div><div class="txt"><b>Jaune</b><code>#FDD327</code></div></div>
+    <div class="sw"><div class="chip" style="background:#FF9F48"></div><div class="txt"><b>Orange Corail</b><code>#FF9F48</code></div></div>
+    <div class="sw"><div class="chip" style="background:#CA3B3A"></div><div class="txt"><b>Rouge</b><code>#CA3B3A</code></div></div>
+    <div class="sw"><div class="chip" style="background:#FCC1C9"></div><div class="txt"><b>Rose</b><code>#FCC1C9</code></div></div>
+    <div class="sw"><div class="chip" style="background:#C7C0BA"></div><div class="txt"><b>Beige</b><code>#C7C0BA</code></div></div>
+    <div class="sw"><div class="chip" style="background:#726155"></div><div class="txt"><b>Brun</b><code>#726155</code></div></div>
+    <div class="sw"><div class="chip" style="background:#000000"></div><div class="txt"><b>Noire</b><code>#000000</code></div></div>
+  </div>
+
+  <p>Le contraste est frappant : identité de marque <strong>verte et sobre</strong>, gamme produit
+    <strong>franchement colorée</strong>. La marque parle d'écologie ; le produit parle de mode.
+    C'est exactement le bon partage.</p>
+
+  <h3>Typographie</h3>
+  <p>Site en <strong>Inter</strong> (400 / 700). Le mot-symbole du logo emploie une géométrique arrondie
+    distincte — la marque n'utilise donc pas sa police de logo dans son interface.</p>
+</section>
+
+<section class="saut">
+  <h3 style="margin-top:0">Photographie — trois registres bien tenus</h3>
+
+  <div class="trio bloc">
+    <figure>
+      <img src="visuels/produit-1.jpg" alt="Studio">
+      <figcaption><strong>1. Studio, fond blanc.</strong> Chaque couleur, plan serré, ombre douce.
+        Fiches produit.</figcaption>
+    </figure>
+    <figure>
+      <img src="visuels/pinces-bois.jpg" alt="Extérieur">
+      <figcaption><strong>2. Extérieur, lumière naturelle.</strong> Bois clair, mousse, ciel bleu.
+        C'est là que la texture marbrée est visible.</figcaption>
+    </figure>
+    <figure>
+      <img src="visuels/pince-nature.jpg" alt="Nature">
+      <figcaption><strong>2 bis.</strong> Registre plein air, granulaire, non retouché.</figcaption>
+    </figure>
+  </div>
+
+  <figure class="bloc">
+    <img src="visuels/collection-ete.jpg" alt="Unboxing">
+    <figcaption><strong>3. Unboxing.</strong> Carton brun ouvert, calage en papier déchiqueté blanc,
+      pinces en grille de couleurs. Le contraste carton brut / couleurs saturées porte tout le message
+      écologique sans un mot. <strong>Aucun packaging plastique nulle part</strong> — la cohérence
+      matérielle est totale et manifestement voulue.</figcaption>
+  </figure>
+
+  <h3>Voix</h3>
+  <p>Tutoiement, phrases courtes, émojis fonctionnels (♻️ 💪 ✨ 🇨🇦 🌍 🚚), urgence assumée
+    (« ‼️ ÉDITION LIMITÉE ‼️ », « Une fois épuisé, c'est fini ! »). Registre TikTok natif — parfois
+    familier jusqu'à la faute (« Celle-ci on été fait à base de civière;) »), ce qui passe pour de
+    l'authenticité auprès de la cible et grince un peu sur le canal B2B.</p>
+
+  <h4>Les cinq arguments répétés sur chaque fiche produit</h4>
+  <div class="cite bloc" style="font-size:9pt">
+    <p>♻️ Plastique recyclé localement — alternative durable aux pinces jetables<br>
+       💪 Tenue forte et stable — idéale pour cheveux moyens à épais<br>
+       ✨ Design élégant et intemporel — minimaliste, naturel et solide<br>
+       🇨🇦 Fabriquée au Québec — production locale responsable<br>
+       🌍 Impact réel sur l'environnement — réduction du plastique à la source</p>
+  </div>
+
+  <h4>Formules de marque à retenir</h4>
+  <ul>
+    <li>« <strong>Les seules pinces faites au Québec, 100 % recyclées.</strong> » <em>(accroche principale)</em></li>
+    <li>« D'un projet d'école à une usine » <em>(titre de la page À propos)</em></li>
+    <li>« On recycle concrètement » <em>(section d'accueil)</em></li>
+    <li>« Créée pour tenir, pas pour jeter »</li>
+    <li>« C'est enfin faire partie de la famille Unique Plastique »</li>
+    <li>« Nous voulons vous faire comprendre que vos efforts de recyclage en valent la peine. »</li>
+  </ul>
+
+  <h3>Mission, en propres mots</h3>
+  <div class="cite bloc">
+    <p><strong>Vision</strong> — « Notre objectif est simple, recycler du plastique en objets durables,
+      esthétiques, colorés et visiblement recyclés. Tout cela dans le but de sensibiliser et de mettre
+      en contact les Québécois avec le recyclage. »</p>
+    <p><strong>Mission</strong> — « C'est avant tout d'inspirer, de motiver, de sensibiliser. Montrer le
+      recyclage et trouver la juste valeur du plastique. »</p>
+    <p>« Nous avons débuté avec une simple presse à panini, et aujourd'hui, nous opérons dans une
+      véritable usine avec des équipements professionnels. »</p>
+    <span class="qui">Page « À propos », uniqueplastique.ca</span>
+  </div>
+
+  <div class="callout bloc" style="border-left-color:var(--vert)">
+    <h4 style="color:var(--vert-fonce)">Le mot qui porte tout</h4>
+    <p><strong>« visiblement ».</strong> L'entreprise ne vend pas du recyclage, elle vend la
+      <em>preuve visible</em> du recyclage. C'est ce qui la distingue de tout concurrent qui produirait
+      une pince recyclée mais uniforme.</p>
+  </div>
+</section>
+
+<!-- ======================= 8-9. NUMÉRIQUE ET MÉDIAS ======================= -->
+<section class="saut">
+  <div class="sec-head"><span class="sec-num">08</span><h2>Présence numérique</h2></div>
+
+  <table class="bloc">
+    <tr><th>Canal</th><th>Compte</th><th>Notes</th></tr>
+    <tr><td>Site</td><td>uniqueplastique.ca</td><td>Shopify, FR, multidevise, livraison gratuite 50 $+</td></tr>
+    <tr><td>Instagram</td><td>@unique.plastique_</td><td>Reels de recyclage : masques, chaises, cônes</td></tr>
+    <tr><td>TikTok</td><td>@unique.plastique</td><td><strong>Le moteur de croissance.</strong> Vidéos à 2,5 M+ vues</td></tr>
+    <tr><td>Facebook</td><td>Unique Plastique</td><td>Page très engagée</td></tr>
+    <tr><td>LinkedIn</td><td>Alexandre Tanguay + page entreprise</td><td>Canal B2B / distributeurs</td></tr>
+  </table>
+
+  <p><strong>Contenu type</strong> : broyage et injection filmés en direct, « d'où vient cette pince »,
+    déballages, avant/après matière → produit. Le format <em>transformation</em> est le cœur du succès —
+    le spectateur voit littéralement le déchet devenir l'objet.</p>
+
+  <p><strong>Blogue</strong> (3 articles, tous datés du 13 janvier 2025) : <em>Le recyclage au Québec :
+    où et comment recycler le plastique efficacement</em> · <em>L'histoire du recyclage au Québec :
+    évolution et impact</em> · <em>Les différents types de plastiques et leur recyclabilité</em>.
+    Contenu SEO éducatif, propre mais non maintenu depuis dix-huit mois.</p>
+
+  <div class="sec-head" style="margin-top:9mm"><span class="sec-num">09</span><h2>Couverture médiatique</h2></div>
+
+  <table class="bloc">
+    <tr><th>Date</th><th>Média</th><th>Sujet</th></tr>
+    <tr><td>6 avr. 2025</td><td>Le Soleil</td><td>« Deux jeunes de Lévis lancent leur entreprise de recyclage »</td></tr>
+    <tr><td>2025</td><td>Journal de Lévis</td><td>« Une seconde vie au plastique »</td></tr>
+    <tr><td>2025</td><td>Radio-Canada — Le Téléjournal Québec</td><td>« De projet scolaire à jeune entreprise »</td></tr>
+    <tr><td>2025</td><td>Défi OSEntreprendre</td><td>Lauréat national · prix scientifique FRQ</td></tr>
+    <tr><td>22 oct. 2025</td><td>Le Soleil Affaires</td><td>« Unique Plastique passe à la vitesse supérieure »</td></tr>
+    <tr><td><strong>17 juin 2026</strong></td><td><strong>Radio-Canada — <em>Dans l'œil du dragon</em> S15</strong></td><td><strong>Les 5 dragons s'unissent</strong></td></tr>
+    <tr><td>18 juin 2026</td><td>Le Soleil / Le Quotidien / La Tribune</td><td>« Une jeune pousse de Lévis séduit les dragons »</td></tr>
+    <tr><td>2026</td><td>Radio-Canada</td><td>« À 19 ans, il transforme le plastique en pinces à cheveux »</td></tr>
+    <tr><td>2026</td><td>Clin d'œil</td><td>« Ces accessoires viraux sont fabriqués à partir de cônes oranges »</td></tr>
+    <tr><td>2026</td><td>Silo 57</td><td>Cônes orange → pinces</td></tr>
+    <tr><td>2026</td><td>95.7 KYK</td><td>« Le succès fou d'Unique Plastique »</td></tr>
+    <tr><td>2026</td><td>Monde de Stars / Showbizz</td><td>Couverture <em>Dragon</em></td></tr>
+  </table>
+</section>
+
+<!-- ======================= 10. LECTURE STRATÉGIQUE ======================= -->
+<section class="saut">
+  <div class="sec-head"><span class="sec-num">10</span><h2>Lecture stratégique</h2></div>
+
+  <h3>Ce qui est solide</h3>
+  <p><strong>La boucle fermée pharmacie.</strong> Fournisseur et détaillant sont la même personne. Le
+    coût d'acquisition de matière est quasi nul, le détaillant a un intérêt qui dépasse la marge, et
+    l'histoire se raconte toute seule au comptoir. C'est un avantage structurel, pas une astuce
+    marketing.</p>
+  <p><strong>La preuve visible.</strong> La texture marbrée rend la promesse invérifiable — « recyclé » —
+    vérifiable à l'œil. Aucune certification à payer, aucun label à défendre. L'objet <em>est</em> son
+    propre argument.</p>
+  <p><strong>Le contenu comme moteur.</strong> 2,5 M de vues sur une vidéo, pour une entreprise de cinq
+    personnes, ça ne s'achète pas. Le format transformation est reproductible à l'infini : chaque nouveau
+    déchet absurde est un nouveau contenu.</p>
+  <p><strong>Un ancrage québécois défendable.</strong> « Les seules pinces faites au Québec » est une
+    position que personne n'occupe et qui est coûteuse à contester — il faut une presse à injection,
+    des moules et un réseau de collecte.</p>
+  <p><strong>La preuve sociale.</strong> 4,89 ★ sur 1 236 avis. Le produit tient ses promesses
+    matérielles, pas seulement narratives.</p>
+
+  <h3>Les tensions</h3>
+  <p><strong>Dépendance à une personne.</strong> Alexandre Tanguay est président, R&amp;D, moules,
+    production, produit, RP et marketing. L'entreprise n'a pas encore de deuxième cerveau sur les
+    fonctions critiques.</p>
+  <p><strong>Diversification bloquée par le capital.</strong> Un moule d'acier coûte jusqu'à 50 000 $.
+    Les projets évoqués — peignes, jouets pour chiens, brosses à dents, équipement sportif, médailles —
+    attendent tous ce chèque. C'est le vrai goulot, pas la demande.</p>
+  <p><strong>Un seul produit.</strong> 26 SKU, mais une seule forme en deux tailles. Toute la croissance
+    repose sur la pince.</p>
+  <p><strong>Marketing à recalibrer.</strong> L'entreprise l'a elle-même diagnostiqué : 60–70 % d'hommes
+    dans l'audience pour un produit acheté majoritairement par des femmes. Le contenu viral et le
+    contenu qui convertit ne sont pas le même contenu.</p>
+  <p><strong>International subi.</strong> Ventes en Europe et aux États-Unis, mais aucune version
+    anglaise du site. La demande dépasse l'infrastructure commerciale.</p>
+  <p><strong>Blogue dormant.</strong> Trois articles, tous du même jour, rien depuis. Le socle SEO
+    existe mais n'est pas entretenu.</p>
+  <p><strong>Statut juridique.</strong> Une S.E.N.C. n'offre aucune responsabilité limitée aux associés.
+    Pour une entreprise qui achète des presses, loue de l'espace industriel et vend en pharmacie,
+    l'incorporation devient une question à trancher.</p>
+
+  <h3>Ce qu'on ferait à leur place</h3>
+  <ol>
+    <li><strong>Un site bilingue.</strong> La demande étrangère existe déjà ; elle est laissée sur la table.</li>
+    <li><strong>Un deuxième produit qui réutilise le moule existant</strong> ou un moule bon marché, pour
+      tester la diversification sans le chèque de 50 000 $.</li>
+    <li><strong>Industrialiser la boucle pharmacie</strong> : c'est l'actif défendable. Chaque pharmacie
+      recrutée vaut double.</li>
+    <li><strong>Séparer le contenu viral du contenu de conversion.</strong> Le premier attire, le second
+      vend ; ce ne sont pas les mêmes vidéos ni la même audience.</li>
+    <li><strong>Rallumer le blogue.</strong> Les trois articles existants sont bons et bien ciblés.</li>
+    <li><strong>Documenter les procédés</strong> pour retirer la connaissance critique de la tête d'une
+      seule personne.</li>
+  </ol>
+
+  <div class="callout bloc" style="border-left-color:var(--vert);background:#F5FBF7">
+    <h4 style="color:var(--vert-fonce)">Ce qu'on peut leur emprunter</h4>
+    <ul style="margin-bottom:0">
+      <li><strong>La preuve matérielle plutôt que la revendication.</strong> Faire de la nature du
+        matériau une signature visible, au lieu de l'expliquer en texte.</li>
+      <li><strong>Les éditions limitées nommées d'après leur origine.</strong> « Civière »,
+        « Toilette rouge » : la traçabilité comme objet de collection.</li>
+      <li><strong>Le financement anti-chocolat.</strong> Se positionner explicitement contre un rituel
+        connu, avec une redistribution simple à comprendre (50 %).</li>
+      <li><strong>La boucle fournisseur–détaillant.</strong> Se demander, pour toute entreprise, si le
+        client peut aussi être la source.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= 11. SOURCES ======================= -->
+<section class="saut">
+  <div class="sec-head"><span class="sec-num">11</span><h2>Sources</h2></div>
+
+  <div class="src">
+    <h4>Officiel</h4>
+    <ul>
+      <li>uniqueplastique.ca — accueil, À propos, FAQ / distributeur, points de vente, campagne de
+        financement, blogue, catalogue Shopify public (<code>/products.json</code>)</li>
+      <li>Registre des entreprises du Québec — Unique Plastique S.E.N.C., NEQ 3380145428</li>
+    </ul>
+
+    <h4>Presse et télévision</h4>
+    <ul>
+      <li>Le Soleil — « Unique Plastique passe à la vitesse supérieure » (22 oct. 2025)</li>
+      <li>Le Soleil — « Deux jeunes de Lévis lancent leur entreprise de recyclage » (6 avr. 2025)</li>
+      <li>Le Soleil / Le Quotidien / La Tribune — « Une jeune pousse de Lévis séduit les dragons » (18 juin 2026)</li>
+      <li>Radio-Canada — <em>Dans l'œil du dragon</em>, capsule Unique Plastique · épisode du 17 juin 2026</li>
+      <li>Radio-Canada — « À 19 ans, il transforme le plastique en pinces à cheveux »</li>
+      <li>Radio-Canada — Le Téléjournal Québec, « De projet scolaire à jeune entreprise »</li>
+      <li>Journal de Lévis — « Une seconde vie au plastique »</li>
+      <li>Clin d'œil — accessoires viraux à partir de cônes oranges</li>
+      <li>Silo 57 — cônes orange en pinces à cheveux</li>
+      <li>95.7 KYK — « Le succès fou d'Unique Plastique »</li>
+      <li>Monde de Stars — Tanguay séduit tous les dragons</li>
+    </ul>
+
+    <h4>Réseaux et écosystème</h4>
+    <ul>
+      <li>Instagram @unique.plastique_ · TikTok @unique.plastique · Facebook Unique Plastique ·
+        LinkedIn Alexandre Tanguay</li>
+      <li>La Ruche Québec — projet Unique Plastique · Zeffy — campagne de financement</li>
+      <li>Défi OSEntreprendre Chaudière-Appalaches · Eco Loco — revendeur</li>
+    </ul>
+  </div>
+
+  <div class="pied">
+    Recherche menée le 7 août 2026 à partir de sources publiques uniquement. Les chiffres d'affaires,
+    marges réelles et volumes exacts ne sont pas publics ; les données financières de ce dossier
+    proviennent de déclarations médiatiques et de prix affichés. Les liens complets figurent dans la
+    version Markdown du dossier.
+  </div>
+</section>
+
+</body>
+</html>

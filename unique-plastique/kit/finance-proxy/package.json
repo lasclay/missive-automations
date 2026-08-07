@@ -1,0 +1,12 @@
+{
+  "name": "up-finance-proxy",
+  "version": "1.0.0",
+  "description": "Proxy HTTP dedie a QuickBooks Online (secrets Intuit isoles des operations).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

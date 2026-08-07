@@ -1,0 +1,64 @@
+# unique-plastique-automations — carte d'accès aux services (pour Claude)
+
+Automatisations Unique Plastique (support Missive, proxys d'API). Quand on te demande
+d'**accéder à un service tiers** (Shopify, ShipStation, QuickBooks…), passe par les proxys
+ci-dessous — les clés API vivent côté Render, jamais dans l'environnement Claude ni dans le
+code.
+
+**N'explore pas le dépôt pour retrouver comment joindre un service : les skills du projet
+contiennent déjà les actions exactes, les paramètres et les garde-fous.** Charge-les au lieu
+de chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, `/ops`,
+`/qbo`) :
+
+| Skill | Couvre |
+| --- | --- |
+| `missive` | boîte support Missive, fils, brouillons, notes, étiquettes, tâches |
+| `ops` | General Proxy : ShipStation, Omnisend, Klaviyo + Shopify en direct |
+| `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres |
+
+## Missive Proxy — boîte support
+
+- Service Render : `https://<a-remplir>.onrender.com` (code : `missive-proxy/`).
+- Client : `node clients/missive_client.js <commande> [args]`
+  (env : `MISSIVE_PROXY_URL` + `MISSIVE_PROXY_SECRET`).
+- Commandes : `health`, `structure`, `list`, `read`, `drafts`, `notes`, `users`, `task`,
+  `note`, `close`, `labels`, `reply`, `books`, `contacts`, `send`.
+- **Défaut = brouillon.** `reply` et `send` ne partent que si le JSON contient `"send": true`.
+- Doc complète : `missive-proxy/README.md`.
+
+## General Proxy (opérations) — ShipStation, Omnisend, Klaviyo
+
+- Service Render : `https://<a-remplir>.onrender.com` (code : `general-proxy/`).
+- Client : `node clients/connectors_client.js <connecteur> <action> ['{"param":"valeur"}']`
+  (env : `GENERAL_PROXY_URL` + `GENERAL_PROXY_SECRET`).
+- Introspection sans secret : `GET /connectors` (liste connecteurs + actions + enabled).
+- **ShipStation** (accès complet) : commandes, expéditions, suivi, tags, hold, marquage
+  expédié, création/suppression de commande, achat/annulation d'étiquettes (⚠️ argent réel).
+- **Omnisend** / **Klaviyo** : contacts, campagnes, listes, segments, flows.
+- Doc complète : `general-proxy/CONNECTORS_PROXY.md`.
+
+## Shopify — accès direct (pas de proxy)
+
+- `node clients/shopify_check.js <numéro de commande>`
+  (env : `SHOPIFY_STORE` + `SHOPIFY_ADMIN_TOKEN`, ou `SHOPIFY_CLIENT_ID`/`SHOPIFY_CLIENT_SECRET`).
+- Lecture seule. Sert à confirmer l'état réel d'une commande **avant** de répondre à un client.
+
+## Finance Proxy (comptabilité) — QuickBooks Online, service SÉPARÉ
+
+- Service Render dédié (isolation des finances) ; code : `finance-proxy/`.
+- Client : `node clients/finance_client.js <action> ['{...}']`
+  (env : `FINANCE_PROXY_URL` + `FINANCE_PROXY_SECRET` — secret DISTINCT du général, jamais
+  donné aux environnements opérationnels).
+- Actions : `report`, `query`, `companyinfo`, `read`, `create`, `update`, `remove`.
+- Doc complète : `finance-proxy/FINANCE_PROXY.md` (dont rotation du refresh token Intuit).
+
+## Règle de vérification avant de répondre à un client
+
+Croise **Shopify ET ShipStation** — les deux. Shopify peut afficher « fulfilled » sur une
+étiquette créée mais jamais ramassée. Ne promets jamais un envoi sur la foi d'une seule
+source.
+
+## Déploiement
+
+Les services Render suivent la branche `main` — le travail se fait sur une branche, puis
+fusion dans `main` pour déployer.

@@ -1,0 +1,12 @@
+{
+  "name": "up-missive-proxy",
+  "version": "1.0.0",
+  "description": "Proxy HTTP restreint vers l'API Missive (le jeton reste cote serveur).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
