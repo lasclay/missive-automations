@@ -3712,6 +3712,14 @@ VUES.commandes = async (statutFixe) => {
       service_id: $("#cs").value || null, package_id: $("#cc").value || null,
       confirmation: $("#cf").value || null,
       ship_by_date: $("#cd").value || null,
+      // Une SUGGESTION affichée ne doit pas devenir une donnée écrite.
+      //
+      // Le menu présélectionne un montant — la règle par défaut, ou celui de la commande. Or
+      // chaque champ du widget enregistre en sortant : peser un colis, changer de service,
+      // n'importe quoi, et la valeur simplement PROPOSÉE partait en base. Une commande qu'on
+      // n'a jamais voulu assurer se retrouvait assurée, et le montant restait ensuite comme
+      // s'il avait été choisi. On n'écrit donc l'assurance que si l'opérateur a touché le
+      // contrôle ; sinon on renvoie ce que la commande portait déjà, inchangé.
       insurance: valeurAssurance() ? { montant: valeurAssurance(), devise: "CAD" } : null,
       dimensions: ($("#cl").value || $("#cW").value || $("#ch").value)
         ? { length: Number($("#cl").value) || 0, width: Number($("#cW").value) || 0,
@@ -3745,6 +3753,7 @@ VUES.commandes = async (statutFixe) => {
     // laisserait le montant à l'écran sans jamais l'écrire sur la commande.
     const champAssur = $("#ci"), champAssurX = $("#ciX");
     const appliquerAssurance = async () => {
+      assuranceTouchee = true;
       await enregistrer();
       const b = $("#cCoter");
       if (b) b.click();
@@ -3754,6 +3763,9 @@ VUES.commandes = async (statutFixe) => {
       if (champAssurX) { champAssurX.hidden = !autre; if (autre) { champAssurX.focus(); return; } }
       await appliquerAssurance();
     };
+    // Le gestionnaire générique enregistre tous les champs du widget ; il ne doit pas
+    // emporter l'assurance avec lui.
+    if (champAssurX) champAssurX.oninput = () => { assuranceTouchee = true; };
     if (champAssurX) champAssurX.onchange = appliquerAssurance;
 
     /**
@@ -3792,6 +3804,10 @@ VUES.commandes = async (statutFixe) => {
      * prix, délai, dépôt — et elle tient sans barre de défilement horizontale.
      */
     let derniereCotation = null;
+    // Vrai dès que l'opérateur touche au montant assuré. Voir `enregistrer` : sans ce
+    // drapeau, la valeur seulement proposée par le menu partait en base au premier
+    // enregistrement d'un champ voisin.
+    let assuranceTouchee = false;
     const resumerTarif = () => {
       const boite = $("#cTarifs");
       if (!boite || !derniereCotation) return;
