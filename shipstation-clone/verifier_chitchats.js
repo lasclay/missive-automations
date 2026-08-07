@@ -190,10 +190,19 @@ const ENVOI_US = {
   await cc.coter({ ...ENVOI_US, to: { ...ENVOI_US.to, country: "CA", postalCode: "H2X 1Y4" } });
   verifier("pas de DDP au domestique", vus[0].corps.duties_paid_requested === false);
 
+  // Une demande de remboursement acceptée n'est PAS un remboursement encaissé : Chit Chats la
+  // met en file. Le contrôle vérifiait l'ancienne promesse — « accepté donc remboursé » — qui
+  // faussait la marge et le rapprochement de facture.
   vus = espion([[/PATCH .*\/refund$/, { corps: {} }]]);
   const ann = await cc.annuler(994);
-  verifier("annulation d'une étiquette achetée → remboursement",
-    ann.refunded === true && ann.mode === "remboursement");
+  verifier("annulation acceptée, remboursement pas encore confirmé",
+    ann.annule === true && ann.mode === "remboursement" && ann.refunded === false,
+    ann.remboursement);
+
+  vus = espion([[/PATCH .*\/refund$/, { corps: { shipment: { status: "refunded" } } }]]);
+  const annConfirme = await cc.annuler(994);
+  verifier("remboursement confirmé quand Chit Chats le dit",
+    annConfirme.refunded === true, annConfirme.remboursement);
 
   vus = espion([[/PATCH .*\/refund$/, { statut: 422, corps: { error: "not purchased" } }], [/DELETE/, { corps: {} }]]);
   const ann2 = await cc.annuler(998);
@@ -243,7 +252,60 @@ const ENVOI_US = {
     passes++;
   }
 
-  console.log("\n" + "─".repeat(64));
+    // ------------------------------------------------------------------ lots
+  //
+  // Chit Chats consolide : on lui remet un SAC, pas des colis. L'étiquette du lot est celle
+  // que le comptoir scanne, et sans elle le dépôt est refusé. Ces contrôles vérifient les
+  // gestes du sac, sur les chemins exacts de la documentation publiée.
+  console.log("\nLots — le sac qu'on remet au comptoir\n" + "─".repeat(64));
+  // Le bloc précédent efface les identifiants pour éprouver le message d'absence : on les
+  // remet, sinon c'est ce message-là qu'on testerait ici.
+  process.env.CHITCHATS_CLIENT_ID = "0000";
+  process.env.CHITCHATS_TOKEN = "essai-jeton";
+  {
+    const vus = espion([[/POST .*\/batches$/, { corps: { batch: {
+      id: 563, description: "Dépôt du 7 août", status: "pending",
+      label_pdf_url: "https://c/563.pdf", label_zpl_url: "https://c/563.zpl",
+      label_png_url: "https://c/563.png" } } }]]);
+    const l = await cc.creerLot("Dépôt du 7 août");
+    verifier("lot créé sur POST /batches", /\/batches$/.test(vus[0].url), vus[0].url);
+    verifier("les trois formats d'étiquette sont rendus",
+      !!(l.etiquettePdf && l.etiquetteZpl && l.etiquettePng), l.etiquettePdf);
+    verifier("un lot en attente n'est pas « reçu »", l.recu === false, `statut ${l.statut}`);
+  }
+  {
+    // Un lot reçu est clos : Chit Chats a le sac, les étiquettes disparaissent. C'est le
+    // signal que le dépôt a eu lieu, pas une panne.
+    espion([[/GET .*\/batches\/563$/, { corps: { batch: { id: 563, status: "received" } } }]]);
+    const l = await cc.lot(563);
+    verifier("un lot reçu est reconnu comme tel", l.recu === true && !l.etiquettePdf);
+  }
+  {
+    const vus = espion([[/add_to_batch/, { corps: { shipment: { id: "S1", batch_id: 563 } } }]]);
+    await cc.ajouterAuLot("S1", 563);
+    verifier("dépôt dans le lot sur PATCH /shipments/{id}/add_to_batch",
+      vus[0].methode === "PATCH" && /\/shipments\/S1\/add_to_batch$/.test(vus[0].url), vus[0].url);
+    verifier("l'identifiant du lot part dans le corps", vus[0].corps?.batch_id === 563);
+  }
+  {
+    const vus = espion([[/remove_from_batch/, { corps: { shipment: { id: "S1" } } }]]);
+    await cc.retirerDuLot("S1");
+    verifier("retrait sur PATCH /shipments/{id}/remove_from_batch",
+      /\/shipments\/S1\/remove_from_batch$/.test(vus[0].url), vus[0].url);
+  }
+  {
+    // Rafraîchir plutôt que détruire et recréer : un appel au lieu de deux, et le brouillon
+    // garde son identifiant — donc l'achat reste possible sur la même expédition.
+    const vus = espion([[/refresh/, { corps: { shipment: { id: "S1", insurance_requested: false,
+      rates: [{ postage_type: "chit_chats_canada_tracked", postage_description: "Canada Tracked",
+        purchase_amount: "7.14", payment_amount: "7.14" }] } } }]]);
+    const r = await cc.rafraichirTarifs("S1");
+    verifier("rafraîchissement sur PATCH /shipments/{id}/refresh",
+      vus[0].methode === "PATCH" && /\/shipments\/S1\/refresh$/.test(vus[0].url), vus[0].url);
+    verifier("les tarifs rafraîchis sont lus", r.tarifs.length === 1, `${r.tarifs[0]?.price} $`);
+  }
+
+console.log("\n" + "─".repeat(64));
   console.log(`${echecs ? X : V} ${passes}/${passes + echecs} contrôles passés`);
   if (echecs) process.exit(1);
 })().catch((e) => { console.error("\nÉCHEC :", e); process.exit(1); });

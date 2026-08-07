@@ -185,18 +185,26 @@ const TARIF = (id, cents, nom) => ({
   try { await fc.reserver(ENVOI, "cp-ep"); } catch (e) { msg = e.message; }
   verifier("achat refusé sur un devis périmé", msg.includes("expiré"), msg);
 
+  // La réservation est suivie d'une lecture de `/shipment/{id}` : c'est là que l'étiquette
+  // apparaît. Sans elle, on achetait un document qu'on ne pouvait pas imprimer.
   vus = espion([{ statut: 202, corps: { request_id: "req-7" } },
     { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep-dropoff", 631, "Drop-Off Only")] } },
-    { corps: { shipment_id: "shp-77", tracking_number: "1234567890" } }]);
+    { corps: { shipment_id: "shp-77", tracking_number: "1234567890" } },
+    { corps: { shipment: { state: "booked", primary_tracking_number: "1234567890",
+      labels: [{ size: "4x6", format: "pdf", url: "https://f/e.pdf" }] } } }]);
   const achat = await fc.reserver(ENVOI, "cp-ep-dropoff", { references: ["L-50774"] });
-  const reservation = vus[vus.length - 1];
-  verifier("réservation sur POST /shipment", reservation.url.endsWith("/shipment") && reservation.methode === "POST");
+  const reservation = vus.find((v) => v.methode === "POST" && v.url.endsWith("/shipment"));
+  verifier("réservation sur POST /shipment", !!reservation);
   verifier("clé d'idempotence transmise", reservation.corps.unique_id === u1, reservation.corps.unique_id);
-  verifier("recotation fraîche juste avant l'achat", vus.length === 3, "POST /rate, GET /rate, POST /shipment");
+  verifier("recotation fraîche juste avant l'achat",
+    vus.filter((v) => /\/rate/.test(v.url)).length === 2, "POST /rate puis GET /rate");
   verifier("référence de commande portée",
     JSON.stringify(reservation.corps.details.reference_codes) === '["L-50774"]');
   verifier("numéro de suivi et prix rendus",
     achat.trackingNumber === "1234567890" && achat.price === 6.31 && achat.dropOff === true);
+  verifier("l'étiquette est récupérée après la réservation",
+    achat.labelPdf === "https://f/e.pdf" && achat.documentsPrets === true,
+    "sans ça, une étiquette payée qu'on ne peut pas imprimer");
 
   console.log("\nErreurs et secret\n" + "─".repeat(64));
   vus = espion([{ statut: 401, corps: { message: "Invalid API key" } }]);
@@ -609,6 +617,86 @@ const TARIF = (id, cents, nom) => ({
       if (t.avis) console.log(`   ${G}${t.avis}${R}`);
       passes++;
     } else { console.log(`${X} ${t.erreur}`); echecs++; }
+  }
+
+  console.log("\nDocuments, finance et manifeste — la spec 2.10\n" + "─".repeat(64));
+  {
+    process.env.FREIGHTCOM_API_KEY = "cle-essai";
+    // L'étiquette n'existe pas à la réservation : `POST /shipment` rend un identifiant, les
+    // documents arrivent après. Le clone écrivait donc `label_pdf` à NULL sur chaque achat.
+    espion([{ corps: { shipment: { state: "booked", primary_tracking_number: "1Z9",
+      tracking_numbers: ["1Z9", "1Z8"],
+      labels: [{ size: "letter", format: "pdf", url: "https://f/l.pdf" },
+               { size: "4x6", format: "pdf", url: "https://f/4x6.pdf" }],
+      customs_invoice_url: "https://f/ci.pdf" } } }]);
+    const d = await fc.attendreDocuments("SH1", { attenteMs: 0, pas: 1 });
+    verifier("l'étiquette 4×6 est préférée au letter", d.etiquette === "https://f/4x6.pdf", d.format);
+    verifier("la facture de douane ne se confond pas avec l'étiquette",
+      d.douane === "https://f/ci.pdf");
+    verifier("le suivi principal et les suivis multi-colis sont lus",
+      d.suivi === "1Z9" && d.suivis.length === 2);
+
+    espion([{ corps: { shipment: { state: "draft", labels: [] } } }]);
+    const vide = await fc.attendreDocuments("SH1", { attenteMs: 0, pas: 1 });
+    verifier("un brouillon ne fabrique pas d'étiquette", !vide.etiquette && vide.statut === "draft");
+  }
+  {
+    // `payment_method_id` est exigé à la réservation et introuvable dans leur interface.
+    const vus = espion([{ corps: { payment_methods: [
+      { id: "pm_1", type: "prepaid", name: "Prépayé", default: true },
+      { id: "pm_2", type: "credit_card", name: "Visa" }] } }]);
+    const m = await fc.methodesPaiement();
+    verifier("méthodes de paiement listées", m.length === 2 && m[0].id === "pm_1",
+      m.map((x) => `${x.id} ${x.type}`).join(" · "));
+    verifier("la méthode par défaut est reconnue", m[0].defaut === true);
+    verifier("lecture sur GET /finance/payment-methods",
+      /\/finance\/payment-methods$/.test(vus[0].url));
+  }
+  {
+    const vus = espion([{ corps: { available_balances: { available: "412.55", currency: "CAD" } } }]);
+    const b = await fc.soldeDisponible("pm_1");
+    verifier("solde disponible lu", b.montant === "412.55" && b.devise === "CAD",
+      `${b.montant} ${b.devise}`);
+    verifier("lecture sur /finance/payment-method/{id}/available-balances",
+      /available-balances$/.test(vus[0].url));
+  }
+  {
+    // La preuve qu'un achat a eu lieu : c'est ce qui manquait pour trancher la commande
+    // 100762, où l'écran disait « étiquette créée » et ClickShip ne montrait aucune facture.
+    espion([{ corps: { invoices: [{ id: "in_1", number: "FC16401731", total: "10.41" }] } }]);
+    const f = await fc.facturesDe("SH1");
+    verifier("facture d'une expédition retrouvée", f.length === 1 && f[0].numero === "FC16401731");
+
+    espion([{ corps: { invoices: [] } }]);
+    const rien = await fc.facturesDe("SH2");
+    verifier("aucune facture = aucun achat, et ça se voit", rien.length === 0);
+  }
+  {
+    const vus = espion([{ corps: { manifest_id: "mf_1" } },
+      { corps: { manifest: { status: "complete", documents: [{ url: "https://f/m.pdf" }] } } }]);
+    const dem = await fc.demanderManifeste({ shipmentIds: ["SH1", "SH2"] });
+    verifier("manifeste demandé sur POST /manifest", /\/manifest$/.test(vus[0].url) && dem.id === "mf_1");
+    verifier("les expéditions partent dans la demande",
+      JSON.stringify(vus[0].corps.shipment_ids) === '["SH1","SH2"]');
+    const m = await fc.manifeste("mf_1");
+    verifier("document du manifeste rendu", m.documents[0] === "https://f/m.pdf", m.statut);
+  }
+  {
+    const vus = espion([{ corps: { pickup_confirmation_number: "PU-77" } }]);
+    const r = await fc.planifierRamassage("SH1", { date: "2026-08-10" });
+    verifier("ramassage planifié sur /shipment/{id}/schedule",
+      /\/shipment\/SH1\/schedule$/.test(vus[0].url) && r.confirmation === "PU-77");
+  }
+  {
+    // « Annulée » est acquis dès le 200 ; « remboursée » ne l'est que si l'API le dit. Le
+    // promettre faisait afficher un remboursement qui n'avait pas eu lieu.
+    espion([{ corps: {} }]);
+    const a1 = await fc.annuler("SH1");
+    verifier("annulation acquise, remboursement non supposé",
+      a1.annule === true && a1.refunded === false, a1.remboursement);
+    espion([{ corps: { refunded: true } }]);
+    const a2 = await fc.annuler("SH1");
+    verifier("remboursement retenu quand Freightcom le confirme", a2.refunded === true);
   }
 
   console.log("\n" + "─".repeat(64));

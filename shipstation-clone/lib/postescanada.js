@@ -532,7 +532,9 @@ async function annuler(shipmentId, { courriel = null } = {}) {
     await appel("DELETE", `/rs/${id.client}/${mobo}/shipment/${shipmentId}`, {
       accept: "application/vnd.cpc.shipment-v8+xml",
     });
-    return { labelId: shipmentId, refunded: true, mode: "supprime" };
+    // Supprimée avant transmission : elle n'a jamais été facturée.
+    return { labelId: shipmentId, annule: true, refunded: true, mode: "supprime",
+      remboursement: "étiquette supprimée avant transmission — jamais facturée" };
   } catch (e) {
     if (!courriel) throw e;
     const corps = `<?xml version="1.0" encoding="UTF-8"?>` +
@@ -542,7 +544,8 @@ async function annuler(shipmentId, { courriel = null } = {}) {
       contentType: "application/vnd.cpc.shipment-v8+xml",
       corps,
     });
-    return { labelId: shipmentId, refunded: false, mode: "demande",
+    return { labelId: shipmentId, annule: true, refunded: false, mode: "demande",
+      remboursement: "demande déposée chez Postes Canada — suivre le ticket",
       ticket: r["shipment-refund-request-info"]?.["service-ticket-id"] || null,
       raison: String(e.message || e) };
   }

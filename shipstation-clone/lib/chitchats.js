@@ -336,6 +336,99 @@ async function coter(envoi, { ordre = null } = {}) {
 const cheap = (a, b) => (a.prixHT ?? a.price ?? 1e9) - (b.prixHT ?? b.price ?? 1e9);
 
 async function supprimer(id) { return await appel("DELETE", `/shipments/${id}`); }
+
+// ------------------------------------------------------------------- lots
+
+/**
+ * Les lots Chit Chats — la pièce sans laquelle on ne dépose pas.
+ *
+ * Chit Chats n'est pas un transporteur mais un point de consolidation : on lui remet un SAC
+ * de colis, pas des colis un par un. Ce sac porte une étiquette de lot, et c'est elle que le
+ * comptoir scanne. Les étiquettes d'expédition, seules, ne suffisent pas — sans lot, le
+ * dépôt est refusé et il faut tout refaire sur place.
+ *
+ * Le clone gérait ses propres lots, utiles au tri interne, mais qui n'existent pas chez Chit
+ * Chats. Ceux-ci sont les leurs, avec leur étiquette imprimable en PDF, PNG ou ZPL.
+ *
+ *   POST   /batches                       créer
+ *   GET    /batches, /batches/{id}        lister, relire (avec les URL d'étiquette)
+ *   DELETE /batches/{id}                  supprimer, seulement s'il est vide
+ *   PATCH  /shipments/{id}/add_to_batch   y déposer une expédition
+ *   PATCH  /shipments/{id}/remove_from_batch
+ *
+ * Un lot « reçu » (`received`) ne rend plus ses étiquettes : Chit Chats l'a pris en charge,
+ * il est clos. C'est le signal que le dépôt a bien eu lieu.
+ */
+async function creerLot(description) {
+  const r = await appel("POST", "/batches", { description: description || null });
+  const b = r?.batch || r;
+  journaliser("chitchats.lot.create", "batch", b?.id || "?", { description }, null);
+  return lireLot(b);
+}
+
+/** Forme commune : les trois formats d'étiquette de lot, et l'état. */
+function lireLot(b = {}) {
+  return {
+    id: b.id,
+    description: b.description || null,
+    statut: b.status || null,
+    // `received` = Chit Chats a pris le sac. Les URL disparaissent alors, et c'est normal.
+    recu: String(b.status || "").toLowerCase() === "received",
+    etiquettePdf: b.label_pdf_url || null,
+    etiquettePng: b.label_png_url || null,
+    etiquetteZpl: b.label_zpl_url || null,
+    creeLe: b.created_at || null,
+    brut: b,
+  };
+}
+
+async function lots({ limite = 100, page = 1 } = {}) {
+  const r = await appel("GET", `/batches?limit=${limite}&page=${page}`);
+  return (r?.batches || []).map(lireLot);
+}
+
+async function lot(id) {
+  const r = await appel("GET", `/batches/${id}`);
+  return lireLot(r?.batch || r);
+}
+
+/** Ne réussit que sur un lot vide — Chit Chats refuse de perdre des colis déjà déposés. */
+async function supprimerLot(id) {
+  await appel("DELETE", `/batches/${id}`);
+  return { id, supprime: true };
+}
+
+async function ajouterAuLot(shipmentId, batchId) {
+  const r = await appel("PATCH", `/shipments/${shipmentId}/add_to_batch`, { batch_id: batchId });
+  journaliser("chitchats.lot.ajout", "shipment", shipmentId, { batchId }, null);
+  return r?.shipment || r;
+}
+
+async function retirerDuLot(shipmentId) {
+  const r = await appel("PATCH", `/shipments/${shipmentId}/remove_from_batch`, {});
+  return r?.shipment || r;
+}
+
+/**
+ * Rafraîchit les tarifs d'un brouillon au lieu de le détruire et de le recréer.
+ *
+ * C'est ce que faisait le clone : `DELETE` puis `POST`, deux appels et un identifiant perdu à
+ * chaque cotation. Chit Chats expose le geste directement.
+ */
+async function rafraichirTarifs(shipmentId) {
+  const r = await appel("PATCH", `/shipments/${shipmentId}/refresh`, {});
+  const exp = r?.shipment || r;
+  return { shipmentId, tarifs: (exp?.rates || []).map((t) => lireTarif(t, exp)).sort(cheap) };
+}
+
+/** Les retours en cours chez Chit Chats — colis refusés, non livrés, réacheminés. */
+async function retours({ limite = 100, page = 1 } = {}) {
+  const r = await appel("GET", `/returns?limit=${limite}&page=${page}`);
+  return (r?.returns || []).map((x) => ({
+    id: x.id, expedition: x.shipment_id || null, statut: x.status || null,
+    raison: x.reason || x.return_reason || null, date: x.created_at || null, brut: x,
+  }));
+}
 async function expedition(id) { const r = await appel("GET", `/shipments/${id}`); return r?.shipment || r; }
 
 // ------------------------------------------------------------------- achat
@@ -398,12 +491,19 @@ async function annuler(shipmentId) {
   // `refund` sur une étiquette achetée, `DELETE` sur un brouillon : Chit Chats distingue les
   // deux, et appeler l'un pour l'autre échoue. On tente le remboursement, puis la suppression.
   try {
-    await appel("PATCH", `/shipments/${shipmentId}/refund`, {});
-    journaliser("chitchats.remboursement", "shipment", shipmentId, {}, null);
-    return { labelId: shipmentId, refunded: true, mode: "remboursement" };
+    const r = await appel("PATCH", `/shipments/${shipmentId}/refund`, {});
+    journaliser("chitchats.remboursement", "shipment", shipmentId, { reponse: r || null }, null);
+    // Une demande acceptée n'est pas un remboursement encaissé : Chit Chats la met en file.
+    // Dire « remboursée » avant que ce soit vrai, c'est fausser la marge et le rapprochement.
+    const etat = (r?.shipment || r || {}).status || null;
+    return { labelId: shipmentId, annule: true, mode: "remboursement",
+      refunded: String(etat).toLowerCase() === "refunded",
+      remboursement: etat ? `état Chit Chats : ${etat}` : "demandé, pas encore confirmé" };
   } catch (e) {
     await appel("DELETE", `/shipments/${shipmentId}`);
-    return { labelId: shipmentId, refunded: true, mode: "brouillon supprimé", note: String(e.message || e) };
+    // Un brouillon n'a jamais été payé : rien à rembourser, et c'est une bonne nouvelle.
+    return { labelId: shipmentId, annule: true, refunded: true, mode: "brouillon supprimé",
+      remboursement: "aucun achat n'avait eu lieu", note: String(e.message || e) };
   }
 }
 
@@ -502,4 +602,5 @@ const adaptateurChitChats = {
 module.exports = {
   adaptateurChitChats, coter, acheter, annuler, suivre, expedition, supprimer,
   menage, tester, etat, configure, corpsExpedition, lireTarif, empreinteEnvoi,
+  creerLot, lots, lot, supprimerLot, ajouterAuLot, retirerDuLot, rafraichirTarifs, retours,
 };

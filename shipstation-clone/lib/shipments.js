@@ -378,7 +378,11 @@ async function annuler(shipmentId, userId = null) {
   const restantes = one("SELECT COUNT(*) n FROM shipments WHERE order_id = ? AND voided = 0 AND is_return = 0", s.order_id).n;
   if (!restantes && s.order_id) orders.changerStatut(s.order_id, "awaiting_shipment", userId);
   journaliser("shipment.void", "shipment", shipmentId, r, userId);
-  return r;
+  // L'annulation est acquise ; le remboursement, non — il suit son propre cycle chez le
+  // transporteur. On rend les deux séparément pour que l'écran cesse de promettre l'un en
+  // annonçant l'autre : « annulée » est vrai tout de suite, « remboursée » demande une preuve.
+  return { ...r, annule: true, cout: s.cost || 0, devise: s.currency || "CAD",
+    remboursement: r?.remboursement || (r?.refunded ? "confirmé" : "non confirmé") };
 }
 
 /** Marque expédié sans acheter d'étiquette — l'équivalent des « fulfillments ». */

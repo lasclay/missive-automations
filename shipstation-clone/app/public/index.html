@@ -935,6 +935,7 @@ const EN = {
   "Commandée le": "Order Date", "Livraison facturée": "Shipping Paid",
   "Poids (g) — touche W": "Weight (g) — key W", "Service": "Service",
   "Confirmation": "Confirmation", "Assurance ($, vide = aucune)": "Insurance ($, blank = none)",
+  "Annuler l'étiquette…": "Void label…", "Expédition": "Shipment", "sans suivi": "no tracking",
   "Assurance…": "Insurance…", "Coter avec assurance": "Quote with insurance",
   "Valeur à assurer ($)": "Value to insure ($)", "Coter assuré": "Quote insured",
   "Recoter sans assurance": "Re-quote without insurance",
@@ -4539,7 +4540,45 @@ async function detailCommande(id) {
     { t: "Formulaires de douane", f: () => window.open(`/api/packing-slip?ids=${id}&douane=1`, "_blank") },
   ], { droite: true }); };
 
+  /**
+   * Annuler l'étiquette depuis la commande.
+   *
+   * Le geste n'existait que dans l'écran Expéditions. Or on découvre l'erreur en regardant LA
+   * COMMANDE — mauvaise adresse, mauvais service, colis déjà parti autrement — et il fallait
+   * changer d'écran, retrouver la ligne, la sélectionner. Entre-temps, l'étiquette reste
+   * payée. Le menu Actions de la commande le propose donc aussi, en nommant l'expédition
+   * visée : une commande peut en porter plusieurs.
+   */
+  // Les expéditions de la commande arrivent en différé (voir plus bas, `/api/shipments`).
+  // On lit donc la liste au moment du clic, pas à la construction de l'écran.
+  let expeditionsDeLaCommande = [];
+  const envoisVivants = () => expeditionsDeLaCommande.filter((x) => !x.voided && !x.is_return);
+  const annulerEtiquette = () => {
+    const vivants = envoisVivants();
+    if (!vivants.length) return alert("Aucune étiquette active sur cette commande.");
+    const choix = vivants.length === 1 ? `<input type="hidden" id="avE" value="${vivants[0].id}">`
+      : `<label class="champ"><span>Expédition</span><select id="avE">${vivants.map((x) =>
+          `<option value="${x.id}">${esc(x.carrier_code || "—")} ${esc(x.service_id || "")} · ${
+            esc(x.tracking_number || "sans suivi")} · ${money(x.cost)}</option>`).join("")}</select></label>`;
+    dialogue("Annuler l'étiquette", `${choix}
+      <p>L'étiquette sera annulée auprès du transporteur. Le remboursement dépend de lui et
+        n'est pas garanti — ce qu'il répond s'affichera.</p>
+      <p class="doux">La commande repassera « à expédier » si c'était sa dernière étiquette.</p>`,
+      async () => {
+        const r = await api("/api/shipments/void", { method: "POST",
+          body: { shipment_id: Number($("#avE").value) } });
+        if (r && r.error) return alert(r.error);
+        toast(r && r.refunded
+          ? `Étiquette annulée et remboursement confirmé${r.cout ? ` — ${money(r.cout)}` : ""}.`
+          : `Étiquette annulée. Remboursement ${esc((r && r.remboursement) || "non confirmé")}.`,
+          { type: r && r.refunded ? "ok" : "info" });
+        recharger(); rafraichirGrille(); rafraichirCompteurs();
+      }, "Annuler l'étiquette");
+  };
+
   $("#fActions", f).onclick = (e) => { e.stopPropagation(); menuAncre($("#fActions", f), [
+    { t: "Annuler l'étiquette…", inactif: envoisVivants().length ? null : "aucune étiquette active",
+      f: annulerEtiquette },
     { t: "Marquer comme expédiée…", f: () => dialogue("Marquer comme expédiée", `
         <label class="champ"><span>Transporteur</span><input id="mc" placeholder="canada_post"></label>
         <label class="champ"><span>N° de suivi</span><input id="mt"></label>
@@ -4618,6 +4657,7 @@ async function detailCommande(id) {
   // ------------------------------------------------------- rail d'expéditions
   api(`/api/shipments?order_id=${id}`).then((j) => {
     const l = j.shipments || [];
+    expeditionsDeLaCommande = l;
     $("#fnExp", f).textContent = l.length;
     $("#fRailL", f).innerHTML = l.length
       ? l.map((x, i) => `<div class="fRailE ${i === 0 ? "actif" : ""}">
@@ -5378,8 +5418,18 @@ VUES.expeditions = async () => {
         du transporteur. Le remboursement dépend de lui et n'est pas garanti.</p>
       ${s?.cost ? `<p class="doux">Coût de l'étiquette : ${money(s.cost)}.</p>` : ""}`,
       async () => {
-        await api("/api/shipments/void", { method: "POST", body: { shipment_id: [...sel][0] } });
+        const r = await api("/api/shipments/void", { method: "POST", body: { shipment_id: [...sel][0] } });
         sel.clear(); charger();
+        // Ce que le transporteur a répondu sur le remboursement, tel quel. « Annulée » est
+        // acquis ; « remboursée » ne l'est que si l'API le confirme, et le taire laisserait
+        // croire que l'argent revient toujours.
+        if (r && !r.error) {
+          toast(r.refunded
+            ? `Étiquette annulée et remboursement confirmé${r.cout ? ` — ${money(r.cout)}` : ""}.`
+            : `Étiquette annulée. Remboursement ${esc(r.remboursement || "non confirmé")}${
+                r.cout ? ` — ${money(r.cout)} à surveiller sur la facture` : ""}.`,
+            { type: r.refunded ? "ok" : "info" });
+        }
       }, "Annuler l'étiquette");
   };
 

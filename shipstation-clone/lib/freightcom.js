@@ -425,6 +425,97 @@ function servicesRetenus() {
  * production ne rendent pas toujours la même enveloppe. On accepte donc les trois formes
  * plausibles plutôt que de conclure « aucun service » sur une clé mal devinée.
  */
+/**
+ * Les méthodes de paiement du compte, et leur solde.
+ *
+ * `payment_method_id` est exigé à la réservation et ne se devine pas — la question « où
+ * trouve-t-on cet identifiant ? » n'avait pas de réponse dans l'interface Freightcom. Elle en
+ * a une par l'API : c'est ici. Le solde compte autant : une réservation sur un compte prépayé
+ * vide échoue au moment le plus coûteux, entre le tri et le comptoir.
+ */
+async function methodesPaiement() {
+  const r = await appel("GET", "/finance/payment-methods");
+  const liste = r?.payment_methods || r?.data || (Array.isArray(r) ? r : []);
+  return (Array.isArray(liste) ? liste : []).map((m) => ({
+    id: m.id || m.payment_method_id,
+    type: m.type || m.kind || null,
+    nom: m.name || m.description || m.nickname || null,
+    defaut: !!(m.default || m.is_default),
+    brut: m,
+  }));
+}
+
+async function soldeDisponible(idMethode) {
+  const id = idMethode || process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
+  if (!id) throw new Error("aucune méthode de paiement — voir methodesPaiement()");
+  const r = await appel("GET", `/finance/payment-method/${encodeURIComponent(id)}/available-balances`);
+  const b = r?.available_balances || r?.balances || r || {};
+  return { id, brut: b,
+    montant: b.available ?? b.amount ?? b.balance ?? null,
+    devise: b.currency || "CAD" };
+}
+
+/**
+ * Les factures d'une expédition — la preuve qu'un achat a réellement eu lieu.
+ *
+ * C'est ce qui manquait pour trancher la commande 100762 : l'écran disait « étiquette créée »
+ * et ClickShip ne montrait aucune facture. Une réservation qui ne produit pas de facture n'a
+ * rien acheté, et c'est vérifiable en un appel plutôt qu'en fouillant leur interface.
+ */
+async function facturesDe(shipmentId) {
+  const r = await appel("GET", `/finance/invoices-for-shipment-id/${encodeURIComponent(shipmentId)}`);
+  const liste = r?.invoices || r?.documents || (Array.isArray(r) ? r : []);
+  return (Array.isArray(liste) ? liste : []).map((f) => ({
+    id: f.id || f.document_id, numero: f.number || f.invoice_number || null,
+    date: f.date || f.created_at || null, montant: f.total || f.amount || null, brut: f,
+  }));
+}
+
+/**
+ * Manifeste — l'équivalent du « Close Shipments » de ShipStation.
+ *
+ * Le clone produisait déjà son bordereau de dépôt, utile au comptoir, mais qui n'engage que
+ * nous. Le manifeste du courtier est celui que le transporteur reconnaît : c'est lui qui clôt
+ * la journée de son côté. La demande est asynchrone, comme la cotation.
+ */
+async function demanderManifeste({ shipmentIds = [], transporteur = null } = {}) {
+  const corps = {};
+  if (shipmentIds.length) corps.shipment_ids = shipmentIds.map(String);
+  if (transporteur) corps.carrier_id = String(transporteur);
+  const r = await appel("POST", "/manifest", corps);
+  return { id: r?.manifest_id || r?.id || null, brut: r };
+}
+
+async function manifeste(id) {
+  const r = await appel("GET", `/manifest/${encodeURIComponent(id)}`);
+  const n = r?.manifest || r || {};
+  return { id, statut: n.status || n.state || null,
+    documents: (n.documents || n.manifests || []).map((d) => d.url || d).filter(Boolean),
+    brut: n };
+}
+
+/**
+ * Ramassage à la porte. Freightcom le pose sur une expédition déjà réservée, et le valide
+ * avant : un créneau refusé au moment de la demande vaut mieux qu'un camion qui ne vient pas.
+ */
+async function validerRamassage(details) {
+  return await appel("POST", "/shipment/schedule/validate", details);
+}
+
+async function planifierRamassage(shipmentId, details) {
+  const r = await appel("POST", `/shipment/${encodeURIComponent(shipmentId)}/schedule`, details);
+  return { confirmation: r?.pickup_confirmation_number || r?.confirmation_number || null, brut: r };
+}
+
+async function ramassage(shipmentId) {
+  return await appel("GET", `/shipment/${encodeURIComponent(shipmentId)}/schedule`);
+}
+
+async function annulerRamassage(shipmentId) {
+  await appel("DELETE", `/shipment/${encodeURIComponent(shipmentId)}/schedule`);
+  return { annule: true };
+}
+
 async function services() {
   const r = await appel("GET", "/services");
   const brut = Array.isArray(r) ? r : (r?.services || r?.data || r?.results || []);
@@ -554,6 +645,68 @@ function identifiantUnique(envoi, serviceId, tentative = 0) {
  *   2. le devis ne doit pas être périmé — sinon on découvre l'écart sur la facture ;
  *   3. `unique_id` rend l'opération rejouable sans risque.
  */
+/**
+ * Attend que l'étiquette existe, puis la rend.
+ *
+ * Freightcom réserve d'abord et produit les documents ensuite : `POST /shipment` rend un
+ * identifiant, pas un PDF. Le clone enregistrait donc `label_pdf` à NULL sur chaque achat, et
+ * l'écran d'impression n'avait rien à montrer — une étiquette payée qu'on ne peut pas coller
+ * sur un colis ne sert à rien.
+ *
+ * Champs de la réponse `GET /shipment/{id}`, relevés sur la spec publiée :
+ *
+ *   shipment.state                    draft → … → l'étiquette n'existe qu'une fois sortie de draft
+ *   shipment.labels[]                 {size, format, url, padded}
+ *   shipment.customs_invoice_url      facture commerciale, à part
+ *   shipment.primary_tracking_number  et `tracking_numbers[]` pour le multi-colis
+ *
+ * On préfère un format 4×6 quand il existe — c'est celui de l'imprimante d'étiquettes ; sur
+ * `letter`, l'étiquette sort au quart de la page et il faut la découper.
+ */
+const FORMATS_PREFERES = [/4\s*x\s*6|4x6|thermal|label/i, /letter|a4/i];
+
+async function attendreDocuments(shipmentId, { attenteMs = 25000, pas = 1500 } = {}) {
+  const vide = { etiquette: null, douane: null, suivi: null, statut: null, format: null };
+  if (!shipmentId) return vide;
+
+  const choisirEtiquette = (labels) => {
+    const liste = (Array.isArray(labels) ? labels : []).filter((l) => l && (l.url || l.data));
+    if (!liste.length) return null;
+    for (const pref of FORMATS_PREFERES) {
+      const t = liste.find((l) => pref.test(`${l.size || ""} ${l.format || ""}`));
+      if (t) return t;
+    }
+    return liste[0];
+  };
+
+  const debut = Date.now();
+  for (;;) {
+    let n = null;
+    try {
+      const r = await expedition(shipmentId);
+      n = r?.shipment || r || null;
+    } catch { /* pas encore lisible : on repasse */ }
+
+    const choisie = n ? choisirEtiquette(n.labels) : null;
+    const suivi = n ? (n.primary_tracking_number || (n.tracking_numbers || [])[0] || null) : null;
+
+    if (choisie || Date.now() - debut > attenteMs) {
+      return {
+        etiquette: choisie ? (choisie.url || choisie.data || null) : null,
+        douane: n?.customs_invoice_url || null,
+        suivi,
+        statut: n?.state || null,
+        format: choisie ? `${choisie.size || "?"} ${choisie.format || ""}`.trim() : null,
+        suivis: n?.tracking_numbers || [],
+        urlSuivi: n?.tracking_url || null,
+      };
+    }
+    await new Promise((ok) => setTimeout(ok, pas));
+  }
+}
+
+const attenteDocsMs = Number(process.env.FREIGHTCOM_DELAI_DOCS_MS || 25000);
+
 async function reserver(envoi, serviceId, { tentative = 0, methodePaiement = null, references = [] } = {}) {
   /*
    * On n'achète pas dans le bac à sable.
@@ -567,11 +720,12 @@ async function reserver(envoi, serviceId, { tentative = 0, methodePaiement = nul
    *
    * La cotation reste permise sur cet hôte — c'est à ça qu'il sert. L'achat, non.
    */
-  if (essai()) {
+  if (essai() && process.env.FREIGHTCOM_AUTORISER_ESSAI !== "1") {
     throw new Error(`achat refusé : ${BASE} est l'hôte d'ESSAI de Freightcom. `
       + `Il accepte la réservation mais ne produit ni étiquette ni suivi, et rien n'apparaît `
-      + `sur la facture ClickShip. Retirer FREIGHTCOM_URL des réglages pour revenir à la `
-      + `production, avec la clé de production.`);
+      + `sur la facture ClickShip — c'est ce qui est arrivé à la commande 100762. `
+      + `Retirer FREIGHTCOM_URL des réglages ramène la production. `
+      + `Pour passer outre quand même : FREIGHTCOM_AUTORISER_ESSAI=1.`);
   }
   const cotation = await coter(envoi, { frais: true, deadlineMs: 20000 });
   const tarif = cotation.tarifs.find((t) => String(t.serviceId) === String(serviceId));
@@ -593,17 +747,24 @@ async function reserver(envoi, serviceId, { tentative = 0, methodePaiement = nul
   journaliser("freightcom.reserve", "shipment", shipmentId || "?",
     { unique_id: corps.unique_id, service: serviceId, prix: tarif.price }, null);
 
+  // La réservation ne rend pas les documents : ils arrivent une fois l'expédition traitée par
+  // le transporteur. Sans cette attente, on achetait une étiquette qu'on ne pouvait pas
+  // imprimer — le clone écrivait `label_pdf` à NULL et l'écran d'impression n'avait rien à
+  // montrer. On interroge donc `/shipment/{id}` jusqu'à ce que l'étiquette existe.
+  const doc = await attendreDocuments(shipmentId, { attenteMs: attenteDocsMs });
+
   return {
     labelId: shipmentId || null,
-    trackingNumber: r?.tracking_number || r?.primary_tracking_number || null,
+    trackingNumber: doc.suivi || r?.tracking_number || r?.primary_tracking_number || null,
     carrier: tarif.carrier,
     service: tarif.service,
     serviceId: String(serviceId),
     price: tarif.price,
     currency: tarif.currency || "CAD",
     dropOff: tarif.dropOff,
-    labelPdf: null,     // les documents arrivent par /shipment/{id}, une fois la réservation aboutie
-    customsPdf: null,
+    labelPdf: doc.etiquette,
+    customsPdf: doc.douane,
+    documentsPrets: !!doc.etiquette,
     uniqueId: corps.unique_id,
     brut: r,
   };
@@ -613,10 +774,26 @@ async function expedition(shipmentId) {
   return await appel("GET", `/shipment/${encodeURIComponent(shipmentId)}`);
 }
 
+/**
+ * Annule une étiquette. `refunded` dit ce qui est VÉRIFIÉ, pas ce qu'on espère.
+ *
+ * L'annulation acceptée ne veut pas dire l'argent rendu : chez tous les transporteurs, le
+ * remboursement d'une étiquette non utilisée suit son propre cycle, parfois plusieurs jours,
+ * parfois jamais si l'étiquette a déjà été scannée. Rendre `refunded: true` sur un simple 200
+ * faisait dire à l'écran « remboursée » d'une étiquette qui ne l'était pas — et personne ne
+ * va vérifier la facture pour un dollar.
+ */
 async function annuler(shipmentId) {
-  await appel("DELETE", `/shipment/${encodeURIComponent(shipmentId)}`);
-  journaliser("freightcom.annule", "shipment", shipmentId, {}, null);
-  return { labelId: shipmentId, refunded: true };
+  const r = await appel("DELETE", `/shipment/${encodeURIComponent(shipmentId)}`);
+  journaliser("freightcom.annule", "shipment", shipmentId, { reponse: r || null }, null);
+  const dit = r?.refunded ?? r?.refund?.status ?? null;
+  return {
+    labelId: shipmentId,
+    annule: true,
+    // Confirmé seulement si l'API le dit ; sinon on l'ignore, on ne le suppose pas.
+    refunded: dit === true || String(dit).toLowerCase() === "refunded",
+    remboursement: dit === null ? "non confirmé par Freightcom" : String(dit),
+  };
 }
 
 async function suivre(shipmentId) {
@@ -701,5 +878,9 @@ const adaptateurFreightcom = {
 module.exports = {
   adaptateurFreightcom, coter, coterDirect, prechauffer, reserver, annuler, suivre, synchroniserServices,
   expedition, services, tester, etat, purgerCache, empreinte, lireCache, ecrireCache,
-  identifiantUnique, scenario, lireTarif, configure, essai, BASE,
+  identifiantUnique, scenario, lireTarif, configure, essai, attendreDocuments,
+  methodesPaiement, soldeDisponible, facturesDe,
+  demanderManifeste, manifeste,
+  validerRamassage, planifierRamassage, ramassage, annulerRamassage,
+  BASE,
 };

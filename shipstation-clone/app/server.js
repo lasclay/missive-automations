@@ -1792,6 +1792,41 @@ route("DELETE /api/stores/:id/logo", ({ params, user }) => {
  */
 route("GET /api/carriers/adapters", () => ({ fournisseurs: require("../lib/carrier").fournisseurs() }));
 
+/**
+ * Les lots Chit Chats — le sac qu'on remet au comptoir.
+ *
+ * Sans lot, le dépôt est refusé : Chit Chats consolide, il ne prend pas les colis un par un.
+ * L'étiquette du lot est celle que le comptoir scanne.
+ */
+route("GET /api/carriers/chitchats/lots", async ({ user }) => {
+  accounts.exiger(user, "shipments_view");
+  return { lots: await require("../lib/chitchats").lots() };
+});
+
+route("POST /api/carriers/chitchats/lots", async ({ req, user }) => {
+  accounts.exiger(user, "labels_buy");
+  const b = await corps(req);
+  const cc = require("../lib/chitchats");
+  if (b.action === "supprimer") return await cc.supprimerLot(b.batch_id);
+  if (b.action === "ajouter") {
+    // On dépose l'expédition Chit Chats de chaque commande dans le lot, jamais un identifiant
+    // du clone : ce sont deux numérotations différentes, et les confondre viderait le sac.
+    const faits = [];
+    for (const id of b.shipment_ids || []) {
+      const s = db.one("SELECT * FROM shipments WHERE id = ?", Number(id));
+      if (!s || !s.label_id || (s.provider || "") !== "chitchats") continue;
+      faits.push(await cc.ajouterAuLot(s.label_id, b.batch_id));
+    }
+    return { ajoutees: faits.length };
+  }
+  if (b.action === "retirer") {
+    const s = db.one("SELECT * FROM shipments WHERE id = ?", Number(b.shipment_id));
+    if (!s || !s.label_id) return { error: "expédition inconnue", code: 404 };
+    return await cc.retirerDuLot(s.label_id);
+  }
+  return await cc.creerLot(b.description || null);
+});
+
 route("GET /api/carriers/chitchats", ({ user }) => {
   accounts.exiger(user, "settings_edit");
   return require("../lib/chitchats").etat();
@@ -1805,6 +1840,35 @@ route("POST /api/carriers/chitchats/menage", async ({ user }) => {
   accounts.exiger(user, "settings_edit");
   try { return await require("../lib/chitchats").menage(); }
   catch (e) { return { error: e.message, code: 400 }; }
+});
+
+/**
+ * Ce que le compte Freightcom porte réellement — les questions qu'on posait à leur interface.
+ *
+ * `payment_method_id` est exigé à la réservation et introuvable à l'écran ; le solde décide
+ * si l'achat passera ; la facture d'une expédition prouve qu'un achat a eu lieu. Les trois
+ * sont en lecture seule et sans effet de bord.
+ */
+route("GET /api/carriers/freightcom/paiement", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  const fc = require("../lib/freightcom");
+  const methodes = await fc.methodesPaiement();
+  const choisie = process.env.FREIGHTCOM_PAYMENT_METHOD_ID
+    || (methodes.find((m) => m.defaut) || methodes[0] || {}).id || null;
+  let solde = null;
+  if (choisie) { try { solde = await fc.soldeDisponible(choisie); } catch (e) { solde = { erreur: e.message }; } }
+  return { methodes, configuree: process.env.FREIGHTCOM_PAYMENT_METHOD_ID || null, choisie, solde };
+});
+
+route("GET /api/shipments/:id/facture", async ({ params, user }) => {
+  accounts.exiger(user, "shipments_view");
+  const s = db.one("SELECT * FROM shipments WHERE id = ?", Number(params.id));
+  if (!s || !s.label_id) return { error: "expédition sans étiquette", code: 404 };
+  if ((s.provider || "") !== "freightcom") return { error: "facture disponible chez Freightcom seulement", code: 400 };
+  const factures = await require("../lib/freightcom").facturesDe(s.label_id);
+  // Aucune facture sur une expédition réservée, c'est le symptôme d'un achat qui n'a pas eu
+  // lieu — exactement ce qui est arrivé contre l'hôte d'essai.
+  return { factures, achatConfirme: factures.length > 0 };
 });
 
 route("GET /api/carriers/freightcom", ({ user }) => {
