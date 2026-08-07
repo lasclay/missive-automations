@@ -6,6 +6,8 @@
  *   node shipstation-clone/verifier_freightcom.js --assurance   quel `insurance.type` passe
  *   node shipstation-clone/verifier_freightcom.js --panel [--poids 300]   qui répond, et si
  *     l'assurance ou le délai fait disparaître un transporteur du panel
+ *   node shipstation-clone/verifier_freightcom.js --catalogue   quels transporteurs le compte
+ *     porte réellement — un seul appel, la réponse la plus courte sur « où est Postes Canada »
  *
  * Le mode hors ligne valide la forme des requêtes, la conversion des unités, le cache,
  * l'idempotence et les refus d'achat — sans clé, sans réseau, sans dépense. Le mode `--reel`
@@ -414,6 +416,59 @@ const TARIF = (id, cents, nom) => ({
     console.log(`\n  ${G}Le type retenu se fige avec FREIGHTCOM_ASSURANCE_TYPE dans les réglages Render.`);
     console.log(`  L'écart de prix ci-dessus est le coût réel de la couverture — à comparer aux`);
     console.log(`  1,10 % domestique / 1,50 % international que facturait XCover.${R}`);
+  }
+
+  // ----------------------------------------------------------- catalogue
+  //
+  // La question la plus courte, et un seul appel en lecture : quels transporteurs ce compte
+  // porte-t-il ? Une cotation qui n'a jamais rendu Postes Canada peut s'expliquer de dix
+  // façons ; un catalogue qui ne le contient pas n'en laisse qu'une.
+  if (process.argv.includes("--catalogue")) {
+    console.log("\nCatalogue du compte Freightcom — GET /services, lecture pure\n" + "─".repeat(64));
+    if (CLE_REELLE) process.env.FREIGHTCOM_API_KEY = CLE_REELLE;
+    else delete process.env.FREIGHTCOM_API_KEY;
+    global.fetch = vraiFetch;
+    try {
+      // Quel hôte répond. Le compte d'essai (`…ssd-test.freightcom.com`) et le compte de
+      // production n'ont pas le même catalogue : un programme présent chez l'un peut manquer
+      // chez l'autre. Un panel qui a changé sans qu'on touche au code commence souvent ici.
+      console.log(`  ${G}hôte interrogé : ${fc.BASE}${
+        /ssd-test|sandbox|test\./i.test(fc.BASE) ? "   ← COMPTE D'ESSAI, pas la production" : ""}${R}\n`);
+      const panel = await fc.services();
+      const parTransporteur = new Map();
+      for (const x of panel) {
+        const t = x.transporteur || "—";
+        if (!parTransporteur.has(t)) parTransporteur.set(t, []);
+        parTransporteur.get(t).push(x);
+      }
+      console.log(`${panel.length} services, ${parTransporteur.size} transporteurs\n`);
+      for (const [t, liste] of [...parTransporteur.entries()].sort()) {
+        console.log(`  ${String(t).padEnd(28)} ${String(liste.length).padStart(3)} service(s)`);
+      }
+      const cp = panel.filter((x) => /canada\s*post|postes\s*canada/i.test(
+        `${x.transporteur} ${x.nom} ${x.id}`));
+      console.log("\n" + "─".repeat(64));
+      if (cp.length) {
+        console.log(`${V} Postes Canada EST au catalogue — ${cp.length} service(s) :`);
+        for (const x of cp) console.log(`   ${G}${x.id.padEnd(36)} ${x.nom}${R}`);
+        console.log(`\n  ${G}Ils existent mais ne rendent aucun tarif sur l'envoi testé.`);
+        console.log(`  Cause à chercher côté envoi : poids, dimensions, destination, ou compte`);
+        console.log(`  Postes Canada non rattaché au profil de tarification.${R}`);
+      } else {
+        console.log(`${X} Postes Canada n'est PAS au catalogue de ce compte.`);
+        console.log(`\n  ${G}Aucun réglage du clone n'y changera rien : le clone ne peut pas coter`);
+        console.log(`  un service que le courtier ne publie pas. C'est une demande à faire à`);
+        console.log(`  Freightcom — activer le programme Canada Post sur le compte.`);
+        console.log(`\n  À vérifier d'abord : ce programme a DÉJÀ rendu des tarifs sur ce projet`);
+        console.log(`  (canadapost-exclusive.expedited-parcel, 7,28 $ à 483 g). S'il a disparu,`);
+        console.log(`  soit l'hôte interrogé a changé — voir la ligne ci-dessus —, soit le`);
+        console.log(`  programme a été retiré du compte depuis.`);
+        console.log(`\n  Enjeu : le tarif de dépôt « canadapost-exclusive » à 6,61 $ contre`);
+        console.log(`  11,82 $ chez ShipStation. En attendant, Chit Chats rend le même service`);
+        console.log(`  au comptoir, à 7,14 $ — c'est le chemin de repli, pas une perte sèche.${R}`);
+      }
+      passes++;
+    } catch (e) { console.log(`${X} ${e.message}`); echecs++; }
   }
 
   // --------------------------------------------------------------- panel
