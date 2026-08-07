@@ -234,11 +234,26 @@ function adaptateur(nom = process.env.CARRIER_ADAPTER || "bouchon") {
  * `CARRIER_ADAPTER` désigne. Un fournisseur non configuré reste visible mais désactivé —
  * c'est ainsi qu'on découvre qu'il existe et qu'il manque une clé, plutôt que par son absence.
  */
+/** L'hôte Freightcom est-il celui du bac à sable ? Lu à chaud : la variable peut changer. */
+const essaiFreightcom = () => /ssd-test|sandbox|\btest\./i.test(
+  process.env.FREIGHTCOM_URL || "https://external-api.freightcom.com");
+
 function fournisseurs() {
   const defaut = process.env.CARRIER_ADAPTER || "bouchon";
   const teste = (fn) => { try { return !!fn(); } catch { return false; } };
   const liste = [
-    { nom: "freightcom", libelle: "Freightcom", detail: "courtier — panel multi-transporteurs",
+    // « Bac à sable » se lit dans le nom du fournisseur, pas dans un journal.
+    //
+    // Freightcom publie un hôte d'essai (`…ssd-test.freightcom.com`) dont les prix ne sont pas
+    // ceux du compte réel et dont les étiquettes n'existent pas. Y coter sans le savoir, c'est
+    // décider d'un transporteur sur des chiffres qui ne facturent rien — et croire qu'on a
+    // acheté quand on n'a rien acheté. Le premier menu de l'écran d'expédition le dit donc.
+    { nom: "freightcom",
+      libelle: `Freightcom${essaiFreightcom() ? " (BAC À SABLE)" : ""}`,
+      detail: essaiFreightcom()
+        ? "hôte d'essai — prix fictifs, aucune étiquette réelle"
+        : "courtier — panel multi-transporteurs",
+      essai: essaiFreightcom(),
       configure: teste(() => require("./freightcom").configure()) },
     { nom: "chitchats", libelle: "Chit Chats", detail: "consolidateur — dépôt, DDP vers les États-Unis",
       configure: teste(() => require("./chitchats").configure()) },

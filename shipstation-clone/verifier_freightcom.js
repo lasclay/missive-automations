@@ -448,7 +448,26 @@ const TARIF = (id, cents, nom) => ({
       const cp = panel.filter((x) => /canada\s*post|postes\s*canada/i.test(
         `${x.transporteur} ${x.nom} ${x.id}`));
       console.log("\n" + "─".repeat(64));
-      if (cp.length) {
+
+      // Un catalogue VIDE ne dit rien sur Postes Canada. Il dit que la lecture n'a rien
+      // rendu — endpoint absent sur cet hôte, enveloppe différente, compte non provisionné.
+      // Conclure « Postes Canada n'est pas au catalogue » sur zéro service, c'était affirmer
+      // à partir de rien. La réponse crue est le seul moyen de trancher.
+      if (!panel.length) {
+        console.log(`${X} Lecture NON CONCLUANTE : le catalogue est revenu vide.`);
+        console.log(`\n  ${G}Zéro service ne veut pas dire « Postes Canada absent » : ça veut dire`);
+        console.log(`  que GET /services n'a rien rendu d'exploitable sur cet hôte. Réponse crue :${R}`);
+        console.log(`  ${G}${JSON.stringify(panel.reponse).slice(0, 400)}${R}`);
+        console.log(`\n  ${G}À regarder dans l'ordre :`);
+        console.log(`  1. L'hôte ci-dessus. S'il porte « ssd-test », c'est le bac à sable de`);
+        console.log(`     Freightcom, pas la production — son catalogue et ses prix ne sont pas`);
+        console.log(`     ceux du compte réel, et une étiquette achetée là n'existe pas.`);
+        console.log(`     La production répond sur https://external-api.freightcom.com :`);
+        console.log(`     retirer FREIGHTCOM_URL des réglages Render suffit à y revenir, à`);
+        console.log(`     condition que FREIGHTCOM_API_KEY soit la clé de production.`);
+        console.log(`  2. Si l'hôte est déjà la production, l'enveloppe de la réponse a changé`);
+        console.log(`     et c'est la lecture qu'il faut corriger — la réponse crue le dira.${R}`);
+      } else if (cp.length) {
         console.log(`${V} Postes Canada EST au catalogue — ${cp.length} service(s) :`);
         for (const x of cp) console.log(`   ${G}${x.id.padEnd(36)} ${x.nom}${R}`);
         console.log(`\n  ${G}Ils existent mais ne rendent aucun tarif sur l'envoi testé.`);

@@ -414,9 +414,24 @@ function servicesRetenus() {
   return String(process.env.FREIGHTCOM_SERVICES || "").split(",").map((s) => s.trim()).filter(Boolean);
 }
 
+/**
+ * Le catalogue du compte. `brut` est rendu à côté de la liste : quand celle-ci est vide, la
+ * seule question qui compte est « vide, ou mal lue ? », et seule la réponse crue y répond.
+ *
+ * La forme n'est pas garantie identique d'un environnement à l'autre — l'hôte d'essai et la
+ * production ne rendent pas toujours la même enveloppe. On accepte donc les trois formes
+ * plausibles plutôt que de conclure « aucun service » sur une clé mal devinée.
+ */
 async function services() {
   const r = await appel("GET", "/services");
-  return (r?.services || []).map((s) => ({ id: s.id, transporteur: s.carrier_name, nom: s.service_name }));
+  const brut = Array.isArray(r) ? r : (r?.services || r?.data || r?.results || []);
+  const liste = (Array.isArray(brut) ? brut : []).map((s) => ({
+    id: s.id || s.service_id || s.code,
+    transporteur: s.carrier_name || s.carrier || s.carrier_id,
+    nom: s.service_name || s.name,
+  }));
+  liste.reponse = r;
+  return liste;
 }
 
 /**
