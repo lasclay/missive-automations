@@ -80,7 +80,7 @@ On the material, briefly: milkweed is the only plant monarchs lay their eggs on,
 
 If this is worth a conversation, suggest a time that suits you in the next two weeks and I'll call. I can work around most things, and I try to keep Fridays clear.
 
-The catalogue is at lasclay.com if you'd like to see it first.
+The catalogue is at lasclay.com/en if you'd like to see it first.
 
 ---
 ${LEGAL_EN}

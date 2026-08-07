@@ -19,6 +19,10 @@ Règles tenues dans ces textes:
 - Adresse d'envoi: `admin@lasclay.com`. Ce n'est pas la boîte du service client
   (Shopify pointe sur `hey@lasclay.com`), donc la prospection n'encombre pas les
   réponses aux clientes.
+- Lien du catalogue: `lasclay.com` en français, `lasclay.com/en` en anglais. La
+  racine sert le français (`lang="fr"`), donc un lien nu envoie un détaillant
+  anglophone sur une page qu'il ne lit pas. Le hreflang du site déclare aussi
+  `/en-us`, réservé aux États-Unis: nos destinataires sont tous canadiens.
 
 ## Bloc légal, obligatoire dans chaque message
 
@@ -144,7 +148,7 @@ If this is worth a conversation, suggest a time that suits you in the next two
 weeks and I'll call. I can work around most things, and I try to keep Fridays
 clear.
 
-The catalogue is at lasclay.com if you'd like to see it first.
+The catalogue is at lasclay.com/en if you'd like to see it first.
 
 ---
 
