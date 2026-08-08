@@ -47,7 +47,10 @@ function choisirTarif(rates, shipment, politique = {}) {
   if (serviceImpose) return rates.find((r) => r.serviceId === serviceImpose) || null;
 
   const admissible = shipment.parcel.weightG < SEUIL_DROPOFF_G;
-  const candidats = rates.filter((r) => (r.dropOff ? dropOffAutorise && admissible : true));
+  const candidats = rates.filter((r) => (r.dropOff ? dropOffAutorise && admissible : true))
+    // Un tarif qu'on ne peut pas acheter ne peut pas être recommandé. Le recommander, c'est
+    // désigner comme « meilleur choix » quelque chose qui échouera au clic suivant.
+    .filter((r) => r.achetable !== false);
   if (!candidats.length) return null;
   return candidats.slice().sort((a, b) => a.price - b.price)[0];
 }

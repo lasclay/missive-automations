@@ -944,6 +944,7 @@ const EN = {
   "Commandée le": "Order Date", "Livraison facturée": "Shipping Paid",
   "Poids (g) — touche W": "Weight (g) — key W", "Service": "Service",
   "Confirmation": "Confirmation", "Assurance ($, vide = aucune)": "Insurance ($, blank = none)",
+  "ESSAI, non achetable": "TEST, not purchasable",
   "Annuler l'étiquette…": "Void label…", "Expédition": "Shipment", "sans suivi": "no tracking",
   "Assurance…": "Insurance…", "Coter avec assurance": "Quote with insurance",
   "Valeur à assurer ($)": "Value to insure ($)", "Coter assuré": "Quote insured",
@@ -4248,7 +4249,7 @@ function optionsTarifs(r, selection = "") {
         // En comparaison croisée, deux services homonymes chez deux courtiers seraient
         // indiscernables : le fournisseur est écrit dans le libellé.
         t.fournisseur ? ` · ${esc((S.fournisseurs || []).find((f) => f.nom === t.fournisseur)?.libelle || t.fournisseur)}` : ""
-      }</option>`).join("")}</optgroup>`).join("")}`;
+      }${t.achetable === false ? " · ESSAI, non achetable" : ""}</option>`).join("")}</optgroup>`).join("")}`;
 }
 
 
