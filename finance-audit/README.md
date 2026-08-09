@@ -56,6 +56,7 @@ classeur en 1,2 seconde.
 | `fix_av.py` | Le contrôle du tirage de marge de crédit balaie aussi le premier mois projeté, qui est justement celui du sommet. |
 | `fix_aw.py` | Corrige au journal une affirmation que la phase suivante avait rendue fausse, et pose le constat de clôture. |
 | `fix_ax.py` | L'avance de 80 000 $ du 15 août 2026 **s'ajoute** aux 3 678 $ déjà inscrits chez QuickBooks au lieu de les remplacer. L'échéancier s'arrête sur le solde préexistant, qui reste au bilan sur tout l'horizon. |
+| `fix_bb.py` | Le résultat ne lisait du moteur de ventes que son **total annuel**, qu'il redistribuait avec douze coefficients codés en dur — le profil de 2025-2026, avec son été arrêté et sa prévente unique de mai. Chaque mois projeté lit maintenant son propre mois. Les rangées 3, 9, 10 et 11, vides sur 36 mois, sont ventilées. |
 | `fix_ba.py` | Consigne au journal pourquoi juin et juillet 2026 sont à presque zéro : l'été a été arrêté, pas subi. La main-d'œuvre de production tombe de 88 % pendant que les achats de matières montent de 48 %. |
 | `fix_az.py` | La marge autorisée passe de 130 000 $ à 150 000 $ : le compte du grand livre s'appelle « EDC LC1 - 150K » et le mémo calculait déjà son coussin sur 150 000 $. Le contrôle annonçait un dépassement d'une limite qui n'était pas la bonne. |
 | `fix_ay.py` | Nomme les deux méthodes du budget de caisse et dit laquelle fait foi. La rangée de contrôle 36 n'est pas à zéro : elle mesure l'écart entre une vue directe bâtie sur le résultat et la chaîne de trésorerie complète. |
@@ -216,6 +217,12 @@ classeur en 1,2 seconde.
 - **L'espace qui précède « $ » ou « % » doit être insécable.** Sinon le symbole part seul à
   la ligne suivante, et un tableau de financement affiche « 298 156 » d'un côté, « $ » de
   l'autre.
+- **Un total annuel redistribué par des coefficients fige l'année qui les a produits.** Le
+  résultat jetait la saisonnalité mensuelle du moteur de ventes et la remplaçait par douze
+  parts codées en dur, tirées de 2025-2026. Elles reportaient jusqu'en 2029 un été
+  volontairement arrêté (2,0 % de l'année) et une prévente unique de 82 692 $ (mai à
+  9,65 %). Le total annuel était juste ; le mois où l'argent rentre ne l'était pas — et
+  c'est lui qui commande le stock à financer et le tirage de marge.
 - **Le texte écrit dans une formule échappe à la traduction.** Les deux branches d'un
   `IF` qui affiche le scénario actif ne sont ni dans `sharedStrings` ni dans un `<is>` :
   elles vivent dans la formule. La copie anglaise les gardait en français.
