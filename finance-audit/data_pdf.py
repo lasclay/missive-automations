@@ -6,7 +6,7 @@ F='PREVISIONS LASCLAY - version audit 2026-07-30.xlsx'
 P='Résultats-Prev 2025-2029'; B='Bilan2026-27-28'; S='Sommaire bailleurs'
 TOT=('P','AD','AR','BF'); YE=('O','AC','AQ','BE')
 out={}
-for scen,name in ((1,'cons'),(2,'amb')):
+for scen,name in ((1,'cons'),(2,'amb'),(3,'opt')):
     e=Editor(F); e.expand_shared(); e.set('Inputs','C70',float(scen)); e.save(f'pdf{scen}.xlsx')
     bk=xlcalc.load(f'pdf{scen}.xlsx')
     g=lambda sh,a: round(bk.get(sh,a),2)
@@ -23,6 +23,7 @@ for scen,name in ((1,'cons'),(2,'amb')):
       'pdv':[g(P,t+'13') for t in TOT],
       'cmv':[g(P,t+'33') for t in TOT],
       'contrib':[g(P,t+'32') for t in TOT],
+      'brute':[g(P,t+'64') for t in TOT],
       'ebitda':[g(P,t+'145') for t in TOT],
       'pai':[g(P,t+'137') for t in TOT],
       'hors':[g(P,t+'141') for t in TOT],
