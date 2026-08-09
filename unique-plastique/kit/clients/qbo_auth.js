@@ -12,7 +12,7 @@
  *
  * ÉTAPE A — générer l'URL d'autorisation :
  *   QBO_CLIENT_ID=xxx node qbo_auth.js url
- *   → ouvrir l'URL dans le navigateur, se connecter au compte QuickBooks LASCLAY,
+ *   → ouvrir l'URL dans le navigateur, se connecter au compte QuickBooks de l'entreprise,
  *     autoriser. La page de redirection affiche (ou l'URL contient) `code` et `realmId`.
  *
  * ÉTAPE B — échanger le code (valide ~5 min) contre les jetons :
