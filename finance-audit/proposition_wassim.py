@@ -320,8 +320,9 @@ P.append(f"""<div class="page">
     <caption>Le plafond de {fr(PLAFOND)} est atteint à environ
       {pct(PART_AN3, 0)} de l'exercice 2028-2029, soit un peu moins de
       <strong>deux ans et demi</strong> après l'apport. La première année,
-      {fr(SANS[0]['verse'])}, récupère déjà
-      {pct(SANS[0]['verse'] / APPORT, 0)} de ta mise.</caption>
+      {fr(SANS[0]['verse'])}, {'rend déjà ta mise en entier'
+       if SANS[0]['verse'] >= APPORT
+       else f"récupère déjà {pct(SANS[0]['verse'] / APPORT, 0)} de ta mise"}.</caption>
   </table>
 
   <div class="two">

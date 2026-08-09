@@ -180,6 +180,12 @@ out['sommaire']={
   'argent_neuf':round(PRET-CAPITAL_MARCHAND+marge,2),
   'encaisse_juil':round(bk.get(B,'N6'),2),
   'tirage_du_mois':round(bk.get(P,'N183')-bk.get(P,'M183'),2),
-  'edc_juil':EDC_JUILLET,'coussin':round(EDC_AUTORISEE-EDC_JUILLET,2)}
+  'edc_juil':EDC_JUILLET,'coussin':round(EDC_AUTORISEE-EDC_JUILLET,2),
+  # RS&DE : le relevé de dépenses v2026-08-08, tel que le classeur le porte.
+  'pertes':round(bk.get('Inputs','C43'),2),
+  'rsde_base':round(bk.get('Inputs','D173'),2),
+  'rsde_estime':round(bk.get('Inputs','D176'),2),
+  'rsde_retenu':round(bk.get('Inputs','D179'),2),
+  'rsde_annees':[round(-bk.get(P,f'{t}128'),2) for t in ('P','AD','AR','BF')]}
 json.dump(out,open('pdf_data.json','w'),indent=1,ensure_ascii=False)
 print(json.dumps(out,indent=1,ensure_ascii=False)[:2600])

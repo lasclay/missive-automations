@@ -3,7 +3,8 @@
 
 Découpé pour rester lisible : A couvre la couverture et les sections 01 à 03,
 B les sections 04 à 11, C les sections 12 à 18 et les mentions de fin, D les
-segments réécrits quand juillet 2026 est passé au réel.
+segments réécrits quand juillet 2026 est passé au réel, E ceux que la mise à
+jour RS&DE d'août 2026 a déplacés.
 
 Un segment ne doit vivre que dans une partie. Les clés portent les chiffres du
 modèle : quand un chiffre bouge, la clé change et l'ancienne devient morte
@@ -14,10 +15,11 @@ from glossaire_a import GLOSSAIRE as A
 from glossaire_b import GLOSSAIRE as B
 from glossaire_c import GLOSSAIRE as C
 from glossaire_d import GLOSSAIRE as D
+from glossaire_e import GLOSSAIRE as E
 
-GLOSSAIRE = {**A, **B, **C, **D}
+GLOSSAIRE = {**A, **B, **C, **D, **E}
 
-_parties = {'A': A, 'B': B, 'C': C, 'D': D}
+_parties = {'A': A, 'B': B, 'C': C, 'D': D, 'E': E}
 _doublons = {c for x, p in _parties.items() for y, q in _parties.items()
              if x < y for c in set(p) & set(q)}
 if _doublons:

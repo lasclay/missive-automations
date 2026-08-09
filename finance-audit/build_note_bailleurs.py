@@ -82,7 +82,7 @@ P.append(f"""<div class="page cover">
     conservateur réaliste à {f"{C['ventes'][3]/1e6:.2f}".replace('.', ',')} M$ de ventes
     nettes en 2028-2029, ambitieux à
     {f"{A['ventes'][3]/1e6:.2f}".replace('.', ',')} M$. Ni l'un ni l'autre n'inclut de
-    subvention non confirmée.</div>
+    subvention non demandée.</div>
 
   <div class="meta">LES PRODUITS LASCLAY INC. &nbsp;·&nbsp; QUÉBEC (LIMOILOU)
     &nbsp;·&nbsp; 4 AOÛT 2026<br>Exercice financier du 1<sup>er</sup> septembre au
@@ -1115,7 +1115,7 @@ P.append(f"""<div class="page">
 P.append(f"""<div class="page">
   <div class="kicker">Méthode</div>
   <div class="sect"><span class="num">17</span><h2>La méthode et les sources</h2></div>
-  <div style="font-size:8.4pt;line-height:1.3">
+  <div style="font-size:8.15pt;line-height:1.28">
   <div class="lede">Une projection ne vaut que par la rigueur de son suivi.</div>
 
   <h3>Ancrage comptable</h3>
@@ -1135,63 +1135,69 @@ P.append(f"""<div class="page">
       près, sur 1,1 M$</li>
     <li>La trajectoire de 2026-2027 à 2028-2029 a été refaite : la version précédente
       multipliait par 1,4516 chaque année sans justification par produit ni par canal</li>
-    <li>Le canal détail a été reconstruit ville par ville sur les rapports de
-      consignation des Défricheuses et les ventes en ligne par ville de facturation. Il
-      reposait sur trois nombres posés à la main, et 2025-2026 affichait zéro vente au
-      détail alors qu'il y en avait pour <strong>13 801 $</strong></li>
+    <li>Le canal détail a été reconstruit ville par ville sur les rapports de consignation
+      et les ventes en ligne par ville. Il reposait sur trois nombres posés à la main, et
+      2025-2026 affichait zéro vente au détail alors qu'il y en avait pour
+      <strong>13 801 $</strong></li>
     <li>Les coûts variables ont été rebranchés sur le volume, et la structure de coûts
       calibrée sur les trois derniers exercices réalisés plutôt que sur des cibles</li>
     <li>Une seule chaîne de trésorerie sur 48 mois remplace les états parallèles qui
       divergeaient. <strong>La ligne de contrôle du bilan est à zéro sur les 48 mois</strong></li>
     <li>Le calendrier des taxes a été posé tel qu'il est déclaré : <strong>TVQ au mois,
       TPS à l'année avec un solde dû le 30 novembre</strong>. Les taux viennent des
-      montants réels de 2025-2026 — taxes perçues chez Shopify région par région, taxes
-      facturées et crédits sur intrants chez QuickBooks — et tiennent compte de la baisse
-      des crédits quand la couture quitte le Québec. Le versement du 30 novembre passe de
+      montants réels de 2025-2026 et tiennent compte de la baisse des crédits sur intrants
+      quand la couture quitte le Québec. Le versement du 30 novembre passe de
       <strong>13 910 $ en 2026 à 48 510 $ en 2028</strong></li>
     <li>Juillet 2026 est passé du prévisionnel au réel : <strong>-48 225 $</strong> contre
       -39 272 $ en prévision, et la marge de crédit tirée à <strong>143 026 $ au
       31 juillet</strong> là où le modèle projetait 27 825 $</li>
-    <li>Le premier mois projeté ouvrait sur des soldes d'ancrage et non sur le réel du mois
-      précédent — l'échéancier disait 202 609 $ d'emprunt Shopify, QuickBooks en montre
+    <li>Le premier mois projeté ouvrait sur des soldes d'ancrage et non sur le réel de
+      juillet — l'échéancier disait 202 609 $ d'emprunt Shopify, QuickBooks en montre
       186 437 $ — et le modèle lisait l'écart comme un encaissement :
-      <strong>124 000 $ de liquidités que personne n'a avancées</strong>. Août ouvre
-      maintenant sur le solde réel de juillet</li>
-    <li>Le mappage des comptes portait cinq défauts qui faisaient disparaître des soldes
-      réels, dont 54 266 $ de prêt BDC qui ne tombaient nulle part</li>
-    <li>Aucune cellule des feuilles actives du plan n'est en erreur et aucune référence
-      n'est circulaire. Les feuilles d'archive des exercices antérieurs, conservées telles
-      quelles, en portent encore</li>
+      <strong>124 000 $ de liquidités que personne n'a avancées</strong></li>
+    <li>La RS&amp;DE a été remise sur le relevé de dépenses de l'exercice. Le modèle
+      portait 73 865 $, soit 55 % du salaire de deux personnes ; la base admissible réelle
+      est de <strong>246 193 $</strong> sur trois projets, et le cas central retenu de
+      <strong>140 000 $</strong>. Le raccord se vérifie au dollar : relevé et modèle
+      donnent le même solde de salaires de R&amp;D au grand livre, 109 014 $.
+      L'encaissement se fait en deux virements — <strong>35 % en avril, 65 % en
+      juin</strong>, rien avant mars — et non en un seul comme auparavant</li>
+    <li>Le mappage des comptes portait cinq défauts, dont 54 266 $ de prêt BDC qui ne
+      tombaient nulle part</li>
+    <li>Aucune cellule des feuilles actives n'est en erreur et aucune référence n'est
+      circulaire. Les feuilles d'archive, conservées telles quelles, en portent encore</li>
   </ul>
 
   <h3>Éléments en cours de validation</h3>
   <ul class="o">
-    <li>Les pertes fiscales reportables (151 649 $) restent un estimé du comptable</li>
-    <li>Une vente d'équipement est toujours dans la file « À réviser » de QuickBooks</li>
-    <li>Le contrat de l'avance de 80 000 $ du 15 août 2026 reste à signer</li>
-    <li>Les aides publiques portées au résultat — RSDE, crédits Visa Design, La Ruche
+    <li>Les pertes fiscales reportables ({fr(D['sommaire']['pertes'])} au 31 août 2026)
+      partent d'un solde d'ouverture de 29 036 $ qui reste un estimé du comptable</li>
+    <li>La réclamation RS&amp;DE n'est pas close : août 2026 n'est pas comptabilisé
+      (+5 000 à 8 000 $), quatre pièces restent à obtenir (-1 550 $) et le bloc JCC de
+      12 564 $ est le plus fragile (-3 518 $ s'il est refusé). Fourchette : 130 000 à
+      155 000 $</li>
+    <li>Une vente d'équipement est toujours dans la file « À réviser » de QuickBooks, et le
+      contrat de l'avance de 80 000 $ du 15 août 2026 reste à signer</li>
+    <li>Les aides publiques portées au résultat — RS&amp;DE, crédits Visa Design, La Ruche
       (50 000 $, nov. 2026) et Ville de Québec (35 000 $) — sont à documenter par leurs
-      lettres d'octroi. Elles pèsent {fr(C['aides'][1])} du résultat de 2026-2027, qui est
-      négatif sans elles</li>
+      lettres d'octroi ; la RS&amp;DE l'est déjà par le relevé de dépenses et par
+      l'historique d'encaissement du compte 1250. Elles pèsent {fr(C['aides'][1])} du
+      résultat de 2026-2027, qui est négatif sans elles</li>
     <li>Les soldes réels des prêts Accord D, privés et BDC 11K au 31 août 2026 sont à
       confirmer auprès des prêteurs</li>
-    <li>La feuille « Budget de caisse » porte une vue directe, bâtie sur les postes du
-      résultat, qui ne reprend ni les stocks ni le calendrier des fournisseurs. C'est la
-      chaîne de trésorerie du résultat qui produit l'encaisse, le tirage de marge et le
-      besoin de financement ; sa rangée de contrôle 36 mesure l'écart entre les deux
-      méthodes</li>
+    <li>La feuille « Budget de caisse » porte une vue directe qui ne reprend ni les stocks
+      ni le calendrier des fournisseurs. C'est la chaîne de trésorerie du résultat qui fait
+      foi ; la rangée 36 mesure l'écart entre les deux méthodes</li>
   </ul>
 
   <h3 style="margin-bottom:2px">Sources</h3>
-  <p style="font-size:7.8pt;line-height:1.25;margin-top:0;color:{GRIS}">États financiers compilés 2022-2023 à 2024-2025
-  (mission de compilation, sans audit ni examen) · QuickBooks Online pour le réel 2025-2026 ·
-  Shopify pour les ventes, commandes, clients, sessions et ventes par ville de
-  facturation · rapports de consignation mensuels de Les Défricheuses, septembre 2025 à
-  juin 2026 · Statistique Canada, recensement de 2021, pour les populations
-  municipales · Groupe CTT pour les essais
-  d'isolation de la membrane · Chaire de recherche industrielle sur les matériaux innovants en composites de l'Université de Sherbrooke pour la comparaison au duvet · World Wildlife Fund-México pour les colonies de monarques ·
-  registre public des espèces en péril du gouvernement du Canada pour le statut du
-  monarque.</p>
+  <p style="font-size:7.8pt;line-height:1.25;margin-top:0;color:{GRIS}">États financiers
+  compilés 2022-2023 à 2024-2025 (compilation, sans audit ni examen) · QuickBooks Online
+  pour le réel 2025-2026 · relevé de dépenses RS&amp;DE 2026 (v2026-08-08) et compte 1250 ·
+  Shopify pour les ventes, commandes, clients, sessions et villes de facturation ·
+  rapports de consignation de Les Défricheuses, sept. 2025 à juin 2026 · Statistique
+  Canada, recensement de 2021 · Groupe CTT · Université de Sherbrooke · WWF-México et le
+  registre des espèces en péril du Canada.</p>
   </div>
   {foot(18)}""")
 
