@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """La proposition de partenariat à Wassim Gharmoul, version d'août 2026.
 
-Cinq choses changent par rapport à la version de juillet, et elles vont toutes
-dans le sens de la simplicité :
+Par rapport à la version de juillet, tout va dans le sens de la simplicité :
 
-1. la part de profit se calcule sur **Lasclay au complet**, plus seulement sur
-   la production tunisienne — il n'y a plus de périmètre à définir ni à auditer ;
+1. la part se calcule sur **Lasclay au complet**, plus seulement sur la
+   production tunisienne — il n'y a plus de périmètre à définir ni à auditer ;
 2. les fonds sont déposés **en dollars canadiens** au compte de Lasclay ;
 3. l'apport est **fixé à 100 000 $**, la part reste 30 %, le plafond descend de
    600 000 $ à **500 000 $** ;
@@ -14,10 +13,29 @@ dans le sens de la simplicité :
 5. une **option de renouvellement** : redéposer 100 000 $ pour conserver les
    30 % jusqu'au terme et relever le plafond de 200 000 $.
 
+Trois changements de plus, en août, et le premier déplace beaucoup d'argent :
+
+6. la base est le **bénéfice après impôts, hors aides publiques et fiscales**.
+   Le partenaire ne touche plus une part des subventions et des crédits de
+   recherche — de l'argent public accordé pour la recherche, pas du profit gagné
+   sur les ventes — ni une part de l'impôt. Sur la lecture optimiste, la part
+   cumulée de trois exercices passe de 500 000 $ à 446 507 $ ; sur la lecture
+   prudente, de 305 604 $ à **144 599 $**, dont **zéro** la première année ;
+7. les versements sont **mensuels**, à compter du troisième mois suivant le
+   dépôt, en acomptes sur le résultat cumulatif avec une retenue de prudence de
+   50 % et une régularisation annuelle. Sans la retenue, la saisonnalité ferait
+   sortir en décembre de l'argent que l'été reprendrait : en lecture prudente,
+   37 523 $ auraient été versés sur un exercice qui ne doit rien ;
+8. la **commission sur les ventes européennes est supprimée**. Elle payait sur
+   le chiffre d'affaires — 30 % du CA quand la contribution rendue en Europe
+   tourne autour de 55 %, avant toute logistique et tout marketing — donc elle
+   rendait chaque vente européenne déficitaire, et elle mettait les deux
+   parties de deux côtés de la table à chaque décision de prix.
+
 Tous les chiffres viennent du scénario optimiste du classeur audité, celui que
-`Inputs!C70 = 3` active. Aucun n'est saisi ici : ils sortent de `pdf_data.json`,
-comme ceux du mémo des prêteurs. Les deux documents ne peuvent donc pas
-diverger.
+`Inputs!C70 = 3` active, et la lecture prudente du scénario 1. Aucun n'est saisi
+ici : ils sortent de `pdf_data.json`, comme ceux du mémo des prêteurs. Les deux
+documents ne peuvent donc pas diverger.
 
     python3 proposition_wassim.py
 """
@@ -35,24 +53,38 @@ PLAFOND_RENOUV = 700_000.0
 ANS = ('2026-2027', '2027-2028', '2028-2029')
 
 
-def quotes_parts(plafond):
-    """La part de 30 %, exercice par exercice, arrêtée au plafond."""
+def quotes_parts(plafond, lecture=O):
+    """La part de 30 %, exercice par exercice, arrêtée au plafond.
+
+    La base est le **bénéfice après impôts, hors aides publiques et fiscales** :
+    l'argent que Lasclay garde, gagné sur ses ventes et non reçu de l'État. Un
+    exercice sans bénéfice sur cette base ne verse rien — d'où le `max(0, …)`,
+    et non un montant négatif reporté sur l'exercice suivant.
+    """
     out, cum = [], 0.0
     for i in range(3):
-        brut = PART * O['pai'][i + 1]
+        base = lecture['net_hors'][i + 1]
+        brut = max(0.0, PART * base)
         verse = min(brut, max(0.0, plafond - cum))
         cum += verse
-        out.append({'pai': O['pai'][i + 1], 'brut': brut, 'verse': verse,
-                    'cum': cum})
+        out.append({'base': base, 'pai': lecture['pai'][i + 1], 'brut': brut,
+                    'verse': verse, 'cum': cum})
     return out
 
 
 SANS = quotes_parts(PLAFOND)
 AVEC = quotes_parts(PLAFOND_RENOUV)
-# À quel moment de 2028-2029 le plafond de 500 000 $ est atteint.
-RESTE = PLAFOND - SANS[1]['cum']
-PART_AN3 = RESTE / (PART * O['pai'][3])
-MULTIPLE = f"{quotes_parts(PLAFOND_RENOUV)[2]['cum'] / (2 * APPORT):.1f}".replace('.', ',')
+PRUDENT = quotes_parts(PLAFOND, D['cons'])
+# Quand la mise est-elle récupérée ? On interpole dans l'exercice qui fait
+# passer le cumul au-dessus de l'apport ; None si l'horizon n'y arrive pas.
+RECUP = None
+for _i, _s in enumerate(SANS):
+    if _s['cum'] >= APPORT:
+        _avant = SANS[_i - 1]['cum'] if _i else 0.0
+        RECUP = (_i, (APPORT - _avant) / _s['verse'] if _s['verse'] else 0.0)
+        break
+# Le plafond est-il atteint dans l'horizon du modèle ?
+PLAFOND_ATTEINT = SANS[2]['cum'] >= PLAFOND
 
 
 def foot(n, tot=6):
@@ -78,11 +110,11 @@ P.append(f"""<div class="page cover">
     <div class="tile"><div class="v">{fr(APPORT, 0, '')} $</div>
       <div class="n">Ton apport, en dollars canadiens</div></div>
     <div class="tile"><div class="v">{pct(PART, 0)}</div>
-      <div class="n">Du bénéfice de Lasclay au complet</div></div>
+      <div class="n">Du bénéfice net de Lasclay, hors aides publiques</div></div>
     <div class="tile"><div class="v">{fr(PLAFOND / 1000, 0, '')} k$</div>
       <div class="n">Plafond fixe, soit 5× ta mise</div></div>
-    <div class="tile"><div class="v">1 an</div>
-      <div class="n">Pour récupérer la mise</div></div>
+    <div class="tile"><div class="v">Mensuel</div>
+      <div class="n">Versements, dès le 3<sup>e</sup> mois</div></div>
   </div>
   <div class="cfoot">LES PRODUITS LASCLAY INC. &nbsp;·&nbsp; QUÉBEC (LIMOILOU)
     &nbsp;·&nbsp; AOÛT 2026<br>Document confidentiel préparé pour Wassim
@@ -168,10 +200,14 @@ P.append(f"""<div class="page">
     <tr><td>Points de vente au 31 août</td>
       {''.join(f'<td>{v:,.0f}</td>'.replace(',', ' ') for v in O['pdv'])}</tr>
     <tr><td>EBITDA</td>{''.join(f'<td>{fr(v)}</td>' for v in O['ebitda'])}</tr>
-    <tr class="hi"><td>Bénéfice avant impôts</td>
+    <tr><td>Bénéfice avant impôts</td>
       {''.join(f'<td>{fr(v)}</td>' for v in O['pai'])}</tr>
-    <tr><td>dont aides publiques comprises</td>
-      {''.join(f'<td>{fr(v)}</td>' for v in O['aides'])}</tr>
+    <tr><td style="padding-left:14px">moins les aides publiques et fiscales</td>
+      {''.join(f'<td>{fr(-v)}</td>' for v in O['aides'])}</tr>
+    <tr><td style="padding-left:14px">moins les impôts</td>
+      {''.join(f'<td>{fr(-v)}</td>' for v in O['impots'])}</tr>
+    <tr class="hi"><td><strong>Base de ta part</strong></td>
+      {''.join(f'<td>{fr(v)}</td>' for v in O['net_hors'])}</tr>
     <caption>Scénario optimiste du modèle financier, celui qui reprend la
       trajectoire annoncée en juillet 2026. Onze mois de 2025-2026 sont du réel,
       rapprochés de QuickBooks compte par compte.</caption>
@@ -221,8 +257,14 @@ P.append(f"""<div class="page">
   <p>Elle n'est pas dans les chiffres de la page précédente. Aucun revenu
   européen n'est budgété, ni dans le scénario optimiste ni dans les deux autres.
   Ce que tu ouvres est donc <strong>en plus</strong> de la trajectoire, pas
-  dedans — et c'est là que vit ton rendement de long terme, par la commission
-  Europe, sans plafond.</p>
+  dedans.</p>
+  <p>Et c'est exactement pour ça qu'il n'y a <strong>pas de commission
+  séparée</strong> sur l'Europe. Une commission t'aurait payé sur le chiffre
+  d'affaires, que la vente européenne soit rentable ou non, et nous aurait mis
+  de deux côtés de la table à chaque décision de prix. Ta part de profit fait
+  l'inverse : chaque dollar de bénéfice que l'Europe ajoute grossit la base sur
+  laquelle tes {pct(PART, 0)} se calculent. On gagne au même endroit, ou pas du
+  tout.</p>
 
   <h3>Ce qui ne change jamais</h3>
   <p>La culture et la transformation de la soie d'asclépiade restent
@@ -251,15 +293,23 @@ P.append(f"""<div class="page">
       Tu partages le profit et le risque, dans le respect de ta philosophie et de
       ta spiritualité.</td></tr>
     <tr class="hi"><td>Ta part</td>
-      <td style="text-align:left"><strong>{pct(PART, 0)} du bénéfice avant impôts
-      de Lasclay au complet</strong> — plus seulement de la production
-      tunisienne. Il n'y a donc plus de périmètre à définir, à isoler ni à
-      auditer : c'est le résultat de l'entreprise, celui que le comptable
-      produit.</td></tr>
+      <td style="text-align:left"><strong>{pct(PART, 0)} du bénéfice après
+      impôts de Lasclay au complet, hors aides publiques et fiscales.</strong>
+      Plus seulement de la production tunisienne : il n'y a plus de périmètre à
+      définir ni à auditer. Et la base est l'argent que l'entreprise
+      <em>garde</em> — après impôts, et sans les subventions ni les crédits
+      d'impôt, qui sont de l'argent public accordé pour la recherche et non du
+      profit gagné sur les ventes.</td></tr>
+    <tr><td>Les versements</td>
+      <td style="text-align:left"><strong>Mensuels</strong>, à compter du
+      <strong>troisième mois suivant le dépôt</strong> de ton apport, puis le
+      même jour chaque mois. Régularisation annuelle aux états financiers. La
+      mécanique est détaillée à la page suivante.</td></tr>
     <tr><td>Le plafond</td>
       <td style="text-align:left"><strong>{fr(PLAFOND)} reçus au total</strong>,
-      soit 5× ta mise. Le plafond est <strong>fixe</strong> ; c'est le rythme
-      auquel on l'atteint qui dépend du profit réel.</td></tr>
+      soit 5× ta mise. Le plafond est <strong>fixe</strong> ; le profit réel
+      décide si on l'atteint, et quand. Sur les trois exercices du modèle, même
+      en lecture optimiste, il ne l'est pas.</td></tr>
     <tr><td>Le renouvellement</td>
       <td style="text-align:left">Quand le plafond est atteint, tu peux
       <strong>redéposer {fr(APPORT)}</strong> pour conserver tes {pct(PART, 0)}
@@ -267,10 +317,10 @@ P.append(f"""<div class="page">
       <strong>{fr(200_000)}</strong>, à {fr(PLAFOND_RENOUV)}. À ta seule
       discrétion.</td></tr>
     <tr><td>Ton rôle</td>
-      <td style="text-align:left">Ouvrir la <strong>France</strong> et l'Europe.
-      En plus de ta part de profit : une <strong>commission de {pct(PART, 0)} sur
-      les ventes européennes réalisées par ton démarchage</strong>, sans plafond,
-      et hors du plafond ci-dessus.</td></tr>
+      <td style="text-align:left">Ouvrir la <strong>France</strong> et l'Europe,
+      et tenir le pont avec l'usine. Aucune commission séparée : ce que l'Europe
+      ajoute au bénéfice grossit la base de tes {pct(PART, 0)}, et rien ne nous
+      met de deux côtés de la table.</td></tr>
     <tr><td>La sortie</td>
       <td style="text-align:left">Une porte de sortie prévue d'avance, à une
       formule juste : ta position peut être rachetée. Ta rétribution récompense
@@ -299,51 +349,79 @@ P.append(f"""<div class="page">
 
 # ------------------------------------------------------------------ 05
 lignes = ''.join(
-    f'<tr><td>{an}</td><td>{fr(s["pai"])}</td><td>{fr(s["brut"])}</td>'
-    f'<td>{fr(s["verse"])}</td><td>{fr(s["cum"])}</td></tr>'
+    f'<tr><td>{an}</td><td>{fr(s["pai"])}</td><td>{fr(s["base"])}</td>'
+    f'<td>{fr(s["brut"])}</td><td>{fr(s["cum"])}</td></tr>'
     for an, s in zip(ANS, SANS))
-lignes_r = ''.join(
-    f'<tr><td>{an}</td><td>{fr(s["brut"])}</td><td>{fr(s["cum"])}</td></tr>'
-    for an, s in zip(ANS, AVEC))
+lignes_p = ''.join(
+    f'<tr><td>{an}</td><td>{fr(s["base"])}</td><td>{fr(s["brut"])}</td>'
+    f'<td>{fr(s["cum"])}</td></tr>'
+    for an, s in zip(ANS, PRUDENT))
+
+if RECUP is None:
+    recup = ('Sur cet horizon de trois exercices, le cumul atteint '
+             f'{fr(SANS[2]["cum"])} : la mise est récupérée, le plafond ne l\'est pas.')
+else:
+    _i, _f = RECUP
+    recup = (f'Ta mise de {fr(APPORT)} est récupérée en cours de '
+             f'<strong>{ANS[_i]}</strong>, autour du '
+             f'{"premier" if _f < 0.34 else "deuxième" if _f < 0.67 else "dernier"} '
+             f'tiers de l\'exercice.')
 
 P.append(f"""<div class="page">
   <div class="kicker">Le rendement</div>
   <div class="sect"><span class="num">05</span><h2>Ce que ça peut te
     rapporter</h2></div>
-  <div class="lede">Ta part suit le bénéfice réel de Lasclay. Voici le chemin sur
-    le scénario optimiste du modèle — celui de la page 2.</div>
+  <div class="lede">Ta part suit le bénéfice réel de Lasclay, après impôts et
+    sans les aides publiques. Voici le chemin sur le scénario optimiste du
+    modèle — celui de la page 2.</div>
 
   <table>
-    <tr><th>Exercice</th><th>Bénéfice avant impôts</th><th>Ta part, {pct(PART, 0)}</th>
-      <th>Versé</th><th>Cumulé</th></tr>
+    <tr><th>Exercice</th><th>Bénéfice avant impôts</th>
+      <th>Base : après impôts, hors aides</th><th>Ta part, {pct(PART, 0)}</th>
+      <th>Cumulé</th></tr>
     {lignes}
-    <caption>Le plafond de {fr(PLAFOND)} est atteint à environ
-      {pct(PART_AN3, 0)} de l'exercice 2028-2029, soit un peu moins de
-      <strong>deux ans et demi</strong> après l'apport. La première année,
-      {fr(SANS[0]['verse'])}, {'rend déjà ta mise en entier'
-       if SANS[0]['verse'] >= APPORT
-       else f"récupère déjà {pct(SANS[0]['verse'] / APPORT, 0)} de ta mise"}.</caption>
+    <caption>{recup} Le plafond de {fr(PLAFOND)} n'est
+      {'' if PLAFOND_ATTEINT else 'pas '}atteint dans l'horizon du modèle : ce
+      que tu reçois est le profit lui-même, pas le plafond.</caption>
   </table>
 
-  <div class="two">
-    <div class="card"><h4>Sans renouvellement</h4>
-      <p class="big">{fr(PLAFOND)}</p>
-      <p style="font-size:8.5pt;color:{GRIS};margin:0">5× la mise, atteint en
-      cours de 2028-2029. Ta part cesse ensuite ; la commission Europe, elle,
-      continue.</p></div>
-    <div class="card o"><h4>Avec renouvellement</h4>
-      <p class="big">{fr(AVEC[2]['cum'])}</p>
-      <p style="font-size:8.5pt;color:{GRIS};margin:0">Sur {fr(2 * APPORT)}
-      engagés au total, soit {MULTIPLE}× la mise. Le
-      plafond relevé à {fr(PLAFOND_RENOUV)} n'est pas atteint dans l'horizon du
-      modèle : ce que tu reçois est le profit lui-même, pas le plafond.</p></div>
-  </div>
+  <h3>Comment les versements tombent</h3>
+  <ul>
+    <li><strong>Mensuels</strong>, à compter du troisième mois suivant le dépôt
+      de ton apport, puis le même jour chaque mois.</li>
+    <li>Chaque acompte vaut {pct(PART, 0)} du résultat cumulatif de l'exercice
+      sur la base convenue, moins ce qui a déjà été versé, <strong>avec une
+      retenue de prudence de 50 %</strong> jusqu'aux états financiers.</li>
+    <li><strong>Régularisation annuelle</strong> dans les 30 jours des états
+      financiers : le solde part en un seul versement.</li>
+    <li>Si les acomptes ont dépassé le dû, <strong>rien n'est à rembourser</strong> :
+      l'excédent s'impute sur les acomptes de l'exercice suivant.</li>
+    <li>Un exercice sans bénéfice sur cette base ne verse rien, et le déficit
+      <strong>ne se reporte pas</strong> sur les exercices suivants.</li>
+  </ul>
+  <p style="font-size:8.5pt;color:{GRIS}">Pourquoi la retenue de 50 % : les
+  ventes de Lasclay sont saisonnières. Novembre et décembre portent le résultat
+  de l'année, le printemps et l'été en reprennent une partie. Verser en décembre
+  {pct(PART, 0)} d'un cumul que l'été ramènera plus bas ferait sortir de la
+  caisse de l'argent que l'exercice ne dégagera pas — et il faudrait te le
+  redemander. La retenue évite cette conversation.</p>
 
-  <h3>L'option de renouvellement, en clair</h3>
+  <h3>Si le plan va moins vite</h3>
+  <table>
+    <tr><th>Lecture prudente du modèle</th><th>Base : après impôts, hors aides</th>
+      <th>Ta part, {pct(PART, 0)}</th><th>Cumulé</th></tr>
+    {lignes_p}
+    <caption>Le modèle porte trois lectures. Celle-ci est la plus basse des
+      trois, et elle est celle que je dépose aux prêteurs. Je te la montre parce
+      que tu dois voir les deux bouts : ta part suit le bénéfice réel, à la
+      hausse comme à la baisse.</caption>
+  </table>
+
+  <h3>L'option de renouvellement</h3>
   <p>Au moment où le plafond de {fr(PLAFOND)} est atteint, tu peux redéposer
   {fr(APPORT)}. Tes {pct(PART, 0)} continuent de courir jusqu'au terme de
   l'entente, et le plafond total passe à {fr(PLAFOND_RENOUV)}. Tu décides à ce
-  moment-là, avec deux exercices de résultats réels sous les yeux — pas
+  moment-là, avec plusieurs exercices de résultats réels sous les yeux — pas
   aujourd'hui, sur une projection.</p>
   {foot(5)}""")
 
@@ -374,10 +452,11 @@ P.append(f"""<div class="page">
   <div class="two" style="margin-top:9px">
     <div class="card o"><h4>Le scénario retenu est l'optimiste</h4>
       <p style="font-size:8.5pt;margin:0">Le modèle porte trois lectures. Celle
-      d'ici est la plus haute. La lecture prudente donne
-      {fr(D['cons']['pai'][3])} de bénéfice en 2028-2029 au lieu de
-      {fr(O['pai'][3])} : ta part y serait plus lente, le plafond plus long à
-      atteindre.</p></div>
+      d'ici est la plus haute. En lecture prudente, ta part cumule
+      {fr(PRUDENT[2]['cum'])} sur les trois exercices au lieu de
+      {fr(SANS[2]['cum'])}, et <strong>2026-2027 ne verse rien</strong> : le
+      bénéfice hors aides y est négatif. Le tableau est à la page
+      précédente.</p></div>
     <div class="card"><h4>Ce que tu peux vérifier</h4>
       <p style="font-size:8.5pt;margin:0">Le modèle est un chiffrier mensuel de
       48 mois rapproché de QuickBooks compte par compte, avec son journal
@@ -405,13 +484,20 @@ P.append(f"""<div class="page">
     et peut être nul.</p>
     <p><strong>Le plafond, lui, est fixe.</strong> {fr(PLAFOND)} au total, porté
     à {fr(PLAFOND_RENOUV)} si l'option de renouvellement est exercée. Ce que les
-    projections font varier, c'est le délai pour l'atteindre, pas son montant.
-    La commission sur les ventes européennes issues du démarchage du partenaire
-    est distincte de la part de profit et n'est pas plafonnée.</p>
-    <p>La part de profit se calcule sur le <strong>bénéfice avant impôts</strong>
-    de Les Produits Lasclay inc., tel qu'établi par ses états financiers. La
-    définition exacte, la fréquence des versements, le terme de l'entente et la
-    formule de rachat seront arrêtés dans la convention écrite.</p>
+    projections font varier, c'est le délai pour l'atteindre — s'il est atteint —
+    pas son montant. Aucune commission, sur aucun territoire, ne s'ajoute à la
+    part de profit.</p>
+    <p>La part de profit se calcule sur le <strong>bénéfice après impôts de Les
+    Produits Lasclay inc., duquel sont retranchées les aides publiques et
+    fiscales</strong> — subventions, crédits d'impôt de recherche et
+    développement et autres crédits d'impôt — tel qu'établi par les états
+    financiers annuels. Les versements sont <strong>mensuels</strong>, à compter
+    du troisième mois suivant le dépôt de l'apport, sous forme d'acomptes sur le
+    résultat cumulatif de l'exercice, avec une retenue de prudence de 50 % et
+    une régularisation dans les 30 jours des états financiers. Un exercice sans
+    bénéfice sur cette base ne verse rien et son déficit ne se reporte pas. Le
+    terme de l'entente, le rang de la part par rapport au service de la dette et
+    la formule de rachat seront arrêtés dans la convention écrite.</p>
     <p>Document confidentiel préparé pour Wassim Gharmoul. Chiffres indicatifs et
     non contractuels ; ils ne constituent ni une garantie, ni une offre, ni une
     sollicitation. Toute entente ferait l'objet d'une convention écrite revue par
@@ -438,6 +524,10 @@ if __name__ == '__main__':
                     'Lasclay - Proposition de partenariat (Wassim) - aout 2026.pdf',
                     'proposition_wassim.html')
     print(f'PDF produit {taille:,} octets')
-    print(f'  plafond atteint à {PART_AN3:.0%} de 2028-2029')
-    print(f'  sans renouvellement {SANS[2]["cum"]:,.0f} $ ; '
-          f'avec {AVEC[2]["cum"]:,.0f} $ sur {2 * APPORT:,.0f} $')
+    for nom, q in (('optimiste', SANS), ('prudent', PRUDENT)):
+        print(f'  {nom:<10} ' + '  '.join(f'{a} {s["brut"]:>9,.0f}'
+                                          for a, s in zip(ANS, q))
+              + f'   cumul {q[2]["cum"]:>9,.0f} ({q[2]["cum"] / APPORT:.1f}x)')
+    print(f'  plafond de {PLAFOND:,.0f} $ '
+          f'{"atteint" if PLAFOND_ATTEINT else "NON atteint"} dans l’horizon ; '
+          f'mise récupérée en {ANS[RECUP[0]] if RECUP else "—"}')

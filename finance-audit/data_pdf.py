@@ -28,6 +28,13 @@ for scen,name in ((1,'cons'),(2,'amb'),(3,'opt')):
       'pai':[g(P,t+'137') for t in TOT],
       'hors':[g(P,t+'141') for t in TOT],
       'aides':[g(P,t+'151') for t in TOT],
+      'impots':[g(P,t+'140') for t in TOT],
+      # Bénéfice APRÈS impôts et HORS aides publiques et fiscales : la base de
+      # la part du partenaire. Rangée 141 (avant impôts, hors aides) moins la
+      # rangée 140 (impôts). Autrement dit le résultat après impôts d'où l'on
+      # a retiré subventions et crédits d'impôt — de l'argent que Lasclay garde,
+      # gagné sur ses ventes et non reçu de l'État.
+      'net_hors':[round(bk.get(P,t+'141')-bk.get(P,t+'140'),2) for t in TOT],
       'equity':[g(B,c+'70') for c in YE],
       'dette':[round(bk.get(B,c+'43')+bk.get(B,c+'60'),2) for c in YE],
       'consig':[g(B,c+'84') for c in YE],

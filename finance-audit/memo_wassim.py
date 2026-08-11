@@ -320,6 +320,9 @@ P.append(f"""<div class="page">
       <td>{fr(A['pai'][3])}</td><td>{fr(O['pai'][3])}</td></tr>
     <tr><td>Bénéfice hors aides publiques</td><td>{fr(C['hors'][3])}</td>
       <td>{fr(A['hors'][3])}</td><td>{fr(O['hors'][3])}</td></tr>
+    <tr><td>Après impôts et hors aides — <em>base de ta part</em></td>
+      <td>{fr(C['net_hors'][3])}</td><td>{fr(A['net_hors'][3])}</td>
+      <td>{fr(O['net_hors'][3])}</td></tr>
     <caption>Le rythme historique du commerce en ligne est de
       {pct(CROISS_HIST, 1)} par année. La lecture prudente le divise par deux ;
       l'optimiste le reconduit tel quel.</caption>
@@ -334,6 +337,8 @@ P.append(f"""<div class="page">
     <tr><td>EBITDA</td>{''.join(f'<td>{fr(v)}</td>' for v in O['ebitda'])}</tr>
     <tr><td>Bénéfice avant impôts</td>
       {''.join(f'<td>{fr(v)}</td>' for v in O['pai'])}</tr>
+    <tr><td>Après impôts et hors aides — <em>base de ta part</em></td>
+      {''.join(f'<td>{fr(v)}</td>' for v in O['net_hors'])}</tr>
     <tr><td>Capitaux propres au 31 août</td>
       {''.join(f'<td>{fr(v)}</td>' for v in O['equity'])}</tr>
     <caption>Onze mois de 2025-2026 sont du réel, collés depuis QuickBooks compte
