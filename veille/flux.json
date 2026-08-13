@@ -1,0 +1,21 @@
+{
+  "_note": "Les flux que la veille écoute. Un flux se retire en passant actif:false — jamais en supprimant la ligne, pour que le curseur associé garde son sens. Les identifiants d'étiquette viennent de missive_structure.json.",
+  "missive": [
+    { "nom": "R&D/Idées de produits", "etiquette": "050ccadf-374f-4e86-8b30-657583b45391", "actif": true },
+    { "nom": "R&D/Feedbacks manteaux", "etiquette": "60eb077f-b94b-4551-874d-0a25b328d273", "actif": true },
+    { "nom": "R&D", "etiquette": "fa3615d0-a970-4913-a16c-258b30721d43", "actif": true },
+    { "nom": "R&D/Semelle", "etiquette": "67589e17-6c9b-4aa9-9c0c-250f90c8a7fc", "actif": true },
+    { "nom": "R&D/Mitaine", "etiquette": "67eaaa92-7976-4877-b733-719f55d22a78", "actif": true },
+    { "nom": "R&D/Glacière", "etiquette": "4c1ab074-5a7d-4e8a-b21e-e6109ad11179", "actif": true },
+    { "nom": "R&D/Tuque sport", "etiquette": "917b120f-9a27-419f-b0e2-6f284e154780", "actif": true },
+    { "nom": "R&D/Sac lunch", "etiquette": "d34c4efb-70e5-48a6-8b8b-4bd90e00f25a", "actif": true },
+    { "nom": "R&D/Cache-cou", "etiquette": "a647f1f8-fe4b-42ac-b946-52b3f30fe0bd", "actif": true },
+    { "nom": "R&D/Étui cellulaire", "etiquette": "1456d145-91c1-429c-b76e-97183d16bb31", "actif": true },
+    { "nom": "R&D/Mitaine de four", "etiquette": "f0cc9ac9-5704-4155-8460-7b1b104e1a1b", "actif": true },
+    { "nom": "R&D/Produits horticoles", "etiquette": "521f40d1-3771-4eaa-99e7-eda9c449d28d", "actif": true },
+    { "nom": "Conception produit", "etiquette": "5f2da357-fad7-481f-b0d1-9b750c387d99", "actif": true },
+    { "nom": "Projet asclépiade", "etiquette": "957f21a3-3d0f-4503-8846-c2688553d411", "actif": true },
+    { "nom": "Avis à traiter", "etiquette": "1681e586-9a75-49a6-bf90-75a2620d20a5", "actif": true },
+    { "nom": "Quantité d'isolant", "etiquette": "7446125d-2aa0-4da6-bbfe-0c7465edb303", "actif": true }
+  ]
+}

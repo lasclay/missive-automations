@@ -3,3 +3,8 @@ node_modules/
 
 # Index local de dossier.js (donnees client, jamais versionne)
 .dossier_index.json
+
+# Veille — verbatim client, jamais versionné (voir veille/README.md)
+veille/ardoise.jsonl
+veille/etat.json
+veille/connaissance/
