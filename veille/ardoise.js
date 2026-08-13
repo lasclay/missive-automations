@@ -133,6 +133,9 @@ function ajouter(signaux, { horodatage } = {}) {
       ref: brut.ref || null,
       date: brut.date || null,
       type: brut.type || "inclassé",
+      // D'où vient le type : du lexique (« pretri », retriable) ou de
+      // l'adaptateur qui a produit le signal (« adaptateur », intouchable).
+      tri: brut.tri || "pretri",
       themes: brut.themes || [],
       produits: brut.produits || [],
       personne: initiale(brut.personne),
@@ -169,6 +172,20 @@ function statuer(cles, statut) {
   return touches;
 }
 
+/**
+ * Réécrit l'ardoise à partir d'une liste complète de signaux. Sert au
+ * reclassement : quand le vocabulaire de pretri.js s'enrichit, l'historique
+ * doit en profiter, sinon les comptes mélangent deux générations de tri et
+ * aucune série temporelle n'est comparable.
+ *
+ * Ne touche ni `cle`, ni `statut`, ni `vu_le` — le reclassement change la
+ * lecture d'un signal, jamais son identité ni la ratification humaine.
+ */
+function reecrire(signaux) {
+  fs.writeFileSync(ARDOISE, signaux.map((s) => JSON.stringify(s)).join("\n") + "\n");
+  return signaux.length;
+}
+
 function journaliser(collecte) {
   const etat = lireEtat();
   etat.collectes = (etat.collectes || []).slice(-49);
@@ -179,6 +196,6 @@ function journaliser(collecte) {
 module.exports = {
   ARDOISE, ETAT, ETATS,
   pseudonymise, initiale, cle,
-  charger, ajouter, statuer,
+  charger, ajouter, statuer, reecrire,
   lireEtat, ecrireEtat, curseur, poserCurseur, journaliser,
 };

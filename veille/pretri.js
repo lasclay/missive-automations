@@ -41,6 +41,12 @@ const PRODUITS = {
   coussin: /\bcoussin d'assise\b|\bcoussin thermal\b/i,
   semences: /\bsemences?\b|\bgraines?\b|\bbombes? de (?:semences|graines)\b|\bseeds?\b|\basclépiade [àa] planter\b/i,
   isolant: /\bisolant\b|\bbourre\b|\bsoie en vrac\b|\bbulk milkweed\b|\bbatting\b/i,
+  // Catégories réclamées mais absentes du catalogue : les compter séparément
+  // permet de voir monter une demande avant qu'elle existe comme produit.
+  literie: /\bsac de couchage\b|\bcouette?s?\b|\bduvet de lit\b|\bjet[ée]s?\b|\btaies? d'oreiller\b|\boreiller?s?\b|\bsleeping ?bag\b|\bduvet cover\b|\bmatelas\b|\btatami\b/i,
+  chaussette: /\bchaussette?s?\b|\bbas\b(?! de )|\bfeutres?\b|\bchausson?s?\b|\bsock?s?\b/i,
+  vetement: /\bboxers?\b|\bleggings?\b|\bpantalon\b|\bsous[- ]v[êe]tement|\bjupe\b|\bponcho\b|\bcape\b|\bgu[êe]tres?\b/i,
+  animal: /\bpour (?:mon |le |les )?chiens?\b|\bbottes? pour chien|\bdog (?:boots?|coat)\b|\btapis pour chien\b|\bpet\b/i,
 };
 
 // --- Types de signal -------------------------------------------------------
@@ -55,12 +61,16 @@ const TYPES = [
   },
   {
     type: "offre_partenariat",
-    // Quelqu'un qui apporte une capacité : fabrication, média, expertise, matière.
-    motif: /\bcollabor|\bpartenariat\b|\bje (?:peux|pourrais) (?:vous )?(?:aider|fournir|mettre en contact)\b|\bmon r[ée]seau d'affaires\b|\bj'ai travaill[ée] (?:durant|pendant)\b|\bcontactez[- ]les\b|\bseriez[- ]vous (?:d'accord|int[ée]ress)|\bje r[ée]colte\b|\bgousses?\b.*\bint[ée]ress|\bradio-canada\b|\bjournalist/i,
+    // Quelqu'un qui apporte une capacité : fabrication, média, expertise,
+    // matière première, terre. Ces messages arrivent une fois et ne reviennent
+    // pas — les rater coûte plus cher que de les sur-détecter.
+    // « offrir » exige « vous » devant : sans ça, « ce vêtement doit offrir une
+    // protection » se fait prendre pour une offre de partenariat.
+    motif: /\bcollabor|\bpartenariat\b|\bje (?:peux|pourrais) (?:vous (?:aider|fournir|offrir|mettre en contact)|aider|fournir|mettre en contact)\b|\bmon r[ée]seau d'affaires\b|\bj'ai travaill[ée] (?:durant|pendant)\b|\bcontactez[- ]les\b|\bseriez[- ]vous (?:d'accord|int[ée]ress)|\bje r[ée]colte\b|\bgousses?\b.*\bint[ée]ress|\bradio-canada\b|\bjournalist|\bje dispose d'une (?:grande )?terre\b|\bl'ascl[ée]piade pousse (?:d[ée]j[àa]|naturellement)\b|\bculture d'ascl[ée]piade sur mon terrain\b|\bvotre programme\b|\bmes? champs?\b|\bje suis (?:agricult|producteur|artisan)|\bvous pourriez en offrir\b/i,
   },
   {
     type: "idee_produit",
-    motif: /\bsuggestion\b|\bid[ée]e de produit\b|\bavez[- ]vous (?:pens[ée]|pr[ée]vu|l'intention)\b|\bpr[ée]voyez[- ]vous\b|\bserait[- ]il possible de (?:faire|d[ée]velopper|fabriquer)\b|\bpourriez[- ]vous (?:faire|d[ée]velopper|cr[ée]er|offrir)\b|\bce serait (?:g[ée]nial|super|bien|chouette)\b|\bj'aimerais (?:que vous|avoir un)\b|\bdo you (?:sell|have plans|make)\b|\bit would be (?:great|amazing)\b|\bhave you considered\b|\bversion 2\.0\b/i,
+    motif: /\bsuggestion\b|\bid[ée]e de produit\b|\bavez[- ]vous (?:pens[ée]|pr[ée]vu|l'intention)\b|\bpr[ée]voyez[- ]vous\b|\bserait[- ]il possible de (?:faire|d[ée]velopper|fabriquer)\b|\bpourriez[- ]vous (?:faire|d[ée]velopper|cr[ée]er|offrir)\b|\bce serait (?:g[ée]nial|super|bien|chouette|int[ée]ressant)\b|\bj'aimerais (?:que vous|avoir un)\b|\bdo you (?:sell|have plans|make)\b|\bit would be (?:great|amazing)\b|\bhave you considered\b|\bversion 2\.0\b|\bil serait (?:pertinent|int[ée]ressant) que vous\b|\bje me demandais si (?:vous|ce)\b|\b[àa] quand\b|\bfait[- ]il partie de vos projets\b|\bvendez[- ]vous de l'\b|\bpensez[- ]vous (?:faire|offrir|d[ée]velopper)\b|\bun produit en demande\b|\bpourquoi pas (?:des|un|une)\b/i,
   },
   {
     type: "taille_ajustement",
@@ -86,7 +96,7 @@ const TYPES = [
   },
   {
     type: "eloge",
-    motif: /\bbravo\b|\bf[ée]licitations\b|\bmerci (?:beaucoup|pour|d'exister)\b|\bj'adore\b|\btr[èe]s satisfait|\bexcellent\b|\bwow\b|\bg[ée]nial\b|\bcontinuez\b|\bl[âa]chez pas\b|\bi love\b|\bamazing\b/i,
+    motif: /\bbravo\b|\bf[ée]licitations\b|\bmerci (?:beaucoup|pour|d'exister|de)\b|\bj'adore\b|\btr[èe]s (?:satisfait|content)|\bexcellent\b|\bwow\b|\bg[ée]nial\b|\bcontinuez\b|\bl[âa]chez pas\b|\bi love\b|\bamazing\b|\bbon succ[èe]s\b|\bbien h[âa]te\b|\bbelle (?:d[ée]couverte|initiative)\b|\bproud of you\b|\bparfait\b|\bbonne continu/i,
   },
 ];
 
@@ -106,6 +116,12 @@ const THEMES = {
   "capuchon-poches": /\bcapuch|\bcapuce\b|\bhood\b|\bpoche?s? (?:int[ée]rieure?s?|[àa] t[ée]l[ée]phone)\b|\bpocket\b/i,
   "vent-coutures": /\ble vent (?:passe|se faufile|entre)\b|\bpont thermique\b|\bcoutures? (?:scell|non scell)\b|\bwind\b/i,
   precommande: /\bpr[ée]commande\b|\bpr[ée]vente\b|\bpre-?order\b|\bkickstarter\b|\bsociofinancement\b|\bautofinancement\b/i,
+  // Un avis est PUBLIC : le même défaut y coûte bien plus cher qu'en privé.
+  // Le compter comme thème plutôt que comme type laisse le contenu être classé
+  // pour ce qu'il dit, tout en gardant visible qu'il est exposé.
+  "avis-public": /a [ée]crit (?:l'|un )avis \d+ [ée]toile|a mis [àa] jour son avis|\bwrote a \d+[- ]star review\b/i,
+  "avis-negatif": /a [ée]crit (?:l'|un )avis [12] [ée]toile|a mis [àa] jour son avis [12] [ée]toile/i,
+  "avis-positif": /a [ée]crit (?:l'|un )avis [45] [ée]toile|a mis [àa] jour son avis [45] [ée]toile/i,
 };
 
 function detecte(dictionnaire, texte) {

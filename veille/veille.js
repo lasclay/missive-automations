@@ -79,6 +79,54 @@ function etat() {
   }
 }
 
+/**
+ * Repasse le pré-tri sur toute l'ardoise. À lancer chaque fois que le
+ * vocabulaire de pretri.js s'enrichit : sans ça, les signaux anciens gardent
+ * le tri de leur époque et aucune série dans le temps n'est comparable —
+ * une catégorie qui « monte » pourrait n'être qu'un motif ajouté hier.
+ */
+function reclasse() {
+  const signaux = ardoise.charger();
+  if (!signaux.length) return console.log("Ardoise vide.");
+  const avant = new Map(signaux.map((s) => [s.cle, s.type]));
+  let bouges = 0;
+
+  for (const s of signaux) {
+    // Deux signaux qu'on ne retrie PAS.
+    //
+    // 1. Ceux dont le type vient d'un adaptateur et non du lexique
+    //    (`mesure_ops`, par exemple) : le pré-tri n'a rien à dire d'une mesure
+    //    chiffrée, et la repasser dessus la dégraderait en « inclassé ».
+    // 2. Rien d'autre — mais surtout, on ne renettoie pas le texte. Il l'a été
+    //    à la collecte, et le repasser dans nettoie() le tronquerait au premier
+    //    séparateur « --- » entre messages, qui ressemble à une coupure de
+    //    citation. C'est la régression qui a motivé ce commentaire.
+    if (s.tri && s.tri !== "pretri") continue;
+
+    const { type, themes, produits } = pretri.classe(s.texte);
+    if (type !== s.type) bouges++;
+    s.type = type;
+    s.themes = themes;
+    s.produits = produits;
+  }
+  ardoise.reecrire(signaux);
+
+  const agg = pretri.agrege(signaux);
+  const inclasses = (agg.par_type.find(([k]) => k === "inclassé") || [null, 0])[1];
+  console.log(`${signaux.length} signaux reclassés, ${bouges} ont changé de type.`);
+  console.log(`Inclassés : ${Math.round((inclasses / signaux.length) * 100)} %`);
+
+  const mouvements = new Map();
+  for (const s of signaux) {
+    const de = avant.get(s.cle);
+    if (de !== s.type) mouvements.set(`${de} → ${s.type}`, (mouvements.get(`${de} → ${s.type}`) || 0) + 1);
+  }
+  if (mouvements.size) {
+    console.log("");
+    for (const [m, n] of [...mouvements].sort((a, b) => b[1] - a[1])) console.log(`  ${String(n).padStart(4)}  ${m}`);
+  }
+}
+
 function montre() {
   const type = drapeau("type");
   const produit = drapeau("produit");
@@ -113,6 +161,8 @@ function montre() {
       await collecte({ sansOps: !!drapeau("sans-ops", false) });
       console.log("");
       await distille({});
+    } else if (cmd === "reclasse") {
+      reclasse();
     } else if (cmd === "etat") {
       etat();
     } else if (cmd === "montre") {

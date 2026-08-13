@@ -86,6 +86,16 @@ const COUPURES = [
   /\n\s*Téléchargez Outlook pour /i,
 ];
 
+// Les notifications d'avis (Judge.me) arrivent enveloppées dans un gabarit :
+// « X a écrit l'avis N étoile(s) suivant pour le produit P : … » puis un pavé
+// sur le badge « acheteur vérifié ». Sans cette coupe, le pré-tri classe le
+// gabarit au lieu de l'avis, et tous les avis se ressemblent.
+const GABARIT_AVIS = [
+  /Nous ajouterons le badge[\s\S]*$/i,
+  /Ceci est un avis web[\s\S]*$/i,
+  /Pour mod[ée]rer cet avis[\s\S]*$/i,
+];
+
 function nettoie(texte) {
   if (!texte) return "";
   let s = String(texte).replace(/\r/g, "");
@@ -93,6 +103,7 @@ function nettoie(texte) {
     const m = s.match(c);
     if (m && m.index > 40) s = s.slice(0, m.index);
   }
+  for (const g of GABARIT_AVIS) s = s.replace(g, "");
   return s
     .replace(/[͏­​]+/g, "")   // caractères de bourrage des infolettres
     .replace(/[ \t]+/g, " ")
@@ -228,6 +239,7 @@ async function collecteOperations({ journal = () => {} } = {}) {
       ref: `arriere-${jour}`,
       date: jour,
       type: "mesure_ops",
+      tri: "adaptateur",   // chiffre, pas verbatim : le lexique n'a rien à en dire
       themes: ["operations"],
       produits: [],
       personne: null,
