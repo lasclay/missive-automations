@@ -16,10 +16,11 @@ from glossaire_b import GLOSSAIRE as B
 from glossaire_c import GLOSSAIRE as C
 from glossaire_d import GLOSSAIRE as D
 from glossaire_e import GLOSSAIRE as E
+from glossaire_f import GLOSSAIRE as F
 
-GLOSSAIRE = {**A, **B, **C, **D, **E}
+GLOSSAIRE = {**A, **B, **C, **D, **E, **F}
 
-_parties = {'A': A, 'B': B, 'C': C, 'D': D, 'E': E}
+_parties = {'A': A, 'B': B, 'C': C, 'D': D, 'E': E, 'F': F}
 _doublons = {c for x, p in _parties.items() for y, q in _parties.items()
              if x < y for c in set(p) & set(q)}
 if _doublons:

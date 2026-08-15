@@ -72,7 +72,7 @@ P.append(f"""<div class="page cover">
     <div><span class="v">{fr(hist_ca[4] / 1e6, 2, '')} M$</span><span class="k">Revenu 2025-2026</span></div>
     <div><span class="v">{f"{C['ventes'][3]/1e6:.2f}".replace('.', ',')} M$</span><span class="k">Ventes nettes visées 2028-2029</span></div>
     <div><span class="v">2027-2028</span><span class="k">Rentable hors aides publiques</span></div>
-    <div><span class="v">70 000</span><span class="k">Clients depuis 2020</span></div>
+    <div><span class="v">{fr(S["clients"],0,"")}</span><span class="k">Clients depuis 2020</span></div>
   </div>
 
   <div class="ctitle">CE QUE CONTIENT CE DOCUMENT</div>
@@ -224,7 +224,8 @@ P.append(f"""<div class="page">
       d’offres institutionnel et le manteau haut de gamme : des marchés qui se gagnent au
       plus bas prix ou se vendent à mille dollars l’unité, et qui laissent la matière
       invisible. Lasclay a fait l’inverse. Une marque grand public, une vente directe,
-      une communauté de 70 000 clients, et un produit d’entrée abordable qui fait
+      une communauté de {fr(S["communaute"],0,"")} personnes dont {fr(S["clients"],0,"")}
+      clients, et un produit d’entrée abordable qui fait
       découvrir la fibre avant de vendre le manteau.</p></div>
     <div class="card v"><h4>Des capacités qui manquaient à la filière</h4>
       <p style="font-size:8.6pt;margin:0">Marketing, développement des affaires,
@@ -254,7 +255,8 @@ P.append(f"""<div class="page">
   <div class="sect"><span class="num">04</span><h2>Ce que disent six ans de ventes</h2></div>
   <div class="lede">En 2020, une publication devient virale. 10 000 inscriptions à
     l'infolettre en deux semaines, 1 000 paires de mitaines vendues avant d'avoir une
-    usine. Six ans plus tard, 70 000 clients et 3 M$ cumulés. Ce sont quatre contraintes
+    usine. Six ans plus tard, {fr(S["clients"],0,"")} clients et 3 M$ cumulés. Ce sont quatre
+    contraintes
     techniques, et non le marché, qui ont limité la suite.</div>
 
   <p>Six exercices, une marge brute passée de 44,3 % à 73,0 %, et la rentabilité
@@ -291,7 +293,7 @@ P.append(f"""<div class="page">
     logiciels. La structure allégée en libère {fr(D['mod_production']['avant'] - D['mod_production']['apres'] + D['loyer'][0] - D['loyer'][1])} dès 2026-2027. <em>Section 10.</em></p></div>
 
   <div class="tiles">
-    <div class="tile"><div class="v">70 000</div><div class="k">Clients</div>
+    <div class="tile"><div class="v">{fr(S["clients"],0,"")}</div><div class="k">Clients</div>
       <div class="n">3 M$ cumulés depuis 2020</div></div>
     <div class="tile"><div class="v">{fr(hist_ca[4] / 1e6, 2, '')} M$</div>
       <div class="k">Revenu 2025-2026</div>
@@ -781,7 +783,8 @@ P.append(f"""<div class="page">
   <h3>Ce qui fait croître le commerce en ligne</h3>
   <div class="two">
     <div class="card v"><h4>Une base de clients qui rachète</h4>
-      <p style="font-size:8.6pt;margin:0">70 000 clients depuis 2020. Sur la prévente de
+      <p style="font-size:8.6pt;margin:0">{fr(S["clients"],0,"")} clients depuis 2020, dont
+      {fr(S["clients_2plus"],0,"")} ont commandé au moins deux fois. Sur la prévente de
       juin 2026, 425 des 499 acheteurs identifiés étaient déjà clients, avec un panier de
       126,52 $ contre 79,92 $ en moyenne annuelle. Cette base se vend sans coût
       d'acquisition.</p></div>
@@ -1206,7 +1209,8 @@ P.append(f"""<div class="page">
   <div class="sect"><span class="num">18</span><h2>Synthèse</h2></div>
 
   <p>Lasclay a franchi les étapes les plus difficiles d'une entreprise pionnière :
-  apprendre une matière que personne ne maîtrisait, bâtir une demande de 70 000 clients,
+  apprendre une matière que personne ne maîtrisait, bâtir une demande de
+  {fr(S["clients"],0,"")} clients,
   porter la marge brute de 44 % à 73 %, et atteindre la rentabilité en 2024-2025. Ce qui
   bloque n'est pas le marché.</p>
 

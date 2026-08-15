@@ -188,6 +188,11 @@ out['sommaire']={
   'encaisse_juil':round(bk.get(B,'N6'),2),
   'tirage_du_mois':round(bk.get(P,'N183')-bk.get(P,'M183'),2),
   'edc_juil':EDC_JUILLET,'coussin':round(EDC_AUTORISEE-EDC_JUILLET,2),
+  # Base de clients, extraite de l'API Admin de Shopify le 11 août 2026
+  # (customerSegmentMembers). « Clients » = au moins une commande ; « communauté »
+  # = toutes les fiches, acheteurs et inscrits confondus. Le mémo portait
+  # 70 000 « clients », un chiffre qui tenait de la communauté et non des acheteurs.
+  'clients':39566,'communaute':80459,'clients_2plus':6676,'abonnes':26709,
   # RS&DE : le relevé de dépenses v2026-08-08, tel que le classeur le porte.
   'pertes':round(bk.get('Inputs','C43'),2),
   'rsde_base':round(bk.get('Inputs','D173'),2),
