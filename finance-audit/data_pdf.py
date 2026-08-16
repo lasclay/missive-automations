@@ -193,6 +193,8 @@ out['sommaire']={
   # = toutes les fiches, acheteurs et inscrits confondus. Le mémo portait
   # 70 000 « clients », un chiffre qui tenait de la communauté et non des acheteurs.
   'clients':39566,'communaute':80459,'clients_2plus':6676,'abonnes':26709,
+  # L'avance de l'actionnaire, telle que le classeur la porte (Inputs C116).
+  'avance':round(bk.get('Inputs','C116'),2),
   # RS&DE : le relevé de dépenses v2026-08-08, tel que le classeur le porte.
   'pertes':round(bk.get('Inputs','C43'),2),
   'rsde_base':round(bk.get('Inputs','D173'),2),

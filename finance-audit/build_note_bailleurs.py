@@ -1063,7 +1063,7 @@ P.append(f"""<div class="page">
     <tr><td>Marge de crédit d'exploitation saisonnière</td><td>{fr(S['marge_demandee'])}</td>
       <td style="text-align:left">Couvrir le creux d'automne : le stock s'achète avant de
       se vendre</td></tr>
-    <tr><td>Avance de l'actionnaire (15 août 2026)</td><td>80 000 $</td>
+    <tr><td>Avance de l'actionnaire (15 août 2026)</td><td>{fr(S['avance'])}</td>
       <td style="text-align:left">Remboursable sur 12 mois à 8 %, postposition à
       négocier</td></tr>
     <tr class="hi"><td>Argent neuf net, hors refinancement</td><td>{fr(S['argent_neuf'])}</td>
@@ -1180,7 +1180,7 @@ P.append(f"""<div class="page">
       12 564 $ est le plus fragile (-3 518 $ s'il est refusé). Fourchette : 130 000 à
       155 000 $</li>
     <li>Une vente d'équipement est toujours dans la file « À réviser » de QuickBooks, et le
-      contrat de l'avance de 80 000 $ du 15 août 2026 reste à signer</li>
+      contrat de l'avance de {fr(S['avance'])} du 15 août 2026 reste à signer</li>
     <li>Les aides publiques portées au résultat — RS&amp;DE, crédits Visa Design, La Ruche
       (50 000 $, nov. 2026) et Ville de Québec (35 000 $) — sont à documenter par leurs
       lettres d'octroi ; la RS&amp;DE l'est déjà par le relevé de dépenses et par
