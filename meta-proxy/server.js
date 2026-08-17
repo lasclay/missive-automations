@@ -74,6 +74,9 @@
  *   META_BLOCK_SPEND         "1" → bloque les actions qui engagent du budget  [facultatif]
  *   META_BLOCK_DELETE        "1" → bloque les suppressions                    [facultatif]
  *   META_GRAPH_VERSION       version de l'API Graph (défaut v25.0)            [facultatif]
+ *   META_USER_AGENT          identification de l'agent exigée par Meta,       [facultatif]
+ *                            format « Nom/Version (Modèle) ClientHTTP ».
+ *                            Défaut : LasclayMetaProxy/1.0 undici/node18
  *   PORT                     (auto, fourni par Render)
  *
  * Déploiement : New → Web Service, repo lasclay/missive-automations,
@@ -105,6 +108,15 @@ const READONLY = vrai(process.env.META_READONLY);
 const BLOCK_SPEND = vrai(process.env.META_BLOCK_SPEND);
 const BLOCK_DELETE = vrai(process.env.META_BLOCK_DELETE);
 
+// Identification de l'agent, exigée par le llms.txt de Meta pour tout agent ou
+// outil automatisé qui appelle le Marketing API :
+//   <NomAgent>/<Version> (<Modèle>) <ClientHTTP>
+// Le nom doit rester STABLE d'un appel à l'autre (pas de valeur aléatoire) et ne
+// doit pas se faire passer pour un autre agent. Le champ modèle est facultatif —
+// « omit if unknown » — et le proxy ne sait pas quel modèle l'appelle : pour le
+// renseigner, définir META_USER_AGENT au déploiement.
+const USER_AGENT = process.env.META_USER_AGENT || "LasclayMetaProxy/1.0 undici/node18";
+
 const liste = (v) => String(v || "").split(",").map((s) => s.trim()).filter(Boolean);
 const PAGES_OK = liste(process.env.META_ALLOWED_PAGE_IDS);
 const COMPTES_OK = liste(process.env.META_ALLOWED_AD_ACCOUNT_IDS).map((a) => (a.startsWith("act_") ? a : `act_${a}`));
@@ -127,7 +139,12 @@ async function httpJson({ method = "GET", url, headers = {}, body }, tries = 0) 
   try {
     res = await fetch(url, {
       method,
-      headers: { Accept: "application/json", ...headers, ...(body ? { "Content-Type": "application/json" } : {}) },
+      headers: {
+        Accept: "application/json",
+        "User-Agent": USER_AGENT,
+        ...headers,
+        ...(body ? { "Content-Type": "application/json" } : {}),
+      },
       body: body ? JSON.stringify(body) : undefined,
     });
   } catch (e) {
