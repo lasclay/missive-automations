@@ -12,7 +12,12 @@
  *                                       étiquettes partagées (avec hiérarchie), membres.
  *                                       Chaque bloc dégrade seul → champ `errors`.
  *   POST /list       {filter}         → liste des conversations (ex. "shared_label=ID")
- *   POST /conversation {id}           → fil complet nettoyé (NOUS/EUX, daté)
+ *   POST /conversation {id}           → fil complet nettoyé (NOUS/EUX, daté). Chaque message porte
+ *                                       son `id` et, s'il y a lieu, `attachments[]` (métadonnées).
+ *   POST /attachment {messageId,
+ *                     attachmentId}   → télécharge UNE pièce jointe et la renvoie en base64.
+ *                                       `attachmentId` facultatif : à défaut, la première.
+ *                                       Plafond ~25 Mo. Les `messageId` viennent de /conversation.
  *   POST /drafts     {id}             → brouillons laissés par le script IA (réponse déjà rédigée)
  *   POST /comments   {id}             → notes internes (commentaires) — dégrade si non listable
  *   POST /users      {}               → membres de l'org (id, nom, courriel) pour les assignations
@@ -140,17 +145,32 @@ async function getConversation(id, limit) {
   const sorted = messages.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
   const ids = sorted.map((m) => m.id).filter(Boolean);
   const bodies = new Map();
+  const pieces = new Map();
   for (let i = 0; i < ids.length; i += 10) {
     const chunk = ids.slice(i, i + 10);
     try {
       const r = await mGet(`/messages/${chunk.join(",")}`);
       const arr = Array.isArray(r.messages) ? r.messages : [r.messages];
-      for (const m of arr) if (m && m.id) bodies.set(m.id, m.body || m.preview || "");
+      for (const m of arr) if (m && m.id) {
+        bodies.set(m.id, m.body || m.preview || "");
+        if (Array.isArray(m.attachments) && m.attachments.length) pieces.set(m.id, m.attachments);
+      }
     } catch { /* on garde le preview */ }
   }
   const out = sorted.map((m) => {
     const ts = (m.delivered_at || m.created_at || 0) * 1000;
-    return {
+    // Un rapport mensuel arrive en pièce jointe : sans cette liste, le corps du courriel dit
+    // « voici le rapport » et le proxy renvoyait un texte vide à cet endroit, ce qui se lisait
+    // comme une absence d'information plutôt que comme un fichier non téléchargé.
+    const jointes = (pieces.get(m.id) || m.attachments || []).map((a) => ({
+      id: a.id,
+      filename: a.filename || null,
+      extension: a.extension || null,
+      media_type: [a.media_type, a.sub_type].filter(Boolean).join("/") || null,
+      size: a.size ?? null,
+    }));
+    const o = {
+      id: m.id,                       // requis pour aller chercher une pièce jointe ensuite
       from: m.from_field?.name || m.from_field?.address || "?",
       address: m.from_field?.address || null,
       us: isUs(m),
@@ -158,10 +178,41 @@ async function getConversation(id, limit) {
       subject: m.subject || null,
       text: stripHtml(bodies.get(m.id) || m.body || m.preview || ""),
     };
+    if (jointes.length) o.attachments = jointes;
+    return o;
   });
   // On s'est arrêté au plafond demandé => il reste probablement des messages avant.
   out.tronque = messages.length >= vise;
   return out;
+}
+
+// --- Pièces jointes ---
+// Écrit après une session qui cherchait des rapports de ventes mensuels : le corps des courriels
+// annonçait « voici le rapport » et rien ne suivait, parce que `getConversation` jetait le champ
+// `attachments` de Missive. La donnée était là depuis toujours, à un champ près. L'URL du fichier
+// exige le même jeton que l'API : on la télécharge ICI et on renvoie du base64, pour que la clé
+// Missive ne sorte jamais du proxy.
+async function getAttachment({ messageId, attachmentId }) {
+  const r = await mGet(`/messages/${messageId}`);
+  const msg = Array.isArray(r.messages) ? r.messages[0] : (r.messages || r.message);
+  const liste = (msg && msg.attachments) || [];
+  if (!liste.length) throw new Error(`le message ${messageId} n'a aucune pièce jointe`);
+  const a = attachmentId ? liste.find((x) => x.id === attachmentId) : liste[0];
+  if (!a) throw new Error(`pièce jointe ${attachmentId} absente du message ${messageId}`);
+  if (!a.url) throw new Error(`pièce jointe ${a.id} sans URL téléchargeable`);
+  const dl = await fetch(a.url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+  if (!dl.ok) throw new Error(`téléchargement pièce jointe → ${dl.status}`);
+  const buf = Buffer.from(await dl.arrayBuffer());
+  // La réponse JSON transite en base64 : au-delà de ~25 Mo on refuse plutôt que d'étouffer l'appelant.
+  if (buf.length > 25e6) throw new Error(`pièce jointe trop lourde (${buf.length} octets)`);
+  return {
+    id: a.id,
+    filename: a.filename || null,
+    extension: a.extension || null,
+    media_type: [a.media_type, a.sub_type].filter(Boolean).join("/") || null,
+    size: buf.length,
+    base64: buf.toString("base64"),
+  };
 }
 
 // Le listage des brouillons ne renvoie qu'un `preview` tronqué (~130 caractères), jamais le
@@ -468,6 +519,10 @@ const server = http.createServer(async (req, res) => {
       if (!body.id) return json(res, 400, { error: "id requis" });
       const msgs = await getConversation(body.id, body.limit);
       return json(res, 200, { messages: msgs, tronque: msgs.tronque || undefined });
+    }
+    if (route === "/attachment") {
+      if (!body.messageId) return json(res, 400, { error: "messageId requis (attachmentId facultatif)" });
+      return json(res, 200, await getAttachment(body));
     }
     if (route === "/drafts") {
       if (!body.id) return json(res, 400, { error: "id requis" });
