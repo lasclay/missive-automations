@@ -88,4 +88,14 @@ async function ordersInRange(from, to, { max = Infinity } = {}) {
   return paginate(BY_QUERY_Q, { query }, (d) => d && d.orders, { pageSize: 50, max });
 }
 
-module.exports = { ordersByIds, ordersInRange };
+/**
+ * Commandes MODIFIÉES dans un intervalle. C'est la seule façon d'attraper un
+ * remboursement ou une capture de ce mois-ci sur une commande d'un mois
+ * précédent — `processed_at` ne bouge plus après la commande.
+ */
+async function ordersUpdatedInRange(from, to, { max = Infinity } = {}) {
+  const query = `updated_at:>='${from}' AND updated_at:<='${to}T23:59:59Z'`;
+  return paginate(BY_QUERY_Q, { query }, (d) => d && d.orders, { pageSize: 50, max });
+}
+
+module.exports = { ordersByIds, ordersInRange, ordersUpdatedInRange };

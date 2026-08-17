@@ -22,7 +22,8 @@ const { ordersByIds } = require(path.join(A2X, "lib/orders"));
 const { buildJournalEntry } = require(path.join(A2X, "lib/journal"));
 const { rawCsv } = require(path.join(A2X, "lib/rawcsv"));
 const { qbo } = require(path.join(A2X, "lib/qbo"));
-const { postedJournals, findExisting, relatedByPeriod, invalidate } = require(path.join(A2X, "lib/posted"));
+const { monthRange, recentMonths, ordersForMonth, buildMonthlyEntry } = require(path.join(A2X, "lib/monthly"));
+const { postedJournals, findExisting, relatedByPeriod, invalidate, monthlyJournals, findExistingMonthly } = require(path.join(A2X, "lib/posted"));
 const { gid, tokenScopes, STORE, VER } = require(path.join(A2X, "lib/shopify"));
 const mapper = require(path.join(A2X, "lib/mapper"));
 const config = require(path.join(A2X, "config.json"));
@@ -127,6 +128,20 @@ async function createJournal(journal, rebuild) {
     }
   }
   throw lastErr;
+}
+
+/**
+ * Comme A2X, une composante sans compte BLOQUE la publication : mieux vaut une
+ * écriture manquante qu'une écriture fausse. Le message nomme ce qui manque —
+ * A2X, lui, se contentait de refuser.
+ */
+function unmappedError(unmapped) {
+  const quoi = unmapped.slice(0, 6).map((u) => `· ${u.description} (${u.amount.toFixed(2)} $)`).join("\n");
+  const reste = unmapped.length > 6 ? `\n· …et ${unmapped.length - 6} autre(s)` : "";
+  return new Error(
+    `${unmapped.length} composante(s) sans compte — publication bloquée :\n${quoi}${reste}\n` +
+    `Ajoute la règle dans l'onglet Mappings (bouton « Créer la règle »), ou coche « forcer » pour publier sans ces lignes.`
+  );
 }
 
 // L'appariement des écritures déjà comptabilisées vit dans a2x/lib/posted.js,
@@ -273,9 +288,7 @@ const routes = {
     const computed = await computeJournal(params.id);
     const { payout, journal } = computed;
     if (!journal.balanced) throw new Error("Écriture non équilibrée — publication refusée.");
-    if (journal.unmapped.length && !body.force) {
-      throw new Error(`${journal.unmapped.length} composante(s) non mappée(s). Corrige les mappings, ou coche « forcer ».`);
-    }
+    if (journal.unmapped.length && !body.force) throw unmappedError(journal.unmapped);
     // On relit QBO au moment de publier : le cache pourrait masquer une écriture
     // créée entre-temps (par A2X, ou dans un autre onglet).
     const existing = await findExisting(
@@ -307,7 +320,7 @@ const routes = {
         const { payout, journal } = computed;
         if (!journal.balanced) { results.push({ id, ok: false, reason: "écriture non équilibrée" }); continue; }
         if (journal.unmapped.length && !body.force) {
-          results.push({ id, ok: false, reason: `${journal.unmapped.length} composante(s) non mappée(s)` });
+          results.push({ id, ok: false, reason: unmappedError(journal.unmapped).message, unmapped: journal.unmapped });
           continue;
         }
         const existing = await findExisting(
@@ -331,6 +344,69 @@ const routes = {
       skipped: results.filter((r) => r.skipped).length,
       failed: results.filter((r) => !r.ok && !r.skipped).length,
     };
+  },
+
+  /**
+   * Les mois et leur état — une seule requête QuickBooks, aucune requête
+   * Shopify : de quoi voir d'un coup d'œil ce qu'A2X couvrait et ce qui reste à
+   * faire depuis la résiliation, sans attendre le calcul des écritures.
+   */
+  "GET /api/monthly": async (req, url) => {
+    const n = Math.min(36, parseInt(url.searchParams.get("months") || "13", 10));
+    const force = url.searchParams.get("refresh") === "1";
+    await postedJournals(force);
+    const months = [];
+    for (const m of recentMonths(n)) {
+      const { mine, a2x } = await monthlyJournals(m);
+      months.push({
+        month: m,
+        ...monthRange(m),
+        mine: mine ? { id: mine.id, docNumber: mine.docNumber, txnDate: mine.txnDate } : null,
+        a2x: a2x.map((j) => ({ id: j.id, docNumber: j.docNumber, txnDate: j.txnDate })),
+      });
+    }
+    return { months };
+  },
+
+  /** Aperçu de l'écriture mensuelle hors Shopify Payments (lent : balaie les commandes). */
+  "GET /api/monthly/:month": async (req, url, params) => {
+    const orders = await ordersForMonth(params.month);
+    const journal = buildMonthlyEntry(params.month, orders);
+    const existing = await findExistingMonthly(params.month);
+    const { a2x } = await monthlyJournals(params.month);
+    return {
+      month: journal.month,
+      counts: { scanned: orders.length, kept: journal.orders.length },
+      journal: {
+        docNumber: journal.docNumber, period: journal.period, balanced: journal.balanced,
+        total: journal.total, gateways: journal.gateways,
+        unmapped: journal.unmapped, notes: [...new Set(journal.notes)].slice(0, 25),
+        orders: journal.orders,
+        lines: journal.body.Line.map((l) => ({
+          description: l.Description,
+          amount: l.Amount,
+          posting: l.JournalEntryLineDetail.PostingType,
+          accountId: l.JournalEntryLineDetail.AccountRef.value,
+          tax: !!l.JournalEntryLineDetail.TaxCodeRef,
+        })),
+      },
+      existing,
+      a2x: a2x.map((j) => ({ id: j.id, docNumber: j.docNumber, txnDate: j.txnDate })),
+    };
+  },
+
+  "POST /api/monthly/:month/post": async (req, url, params, body) => {
+    const orders = await ordersForMonth(params.month);
+    const journal = buildMonthlyEntry(params.month, orders);
+    if (!journal.balanced) throw new Error("Écriture non équilibrée — publication refusée.");
+    if (journal.unmapped.length && !body.force) throw unmappedError(journal.unmapped);
+    const existing = await findExistingMonthly(params.month, true);
+    if (existing && !body.force) {
+      return { created: false, existing, message: `Ce mois est déjà couvert (${existing.docNumber}, ${existing.match}).` };
+    }
+    const { je, taxMode } = await createJournal(journal, (o) => buildMonthlyEntry(params.month, orders, o));
+    invalidate();
+    return { created: true, id: je && je.Id, docNumber: journal.docNumber, taxMode };
   },
 
   "GET /api/accounts": async (req, url) => ({ accounts: await chartOfAccounts(url.searchParams.get("refresh") === "1") }),

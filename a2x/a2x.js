@@ -139,6 +139,48 @@ async function main() {
     return;
   }
 
+  if (cmd === "monthly") {
+    // L'écriture mensuelle hors Shopify Payments : PayPal, cartes-cadeaux,
+    // commandes manuelles, échanges. C'est ce qu'A2X publiait une fois par mois
+    // en plus des versements.
+    const { monthRange, recentMonths, ordersForMonth, buildMonthlyEntry } = require("./lib/monthly");
+    const { findExistingMonthly, monthlyJournals } = require("./lib/posted");
+    const month = args[1] && /^\d{4}-\d{2}$/.test(args[1]) ? args[1] : flag("month", recentMonths(2)[1]);
+    const range = monthRange(month);
+    console.log(`\n  Mois ${range.start} → ${range.end}`);
+
+    const { a2x } = await monthlyJournals(month);
+    if (a2x.length) {
+      console.log(`  A2X a déjà publié ${a2x.length} écriture(s) mensuelle(s) pour ce mois : ${a2x.map((j) => `${j.docNumber} (pièce ${j.id})`).join(", ")}`);
+    }
+
+    const orders = await ordersForMonth(month);
+    const journal = buildMonthlyEntry(month, orders);
+    console.log(`  ${orders.length} commande(s) examinée(s), ${journal.orders.length} retenue(s) hors Shopify Payments.`);
+    if (journal.gateways.length) {
+      console.log(`  Passerelles : ${journal.gateways.map((g) => `${g.gateway} ${g.amount.toFixed(2)}`).join(" · ")}`);
+    }
+    printJournal({ ...journal, period: journal.period, settlement: journal.total, payoutNet: journal.total, drift: 0 });
+
+    if (!has("post")) {
+      console.log(`\n  Publier : node a2x/a2x.js monthly ${month} --post\n`);
+      return;
+    }
+    if (journal.unmapped.length && !has("force")) {
+      throw new Error(`${journal.unmapped.length} composante(s) non mappée(s) — corrige mappings.tsv, ou force avec --force.`);
+    }
+    if (!journal.balanced) throw new Error("L'écriture n'est pas équilibrée — publication refusée.");
+    const dup = await findExistingMonthly(month, true);
+    if (dup && !has("force")) {
+      console.log(`\n  Déjà couvert : ${dup.docNumber} (pièce QBO ${dup.id}, ${dup.match}). Rien à faire.\n`);
+      return;
+    }
+    const res = await qbo("create", { entity: "journalentry", body: journal.body });
+    invalidate();
+    console.log(`\n  ✅ Écriture créée dans QBO : Id ${res.data && res.data.JournalEntry && res.data.JournalEntry.Id} — ${journal.docNumber}\n`);
+    return;
+  }
+
   if (cmd === "raw") {
     // Données brutes du versement, au format d'A2X — pour comparer les fichiers.
     const ref = args[1];
@@ -219,6 +261,7 @@ async function main() {
     node a2x/a2x.js preview <payoutId>
     node a2x/a2x.js post <payoutId> [--force]
     node a2x/a2x.js sync [--since 2026-07-01] [--dry-run]
+    node a2x/a2x.js monthly 2026-07 [--post]       # PayPal, cartes-cadeaux, manuel…
     node a2x/a2x.js raw <payoutId> > donnees.csv   # données brutes, format A2X
     node a2x/a2x.js check                          # audite les mappings
     node a2x/a2x.js coverage [--from …] [--to …]   # combinaisons réelles sans compte

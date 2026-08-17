@@ -41,6 +41,7 @@ async function postedJournals(force = false) {
       settlementCents: line ? Math.round(line.Amount * 100) * (detail && detail.PostingType === "Credit" ? -1 : 1) : null,
       source: mine ? "app" : "a2x",
       payoutId: mine ? (note.match(/Versement Shopify Payments (\d+)/) || [])[1] || null : null,
+      month: mine ? (note.match(/hors Shopify Payments (\d{4}-\d{2})/) || [])[1] || null : null,
     };
   });
   return cache;
@@ -125,4 +126,42 @@ async function relatedByPeriod({ docNumber, settlement, issuedAt }, force = fals
     .map((j) => ({ ...j, settlement: j.settlementCents / 100 }));
 }
 
-module.exports = { postedJournals, findExisting, relatedByPeriod, periodKey, invalidate, PREFIXES };
+/**
+ * Écritures MENSUELLES hors Shopify Payments déjà comptabilisées pour un mois.
+ *
+ * Elles n'ont pas de ligne « Balance of settlement » — c'est justement leur
+ * signature, et c'est ce qui les tient à l'écart de l'appariement des
+ * versements. Côté A2X on les reconnaît à la date (le 1er du mois) et au
+ * DocNumber qui commence la période au 1er ; côté nous, à la note privée.
+ *
+ * A2X en publiait PLUSIEURS par mois (une par lot traité : 5 en mai 2026). On
+ * les renvoie toutes : une seule suffit à bloquer une publication en double,
+ * mais les voir toutes évite de croire qu'il n'en manque qu'une.
+ *
+ * @returns {Promise<{mine: object|null, a2x: object[]}>}
+ */
+async function monthlyJournals(month, force = false) {
+  const all = await postedJournals(force);
+  const firstOfMonth = `${month}-01`;
+  const mine = all.find((j) => j.month === month) || null;
+  const a2x = all.filter((j) =>
+    j.source === "a2x" &&
+    j.settlementCents === null &&
+    j.txnDate === firstOfMonth &&
+    /-01[A-Za-z]{3}-\d{2}[A-Za-z]{3}-/.test(j.docNumber || "")
+  );
+  return { mine, a2x };
+}
+
+/** La première écriture qui couvre déjà ce mois, ou null. */
+async function findExistingMonthly(month, force = false) {
+  const { mine, a2x } = await monthlyJournals(month, force);
+  if (mine) return { ...mine, match: "mois publié par cette app" };
+  if (a2x.length) return { ...a2x[0], match: "écriture mensuelle d'A2X", siblings: a2x.length };
+  return null;
+}
+
+module.exports = {
+  postedJournals, findExisting, relatedByPeriod, periodKey, invalidate, PREFIXES,
+  monthlyJournals, findExistingMonthly,
+};

@@ -81,8 +81,11 @@ node a2x/a2x.js payouts --limit 20          # les derniers versements + leur ét
 node a2x/a2x.js preview 592                 # l'écriture, sans rien publier
 node a2x/a2x.js post 592                    # publie dans QuickBooks
 node a2x/a2x.js sync --since 2026-07-01 --dry-run
+node a2x/a2x.js monthly 2026-07             # l'écriture mensuelle hors Shopify Payments
+node a2x/a2x.js monthly 2026-07 --post      # …et sa publication
 node a2x/a2x.js check                       # audite les mappings
 node a2x/tools/selftest.js                  # rejoue l'écriture A2X de référence (hors-ligne)
+node a2x/tools/monthly_test.js              # rejoue les 4 cas de l'écriture mensuelle (hors-ligne)
 ```
 
 ---
@@ -157,6 +160,67 @@ laissés par défaut dans A2X plutôt qu'à un choix comptable. À revoir avec l
 **Montants en cents.** Toute l'arithmétique est en entiers, jamais en flottants ; la répartition
 au prorata (commande à cheval sur deux versements, capture partielle) place le reliquat sur la
 plus grosse composante pour que l'écriture tombe toujours juste au cent près.
+
+---
+
+## L'écriture mensuelle — hors Shopify Payments
+
+Tout ne passe pas par un versement : PayPal, cartes-cadeaux, commandes manuelles, échanges.
+A2X en faisait **une écriture par mois**, datée du 1er, en plus des écritures de versement :
+
+```
+A2XSH-01May-01Jun-418   TxnDate 2026-05-01
+  CT 12248.92  ProductSales  - CA - Online store              125
+  DT  2215.54  Discount  - CA - Online store                  127
+  CT  1502.69  Tax  - CA - Online store                       132
+  DT 13627.48  Sale Gateway paypal - Online store              25   ← la contrepartie
+```
+
+Onglet **Mensuel** de l'interface, ou `node a2x/a2x.js monthly 2026-07 [--post]`.
+
+### La règle, en une ligne
+
+```
+PendingPayment = encaissé hors Shopify Payments − revenu reconnu
+```
+
+Elle couvre les trois situations réelles, relevées sur les écritures d'A2X :
+
+| Situation | Revenu reconnu ici | Contrepartie |
+| --- | --- | --- |
+| Commande payée en PayPal (pièce 10835) | oui, en entier | `Sale Gateway paypal` au débit |
+| Commande manuelle facturée, pas payée (pièce 10837) | oui, en entier | `PendingPayment` au **débit** — c'est la créance |
+| Encaissement sur une commande déjà réglée par Shopify Payments (pièce 10836) | **non** | `PendingPayment` au **crédit** |
+
+### Le garde-fou contre le double comptage
+
+Une commande qui **touche** Shopify Payments — même par une transaction encore en attente — n'est
+jamais reconnue ici : son écriture de versement la reconnaît en entier et reprend au passage ce qui
+dormait en paiement en attente (`add("Pending Payments", …, -already)` dans `lib/journal.js`).
+L'écriture mensuelle ne fait alors qu'enregistrer l'encaissement contre le compte d'attente.
+
+### Ce qui est balayé
+
+Les commandes **traitées** dans le mois, plus celles simplement **modifiées** dans le mois — sans
+quoi un remboursement de juillet sur une commande de juin n'apparaîtrait nulle part.
+
+### Les descriptions
+
+Les lignes de passerelle n'ont **pas de pays** : `Sale Gateway paypal - Online store`, alors que les
+lignes de revenu en ont un : `ProductSales  - CA - Online store` (deux espaces — le champ passerelle
+est vide). C'est la convention d'A2X, et ses 20 règles de passerelle ont toutes la colonne pays à `-`.
+Un règlement PayPal n'appartient à aucun territoire de vente ; une charge de change, si
+(`ForeignCurrencyGainLoss Gateway paypal - US - Online store`).
+
+### Doublons
+
+Ces écritures n'ont **pas** de ligne « Balance of settlement » — c'est leur signature, et c'est ce qui
+les tient à l'écart de l'appariement des versements. On reconnaît celles d'A2X à leur date (le 1er du
+mois) et à un `DocNumber` dont la période commence au 1er ; les nôtres, à leur note privée. A2X en
+publiait **plusieurs par mois** (5 en mai 2026, un lot à chaque traitement) : l'interface les liste
+toutes, et une seule suffit à bloquer une publication en double.
+
+Nos écritures mensuelles portent le suffixe `M` + année : `CLONE-01Jul-01Aug-M26`.
 
 ---
 
@@ -238,26 +302,27 @@ Chaque ligne d'écriture A2X porte son libellé d'origine
 dans le moteur de mappage et compare le compte et le code de taxe obtenus. C'est la seule façon
 de valider le mappage sur des milliers de cas réels sans accès aux versements Shopify.
 
-Résultat au 31 juillet 2026, sur **400 écritures A2X / 5 682 lignes comparables** :
+Résultat au 17 août 2026, sur **400 écritures A2X / 5 682 lignes comparables** :
 
 | | |
 |---|---|
-| Comptes identiques | **5 670 (99,79 %)** |
-| Codes de taxe identiques | **5 678** |
+| Comptes identiques | **5 679 (99,95 %)** |
+| Codes de taxe identiques | **5 678 (99,93 %)** |
 | Combinaisons distinctes rencontrées | 175 |
 
-Les 16 lignes en écart sont documentées ci-dessous — aucune ne concerne un type de ligne que ce
-moteur produit. L'audit ne valide pas les **montants**, qui viennent des versements Shopify.
+Les 7 lignes en écart sont documentées ci-dessous. L'audit ne valide pas les **montants**, qui
+viennent des versements Shopify.
 
 ### Les écarts, un par un
 
-**12 lignes — `PendingPayment` en `exchange` et en `Manual order`.** A2X se contredit lui-même :
+**3 lignes — `PendingPayment` en `exchange` et en `Manual order`.** A2X se contredit lui-même :
 sa table contient à la fois une règle générique (`PendingPayment / CA / exchange → 1110`) et une
-règle composée (`PendingPayment - CA - exchange → 4013`). Il a appliqué la composée d'avril 2025
-à avril 2026, puis la générique en mai et juin 2026. On suit la générique — son comportement le
-plus récent. Ces lignes n'apparaissent que dans ses journaux **mensuels** (paiements hors Shopify
-Payments), que ce moteur ne produit pas. **À trancher avec la comptable** si le volet mensuel est
-repris un jour.
+règle composée (`PendingPayment - CA - exchange → 4013`). Il a appliqué la composée d'avril 2025 à
+avril 2026 (9 lignes), puis la générique en mai et juin 2026 (3 lignes). On suit la **composée**,
+comme le dit la table : c'est son comportement sur la très grande majorité des lignes, et ça fait
+passer l'accord de 99,79 % à 99,95 %. Ces lignes n'apparaissent que dans les journaux **mensuels**,
+que ce moteur produit désormais — **à trancher avec la comptable** si les 3 lignes récentes
+comptent plus que les 9 anciennes.
 
 **4 lignes — code de taxe sur `ForeignCurrencyGainLoss - refund_discrepancy`.** Dérive
 historique : les 4 lignes sans code datent de mars à mai 2025 ; les 12 lignes suivantes, à partir
@@ -274,11 +339,9 @@ savoir : si l'une de ces écritures était un jour republiée, ces ajouts manuel
 
 ## Limites connues
 
-* **Shopify Payments seulement.** Les commandes payées par PayPal, carte-cadeau ou paiement
-  manuel n'apparaissent pas dans les versements Shopify Payments et ne sont donc pas
-  comptabilisées ici — A2X ne les traitait pas non plus dans ces écritures. Les mappings
-  correspondants (`Gateway Transactions`, `Pending Payments`) sont conservés dans le fichier
-  pour le jour où on ajoutera ce volet.
+* **Écritures mensuelles : le mois doit être fini.** L'écriture hors Shopify Payments couvre un
+  mois entier ; la calculer en cours de mois donne un résultat partiel qu'il faudrait republier.
+  À lancer une fois le mois clos, comme le faisait A2X.
 * **Coût des marchandises vendues.** A2X proposait un calcul de COGS ; il n'était pas activé
   (« Your current A2X plan supports cost of goods sold. You can enable it… »), donc rien n'est
   repris ici.
@@ -300,10 +363,14 @@ a2x/
   lib/orders.js             commandes complètes
   lib/breakdown.js          ventilation d'une commande en composantes
   lib/mapper.js             résolution composante → compte
-  lib/journal.js            assemblage de l'écriture QBO
+  lib/journal.js            assemblage de l'écriture QBO (partagé versement / mensuel)
+  lib/monthly.js            écriture mensuelle hors Shopify Payments
+  lib/posted.js             détection des doublons, versements et mensuels
   lib/qbo.js                client du finance-proxy
   tools/import_mappings.js  TSV → JSON + validation contre QBO
   tools/selftest.js         comparaison à l'écriture A2X de référence
+  tools/monthly_test.js     les 4 cas de l'écriture mensuelle, sur commandes fabriquées
+  tools/audit_a2x.js        mappage comparé aux 5682 lignes réelles d'A2X
 a2x-app/
   server.js                 API + service de la page
   public/index.html         l'interface

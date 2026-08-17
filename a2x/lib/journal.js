@@ -60,21 +60,35 @@ function marketplaceLabel(m) {
 }
 
 /**
- * Transforme les transactions de solde d'un payout en groupes de lignes mappées.
- * @param {object} payout
- * @param {Array} btx  transactions de solde du payout
- * @param {Map<string,object>} ordersById  commandes indexées par id numérique
+ * Description d'une ligne, à la façon d'A2X.
+ *
+ * Format courant : « ProductSales  - CA - Online store » (deux espaces avant le
+ * tiret — c'est le champ « passerelle » resté vide). Sur les lignes de
+ * passerelle, A2X remplit ce champ et laisse tomber le pays quand il est N/A :
+ * « Sale Gateway paypal - Online store ». Relevé sur les pièces 10999 et 10835.
  */
-function buildLines(payout, btx, ordersById) {
-  /** @type {Map<string, object>} clé = compte|posting|description */
+function describe(details, country, marketplace, { gateway = false } = {}) {
+  const parts = [];
+  if (!(gateway && country === "*")) parts.push(countryLabel(country));
+  parts.push(marketplaceLabel(marketplace));
+  return `${details}${gateway ? "" : " "} - ${parts.join(" - ")}`;
+}
+
+/**
+ * Accumulateur de lignes : additionne les composantes par (compte, taxe,
+ * description) et met de côté ce qui n'a pas de compte. Partagé par l'écriture
+ * d'un versement et par l'écriture mensuelle hors Shopify Payments.
+ */
+function grouper() {
+  /** @type {Map<string, object>} clé = compte|taxe|description */
   const groups = new Map();
   const unmapped = [];
   const notes = [];
 
-  const add = (category, details, country, marketplace, amountCents, source) => {
+  const add = (category, details, country, marketplace, amountCents, source, opts = {}) => {
     if (!amountCents) return;
     const hit = resolve(category, details, country, marketplace);
-    const description = `${details}  - ${countryLabel(country)} - ${marketplaceLabel(marketplace)}`;
+    const description = describe(details, country, marketplace, opts);
     if (!hit.accountId) {
       unmapped.push({ category, details, country, marketplace, amount: amountCents / 100, description, source });
       return;
@@ -89,6 +103,94 @@ function buildLines(payout, btx, ordersById) {
     if (source && g.sources.length < 50) g.sources.push(source);
     groups.set(key, g);
   };
+
+  return { add, unmapped, notes, values: () => [...groups.values()] };
+}
+
+/**
+ * Assemble le corps QBO à partir de groupes de lignes déjà mappés.
+ * `extraLines` (arrondi de change, contrepartie du versement) est ajouté tel
+ * quel APRÈS les lignes de composantes, et ne compte pas dans la base taxable.
+ */
+function buildBody(groups, { docNumber, txnDate, privateNote, taxMode, extraLines = [] }) {
+  const mode = taxMode || config.taxCodeMode || "full";
+  // Base imposable par TAUX de taxe : le code va sur la ligne, les taux qu'il
+  // regroupe vont dans le TxnTaxDetail de l'écriture.
+  const netParTaux = new Map();
+  const Line = [];
+
+  for (const g of groups.slice().sort((a, b) => a.description.localeCompare(b.description, "fr"))) {
+    const amount = Math.round(Math.abs(g.amount)) / 100;
+    if (!amount) continue;
+    const detail = {
+      PostingType: g.amount > 0 ? "Credit" : "Debit",
+      AccountRef: { value: String(g.accountId) },
+    };
+    // Le bloc de taxe est repris tel que QuickBooks le RENVOIE sur les écritures
+    // d'A2X ; il n'est pas garanti qu'il soit accepté tel quel en création selon
+    // la version d'API. `taxCodeMode` permet de le réduire sans toucher au code.
+    if (g.tax && g.tax.codeId && mode !== "none") {
+      detail.TaxCodeRef = { value: String(g.tax.codeId) };
+      if (mode === "full") {
+        detail.TaxApplicableOn = g.tax.applicableOn || "Sales";
+        detail.TaxAmount = 0;
+      }
+      const signe = g.amount > 0 ? 1 : -1;
+      for (const t of g.tax.taux || []) {
+        const cur = netParTaux.get(t.id) || { pct: t.pct, cents: 0 };
+        cur.cents += signe * Math.round(amount * 100);
+        netParTaux.set(t.id, cur);
+      }
+    }
+    Line.push({ Description: g.description, Amount: amount, DetailType: "JournalEntryLineDetail", JournalEntryLineDetail: detail });
+  }
+
+  Line.push(...extraLines);
+
+  const body = {
+    DocNumber: docNumber,
+    TxnDate: txnDate,
+    PrivateNote: privateNote,
+    CurrencyRef: { value: config.currency || "CAD" },
+    ExchangeRate: 1,
+    Line,
+  };
+
+  /**
+   * Sans ce bloc, QuickBooks refuse l'écriture : « erreur lors du calcul de la
+   * taxe ». Un code de taxe sur les lignes ne suffit pas — il faut aussi lui
+   * donner le TAUX et la base au niveau de la transaction, sinon il tente de
+   * calculer lui-même et échoue. Relevé sur la pièce 11170 d'A2X, où
+   * NetAmountTaxable vaut l'opposé de la somme signée des lignes détaxées.
+   */
+  if (mode === "full" && netParTaux.size) {
+    const taxLines = [...netParTaux].filter(([, v]) => v.cents).map(([id, v]) => ({
+      Amount: 0,
+      DetailType: "TaxLineDetail",
+      TaxLineDetail: {
+        TaxRateRef: { value: String(id) },
+        PercentBased: true,
+        TaxPercent: v.pct,
+        NetAmountTaxable: -v.cents / 100,
+      },
+    }));
+    if (taxLines.length) body.TxnTaxDetail = { TaxLine: taxLines };
+  }
+
+  const balanced = Math.abs(sum(Line, (l) =>
+    (l.JournalEntryLineDetail.PostingType === "Debit" ? 1 : -1) * Math.round(l.Amount * 100))) === 0;
+
+  return { body, balanced };
+}
+
+/**
+ * Transforme les transactions de solde d'un payout en groupes de lignes mappées.
+ * @param {object} payout
+ * @param {Array} btx  transactions de solde du payout
+ * @param {Map<string,object>} ordersById  commandes indexées par id numérique
+ */
+function buildLines(payout, btx, ordersById) {
+  const { add, unmapped, notes, values } = grouper();
 
   for (const t of btx) {
     const fam = txFamily(t.type);
@@ -184,7 +286,7 @@ function buildLines(payout, btx, ordersById) {
     if (fee) add("Payment and Selling Fees", "ShopifyFee", country, marketplace, -fee, src);
   }
 
-  return { groups: [...groups.values()], unmapped, notes };
+  return { groups: values(), unmapped, notes };
 }
 
 /** Assemble le corps QBO d'une écriture de journal. */
@@ -193,9 +295,6 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
   const settlementAccountId = opts.settlementAccountId || config.settlementAccountId;
   const roundingAccountId = opts.roundingAccountId || config.roundingAccountId;
   const prefix = opts.docNumberPrefix || config.docNumberPrefix || "CLONE";
-  // Base imposable par TAUX de taxe : le code va sur la ligne, les taux qu'il
-  // regroupe vont dans le TxnTaxDetail de l'écriture.
-  const netParTaux = new Map();
 
   // A2X nomme le payout « première transaction → date d'émission » (ex. 21Jul-27Jul).
   const dates = btx.map((t) => t.transactionDate).filter(Boolean).sort();
@@ -210,41 +309,14 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     throw new Error(`DocNumber « ${docNumber} » fait ${docNumber.length} caractères (max 21) — raccourcis docNumberPrefix dans a2x/config.json.`);
   }
 
-  const mode = opts.taxMode || config.taxCodeMode || "full";
-  const Line = [];
-  for (const g of groups.sort((a, b) => a.description.localeCompare(b.description, "fr"))) {
-    const amount = Math.round(Math.abs(g.amount)) / 100;
-    if (!amount) continue;
-    const detail = {
-      PostingType: g.amount > 0 ? "Credit" : "Debit",
-      AccountRef: { value: String(g.accountId) },
-    };
-    // Le bloc de taxe est repris tel que QuickBooks le RENVOIE sur les écritures
-    // d'A2X ; il n'est pas garanti qu'il soit accepté tel quel en création selon
-    // la version d'API. `taxCodeMode` permet de le réduire sans toucher au code.
-    if (g.tax && g.tax.codeId && mode !== "none") {
-      detail.TaxCodeRef = { value: String(g.tax.codeId) };
-      if (mode === "full") {
-        detail.TaxApplicableOn = g.tax.applicableOn || "Sales";
-        detail.TaxAmount = 0;
-      }
-      const signe = g.amount > 0 ? 1 : -1;
-      for (const t of g.tax.taux || []) {
-        const cur = netParTaux.get(t.id) || { pct: t.pct, cents: 0 };
-        cur.cents += signe * Math.round(amount * 100);
-        netParTaux.set(t.id, cur);
-      }
-    }
-    Line.push({ Description: g.description, Amount: amount, DetailType: "JournalEntryLineDetail", JournalEntryLineDetail: detail });
-  }
-
   // Contrepartie : le net réellement déposé (somme des nets des transactions du payout).
   const settlement = sum(btx, (t) => money(t.net));
   const lineTotal = sum(groups, (g) => g.amount);
   const drift = settlement - lineTotal;
+  const extraLines = [];
 
   if (drift) {
-    Line.push({
+    extraLines.push({
       Description: "CurrencyConversionRounding USD-CAD",
       Amount: Math.abs(drift) / 100,
       DetailType: "JournalEntryLineDetail",
@@ -253,7 +325,7 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
   }
 
   if (settlement) {
-    Line.push({
+    extraLines.push({
       Description: `Balance of settlement for: ${startDay}`,
       Amount: Math.abs(settlement) / 100,
       DetailType: "JournalEntryLineDetail",
@@ -261,37 +333,15 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     });
   }
 
-  const body = {
-    DocNumber: docNumber,
-    TxnDate: startDay,
+  const { body, balanced } = buildBody(groups, {
+    docNumber,
+    txnDate: startDay,
     // Trace l'origine : c'est ce qui distingue nos écritures de celles d'A2X,
     // dont le suffixe de DocNumber n'est pas reconstituable.
-    PrivateNote: `Versement Shopify Payments ${legacy} · ${startDay} → ${endDay} · publié par a2x-app`,
-    CurrencyRef: { value: config.currency || "CAD" },
-    ExchangeRate: 1,
-    Line,
-  };
-
-  /**
-   * Sans ce bloc, QuickBooks refuse l'écriture : « erreur lors du calcul de la
-   * taxe ». Un code de taxe sur les lignes ne suffit pas — il faut aussi lui
-   * donner le TAUX et la base au niveau de la transaction, sinon il tente de
-   * calculer lui-même et échoue. Relevé sur la pièce 11170 d'A2X, où
-   * NetAmountTaxable vaut l'opposé de la somme signée des lignes détaxées.
-   */
-  if (mode === "full" && netParTaux.size) {
-    const taxLines = [...netParTaux].filter(([, v]) => v.cents).map(([id, v]) => ({
-      Amount: 0,
-      DetailType: "TaxLineDetail",
-      TaxLineDetail: {
-        TaxRateRef: { value: String(id) },
-        PercentBased: true,
-        TaxPercent: v.pct,
-        NetAmountTaxable: -v.cents / 100,
-      },
-    }));
-    if (taxLines.length) body.TxnTaxDetail = { TaxLine: taxLines };
-  }
+    privateNote: `Versement Shopify Payments ${legacy} · ${startDay} → ${endDay} · publié par a2x-app`,
+    taxMode: opts.taxMode,
+    extraLines,
+  });
 
   return {
     body,
@@ -304,8 +354,11 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     groups: groups.map((g) => ({ ...g, amount: g.amount / 100 })),
     unmapped,
     notes,
-    balanced: Math.abs(sum(Line, (l) => (l.JournalEntryLineDetail.PostingType === "Debit" ? 1 : -1) * Math.round(l.Amount * 100))) === 0,
+    balanced,
   };
 }
 
-module.exports = { buildLines, buildJournalEntry, countryLabel, marketplaceLabel, isoDate, isoDay, dayLabel };
+module.exports = {
+  buildLines, buildJournalEntry, grouper, buildBody, describe,
+  countryLabel, marketplaceLabel, isoDate, isoDay, dayLabel, label, MONTHS,
+};
