@@ -790,10 +790,11 @@ P.append(f"""<div class="page">
       d'acquisition.</p></div>
     <div class="card v"><h4>Une acquisition qui redevient finançable</h4>
       <p style="font-size:8.6pt;margin:0">La chute de juin et juillet 2026 vient de
-      l'arrêt du budget publicitaire, pas d'une baisse de la demande. Le coût par
-      acquisition remonte à {fr(S['cac25'], 2)} dans le modèle, contre
-      {fr(S['cac26'], 2)} en 2025-2026, parce que la marge unitaire assainie permet de
-      payer l'acquisition sans vider la trésorerie.</p></div>
+      l'arrêt du budget publicitaire, pas d'une baisse de la demande. Sur l'exercice,
+      la publicité numérique a servi {fr(S['acheteurs26'],0,'')} acheteurs, soit
+      {fr(S['cac26'], 2)} chacun, pour {fr(S['contrib_par_acheteur'], 2)} de marge de
+      contribution dégagée la même année. Le modèle ramène la publicité de 22 % à
+      19,5 % du revenu brut du commerce en ligne.</p></div>
   </div>
   <div class="two">
     <div class="card v"><h4>Le marché américain, déjà amorcé</h4>
@@ -1188,9 +1189,7 @@ P.append(f"""<div class="page">
       résultat de 2026-2027, qui est négatif sans elles</li>
     <li>Les soldes réels des prêts Accord D, privés et BDC 11K au 31 août 2026 sont à
       confirmer auprès des prêteurs</li>
-    <li>La feuille « Budget de caisse » porte une vue directe qui ne reprend ni les stocks
-      ni le calendrier des fournisseurs. C'est la chaîne de trésorerie du résultat qui fait
-      foi ; la rangée 36 mesure l'écart entre les deux méthodes</li>
+
   </ul>
 
   <h3 style="margin-bottom:2px">Sources</h3>

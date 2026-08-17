@@ -178,8 +178,18 @@ out['ete']={
           round(sum(bk.get(P,c+'18') for c in ('M','N')))],
 }
 out['sommaire']={
-  'cac25':20.11,'cac26':31.88,'aov25':56.47,'aov26':79.92,
-  'ltv25':48.76,'ltv26':64.62,'clients25':11509.0,'clients26':8443.0,
+  # Acheteurs, commandes et panier moyen, extraits de l'API Admin de Shopify le
+  # 11 août 2026, sur l'exercice du 1er septembre au 31 août. Les deux paniers
+  # moyens tombent au cent près sur les ventes nettes du modèle. Les compteurs
+  # d'acheteurs qui figuraient ici (11 509 et 8 443) ne correspondaient ni au
+  # total des acheteurs ni aux seuls nouveaux, et leur provenance est inconnue.
+  'acheteurs25':13210.0,'acheteurs26':10536.0,
+  'commandes25':14546.0,'commandes26':11942.0,
+  'aov25':56.47,'aov26':79.92,
+  # Coût d'acquisition : publicité numérique de l'exercice par acheteur, et
+  # marge de contribution dégagée par le même acheteur la même année.
+  'cac26':round(bk.get(P,'P78')/10536.0,2),
+  'contrib_par_acheteur':round(bk.get(P,'P32')/10536.0,2),
   'marge_demandee':round(marge,2),'pret':PRET,
   'shopify_capital':round(bk.get(B,'O48'),2),
   'merchant_growth':round(bk.get(B,'O58'),2),
