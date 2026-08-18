@@ -406,8 +406,10 @@ async function closeConversation(id, note) {
 // Étiquettes partagées d'un fil. `close` ne touche pas aux étiquettes, et support.js ne retire
 // « Draft AI Support » que des fils fermés : sans cette route, un fil répondu mais laissé ouvert
 // (parce qu'un envoi reste dû) garde son étiquette de brouillon indéfiniment.
-// `keepClosed` reprend la mécanique de support.js : sur un fil déjà fermé, poster sans ce drapeau
-// le rouvrirait.
+// `keepClosed` envoie `reopen: false`. La documentation Missive définit `reopen` comme
+// « rouvre la conversation pour tous » : c'est donc `false` qui garde un fil fermé, pas `true`.
+// Le code envoyait `true` avec un commentaire disant le contraire, ce qui rouvrait
+// silencieusement les fils fermés qu'on venait seulement réétiqueter.
 async function setLabels({ id, add, remove, markdown, keepClosed }) {
   const post = {
     conversation: id, organization: ORG,
@@ -416,7 +418,7 @@ async function setLabels({ id, add, remove, markdown, keepClosed }) {
   };
   if (Array.isArray(add) && add.length) post.add_shared_labels = add;
   if (Array.isArray(remove) && remove.length) post.remove_shared_labels = remove;
-  if (keepClosed) post.reopen = true;
+  if (keepClosed) post.reopen = false;
   return mSend("POST", "/posts", { posts: post });
 }
 
