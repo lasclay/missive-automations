@@ -60,3 +60,29 @@ souvent un prénom seul, d'où l'exigence de correspondance forte avant tout ret
 Aucune sortie n'est versée au dépôt : `threads.jsonl`, `candidats.jsonl` et `decisions.jsonl`
 contiennent des courriels et des messages de clients. Ils restent dans le répertoire de
 travail de la session.
+
+## Gabarit d'importation Judge.me
+
+`gabarit.js` produit `import_judgeme.tsv` au format exact des importations passées, conservées
+dans le Drive sous `1.7 Judge.Me Reviews Importation`. Colonnes :
+
+```
+title  body  rating  review_date  source  curated  reviewer_name  reviewer_email
+product_id  product_handle  reply  reply_date  picture_urls  ip_address  location  metaobject_handle
+```
+
+Conventions relevées dans les fichiers déjà remplis : `rating` à 5, `source` à `web`,
+`curated` à `ok`, `review_date` au format `2025-09-04 17:18:05 UTC`, et **une ligne par
+produit** quand la même personne en évalue plusieurs. C'est voulu et normal.
+
+Le courriel du client vient de Missive, pas de Judge.me : la route publique de Judge.me ne
+donne qu'un prénom. C'est aussi pourquoi `importes.json`, extrait des importations passées,
+sert de garde-fou : il porte les courriels des personnes déjà versées.
+
+### Ce que le script ne fait pas, et ne doit pas faire seul
+
+L'extrait produit par `detect.js` est la phrase qui a le mieux noté, pas un corps d'avis
+publiable. « Pardon, j'ai commandé trop vite sans avoir vu que vous aviez des cache-cous
+noirs » contient bien un signal positif, mais ce n'est pas un avis. Choisir les mots du
+client qui forment un avis, et leur donner un titre, demande un jugement que le lexique n'a
+pas. Cette étape passe par une relecture, humaine ou par un agent, avant l'importation.

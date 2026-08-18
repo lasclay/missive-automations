@@ -112,6 +112,7 @@ for (const f of fils) {
     score: cand ? cand.score : null,
     extrait: cand ? cand.extrait : null,
     client: cl.nom || null, courriel: cl.adr || null,
+    date: (cand && cand.date) || cl.date || null,
     judgeme: jm ? { force: jm.force, nb: jm.avis.length,
                     exemple: jm.avis[0] ? `${jm.avis[0].auteur} ${jm.avis[0].note}★ ${jm.avis[0].date} ${jm.avis[0].produit}` : null } : null,
   }) + "\n");
