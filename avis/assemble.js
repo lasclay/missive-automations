@@ -108,7 +108,20 @@ for (const a of avis) {
   let prods = (a.produits || []).filter(Boolean);
   let viaCommande = false;
   if (!prods.length && courriel && achats[courriel] && achats[courriel].length) {
-    const achetes = [...new Set(achats[courriel].map((x) => vivant(x.handle)))];
+    // Un client fidèle a pu acheter vingt articles en quatre ans. Son « j'apprécie beaucoup
+    // vos produits » écrit un jour donné parle de ce qu'il vient de recevoir, pas de tout son
+    // historique. On ne retient donc que la commande qui précède l'avis.
+    const jour = (a.date || "").slice(0, 10);
+    const parCommande = new Map();
+    for (const x of achats[courriel]) {
+      const d = (x.commande || "").slice(0, 10) || "0000-00-00";
+      if (!parCommande.has(d)) parCommande.set(d, []);
+      parCommande.get(d).push(x);
+    }
+    const dates = [...parCommande.keys()].sort();
+    const avant = dates.filter((d) => !jour || d <= jour);
+    const retenue = avant.length ? avant[avant.length - 1] : dates[0];
+    const achetes = [...new Set(parCommande.get(retenue).map((x) => vivant(x.handle)))];
     // Si le client nomme un article dans son texte, on s'y tient et on ne distribue pas :
     // « I just got the ring and love it! » ne concerne que la bague, pas tout le panier.
     const cites = nommes(a.corps);
