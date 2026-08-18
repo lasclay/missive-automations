@@ -115,3 +115,47 @@ est excellent ». Le texte ne tranche pas, la commande si. `assemble.js` va cher
 Shopify les articles réellement achetés par ce courriel et les utilise en repli, **à condition
 qu'il y en ait au plus trois**. Au-delà, on ne sait plus lequel le client louait, et l'avis
 part à la revue humaine plutôt que d'être attribué au hasard.
+
+## Le contre-examen des rejets, et pourquoi il était obligatoire
+
+La première passe a rejeté 1 534 fils sur 2 012. Un rejet ne laisse aucune trace : un avis
+légitime jeté disparaît sans que personne ne s'en aperçoive. C'est l'angle mort du procédé.
+
+Les 1 534 ont donc été réexaminés, par des agents à qui on demande de **chercher les erreurs**
+de la première équipe, pas de la confirmer. Résultat : **145 avis récupérés, 9,5 % d'erreur**.
+
+Le patron est unique et il se répète d'un lot à l'autre : **le fil est classé par sa demande,
+pas par son contenu**. Un client écrit pour faire réparer une couture, et dit au passage
+« j'adore ces mitaines, elles sont chaudes ». Le fil part dans « plainte », l'éloge part avec.
+
+Deux formes, et une troisième plus rare :
+
+1. l'éloge porte sur **un autre produit** que celui qui pose problème ;
+2. l'éloge porte sur **le même produit** et coexiste avec un défaut, ce qui donne un avis
+   honnête à 4 étoiles plutôt qu'un silence ;
+3. l'éloge est **court mais net** (« très contente », « le coussin est magnifique ») et passe
+   pour de la politesse.
+
+Deux garde-fous ont tenu dans les onze audits, et ils comptent autant que les récupérations :
+un éloge suivi du **retour du produit** ne se publie pas, et un éloge **rétracté plus loin dans
+le fil** non plus. Publier tromperait le lecteur.
+
+## Quatre défauts trouvés par contrôle, jamais par relecture d'un rapport d'agent
+
+1. **Une adresse courriel en guise de nom d'auteur**, sur 395 lignes. L'archive Missive ne
+   garde souvent que l'adresse dans le champ expéditeur.
+2. **Un nom en guise d'adresse courriel**, sur 47 lignes venues de Messenger et Instagram.
+   L'une attribuait un avis à « Lasclay: The Milkweed Company », c'est-à-dire à nous.
+3. **L'avis distribué sur tout l'historique d'achat** au lieu de la commande qui le précède.
+4. **Trois avis déjà publiés mot pour mot** sur Judge.me.
+
+D'où deux règles dans `assemble.js` : une adresse doit ressembler à une adresse, un nom ne doit
+jamais en être une, et aucun avis ne peut être signé par quelqu'un de la maison.
+
+## Badge « acheteur vérifié »
+
+Judge.me ne l'accorde que si l'adresse a commandé **ce produit-là**. Vérifié ligne par ligne
+pour les 418 personnes : 530 lignes l'obtiennent, 55 concernent un produit que la personne n'a
+pas commandé sous cette adresse, 69 viennent d'adresses sans aucune commande. Les avis restent
+publiables sans le badge : c'est le sort normal d'un client qui écrit d'une adresse
+personnelle après avoir commandé au bureau, ou qui a reçu le produit en cadeau.

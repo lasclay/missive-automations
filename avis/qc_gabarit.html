@@ -1,187 +1,197 @@
 <title>Avis à verser</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
   :root{
-    --ground:#EDEFE9; --surface:#FBFCF9; --sunk:#E3E7DE;
+    --ground:#EDEFE9; --surface:#FBFCF9; --entete:#E3E7DE; --raye:#F4F6F1;
     --ink:#1A211B; --muted:#5E6A60; --faint:#8A9489;
     --accent:#3D6A4B; --accent-soft:#DCE6DA;
-    --flag:#B4531B; --flag-soft:#F2E0D2;
-    --line:#D9DED4; --line-firm:#BAC3B6;
-    --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
-    --sans:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --flag:#B4531B; --flag-soft:#F6E7DA;
+    --line:#D9DED4; --line-firm:#B7C0B3;
+    --serif:"Instrument Serif",Georgia,serif;
+    --sans:"Karla",system-ui,-apple-system,sans-serif;
     --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]){
-      --ground:#12160F; --surface:#191E16; --sunk:#20261D;
+      --ground:#12160F; --surface:#191E16; --entete:#232A1F; --raye:#1D2319;
       --ink:#E8EDE4; --muted:#9AA697; --faint:#6E7A6C;
       --accent:#87B98F; --accent-soft:#243425;
       --flag:#E08A4C; --flag-soft:#3A2416;
-      --line:#2A3126; --line-firm:#3C4537;
+      --line:#2A3126; --line-firm:#3E4739;
     }
   }
   :root[data-theme="dark"]{
-    --ground:#12160F; --surface:#191E16; --sunk:#20261D;
+    --ground:#12160F; --surface:#191E16; --entete:#232A1F; --raye:#1D2319;
     --ink:#E8EDE4; --muted:#9AA697; --faint:#6E7A6C;
     --accent:#87B98F; --accent-soft:#243425;
     --flag:#E08A4C; --flag-soft:#3A2416;
-    --line:#2A3126; --line-firm:#3C4537;
+    --line:#2A3126; --line-firm:#3E4739;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
-       font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 96px}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;
+       line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{padding:0 20px 80px;max-width:1600px;margin:0 auto}
 
-  header{padding:56px 0 28px}
-  h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,6vw,4rem);
-     line-height:1.02;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance}
-  .sous{color:var(--muted);max-width:62ch;margin:0}
-  .sous b{color:var(--ink);font-weight:700}
+  header{padding:44px 0 20px}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,5vw,3.2rem);line-height:1.02;
+     margin:0 0 10px;letter-spacing:-.01em}
+  .sous{color:var(--muted);max-width:64ch;margin:0}
 
-  .compte{display:flex;flex-wrap:wrap;gap:0;margin:28px 0 0;
+  .compte{display:flex;flex-wrap:wrap;margin:22px 0 0;
           border-top:1px solid var(--line-firm);border-bottom:1px solid var(--line-firm)}
-  .compte div{flex:1 1 130px;padding:14px 18px 14px 0;border-right:1px solid var(--line)}
+  .compte div{flex:1 1 120px;padding:12px 18px 12px 0;border-right:1px solid var(--line)}
   .compte div:last-child{border-right:0}
-  .compte .v{font-family:var(--mono);font-size:1.5rem;font-variant-numeric:tabular-nums;
-             display:block;line-height:1.1}
-  .compte .k{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+  .compte .v{font-family:var(--mono);font-size:1.35rem;font-variant-numeric:tabular-nums;display:block;line-height:1.1}
+  .compte .k{font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
   .compte .alerte .v{color:var(--flag)}
 
-  .barre{position:sticky;top:0;z-index:5;background:var(--ground);
-         border-bottom:1px solid var(--line-firm);padding:14px 0;margin-bottom:8px}
-  .barre .rangee{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  input[type=search]{flex:1 1 260px;min-width:0;font:inherit;color:var(--ink);
-    background:var(--surface);border:1px solid var(--line-firm);border-radius:2px;padding:9px 12px}
+  .barre{position:sticky;top:0;z-index:20;background:var(--ground);
+         border-bottom:1px solid var(--line-firm);padding:12px 0}
+  input[type=search]{width:100%;max-width:420px;font:inherit;color:var(--ink);background:var(--surface);
+    border:1px solid var(--line-firm);border-radius:2px;padding:8px 11px}
   input[type=search]:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-  .filtres{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-  button.f{font:inherit;font-size:.82rem;color:var(--muted);background:transparent;
-    border:1px solid var(--line-firm);border-radius:2px;padding:5px 11px;cursor:pointer}
+  .filtres{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;align-items:center}
+  button.f{font:inherit;font-size:.8rem;color:var(--muted);background:transparent;
+    border:1px solid var(--line-firm);border-radius:2px;padding:4px 10px;cursor:pointer}
   button.f:hover{color:var(--ink);border-color:var(--ink)}
   button.f[aria-pressed=true]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
   button.f.alerte[aria-pressed=true]{background:var(--flag);border-color:var(--flag);color:#fff}
   button.f:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .sep{width:1px;height:20px;background:var(--line-firm);margin:0 4px}
 
-  .avis{display:grid;grid-template-columns:52px 1fr;gap:0 20px;
-        padding:22px 0;border-bottom:1px solid var(--line)}
-  .avis.signale{background:linear-gradient(90deg,var(--flag-soft) 0 3px,transparent 3px);
-                padding-left:14px;margin-left:-14px}
-  .note{font-family:var(--mono);font-size:.95rem;color:var(--accent);padding-top:2px;
-        font-variant-numeric:tabular-nums}
-  .note.nuance{color:var(--flag)}
-  .titre{font-family:var(--serif);font-size:1.35rem;line-height:1.2;margin:0 0 4px;text-wrap:balance}
-  .titre.vide{color:var(--faint);font-style:italic;font-size:1.05rem}
-  .corps{margin:0 0 12px;max-width:66ch}
-  .meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;
-        font-size:.8rem;color:var(--muted);font-family:var(--mono)}
-  .meta .nom{color:var(--ink);font-family:var(--sans);font-weight:500}
-  .meta .manque{color:var(--flag);font-family:var(--sans);font-weight:700}
-  .prods{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-  .chip{font-size:.76rem;padding:3px 9px;border-radius:2px;background:var(--accent-soft);
-        color:var(--ink);border:1px solid transparent}
-  .chip.cmd{background:transparent;border-color:var(--line-firm);color:var(--muted)}
-  .chip.boutique{background:transparent;border-color:var(--flag);color:var(--flag)}
-  .doute{margin-top:10px;font-size:.82rem;color:var(--muted);border-left:2px solid var(--line-firm);
-         padding-left:12px;max-width:66ch}
-  .vide{padding:64px 0;text-align:center;color:var(--muted)}
-  @media (max-width:640px){
-    .avis{grid-template-columns:1fr;gap:8px}
-    .note{padding-top:0}
-  }
+  .cadre{overflow:auto;max-height:74vh;border:1px solid var(--line-firm);background:var(--surface);
+         margin-top:14px}
+  table{border-collapse:separate;border-spacing:0;width:100%;font-size:.82rem}
+  thead th{position:sticky;top:0;z-index:2;background:var(--entete);text-align:left;
+    font-family:var(--mono);font-weight:500;font-size:.7rem;letter-spacing:.05em;
+    padding:9px 10px;border-bottom:1px solid var(--line-firm);white-space:nowrap;color:var(--muted)}
+  tbody td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:var(--raye)}
+  tbody tr:hover{background:var(--accent-soft)}
+  tbody tr.signale td:first-child{box-shadow:inset 3px 0 0 var(--flag)}
+  td.body{min-width:340px;max-width:520px}
+  td.title{min-width:140px;max-width:200px;font-weight:500}
+  td.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--muted)}
+  td.rating{font-family:var(--mono);text-align:center;color:var(--accent);font-weight:500}
+  td.rating.n4{color:var(--flag)}
+  td.nom{white-space:nowrap;min-width:130px}
+  td.handle{font-family:var(--mono);font-size:.75rem;white-space:nowrap}
+  .marque{display:inline-block;font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;
+    padding:1px 6px;border:1px solid var(--line-firm);border-radius:2px;color:var(--muted)}
+  .marque.cmd{border-color:var(--flag);color:var(--flag)}
+  .marque.bout{border-color:var(--accent);color:var(--accent)}
+  .vide{padding:40px;text-align:center;color:var(--muted)}
+  .note-bas{margin-top:14px;font-size:.82rem;color:var(--muted);max-width:70ch}
 </style>
 
 <div class="wrap">
   <header>
     <h1>Avis à verser</h1>
-    <p class="sous">Reconstitués à partir des courriels du service client, de décembre 2021 à août 2026.
-      Chaque avis n'utilise que les mots réellement écrits par la personne. Vérifie
-      <b>le texte</b>, <b>la note</b> et <b>les produits</b> avant l'importation dans Judge.me.</p>
+    <p class="sous">Le gabarit d'importation Judge.me, tel qu'il sera versé. Chaque avis n'utilise
+      que les mots réellement écrits par la personne. Une ligne par produit : un même avis se publie
+      sur chaque fiche que le client a évaluée.</p>
     <div class="compte" id="compte"></div>
   </header>
 
   <div class="barre">
-    <div class="rangee">
-      <input type="search" id="q" placeholder="Chercher dans les avis, les noms, les produits…" autocomplete="off">
-    </div>
+    <input type="search" id="q" placeholder="Chercher dans le texte, les noms, les produits…" autocomplete="off">
     <div class="filtres" id="filtres">
       <button class="f" data-f="tout" aria-pressed="true">Tout</button>
       <button class="f" data-f="texte" aria-pressed="false">Produit nommé dans le texte</button>
-      <button class="f" data-f="commande" aria-pressed="false">Produit déduit de la commande</button>
+      <button class="f alerte" data-f="commande" aria-pressed="false">Produit déduit de la commande</button>
       <button class="f" data-f="boutique" aria-pressed="false">Avis de boutique</button>
-      <button class="f" data-f="n4" aria-pressed="false">Note 4, nuancés</button>
-      <button class="f alerte" data-f="sansNom" aria-pressed="false">Nom manquant</button>
-      <button class="f" data-f="doute" aria-pressed="false">Doute signalé</button>
+      <button class="f" data-f="n4" aria-pressed="false">Note 4</button>
+      <button class="f alerte" data-f="sanscmd" aria-pressed="false">Aucune commande, pas de badge</button>
+      <span class="sep"></span>
+      <button class="f" id="colonnes" aria-pressed="false">Colonnes vides du gabarit</button>
     </div>
   </div>
 
-  <div id="liste"></div>
+  <div class="cadre"><table id="t"><thead></thead><tbody></tbody></table></div>
+  <p class="note-bas" id="pied"></p>
 </div>
 
 <script id="donnees" type="application/json">__DONNEES__</script>
 <script>
 (function(){
-  const A = JSON.parse(document.getElementById("donnees").textContent);
-  const liste = document.getElementById("liste");
-  const q = document.getElementById("q");
-  let filtre = "tout";
+  const D = JSON.parse(document.getElementById("donnees").textContent);
+  const COL = D.col, R = D.rows;
+  const iSrc = COL.indexOf("_src"), iCmd = COL.indexOf("_cmd");
+  const VISIBLES = ["title","body","rating","review_date","reviewer_name","reviewer_email","product_handle","product_id"];
+  const VIDES = ["source","curated","reply","reply_date","picture_urls","ip_address","location","metaobject_handle"];
+  let filtre = "tout", toutesColonnes = false;
 
-  const lignes = A.reduce((n,a)=>n+Math.max(1,a.p.length),0);
-  const stats = [
-    ["Avis", A.length, false],
-    ["Lignes d'importation", lignes, false],
-    ["Personnes", new Set(A.map(a=>a.mail.toLowerCase())).size, false],
-    ["Avis de boutique", A.filter(a=>a.src==="aucun").length, false],
-    ["Noms à retrouver", A.filter(a=>a.sansNom).length, true],
-  ];
-  document.getElementById("compte").innerHTML = stats.map(([k,v,al])=>
-    `<div class="${al&&v?"alerte":""}"><span class="v">${v}</span><span class="k">${k}</span></div>`).join("");
+  const idx = {}; COL.forEach((c,i)=>idx[c]=i);
+  const g = (r,c) => r[idx[c]] || "";
 
-  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-  const etoiles = n => "★".repeat(n) + "☆".repeat(5-n);
+  const nbAvis = new Set(R.map(r=>g(r,"reviewer_email")+"|"+g(r,"body"))).size;
+  const sansCmd = R.filter(r=>r[iCmd]==="non").length;
+  document.getElementById("compte").innerHTML = [
+    ["Lignes", R.length, false],
+    ["Avis", nbAvis, false],
+    ["Personnes", new Set(R.map(r=>g(r,"reviewer_email").toLowerCase())).size, false],
+    ["Produit déduit", R.filter(r=>r[iSrc]==="commande").length, true],
+    ["Avis de boutique", R.filter(r=>r[iSrc]==="boutique").length, false],
+  ].map(([k,v,al])=>`<div class="${al&&v?"alerte":""}"><span class="v">${v}</span><span class="k">${k}</span></div>`).join("");
+
+  const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
   function rendre(){
-    const terme = q.value.trim().toLowerCase();
-    const vus = A.filter(a=>{
-      if (filtre==="texte" && a.src!=="texte") return false;
-      if (filtre==="commande" && a.src!=="commande") return false;
-      if (filtre==="boutique" && a.src!=="aucun") return false;
-      if (filtre==="n4" && a.n!==4) return false;
-      if (filtre==="sansNom" && !a.sansNom) return false;
-      if (filtre==="doute" && !a.doute) return false;
+    const terme = document.getElementById("q").value.trim().toLowerCase();
+    const cols = toutesColonnes ? COL.filter(c=>!c.startsWith("_")) : VISIBLES;
+    const vus = R.filter(r=>{
+      if (filtre==="texte" && r[iSrc]!=="texte") return false;
+      if (filtre==="commande" && r[iSrc]!=="commande") return false;
+      if (filtre==="boutique" && r[iSrc]!=="boutique") return false;
+      if (filtre==="n4" && g(r,"rating")!=="4") return false;
+      if (filtre==="sanscmd" && r[iCmd]!=="non") return false;
       if (!terme) return true;
-      return (a.c+" "+a.t+" "+a.nom+" "+a.mail+" "+a.p.map(p=>p.t+" "+p.h).join(" ")).toLowerCase().includes(terme);
+      return r.join(" ").toLowerCase().includes(terme);
     });
 
-    if (!vus.length){ liste.innerHTML = '<p class="vide">Aucun avis ne correspond.</p>'; return; }
+    document.querySelector("#t thead").innerHTML =
+      "<tr>" + cols.map(c=>`<th>${c}</th>`).join("") + "<th>attribution</th></tr>";
 
-    liste.innerHTML = vus.map(a=>{
-      const chips = a.src==="aucun"
-        ? '<span class="chip boutique">avis de boutique, aucun produit</span>'
-        : a.p.map(p=>`<span class="chip ${a.src==="commande"?"cmd":""}">${esc(p.t)}</span>`).join("");
-      const nom = a.sansNom
-        ? '<span class="manque">nom à retrouver</span>'
-        : `<span class="nom">${esc(a.nom)}</span>`;
-      return `<article class="avis ${a.sansNom?"signale":""}">
-        <div class="note ${a.n===4?"nuance":""}" title="${a.n} sur 5">${etoiles(a.n)}</div>
-        <div>
-          ${a.t ? `<h2 class="titre">${esc(a.t)}</h2>` : '<h2 class="titre vide">sans titre</h2>'}
-          <p class="corps">${esc(a.c)}</p>
-          <div class="meta">${nom}<span>${esc(a.mail)}</span><span>${esc(a.d.slice(0,10))}</span></div>
-          <div class="prods">${chips}</div>
-          ${a.doute ? `<p class="doute">${esc(a.doute)}</p>` : ""}
-        </div>
-      </article>`;
-    }).join("");
+    if (!vus.length){
+      document.querySelector("#t tbody").innerHTML =
+        `<tr><td class="vide" colspan="${cols.length+1}">Aucune ligne ne correspond.</td></tr>`;
+    } else {
+      document.querySelector("#t tbody").innerHTML = vus.map(r=>{
+        const tds = cols.map(c=>{
+          const v = g(r,c);
+          if (c==="body")   return `<td class="body">${esc(v)}</td>`;
+          if (c==="title")  return `<td class="title">${esc(v)}</td>`;
+          if (c==="rating") return `<td class="rating ${v==="4"?"n4":""}">${esc(v)}</td>`;
+          if (c==="review_date") return `<td class="mono">${esc(v.slice(0,10))}</td>`;
+          if (c==="reviewer_name") return `<td class="nom">${esc(v)}</td>`;
+          if (c==="reviewer_email") return `<td class="mono">${esc(v)}</td>`;
+          if (c==="product_handle"||c==="product_id") return `<td class="handle">${esc(v)}</td>`;
+          return `<td class="mono">${esc(v)}</td>`;
+        }).join("");
+        const m = r[iSrc]==="boutique" ? '<span class="marque bout">boutique</span>'
+                : r[iSrc]==="commande" ? '<span class="marque cmd">commande</span>'
+                : '<span class="marque">texte</span>';
+        return `<tr class="${r[iCmd]==="non"?"signale":""}">${tds}<td>${m}</td></tr>`;
+      }).join("");
+    }
+    document.getElementById("pied").textContent =
+      `${vus.length} lignes affichées sur ${R.length}. La bordure orange marque une adresse sans commande retrouvée dans Shopify : ces avis s'importeront sans le badge « acheteur vérifié ».`;
   }
 
   document.getElementById("filtres").addEventListener("click", e=>{
     const b = e.target.closest("button.f"); if(!b) return;
-    filtre = b.dataset.f;
-    document.querySelectorAll("button.f").forEach(x=>x.setAttribute("aria-pressed", String(x===b)));
+    if (b.id==="colonnes"){
+      toutesColonnes = !toutesColonnes;
+      b.setAttribute("aria-pressed", String(toutesColonnes));
+    } else {
+      filtre = b.dataset.f;
+      document.querySelectorAll("button.f[data-f]").forEach(x=>x.setAttribute("aria-pressed", String(x===b)));
+    }
     rendre();
   });
-  q.addEventListener("input", rendre);
+  document.getElementById("q").addEventListener("input", rendre);
   rendre();
 })();
 </script>

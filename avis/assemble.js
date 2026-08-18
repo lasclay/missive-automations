@@ -70,6 +70,16 @@ const MOTS_PRODUIT = [
 ];
 const nommes = (t) => new Set(MOTS_PRODUIT.filter(([re]) => re.test(t || "")).map(([, h]) => h));
 
+// Un avis dont le texte est déjà publié mot pour mot sur Judge.me est un vrai doublon,
+// même si la personne n'apparaît pas dans les importations passées.
+const empreinte = (t) => (t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase().replace(/[^a-z0-9]+/g, "").slice(0, 120);
+const dejaPublie = new Set();
+for (const a of lire("judgeme_avis.json", [])) {
+  const e = empreinte(a.corps);
+  if (e.length > 12) dejaPublie.add(e);
+}
+
 const achats = {};
 for (const f of ["achats_A.json", "achats_B.json", "achats_C.json"]) {
   const p = `${DIR}/${f}`;
@@ -109,12 +119,51 @@ const ARCHIVES = {
   "2x-besace": "besace", "4x-besace": "besace",
 };
 const vivant = (h) => ARCHIVES[h] || h;
+
+// Familles de fiches qu'un client ne distingue pas en écrivant. Quand il dit « mitaines » et
+// qu'il possède la version urbaine et non la version plein air, l'avis doit aller sur celle
+// qu'il a réellement achetée : c'est la condition du badge « acheteur vérifié », et c'est
+// simplement plus juste.
+const FAMILLES = [
+  ["mittens","mitaines-ville-asclepiade","mitaines-hiver-asclepiade-laine-cuir-naturel","mitaines-hiver-laine-asclepiade-naturelles","mitaines-bebe-asclepiade"],
+  ["tuque-ville-asclepiade","tuque-sport-asclepiade"],
+  ["neckwarmer","cache-cou-dasclepiade-imparfait","cache-cou-dasclepiade-imparfait-1"],
+  ["lunchbag","sac-a-lunch-imparfait"],
+  ["besace","besace-isotherme-en-asclepiade-imparfait"],
+  ["thermal-insoles","semelles-interieures-isolantes-en-asclepiade-imparfait"],
+  ["milkweed-cooler-backpack-30l","sac-a-dos-glaciere-30l-imparfait"],
+  ["scarf","foulard-imparfait"],
+  ["coussin-assise-thermal-pliable","coussin-dassise-thermal-pliable-imparfait"],
+  ["manchon-isotherme-canettes-bouteilles","manchon-isotherme-pour-boissons-imparfait","manchon-isolant-canettes-slim"],
+  ["insulated-tote-bag","sac-isotherme-type-tote-bag-imparfait"],
+  ["milkweed-seeds","graines-semences-asclepiade-stratifiees-froid","milkweed-seed-bombs"],
+  ["etui-telephone-asclepiade","etui-appareils-electroniques-asclepiade-2","etui-pour-tablette-isole-a-lasclepiade-imparfait"],
+  ["manteau-asclepiade","manteau-hiver-asclepiade-quebecoise"],
+];
+const possede = {};
+for (const [m, lot] of Object.entries(achats)) possede[m] = new Set(lot.map((x) => vivant(x.handle)));
+function ajuste(h, courriel) {
+  const a = possede[courriel];
+  if (!a || a.size === 0 || a.has(h)) return h;
+  const fam = FAMILLES.find((f) => f.includes(h));
+  if (!fam) return h;
+  const owned = fam.filter((x) => a.has(x));
+  return owned.length === 1 ? owned[0] : h;
+}
 // Fiche archivée sans équivalent courant : un avis déposé là n'apparaîtrait nulle part.
 const MORTS = new Set(["glaciere-boissons-beer-cooler", "carte-cadeau", "crochet-a-mitaines",
   "illustrations-asclepiade-monarque", "mitaines-vente-fin-de-saison-2021"]);
 
+// Les fils Messenger et Instagram n'ont pas d'adresse : l'archive n'y garde qu'un nom
+// d'affichage, qui atterrissait dans la colonne courriel. Judge.me identifie l'auteur par son
+// adresse, une ligne sans adresse valable ne s'importe pas.
+// Un avis ne peut jamais être signé par quelqu'un de la maison. Ces noms apparaissent dans
+// l'archive parce que Missive stocke le nom d'affichage de l'expéditeur, y compris le nôtre
+// sur les fils Messenger et Instagram.
+const INTERNE = /@lasclay\.com|\blasclay\b|milkweed company|bedard[- ]?mercier|\bgouveia\b/i;
+const ADRESSE = /^[^@\s,;]+@[^@\s,;]+\.[A-Za-z]{2,}$/;
 const net = (s) => (s || "").replace(/[\t\r\n]+/g, " ").replace(/\s{2,}/g, " ").trim();
-const lignes = [COL.join("\t")], doublons = [COL.join("\t")], sansCourriel = [COL.join("\t")], sansNom = [COL.join("\t")], aVerifier = [COL.join("\t")], sansProduit = [];
+const lignes = [COL.join("\t")], doublons = [COL.join("\t")], sansCourriel = [COL.join("\t")], sansNom = [COL.join("\t")], interne = [COL.join("\t")], aVerifier = [COL.join("\t")], sansProduit = [];
 const vus = new Set();
 let nbAvis = 0, nbLignes = 0, nbViaCommande = 0;
 
@@ -149,7 +198,7 @@ for (const a of avis) {
   nbAvis++;
   if (viaCommande) nbViaCommande++;
   for (const h0 of prods) {
-    const h = vivant(h0);
+    const h = ajuste(vivant(h0), courriel);
     const cle = `${courriel}|${h}|${a.date}`;
     if (vus.has(cle)) continue;
     vus.add(cle);
@@ -163,10 +212,11 @@ for (const a of avis) {
     };
     const ligne = COL.map((c) => l[c]).join("\t");
     // Judge.me identifie l'auteur par son courriel : sans lui, la ligne ne s'importe pas.
-    if (!courriel) { sansCourriel.push(ligne); continue; }
+    if (!ADRESSE.test(courriel)) { sansCourriel.push(ligne); continue; }
+    if (INTERNE.test(`${l.reviewer_name} ${courriel}`)) { interne.push(ligne); continue; }
     // Publier une adresse courriel comme nom d'auteur exposerait le client. Jamais.
     if (!l.reviewer_name) { sansNom.push(ligne); continue; }
-    if (dejaVerse.has(`${courriel}|${h}`)) doublons.push(ligne);
+    if (dejaVerse.has(`${courriel}|${h}`) || dejaPublie.has(empreinte(l.body))) doublons.push(ligne);
     else { lignes.push(ligne); nbLignes++; }
   }
 }
@@ -179,10 +229,10 @@ fs.writeFileSync(`${DIR}/import_judgeme_sans_courriel.tsv`, sansCourriel.join("\
 fs.writeFileSync(`${DIR}/sans_produit.json`, JSON.stringify(sansProduit, null, 2));
 const manquants = [...new Set([...vus].map((k) => k.split("|")[1]))].filter((h) => !cat.has(h));
 const boutique = [COL.join("\t")];
-let nbBoutique = 0, boutiqueSansNom = 0;
+let nbBoutique = 0, boutiqueSansNom = 0, boutiqueDoublons = 0, boutiqueSansAdresse = 0, boutiqueInterne = 0;
 for (const a of sansProduit) {
   const courriel = (a.courriel || "").toLowerCase().trim();
-  if (!courriel) continue;
+  if (!ADRESSE.test(courriel)) { boutiqueSansAdresse++; continue; }
   const nom = nomPublic(net(a.nom), courriel);
   if (!nom) { boutiqueSansNom++; continue; }
   const l = {
@@ -192,13 +242,15 @@ for (const a of sansProduit) {
     product_id: "", product_handle: "",
     reply: "", reply_date: "", picture_urls: "", ip_address: "", location: "", metaobject_handle: "",
   };
+  if (INTERNE.test(`${nom} ${courriel}`)) { boutiqueInterne++; continue; }
+  if (dejaPublie.has(empreinte(l.body))) { boutiqueDoublons++; continue; }
   boutique.push(COL.map((c) => l[c]).join("\t"));
   nbBoutique++;
 }
 fs.writeFileSync(`${DIR}/import_judgeme_boutique.tsv`, boutique.join("\n") + "\n");
 
 console.log(JSON.stringify({
-  avis_boutique: nbBoutique, boutique_ecartes_sans_nom: boutiqueSansNom,
+  avis_boutique: nbBoutique, boutique_ecartes_sans_nom: boutiqueSansNom, boutique_doublons: boutiqueDoublons, boutique_sans_adresse: boutiqueSansAdresse,
   avis_rediges: avis.length, avis_avec_produit: nbAvis, produit_via_commande_shopify: nbViaCommande, lignes_a_importer: nbLignes,
   lignes_a_verifier: aVerifier.length - 1, lignes_doublons_jetees: doublons.length - 1, lignes_sans_courriel: sansCourriel.length - 1, avis_sans_produit: sansProduit.length,
   handles_hors_catalogue: manquants,
