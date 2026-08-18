@@ -34,7 +34,23 @@ for (let i = 1; i <= 12; i++) {
 
 // Produits réellement commandés, relevés dans Shopify. Ils servent de repli quand le client
 // dit « j'adore vos produits » sans nommer d'article : le texte ne tranche pas, la commande si.
-const noms = lire("noms.json", {});
+// Noms d'auteur. L'archive Missive ne garde souvent que l'adresse courriel dans le champ
+// « from » : la reprendre telle quelle publierait l'adresse du client sur la boutique.
+// Les vrais noms viennent de Shopify.
+const noms = {};
+for (const f of ["noms.json", "noms_A.json", "noms_B.json", "noms_C.json"]) {
+  const o = lire(f, {});
+  for (const [m, n] of Object.entries(o)) {
+    const cle = m.toLowerCase().trim();
+    if (n && String(n).trim() && !String(n).includes("@")) noms[cle] = String(n).trim();
+  }
+}
+// Un nom qui contient une arobase n'est pas un nom.
+const nomPublic = (brut, courriel) => {
+  const b = (brut || "").trim();
+  if (b && !b.includes("@")) return b;
+  return noms[courriel] || "";
+};
 
 // Quand le produit vient de la commande et non du texte, le panier peut contenir plusieurs
 // articles et l'avis n'en viser qu'un. « I just got the ring and love it! » ne doit pas
@@ -98,7 +114,7 @@ const MORTS = new Set(["glaciere-boissons-beer-cooler", "carte-cadeau", "crochet
   "illustrations-asclepiade-monarque", "mitaines-vente-fin-de-saison-2021"]);
 
 const net = (s) => (s || "").replace(/[\t\r\n]+/g, " ").replace(/\s{2,}/g, " ").trim();
-const lignes = [COL.join("\t")], doublons = [COL.join("\t")], sansCourriel = [COL.join("\t")], aVerifier = [COL.join("\t")], sansProduit = [];
+const lignes = [COL.join("\t")], doublons = [COL.join("\t")], sansCourriel = [COL.join("\t")], sansNom = [COL.join("\t")], aVerifier = [COL.join("\t")], sansProduit = [];
 const vus = new Set();
 let nbAvis = 0, nbLignes = 0, nbViaCommande = 0;
 
@@ -140,7 +156,7 @@ for (const a of avis) {
     const l = {
       title: net(a.titre), body: net(a.corps), rating: String(a.note || 5),
       review_date: date, source: "web", curated: "ok",
-      reviewer_name: net(a.nom) || noms[courriel] || "", reviewer_email: a.courriel || "",
+      reviewer_name: nomPublic(net(a.nom), courriel), reviewer_email: a.courriel || "",
       product_id: cat.get(h) || ((achats[courriel] || []).find((x) => x.handle === h) || {}).id || "",
       product_handle: h,
       reply: "", reply_date: "", picture_urls: "", ip_address: "", location: "", metaobject_handle: "",
@@ -148,6 +164,8 @@ for (const a of avis) {
     const ligne = COL.map((c) => l[c]).join("\t");
     // Judge.me identifie l'auteur par son courriel : sans lui, la ligne ne s'importe pas.
     if (!courriel) { sansCourriel.push(ligne); continue; }
+    // Publier une adresse courriel comme nom d'auteur exposerait le client. Jamais.
+    if (!l.reviewer_name) { sansNom.push(ligne); continue; }
     if (dejaVerse.has(`${courriel}|${h}`)) doublons.push(ligne);
     else { lignes.push(ligne); nbLignes++; }
   }
@@ -155,11 +173,32 @@ for (const a of avis) {
 
 fs.writeFileSync(`${DIR}/import_judgeme.tsv`, lignes.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_doublons.tsv`, doublons.join("\n") + "\n");
+fs.writeFileSync(`${DIR}/import_judgeme_sans_nom.tsv`, sansNom.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_a_verifier.tsv`, aVerifier.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_sans_courriel.tsv`, sansCourriel.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/sans_produit.json`, JSON.stringify(sansProduit, null, 2));
 const manquants = [...new Set([...vus].map((k) => k.split("|")[1]))].filter((h) => !cat.has(h));
+const boutique = [COL.join("\t")];
+let nbBoutique = 0, boutiqueSansNom = 0;
+for (const a of sansProduit) {
+  const courriel = (a.courriel || "").toLowerCase().trim();
+  if (!courriel) continue;
+  const nom = nomPublic(net(a.nom), courriel);
+  if (!nom) { boutiqueSansNom++; continue; }
+  const l = {
+    title: net(a.titre), body: net(a.corps), rating: String(a.note || 5),
+    review_date: (horo[a.id] && horo[a.id][a.date]) || (a.date ? `${a.date} 12:00:00 UTC` : ""),
+    source: "web", curated: "ok", reviewer_name: nom, reviewer_email: a.courriel || "",
+    product_id: "", product_handle: "",
+    reply: "", reply_date: "", picture_urls: "", ip_address: "", location: "", metaobject_handle: "",
+  };
+  boutique.push(COL.map((c) => l[c]).join("\t"));
+  nbBoutique++;
+}
+fs.writeFileSync(`${DIR}/import_judgeme_boutique.tsv`, boutique.join("\n") + "\n");
+
 console.log(JSON.stringify({
+  avis_boutique: nbBoutique, boutique_ecartes_sans_nom: boutiqueSansNom,
   avis_rediges: avis.length, avis_avec_produit: nbAvis, produit_via_commande_shopify: nbViaCommande, lignes_a_importer: nbLignes,
   lignes_a_verifier: aVerifier.length - 1, lignes_doublons_jetees: doublons.length - 1, lignes_sans_courriel: sansCourriel.length - 1, avis_sans_produit: sansProduit.length,
   handles_hors_catalogue: manquants,
