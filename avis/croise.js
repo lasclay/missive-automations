@@ -61,11 +61,22 @@ for (const l of fs.readFileSync(`${DIR}/candidats.jsonl`, "utf8").split("\n")) {
   cands.set(d.id, d);
 }
 
-const fils = [];
-for (const l of fs.readFileSync(`${DIR}/threads.jsonl`, "utf8").split("\n")) {
-  if (!l.trim()) continue;
-  try { fils.push(JSON.parse(l)); } catch {}
+const parIdFil = new Map();
+for (const f of ["archive_threads.jsonl", "threads.jsonl"]) {
+  const p = `${DIR}/${f}`;
+  if (!fs.existsSync(p)) continue;
+  for (const l of fs.readFileSync(p, "utf8").split("\n")) {
+    if (!l.trim()) continue;
+    let d; try { d = JSON.parse(l); } catch { continue; }
+    const prev = parIdFil.get(d.id);
+    if (!prev || (d.msgs || []).length > (prev.msgs || []).length) parIdFil.set(d.id, d);
+    // L'archive porte l'étiquette du fil : c'est une source aussi valable que la liste vivante.
+    if ((d.labels || []).some((L) => /review (à|a) traiter/i.test(String(L)))) {
+      if (!etiquetes.has(d.id)) etiquetes.set(d.id, { id: d.id, subject: d.subject });
+    }
+  }
 }
+const fils = [...parIdFil.values()];
 
 // Le client d'un fil : le dernier expéditeur humain qui n'est pas Lasclay.
 const NOUS = /lasclay|@lasclay\.com/i;

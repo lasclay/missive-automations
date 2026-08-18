@@ -116,16 +116,29 @@ function juge(fil) {
   };
 }
 
-const lignes = fs.readFileSync(`${DIR}/threads.jsonl`, "utf8").split("\n").filter((l) => l.trim());
+// Deux sources : l'archive du support (décembre 2021 à juin 2026, déposée en tranches
+// gzip sur les brouillons de la conversation d'archives) et la collecte en direct qui
+// couvre ce qui a suivi. Le fil le plus riche gagne.
+const lignes = [];
+for (const f of ["archive_threads.jsonl", "threads.jsonl"]) {
+  const p = `${DIR}/${f}`;
+  if (!fs.existsSync(p)) continue;
+  for (const l of fs.readFileSync(p, "utf8").split("\n")) if (l.trim()) lignes.push(l);
+}
 const out = fs.createWriteStream(`${DIR}/candidats.jsonl`);
 const cpt = { fort: 0, possible: 0, non: 0, judgeme_publie: 0, sansSignal: 0 };
+const parId = new Map();
 for (const l of lignes) {
   let f; try { f = JSON.parse(l); } catch { continue; }
   if (f.echec) continue;
+  const p = parId.get(f.id);
+  if (!p || (f.msgs || []).length > (p.msgs || []).length) parId.set(f.id, f);
+}
+for (const f of parId.values()) {
   const r = juge(f);
   if (!r) { cpt.sansSignal++; continue; }
   cpt[r.niveau]++;
-  if (r.niveau !== "non") out.write(JSON.stringify(r) + "\n");
+  out.write(JSON.stringify(r) + "\n");
 }
 out.end();
-console.log(`${lignes.length} fils lus →`, JSON.stringify(cpt));
+console.log(`${parId.size} fils uniques lus →`, JSON.stringify(cpt));
