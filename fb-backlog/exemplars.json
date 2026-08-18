@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "version": "1.0",
+    "date": "2026-08-18",
+    "source": "connaissance_support.md + contexte_lasclay.md + Shopify (catalogue vérifié) + lasclay-master",
+    "registres": {
+      "sobre": "Lasclay (FR) et Lasclay: The Milkweed Company (EN) — 0 ou 1 emoji, ton posé",
+      "chaleureux": "Milkweed & Monarchs (EN) et Asclépiade & papillons monarques (FR) — quétaine assumé, 1 à 2 emoji"
+    },
+    "regles": [
+      "Vouvoiement partout: la base de connaissance signale que le tutoiement n'est PAS une politique confirmée",
+      "Jamais deux fois la meme variante sous une meme publication",
+      "Ne jamais promettre un delai de livraison sans verification Shopify + ShipStation"
+    ]
+  },
+  "templates": [
+    {
+      "id": 1, "titre": "Toxicité pour les animaux et les enfants", "volume": 260,
+      "verifie": "connaissance_support.md § Milkweed toxicity",
+      "cle": "Le latex est amer, les animaux au pâturage l'évitent. Le vrai risque est l'asclépiade séchée dans les balles de foin. Aucun cas documenté d'intoxication d'enfant ou d'animal de compagnie.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"La toxicité de l'asclépiade est réelle sur le plan chimique, mais ses conséquences sont beaucoup plus modestes qu'on le dit. Le latex est tellement amer que les animaux au pâturage l'évitent d'instinct, et ceux qui y goûtent n'en mangent jamais assez pour être intoxiqués. Le vrai risque connu, c'est l'asclépiade séchée mélangée dans des balles de foin: là, elle perd son goût et le bétail peut en avaler beaucoup. Un chien, un chat ou un enfant dans un jardin, non."},
+        {"lang":"FR","ton":"sobre","texte":"Question légitime, et la réponse mérite d'être nuancée. Le latex de l'asclépiade a un goût si amer que les animaux la laissent tranquille d'eux-mêmes. Le seul cas documenté de mortalité concerne le bétail qui mange du foin sec où de l'asclépiade s'est retrouvée mélangée, parce que le séchage enlève l'amertume. Dans une cour ou un jardin, le risque pour un chien ou un chat est théorique."},
+        {"lang":"FR","ton":"chaleureux","texte":"On comprend l'inquiétude! 🐾 La bonne nouvelle: le latex de l'asclépiade est tellement amer que minou et pitou vont y goûter une fois et passer leur chemin. Le vrai danger, c'est pour le bétail quand de l'asclépiade séchée se retrouve dans les balles de foin, parce que le séchage enlève le mauvais goût. Dans un jardin, on n'a aucun cas documenté d'animal de compagnie intoxiqué."},
+        {"lang":"EN","ton":"sober","texte":"The toxicity is chemically real, but the consequences are far smaller than the reputation suggests. The sap is so bitter that grazing animals avoid it on their own, and the ones that try it never eat enough to be poisoned. The documented risk is dried milkweed baled into hay: drying removes the bitterness and cattle can then eat a lot of it. A dog, a cat or a child in a garden will not."},
+        {"lang":"EN","ton":"sober","texte":"Worth asking, and worth answering carefully. We are not downplaying the real challenge milkweed poses to farmers, or its actual chemical toxicity. But search milkweed poisoning in the news and you will not find a documented case of a child or a pet. What you will find is livestock harmed by dried milkweed mixed into hay bales, which is a genuine and specific problem."},
+        {"lang":"EN","ton":"cheesy","texte":"Great question, and the answer is reassuring 🐕 Milkweed sap is so bitter that animals take one taste and walk away. The real risk is for cattle eating dried milkweed baled into hay, because drying takes the bad taste away. In a backyard, there is no documented case of a pet being poisoned. Your dog is going to be fine, and the monarchs will thank you 🦋"}
+      ]
+    },
+    {
+      "id": 2, "titre": "Quelle espèce pour ma région", "volume": 220,
+      "verifie": "Shopify: 11 espèces, toutes indigènes d'Amérique du Nord",
+      "cle": "11 espèces vendues: syriaca, tuberosa, incarnata, speciosa, exaltata, verticillata, fascicularis, sullivantii, viridis, labriformis, angustifolia. Aucune tropicale. Renvoyer vers une source locale quand aucune ne convient.",
+      "variantes": [
+        {"lang":"EN","ton":"sober","texte":"We carry eleven species, all native to North America: syriaca, tuberosa, incarnata, speciosa, exaltata, verticillata, fascicularis, sullivantii, viridis, labriformis and angustifolia. Tell us your state or region and we will point you to the ones that actually belong there. We do not sell tropical milkweed."},
+        {"lang":"EN","ton":"sober","texte":"That depends entirely on where you are, and it matters more than most planting guides admit. Our catalogue covers eleven North American natives, so most regions have at least one good match. If none of ours suits your area, we will say so and point you to a native plant nursery closer to home. Better an appropriate plant than one of ours."},
+        {"lang":"EN","ton":"cheesy","texte":"Location is everything with milkweed 🌱 We carry eleven native species, so odds are good there is one made for your corner of the continent. Tell us where you are and we will narrow it down. And if the right one for you is not in our catalogue, we will happily send you to a local native nursery instead. The monarchs do not care where the seed came from 🦋"},
+        {"lang":"FR","ton":"sobre","texte":"Ça dépend de votre région, et c'est la première chose à regarder. Nous offrons onze espèces, toutes indigènes d'Amérique du Nord. Au Québec, la commune (syriaca), l'incarnate et la tubéreuse couvrent la grande majorité des situations. Dites-nous votre secteur et on précise."},
+        {"lang":"FR","ton":"sobre","texte":"Bonne question à se poser avant de semer. Nos onze espèces sont toutes indigènes du continent. Pour le Québec et l'est du Canada, syriaca, incarnata et tuberosa sont les valeurs sûres: la première pour les grands espaces, la deuxième pour les sols humides, la troisième pour un massif bien drainé au plein soleil."},
+        {"lang":"FR","ton":"chaleureux","texte":"L'espèce compte beaucoup, vous avez raison de demander! 🌼 On a onze espèces indigènes au catalogue. Chez nous au Québec, la commune s'installe partout et prend ses aises, l'incarnate adore les pieds mouillés, et la tubéreuse orange reste sagement où on la plante. Dites-nous votre coin et on vous guide 🦋"}
+      ]
+    },
+    {
+      "id": 3, "titre": "Jusqu'à quelle température / est-ce vraiment chaud", "volume": 151,
+      "verifie": "connaissance_support.md § Question température mitaines + Compression asclépiade",
+      "cle": "Pas de garantie de performance selon la température. Témoignages jusqu'à -30. Fibre creuse: l'air isolant est DANS la fibre, donc résiste à la compression.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"On évite de donner une cote en degrés, parce que ça dépend d'autant de facteurs qu'on ne contrôle pas: la circulation sanguine, le niveau d'activité, le vent. Ce qu'on peut dire, c'est qu'on a plusieurs témoignages de clients descendus dans les -30 confortablement, et qu'on l'a testé nous-mêmes. Les avis sont publics sur notre page."},
+        {"lang":"FR","ton":"sobre","texte":"Difficile de promettre un chiffre honnêtement: deux personnes n'ont pas la même circulation aux extrémités. Ce qui est documenté, c'est des sorties à -30 rapportées par des clients, et nos propres tests. La fibre d'asclépiade est creuse, donc l'air isolant est emprisonné à l'intérieur même de chaque fibre, et non seulement entre elles."},
+        {"lang":"FR","ton":"chaleureux","texte":"On ne donne pas de cote en degrés, ce serait malhonnête: chacun a sa propre circulation! ❄️ Mais on a des clients qui rapportent des -30 en tout confort, et on l'a testé nous-mêmes. Le secret, c'est que la fibre d'asclépiade est creuse: l'air chaud est pris à l'intérieur de la fibre, pas juste autour."},
+        {"lang":"EN","ton":"sober","texte":"We avoid giving a temperature rating, because it depends on things we do not control: circulation, activity level, wind. What we can point to is customers reporting comfortable outings at -30 C, and our own testing. Reviews are public on our page if you want to read them."},
+        {"lang":"EN","ton":"sober","texte":"An honest answer is that no rating would mean much: hands differ enormously from person to person. What is documented is customers out at -30 C and our own field testing. The mechanism helps: milkweed floss is a hollow tube, so the insulating air sits inside each fibre rather than only between them, which is why it holds up when compressed."},
+        {"lang":"EN","ton":"cheesy","texte":"We will not slap a temperature rating on it, because everyone's hands are different ❄️ What we can tell you is that customers report -30 C outings without complaint, and we have tested it ourselves. The trick is the fibre itself: it is hollow, so it traps warm air inside each strand, not just between them 🌱"}
+      ]
+    },
+    {
+      "id": 4, "titre": "La récolte nuit-elle aux monarques", "volume": 123,
+      "verifie": "lasclay-master + connaissance_support.md",
+      "cle": "La soie est dans les follicules, récoltés à l'automne après la floraison et après la migration. Les feuilles, dont dépendent les chenilles, ne sont pas touchées. La graine repart en sachets.",
+      "variantes": [
+        {"lang":"EN","ton":"sober","texte":"Good instinct to ask. The floss is inside the seed pods, harvested in the fall, after flowering and after the caterpillars have finished with the leaves. The part monarchs actually need, the foliage in summer and the nectar, is untouched. The seed that separates during processing goes back out as seed packets rather than into the bin."},
+        {"lang":"EN","ton":"sober","texte":"The timing is the whole answer. Pods are picked in autumn, once the migration has passed and the leaves have done their job for the season. Nothing about the harvest competes with what the caterpillars eat. And the seed that comes off the floss is redistributed rather than discarded."},
+        {"lang":"EN","ton":"cheesy","texte":"We love this question 🦋 The floss lives in the pods, and pods only show up in the fall, long after the caterpillars have eaten their fill and the butterflies have headed south. The leaves they need are never touched. Better still, the seed that comes off during processing goes right back out in our seed packets 🌱"},
+        {"lang":"FR","ton":"sobre","texte":"C'est une question qu'on aime recevoir. La soie se trouve dans les follicules, récoltés à l'automne, après la floraison et après le passage des chenilles. Ce dont les monarques ont besoin, le feuillage l'été et le nectar, n'est jamais touché. La graine qui se détache de la soie repart en sachets plutôt qu'à la poubelle."},
+        {"lang":"FR","ton":"sobre","texte":"Le calendrier répond à tout: les follicules se récoltent à l'automne, une fois la migration passée et les feuilles ayant fait leur travail. La récolte n'entre jamais en concurrence avec ce que mangent les chenilles."},
+        {"lang":"FR","ton":"chaleureux","texte":"Belle question, et la réponse fait plaisir 🦋 La soie est dans les follicules, et les follicules arrivent à l'automne, bien après que les chenilles se soient régalées et que les papillons soient partis vers le sud. Les feuilles ne sont jamais touchées. Et la graine récupérée repart chez vous en sachets 🌱"}
+      ]
+    },
+    {
+      "id": 5, "titre": "Quand et comment semer / stratification", "volume": 99,
+      "verifie": "connaissance_support.md § LAS Graines > stratification",
+      "cle": "Nos graines ne sont PAS stratifiées. 30 jours au froid environ. Semis d'automne = l'hiver fait le travail. Floraison à la 2e année.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Nos graines ne sont pas stratifiées, il faut donc leur donner environ 30 jours de froid avant de semer. Le plus simple reste le semis d'automne: l'hiver fait le travail tout seul. Sinon, 30 jours au réfrigérateur dans un sac scellé sur un essuie-tout humide, puis semis au printemps. À noter que l'asclépiade ne fleurit qu'à la deuxième année."},
+        {"lang":"FR","ton":"sobre","texte":"Deux chemins possibles. Semer à l'automne et laisser l'hiver faire la stratification à froid, c'est la méthode la plus fiable. Ou forcer les choses: une trentaine de jours au frigo avant de semer au printemps. Sans cette période de froid, la germination est très décevante, et c'est la cause numéro un des semis ratés."},
+        {"lang":"FR","ton":"chaleureux","texte":"L'asclépiade a besoin d'un bon coup de froid avant de se réveiller! ❄️ Le plus simple: semez à l'automne et laissez l'hiver s'en occuper. Sinon, 30 jours au frigo dans un sac avec un essuie-tout humide, puis en terre au printemps. Petite patience à prévoir: elle ne fleurit qu'à sa deuxième année, mais ça vaut l'attente 🌸"},
+        {"lang":"EN","ton":"sober","texte":"Our seed is not pre-stratified, so it needs roughly 30 days of cold before it will germinate reliably. Fall sowing is the easiest route: winter does the work for you. Otherwise, 30 days in the fridge in a sealed bag on a damp paper towel, then sow in spring. Milkweed also flowers in its second year, not its first."},
+        {"lang":"EN","ton":"sober","texte":"Skipping the cold period is the single most common reason milkweed seed fails. Either sow in autumn and let winter handle it, or give it about a month in the refrigerator before spring planting. Either way, expect foliage the first year and flowers the second."},
+        {"lang":"EN","ton":"cheesy","texte":"Milkweed needs a proper winter nap before it will wake up ❄️ Easiest path: scatter it in the fall and let the cold do the work. In a hurry? Thirty days in the fridge, sealed bag, damp paper towel, then into the ground come spring. And be patient with it: leaves year one, flowers year two, monarchs after that 🦋"}
+      ]
+    },
+    {
+      "id": 6, "titre": "Où commander et combien ça coûte", "volume": 85,
+      "verifie": "Shopify: sachets à partir de 6,99 $ CAD. VÉRIFIER LE PRIX COURANT AVANT ENVOI.",
+      "cle": "lasclay.com, section jardin. Expédition Canada et États-Unis.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Tout se trouve sur lasclay.com, les graines sont dans la section jardin. On expédie au Canada et aux États-Unis."},
+        {"lang":"FR","ton":"sobre","texte":"Sur notre boutique en ligne, lasclay.com. Les semences et les bombes semencières sont regroupées dans la section jardin, avec le détail des espèces et des formats."},
+        {"lang":"FR","ton":"chaleureux","texte":"Tout est sur lasclay.com! 🌱 Les graines et les bombes semencières sont dans la section jardin, avec toutes les espèces. On expédie partout au Canada et aux États-Unis."},
+        {"lang":"EN","ton":"sober","texte":"Everything is on lasclay.com, under the garden section. We ship to Canada and the United States."},
+        {"lang":"EN","ton":"sober","texte":"Through our online shop at lasclay.com. Seeds and seed bombs are grouped under the garden section, with each species listed separately."},
+        {"lang":"EN","ton":"cheesy","texte":"Right this way: lasclay.com, garden section 🌱 All the species and the seed bombs are there, and we ship across Canada and the United States 🦋"}
+      ]
+    },
+    {
+      "id": 7, "titre": "Est-ce que ça va envahir mon terrain", "volume": 76,
+      "verifie": "connaissance_support.md § Milkweed Invasive vs aggressive",
+      "cle": "Agressive n'est pas envahissante. Syriaca est indigène et vigoureuse. Alternatives moins agressives: tuberosa, incarnata, exaltata. Rien à voir avec la renouée ou la berce.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Agressive et envahissante, ce n'est pas la même chose. L'asclépiade commune est indigène et parfaitement adaptée à nos sols, alors elle prend ses aises: elle ne reste pas sagement où on l'a plantée. Ça n'en fait pas une envahissante comme la renouée du Japon ou la berce du Caucase, qui sont exotiques et destructrices. Si vous manquez d'espace, la tubéreuse et l'incarnate sont beaucoup plus sages."},
+        {"lang":"FR","ton":"sobre","texte":"La commune se propage par rhizomes, donc oui, elle voyage. Mais c'est une plante d'ici, pas une exotique qui déséquilibre l'écosystème. Pour un massif bien tenu, choisissez plutôt la tubéreuse: elle pousse à partir d'une racine pivotante et reste où vous la mettez."},
+        {"lang":"FR","ton":"chaleureux","texte":"Bonne distinction à faire! 🌿 Agressive, oui. Envahissante, non. La commune est indigène et bien adaptée, alors elle s'étend joyeusement par ses rhizomes. Rien à voir avec la renouée du Japon. Et si vous voulez quelque chose de plus discipliné, la tubéreuse orange reste exactement où vous la plantez 🧡"},
+        {"lang":"EN","ton":"sober","texte":"Aggressive and invasive are not the same thing. Common milkweed is native and well adapted here, so it spreads by rhizome and does not politely stay put. That is very different from Japanese knotweed or giant hogweed, which are foreign and genuinely destructive. If space is tight, butterfly weed and swamp milkweed are far better behaved."},
+        {"lang":"EN","ton":"sober","texte":"It spreads, yes, but by underground rhizome and within an ecosystem it belongs to. Invasive is a label for foreign plants that damage habitats they entered. For a contained bed, butterfly weed grows from a taproot and stays where you put it."},
+        {"lang":"EN","ton":"cheesy","texte":"Fair worry, and the answer is a happy one 🌿 Common milkweed is aggressive but native, which is a very different thing from invasive. It spreads because it belongs here. If you want something tidier for a flower bed, butterfly weed has a taproot and stays exactly where you plant it 🧡"}
+      ]
+    },
+    {
+      "id": 8, "titre": "Comment laver et entretenir", "volume": 72,
+      "verifie": "connaissance_support.md § (FR) Lavage",
+      "cle": "Machine, eau froide, cycle délicat, savon doux, séchage à l'air libre à plat. Guides: lasclay.com/pages/guides-dentretien",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Tous nos produits se lavent à la machine, à l'eau froide, au cycle délicat, avec un savon doux. Séchage à l'air libre, à plat de préférence. Les instructions détaillées par produit sont sur lasclay.com/pages/guides-dentretien."},
+        {"lang":"FR","ton":"sobre","texte":"Eau froide, cycle délicat, savon doux, puis séchage à plat à l'air libre. C'est tout. Évitez l'assouplissant: il enrobe la fibre et réduit son pouvoir isolant. Les guides complets sont sur notre site."},
+        {"lang":"FR","ton":"chaleureux","texte":"C'est simple! 💧 Machine à l'eau froide, cycle délicat, savon doux, et on laisse sécher à plat à l'air libre. Un seul interdit: l'assouplissant, qui enrobe la fibre et lui fait perdre sa chaleur. Tous les détails sont dans nos guides d'entretien."},
+        {"lang":"EN","ton":"sober","texte":"Machine wash cold on a delicate cycle with a mild soap, then air dry flat. Detailed care instructions for each product are at lasclay.com/pages/guides-dentretien."},
+        {"lang":"EN","ton":"sober","texte":"Cold water, gentle cycle, mild detergent, air dry flat. One thing to avoid is fabric softener: it coats the fibre and cuts the insulation. Full guides are on the site."},
+        {"lang":"EN","ton":"cheesy","texte":"Nice and easy 💧 Cold wash, delicate cycle, gentle soap, then lay it flat to dry. Just skip the fabric softener, it coats the fibres and steals the warmth. Everything else is in our care guides 🌱"}
+      ]
+    },
+    {
+      "id": 9, "titre": "Composition: pourquoi du polyester, est-ce 100 % asclépiade", "volume": 61,
+      "verifie": "connaissance_support.md § Polyester dans la composition du manteau",
+      "cle": "Manteau: 40 % polyester dans l'isolant. Le polyester maintient les fibres en place, améliore le pouvoir isolant, la durabilité et l'entretien. L'asclépiade est l'isolant, pas la coquille.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Non, et c'est voulu. L'asclépiade est l'isolant, la partie qui tient chaud. L'isolant du manteau contient 40 % de polyester, parce que la fibre d'asclépiade est très volatile et a tendance à s'agglutiner, exactement comme le duvet. Le polyester la maintient en place, améliore le pouvoir isolant réel et rend le produit plus durable et plus facile d'entretien."},
+        {"lang":"FR","ton":"sobre","texte":"L'asclépiade est l'isolant, jamais la coquille extérieure: seule, la fibre n'a aucune résistance à l'abrasion et ne passerait pas un hiver. Dans l'isolant du manteau, on ajoute 40 % de polyester pour empêcher la fibre de se déplacer et de faire des paquets. On préfère le dire clairement plutôt que de laisser croire que tout le produit est en asclépiade."},
+        {"lang":"FR","ton":"chaleureux","texte":"Bonne question, et on répond franchement: non 🌱 L'asclépiade, c'est l'isolant, le cœur chaud du produit. On y ajoute du polyester parce que la fibre est légère et volage: laissée seule, elle migre et fait des paquets, comme le duvet. Le polyester la tient en place et rend le tout plus durable."},
+        {"lang":"EN","ton":"sober","texte":"No, and that is deliberate. The milkweed is the insulation. Floss on its own has no abrasion resistance and would not survive a winter of use, so the outer shell is a technical fabric. In the coat insulation we blend in polyester to keep the floss from shifting and clumping, the way down does, which also improves durability and care."},
+        {"lang":"EN","ton":"sober","texte":"The milkweed does one job, and does it well: it is the insulating layer. We would rather say that plainly than let anyone believe the whole garment is milkweed. The blend keeps the fibre stable over years of wear."},
+        {"lang":"EN","ton":"cheesy","texte":"Straight answer: no, and here is why 🌱 Milkweed is the insulation, the warm heart of the product. On its own the floss drifts and clumps, exactly like down does, so it gets blended and quilted to stay put. The outer fabric is technical, because a shell made of floss would not last one winter."}
+      ]
+    },
+    {
+      "id": 10, "titre": "Bombes semencières: comment ça marche", "volume": 45,
+      "verifie": "connaissance_support.md § Bombes déjà germé, Bombes effet de serre, Température optimale",
+      "cle": "À planter dès réception. Contiennent terreau, graines et humidité. Si déjà germées, démarrer en semis sous plastique transparent.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Les bombes sont faites pour être mises en terre dès leur réception. Elles contiennent déjà le terreau et l'humidité nécessaires, alors elles survivent quelques jours dans leur sac, mais pas plus. Si elles ont commencé à germer, démarrez-les en petits pots recouverts d'un plastique transparent pour créer un effet de serre."},
+        {"lang":"FR","ton":"sobre","texte":"On les plante dès qu'on les reçoit, un peu enfoncées, dans un endroit ensoleillé qui ne sera pas tondu en juin. Elles portent leur propre terreau, donc pas besoin de les préparer. Si vous voyez déjà des pousses à l'ouverture, c'est bon signe: passez-les en pots tout de suite."},
+        {"lang":"FR","ton":"chaleureux","texte":"C'est la façon la plus simple de commencer! 🌱 On les met en terre dès la réception, dans un coin ensoleillé, et on les oublie. Elles ont déjà tout ce qu'il faut: terreau, graines, humidité. Si elles ont germé dans l'enveloppe, pas de panique: en petits pots sous un plastique transparent et le tour est joué 🌸"},
+        {"lang":"EN","ton":"sober","texte":"Seed bombs are meant to go into the ground as soon as they arrive. They already contain soil and moisture, so they will keep a few days in the bag but not much longer. If they have started to sprout, pot them up right away under clear plastic to create a greenhouse effect."},
+        {"lang":"EN","ton":"sober","texte":"Plant them on arrival, pressed lightly into soil in a sunny spot that will not be mowed in June. No preparation needed: the soil and the seed are already in the ball."},
+        {"lang":"EN","ton":"cheesy","texte":"Easiest way to start, honestly 🌱 Pop them in the ground as soon as they arrive, sunny spot, somewhere the mower will not find them in June. They come with their own soil and moisture. Already sprouting in the bag? Even better, just pot them up under clear plastic 🌸"}
+      ]
+    },
+    {
+      "id": 11, "titre": "Taille et ajustement", "volume": 43,
+      "verifie": "contexte_lasclay.md + Shopify (tailles S à 2XL)",
+      "cle": "Renvoyer au tableau des tailles. En cas de doute entre deux tailles, proposer l'échange. Ne jamais improviser une mensuration.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Le tableau des tailles se trouve directement sur la fiche du produit, avec les mensurations. Si vous hésitez entre deux tailles, écrivez-nous en privé avec vos mesures et on vous oriente. L'échange reste possible si ça ne convient pas."},
+        {"lang":"FR","ton":"sobre","texte":"Les mensurations sont indiquées sur chaque fiche produit. En cas de doute, mieux vaut nous écrire avant de commander: on préfère vous aider à choisir que de traiter un échange après coup."},
+        {"lang":"FR","ton":"chaleureux","texte":"Le tableau des tailles est sur la fiche du produit! 📏 Et si vous hésitez entre deux, écrivez-nous vos mesures en privé, on vous aide à trancher. Un échange reste toujours possible si ça ne tombe pas juste."},
+        {"lang":"EN","ton":"sober","texte":"The size chart with measurements is on each product page. If you are between two sizes, message us privately with your measurements and we will help you choose. Exchanges are available if it does not work out."},
+        {"lang":"EN","ton":"sober","texte":"Measurements are listed on the product page itself. When in doubt, write to us before ordering rather than after: helping you pick is easier for everyone than processing an exchange."},
+        {"lang":"EN","ton":"cheesy","texte":"Size chart is right on the product page 📏 Stuck between two? Send us your measurements in a private message and we will help you land on the right one. And exchanges are always possible if it is not quite right."}
+      ]
+    },
+    {
+      "id": 12, "titre": "Délai de livraison (question générale, sans commande)", "volume": 34,
+      "verifie": "connaissance_support.md § Expédition et suivi",
+      "cle": "NE JAMAIS promettre de date pour une commande précise sans vérifier Shopify ET ShipStation. Ici: réponse générale seulement.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Les délais varient selon la période et le produit. Les graines partent par la poste régulière, les produits textiles par colis suivi. Si vous parlez d'une commande précise, écrivez-nous en privé avec votre numéro et on vérifie."},
+        {"lang":"FR","ton":"sobre","texte":"Ça dépend du produit et du moment de l'année: les périodes de pointe allongent les délais et on préfère le dire. Pour un dossier précis, un message privé avec le numéro de commande et on regarde tout de suite."},
+        {"lang":"FR","ton":"chaleureux","texte":"Ça dépend du produit et de la saison! 📦 Les graines voyagent par la poste régulière, le textile par colis suivi. Si c'est pour une commande en particulier, écrivez-nous en privé avec le numéro et on vous donne l'heure juste."},
+        {"lang":"EN","ton":"sober","texte":"It varies with the season and the product. Seeds go by regular mail, textiles by tracked parcel. If you are asking about a specific order, send us a private message with the number and we will check it."},
+        {"lang":"EN","ton":"sober","texte":"Depends on the item and the time of year, and peak periods do stretch things out. For a specific order, message us the number and we will look it up rather than guess."},
+        {"lang":"EN","ton":"cheesy","texte":"Depends on the product and the season 📦 Seeds travel by regular mail, textiles by tracked parcel. Got a specific order in mind? Send us the number in a private message and we will get you a real answer."}
+      ]
+    },
+    {
+      "id": 13, "titre": "Rupture de stock et retour d'un produit", "volume": 31,
+      "verifie": "connaissance_support.md § Précommandes et ruptures de stock",
+      "cle": "Renvoyer vers l'infolettre pour les retours en stock. Ne jamais annoncer une date de réapprovisionnement non confirmée.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Ce produit est en rupture pour le moment. Le plus fiable pour ne pas le manquer est notre infolettre: les retours en stock y sont annoncés en premier. On évite de donner une date tant qu'elle n'est pas confirmée."},
+        {"lang":"FR","ton":"sobre","texte":"Pas disponible pour l'instant. On préfère ne pas avancer de date qu'on ne pourrait pas tenir. L'infolettre reste le meilleur moyen d'être prévenu dès le retour."},
+        {"lang":"FR","ton":"chaleureux","texte":"En rupture pour le moment, désolé! 🌱 On ne veut pas vous donner une date qu'on ne pourrait pas respecter. Le plus sûr: l'infolettre, où les retours en stock sont annoncés en premier."},
+        {"lang":"EN","ton":"sober","texte":"Out of stock at the moment. The most reliable way to catch it is our newsletter, where restocks are announced first. We would rather not give a date we cannot hold to."},
+        {"lang":"EN","ton":"sober","texte":"Not available right now, and we prefer not to promise a return date until it is confirmed. The newsletter is where restocks go out first."},
+        {"lang":"EN","ton":"cheesy","texte":"Sold out for now, sorry about that! 🌱 We would rather not throw out a date we cannot keep. Sign up for the newsletter and you will hear about the restock before anyone else 🦋"}
+      ]
+    },
+    {
+      "id": 14, "titre": "Pourquoi vendre des graines, pourquoi pas gratuit", "volume": 18,
+      "verifie": "connaissance_support.md § Milkweed planting campaign profit for free + lasclay-master",
+      "cle": "Sachet gratuit dans chaque commande textile. ~10 millions de graines sur 5 campagnes. Les organismes gratuits sont bénévoles et à petit volume. Opération industrielle à amortir. Les gousses s'ouvrent gratuitement à l'automne.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"On en donne déjà: chaque commande textile part avec un sachet gratuit, et les campagnes de plantation ont mis environ dix millions de graines en terre en Amérique du Nord sur cinq éditions. Les organismes qui distribuent gratuitement sont surtout bénévoles, avec des volumes forcément petits et locaux. C'est du vrai travail, mais ça ne se met pas à l'échelle. Et si le prix est l'obstacle: les gousses s'ouvrent seules à l'automne et cette graine-là ne coûte rien."},
+        {"lang":"FR","ton":"sobre","texte":"Le prix couvre la récolte, le nettoyage, l'entreposage et l'envoi d'une graine qui n'a toujours pas de récolte mécanisée. Il n'y a pas de marge à défendre là-dedans. Ce que ça achète, c'est la portée: des millions de graines plutôt que quelques centaines."},
+        {"lang":"FR","ton":"chaleureux","texte":"On en donne déjà beaucoup! 🌱 Un sachet gratuit dans chaque commande textile, et environ dix millions de graines semées en Amérique du Nord sur cinq campagnes. Les groupes bénévoles font un travail précieux, mais à petite échelle. Et si le prix bloque: à l'automne, les gousses s'ouvrent toutes seules et cette graine-là est gratuite 🦋"},
+        {"lang":"EN","ton":"sober","texte":"We do give seed away. Every textile order ships with a free packet, and the planting campaigns have put roughly ten million seeds into the ground across North America over five editions. The groups that hand out seed for free are mostly volunteer-run, with necessarily small and local volumes. That work matters, and it does not scale."},
+        {"lang":"EN","ton":"sober","texte":"The price covers harvesting, cleaning, storing and shipping a seed that still has no mechanized harvest. There is no margin worth defending on a seed packet. What it buys is reach. And if cost is the barrier, pods split open on their own in the fall and that seed is free."},
+        {"lang":"EN","ton":"cheesy","texte":"We already do, quite a lot 🌱 A free packet rides along with every textile order, and about ten million seeds have gone into the ground over five planting campaigns. Volunteer groups do wonderful work, just at a smaller scale. And honestly? Come fall, the pods open on their own and that seed costs nothing at all 🦋"}
+      ]
+    },
+    {
+      "id": 15, "titre": "Culture en pot, balcon, chevreuils", "volume": 30,
+      "verifie": "connaissance_support.md § Surface + Shopify (tuberosa taproot)",
+      "cle": "Oui en pot, surtout tuberosa (racine pivotante). Le pot limite la propagation de la commune. Les chevreuils évitent généralement l'asclépiade à cause du latex.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Oui, et le pot est même une bonne façon de contenir la commune, qui voyage par rhizomes. La tubéreuse est la mieux adaptée au contenant: elle pousse sur une racine pivotante et reste compacte. Prévoyez un pot profond. À noter que les chevreuils évitent généralement l'asclépiade, à cause du latex amer."},
+        {"lang":"FR","ton":"sobre","texte":"C'est possible, avec un pot assez profond pour la racine. La tubéreuse est le meilleur choix en contenant. Bonne nouvelle pour votre problème de chevreuils: ils boudent l'asclépiade la plupart du temps, donc la pleine terre reste envisageable aussi."},
+        {"lang":"FR","ton":"chaleureux","texte":"Oui! 🪴 Et le pot a un avantage: il empêche la commune de partir à l'aventure. La tubéreuse est la championne du contenant avec sa racine pivotante. Et pour les chevreuils: ils n'aiment pas du tout le latex amer, alors ils passent leur chemin 🦌"},
+        {"lang":"EN","ton":"sober","texte":"Yes, and a container is a good way to keep common milkweed in check, since it travels by rhizome. Butterfly weed is the best pick for pots: it grows from a taproot and stays compact. Use a deep container. Worth knowing that deer usually leave milkweed alone because of the bitter latex."},
+        {"lang":"EN","ton":"sober","texte":"It works, provided the pot is deep enough for the root. Butterfly weed is the most container-friendly of our species. And on the deer question: they generally avoid milkweed entirely, so planting in the ground may be an option too."},
+        {"lang":"EN","ton":"cheesy","texte":"Absolutely 🪴 A pot is actually a clever way to keep common milkweed from wandering off. Butterfly weed is the container champion thanks to its taproot. And good news on the deer front: they want nothing to do with that bitter latex 🦌"}
+      ]
+    },
+    {
+      "id": 16, "titre": "Zone de rusticité", "volume": 25,
+      "verifie": "connaissance_support.md § Question zones rusticité hardiness",
+      "cle": "Toutes les espèces vendues conviennent généralement des zones 3 à 9. La zone indiquée est la plus froide tolérée, pas un plafond.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Toutes nos espèces conviennent généralement aux zones 3 à 9. Un rappel utile: la zone indiquée pour une plante est la plus froide qu'elle tolère, pas un plafond. Une plante cotée zone 3 s'accommode très bien des zones plus chaudes."},
+        {"lang":"FR","ton":"sobre","texte":"De la zone 3 à la zone 9, l'ensemble de nos espèces s'en tire bien. La cote de rusticité se lit du froid vers le chaud: c'est un seuil minimum, pas une limite supérieure."},
+        {"lang":"FR","ton":"chaleureux","texte":"Bonne nouvelle: toutes nos espèces vont bien des zones 3 à 9! 🌡️ Et petit rappel qui sème souvent la confusion: la zone indiquée, c'est le froid maximum que la plante endure, pas une limite du côté chaud."},
+        {"lang":"EN","ton":"sober","texte":"All of our species are generally fine in zones 3 through 9. One thing that trips people up: the zone rating is the coldest zone a plant survives in, not a ceiling. Something rated zone 3 will do fine several zones warmer."},
+        {"lang":"EN","ton":"sober","texte":"Zones 3 to 9 covers our whole catalogue. Hardiness ratings run cold to warm and mark a minimum, not a maximum."},
+        {"lang":"EN","ton":"cheesy","texte":"Good news: every species we carry is happy in zones 3 through 9 🌡️ And here is the bit that confuses everyone: the zone number is the coldest the plant can take, not the warmest. Rated zone 3 means it laughs at zone 7 🌱"}
+      ]
+    },
+    {
+      "id": 17, "titre": "Faites-vous des manteaux, gants, autres produits", "volume": 24,
+      "verifie": "Shopify: manteau et veste sans manche existent. Gants en développement (lasclay-master).",
+      "cle": "Ne jamais annoncer une date de lancement. Renvoyer au site pour l'offre courante et à l'infolettre pour les nouveautés.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Le manteau et la veste sans manches isolés à l'asclépiade existent, avec des inserts amovibles: on met l'isolant pour les grands froids, on l'enlève au printemps. Le catalogue complet est sur lasclay.com. Pour les nouveautés à venir, l'infolettre est le meilleur endroit."},
+        {"lang":"FR","ton":"sobre","texte":"Oui pour les manteaux et les vestes. Pour le reste, on préfère ne pas annoncer de date tant qu'un produit n'est pas prêt: on s'est déjà brûlé avec des lancements repoussés. L'infolettre annonce les sorties en premier."},
+        {"lang":"FR","ton":"chaleureux","texte":"Oui! 🧥 Manteau et veste sans manches, avec des inserts d'asclépiade amovibles qu'on retire au printemps. Tout est sur lasclay.com. Et pour ce qui s'en vient, l'infolettre est aux premières loges 🌱"},
+        {"lang":"EN","ton":"sober","texte":"Coats and vests exist, insulated with milkweed and built around removable inserts: insulation in for deep cold, out for spring. The current range is on lasclay.com, and the newsletter is where new products are announced first."},
+        {"lang":"EN","ton":"sober","texte":"Yes to coats and vests. For anything else, we would rather not name a date until a product is actually ready. The newsletter carries launches first."},
+        {"lang":"EN","ton":"cheesy","texte":"We do 🧥 Coats and sleeveless vests, both built around removable milkweed inserts you pull out come spring. Everything current lives on lasclay.com, and the newsletter gets the news first 🌱"}
+      ]
+    },
+    {
+      "id": 18, "titre": "Cultivez-vous l'asclépiade, cherchez-vous des producteurs", "volume": 22,
+      "verifie": "connaissance_support.md § Question cultivateurs",
+      "cle": "Lasclay achète de cultivateurs qui en font pousser commercialement. L'entreprise se concentre sur la transformation.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Nous achetons de cultivateurs qui en font pousser commercialement. C'est plus efficace ainsi: on les trouve courageux, et on préfère se concentrer sur les étapes suivantes, la transformation de la fibre. Si vous cultivez ou envisagez de le faire, écrivez-nous."},
+        {"lang":"FR","ton":"sobre","texte":"On ne cultive pas nous-mêmes: l'asclépiade vient de producteurs d'ici qui la cultivent commercialement. Notre travail commence après, à la transformation. Les producteurs intéressés peuvent nous joindre directement."},
+        {"lang":"FR","ton":"chaleureux","texte":"On ne la cultive pas nous-mêmes! 🌾 Elle vient de producteurs d'ici qui se lancent dans cette culture-là, et on les trouve pas mal courageux. Nous, on prend le relais à la transformation. Vous cultivez? Écrivez-nous, ça nous intéresse 🌱"},
+        {"lang":"EN","ton":"sober","texte":"We buy from growers who cultivate it commercially. It works better that way: we admire what they take on, and we would rather concentrate on what comes after, turning the floss into insulation. If you grow it or are considering it, get in touch."},
+        {"lang":"EN","ton":"sober","texte":"We do not farm it ourselves. The milkweed comes from commercial growers, and our part starts at processing. Growers who want to talk are welcome to write to us."},
+        {"lang":"EN","ton":"cheesy","texte":"Not us, no 🌾 It comes from growers who took a chance on an unusual crop, and we think they are pretty brave for it. We pick things up at the processing stage. Growing it yourself? We would genuinely like to hear from you 🌱"}
+      ]
+    },
+    {
+      "id": 19, "titre": "Est-ce vivace, revient-elle, quand fleurit-elle", "volume": 20,
+      "verifie": "lasclay-master + connaissance_support.md § stratification",
+      "cle": "Vivace indigène. Feuillage la première année, floraison la deuxième. Revient chaque année, souvent plus forte.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Oui, c'est une vivace indigène: elle revient chaque année, et généralement plus vigoureuse. Attendez-vous à du feuillage la première année et à des fleurs à partir de la deuxième. C'est un investissement à moyen terme, mais elle s'installe pour longtemps."},
+        {"lang":"FR","ton":"sobre","texte":"Vivace, et bien de chez nous. La première saison sert à installer le système racinaire, la floraison arrive l'année suivante. Une fois établie, elle demande à peu près rien."},
+        {"lang":"FR","ton":"chaleureux","texte":"Oui, elle est vivace! 🌸 Elle revient fidèlement chaque printemps, souvent plus fournie que l'année d'avant. Première année: du feuillage. Deuxième année: les fleurs, et le parfum qui vient avec. Un peu de patience et elle vous accompagne des années 🦋"},
+        {"lang":"EN","ton":"sober","texte":"Yes, it is a native perennial. It comes back every year, usually stronger. Expect foliage the first season and flowers from the second onward. It takes a year of patience and then it is there for good."},
+        {"lang":"EN","ton":"sober","texte":"Perennial, and native. The first season goes into building the root system, flowers follow the next year. Once established it asks almost nothing of you."},
+        {"lang":"EN","ton":"cheesy","texte":"It is, happily 🌸 A native perennial that comes back every spring, usually fuller than the year before. Leaves in year one, flowers and that incredible scent in year two. Worth the wait 🦋"}
+      ]
+    },
+    {
+      "id": 20, "titre": "Comment aider concrètement, au-delà d'acheter", "volume": 18,
+      "verifie": "Flockhart et al. 2015, J. Anim. Ecol. 84:155-165 + lasclay-master",
+      "cle": "Planter en talle plutôt qu'isolé, plein soleil, nectar tardif à proximité, éviter les plants traités aux néonicotinoïdes, ne pas tondre en juin. La perte d'habitat de reproduction est le facteur numéro un du déclin.",
+      "variantes": [
+        {"lang":"FR","ton":"sobre","texte":"Le geste le plus utile est le plus simple: laisser vivre l'asclépiade qui pousse déjà chez vous. Ensuite, planter en talle plutôt qu'un plant isolé, au plein soleil, avec des fleurs à nectar tardif à proximité pour les adultes en migration. Et vérifier que les plants achetés en pépinière ne sont pas traités aux néonicotinoïdes, ce qui rend les feuilles mortelles pour les chenilles."},
+        {"lang":"FR","ton":"sobre","texte":"Trois choses qui changent vraiment quelque chose: du plein soleil, une talle plutôt qu'un plant seul, et pas de tonte en juin, quand les jeunes pousses sont les plus faciles à perdre sans s'en apercevoir. La recherche est claire là-dessus: c'est la disparition de l'asclépiade sur les aires de reproduction, pas le climat, qui explique l'essentiel du déclin."},
+        {"lang":"FR","ton":"chaleureux","texte":"Vous voulez aider pour vrai? 🦋 Le plus efficace, c'est de laisser vivre l'asclépiade qui pousse déjà chez vous. Ensuite: du plein soleil, plusieurs plants ensemble plutôt qu'un tout seul, et des fleurs à nectar tardif pour les voyageurs de l'automne. Et surtout, pas de tonte en juin! 🌱"},
+        {"lang":"EN","ton":"sober","texte":"The most useful thing is also the easiest: leave the milkweed that already comes up on its own. After that, plant in a clump rather than singly, in full sun, with late nectar flowers nearby for migrating adults. And check that nursery plants are not treated with systemic insecticide, which makes the leaves lethal to caterpillars."},
+        {"lang":"EN","ton":"sober","texte":"Three things that measurably matter: full sun, a clump instead of a lone plant, and no mowing in June when young shoots disappear without anyone noticing. The research is unambiguous that milkweed loss on the breeding grounds, not climate, drives most of the decline."},
+        {"lang":"EN","ton":"cheesy","texte":"Want to really help? 🦋 Start by not killing the milkweed already coming up in your yard, that one is free. Then: full sun, several plants together instead of one lonely stem, and some late-blooming nectar for the autumn travellers. And please, no mowing in June 🌱"}
+      ]
+    }
+  ]
+}
