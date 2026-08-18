@@ -67,9 +67,9 @@ for (const f of ["achats_A.json", "achats_B.json", "achats_C.json"]) {
     }
   } catch {}
 }
-// Une seule commande d'un seul produit ne laisse aucune ambiguïté. Au-delà de trois articles,
-// on ne sait plus lequel le client louait : mieux vaut le laisser à la revue humaine.
-const PLAFOND_REPLI = 3;
+// Quand le client ne nomme aucun produit, l'avis va sur TOUT ce qu'il a acheté, relevé dans
+// Shopify par son courriel. C'est la règle de la maison : un même éloge se publie sur chaque
+// fiche concernée. Pas de plafond, sauf si son propre texte désigne un article précis.
 
 // Les commandes anciennes pointent vers des fiches de prévente ou de fin de saison, aujourd'hui
 // archivées. Un avis rattaché là n'apparaîtrait sur aucune page vivante. On le ramène sur la
@@ -93,6 +93,9 @@ const ARCHIVES = {
   "2x-besace": "besace", "4x-besace": "besace",
 };
 const vivant = (h) => ARCHIVES[h] || h;
+// Fiche archivée sans équivalent courant : un avis déposé là n'apparaîtrait nulle part.
+const MORTS = new Set(["glaciere-boissons-beer-cooler", "carte-cadeau", "crochet-a-mitaines",
+  "illustrations-asclepiade-monarque", "mitaines-vente-fin-de-saison-2021"]);
 
 const net = (s) => (s || "").replace(/[\t\r\n]+/g, " ").replace(/\s{2,}/g, " ").trim();
 const lignes = [COL.join("\t")], doublons = [COL.join("\t")], sansCourriel = [COL.join("\t")], aVerifier = [COL.join("\t")], sansProduit = [];
@@ -105,8 +108,13 @@ for (const a of avis) {
   let prods = (a.produits || []).filter(Boolean);
   let viaCommande = false;
   if (!prods.length && courriel && achats[courriel] && achats[courriel].length) {
-    const cmd = achats[courriel];
-    if (cmd.length <= PLAFOND_REPLI) { prods = [...new Set(cmd.map((x) => vivant(x.handle)))]; viaCommande = true; }
+    const achetes = [...new Set(achats[courriel].map((x) => vivant(x.handle)))];
+    // Si le client nomme un article dans son texte, on s'y tient et on ne distribue pas :
+    // « I just got the ring and love it! » ne concerne que la bague, pas tout le panier.
+    const cites = nommes(a.corps);
+    const croises = achetes.filter((h) => cites.has(h));
+    prods = (croises.length ? croises : (cites.size ? [...cites] : achetes)).filter((h) => !MORTS.has(h));
+    viaCommande = true;
   }
   if (!prods.length) { sansProduit.push(a); continue; }
   nbAvis++;
@@ -127,10 +135,6 @@ for (const a of avis) {
     const ligne = COL.map((c) => l[c]).join("\t");
     // Judge.me identifie l'auteur par son courriel : sans lui, la ligne ne s'importe pas.
     if (!courriel) { sansCourriel.push(ligne); continue; }
-    if (viaCommande) {
-      const cites = nommes(a.corps);
-      if (cites.size && !cites.has(h)) { aVerifier.push(ligne); continue; }
-    }
     if (dejaVerse.has(`${courriel}|${h}`)) doublons.push(ligne);
     else { lignes.push(ligne); nbLignes++; }
   }
