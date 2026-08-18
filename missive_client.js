@@ -18,7 +18,8 @@
  *                                       `attachments[]` renvoyé par `read`. Sans attachmentId,
  *                                       prend la première. Sans fichier de sortie, garde le
  *                                       nom d'origine dans le répertoire courant.)
- *   node missive_client.js drafts <convId>   (brouillons déjà rédigés par le script IA)
+ *   node missive_client.js drafts <convId> [limit]   (brouillons déjà rédigés par le script IA ;
+ *                                              limit pagine au-delà des 10 de l'API Missive, max 500)
  *   node missive_client.js draftsraw <convId> (idem, réponse brute — le corps du brouillon
  *                                              n'est pas renvoyé par la vue résumée)
  *   node missive_client.js notes <convId>    (notes internes / commentaires)
@@ -73,8 +74,8 @@ function readStdin() {
       require("node:fs").writeFileSync(dest, Buffer.from(r.base64, "base64"));
       console.log(JSON.stringify({ saved: dest, filename: r.filename, media_type: r.media_type, size: r.size }, null, 2));
     }
-    else if (cmd === "drafts") console.log(JSON.stringify(await call("/drafts", { id: a1 }), null, 2));
-    else if (cmd === "draftsraw") console.log(JSON.stringify(await call("/drafts", { id: a1, raw: true }), null, 2));
+    else if (cmd === "drafts") console.log(JSON.stringify(await call("/drafts", { id: a1, limit: a2 ? Number(a2) : undefined }), null, 2));
+    else if (cmd === "draftsraw") console.log(JSON.stringify(await call("/drafts", { id: a1, raw: true, limit: a2 ? Number(a2) : undefined }), null, 2));
     else if (cmd === "notes") console.log(JSON.stringify(await call("/comments", { id: a1 }), null, 2));
     else if (cmd === "users") console.log(JSON.stringify(await call("/users", {}), null, 2));
     else if (cmd === "task") { const t = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/task", { id: a1, ...t }), null, 2)); }
