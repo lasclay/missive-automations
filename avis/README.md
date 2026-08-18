@@ -86,3 +86,32 @@ publiable. « Pardon, j'ai commandé trop vite sans avoir vu que vous aviez des 
 noirs » contient bien un signal positif, mais ce n'est pas un avis. Choisir les mots du
 client qui forment un avis, et leur donner un titre, demande un jugement que le lexique n'a
 pas. Cette étape passe par une relecture, humaine ou par un agent, avant l'importation.
+
+## Vérifier ce que les agents rédigent
+
+`verifie.py` est le contrôle qui compte. Pour chaque avis rédigé, il découpe le corps en mots
+de quatre lettres et plus et vérifie que chacun apparaît dans les messages du client du fil
+correspondant. Au-delà d'un mot sur cinq absent, ce n'est plus une coquille corrigée.
+
+Il ne s'agit pas de méfiance de principe. Douze agents ont travaillé en parallèle dans un
+répertoire partagé, et leurs scripts d'aide portaient des noms génériques (`show.py`,
+`dump.py`). Ils se sont écrasés entre eux, et plusieurs lectures ont renvoyé le contenu d'un
+autre lot. Dix agents sur douze l'ont détecté eux-mêmes en recoupant les identifiants et ont
+tout relu. Le contrôle indépendant confirme le résultat : sur 478 avis, 471 sont ancrés mot
+pour mot dans leur source, et les sept restants sont des corrections d'accord sur des avis
+courts, où un seul mot fait basculer le pourcentage.
+
+Deux enseignements pour la prochaine fois :
+
+1. Donner à chaque agent un **répertoire de travail distinct**, et lui interdire les noms de
+   fichiers génériques.
+2. Ne jamais se fier au compte rendu d'un agent sur la fidélité de son propre travail.
+   Le contrôle doit être refait de l'extérieur, sur les fichiers livrés.
+
+## Rattacher un avis à un produit
+
+Un tiers des avis retenus ne nomment aucun produit : « j'adore vos produits », « votre service
+est excellent ». Le texte ne tranche pas, la commande si. `assemble.js` va chercher dans
+Shopify les articles réellement achetés par ce courriel et les utilise en repli, **à condition
+qu'il y en ait au plus trois**. Au-delà, on ne sait plus lequel le client louait, et l'avis
+part à la revue humaine plutôt que d'être attribué au hasard.

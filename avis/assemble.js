@@ -32,17 +32,42 @@ for (let i = 1; i <= 12; i++) {
   }
 }
 
+// Produits réellement commandés, relevés dans Shopify. Ils servent de repli quand le client
+// dit « j'adore vos produits » sans nommer d'article : le texte ne tranche pas, la commande si.
+const achats = {};
+for (const f of ["achats_A.json", "achats_B.json", "achats_C.json"]) {
+  const p = `${DIR}/${f}`;
+  if (!fs.existsSync(p)) continue;
+  try {
+    const o = JSON.parse(fs.readFileSync(p, "utf8"));
+    for (const [m, lot] of Object.entries(o)) {
+      const cle = m.toLowerCase().trim();
+      if (!achats[cle]) achats[cle] = [];
+      for (const x of lot || []) if (!achats[cle].some((y) => y.handle === x.handle)) achats[cle].push(x);
+    }
+  } catch {}
+}
+// Une seule commande d'un seul produit ne laisse aucune ambiguïté. Au-delà de trois articles,
+// on ne sait plus lequel le client louait : mieux vaut le laisser à la revue humaine.
+const PLAFOND_REPLI = 3;
+
 const net = (s) => (s || "").replace(/[\t\r\n]+/g, " ").replace(/\s{2,}/g, " ").trim();
 const lignes = [COL.join("\t")], doublons = [COL.join("\t")], sansProduit = [];
 const vus = new Set();
-let nbAvis = 0, nbLignes = 0;
+let nbAvis = 0, nbLignes = 0, nbViaCommande = 0;
 
 for (const a of avis) {
   const courriel = (a.courriel || "").toLowerCase().trim();
   const date = (horo[a.id] && horo[a.id][a.date]) || (a.date ? `${a.date} 12:00:00 UTC` : "");
-  const prods = (a.produits || []).filter(Boolean);
+  let prods = (a.produits || []).filter(Boolean);
+  let viaCommande = false;
+  if (!prods.length && courriel && achats[courriel] && achats[courriel].length) {
+    const cmd = achats[courriel];
+    if (cmd.length <= PLAFOND_REPLI) { prods = cmd.map((x) => x.handle); viaCommande = true; }
+  }
   if (!prods.length) { sansProduit.push(a); continue; }
   nbAvis++;
+  if (viaCommande) nbViaCommande++;
   for (const h of prods) {
     const cle = `${courriel}|${h}|${a.date}`;
     if (vus.has(cle)) continue;
@@ -51,7 +76,8 @@ for (const a of avis) {
       title: net(a.titre), body: net(a.corps), rating: String(a.note || 5),
       review_date: date, source: "web", curated: "ok",
       reviewer_name: net(a.nom), reviewer_email: a.courriel || "",
-      product_id: cat.get(h) || "", product_handle: h,
+      product_id: cat.get(h) || ((achats[courriel] || []).find((x) => x.handle === h) || {}).id || "",
+      product_handle: h,
       reply: "", reply_date: "", picture_urls: "", ip_address: "", location: "", metaobject_handle: "",
     };
     const ligne = COL.map((c) => l[c]).join("\t");
@@ -65,7 +91,7 @@ fs.writeFileSync(`${DIR}/import_judgeme_doublons.tsv`, doublons.join("\n") + "\n
 fs.writeFileSync(`${DIR}/sans_produit.json`, JSON.stringify(sansProduit, null, 2));
 const manquants = [...new Set([...vus].map((k) => k.split("|")[1]))].filter((h) => !cat.has(h));
 console.log(JSON.stringify({
-  avis_rediges: avis.length, avis_avec_produit: nbAvis, lignes_a_importer: nbLignes,
+  avis_rediges: avis.length, avis_avec_produit: nbAvis, produit_via_commande_shopify: nbViaCommande, lignes_a_importer: nbLignes,
   lignes_doublons: doublons.length - 1, avis_sans_produit: sansProduit.length,
   handles_hors_catalogue: manquants,
 }, null, 1));
