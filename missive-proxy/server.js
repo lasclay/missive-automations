@@ -18,7 +18,9 @@
  *                     attachmentId}   → télécharge UNE pièce jointe et la renvoie en base64.
  *                                       `attachmentId` facultatif : à défaut, la première.
  *                                       Plafond ~25 Mo. Les `messageId` viennent de /conversation.
- *   POST /drafts     {id}             → brouillons laissés par le script IA (réponse déjà rédigée)
+ *   POST /drafts     {id, limit, raw} → brouillons du fil (réponse déjà rédigée par le script IA).
+ *                                       `limit` pagine au-delà des 10 de l'API Missive (max 500) :
+ *                                       nécessaire pour remonter les tranches d'archive.
  *   POST /comments   {id}             → notes internes (commentaires) — dégrade si non listable
  *   POST /users      {}               → membres de l'org (id, nom, courriel) pour les assignations
  *   POST /task       {id, title, assignees[], label} → crée une tâche (assignée si assignees); renvoie taskId
@@ -232,8 +234,27 @@ async function fetchDraftBody(draftId) {
 }
 
 // Brouillons laissés par le script IA (support.js) — la réponse déjà rédigée.
-async function getDrafts(id, raw) {
-  const { drafts = [] } = await mGet(`/conversations/${id}/drafts?limit=10`);
+// L'API Missive plafonne les brouillons à 10 par page, comme elle le fait pour les messages.
+// Sans pagination, l'archive du support (tranches `archive_support_*.jsonl.gz` déposées en
+// pièces jointes de brouillons successifs) restait hors de portée : seuls les dix derniers
+// brouillons revenaient, c'est-à-dire les digests du jour. Le plafond n'était pas celui de
+// Missive, c'était celui de cette fonction.
+async function getDrafts(id, raw, limit) {
+  const vise = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 500);
+  const parId = new Map();
+  let until = null;
+  while (parId.size < vise) {
+    let p = `/conversations/${id}/drafts?limit=10`;
+    if (until) p += `&until=${until}`;
+    const { drafts: lot = [] } = await mGet(p);
+    if (!lot.length) break;
+    const avant = parId.size;
+    for (const d of lot) parId.set(d.id, d);
+    const plusVieux = lot[lot.length - 1].delivered_at || lot[lot.length - 1].created_at || null;
+    if (lot.length < 10 || parId.size === avant || !plusVieux || plusVieux === until) break;
+    until = plusVieux;
+  }
+  const drafts = [...parId.values()].slice(0, vise);
   if (raw) return { raw: drafts };
   const sorted = drafts.slice().sort((a, b) => (a.delivered_at || a.created_at || 0) - (b.delivered_at || b.created_at || 0));
   const bodies = new Map();
@@ -526,7 +547,7 @@ const server = http.createServer(async (req, res) => {
     }
     if (route === "/drafts") {
       if (!body.id) return json(res, 400, { error: "id requis" });
-      const d = await getDrafts(body.id, body.raw);
+      const d = await getDrafts(body.id, body.raw, body.limit);
       return json(res, 200, body.raw ? d : { drafts: d });
     }
     if (route === "/comments") {
