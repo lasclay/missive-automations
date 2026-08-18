@@ -395,7 +395,10 @@ async function setLabels({ id, add, remove, markdown, keepClosed }) {
   };
   if (Array.isArray(add) && add.length) post.add_shared_labels = add;
   if (Array.isArray(remove) && remove.length) post.remove_shared_labels = remove;
-  if (keepClosed) post.reopen = true;
+  // `reopen: true` ROUVRE le fil. Le drapeau promet l'inverse — garder clos ce qui
+  // est clos — et envoyait donc exactement l'action qu'il devait empêcher : un fil
+  // fermé après réponse revenait dans l'inbox au premier changement d'étiquette.
+  if (keepClosed) post.reopen = false;
   return mSend("POST", "/posts", { posts: post });
 }
 
