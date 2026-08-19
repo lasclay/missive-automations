@@ -25,6 +25,9 @@
  *   node missive_client.js notes <convId>    (notes internes / commentaires)
  *   node missive_client.js users                     (membres de l'org: id, nom, courriel)
  *   node missive_client.js task <convId>             (lit un JSON {title,assignees[],label} sur stdin)
+ *   node missive_client.js postraw <postId>          (post brut ; sert à retrouver le
+ *                                                    taskId d'une tâche déjà créée)
+ *   node missive_client.js taskstate <taskId> <todo|in_progress|closed> [convId]
  *   node missive_client.js note <convId> "texte markdown"
  *   node missive_client.js close <convId> "note optionnelle"
  *   node missive_client.js labels <convId>   (JSON {add:[],remove:[],markdown,keepClosed} sur stdin ;
@@ -78,7 +81,14 @@ function readStdin() {
     else if (cmd === "draftsraw") console.log(JSON.stringify(await call("/drafts", { id: a1, raw: true, limit: a2 ? Number(a2) : undefined }), null, 2));
     else if (cmd === "notes") console.log(JSON.stringify(await call("/comments", { id: a1 }), null, 2));
     else if (cmd === "users") console.log(JSON.stringify(await call("/users", {}), null, 2));
-    else if (cmd === "task") { const t = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/task", { id: a1, ...t }), null, 2)); }
+    // `raw` existait côté proxy depuis le début ; sans lui, la réponse de Missive
+    // restait invisible et l'id de tâche introuvable. On l'expose.
+    else if (cmd === "task") { const t = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/task", { id: a1, ...t, raw: a2 === "--raw" || undefined }), null, 2)); }
+    // Le proxy exposait /postraw et /task-state depuis toujours ; le client ne les
+    // appelait pas, donc l'id d'une tâche créée restait introuvable et une tâche posée
+    // par erreur ne pouvait plus être refermée. Deux lignes manquaient, pas une capacité.
+    else if (cmd === "postraw") console.log(JSON.stringify(await call("/postraw", { id: a1 }), null, 2));
+    else if (cmd === "taskstate") console.log(JSON.stringify(await call("/task-state", { taskId: a1, state: a2, conversation: a3 }), null, 2));
     else if (cmd === "note") console.log(JSON.stringify(await call("/note", { id: a1, markdown: a2 }), null, 2));
     else if (cmd === "close") console.log(JSON.stringify(await call("/close", { id: a1, note: a2 }), null, 2));
     else if (cmd === "labels") { const l = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/labels", { id: a1, ...l }), null, 2)); }
