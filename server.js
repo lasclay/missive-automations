@@ -430,38 +430,69 @@ const facebook = (() => {
   // Le nom des champs du corps a changé entre versions de l'API Composio et n'est pas
   // documenté de façon stable. Plutôt que de parier, on essaie les formes connues dans
   // l'ordre et on retient celle qui passe : `forme` est ensuite exposée par l'action diag.
+  // Le slug diffère entre surfaces : la plateforme v3 expose FACEBOOK_GET_USER_PAGES,
+  // le serveur MCP expose FACEBOOK_LIST_MANAGED_PAGES. On essaie les deux.
+  const SLUGS = ["FACEBOOK_GET_USER_PAGES", "FACEBOOK_LIST_MANAGED_PAGES"];
+  // Le nom des champs du corps a changé entre versions de l'API Composio et n'est pas
+  // documenté de façon stable. Plutôt que de parier, on essaie les formes connues dans
+  // l'ordre et on retient celle qui passe : `forme` est ensuite exposée par diag.
   const FORMES = [
-    ["connected_account_id + arguments", (a) => ({ connected_account_id: CACCT, arguments: a })],
-    ["connected_account_id + input", (a) => ({ connected_account_id: CACCT, input: a })],
-    ["user_id + arguments", (a) => ({ user_id: CACCT, arguments: a })],
+    ["connected_account_id + arguments", (a, id) => ({ connected_account_id: id, arguments: a })],
+    ["connected_account_id + input", (a, id) => ({ connected_account_id: id, input: a })],
+    ["user_id + arguments", (a, id) => ({ user_id: id, arguments: a })],
     ["arguments seul", (a) => ({ arguments: a })],
   ];
+
+  // Le compte connecté est DÉCOUVERT, jamais supposé : la clé de projet ne voit que les
+  // comptes de SON projet, et un identifiant venu d'un autre projet donnerait une erreur
+  // trompeuse. COMPOSIO_FB_ACCOUNT ne sert que de préférence si plusieurs comptes existent.
+  async function compteFb() {
+    const r = await httpJson({
+      method: "GET",
+      url: `${CBASE}/connected_accounts${qs({ toolkit_slugs: "facebook", limit: 20 })}`,
+      headers: { "x-api-key": CKEY },
+    });
+    const items = r.items || r.data || [];
+    if (!items.length) {
+      throw new Error(
+        "aucun compte Facebook connecté dans le projet de COMPOSIO_API_KEY. " +
+          "La connexion Facebook existante appartient à un AUTRE projet Composio (celui du " +
+          "connecteur MCP). Corriger chez Composio : connecter Facebook dans ce projet-ci, " +
+          "ou utiliser la clé du projet qui détient déjà la connexion."
+      );
+    }
+    const voulu = items.find((a) => a.id === CACCT);
+    return (voulu || items.find((a) => (a.status || "").toUpperCase() === "ACTIVE") || items[0]).id;
+  }
+
   async function viaComposio() {
     const args = { fields: "id,name,access_token", limit: 25 };
+    const id = await compteFb();
     const echecs = [];
-    for (const [nom, faire] of FORMES) {
-      try {
-        const r = await httpJson({
-          method: "POST",
-          url: `${CBASE}/tools/execute/FACEBOOK_LIST_MANAGED_PAGES`,
-          headers: { "x-api-key": CKEY },
-          body: faire(args),
-        });
-        // Composio emballe la réponse de l'outil ; Meta emballe la sienne dans data.
-        const d = r && (r.data || r.response || r);
-        const liste = (d && (d.data || d.pages)) || [];
-        const arr = Array.isArray(liste) ? liste : liste.data || [];
-        if (arr.length) {
+    for (const slug of SLUGS) {
+      for (const [nom, faire] of FORMES) {
+        try {
+          const r = await httpJson({
+            method: "POST",
+            url: `${CBASE}/tools/execute/${slug}`,
+            headers: { "x-api-key": CKEY },
+            body: faire(args, id),
+          });
+          const d = r && (r.data || r.response || r);
+          let liste = (d && (d.data || d.pages)) || [];
+          if (!Array.isArray(liste)) liste = liste.data || [];
           const out = {};
-          for (const p of arr) if (p && p.access_token) out[p.id] = { id: p.id, name: p.name, token: p.access_token };
-          if (Object.keys(out).length) { cache.forme = nom; return out; }
+          for (const p of liste) if (p && p.access_token) out[p.id] = { id: p.id, name: p.name, token: p.access_token };
+          if (Object.keys(out).length) { cache.forme = `${slug} / ${nom}`; return out; }
+          echecs.push(`${slug} / ${nom} → réponse sans jetons`);
+        } catch (e) {
+          const m = String(e.message);
+          echecs.push(`${slug} / ${nom} → ${m.slice(0, 130)}`);
+          if (m.includes("Tool_ToolNotFound") || m.includes("not found")) break; // slug absent : inutile d'essayer ses autres formes
         }
-        echecs.push(`${nom} → réponse sans jetons`);
-      } catch (e) {
-        echecs.push(`${nom} → ${String(e.message).slice(0, 160)}`);
       }
     }
-    throw new Error(`Composio n'a rendu aucun jeton. Essais : ${echecs.join(" | ")}`);
+    throw new Error(`compte ${id} : aucun jeton rendu. Essais : ${echecs.join(" | ")}`);
   }
 
   async function pages() {
