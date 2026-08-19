@@ -34,8 +34,17 @@ Facebook passe désormais par le **General Proxy** de Lasclay, comme ShipStation
 C'est la règle du dépôt : les clés vivent côté Render, jamais dans l'environnement Claude ni
 dans le code. Composio n'est plus dans le chemin — ni le connecteur MCP, ni la clé d'API.
 
-Le proxy détient un seul secret, `FB_USER_TOKEN`, et **dérive lui-même les jetons de Page**.
-Aucun jeton de Page ne sort du serveur ; tu n'en manipules jamais.
+Le proxy **dérive lui-même les jetons de Page**, par l'une de deux voies selon ce qui est
+configuré côté Render : `COMPOSIO_API_KEY` (Composio détient la connexion Facebook) ou
+`FB_USER_TOKEN` (jeton Meta détenu directement, prioritaire s'il existe). Aucun jeton de Page ne
+sort du serveur ; tu n'en manipules jamais.
+
+**Commence toujours par `diag`** : il dit quelle voie est vivante, et en cas d'échec il rend
+l'erreur exacte de chaque tentative.
+
+```
+node connectors_client.js facebook diag
+```
 
 ```
 node connectors_client.js facebook <action> '{"page_id":"…", …}'
@@ -47,6 +56,7 @@ node connectors_client.js facebook <action> '{"page_id":"…", …}'
 
 | Action | Paramètres | Effet |
 | --- | --- | --- |
+| `diag` | — | quelle voie d'authentification est vivante, et pourquoi si elle ne l'est pas |
 | `pages` | — | les Pages accessibles (id et nom seulement) |
 | `posts` | `page_id`, `limit`, `after` | publications d'une Page |
 | `comments` | `page_id`, `object_id`, `limit`, `after` | commentaires d'une publication ou d'un commentaire |
@@ -62,8 +72,8 @@ jeton à partir de `page_id`, et refuse un `page_id` inconnu au lieu de retomber
 sur une autre Page.
 
 Vérifie le connecteur avant de commencer : `GET /connectors` sur le proxy doit montrer
-`facebook` avec `enabled: true`. S'il est à `false`, `FB_USER_TOKEN` manque côté Render :
-arrête et signale-le, c'est une action humaine.
+`facebook` avec `enabled: true`. S'il est à `false`, ni `COMPOSIO_API_KEY` ni
+`FB_USER_TOKEN` n'est configuré côté Render : arrête et signale-le, c'est une action humaine.
 
 Pour la Page Lasclay, pagine avec `limit=25` — au-delà, Meta renvoie « reduce the amount of
 data ».

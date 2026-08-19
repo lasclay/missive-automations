@@ -43,7 +43,16 @@
  *                           lecture seule suffit (scopes read). Sert à
  *                           l'export exhaustif/migration.
  *   KLAVIYO_REVISION        révision d'API Klaviyo (défaut 2025-04-15).       [optionnel]
- *   FB_USER_TOKEN           jeton Meta longue durée (utilisateur ou           [connecteur Facebook]
+ *   COMPOSIO_API_KEY        clé de PROJET Composio (Developer Platform →      [connecteur Facebook]
+ *                           Project Settings → API Keys ; en-tête x-api-key).
+ *                           Voie par défaut : Composio détient la connexion
+ *                           Facebook, le proxy lui demande les jetons de Page.
+ *                           ATTENTION : la clé « ck_… » de Connect → Sessions &
+ *                           API Key est une clé CLIENT MCP et ne fonctionne PAS ici.
+ *   COMPOSIO_FB_ACCOUNT     identifiant du compte Facebook connecté chez        [optionnel]
+ *                           Composio (défaut facebook_grice-absume).
+ *   FB_USER_TOKEN           voie alternative, prioritaire si présente :         [optionnel]
+ *                           jeton Meta longue durée (utilisateur ou
  *                           utilisateur système) avec pages_show_list,
  *                           pages_read_engagement, pages_read_user_content
  *                           et pages_manage_engagement. Le proxy en dérive
@@ -318,30 +327,80 @@ const omnisend = (() => {
 // jeton à partir du page_id demandé, et refuse un page_id inconnu.
 // ==========================================================================
 const facebook = (() => {
-  const TOKEN = process.env.FB_USER_TOKEN || "";
+  const FB_TOKEN = process.env.FB_USER_TOKEN || "";
+  const CKEY = process.env.COMPOSIO_API_KEY || "";
+  const CBASE = process.env.COMPOSIO_BASE || "https://backend.composio.dev/api/v3";
+  const CACCT = process.env.COMPOSIO_FB_ACCOUNT || "facebook_grice-absume";
   const V = process.env.FB_GRAPH_VERSION || "v23.0";
   const BASE = `https://graph.facebook.com/${V}`;
   const TTL = 30 * 60 * 1000;
 
-  let cache = { at: 0, pages: null };
+  let cache = { at: 0, pages: null, via: null, forme: null };
 
-  // Jetons de Page, dérivés du jeton utilisateur puis mis en cache.
-  async function pages() {
-    if (cache.pages && Date.now() - cache.at < TTL) return cache.pages;
+  // --- Voie 1 : jeton Meta détenu ici. /me/accounts rend les jetons de Page. ---
+  async function viaMeta() {
     const out = {};
-    let url = `${BASE}/me/accounts${qs({ fields: "id,name,access_token", limit: 100, access_token: TOKEN })}`;
+    let url = `${BASE}/me/accounts${qs({ fields: "id,name,access_token", limit: 100, access_token: FB_TOKEN })}`;
     while (url) {
       const r = await httpJson({ method: "GET", url });
       for (const p of r.data || []) out[p.id] = { id: p.id, name: p.name, token: p.access_token };
       url = (r.paging && r.paging.next) || null;
     }
-    if (!Object.keys(out).length) throw new Error("aucune Page renvoyée par /me/accounts — vérifier FB_USER_TOKEN et ses permissions");
-    cache = { at: Date.now(), pages: out };
     return out;
   }
 
-  // Jeton de la Page demandée. Erreur claire si le page_id est inconnu, plutôt
-  // que de retomber silencieusement sur une autre Page.
+  // --- Voie 2 : Composio détient la connexion Facebook et exécute l'outil pour nous. ---
+  // Le nom des champs du corps a changé entre versions de l'API Composio et n'est pas
+  // documenté de façon stable. Plutôt que de parier, on essaie les formes connues dans
+  // l'ordre et on retient celle qui passe : `forme` est ensuite exposée par l'action diag.
+  const FORMES = [
+    ["connected_account_id + arguments", (a) => ({ connected_account_id: CACCT, arguments: a })],
+    ["connected_account_id + input", (a) => ({ connected_account_id: CACCT, input: a })],
+    ["user_id + arguments", (a) => ({ user_id: CACCT, arguments: a })],
+    ["arguments seul", (a) => ({ arguments: a })],
+  ];
+  async function viaComposio() {
+    const args = { fields: "id,name,access_token", limit: 25 };
+    const echecs = [];
+    for (const [nom, faire] of FORMES) {
+      try {
+        const r = await httpJson({
+          method: "POST",
+          url: `${CBASE}/tools/execute/FACEBOOK_LIST_MANAGED_PAGES`,
+          headers: { "x-api-key": CKEY },
+          body: faire(args),
+        });
+        // Composio emballe la réponse de l'outil ; Meta emballe la sienne dans data.
+        const d = r && (r.data || r.response || r);
+        const liste = (d && (d.data || d.pages)) || [];
+        const arr = Array.isArray(liste) ? liste : liste.data || [];
+        if (arr.length) {
+          const out = {};
+          for (const p of arr) if (p && p.access_token) out[p.id] = { id: p.id, name: p.name, token: p.access_token };
+          if (Object.keys(out).length) { cache.forme = nom; return out; }
+        }
+        echecs.push(`${nom} → réponse sans jetons`);
+      } catch (e) {
+        echecs.push(`${nom} → ${String(e.message).slice(0, 160)}`);
+      }
+    }
+    throw new Error(`Composio n'a rendu aucun jeton. Essais : ${echecs.join(" | ")}`);
+  }
+
+  async function pages() {
+    if (cache.pages && Date.now() - cache.at < TTL) return cache.pages;
+    let out = null, via = null;
+    if (FB_TOKEN) { out = await viaMeta(); via = "meta"; }
+    else if (CKEY) { out = await viaComposio(); via = "composio"; }
+    else throw new Error("ni FB_USER_TOKEN ni COMPOSIO_API_KEY ne sont configurés");
+    if (!out || !Object.keys(out).length) throw new Error(`aucune Page rendue par la voie « ${via} »`);
+    cache = { ...cache, at: Date.now(), pages: out, via };
+    return out;
+  }
+
+  // Jeton de la Page demandée. Erreur explicite si le page_id est inconnu, plutôt que
+  // de retomber silencieusement sur une autre Page — c'est ce silence qui avait fait
+  // échouer trois Pages sur quatre au premier passage, avec une erreur (#10) opaque.
   async function tok(pageId) {
     if (!pageId) throw new Error("page_id requis");
     const all = await pages();
@@ -366,10 +425,20 @@ const facebook = (() => {
   return {
     name: "facebook",
     description:
-      "Facebook Pages (Graph v23.0) — publications, commentaires, réponses, masquage. Le proxy choisit le jeton de la Page visée ; page_id est requis partout.",
-    enabled: () => !!TOKEN,
+      "Facebook Pages (Graph v23.0) — publications, commentaires, réponses, masquage. Jetons de Page dérivés côté serveur (FB_USER_TOKEN, sinon Composio) ; page_id requis partout.",
+    enabled: () => !!(FB_TOKEN || CKEY),
     actions: {
-      // ---- LECTURE ----
+      // Sonde : quelle voie d'authentification est vivante, sans rien exposer.
+      // À appeler en premier quand quelque chose ne marche pas.
+      diag: async () => {
+        const r = { fb_user_token: !!FB_TOKEN, composio_api_key: !!CKEY, compte_composio: CACCT };
+        try {
+          const all = await pages();
+          return { ...r, ok: true, via: cache.via, forme_corps: cache.forme, pages: Object.values(all).map(({ id, name }) => ({ id, name })) };
+        } catch (e) {
+          return { ...r, ok: false, erreur: String(e.message).slice(0, 900) };
+        }
+      },
       // Les Pages accessibles (id + nom seulement — jamais les jetons).
       pages: async () => ({ data: Object.values(await pages()).map(({ id, name }) => ({ id, name })) }),
       // Publications d'une Page. Params : page_id, limit, after, fields.
@@ -418,8 +487,8 @@ const facebook = (() => {
         need(p, "page_id", "comment_id");
         return post(`/${encodeURIComponent(p.comment_id)}`, { page_id: p.page_id, is_hidden: "false" });
       },
-      // Corrige le texte d'un commentaire DE LA PAGE : garde sa place dans le
-      // fil et ne renotifie personne, contrairement à supprimer/republier.
+      // Corrige le texte d'un commentaire DE LA PAGE : garde sa place dans le fil et
+      // ne renotifie personne, contrairement à supprimer puis republier.
       edit: (p) => {
         need(p, "page_id", "comment_id", "message");
         return post(`/${encodeURIComponent(p.comment_id)}`, { page_id: p.page_id, message: p.message });
