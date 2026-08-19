@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "version": "1.0",
+    "date": "2026-08-18",
+    "source": "connaissance_support.md, contexte_lasclay.md, catalogue Shopify verifie, skill lasclay-master, Flockhart et al. 2015 J Anim Ecol 84:155-165",
+    "usage": "Rediger chaque reponse a partir de ces faits. Ne jamais copier un exemplar."
+  },
+  "themes": [
+    {
+      "id": 1,
+      "titre": "Toxicité pour les animaux et les enfants",
+      "volume_observe": 260,
+      "faits_verifies": "Le latex est amer, les animaux au pâturage l'évitent. Le vrai risque est l'asclépiade séchée dans les balles de foin. Aucun cas documenté d'intoxication d'enfant ou d'animal de compagnie.",
+      "source": "connaissance_support.md § Milkweed toxicity",
+      "exemplars_ref": "exemplars.json#templates[0].variantes"
+    },
+    {
+      "id": 2,
+      "titre": "Quelle espèce pour ma région",
+      "volume_observe": 220,
+      "faits_verifies": "11 espèces vendues: syriaca, tuberosa, incarnata, speciosa, exaltata, verticillata, fascicularis, sullivantii, viridis, labriformis, angustifolia. Aucune tropicale. Renvoyer vers une source locale quand aucune ne convient.",
+      "source": "Shopify: 11 espèces, toutes indigènes d'Amérique du Nord",
+      "exemplars_ref": "exemplars.json#templates[1].variantes"
+    },
+    {
+      "id": 3,
+      "titre": "Jusqu'à quelle température / est-ce vraiment chaud",
+      "volume_observe": 151,
+      "faits_verifies": "Pas de garantie de performance selon la température. Témoignages jusqu'à -30. Fibre creuse: l'air isolant est DANS la fibre, donc résiste à la compression.",
+      "source": "connaissance_support.md § Question température mitaines + Compression asclépiade",
+      "exemplars_ref": "exemplars.json#templates[2].variantes"
+    },
+    {
+      "id": 4,
+      "titre": "La récolte nuit-elle aux monarques",
+      "volume_observe": 123,
+      "faits_verifies": "La soie est dans les follicules, récoltés à l'automne après la floraison et après la migration. Les feuilles, dont dépendent les chenilles, ne sont pas touchées. La graine repart en sachets.",
+      "source": "lasclay-master + connaissance_support.md",
+      "exemplars_ref": "exemplars.json#templates[3].variantes"
+    },
+    {
+      "id": 5,
+      "titre": "Quand et comment semer / stratification",
+      "volume_observe": 99,
+      "faits_verifies": "Nos graines ne sont PAS stratifiées. 30 jours au froid environ. Semis d'automne = l'hiver fait le travail. Floraison à la 2e année.",
+      "source": "connaissance_support.md § LAS Graines > stratification",
+      "exemplars_ref": "exemplars.json#templates[4].variantes"
+    },
+    {
+      "id": 6,
+      "titre": "Où commander et combien ça coûte",
+      "volume_observe": 85,
+      "faits_verifies": "lasclay.com, section jardin. Expédition Canada et États-Unis.",
+      "source": "Shopify: sachets à partir de 6,99 $ CAD. VÉRIFIER LE PRIX COURANT AVANT ENVOI.",
+      "exemplars_ref": "exemplars.json#templates[5].variantes"
+    },
+    {
+      "id": 7,
+      "titre": "Est-ce que ça va envahir mon terrain",
+      "volume_observe": 76,
+      "faits_verifies": "Agressive n'est pas envahissante. Syriaca est indigène et vigoureuse. Alternatives moins agressives: tuberosa, incarnata, exaltata. Rien à voir avec la renouée ou la berce.",
+      "source": "connaissance_support.md § Milkweed Invasive vs aggressive",
+      "exemplars_ref": "exemplars.json#templates[6].variantes"
+    },
+    {
+      "id": 8,
+      "titre": "Comment laver et entretenir",
+      "volume_observe": 72,
+      "faits_verifies": "Machine, eau froide, cycle délicat, savon doux, séchage à l'air libre à plat. Guides: lasclay.com/pages/guides-dentretien",
+      "source": "connaissance_support.md § (FR) Lavage",
+      "exemplars_ref": "exemplars.json#templates[7].variantes"
+    },
+    {
+      "id": 9,
+      "titre": "Composition: pourquoi du polyester, est-ce 100 % asclépiade",
+      "volume_observe": 61,
+      "faits_verifies": "Manteau: 40 % polyester dans l'isolant. Le polyester maintient les fibres en place, améliore le pouvoir isolant, la durabilité et l'entretien. L'asclépiade est l'isolant, pas la coquille.",
+      "source": "connaissance_support.md § Polyester dans la composition du manteau",
+      "exemplars_ref": "exemplars.json#templates[8].variantes"
+    },
+    {
+      "id": 10,
+      "titre": "Bombes semencières: comment ça marche",
+      "volume_observe": 45,
+      "faits_verifies": "À planter dès réception. Contiennent terreau, graines et humidité. Si déjà germées, démarrer en semis sous plastique transparent.",
+      "source": "connaissance_support.md § Bombes déjà germé, Bombes effet de serre, Température optimale",
+      "exemplars_ref": "exemplars.json#templates[9].variantes"
+    },
+    {
+      "id": 11,
+      "titre": "Taille et ajustement",
+      "volume_observe": 43,
+      "faits_verifies": "Renvoyer au tableau des tailles. En cas de doute entre deux tailles, proposer l'échange. Ne jamais improviser une mensuration.",
+      "source": "contexte_lasclay.md + Shopify (tailles S à 2XL)",
+      "exemplars_ref": "exemplars.json#templates[10].variantes"
+    },
+    {
+      "id": 12,
+      "titre": "Délai de livraison (question générale, sans commande)",
+      "volume_observe": 34,
+      "faits_verifies": "NE JAMAIS promettre de date pour une commande précise sans vérifier Shopify ET ShipStation. Ici: réponse générale seulement.",
+      "source": "connaissance_support.md § Expédition et suivi",
+      "exemplars_ref": "exemplars.json#templates[11].variantes"
+    },
+    {
+      "id": 13,
+      "titre": "Rupture de stock et retour d'un produit",
+      "volume_observe": 31,
+      "faits_verifies": "Renvoyer vers l'infolettre pour les retours en stock. Ne jamais annoncer une date de réapprovisionnement non confirmée.",
+      "source": "connaissance_support.md § Précommandes et ruptures de stock",
+      "exemplars_ref": "exemplars.json#templates[12].variantes"
+    },
+    {
+      "id": 14,
+      "titre": "Pourquoi vendre des graines, pourquoi pas gratuit",
+      "volume_observe": 18,
+      "faits_verifies": "Sachet gratuit dans chaque commande textile. ~10 millions de graines sur 5 campagnes. Les organismes gratuits sont bénévoles et à petit volume. Opération industrielle à amortir. Les gousses s'ouvrent gratuitement à l'automne.",
+      "source": "connaissance_support.md § Milkweed planting campaign profit for free + lasclay-master",
+      "exemplars_ref": "exemplars.json#templates[13].variantes"
+    },
+    {
+      "id": 15,
+      "titre": "Culture en pot, balcon, chevreuils",
+      "volume_observe": 30,
+      "faits_verifies": "Oui en pot, surtout tuberosa (racine pivotante). Le pot limite la propagation de la commune. Les chevreuils évitent généralement l'asclépiade à cause du latex.",
+      "source": "connaissance_support.md § Surface + Shopify (tuberosa taproot)",
+      "exemplars_ref": "exemplars.json#templates[14].variantes"
+    },
+    {
+      "id": 16,
+      "titre": "Zone de rusticité",
+      "volume_observe": 25,
+      "faits_verifies": "Toutes les espèces vendues conviennent généralement des zones 3 à 9. La zone indiquée est la plus froide tolérée, pas un plafond.",
+      "source": "connaissance_support.md § Question zones rusticité hardiness",
+      "exemplars_ref": "exemplars.json#templates[15].variantes"
+    },
+    {
+      "id": 17,
+      "titre": "Faites-vous des manteaux, gants, autres produits",
+      "volume_observe": 24,
+      "faits_verifies": "Ne jamais annoncer une date de lancement. Renvoyer au site pour l'offre courante et à l'infolettre pour les nouveautés.",
+      "source": "Shopify: manteau et veste sans manche existent. Gants en développement (lasclay-master).",
+      "exemplars_ref": "exemplars.json#templates[16].variantes"
+    },
+    {
+      "id": 18,
+      "titre": "Cultivez-vous l'asclépiade, cherchez-vous des producteurs",
+      "volume_observe": 22,
+      "faits_verifies": "Lasclay achète de cultivateurs qui en font pousser commercialement. L'entreprise se concentre sur la transformation.",
+      "source": "connaissance_support.md § Question cultivateurs",
+      "exemplars_ref": "exemplars.json#templates[17].variantes"
+    },
+    {
+      "id": 19,
+      "titre": "Est-ce vivace, revient-elle, quand fleurit-elle",
+      "volume_observe": 20,
+      "faits_verifies": "Vivace indigène. Feuillage la première année, floraison la deuxième. Revient chaque année, souvent plus forte.",
+      "source": "lasclay-master + connaissance_support.md § stratification",
+      "exemplars_ref": "exemplars.json#templates[18].variantes"
+    },
+    {
+      "id": 20,
+      "titre": "Comment aider concrètement, au-delà d'acheter",
+      "volume_observe": 18,
+      "faits_verifies": "Planter en talle plutôt qu'isolé, plein soleil, nectar tardif à proximité, éviter les plants traités aux néonicotinoïdes, ne pas tondre en juin. La perte d'habitat de reproduction est le facteur numéro un du déclin.",
+      "source": "Flockhart et al. 2015, J. Anim. Ecol. 84:155-165 + lasclay-master",
+      "exemplars_ref": "exemplars.json#templates[19].variantes"
+    }
+  ],
+  "faits_transverses": {
+    "especes_vendues": [
+      "syriaca",
+      "tuberosa",
+      "incarnata",
+      "speciosa",
+      "exaltata",
+      "verticillata",
+      "fascicularis",
+      "sullivantii",
+      "viridis",
+      "labriformis",
+      "angustifolia"
+    ],
+    "especes_non_vendues": [
+      "curassavica (asclepiade tropicale) — ne jamais laisser croire qu'on en vend"
+    ],
+    "zones_rusticite": "toutes les especes conviennent generalement aux zones 3 a 9; la cote est un plancher, pas un plafond",
+    "stratification": "les graines ne sont PAS stratifiees; environ 30 jours de froid necessaires; floraison a la 2e annee",
+    "entretien": "machine, eau froide, cycle delicat, savon doux, sechage a plat; pas d'assouplissant; guides sur lasclay.com/pages/guides-dentretien",
+    "composition_manteau": "l'isolant contient 40 % de polyester pour empecher la fibre de s'agglutiner et ameliorer durabilite et entretien",
+    "temperature": "aucune cote officielle; temoignages clients a -30 C et tests internes; fibre creuse donc l'air isolant est dans la fibre",
+    "approvisionnement": "Lasclay achete de cultivateurs commerciaux, ne cultive pas elle-meme; transformation a l'atelier de Limoilou, Quebec",
+    "campagnes": "environ 10 millions de graines distribuees en Amerique du Nord sur 5 campagnes; un sachet gratuit dans chaque commande textile",
+    "recolte": "la soie vient des follicules recoltes a l'automne, apres la migration; les feuilles dont dependent les chenilles ne sont jamais touchees",
+    "toxicite": "latex tres amer, les animaux au paturage l'evitent; le risque documente est l'asclepiade sechee en balles de foin pour le betail; aucun cas documente d'enfant ou d'animal de compagnie",
+    "invasive": "agressive n'est pas envahissante; syriaca est indigene et se propage par rhizomes; rien a voir avec la renouee du Japon ou la berce du Caucase",
+    "science_declin": "Flockhart, Pichancourt, Norris & Martin, Journal of Animal Ecology 2015, 84:155-165 — la perte d'asclepiade sur les aires de reproduction, et non le climat ni la deforestation au Mexique, explique l'essentiel du declin; https://doi.org/10.1111/1365-2656.12253",
+    "fabrication": "isolant cultive et transforme au Quebec; assemblage textile de la plupart des produits finis a l'etranger, surtout en Tunisie, depuis juillet 2026",
+    "entreprise": "entreprise quebecoise, atelier dans Limoilou a Quebec, active depuis 2020"
+  }
+}
