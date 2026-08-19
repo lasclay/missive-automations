@@ -161,11 +161,21 @@ function ajuste(h, courriel) {
 const MORTS = new Set(["glaciere-boissons-beer-cooler", "carte-cadeau", "giftcard", "crochet-a-mitaines",
   "illustrations-asclepiade-monarque", "mitaines-vente-fin-de-saison-2021"]);
 
-// Fiches à l'état de brouillon dans Shopify : la page n'est pas publique, un avis déposé là
-// resterait invisible. Aucune n'a d'équivalent vivant (l'étui pour tablette est discontinué,
-// le sous-plat aussi), donc l'avis part vers les avis de boutique plutôt que d'être jeté.
+// Fiches à l'état de brouillon dans Shopify : `status: DRAFT`, `onlineStoreUrl: null`, la page
+// n'est pas publique et un avis déposé là resterait invisible. Aucune n'a d'équivalent vivant,
+// donc l'avis retombe sur les autres articles de la commande, ou à défaut sur les avis de
+// boutique. Liste vérifiée fiche par fiche contre l'API Shopify : le catalogue lui-même
+// contenait deux brouillons (les mitaines de cuisine et les poignées de four).
 const BROUILLONS = new Set(["etui-appareils-electroniques-asclepiade-2", "milkweed-large-trivet",
-  "etui-pour-tablette-isole-a-lasclepiade-imparfait", "foulard-imparfait"]);
+  "etui-pour-tablette-isole-a-lasclepiade-imparfait", "foulard-imparfait",
+  "milkweed-oven-mitts", "milkweed-pot-holders"]);
+
+// Un client qui remercie pour la rapidité de la réponse, la livraison soignée ou la beauté
+// des cartes-cadeaux ne parle d'aucun article. Faute de produit nommé, son message se
+// retrouvait recopié sur chaque ligne de sa commande : trois fiches produits portant un
+// éloge du service. Ces avis-là vont aux avis de boutique, où ils sont à leur place.
+const SUJET_HORS_PRODUIT = /cartes?[- ]cadeau|emballage|livraison|service (a|à) la client|r(e|é)ponse rapide|votre suivi|ce suivi|colis|exp(e|é)dition/i;
+const SUJET_PRODUIT = /mitaine|semelle|tuque|foulard|cache-cou|bandeau|manteau|veste|pantoufle|sac|besace|glaci|coussin|manchon|canette|maniqu|poign|four|graine|semence|bombe|huile|cr(e|è)me|isolant|couverture|gant|bague|boucle|(e|é)tui|bouteille|vin|lunch|tote|oreiller|couchage|bonnet/i;
 
 // Les fils Messenger et Instagram n'ont pas d'adresse : l'archive n'y garde qu'un nom
 // d'affichage, qui atterrissait dans la colonne courriel. Judge.me identifie l'auteur par son
@@ -191,6 +201,7 @@ const net = (s) => (s || "").replace(/[\t\r\n]+/g, " ").replace(/\s{2,}/g, " ").
 const lignes = [COL.join("\t")], doublons = [COL.join("\t")], sansCourriel = [COL.join("\t")], sansNom = [COL.join("\t")], interne = [COL.join("\t")], aVerifier = [COL.join("\t")], sansProduit = [];
 const provenance = {};
 const rejetes = [];
+let horsProduit = 0;
 const vus = new Set();
 let nbAvis = 0, nbLignes = 0, nbViaCommande = 0;
 
@@ -222,6 +233,9 @@ for (const a of avis) {
     viaCommande = true;
   }
   if (REJETS.has(a.id)) { rejetes.push([a.id, REJETS.get(a.id)]); continue; }
+  if (viaCommande && SUJET_HORS_PRODUIT.test(a.corps) && !SUJET_PRODUIT.test(a.corps)) {
+    horsProduit++; sansProduit.push(a); continue;
+  }
   // Le rabattement (vivant, ajuste) peut ramener vers une fiche brouillon : on filtre donc
   // sur le handle final, pas sur celui de départ.
   prods = [...new Set(prods.map((h) => ajuste(vivant(h), courriel)))].filter((h) => !BROUILLONS.has(h));
@@ -293,7 +307,6 @@ for (const ligne of retenues.slice(1)) {
 nbLignes = publiables.length - 1;
 
 fs.writeFileSync(`${DIR}/import_judgeme.tsv`, publiables.join("\n") + "\n");
-fs.writeFileSync(`${DIR}/import_judgeme_a_relire.tsv`, aRelire.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_doublons.tsv`, doublons.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_sans_nom.tsv`, sansNom.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_a_verifier.tsv`, aVerifier.join("\n") + "\n");
@@ -320,12 +333,24 @@ for (const a of sansProduit) {
   boutique.push(COL.map((c) => l[c]).join("\t"));
   nbBoutique++;
 }
-fs.writeFileSync(`${DIR}/import_judgeme_boutique.tsv`, boutique.join("\n") + "\n");
+// Le meme tri que pour les fiches produits : un avis de boutique qui signale un bris ou une
+// taille passe par la relecture a la main, pas par l'import.
+const boutiquePubliable = [boutique[0]];
+for (const ligne of boutique.slice(1)) {
+  const c = ligne.split("\t");
+  if (c[2] === "3" || (c[2] === "4" && PANNE.test(c[1]))) aRelire.push(ligne);
+  else boutiquePubliable.push(ligne);
+}
+nbBoutique = boutiquePubliable.length - 1;
+fs.writeFileSync(`${DIR}/import_judgeme_boutique.tsv`, boutiquePubliable.join("\n") + "\n");
+// Ecrit en dernier : la boucle des avis de boutique y ajoute encore des lignes.
+fs.writeFileSync(`${DIR}/import_judgeme_a_relire.tsv`, aRelire.join("\n") + "\n");
 
 console.log(JSON.stringify({
   avis_boutique: nbBoutique, boutique_ecartes_sans_nom: boutiqueSansNom, boutique_doublons: boutiqueDoublons, boutique_sans_adresse: boutiqueSansAdresse,
   avis_rediges: avis.length, avis_avec_produit: nbAvis, produit_via_commande_shopify: nbViaCommande, lignes_a_importer: nbLignes,
   lignes_condensees_meme_personne_meme_produit: nbCondenses, avis_rejetes_nommement: rejetes,
+ avis_service_vers_boutique: horsProduit,
  lignes_a_relire_bris_ou_taille: aRelire.length - 1,
  lignes_a_verifier: aVerifier.length - 1, lignes_doublons_jetees: doublons.length - 1, lignes_sans_courriel: sansCourriel.length - 1, avis_sans_produit: sansProduit.length,
   handles_hors_catalogue: manquants,
