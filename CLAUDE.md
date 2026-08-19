@@ -4,16 +4,17 @@ Automatisations Lasclay (support Missive, proxys d'API). Quand on te demande d'*
 service tiers** (ShipStation, Omnisend, QuickBooks…), passe par les proxys ci-dessous — les
 clés API vivent côté Render, jamais dans l'environnement Claude ni dans le code.
 
-**N'explore pas le dépôt pour retrouver comment joindre un service : trois skills du projet
+**N'explore pas le dépôt pour retrouver comment joindre un service : quatre skills du projet
 contiennent déjà les actions exactes, les paramètres et les garde-fous.** Charge-les au lieu de
 chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, `/qbo`,
-`/proxygen`) :
+`/proxygen`, `/bimi`) :
 
 | Skill | Couvre |
 | --- | --- |
 | `missive` | boîte support Missive, fils et brouillons, connaissances de service client et de marque, scripts de la boîte |
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
+| `bimi` | logo dans la boîte de réception : DNS de `lasclay.com`, SPF/DKIM/DMARC, Shopify, Porkbun, Render, Apple — exécution au navigateur |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
@@ -61,6 +62,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 - `support.js` : réponses IA de la boîte support (v2.34 : vérifie Shopify ET ShipStation).
 - `qbo_auth.js` / `qbo_check.js` : autorisation OAuth Intuit (une fois) et validation directe.
 - `bimi_check.js` : état SPF/DKIM/DMARC/BIMI de `lasclay.com` + conformité du logo SVG.
-  Logos et marche à suivre : `bimi/README.md` (le proxy général sert `/bimi/logo.svg`).
+  Le dossier `bimi/` porte les logos, le pourquoi (`README.md`), l'état DNS visé
+  (`dns-cible.md`) et l'avancement (`JOURNAL.md`) ; le proxy général sert `/bimi/logo.svg`.
 - Déploiement : les services Render suivent la branche `main` — le travail se fait sur une
   branche, puis fusion dans `main` pour déployer.

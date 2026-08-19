@@ -299,6 +299,13 @@ v=BIMI1; l=https://bimi.lasclay.com/bimi/logo.svg; a=https://bimi.lasclay.com/bi
 | `lasclay-bimi-mot.svg` | Le lettrage « Lasclay » seul, `#333333` sur blanc. **Le fichier du chemin VMC** : c'est le mot, et rien que le mot, qui correspond à TMA1285531. Y ajouter le papillon ferait sortir la demande du cadre de la marque enregistrée. |
 | `lasclay-bimi-mot-inverse.svg` | Le lettrage en blanc sur `#333333`. |
 | `lasclay-apple-1081.png` | Le papillon officiel aplati sur fond blanc, 1081 × 1081. **Le fichier d'Apple Branded Mail** (étape 6), qui veut un PNG carré d'au moins 1024 px, pas un SVG. |
+| `dns-cible.md` | L'état DNS visé, enregistrement par enregistrement, avec ce qui ne doit jamais être touché. Le contrat qu'on oppose à la zone Porkbun. |
+| `JOURNAL.md` | L'avancement du chantier. Il s'étale sur des semaines — c'est ce qui permet de reprendre sans tout redécouvrir. |
+
+Pour faire exécuter le chantier au navigateur, la skill `bimi`
+(`.claude/skills/bimi/SKILL.md`) contient la marche à suivre console par console — Shopify,
+Porkbun, lecteur de rapports DMARC, Render, Apple Business Connect — avec les garde-fous.
+`/bimi` la charge à la main ; elle se déclenche aussi d'elle-même.
 
 Le papillon est tracé depuis le favicon officiel (1081 × 1081) et cadré à 74 % de la toile ;
 le lettrage vient du logo pleine largeur (2048 px) et occupe 82 % de la largeur. Tous les
