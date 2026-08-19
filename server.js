@@ -668,9 +668,13 @@ const composio = (() => {
       // Params : auth_config_id, user_id (identifiant libre, ex. "lasclay").
       initiate: (p) => {
         if (!p || !p.auth_config_id) throw new Error("auth_config_id requis");
-        return post("/connected_accounts", {
-          auth_config: { id: p.auth_config_id },
-          connection: { user_id: p.user_id || "lasclay" },
+        // Pour une auth OAuth gérée par Composio, l'endpoint est /link : il rend un
+        // « Connect Link » que l'humain ouvre et approuve. POST /connected_accounts
+        // direct n'est plus supporté pour ce cas et répond 400 en le disant.
+        return post("/connected_accounts/link", {
+          auth_config_id: p.auth_config_id,
+          user_id: p.user_id || "lasclay",
+          ...(p.callback_url ? { callback_url: p.callback_url } : {}),
         });
       },
     },
