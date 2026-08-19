@@ -18,7 +18,11 @@ Ne cherche pas dans le dépôt : tout est ici. Ce fichier existe parce qu'une jo
 
 ## Les deux surfaces, et elles n'ont rien à voir
 
-| | Connecteur MCP | Clé de projet |
+Composio les nomme lui-même **For You** et **Platform** — deux produits distincts, avec des
+identifiants, des tableaux de bord et des usages différents. Nous nous servons des deux, et c'est
+la source de toutes les confusions.
+
+| | « For You » — connecteur MCP | « Platform » — clé de projet |
 | --- | --- | --- |
 | **Où** | Réglages Claude → Connectors → « Composio » (type *Custom*) | Composio **Developer Platform** → Project Settings → API Keys |
 | **Forme** | OAuth, aucune clé à manipuler | clé passée en en-tête `x-api-key` |
@@ -56,6 +60,50 @@ organization »). S'y ajoutent deux obstacles constatés :
 Conséquence pratique : **une automatisation sans surveillance ne passe jamais par le connecteur
 MCP.** Elle passe par le General Proxy.
 
+## Appeler la plateforme en REST : la forme exacte
+
+Documentée dans la référence API v3.1. Deux détails font échouer tout le reste si on les rate :
+le chemin est en **`v3.1`**, et le champ est **`connectedAccountId`** en camelCase avec
+**`input`** — pas `connected_account_id` avec `arguments`, qui rend un `Validation error` 10400.
+
+```
+POST https://backend.composio.dev/api/v3.1/tools/execute/{TOOL_SLUG}
+x-api-key: <clé de projet>
+{ "connectedAccountId": "...", "input": { … }, "version": "latest" }
+```
+
+Les lectures (`/connected_accounts`, `/tools`, `/toolkits`, `/auth_configs`) restent sur `v3`.
+
+**Ne devine jamais un slug** — c'est une directive explicite de Composio, et elle a coûté cher
+ici : la plateforme expose `FACEBOOK_GET_USER_PAGES`, alors que la surface MCP expose
+`FACEBOOK_LIST_MANAGED_PAGES`. Le second renvoie `Tool_ToolNotFound` en REST. Découvre le slug
+via `GET /tools` ou `GET /tools/{slug}` avant de l'utiliser.
+
+**Ne construis jamais un flux OAuth toi-même.** Composio rend un *Connect Link* qu'un humain
+ouvre et approuve.
+
+## Une clé de projet doit être restreinte
+
+Les permissions d'une clé ne sont **pas modifiables après création**. Le strict nécessaire pour
+le connecteur `facebook` du proxy :
+
+- **Tools** : lecture — **Tool execution** : écriture — **Connected accounts** : lecture
+- **Toolkits**, **Auth configs**, **Observability** : lecture, pour le diagnostic
+
+Tout le reste décoché, en particulier **Sessions** (« create and operate MCP servers ») et
+**Proxy execute** (« raw proxy requests against connected accounts », soit n'importe quelle
+requête arbitraire avec les jetons du compte). Le proxy n'a besoin ni de l'un ni de l'autre.
+
+Connecter un service se fait dans l'interface, pas par la clé : ainsi la clé posée sur Render n'a
+jamais besoin des droits d'écriture sur les auth configs ni sur les comptes connectés.
+
+## Un compte connecté appartient à UN projet
+
+Une clé de projet ne voit que les comptes de *son* projet. Une connexion Facebook créée par la
+surface For You n'existe pas pour une clé Platform : `GET /connected_accounts` rend zéro, et
+l'exécution échoue avec un message qui parle d'outil introuvable plutôt que de compte manquant.
+Vérifie toujours les comptes avant de soupçonner la clé.
+
 ## Le chemin qui marche sans surveillance : le General Proxy
 
 Facebook est un connecteur du General Proxy, comme ShipStation et Omnisend. Le proxy dérive
@@ -74,7 +122,11 @@ de chaque tentative. Deux voies possibles côté Render, `FB_USER_TOKEN` l'empor
 - `FB_USER_TOKEN` — jeton Meta longue durée détenu directement, sans Composio du tout
 
 Actions : `diag`, `pages`, `posts`, `comments`, `comment`, `reply`, `hide`, `unhide`, `edit`.
-Détail dans `CONNECTORS_PROXY.md` et `fb-backlog/PROCEDURE.md`.
+Le connecteur `composio` du même proxy sert au diagnostic : `accounts`, `toolkits`, `tools`,
+`tool`, `authconfigs`. Détail dans `CONNECTORS_PROXY.md` et `fb-backlog/PROCEDURE.md`.
+
+Source officielle : `github.com/ComposioHQ/composio`, dossier `skills/composio`, et
+`docs.composio.dev/llms.txt` pour les pages canoniques.
 
 ## Le piège Meta : un jeton par Page
 
