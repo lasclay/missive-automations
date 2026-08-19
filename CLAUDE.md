@@ -14,6 +14,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `missive` | boîte support Missive, fils et brouillons, connaissances de service client et de marque, scripts de la boîte |
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
+| `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
