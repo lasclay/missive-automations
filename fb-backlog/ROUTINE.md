@@ -48,11 +48,11 @@ dérive. Le message de chaque Routine ne fait que donner sa lettre.
 ## Ce que fait chaque tir
 
 1. Lit `REGLES.md`, `faits-verifies.json`, `exemplars.json`, `repondus.json`.
-2. Récupère les jetons par Page (`FACEBOOK_LIST_MANAGED_PAGES`, champ `access_token`) et
-   attaque l'API Graph v23.0 en direct — les outils Composio `FACEBOOK_GET_COMMENTS`,
-   `FACEBOOK_GET_COMMENT` et `FACEBOOK_CREATE_COMMENT` n'ont pas de paramètre `page_id` et
-   retombent sur le jeton de la première Page, ce qui produit une erreur `(#10)` sur les
-   trois autres.
+2. Récupère les jetons par Page via l'**API REST de Composio** (`$COMPOSIO_API_KEY`, compte
+   `facebook_grice-absume`), puis attaque l'API Graph v23.0 en direct. Le connecteur MCP n'est
+   pas garanti dans une session lancée par Routine, d'où le passage par REST. Les outils
+   `FACEBOOK_GET_COMMENTS`, `FACEBOOK_GET_COMMENT` et `FACEBOOK_CREATE_COMMENT` n'ont pas de
+   paramètre `page_id` et retombent sur le jeton de la première Page — ne pas les utiliser.
 3. Sélectionne des questions sans réponse, non masquées, absentes de `repondus.json`.
 4. **Rédige chaque réponse sur mesure** à partir des faits vérifiés. Aucun gabarit copié.
 5. Publie **une réponse à la fois**, à intervalles tirés au sort, en alternant les Pages.

@@ -28,18 +28,55 @@ Dépôt `lasclay/missive-automations`, branche `claude/composio-facebook-moderat
 
 Charge le skill `lasclay-master` pour la voix de marque.
 
-## 2. Accès Facebook — piège connu
+## 2. Accès Facebook
+
+Composio ne sert qu'à **une seule chose** : obtenir les jetons d'accès des Pages. Tout le reste —
+lire les commentaires, publier les réponses — passe en direct par l'API Graph v23.0 de Meta.
+
+### Chemin normal : l'API REST de Composio
+
+`COMPOSIO_API_KEY` est dans l'environnement. N'affiche jamais sa valeur, utilise toujours
+`$COMPOSIO_API_KEY`. Le compte Facebook connecté est `facebook_grice-absume` (actif).
+
+Vérifie d'abord la connexion :
+
+```
+GET https://backend.composio.dev/api/v3/connected_accounts?toolkit_slugs=facebook
+en-tête : x-api-key: $COMPOSIO_API_KEY
+```
+
+Puis exécute l'outil qui rend les jetons :
+
+```
+POST https://backend.composio.dev/api/v3/tools/execute/FACEBOOK_LIST_MANAGED_PAGES
+en-tête : x-api-key: $COMPOSIO_API_KEY
+corps   : {"connected_account_id": "facebook_grice-absume",
+           "arguments": {"fields": "id,name,access_token", "limit": 25}}
+```
+
+Le nom exact des champs du corps a évolué entre versions de l'API (`arguments` /
+`connected_account_id` / `user_id`). **Ne suppose pas : lis la réponse.** Si tu reçois une erreur
+de validation, elle nomme le champ attendu — corrige et réessaie une fois. Si tu reçois un 401
+`APIKey_InvalidAPIKey`, la clé de l'environnement est expirée : arrête et signale-le, c'est une
+action humaine (regénérer la clé sur dashboard.composio.dev et la remettre dans les variables
+d'environnement du Cloud).
+
+### Chemin de secours : le connecteur MCP
+
+Si les outils `mcp__Composio__*` sont présents dans ta session, tu peux les utiliser à la place :
+`FACEBOOK_LIST_MANAGED_PAGES` avec `fields=id,name,access_token`. Ils ne sont pas garantis dans
+une session lancée par Routine — d'où le chemin REST en premier.
+
+### Piège connu, quel que soit le chemin
 
 Les outils Composio `FACEBOOK_GET_COMMENTS`, `FACEBOOK_GET_COMMENT` et `FACEBOOK_CREATE_COMMENT`
-n'ont PAS de paramètre `page_id`. Composio retombe sur le jeton de la première Page et Meta
-refuse avec `(#10)` sur les autres. Ce n'est pas un problème de permission.
+n'ont PAS de paramètre `page_id`. Composio retombe sur le jeton de la première Page et Meta refuse
+avec `(#10)` sur les autres. Ce n'est pas un problème de permission. **N'utilise aucun de ces trois
+outils** : une fois les jetons en main, appelle Graph directement avec le jeton propre à la Page
+visée.
 
-Récupère les jetons avec `FACEBOOK_LIST_MANAGED_PAGES` et `fields=id,name,access_token`, puis
-appelle l'API Graph v23.0 en direct depuis `COMPOSIO_REMOTE_WORKBENCH` avec le jeton propre à la
-Page visée. **Ne journalise jamais un jeton, ne l'écris dans aucun fichier, ne le committe
-jamais.** Pour la Page Lasclay, pagine avec `limit=25`.
-
-Si les outils Composio sont absents de la session : arrête tout de suite et dis-le clairement.
+**Ne journalise jamais un jeton, ne l'écris dans aucun fichier, ne le committe jamais.** Pour la
+Page Lasclay, pagine avec `limit=25`.
 
 ## 3. Cadence — tirée au sort, jamais choisie
 
