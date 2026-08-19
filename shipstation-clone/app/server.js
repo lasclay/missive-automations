@@ -28,6 +28,7 @@ const catalog = require("../lib/catalog");
 const rules = require("../lib/rules");
 const templates = require("../lib/templates");
 const analytics = require("../lib/analytics");
+const exportChamps = require("../lib/export_champs");
 const accounts = require("../lib/accounts");
 const ingest = require("../lib/ingest");
 const channels = require("../lib/channels");
@@ -1533,6 +1534,51 @@ const COLONNES_EXPORT = {
 const PLAFOND_EXPORT_DEFAUT = 60000;
 const PLAFONDS_EXPORT = { "order-items": 150000, "shipping-cost": 60000, audit: 60000 };
 
+/**
+ * Les formats d'export enregistrés, et le catalogue des champs.
+ *
+ * Chaque destination en aval — ClickShip, eShipper, Dymo, le chiffrier du comptable — attend
+ * ses colonnes, dans son ordre, sous ses noms. Sans formats nommés, il faut retoucher le
+ * fichier à la main après chaque téléchargement.
+ */
+route("GET /api/export-formats", ({ url, user }) => {
+  accounts.exiger(user, "orders_view");
+  const jeu = q(url).jeu || "orders";
+  return {
+    jeu,
+    formats: db.all("SELECT id, nom, jeu, colonnes, cree_le FROM export_formats WHERE jeu = ? ORDER BY nom", jeu)
+      .map((f) => ({ ...f, colonnes: db.parse(f.colonnes, []) })),
+    champs: exportChamps.catalogue(jeu),
+    defaut: exportChamps.CHAMPS[jeu]?.defaut || [],
+    jeux: exportChamps.jeux(),
+  };
+});
+
+route("POST /api/export-formats", async ({ req, user }) => {
+  accounts.exiger(user, "orders_edit");
+  const b = await corps(req);
+  const nom = String(b.nom || "").trim();
+  const jeu = b.jeu || "orders";
+  const colonnes = (b.colonnes || []).filter((c) => exportChamps.CHAMPS[jeu]?.champs[c]);
+  if (!nom) return { error: "un format sans nom ne se retrouve pas — donnez-lui-en un", code: 400 };
+  if (!colonnes.length) return { error: "aucune colonne retenue : le fichier serait vide", code: 400 };
+  if (b.id) {
+    db.run("UPDATE export_formats SET nom = ?, colonnes = ? WHERE id = ?", nom, db.dump(colonnes), Number(b.id));
+    return { id: Number(b.id), nom, jeu, colonnes };
+  }
+  db.run(`INSERT INTO export_formats (nom, jeu, colonnes, cree_le, cree_par) VALUES (?,?,?,?,?)
+          ON CONFLICT(nom, jeu) DO UPDATE SET colonnes = excluded.colonnes`,
+    nom, jeu, db.dump(colonnes), db.maintenant(), user);
+  return { id: db.one("SELECT id FROM export_formats WHERE nom = ? AND jeu = ?", nom, jeu).id,
+    nom, jeu, colonnes };
+});
+
+route("DELETE /api/export-formats/:id", ({ params, user }) => {
+  accounts.exiger(user, "orders_edit");
+  db.run("DELETE FROM export_formats WHERE id = ?", Number(params.id));
+  return { ok: true };
+});
+
 route("GET /api/export/:quoi", ({ params, url, res, user }) => {
   const f = q(url);
   const plafondDe = (quoi) => PLAFONDS_EXPORT[quoi] || PLAFOND_EXPORT_DEFAUT;
@@ -1552,6 +1598,56 @@ route("GET /api/export/:quoi", ({ params, url, res, user }) => {
     }
     return out.slice(0, plafond);
   };
+
+  /*
+   * Chemin rapide pour les deux jeux volumineux — commandes et lignes d'articles.
+   *
+   * L'ancien chemin rappelait `orders.chercher()` mille lignes à la fois, et chaque appel
+   * refaisait le travail complet d'un écran : index de recherche, tags, sous-requêtes
+   * d'articles, hydratation JSON. Sur 28 500 commandes, vingt-neuf fois ce travail pour
+   * produire un fichier plat — d'où l'attente.
+   *
+   * Ici, les colonnes demandées deviennent une seule requête SQL. Les jointures ne sont
+   * posées que si une colonne en dépend : exporter un numéro de commande ne coûte pas une
+   * jointure sur les expéditions.
+   */
+  if (exportChamps.CHAMPS[params.quoi]) {
+    const fmt = f.format_id
+      ? db.one("SELECT colonnes FROM export_formats WHERE id = ?", Number(f.format_id)) : null;
+    const colonnes = f.colonnes ? String(f.colonnes).split(",").filter(Boolean)
+      : fmt ? db.parse(fmt.colonnes, []) : null;
+
+    // La sélection l'emporte sur le filtre : cocher trois commandes puis exporter doit rendre
+    // trois lignes, pas les 28 500 du filtre courant.
+    const where = [], vals = [];
+    const ids = String(f.ids || "").split(",").filter(Boolean).map(Number).filter(Boolean);
+    if (ids.length) { where.push(`o.id IN (${ids.map(() => "?").join(",")})`); vals.push(...ids); }
+    else {
+      if (f.status) { where.push("o.status = ?"); vals.push(f.status); }
+      if (f.store_id) { where.push("o.store_id = ?"); vals.push(Number(f.store_id)); }
+      if (f.depuis) { where.push("o.order_date >= ?"); vals.push(f.depuis); }
+      if (f.jusqua) { where.push("o.order_date <= ?"); vals.push(f.jusqua); }
+    }
+
+    const t0 = Date.now();
+    let req;
+    try { req = exportChamps.requete(params.quoi, colonnes, { where, params: vals, limite: plafondDe(params.quoi) }); }
+    catch (e) { return { error: e.message, code: 400 }; }
+    const lignes = db.all(req.sql, ...req.params);
+    const csv = analytics.csv(lignes, req.entetes);
+    const plafond = plafondDe(params.quoi);
+    const tronque = lignes.length >= plafond;
+    const entetes = { "Content-Type": "text/csv; charset=utf-8",
+      "Content-Disposition": `attachment; filename="${params.quoi}.csv"`,
+      "Cache-Control": "no-store" };
+    if (tronque) entetes["X-Export-Tronque"] = `oui; plafond=${plafond}`;
+    res.writeHead(200, entetes);
+    res.end("\ufeff" + csv +
+      (tronque ? `\n# EXPORT TRONQUÉ — ${plafond} lignes maximum. Affinez les filtres pour tout obtenir.` : ""));
+    db.journaliser("export.csv", "system", null,
+      { jeu: params.quoi, lignes: lignes.length, colonnes: req.entetes.length, ms: Date.now() - t0, tronque }, user);
+    return null;
+  }
 
   const jeux = {
     orders: () => paginer(orders.chercher, "orders", "orders").map((o) => ({

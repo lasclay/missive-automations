@@ -216,6 +216,23 @@ CREATE INDEX IF NOT EXISTS idx_rate_cache_exp ON rate_cache(expire_a);
  * adaptateur réel n'a répondu — c'est ce qui distingue « noté ici » de « confirmé par le
  * transporteur », et l'écran le dit au lieu de laisser croire que le camion viendra.
  */
+/*
+ * Formats d'export enregistrés.
+ *
+ * ShipStation en garde une poignée par compte — « ClickShip », « eShipper », « Dymo »,
+ * « USA Chitchats » — et c'est ce qui rend l'export utilisable : chaque destination en aval
+ * attend ses colonnes, dans son ordre, sous ses noms. Un export figé oblige à retoucher le
+ * fichier à la main après chaque téléchargement.
+ */
+CREATE TABLE IF NOT EXISTS export_formats (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nom TEXT NOT NULL,
+  jeu TEXT NOT NULL DEFAULT 'orders',   -- orders | order-items
+  colonnes TEXT NOT NULL,               -- JSON : les clés, dans l'ordre du fichier
+  cree_le TEXT, cree_par TEXT REFERENCES users(id)
+);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_export_formats_nom ON export_formats(nom, jeu);
+
 CREATE TABLE IF NOT EXISTS pickups (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   carrier_code TEXT NOT NULL,
