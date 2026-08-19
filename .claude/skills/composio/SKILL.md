@@ -28,6 +28,7 @@ la source de toutes les confusions.
 | **Forme** | OAuth, aucune clé à manipuler | clé passée en en-tête `x-api-key` |
 | **Sert à** | outils `mcp__Composio__*` dans une session interactive | appels REST à `backend.composio.dev/api/v3` |
 | **Vit où** | compte claude.ai | variable `COMPOSIO_API_KEY` sur Render (General Proxy) |
+| **Connexions** | autorisées par OAuth, invisibles depuis Platform | propres au projet, à autoriser séparément |
 | **Disponible dans une Routine** | **non** | oui |
 
 Elles ne sont pas interchangeables. Avoir l'une ne donne jamais l'autre.
@@ -97,12 +98,54 @@ requête arbitraire avec les jetons du compte). Le proxy n'a besoin ni de l'un n
 Connecter un service se fait dans l'interface, pas par la clé : ainsi la clé posée sur Render n'a
 jamais besoin des droits d'écriture sur les auth configs ni sur les comptes connectés.
 
-## Un compte connecté appartient à UN projet
+## Une connexion For You n'existe pas pour Platform
 
-Une clé de projet ne voit que les comptes de *son* projet. Une connexion Facebook créée par la
-surface For You n'existe pas pour une clé Platform : `GET /connected_accounts` rend zéro, et
-l'exécution échoue avec un message qui parle d'outil introuvable plutôt que de compte manquant.
-Vérifie toujours les comptes avant de soupçonner la clé.
+C'est le piège central, et il ne se voit pas.
+
+Lasclay n'a longtemps utilisé **que** la surface For You : le connecteur MCP, autorisé par OAuth,
+sans jamais de clé d'API. Le projet Platform a été créé le 19 août 2026 et **naissait donc vide** —
+aucune configuration d'auth, aucun compte connecté. Il n'y avait pas « un autre projet » qui
+détenait la connexion Facebook : il n'y avait aucun projet du tout.
+
+Conséquence : autoriser Facebook dans For You ne donne **rien** à une clé Platform. Ce sont deux
+produits, pas deux vues sur la même chose. Et le symptôme est trompeur — sans configuration d'auth
+pour un service, le projet ne voit pas ses outils, donc l'exécution échoue avec
+`Tool_ToolNotFound` code 2401, qui ressemble à un mauvais slug ou à une permission manquante.
+
+**Avant de soupçonner la clé ou le slug, vérifie l'inventaire du projet :**
+
+```
+node connectors_client.js composio authconfigs '{}'   # combien de configurations d'auth
+node connectors_client.js composio accounts '{}'      # combien de comptes connectés
+```
+
+Deux zéros = le projet est vide, et c'est tout ce que ça veut dire.
+
+## Amorcer un service dans un projet Platform
+
+Trois étapes, dont une seule exige un humain.
+
+```
+# 1. Créer la configuration d'auth (une fois par service, permanente)
+node connectors_client.js composio createauthconfig '{"toolkit":"facebook"}'
+#    → { auth_config: { id: "ac_…", auth_scheme: "OAUTH2", is_composio_managed: true } }
+
+# 2. Obtenir le Connect Link
+node connectors_client.js composio initiate '{"auth_config_id":"ac_…","user_id":"lasclay"}'
+#    → { redirect_url: "https://connect.composio.dev/link/lk__…", expires_at: … }
+
+# 3. Un humain ouvre l'URL et autorise. Le lien expire en ~30 minutes ;
+#    en régénérer un est une commande, la configuration d'auth ne se refait pas.
+```
+
+Pour une auth gérée par Composio, l'amorçage passe par **`POST /api/v3/connected_accounts/link`**.
+`POST /api/v3/connected_accounts` répond 400 en disant explicitement d'utiliser `/link`.
+
+**Ne construis jamais le flux OAuth toi-même** — c'est une directive de Composio. Le Connect Link
+est la seule voie.
+
+Sur l'écran d'autorisation Facebook, **cocher les quatre Pages**. Une Page décochée ne rendra
+jamais de jeton, et l'échec ressemblera à un bogue plutôt qu'à un oubli.
 
 ## Le chemin qui marche sans surveillance : le General Proxy
 
@@ -160,3 +203,19 @@ seulement en mémoire de cellule, et découpe les attentes en cellules de moins 
 
 Les clés vivent côté Render, jamais dans l'environnement Claude ni dans le code. Un jeton de Page
 ne doit jamais être journalisé, écrit dans un fichier, ni commité.
+
+## Les directives de Composio, qu'il faut suivre
+
+Tirées de leur skill officiel (`github.com/ComposioHQ/composio`, `skills/composio`) :
+
+1. **Ne jamais inventer un slug** de toolkit ou d'outil — les découvrir à l'exécution.
+2. **Ne jamais construire un flux OAuth** — Composio rend des Connect Links.
+3. **Garder les identifiants hors du code, des journaux et des conversations.**
+4. Pour un appel d'outil échoué, **obtenir d'abord le log ou le request id** — chaque erreur
+   Composio en porte un.
+5. **Aller chercher la doc canonique** pour tout ce qui est volatil : versions, APIs, adaptateurs.
+   `docs.composio.dev/llms.txt` liste les pages ; `docs.composio.dev/toolkits/<toolkit>.md`
+   documente un service.
+
+La cinquième explique la journée du 19 août 2026 : six diagnostics faux, tous parce que je
+raisonnais de mémoire sur une API qui avait changé de version, de nom de champ et de slug.
