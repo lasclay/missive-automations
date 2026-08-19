@@ -575,6 +575,41 @@ const facebook = (() => {
 })();
 
 // ==========================================================================
+// CONNECTEUR : Composio (API de plateforme v3 — backend.composio.dev, en-tête
+// x-api-key). LECTURE SEULE, à visée de DIAGNOSTIC : sert à voir ce que le
+// projet auquel appartient COMPOSIO_API_KEY contient réellement — quels
+// toolkits, quels outils, quels comptes connectés. Existe parce qu'un
+// « Tool not found » ne dit pas si l'outil n'existe pas, si le toolkit n'est
+// pas activé, ou si la clé appartient à un autre projet que le compte connecté.
+// N'expose aucune clé et n'exécute aucun outil.
+// ==========================================================================
+const composio = (() => {
+  const KEY = process.env.COMPOSIO_API_KEY || "";
+  const BASE = process.env.COMPOSIO_BASE || "https://backend.composio.dev/api/v3";
+  const get = (path, params) =>
+    httpJson({ method: "GET", url: `${BASE}${path}${qs(params)}`, headers: { "x-api-key": KEY } });
+  return {
+    name: "composio",
+    description:
+      "Composio (plateforme v3, lecture seule) — diagnostic : toolkits, outils, comptes connectés du projet auquel appartient la clé.",
+    enabled: () => !!KEY,
+    actions: {
+      // Comptes connectés du projet. Params : toolkit_slugs, limit.
+      accounts: (p) => get("/connected_accounts", p),
+      // Toolkits disponibles/activés. Params : limit, search.
+      toolkits: (p) => get("/toolkits", { limit: 50, ...p }),
+      // Outils. Params : toolkit_slugs (ex. "facebook"), search, limit.
+      tools: (p) => get("/tools", { limit: 100, ...p }),
+      // Un outil précis, pour vérifier son slug exact et son schéma.
+      tool: (p) => {
+        if (!p || !p.slug) throw new Error("slug requis");
+        return get(`/tools/${encodeURIComponent(p.slug)}`);
+      },
+    },
+  };
+})();
+
+// ==========================================================================
 // CONNECTEUR : Klaviyo (API JSON:API — a.klaviyo.com/api, en-tête Authorization
 // « Klaviyo-API-Key pk_... » + en-tête revision obligatoire). LECTURE SEULE :
 // sert à l'export exhaustif (migration/sauvegarde) — profils, listes, segments,
@@ -649,6 +684,7 @@ const CONNECTEURS = {
   [omnisend.name]: omnisend,
   [klaviyo.name]: klaviyo,
   [facebook.name]: facebook,
+  [composio.name]: composio,
 };
 
 // ---- Serveur HTTP ----
