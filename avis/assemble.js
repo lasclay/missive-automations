@@ -72,8 +72,11 @@ const nommes = (t) => new Set(MOTS_PRODUIT.filter(([re]) => re.test(t || "")).ma
 
 // Un avis dont le texte est déjà publié mot pour mot sur Judge.me est un vrai doublon,
 // même si la personne n'apparaît pas dans les importations passées.
+// Judge.me tronque le corps des avis qu'il renvoie par sa route publique. Une empreinte
+// prise sur 120 caracteres ne pouvait donc jamais egaler celle d'un avis deja en ligne :
+// on compare sur un debut assez court pour survivre a la troncature.
 const empreinte = (t) => (t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-  .toLowerCase().replace(/[^a-z0-9]+/g, "").slice(0, 120);
+  .toLowerCase().replace(/[^a-z0-9]+/g, "").slice(0, 60);
 const dejaPublie = new Set();
 for (const a of lire("judgeme_avis.json", [])) {
   const e = empreinte(a.corps);
