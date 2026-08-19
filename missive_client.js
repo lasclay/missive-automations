@@ -80,7 +80,9 @@ function readStdin() {
     else if (cmd === "draftsraw") console.log(JSON.stringify(await call("/drafts", { id: a1, raw: true }), null, 2));
     else if (cmd === "notes") console.log(JSON.stringify(await call("/comments", { id: a1 }), null, 2));
     else if (cmd === "users") console.log(JSON.stringify(await call("/users", {}), null, 2));
-    else if (cmd === "task") { const t = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/task", { id: a1, ...t }), null, 2)); }
+    // `raw` existait côté proxy depuis le début ; sans lui, la réponse de Missive
+    // restait invisible et l'id de tâche introuvable. On l'expose.
+    else if (cmd === "task") { const t = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/task", { id: a1, ...t, raw: a2 === "--raw" || undefined }), null, 2)); }
     // Le proxy exposait /postraw et /task-state depuis toujours ; le client ne les
     // appelait pas, donc l'id d'une tâche créée restait introuvable et une tâche posée
     // par erreur ne pouvait plus être refermée. Deux lignes manquaient, pas une capacité.

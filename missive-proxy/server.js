@@ -351,7 +351,9 @@ async function createTask({ id, title, assignees, label, markdown }) {
   return mSend("POST", "/posts", { posts: post });
 }
 
-// Récupère un post brut (pour retrouver l'id de tâche d'un post créé).
+// Récupère un post brut. ATTENTION : Missive n'expose PAS `GET /posts/:id` — l'appel
+// répond 404 « Invalid request URL ». La fonction est conservée parce que la route
+// /postraw existe depuis longtemps, mais elle échouera. Vérifié le 2026-08-19.
 async function getPost(id) { return mGet(`/posts/${id}`); }
 
 // Change l'état d'une tâche existante : "todo" | "in_progress" | "closed" (= accomplie).
@@ -367,6 +369,10 @@ async function setTaskState({ taskId, state, conversation, markdown }) {
   return mSend("POST", "/posts", { posts: post });
 }
 
+// `postNote` crée un POST, pas un COMMENT : les deux sont des objets distincts chez
+// Missive. Conséquence mesurée le 2026-08-19 : une note écrite ici ne ressort PAS de
+// `GET /conversations/:id/comments`, donc getComments() ne la relira jamais. La note
+// est bien déposée dans le fil, mais elle est invisible depuis l'API.
 async function postNote(id, markdown) {
   return mSend("POST", "/posts", {
     posts: { conversation: id, organization: ORG,
@@ -543,7 +549,15 @@ const server = http.createServer(async (req, res) => {
       if (!body.id || !body.title) return json(res, 400, { error: "id et title requis" });
       const r = await createTask(body);
       if (body.raw) return json(res, 200, { raw: r });
-      return json(res, 200, { ok: true, post: r.posts?.id || null, taskId: r.posts?.task?.id || null, assignees: body.assignees || [] });
+      // `taskId` sera TOUJOURS null : `POST /posts` ne renvoie que {conversation, id}.
+      // Ce n'est pas un défaut d'extraction, c'est ce que l'API rend — vérifié en mode
+      // raw le 2026-08-19. Conséquence à connaître avant de bâtir dessus : une tâche
+      // créée ici ne peut être ni relue, ni refermée, ni dédoublonnée par le proxy.
+      // Les tâches n'apparaissent pas non plus dans /comments, et GET /posts/:id n'existe
+      // pas. Il n'y a donc AUCUN chemin de vérification : ne crée jamais deux fois la même
+      // tâche en supposant que la première a échoué. Le registre de vérité est
+      // SUIVI-SUPPORT.md, pas Missive.
+      return json(res, 200, { ok: true, post: r.posts?.id || null, taskId: null, assignees: body.assignees || [] });
     }
     if (route === "/postraw") {
       if (!body.id) return json(res, 400, { error: "id requis" });
