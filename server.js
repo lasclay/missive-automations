@@ -445,7 +445,13 @@ const facebook = (() => {
   // « Validation error » 10400 vient de là. Les formes suivantes sont d'anciennes
   // variantes, gardées en repli au cas où le projet serait servi par une version
   // antérieure de l'API.
+  const UID = process.env.COMPOSIO_USER_ID || "lasclay";
   const FORMES = [
+    // Composio réclame le user_id EN PLUS du compte connecté : « User ID is required
+    // with connected account ». Les deux ensemble, donc.
+    ["connectedAccountId + userId + input", (a, id) => ({ connectedAccountId: id, userId: UID, input: a, version: "latest" })],
+    ["connected_account_id + user_id + input", (a, id) => ({ connected_account_id: id, user_id: UID, input: a })],
+    ["userId + input (sans compte)", (a) => ({ userId: UID, input: a, version: "latest" })],
     ["connectedAccountId + input", (a, id) => ({ connectedAccountId: id, input: a, version: "latest" })],
     ["connected_account_id + input", (a, id) => ({ connected_account_id: id, input: a })],
     ["connected_account_id + arguments", (a, id) => ({ connected_account_id: id, arguments: a })],
