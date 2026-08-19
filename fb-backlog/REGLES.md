@@ -44,14 +44,17 @@ répond toutes les heures ouvrables sans exception, à intervalles réguliers, s
 automate — autant pour les heuristiques de vélocité de Meta que pour les abonnés qui font
 défiler le fil.
 
+Le volume ne vient donc pas d'une cadence plus rapide, mais de **trois tirs cloisonnés par
+Page** qui travaillent en parallèle sans jamais se croiser. Voir `PROCEDURE.md`.
+
 **Rien n'est choisi, tout est tiré au sort**, au début de chaque tir, avec `random` :
 
 | Décision | Tirage |
 | --- | --- |
 | Publier cette heure-ci ? | 1 chance sur 6 de sauter l'heure entièrement (2 sur 6 le week-end) |
-| Combien | `N = 1 + int(random.expovariate(1/4.0))`, plafonné à 14 — le plus souvent 2 à 7 |
-| Délai avant la première | `random.uniform(0, 660)` secondes ; jamais dans les 2 premières minutes |
-| Écart entre deux réponses | `max(90, min(840, random.expovariate(1/240.0)))` secondes |
+| Combien | `N = 1 + int(random.expovariate(1/9.5))`, plafonné à 24 — le plus souvent 4 à 16 |
+| Délai avant la première | `random.uniform(45, 420)` secondes |
+| Écart entre deux réponses | `max(60, min(600, random.expovariate(1/180.0)))` secondes |
 
 Une réponse à la fois : publier, attendre, choisir la suivante, publier. Jamais de lot, jamais
 de boucle serrée, jamais deux écarts identiques dans le même tir. Alterner les Pages au hasard,
@@ -60,8 +63,9 @@ et ne pas balayer le même fil deux tirs de suite.
 Fenêtre : 9 h à 18 h, heure de l'Est, avec pause complète entre 12 h et 13 h. Arrêter quand
 l'heure est écoulée, même si N n'est pas atteint — ne jamais rattraper un retard.
 
-Débit attendu : environ 30 réponses par jour, pas 280. C'est le prix de l'irrégularité, et il
-est volontaire.
+Débit attendu : **environ 200 réponses par jour**, réparties sur trois tirs et quatre Pages,
+soit à peu près 7 par Page et par heure. Jamais un chiffre rond, jamais le même deux jours de
+suite.
 
 ## État
 
