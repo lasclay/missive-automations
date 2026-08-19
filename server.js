@@ -619,10 +619,12 @@ const composio = (() => {
   const BASE = process.env.COMPOSIO_BASE || "https://backend.composio.dev/api/v3";
   const get = (path, params) =>
     httpJson({ method: "GET", url: `${BASE}${path}${qs(params)}`, headers: { "x-api-key": KEY } });
+  const post = (path, body) =>
+    httpJson({ method: "POST", url: `${BASE}${path}`, headers: { "x-api-key": KEY }, body });
   return {
     name: "composio",
     description:
-      "Composio (plateforme v3, lecture seule) — diagnostic : toolkits, outils, comptes connectés du projet auquel appartient la clé.",
+      "Composio (plateforme v3) — diagnostic : toolkits, outils, comptes connectés, configurations d'auth ; plus l'amorçage d'une connexion OAuth, qui rend une URL à approuver à la main.",
     enabled: () => !!KEY,
     actions: {
       // Comptes connectés du projet. Params : toolkit_slugs, limit.
@@ -635,6 +637,32 @@ const composio = (() => {
       tool: (p) => {
         if (!p || !p.slug) throw new Error("slug requis");
         return get(`/tools/${encodeURIComponent(p.slug)}`);
+      },
+      // Configurations d'authentification du projet (une par service connecté).
+      authconfigs: (p) => get("/auth_configs", { limit: 50, ...p }),
+
+      // ---- AMORÇAGE D'UNE CONNEXION ----
+      // Ces deux actions n'accèdent à aucune donnée : elles préparent l'autorisation
+      // OAuth et rendent une URL que l'humain doit ouvrir et approuver. Rien n'est
+      // connecté sans ce clic, et aucun jeton ne transite par ici.
+      //
+      // Crée la configuration d'auth d'un service, en auth gérée par Composio.
+      // Params : toolkit (ex. "facebook").
+      createauthconfig: (p) => {
+        if (!p || !p.toolkit) throw new Error('toolkit requis (ex. "facebook")');
+        return post("/auth_configs", {
+          toolkit: { slug: String(p.toolkit).toLowerCase() },
+          auth_config: { type: "use_composio_managed_auth" },
+        });
+      },
+      // Amorce la connexion et rend l'URL d'autorisation à ouvrir dans un navigateur.
+      // Params : auth_config_id, user_id (identifiant libre, ex. "lasclay").
+      initiate: (p) => {
+        if (!p || !p.auth_config_id) throw new Error("auth_config_id requis");
+        return post("/connected_accounts", {
+          auth_config: { id: p.auth_config_id },
+          connection: { user_id: p.user_id || "lasclay" },
+        });
       },
     },
   };
