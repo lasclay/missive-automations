@@ -1,1 +1,27 @@
-{"tir": "A", "a_revoir": []}
+{
+ "tir": "A",
+ "a_revoir": [
+  {
+   "id": "132458928584703_136184151545514",
+   "page_id": "114311920399404",
+   "date": "2020-09-25T17:42:22+0000",
+   "message": "Rolande, as tu compris que c'était une JOKE avant de faire un commentaire au moins?",
+   "lien": "https://www.facebook.com/1415779240688725/videos/336308071123094?comment_id=134509618379634&reply_comment_id=136184151545514",
+   "motif": "Echange entre deux abonnes sur le ton du reproche, rien n est demande a la Page. Repondre reviendrait a s immiscer dans une chicane. PROCEDURE.md §3 ecarte le sarcasme.",
+   "ecarte_le": "2026-08-19",
+   "tir": "A",
+   "contexte": "tir a blanc, aucune publication"
+  },
+  {
+   "id": "1244689371131047_2998993796965569",
+   "page_id": "114311920399404",
+   "date": "2026-02-22T12:29:17+0000",
+   "message": "C’est quoi ca « mauvais herbes » ca n’a jamais été considéré comme une mauvaise herbe????\nSacré journaliste, n’importe quoi",
+   "lien": "https://www.facebook.com/reel/1217260876701901/?comment_id=2998993796965569",
+   "motif": "Colere dirigee contre un journaliste, pas une question posee a Lasclay. Le fond (l asclepiade longtemps traitee en mauvaise herbe) est bien couvert par la marque et pourrait meriter une reponse, mais repondre publiquement a une invective visant un tiers risque d attiser le fil. PROCEDURE.md §3 range les diatribes parmi les ecarts. Laisse au jugement humain.",
+   "ecarte_le": "2026-08-19",
+   "tir": "A",
+   "contexte": "tir a blanc, aucune publication"
+  }
+ ]
+}
