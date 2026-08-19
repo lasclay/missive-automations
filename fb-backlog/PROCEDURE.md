@@ -28,57 +28,45 @@ Dépôt `lasclay/missive-automations`, branche `claude/composio-facebook-moderat
 
 Charge le skill `lasclay-master` pour la voix de marque.
 
-## 2. Accès Facebook
+## 2. Accès Facebook — par le General Proxy, pas par Composio
 
-Composio ne sert qu'à **une seule chose** : obtenir les jetons d'accès des Pages. Tout le reste —
-lire les commentaires, publier les réponses — passe en direct par l'API Graph v23.0 de Meta.
+Facebook passe désormais par le **General Proxy** de Lasclay, comme ShipStation et Omnisend.
+C'est la règle du dépôt : les clés vivent côté Render, jamais dans l'environnement Claude ni
+dans le code. Composio n'est plus dans le chemin — ni le connecteur MCP, ni la clé d'API.
 
-### Trois chemins possibles — essaie-les dans cet ordre, rapporte celui qui marche
-
-Le compte Facebook connecté est `facebook_grice-absume` (actif). L'outil à exécuter est
-`FACEBOOK_LIST_MANAGED_PAGES` avec `fields=id,name,access_token`, `limit=25`.
-
-**1. Le connecteur MCP**, si `mcp__Composio__*` est présent dans ta session. C'est le chemin le
-plus simple. Il n'est pas garanti dans une session lancée par Routine — vérifie, ne suppose pas.
-
-**2. L'API REST de la plateforme**, avec `$COMPOSIO_API_KEY` en en-tête `x-api-key` :
+Le proxy détient un seul secret, `FB_USER_TOKEN`, et **dérive lui-même les jetons de Page**.
+Aucun jeton de Page ne sort du serveur ; tu n'en manipules jamais.
 
 ```
-GET  https://backend.composio.dev/api/v3/connected_accounts?toolkit_slugs=facebook
-POST https://backend.composio.dev/api/v3/tools/execute/FACEBOOK_LIST_MANAGED_PAGES
+node connectors_client.js facebook <action> '{"page_id":"…", …}'
 ```
 
-**3. Le serveur MCP de Composio**, avec la même clé mais en en-tête **`x-consumer-api-key`**.
+`GENERAL_PROXY_URL` et `GENERAL_PROXY_SECRET` sont déjà dans l'environnement, et
+`.claude/settings.json` autorise déjà cette commande — pas de demande de permission, pas de
+`curl` sortant à faire approuver.
 
-Attention : Composio distingue deux types de clés. Celle du tableau de bord, sous « Sessions &
-API Key », est une clé **client MCP** et s'envoie en `x-consumer-api-key` ; une clé de plateforme
-s'envoie en `x-api-key`. Une clé refusée en 401 `APIKey_InvalidAPIKey` sur `backend.composio.dev`
-n'est donc pas forcément expirée — elle peut simplement être du mauvais type pour cet endpoint.
-Essaie les deux en-têtes avant de conclure.
+| Action | Paramètres | Effet |
+| --- | --- | --- |
+| `pages` | — | les Pages accessibles (id et nom seulement) |
+| `posts` | `page_id`, `limit`, `after` | publications d'une Page |
+| `comments` | `page_id`, `object_id`, `limit`, `after` | commentaires d'une publication ou d'un commentaire |
+| `comment` | `page_id`, `comment_id` | un commentaire précis |
+| `reply` | `page_id`, `comment_id`, `message` | publie une réponse |
+| `hide` / `unhide` | `page_id`, `comment_id` | masque, réversible, sans notification |
+| `edit` | `page_id`, `comment_id`, `message` | corrige un commentaire de la Page sans renotifier |
 
-Le nom des champs du corps de `tools/execute` a évolué entre versions (`arguments` /
-`connected_account_id` / `user_id`). **Ne suppose pas : lis la réponse.** Une erreur de validation
-nomme le champ attendu — corrige et réessaie une fois.
+**`page_id` est obligatoire partout.** Meta exige que chaque appel porte le jeton de la Page
+visée ; un jeton d'une autre Page produit une erreur `(#10) pages_read_user_content`. C'est le
+piège qui a fait échouer trois Pages sur quatre lors du premier passage. Le proxy choisit le bon
+jeton à partir de `page_id`, et refuse un `page_id` inconnu au lieu de retomber silencieusement
+sur une autre Page.
 
-**Dans ton rapport, dis lequel des trois chemins a fonctionné, avec le code HTTP et la forme
-exacte du corps accepté.** C'est la seule inconnue restante de cette procédure ; une fois connue,
-elle sera figée ici et les deux autres chemins supprimés.
+Vérifie le connecteur avant de commencer : `GET /connectors` sur le proxy doit montrer
+`facebook` avec `enabled: true`. S'il est à `false`, `FB_USER_TOKEN` manque côté Render :
+arrête et signale-le, c'est une action humaine.
 
-Si aucun des trois ne passe : arrête sans contournement et signale-le. C'est une action humaine.
-
-**Ne journalise jamais un jeton ni une clé, ne les écris dans aucun fichier, ne les committe
-jamais.** Pour la Page Lasclay, pagine avec `limit=25`.
-
-### Piège connu, quel que soit le chemin
-
-Les outils Composio `FACEBOOK_GET_COMMENTS`, `FACEBOOK_GET_COMMENT` et `FACEBOOK_CREATE_COMMENT`
-n'ont PAS de paramètre `page_id`. Composio retombe sur le jeton de la première Page et Meta refuse
-avec `(#10)` sur les autres. Ce n'est pas un problème de permission. **N'utilise aucun de ces trois
-outils** : une fois les jetons en main, appelle Graph directement avec le jeton propre à la Page
-visée.
-
-**Ne journalise jamais un jeton, ne l'écris dans aucun fichier, ne le committe jamais.** Pour la
-Page Lasclay, pagine avec `limit=25`.
+Pour la Page Lasclay, pagine avec `limit=25` — au-delà, Meta renvoie « reduce the amount of
+data ».
 
 ## 3. Cadence — tirée au sort, jamais choisie
 

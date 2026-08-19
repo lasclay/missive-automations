@@ -43,6 +43,13 @@
  *                           lecture seule suffit (scopes read). Sert à
  *                           l'export exhaustif/migration.
  *   KLAVIYO_REVISION        révision d'API Klaviyo (défaut 2025-04-15).       [optionnel]
+ *   FB_USER_TOKEN           jeton Meta longue durée (utilisateur ou           [connecteur Facebook]
+ *                           utilisateur système) avec pages_show_list,
+ *                           pages_read_engagement, pages_read_user_content
+ *                           et pages_manage_engagement. Le proxy en dérive
+ *                           lui-même les jetons de Page ; ceux-ci ne sortent
+ *                           jamais du serveur.
+ *   FB_GRAPH_VERSION        version de l'API Graph (défaut v23.0).            [optionnel]
  *   (QuickBooks : service dédié finance-proxy/ — voir finance-proxy/FINANCE_PROXY.md)
  *   PORT                    port d'écoute (fourni par Render)               [auto]
  *
@@ -297,6 +304,131 @@ const omnisend = (() => {
 })();
 
 // ==========================================================================
+// CONNECTEUR : Facebook Pages (Graph API v23.0 — graph.facebook.com)
+// Auth : un SEUL secret côté Render, FB_USER_TOKEN — jeton utilisateur longue
+// durée ou jeton d'utilisateur système, avec les permissions pages_show_list,
+// pages_read_engagement, pages_read_user_content et pages_manage_engagement.
+// Le proxy en dérive lui-même les jetons de PAGE via /me/accounts et les garde
+// EN MÉMOIRE seulement (cache de 30 min). Aucun jeton de Page n'est jamais
+// renvoyé à l'appelant ni écrit sur disque.
+//
+// C'est le point important : Meta exige que chaque appel visant une Page porte
+// le jeton DE CETTE Page. Utiliser le jeton d'une autre Page produit une erreur
+// « (#10) pages_read_user_content ». Le connecteur choisit donc toujours le bon
+// jeton à partir du page_id demandé, et refuse un page_id inconnu.
+// ==========================================================================
+const facebook = (() => {
+  const TOKEN = process.env.FB_USER_TOKEN || "";
+  const V = process.env.FB_GRAPH_VERSION || "v23.0";
+  const BASE = `https://graph.facebook.com/${V}`;
+  const TTL = 30 * 60 * 1000;
+
+  let cache = { at: 0, pages: null };
+
+  // Jetons de Page, dérivés du jeton utilisateur puis mis en cache.
+  async function pages() {
+    if (cache.pages && Date.now() - cache.at < TTL) return cache.pages;
+    const out = {};
+    let url = `${BASE}/me/accounts${qs({ fields: "id,name,access_token", limit: 100, access_token: TOKEN })}`;
+    while (url) {
+      const r = await httpJson({ method: "GET", url });
+      for (const p of r.data || []) out[p.id] = { id: p.id, name: p.name, token: p.access_token };
+      url = (r.paging && r.paging.next) || null;
+    }
+    if (!Object.keys(out).length) throw new Error("aucune Page renvoyée par /me/accounts — vérifier FB_USER_TOKEN et ses permissions");
+    cache = { at: Date.now(), pages: out };
+    return out;
+  }
+
+  // Jeton de la Page demandée. Erreur claire si le page_id est inconnu, plutôt
+  // que de retomber silencieusement sur une autre Page.
+  async function tok(pageId) {
+    if (!pageId) throw new Error("page_id requis");
+    const all = await pages();
+    const p = all[String(pageId)];
+    if (!p) throw new Error(`page_id inconnu : ${pageId} — Pages accessibles : ${Object.keys(all).join(", ")}`);
+    return p.token;
+  }
+
+  const get = async (path, p = {}) => {
+    const { page_id, ...params } = p;
+    return httpJson({ method: "GET", url: `${BASE}${path}${qs({ ...params, access_token: await tok(page_id) })}` });
+  };
+  // Graph accepte les paramètres d'écriture en query string : pas de corps JSON.
+  const post = async (path, p = {}) => {
+    const { page_id, ...params } = p;
+    return httpJson({ method: "POST", url: `${BASE}${path}${qs({ ...params, access_token: await tok(page_id) })}` });
+  };
+  const need = (p, ...champs) => {
+    for (const c of champs) if (!p || !p[c]) throw new Error(`${c} requis`);
+  };
+
+  return {
+    name: "facebook",
+    description:
+      "Facebook Pages (Graph v23.0) — publications, commentaires, réponses, masquage. Le proxy choisit le jeton de la Page visée ; page_id est requis partout.",
+    enabled: () => !!TOKEN,
+    actions: {
+      // ---- LECTURE ----
+      // Les Pages accessibles (id + nom seulement — jamais les jetons).
+      pages: async () => ({ data: Object.values(await pages()).map(({ id, name }) => ({ id, name })) }),
+      // Publications d'une Page. Params : page_id, limit, after, fields.
+      posts: (p) => {
+        need(p, "page_id");
+        return get(`/${encodeURIComponent(p.page_id)}/posts`, {
+          fields: "id,created_time,message,permalink_url",
+          limit: 25,
+          ...p,
+        });
+      },
+      // Commentaires d'une publication OU d'un commentaire. Params : page_id,
+      // object_id, limit, after, filter (stream|toplevel), order.
+      comments: (p) => {
+        need(p, "page_id", "object_id");
+        const { object_id, ...q } = p;
+        return get(`/${encodeURIComponent(object_id)}/comments`, {
+          fields: "id,created_time,message,from,is_hidden,comment_count,permalink_url",
+          filter: "stream",
+          limit: 100,
+          ...q,
+        });
+      },
+      // Un commentaire précis.
+      comment: (p) => {
+        need(p, "page_id", "comment_id");
+        const { comment_id, ...q } = p;
+        return get(`/${encodeURIComponent(comment_id)}`, {
+          fields: "id,created_time,message,from,is_hidden,comment_count,permalink_url",
+          ...q,
+        });
+      },
+
+      // ---- ÉCRITURE ----
+      // Répond publiquement à un commentaire. Params : page_id, comment_id, message.
+      reply: (p) => {
+        need(p, "page_id", "comment_id", "message");
+        return post(`/${encodeURIComponent(p.comment_id)}/comments`, { page_id: p.page_id, message: p.message });
+      },
+      // Masque / démasque un commentaire (réversible, sans notification).
+      hide: (p) => {
+        need(p, "page_id", "comment_id");
+        return post(`/${encodeURIComponent(p.comment_id)}`, { page_id: p.page_id, is_hidden: "true" });
+      },
+      unhide: (p) => {
+        need(p, "page_id", "comment_id");
+        return post(`/${encodeURIComponent(p.comment_id)}`, { page_id: p.page_id, is_hidden: "false" });
+      },
+      // Corrige le texte d'un commentaire DE LA PAGE : garde sa place dans le
+      // fil et ne renotifie personne, contrairement à supprimer/republier.
+      edit: (p) => {
+        need(p, "page_id", "comment_id", "message");
+        return post(`/${encodeURIComponent(p.comment_id)}`, { page_id: p.page_id, message: p.message });
+      },
+    },
+  };
+})();
+
+// ==========================================================================
 // CONNECTEUR : Klaviyo (API JSON:API — a.klaviyo.com/api, en-tête Authorization
 // « Klaviyo-API-Key pk_... » + en-tête revision obligatoire). LECTURE SEULE :
 // sert à l'export exhaustif (migration/sauvegarde) — profils, listes, segments,
@@ -369,6 +501,7 @@ const CONNECTEURS = {
   [shipstation.name]: shipstation,
   [omnisend.name]: omnisend,
   [klaviyo.name]: klaviyo,
+  [facebook.name]: facebook,
 };
 
 // ---- Serveur HTTP ----
