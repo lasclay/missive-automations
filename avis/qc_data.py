@@ -1,16 +1,17 @@
 # Prépare les données de la page de contrôle qualité à partir des fichiers de travail.
-import json, os, collections
+import json, os, glob, collections
 S = os.path.dirname(os.path.abspath(__file__))
 lire = lambda f, d: json.load(open(f"{S}/{f}")) if os.path.exists(f"{S}/{f}") else d
 
 horo = lire("horodatage.json", {})
 achats = {}
-for f in ("achats_A.json", "achats_B.json", "achats_C.json"):
+# Les releves d'achats arrivent par lots successifs : on balaie plutot que de les nommer.
+for f in sorted(os.path.basename(x) for x in glob.glob(f"{S}/achats_*.json")):
     for m, v in lire(f, {}).items():
         achats.setdefault(m.lower().strip(), []).extend(v)
 # Un nom qui contient une arobase n'est pas un nom : le publier exposerait l'adresse du client.
 noms = {}
-for f in ("noms.json", "noms_A.json", "noms_B.json", "noms_C.json"):
+for f in sorted(os.path.basename(x) for x in glob.glob(f"{S}/noms*.json")):
     for m, n in lire(f, {}).items():
         if n and "@" not in str(n):
             noms[m.lower().strip()] = str(n).strip()

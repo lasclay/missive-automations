@@ -185,3 +185,36 @@ signal, traités dans les lots 13 et 14, pour 36 avis de plus.
 
 Leçon pour la prochaine fois : l'archive est la voie rapide, elle n'est pas la voie exhaustive.
 Les deux sources se complètent, et `detect.js` lit bien les deux.
+
+## Fichiers livres
+
+`node assemble.js` produit trois TSV, convertis en CSV par `python3 tsv2csv.py` :
+
+| Fichier | Contenu |
+| --- | --- |
+| `import_judgeme.csv` | les avis a verser sur les fiches produits |
+| `import_judgeme_boutique.csv` | les avis sans produit identifiable, pour l'avis de boutique |
+| `import_judgeme_a_relire.csv` | note 3, ou note 4 signalant un bris ou une taille : a trancher a la main |
+
+`python3 tableau.py && python3 tableau_page.py` reconstruisent la page de controle
+qualite (`qc.html`) a partir de ces CSV, avec le statut « acheteur verifie » ligne par ligne.
+
+## Pieges deja payes
+
+- **Les listes de fichiers ecrites a la main.** Les releves d'achats et de noms arrivent par
+  lots successifs (`achats_A`, `achats_B`...). Une liste codee en dur en oublie toujours un,
+  et les avis perdent alors leur badge sans le moindre message d'erreur. On balaie le
+  repertoire au lieu de nommer les fichiers.
+- **Le badge « acheteur verifie ».** Judge.me ne l'accorde que si l'adresse a commande CE
+  produit precis. Un avis rattache au bon client mais au mauvais article s'importe quand
+  meme, sans badge.
+- **Les fiches brouillon.** Un handle peut exister dans Shopify tout en etant a l'etat de
+  brouillon : la page n'est pas publique et l'avis y resterait invisible. Ces lignes partent
+  vers les avis de boutique (`BROUILLONS` dans `assemble.js`).
+- **La carte cadeau.** L'eloge d'un client qui a paye avec un bon porte sur ce qu'il a recu,
+  jamais sur le bon (`giftcard` est dans `MORTS`).
+- **Le meme client, quatre fois.** Un habitue ecrit « je suis satisfaite de mes achats »
+  tous les ans. Une seule ligne par personne et par produit, la plus complete.
+- **La plainte publiee cinq etoiles.** Un client qui ecrit au soutien pour une couture
+  decousue n'ecrit pas un avis. Le tri par note et par lexique de panne le met de cote
+  plutot que de tronquer sa phrase pour n'en garder que l'eloge.

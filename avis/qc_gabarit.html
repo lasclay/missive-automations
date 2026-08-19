@@ -82,6 +82,7 @@
     padding:1px 6px;border:1px solid var(--line-firm);border-radius:2px;color:var(--muted)}
   .marque.cmd{border-color:var(--flag);color:var(--flag)}
   .marque.bout{border-color:var(--accent);color:var(--accent)}
+  .marque.ok{border-color:#2f7d55;color:#2f7d55}
   .vide{padding:40px;text-align:center;color:var(--muted)}
   .note-bas{margin-top:14px;font-size:.82rem;color:var(--muted);max-width:70ch}
 </style>
@@ -102,8 +103,10 @@
       <button class="f" data-f="texte" aria-pressed="false">Produit nommé dans le texte</button>
       <button class="f alerte" data-f="commande" aria-pressed="false">Produit déduit de la commande</button>
       <button class="f" data-f="boutique" aria-pressed="false">Avis de boutique</button>
+      <button class="f alerte" data-f="relire" aria-pressed="false">À relire: bris ou taille</button>
       <button class="f" data-f="n4" aria-pressed="false">Note 4</button>
-      <button class="f alerte" data-f="sanscmd" aria-pressed="false">Aucune commande, pas de badge</button>
+      <button class="f alerte" data-f="autre" aria-pressed="false">Commande sur un autre produit</button>
+      <button class="f alerte" data-f="sanscmd" aria-pressed="false">Aucune commande</button>
       <span class="sep"></span>
       <button class="f" id="colonnes" aria-pressed="false">Colonnes vides du gabarit</button>
     </div>
@@ -118,7 +121,7 @@
 (function(){
   const D = JSON.parse(document.getElementById("donnees").textContent);
   const COL = D.col, R = D.rows;
-  const iSrc = COL.indexOf("_src"), iCmd = COL.indexOf("_cmd");
+  const iSrc = COL.indexOf("_src"), iBadge = COL.indexOf("_badge");
   const VISIBLES = ["title","body","rating","review_date","reviewer_name","reviewer_email","product_handle","product_id"];
   const VIDES = ["source","curated","reply","reply_date","picture_urls","ip_address","location","metaobject_handle"];
   let filtre = "tout", toutesColonnes = false;
@@ -127,13 +130,17 @@
   const g = (r,c) => r[idx[c]] || "";
 
   const nbAvis = new Set(R.map(r=>g(r,"reviewer_email")+"|"+g(r,"body"))).size;
-  const sansCmd = R.filter(r=>r[iCmd]==="non").length;
+  const avecBadge = R.filter(r=>r[iBadge]==="badge").length;
+  const surProduit = R.filter(r=>r[iBadge]!=="boutique" && r[iBadge]!=="relire").length;
   document.getElementById("compte").innerHTML = [
     ["Lignes", R.length, false],
     ["Avis", nbAvis, false],
     ["Personnes", new Set(R.map(r=>g(r,"reviewer_email").toLowerCase())).size, false],
     ["Produit déduit", R.filter(r=>r[iSrc]==="commande").length, true],
+    ["Acheteur vérifié", Math.round(100*avecBadge/surProduit) + "%", false],
+    ["Sans badge", surProduit - avecBadge, true],
     ["Avis de boutique", R.filter(r=>r[iSrc]==="boutique").length, false],
+    ["À relire", R.filter(r=>r[iSrc]==="relire").length, true],
   ].map(([k,v,al])=>`<div class="${al&&v?"alerte":""}"><span class="v">${v}</span><span class="k">${k}</span></div>`).join("");
 
   const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -145,14 +152,16 @@
       if (filtre==="texte" && r[iSrc]!=="texte") return false;
       if (filtre==="commande" && r[iSrc]!=="commande") return false;
       if (filtre==="boutique" && r[iSrc]!=="boutique") return false;
+      if (filtre==="relire" && r[iSrc]!=="relire") return false;
       if (filtre==="n4" && g(r,"rating")!=="4") return false;
-      if (filtre==="sanscmd" && r[iCmd]!=="non") return false;
+      if (filtre==="autre" && r[iBadge]!=="autre") return false;
+      if (filtre==="sanscmd" && r[iBadge]!=="aucune") return false;
       if (!terme) return true;
       return r.join(" ").toLowerCase().includes(terme);
     });
 
     document.querySelector("#t thead").innerHTML =
-      "<tr>" + cols.map(c=>`<th>${c}</th>`).join("") + "<th>attribution</th></tr>";
+      "<tr>" + cols.map(c=>`<th>${c}</th>`).join("") + "<th>attribution</th><th>badge</th></tr>";
 
     if (!vus.length){
       document.querySelector("#t tbody").innerHTML =
@@ -170,14 +179,20 @@
           if (c==="product_handle"||c==="product_id") return `<td class="handle">${esc(v)}</td>`;
           return `<td class="mono">${esc(v)}</td>`;
         }).join("");
-        const m = r[iSrc]==="boutique" ? '<span class="marque bout">boutique</span>'
+        const m = r[iSrc]==="relire" ? '<span class="marque cmd">à relire</span>'
+                : r[iSrc]==="boutique" ? '<span class="marque bout">boutique</span>'
                 : r[iSrc]==="commande" ? '<span class="marque cmd">commande</span>'
                 : '<span class="marque">texte</span>';
-        return `<tr class="${r[iCmd]==="non"?"signale":""}">${tds}<td>${m}</td></tr>`;
+        const B = {badge:["ok","acheteur vérifié"], autre:["cmd","autre produit"],
+                   aucune:["cmd","aucune commande"], boutique:["bout","sans objet"],
+                   relire:["cmd","à trancher"]}[r[iBadge]] || ["","?"];
+        return `<tr class="${r[iBadge]==="badge"||r[iBadge]==="boutique"?"":"signale"}">${tds}<td>${m}</td>`
+             + `<td><span class="marque ${B[0]}">${B[1]}</span></td></tr>`;
       }).join("");
     }
     document.getElementById("pied").textContent =
-      `${vus.length} lignes affichées sur ${R.length}. La bordure orange marque une adresse sans commande retrouvée dans Shopify : ces avis s'importeront sans le badge « acheteur vérifié ».`;
+      `${vus.length} lignes affichées sur ${R.length}. Judge.me n'accorde le badge « acheteur vérifié » que si l'adresse a commandé ce produit précis : `
+      + `${avecBadge} lignes sur ${surProduit} l'obtiennent. La bordure orange marque les autres, qui s'importeront quand même, sans badge.`;
   }
 
   document.getElementById("filtres").addEventListener("click", e=>{

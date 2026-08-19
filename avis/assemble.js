@@ -38,7 +38,7 @@ for (let i = 1; i <= 20; i++) {
 // « from » : la reprendre telle quelle publierait l'adresse du client sur la boutique.
 // Les vrais noms viennent de Shopify.
 const noms = {};
-for (const f of ["noms.json", "noms_A.json", "noms_B.json", "noms_C.json"]) {
+for (const f of fs.readdirSync(DIR).filter((n) => /^noms(_.*)?\.json$/.test(n)).sort()) {
   const o = lire(f, {});
   for (const [m, n] of Object.entries(o)) {
     const cle = m.toLowerCase().trim();
@@ -81,7 +81,9 @@ for (const a of lire("judgeme_avis.json", [])) {
 }
 
 const achats = {};
-for (const f of ["achats_A.json", "achats_B.json", "achats_C.json"]) {
+// Les releves d'achats arrivent par lots successifs (A, B, C...). Une liste ecrite a la
+// main en oublie toujours un et les avis perdent alors leur badge sans bruit : on balaie.
+for (const f of fs.readdirSync(DIR).filter((n) => /^achats_.*\.json$/.test(n)).sort()) {
   const p = `${DIR}/${f}`;
   if (!fs.existsSync(p)) continue;
   try {
@@ -151,8 +153,16 @@ function ajuste(h, courriel) {
   return owned.length === 1 ? owned[0] : h;
 }
 // Fiche archivée sans équivalent courant : un avis déposé là n'apparaîtrait nulle part.
-const MORTS = new Set(["glaciere-boissons-beer-cooler", "carte-cadeau", "crochet-a-mitaines",
+// « giftcard » est la carte cadeau virtuelle : l'éloge du client porte sur ce qu'il a reçu
+// avec, jamais sur le bon lui-même.
+const MORTS = new Set(["glaciere-boissons-beer-cooler", "carte-cadeau", "giftcard", "crochet-a-mitaines",
   "illustrations-asclepiade-monarque", "mitaines-vente-fin-de-saison-2021"]);
+
+// Fiches à l'état de brouillon dans Shopify : la page n'est pas publique, un avis déposé là
+// resterait invisible. Aucune n'a d'équivalent vivant (l'étui pour tablette est discontinué,
+// le sous-plat aussi), donc l'avis part vers les avis de boutique plutôt que d'être jeté.
+const BROUILLONS = new Set(["etui-appareils-electroniques-asclepiade-2", "milkweed-large-trivet",
+  "etui-pour-tablette-isole-a-lasclepiade-imparfait", "foulard-imparfait"]);
 
 // Les fils Messenger et Instagram n'ont pas d'adresse : l'archive n'y garde qu'un nom
 // d'affichage, qui atterrissait dans la colonne courriel. Judge.me identifie l'auteur par son
@@ -160,6 +170,14 @@ const MORTS = new Set(["glaciere-boissons-beer-cooler", "carte-cadeau", "crochet
 // Un avis ne peut jamais être signé par quelqu'un de la maison. Ces noms apparaissent dans
 // l'archive parce que Missive stocke le nom d'affichage de l'expéditeur, y compris le nôtre
 // sur les fils Messenger et Instagram.
+// Avis écartés un par un, motif à l'appui. Le client a bien écrit ces mots, mais les publier
+// tels quels le trahirait : le premier signale un défaut de couture, le second a retourné son
+// cadeau. Les tronquer pour ne garder que l'éloge serait pire encore.
+const REJETS = new Map([
+  ["3d91b26e-009d-4bf3-95b1-00fb5292a9c5", "signale une couture décousue dans la même phrase"],
+  ["431ba9ad-a3cc-4d3d-846e-a59f0040a035", "a demandé une étiquette de retour pour ces mitaines"],
+]);
+
 // Écartés nommément, preuve à l'appui dans le fil.
 const ECARTES = new Set([
   "dominique.berthiaume@hotmail.com", // se présente comme représentant des ventes chez Red Bull
@@ -168,6 +186,8 @@ const INTERNE = /@lasclay\.com|\blasclay\b|milkweed company|bedard[- ]?mercier|\
 const ADRESSE = /^[^@\s,;]+@[^@\s,;]+\.[A-Za-z]{2,}$/;
 const net = (s) => (s || "").replace(/[\t\r\n]+/g, " ").replace(/\s{2,}/g, " ").trim();
 const lignes = [COL.join("\t")], doublons = [COL.join("\t")], sansCourriel = [COL.join("\t")], sansNom = [COL.join("\t")], interne = [COL.join("\t")], aVerifier = [COL.join("\t")], sansProduit = [];
+const provenance = {};
+const rejetes = [];
 const vus = new Set();
 let nbAvis = 0, nbLignes = 0, nbViaCommande = 0;
 
@@ -198,6 +218,10 @@ for (const a of avis) {
     prods = (croises.length ? croises : (cites.size ? [...cites] : achetes)).filter((h) => !MORTS.has(h));
     viaCommande = true;
   }
+  if (REJETS.has(a.id)) { rejetes.push([a.id, REJETS.get(a.id)]); continue; }
+  // Le rabattement (vivant, ajuste) peut ramener vers une fiche brouillon : on filtre donc
+  // sur le handle final, pas sur celui de départ.
+  prods = [...new Set(prods.map((h) => ajuste(vivant(h), courriel)))].filter((h) => !BROUILLONS.has(h));
   if (!prods.length) { sansProduit.push(a); continue; }
   nbAvis++;
   if (viaCommande) nbViaCommande++;
@@ -221,15 +245,57 @@ for (const a of avis) {
     // Publier une adresse courriel comme nom d'auteur exposerait le client. Jamais.
     if (!l.reviewer_name) { sansNom.push(ligne); continue; }
     if (dejaVerse.has(`${courriel}|${h}`) || dejaPublie.has(empreinte(l.body))) doublons.push(ligne);
-    else { lignes.push(ligne); nbLignes++; }
+    else {
+      lignes.push(ligne); nbLignes++;
+      // La page de controle qualite distingue le produit nomme par le client de celui
+      // deduit de sa commande : le second merite un oeil, le premier non.
+      provenance[`${courriel}|${h}|${date}`] = viaCommande ? "commande" : "texte";
+    }
   }
 }
 
-fs.writeFileSync(`${DIR}/import_judgeme.tsv`, lignes.join("\n") + "\n");
+// Un client fidèle écrit plusieurs fois « je suis satisfaite de mes achats » au fil des ans.
+// Quatre fois le même éloge sur la même fiche produit se lit comme du remplissage : on garde
+// le passage le plus complet, celui qui porte un titre et le texte le plus long.
+const meilleur = new Map();
+for (const ligne of lignes.slice(1)) {
+  const c = ligne.split("\t");
+  const cle = `${(c[7] || "").toLowerCase()}|${c[9]}`;
+  const rang = (c[0] ? 1e6 : 0) + c[1].length;
+  const vu = meilleur.get(cle);
+  if (!vu || rang > vu.rang) meilleur.set(cle, { ligne, rang });
+}
+const retenues = [lignes[0], ...[...meilleur.values()].map((x) => x.ligne)];
+const nbCondenses = lignes.length - retenues.length;
+nbLignes = retenues.length - 1;
+
+// Ces clients ont écrit au soutien pour un bris, une couture qui lâche ou une taille qui ne
+// va pas, pas pour laisser un avis public. Publier leur message tel quel serait honnête sur
+// la note et injuste envers eux : la maison a réglé le cas, l'avis, lui, resterait en ligne.
+// Ils partent dans un fichier à part, que la personne qui importe tranche à la main.
+const PANNE = new RegExp([
+  "d(e|é)cous", "d(e|é)coll", "bris(e|é|er|ée)", "cass(e|é|ée|ées)", "d(e|é)chir", "effiloch",
+  "trop (petit|petite|grand|grande|serr|court|large|juste)", "ne me fait pas", "ne lui fait pas",
+  "insatisfait", "d(e|é)çue?", "ne (l'|les )?utiliser?a( pas|it pas)", "manque la bourrure",
+  "ne tient pas", "a c(e|é)d(e|é)", "fermeture (e|é)clair n'est pas assez solide", "d(e|é)faut",
+].join("|"), "i");
+
+const publiables = [retenues[0]], aRelire = [retenues[0]];
+for (const ligne of retenues.slice(1)) {
+  const c = ligne.split("\t");
+  // Une note de 5 signifie que le client n'a rien à redire : « sans avoir peur que ça se
+  // découse » est un compliment, pas un bris. Le tri ne s'applique donc qu'en dessous.
+  (c[2] === "3" || (c[2] === "4" && PANNE.test(c[1])) ? aRelire : publiables).push(ligne);
+}
+nbLignes = publiables.length - 1;
+
+fs.writeFileSync(`${DIR}/import_judgeme.tsv`, publiables.join("\n") + "\n");
+fs.writeFileSync(`${DIR}/import_judgeme_a_relire.tsv`, aRelire.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_doublons.tsv`, doublons.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_sans_nom.tsv`, sansNom.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_a_verifier.tsv`, aVerifier.join("\n") + "\n");
 fs.writeFileSync(`${DIR}/import_judgeme_sans_courriel.tsv`, sansCourriel.join("\n") + "\n");
+fs.writeFileSync(`${DIR}/provenance.json`, JSON.stringify(provenance));
 fs.writeFileSync(`${DIR}/sans_produit.json`, JSON.stringify(sansProduit, null, 2));
 const manquants = [...new Set([...vus].map((k) => k.split("|")[1]))].filter((h) => !cat.has(h));
 const boutique = [COL.join("\t")];
@@ -256,6 +322,8 @@ fs.writeFileSync(`${DIR}/import_judgeme_boutique.tsv`, boutique.join("\n") + "\n
 console.log(JSON.stringify({
   avis_boutique: nbBoutique, boutique_ecartes_sans_nom: boutiqueSansNom, boutique_doublons: boutiqueDoublons, boutique_sans_adresse: boutiqueSansAdresse,
   avis_rediges: avis.length, avis_avec_produit: nbAvis, produit_via_commande_shopify: nbViaCommande, lignes_a_importer: nbLignes,
-  lignes_a_verifier: aVerifier.length - 1, lignes_doublons_jetees: doublons.length - 1, lignes_sans_courriel: sansCourriel.length - 1, avis_sans_produit: sansProduit.length,
+  lignes_condensees_meme_personne_meme_produit: nbCondenses, avis_rejetes_nommement: rejetes,
+ lignes_a_relire_bris_ou_taille: aRelire.length - 1,
+ lignes_a_verifier: aVerifier.length - 1, lignes_doublons_jetees: doublons.length - 1, lignes_sans_courriel: sansCourriel.length - 1, avis_sans_produit: sansProduit.length,
   handles_hors_catalogue: manquants,
 }, null, 1));
