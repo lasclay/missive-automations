@@ -14,6 +14,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `missive` | boîte support Missive, fils et brouillons, connaissances de service client et de marque, scripts de la boîte |
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
+| `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
@@ -26,6 +27,10 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 - **Omnisend** (`OMNISEND_API_KEY` côté Render) : contacts, campagnes, commandes, produits,
   paniers + createcontact / updatecontact / triggerevent. Quand on te demande « accéder à
   Omnisend », c'est CE chemin : `node connectors_client.js omnisend <action> ...`.
+- **Facebook Pages** (`FB_USER_TOKEN` côté Render) : publications, commentaires, réponses,
+  masquage, correction. Le proxy dérive lui-même les jetons de Page ; `page_id` est requis à
+  chaque appel, sans quoi Meta refuse avec `(#10)`. Sert au traitement du backlog de
+  commentaires (`fb-backlog/`).
 - **Klaviyo** (`KLAVIYO_API_KEY` côté Render, lecture seule) : profils, listes, segments,
   flows, campagnes, templates, événements — pour l'export exhaustif/migration.
   Export en masse : `node klaviyo_export.js profiles <dossier>` (CSV avec consentements).

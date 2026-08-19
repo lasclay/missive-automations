@@ -43,6 +43,22 @@
  *                           lecture seule suffit (scopes read). Sert à
  *                           l'export exhaustif/migration.
  *   KLAVIYO_REVISION        révision d'API Klaviyo (défaut 2025-04-15).       [optionnel]
+ *   COMPOSIO_API_KEY        clé de PROJET Composio (Developer Platform →      [connecteur Facebook]
+ *                           Project Settings → API Keys ; en-tête x-api-key).
+ *                           Voie par défaut : Composio détient la connexion
+ *                           Facebook, le proxy lui demande les jetons de Page.
+ *                           ATTENTION : la clé « ck_… » de Connect → Sessions &
+ *                           API Key est une clé CLIENT MCP et ne fonctionne PAS ici.
+ *   COMPOSIO_FB_ACCOUNT     identifiant du compte Facebook connecté chez        [optionnel]
+ *                           Composio (défaut facebook_grice-absume).
+ *   FB_USER_TOKEN           voie alternative, prioritaire si présente :         [optionnel]
+ *                           jeton Meta longue durée (utilisateur ou
+ *                           utilisateur système) avec pages_show_list,
+ *                           pages_read_engagement, pages_read_user_content
+ *                           et pages_manage_engagement. Le proxy en dérive
+ *                           lui-même les jetons de Page ; ceux-ci ne sortent
+ *                           jamais du serveur.
+ *   FB_GRAPH_VERSION        version de l'API Graph (défaut v23.0).            [optionnel]
  *   (QuickBooks : service dédié finance-proxy/ — voir finance-proxy/FINANCE_PROXY.md)
  *   PORT                    port d'écoute (fourni par Render)               [auto]
  *
@@ -188,6 +204,11 @@ const shipstation = (() => {
       // Une boutique précise + état de rafraîchissement. Params: storeId.
       store: (p) => { requis(p, "storeId"); return get(`/stores/${encodeURIComponent(p.storeId)}`); },
       storerefreshstatus: (p) => get("/stores/getrefreshstatus", requis(p, "storeId")),
+      // Force la synchronisation d'une boutique. Écrit après avoir vu quatre commandes
+      // créées dans Shopify rester invisibles dans ShipStation : sans ce déclencheur, on
+      // attend le prochain cycle automatique sans pouvoir rien faire. Params : storeId
+      // (facultatif — sans lui, ShipStation rafraîchit toutes les boutiques).
+      refreshstore: (p) => post("/stores/refreshstore" + qs(p && p.storeId ? { storeId: p.storeId } : null), {}),
       // Marketplaces intégrables (catalogue des canaux de vente supportés).
       marketplaces: () => get("/stores/marketplaces"),
       // Commandes portant un tag donné. Params: orderStatus, tagId (+ page, pageSize).
@@ -202,6 +223,12 @@ const shipstation = (() => {
       getrates: (p) => post("/shipments/getrates", requis(p, "carrierCode", "fromPostalCode", "toPostalCode", "toCountry", "weight")),
       // Tag sur une commande (réversible, aucun coût). Params: orderId, tagId (voir listtags).
       addtag: (p) => post("/orders/addtag", requis(p, "orderId", "tagId")),
+      // Assigne un utilisateur a des commandes. Params : orderIds[], userId (voir `users`,
+      // avec showInactive:true pour comprendre qui est encore actif).
+      assignuser: (p) => post("/orders/assignuser", {
+        orderIds: requis(p, "orderIds", "userId").orderIds,
+        userId: p.userId,
+      }),
       removetag: (p) => post("/orders/removetag", requis(p, "orderId", "tagId")),
       // Mise en attente / retour en file. Params: orderId (+ holdUntilDate AAAA-MM-JJ).
       holduntil: (p) => post("/orders/holduntil", requis(p, "orderId", "holdUntilDate")),
@@ -239,6 +266,72 @@ const shipstation = (() => {
 // créer/mettre à jour un contact (abonnements) et déclencher un événement custom
 // (point d'entrée des automations Omnisend).
 // ==========================================================================
+// ==========================================================================
+// CONNECTEUR : ShipStation API v2 (api.shipstation.com/v2)
+// Auth : en-tête `API-Key`, PAS le Basic de la v1 — ce sont deux API distinctes
+// avec deux jeux d'identifiants. Ajouté quand une clé v2 de production a été mise
+// en place côté Render, parce que la v1 n'a AUCUNE ressource « batches » : les lots
+// d'expédition n'existent que dans la v2.
+//
+// ⚠️ Piège à connaître avant de s'en servir : un lot v2 se construit à partir de
+// `shipment_ids` ou de `rate_ids` de la v2 (format `se-…`), jamais à partir des
+// `orderId` numériques de la v1. Les deux API ne désignent pas les mêmes objets.
+// Il faut donc VÉRIFIER que la v2 voit bien les envois avant de promettre un lot.
+//
+// L'achat d'étiquettes en lot (`/batches/{id}/process/labels`) n'est PAS exposé :
+// il débite le wallet. Il faudra une décision explicite pour l'ajouter.
+// ==========================================================================
+const shipstation2 = (() => {
+  const KEY = process.env.SHIPSTATION_APIV2_KEY || "";
+  const BASE = process.env.SHIPSTATION_V2_BASE || "https://api.shipstation.com/v2";
+  const hdr = () => ({ "API-Key": KEY });
+  const get = (path, params) =>
+    httpJson({ method: "GET", url: `${BASE}${path}${qs(params)}`, headers: hdr() });
+  const post = (path, body) =>
+    httpJson({ method: "POST", url: `${BASE}${path}`, headers: hdr(), body: body || {} });
+  const requis = (p, ...champs) => {
+    for (const c of champs) if (!p || p[c] === undefined || p[c] === null || p[c] === "") throw new Error(`${c} requis`);
+    return p;
+  };
+  return {
+    name: "shipstation2",
+    description: "ShipStation API v2 — envois et LOTS (batches), inexistants en v1. Lecture + création de lot; l'achat d'étiquettes en lot n'est pas exposé.",
+    enabled: () => !!KEY,
+    actions: {
+      // Sonde : confirme que la clé v2 répond et que le compte y est visible.
+      carriers: () => get("/carriers"),
+      // Envois vus par la v2. C'est ICI qu'on vérifie si les commandes de la v1
+      // existent aussi côté v2, avant d'espérer les regrouper en lot.
+      shipments: (p) => get("/shipments", p),
+      shipment: (p) => get(`/shipments/${encodeURIComponent(requis(p, "shipmentId").shipmentId)}`),
+      // Lots
+      batches: (p) => get("/batches", p),
+      batch: (p) => get(`/batches/${encodeURIComponent(requis(p, "batchId").batchId)}`),
+      // Crée un lot. Params : shipment_ids[] et/ou rate_ids[], external_batch_id,
+      // batch_notes. Aucune étiquette n'est achetée à cette étape.
+      createbatch: (p) => post("/batches", {
+        ...(p && p.external_batch_id ? { external_batch_id: p.external_batch_id } : {}),
+        ...(p && p.batch_notes ? { batch_notes: p.batch_notes } : {}),
+        ...(p && p.shipment_ids ? { shipment_ids: p.shipment_ids } : {}),
+        ...(p && p.rate_ids ? { rate_ids: p.rate_ids } : {}),
+      }),
+      // Assigne un membre de l'equipe a des envois. Le lot affiche « Assigned To » dans
+      // l'interface, mais l'objet lot de l'API ne porte AUCUN champ d'assignation : c'est
+      // ici que ca se joue, sur les envois. Un lot cree par une cle appartenant a un
+      // utilisateur desactive s'affiche a son nom — d'ou cette route.
+      // Params : shipment_ids[] (max 500), user_id (UUID d'un utilisateur ACTIF).
+      assignuser: (p) => post("/shipments/user", {
+        shipment_ids: requis(p, "shipment_ids", "user_id").shipment_ids,
+        user_id: p.user_id,
+      }),
+      addtobatch: (p) => post(`/batches/${encodeURIComponent(requis(p, "batchId").batchId)}/add`, {
+        ...(p.shipment_ids ? { shipment_ids: p.shipment_ids } : {}),
+        ...(p.rate_ids ? { rate_ids: p.rate_ids } : {}),
+      }),
+    },
+  };
+})();
+
 const omnisend = (() => {
   const KEY = process.env.OMNISEND_API_KEY || "";
   const BASE = process.env.OMNISEND_BASE || "https://api.omnisend.com/v3";
@@ -291,6 +384,308 @@ const omnisend = (() => {
       triggerevent: (p) => {
         if (!p || !p.body) throw new Error("body requis (événement Omnisend v3)");
         return call("POST", "/events", { body: p.body });
+      },
+    },
+  };
+})();
+
+// ==========================================================================
+// CONNECTEUR : Facebook Pages (Graph API v23.0 — graph.facebook.com)
+// Auth : un SEUL secret côté Render, FB_USER_TOKEN — jeton utilisateur longue
+// durée ou jeton d'utilisateur système, avec les permissions pages_show_list,
+// pages_read_engagement, pages_read_user_content et pages_manage_engagement.
+// Le proxy en dérive lui-même les jetons de PAGE via /me/accounts et les garde
+// EN MÉMOIRE seulement (cache de 30 min). Aucun jeton de Page n'est jamais
+// renvoyé à l'appelant ni écrit sur disque.
+//
+// C'est le point important : Meta exige que chaque appel visant une Page porte
+// le jeton DE CETTE Page. Utiliser le jeton d'une autre Page produit une erreur
+// « (#10) pages_read_user_content ». Le connecteur choisit donc toujours le bon
+// jeton à partir du page_id demandé, et refuse un page_id inconnu.
+// ==========================================================================
+const facebook = (() => {
+  const FB_TOKEN = process.env.FB_USER_TOKEN || "";
+  const CKEY = process.env.COMPOSIO_API_KEY || "";
+  const CBASE = process.env.COMPOSIO_BASE || "https://backend.composio.dev/api/v3";
+  // L'exécution d'outil vit sur v3.1 ; les lectures (comptes, outils) restent sur v3.
+  const CEXEC = process.env.COMPOSIO_EXEC_BASE || "https://backend.composio.dev/api/v3.1";
+  const CACCT = process.env.COMPOSIO_FB_ACCOUNT || "facebook_grice-absume";
+  const V = process.env.FB_GRAPH_VERSION || "v23.0";
+  const BASE = `https://graph.facebook.com/${V}`;
+  const TTL = 30 * 60 * 1000;
+
+  let cache = { at: 0, pages: null, via: null, forme: null };
+
+  // --- Voie 1 : jeton Meta détenu ici. /me/accounts rend les jetons de Page. ---
+  async function viaMeta() {
+    const out = {};
+    let url = `${BASE}/me/accounts${qs({ fields: "id,name,access_token", limit: 100, access_token: FB_TOKEN })}`;
+    while (url) {
+      const r = await httpJson({ method: "GET", url });
+      for (const p of r.data || []) out[p.id] = { id: p.id, name: p.name, token: p.access_token };
+      url = (r.paging && r.paging.next) || null;
+    }
+    return out;
+  }
+
+  // --- Voie 2 : Composio détient la connexion Facebook et exécute l'outil pour nous. ---
+  // Le nom des champs du corps a changé entre versions de l'API Composio et n'est pas
+  // documenté de façon stable. Plutôt que de parier, on essaie les formes connues dans
+  // l'ordre et on retient celle qui passe : `forme` est ensuite exposée par l'action diag.
+  // Le slug diffère entre surfaces : la plateforme v3 expose FACEBOOK_GET_USER_PAGES,
+  // le serveur MCP expose FACEBOOK_LIST_MANAGED_PAGES. On essaie les deux.
+  const SLUGS = ["FACEBOOK_GET_USER_PAGES", "FACEBOOK_LIST_MANAGED_PAGES"];
+  // Le nom des champs du corps a changé entre versions de l'API Composio et n'est pas
+  // documenté de façon stable. Plutôt que de parier, on essaie les formes connues dans
+  // l'ordre et on retient celle qui passe : `forme` est ensuite exposée par diag.
+  // Forme canonique documentée par Composio (référence API v3.1) :
+  //   POST /api/v3.1/tools/execute/{slug}
+  //   { "connectedAccountId": "...", "input": {...}, "version": "latest" }
+  // Le champ est en camelCase et s'appelle `input`, pas `arguments` — l'erreur
+  // « Validation error » 10400 vient de là. Les formes suivantes sont d'anciennes
+  // variantes, gardées en repli au cas où le projet serait servi par une version
+  // antérieure de l'API.
+  const UID = process.env.COMPOSIO_USER_ID || "lasclay";
+  // Forme retenue après lecture des erreurs réelles de l'API (et non de la doc, qui
+  // décrit une autre version) : l'endpoint v3.1 attend `arguments`, pas `input`, et
+  // réclame le user_id EN PLUS du compte connecté. Ses deux messages, mot pour mot :
+  //   « User ID is required with connected account »
+  //   « Error in payload.text.arguments: Only one of 'text' or 'arguments' »
+  // `text` est l'alternative en langage naturel : ne jamais envoyer les deux.
+  const FORMES = [
+    ["connectedAccountId + userId + arguments", (a, id) => ({ connectedAccountId: id, userId: UID, arguments: a })],
+    ["connected_account_id + user_id + arguments", (a, id) => ({ connected_account_id: id, user_id: UID, arguments: a })],
+    ["userId + arguments (sans compte)", (a) => ({ userId: UID, arguments: a })],
+    ["connectedAccountId + arguments", (a, id) => ({ connectedAccountId: id, arguments: a })],
+  ];
+
+  // Le compte connecté est DÉCOUVERT, jamais supposé : la clé de projet ne voit que les
+  // comptes de SON projet, et un identifiant venu d'un autre projet donnerait une erreur
+  // trompeuse. COMPOSIO_FB_ACCOUNT ne sert que de préférence si plusieurs comptes existent.
+  async function compteFb() {
+    const r = await httpJson({
+      method: "GET",
+      url: `${CBASE}/connected_accounts${qs({ toolkit_slugs: "facebook", limit: 20 })}`,
+      headers: { "x-api-key": CKEY },
+    });
+    const items = r.items || r.data || [];
+    if (!items.length) {
+      throw new Error(
+        "aucun compte Facebook connecté dans le projet de COMPOSIO_API_KEY. " +
+          "La connexion Facebook existante appartient à un AUTRE projet Composio (celui du " +
+          "connecteur MCP). Corriger chez Composio : connecter Facebook dans ce projet-ci, " +
+          "ou utiliser la clé du projet qui détient déjà la connexion."
+      );
+    }
+    const voulu = items.find((a) => a.id === CACCT);
+    return (voulu || items.find((a) => (a.status || "").toUpperCase() === "ACTIVE") || items[0]).id;
+  }
+
+  async function viaComposio() {
+    // FACEBOOK_GET_USER_PAGES n'accepte QUE `fields` et `user_id` (défaut « me »).
+    // Passer `limit` produit un « Validation error » 400 sans indiquer le champ fautif :
+    // lire le schéma via GET /tools/{slug} plutôt que de deviner.
+    const args = { fields: "id,name,access_token" };
+    const id = await compteFb();
+    const echecs = [];
+    for (const slug of SLUGS) {
+      for (const [nom, faire] of FORMES) {
+        try {
+          const r = await httpJson({
+            method: "POST",
+            url: `${CEXEC}/tools/execute/${slug}`,
+            headers: { "x-api-key": CKEY },
+            body: faire(args, id),
+          });
+          const d = r && (r.data || r.response || r);
+          let liste = (d && (d.data || d.pages)) || [];
+          if (!Array.isArray(liste)) liste = liste.data || [];
+          const out = {};
+          for (const p of liste) if (p && p.access_token) out[p.id] = { id: p.id, name: p.name, token: p.access_token };
+          if (Object.keys(out).length) { cache.forme = `${slug} / ${nom}`; return out; }
+          echecs.push(`${slug} / ${nom} → réponse sans jetons`);
+        } catch (e) {
+          const m = String(e.message);
+          echecs.push(`${slug} / ${nom} → ${m.slice(0, 700)}`);
+          if (m.includes("Tool_ToolNotFound") || m.includes("not found")) break; // slug absent : inutile d'essayer ses autres formes
+        }
+      }
+    }
+    throw new Error(`compte ${id} : aucun jeton rendu. Essais : ${echecs.join(" | ")}`);
+  }
+
+  async function pages() {
+    if (cache.pages && Date.now() - cache.at < TTL) return cache.pages;
+    let out = null, via = null;
+    if (FB_TOKEN) { out = await viaMeta(); via = "meta"; }
+    else if (CKEY) { out = await viaComposio(); via = "composio"; }
+    else throw new Error("ni FB_USER_TOKEN ni COMPOSIO_API_KEY ne sont configurés");
+    if (!out || !Object.keys(out).length) throw new Error(`aucune Page rendue par la voie « ${via} »`);
+    cache = { ...cache, at: Date.now(), pages: out, via };
+    return out;
+  }
+
+  // Jeton de la Page demandée. Erreur explicite si le page_id est inconnu, plutôt que
+  // de retomber silencieusement sur une autre Page — c'est ce silence qui avait fait
+  // échouer trois Pages sur quatre au premier passage, avec une erreur (#10) opaque.
+  async function tok(pageId) {
+    if (!pageId) throw new Error("page_id requis");
+    const all = await pages();
+    const p = all[String(pageId)];
+    if (!p) throw new Error(`page_id inconnu : ${pageId} — Pages accessibles : ${Object.keys(all).join(", ")}`);
+    return p.token;
+  }
+
+  const get = async (path, p = {}) => {
+    const { page_id, ...params } = p;
+    return httpJson({ method: "GET", url: `${BASE}${path}${qs({ ...params, access_token: await tok(page_id) })}` });
+  };
+  // Graph accepte les paramètres d'écriture en query string : pas de corps JSON.
+  const post = async (path, p = {}) => {
+    const { page_id, ...params } = p;
+    return httpJson({ method: "POST", url: `${BASE}${path}${qs({ ...params, access_token: await tok(page_id) })}` });
+  };
+  const need = (p, ...champs) => {
+    for (const c of champs) if (!p || !p[c]) throw new Error(`${c} requis`);
+  };
+
+  return {
+    name: "facebook",
+    description:
+      "Facebook Pages (Graph v23.0) — publications, commentaires, réponses, masquage. Jetons de Page dérivés côté serveur (FB_USER_TOKEN, sinon Composio) ; page_id requis partout.",
+    enabled: () => !!(FB_TOKEN || CKEY),
+    actions: {
+      // Sonde : quelle voie d'authentification est vivante, sans rien exposer.
+      // À appeler en premier quand quelque chose ne marche pas.
+      diag: async () => {
+        const r = { fb_user_token: !!FB_TOKEN, composio_api_key: !!CKEY, compte_composio: CACCT };
+        try {
+          const all = await pages();
+          return { ...r, ok: true, via: cache.via, forme_corps: cache.forme, pages: Object.values(all).map(({ id, name }) => ({ id, name })) };
+        } catch (e) {
+          return { ...r, ok: false, erreur: String(e.message).slice(0, 4000) };
+        }
+      },
+      // Les Pages accessibles (id + nom seulement — jamais les jetons).
+      pages: async () => ({ data: Object.values(await pages()).map(({ id, name }) => ({ id, name })) }),
+      // Publications d'une Page. Params : page_id, limit, after, fields.
+      posts: (p) => {
+        need(p, "page_id");
+        return get(`/${encodeURIComponent(p.page_id)}/posts`, {
+          fields: "id,created_time,message,permalink_url",
+          limit: 25,
+          ...p,
+        });
+      },
+      // Commentaires d'une publication OU d'un commentaire. Params : page_id,
+      // object_id, limit, after, filter (stream|toplevel), order.
+      comments: (p) => {
+        need(p, "page_id", "object_id");
+        const { object_id, ...q } = p;
+        return get(`/${encodeURIComponent(object_id)}/comments`, {
+          fields: "id,created_time,message,from,is_hidden,comment_count,permalink_url",
+          filter: "stream",
+          limit: 100,
+          ...q,
+        });
+      },
+      // Un commentaire précis.
+      comment: (p) => {
+        need(p, "page_id", "comment_id");
+        const { comment_id, ...q } = p;
+        return get(`/${encodeURIComponent(comment_id)}`, {
+          fields: "id,created_time,message,from,is_hidden,comment_count,permalink_url",
+          ...q,
+        });
+      },
+
+      // ---- ÉCRITURE ----
+      // Répond publiquement à un commentaire. Params : page_id, comment_id, message.
+      reply: (p) => {
+        need(p, "page_id", "comment_id", "message");
+        return post(`/${encodeURIComponent(p.comment_id)}/comments`, { page_id: p.page_id, message: p.message });
+      },
+      // Masque / démasque un commentaire (réversible, sans notification).
+      hide: (p) => {
+        need(p, "page_id", "comment_id");
+        return post(`/${encodeURIComponent(p.comment_id)}`, { page_id: p.page_id, is_hidden: "true" });
+      },
+      unhide: (p) => {
+        need(p, "page_id", "comment_id");
+        return post(`/${encodeURIComponent(p.comment_id)}`, { page_id: p.page_id, is_hidden: "false" });
+      },
+      // Corrige le texte d'un commentaire DE LA PAGE : garde sa place dans le fil et
+      // ne renotifie personne, contrairement à supprimer puis republier.
+      edit: (p) => {
+        need(p, "page_id", "comment_id", "message");
+        return post(`/${encodeURIComponent(p.comment_id)}`, { page_id: p.page_id, message: p.message });
+      },
+    },
+  };
+})();
+
+// ==========================================================================
+// CONNECTEUR : Composio (API de plateforme v3 — backend.composio.dev, en-tête
+// x-api-key). LECTURE SEULE, à visée de DIAGNOSTIC : sert à voir ce que le
+// projet auquel appartient COMPOSIO_API_KEY contient réellement — quels
+// toolkits, quels outils, quels comptes connectés. Existe parce qu'un
+// « Tool not found » ne dit pas si l'outil n'existe pas, si le toolkit n'est
+// pas activé, ou si la clé appartient à un autre projet que le compte connecté.
+// N'expose aucune clé et n'exécute aucun outil.
+// ==========================================================================
+const composio = (() => {
+  const KEY = process.env.COMPOSIO_API_KEY || "";
+  const BASE = process.env.COMPOSIO_BASE || "https://backend.composio.dev/api/v3";
+  const get = (path, params) =>
+    httpJson({ method: "GET", url: `${BASE}${path}${qs(params)}`, headers: { "x-api-key": KEY } });
+  const post = (path, body) =>
+    httpJson({ method: "POST", url: `${BASE}${path}`, headers: { "x-api-key": KEY }, body });
+  return {
+    name: "composio",
+    description:
+      "Composio (plateforme v3) — diagnostic : toolkits, outils, comptes connectés, configurations d'auth ; plus l'amorçage d'une connexion OAuth, qui rend une URL à approuver à la main.",
+    enabled: () => !!KEY,
+    actions: {
+      // Comptes connectés du projet. Params : toolkit_slugs, limit.
+      accounts: (p) => get("/connected_accounts", p),
+      // Toolkits disponibles/activés. Params : limit, search.
+      toolkits: (p) => get("/toolkits", { limit: 50, ...p }),
+      // Outils. Params : toolkit_slugs (ex. "facebook"), search, limit.
+      tools: (p) => get("/tools", { limit: 100, ...p }),
+      // Un outil précis, pour vérifier son slug exact et son schéma.
+      tool: (p) => {
+        if (!p || !p.slug) throw new Error("slug requis");
+        return get(`/tools/${encodeURIComponent(p.slug)}`);
+      },
+      // Configurations d'authentification du projet (une par service connecté).
+      authconfigs: (p) => get("/auth_configs", { limit: 50, ...p }),
+
+      // ---- AMORÇAGE D'UNE CONNEXION ----
+      // Ces deux actions n'accèdent à aucune donnée : elles préparent l'autorisation
+      // OAuth et rendent une URL que l'humain doit ouvrir et approuver. Rien n'est
+      // connecté sans ce clic, et aucun jeton ne transite par ici.
+      //
+      // Crée la configuration d'auth d'un service, en auth gérée par Composio.
+      // Params : toolkit (ex. "facebook").
+      createauthconfig: (p) => {
+        if (!p || !p.toolkit) throw new Error('toolkit requis (ex. "facebook")');
+        return post("/auth_configs", {
+          toolkit: { slug: String(p.toolkit).toLowerCase() },
+          auth_config: { type: "use_composio_managed_auth" },
+        });
+      },
+      // Amorce la connexion et rend l'URL d'autorisation à ouvrir dans un navigateur.
+      // Params : auth_config_id, user_id (identifiant libre, ex. "lasclay").
+      initiate: (p) => {
+        if (!p || !p.auth_config_id) throw new Error("auth_config_id requis");
+        // Pour une auth OAuth gérée par Composio, l'endpoint est /link : il rend un
+        // « Connect Link » que l'humain ouvre et approuve. POST /connected_accounts
+        // direct n'est plus supporté pour ce cas et répond 400 en le disant.
+        return post("/connected_accounts/link", {
+          auth_config_id: p.auth_config_id,
+          user_id: p.user_id || "lasclay",
+          ...(p.callback_url ? { callback_url: p.callback_url } : {}),
+        });
       },
     },
   };
@@ -367,8 +762,11 @@ const klaviyo = (() => {
 // ==========================================================================
 const CONNECTEURS = {
   [shipstation.name]: shipstation,
+  [shipstation2.name]: shipstation2,
   [omnisend.name]: omnisend,
   [klaviyo.name]: klaviyo,
+  [facebook.name]: facebook,
+  [composio.name]: composio,
 };
 
 // ---- Serveur HTTP ----

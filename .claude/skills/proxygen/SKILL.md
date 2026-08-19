@@ -148,6 +148,40 @@ consentements. Les données personnelles peuvent circuler entre ces systèmes et
 le travail de migration — **jamais vers une destination publique**, ni paste, ni gist, ni dépôt
 public.
 
+### Écrire dans Klaviyo — le connecteur, pas le proxy
+
+Le General Proxy est en **lecture seule** sur Klaviyo. Pour modifier un profil il existe un autre
+chemin, le **connecteur Klaviyo MCP**, qui expose `update_profile`,
+`subscribe_profile_to_marketing` et le reste. Ne conclus donc pas qu'une écriture est impossible
+parce que le proxy ne la fait pas : ce sont deux accès distincts au même compte.
+
+**Changer l'adresse courriel d'un contact efface son consentement.** Klaviyo rattache le
+consentement à l'adresse, pas à la personne. Un `update_profile` qui change le champ `email` fait
+retomber le profil de `SUBSCRIBED` à `NEVER_SUBSCRIBED` et **efface la date d'opt-in**, sans
+prévenir. Le champ `can_receive_email_marketing` reste `true`, ce qui masque le problème : le
+contact n'est pas bloqué, mais il n'a plus de preuve de consentement et sort des segments et flux
+qui filtrent là-dessus. Constaté sur un abonné de 2021, à qui ça a coûté cinq ans d'ancienneté le
+temps qu'on s'en aperçoive.
+
+La manœuvre se fait donc **en deux temps**, jamais un seul :
+
+1. `update_profile` — changer `email` vers la nouvelle adresse.
+2. `subscribe_profile_to_marketing` — rétablir `SUBSCRIBED` avec `historical_import: true` et
+   `consented_at` réglé sur la **date d'opt-in d'origine**, relevée AVANT l'étape 1.
+
+Relève donc toujours `subscriptions.email.marketing.consent_timestamp` avant de toucher à quoi que
+ce soit. Et ne date jamais l'opt-in d'aujourd'hui pour aller plus vite : ça fabrique une preuve de
+consentement fausse, alors que la vraie existe et qu'il suffit de la reporter. Renseigne
+`custom_source` avec la raison et la date du courriel du contact.
+
+Enfin, vérifie après coup en relisant le profil. La souscription est asynchrone et renvoie une
+réponse vide : l'absence d'erreur ne prouve rien.
+
+Deux limites du compte, constatées à l'usage : les **identifiants secondaires**
+(`meta.patch_identifiers`) ne sont pas activés — impossible de garder l'ancienne adresse rattachée
+au profil — et `subscribe_profile_to_marketing` **exige une confirmation humaine explicite** avant
+de s'exécuter. C'est voulu : un consentement ne se pose pas à la place de quelqu'un.
+
 ## Vérifier un envoi — règle ferme
 
 Deux sources, jamais une seule : Shopify pour la commande, ShipStation pour l'expédition et le

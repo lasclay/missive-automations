@@ -1,0 +1,38 @@
+{
+ "tir": "C",
+ "a_revoir": [
+  {
+   "id": "800160532723027_1805711777489810",
+   "page_id": "262382158951470",
+   "date": "2025-10-05T20:59:05+0000",
+   "message": "What is this?",
+   "lien": "https://www.facebook.com/1067098316029246/posts/800160532723027?comment_id=1805711777489810",
+   "motif": "Question sans objet identifiable (« What is this? ») : on ignore ce que montrait la publication. Repondre exigerait de deviner le sujet.",
+   "ecarte_le": "2026-08-19",
+   "tir": "C",
+   "contexte": "tir a blanc, aucune publication"
+  },
+  {
+   "id": "312025254869893_453679841085119",
+   "page_id": "262382158951470",
+   "date": "2024-11-24T18:18:17+0000",
+   "message": "I find it hard to believe musk oxen are in 48 below type weather and rabbit beats that ?",
+   "lien": "https://www.facebook.com/1067098316029246/posts/312025254869893?comment_id=226858140164241&reply_comment_id=453679841085119",
+   "motif": "Scepticisme sur une comparaison de fourrures (boeuf musque, lapin). Aucun fait verifie sur ces matieres ; le theme 3 pose justement qu il n existe aucune cote de performance officielle.",
+   "ecarte_le": "2026-08-19",
+   "tir": "C",
+   "contexte": "tir a blanc, aucune publication"
+  },
+  {
+   "id": "911600751579004_949144911197868",
+   "page_id": "262382158951470",
+   "date": "2026-02-20T12:26:33+0000",
+   "message": "Any advice on germination? I planted over 200 seeds (that were kept in a fridge for 2 months) and only 12 sprouted.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/911600751579004?comment_id=949144911197868",
+   "motif": "Echec de germination : ecarte d office par PROCEDURE.md, dossier a traitement humain.",
+   "ecarte_le": "2026-08-19",
+   "tir": "C",
+   "contexte": "tir a blanc, aucune publication"
+  }
+ ]
+}

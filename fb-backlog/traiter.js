@@ -1,0 +1,340 @@
+#!/usr/bin/env node
+/**
+ * Lasclay — traitement du backlog de commentaires Facebook
+ * --------------------------------------------------------------------------
+ * Ce script porte tout ce qui est MÉCANIQUE : moissonner, choisir, cadencer,
+ * publier, vérifier, journaliser. Il ne rédige rien. La rédaction reste à
+ * Claude, parce qu'elle demande du jugement et que chaque réponse doit être
+ * unique. Le partage est volontaire :
+ *
+ *   node fb-backlog/traiter.js candidats --tir A --n 8   → JSON des commentaires à traiter
+ *   node fb-backlog/traiter.js publier reponses.json     → publie, vérifie, enregistre
+ *   node fb-backlog/traiter.js etat                      → où en est chaque tir
+ *
+ * Pourquoi un script plutôt que des instructions à une session : une session
+ * lancée par une Routine n'a ni connecteur MCP, ni droit d'émettre des requêtes
+ * HTTP arbitraires. Elle a le droit de lancer `node connectors_client.js`, et
+ * donc ce script. C'est la seule surface qui tient sans surveillance.
+ *
+ * Accès Facebook : par le General Proxy (connecteur `facebook`), qui dérive les
+ * jetons de Page côté serveur. Aucun jeton ne transite ici.
+ *
+ * PRIORITÉ — la règle du 70 %
+ * Les commentaires du JOUR passent avant tout et sont traités en entier. Le
+ * reste du lot va au vieux backlog, plafonné pour que le jour garde au moins
+ * 70 % du lot. Exception explicite : si aucun commentaire n'est arrivé
+ * aujourd'hui, tout le lot va au backlog — sinon une journée calme ne ferait
+ * rien avancer.
+ */
+
+const fs = require("node:fs");
+const path = require("node:path");
+
+const URL = process.env.GENERAL_PROXY_URL || "https://general-proxy-5muf.onrender.com";
+const SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET;
+const RACINE = __dirname;
+const ETAT = path.join(RACINE, "etat");
+
+const TIRS = {
+  A: { pages: ["104242204750257", "114311920399404"], nom: "Lasclay + Asclépiade" },
+  B: { pages: ["368305119707866"], nom: "The Milkweed Company" },
+  C: { pages: ["262382158951470"], nom: "Milkweed & Monarchs" },
+};
+const REGISTRE = {
+  104242204750257: "sobre",
+  368305119707866: "sobre",
+  262382158951470: "chaleureux",
+  114311920399404: "chaleureux",
+};
+const NOMS = {
+  104242204750257: "Lasclay",
+  368305119707866: "Lasclay: The Milkweed Company",
+  262382158951470: "Milkweed & Monarchs",
+  114311920399404: "Asclépiade & papillons monarques",
+};
+
+// ---- Appel du proxy -------------------------------------------------------
+
+async function proxy(action, params) {
+  const res = await fetch(`${URL}/facebook/${action}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Proxy-Secret": SECRET || "" },
+    body: JSON.stringify(params || {}),
+  });
+  const texte = await res.text();
+  let j;
+  try { j = JSON.parse(texte); } catch { j = { raw: texte }; }
+  if (!res.ok) throw new Error(`facebook/${action} → ${res.status} ${texte.slice(0, 400)}`);
+  return j.data !== undefined ? j.data : j;
+}
+
+// Erreurs qui imposent l'arrêt immédiat, sans réessai : limite de débit Meta,
+// code 368 (comportement jugé abusif), toute erreur de permission. Réessayer
+// aggrave le dossier auprès de Meta au lieu de le régler.
+function estFatale(msg) {
+  return /rate limit|#4\b|#17\b|#32\b|#368|\(#10\)|\(#200\)|OAuthException|temporarily blocked/i.test(msg);
+}
+
+// ---- État -----------------------------------------------------------------
+
+const lire = (f, defaut) => {
+  try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch { return defaut; }
+};
+// Écriture atomique : un tir interrompu ne doit jamais laisser un état tronqué,
+// sinon le tir suivant reprend une liste corrompue et republie.
+const ecrire = (f, obj) => {
+  const tmp = `${f}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(obj, null, 2) + "\n");
+  fs.renameSync(tmp, f);
+};
+const fRepondus = (t) => path.join(ETAT, `${t}-repondus.json`);
+const fARevoir = (t) => path.join(ETAT, `${t}-a-revoir.json`);
+const fJournal = (t) => path.join(ETAT, `${t}-journal.jsonl`);
+
+const repondus = (t) => lire(fRepondus(t), { tir: t, repondus: [], total: 0 });
+const idsRepondus = (t) => new Set(repondus(t).repondus.map((r) => (typeof r === "string" ? r : r.id)));
+
+// ---- Sélection ------------------------------------------------------------
+
+const norm = (s) =>
+  (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’ʼ]/g, "'").toLowerCase();
+
+const aujourdhui = () => new Date().toISOString().slice(0, 10);
+
+// Un candidat est un commentaire qui pose une vraie question et que personne
+// n'a encore traité. Les filtres sont structurels seulement — le jugement
+// éditorial (plainte de commande, diatribe, hors sujet) reste à Claude.
+function eligible(c, dejaVus) {
+  if (!c || !c.id || dejaVus.has(c.id)) return false;
+  if (c.is_hidden) return false;
+  if (c.comment_count && c.comment_count > 0) return false;
+  const m = c.message || "";
+  if (m.length < 13) return false;
+  if (!m.includes("?")) return false;
+  if (c.from && NOMS[c.from.id]) return false; // écrit par la Page elle-même
+  // « Prénom Nom …» en tête : ce sont des réponses entre abonnés, pas des questions à la marque.
+  if (/^[A-ZÀ-Ý][\p{L}'-]+\s+[A-ZÀ-Ý]/u.test(m)) return false;
+  return true;
+}
+
+async function moissonner(pages) {
+  const out = [];
+  for (const pid of pages) {
+    const limite = pid === "104242204750257" ? 25 : 50;
+    let posts = [];
+    const r = await proxy("posts", { page_id: pid, limit: limite });
+    posts = (r && r.data) || [];
+    for (const po of posts) {
+      let cs = [];
+      try {
+        const rc = await proxy("comments", { page_id: pid, object_id: po.id, limit: 100 });
+        cs = (rc && rc.data) || [];
+      } catch (e) {
+        if (estFatale(e.message)) throw e;
+        continue; // une publication illisible ne doit pas faire tomber le tir
+      }
+      for (const c of cs) {
+        c._page_id = pid;
+        c._page = NOMS[pid];
+        c._registre = REGISTRE[pid];
+        c._post = po.id;
+        c._post_url = po.permalink_url;
+        out.push(c);
+      }
+    }
+  }
+  return out;
+}
+
+// La règle du 70 % : le jour d'abord, en entier ; le backlog ne prend que ce
+// qui lui reste sans faire descendre le jour sous 70 % du lot.
+function repartir(candidats, n) {
+  const jour = aujourdhui();
+  const duJour = candidats.filter((c) => (c.created_time || "").slice(0, 10) === jour);
+  const anciens = candidats.filter((c) => (c.created_time || "").slice(0, 10) !== jour);
+
+  // Journée calme : rien de neuf, tout le lot va au backlog.
+  if (duJour.length === 0) {
+    return { duJour: [], anciens: melanger(anciens).slice(0, n), regle: "aucun commentaire du jour — lot entier au backlog" };
+  }
+  const prisJour = duJour.slice(0, n); // le jour d'abord, dans l'ordre d'arrivée
+  const plafondAnciens = Math.min(
+    Math.floor((prisJour.length * 3) / 7), // garantit jour ≥ 70 % du lot
+    n - prisJour.length
+  );
+  return {
+    duJour: prisJour,
+    anciens: melanger(anciens).slice(0, Math.max(0, plafondAnciens)),
+    regle: `${prisJour.length} du jour + ${Math.max(0, plafondAnciens)} anciens (jour ≥ 70 %)`,
+  };
+}
+
+function melanger(a) {
+  const t = a.slice();
+  for (let i = t.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [t[i], t[j]] = [t[j], t[i]];
+  }
+  return t;
+}
+
+// ---- Cadence --------------------------------------------------------------
+
+const expo = (moyenne) => -Math.log(1 - Math.random()) * moyenne;
+const borne = (v, min, max) => Math.max(min, Math.min(max, v));
+const dormir = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Combien ce tir publie, et s'il publie. Tout est tiré au sort : une cadence
+// régulière se lit comme un automate, autant pour Meta que pour les abonnés.
+function tirage() {
+  const de = 1 + Math.floor(Math.random() * 6);
+  const weekend = [0, 6].includes(new Date().getDay());
+  if (de === 1 || (weekend && de === 2)) return { saute: true, motif: `dé ${de}${weekend ? " (week-end)" : ""}` };
+  const n = borne(1 + Math.floor(expo(9.5)), 1, 24);
+  return { saute: false, n, attenteInitiale: Math.round(45 + Math.random() * 375) };
+}
+
+// ---- Commandes ------------------------------------------------------------
+
+async function cmdCandidats(tir, nDemande) {
+  const conf = TIRS[tir];
+  if (!conf) throw new Error(`tir inconnu : ${tir} (A, B ou C)`);
+  const t = tirage();
+  if (t.saute && !nDemande) {
+    console.log(JSON.stringify({ tir, saute: true, motif: t.motif, candidats: [] }, null, 2));
+    return;
+  }
+  const n = nDemande || t.n;
+  const vus = idsRepondus(tir);
+  const bruts = await moissonner(conf.pages);
+  const candidats = bruts.filter((c) => eligible(c, vus));
+  const { duJour, anciens, regle } = repartir(candidats, n);
+  const lot = [...duJour.map((c) => ({ ...c, _origine: "jour" })), ...anciens.map((c) => ({ ...c, _origine: "backlog" }))];
+
+  console.log(JSON.stringify({
+    tir,
+    pages: conf.nom,
+    n_vise: n,
+    attente_initiale_s: t.attenteInitiale || 60,
+    regle_priorite: regle,
+    total_candidats: candidats.length,
+    candidats_du_jour: candidats.filter((c) => (c.created_time || "").slice(0, 10) === aujourdhui()).length,
+    lot: lot.map((c) => ({
+      id: c.id,
+      page_id: c._page_id,
+      page: c._page,
+      registre: c._registre,
+      origine: c._origine,
+      date: c.created_time,
+      auteur: (c.from && c.from.name) || null,
+      message: c.message,
+      lien: c.permalink_url || c._post_url,
+    })),
+  }, null, 2));
+}
+
+// Attend `publier` un fichier JSON : [{ id, page_id, message }]
+// Publie une réponse à la fois, à intervalles irréguliers, vérifie chacune
+// auprès de Meta, et enregistre au fur et à mesure — pas à la fin. Un tir
+// interrompu laisse un état juste.
+async function cmdPublier(fichier, tir) {
+  const lot = JSON.parse(fs.readFileSync(fichier, "utf8"));
+  if (!Array.isArray(lot) || !lot.length) throw new Error("fichier vide ou mal formé");
+  const vus = idsRepondus(tir);
+  const etat = repondus(tir);
+  let publiees = 0;
+  const ecarts = [];
+
+  for (let i = 0; i < lot.length; i++) {
+    const r = lot[i];
+    if (!r.id || !r.page_id || !r.message) throw new Error(`entrée ${i} incomplète (id, page_id, message requis)`);
+    if (vus.has(r.id)) { console.error(`(déjà répondu, ignoré) ${r.id}`); continue; }
+
+    if (i > 0) {
+      const ecart = Math.round(borne(expo(180), 60, 600));
+      ecarts.push(ecart);
+      await dormir(ecart * 1000);
+    }
+
+    let rep;
+    try {
+      rep = await proxy("reply", { page_id: r.page_id, comment_id: r.id, message: r.message });
+    } catch (e) {
+      if (estFatale(e.message)) {
+        console.error(`ARRÊT D'URGENCE après ${publiees} publication(s) : ${e.message}`);
+        ecrire(fRepondus(tir), etat);
+        process.exit(2);
+      }
+      console.error(`échec non fatal sur ${r.id} : ${e.message}`);
+      continue;
+    }
+
+    // Vérification : la réponse existe-t-elle vraiment chez Meta ?
+    let confirme = false;
+    try {
+      const v = await proxy("comment", { page_id: r.page_id, comment_id: rep.id });
+      confirme = !!(v && v.id);
+    } catch { confirme = false; }
+
+    vus.add(r.id);
+    etat.repondus.push({
+      id: r.id,
+      reponse_id: rep.id,
+      page_id: r.page_id,
+      quand: new Date().toISOString(),
+      confirme,
+      texte: r.message,
+    });
+    etat.total = etat.repondus.length;
+    etat.derniere_execution = new Date().toISOString();
+    ecrire(fRepondus(tir), etat);
+    fs.appendFileSync(fJournal(tir), JSON.stringify({ t: new Date().toISOString(), id: r.id, reponse: rep.id, confirme }) + "\n");
+    publiees++;
+    console.error(`${publiees}/${lot.length} publié ${r.id} → ${rep.id}${confirme ? "" : " (NON CONFIRMÉ)"}`);
+  }
+
+  console.log(JSON.stringify({ tir, publiees, ecarts_s: ecarts, total_cumule: etat.total }, null, 2));
+}
+
+function cmdEtat() {
+  const out = {};
+  for (const t of Object.keys(TIRS)) {
+    const e = repondus(t);
+    const jour = aujourdhui();
+    out[t] = {
+      pages: TIRS[t].nom,
+      total: e.total || 0,
+      aujourd_hui: (e.repondus || []).filter((r) => (r.quand || "").slice(0, 10) === jour).length,
+      non_confirmees: (e.repondus || []).filter((r) => r.confirme === false).length,
+      derniere_execution: e.derniere_execution || null,
+      a_revoir: (lire(fARevoir(t), { a_revoir: [] }).a_revoir || []).length,
+    };
+  }
+  console.log(JSON.stringify(out, null, 2));
+}
+
+// ---- Entrée ---------------------------------------------------------------
+
+(async () => {
+  const args = process.argv.slice(2);
+  const cmd = args[0];
+  const opt = (nom, defaut) => {
+    const i = args.indexOf(`--${nom}`);
+    return i >= 0 && args[i + 1] ? args[i + 1] : defaut;
+  };
+  try {
+    if (!SECRET) throw new Error("GENERAL_PROXY_SECRET manquant");
+    if (cmd === "candidats") return await cmdCandidats(opt("tir", "A"), Number(opt("n", 0)) || 0);
+    if (cmd === "publier") {
+      const f = args[1];
+      if (!f || f.startsWith("--")) throw new Error("usage : publier <fichier.json> --tir A");
+      return await cmdPublier(f, opt("tir", "A"));
+    }
+    if (cmd === "etat") return cmdEtat();
+    console.error("Commandes : candidats --tir A --n 8 | publier <fichier.json> --tir A | etat");
+    process.exit(1);
+  } catch (e) {
+    console.error("Erreur:", e.message);
+    process.exit(1);
+  }
+})();

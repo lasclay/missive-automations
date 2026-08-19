@@ -1,0 +1,8 @@
+threads.jsonl
+candidats.jsonl
+decisions.jsonl
+judgeme_*.json
+jm_*.json*
+univ_*.json
+labelled.json
+*.log

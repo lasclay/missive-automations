@@ -478,9 +478,18 @@ const TARIF = (id, cents, nom) => ({
       } else if (cp.length) {
         console.log(`${V} Postes Canada EST au catalogue — ${cp.length} service(s) :`);
         for (const x of cp) console.log(`   ${G}${x.id.padEnd(36)} ${x.nom}${R}`);
-        console.log(`\n  ${G}Ils existent mais ne rendent aucun tarif sur l'envoi testé.`);
-        console.log(`  Cause à chercher côté envoi : poids, dimensions, destination, ou compte`);
-        console.log(`  Postes Canada non rattaché au profil de tarification.${R}`);
+        // `--catalogue` LIT le catalogue, il ne cote rien. Affirmer ici qu'aucun tarif ne
+        // revient serait parler d'une mesure qu'on n'a pas faite — le défaut exact qu'on
+        // reproche à un écran qui affirme au lieu de constater.
+        const depot = cp.find((x) => /canadapost-exclusive/.test(String(x.id)));
+        if (depot) {
+          console.log(`\n  ${V} ${G}Dont « ${depot.id} » — le programme de dépôt au comptoir.`);
+          console.log(`  C'est le tarif qui porte l'économie du projet : ~6,61 $ contre 11,82 $`);
+          console.log(`  chez ShipStation.${R}`);
+        }
+        console.log(`\n  ${G}Reste à vérifier qu'ils RENDENT un tarif sur un envoi réel — le`);
+        console.log(`  catalogue dit ce que le compte publie, pas ce qu'il cote :`);
+        console.log(`    node shipstation-clone/verifier_freightcom.js --panel --poids 300${R}`);
       } else {
         console.log(`${X} Postes Canada n'est PAS au catalogue de ce compte.`);
         console.log(`\n  ${G}Aucun réglage du clone n'y changera rien : le clone ne peut pas coter`);
