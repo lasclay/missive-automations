@@ -1,128 +1,84 @@
 # Procédure d'un tir — backlog de commentaires Facebook
 
-Ce fichier est la procédure commune aux trois Routines (`A`, `B`, `C`). Chaque Routine reçoit
-seulement sa lettre ; tout le reste est ici. Une seule source, pas de dérive entre les trois.
+Procédure commune aux trois Routines (`A`, `B`, `C`). Chaque Routine ne reçoit que sa lettre ;
+tout le reste est ici. Une seule source, pas de dérive entre les trois.
+
+## Le partage des rôles
+
+`fb-backlog/traiter.js` porte tout ce qui est **mécanique** : moissonner, filtrer, appliquer la
+priorité, cadencer, publier, vérifier, journaliser. **Tu ne fais qu'une chose : rédiger.**
+
+C'est délibéré. Une session lancée par une Routine n'a ni connecteur MCP, ni droit d'émettre des
+requêtes HTTP arbitraires — elle a le droit de lancer `node`. Toute la plomberie passe donc par
+le script, qui parle au General Proxy. Ne tente jamais d'appeler Composio, Meta ou `curl`
+directement : ça échouera, et c'est normal.
+
+```
+node fb-backlog/traiter.js candidats --tir <X>        # → le lot à rédiger, en JSON
+node fb-backlog/traiter.js publier reponses.json --tir <X>
+node fb-backlog/traiter.js etat                       # où en est chaque tir
+```
 
 ## Périmètres — cloisonnés, jamais croisés
 
-| Tir | Pages | État |
+| Tir | Pages | Registre |
 | --- | --- | --- |
-| **A** | Lasclay `104242204750257` · Asclépiade & papillons monarques `114311920399404` | `etat/A-*.json` |
-| **B** | Lasclay: The Milkweed Company `368305119707866` | `etat/B-*.json` |
-| **C** | Milkweed & Monarchs `262382158951470` | `etat/C-*.json` |
+| **A** | Lasclay `104242204750257` · Asclépiade & papillons monarques `114311920399404` | sobre · chaleureux |
+| **B** | Lasclay: The Milkweed Company `368305119707866` | sobre |
+| **C** | Milkweed & Monarchs `262382158951470` | chaleureux |
 
-Les trois tirs peuvent se chevaucher dans le temps. Ils ne se marchent jamais dessus parce que
-leurs Pages sont disjointes et leurs fichiers d'état séparés. **Ne touche jamais aux fichiers
-d'une autre lettre, et ne réponds jamais sur une Page qui n'est pas dans ton périmètre.**
+Les trois tirs se chevauchent dans le temps sans se marcher dessus : Pages disjointes, fichiers
+d'état séparés. **Ne touche jamais aux fichiers d'une autre lettre.** Le script refuse d'ailleurs
+une Page hors de ton périmètre.
 
 ## 1. Contexte
 
-Dépôt `lasclay/missive-automations`, branche `claude/composio-facebook-moderation-9czg82`.
-`git pull --rebase` d'abord. Lis :
+Dépôt `lasclay/missive-automations`, branche `main`. `git pull --rebase` d'abord. Lis :
 
 - `fb-backlog/REGLES.md` — garde-fous, non négociables
 - `fb-backlog/faits-verifies.json` — 20 thèmes, faits vérifiés, faits transverses
 - `fb-backlog/exemplars.json` — 120 réponses écrites à la main : elles CALIBRENT le registre,
   jamais à copier
-- `fb-backlog/etat/<X>-repondus.json` — ce que ton tir a déjà traité
 
 Charge le skill `lasclay-master` pour la voix de marque.
 
-## 2. Accès Facebook — par le General Proxy, pas par Composio
-
-Facebook passe désormais par le **General Proxy** de Lasclay, comme ShipStation et Omnisend.
-C'est la règle du dépôt : les clés vivent côté Render, jamais dans l'environnement Claude ni
-dans le code. Composio n'est plus dans le chemin — ni le connecteur MCP, ni la clé d'API.
-
-Le proxy **dérive lui-même les jetons de Page**, par l'une de deux voies selon ce qui est
-configuré côté Render : `COMPOSIO_API_KEY` (Composio détient la connexion Facebook) ou
-`FB_USER_TOKEN` (jeton Meta détenu directement, prioritaire s'il existe). Aucun jeton de Page ne
-sort du serveur ; tu n'en manipules jamais.
-
-**Commence toujours par `diag`** : il dit quelle voie est vivante, et en cas d'échec il rend
-l'erreur exacte de chaque tentative.
+## 2. Prendre le lot
 
 ```
-node connectors_client.js facebook diag
+node fb-backlog/traiter.js candidats --tir <X> > /tmp/lot.json
 ```
 
-```
-node connectors_client.js facebook <action> '{"page_id":"…", …}'
-```
+Le script tire au sort s'il publie et combien, applique la priorité, et rend le lot. Si la sortie
+porte `"saute": true`, **le tir s'arrête là** : c'est une heure de silence voulue, note-la et
+termine.
 
-`GENERAL_PROXY_URL` et `GENERAL_PROXY_SECRET` sont déjà dans l'environnement, et
-`.claude/settings.json` autorise déjà cette commande — pas de demande de permission, pas de
-`curl` sortant à faire approuver.
+### La règle du 70 %
 
-| Action | Paramètres | Effet |
-| --- | --- | --- |
-| `diag` | — | quelle voie d'authentification est vivante, et pourquoi si elle ne l'est pas |
-| `pages` | — | les Pages accessibles (id et nom seulement) |
-| `posts` | `page_id`, `limit`, `after` | publications d'une Page |
-| `comments` | `page_id`, `object_id`, `limit`, `after` | commentaires d'une publication ou d'un commentaire |
-| `comment` | `page_id`, `comment_id` | un commentaire précis |
-| `reply` | `page_id`, `comment_id`, `message` | publie une réponse |
-| `hide` / `unhide` | `page_id`, `comment_id` | masque, réversible, sans notification |
-| `edit` | `page_id`, `comment_id`, `message` | corrige un commentaire de la Page sans renotifier |
+**Les commentaires du jour passent avant tout et sont traités en entier.** Le backlog ne prend
+que ce qui reste, plafonné pour que le jour garde au moins 70 % du lot.
 
-**`page_id` est obligatoire partout.** Meta exige que chaque appel porte le jeton de la Page
-visée ; un jeton d'une autre Page produit une erreur `(#10) pages_read_user_content`. C'est le
-piège qui a fait échouer trois Pages sur quatre lors du premier passage. Le proxy choisit le bon
-jeton à partir de `page_id`, et refuse un `page_id` inconnu au lieu de retomber silencieusement
-sur une autre Page.
+Une seule exception, explicite : si aucun commentaire n'est arrivé aujourd'hui, tout le lot va au
+backlog — sinon une journée calme ne ferait rien avancer. Le champ `regle_priorite` de la sortie
+dit laquelle des deux s'est appliquée.
 
-Vérifie le connecteur avant de commencer : `GET /connectors` sur le proxy doit montrer
-`facebook` avec `enabled: true`. S'il est à `false`, ni `COMPOSIO_API_KEY` ni
-`FB_USER_TOKEN` n'est configuré côté Render : arrête et signale-le, c'est une action humaine.
+Chaque entrée du lot porte `origine` (`jour` ou `backlog`), `page`, `registre`, `date`, `message`
+et `lien`.
 
-Pour la Page Lasclay, pagine avec `limit=25` — au-delà, Meta renvoie « reduce the amount of
-data ».
+## 3. Trier — c'est ton jugement, pas celui du script
 
-## 3. Cadence — tirée au sort, jamais choisie
+Le script ne filtre que le structurel : non masqué, sans réponse, assez long, contient un point
+d'interrogation, pas écrit par la Page. **Le jugement éditorial est à toi.** Écarte, en consignant
+dans `etat/<X>-a-revoir.json` avec le motif :
 
-Fais ces tirages avec `random`, AVANT de regarder le moindre commentaire, et rapporte-les.
+- toute plainte de commande ou dossier client — ce sont des dossiers du support, jamais des
+  questions publiques
+- les échecs de germination, les diatribes, le sarcasme
+- tout ce qui sort des faits vérifiés
 
-**a) Publier cette heure-ci ?** Entier de 1 à 6. Sur un 1, tu ne publies rien : note
-« heure sautée » et termine. Le samedi et le dimanche, saute aussi sur un 2.
+**Dans le doute, écarte.** Un commentaire écarté ne coûte rien ; une réponse inventée coûte la
+réputation de la marque.
 
-**b) Combien ?** `N = 1 + int(random.expovariate(1/9.5))`, plafonné à 24. Le plus souvent 4 à
-16. N'invente pas un autre nombre et ne complète jamais jusqu'à un chiffre rond.
-
-**c) Quand commencer ?** `random.uniform(45, 420)` secondes d'attente avant la première.
-
-**d) Écarts.** Avant chaque réponse suivante : `max(60, min(600, random.expovariate(1/180.0)))`
-secondes. Moyenne autour de 3 minutes, beaucoup de courts, quelques longs. Deux écarts quasi
-identiques dans le même tir, c'est un défaut — retire.
-
-Le bac à sable Composio coupe les cellules à 180 secondes : découpe les attentes en cellules
-courtes et garde ton état sur disque, jamais seulement en mémoire de cellule.
-
-Arrête quand l'heure est écoulée, même si N n'est pas atteint. Ne rattrape jamais un retard.
-
-## 4. Candidats — mis en cache, pas re-moissonnés à chaque tir
-
-`fb-backlog/etat/<X>-candidats.json` garde la réserve de commentaires éligibles.
-
-Re-moissonne depuis Meta **seulement** si le fichier est absent, s'il a plus de 24 heures, ou
-s'il reste moins de 40 candidats. Sinon, lis-le et n'appelle Meta que pour publier. Moissonner
-tout le backlog à chaque tir brûlerait le quota de lecture de l'application pour rien.
-
-Critères d'éligibilité : non masqué, `comment_count == 0`, contient un point d'interrogation,
-plus de 12 caractères, ne commence pas par un nom propre suivi d'un espace (ce sont des réponses
-entre abonnés), pas écrit par la Page elle-même, absent de `<X>-repondus.json`.
-
-Les commentaires utilisent l'apostrophe typographique U+2019, pas U+0027 : normalise avant de
-comparer. N'utilise jamais de sous-chaîne nue pour classer un thème — « chat » se trouve dans
-« achat », « cat » dans « scatter ». Frontières de mot obligatoires.
-
-Tire tes N candidats **au hasard** dans la réserve, en mélangeant les Pages, les dates et les
-thèmes. Ne prends pas les N premiers. Ne balaie pas le même fil deux tirs de suite.
-
-Écarte, en consignant dans `etat/<X>-a-revoir.json` avec le motif : plaintes de commande,
-dossiers clients, échecs de germination, diatribes, et tout ce qui sort des faits vérifiés.
-Dans le doute, écarte.
-
-## 5. Rédaction — chaque réponse est unique
+## 4. Rédiger — chaque réponse est unique
 
 Écris chaque réponse sur mesure à partir des faits vérifiés du thème, adaptée à ce que la
 personne demande vraiment : sa région, son produit, son inquiétude précise. Deux réponses ne
@@ -130,38 +86,48 @@ doivent jamais être identiques ni quasi identiques, dans toute l'histoire du tr
 tirs confondus. Varie la longueur et la forme : parfois une phrase, parfois trois. Une réponse
 toujours calibrée pareil se repère autant qu'un texte copié.
 
-Langue : celle du commentaire. Registre : sobre pour Lasclay et Lasclay: The Milkweed Company
+Langue : celle du commentaire, toujours. Registre : sobre pour Lasclay et The Milkweed Company
 (0 à 1 emoji) ; chaleureux et quétaine assumé pour Milkweed & Monarchs et Asclépiade & papillons
 monarques (1 à 2 emoji).
 
 Vouvoie en français. Aucune date de livraison. Aucun prix. Jamais « fabriqué au Québec » pour un
-produit fini — l'isolant est cultivé et transformé au Québec, l'assemblage textile se fait
-surtout en Tunisie depuis juillet 2026. Jamais « acheter sauve un monarque ».
+produit fini — l'isolant est cultivé et transformé au Québec, l'assemblage textile se fait surtout
+en Tunisie depuis juillet 2026. Jamais « acheter sauve un monarque ».
 
-## 6. Publication — une à la fois
+## 5. Publier
 
-Publier, attendre l'écart tiré, choisir la suivante, publier. Jamais de lot, jamais de boucle
-serrée, jamais deux appels rapprochés. Alterne tes Pages au hasard.
+Écris un fichier JSON `[{ "id": "...", "page_id": "...", "message": "..." }]` puis :
 
-`POST https://graph.facebook.com/v23.0/{comment_id}/comments` avec `message` et le jeton de la
-bonne Page.
+```
+node fb-backlog/traiter.js publier /tmp/reponses.json --tir <X>
+```
 
-## 7. Enregistrement
+Le script publie **une réponse à la fois**, à intervalles tirés au sort entre 60 et 600 secondes,
+relit chaque réponse auprès de Meta pour confirmer qu'elle existe, et enregistre au fur et à
+mesure — pas à la fin. Un tir interrompu laisse donc un état juste.
 
-Relis chaque réponse auprès de Meta pour confirmer qu'elle existe. Ajoute les identifiants à
-`etat/<X>-repondus.json` avec la date et le texte publié, retire-les de `<X>-candidats.json`,
-mets à jour `<X>-a-revoir.json`.
+Il s'arrête net, sans réessai, sur une limite de débit Meta, un code 368 ou une erreur de
+permission. C'est voulu : réessayer aggrave le dossier auprès de Meta au lieu de le régler.
 
-Pour pousser : `git pull --rebase` puis `git push`. Un autre tir peut avoir poussé entre-temps ;
-comme vos fichiers sont disjoints, le rebase passe toujours. Réessaie jusqu'à quatre fois avec
-un délai croissant. **Sans cette étape, le prochain tir produira des doublons.**
+## 6. Enregistrer et rapporter
 
-## 8. Arrêt d'urgence
+Le script tient `etat/<X>-repondus.json` et `etat/<X>-journal.jsonl` tout seul. À toi de tenir
+`etat/<X>-a-revoir.json`. Puis :
 
-Erreur de limite de débit Meta, code 368, ou erreur de permission : arrête immédiatement, ne
-réessaie pas, consigne et signale.
+```
+git pull --rebase && git push
+```
 
-## 9. Rapport
+Un autre tir peut avoir poussé entre-temps ; comme vos fichiers sont disjoints, le rebase passe
+toujours. Réessaie jusqu'à quatre fois avec un délai croissant. **Sans cette étape, le prochain
+tir produira des doublons.**
 
-Court : les tirages obtenus (saut ou non, N, délai initial, écarts réels), le nombre publié par
-Page, le nombre écarté et pourquoi, et ce qui reste dans ta réserve.
+Termine par un rapport court : le lot obtenu et la règle de priorité appliquée, le nombre publié,
+le nombre écarté et pourquoi, et tout ce qui a échoué.
+
+## En cas de panne
+
+`node connectors_client.js facebook diag` dit en une commande quelle voie d'accès est vivante et,
+en cas d'échec, l'erreur exacte. Charge le skill `composio` : il documente les pièges connus —
+deux surfaces Composio distinctes, la clé `ck_` qui n'en est pas une, la forme du corps en v3.1,
+et le jeton par Page qu'exige Meta.
