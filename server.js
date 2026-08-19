@@ -475,7 +475,10 @@ const facebook = (() => {
   }
 
   async function viaComposio() {
-    const args = { fields: "id,name,access_token", limit: 25 };
+    // FACEBOOK_GET_USER_PAGES n'accepte QUE `fields` et `user_id` (défaut « me »).
+    // Passer `limit` produit un « Validation error » 400 sans indiquer le champ fautif :
+    // lire le schéma via GET /tools/{slug} plutôt que de deviner.
+    const args = { fields: "id,name,access_token" };
     const id = await compteFb();
     const echecs = [];
     for (const slug of SLUGS) {
