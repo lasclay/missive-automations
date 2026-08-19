@@ -505,7 +505,7 @@ const facebook = (() => {
           echecs.push(`${slug} / ${nom} → réponse sans jetons`);
         } catch (e) {
           const m = String(e.message);
-          echecs.push(`${slug} / ${nom} → ${m.slice(0, 130)}`);
+          echecs.push(`${slug} / ${nom} → ${m.slice(0, 700)}`);
           if (m.includes("Tool_ToolNotFound") || m.includes("not found")) break; // slug absent : inutile d'essayer ses autres formes
         }
       }
@@ -562,7 +562,7 @@ const facebook = (() => {
           const all = await pages();
           return { ...r, ok: true, via: cache.via, forme_corps: cache.forme, pages: Object.values(all).map(({ id, name }) => ({ id, name })) };
         } catch (e) {
-          return { ...r, ok: false, erreur: String(e.message).slice(0, 900) };
+          return { ...r, ok: false, erreur: String(e.message).slice(0, 4000) };
         }
       },
       // Les Pages accessibles (id + nom seulement — jamais les jetons).
