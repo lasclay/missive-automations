@@ -157,6 +157,14 @@ Les interdits, tous appris d'erreurs réelles :
 **Un vieux fil sans question — un remerciement, un dossier résolu — se FERME avec une note
 interne, sans écrire au client.** Écrire pour écrire rouvre un dossier clos.
 
+**Mais un avis positif n'est pas un simple remerciement : il s'étiquette avant de se fermer.**
+Quand un client dit qu'il est satisfait de son produit — « je suis très satisfaite »,
+« quelle belle entreprise », un avis Judge.me — pose l'étiquette
+`Support/review à traiter` (`1681e586-9a75-49a6-bf90-75a2620d20a5`). C'est de la matière à
+témoignage, et fermer sans étiqueter la perd définitivement. Distingue-la de l'encouragement
+sur l'entreprise (« bravo, lâchez pas »), qui se ferme sans étiquette. **Sur un fil déjà
+fermé, `labels` exige `keepClosed: true`**, sinon l'étiquetage le rouvre.
+
 Deux effets de bord saisonniers à connaître :
 
 - **Semences.** L'automne est le bon moment pour semer l'asclépiade : l'hiver lève la
