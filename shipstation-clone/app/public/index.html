@@ -168,6 +168,12 @@
   .tArt input { width:100%; min-width:52px }
   .tScroll { overflow-x:auto; max-height:46vh; overflow-y:auto }
   .cGrilleR { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px }
+  .expQ { margin:0 0 12px } .expQ b { display:block; margin-bottom:4px }
+  .expF { max-height:180px; overflow-y:auto; border:1px solid var(--bordure); border-radius:var(--r1); padding:6px }
+  .efG { display:grid; grid-template-columns:1fr auto 1fr; gap:10px; align-items:start; margin-top:8px }
+  .efG select { width:100%; font-size:12.5px }
+  .efB { display:flex; flex-direction:column; gap:4px; padding-top:22px }
+  .efB button { min-width:34px }
   .doux { color:var(--doux) }
   .avis { padding:9px 12px; border-radius:var(--r1); margin-bottom:12px; font-size:13px;
           background:rgba(154,91,6,.12); color:var(--ambre); border:1px solid rgba(154,91,6,.3) }
@@ -944,6 +950,15 @@ const EN = {
   "Commandée le": "Order Date", "Livraison facturée": "Shipping Paid",
   "Poids (g) — touche W": "Weight (g) — key W", "Service": "Service",
   "Confirmation": "Confirmation", "Assurance ($, vide = aucune)": "Insurance ($, blank = none)",
+  "Exporter les commandes…": "Export Orders…", "Exporter les commandes": "Export Orders",
+  "Quelles lignes exporter ?": "Which records would you like to export?",
+  "Exporter quoi ?": "How would you like to export these?",
+  "Dans quel format ?": "What format do you want exported?",
+  "Créer un format…": "Create new format…", "Ma vue courante": "My current view",
+  "Créer un format d'export": "Create export format", "Nom du format": "Format name",
+  "Champs disponibles": "Available fields",
+  "Champs retenus — l'ordre est celui du fichier": "Selected fields — order is the file order",
+  "Enregistrer le format": "Save export format", "Exporter": "Export",
   "ESSAI, non achetable": "TEST, not purchasable",
   "Annuler l'étiquette…": "Void label…", "Expédition": "Shipment", "sans suivi": "no tracking",
   "Assurance…": "Insurance…", "Coter avec assurance": "Quote with insurance",
@@ -3201,7 +3216,7 @@ VUES.commandes = async (statutFixe) => {
     { t: "Formulaires de douane", inactif: international ? null : "Aucune commande internationale dans la sélection",
       f: () => window.open(`/api/packing-slip?ids=${ids().join(",")}&douane=1`, "_blank") },
     { sep: 1 },
-    { t: "Exporter la sélection (CSV)", f: () => window.open(`/api/export/orders?ids=${ids().join(",")}`, "_blank") },
+    { t: "Exporter les commandes…", f: exporterCommandes },
     ]);
   };
 
@@ -3229,6 +3244,147 @@ VUES.commandes = async (statutFixe) => {
    * Actions` ouvrable en permanence et n'active que ce qui a du sens. Une entrée grisée dit
    * pourquoi elle l'est ; une entrée absente se cherche.
    */
+  /**
+   * « Exporter les commandes » — le dialogue de ShipStation, pas un téléchargement aveugle.
+   *
+   * L'export était un lien : colonnes figées, aucun choix, et rien pour dire ce qu'on
+   * emportait. ShipStation pose trois questions avant d'écrire le fichier — quelles lignes,
+   * quoi, dans quel format — parce que chaque destination en aval attend ses colonnes, dans
+   * son ordre, sous ses noms. Un fichier qu'il faut retoucher à la main après chaque
+   * téléchargement n'est pas un export.
+   *
+   * Les en-têtes sortent en anglais, ceux de ShipStation : ces fichiers alimentent ClickShip,
+   * eShipper, Dymo et les chiffriers du comptable, tous bâtis sur ces noms-là. Les traduire
+   * casserait chaque mappage en aval.
+   */
+  async function exporterCommandes() {
+    const nSel = S.sel.size;
+    let jeu = "orders";
+    let d = await tenter(() => api(`/api/export-formats?jeu=${jeu}`), { message: "Formats illisibles" });
+    if (!d) return;
+
+    const rendreFormats = () => `<div class="expF">${
+      [`<label class="ch"><input type="radio" name="expfmt" value="" checked>
+          <b>Ma vue courante</b> <span class="doux">— les colonnes de la grille</span></label>`,
+       ...d.formats.map((f) => `<label class="ch"><input type="radio" name="expfmt" value="${f.id}">
+          ${esc(f.nom)} <span class="doux">— ${f.colonnes.length} colonne(s)</span>
+          <button type="button" class="lienB" data-mod="${f.id}">Modifier</button>
+          <button type="button" class="lienB" data-sup="${f.id}">Supprimer</button></label>`)
+      ].join("")}</div>`;
+
+    dialogue("Exporter les commandes", `
+      <div class="expQ"><b>Quelles lignes exporter ?</b>
+        <label class="ch"><input type="radio" name="expq" value="sel" ${nSel ? "checked" : "disabled"}>
+          Seulement les <b>${num(nSel)}</b> sélectionnée(s)</label>
+        <label class="ch"><input type="radio" name="expq" value="vue" ${nSel ? "" : "checked"}>
+          Toutes les commandes du filtre courant</label></div>
+
+      <div class="expQ"><b>Exporter quoi ?</b>
+        <label class="ch"><input type="radio" name="expj" value="orders" checked>
+          Les commandes — une ligne par commande</label>
+        <label class="ch"><input type="radio" name="expj" value="order-items">
+          Les lignes d'articles — une ligne par article</label></div>
+
+      <div class="expQ"><b>Dans quel format ?</b>
+        <button type="button" class="lienB" id="expNew">Créer un format…</button>
+        <div id="expL">${rendreFormats()}</div></div>`,
+      () => {
+        const p = new URLSearchParams();
+        const q = [...document.querySelectorAll('[name="expq"]')].find((x) => x.checked)?.value;
+        const j = [...document.querySelectorAll('[name="expj"]')].find((x) => x.checked)?.value || "orders";
+        const fmt = [...document.querySelectorAll('[name="expfmt"]')].find((x) => x.checked)?.value;
+        if (q === "sel") p.set("ids", ids().join(","));
+        else for (const [k, v] of Object.entries(S0.vue ? { ...lire(), view_id: S0.vue } : lire()))
+          if (v) p.set(k, v);
+        if (fmt) p.set("format_id", fmt);
+        window.open(`/api/export/${j}?` + p.toString(), "_blank");
+      }, "Exporter");
+
+    // Changer de jeu recharge les formats : ceux des commandes n'ont pas les colonnes des
+    // lignes d'articles, et les proposer serait proposer un fichier vide.
+    const recharger = async (nouveauJeu) => {
+      jeu = nouveauJeu;
+      d = await api(`/api/export-formats?jeu=${jeu}`);
+      $("#expL").innerHTML = rendreFormats();
+      brancher();
+    };
+    document.querySelectorAll('[name="expj"]').forEach((r) =>
+      r.onchange = () => recharger(r.value));
+
+    const brancher = () => {
+      $("#expL").querySelectorAll("[data-sup]").forEach((b) => b.onclick = async (e) => {
+        e.preventDefault();
+        await api(`/api/export-formats/${b.dataset.sup}`, { method: "DELETE" });
+        await recharger(jeu);
+      });
+      $("#expL").querySelectorAll("[data-mod]").forEach((b) => b.onclick = (e) => {
+        e.preventDefault();
+        editerFormat(d.formats.find((f) => String(f.id) === b.dataset.mod));
+      });
+    };
+    brancher();
+    $("#expNew").onclick = () => editerFormat(null);
+
+    /** Le sélecteur de champs : disponibles à gauche, retenus à droite, l'ordre est le fichier. */
+    function editerFormat(fmt) {
+      const retenus = fmt ? [...fmt.colonnes] : [];
+      const parGroupe = new Map();
+      for (const c of d.champs) {
+        if (!parGroupe.has(c.groupe)) parGroupe.set(c.groupe, []);
+        parGroupe.get(c.groupe).push(c);
+      }
+      const titreDe = (cle) => (d.champs.find((c) => c.cle === cle) || {}).titre || cle;
+      const dispo = () => [...parGroupe.entries()].map(([g, l]) =>
+        `<optgroup label="${esc(g)}">${l.filter((c) => !retenus.includes(c.cle))
+          .map((c) => `<option value="${esc(c.cle)}">${esc(c.titre)}</option>`).join("")}</optgroup>`).join("");
+      const choisis = () => retenus.map((c) =>
+        `<option value="${esc(c)}">${esc(titreDe(c))}</option>`).join("");
+
+      dialogue(fmt ? `Modifier « ${fmt.nom} »` : "Créer un format d'export", `
+        <label class="champ"><span>Nom du format</span>
+          <input id="efN" value="${esc(fmt ? fmt.nom : "")}" placeholder="ClickShip, Dymo, comptable…"></label>
+        <div class="efG">
+          <div><div class="fLab">Champs disponibles</div>
+            <select id="efA" multiple size="12">${dispo()}</select></div>
+          <div class="efB">
+            <button type="button" id="efAdd" title="Ajouter">→</button>
+            <button type="button" id="efDel" title="Retirer">←</button>
+            <button type="button" id="efUp" title="Monter">↑</button>
+            <button type="button" id="efDown" title="Descendre">↓</button></div>
+          <div><div class="fLab">Champs retenus — l'ordre est celui du fichier</div>
+            <select id="efB2" multiple size="12">${choisis()}</select></div>
+        </div>`,
+        async () => {
+          const r = await api("/api/export-formats", { method: "POST", body: {
+            id: fmt ? fmt.id : undefined, nom: $("#efN").value, jeu, colonnes: retenus } });
+          if (r && r.error) return alert(r.error);
+          toast(`Format « ${r.nom} » enregistré — ${r.colonnes.length} colonne(s).`, { type: "succes" });
+          $("#dlg").close();
+          exporterCommandes();
+        }, "Enregistrer le format");
+
+      const repeindre = () => { $("#efA").innerHTML = dispo(); $("#efB2").innerHTML = choisis(); };
+      const selection = (sel) => [...$(sel).selectedOptions].map((o) => o.value);
+      $("#efAdd").onclick = () => { for (const c of selection("#efA")) if (!retenus.includes(c)) retenus.push(c); repeindre(); };
+      $("#efDel").onclick = () => { const s = new Set(selection("#efB2")); for (let i = retenus.length - 1; i >= 0; i--) if (s.has(retenus[i])) retenus.splice(i, 1); repeindre(); };
+      // Monter et descendre gardent la sélection : sans ça, réordonner cinq colonnes demande
+      // cinq allers-retours à la souris.
+      const bouger = (pas) => {
+        const s = selection("#efB2");
+        const idx = s.map((c) => retenus.indexOf(c)).sort((a, b) => pas < 0 ? a - b : b - a);
+        for (const i of idx) {
+          const j = i + pas;
+          if (j < 0 || j >= retenus.length) continue;
+          [retenus[i], retenus[j]] = [retenus[j], retenus[i]];
+        }
+        repeindre();
+        [...$("#efB2").options].forEach((o) => { o.selected = s.includes(o.value); });
+      };
+      $("#efUp").onclick = () => bouger(-1);
+      $("#efDown").onclick = () => bouger(1);
+    }
+  }
+
   const SANS_SELECTION = "Sélectionner au moins une commande";
   ACT.aAutres = () => menuFlottant("aAutres", [
     { t: "Annuler les commandes…", danger: 1, inactif: S.sel.size ? null : SANS_SELECTION, f: annuler },
@@ -3244,10 +3400,7 @@ VUES.commandes = async (statutFixe) => {
       } },
     // Les cinq entrées globales de ShipStation restent actives sans sélection.
     { t: "Importer des commandes…", f: () => importerShopify() },
-    { t: S.sel.size ? "Exporter la sélection (CSV)" : "Exporter les commandes du filtre (CSV)",
-      f: () => window.open(S.sel.size
-        ? `/api/export/orders?ids=${ids().join(",")}`
-        : "/api/export/orders?" + new URLSearchParams(S0.vue ? { ...lire(), view_id: S0.vue } : lire()), "_blank") },
+    { t: "Exporter les commandes…", f: exporterCommandes },
     { t: "Ajouter à un lot…", inactif: S.sel.size ? null : SANS_SELECTION, f: ajouterAuLot },
     { t: "Recherche par code-barres…", f: () => aller("scan") },
     { t: "Valider les adresses", inactif: S.sel.size ? null : SANS_SELECTION, f: async () => {
