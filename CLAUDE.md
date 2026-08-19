@@ -60,5 +60,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 
 - `support.js` : réponses IA de la boîte support (v2.34 : vérifie Shopify ET ShipStation).
 - `qbo_auth.js` / `qbo_check.js` : autorisation OAuth Intuit (une fois) et validation directe.
+- `bimi_check.js` : état SPF/DKIM/DMARC/BIMI de `lasclay.com` + conformité du logo SVG.
+  Logos et marche à suivre : `bimi/README.md` (le proxy général sert `/bimi/logo.svg`).
 - Déploiement : les services Render suivent la branche `main` — le travail se fait sur une
   branche, puis fusion dans `main` pour déployer.

@@ -14,6 +14,7 @@
  * ROUTAGE :
  *   GET  /health                       → sonde (sans auth)
  *   GET  /connectors                   → liste les connecteurs + actions dispo (sans secret)
+ *   GET  /bimi/logo.svg                → logo BIMI de Lasclay (sans secret, voir bimi/README.md)
  *   POST /:connecteur/:action  {..params}  → exécute l'action (auth requise)
  *
  * Premier connecteur : SHIPSTATION (API v1 « legacy », ssapi.shipstation.com,
@@ -51,6 +52,16 @@
  */
 
 const http = require("node:http");
+const fs = require("node:fs");
+const path = require("node:path");
+
+// Logos BIMI servis en clair (sans secret) : un enregistrement DNS BIMI pointe vers une
+// URL HTTPS publique, et le fichier doit rester à la MÊME adresse aussi longtemps que le
+// certificat VMC/CMC qui le couvre. Voir bimi/README.md.
+const LOGOS_BIMI = {
+  "/bimi/logo.svg": path.join(__dirname, "bimi", "lasclay-bimi.svg"),
+  "/bimi/logo-inverse.svg": path.join(__dirname, "bimi", "lasclay-bimi-inverse.svg"),
+};
 
 // Secret propre à CE proxy : GENERAL_PROXY_SECRET en priorité (distinct de celui du
 // missive-proxy, révocable indépendamment), repli sur PROXY_SECRET si non défini.
@@ -396,6 +407,19 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "GET" && route === "/health") return json(res, 200, { ok: true, service: "connectors-proxy" });
     if (req.method === "GET" && route === "/connectors") return json(res, 200, { connectors: describeConnectors() });
+
+    if (req.method === "GET" && LOGOS_BIMI[route]) {
+      let svg;
+      try { svg = fs.readFileSync(LOGOS_BIMI[route]); }
+      catch { return json(res, 404, { error: "logo introuvable" }); }
+      res.writeHead(200, {
+        "Content-Type": "image/svg+xml",
+        "Content-Length": svg.length,
+        "Cache-Control": "public, max-age=3600",
+      });
+      return res.end(svg);
+    }
+
     if (req.method !== "POST") return json(res, 404, { error: "not found" });
 
     // Routage /:connecteur/:action (résolu AVANT l'auth: le secret exigé dépend du connecteur)
