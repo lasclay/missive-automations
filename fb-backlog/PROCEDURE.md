@@ -33,39 +33,41 @@ Charge le skill `lasclay-master` pour la voix de marque.
 Composio ne sert qu'à **une seule chose** : obtenir les jetons d'accès des Pages. Tout le reste —
 lire les commentaires, publier les réponses — passe en direct par l'API Graph v23.0 de Meta.
 
-### Chemin normal : l'API REST de Composio
+### Trois chemins possibles — essaie-les dans cet ordre, rapporte celui qui marche
 
-`COMPOSIO_API_KEY` est dans l'environnement. N'affiche jamais sa valeur, utilise toujours
-`$COMPOSIO_API_KEY`. Le compte Facebook connecté est `facebook_grice-absume` (actif).
+Le compte Facebook connecté est `facebook_grice-absume` (actif). L'outil à exécuter est
+`FACEBOOK_LIST_MANAGED_PAGES` avec `fields=id,name,access_token`, `limit=25`.
 
-Vérifie d'abord la connexion :
+**1. Le connecteur MCP**, si `mcp__Composio__*` est présent dans ta session. C'est le chemin le
+plus simple. Il n'est pas garanti dans une session lancée par Routine — vérifie, ne suppose pas.
 
-```
-GET https://backend.composio.dev/api/v3/connected_accounts?toolkit_slugs=facebook
-en-tête : x-api-key: $COMPOSIO_API_KEY
-```
-
-Puis exécute l'outil qui rend les jetons :
+**2. L'API REST de la plateforme**, avec `$COMPOSIO_API_KEY` en en-tête `x-api-key` :
 
 ```
+GET  https://backend.composio.dev/api/v3/connected_accounts?toolkit_slugs=facebook
 POST https://backend.composio.dev/api/v3/tools/execute/FACEBOOK_LIST_MANAGED_PAGES
-en-tête : x-api-key: $COMPOSIO_API_KEY
-corps   : {"connected_account_id": "facebook_grice-absume",
-           "arguments": {"fields": "id,name,access_token", "limit": 25}}
 ```
 
-Le nom exact des champs du corps a évolué entre versions de l'API (`arguments` /
-`connected_account_id` / `user_id`). **Ne suppose pas : lis la réponse.** Si tu reçois une erreur
-de validation, elle nomme le champ attendu — corrige et réessaie une fois. Si tu reçois un 401
-`APIKey_InvalidAPIKey`, la clé de l'environnement est expirée : arrête et signale-le, c'est une
-action humaine (regénérer la clé sur dashboard.composio.dev et la remettre dans les variables
-d'environnement du Cloud).
+**3. Le serveur MCP de Composio**, avec la même clé mais en en-tête **`x-consumer-api-key`**.
 
-### Chemin de secours : le connecteur MCP
+Attention : Composio distingue deux types de clés. Celle du tableau de bord, sous « Sessions &
+API Key », est une clé **client MCP** et s'envoie en `x-consumer-api-key` ; une clé de plateforme
+s'envoie en `x-api-key`. Une clé refusée en 401 `APIKey_InvalidAPIKey` sur `backend.composio.dev`
+n'est donc pas forcément expirée — elle peut simplement être du mauvais type pour cet endpoint.
+Essaie les deux en-têtes avant de conclure.
 
-Si les outils `mcp__Composio__*` sont présents dans ta session, tu peux les utiliser à la place :
-`FACEBOOK_LIST_MANAGED_PAGES` avec `fields=id,name,access_token`. Ils ne sont pas garantis dans
-une session lancée par Routine — d'où le chemin REST en premier.
+Le nom des champs du corps de `tools/execute` a évolué entre versions (`arguments` /
+`connected_account_id` / `user_id`). **Ne suppose pas : lis la réponse.** Une erreur de validation
+nomme le champ attendu — corrige et réessaie une fois.
+
+**Dans ton rapport, dis lequel des trois chemins a fonctionné, avec le code HTTP et la forme
+exacte du corps accepté.** C'est la seule inconnue restante de cette procédure ; une fois connue,
+elle sera figée ici et les deux autres chemins supprimés.
+
+Si aucun des trois ne passe : arrête sans contournement et signale-le. C'est une action humaine.
+
+**Ne journalise jamais un jeton ni une clé, ne les écris dans aucun fichier, ne les committe
+jamais.** Pour la Page Lasclay, pagine avec `limit=25`.
 
 ### Piège connu, quel que soit le chemin
 
