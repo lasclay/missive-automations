@@ -407,6 +407,8 @@ const facebook = (() => {
   const FB_TOKEN = process.env.FB_USER_TOKEN || "";
   const CKEY = process.env.COMPOSIO_API_KEY || "";
   const CBASE = process.env.COMPOSIO_BASE || "https://backend.composio.dev/api/v3";
+  // L'exécution d'outil vit sur v3.1 ; les lectures (comptes, outils) restent sur v3.
+  const CEXEC = process.env.COMPOSIO_EXEC_BASE || "https://backend.composio.dev/api/v3.1";
   const CACCT = process.env.COMPOSIO_FB_ACCOUNT || "facebook_grice-absume";
   const V = process.env.FB_GRAPH_VERSION || "v23.0";
   const BASE = `https://graph.facebook.com/${V}`;
@@ -436,11 +438,18 @@ const facebook = (() => {
   // Le nom des champs du corps a changé entre versions de l'API Composio et n'est pas
   // documenté de façon stable. Plutôt que de parier, on essaie les formes connues dans
   // l'ordre et on retient celle qui passe : `forme` est ensuite exposée par diag.
+  // Forme canonique documentée par Composio (référence API v3.1) :
+  //   POST /api/v3.1/tools/execute/{slug}
+  //   { "connectedAccountId": "...", "input": {...}, "version": "latest" }
+  // Le champ est en camelCase et s'appelle `input`, pas `arguments` — l'erreur
+  // « Validation error » 10400 vient de là. Les formes suivantes sont d'anciennes
+  // variantes, gardées en repli au cas où le projet serait servi par une version
+  // antérieure de l'API.
   const FORMES = [
-    ["connected_account_id + arguments", (a, id) => ({ connected_account_id: id, arguments: a })],
+    ["connectedAccountId + input", (a, id) => ({ connectedAccountId: id, input: a, version: "latest" })],
     ["connected_account_id + input", (a, id) => ({ connected_account_id: id, input: a })],
+    ["connected_account_id + arguments", (a, id) => ({ connected_account_id: id, arguments: a })],
     ["user_id + arguments", (a, id) => ({ user_id: id, arguments: a })],
-    ["arguments seul", (a) => ({ arguments: a })],
   ];
 
   // Le compte connecté est DÉCOUVERT, jamais supposé : la clé de projet ne voit que les
@@ -474,7 +483,7 @@ const facebook = (() => {
         try {
           const r = await httpJson({
             method: "POST",
-            url: `${CBASE}/tools/execute/${slug}`,
+            url: `${CEXEC}/tools/execute/${slug}`,
             headers: { "x-api-key": CKEY },
             body: faire(args, id),
           });
