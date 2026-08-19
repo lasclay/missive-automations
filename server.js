@@ -446,16 +446,17 @@ const facebook = (() => {
   // variantes, gardées en repli au cas où le projet serait servi par une version
   // antérieure de l'API.
   const UID = process.env.COMPOSIO_USER_ID || "lasclay";
+  // Forme retenue après lecture des erreurs réelles de l'API (et non de la doc, qui
+  // décrit une autre version) : l'endpoint v3.1 attend `arguments`, pas `input`, et
+  // réclame le user_id EN PLUS du compte connecté. Ses deux messages, mot pour mot :
+  //   « User ID is required with connected account »
+  //   « Error in payload.text.arguments: Only one of 'text' or 'arguments' »
+  // `text` est l'alternative en langage naturel : ne jamais envoyer les deux.
   const FORMES = [
-    // Composio réclame le user_id EN PLUS du compte connecté : « User ID is required
-    // with connected account ». Les deux ensemble, donc.
-    ["connectedAccountId + userId + input", (a, id) => ({ connectedAccountId: id, userId: UID, input: a, version: "latest" })],
-    ["connected_account_id + user_id + input", (a, id) => ({ connected_account_id: id, user_id: UID, input: a })],
-    ["userId + input (sans compte)", (a) => ({ userId: UID, input: a, version: "latest" })],
-    ["connectedAccountId + input", (a, id) => ({ connectedAccountId: id, input: a, version: "latest" })],
-    ["connected_account_id + input", (a, id) => ({ connected_account_id: id, input: a })],
-    ["connected_account_id + arguments", (a, id) => ({ connected_account_id: id, arguments: a })],
-    ["user_id + arguments", (a, id) => ({ user_id: id, arguments: a })],
+    ["connectedAccountId + userId + arguments", (a, id) => ({ connectedAccountId: id, userId: UID, arguments: a })],
+    ["connected_account_id + user_id + arguments", (a, id) => ({ connected_account_id: id, user_id: UID, arguments: a })],
+    ["userId + arguments (sans compte)", (a) => ({ userId: UID, arguments: a })],
+    ["connectedAccountId + arguments", (a, id) => ({ connectedAccountId: id, arguments: a })],
   ];
 
   // Le compte connecté est DÉCOUVERT, jamais supposé : la clé de projet ne voit que les
