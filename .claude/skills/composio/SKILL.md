@@ -63,15 +63,24 @@ MCP.** Elle passe par le General Proxy.
 
 ## Appeler la plateforme en REST : la forme exacte
 
-Documentée dans la référence API v3.1. Deux détails font échouer tout le reste si on les rate :
-le chemin est en **`v3.1`**, et le champ est **`connectedAccountId`** en camelCase avec
-**`input`** — pas `connected_account_id` avec `arguments`, qui rend un `Validation error` 10400.
+**Forme vérifiée en production le 19 août 2026**, obtenue en lisant les erreurs de l'API et non
+sa documentation — la page de référence décrit `input`, que le serveur refuse.
 
 ```
 POST https://backend.composio.dev/api/v3.1/tools/execute/{TOOL_SLUG}
 x-api-key: <clé de projet>
-{ "connectedAccountId": "...", "input": { … }, "version": "latest" }
+{ "connected_account_id": "ca_…", "user_id": "lasclay", "arguments": { … } }
 ```
+
+Trois pièges, chacun avec son message :
+
+- **`arguments`, pas `input`.** → `Error in payload.text.arguments: Only one of 'text' or
+  'arguments'`. `text` est l'alternative en langage naturel ; n'envoyer jamais les deux.
+- **Le `user_id` est requis EN PLUS du compte connecté.** → `User ID is required with connected
+  account`.
+- **N'envoyer que les paramètres du schéma.** `FACEBOOK_GET_USER_PAGES` n'accepte que `fields` et
+  `user_id` ; ajouter `limit` rend un `Validation error` 10400 qui ne nomme pas le champ fautif.
+  Lire `GET /tools/{slug}` avant d'appeler.
 
 Les lectures (`/connected_accounts`, `/tools`, `/toolkits`, `/auth_configs`) restent sur `v3`.
 
@@ -219,3 +228,19 @@ Tirées de leur skill officiel (`github.com/ComposioHQ/composio`, `skills/compos
 
 La cinquième explique la journée du 19 août 2026 : six diagnostics faux, tous parce que je
 raisonnais de mémoire sur une API qui avait changé de version, de nom de champ et de slug.
+
+## La règle qui aurait tout évité
+
+**L'erreur de l'API est une source plus fiable que sa documentation.** Elle décrit le serveur qui
+répond maintenant ; la doc décrit une version publiée, parfois décalée. Ici la référence officielle
+annonçait `input` et le serveur exigeait `arguments`.
+
+Donc, devant un échec : ne pas raisonner de mémoire, ne pas se fier à la doc seule, **lire le
+message d'erreur en entier** — et ne jamais le tronquer dans son propre outillage de diagnostic.
+Une troncature à 130 caractères a masqué pendant une heure la phrase qui donnait la réponse.
+
+## État vérifié
+
+Chaîne complète confirmée le 19 août 2026 : `connectors_client.js` → General Proxy →
+Composio Platform → jetons de Page → Graph v23.0, sur les quatre Pages, chacune avec son
+propre jeton. `facebook diag` rend `ok: true, via: "composio"`.
