@@ -207,6 +207,12 @@ const shipstation = (() => {
       getrates: (p) => post("/shipments/getrates", requis(p, "carrierCode", "fromPostalCode", "toPostalCode", "toCountry", "weight")),
       // Tag sur une commande (réversible, aucun coût). Params: orderId, tagId (voir listtags).
       addtag: (p) => post("/orders/addtag", requis(p, "orderId", "tagId")),
+      // Assigne un utilisateur a des commandes. Params : orderIds[], userId (voir `users`,
+      // avec showInactive:true pour comprendre qui est encore actif).
+      assignuser: (p) => post("/orders/assignuser", {
+        orderIds: requis(p, "orderIds", "userId").orderIds,
+        userId: p.userId,
+      }),
       removetag: (p) => post("/orders/removetag", requis(p, "orderId", "tagId")),
       // Mise en attente / retour en file. Params: orderId (+ holdUntilDate AAAA-MM-JJ).
       holduntil: (p) => post("/orders/holduntil", requis(p, "orderId", "holdUntilDate")),
@@ -292,6 +298,15 @@ const shipstation2 = (() => {
         ...(p && p.batch_notes ? { batch_notes: p.batch_notes } : {}),
         ...(p && p.shipment_ids ? { shipment_ids: p.shipment_ids } : {}),
         ...(p && p.rate_ids ? { rate_ids: p.rate_ids } : {}),
+      }),
+      // Assigne un membre de l'equipe a des envois. Le lot affiche « Assigned To » dans
+      // l'interface, mais l'objet lot de l'API ne porte AUCUN champ d'assignation : c'est
+      // ici que ca se joue, sur les envois. Un lot cree par une cle appartenant a un
+      // utilisateur desactive s'affiche a son nom — d'ou cette route.
+      // Params : shipment_ids[] (max 500), user_id (UUID d'un utilisateur ACTIF).
+      assignuser: (p) => post("/shipments/user", {
+        shipment_ids: requis(p, "shipment_ids", "user_id").shipment_ids,
+        user_id: p.user_id,
       }),
       addtobatch: (p) => post(`/batches/${encodeURIComponent(requis(p, "batchId").batchId)}/add`, {
         ...(p.shipment_ids ? { shipment_ids: p.shipment_ids } : {}),
