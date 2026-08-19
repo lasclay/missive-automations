@@ -15,8 +15,14 @@ avec pause complète entre 12 h et 13 h.
 
 `cron_expression` : `0 13,14,15,17,18,19,20,21 * * *`
 
-Le dernier tir part à 17 h et se termine avant 18 h. Plafond : 35 réponses par tir,
-soit **280 par jour** au maximum.
+Le dernier tir part à 17 h et se termine avant 18 h. Le cron est ancré à la minute 6, donc les
+tirs partent à h:06 et non au haut de l'heure.
+
+Le tir n'a **pas de quota**. Il tire au sort s'il publie (1 chance sur 6 de sauter l'heure,
+2 sur 6 le week-end), combien (loi exponentielle de moyenne 4, plafonnée à 14), quand commencer
+(0 à 11 minutes) et quels écarts (90 s à 14 min, moyenne 4 min). Détail dans `REGLES.md`.
+Débit attendu : **environ 30 réponses par jour**, jamais un chiffre rond, jamais le même deux
+jours de suite.
 
 > **Heure normale de l'Est.** Le cron est en UTC. Au retour à l'heure normale (premier
 > dimanche de novembre, EST = UTC−5), il faut décaler d'une heure avec `update_trigger` :
@@ -32,7 +38,7 @@ soit **280 par jour** au maximum.
    trois autres.
 3. Sélectionne des questions sans réponse, non masquées, absentes de `repondus.json`.
 4. **Rédige chaque réponse sur mesure** à partir des faits vérifiés. Aucun gabarit copié.
-5. Publie à intervalles irréguliers de 30 à 170 secondes, en alternant les Pages.
+5. Publie **une réponse à la fois**, à intervalles tirés au sort, en alternant les Pages.
 6. Met à jour `repondus.json` et `a-revoir.json`, committe et pousse sur
    `claude/composio-facebook-moderation-9czg82`.
 
