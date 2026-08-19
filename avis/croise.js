@@ -61,6 +61,23 @@ for (const l of fs.readFileSync(`${DIR}/candidats.jsonl`, "utf8").split("\n")) {
   cands.set(d.id, d);
 }
 
+// Verdict des agents de rédaction. Il prime sur le lexique : le détecteur sert à
+// présélectionner, pas à décider. Un fil qu'aucun agent n'a retenu n'est pas un éloge
+// publiable, même s'il a bien noté.
+const retenusAgents = new Set();
+const relus = new Set();
+for (let i = 1; i <= 20; i++) {
+  for (const [f, cible] of [[`redige_${i}.jsonl`, retenusAgents], [`redige_${i}_rejets.jsonl`, relus]]) {
+    const p = `${DIR}/${f}`;
+    if (!fs.existsSync(p)) continue;
+    for (const l of fs.readFileSync(p, "utf8").split("\n")) {
+      if (!l.trim()) continue;
+      try { const d = JSON.parse(l); if (d.id) { cible.add(d.id); relus.add(d.id); } } catch {}
+    }
+  }
+}
+const verdictDisponible = relus.size > 0;
+
 const parIdFil = new Map();
 for (const f of ["archive_threads.jsonl", "threads.jsonl"]) {
   const p = `${DIR}/${f}`;
@@ -102,7 +119,10 @@ for (const f of fils) {
   if (f.echec) { cpt.incomplet++; continue; }
   const dejaEtiquete = etiquetes.has(f.id);
   const cand = cands.get(f.id);
-  const positif = cand && (cand.niveau === "fort" || cand.niveau === "possible");
+  // Si un agent a relu ce fil, c'est lui qui tranche. Sinon on retombe sur le lexique.
+  const positif = verdictDisponible && relus.has(f.id)
+    ? retenusAgents.has(f.id)
+    : (cand && (cand.niveau === "fort" || cand.niveau === "possible"));
   const cl = client(f) || {};
   const jm = positif || dejaEtiquete ? chercheJudgeme(cl.nom, cl.adr) : null;
   const publie = jm && jm.force === "forte";

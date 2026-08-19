@@ -21,7 +21,7 @@ for l in open(f"{S}/catalogue.tsv"):
         cat[p[0]] = p[2]
 
 avis = []
-for i in range(1, 13):
+for i in range(1, 21):
     p = f"{S}/redige_{i}.jsonl"
     if not os.path.exists(p):
         continue

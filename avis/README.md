@@ -159,3 +159,29 @@ pour les 418 personnes : 530 lignes l'obtiennent, 55 concernent un produit que l
 pas commandé sous cette adresse, 69 viennent d'adresses sans aucune commande. Les avis restent
 publiables sans le badge : c'est le sort normal d'un client qui écrit d'une adresse
 personnelle après avoir commandé au bureau, ou qui a reçu le produit en cadeau.
+
+## Le consentement, et l'identité de l'auteur
+
+Deux contrôles ajoutés en fin de parcours, tous deux nés d'une observation d'agent :
+
+**Refus de publication.** Une cliente écrivait « je préférerais vous en parler personnellement
+que de faire un commentaire public ». Un agent l'a écartée de lui-même. Le corpus entier a
+ensuite été balayé pour ce genre de formulation : trois occurrences, toutes de faux positifs
+(pieds de page juridiques d'entreprise). Aucun autre refus explicite dans les avis retenus.
+
+**Auteur qui n'est pas un client.** Le même balayage a fait ressortir Dominique Berthiaume,
+qui écrit « j'adore vos produits » et se présente dans la phrase précédente comme représentant
+des ventes chez Red Bull, à propos d'un produit concurrent à saveur d'asclépiade. Courtoisie
+entre marques, pas avis de client. Écarté nommément, avec la raison en commentaire.
+
+C'est le genre de cas qu'aucune règle générale n'attrape et qu'aucun compte rendu d'agent ne
+signale spontanément. Il est sorti d'un balayage lancé pour une autre raison.
+
+## L'archive n'était pas complète non plus
+
+La collecte directe de la boîte a rapporté **733 fils absents de l'archive**, échelonnés de
+juin 2023 à août 2026. Le script d'export en écarte manifestement une partie. 170 portaient un
+signal, traités dans les lots 13 et 14, pour 36 avis de plus.
+
+Leçon pour la prochaine fois : l'archive est la voie rapide, elle n'est pas la voie exhaustive.
+Les deux sources se complètent, et `detect.js` lit bien les deux.

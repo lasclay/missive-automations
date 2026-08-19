@@ -23,7 +23,7 @@ for (const r of importes) {
 }
 
 const avis = [];
-for (let i = 1; i <= 12; i++) {
+for (let i = 1; i <= 20; i++) {
   const p = `${DIR}/redige_${i}.jsonl`;
   if (!fs.existsSync(p)) continue;
   for (const l of fs.readFileSync(p, "utf8").split("\n")) {
@@ -160,6 +160,10 @@ const MORTS = new Set(["glaciere-boissons-beer-cooler", "carte-cadeau", "crochet
 // Un avis ne peut jamais être signé par quelqu'un de la maison. Ces noms apparaissent dans
 // l'archive parce que Missive stocke le nom d'affichage de l'expéditeur, y compris le nôtre
 // sur les fils Messenger et Instagram.
+// Écartés nommément, preuve à l'appui dans le fil.
+const ECARTES = new Set([
+  "dominique.berthiaume@hotmail.com", // se présente comme représentant des ventes chez Red Bull
+]);
 const INTERNE = /@lasclay\.com|\blasclay\b|milkweed company|bedard[- ]?mercier|\bgouveia\b/i;
 const ADRESSE = /^[^@\s,;]+@[^@\s,;]+\.[A-Za-z]{2,}$/;
 const net = (s) => (s || "").replace(/[\t\r\n]+/g, " ").replace(/\s{2,}/g, " ").trim();
@@ -213,7 +217,7 @@ for (const a of avis) {
     const ligne = COL.map((c) => l[c]).join("\t");
     // Judge.me identifie l'auteur par son courriel : sans lui, la ligne ne s'importe pas.
     if (!ADRESSE.test(courriel)) { sansCourriel.push(ligne); continue; }
-    if (INTERNE.test(`${l.reviewer_name} ${courriel}`)) { interne.push(ligne); continue; }
+    if (INTERNE.test(`${l.reviewer_name} ${courriel}`) || ECARTES.has(courriel)) { interne.push(ligne); continue; }
     // Publier une adresse courriel comme nom d'auteur exposerait le client. Jamais.
     if (!l.reviewer_name) { sansNom.push(ligne); continue; }
     if (dejaVerse.has(`${courriel}|${h}`) || dejaPublie.has(empreinte(l.body))) doublons.push(ligne);
@@ -242,7 +246,7 @@ for (const a of sansProduit) {
     product_id: "", product_handle: "",
     reply: "", reply_date: "", picture_urls: "", ip_address: "", location: "", metaobject_handle: "",
   };
-  if (INTERNE.test(`${nom} ${courriel}`)) { boutiqueInterne++; continue; }
+  if (INTERNE.test(`${nom} ${courriel}`) || ECARTES.has(courriel)) { boutiqueInterne++; continue; }
   if (dejaPublie.has(empreinte(l.body))) { boutiqueDoublons++; continue; }
   boutique.push(COL.map((c) => l[c]).join("\t"));
   nbBoutique++;

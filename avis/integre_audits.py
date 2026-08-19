@@ -7,14 +7,14 @@ S = os.path.dirname(os.path.abspath(__file__))
 
 # Quel fil appartient à quel lot.
 lotDe = {}
-for i in range(1, 13):
+for i in range(1, 21):
     for l in open(f"{S}/lot_{i}.jsonl"):
         if l.strip():
             lotDe[json.loads(l)["id"]] = i
 
 # Ce qui est déjà retenu : on ne verse pas deux fois.
 deja = set()
-for i in range(1, 13):
+for i in range(1, 21):
     p = f"{S}/redige_{i}.jsonl"
     if os.path.exists(p):
         for l in open(p):
