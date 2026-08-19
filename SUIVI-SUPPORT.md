@@ -25,7 +25,8 @@ est déposée dans le fil mais ne ressort pas de l'API.
 
 ## En attente d'un geste interne
 
-Dernière mise à jour : 2026-08-19. Assignées à Catherine Bedard-Mercier et Gabriel Gouveia.
+Dernière mise à jour : 2026-08-19 (batch 14). Toutes assignées à Catherine Bedard-Mercier
+et Gabriel Gouveia.
 
 | # | Client | Fil | Geste | Montant | Promis au client |
 | --- | --- | --- | --- | --- | --- |
@@ -40,6 +41,14 @@ Dernière mise à jour : 2026-08-19. Assignées à Catherine Bedard-Mercier et G
 | 9 | Patricia Prince | `6086b8af` | Retirer sa carte de crédit du dossier **+** élucider la tuque S/M retirée à 0,00 $ | ~35 $ à vérifier | non |
 | 10 | Géraldine Philippin | `9346dc91` | Diviser L-50286 pour expédier la crème seule — **seulement si elle confirme** | — | offert |
 | 11 | Deborah Williams | `fcb0547a` | Expédier le sachet de graines Labriformis manquant | 2,72 $ | oui |
+| 12 | Henri-Paul Bronsard | `a13c8c3d` | Émettre un **crédit boutique** | 25,00 $ | oui |
+| 13 | Nancy Amadon | `ac6be2f2` | Changer le point de retrait pour **Québec, boutique des Capucins**. Elle recevra un avis d'annulation puis une nouvelle commande — c'est normal, ne pas s'en inquiéter | — | oui |
+| 14 | Kassandra Veilleux | `3b8c46ad` | Rembourser | 68,96 $ | oui |
+| 15 | René St-Hilaire | `a8a56668` | Appliquer **LASCLAY30** (couverture imprimée en prévente automne) | 46,79 $ | oui |
+| 16 | Estelle Bolduc | `7315a66a` | Appliquer le rabais de **30 %** | 46,19 $ | oui |
+| 17 | Diane Mayer | `ede94a0c` | Rembourser la portion du code promo omis (30 %). Son chandail polaire reste en prévente automne 2026 | 32,09 $ | oui |
+| 18 | Greg Shone | `13235c55` | **Obtenir sa nouvelle adresse** avant tout envoi — il a déménagé le 22 juin | — | oui |
+| 19 | Léanne St-Hilaire | `54bd3d18` | L-50266 : expédier la **1re partie** — 3 sachets stratifiés + 2 paires de semelles 5 femme + graines d'automne offertes. Mitaines bébé et sac à lunch noir suivent à l'automne (prévente). ⚠️ **Semelles « 5 femme » à −7 dans Shopify** : vérifier physiquement avant de monter le colis, elle n'a pas été avertie d'un retard là-dessus | — | oui, elle a accepté le 18 août |
 
 ## Conditionnels — rien à faire tant que le client n'a pas répondu
 
@@ -47,8 +56,12 @@ Dernière mise à jour : 2026-08-19. Assignées à Catherine Bedard-Mercier et G
 | --- | --- | --- |
 | Marc-Olivier Gilbert | `eebad7e6` | remboursement de 68,97 $ **ou** sac de remplacement, à son choix |
 | Hugo Poirier | `71abd7ec` | remboursement de 51,42 $ s'il juge l'attente jusqu'à l'automne trop longue |
-| Cheryl Warner, Donna Burzynski, Georgia Hoffmann, Bob Barth | — | renvoi ou remboursement s'ils confirment n'avoir jamais reçu leurs graines |
+| Sara Usher | `eb882b81` | remboursement de ses 3 sachets s'ils ne sont jamais arrivés |
+| Emma Nelson | `fd4fbc13` | échange de couleur **ou** annulation + remboursement de 68,31 $ |
 | Andrew Lawson | `5a789699` | expédition d'un sac à lunch + nouvelle adresse s'il confirme n'avoir rien reçu |
+| Martin Maillet | `79a41d5e` | L-49533 : réexpédition sans frais **ou** remboursement, à son choix |
+| Tina Newman | `2b225563` | L-49359 : renvoi sans frais **ou** remboursement de 9,55 $, à son choix |
+| Cheryl Warner, Donna Burzynski, Georgia Hoffmann, Bob Barth | — | renvoi ou remboursement s'ils confirment n'avoir jamais reçu leurs graines |
 
 ## Réglé
 
@@ -60,3 +73,18 @@ Simon Déry — remboursement de 6,60 $, transaction `PENDING` chez Shopify Paym
 Le dossier **Paulette Pratte** (`ab13967e`) porte jusqu'à quatre fois la même tâche, et six
 autres fils portent chacun une tâche en double (André Boily, Patricia Prince, Hugo Poirier,
 Claudia Déméné, Marc Bouvet, Géraldine Philippin). Le proxy ne peut pas les supprimer.
+
+## Défauts de fond repérés en vidant la boîte
+
+Ces trois-là ne sont pas des dossiers clients : ce sont les causes qui les ont produits.
+
+1. **Semelles vendues à découvert.** Le produit « Semelles intérieures isolantes » est à
+   **−86 au total**, chaque variante étant en `inventoryPolicy: CONTINUE`. On encaisse des
+   commandes qu'on ne peut pas honorer — c'est ce qui bloque la ligne 19 ci-dessus.
+2. **Le mode de livraison affiché ment.** Des commandes marquées **« Express »** dans
+   Shopify partent par courrier ordinaire sans numéro de suivi (L-46229, L-46301). Le
+   courriel automatique promet ensuite un suivi qui n'existe pas. Trois courriels du
+   batch 14 n'ont pas d'autre cause que celle-là.
+3. **L'objet du rappel Klaviyo de panier abandonné** — « Rappel : Votre commande Lasclay
+   vous attend 😊 » — fait croire à une commande réelle. Une cliente a tenté d'annuler une
+   commande qui n'a jamais existé.
