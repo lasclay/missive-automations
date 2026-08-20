@@ -62,9 +62,19 @@ Chaque entrée porte un `type` :
 - **`récit`** — quelqu'un raconte son experience : ses cocons, ses semis, son plant disparu.
   Pas de question, mais une presence qui merite qu'on lui reponde.
 - **`photo`** — aucun texte, seulement une image. Quelqu'un montre sa chenille, son plant, son
-  monarque. Ce n'est pas un commentaire vide : c'est le plus enthousiaste des trois. Reponds en
-  une phrase, sans deviner ce qu'on voit — tu n'as pas l'image. Un simple accueil chaleureux
-  suffit ; ne decris jamais ce que tu crois y voir.
+  monarque. Ce n'est pas un commentaire vide : c'est souvent le plus enthousiaste des trois.
+
+  **Regarde l'image avant de repondre.** Le champ `image` du lot porte son URL :
+
+  ```
+  node fb-backlog/traiter.js image <url>     # -> ecrit le fichier dans /tmp/fb-images/
+  ```
+
+  Puis ouvre le fichier avec Read et reponds a ce que tu vois vraiment : la chenille au cinquieme
+  stade, la chrysalide qui verdit, la talle en fleurs. C'est la que la reponse vaut le plus.
+
+  La seule interdiction est de **deviner**. Si le telechargement echoue ou que l'image est
+  illisible, reponds par un accueil chaleureux sans decrire quoi que ce soit, ou ecarte.
 
 Un recit se repond **court** : une ou deux phrases, chaleureuses, qui accusent reception de ce que
 la personne a vecu. Pas d'argumentaire produit, pas de lien vers la boutique, pas de conseil non
@@ -74,10 +84,23 @@ N'exiger que les questions etait une erreur : sur les fils vivants, sept comment
 huit sont des recits. Les ignorer donnait une Page qui ne repond jamais a ce qui vient d'etre
 ecrit - exactement ce qu'un abonne remarque.
 
-Les **reponses entre abonnes** sont desormais ecartees par le script lui-meme : Meta rend un
-champ `parent` sur tout commentaire situe dans un sous-fil, et c'est un signal fiable. Il a
-remplace une heuristique « Prenom Nom » qui ecartait a tort des phrases comme « In South Texas
-we have a huge yearly migration ». Reste ton jugement pour ce qui passe entre les mailles.
+### Les sous-fils : transmis, pas rejetes
+
+Chaque entree porte `adresse` — `la Page`, `la Page (reponse a notre commentaire)`, ou
+`un autre abonne` — et, le cas echeant, `repond_a` avec l'auteur et un extrait du commentaire
+parent.
+
+Sur un fil vivant, **39 % des commentaires sont des reponses adressees a un autre abonne**. Les
+rejeter d'office faisait tomber le taux d'eligibilite a 47 %. Beaucoup posent pourtant une vraie
+question, ou s'adressent en fait a la marque sans la nommer. Ils te sont donc transmis avec leur
+contexte, et c'est **ton jugement** qui tranche :
+
+- une question, meme dans un sous-fil → reponds
+- deux abonnes qui se parlent, sans rien qui nous concerne → ecarte, c'est leur conversation
+- quelqu'un qui repond a NOTRE commentaire → reponds, c'est une conversation avec nous
+
+**Le taux de rejet vise est sous 10 %.** S'il monte, c'est le signe qu'un filtre est trop strict
+ou que le jugement ecarte trop large — signale-le dans ton rapport.
 
 ### La règle du 70 %
 

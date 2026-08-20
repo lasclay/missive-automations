@@ -586,8 +586,12 @@ const facebook = (() => {
           // `parent` est le seul signal FIABLE qu'un commentaire est une réponse
           // à l'intérieur d'un fil plutôt qu'un message adressé à la Page.
           // `attachment` distingue un commentaire vide d'un commentaire-photo.
+          // `parent` dit à QUI le commentaire répond — la Page ou un autre abonné.
+          // `attachment.media.image.src` donne l'image, pour qu'une session
+          // puisse réellement la regarder au lieu de deviner.
           fields:
-            "id,created_time,message,from,is_hidden,comment_count,permalink_url,parent{id},attachment{type}",
+            "id,created_time,message,from,is_hidden,comment_count,permalink_url," +
+            "parent{id,message,from{id,name}},attachment{type,media{image{src}}}",
           filter: "stream",
           limit: 100,
           ...q,

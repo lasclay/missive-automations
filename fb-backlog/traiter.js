@@ -9,6 +9,7 @@
  *
  *   node fb-backlog/traiter.js candidats --tir A --n 8   → JSON des commentaires à traiter
  *   node fb-backlog/traiter.js publier reponses.json     → publie, vérifie, enregistre
+ *   node fb-backlog/traiter.js image <url> [fichier]     → télécharge une pièce jointe
  *   node fb-backlog/traiter.js etat                      → où en est chaque tir
  *
  * Pourquoi un script plutôt que des instructions à une session : une session
@@ -171,23 +172,29 @@ function eligible(c, dejaVus) {
   if (c.comment_count && c.comment_count > 0) return false;
   if (c.from && NOMS[c.from.id]) return false; // écrit par la Page elle-même
 
-  // `parent` est le seul signal fiable qu'on est dans un sous-fil : ce
-  // commentaire répond à un autre commentaire, pas à la Page. Il remplace une
-  // heuristique « Prénom Nom » qui produisait des faux positifs — « In South
-  // Texas… » était pris pour le nom d'une personne et écarté à tort.
-  if (c.parent) return false;
-
+  // Un commentaire situé dans un sous-fil n'est PAS rejeté d'office. Sur un fil
+  // vivant il représente 39 % du volume, et beaucoup de ces messages posent une
+  // vraie question ou s'adressent en fait à la marque. Il est transmis avec son
+  // contexte (`adresse`, `repond_a`) et c'est le jugement qui tranche.
   const m = (c.message || "").trim();
 
-  // Un commentaire sans texte mais avec une photo n'est pas vide : quelqu'un
-  // montre sa chenille ou son plant. Sur ces Pages, ça mérite une réponse.
+  // Un commentaire sans texte mais avec une image n'est pas vide : quelqu'un
+  // montre sa chenille ou son plant. C'est souvent le plus enthousiaste.
   if (!m) return !!c.attachment;
 
-  if (m.length < 13) return false;
-  // Un récit doit avoir un peu de substance, mais le plancher était trop haut :
-  // « I have my seeds ready & waiting!! » en fait 36 et méritait un mot.
-  if (!m.includes("?") && m.length < 25) return false;
+  if (m.length < 8) return false;
+  // Un récit doit avoir un minimum de substance, mais le plancher était trop
+  // haut : « I have my seeds ready & waiting!! » en fait 36 et méritait un mot.
+  if (!m.includes("?") && m.length < 15) return false;
   return true;
+}
+
+// À qui ce commentaire s'adresse-t-il ? Sert au jugement, pas au filtrage.
+function adresseDe(c) {
+  const par = c.parent;
+  if (!par) return "la Page";
+  const pid = ((par.from || {}).id) || null;
+  return NOMS[pid] ? "la Page (réponse à notre commentaire)" : "un autre abonné";
 }
 
 // Au-delà de cet âge, on arrête de remonter un fil : les commentaires plus vieux
@@ -229,6 +236,11 @@ async function moissonner(pages) {
         c._page = NOMS[pid];
         c._registre = REGISTRE[pid];
         c._type = typeDe(c);
+        c._adresse = adresseDe(c);
+        c._repond_a = c.parent
+          ? { auteur: ((c.parent.from || {}).name) || null, extrait: (c.parent.message || "").slice(0, 200) }
+          : null;
+        c._image = ((((c.attachment || {}).media || {}).image || {}).src) || null;
         c._post = po.id;
         c._post_url = po.permalink_url;
         out.push(c);
@@ -349,6 +361,7 @@ async function cmdCandidats(tir, nDemande) {
     dont_questions: candidats.filter((c) => c._type === "question").length,
     dont_recits: candidats.filter((c) => c._type === "récit").length,
     dont_photos: candidats.filter((c) => c._type === "photo").length,
+    dont_sous_fil: candidats.filter((c) => c._adresse === "un autre abonné").length,
     horizon_jours: HORIZON_JOURS,
     candidats_du_jour: candidats.filter((c) => (c.created_time || "").slice(0, 10) === aujourdhui()).length,
     lot: lot.map((c) => ({
@@ -358,6 +371,9 @@ async function cmdCandidats(tir, nDemande) {
       registre: c._registre,
       origine: c._origine,
       type: c._type,
+      adresse: c._adresse,
+      repond_a: c._repond_a,
+      image: c._image,
       date: c.created_time,
       auteur: (c.from && c.from.name) || null,
       message: c.message,
@@ -434,6 +450,21 @@ async function cmdPublier(fichier, tir) {
   console.log(JSON.stringify({ tir, publiees, ecarts_s: ecarts, total_cumule: etat.total }, null, 2));
 }
 
+// Télécharge l'image d'un commentaire dans /tmp pour que la session puisse
+// l'ouvrir avec Read et voir réellement ce qu'elle contient. Une session ne peut
+// pas émettre de requête HTTP arbitraire ; elle peut lancer ce script.
+async function cmdImage(url, sortie) {
+  if (!url) throw new Error("usage : image <url> [fichier de sortie]");
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`téléchargement → ${res.status}`);
+  const buf = Buffer.from(await res.arrayBuffer());
+  const dossier = "/tmp/fb-images";
+  fs.mkdirSync(dossier, { recursive: true });
+  const nom = sortie || path.join(dossier, `img-${Date.now()}.jpg`);
+  fs.writeFileSync(nom, buf);
+  console.log(JSON.stringify({ fichier: nom, octets: buf.length }, null, 2));
+}
+
 function cmdEtat() {
   const out = {};
   for (const t of Object.keys(TIRS)) {
@@ -468,8 +499,11 @@ function cmdEtat() {
       if (!f || f.startsWith("--")) throw new Error("usage : publier <fichier.json> --tir A");
       return await cmdPublier(f, opt("tir", "A"));
     }
+    if (cmd === "image") return await cmdImage(args[1], args[2]);
     if (cmd === "etat") return cmdEtat();
-    console.error("Commandes : candidats --tir A --n 8 | publier <fichier.json> --tir A | etat");
+    console.error(
+      "Commandes : candidats --tir A --n 8 | publier <fichier.json> --tir A | image <url> [fichier] | etat"
+    );
     process.exit(1);
   } catch (e) {
     console.error("Erreur:", e.message);
