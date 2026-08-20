@@ -59,14 +59,24 @@ et Gabriel Gouveia.
 | Sara Usher | `eb882b81` | remboursement de ses 3 sachets s'ils ne sont jamais arrivés |
 | Emma Nelson | `fd4fbc13` | échange de couleur **ou** annulation + remboursement de 68,31 $ |
 | Andrew Lawson | `5a789699` | expédition d'un sac à lunch + nouvelle adresse s'il confirme n'avoir rien reçu |
-| Martin Maillet | `79a41d5e` | L-49533 : réexpédition sans frais **ou** remboursement, à son choix |
-| Tina Newman | `2b225563` | L-49359 : renvoi sans frais **ou** remboursement de 9,55 $, à son choix |
 | Cheryl Warner, Donna Burzynski, Georgia Hoffmann, Bob Barth | — | renvoi ou remboursement s'ils confirment n'avoir jamais reçu leurs graines |
 
 ## Réglé
 
+Tina Newman (`2b225563`) — a confirmé le 2026-08-19 avoir reçu ses semences. Le renvoi
+conditionnel est annulé, rien à poser.
+
 Simon Déry — remboursement de 6,60 $, transaction `PENDING` chez Shopify Payments depuis le
 2026-08-18 19 h 20. Patricia Prince — 4,28 $, `PENDING` depuis 18 h 48 le même jour.
+
+## Perdus
+
+Martin Maillet (`79a41d5e`) — L-49533, un sachet Tuberosa parti le 11 mai sans suivi. Il a
+écrit deux fois sans réponse, puis le 2026-08-20 : « après mes deux tentatives, j'ai annulé
+ma transaction auprès de mon institution financière. Bien déçu…. J'aurais aimé pouvoir
+attirer quelques papillons chez nous. » **Rétrofacturation en cours** — l'offre de renvoi ou
+de remboursement est caduque, la banque a tranché à notre place. À traiter comme un litige,
+pas comme un dossier support.
 
 ## Doublons à nettoyer à la main dans Missive
 
