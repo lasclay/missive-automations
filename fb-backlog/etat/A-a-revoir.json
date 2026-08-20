@@ -52,6 +52,36 @@
    "motif": "Demande une donnee commerciale non publique. Les regles de prudence de la marque interdisent d avancer un chiffre de ventes ou de part de marche non publie, et faits-verifies.json n en contient aucun. Laisse au jugement humain.",
    "ecarte_le": "2026-08-19",
    "tir": "A"
+  },
+  {
+   "id": "1347451694188147_4532579273735738",
+   "page_id": "114311920399404",
+   "date": "2026-06-15T11:44:58+0000",
+   "message": "Ginette Verrette, Ginette, Ginette, Ginette.\n\nLit plus que le titre des articles. \n\nTu nous fait honte.",
+   "lien": "https://www.facebook.com/1415779240688725/posts/1347451694188147?comment_id=982450364786332&reply_comment_id=4532579273735738",
+   "motif": "Attaque personnelle d un abonne envers un autre, dans le fil sur l article de presse. Rien n est demande a la Page. Intervenir reviendrait a arbitrer une chicane; PROCEDURE.md §3 ecarte le sarcasme. La Page repond plutot sur le fond ailleurs dans le meme fil.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
+  },
+  {
+   "id": "1347451694188147_885790251209180",
+   "page_id": "114311920399404",
+   "date": "2026-06-14T03:32:04+0000",
+   "message": "(commentaire sans texte, un GIF seulement)",
+   "lien": "https://www.facebook.com/1415779240688725/posts/1347451694188147?comment_id=885790251209180",
+   "motif": "Message vide: le commentaire ne contient qu une image GIF, sans texte. Aucune question ni propos auquel repondre, et le sens du GIF dans un fil tendu n est pas interpretable de facon fiable.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
+  },
+  {
+   "id": "1347451694188147_1323985983044236",
+   "page_id": "114311920399404",
+   "date": "2026-06-16T06:47:18+0000",
+   "message": "Hélène Roy ils sont allés",
+   "lien": "https://www.facebook.com/1415779240688725/posts/1347451694188147?comment_id=1553503936364083&reply_comment_id=1323985983044236",
+   "motif": "Echange entre deux abonnes au sujet de l emission Dans l oeil du dragon. Adresse a un autre abonne, pas a la Page. Confirmer ou dementir une participation a l emission sortirait des faits verifies.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
   }
  ]
 }
