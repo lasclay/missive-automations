@@ -152,8 +152,32 @@
       "quand": "2026-08-20T17:10:23.188Z",
       "confirme": true,
       "texte": "Content de vous rassurer. Le nom sur la boîte ne change pas, ni la fibre qu'il y a dedans."
+    },
+    {
+      "id": "1539748338158977_26858594293734141",
+      "reponse_id": "1539748338158977_1578061223998791",
+      "page_id": "104242204750257",
+      "quand": "2026-08-20T17:15:26.158Z",
+      "confirme": true,
+      "texte": "Bonne nouvelle pour vos sinus : l'asclépiade n'y est pour rien. Son pollen est aggloméré en petites masses que les insectes transportent, il ne voyage pas dans l'air. Ce qui vole sur l'image, c'est la soie qui porte les graines."
+    },
+    {
+      "id": "1573344748132669_969025262714708",
+      "reponse_id": "1573344748132669_1440927134754223",
+      "page_id": "104242204750257",
+      "quand": "2026-08-20T17:16:31.516Z",
+      "confirme": true,
+      "texte": "Merci. La suite s'écrit surtout dans les champs ces temps-ci : plus d'asclépiade cultivée, c'est ce qui fait avancer tout le reste."
+    },
+    {
+      "id": "1573344748132669_981263981290778",
+      "reponse_id": "1573344748132669_1039885915311065",
+      "page_id": "104242204750257",
+      "quand": "2026-08-20T17:17:42.929Z",
+      "confirme": true,
+      "texte": "Merci 🙂 On prend ça."
     }
   ],
-  "derniere_execution": "2026-08-20T17:10:23.190Z",
-  "total": 19
+  "derniere_execution": "2026-08-20T17:17:42.929Z",
+  "total": 22
 }
