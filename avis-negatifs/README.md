@@ -37,3 +37,4 @@ saisons de pointe où l'arriéré support a explosé.
 | `croisement.md` | le croisement avis ↔ client Shopify : courriel, téléphone, commandes, statut |
 | `messages.md` | un brouillon de message par client identifié, prêt à relire et envoyer |
 | `precedents.md` | les cas Missive où un client fâché a été retourné, et la méthode qui a marché |
+| `BRIEF-COWORK.md` | la commande à donner à un agent avec navigateur pour aller lire les 27 avis en entier sur la fiche |
