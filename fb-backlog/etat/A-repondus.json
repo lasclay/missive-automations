@@ -192,8 +192,16 @@
       "quand": "2026-08-20T20:11:38.831Z",
       "confirme": true,
       "texte": "Merci, on prend ça. La suite se joue dans les champs : plus il se cultive d'asclépiade, plus le reste devient possible."
+    },
+    {
+      "id": "1574333231367154_1288344080035157",
+      "reponse_id": "1574333231367154_2549915102120843",
+      "page_id": "104242204750257",
+      "quand": "2026-08-20T20:12:45.811Z",
+      "confirme": true,
+      "texte": "C'est la bonne inquiétude à avoir, et la réponse tient au calendrier. La soie se trouve dans les follicules, récoltés à l'automne, après la floraison et après le départ des monarques. Les feuilles, dont les chenilles dépendent tout l'été, ne sont pas touchées. Et une partie des graines repart en sachets pour être semée ailleurs."
     }
   ],
-  "derniere_execution": "2026-08-20T20:11:38.832Z",
-  "total": 24
+  "derniere_execution": "2026-08-20T20:12:45.811Z",
+  "total": 25
 }
