@@ -64,7 +64,12 @@ Chaque entrée porte un `type` :
 - **`photo`** — aucun texte, seulement une image. Quelqu'un montre sa chenille, son plant, son
   monarque. Ce n'est pas un commentaire vide : c'est souvent le plus enthousiaste des trois.
 
-  **Regarde l'image avant de repondre.** Le champ `image` du lot porte son URL :
+  **Une image ne va pas qu'avec le type `photo`.** Beaucoup de commentaires ont A LA FOIS du
+  texte et une image — une question accompagnee de la photo du plant dont on parle. Des que le
+  champ `image` n'est pas nul, quel que soit le `type`, **regarde-la**. C'est souvent elle qui
+  contient la reponse.
+
+  Le champ `image` du lot porte son URL :
 
   ```
   node fb-backlog/traiter.js image <url>     # -> ecrit le fichier dans /tmp/fb-images/
