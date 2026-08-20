@@ -80,8 +80,16 @@
       "quand": "2026-08-20T12:39:24.330Z",
       "confirme": true,
       "texte": "Honest answer: there is no official temperature rating on them, and we are not going to invent one. What we can tell you is why the fibre works. Each strand is hollow, so the insulating air sits inside the fibre rather than between fibres, which is also why it keeps insulating when squashed inside a mitten. Customers report wearing them down to around -30 C. Whether that is enough for your hands is a question only you can answer, and worth keeping in mind before you order."
+    },
+    {
+      "id": "122191968992483418_1304156164993301",
+      "reponse_id": "122191968992483418_1251415783777088",
+      "page_id": "368305119707866",
+      "quand": "2026-08-20T13:32:43.947Z",
+      "confirme": true,
+      "texte": "There is an easier route for next time: sow outdoors in the fall and let winter handle the cold stratification for you, no indoor setup and no calendar to keep track of. If you would rather start them inside again, the seed wants about 30 days in the fridge first."
     }
   ],
-  "derniere_execution": "2026-08-20T12:39:24.331Z",
-  "total": 10
+  "derniere_execution": "2026-08-20T13:32:43.948Z",
+  "total": 11
 }
