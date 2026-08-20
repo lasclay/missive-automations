@@ -48,8 +48,16 @@
       "quand": "2026-08-20T13:36:49.143Z",
       "confirme": true,
       "texte": "Pas de liste de détaillants à jour à donner ici. Écrivez-nous en message privé en précisant Laval et on ira vérifier ce qu'il y a dans le secteur. Autrement, l'ensemble du catalogue est sur lasclay.com."
+    },
+    {
+      "id": "1574333231367154_1544388440695581",
+      "reponse_id": "1574333231367154_27832918826357863",
+      "page_id": "104242204750257",
+      "quand": "2026-08-20T13:44:44.501Z",
+      "confirme": true,
+      "texte": "L'asclépiade est une plante vivace indigène d'Amérique du Nord, celle dont les chenilles du monarque se nourrissent. Ce qu'on utilise, c'est la soie qui entoure ses graines dans les follicules à l'automne : une fibre creuse et très légère, qui emprisonne l'air et sert d'isolant dans les manteaux, les mitaines et les sacs isothermes. Donc pas le tissu extérieur, mais ce qu'il y a dedans. Les graines donnent aussi une huile, utilisée en cosmétique."
     }
   ],
-  "derniere_execution": "2026-08-20T13:36:49.143Z",
-  "total": 6
+  "derniere_execution": "2026-08-20T13:44:44.501Z",
+  "total": 7
 }
