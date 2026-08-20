@@ -92,6 +92,56 @@
    "motif": "La personne dit avoir fait un don. Aucune collecte de fonds n apparait dans les faits verifies, et le sens exact reste ambigu (don, commande, ou simple approbation). Remercier pour un don confirmerait l existence d une campagne que rien ne documente. Laisse au jugement humain: si une collecte existe bien, la reponse est facile et merite d etre chaleureuse.",
    "ecarte_le": "2026-08-20",
    "tir": "A"
+  },
+  {
+   "id": "1347451694188147_1390676669775674",
+   "page_id": "114311920399404",
+   "date": "2026-06-14T03:32:14+0000",
+   "message": "(commentaire sans texte, un GIF seulement)",
+   "lien": "https://www.facebook.com/1415779240688725/posts/1347451694188147?comment_id=1390676669775674",
+   "motif": "Message vide: le commentaire ne contient qu un GIF, sans texte. Rien a quoi repondre.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
+  },
+  {
+   "id": "1347451694188147_4684228105133711",
+   "page_id": "114311920399404",
+   "date": "2026-06-14T03:32:09+0000",
+   "message": "(commentaire sans texte, un GIF seulement)",
+   "lien": "https://www.facebook.com/1415779240688725/posts/1347451694188147?comment_id=4684228105133711",
+   "motif": "Message vide: le commentaire ne contient qu un GIF, sans texte. Rien a quoi repondre.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
+  },
+  {
+   "id": "1503607451773066_3965044070299418",
+   "page_id": "104242204750257",
+   "date": "2026-08-06T00:24:18+0000",
+   "message": "(commentaire sans texte, une photo seulement)",
+   "lien": "https://www.facebook.com/1654572226676587/posts/1503607451773066?comment_id=3965044070299418",
+   "motif": "Message vide: une photo sans texte. Le contenu de l image n est pas verifiable depuis le lot, donc impossible de savoir si c est un plant, un produit recu ou autre chose. Repondre a l aveugle sur une photo est un risque inutile.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
+  },
+  {
+   "id": "1347451694188147_1057529493276049",
+   "page_id": "114311920399404",
+   "date": "2026-06-15T13:41:12+0000",
+   "message": "Lasclay et l’argent ramassé va servir à développer vos usines en Tunisie?",
+   "lien": "https://www.facebook.com/1415779240688725/posts/1347451694188147?comment_id=1528607765676378&reply_comment_id=1057529493276049",
+   "motif": "Question sur l usage de fonds collectes. Aucune collecte n apparait dans les faits verifies, donc impossible de dire a quoi l argent sert. La premisse « vos usines en Tunisie » est fausse (Lasclay confie l assemblage a des manufacturiers externes, elle n y possede pas d usine) et pourrait etre corrigee, mais repondre en corrigeant seulement la premisse tout en esquivant la question de l argent aurait l air evasif dans un fil deja tendu. A traiter par un humain qui connait la collecte.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
+  },
+  {
+   "id": "1347451694188147_986648554155496",
+   "page_id": "114311920399404",
+   "date": "2026-06-13T23:54:05+0000",
+   "message": "Robert Provost et comment avez vous récolté ?  A la main ?",
+   "lien": "https://www.facebook.com/1415779240688725/posts/1347451694188147?comment_id=1280338253856523&reply_comment_id=986648554155496",
+   "motif": "Question adressee nommement a un autre abonne, un cultivateur qui raconte son experience de 3 acres. Elle lui revient. La Page a deja apporte le fait utile sur la fenetre de recolte ailleurs dans le meme sous-fil au tir precedent.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
   }
  ]
 }
