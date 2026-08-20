@@ -136,26 +136,53 @@ function filtrerPlafond(lot, tir) {
 const norm = (s) =>
   (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’ʼ]/g, "'").toLowerCase();
 
-const aujourdhui = () => new Date().toISOString().slice(0, 10);
+// La date du jour EN HEURE DE L'EST. En UTC, la journée bascule à 19 h ou 20 h
+// heure locale : « les commentaires du jour » aurait changé de sens en pleine
+// soirée, au moment précis où le fil est le plus actif.
+const aujourdhui = () =>
+  new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Montreal",
+    year: "numeric", month: "2-digit", day: "2-digit",
+  }).format(new Date());
 
-// Un candidat est un commentaire qui pose une vraie question et que personne
-// n'a encore traité. Les filtres sont structurels seulement — le jugement
-// éditorial (plainte de commande, diatribe, hors sujet) reste à Claude.
+// Deux sortes de candidats, et c'est délibéré.
+//
+//   « question » — porte un point d'interrogation. Appelle une réponse utile.
+//   « récit »    — quelqu'un raconte son expérience : ses cocons, ses semis,
+//                  son plant qui a disparu. Pas de question, mais une présence
+//                  qui mérite qu'on lui réponde.
+//
+// N'exiger que les questions était une erreur : sur les fils vivants, sept
+// commentaires récents sur huit sont des récits. Les ignorer donnait une Page
+// qui ne répond jamais à ce qui vient d'être écrit.
+//
+// Les filtres restent structurels. Le jugement éditorial — plainte de commande,
+// diatribe, réponse entre abonnés, hors sujet — reste à Claude.
+function typeDe(m) {
+  return m.includes("?") ? "question" : "récit";
+}
+
 function eligible(c, dejaVus) {
   if (!c || !c.id || dejaVus.has(c.id)) return false;
   if (c.is_hidden) return false;
   if (c.comment_count && c.comment_count > 0) return false;
-  const m = c.message || "";
-  if (m.length < 13) return false;
-  if (!m.includes("?")) return false;
   if (c.from && NOMS[c.from.id]) return false; // écrit par la Page elle-même
-  // « Prénom Nom …» en tête : ce sont des réponses entre abonnés, pas des questions à la marque.
+  const m = (c.message || "").trim();
+  if (m.length < 13) return false;
+  // Un récit doit avoir un peu de substance : « Beautiful! » n'appelle rien.
+  if (!m.includes("?") && m.length < 40) return false;
+  // « Prénom Nom …» en tête : ce sont des réponses entre abonnés, pas des messages à la marque.
   if (/^[A-ZÀ-Ý][\p{L}'-]+\s+[A-ZÀ-Ý]/u.test(m)) return false;
   return true;
 }
 
+// Au-delà de cet âge, on arrête de remonter un fil : les commentaires plus vieux
+// sont du backlog profond, et le but ici est de ne jamais rater les récents.
+const HORIZON_JOURS = Number(process.env.FB_HORIZON_JOURS || 120);
+
 async function moissonner(pages) {
   const out = [];
+  const limiteAge = Date.now() - HORIZON_JOURS * 86400000;
   for (const pid of pages) {
     const limite = pid === "104242204750257" ? 25 : 50;
     let posts = [];
@@ -164,8 +191,21 @@ async function moissonner(pages) {
     for (const po of posts) {
       let cs = [];
       try {
-        const rc = await proxy("comments", { page_id: pid, object_id: po.id, limit: 100 });
+        // `order: reverse_chronological` est ESSENTIEL. Le défaut de Graph est
+        // chronologique ascendant : sur un fil de 2 500 commentaires, paginer
+        // depuis le début ne rend que ceux du jour de la publication, et les
+        // commentaires récents ne sont jamais atteints. C'est le défaut qui a
+        // rendu la règle des 70 % inopérante pendant ses premiers tirs.
+        const rc = await proxy("comments", {
+          page_id: pid,
+          object_id: po.id,
+          limit: 100,
+          order: "reverse_chronological",
+        });
         cs = (rc && rc.data) || [];
+        // Les plus récents d'abord : dès qu'on franchit l'horizon, inutile de
+        // continuer à remonter ce fil.
+        cs = cs.filter((c) => new Date(c.created_time || 0).getTime() >= limiteAge);
       } catch (e) {
         if (estFatale(e.message)) throw e;
         continue; // une publication illisible ne doit pas faire tomber le tir
@@ -174,6 +214,7 @@ async function moissonner(pages) {
         c._page_id = pid;
         c._page = NOMS[pid];
         c._registre = REGISTRE[pid];
+        c._type = typeDe(c.message || "");
         c._post = po.id;
         c._post_url = po.permalink_url;
         out.push(c);
@@ -291,6 +332,9 @@ async function cmdCandidats(tir, nDemande) {
     deja_publiees_aujourdhui: deja,
     pages_au_plafond: bloquees,
     total_candidats: candidats.length,
+    dont_questions: candidats.filter((c) => c._type === "question").length,
+    dont_recits: candidats.filter((c) => c._type === "récit").length,
+    horizon_jours: HORIZON_JOURS,
     candidats_du_jour: candidats.filter((c) => (c.created_time || "").slice(0, 10) === aujourdhui()).length,
     lot: lot.map((c) => ({
       id: c.id,
@@ -298,6 +342,7 @@ async function cmdCandidats(tir, nDemande) {
       page: c._page,
       registre: c._registre,
       origine: c._origine,
+      type: c._type,
       date: c.created_time,
       auteur: (c.from && c.from.name) || null,
       message: c.message,

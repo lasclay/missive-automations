@@ -53,6 +53,27 @@ lui-même — applique la priorité, et rend le lot. Si la sortie porte `"saute"
 s'arrête là** : c'est une heure de silence voulue, note-la et termine. La nuit, la plupart des
 tirs sautent, et c'est le comportement recherché.
 
+### Deux sortes de candidats
+
+Chaque entrée porte un `type` :
+
+- **`question`** — porte un point d'interrogation. Appelle une reponse utile, appuyee sur les
+  faits verifies.
+- **`récit`** — quelqu'un raconte son experience : ses cocons, ses semis, son plant disparu.
+  Pas de question, mais une presence qui merite qu'on lui reponde.
+
+Un recit se repond **court** : une ou deux phrases, chaleureuses, qui accusent reception de ce que
+la personne a vecu. Pas d'argumentaire produit, pas de lien vers la boutique, pas de conseil non
+sollicite. Si elle raconte trois cocons, on parle de ses trois cocons.
+
+N'exiger que les questions etait une erreur : sur les fils vivants, sept commentaires recents sur
+huit sont des recits. Les ignorer donnait une Page qui ne repond jamais a ce qui vient d'etre
+ecrit - exactement ce qu'un abonne remarque.
+
+Attention aux **reponses entre abonnes** : quelqu'un qui repond a quelqu'un d'autre, ou qui
+commence par le nom d'une personne ou de la Page. Le script en ecarte une partie, pas toutes.
+Ecarte-les : y repondre au nom de la marque est incongru.
+
 ### La règle du 70 %
 
 **Les commentaires du jour passent avant tout et sont traités en entier.** Le backlog ne prend
@@ -62,13 +83,13 @@ Une seule exception, explicite : si aucun commentaire n'est arrivé aujourd'hui,
 backlog — sinon une journée calme ne ferait rien avancer. Le champ `regle_priorite` de la sortie
 dit laquelle des deux s'est appliquée.
 
-Chaque entrée du lot porte `origine` (`jour` ou `backlog`), `page`, `registre`, `date`, `message`
-et `lien`.
+Chaque entree du lot porte `origine` (`jour` ou `backlog`), `type` (`question` ou `récit`),
+`page`, `registre`, `date`, `message` et `lien`.
 
 ## 3. Trier — c'est ton jugement, pas celui du script
 
-Le script ne filtre que le structurel : non masqué, sans réponse, assez long, contient un point
-d'interrogation, pas écrit par la Page. **Le jugement éditorial est à toi.** Écarte, en consignant
+Le script ne filtre que le structurel : non masque, sans reponse, assez long, pas ecrit par la
+Page. Il ne juge ni la pertinence ni le ton. **Le jugement éditorial est à toi.** Écarte, en consignant
 dans `etat/<X>-a-revoir.json` avec le motif :
 
 - toute plainte de commande ou dossier client — ce sont des dossiers du support, jamais des
