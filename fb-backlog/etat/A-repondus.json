@@ -80,8 +80,16 @@
       "quand": "2026-08-20T14:20:51.462Z",
       "confirme": true,
       "texte": "Merci. Le vrai travail, c'est d'apprendre à transformer une matière que la filière avait déjà essayé de dompter avant nous, sans y arriver, et de faire en sorte que ça tienne debout économiquement cette fois-ci."
+    },
+    {
+      "id": "1573344748132669_2205962476885012",
+      "reponse_id": "1573344748132669_1775079730348521",
+      "page_id": "104242204750257",
+      "quand": "2026-08-20T15:12:35.015Z",
+      "confirme": true,
+      "texte": "Merci, sincèrement. Une nuance quand même, parce qu'elle compte : la couture n'a pas disparu du Québec. Ce qui manque, c'est l'échelle et des expertises techniques parties il y a des décennies. C'est ce qui explique que l'assemblage de la plupart des produits se fasse ailleurs, pendant que l'asclépiade, elle, reste ici du champ jusqu'à l'isolant."
     }
   ],
-  "derniere_execution": "2026-08-20T14:20:51.462Z",
-  "total": 10
+  "derniere_execution": "2026-08-20T15:12:35.016Z",
+  "total": 11
 }
