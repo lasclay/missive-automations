@@ -94,6 +94,66 @@
    "motif": "Simple accuse de reception entre abonnes (« that s good information ») sur le marc de cafe et le pH du sol. Rien qui nous concerne : c est leur conversation.",
    "ecarte_le": "2026-08-20",
    "tir": "C"
+  },
+  {
+   "id": "929266099812469_1301692881891426",
+   "page_id": "262382158951470",
+   "date": "2026-04-26T21:57:06+0000",
+   "message": "Ken Johnson What state are you in?",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1441941294102503&reply_comment_id=1301692881891426",
+   "motif": "Un abonne demande a un autre dans quel Etat il habite. Conversation entre eux, rien qui nous concerne.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "929266099812469_1460332169166140",
+   "page_id": "262382158951470",
+   "date": "2026-05-04T22:02:35+0000",
+   "message": "Cynthia Orr different soil",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=1460332169166140",
+   "motif": "Deux mots (« different soil ») dans un sous-fil ou deux abonnes speculent sur la couleur d une plante transplantee. Aucun contenu a repondre.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "929266099812469_1993672654540090",
+   "page_id": "262382158951470",
+   "date": "2026-04-26T22:45:28+0000",
+   "message": "Penny Pawl the Monarch caterpillars will eat it down to the stem.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1243356604638567&reply_comment_id=1993672654540090",
+   "motif": "Sous-fil sur l asclepiade tropicale, l OE et la taille hivernale. Hors faits verifies : on ne vend pas curassavica et la parasitose n est pas documentee dans notre base.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "910925434979869_1722493048784053",
+   "page_id": "262382158951470",
+   "date": "2026-05-02T00:50:31+0000",
+   "message": "Elizabeth Gable scary?!?",
+   "lien": "https://www.facebook.com/1067098316029246/posts/910925434979869?comment_id=1431038135173895&reply_comment_id=1722493048784053",
+   "motif": "Deux mots (« scary?!? ») adresses a une autre abonnee. C est le commentaire parent de celui auquel la Page a deja repondu dans ce meme fil ; y ajouter une reponse serait s inviter deux fois.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "929266099812469_1491102819466798",
+   "page_id": "262382158951470",
+   "date": "2026-05-05T19:26:22+0000",
+   "message": "Order three weeks ago-no delivery yet!!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1491102819466798",
+   "motif": "Plainte de commande (« Order three weeks ago-no delivery yet!! »). Dossier du support, jamais une reponse publique : aucune date de livraison ne peut etre donnee depuis un commentaire.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "929266099812469_1452654142677698",
+   "page_id": "262382158951470",
+   "date": "2026-05-02T22:17:42+0000",
+   "message": "Cynthia Orr it probably bloomed white because your lime level in the dirt is not the same as the original place",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=1452654142677698",
+   "motif": "Speculation entre abonnes sur le pH et le taux de chaux du sol pour expliquer la couleur d une floraison. Sujet hors faits verifies et hors asclepiade.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
   }
  ]
 }
