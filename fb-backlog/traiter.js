@@ -19,6 +19,12 @@
  * Accès Facebook : par le General Proxy (connecteur `facebook`), qui dérive les
  * jetons de Page côté serveur. Aucun jeton ne transite ici.
  *
+ * CADENCE — 24 h sur 24, mais pondérée
+ * Le traitement ne s'arrête jamais, pour que les commentaires du jour soient
+ * pris vite. Mais l'intensité suit une journée humaine : forte l'après-midi,
+ * molle le soir, presque nulle la nuit. Un débit plat sur 24 heures serait une
+ * signature aussi nette qu'une cadence régulière.
+ *
  * PRIORITÉ — la règle du 70 %
  * Les commentaires du JOUR passent avant tout et sont traités en entier. Le
  * reste du lot va au vieux backlog, plafonné pour que le jour garde au moins
@@ -184,14 +190,44 @@ const expo = (moyenne) => -Math.log(1 - Math.random()) * moyenne;
 const borne = (v, min, max) => Math.max(min, Math.min(max, v));
 const dormir = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// Combien ce tir publie, et s'il publie. Tout est tiré au sort : une cadence
-// régulière se lit comme un automate, autant pour Meta que pour les abonnés.
+// L'heure de l'Est, calculée ici plutôt que dans le cron. Conséquence utile :
+// le passage à l'heure normale en novembre ne demande plus rien — le cron tire
+// toutes les heures en UTC, et c'est le script qui sait quelle heure locale il est.
+function heureEst() {
+  return Number(
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Montreal",
+      hour: "numeric",
+      hour12: false,
+    }).format(new Date())
+  ) % 24;
+}
+
+// Le traitement tourne 24 h sur 24, mais PAS à plat. Un profil plat est une
+// signature en soi : aucune personne ne répond autant à 4 h du matin qu'à 14 h,
+// et c'est visible autant pour les modèles comportementaux de Meta que pour les
+// abonnés. L'intensité suit donc une journée humaine — forte l'après-midi,
+// molle le soir, presque nulle au cœur de la nuit sans jamais être exactement
+// nulle, parce qu'un zéro quotidien à heure fixe est lui aussi un motif.
+const INTENSITE = [
+  0.15, 0.10, 0.05, 0.05, 0.05, 0.08, // 0 h – 5 h
+  0.15, 0.35, 0.60, 1.00, 1.00, 0.95, // 6 h – 11 h
+  0.45, 0.95, 1.00, 1.00, 0.95, 0.90, // 12 h – 17 h (creux du midi, atténué et non plus à zéro)
+  0.75, 0.70, 0.65, 0.50, 0.35, 0.25, // 18 h – 23 h
+];
+
+// Combien ce tir publie, et s'il publie. Tout est tiré au sort, pondéré par
+// l'heure : une cadence régulière se lit comme un automate.
 function tirage() {
-  const de = 1 + Math.floor(Math.random() * 6);
+  const h = heureEst();
+  const i = INTENSITE[h];
   const weekend = [0, 6].includes(new Date().getDay());
-  if (de === 1 || (weekend && de === 2)) return { saute: true, motif: `dé ${de}${weekend ? " (week-end)" : ""}` };
-  const n = borne(1 + Math.floor(expo(9.5)), 1, 24);
-  return { saute: false, n, attenteInitiale: Math.round(45 + Math.random() * 375) };
+  const proba = i * 0.85 * (weekend ? 0.7 : 1);
+  if (Math.random() > proba) {
+    return { saute: true, motif: `heure ${h} h (Est), intensité ${i}${weekend ? ", week-end" : ""}` };
+  }
+  const n = borne(1 + Math.floor(expo(8 * i)), 1, 14);
+  return { saute: false, n, heure: h, intensite: i, attenteInitiale: Math.round(45 + Math.random() * 375) };
 }
 
 // ---- Commandes ------------------------------------------------------------
@@ -214,6 +250,8 @@ async function cmdCandidats(tir, nDemande) {
   console.log(JSON.stringify({
     tir,
     pages: conf.nom,
+    heure_est: t.heure !== undefined ? t.heure : heureEst(),
+    intensite: t.intensite !== undefined ? t.intensite : INTENSITE[heureEst()],
     n_vise: n,
     attente_initiale_s: t.attenteInitiale || 60,
     regle_priorite: regle,

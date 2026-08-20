@@ -48,9 +48,10 @@ Charge le skill `lasclay-master` pour la voix de marque.
 node fb-backlog/traiter.js candidats --tir <X> > /tmp/lot.json
 ```
 
-Le script tire au sort s'il publie et combien, applique la priorité, et rend le lot. Si la sortie
-porte `"saute": true`, **le tir s'arrête là** : c'est une heure de silence voulue, note-la et
-termine.
+Le script tire au sort s'il publie et combien — pondéré par l'heure de l'Est, qu'il calcule
+lui-même — applique la priorité, et rend le lot. Si la sortie porte `"saute": true`, **le tir
+s'arrête là** : c'est une heure de silence voulue, note-la et termine. La nuit, la plupart des
+tirs sautent, et c'est le comportement recherché.
 
 ### La règle du 70 %
 

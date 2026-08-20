@@ -49,31 +49,43 @@ Sinon une journée calme ne ferait rien avancer.
 `fb-backlog/traiter.js` applique la règle lui-même et dit laquelle des deux branches s'est
 appliquée, dans le champ `regle_priorite`.
 
-## Cadence
+## Cadence — 24 h sur 24, mais jamais à plat
 
-Le rythme n'est pas une contrainte de débit, c'est une contrainte d'apparence. Une page qui
-répond toutes les heures ouvrables sans exception, à intervalles réguliers, se lit comme un
-automate — autant pour les heuristiques de vélocité de Meta que pour les abonnés qui font
-défiler le fil.
+Le traitement ne s'arrête jamais, pour que les commentaires du jour soient pris vite. Mais un
+débit **plat** sur 24 heures serait une signature aussi nette qu'une cadence régulière : aucune
+personne ne répond autant à 4 h du matin qu'à 14 h, et ça se voit autant des modèles
+comportementaux de Meta que des abonnés.
 
-Le volume vient du parallélisme, pas de la vitesse : **trois tirs cloisonnés par Page** qui
-travaillent en parallèle sans jamais se croiser. Voir `PROCEDURE.md`.
+L'intensité suit donc une journée humaine, et le script la calcule à partir de l'heure de l'Est
+qu'il détermine lui-même — le cron tire toutes les heures en UTC et n'a plus rien à savoir des
+changements d'heure. Le passage à l'heure normale en novembre ne demande aucune intervention.
 
-**Rien n'est choisi, tout est tiré au sort** par le script, au début de chaque tir :
+| Tranche (heure de l'Est) | Intensité |
+| --- | --- |
+| 9 h – 11 h, 13 h – 17 h | 0,90 à 1,00 — le gros du travail |
+| 12 h | 0,45 — creux du midi, atténué et non plus à zéro |
+| 18 h – 21 h | 0,50 à 0,75 |
+| 22 h – 1 h | 0,10 à 0,35 |
+| 2 h – 6 h | 0,05 à 0,15 — presque rien, jamais exactement rien |
+
+Le creux de midi n'est plus une pause franche et le cœur de la nuit n'est jamais à zéro absolu :
+**un zéro quotidien à heure fixe est lui-même un motif reconnaissable.** Le week-end, la
+probabilité de publier tombe encore de 30 %.
+
+**Rien n'est choisi, tout est tiré au sort** par le script, à chaque réveil :
 
 | Décision | Tirage |
 | --- | --- |
-| Publier cette heure-ci ? | 1 chance sur 6 de sauter l'heure entièrement (2 sur 6 le week-end) |
-| Combien | `1 + int(expo(9.5))`, plafonné à 24 — le plus souvent 4 à 16 |
+| Publier cette heure-ci ? | probabilité = intensité × 0,85 (× 0,7 le week-end) |
+| Combien | `1 + int(expo(8 × intensité))`, plafonné à 14 |
 | Délai avant la première | 45 à 420 secondes |
 | Écart entre deux réponses | 60 à 600 secondes, moyenne 3 minutes |
 
 Une réponse à la fois : publier, attendre, publier. Jamais de lot, jamais de boucle serrée.
 
-Fenêtre : 9 h à 18 h, heure de l'Est, avec pause complète entre 12 h et 13 h.
-
-Débit attendu : **environ 200 réponses par jour**, réparties sur trois tirs et quatre Pages, soit
-à peu près 7 par Page et par heure. Jamais un chiffre rond, jamais le même deux jours de suite.
+Débit mesuré par simulation : **environ 200 réponses par jour**, dont 145 entre 9 h et 17 h et
+**1,4 entre 2 h et 6 h**. Soit à peu près 2 par Page et par heure de pointe. Jamais un chiffre
+rond, jamais le même deux jours de suite.
 
 ## État
 
