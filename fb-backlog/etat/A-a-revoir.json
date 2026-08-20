@@ -192,6 +192,36 @@
    "motif": "Defend Lasclay, mais ouvre sur une pique meprisante envers les travailleurs tunisiens et se termine sur une question rhetorique lancee a un autre abonne. Repondre reviendrait a cautionner la pique. Le fond (la mission, le prix, la fabrication) a deja recu trois reponses de la Page ailleurs dans ce meme fil.",
    "ecarte_le": "2026-08-20",
    "tir": "A"
+  },
+  {
+   "id": "1347451694188147_1023645783946253",
+   "page_id": "114311920399404",
+   "date": "2026-06-15T15:00:35+0000",
+   "message": "Yvon Bergeron mon p’tit yvon \nCherche encore",
+   "lien": "https://www.facebook.com/1415779240688725/posts/1347451694188147?comment_id=982450364786332&reply_comment_id=1023645783946253",
+   "motif": "Pique condescendante entre deux abonnes, suite de la meme chicane. Rien n est demande a la Page.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
+  },
+  {
+   "id": "1347451694188147_980353674843541",
+   "page_id": "114311920399404",
+   "date": "2026-06-16T02:50:26+0000",
+   "message": "Asclépiade & papillons monarques je sais lire et voici ce qui a retenu mon attention: Par le biais d'une campagne de sociofinancement, ils demandent désormais l'aide du public pour compléter leur pivot manufacturier.",
+   "lien": "https://www.facebook.com/1415779240688725/posts/1347451694188147?comment_id=1528607765676378&reply_comment_id=980353674843541",
+   "motif": "Adresse a la Page et appelle clairement une reponse, mais porte entierement sur une campagne de sociofinancement absente de faits-verifies.json. IMPORTANT: ce commentaire, celui de la question sur l usage de l argent, et le « Don fait! » convergent — une campagne existe bel et bien et le sujet revient dans le fil de presse. Il faudrait ajouter ce fait a faits-verifies.json (montant vise, usage annonce, dates) pour que les prochains tirs puissent repondre au lieu d ecarter.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
+  },
+  {
+   "id": "1573344748132669_1686882645866736",
+   "page_id": "104242204750257",
+   "date": "2026-06-05T16:00:17+0000",
+   "message": "Lambert Patrick j’espère que tu as écouté le documentaire avant de commenter. Tout le monde a besoin d’argent pour survivre (et vivre) il me semble. Pas toi? Pour qu’une entreprise survive, ça lui prend aussi de l’argent. Gabriel a essayé très fort et maintenant, pour la survie de l’entreprise, il a pris cette grosse décision. C’est la vie, on avance!",
+   "lien": "https://www.facebook.com/reel/1063135853559939/?comment_id=1043173165035776&reply_comment_id=1686882645866736",
+   "motif": "Defend Lasclay mais s adresse a un autre abonne dans une dispute. La Page a deja repondu sur le fond dans ce meme fil aujourd hui; remercier celui qui nous defend reviendrait a prendre parti dans l echange.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
   }
  ]
 }

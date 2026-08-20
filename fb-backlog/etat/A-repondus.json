@@ -184,8 +184,16 @@
       "quand": "2026-08-20T19:11:24.968Z",
       "confirme": true,
       "texte": "Content que ça tienne au chaud. C'est la fibre creuse qui fait le travail : elle emprisonne l'air, et c'est l'air immobile qui isole, pas le tissu lui-même."
+    },
+    {
+      "id": "1573344748132669_2416869102139267",
+      "reponse_id": "1573344748132669_1709527363464885",
+      "page_id": "104242204750257",
+      "quand": "2026-08-20T20:11:38.831Z",
+      "confirme": true,
+      "texte": "Merci, on prend ça. La suite se joue dans les champs : plus il se cultive d'asclépiade, plus le reste devient possible."
     }
   ],
-  "derniere_execution": "2026-08-20T19:11:24.968Z",
-  "total": 23
+  "derniere_execution": "2026-08-20T20:11:38.832Z",
+  "total": 24
 }
