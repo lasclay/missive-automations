@@ -25,6 +25,10 @@
 
       "Bash(node missive_client.js:*)",
       "Bash(node connectors_client.js:*)",
+      "Bash(node fb-backlog/traiter.js:*)",
+      "Bash(node fb-backlog/traiter.js candidats:*)",
+      "Bash(node fb-backlog/traiter.js publier:*)",
+      "Bash(node fb-backlog/traiter.js etat)",
       "Bash(node finance_client.js:*)",
       "Bash(node klaviyo_export.js:*)",
       "Bash(node qbo_check.js:*)",

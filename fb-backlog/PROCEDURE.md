@@ -126,6 +126,13 @@ tir produira des doublons.**
 Termine par un rapport court : le lot obtenu et la règle de priorité appliquée, le nombre publié,
 le nombre écarté et pourquoi, et tout ce qui a échoué.
 
+## Si la publication est refusee par le classificateur
+
+`node fb-backlog/traiter.js publier` doit figurer dans les regles de permission de
+`.claude/settings.json`. Si un tir redige ses reponses puis se bloque a l'etape 6, c'est cette
+regle qui manque - pas un probleme d'acces a Facebook. Les reponses deja redigees restent dans
+`etat/` : rien n'est perdu, le tir suivant les republiera.
+
 ## En cas de panne
 
 `node connectors_client.js facebook diag` dit en une commande quelle voie d'accès est vivante et,
