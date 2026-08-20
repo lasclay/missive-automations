@@ -312,8 +312,64 @@
       "quand": "2026-08-20T23:32:14.663Z",
       "confirme": true,
       "texte": "Yes, Canada and the United States both."
+    },
+    {
+      "id": "122191968992483418_1480641886949484",
+      "reponse_id": "122191968992483418_3134511806753196",
+      "page_id": "368305119707866",
+      "quand": "2026-08-20T23:42:23.696Z",
+      "confirme": true,
+      "texte": "Wisconsin is good milkweed country and several of ours belong there, common milkweed and swamp milkweed among them. On bundles, the garden section of lasclay.com is where to look, since what gets put together as a set shifts through the season. Whichever you settle on, the seed still wants its month of cold before it will germinate."
+    },
+    {
+      "id": "122142471404483418_991145373313051",
+      "reponse_id": "122142471404483418_1092311379891112",
+      "page_id": "368305119707866",
+      "quand": "2026-08-20T23:43:41.774Z",
+      "confirme": true,
+      "texte": "Best answer is not to take our word for it. Two reliable routes: your county extension office, and the Wisconsin native plant society. Both keep documented lists by county rather than by state, which is the resolution you actually want. The USDA plants database will show you range maps at that level too. All eleven of ours are North American natives, but the continent is a big place, and that is a much lower bar than what genuinely belongs where you live."
+    },
+    {
+      "id": "122142471404483418_2247362282673996",
+      "reponse_id": "122142471404483418_1618290316485584",
+      "page_id": "368305119707866",
+      "quand": "2026-08-20T23:47:25.686Z",
+      "confirme": true,
+      "texte": "Yes, with the right species. Of the eleven we carry, arizona milkweed (angustifolia) and narrowleaf milkweed (fascicularis) are the southwestern ones, and desert conditions are what they are built for rather than something they merely put up with. The eastern species will struggle down there. A native plant nursery in Tucson will read your particular conditions better than we can from here."
+    },
+    {
+      "id": "122142471404483418_1283172960594348",
+      "reponse_id": "122142471404483418_1606432124220044",
+      "page_id": "368305119707866",
+      "quand": "2026-08-20T23:49:23.216Z",
+      "confirme": true,
+      "texte": "Scattering works, with two conditions. The ground has to be bare enough that seed reaches actual soil instead of sitting on thatch, and it has to be autumn, so that winter delivers the cold spell the seed needs. Scattered onto untouched ground in spring, you will get very little. Sowing into pots gives better odds per seed, but an autumn scatter over a prepared patch is closer to what the plant does for itself."
+    },
+    {
+      "id": "122142471404483418_1778048786690461",
+      "reponse_id": "122142471404483418_1038437302512207",
+      "page_id": "368305119707866",
+      "quand": "2026-08-20T23:50:27.973Z",
+      "confirme": true,
+      "texte": "They do. Around 30 days of it. That single requirement sits behind most of the failed sowings people report, because seed sown straight from a spring packet has never had its winter."
+    },
+    {
+      "id": "122142471404483418_954429110812533",
+      "reponse_id": "122142471404483418_1327372842812326",
+      "page_id": "368305119707866",
+      "quand": "2026-08-20T23:53:42.906Z",
+      "confirme": true,
+      "texte": "Seeds, loose in packets. There are also seed bombs if you would rather not handle loose seed at all."
+    },
+    {
+      "id": "122142471404483418_26515276244823018",
+      "reponse_id": "122142471404483418_1045200598146167",
+      "page_id": "368305119707866",
+      "quand": "2026-08-20T23:54:46.953Z",
+      "confirme": true,
+      "texte": "No, ours go out unstratified, and that is deliberate: it leaves you free to sow in autumn and let winter handle the cold, rather than locking you into a spring sowing. If spring is what you want, give them about a month in the fridge beforehand."
     }
   ],
-  "derniere_execution": "2026-08-20T23:32:14.663Z",
-  "total": 39
+  "derniere_execution": "2026-08-20T23:54:46.953Z",
+  "total": 46
 }
