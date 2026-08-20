@@ -100,6 +100,37 @@ const fJournal = (t) => path.join(ETAT, `${t}-journal.jsonl`);
 const repondus = (t) => lire(fRepondus(t), { tir: t, repondus: [], total: 0 });
 const idsRepondus = (t) => new Set(repondus(t).repondus.map((r) => (typeof r === "string" ? r : r.id)));
 
+// Plafond par Page et par jour. Le tirage horaire ne connaît pas l'historique de
+// la journée : une série de tirages hauts pourrait concentrer beaucoup de
+// réponses sur une seule Page. Ce plafond est la seule chose qui regarde le
+// cumul du jour, et c'est le garde-fou qui compte vraiment à haut débit.
+const PLAFOND_PAGE_JOUR = Number(process.env.FB_PLAFOND_PAGE_JOUR || 110);
+
+function publieesAujourdhui(tir) {
+  const jour = aujourdhui();
+  const parPage = {};
+  for (const r of repondus(tir).repondus || []) {
+    if ((r.quand || "").slice(0, 10) !== jour) continue;
+    parPage[r.page_id] = (parPage[r.page_id] || 0) + 1;
+  }
+  return parPage;
+}
+
+// Retire du lot les Pages qui ont atteint leur plafond du jour.
+function filtrerPlafond(lot, tir) {
+  const deja = publieesAujourdhui(tir);
+  const compte = { ...deja };
+  const garde = [];
+  const bloquees = new Set();
+  for (const c of lot) {
+    const pid = c._page_id || c.page_id;
+    if ((compte[pid] || 0) >= PLAFOND_PAGE_JOUR) { bloquees.add(pid); continue; }
+    compte[pid] = (compte[pid] || 0) + 1;
+    garde.push(c);
+  }
+  return { garde, bloquees: [...bloquees], deja };
+}
+
 // ---- Sélection ------------------------------------------------------------
 
 const norm = (s) =>
@@ -226,7 +257,7 @@ function tirage() {
   if (Math.random() > proba) {
     return { saute: true, motif: `heure ${h} h (Est), intensité ${i}${weekend ? ", week-end" : ""}` };
   }
-  const n = borne(1 + Math.floor(expo(8 * i)), 1, 14);
+  const n = borne(1 + Math.floor(expo(14 * i)), 1, 20);
   return { saute: false, n, heure: h, intensite: i, attenteInitiale: Math.round(45 + Math.random() * 375) };
 }
 
@@ -245,7 +276,8 @@ async function cmdCandidats(tir, nDemande) {
   const bruts = await moissonner(conf.pages);
   const candidats = bruts.filter((c) => eligible(c, vus));
   const { duJour, anciens, regle } = repartir(candidats, n);
-  const lot = [...duJour.map((c) => ({ ...c, _origine: "jour" })), ...anciens.map((c) => ({ ...c, _origine: "backlog" }))];
+  const lotBrut = [...duJour.map((c) => ({ ...c, _origine: "jour" })), ...anciens.map((c) => ({ ...c, _origine: "backlog" }))];
+  const { garde: lot, bloquees, deja } = filtrerPlafond(lotBrut, tir);
 
   console.log(JSON.stringify({
     tir,
@@ -255,6 +287,9 @@ async function cmdCandidats(tir, nDemande) {
     n_vise: n,
     attente_initiale_s: t.attenteInitiale || 60,
     regle_priorite: regle,
+    plafond_page_jour: PLAFOND_PAGE_JOUR,
+    deja_publiees_aujourdhui: deja,
+    pages_au_plafond: bloquees,
     total_candidats: candidats.length,
     candidats_du_jour: candidats.filter((c) => (c.created_time || "").slice(0, 10) === aujourdhui()).length,
     lot: lot.map((c) => ({
@@ -287,6 +322,11 @@ async function cmdPublier(fichier, tir) {
     const r = lot[i];
     if (!r.id || !r.page_id || !r.message) throw new Error(`entrée ${i} incomplète (id, page_id, message requis)`);
     if (vus.has(r.id)) { console.error(`(déjà répondu, ignoré) ${r.id}`); continue; }
+    const compteJour = publieesAujourdhui(tir);
+    if ((compteJour[r.page_id] || 0) >= PLAFOND_PAGE_JOUR) {
+      console.error(`(plafond du jour atteint pour la Page ${r.page_id}, ignoré) ${r.id}`);
+      continue;
+    }
 
     if (i > 0) {
       const ecart = Math.round(borne(expo(180), 60, 600));

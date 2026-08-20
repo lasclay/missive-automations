@@ -77,15 +77,33 @@ probabilité de publier tombe encore de 30 %.
 | Décision | Tirage |
 | --- | --- |
 | Publier cette heure-ci ? | probabilité = intensité × 0,85 (× 0,7 le week-end) |
-| Combien | `1 + int(expo(8 × intensité))`, plafonné à 14 |
+| Combien | `1 + int(expo(14 × intensité))`, plafonné à 20 |
 | Délai avant la première | 45 à 420 secondes |
 | Écart entre deux réponses | 60 à 600 secondes, moyenne 3 minutes |
 
 Une réponse à la fois : publier, attendre, publier. Jamais de lot, jamais de boucle serrée.
 
-Débit mesuré par simulation : **environ 200 réponses par jour**, dont 145 entre 9 h et 17 h et
-**1,4 entre 2 h et 6 h**. Soit à peu près 2 par Page et par heure de pointe. Jamais un chiffre
-rond, jamais le même deux jours de suite.
+Débit mesuré par simulation : **environ 300 réponses par jour**, dont 220 entre 9 h et 17 h et
+**2 entre 2 h et 6 h**. Soit à peu près 6 par Page et par heure de pointe — une toutes les dix
+minutes. Jamais un chiffre rond, jamais le même deux jours de suite.
+
+## Plafond par Page et par jour
+
+Le tirage horaire ne connait pas l'historique de la journee : une serie de tirages hauts pourrait
+concentrer beaucoup de reponses sur une seule Page. **Le plafond de 110 reponses par Page et par
+jour est la seule chose qui regarde le cumul du jour**, et c'est le garde-fou qui compte vraiment
+a ce debit. Il s'applique deux fois - a la constitution du lot et a la publication - et se regle
+par `FB_PLAFOND_PAGE_JOUR`.
+
+A 300 par jour sur quatre Pages, la moyenne est de 75 par Page : le plafond ne mord qu'en cas de
+concentration anormale, ce qui est exactement son role.
+
+## Ce debit est un rattrapage, pas un regime permanent
+
+Le backlog est fini : environ 2 800 questions sans reponse, dont bien moins sont reellement
+traitables. A 300 par jour, il se vide en une dizaine de jours. Ensuite, la seule matiere restante
+est le flux quotidien, qui se compte en dizaines. **Quand `total_candidats` s'effondre, ce n'est
+pas une panne - c'est le travail qui est fait.** Redescendre le debit a ce moment-la.
 
 ## État
 
