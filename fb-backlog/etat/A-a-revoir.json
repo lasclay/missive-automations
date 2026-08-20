@@ -142,6 +142,26 @@
    "motif": "Question adressee nommement a un autre abonne, un cultivateur qui raconte son experience de 3 acres. Elle lui revient. La Page a deja apporte le fait utile sur la fenetre de recolte ailleurs dans le meme sous-fil au tir precedent.",
    "ecarte_le": "2026-08-20",
    "tir": "A"
+  },
+  {
+   "id": "1574333231367154_1349980643645333",
+   "page_id": "104242204750257",
+   "date": "2026-05-28T08:43:14+0000",
+   "message": "La quenouille dois être bon aussi",
+   "lien": "https://www.facebook.com/reel/1874038533556177/?comment_id=1349980643645333",
+   "motif": "Suppose qu une autre plante, la quenouille, aurait des proprietes isolantes comparables. Rien dans faits-verifies.json ne couvre la quenouille, et toute reponse utile reviendrait a se prononcer sur sa fibre ou sur ce que Lasclay a explore. Meme motif que la question sur l epilobe, ecartee le 2026-08-19.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
+  },
+  {
+   "id": "1578358574297953_1315720670264331",
+   "page_id": "104242204750257",
+   "date": "2026-07-01T04:29:25+0000",
+   "message": "Attendez vous à un service client de merde!",
+   "lien": "https://www.facebook.com/reel/1732467234424864/?comment_id=1315720670264331",
+   "motif": "Avertissement hostile lance a d autres acheteurs, sans dossier ni commande nommee. C est une plainte de service client, qui releve du support et jamais d une reponse publique (REGLES.md garde-fou 7), et le ton en fait une diatribe. Merite un vrai suivi humain: derriere ce commentaire il y a probablement un dossier reel a retrouver.",
+   "ecarte_le": "2026-08-20",
+   "tir": "A"
   }
  ]
 }

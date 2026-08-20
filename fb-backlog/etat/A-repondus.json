@@ -144,8 +144,16 @@
       "quand": "2026-08-20T15:43:50.075Z",
       "confirme": true,
       "texte": "Un déménagement d'abord, le kit ensuite : c'est le bon ordre. Le catalogue ne s'envole pas, il sera là quand le moment sera venu."
+    },
+    {
+      "id": "1573344748132669_1265729065634617",
+      "reponse_id": "1573344748132669_2076169266334781",
+      "page_id": "104242204750257",
+      "quand": "2026-08-20T17:10:23.188Z",
+      "confirme": true,
+      "texte": "Content de vous rassurer. Le nom sur la boîte ne change pas, ni la fibre qu'il y a dedans."
     }
   ],
-  "derniere_execution": "2026-08-20T15:43:50.075Z",
-  "total": 18
+  "derniere_execution": "2026-08-20T17:10:23.190Z",
+  "total": 19
 }
