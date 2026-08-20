@@ -583,7 +583,11 @@ const facebook = (() => {
         need(p, "page_id", "object_id");
         const { object_id, ...q } = p;
         return get(`/${encodeURIComponent(object_id)}/comments`, {
-          fields: "id,created_time,message,from,is_hidden,comment_count,permalink_url",
+          // `parent` est le seul signal FIABLE qu'un commentaire est une réponse
+          // à l'intérieur d'un fil plutôt qu'un message adressé à la Page.
+          // `attachment` distingue un commentaire vide d'un commentaire-photo.
+          fields:
+            "id,created_time,message,from,is_hidden,comment_count,permalink_url,parent{id},attachment{type}",
           filter: "stream",
           limit: 100,
           ...q,

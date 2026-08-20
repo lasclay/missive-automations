@@ -61,6 +61,10 @@ Chaque entrée porte un `type` :
   faits verifies.
 - **`récit`** — quelqu'un raconte son experience : ses cocons, ses semis, son plant disparu.
   Pas de question, mais une presence qui merite qu'on lui reponde.
+- **`photo`** — aucun texte, seulement une image. Quelqu'un montre sa chenille, son plant, son
+  monarque. Ce n'est pas un commentaire vide : c'est le plus enthousiaste des trois. Reponds en
+  une phrase, sans deviner ce qu'on voit — tu n'as pas l'image. Un simple accueil chaleureux
+  suffit ; ne decris jamais ce que tu crois y voir.
 
 Un recit se repond **court** : une ou deux phrases, chaleureuses, qui accusent reception de ce que
 la personne a vecu. Pas d'argumentaire produit, pas de lien vers la boutique, pas de conseil non
@@ -70,9 +74,10 @@ N'exiger que les questions etait une erreur : sur les fils vivants, sept comment
 huit sont des recits. Les ignorer donnait une Page qui ne repond jamais a ce qui vient d'etre
 ecrit - exactement ce qu'un abonne remarque.
 
-Attention aux **reponses entre abonnes** : quelqu'un qui repond a quelqu'un d'autre, ou qui
-commence par le nom d'une personne ou de la Page. Le script en ecarte une partie, pas toutes.
-Ecarte-les : y repondre au nom de la marque est incongru.
+Les **reponses entre abonnes** sont desormais ecartees par le script lui-meme : Meta rend un
+champ `parent` sur tout commentaire situe dans un sous-fil, et c'est un signal fiable. Il a
+remplace une heuristique « Prenom Nom » qui ecartait a tort des phrases comme « In South Texas
+we have a huge yearly migration ». Reste ton jugement pour ce qui passe entre les mailles.
 
 ### La règle du 70 %
 

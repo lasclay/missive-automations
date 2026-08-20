@@ -158,8 +158,11 @@ const aujourdhui = () =>
 //
 // Les filtres restent structurels. Le jugement éditorial — plainte de commande,
 // diatribe, réponse entre abonnés, hors sujet — reste à Claude.
-function typeDe(m) {
-  return m.includes("?") ? "question" : "récit";
+function typeDe(c) {
+  const m = (c.message || "").trim();
+  if (m.includes("?")) return "question";
+  if (!m && c.attachment) return "photo";
+  return "récit";
 }
 
 function eligible(c, dejaVus) {
@@ -167,12 +170,23 @@ function eligible(c, dejaVus) {
   if (c.is_hidden) return false;
   if (c.comment_count && c.comment_count > 0) return false;
   if (c.from && NOMS[c.from.id]) return false; // écrit par la Page elle-même
+
+  // `parent` est le seul signal fiable qu'on est dans un sous-fil : ce
+  // commentaire répond à un autre commentaire, pas à la Page. Il remplace une
+  // heuristique « Prénom Nom » qui produisait des faux positifs — « In South
+  // Texas… » était pris pour le nom d'une personne et écarté à tort.
+  if (c.parent) return false;
+
   const m = (c.message || "").trim();
+
+  // Un commentaire sans texte mais avec une photo n'est pas vide : quelqu'un
+  // montre sa chenille ou son plant. Sur ces Pages, ça mérite une réponse.
+  if (!m) return !!c.attachment;
+
   if (m.length < 13) return false;
-  // Un récit doit avoir un peu de substance : « Beautiful! » n'appelle rien.
-  if (!m.includes("?") && m.length < 40) return false;
-  // « Prénom Nom …» en tête : ce sont des réponses entre abonnés, pas des messages à la marque.
-  if (/^[A-ZÀ-Ý][\p{L}'-]+\s+[A-ZÀ-Ý]/u.test(m)) return false;
+  // Un récit doit avoir un peu de substance, mais le plancher était trop haut :
+  // « I have my seeds ready & waiting!! » en fait 36 et méritait un mot.
+  if (!m.includes("?") && m.length < 25) return false;
   return true;
 }
 
@@ -214,7 +228,7 @@ async function moissonner(pages) {
         c._page_id = pid;
         c._page = NOMS[pid];
         c._registre = REGISTRE[pid];
-        c._type = typeDe(c.message || "");
+        c._type = typeDe(c);
         c._post = po.id;
         c._post_url = po.permalink_url;
         out.push(c);
@@ -334,6 +348,7 @@ async function cmdCandidats(tir, nDemande) {
     total_candidats: candidats.length,
     dont_questions: candidats.filter((c) => c._type === "question").length,
     dont_recits: candidats.filter((c) => c._type === "récit").length,
+    dont_photos: candidats.filter((c) => c._type === "photo").length,
     horizon_jours: HORIZON_JOURS,
     candidats_du_jour: candidats.filter((c) => (c.created_time || "").slice(0, 10) === aujourdhui()).length,
     lot: lot.map((c) => ({
