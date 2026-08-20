@@ -204,6 +204,46 @@
    "motif": "Deux mots (« Northern California ») en reponse a un autre abonne qui demandait dans quel Etat il habite. Aucun contenu.",
    "ecarte_le": "2026-08-20",
    "tir": "C"
+  },
+  {
+   "id": "929266099812469_946879064800438",
+   "page_id": "262382158951470",
+   "date": "2026-05-05T21:14:16+0000",
+   "message": "Anne Marie Hesson",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=946879064800438",
+   "motif": "Le commentaire ne contient qu un nom (« Anne Marie Hesson ») : quelqu un identifie une connaissance. Aucun contenu auquel repondre.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "929266099812469_4496657077237242",
+   "page_id": "262382158951470",
+   "date": "2026-04-27T12:03:15+0000",
+   "message": "Cynthia Orr try putting old coffee grounds and banana peels down in the soil or mulch! Several plants change colors like hydrangeas and the ph of the soil can affect it! I also read that planting them in the shade makes their blooms be less vibrant.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=4496657077237242",
+   "motif": "Conseil entre abonnes sur le marc de cafe, les pelures de banane et le pH pour changer la couleur d une floraison. Hors asclepiade et hors faits verifies.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "929266099812469_4416497591971945",
+   "page_id": "262382158951470",
+   "date": "2026-04-26T21:45:35+0000",
+   "message": "Rob Ccmc May no they don’t!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=4416497591971945",
+   "motif": "Contradiction seche (« no they don t! ») dans le sous-fil sur l asclepiade tropicale et le calendrier de migration. Y repondre reviendrait a trancher un debat que nos faits verifies ne couvrent pas.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "922604073812005_1336292521696868",
+   "page_id": "262382158951470",
+   "date": "2026-04-28T18:28:36+0000",
+   "message": "They are on an endangered list in Canada.",
+   "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=1281076680850557&reply_comment_id=1336292521696868",
+   "motif": "Affirmation sur le statut d espece en peril au Canada, dans un sous-fil ou deux abonnes s opposent sur les listes officielles. Aucun statut de population n est documente dans faits-verifies.json : meme motif que les commentaires IUCN et US Fish and Wildlife deja ecartes.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
   }
  ]
 }
