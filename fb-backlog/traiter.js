@@ -26,12 +26,11 @@
  * molle le soir, presque nulle la nuit. Un débit plat sur 24 heures serait une
  * signature aussi nette qu'une cadence régulière.
  *
- * PRIORITÉ — la règle du 70 %
+ * PRIORITÉ — dynamique, jamais un quota fixe
  * Les commentaires du JOUR passent avant tout et sont traités en entier. Le
- * reste du lot va au vieux backlog, plafonné pour que le jour garde au moins
- * 70 % du lot. Exception explicite : si aucun commentaire n'est arrivé
- * aujourd'hui, tout le lot va au backlog — sinon une journée calme ne ferait
- * rien avancer.
+ * backlog prend ensuite TOUT ce qui reste de capacité, sans plafond : une
+ * journée calme bascule d'elle-même à 100 % de backlog. Dans le backlog, les
+ * questions à intention d'achat passent devant.
  */
 
 const fs = require("node:fs");
@@ -250,27 +249,79 @@ async function moissonner(pages) {
   return out;
 }
 
-// La règle du 70 % : le jour d'abord, en entier ; le backlog ne prend que ce
-// qui lui reste sans faire descendre le jour sous 70 % du lot.
+// Signaux d'intention d'achat. Une question qui peut mener à une commande vaut
+// plus qu'une curiosité générale : on la traite en premier dans le backlog.
+// Frontières de mot obligatoires — sans elles, « cat » se trouve dans
+// « scatter » et « prix » dans « caprix ». Cette erreur a déjà été commise.
+const SIGNAUX = [
+  // acheter, commander
+  [3, /\b(buy|purchase|order|ordering|checkout|cart)\b/i],
+  [3, /\b(acheter|commander|commande|panier)\b/i],
+  // où se procurer
+  [3, /\b(where can i|where do i|where to|how do i get|link to)\b/i],
+  [3, /\b(où (puis-je|est-ce|acheter|trouver)|comment commander)\b/i],
+  // disponibilité, rupture
+  [2, /\b(available|availability|in stock|sold out|restock|back in stock)\b/i],
+  [2, /\b(disponible|disponibilité|en stock|rupture|réappro)\b/i],
+  // livraison, expédition, pays
+  [2, /\b(ship|shipping|shipped|deliver|delivery|customs|duty)\b/i],
+  [2, /\b(livraison|livrer|expédi\w*|douane)\b/i],
+  // prix, coût
+  [2, /\b(price|cost|how much|expensive|discount|coupon)\b/i],
+  [2, /\b(prix|coût|combien|rabais|promo)\b/i],
+  // choix de produit ou d'espèce, préachat
+  [2, /\b(which (one|kind|variety|species)|what (kind|variety) should|recommend)\b/i],
+  [2, /\b(quelle (espèce|variété)|lequel|laquelle|recommand\w*)\b/i],
+  // le site, la boutique
+  [1, /\b(website|web site|store|shop|online)\b/i],
+  [1, /\b(site web|boutique|en ligne)\b/i],
+];
+
+function intentionAchat(c) {
+  const m = c.message || "";
+  let score = 0;
+  for (const [poids, re] of SIGNAUX) if (re.test(m)) score += poids;
+  // Une question porte plus loin qu'un récit : on peut y répondre utilement.
+  if (m.includes("?")) score += 1;
+  return score;
+}
+
+// La priorité est DYNAMIQUE, pas un quota fixe.
+//
+// Le jour d'abord, toujours, et en entier. Ensuite le backlog prend TOUT ce qui
+// reste de capacité — il n'est jamais bridé par une proportion. C'est la
+// correction d'un vrai défaut : plafonner le backlog à 3/7 du jour faisait que
+// deux commentaires du jour donnaient un lot de deux, et le tir s'arrêtait là.
+// Les 70 % sont un plancher de priorité pour le jour, pas un frein sur le reste.
+//
+// Dans le backlog, les questions à intention d'achat passent devant : quelqu'un
+// qui demande où commander ou si vous livrez chez lui attend une réponse qui
+// compte, et l'absence de réponse se paie.
 function repartir(candidats, n) {
   const jour = aujourdhui();
   const duJour = candidats.filter((c) => (c.created_time || "").slice(0, 10) === jour);
   const anciens = candidats.filter((c) => (c.created_time || "").slice(0, 10) !== jour);
 
-  // Journée calme : rien de neuf, tout le lot va au backlog.
-  if (duJour.length === 0) {
-    return { duJour: [], anciens: melanger(anciens).slice(0, n), regle: "aucun commentaire du jour — lot entier au backlog" };
-  }
-  const prisJour = duJour.slice(0, n); // le jour d'abord, dans l'ordre d'arrivée
-  const plafondAnciens = Math.min(
-    Math.floor((prisJour.length * 3) / 7), // garantit jour ≥ 70 % du lot
-    n - prisJour.length
-  );
-  return {
-    duJour: prisJour,
-    anciens: melanger(anciens).slice(0, Math.max(0, plafondAnciens)),
-    regle: `${prisJour.length} du jour + ${Math.max(0, plafondAnciens)} anciens (jour ≥ 70 %)`,
-  };
+  const prisJour = duJour.slice(0, n);
+  const reste = n - prisJour.length;
+
+  // Backlog trié par intention d'achat, puis par fraîcheur. Un peu de hasard
+  // entre ex æquo pour ne pas re-présenter éternellement le même ordre.
+  const triés = melanger(anciens).sort((a, b) => {
+    const d = intentionAchat(b) - intentionAchat(a);
+    if (d !== 0) return d;
+    return String(b.created_time || "").localeCompare(String(a.created_time || ""));
+  });
+  const prisAnciens = triés.slice(0, Math.max(0, reste));
+
+  const total = prisJour.length + prisAnciens.length;
+  const part = total ? Math.round((100 * prisJour.length) / total) : 0;
+  const regle =
+    prisJour.length === 0
+      ? `aucun commentaire du jour — ${prisAnciens.length} du backlog, priorité à l'intention d'achat`
+      : `${prisJour.length} du jour (${part} %) + ${prisAnciens.length} du backlog, priorité à l'intention d'achat`;
+
+  return { duJour: prisJour, anciens: prisAnciens, regle };
 }
 
 function melanger(a) {
@@ -372,6 +423,7 @@ async function cmdCandidats(tir, nDemande) {
       origine: c._origine,
       type: c._type,
       adresse: c._adresse,
+      intention_achat: intentionAchat(c),
       repond_a: c._repond_a,
       image: c._image,
       date: c.created_time,

@@ -107,17 +107,31 @@ contexte, et c'est **ton jugement** qui tranche :
 **Le taux de rejet vise est sous 10 %.** S'il monte, c'est le signe qu'un filtre est trop strict
 ou que le jugement ecarte trop large — signale-le dans ton rapport.
 
-### La règle du 70 %
+### La priorite est dynamique, pas un quota
 
-**Les commentaires du jour passent avant tout et sont traités en entier.** Le backlog ne prend
-que ce qui reste, plafonné pour que le jour garde au moins 70 % du lot.
+**Les commentaires du jour passent avant tout et sont traites en entier.** Le backlog prend
+ensuite **tout ce qui reste de capacite**, sans plafond. Une journee calme bascule donc d'elle-meme
+a 100 % de backlog.
 
-Une seule exception, explicite : si aucun commentaire n'est arrivé aujourd'hui, tout le lot va au
-backlog — sinon une journée calme ne ferait rien avancer. Le champ `regle_priorite` de la sortie
-dit laquelle des deux s'est appliquée.
+Les 70 % sont un plancher de priorite pour le jour, jamais un frein sur le reste. La version
+precedente plafonnait le backlog a trois septiemes du jour : deux commentaires du jour donnaient
+un lot de deux et le tir s'arretait la. C'etait un throttle deguise en regle de priorite.
 
-Chaque entree du lot porte `origine` (`jour` ou `backlog`), `type` (`question` ou `récit`),
-`page`, `registre`, `date`, `message` et `lien`.
+Le champ `regle_priorite` de la sortie dit ce qui s'est applique et dans quelle proportion.
+
+### Dans le backlog : l'intention d'achat d'abord
+
+Chaque entree porte `intention_achat`, un score calcule sur des signaux explicites : ou commander,
+disponibilite, livraison et douanes, prix, quelle espece choisir, le site. Le backlog est trie sur
+ce score, puis par fraicheur.
+
+La raison est simple : quelqu'un qui demande **ou acheter** ou **si vous livrez chez lui** attend
+une reponse qui compte, et le silence se paie. Une curiosite generale peut attendre un tir de plus.
+
+**Un score eleve n'autorise rien.** Le score mesure le vocabulaire commercial, pas la pertinence
+d'une reponse publique. Une plainte comme « Order three weeks ago - no delivery yet!! » score haut
+et doit malgre tout partir au support : c'est un dossier client, jamais une reponse publique. Le
+tri te presente les candidats dans un ordre utile ; il ne remplace pas ton jugement.
 
 ## 3. Trier — c'est ton jugement, pas celui du script
 

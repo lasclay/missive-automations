@@ -37,17 +37,21 @@ Langue : toujours celle du commentaire, jamais celle de la Page.
 7. **Ne jamais répondre à une plainte de commande.** Ce sont des dossiers clients, pas des
    questions. Les laisser au support.
 
-## Priorité — les commentaires du jour d'abord
+## Priorité — le jour d'abord, puis l'intention d'achat
 
 Un commentaire laissé sans réponse le jour même se voit ; un commentaire de 2024 qui attend une
-semaine de plus, non. **Les commentaires du jour passent avant tout et sont traités en entier**,
-et le backlog ne prend que ce qui reste, plafonné pour que le jour garde au moins 70 % du lot.
+semaine de plus, non. **Les commentaires du jour passent avant tout et sont traités en entier.**
 
-Exception assumée : si aucun commentaire n'est arrivé aujourd'hui, tout le lot va au backlog.
-Sinon une journée calme ne ferait rien avancer.
+Le backlog prend ensuite **toute la capacité restante**, sans plafond : une journée calme bascule
+d'elle-même à 100 % de backlog. Les 70 % sont un plancher de priorité pour le jour, jamais un
+frein sur le reste.
 
-`fb-backlog/traiter.js` applique la règle lui-même et dit laquelle des deux branches s'est
-appliquée, dans le champ `regle_priorite`.
+Dans le backlog, **les questions à intention d'achat passent devant** — où commander, livraison,
+disponibilité, prix, quelle espèce choisir. Quelqu'un qui demande s'il peut être livré chez lui
+attend une réponse qui compte.
+
+Un score d'intention élevé n'autorise pourtant rien : une plainte de livraison score haut et part
+quand même au support. Le tri ordonne, il ne décide pas.
 
 ## Cadence — 24 h sur 24, mais jamais à plat
 
