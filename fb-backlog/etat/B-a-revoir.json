@@ -411,6 +411,36 @@
    "motif": "Troisieme occurrence de la question sur la stratification (« Have they been cold stratified? ») sur la MEME publication. Les deux precedentes ont recu une reponse publiee hier au meme endroit; une troisieme variante serait un quasi-doublon visible, ce qu interdit REGLES.md. La personne trouve la reponse quelques commentaires plus haut dans le meme fil.",
    "ecarte_le": "2026-08-21",
    "tir": "B"
+  },
+  {
+   "id": "122142471404483418_1642696420319373",
+   "page_id": "368305119707866",
+   "date": "2026-05-11T07:32:41+0000",
+   "message": "Garbage company!!!!",
+   "lien": "https://www.facebook.com/122210881520483418/posts/122142471404483418?comment_id=1642696420319373",
+   "motif": "Insulte pure (« Garbage company!!!! ») sans question ni grief identifiable. Diatribe: rien a quoi repondre, et toute reponse publique amplifierait le commentaire.",
+   "ecarte_le": "2026-08-21",
+   "tir": "B"
+  },
+  {
+   "id": "122142471404483418_2221514975285943",
+   "page_id": "368305119707866",
+   "date": "2026-05-11T00:36:54+0000",
+   "message": "I have a bunch of milkweed",
+   "lien": "https://www.facebook.com/122210881520483418/posts/122142471404483418?comment_id=2221514975285943",
+   "motif": "Recit d un mot (« I have a bunch of milkweed »), sans question ni detail exploitable. Rien a repondre qui ne serait pas du remplissage.",
+   "ecarte_le": "2026-08-21",
+   "tir": "B"
+  },
+  {
+   "id": "122142471404483418_1322891923052569",
+   "page_id": "368305119707866",
+   "date": "2026-05-10T16:21:17+0000",
+   "message": "I have milkweed in my garden.",
+   "lien": "https://www.facebook.com/122210881520483418/posts/122142471404483418?comment_id=1322891923052569",
+   "motif": "Recit d une ligne (« I have milkweed in my garden »), sans question. Tout ce qu on pourrait ajouter a deja ete publie sur cette meme publication (talle, defoliation par les chenilles, vivace).",
+   "ecarte_le": "2026-08-21",
+   "tir": "B"
   }
  ]
 }
