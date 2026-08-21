@@ -42,7 +42,9 @@
    "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=942298305342259",
    "motif": "Fragment accusatoire (« why not? Are you promoting starving them? ») greffe sur un fil dont on ignore le contenu. Repondre exigerait de deviner l accusation ; ton hostile, dossier a jugement humain.",
    "ecarte_le": "2026-08-20",
-   "tir": "C"
+   "tir": "C",
+   "repris_le": "2026-08-20",
+   "note_reprise": "Ecarte le 2026-08-19 faute de contexte. Le script fournit desormais repond_a : c est une reponse directe a un commentaire de la Page (« Nobody is talking about tropical milkweed here. We don t sell it »). Repondu ce jour."
   },
   {
    "id": "922604073812005_2161926784345865",
@@ -242,6 +244,46 @@
    "message": "They are on an endangered list in Canada.",
    "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=1281076680850557&reply_comment_id=1336292521696868",
    "motif": "Affirmation sur le statut d espece en peril au Canada, dans un sous-fil ou deux abonnes s opposent sur les listes officielles. Aucun statut de population n est documente dans faits-verifies.json : meme motif que les commentaires IUCN et US Fish and Wildlife deja ecartes.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "929266099812469_1596386124776046",
+   "page_id": "262382158951470",
+   "date": "2026-05-01T23:35:24+0000",
+   "message": "Marilyn Wann please include a link to an authentic website that proves your theory.  Thank you.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=1596386124776046",
+   "motif": "Sommation de fournir un lien prouvant une theorie, dans le sous-fil sur l asclepiade tropicale et l OE. Nos faits verifies ne couvrent pas la parasitose : repondre reviendrait a arbitrer, se taire poliment est la bonne reponse.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "929266099812469_1465661568363429",
+   "page_id": "262382158951470",
+   "date": "2026-05-02T22:55:47+0000",
+   "message": "Eric Simpson I agree.  However, I grew native milkweed from seed and buy native milkweed plants for years and still do.  The only milkweed that overwinters is the tropical.  Maybe it is because I live in South Texas.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=1465661568363429",
+   "motif": "Meme sous-fil tropical, avec une affirmation sur ce qui hiverne ou non dans le sud du Texas. Hors faits verifies.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "922604073812005_2466861017120607",
+   "page_id": "262382158951470",
+   "date": "2026-04-28T21:44:56+0000",
+   "message": "Just now?",
+   "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=2466861017120607",
+   "motif": "Deux mots (« Just now? ») sans objet identifiable. Aucun contenu auquel repondre.",
+   "ecarte_le": "2026-08-20",
+   "tir": "C"
+  },
+  {
+   "id": "922604073812005_955412990888353",
+   "page_id": "262382158951470",
+   "date": "2026-05-23T20:23:33+0000",
+   "message": "",
+   "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=955412990888353",
+   "motif": "Troisieme photo d une meme serie envoyee par la meme personne sur ce reel, et la seule des trois qui soit inexploitable : gros plan totalement flou d une feuille, rien d identifiable. La Page a deja repondu deux fois a cette personne sur ce fil (la bille pale, puis les feuilles grignotees) ; une troisieme reponse sans contenu n apporterait rien.",
    "ecarte_le": "2026-08-20",
    "tir": "C"
   }
