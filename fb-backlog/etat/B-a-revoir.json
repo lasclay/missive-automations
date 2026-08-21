@@ -381,6 +381,36 @@
    "motif": "Question adressee a une autre abonnee (« how is it odd? ») dans un echange declenche par un commentaire de la Page. Entre abonnes.",
    "ecarte_le": "2026-08-20",
    "tir": "B"
+  },
+  {
+   "id": "122191968992483418_1662643134880836",
+   "page_id": "368305119707866",
+   "date": "2026-05-05T14:32:58+0000",
+   "message": "I am in Mesa. I didn’t know we could plant them. Would you please message me with local info? I would love to do this",
+   "lien": "https://www.facebook.com/reel/2168654283874336/?comment_id=1713475846291423&reply_comment_id=1662643134880836",
+   "motif": "Demande adressee a un autre abonne d Arizona qui offrait des graines et de l information locale, avec demande de message prive entre eux. La Page n est pas interpellee, et le volet Arizona a deja recu une reponse publiee hier (Tucson, angustifolia et fascicularis).",
+   "ecarte_le": "2026-08-21",
+   "tir": "B"
+  },
+  {
+   "id": "122191968992483418_1627397895198709",
+   "page_id": "368305119707866",
+   "date": "2026-05-04T22:37:41+0000",
+   "message": "Stephanie Michele is that all the help you’re willing to give?",
+   "lien": "https://www.facebook.com/reel/2168654283874336/?comment_id=927940066422489&reply_comment_id=1627397895198709",
+   "motif": "Pique adressee a une autre abonnee qui avait repondu « google » (« is that all the help you are willing to give? »). Echange entre abonnes, rien a repondre sans envenimer.",
+   "ecarte_le": "2026-08-21",
+   "tir": "B"
+  },
+  {
+   "id": "122142471404483418_2431760667308483",
+   "page_id": "368305119707866",
+   "date": "2026-05-03T22:07:01+0000",
+   "message": "Have they been cold stratified?",
+   "lien": "https://www.facebook.com/122210881520483418/posts/122142471404483418?comment_id=2431760667308483",
+   "motif": "Troisieme occurrence de la question sur la stratification (« Have they been cold stratified? ») sur la MEME publication. Les deux precedentes ont recu une reponse publiee hier au meme endroit; une troisieme variante serait un quasi-doublon visible, ce qu interdit REGLES.md. La personne trouve la reponse quelques commentaires plus haut dans le meme fil.",
+   "ecarte_le": "2026-08-21",
+   "tir": "B"
   }
  ]
 }
