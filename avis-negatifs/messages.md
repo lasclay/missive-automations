@@ -1,577 +1,477 @@
-# Brouillons de messages — un par client
+# Brouillons de messages, version 2
 
-**À lire avant d'envoyer quoi que ce soit.**
+**Ce fichier remplace la version 1 en entier.** La lecture de la fiche par Cowork
+(`RAPPORT-LECTURE-FICHE.md`, `avis-complets.jsonl`) a rendu huit brouillons faux ou sans objet, et
+a montré que six autres visaient le mauvais grief. Trois vérifications Shopify ont tranché les
+contradictions. Rien de la version 1 ne doit être envoyé.
 
-1. Ces messages sont des **brouillons**. Rien n'a été envoyé, aucune carte-cadeau n'a été émise,
-   aucun remboursement n'a été déclenché.
-2. Monter le dossier avant chaque envoi : `node dossier.js <convId>` s'il existe un fil Missive,
-   sinon vérifier Shopify **et** ShipStation. Un message qui se trompe sur l'état d'une commande
-   fait plus de mal que le silence.
-3. Envoyer un par un, depuis Missive, signé d'une vraie personne. Pas d'envoi groupé : ce sont
-   des gens qui reprochent précisément d'avoir été traités comme des numéros.
-4. Le montant du geste est une suggestion. Les précédents maison sont : carte-cadeau de 25 $,
-   remplacement gratuit, remboursement partiel, remboursement total.
-5. **Aucun de ces messages ne conditionne le geste au retrait de l'avis.** Ne pas modifier ce
-   point (voir `precedents.md`).
+## Ce qui a changé, et pourquoi
+
+| Correction | Effet |
+| --- | --- |
+| Quatre auteurs ont **relevé leur note** ou réécrit leur avis en positif | 4 brouillons supprimés |
+| Quatre avis **n'existent plus** sur la fiche | 4 brouillons sans objet |
+| Six textes complets montrent un **grief différent** de celui qu'on avait supposé | 6 brouillons réécrits |
+| Trois contradictions **tranchées dans Shopify** | voir plus bas |
+| Trois avis négatifs **inconnus** trouvés sur la fiche | 3 brouillons neufs |
+
+### Les trois contradictions, réglées
+
+- **Susan Lockhart.** La réponse publique de Lasclay (« *you indeed never ordered any of our
+  products* ») date du 23 mai 2024. Sa commande L-32389, 62,13 $ de semences et de bombes
+  semencières, date du 12 avril 2025. Les deux sont vraies : elle a commandé **onze mois après**
+  la réponse. Elle a acheté exactement ce que cette réponse défendait.
+- **Nathalie Durand.** Son avis est daté du **7 janvier 2025** sur la fiche. La paire de
+  remplacement, commande L-28844 à 0,00 $, a été créée et expédiée le **8 janvier à 17 h 40**,
+  suivi Postes Canada 5082011581637287, statut **DELIVERED**. Elle disait vrai en écrivant, et
+  elle n'a jamais mis son avis à jour. Le colis est bien arrivé.
+- **Cyr-Marc Debien.** Sa commande L-2973 a été **annulée le soir même** (19 sept. 2021, 23 h 25)
+  et **remboursée en entier**, 227,66 $ sur 227,66 $. Le dossier est clos depuis cinq ans.
+
+## Règles d'écriture, à respecter à la lettre
+
+1. **Pas de cadratins.** Virgules, deux-points, parenthèses ou traits d'union simples.
+2. **Ne pas signer.** La signature s'ajoute toute seule dans Missive. Finir sur la dernière
+   phrase utile.
+3. **Ne pas ouvrir sur l'excuse.** Entrer dans le sujet, s'excuser une fois, ensuite.
+4. **Jamais la structure « ce n'est pas X, c'est Y »**, ni ses variantes déguisées.
+5. **Vouvoiement** en français. Le tutoiement n'est pas une politique confirmée de la marque.
+6. **Français québécois.** Pas de tournures de France.
+7. **Un envoi à la fois**, depuis Missive, après `node dossier.js <convId>` ou une vérification
+   Shopify plus ShipStation.
+8. **Aucun geste n'est conditionnel au retrait de l'avis.** Interdit par Google, trompeur au sens
+   de la Loi sur la protection du consommateur.
 
 ---
 
-# Priorité 1 — le problème est réglé, on ferme la boucle
+# A. Ne pas envoyer
 
-## Patrick Lessnick · 2★ · 2026-03-03 · plessnick@outlook.com
+## Les avis ne sont plus négatifs
 
-*Contexte : 449 $ de mitaines le 16 février, avis le 3 mars sur le service, mitaine de
-remplacement gratuite expédiée le 11 mars. Il a dit lui-même que le produit est bon.*
+| Auteur | Note réelle | Pourquoi le brouillon saute |
+| --- | --- | --- |
+| **Susan Buchanan** | **4★** | « After multiple email exchanges, I received them today! ». Elle a reçu ses dix sachets et relevé sa note. Le brouillon anglais affirmait le contraire et offrait de réexpédier |
+| **Fanny H (Houdré)** | **4★** | Avis réécrit en positif le 30 mars 2025, elle nomme Gabriel : « Finalement une bonne expérience service client ». Le meilleur cas de reconquête du corpus |
+| **Danielle Gingras** | **3★** | Elle écrit publiquement que la compensation a été acceptée et que les dimensions ont été corrigées sur le site. Écrire rouvrirait un dossier clos |
+| **Cyr-Marc Debien** | 1★ | Commande annulée et remboursée en entier le soir même. Lasclay a déjà répondu publiquement en le disant. Un message qui propose de rembourser contredirait la réponse publique de Lasclay elle-même |
 
-> **Objet : Votre mitaine de remplacement — et mes excuses pour l'attente**
+## Les avis n'existent plus sur la fiche
+
+**Chantal Phaneuf**, **Marijo**, **Sophie Lemieux**, **Jean-Simon Robitaille**. Leurs auteurs les
+ont retirés. Il n'y a plus rien à réparer publiquement, et rouvrir le sujet ne peut que rappeler
+un mauvais souvenir.
+
+Une exception possible, au jugement de l'équipe : **Sophie Lemieux** a cinq commandes et a
+racheté un mois après son avis, aujourd'hui disparu. Un simple merci, sans mention de l'avis,
+reste défendable.
+
+---
+
+# B. À envoyer, corrigés
+
+## Patrick Lessnick · 2★ · plessnick@outlook.com
+
+*Le texte complet change tout : il a **modifié son avis lui-même** pour ajouter « Lasclay a
+finalement accepté d'échanger la paire de mitaines suite à mon avis. Ils n'auraient pas vu mon
+message initial. À vous de voir. Je confirme que le produit est de qualité et très chaud. »
+Ne rien lui annoncer, il le sait déjà. Sa vraie plainte : deux semaines de silence par courriel
+et par Messenger, sur une commande de 449 $. Personne n'a répondu publiquement à sa mise à jour,
+ce qui est l'occasion manquée du dossier.*
+
+> **Objet : Votre mise à jour sur Google, et les deux semaines avant**
 >
 > Bonjour Patrick,
 >
-> Je vous écris parce que j'ai vu votre commentaire sur notre service, et il était mérité. Vous
-> aviez commandé quatre paires de mitaines en février, vous avez eu un problème, et vous avez dû
-> attendre bien trop longtemps avant qu'on s'occupe de vous. Ce n'est pas notre standard et je
-> m'en excuse sincèrement.
+> J'ai lu la mise à jour que vous avez ajoutée à votre avis, où vous confirmez que les mitaines
+> sont de qualité et très chaudes. Vous n'aviez aucune obligation de faire ça, et ça compte
+> beaucoup pour nous.
 >
-> Je vois que votre mitaine de remplacement est partie le 11 mars. J'aimerais savoir si tout est
-> beau de votre côté depuis, et si les mitaines tiennent leur promesse cet hiver.
+> Reste le problème d'avant. Vous nous avez écrit par courriel et par Messenger, et vous êtes
+> resté deux semaines sans réponse sur une commande de quatre paires. Vous en avez conclu que
+> vous aviez perdu plus de 100 $. Je m'en excuse sincèrement : votre message ne s'est pas rendu à
+> nous, et c'est notre système qui est en cause, pas vous.
 >
-> Peu importe la réponse, j'aimerais vous offrir une carte-cadeau de 25 $ pour le dérangement.
-> Ce n'est pas grand-chose, mais c'est ma façon de reconnaître qu'on vous a fait perdre du temps
-> sur une commande de ce montant.
+> J'aimerais confirmer deux choses : que la paire d'échange vous va bien cette fois, et que la
+> mesure entre le petit et le moyen est claire sur notre site. Si le guide des tailles vous a
+> induit en erreur, dites-le-moi, on le corrige.
 >
-> Si jamais votre expérience s'est replacée depuis, et seulement si vous en avez envie, ça nous
-> aiderait beaucoup que votre avis Google reflète où on en est aujourd'hui. Et si elle ne s'est
-> pas replacée, dites-le-moi : je veux savoir ce qui cloche encore.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Je vous envoie une carte-cadeau de 25 $ pour les deux semaines de silence.
 
 ---
 
-## Charlotte Bourgoing · 2★ · 2026-01-05 · bourgoingcharlotte@hotmail.com · +1 514-262-7379
+## Charlotte Bourgoing · 1★ · bourgoingcharlotte@hotmail.com · +1 514-262-7379
 
-*Contexte : trois commandes en six semaines, avis le 5 janvier, mitaines plein air gratuites
-expédiées le 26 janvier. Cliente fidèle malgré tout.*
+*Correction : **1★ sur la fiche**, pas 2★ comme l'indiquait la notification. Elle a tenté le
+courriel **et Messenger**, comme Patrick Lessnick. Trois commandes en six semaines, mitaines
+plein air gratuites expédiées le 26 janvier.*
 
-> **Objet : Trois commandes chez nous, et un service qui n'a pas suivi**
+> **Objet : Un mois sans nouvelles de votre commande de mitaines**
 >
 > Bonjour Charlotte,
 >
-> Vous avez commandé trois fois chez nous entre décembre et janvier, et pendant cette période
-> vous avez écrit que notre service à la clientèle était épouvantable. Vous aviez raison. On a
-> été submergés à un point où on a laissé des gens sans réponse pendant des semaines — vous
-> incluse — et c'est exactement l'inverse de ce qu'on veut être.
+> Vous avez commandé des mitaines en décembre, vous avez attendu un mois sans nouvelles, et vous
+> nous avez écrit par courriel et par Messenger sans jamais obtenir de réponse. Vous n'aviez
+> même pas moyen de savoir où en était votre commande. Je m'en excuse : c'est notre travail de
+> base et on ne l'a pas fait.
 >
-> Vos mitaines plein air sont parties le 26 janvier, sans frais. J'aimerais savoir si vous les
-> avez bien reçues et si elles vous conviennent.
+> Ce qui s'est passé en décembre : les commandes sont entrées beaucoup plus vite que notre
+> capacité à répondre, et les messages Messenger en particulier ne se rendaient pas jusqu'à la
+> bonne personne. On a changé ça depuis.
 >
-> Que quelqu'un continue de commander chez nous après une expérience comme la vôtre, ça me
-> touche honnêtement. J'aimerais vous envoyer une carte-cadeau de 25 $ — pas pour racheter quoi
-> que ce soit, juste parce que vous nous avez donné trois chances.
+> Vos mitaines plein air sont parties le 26 janvier, sans frais. J'aimerais savoir si elles vous
+> vont bien et si elles tiennent leur promesse.
 >
-> Si les choses se sont replacées de votre côté, et si le cœur vous en dit, ça nous rendrait
-> service que votre avis Google en tienne compte. Et sinon, écrivez-moi : cette fois vous aurez
-> une réponse le jour même.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Vous avez commandé trois fois chez nous pendant que vous viviez ça. Je vous envoie une
+> carte-cadeau de 25 $ pour cette patience-là.
 
 ---
 
-## Stephane Vincent · 1★ · 2025-12-11 · stephane1705vincent@outlook.com · +1 438-392-5396
+## Stephane Vincent · 1★ · stephane1705vincent@outlook.com · +1 438-392-5396
 
-*Contexte : deux cache-cou commandés le 19 novembre, expédiés le 11 décembre — le jour même de
-son avis. Suivi Postes Canada 5082011154595310. Vérifier la livraison avant d'écrire.*
+*Le texte complet ajoute deux éléments : le grief porte sur des produits **annoncés en
+inventaire** qui ne l'étaient pas, et il se déclare parti (« Bref de mon côté c'est TERMINÉ »).
+Deux cache-cou commandés le 19 novembre, expédiés le 11 décembre, jour de l'avis. Suivi
+5082011154595310 : confirmer la livraison avant d'écrire.*
 
-> **Objet : Vos deux cache-cou, et les 22 jours d'attente**
+> **Objet : Deux cache-cou annoncés en inventaire, et 22 jours d'attente**
 >
 > Bonjour Stephane,
 >
-> Vous avez commandé deux cache-cou le 19 novembre et il a fallu 22 jours avant qu'ils partent,
-> sans que vous puissiez suivre quoi que ce soit entre les deux. Vous avez écrit qu'il était
-> impossible de suivre une commande chez nous. C'était vrai dans votre cas, et c'est notre faute.
+> Vous avez acheté deux cache-cou le 19 novembre parce qu'ils étaient affichés comme disponibles,
+> et vous avez attendu 22 jours sans pouvoir suivre quoi que ce soit. Une disponibilité affichée
+> qui ne correspond pas à la réalité de l'entrepôt, c'est une promesse rompue au moment de
+> l'achat, et je m'en excuse.
 >
-> Ce qui s'est passé : nos doublures d'asclépiade étaient prêtes, mais l'assemblage chez nos
-> sous-traitants a bloqué au pire moment de l'année. On a redistribué le travail depuis, mais ça
-> ne vous a pas aidé en novembre.
+> Vos cache-cou sont partis le 11 décembre, suivi Postes Canada 5082011154595310. J'aimerais
+> confirmer que le colis s'est bien rendu.
 >
-> Votre colis est parti le 11 décembre avec le suivi 5082011154595310. J'aimerais confirmer que
-> vous l'avez bien reçu et que les cache-cou sont à la hauteur.
->
-> Je vous envoie une carte-cadeau de 25 $ pour l'attente, sans condition.
->
-> Si votre expérience s'est réglée depuis, un mot à jour sur Google nous aiderait beaucoup —
-> mais seulement si vous le pensez vraiment.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Vous avez écrit que de votre côté c'était terminé, et je le respecte. Je vous envoie quand même
+> une carte-cadeau de 25 $, sans rien attendre en retour. Si vous préférez qu'on vous laisse
+> tranquille, un mot suffit et je ne vous réécris plus.
 
 ---
 
-## Annie Hubert · 1★ · 2026-01-08 · anniehubert01@gmail.com · +1 514-969-1609
+## Annie Hubert · 1★ · anniehubert01@gmail.com · +1 514-969-1609
 
-*Contexte : cliente depuis 2023, deuxième achat un cache-cou en décembre 2025, déjà partiellement
-remboursée. Grief de coupe : trop serré. C'est un problème produit, pas de service.*
+*Le brouillon de la version 1 se trompait de sujet. Le texte complet montre qu'elle a demandé un
+**retour** le 26 décembre, deux jours après réception, et qu'elle n'avait toujours aucune réponse
+le 7 janvier. Le cache-cou trop serré est le contexte, le silence de douze jours est le grief.
+Elle termine par « surtout qu'ils ont de magnifiques produits », et « c'est dommage d'avoir à
+écrire un avis sur Google pour se faire entendre ».*
 
-> **Objet : Votre cache-cou trop serré — j'aimerais comprendre**
+> **Objet : Votre demande de retour du 26 décembre**
 >
 > Bonjour Annie,
 >
-> Vous êtes cliente chez nous depuis 2023 et pour votre deuxième achat, un cache-cou, la coupe
-> ne vous convenait pas du tout. Je vois qu'on vous a remboursé une partie de la commande, mais
-> honnêtement, ça ne règle pas votre problème : vous vouliez un cache-cou qui vous va.
+> Vous avez reçu votre cache-cou le 24 décembre, vous nous avez écrit le 26 pour demander un
+> retour parce qu'il était trop serré et trop long, et vous avez attendu douze jours sans
+> réponse. Vous avez écrit que c'était dommage d'avoir à passer par un avis Google pour se faire
+> entendre. Vous avez raison, et je m'en excuse.
 >
-> J'aimerais vraiment savoir ce qui coinçait exactement — trop serré au cou, trop court, trop
-> épais? On travaille sur la coupe et un retour précis d'une cliente qui nous suit depuis trois
-> ans vaut plus qu'un sondage.
+> Votre retour est accepté, sans frais, sans que vous ayez à justifier quoi que ce soit. Je peux
+> aussi vous proposer un échange si vous préférez : dites-moi ce qui vous conviendrait mieux, un
+> modèle plus ample ou plus court, et je vous l'envoie.
 >
-> Et si vous acceptez, j'aimerais vous envoyer sans frais le modèle que vous jugerez le plus
-> proche de ce que vous cherchiez. Vous n'avez rien à retourner.
+> Vous êtes cliente depuis 2023 et vous finissez votre avis en disant qu'on a de magnifiques
+> produits. C'est justement ce qui rend ces douze jours-là impardonnables de notre part.
 >
-> Merci d'être restée avec nous aussi longtemps.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Je vous envoie une carte-cadeau de 25 $, que vous choisissiez le retour ou l'échange.
 
 ---
 
-## Nathalie Durand · 2★ · 2025-01-08 · nath.durand@videotron.ca · +1 873-660-0453
+## Sonia Pouliot · 1★ · pouliotsonia@hotmail.com · +1 819-743-1539
 
-*Contexte : mitaines de remplacement gratuites expédiées le jour même de l'avis. Elle écrivait
-qu'elle voulait encourager une entreprise québécoise. Un an et demi a passé.*
+*Le brouillon de la version 1 s'excusait d'un délai d'échange. Le texte complet dit autre chose :
+« J'essaie de les contacter depuis le 27 décembre et aucune réponse. » Le grief est le silence.
+Date réelle sur la fiche : 8 janvier, pas le 9.*
 
-> **Objet : Vous vouliez encourager une entreprise d'ici — et on vous a mal reçue**
->
-> Bonjour Nathalie,
->
-> Je reviens sur quelque chose qui date de janvier 2025. Vous aviez écrit que vous trouviez nos
-> produits très intéressants et que vous vouliez encourager une entreprise québécoise, et notre
-> exécution n'a pas été à la hauteur de cette intention-là. C'est la sorte de commentaire qui
-> reste accroché.
->
-> Des mitaines de remplacement vous ont été envoyées sans frais le jour même. J'aimerais savoir
-> si elles ont bien fait le travail depuis, ou si le compte n'y était toujours pas.
->
-> Je vous envoie une carte-cadeau de 25 $ si vous souhaitez nous redonner une chance. Aucune
-> obligation — et si vous préférez qu'on vous laisse tranquille, dites-le simplement.
->
-> Gabriel
-> Cofondateur, Lasclay
-
----
-
-## Sonia Pouliot · 1★ · 2025-01-09 · pouliotsonia@hotmail.com · +1 819-743-1539
-
-*Contexte : elle écrit elle-même « je n'ai rien de négatif à dire sur le produit ». Échange de
-taille traité le jour de son avis, expédié le 24 janvier. Le grief porte sur la taille et le délai.*
-
-> **Objet : Votre échange de grandeur, et le délai qu'il a pris**
+> **Objet : Douze jours sans réponse depuis le 27 décembre**
 >
 > Bonjour Sonia,
 >
-> Vous aviez écrit que vous n'aviez rien de négatif à dire sur le produit lui-même, et c'est
-> précisément ce qui rend la note à une étoile difficile à recevoir : c'est nous qui avons raté
-> l'exécution, pas le produit.
+> Vous avez essayé de nous joindre à partir du 27 décembre parce que vos mitaines étaient trop
+> grandes, et vous n'avez eu aucune réponse. Vous avez pris la peine de préciser dans votre avis
+> que vous n'aviez rien de négatif à dire sur le produit lui-même. C'est nous qui n'avons pas
+> répondu, et je m'en excuse.
 >
-> Votre échange de grandeur a été traité, mais il est reparti seulement le 24 janvier. C'est
-> long pour un simple changement de taille et je m'en excuse.
+> Votre échange de grandeur a fini par être traité et le colis est reparti le 24 janvier.
+> J'aimerais savoir si la nouvelle taille est la bonne.
 >
-> J'aimerais savoir si la nouvelle taille est la bonne, cette fois. Et je vous envoie une
-> carte-cadeau de 25 $ pour le délai.
->
-> Si le produit vous plaît toujours autant, un mot à jour sur Google nous aiderait beaucoup —
-> mais dites ce que vous pensez vraiment, rien d'autre.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Je vous envoie une carte-cadeau de 25 $ pour ces semaines-là.
 
 ---
 
-## Toby Lanthier · 1★ · 2025-01-07 · lanthiertoby@yahoo.ca · +1 450-516-8191
+## Toby Lanthier · 1★ · lanthiertoby@yahoo.ca · +1 450-516-8191
 
-*Contexte : 242 $ de tuque, mitaines et foulard en décembre 2024, produit défectueux signalé
-plusieurs fois. Nouvelle commande une semaine après l'avis — le dossier semble s'être réglé,
-mais l'avis, lui, est resté.*
+*Avis bilingue, texte complet obtenu. Aucune mention de résolution : il n'a jamais mis son avis à
+jour, malgré une nouvelle commande le 14 janvier 2025. Rien au dossier ne prouve que le défaut a
+été corrigé.*
 
-> **Objet : Le produit défectueux de décembre 2024 — est-ce que c'est réglé?**
+> **Objet : Le produit défectueux signalé plusieurs fois**
 >
 > Bonjour Toby,
 >
-> Vous aviez signalé un produit défectueux plusieurs fois avant d'obtenir une réponse, sur une
-> commande de plus de 240 $. Avoir à relancer une entreprise pour un défaut qu'elle a elle-même
-> causé, c'est notre échec, pas le vôtre.
+> Vous nous avez signalé un produit défectueux plusieurs fois, sur une commande de plus de 240 $,
+> et vous n'avez obtenu aucune réponse. Devoir relancer une entreprise pour un défaut qu'elle a
+> causé, ça n'a aucun sens, et je m'en excuse.
 >
-> Je vois qu'une nouvelle commande est partie chez vous en janvier. J'aimerais confirmer que ça
-> a bel et bien réglé le problème, parce que de mon côté je n'en ai pas la preuve.
+> Une nouvelle commande est partie chez vous le 14 janvier 2025, mais je n'ai aucune preuve au
+> dossier que ça a réglé le produit défectueux d'origine. J'aimerais que vous me le confirmiez.
 >
-> Si oui, je vous envoie une carte-cadeau de 25 $ pour la peine que ça vous a demandée. Si non,
-> répondez-moi et on règle ça cette semaine.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Si le défaut n'a jamais été corrigé, répondez-moi et on le remplace cette semaine, sans que
+> vous ayez à retourner quoi que ce soit. Si tout est réglé, je vous envoie une carte-cadeau de
+> 25 $ pour la peine que ça vous a demandée.
 
 ---
 
-# Priorité 2 — vérifier le dossier, puis écrire
+## Nathalie Durand · 2★ · nath.durand@videotron.ca · +1 873-660-0453
 
-## Tim Sullivan · 1★ · 2026-06-15 · tsullivanne@gmail.com — **EN**
+*⚠️ Le brouillon de la version 1 aurait contredit la cliente. Son avis, daté du **7 janvier**,
+dit que la paire promise n'est jamais arrivée. Vérification faite : la commande L-28844 à 0,00 $
+a été créée et expédiée le **8 janvier**, le lendemain, et le suivi Postes Canada
+5082011581637287 est marqué **livré**. Elle disait vrai en écrivant, et elle n'a jamais mis son
+avis à jour. Ne jamais lui dire qu'elle se trompe : lui donner le suivi et la laisser vérifier.
+Défaut nommé : la **rigidité** des mitaines, sur un lot que Lasclay avait reconnu défectueux.*
 
-*⚠️ À vérifier en premier : L-45225 commandée le 3 janvier, marquée expédiée le **24 mars**
-(81 jours), **sans numéro de suivi** — envoi par timbre. Il dit ne jamais avoir rien reçu. Le
-grief est vraisemblablement encore ouvert. Ne pas écrire avant d'avoir tranché : réexpédier ou
-rembourser.*
+> **Objet : La paire de remplacement promise, et ce qui s'est passé après**
+>
+> Bonjour Nathalie,
+>
+> Vous nous aviez écrit que vos mitaines étaient trop rigides pour les sports d'hiver, on vous a
+> répondu qu'elles venaient probablement d'un lot défectueux et qu'une nouvelle paire partirait.
+> Puis vous avez fait plusieurs suivis sans réponse. Je m'en excuse : vous avez attendu sans
+> savoir, et c'est exactement ce qu'on voulait éviter.
+>
+> Voici ce que je vois de mon côté. Une paire de remplacement a été créée et expédiée le
+> 8 janvier 2025, avec le suivi Postes Canada 5082011581637287. Le colis est marqué livré. Si
+> vous ne l'avez jamais eu entre les mains, dites-le-moi : je vous en renvoie une, avec un
+> transporteur différent et je vous donne le numéro le jour même.
+>
+> Sur la rigidité, votre retour a servi. C'est un des défauts qu'on a travaillés depuis, et
+> j'aimerais savoir si la paire de janvier était meilleure de ce côté-là.
+>
+> Je vous envoie une carte-cadeau de 25 $ pour les suivis restés sans réponse.
 
-> **Subject: Your milkweed seed order — this one is on us**
+---
+
+## Tim Sullivan · 1★ · tsullivanne@gmail.com · **ANGLAIS**
+
+*⚠️ Dossier ouvert. Le texte complet est beaucoup plus dur que l'extrait : Lasclay a répondu en
+deux jours le 22 avril, a confirmé l'expédition, a **promis d'enquêter et de revenir avec une
+solution**, puis n'a jamais donné suite malgré plusieurs relances. Il cite le numéro L-45225. Le
+grief n'est pas le retard, c'est la promesse non tenue. Commande du 3 janvier, expédiée le
+24 mars, par timbre, sans suivi. Trancher réexpédition ou remboursement avant d'écrire.*
+
+> **Subject: The follow-up we promised you in April and never sent**
 >
 > Hi Tim,
 >
-> You ordered milkweed seed bombs from us on January 3rd. You got a shipping notification, and
-> then nothing ever showed up. I looked at your order: it sat with us far too long before it
-> went out, and it went out by stamped mail with no tracking, which means neither you nor we can
-> say where it ended up.
+> On April 22 you told us order L-45225 had not arrived. We answered within two days, confirmed
+> the shipment, and told you we would investigate and come back to you with a solution. Then we
+> went silent, through several reminders from you. That broken promise is worse than the delay
+> itself, and I am sorry.
 >
-> That's a bad answer and I'm not going to dress it up. Here's what I'd like to do, your choice:
+> Here is what I can see. Your order sat with us from January 3 to March 24 before it went out,
+> and it went out as stamped mail with no tracking number, so neither of us can say where it
+> ended up. That is on our process, not on Canada Post.
 >
-> 1. We ship the whole order again, today, by tracked parcel, at no cost to you — and I'll send
->    you the tracking number myself.
+> Two ways to close this, your call:
+>
+> 1. We ship the four packs of milkweed seed bombs again, today, by tracked parcel, and I send
+> you the tracking number in this thread myself.
 > 2. We refund the full $99.72, no return needed.
 >
-> Either way I'm adding a $25 gift card, because you waited six months for seeds that were meant
-> for a growing season that has now passed.
+> Either way I am adding a $25 gift card, because the growing season you bought those seeds for
+> is gone.
 >
-> Just reply with 1 or 2 and it's done.
->
-> Gabriel
-> Co-founder, Lasclay
+> Reply with 1 or 2 and I will handle it the same day.
 
 ---
 
-## Yingyan Janet Zhu · 1★ · 2025-11-26 · zhuyingyan@gmail.com · +1 778-865-5580 — **EN**
+## Jimmy Allaire · 3★ · alljimremy@gmail.com
 
-*⚠️ À vérifier en premier dans ShipStation : L-41120 (2 huiles + 1 crème) marquée expédiée le
-11 novembre, mais elle dit n'avoir reçu qu'un article sur trois. Confirmer ce qui est réellement
-parti avant de promettre quoi que ce soit.*
+*Le texte reste tronqué sur la fiche (« pas assez rigides et qu'après… »), mais on sait
+maintenant que le défaut nommé est le **manque de rigidité**, et qu'un second grief suit sur la
+tenue dans le temps. Le brouillon de la version 1 demandait « l'épaisseur, la tenue, la taille? »,
+ce qui passait à côté. Semelles à 24,13 $, commande L-46609 du 6 février, expédiée le 11 février
+sans suivi.*
 
-> **Subject: Two of your three items never arrived — and nobody answered you**
->
-> Hi Janet,
->
-> You ordered three items from us in November, only one arrived, and you wrote to us three times
-> plus reached out on Instagram without getting a single reply. The missing items are one thing.
-> Being ignored four times is worse, and that part is entirely on us.
->
-> I've pulled up your order. I'm shipping the two missing items today by tracked parcel and I'll
-> send you the tracking number in this thread — no forms, no proof needed from you. If you'd
-> rather have the money back instead, say the word and I'll refund those items immediately.
->
-> I'm also adding a $25 gift card. Not to make up for the silence — that's not something a gift
-> card fixes — but because you shouldn't have had to chase us.
->
-> Gabriel
-> Co-founder, Lasclay
-
----
-
-## Jimmy Allaire · 3★ · 2026-03-02 · alljimremy@gmail.com
-
-*Contexte : semelles isolantes, 24 $. Il dit qu'elles sont bien chaudes mais qu'elles « ne sont
-pas… » — texte tronqué dans la notification. **Lire l'avis complet sur la fiche Google avant
-d'écrire.** C'est le 3★ du lot : le plus facile à faire remonter.*
-
-> **Objet : Vos semelles — chaudes, mais pas tout à fait ça**
+> **Objet : Vos semelles pas assez rigides**
 >
 > Bonjour Jimmy,
 >
-> Vous avez écrit que nos semelles sont bien chaudes, mais qu'il y a un problème avec elles.
-> C'est exactement le genre de retour dont on a besoin : le produit fait la moitié du travail,
-> et vous nous dites où est l'autre moitié.
+> Vous avez écrit que nos semelles sont bien chaudes mais pas assez rigides, et vous commenciez à
+> dire ce qui se passe après un certain temps d'usage. C'est le retour le plus utile qu'on a reçu
+> sur ce produit-là.
 >
-> J'aimerais que vous me disiez précisément ce qui accroche — l'épaisseur dans la botte, la
-> tenue après quelques semaines, la taille? On travaille sur cette semelle-là et votre retour
-> irait directement à la personne qui la conçoit.
+> J'aimerais que vous complétiez la phrase, honnêtement : après combien de temps, et qu'est-ce
+> qui arrive exactement? Elles s'écrasent, elles se déforment dans la botte, elles glissent? On
+> travaille sur cette semelle et votre réponse irait directement à la personne qui la conçoit.
 >
-> Pendant ce temps, je vous envoie une paire de rechange sans frais, et une carte-cadeau de
-> 25 $ pour le dérangement. Vous n'avez rien à retourner.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Je vous envoie une paire de rechange sans frais, plus une carte-cadeau de 25 $. Vous n'avez
+> rien à retourner, et vous ne me devez pas de réponse pour les recevoir.
 
 ---
 
-## Chantal Phaneuf · 1★ · 2025-01-25 · c.phaneuf09@gmail.com · +1 450-531-2505
+## Susan Lockhart · 1★ · 4cornersinn@gmail.com · +1 705-380-2730 · **ANGLAIS**
 
-*Contexte : 4 commandes au total. Pantoufles + semelles le 4 janvier 2025, expédiées 11 jours
-plus tard, commande partiellement remboursée. Elle a trouvé le délai long et les pantoufles
-décevantes.*
+*⚠️ Contexte délicat, vérifié. Lasclay a répondu publiquement le 23 mai 2024, sur un ton
+combatif, en affirmant qu'elle n'avait jamais rien acheté, et en terminant par « if not, well,
+it's a free country ». C'était exact **à cette date**. Elle a ensuite commandé le 12 avril 2025 :
+L-32389, 62,13 $, bombes semencières de fleurs indigènes, graines d'asclépiade et bombes
+d'asclépiade. Elle a acheté précisément ce que la réponse défendait. Ne pas rappeler le ton de la
+réponse publique, ne pas triompher.*
 
-> **Objet : Vos pantoufles — 20 jours d'attente pour être déçue**
+> **Subject: You planted after all**
 >
-> Bonjour Chantal,
+> Hi Susan,
 >
-> Vous aviez commandé des pantoufles en janvier 2025, elles ont mis une vingtaine de jours à
-> arriver, et une fois arrivées elles ne vous plaisaient pas. Attendre trois semaines pour être
-> déçue, c'est le pire scénario possible et je le comprends très bien.
+> Two years ago you told us we should be planting the seed for the monarchs ourselves rather than
+> selling it. We answered you publicly at the time, and looking back, we answered you more
+> sharply than we should have.
 >
-> Vous en êtes à votre quatrième commande chez nous, ce qui rend la chose encore plus gênante.
+> The reason I am writing is that last spring you ordered milkweed seed, native flower seed bombs
+> and milkweed seed bombs from us. Whatever changed your mind, thank you for giving the idea a
+> real try.
 >
-> J'aimerais savoir ce qui n'allait pas avec les pantoufles précisément — la taille, la chaleur,
-> la semelle? Et je vous envoie une carte-cadeau de 25 $, que vous pourrez utiliser sur ce que
-> vous voulez, ou pas du tout.
->
-> Gabriel
-> Cofondateur, Lasclay
-
----
-
-## Fanny Houdré · 1★ · 2025-03-21 · fanny.houdre@gmail.com · +1 438-870-7213
-
-*Contexte : coussin thermal commandé le 8 mars, avis le 21 mars, colis parti le 23 mars,
-commande **intégralement remboursée** par la suite. Le dossier est financièrement clos.*
-
-> **Objet : Votre coussin d'assise — deux semaines de silence, et vous aviez raison**
->
-> Bonjour Fanny,
->
-> Vous avez commandé un coussin d'assise thermal le 8 mars et deux semaines plus tard vous
-> n'aviez toujours aucune nouvelle. Vous avez écrit exactement ce qu'il fallait écrire.
->
-> Votre commande a fini par partir, et vous avez été intégralement remboursée. Mais entre les
-> deux, vous avez passé deux semaines à vous demander si vous vous étiez fait avoir par une
-> entreprise québécoise que vous vouliez encourager. Ça, aucun remboursement ne le rattrape.
->
-> Si un jour vous voulez réessayer, j'aimerais vous envoyer le coussin sans frais — cette fois
-> avec un suivi et une date. Répondez-moi simplement oui, et je m'en occupe personnellement.
->
-> Gabriel
-> Cofondateur, Lasclay
+> If you want more seed for the same patch this coming season, I will send it to you at no cost.
+> Just tell me roughly how much ground you are working with.
 
 ---
 
-## Danielle Gingras · 1★ · 2024-10-07 · dginnn@gmail.com · +1 514-716-7892
+## Melanie Boucher · 1★ · melanieb_@hotmail.com · +1 514-349-5058
 
-*Contexte : sous-plats achetés comme « grands, 14 po × 10 po » et manifestement plus petits à
-la réception. **Vérifier la fiche produit avant d'écrire** : si les dimensions annoncées sont
-encore fausses, les corriger d'abord.*
+*Le texte complet finit par la phrase la plus dommageable de tout le corpus pour un acheteur qui
+hésite : « À valider si cette entreprise est toujours en activité ou non. » Commande du
+23 décembre 2022, jamais arrivée à temps, jamais revenue depuis.*
 
-> **Objet : Nos sous-plats n'avaient pas les dimensions annoncées**
->
-> Bonjour Danielle,
->
-> Vous avez acheté des sous-plats chez nous en vous fiant aux dimensions affichées sur notre
-> site, et ce que vous avez reçu ne correspondait pas. Ce n'est pas un malentendu de votre côté :
-> c'est notre fiche produit qui n'était pas juste, et c'est à nous de la corriger.
->
-> J'aimerais réparer ça de la manière que vous préférez : soit je vous rembourse les sous-plats
-> sans que vous ayez à les retourner, soit je vous envoie le format que vous cherchiez, sans
-> frais, si nous l'avons.
->
-> Merci de nous avoir signalé le problème publiquement — c'est comme ça qu'on l'a vu.
->
-> Gabriel
-> Cofondateur, Lasclay
-
----
-
-## Dr. Susan Buchanan · 1★ · 2024-01-23 · kinsuran@gmail.com · +1 613-331-1505 — **EN**
-
-*Contexte : 10 sachets de semences commandés en septembre 2023, jamais reçus, plusieurs échanges
-sans résolution. Deux ans ont passé. Vérifier qu'aucun remboursement n'a été fait avant d'écrire.*
-
-> **Subject: Ten packages of seed you paid for and never received**
->
-> Dear Dr. Buchanan,
->
-> You ordered ten packages of milkweed seed from us in September 2023. They never arrived, you
-> emailed us several times about it, and the matter was never resolved. That is about as clear a
-> failure as a small company can have, and I'm sorry it took this long for anyone to come back
-> to you properly.
->
-> I would like to close it now, whichever way you prefer:
->
-> 1. We ship the ten packages again, tracked, at no cost — in time for spring sowing.
-> 2. We refund the order in full.
->
-> Either option, plus a $25 gift card you're free to use or ignore.
->
-> If you'd rather never hear from us again, tell me and I'll respect that — but I didn't want
-> this to stay unanswered.
->
-> Gabriel
-> Co-founder, Lasclay
-
----
-
-## Sophie Lemieux · 1★ · 2023-12-11 · sofilemieu@gmail.com · +1 418-653-0628
-
-*Contexte : commande partielle en octobre 2023 et courriels sans réponse — puis elle a racheté
-en janvier 2024. Cinq commandes au total. Le ton doit être léger : elle est revenue d'elle-même.*
-
-> **Objet : Une grosse commande arrivée à moitié, en 2023**
->
-> Bonjour Sophie,
->
-> Je remonte un vieux dossier. En décembre 2023, vous aviez reçu seulement une partie d'une
-> grosse commande et vos courriels étaient restés sans réponse. Ce que je remarque surtout,
-> c'est qu'un mois plus tard vous avez recommandé chez nous quand même.
->
-> Ça, franchement, ça mérite mieux qu'un silence de deux ans. Merci d'être restée.
->
-> J'aimerais vous envoyer une carte-cadeau de 25 $ — pas pour un dossier à régler, juste parce
-> qu'on aurait dû vous écrire ça à l'époque. Et si le colis manquant de 2023 n'a jamais été
-> complété, dites-le-moi : on le complète cette semaine.
->
-> Gabriel
-> Cofondateur, Lasclay
-
----
-
-## Melanie Boucher · 1★ · 2023-01-13 · melanieb_@hotmail.com · +1 514-349-5058
-
-*Contexte : commande du 23 décembre 2022 jamais arrivée à temps. Jamais racheté depuis.*
-
-> **Objet : Un cadeau de Noël qui n'est jamais arrivé — en 2022**
+> **Objet : Votre commande de décembre 2022**
 >
 > Bonjour Melanie,
 >
-> Vous aviez commandé chez nous juste avant les fêtes de 2022 et le colis n'est pas arrivé à
-> temps. On ne vous a jamais rien offert pour ça, et vous n'êtes jamais revenue. Les deux se
-> tiennent.
+> Votre commande de décembre 2022 n'est jamais arrivée à temps et votre message est resté sans
+> réponse, au point où vous vous demandiez publiquement si l'entreprise existait encore. Je m'en
+> excuse, avec beaucoup de retard.
 >
-> Je ne vous écris pas pour vous vendre quelque chose. Je voulais simplement m'excuser, avec
-> beaucoup de retard, et vous dire qu'on a corrigé depuis ce qui causait ces retards de
-> décembre — nouveaux sous-traitants, meilleurs transporteurs, dates réelles annoncées à
-> l'achat.
+> Pour répondre à la question : oui, Lasclay est toujours là, six ans après. Ce qui causait ces
+> retards de décembre a été corrigé, les délais sont annoncés à l'achat et les commandes sortent
+> avec un suivi.
 >
-> Si un jour vous vouliez réessayer, écrivez-moi directement et je m'occupe de votre commande
-> personnellement.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Je ne vous écris pas pour vous vendre quelque chose. Si un jour vous vouliez réessayer, écrivez
+> moi directement et je m'occupe de votre commande personnellement.
 
 ---
 
-## Cyr-Marc Debien · 1★ · 2021-09-20 · cm.debien@gmail.com · +1 514-980-1148
+# C. Brouillons neufs, avis absents de la liste d'origine
 
-*⚠️ Le seul dossier matériellement encore ouvert : la commande **L-2973 du 19 septembre 2021 n'a
-jamais été expédiée**. Vérifier s'il a été remboursé avant d'écrire. Si non, rembourser d'abord,
-écrire ensuite.*
+## Marie-Andrée Blouin · 2★ · il y a ~40 semaines · emma-baie@hotmail.com · +1 438-492-0776
 
-> **Objet : Votre commande de 2021 n'a jamais été expédiée**
->
-> Bonjour Cyr-Marc,
->
-> Je viens de tomber sur votre commande de septembre 2021. Elle n'a jamais été expédiée. Vous
-> aviez écrit que vous auriez mis zéro étoile si vous aviez pu, après une tentative d'achat avec
-> un code promotionnel qui ne fonctionnait pas — et manifestement, la suite ne vous a pas donné
-> tort.
->
-> Je ne vais pas vous demander de nous redonner une chance. Je veux d'abord réparer : si cette
-> commande n'a jamais été remboursée, je la rembourse cette semaine. Répondez-moi simplement et
-> je vérifie avec vous.
->
-> Désolé que ça ait pris cinq ans.
->
-> Gabriel
-> Cofondateur, Lasclay
+*⚠️ **Identification probable, à confirmer.** La fiche affiche « Marie Blouin ». La seule
+correspondance plausible est Marie-Andrée Blouin, commande L-38222 du 2 août 2025, 189,70 $
+(besace isotherme et sac à dos glacière 30L), livrée le 6 août. Trois commandes depuis 2023. Les
+deux autres Blouin candidates ont commandé **après** l'avis. Texte encore tronqué : « Après
+plusieurs courriels et des mois d'attente, toujours aucune vraie réponse de… »*
 
----
-
-## Sylvie Internoscia · 2★ · 2022-05-15 · egratton@sympatico.ca · +1 514-893-4941
-
-*Contexte : achat de décembre 2020, avis en 2022 : « déçue de mon achat pour mon investissement…
-je désirais les encourager et ne pas geler des mains ». Grief de performance thermique sur une
-version ancienne du produit.*
-
-> **Objet : Vous vouliez des mains au chaud — et vous ne les avez pas eues**
+> **Objet : Plusieurs courriels, des mois, aucune vraie réponse**
 >
-> Bonjour Sylvie,
+> Bonjour Marie-Andrée,
 >
-> Vous nous aviez écrit que vous vouliez nous encourager et ne pas geler des mains, et que le
-> résultat ne valait pas votre investissement. C'est le reproche le plus dur qu'on puisse nous
-> faire, parce que c'est exactement la promesse du produit.
+> Vous avez écrit plusieurs fois au sujet d'un problème après-vente, vous avez attendu des mois,
+> et vous n'avez jamais eu de vraie réponse. Je m'en excuse : c'est le pire reproche qu'on puisse
+> nous faire, parce que c'est celui qu'on entend le plus souvent.
 >
-> Nos mitaines ont beaucoup changé depuis 2020 — plus de doublure d'asclépiade, une coupe
-> revue, un assemblage refait. J'aimerais vous en envoyer une paire actuelle, sans frais, pour
-> que vous jugiez par vous-même. Vous ne me devez rien en retour, pas même une réponse polie.
+> Je n'ai pas la trace complète de vos échanges de mon côté, et je préfère vous le dire plutôt
+> que de deviner. Pouvez-vous me rappeler ce qui n'allait pas avec la besace ou le sac à dos
+> glacière? Je m'en occupe personnellement, cette semaine.
 >
-> Dites-moi seulement votre grandeur.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Vous en êtes à votre troisième commande chez nous. Je vous envoie une carte-cadeau de 25 $,
+> peu importe la suite.
 
 ---
 
-# Priorité 3 — déjà revenus d'eux-mêmes : message court, sans rouvrir la plaie
+## Ariane Poirier · 2★ · il y a ~32 semaines · ariepoirier@gmail.com · +1 418-454-3549
 
-## Sarah Resch · 1★ · 2023-02-23 · resch.sarah@gmail.com · +1 514-699-7695
-*6 commandes depuis, la dernière en mai 2025.*
+*⚠️ **Identification probable, à confirmer.** Commande L-39248 du 13 septembre 2025, 115,17 $
+(sac à dos glacière 30L et bandeau), ramassage en boutique, **partiellement remboursée**. Trois
+commandes depuis 2021. Texte encore tronqué : « On ne répond pas aux courriels sous prétexte que
+c'est une forte période où ils reçoivent… »*
+
+> **Objet : « Sous prétexte que c'est une forte période »**
+>
+> Bonjour Ariane,
+>
+> Vous avez écrit qu'on ne répond pas aux courriels en se servant de la forte période comme
+> excuse. C'est exactement ce qu'on a fait, et vous avez raison de ne pas l'accepter : un volume
+> élevé explique un délai, il ne justifie pas un silence.
+>
+> Je vois un remboursement partiel sur votre commande de septembre, mais rien qui me dise que le
+> fond du problème a été réglé. J'aimerais que vous me disiez où ça en est vraiment.
+>
+> Vous commandez chez nous depuis 2021. Je vous envoie une carte-cadeau de 25 $ pour cet
+> automne-là.
+
+---
+
+## Marie L. · 1★ · publié le 20 août 2026 · non identifiée
+
+*⚠️ **Le plus urgent du lot, et le plus délicat.** Publié pendant la lecture de la fiche. Elle
+nomme la Tunisie, dit que ce n'est écrit nulle part sur le site, et conclut « Gardez votre argent
+pour d'autres commerçants qui produisent réellement au Québec ». C'est le deuxième avis en trois
+mois sur l'origine de la fabrication, après patrick lambert. Elle n'est pas identifiable : pas de
+message privé possible. **La réponse est publique** et se trouve dans `reponses-publiques.md`.*
+
+Son grief sur la transparence du site est fondé et se règle ailleurs que dans un avis : voir la
+section « Ce que ça déclenche ailleurs » du `README.md`.
+
+---
+
+# D. En attente : cinq avis non atteints par Cowork
+
+Le rendu de la console est devenu instable en fin de session. Ces cinq avis n'ont pas été relus,
+donc leur note, leur texte et leur existence ne sont pas confirmés. **Ne rien envoyer à ces
+personnes avant une deuxième passe.**
+
+| Auteur | Note supposée | Brouillon | Risque |
+| --- | --- | --- | --- |
+| **Yingyan Janet Zhu** | 1★ · 2025-11-26 | conservé, voir plus bas | Dossier possiblement ouvert : 2 articles sur 3 manquants |
+| **David** | 1★ · 2025-12-23 | aucun, non identifié | Le texte complet reste le seul moyen de l'identifier |
+| **Sarah Resch** | 1★ · 2023-02-23 | conservé, voir plus bas | Elle a 6 commandes : elle a peut-être relevé sa note comme les quatre autres |
+| **Guillaume Lanteigne-Voyer** | 2★ · 2023-02-07 | conservé, voir plus bas | Idem, 6 commandes |
+| **Sylvie Internoscia** | 2★ · 2022-05-15 | conservé, voir plus bas | Avis de 2022, aucune commande depuis 2020 |
+
+## Yingyan Janet Zhu · zhuyingyan@gmail.com · +1 778-865-5580 · **ANGLAIS**
+
+*Vérifier ShipStation sur L-41120 avant d'écrire : ce qui est réellement parti le 11 novembre.*
+
+> **Subject: Two of your three items, and four messages we never answered**
+>
+> Hi Janet,
+>
+> You ordered three items in November, one arrived, and you wrote to us three times and reached
+> out on Instagram without a single reply. The missing items are fixable. Being ignored four
+> times is the part I am sorry about.
+>
+> I am shipping the two missing items by tracked parcel and I will put the tracking number in
+> this thread myself. No forms, no proof needed from you. If you would rather have the money
+> back, say so and I refund those items today.
+>
+> I am adding a $25 gift card as well, for the chasing you had to do.
+
+## Sarah Resch · resch.sarah@gmail.com · +1 514-699-7695
 
 > **Objet : Merci d'être restée**
 >
 > Bonjour Sarah,
 >
-> En février 2023, vous attendiez des mitaines depuis trois semaines et vous aviez fait un suivi
-> resté sans réponse. Vous nous l'aviez dit publiquement, et vous aviez raison.
+> En février 2023, vous attendiez des mitaines depuis trois semaines et votre suivi était resté
+> sans réponse. Vous nous l'avez dit publiquement, et vous aviez raison.
 >
-> Depuis, vous avez commandé chez nous cinq autres fois. Je voulais simplement vous dire que je
-> l'ai remarqué, et que ça compte beaucoup pour une entreprise comme la nôtre.
+> Depuis, vous avez commandé chez nous cinq autres fois. Je voulais vous dire que je l'ai
+> remarqué, parce que pour une entreprise comme la nôtre, ça vaut beaucoup.
 >
-> Je vous envoie une carte-cadeau de 25 $ en remerciement — sans rien vous demander.
->
-> Gabriel
-> Cofondateur, Lasclay
+> Je vous envoie une carte-cadeau de 25 $ en remerciement, sans rien vous demander.
 
----
-
-## Susan Lockhart · 1★ · 2024-04-06 · 4cornersinn@gmail.com · +1 705-380-2730 — **EN**
-*Avis : « You should plant the seeds for the Monarchs. I would never buy your products. »
-Elle a pourtant commandé un an plus tard, en avril 2025.*
-
-> **Subject: You said you'd never buy from us — and then you did**
->
-> Hi Susan,
->
-> Two years ago you wrote that we should be planting the seed for the monarchs ourselves, and
-> that you'd never buy from us. It's a fair challenge, so here's a straight answer: we do plant.
-> Milkweed is a crop we grow and harvest here in Québec, the fibre in our products comes from
-> those fields, and the seed we sell comes from the same plants.
->
-> I noticed you ordered from us last spring anyway. Thank you for giving us a look.
->
-> If you'd like, I'll send you a packet of milkweed seed for your own patch, on us. And if your
-> view of us has changed since 2024, an updated note on Google would mean a lot — only if you
-> actually mean it.
->
-> Gabriel
-> Co-founder, Lasclay
-
----
-
-## Jean-Simon Robitaille · 1★ · 2023-06-23 · jeansimon.robitaille@gmail.com · +1 438-863-5811
-*« Un service à la clientèle qui promet beaucoup mais sans passer à l'action. » A racheté en
-août 2025.*
-
-> **Objet : « Promet beaucoup, sans passer à l'action »**
->
-> Bonjour Jean-Simon,
->
-> Vous aviez écrit qu'on promettait beaucoup sans passer à l'action. C'est la phrase que je
-> retiens le plus de tous nos avis, parce qu'elle vise juste sur ce qui était notre vrai défaut
-> à l'époque.
->
-> Vous avez recommandé chez nous en août dernier, ce que je n'avais pas à espérer. J'aimerais
-> savoir si le service a été à la hauteur cette fois — et si non, je veux le savoir avant que
-> vous ayez à l'écrire publiquement.
->
-> Une carte-cadeau de 25 $ s'en vient de toute façon, sans condition.
->
-> Gabriel
-> Cofondateur, Lasclay
-
----
-
-## Guillaume Lanteigne-Voyer · 2★ · 2023-02-07 · g_lanteignevoyer@hotmail.com · +1 514-249-7667
-*« J'aime encore leurs produits, content d'encourager une entreprise locale. » 6 commandes.*
+## Guillaume Lanteigne-Voyer · g_lanteignevoyer@hotmail.com · +1 514-249-7667
 
 > **Objet : Six commandes plus tard**
 >
@@ -584,33 +484,31 @@ août 2025.*
 > J'aimerais savoir ce qui manque encore, de votre point de vue, pour que l'expérience soit
 > complète. Vous nous connaissez mieux que la plupart de nos clients à ce stade.
 >
-> Et je vous envoie une carte-cadeau de 25 $ pour la fidélité.
+> Je vous envoie une carte-cadeau de 25 $ pour la fidélité.
+
+## Sylvie Internoscia · egratton@sympatico.ca · +1 514-893-4941
+
+> **Objet : Vous vouliez des mains au chaud**
 >
-> Gabriel
-> Cofondateur, Lasclay
+> Bonjour Sylvie,
+>
+> Vous nous aviez écrit que vous vouliez nous encourager et ne pas geler des mains, et que le
+> résultat ne valait pas votre investissement. C'est le reproche le plus dur qu'on puisse nous
+> faire, parce qu'il porte sur la promesse même du produit.
+>
+> Nos mitaines ont beaucoup changé depuis 2020 : plus de doublure d'asclépiade, une coupe revue,
+> un assemblage refait. J'aimerais vous en envoyer une paire actuelle, sans frais, pour que vous
+> jugiez par vous-même. Vous ne me devez rien en retour.
+>
+> Dites-moi seulement votre grandeur.
 
 ---
 
-# Non identifiés — pas de message privé possible
+# E. Toujours non identifiés
 
-| Auteur | Ce qu'on peut faire |
-| --- | --- |
-| **Emma Nelson** (1★, 2026-06-29) | Confirmer d'abord s'il s'agit d'**Emma Whiten** (emmaswhiten@gmail.com, L-50672 du 8 juin, **encore non expédiée**). Si oui, c'est le dossier le plus urgent de la liste : une commande non expédiée depuis plus de deux mois. Si non, répondre publiquement en invitant à écrire à hey@lasclay.com |
-| **patrick lambert** (1★, 2026-05-31) | Avis d'opinion sur l'origine des produits, aucun litige. **Réponse publique** factuelle : ce qui est encore cueilli, filé et assemblé au Québec, et ce qui ne l'est pas. Ne pas écrire en privé |
-| **Audrey Thibeault** (1★, 2026-05-29) | Note sans texte, aucune commande. Rien à faire |
-| **David** (1★, 2025-12-23) | Lire l'avis complet sur la fiche Google : s'il nomme un produit ou une ville, le croisement redevient possible. Sinon, réponse publique |
-| **Marijo** (2★, 2024-01-14) | Prénom seul, grief de confort sur des mitaines de 2023. Réponse publique invitant à un échange |
-
----
-
-# Répondre publiquement, aussi
-
-Chaque notification Google reçue rappelait « Répondez publiquement aux avis de vos clients » et
-aucune ne signale de réponse déjà publiée — mais je n'ai pas pu ouvrir la fiche pour le vérifier
-(voir la note de méthode dans `README.md`). **Première chose à faire : ouvrir
-<https://business.google.com/n/715788570095415146/reviews> et regarder lesquels des 27 sont
-restés sans réponse.**
-
-Un avis négatif sans réponse publique se lit comme un aveu. Deux minutes par avis, même pour les
-vieux, même quand le client ne répondra jamais : la réponse n'est pas pour lui, elle est pour
-les gens qui liront la fiche avant d'acheter.
+| Auteur | Ce qu'on sait maintenant | Action |
+| --- | --- | --- |
+| **Emma Nelson** · 1★ | Texte complet : « three unanswered emails ». Le grief est le silence, pas seulement le délai | Confirmer d'abord s'il s'agit d'**Emma Whiten** (emmaswhiten@gmail.com, L-50672 du 8 juin, **encore non expédiée**). Si oui, expédier ou rembourser avant d'écrire |
+| **patrick lambert** · 1★ | Texte complet, très court : « Ce n est plus un produit québécois la qualité va en souffrir a banir ». **Une réponse publique existe déjà** | Ne pas écrire en privé. Relire la réponse publique existante : elle a été rédigée avant Marie L. et mérite d'être comparée |
+| **Audrey Thibeault** · 1★ | Confirmé : note seule, aucun texte | Rien à faire |
+| **David** · 1★ | Avis non atteint | Reprendre à la deuxième passe |
