@@ -187,3 +187,91 @@ Demander le retrait du fil, signaler les avis Google, faire écrire de faux avis
 répondre au fil avec plusieurs comptes. C'est contraire aux règles des plateformes, contraire aux
 valeurs de la marque, et une manipulation découverte sur une marque de mission coûte infiniment
 plus cher que le problème d'origine.
+
+---
+
+# « Comment faire disparaître le fil de Google »
+
+Question posée par Gabriel. Réponse honnête : **on ne le fera pas disparaître.** Voici pourquoi,
+et ce qui marche à la place.
+
+## Les trois seuls mécanismes qui retirent vraiment une page
+
+**1. L'autrice supprime son post.** Elle seule peut le faire. Le lui demander, directement ou par
+un intermédiaire, est la pire idée du dossier : c'est exactement le geste qu'elle publierait en
+capture d'écran, et c'est aussi ce qui transforme un litige commercial en preuve de mauvaise foi.
+Si elle le supprime un jour, ce sera parce que son dossier a été réglé et qu'elle n'a plus envie de
+le laisser en ligne. C'est une conséquence possible, jamais un objectif.
+
+**2. Les modérateurs de r/montreal le retirent.** Uniquement pour infraction aux règles. Les règles
+plausibles ici seraient le titre putaclic ou le contenu faible effort, et le post n'y contrevient
+pas : il est documenté, argumenté, et **ses affirmations centrales sont vraies**. La disponibilité
+affichée, la Tunisie, la page Transparence vide : tout est vérifiable. Un signalement se fait
+refuser, et s'il se sait, il devient le sujet.
+
+**3. Google retire la page pour raison légale.** Le périmètre est étroit : décision de justice pour
+diffamation, données personnelles, doxxing. Le droit à l'oubli ne s'applique pas à une entreprise.
+Une action en diffamation exigerait de prouver la fausseté des faits, et les faits tiennent. Une
+démarche juridique contre une cliente est par ailleurs le geste le plus fiablement catastrophique
+pour une marque de mission.
+
+**Il faut ajouter une contrainte structurelle.** Depuis 2023, Google favorise délibérément les
+forums sur les requêtes d'avis. « Lasclay avis » est précisément ce type de requête. Reddit restera
+probablement en première page longtemps, quoi qu'on fasse.
+
+## Ce qui marche : occuper la page, pas retirer le fil
+
+Google affiche une dizaine de résultats. Le fil est 3e. **Si Lasclay en occupe cinq, le fil tombe
+7e ou 8e, sous la ligne de flottaison.** C'est le seul objectif réaliste, et il est atteignable.
+
+Ce qui peut occuper ces places, par ordre de facilité :
+
+| Ce qui prend une place | État aujourd'hui | Effort |
+| --- | --- | --- |
+| `/pages/avis-des-clients` avec les 853 avis rendus et balisés | page vide pour un robot | faible, le contenu existe |
+| Fiche Google Business | déjà présente | déjà là, à renforcer par les 15 réponses |
+| `/pages/transparence-asclepiade` remplie | vide | faible |
+| FAQ avec balisage `FAQPage` | contenu présent, balisage absent | faible |
+| Page produit du sac à lunch avec avis balisés | à vérifier | faible |
+| Couverture presse (La Presse, Géo Plein Air, Rando Québec) | se classe déjà | aucun, c'est acquis |
+| Page Facebook, chaîne YouTube | existent | faible |
+
+Le levier décisif reste le même : **les avis Judge.me sont invisibles**. 853 avis rendus et balisés
+sur une page intitulée « Avis des clients », c'est le résultat que Google veut servir sur
+« Lasclay avis ». Aujourd'hui il ne peut pas, alors il sert Reddit.
+
+## La tension à trancher
+
+**Répondre dans le fil et le faire descendre sont deux objectifs opposés.**
+
+Un commentaire ajoute de l'activité fraîche, ce qui aide légèrement le fil à tenir sa position. En
+retour, la réponse devient un texte que Google et les assistants extraient, donc la version de
+Lasclay entre dans ce qui est cité.
+
+**Mon avis : réponds quand même, une fois.** Le fil est déjà classé, un commentaire ne le fera pas
+monter significativement, alors qu'il change ce que les gens et les machines lisent. Mais c'est un
+arbitrage réel, pas un détail, et il t'appartient.
+
+Si le choix est « le faire descendre à tout prix », alors ne réponds pas du tout et mets l'effort
+sur les cinq places à occuper.
+
+## À quoi ressemble le succès, et quand
+
+Pas « le fil a disparu », mais **« le fil n'est plus le premier résultat substantiel, et il n'est
+plus la seule source citée par les assistants »**.
+
+| Horizon | Attendu |
+| --- | --- |
+| 2 à 4 semaines | Pages remplies et balisées, indexation demandée. Les avis apparaissent en extraits enrichis |
+| 2 à 3 mois | La page d'avis et la page Transparence se classent sur « Lasclay avis ». Le fil recule de quelques rangs |
+| 6 à 12 mois | Sans activité nouvelle, le fil perd de la fraîcheur pendant que la page d'avis en gagne à chaque nouvel avis |
+
+Relever la position du fil chaque semaine, en navigation privée depuis le Québec, et retester la
+question aux assistants chaque mois. Sans relevé de départ, on ne saura pas si ça a marché.
+
+## Ce qu'il ne faut pas faire, même si c'est tentant
+
+Signaler le fil, signaler les avis Google, mettre en demeure, faire supprimer par un service de
+« gestion de réputation », publier de faux avis, ou faire downvoter le fil par des comptes. Tout ça
+se découvre, et sur une marque bâtie sur la transparence, la découverte coûte infiniment plus cher
+que le fil lui-même.
