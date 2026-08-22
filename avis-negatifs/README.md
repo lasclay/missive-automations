@@ -72,6 +72,17 @@ l'écart se voit maintenant publiquement. Ça se corrige sur les fiches produits
 réponse Google. Voir les skills `lasclay-master` (formulations justes et à bannir) et
 `lasclay-seo` (exécution sur les fiches).
 
+## Le fil Reddit du 6 août 2026
+
+Un fil r/montreal, « Attention à la marque Lasclay : manque de transparence et fausses
+disponibilités », 38 commentaires. Il reprend le même grief que l'avis Google de Stephane Vincent :
+un produit affiché comme disponible qui devient une précommande après l'achat. Il envoie
+explicitement ses lecteurs vers les avis Google les plus faibles.
+
+En cherchant la commande de son autrice, la vérification Shopify a sorti plus gros que le fil :
+**499 commandes payées et jamais expédiées**, et **sept rétrofacturations depuis avril dont une qui
+attend encore une réponse**. Détail, nuances et recommandations dans `REDDIT-2026-08.md`.
+
 ## Avant d'envoyer quoi que ce soit
 
 Rien n'a été envoyé. Aucune carte-cadeau émise, aucun remboursement déclenché, aucune réponse
