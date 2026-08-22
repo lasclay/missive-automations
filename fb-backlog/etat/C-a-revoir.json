@@ -1,371 +1,381 @@
 {
- "tir": "C",
- "a_revoir": [
-  {
-   "id": "800160532723027_1805711777489810",
-   "page_id": "262382158951470",
-   "date": "2025-10-05T20:59:05+0000",
-   "message": "What is this?",
-   "lien": "https://www.facebook.com/1067098316029246/posts/800160532723027?comment_id=1805711777489810",
-   "motif": "Question sans objet identifiable (« What is this? ») : on ignore ce que montrait la publication. Repondre exigerait de deviner le sujet.",
-   "ecarte_le": "2026-08-19",
-   "tir": "C",
-   "contexte": "tir a blanc, aucune publication"
-  },
-  {
-   "id": "312025254869893_453679841085119",
-   "page_id": "262382158951470",
-   "date": "2024-11-24T18:18:17+0000",
-   "message": "I find it hard to believe musk oxen are in 48 below type weather and rabbit beats that ?",
-   "lien": "https://www.facebook.com/1067098316029246/posts/312025254869893?comment_id=226858140164241&reply_comment_id=453679841085119",
-   "motif": "Scepticisme sur une comparaison de fourrures (boeuf musque, lapin). Aucun fait verifie sur ces matieres ; le theme 3 pose justement qu il n existe aucune cote de performance officielle.",
-   "ecarte_le": "2026-08-19",
-   "tir": "C",
-   "contexte": "tir a blanc, aucune publication"
-  },
-  {
-   "id": "911600751579004_949144911197868",
-   "page_id": "262382158951470",
-   "date": "2026-02-20T12:26:33+0000",
-   "message": "Any advice on germination? I planted over 200 seeds (that were kept in a fridge for 2 months) and only 12 sprouted.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/911600751579004?comment_id=949144911197868",
-   "motif": "Echec de germination : ecarte d office par PROCEDURE.md, dossier a traitement humain.",
-   "ecarte_le": "2026-08-19",
-   "tir": "C",
-   "contexte": "tir a blanc, aucune publication"
-  },
-  {
-   "id": "929266099812469_942298305342259",
-   "page_id": "262382158951470",
-   "date": "2026-04-26T22:42:22+0000",
-   "message": "Milkweed & Monarchs why not? Are you promoting starving them?",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=942298305342259",
-   "motif": "Fragment accusatoire (« why not? Are you promoting starving them? ») greffe sur un fil dont on ignore le contenu. Repondre exigerait de deviner l accusation ; ton hostile, dossier a jugement humain.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C",
-   "repris_le": "2026-08-20",
-   "note_reprise": "Ecarte le 2026-08-19 faute de contexte. Le script fournit desormais repond_a : c est une reponse directe a un commentaire de la Page (« Nobody is talking about tropical milkweed here. We don t sell it »). Repondu ce jour."
-  },
-  {
-   "id": "922604073812005_2161926784345865",
-   "page_id": "262382158951470",
-   "date": "2026-03-20T03:37:44+0000",
-   "message": "Again?!?  We brought them back when the EPA banned DDT and other weed killers.  Has the MangoMoron undone all those years of recovery in one year?!?",
-   "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=2161926784345865",
-   "motif": "Diatribe politique (DDT, EPA, insulte visant une figure publique). Hors des faits verifies et hors du role de la Page.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "775946415144439_1768508754283245",
-   "page_id": "262382158951470",
-   "date": "2026-08-20T11:58:21+0000",
-   "message": "Often yes, especially at nurseries that specialize in native plants ...",
-   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1100533118716887&reply_comment_id=1768508754283245",
-   "motif": "Ecrit par la Page elle-meme (from.id = 262382158951470) : c est notre propre reponse du 20 aout au commentaire « Are milkweed starts available in nurseries? ». Ne jamais repondre a un commentaire de la Page.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C",
-   "contexte": "validation ciblee sur la publication 775946415144439"
-  },
-  {
-   "id": "929266099812469_1289790259886704",
-   "page_id": "262382158951470",
-   "date": "2026-05-02T00:43:14+0000",
-   "message": "Eric Simpson easily solved by cutting the plants back in the fall.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=1289790259886704",
-   "motif": "Sous-fil entre deux abonnes qui debattent du moment de floraison de l asclepiade tropicale et de son effet sur la migration, et de la tailler a l automne. Hors faits verifies (on ne vend pas curassavica) : toute reponse reviendrait a arbitrer leur debat.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_2086158421930926",
-   "page_id": "262382158951470",
-   "date": "2026-05-01T23:32:37+0000",
-   "message": "Bob Allen yes. I have grown from seed (properly kept in freezer or refrigerator)  Most germinated and grew well for a few months.  Not one came up in the Spring.  Very discouraging but am sure the climate here in South Texas was responsible for their demise.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1014311721035430&reply_comment_id=2086158421930926",
-   "motif": "Echec d etablissement : semis germes puis aucun retour au printemps dans le sud du Texas. PROCEDURE ecarte les echecs de germination, et diagnostiquer la reprise d une vivace la-bas sort des faits verifies.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_2393894224446742",
-   "page_id": "262382158951470",
-   "date": "2026-05-02T22:18:18+0000",
-   "message": "Cilia Rains ￼ that’s good information",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=2393894224446742",
-   "motif": "Simple accuse de reception entre abonnes (« that s good information ») sur le marc de cafe et le pH du sol. Rien qui nous concerne : c est leur conversation.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_1301692881891426",
-   "page_id": "262382158951470",
-   "date": "2026-04-26T21:57:06+0000",
-   "message": "Ken Johnson What state are you in?",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1441941294102503&reply_comment_id=1301692881891426",
-   "motif": "Un abonne demande a un autre dans quel Etat il habite. Conversation entre eux, rien qui nous concerne.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_1460332169166140",
-   "page_id": "262382158951470",
-   "date": "2026-05-04T22:02:35+0000",
-   "message": "Cynthia Orr different soil",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=1460332169166140",
-   "motif": "Deux mots (« different soil ») dans un sous-fil ou deux abonnes speculent sur la couleur d une plante transplantee. Aucun contenu a repondre.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_1993672654540090",
-   "page_id": "262382158951470",
-   "date": "2026-04-26T22:45:28+0000",
-   "message": "Penny Pawl the Monarch caterpillars will eat it down to the stem.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1243356604638567&reply_comment_id=1993672654540090",
-   "motif": "Sous-fil sur l asclepiade tropicale, l OE et la taille hivernale. Hors faits verifies : on ne vend pas curassavica et la parasitose n est pas documentee dans notre base.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "910925434979869_1722493048784053",
-   "page_id": "262382158951470",
-   "date": "2026-05-02T00:50:31+0000",
-   "message": "Elizabeth Gable scary?!?",
-   "lien": "https://www.facebook.com/1067098316029246/posts/910925434979869?comment_id=1431038135173895&reply_comment_id=1722493048784053",
-   "motif": "Deux mots (« scary?!? ») adresses a une autre abonnee. C est le commentaire parent de celui auquel la Page a deja repondu dans ce meme fil ; y ajouter une reponse serait s inviter deux fois.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_1491102819466798",
-   "page_id": "262382158951470",
-   "date": "2026-05-05T19:26:22+0000",
-   "message": "Order three weeks ago-no delivery yet!!",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1491102819466798",
-   "motif": "Plainte de commande (« Order three weeks ago-no delivery yet!! »). Dossier du support, jamais une reponse publique : aucune date de livraison ne peut etre donnee depuis un commentaire.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_1452654142677698",
-   "page_id": "262382158951470",
-   "date": "2026-05-02T22:17:42+0000",
-   "message": "Cynthia Orr it probably bloomed white because your lime level in the dirt is not the same as the original place",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=1452654142677698",
-   "motif": "Speculation entre abonnes sur le pH et le taux de chaux du sol pour expliquer la couleur d une floraison. Sujet hors faits verifies et hors asclepiade.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "910925434979869_2060879578192158",
-   "page_id": "262382158951470",
-   "date": "2026-05-02T02:13:15+0000",
-   "message": "Gotta stop spraying pesticides/herbicides!",
-   "lien": "https://www.facebook.com/1067098316029246/posts/910925434979869?comment_id=2060879578192158",
-   "motif": "Slogan de cinq mots sans question (« Gotta stop spraying pesticides/herbicides! »). La Page a deja publie aujourd hui une reponse a un commentaire quasi identique sur la derive des pesticides ; en ajouter une seconde produirait une repetition visible.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "922604073812005_935464809293348",
-   "page_id": "262382158951470",
-   "date": "2026-04-28T18:26:23+0000",
-   "message": "Jim Starin, all WORLD WIDE ORGANIZATION DID. In winter of 2024/25 many parished in Mexican forest fires. I had very few visiting my milkweed area, I hope we will see more of them this year.",
-   "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=2338399973334672&reply_comment_id=935464809293348",
-   "motif": "Affirmations sur le statut d espece menacee et sur des incendies de foret au Mexique en 2024-2025, dans un sous-fil ou deux abonnes s arbitrent. Hors faits verifies : aucun chiffre ni statut de population n est documente dans notre base.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_945216451616514",
-   "page_id": "262382158951470",
-   "date": "2026-04-26T02:07:23+0000",
-   "message": "There is nothing wrong with tropical.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=945216451616514",
-   "motif": "« There is nothing wrong with tropical. » Prise de position dans le debat sur l asclepiade tropicale. On ne vend pas curassavica et la question sort des faits verifies : y repondre reviendrait a trancher.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_2014136939533328",
-   "page_id": "262382158951470",
-   "date": "2026-04-26T02:12:07+0000",
-   "message": "Cheryl Lee Snipes Bredin Eric is a fool",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=2014136939533328",
-   "motif": "Insulte visant un autre abonne (« Eric is a fool »). Rien a repondre, et la Page n a pas a s inviter dans une prise de bec.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_1281587554190514",
-   "page_id": "262382158951470",
-   "date": "2026-04-26T23:55:09+0000",
-   "message": "Anny Olwin Northern California",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1441941294102503&reply_comment_id=1281587554190514",
-   "motif": "Deux mots (« Northern California ») en reponse a un autre abonne qui demandait dans quel Etat il habite. Aucun contenu.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_946879064800438",
-   "page_id": "262382158951470",
-   "date": "2026-05-05T21:14:16+0000",
-   "message": "Anne Marie Hesson",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=946879064800438",
-   "motif": "Le commentaire ne contient qu un nom (« Anne Marie Hesson ») : quelqu un identifie une connaissance. Aucun contenu auquel repondre.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_4496657077237242",
-   "page_id": "262382158951470",
-   "date": "2026-04-27T12:03:15+0000",
-   "message": "Cynthia Orr try putting old coffee grounds and banana peels down in the soil or mulch! Several plants change colors like hydrangeas and the ph of the soil can affect it! I also read that planting them in the shade makes their blooms be less vibrant.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=4496657077237242",
-   "motif": "Conseil entre abonnes sur le marc de cafe, les pelures de banane et le pH pour changer la couleur d une floraison. Hors asclepiade et hors faits verifies.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_4416497591971945",
-   "page_id": "262382158951470",
-   "date": "2026-04-26T21:45:35+0000",
-   "message": "Rob Ccmc May no they don’t!",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=4416497591971945",
-   "motif": "Contradiction seche (« no they don t! ») dans le sous-fil sur l asclepiade tropicale et le calendrier de migration. Y repondre reviendrait a trancher un debat que nos faits verifies ne couvrent pas.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "922604073812005_1336292521696868",
-   "page_id": "262382158951470",
-   "date": "2026-04-28T18:28:36+0000",
-   "message": "They are on an endangered list in Canada.",
-   "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=1281076680850557&reply_comment_id=1336292521696868",
-   "motif": "Affirmation sur le statut d espece en peril au Canada, dans un sous-fil ou deux abonnes s opposent sur les listes officielles. Aucun statut de population n est documente dans faits-verifies.json : meme motif que les commentaires IUCN et US Fish and Wildlife deja ecartes.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_1596386124776046",
-   "page_id": "262382158951470",
-   "date": "2026-05-01T23:35:24+0000",
-   "message": "Marilyn Wann please include a link to an authentic website that proves your theory.  Thank you.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=1596386124776046",
-   "motif": "Sommation de fournir un lien prouvant une theorie, dans le sous-fil sur l asclepiade tropicale et l OE. Nos faits verifies ne couvrent pas la parasitose : repondre reviendrait a arbitrer, se taire poliment est la bonne reponse.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "929266099812469_1465661568363429",
-   "page_id": "262382158951470",
-   "date": "2026-05-02T22:55:47+0000",
-   "message": "Eric Simpson I agree.  However, I grew native milkweed from seed and buy native milkweed plants for years and still do.  The only milkweed that overwinters is the tropical.  Maybe it is because I live in South Texas.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=1465661568363429",
-   "motif": "Meme sous-fil tropical, avec une affirmation sur ce qui hiverne ou non dans le sud du Texas. Hors faits verifies.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "922604073812005_2466861017120607",
-   "page_id": "262382158951470",
-   "date": "2026-04-28T21:44:56+0000",
-   "message": "Just now?",
-   "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=2466861017120607",
-   "motif": "Deux mots (« Just now? ») sans objet identifiable. Aucun contenu auquel repondre.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "922604073812005_955412990888353",
-   "page_id": "262382158951470",
-   "date": "2026-05-23T20:23:33+0000",
-   "message": "",
-   "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=955412990888353",
-   "motif": "Troisieme photo d une meme serie envoyee par la meme personne sur ce reel, et la seule des trois qui soit inexploitable : gros plan totalement flou d une feuille, rien d identifiable. La Page a deja repondu deux fois a cette personne sur ce fil (la bille pale, puis les feuilles grignotees) ; une troisieme reponse sans contenu n apporterait rien.",
-   "ecarte_le": "2026-08-20",
-   "tir": "C"
-  },
-  {
-   "id": "775946415144439_4267699406818767",
-   "page_id": "262382158951470",
-   "date": "2026-08-21T12:56:39+0000",
-   "message": "Donnie Corrick, so… you want to kill of the Monarch (AKA King of the Butterflies), or is it the King Swallowtail you want to eliminate?",
-   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1833419770606922&reply_comment_id=4267699406818767",
-   "motif": "Echange de jeux de mots entre deux abonnes (Monarch = King of the Butterflies) greffe sur une blague au sous-texte politique dans le commentaire parent (« no KINGS!!! »). Rien a repondre pour la Page, et le fil politique n est pas un terrain ou elle a affaire.",
-   "ecarte_le": "2026-08-21",
-   "tir": "C"
-  },
-  {
-   "id": "775946415144439_1540591014778699",
-   "page_id": "262382158951470",
-   "date": "2026-08-21T14:42:15+0000",
-   "message": "Bobbie Kysar Colvin wrong. Tropical milkweek can cause health issues to Monarchs. Giant and swamp milkweeds are natives, non toxic and a food source for multiple types of butterflies. Learn what you are saying before spreading false info. Google is your friend.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=32079255668339365&reply_comment_id=1540591014778699",
-   "motif": "Correction seche entre abonnees dans le debat sur l asclepiade tropicale (« wrong... Learn what you are saying before spreading false info »). Ton conflictuel et sujet hors faits verifies : la Page n a pas a departager.",
-   "ecarte_le": "2026-08-21",
-   "tir": "C"
-  },
-  {
-   "id": "775946415144439_3632954386882841",
-   "page_id": "262382158951470",
-   "date": "2026-08-21T14:38:55+0000",
-   "message": "Elizabeth M Brown you usually can buy milkweed at any nursery in Florida or HD/Lowe's garden centers.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=24575498848756180&reply_comment_id=3632954386882841",
-   "motif": "Sous-fil ou une abonnee repond deja correctement a la question d achat d une autre (pepinieres de Floride, centres de jardin). S y greffer reviendrait surtout a placer notre boutique, et la Page a deja repondu ce matin a un commentaire quasi identique sur les pepinieres.",
-   "ecarte_le": "2026-08-21",
-   "tir": "C"
-  },
-  {
-   "id": "910925434979869_981139844852635",
-   "page_id": "262382158951470",
-   "date": "2026-05-04T18:20:43+0000",
-   "message": "I love Monarchs! Just have trouble getting any of my milkweed seeds to come up!",
-   "lien": "https://www.facebook.com/1067098316029246/posts/910925434979869?comment_id=981139844852635",
-   "motif": "Difficulte de germination, ecartee d office par PROCEDURE.md. La Page a par ailleurs deja publie deux reponses sur le mois de froid necessaire dans les dernieres 24 h : une troisieme se lirait comme un script.",
-   "ecarte_le": "2026-08-21",
-   "tir": "C"
-  },
-  {
-   "id": "775946415144439_916611480995077",
-   "page_id": "262382158951470",
-   "date": "2026-08-21T15:40:19+0000",
-   "message": "Mike Elston I hate milkweed.  To me, it us a noxious weed that gets pulled out of MY garden immediately.   You do you.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=32079255668339365&reply_comment_id=916611480995077",
-   "motif": "Prise de bec entre abonnes : hostilite declaree envers l asclepiade (« I hate milkweed... gets pulled out of MY garden immediately. You do you ») en reponse a une correction seche. Repondre alimenterait la dispute au lieu de l eteindre.",
-   "ecarte_le": "2026-08-21",
-   "tir": "C"
-  },
-  {
-   "id": "775946415144439_2093863424497466",
-   "page_id": "262382158951470",
-   "date": "2026-08-21T17:52:22+0000",
-   "message": "Bobbie Kysar Colvin must be much different types",
-   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=32079255668339365&reply_comment_id=2093863424497466",
-   "motif": "Quatre mots (« must be much different types ») dans la dispute en cours sur l asclepiade tropicale. Quatrieme commentaire de ce meme fil ecarte : sujet hors faits verifies et echange entre abonnes.",
-   "ecarte_le": "2026-08-21",
-   "tir": "C"
-  },
-  {
-   "id": "775946415144439_1553076609428696",
-   "page_id": "262382158951470",
-   "date": "2026-08-21T21:11:31+0000",
-   "message": "Mike Elston whatever.  It's not allowed to survive in my garden.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=32079255668339365&reply_comment_id=1553076609428696",
-   "motif": "Suite de la prise de bec sur l asclepiade (« whatever. It s not allowed to survive in my garden »). Cinquieme commentaire de ce fil ecarte : la Page n a rien a gagner a s y inviter.",
-   "ecarte_le": "2026-08-21",
-   "tir": "C"
-  },
-  {
-   "id": "520873803102303_1104147552112747",
-   "page_id": "262382158951470",
-   "date": "2026-08-21T21:14:40+0000",
-   "message": "Yes and spread.",
-   "lien": "https://www.facebook.com/1067098316029246/posts/520873803102303?comment_id=1265868611369141&reply_comment_id=1104147552112747",
-   "motif": "Reponse correcte de trois mots d une abonnee a une autre (« Yes and spread. ») sur le retour de l asclepiade l annee suivante. Rien a ajouter, et la Page a deja publie aujourd hui une reponse sur son caractere vivace.",
-   "ecarte_le": "2026-08-21",
-   "tir": "C"
-  }
- ]
+  "tir": "C",
+  "a_revoir": [
+    {
+      "id": "800160532723027_1805711777489810",
+      "page_id": "262382158951470",
+      "date": "2025-10-05T20:59:05+0000",
+      "message": "What is this?",
+      "lien": "https://www.facebook.com/1067098316029246/posts/800160532723027?comment_id=1805711777489810",
+      "motif": "Question sans objet identifiable (« What is this? ») : on ignore ce que montrait la publication. Repondre exigerait de deviner le sujet.",
+      "ecarte_le": "2026-08-19",
+      "tir": "C",
+      "contexte": "tir a blanc, aucune publication"
+    },
+    {
+      "id": "312025254869893_453679841085119",
+      "page_id": "262382158951470",
+      "date": "2024-11-24T18:18:17+0000",
+      "message": "I find it hard to believe musk oxen are in 48 below type weather and rabbit beats that ?",
+      "lien": "https://www.facebook.com/1067098316029246/posts/312025254869893?comment_id=226858140164241&reply_comment_id=453679841085119",
+      "motif": "Scepticisme sur une comparaison de fourrures (boeuf musque, lapin). Aucun fait verifie sur ces matieres ; le theme 3 pose justement qu il n existe aucune cote de performance officielle.",
+      "ecarte_le": "2026-08-19",
+      "tir": "C",
+      "contexte": "tir a blanc, aucune publication"
+    },
+    {
+      "id": "911600751579004_949144911197868",
+      "page_id": "262382158951470",
+      "date": "2026-02-20T12:26:33+0000",
+      "message": "Any advice on germination? I planted over 200 seeds (that were kept in a fridge for 2 months) and only 12 sprouted.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/911600751579004?comment_id=949144911197868",
+      "motif": "Echec de germination : ecarte d office par PROCEDURE.md, dossier a traitement humain.",
+      "ecarte_le": "2026-08-19",
+      "tir": "C",
+      "contexte": "tir a blanc, aucune publication"
+    },
+    {
+      "id": "929266099812469_942298305342259",
+      "page_id": "262382158951470",
+      "date": "2026-04-26T22:42:22+0000",
+      "message": "Milkweed & Monarchs why not? Are you promoting starving them?",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=942298305342259",
+      "motif": "Fragment accusatoire (« why not? Are you promoting starving them? ») greffe sur un fil dont on ignore le contenu. Repondre exigerait de deviner l accusation ; ton hostile, dossier a jugement humain.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C",
+      "repris_le": "2026-08-20",
+      "note_reprise": "Ecarte le 2026-08-19 faute de contexte. Le script fournit desormais repond_a : c est une reponse directe a un commentaire de la Page (« Nobody is talking about tropical milkweed here. We don t sell it »). Repondu ce jour."
+    },
+    {
+      "id": "922604073812005_2161926784345865",
+      "page_id": "262382158951470",
+      "date": "2026-03-20T03:37:44+0000",
+      "message": "Again?!?  We brought them back when the EPA banned DDT and other weed killers.  Has the MangoMoron undone all those years of recovery in one year?!?",
+      "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=2161926784345865",
+      "motif": "Diatribe politique (DDT, EPA, insulte visant une figure publique). Hors des faits verifies et hors du role de la Page.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "775946415144439_1768508754283245",
+      "page_id": "262382158951470",
+      "date": "2026-08-20T11:58:21+0000",
+      "message": "Often yes, especially at nurseries that specialize in native plants ...",
+      "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1100533118716887&reply_comment_id=1768508754283245",
+      "motif": "Ecrit par la Page elle-meme (from.id = 262382158951470) : c est notre propre reponse du 20 aout au commentaire « Are milkweed starts available in nurseries? ». Ne jamais repondre a un commentaire de la Page.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C",
+      "contexte": "validation ciblee sur la publication 775946415144439"
+    },
+    {
+      "id": "929266099812469_1289790259886704",
+      "page_id": "262382158951470",
+      "date": "2026-05-02T00:43:14+0000",
+      "message": "Eric Simpson easily solved by cutting the plants back in the fall.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=1289790259886704",
+      "motif": "Sous-fil entre deux abonnes qui debattent du moment de floraison de l asclepiade tropicale et de son effet sur la migration, et de la tailler a l automne. Hors faits verifies (on ne vend pas curassavica) : toute reponse reviendrait a arbitrer leur debat.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_2086158421930926",
+      "page_id": "262382158951470",
+      "date": "2026-05-01T23:32:37+0000",
+      "message": "Bob Allen yes. I have grown from seed (properly kept in freezer or refrigerator)  Most germinated and grew well for a few months.  Not one came up in the Spring.  Very discouraging but am sure the climate here in South Texas was responsible for their demise.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1014311721035430&reply_comment_id=2086158421930926",
+      "motif": "Echec d etablissement : semis germes puis aucun retour au printemps dans le sud du Texas. PROCEDURE ecarte les echecs de germination, et diagnostiquer la reprise d une vivace la-bas sort des faits verifies.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_2393894224446742",
+      "page_id": "262382158951470",
+      "date": "2026-05-02T22:18:18+0000",
+      "message": "Cilia Rains ￼ that’s good information",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=2393894224446742",
+      "motif": "Simple accuse de reception entre abonnes (« that s good information ») sur le marc de cafe et le pH du sol. Rien qui nous concerne : c est leur conversation.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_1301692881891426",
+      "page_id": "262382158951470",
+      "date": "2026-04-26T21:57:06+0000",
+      "message": "Ken Johnson What state are you in?",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1441941294102503&reply_comment_id=1301692881891426",
+      "motif": "Un abonne demande a un autre dans quel Etat il habite. Conversation entre eux, rien qui nous concerne.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_1460332169166140",
+      "page_id": "262382158951470",
+      "date": "2026-05-04T22:02:35+0000",
+      "message": "Cynthia Orr different soil",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=1460332169166140",
+      "motif": "Deux mots (« different soil ») dans un sous-fil ou deux abonnes speculent sur la couleur d une plante transplantee. Aucun contenu a repondre.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_1993672654540090",
+      "page_id": "262382158951470",
+      "date": "2026-04-26T22:45:28+0000",
+      "message": "Penny Pawl the Monarch caterpillars will eat it down to the stem.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1243356604638567&reply_comment_id=1993672654540090",
+      "motif": "Sous-fil sur l asclepiade tropicale, l OE et la taille hivernale. Hors faits verifies : on ne vend pas curassavica et la parasitose n est pas documentee dans notre base.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "910925434979869_1722493048784053",
+      "page_id": "262382158951470",
+      "date": "2026-05-02T00:50:31+0000",
+      "message": "Elizabeth Gable scary?!?",
+      "lien": "https://www.facebook.com/1067098316029246/posts/910925434979869?comment_id=1431038135173895&reply_comment_id=1722493048784053",
+      "motif": "Deux mots (« scary?!? ») adresses a une autre abonnee. C est le commentaire parent de celui auquel la Page a deja repondu dans ce meme fil ; y ajouter une reponse serait s inviter deux fois.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_1491102819466798",
+      "page_id": "262382158951470",
+      "date": "2026-05-05T19:26:22+0000",
+      "message": "Order three weeks ago-no delivery yet!!",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1491102819466798",
+      "motif": "Plainte de commande (« Order three weeks ago-no delivery yet!! »). Dossier du support, jamais une reponse publique : aucune date de livraison ne peut etre donnee depuis un commentaire.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_1452654142677698",
+      "page_id": "262382158951470",
+      "date": "2026-05-02T22:17:42+0000",
+      "message": "Cynthia Orr it probably bloomed white because your lime level in the dirt is not the same as the original place",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=1452654142677698",
+      "motif": "Speculation entre abonnes sur le pH et le taux de chaux du sol pour expliquer la couleur d une floraison. Sujet hors faits verifies et hors asclepiade.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "910925434979869_2060879578192158",
+      "page_id": "262382158951470",
+      "date": "2026-05-02T02:13:15+0000",
+      "message": "Gotta stop spraying pesticides/herbicides!",
+      "lien": "https://www.facebook.com/1067098316029246/posts/910925434979869?comment_id=2060879578192158",
+      "motif": "Slogan de cinq mots sans question (« Gotta stop spraying pesticides/herbicides! »). La Page a deja publie aujourd hui une reponse a un commentaire quasi identique sur la derive des pesticides ; en ajouter une seconde produirait une repetition visible.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "922604073812005_935464809293348",
+      "page_id": "262382158951470",
+      "date": "2026-04-28T18:26:23+0000",
+      "message": "Jim Starin, all WORLD WIDE ORGANIZATION DID. In winter of 2024/25 many parished in Mexican forest fires. I had very few visiting my milkweed area, I hope we will see more of them this year.",
+      "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=2338399973334672&reply_comment_id=935464809293348",
+      "motif": "Affirmations sur le statut d espece menacee et sur des incendies de foret au Mexique en 2024-2025, dans un sous-fil ou deux abonnes s arbitrent. Hors faits verifies : aucun chiffre ni statut de population n est documente dans notre base.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_945216451616514",
+      "page_id": "262382158951470",
+      "date": "2026-04-26T02:07:23+0000",
+      "message": "There is nothing wrong with tropical.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=945216451616514",
+      "motif": "« There is nothing wrong with tropical. » Prise de position dans le debat sur l asclepiade tropicale. On ne vend pas curassavica et la question sort des faits verifies : y repondre reviendrait a trancher.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_2014136939533328",
+      "page_id": "262382158951470",
+      "date": "2026-04-26T02:12:07+0000",
+      "message": "Cheryl Lee Snipes Bredin Eric is a fool",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=2014136939533328",
+      "motif": "Insulte visant un autre abonne (« Eric is a fool »). Rien a repondre, et la Page n a pas a s inviter dans une prise de bec.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_1281587554190514",
+      "page_id": "262382158951470",
+      "date": "2026-04-26T23:55:09+0000",
+      "message": "Anny Olwin Northern California",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1441941294102503&reply_comment_id=1281587554190514",
+      "motif": "Deux mots (« Northern California ») en reponse a un autre abonne qui demandait dans quel Etat il habite. Aucun contenu.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_946879064800438",
+      "page_id": "262382158951470",
+      "date": "2026-05-05T21:14:16+0000",
+      "message": "Anne Marie Hesson",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=946879064800438",
+      "motif": "Le commentaire ne contient qu un nom (« Anne Marie Hesson ») : quelqu un identifie une connaissance. Aucun contenu auquel repondre.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_4496657077237242",
+      "page_id": "262382158951470",
+      "date": "2026-04-27T12:03:15+0000",
+      "message": "Cynthia Orr try putting old coffee grounds and banana peels down in the soil or mulch! Several plants change colors like hydrangeas and the ph of the soil can affect it! I also read that planting them in the shade makes their blooms be less vibrant.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1282280750479429&reply_comment_id=4496657077237242",
+      "motif": "Conseil entre abonnes sur le marc de cafe, les pelures de banane et le pH pour changer la couleur d une floraison. Hors asclepiade et hors faits verifies.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_4416497591971945",
+      "page_id": "262382158951470",
+      "date": "2026-04-26T21:45:35+0000",
+      "message": "Rob Ccmc May no they don’t!",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=4416497591971945",
+      "motif": "Contradiction seche (« no they don t! ») dans le sous-fil sur l asclepiade tropicale et le calendrier de migration. Y repondre reviendrait a trancher un debat que nos faits verifies ne couvrent pas.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "922604073812005_1336292521696868",
+      "page_id": "262382158951470",
+      "date": "2026-04-28T18:28:36+0000",
+      "message": "They are on an endangered list in Canada.",
+      "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=1281076680850557&reply_comment_id=1336292521696868",
+      "motif": "Affirmation sur le statut d espece en peril au Canada, dans un sous-fil ou deux abonnes s opposent sur les listes officielles. Aucun statut de population n est documente dans faits-verifies.json : meme motif que les commentaires IUCN et US Fish and Wildlife deja ecartes.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_1596386124776046",
+      "page_id": "262382158951470",
+      "date": "2026-05-01T23:35:24+0000",
+      "message": "Marilyn Wann please include a link to an authentic website that proves your theory.  Thank you.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=1596386124776046",
+      "motif": "Sommation de fournir un lien prouvant une theorie, dans le sous-fil sur l asclepiade tropicale et l OE. Nos faits verifies ne couvrent pas la parasitose : repondre reviendrait a arbitrer, se taire poliment est la bonne reponse.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "929266099812469_1465661568363429",
+      "page_id": "262382158951470",
+      "date": "2026-05-02T22:55:47+0000",
+      "message": "Eric Simpson I agree.  However, I grew native milkweed from seed and buy native milkweed plants for years and still do.  The only milkweed that overwinters is the tropical.  Maybe it is because I live in South Texas.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/929266099812469?comment_id=1094194416195046&reply_comment_id=1465661568363429",
+      "motif": "Meme sous-fil tropical, avec une affirmation sur ce qui hiverne ou non dans le sud du Texas. Hors faits verifies.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "922604073812005_2466861017120607",
+      "page_id": "262382158951470",
+      "date": "2026-04-28T21:44:56+0000",
+      "message": "Just now?",
+      "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=2466861017120607",
+      "motif": "Deux mots (« Just now? ») sans objet identifiable. Aucun contenu auquel repondre.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "922604073812005_955412990888353",
+      "page_id": "262382158951470",
+      "date": "2026-05-23T20:23:33+0000",
+      "message": "",
+      "lien": "https://www.facebook.com/reel/1206918654525197/?comment_id=955412990888353",
+      "motif": "Troisieme photo d une meme serie envoyee par la meme personne sur ce reel, et la seule des trois qui soit inexploitable : gros plan totalement flou d une feuille, rien d identifiable. La Page a deja repondu deux fois a cette personne sur ce fil (la bille pale, puis les feuilles grignotees) ; une troisieme reponse sans contenu n apporterait rien.",
+      "ecarte_le": "2026-08-20",
+      "tir": "C"
+    },
+    {
+      "id": "775946415144439_4267699406818767",
+      "page_id": "262382158951470",
+      "date": "2026-08-21T12:56:39+0000",
+      "message": "Donnie Corrick, so… you want to kill of the Monarch (AKA King of the Butterflies), or is it the King Swallowtail you want to eliminate?",
+      "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1833419770606922&reply_comment_id=4267699406818767",
+      "motif": "Echange de jeux de mots entre deux abonnes (Monarch = King of the Butterflies) greffe sur une blague au sous-texte politique dans le commentaire parent (« no KINGS!!! »). Rien a repondre pour la Page, et le fil politique n est pas un terrain ou elle a affaire.",
+      "ecarte_le": "2026-08-21",
+      "tir": "C"
+    },
+    {
+      "id": "775946415144439_1540591014778699",
+      "page_id": "262382158951470",
+      "date": "2026-08-21T14:42:15+0000",
+      "message": "Bobbie Kysar Colvin wrong. Tropical milkweek can cause health issues to Monarchs. Giant and swamp milkweeds are natives, non toxic and a food source for multiple types of butterflies. Learn what you are saying before spreading false info. Google is your friend.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=32079255668339365&reply_comment_id=1540591014778699",
+      "motif": "Correction seche entre abonnees dans le debat sur l asclepiade tropicale (« wrong... Learn what you are saying before spreading false info »). Ton conflictuel et sujet hors faits verifies : la Page n a pas a departager.",
+      "ecarte_le": "2026-08-21",
+      "tir": "C"
+    },
+    {
+      "id": "775946415144439_3632954386882841",
+      "page_id": "262382158951470",
+      "date": "2026-08-21T14:38:55+0000",
+      "message": "Elizabeth M Brown you usually can buy milkweed at any nursery in Florida or HD/Lowe's garden centers.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=24575498848756180&reply_comment_id=3632954386882841",
+      "motif": "Sous-fil ou une abonnee repond deja correctement a la question d achat d une autre (pepinieres de Floride, centres de jardin). S y greffer reviendrait surtout a placer notre boutique, et la Page a deja repondu ce matin a un commentaire quasi identique sur les pepinieres.",
+      "ecarte_le": "2026-08-21",
+      "tir": "C"
+    },
+    {
+      "id": "910925434979869_981139844852635",
+      "page_id": "262382158951470",
+      "date": "2026-05-04T18:20:43+0000",
+      "message": "I love Monarchs! Just have trouble getting any of my milkweed seeds to come up!",
+      "lien": "https://www.facebook.com/1067098316029246/posts/910925434979869?comment_id=981139844852635",
+      "motif": "Difficulte de germination, ecartee d office par PROCEDURE.md. La Page a par ailleurs deja publie deux reponses sur le mois de froid necessaire dans les dernieres 24 h : une troisieme se lirait comme un script.",
+      "ecarte_le": "2026-08-21",
+      "tir": "C"
+    },
+    {
+      "id": "775946415144439_916611480995077",
+      "page_id": "262382158951470",
+      "date": "2026-08-21T15:40:19+0000",
+      "message": "Mike Elston I hate milkweed.  To me, it us a noxious weed that gets pulled out of MY garden immediately.   You do you.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=32079255668339365&reply_comment_id=916611480995077",
+      "motif": "Prise de bec entre abonnes : hostilite declaree envers l asclepiade (« I hate milkweed... gets pulled out of MY garden immediately. You do you ») en reponse a une correction seche. Repondre alimenterait la dispute au lieu de l eteindre.",
+      "ecarte_le": "2026-08-21",
+      "tir": "C"
+    },
+    {
+      "id": "775946415144439_2093863424497466",
+      "page_id": "262382158951470",
+      "date": "2026-08-21T17:52:22+0000",
+      "message": "Bobbie Kysar Colvin must be much different types",
+      "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=32079255668339365&reply_comment_id=2093863424497466",
+      "motif": "Quatre mots (« must be much different types ») dans la dispute en cours sur l asclepiade tropicale. Quatrieme commentaire de ce meme fil ecarte : sujet hors faits verifies et echange entre abonnes.",
+      "ecarte_le": "2026-08-21",
+      "tir": "C"
+    },
+    {
+      "id": "775946415144439_1553076609428696",
+      "page_id": "262382158951470",
+      "date": "2026-08-21T21:11:31+0000",
+      "message": "Mike Elston whatever.  It's not allowed to survive in my garden.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=32079255668339365&reply_comment_id=1553076609428696",
+      "motif": "Suite de la prise de bec sur l asclepiade (« whatever. It s not allowed to survive in my garden »). Cinquieme commentaire de ce fil ecarte : la Page n a rien a gagner a s y inviter.",
+      "ecarte_le": "2026-08-21",
+      "tir": "C"
+    },
+    {
+      "id": "520873803102303_1104147552112747",
+      "page_id": "262382158951470",
+      "date": "2026-08-21T21:14:40+0000",
+      "message": "Yes and spread.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/520873803102303?comment_id=1265868611369141&reply_comment_id=1104147552112747",
+      "motif": "Reponse correcte de trois mots d une abonnee a une autre (« Yes and spread. ») sur le retour de l asclepiade l annee suivante. Rien a ajouter, et la Page a deja publie aujourd hui une reponse sur son caractere vivace.",
+      "ecarte_le": "2026-08-21",
+      "tir": "C"
+    },
+    {
+      "id": "520873803102303_2338454236897442",
+      "page_id": "262382158951470",
+      "date": "2026-08-22T02:59:23+0000",
+      "message": "James Derrien how do you think it grows? Lol",
+      "lien": "https://www.facebook.com/1067098316029246/posts/520873803102303?comment_id=1274520106673924&reply_comment_id=2338454236897442",
+      "motif": "sous-fil entre abonnes, replique moqueuse dans la querelle « vendre des semences d'asclepiade est une arnaque » ; la Page n'a rien a y gagner et y repondre reviendrait a se defendre publiquement",
+      "ecarte_le": "2026-08-22",
+      "tir": "C"
+    }
+  ]
 }
