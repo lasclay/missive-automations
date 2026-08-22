@@ -100,6 +100,17 @@ const fJournal = (t) => path.join(ETAT, `${t}-journal.jsonl`);
 const repondus = (t) => lire(fRepondus(t), { tir: t, repondus: [], total: 0 });
 const idsRepondus = (t) => new Set(repondus(t).repondus.map((r) => (typeof r === "string" ? r : r.id)));
 
+// Un commentaire écarté par jugement (`<tir>-a-revoir.json`) revenait dans les
+// candidats à chaque tir. Comme les plaintes de commande sont notées haut par
+// l'intention d'achat, elles passaient devant les commentaires du jour encore
+// sans réponse et vidaient le lot sans qu'une seule réponse soit publiée. Les
+// candidats excluent donc aussi les écartés. C'est par tir : le jugement d'un
+// ouvrier n'engage pas les autres. Une reprise reste possible — retirer
+// l'entrée du fichier suffit, et `publier` ne consulte pas cette liste.
+const idsARevoir = (t) =>
+  new Set((lire(fARevoir(t), { a_revoir: [] }).a_revoir || []).map((e) => (typeof e === "string" ? e : e.id)));
+const idsExclus = (t) => new Set([...idsRepondus(t), ...idsARevoir(t)]);
+
 // Plafond par Page et par jour. Le tirage horaire ne connaît pas l'historique de
 // la journée : une série de tirages hauts pourrait concentrer beaucoup de
 // réponses sur une seule Page. Ce plafond est la seule chose qui regarde le
@@ -390,7 +401,7 @@ async function cmdCandidats(tir, nDemande) {
     return;
   }
   const n = nDemande || t.n;
-  const vus = idsRepondus(tir);
+  const vus = idsExclus(tir);
   const bruts = await moissonner(conf.pages);
   const candidats = bruts.filter((c) => eligible(c, vus));
   const { duJour, anciens, regle } = repartir(candidats, n);
