@@ -18,6 +18,9 @@
  *                                       `attachments[]` renvoyé par `read`. Sans attachmentId,
  *                                       prend la première. Sans fichier de sortie, garde le
  *                                       nom d'origine dans le répertoire courant.)
+ *   node missive_client.js messageraw <messageId>   (enveloppe brute d'un message : from_field,
+ *                                              to_fields, compte de canal. Pour savoir comment
+ *                                              répondre sur un canal non courriel.)
  *   node missive_client.js drafts <convId> [limit]   (brouillons déjà rédigés par le script IA ;
  *                                              limit pagine au-delà des 10 de l'API Missive, max 500)
  *   node missive_client.js draftsraw <convId> (idem, réponse brute — le corps du brouillon
@@ -74,6 +77,7 @@ function readStdin() {
       require("node:fs").writeFileSync(dest, Buffer.from(r.base64, "base64"));
       console.log(JSON.stringify({ saved: dest, filename: r.filename, media_type: r.media_type, size: r.size }, null, 2));
     }
+    else if (cmd === "messageraw") console.log(JSON.stringify(await call("/messageraw", { messageId: a1 }), null, 2));
     else if (cmd === "drafts") console.log(JSON.stringify(await call("/drafts", { id: a1, limit: a2 ? Number(a2) : undefined }), null, 2));
     else if (cmd === "draftsraw") console.log(JSON.stringify(await call("/drafts", { id: a1, raw: true, limit: a2 ? Number(a2) : undefined }), null, 2));
     else if (cmd === "notes") console.log(JSON.stringify(await call("/comments", { id: a1 }), null, 2));
