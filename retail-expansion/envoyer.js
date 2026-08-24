@@ -41,15 +41,15 @@ function messageFR(f) {
     subject: `Devenir le détaillant Lasclay de votre région`,
     body: `Bonjour,
 
-Je m'appelle Gabriel Gouveia, je dirige Lasclay. On isole des produits d'hiver et des sacs isothermes avec de la soie d'asclépiade, la plante hôte du monarque. On l'achète à des producteurs québécois et on la transforme dans notre atelier de Limoilou.
+Je m'appelle Gabriel Gouveia, je dirige Lasclay. On isole des vêtements d'hiver et des sacs isothermes avec de la soie d'asclépiade, qu'on achète à des producteurs québécois et qu'on transforme dans notre atelier de Limoilou. On cherche un détaillant par région, et j'aimerais savoir si ça vous intéresse.
 
-On cherche un détaillant par région, et j'aimerais savoir si ça vous intéresse.
+Ce qui fait vendre ce produit en magasin, c'est ce qu'il y a derrière. L'asclépiade est la seule plante où le monarque pond ses oeufs, et sa soie est creuse et hydrophobe, ce qui en fait un isolant. Le monarque, tout le monde le connaît; que sa plante serve à faire des mitaines, presque personne. Le client repart avec un objet et une histoire d'ici qu'il peut raconter. On en distribue aussi les semences: cinquième édition de notre campagne nationale de plantation, une dizaine de millions de graines en Amérique du Nord depuis 2020.
 
-Ce qu'on demande: porter la gamme au complet. Mitaines, tuques, cache-cou, bandeaux, manteaux et vestes à inserts isolants amovibles, sacs à lunch, glacières souples, manchons isothermes, semences. Plus de soixante produits, l'hiver comme l'été. Les Défricheuses, à Montréal, portent tout. C'est le genre de partenariat qu'on cherche à répéter, pas un produit isolé sur un coin de tablette.
+Ce qu'on demande: porter la gamme au complet, une trentaine de produits textiles, l'hiver comme l'été. Mitaines, gants, tuques, bandeaux, cache-cou, manteaux et vestes à inserts amovibles, chandail polaire, sacs à lunch, glacières, manchons, oreillers de camping. Pas un produit isolé sur un coin de tablette.
 
 Ce qu'on offre: la consignation et l'exclusivité de votre région. Vous n'avancez rien, on garde la propriété du stock jusqu'à la vente, et les invendus nous reviennent. Ce que vous engagez, c'est de l'espace et l'attention de votre monde.
 
-Une chose que vous aurez à répondre au comptoir, alors autant l'avoir en main: la soie est cultivée et transformée au Québec, mais l'assemblage de la plupart des produits finis se fait en Tunisie. C'est ce qui nous permet de vendre un manteau autour de 300 $ plutôt que le double.
+Une question que vous aurez au comptoir, alors autant l'avoir en main: la soie est cultivée et transformée au Québec, mais l'assemblage de la plupart des produits finis se fait en Tunisie. C'est ce qui nous permet de vendre un manteau autour de 300 $ plutôt que le double.
 
 Si ça vaut une conversation, proposez-moi un moment d'ici deux semaines et je vous appelle. J'essaie d'éviter le vendredi.
 
@@ -66,15 +66,15 @@ function messageEN(f) {
     subject: `Becoming the Lasclay retailer for your region`,
     body: `Hello,
 
-I'm Gabriel Gouveia, I run Lasclay. We insulate winter gear and cooler bags with milkweed floss, the monarch butterfly's host plant. We buy it from Quebec growers and process it in our workshop in Quebec City.
+I'm Gabriel Gouveia, I run Lasclay. We insulate winter clothing and cooler bags with milkweed floss, which we buy from Quebec growers and process in our workshop in Quebec City. We're looking for one retailer per region, and I'd like to know whether that interests you.
 
-We're looking for one retailer per region, and I'd like to know whether that interests you.
+What sells this product in a store is what sits behind it. Milkweed is the only plant monarchs lay their eggs on, and its floss is hollow and water repellent, which makes it an insulator. Everyone knows the monarch; almost nobody knows its plant can be turned into mittens. Your customer leaves with an object and a Canadian story they can retell. We hand out the seed too: fifth edition of our national planting campaign, roughly ten million seeds across North America since 2020.
 
-What we ask: carrying the full range. Mittens, toques, neck warmers, headbands, coats and vests with removable insulation, lunch bags, soft coolers, can sleeves, seed packets. Over sixty products, winter and summer. Les Défricheuses, in Montreal, carry all of it. That's the kind of partnership we're trying to repeat, not one product on a corner of a shelf.
+What we ask: carrying the full range, about thirty textile products, winter and summer. Mittens, gloves, toques, headbands, neck warmers, coats and vests with removable insulation, fleece pullover, lunch bags, coolers, can sleeves, camping pillows. Not one product on a corner of a shelf.
 
 What we offer: consignment and exclusivity for your region. You pay nothing up front, we keep ownership of the stock until it sells, and unsold items come back to us. What you commit is space and your staff's attention.
 
-One thing you'll be asked at the counter, so you may as well have the answer: the floss is grown and processed in Quebec, but most finished products are assembled in Tunisia. That's how we sell a coat around $300 instead of double that.
+One question you'll get at the counter, so you may as well have the answer: the floss is grown and processed in Quebec, but most finished products are assembled in Tunisia. That's how we sell a coat around $300 instead of double that.
 
 If this is worth a conversation, suggest a time in the next two weeks and I'll call. I try to keep Fridays clear.
 
@@ -92,7 +92,7 @@ const relanceFR = (f) => ({
 
 Je reviens sur mon message de l'autre semaine.
 
-Le résumé: la gamme complète en consignation, donc aucun déboursé de votre part, et l'exclusivité de votre région. Plus de soixante produits d'hiver et d'été isolés à la soie d'asclépiade.
+Le résumé: une trentaine de produits textiles isolés à la soie d'asclépiade, en consignation, donc aucun déboursé de votre part, et l'exclusivité de votre région.
 
 Si ce n'est pas le bon moment, dites-le moi et je vous laisse tranquille. Si c'est plutôt une question de détail (marges, réassort, retour des invendus), posez-la, j'y réponds directement.
 
@@ -107,7 +107,7 @@ const relanceEN = (f) => ({
 
 Following up on the message I sent a little while back.
 
-The short version: the full range on consignment, so nothing out of pocket for you, and exclusivity for your region. Over sixty winter and summer products insulated with milkweed floss.
+The short version: about thirty textile products insulated with milkweed floss, on consignment, so nothing out of pocket for you, and exclusivity for your region.
 
 If the timing is wrong, say so and I'll leave it there. If it's a question of detail (margins, restocking, returns on what doesn't sell), ask and I'll answer.
 
@@ -241,7 +241,7 @@ function lotRelances(file, taille) {
         const m = rediger(f);
         const type = f.etat === 'envoye' ? 'RELANCE' : 'PREMIER CONTACT';
         console.log('='.repeat(76));
-        console.log(`${type} [${f.langue}]  ${f.nom} — ${f.zone}`);
+        console.log(`${type} [${f.langue}]  ${f.nom}, ${f.zone}`);
         console.log(`A: ${f.courriel}   |   archetype: ${f.archetype}`);
         console.log(`Objet: ${m.subject}`);
         console.log('-'.repeat(76));

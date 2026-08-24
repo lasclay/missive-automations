@@ -34,12 +34,23 @@ En échange: la consignation et l'exclusivité de la région.
 - **Vouvoiement.** Contact à froid avec quelqu'un qu'on ne connaît pas.
 - **Le compromis tunisien est nommé.** Le détaillant aura la question au
   comptoir; autant qu'il ait la réponse. Formulé comme un service qu'on lui rend.
-- **Aucun chiffre inventé.** Plus de soixante produits (71 actifs dans Shopify au
-  2026-08-24), manteau autour de 300 $. Les Défricheuses « portent tout », ce que
-  la page publique des points de vente confirme. Aucune affirmation de
-  performance du genre « notre meilleur détaillant », qu'on ne peut pas prouver.
+- **Le récit d'abord.** Le deuxième paragraphe explique pourquoi ce produit se
+  vend au comptoir: le monarque que tout le monde connaît, sa plante que presque
+  personne n'associe à des mitaines, et un objet que le client peut raconter. La
+  campagne nationale de plantation appuie la position de Lasclay avec un fait
+  public et vérifiable plutôt qu'une déclaration de leadership.
+- **Aucun chiffre inventé.** Une trentaine de produits textiles: comptés dans
+  Shopify le 2026-08-24, hors affiches, bijoux, porte-clés, semences,
+  cosmétiques, soie en vrac, imparfaits et pinces à mitaines. Manteau autour de
+  300 $. Dix millions de graines et cinquième édition de la campagne: faits
+  publics documentés.
 - **Aucune promesse absolue.** Pas de « un isolant qui n'existe nulle part
-  ailleurs »: d'autres entreprises québécoises utilisent l'asclépiade.
+  ailleurs »: d'autres entreprises québécoises utilisent l'asclépiade. La force
+  de Lasclay est la notoriété et le récit, pas l'exclusivité de la matière.
+- **Aucun chiffre de détaillant.** Les ventes des points de vente actuels ne sont
+  nulle part: Shopify ne contient qu'un compte personnel pour Les Défricheuses et
+  QuickBooks ne facture que deux détaillants sur neuf, Vert Métal et la Sépaq. Ne
+  citer aucune statistique de détaillant tant que la donnée n'existe pas.
 - **Jamais « fabriqué au Québec »** pour un produit fini. La soie l'est, le
   produit assemblé ne l'est plus.
 - **Jamais qu'un achat sauve un monarque.**
