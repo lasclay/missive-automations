@@ -35,7 +35,9 @@ except ImportError:
     import fitz as pymupdf
 
 PT2MM = 25.4 / 72.0
-UNITES_PAR_MM = 40.0          # HP-GL standard : 1 unité = 0,025 mm
+UNITES_PAR_MM = 40.0          # défaut HP-GL : 1 unité = 0,025 mm
+# Le parc Lasclay contient au moins trois conventions (4, 10 et 40 u/mm).
+# Voir audit_hpgl.py : toujours vérifier avant d'envoyer en production.
 TOL_BEZIER_MM = 0.10          # écart max toléré lors de l'aplatissement des courbes
 
 
@@ -145,19 +147,25 @@ def detecte_carre(polys, cible_mm, tol_pct=15.0):
 
 
 # ---------------------------------------------------------------- sorties
-def ecrit_hpgl(chemin, polys, hauteur_pt, echelle, plumes, defaut=1):
-    """polys en points PDF → fichier HPGL."""
+def ecrit_hpgl(chemin, polys, hauteur_pt, echelle, plumes, defaut=1,
+               u_par_mm=UNITES_PAR_MM, etiquette=None, bbox_mm=None):
+    """polys en points PDF → fichier HPGL.
+
+    etiquette : nom du patron. Si fourni, un bloc de texte HPGL auto-documenté
+    est ajouté (nom, dimensions réelles, mention 1:1) pour que le fichier soit
+    vérifiable sans connaître la convention d'unité employée.
+    """
     def conv(p):
         x_mm = p.x * PT2MM * echelle
         y_mm = (hauteur_pt - p.y) * PT2MM * echelle     # origine en bas à gauche
-        return int(round(x_mm * UNITES_PAR_MM)), int(round(y_mm * UNITES_PAR_MM))
+        return int(round(x_mm * u_par_mm)), int(round(y_mm * u_par_mm))
 
     # regroupe par plume pour limiter les changements d'outil
     par_plume = OrderedDict()
     for coul, pts in polys:
         par_plume.setdefault(plumes.get(coul.lower(), defaut), []).append(pts)
 
-    buf = ["IN;", "SC;"]                       # init, pas de mise à l'échelle logicielle
+    buf = ["IN;", "IP;", "PW0.25;"]            # convention des fichiers Lasclay
     for plume in sorted(par_plume):
         buf.append("SP%d;" % plume)
         for pts in par_plume[plume]:
@@ -171,9 +179,29 @@ def ecrit_hpgl(chemin, polys, hauteur_pt, echelle, plumes, defaut=1):
             while coords:
                 bloc, coords = coords[:200], coords[200:]
                 buf.append("PD" + ",".join(bloc) + ";")
-    buf += ["PU;", "SP0;"]
+    # bloc d'identification : rend le fichier auto-vérifiable
+    if etiquette and bbox_mm:
+        x0, y0, L, H = bbox_mm
+        ox = int(round((x0 + L * 0.04) * u_par_mm))
+        base = y0 + H
+        lignes = [
+            ("0.75,1.10", etiquette.upper()),
+            ("0.50,0.75", "COUPE %s X %s CM" % (("%.1f" % (L / 10)).replace(".", ","),
+                                                ("%.1f" % (H / 10)).replace(".", ","))),
+            ("0.50,0.75", "PATRON LASCLAY - 1:1 - NE PAS REDIMENSIONNER"),
+            ("0.40,0.60", "UNITE FICHIER : %g U/MM" % u_par_mm),
+        ]
+        buf.append("SP%d;" % defaut)
+        buf.append("DI1,0;")
+        for i, (taille, texte) in enumerate(lignes):
+            oy = int(round((base - H * (0.05 + 0.045 * i)) * u_par_mm))
+            buf.append("SI%s;" % taille)
+            buf.append("PU%d,%d;" % (ox, oy))
+            buf.append("LB" + texte + "\x03")
+
+    buf += ["PU0,0;", "SP0;", "IN;"]
     with open(chemin, "w", encoding="ascii") as f:
-        f.write("\n".join(buf) + "\n")
+        f.write("\n".join(buf).replace("\\x03", "\x03") + "\n")
     return sum(len(v) for v in par_plume.values()), par_plume
 
 
@@ -206,6 +234,11 @@ def main():
                     help="correction manuelle d'échelle (défaut 1.0)")
     ap.add_argument("--plumes", default="",
                     help='affectation couleur→plume, ex. "#000000=1,#ff0000=2"')
+    ap.add_argument("--unites", type=float, default=UNITES_PAR_MM,
+                    help="unités par millimètre (40 = standard HP-GL, "
+                         "10 et 4 existent aussi dans le parc Lasclay)")
+    ap.add_argument("--nom", help="nom du patron : ajoute un bloc d'identification "
+                                  "HPGL avec les dimensions réelles")
     ap.add_argument("--tolerance", type=float, default=TOL_BEZIER_MM,
                     help="écart max d'aplatissement des courbes, en mm (défaut 0.10)")
     a = ap.parse_args()
@@ -245,10 +278,17 @@ def main():
                       "sur une cote connue.", file=sys.stderr)
             print(f"    Échelle laissée à {echelle}.\n", file=sys.stderr)
 
-    base = a.sortie or os.path.splitext(a.pdf)[0] + ".plt"
+    base = a.sortie or os.path.splitext(a.pdf)[0] + ".hpgl"
     svg = os.path.splitext(base)[0] + "_controle.svg"
 
-    n, par_plume = ecrit_hpgl(base, polys, page.rect.height, echelle, plumes)
+    xs0 = [p.x for _, pts in polys for p in pts]
+    ys0 = [p.y for _, pts in polys for p in pts]
+    bbox_mm = (min(xs0) * PT2MM * echelle,
+               (page.rect.height - max(ys0)) * PT2MM * echelle,
+               (max(xs0) - min(xs0)) * PT2MM * echelle,
+               (max(ys0) - min(ys0)) * PT2MM * echelle)
+    n, par_plume = ecrit_hpgl(base, polys, page.rect.height, echelle, plumes,
+                              u_par_mm=a.unites, etiquette=a.nom, bbox_mm=bbox_mm)
     W, H = ecrit_svg_controle(svg, polys, page.rect.width, page.rect.height, echelle)
 
     xs = [p.x for _, pts in polys for p in pts]
@@ -268,6 +308,9 @@ def main():
         print(f"  Échelle ......... {echelle:.6f} (aucune calibration demandée)")
     print(f"  Emprise dessin .. {bw:.1f} × {bh:.1f} mm")
     print(f"  Page en sortie .. {W:.1f} × {H:.1f} mm")
+    print(f"  Unité ........... {a.unites:g} u/mm ({1/a.unites:.3f} mm par unité)")
+    if a.nom:
+        print(f"  Étiquette ....... « {a.nom} » + dimensions inscrites dans le fichier")
     print(f"  Plumes .......... " + ", ".join(f"SP{k} ({len(v)} tracés)"
                                               for k, v in sorted(par_plume.items())))
     print(f"\n  → HPGL ......... {base}")
