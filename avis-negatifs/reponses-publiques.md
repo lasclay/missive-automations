@@ -1,37 +1,54 @@
 # Réponses publiques à écrire sur la fiche Google
 
-Cowork a confirmé que **trois avis négatifs seulement** ont déjà une réponse de Lasclay :
-patrick lambert, Susan Lockhart et Cyr-Marc Debien. Les autres n'en ont aucune.
+**Mis à jour après la deuxième passe de lecture** (`RAPPORT-LECTURE-PASSE-2.md`, 24 août 2026).
+
+Trois avis négatifs seulement ont une réponse de Lasclay : patrick lambert, Susan Lockhart et
+Cyr-Marc Debien. Les autres n'en ont aucune, y compris la mise à jour favorable de Patrick Lessnick,
+et y compris Melanie Boucher après trois ans.
 
 C'est le plus gros écart du dossier. Un avis négatif sans réponse se lit comme un aveu, et la
 réponse ne s'adresse pas à la personne fâchée : elle s'adresse aux gens qui lisent la fiche avant
-d'acheter. Ces réponses coûtent deux minutes chacune et sont visibles pour toujours.
+d'acheter.
+
+## Ce que la deuxième passe apprend, et qui change tout
+
+Les trois réponses publiques existantes ont enfin été relevées. **Elles sont toutes les trois
+défensives**, et deux d'entre elles se terminent sur une pique.
+
+| Sous | Ce que Lasclay a répondu |
+| --- | --- |
+| **patrick lambert** | « Nous voyons que vous n'avez jamais acheté aucun de nos produits. Comment pouvez-vous savoir en quoi la qualité sera affectée par notre décision? » |
+| **Susan Lockhart** | Cinq paragraphes argumentés, se terminant par « We hope you will take the time to read this response and reconsider your review. If not, well, it's a free country. » |
+| **Cyr-Marc Debien** | Sept paragraphes, dont « nous trouvons votre évaluation particulièrement injuste et malhonnête » |
+
+C'est le registre à ne pas reprendre. **Et c'est aussi une décision à prendre** : ces trois réponses
+sont visibles pour toujours sur une fiche que les gens consultent justement pour évaluer si on est
+fiables. Une réponse publique se modifie. Voir la section « Les trois réponses à reprendre » à la
+fin.
+
+⚠️ Le texte de la réponse à Cyr-Marc Debien a été **transcrit depuis une capture d'écran**, pas
+copié caractère par caractère. Les faits qu'elle établit sont sûrs (100 rabais accordés, épuisés en
+30 secondes, remboursement intégral consenti avant la publication de l'avis). La formulation exacte
+est à revérifier avant toute citation.
 
 ## Règles, non négociables
 
-1. **Ne jamais confirmer publiquement qu'une personne est cliente**, ni citer un numéro de
-   commande, une date de commande, un montant ou une adresse. Ce sont des renseignements
-   personnels : la réponse publique reste générale, le détail se règle en privé.
-2. **Court.** Trois à cinq lignes. Une réponse longue sur un avis court a l'air défensive. La
-   réponse à Marie L. est la seule exception, et pour une raison précise : c'est la seule qui
-   sert d'abord à documenter un fait.
-3. **Pas de cadratins**, pas de jargon.
-4. **Pas de figure en balancier.** « Ce n'est pas X, c'est Y », « A explique un délai, ça ne
-   justifie pas B », « pas un accusé de réception mais une vraie réponse » : c'est la même
-   tournure trois fois et elle finit par sonner écrite d'avance. Une affirmation simple suffit.
-5. **Pas de phrase à effet en fin de réponse.** La dernière ligne ouvre une porte, elle ne
-   conclut pas.
-6. **Ici, aucune suggestion de mise à jour de l'avis.** C'est la différence avec les messages
-   privés de `messages.md`, où la suggestion existe en une ligne, après réparation. En public,
-   une même phrase serait lue par tous les autres visiteurs comme une entreprise qui négocie ses
-   étoiles, ce qui coûte plus cher que l'avis lui-même. La mise à jour se suggère en privé, une
-   fois le dossier réglé, jamais sous l'avis.
+1. **Ne jamais confirmer publiquement qu'une personne est cliente**, ni citer un numéro de commande,
+   une date, un montant ou une adresse. Le détail se règle en privé.
+2. **Court.** Trois à cinq lignes. La réponse à Marie L. est la seule exception, et pour une raison
+   précise : c'est la seule qui sert d'abord à documenter un fait.
+3. **Ne jamais retourner la question à l'auteur.** « Comment pouvez-vous savoir? », « vous n'avez
+   probablement même pas pris quelques minutes », « it's a free country » : trois façons de gagner
+   un échange et de perdre le lecteur suivant. On répond sur le fond, on n'interroge pas la
+   légitimité de la personne.
+4. **Pas de figure en balancier** (« ce n'est pas X, c'est Y », « A explique un délai, ça ne
+   justifie pas B ») et pas de phrase à effet en fin de réponse.
+5. **Pas de cadratins**, pas de jargon.
+6. **Ici, aucune suggestion de mise à jour de l'avis.** C'est la différence avec les messages privés
+   de `messages.md`, où la suggestion existe en une ligne, après réparation. En public, la même
+   phrase serait lue par tous les visiteurs comme une entreprise qui négocie ses étoiles.
 7. **Ne pas signaler un avis à Google**, même celui qui fait mal.
 8. Répondre **dans la langue de l'avis**.
-
-⚠️ Relire la réponse publiée sous **patrick lambert** avant d'écrire celle de Marie L. : les deux
-portent sur le même sujet et doivent se tenir ensemble. Cowork n'a pas pu en relever le texte
-intégral.
 
 ---
 
@@ -39,11 +56,17 @@ intégral.
 
 ## Marie L. · 1★ · publié le 20 août 2026 · fabrication en Tunisie
 
-*Deuxième avis en trois mois sur l'origine de la fabrication. Elle a raison sur les faits :
-l'assemblage textile de la majorité des produits finis se fait maintenant hors Québec, surtout en
-Tunisie, et le site ne le dit pas clairement. La réponse doit assumer, nommer ce que ça coûte, et
-ne jamais prétendre que rien n'a changé. Elle ne doit pas non plus laisser croire que fabriquer au
-Québec était une erreur.*
+*Toujours 1★ et toujours sans réponse quatre jours après. Deuxième avis en trois mois sur l'origine
+de la fabrication, après patrick lambert.*
+
+*⚠️ **C'est la plus urgente de la fiche, et la plus délicate.** La réponse à patrick lambert, sur
+exactement le même grief, tient en deux phrases et lui retourne la question sans rien dire de ce
+qui reste fait au Québec. Celle-ci ne peut ni reprendre ce registre, ni le désavouer. La sortie
+praticable : faire le fond que lambert n'a pas eu, calmement, sans drapeau.*
+
+*⚠️ Charger `copywriting-lasclay` § `references/pivot-et-objections.md` avant d'écrire une ligne
+là-dessus. Interdits : « rien ne change », « produire au Québec était une erreur », « ceux qui ne
+comprennent pas n'étaient pas nos vrais clients ».*
 
 > Bonjour Marie,
 >
@@ -53,9 +76,9 @@ Québec était une erreur.*
 > L'isolant part d'ici vers les ateliers et revient dans le produit.
 >
 > Ce choix nous a permis de sortir un manteau autour de 300 $ au lieu du double, ce qui n'avait
-> jamais été possible avec l'asclépiade. Il a coûté cher chez nous aussi, des mises à pied
-> comprises. On l'a expliqué dans un mini-documentaire et dans les médias, mais notre site ne le
-> dit pas assez clairement. On corrige ça, produit par produit.
+> jamais été possible avec l'asclépiade. Il a coûté cher chez nous aussi, des mises à pied comprises.
+> On l'a expliqué dans un mini-documentaire et dans les médias, mais notre site ne le dit pas assez
+> clairement. On corrige ça, produit par produit.
 >
 > Sur la livraison et les messages sans réponse, vous décrivez quelque chose de réel. Si vous avez
 > une commande en cours, écrivez-moi à hey@lasclay.com et je m'en occupe personnellement.
@@ -195,13 +218,18 @@ lendemain de son avis. Ne pas la contredire publiquement : proposer de vérifier
 
 ## Jimmy Allaire · 3★ · mars 2026
 
+*Texte intégral obtenu à la deuxième passe : les semelles **plissent après une à deux semaines**.
+Il finit par « Je crois en votre produit ». C'est la réponse la plus rentable de la fiche avec celle
+de Lessnick : elle est visible sous un avis qui dit du bien du produit.*
+
 > Bonjour Jimmy,
 >
-> Des semelles chaudes mais pas assez rigides, c'est un défaut de conception. On travaille
-> justement là-dessus.
+> Une à deux semaines avant que ça plisse, c'est précis et on ne l'avait nulle part ailleurs. La
+> chaleur vient de la fibre, la tenue vient de la structure autour, et c'est cette partie-là qu'on
+> n'a pas réussie du premier coup.
 >
-> J'aimerais connaître la suite de votre expérience après quelques semaines d'usage : écrivez à
-> hey@lasclay.com, ça ira directement à la personne qui conçoit la semelle.
+> Votre commentaire est parti à la personne qui redessine la semelle. Écrivez à hey@lasclay.com si
+> vous voulez essayer la prochaine version.
 >
 > Gabriel, cofondateur
 
@@ -223,24 +251,55 @@ sert d'abord à rassurer un lecteur, pas l'autrice.*
 
 ## Marie Blouin · 2★ · novembre 2025
 
+*Texte intégral obtenu. Elle nomme deux choses précises : l'accusé de réception préformaté renvoyé
+en boucle, et les infolettres promotionnelles qui continuent de partir pendant qu'on ne répond pas.
+La réponse doit prendre le second de front, c'est celui qui fait le plus de dégâts auprès d'un
+lecteur.*
+
 > Bonjour Marie,
 >
-> Plusieurs courriels, des mois d'attente et aucune vraie réponse. C'est le reproche qu'on entend
-> le plus souvent, et celui sur lequel on a travaillé le plus fort cette année.
+> Recevoir nos infolettres pendant que votre dossier dormait, c'est ce qu'il y a de pire à vivre et
+> vous avez raison de le nommer. Les envois promotionnels partaient tout seuls, la boîte de service
+> client, non.
 >
-> Écrivez à hey@lasclay.com et je prends votre dossier en main personnellement.
+> L'accusé de réception que vous avez reçu plusieurs fois était une réponse automatique. Un article
+> défectueux se remplace, point. Écrivez à hey@lasclay.com avec le nom sur votre commande et je le
+> prends en main personnellement.
 >
 > Gabriel, cofondateur
 
 ## Ariane Poirier · 2★ · janvier 2026
 
+*Texte intégral obtenu : son grief est un **remboursement** qu'elle dit ne pas pouvoir obtenir,
+« belle façon de prendre le client en otage ». Shopify montre que 82,78 $ lui ont été remboursés le
+26 janvier, environ deux semaines après son avis.*
+
+*⚠️ **Ne pas écrire publiquement qu'elle a été remboursée.** Ce serait confirmer qu'elle est cliente,
+la contredire devant tout le monde, et transformer la réponse en plaidoirie. Le remboursement se
+règle en privé.*
+
 > Bonjour Ariane,
 >
-> Vous avez raison de refuser l'excuse de la forte période. Un gros volume n'explique pas des
-> semaines de silence.
+> Devoir écrire pour obtenir un remboursement et ne pas obtenir de réponse à ce courriel-là, ça
+> revient à retenir l'argent de quelqu'un par inaction. Vous avez raison de le dire comme ça.
 >
-> Si votre problème après-vente n'est toujours pas réglé, écrivez à hey@lasclay.com et je m'en
-> occupe cette semaine.
+> Un gros volume n'explique pas des semaines de silence. Écrivez à hey@lasclay.com et je m'en occupe
+> personnellement.
+>
+> Gabriel, cofondateur
+
+## Guillaume Lanteigne-Voyer · 2★ · février 2023
+
+*Avis relevé pour la première fois à la deuxième passe, jamais répondu depuis trois ans. Un
+remplacement lui a été promis et n'est jamais parti, ce que Shopify confirme.*
+
+> Bonjour Guillaume,
+>
+> Un remplacement promis qui n'arrive jamais, c'est pire que le défaut de départ, et il n'y a rien à
+> plaider là-dessus.
+>
+> Ça remonte à loin mais ça se règle encore. Écrivez à hey@lasclay.com et je m'en occupe
+> personnellement.
 >
 > Gabriel, cofondateur
 
@@ -250,11 +309,12 @@ sert d'abord à rassurer un lecteur, pas l'autrice.*
 
 | Auteur | Pourquoi |
 | --- | --- |
-| **Audrey Thibeault** · 1★ | Note seule, aucun texte. Rien à quoi répondre |
-| **patrick lambert** · 1★ | Une réponse existe déjà. La relire avant d'écrire celle de Marie L., pas la doubler |
-| **Susan Lockhart** · 1★ | Une réponse existe déjà, combative. La laisser telle quelle : la reprendre attirerait l'attention dessus |
-| **Cyr-Marc Debien** · 1★ | Une réponse existe déjà et le dossier est clos depuis cinq ans |
-| **David** · 1★ | Avis non relu par Cowork. Attendre la deuxième passe |
+| **Audrey Thibeault** · 1★ | Note seule, aucun texte, confirmé à la deuxième passe. Rien à quoi répondre |
+| **patrick lambert** · 1★ | Une réponse existe déjà. Voir « Les trois réponses à reprendre » plus bas |
+| **Susan Lockhart** · 1★ | Une réponse existe déjà. Voir plus bas |
+| **Cyr-Marc Debien** · 1★ | Une réponse existe déjà. Voir plus bas |
+| **David** · 1★ | **Avis disparu de la fiche.** Plus rien à répondre |
+| **Sarah Resch**, **Sylvie Internoscia**, **Yingyan Janet Zhu** | Avis disparus de la fiche |
 
 ---
 
@@ -277,3 +337,34 @@ fiche : la preuve que quand ça déraille, quelqu'un finit par s'en occuper.
 >
 > **Danielle Gingras** · Merci d'avoir signalé l'écart sur les dimensions, Danielle. La fiche
 > produit était fautive et c'est grâce à vous qu'elle a été corrigée.
+
+---
+
+# Les trois réponses à reprendre
+
+C'est la décision qui traîne dans ce dossier depuis le début, et la deuxième passe la rend
+impossible à éviter : **les trois seules réponses publiques de Lasclay sont défensives.**
+
+Une personne qui cherche « Lasclay avis » avant d'acheter lit ces trois-là en premier, parce que
+ce sont les seules qui ont du texte des deux côtés. Ce qu'elle y voit, c'est une entreprise qui
+argumente contre ses clients.
+
+| Sous | Le problème | Ce que ça coûte |
+| --- | --- | --- |
+| **patrick lambert** | Deux phrases, dont une question rhétorique. Ne dit rien de ce qui reste fait au Québec | Le grief revient (Marie L.), et la réponse ne sert à personne |
+| **Susan Lockhart** | Cinq paragraphes, dont « you probably never took even a few minutes of your time » et « if not, well, it's a free country » | Le fond est bon et l'argument sur les organismes sans but lucratif est juste. Le ton annule les deux |
+| **Cyr-Marc Debien** | Sept paragraphes, dont « votre évaluation particulièrement injuste et malhonnête » | Établit pourtant un fait utile : remboursement intégral consenti avant la publication de l'avis |
+
+**Une réponse publique se modifie sur Google.** Trois options, à trancher par Gabriel :
+
+1. **Ne rien toucher.** Reprendre une vieille réponse remonte l'avis dans l'ordre d'affichage chez
+   certains lecteurs et attire l'attention dessus. C'était l'argument retenu jusqu'ici pour Susan
+   Lockhart.
+2. **Réécrire les trois**, en gardant les faits et en coupant les piques. Celle de Cyr-Marc en
+   particulier contient une information qui joue en notre faveur, noyée dans sept paragraphes de
+   défense.
+3. **Réécrire seulement celle de patrick lambert**, parce qu'elle est courte, qu'elle porte sur le
+   sujet le plus actif de la fiche, et qu'elle est la seule des trois où on n'a rien dit du tout.
+
+L'option 3 est la moins risquée et la plus utile. Elle a aussi un effet direct : elle permet à la
+réponse à Marie L. de ne plus avoir à composer avec une réponse muette juste à côté.
