@@ -596,6 +596,26 @@
       "motif": "echange d'affection entre deux abonnees, suite de l'identification d'amie deja ecartee ; rien qui appelle la Page",
       "ecarte_le": "2026-08-24",
       "tir": "C"
+    },
+    {
+      "id": "520873803102303_1067885909502699",
+      "page_id": "262382158951470",
+      "date": "2026-08-24T11:28:10+0000",
+      "message": "Preorder available soon at b.golden.co",
+      "lien": "https://www.facebook.com/1067098316029246/posts/520873803102303?comment_id=1067885909502699",
+      "motif": "promotion commerciale d'un tiers sur notre billet, aucune question posee",
+      "ecarte_le": "2026-08-24",
+      "tir": "C"
+    },
+    {
+      "id": "520873803102303_940088325779660",
+      "page_id": "262382158951470",
+      "date": "2026-08-24T04:33:12+0000",
+      "message": "No but ask the internet to show monarch migration routes. Easy. You can do the same if wondering where certain birds go as the seasons change.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/520873803102303?comment_id=27393333107013332&reply_comment_id=940088325779660",
+      "motif": "aucun fait verifie sur les cartes de migration; echange entre abonnes qui n'appelle pas notre voix",
+      "ecarte_le": "2026-08-24",
+      "tir": "C"
     }
   ]
 }
