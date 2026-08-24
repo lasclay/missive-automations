@@ -211,6 +211,36 @@ function lotRelances(file, taille) {
 
   console.log(`Mode ${mode} | ${cible.length} message(s) | ${relances.length} relance(s), ${premiers.length} premier(s) contact(s)`);
   if (mode === 'essai') {
+    // --apercu N: messages complets, en panachant les langues et les types,
+    // pour relire ce qui va vraiment partir
+    const apercu = args.includes('--apercu');
+    if (apercu) {
+      const n = parseInt(args[args.indexOf('--apercu') + 1] || '5', 10);
+      const fr = cible.filter(f => f.langue === 'FR');
+      const en = cible.filter(f => f.langue === 'EN');
+      const rel = cible.filter(f => f.etat === 'envoye');
+      const neufs = cible.filter(f => f.etat !== 'envoye');
+      const choix = [];
+      const prendre = (l) => { for (const f of l) if (choix.length < n && !choix.includes(f)) { choix.push(f); break; } };
+      prendre(neufs.filter(f => f.langue === 'FR'));
+      prendre(neufs.filter(f => f.langue === 'EN'));
+      prendre(rel.filter(f => f.langue === 'EN'));
+      prendre(neufs.filter(f => f.langue === 'FR' && !choix.includes(f)));
+      prendre(neufs.filter(f => f.langue === 'EN' && !choix.includes(f)));
+      while (choix.length < n && choix.length < cible.length) prendre(cible);
+      for (const f of choix) {
+        const m = rediger(f);
+        const type = f.etat === 'envoye' ? 'RELANCE' : 'PREMIER CONTACT';
+        console.log('='.repeat(76));
+        console.log(`${type} [${f.langue}]  ${f.nom} — ${f.zone}`);
+        console.log(`A: ${f.courriel}   |   archetype: ${f.archetype}`);
+        console.log(`Objet: ${m.subject}`);
+        console.log('-'.repeat(76));
+        console.log(m.body);
+        console.log();
+      }
+      process.exit(0);
+    }
     for (const f of cible.slice(0, 3)) {
       const m = rediger(f);
       console.log(`\n--- ${f.nom} (${f.zone}) -> ${f.courriel} [${f.langue}]`);

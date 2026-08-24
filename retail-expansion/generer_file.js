@@ -37,9 +37,16 @@ const PORTE_LA_GAMME = new Set([
   'Eco / grande boutique verte',
 ]);
 
+// Marqueurs francais dans le nom du commerce. Hors Quebec, la zone ne suffit
+// pas: « The Outside Store » a Sudbury et « Snow Goose » a Ottawa sont dans des
+// zones bilingues mais s'appellent en anglais. Leur ecrire en francais, c'est
+// leur montrer qu'on ne les a pas regardes.
+const MARQUEURS_FR = /(^|\s)(la|le|les|du|de|des|au|aux|chez|maison|boutique|atelier|galerie|librairie|marche|marché|epicerie|épicerie|ferme|coop|jardin|artisan|createur|créateur)(\s|$)|[àâäéèêëîïôöùûüç]/i;
+
 function langue(f) {
   if (f.prov === 'QC') return 'FR';
-  return ZONES_FR_HORS_QC.has(f.zone) ? 'FR' : 'EN';
+  if (!ZONES_FR_HORS_QC.has(f.zone)) return 'EN';
+  return MARQUEURS_FR.test(f.nom) ? 'FR' : 'EN';
 }
 
 // vague 1 = rang 1 des zones a ouvrir. Les rangs suivants n'entrent en jeu que

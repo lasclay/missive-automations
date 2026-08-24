@@ -11,6 +11,11 @@ Règles tenues dans ces textes:
   commerce qui ne prendrait qu'un sac à lunch sur un coin de tablette n'est pas
   un bon partenaire, c'est le problème qu'on cherche à corriger. Les Défricheuses
   est le modèle et se nomme dans le message.
+- **Langue: le commerce, pas la zone.** Le Québec reçoit du français. Ailleurs,
+  même dans une zone bilingue comme Ottawa ou Sudbury, la langue suit le nom du
+  commerce. « The Outside Store » et « Snow Goose » recevaient du français parce
+  que leur zone était classée francophone: leur écrire ainsi, c'est leur montrer
+  qu'on ne les a pas regardés.
 - Vouvoiement: premier contact à froid, avec quelqu'un qu'on ne connaît pas.
 - Le compromis tunisien est nommé dès le premier message. Un détaillant qui
   l'apprend après coup se sent floué, et il aura la question de ses clients à
