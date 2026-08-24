@@ -48,9 +48,9 @@ Je m'appelle Gabriel Gouveia et je dirige Lasclay, une entreprise de Québec qui
 
 Je vous écris parce qu'on ouvre un réseau de points de vente et qu'on ne retient qu'une boutique par région. ${ville} fait partie des endroits qu'on veut couvrir, et ${f.nom} ressemble à ce qu'on cherche: un commerce indépendant, où les gens ressortent en sachant d'où vient ce qu'ils ont acheté.
 
-Comment ça marche: les produits sont en consignation. Vous n'avancez rien, on garde la propriété du stock jusqu'à la vente, et ce qui ne part pas nous revient. Ce que vous engagez, c'est de la tablette et l'attention de votre monde. En retour, vous êtes le seul détaillant Lasclay de votre région.
+Ce que je cherche, c'est un détaillant qui porte la gamme au complet, pas un produit isolé sur un coin de tablette. Mitaines, tuques, cache-cou, bandeaux, manteaux et vestes isolés, sacs à lunch, glacières souples, manchons isothermes, semences d'asclépiade. Une quarantaine de produits, l'hiver comme l'été. Notre meilleur détaillant, Les Défricheuses à Montréal, porte tout, et c'est précisément ce qui fait que ça fonctionne chez eux: les gens entrent pour des mitaines et repartent aussi avec un sac à lunch.
 
-Pour commencer, je propose les produits sans tailles et sans saison: sacs à lunch, glacières souples, manchons isothermes, et les sachets de semences d'asclépiade. Les semences se vendent quelques dollars et ce sont souvent elles qui lancent la conversation en magasin.
+Comment ça marche: les produits sont en consignation. Vous n'avancez rien, on garde la propriété du stock jusqu'à la vente, et ce qui ne part pas nous revient. Ce que vous engagez, c'est un vrai espace de présentation et l'attention de votre monde. En retour, vous êtes le seul détaillant Lasclay de votre région.
 
 Sur la matière, en deux phrases: l'asclépiade est la seule plante où le monarque pond ses oeufs, et sa soie est creuse et hydrophobe, ce qui en fait un bon isolant. On l'achète à des producteurs québécois et on la transforme dans notre atelier de Limoilou. L'assemblage de la plupart des produits finis se fait ailleurs, surtout en Tunisie, et c'est ce qui nous permet de tenir des prix accessibles. Je préfère vous le dire tout de suite: vous aurez la question en magasin, aussi bien l'avoir en main.
 
@@ -76,9 +76,9 @@ I'm Gabriel Gouveia, and I run Lasclay, a company based in Quebec City that turn
 
 I'm writing because we're building a retail network and we take on one store per region. ${ville} is on our list, and ${f.nom} looks like what we're after: an independent shop, the kind where people leave knowing where the thing they bought came from.
 
-How it works: the products go on consignment. You pay nothing up front, we keep ownership of the stock until it sells, and whatever doesn't move comes back to us. What you put in is shelf space and your staff's attention. In return, you're the only Lasclay retailer in your region.
+What I'm looking for is a retailer who carries the whole range, not one product on a corner of a shelf. Mittens, toques, neck warmers, headbands, insulated coats and vests, lunch bags, soft coolers, can sleeves, milkweed seed. Around forty products, winter and summer. Our best retailer, Les Défricheuses in Montreal, carries all of it, and that's exactly why it works there: people come in for mittens and leave with a lunch bag too.
 
-To start, I'd suggest the products with no sizing and no season: lunch bags, soft coolers, can sleeves, and packets of milkweed seed. The seed sells for a few dollars, and it's usually what starts the conversation in the store.
+How it works: the products go on consignment. You pay nothing up front, we keep ownership of the stock until it sells, and whatever doesn't move comes back to us. What you put in is real display space and your staff's attention. In return, you're the only Lasclay retailer in your region.
 
 On the material, briefly: milkweed is the only plant monarchs lay their eggs on, and its floss is hollow and water repellent, which makes it a good insulator. We buy it from Quebec growers and process it in our Limoilou workshop. Most finished products are assembled elsewhere, mainly in Tunisia, which is how we keep prices reasonable. I'd rather tell you now: you'll get that question at the counter, so you may as well have the answer.
 
@@ -96,9 +96,9 @@ const relanceFR = (f) => ({
   subject: `Re: Une place pour Lasclay chez ${f.nom}?`,
   body: `Bonjour,
 
-Je reviens sur mon message de la semaine dernière.
+Je reviens sur mon message de l'autre semaine.
 
-Le résumé en trois lignes: produits en consignation, donc aucun déboursé de votre part; exclusivité pour ${f.zone}; on commence par les sacs à lunch, les glacières et les semences d'asclépiade.
+Le résumé en trois lignes: la gamme complète en consignation, donc aucun déboursé de votre part; exclusivité pour votre région; une quarantaine de produits d'hiver et d'été autour d'un isolant végétal qui n'existe nulle part ailleurs.
 
 Si ce n'est pas le bon moment, dites-le moi et je vous laisse tranquille. Si c'est plutôt une question de détail (marges, réassort, retour des invendus), posez-la, j'y réponds directement.
 
@@ -111,9 +111,9 @@ const relanceEN = (f) => ({
   subject: `Re: Room for Lasclay at ${f.nom}?`,
   body: `Hello,
 
-Following up on last week's message.
+Following up on the message I sent a little while back.
 
-Three lines: consignment, so nothing out of pocket for you; exclusivity for ${f.zone}; we start with lunch bags, coolers and milkweed seed.
+Three lines: the full range on consignment, so nothing out of pocket for you; exclusivity for your region; around forty winter and summer products built on a plant insulation that exists nowhere else.
 
 If the timing is wrong, say so and I'll leave it there. If it's a question of detail (margins, restocking, returns on what doesn't sell), ask and I'll answer.
 

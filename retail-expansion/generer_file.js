@@ -18,6 +18,25 @@ const ZONES_FR_HORS_QC = new Set([
   'Campbellton et Restigouche', 'Miramichi',
 ]);
 
+// Gabriel ne veut que des detaillants capables de porter la gamme au complet.
+// Un kiosque fermier, une librairie ou une fromagerie peut mettre un sac a lunch
+// sur une tablette; aucun ne vendra un manteau avec des tailles. Les contacter,
+// c'est fabriquer exactement les points de vente partiels qu'on veut arreter.
+const PORTE_LA_GAMME = new Set([
+  'Designers canadiens', 'Artisans et designers quebecois', 'Cadeaux / artisans',
+  'Artisans quebecois', 'Artisans canadiens', 'Artisans atlantiques',
+  'Cadeaux / produits quebecois', 'Plein air', 'Eco / plein air', 'Chasse et peche',
+  "Metiers d'art", "Artisans / metiers d'art", 'Artisans', 'Artisans / cadeaux',
+  'Coop artisans', 'Cooperative artisans', 'Magasin general ecoresponsable',
+  'Magasin general eco', 'Eco / magasin general', 'Eco / artisans',
+  'Eco / produits quebecois', 'Terroir / cadeaux quebecois',
+  'Terroir / produits regionaux', 'Ornithologie / nature', 'Eco / boutique',
+  'Boutique eco', 'Cadeaux / eco', 'Boutique / cadeaux', 'Artisans / galerie',
+  'Galerie / artisans', 'Librairie / artisans', 'Deco / maison',
+  'Articles de maison', 'Boutique de musee', 'Eco / zero dechet',
+  'Eco / grande boutique verte',
+]);
+
 function langue(f) {
   if (f.prov === 'QC') return 'FR';
   return ZONES_FR_HORS_QC.has(f.zone) ? 'FR' : 'EN';
@@ -63,7 +82,8 @@ function vague(f) {
     const canal = mail ? 'courriel' : (f.tel ? 'telephone' : (f.fb || f.ig ? 'reseau social' : 'aucun'));
 
     let etat = 'en_attente';
-    if (!mail) etat = canal === 'telephone' ? 'a_appeler' : 'a_contacter_autrement';
+    if (!PORTE_LA_GAMME.has(f.type)) etat = 'partiel';
+    else if (!mail) etat = canal === 'telephone' ? 'a_appeler' : 'a_contacter_autrement';
     else if (v && v.etat !== 'ok') etat = 'adresse_ecartee';
 
     const precedent = ancien[id];

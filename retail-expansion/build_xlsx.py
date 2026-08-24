@@ -42,34 +42,41 @@ ZONES_COUVERTES = {
 }
 
 # ------------------------------------------------------------------- referentiel
+# Gabriel ne veut pas de points de vente partiels: il veut des detaillants qui
+# portent la gamme au complet, comme Les Defricheuses. Ce que ca exige d'un
+# commerce, c'est de savoir vendre du vetement avec des tailles et des saisons,
+# et d'avoir la surface pour une vraie presentation. Une refillerie de 400 pieds
+# carres peut mettre un sac a lunch sur une tablette; elle ne portera jamais des
+# manteaux. Le pointage suit cette capacite, plus l'archetype seul.
 SCORE_TYPE = {
-    "Cadeaux / artisans": 40, "Artisans quebecois": 40, "Artisans canadiens": 40,
-    "Artisans atlantiques": 40, "Artisans et designers quebecois": 40,
-    "Cadeaux / produits quebecois": 40, "Designers canadiens": 40,
-    "Metiers d'art": 36, "Artisans / metiers d'art": 36, "Artisans": 34,
-    "Artisans / cadeaux": 38, "Artisans / galerie": 32, "Galerie / artisans": 30,
-    "Eco / zero dechet": 35, "Magasin general ecoresponsable": 35,
-    "Magasin general eco": 35, "Eco / boutique": 34, "Eco / artisans": 38,
-    "Eco / produits quebecois": 38, "Boutique eco": 32, "Eco / plein air": 38,
-    "Plein air": 35, "Jardinerie / horticulture": 32,
-    "Epicerie fine / terroir": 30, "Terroir / cadeaux quebecois": 38,
-    "Terroir / epicerie fine": 30, "Terroir / produits regionaux": 36,
-    "Fromagerie / terroir": 28, "Kiosque fermier / terroir": 28,
-    "Ornithologie / nature": 40, "Boutique de musee": 34,
-    "Librairie / artisans": 34, "Librairie independante": 26,
-    "Alimentation sante / bio": 24, "Epicerie bio / vrac": 24, "Epicerie bio / eco": 24,
-    "Epicerie zero dechet": 28, "Epicerie sante / eco": 24, "Epicerie / vrac": 24,
-    "Epicerie vrac": 24, "Marche / eco": 26, "Eco / marche local": 30,
-    "Cafe-boutique eco": 30, "Eco / cosmetiques": 20, "Eco / apothicaire": 22,
-    "Eco / sante": 20, "Eco / bien-etre": 20, "Cadeaux / eco": 34,
-    "Sante naturelle / boutique": 20, "Coop artisans": 36, "Cooperative artisans": 36,
-    "Artisanat / materiaux creatifs": 18, "Friperie / eco": 16, "Eco / friperie": 18,
-    "Fleuriste / jardin": 18, "Plein air / sport": 22, "Chasse et peche": 28,
-    "Vin / spiritueux": 14, "Boissons / brassage": 28, "Maroquinerie / sacs": 24,
-    "Deco / maison": 26, "Articles de maison": 26,
-    "Eco / grande boutique verte": 30, "Boutique / cadeaux": 30,
-}
-# Le marche compte plus que l'etiquette: on note la population reelle de la zone.
+    # Portent la gamme au complet: vetement, accessoires, saisons, surface
+    "Designers canadiens": 45, "Artisans et designers quebecois": 45,
+    "Cadeaux / artisans": 40, "Artisans quebecois": 42, "Artisans canadiens": 42,
+    "Artisans atlantiques": 42, "Cadeaux / produits quebecois": 42,
+    "Plein air": 44, "Eco / plein air": 44, "Chasse et peche": 34,
+    "Metiers d'art": 38, "Artisans / metiers d'art": 38, "Artisans": 34,
+    "Artisans / cadeaux": 40, "Coop artisans": 38, "Cooperative artisans": 38,
+    "Magasin general ecoresponsable": 36, "Magasin general eco": 36,
+    "Eco / artisans": 36, "Eco / produits quebecois": 36,
+    "Terroir / cadeaux quebecois": 34, "Terroir / produits regionaux": 32,
+    "Ornithologie / nature": 36, "Eco / boutique": 32, "Boutique eco": 32,
+    "Cadeaux / eco": 32, "Boutique / cadeaux": 30,
+    "Artisans / galerie": 28, "Galerie / artisans": 26, "Librairie / artisans": 28,
+    "Deco / maison": 24, "Articles de maison": 22, "Boutique de musee": 22,
+    # Ne porteront jamais qu'une partie de la gamme: pas de vetement, peu de surface
+    "Eco / zero dechet": 20, "Eco / grande boutique verte": 22,
+    "Jardinerie / horticulture": 18, "Epicerie zero dechet": 14,
+    "Epicerie fine / terroir": 14, "Terroir / epicerie fine": 14,
+    "Kiosque fermier / terroir": 14, "Fromagerie / terroir": 12,
+    "Librairie independante": 14, "Marche / eco": 16, "Eco / marche local": 18,
+    "Cafe-boutique eco": 16, "Alimentation sante / bio": 10,
+    "Epicerie bio / vrac": 10, "Epicerie bio / eco": 10, "Epicerie sante / eco": 10,
+    "Epicerie / vrac": 10, "Epicerie vrac": 10, "Sante naturelle / boutique": 10,
+    "Eco / cosmetiques": 10, "Eco / apothicaire": 10, "Eco / sante": 8,
+    "Eco / bien-etre": 8, "Fleuriste / jardin": 8, "Plein air / sport": 20,
+    "Vin / spiritueux": 6, "Boissons / brassage": 12, "Maroquinerie / sacs": 18,
+    "Artisanat / materiaux creatifs": 12, "Friperie / eco": 10, "Eco / friperie": 10,
+}# Le marche compte plus que l'etiquette: on note la population reelle de la zone.
 # Consigne: privilegier les villes de 50 000 habitants et plus.
 def score_population(p):
     if p >= 500000: return 30
