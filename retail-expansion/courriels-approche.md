@@ -7,6 +7,10 @@ Champs à remplacer: `[Prénom]`, `[Boutique]`, `[Ville]`, `[Région]`.
 
 Règles tenues dans ces textes:
 
+- **Ce qu'on demande: la gamme complète.** Pas de points de vente partiels. Un
+  commerce qui ne prendrait qu'un sac à lunch sur un coin de tablette n'est pas
+  un bon partenaire, c'est le problème qu'on cherche à corriger. Les Défricheuses
+  est le modèle et se nomme dans le message.
 - Vouvoiement: premier contact à froid, avec quelqu'un qu'on ne connaît pas.
 - Le compromis tunisien est nommé dès le premier message. Un détaillant qui
   l'apprend après coup se sent floué, et il aura la question de ses clients à
@@ -73,10 +77,12 @@ garde la propriété du stock jusqu'à la vente, et ce qui ne part pas nous revi
 Ce que vous engagez, c'est de la tablette et l'attention de votre monde. En
 retour, vous êtes le seul détaillant Lasclay de votre région.
 
-Pour commencer, je propose les produits sans tailles et sans saison: sacs à
-lunch, glacières souples, manchons isothermes, et les sachets de semences
-d'asclépiade. Les semences se vendent quelques dollars et ce sont souvent elles
-qui lancent la conversation en magasin.
+Ce que je cherche, c'est un détaillant qui porte la gamme au complet, pas un
+produit isolé sur un coin de tablette. Mitaines, tuques, cache-cou, bandeaux,
+manteaux et vestes isolés, sacs à lunch, glacières souples, manchons isothermes,
+semences d'asclépiade. Une quarantaine de produits, l'hiver comme l'été. Notre
+meilleur détaillant, Les Défricheuses à Montréal, porte tout, et c'est
+précisément ce qui fait que ça fonctionne chez eux.
 
 Sur la matière, en deux phrases: l'asclépiade est la seule plante où le monarque
 pond ses oeufs, et sa soie est creuse et hydrophobe, ce qui en fait un bon
@@ -133,9 +139,11 @@ ownership of the stock until it sells, and whatever doesn't move comes back to
 us. What you put in is shelf space and your staff's attention. In return, you're
 the only Lasclay retailer in your region.
 
-To start, I'd suggest the products with no sizing and no season: lunch bags, soft
-coolers, can sleeves, and packets of milkweed seed. The seed sells for a few
-dollars, and it's usually what starts the conversation in the store.
+What I'm looking for is a retailer who carries the whole range, not one product
+on a corner of a shelf. Mittens, toques, neck warmers, headbands, insulated coats
+and vests, lunch bags, soft coolers, can sleeves, milkweed seed. Around forty
+products, winter and summer. Our best retailer, Les Défricheuses in Montreal,
+carries all of it, and that's exactly why it works there.
 
 On the material, briefly: milkweed is the only plant monarchs lay their eggs on,
 and its floss is hollow and water repellent, which makes it a good insulator. We
