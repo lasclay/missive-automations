@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Guide de captures — MRPeasy</title>
+<style>
+:root{
+  --ink:#12161c; --ink2:#3d4550; --muted:#6b7480; --line:#dfe4ea; --bg:#ffffff;
+  --brand:#1f6f4a; --brand2:#e8f3ee; --accent:#b4531a; --accent2:#fdf1e7;
+  --blue:#1b4f86; --blue2:#eaf1f9; --grey:#f5f7f9;
+}
+@page { size: A4; margin: 14mm 13mm 16mm 13mm; }
+*{box-sizing:border-box}
+body{margin:0;font:10.2pt/1.45 "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact}
+h1,h2,h3,h4{margin:0;font-weight:700;letter-spacing:-.01em}
+p{margin:0 0 .6em}
+.page-break{break-before:page}
+.avoid{break-inside:avoid}
+
+/* ---------- COVER ---------- */
+.cover{height:262mm;display:flex;flex-direction:column;justify-content:space-between;
+       background:linear-gradient(160deg,#12332a 0%,#1f6f4a 55%,#2e8f5f 100%);color:#fff;
+       margin:-14mm -13mm 0 -13mm;padding:26mm 20mm}
+.cover .kicker{font-size:9.5pt;letter-spacing:.22em;text-transform:uppercase;opacity:.75}
+.cover h1{font-size:36pt;line-height:1.05;margin:14mm 0 6mm}
+.cover .sub{font-size:13pt;opacity:.92;max-width:120mm;line-height:1.5}
+.cover .meta{font-size:9pt;opacity:.8;line-height:1.9;border-top:1px solid rgba(255,255,255,.28);padding-top:6mm}
+.cover .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);
+  border-radius:3px;padding:3px 9px;font-size:8.5pt;margin-right:6px}
+
+/* ---------- STRUCTURE ---------- */
+.sec{break-before:page;padding-top:2mm}
+.sec-head{border-bottom:3px solid var(--brand);padding-bottom:3mm;margin-bottom:6mm}
+.sec-num{font-size:8.5pt;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+.sec-head h2{font-size:20pt;margin-top:2mm}
+h3{font-size:12.5pt;margin:7mm 0 2.5mm;color:var(--brand)}
+h4{font-size:10.5pt;margin:5mm 0 1.5mm;color:var(--ink2)}
+.lead{font-size:11pt;color:var(--ink2);max-width:165mm}
+
+/* ---------- COMPONENTS ---------- */
+.note{background:var(--brand2);border-left:3px solid var(--brand);padding:3.5mm 4.5mm;margin:4mm 0;font-size:9.6pt}
+.warn{background:var(--accent2);border-left:3px solid var(--accent);padding:3.5mm 4.5mm;margin:4mm 0;font-size:9.6pt}
+.info{background:var(--blue2);border-left:3px solid var(--blue);padding:3.5mm 4.5mm;margin:4mm 0;font-size:9.6pt}
+table{width:100%;border-collapse:collapse;margin:3mm 0 5mm;font-size:9.1pt}
+th{background:var(--grey);text-align:left;padding:2mm 2.5mm;border-bottom:1.5px solid var(--line);
+   font-size:8.4pt;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+td{padding:2mm 2.5mm;border-bottom:1px solid var(--line);vertical-align:top}
+tr{break-inside:avoid}
+code{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:8.8pt;background:var(--grey);
+     padding:1px 4px;border-radius:2px;color:#4a3a1a}
+
+/* capture cards */
+.cap{break-inside:avoid;border:1px solid var(--line);border-radius:4px;margin:0 0 4mm;overflow:hidden}
+.cap-h{display:flex;align-items:center;gap:3mm;background:var(--grey);padding:2.5mm 3.5mm;border-bottom:1px solid var(--line)}
+.cap-id{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:8.6pt;font-weight:700;color:#fff;
+  background:var(--brand);border-radius:3px;padding:1.5px 6px;white-space:nowrap}
+.cap-id.p2{background:var(--blue)} .cap-id.p3{background:#8a8f96}
+.cap-t{font-weight:700;font-size:10.2pt;flex:1}
+.cap-path{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:8.2pt;color:var(--muted)}
+.cap-b{padding:3mm 3.5mm}
+.cap-b .row{display:flex;gap:3mm;margin-bottom:1.5mm;font-size:9.2pt}
+.cap-b .lbl{flex:0 0 30mm;color:var(--muted);font-size:8.3pt;text-transform:uppercase;letter-spacing:.04em;padding-top:.6mm}
+.cap-b .val{flex:1}
+.tag{display:inline-block;font-size:7.8pt;border:1px solid var(--line);border-radius:9px;padding:.6px 6px;
+  margin:0 3px 2px 0;color:var(--ink2);background:#fff}
+.tag.f{background:var(--accent2);border-color:#f0d3bb;color:#8a3d10}
+ul{margin:.4em 0 .4em 0;padding-left:4.5mm} li{margin-bottom:.9mm}
+
+/* priority key */
+.legend{display:flex;gap:4mm;flex-wrap:wrap;margin:3mm 0 5mm}
+.legend div{flex:1;min-width:48mm;border:1px solid var(--line);border-radius:4px;padding:2.5mm 3mm;font-size:8.8pt}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+
+.grid2{display:flex;gap:5mm} .grid2>*{flex:1}
+.kpi{border:1px solid var(--line);border-radius:4px;padding:3mm;text-align:center}
+.kpi .n{font-size:19pt;font-weight:700;color:var(--brand);line-height:1.1}
+.kpi .l{font-size:8.2pt;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.foot{position:running(f)}
+figure{margin:4mm 0}
+figcaption{font-size:8.4pt;color:var(--muted);margin-top:1.5mm;text-align:center}
+svg{display:block;margin:0 auto;max-width:100%}
+</style></head><body>
+
+<!-- ================= COVER ================= -->
+<div class="cover">
+  <div>
+    <div class="kicker">Lasclay &middot; Projet MRP sur mesure</div>
+    <h1>Guide de captures<br>MRPeasy</h1>
+    <div class="sub">Plan de relevé visuel exhaustif de l'application : quel écran ouvrir,
+      que doit montrer l'image, quels boutons annoter et pourquoi cet écran compte pour la conception
+      d'un MRP maison.</div>
+  </div>
+  <div>
+    <span class="badge">65 captures spécifiées</span>
+    <span class="badge">7 groupes d’écrans</span>
+    <span class="badge">3 niveaux de priorité</span>
+    <div class="meta" style="margin-top:8mm">
+      Document compagnon de <strong>AUDIT-MRPEASY.md</strong><br>
+      Établi à partir du manuel utilisateur officiel (187 pages) et des spécifications OpenAPI v1/v2<br>
+      24 août 2026
+    </div>
+  </div>
+</div>
+
+<!-- ================= 1. MODE D'EMPLOI ================= -->
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 1</div><h2>Mode d'emploi</h2></div>
+
+  <p class="lead">Ce guide existe parce que l'audit fonctionnel a été mené <strong>sans accès au compte
+  MRPeasy de Lasclay</strong> : l'application est entièrement derrière authentification et aucune donnée
+  d'identification n'était disponible. La totalité du périmètre fonctionnel a pu être reconstituée à partir
+  de la documentation officielle et des schémas d'API — mais pas l'interface elle-même, ni la configuration
+  réelle de votre instance.</p>
+
+  <div class="warn"><strong>Ce que ce document permet.</strong> Exécuter le relevé visuel en une session,
+  sans réfléchir à ce qu'il faut photographier. Chaque fiche indique l'écran, l'état dans lequel il doit
+  être, les éléments qui doivent absolument apparaître, les boutons à annoter et la raison d'être de la
+  capture. Une personne ayant accès au compte peut le dérouler de bout en bout ; le résultat est
+  directement exploitable pour la conception d'interface du MRP maison.</div>
+
+  <h3>Convention de nommage des fichiers</h3>
+  <p>Un fichier par capture, nommé <code>ID_module_ecran.png</code> — par exemple
+  <code>ST-03_stock_lot-details.png</code>. Cela permet de relier chaque image à sa fiche sans ambiguïté.</p>
+
+  <h3>Niveaux de priorité</h3>
+  <div class="legend">
+    <div><span class="dot" style="background:#1f6f4a"></span><strong>P1 — Fondamental.</strong>
+      Écran dont dépend directement la conception du MRP maison. À capturer en premier, même si le temps manque.</div>
+    <div><span class="dot" style="background:#1b4f86"></span><strong>P2 — Important.</strong>
+      Écran de référence pour un sous-système précis. À capturer si la fonction correspondante est activée.</div>
+    <div><span class="dot" style="background:#8a8f96"></span><strong>P3 — Complément.</strong>
+      Utile pour l'exhaustivité et les conventions d'interface, pas bloquant.</div>
+  </div>
+
+  <h3>Règles de capture</h3>
+  <ul>
+    <li><strong>Fenêtre entière, barres du navigateur comprises.</strong> L'URL fait partie de l'information :
+      elle révèle la structure de routage de l'application.</li>
+    <li><strong>Largeur de fenêtre ≥ 1600 px.</strong> Les tableaux de MRPeasy s'adaptent et masquent des
+      colonnes en dessous ; une capture étroite perd de l'information.</li>
+    <li><strong>Toutes les colonnes affichées.</strong> Avant chaque capture d'un tableau, cliquer
+      <em>Choose columns</em> et tout activer. Les colonnes masquées par défaut sont précisément celles
+      qu'on oublie de spécifier ensuite.</li>
+    <li><strong>Avec des données réelles.</strong> Un écran vide n'apprend rien sur les états, les codes
+      couleur et les statuts. Si un écran est vide, le noter plutôt que de le capturer.</li>
+    <li><strong>Ouvrir les menus déroulants pertinents</strong> et faire une seconde capture : la liste
+      des options est une donnée de conception (types de documents, statuts sélectionnables, motifs).</li>
+    <li><strong>Survoler pour révéler les infobulles</strong> sur les champs dont le nom est ambigu :
+      MRPeasy documente ses champs par infobulle et ce texte est souvent la définition exacte.</li>
+    <li><strong>Capturer aussi les états d'erreur</strong> quand ils se présentent. Les messages de blocage
+      d'intégrité (« items have been consumed already ») sont la meilleure documentation des invariants du
+      modèle.</li>
+  </ul>
+
+  <h3>Annotations attendues</h3>
+  <p>Sur chaque capture, entourer et numéroter les éléments listés dans la fiche, puis reporter la
+  numérotation dans un fichier texte accompagnant l'image. Trois types d'annotation :</p>
+  <table>
+    <tr><th style="width:26mm">Marque</th><th>Signification</th></tr>
+    <tr><td><strong>A1, A2…</strong></td><td><strong>Action</strong> — un bouton ou un contrôle qui déclenche un traitement.
+      Noter ce qui se passe après le clic.</td></tr>
+    <tr><td><strong>D1, D2…</strong></td><td><strong>Donnée</strong> — un champ ou une colonne dont la sémantique
+      est à documenter. Noter la valeur affichée et l'infobulle.</td></tr>
+    <tr><td><strong>E1, E2…</strong></td><td><strong>État</strong> — un statut, une couleur, un drapeau.
+      Noter la valeur et sa signification.</td></tr>
+  </table>
+
+  <div class="note"><strong>Si l'accès m'est ouvert.</strong> Fournir un utilisateur en lecture seule créé
+  dans <em>Settings → Human resources → Users</em> (droits <em>Read</em> uniquement sur toutes les
+  ressources) permet de dérouler ce guide sans risque pour les données, et de compléter l'audit avec la
+  configuration réelle : fonctions activées, volumétrie, structure du référentiel articles, gammes
+  existantes.</div>
+</section>
+
+<!-- ================= 2. CARTES VISUELLES ================= -->
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 2</div><h2>Cartes de repérage</h2></div>
+  <p class="lead">Deux schémas à garder sous les yeux pendant le relevé : l'arborescence de navigation
+  (pour ne rien oublier) et le flux métier (pour comprendre l'enchaînement des écrans).</p>
+
+  <h3>2.1 Arborescence de navigation</h3>
+  <figure>
+  <svg viewBox="0 0 760 430" width="760" height="430" role="img" aria-label="Arborescence des modules de MRPeasy">
+    <defs><style>
+svg .m{fill:#1f6f4a}
+svg .mt{fill:#fff;font:bold 11px Helvetica,Arial}
+svg .s{fill:#eef3f0;stroke:#cfdcd5}
+svg .st{fill:#12161c;font:9px Helvetica,Arial}
+svg .ln{stroke:#c6cfd6;stroke-width:1;fill:none}
+svg .cap{fill:#6b7480;font:italic 8.5px Helvetica,Arial}
+    </style></defs>
+
+    <!-- CRM -->
+    <rect class="m" x="6" y="8" width="140" height="22" rx="3"/><text class="mt" x="14" y="23">CRM</text>
+    <g class="st">
+      <rect class="s" x="6" y="36" width="140" height="17" rx="2"/><text x="13" y="48">Customer orders</text>
+      <rect class="s" x="6" y="56" width="140" height="17" rx="2"/><text x="13" y="68">Customers</text>
+      <rect class="s" x="6" y="76" width="140" height="17" rx="2"/><text x="13" y="88">Today's contacts</text>
+      <rect class="s" x="6" y="96" width="140" height="17" rx="2"/><text x="13" y="108">Invoices</text>
+      <rect class="s" x="6" y="116" width="140" height="17" rx="2"/><text x="13" y="128">Pricelists *</text>
+      <rect class="s" x="6" y="136" width="140" height="17" rx="2"/><text x="13" y="148">Cash flow forecast</text>
+      <rect class="s" x="6" y="156" width="140" height="17" rx="2"/><text x="13" y="168">Statistics</text>
+      <rect class="s" x="6" y="176" width="140" height="17" rx="2"/><text x="13" y="188">Sales management **</text>
+      <rect class="s" x="6" y="196" width="140" height="17" rx="2"/><text x="13" y="208">Customer returns **</text>
+    </g>
+
+    <!-- Production planning -->
+    <rect class="m" x="158" y="8" width="150" height="22" rx="3"/><text class="mt" x="166" y="23">Production planning</text>
+    <g class="st">
+      <rect class="s" x="158" y="36" width="150" height="17" rx="2"/><text x="165" y="48">Manufacturing orders</text>
+      <rect class="s" x="158" y="56" width="150" height="17" rx="2"/><text x="165" y="68">Production schedule</text>
+      <rect class="s" x="158" y="76" width="150" height="17" rx="2"/><text x="165" y="88">Workstations</text>
+      <rect class="s" x="158" y="96" width="150" height="17" rx="2"/><text x="165" y="108">Workstation groups</text>
+      <rect class="s" x="158" y="116" width="150" height="17" rx="2"/><text x="165" y="128">BOMs</text>
+      <rect class="s" x="158" y="136" width="150" height="17" rx="2"/><text x="165" y="148">Routings</text>
+      <rect class="s" x="158" y="156" width="150" height="17" rx="2"/><text x="165" y="168">MPS **</text>
+      <rect class="s" x="158" y="176" width="150" height="17" rx="2"/><text x="165" y="188">Sales forecasting **</text>
+      <rect class="s" x="158" y="196" width="150" height="17" rx="2"/><text x="165" y="208">Statistics</text>
+    </g>
+
+    <!-- Stock -->
+    <rect class="m" x="320" y="8" width="140" height="22" rx="3"/><text class="mt" x="328" y="23">Stock</text>
+    <g class="st">
+      <rect class="s" x="320" y="36" width="140" height="17" rx="2"/><text x="327" y="48">Items</text>
+      <rect class="s" x="320" y="56" width="140" height="17" rx="2"/><text x="327" y="68">Stock lots</text>
+      <rect class="s" x="320" y="76" width="140" height="17" rx="2"/><text x="327" y="88">Shipments</text>
+      <rect class="s" x="320" y="96" width="140" height="17" rx="2"/><text x="327" y="108">Transfer orders **</text>
+      <rect class="s" x="320" y="116" width="140" height="17" rx="2"/><text x="327" y="128">Inventory</text>
+      <rect class="s" x="320" y="136" width="140" height="17" rx="2"/><text x="327" y="148">Critical on-hand</text>
+      <rect class="s" x="320" y="156" width="140" height="17" rx="2"/><text x="327" y="168">Write-offs</text>
+      <rect class="s" x="320" y="176" width="140" height="17" rx="2"/><text x="327" y="188">Stock movement</text>
+      <rect class="s" x="320" y="196" width="140" height="17" rx="2"/><text x="327" y="208">Serial numbers *</text>
+      <rect class="s" x="320" y="216" width="140" height="17" rx="2"/><text x="327" y="228">Stock settings</text>
+      <rect class="s" x="320" y="236" width="140" height="17" rx="2"/><text x="327" y="248">Statistics</text>
+    </g>
+
+    <!-- Procurement -->
+    <rect class="m" x="472" y="8" width="140" height="22" rx="3"/><text class="mt" x="480" y="23">Procurement</text>
+    <g class="st">
+      <rect class="s" x="472" y="36" width="140" height="17" rx="2"/><text x="479" y="48">Purchase orders</text>
+      <rect class="s" x="472" y="56" width="140" height="17" rx="2"/><text x="479" y="68">Vendors</text>
+      <rect class="s" x="472" y="76" width="140" height="17" rx="2"/><text x="479" y="88">Forecasting</text>
+      <rect class="s" x="472" y="96" width="140" height="17" rx="2"/><text x="479" y="108">Inspections *</text>
+      <rect class="s" x="472" y="116" width="140" height="17" rx="2"/><text x="479" y="128">Critical on-hand</text>
+      <rect class="s" x="472" y="136" width="140" height="17" rx="2"/><text x="479" y="148">Requirements</text>
+      <rect class="s" x="472" y="156" width="140" height="17" rx="2"/><text x="479" y="168">Statistics</text>
+    </g>
+
+    <!-- Settings -->
+    <rect class="m" x="624" y="8" width="130" height="22" rx="3"/><text class="mt" x="632" y="23">Settings</text>
+    <g class="st">
+      <rect class="s" x="624" y="36" width="130" height="17" rx="2"/><text x="631" y="48">System settings</text>
+      <rect class="s" x="624" y="56" width="130" height="17" rx="2"/><text x="631" y="68">Account &amp; billing</text>
+      <rect class="s" x="624" y="76" width="130" height="17" rx="2"/><text x="631" y="88">Human resources</text>
+      <rect class="s" x="624" y="96" width="130" height="17" rx="2"/><text x="631" y="108">Production sites **</text>
+      <rect class="s" x="624" y="116" width="130" height="17" rx="2"/><text x="631" y="128">Support</text>
+      <rect class="s" x="624" y="136" width="130" height="17" rx="2"/><text x="631" y="148">Database maintenance</text>
+    </g>
+
+    <!-- second row -->
+    <rect class="m" x="6" y="290" width="230" height="22" rx="3"/><text class="mt" x="14" y="305">Dashboard</text>
+    <g class="st"><rect class="s" x="6" y="318" width="230" height="17" rx="2"/><text x="13" y="330">24 widgets cliquables, personnalisables</text></g>
+
+    <rect class="m" x="248" y="290" width="250" height="22" rx="3"/><text class="mt" x="256" y="305">My production plan / Internet-kiosk</text>
+    <g class="st"><rect class="s" x="248" y="318" width="250" height="17" rx="2"/><text x="255" y="330">Déclaration atelier temps réel</text></g>
+
+    <rect class="m" x="510" y="290" width="244" height="22" rx="3"/><text class="mt" x="518" y="305">Accounting</text>
+    <g class="st"><rect class="s" x="510" y="318" width="244" height="17" rx="2"/><text x="517" y="330">Plan comptable, grand livre, bilan, résultat</text></g>
+
+    <text class="cap" x="6" y="365">*  disponible avec le paquet Professional</text>
+    <text class="cap" x="6" y="380">** disponible avec le paquet Enterprise</text>
+    <text class="cap" x="6" y="400">Les sous-sections marquées d'un astérisque n'apparaissent dans le menu que si la fonction correspondante</text>
+    <text class="cap" x="6" y="413">a été activée dans Settings → System settings. Leur absence est une information à relever.</text>
+  </svg>
+  <figcaption>Arborescence complète. Cocher chaque sous-section réellement présente dans votre instance :
+  la liste des absentes révèle immédiatement le palier tarifaire et les fonctions activées.</figcaption>
+  </figure>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 2 (suite)</div><h2>Flux métier</h2></div>
+  <p class="lead">L'enchaînement réel des documents. Chaque flèche est une transition qu'il faut capturer
+  en action, pas seulement l'écran au repos.</p>
+
+  <figure>
+  <svg viewBox="0 0 760 520" width="760" height="520" role="img" aria-label="Flux métier de MRPeasy">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#7a838d"/></marker>
+      <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#1f6f4a"/></marker>
+      <style>
+svg .box{fill:#fff;stroke:#c6cfd6;stroke-width:1.2}
+svg .boxg{fill:#e8f3ee;stroke:#1f6f4a;stroke-width:1.4}
+svg .boxb{fill:#eaf1f9;stroke:#1b4f86;stroke-width:1.2}
+svg .boxo{fill:#fdf1e7;stroke:#b4531a;stroke-width:1.2}
+svg .t{font:bold 10px Helvetica,Arial;fill:#12161c}
+svg .t2{font:8.5px Helvetica,Arial;fill:#4a535d}
+svg .e{stroke:#7a838d;stroke-width:1.2;fill:none;marker-end:url(#ar)}
+svg .eg{stroke:#1f6f4a;stroke-width:1.6;fill:none;marker-end:url(#arg)}
+svg .el{font:italic 8px Helvetica,Arial;fill:#6b7480}
+      </style>
+    </defs>
+
+    <!-- Row 1 : entrées de demande -->
+    <rect class="boxb" x="20" y="14" width="150" height="40" rx="4"/>
+    <text class="t" x="32" y="32">Commande client</text><text class="t2" x="32" y="46">Shopify · portail · saisie · Zapier</text>
+
+    <rect class="boxb" x="300" y="14" width="150" height="40" rx="4"/>
+    <text class="t" x="312" y="32">Point de commande</text><text class="t2" x="312" y="46">Stock → Critical on-hand</text>
+
+    <rect class="boxb" x="580" y="14" width="160" height="40" rx="4"/>
+    <text class="t" x="592" y="32">Prévision de ventes</text><text class="t2" x="592" y="46">IA → MPS → Procurement schedule</text>
+
+    <!-- Row 2 : moteur -->
+    <rect class="boxg" x="230" y="98" width="300" height="46" rx="4"/>
+    <text class="t" x="246" y="118">Moteur de réservation (Booking)</text>
+    <text class="t2" x="246" y="133">« Check stock and book items » — FIFO / FEFO sur les lots</text>
+
+    <path class="e" d="M95,54 L95,80 L365,80 L365,96"/>
+    <path class="e" d="M375,54 L375,96"/>
+    <path class="e" d="M660,54 L660,80 L395,80 L395,96"/>
+
+    <!-- Row 3 : trois issues -->
+    <rect class="boxg" x="20" y="188" width="170" height="46" rx="4"/>
+    <text class="t" x="32" y="207">Réservé sur stock</text><text class="t2" x="32" y="222">lot alloué, statut mis à jour</text>
+
+    <rect class="boxo" x="230" y="188" width="150" height="46" rx="4"/>
+    <text class="t" x="242" y="207">Ordre de fabrication</text><text class="t2" x="242" y="222">capacité finie · multiniveau</text>
+
+    <rect class="boxo" x="420" y="188" width="150" height="46" rx="4"/>
+    <text class="t" x="432" y="207">Bon de commande</text><text class="t2" x="432" y="222">conditions d'achat · landed cost</text>
+
+    <rect class="box" x="610" y="188" width="130" height="46" rx="4"/>
+    <text class="t" x="622" y="207">Demande créée</text><text class="t2" x="622" y="222">stock dispo négatif</text>
+
+    <path class="eg" d="M330,144 L330,186"/>
+    <path class="e" d="M290,144 L105,144 L105,186"/>
+    <path class="e" d="M440,144 L495,144 L495,186"/>
+    <path class="e" d="M500,121 L675,121 L675,186"/>
+    <text class="el" x="510" y="116">consolidation multi-commandes</text>
+    <path class="e" d="M675,234 L675,254 L500,254 L500,236" stroke-dasharray="3,2"/>
+    <text class="el" x="520" y="250">Requirements / Critical on-hand</text>
+
+    <!-- Row 4 : exécution -->
+    <rect class="boxo" x="230" y="292" width="150" height="46" rx="4"/>
+    <text class="t" x="242" y="311">Atelier</text><text class="t2" x="242" y="326">Start · Pause · Finish · consommer</text>
+
+    <rect class="boxo" x="420" y="292" width="150" height="46" rx="4"/>
+    <text class="t" x="432" y="311">Réception</text><text class="t2" x="432" y="326">lot créé · date d'arrivée</text>
+
+    <rect class="box" x="610" y="292" width="130" height="46" rx="4"/>
+    <text class="t" x="622" y="311">Inspection</text><text class="t2" x="622" y="326">On hold → Received / Rejected</text>
+
+    <path class="eg" d="M305,234 L305,290"/>
+    <path class="e" d="M495,234 L495,290"/>
+    <path class="e" d="M570,315 L608,315"/>
+    <text class="el" x="576" y="310">si QC</text>
+
+    <!-- Row 5 : sorties -->
+    <rect class="boxg" x="230" y="392" width="150" height="46" rx="4"/>
+    <text class="t" x="242" y="411">Lot produit fini</text><text class="t2" x="242" y="426">coût = MAT + MOD + FG</text>
+
+    <rect class="boxg" x="20" y="392" width="170" height="46" rx="4"/>
+    <text class="t" x="32" y="411">Expédition</text><text class="t2" x="32" y="426">pick → sortie stock → COGS</text>
+
+    <rect class="box" x="420" y="392" width="150" height="46" rx="4"/>
+    <text class="t" x="432" y="411">Facture / avoir</text><text class="t2" x="432" y="426">acompte · encaissement</text>
+
+    <rect class="box" x="610" y="392" width="130" height="46" rx="4"/>
+    <text class="t" x="622" y="411">Retour client</text><text class="t2" x="622" y="426">RMA → 7 issues possibles</text>
+
+    <path class="eg" d="M305,338 L305,390"/>
+    <path class="eg" d="M228,415 L192,415"/>
+    <path class="e" d="M495,338 L495,368 L305,368" stroke-dasharray="3,2"/>
+    <text class="el" x="330" y="364">matières disponibles</text>
+    <path class="e" d="M190,430 L200,470 L490,470 L490,440"/>
+    <path class="e" d="M572,415 L608,415"/>
+
+    <!-- Écritures comptables -->
+    <rect class="box" x="20" y="486" width="720" height="26" rx="4" fill="#f5f7f9"/>
+    <text class="t2" x="32" y="503">Chaque transition en vert déclenche une écriture comptable automatique — voir §10.2 de l'audit. C'est le fil conducteur à ne jamais perdre.</text>
+  </svg>
+  <figcaption>Flux métier canonique. Les cadres verts marquent les transitions génératrices d'écritures
+  comptables ; les cadres orangés, les documents d'exécution ; les bleus, les déclencheurs de demande.</figcaption>
+  </figure>
+
+  <div class="info"><strong>À vérifier pendant le relevé.</strong> Ce flux suppose <em>Tracing = Yes</em>.
+  Si votre instance est en <em>Tracing = No</em>, les écrans de réservation manuelle n'existent pas et
+  l'allocation est automatique en arrière-plan : capturer alors <strong>SET-04</strong> en priorité pour
+  établir dans quel mode vous êtes, car cela change la moitié des écrans suivants.</div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 3</div><h2>Réglages et configuration</h2></div>
+  <p class="lead">À faire en premier : ces écrans déterminent lesquels des suivants existent réellement dans votre instance.</p>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">SET-01</span>
+      <span class="cap-t">Menu principal déployé</span>
+      <span class="cap-path">Barre de navigation, tous menus ouverts</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Établir la carte réelle de l'instance : quelles sections et sous-sections existent.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Chaque menu de premier niveau ouvert, une capture par menu</li><li>Les sous-sections absentes par rapport à l'arborescence de la section 2</li><li>Le coin supérieur droit : icône Tasks, Quick help, nom d'utilisateur</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — chaque entrée de menu</li><li>E — les sous-sections manquantes (à lister par écrit)</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La liste des sous-sections absentes révèle immédiatement le palier tarifaire et les fonctions activées. C'est l'information la plus rentable de tout le relevé.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">SET-02</span>
+      <span class="cap-t">Professional functions</span>
+      <span class="cap-path">Settings → System settings → Professional functions</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Relever l'état exact des 16 bascules du paquet Professional.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste complète des bascules avec leur valeur Oui/Non</li><li>Les sous-options du Matrix BOM si activé : auto-création de variations, numéros uniques, séparateur, prix variables</li><li>La tolérance de sur-expédition si Subcontracting est activé</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>E — chaque bascule et sa valeur</li><li>D — les sous-options et leur valeur</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Chaque bascule activée injecte des champs et des sections dans le reste de l'application. Sans cet écran, on ne peut pas interpréter les captures suivantes.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">SET-03</span>
+      <span class="cap-t">Enterprise functions</span>
+      <span class="cap-path">Settings → System settings → Enterprise functions</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Relever l'état exact des 13 bascules du paquet Enterprise.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste complète avec les valeurs</li><li>Les réglages du MPS si activé : période, charge minimale et maximale</li><li>Les seuils du système d'approbation : quels documents, à partir de quel montant</li><li>Le paramètre Buffer (days) de la planification arrière</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>E — chaque bascule</li><li>D — seuils et paramètres numériques</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Détermine si le MPS, le multi-site, les codes-barres et les retours clients sont en jeu — donc si les captures PP-07 à PP-09, ST-05 et CRM-09 sont possibles.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">SET-04</span>
+      <span class="cap-t">Software settings</span>
+      <span class="cap-path">Settings → System settings → Software settings</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le réglage le plus structurant du produit : Tracing, plus 12 autres bascules de comportement.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La valeur de Tracing (Yes/No) — élément le plus important de tout le relevé</li><li>Use planned goods, MO partial completion, Several invoices per PO, Separate invoices and deliveries</li><li>Edit mode, Different tax rates, Flexible CO quantity, Materials requisition</li><li>Decimal places, Update currency rates, Update purchase terms from PO</li><li>Le réglage « Worker sees in My production plan »</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>E — Tracing (entourer en rouge)</li><li>E — Use planned goods</li><li>D — Decimal places</li><li>D — les autres bascules</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Tracing détermine si les réservations sont manuelles sur lot ou automatiques en FIFO. Les deux modes produisent des interfaces différentes. Use planned goods détermine si l'historique de stock peut être faussé.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">SET-05</span>
+      <span class="cap-t">Regional settings + Company details</span>
+      <span class="cap-path">Settings → System settings → Regional / Company</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Paramètres de localisation, devise de base et informations imprimées sur les documents.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Fuseau, format de date, séparateurs décimal/milliers/CSV</li><li>Le signe de la devise de base et le format d'affichage</li><li>Le nom de l'emplacement de stock indéfini</li><li>Le taux de TVA/TPS par défaut de l'entreprise</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — devise de base</li><li>D — taux de taxe par défaut</li><li>D — nom de l'emplacement générique</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La devise de base est unique pour tout le stock et non modifiable rétroactivement — contrainte majeure pour un manufacturier qui achète en devises étrangères.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">SET-06</span>
+      <span class="cap-t">Working hours + Holidays</span>
+      <span class="cap-path">Settings → System settings → Working hours / Holidays</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Calendrier de référence de l'ordonnanceur.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Les horaires jour par jour</li><li>La liste des jours fériés saisis</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — horaires par jour</li><li>D — nombre de jours fériés</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Les horaires définissent les jours ouvrables, et donc l'unité dans laquelle sont exprimés tous les délais d'approvisionnement. Un délai fournisseur de 10 jours n'a pas le même sens selon ce calendrier.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">SET-07</span>
+      <span class="cap-t">Numbering formats</span>
+      <span class="cap-path">Settings → System settings → Numbering formats</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les 22 séquences de numérotation documentaire et leur compteur courant.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Chaque format et sa valeur courante</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — le compteur courant de chaque séquence</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Les compteurs donnent une <strong>volumétrie gratuite</strong> : combien de commandes, d'ordres de fabrication, d'articles et de lots ont été créés depuis l'ouverture du compte.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">SET-08</span>
+      <span class="cap-t">Custom fields</span>
+      <span class="cap-path">Settings → System settings → Custom fields</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les champs personnalisés ajoutés, par type d'objet.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste complète : objet, nom du champ, type, obligatoire ou non</li><li>Le drapeau « persistant » sur les champs de lot</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque champ et son objet porteur</li><li>E — les champs persistants</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Les champs personnalisés existants documentent ce que le modèle standard ne couvrait pas pour vous. C'est une liste d'exigences métier réelles, déjà exprimées.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">SET-09</span>
+      <span class="cap-t">Integrations</span>
+      <span class="cap-path">Settings → System settings → Integrations</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Quelles intégrations sont réellement connectées.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>L'état de chaque intégration : connectée ou non</li><li>Le détail de la configuration Shopify si présente : mode individuel ou masse, statuts importés, import client, coûts d'expédition, marquage payé, synchro de stock</li><li>L'état de l'accès API (visible seulement en plan Unlimited)</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>E — intégrations connectées</li><li>D — réglages de la configuration Shopify</li><li>E — présence ou absence de la section API access</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Détermine ce qui est déjà automatisé et ce qui devra être reconstruit. La présence de la section API access indique le plan Unlimited.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">SET-10</span>
+      <span class="cap-t">PDF editor — liste des mises en page</span>
+      <span class="cap-path">Settings → System settings → PDF editor</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">L'inventaire des documents imprimables et leur personnalisation.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La section Names (titres de documents renommés)</li><li>La liste complète des Layouts disponibles</li><li>Un layout ouvert en édition : en-tête, tableau principal, pied de page, champs visibles et masqués</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — le mécanisme de glisser-déposer des champs</li><li>D — la liste des documents disponibles</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La liste des documents imprimables est la liste des livrables papier attendus par vos équipes et vos partenaires. C'est un périmètre à reprendre tel quel.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">SET-11</span>
+      <span class="cap-t">Label editor</span>
+      <span class="cap-path">Settings → System settings → Label editor</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les 9 types d'étiquettes et leur configuration.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste des types d'étiquettes</li><li>Une étiquette ouverte en édition, avec la liste des champs disponibles</li><li>Les réglages d'impression en lot : format papier, marges, nombre par page</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — types d'étiquettes actifs</li><li>A — réglage d'impression en lot</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Indique quelles étiquettes physiques circulent réellement dans l'entrepôt.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">SET-12</span>
+      <span class="cap-t">Human resources → Users</span>
+      <span class="cap-path">Settings → Human resources → Users</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La liste des utilisateurs et le modèle de droits.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste : nom, courriel, administrateur en italique</li><li>Une fiche utilisateur ouverte, <strong>matrice de droits complète visible</strong> (Create/Read/Update/Delete par ressource)</li><li>La section Options : Hide prices, Approval rights, Lock handler, Access limited, 2FA</li><li>Le champ Hourly wage et la section Departments</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la matrice complète des ressources (liste exhaustive à transcrire)</li><li>E — les options cochées</li><li>D — taux horaire</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La liste des ressources de la matrice de droits <strong>est la liste des objets du domaine</strong>. C'est la façon la plus rapide d'obtenir le découpage fonctionnel exact du produit.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">SET-13</span>
+      <span class="cap-t">Departments</span>
+      <span class="cap-path">Settings → Human resources → Departments</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les groupes de compétences définis.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste des départements</li><li>Une fiche ouverte : taux horaire moyen ou saisi, membres</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — départements existants</li><li>D — mode de calcul du taux horaire</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Les départements sont votre matrice de compétences réelle. Elle est directement réutilisable.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 4</div><h2>Module Stock</h2></div>
+  <p class="lead">Le cœur du modèle de données. Ces captures sont celles qui serviront le plus lors de la conception.</p>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">ST-01</span>
+      <span class="cap-t">Items — liste, toutes colonnes</span>
+      <span class="cap-path">Stock → Items</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">L'écran le plus dense de l'application. Base du modèle article et de la sémantique des quantités.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li><strong>Toutes</strong> les colonnes activées via Choose columns — c'est impératif</li><li>Les 11 colonnes quantitatives : In stock, Available, Booked, Expected Total/Available/Booked, WIP, Virtual stock, Packaged, Expired, Rejected</li><li>Au moins une ligne avec Available en rouge (sous le point de commande)</li><li>Une ligne avec une quantité négative si possible</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque colonne quantitative (relever le nom exact et l'infobulle au survol)</li><li>E — la coloration rouge sous le seuil</li><li>A — les boutons Print label, Bulk editing, Import, Reports</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La sémantique exacte de ces 11 quantités est la partie la plus difficile à reconstituer d'un MRP. Une capture complète vaut des heures de spécification.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">ST-02</span>
+      <span class="cap-t">Item details — article fabriqué</span>
+      <span class="cap-path">Stock → Items → un produit fini</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La fiche article complète, avec ses sous-sections.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>L'en-tête complet : Part number, description, groupe, unité, poids, point de commande, This is a procured item, Not for sale, Standalone MO, Min quantity for manufacturing, Selling price, Default storage location, Serial numbers, Shelf life, Quality control, Show parts</li><li>La sous-section Bills of Materials (liste)</li><li>La sous-section Routings (liste)</li><li>La sous-section Variations si Matrix BOM est actif</li><li>La section Files et les champs personnalisés</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque champ de l'en-tête, avec son infobulle</li><li>A — boutons Estimated weight, Print barcode, Copy item</li><li>E — la présence ou l'absence de chaque sous-section</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Cette fiche est la table `items` du futur MRP. Chaque champ est une colonne à décider de garder ou non.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">ST-03</span>
+      <span class="cap-t">Item details — article acheté + conditions d'achat</span>
+      <span class="cap-path">Stock → Items → une matière première</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le mécanisme fournisseur/prix/délai, essentiel pour l'approvisionnement importé.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La table Purchase Terms <strong>entièrement déployée</strong> : fournisseur, n° de pièce fournisseur, prix par unité, délai en jours, priorité, quantité minimale, unité fournisseur, taux de conversion, indivisible</li><li>Idéalement un article avec plusieurs conditions d'achat, de priorités différentes</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque colonne des conditions d'achat</li><li>D — la colonne Priority (relever les valeurs réelles)</li><li>E — la condition qui serait sélectionnée pour une quantité donnée</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La règle de sélection (priorité la plus haute satisfaisant la quantité minimale, puis prix le plus bas) est un algorithme à reproduire exactement. Voir les valeurs réelles aide à le valider.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">ST-04</span>
+      <span class="cap-t">Stock lots — liste et détail</span>
+      <span class="cap-path">Stock → Stock lots + un lot ouvert</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">L'objet pivot du système.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste avec toutes les colonnes : lot, article, statut, quantité, disponible, réservé, coût unitaire, coût total, source (PO/MO/TO/RMA), date de disponibilité, emplacements, péremption</li><li>Un lot ouvert : en-tête, section Storage locations, section Serial numbers, section Files, statut modifiable</li><li>Le menu déroulant des statuts <strong>ouvert</strong> (liste complète des valeurs possibles)</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque champ du lot</li><li>E — la liste déroulante des statuts, valeur par valeur</li><li>A — les boutons Print label, Move stock item, Create a service order, Reports</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le lot porte le coût réel. Toute la valorisation de stock, la traçabilité et le FIFO en dépendent.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">ST-05</span>
+      <span class="cap-t">Rapports d'un lot — Engagement et Content</span>
+      <span class="cap-path">Stock → Stock lots → un lot → Reports</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le mécanisme de traçabilité amont et aval — donc de rappel produit.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le menu des 5 rapports : Stock history, Bookings, Movements, Engagement, Content</li><li>Le rapport <strong>Engagement</strong> ouvert (quels lots contiennent des articles de ce lot)</li><li>Le rapport <strong>Content</strong> ouvert (de quels lots ce lot est fait, sous-ensembles compris)</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — les colonnes de Engagement et Content</li><li>A — la navigation entre rapports</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">C'est la fonctionnalité qui justifie la traçabilité par lot. Sans Engagement/Content, la traçabilité est un coût de saisie sans contrepartie.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">ST-06</span>
+      <span class="cap-t">Stock movement</span>
+      <span class="cap-path">Stock → Stock movement</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le rapport financier de mouvement de stock — la charnière avec la comptabilité.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Les catégories : Beginning, Beginning WIP, Inward (Purchases / Adjustments / Manufactured avec ses trois sous-lignes), Outward (Sales / Write-offs par type / Used in manufacturing), Ending, Ending WIP</li><li>Un nombre cliqué, montrant le détail</li><li>La bascule List / Sum per stock item dans le détail</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque catégorie et sous-catégorie</li><li>A — le clic sur un nombre</li><li>A — la bascule List/Sum</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Ce rapport est l'équivalent d'un compte d'inventaire mouvementé. Il doit exister dans tout MRP sérieux et sa structure ici est bien pensée.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">ST-07</span>
+      <span class="cap-t">Inventory</span>
+      <span class="cap-path">Stock → Inventory</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">L'écran d'ajustement après comptage, et l'inventaire à date historique.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La vue courante avec quantités et valeur</li><li>Le sélecteur de date et le sélecteur de site</li><li>L'option « By location »</li><li>Les colonnes WIP quantity et WIP cost</li><li>Le message d'avertissement s'il est affiché</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — la saisie d'une nouvelle quantité et le bouton Save all</li><li>D — les colonnes WIP</li><li>E — l'avertissement sur le risque d'annulation de réservations</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">L'ajustement d'inventaire est l'opération la plus destructrice du système : elle peut annuler des réservations en LIFO. Comprendre l'ergonomie choisie ici évite de reproduire l'erreur.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">ST-08</span>
+      <span class="cap-t">Critical on-hand</span>
+      <span class="cap-path">Stock → Critical on-hand</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le déclencheur de réapprovisionnement.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste avec les colonnes de quantité et le point de commande</li><li>Les deux boutons d'action sur une ligne : créer un PO, créer un MO</li><li>Le PO pré-rempli obtenu après clic (regroupement par fournisseur)</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — bouton Create a purchase order</li><li>A — bouton Create a manufacturing order</li><li>E — le regroupement automatique par fournisseur dans le PO généré</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le regroupement automatique par fournisseur avec pré-remplissage complet est une des meilleures fonctions du produit. À reprendre.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">ST-09</span>
+      <span class="cap-t">Shipments — liste et détail</span>
+      <span class="cap-path">Stock → Shipments + une expédition</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La sortie de stock physique et les documents de transport.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La bascule d'onglet Shipments / Items</li><li>Un détail d'expédition : lignes avec lots, statut, adresse</li><li>La section Shipment packing si Packing est actif</li><li>Les boutons Waybill, Picking list, Packing list</li><li>Le bouton Send to ShipStation s'il est présent</li><li>Un écran de prélèvement (Pick) ouvert</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — Pick et Pick all items</li><li>A — les trois boutons de document</li><li>A — Send to ShipStation</li><li>D — la colonne du numéro de suivi</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">L'expédition est le point de sortie du stock et le déclencheur du COGS. Chez Lasclay, c'est aussi le point de contact avec ShipStation, déjà intégré via le General Proxy.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">ST-10</span>
+      <span class="cap-t">Stock settings — quatre écrans</span>
+      <span class="cap-path">Stock → Stock settings</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Groupes de produits, unités de mesure, emplacements, paramètres et relations.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Product groups : liste + une fiche avec son <strong>compte d'inventaire comptable</strong></li><li>Units of measurement : une fiche avec sa table de conversions internes</li><li>Storage locations : la liste complète, avec l'emplacement générique en italique</li><li>Parameters et Relations si Matrix BOM est actif : une fiche de chaque</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — le compte d'inventaire d'un groupe</li><li>D — la table de conversion d'unités</li><li>E — l'emplacement générique non supprimable</li><li>D — la structure d'une relation</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le lien groupe de produits ↔ compte comptable est le mécanisme qui permet d'avoir plusieurs comptes d'inventaire sans complexifier la fiche article. Bonne idée.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">ST-11</span>
+      <span class="cap-t">Transfer order</span>
+      <span class="cap-path">Stock → Transfer orders → un transfert</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le mouvement inter-sites. <span class="tag f">Enterprise · Multi-Stock</span></div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le détail : sites source et destination, lignes, statut</li><li>La section Additional fees</li><li>Les boutons Waybill et Picking list</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — les frais additionnels et leur répartition</li><li>E — le statut Received assigné manuellement</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Utile seulement si le multi-site est activé. À ignorer sinon.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">ST-12</span>
+      <span class="cap-t">Write-offs</span>
+      <span class="cap-path">Stock → Write-offs → créer</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La radiation manuelle avec motif.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le formulaire : article, notes, <strong>type de radiation</strong> (liste déroulante ouverte)</li><li>La liste des lots proposés avec leur ordre de tri FIFO</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la liste des types de radiation configurés</li><li>E — l'ordre de tri des lots proposés</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Les types de radiation configurés révèlent les motifs de perte réels de l'entreprise.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 5</div><h2>Module Production planning</h2></div>
+  <p class="lead">Nomenclatures, gammes, ordonnancement. C'est ici que se trouve la valeur différenciante d'un MRP.</p>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PP-01</span>
+      <span class="cap-t">BOM — détail complet</span>
+      <span class="cap-path">Production planning → BOMs → une nomenclature</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La structure de nomenclature et toutes ses variantes.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>L'en-tête : numéro, nom, produit, coût moyen estimé, gammes reliées</li><li>La table des composants avec <strong>toutes</strong> les colonnes : groupe, pièce, notes, quantité, unité, quantité fixe, pourcentage de coût</li><li>La case « This is a disassembly BOM »</li><li>La section Additional products (co-produits) avec les %</li><li>La section Packing si active</li><li>La liste des versions si le VCS est actif</li><li>Idéalement une nomenclature multiniveau, montrant un sous-ensemble comme composant</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque colonne de la table</li><li>A — le lien sur le coût moyen (détail du calcul)</li><li>E — la relation nomenclature ↔ gamme</li><li>A — le bouton de restauration d'une version</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La nomenclature est le second objet le plus important après l'article. Sa structure exacte, notamment la quantité fixe et les co-produits, détermine la faisabilité du calcul de besoin.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PP-02</span>
+      <span class="cap-t">Routing — détail complet</span>
+      <span class="cap-path">Production planning → Routings → une gamme</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La gamme et le paramétrage de l'ordonnancement.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La table des opérations avec <strong>toutes</strong> les colonnes : numéro, groupe de postes, opération, setup time, cycle time, coût fixe, coût variable, capacité, département/travailleur</li><li>Les colonnes conditionnelles : Sequence, Overlap, Parallelize, Time payment, Piece-payment</li><li>Une opération avec ses <strong>sous-tâches déployées</strong></li><li>Une opération sous-traitée si Subcontracting est actif (fournisseur au lieu du groupe de postes)</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque colonne, avec son infobulle</li><li>D — les valeurs réelles de setup et cycle time</li><li>E — les colonnes présentes vs absentes (révèle les fonctions actives)</li><li>A — le bouton d'ajout de sous-tâches</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le couple (setup time, cycle time, capacity) est l'entrée du calcul de durée. Les colonnes présentes indiquent exactement quelles fonctions d'ordonnancement avancé sont utilisées.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PP-03</span>
+      <span class="cap-t">Création d'un MO — écran de simulation</span>
+      <span class="cap-path">Production planning → MO → Create</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le moment où le moteur d'ordonnancement s'exprime.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le formulaire : produit, quantité, date de début, date d'échéance, choix de nomenclature</li><li>Les options Do not book workstations / Do not book materials si présentes</li><li><strong>La page ouverte par le bouton View/Edit sur la ligne de nomenclature</strong> : disponibilité détaillée des matières, planning détaillé des opérations, coûts estimés détaillés, choix de gamme</li><li>Les matières manquantes affichées en rouge italique</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — View/Edit sur la ligne de nomenclature</li><li>D — le détail des coûts estimés (3 composantes)</li><li>E — le rouge italique des matières manquantes</li><li>A — le choix explicite de gamme</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Cette page de simulation avant validation est excellente : elle rend l'ordonnancement lisible et modifiable avant engagement. Peu de MRP le font.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PP-04</span>
+      <span class="cap-t">MO details — vue administrative</span>
+      <span class="cap-path">Production planning → MO → un ordre en cours</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">L'écran le plus riche du module production.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>L'en-tête : produit, quantité, statut, statut des pièces, dates, coûts, responsable, lot cible</li><li>La section <strong>Parts</strong> entière : lignes, lots réservés, statuts, boutons Consume / Increase booking / Return to stock</li><li>La section <strong>Operations</strong> : opérations, postes, travailleurs, temps planifiés et réels, sous-tâches</li><li>La section Subcontracts si présente</li><li>La section Serial numbers si présente</li><li>La section Notes avec un drapeau Important</li><li>Idéalement un MO <strong>multiniveau</strong>, montrant le regroupement par sous-ensemble</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — Book all parts / Release all booked parts / Add a booking</li><li>A — Go to production / Finish production as planned / Return to production</li><li>A — Materials PDF, Materials CSV, MO PDF (les 3 variantes), Print label</li><li>D — les colonnes de coût par ligne de matière</li><li>E — le drapeau Important notice</li><li>E — le groupement par sous-ensemble dans un MO multiniveau</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le MO est le document central du MRP. Sa structure en sections (matières / opérations / sous-traitance / séries / notes) est directement réutilisable.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PP-05</span>
+      <span class="cap-t">Production schedule — calendrier</span>
+      <span class="cap-path">Production planning → Production schedule</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">L'ordonnancement visuel.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La vue calendrier, bascule Manufacturing orders / Operations</li><li>Plusieurs MO visibles, montrant le <strong>double code couleur</strong> : fond = avancement, texte = disponibilité matière</li><li>Un MO en retard (hachuré rouge)</li><li>Le bouton Rebook parts for all MO</li><li>La fenêtre de confirmation lors d'un glisser-déposer, si elle apparaît</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>E — chaque couleur de fond et sa signification</li><li>E — chaque couleur de texte et sa signification</li><li>A — Rebook parts for all MO</li><li>A — le glisser-déposer et son message</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le double code couleur sur un même bloc est une trouvaille d'interface à copier telle quelle.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PP-06</span>
+      <span class="cap-t">Production schedule — Gantt</span>
+      <span class="cap-path">Production planning → Production schedule → Gantt</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">L'autre vue d'ordonnancement, avec des règles différentes.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La bascule Manufacturing orders / Workstations</li><li>Un MO déplié montrant ses opérations</li><li>La colonne Not Scheduled si la fonction est active</li><li>Les options de glisser-déposer : autoriser le surbooking, replanifier les opérations suivantes</li><li>Le sélecteur de plage de dates</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — les options de glisser-déposer (les deux cases)</li><li>E — la colonne Not Scheduled</li><li>D — la vue charge des postes</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Contrairement au calendrier, le Gantt autorise le surbooking et <strong>ne vérifie pas la disponibilité matière</strong>. Cette différence de comportement entre deux vues du même objet est un contre-exemple à ne pas reproduire.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PP-07</span>
+      <span class="cap-t">Workstations et groupes</span>
+      <span class="cap-path">Production planning → Workstations / Workstation groups</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le modèle de capacité.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste des postes avec taux horaire, productivité, groupe, site</li><li>Les colonnes Until maintenance si le MMS est actif</li><li>Une fiche poste : taux horaire, productivité, travailleur par défaut, cycle de maintenance, <strong>temps d'indisponibilité</strong></li><li>Une fiche groupe : <strong>type Active / Passive</strong>, couleur, horaires personnalisés, congés personnalisés</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — taux horaire et productivité</li><li>E — le type du groupe (Active/Passive) — champ non modifiable après création</li><li>D — les périodes d'indisponibilité</li><li>A — la case Maintenance done</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le type Passive processing modélise proprement les temps d'attente sans capacité ni main-d'œuvre. C'est le concept le plus original du module et il vaut d'être repris.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">PP-08</span>
+      <span class="cap-t">MPS — les trois vues</span>
+      <span class="cap-path">Production planning → MPS</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le plan directeur de production. <span class="tag f">Enterprise · MPS</span></div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Vue <strong>MPS</strong> : les 6 lignes par produit, avec le code couleur du stock final (vert/jaune/orange)</li><li>Vue <strong>Required Capacity</strong> : capacité totale vs heures requises, avec le code couleur de charge</li><li>Vue <strong>Procurement Schedule</strong> : les 5 lignes par composant</li><li>Le sélecteur de période et le bouton Refresh data</li><li>Une valeur de capacité surchargée manuellement (affichée en rouge)</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque ligne des trois vues</li><li>E — les trois codes couleur</li><li>A — la liaison d'une prévision de ventes</li><li>E — une valeur surchargée manuellement</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le MPS est ce qui distingue un vrai MRP d'un logiciel de stock. La structure en trois vues articulées (produit → capacité → matière) est le bon découpage.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">PP-09</span>
+      <span class="cap-t">Sales forecasting</span>
+      <span class="cap-path">Production planning → Sales forecasting</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La prévision de demande assistée par IA. <span class="tag f">Enterprise · Sales Forecasting</span></div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>L'assistant de création en 2 étapes</li><li>La table de saisie en vue General puis en vue <strong>Detailed</strong> (lignes Actual, Previous year, Year-on-year %)</li><li>La section Forecast overview avec son graphique</li><li>Le bouton Run forecast</li><li>Un produit marqué « Not enough historical data »</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — Run forecast (noter qu'il n'écrase pas la saisie manuelle)</li><li>D — les lignes de la vue Detailed</li><li>E — l'indicateur gris de données insuffisantes</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La règle « l'IA ne remplace que les valeurs vides ou générées par l'IA, jamais la saisie humaine » est un principe de gouvernance à généraliser.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">PP-10</span>
+      <span class="cap-t">Statistics production</span>
+      <span class="cap-path">Production planning → Statistics</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les 5 rapports d'analyse de production.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le menu déroulant des rapports, <strong>ouvert</strong></li><li>Le rapport Manufacturing efficiency (planifié vs réel)</li><li>Le rapport Shortages</li><li>Le rapport Revenue and profit by MO</li><li>Le sélecteur de période et les boutons d'export PDF/CSV</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — les colonnes de Manufacturing efficiency</li><li>D — les colonnes de Shortages</li><li>E — la mention des coûts « non purs »</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">L'écart planifié/réel par ordre est l'indicateur de pilotage industriel le plus utile. Le rapport Shortages est le fil à tirer quotidien de l'acheteur.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 6</div><h2>Déclaration atelier</h2></div>
+  <p class="lead">Les deux interfaces opérateur. À capturer depuis un compte ayant réellement des opérations assignées.</p>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">AT-01</span>
+      <span class="cap-t">My production plan — calendrier</span>
+      <span class="cap-path">My production plan</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La vue personnelle de l'opérateur.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le calendrier personnel avec le double code couleur</li><li>La bascule vue liste / vue calendrier</li><li>Les opérations assignées au département de l'utilisateur</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>E — les couleurs de fond et de texte</li><li>D — les informations affichées sur un bloc</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le fait qu'un opérateur voie les opérations de ses départements et pas seulement les siennes est le mécanisme de « pull » central. À reprendre.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">AT-02</span>
+      <span class="cap-t">MO details pour l'opérateur</span>
+      <span class="cap-path">My production plan → un ordre</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">L'écran de déclaration, le plus utilisé de tout le système en volume.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Les boutons Start / Pause / Finish sur une ligne d'opération</li><li>La <strong>fenêtre de saisie de quantité</strong> ouverte après Pause ou Finish</li><li>La liste des matières avec le bouton Consume par ligne</li><li>Le bouton <strong>Consume parts for end-products</strong> et sa fenêtre</li><li>La table des sous-tâches avec cases à cocher et note du travailleur</li><li>Le bouton Finish production et sa fenêtre <strong>Consume all / Release unused</strong></li><li>Une opération sur poste passif si vous en avez (comportement différent du bouton Start)</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — Start / Pause / Finish</li><li>A — Consume et Consume parts for end-products</li><li>A — Finish production avec les deux options</li><li>D — la fenêtre de saisie de quantité</li><li>E — les sous-tâches cochées avec horodatage et nom</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">C'est l'écran qui doit être irréprochable dans un MRP : utilisé cent fois par jour, souvent debout, parfois avec des gants. Chaque clic superflu coûte.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">AT-03</span>
+      <span class="cap-t">Internet-kiosk</span>
+      <span class="cap-path">Internet-kiosk (compte dédié)</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La version mobile simplifiée.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste des opérations dans l'ordre de priorité</li><li>Le bouton Start et son code couleur</li><li>Le mode avancé s'il est actif : matières, fichiers, numéros de série</li><li>Le mécanisme multi-utilisateurs : survol du nom en haut à droite</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — Start / Pause / Finish</li><li>E — la couleur du bouton Start selon l'état</li><li>A — la bascule entre utilisateurs connectés</li><li>D — les champs affichés (comparer à l'éditeur de kiosque)</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Attention à deux comportements très différents de My production plan : la clôture du MO est <strong>automatique</strong> à la dernière opération, et <strong>toutes les matières sont consommées automatiquement</strong> après la première opération.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">AT-04</span>
+      <span class="cap-t">Human resources planning</span>
+      <span class="cap-path">Settings → Human resources → Planning</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le besoin en effectif par département et par jour.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le tableau département × jour avec les nombres</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la lecture du tableau</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Calcul simple (nombre maximal d'opérations parallèles par département et par jour) mais information de pilotage RH réellement utile.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 7</div><h2>Module CRM</h2></div>
+  <p class="lead">Commandes clients, facturation, retours. Le point de contact avec Shopify.</p>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">CRM-01</span>
+      <span class="cap-t">Customer orders — liste et pipeline</span>
+      <span class="cap-path">CRM → Customer orders</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les quatre machines à états d'une commande, vues côte à côte.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La vue liste avec <strong>toutes</strong> les colonnes, montrant les 4 statuts : Status, Product status, Invoice status (avec %), Payment status (avec %)</li><li>La colonne <strong>Source</strong> avec son code couleur</li><li>La bascule Customer orders / Items</li><li>La <strong>vue Sales pipeline</strong> (kanban par statut)</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — les 4 colonnes de statut, avec leurs valeurs réelles</li><li>E — le code couleur de la colonne Source</li><li>A — la bascule liste / pipeline</li><li>E — les drapeaux Important notice sur les lignes</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Les quatre statuts orthogonaux sur un même document sont la meilleure idée de modélisation du produit. Une capture montrant des commandes dans des combinaisons différentes vaut une spécification.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">CRM-02</span>
+      <span class="cap-t">Customer order details</span>
+      <span class="cap-path">CRM → Customer orders → une commande confirmée</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le document de vente central.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>L'en-tête : client, référence, adresse de livraison, dates, devise, liste de prix, remise, notes internes</li><li>La table des produits : quantité, prix, remise, texte libre, date de livraison de ligne, statut, source</li><li>Les sections Invoices / Quotations, Shipments</li><li>Les champs de coût et de profit s'ils sont renseignés</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque champ de l'en-tête</li><li>D — chaque colonne de la table produits</li><li>A — Check stock and book items, Estimate costs and dates, MO PDFs</li><li>A — Create an Invoice sur une ligne d'expédition</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">C'est le document que Shopify alimente. Sa structure détermine ce qu'il faut mapper depuis la boutique.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">CRM-03</span>
+      <span class="cap-t">Estimate costs and dates</span>
+      <span class="cap-path">CRM → CO → Estimate costs and dates</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La fonction de chiffrage la plus intéressante du produit.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La fenêtre de paramétrage : Take item cost (From stock / From vendor), Markup</li><li>Le résultat : prix de vente et date de fin de production au plus tôt par ligne</li><li><strong>Le détail obtenu par Show details</strong> : ventilation matières / frais généraux / main-d'œuvre</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — le choix de la source du coût</li><li>A — Show details</li><li>D — la ventilation en trois composantes</li><li>D — la date de fin au plus tôt calculée</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Cette fonction simule la fabrication et l'achat de toute la commande avant engagement. Pour une PME qui cote des produits sur mesure, c'est directement du chiffre d'affaires.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">CRM-04</span>
+      <span class="cap-t">Check stock and book items</span>
+      <span class="cap-path">CRM → CO → Check stock and book items</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le déclencheur du moteur MRP côté vente.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>L'écran de disponibilité de tous les articles de la commande</li><li>Les <strong>cases à cocher</strong> : Create MOs for missing products, Create POs for missing parts</li><li>Les boutons Book all items, Book manually, Cancel bookings</li><li>Le résultat après réservation : statuts mis à jour, MO et PO créés listés</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — chaque case et chaque bouton</li><li>E — les statuts avant et après</li><li>D — la liste des ordres générés</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">C'est le point unique où une intention commerciale se transforme en plan industriel. Le concevoir correctement est plus important que n'importe quel écran de paramétrage.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">CRM-05</span>
+      <span class="cap-t">Customer details</span>
+      <span class="cap-path">CRM → Customers → un client</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La fiche client et ses règles commerciales.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Les contacts typés, une ligne par type</li><li>Adresse structurée <strong>et</strong> adresse en texte libre</li><li>Plusieurs adresses de livraison si présentes</li><li>Langue des documents, délai de paiement et son mode de calcul, <strong>limite de crédit</strong>, liste de prix par défaut</li><li>Le statut client et la date de prochain contact</li><li>Les boutons Invite to Portal / Revoke si le portail B2B est actif</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — chaque champ</li><li>E — le mode de calcul du délai de paiement</li><li>D — limite de crédit et crédit disponible</li><li>A — Invite to Portal</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le délai de paiement calculé « depuis la fin du mois » est une règle européenne/québécoise courante que beaucoup d'outils ignorent.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">CRM-06</span>
+      <span class="cap-t">Invoices — liste et détail</span>
+      <span class="cap-path">CRM → Invoices</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les six types de documents financiers.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste avec les statuts colorés (jaune / rouge si échu / vert si payé)</li><li><strong>Le menu déroulant Type ouvert</strong> : Invoice, Credit-invoice, Prepayment invoice, Quotation, Pro-forma invoice, Order confirmation</li><li>Un détail de facture : lignes, taxes par ligne si activé, section Payments</li><li>Une facture couvrant <strong>plusieurs commandes</strong> si vous en avez</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la liste complète des types</li><li>E — le code couleur des statuts</li><li>A — Send e-mail et PDF</li><li>D — la section Payments</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Six types de documents avec des règles comptables distinctes (l'acompte crédite un passif, pas les produits). C'est le niveau de finesse attendu.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">CRM-07</span>
+      <span class="cap-t">Pricelists</span>
+      <span class="cap-path">CRM → Pricelists → une liste</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les prix par client et par palier de quantité. <span class="tag f">Professional · Tiered Pricing</span></div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La table produit / prix / quantité minimale, montrant plusieurs paliers pour un même produit</li><li>Depuis une fiche article : la liste de <strong>tous</strong> les prix de cet article dans toutes les listes</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la structure des paliers</li><li>E — la priorité liste de prix &gt; prix de la fiche article</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La règle de priorité (liste de prix &gt; prix article) et le choix automatique du palier selon la quantité commandée sont à reproduire.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">CRM-08</span>
+      <span class="cap-t">Statistics CRM</span>
+      <span class="cap-path">CRM → Statistics</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Marge réelle par client, par produit et par commande.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Les trois rapports : Customers, Goods shipped, Customer orders</li><li>Les colonnes de coût <strong>pur</strong> (matières / frais généraux / main-d'œuvre)</li><li>Les colonnes de retard moyen et de % de livraison à l'heure</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la ventilation des coûts purs</li><li>D — le calcul du retard moyen</li><li>E — la différence de convention avec les statistiques de production</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Ici les coûts sont <strong>purs</strong> (décomposés récursivement), alors qu'ils ne le sont pas dans les statistiques de production. Deux conventions différentes dans un même produit : à ne pas reproduire.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">CRM-09</span>
+      <span class="cap-t">Customer returns (RMA)</span>
+      <span class="cap-path">CRM → Customer returns → un retour</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le traitement des retours clients. <span class="tag f">Enterprise · RMA</span></div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste avec les statuts</li><li>Un détail : sections Return items, Outbound items, Invoices, Shipments</li><li><strong>Le menu déroulant des 7 types de RMA, ouvert</strong></li><li>La case Received et le bouton Receive all items</li><li>Le lien Inspection sur une ligne</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — les 7 types de retour</li><li>A — Receive all items</li><li>A — Create a service order</li><li>E — le fait que les articles reçus ne comptent pas en inventaire</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le cloisonnement des retours hors de l'inventaire vendable est une bonne décision. Le coût à 0 imposé à la réintégration en est une mauvaise.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">CRM-10</span>
+      <span class="cap-t">Cash flow forecast</span>
+      <span class="cap-path">CRM → Cash flow forecast</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La prévision de trésorerie hebdomadaire.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le tableau semaine par semaine avec les 5 colonnes</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la formule de la colonne Cash flow forecast</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Croiser les échéances clients et fournisseurs est simple à calculer et immédiatement utile.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 8</div><h2>Module Procurement</h2></div>
+  <p class="lead">Achats, fournisseurs, réception, contrôle qualité. Critique pour un manufacturier qui importe.</p>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PU-01</span>
+      <span class="cap-t">Purchase order details</span>
+      <span class="cap-path">Procurement → Purchase orders → un bon de commande</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le document d'achat complet.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>L'en-tête : fournisseur, statut, devise et taux, dates (commande, attendue, expédition, arrivée), n° de commande et de facture fournisseur, échéance</li><li>Les champs <strong>Discount, Taxable fees, Additional fees, Tax</strong> — le mécanisme de landed cost</li><li>La table des lignes : article, n° de pièce fournisseur, quantité, quantité attendue, prix, date attendue par ligne, site, lot cible</li><li>Les sections Invoices et/ou Deliveries selon la configuration</li><li>La section Payments</li><li>Les sections Materials et Shipments si sous-traitance</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — les 4 champs de frais et taxes</li><li>A — le lien sur le lot cible</li><li>A — Send e-mail, PDF for a vendor, Internal PDF, RFQ, Delivery note</li><li>E — le statut RFQ (aucun lot créé)</li><li>D — la répartition des frais additionnels sur les lots</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le landed cost réparti proportionnellement sur les lots est indispensable pour de l'importation. C'est bien fait ici et il faut le reproduire.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PU-02</span>
+      <span class="cap-t">Réception d'un PO</span>
+      <span class="cap-path">Procurement → PO → réception</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le workflow de réception, qui dépend de deux paramètres logiciels.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le mécanisme réellement en vigueur chez vous : saisie de la date d'arrivée (workflow A), création d'une facture (B), ou création d'une livraison (C)</li><li>Une réception <strong>partielle</strong> et la nouvelle ligne créée pour le reste</li><li>Le rapport Bookings du PO, montrant l'affectation des articles reçus et le changement d'emplacement</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — le mécanisme de réception</li><li>E — la ligne créée automatiquement pour le reliquat</li><li>A — le changement d'emplacement dans le rapport Bookings</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Trois workflows de réception différents selon deux paramètres : c'est une complexité que le MRP maison peut éviter en choisissant un modèle unique dès le départ.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PU-03</span>
+      <span class="cap-t">Vendors</span>
+      <span class="cap-path">Procurement → Vendors</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les fournisseurs et leur performance.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste avec les <strong>indicateurs</strong> : On-time delivery %, Average delay, Rejected units, Rejected %</li><li>Une fiche : contacts, langue, devise par défaut, taux de taxe, délai de paiement et son mode</li><li>Le rapport Purchase terms d'un fournisseur, avec édition en masse</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — les 4 indicateurs de performance</li><li>D — la devise par défaut</li><li>A — l'édition en masse des conditions d'achat</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le suivi de performance fournisseur intégré, calculé automatiquement, est un différenciateur réel. Pour Lasclay avec de la production en Tunisie, c'est directement exploitable.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">PU-04</span>
+      <span class="cap-t">Requirements</span>
+      <span class="cap-path">Procurement → Requirements</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La liste des besoins d'achat, avec la date limite de commande.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Toutes les colonnes : article, quantité, <strong>Source</strong> (le MO ou la CO à l'origine), <strong>Requirement date</strong>, <strong>Action date</strong></li><li>La sélection multiple et le bouton Create purchase orders in bulk</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la colonne Action date (date limite de commande, calculée sur le délai)</li><li>A — la sélection de toutes les lignes d'un même fournisseur</li><li>A — la création groupée</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La date d'action calculée à rebours du délai est exactement ce dont un acheteur a besoin. Simple et sous-implémenté ailleurs.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">PU-05</span>
+      <span class="cap-t">Inspections</span>
+      <span class="cap-path">Procurement → Inspections</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le contrôle qualité à la réception. <span class="tag f">Professional · Quality Control</span></div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste des inspections en attente et effectuées, avec Producer, Rejection rate, Arrival date</li><li>Une inspection ouverte : quantité approuvée, section Rejections avec un motif par ligne, notes, fichiers joints</li><li>Une inspection avec numéros de série si applicable</li><li>Le bouton Approve/Reject</li><li>Le PDF d'inspection</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — Approve/Reject</li><li>D — la quantité approuvée (non modifiable après enregistrement)</li><li>E — le nouveau lot Rejected créé après rejet, avec référence au lot d'origine</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Le rejet crée un nouveau lot avec référence à l'original et annule ses réservations. C'est le bon comportement et il est difficile à retrouver après coup si on ne le conçoit pas dès le départ.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">PU-06</span>
+      <span class="cap-t">Forecasting</span>
+      <span class="cap-path">Procurement → Forecasting → une prévision</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">L'éclatement de nomenclature et le calcul de date limite de commande.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le formulaire : titre, considérer ou ignorer le stock disponible, produits et quantités, date d'échéance, choix de nomenclature</li><li>Le résultat : date de démarrage des MO, liste des matières avec fournisseur, coût, date de livraison requise et <strong>date limite de commande</strong></li><li>Les colonnes MO et PO permettant la création groupée</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — l'option considérer/ignorer le stock</li><li>D — la date limite de commande</li><li>A — Create manufacturing orders / Create purchase orders</li><li>E — la limite de 12 produits</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">L'éclatement de nomenclature avec calcul de date limite de commande est le calcul MRP au sens strict. La limite à 12 produits est un défaut d'implémentation, pas de conception.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">PU-07</span>
+      <span class="cap-t">Statistics achats</span>
+      <span class="cap-path">Procurement → Statistics</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Deux rapports d'analyse d'achat.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le rapport Premature orders : délai entre l'arrivée prévue et la première utilisation</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la colonne Days et le lien vers la première utilisation</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Indicateur de fonds de roulement rarement présent ailleurs : il identifie les commandes passées trop tôt.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 9</div><h2>Comptabilité, tableau de bord et divers</h2></div>
+  <p class="lead">Ce qui fait le lien avec QuickBooks, et les conventions d'interface générales.</p>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">AC-01</span>
+      <span class="cap-t">Chart of accounts</span>
+      <span class="cap-path">Accounting → Chart of accounts</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le plan comptable et ses rôles automatiques.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>La liste complète avec code, nom, catégorie et <strong>Default account for</strong></li><li>Une fiche de compte ouverte, avec la liste déroulante des rôles</li><li>Les comptes ajoutés ou modifiés par rapport au plan par défaut</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la colonne Default account for</li><li>E — les écarts par rapport au plan par défaut de 27 comptes</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Les rôles « default account for » sont le mécanisme qui relie les événements métier aux écritures. C'est ce qu'il faut reproduire pour alimenter QuickBooks depuis le MRP maison.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">AC-02</span>
+      <span class="cap-t">General ledger et rapports</span>
+      <span class="cap-path">Accounting → General ledger / Reports</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les écritures automatiques réellement générées.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le grand livre filtré sur un jour d'activité, montrant les écritures automatiques</li><li>Une écriture issue d'une consommation matière (WIP / Materials on hand)</li><li>Une écriture issue d'une clôture de MO (Finished goods / WIP)</li><li>Le rapport Adjustments to Books Closed Period s'il contient des lignes</li><li>La Books closing date dans Accounting → Settings</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — le libellé et les comptes d'une écriture automatique</li><li>D — la date d'imputation choisie</li><li>E — la date de clôture des livres</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Voir les écritures réelles vaut mieux que la table théorique : elle révèle les libellés, les dates d'imputation retenues et les cas particuliers.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">AC-03</span>
+      <span class="cap-t">Payroll report</span>
+      <span class="cap-path">Accounting → Payroll</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le coût de main-d'œuvre par employé.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le rapport par période, avec temps et pièces</li><li>Le détail des opérations d'un employé</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — les composantes temps et pièce</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Ce n'est pas un module de paie mais un calcul de coût MOD. Distinction importante à conserver.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id">DB-01</span>
+      <span class="cap-t">Dashboard complet</span>
+      <span class="cap-path">Dashboard</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les indicateurs jugés importants par le produit.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le tableau de bord entier, tous widgets visibles</li><li><strong>La fenêtre Customize dashboard ouverte</strong>, montrant la liste complète des widgets disponibles</li><li>Un widget cliqué et le rapport détaillé qui s'ouvre</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>D — la liste complète des widgets disponibles (à transcrire)</li><li>E — les widgets absents (révèle les fonctions inactives)</li><li>A — le clic vers le rapport détaillé</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La liste des widgets est une liste d'indicateurs déjà validée par des milliers de manufacturiers. C'est un raccourci pour définir le tableau de bord du MRP maison.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">DB-02</span>
+      <span class="cap-t">Tasks</span>
+      <span class="cap-path">Panneau Tasks (coin supérieur droit)</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">La collaboration interne minimale.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le panneau ouvert, une tâche avec échéance, pièce jointe et commentaires</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — création et assignation</li><li>E — le clignotement du bouton sur nouveauté</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Un système de tâches léger intégré évite de sortir de l'outil pour se coordonner. Peu coûteux à faire.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">UX-01</span>
+      <span class="cap-t">Recherche avancée</span>
+      <span class="cap-path">N'importe quel tableau → bouton Search</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le moteur de recherche, nettement au-dessus de la moyenne.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le panneau de recherche ouvert avec tous ses critères</li><li>Le mécanisme des <strong>Saved searches</strong> : sauvegarde d'un filtre, définition comme filtre par défaut</li><li>Un exemple d'opérateur utilisé dans un champ</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — Saved searches et l'option « par défaut »</li><li>D — les critères disponibles</li><li>E — le résultat d'un opérateur (%, &amp;&amp;, -, "")</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Les filtres personnels sauvegardés, mémorisant colonnes, ordre et valeurs, avec un filtre par défaut par utilisateur, sont une fonctionnalité à très bon rapport valeur/effort.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">UX-02</span>
+      <span class="cap-t">Choose columns et bulk editing</span>
+      <span class="cap-path">N'importe quel tableau</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les deux mécanismes transversaux les plus utilisés.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le panneau Choose columns ouvert, montrant les colonnes masquées par défaut</li><li>L'écran de Bulk editing avec sa <strong>ligne d'en-tête permettant d'appliquer une valeur à toutes les lignes</strong></li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — Choose columns</li><li>A — la ligne d'en-tête de l'édition en masse</li><li>D — les colonnes masquées par défaut (souvent les plus intéressantes)</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">La ligne d'en-tête qui applique une valeur à toutes les lignes sélectionnées est un détail d'ergonomie qui fait gagner un temps considérable.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p3">UX-03</span>
+      <span class="cap-t">Quick help et infobulles</span>
+      <span class="cap-path">N'importe quelle page</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Le système d'aide contextuelle.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Le panneau Quick help ouvert sur un écran complexe</li><li>Une infobulle de champ révélée au survol</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>A — le bouton Quick help</li><li>D — le texte d'une infobulle (c'est souvent la définition exacte du champ)</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">MRPeasy documente ses champs par infobulle plutôt que par documentation séparée. C'est efficace et peu coûteux à maintenir.</div></div>
+    </div>
+  </div>
+  <div class="cap">
+    <div class="cap-h"><span class="cap-id p2">UX-04</span>
+      <span class="cap-t">Message d'erreur d'intégrité</span>
+      <span class="cap-path">À capturer si l'occasion se présente</span></div>
+    <div class="cap-b">
+      <div class="row"><div class="lbl">Objectif</div><div class="val">Les invariants du modèle de données, révélés par les blocages.</div></div>
+      <div class="row"><div class="lbl">Doit apparaître</div><div class="val"><ul><li>Tout message du type « items have been consumed already », « cannot be deleted because… »</li><li>Le contexte dans lequel il apparaît</li></ul></div></div>
+      <div class="row"><div class="lbl">À annoter</div><div class="val"><ul><li>E — le message exact</li><li>D — l'action qui l'a déclenché</li></ul></div></div>
+      <div class="row"><div class="lbl">Pourquoi</div><div class="val">Ces messages sont la meilleure documentation des contraintes d'intégrité réelles. Ils indiquent aussi où l'ergonomie a échoué : chaque message de ce type devrait être remplacé par une action corrective en un clic dans le MRP maison.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHECKLIST ================= -->
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 10</div><h2>Feuille de route du relevé</h2></div>
+
+  <p class="lead">Ordre d'exécution recommandé. La première passe suffit à débloquer la conception ; les
+  suivantes complètent.</p>
+
+  <div class="grid2" style="margin:5mm 0">
+    <div class="kpi"><div class="n">34</div><div class="l">captures P1</div></div>
+    <div class="kpi"><div class="n">21</div><div class="l">captures P2</div></div>
+    <div class="kpi"><div class="n">10</div><div class="l">captures P3</div></div>
+    <div class="kpi"><div class="n">~2 h</div><div class="l">pour les passes 1 à 3</div></div>
+  </div>
+
+  <h3>Passe 1 — Cadrage (30 minutes)</h3>
+  <p>Objectif : savoir dans quelle configuration on se trouve. Sans cette passe, toutes les autres captures
+  sont ambiguës.</p>
+  <table>
+    <tr><th style="width:22mm">Ordre</th><th style="width:26mm">Capture</th><th>Ce qu'on apprend</th></tr>
+    <tr><td>1</td><td>SET-01</td><td>Quelles sections existent réellement</td></tr>
+    <tr><td>2</td><td>SET-04</td><td><strong>Tracing ON ou OFF</strong> — détermine la moitié des écrans suivants</td></tr>
+    <tr><td>3</td><td>SET-02, SET-03</td><td>Quelles fonctions Pro et Enterprise sont actives</td></tr>
+    <tr><td>4</td><td>SET-09</td><td>Ce qui est déjà intégré, et si l'API est disponible</td></tr>
+    <tr><td>5</td><td>SET-07</td><td>Volumétrie gratuite via les compteurs de numérotation</td></tr>
+    <tr><td>6</td><td>SET-12</td><td>La liste des ressources de la matrice de droits = le découpage du domaine</td></tr>
+  </table>
+
+  <h3>Passe 2 — Modèle de données (45 minutes)</h3>
+  <p>Objectif : disposer de la structure exacte des objets à modéliser.</p>
+  <table>
+    <tr><th style="width:22mm">Ordre</th><th style="width:26mm">Capture</th><th>Ce qu'on apprend</th></tr>
+    <tr><td>7</td><td>ST-01</td><td>La sémantique des 11 quantités — la partie la plus difficile</td></tr>
+    <tr><td>8</td><td>ST-02, ST-03</td><td>La fiche article, fabriqué et acheté, avec les conditions d'achat</td></tr>
+    <tr><td>9</td><td>ST-04, ST-05</td><td>Le lot, son coût réel, et la traçabilité amont/aval</td></tr>
+    <tr><td>10</td><td>PP-01, PP-02</td><td>Nomenclature et gamme, avec toutes les colonnes conditionnelles</td></tr>
+    <tr><td>11</td><td>PP-07</td><td>Le modèle de capacité (poste, groupe, type actif/passif)</td></tr>
+    <tr><td>12</td><td>CRM-01, CRM-02</td><td>Les quatre statuts orthogonaux d'une commande</td></tr>
+    <tr><td>13</td><td>PU-01</td><td>Le bon de commande et le mécanisme de landed cost</td></tr>
+  </table>
+
+  <h3>Passe 3 — Moteurs en action (45 minutes)</h3>
+  <p>Objectif : voir les algorithmes s'exécuter, pas seulement les écrans au repos. C'est la passe qui
+  demande le plus d'attention : il faut <strong>déclencher</strong> les actions, pas seulement les regarder.</p>
+  <table>
+    <tr><th style="width:22mm">Ordre</th><th style="width:26mm">Capture</th><th>Ce qu'on apprend</th></tr>
+    <tr><td>14</td><td>CRM-04</td><td>Le passage d'une intention commerciale à un plan industriel</td></tr>
+    <tr><td>15</td><td>CRM-03</td><td>La simulation de coût et de délai avant engagement</td></tr>
+    <tr><td>16</td><td>PP-03</td><td>La page de simulation d'ordonnancement avant validation</td></tr>
+    <tr><td>17</td><td>PP-04</td><td>L'ordre de fabrication complet, idéalement multiniveau</td></tr>
+    <tr><td>18</td><td>PP-05, PP-06</td><td>Le double code couleur et les deux comportements de glisser-déposer</td></tr>
+    <tr><td>19</td><td>AT-01, AT-02</td><td>La déclaration atelier — l'écran le plus utilisé en volume</td></tr>
+    <tr><td>20</td><td>ST-08, PU-04</td><td>Les deux déclencheurs d'achat : seuil et besoin</td></tr>
+    <tr><td>21</td><td>ST-06, CRM-08</td><td>Le mouvement de stock financier et la marge réelle</td></tr>
+    <tr><td>22</td><td>ST-09, PU-02</td><td>Sortie et entrée physiques</td></tr>
+    <tr><td>23</td><td>DB-01</td><td>Les indicateurs retenus, avec la liste complète des widgets disponibles</td></tr>
+  </table>
+
+  <h3>Passe 4 — Compléments</h3>
+  <p>Toutes les captures P2 et P3 restantes, dans l'ordre du document. À faire seulement si la fonction
+  concernée est activée dans votre instance — sinon, noter son absence, qui est en soi une information.</p>
+
+  <div class="note"><strong>Notez aussi ce que vous n'arrivez pas à capturer.</strong> Un écran vide, une
+  fonction désactivée, un bouton grisé, une erreur inattendue : chacune de ces observations vaut une capture.
+  Un simple fichier texte listant « SET-03 : fonctions Enterprise toutes désactivées » suffit.</div>
+</section>
+
+<!-- ================= APRÈS ================= -->
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">Section 11</div><h2>Ce que le relevé permettra de trancher</h2></div>
+
+  <p class="lead">Les captures ne sont pas une fin en soi. Elles servent à répondre à sept questions de
+  conception qui, aujourd'hui, ne peuvent l'être qu'en supposant.</p>
+
+  <table>
+    <tr><th style="width:8mm">#</th><th style="width:62mm">Question</th><th>Captures qui y répondent</th></tr>
+    <tr><td>1</td><td><strong>Traçabilité par lot : partout, nulle part, ou par famille d'articles ?</strong>
+      C'est la décision qui structure tout le reste.</td>
+      <td>SET-04 (mode actuel), ST-04 et ST-05 (ce que la traçabilité apporte réellement),
+      AT-02 (ce qu'elle coûte à l'atelier chaque jour)</td></tr>
+    <tr><td>2</td><td><strong>Variantes : articles distincts ou variations d'un article-modèle ?</strong>
+      Décision structurante pour du textile décliné en tailles et couleurs.</td>
+      <td>SET-02 (Matrix BOM activé ?), ST-02 (section Variations), PP-01 (colonnes de quantité par paramètre)</td></tr>
+    <tr><td>3</td><td><strong>Faut-il un ordonnancement à capacité finie ?</strong>
+      Coûteux à construire ; utile seulement s'il existe un atelier interne à charger.</td>
+      <td>PP-02 (les gammes sont-elles réellement renseignées ?), PP-05 et PP-06 (le planning est-il utilisé ?),
+      PP-07 (des postes sont-ils définis ?)</td></tr>
+    <tr><td>4</td><td><strong>Quel niveau de finesse pour le coût de revient ?</strong>
+      Coût réel par lot, ou coût moyen suffisant ?</td>
+      <td>ST-04 (coût par lot), PP-10 (écart planifié/réel réellement exploité ?), CRM-08 (marge par produit)</td></tr>
+    <tr><td>5</td><td><strong>Quels documents papier doivent être produits ?</strong></td>
+      <td>SET-10 (liste des mises en page), SET-11 (étiquettes), ST-09 (documents d'expédition)</td></tr>
+    <tr><td>6</td><td><strong>Que faut-il synchroniser avec QuickBooks, et sous quelle forme ?</strong></td>
+      <td>AC-01 (rôles de comptes), AC-02 (écritures réellement générées), ST-06 (mouvement de stock)</td></tr>
+    <tr><td>7</td><td><strong>Quelle est la volumétrie réelle à supporter ?</strong>
+      Détermine s'il faut une architecture asynchrone ou non.</td>
+      <td>SET-07 (compteurs de numérotation), ST-01 (nombre d'articles), CRM-01 (nombre de commandes)</td></tr>
+  </table>
+
+  <h3>Livrable attendu à la fin du relevé</h3>
+  <ul>
+    <li>Un dossier <code>captures-mrpeasy/</code> contenant les 65 fichiers PNG nommés selon la convention.</li>
+    <li>Un fichier <code>annotations.md</code> listant, par identifiant de capture, les marques A/D/E et
+      leur signification.</li>
+    <li>Un fichier <code>absences.md</code> listant les écrans, sections et fonctions qui n'existent pas
+      dans votre instance.</li>
+  </ul>
+
+  <div class="note">Avec ce dossier, l'audit fonctionnel <strong>AUDIT-MRPEASY.md</strong> devient une
+  spécification complète : le document décrit le comportement attendu, les captures montrent la forme
+  concrète, et les absences délimitent le périmètre réel à couvrir.</div>
+
+  <h3>Rappel du contexte Lasclay</h3>
+  <p>Le périmètre minimal viable identifié dans l'audit (§17.3) est : articles avec variantes,
+  nomenclatures multiniveaux, lots avec coût réel, ordres de fabrication, bons de commande avec landed
+  cost, commandes clients alimentées par Shopify, expéditions poussées vers ShipStation, points de commande,
+  et sous-traitance par bon de commande avec émission de matières. La comptabilité reste dans QuickBooks,
+  alimentée par les écritures automatiques plutôt que dupliquée.</p>
+  <p>Trois intégrations existent déjà chez Lasclay et n'ont pas à être reconstruites : Shopify, ShipStation
+  (19 actions via le General Proxy) et QuickBooks Online (Finance Proxy).</p>
+</section>
+
+</body></html>
