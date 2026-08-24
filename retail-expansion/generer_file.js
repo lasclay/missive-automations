@@ -80,9 +80,13 @@ function vague(f) {
   const file = [];
   const vus = new Set();
   for (const f of selection) {
+    // identifiant insensible a la casse et aux accents: « Santé en Vrac » et
+    // « Santé en vrac » sont le meme commerce, avec deux fiches OpenStreetMap
+    const cle = `${f.zone}|${f.nom}`.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/[^a-z0-9|]+/g, '');
     const id = `${f.zone}|${f.nom}`.replace(/\s+/g, ' ').slice(0, 120);
-    if (vus.has(id)) continue;
-    vus.add(id);
+    if (vus.has(cle)) continue;
+    vus.add(cle);
 
     const mail = (f.courriel || '').toLowerCase();
     const v = verdicts[mail];
@@ -124,11 +128,21 @@ function vague(f) {
   // Un commerce deja contacte ne doit jamais sortir de la file, meme si un
   // resserrement du tri l'a retire de la selection. Sinon on perd la trace d'un
   // envoi reel, et le prochain tri pourrait le recontacter.
+  // Le critere de conservation est le journal des envois, pas l'etat: c'est la
+  // seule preuve qu'un message est reellement parti. Un etat comme `partiel`
+  // peut venir d'un simple resserrement du tri, et conserver ces fiches-la
+  // ressuscitait des doublons d'orthographe d'une generation a l'autre.
+  let contactes = new Set();
+  try {
+    for (const j of JSON.parse(fs.readFileSync(path.join(__dirname, 'journal_envois.json'), 'utf8'))) {
+      if (j.action === 'envoye' || j.action === 'relance') contactes.add(j.id);
+    }
+  } catch { /* pas encore de journal */ }
   const presents = new Set(file.map(f => f.id));
   let conserves = 0;
   for (const [id, e] of Object.entries(ancien)) {
     if (presents.has(id)) continue;
-    if (['en_attente', 'a_appeler', 'a_contacter_autrement', 'adresse_ecartee'].includes(e.etat)) continue;
+    if (!contactes.has(id)) continue;
     e.note = (e.note ? e.note + ' ' : '') + 'retire de la selection par un resserrement du tri, conserve parce que deja contacte';
     file.push(e);
     conserves++;

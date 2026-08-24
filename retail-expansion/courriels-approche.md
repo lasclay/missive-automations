@@ -1,226 +1,85 @@
 # Courriels d'approche des points de vente
 
-Quatre gabarits: premier contact et relance, en français et en anglais, plus deux
-messages courts pour les 110 candidats joignables seulement par leur page sociale.
+Les textes ne vivent pas ici. Ils sont dans `envoyer.js`, qui les remplit et les
+envoie. Ce fichier avait déjà divergé du code une fois: la version montrée à
+Gabriel disait une chose et le script en envoyait une autre. Pour les lire tels
+qu'ils partiront:
 
-Champs à remplacer: `[Prénom]`, `[Boutique]`, `[Ville]`, `[Région]`.
+```sh
+node retail-expansion/envoyer.js --essai --apercu 5
+```
 
-Règles tenues dans ces textes:
+Quatre gabarits: premier contact et relance, en français et en anglais. Le
+premier contact fait environ 250 mots, la relance 80.
 
-- **Ce qu'on demande: la gamme complète.** Pas de points de vente partiels. Un
-  commerce qui ne prendrait qu'un sac à lunch sur un coin de tablette n'est pas
-  un bon partenaire, c'est le problème qu'on cherche à corriger. Les Défricheuses
-  est le modèle et se nomme dans le message.
+## Ce que le message demande
+
+Un détaillant qui porte la gamme au complet, comme Les Défricheuses à Montréal.
+Pas de points de vente partiels: un commerce qui ne prendrait qu'un sac à lunch
+sur un coin de tablette est le problème qu'on cherche à corriger, pas la
+solution. Le message le dit franchement dès le troisième paragraphe.
+
+En échange: la consignation et l'exclusivité de la région.
+
+## Règles tenues dans ces textes
+
+- **Objet direct.** « Devenir le détaillant Lasclay de votre région ». Pas de
+  question rhétorique avec le nom du commerce dedans.
+- **Aucun tic de publipostage.** Pas de « Calgary fait partie de notre liste »,
+  pas de « votre boutique ressemble à ce qu'on cherche ». Ces formules disent au
+  destinataire qu'il reçoit un envoi de masse.
 - **Langue: le commerce, pas la zone.** Le Québec reçoit du français. Ailleurs,
   même dans une zone bilingue comme Ottawa ou Sudbury, la langue suit le nom du
-  commerce. « The Outside Store » et « Snow Goose » recevaient du français parce
-  que leur zone était classée francophone: leur écrire ainsi, c'est leur montrer
-  qu'on ne les a pas regardés.
-- Vouvoiement: premier contact à froid, avec quelqu'un qu'on ne connaît pas.
-- Le compromis tunisien est nommé dès le premier message. Un détaillant qui
-  l'apprend après coup se sent floué, et il aura la question de ses clients à
-  gérer en magasin.
-- Aucune promesse du genre « un achat sauve un monarque ». Le lien est
-  systémique, on l'explique comme tel.
-- Jamais « fabriqué au Québec » pour un produit fini. L'isolant l'est, le
+  commerce.
+- **Vouvoiement.** Contact à froid avec quelqu'un qu'on ne connaît pas.
+- **Le compromis tunisien est nommé.** Le détaillant aura la question au
+  comptoir; autant qu'il ait la réponse. Formulé comme un service qu'on lui rend.
+- **Aucun chiffre inventé.** Plus de soixante produits (71 actifs dans Shopify au
+  2026-08-24), manteau autour de 300 $. Les Défricheuses « portent tout », ce que
+  la page publique des points de vente confirme. Aucune affirmation de
+  performance du genre « notre meilleur détaillant », qu'on ne peut pas prouver.
+- **Aucune promesse absolue.** Pas de « un isolant qui n'existe nulle part
+  ailleurs »: d'autres entreprises québécoises utilisent l'asclépiade.
+- **Jamais « fabriqué au Québec »** pour un produit fini. La soie l'est, le
   produit assemblé ne l'est plus.
-- Pas de signature dans le corps: elle s'ajoute automatiquement.
-- Adresse d'envoi: `admin@lasclay.com`. Ce n'est pas la boîte du service client
-  (Shopify pointe sur `hey@lasclay.com`), donc la prospection n'encombre pas les
-  réponses aux clientes.
-- Lien du catalogue: `lasclay.com` en français, `lasclay.com/en` en anglais. La
-  racine sert le français (`lang="fr"`), donc un lien nu envoie un détaillant
-  anglophone sur une page qu'il ne lit pas. Le hreflang du site déclare aussi
-  `/en-us`, réservé aux États-Unis: nos destinataires sont tous canadiens.
+- **Jamais qu'un achat sauve un monarque.**
+- **Une seule antithèse, choisie.** « le genre de partenariat qu'on cherche à
+  répéter, pas un produit isolé sur un coin de tablette ». C'est le tic numéro un
+  des textes générés; une par message, à l'endroit où elle porte du sens.
+- **Pas de signature dans le corps:** elle s'ajoute automatiquement.
+- **Lien du catalogue:** `lasclay.com` en français, `lasclay.com/en` en anglais.
+  La racine sert le français, donc un lien nu envoie un anglophone sur une page
+  qu'il ne lit pas.
+- **Adresse d'envoi:** `admin@lasclay.com`, la boîte de Gabriel. Shopify pointe le
+  service client sur `hey@lasclay.com`, qui reste dégagé.
 
-## Bloc légal, obligatoire dans chaque message
+## Bloc légal, obligatoire
 
-La Loi canadienne anti-pourriel exige, dans tout message commercial, l'identification
-de l'expéditeur et un mécanisme de désabonnement valide 60 jours. Le fond du message
-tient sur le consentement tacite prévu pour une adresse d'affaires publiée
-publiquement, quand le contenu concerne le rôle professionnel du destinataire. Il
-manque seulement ce pied de page, qui va dans **tous** les gabarits ci-dessous, y
-compris les messages privés sur les réseaux sociaux.
+La Loi canadienne anti-pourriel exige, dans tout message commercial,
+l'identification de l'expéditeur et un mécanisme de désabonnement valide 60
+jours. Le fond tient sur le consentement tacite prévu pour une adresse d'affaires
+publiée publiquement, quand le contenu concerne le rôle professionnel du
+destinataire. C'est aussi pourquoi `confirmer_adresses.js` vérifie que l'adresse
+est bien publiée sur le site du commerce: c'est la diligence légale autant que
+l'hygiène de liste.
 
-Version française:
+    Les Produits Lasclay inc., 298 boulevard des Capucins, 2e étage,
+    Québec (Québec) G1J 3R4, 581 982-5857.
 
-Les Produits Lasclay inc., 298 boulevard des Capucins, 2e étage, Québec (Québec) G1J 3R4, 581 982-5857.
-Vous recevez ce message parce que [Boutique] est un commerce de détail dont
-l'adresse courriel est publiée publiquement. Répondez « retirez-moi » et je ne
-vous réécris plus.
+Adresse confirmée par Gabriel le 2026-08-06. Les réponses types de Missive
+donnaient aussi 260 et 254; la page publique des points de vente affiche encore
+254, ce qui est à corriger séparément puisque des clients s'y présentent pour un
+ramassage.
 
-Version anglaise:
+## Grille de relecture
 
-Les Produits Lasclay inc., 298 boulevard des Capucins, 2nd floor, Quebec City, QC G1J 3R4, 581 982-5857.
-You're receiving this because [Boutique] is a retail business with a publicly
-listed email address. Reply "remove me" and I won't write again.
+Avant de toucher aux gabarits, relire avec `--apercu` et vérifier:
 
-Adresse confirmée par Gabriel le 2026-08-06: **298 boulevard des Capucins, 2e étage,
-Québec (Québec) G1J 3R4**. Les réponses types de Missive donnaient aussi 260 et 254;
-la page publique des points de vente affiche encore 254, ce qui est à corriger
-séparément puisque des clients s'y présentent pour un ramassage.
-
----
-
-## 1. Premier contact, français
-
-**Objet:** Une place pour Lasclay chez [Boutique]?
-
-Bonjour [Prénom],
-
-Je m'appelle Gabriel Gouveia et je dirige Lasclay, une entreprise de Québec qui
-transforme la soie d'asclépiade en isolant, pour des produits d'hiver et des
-produits isothermes.
-
-Je vous écris parce qu'on ouvre un réseau de points de vente et qu'on ne retient
-qu'une boutique par région. [Ville] fait partie des endroits qu'on veut couvrir,
-et [Boutique] ressemble à ce qu'on cherche: un commerce indépendant, où les gens
-ressortent en sachant d'où vient ce qu'ils ont acheté.
-
-Comment ça marche: les produits sont en consignation. Vous n'avancez rien, on
-garde la propriété du stock jusqu'à la vente, et ce qui ne part pas nous revient.
-Ce que vous engagez, c'est de la tablette et l'attention de votre monde. En
-retour, vous êtes le seul détaillant Lasclay de votre région.
-
-Ce que je cherche, c'est un détaillant qui porte la gamme au complet, pas un
-produit isolé sur un coin de tablette. Mitaines, tuques, cache-cou, bandeaux,
-manteaux et vestes isolés, sacs à lunch, glacières souples, manchons isothermes,
-semences d'asclépiade. Une quarantaine de produits, l'hiver comme l'été. Notre
-meilleur détaillant, Les Défricheuses à Montréal, porte tout, et c'est
-précisément ce qui fait que ça fonctionne chez eux.
-
-Sur la matière, en deux phrases: l'asclépiade est la seule plante où le monarque
-pond ses oeufs, et sa soie est creuse et hydrophobe, ce qui en fait un bon
-isolant. On l'achète à des producteurs québécois et on la transforme dans notre
-atelier de Limoilou. L'assemblage de la plupart des produits finis se fait
-ailleurs, surtout en Tunisie, et c'est ce qui nous permet de tenir des prix
-accessibles. Je préfère vous le dire tout de suite: vous aurez la question en
-magasin, aussi bien l'avoir en main.
-
-Si ça vaut une conversation, proposez-moi un moment qui vous convient d'ici deux
-semaines et je vous appelle. Je m'adapte, sauf empêchement majeur, en essayant
-d'éviter le vendredi.
-
-Le catalogue est sur lasclay.com si vous voulez voir à quoi ça ressemble avant.
-
----
-
-## 2. Relance, français
-
-À envoyer sept à dix jours après le premier message.
-
-**Objet:** Re: Une place pour Lasclay chez [Boutique]?
-
-Bonjour [Prénom],
-
-Je reviens sur mon message de la semaine dernière.
-
-Le résumé en trois lignes: produits en consignation, donc aucun déboursé de
-votre part; exclusivité pour [Région]; on commence par les sacs à lunch, les
-glacières et les semences d'asclépiade.
-
-Si ce n'est pas le bon moment, dites-le moi et je vous laisse tranquille. Si
-c'est plutôt une question de détail (marges, réassort, retour des invendus),
-posez-la, j'y réponds directement.
-
----
-
-## 3. Premier contact, anglais
-
-**Subject:** Room for Lasclay at [Boutique]?
-
-Hi [First name],
-
-I'm Gabriel Gouveia, and I run Lasclay, a company based in Quebec City that turns
-milkweed floss into insulation for winter gear and insulated bags.
-
-I'm writing because we're building a retail network and we take on one store per
-region. [City] is on our list, and [Boutique] looks like what we're after: an
-independent shop, the kind where people leave knowing where the thing they bought
-came from.
-
-How it works: the products go on consignment. You pay nothing up front, we keep
-ownership of the stock until it sells, and whatever doesn't move comes back to
-us. What you put in is shelf space and your staff's attention. In return, you're
-the only Lasclay retailer in your region.
-
-What I'm looking for is a retailer who carries the whole range, not one product
-on a corner of a shelf. Mittens, toques, neck warmers, headbands, insulated coats
-and vests, lunch bags, soft coolers, can sleeves, milkweed seed. Around forty
-products, winter and summer. Our best retailer, Les Défricheuses in Montreal,
-carries all of it, and that's exactly why it works there.
-
-On the material, briefly: milkweed is the only plant monarchs lay their eggs on,
-and its floss is hollow and water repellent, which makes it a good insulator. We
-buy it from Quebec growers and process it in our Limoilou workshop. Most finished
-products are assembled elsewhere, mainly in Tunisia, which is how we keep prices
-reasonable. I'd rather tell you now: you'll get that question at the counter, so
-you may as well have the answer.
-
-If this is worth a conversation, suggest a time that suits you in the next two
-weeks and I'll call. I can work around most things, and I try to keep Fridays
-clear.
-
-The catalogue is at lasclay.com/en if you'd like to see it first.
-
----
-
-## 4. Follow-up, anglais
-
-**Subject:** Re: Room for Lasclay at [Boutique]?
-
-Hi [First name],
-
-Following up on last week's message.
-
-Three lines: consignment, so nothing out of pocket for you; exclusivity for
-[Region]; we start with lunch bags, coolers and milkweed seed.
-
-If the timing is wrong, say so and I'll leave it there. If it's a question of
-detail (margins, restocking, returns on what doesn't sell), ask and I'll answer.
-
----
-
-## 5. Message court, page sociale (français)
-
-Pour les boutiques joignables seulement par Facebook ou Instagram. Court, parce
-que personne ne lit un roman en message privé.
-
-Bonjour, ici Gabriel de Lasclay, à Québec. On fait des produits isolés à la soie
-d'asclépiade, la plante du monarque, et on cherche une boutique par région pour
-les porter en consignation. [Ville] est sur notre liste.
-
-En consignation, vous n'avancez rien: on garde le stock jusqu'à la vente et les
-invendus nous reviennent. On commencerait par les sacs à lunch, les glacières et
-les semences.
-
-Est-ce que je peux vous envoyer les détails par courriel? Si oui, quelle adresse?
-
----
-
-## 6. Message court, page sociale (anglais)
-
-Hi, Gabriel here, from Lasclay in Quebec City. We make gear insulated with
-milkweed floss, the monarch butterfly's host plant, and we're looking for one
-shop per region to carry it on consignment. [City] is on our list.
-
-On consignment you pay nothing up front: we keep the stock until it sells and
-anything left comes back to us. We'd start with lunch bags, coolers and seed
-packets.
-
-Can I send the details by email? If so, which address?
-
----
-
-## Notes d'usage
-
-- **Trouver le prénom.** Un message à `info@` sans prénom convertit mal. Le nom
-  du propriétaire est souvent sur la page « à propos » du site ou dans les
-  publications de la page Facebook. Ça vaut les deux minutes.
-- **Une seule relance.** Après elle, on passe au rang 2 de la zone. La règle
-  d'exclusivité perd son sens si on négocie avec trois boutiques d'une même
-  région en même temps.
-- **Ne pas promettre de date de livraison** dans le premier message. La
-  disponibilité se vérifie dans Shopify avant tout engagement.
-- **Boutiques saisonnières.** Une boutique de parc ou de village touristique se
-  contacte en février ou mars, avant l'ouverture de la saison, pas en juillet.
+1. Aucun tic de publipostage.
+2. Une seule antithèse.
+3. Aucun adjectif d'ambiance sans preuve dans la phrase suivante.
+4. Un coût nommé (la Tunisie).
+5. De la matière: soie, monarque, Limoilou, inserts amovibles, comptoir.
+6. La dernière phrase reste concrète.
+7. Test final: ce message pourrait-il être signé par une autre marque
+   écoresponsable? Si oui, recommencer.

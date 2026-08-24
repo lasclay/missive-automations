@@ -37,26 +37,23 @@ const LEGAL_EN = 'Les Produits Lasclay inc., 298 boulevard des Capucins, 2nd flo
 
 // ---------------------------------------------------------------- rédaction
 function messageFR(f) {
-  // jamais le nom de zone: « Banff et Canmore » dans une phrase anglaise,
-  // c'est mon etiquette interne, pas un lieu que le destinataire reconnait
-  const ville = f.ville || f.ancre || f.zone.split(' – ')[0];
   return {
-    subject: `Une place pour Lasclay chez ${f.nom}?`,
+    subject: `Devenir le détaillant Lasclay de votre région`,
     body: `Bonjour,
 
-Je m'appelle Gabriel Gouveia et je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant, pour des produits d'hiver et des produits isothermes.
+Je m'appelle Gabriel Gouveia, je dirige Lasclay. On isole des produits d'hiver et des sacs isothermes avec de la soie d'asclépiade, la plante hôte du monarque. On l'achète à des producteurs québécois et on la transforme dans notre atelier de Limoilou.
 
-Je vous écris parce qu'on ouvre un réseau de points de vente et qu'on ne retient qu'une boutique par région. ${ville} fait partie des endroits qu'on veut couvrir, et ${f.nom} ressemble à ce qu'on cherche: un commerce indépendant, où les gens ressortent en sachant d'où vient ce qu'ils ont acheté.
+On cherche un détaillant par région, et j'aimerais savoir si ça vous intéresse.
 
-Ce que je cherche, c'est un détaillant qui porte la gamme au complet, pas un produit isolé sur un coin de tablette. Mitaines, tuques, cache-cou, bandeaux, manteaux et vestes isolés, sacs à lunch, glacières souples, manchons isothermes, semences d'asclépiade. Une quarantaine de produits, l'hiver comme l'été. Notre meilleur détaillant, Les Défricheuses à Montréal, porte tout, et c'est précisément ce qui fait que ça fonctionne chez eux: les gens entrent pour des mitaines et repartent aussi avec un sac à lunch.
+Ce qu'on demande: porter la gamme au complet. Mitaines, tuques, cache-cou, bandeaux, manteaux et vestes à inserts isolants amovibles, sacs à lunch, glacières souples, manchons isothermes, semences. Plus de soixante produits, l'hiver comme l'été. Les Défricheuses, à Montréal, portent tout. C'est le genre de partenariat qu'on cherche à répéter, pas un produit isolé sur un coin de tablette.
 
-Comment ça marche: les produits sont en consignation. Vous n'avancez rien, on garde la propriété du stock jusqu'à la vente, et ce qui ne part pas nous revient. Ce que vous engagez, c'est un vrai espace de présentation et l'attention de votre monde. En retour, vous êtes le seul détaillant Lasclay de votre région.
+Ce qu'on offre: la consignation et l'exclusivité de votre région. Vous n'avancez rien, on garde la propriété du stock jusqu'à la vente, et les invendus nous reviennent. Ce que vous engagez, c'est de l'espace et l'attention de votre monde.
 
-Sur la matière, en deux phrases: l'asclépiade est la seule plante où le monarque pond ses oeufs, et sa soie est creuse et hydrophobe, ce qui en fait un bon isolant. On l'achète à des producteurs québécois et on la transforme dans notre atelier de Limoilou. L'assemblage de la plupart des produits finis se fait ailleurs, surtout en Tunisie, et c'est ce qui nous permet de tenir des prix accessibles. Je préfère vous le dire tout de suite: vous aurez la question en magasin, aussi bien l'avoir en main.
+Une chose que vous aurez à répondre au comptoir, alors autant l'avoir en main: la soie est cultivée et transformée au Québec, mais l'assemblage de la plupart des produits finis se fait en Tunisie. C'est ce qui nous permet de vendre un manteau autour de 300 $ plutôt que le double.
 
-Si ça vaut une conversation, proposez-moi un moment qui vous convient d'ici deux semaines et je vous appelle. Je m'adapte, sauf empêchement majeur, en essayant d'éviter le vendredi.
+Si ça vaut une conversation, proposez-moi un moment d'ici deux semaines et je vous appelle. J'essaie d'éviter le vendredi.
 
-Le catalogue est sur lasclay.com si vous voulez voir à quoi ça ressemble avant.
+Le catalogue est sur lasclay.com.
 
 ---
 ${LEGAL_FR}
@@ -65,26 +62,23 @@ Vous recevez ce message parce que ${f.nom} est un commerce de détail dont l'adr
 }
 
 function messageEN(f) {
-  // jamais le nom de zone: « Banff et Canmore » dans une phrase anglaise,
-  // c'est mon etiquette interne, pas un lieu que le destinataire reconnait
-  const ville = f.ville || f.ancre || f.zone.split(' – ')[0];
   return {
-    subject: `Room for Lasclay at ${f.nom}?`,
+    subject: `Becoming the Lasclay retailer for your region`,
     body: `Hello,
 
-I'm Gabriel Gouveia, and I run Lasclay, a company based in Quebec City that turns milkweed floss into insulation for winter gear and insulated bags.
+I'm Gabriel Gouveia, I run Lasclay. We insulate winter gear and cooler bags with milkweed floss, the monarch butterfly's host plant. We buy it from Quebec growers and process it in our workshop in Quebec City.
 
-I'm writing because we're building a retail network and we take on one store per region. ${ville} is on our list, and ${f.nom} looks like what we're after: an independent shop, the kind where people leave knowing where the thing they bought came from.
+We're looking for one retailer per region, and I'd like to know whether that interests you.
 
-What I'm looking for is a retailer who carries the whole range, not one product on a corner of a shelf. Mittens, toques, neck warmers, headbands, insulated coats and vests, lunch bags, soft coolers, can sleeves, milkweed seed. Around forty products, winter and summer. Our best retailer, Les Défricheuses in Montreal, carries all of it, and that's exactly why it works there: people come in for mittens and leave with a lunch bag too.
+What we ask: carrying the full range. Mittens, toques, neck warmers, headbands, coats and vests with removable insulation, lunch bags, soft coolers, can sleeves, seed packets. Over sixty products, winter and summer. Les Défricheuses, in Montreal, carry all of it. That's the kind of partnership we're trying to repeat, not one product on a corner of a shelf.
 
-How it works: the products go on consignment. You pay nothing up front, we keep ownership of the stock until it sells, and whatever doesn't move comes back to us. What you put in is real display space and your staff's attention. In return, you're the only Lasclay retailer in your region.
+What we offer: consignment and exclusivity for your region. You pay nothing up front, we keep ownership of the stock until it sells, and unsold items come back to us. What you commit is space and your staff's attention.
 
-On the material, briefly: milkweed is the only plant monarchs lay their eggs on, and its floss is hollow and water repellent, which makes it a good insulator. We buy it from Quebec growers and process it in our Limoilou workshop. Most finished products are assembled elsewhere, mainly in Tunisia, which is how we keep prices reasonable. I'd rather tell you now: you'll get that question at the counter, so you may as well have the answer.
+One thing you'll be asked at the counter, so you may as well have the answer: the floss is grown and processed in Quebec, but most finished products are assembled in Tunisia. That's how we sell a coat around $300 instead of double that.
 
-If this is worth a conversation, suggest a time that suits you in the next two weeks and I'll call. I can work around most things, and I try to keep Fridays clear.
+If this is worth a conversation, suggest a time in the next two weeks and I'll call. I try to keep Fridays clear.
 
-The catalogue is at lasclay.com/en if you'd like to see it first.
+The catalogue is at lasclay.com/en.
 
 ---
 ${LEGAL_EN}
@@ -93,12 +87,12 @@ You're receiving this because ${f.nom} is a retail business with a publicly list
 }
 
 const relanceFR = (f) => ({
-  subject: `Re: Une place pour Lasclay chez ${f.nom}?`,
+  subject: `Re: Devenir le détaillant Lasclay de votre région`,
   body: `Bonjour,
 
 Je reviens sur mon message de l'autre semaine.
 
-Le résumé en trois lignes: la gamme complète en consignation, donc aucun déboursé de votre part; exclusivité pour votre région; une quarantaine de produits d'hiver et d'été autour d'un isolant végétal qui n'existe nulle part ailleurs.
+Le résumé: la gamme complète en consignation, donc aucun déboursé de votre part, et l'exclusivité de votre région. Plus de soixante produits d'hiver et d'été isolés à la soie d'asclépiade.
 
 Si ce n'est pas le bon moment, dites-le moi et je vous laisse tranquille. Si c'est plutôt une question de détail (marges, réassort, retour des invendus), posez-la, j'y réponds directement.
 
@@ -108,12 +102,12 @@ Répondez « retirez-moi » et je ne vous réécris plus.`,
 });
 
 const relanceEN = (f) => ({
-  subject: `Re: Room for Lasclay at ${f.nom}?`,
+  subject: `Re: Becoming the Lasclay retailer for your region`,
   body: `Hello,
 
 Following up on the message I sent a little while back.
 
-Three lines: the full range on consignment, so nothing out of pocket for you; exclusivity for your region; around forty winter and summer products built on a plant insulation that exists nowhere else.
+The short version: the full range on consignment, so nothing out of pocket for you, and exclusivity for your region. Over sixty winter and summer products insulated with milkweed floss.
 
 If the timing is wrong, say so and I'll leave it there. If it's a question of detail (margins, restocking, returns on what doesn't sell), ask and I'll answer.
 
@@ -177,13 +171,17 @@ function lotRelances(file, taille) {
   const file = JSON.parse(fs.readFileSync(FILE, 'utf8'));
   const journal = lireJournal();
 
-  // garde-fou 3: on regarde le taux de rebond avant de toucher a quoi que ce soit
+  // garde-fou 3: taux de rebond des 50 derniers envois.
+  // Le calcul comparait tous les rebonds de la campagne aux 50 derniers envois:
+  // avec 1000 envois et 20 rebonds accumules, il rendait 40 % et arretait tout.
+  // On ne compte que les rebonds PARMI ces 50 envois.
   const derniers = journal.filter(j => j.action === 'envoye').slice(-50);
-  const rebonds = file.filter(f => f.etat === 'rebond').length;
+  const enRebond = new Set(file.filter(f => f.etat === 'rebond').map(f => f.id));
+  const rebonds = derniers.filter(j => enRebond.has(j.id)).length;
   if (derniers.length >= 20) {
     const taux = rebonds / derniers.length;
     if (taux > SEUIL_REBOND) {
-      console.log(`ARRET: taux de rebond ${(taux * 100).toFixed(1)} %, au-dessus du seuil de ${SEUIL_REBOND * 100} %.`);
+      console.log(`ARRET: ${rebonds} rebond(s) sur les ${derniers.length} derniers envois, soit ${(taux * 100).toFixed(1)} %, au-dessus du seuil de ${SEUIL_REBOND * 100} %.`);
       console.log('Rien n\'a ete envoye. Il faut revoir la liste avant de continuer.');
       process.exit(2);
     }
