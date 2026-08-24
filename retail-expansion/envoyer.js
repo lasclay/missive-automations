@@ -150,7 +150,18 @@ function lot(file, taille) {
     .filter(f => f.canal === 'courriel' && f.etat === 'en_attente' && f.courriel)
     .filter(f => !enCours.has(f.zone))
     .sort((a, b) => a.vague - b.vague || a.rang - b.rang);
-  return candidats.slice(0, taille);
+  // Une seule fiche par zone DANS le lot aussi. Exclure les zones deja en
+  // discussion ne suffisait pas: un lot de cent prenait le rang 1 et le rang 2
+  // d'une meme region le meme matin, ce qui vide l'exclusivite de son sens.
+  const prises = new Set();
+  const retenu = [];
+  for (const f of candidats) {
+    if (prises.has(f.zone)) continue;
+    prises.add(f.zone);
+    retenu.push(f);
+    if (retenu.length >= taille) break;
+  }
+  return retenu;
 }
 
 // Les relances partent huit jours apres le premier message, sans reponse recue.
