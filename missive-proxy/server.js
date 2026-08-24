@@ -18,6 +18,10 @@
  *                     attachmentId}   → télécharge UNE pièce jointe et la renvoie en base64.
  *                                       `attachmentId` facultatif : à défaut, la première.
  *                                       Plafond ~25 Mo. Les `messageId` viennent de /conversation.
+ *   POST /messageraw {messageId}      → message BRUT tel que Missive le renvoie. Sert à voir
+ *                                       la forme réelle de `from_field`, `to_fields` et du
+ *                                       compte de canal sur un message non courriel (Messenger,
+ *                                       SMS), que /conversation aplatit volontairement.
  *   POST /drafts     {id, limit, raw} → brouillons du fil (réponse déjà rédigée par le script IA).
  *                                       `limit` pagine au-delà des 10 de l'API Missive (max 500) :
  *                                       nécessaire pour remonter les tranches d'archive.
@@ -549,6 +553,14 @@ const server = http.createServer(async (req, res) => {
       if (!body.id) return json(res, 400, { error: "id requis" });
       const msgs = await getConversation(body.id, body.limit);
       return json(res, 200, { messages: msgs, tronque: msgs.tronque || undefined });
+    }
+    if (route === "/messageraw") {
+      if (!body.messageId) return json(res, 400, { error: "messageId requis" });
+      const r = await mGet(`/messages/${body.messageId}`);
+      const m = Array.isArray(r.messages) ? r.messages[0] : (r.messages || r.message);
+      // On retire le corps : ce qui nous intéresse ici, c'est l'enveloppe.
+      if (m && typeof m === "object") { delete m.body; delete m.preview; }
+      return json(res, 200, { message: m });
     }
     if (route === "/attachment") {
       if (!body.messageId) return json(res, 400, { error: "messageId requis (attachmentId facultatif)" });
