@@ -64,14 +64,17 @@ répétition comme du gabarit.
 
 ## Emma Nelson · 1★ · juin 2026 · anglais
 
+*⚠️ Il s'agit très probablement d'Emma Whiten, commande L-50672, **remboursée le 20 août**. Ne rien
+lui offrir qui a déjà été fait.*
+
 > Hi Emma,
 >
 > Three emails with no answer is indefensible, and the wait on top of it made it worse. Our
 > support backlog got away from us this spring and yours is exactly the kind of message that
 > should never have been lost in it.
 >
-> Please write to hey@lasclay.com with the name on your order and I will sort it out myself,
-> either the shipment or a full refund, whichever you prefer.
+> If anything is still open on your side, write to hey@lasclay.com with the name on your order and
+> it comes straight to me.
 >
 > Gabriel, co-founder
 
@@ -110,8 +113,9 @@ plus rentable de toute la liste : elle est visible sous un avis qui dit déjà d
 > Un mois sans nouvelles et aucune réponse, ni par courriel ni par Messenger : il n'y a rien à
 > défendre là-dedans. Décembre nous a dépassés et ce sont nos clients qui l'ont payé.
 >
-> Les messages Messenger en particulier ne se rendaient pas à la bonne personne, et c'est réglé.
-> Si quelque chose reste en suspens de votre côté, écrivez à hey@lasclay.com.
+> Les messages Messenger en particulier ne se rendaient pas jusqu'à la bonne personne. C'est le
+> premier trou qu'on est en train de boucher. Si quelque chose reste en suspens de votre côté,
+> écrivez à hey@lasclay.com.
 >
 > Gabriel, cofondateur
 
@@ -122,8 +126,9 @@ plus rentable de toute la liste : elle est visible sous un avis qui dit déjà d
 > Acheter un produit affiché comme disponible et attendre trois semaines sans pouvoir suivre quoi
 > que ce soit, c'est une promesse rompue au moment de l'achat. Vous avez raison de le dire.
 >
-> On a corrigé la façon dont les disponibilités s'affichent et toutes les commandes sortent
-> maintenant avec un suivi. Si vous voulez qu'on regarde la vôtre, hey@lasclay.com.
+> On est en train de corriger la façon dont les disponibilités s'affichent, pour qu'un produit qui
+> part en production le dise avant le paiement et non après. Si vous voulez qu'on regarde votre
+> dossier, hey@lasclay.com.
 >
 > Gabriel, cofondateur
 
