@@ -34,6 +34,9 @@ function vague(f) {
 }
 
 (async () => {
+  const zones = JSON.parse(fs.readFileSync(path.join(__dirname, 'zones.json'), 'utf8'));
+  const ancreDe = {};
+  for (const z of zones) ancreDe[z.zone] = z.ancre;
   const selection = JSON.parse(fs.readFileSync(path.join(__dirname, 'selection.json'), 'utf8'));
   let verdicts = {};
   try {
@@ -70,6 +73,7 @@ function vague(f) {
       zone: f.zone,
       prov: f.prov,
       ville: f.ville || '',
+      ancre: ancreDe[f.zone] || '',
       archetype: f.type,
       rang: f.rang,
       vague: vague(f),
@@ -89,6 +93,20 @@ function vague(f) {
       note: precedent ? precedent.note || '' : '',
     });
   }
+
+  // Un commerce deja contacte ne doit jamais sortir de la file, meme si un
+  // resserrement du tri l'a retire de la selection. Sinon on perd la trace d'un
+  // envoi reel, et le prochain tri pourrait le recontacter.
+  const presents = new Set(file.map(f => f.id));
+  let conserves = 0;
+  for (const [id, e] of Object.entries(ancien)) {
+    if (presents.has(id)) continue;
+    if (['en_attente', 'a_appeler', 'a_contacter_autrement', 'adresse_ecartee'].includes(e.etat)) continue;
+    e.note = (e.note ? e.note + ' ' : '') + 'retire de la selection par un resserrement du tri, conserve parce que deja contacte';
+    file.push(e);
+    conserves++;
+  }
+  if (conserves) console.error(`${conserves} fiche(s) deja contactee(s) conservee(s) hors selection`);
 
   fs.writeFileSync(FILE, JSON.stringify(file, null, 1));
 

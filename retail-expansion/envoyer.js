@@ -37,7 +37,9 @@ const LEGAL_EN = 'Les Produits Lasclay inc., 298 boulevard des Capucins, 2nd flo
 
 // ---------------------------------------------------------------- rédaction
 function messageFR(f) {
-  const ville = f.ville || f.zone.split(' – ')[0];
+  // jamais le nom de zone: « Banff et Canmore » dans une phrase anglaise,
+  // c'est mon etiquette interne, pas un lieu que le destinataire reconnait
+  const ville = f.ville || f.ancre || f.zone.split(' – ')[0];
   return {
     subject: `Une place pour Lasclay chez ${f.nom}?`,
     body: `Bonjour,
@@ -63,7 +65,9 @@ Vous recevez ce message parce que ${f.nom} est un commerce de détail dont l'adr
 }
 
 function messageEN(f) {
-  const ville = f.ville || f.zone.split(' – ')[0];
+  // jamais le nom de zone: « Banff et Canmore » dans une phrase anglaise,
+  // c'est mon etiquette interne, pas un lieu que le destinataire reconnait
+  const ville = f.ville || f.ancre || f.zone.split(' – ')[0];
   return {
     subject: `Room for Lasclay at ${f.nom}?`,
     body: `Hello,

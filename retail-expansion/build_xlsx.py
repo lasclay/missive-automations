@@ -197,8 +197,11 @@ ARCHETYPES_CONDITIONNELS = {
 }
 
 # mots du nom qui trahissent une boutique independante a recit
+# « marche » et « market » sortent des signaux positifs: ils recompensaient
+# autant un marche fermier qu'un marche a location de tablettes. BIPOC + Local
+# Maker Marketplace, premier rang de sa zone, a repondu qu'il loue des tablettes.
 SIGNAUX_POSITIFS = ("artisan", "artisans", "artisanat", "local", "locaux", "made in",
-                    "coop", "cooperative", "marche", "market", "terroir", "ferme", "farm",
+                    "coop", "cooperative", "terroir", "ferme", "farm",
                     "atelier", "nature", "jardin", "garden", "vrac", "bulk", "refill",
                     "eco", "ecolo", "vert", "green", "zero dechet", "zero waste",
                     "general store", "magasin general", "mercantile", "trading post",
@@ -211,7 +214,18 @@ SIGNAUX_NEGATIFS = ("outlet", "liquidation", "clearance", "discount", "depot", "
                     "superstore", "megastore", "warehouse", "wholesale", "franchise",
                     "express", "express inc", "self serve", "vending")
 
+# Un commerce qui loue son espace aux createurs ne prend pas en consignation:
+# chez lui le detaillant n'assume aucun risque et le fournisseur paie d'avance.
+# Ces mots dans le nom le signalent assez fort pour ecarter d'office.
+NOMS_LOCATION = ("marketplace", "maker market", "makers market", "makers' market",
+                 "vendor market", "artisan market", "artisans market", "craft market",
+                 "flea market", "antique mall", "vendor mall", "marche des createurs",
+                 "marche public", "marche de noel", "bazar")
+
 def jugement(r):
+    nom_bas = strip_acc(r["nom"]).lower()
+    if any(m in nom_bas for m in NOMS_LOCATION):
+        return 0, "nom de marche a location d espace"
     """Renvoie (bonus, motif_de_rejet). Un motif non vide ecarte le candidat."""
     nom = strip_acc(r["nom"]).lower()
     typ = r["type"]
