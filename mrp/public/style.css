@@ -1,0 +1,163 @@
+/* Lasclay MRP — feuille unique, servie avec cache long.
+   Objectif : pages HTML < 20 Ko, aucun JS, lisible sur téléphone. */
+:root{
+  --vert:#1f6f4a; --vert-pale:#e8f3ee; --vert-fonce:#12332a;
+  --ambre:#b4531a; --ambre-pale:#fdf1e7;
+  --bleu:#1b4f86; --bleu-pale:#eaf1f9;
+  --encre:#12161c; --encre2:#4a535d; --gris:#6b7480;
+  --ligne:#dfe4ea; --fond:#f7f8f9; --carte:#fff;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fond);color:var(--encre);
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--vert);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em}
+h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
+p{margin:0 0 10px}
+
+/* ---------- ossature ---------- */
+header.top{background:var(--vert-fonce);color:#fff;padding:0 16px}
+.top-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:18px;
+  min-height:52px;flex-wrap:wrap}
+.marque{font-weight:700;letter-spacing:.02em;color:#fff}
+.marque span{opacity:.65;font-weight:400}
+nav.top a{color:#cfe3d9;padding:6px 0;font-size:14px}
+nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+nav.top{display:flex;gap:16px;flex:1;flex-wrap:wrap}
+.qui{font-size:13px;color:#cfe3d9}
+.qui a{color:#fff;opacity:.75}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+
+/* ---------- blocs ---------- */
+.carte{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;
+  padding:16px;margin-bottom:14px}
+.carte>h2{margin-bottom:10px}
+.entete{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.muted{color:var(--gris);font-size:13px}
+.vide{color:var(--gris);font-style:italic;padding:10px 0}
+
+/* ---------- étiquettes d'état ---------- */
+.et{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.02em;
+  padding:2px 8px;border-radius:10px;white-space:nowrap;text-transform:uppercase}
+.et-brouillon{background:#eceff1;color:#546e7a}
+.et-planifie {background:var(--bleu-pale);color:var(--bleu)}
+.et-en_cours {background:var(--ambre-pale);color:var(--ambre)}
+.et-termine  {background:var(--vert-pale);color:var(--vert)}
+.et-annule   {background:#fdecec;color:#b3261e}
+.et-livraison{background:var(--vert-pale);color:var(--vert)}
+.et-deadline {background:#fdecec;color:#b3261e}
+.et-evenement{background:var(--bleu-pale);color:var(--bleu)}
+.et-prevente {background:var(--ambre-pale);color:var(--ambre)}
+
+/* ---------- tableaux ---------- */
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;
+  color:var(--gris);padding:6px 8px;border-bottom:1px solid var(--ligne);font-weight:600}
+td{padding:9px 8px;border-bottom:1px solid var(--ligne);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* ---------- barre d'avancement ---------- */
+.jauge{height:7px;background:#e8ebee;border-radius:4px;overflow:hidden;min-width:90px}
+.jauge i{display:block;height:100%;background:var(--vert);border-radius:4px}
+.jauge.part i{background:var(--ambre)}
+.jauge.zero i{background:#c9ced4}
+.pct{font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;min-width:38px;
+  display:inline-block;text-align:right}
+
+/* ---------- sélecteur d'avancement (0→100 par 10) ---------- */
+.av{display:flex;flex-wrap:wrap;gap:3px;margin:0}
+.av button{font:600 12px/1 inherit;font-variant-numeric:tabular-nums;
+  min-width:36px;padding:7px 4px;border:1px solid var(--ligne);background:#fff;
+  color:var(--encre2);border-radius:4px;cursor:pointer}
+.av button:hover{border-color:var(--vert);color:var(--vert)}
+.av button.on{background:var(--vert);border-color:var(--vert);color:#fff}
+.av button.on:hover{color:#fff}
+
+/* ---------- formulaires ---------- */
+label{display:block;font-size:12.5px;font-weight:600;color:var(--encre2);margin:0 0 4px}
+input[type=text],input[type=email],input[type=password],input[type=number],
+input[type=date],select,textarea{
+  width:100%;padding:8px 10px;border:1px solid var(--ligne);border-radius:5px;
+  font:15px inherit;background:#fff;color:var(--encre)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--vert-pale);border-color:var(--vert)}
+textarea{min-height:70px;resize:vertical}
+.champ{margin-bottom:12px}
+.rangee{display:flex;gap:12px;flex-wrap:wrap}
+.rangee>.champ{flex:1;min-width:160px}
+.btn{display:inline-block;padding:9px 16px;border-radius:5px;border:1px solid var(--vert);
+  background:var(--vert);color:#fff;font:600 14px inherit;cursor:pointer;text-align:center}
+.btn:hover{background:#195c3d;text-decoration:none;color:#fff}
+.btn.sec{background:#fff;color:var(--encre2);border-color:var(--ligne)}
+.btn.sec:hover{background:#f2f4f6;color:var(--encre)}
+.btn.dgr{background:#fff;color:#b3261e;border-color:#f2c3bf}
+.btn.dgr:hover{background:#fdecec}
+.btn.min{padding:5px 10px;font-size:13px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ---------- messages ---------- */
+.msg{padding:10px 14px;border-radius:5px;margin-bottom:14px;font-size:14px}
+.msg.ok{background:var(--vert-pale);border-left:3px solid var(--vert)}
+.msg.err{background:#fdecec;border-left:3px solid #b3261e}
+.msg.info{background:var(--bleu-pale);border-left:3px solid var(--bleu)}
+
+/* ---------- listes / cartes produits ---------- */
+.grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.vignette{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;overflow:hidden}
+.vignette img{width:100%;height:140px;object-fit:cover;display:block;background:#eef0f2}
+.vignette .b{padding:10px}
+.vignette .b b{display:block;font-size:14px}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.photos figure{margin:0}
+.photos img{width:100%;border-radius:5px;display:block;background:#eef0f2}
+.photos figcaption{font-size:12px;color:var(--gris);margin-top:4px}
+
+/* ---------- commentaires ---------- */
+.comm{border-left:2px solid var(--ligne);padding:2px 0 2px 12px;margin-bottom:12px}
+.comm .qui2{font-size:12.5px;color:var(--gris);margin-bottom:2px}
+.comm p{white-space:pre-wrap;margin:0}
+
+/* ---------- cédule ---------- */
+.jalon{display:flex;gap:12px;align-items:baseline;padding:7px 0;
+  border-bottom:1px solid var(--ligne)}
+.jalon:last-child{border-bottom:0}
+.jalon .d{font-variant-numeric:tabular-nums;font-weight:600;min-width:96px;font-size:13.5px}
+.jalon.passe{opacity:.5}
+.jalon.proche .d{color:var(--ambre)}
+
+/* ---------- connexion ---------- */
+.connexion{max-width:340px;margin:8vh auto;padding:0 16px}
+.connexion .carte{padding:22px}
+
+/* ---------- mobile ---------- */
+@media (max-width:720px){
+  main{padding:14px 12px 50px}
+  .top-in{min-height:auto;padding:8px 0;gap:8px}
+  nav.top{order:3;flex-basis:100%;gap:12px;font-size:13px;
+    overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+  .qui{order:2;margin-left:auto;font-size:12.5px}
+
+  /* Le tableau des items devient une pile de blocs : les boutons
+     d'avancement doivent rester atteignables sans défilement latéral. */
+  .tbl-items{overflow:visible}          /* en pile : plus de défilement latéral */
+  table.items,table.items tbody,table.items tr,table.items td{display:block;width:100%}
+  table.items{min-width:0}
+  table.items thead{display:none}
+  table.items tr{border:1px solid var(--ligne);border-radius:6px;
+    padding:12px;margin-bottom:10px;background:#fff}
+  table.items td{border:0;padding:0 0 8px}
+  table.items td:last-child{padding-bottom:0}
+  table.items td.num{text-align:left}
+  table.items td.num::before{content:"Quantité : ";color:var(--gris);font-size:12.5px}
+  table.items td.note-c::before{content:"Note : ";color:var(--gris);font-size:12.5px}
+  /* grille : 6 colonnes égales, jamais plus large que le conteneur */
+  .av{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+  .av button{min-width:0;padding:11px 2px;font-size:13px}
+  .rangee>.champ{flex-basis:100%}
+  .jalon{flex-wrap:wrap;gap:6px}
+  .jalon .d{min-width:0}
+}
