@@ -1,7 +1,8 @@
 # Vague 2 : les avis Facebook
 
-Source : `facebook-avis-negatifs.md`, relevé du Loom du 25 août 2026. Page à 90 % de
-recommandations sur 208 avis. Facebook n'a pas d'étoiles, seulement « recommends » ou
+Source : `facebook-avis-negatifs.md`, **consolidé à partir des deux Loom** (4 min 19 et 14 min).
+Le second est pris depuis le compte propriétaire, fils de commentaires déroulés, et remonte
+jusqu'au 4 août 2026. Page à 90 % de recommandations sur 208 avis. Facebook n'a pas d'étoiles, seulement « recommends » ou
 « doesn't recommend ».
 
 **Tout ce qui suit a été vérifié dans Shopify, dans ShipStation et dans Missive le 25 août.** Les avis Facebook
@@ -241,6 +242,144 @@ reçu aujourd'hui ! ». Rien à faire.
 
 ---
 
+---
+
+# La deuxième passe : cinq personnes de plus, et une erreur corrigée
+
+Le Loom long a déroulé les fils de commentaires. Il ajoute cinq avis absents de la première passe
+et il corrige une attribution que j'avais faite de travers.
+
+## 0. Selena Hugo St-denis Poirier · 4 août 2026 · `poirierhugo@hotmail.com` · **LE DOSSIER OUVERT**
+
+> « commande faites depuis le 13 juin en ligne, nous sommes le 4 aout 2026. Pas de retour de
+> courriel, ni de messenger. Pas sérieux comme service. Mais le payement lui est payer. Très déçu
+> finalement. »
+
+C'est l'avis le plus récent de la page, et **c'est le seul dossier du corpus qui est encore ouvert
+aujourd'hui.**
+
+**L-50683, 13 juin 2026, 51,42 $.** Un **coussin d'assise thermal pliable**, plus un **pourboire**
+qu'elle a ajouté de sa poche. ShipStation : `awaiting_shipment`, **jamais expédiée, aucun suivi**.
+
+Au 25 août, ça fait **73 jours**. Son avis a trois semaines et rien n'a bougé depuis.
+
+⚠️ **Trois choses qui rendent ce dossier plus grave que tous les autres :**
+
+1. **Il est vivant.** Tous les autres sont des réparations rétroactives. Celui-là s'aggrave d'un
+   jour par jour, et l'avis est en haut de la page.
+2. **C'est le coussin d'assise**, dont l'inventaire est à **-57**. Ce n'est pas un incident
+   d'emballage, c'est un produit vendu qui n'existe pas. Même mécanisme que chez Nathalie Girouard,
+   dont le deuxième coussin n'est jamais arrivé.
+3. **Elle a laissé un pourboire.** Elle a payé plus que le prix demandé, et elle attend depuis
+   deux mois et demi.
+
+**À faire avant tout message : expédier ou rembourser.** Écrire des excuses sur une commande encore
+en attente serait la pire chose à faire ici.
+
+## Martine Savard · 29 décembre 2025 · `martinette222@hotmail.com`
+
+> « J'ai fait 2 commandes en décembre. La première a été reçue rapidement et comprenait tous les
+> items commandés et payés. La deuxième il manque un cache-cou, pourtant payé. Ça fait 4 messages
+> que j'envoie, aucune réponse. Aucun service à la clientèle, aucun numéro que l'on peut utiliser
+> pour parler à quelqu'un. C'est désespérant. Et le cache cou livré est mal fini et ne comprend pas
+> l'étiquette de la compagnie. »
+
+⚠️ **Correction de ma première passe.** J'avais rattaché ce texte au fil d'Emilie Lamothe, comme
+« un second avis du même fil ». C'est faux : **c'est un avis distinct, signé Martine Savard.**
+
+Ses deux commandes de décembre existent et son récit tient au détail près :
+
+| Commande | Date | Montant | Contenu | Expédiée |
+| --- | --- | --- | --- | --- |
+| L-42577 | 2 décembre | 242,55 $ | Mitaines L, semelles 6F, **2 cache-cou gris foncé** | le 3 décembre, **sans suivi** |
+| L-44108 | 14 décembre | 150,57 $ | Bandeau précommande, **2 cache-cou gris foncé**, semelles 9F | le 17 décembre, **sans suivi** |
+
+Le bordereau de L-44108 porte bien **deux** cache-cou. Elle en a reçu un. Sans numéro de suivi, il
+est impossible de dire si le second a été oublié à l'emballage ou perdu en chemin, et **c'est
+exactement pour ça qu'il faut la croire** : on n'a rien à lui opposer.
+
+Son second grief, le cache-cou **mal fini et sans étiquette de la compagnie**, recoupe Kim Vincent
+au jour près. Deux clientes, le même produit, la même semaine.
+
+## Gabrielle Champagne · 2 mars 2023 · `gabriellechampagne@live.ca` · **le plus facile**
+
+> « Mitaines très solides et chaudes au design minimaliste (moins ergonomique que les mitaines en
+> magasin de sport). Coutures et matériaux de qualité. J'ai eu un pépin de grandeur et les délais
+> de réponse aux courriels étaient de plusieurs semaines, mais tout est rentré dans l'ordre. »
+
+**L-10778, 3 novembre 2022, 227,66 $**, mitaines L + S, partiellement remboursée. Puis **L-11476,
+14 janvier 2023 : « Échange - Grandeur - XS », 11,49 $.** Le pépin de grandeur et sa résolution sont
+tous les deux dans Shopify.
+
+Elle loue le produit, elle dit elle-même que tout est réglé, et son avis reste classé
+« ne recommande pas ». **C'est la demande de mise à jour la plus simple de tout le corpus, et elle
+ne coûte rien.**
+
+## Gilles Coulombe · en commentaire seulement · `coulombegilles@gmail.com`
+
+Il n'a jamais publié d'avis, mais il est intervenu **deux fois** sous ceux des autres : « aucune
+nouvelle a part confirmation de l achat », « commandé le 18 et aucune nouvelle meme apres
+2 messages ».
+
+**Cinq commandes, 762,14 $.** C'est un des meilleurs clients du corpus, et il se plaint en public
+sous les avis d'autres personnes.
+
+**L-46684, 7 février 2026, 508,47 $** : manteau Homme L Noir + **deux** paires de mitaines urbaines
+(Rouge/M et Rouge & gris pâle/M).
+
+⚠️ **Deux problèmes dans cette seule commande, et aucun n'a été traité :**
+
+- **Expédiée le 25 mars**, soit **46 jours** après l'achat.
+- Le bordereau ShipStation ne contient **qu'une** paire de mitaines. Shopify en facture **deux**.
+  **Une paire de 126 $ n'a jamais été mise dans la boîte.** Et là non plus, aucun numéro de suivi.
+
+C'est le même défaut que chez Martine Savard, sur la même période : un article payé, absent du
+colis, sans suivi pour le prouver.
+
+## Les autres, identifiés mais sans dossier ouvert
+
+| Personne | Fiche | Ce que Shopify dit |
+| --- | --- | --- |
+| **Suzanne Boismenu** · commentaire | `sue.boismenu@gmail.com` | L-14189, 29 avril 2023, 23,34 $, graines paquet de 5, expédiée. Sa plainte date de 2023 |
+| **Marie-Élaine Julien** · commentaire | `marie_elaine_julien@yahoo.fr` | Une commande, 124,76 $ |
+| **Marie Fontaine** · 7 mars 2023, mal classée « recommends » | `marieyouppi@gmail.com` | Une commande, 216,16 $ |
+| **Stephane Roy** · 22 mars 2023, mal classé « recommends » | `66.steph.roy@gmail.com` | Une commande, 90,26 $. « Ma pire expérience d'achat en ligne à vie », mais il défend la fabrication québécoise |
+| **Magali Élias GF** · 11 janvier 2026 | **non identifiée** | La seule Magali plausible (`magali.guilbault@gmail.com`) a une tuque, des manchons et deux vestes, **pas de semelles**. Son avis parle de semelles qui glissent. **Ce n'est pas elle** |
+
+⚠️ **Magali Élias GF est la plus importante des non identifiées.** Son avis est le seul du corpus
+qui met en cause la **conception** et non l'exécution : quatre produits essayés, quatre défauts
+distincts, semelles qui glissent, coutures torsadées, rembourrage désaligné sur la tuque,
+grandeurs mal conçues. Aucun reproche de service. C'est un avis qu'on ne peut pas réparer avec de
+l'argent, seulement avec des produits corrigés.
+
+---
+
+# Ce que la page Facebook révèle sur nos propres réponses
+
+**Une seule réponse publique existe sur toute la page**, sous l'avis de Jezabelle Paquin. Deux cent
+huit avis, des dizaines de fils de commentaires, une réponse.
+
+⚠️ **Et cette réponse-là est un problème en soi.** Répondre à une accusation de fraude en publiant
+une **capture d'écran annotée du compte de la cliente**, encerclée en rouge, se lit comme une mise
+en accusation publique. D'autant que la vraie explication était de notre côté : son compte
+paraissait vide parce qu'elle a deux fiches client chez nous. **À relire avant d'établir la ligne
+de réponse publique sur Facebook.**
+
+**Cinq dossiers sont réglés sans que l'avis ait bougé.** Francine Poirier, Colette D'Astous,
+Amandine Caudron, Myriam Courtemanche (via Mylène Van Winden) et Gabrielle Champagne écrivent
+toutes, **en commentaire sous leur propre avis**, que leur problème a fini par être traité. L'avis,
+lui, est resté négatif.
+
+C'est le gisement le plus accessible de toute la campagne : cinq personnes qui ont déjà dit
+publiquement du bien de nous, sous un avis qui dit encore le contraire.
+
+**Une vente perdue est documentée noir sur blanc.** Sous l'avis de Colette D'Astous, **Julie
+Bernier** écrit : « Merci de partager votre expérience, je voulais commander un item. Je vais
+attendre et me rendre sur place. » C'est le seul endroit du corpus où l'on voit le coût direct d'un
+avis non traité.
+
+---
+
 # Ce que Missive a donné, et ce qu'il n'a pas pu donner
 
 Trois fils retrouvés et lus au complet : **Danielle René**, **Colette D'Astous** et **Amandine
@@ -282,7 +421,7 @@ message.
 | Personne | Ce qu'on cherche | Où chercher |
 | --- | --- | --- |
 | **Nathalie Girouard** · 30 janvier 2026 | Bandeau + 2 coussins d'assise avant Noël 2025, un seul coussin reçu, **avec des traces de colle** | La `nathalie girouard` de Shopify (`girouardvalois@gmail.com`) n'a que trois commandes de 2022-2023. Ce n'est pas elle, ou elle a commandé sous un autre courriel |
-| **Emilie Lamothe** · 7 janvier 2026 | Deux commandes de décembre, un cache-cou payé jamais livré, le cache-cou reçu **mal fini et sans étiquette** | Aucune Emilie Lamothe dans Shopify |
+| **Emilie Lamothe** · 7 janvier 2026 | Commande de début décembre non reçue à temps, remboursement demandé jamais obtenu, un seul des deux articles livré | Aucune Emilie Lamothe dans Shopify. ⚠️ Le grief du cache-cou manquant est celui de **Martine Savard**, pas le sien |
 | **Kim Vincent** · 25 décembre 2025 | « la finition de mon cache-cou laisse vraiment à désirer » | Aucune Kim Vincent dans Shopify |
 | **Stéphane Provost** · commentaire | « le manteau mal isolé », plusieurs courriels sans réponse | Aucun Stéphane Provost. Le compte `s_provost5@hotmail.com` est au nom de Lorraine Laliberte, à Sainte-Julie, et n'a que trois commandes de 2022, sans manteau |
 | **Myriam Courtemanche** · 9 mars 2023 | Commande marquée expédiée, **numéro de suivi invalide dès le départ** | Aucune Myriam Courtemanche. Antérieure à la rétention ShipStation de toute façon |
@@ -327,9 +466,17 @@ Allaire. Trois clients, trois produits, un même problème de structure autour d
 | Francine Poirier | Réglée, a racheté deux fois, a modifié son avis | Shopify | **Remerciement** |
 | Estelle Waché | Remboursée en 2024, a racheté des mitaines en 2025 | Shopify | **Remerciement + question** |
 | Mylène Van Winden | Servie, l'a écrit elle-même | Shopify | **Rien** |
-| 5 personnes | Non identifiées | — | **Rien tant qu'on ne sait pas** |
+| **Selena / Hugo Poirier** | **L-50683, 51,42 $, coussin d'assise, JAMAIS EXPÉDIÉE, 73 jours, encore ouverte** | Shopify + ShipStation | **⚠️ Expédier ou rembourser AUJOURD'HUI** |
+| Martine Savard | Deux commandes de décembre, **un cache-cou payé absent du colis**, sans suivi | Shopify + ShipStation | **Fort** |
+| Gilles Coulombe | L-46684, 508,47 $, **46 jours** et **une paire de mitaines absente du bordereau**. Client à 762 $ | Shopify + ShipStation | **Fort** |
+| Gabrielle Champagne | Pépin de grandeur réglé en 2023, elle le dit elle-même, avis toujours négatif | Shopify | **Demande de mise à jour seule** |
+| Magali Élias GF | Quatre produits, quatre défauts de **conception** | — | **Non identifiée. Rien tant qu'on ne sait pas** |
+| 4 personnes | Non identifiées | — | **Rien tant qu'on ne sait pas** |
 
-**Sept dossiers à traiter, trois remerciements, cinq identifications à faire.**
+**Onze dossiers à traiter, quatre remerciements, cinq identifications à faire.**
+
+⚠️ **Un seul est urgent** : L-50683 n'est toujours pas partie. Tout le reste est de la réparation,
+celui-là est une commande en cours.
 
 Les messages ne sont pas encore écrits. Deux choses les bloquent, et aucune n'est de la rédaction :
 le comptage réel des graines par sachet, et la relecture de l'avis de Jézabelle Paquin.
