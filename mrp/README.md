@@ -329,6 +329,12 @@ fichiers, et l'ensemble pèse 412 Ko.
 
 ## Backlog
 
+**Fiches produits poussées — à préparer.** Des fiches plus détaillées s'en
+viennent ; le tableau Miro qui sert de référence n'est pas encore accessible.
+Ce qui manque au schéma, ce qu'il faut décider avant de construire, et le
+blocage d'accès : [`FICHES-PRODUITS.md`](FICHES-PRODUITS.md).
+
+
 Volontairement hors de cette version : inventaire, traduction FR/EN, alertes,
 convertisseur HPGL (voir `../patrons/`).
 

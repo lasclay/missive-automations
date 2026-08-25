@@ -153,7 +153,7 @@ const lignes = corresp.map(r => {
   return {
     code: r.code,
     nom: sh ? sh.titre : r.produit_production,
-    description: sh ? texte(sh.description || '') : '',
+    description: sh ? texte(sh.description_html || '') : '',
     usage: sh?.url_boutique ? `Fiche publique : ${sh.url_boutique}` : '',
     notes_tech: notes.join('\n\n'),
     famille: r.famille || 'autre',
