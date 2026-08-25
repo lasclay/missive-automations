@@ -143,6 +143,21 @@ C'est le seul réglage qui décide si le plan tient, et aucune source ne le dit.
 Tant qu'il n'est pas tranché, l'app affiche la lecture prudente : il faudrait
 **25 postes au lieu de 20**, ou 9 h × 6 jours.
 
+### Sortir le Gantt
+
+L'app est faite pour la connexion tunisienne : pas de JS, quelques kilo-octets.
+Un Gantt qu'on envoie ou qu'on projette a un autre métier — il peut se permettre
+de vraies polices, un axe de temps dessiné, et le basculement entre les trois
+périmètres.
+
+```sh
+node mrp/tools/gantt_export.js > gantt.html
+```
+
+Page autonome, les deux thèmes, rien à installer. Les chiffres viennent de la
+même base que `/cedule` : **régénérer après chaque révision du plan**, jamais
+recopier à la main.
+
 **Suivi — est-ce que ça avance**
 - Ce qui ne bouge plus depuis 7 jours : le seul bloc qui demande une action
 - Progression convertie en pièces (2 000 cache-cous de 40 à 70 % = 600 unités)
