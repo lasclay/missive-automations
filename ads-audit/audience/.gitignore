@@ -1,4 +1,6 @@
-# Données clients — jamais versionnées
-customers.jsonl
-batches/
-*.csv
+# Données clients — jamais versionnées.
+# Tout ce qui n'est pas explicitement autorisé plus bas est exclu.
+*
+!.gitignore
+!README.md
+!export_csv.py
