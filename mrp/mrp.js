@@ -9,6 +9,8 @@
  *   node mrp.js utilisateur:desactiver <courriel>
  *   node mrp.js demo                 charge un jeu de données d'exemple
  *   node mrp.js etat                 état de la base
+ *
+ *   L'assistant (/assistant) exécute des ordres : ANTHROPIC_API_KEY requis.
  */
 'use strict';
 const { db, prochainNumero } = require('./db.js');

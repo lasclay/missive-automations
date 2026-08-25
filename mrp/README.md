@@ -22,6 +22,15 @@ par item, et rattacher les dates clés.
 - Matériaux et patrons, avec dimensions déclarées
 - Liste des ordres de production où le produit apparaît
 
+**Assistant — il exécute, il ne fait pas que répondre**
+- « Mets les cache-cous adultes à 70 % » met vraiment l'item à 70 %
+- « Crée un ordre pour 500 tuques livrables le 15 novembre » crée l'ordre,
+  y ajoute l'item et pose le jalon — en une phrase, sans repasser par les
+  formulaires
+- Dictée vocale dans le navigateur (français, arabe, anglais)
+- Chaque tour affiche la liste de ce qui a été écrit, avec un bouton pour
+  tout défaire
+
 ## Deux rôles
 
 | Rôle | Peut faire |
@@ -31,6 +40,73 @@ par item, et rattacher les dates clés.
 
 C'est volontaire : donner le pourcentage d'avancement est la responsabilité de
 l'atelier, et c'est la seule écriture qui lui est ouverte.
+
+## L'assistant
+
+C'est un agent, pas un chatbot. Il ne décrit pas la marche à suivre : il
+appelle les mêmes écritures que les formulaires, dans la même base, avec les
+mêmes contraintes.
+
+```
+« Mets les cache-cous adultes à 70 % et ajoute
+  la deadline du départ conteneur le 2 octobre »
+
+  → maj_avancement  CC-ADULTE dans OP-2026-0001 : 40 % → 70 %
+  → ajouter_jalon   « Départ conteneur » le 2026-10-02 sur OP-2026-0001
+  → « Cache-cous à 70 % et deadline ajoutée au 2 octobre. »        [Annuler]
+```
+
+**Vingt outils** (`outils.js`) : lire les ordres, les fiches et la cédule ;
+mettre à jour un avancement ; créer un ordre, y ajouter ou en retirer des
+items ; poser des jalons ; créer et enrichir une fiche produit ; commenter.
+L'assistant les enchaîne seul — créer un ordre puis le remplir de quatre items
+est une seule demande.
+
+### Trois garde-fous
+
+**Les droits sont vérifiés dans les outils, pas seulement dans les routes.**
+L'atelier peut mettre à jour un avancement et commenter ; il ne peut pas créer
+d'ordre, et l'assistant ne lui sert pas d'échelle pour passer par-dessus le mur
+— il ne reçoit même pas les schémas des outils d'administration.
+
+**Toute écriture est journalisée avec de quoi la défaire.** L'assistant agit
+sans demander la permission, parce que c'est ce qu'on attend de lui ; le filet,
+c'est que rien n'est irréversible. On ne défait que le dernier tour encore en
+place : annuler un tour ancien qui avait créé un ordre le supprimerait en
+cascade, emportant silencieusement le travail des tours suivants.
+
+**Aucune suppression d'ordre ni de produit.** Retirer un item ou un jalon, oui,
+c'est du travail courant et ça se rétablit. Effacer un ordre complet sur une
+phrase mal entendue, non — ça se fait à la main, à l'écran, en voyant ce qu'on
+supprime.
+
+Deux refus valent d'être connus : une référence ambiguë (« les cache-cous »
+quand il en existe deux) fait poser une question au lieu d'un choix au hasard,
+et un avancement doit être un multiple de 10 donné par Montassar — « presque
+fini » ne devient pas 90 % tout seul.
+
+### La dictée
+
+Le bouton **Dicter** utilise la reconnaissance vocale du navigateur
+(`SpeechRecognition`). Sans elle — Firefox, Safari ancien, micro refusé — le
+bouton ne s'affiche pas et le clavier fait le travail.
+
+Deux choses à savoir : dans Chrome, l'audio transite par les serveurs de
+Google, ce n'est donc pas le canal pour une information confidentielle ; et
+seul du texte remonte à notre serveur, ce qui en fait aussi l'option la plus
+légère pour la Tunisie — pas de fichier audio à téléverser.
+
+### Ce qu'il faut pour qu'il fonctionne
+
+`ANTHROPIC_API_KEY` côté serveur. Sans elle, la page reste consultable et le
+dit franchement au lieu d'échouer en silence. La boucle s'arrête d'elle-même
+après 12 étapes et l'explique.
+
+Les tests couvrent la mécanique — enchaînement des outils, retour des erreurs
+au modèle, droits, journal, annulation — contre une fausse API. **Le jugement
+du modèle, lui, ne se teste pas automatiquement** : après un changement de
+modèle ou de consigne, il faut essayer à la main quelques phrases réelles,
+dont une ambiguë et une hors de ses droits.
 
 ## Contraintes techniques assumées
 
@@ -97,6 +173,8 @@ node mrp.js demo
 | `PORT` | port d'écoute (défaut 3000) |
 | `MRP_DB` | chemin du fichier SQLite (défaut `./data/mrp.db`) |
 | `MRP_SECURE` | `1` en production : exige HTTPS sur le cookie de session |
+| `ANTHROPIC_API_KEY` | clé de l'assistant ; sans elle la page le signale |
+| `MRP_MODELE` | modèle utilisé (défaut `claude-sonnet-5`) |
 
 ## Déploiement sur Render
 
@@ -126,14 +204,20 @@ formulaire si l'application devient accessible à un public plus large.
 ## Tests
 
 ```
-sh tests/e2e.sh
+sh tests/tout.sh
 ```
 
-Démarre le serveur sur une base jetable et vérifie le parcours complet :
-authentification, rejet des mauvais mots de passe, mise à jour d'avancement par
-l'atelier, traçage dans l'historique, rejet des valeurs hors tranche de 10 %,
-refus des actions d'administration à l'atelier, calcul pondéré de l'avancement
-global, et poids des pages sous 25 Ko.
+Trois suites, aucune n'a besoin du réseau ni de clé API.
+
+| Suite | Ce qu'elle couvre |
+| --- | --- |
+| `tests/outils.js` | les 20 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
+| `tests/boucle.js` | la boucle agentique contre une fausse API : enchaînement des outils, retour des erreurs au modèle, reprise du fil, plafond de 12 étapes |
+| `tests/e2e.sh` | le serveur complet : authentification, permissions, avancement pondéré, redimension des images, poids des pages sous 25 Ko |
+
+Ce qui n'est **pas** couvert : le jugement du modèle. Après un changement de
+modèle ou de consigne, essayer à la main quelques phrases réelles — dont une
+référence ambiguë et une demande hors des droits de l'utilisateur.
 
 ## Modèle de données
 
@@ -142,6 +226,7 @@ utilisateurs ─┬─ sessions
               ├─ ordres ─┬─ ordre_items ── avancement_historique
               │          ├─ ordre_jalons          (cédule)
               │          └─ ordre_commentaires
+              ├─ agent_tours ── agent_actions        (assistant + annulation)
               └─ produits ─┬─ produit_photos      (studio | contexte)
                            ├─ produit_materiaux
                            └─ produit_patrons
@@ -153,5 +238,8 @@ rend chaque item cliquable vers sa fiche.
 ## Backlog
 
 Volontairement hors de cette version : inventaire, traduction FR/EN, alertes,
-convertisseur HPGL (voir `../patrons/`), assistant conversationnel branché sur
-la base et le code.
+convertisseur HPGL (voir `../patrons/`).
+
+Pour l'assistant, ce qui reste à faire : lui donner accès aux stocks quand
+l'inventaire existera, et le brancher sur le convertisseur de patrons pour
+qu'« envoie-moi le patron du cache-cou en HPGL » devienne une seule phrase.

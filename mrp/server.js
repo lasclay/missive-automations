@@ -22,6 +22,8 @@ const path = require('node:path');
 const { db, prochainNumero, avancementOrdre } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
+const assistant = require('./assistant.js');
+const outils = require('./outils.js');
 
 const PORT = process.env.PORT || 3000;
 const SECURE = process.env.MRP_SECURE === '1';
@@ -107,6 +109,27 @@ const R = {
 
 // ------------------------------------------------------------------ statiques
 const STATIQUES = { '/style.css': ['text/css; charset=utf-8', 'public/style.css'] };
+
+// Un fil regroupe les tours d'une même conversation. Identifiant opaque côté
+// client : on ne fait que vérifier sa forme avant de s'en servir en requête.
+const nouveauFil = () => require('node:crypto').randomBytes(9).toString('hex');
+const filValide = (f) => typeof f === 'string' && /^[0-9a-f]{18}$/.test(f);
+
+const EXEMPLES = {
+  admin: [
+    'Où en est la production automne 2026 ?',
+    'Mets les cache-cous adultes à 70 %',
+    "Crée un ordre « Prévente hiver » avec 500 tuques sport et 300 bandeaux",
+    "Ajoute une deadline « Départ conteneur » le 2 octobre sur l'ordre en cours",
+    "Le bandeau se coupe dans le sens de la longueur — note-le dans sa fiche",
+  ],
+  atelier: [
+    'Les cache-cous adultes sont rendus à 70 %',
+    "Qu'est-ce qui s'en vient le mois prochain ?",
+    'Montre-moi la fiche du bandeau amovible',
+    "Note sur l'ordre en cours qu'il manque du molleton noir",
+  ],
+};
 
 // --------------------------------------------------------------------- routes
 async function router(req, res, url, user) {
@@ -329,6 +352,44 @@ async function router(req, res, url, user) {
     return html(res, V.vueProduit({ user, p: pr, msg,
       photos: R.photos.all(id), materiaux: R.materiaux.all(id),
       patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id) }));
+  }
+
+  // ---- assistant : il exécute, il ne fait pas que répondre
+  if (p === '/assistant') {
+    if (req.method === 'POST') {
+      const f = await corpsFormulaire(req);
+      const fil = filValide(f.fil) ? f.fil : nouveauFil();
+      const r = await assistant.traiter({
+        demande: f.demande, user, fil });
+      return vers(res, '/assistant?fil=' + encodeURIComponent(fil)
+        + (r.erreur && !r.tourId ? '&err=' + encodeURIComponent(r.erreur) : '')
+        + '#bas');
+    }
+    let fil = q.get('fil');
+    if (!filValide(fil)) fil = nouveauFil();
+    return html(res, V.vueAssistant({ user, msg, fil,
+      dispo: assistant.disponible(),
+      tours: assistant.fil(fil, user.id),
+      annulable: outils.dernierTourAnnulable(user.id),
+      exemples: EXEMPLES[user.role] || EXEMPLES.atelier }));
+  }
+  {
+    const m = p.match(/^\/assistant\/(\d+)\/annuler$/);
+    if (m && req.method === 'POST') {
+      const t = db.prepare(`SELECT * FROM agent_tours WHERE id = ?`).get(Number(m[1]));
+      // On n'annule que ses propres tours : le journal d'un autre ne se touche pas.
+      if (!t || t.utilisateur_id !== user.id)
+        return vers(res, '/assistant?err=' + encodeURIComponent('Tour introuvable.'));
+      // On ne défait que le dernier : voir dernierTourAnnulable dans outils.js.
+      if (outils.dernierTourAnnulable(user.id) !== t.id)
+        return vers(res, '/assistant?fil=' + encodeURIComponent(t.fil) + '&err='
+          + encodeURIComponent("On ne peut annuler que la dernière action de "
+            + "l'assistant. Défais les plus récentes d'abord."));
+      const n = outils.annulerTour(t.id);
+      return vers(res, '/assistant?fil=' + encodeURIComponent(t.fil) + '&ok='
+        + encodeURIComponent(n ? `${n} modification${n > 1 ? 's' : ''} annulée${
+            n > 1 ? 's' : ''}.` : 'Rien à annuler.'));
+    }
   }
 
   if (p === '/cedule')

@@ -162,3 +162,46 @@ textarea{min-height:70px;resize:vertical}
   .jalon{flex-wrap:wrap;gap:6px}
   .jalon .d{min-width:0}
 }
+
+/* ---------- assistant ---------- */
+.intro{color:var(--gris);max-width:60ch;margin:0 0 16px}
+.fil{margin-bottom:18px}
+.tour{border-left:3px solid var(--ligne);padding:2px 0 2px 14px;margin-bottom:18px}
+.tour .dem{margin:0 0 8px;color:var(--gris)}
+.tour .dem b{color:var(--texte);margin-right:6px}
+.tour .rep p{margin:0 0 8px}
+.tour .rep.err{color:#b3261e}
+.faits{background:var(--bleu-pale);border-radius:5px;padding:9px 12px;margin-top:10px;
+  font-size:13px}
+.faits b{display:block;margin-bottom:4px;font-size:12px;text-transform:uppercase;
+  letter-spacing:.04em;color:var(--gris)}
+.faits ul{margin:0;padding-left:18px}
+.faits li{margin-bottom:2px}
+.faits li.off{text-decoration:line-through;color:var(--gris)}
+.faits form{margin-top:6px}
+/* un bouton qui doit se lire comme un lien : formulaire sans l'air d'en être un */
+.lien{background:none;border:0;padding:0;font:inherit;color:var(--bleu);
+  cursor:pointer;text-align:left;text-decoration:underline}
+.lien:hover{color:var(--texte)}
+.exemples{list-style:none;padding:0;margin:0 0 18px}
+.exemples li{margin-bottom:6px}
+.saisie{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;padding:12px}
+.saisie textarea{width:100%;box-sizing:border-box;font:inherit;padding:9px;
+  border:1px solid var(--ligne);border-radius:5px;resize:vertical}
+.actions-saisie{display:flex;gap:8px;align-items:center;margin-top:9px;flex-wrap:wrap}
+.actions-saisie .primaire{margin-left:auto}
+.micro{background:var(--carte);border:1px solid var(--ligne);border-radius:5px;
+  padding:8px 12px;font:inherit;cursor:pointer;white-space:nowrap;flex:0 0 auto}
+/* sans largeur imposée, le <select> s'étire et fait passer toute la barre à la
+   ligne : les trois contrôles doivent tenir côte à côte, même à 360 px */
+.actions-saisie select{flex:0 1 auto;width:auto;max-width:8em;font:inherit;
+  padding:8px 6px;border:1px solid var(--ligne);border-radius:5px;
+  background:var(--carte);color:inherit}
+.micro.on{background:#b3261e;border-color:#b3261e;color:#fff}
+.reinit{font-size:13px;color:var(--gris);margin-top:10px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:720px){
+  .actions-saisie{gap:6px}
+  .actions-saisie .primaire,.micro{padding:11px 14px}
+  .actions-saisie .primaire{margin-left:auto}
+}

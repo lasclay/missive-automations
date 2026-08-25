@@ -88,4 +88,24 @@ for u in /produits /produits/1; do
 done
 ok "toutes les images pointent vers une URL externe"
 
+# l'assistant : la page vit même sans clé API, et le dit au lieu de planter
+A=$(curl -s -b $CA $B/assistant)
+echo "$A" | grep -q 'ANTHROPIC_API_KEY' \
+  && ok "assistant : absence de clé annoncée, pas de plantage" \
+  || ko "assistant : la page ne signale pas la clé manquante"
+echo "$A" | grep -q 'name="fil" value="[0-9a-f]\{18\}"' \
+  && ok "assistant : un fil de conversation est ouvert" || ko "assistant : pas de fil"
+
+# les exemples proposés dépendent du rôle
+curl -s -b $CO $B/assistant | grep -q "atelier" \
+  && ok "assistant : l'atelier est prévenu de ses limites" || ko "assistant : rôle non signalé"
+curl -s -b $CO $B/assistant | grep -q 'Crée un ordre « Prévente' \
+  && ko "assistant : exemples d'admin proposés à l'atelier" \
+  || ok "assistant : exemples adaptés au rôle"
+
+# on n'annule pas le tour d'un autre
+curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler \
+  | grep -q 'err=' && ok "assistant : tour d'autrui non annulable" \
+  || ko "assistant : annulation croisée permise"
+
 echo "  Tout est conforme."

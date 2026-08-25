@@ -134,6 +134,32 @@ CREATE TABLE IF NOT EXISTS avancement_historique (
   cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- ------------------------------------------------------------------ assistant
+-- Chaque demande faite à l'assistant, avec l'historique de la conversation
+-- (JSON des messages) pour pouvoir enchaîner « et pour les mitaines ? ».
+CREATE TABLE IF NOT EXISTS agent_tours (
+  id            INTEGER PRIMARY KEY,
+  utilisateur_id INTEGER REFERENCES utilisateurs(id),
+  fil           TEXT NOT NULL,        -- regroupe les tours d'une même conversation
+  demande       TEXT NOT NULL,
+  reponse       TEXT DEFAULT '',
+  messages      TEXT NOT NULL DEFAULT '[]',
+  erreur        TEXT DEFAULT '',
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
+);
+-- Journal des écritures faites par l'assistant. Chaque ligne porte de quoi la
+-- défaire : l'assistant agit tout de suite, mais rien n'est irréversible.
+CREATE TABLE IF NOT EXISTS agent_actions (
+  id            INTEGER PRIMARY KEY,
+  tour_id       INTEGER NOT NULL REFERENCES agent_tours(id) ON DELETE CASCADE,
+  outil         TEXT NOT NULL,
+  resume        TEXT NOT NULL,        -- « avancement CC-ADULTE : 40 % → 70 % »
+  defaire       TEXT,                 -- JSON {table, op, id, avant|ligne} ; NULL = lecture
+  defait        INTEGER NOT NULL DEFAULT 0,
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_tours_fil     ON agent_tours(fil);
+CREATE INDEX IF NOT EXISTS idx_actions_tour  ON agent_actions(tour_id);
 CREATE INDEX IF NOT EXISTS idx_items_ordre    ON ordre_items(ordre_id);
 CREATE INDEX IF NOT EXISTS idx_jalons_ordre   ON ordre_jalons(ordre_id);
 CREATE INDEX IF NOT EXISTS idx_jalons_date    ON ordre_jalons(date);

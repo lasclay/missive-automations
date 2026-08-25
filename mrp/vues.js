@@ -115,6 +115,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/ordres', 'Ordres de production', 'ordres')}
     ${lien('/produits', 'Produits', 'produits')}
     ${lien('/cedule', 'Cédule', 'cedule')}
+    ${lien('/assistant', 'Assistant', 'assistant')}
   </nav>
   <span class="qui">${e(user.nom)}${user.role === 'atelier' ? ' · atelier' : ''}
     · <a href="/deconnexion">Sortir</a></span>` : ''}
@@ -580,7 +581,138 @@ function vueCedule({ user, jalons, msg }) {
   return page({ titre: 'Cédule', user, corps, actif: 'cedule', msg });
 }
 
+
+/* ------------------------------------------------------------------ assistant
+ * L'assistant exécute des ordres : la page montre donc autant CE QU'IL A FAIT
+ * que ce qu'il a répondu. Chaque tour porte la liste de ses écritures et un
+ * bouton pour tout défaire — c'est ce qui permet de lui laisser la main.
+ *
+ * La dictée est du JavaScript facultatif (≈1,5 Ko) : la reconnaissance tourne
+ * dans le navigateur et n'envoie que du texte au serveur. Sans elle — vieux
+ * navigateur, micro refusé — le champ de saisie fonctionne normalement.
+ */
+function vueAssistant({ user, msg, tours, fil, dispo, exemples, annulable }) {
+  const bulle = (t) => {
+    const ecrit = t.actions.filter(a => a.defaire);
+    const restant = ecrit.filter(a => !a.defait);
+    return `
+    <div class="tour">
+      <p class="dem"><b>${e(user.nom)}</b> ${e(t.demande)}</p>
+      ${t.erreur ? `<p class="rep err">${e(t.erreur)}</p>`
+                 : `<div class="rep">${para(t.reponse)}</div>`}
+      ${ecrit.length ? `<div class="faits">
+        <b>${restant.length ? 'Fait' : 'Annulé'}</b>
+        <ul>${ecrit.map(a =>
+          `<li${a.defait ? ' class="off"' : ''}>${e(a.resume)}</li>`).join('')}</ul>
+        ${restant.length && t.id === annulable
+          ? `<form method="post" action="/assistant/${t.id}/annuler">
+          <button class="lien">Annuler ces ${restant.length} modification${
+            restant.length > 1 ? 's' : ''}</button></form>` : ''}
+      </div>` : ''}
+    </div>`;
+  };
+
+  const corps = `
+  <h1>Assistant</h1>
+  ${dispo ? '' : `<div class="msg err">L'assistant n'est pas branché :
+    il manque <code>ANTHROPIC_API_KEY</code> côté serveur. La page reste
+    consultable, mais aucune demande ne partira.</div>`}
+
+  <p class="intro">Donne un ordre, il l'exécute. « Mets les cache-cous à 70 % »,
+  « crée un ordre pour 500 tuques sport livrables le 15 novembre »,
+  « qu'est-ce qui s'en vient le mois prochain ». ${user.role === 'atelier'
+    ? `Tu es à l'atelier : l'assistant peut mettre à jour les avancements et
+       commenter, pas créer d'ordres.`
+    : ''}</p>
+
+  <div class="fil">${tours.length
+    ? tours.map(bulle).join('')
+    : `<p class="vide">Rien encore. Essaie une de ces phrases :</p>
+       <ul class="exemples">${exemples.map(x =>
+         `<li><button form="demande" name="demande" value="${e(x)}"
+              class="lien">${e(x)}</button></li>`).join('')}</ul>`}
+  </div>
+
+  <form method="post" action="/assistant" id="demande" class="saisie">
+    <input type="hidden" name="fil" value="${e(fil)}">
+    <label for="q" class="sr">Ta demande</label>
+    <textarea id="q" name="demande" rows="3" required
+      placeholder="Ce que tu veux faire, en une phrase…"${dispo ? '' : ' disabled'}
+      ></textarea>
+    <div class="actions-saisie">
+      <button type="button" id="micro" hidden class="micro"
+        aria-label="Dicter">🎙 Dicter</button>
+      <select id="langue" hidden aria-label="Langue de dictée">
+        <option value="fr-CA">Français</option>
+        <option value="ar-TN">العربية</option>
+        <option value="en-CA">English</option>
+      </select>
+      <button id="envoi" class="primaire"${dispo ? '' : ' disabled'}>Envoyer</button>
+    </div>
+  </form>
+  ${tours.length ? `<p class="reinit"><a href="/assistant?fil=nouveau">Nouveau fil</a>
+    — l'assistant oublie la conversation précédente.</p>` : ''}
+
+<script>
+(function () {
+  var f = document.getElementById('demande'),
+      q = document.getElementById('q'),
+      env = document.getElementById('envoi');
+
+  // Sur une connexion lente, une demande peut prendre dix secondes : on le dit
+  // plutôt que de laisser croire que le clic n'a pas pris.
+  f.addEventListener('submit', function () {
+    env.disabled = true; env.textContent = 'L’assistant travaille…';
+  });
+
+  var Reco = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Reco) return;                       // pas de dictée : le clavier suffit
+  var mic = document.getElementById('micro'), lang = document.getElementById('langue');
+  mic.hidden = false; lang.hidden = false;
+  try { lang.value = localStorage.getItem('mrp-langue') || 'fr-CA'; } catch (e) {}
+
+  var reco = null, actif = false, acquis = '';
+  mic.addEventListener('click', function () {
+    if (actif) { reco.stop(); return; }
+    reco = new Reco();
+    reco.lang = lang.value; reco.continuous = true; reco.interimResults = true;
+    try { localStorage.setItem('mrp-langue', lang.value); } catch (e) {}
+    acquis = q.value ? q.value.replace(/\s+$/, '') + ' ' : '';
+    reco.onstart = function () {
+      actif = true; mic.classList.add('on'); mic.textContent = '■ Arrêter';
+    };
+    reco.onresult = function (ev) {
+      var provisoire = '';
+      for (var i = ev.resultIndex; i < ev.results.length; i++) {
+        var t = ev.results[i][0].transcript;
+        if (ev.results[i].isFinal) acquis += t + ' '; else provisoire += t;
+      }
+      q.value = acquis + provisoire;
+    };
+    reco.onerror = function (ev) {
+      mic.textContent = ev.error === 'not-allowed'
+        ? '🎙 Micro refusé' : '🎙 Dicter';
+    };
+    reco.onend = function () {
+      actif = false; mic.classList.remove('on');
+      if (mic.textContent.indexOf('refus') < 0) mic.textContent = '🎙 Dicter';
+      q.focus();
+    };
+    reco.start();
+  });
+})();
+</script>`;
+
+  return page({ titre: 'Assistant', user, corps, actif: 'assistant', msg });
+}
+
+/** Texte libre du modèle → paragraphes, en échappant tout. */
+function para(t) {
+  return String(t || '').split(/\n{2,}/).filter(Boolean)
+    .map(b => `<p>${e(b).replace(/\n/g, '<br>')}</p>`).join('') || '<p></p>';
+}
+
 module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR, jauge, page, vueConnexion,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
-                   vueProduits, vueProduit, vueProduitForm, vueCedule,
+                   vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
                    STATUTS, TYPES_JALON };
