@@ -170,6 +170,7 @@ const lignes = corresp.map(r => {
     usage: sh?.url_boutique ? `Fiche publique : ${sh.url_boutique}` : '',
     notes_tech: notes.join('\n\n'),
     famille: r.famille || 'autre',
+    fabrication: r.fabrication || 'tunisie',
     actif: r.confiance === 'non vendu' || r.confiance === 'non produit' ? 0 : 1,
     photos, bom, plan: pl || null,
     _sh: Boolean(sh), _cogs: Boolean(c), _confiance: r.confiance,
@@ -227,10 +228,11 @@ try {
 
   const trouve = db.prepare(`SELECT id FROM produits WHERE code = ?`);
   const insere = db.prepare(`INSERT INTO produits
-      (code, nom, description, usage, notes_tech, actif, famille)
-      VALUES (?,?,?,?,?,?,?)`);
+      (code, nom, description, usage, notes_tech, actif, famille, fabrication)
+      VALUES (?,?,?,?,?,?,?,?)`);
   const maj = db.prepare(`UPDATE produits SET nom=?, description=?, usage=?,
-      notes_tech=?, actif=?, famille=?, maj_le=datetime('now') WHERE id=?`);
+      notes_tech=?, actif=?, famille=?, fabrication=?,
+      maj_le=datetime('now') WHERE id=?`);
   const videPhotos = db.prepare(`DELETE FROM produit_photos WHERE produit_id=?`);
   const videMat = db.prepare(`DELETE FROM produit_materiaux WHERE produit_id=?`);
   const posePhoto = db.prepare(`INSERT INTO produit_photos
@@ -244,11 +246,12 @@ try {
     const ex = trouve.get(l.code);
     let id;
     if (ex) {
-      maj.run(l.nom, l.description, l.usage, l.notes_tech, l.actif, l.famille, ex.id);
+      maj.run(l.nom, l.description, l.usage, l.notes_tech, l.actif, l.famille,
+              l.fabrication, ex.id);
       id = ex.id; misAJour++;
     } else {
       id = insere.run(l.code, l.nom, l.description, l.usage,
-                      l.notes_tech, l.actif, l.famille).lastInsertRowid;
+                      l.notes_tech, l.actif, l.famille, l.fabrication).lastInsertRowid;
       cree++;
     }
     // Photos et matériaux se remplacent en bloc : ils viennent entièrement des
@@ -317,7 +320,13 @@ try {
       maj_le = datetime('now') WHERE id = ?`);
   const idProduit = db.prepare(`SELECT id FROM produits WHERE code = ?`);
 
-  let nItems = 0, nMaj = 0, unites = 0, rang = 0;
+  // La répartition par taille et coloris se remplace en bloc : elle vient
+  // entièrement du chiffrier, rien n'est saisi dessus dans l'app.
+  const videVar = db.prepare(`DELETE FROM item_variantes WHERE item_id = ?`);
+  const poseVar = db.prepare(`INSERT INTO item_variantes
+      (item_id, nom, quantite, rang) VALUES (?,?,?,?)`);
+
+  let nItems = 0, nMaj = 0, unites = 0, rang = 0, nVar = 0, ecarts = [];
   for (const l of lignes) {
     if (!l.plan) continue;
     const pr = idProduit.get(l.code); if (!pr) continue;
@@ -326,13 +335,32 @@ try {
     const pv = Number(l.plan.prevente_2026) || 0;
     const note = pv > 0 ? `${pv} déjà en prévente` : '';
     const ex = trouveItem.get(o.id, pr.id);
-    if (ex) { majItem.run(q, note, ex.id); nMaj++; }
-    else { poseItem.run(o.id, pr.id, q, note, ++rang); nItems++; }
+    let itemId;
+    if (ex) { majItem.run(q, note, ex.id); itemId = ex.id; nMaj++; }
+    else { itemId = poseItem.run(o.id, pr.id, q, note, ++rang).lastInsertRowid; nItems++; }
     unites += q;
+
+    const vs = variantesPlan.get(l.plan.produit) || [];
+    videVar.run(itemId);
+    let r = 0, somme = 0;
+    for (const v of vs) {
+      const qv = Number(v.quantite) || 0;
+      poseVar.run(itemId, v.variante, qv, ++r);
+      somme += qv; nVar++;
+    }
+    // Le chiffrier ne boucle pas toujours. On garde les deux chiffres et on
+    // signale l'écart, plutôt que d'en corriger un au hasard.
+    if (vs.length && somme !== q) ecarts.push(`${l.code} : ${somme} en variantes pour ${q} au plan`);
   }
   db.exec('COMMIT');
   dire(`  ${nItems} items créés, ${nMaj} mis à jour — `
      + `${unites.toLocaleString('fr-CA')} unités à produire`);
+  dire(`  ${nVar} variantes réparties (taille, coloris)`);
+  if (ecarts.length) {
+    dire(`\n  ${ecarts.length} répartitions ne bouclent pas avec le plan :`);
+    for (const x of ecarts) dire(`    ${x}`);
+    dire('  Les deux chiffres sont conservés ; l\'écart s\'affiche dans l\'app.');
+  }
   dire('  Les avancements déjà saisis n\'ont pas été touchés.\n');
 } catch (e) {
   db.exec('ROLLBACK');

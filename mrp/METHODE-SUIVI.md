@@ -11,7 +11,15 @@ Il est court exprès. Une méthode que personne ne lit ne s'applique pas.
 ## La règle en une phrase
 
 **Montassar met à jour l'avancement de chaque item sur lequel il a travaillé,
-à la fin de sa journée de travail.**
+à la fin de sa journée de travail. Gabriel et Catherine posent les priorités.**
+
+Les deux moitiés comptent. L'atelier est seul à savoir ce qui est fait ;
+Québec est seul à savoir ce qui presse. Ni l'un ni l'autre ne fait le travail
+de l'autre.
+
+**Tout part à zéro.** Aucun avancement n'est saisi à l'import : le plan donne
+des quantités, pas de l'avancement. Le premier chiffre de chaque item vient de
+Montassar, pas d'une estimation posée depuis Québec.
 
 C'est tout. Le reste de ce document explique pourquoi cette phrase est
 suffisante, et ce qui se passe quand elle n'est pas respectée.
@@ -47,10 +55,10 @@ que la personne qui produit est la seule à pouvoir le donner.
 
 ## Qui fait quoi
 
-| | Montassar (atelier) | Québec (administration) |
+| | Montassar (atelier) | Gabriel et Catherine (Québec) |
 | --- | --- | --- |
 | Met à jour l'avancement | **oui, c'est sa responsabilité** | en dépannage seulement |
-| Pose les priorités | non | oui |
+| Pose les priorités | non | **oui, c'est la leur** |
 | Crée les ordres et les échéances | non | oui |
 | Commente un blocage | oui | oui |
 | Consulte tout | oui | oui |
@@ -116,8 +124,36 @@ Personne n'a de numérotation à maintenir.
 
 La priorité manuelle est le seul moyen de **contredire le calendrier**. Elle
 sert quand une raison qui n'est pas dans la base l'exige : un tissu qui vient
-d'arriver, une machine libre, un échantillon à envoyer. Posée par Québec,
-visible par tout le monde.
+d'arriver, une machine libre, un échantillon à envoyer. Posée par Gabriel ou
+Catherine, visible par tout le monde — l'atelier la lit, il ne la change pas.
+Ce n'est pas une question de confiance : la raison de bousculer l'ordre est
+commerciale, et elle est à Québec.
+
+### Ce qui ne se fabrique pas à l'atelier
+
+Tout ne sort pas de Tunisie. La **tuque beanie** est tricotée en Chine ; seul
+son **bandeau amovible** est fait à l'atelier. Un produit fabriqué ailleurs
+n'apparaît pas dans *À fabriquer* — Montassar ne le produit pas, ce serait du
+bruit sur l'écran fait pour dire quoi faire en premier.
+
+Il ne disparaît pas pour autant : un encadré au-dessus de la liste dit combien
+d'unités sont écartées et où elles se font, et l'ordre de production les garde.
+Une ligne qui disparaît d'une liste sans explication est une ligne perdue.
+
+### La répartition par taille et par coloris
+
+« 3 500 cache-cous » ne dit pas quoi couper. Chaque item porte sa répartition
+— 1 285 gris foncé, 1 078 noirs, 473 rouges, 364 gris pâle, 305 verts — repliée
+sous la quantité, sur l'ordre de production.
+
+**L'avancement reste au niveau de l'item.** Une tranche de 10 % par variante
+multiplierait la saisie par cinq sans rien apprendre de plus sur ce qui rentrera
+dans le conteneur. La répartition sert à couper juste, pas à déclarer.
+
+Treize répartitions ne bouclent pas avec le plan — le manteau hivernal compte
+301 unités en variantes pour 150 au plan, l'étui 298 pour 500. Les deux chiffres
+sont affichés et l'écart est signalé : c'est au chiffrier d'être corrigé, pas à
+l'app de choisir.
 
 ### Suivi — « est-ce que ça avance ? »
 

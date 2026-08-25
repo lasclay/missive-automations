@@ -316,6 +316,66 @@ t("l'atelier peut consulter le suivi",
   Array.isArray(suivi.sans_mouvement) && Array.isArray(suivi.dernieres_maj),
   JSON.stringify(suivi).slice(0, 80));
 
+// ------------------------------------------------- lieu de fabrication
+// Tout n'est pas fait en Tunisie : ce qui est fabriqué ailleurs ne doit pas
+// apparaître comme du travail d'atelier, mais ne doit pas disparaître non plus.
+{
+  const { fabriqueAilleurs } = require('../db.js');
+  const av = listeFabrication().length;
+
+  const lieuAtelier = ex('definir_fabrication', { produit: 'CC-ADULTE', lieu: 'chine' }, m);
+  t("l'atelier ne change pas un lieu de fabrication", Boolean(lieuAtelier.erreur));
+
+  const lieu = ex('definir_fabrication', { produit: 'CC-ADULTE', lieu: 'chine' }, c);
+  t('le lieu de fabrication se pose', lieu.ok && lieu.lieu === 'chine', JSON.stringify(lieu));
+
+  const apres = listeFabrication();
+  t("ce qui est fait ailleurs sort de la liste de l'atelier",
+    apres.length === av - 1 && !apres.some(l => l.code === 'CC-ADULTE'),
+    av + ' → ' + apres.length);
+
+  const ailleurs = fabriqueAilleurs();
+  t('mais reste visible ailleurs, avec son restant',
+    ailleurs.some(l => l.code === 'CC-ADULTE' && l.restant > 0),
+    JSON.stringify(ailleurs.map(l => [l.code, l.restant])));
+
+  const dit = ex('a_fabriquer', {}, m);
+  t("l'assistant dit ce qu'il n'a pas compté",
+    Array.isArray(dit.fabrique_ailleurs)
+      && dit.fabrique_ailleurs.some(l => l.produit === 'CC-ADULTE'),
+    JSON.stringify(dit.fabrique_ailleurs));
+
+  const lieuKo = ex('definir_fabrication', { produit: 'CC-ADULTE', lieu: 'maroc' }, c);
+  t('un lieu hors liste est refusé', Boolean(lieuKo.erreur));
+
+  ex('definir_fabrication', { produit: 'CC-ADULTE', lieu: 'tunisie' }, c);
+  t('remis à Tunisie, la ligne revient dans la liste',
+    listeFabrication().some(l => l.code === 'CC-ADULTE'));
+}
+
+// ------------------------------------------------------ répartition
+{
+  const { variantesItem } = require('../db.js');
+  const it = db.prepare(`SELECT i.id, i.quantite FROM ordre_items i
+      JOIN produits p ON p.id = i.produit_id WHERE p.code = 'CC-ADULTE'`).get();
+  t('sans répartition, la variante vaut null', variantesItem(it.id) === null);
+
+  const pose = db.prepare(`INSERT INTO item_variantes (item_id, nom, quantite, rang)
+      VALUES (?,?,?,?)`);
+  pose.run(it.id, 'Noir', Math.floor(it.quantite / 2), 1);
+  pose.run(it.id, 'Gris', it.quantite - Math.floor(it.quantite / 2), 2);
+  const v = variantesItem(it.id);
+  t('une répartition qui boucle ne signale aucun écart',
+    v.lignes.length === 2 && v.somme === it.quantite && v.ecart === 0, JSON.stringify(v));
+
+  pose.run(it.id, 'Rouge', 7, 3);
+  const v2 = variantesItem(it.id);
+  t("l'écart au plan est calculé, pas corrigé",
+    v2.ecart === 7 && v2.quantite === it.quantite, JSON.stringify(v2));
+
+  db.prepare('DELETE FROM item_variantes WHERE item_id = ?').run(it.id);
+}
+
 const inconnu = ex('outil_qui_nexiste_pas', {}, c);
 t('outil inconnu signalé sans planter', Boolean(inconnu.erreur));
 

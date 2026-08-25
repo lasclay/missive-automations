@@ -355,3 +355,33 @@ table.fab tr.p-basse{opacity:.62}
   table.fam,.fam{margin-left:0;margin-top:4px}
   table.fab .prod .fam{margin-left:8px}
 }
+
+/* ---------- fabriqué ailleurs qu'à l'atelier ---------- */
+/* Une ligne qui disparaît d'une liste sans explication est une ligne perdue :
+   ce qui se fabrique ailleurs sort du travail de l'atelier, mais se dit. */
+.ailleurs{background:var(--carte);border:1px solid var(--ligne);
+  border-left:3px solid var(--ardoise);border-radius:6px;
+  padding:11px 13px;margin:0 0 14px;font-size:13.5px;color:var(--encre2)}
+.ailleurs ul{list-style:none;padding:0;margin:8px 0 0}
+.ailleurs li{padding:5px 0;border-top:1px solid var(--ligne);
+  display:flex;gap:4px 10px;flex-wrap:wrap;align-items:baseline}
+.ailleurs li .sec{color:var(--gris);font-size:12.5px;flex:1;min-width:12ch}
+.ailleurs li b{font-variant-numeric:tabular-nums}
+.ailleurs .lieu{font-size:10.5px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;padding:2px 7px;border-radius:99px;
+  border:1px solid var(--ardoise);color:var(--ardoise);background:var(--ardoise-pale)}
+
+/* ---------- répartition par variante ---------- */
+/* « 3 500 cache-cous » ne dit pas quoi couper. La répartition est repliée par
+   défaut : elle sert au moment de couper, pas au moment de lire la liste. */
+.rep-var{margin-top:6px;font-size:12.5px;font-weight:400}
+.rep-var summary{cursor:pointer;color:var(--gris);white-space:nowrap}
+.rep-var summary:hover{color:var(--encre2)}
+.rep-var .ecart{color:var(--ambre);font-weight:600;font-variant-numeric:tabular-nums}
+.rep-var ul{list-style:none;padding:0;margin:6px 0 0}
+.rep-var li{display:flex;justify-content:space-between;gap:12px;
+  padding:3px 0;border-top:1px solid var(--ligne)}
+.rep-var li b{font-variant-numeric:tabular-nums;color:var(--encre)}
+.rep-var li span{color:var(--encre2)}
+.rep-var .ecart-note{margin:8px 0 0;color:var(--ambre);font-size:12px;
+  line-height:1.45;white-space:normal}

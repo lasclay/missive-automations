@@ -18,6 +18,7 @@ const TYPES_JALON = { expedition:'Expédition', livraison:'Livraison',
                       prevente:'Prévente' };
 const FAMILLES = { hiver:'Hiver', nouveau:'Nouveau',
                    isotherme:'Sacs', autre:'Autre' };
+const LIEUX = { tunisie:'Tunisie', chine:'Chine' };
 
 /**
  * Normalise une URL d'image et demande la TAILLE STRICTEMENT NÉCESSAIRE.
@@ -257,7 +258,19 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg }) 
     ${items.map(it => `<tr id="i${it.id}">
       <td><a href="/produits/${it.produit_id}"><b>${e(it.produit_nom)}</b></a><br>
           <span class="muted">${e(it.produit_code)}</span></td>
-      <td class="num">${it.quantite.toLocaleString('fr-CA')}</td>
+      <td class="num">${it.quantite.toLocaleString('fr-CA')}
+        ${it.variantes ? `<details class="rep-var">
+          <summary>${it.variantes.lignes.length} variantes${it.variantes.ecart
+            ? ` <span class="ecart">${it.variantes.ecart > 0 ? '+' : ''}${it.variantes.ecart}</span>`
+            : ''}</summary>
+          <ul>${it.variantes.lignes.map(v => `<li><span>${e(v.nom)}</span>
+            <b>${v.quantite.toLocaleString('fr-CA')}</b></li>`).join('')}</ul>
+          ${it.variantes.ecart ? `<p class="ecart-note">La répartition totalise
+            ${it.variantes.somme.toLocaleString('fr-CA')} pour
+            ${it.variantes.quantite.toLocaleString('fr-CA')} au plan. Les deux
+            chiffres viennent du chiffrier ; l'écart n'est pas résolu.</p>` : ''}
+        </details>` : ''}
+      </td>
       <td>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
           ${jauge(it.avancement)}<span class="pct">${it.avancement} %</span>
@@ -744,7 +757,7 @@ function urgence(jours, enRetard) {
   return { cls: 'loin', txt: `dans ${jours} j` };
 }
 
-function vuePriorites({ user, msg, lignes, jours = 7 }) {
+function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
   const admin = user.role === 'admin';
   const enRetard = lignes.filter(l => l.en_retard).length;
   const urgents  = lignes.filter(l => !l.en_retard && l.jours !== null && l.jours <= jours).length;
@@ -783,8 +796,8 @@ function vuePriorites({ user, msg, lignes, jours = 7 }) {
 
   const corps = `
   <h1>À fabriquer</h1>
-  <p class="intro">Tout ce qui reste à produire, tous ordres confondus, dans
-  l'ordre où s'y mettre. Le rang se calcule : priorité posée à la main, puis
+  <p class="intro">Tout ce qui reste à produire <b>à l'atelier</b>, tous ordres
+  confondus, dans l'ordre où s'y mettre. Le rang se calcule : priorité posée à la main, puis
   retard, puis <b>date d'expédition</b>, puis la famille — hiver, nouveaux
   produits, isothermes —, puis quantité restante. ${admin
     ? 'Change une priorité et la liste se réordonne.'
@@ -805,6 +818,16 @@ function vuePriorites({ user, msg, lignes, jours = 7 }) {
       `<span class="fam f-${f}">${FAMILLES[f]}</span>
        <b>${parFam[f].toLocaleString('fr-CA')}</b>`).join('')}</div>`;
   })()}
+
+  ${ailleurs.length ? `<div class="ailleurs">
+    <b>${ailleurs.reduce((n, l) => n + l.restant, 0).toLocaleString('fr-CA')} unités
+    ne sont pas dans cette liste</b> : elles se fabriquent ailleurs qu'à
+    l'atelier. Elles restent au plan et se suivent sur l'ordre.
+    <ul>${ailleurs.map(l => `<li><a href="/ordres/${l.ordre_id}#i${l.id}">${e(l.code)}</a>
+      <span class="sec">${e(l.nom)}</span>
+      <b>${l.restant.toLocaleString('fr-CA')}</b>
+      <span class="lieu">${LIEUX[l.fabrication] || e(l.fabrication)}</span></li>`).join('')}</ul>
+  </div>` : ''}
 
   ${lignes.length ? `<div class="tbl tbl-fab"><table class="fab">
     <thead><tr><th>#</th><th>Produit</th><th>Restant</th><th>Avancement</th>
@@ -885,4 +908,4 @@ module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
                    vuePriorites, vueSuivi, PRIORITES, urgence,
-                   STATUTS, TYPES_JALON };
+                   STATUTS, TYPES_JALON, LIEUX };

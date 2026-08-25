@@ -335,6 +335,22 @@ Ce qui manque au schéma, ce qu'il faut décider avant de construire, et le
 blocage d'accès : [`FICHES-PRODUITS.md`](FICHES-PRODUITS.md).
 
 
+**Le bandeau de la tuque beanie manque au plan.** Le plan prévoit 1 500 tuques
+de ville — tricotées en Chine — mais aucune quantité pour leur bandeau amovible,
+qui lui est fait à l'atelier. S'il en faut un par tuque, il manque 1 500 bandeaux
+au plan de Tunisie. À confirmer avec Gabriel ou Catherine.
+
+**Treize répartitions par variante ne bouclent pas avec le plan.** Le manteau
+hivernal compte 301 unités réparties pour 150 au plan, la veste 321 pour 160,
+le manteau 3 saisons 250 pour 125 — trois doublements exacts, qui sentent la
+ligne comptée deux fois dans le chiffrier. L'étui, lui, est sous-compté : 298
+pour 500. L'app affiche les deux chiffres et signale l'écart ; c'est le
+chiffrier qu'il faut corriger.
+
+**L'avancement par variante n'existe pas.** La répartition dit quoi couper ;
+l'avancement reste par item. Si l'atelier a besoin de déclarer « les noirs sont
+faits, pas les rouges », c'est la première chose à ajouter.
+
 **Le CDN sert du JPEG cinq fois plus léger que le PNG.** `?format=jpg` est
 honoré par Shopify (contrairement à `format=webp`) : un cache-cou en 320 px
 passe de 33 à 7 Ko. L'app ne le demande pas encore, parce que la conversion

@@ -22,7 +22,8 @@
  */
 'use strict';
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
-        sansMouvement, progressionRecente, FAMILLES } = require('./db.js');
+        sansMouvement, progressionRecente, fabriqueAilleurs,
+        FAMILLES, LIEUX } = require('./db.js');
 const { urlAcceptable } = require('./vues.js');
 
 // Tables que le journal a le droit de rétablir. Liste blanche : ce qui n'est
@@ -244,11 +245,13 @@ const OUTILS = [
   },
   {
     nom: 'a_fabriquer',
-    description: "La liste de fabrication : tout ce qui reste à produire, tous "
-      + "ordres confondus, déjà triée dans l'ordre où s'y mettre (priorité, "
-      + "puis échéance, puis quantité restante). C'est la réponse à « qu'est-ce "
-      + "que je fais en premier », « qu'est-ce qui presse », « c'est quoi la "
-      + "suite ».",
+    description: "La liste de fabrication : tout ce qui reste à produire À "
+      + "L'ATELIER, tous ordres confondus, déjà triée dans l'ordre où s'y "
+      + "mettre (priorité, puis échéance, puis quantité restante). C'est la "
+      + "réponse à « qu'est-ce que je fais en premier », « qu'est-ce qui "
+      + "presse », « c'est quoi la suite ». Ce qui se fabrique ailleurs "
+      + "(la tuque beanie, tricotée en Chine) est retourné à part dans "
+      + "`fabrique_ailleurs` — au plan, mais pas du travail d'atelier.",
     role: 'atelier',
     params: { type: 'object', properties: {
       limite: { type: 'integer', description: 'Nombre de lignes (défaut 15).' } } },
@@ -259,6 +262,10 @@ const OUTILS = [
         total_items: tout.length,
         en_retard: tout.filter(l => l.en_retard).length,
         unites_restantes: tout.reduce((s, l) => s + l.restant, 0),
+        // Ne rien dire de ce qui est écarté ferait répondre « il reste 15 000
+        // unités » alors que le plan en compte plus : le silence ment.
+        fabrique_ailleurs: fabriqueAilleurs().map(l => ({
+          produit: l.code, nom: l.nom, restant: l.restant, lieu: l.fabrication })),
         liste: tout.slice(0, n).map((l, i) => ({
           rang: i + 1, produit: l.code, nom: l.nom, famille: l.famille,
           ordre: l.numero,
@@ -295,6 +302,33 @@ const OUTILS = [
         { table: 'produits', op: 'update', id: p.id,
           avant: { famille: p.famille, maj_le: p.maj_le } });
       return { ok: true, produit: p.code, famille: a.famille };
+    },
+  },
+  {
+    nom: 'definir_fabrication',
+    description: "Dit où un produit se fabrique : « tunisie » (l'atelier) ou "
+      + "« chine ». Ce qui se fabrique ailleurs sort de la liste de l'atelier "
+      + "— Montassar ne le produit pas — mais reste au plan et se suit sur "
+      + "l'ordre. Sert quand un produit change de lieu, ou quand on découvre "
+      + "qu'il n'a jamais été fait à l'atelier.",
+    role: 'admin',
+    params: { type: 'object', required: ['produit','lieu'], properties: {
+      produit: { type: 'string' },
+      lieu: { type: 'string', enum: ['tunisie','chine'] } } },
+    executer: (a, ctx) => {
+      const p = resoudreProduit(a.produit);
+      if (!Object.keys(LIEUX).includes(a.lieu))
+        refuser(`Lieu attendu : ${Object.keys(LIEUX).join(', ')}.`);
+      if (p.fabrication === a.lieu)
+        return { ok: true, inchange: true,
+                 message: `${p.code} se fabriquait déjà en ${LIEUX[a.lieu]}.` };
+      db.prepare(`UPDATE produits SET fabrication = ?, maj_le = datetime('now')
+                  WHERE id = ?`).run(a.lieu, p.id);
+      noter(ctx, 'definir_fabrication',
+        `${p.code} : fabrication ${p.fabrication} → ${a.lieu}`,
+        { table: 'produits', op: 'update', id: p.id,
+          avant: { fabrication: p.fabrication, maj_le: p.maj_le } });
+      return { ok: true, produit: p.code, lieu: a.lieu };
     },
   },
   {

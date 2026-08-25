@@ -11,7 +11,12 @@ produit vraiment, récupéré par HTTP et collé tel quel. Une maquette qui
 *ressemble* à l'app finit toujours par mentir sur un détail ; celle-ci ne le
 peut pas, puisqu'elle est l'app.
 
-Trois choses seulement changent :
+Chaque vue est récupérée **deux fois**, une par rôle. Le partage des
+responsabilités — l'atelier déclare l'avancement, Gabriel et Catherine posent
+les priorités — ne se raconte pas, il se voit : on bascule de rôle et les
+commandes changent, parce que ce sont deux pages réellement différentes.
+
+Quatre choses seulement changent :
 
 1. **Les liens** deviennent des ancres internes. Ce qui écrirait sur le
    serveur devient inerte et se voit (opacité réduite).
@@ -20,11 +25,16 @@ Trois choses seulement changent :
    l'app, qui elle ne stocke que des adresses. Chaque photo n'apparaît qu'une
    fois dans le fichier, quelle que soit le nombre de fiches qui la partagent,
    et ne prend sa source qu'à l'affichage de sa fiche.
-3. **Les boutons d'avancement fonctionnent** : `demo-app.js` recalcule ce que
-   le serveur recalculerait — la jauge de l'item, l'avancement global pondéré
-   de l'ordre, le restant de la ligne dans *À fabriquer*, les compteurs et la
-   répartition par famille. La saisie tient dans `localStorage`, donc dans ce
-   navigateur seulement.
+3. **Les gestionnaires en ligne partent.** Le sélecteur de priorité porte un
+   `onchange="this.form.submit()"` : un envoi programmatique **ne déclenche
+   pas** les écouteurs `submit`, donc la page quittait la démo sans que rien
+   ne l'arrête. C'est le script de la démo qui écoute `change` et `click`.
+4. **Les deux gestes fonctionnent.** `demo-app.js` recalcule ce que le serveur
+   recalculerait : une tranche d'avancement met à jour la jauge, l'avancement
+   global pondéré, le restant dans *À fabriquer*, les compteurs, la répartition
+   par famille et le suivi ; une priorité réordonne la liste avec le tri exact
+   de `db.js` et renumérote les rangs. La saisie tient dans `localStorage`,
+   donc dans ce navigateur seulement.
 
 **Tant que rien n'est touché, les chiffres affichés sont ceux du serveur.** Le
 recalcul ne prend la main qu'à la première saisie, et « Remettre à zéro »
@@ -57,16 +67,21 @@ npx http-server -p 8801 -s /tmp/demo
 MRP_DEMO_TRAVAIL=/tmp/demo node mrp/demo/test-demo.js
 ```
 
-`test-demo.js` vérifie les seize points qui comptent : la navigation, le
-recalcul dans les trois vues, la persistance, la remise à zéro, l'affichage des
-photos, l'inertie des liens d'écriture, l'absence de débordement horizontal,
-d'erreur JavaScript et de ressource manquante.
+Le dossier de travail doit contenir `ck-admin` et `ck-atelier` (une session
+ouverte par rôle), `demo-data.json` et `demoimg3/`.
+
+`test-demo.js` vérifie les trente points qui comptent : la navigation, la
+bascule de rôle et ce que chaque rôle voit, le départ à zéro, ce qui est
+fabriqué ailleurs, les deux gestes et leur répercussion dans les trois vues,
+le tri après changement de priorité, la persistance, la remise à zéro,
+l'affichage des photos, l'inertie des liens d'écriture, l'absence de
+débordement horizontal, d'erreur JavaScript et de ressource manquante.
 
 ## Ce que la démo ne montre pas
 
 - **L'assistant**, qui a besoin d'une clé d'API et d'un serveur.
-- **La connexion et les rôles** : la démo est ouverte, et vue comme
-  l'administration. L'atelier voit moins de choses.
-- **Le vrai poids des pages.** Ici tout est dans un seul fichier de 3,7 Mo,
+- **La connexion** : la démo est ouverte. Les rôles s'y basculent d'un bouton ;
+  dans l'app ils tiennent au compte, et personne ne choisit le sien.
+- **Le vrai poids des pages.** Ici tout est dans un seul fichier de 4,0 Mo,
   dont 3,4 Mo de photos. L'app, elle, sert des pages de 2 à 5 Ko compressées
   et laisse le CDN livrer les images à la taille d'affichage.

@@ -117,6 +117,19 @@ CREATE TABLE IF NOT EXISTS ordre_jalons (
   note          TEXT DEFAULT ''
 );
 
+-- La répartition d'un item par taille et par coloris. Sans elle, « 3 500
+-- cache-cous » ne dit pas quoi couper : c'est 1 285 gris foncé, 1 078 noirs,
+-- 473 rouges… L'avancement reste au niveau de l'item — une tranche de 10 %
+-- par variante multiplierait la saisie par cinq pour rien.
+CREATE TABLE IF NOT EXISTS item_variantes (
+  id            INTEGER PRIMARY KEY,
+  item_id       INTEGER NOT NULL REFERENCES ordre_items(id) ON DELETE CASCADE,
+  nom           TEXT NOT NULL,        -- « Gris foncé », « M », « Noir / L »
+  quantite      INTEGER NOT NULL CHECK (quantite >= 0),
+  rang          INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS idx_variantes_item ON item_variantes(item_id);
+
 CREATE TABLE IF NOT EXISTS ordre_commentaires (
   id            INTEGER PRIMARY KEY,
   ordre_id      INTEGER NOT NULL REFERENCES ordres(id) ON DELETE CASCADE,
@@ -178,6 +191,10 @@ db.exec(SCHEMA);
 for (const sql of [
   `ALTER TABLE ordre_items ADD COLUMN priorite TEXT NOT NULL DEFAULT 'normale'`,
   `ALTER TABLE produits ADD COLUMN famille TEXT NOT NULL DEFAULT 'autre'`,
+  // Tout n'est pas fait en Tunisie : la tuque beanie est tricotée en Chine,
+  // seul son bandeau amovible sort de l'atelier. Un produit fabriqué ailleurs
+  // n'a rien à faire dans la liste de Montassar — il ne le fabrique pas.
+  `ALTER TABLE produits ADD COLUMN fabrication TEXT NOT NULL DEFAULT 'tunisie'`,
 ]) { try { db.exec(sql); } catch { /* colonne déjà présente */ } }
 
 /**
@@ -271,12 +288,12 @@ const FAMILLES = { hiver: 'Hiver', nouveau: 'Nouveau',
  * Ce n'est pas un compte de pièces réelles, et c'est assumé — l'avancement est
  * déclaré par tranches de 10 %, pas mesuré.
  */
-function listeFabrication({ inclureTermines = false } = {}) {
+function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
   const lignes = db.prepare(`
     SELECT i.id, i.ordre_id, i.produit_id, i.quantite, i.avancement, i.note,
            i.priorite, i.maj_le,
            o.numero, o.titre AS ordre_titre, o.statut,
-           p.code, p.nom, p.famille,
+           p.code, p.nom, p.famille, p.fabrication,
            (SELECT MIN(date) FROM ordre_jalons j
              WHERE j.ordre_id = o.id AND j.date >= date('now')) AS echeance,
            (SELECT COUNT(*) FROM ordre_jalons j
@@ -288,7 +305,8 @@ function listeFabrication({ inclureTermines = false } = {}) {
     JOIN ordres o   ON o.id = i.ordre_id
     JOIN produits p ON p.id = i.produit_id
     WHERE o.statut IN ('planifie','en_cours')
-      ${inclureTermines ? '' : 'AND i.avancement < 100'}`).all();
+      ${inclureTermines ? '' : 'AND i.avancement < 100'}
+      ${lieu ? 'AND p.fabrication = ?' : ''}`).all(...(lieu ? [lieu] : []));
 
   const aujourdhui = new Date().toISOString().slice(0, 10);
   const jours = (d) => d
@@ -353,6 +371,46 @@ function sansMouvement(jours = 7) {
     ORDER BY jours_sans_maj DESC`).all(jours);
 }
 
+/**
+ * Les lieux de fabrication. `tunisie` est le défaut : c'est l'atelier, et
+ * c'est ce que « À fabriquer » veut dire. Ce qui vient d'ailleurs reste au
+ * plan et se suit à l'ordre, mais ne s'affiche pas comme du travail à faire.
+ */
+const LIEUX = { tunisie: 'Tunisie', chine: 'Chine' };
+
+/**
+ * Ce qui est au plan mais fabriqué ailleurs. Sert à le dire à l'écran :
+ * une ligne qui disparaît d'une liste sans explication est une ligne perdue.
+ */
+function fabriqueAilleurs() {
+  return db.prepare(`
+    SELECT i.id, i.quantite, i.avancement, p.code, p.nom, p.fabrication,
+           o.numero, i.ordre_id
+    FROM ordre_items i
+    JOIN ordres o   ON o.id = i.ordre_id
+    JOIN produits p ON p.id = i.produit_id
+    WHERE o.statut IN ('planifie','en_cours')
+      AND i.avancement < 100
+      AND p.fabrication <> 'tunisie'
+    ORDER BY i.quantite DESC`).all()
+    .map(l => ({ ...l, restant: Math.round(l.quantite * (100 - l.avancement) / 100) }));
+}
+
+/**
+ * La répartition d'un item, avec l'écart au total s'il y en a un.
+ * Le chiffrier ne boucle pas toujours : 3 505 en variantes pour 3 500 au plan.
+ * On montre les deux plutôt que d'en choisir un — l'écart est l'information.
+ */
+function variantesItem(itemId) {
+  const l = db.prepare(`SELECT nom, quantite FROM item_variantes
+                        WHERE item_id = ? ORDER BY rang`).all(itemId);
+  if (!l.length) return null;
+  const somme = l.reduce((n, v) => n + v.quantite, 0);
+  const it = db.prepare(`SELECT quantite FROM ordre_items WHERE id = ?`).get(itemId);
+  return { lignes: l, somme, quantite: it ? it.quantite : 0,
+           ecart: it ? somme - it.quantite : 0 };
+}
+
 /** Progression réalisée sur une fenêtre glissante, par ordre. */
 function progressionRecente(jours = 7) {
   return db.prepare(`
@@ -368,4 +426,5 @@ function progressionRecente(jours = 7) {
 
 module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    listeFabrication, dernieresMaj, sansMouvement,
-                   progressionRecente, RANG_PRIORITE, RANG_FAMILLE, FAMILLES };
+                   progressionRecente, fabriqueAilleurs, variantesItem,
+                   RANG_PRIORITE, RANG_FAMILLE, FAMILLES, LIEUX };

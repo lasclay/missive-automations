@@ -21,7 +21,8 @@ const fs = require('node:fs');
 const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
-        sansMouvement, progressionRecente } = require('./db.js');
+        sansMouvement, progressionRecente, fabriqueAilleurs,
+        variantesItem } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
@@ -179,7 +180,7 @@ async function router(req, res, url, user) {
   if (p === '/priorites') {
     const j = Math.min(90, Math.max(1, Number(q.get('jours')) || 7));
     return html(res, V.vuePriorites({ user, msg, jours: j,
-      lignes: listeFabrication() }));
+      lignes: listeFabrication(), ailleurs: fabriqueAilleurs() }));
   }
   {
     const m = p.match(/^\/priorites\/(\d+)$/);
@@ -309,7 +310,8 @@ async function router(req, res, url, user) {
     }
 
     return html(res, V.vueOrdre({ user, o, msg,
-      items: R.items.all(id), jalons: R.jalons.all(id),
+      items: R.items.all(id).map(it => ({ ...it, variantes: variantesItem(it.id) })),
+      jalons: R.jalons.all(id),
       commentaires: R.commentaires.all(id), produits: R.produitsActifs.all(),
       pct: avancementOrdre(id).pct }));
   }
