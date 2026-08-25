@@ -219,3 +219,33 @@ une décision de segmentation marketing, pas une correction de texte.
 | 5 | Suivi de la promesse à Jimmy Allaire | ✅ **consigné** |
 | 6 | Pied de page et FAQ française | diagnostic fait, deux minutes dans l'éditeur |
 | 7 | Segmentation Klaviyo | ✅ **diagnostiquée**, correctif spécifié, création bloquée |
+
+---
+
+## ✅ 25 août — les 15 messages sont partis
+
+Envoyés depuis Missive par `avis-negatifs/envoi/envoyer.js --envoyer`, route `/send` du proxy
+(un fil neuf par personne, expéditeur `admin@lasclay.com`). Journal des identifiants de
+conversation : `avis-negatifs/envoi/journal.json`. Le script est idempotent : relancé, il saute
+ce qui est déjà fait.
+
+**Un ajout de dernière minute dans les 12 messages qui promettent un remboursement**, à la demande
+de Gabriel : le filet Interac.
+
+> Si le remboursement n'apparaît pas sur votre relevé d'ici quelques jours, écrivez-moi et on vous
+> l'envoie par virement Interac à la place.
+
+Il couvre exactement le risque des vieilles commandes, dont la passerelle refusera probablement le
+remboursement.
+
+**Deuxième ajout, pour Guillaume.** Il a deux commandes de préventes 2022 et rien ne dit laquelle
+contenait le produit mal fait. Son message nomme donc **L-10486, 321,93 $**, et lui propose de le
+dire si c'était l'autre.
+
+### Ce qui reste dû, et qui ne peut pas se faire d'ici
+
+`refundCreate` est refusé par la politique du connecteur Shopify, comme `giftCardCreate` l'avait
+été. Les **12 remboursements (1 355,24 $)** et l'**envoi des 14 cartes (2 200 $)** passent par
+l'admin. Tout est spécifié dans `BRIEF-COWORK-REMBOURSEMENTS.md`, montant par montant.
+
+⚠️ **Ariane Poirier en premier** : son message dit « je les rembourse aujourd'hui ».
