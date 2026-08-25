@@ -101,3 +101,55 @@ marge de contribution = (revenus − COGS − expédition clients − frais marc
    qui tombe de 73,0 % à 61,4 %. Couper la pub réglerait le mauvais problème.
 
 Rapport complet : artefact « Où part la pub de Lasclay ».
+
+## Lecture complète du journal — insights (août 2026)
+
+Les 979 jours, les 124 interventions annotées et les trois feuilles remontant à
+octobre 2022 (hors fenêtre de l'API Meta) donnent six constats qu'aucun tableau
+de bord ne montre :
+
+- **A. Le journal a cessé de penser le 8 juillet 2025** — dernière note de raisonnement,
+  318 jours avant la dernière ligne. **47 % de la dépense mesurée (272 431 $)** a été
+  engagée après, dont les deux plus gros mois de l'histoire (nov. et déc. 2025).
+- **B. Les 124 ajustements sont indistinguables du bruit.** Test avec témoin apparié
+  par décile de niveau de départ, puis permutation sur 4 000 tirages : **p = 0,29**.
+  Les hausses apparentes sont du retour à la moyenne (il intervient après les mauvaises
+  journées). 55 désactivations pour 21 réactivations : 2 pubs coupées sur 5 sont rallumées.
+- **C. Le budget est à contretemps de la saison.** Corrélation de rang de **−0,97**
+  entre l'écart de financement d'un mois et son rendement. Septembre : MER 9,13 pour
+  4,4 % du budget. Mars : MER 2,76 pour 9,8 %. Déplacer 25 % du budget des mois faibles
+  ≈ **+139 000 $** de valeur de commande, à budget total inchangé.
+- **D. La semaine n'est pas exploitée** : samedi 136, mardi 75 (indice 100 = médiane).
+  Trouvé une fois le 15 mars 2025, jamais systématisé.
+- **E. Le taux de conversion glisse** : 3,08 % (2023-24) → 2,54 % (2024-25) pendant que
+  les sessions doublaient (660 → 1 148/j). On achète plus de visiteurs moins qualifiés.
+  Colonnes vides depuis février 2025.
+- **F. Six erreurs de configuration, zéro alerte** — toutes trouvées à l'œil, dont
+  l'audience « USA Sud » qui ciblait **la Géorgie, le pays** (corrigée le 1er avril 2025).
+
+Sept notes distinctes sur deux ans soupçonnent une compétition entre ad sets.
+Jamais testée.
+
+## Audit technique du compte Meta (sans création de contenu)
+
+Constats tirés de l'API le 25 août 2026 — jeu de données `1038224283301175`,
+catalogue `1198507480521979` :
+
+| Réglage | État constaté | Effort | Impact |
+| --- | --- | --- | --- |
+| Publicités catalogue Advantage+ | **0 campagne sur 36** — le catalogue Shopify existe depuis 2020 | 1 h | Élevé |
+| Audiences de reciblage | « Visiteurs site web 180 j » et « Pixel 180 j » : **20 personnes** | 1 h | Élevé |
+| Répartition saisonnière du budget | plate toute l'année | 2 h | Élevé |
+| Signal CAPI amont | Achat 9,3 · **Panier 6,3 · Vue produit 6,0** (courriel sur 10,5 % des paniers) | 3 h | Élevé |
+| Placements | ensemble à 95 196 $ : **fil Facebook seul**, fréquence 11,5 | 15 min | Moyen |
+| Stratégie d'enchère | « volume le plus élevé » sur les 13 ensembles | 30 min | Moyen |
+| Conversions personnalisées | **aucune** | 1 h | Moyen |
+| Fenêtre d'attribution | **trois réglages coexistent** → ROAS non comparables | 15 min | Moyen |
+| Test A/B de chevauchement | jamais lancé | 30 min | Diagnostic |
+
+Le moteur de recommandations de Meta, interrogé indépendamment sur le compte USA,
+place *Advantage+ catalog ads* en tête (gain estimé le plus élevé) et signale la
+couverture d'événements CAPI — mêmes conclusions par un autre chemin.
+
+Le diagnostic du catalogue échoue sur `catalog_has_da_visibility_issues`
+(articles invisibles pour les publicités) : à corriger avant de lancer.

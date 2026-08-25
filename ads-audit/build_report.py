@@ -468,6 +468,292 @@ footer p{margin:0 0 8px}
 </section>
 
 <section>
+  <h2>Ce que le journal raconte quand on le lit au complet</h2>
+  <p class="lede">979 jours de saisie, 124 interventions annotées, trois feuilles qui remontent
+  à octobre 2022 — c'est-à-dire neuf mois avant que l'API Meta ne puisse voir quoi que ce soit.
+  Six choses en ressortent qu'aucun tableau de bord n'aurait montrées.</p>
+
+  <article class="finding" style="--sev:var(--crit)">
+    <div class="top"><span class="rank">A</span><div>
+      <span class="chip c">318 jours</span>
+      <h3 style="margin-top:9px">Le journal a cessé de penser dix mois avant de cesser d'écrire</h3>
+      <div class="body">
+        <p>La dernière note de raisonnement date du <b>8 juillet 2025</b>. Les lignes, elles,
+        continuent jusqu'au 22 mai 2026 — <span class="hl">318 jours de chiffres sans une seule
+        phrase</span> expliquant ce qui a été changé, ni pourquoi.</p>
+        <p>Ce n'est pas un détail d'archivage. <b>47 % de toute la dépense publicitaire mesurée</b>
+        — 272 431 $ — a été engagée après cette dernière note. Novembre 2025 (44 747 $) et
+        décembre 2025 (75 543 $), les deux plus gros mois de l'histoire de l'entreprise, ont été
+        pilotés sans journal. Quand le ROAS de janvier a chuté à 2,37, il ne restait aucune trace
+        de ce qui avait été fait en décembre pour l'expliquer.</p>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">Ce que ça dit</span><span>Le journal n'a pas été abandonné
+    par négligence : il est devenu trop lourd à tenir à la main au moment précis où il devenait le
+    plus utile. C'est un problème d'outil, pas de discipline.</span></div>
+  </article>
+
+  <article class="finding" style="--sev:var(--warn)">
+    <div class="top"><span class="rank">B</span><div>
+      <span class="chip w">p = 0,29</span>
+      <h3 style="margin-top:9px">Les 124 ajustements n'ont pas d'effet mesurable</h3>
+      <div class="body">
+        <p>Une intervention tous les 3 jours en médiane. Les sept jours qui suivent une
+        intervention affichent des ventes en hausse dans 60 % des cas — mais c'est un mirage :
+        les interventions arrivent après les mauvaises journées (ventes médianes de 1 333 $ les
+        trois jours précédents, contre 1 460 $ pour une journée quelconque). C'est du retour à
+        la moyenne, pas un effet.</p>
+        <p>Comparé à des journées témoins <em>de même niveau de départ</em>, l'écart tombe à
+        +8,5 points — et un test de permutation sur 4 000 tirages donne <span class="hl">p = 0,29</span>.
+        Indistinguable du bruit.</p>
+        <p>Le corollaire est plus intéressant que le constat : <b>55 notes contiennent une
+        désactivation, 21 une réactivation</b>. Deux publicités sur cinq qui sont coupées finissent
+        par être rallumées. Le compte passe son temps à revenir sur ses décisions.</p>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">Ce que ça dit</span><span>Le temps passé à micro-ajuster
+    peut être redéployé sur les leviers structurels ci-dessous. Une décision par semaine, tenue
+    quatorze jours, vaut mieux que deux par semaine annulées.</span></div>
+  </article>
+
+  <article class="finding" style="--sev:var(--crit)">
+    <div class="top"><span class="rank">C</span><div>
+      <span class="chip c">139 139 $ estimés</span>
+      <h3 style="margin-top:9px">Le budget est à contretemps de la saison</h3>
+      <div class="body">
+        <p>C'est le levier le plus lourd de tout l'audit, et il n'exige aucun contenu nouveau.
+        <b>Septembre</b> est le meilleur mois de l'année — MER de <b>9,13</b> — et reçoit
+        <span class="hl">4,4 % du budget annuel</span> pour 8,6 % des ventes. <b>Mars</b> est le
+        pire mois de dépense significative — MER de <b>2,76</b> — et reçoit <b>9,8 %</b> du budget
+        pour 5,8 % des ventes.</p>
+        <p>Mars reçoit <b>2,2 fois</b> le budget de septembre pour un rendement <b>3,3 fois</b>
+        plus faible. Novembre et août sont aussi sous-financés ; avril et juin sur-financés.</p>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">Ce que ça vaut</span><span>Déplacer seulement 25 % du budget
+    de mars, avril et juin vers septembre, août, novembre, mai et octobre — à budget total inchangé —
+    représente environ 139 000 $ de valeur de commande de plus sur la période mesurée.</span></div>
+  </article>
+
+  <figure>
+    <div class="fig-h">
+      <span class="t">Écart entre la part du budget et la part des ventes, par mois</span>
+      <span class="legend">
+        <i style="--c:var(--ochre)">Sur-financé</i>
+        <i style="--c:var(--teal)">Sous-financé</i>
+      </span>
+    </div>
+    <div class="chart" id="c6"></div>
+    <figcaption>Trois ans cumulés. À droite du zéro : le mois consomme une part du budget plus
+    grande que la part des ventes qu'il rapporte. Le MER de chaque mois est indiqué en bout de
+    barre. La lecture est brutale : l'ordre des barres reproduit presque exactement l'ordre inverse
+    du rendement — corrélation de rang de <b>−0,97</b>. Plus un mois rapporte, moins il reçoit.</figcaption>
+  </figure>
+
+  <article class="finding" style="--sev:var(--warn)">
+    <div class="top"><span class="rank">D</span><div>
+      <span class="chip w">×1,8 entre samedi et mardi</span>
+      <h3 style="margin-top:9px">La semaine n'est pas exploitée</h3>
+      <div class="body">
+        <p>Sur les douze derniers mois, un samedi vaut <b>2 237 $</b> de commandes en médiane et
+        un mardi <b>1 238 $</b>. Un écart de <span class="hl">1,8 fois</span> entre le meilleur
+        et le pire jour, parfaitement stable.</p>
+        <p>Le journal montre que Gabriel a trouvé ça une fois — la note du 15 mars 2025 dit
+        « <em>Set augmentation budget les fins de semaine jusqu'à fin avril</em> » — puis n'en
+        reparle plus jamais. Le budget est resté plat le reste du temps.</p>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">Ce que ça dit</span><span>Une règle de répartition horaire
+    permanente (samedi et dimanche à +30 %, mardi et mercredi à −25 %) est un réglage qu'on pose
+    une fois et qui travaille tout seul.</span></div>
+  </article>
+
+  <figure>
+    <div class="fig-h"><span class="t">Valeur de commande médiane par jour de la semaine</span></div>
+    <div class="chart" id="c7"></div>
+    <figcaption>Indice 100 = journée médiane. Douze mois, base encaissée.</figcaption>
+  </figure>
+
+  <article class="finding" style="--sev:var(--warn)">
+    <div class="top"><span class="rank">E</span><div>
+      <span class="chip w">Le taux de conversion glisse</span>
+      <h3 style="margin-top:9px">Plus de trafic, moins bien converti, deux fois plus cher</h3>
+      <div class="body">
+        <p>Les trois feuilles du journal permettent de remonter à octobre 2022 — hors de portée
+        de l'API Meta. Elles racontent une érosion lente que les rapports mensuels masquent :</p>
+      </div>
+      <div class="tblwrap" style="margin-top:14px"><table>
+        <thead><tr><th>Période</th><th>Sessions/j</th><th>Taux de conv.</th><th>Commandes/j</th><th>Panier</th><th>Part de pub</th></tr></thead>
+        <tbody>
+          <tr><td>oct. 2022 → avr. 2023</td><td class="n">609</td><td class="n">2,49 %</td><td class="n">15</td><td class="n">64 $</td><td class="n">19,5 %</td></tr>
+          <tr><td>sept. 2023 → mars 2024</td><td class="n">660</td><td class="n ok">3,08 %</td><td class="n">20</td><td class="n">59 $</td><td class="n">20,9 %</td></tr>
+          <tr><td>sept. 2023 → août 2024</td><td class="n">648</td><td class="n">2,74 %</td><td class="n">17</td><td class="n">61 $</td><td class="n">25,3 %</td></tr>
+          <tr><td>sept. 2024 → févr. 2025</td><td class="n ok">1 148</td><td class="n bad">2,54 %</td><td class="n">28</td><td class="n ok">73 $</td><td class="n bad">23,3 %</td></tr>
+        </tbody>
+      </table></div>
+      <div class="body" style="margin-top:12px">
+        <p>Le trafic a <b>presque doublé</b>, le panier a monté de 14 %, mais le taux de conversion
+        est retombé sous son niveau de 2022. Autrement dit : <span class="hl">on achète de plus en
+        plus de visiteurs de moins en moins qualifiés</span>. Ces colonnes sont vides depuis
+        février 2025 — impossible de savoir où en est la courbe aujourd'hui.</p>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">À faire</span><span>Reconnecter sessions et taux de conversion
+    dans le suivi mensuel : c'est l'indicateur qui distingue « la pub coûte cher » de « la pub amène
+    les mauvaises personnes ».</span></div>
+  </article>
+
+  <article class="finding" style="--sev:var(--warn)">
+    <div class="top"><span class="rank">F</span><div>
+      <span class="chip w">Six fuites, zéro alerte</span>
+      <h3 style="margin-top:9px">Toutes les erreurs de configuration ont été trouvées à l'œil</h3>
+      <div class="body">
+        <p>Le journal recense six erreurs qui ont coûté de l'argent en silence — et
+        <b>aucune n'a été signalée par une alerte</b>. Toutes ont été attrapées en relisant le
+        compte à la main, parfois des semaines plus tard :</p>
+        <ul style="margin:10px 0 0;padding-left:20px">
+          <li><b>1<sup>er</sup> avril 2025</b> — l'audience « USA Sud » ciblait la <span class="hl">Géorgie, le pays</span>, au lieu de l'État.</li>
+          <li><b>8 oct. 2023</b> — carte de crédit refusée, diffusion coupée : « on remarque un gap de ventes entre 15 h et 18 h ».</li>
+          <li><b>6 nov. 2022</b> — une audience existante modifiée au lieu d'en créer une nouvelle, changement propagé à trois campagnes.</li>
+          <li><b>21 mai 2024</b> — lien brisé dans la publicité du sac à lunch.</li>
+          <li><b>22 mars 2024</b> — le même visuel dupliqué deux fois dans une publicité.</li>
+          <li><b>7 déc. 2022</b> — domaine lasclay.com non sélectionné sur une publicité vidéo de conversion.</li>
+        </ul>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">À faire</span><span>Une vérification automatisée hebdomadaire
+    du compte — géographies, liens, doublons de visuel, moyen de paiement, ensembles en apprentissage
+    limité — coûte une heure à écrire et aurait attrapé les six.</span></div>
+  </article>
+
+  <p class="lede" style="margin-top:26px">Un dernier détail que le journal répète sans jamais le
+  résoudre : <b>sept notes différentes, étalées sur deux ans</b>, soupçonnent les ensembles de
+  publicités de se faire concurrence entre eux. « <em>tout le budget va là</em> », « <em>mange tout
+  le budget</em> », « <em>p-e compétition entre ad sets vu que c'est la même audience</em> ».
+  L'hypothèse est probablement juste — plusieurs ensembles ciblent le même Québec francophone sur
+  le même fil Facebook — et elle n'a jamais été testée. C'est exactement ce qu'un test A/B de Meta
+  règle en dix jours.</p>
+</section>
+
+<section>
+  <h2>Ce qu'on peut faire dans Meta, sans écrire une ligne de contenu</h2>
+  <p class="lede">Neuf réglages, vérifiés dans le compte par l'API. Classés par ce qu'ils rapportent
+  rapporté à ce qu'ils coûtent en travail. Aucun ne demande une nouvelle photo, un nouveau texte
+  ou une nouvelle vidéo.</p>
+
+  <div class="tblwrap"><table>
+    <thead><tr><th>Réglage</th><th>État constaté</th><th>Effort</th><th>Impact</th></tr></thead>
+    <tbody>
+      <tr><td><b>Publicités catalogue Advantage+</b><br><span style="color:var(--muted);font-size:13px">Le catalogue Shopify existe et n'a jamais servi</span></td><td>0 campagne sur 36</td><td class="n">1 h</td><td class="n ok">Élevé</td></tr>
+      <tr><td><b>Audiences de reciblage</b><br><span style="color:var(--muted);font-size:13px">« Visiteurs site web 180 j » et « Pixel 180 j »</span></td><td class="bad">20 personnes chacune</td><td class="n">1 h</td><td class="n ok">Élevé</td></tr>
+      <tr><td><b>Répartition saisonnière du budget</b></td><td>Plate toute l'année</td><td class="n">2 h</td><td class="n ok">Élevé</td></tr>
+      <tr><td><b>Signal des événements amont (CAPI)</b><br><span style="color:var(--muted);font-size:13px">Qualité de correspondance</span></td><td>Achat 9,3 · <span class="bad">Panier 6,3 · Vue produit 6,0</span></td><td class="n">3 h</td><td class="n ok">Élevé</td></tr>
+      <tr><td><b>Placements Instagram et Reels</b><br><span style="color:var(--muted);font-size:13px">Sur l'ensemble à 95 196 $</span></td><td class="bad">Fil Facebook seul</td><td class="n">15 min</td><td class="n">Moyen</td></tr>
+      <tr><td><b>Stratégie d'enchère</b></td><td>« Volume le plus élevé » partout</td><td class="n">30 min</td><td class="n">Moyen</td></tr>
+      <tr><td><b>Conversions personnalisées</b></td><td class="bad">Aucune</td><td class="n">1 h</td><td class="n">Moyen</td></tr>
+      <tr><td><b>Fenêtre d'attribution</b></td><td>Trois réglages différents coexistent</td><td class="n">15 min</td><td class="n">Moyen</td></tr>
+      <tr><td><b>Test A/B de chevauchement</b></td><td class="bad">Jamais lancé</td><td class="n">30 min</td><td class="n">Diagnostic</td></tr>
+    </tbody>
+    <caption>Constats tirés de l'API Meta le 25 août 2026 : ensembles de publicités, audiences
+    personnalisées, qualité du jeu de données 1038224283301175, catalogue 1198507480521979.</caption>
+  </table></div>
+
+  <article class="finding" style="--sev:var(--crit)">
+    <div class="top"><span class="rank">01</span><div>
+      <span class="chip c">Meta le recommande aussi</span>
+      <h3 style="margin-top:9px">Le catalogue produit existe depuis 2020 et n'a jamais servi</h3>
+      <div class="body">
+        <p>Le compte possède un <b>« Shopify Product Catalog »</b> connecté, et une audience
+        « Shopify Dynamic Facebook Ads Product Audience » créée le 20 septembre 2020.
+        <span class="hl">Aucune des 36 campagnes de l'historique n'est une campagne catalogue.</span></p>
+        <p>Interrogé indépendamment, le moteur de recommandations de Meta place
+        <em>Advantage+ catalog ads</em> en tête de ses suggestions pour le compte USA, avec le
+        gain estimé le plus élevé de sa liste. C'est le seul format qui montre au visiteur le
+        produit exact qu'il a regardé, sans qu'on ait à produire un visuel.</p>
+        <p>Deux réserves honnêtes : le diagnostic du catalogue échoue sur
+        <b>« items avec problèmes de visibilité pour les publicités »</b> — à corriger avant de
+        lancer — et un catalogue de moins de 100 références rend moins qu'un catalogue de 5 000.</p>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">À faire</span><span>Corriger la visibilité des articles,
+    puis lancer une campagne Advantage+ catalogue en reciblage à petit budget. C'est le seul point
+    de cet audit où Meta et moi arrivons à la même conclusion par des chemins séparés.</span></div>
+  </article>
+
+  <article class="finding" style="--sev:var(--crit)">
+    <div class="top"><span class="rank">02</span><div>
+      <span class="chip c">20 personnes</span>
+      <h3 style="margin-top:9px">Il n'y a pas de reciblage — les audiences sont vides</h3>
+      <div class="body">
+        <p>Le compte contient 26 audiences personnalisées. Les deux seules qui servent au
+        reciblage, « <b>Visiteurs site web 180 j.</b> » et « <b>Pixel 180 j.</b> », affichent
+        <span class="hl">20 personnes chacune</span>. Pour une boutique qui a fait 34 162 commandes
+        depuis 2023.</p>
+        <p>Tout le reste, ce sont des similaires (lookalikes) construits sur des sources anciennes :
+        neuf datent de 2021-2022, plusieurs affichent 1 000 personnes — c'est-à-dire qu'elles ont
+        échoué. Les deux listes clients importées en novembre 2025 (10 600 personnes) sont des
+        fichiers CSV figés, jamais rafraîchis depuis.</p>
+        <p>Conséquence directe : aucun ensemble ne peut <b>exclure</b> les acheteurs récents.
+        Une partie du budget de conversion sert donc à racheter des gens qui viennent d'acheter —
+        ce qui gonfle mécaniquement le ROAS déclaré par Meta et explique une part des 72 % du
+        magasin qu'il s'attribue dans les mois à forte dépense.</p>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">À faire</span><span>Recréer les audiences de site (vue produit
+    30 j, panier 30 j, paiement entamé 14 j, acheteurs 180 j) et poser l'exclusion des acheteurs
+    récents sur tous les ensembles de prospection. Quinze minutes chacune.</span></div>
+  </article>
+
+  <article class="finding" style="--sev:var(--warn)">
+    <div class="top"><span class="rank">03</span><div>
+      <span class="chip w">Achat 9,3 · Panier 6,3 · Vue produit 6,0</span>
+      <h3 style="margin-top:9px">Le signal d'achat est excellent, celui qui sert à trouver les acheteurs ne l'est pas</h3>
+      <div class="body">
+        <p>La qualité de correspondance de l'événement <b>Achat</b> est de <b>9,3 sur 10</b> —
+        courriel, téléphone, nom, ville, code postal, tout est transmis à 100 %. C'est le travail
+        de la Conversions API de Shopify, et c'est bien fait.</p>
+        <p>Mais les événements en amont, ceux que l'algorithme utilise pour <em>prédire</em> qui
+        va acheter, sont nettement plus faibles : <b>Vue de contenu 6,0</b>, <b>Recherche 6,1</b>,
+        <b>Ajout au panier 6,3</b>. Le courriel n'est présent que sur
+        <span class="hl">10,5 % des ajouts au panier</span> et 16,5 % des vues de produit.
+        L'identifiant de clic Meta manque sur 59 % des pages vues.</p>
+        <p>Meta signale de son côté une occasion <em>« couverture d'événements CAPI »</em> sur le
+        compte USA. Les deux constats pointent le même endroit.</p>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">À faire</span><span>Activer la correspondance avancée
+    automatique dans les réglages du jeu de données, et vérifier que l'application Shopify envoie
+    bien les événements amont côté serveur, pas seulement l'achat.</span></div>
+  </article>
+
+  <article class="finding" style="--sev:var(--warn)">
+    <div class="top"><span class="rank">04</span><div>
+      <span class="chip w">Trois fenêtres différentes</span>
+      <h3 style="margin-top:9px">Les réglages de fond n'ont jamais été harmonisés</h3>
+      <div class="body">
+        <p><b>Enchère.</b> Les treize ensembles qui ont dépensé tournent tous en
+        « <em>volume le plus élevé</em> » — aucun plafond de coût, aucun objectif de ROAS. C'est
+        le réglage qui laisse le coût par achat dériver librement : il est passé de 16,86 $ à
+        31,48 $ sans qu'aucun garde-fou ne se déclenche.</p>
+        <p><b>Attribution.</b> Trois fenêtres coexistent dans le même compte :
+        <code>1d_view_7d_click</code> sur les gros ensembles, <code>7d_click_1d_ev</code> sur
+        « Statique », <code>7d_click</code> sur les deux ensembles VALUE de mars 2026. Les ROAS
+        de ces ensembles ne sont donc <span class="hl">pas comparables entre eux</span> — et le
+        journal les a pourtant comparés pendant deux ans.</p>
+        <p><b>Objectif d'optimisation.</b> Deux ensembles créés en mars 2026 optimisent enfin sur
+        la <em>valeur</em> plutôt que sur le volume d'achats. Bonne idée, arrivée tard : 5 597 $
+        dépensés en tout, puis le compte s'est arrêté.</p>
+        <p><b>Conversions personnalisées : aucune.</b> Avec un panier qui va de 33 $ à 120 $ selon
+        le mois, rien ne permet d'optimiser vers les commandes à forte valeur.</p>
+      </div>
+    </div></div>
+    <div class="act"><span class="lbl">À faire</span><span>Une seule fenêtre d'attribution pour tout
+    le compte, un plafond de coût sur les ensembles de prospection, et la reprise des ensembles
+    VALUE au redémarrage.</span></div>
+  </article>
+</section>
+
+<section>
   <h2>Le suivi à mettre en place</h2>
   <p class="lede">Le chiffrier livré avec cet audit remplace le journal manuel : 38 mois consolidés
   avec les trois bases de revenu côte à côte, Meta + Shopify + Klaviyo, plus le détail par campagne
@@ -691,7 +977,71 @@ function chart5(){
     val.textContent=`${part.toLocaleString('fr-CA')} % réclamés · MER ${mer.toLocaleString('fr-CA')}`; svg.append(val); });
 }
 
-function draw(){ chart1(); chart2(); chart3(); chart4(); chart5(); }
+
+function chart6(){
+  const host=document.getElementById('c6'); if(!host) return; host.innerHTML='';
+  const rows=D.saison.slice().sort((a,b)=>b.ecart-a.ecart);
+  const W=1000,H=300,mL=64,mR=168,mT=10,mB=26;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Écart entre part du budget et part des ventes par mois'});
+  const max=4.5, bh=(H-mT-mB)/rows.length, X=v=>mL+((v+max)/(2*max))*(W-mL-mR);
+  host.appendChild(svg); const tip=mkTip(host);
+  [-4,-2,0,2,4].forEach(t=>{ svg.append(el('line',{x1:X(t),x2:X(t),y1:mT,y2:H-mB,
+    stroke:t===0?css('--muted'):css('--rule-2'),'stroke-width':t===0?1.5:1}));
+    const tx=el('text',{x:X(t),y:H-mB+15,'text-anchor':'middle',class:'axis'});
+    tx.textContent=(t>0?'+':'')+t; svg.append(tx); });
+  rows.forEach((r,i)=>{
+    const y=mT+i*bh+4, h=bh-8, pos=r.ecart>=0;
+    const x0=Math.min(X(0),X(r.ecart)), w=Math.max(Math.abs(X(r.ecart)-X(0)),2);
+    const rect=el('rect',{x:x0,y:y,width:w,height:h,rx:3,fill:pos?css('--ochre'):css('--teal')});
+    rect.style.cursor='crosshair';
+    rect.addEventListener('pointerenter',()=>{ const rc=svg.getBoundingClientRect();
+      tip.innerHTML=`<b>${r.m}</b><br>${r.dep.toLocaleString('fr-CA')} % du budget · ${r.ven.toLocaleString('fr-CA')} % des ventes<br>MER ${r.mer.toLocaleString('fr-CA')}`;
+      place(tip,host,(x0+w/2)/W*rc.width,y/H*rc.height); });
+    rect.addEventListener('pointerleave',()=>tip.style.opacity=0);
+    svg.append(rect);
+    const t=el('text',{x:mL-14,y:y+h/2+4,'text-anchor':'end'});
+    t.style.fontFamily='"Public Sans",sans-serif'; t.style.fontSize='13px';
+    t.setAttribute('fill',css('--ink-2')); t.textContent=r.m; svg.append(t);
+    const val=el('text',{x:W-mR+12,y:y+h/2+4});
+    val.style.fontFamily='"IBM Plex Mono",monospace'; val.style.fontSize='11.5px';
+    val.setAttribute('fill',css('--ink'));
+    val.textContent=`${r.ecart>0?'+':''}${r.ecart.toLocaleString('fr-CA')} pts  ·  MER ${r.mer.toLocaleString('fr-CA')}`;
+    svg.append(val);
+  });
+}
+
+function chart7(){
+  const host=document.getElementById('c7'); if(!host) return; host.innerHTML='';
+  const rows=D.semaine;
+  const W=1000,H=220,mL=48,mR=20,mT=16,mB=34;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Valeur de commande médiane par jour de la semaine'});
+  const max=150, bw=(W-mL-mR)/rows.length, Y=v=>H-mB-(v/max)*(H-mT-mB);
+  const g=el('g',{class:'grid'});
+  [0,50,100,150].forEach(t=>{ g.appendChild(el('line',{x1:mL,x2:W-mR,y1:Y(t),y2:Y(t)}));
+    const tx=el('text',{x:mL-9,y:Y(t)+3.5,'text-anchor':'end',class:'axis'}); tx.textContent=t; svg.append(tx); });
+  svg.append(g);
+  host.appendChild(svg); const tip=mkTip(host);
+  rows.forEach((r,i)=>{
+    const x=mL+i*bw+bw*0.16, w=bw*0.68;
+    const rect=el('rect',{x:x,y:Y(r.idx),width:w,height:Y(0)-Y(r.idx),rx:3,
+      fill:r.idx>=115?css('--teal'):(r.idx<=85?css('--ochre'):css('--muted')),'fill-opacity':r.idx>=115?1:(r.idx<=85?.85:.4)});
+    rect.style.cursor='crosshair';
+    rect.addEventListener('pointerenter',()=>{ const rc=svg.getBoundingClientRect();
+      tip.innerHTML=`<b>${r.j}</b><br>${money(r.med)} en médiane<br>indice ${r.idx}`;
+      place(tip,host,(x+w/2)/W*rc.width,Y(r.idx)/H*rc.height); });
+    rect.addEventListener('pointerleave',()=>tip.style.opacity=0);
+    svg.append(rect);
+    const t=el('text',{x:x+w/2,y:H-mB+17,'text-anchor':'middle',class:'axis'});
+    t.style.fontFamily='"Public Sans",sans-serif'; t.style.fontSize='12px';
+    t.setAttribute('fill',css('--ink-2')); t.textContent=r.j; svg.append(t);
+    const v=el('text',{x:x+w/2,y:Y(r.idx)-7,'text-anchor':'middle'});
+    v.style.fontFamily='"IBM Plex Mono",monospace'; v.style.fontSize='11px';
+    v.setAttribute('fill',css('--ink')); v.textContent=r.idx; svg.append(v);
+  });
+  svg.append(el('line',{x1:mL,x2:W-mR,y1:Y(100),y2:Y(100),stroke:css('--muted'),'stroke-width':1,'stroke-dasharray':'4 4'}));
+}
+
+function draw(){ chart1(); chart2(); chart3(); chart4(); chart5(); chart6(); chart7(); }
 if(document.fonts && document.fonts.ready){ document.fonts.ready.then(draw); } else { draw(); }
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
 let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(draw,150);});
