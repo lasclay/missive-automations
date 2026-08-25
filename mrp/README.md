@@ -4,6 +4,40 @@ Application web pour piloter la production entre Québec et la Tunisie.
 Priorité 1 du projet : voir un ordre de production, suivre son avancement item
 par item, et rattacher les dates clés.
 
+## Où est l'app
+
+**Elle n'est pas encore déployée.** Le code vit sur la branche
+`claude/dazzling-pasteur-6fw08h` ; aucun service ne l'héberge.
+
+### La voir tout de suite, en local
+
+```
+git clone https://github.com/lasclay/missive-automations
+cd missive-automations/mrp
+node mrp.js demo                                   # jeu de données d'exemple
+node mrp.js utilisateur:creer toi@lasclay.com motdepasse1 "Ton nom" admin
+node server.js                                     # → http://localhost:3000
+```
+
+Node 22.5 ou plus, rien à installer.
+
+### La mettre en ligne
+
+`render.yaml` est le blueprint prêt à appliquer. Trois étapes, dans l'ordre :
+
+1. **Fusionner la branche dans `main`.** Render suit `main` ; sans ça, le
+   service se construirait sur du code qui ne contient pas le MRP. À noter :
+   les autres services du dépôt suivent aussi `main` et se redéploieront.
+2. **Render → New → Blueprint**, pointer sur ce dépôt. Le disque persistant,
+   le chemin de la base et `MRP_SECURE` sont déjà dans le fichier.
+3. **Saisir `ANTHROPIC_API_KEY`** dans le tableau de bord (elle est marquée
+   `sync: false`, donc jamais dans le dépôt), puis créer le premier
+   utilisateur depuis le shell Render :
+   `node mrp/mrp.js utilisateur:creer … admin`.
+
+L'offre `starter` est nécessaire : le plan gratuit n'a pas de disque
+persistant, et la base disparaîtrait à chaque redéploiement.
+
 ## Ce qu'elle fait
 
 **Ordres de production**
