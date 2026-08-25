@@ -192,25 +192,54 @@ laquelle :
 Multiplié par la quantité restante, ça fait la charge. L'ordre des barres est
 celui d'« À fabriquer » : poser une priorité déplace vraiment les dates.
 
-**La capacité, elle, n'existe nulle part.** Aucune source ne dit combien de
+**La capacité, elle, n'est pas mesurée.** Aucune source ne dit combien de
 personnes travaillent, ni combien d'heures. Sans ça, des heures ne deviennent
-pas des dates. Plutôt que d'inventer un chiffre qui aurait l'air d'une donnée,
-c'est un **réglage** : Québec pose postes × heures/jour × jours/semaine, et
-l'app annonce « avec cette capacité-là ». Tant qu'il n'est pas posé, la valeur
-par défaut est affichée comme telle. **C'est le premier chiffre à corriger** —
-tout le reste du calendrier en dépend.
+pas des dates. C'est donc un **réglage** : Québec pose postes × heures/jour ×
+jours/semaine, et l'app annonce « avec cette capacité-là ».
+
+Le défaut est de **20 postes**, l'équipe annoncée en août 2026. C'est un
+chiffre **déclaré**, et la page le dit — « équipe annoncée · non confirmée
+ici » — tant que personne ne l'a validé dans le formulaire. Deux réserves
+valent d'être gardées en tête : *20 personnes dans l'atelier* n'est pas *20
+personnes qui cousent* (encadrement, coupe, finition en font partie), et
+personne n'a précisé si ces 20 sont chez BMB, chez Grada, ou les deux réunis.
 
 **Ce que le diagramme simplifie, et de quel côté.** L'atelier est modélisé
 comme une file unique : un item à la fois, tous les postes dessus. Supposer
-quatre produits en parallèle donnerait des dates plus optimistes sans rien pour
-le justifier. Et les items dont le temps est inconnu comptent pour zéro heure —
-la page l'écrit, pour qu'on lise le total comme un **plancher**, pas comme une
-estimation.
+plusieurs produits en parallèle donnerait des dates plus optimistes sans rien
+pour le justifier. Pour la question « est-ce que ça rentre », seul le total
+d'heures compte, et il ne dépend pas de l'ordre de passage ; c'est la date de
+chaque barre qui est approchée, pas le verdict.
 
-**Ce que ça donne au plan 26-27** : 4 189 heures contre 864 disponibles avant le
-1er octobre à 4 postes. Il en faudrait 20. Six items n'ont aucun temps connu, et
-c'est donc encore optimiste. Ce n'est pas un problème d'outil : c'est
-l'information qu'il fallait avoir avant de promettre la date.
+**Les items sans temps sont chiffrés, pas seulement signalés.** « La charge
+réelle est plus élevée » est vrai et inutilisable : dix heures ou mille ? Faute
+de mesure, l'app prête à ces items les temps unitaires des items **du même
+plan** — le plus court, la médiane, le plus long — et affiche la fourchette. Ce
+n'est pas une estimation de leur durée : c'est l'ordre de grandeur de ce qui
+manque au total. Ces heures ne sont pas ajoutées au Gantt, parce qu'on ne sait
+pas où les placer.
+
+**Le verdict a donc trois états**, et la couleur dit la même chose que la
+phrase : rouge « ça ne rentre pas », vert « ça rentre », **ambre « ça rentre
+sur le papier »** quand la marge est plus petite que ce que les items non
+chiffrés demanderaient.
+
+**Ce que ça donne au plan 26-27**, avec l'équipe de 20 : 4 189 heures contre
+4 320 disponibles avant le 1er octobre. Ça rentre de 131 heures — **3 %**. Mais
+six items (1 483 pièces) n'ont aucun temps chiffré et en demanderaient entre 49
+et 1 597 de plus. La marge ne tient pas.
+
+Deux leviers, dans l'ordre. **Chronométrer ces six items** : chandail,
+oreiller, coussin animal, sac de couchage -18, oreiller camping, étui à
+téléphone. C'est une demi-journée de chronomètre qui remplace une fourchette de
+1 548 heures par un chiffre. Puis, si nécessaire, **9 h × 6 jours** porte le
+disponible à 5 760 h et absorbe même l'hypothèse la plus pessimiste.
+
+Les deux sacs de couchage méritent une note : leur fiche COGS porte bien un
+`sous_traitance` (29,22 $ et 31,47 $) mais **pas de `assemblage`**. Le poste
+sous-traitance couvre plus que la confection — sur le manteau, 44,67 $ contre
+28,00 $ d'assemblage. L'app refuse donc de s'en servir : le prendre pour un
+temps de couture gonflerait la charge sans qu'on sache de combien.
 
 ### Suivi — « est-ce que ça avance ? »
 

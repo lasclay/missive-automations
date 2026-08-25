@@ -462,9 +462,14 @@ table.gantt tbody tr:last-child th,table.gantt tbody tr:last-child td{border-bot
 
 .verdict-oui{border-left:3px solid var(--vert)}
 .verdict-non{border-left:3px solid var(--rouge)}
+/* « Ça rentre sur le papier » n'est pas un feu vert : une bordure verte au-dessus
+   de « la marge ne tient probablement pas » se lit plus vite que la phrase, et
+   dit le contraire. */
+.verdict-fragile{border-left:3px solid var(--ambre)}
 .verdict-txt{margin:4px 0 0;font-size:15px;line-height:1.5}
 .verdict-non .verdict-txt b:first-child{color:var(--rouge)}
 .verdict-oui .verdict-txt b:first-child{color:var(--vert)}
+.verdict-fragile .verdict-txt b:first-child{color:var(--ambre)}
 .verdict-note{margin:10px 0 0;font-size:12.5px;color:var(--gris);line-height:1.5}
 .chiffres .c .sec{display:block;font-size:11px;color:var(--gris);margin-top:2px}
 .cap-form{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}

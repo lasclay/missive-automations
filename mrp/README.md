@@ -104,22 +104,41 @@ soit : heures de travail, heures disponibles d'ici la première échéance, post
 - **Le volume fait le reste** : temps unitaire × quantité restante. L'ordre des
   barres est celui d'« À fabriquer », donc la priorité déplace vraiment les dates.
 - **La capacité est un réglage, pas une donnée.** Aucune source ne dit combien
-  de personnes travaillent ni combien d'heures. Plutôt qu'inventer un chiffre
-  qui aurait l'air mesuré, Québec le pose (postes × heures/jour × jours/semaine)
-  et l'app affiche « avec cette capacité-là ». Tant qu'il n'est pas posé, la
-  valeur par défaut est marquée comme telle.
+  de personnes travaillent ni combien d'heures. Québec le pose (postes ×
+  heures/jour × jours/semaine) et l'app affiche « avec cette capacité-là ». Le
+  défaut est de **20 postes**, l'équipe annoncée par Québec en août 2026 —
+  déclarée, pas mesurée, et marquée « équipe annoncée · non confirmée ici »
+  tant que personne n'a validé le réglage dans l'app. À noter : *20 personnes
+  dans l'atelier* n'est pas *20 personnes qui cousent*.
+- **Le verdict a trois états, et la couleur dit la même chose que la phrase.**
+  Rouge « ça ne rentre pas » ; vert « ça rentre » ; **ambre « ça rentre sur le
+  papier »** quand la marge est plus petite que ce que les items non chiffrés
+  demanderaient. Une bordure verte au-dessus de « la marge ne tient pas » se
+  lit plus vite que la phrase, et dit le contraire.
 - **L'atelier est modélisé comme une file unique** : un item à la fois, tous les
   postes dessus. C'est une simplification, et elle est du bon côté — supposer
   quatre produits en parallèle donnerait des dates plus optimistes sans rien
   pour le justifier.
-- **Les items sans temps connu comptent pour zéro heure, et le disent.** La page
-  écrit que la charge réelle est plus élevée que le chiffre affiché plutôt que
-  de laisser croire qu'ils sont gratuits.
+- **Les items sans temps connu comptent pour zéro heure, et l'app chiffre ce
+  qu'ils manquent.** « La charge réelle est plus élevée » est vrai et
+  inutilisable : dix heures ou mille ? Faute de mesure, `chargeInconnue()`
+  prête à ces items les temps unitaires des items **du même plan** — le plus
+  court, la médiane, le plus long — et affiche la fourchette. Ce n'est pas une
+  estimation de leur durée : c'est l'ordre de grandeur de ce qui manque, et ça
+  suffit à savoir si une marge tient debout. Ces heures **ne sont pas ajoutées
+  au Gantt** : on ne sait pas où les placer.
 - Le trait rouge est l'expédition ; les barres qui la dépassent sont grisées.
 
-Au plan 26-27 tel qu'importé, le verdict est sans ambiguïté : **4 189 heures de
-travail contre 864 heures disponibles avant le 1er octobre** à 4 postes. Il en
-faudrait 20. Et six items n'ont aucun temps connu, donc c'est un plancher.
+Au plan 26-27 tel qu'importé, avec l'équipe de 20 : **4 189 heures de travail
+contre 4 320 heures disponibles** avant le 1er octobre. Ça rentre — de 131
+heures, soit **3 %**. Mais six items (1 483 pièces) n'ont aucun temps chiffré,
+et il leur faudrait entre 49 et 1 597 heures de plus. Autrement dit, la marge
+ne tient pas, et c'est ce que la page affiche.
+
+Les deux leviers, dans l'ordre : **chronométrer ces six items** — chandail,
+oreiller, coussin animal, sac de couchage -18, oreiller camping, étui à
+téléphone — puis, s'il le faut, passer à 9 h × 6 jours, ce qui porte le
+disponible à 5 760 h et absorbe même l'hypothèse la plus pessimiste.
 
 **Suivi — est-ce que ça avance**
 - Ce qui ne bouge plus depuis 7 jours : le seul bloc qui demande une action

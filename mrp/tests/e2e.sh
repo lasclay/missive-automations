@@ -292,8 +292,51 @@ if(Math.round(a.heuresTotal)!==Math.round(b.heuresTotal)){console.error('charge 
 curl -s -b $CO2 $B/cedule | grep -q 'Charge de l' \
   && ok "l'atelier voit la charge" || ko "cédule refusée à l'atelier"
 
+# le verdict doit avoir trois états, et la couleur doit dire la même chose que
+# la phrase : une bordure verte au-dessus de « la marge ne tient pas » ment.
 curl -s -b $CA -o /dev/null -X POST $B/cedule/capacite \
-  --data 'postes=4&heures_jour=8&jours_semaine=5'
+  --data 'postes=1&heures_jour=1&jours_semaine=1'
+curl -s -b $CA $B/cedule | grep -q 'verdict-non' \
+  && ok "capacité dérisoire : verdict rouge" || ko "verdict non rouge alors que ça déborde"
+
+curl -s -b $CA -o /dev/null -X POST $B/cedule/capacite \
+  --data 'postes=200&heures_jour=24&jours_semaine=7'
+curl -s -b $CA $B/cedule | grep -q 'verdict-oui' \
+  && ok "capacité démesurée : verdict vert" || ko "verdict non vert alors que ça rentre large"
+
+# l'état du milieu — « ça rentre, mais la marge est plus petite que ce qui n'est
+# pas compté » — est celui qui compte le plus et qu'aucune capacité ronde ne
+# produit sur le jeu de démo : on le monte à la main.
+MRP_DB="$DB" node --no-warnings -e "
+const V=require('./vues.js');
+const user={role:'admin',nom:'A'};
+const auj=new Date().toISOString().slice(0,10);
+const dans=(n)=>new Date(Date.now()+n*864e5).toISOString().slice(0,10);
+const jalons=[{date:dans(20),titre:'Expédition',type:'expedition',ordre_id:1,numero:'OP',ordre_titre:'T'}];
+// 1 h de travail chiffré, et 1 000 pièces sans temps : la marge est énorme en
+// heures, dérisoire au regard de ce qui n'est pas compté.
+const cal={cap:{postes:1,heures_jour:8,jours_semaine:5,defaut:false},
+  heuresTotal:1,sansTemps:1,debut:auj,fin:auj,
+  taches:[{code:'A',produit_id:1,restant:1,heures:1,debut:auj,fin:auj,
+           temps:{secondes:3600,source:'chrono'}},
+          {code:'B',produit_id:2,restant:1000,heures:0,debut:auj,fin:auj,
+           temps:{secondes:0,source:'aucune'}}]};
+// le gabarit coupe ses phrases sur plusieurs lignes : le navigateur ramasse
+// les blancs, le test doit faire pareil avant de chercher une phrase.
+const h=V.vueCedule({user,jalons,msg:{},cal}).replace(/\s+/g,' ');
+const veut=['verdict-fragile','Ça rentre sur le papier','ne tient probablement pas'];
+for(const x of veut) if(!h.includes(x)){console.error('manque : '+x);process.exit(1)}
+if(h.includes('verdict-oui')){console.error('vert ET fragile');process.exit(1)}
+" 2>&1 && ok "marge plus petite que l'inconnu : verdict ambre, pas vert" \
+  || ko "l'état « ça rentre sur le papier » ne se déclenche pas"
+
+# la fourchette des items non chiffrés doit être un nombre, pas un avertissement
+curl -s -b $CA $B/cedule | grep -q 'heures</b> de plus' \
+  && ok "les items sans temps sont chiffrés en fourchette" \
+  || ko "les items sans temps ne sont pas chiffrés"
+
+curl -s -b $CA -o /dev/null -X POST $B/cedule/capacite \
+  --data 'postes=20&heures_jour=8&jours_semaine=5'
 
 # --- changer son nom affiché --------------------------------------------
 # C'est lui qui signe les mises à jour dans le suivi : l'amorce crée le premier

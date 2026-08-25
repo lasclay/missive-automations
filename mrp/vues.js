@@ -20,6 +20,7 @@ const FAMILLES = { hiver:'Hiver', nouveau:'Nouveau',
                    isotherme:'Sacs', autre:'Autre' };
 const LIEUX = { tunisie:'Tunisie', chine:'Chine' };
 const V = require('./variantes.js');
+const C = require('./charge.js');
 /* Les deux rôles portent leur lieu : ce n'est pas une hiérarchie, c'est un
    partage géographique du travail. Les valeurs stockées restent `admin` et
    `atelier` ; seuls les libellés changent. */
@@ -816,26 +817,44 @@ function vueCedule({ user, jalons, msg, cal = null }) {
     const postesRequis = dispo !== null && jours > 0
       ? Math.ceil(cal.heuresTotal / (jours * c.heures_jour)) : null;
 
-    return `<div class="carte ${manque ? 'verdict-non' : 'verdict-oui'}">
+    // Ce que les items sans temps connu coûteraient. Une marge de 131 h ne veut
+    // rien dire si ce qui n'est pas compté en demande 400 : le verdict doit le
+    // dire, sinon « ça rentre » est un piège.
+    const inc = C.chargeInconnue(cal.taches);
+    const marge = dispo !== null ? dispo - cal.heuresTotal : null;
+    const fragile = !manque && marge !== null && inc.connu && inc.median > marge;
+    const nb = (h) => Math.round(h).toLocaleString('fr-CA');
+
+    return `<div class="carte ${manque ? 'verdict-non'
+      : fragile ? 'verdict-fragile' : 'verdict-oui'}">
       <div class="chiffres">
         <div class="c"><b>${Math.round(cal.heuresTotal).toLocaleString('fr-CA')}</b>heures de travail</div>
         ${dispo !== null ? `<div class="c"><b>${dispo.toLocaleString('fr-CA')}</b>heures disponibles
           <span class="sec">${jours} jours ouvrés d'ici le ${dateFR(echeance)}</span></div>` : ''}
-        <div class="c"><b>${c.postes}</b>postes ${c.defaut ? '<span class="sec">valeur par défaut</span>' : ''}</div>
+        <div class="c"><b>${c.postes}</b>postes ${c.defaut
+          ? '<span class="sec">équipe annoncée · non confirmée ici</span>' : ''}</div>
       </div>
       ${manque ? `<p class="verdict-txt"><b>Ça ne rentre pas.</b> Il manque
-        ${Math.round(cal.heuresTotal - dispo).toLocaleString('fr-CA')} heures.
+        ${nb(cal.heuresTotal - dispo)} heures.
         À ${c.heures_jour} h par jour, il faudrait <b>${postesRequis} postes</b>
         au lieu de ${c.postes} — ou déplacer une partie du plan.</p>`
+      : fragile ? `<p class="verdict-txt"><b>Ça rentre sur le papier</b>, avec
+        ${nb(marge)} heures de marge — soit
+        ${Math.round((marge / dispo) * 100)} % du temps disponible. C'est moins
+        que ce que les items non chiffrés demanderaient : la marge ne tient
+        probablement pas.</p>`
       : dispo !== null ? `<p class="verdict-txt"><b>Ça rentre</b>, avec
-        ${Math.round(dispo - cal.heuresTotal).toLocaleString('fr-CA')} heures de
-        marge.</p>` : ''}
+        ${nb(marge)} heures de marge.</p>` : ''}
       ${cal.sansTemps ? `<p class="verdict-note">${cal.sansTemps} items n'ont
         aucun temps connu — ni chronométré, ni déductible d'un coût de
-        confection. Ils comptent pour zéro heure ici : la charge réelle est
-        <b>plus élevée</b> que ce chiffre.</p>` : ''}
+        confection. Ils comptent pour <b>zéro heure</b> dans le total
+        ci-dessus.${inc.connu ? ` À leurs ${inc.pieces.toLocaleString('fr-CA')}
+        pièces, en leur prêtant les temps des autres items du plan, il faudrait
+        <b>entre ${nb(inc.bas)} et ${nb(inc.haut)} heures</b> de plus
+        (${nb(inc.median)} h au temps médian). Le seul moyen de trancher est de
+        les chronométrer.` : ''}</p>` : ''}
       <p class="verdict-note">Les temps viennent du chronomètre quand il
-      existe, sinon du coût de confection divisé par ${require('./charge.js').TAUX_HORAIRE} $/h —
+      existe, sinon du coût de confection divisé par ${C.TAUX_HORAIRE} $/h —
       la conversion que le suivi Tunisie applique aux mitaines polar. Chaque
       ligne du diagramme dit laquelle des deux.</p>
     </div>
@@ -843,7 +862,8 @@ function vueCedule({ user, jalons, msg, cal = null }) {
     ${admin ? `<div class="carte">
       <h2>Capacité de l'atelier</h2>
       <p class="sec">Aucune source ne la donne : c'est ce réglage qui transforme
-      des heures en dates. Le changer redessine tout le calendrier.</p>
+      des heures en dates. Le changer redessine tout le calendrier.
+      ${c.defaut ? '<b>Les 20 postes viennent de l\'équipe annoncée, pas d\'une mesure</b> — et 20 personnes dans l\'atelier n\'est pas 20 personnes qui cousent. Confirmer ici.' : ''}</p>
       <form method="post" action="/cedule/capacite" class="cap-form">
         <div class="champ"><label for="cp">Postes</label>
           <input id="cp" type="number" name="postes" min="1" max="200"

@@ -462,8 +462,10 @@ t("l'atelier peut consulter le suivi",
     C.tempsUnitaire('PRODUIT-QUI-NEXISTE-PAS', chrono, couts).source === 'aucune');
 
   // --- capacité
+  // On vérifie le marquage, pas le chiffre : le défaut suit l'équipe annoncée
+  // et changera encore. Ce qui doit tenir, c'est qu'il se déclare comme défaut.
   t('la capacité a une valeur par défaut, marquée comme telle',
-    C.capacite().defaut === true && C.capacite().postes === 4);
+    C.capacite().defaut === true && C.capacite().postes === C.CAPACITE_DEFAUT.postes);
   t('une capacité hors bornes est refusée',
     Boolean(C.poserCapacite({ postes: 0, heures_jour: 8, jours_semaine: 5 }).erreur));
   t('une capacité valide est retenue',
@@ -496,6 +498,29 @@ t("l'atelier peut consulter le suivi",
     cal4.taches[1].debut === cal4.taches[1].fin);
   t('le calendrier commence un jour ouvré',
     new Date(cal4.debut + 'T00:00:00Z').getUTCDay() !== 0, cal4.debut);
+
+  // --- ce que les items sans temps connu coûteraient
+  // « La charge réelle est plus élevée » est vrai et inutilisable : dix heures
+  // ou mille ? La fourchette est ce qui rend une marge jugeable.
+  const inc = C.chargeInconnue(cal4.taches);
+  t('les items sans temps sont comptés en pièces, pas en items seulement',
+    inc.items === 1 && inc.pieces === 50, JSON.stringify(inc));
+  t('la fourchette encadre la médiane',
+    inc.bas <= inc.median && inc.median <= inc.haut,
+    [inc.bas, inc.median, inc.haut].join(' / '));
+  t('la fourchette est bâtie sur les temps du plan lui-même',
+    Math.abs(inc.bas - (1030 * 50) / 3600) < 1e-6, String(inc.bas));
+  t('sans aucun item chiffré, on ne prétend pas savoir',
+    C.chargeInconnue([{ code: 'INCONNU', restant: 10 }]).connu === false);
+  t('sans item manquant, la fourchette est vide',
+    C.chargeInconnue([{ code: 'CACHE-COU', restant: 10 }]).pieces === 0);
+  // une tâche qui porte déjà son temps ne doit pas relire les fichiers
+  t('le temps déjà calculé est réutilisé',
+    C.chargeInconnue([{ code: 'PEU-IMPORTE', restant: 4,
+                        temps: { secondes: 3600, source: 'chrono' } },
+                      { code: 'AUTRE', restant: 7,
+                        temps: { secondes: 0, source: 'aucune' } }]).median === 7,
+    'médiane attendue 7 h');
 
   // remise en état pour les tests suivants
   C.poserCapacite(C.CAPACITE_DEFAUT);

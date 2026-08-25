@@ -147,8 +147,13 @@ function tempsUnitaire(code, chrono = tempsChrono(), couts = coutsConfection()) 
 /**
  * La capacité de l'atelier, en réglages. Un seul jeu pour tout le monde :
  * ce n'est pas une préférence d'affichage, c'est une donnée d'exploitation.
+ *
+ * 20 postes : l'équipe annoncée par Québec en août 2026. C'est un chiffre
+ * DÉCLARÉ, pas observé — et « 20 personnes dans l'atelier » n'est pas tout à
+ * fait « 20 personnes qui cousent » : encadrement, coupe et finition en font
+ * partie. Tant que personne n'a confirmé le réglage dans l'app, la page le dit.
  */
-const CAPACITE_DEFAUT = { postes: 4, heures_jour: 8, jours_semaine: 5 };
+const CAPACITE_DEFAUT = { postes: 20, heures_jour: 8, jours_semaine: 5 };
 
 db.exec(`CREATE TABLE IF NOT EXISTS reglages (
   cle    TEXT PRIMARY KEY,
@@ -182,6 +187,45 @@ function poserCapacite({ postes, heures_jour, jours_semaine }) {
   }
   for (const [k, v] of Object.entries(vals)) pose.run(k, String(Number(v)));
   return { ok: true, capacite: capacite() };
+}
+
+/**
+ * Ce que les items sans temps connu coûteraient, en fourchette.
+ *
+ * « La charge réelle est plus élevée » est vrai mais inutilisable : on ne sait
+ * pas si ça veut dire dix heures ou mille. Faute de mesure, on prête à ces
+ * items les temps unitaires des items du MÊME plan — le plus court, la
+ * médiane, le plus long. Ce n'est pas une estimation de leur durée : c'est
+ * l'ordre de grandeur de ce qui manque au total, et ça suffit à savoir si une
+ * marge tient debout.
+ *
+ * Rien n'est ajouté au calendrier : ces heures restent hors du Gantt, parce
+ * qu'on ne sait pas où les placer. Elles servent à qualifier la marge.
+ */
+function chargeInconnue(lignes, chrono = null, couts = null) {
+  // Chargés seulement si une ligne n'a pas déjà son temps : sur la page cédule,
+  // les tâches viennent du calendrier et les fichiers ne sont pas relus.
+  const mesures = () => (chrono ??= tempsChrono(), couts ??= coutsConfection());
+  const connus = [], manquants = [];
+  for (const l of lignes) {
+    // Une tâche de calendrier porte déjà son temps : pas la peine de relire
+    // les fichiers de mesure pour rien.
+    const t = l.temps || (mesures(), tempsUnitaire(l.code, chrono, couts));
+    if (t.source === 'aucune') manquants.push(l);
+    else if (t.secondes > 0) connus.push(t.secondes);
+  }
+  const pieces = manquants.reduce((s, l) => s + l.restant, 0);
+  if (!manquants.length || !connus.length || !pieces)
+    return { items: manquants.length, pieces, bas: 0, median: 0, haut: 0, connu: Boolean(connus.length) };
+
+  connus.sort((a, b) => a - b);
+  const h = (sec) => (sec * pieces) / 3600;
+  return {
+    items: manquants.length, pieces, connu: true,
+    bas:    h(connus[0]),
+    median: h(connus[Math.floor(connus.length / 2)]),
+    haut:   h(connus[connus.length - 1]),
+  };
 }
 
 // ---------------------------------------------------------------- calendrier
@@ -249,5 +293,6 @@ function calendrier(lignes, { depart = null, cap = capacite() } = {}) {
 }
 
 module.exports = { tempsChrono, coutsConfection, tempsUnitaire, secondes, calendrier,
+                   chargeInconnue,
                    capacite, poserCapacite, CAPACITE_DEFAUT, TAUX_HORAIRE,
                    FAMILLE_CHRONO, FAMILLE_COGS };
