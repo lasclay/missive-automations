@@ -67,6 +67,39 @@ function creerUtilisateur({ courriel, mdp, nom, role = 'atelier' }) {
   ).run(courriel.trim().toLowerCase(), hacher(mdp), nom.trim(), role);
 }
 
+/**
+ * Change le mot de passe d'un utilisateur, après avoir vérifié l'ancien.
+ *
+ * Toutes les autres sessions sont fermées : un mot de passe qu'on change
+ * parce qu'il a fuité ne sert à rien si la session ouverte avec l'ancien
+ * continue de fonctionner. Celle du navigateur courant est épargnée, sinon
+ * on se déconnecte soi-même en changeant son mot de passe.
+ */
+function changerMotDePasse({ utilisateurId, ancien, nouveau, jetonAGarder = null }) {
+  const u = db.prepare(`SELECT * FROM utilisateurs WHERE id = ? AND actif = 1`)
+              .get(utilisateurId);
+  if (!u) return { erreur: 'Compte introuvable.' };
+  if (!verifier(String(ancien || ''), u.mdp_hash))
+    return { erreur: 'Mot de passe actuel incorrect.' };
+  const n = String(nouveau || '');
+  if (n.length < 8)
+    return { erreur: 'Le nouveau mot de passe doit faire au moins 8 caractères.' };
+  if (verifier(n, u.mdp_hash))
+    return { erreur: 'Le nouveau mot de passe est identique à l\'ancien.' };
+
+  db.exec('BEGIN');
+  try {
+    db.prepare(`UPDATE utilisateurs SET mdp_hash = ? WHERE id = ?`).run(hacher(n), u.id);
+    if (jetonAGarder)
+      db.prepare(`DELETE FROM sessions WHERE utilisateur_id = ? AND jeton <> ?`)
+        .run(u.id, jetonAGarder);
+    else
+      db.prepare(`DELETE FROM sessions WHERE utilisateur_id = ?`).run(u.id);
+    db.exec('COMMIT');
+  } catch (e) { db.exec('ROLLBACK'); throw e; }
+  return { ok: true };
+}
+
 function connecter(courriel, mdp) {
   const u = db.prepare(
     `SELECT * FROM utilisateurs WHERE courriel = ? AND actif = 1`
@@ -81,4 +114,5 @@ function connecter(courriel, mdp) {
 }
 
 module.exports = { hacher, verifier, ouvrirSession, fermerSession,
-                   utilisateurDeSession, creerUtilisateur, connecter, menage };
+                   utilisateurDeSession, creerUtilisateur, connecter, menage,
+                   changerMotDePasse };

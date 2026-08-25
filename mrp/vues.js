@@ -123,7 +123,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/cedule', 'Cédule', 'cedule')}
     ${lien('/assistant', 'Assistant', 'assistant')}
   </nav>
-  <span class="qui">${e(user.nom)}${user.role === 'atelier' ? ' · atelier' : ''}
+  <span class="qui"><a href="/compte">${e(user.nom)}</a>${user.role === 'atelier' ? ' · atelier' : ''}
     · <a href="/deconnexion">Sortir</a></span>` : ''}
 </div></header>
 <main>
@@ -151,6 +151,40 @@ const vueConnexion = ({ erreur }) => `<!doctype html><html lang="fr"><head>
 </div></body></html>`;
 
 
+
+/* ------------------------------------------------------------------ compte
+ * Changer son mot de passe sans passer par un shell. Ça paraît accessoire ;
+ * ça ne l'est pas : un mot de passe transmis par message doit pouvoir être
+ * changé par celui qui le reçoit, et l'atelier n'a pas de shell.
+ */
+function vueCompte({ user, msg }) {
+  const corps = `
+  <div class="entete"><div>
+    <h1>Mon compte</h1>
+    <p class="muted">${e(user.courriel)} · ${user.role === 'admin'
+      ? 'administration' : 'atelier'}</p>
+  </div></div>
+
+  <div class="carte" style="max-width:420px">
+    <h2>Changer mon mot de passe</h2>
+    <p class="muted" style="font-size:13px;margin:6px 0 14px">Huit caractères
+    minimum. Les sessions ouvertes ailleurs seront fermées — sur les autres
+    appareils, il faudra se reconnecter.</p>
+    <form method="post" action="/compte">
+      <div class="champ"><label for="a">Mot de passe actuel</label>
+        <input id="a" type="password" name="ancien" required
+               autocomplete="current-password"></div>
+      <div class="champ"><label for="n">Nouveau mot de passe</label>
+        <input id="n" type="password" name="nouveau" required minlength="8"
+               autocomplete="new-password"></div>
+      <div class="champ"><label for="n2">Le répéter</label>
+        <input id="n2" type="password" name="nouveau2" required minlength="8"
+               autocomplete="new-password"></div>
+      <button class="btn" style="width:100%">Changer</button>
+    </form>
+  </div>`;
+  return page({ titre: 'Mon compte', user, corps, msg });
+}
 
 // ============================================================== tableau de bord
 function vueAccueil({ user, ordres, jalons }) {
@@ -905,6 +939,7 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
 }
 
 module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR, jauge, page, vueConnexion,
+                   vueCompte,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
                    vuePriorites, vueSuivi, PRIORITES, urgence,

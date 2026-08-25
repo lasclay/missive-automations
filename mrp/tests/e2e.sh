@@ -171,6 +171,57 @@ curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler 
   | grep -q 'err=' && ok "assistant : tour d'autrui non annulable" \
   || ko "assistant : annulation croisée permise"
 
+# --- changer son mot de passe -------------------------------------------
+# Un mot de passe transmis par message doit pouvoir être changé par celui qui
+# le reçoit, et l'atelier n'a pas de shell.
+CO2=$(mktemp)
+curl -s -c $CO2 -o /dev/null -X POST $B/connexion --data 'courriel=o@test.com&mdp=motdepasse2'
+
+curl -s -b $CO2 $B/compte | grep -q 'Changer mon mot de passe' \
+  && ok "l'atelier a une page de compte" || ko "page de compte absente"
+
+# mauvais mot de passe actuel : refusé
+curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte \
+  --data 'ancien=pasbon&nouveau=nouveaumdp1&nouveau2=nouveaumdp1' | grep -q 'err=' \
+  && ok "mot de passe actuel erroné refusé" || ko "mot de passe erroné accepté"
+
+# les deux nouveaux diffèrent : refusé
+curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte \
+  --data 'ancien=motdepasse2&nouveau=nouveaumdp1&nouveau2=autrechose9' | grep -q 'err=' \
+  && ok "confirmation qui diffère refusée" || ko "confirmation divergente acceptée"
+
+# trop court : refusé
+curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte \
+  --data 'ancien=motdepasse2&nouveau=court&nouveau2=court' | grep -q 'err=' \
+  && ok "nouveau mot de passe trop court refusé" || ko "mot de passe court accepté"
+
+# une deuxième session du même utilisateur, ouverte AVANT le changement
+CO3=$(mktemp)
+curl -s -c $CO3 -o /dev/null -X POST $B/connexion --data 'courriel=o@test.com&mdp=motdepasse2'
+[ "$(curl -s -o /dev/null -w '%{http_code}' -b $CO3 $B/priorites)" = 200 ] \
+  && ok "la deuxième session est ouverte" || ko "deuxième session non ouverte"
+
+# le vrai changement
+curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte \
+  --data 'ancien=motdepasse2&nouveau=nouveaumdp1&nouveau2=nouveaumdp1' | grep -q 'ok=' \
+  && ok "mot de passe changé" || ko "changement refusé"
+
+# l'ancien ne marche plus, le nouveau oui
+[ "$(curl -s -o /dev/null -w '%{http_code}' -X POST $B/connexion \
+     --data 'courriel=o@test.com&mdp=motdepasse2')" = 401 ] \
+  && ok "l'ancien mot de passe ne fonctionne plus" || ko "ancien mot de passe encore valide"
+[ "$(curl -s -o /dev/null -w '%{http_code}' -X POST $B/connexion \
+     --data 'courriel=o@test.com&mdp=nouveaumdp1')" = 303 ] \
+  && ok "le nouveau mot de passe fonctionne" || ko "nouveau mot de passe refusé"
+
+# la session qui a fait le changement reste ouverte...
+[ "$(curl -s -o /dev/null -w '%{http_code}' -b $CO2 $B/priorites)" = 200 ] \
+  && ok "la session courante survit au changement" || ko "on s'est déconnecté soi-même"
+# ...mais les autres sont fermées
+[ "$(curl -s -o /dev/null -w '%{http_code}' -b $CO3 $B/priorites)" = 303 ] \
+  && ok "les sessions ouvertes ailleurs sont fermées" \
+  || ko "une session ouverte avec l'ancien mot de passe survit"
+
 # --- amorce du premier compte -------------------------------------------
 # Un service fraîchement déployé n'a aucun utilisateur : sans amorce, personne
 # ne peut ouvrir de session, et sans shell c'est irrécupérable. L'amorce doit
