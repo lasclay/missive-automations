@@ -194,6 +194,11 @@ protection du consommateur du Québec.
 - **Étaler les envois** sur deux ou trois semaines.
 - ⚠️ **Revérifier le dossier avant chaque envoi** : `node dossier.js <convId>`, ou Shopify **et**
   ShipStation. Montants revérifiés le 24 août 2026.
+- ⚠️ **ShipStation ne remonte pas avant le 7 décembre 2023.** Vérifié le 25 août : 19 715
+  expéditions en mémoire, la plus ancienne étant L-18215 du 7 décembre 2023. Toute affirmation sur
+  un envoi antérieur à cette date est invérifiable et ne doit donc pas être écrite comme un fait.
+  Ça touche **Guillaume Lanteigne-Voyer** (février 2023) et **Melanie Boucher** (décembre 2022).
+  Nathalie Durand (8 janvier 2025) et Toby Lanthier (janvier 2025) sont dans la fenêtre.
 
 ---
 
@@ -406,11 +411,20 @@ remboursée. Elle a déjà reçu une carte-cadeau (L-44698, 22 décembre) et des
 ## Guillaume Lanteigne-Voyer · 2★ · g_lanteignevoyer@hotmail.com · +1 514-249-7667
 
 *⚠️ **Message entièrement réécrit.** Le texte intégral de son avis, obtenu à la deuxième passe,
-change tout : ce n'était pas un client fidèle à remercier, c'est un remplacement promis et jamais
-expédié. Ses six commandes Shopify (L-4218, L-10295, L-10486, L-11776, L-15511, L-15975) sont
-toutes payées, **aucune à 0,00 $** : aucun remplacement gratuit n'est jamais parti. Le produit mal
-confectionné vient des préventes 2022 (L-10295 ou L-10486, expédiées le 18 décembre 2022), ce qui
-colle au « mois et demi » de son avis du 6 février 2023.*
+change tout : ce n'était pas un client fidèle à remercier, c'est un remplacement promis. Le produit
+mal confectionné vient des préventes 2022 (L-10295 ou L-10486, expédiées le 18 décembre 2022), ce
+qui colle au « mois et demi » de son avis du 6 février 2023.*
+
+*⚠️ **Correction du 25 août, à la demande de Gabriel : je ne peux PAS affirmer que le remplacement
+n'est jamais parti.** La vérification ShipStation le prouve : **l'historique des expéditions
+commence le 7 décembre 2023** (19 715 expéditions, la plus ancienne étant L-18215 du 7 décembre
+2023). Son dossier date de février 2023, donc **hors de la fenêtre de rétention**. ShipStation ne
+peut ni confirmer ni infirmer.*
+
+*Ce que je peux affirmer, et rien de plus : ses six commandes Shopify (L-4218, L-10295, L-10486,
+L-11776, L-15511, L-15975) sont **toutes payées, aucune à 0,00 $**. Un envoi gratuit créé
+directement dans ShipStation, sans commande Shopify, reste possible et invérifiable. Le message
+pose donc la question au lieu de trancher.*
 
 *Un des cinq dossiers « promesse rompue ». Il passe de « reconnaissance » à **offre maximale**.*
 
@@ -427,15 +441,19 @@ colle au « mois et demi » de son avis du 6 février 2023.*
 > > d'autres commandes. Un mois et demi plus tard je n'ai rien reçu et je ne reçois plus aucune
 > > réponse à mes courriels.*
 >
-> J'ai vérifié : ce remplacement n'est jamais parti. Pas en retard, jamais parti. Toutes vos
-> commandes chez nous sont des commandes que vous avez payées. Je m'en excuse, et ça fait trois ans
-> que ça traîne.
+> Une promesse de remplacement qui n'aboutit pas, c'est pire que le défaut de départ, et il n'y a
+> rien à plaider là-dessus. Je m'en excuse, avec trois ans de retard.
 >
-> Ce qui est fait aujourd'hui : je vous rembourse la commande de préventes 2022 au complet et
-> j'ajoute une carte-cadeau de 200 $ à votre nom, sans date d'expiration.
+> Est-ce que vous avez fini par le recevoir, ce remplacement? Je ne trouve rien de concluant dans
+> nos dossiers, et nos archives d'expédition de cette époque-là ne remontent plus assez loin pour
+> trancher. Ce que je vois, par contre, c'est que toutes vos commandes chez nous sont des commandes
+> que vous avez payées.
 >
-> Il reste la vraie affaire, qui est le produit lui-même. Dites-moi lequel était mal confectionné,
-> et quelle grandeur, et il part cette semaine par colis suivi. Trois ans plus tard, mais il part.
+> Si vous ne l'avez jamais eu : dites-moi lequel c'était et quelle grandeur, et il part cette
+> semaine par colis suivi. Trois ans plus tard, mais il part.
+>
+> Dans tous les cas, je vous rembourse la commande de préventes 2022 au complet et j'ajoute une
+> carte-cadeau de 200 $ à votre nom, sans date d'expiration.
 >
 > Vous avez commandé six fois chez nous, dont plusieurs fois après cet épisode. Si vous aviez envie
 > de me dire ce qui cloche encore aujourd'hui, ça m'intéresse pour vrai : vous nous connaissez mieux
