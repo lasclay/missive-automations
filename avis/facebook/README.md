@@ -5,6 +5,7 @@ recommandations), remontee jusqu'aux premiers avis de mars 2021.
 
     python3 parse.py        # note de relecture -> avis_fb.json
     python3 construire.py   # -> avis_fb_produits.csv et avis_fb_boutique.csv
+    python3 a_recuperer.py  # -> avis_fb_a_recuperer.csv, ce qu'il reste a aller chercher
 
 ## Deux regles qui commandent tout le reste
 
@@ -21,11 +22,17 @@ majorite. Trois signaux le detectent, du plus sur au moins sur:
 1. le texte mot pour mot (empreinte sur 60 caracteres);
 2. le meme auteur le meme jour, quel que soit le texte: une personne n'ecrit pas deux
    avis differents le meme jour, elle a publie sur Facebook et dans le formulaire;
-3. le meme auteur avec un texte inclus dans l'autre. C'est le cas le plus retors:
+3. n'importe quel auteur au meme prenom, le meme jour. Judge.me abrege souvent le nom
+   de famille en initiale (« Tom R. », « Lucie B. », « Luc P. »): sans ce filet, trois
+   avis deja en ligne passaient pour inedits.
+4. le meme auteur avec un texte inclus dans l'autre. C'est le cas le plus retors:
    la citation relevee sur Facebook est un extrait de l'avis complet. Le taux de
    ressemblance s'effondre avec l'ecart de longueur et ne voit rien, l'inclusion la
-   trouve. Francoise Legault est passee a travers les deux premiers filtres et n'a ete
+   trouve. Francoise Legault est passee a travers les trois premiers filtres et n'a ete
    arretee que par celui-la.
+
+Le prenom seul, en revanche, ne prouve rien: il y a six « Marie-Helene » et quinze
+« Louise » sur Judge.me. Il ne compte que combine a la date.
 
 ## Identification du client
 
@@ -35,3 +42,12 @@ nom, ou si une commande anterieure a l'avis tranche entre les homonymes. Michel 
 commande un sac fourre-tout dix jours avant d'ecrire « le sac est tres pratique »:
 c'est ce genre de preuve qui autorise a joindre une adresse a un avis. Un prenom qui
 ressemble ne suffit jamais.
+
+Nuance pour les avis de boutique: ils ne vouchent pour aucun article, donc la commande
+anterieure n'est pas exigee. Anne-Julie Frenette n'a commande que six mois apres son
+avis, et des bombes semencieres n'ont rien a voir avec « ca ne mouille pas »: son nom
+est unique dans Shopify, elle passe en avis de boutique, sans fiche produit.
+
+Piege de recherche: `customers(first: 5, ...)` tronque silencieusement. Trois identites
+manquaient au premier passage (Anne Julie Frenette, Luc Prud'Homme, Marie-Helene Henry)
+simplement parce que la reponse s'arretait au cinquieme homonyme.

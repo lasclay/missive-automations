@@ -52,6 +52,12 @@ AVIS = [
   "Des gens courtois","Des gens courtois et soucieux d'offrir un super service."),
  ("Marie-Hélène Boivin","mh_boivin@hotmail.com","2022-12-29","mittens",
   "Belles mitaines chaudes","Belles mitaines chaudes et locales, on aime ça!"),
+ # Anne-Julie Frenette n'a qu'une commande, six mois APRES son avis, et des bombes
+ # semencieres n'ont rien a voir avec « ca ne mouille pas ». La commande ne corrobore
+ # donc pas: pas de fiche produit, pas de pastille d'acheteur verifie. Mais son nom est
+ # unique dans Shopify et un avis de boutique ne vouche pour aucun article, donc il passe.
+ ("Anne-Julie Frenette","ajfrenette@gmail.com","2024-01-05","",
+  "","C'est vrai que ça mouille pas. Pour vrai."),
  ("Denise Emond","demond29@hotmail.fr","2022-08-25","",
   "Elle en vaut la peine","Pour ceux qui sont dans l'attente, je vous le dis, elle en vaut la peine."),
  ("Philippe Dubé","philippe.dube.1@ulaval.ca","2022-02-03","",
@@ -84,10 +90,19 @@ def deja_publie(nom, date, corps):
     quelque chose. Judge.me n'affichant que le prenom, on teste nom complet et prenom."""
     if empreinte(corps) in deja:
         return "deja publie mot pour mot"
-    formes = [cle(nom), cle(nom).split(" ")[0]]
+    # Judge.me abrege souvent le nom de famille en initiale: « Tom R. », « Lucie B. »,
+    # « Luc P. ». Sans cette forme, trois avis deja en ligne passaient pour inedits.
+    mots = cle(nom).split(" ")
+    formes = [cle(nom), mots[0], f"{mots[0]} {mots[-1][0]}"]
     for f in formes:
         if date and par_jour.get((f, date)):
             return f"deja publie le meme jour: {par_jour[(f, date)][0][:60]}"
+    # Dernier filet: n'importe quel auteur au meme prenom, le meme jour. Un homonyme qui
+    # publie exactement le jour de l'avis Facebook, c'est la meme personne.
+    if date:
+        for a, d in par_jour:
+            if d == date and a.startswith(mots[0]):
+                return f"deja publie le meme jour ({a}): {par_jour[(a, d)][0][:50]}"
     if len(cle(corps)) > 40:
         for f in formes:
             for autre in par_auteur.get(f, []):
