@@ -29,21 +29,33 @@
 | Plafonds et limites techniques | 100 % des limites documentées | Manuel |
 | Tarification et découpage des paquets | 100 % | Page tarifs publique |
 
-### 0.2 Limite d'accès à signaler explicitement
+### 0.2 Limite d'accès — levée depuis
 
-**Je n'ai pas pu me connecter à `app.mrpeasy.com` avec le compte Lasclay** : aucune identification n'est
-disponible dans cet environnement (ni variable d'environnement, ni secret sur les proxys Render, ni session
-navigateur). L'application est entièrement derrière authentification et ne publie aucune démo accessible
-sans compte.
+**Ce document a été écrit sans accès au compte.** Aucune identification n'était disponible dans
+l'environnement, et MRPeasy ne publie aucune démo accessible sans compte : le périmètre fonctionnel a donc
+été reconstruit à partir du manuel public et des spécifications OpenAPI.
 
-**Conséquence :** cet audit couvre **la totalité du périmètre fonctionnel** de MRPeasy, mais pas
-**la configuration réelle de votre instance** (quelles fonctions Pro/Enterprise sont activées chez vous,
-combien d'articles/nomenclatures existent, quels postes de travail sont définis, l'état de vos données).
+**Cette limite est levée.** `AUDIT_MRPEASY_VISUEL.pdf` (84 pages, 24 août 2026) couvre les
+**115 écrans de l'application capturés en vrai**, sur le compte `operations@lasclay.com`, version
+V.10.26746, jeu de démonstration « Simple discrete manufacturing », avec les 26 fonctions optionnelles
+activées pour révéler toute la surface. Les deux documents se lisent ensemble : celui-ci donne le modèle
+de données et les moteurs, le PDF donne l'interface écran par écran.
 
-**Ce qu'il faudrait pour compléter :** soit des identifiants (idéalement un utilisateur en lecture seule
-créé pour l'occasion dans Settings → Human resources), soit une session où vous ouvrez chaque écran et je
-guide la capture. Le PDF joint (`GUIDE-CAPTURES-MRPEASY.pdf`) est précisément le **plan de capture** à
-exécuter dans ce cas : il liste écran par écran ce qu'il faut photographier et ce qu'il faut annoter.
+**Deux corrections que l'audit visuel apporte à celui-ci**, parce qu'il compte des interrupteurs
+à l'écran là où je comptais des entrées de manuel :
+
+| | Ce document | À l'écran | Explication |
+| --- | ---: | ---: | --- |
+| Fonctions Professional | 16 | **15** | « Custom Fields » est documenté comme fonction mais n'est pas un interrupteur de cet écran — les champs personnalisés se configurent entité par entité |
+| Fonctions Enterprise | 13 | **11** | même écart de nature : le manuel liste des capacités, l'écran liste des bascules |
+
+Le compte des écrans (« 80+ » annoncé ici) est également à corriger : **115 écrans distincts**.
+
+**Ce qui reste hors de portée des deux documents** : la configuration réelle de l'instance Lasclay —
+quelles fonctions sont activées chez vous, combien d'articles et de nomenclatures existent, quels postes
+de travail sont définis. L'audit visuel a été fait sur le **jeu de démonstration**, pas sur vos données.
+C'est sans importance pour concevoir un MRP sur mesure, et ça compterait si l'on envisageait une reprise
+de données depuis MRPeasy.
 
 ### 0.3 Comment lire ce document
 
@@ -386,7 +398,7 @@ lorsqu'ils sont activés, injectent des champs, des colonnes, des sections, des 
 statuts supplémentaires dans toute l'application. **C'est le mécanisme d'architecture le plus imitable
 du produit** — et aussi la source de sa complexité.
 
-### 3.1 Fonctions Professional (16)
+### 3.1 Fonctions Professional (16 au manuel, 15 interrupteurs à l'écran — voir §0.2)
 
 | Fonction | Ce que l'activation change concrètement |
 | --- | --- |
@@ -407,7 +419,7 @@ du produit** — et aussi la source de sa complexité.
 | **Tiered Pricing** | Section CRM → Pricelists ; paliers de prix par quantité sur l'article ; liste de prix par défaut par client |
 | **Unscheduled Manufacturing Orders** | Boutons « Add to schedule » / « Remove from schedule » ; options « ne pas réserver les matières / les postes » ; statut MO « Not Scheduled » ; colonne dédiée dans le Gantt |
 
-### 3.2 Fonctions Enterprise (13)
+### 3.2 Fonctions Enterprise (13 au manuel, 11 interrupteurs à l'écran — voir §0.2)
 
 | Fonction | Ce que l'activation change concrètement |
 | --- | --- |
