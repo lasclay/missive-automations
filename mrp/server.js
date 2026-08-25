@@ -476,6 +476,13 @@ async function router(req, res, url, user) {
     return html(res, V.vueCompte({ user, msg }));
   }
 
+  if (p === '/compte/nom' && req.method === 'POST') {
+    const f = await corpsFormulaire(req);
+    const r = auth.changerNom(user.id, f.nom);
+    if (r.erreur) return vers(res, '/compte?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/compte?ok=' + encodeURIComponent(`Nom changé pour « ${r.nom} ».`));
+  }
+
   return html(res, V.page({ titre:'Introuvable', user,
     corps:'<div class="carte"><p class="vide">Page inconnue.</p></div>' }), 404);
 }

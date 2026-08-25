@@ -166,6 +166,19 @@ function vueCompte({ user, msg }) {
   </div></div>
 
   <div class="carte" style="max-width:420px">
+    <h2>Mon nom</h2>
+    <p class="muted" style="font-size:13px;margin:6px 0 14px">C'est lui qui
+    signe tes mises à jour dans le suivi. « Administration » n'apprend rien
+    quand deux personnes partagent le rôle.</p>
+    <form method="post" action="/compte/nom">
+      <div class="champ"><label for="nom">Nom affiché</label>
+        <input id="nom" type="text" name="nom" required minlength="2" maxlength="60"
+               value="${e(user.nom)}"></div>
+      <button class="btn" style="width:100%">Enregistrer</button>
+    </form>
+  </div>
+
+  <div class="carte" style="max-width:420px">
     <h2>Changer mon mot de passe</h2>
     <p class="muted" style="font-size:13px;margin:6px 0 14px">Huit caractères
     minimum. Les sessions ouvertes ailleurs seront fermées — sur les autres

@@ -100,6 +100,19 @@ function changerMotDePasse({ utilisateurId, ancien, nouveau, jetonAGarder = null
   return { ok: true };
 }
 
+/**
+ * Change son nom affiché. C'est lui qui signe les mises à jour d'avancement :
+ * « Administration a mis CACHE-COU à 40 % » n'apprend rien quand deux
+ * personnes partagent le rôle.
+ */
+function changerNom(utilisateurId, nom) {
+  const n = String(nom || '').trim();
+  if (n.length < 2) return { erreur: 'Le nom doit faire au moins deux caractères.' };
+  if (n.length > 60) return { erreur: 'Le nom ne peut pas dépasser 60 caractères.' };
+  db.prepare(`UPDATE utilisateurs SET nom = ? WHERE id = ?`).run(n, utilisateurId);
+  return { ok: true, nom: n };
+}
+
 function connecter(courriel, mdp) {
   const u = db.prepare(
     `SELECT * FROM utilisateurs WHERE courriel = ? AND actif = 1`
@@ -115,4 +128,4 @@ function connecter(courriel, mdp) {
 
 module.exports = { hacher, verifier, ouvrirSession, fermerSession,
                    utilisateurDeSession, creerUtilisateur, connecter, menage,
-                   changerMotDePasse };
+                   changerMotDePasse, changerNom };

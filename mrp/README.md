@@ -276,8 +276,10 @@ node mrp.js utilisateur:creer <courriel> <mdp> "<nom>" [admin|atelier]
 node mrp.js utilisateur:liste
 ```
 
-**Chacun change son mot de passe lui-même**, dans l'app : son nom en haut à
-droite → *Mon compte*. Ça paraît accessoire ; ça ne l'est pas. Un mot de passe
+**Chacun gère son compte lui-même**, dans l'app : son nom en haut à droite →
+*Mon compte*. Il y change son **nom affiché** — c'est lui qui signe les mises à
+jour dans le suivi, et l'amorce crée le premier compte au nom d'« Administration »,
+qui n'apprend rien — et son **mot de passe**. Ça paraît accessoire ; ça ne l'est pas. Un mot de passe
 transmis par message doit pouvoir être changé par celui qui le reçoit, et
 l'atelier n'a pas de shell. Le changement ferme les sessions ouvertes ailleurs
 — sinon celle ouverte avec le mot de passe qui a fuité continuerait de
