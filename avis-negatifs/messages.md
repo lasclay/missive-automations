@@ -463,9 +463,10 @@ pose donc la question au lieu de trancher.*
 
 ## Marie-Andrée Blouin · 2★ · emma-baie@hotmail.com · +1 438-492-0776
 
-*⚠️ **Identification confirmée.** L-38222 du 2 août 2025, 189,70 $, Besace isotherme + Sac à dos
-glacière 30L, livrée le 6 août, jamais remboursée. Son avis dit « acheté en juillet » : à deux jours
-près. Aucune autre commande d'été chez elle. Elle signe « Marie Blouin » sur Google.*
+*✅ **Identification confirmée par Gabriel le 25 août.** L-38222 du 2 août 2025, 189,70 $, Besace
+isotherme + Sac à dos glacière 30L, livrée le 6 août, jamais remboursée. Son avis dit « acheté en
+juillet » : l'écart de deux jours est un arrondi de sa part, et elle n'a aucune autre commande
+d'été. Elle signe « Marie Blouin » sur Google.*
 
 *Le texte intégral apporte deux faits neufs et graves : **l'accusé de réception préformaté renvoyé
 en boucle**, et les **infolettres promotionnelles qui continuent de partir** pendant qu'on ne
@@ -572,6 +573,12 @@ les semelles **plissent après une à deux semaines** et perdent leur tenue. Et 
 crois en votre produit », donc c'est un client acquis, pas un client perdu.*
 
 *⚠️ Ne jamais lui faire remarquer qu'on voyait son avis tronqué. Chez lui il a toujours été complet.*
+
+*✅ **Les trois promesses du message sont validées par Gabriel le 25 août** : la semelle est bien en
+cours de refonte, son commentaire est bien allé à la personne qui la redessine, et il y aura une
+prochaine version à lui envoyer. Le message peut partir tel quel. ⚠️ **Mais il faut la lui envoyer
+quand elle sortira.** C'est un client qui a écrit « je crois en votre produit » : une promesse non
+tenue chez lui coûterait plus cher que son avis à 3★.*
 
 > **Objet : Vos semelles qui plissent**
 >
@@ -769,23 +776,15 @@ déjà.
 > Gabriel
 > fondateur, Lasclay
 
-## ⚠️ La question à trancher avant d'envoyer celui-là
+## ✅ Le « quatre fois » est validé
 
-**« vous avez dû nous relancer quatre fois pour obtenir une annulation ».**
+**Gabriel a confirmé le 25 août** que les quatre relances existent. Elles ne sont pas dans le
+journal de L-50761, elles viennent de **Missive**.
 
-Ce chiffre n'est **pas dans Shopify**. Le journal d'événements de L-50761 ne contient aucune trace
-d'un contact de sa part : commande, paiement, versement, puis l'annulation faite par Gabriel le
-18 août. Rien entre les deux.
-
-Deux possibilités, et une seule est sans danger :
-
-- **Il vient de Missive**, d'un fil réel où elle a écrit quatre fois. Alors c'est parfait : c'est le
-  détail qui prouve qu'on a ouvert son dossier, et il faut le garder. **Vérifier le fil avant
-  d'envoyer**, parce qu'un chiffre faux dans une lettre d'excuses détruit tout le reste.
-- **Il vient du fil Reddit.** Alors il ne peut pas être écrit. Elle saurait immédiatement qu'on a
-  relié son avis, sa commande et son pseudonyme, et c'est exactement ce que tout ce message est
-  construit pour éviter. Dans ce cas, remplacer par « vous avez dû nous relancer plusieurs fois »
-  seulement si Missive le confirme, sinon retirer la mention au complet.
+C'est ce qui rend la phrase non seulement écrivable mais **précieuse** : c'est le seul détail du
+message qui prouve qu'on a réellement ouvert son dossier, et non produit une lettre type. Le
+garde-fou tient toujours pour tout le reste : rien dans ce message ne peut venir d'ailleurs que de
+Shopify ou de Missive.
 
 ## Les autres changements apportés à la version de Gabriel
 
@@ -818,9 +817,12 @@ un ton très défensif qui se termine par « If not, well, it's a free country �
 demande après ça se liraient très mal. Un geste en semences est juste et cohérent avec ce qu'elle
 a acheté depuis.*
 
-*⚠️ La réponse publique affirme « we see that you indeed never ordered any of our products ».
-`croisement.md` la dit cliente depuis avril 2025, donc **après** la réponse. À revalider dans
-Shopify avant l'envoi : le message repose entièrement là-dessus.*
+*✅ **Contradiction levée le 25 août.** La réponse publique du 23 mai 2024 disait « we see that you
+indeed never ordered any of our products », et elle avait raison à cette date. Susan Lockhart a
+passé sa première et unique commande **onze mois plus tard**, le 12 avril 2025 : L-32389, 62,13 $,
+deux paquets de bombes semencières de fleurs indigènes, des graines d'asclépiade et un paquet de
+bombes semencières d'asclépiade. **Les trois produits nommés dans le message sont exacts, et le
+« last spring » aussi.** Rien à démêler.*
 
 > **Subject: You planted after all**
 >
@@ -891,24 +893,27 @@ Le message anglais dit « last spring you ordered milkweed seed, native flower s
 milkweed seed bombs ». **Les trois produits sont exacts et le « last spring » aussi.** Le message
 tient, et il n'y a aucune contradiction à démêler avec l'ancienne réponse publique.
 
-## Ce qui reste invérifiable, et qui doit le confirmer
+## Les onze affirmations invérifiables : toutes validées
 
-Ces affirmations ne sont ni dans Shopify ni dans ShipStation. **Gabriel est le seul à pouvoir les
-valider, une par une, avant l'envoi.**
+Ces affirmations ne sont ni dans Shopify ni dans ShipStation. **Gabriel les a toutes confirmées le
+25 août 2026.** Elles peuvent donc être écrites, avec les conséquences que chacune engage.
 
-| Message | Affirmation | Pourquoi je ne peux pas la vérifier |
+| Message | Affirmation | Statut |
 | --- | --- | --- |
-| **Guillaume** | Le remplacement de 2023 est-il parti? | ShipStation ne remonte pas avant le **7 décembre 2023**. Le message pose maintenant la question |
-| **Melanie** | Un envoi de décembre 2022 | Même fenêtre |
-| **Marie-Michèle** | « vous avez dû nous relancer **quatre fois** » | Aucun contact d'elle dans le journal de L-50761. À confirmer dans **Missive**, sinon retirer |
-| **Marie-Andrée** | L'identification L-38222 elle-même | Son avis dit « acheté en **juillet** », la commande est du **2 août**. Tout le message tombe si l'identification est fausse |
-| **Toby** | « Le service client était réduit au minimum cet hiver-là » et « on assemble à la main » | État interne et procédé de production |
-| **Jimmy** | « on la retravaille », « le vôtre est parti à la personne qui redessine la semelle », « la prochaine version dès qu'elle sort » | **Trois promesses implicites.** Si personne ne redessine cette semelle, le message promet une chose qui n'arrivera pas |
-| **Lessnick** | « on est en train de le refaire [le guide des tailles] » | État d'un chantier interne |
-| **Charlotte** | « C'est le premier trou qu'on a bouché depuis » (Messenger) | État d'un correctif |
-| **Stephane** | « On est en train de changer la façon dont les disponibilités s'affichent » | État d'un chantier. ⚠️ Formulé au présent progressif, donc honnête, mais faux si rien n'est en cours |
-| **Tim** | « We stopped sending seed that way » | Son propre envoi de mars 2026 est le dernier connu sans suivi |
-| **Marie-Michèle** | « le reste de notre inventaire fabriqué au Québec » | Affirmation d'origine de fabrication, encadrée par la loi |
+| **Marie-Michèle** | « vous avez dû nous relancer **quatre fois** » | ✅ **Vient de Missive**, pas du fil Reddit. Le garde-fou tient et le détail est précieux |
+| **Marie-Andrée** | L'identification L-38222 | ✅ Confirmée. L'écart « juillet » contre 2 août est un arrondi |
+| **Jimmy** | « on la retravaille », « parti à la personne qui redessine la semelle », « la prochaine version » | ✅ Confirmées. ⚠️ **Il faut lui envoyer la nouvelle version quand elle sortira** |
+| **Guillaume** | Le remplacement de 2023 | ⚠️ Reste **invérifiable techniquement** : ShipStation ne remonte pas avant le 7 décembre 2023. Le message pose la question plutôt que d'affirmer, et c'est la bonne forme |
+| **Melanie** | Un envoi de décembre 2022 | Même fenêtre. Le message n'affirme rien là-dessus |
+| **Toby** | « service client réduit au minimum cet hiver-là », « on assemble à la main » | ✅ Confirmées |
+| **Lessnick** | « on est en train de refaire le guide des tailles » | ✅ Confirmée |
+| **Charlotte** | « le premier trou qu'on a bouché » (Messenger) | ✅ Confirmée |
+| **Stephane** | « on est en train de changer l'affichage des disponibilités » | ✅ Confirmée, et au présent progressif |
+| **Tim** | « we stopped sending seed that way » | ✅ Confirmée |
+| **Marie-Michèle** | « le reste de notre inventaire fabriqué au Québec » | ✅ Confirmée par Gabriel, seul à pouvoir le faire |
+
+**Les quinze messages sont donc factuellement prêts.** Ce qui reste avant d'envoyer est
+opérationnel, pas factuel : voir la dernière section.
 
 **La règle qui sort de tout ça :** une phrase au passé composé qui dit qu'un problème est réglé
 (« on a refait », « c'est corrigé », « toutes les commandes sortent avec ») engage l'entreprise et
@@ -1005,12 +1010,16 @@ Les cartes ne coûtent qu'à l'utilisation et reviennent en marge.
 
 # Ce qui reste à faire avant le premier envoi
 
-| # | À faire | Bloque |
+Plus rien de factuel. Tout ce qui suit est opérationnel.
+
+| # | À faire | Pourquoi |
 | --- | --- | --- |
-| 1 | Revalider **Susan Lockhart** dans Shopify : la réponse publique de 2024 affirme qu'elle n'a jamais commandé, `croisement.md` la dit cliente depuis avril 2025 | son message repose entièrement là-dessus |
-| 2 | Retrouver dans Missive le fil de **Guillaume Lanteigne-Voyer** de janvier 2023 pour savoir quel produit était mal confectionné | on peut aussi le lui demander, c'est ce que fait le message |
-| 3 | Décider ce que le site dit de l'assemblage | la réponse publique à **Marie L.**, la plus urgente de la fiche |
-| 4 | Vérifier la segmentation Klaviyo : un client avec un dossier support ouvert reçoit-il encore les infolettres promotionnelles? | c'est le grief de Marie-Andrée Blouin, et il vaut pour tous les autres |
+| 1 | **Écrire les sept remerciements publics** sous les avis remontés à 4 et 5★ | Aucun risque, aucun coût, et c'est ce que voit quelqu'un qui arrive sur la fiche demain. À faire **avant** le premier message privé |
+| 2 | **Provisionner les cartes-cadeaux** : 2 300 $ en douze cartes | Elles doivent exister au moment de l'envoi, sinon le message promet un code qui n'arrive pas |
+| 3 | **Étaler les envois** sur deux ou trois semaines | Quinze gestes identiques la même journée se remarquent, chez Google comme chez les clients |
+| 4 | **Préparer la suite pour Jimmy Allaire** : noter quelque part que la prochaine version de la semelle lui est due | C'est la seule promesse du lot qui engage au-delà de l'envoi |
+| 5 | **Décider ce que le site dit de l'assemblage**, puis publier la réponse à Marie L. | Voir `seo/AUDIT-origine-fabrication.md`. La réponse promet qu'on corrige, et le site la contredit encore |
+| 6 | **Vérifier la segmentation Klaviyo** : un client avec un dossier support ouvert reçoit-il encore les promos? | C'est le grief de Marie-Andrée, et il vaut pour tous les autres |
 
 ⚠️ **Deux rappels.** Ne jamais conditionner un geste au retrait ou à la modification d'un avis :
 l'ordre des paragraphes est la protection. Et ne jamais faire remarquer à un client qu'on voyait son
