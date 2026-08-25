@@ -2,7 +2,29 @@
 
 **Remplace la v7.** Trois passes de lecture de la fiche (`RAPPORT-LECTURE-PASSE-2.md` et
 `RAPPORT-LECTURE-PASSE-3-VIDEO.md`, 24 août 2026) plus une vérification Shopify et ShipStation ont
-ramené la vague de dix-sept à **douze envois**. La voix ne change pas, les faits oui.
+ramené la vague de dix-sept à **treize envois**. La voix ne change pas, les faits oui.
+
+## L'état réel de la fiche, au 24 août 2026
+
+| | Nombre |
+| --- | --- |
+| Avis au total sur la fiche | 132, note globale 4,4 / 5 |
+| **Avis de 1 à 3 étoiles encore en ligne** | **20** |
+| dont **destinataires d'un message privé** | **13** |
+| dont Susan Lockhart, cas à part (semences, aucune carte) | 1 |
+| dont impossibles à joindre en privé | 6 |
+| Anciens avis négatifs passés à 4 ou 5 étoiles | 7 |
+| Avis vraiment disparus de la fiche | 4 |
+
+Les six qu'on ne peut pas joindre en privé : **Marie L.** et **patrick lambert** (non identifiés
+dans Shopify), **Audrey Thibeault** (note seule, aucun texte), **Emma Nelson** (très probablement
+Emma Whiten, déjà remboursée le 20 août), **Cyr-Marc Debien** et **Danielle Gingras** (dossiers
+clos et dits clos publiquement). Pour eux, réponse publique seulement.
+
+⚠️ **Un écart de comptage à trancher.** Le tri par note la moins élevée dans la console affichait
+**21** avis de 1 à 3 étoiles le 24 août. Le relevé détaillé en donne **20**. Il manque donc un avis
+quelque part : soit une erreur de comptage dans la console, soit un avis jamais relevé. À vérifier
+avant de considérer la fiche comme entièrement couverte.
 
 ## Ce que les deux passes de vérification changent
 
@@ -68,13 +90,13 @@ débat sur qui avait raison.
 
 ### Le motif qui traverse tout le corpus
 
-Cinq clients sur douze disent la même chose : **on leur a promis quelque chose et ça n'est jamais
+Cinq clients sur treize disent la même chose : **on leur a promis quelque chose et ça n'est jamais
 parti.** Nathalie Durand (paire de remplacement), Guillaume Lanteigne-Voyer (remplacement),
 Marie-Andrée Blouin (prise en charge), Ariane Poirier (remboursement), Tim Sullivan (solution
 annoncée par courriel).
 
 Ce n'est plus « on répond trop lentement ». Une carte-cadeau ne répare pas ça toute seule : ce qui
-répare, c'est d'exécuter la promesse d'origine **en plus** du geste. Les douze messages le font.
+répare, c'est d'exécuter la promesse d'origine **en plus** du geste. Les treize messages le font.
 
 ## La capture d'écran : abandonnée au profit de la citation
 
@@ -91,7 +113,7 @@ répondent pas aux clics simulés, donc la plupart des avis restent repliés.
   client... ou un extrait ».
 
 Si une capture est quand même souhaitée, elle se fait à la main : ouvrir la fiche publique,
-déplier, capturer. Quinze minutes pour les quatorze.
+déplier, capturer. Quinze minutes pour les quatorze (treize plus Susan Lockhart).
 
 ## Les fautes des versions précédentes, à ne pas refaire
 
@@ -119,7 +141,7 @@ déplier, capturer. Quinze minutes pour les quatorze.
 Cette dernière ligne tranche le débat des versions 3 et 4 : **demander une évaluation fait partie
 de la voix de la maison.** Ce qui reste interdit, c'est de la **conditionner**.
 
-Les formules maison sont utilisées **deux ou trois fois dans la vague, pas quatorze**. Répétées,
+Les formules maison sont utilisées **deux ou trois fois dans la vague, pas treize**. Répétées,
 elles redeviennent du gabarit.
 
 ## Ordre imposé
@@ -693,7 +715,7 @@ avant la publication de l'avis. Réponse publique déjà en ligne, verbatim conf
 
 # Récapitulatif
 
-## Les douze envois de la vague
+## Les treize envois de la vague
 
 | Client | Remboursement | Produit | Carte | Promesse à exécuter |
 | --- | --- | --- | --- | --- |
@@ -709,6 +731,7 @@ avant la publication de l'avis. Réponse publique déjà en ligne, verbatim conf
 | Sonia Pouliot | 133,35 $ | garde les mitaines | 100 $ | |
 | Jimmy Allaire | 24,13 $ | garde les semelles + prochaine version offerte | 100 $ | |
 | **Ariane Poirier** | 32,39 $ (solde) | garde tout | 100 $ | **oui**, remboursement arrivé avec 4 mois de retard |
+| Melanie Boucher | déjà remboursée en 2023 | rien | 100 $ | |
 
 ## Le cas à part
 
