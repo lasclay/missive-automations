@@ -41,35 +41,60 @@ c'est ce que voit quelqu'un qui arrive sur la fiche demain.
 Susan Buchanan, Fanny H, Danielle Gingras, Yingyan Janet Zhu, Sarah Resch, Sophie Lemieux, Sylvie
 Internoscia. Plus la réponse sous la mise à jour de Patrick Lessnick.
 
-## 2. Les 14 cartes-cadeaux : 2 200 $
+## 2. ✅ Les 14 cartes-cadeaux sont créées
 
-⚠️ **Correction : 2 200 $, pas 2 300 $.** Mon chiffre datait de l'époque où la vague comptait
-dix-sept envois. Le vrai calcul : 8 × 200 $ + 6 × 100 $.
+**Faites le 25 août par une autre session, via l'extension Chrome, directement dans l'admin.**
+2 200 $ au total : 8 × 200 $ et 6 × 100 $, actives, sans date d'expiration, rattachées au bon
+compte client et annotées « Vague avis négatifs août 2026 · <référence> ».
 
-**La création de cartes-cadeaux est bloquée par la politique de sécurité de l'outil Shopify**, au
-motif qu'elles exposent de la valeur dépensable. C'est une bonne règle et je ne la contourne pas.
+Aucun courriel n'est parti : la case « Send gift card now » a été décochée sur les quatorze, et la
+colonne Recipient affiche « No recipient » partout.
 
-À créer dans l'admin, **Produits → Cartes-cadeaux → Créer**. Assigner chacune à son client : la
-carte reste liée au dossier et aucun code n'a besoin de circuler par courriel ou par messagerie.
+| Client | Montant | Code se terminant par |
+| --- | --- | --- |
+| Tim Sullivan | 200 $ | ghdj |
+| Stephane Vincent | 200 $ | 3bdx |
+| Patrick Lessnick | 200 $ | bd87 |
+| Toby Lanthier | 200 $ | fwcm |
+| Nathalie Durand | 200 $ | r78m |
+| Charlotte Bourgoing | 200 $ | pqwd |
+| Guillaume Lanteigne-Voyer | 200 $ | 67cc |
+| Marie-Andrée Blouin | 200 $ | frcw |
+| Annie Hubert | 100 $ | cxgp |
+| Sonia Pouliot | 100 $ | hytw |
+| Jimmy Allaire | 100 $ | dx66 |
+| Ariane Poirier | 100 $ | qqmt |
+| Mélanie Boucher | 100 $ | fbpv |
+| Emma Whiten | 100 $ | 9yft |
 
-| Client | Montant | ID client Shopify | Note à inscrire |
-| --- | --- | --- | --- |
-| Tim Sullivan | **200 $** | 9081435160795 | Vague avis négatifs août 2026 · L-45225 |
-| Stephane Vincent | **200 $** | 8893947379931 | Vague avis négatifs août 2026 · L-41587 |
-| Patrick Lessnick | **200 $** | 9200856760539 | Vague avis négatifs août 2026 · L-47093 |
-| Toby Lanthier | **200 $** | 7140831166683 | Vague avis négatifs août 2026 · L-28161 |
-| Nathalie Durand | **200 $** | 7154898796763 | Vague avis négatifs août 2026 · L-19577 |
-| Charlotte Bourgoing | **200 $** | 9004981223643 | Vague avis négatifs août 2026 · L-43391 |
-| Guillaume Lanteigne-Voyer | **200 $** | 5977888325851 | Vague avis négatifs août 2026 · préventes 2022 |
-| Marie-Andrée Blouin | **200 $** | 6968669667547 | Vague avis négatifs août 2026 · L-38222 |
-| Annie Hubert | **100 $** | 7050125607131 | Vague avis négatifs août 2026 · L-44407 |
-| Sonia Pouliot | **100 $** | 8061373645019 | Vague avis négatifs août 2026 · L-28037 |
-| Jimmy Allaire | **100 $** | 8959826526427 | Vague avis négatifs août 2026 · L-46609 |
-| Ariane Poirier | **100 $** | 5649114071202 | Vague avis négatifs août 2026 · L-39248 |
-| Mélanie Boucher | **100 $** | 6600449917147 | Vague avis négatifs août 2026 · L-11280 |
-| Emma Whiten | **100 $** | 9627882029275 | Vague avis négatifs août 2026 · L-50672 |
+⚠️ **Je n'ai pas pu vérifier ces cartes moi-même.** Le jeton Shopify de cette session n'a pas la
+portée `read_gift_cards`. Le tableau ci-dessus reprend le rapport de la session Chrome.
 
-Ni **Marie-Michèle Leblanc** ni **Susan Lockhart** n'ont de carte.
+### Ce que ça a changé dans les quatorze messages
+
+**Le code complet ne s'affiche qu'à la création et n'est plus récupérable.** Mes textes disaient
+tous « une carte-cadeau de 200 $ **part à votre nom** », ce qui laissait entendre que quelque chose
+allait arriver par courriel. **Rien n'arrive.** Le solde est sur leur compte client et s'applique à
+la caisse quand la personne est connectée.
+
+Les quinze formulations ont été réécrites en conséquence, par exemple :
+
+> J'ai aussi déposé 200 $ de crédit sur votre compte, sans date d'expiration : il s'applique tout
+> seul à la caisse quand vous êtes connecté avec cette adresse.
+
+Et en anglais :
+
+> There is also **$200 of store credit already sitting on your account**, no expiry date. It applies
+> on its own at checkout when you are signed in with this email address, so there is no code to keep
+> track of.
+
+⚠️ **Conséquence à surveiller : le client doit être connecté avec la bonne adresse.** Quelqu'un qui
+commande en invité, ou avec un autre courriel, ne verra pas son crédit. C'est le seul point de
+friction du montage, et c'est pour ça que les messages nomment l'adresse plutôt que de promettre un
+code.
+
+Si une personne écrit qu'elle ne voit pas son crédit, le bouton **Send gift card** sur la fiche
+envoie le code par courriel, un cas à la fois.
 
 ## 3. Le pied de page et la FAQ française
 
@@ -178,7 +203,7 @@ une décision de segmentation marketing, pas une correction de texte.
 | --- | --- | --- |
 | 1 | FAQ anglaise sur l'origine | ✅ **Corrigée et en ligne** |
 | 2 | Sept remerciements publics | textes prêts, publication par Gabriel |
-| 3 | 14 cartes-cadeaux, 2 200 $ | liste prête, création bloquée par sécurité |
+| 3 | 14 cartes-cadeaux, 2 200 $ | ✅ **créées** dans l'admin par la session Chrome. Textes des messages réécrits en conséquence |
 | 4 | Calendrier d'envoi sur trois semaines | ✅ **ci-dessus** |
 | 5 | Suivi de la promesse à Jimmy Allaire | ✅ **consigné** |
 | 6 | Pied de page et FAQ française | diagnostic fait, deux minutes dans l'éditeur |
