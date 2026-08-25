@@ -28,6 +28,7 @@ casse la production.
 | CNAME | `kl2._domainkey` | `kl2.domainkey.u161779.wl030.sendgrid.net` | rotation DKIM Klaviyo |
 | CNAME | `mail` | `u161779.wl030.sendgrid.net` | domaine d'envoi Klaviyo |
 | TXT | `mail` | `v=spf1 include:sendgrid.net ~all` | SPF du domaine d'envoi Klaviyo |
+| TXT | *(vide)* | `apple-domain-verification=CsPZJhYoQ93csEK7` | vérification du domaine pour Apple Branded Mail — **Apple revalide périodiquement : le supprimer ferait retomber Branded Mail** |
 
 ## B. Les enregistrements à créer ou à modifier
 
