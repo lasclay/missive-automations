@@ -56,11 +56,24 @@ C=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*
 P=$(curl -s -b $CA $B/ordres/1 | grep -oE '>[0-9]+ %<' | head -1 | tr -dc 0-9)
 [ "$P" = 44 ] && ok "avancement global pondéré par les quantités = 44 %" || ko "pondération incorrecte ($P)"
 
+# ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
 for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi; do
-  S=$(curl -s -b $CA "$B$u" -o /dev/null -w '%{size_download}')
-  [ "$S" -lt 25000 ] || ko "page $u trop lourde ($S octets)"
+  S=$(curl -s -b $CA "$B$u" -H 'Accept-Encoding: gzip' -o /dev/null -w '%{size_download}')
+  [ "$S" -lt 12000 ] || ko "page $u trop lourde sur le réseau ($S octets compressés)"
 done
-ok "toutes les pages sous 25 Ko"
+ok "toutes les pages sous 12 Ko compressées"
+
+# la compression doit être fidèle : même contenu des deux côtés
+A=$(curl -s -b $CA --compressed "$B/ordres/1" | md5sum)
+I=$(curl -s -b $CA -H 'Accept-Encoding: identity' "$B/ordres/1" | md5sum)
+[ "$A" = "$I" ] && ok "contenu identique avec et sans compression" \
+  || ko "la compression altère le contenu"
+
+# un client qui ne demande pas gzip doit recevoir du clair
+H=$(curl -s -b $CA -H 'Accept-Encoding: identity' -D - -o /dev/null "$B/ordres/1")
+echo "$H" | grep -qi 'content-encoding' \
+  && ko "compression imposée à un client qui ne la demande pas" \
+  || ok "pas de compression sans Accept-Encoding" 
 
 # aucune image n'est hébergée par l'app : les URL sortent vers le CDN, redimensionnées
 node -e "

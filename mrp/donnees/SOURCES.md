@@ -136,6 +136,42 @@ fiches produits.
 
 ---
 
+## 3bis. Plan de production 26-27
+
+Chiffrier « QUANTITÉS FINALES — PLAN DE PRODUCTION 26-27 »
+(`1klFYg6bZ7aNc6jxM-RhwLVcfBGBFCDyAAzZXSfJvLcs`), relevé le 25 août 2026.
+C'est la source qui manquait : ce qu'on produit vraiment, en quelles quantités.
+
+| Fichier | Contenu | Lignes |
+| --- | --- | ---: |
+| `plan-production-2627.tsv` | produit, quantité prévue, prévente déjà encaissée, coût BMB, coût de production | 28 |
+| `plan-variantes-2627.tsv` | la répartition par taille et par coloris | 141 |
+| `correspondances.tsv` | produit de production → handle Shopify → libellé du plan | 32 |
+
+**24 133 unités, 233 667 $ de coût de production.** Les cinq plus gros postes :
+semelles 4 665, cache-cous 3 500, gants magiques 2 500, mitaines plein air
+2 000, bandeaux 1 800.
+
+`correspondances.tsv` est la table qui manquait au §5 : le lien entre un produit
+de production, sa fiche Shopify et sa ligne de plan. Elle porte une colonne
+`confiance` — **13 rattachements sûrs, 19 à clarifier**, et les doutes sont
+écrits en note technique sur la fiche produit, visibles dans l'app plutôt
+qu'enterrés ici.
+
+Ce que le plan a révélé et que la table ignorait : « Manteau hivernal » et
+« Manteau 3 saisons » sont deux produits, pas un ; idem pour l'oreiller de
+camping et l'oreiller. Ils ont été séparés.
+
+Ce que le plan ne donne **pas** : aucune date. Les quantités sont là, les
+échéances non — c'est ce qui manque pour que la liste de fabrication se trie
+autrement que par quantité.
+
+Trois autres tableaux du même chiffrier ne sont pas encore extraits, et ils ont
+de la valeur : les **besoins en matières** (m² par unité et minimum de commande
+par fournisseur), les **délais d'approvisionnement** (6 semaines de production,
+90 à 120 jours, 6 semaines de bateau), et l'**historique de ventes mensuel**
+depuis septembre 2025 qui justifie les quantités.
+
 ## 4. Ce qui existe dans le Drive mais n'est pas encore extrait
 
 | Document | Identifiant Drive | Pourquoi il compte |
@@ -161,9 +197,9 @@ aujourd'hui**. Il faudra les saisir.
    Tunisie.
 2. **Emplacements.** Le suivi Tunisie cite « palette nº 18 » et « boîte B15 »
    sans nomenclature d'emplacements.
-3. **Correspondance produit Shopify ↔ produit de production.** Un
-   « cache-cou » en production couvre plusieurs variantes Shopify (coloris,
-   versions imparfaites, anciennes versions). Le lien n'est écrit nulle part.
+3. ~~**Correspondance produit Shopify ↔ produit de production.**~~ Faite :
+   `correspondances.tsv`. Reste à confirmer 19 rattachements sur 32 — les
+   doutes sont dans la colonne `confiance` et remontent dans l'app.
 4. **Patrons.** `../../patrons/` porte les outils de conversion et les
    échantillons, mais aucun inventaire du corpus : quel patron pour quel
    produit, dans quelle version, à quelle échelle. C'est un travail à part
@@ -172,6 +208,8 @@ aujourd'hui**. Il faudra les saisir.
    fichiers d'oreillers sont auto-vérifiables.
 5. **Seuils de réapprovisionnement.** Aucun seuil d'alerte n'est défini nulle
    part, ni sur les matières ni sur les produits finis.
+6. **Les échéances de production.** Le plan 26-27 donne des quantités, pas de
+   dates. Sans elles, la liste de fabrication ne peut trier que par quantité.
 
 ---
 

@@ -18,6 +18,7 @@
 'use strict';
 const http = require('node:http');
 const fs = require('node:fs');
+const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente } = require('./db.js');
@@ -50,13 +51,36 @@ function corpsFormulaire(req) {
   });
 }
 
-const html = (res, corps, code = 200) => {
-  res.writeHead(code, { 'content-type': 'text/html; charset=utf-8',
-                        'cache-control': 'no-store',
-                        'x-content-type-options': 'nosniff',
-                        'referrer-policy': 'same-origin' });
-  res.end(corps);
-};
+/**
+ * Compresse si le client le demande et si ça vaut la peine.
+ *
+ * C'est le seul levier qui agit sur TOUTES les pages d'un coup, et il compte :
+ * un ordre de 25 items passe de 47 à 5 Ko. En dessous de 1 Ko, le gain ne paie
+ * pas le coût de compression — on envoie tel quel.
+ */
+const PLANCHER = 1024;
+
+function envoyer(req, res, corps, entetes, code = 200) {
+  const buf = Buffer.isBuffer(corps) ? corps : Buffer.from(corps, 'utf8');
+  const accepte = String(req.headers['accept-encoding'] || '');
+  if (buf.length >= PLANCHER && /\bgzip\b/.test(accepte)) {
+    const gz = zlib.gzipSync(buf, { level: 6 });
+    res.writeHead(code, { ...entetes, 'content-encoding': 'gzip',
+                          'content-length': gz.length, vary: 'accept-encoding' });
+    return res.end(gz);
+  }
+  res.writeHead(code, { ...entetes, 'content-length': buf.length,
+                        vary: 'accept-encoding' });
+  res.end(buf);
+}
+
+// `req` est posé sur `res` à l'entrée du serveur : les vues appellent html()
+// sans avoir à trimballer la requête jusqu'en bas.
+const html = (res, corps, code = 200) =>
+  envoyer(res.req, res, corps, { 'content-type': 'text/html; charset=utf-8',
+                                 'cache-control': 'no-store',
+                                 'x-content-type-options': 'nosniff',
+                                 'referrer-policy': 'same-origin' }, code);
 const vers = (res, url) => { res.writeHead(303, { location: url }); res.end(); };
 
 /** Message éphémère passé par la chaîne de requête (?ok=… / ?err=…). */
@@ -443,8 +467,8 @@ const serveur = http.createServer(async (req, res) => {
     if (STATIQUES[p]) {
       const [type, rel] = STATIQUES[p];
       const buf = fs.readFileSync(path.join(__dirname, rel));
-      res.writeHead(200, { 'content-type': type, 'cache-control': 'public, max-age=86400' });
-      return res.end(buf);
+      return envoyer(req, res, buf,
+        { 'content-type': type, 'cache-control': 'public, max-age=86400' });
     }
 
     const cookies = lireCookies(req.headers.cookie);

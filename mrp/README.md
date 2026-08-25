@@ -38,6 +38,23 @@ Node 22.5 ou plus, rien à installer.
 L'offre `starter` est nécessaire : le plan gratuit n'a pas de disque
 persistant, et la base disparaîtrait à chaque redéploiement.
 
+## Charger les vraies données
+
+```
+node import.js            # aperçu : ce qui serait fait, rien n'est écrit
+node import.js --ecrire   # applique
+```
+
+L'import lit `donnees/` et remplit la base : 32 produits avec leurs photos
+Shopify, leurs matériaux, leurs coûts et les consignes d'atelier, plus l'ordre
+de production de la saison tiré du plan 26-27 — **25 items, 24 133 unités**.
+
+Il est **idempotent** : relancé, il met à jour les quantités et ne touche pas
+aux avancements. C'est l'atelier qui les déclare ; un import n'a pas à écraser
+ça. Le pivot est le code produit de `donnees/correspondances.tsv`, pas le nom.
+
+`node mrp.js demo` reste disponible pour un jeu de données inventé.
+
 ## Ce qu'elle fait
 
 **Ordres de production**
@@ -164,8 +181,13 @@ dont une ambiguë et une hors de ses droits.
 Même philosophie que le reste du dépôt. Rien à installer, rien à mettre à jour.
 
 **Rendu côté serveur, zéro JavaScript client.** La connexion est lente en
-Tunisie. Chaque action est un formulaire qui poste et redirige. Les pages font
-entre 1,5 et 13 Ko ; la feuille de style, 7 Ko, est mise en cache 24 h.
+Tunisie. Chaque action est un formulaire qui poste et redirige.
+
+**Tout est compressé.** C'est le seul levier qui agit sur toutes les pages d'un
+coup, et il compte : l'ordre de production complet — 25 items, 275 boutons
+d'avancement — passe de **47 Ko à 4 Ko**, la liste de fabrication de 28 à
+2,5 Ko. En dessous de 1 Ko on envoie tel quel, le gain ne paierait pas la
+compression. Aucune page ne dépasse 12 Ko sur le réseau.
 
 **Utilisable au téléphone.** Sous 720 px, le tableau des items devient une pile
 de blocs et le sélecteur d'avancement passe en grille de 6 colonnes — aucun
