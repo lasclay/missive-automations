@@ -1001,7 +1001,7 @@ avant la publication de l'avis. Réponse publique déjà en ligne, verbatim conf
 | --- | --- |
 | Remboursements chiffrés | ≈ 1 150 $ |
 | Remboursements à déterminer (Guillaume, Marie-Andrée) | ≈ 400 $ |
-| Cartes-cadeaux | **2 300 $** |
+| Cartes-cadeaux | **2 200 $** |
 | Produits offerts et réexpéditions | coût de revient |
 
 Les cartes ne coûtent qu'à l'utilisation et reviennent en marge.
@@ -1015,7 +1015,7 @@ Plus rien de factuel. Tout ce qui suit est opérationnel.
 | # | À faire | Pourquoi |
 | --- | --- | --- |
 | 1 | **Écrire les sept remerciements publics** sous les avis remontés à 4 et 5★ | Aucun risque, aucun coût, et c'est ce que voit quelqu'un qui arrive sur la fiche demain. À faire **avant** le premier message privé |
-| 2 | **Provisionner les cartes-cadeaux** : 2 300 $ en douze cartes | Elles doivent exister au moment de l'envoi, sinon le message promet un code qui n'arrive pas |
+| 2 | **Provisionner les cartes-cadeaux** : **2 200 $ en 14 cartes** (8 × 200 $ + 6 × 100 $) | Liste exacte avec les ID clients dans `PLAN-EXECUTION.md`. Elles doivent exister au moment de l'envoi |
 | 3 | **Étaler les envois** sur deux ou trois semaines | Quinze gestes identiques la même journée se remarquent, chez Google comme chez les clients |
 | 4 | **Préparer la suite pour Jimmy Allaire** : noter quelque part que la prochaine version de la semelle lui est due | C'est la seule promesse du lot qui engage au-delà de l'envoi |
 | 5 | **Décider ce que le site dit de l'assemblage**, puis publier la réponse à Marie L. | Voir `seo/AUDIT-origine-fabrication.md`. La réponse promet qu'on corrige, et le site la contredit encore |
