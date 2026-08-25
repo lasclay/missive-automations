@@ -235,6 +235,26 @@ utilisateurs ─┬─ sessions
 `ordre_items.produit_id` est la jointure entre les deux moitiés : c'est ce qui
 rend chaque item cliquable vers sa fiche.
 
+## Données collectées
+
+`donnees/` porte un instantané des trois sources qui alimenteront le MRP :
+catalogue Shopify, fiches COGS Tunisie, suivi de production. Voir
+`donnees/SOURCES.md` pour la carte complète — ce qui existe, ce qui cloche,
+et ce qui n'existe nulle part encore.
+
+| Fichier | Lignes |
+| --- | ---: |
+| `shopify-produits.tsv` · `shopify-variantes.tsv` · `shopify-images.tsv` | 121 · 906 · 678 |
+| `cogs-tunisie.tsv` — 10 postes de coût par produit | 17 |
+| `nomenclatures.tsv` — produit → matière, consommation, coût | 65 |
+| `temps-operations.tsv` — temps chronométrés par poste | 35 |
+| `fournisseurs.tsv` · `emballage-expedition.tsv` · `tarifs-postes-canada.tsv` | 15 · 4 · 3 |
+| `production-tunisie.md` — consignes et état des patrons par produit | — |
+
+Les 678 URL d'images sont toutes sur le CDN Shopify et passent `urlImage()`
+sans exception. Rien n'est hébergé ici : ce sont des adresses, pas des
+fichiers, et l'ensemble pèse 412 Ko.
+
 ## Backlog
 
 Volontairement hors de cette version : inventaire, traduction FR/EN, alertes,
