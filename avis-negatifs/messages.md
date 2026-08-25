@@ -729,30 +729,64 @@ déjà.
 >
 > Bonjour Marie-Michèle,
 >
-> Je reprends une par une les commandes de sacs à lunch qu'on n'a jamais expédiées cet été. La vôtre
-> est du 30 juillet.
+> Je voulais m'excuser sincèrement pour cette mauvaise expérience, et vous expliquer ce qui s'est
+> produit.
 >
-> Vous l'avez acheté parce que le site l'affichait comme disponible. Il ne l'était pas. Ensuite,
-> dix-neuf jours pendant lesquels rien n'est parti et personne ne vous a écrit. J'ai fini par
-> annuler et rembourser la commande moi-même, et la seule chose que vous avez reçue de nous dans
-> tout ça, c'est un avis d'annulation automatique.
+> Vous avez acheté votre sac à lunch le 30 juillet parce que le site l'affichait comme disponible.
+> Quelques jours avant, il l'était vraiment : c'était le reste de notre inventaire fabriqué au
+> Québec. On a fini par survendre un peu. Ça, ce n'est pas la fin du monde.
 >
-> C'est un service de marde, et c'était le nôtre. Je m'en excuse.
+> Ce qui l'est : dix-neuf jours pendant lesquels rien n'est parti, personne ne vous a écrit, et vous
+> avez dû nous relancer quatre fois pour obtenir une annulation. C'est inacceptable.
 >
-> Ce qui s'est passé chez nous, sans en faire une excuse : les sacs à lunch sont partis en
-> production plus tard qu'annoncé, on n'a pas coupé les ventes à temps, et la boîte de service
-> client a débordé au même moment. Vous êtes tombée en plein dedans, et vous n'aviez aucun moyen de
-> le savoir en payant.
+> J'ai fini par annuler et rembourser la commande moi-même, mais la seule chose que vous avez reçue
+> de nous dans tout ça, c'est un avis d'annulation automatique.
 >
-> Vos 70,13 $ sont revenus sur votre carte le 19 août, beaucoup trop tard. Si on peut faire quoi que
-> ce soit d'autre pour corriger la situation, juste à le dire et on s'en occupe. Je ne vous demande
-> rien en retour.
+> C'était vraiment un service et une communication de marde. Je m'en excuse.
 >
-> Je voulais juste que quelqu'un vous écrive pour vrai. Personne ne l'avait fait.
+> On vous a remboursée en entier le 19 août. Si on peut faire quoi que ce soit d'autre pour faire
+> amende honorable, je suis tout ouïe.
+>
+> Désolé encore.
+>
+> Gabriel
+> fondateur, Lasclay
 
-*« Service de marde » est le registre que Gabriel emploie lui-même publiquement. C'est ce qui
-désarme dans un message d'excuses. À adoucir en « un service inacceptable » s'il préfère, mais le
-message perd de sa force.*
+## ⚠️ La question à trancher avant d'envoyer celui-là
+
+**« vous avez dû nous relancer quatre fois pour obtenir une annulation ».**
+
+Ce chiffre n'est **pas dans Shopify**. Le journal d'événements de L-50761 ne contient aucune trace
+d'un contact de sa part : commande, paiement, versement, puis l'annulation faite par Gabriel le
+18 août. Rien entre les deux.
+
+Deux possibilités, et une seule est sans danger :
+
+- **Il vient de Missive**, d'un fil réel où elle a écrit quatre fois. Alors c'est parfait : c'est le
+  détail qui prouve qu'on a ouvert son dossier, et il faut le garder. **Vérifier le fil avant
+  d'envoyer**, parce qu'un chiffre faux dans une lettre d'excuses détruit tout le reste.
+- **Il vient du fil Reddit.** Alors il ne peut pas être écrit. Elle saurait immédiatement qu'on a
+  relié son avis, sa commande et son pseudonyme, et c'est exactement ce que tout ce message est
+  construit pour éviter. Dans ce cas, remplacer par « vous avez dû nous relancer plusieurs fois »
+  seulement si Missive le confirme, sinon retirer la mention au complet.
+
+## Les autres changements apportés à la version de Gabriel
+
+| Ce qui change | Pourquoi |
+| --- | --- |
+| « Bonjour Marie » devient « Bonjour Marie-Michèle » | Son nom sur la commande. « Marie » est le nom affiché sur son avis Google, et tout le message est bâti pour partir de la commande |
+| Ajout de « votre sac à lunch le 30 juillet » | « Vous l'avez acheté » n'avait pas d'antécédent : le produit n'était nommé nulle part |
+| La longue phrase à trois « que » est coupée en deux | « ensuite, dix-neuf jours pendant lesquels rien n'est parti, que personne ne vous a écrit et que vous avez du nous relancer » ne se tenait pas grammaticalement. « Ça, ce n'est pas la fin du monde. Ce qui l'est : ... » garde son mouvement et le rend lisible |
+| « du » devient « dû », « tout ouie » devient « tout ouïe » | Coquilles |
+
+**La signature.** Gabriel signe « Gabriel, fondateur, Lasclay » à la main. Les quatorze autres
+messages ne sont pas signés parce que Missive ajoute la signature automatiquement. À harmoniser
+selon le canal d'envoi : si ça part par Missive, retirer les deux dernières lignes.
+
+**« Le reste de notre inventaire fabriqué au Québec »** est une affirmation d'origine de
+fabrication. Elle vient de Gabriel et lui seul peut la confirmer, mais ce type de mention est encadré
+par la loi : à n'écrire que si ce lot précis était bien assemblé ici.
+
 
 
 ---
