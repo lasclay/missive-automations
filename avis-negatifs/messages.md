@@ -2,7 +2,7 @@
 
 **Remplace la v7.** Trois passes de lecture de la fiche (`RAPPORT-LECTURE-PASSE-2.md` et
 `RAPPORT-LECTURE-PASSE-3-VIDEO.md`, 24 août 2026) plus une vérification Shopify et ShipStation ont
-ramené la vague de dix-sept à **quatorze envois**. La voix ne change pas, les faits oui.
+ramené la vague de dix-sept à **quinze envois**. La voix ne change pas, les faits oui.
 
 ## L'état réel de la fiche, au 24 août 2026
 
@@ -10,22 +10,24 @@ ramené la vague de dix-sept à **quatorze envois**. La voix ne change pas, les 
 | --- | --- |
 | Avis au total sur la fiche | 132, note globale 4,4 / 5 |
 | **Avis de 1 à 3 étoiles encore en ligne** | **20** |
-| dont **destinataires d'un message privé** | **14** |
+| dont **destinataires d'un message privé** | **15** |
 | dont Susan Lockhart, cas à part (semences, aucune carte) | 1 |
-| dont impossibles à joindre en privé | 5 |
+| dont impossibles à joindre en privé | 4 |
 | Anciens avis négatifs passés à 4 ou 5 étoiles | 7 |
 | Avis vraiment disparus de la fiche | 4 |
 
-Les cinq qu'on ne joint pas en privé : **patrick lambert** (non identifié dans Shopify),
+Les quatre qu'on ne joint pas en privé : **patrick lambert** (non identifié dans Shopify),
 **Audrey Thibeault** (note seule, aucun texte), **Cyr-Marc Debien** et **Danielle Gingras**
-(dossiers clos et dits clos publiquement), et **Marie L.**, pour une raison différente des autres.
+(dossiers clos et dits clos publiquement).
 
 ⚠️ **Marie L. est identifiée : Marie-Michèle Leblanc**, `m-m.leblanc@live.ca`, commande L-50761 du
-30 juillet, un sac à lunch jamais expédié, **remboursé le 18 août après une rétrofacturation
-bancaire**. C'est aussi, très probablement, l'autrice du fil Reddit r/montreal. **Ne pas lui
-écrire** : son dossier est clos, elle publie ce qui lui arrive, et un courriel offrant une
-carte-cadeau se retrouverait dans le fil en quelques heures. Analyse complète et garde-fous dans
-`REDDIT-2026-08.md`. Réponse publique seulement, et **sans jamais mentionner Reddit**.
+30 juillet, un sac à lunch jamais expédié, annulé et remboursé le 18 août. C'est aussi, très
+probablement, l'autrice du fil Reddit r/montreal.
+
+**Gabriel a décidé de lui écrire quand même**, contre ma recommandation. Le message est en section
+« Excuses seules » : des excuses, aucune carte-cadeau, aucune demande, aucune mention de l'avis ni
+de Reddit, et aucun fait qui ne vienne de Shopify. Analyse et garde-fous complets dans
+`REDDIT-2026-08.md`.
 
 ✅ **Emma Nelson est identifiée**, confirmé par Gabriel : c'est **Emma Whiten**,
 `emmaswhiten@gmail.com`, commande **L-50672** du 8 juin 2026, un sac à lunch à 68,31 $,
@@ -679,6 +681,75 @@ avis. Ne pas offrir de remboursement : il est fait.*
 
 ---
 
+# Excuses seules
+
+## Marie-Michèle Leblanc (« Marie L. » sur Google) · 1★ · m-m.leblanc@live.ca
+
+*Ajoutée à la liste d'envoi sur décision de Gabriel, contre ma recommandation, que je maintiens
+telle quelle dans `REDDIT-2026-08.md`. Les conditions qu'il a posées sont intégrées au message.*
+
+**⚠️ Trois interdits absolus sur ce message, plus stricts que partout ailleurs :**
+
+1. **Aucune mention de Reddit**, ni directe, ni oblique, ni allusive. Elle y écrit sous pseudonyme.
+   Lui laisser deviner qu'on a relié son avis Google, sa commande et son pseudonyme se lirait comme
+   une menace.
+2. **Aucune mention de son avis Google**, et donc **aucune suggestion de mise à jour**. Le message
+   part de la commande, pas de l'avis. C'est ce qui le rend inattaquable s'il est publié.
+3. **Aucun fait qui ne vienne pas de Shopify.** Vérifié un par un ci-dessous. Écrire quelque chose
+   qu'on ne peut savoir que par ailleurs révélerait le recoupement.
+
+**Ce que Shopify établit, et rien d'autre :**
+
+| Fait | Source |
+| --- | --- |
+| Commande **L-50761**, 30 juillet 2026, 12 h 43 | Shopify |
+| Un **sac à lunch**, 70,13 $, Apple Pay | Shopify |
+| **Jamais expédiée** | `displayFulfillmentStatus: UNFULFILLED` |
+| Annulée et remboursée le **18 août** par Gabriel lui-même, soit 19 jours plus tard | journal d'événements |
+| Remboursement arrivé sur la carte le **19 août** | journal d'événements |
+| Seuls courriels envoyés : la confirmation de commande, puis **l'avis d'annulation automatique** | journal d'événements |
+
+⚠️ **Correction d'une erreur que j'ai failli commettre.** Le dossier ne contient **aucune
+contestation bancaire** (`disputes: []`). Je m'apprêtais à écrire qu'elle avait dû passer par sa
+banque : cette information ne vient pas de Shopify, et l'écrire aurait trahi le recoupement.
+
+**Pas de carte-cadeau ici.** Gabriel a demandé « juste des excuses », et c'est aussi ce qui protège
+le message : de l'argent joint à des excuses, chez quelqu'un dont le dossier est déjà réglé, est
+exactement ce qui se lit mal si la capture d'écran circule. Des excuses sans rien demander et sans
+rien offrir sont le seul message qui nous aide s'il est publié. S'il en veut une quand même, elle
+s'ajoute en une ligne à la fin.
+
+> **Objet : Votre sac à lunch du 30 juillet**
+>
+> Bonjour Marie-Michèle,
+>
+> Je reprends une par une les commandes de sacs à lunch qu'on n'a jamais expédiées cet été. La vôtre
+> est du 30 juillet.
+>
+> Vous l'avez acheté parce que le site l'affichait comme disponible. Il ne l'était pas. Ensuite,
+> dix-neuf jours pendant lesquels rien n'est parti et personne ne vous a écrit. J'ai fini par
+> annuler et rembourser la commande moi-même, et la seule chose que vous avez reçue de nous dans
+> tout ça, c'est un avis d'annulation automatique.
+>
+> C'est un service de marde, et c'était le nôtre. Je m'en excuse.
+>
+> Ce qui s'est passé chez nous, sans en faire une excuse : les sacs à lunch sont partis en
+> production plus tard qu'annoncé, on n'a pas coupé les ventes à temps, et la boîte de service
+> client a débordé au même moment. Vous êtes tombée en plein dedans, et vous n'aviez aucun moyen de
+> le savoir en payant.
+>
+> Vos 70,13 $ sont revenus sur votre carte le 19 août. Il n'y a rien d'autre à régler et je ne vous
+> demande rien.
+>
+> Je voulais juste que quelqu'un vous écrive pour vrai. Personne ne l'avait fait.
+
+*« Service de marde » est le registre que Gabriel emploie lui-même publiquement. C'est ce qui
+désarme dans un message d'excuses. À adoucir en « un service inacceptable » s'il préfère, mais le
+message perd de sa force.*
+
+
+---
+
 # Le cas à part
 
 ## Susan Lockhart · 1★ · 4cornersinn@gmail.com · +1 705-380-2730 · **ANGLAIS**
@@ -759,7 +830,7 @@ avant la publication de l'avis. Réponse publique déjà en ligne, verbatim conf
 
 # Récapitulatif
 
-## Les quatorze envois de la vague
+## Les quinze envois de la vague
 
 | Client | Remboursement | Produit | Carte | Promesse à exécuter |
 | --- | --- | --- | --- | --- |
@@ -777,6 +848,7 @@ avant la publication de l'avis. Réponse publique déjà en ligne, verbatim conf
 | **Ariane Poirier** | 32,39 $ (solde) | garde tout | 100 $ | **oui**, remboursement arrivé avec 4 mois de retard |
 | Melanie Boucher | déjà remboursée en 2023 | rien | 100 $ | |
 | **Emma Whiten** (« Emma Nelson ») | déjà remboursée le 20 août | rien | 100 $ | |
+| **Marie-Michèle Leblanc** (« Marie L. ») | déjà remboursée le 19 août | rien | **rien** | **excuses seules** |
 
 ## Le cas à part
 
