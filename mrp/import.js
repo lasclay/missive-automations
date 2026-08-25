@@ -156,6 +156,7 @@ const lignes = corresp.map(r => {
     description: sh ? texte(sh.description || '') : '',
     usage: sh?.url_boutique ? `Fiche publique : ${sh.url_boutique}` : '',
     notes_tech: notes.join('\n\n'),
+    famille: r.famille || 'autre',
     actif: r.confiance === 'non vendu' || r.confiance === 'non produit' ? 0 : 1,
     photos, bom, plan: pl || null,
     _sh: Boolean(sh), _cogs: Boolean(c), _confiance: r.confiance,
@@ -213,9 +214,10 @@ try {
 
   const trouve = db.prepare(`SELECT id FROM produits WHERE code = ?`);
   const insere = db.prepare(`INSERT INTO produits
-      (code, nom, description, usage, notes_tech, actif) VALUES (?,?,?,?,?,?)`);
+      (code, nom, description, usage, notes_tech, actif, famille)
+      VALUES (?,?,?,?,?,?,?)`);
   const maj = db.prepare(`UPDATE produits SET nom=?, description=?, usage=?,
-      notes_tech=?, actif=?, maj_le=datetime('now') WHERE id=?`);
+      notes_tech=?, actif=?, famille=?, maj_le=datetime('now') WHERE id=?`);
   const videPhotos = db.prepare(`DELETE FROM produit_photos WHERE produit_id=?`);
   const videMat = db.prepare(`DELETE FROM produit_materiaux WHERE produit_id=?`);
   const posePhoto = db.prepare(`INSERT INTO produit_photos
@@ -229,11 +231,11 @@ try {
     const ex = trouve.get(l.code);
     let id;
     if (ex) {
-      maj.run(l.nom, l.description, l.usage, l.notes_tech, l.actif, ex.id);
+      maj.run(l.nom, l.description, l.usage, l.notes_tech, l.actif, l.famille, ex.id);
       id = ex.id; misAJour++;
     } else {
       id = insere.run(l.code, l.nom, l.description, l.usage,
-                      l.notes_tech, l.actif).lastInsertRowid;
+                      l.notes_tech, l.actif, l.famille).lastInsertRowid;
       cree++;
     }
     // Photos et matériaux se remplacent en bloc : ils viennent entièrement des
@@ -282,6 +284,18 @@ try {
     dire(`  Ordre ${o.numero} créé.`);
   }
 
+  // La date d'expédition vers le Canada commande tout le reste : c'est elle
+  // qui détermine ce qui doit être fini, et donc l'ordre de fabrication.
+  const EXPEDITION = process.env.MRP_EXPEDITION || '2026-10-01';
+  const dejaLa = db.prepare(`SELECT id FROM ordre_jalons
+      WHERE ordre_id = ? AND type = 'expedition'`).get(o.id);
+  if (!dejaLa) {
+    db.prepare(`INSERT INTO ordre_jalons (ordre_id, titre, date, type, note)
+        VALUES (?,?,?,?,?)`).run(o.id, 'Expédition vers le Canada', EXPEDITION,
+        'expedition', 'Tout ce qui n\'est pas fini à cette date ne part pas.');
+    dire(`  Jalon d'expédition posé au ${EXPEDITION}.`);
+  }
+
   const trouveItem = db.prepare(`SELECT * FROM ordre_items
       WHERE ordre_id = ? AND produit_id = ?`);
   const poseItem = db.prepare(`INSERT INTO ordre_items
@@ -313,7 +327,7 @@ try {
 
 // -------------------------------------------------------- ce qui manque encore
 dire('  Ce qui n\'a PAS été importé, faute de source :');
-dire('    · les échéances — le plan donne des quantités, pas de dates');
+dire('    · les autres échéances — le plan ne donne que l\'expédition');
 dire('    · l\'inventaire des matières premières et des produits finis');
 dire('    · les emplacements (palettes, boîtes)');
 dire('    · les patrons rattachés aux produits');

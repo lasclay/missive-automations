@@ -131,6 +131,20 @@ curl -s -b $CA -o /dev/null -X POST $B/priorites/1 --data 'priorite=basse'
 [ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT priorite p FROM ordre_items WHERE id=1').get().p)" 2>/dev/null)" = basse ] \
   && ok "l'administration change une priorité" || ko "priorité non enregistrée"
 
+# la hiérarchie des familles doit tenir dans le vrai rendu HTML
+node -e "
+const {db,listeFabrication}=require('./db.js');
+db.exec(\"UPDATE produits SET famille='isotherme'\");
+db.exec(\"UPDATE produits SET famille='hiver' WHERE id=1\");
+db.exec(\"UPDATE ordre_items SET priorite='normale'\");
+const f=listeFabrication();
+if(f[0].produit_id!==1){console.error('rang 1 = produit '+f[0].produit_id);process.exit(1)}
+" 2>/dev/null && ok "la famille hiver passe devant l'isotherme" \
+  || ko "la hiérarchie des familles est ignorée"
+
+curl -s -b $CA $B/priorites | grep -q 'f-hiver' \
+  && ok "la famille s'affiche dans la liste" || ko "famille absente du rendu"
+
 # ---- suivi
 S=$(curl -s -b $CA $B/suivi)
 echo "$S" | grep -q 'Dernières mises à jour' && ok "page de suivi rendue" || ko "suivi absent"

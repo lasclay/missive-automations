@@ -13,8 +13,11 @@ const e = (s) => String(s ?? '').replace(/[&<>"']/g,
 
 const STATUTS = { brouillon:'Brouillon', planifie:'Planifié', en_cours:'En cours',
                   termine:'Terminé', annule:'Annulé' };
-const TYPES_JALON = { livraison:'Livraison', deadline:'Deadline',
-                      evenement:'Événement', prevente:'Prévente' };
+const TYPES_JALON = { expedition:'Expédition', livraison:'Livraison',
+                      deadline:'Deadline', evenement:'Événement',
+                      prevente:'Prévente' };
+const FAMILLES = { hiver:'Hiver', nouveau:'Nouveau',
+                   isotherme:'Isotherme', autre:'Autre' };
 
 /**
  * Normalise une URL d'image et demande la TAILLE STRICTEMENT NÉCESSAIRE.
@@ -755,6 +758,7 @@ function vuePriorites({ user, msg, lignes, jours = 7 }) {
       <td class="num">${i + 1}</td>
       <td class="prod">
         <a href="/produits/${l.produit_id}"><b>${e(l.code)}</b></a>
+        <span class="fam f-${l.famille}">${FAMILLES[l.famille] || l.famille}</span>
         <span class="sec">${e(l.nom)}</span>
         ${l.note ? `<span class="note">${e(l.note)}</span>` : ''}
       </td>
@@ -780,8 +784,10 @@ function vuePriorites({ user, msg, lignes, jours = 7 }) {
   const corps = `
   <h1>À fabriquer</h1>
   <p class="intro">Tout ce qui reste à produire, tous ordres confondus, dans
-  l'ordre où s'y mettre. Le rang se calcule : priorité, puis échéance, puis
-  quantité restante. ${admin ? 'Change une priorité et la liste se réordonne.'
+  l'ordre où s'y mettre. Le rang se calcule : priorité posée à la main, puis
+  retard, puis <b>date d'expédition</b>, puis la famille — hiver, nouveaux
+  produits, isothermes —, puis quantité restante. ${admin
+    ? 'Change une priorité et la liste se réordonne.'
     : 'Les priorités sont posées par l\'administration.'}</p>
 
   <div class="chiffres">
@@ -790,6 +796,15 @@ function vuePriorites({ user, msg, lignes, jours = 7 }) {
     <div class="c"><b>${lignes.length}</b>items à produire</div>
     <div class="c"><b>${total.toLocaleString('fr-CA')}</b>unités restantes</div>
   </div>
+  ${(() => {
+    const parFam = {};
+    for (const l of lignes) parFam[l.famille] = (parFam[l.famille] || 0) + l.restant;
+    const ordre = ['hiver', 'nouveau', 'isotherme', 'autre'].filter(f => parFam[f]);
+    if (ordre.length < 2) return '';
+    return `<div class="repartition">${ordre.map(f =>
+      `<span class="fam f-${f}">${FAMILLES[f]}</span>
+       <b>${parFam[f].toLocaleString('fr-CA')}</b>`).join('')}</div>`;
+  })()}
 
   ${lignes.length ? `<div class="tbl tbl-fab"><table class="fab">
     <thead><tr><th>#</th><th>Produit</th><th>Restant</th><th>Avancement</th>

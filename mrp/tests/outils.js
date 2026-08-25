@@ -237,6 +237,48 @@ t('la liste porte ses totaux et son compte de retards',
   && listeOutil.en_retard === fab.filter(l => l.en_retard).length,
   `${listeOutil.total_items}/${fab.length}`);
 
+// ------------------------------------------- familles de production
+const { FAMILLES } = require('../db.js');
+db.prepare(`UPDATE produits SET famille='isotherme' WHERE code='CC-ADULTE'`).run();
+db.prepare(`UPDATE produits SET famille='hiver'     WHERE code='TQ-SPORT'`).run();
+db.prepare(`UPDATE ordre_items SET priorite='normale'`).run();
+
+fab = listeFabrication();
+const iCC = fab.findIndex(l => l.code === 'CC-ADULTE');
+const iTQ = fab.findIndex(l => l.code === 'TQ-SPORT');
+t("l'hiver passe devant l'isotherme à date égale", iTQ < iCC,
+  fab.map(l => `${l.code}:${l.famille}`).join(' '));
+
+db.prepare(`UPDATE produits SET famille='nouveau' WHERE code='TQ-SPORT'`).run();
+fab = listeFabrication();
+t("le nouveau passe quand même devant l'isotherme",
+  fab.findIndex(l => l.code === 'TQ-SPORT') < fab.findIndex(l => l.code === 'CC-ADULTE'));
+
+// une priorité manuelle doit rester plus forte que la famille
+ex('definir_priorite', { ordre: o1.numero, produit: 'CC-ADULTE', priorite: 'haute' }, c);
+fab = listeFabrication();
+t('la priorité manuelle bat la famille', fab[0].code === 'CC-ADULTE', fab[0].code);
+ex('definir_priorite', { ordre: o1.numero, produit: 'CC-ADULTE', priorite: 'normale' }, c);
+
+const fam = ex('definir_famille', { produit: 'CC-ADULTE', famille: 'hiver' }, c);
+t('famille changée par l\'outil', fam.ok && fam.famille === 'hiver', JSON.stringify(fam));
+
+const famKo = ex('definir_famille', { produit: 'CC-ADULTE', famille: 'automne' }, c);
+t('famille hors liste refusée', Boolean(famKo.erreur), JSON.stringify(famKo));
+
+const famAtelier = ex('definir_famille', { produit: 'CC-ADULTE', famille: 'autre' }, m);
+t("l'atelier ne change pas de famille", Boolean(famAtelier.erreur));
+
+t('les quatre familles sont ordonnées',
+  Object.keys(FAMILLES).join(',') === 'hiver,nouveau,isotherme,autre',
+  Object.keys(FAMILLES).join(','));
+
+// le type de jalon « expedition » doit être accepté
+const jExp = ex('ajouter_jalon', { ordre: o1.numero, titre: 'Expédition Canada',
+  date: '2026-10-01', type: 'expedition' }, c);
+t('jalon d\'expédition accepté', jExp.ok && jExp.type === 'expedition',
+  JSON.stringify(jExp));
+
 // ------------------------------------------------------------------- suivi
 // un item entamé, figé depuis 12 jours
 db.prepare(`UPDATE ordre_items SET maj_le = datetime('now','-12 days')

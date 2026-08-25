@@ -1,33 +1,33 @@
-code	produit_production	handle_shopify	confiance	note	alias_plan
-CACHE-COU	Cache-cou	neckwarmer	sûr	Deux autres fiches Shopify sont des écoulements : cache-cou-dasclepiade-imparfait (ancienne version non ajustable) et cache-cou-dasclepiade-imparfait-1. Elles ne se produisent plus.	Cache-cou d'asclépiade
-BANDEAU	Bandeau	bandeau-copy	à confirmer	Deux fiches Shopify existent : headband (Bandeau) et bandeau-copy (torsadé extra-doux). Le COGS parle de deux modèles, sport et torsadé, même patron. Lequel des deux handles correspond à quoi ?	Bandeau d'asclépiade
-TUQUE-SPORT	Tuque sport	tuque-sport-asclepiade	sûr		Tuque sport en asclépiade
-TUQUE-VILLE	Tuque de ville		non produit	Aucune fiche COGS. Tricot acheté ou produit ailleurs ?	Tuque de ville isolée
-FOULARD	Foulard	scarf	sûr		Foulard
-MIT-PLEIN-AIR	Mitaines plein air	mittens	sûr	Cuir synthétique pour la paume, tailles XS à XL chez Grada Mode.	Mitaines plein air
-MIT-POLAR	Mitaines polar	mitaines-ville-asclepiade	à confirmer	Le COGS dit « Mitaines polar », Shopify dit « urbaines ». Le suivi Tunisie parle de « Mitaines urbaines POLAR/LAINE/CUIR » — même patron pour les trois matières. Un seul produit de production pour trois fiches Shopify ?	Mitaines polar
-MIT-LAINE	Mitaines laine	mitaines-hiver-laine-asclepiade-naturelles	à confirmer	Même patron que MIT-POLAR selon le suivi Tunisie.	Mitaines de ville laine (nouveau)
-MIT-CUIR	Mitaines cuir	mitaines-hiver-asclepiade-laine-cuir-naturel	à confirmer	Même patron que MIT-POLAR selon le suivi Tunisie.	Mitaines de ville cuir (nouveau)
-MIT-BEBE	Mitaines bébé 0-2	mitaines-bebe-asclepiade	sûr	Sans pouce. Recherche de shell en cours.	Mitaines pour bébé
-SEMELLE-678	Semelles 6-7-8F	thermal-insoles	partiel	Une seule fiche Shopify couvre toutes les pointures ; la production distingue 6-7-8 et 9+ (coûts et temps différents).	Semelles intérieures isolantes
-COUSSIN	Coussin d'assise	coussin-assise-thermal-pliable	sûr		Coussin d'assise thermal pliable
-BESACE	Besace	besace	sûr	La fiche COGS nommée « Besace » s'ouvre en fait sur un onglet « Sac lunch ». Vérifier de quel produit viennent les chiffres.	Besace isotherme en asclépiade
-SAC-LUNCH	Sac à lunch	lunchbag	à confirmer	Voir la note de BESACE : les deux produits partagent peut-être une fiche COGS.	Sac à lunch
-TOTE	Tote bag	insulated-tote-bag	sûr		Sac isotherme tote bag
-GLACIERE	Glacière	milkweed-cooler-backpack-30l	sûr		Sac à dos glacière 30L
-MANTEAU-HIVER	Manteau hivernal	manteau-asclepiade	à confirmer	Deux fiches Shopify : manteau-asclepiade et manteau-hiver-asclepiade-quebecoise. Laquelle est la production 26-27 ?	Manteau hivernal (nouveau)
-VESTE	Veste sans manche	veste-sans-manche-asclepiade	non couvert	Aucune fiche COGS distincte. Dérivée du manteau ?	Veste sans manche
-GANTS-MAGIQUES	Gants magiques	gants-magiques-asclepiade	sûr	4 à 5 g d'asclépiade par gant, balance fournie.	Gant magique
-SAC-COUCHAGE-0	Sac de couchage 0 °C	sac-couchage-isole-fibre-asclepiade-canadien	partiel	Une seule fiche Shopify ; la production distingue 0 °C et −18 °C.	
-SAC-COUCHAGE-18	Sac de couchage −18 °C	sac-couchage-isole-fibre-asclepiade-canadien	partiel	Voir ci-dessus.	Sleeping bag (nouveau)
-ETUI-TEL	Étui de téléphone	etui-telephone-asclepiade	sûr	Pas de fiche COGS. 1 étui = 1 ganse.	Étui appareils électroniques
-CHANDAIL	Chandail polar	chandail-polaire-asclepiade-polar	sûr	Pas de fiche COGS. Sizing des autres tailles à faire.	Combine haut - chandail polaire (nouveau)
-MANCHON	Manchon isotherme	manchon-isotherme-canettes-bouteilles	à confirmer	Deux formats Shopify : régulier/large et « canettes minces ». Un ou deux produits de production ?	Manchon isotherme boissons
-SAC-VIN	Sac à bouteille de vin	sac-bouteille-vin	non couvert	Pas de fiche COGS.	Sac bouteille de vin
-COUSSIN-ANIMAL	Coussin pour animaux	coussin-ecoresponsable-animaux	non couvert	Pas de fiche COGS.	Coussin pour animaux (nouveau)
-OREILLER	Oreiller	oreiller-asclepiade-hypoallergene	non couvert	Pas de fiche COGS. C'est le seul corpus de patrons HPGL auto-vérifiable (4 u/mm confirmé).	Oreillers
-PANTOUFLES	Pantoufles	pantoufles-dasclepiade	non couvert	Écoulement seulement (fiche IMPARFAIT).	
-BANDEAU-TUQUE	Bandeau tuque urbaine		non vendu	Nouveau patron, échantillon à produire. Pas encore de fiche Shopify.	
-MANTEAU-3SAISONS	Manteau 3 saisons	manteau-hiver-asclepiade-quebecoise	à confirmer	Le plan distingue « hivernal » et « 3 saisons » ; deux fiches Shopify existent. Laquelle est laquelle ?	Manteau 3 saisons
-OREILLER-CAMPING	Oreiller de camping	oreiller-camping-asclepiade-quebecois	sûr	Nouveau au plan 26-27.	Oreiller de camping (nouveau)
-SEMELLE-9	Semelles 9F+	thermal-insoles	partiel	Le plan ne donne qu'une ligne « Semelles intérieures isolantes » (4 665). La production distingue 6-7-8 et 9+ : la répartition est à faire.	
+code	produit_production	handle_shopify	confiance	note	alias_plan	famille
+CACHE-COU	Cache-cou	neckwarmer	sûr	Deux autres fiches Shopify sont des écoulements : cache-cou-dasclepiade-imparfait (ancienne version non ajustable) et cache-cou-dasclepiade-imparfait-1. Elles ne se produisent plus.	Cache-cou d'asclépiade	hiver
+BANDEAU	Bandeau	bandeau-copy	à confirmer	Deux fiches Shopify existent : headband (Bandeau) et bandeau-copy (torsadé extra-doux). Le COGS parle de deux modèles, sport et torsadé, même patron. Lequel des deux handles correspond à quoi ?	Bandeau d'asclépiade	hiver
+TUQUE-SPORT	Tuque sport	tuque-sport-asclepiade	sûr		Tuque sport en asclépiade	hiver
+TUQUE-VILLE	Tuque de ville		non produit	Aucune fiche COGS. Tricot acheté ou produit ailleurs ?	Tuque de ville isolée	hiver
+FOULARD	Foulard	scarf	sûr		Foulard	hiver
+MIT-PLEIN-AIR	Mitaines plein air	mittens	sûr	Cuir synthétique pour la paume, tailles XS à XL chez Grada Mode.	Mitaines plein air	hiver
+MIT-POLAR	Mitaines polar	mitaines-ville-asclepiade	à confirmer	Le COGS dit « Mitaines polar », Shopify dit « urbaines ». Le suivi Tunisie parle de « Mitaines urbaines POLAR/LAINE/CUIR » — même patron pour les trois matières. Un seul produit de production pour trois fiches Shopify ?	Mitaines polar	hiver
+MIT-LAINE	Mitaines laine	mitaines-hiver-laine-asclepiade-naturelles	à confirmer	Même patron que MIT-POLAR selon le suivi Tunisie.	Mitaines de ville laine (nouveau)	nouveau
+MIT-CUIR	Mitaines cuir	mitaines-hiver-asclepiade-laine-cuir-naturel	à confirmer	Même patron que MIT-POLAR selon le suivi Tunisie.	Mitaines de ville cuir (nouveau)	nouveau
+MIT-BEBE	Mitaines bébé 0-2	mitaines-bebe-asclepiade	sûr	Sans pouce. Recherche de shell en cours.	Mitaines pour bébé	hiver
+SEMELLE-678	Semelles 6-7-8F	thermal-insoles	partiel	Une seule fiche Shopify couvre toutes les pointures ; la production distingue 6-7-8 et 9+ (coûts et temps différents).	Semelles intérieures isolantes	hiver
+COUSSIN	Coussin d'assise	coussin-assise-thermal-pliable	sûr		Coussin d'assise thermal pliable	autre
+BESACE	Besace	besace	sûr	La fiche COGS nommée « Besace » s'ouvre en fait sur un onglet « Sac lunch ». Vérifier de quel produit viennent les chiffres.	Besace isotherme en asclépiade	isotherme
+SAC-LUNCH	Sac à lunch	lunchbag	à confirmer	Voir la note de BESACE : les deux produits partagent peut-être une fiche COGS.	Sac à lunch	isotherme
+TOTE	Tote bag	insulated-tote-bag	sûr		Sac isotherme tote bag	isotherme
+GLACIERE	Glacière	milkweed-cooler-backpack-30l	sûr		Sac à dos glacière 30L	isotherme
+MANTEAU-HIVER	Manteau hivernal	manteau-asclepiade	à confirmer	Deux fiches Shopify : manteau-asclepiade et manteau-hiver-asclepiade-quebecoise. Laquelle est la production 26-27 ?	Manteau hivernal (nouveau)	nouveau
+VESTE	Veste sans manche	veste-sans-manche-asclepiade	non couvert	Aucune fiche COGS distincte. Dérivée du manteau ?	Veste sans manche	hiver
+GANTS-MAGIQUES	Gants magiques	gants-magiques-asclepiade	sûr	4 à 5 g d'asclépiade par gant, balance fournie.	Gant magique	hiver
+SAC-COUCHAGE-0	Sac de couchage 0 °C	sac-couchage-isole-fibre-asclepiade-canadien	partiel	Une seule fiche Shopify ; la production distingue 0 °C et −18 °C.		nouveau
+SAC-COUCHAGE-18	Sac de couchage −18 °C	sac-couchage-isole-fibre-asclepiade-canadien	partiel	Voir ci-dessus.	Sleeping bag (nouveau)	nouveau
+ETUI-TEL	Étui de téléphone	etui-telephone-asclepiade	sûr	Pas de fiche COGS. 1 étui = 1 ganse.	Étui appareils électroniques	autre
+CHANDAIL	Chandail polar	chandail-polaire-asclepiade-polar	sûr	Pas de fiche COGS. Sizing des autres tailles à faire.	Combine haut - chandail polaire (nouveau)	nouveau
+MANCHON	Manchon isotherme	manchon-isotherme-canettes-bouteilles	à confirmer	Deux formats Shopify : régulier/large et « canettes minces ». Un ou deux produits de production ?	Manchon isotherme boissons	isotherme
+SAC-VIN	Sac à bouteille de vin	sac-bouteille-vin	non couvert	Pas de fiche COGS.	Sac bouteille de vin	isotherme
+COUSSIN-ANIMAL	Coussin pour animaux	coussin-ecoresponsable-animaux	non couvert	Pas de fiche COGS.	Coussin pour animaux (nouveau)	nouveau
+OREILLER	Oreiller	oreiller-asclepiade-hypoallergene	non couvert	Pas de fiche COGS. C'est le seul corpus de patrons HPGL auto-vérifiable (4 u/mm confirmé).	Oreillers	autre
+PANTOUFLES	Pantoufles	pantoufles-dasclepiade	non couvert	Écoulement seulement (fiche IMPARFAIT).		hiver
+BANDEAU-TUQUE	Bandeau tuque urbaine		non vendu	Nouveau patron, échantillon à produire. Pas encore de fiche Shopify.		hiver
+MANTEAU-3SAISONS	Manteau 3 saisons	manteau-hiver-asclepiade-quebecoise	à confirmer	Le plan distingue « hivernal » et « 3 saisons » ; deux fiches Shopify existent. Laquelle est laquelle ?	Manteau 3 saisons	hiver
+OREILLER-CAMPING	Oreiller de camping	oreiller-camping-asclepiade-quebecois	sûr	Nouveau au plan 26-27.	Oreiller de camping (nouveau)	nouveau
+SEMELLE-9	Semelles 9F+	thermal-insoles	partiel	Le plan ne donne qu'une ligne « Semelles intérieures isolantes » (4 665). La production distingue 6-7-8 et 9+ : la répartition est à faire.		hiver

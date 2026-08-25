@@ -87,9 +87,25 @@ n'est pas un champ qu'on saisit, c'est un calcul :
 
 1. **la priorité posée à la main** — haute, normale, basse ;
 2. **le retard** — un ordre dont une échéance est passée passe devant ;
-3. **l'échéance à venir** la plus proche ;
-4. **la quantité restante**, décroissante — à échéance égale, le gros morceau
+3. **la date d'expédition vers le Canada** — c'est elle qui commande tout : ce
+   qui n'est pas fini le 1er octobre ne part pas ;
+4. **la famille de production** — hiver, puis nouveaux produits, puis
+   isothermes, puis le reste ;
+5. **la quantité restante**, décroissante — à famille égale, le gros morceau
    d'abord, parce que c'est lui qui risque de ne pas rentrer.
+
+### Pourquoi cet ordre de familles
+
+L'hiver d'abord : c'est ce que la prévente d'automne vend. Les nouveaux
+produits ensuite, parce qu'ils portent le risque — un échantillon à valider,
+un patron à confirmer, un tissu à trouver — et qu'un retard sur eux coûte
+moins qu'un retard sur un produit déjà vendu. Les isothermes en dernier :
+ils se vendent au printemps, ils ont le temps.
+
+**Un produit à la fois d'hiver et nouveau compte comme nouveau.** C'est la
+nouveauté qui porte le risque : le chandail polar est un vêtement d'hiver, et
+c'est un nouveau produit. La famille se change produit par produit dans
+l'app — la règle est un défaut, pas une camisole de force.
 
 Conséquence utile : ajouter un ordre urgent réordonne la liste tout seul.
 Personne n'a de numérotation à maintenir.

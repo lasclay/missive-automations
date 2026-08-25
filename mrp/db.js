@@ -112,7 +112,8 @@ CREATE TABLE IF NOT EXISTS ordre_jalons (
   titre         TEXT NOT NULL,
   date          TEXT NOT NULL,        -- AAAA-MM-JJ
   type          TEXT NOT NULL DEFAULT 'deadline'
-                CHECK (type IN ('livraison','deadline','evenement','prevente')),
+                CHECK (type IN ('expedition','livraison','deadline',
+                                'evenement','prevente')),
   note          TEXT DEFAULT ''
 );
 
@@ -176,7 +177,41 @@ db.exec(SCHEMA);
  */
 for (const sql of [
   `ALTER TABLE ordre_items ADD COLUMN priorite TEXT NOT NULL DEFAULT 'normale'`,
+  `ALTER TABLE produits ADD COLUMN famille TEXT NOT NULL DEFAULT 'autre'`,
 ]) { try { db.exec(sql); } catch { /* colonne déjà présente */ } }
+
+/**
+ * Le type « expedition » a été ajouté après coup, et SQLite ne sait pas
+ * modifier une contrainte CHECK : il faut reconstruire la table. On ne le fait
+ * que si l'ancienne contrainte est encore là.
+ */
+{
+  const t = db.prepare(
+    `SELECT sql FROM sqlite_master WHERE type='table' AND name='ordre_jalons'`).get();
+  if (t && !/expedition/.test(t.sql)) {
+    db.exec('BEGIN');
+    try {
+      db.exec(`
+        CREATE TABLE ordre_jalons_n (
+          id       INTEGER PRIMARY KEY,
+          ordre_id INTEGER NOT NULL REFERENCES ordres(id) ON DELETE CASCADE,
+          titre    TEXT NOT NULL,
+          date     TEXT NOT NULL,
+          type     TEXT NOT NULL DEFAULT 'deadline'
+                   CHECK (type IN ('expedition','livraison','deadline',
+                                   'evenement','prevente')),
+          note     TEXT DEFAULT ''
+        );
+        INSERT INTO ordre_jalons_n SELECT id, ordre_id, titre, date, type, note
+          FROM ordre_jalons;
+        DROP TABLE ordre_jalons;
+        ALTER TABLE ordre_jalons_n RENAME TO ordre_jalons;
+        CREATE INDEX IF NOT EXISTS idx_jalons_ordre ON ordre_jalons(ordre_id);
+        CREATE INDEX IF NOT EXISTS idx_jalons_date  ON ordre_jalons(date);`);
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); throw e; }
+  }
+}
 
 /** Numéro d'ordre séquentiel : OP-2026-0001 */
 function prochainNumero() {
@@ -208,6 +243,20 @@ function avancementOrdre(ordreId) {
 const RANG_PRIORITE = { haute: 0, normale: 1, basse: 2 };
 
 /**
+ * L'ordre des familles de production, tel que posé par la direction :
+ * l'hiver d'abord — c'est ce que la prévente d'automne vend —, puis les
+ * nouveaux produits, puis les sacs isothermes.
+ *
+ * Un produit à la fois d'hiver ET nouveau compte comme nouveau : c'est la
+ * nouveauté qui porte le risque (échantillon à valider, patron à confirmer),
+ * et le chandail — un vêtement d'hiver — a été donné comme exemple de
+ * « nouveau ». La famille se change produit par produit dans l'app.
+ */
+const RANG_FAMILLE = { hiver: 0, nouveau: 1, isotherme: 2, autre: 3 };
+const FAMILLES = { hiver: 'Hiver', nouveau: 'Nouveau',
+                   isotherme: 'Isotherme', autre: 'Autre' };
+
+/**
  * La liste de fabrication : tout ce qui reste à produire, tous ordres
  * confondus, dans l'ordre où s'y mettre.
  *
@@ -227,7 +276,7 @@ function listeFabrication({ inclureTermines = false } = {}) {
     SELECT i.id, i.ordre_id, i.produit_id, i.quantite, i.avancement, i.note,
            i.priorite, i.maj_le,
            o.numero, o.titre AS ordre_titre, o.statut,
-           p.code, p.nom,
+           p.code, p.nom, p.famille,
            (SELECT MIN(date) FROM ordre_jalons j
              WHERE j.ordre_id = o.id AND j.date >= date('now')) AS echeance,
            (SELECT COUNT(*) FROM ordre_jalons j
@@ -258,7 +307,10 @@ function listeFabrication({ inclureTermines = false } = {}) {
        RANG_PRIORITE[a.priorite] - RANG_PRIORITE[b.priorite]
        // un ordre en retard passe devant tout ce qui a encore du temps
     || (b.en_retard - a.en_retard)
+       // puis la date d'expédition vers le Canada, qui commande tout le reste
     || (a.jours ?? 99999) - (b.jours ?? 99999)
+       // à date égale, la hiérarchie des familles
+    || (RANG_FAMILLE[a.famille] ?? 3) - (RANG_FAMILLE[b.famille] ?? 3)
     || b.restant - a.restant);
 }
 
@@ -312,4 +364,4 @@ function progressionRecente(jours = 7) {
 
 module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    listeFabrication, dernieresMaj, sansMouvement,
-                   progressionRecente, RANG_PRIORITE };
+                   progressionRecente, RANG_PRIORITE, RANG_FAMILLE, FAMILLES };

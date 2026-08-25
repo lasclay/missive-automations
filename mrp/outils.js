@@ -22,7 +22,7 @@
  */
 'use strict';
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
-        sansMouvement, progressionRecente } = require('./db.js');
+        sansMouvement, progressionRecente, FAMILLES } = require('./db.js');
 const { urlAcceptable } = require('./vues.js');
 
 // Tables que le journal a le droit de rétablir. Liste blanche : ce qui n'est
@@ -228,7 +228,7 @@ const OUTILS = [
     executer: (a) => {
       const p = resoudreProduit(a.produit);
       return {
-        code: p.code, nom: p.nom, description: p.description,
+        code: p.code, nom: p.nom, famille: p.famille, description: p.description,
         usage: p.usage, notes_techniques: p.notes_tech,
         materiaux: db.prepare(`SELECT nom, detail FROM produit_materiaux
             WHERE produit_id = ? ORDER BY rang, id`).all(p.id),
@@ -260,7 +260,8 @@ const OUTILS = [
         en_retard: tout.filter(l => l.en_retard).length,
         unites_restantes: tout.reduce((s, l) => s + l.restant, 0),
         liste: tout.slice(0, n).map((l, i) => ({
-          rang: i + 1, produit: l.code, nom: l.nom, ordre: l.numero,
+          rang: i + 1, produit: l.code, nom: l.nom, famille: l.famille,
+          ordre: l.numero,
           restant: l.restant, sur: l.quantite, avancement: l.avancement + ' %',
           priorite: l.priorite,
           echeance: l.echeance || null,
@@ -268,6 +269,32 @@ const OUTILS = [
           en_retard: l.en_retard,
           echeance_titre: l.echeance_titre || null })),
       };
+    },
+  },
+  {
+    nom: 'definir_famille',
+    description: "Change la famille de production d'un produit : hiver, "
+      + "nouveau, isotherme ou autre. La famille commande l'ordre de "
+      + "fabrication à date d'expédition égale — l'hiver d'abord, puis les "
+      + "nouveaux produits, puis les isothermes.",
+    role: 'admin',
+    params: { type: 'object', required: ['produit','famille'], properties: {
+      produit: { type: 'string' },
+      famille: { type: 'string', enum: ['hiver','nouveau','isotherme','autre'] } } },
+    executer: (a, ctx) => {
+      const p = resoudreProduit(a.produit);
+      if (!Object.keys(FAMILLES).includes(a.famille))
+        refuser(`Famille attendue : ${Object.keys(FAMILLES).join(', ')}.`);
+      if (p.famille === a.famille)
+        return { ok: true, inchange: true,
+                 message: `${p.code} était déjà en famille ${a.famille}.` };
+      db.prepare(`UPDATE produits SET famille = ?, maj_le = datetime('now')
+                  WHERE id = ?`).run(a.famille, p.id);
+      noter(ctx, 'definir_famille',
+        `${p.code} : famille ${p.famille} → ${a.famille}`,
+        { table: 'produits', op: 'update', id: p.id,
+          avant: { famille: p.famille, maj_le: p.maj_le } });
+      return { ok: true, produit: p.code, famille: a.famille };
     },
   },
   {
@@ -526,14 +553,14 @@ const OUTILS = [
     params: { type: 'object', required: ['ordre','titre','date'], properties: {
       ordre: { type: 'string' }, titre: { type: 'string' },
       date: { type: 'string', description: 'AAAA-MM-JJ' },
-      type: { type: 'string', enum: ['livraison','deadline','evenement','prevente'] },
+      type: { type: 'string', enum: ['expedition','livraison','deadline','evenement','prevente'] },
       note: { type: 'string' } } },
     executer: (a, ctx) => {
       const o = resoudreOrdre(a.ordre);
       const titre = String(a.titre || '').trim();
       if (!titre) refuser('Titre du jalon requis.');
       const date = exigerDate(a.date);
-      const type = ['livraison','deadline','evenement','prevente'].includes(a.type)
+      const type = ['expedition','livraison','deadline','evenement','prevente'].includes(a.type)
         ? a.type : 'deadline';
       const id = db.prepare(`INSERT INTO ordre_jalons (ordre_id, titre, date, type, note)
           VALUES (?,?,?,?,?)`).run(o.id, titre, date, type, String(a.note || '').trim())
