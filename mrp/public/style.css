@@ -1,11 +1,59 @@
 /* Lasclay MRP — feuille unique, servie avec cache long.
    Objectif : pages HTML < 20 Ko, aucun JS, lisible sur téléphone. */
 :root{
-  --vert:#1f6f4a; --vert-pale:#e8f3ee; --vert-fonce:#12332a;
-  --ambre:#b4531a; --ambre-pale:#fdf1e7;
-  --bleu:#1b4f86; --bleu-pale:#eaf1f9;
+  --vert:#1f6f4a; --vert-pale:#e8f3ee; --vert-fonce:#12332a; --vert-survol:#195c3d;
+  --ambre:#b4531a; --ambre-pale:#fdf1e7; --ambre-ligne:#e8c4a6;
+  --bleu:#1b4f86; --bleu-pale:#eaf1f9; --bleu-ligne:#b9cde5;
   --encre:#12161c; --encre2:#4a535d; --gris:#6b7480;
   --ligne:#dfe4ea; --fond:#f7f8f9; --carte:#fff;
+  /* couleurs de sens : rouge = ce qui alerte, violet = expédition,
+     ardoise = ce qui dort. Séparées de l'accent de marque exprès. */
+  --rouge:#b3261e; --rouge-pale:#fdecec; --rouge-ligne:#f2c3bf;
+  --violet:#5b21a8; --violet-pale:#f1eafb; --violet-ligne:#dccdf2;
+  --ardoise:#546e7a; --ardoise-pale:#eceff1;
+  --vert-ligne:#b4d5c4;
+  /* surfaces neutres : piste de jauge, cadre d'image en attente */
+  --piste:#e8ebee; --piste-pleine:#c9ced4; --media:#eef0f2;
+  --champ:#fff;                 /* fond des champs et des boutons clairs */
+  --survol:#f2f4f6;
+  --sur-vert:#fff;              /* texte posé sur un aplat vert */
+  --nav:#cfe3d9; --nav-actif:#fff;
+}
+
+/* Le téléphone de l'atelier passe en sombre le soir ; la même feuille suit,
+   au niveau des jetons seulement — aucune règle de composant n'est redéfinie.
+   `:not([data-theme="light"])` laisse un choix explicite de thème l'emporter. */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --vert:#5cb98c; --vert-pale:#16281f; --vert-fonce:#0e2019; --vert-survol:#7ccca5;
+    --ambre:#e0854a; --ambre-pale:#2a1c10; --ambre-ligne:#5a3a20;
+    --bleu:#7fb0e8; --bleu-pale:#131f2c; --bleu-ligne:#2b425c;
+    --encre:#e6ebe6; --encre2:#b3bcc4; --gris:#8b959e;
+    --ligne:#2a3138; --fond:#0d1114; --carte:#161b20;
+    --rouge:#f08a82; --rouge-pale:#2c1614; --rouge-ligne:#5a2c28;
+    --violet:#c3a4ec; --violet-pale:#1f1630; --violet-ligne:#3d2c55;
+    --ardoise:#9fb0b8; --ardoise-pale:#1a2126;
+    --vert-ligne:#2c4739;
+    --piste:#252c33; --piste-pleine:#3a434b; --media:#1b2126;
+    --champ:#1b2126; --survol:#222a31;
+    --sur-vert:#0d1114;
+    --nav:#a9c7ba; --nav-actif:#fff;
+  }
+}
+:root[data-theme="dark"]{
+  --vert:#5cb98c; --vert-pale:#16281f; --vert-fonce:#0e2019; --vert-survol:#7ccca5;
+  --ambre:#e0854a; --ambre-pale:#2a1c10; --ambre-ligne:#5a3a20;
+  --bleu:#7fb0e8; --bleu-pale:#131f2c; --bleu-ligne:#2b425c;
+  --encre:#e6ebe6; --encre2:#b3bcc4; --gris:#8b959e;
+  --ligne:#2a3138; --fond:#0d1114; --carte:#161b20;
+  --rouge:#f08a82; --rouge-pale:#2c1614; --rouge-ligne:#5a2c28;
+  --violet:#c3a4ec; --violet-pale:#1f1630; --violet-ligne:#3d2c55;
+  --ardoise:#9fb0b8; --ardoise-pale:#1a2126;
+  --vert-ligne:#2c4739;
+  --piste:#252c33; --piste-pleine:#3a434b; --media:#1b2126;
+  --champ:#1b2126; --survol:#222a31;
+  --sur-vert:#0d1114;
+  --nav:#a9c7ba; --nav-actif:#fff;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -18,16 +66,16 @@ h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
 p{margin:0 0 10px}
 
 /* ---------- ossature ---------- */
-header.top{background:var(--vert-fonce);color:#fff;padding:0 16px}
+header.top{background:var(--vert-fonce);color:var(--nav-actif);padding:0 16px}
 .top-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:18px;
   min-height:52px;flex-wrap:wrap}
-.marque{font-weight:700;letter-spacing:.02em;color:#fff}
+.marque{font-weight:700;letter-spacing:.02em;color:var(--nav-actif)}
 .marque span{opacity:.65;font-weight:400}
-nav.top a{color:#cfe3d9;padding:6px 0;font-size:14px}
-nav.top a:hover,nav.top a.on{color:#fff;text-decoration:none}
+nav.top a{color:var(--nav);padding:6px 0;font-size:14px}
+nav.top a:hover,nav.top a.on{color:var(--nav-actif);text-decoration:none}
 nav.top{display:flex;gap:16px;flex:1;flex-wrap:wrap}
-.qui{font-size:13px;color:#cfe3d9}
-.qui a{color:#fff;opacity:.75}
+.qui{font-size:13px;color:var(--nav)}
+.qui a{color:var(--nav-actif);opacity:.75}
 main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
 
 /* ---------- blocs ---------- */
@@ -42,14 +90,14 @@ main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
 /* ---------- étiquettes d'état ---------- */
 .et{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.02em;
   padding:2px 8px;border-radius:10px;white-space:nowrap;text-transform:uppercase}
-.et-brouillon{background:#eceff1;color:#546e7a}
+.et-brouillon{background:var(--ardoise-pale);color:var(--ardoise)}
 .et-planifie {background:var(--bleu-pale);color:var(--bleu)}
 .et-en_cours {background:var(--ambre-pale);color:var(--ambre)}
 .et-termine  {background:var(--vert-pale);color:var(--vert)}
-.et-annule   {background:#fdecec;color:#b3261e}
-.et-expedition{color:#5b21a8;background:#f1eafb;border-color:#dccdf2}
+.et-annule   {background:var(--rouge-pale);color:var(--rouge)}
+.et-expedition{color:var(--violet);background:var(--violet-pale);border-color:var(--violet-ligne)}
 .et-livraison{background:var(--vert-pale);color:var(--vert)}
-.et-deadline {background:#fdecec;color:#b3261e}
+.et-deadline {background:var(--rouge-pale);color:var(--rouge)}
 .et-evenement{background:var(--bleu-pale);color:var(--bleu)}
 .et-prevente {background:var(--ambre-pale);color:var(--ambre)}
 
@@ -63,59 +111,65 @@ tr:last-child td{border-bottom:0}
 .num{text-align:right;font-variant-numeric:tabular-nums}
 
 /* ---------- barre d'avancement ---------- */
-.jauge{height:7px;background:#e8ebee;border-radius:4px;overflow:hidden;min-width:90px}
+.jauge{height:7px;background:var(--piste);border-radius:4px;overflow:hidden;min-width:90px}
 .jauge i{display:block;height:100%;background:var(--vert);border-radius:4px}
 .jauge.part i{background:var(--ambre)}
-.jauge.zero i{background:#c9ced4}
+.jauge.zero i{background:var(--piste-pleine)}
 .pct{font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;min-width:38px;
   display:inline-block;text-align:right}
 
 /* ---------- sélecteur d'avancement (0→100 par 10) ---------- */
 .av{display:flex;flex-wrap:wrap;gap:3px;margin:0}
 .av button{font:600 12px/1 inherit;font-variant-numeric:tabular-nums;
-  min-width:36px;padding:7px 4px;border:1px solid var(--ligne);background:#fff;
+  min-width:36px;padding:7px 4px;border:1px solid var(--ligne);background:var(--champ);
   color:var(--encre2);border-radius:4px;cursor:pointer}
 .av button:hover{border-color:var(--vert);color:var(--vert)}
-.av button.on{background:var(--vert);border-color:var(--vert);color:#fff}
-.av button.on:hover{color:#fff}
+.av button.on{background:var(--vert);border-color:var(--vert);color:var(--sur-vert)}
+.av button.on:hover{color:var(--sur-vert)}
 
 /* ---------- formulaires ---------- */
 label{display:block;font-size:12.5px;font-weight:600;color:var(--encre2);margin:0 0 4px}
 input[type=text],input[type=email],input[type=password],input[type=number],
 input[type=date],select,textarea{
   width:100%;padding:8px 10px;border:1px solid var(--ligne);border-radius:5px;
-  font:15px inherit;background:#fff;color:var(--encre)}
+  font:15px inherit;background:var(--champ);color:var(--encre)}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--vert-pale);border-color:var(--vert)}
 textarea{min-height:70px;resize:vertical}
 .champ{margin-bottom:12px}
 .rangee{display:flex;gap:12px;flex-wrap:wrap}
 .rangee>.champ{flex:1;min-width:160px}
 .btn{display:inline-block;padding:9px 16px;border-radius:5px;border:1px solid var(--vert);
-  background:var(--vert);color:#fff;font:600 14px inherit;cursor:pointer;text-align:center}
-.btn:hover{background:#195c3d;text-decoration:none;color:#fff}
-.btn.sec{background:#fff;color:var(--encre2);border-color:var(--ligne)}
-.btn.sec:hover{background:#f2f4f6;color:var(--encre)}
-.btn.dgr{background:#fff;color:#b3261e;border-color:#f2c3bf}
-.btn.dgr:hover{background:#fdecec}
+  background:var(--vert);color:var(--sur-vert);font:600 14px inherit;cursor:pointer;text-align:center}
+.btn:hover{background:var(--vert-survol);text-decoration:none;color:var(--sur-vert)}
+.btn.sec{background:var(--champ);color:var(--encre2);border-color:var(--ligne)}
+.btn.sec:hover{background:var(--survol);color:var(--encre)}
+.btn.dgr{background:var(--champ);color:var(--rouge);border-color:var(--rouge-ligne)}
+.btn.dgr:hover{background:var(--rouge-pale)}
 .btn.min{padding:5px 10px;font-size:13px}
 .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 
 /* ---------- messages ---------- */
 .msg{padding:10px 14px;border-radius:5px;margin-bottom:14px;font-size:14px}
 .msg.ok{background:var(--vert-pale);border-left:3px solid var(--vert)}
-.msg.err{background:#fdecec;border-left:3px solid #b3261e}
+.msg.err{background:var(--rouge-pale);border-left:3px solid var(--rouge)}
 .msg.info{background:var(--bleu-pale);border-left:3px solid var(--bleu)}
 
 /* ---------- listes / cartes produits ---------- */
 .grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .vignette{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;overflow:hidden}
-.vignette img{width:100%;height:140px;object-fit:cover;display:block;background:#eef0f2}
-.sans-photo{height:140px;display:flex;align-items:center;justify-content:center;background:#eef0f2;color:var(--gris);font-size:12px}
+.vignette img{width:100%;height:140px;object-fit:cover;display:block;background:var(--media)}
+.sans-photo{height:140px;display:flex;align-items:center;justify-content:center;background:var(--media);color:var(--gris);font-size:12px}
 .vignette .b{padding:10px}
 .vignette .b b{display:block;font-size:14px}
 .photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
-.photos figure{margin:0}
-.photos img{width:100%;border-radius:5px;display:block;background:#eef0f2}
+/* Les légendes n'ont pas la même longueur d'une photo à l'autre : sans cadre
+   de hauteur fixe, chaque rangée se cale sur la plus haute et les images
+   flottent au milieu du vide. Un rapport imposé aligne les rangées ; `contain`
+   plutôt que `cover` parce qu'on regarde un produit — le rogner pour faire
+   joli ferait perdre l'ourlet ou l'étiquette. */
+.photos figure{margin:0;display:flex;flex-direction:column}
+.photos img{width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:5px;
+  display:block;background:var(--fond);border:1px solid var(--ligne)}
 .photos figcaption{font-size:12px;color:var(--gris);margin-top:4px}
 
 /* ---------- commentaires ---------- */
@@ -150,12 +204,19 @@ textarea{min-height:70px;resize:vertical}
   table.items{min-width:0}
   table.items thead{display:none}
   table.items tr{border:1px solid var(--ligne);border-radius:6px;
-    padding:12px;margin-bottom:10px;background:#fff}
+    padding:12px;margin-bottom:10px;background:var(--carte)}
   table.items td{border:0;padding:0 0 8px}
   table.items td:last-child{padding-bottom:0}
   table.items td.num{text-align:left}
   table.items td.num::before{content:"Quantité : ";color:var(--gris);font-size:12.5px}
   table.items td.note-c::before{content:"Note : ";color:var(--gris);font-size:12.5px}
+  /* En pile, le <thead> disparaît : sans étiquette, les colonnes du suivi
+     deviennent des nombres nus — « 9 » et « 4 680 » ne veulent plus rien dire.
+     Chaque cellule porte donc son propre intitulé sur téléphone. */
+  table.items td.c-fige::before{content:"Immobile depuis ";color:var(--gris);font-size:12.5px}
+  table.items td.c-maj::before{content:"Mises à jour : ";color:var(--gris);font-size:12.5px}
+  table.items td.c-unites::before{content:"Unités avancées : ";color:var(--gris);font-size:12.5px}
+  table.items td.c-fige .sec,table.items td.c-av .sec{display:inline;margin-left:6px}
   /* grille : 6 colonnes égales, jamais plus large que le conteneur */
   .av{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
   .av button{min-width:0;padding:11px 2px;font-size:13px}
@@ -171,7 +232,7 @@ textarea{min-height:70px;resize:vertical}
 .tour .dem{margin:0 0 8px;color:var(--gris)}
 .tour .dem b{color:var(--texte);margin-right:6px}
 .tour .rep p{margin:0 0 8px}
-.tour .rep.err{color:#b3261e}
+.tour .rep.err{color:var(--rouge)}
 .faits{background:var(--bleu-pale);border-radius:5px;padding:9px 12px;margin-top:10px;
   font-size:13px}
 .faits b{display:block;margin-bottom:4px;font-size:12px;text-transform:uppercase;
@@ -198,7 +259,7 @@ textarea{min-height:70px;resize:vertical}
 .actions-saisie select{flex:0 1 auto;width:auto;max-width:8em;font:inherit;
   padding:8px 6px;border:1px solid var(--ligne);border-radius:5px;
   background:var(--carte);color:inherit}
-.micro.on{background:#b3261e;border-color:#b3261e;color:#fff}
+.micro.on{background:var(--rouge);border-color:var(--rouge);color:var(--sur-vert)}
 .reinit{font-size:13px;color:var(--gris);margin-top:10px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (max-width:720px){
@@ -214,8 +275,8 @@ textarea{min-height:70px;resize:vertical}
   padding:11px 13px;font-size:12px;color:var(--gris)}
 .chiffres .c b{display:block;font-size:22px;color:var(--encre);letter-spacing:-.02em;
   margin-bottom:1px}
-.chiffres .c.alerte{background:#fdecec;border-color:#f3c9c9}
-.chiffres .c.alerte b{color:#b3261e}
+.chiffres .c.alerte{background:var(--rouge-pale);border-color:var(--rouge-ligne)}
+.chiffres .c.alerte b{color:var(--rouge)}
 
 table.fab{width:100%;border-collapse:collapse;background:var(--carte)}
 table.fab th{text-align:left;font-size:11px;text-transform:uppercase;
@@ -231,8 +292,8 @@ table.fab .av{min-width:110px}
 /* la priorité haute se voit d'un coup d'œil : un liseré, pas un fond criard */
 table.fab tr.p-haute td:first-child{box-shadow:inset 3px 0 0 var(--ambre)}
 table.fab tr.p-basse{opacity:.62}
-.u-retard b{color:#b3261e}
-.u-retard .sec{color:#b3261e;font-weight:600}
+.u-retard b{color:var(--rouge)}
+.u-retard .sec{color:var(--rouge);font-weight:600}
 .u-urgent b{color:var(--ambre)}
 .u-urgent .sec{color:var(--ambre)}
 .pri select{font:inherit;font-size:13px;padding:5px 6px;border:1px solid var(--ligne);
@@ -246,7 +307,7 @@ table.fab tr.p-basse{opacity:.62}
 .bloc h2{margin-bottom:4px}
 .bloc>.sec,.bloc>p.sec{font-size:13px;color:var(--gris);margin:0 0 10px}
 .bloc .tbl{margin-top:10px}
-.alerte-bloc{border-left:3px solid #b3261e}
+.alerte-bloc{border-left:3px solid var(--rouge)}
 .flux{list-style:none;padding:0;margin:0}
 .flux li{padding:7px 0;border-bottom:1px solid var(--ligne);font-size:14px;
   display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
@@ -282,9 +343,9 @@ table.fab tr.p-basse{opacity:.62}
 .fam{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.04em;
   text-transform:uppercase;padding:2px 7px;border-radius:99px;border:1px solid;
   vertical-align:1px;margin-left:7px}
-.f-hiver{color:#1b4f86;border-color:#b9cde5;background:var(--bleu-pale)}
-.f-nouveau{color:var(--ambre);border-color:#e8c4a6;background:var(--ambre-pale)}
-.f-isotherme{color:var(--vert);border-color:#b4d5c4;background:var(--vert-pale)}
+.f-hiver{color:var(--bleu);border-color:var(--bleu-ligne);background:var(--bleu-pale)}
+.f-nouveau{color:var(--ambre);border-color:var(--ambre-ligne);background:var(--ambre-pale)}
+.f-isotherme{color:var(--vert);border-color:var(--vert-ligne);background:var(--vert-pale)}
 .f-autre{color:var(--gris);border-color:var(--ligne);background:var(--fond)}
 .repartition{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;
   margin:-6px 0 16px;font-size:13px;color:var(--gris)}

@@ -839,9 +839,10 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
       <thead><tr><th>Produit</th><th>Avancement</th><th>Dernière maj</th><th>Ordre</th></tr></thead>
       <tbody>${immobiles.map(x => `<tr>
         <td><b>${e(x.code)}</b> <span class="sec">${e(x.nom)}</span></td>
-        <td>${jauge(x.avancement)}<span class="sec">${x.avancement} %</span></td>
-        <td><b>${x.jours_sans_maj} j</b><span class="sec">${dateHeureFR(x.maj_le)}</span></td>
-        <td><a href="/ordres/${x.ordre_id}#i${x.id}">${e(x.numero)}</a></td>
+        <td class="c-av">${jauge(x.avancement)}<span class="sec">${x.avancement} %</span></td>
+        <td class="c-fige"><b>${x.jours_sans_maj} j</b>
+          <span class="sec">depuis le ${dateHeureFR(x.maj_le)}</span></td>
+        <td class="c-ord"><a href="/ordres/${x.ordre_id}#i${x.id}">${e(x.numero)}</a></td>
       </tr>`).join('')}</tbody>
     </table></div>
   </section>` : `<section class="bloc">
@@ -856,8 +857,8 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
       <thead><tr><th>Ordre</th><th>Mises à jour</th><th>Unités avancées</th></tr></thead>
       <tbody>${progression.map(p => `<tr>
         <td><b>${e(p.numero)}</b> <span class="sec">${e(p.titre)}</span></td>
-        <td>${p.maj}</td>
-        <td><b>${Math.round(p.unites_avancees).toLocaleString('fr-CA')}</b></td>
+        <td class="c-maj">${p.maj}</td>
+        <td class="c-unites"><b>${Math.round(p.unites_avancees).toLocaleString('fr-CA')}</b></td>
       </tr>`).join('')}</tbody>
     </table></div>
     <p class="sec">« Unités avancées » = la progression convertie en pièces :

@@ -343,7 +343,11 @@ function sansMouvement(jours = 7) {
     FROM ordre_items i
     JOIN ordres o   ON o.id = i.ordre_id
     JOIN produits p ON p.id = i.produit_id
-    WHERE o.statut = 'en_cours'
+    -- Même périmètre que « À fabriquer » : un ordre encore « planifie » dont
+    -- les items avancent est du travail commencé, et son blocage doit se voir.
+    -- Exiger 'en_cours' rendait le détecteur muet sur un ordre entier tant que
+    -- personne n'avait pensé à changer son statut.
+    WHERE o.statut IN ('planifie','en_cours')
       AND i.avancement > 0 AND i.avancement < 100
       AND julianday('now') - julianday(i.maj_le) >= ?
     ORDER BY jours_sans_maj DESC`).all(jours);

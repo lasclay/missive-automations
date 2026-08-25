@@ -335,6 +335,19 @@ Ce qui manque au schéma, ce qu'il faut décider avant de construire, et le
 blocage d'accès : [`FICHES-PRODUITS.md`](FICHES-PRODUITS.md).
 
 
+**Le CDN sert du JPEG cinq fois plus léger que le PNG.** `?format=jpg` est
+honoré par Shopify (contrairement à `format=webp`) : un cache-cou en 320 px
+passe de 33 à 7 Ko. L'app ne le demande pas encore, parce que la conversion
+aplatit la transparence — sans danger sur une photo produit, à vérifier avant
+de généraliser. Sur la connexion tunisienne, c'est le plus gros gain qui reste.
+
+**Le rattachement Shopify sert parfois juste de photothèque.** Les deux tailles
+enfant du cache-cou empruntent le handle de l'adulte faute de fiche à elles ;
+l'import prend alors le nom de production plutôt que le titre Shopify, sans
+quoi trois produits portent le même nom dans la liste. La règle tient au
+`confiance = non vendu` de `correspondances.tsv` — à revoir le jour où les
+fiches enfant existeront.
+
 Volontairement hors de cette version : inventaire, traduction FR/EN, alertes,
 convertisseur HPGL (voir `../patrons/`).
 

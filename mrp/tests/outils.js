@@ -284,11 +284,26 @@ t('jalon d\'expédition accepté', jExp.ok && jExp.type === 'expedition',
 db.prepare(`UPDATE ordre_items SET maj_le = datetime('now','-12 days')
             WHERE id = (SELECT i.id FROM ordre_items i JOIN produits p ON p.id=i.produit_id
                         WHERE p.code='CC-ADULTE')`).run();
-db.prepare(`UPDATE ordres SET statut='en_cours' WHERE id=?`).run(1);
+// L'ordre reste « planifie » : c'est l'état d'un ordre importé du plan, sur
+// lequel l'atelier a déjà commencé sans que personne n'ait changé le statut.
+// Le blocage doit se voir quand même — sinon le détecteur est muet sur un
+// ordre entier, et c'est le seul bloc du suivi qui appelle une action.
+db.prepare(`UPDATE ordres SET statut='planifie' WHERE id=?`).run(1);
 
-const fige = sansMouvement(7);
+let fige = sansMouvement(7);
+t('un item figé est signalé même sur un ordre encore « planifie »',
+  fige.some(x => x.code === 'CC-ADULTE'), JSON.stringify(fige.map(x => x.code)));
+
+db.prepare(`UPDATE ordres SET statut='en_cours' WHERE id=?`).run(1);
+fige = sansMouvement(7);
 t('un item entamé et figé est signalé',
   fige.some(x => x.code === 'CC-ADULTE'), JSON.stringify(fige.map(x => x.code)));
+
+db.prepare(`UPDATE ordres SET statut='termine' WHERE id=?`).run(1);
+t('un ordre terminé ne signale plus rien',
+  !sansMouvement(7).some(x => x.code === 'CC-ADULTE'));
+db.prepare(`UPDATE ordres SET statut='en_cours' WHERE id=?`).run(1);
+fige = sansMouvement(7);
 t('un item à 0 % n\'est pas « immobile », il n\'a pas commencé',
   fige.every(x => x.avancement > 0), JSON.stringify(fige.map(x => [x.code, x.avancement])));
 

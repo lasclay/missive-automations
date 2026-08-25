@@ -146,15 +146,18 @@ C'est la source qui manquait : ce qu'on produit vraiment, en quelles quantités.
 | --- | --- | ---: |
 | `plan-production-2627.tsv` | produit, quantité prévue, prévente déjà encaissée, coût BMB, coût de production | 28 |
 | `plan-variantes-2627.tsv` | la répartition par taille et par coloris | 141 |
-| `correspondances.tsv` | produit de production → handle Shopify → libellé du plan | 32 |
+| `correspondances.tsv` | produit de production → handle Shopify → libellé du plan | 34 |
+| `ajouts-production.tsv` | quantités décidées hors chiffrier, avec leur origine | 2 |
 
-**24 133 unités, 233 667 $ de coût de production.** Les cinq plus gros postes :
+**24 333 unités** au total : 24 133 au chiffrier, plus 200 décidés après coup
+(deux tailles de cache-cou enfant, 100 chacune — `ajouts-production.tsv`).
+Le chiffrier seul vaut **233 667 $ de coût de production.** Les cinq plus gros postes :
 semelles 4 665, cache-cous 3 500, gants magiques 2 500, mitaines plein air
 2 000, bandeaux 1 800.
 
 `correspondances.tsv` est la table qui manquait au §5 : le lien entre un produit
 de production, sa fiche Shopify et sa ligne de plan. Elle porte une colonne
-`confiance` — **13 rattachements sûrs, 19 à clarifier**, et les doutes sont
+`confiance` — **13 rattachements sûrs, 21 à clarifier**, et les doutes sont
 écrits en note technique sur la fiche produit, visibles dans l'app plutôt
 qu'enterrés ici.
 

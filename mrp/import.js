@@ -35,7 +35,10 @@ const dire = (...a) => console.log(...a);
 
 /** Lit un TSV en objets, en-tête sur la première ligne. */
 function tsv(nom) {
-  const brut = fs.readFileSync(path.join(DOSSIER, nom), 'utf8').trim().split('\n');
+  // Les lignes « # » portent la provenance d'un fichier tenu à la main ; elles
+  // se lisent avant l'en-tête et ne doivent pas être prises pour des données.
+  const brut = fs.readFileSync(path.join(DOSSIER, nom), 'utf8').trim().split('\n')
+    .filter(l => !l.startsWith('#'));
   const cols = brut[0].split('\t');
   return brut.slice(1).map(l => {
     const c = l.split('\t');
@@ -62,8 +65,14 @@ const corresp = tsv('correspondances.tsv').filter(r => r.code);
 const shopify = new Map(tsv('shopify-produits.tsv').map(r => [r.handle, r]));
 const cogs = new Map(tsv('cogs-tunisie.tsv').map(r => [r.produit, r]));
 
-/** Le plan de production de la saison, indexé par son libellé exact. */
-const plan = new Map(tsv('plan-production-2627.tsv')
+/**
+ * Le plan de production de la saison, indexé par son libellé exact.
+ * `plan-production-2627.tsv` est la recopie fidèle du chiffrier — on ne l'édite
+ * pas, sinon l'extrait ne se compare plus à sa source. Les quantités décidées
+ * verbalement après coup vivent dans `ajouts-production.tsv` et se superposent
+ * ici, chacune avec son origine.
+ */
+const plan = new Map([...tsv('plan-production-2627.tsv'), ...tsv('ajouts-production.tsv')]
   .filter(r => Number(r.quantite_prevue) > 0)
   .map(r => [r.produit, r]));
 const variantesPlan = new Map();
@@ -144,7 +153,8 @@ const lignes = corresp.map(r => {
   if (pl) {
     const v = variantesPlan.get(r.alias_plan) || [];
     notes.push(`Plan 26-27 : ${Number(pl.quantite_prevue).toLocaleString('fr-CA')} `
-      + `unités prévues${pl.prevente_2026 ? `, dont ${pl.prevente_2026} déjà en prévente` : ''}`
+      + `unités prévues${Number(pl.prevente_2026) > 0
+          ? `, dont ${pl.prevente_2026} déjà en prévente` : ''}`
       + `${pl.cout_unitaire_bmb ? `. Assemblage BMB ${pl.cout_unitaire_bmb} $/unité` : ''}`
       + (v.length ? `. Répartition : ${v.map(x => `${x.variante} ${x.quantite}`).join(', ')}` : '')
       + '.');
@@ -152,7 +162,10 @@ const lignes = corresp.map(r => {
 
   return {
     code: r.code,
-    nom: sh ? sh.titre : r.produit_production,
+    // Le titre Shopify l'emporte, sauf quand la fiche n'est empruntée que pour
+    // les photos : deux tailles enfant rattachées au handle adulte prendraient
+    // toutes les deux le nom de l'adulte, indistinguables dans la liste.
+    nom: sh && r.confiance !== 'non vendu' ? sh.titre : r.produit_production,
     description: sh ? texte(sh.description_html || '') : '',
     usage: sh?.url_boutique ? `Fiche publique : ${sh.url_boutique}` : '',
     notes_tech: notes.join('\n\n'),
@@ -309,8 +322,9 @@ try {
     if (!l.plan) continue;
     const pr = idProduit.get(l.code); if (!pr) continue;
     const q = Number(l.plan.quantite_prevue);
-    const note = l.plan.prevente_2026
-      ? `${l.plan.prevente_2026} déjà en prévente` : '';
+    // « 0 déjà en prévente » n'apprend rien : pas de prévente, pas de note.
+    const pv = Number(l.plan.prevente_2026) || 0;
+    const note = pv > 0 ? `${pv} déjà en prévente` : '';
     const ex = trouveItem.get(o.id, pr.id);
     if (ex) { majItem.run(q, note, ex.id); nMaj++; }
     else { poseItem.run(o.id, pr.id, q, note, ++rang); nItems++; }
