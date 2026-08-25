@@ -17,7 +17,7 @@ const TYPES_JALON = { expedition:'Expédition', livraison:'Livraison',
                       deadline:'Deadline', evenement:'Événement',
                       prevente:'Prévente' };
 const FAMILLES = { hiver:'Hiver', nouveau:'Nouveau',
-                   isotherme:'Isotherme', autre:'Autre' };
+                   isotherme:'Sacs', autre:'Autre' };
 
 /**
  * Normalise une URL d'image et demande la TAILLE STRICTEMENT NÉCESSAIRE.

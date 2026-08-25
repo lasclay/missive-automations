@@ -89,8 +89,8 @@ n'est pas un champ qu'on saisit, c'est un calcul :
 2. **le retard** — un ordre dont une échéance est passée passe devant ;
 3. **la date d'expédition vers le Canada** — c'est elle qui commande tout : ce
    qui n'est pas fini le 1er octobre ne part pas ;
-4. **la famille de production** — hiver, puis nouveaux produits, puis
-   isothermes, puis le reste ;
+4. **la famille de production** — hiver, puis nouveaux produits, puis les
+   sacs, puis le reste ;
 5. **la quantité restante**, décroissante — à famille égale, le gros morceau
    d'abord, parce que c'est lui qui risque de ne pas rentrer.
 
@@ -99,8 +99,12 @@ n'est pas un champ qu'on saisit, c'est un calcul :
 L'hiver d'abord : c'est ce que la prévente d'automne vend. Les nouveaux
 produits ensuite, parce qu'ils portent le risque — un échantillon à valider,
 un patron à confirmer, un tissu à trouver — et qu'un retard sur eux coûte
-moins qu'un retard sur un produit déjà vendu. Les isothermes en dernier :
-ils se vendent au printemps, ils ont le temps.
+moins qu'un retard sur un produit déjà vendu. Les sacs après : ils se vendent
+au printemps, ils ont le temps.
+
+Les quatre familles vivent dans `donnees/correspondances.tsv`, une colonne par
+produit. Elles se changent aussi dans l'app, produit par produit — c'est un
+classement d'exploitation, il bouge.
 
 **Un produit à la fois d'hiver et nouveau compte comme nouveau.** C'est la
 nouveauté qui porte le risque : le chandail polar est un vêtement d'hiver, et

@@ -254,7 +254,7 @@ const RANG_PRIORITE = { haute: 0, normale: 1, basse: 2 };
  */
 const RANG_FAMILLE = { hiver: 0, nouveau: 1, isotherme: 2, autre: 3 };
 const FAMILLES = { hiver: 'Hiver', nouveau: 'Nouveau',
-                   isotherme: 'Isotherme', autre: 'Autre' };
+                   isotherme: 'Sacs', autre: 'Autre' };
 
 /**
  * La liste de fabrication : tout ce qui reste à produire, tous ordres
