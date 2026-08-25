@@ -4,7 +4,7 @@ Source : `facebook-avis-negatifs.md`, relevé du Loom du 25 août 2026. Page à 
 recommandations sur 208 avis. Facebook n'a pas d'étoiles, seulement « recommends » ou
 « doesn't recommend ».
 
-**Tout ce qui suit a été vérifié dans Shopify et dans ShipStation le 25 août.** Les avis Facebook
+**Tout ce qui suit a été vérifié dans Shopify, dans ShipStation et dans Missive le 25 août.** Les avis Facebook
 donnent des prénoms et des récits, pas des numéros de commande. Le travail d'identification est
 fait ici et il change plusieurs dossiers du tout au tout.
 
@@ -28,25 +28,38 @@ rétrofacturation.
 > plus rien. On ne répond même pas à mes courriels. Vraiment très déçue. »
 
 **L-46045, 27 janvier 2026, 369,04 $.** Manteau isolé Homme S Noir + semelles. C'est le plus gros
-montant du corpus Facebook.
+montant du corpus Facebook, et le fil Missive le rend encore pire que le dossier Shopify seul.
 
-La chronologie complète, tirée du journal d'événements Shopify :
+| Date | Ce qui s'est passé | Source |
+| --- | --- | --- |
+| 27 janvier 2026 | Commande payée, 369,04 $ | Shopify |
+| 18 février | Elle écrit : « je n'ai rien reçu d'autre qu'un accusé de réception » | Missive |
+| 23 février | « Est-ce qu'on pourrait me répondre SVP? » puis un message Messenger | Missive |
+| 25 février | Son avis Facebook. **Rien n'est parti.** | Facebook |
+| 1er mars | Première réponse, signée Hari : « l'ensemble de nos articles est arrivé en stock » | Missive |
+| **1er avril** | On lui écrit pour **lui suggérer de changer de taille** et lui demander si elle a consulté le guide | Missive |
+| 20 avril | Sa réponse : le manteau est pour son fils, elle a pris les mensurations, le guide donnait un XS homme qui n'était pas offert, et elle avait déjà tout expliqué | Missive |
+| 30 avril | Elle transfère l'échange complet, faute de réponse | Missive |
+| **24 mai** | Elle ouvre une **rétrofacturation de 384,04 $** | Shopify |
+| **30 juin** | La commande part enfin. **154 jours** | Shopify + ShipStation |
+| 1er juillet | « Je ne veux plus de cette commande… Est-ce qu'il y a un humain qui peut me répondre????? » | Missive |
+| 2 juillet | Livrée. Lasclay conteste la rétrofacturation le même jour | Shopify |
+| **16 juillet** | Gabriel répond personnellement : **« Je m'occupe du remboursement complet de ta commande aujourd'hui même »** et promet une **étiquette de retour prépayée** | Missive |
+| 16 juillet | La rétrofacturation est tranchée **en faveur de la cliente** | Shopify |
 
-| Date | Ce qui s'est passé |
-| --- | --- |
-| 27 janvier 2026 | Commande payée, 369,04 $, confirmation envoyée |
-| 25 février | Son avis Facebook. **Rien n'est parti.** |
-| **24 mai** | Elle ouvre une **rétrofacturation de 384,04 $** auprès de sa banque |
-| **30 juin** | La commande part enfin, suivi 5082011492630322. **154 jours** |
-| 2 juillet | Livrée. Lasclay conteste la rétrofacturation le même jour |
-| **16 juillet** | La rétrofacturation est **tranchée en faveur de la cliente** |
+⚠️ **Deux promesses du 16 juillet n'ont pas été tenues.** Shopify affiche toujours L-46045 en
+`PAID`, `refunds: []` : le remboursement annoncé « aujourd'hui même » n'a jamais été fait. Son
+argent lui est revenu par MasterCard le même jour, pas par nous. Et **aucune étiquette de retour
+n'apparaît**, alors qu'elle a écrit qu'elle retournerait tout dès réception.
 
-⚠️ **Elle a le manteau et son argent.** Ne rien lui offrir de financier : ce serait la troisième
-fois qu'on touche à ce dossier et ça se lirait comme une tentative de récupérer quelque chose.
-C'est un dossier d'**excuses seules**, comme Marie-Michèle Leblanc à la vague 1.
+⚠️ **Le pire du fil n'est pas le délai, c'est le message du 1er avril.** Deux mois après sa
+commande, sans nouvelle sur l'expédition, on lui écrit pour lui demander si elle a consulté le
+guide des tailles. Elle avait déjà donné les mensurations de son fils plusieurs fois. C'est le
+moment où elle écrit avoir « totalement perdu confiance ».
 
-⚠️ **Ne pas contester sa version.** Cinq mois d'attente, quatre avant qu'elle aille à sa banque.
-Elle a eu raison à chaque étape.
+⚠️ **Ne rien lui offrir de financier.** Elle a le manteau et son argent. Ce qui reste ouvert est
+concret : elle veut retourner le manteau et attend une étiquette. C'est un dossier d'**excuses
+seules + l'étiquette promise**.
 
 ## 2. Amandine Caudron · 17 janvier 2025 · `lamydu04@msn.com`
 
@@ -57,38 +70,64 @@ Elle a eu raison à chaque étape.
 **L-27408, 30 novembre 2024, 153,12 $.** Mitaines S + cache-cou. La date qu'elle donne est exacte
 au jour près.
 
-Deux faits qui se contredisent, et c'est elle qui a raison :
+⚠️ **Le fil Missive corrige ce que Shopify laissait croire.** Le colis est bien parti le
+5 décembre 2024, mais **par GLS**, en l'absence de Postes Canada, et il s'est perdu. C'est pour ça
+que le suivi `P47068556` ne ressemble à aucun des nôtres et que ShipStation n'a pas d'expédition :
+la commande y est marquée `shipped` sans date ni transporteur.
 
-- Shopify marque la commande **FULFILLED** le 5 décembre 2024, avec un suivi `P47068556`.
-- **ShipStation n'a aucune expédition pour cette commande.** L'historique remonte au 7 décembre
-  2023, donc novembre 2024 est bien dans la fenêtre. Le numéro `P47068556` ne ressemble à aucun de
-  nos suivis Postes Canada, qui commencent tous par 5082.
+| Date | Ce qui s'est passé | Source |
+| --- | --- | --- |
+| 5 décembre 2024 | Expédition par GLS, perdue | ShipStation + Missive |
+| 17, 19, 20 décembre | Trois courriels d'elle, sans réponse | Missive |
+| 21 décembre | Réponse : GLS a perdu le colis. On lui offre **50 $ en cartes-cadeaux** et une **réexpédition** | Missive |
+| 22 décembre | Elle remercie chaleureusement et accepte | Missive |
+| 14, 16, 17 janvier | Trois relances. Toujours rien | Missive |
+| 17 janvier | Elle appelle sa carte de crédit pour annuler la transaction | Missive |
+| **17 janvier** | **Son avis Facebook** | Facebook |
+| 18 janvier | Gabriel lui demande de **retirer sa rétrofacturation** si le remplacement arrive | Missive |
+| 23 janvier | « Ta commande part dès lundi! » | Missive |
+| **28 janvier 2025** | La commande de remplacement **100304** part vraiment, par Postes Canada | ShipStation |
+| — | La rétrofacturation est **perdue** (`LOST`, donc en sa faveur) | Shopify |
 
-Autrement dit : quelqu'un a fermé la commande à la main dans Shopify avec un numéro qui ne
-correspond à rien. **Rien n'est jamais parti.**
+Donc : **elle a fini par recevoir ses produits, onze jours après son avis**, et elle a récupéré son
+argent par sa banque. Personne ne lui a jamais écrit pour lui dire que le remplacement était parti,
+ni pour savoir si elle l'avait reçu. Son avis est en ligne depuis dix-neuf mois.
 
-**Rétrofacturation : perdue** (`LOST`, donc en faveur de la cliente). Elle a récupéré son argent
-par sa banque, exactement comme elle l'a écrit.
+⚠️ **Les 50 $ en cartes-cadeaux promis le 21 décembre sont invérifiables d'ici** (le jeton Shopify
+n'a pas l'accès `read_gift_cards`), et **aucune commande à 0,00 $ n'existe à son nom**, alors que
+les cartes émises par commande en laissent une. **À vérifier dans l'admin avant de lui écrire** :
+si elle n'a jamais eu la carte, c'est la promesse à exécuter.
 
-⚠️ Rien à rembourser. Ce qui reste dû, c'est le produit et des excuses. Vingt et un mois.
+⚠️ **Ne jamais reproduire la demande du 18 janvier.** Conditionner une expédition au retrait d'une
+rétrofacturation ne se refait pas, et ne se mentionne pas dans le message.
 
 ## 3. Colette D'Astous · 25 novembre 2025 · `colettedastous@gmail.com`
 
-Une paire de mitaines, deux tuques, deux cache-cou. Elle écrit aux deux adresses du site et sur
-Messenger pour un code de retour : une tuque trop petite, les mitaines trop grandes. Elle veut
-seulement échanger. Dix jours sans réponse. Elle précise qu'elle était enthousiaste parce qu'elle
-fait de la randonnée.
-
 **L-41092, 10 novembre 2025, 349,48 $.** Tuque sport M/L, tuque sport S/M, cache-cou gris foncé,
-cache-cou noir, **mitaines plein air L**. Les cinq articles de son avis, dans le même ordre.
-Expédiée le 12 novembre, deux jours plus tard : la livraison n'a jamais été le problème.
+cache-cou noir, mitaines plein air L. Les cinq articles de son avis. Expédiée le 12 novembre : la
+livraison n'a jamais été le problème.
 
-**L-42459, 1er décembre 2025, 0,00 $ : une tuque sport M/L.** C'est l'échange, fait six jours
-après son avis.
+⚠️ **Le fil Missive dément ce que j'avais écrit.** Elle n'a **jamais demandé de retourner les
+mitaines**. Le 16 novembre, elle demande un code de retour **pour la tuque seulement**, et pose une
+**question de conseil** sur les mitaines : sa main fait 19,5 cm sur 9,5 cm, elle a pris large selon
+le guide, elle trouve le pouce très large, et elle demande si le médium irait mieux.
 
-⚠️ **L'échange n'est qu'à moitié fait.** Elle signalait deux problèmes, la tuque trop petite **et
-les mitaines trop grandes**. Seule la tuque a été reprise. Les mitaines à 126,46 $ n'ont jamais
-été échangées et personne n'est revenu là-dessus depuis neuf mois.
+| Date | Ce qui s'est passé |
+| --- | --- |
+| 16 novembre | Sa demande de code de retour pour la tuque + sa question sur les mitaines |
+| 19, 21, 22 novembre | Trois relances, dont une par Messenger. « Je ne trouve aucun # de téléphone pour vous joindre » |
+| **25 novembre** | Son avis Facebook |
+| 26 novembre | Gabriel s'excuse et envoie la marche à suivre Happy Returns |
+| 26 novembre | **Elle remercie, s'excuse pour son commentaire négatif**, suggère une réponse automatique annonçant le délai, et **repose sa question sur les mitaines** |
+| 1er décembre | L'échange de la tuque se fait, L-42459 à 0,00 $ |
+| **15 juillet 2026** | Gabriel répond enfin à la question des mitaines, huit mois plus tard, et offre de refaire l'échange sans frais |
+
+**C'est le dossier le plus chaleureux du corpus.** Elle s'est excusée de son propre avis, elle a
+proposé une amélioration concrète qu'on n'a pas mise en place, et sa question de novembre est
+restée huit mois sans réponse.
+
+⚠️ **Elle n'a pas répondu à l'offre du 15 juillet.** Le message à lui écrire est une relance, pas
+une réparation : sa tuque est réglée, et l'offre sur les mitaines est déjà sur la table.
 
 ## 4. Marie-Annick Duquette · 28 février 2026 · `mannick72@hotmail.com`
 
@@ -123,18 +162,35 @@ corpus. Une seule réparation, deux avis à traiter.
 
 ## 6. Jézabelle Paquin · 24 décembre 2025 · `jezabellep@hotmail.com`
 
-Le texte de son avis n'était pas lisible sur la capture. Le dossier parle à sa place.
+Le texte de son avis, obtenu le 25 août :
 
-**L-43656, 11 décembre 2025, 256,30 $**, six articles, dont des **mitaines urbaines en précommande
-« mi-décembre AVANT NOËL »** et une tuque en précommande janvier 2026.
+> « **Compagnie complètement frauduleuse!** J'ai passé ma commande, ils ont évidemment été rapides
+> à prendre le paiement. Ils garantissaient la réception des produits avant les fêtes (j'ai
+> respecté amplement leur délai). Mais, depuis, je n'ai rien reçu. J'ai eu aucune nouvelles d'eux
+> lorsque j'ai demandé un suivi. **Et en plus, dans mon compte Laslay, on me dit que je n'ai
+> supposément fait aucune commande… Mais, le montant apparaît bel et bien dans mon compte de carte
+> de crédit…** »
 
-**L-44870, 24 décembre 2025 : carte-cadeau de 25 $**, émise **le jour même de son avis**.
+**L-43656, 11 décembre 2025, 256,30 $**, six articles, dont des mitaines urbaines en précommande
+« mi-décembre AVANT NOËL » et une **tuque de ville en précommande janvier 2026**.
+**L-44870, 24 décembre 2025 : carte-cadeau de 25 $**, émise le jour même de son avis.
 
-Donc : une précommande vendue comme arrivant avant Noël, un avis le 24 décembre, une carte-cadeau
-de 25 $ le 24 décembre. Le scénario est celui de Francine Poirier, au dollar près.
+Lasclay a répondu publiquement sous son avis, avec une capture de sa commande où l'article en
+précommande janvier 2026 était entouré en rouge.
 
-⚠️ **Ne rien écrire sur le contenu de son avis tant qu'il n'a pas été relu.** Nos angles morts ne
-se racontent pas au client, règle de la vague 1.
+✅ **La deuxième moitié de son grief a une explication, et c'est notre faute.** Elle a **deux fiches
+client dans Shopify au même nom** : `jezabellep@hotmail.com`, qui porte ses deux commandes, et
+`jezabellepaquin@gmail.com`, qui n'en a aucune. Elle s'est connectée à la seconde et son compte
+était vide. Ce n'est pas une erreur de sa part, c'est un doublon chez nous, et c'est ce qui l'a
+menée au mot « frauduleuse ».
+
+⚠️ **C'est le fait le plus utile du dossier et il faut le lui dire.** Une cliente qui voit son
+compte vide et le débit sur sa carte a toutes les raisons de crier à la fraude. Lui expliquer le
+doublon, et le fusionner, vaut plus que n'importe quelle compensation.
+
+⚠️ **Ne pas se défendre sur la précommande.** La réponse publique lui opposait déjà l'article de
+janvier. Elle écrit « ils garantissaient la réception avant les fêtes » : la page vendait bien des
+mitaines « mi-décembre AVANT NOËL » dans la même commande.
 
 ## 7. John Belliveau · 7 septembre 2025 · `john.belliveau@proton.me`
 
@@ -185,6 +241,38 @@ reçu aujourd'hui ! ». Rien à faire.
 
 ---
 
+# Ce que Missive a donné, et ce qu'il n'a pas pu donner
+
+Trois fils retrouvés et lus au complet : **Danielle René**, **Colette D'Astous** et **Amandine
+Caudron**. Les trois changent le dossier, et dans les trois cas c'est le fil qui contient le vrai
+grief, pas l'avis.
+
+⚠️ **La recherche n'a pas pu être exhaustive.** Le proxy Missive n'expose pas la recherche par
+adresse : `GET /conversations` exige un cadrage par boîte et **ignore `search=`**. Le seul balayage
+complet possible parcourt toute la boîte page par page, et l'API coupe à
+`429 Too many requests` avant la fin, en perdant tout ce qui était accumulé. Deux tentatives, deux
+coupures.
+
+Ce qui a fonctionné : parcourir les **étiquettes partagées** et filtrer les sujets sur les numéros
+de commande. `↩️ RETOURS - ECHANGES` (1 025 fils), `Suivi de commande` (17), `🚚Suivi d'expédition`
+(48) et `Commande introuvable` (1) ont été passés. Les trois fils ci-dessus en sortent.
+
+**Donc l'absence de fil ne prouve rien** pour Marie-Annick Duquette, David Morin, Jézabelle Paquin,
+John Belliveau, Estelle Waché et Francine Poirier : leurs échanges existent peut-être sous une
+étiquette non balayée. Avant d'écrire à l'une d'elles, chercher son adresse dans Missive à la main.
+
+Deux constats de méthode, tirés de ces trois fils :
+
+- **Le fil dit ce que Shopify ne dit pas.** Amandine passait pour « jamais expédiée » : c'est GLS
+  qui a perdu le colis, et le remplacement est parti. Colette passait pour un échange à moitié
+  fait : elle n'avait jamais demandé à retourner ses mitaines.
+- **Les promesses non tenues sont dans les fils, pas dans les avis.** Un remboursement annoncé
+  « aujourd'hui même » le 16 juillet et jamais fait, une étiquette de retour promise et jamais
+  envoyée, 50 $ en cartes-cadeaux offerts en décembre 2024 et introuvables. **Chacune doit être
+  exécutée avant que le message parte**, sinon on répète exactement le reproche.
+
+---
+
 # Ce qui reste à identifier
 
 Cinq personnes n'ont pas de dossier Shopify sous leur nom Facebook. Rien ne leur sera écrit tant
@@ -229,12 +317,12 @@ Allaire. Trois clients, trois produits, un même problème de structure autour d
 
 | Client | Dossier | Vérifié | Niveau |
 | --- | --- | --- | --- |
-| Danielle René | L-46045, 369,04 $, **154 jours**, rétrofacturation gagnée par elle | Shopify + ShipStation | **Excuses seules** |
-| Amandine Caudron | L-27408, 153,12 $, **jamais expédiée**, rétrofacturation gagnée par elle | Shopify + ShipStation | **Excuses + produit** |
-| Colette D'Astous | L-41092, 349,48 $, échange à moitié fait, mitaines à 126,46 $ jamais reprises | Shopify + ShipStation | **Maximum** |
+| Danielle René | L-46045, 369,04 $, **154 jours**. Remboursement et étiquette de retour **promis le 16 juillet, jamais faits** | Shopify + ShipStation + **Missive** | **Excuses + l'étiquette** |
+| Amandine Caudron | Colis perdu par GLS, remplacement reçu, rétrofacturation gagnée par elle. **50 $ en cartes promis, à vérifier** | Shopify + ShipStation + **Missive** | **Excuses + la carte promise** |
+| Colette D'Astous | Tuque échangée. Sa **question sur les mitaines** est restée 8 mois sans réponse, offre du 15 juillet sans suite | Shopify + ShipStation + **Missive** | **Relance, pas réparation** |
 | Marie-Annick Duquette | L-46545, remboursée 238,35 $ cinq jours après son avis | Shopify + ShipStation | **Fort** |
 | David Morin | L-43082, expédiée le lendemain de son avis, carte de 50 $ déjà donnée. **Aussi sur Google** | Shopify + ShipStation | **Fort** |
-| Jézabelle Paquin | L-43656, précommande d'avant Noël, carte de 25 $ le jour de son avis | Shopify | **À relire d'abord** |
+| Jézabelle Paquin | L-43656, précommande d'avant Noël, carte de 25 $ le jour de son avis. **Deux fiches client à son nom** : son compte paraissait vide | Shopify | **Fort + fusionner les fiches** |
 | John Belliveau | L-33942, 12 graines au lieu de 50 | Shopify | **Bloqué : vérifier la production** |
 | Francine Poirier | Réglée, a racheté deux fois, a modifié son avis | Shopify | **Remerciement** |
 | Estelle Waché | Remboursée en 2024, a racheté des mitaines en 2025 | Shopify | **Remerciement + question** |
