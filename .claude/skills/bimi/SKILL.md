@@ -75,6 +75,12 @@ Toutes les étapes DNS passent par là. `porkbun.com` → **Account → Domain M
 
 ## Étape 1 — authentifier le domaine expéditeur Shopify
 
+**Brief prêt à coller dans une session au navigateur : `bimi/brief-cowork-shopify.md`.**
+
+Ne cherche pas à faire cette étape par l'API : vérifié le 2026-08-25, l'API Admin de Shopify
+n'expose rien sur l'authentification du domaine expéditeur — aucune requête, aucune mutation
+sur l'ensemble du schéma. Les valeurs n'existent que dans l'interface d'administration.
+
 Sans ça, les confirmations de commande partent de `shopifyemail.com` et n'afficheront jamais
 le logo, quoi qu'on fasse ailleurs. C'est l'étape qui rapporte le plus.
 
