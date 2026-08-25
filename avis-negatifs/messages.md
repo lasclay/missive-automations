@@ -1,37 +1,52 @@
-# Messages à envoyer, version 7
+# Messages à envoyer, version 8
 
-**Remplace la v6.** La deuxième passe de lecture de la fiche (`RAPPORT-LECTURE-PASSE-2.md`,
-24 août 2026) et une vérification Shopify et ShipStation ont invalidé quatre dossiers sur dix-sept.
-La voix ne change pas, les faits oui.
+**Remplace la v7.** Trois passes de lecture de la fiche (`RAPPORT-LECTURE-PASSE-2.md` et
+`RAPPORT-LECTURE-PASSE-3-VIDEO.md`, 24 août 2026) plus une vérification Shopify et ShipStation ont
+ramené la vague de dix-sept à **douze envois**. La voix ne change pas, les faits oui.
 
-## Ce que la deuxième passe change
+## Ce que les deux passes de vérification changent
 
-### Trois destinataires sortent de la vague
+La deuxième passe (console, 24 août) puis une **troisième passe par vidéo** du même jour, qui a
+balayé les 132 avis dans l'ordre chronologique, ont invalidé cinq dossiers et corrigé une erreur de
+raisonnement de ma part.
 
-| Auteur | Ce qui a été constaté | Décision |
+### L'erreur : « absent du tri par note la moins élevée » ne veut pas dire « supprimé »
+
+J'ai conclu à quatre suppressions à partir d'une liste triée par note croissante. Une personne qui
+relève son avis à 5 étoiles en sort, et ça ne la fait pas disparaître de la fiche. La vidéo, triée
+par date, les a toutes retrouvées.
+
+### Cinq destinataires sortent de la vague, et pour une bonne raison
+
+| Auteur | Note réelle aujourd'hui | Ce qu'elle ou il dit maintenant |
 | --- | --- | --- |
-| **Sarah Resch** | avis disparu de la fiche, aucun dossier ouvert, cliente revenue cinq fois | **ne pas écrire** |
-| **Sylvie Internoscia** | avis disparu, achat de 2020, aucun dossier ouvert | **ne pas écrire** |
-| **David** | avis disparu avant d'avoir pu être lu, jamais identifié dans Shopify | **dossier fermé** |
+| **Yingyan Janet Zhu** | **5★** | « the owner has contacted me [...] They apologized and shipped the rest of the order as soon as they can » |
+| **Sarah Resch** | **5★** | « Bien reçu la paire de mitaines. Merci infiniment. Elles sont très très belles. Lâchez pas! » |
+| **Sylvie Internoscia** | **5★** | « Belles mitaines de qualité. Service à la clientèle rapide et efficace. » |
+| **Sophie Lemieux** | **5★** | « Très bons produits et gens sympathiques » |
+| **David** | avis disparu | jamais identifié dans Shopify, dossier fermé faute d'objet |
 
-Écrire à quelqu'un dont l'avis n'existe plus, pour un reproche qu'il a lui-même retiré, rouvre un
-dossier clos. La règle du skill `support` s'applique telle quelle : un vieux fil sans question se
-ferme, il ne se relance pas.
+Les quatre premières ont **déclaré publiquement que le problème avait été réglé**. Leur écrire pour
+s'excuser aujourd'hui reviendrait à rouvrir un dossier qu'elles ont fermé elles-mêmes, en beauté.
 
-### Yingyan Zhu sort de la vague, mais son dossier reste ouvert
+⚠️ Le message prévu pour **Yingyan Zhu**, qui portait l'offre la plus généreuse du lot, est annulé.
+Mon analyse ShipStation (100 grammes déclarés pour trois articles) allait dans le bon sens sur les
+faits, mais elle était devenue sans objet : le reste de la commande est parti et elle l'a écrit.
 
-Son avis a disparu, et **mon dossier était faux** : L-41120 n'est pas « deux articles sur trois
-manquants » au sens où je l'écrivais. Shopify la donne expédiée le 11 novembre, un seul envoi,
-suivi 5082011962470304, aucun remboursement.
+**Sarah Resch** reste une cliente revenue cinq fois après une mauvaise expérience. Un remerciement
+lui est légitime, mais alors **sans un mot sur les avis**, et hors de cette vague.
 
-Mais ShipStation déclare **100 grammes** pour deux flacons d'huile de 30 mL et un pot de crème.
-C'est le poids d'un seul article. Le poids ShipStation est souvent une valeur par défaut et non
-une pesée, donc ce n'est pas une preuve : c'est le seul indice disponible et il va dans son sens.
+### Le fait le plus important du dossier
 
-Elle passe donc en **dossier support ordinaire**, pas en reconquête d'avis : aucune mention
-d'avis, offre ramenée à ce qui répare (remboursement, les articles, carte 100 $).
+**Sept personnes ont relevé leur note d'elles-mêmes**, sans qu'on leur demande quoi que ce soit :
+Susan Buchanan, Fanny H, Danielle Gingras, Yingyan Janet Zhu, Sarah Resch, Sophie Lemieux, Sylvie
+Internoscia. **Cinq ont écrit noir sur blanc que Lasclay avait fini par régler leur problème.**
 
-### Quatre dossiers sont corrigés par le texte intégral des avis
+C'est la meilleure preuve interne que cette campagne fonctionne : elle fonctionne déjà, sans qu'on
+ait rien envoyé. Et c'est la raison de fond pour laquelle la demande de mise à jour reste en
+dernière ligne, détachée du geste : ces sept-là n'ont eu besoin de personne pour la faire.
+
+### Quatre dossiers corrigés par le texte intégral des avis
 
 | Auteur | Ce que je croyais | Ce que l'avis dit vraiment |
 | --- | --- | --- |
@@ -48,19 +63,18 @@ Shopify : L-39248 du 13 septembre 2025, 115,17 $, **82,78 $ remboursés le 26 ja
 avis date du début janvier. Quand elle a écrit « je ne reverrai pas mon argent », c'était vrai. Ça
 ne l'est plus, deux semaines plus tard.
 
-**Ne pas le lui présenter comme un démenti.** Le message règle le solde de 32,39 $ et n'ouvre pas
-le débat sur qui avait raison.
+**Ne pas le lui présenter comme un démenti.** Le message règle le solde de 32,39 $ et n'ouvre pas le
+débat sur qui avait raison.
 
 ### Le motif qui traverse tout le corpus
 
-Cinq clients sur quatorze disent la même chose : **on leur a promis quelque chose et ça n'est
-jamais parti.** Nathalie Durand (paire de remplacement), Guillaume Lanteigne-Voyer (remplacement),
+Cinq clients sur douze disent la même chose : **on leur a promis quelque chose et ça n'est jamais
+parti.** Nathalie Durand (paire de remplacement), Guillaume Lanteigne-Voyer (remplacement),
 Marie-Andrée Blouin (prise en charge), Ariane Poirier (remboursement), Tim Sullivan (solution
 annoncée par courriel).
 
 Ce n'est plus « on répond trop lentement ». Une carte-cadeau ne répare pas ça toute seule : ce qui
-répare, c'est d'exécuter la promesse d'origine **en plus** du geste. Les messages ci-dessous le
-font tous.
+répare, c'est d'exécuter la promesse d'origine **en plus** du geste. Les douze messages le font.
 
 ## La capture d'écran : abandonnée au profit de la citation
 
@@ -197,7 +211,7 @@ inventaire, expédiés 22 jours plus tard. Il se déclare parti. Avis toujours e
 > Je fais le ménage des commandes de novembre qui ont mal tourné. La vôtre est venue avec votre avis
 > Google :
 >
-> > *Très mauvais service. Impossible d'avoir un suivi pour une commande pour des produits qui
+> > *Très mauvais service, impossible d'avoir un suivi pour une commande pour des produits qui
 > > étaient supposé être en inventaire. Bref de mon côté c'est TERMINÉ*
 >
 > Vous avez acheté ces cache-cou parce que le site les affichait comme disponibles. Ils étaient
@@ -632,70 +646,48 @@ Shopify avant l'envoi : le message repose entièrement là-dessus.*
 
 ---
 
-# Hors vague : un dossier support à traiter séparément
-
-## Yingyan Janet Zhu · zhuyingyan@gmail.com · +1 778-865-5580 · **ANGLAIS**
-
-*⚠️ **Son avis n'est plus sur la fiche.** Ce message n'est donc pas une reconquête d'avis et ne
-mentionne aucun avis. Il se traite comme un dossier support ordinaire, dans la boîte, hors de la
-vague.*
-
-*Ce que Shopify dit : L-41120 du 10 novembre 2025, 116,45 $, deux flacons d'huile d'asclépiade
-30 mL et une crème Monarch Botanika, expédiée le 11 novembre, suivi 5082011962470304, aucun
-remboursement. **Mon dossier disait « deux articles sur trois manquants » : ce n'était pas vérifié.***
-
-*Ce que ShipStation ajoute : un seul envoi, **100 grammes déclarés**. C'est le poids d'un article,
-pas de trois. Le poids ShipStation est souvent une valeur par défaut plutôt qu'une pesée, donc
-c'est un indice et non une preuve, mais c'est le seul et il va dans son sens.*
-
-*⚠️ **Demander avant d'affirmer.** Le message ci-dessous ne déclare pas qu'il manquait deux
-articles : il le demande.*
-
-> **Subject: Your November order, L-41120**
->
-> Hello Janet,
->
-> I am going back through last winter's orders and yours has been sitting open with no answer from
-> us. You wrote to us more than once and nobody came back to you. I am sorry for that part, it is
-> the one thing I can state without checking anything.
->
-> On the order itself, I want to get it right rather than guess. It went out on November 11 with
-> three items on it: two 30 mL bottles of milkweed oil and one Monarch Botanika cream. Our shipping
-> record shows a single small parcel, and the declared weight looks like one item rather than three.
->
-> Did the parcel arrive short? If so, tell me what was actually in it and the missing items ship
-> this week by tracked parcel, free of charge, along with a full refund of the $116.45. You keep
-> whatever arrived.
->
-> There is also a $100 gift card in your name either way, for the months of silence.
-
----
-
 # Ne pas envoyer
 
-## Avis disparus de la fiche, sans dossier ouvert
+## Notes relevées par leurs auteurs, sans qu'on demande rien
 
-| Auteur | Ce qui a été constaté le 24 août |
-| --- | --- |
-| **Sarah Resch** · 1★ | Avis retiré. Cliente revenue **cinq fois** depuis 2023, aucun dossier ouvert. Lui écrire pour un reproche qu'elle a elle-même retiré rouvre un dossier clos |
-| **Sylvie Internoscia** · 2★ | Avis retiré. Achat de décembre 2020, produit qui n'existe plus, aucun dossier ouvert |
-| **David** · 1★ | Avis retiré avant d'avoir pu être lu. Jamais identifié dans Shopify : dix « David » ont commandé dans la fenêtre. **Dossier fermé faute d'objet** |
-| **Chantal Phaneuf**, **Marijo**, **Sophie Lemieux**, **Jean-Simon Robitaille** | Avis retirés par leurs auteurs, constaté dès la première passe |
+**Sept personnes.** Cinq d'entre elles écrivent publiquement que Lasclay a fini par régler leur
+problème. Leur écrire aujourd'hui rouvrirait un dossier qu'elles ont fermé elles-mêmes.
 
-## Dossiers réglés ou notes relevées
+| Auteur | Note d'origine | Aujourd'hui | Ce qu'elle ou il a ajouté |
+| --- | --- | --- | --- |
+| **Yingyan Janet Zhu** | 1★ | **5★** | « They apologized and shipped the rest of the order as soon as they can » |
+| **Sarah Resch** | 1★ | **5★** | « Bien reçu la paire de mitaines. Merci infiniment. Lâchez pas! » |
+| **Sylvie Internoscia** | 2★ | **5★** | « Service à la clientèle rapide et efficace » |
+| **Sophie Lemieux** | 1★ | **5★** | « Très bons produits et gens sympathiques » |
+| **Susan Buchanan** | 1★ | **4★** | « After multiple email exchanges, I received them today! » |
+| **Fanny H (Houdré)** | 1★ | **4★** | Avis réécrit en positif, elle nomme Gabriel |
+| **Danielle Gingras** | 1★ | **3★** | Compensation acceptée et fiche produit corrigée |
 
-| Auteur | Pourquoi |
-| --- | --- |
-| **Susan Buchanan** · 4★ | Semences reçues, note relevée à 4★ |
-| **Fanny H (Houdré)** · 4★ | Avis réécrit en positif, elle nomme Gabriel. Déjà remboursée en entier |
-| **Danielle Gingras** · 3★ | Compensation acceptée et fiche produit corrigée, elle le dit publiquement |
-| **Cyr-Marc Debien** · 1★ | Commande annulée et **remboursée en entier** le soir même, avant même la publication de l'avis. Réponse publique déjà en ligne |
+⚠️ **Sarah Resch** reste une cliente revenue cinq fois après une mauvaise expérience. Un
+remerciement lui est légitime, mais **hors de cette vague et sans un mot sur les avis**. Elle a déjà
+tout dit publiquement, et en bien.
+
+## Avis vraiment disparus de la fiche
+
+Quatre, confirmés par les avis voisins dans le défilement chronologique complet de la vidéo.
+
+| Auteur | Date | Voisins constatés |
+| --- | --- | --- |
+| **Chantal Phaneuf** | 25 janv. 2025 | Casey (31 janv.) puis Robin Waddell (15 janv.) |
+| **Marijo** | 14 janv. 2024 | Anaïs Gautier et Frédéric Arène (15 janv.) puis sylvie gagnon (7 janv.) |
+| **Jean-Simon Robitaille** | 23 juin 2023 | Michel Pépin (14 juill.) puis AM L (14 juin) |
+| **David** | 23 déc. 2025 | **aucun avis à ce nom dans tout le défilement.** Jamais identifié dans Shopify : dossier fermé faute d'objet |
+
+## Dossier réglé et dit réglé publiquement
+
+**Cyr-Marc Debien** · 1★ · commande annulée et **remboursée en entier le soir même**, quatre heures
+avant la publication de l'avis. Réponse publique déjà en ligne, verbatim confirmé par la vidéo.
 
 ## Non identifiables dans Shopify
 
-**Emma Nelson** (très probablement Emma Whiten, L-50672, remboursée le 20 août), **patrick
-lambert**, **Audrey Thibeault** (note seule, aucun texte), **Marie L.** Réponse publique seulement,
-voir `reponses-publiques.md`.
+**Emma Nelson** (très probablement Emma Whiten, L-50672, remboursée le 20 août), **patrick lambert**,
+**Audrey Thibeault** (note seule, aucun texte), **Marie L.** Réponse publique seulement, voir
+`reponses-publiques.md`.
 
 ---
 
@@ -718,12 +710,11 @@ voir `reponses-publiques.md`.
 | Jimmy Allaire | 24,13 $ | garde les semelles + prochaine version offerte | 100 $ | |
 | **Ariane Poirier** | 32,39 $ (solde) | garde tout | 100 $ | **oui**, remboursement arrivé avec 4 mois de retard |
 
-## Les deux hors vague
+## Le cas à part
 
 | Client | Ce qui part | Mention d'avis |
 | --- | --- | --- |
 | Susan Lockhart | semences offertes, aucune carte | **aucune** |
-| Yingyan Janet Zhu | question d'abord, puis remboursement 116,45 $ + articles + 100 $ | **aucune** |
 
 ## Coût
 

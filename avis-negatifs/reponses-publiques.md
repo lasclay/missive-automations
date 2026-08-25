@@ -26,10 +26,10 @@ sont visibles pour toujours sur une fiche que les gens consultent justement pour
 fiables. Une réponse publique se modifie. Voir la section « Les trois réponses à reprendre » à la
 fin.
 
-⚠️ Le texte de la réponse à Cyr-Marc Debien a été **transcrit depuis une capture d'écran**, pas
-copié caractère par caractère. Les faits qu'elle établit sont sûrs (100 rabais accordés, épuisés en
-30 secondes, remboursement intégral consenti avant la publication de l'avis). La formulation exacte
-est à revérifier avant toute citation.
+Le verbatim de la réponse à Cyr-Marc Debien est **confirmé par la vidéo du 24 août**. Elle établit
+un fait qui joue en notre faveur : les 100 rabais promis ont bien été accordés, épuisés en
+30 secondes, et le remboursement intégral avait été consenti **quatre heures avant** la publication
+de l'avis.
 
 ## Règles, non négociables
 
@@ -309,34 +309,69 @@ remplacement lui a été promis et n'est jamais parti, ce que Shopify confirme.*
 
 | Auteur | Pourquoi |
 | --- | --- |
-| **Audrey Thibeault** · 1★ | Note seule, aucun texte, confirmé à la deuxième passe. Rien à quoi répondre |
+| **Audrey Thibeault** · 1★ | Note seule, aucun texte, confirmé deux fois. Rien à quoi répondre |
 | **patrick lambert** · 1★ | Une réponse existe déjà. Voir « Les trois réponses à reprendre » plus bas |
 | **Susan Lockhart** · 1★ | Une réponse existe déjà. Voir plus bas |
-| **Cyr-Marc Debien** · 1★ | Une réponse existe déjà. Voir plus bas |
-| **David** · 1★ | **Avis disparu de la fiche.** Plus rien à répondre |
-| **Sarah Resch**, **Sylvie Internoscia**, **Yingyan Janet Zhu** | Avis disparus de la fiche |
+| **Cyr-Marc Debien** · 1★ | Une réponse existe déjà, et elle établit le remboursement intégral. Dossier clos |
+| **Chantal Phaneuf**, **Marijo**, **Jean-Simon Robitaille**, **David** | **Avis disparus de la fiche**, confirmé par le défilement chronologique complet |
+
+⚠️ **Correction.** Yingyan Janet Zhu, Sarah Resch et Sylvie Internoscia avaient été déclarées
+disparues à la deuxième passe. Elles ne le sont pas : elles sont passées à **5★**. Elles se
+retrouvent donc dans la section suivante, pas ici.
 
 ---
 
-# Les avis positifs, aussi
+# Les avis positifs : sept remerciements à écrire
 
-Quatre personnes ont **relevé leur note** après avoir été prises en charge : Susan Buchanan
-(1★ vers 4★), Fanny H (1★ vers 4★, avis réécrit et qui nomme Gabriel), Danielle Gingras (1★ vers
-3★) et Patrick Lessnick (mise à jour ajoutée à un 2★). Aucune de ces quatre révisions n'a reçu de
-réponse.
+**C'est le plus gros gisement de la fiche, et il est resté intouché.**
 
-Un remerciement court sous chacune est ce qu'un acheteur hésitant lit de plus rassurant sur une
-fiche : la preuve que quand ça déraille, quelqu'un finit par s'en occuper.
+Sept personnes ont **relevé leur note d'elles-mêmes**, sans qu'on leur demande quoi que ce soit.
+Cinq d'entre elles ont écrit noir sur blanc que Lasclay avait fini par régler leur problème. Aucune
+de ces sept révisions n'a reçu de réponse.
 
-> **Susan Buchanan** · Thank you for coming back to update this, Susan. Four months was far too
-> long for a seed order and we know it. Glad they finally reached you.
+Un acheteur hésitant qui ouvre la fiche ne lit rien de plus rassurant que ça : la preuve, écrite par
+des clients et pas par nous, que quand ça déraille quelqu'un finit par s'en occuper. Un remerciement
+court sous chacune double cet effet, parce qu'il montre qu'on est là.
+
+| Auteur | Trajet | Réponse à écrire |
+| --- | --- | --- |
+| **Yingyan Janet Zhu** | 1★ vers **5★** | anglais |
+| **Sarah Resch** | 1★ vers **5★** | français |
+| **Sylvie Internoscia** | 2★ vers **5★** | français |
+| **Sophie Lemieux** | 1★ vers **5★** | français |
+| **Susan Buchanan** | 1★ vers **4★** | anglais |
+| **Fanny H (Houdré)** | 1★ vers **4★** | français |
+| **Danielle Gingras** | 1★ vers **3★** | français |
+
+Plus **Patrick Lessnick**, qui a ajouté une mise à jour favorable sous un 2★ toujours en ligne. Sa
+réponse est déjà écrite plus haut.
+
+> **Yingyan Janet Zhu** · Thank you for coming back to update this, Janet. Three items ordered and
+> one arriving is a shipping failure on our side, and the silence after it was worse. Glad the rest
+> finally reached you.
+>
+> **Sarah Resch** · Merci Sarah, et pour la mise à jour, et pour le « lâchez pas ». Trois semaines
+> sans nouvelles sur une paire de mitaines, c'était trois semaines de trop. On a revu depuis la
+> façon dont les commandes comme la vôtre sont suivies.
+>
+> **Sylvie Internoscia** · Merci d'avoir donné une deuxième chance à nos mitaines, Sylvie. Elles ont
+> beaucoup changé depuis les premières séries : plus de doublure d'asclépiade, une coupe revue.
+>
+> **Sophie Lemieux** · Merci Sophie. Vous nous aviez attendus longtemps la première fois, et vous
+> êtes revenue quand même.
+>
+> **Susan Buchanan** · Thank you for coming back to update this, Susan. Four months was far too long
+> for a seed order and we know it. Glad they finally reached you.
 >
 > **Fanny H** · Merci Fanny d'avoir réécrit votre avis, vous n'aviez pas à le faire. Deux semaines
 > de silence, c'était deux semaines de trop, et on a revu depuis la façon dont les commandes comme
 > la vôtre sont prises en charge.
 >
-> **Danielle Gingras** · Merci d'avoir signalé l'écart sur les dimensions, Danielle. La fiche
-> produit était fautive et c'est grâce à vous qu'elle a été corrigée.
+> **Danielle Gingras** · Merci d'avoir signalé l'écart sur les dimensions, Danielle. La fiche produit
+> était fautive et c'est grâce à vous qu'elle a été corrigée.
+
+⚠️ Écrire ces sept réponses **avant** d'envoyer le premier message privé. Elles ne coûtent rien, ne
+présentent aucun risque, et elles changent ce que voit quelqu'un qui arrive sur la fiche demain.
 
 ---
 
