@@ -287,6 +287,10 @@ async function router(req, res, url, user) {
       }
       if (reste === '/photos' && req.method === 'POST') {
         const f = await corpsFormulaire(req);
+        if (!V.urlAcceptable(f.url))
+          return vers(res, retour + (retour.includes('?') ? '&' : '?') + 'err='
+            + encodeURIComponent("Adresse d'image refusée : il faut un lien http(s) "
+              + "vers Shopify ou Drive. L'app n'héberge aucun fichier."));
         if (f.url?.trim())
           db.prepare(`INSERT INTO produit_photos (produit_id, url, type, legende, rang)
               VALUES (?,?,?,?, (SELECT COALESCE(MAX(rang),0)+1 FROM produit_photos WHERE produit_id=?))`)

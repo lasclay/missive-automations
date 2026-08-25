@@ -79,6 +79,11 @@ switch (cmd) {
     const T = db.prepare(`INSERT INTO produit_patrons
                           (produit_id, nom, url, format, dimensions, note, rang)
                           VALUES (?,?,?,?,?,?,?)`);
+    // Les photos ne sont JAMAIS hébergées : on ne garde que l'URL Shopify,
+    // que urlImage() redimensionne au vol via le CDN (?width=).
+    const F = db.prepare(`INSERT INTO produit_photos (produit_id, url, type, legende, rang)
+                          VALUES (?,?,?,?,?)`);
+    const CDN = 'https://cdn.shopify.com/s/files/1/0475/8932/7010/files/';
 
     const cc = P.run('CC-ADULTE', 'Cache-cou adulte M-L',
       "Cache-cou tubulaire en molleton, isolé à la soie d'asclépiade.",
@@ -88,6 +93,10 @@ switch (cmd) {
     M.run(cc, 'Molleton 240 g', 'Coloris selon la commande', 1);
     M.run(cc, "Isolant soie d'asclépiade", 'Nappe légère', 2);
     M.run(cc, 'Étiquette tissée Lasclay', 'Cousue au centre arrière', 3);
+    F.run(cc, CDN + 'cc_vert.png?v=1782265332', 'studio',
+          'Cache-cou vert forêt à plat', 1);
+    F.run(cc, CDN + 'ccgrisfonce-procheattache.jpg?v=1770319011', 'contexte',
+          'Ajustement du cordon de serrage — étiquette visible', 2);
     T.run(cc, 'Pièce principale', '', 'hpgl', '24,5 x 33,6 cm',
           'Échelle non déclarée dans le fichier — à vérifier avant traçage', 1);
 
@@ -96,6 +105,7 @@ switch (cmd) {
       "Se porte autour du cou. Lavage à l'eau froide.",
       'Même sens de coupe que la version adulte.').lastInsertRowid;
     M.run(cce, 'Molleton 240 g', '', 1);
+    F.run(cce, CDN + 'cc_vert.png?v=1782265332', 'studio', 'Même coupe, version enfant', 1);
     T.run(cce, 'Pièce principale', '', 'hpgl', '20,5 x 26,6 cm', '', 1);
 
     const tq = P.run('TQ-SPORT', 'Tuque sport Vegeto',
@@ -104,6 +114,10 @@ switch (cmd) {
       'Bandeau amovible vendu séparément — voir BAND-AMO.').lastInsertRowid;
     M.run(tq, 'Tricot extensible', '', 1);
     M.run(tq, "Isolant soie d'asclépiade", '', 2);
+    F.run(tq, CDN + 'LASCLAY_-_SPORT_BEANIE_-_BLACK_-_FRONT.png?v=1782265389', 'studio',
+          'Tuque sport noire, vue de face', 1);
+    F.run(tq, CDN + 'LASCLAY_-_SPORT_BEANIE_-_BLACK_-_GHOST_BACK.png?v=1782265389', 'contexte',
+          'Vue arrière en effet porté — coupe ajustée', 2);
     T.run(tq, 'Patron complet', '', 'dxf', '', 'Version 2026', 1);
 
     const ba = P.run('BAND-AMO', 'Bandeau amovible',
@@ -111,6 +125,10 @@ switch (cmd) {
       "S'enfile par-dessus la tête. Le tissu est extensible : il entre facilement.",
       'Deux rectangles. Extensibilité en longueur.').lastInsertRowid;
     M.run(ba, 'Tricot extensible', '', 1);
+    F.run(ba, CDN + 'Bandeau_sport_1.png?v=1782265389', 'studio',
+          'Bandeau sport, large bande à couture droite', 1);
+    F.run(ba, CDN + 'Bandeaux-asclepiade-torsade-sport.png?v=1782265390', 'contexte',
+          "S'enfile par-dessus la tête : le tricot est extensible", 2);
     T.run(ba, 'Bandeau', '', 'hpgl', '44,5 x 27,5 cm', 'Échelle à confirmer', 1);
 
     const mi = P.run('MIT-POLAR', 'Mitaines polar',
@@ -119,6 +137,10 @@ switch (cmd) {
       'Cinq patrons distincts, un par taille.').lastInsertRowid;
     M.run(mi, 'Molleton polar', '', 1);
     M.run(mi, "Isolant soie d'asclépiade", '', 2);
+    F.run(mi, CDN + 'lasclay-mitaines-01.jpg?v=1750426039', 'studio',
+          'Paire empilée, paume de cuir', 1);
+    F.run(mi, CDN + 'lasclay-mitaines-03.jpg?v=1782265390', 'contexte',
+          'Vue de dessus, cordon de serrage au poignet', 2);
     for (const [i, t] of ['XS','S','M','L','XL'].entries())
       T.run(mi, `Taille ${t}`, '', 'hpgl', '', '', i + 1);
 
@@ -146,7 +168,7 @@ switch (cmd) {
     J.run(oid, 'Salon plein air Québec',          `${an}-11-14`, 'evenement', 'Stock requis sur place');
 
     dire('Jeu de données d\'exemple chargé.');
-    dire('  5 produits, 1 ordre de production, 4 items, 5 jalons.');
+    dire('  5 produits, 9 photos (URL Shopify, rien d\'hébergé), 1 ordre, 4 items, 5 jalons.');
     break;
   }
   default:

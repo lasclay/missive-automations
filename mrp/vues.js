@@ -16,13 +16,66 @@ const STATUTS = { brouillon:'Brouillon', planifie:'Planifié', en_cours:'En cour
 const TYPES_JALON = { livraison:'Livraison', deadline:'Deadline',
                       evenement:'Événement', prevente:'Prévente' };
 
-/** Normalise une URL Google Drive en lien d'image affichable. */
-function urlImage(u) {
+/**
+ * Normalise une URL d'image et demande la TAILLE STRICTEMENT NÉCESSAIRE.
+ *
+ * L'application n'héberge aucun fichier : elle ne stocke que des liens vers
+ * Shopify, Google Drive ou tout autre hébergeur. Les deux CDN acceptent un
+ * paramètre de largeur, et la différence est considérable sur une connexion
+ * lente — mesuré sur une image Lasclay réelle :
+ *
+ *   Shopify  168 Ko brut  →  61 Ko en width=400  →  17 Ko en width=200
+ *   Drive     39 Ko brut  →  18 Ko en w400       →   6 Ko en w200
+ *
+ * @param {string} u        l'URL enregistrée
+ * @param {number} largeur  largeur voulue en pixels (0 = taille d'origine)
+ */
+function urlImage(u, largeur = 0) {
   const s = String(u || '').trim();
-  const m = s.match(/drive\.google\.com\/file\/d\/([\w-]+)/)
+  if (!s) return '';
+
+  // Google Drive, sous toutes ses formes de partage → lh3, redimensionnable
+  const d = s.match(/drive\.google\.com\/file\/d\/([\w-]+)/)
         || s.match(/drive\.google\.com\/open\?id=([\w-]+)/)
-        || s.match(/[?&]id=([\w-]+)/);
-  return m ? `https://lh3.googleusercontent.com/d/${m[1]}` : s;
+        || s.match(/lh3\.googleusercontent\.com\/d\/([\w-]+)/)
+        || s.match(/docs\.google\.com\/uc\?[^ ]*id=([\w-]+)/);
+  if (d) return `https://lh3.googleusercontent.com/d/${d[1]}`
+              + (largeur ? `=w${largeur}` : '');
+
+  // CDN Shopify → paramètre width (l'URL porte déjà souvent un ?v=…)
+  if (largeur && /(^|\/\/|\.)cdn\.shopify\.com\//.test(s) && !/[?&]width=/.test(s))
+    return s + (s.includes('?') ? '&' : '?') + `width=${largeur}`;
+
+  return s;
+}
+
+/**
+ * Une URL d'image est-elle acceptable ?
+ *
+ * On refuse tout ce qui ferait porter le poids du fichier à l'app : une
+ * `data:` URI embarque l'image entière dans la base ET dans chaque page
+ * servie — exactement ce qu'on veut éviter sur la connexion tunisienne.
+ * Seuls http et https passent ; la source reste chez l'hébergeur d'origine.
+ */
+function urlAcceptable(u) {
+  const s = String(u || '').trim();
+  if (!s) return false;
+  try { return ['http:', 'https:'].includes(new URL(s).protocol); }
+  catch { return false; }
+}
+
+/** Largeurs demandées selon le contexte d'affichage. */
+const TAILLES = { mini: 160, vignette: 320, galerie: 640 };
+
+/** Balise <img> complète : taille adaptée, chargement différé, pas de fuite de référent. */
+function img(url, { largeur, hauteur, alt = '', classe = '', style = '' } = {}) {
+  const src = urlImage(url, largeur);
+  return `<img src="${e(src)}" alt="${e(alt)}" loading="lazy" decoding="async"`
+       + ` referrerpolicy="no-referrer"`
+       + (largeur ? ` width="${largeur}"` : '')
+       + (hauteur ? ` height="${hauteur}"` : '')
+       + (classe ? ` class="${classe}"` : '')
+       + (style ? ` style="${style}"` : '') + `>`;
 }
 
 const dateFR = (d) => {
@@ -318,8 +371,8 @@ function vueProduits({ user, produits, msg }) {
       ? `<a class="btn" href="/produits/nouveau">Nouvelle fiche</a>` : ''}</div>
   ${produits.length ? `<div class="grille">
     ${produits.map(p => `<a class="vignette" href="/produits/${p.id}">
-      ${p.photo ? `<img src="${e(urlImage(p.photo))}" alt="" loading="lazy">`
-                : `<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="">`}
+      ${p.photo ? img(p.photo, { largeur: TAILLES.vignette, alt: p.nom })
+                : `<div class="sans-photo">Pas de photo</div>`}
       <div class="b"><b>${e(p.nom)}</b>
         <span class="muted">${e(p.code)}</span></div>
     </a>`).join('')}
@@ -332,7 +385,8 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg }) {
   const studio = photos.filter(f => f.type === 'studio');
   const contexte = photos.filter(f => f.type === 'contexte');
   const galerie = (liste) => `<div class="photos">${liste.map(f => `<figure>
-      <img src="${e(urlImage(f.url))}" alt="${e(f.legende)}" loading="lazy">
+      <a href="${e(urlImage(f.url))}" rel="noopener" title="Voir en taille réelle">
+        ${img(f.url, { largeur: TAILLES.galerie, alt: f.legende || p.nom })}</a>
       ${f.legende ? `<figcaption>${e(f.legende)}</figcaption>` : ''}
     </figure>`).join('')}</div>`;
 
@@ -415,8 +469,8 @@ function vueProduitForm({ user, p = null, photos = [], materiaux = [], patrons =
     ${photos.length ? `<div class="tbl"><table>
       <tr><th>Aperçu</th><th>Type</th><th>Légende</th><th></th></tr>
       ${photos.map(f => `<tr>
-        <td><img src="${e(urlImage(f.url))}" alt="" style="width:70px;height:50px;
-            object-fit:cover;border-radius:4px;background:#eef0f2"></td>
+        <td>${img(f.url, { largeur: TAILLES.mini, alt: '',
+            style: 'width:70px;height:50px;object-fit:cover;border-radius:4px;background:#eef0f2' })}</td>
         <td>${f.type === 'studio' ? 'Studio' : 'Contexte'}</td>
         <td class="muted">${e(f.legende)}</td>
         <td><form method="post" action="/produits/${p.id}/photos/${f.id}/supprimer">
@@ -526,7 +580,7 @@ function vueCedule({ user, jalons, msg }) {
   return page({ titre: 'Cédule', user, corps, actif: 'cedule', msg });
 }
 
-module.exports = { e, urlImage, dateFR, dateHeureFR, jauge, page, vueConnexion,
+module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR, jauge, page, vueConnexion,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule,
                    STATUTS, TYPES_JALON };

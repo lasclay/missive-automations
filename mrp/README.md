@@ -45,6 +45,29 @@ entre 1,5 et 13 Ko ; la feuille de style, 7 Ko, est mise en cache 24 h.
 de blocs et le sélecteur d'avancement passe en grille de 6 colonnes — aucun
 défilement latéral, boutons assez grands pour le pouce.
 
+**Aucun fichier lourd hébergé.** L'app ne stocke que des URL, jamais d'images.
+Les photos restent chez Shopify ou Google Drive et sont servies par leur CDN,
+déjà redimensionnées à la largeur d'affichage — `urlImage()` (`vues.js`) ajoute
+`?width=N` aux URL `cdn.shopify.com` et convertit toute forme de partage Drive
+en `lh3.googleusercontent.com/d/ID=wN`. Les largeurs demandées : 160 px pour les
+miniatures d'édition, 320 px pour les vignettes de liste, 640 px pour la
+galerie d'une fiche (l'image pleine taille reste accessible d'un clic).
+
+Mesuré sur la liste des produits du jeu de démonstration, cinq photos :
+
+| | Sans redimension | Avec `width=320` |
+| --- | ---: | ---: |
+| Images | 2 005 Ko | 193 Ko |
+| HTML | 2,7 Ko | 2,7 Ko |
+
+Soit **dix fois moins de données** pour un affichage identique — décisif sur la
+connexion tunisienne. Les balises portent `loading="lazy"`, `decoding="async"`
+et `referrerpolicy="no-referrer"`, plus une largeur explicite pour éviter que la
+page saute pendant le chargement. Conséquences assumées : si une image est
+retirée de Shopify, la fiche affiche un cadre vide — c'est le prix à payer pour
+ne rien héberger, et la source reste la seule vérité. `format=webp` n'est pas
+honoré par le CDN Shopify : inutile de le demander.
+
 ## Démarrer
 
 ```

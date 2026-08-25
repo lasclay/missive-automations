@@ -62,4 +62,30 @@ for u in / /ordres /ordres/1 /produits /produits/1 /cedule; do
 done
 ok "toutes les pages sous 25 Ko"
 
+# aucune image n'est hébergée par l'app : les URL sortent vers le CDN, redimensionnées
+node -e "
+const{urlImage}=require('./vues.js');
+const t=[
+ ['https://cdn.shopify.com/s/files/1/x.png?v=1','https://cdn.shopify.com/s/files/1/x.png?v=1&width=320'],
+ ['https://cdn.shopify.com/s/files/1/x.png','https://cdn.shopify.com/s/files/1/x.png?width=320'],
+ ['https://cdn.shopify.com/s/files/1/x.png?width=800','https://cdn.shopify.com/s/files/1/x.png?width=800'],
+ ['https://drive.google.com/file/d/ABC123/view?usp=sharing','https://lh3.googleusercontent.com/d/ABC123=w320'],
+ ['https://exemple.com/photo.jpg','https://exemple.com/photo.jpg'],
+];
+for(const[a,b]of t){const r=urlImage(a,320);if(r!==b){console.error('  '+a+' → '+r+' (attendu '+b+')');process.exit(1)}}
+" && ok "URL d'images redimensionnées au CDN (rien n'est hébergé)" || ko "transformation d'URL d'image incorrecte"
+
+# une data: URI embarquerait l'image dans la base et dans chaque page : refusée
+curl -s -b $CA -o /dev/null -X POST $B/produits/1/photos \
+  --data-urlencode 'url=data:image/png;base64,iVBORw0KGgo=' --data 'type=studio'
+D=$(node -e "const{db}=require('./db.js');console.log(db.prepare(\"SELECT COUNT(*) n FROM produit_photos WHERE url LIKE 'data:%'\").get().n)" 2>/dev/null)
+[ "$D" = 0 ] && ok "data: URI refusée à l'enregistrement" || ko "data: URI enregistrée en base"
+
+# aucune page ne sert d'image depuis l'app : tous les src pointent ailleurs
+for u in /produits /produits/1; do
+  curl -s -b $CA "$B$u" | grep -oE '<img[^>]+src="[^"]*"' | grep -qv 'src="http' \
+    && ko "image servie localement sur $u"
+done
+ok "toutes les images pointent vers une URL externe"
+
 echo "  Tout est conforme."

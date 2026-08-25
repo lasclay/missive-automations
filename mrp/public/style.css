@@ -109,6 +109,7 @@ textarea{min-height:70px;resize:vertical}
 .grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .vignette{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;overflow:hidden}
 .vignette img{width:100%;height:140px;object-fit:cover;display:block;background:#eef0f2}
+.sans-photo{height:140px;display:flex;align-items:center;justify-content:center;background:#eef0f2;color:var(--gris);font-size:12px}
 .vignette .b{padding:10px}
 .vignette .b b{display:block;font-size:14px}
 .photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
