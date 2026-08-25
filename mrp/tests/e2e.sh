@@ -222,6 +222,27 @@ curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte \
   && ok "les sessions ouvertes ailleurs sont fermées" \
   || ko "une session ouverte avec l'ancien mot de passe survit"
 
+# --- la répartition par taille et coloris se voit --------------------------
+# « 2 000 mitaines » ne dit pas quoi couper : la liste de fabrication doit
+# porter la répartition, et la barre doit être proportionnelle.
+node --no-warnings mrp.js demo >/dev/null 2>&1 || true
+IT=$(MRP_DB="$DB" node --no-warnings -e "
+const {db}=require('./db.js');
+const it=db.prepare('SELECT id FROM ordre_items ORDER BY id LIMIT 1').get();
+const p=db.prepare('INSERT INTO item_variantes (item_id,groupe,nom,quantite,rang) VALUES (?,?,?,?,?)');
+p.run(it.id,'','Noir',60,1); p.run(it.id,'','Gris pale',40,2);
+console.log(it.id);")
+curl -s -b $CA "$B/priorites" | grep -q 'class="rep' \
+  && ok "la liste de fabrication porte la répartition" || ko "répartition absente d'À fabriquer"
+curl -s -b $CA "$B/priorites" | grep -q 'background:#1c1f22' \
+  && ok "un coloris porte sa vraie teinte" || ko "pastille de couleur absente"
+curl -s -b $CA "$B/priorites" | grep -q 'rep-quoi' \
+  && ok "les compteurs sont repliés derrière un résumé" || ko "pas de repli"
+curl -s -b $CA "$B/ordres/1" | grep -q 'Gris pale' \
+  && ok "l'ordre montre le détail déplié" || ko "détail absent de l'ordre"
+MRP_DB="$DB" node --no-warnings -e "
+require('./db.js').db.prepare('DELETE FROM item_variantes').run();"
+
 # --- changer son nom affiché --------------------------------------------
 # C'est lui qui signe les mises à jour dans le suivi : l'amorce crée le premier
 # compte au nom d'« Administration », qui n'apprend rien à personne.

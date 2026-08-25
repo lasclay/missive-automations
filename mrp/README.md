@@ -373,16 +373,27 @@ de ville — tricotées en Chine — mais aucune quantité pour leur bandeau amo
 qui lui est fait à l'atelier. S'il en faut un par tuque, il manque 1 500 bandeaux
 au plan de Tunisie. À confirmer avec Gabriel ou Catherine.
 
-**Treize répartitions par variante ne bouclent pas avec le plan.** Le manteau
-hivernal compte 301 unités réparties pour 150 au plan, la veste 321 pour 160,
-le manteau 3 saisons 250 pour 125 — trois doublements exacts, qui sentent la
-ligne comptée deux fois dans le chiffrier. L'étui, lui, est sous-compté : 298
-pour 500. L'app affiche les deux chiffres et signale l'écart ; c'est le
-chiffrier qu'il faut corriger.
+**Cinq répartitions par variante s'écartent vraiment du plan** — et ce ne sont
+pas celles annoncées d'abord. Les « trois doublements exacts » du manteau
+hivernal, du manteau 3 saisons et de la veste venaient d'une extraction fautive,
+pas du chiffrier : celui-ci croise deux axes (genre × taille, coloris × taille)
+et porte des lignes de sous-total, que la première lecture additionnait avec
+leurs enfants. Corrigé, ces trois-là bouclent.
 
-**L'avancement par variante n'existe pas.** La répartition dit quoi couper ;
-l'avancement reste par item. Si l'atelier a besoin de déclarer « les noirs sont
-faits, pas les rouges », c'est la première chose à ajouter.
+Restent : le **bandeau** (2 100 pour 1 800 — le modèle « Sport, noir seulement »
+s'ajoute aux cinq coloris torsadés, à confirmer), les **semelles** (4 813 pour
+4 665), l'**étui** (298 pour 500), le **foulard** et l'**oreiller** (−15 chacun).
+Sept autres écarts tiennent à l'arrondi des pourcentages ; l'import les nomme à
+part plutôt que de les mélanger aux vrais.
+
+`donnees/extrait-variantes.py` refait l'extraction depuis le chiffrier et
+vérifie chaque produit par la somme de ses feuilles.
+
+**L'avancement par variante n'existe pas.** La répartition dit quoi couper —
+elle s'affiche dans *À fabriquer* et sur l'ordre, en barre proportionnelle et
+en pastilles de la vraie couleur. Mais l'avancement reste par item. Si l'atelier
+a besoin de déclarer « les noirs sont faits, pas les rouges », c'est la première
+chose à ajouter.
 
 **Le CDN sert du JPEG cinq fois plus léger que le PNG.** `?format=jpg` est
 honoré par Shopify (contrairement à `format=webp`) : un cache-cou en 320 px

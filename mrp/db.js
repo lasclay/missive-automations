@@ -124,7 +124,11 @@ CREATE TABLE IF NOT EXISTS ordre_jalons (
 CREATE TABLE IF NOT EXISTS item_variantes (
   id            INTEGER PRIMARY KEY,
   item_id       INTEGER NOT NULL REFERENCES ordre_items(id) ON DELETE CASCADE,
-  nom           TEXT NOT NULL,        -- « Gris foncé », « M », « Noir / L »
+  -- Le chiffrier croise parfois deux axes : un coloris ET une taille, ou un
+  -- genre ET une taille. « groupe » porte le premier, « nom » le second.
+  -- Vide quand il n'y a qu'un seul axe.
+  groupe        TEXT NOT NULL DEFAULT '',
+  nom           TEXT NOT NULL,        -- « Gris foncé », « M », « XL »
   quantite      INTEGER NOT NULL CHECK (quantite >= 0),
   rang          INTEGER NOT NULL DEFAULT 0
 );
@@ -195,6 +199,7 @@ for (const sql of [
   // seul son bandeau amovible sort de l'atelier. Un produit fabriqué ailleurs
   // n'a rien à faire dans la liste de Montassar — il ne le fabrique pas.
   `ALTER TABLE produits ADD COLUMN fabrication TEXT NOT NULL DEFAULT 'tunisie'`,
+  `ALTER TABLE item_variantes ADD COLUMN groupe TEXT NOT NULL DEFAULT ''`,
 ]) { try { db.exec(sql); } catch { /* colonne déjà présente */ } }
 
 /**
@@ -402,13 +407,22 @@ function fabriqueAilleurs() {
  * On montre les deux plutôt que d'en choisir un — l'écart est l'information.
  */
 function variantesItem(itemId) {
-  const l = db.prepare(`SELECT nom, quantite FROM item_variantes
+  const l = db.prepare(`SELECT groupe, nom, quantite FROM item_variantes
                         WHERE item_id = ? ORDER BY rang`).all(itemId);
   if (!l.length) return null;
   const somme = l.reduce((n, v) => n + v.quantite, 0);
   const it = db.prepare(`SELECT quantite FROM ordre_items WHERE id = ?`).get(itemId);
-  return { lignes: l, somme, quantite: it ? it.quantite : 0,
-           ecart: it ? somme - it.quantite : 0 };
+
+  // Regroupé quand le chiffrier croise deux axes : « Noir » puis ses tailles.
+  const groupes = [];
+  for (const v of l) {
+    const g = groupes.find(x => x.nom === v.groupe);
+    if (g) { g.lignes.push(v); g.somme += v.quantite; }
+    else groupes.push({ nom: v.groupe, lignes: [v], somme: v.quantite });
+  }
+  return { lignes: l, groupes, somme, quantite: it ? it.quantite : 0,
+           ecart: it ? somme - it.quantite : 0,
+           croise: groupes.length > 1 || Boolean(groupes[0] && groupes[0].nom) };
 }
 
 /** Progression réalisée sur une fenêtre glissante, par ordre. */

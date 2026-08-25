@@ -19,6 +19,7 @@ const TYPES_JALON = { expedition:'Expédition', livraison:'Livraison',
 const FAMILLES = { hiver:'Hiver', nouveau:'Nouveau',
                    isotherme:'Sacs', autre:'Autre' };
 const LIEUX = { tunisie:'Tunisie', chine:'Chine' };
+const V = require('./variantes.js');
 /* Les deux rôles portent leur lieu : ce n'est pas une hiérarchie, c'est un
    partage géographique du travail. Les valeurs stockées restent `admin` et
    `atelier` ; seuls les libellés changent. */
@@ -155,6 +156,100 @@ const vueConnexion = ({ erreur }) => `<!doctype html><html lang="fr"><head>
 </div></body></html>`;
 
 
+
+/* ------------------------------------------------------- répartition visuelle
+ * « 2 000 mitaines » ne dit pas quoi couper. La barre montre la proportion,
+ * les pastilles donnent le compte, et un coloris porte sa vraie teinte —
+ * plus vite lu qu'un mot.
+ *
+ * Rendu côté serveur, sans image ni script : une barre est faite de <i> à
+ * largeur calculée, une pastille d'un carré coloré. Ça coûte quelques
+ * centaines d'octets par ligne, une fois compressé.
+ */
+function repartition(v, { compact = false } = {}) {
+  if (!v || !v.lignes.length) return '';
+  const total = v.somme || 1;
+
+  const chip = (l) => {
+    const t = V.teinte(l.nom);
+    const type = V.typeVariante(l.nom);
+    return `<span class="ch ch-${type}">${t
+      ? `<i class="pastille" style="background:${t}"></i>` : ''}<span
+      class="ch-n">${e(l.nom)}</span><b>${l.quantite.toLocaleString('fr-CA')}</b></span>`;
+  };
+
+  // Une barre par groupe : sans ça, les tailles de tous les coloris se
+  // mélangent et la proportion ne veut plus rien dire.
+  // Un écart de quelques unités vient de l'arrondi des pourcentages du
+  // chiffrier ; un écart de 300 est une question. Ne pas les afficher pareil.
+  const notable = Math.abs(v.ecart) > Math.max(2, Math.round(v.quantite * 0.01));
+
+  /**
+   * `sommeG` cadre les segments à l'intérieur du groupe ; `part` donne au
+   * groupe sa largeur relative à l'item. Sans ce second cadrage, quatre
+   * coloris de 923, 274, 204 et 99 s'affichent en quatre barres identiques :
+   * chaque chiffre est juste et le dessin ment.
+   */
+  const barre = (lignes, sommeG, part = 100) => `<div class="rep-barre"
+    style="width:${part.toFixed(2)}%">${lignes.map((l, i) => {
+    const t = V.teinte(l.nom);
+    const part = (l.quantite / (sommeG || 1)) * 100;
+    // Sans coloris, on échelonne l'accent : la nuance suit le rang de taille.
+    // Sans coloris, la nuance suit le rang : du plus clair au plus foncé, pour
+    // que la proportion reste lisible même quand rien n'a de couleur propre.
+    const fond = t || `color-mix(in srgb, var(--vert) ${22 + (i * 70 / Math.max(1, lignes.length - 1))}%, var(--carte))`;
+    return `<i style="width:${part.toFixed(2)}%;background:${fond}"
+      title="${e(l.nom)} — ${l.quantite.toLocaleString('fr-CA')}"></i>`;
+  }).join('')}</div>`;
+
+  const bloc = (g) => {
+    const lignes = [...g.lignes].sort((a, b) =>
+      V.rangVariante(a.nom) - V.rangVariante(b.nom));
+    return `<div class="rep-g">
+      ${g.nom ? `<div class="rep-titre">${V.teinte(g.nom)
+        ? `<i class="pastille" style="background:${V.teinte(g.nom)}"></i>` : ''}${e(g.nom)}
+        <b>${g.somme.toLocaleString('fr-CA')}</b></div>` : ''}
+      ${barre(lignes, g.somme, (g.somme / total) * 100)}
+      <div class="rep-chips">${lignes.map(chip).join('')}</div>
+    </div>`;
+  };
+
+  // Dans « À fabriquer », la barre reste visible — c'est elle qui se lit d'un
+  // coup d'œil — mais les compteurs se replient. Vingt-six lignes dépliées
+  // font une page de douze mille pixels, et l'écran censé dire « par quoi je
+  // commence » ne le dit plus.
+  if (compact) {
+    const n = v.lignes.length;
+    const axes = [...new Set(v.lignes.map(l => V.typeVariante(l.nom)))];
+    const quoi = axes.includes('couleur')
+      ? (axes.length > 1 ? 'coloris et tailles' : (n > 1 ? 'coloris' : 'coloris'))
+      : axes.includes('pointure') ? 'pointures' : 'tailles';
+    return `<details class="rep rep-c">
+      <summary><span class="rep-rangee">${v.groupes.map(g => barre(
+        [...g.lignes].sort((a, b) => V.rangVariante(a.nom) - V.rangVariante(b.nom)),
+        g.somme, (g.somme / total) * 100)).join('')}</span><span
+        class="rep-quoi">${n} ${quoi}</span></summary>
+      ${v.groupes.map(g => `<div class="rep-g">
+        ${g.nom ? `<div class="rep-titre">${V.teinte(g.nom)
+          ? `<i class="pastille" style="background:${V.teinte(g.nom)}"></i>` : ''}${e(g.nom)}
+          <b>${g.somme.toLocaleString('fr-CA')}</b></div>` : ''}
+        <div class="rep-chips">${[...g.lignes]
+          .sort((a, b) => V.rangVariante(a.nom) - V.rangVariante(b.nom))
+          .map(chip).join('')}</div>
+      </div>`).join('')}
+      ${notable ? `<p class="rep-ecart">${v.somme.toLocaleString('fr-CA')} en
+        variantes pour ${v.quantite.toLocaleString('fr-CA')} au plan.</p>` : ''}
+    </details>`;
+  }
+
+  return `<div class="rep">
+    ${v.groupes.map(bloc).join('')}
+    ${notable ? `<p class="rep-ecart">La répartition totalise
+      ${v.somme.toLocaleString('fr-CA')} pour ${v.quantite.toLocaleString('fr-CA')}
+      au plan. Les deux chiffres viennent du chiffrier ; l'écart n'est pas
+      résolu.</p>` : ''}
+  </div>`;
+}
 
 /* ------------------------------------------------------------------ compte
  * Changer son mot de passe sans passer par un shell. Ça paraît accessoire ;
@@ -309,17 +404,7 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg }) 
       <td><a href="/produits/${it.produit_id}"><b>${e(it.produit_nom)}</b></a><br>
           <span class="muted">${e(it.produit_code)}</span></td>
       <td class="num">${it.quantite.toLocaleString('fr-CA')}
-        ${it.variantes ? `<details class="rep-var">
-          <summary>${it.variantes.lignes.length} variantes${it.variantes.ecart
-            ? ` <span class="ecart">${it.variantes.ecart > 0 ? '+' : ''}${it.variantes.ecart}</span>`
-            : ''}</summary>
-          <ul>${it.variantes.lignes.map(v => `<li><span>${e(v.nom)}</span>
-            <b>${v.quantite.toLocaleString('fr-CA')}</b></li>`).join('')}</ul>
-          ${it.variantes.ecart ? `<p class="ecart-note">La répartition totalise
-            ${it.variantes.somme.toLocaleString('fr-CA')} pour
-            ${it.variantes.quantite.toLocaleString('fr-CA')} au plan. Les deux
-            chiffres viennent du chiffrier ; l'écart n'est pas résolu.</p>` : ''}
-        </details>` : ''}
+        ${it.variantes ? repartition(it.variantes) : ''}
       </td>
       <td>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
@@ -826,7 +911,8 @@ function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
         ${l.note ? `<span class="note">${e(l.note)}</span>` : ''}
       </td>
       <td class="qte"><b>${l.restant.toLocaleString('fr-CA')}</b>
-        <span class="sec">sur ${l.quantite.toLocaleString('fr-CA')}</span></td>
+        <span class="sec">sur ${l.quantite.toLocaleString('fr-CA')}</span>
+        ${l.variantes ? repartition(l.variantes, { compact: true }) : ''}</td>
       <td class="av">${jauge(l.avancement)}<span class="sec">${l.avancement} %</span></td>
       <td class="ech u-${u.cls}">
         ${l.echeance ? `<b>${dateFR(l.echeance)}</b>` : ''}

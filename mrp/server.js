@@ -184,7 +184,8 @@ async function router(req, res, url, user) {
   if (p === '/priorites') {
     const j = Math.min(90, Math.max(1, Number(q.get('jours')) || 7));
     return html(res, V.vuePriorites({ user, msg, jours: j,
-      lignes: listeFabrication(), ailleurs: fabriqueAilleurs() }));
+      lignes: listeFabrication().map(l => ({ ...l, variantes: variantesItem(l.id) })),
+      ailleurs: fabriqueAilleurs() }));
   }
   {
     const m = p.match(/^\/priorites\/(\d+)$/);

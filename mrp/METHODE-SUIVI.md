@@ -147,17 +147,29 @@ Une ligne qui disparaît d'une liste sans explication est une ligne perdue.
 ### La répartition par taille et par coloris
 
 « 3 500 cache-cous » ne dit pas quoi couper. Chaque item porte sa répartition
-— 1 285 gris foncé, 1 078 noirs, 473 rouges, 364 gris pâle, 305 verts — repliée
-sous la quantité, sur l'ordre de production.
+— 1 285 gris foncé, 1 078 noirs, 473 rouges, 364 gris pâle, 305 verts — et elle
+se lit **en couleur** : une barre dont chaque segment a la teinte du coloris et
+la largeur de sa part, puis les compteurs en pastilles.
+
+Dans *À fabriquer*, la barre reste visible et les compteurs se replient : la
+barre se lit d'un coup d'œil, le détail se demande d'un toucher. Sur l'ordre de
+production, tout est déplié.
+
+Quand le chiffrier croise deux axes — un coloris **et** une taille, un genre
+**et** une taille — chaque groupe a sa ligne, et la longueur de sa barre montre
+son poids : les mitaines polar, c'est 923 noires, 274 rouges, 204 grises et
+99 violettes, chacune déclinée en cinq tailles.
 
 **L'avancement reste au niveau de l'item.** Une tranche de 10 % par variante
 multiplierait la saisie par cinq sans rien apprendre de plus sur ce qui rentrera
 dans le conteneur. La répartition sert à couper juste, pas à déclarer.
 
-Treize répartitions ne bouclent pas avec le plan — le manteau hivernal compte
-301 unités en variantes pour 150 au plan, l'étui 298 pour 500. Les deux chiffres
-sont affichés et l'écart est signalé : c'est au chiffrier d'être corrigé, pas à
-l'app de choisir.
+Cinq répartitions s'écartent vraiment du plan : le bandeau (+300), les semelles
+(+148), l'étui (−202), le foulard et l'oreiller (−15). Les deux chiffres sont
+affichés et l'écart est signalé : c'est au chiffrier d'être corrigé, pas à l'app
+de choisir. Les écarts d'une ou deux unités, eux, viennent de l'arrondi des
+pourcentages et ne sont pas signalés — les mélanger noierait les cinq qui
+méritent une réponse.
 
 ### Suivi — « est-ce que ça avance ? »
 

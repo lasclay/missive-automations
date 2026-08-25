@@ -353,6 +353,37 @@ t("l'atelier peut consulter le suivi",
     listeFabrication().some(l => l.code === 'CC-ADULTE'));
 }
 
+// ------------------------------------------- lecture visuelle des variantes
+{
+  const V = require('../variantes.js');
+
+  t('un coloris est reconnu et reçoit sa teinte',
+    V.typeVariante('Gris foncé') === 'couleur' && V.teinte('Gris foncé') === '#4a5158');
+  t("l'accent et la casse ne changent rien",
+    V.teinte('GRIS FONCE') === V.teinte('Gris foncé'));
+  t('une taille est reconnue, sans teinte',
+    V.typeVariante('2XL') === 'taille' && V.teinte('2XL') === null);
+  t('une pointure est reconnue', V.typeVariante('8F/6H') === 'pointure');
+  t("« nouveau » accolé ne masque pas la pointure",
+    V.typeVariante('13H nouveau') === 'pointure');
+  t('ce qui n\'est ni l\'un ni l\'autre reste « autre »',
+    V.typeVariante('250g/m² (0 à -18°C)') === 'autre');
+
+  const melange = ['XL', 'S', '2XL', 'M', 'XS', 'L'];
+  t('les tailles se trient comme un corps, pas comme un alphabet',
+    melange.slice().sort((a, b) => V.rangVariante(a) - V.rangVariante(b))
+      .join(' ') === 'XS S M L XL 2XL',
+    melange.slice().sort((a, b) => V.rangVariante(a) - V.rangVariante(b)).join(' '));
+
+  const pts = ['11H', '6F', '13H nouveau', '8F/6H'];
+  t('les pointures se trient par leur nombre',
+    pts.slice().sort((a, b) => V.rangVariante(a) - V.rangVariante(b))
+      .join(' ') === '6F 8F/6H 11H 13H nouveau');
+
+  t('le noir est sombre, le gris pâle ne l\'est pas',
+    V.estSombre(V.teinte('Noir')) && !V.estSombre(V.teinte('Gris pale')));
+}
+
 // ------------------------------------------------------ répartition
 {
   const { variantesItem } = require('../db.js');
@@ -360,18 +391,38 @@ t("l'atelier peut consulter le suivi",
       JOIN produits p ON p.id = i.produit_id WHERE p.code = 'CC-ADULTE'`).get();
   t('sans répartition, la variante vaut null', variantesItem(it.id) === null);
 
-  const pose = db.prepare(`INSERT INTO item_variantes (item_id, nom, quantite, rang)
-      VALUES (?,?,?,?)`);
-  pose.run(it.id, 'Noir', Math.floor(it.quantite / 2), 1);
-  pose.run(it.id, 'Gris', it.quantite - Math.floor(it.quantite / 2), 2);
+  const pose = db.prepare(`INSERT INTO item_variantes
+      (item_id, groupe, nom, quantite, rang) VALUES (?,?,?,?,?)`);
+  pose.run(it.id, '', 'Noir', Math.floor(it.quantite / 2), 1);
+  pose.run(it.id, '', 'Gris', it.quantite - Math.floor(it.quantite / 2), 2);
   const v = variantesItem(it.id);
   t('une répartition qui boucle ne signale aucun écart',
     v.lignes.length === 2 && v.somme === it.quantite && v.ecart === 0, JSON.stringify(v));
+  t('un seul axe donne un seul groupe, sans nom',
+    v.groupes.length === 1 && v.groupes[0].nom === '' && v.croise === false);
 
-  pose.run(it.id, 'Rouge', 7, 3);
+  pose.run(it.id, '', 'Rouge', 7, 3);
   const v2 = variantesItem(it.id);
   t("l'écart au plan est calculé, pas corrigé",
     v2.ecart === 7 && v2.quantite === it.quantite, JSON.stringify(v2));
+
+  db.prepare('DELETE FROM item_variantes WHERE item_id = ?').run(it.id);
+
+  // Deux axes : un coloris ET une taille. Chaque groupe garde sa somme, sinon
+  // quatre coloris de tailles égales s'affichent comme quatre barres égales.
+  let r = 0;
+  for (const [g, n, q] of [['Noir','S',60], ['Noir','M',40],
+                           ['Violet','S',6], ['Violet','M',4]])
+    pose.run(it.id, g, n, q, ++r);
+  const v3 = variantesItem(it.id);
+  t('deux axes donnent deux groupes nommés',
+    v3.croise === true && v3.groupes.length === 2
+      && v3.groupes.map(x => x.nom).join(',') === 'Noir,Violet',
+    JSON.stringify(v3.groupes.map(x => x.nom)));
+  t('chaque groupe porte sa propre somme',
+    v3.groupes[0].somme === 100 && v3.groupes[1].somme === 10,
+    JSON.stringify(v3.groupes.map(x => x.somme)));
+  t('la somme totale reste celle de toutes les feuilles', v3.somme === 110);
 
   db.prepare('DELETE FROM item_variantes WHERE item_id = ?').run(it.id);
 }

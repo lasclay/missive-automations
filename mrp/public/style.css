@@ -371,7 +371,49 @@ table.fab tr.p-basse{opacity:.62}
   text-transform:uppercase;padding:2px 7px;border-radius:99px;
   border:1px solid var(--ardoise);color:var(--ardoise);background:var(--ardoise-pale)}
 
-/* ---------- répartition par variante ---------- */
+/* ---------- répartition par variante, en visuel ----------
+   La barre donne la proportion sans qu'on lise un chiffre ; les pastilles
+   donnent le compte. Un coloris porte sa teinte, une taille sa case. */
+.rep{margin-top:8px;font-weight:400}
+.rep-g + .rep-g{margin-top:9px}
+.rep-titre{font-size:12px;color:var(--encre2);display:flex;align-items:center;
+  gap:5px;margin-bottom:3px}
+.rep-titre b{font-variant-numeric:tabular-nums;color:var(--encre);margin-left:auto}
+.rep-barre{display:flex;height:9px;border-radius:5px;overflow:hidden;
+  background:var(--piste);border:1px solid var(--ligne)}
+.rep-barre i{display:block;height:100%}
+.rep-barre i + i{box-shadow:inset 1px 0 0 rgba(255,255,255,.45)}
+.rep-chips{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:6px}
+.ch{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;
+  padding:2px 7px;border-radius:99px;border:1px solid var(--ligne);
+  background:var(--carte);color:var(--encre2);white-space:nowrap;line-height:1.5}
+.ch b{font-variant-numeric:tabular-nums;color:var(--encre)}
+.ch-taille .ch-n,.ch-pointure .ch-n{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;letter-spacing:.02em}
+.pastille{width:9px;height:9px;border-radius:50%;flex:0 0 9px;
+  border:1px solid rgba(128,128,128,.45)}
+.rep-ecart{margin:7px 0 0;color:var(--ambre);font-size:11.5px;line-height:1.45;
+  white-space:normal}
+/* Dans « À fabriquer », la barre reste visible et les compteurs se replient :
+   la barre se lit d'un coup d'œil, le détail se demande. */
+/* La cellule se réduit à son contenu sur téléphone : sans largeur minimale,
+   la barre tombe à quelques dizaines de pixels et ne montre plus rien. */
+.rep-c{max-width:34em;min-width:min(100%,240px)}
+.rep-c > summary{cursor:pointer;list-style:none;display:flex;
+  align-items:center;gap:8px;padding:2px 0}
+.rep-c > summary::-webkit-details-marker{display:none}
+/* Repliée, les barres des groupes se suivent sur une seule ligne : leur
+   longueur relative rend la répartition entre coloris lisible d'un trait. */
+.rep-c > summary .rep-rangee{flex:1;min-width:90px;display:flex;gap:2px}
+.rep-c > summary .rep-barre{height:8px;margin:0}
+.rep-quoi{font-size:11px;color:var(--gris);white-space:nowrap;
+  border-bottom:1px dotted var(--ligne)}
+.rep-c > summary:hover .rep-quoi{color:var(--encre2)}
+.rep-c[open] > summary{margin-bottom:7px}
+.rep-c .ch{font-size:11px;padding:1px 6px}
+.rep-c .rep-g + .rep-g{margin-top:7px}
+
+/* ---------- ancien repli, conservé pour d'autres usages ---------- */
 /* « 3 500 cache-cous » ne dit pas quoi couper. La répartition est repliée par
    défaut : elle sert au moment de couper, pas au moment de lire la liste. */
 .rep-var{margin-top:6px;font-size:12.5px;font-weight:400}
