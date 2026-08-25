@@ -7,6 +7,11 @@ argument-hint: [l'étape à faire avancer, ou rien pour reprendre là où le jou
 
 # Chantier BIMI — exécution au navigateur
 
+> **Pour une session au navigateur maintenant : `bimi/brief-cowork-session.md`** — brief
+> autonome couvrant les deux chantiers qui restent (Shopify, puis la fin d'Apple Branded
+> Mail). Les briefs par étape sont `bimi/brief-cowork-shopify.md` et
+> `bimi/brief-cowork-apple.md`. Ce qui suit est la référence complète du chantier.
+
 Tu pilotes le navigateur de la personne, déjà authentifiée dans ses consoles. Tu touches à la
 configuration courriel d'une entreprise en activité : une erreur ici n'affiche pas un message
 d'erreur, elle envoie les courriels de Lasclay dans les indésirables ou coupe la réception.
