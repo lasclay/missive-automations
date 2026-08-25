@@ -18,42 +18,42 @@ vérité est pire : le site dit l'inverse.
 
 ---
 
-# 1. Le pied de page, sur toutes les pages, FR et EN
+# 1. Le pied de page : déjà corrigé dans le thème, mais pas servi
 
-**Texte actuel :**
+**Mise à jour du 25 août, après lecture du thème par l'API.** Le diagnostic change.
 
-> Lasclay
-> Produits d'asclépiade cueillis, conçus et fabriqués avec amour au Québec, Canada.
+**Ce que le thème contient** (`config/settings_data.json`, bloc de pied de page `1601536191916`) :
 
-C'est la faute la plus grave, pour trois raisons.
+> `"text": "<p>Isolant d'asclépiade cueilli, conçu et fabriqué avec amour au Québec, Canada.</p>"`
 
-- Le sujet est **« Produits »**, pas l'isolant. C'est exactement l'affirmation à bannir : elle
-  rattache la fabrication au produit fini.
-- Elle est **sur chaque page du site**, donc sur chaque fiche produit, chaque collection, chaque
-  article. C'est le texte le plus répété du domaine.
-- **Le pied de page anglais n'est pas traduit** : la version EN sert la même phrase en français à
-  un public américain. Bogue distinct, à corriger en même temps.
+**Ce que le site sert**, en HTML rendu côté serveur, sur toutes les pages, FR et EN :
 
-**Remplacement proposé, FR :**
+> `<div class="section-footer__text"><p>Produits d'asclépiade cueillis, conçus et fabriqués avec amour au Québec, Canada.</p></div>`
 
-> Lasclay
-> Isolant d'asclépiade cueilli, conçu et fabriqué au Québec, Canada.
+**La correction a donc déjà été faite.** Le thème publié s'appelle d'ailleurs
+`ZONE ROUGE 18 aout - origine (NE PAS PUBLIER SA...`, créé et modifié le 18 août : quelqu'un a
+corrigé l'origine ce jour-là. Mais la version servie n'a jamais suivi.
 
-**Remplacement proposé, EN :**
+Ce n'est donc pas un problème de contenu, c'est un problème de publication. Trois vérifications
+possibles, dans l'ordre :
 
-> Lasclay
-> Milkweed insulation harvested, designed and made in Quebec, Canada.
+1. **Ouvrir l'éditeur de thème, aller au bloc de texte du pied de page, et re-sauvegarder** même
+   sans rien changer. Ça force Shopify à régénérer le rendu. C'est ce qui règle le cas neuf fois
+   sur dix quand `settings_data.json` a été modifié autrement que par l'éditeur.
+2. Si ça ne suffit pas, **republier le thème** (Actions, Publier, sur le thème déjà publié).
+3. Vérifier ensuite dans une fenêtre privée sur `lasclay.com` et sur `lasclay.com/en`.
 
-Un seul mot change en français, « Produits » devient « Isolant », et la phrase redevient vraie sans
-rien perdre de sa fierté. C'est d'ailleurs déjà la formulation exacte utilisée dans la section héro
-de la page d'accueil : « Isolant d'asclépiade cueilli, conçu et fabriqué au Québec. » Le site se
-contredit lui-même à deux endroits de la même page.
+Le texte n'est **pas** injecté par une application : il est dans le HTML rendu par Liquid, pas dans
+un script. Hextom Translate My Store est bien installé mais n'est pas en cause ici.
 
-⚠️ **Zone jaune.** C'est très probablement un bloc de texte du pied de page dans l'éditeur de
-thème, modifiable sans toucher au code. Si la chaîne est codée en dur dans le Liquid, ça passe en
-zone rouge : thème dupliqué, aperçu, validation humaine avant publication.
+⚠️ **Le nom du thème publié est un problème à part.** Le thème live s'appelle littéralement « NE PAS
+PUBLIER ». Soit il a été publié par accident et le site sert un thème de travail depuis le 18 août,
+soit il a été publié volontairement et le nom n'a jamais été nettoyé. À trancher avant toute autre
+intervention sur le thème, parce que ça détermine sur quelle base on travaille.
 
----
+⚠️ **Le pied de page anglais reste à traduire.** Même corrigé, il servira du français à
+`lasclay.com/en`. Traduction proposée : *« Milkweed insulation harvested, designed and made in
+Quebec, Canada. »*
 
 # 2. La FAQ, question « Où sont fabriqués vos produits? »
 

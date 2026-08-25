@@ -403,3 +403,31 @@ argumente contre ses clients.
 
 L'option 3 est la moins risquée et la plus utile. Elle a aussi un effet direct : elle permet à la
 réponse à Marie L. de ne plus avoir à composer avec une réponse muette juste à côté.
+
+Un commentateur du fil Reddit, `58jf337v`, défend d'ailleurs Lasclay en écrivant : « Je n'ai vu
+aucune mais aucun commentaire agressif du proprio... ». Il a cherché et n'a rien trouvé. Quelqu'un
+de moins bienveillant, lui, trouvera les trois.
+
+## La réponse de remplacement, sous patrick lambert
+
+*Remplace la réponse existante en deux phrases qui lui retourne la question. Celle-ci fait le fond
+qu'il n'a jamais eu : ce qui reste au Québec. Elle sert surtout aux gens qui liront la fiche, pas
+à lui.*
+
+*⚠️ **Modifier la réponse existante, ne pas la supprimer pour en republier une.** Et ne jamais
+écrire publiquement qu'une personne n'a pas commandé chez nous : c'est ce qui rendait l'ancienne
+version agressive, et ça confirme au passage un renseignement sur elle.*
+
+> Bonjour M. Lambert,
+>
+> Sur l'origine, vous avez raison. Depuis 2025, l'assemblage textile de la plupart de nos produits
+> finis se fait à l'extérieur du Québec, surtout en Tunisie.
+>
+> Ce qui reste ici : la culture de l'asclépiade, la transformation de la soie en isolant, la
+> conception et le contrôle qualité. L'isolant est ce qui rend nos produits chauds, et c'est la
+> partie qu'on garde.
+>
+> Sur la qualité, le jugement se fera à l'usage. On a expliqué la décision au complet en vidéo et
+> dans les médias plutôt que de changer nos étiquettes en silence.
+>
+> Gabriel, cofondateur
