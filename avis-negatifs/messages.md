@@ -16,10 +16,16 @@ ramené la vague de dix-sept à **quatorze envois**. La voix ne change pas, les 
 | Anciens avis négatifs passés à 4 ou 5 étoiles | 7 |
 | Avis vraiment disparus de la fiche | 4 |
 
-Les cinq qu'on ne peut pas joindre en privé : **Marie L.** et **patrick lambert** (non identifiés
-dans Shopify), **Audrey Thibeault** (note seule, aucun texte), **Cyr-Marc Debien** et
-**Danielle Gingras** (dossiers clos et dits clos publiquement). Pour eux, réponse publique
-seulement.
+Les cinq qu'on ne joint pas en privé : **patrick lambert** (non identifié dans Shopify),
+**Audrey Thibeault** (note seule, aucun texte), **Cyr-Marc Debien** et **Danielle Gingras**
+(dossiers clos et dits clos publiquement), et **Marie L.**, pour une raison différente des autres.
+
+⚠️ **Marie L. est identifiée : Marie-Michèle Leblanc**, `m-m.leblanc@live.ca`, commande L-50761 du
+30 juillet, un sac à lunch jamais expédié, **remboursé le 18 août après une rétrofacturation
+bancaire**. C'est aussi, très probablement, l'autrice du fil Reddit r/montreal. **Ne pas lui
+écrire** : son dossier est clos, elle publie ce qui lui arrive, et un courriel offrant une
+carte-cadeau se retrouverait dans le fil en quelques heures. Analyse complète et garde-fous dans
+`REDDIT-2026-08.md`. Réponse publique seulement, et **sans jamais mentionner Reddit**.
 
 ✅ **Emma Nelson est identifiée**, confirmé par Gabriel : c'est **Emma Whiten**,
 `emmaswhiten@gmail.com`, commande **L-50672** du 8 juin 2026, un sac à lunch à 68,31 $,
