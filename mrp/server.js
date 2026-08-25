@@ -31,6 +31,7 @@ const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
 const outils = require('./outils.js');
+const charge = require('./charge.js');
 
 const PORT = process.env.PORT || 3000;
 const SECURE = process.env.MRP_SECURE === '1';
@@ -455,8 +456,21 @@ async function router(req, res, url, user) {
     }
   }
 
-  if (p === '/cedule')
-    return html(res, V.vueCedule({ user, jalons: R.jalonsTous.all(), msg }));
+  if (p === '/cedule') {
+    const jalons = R.jalonsTous.all();
+    return html(res, V.vueCedule({ user, jalons, msg,
+      cal: charge.calendrier(listeFabrication()) }));
+  }
+
+  if (p === '/cedule/capacite' && req.method === 'POST') {
+    if (!admin) return refus();
+    const f = await corpsFormulaire(req);
+    const r = charge.poserCapacite(f);
+    if (r.erreur) return vers(res, '/cedule?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/cedule?ok=' + encodeURIComponent(
+      `Capacité : ${r.capacite.postes} postes × ${r.capacite.heures_jour} h × `
+      + `${r.capacite.jours_semaine} j = ${r.capacite.heures_semaine} h/semaine.`));
+  }
 
   // ---- son propre compte : changer son mot de passe sans shell
   if (p === '/compte') {

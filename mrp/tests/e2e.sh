@@ -243,6 +243,58 @@ curl -s -b $CA "$B/ordres/1" | grep -q 'Gris pale' \
 MRP_DB="$DB" node --no-warnings -e "
 require('./db.js').db.prepare('DELETE FROM item_variantes').run();"
 
+# --- cédule : le verdict, le Gantt et la capacité ------------------------
+# Le graphique n'est pas la réponse : la question est « est-ce que ça rentre ».
+# Le verdict doit être là avant le dessin, et la capacité doit rester un
+# réglage de Québec — l'atelier la lit, il ne la pose pas.
+CE=$(curl -s -b $CA $B/cedule)
+echo "$CE" | grep -q 'heures de travail' \
+  && ok "cédule : le verdict chiffre la charge" || ko "cédule : verdict absent"
+echo "$CE" | grep -qE 'Ça (ne rentre pas|rentre)' \
+  && ok "cédule : le verdict tranche" || ko "cédule : pas de verdict tranché"
+echo "$CE" | grep -q 'g-barre' \
+  && ok "cédule : le Gantt a des barres" || ko "cédule : aucune barre"
+echo "$CE" | grep -q 'g-jalon' \
+  && ok "cédule : l'échéance est tracée sur le Gantt" || ko "cédule : jalon absent du Gantt"
+# chaque ligne dit d'où vient son temps : mesuré ou déduit
+echo "$CE" | grep -qE 'g-src-(chrono|cout)' \
+  && ok "cédule : chaque ligne dit d'où vient son temps" || ko "cédule : source du temps cachée"
+
+echo "$CE" | grep -q 'action="/cedule/capacite"' \
+  && ok "l'administration règle la capacité" || ko "formulaire de capacité absent pour l'admin"
+curl -s -b $CO2 $B/cedule | grep -q 'action="/cedule/capacite"' \
+  && ko "l'atelier peut régler la capacité" || ok "l'atelier ne règle pas la capacité"
+
+# une capacité hors bornes ne doit pas s'enregistrer
+curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/cedule/capacite \
+  --data 'postes=0&heures_jour=8&jours_semaine=5' | grep -q 'err=' \
+  && ok "capacité hors bornes refusée" || ko "capacité à 0 poste acceptée"
+
+curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/cedule/capacite \
+  --data 'postes=12&heures_jour=9&jours_semaine=6' | grep -q 'ok=' \
+  && ok "capacité enregistrée" || ko "capacité valide refusée"
+# le champ tient sur deux lignes dans le gabarit : on aplatit avant de chercher
+curl -s -b $CA $B/cedule | tr -d '\n' | grep -q 'name="postes"[^>]*value="12"' \
+  && ok "la capacité posée est reprise dans le formulaire" || ko "capacité non répercutée"
+
+# et elle change vraiment les dates : plus de postes, fin plus tôt
+MRP_DB="$DB" node --no-warnings -e "
+const C=require('./charge.js'), {listeFabrication}=require('./db.js');
+const l=listeFabrication();
+const a=C.calendrier(l,{depart:'2026-09-01',cap:{postes:4,heures_jour:8,jours_semaine:5}});
+const b=C.calendrier(l,{depart:'2026-09-01',cap:{postes:40,heures_jour:8,jours_semaine:5}});
+if(!(b.fin<a.fin)){console.error(a.fin+' → '+b.fin);process.exit(1)}
+if(Math.round(a.heuresTotal)!==Math.round(b.heuresTotal)){console.error('charge instable');process.exit(1)}
+" 2>/dev/null && ok "plus de postes = fin plus tôt, charge inchangée" \
+  || ko "la capacité ne déplace pas les dates"
+
+# l'atelier voit quand même la cédule : c'est lui qui la subit
+curl -s -b $CO2 $B/cedule | grep -q 'Charge de l' \
+  && ok "l'atelier voit la charge" || ko "cédule refusée à l'atelier"
+
+curl -s -b $CA -o /dev/null -X POST $B/cedule/capacite \
+  --data 'postes=4&heures_jour=8&jours_semaine=5'
+
 # --- changer son nom affiché --------------------------------------------
 # C'est lui qui signe les mises à jour dans le suivi : l'amorce crée le premier
 # compte au nom d'« Administration », qui n'apprend rien à personne.

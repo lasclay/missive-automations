@@ -427,3 +427,46 @@ table.fab tr.p-basse{opacity:.62}
 .rep-var li span{color:var(--encre2)}
 .rep-var .ecart-note{margin:8px 0 0;color:var(--ambre);font-size:12px;
   line-height:1.45;white-space:normal}
+
+/* ---------- Gantt de charge ----------
+   Un Gantt est large par nature : il défile dans son propre cadre plutôt que
+   de faire déborder la page. */
+.g-cadre{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:12px}
+table.gantt{width:100%;min-width:520px;border-collapse:collapse}
+table.gantt th[scope=row]{text-align:left;font-weight:600;font-size:13px;
+  padding:5px 10px 5px 0;white-space:nowrap;vertical-align:middle;
+  width:1%;border-bottom:1px solid var(--ligne)}
+table.gantt td{padding:5px 0;border-bottom:1px solid var(--ligne);width:99%}
+table.gantt tbody tr:last-child th,table.gantt tbody tr:last-child td{border-bottom:0}
+/* « 185 h », pas « 185 H » : le th est en majuscules, le symbole de l'heure
+   ne l'est pas en français. */
+.g-h{display:block;font-weight:400;font-size:11.5px;color:var(--gris);
+  font-variant-numeric:tabular-nums;text-transform:none}
+.g-src{display:inline-block;font-size:10px;letter-spacing:.03em;
+  text-transform:uppercase;padding:1px 5px;border-radius:99px;font-weight:600;
+  border:1px solid var(--ligne);color:var(--gris)}
+.g-src-chrono{color:var(--vert);border-color:var(--vert-ligne);background:var(--vert-pale)}
+.g-src-cout{color:var(--ambre);border-color:var(--ambre-ligne);background:var(--ambre-pale)}
+.g-piste{position:relative;height:20px;background:var(--fond);
+  border:1px solid var(--ligne);border-radius:4px;overflow:hidden}
+.g-mois{position:absolute;top:0;bottom:0;width:1px;background:var(--ligne)}
+.g-barre{position:absolute;top:3px;bottom:3px;background:var(--vert);
+  border-radius:3px;min-width:2px}
+.g-dehors .g-barre{background:var(--rouge)}
+.g-dehors th[scope=row] a{color:var(--rouge)}
+/* Le jalon passe PAR-DESSUS les barres : c'est la ligne qu'on cherche. */
+.g-jalon{position:absolute;top:0;bottom:0;width:2px;background:var(--rouge);z-index:2}
+.g-echelle{position:relative;height:15px;font-size:10.5px;color:var(--gris)}
+.g-echelle span{position:absolute;top:0;transform:translateX(2px);
+  text-transform:capitalize;white-space:nowrap}
+
+.verdict-oui{border-left:3px solid var(--vert)}
+.verdict-non{border-left:3px solid var(--rouge)}
+.verdict-txt{margin:4px 0 0;font-size:15px;line-height:1.5}
+.verdict-non .verdict-txt b:first-child{color:var(--rouge)}
+.verdict-oui .verdict-txt b:first-child{color:var(--vert)}
+.verdict-note{margin:10px 0 0;font-size:12.5px;color:var(--gris);line-height:1.5}
+.chiffres .c .sec{display:block;font-size:11px;color:var(--gris);margin-top:2px}
+.cap-form{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.cap-form .champ{margin:0;min-width:110px}
+.cap-form input{width:100%}

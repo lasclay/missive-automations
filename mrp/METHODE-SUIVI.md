@@ -90,7 +90,7 @@ c'est exactement ce que la page de suivi affiche.
 
 ---
 
-## Les trois écrans, et à quelle question chacun répond
+## Les quatre écrans, et à quelle question chacun répond
 
 ### À fabriquer — « qu'est-ce que je fais en premier ? »
 
@@ -171,6 +171,47 @@ de choisir. Les écarts d'une ou deux unités, eux, viennent de l'arrondi des
 pourcentages et ne sont pas signalés — les mélanger noierait les cinq qui
 méritent une réponse.
 
+### Cédule — « est-ce que ça rentre ? »
+
+C'est la seule question que la cédule a à trancher, et elle se répond avant le
+diagramme, en trois nombres : **heures de travail**, **heures disponibles**
+d'ici la première échéance, **postes**.
+
+**D'où vient une heure.** Deux sources, dans cet ordre, et l'app dit toujours
+laquelle :
+
+1. **Le chronomètre.** `donnees/temps-operations.tsv` porte des mesures réelles
+   pour huit familles. Quand une ligne « Total » existe, c'est elle qui compte —
+   pas la somme des postes, et surtout pas les deux, qui doublerait la durée.
+2. **Le coût de confection.** À défaut de mesure, le poste « assemblage » de la
+   fiche COGS divisé par **26 $/h**. C'est la conversion que le suivi Tunisie
+   applique déjà aux mitaines polar : « 12,01 $ à 26 $/h » y donne 27 min 42 s,
+   soit exactement 12,01 / 26 heures. **C'est une déduction, pas une mesure**,
+   et chaque ligne du diagramme le marque « déduit du coût ».
+
+Multiplié par la quantité restante, ça fait la charge. L'ordre des barres est
+celui d'« À fabriquer » : poser une priorité déplace vraiment les dates.
+
+**La capacité, elle, n'existe nulle part.** Aucune source ne dit combien de
+personnes travaillent, ni combien d'heures. Sans ça, des heures ne deviennent
+pas des dates. Plutôt que d'inventer un chiffre qui aurait l'air d'une donnée,
+c'est un **réglage** : Québec pose postes × heures/jour × jours/semaine, et
+l'app annonce « avec cette capacité-là ». Tant qu'il n'est pas posé, la valeur
+par défaut est affichée comme telle. **C'est le premier chiffre à corriger** —
+tout le reste du calendrier en dépend.
+
+**Ce que le diagramme simplifie, et de quel côté.** L'atelier est modélisé
+comme une file unique : un item à la fois, tous les postes dessus. Supposer
+quatre produits en parallèle donnerait des dates plus optimistes sans rien pour
+le justifier. Et les items dont le temps est inconnu comptent pour zéro heure —
+la page l'écrit, pour qu'on lise le total comme un **plancher**, pas comme une
+estimation.
+
+**Ce que ça donne au plan 26-27** : 4 189 heures contre 864 disponibles avant le
+1er octobre à 4 postes. Il en faudrait 20. Six items n'ont aucun temps connu, et
+c'est donc encore optimiste. Ce n'est pas un problème d'outil : c'est
+l'information qu'il fallait avoir avant de promettre la date.
+
 ### Suivi — « est-ce que ça avance ? »
 
 Trois blocs, un seul demande une action.
@@ -230,9 +271,10 @@ Elle décrit le suivi d'un **avancement déclaré par item**. Elle ne couvre pas
   chronométrés existent dans `donnees/temps-operations.tsv`, mais rien ne les
   relie encore à un ordre ;
 - **la consommation de matières** — il n'y a pas d'inventaire ;
-- **la capacité** — combien de pièces par jour l'atelier peut sortir, et donc
-  si une échéance est atteignable. Les temps par opération sont la donnée qui
-  le permettra.
+- **la capacité mesurée** — la cédule sait convertir des heures en dates, mais
+  le nombre de postes et d'heures par jour est **déclaré**, pas observé. Tant
+  que personne ne compte ce qui sort réellement de l'atelier par jour, le
+  calendrier dit « avec cette capacité-là » et rien de plus.
 
 Ces trois manques sont volontaires pour cette version. Le premier a une
 valeur : savoir qu'un lot est « coupé mais pas matelassé » changerait la

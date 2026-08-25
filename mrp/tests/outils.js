@@ -427,6 +427,80 @@ t("l'atelier peut consulter le suivi",
   db.prepare('DELETE FROM item_variantes WHERE item_id = ?').run(it.id);
 }
 
+// ------------------------------------------------ charge et calendrier
+{
+  const C = require('../charge.js');
+
+  const chrono = C.tempsChrono();
+  // Le piège : « Semelles 6-7-8F » porte une ligne Total ET ses postes.
+  // Les additionner double la durée — c'est l'erreur qui a faussé les
+  // variantes, elle ne doit pas se répéter ici.
+  const sem = chrono.get('Semelles 6-7-8F');
+  t('une ligne Total l\'emporte sur la somme des postes',
+    sem.base === 'total' && sem.secondes === 143, JSON.stringify(sem.secondes));
+  t('la somme des postes reste disponible, pour montrer l\'écart',
+    sem.postes === 323 && sem.ecartPostes === 180,
+    sem.postes + ' / ' + sem.ecartPostes);
+
+  const cc = chrono.get('Cache-cou');
+  t('sans ligne Total, on somme les postes',
+    cc.base === 'postes' && cc.secondes === 1030, String(cc.secondes));
+
+  // La conversion coût → temps, telle que le suivi Tunisie l'établit.
+  const couts = C.coutsConfection();
+  const parCout = C.tempsUnitaire('GANTS-MAGIQUES', chrono, couts);
+  t('un temps déduit vient du coût divisé par le taux horaire',
+    parCout.source === 'cout'
+      && parCout.secondes === Math.round((3 / C.TAUX_HORAIRE) * 3600),
+    JSON.stringify(parCout));
+
+  const parChrono = C.tempsUnitaire('CACHE-COU', chrono, couts);
+  t('le chronomètre passe avant le coût',
+    parChrono.source === 'chrono' && parChrono.secondes === 1030);
+
+  t('un produit sans mesure ni coût vaut zéro, et le dit',
+    C.tempsUnitaire('PRODUIT-QUI-NEXISTE-PAS', chrono, couts).source === 'aucune');
+
+  // --- capacité
+  t('la capacité a une valeur par défaut, marquée comme telle',
+    C.capacite().defaut === true && C.capacite().postes === 4);
+  t('une capacité hors bornes est refusée',
+    Boolean(C.poserCapacite({ postes: 0, heures_jour: 8, jours_semaine: 5 }).erreur));
+  t('une capacité valide est retenue',
+    C.poserCapacite({ postes: 10, heures_jour: 8, jours_semaine: 5 }).ok === true
+      && C.capacite().postes === 10 && C.capacite().defaut === false);
+
+  // --- calendrier
+  // La quantité doit dépasser une journée d'atelier, sinon doubler les postes
+  // ne change rien : 100 cache-cous tiennent dans un seul jour à 4 postes
+  // comme à 8, et les deux calendriers finissent le même soir. 1 000 pièces
+  // font ~286 h, soit neuf jours à 32 h/jour contre cinq à 64 h/jour.
+  const lignes = [
+    { code: 'CACHE-COU', restant: 1000, produit_id: 1 },
+    { code: 'PRODUIT-QUI-NEXISTE-PAS', restant: 50, produit_id: 2 },
+  ];
+  const cal4 = C.calendrier(lignes, { depart: '2026-09-01',
+    cap: { postes: 4, heures_jour: 8, jours_semaine: 5 } });
+  const cal8 = C.calendrier(lignes, { depart: '2026-09-01',
+    cap: { postes: 8, heures_jour: 8, jours_semaine: 5 } });
+
+  t('la charge est la même quelle que soit la capacité',
+    Math.round(cal4.heuresTotal) === Math.round(cal8.heuresTotal)
+      && Math.round(cal4.heuresTotal) === Math.round(1030 * 1000 / 3600),
+    String(Math.round(cal4.heuresTotal)));
+  t('doubler les postes raccourcit le calendrier',
+    cal8.fin < cal4.fin, cal4.fin + ' → ' + cal8.fin);
+  t('un item sans temps connu est compté à part, pas oublié',
+    cal4.sansTemps === 1 && cal4.taches.length === 2);
+  t('un item à zéro heure ne décale pas le calendrier',
+    cal4.taches[1].debut === cal4.taches[1].fin);
+  t('le calendrier commence un jour ouvré',
+    new Date(cal4.debut + 'T00:00:00Z').getUTCDay() !== 0, cal4.debut);
+
+  // remise en état pour les tests suivants
+  C.poserCapacite(C.CAPACITE_DEFAUT);
+}
+
 const inconnu = ex('outil_qui_nexiste_pas', {}, c);
 t('outil inconnu signalé sans planter', Boolean(inconnu.erreur));
 

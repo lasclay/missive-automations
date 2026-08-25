@@ -77,6 +77,50 @@ aux avancements. C'est l'atelier qui les déclare ; un import n'a pas à écrase
   calendrier
 - Quantité restante estimée en pièces : 2 000 à 40 % = 1 200 restants
 
+**À fabriquer — la répartition par taille et coloris**
+- « 3 500 cache-cous » ne dit pas quoi couper. Chaque ligne porte sa
+  répartition : une barre proportionnelle, puis le détail chiffré
+- Un coloris reçoit sa pastille de couleur, une taille sa case ; les tailles
+  sont dans l'ordre du corps (XS, S, M, L, XL), pas celui de l'alphabet
+- Quand un produit croise deux axes (genre × taille, coloris × modèle), un
+  groupe = une barre, dimensionnée à sa part du total de l'item
+- Sur mobile, le détail est replié derrière la barre : la barre suffit à lire,
+  le chiffre est à un doigt
+
+**Cédule — la charge de l'atelier, en Gantt**
+
+La question n'est pas « à quoi ressemble le calendrier », c'est **« est-ce que
+ça rentre »**. La page y répond en trois nombres avant de dessiner quoi que ce
+soit : heures de travail, heures disponibles d'ici la première échéance, postes.
+
+- **Le temps unitaire vient de deux sources, dans cet ordre.** Le chronomètre
+  (`donnees/temps-operations.tsv`) quand la mesure existe — huit familles. Sinon
+  le **coût de confection** des fiches COGS divisé par **26 $/h**, la conversion
+  que le suivi Tunisie applique aux mitaines polar (« 12,01 $ à 26 $/h » = 27 min
+  42 s, soit exactement 12,01 / 26 heures). **Chaque ligne du diagramme dit
+  laquelle des deux** — « chronométré » ou « déduit du coût ».
+- **Une ligne « Total » l'emporte sur la somme des postes**, jamais les deux :
+  additionner un total et ses composantes doublerait la durée.
+- **Le volume fait le reste** : temps unitaire × quantité restante. L'ordre des
+  barres est celui d'« À fabriquer », donc la priorité déplace vraiment les dates.
+- **La capacité est un réglage, pas une donnée.** Aucune source ne dit combien
+  de personnes travaillent ni combien d'heures. Plutôt qu'inventer un chiffre
+  qui aurait l'air mesuré, Québec le pose (postes × heures/jour × jours/semaine)
+  et l'app affiche « avec cette capacité-là ». Tant qu'il n'est pas posé, la
+  valeur par défaut est marquée comme telle.
+- **L'atelier est modélisé comme une file unique** : un item à la fois, tous les
+  postes dessus. C'est une simplification, et elle est du bon côté — supposer
+  quatre produits en parallèle donnerait des dates plus optimistes sans rien
+  pour le justifier.
+- **Les items sans temps connu comptent pour zéro heure, et le disent.** La page
+  écrit que la charge réelle est plus élevée que le chiffre affiché plutôt que
+  de laisser croire qu'ils sont gratuits.
+- Le trait rouge est l'expédition ; les barres qui la dépassent sont grisées.
+
+Au plan 26-27 tel qu'importé, le verdict est sans ambiguïté : **4 189 heures de
+travail contre 864 heures disponibles avant le 1er octobre** à 4 postes. Il en
+faudrait 20. Et six items n'ont aucun temps connu, donc c'est un plancher.
+
 **Suivi — est-ce que ça avance**
 - Ce qui ne bouge plus depuis 7 jours : le seul bloc qui demande une action
 - Progression convertie en pièces (2 000 cache-cous de 40 à 70 % = 600 unités)
@@ -328,13 +372,17 @@ référence ambiguë et une demande hors des droits de l'utilisateur.
 
 ```
 utilisateurs ─┬─ sessions
-              ├─ ordres ─┬─ ordre_items ── avancement_historique
+              ├─ ordres ─┬─ ordre_items ─┬─ avancement_historique
+              │          │               └─ item_variantes  (taille × coloris)
               │          ├─ ordre_jalons          (cédule)
               │          └─ ordre_commentaires
               ├─ agent_tours ── agent_actions        (assistant + annulation)
               └─ produits ─┬─ produit_photos      (studio | contexte)
                            ├─ produit_materiaux
                            └─ produit_patrons
+
+reglages                                  (capacité de l'atelier — hors graphe :
+                                           un seul jeu, pas une préférence)
 ```
 
 `ordre_items.produit_id` est la jointure entre les deux moitiés : c'est ce qui

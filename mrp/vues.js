@@ -705,7 +705,82 @@ function vueProduitForm({ user, p = null, photos = [], materiaux = [], patrons =
 }
 
 // ==================================================================== cédule
-function vueCedule({ user, jalons, msg }) {
+/* --------------------------------------------------------------------- Gantt
+ * Un diagramme de charge : chaque item occupe l'atelier pendant le temps que
+ * sa quantité demande, les uns après les autres, dans l'ordre de fabrication.
+ *
+ * Il ne sert pas à faire joli. Il sert à répondre à une seule question — est-ce
+ * que ça rentre avant l'expédition ? — et à la répondre par non quand c'est
+ * non. Le trait rouge est la date d'expédition ; ce qui le dépasse est marqué.
+ *
+ * Rendu côté serveur, sans script : chaque barre est un <i> dont la position
+ * et la largeur sont des pourcentages de la fenêtre. Le tableau défile
+ * horizontalement dans son propre cadre — un Gantt est large, la page ne doit
+ * pas l'être.
+ */
+function gantt({ cal, jalons = [], admin = false }) {
+  const t = cal.taches.filter(x => x.heures > 0);
+  if (!t.length) return '';
+
+  const jourMs = 864e5;
+  const d0 = new Date(cal.debut + 'T00:00:00Z');
+  // La fenêtre couvre le travail ET les jalons : une échéance hors cadre ne
+  // se verrait pas, et c'est justement celle-là qu'il faut voir.
+  const bornes = [new Date(cal.fin + 'T00:00:00Z'),
+                  ...jalons.map(j => new Date(j.date + 'T00:00:00Z'))];
+  const d1 = new Date(Math.max(...bornes.map(x => x.getTime())));
+  const total = Math.max(1, (d1 - d0) / jourMs);
+  const pos = (iso) => ((new Date(iso + 'T00:00:00Z') - d0) / jourMs / total) * 100;
+
+  // Un repère par mois : plus fin serait illisible sur six mois.
+  const mois = [];
+  {
+    const c = new Date(d0);
+    c.setUTCDate(1);
+    while (c <= d1) {
+      const iso = c.toISOString().slice(0, 10);
+      if (c >= d0) mois.push({ iso, x: pos(iso),
+        nom: c.toLocaleDateString('fr-CA', { month: 'short', timeZone: 'UTC' }) });
+      c.setUTCMonth(c.getUTCMonth() + 1);
+    }
+  }
+
+  const SRC = { chrono: 'chronométré', cout: 'déduit du coût', aucune: 'inconnu' };
+  const dernier = jalons.length
+    ? jalons.map(j => j.date).sort()[0] : null;   // la première échéance compte
+
+  const ligne = (x) => {
+    const g = pos(x.debut), l = Math.max(0.6, pos(x.fin) - g);
+    const dehors = dernier && x.fin > dernier;
+    return `<tr class="${dehors ? 'g-dehors' : ''}">
+      <th scope="row"><a href="/produits/${x.produit_id}">${e(x.code)}</a>
+        <span class="g-h">${Math.round(x.heures).toLocaleString('fr-CA')} h</span>
+        <span class="g-src g-src-${x.temps.source}">${SRC[x.temps.source]}</span></th>
+      <td><div class="g-piste">
+        ${mois.map(m => `<i class="g-mois" style="left:${m.x}%"></i>`).join('')}
+        ${jalons.map(j => `<i class="g-jalon" style="left:${pos(j.date)}%"
+           title="${e(j.titre)} — ${dateFR(j.date)}"></i>`).join('')}
+        <i class="g-barre" style="left:${g}%;width:${l}%"
+           title="${e(x.code)} — ${dateFR(x.debut)} au ${dateFR(x.fin)}"></i>
+      </div></td>
+    </tr>`;
+  };
+
+  return `<div class="carte">
+    <h2>Charge de l'atelier</h2>
+    <p class="sec">Chaque item occupe l'atelier le temps que sa quantité
+    demande, dans l'ordre de fabrication. Le trait rouge est l'expédition.</p>
+
+    <div class="tbl g-cadre"><table class="gantt">
+      <thead><tr><th></th><td><div class="g-echelle">
+        ${mois.map(m => `<span style="left:${m.x}%">${m.nom}</span>`).join('')}
+      </div></td></tr></thead>
+      <tbody>${t.map(ligne).join('')}</tbody>
+    </table></div>
+  </div>`;
+}
+
+function vueCedule({ user, jalons, msg, cal = null }) {
   const auj = new Date().toISOString().slice(0, 10);
   const parMois = {};
   for (const j of jalons) {
@@ -717,9 +792,78 @@ function vueCedule({ user, jalons, msg }) {
     return new Date(+a, +m - 1, 1).toLocaleDateString('fr-CA',
       { month: 'long', year: 'numeric' });
   };
+  const admin = user.role === 'admin';
+
+  /**
+   * Le verdict, avant le dessin. Un Gantt qu'on regarde sans savoir s'il tient
+   * est un joli graphique ; la seule question qui compte est « est-ce que ça
+   * rentre », et elle se répond en trois nombres.
+   */
+  const verdict = () => {
+    if (!cal || !cal.taches.length) return '';
+    const echeance = jalons.filter(j => j.date >= auj).map(j => j.date).sort()[0];
+    const c = cal.cap;
+    let dispo = null, jours = 0;
+    if (echeance) {
+      const d = new Date(auj + 'T00:00:00Z'), f = new Date(echeance + 'T00:00:00Z');
+      for (let x = new Date(d); x < f; x = new Date(x.getTime() + 864e5)) {
+        const j = x.getUTCDay();
+        if (j !== 0 && j <= c.jours_semaine) jours++;
+      }
+      dispo = jours * c.postes * c.heures_jour;
+    }
+    const manque = dispo !== null && cal.heuresTotal > dispo;
+    const postesRequis = dispo !== null && jours > 0
+      ? Math.ceil(cal.heuresTotal / (jours * c.heures_jour)) : null;
+
+    return `<div class="carte ${manque ? 'verdict-non' : 'verdict-oui'}">
+      <div class="chiffres">
+        <div class="c"><b>${Math.round(cal.heuresTotal).toLocaleString('fr-CA')}</b>heures de travail</div>
+        ${dispo !== null ? `<div class="c"><b>${dispo.toLocaleString('fr-CA')}</b>heures disponibles
+          <span class="sec">${jours} jours ouvrés d'ici le ${dateFR(echeance)}</span></div>` : ''}
+        <div class="c"><b>${c.postes}</b>postes ${c.defaut ? '<span class="sec">valeur par défaut</span>' : ''}</div>
+      </div>
+      ${manque ? `<p class="verdict-txt"><b>Ça ne rentre pas.</b> Il manque
+        ${Math.round(cal.heuresTotal - dispo).toLocaleString('fr-CA')} heures.
+        À ${c.heures_jour} h par jour, il faudrait <b>${postesRequis} postes</b>
+        au lieu de ${c.postes} — ou déplacer une partie du plan.</p>`
+      : dispo !== null ? `<p class="verdict-txt"><b>Ça rentre</b>, avec
+        ${Math.round(dispo - cal.heuresTotal).toLocaleString('fr-CA')} heures de
+        marge.</p>` : ''}
+      ${cal.sansTemps ? `<p class="verdict-note">${cal.sansTemps} items n'ont
+        aucun temps connu — ni chronométré, ni déductible d'un coût de
+        confection. Ils comptent pour zéro heure ici : la charge réelle est
+        <b>plus élevée</b> que ce chiffre.</p>` : ''}
+      <p class="verdict-note">Les temps viennent du chronomètre quand il
+      existe, sinon du coût de confection divisé par ${require('./charge.js').TAUX_HORAIRE} $/h —
+      la conversion que le suivi Tunisie applique aux mitaines polar. Chaque
+      ligne du diagramme dit laquelle des deux.</p>
+    </div>
+
+    ${admin ? `<div class="carte">
+      <h2>Capacité de l'atelier</h2>
+      <p class="sec">Aucune source ne la donne : c'est ce réglage qui transforme
+      des heures en dates. Le changer redessine tout le calendrier.</p>
+      <form method="post" action="/cedule/capacite" class="cap-form">
+        <div class="champ"><label for="cp">Postes</label>
+          <input id="cp" type="number" name="postes" min="1" max="200"
+                 value="${c.postes}" required></div>
+        <div class="champ"><label for="ch">Heures par jour</label>
+          <input id="ch" type="number" name="heures_jour" min="1" max="24"
+                 value="${c.heures_jour}" required></div>
+        <div class="champ"><label for="cj">Jours par semaine</label>
+          <input id="cj" type="number" name="jours_semaine" min="1" max="7"
+                 value="${c.jours_semaine}" required></div>
+        <button class="btn">Recalculer</button>
+      </form>
+    </div>` : ''}`;
+  };
+
   const corps = `
   <div class="entete"><div><h1>Cédule</h1>
-    <p class="muted">Toutes les dates clés, tous ordres confondus</p></div></div>
+    <p class="muted">La charge de l'atelier et les dates clés</p></div></div>
+  ${verdict()}
+  ${cal ? gantt({ cal, jalons: jalons.filter(j => j.date >= auj), admin }) : ''}
   ${Object.keys(parMois).length ? Object.entries(parMois).map(([mois, liste]) => `
     <div class="carte"><h2 style="text-transform:capitalize">${nomMois(mois)}</h2>
       ${liste.map(j => `<div class="jalon${j.date < auj ? ' passe' : ''}">
