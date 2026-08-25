@@ -7,7 +7,8 @@ MOIS = {"janvier":1,"fevrier":2,"mars":3,"avril":4,"mai":5,"juin":6,"juillet":7,
         "aout":8,"septembre":9,"octobre":10,"novembre":11,"decembre":12}
 sansacc = lambda t: "".join(c for c in unicodedata.normalize("NFD", t) if unicodedata.category(c) != "Mn")
 
-lignes = open("source.md", encoding="utf-8").read().split("\n")
+import sys
+lignes = open(sys.argv[1] if len(sys.argv)>1 else "source.md", encoding="utf-8").read().split("\n")
 annee = None
 avis = []
 for l in lignes:
@@ -38,7 +39,7 @@ avis.append({"nom":"Lise Larocque","date":None,"date_brute":"commentaire",
   "citations":["Très bon service, réponse rapide"],
   "resume":"mitaines recues a la date prevue"})
 
-json.dump(avis, open("avis_fb.json","w"), ensure_ascii=False, indent=1)
+json.dump(avis, open(sys.argv[2] if len(sys.argv)>2 else "avis_fb.json","w"), ensure_ascii=False, indent=1)
 avec = [a for a in avis if a["citations"]]
 print("avis retenus (auteur lisible) :", len(avis))
 print("  avec citation verbatim      :", len(avec))
