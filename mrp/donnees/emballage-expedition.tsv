@@ -1,0 +1,5 @@
+fournisseur	format_po	qte_par_boite	commande_boites	prix_boite	prix_unite	shipping	prix_total	qte_totale
+Uline	10.5x16	100	10	66.00	0.81	150.00	810.00	1000
+Uline Skid	10.5x16	100	18	59.00	0.67	150.00	1212.00	1800
+EcoEnclose Unbranded	10.5x15	100	15	71.76	1.02	446.25	1522.61	1500
+EcoEnclose Branded	10.5x15	100	15	112.46	1.42	446.25	2133.08	1500

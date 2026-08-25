@@ -1,0 +1,66 @@
+produit	categorie	materiau	description	cout_unite	unite	consommation	cout_par_produit
+Cache-cou	tissu	Knit foulard	85% viscose 15% acrylique	4.95	m	2 pads (4,80 pads/m)	2.06
+Cache-cou	isolant	Vegeto 150gsm	isolant asclépiade	12.50	m (8,22 $/m²)	0,22 m²	1.81
+Cache-cou	etiquette	Hot cut Labels CC + logo		0.20	unite	1	0.20
+Bandeau	tissu	Viscose	coupé	4.29	m	19,20 bandeaux/m	0.45
+Bandeau	isolant	Vegeto 150gsm	isolant asclépiade	12.50	m (8,22 $/m²)	0,06 m²	0.45
+Bandeau	isolant	Staple fiber	4D 51mm recyclé	7.24	kg	2,00 g	0.01
+Bandeau	etiquette	Woven Labels logo		0.05	unite	1	0.05
+Tuque sport	tissu	Kendor brushed poly spandex	tissu int. et ext., 60 po de large	7.98	m (5,25 $/m²)	0,20 m²	1.07
+Tuque sport	entoilage	Veratex entoilage noir	tricot polyester thermocollant	1.81	m (1,19 $/m²)	0,04 m²	0.05
+Tuque sport	etiquette	Woven Labels Lasclay texte	Chine	0.02	unite	1	0.02
+Tuque sport	isolant	Asclépiade		105.00	kg	1,00 g	0.11
+Tuque sport	isolant	Staple fiber	4D 51mm recyclé	7.24	kg	1,00 g	0.01
+Mitaines plein air	isolant	Asclépiade		105.00	kg	36,6 g/paire (moy.)	5.34
+Mitaines plein air	fil	Fil			unite		0.06
+Mitaines plein air	tissu	Tissus & autres			unite		3.23
+Besace / sac à lunch	tissu	Marilite bleu	canevas intérieur, 60 po	3.60	m (2,37 $/m²)	0,40 m²	0.95
+Besace / sac à lunch	tissu	Canevas coton	canevas extérieur	3.09	m (2,03 $/m²)	0,40 m²	0.81
+Besace / sac à lunch	isolant	Vegeto 250gsm		22.00	m (14,47 $/m²)	0,40 m²	5.79
+Besace / sac à lunch	quincaillerie	Webbing 1 po 4-Bar Panel noir	ganse	0.03	pied	6,00 pieds	0.20
+Besace / sac à lunch	quincaillerie	Zipper		1.00	unite	1	1.00
+Besace / sac à lunch	quincaillerie	Bandoulière		2.00	unite	1	2.00
+Besace / sac à lunch	etiquette	Woven Labels	prix pour 1000	0.10	unite	1	0.10
+Foulard	tissu	Knit foulard	85% viscose 15% acrylique	4.95	m (3,26 $/m²)	voir fiche	1.08
+Foulard	isolant	Vegeto 150gsm		12.50	m (8,22 $/m²)	0,27 m²	2.22
+Foulard	etiquette	Hot cut Labels CC + logo		0.20	unite	1	0.20
+Coussin d'assise	isolant	Vegeto 200gsm		18.00	m (11,84 $/m²)	0,22 m²	2.64
+Coussin d'assise	tissu	Canevas Chine	face 1, extérieur	3.09	m (2,19 $/m²)	0,12 m²	0.26
+Coussin d'assise	tissu	Outershell mitaines Chine	face 2, extérieur	2.90	m (1,91 $/m²)	0,12 m²	0.23
+Coussin d'assise	quincaillerie	Webbing 1 po 4-Bar Panel noir	ganse	0.12	pied	1,13 pied	0.14
+Coussin d'assise	quincaillerie	Velcro Brand Sticky Back Hook + Loop		0.84	pouce	2 x 1 po	1.68
+Coussin d'assise	etiquette	Woven Labels	prix pour 5000	0.10	unite	1	0.10
+Tote bag	isolant	Vegeto 250gsm		22.00	m (14,47 $/m²)	0,10 m²	1.45
+Tote bag	tissu	Marilite bleu	canevas intérieur, 60 po	6.00	m (3,95 $/m²)	0,20 m²	0.79
+Tote bag	tissu	Canevas Chine	canevas extérieur	3.09	m (2,03 $/m²)	0,20 m²	0.41
+Tote bag	quincaillerie	Webbing 1 po 4-Bar Panel noir	ganse	0.12	pied	2,08 pieds	0.25
+Tote bag	etiquette	Woven Labels	prix pour 5000	0.20	unite	1	0.20
+Semelles 6-7-8F	isolant	Vegeto	isolant asclépiade, pad 24 po	13.84	m	27 pads/m	0.64
+Semelles 6-7-8F	tissu	Mylar	extérieur réfléchissant	2.55	m	22 unités/largeur	0.14
+Semelles 6-7-8F	tissu	Wadding noir		1.44	m	27 unités/largeur	0.07
+Semelles 6-7-8F	tissu	Mesh Hot Melt TPU	intérieur, pad 24 po	0.59	m	2 par pad	0.09
+Semelles 9F+	isolant	Vegeto	isolant asclépiade, pad 24 po	13.84	m	27 pads/m	0.85
+Semelles 9F+	tissu	Mylar	extérieur réfléchissant	2.55	m	22 unités/largeur	0.19
+Semelles 9F+	tissu	Wadding noir		1.44	m	27 unités/largeur	0.09
+Semelles 9F+	tissu	Mesh Hot Melt TPU	intérieur, pad 24 po	0.59	m	2 par pad	0.12
+Mitaines polar	isolant	Asclépiade		105.00	kg	voir fiche	1.83
+Mitaines polar	isolant	Staple fiber	4D 51mm recyclé	7.24	kg	voir fiche	0.08
+Mitaines polar	tissu	Tissus & autres	détail dans la fiche			voir fiche	7.37
+Gants magiques	isolant	Asclépiade		17.00	kg	0,02 kg	0.17
+Manteau	tissu	Outershell		5.00	m	1,50 m	7.50
+Manteau	tissu	Doublure intérieure		4.00	m	1,50 m	6.00
+Manteau	tissu	Mesh Hot Melt TPU 36 po		1.01	m	45 po	1.15
+Manteau	isolant	Vegeto 200gsm		18.00	m (11,84 $/m²)	1,00 m²	11.84
+Manteau	isolant	Vegeto 150gsm	doublure	12.50	m (8,22 $/m²)	0,50 m²	4.11
+Sac de couchage 0C	tissu	Outershell Chine		5.00	m	2,00 m	10.00
+Sac de couchage 0C	tissu	Ennis Fabrics Challenger 909 Raven	patch	14.90	m	0,02 m	0.23
+Sac de couchage 0C	tissu	Flanelette Chine	doublure	5.00	m	2,00 m	10.00
+Glacière	tissu	Canevas Chine	canvas extérieur, 58 po	3.09	m (2,01 $/m²)	0,55 m²	1.10
+Glacière	tissu	PVC bleu	doublure intérieure	4.50	m (2,92 $/m²)	0,55 m²	1.61
+Glacière	tissu	Entoilage Wadding	pad 25 po	1.10	m	1 par pad	0.93
+Glacière	tissu	Mesh Hot Melt TPU	pad 23 po	0.83	m	1 par pad	0.64
+Glacière	quincaillerie	Bretelles		0.03	pouce	115 po (3,19 verges)	0.31
+Glacière	etiquette	Woven Label		1.73	unite	1	1.73
+Glacière	isolant	Asclépiade	250 gsm visé, 50% staple	105.00	kg	51,25 g	5.38
+Glacière	isolant	Fibre synthétique	staple 50%	3.69	kg	51,25 g	0.19
+Glacière	isolant	Chanvre	isolant fond de sac	638.00	rouleau	0,05	1.02

@@ -1,0 +1,50 @@
+# Déploiement Render du MRP Lasclay.
+#
+# Blueprint à appliquer depuis le tableau de bord Render (New → Blueprint), en
+# pointant sur ce dépôt. Render suit `main` : la branche de développement doit
+# être fusionnée avant, sinon le service se construit sur du code qui ne
+# contient pas le MRP.
+#
+# Le DISQUE PERSISTANT n'est pas une option. Sans lui, le disque d'une instance
+# Render est effacé à chaque redéploiement : la base SQLite disparaîtrait, avec
+# les ordres de production, les avancements et l'historique. Un disque implique
+# une offre payante — c'est le prix d'un service qui garde ses données.
+services:
+  - type: web
+    name: lasclay-mrp
+    runtime: node
+    plan: starter                 # requis pour un disque persistant (le gratuit n'en a pas)
+    region: ohio                  # même région que les autres services du dépôt
+    branch: main
+    buildCommand: "true"          # aucune dépendance : node:http, node:sqlite, node:crypto
+    startCommand: node --no-warnings mrp/server.js
+    healthCheckPath: /sante
+    disk:
+      name: donnees
+      mountPath: /var/data        # MRP_DB pointe dedans
+      sizeGB: 1                   # la base fait quelques Mo ; 1 Go voit venir des années
+    envVars:
+      - key: NODE_VERSION
+        value: "22.22.2"          # node:sqlite exige 22.5 minimum
+      - key: MRP_DB
+        value: /var/data/mrp.db
+      - key: MRP_SECURE
+        value: "1"                # exige HTTPS sur le cookie de session
+      - key: MRP_MODELE
+        value: claude-sonnet-5    # modèle de l'assistant
+
+      # Volontairement absente : PORT, fourni par Render.
+
+      # --- secrets : à saisir dans le tableau de bord, jamais ici ---
+      - key: ANTHROPIC_API_KEY
+        sync: false               # sans elle, l'assistant se charge et le dit
+
+      # Premier compte. La page de connexion n'offre pas de s'inscrire : sans
+      # amorce, un service neuf n'est ouvrable par personne. Ces deux variables
+      # n'agissent QUE si la base n'a aucun utilisateur — elles ne peuvent ni
+      # écraser un compte, ni changer un mot de passe. Une fois la première
+      # connexion faite, retirer MRP_ADMIN_MDP du tableau de bord.
+      - key: MRP_ADMIN_COURRIEL
+        sync: false
+      - key: MRP_ADMIN_MDP
+        sync: false               # 8 caractères minimum, sinon le compte n'est pas créé

@@ -1,0 +1,36 @@
+produit	operation	temps_moyen	source	note
+Cache-cou	Coupe	00:01:34	chrono Julia	2 mesures
+Cache-cou	Matelassage	00:05:29	chrono Isabelle + Abygael	4 mesures
+Cache-cou	Remplissage	00:05:14	chrono Noah	6 mesures
+Cache-cou	Repressage et étiquetage	00:00:48	chrono Gab	3 mesures
+Cache-cou	Assemblage collé	00:02:16	estimé Gab	Pli + repli + inspection
+Cache-cou	Mélange asclépiade/staple	00:01:49	par cache-cou (17 g)	Sur lot de 100 g
+Tuque sport	Coupe	00:00:57	chrono Isabelle	2:50 pour 2 pads
+Tuque sport	Remplissage	00:01:05	chrono Karen 2024-09-19	3:16 par lot de 3
+Tuque sport	Mélange asclépiade/staple	00:00:04	par unité (5 g)	Sur baril
+Besace / sac à lunch	Coupe	00:02:02	chrono isa/karla/aby 2024-06-13	3 opérateurs
+Besace / sac à lunch	Remplissage	00:06:31	chrono raul + karen 27 mai	moyenne des deux séries
+Besace / sac à lunch	Mélange asclépiade/staple	00:01:41	par besace (50 g)	
+Foulard	Coupe	00:03:00	chrono 2 mesures	6:00 pour 2 foulards
+Foulard	Remplissage	00:04:11	chrono 3 mesures	8:21 pour 2
+Foulard	Repressage et étiquetage	00:01:25	chrono 3 mesures	
+Foulard	Matelassage	00:05:00	temps global	
+Foulard	Mélange asclépiade/staple	00:10:39	par foulard (40 g)	
+Semelles 6-7-8F	Total (paire)	00:02:23	somme des postes	0,040 h
+Semelles 6-7-8F	Coupe tissu pads	00:00:22	mylar+wadding+vegeto+mesh	par paire
+Semelles 6-7-8F	Moulage	00:00:34	4:12 par pad	par paire
+Semelles 6-7-8F	Découpe	00:01:28	10:58 par pad	par paire
+Semelles 6-7-8F	Remplissage	00:01:51	chrono isa	7:25 par pad
+Semelles 6-7-8F	Matelassage	00:01:08	4:32 par pad	à 2 machines
+Semelles 9F+	Total (paire)	00:03:35	somme des postes	0,060 h
+Semelles 9F+	Coupe tissu pads	00:00:33	mylar+wadding+vegeto+mesh	par paire
+Semelles 9F+	Moulage	00:00:50	4:12 par pad	par paire
+Semelles 9F+	Découpe	00:02:12	10:58 par pad	par paire
+Semelles 9F+	Remplissage	00:01:47	chrono	4:28 par pad
+Mitaines polar	Confection Lasclay	00:27:42	12,01 $ à 26 $/h et 80% eff.	déduit du coût
+Glacière	Total	00:13:28	somme des postes	0,2244 h
+Glacière	Coupe tissu	00:01:30	moyenne	
+Glacière	Remplissage	00:05:26	chrono Karen + Raul 2024	4 séries
+Glacière	Collage / pressage	00:03:06	chrono Isa	4 mesures
+Glacière	Découpage	00:01:45	chrono Isa	
+Glacière	Mélange asclépiade/staple	00:03:22	par sac (50 g)	

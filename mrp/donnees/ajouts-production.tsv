@@ -1,0 +1,8 @@
+# Ajouts au plan de production 26-27 décidés hors chiffrier.
+# Le chiffrier « QUANTITÉS FINALES — PLAN DE PRODUCTION 26-27 » est recopié tel
+# quel dans plan-production-2627.tsv : on n'y touche pas, sinon on ne peut plus
+# comparer l'extrait à sa source. Ce qui est décidé verbalement après coup vit
+# ici, avec sa date et son origine, et l'import l'ajoute au plan.
+produit	quantite_prevue	prevente_2026	cout_unitaire_bmb	cout_total_bmb	cout_prod_unitaire	cout_total	origine
+Cache-cou enfant 18 mois-4 ans	100	0						Demandé le 25/08/2026. Deux tailles enfant, 100 de chaque.
+Cache-cou enfant 5-13 ans	100	0						Demandé le 25/08/2026. Deux tailles enfant, 100 de chaque.
