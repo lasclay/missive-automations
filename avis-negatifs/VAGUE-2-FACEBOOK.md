@@ -344,13 +344,48 @@ colis, sans suivi pour le prouver.
 | **Marie-Élaine Julien** · commentaire | `marie_elaine_julien@yahoo.fr` | Une commande, 124,76 $ |
 | **Marie Fontaine** · 7 mars 2023, mal classée « recommends » | `marieyouppi@gmail.com` | Une commande, 216,16 $ |
 | **Stephane Roy** · 22 mars 2023, mal classé « recommends » | `66.steph.roy@gmail.com` | Une commande, 90,26 $. « Ma pire expérience d'achat en ligne à vie », mais il défend la fabrication québécoise |
-| **Magali Élias GF** · 11 janvier 2026 | **non identifiée** | La seule Magali plausible (`magali.guilbault@gmail.com`) a une tuque, des manchons et deux vestes, **pas de semelles**. Son avis parle de semelles qui glissent. **Ce n'est pas elle** |
+| **Magali Élias GF** · 11 janvier 2026 | ✅ **identifiée**, voir sa fiche complète ci-dessous | `magali.guilbault@gmail.com` |
 
-⚠️ **Magali Élias GF est la plus importante des non identifiées.** Son avis est le seul du corpus
-qui met en cause la **conception** et non l'exécution : quatre produits essayés, quatre défauts
-distincts, semelles qui glissent, coutures torsadées, rembourrage désaligné sur la tuque,
-grandeurs mal conçues. Aucun reproche de service. C'est un avis qu'on ne peut pas réparer avec de
-l'argent, seulement avec des produits corrigés.
+## Magali Élias GF · 11 janvier 2026 · `magali.guilbault@gmail.com` · **le seul avis de conception**
+
+> « Je trouve l'idée géniale mais j'ai essayé 4 produits et les 4 étaient pas bien conçus. Semelles
+> qui glissent et ne tiennent pas en place, coutures bâclées et torsadées, rembourrage non aligné
+> avec les oreilles (pour la tuque), mauvaises conceptions des grandeurs… très mauvaise conception
+> en général, c'est vraiment dommage. »
+
+⚠️ **Correction : j'avais d'abord écrit qu'aucune Magali de Shopify ne correspondait.** C'était une
+recherche plafonnée à huit résultats. Il y a **soixante-quatre** Magali, Magalie et Maggie dans la
+boutique, et l'une d'elles est elle.
+
+**La preuve est dans l'adresse de livraison de L-36144** : prénom **« Magali Élias »**, nom
+**« Guilbault Fitzbay »**. C'est mot pour mot son nom Facebook, « Magali Élias GF ». Montréal,
+`magali.guilbault@gmail.com`.
+
+| Commande | Date | Montant | Contenu | Remboursement |
+| --- | --- | --- | --- | --- |
+| L-29787 | 10 février 2025 | 45,98 $ | **Tuque de ville** isolée, noir | aucun |
+| L-31155 | 21 mars 2025 | 22,98 $ | Manchons isothermes, paquet de 2 | **remboursée en entier** le 28 avril 2025 |
+| L-36144 | 31 mai 2025 | 390,90 $ | **Deux** vestes sans manche, précommande Hiver 25-26, Femme **M** et Femme **L** | **185,46 $ le 5 février 2026** |
+
+Son récit se lit directement dans ce tableau. La tuque au rembourrage désaligné, c'est L-29787. Les
+« mauvaises conceptions des grandeurs », c'est une cliente qui commande **la même veste en M et en
+L** parce que le guide ne lui permet pas de trancher, pour 390,90 $. Et les manchons remboursés en
+entier disent le reste.
+
+⚠️ **Le remboursement de 185,46 $ est arrivé le 5 février 2026, vingt-cinq jours APRÈS son avis.**
+C'est le quatrième dossier du corpus où l'avis public débloque un dossier resté immobile, après
+Marie-Annick Duquette, Estelle Waché et Ariane Poirier. Ne pas le lui présenter comme un démenti.
+
+Il lui reste **205,44 $ payés** sur cette commande, donc elle a gardé une veste.
+
+⚠️ **Un point ne s'explique pas.** Les semelles qui glissent n'apparaissent dans aucune de ses trois
+commandes. Elle les a peut-être reçues en cadeau ou achetées ailleurs. **Ne rien affirmer sur les
+semelles dans son message**, et lui demander plutôt.
+
+⚠️ **C'est le seul avis du corpus qu'on ne peut pas réparer avec de l'argent.** Quatre produits,
+quatre défauts de conception, aucun reproche de service. Elle a déjà été remboursée deux fois. Ce
+qu'elle attend, ce sont des produits corrigés, et le seul message qui a du sens chez elle est
+celui qui lui demande de détailler les quatre défauts et qui lui dit ce qui a changé depuis.
 
 ---
 
@@ -470,10 +505,10 @@ Allaire. Trois clients, trois produits, un même problème de structure autour d
 | Martine Savard | Deux commandes de décembre, **un cache-cou payé absent du colis**, sans suivi | Shopify + ShipStation | **Fort** |
 | Gilles Coulombe | L-46684, 508,47 $, **46 jours** et **une paire de mitaines absente du bordereau**. Client à 762 $ | Shopify + ShipStation | **Fort** |
 | Gabrielle Champagne | Pépin de grandeur réglé en 2023, elle le dit elle-même, avis toujours négatif | Shopify | **Demande de mise à jour seule** |
-| Magali Élias GF | Quatre produits, quatre défauts de **conception** | — | **Non identifiée. Rien tant qu'on ne sait pas** |
+| **Magali Élias GF** | Tuque + manchons + **deux vestes en M et en L**, 185,46 $ remboursés 25 jours après son avis | Shopify | **Question sur les défauts, pas d'argent** |
 | 4 personnes | Non identifiées | — | **Rien tant qu'on ne sait pas** |
 
-**Onze dossiers à traiter, quatre remerciements, cinq identifications à faire.**
+**Douze dossiers à traiter, quatre remerciements, quatre identifications à faire.**
 
 ⚠️ **Un seul est urgent** : L-50683 n'est toujours pas partie. Tout le reste est de la réparation,
 celui-là est une commande en cours.
