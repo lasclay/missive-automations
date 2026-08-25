@@ -243,7 +243,7 @@ NEUVE=$(mktemp -d)/neuve.db
 MRP_DB="$NEUVE" MRP_ADMIN_COURRIEL=chef@test.com MRP_ADMIN_MDP=motdepasse9 \
   PORT=$((PORT+1)) node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
 sleep 1.5
-[ "$(MRP_DB="$NEUVE" node --no-warnings mrp.js utilisateur:liste | grep -c 'chef@test.com .*admin')" = 1 ] \
+[ "$(MRP_DB="$NEUVE" node --no-warnings mrp.js utilisateur:liste | grep -c 'chef@test.com .*Admin QC')" = 1 ] \
   && ok "amorce : le premier compte est créé sur une base neuve" \
   || ko "amorce : premier compte absent"
 kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true

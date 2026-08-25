@@ -171,7 +171,7 @@ async function router(req, res, url, user) {
   const q = url.searchParams;
   const msg = messageDe(q);
   const admin = user.role === 'admin';
-  const refus = () => vers(res, '/?err=' + encodeURIComponent('Action réservée à l\'administration'));
+  const refus = () => vers(res, '/?err=' + encodeURIComponent('Action réservée à Admin QC'));
 
   // ---- tableau de bord
   if (p === '/' ) {
@@ -265,7 +265,7 @@ async function router(req, res, url, user) {
       return vers(res, `/ordres/${id}`);
     }
 
-    // ---- réservé à l'administration
+    // ---- réservé à Admin QC
     if (reste && reste !== '') {
       if (!admin) return refus();
 
@@ -568,7 +568,7 @@ function amorcerPremierCompte() {
     return;
   }
   try {
-    auth.creerUtilisateur({ courriel, mdp, nom: 'Administration', role: 'admin' });
+    auth.creerUtilisateur({ courriel, mdp, nom: 'Admin QC', role: 'admin' });
     console.log(`[mrp] Premier compte créé : ${courriel}. `
       + 'Changer le mot de passe à la première connexion, puis retirer '
       + 'MRP_ADMIN_MDP du tableau de bord.');

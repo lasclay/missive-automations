@@ -102,7 +102,7 @@ function changerMotDePasse({ utilisateurId, ancien, nouveau, jetonAGarder = null
 
 /**
  * Change son nom affiché. C'est lui qui signe les mises à jour d'avancement :
- * « Administration a mis CACHE-COU à 40 % » n'apprend rien quand deux
+ * « Admin QC a mis CACHE-COU à 40 % » n'apprend rien quand deux
  * personnes partagent le rôle.
  */
 function changerNom(utilisateurId, nom) {

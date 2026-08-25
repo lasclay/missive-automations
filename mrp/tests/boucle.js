@@ -126,7 +126,7 @@ const FIL = 'a'.repeat(18);
     demande: 'Crée un ordre' });
   const refus = JSON.parse(appels[1].messages.at(-1).content[0].content);
   t("l'atelier est refusé même en passant par l'assistant",
-    Boolean(refus.erreur) && /administration/.test(refus.erreur), JSON.stringify(refus));
+    Boolean(refus.erreur) && /Admin QC/.test(refus.erreur), JSON.stringify(refus));
   t('aucune écriture au journal pour un refus', r.faits.length === 0);
   t("l'atelier ne reçoit pas les schémas d'admin",
     !(appels[0].tools || []).some(x => x.name === 'creer_ordre'));
