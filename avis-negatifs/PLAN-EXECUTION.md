@@ -67,8 +67,17 @@ colonne Recipient affiche « No recipient » partout.
 | Mélanie Boucher | 100 $ | fbpv |
 | Emma Whiten | 100 $ | 9yft |
 
-⚠️ **Je n'ai pas pu vérifier ces cartes moi-même.** Le jeton Shopify de cette session n'a pas la
-portée `read_gift_cards`. Le tableau ci-dessus reprend le rapport de la session Chrome.
+✅ **Vérifié visuellement le 25 août** sur la liste des cartes-cadeaux de l'admin. Les quatorze
+lignes concordent une à une avec le tableau : mêmes quatre derniers caractères, mêmes clients,
+mêmes montants. Toutes **Active**, toutes **No recipient**, et `Current` égale `Initial` sur les
+quatorze, donc aucune n'a été entamée. Total : 6 × 100 $ + 8 × 200 $ = **2 200 $**.
+
+*Le jeton Shopify de cette session n'a pas la portée `read_gift_cards`, donc la vérification s'est
+faite sur la capture de l'admin et non par requête. La quinzième ligne visible, `mmv7` au nom de
+Marc-Etienne L Gaudet du 18 août, est antérieure et ne fait pas partie de la vague.*
+
+⚠️ **Charlotte Bourgoing a maintenant deux cartes** : celle de décembre (L-44698) et celle-ci. Son
+message le dit déjà, « en plus de la carte de décembre ». À ne pas confondre au moment d'écrire.
 
 ### Ce que ça a changé dans les quatorze messages
 
