@@ -79,31 +79,33 @@ Marc-Etienne L Gaudet du 18 août, est antérieure et ne fait pas partie de la v
 ⚠️ **Charlotte Bourgoing a maintenant deux cartes** : celle de décembre (L-44698) et celle-ci. Son
 message le dit déjà, « en plus de la carte de décembre ». À ne pas confondre au moment d'écrire.
 
-### Ce que ça a changé dans les quatorze messages
+### Ce que les messages disent, et ce que Cowork fait ensuite
 
-**Le code complet ne s'affiche qu'à la création et n'est plus récupérable.** Mes textes disaient
-tous « une carte-cadeau de 200 $ **part à votre nom** », ce qui laissait entendre que quelque chose
-allait arriver par courriel. **Rien n'arrive.** Le solde est sur leur compte client et s'applique à
-la caisse quand la personne est connectée.
+**Décision de Gabriel : les messages annoncent simplement que la carte est faite, et Cowork enverra
+les cartes après.**
 
-Les quinze formulations ont été réécrites en conséquence, par exemple :
+Les quinze formulations sont donc courtes et sans mécanique :
 
-> J'ai aussi déposé 200 $ de crédit sur votre compte, sans date d'expiration : il s'applique tout
-> seul à la caisse quand vous êtes connecté avec cette adresse.
+> Une carte-cadeau de 200 $ est déjà faite à votre nom, sans date d'expiration. Elle vous arrive
+> séparément.
 
 Et en anglais :
 
-> There is also **$200 of store credit already sitting on your account**, no expiry date. It applies
-> on its own at checkout when you are signed in with this email address, so there is no code to keep
-> track of.
+> A $200 gift card is already made out in your name, no expiry date. It comes to you separately.
 
-⚠️ **Conséquence à surveiller : le client doit être connecté avec la bonne adresse.** Quelqu'un qui
-commande en invité, ou avec un autre courriel, ne verra pas son crédit. C'est le seul point de
-friction du montage, et c'est pour ça que les messages nomment l'adresse plutôt que de promettre un
-code.
+## ⚠️ L'ordre compte : le message d'abord, la carte ensuite
 
-Si une personne écrit qu'elle ne voit pas son crédit, le bouton **Send gift card** sur la fiche
-envoie le code par courriel, un cas à la fois.
+Le bouton **Send gift card** sur chaque fiche envoie le code par courriel, une carte à la fois.
+
+**Il ne doit jamais partir avant le message privé.** Recevoir un courriel Shopify contenant un code
+de 200 $, sans explication, de la part d'une entreprise avec qui on est en froid, se lit au mieux
+comme une erreur et au pire comme une tentative d'achat du silence. C'est le message qui donne son
+sens à la carte, pas l'inverse.
+
+**La consigne pour Cowork :** pour chaque personne, envoyer la carte **le lendemain** du message
+privé, en suivant le calendrier J1 → J19 plus bas. Jamais en lot, jamais avant.
+
+**Deux exceptions, aucune carte à envoyer :** Marie-Michèle Leblanc et Susan Lockhart.
 
 ## 3. Le pied de page et la FAQ française
 

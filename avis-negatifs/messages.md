@@ -230,9 +230,8 @@ solution promise, puis plus rien pendant trois mois. Avis toujours en ligne, san
 > that way.
 >
 > Your $99.72 is refunded in full. The four packs of seed bombs go out again this week by tracked
-> parcel, free of charge, and I will put the number in this thread myself. There is also **$200 of
-> store credit already sitting on your account**, no expiry date. It applies on its own at checkout
-> when you are signed in with this email address, so there is no code to keep track of.
+> parcel, free of charge, and I will put the number in this thread myself. A $200 gift card is
+> already made out in your name, no expiry date. It comes to you separately.
 >
 > None of that gives you back the growing season you lost.
 >
@@ -265,8 +264,8 @@ inventaire, expédiés 22 jours plus tard. Il se déclare parti. Avis toujours e
 >
 > Vous avez écrit que de votre côté c'était terminé. Je le comprends, et je fais quand même le
 > tour : vos 119,55 $ vous sont remboursés sur votre carte, vous gardez les deux cache-cou, et une
-> crédit de 200 $ est déjà déposé sur votre compte, sans date d'expiration. Il s'applique tout seul
-> à la caisse quand vous êtes connecté avec cette adresse courriel, il n'y a pas de code à garder.
+> carte-cadeau de 200 $ est déjà faite à votre nom, sans date d'expiration. Elle vous arrive
+> séparément.
 >
 > Si vous préférez ne plus rien recevoir de nous, dites-le-moi et c'est noté pour de bon.
 >
@@ -301,9 +300,8 @@ toujours sans réponse publique de Lasclay.*
 > que 100 $ étaient partis en fumée. Je m'en excuse.
 >
 > L'échange s'est fait, mais je trouve que ça s'arrête trop tôt. Je vous rembourse quand même la
-> paire qui ne vous allait pas, 112,39 $, et vous gardez les quatre. J'ai aussi déposé 200 $ de
-> crédit sur votre compte, sans date d'expiration : il s'applique tout seul à la caisse quand vous
-> êtes connecté avec cette adresse.
+> paire qui ne vous allait pas, 112,39 $, et vous gardez les quatre. Une carte-cadeau de 200 $ est
+> déjà faite à votre nom, sans date d'expiration, et vous arrive séparément.
 >
 > Une question, si vous avez deux minutes. Vos mesures tombaient entre le petit et le moyen et le
 > guide vous a envoyé vers le moyen. Vous souvenez-vous de ce qu'il indiquait à ce moment-là? On est
@@ -331,8 +329,8 @@ réponse. Avis bilingue, toujours en ligne.*
 > c'est nous. Le service client était réduit au minimum cet hiver-là. Je m'en excuse.
 >
 > Vos 242,57 $ vous sont remboursés au complet et vous gardez la tuque, les mitaines et le foulard.
-> J'ai aussi déposé 200 $ de crédit sur votre compte, sans date d'expiration : il s'applique tout
-> seul à la caisse quand vous êtes connecté avec cette adresse.
+> Une carte-cadeau de 200 $ est déjà faite à votre nom, sans date d'expiration, et vous arrive
+> séparément.
 >
 > Est-ce que l'article est encore chez vous, et est-ce qu'il est encore défectueux? Dites-moi lequel
 > c'était et il me fera plaisir de vous en envoyer un neuf cette semaine, sans retour à faire.
@@ -368,8 +366,8 @@ de son avis. **Ne jamais la contredire** : proposer de vérifier ensemble.*
 > par un autre transporteur, avec le numéro le jour même.
 >
 > Peu importe ce qui est arrivé à celle-là : vos 125,89 $ vous sont remboursés au complet, vous
-> gardez les mitaines d'origine, et 200 $ de crédit sont déposés sur votre compte, sans date
-> d'expiration. Ils s'appliquent tout seuls à la caisse quand vous êtes connectée avec cette adresse.
+> gardez les mitaines d'origine, et une carte-cadeau de 200 $ est déjà faite à votre nom, sans date
+> d'expiration.
 >
 > Sur la rigidité, votre commentaire a servi. La soie d'asclépiade ne se comporte pas pareil d'un
 > lot à l'autre et on apprend encore à la travailler. C'est un des défauts sur lesquels on est
@@ -405,8 +403,7 @@ remboursée. Elle a déjà reçu une carte-cadeau (L-44698, 22 décembre) et des
 > le prends pas pour acquis.
 >
 > Votre commande du 9 décembre vous est remboursée au complet, 126,46 $, et vous gardez les
-> mitaines. J'ai aussi déposé 200 $ de crédit sur votre compte, en plus de la carte de décembre :
-> ça s'applique tout seul à la caisse quand vous êtes connectée avec cette adresse.
+> mitaines. Une carte-cadeau de 200 $ est déjà faite à votre nom, en plus de celle de décembre.
 >
 > Est-ce que les mitaines de janvier vous vont bien, finalement?
 >
@@ -458,8 +455,7 @@ pose donc la question au lieu de trancher.*
 > semaine par colis suivi. Trois ans plus tard, mais il part.
 >
 > Dans tous les cas, je vous rembourse la commande de préventes 2022 au complet et j'ajoute une
-> crédit de 200 $ déjà déposé sur votre compte, sans date d'expiration. Il s'applique tout seul à la
-> caisse quand vous êtes connecté avec cette adresse.
+> carte-cadeau de 200 $ déjà faite à votre nom, sans date d'expiration.
 >
 > Vous avez commandé six fois chez nous, dont plusieurs fois après cet épisode. Si vous aviez envie
 > de me dire ce qui cloche encore aujourd'hui, ça m'intéresse pour vrai : vous nous connaissez mieux
@@ -503,13 +499,12 @@ répond pas. Le second met en cause la segmentation Klaviyo autant que le suppor
 > qui n'allait pas. Je vous en envoie un neuf cette semaine, sans que vous ayez à retourner quoi que
 > ce soit, et je vous rembourse l'article au complet par-dessus.
 >
-> J'ai déposé 200 $ de crédit sur votre compte aujourd'hui, sans attendre votre réponse. Il
-> s'applique tout seul à la caisse quand vous êtes connectée avec cette adresse.
+> Une carte-cadeau de 200 $ est déjà faite à votre nom, sans attendre votre réponse.
 >
 > Si vous préférez ne plus recevoir nos infolettres, dites-le et je vous désabonne moi-même.
 >
 > Et si le cœur vous en dit une fois que ce sera réglé, une mise à jour de votre avis nous aiderait
-> vraiment. Aucune obligation, le crédit tient de toute façon.
+> vraiment. Aucune obligation, la carte tient de toute façon.
 
 ---
 
@@ -540,8 +535,7 @@ répond pas. Le second met en cause la segmentation Klaviyo autant que le suppor
 >
 > Le solde de 16,88 $ vous est remboursé, ce qui ramène la commande à zéro, et vous gardez le
 > cache-cou. Dites-moi si vous préférez un modèle plus ample ou plus court et je vous l'envoie sans
-> frais. J'ai aussi déposé 100 $ de crédit sur votre compte : ça s'applique tout seul à la caisse
-> quand vous êtes connectée avec cette adresse.
+> frais. Une carte-cadeau de 100 $ est déjà faite à votre nom.
 >
 > Et si le cœur vous en dit une fois que vous aurez le bon modèle en main, une mise à jour de votre
 > avis nous aiderait vraiment. Aucune obligation.
@@ -567,8 +561,7 @@ Inchangé à la deuxième passe.*
 > Je m'en excuse.
 >
 > Vos 121,86 $ vous sont remboursés au complet, plus les 11,49 $ que vous avez payés pour l'échange,
-> et vous gardez les mitaines. J'ai aussi déposé 100 $ de crédit sur votre compte : ça s'applique
-> tout seul à la caisse quand vous êtes connectée avec cette adresse.
+> et vous gardez les mitaines. Une carte-cadeau de 100 $ est déjà faite à votre nom.
 >
 > Est-ce que la grandeur reçue en janvier vous va? Si ce n'est pas le cas, dites-le-moi et je m'en
 > occupe.
@@ -608,8 +601,7 @@ tenue chez lui coûterait plus cher que son avis à 3★.*
 > parti directement à la personne qui redessine la semelle.
 >
 > Je vous rembourse vos 24,13 $ sans retour à faire, vous gardez les semelles, et j'ajoute une
-> crédit de 100 $ déjà déposé sur votre compte, qui s'applique tout seul à la caisse quand vous êtes
-> connecté avec cette adresse.
+> carte-cadeau de 100 $ déjà faite à votre nom.
 >
 > Vous écrivez que vous croyez au produit. Est-ce que je peux vous envoyer la prochaine version dès
 > qu'elle sort, sans frais, pour que vous nous disiez si le problème est réglé? C'est le test qui
@@ -644,8 +636,8 @@ raison. Un des cinq dossiers « promesse rompue ».*
 >
 > Le gros du remboursement a fini par vous parvenir en janvier, avec beaucoup trop de retard. Il
 > reste 32,39 $ sur cette commande : je les rembourse aujourd'hui, ce qui la ramène à zéro, et vous
-> gardez tout. J'ai aussi déposé 100 $ de crédit sur votre compte, sans date d'expiration : ça
-> s'applique tout seul à la caisse quand vous êtes connectée avec cette adresse. Vous commandez
+> gardez tout. Une carte-cadeau de 100 $ est déjà faite à votre nom, sans date d'expiration. Vous
+> commandez
 > chez nous depuis 2021.
 >
 > Est-ce qu'il reste autre chose en suspens de votre côté? Si oui, dites-le-moi et je m'en occupe
@@ -676,8 +668,8 @@ en ligne et toujours sans réponse publique après trois ans.*
 > Pour votre dernière question : oui, l'entreprise existe toujours. On a beaucoup changé depuis, et
 > il nous reste du chemin à faire sur les délais et sur les nouvelles qu'on donne.
 >
-> J'ai déposé 100 $ de crédit sur votre compte, sans date d'expiration et sans rien à faire pour
-> l'obtenir : ça s'applique tout seul à la caisse quand vous êtes connectée avec cette adresse. Si l'envie vous prend de réessayer, écrivez-moi directement et je m'occupe de votre
+> Une carte-cadeau de 100 $ est déjà faite à votre nom, sans date d'expiration et sans rien à faire
+> pour l'obtenir. Elle vous arrive séparément. Si l'envie vous prend de réessayer, écrivez-moi directement et je m'occupe de votre
 > commande.
 >
 > Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune
@@ -709,11 +701,11 @@ avis. Ne pas offrir de remboursement : il est fait.*
 > selling them in time, and the support inbox fell behind at the same moment. You were one of the
 > people caught in the middle of that.
 >
-> There is **$100 of store credit on your account**, no expiry date and nothing to do to claim it.
-> It applies on its own at checkout when you are signed in with this email address. If you ever want
-> to try the lunch bag again, write to me directly and I will handle the order myself.
+> A $100 gift card is already made out in your name, no expiry date and nothing to do to claim it.
+> It comes to you separately. If you ever want to try the lunch bag again, write to me directly and
+> I will handle the order myself.
 >
-> And if you feel like updating your review, it would help us a lot. No obligation, the credit is
+> And if you feel like updating your review, it would help us a lot. No obligation, the card is
 > yours either way.
 
 ---
