@@ -45,24 +45,26 @@ body{
 h1,h2,h3{font-family:Fraunces,Georgia,serif;text-wrap:balance;margin:0}
 .eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.13em;
   text-transform:uppercase;color:var(--muted);font-weight:500}
-.num{font-variant-numeric:tabular-nums}
 
-/* ---- masthead ---- */
 header.mast{padding:64px 0 40px;border-bottom:2px solid var(--ink)}
 header.mast h1{font-size:clamp(38px,6.2vw,66px);line-height:1.02;font-weight:800;letter-spacing:-.022em;margin:14px 0 0}
 header.mast .sub{max-width:62ch;margin-top:20px;color:var(--ink-2);font-size:18px}
 .meta-line{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:26px}
 .meta-line span{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
 
-/* ---- verdict ---- */
-.verdict{margin:40px 0 8px;padding:30px 32px;background:var(--surface);border:1px solid var(--rule);
-  border-left:5px solid var(--ochre);border-radius:3px;box-shadow:var(--shadow)}
+.correction{margin:36px 0 0;padding:24px 28px;background:var(--warn-bg);border:1px solid var(--warn);
+  border-radius:3px}
+.correction .eyebrow{color:var(--warn)}
+.correction p{margin:10px 0 0;color:var(--ink);max-width:74ch}
+.correction p:first-of-type{margin-top:12px}
+
+.verdict{margin:34px 0 8px;padding:30px 32px;background:var(--surface);border:1px solid var(--rule);
+  border-left:5px solid var(--teal);border-radius:3px;box-shadow:var(--shadow)}
 .verdict p{margin:0;font-family:Fraunces,Georgia,serif;font-size:clamp(20px,2.6vw,26px);
   line-height:1.42;font-weight:400;letter-spacing:-.01em}
 .verdict p+p{margin-top:14px;font-family:"Public Sans",sans-serif;font-size:16.5px;color:var(--ink-2)}
 .verdict b{font-weight:600;color:var(--ink)}
 
-/* ---- kpi ---- */
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:1px;
   background:var(--rule);border:1px solid var(--rule);margin:36px 0 0;border-radius:3px;overflow:hidden}
 .kpi{background:var(--surface);padding:20px 20px 18px}
@@ -76,9 +78,7 @@ header.mast .sub{max-width:62ch;margin-top:20px;color:var(--ink-2);font-size:18p
 section{margin-top:76px}
 h2{font-size:clamp(25px,3.4vw,33px);font-weight:600;letter-spacing:-.018em;line-height:1.14}
 .lede{max-width:66ch;color:var(--ink-2);margin-top:12px}
-.rule{height:1px;background:var(--rule);margin:26px 0 0}
 
-/* ---- findings ---- */
 .finding{background:var(--surface);border:1px solid var(--rule);border-radius:3px;
   margin-top:22px;overflow:hidden;box-shadow:var(--shadow)}
 .finding>.top{display:flex;gap:18px;padding:22px 26px 20px;align-items:flex-start;
@@ -87,8 +87,7 @@ h2{font-size:clamp(25px,3.4vw,33px);font-weight:600;letter-spacing:-.018em;line-
   padding-top:5px;min-width:2.2em;font-variant-numeric:tabular-nums}
 .finding h3{font-size:20.5px;font-weight:600;letter-spacing:-.012em;line-height:1.25}
 .finding .body{margin-top:10px;color:var(--ink-2);max-width:70ch}
-.finding .body p{margin:0 0 10px}
-.finding .body p:last-child{margin-bottom:0}
+.finding .body p{margin:0 0 10px} .finding .body p:last-child{margin-bottom:0}
 .chip{display:inline-flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",monospace;
   font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
   padding:4px 9px;border-radius:2px;white-space:nowrap}
@@ -103,7 +102,6 @@ h2{font-size:clamp(25px,3.4vw,33px);font-weight:600;letter-spacing:-.018em;line-
 .hl{background:linear-gradient(transparent 62%,color-mix(in srgb,var(--ochre) 26%,transparent) 62%);
   font-weight:600;color:var(--ink)}
 
-/* ---- tables ---- */
 .tblwrap{overflow-x:auto;margin-top:18px;border:1px solid var(--rule);border-radius:3px;background:var(--surface)}
 table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}
 th,td{padding:9px 14px;text-align:right;border-bottom:1px solid var(--rule-2);white-space:nowrap}
@@ -114,8 +112,8 @@ tbody tr:last-child td{border-bottom:none}
 tbody tr.tot td{font-weight:700;background:var(--surface-2)}
 td.n{font-variant-numeric:tabular-nums}
 td.bad{color:var(--crit);font-weight:600} td.ok{color:var(--good);font-weight:600}
+caption{caption-side:bottom;text-align:left;font-size:13px;color:var(--muted);padding:12px 14px 0}
 
-/* ---- charts ---- */
 figure{margin:26px 0 0;background:var(--surface);border:1px solid var(--rule);border-radius:3px;
   padding:22px 24px 18px;box-shadow:var(--shadow)}
 figcaption{font-size:13.5px;color:var(--muted);margin-top:14px;max-width:74ch}
@@ -134,7 +132,6 @@ svg{display:block;width:100%;height:auto;overflow:visible}
 .tip b{font-family:"IBM Plex Mono",monospace;font-weight:600}
 .tip .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
 
-/* ---- plan ---- */
 .plan{display:grid;gap:14px;margin-top:22px}
 .step{display:grid;grid-template-columns:auto 1fr;gap:18px;background:var(--surface);
   border:1px solid var(--rule);border-radius:3px;padding:20px 24px;box-shadow:var(--shadow)}
@@ -157,10 +154,10 @@ footer p{margin:0 0 8px}
 <div class="wrap">
 
 <header class="mast">
-  <div class="eyebrow">Lasclay · audit publicitaire · août 2026</div>
+  <div class="eyebrow">Lasclay · audit publicitaire · août 2026 · version corrigée</div>
   <h1>Où part la pub<br>de Lasclay</h1>
-  <p class="sub">Trois ans de Meta Ads (Québec + USA) confrontés aux ventes réelles de Shopify et
-  aux infolettres Klaviyo. Ce que le journal publicitaire ne montrait plus.</p>
+  <p class="sub">Trois ans de Meta Ads confrontés aux ventes Shopify, aux infolettres Klaviyo
+  et aux livres de QuickBooks. Sur une base de revenu enfin comparable.</p>
   <div class="meta-line">
     <span>585 526 $ de pub mesurés</span><span>·</span>
     <span>25 juil. 2023 → 25 août 2026</span><span>·</span>
@@ -168,70 +165,124 @@ footer p{margin:0 0 8px}
   </div>
 </header>
 
+<div class="correction">
+  <div class="eyebrow">Correction de méthode</div>
+  <p><b>Meta compte la valeur d'une commande taxes et livraison comprises. Le journal publicitaire,
+  non.</b> La première version de cet audit comparait le ROAS de Meta aux ventes <em>nettes</em>
+  de Shopify — une base amputée des taxes, de la livraison et des retours.</p>
+  <p>Sur 38 mois, l'écart entre les deux bases est de <b>456 688 $</b>, soit <b>20,3 %</b>.
+  Tous les rendements ont été recalculés sur la base que Meta utilise réellement. Le verdict
+  en est renversé : la pub n'est pas sous le seuil de rentabilité, elle est au-dessus.</p>
+</div>
+
 <div class="verdict">
-  <p>La publicité fonctionne encore — mais elle coûte <b>2,3 fois plus cher qu'il y a deux ans</b>
-  pour livrer la même vente, et le tableau de bord censé le signaler s'est arrêté de dire la vérité
-  en mars&nbsp;2026.</p>
-  <p>Trois choses payent : les campagnes de conversion, les journées d'infolettre, les préventes.
-  Trois choses coûtent : la saturation d'audience, les campagnes d'engagement, et une mesure
-  qui ne relie plus la dépense aux ventes.</p>
+  <p>Sur la bonne base, chaque dollar de publicité en ramène <b>4,30</b> et le seuil de rentabilité,
+  calculé sur les vraies marges de QuickBooks, est à <b>2,47</b>. La pub paie.</p>
+  <p>Ce qui ne paie pas : 58 260 $ passés dans des campagnes qui ne vendent pas, une audience
+  québécoise saturée qui a fait doubler le coût par achat, et un tableau de bord qui, depuis mars
+  2026, ne dit plus la vérité. Et le rendement <em>marginal</em> — ce que rapporte le dollar
+  suivant — est bien plus mince que le rendement moyen ne le laisse croire.</p>
 </div>
 
 <div class="kpis">
-  <div class="kpi"><span class="k">Dépense Meta mesurée</span><span class="v">585 526 $</span><span class="d">QC 394 696 $ · USA 190 830 $</span></div>
-  <div class="kpi"><span class="k">MER réel FY2026</span><span class="v">3,10</span><span class="d">FY2024 : 5,26 · FY2025 : 3,32</span></div>
+  <div class="kpi up"><span class="k">MER FY2026, base Meta</span><span class="v">4,30</span><span class="d">seuil de rentabilité : 2,47</span></div>
+  <div class="kpi"><span class="k">Rendement marginal estimé</span><span class="v">3,30 $</span><span class="d">par dollar dépensé en plus</span></div>
   <div class="kpi down"><span class="k">CPA Meta FY2026</span><span class="v">31,48 $</span><span class="d">+87 % vs FY2024 (16,86 $)</span></div>
-  <div class="kpi down"><span class="k">Dépense hors conversion</span><span class="v">58 260 $</span><span class="d">ROAS 0,62 · 117 476 $ perdus</span></div>
-  <div class="kpi up"><span class="k">Jour d'infolettre</span><span class="v">×3,2</span><span class="d">vs une journée sans envoi</span></div>
+  <div class="kpi down"><span class="k">Dépense hors conversion</span><span class="v">58 260 $</span><span class="d">ROAS 0,62 · très sous le seuil</span></div>
+  <div class="kpi up"><span class="k">Jour d'infolettre</span><span class="v">×3,3</span><span class="d">vs une journée sans envoi</span></div>
 </div>
 
 <section>
-  <h2>La courbe qui résume tout</h2>
-  <p class="lede">Dépense publicitaire et ventes nettes, mois par mois, dans la même unité.
-  Jusqu'à l'automne 2025 les deux courbes s'écartent — chaque dollar de pub en rapporte plusieurs.
-  À partir de janvier 2026 elles se rapprochent : la pub grimpe, les ventes ne suivent plus.</p>
+  <h2>Les trois bases de revenu, et pourquoi ça compte</h2>
+  <p class="lede">Trois chiffres différents décrivent le même mois de ventes. Les confondre suffit
+  à faire passer une campagne rentable pour une campagne déficitaire.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Base</th><th>Définition</th><th>38 mois</th><th>Écart</th></tr></thead>
+    <tbody>
+      <tr><td><b>Base Meta</b> — valeur de commande</td><td style="white-space:normal">brut − rabais + livraison + taxes, avant retours</td><td class="n">2 709 534 $</td><td class="n">référence</td></tr>
+      <tr><td><b>Base encaissée</b> — <code>total_sales</code></td><td style="white-space:normal">idem, retours déduits (84 353 $)</td><td class="n">2 625 182 $</td><td class="n">−3,1 %</td></tr>
+      <tr><td><b>Base marge</b> — <code>net_sales</code></td><td style="white-space:normal">brut − rabais − retours, sans taxes (289 419 $) ni livraison (82 916 $)</td><td class="n">2 252 847 $</td><td class="n bad">−16,9 %</td></tr>
+    </tbody>
+    <caption>C'est la base marge que le journal publicitaire utilisait pour calculer son ROAS,
+    alors que Meta affichait le sien sur la base Meta. Deux chiffres qui ne pouvaient pas se rejoindre.</caption>
+  </table></div>
+</section>
+
+<section>
+  <h2>La courbe, sur la bonne base</h2>
+  <p class="lede">Dépense publicitaire et valeur de commande, mois par mois, dans la même unité et
+  sur la même définition que celle que Meta utilise pour calculer son ROAS.</p>
   <figure>
     <div class="fig-h">
-      <span class="t">Dépense Meta et ventes nettes Shopify</span>
+      <span class="t">Dépense Meta et valeur de commande Shopify</span>
       <span class="legend">
         <i style="--c:var(--ochre)">Dépense Meta</i>
-        <i style="--c:var(--teal)">Ventes nettes Shopify</i>
+        <i style="--c:var(--teal)">Valeur de commande</i>
       </span>
     </div>
     <div class="chart" id="c1"></div>
-    <figcaption>Mensuel, dollars canadiens. Le pic de mai 2026 (82&nbsp;741&nbsp;$ de ventes pour
-    3&nbsp;775&nbsp;$ de pub) est la journée de prévente du 30 mai, portée par l'infolettre et non par Meta.</figcaption>
+    <figcaption>Mensuel, dollars canadiens, taxes et livraison comprises. Mai 2026 — 97 219 $ de
+    commandes pour 3 775 $ de pub — est la journée de prévente du 30 mai, portée par l'infolettre.</figcaption>
   </figure>
   <figure>
-    <div class="fig-h"><span class="t">MER réel — ventes nettes ÷ dépense publicitaire</span></div>
+    <div class="fig-h"><span class="t">MER — valeur de commande ÷ dépense publicitaire</span></div>
     <div class="chart" id="c2"></div>
-    <figcaption>Le seul indicateur qui ne dépend d'aucune attribution déclarative. La ligne à 3,0
-    marque le seuil sous lequel la croissance publicitaire coûte plus qu'elle ne rapporte.
-    Huit des dix-huit derniers mois passent dessous, dont cinq d'affilée de mars à juillet 2025
-    et trois d'affilée de janvier à mars 2026. Les cinq barres marquées d'un chevron dépassent
-    l'échelle : juillet à novembre 2023, où la dépense était encore minime, et mai 2026 (21,9).</figcaption>
+    <figcaption>La ligne à 2,47 n'est plus un seuil de convenance : elle sort des livres.
+    Marge de contribution FY2026 de 48,5 % (revenus moins COGS, expédition clients et frais
+    marchands), rapportée à l'écart de 1,198 entre base Meta et base marge. Sur les 37 mois de
+    dépense réelle, <b>deux seulement</b> passent dessous : juin 2025 (2,19) et mars 2026 (1,87).
+    Les barres à chevron dépassent l'échelle.</figcaption>
   </figure>
 </section>
 
 <section>
-  <h2>Cinq constats, classés par ce qu'ils coûtent</h2>
-  <p class="lede">Le numéro indique le rang par impact financier estimé, du plus lourd au plus léger.</p>
+  <h2>Le rendement moyen ment un peu</h2>
+  <p class="lede">Le MER crédite la publicité de <em>toutes</em> les ventes, y compris celles que
+  le courriel et l'organique auraient faites sans elle. Deux mesures corrigent cette illusion.</p>
+
+  <div class="kpis" style="margin-top:26px">
+    <div class="kpi"><span class="k">MER moyen, 38 mois</span><span class="v">4,63</span><span class="d">toutes les ventes créditées</span></div>
+    <div class="kpi"><span class="k">Rendement marginal</span><span class="v">3,30 $</span><span class="d">pente de régression · R² 0,74</span></div>
+    <div class="kpi"><span class="k">Base sans publicité</span><span class="v">19 k$</span><span class="d">par mois, ordonnée à l'origine</span></div>
+    <div class="kpi down"><span class="k">Part du CA réclamée par Meta</span><span class="v">61 %</span><span class="d">72 % dans les mois à forte dépense</span></div>
+  </div>
+
+  <figure>
+    <div class="fig-h"><span class="t">Ce que Meta s'attribue, selon l'intensité de la dépense</span></div>
+    <div class="chart" id="c5"></div>
+    <figcaption>Les 33 mois où la dépense dépasse 500 $, répartis en trois tiers égaux. Plus on
+    dépense, plus le rendement moyen baisse — et plus Meta s'attribue une part large du magasin.
+    Dans le tiers haut, Meta revendique près des trois quarts de tout ce que la boutique a vendu,
+    infolettres et clients fidèles compris.</figcaption>
+  </figure>
+  <p class="lede" style="margin-top:22px">La régression porte sur 38 points, avec une forte
+  saisonnalité et deux chocs de prévente : elle donne un ordre de grandeur, pas une mesure.
+  Elle suffit néanmoins à dire une chose utile — <b>3,30 $ de rendement marginal contre 2,47 $
+  de seuil, la marge de sécurité est réelle mais mince</b>. Seul un test d'incrémentalité
+  (Meta Lift, ou une coupure géographique contrôlée) trancherait pour de bon.</p>
+</section>
+
+<section>
+  <h2>Quatre constats, classés par ce qu'ils coûtent</h2>
+  <p class="lede">Le numéro indique le rang par impact financier estimé. Ces quatre-là survivent
+  intacts à la correction de base : ils portent sur la dépense et sur des ratios internes à Meta.</p>
 
   <article class="finding" style="--sev:var(--crit)">
     <div class="top"><span class="rank">01</span><div>
-      <span class="chip c">117 476 $ de manque à gagner</span>
-      <h3 style="margin-top:9px">58 260 $ sont passés dans des campagnes qui ne vendent pas</h3>
+      <span class="chip c">58 260 $ très sous le seuil</span>
+      <h3 style="margin-top:9px">Un dixième de la dépense est passé dans des campagnes qui ne vendent pas</h3>
       <div class="body">
         <p>Les campagnes d'engagement, de notoriété et de trafic ont consommé <span class="hl">58 260 $</span>
-        sur les trois ans et rapporté 36 327 $ — un ROAS de <b>0,62</b>. Sur la même période, les campagnes
-        de conversion ont tourné à <b>2,64</b>.</p>
-        <p>Deux campagnes suffisent à expliquer la moitié du trou : « (FR) 2023-2024 Engagement »
-        (11 909 $ → ROAS 0,63) et « engagement » (11 385 $ → ROAS <b>0,19</b>, soit 495 $ le achat).
-        « video engagement » a brûlé 5 233 $ à 0,31.</p>
+        et rapporté 36 327 $ — un ROAS de <b>0,62</b>, contre un seuil de rentabilité à 2,47.
+        Les campagnes de conversion, elles, tournent à <b>2,64</b>.</p>
+        <p>Deux campagnes font la moitié du trou : « (FR) 2023-2024 Engagement » (11 909 $ → ROAS 0,63)
+        et « engagement » (11 385 $ → ROAS <b>0,19</b>, soit 495 $ le achat). « video engagement »
+        a brûlé 5 233 $ à 0,31. Réaffecté au ROAS des campagnes de conversion, ce budget aurait
+        produit <b>117 476 $</b> de plus.</p>
       </div>
     </div></div>
     <div class="act"><span class="lbl">À faire</span><span>Fermer toute campagne dont l'objectif n'est pas
-    <em>Ventes</em>. L'engagement ne se paie pas : il se récolte en sous-produit des campagnes de conversion.</span></div>
+    <em>Ventes</em>. L'engagement ne s'achète pas : il se récolte en sous-produit des campagnes de conversion.</span></div>
   </article>
 
   <article class="finding" style="--sev:var(--crit)">
@@ -240,11 +291,11 @@ footer p{margin:0 0 8px}
       <h3 style="margin-top:9px">L'audience québécoise est saturée</h3>
       <div class="body">
         <p>La fréquence moyenne du compte Québec est passée de <b>2,92</b> (FY2024) à <b>4,23</b> (FY2026),
-        et le CPM de 3,35 $ à <span class="hl">9,28 $</span>. Le coût par achat a suivi : 16,86 $ → 31,48 $.</p>
-        <p>Le cas extrême : l'ensemble de publicités « 2025-2026 Automne-Hiver FB Posts statiques »,
-        95 196 $ dépensés à une fréquence cumulée de <b>11,5</b> — chaque personne touchée a vu la
-        publicité onze fois. Il cible le Québec, sur <b>Facebook uniquement, fil d'actualité uniquement</b> :
-        ni Instagram, ni Reels, ni Stories.</p>
+        et le CPM de 3,35 $ à <span class="hl">9,28 $</span>. Le coût par achat a suivi : 16,86 $ → 31,48 $.
+        Ces trois chiffres sont internes à Meta : la correction de base ne les touche pas.</p>
+        <p>Le cas extrême : l'ensemble « 2025-2026 Automne-Hiver FB Posts statiques », 95 196 $
+        dépensés à une fréquence cumulée de <b>11,5</b>. Il cible le Québec sur
+        <b>Facebook uniquement, fil d'actualité uniquement</b> : ni Instagram, ni Reels, ni Stories.</p>
       </div>
     </div></div>
     <div class="act"><span class="lbl">À faire</span><span>Ouvrir les placements Instagram et Reels sur les
@@ -260,94 +311,81 @@ footer p{margin:0 0 8px}
         Depuis mars 2026, l'écart n'est plus du bruit : le journal affiche
         <span class="hl">23 068 $ de dépense québécoise en avril 2026</span> alors que Meta en a
         facturé <b>3 833 $</b>. En mai : 16 916 $ affichés contre <b>567 $</b> réels.</p>
+        <p>À cela s'ajoute le défaut de base qui a motivé cette révision : la colonne ROAS du journal
+        divisait des ventes <em>nettes</em> par la dépense, pendant que Meta affichait un ROAS sur
+        des commandes taxes et livraison comprises. Les deux chiffres ne pouvaient pas se rejoindre —
+        le journal était structurellement <b>20 % plus bas</b>, à réalité identique.</p>
         <p>Les colonnes <em>sessions</em>, <em>commandes</em>, <em>taux de conversion</em> et
-        <em>panier moyen</em> sont vides depuis février 2025 — 457 jours sans données.
-        Le journal s'est arrêté le 22 mai 2026.</p>
+        <em>panier moyen</em> sont vides depuis février 2025. Le journal s'arrête le 22 mai 2026.</p>
       </div>
     </div></div>
-    <div class="act"><span class="lbl">À faire</span><span>Remplacer le journal manuel par le chiffrier
-    consolidé livré avec cet audit, alimenté depuis les API plutôt que recopié à la main.</span></div>
+    <div class="act"><span class="lbl">À faire</span><span>Passer au chiffrier consolidé livré avec cet audit :
+    il porte les trois bases côte à côte, alimentées depuis les API plutôt que recopiées à la main.</span></div>
   </article>
 
   <article class="finding" style="--sev:var(--warn)">
     <div class="top"><span class="rank">04</span><div>
-      <span class="chip w">27 % du CA non attribué</span>
+      <span class="chip w">23 % du CA non attribué</span>
       <h3 style="margin-top:9px">Shopify ne voit pas les infolettres</h3>
       <div class="body">
         <p>Sur les douze derniers mois, Klaviyo revendique <b>2 242 commandes</b> et 260 470 $ de revenu.
         Shopify n'attribue que <span class="hl">20 commandes</span> et 1 632 $ à la source « courriel ».</p>
         <p>La cause est mécanique : sur presque toutes les campagnes, l'option
-        <code>add_tracking_params</code> est à <b>false</b>. Les clics d'infolettre arrivent sans UTM et
-        se rangent dans les 1 121 029 $ de ventes « source inconnue ». Toute décision d'arbitrage
-        entre pub payante et courriel se prend donc à l'aveugle.</p>
+        <code>add_tracking_params</code> est à <b>false</b>. Les clics d'infolettre arrivent sans UTM
+        et se rangent dans les ventes « source inconnue ». C'est aussi ce qui permet à Meta de
+        s'attribuer des commandes que le courriel a déclenchées.</p>
       </div>
     </div></div>
-    <div class="act"><span class="lbl">À faire</span><span>Activer les paramètres de suivi dans les réglages
-    Klaviyo par défaut (utm_source=klaviyo, utm_medium=email) — un seul réglage, toutes les campagnes futures.</span></div>
-  </article>
-
-  <article class="finding" style="--sev:var(--warn)">
-    <div class="top"><span class="rank">05</span><div>
-      <span class="chip w">La liste rétrécit</span>
-      <h3 style="margin-top:9px">Plus d'envois, moins de monde, quatre automatisations</h3>
-      <div class="body">
-        <p>L'audience médiane d'un envoi de masse est passée de <b>20 714</b> (2023-24) à
-        <b>22 215</b> (2024-25) puis <span class="hl">15 576</span> (2025-26) — pendant que le nombre
-        d'envois montait de 41 à 66. On écrit plus souvent à moins de gens.</p>
-        <p>Côté automatisations, il n'y en a que quatre, dont une encore en brouillon. Le panier
-        abandonné n'a touché que 3 242 personnes en un an, pour 13 261 $. Aucun flux de bienvenue
-        segmenté par marché, aucune relance post-achat, aucune reconquête, aucun retour en stock.
-        Les trois campagnes SMS de l'année affichent <b>0 conversion</b>.</p>
-      </div>
-    </div></div>
-    <div class="act"><span class="lbl">À faire</span><span>Diagnostiquer la perte de liste (désabonnements,
-    nettoyage, segments), puis bâtir les flux manquants — le panier abandonné rapporte déjà 4,40 $ par
-    destinataire, c'est le meilleur rendement de tout l'écosystème.</span></div>
+    <div class="act"><span class="lbl">À faire</span><span>Activer les paramètres de suivi par défaut dans les
+    réglages Klaviyo (utm_source=klaviyo, utm_medium=email) — un seul réglage, toutes les campagnes futures.</span></div>
   </article>
 </section>
 
 <section>
   <h2>L'infolettre est le levier le moins cher</h2>
-  <p class="lede">L'intuition se vérifie, et l'écart est plus grand qu'attendu. Sur les douze derniers
-  mois, 68 envois de masse répartis sur 45 journées.</p>
+  <p class="lede">Recalculé lui aussi sur la base encaissée. Sur les douze derniers mois,
+  68 envois de masse répartis sur 45 journées.</p>
   <div class="kpis" style="margin-top:26px">
-    <div class="kpi up"><span class="k">Ventes médianes — jour d'envoi</span><span class="v">3 696 $</span><span class="d">60 commandes</span></div>
-    <div class="kpi"><span class="k">Ventes médianes — jour sans envoi</span><span class="v">1 153 $</span><span class="d">22 commandes</span></div>
+    <div class="kpi up"><span class="k">Commandes médianes — jour d'envoi</span><span class="v">4 403 $</span><span class="d">60 commandes</span></div>
+    <div class="kpi"><span class="k">Commandes médianes — jour sans</span><span class="v">1 325 $</span><span class="d">22 commandes</span></div>
     <div class="kpi up"><span class="k">Part du CA sur 34 % des jours</span><span class="v">62 %</span><span class="d">fenêtre J à J+2</span></div>
     <div class="kpi"><span class="k">Revenu par destinataire</span><span class="v">0,25 $</span><span class="d">panier abandonné : 4,40 $</span></div>
   </div>
   <figure>
-    <div class="fig-h"><span class="t">Ventes nettes médianes par jour, selon la distance à un envoi</span></div>
+    <div class="fig-h"><span class="t">Valeur de commande médiane par jour, selon la distance à un envoi</span></div>
     <div class="chart" id="c3"></div>
-    <figcaption>L'effet ne s'éteint pas le soir même : trois jours après l'envoi, les ventes sont
-    encore au double d'une journée ordinaire. Les 125 jours de la fenêtre J à J+2 pèsent 597 714 $
-    contre 370 035 $ pour les 241 autres jours de l'année.</figcaption>
+    <figcaption>L'effet ne s'éteint pas le soir même : trois jours après l'envoi, les commandes
+    sont encore au double d'une journée ordinaire. Les 125 jours de la fenêtre J à J+2 pèsent
+    693 308 $ sur 1 118 087 $ encaissés dans l'année.</figcaption>
   </figure>
   <p class="lede" style="margin-top:26px">Les deux plus grosses journées de l'histoire récente sont
   des journées de prévente annoncée par courriel, pas des journées de pub :</p>
   <div class="tblwrap"><table>
-    <thead><tr><th>Journée</th><th>Ventes nettes</th><th>Commandes</th><th>Ce qui est parti ce jour-là</th></tr></thead>
+    <thead><tr><th>Journée</th><th>Valeur de commande</th><th>Commandes</th><th>Ce qui est parti ce jour-là</th></tr></thead>
     <tbody>
-      <tr><td>30 mai 2026</td><td class="n ok">56 239 $</td><td class="n">431</td><td>Réchauffement prévente 2026 #4 + SMS</td></tr>
-      <tr><td>13 sept. 2025</td><td class="n ok">39 060 $</td><td class="n">342</td><td>Réchauffement #4 FR + EN + 2 SMS</td></tr>
-      <tr><td>8 déc. 2025</td><td class="n">19 617 $</td><td class="n">168</td><td>AIDE clients QC</td></tr>
-      <tr><td>6 déc. 2025</td><td class="n">17 284 $</td><td class="n">156</td><td>Campagne du 6 déc. + fin de concours</td></tr>
-      <tr><td>24 janv. 2026</td><td class="n">12 894 $</td><td class="n">125</td><td>Vente de fin de saison 2026</td></tr>
+      <tr><td>30 mai 2026</td><td class="n ok">66 183 $</td><td class="n">431</td><td>Réchauffement prévente 2026 #4 + SMS</td></tr>
+      <tr><td>13 sept. 2025</td><td class="n ok">45 249 $</td><td class="n">342</td><td>Réchauffement #4 FR + EN + 2 SMS</td></tr>
+      <tr><td>8 déc. 2025</td><td class="n">22 816 $</td><td class="n">168</td><td>AIDE clients QC</td></tr>
+      <tr><td>6 déc. 2025</td><td class="n">20 024 $</td><td class="n">156</td><td>Campagne du 6 déc. + fin de concours</td></tr>
+      <tr><td>24 janv. 2026</td><td class="n">14 707 $</td><td class="n">125</td><td>Vente de fin de saison 2026</td></tr>
     </tbody>
   </table></div>
-  <p class="lede" style="margin-top:22px">Le mois de <b>mai 2026</b> est la démonstration la plus nette :
-  3 775 $ de publicité, 82 741 $ de ventes nettes, un MER de <b>21,9</b>. Klaviyo y revendique
-  74 348 $ — la quasi-totalité du mois.</p>
+  <p class="lede" style="margin-top:22px"><b>Mai 2026 est la meilleure preuve du dossier :</b>
+  3 775 $ de publicité, 97 219 $ de commandes, un MER de <b>25,8</b>. Meta ne s'y attribue que
+  <b>5,7 %</b> du magasin — parce que les annonces étaient presque toutes éteintes. Ce mois-là,
+  c'est l'infolettre qui a fait le chiffre.</p>
 </section>
 
 <section>
   <h2>Ce que valent les objectifs de campagne</h2>
-  <p class="lede">Tout l'historique mesurable, comptes Québec et USA confondus.</p>
+  <p class="lede">Tout l'historique mesurable, comptes Québec et USA confondus. Ces ROAS sont ceux
+  de Meta, sur la base de Meta — la correction ne les déplace pas.</p>
   <figure>
-    <div class="fig-h"><span class="t">ROAS par objectif de campagne</span></div>
+    <div class="fig-h"><span class="t">ROAS par objectif, contre le seuil de rentabilité réel</span></div>
     <div class="chart" id="c4"></div>
-    <figcaption>Le seuil de rentabilité brute se situe à 1,0 ; le seuil de rentabilité réelle,
-    marge et frais compris, bien au-dessus.</figcaption>
+    <figcaption>Le trait à 2,47 est le seuil calculé sur les marges FY2026. Seule la conversion
+    le franchit. Le trait à 1,0 ne suffit pas : à 1,0, chaque dollar de vente coûte déjà plus que
+    le dollar de pub, une fois COGS, expédition et frais marchands déduits.</figcaption>
   </figure>
   <div class="tblwrap"><table>
     <thead><tr><th>Objectif</th><th>Dépensé</th><th>Valeur d'achat</th><th>ROAS</th><th>Achats</th><th>Part</th></tr></thead>
@@ -367,9 +405,32 @@ footer p{margin:0 0 8px}
 </section>
 
 <section>
+  <h2>Ce que les livres disent, et que la pub seule ne dit pas</h2>
+  <p class="lede">La correction de base a rendu nécessaire d'aller chercher les vraies marges.
+  Ce qu'on y trouve déplace le diagnostic.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Exercice</th><th>Revenus</th><th>Marge brute</th><th>Contribution</th><th>Pub numérique</th><th>% des revenus</th><th>Profit</th></tr></thead>
+    <tbody>
+      <tr><td>FY2024</td><td class="n">504 926 $</td><td class="n">65,5 %</td><td class="n">51,9 %</td><td class="n">88 302 $</td><td class="n">17,5 %</td><td class="n bad">−18 401 $</td></tr>
+      <tr><td>FY2025</td><td class="n">879 125 $</td><td class="n ok">73,0 %</td><td class="n">57,5 %</td><td class="n">245 527 $</td><td class="n">27,9 %</td><td class="n ok">+4 204 $</td></tr>
+      <tr><td>FY2026</td><td class="n">1 085 934 $</td><td class="n bad">61,4 %</td><td class="n">48,5 %</td><td class="n">278 814 $</td><td class="n">25,7 %</td><td class="n bad">−149 994 $</td></tr>
+    </tbody>
+    <caption>P&amp;L QuickBooks, base d'exercice. La contribution retire des revenus le coût des
+    marchandises, l'expédition aux clients et les frais marchands. L'écart entre la ligne
+    « pub numérique » et la dépense Meta mesurée (7 436 $, 9 655 $, 11 731 $) est du Google et
+    de l'achat hors Meta — un bon contrôle de cohérence de l'extraction.</caption>
+  </table></div>
+  <p class="lede" style="margin-top:20px">La perte de <b>149 994 $</b> en FY2026 ne vient pas d'une
+  publicité déficitaire — au MER de 4,30 contre un seuil de 2,47, elle ne l'est pas. Elle vient
+  d'abord de la <span class="hl">marge brute qui tombe de 73,0 % à 61,4 %</span> pendant que les
+  revenus montaient de 23 %. Couper la pub sans régler le coût des marchandises réglerait le
+  mauvais problème.</p>
+</section>
+
+<section>
   <h2>L'écart entre le journal et l'API, mois par mois</h2>
-  <p class="lede">Seuls les mois où l'écart dépasse 1 500 $ sont listés. Avant mars 2026, le journal
-  sous-évaluait ; depuis, il surévalue massivement.</p>
+  <p class="lede">Seuls les mois où l'écart de <em>dépense</em> dépasse 1 500 $ sont listés.
+  Avant mars 2026 le journal sous-évaluait ; depuis, il surévalue massivement.</p>
   <div class="tblwrap"><table>
     <thead><tr><th>Mois</th><th>Journal</th><th>Meta réel</th><th>Écart</th><th>Écart %</th></tr></thead>
     <tbody>
@@ -387,209 +448,204 @@ footer p{margin:0 0 8px}
 
 <section>
   <h2>L'été 2026</h2>
-  <p class="lede">La publicité s'est arrêtée après le 31 mai et les ventes avec elle. Le creux estival
-  existait déjà en 2025, mais pas à cette profondeur.</p>
+  <p class="lede">La publicité s'est arrêtée après le 31 mai et les ventes avec elle. Le creux
+  estival existait déjà en 2025, mais pas à cette profondeur. Comparaison sur la base encaissée.</p>
   <div class="tblwrap"><table>
-    <thead><tr><th>Mois</th><th>Ventes nettes 2025</th><th>Ventes nettes 2026</th><th>Variation</th><th>Dépense Meta 2026</th></tr></thead>
+    <thead><tr><th>Mois</th><th>Encaissé 2025</th><th>Encaissé 2026</th><th>Variation</th><th>Dépense Meta 2026</th></tr></thead>
     <tbody>
-      <tr><td>Juin</td><td class="n">56 686 $</td><td class="n">8 181 $</td><td class="n bad">−86 %</td><td class="n">918 $</td></tr>
-      <tr><td>Juillet</td><td class="n">38 379 $</td><td class="n">2 759 $</td><td class="n bad">−93 %</td><td class="n">0 $</td></tr>
-      <tr><td>Août (au 25)</td><td class="n">25 869 $</td><td class="n">7 180 $</td><td class="n bad">−72 %</td><td class="n">1 064 $</td></tr>
+      <tr><td>Juin</td><td class="n">63 646 $</td><td class="n">9 502 $</td><td class="n bad">−85 %</td><td class="n">918 $</td></tr>
+      <tr><td>Juillet</td><td class="n">44 178 $</td><td class="n">3 240 $</td><td class="n bad">−93 %</td><td class="n">0 $</td></tr>
+      <tr><td>Août (au 25)</td><td class="n">29 805 $</td><td class="n">8 426 $</td><td class="n bad">−72 %</td><td class="n">1 064 $</td></tr>
     </tbody>
   </table></div>
-  <p class="lede" style="margin-top:20px">Le compte <b>Lasclay ROC</b> est fermé et son historique
+  <p class="lede" style="margin-top:20px">C'est le contrepoint honnête au constat précédent :
+  <b>la publicité n'est pas facultative</b>. Mai 2026 a prouvé qu'une prévente bien annoncée
+  tient sans pub ; juin, juillet et août prouvent qu'en dehors d'une prévente, sans pub, il n'y a
+  presque plus de commandes.</p>
+  <p class="lede" style="margin-top:14px">Le compte <b>Lasclay ROC</b> est fermé et son historique
   n'est plus interrogeable par l'API — les données publicitaires du Canada hors Québec sont
   définitivement perdues, sauf ce qui a été exporté à la main dans le Drive.</p>
 </section>
 
 <section>
   <h2>Le suivi à mettre en place</h2>
-  <p class="lede">Le chiffrier livré avec cet audit remplace le journal manuel : 60 mois consolidés,
-  Meta + Shopify + Klaviyo dans le même tableau, plus le détail par campagne et par envoi.
-  Ce qu'il reste à faire tient en cinq gestes.</p>
+  <p class="lede">Le chiffrier livré avec cet audit remplace le journal manuel : 38 mois consolidés
+  avec les trois bases de revenu côte à côte, Meta + Shopify + Klaviyo, plus le détail par campagne
+  et par envoi. Ce qu'il reste à faire tient en cinq gestes.</p>
   <div class="plan">
     <div class="step"><span class="w">Cette semaine</span><div>
       <h3>Couper la dépense hors conversion</h3>
       <p>Aucune campagne d'engagement, de notoriété ou de trafic ne redémarre. Le budget repart
-      entièrement sur les objectifs <em>Ventes</em>.</p></div></div>
+      entièrement sur les objectifs <em>Ventes</em>. C'est le seul geste dont le gain est certain.</p></div></div>
     <div class="step"><span class="w">Cette semaine</span><div>
       <h3>Activer les UTM Klaviyo par défaut</h3>
-      <p>Un seul réglage de compte. À partir de là, Shopify sait ce que rapporte l'infolettre et
-      l'arbitrage courriel / pub payante se fait sur des chiffres.</p></div></div>
+      <p>Un seul réglage de compte. À partir de là, Shopify sait ce que rapporte l'infolettre, et
+      Meta cesse de s'attribuer des commandes que le courriel a déclenchées.</p></div></div>
     <div class="step"><span class="w">Avant la prévente</span><div>
       <h3>Ouvrir Instagram et Reels, plafonner la fréquence</h3>
-      <p>Les ensembles de conversion québécois tournent sur le seul fil Facebook. Ouvrir les
-      placements élargit l'audience atteignable et fait redescendre le CPM.</p></div></div>
-    <div class="step"><span class="w">Avant la prévente</span><div>
-      <h3>Reconstruire les flux Klaviyo</h3>
-      <p>Bienvenue segmentée par marché, relance post-achat, reconquête à 90 jours, retour en stock.
-      Le panier abandonné rapporte déjà 4,40 $ par destinataire — dix-sept fois une campagne de masse.</p></div></div>
+      <p>Les ensembles de conversion québécois tournent sur le seul fil Facebook, à une fréquence
+      de 11,5. Ouvrir les placements élargit l'audience atteignable et fait redescendre le CPM.</p></div></div>
+    <div class="step"><span class="w">Prochaine campagne</span><div>
+      <h3>Mesurer l'incrémentalité une fois pour toutes</h3>
+      <p>Meta s'attribue 72 % du magasin dans les mois à forte dépense. Un test de lift, ou une
+      coupure contrôlée sur une région, dirait enfin ce que la pub ajoute vraiment — et à partir
+      de quel budget elle cesse d'ajouter.</p></div></div>
     <div class="step"><span class="w">Chaque mois</span><div>
-      <h3>Rapprocher le chiffrier et l'API</h3>
-      <p>Six chiffres à lire : MER réel, fréquence QC, CPA vs panier moyen, part hors conversion,
-      revenu courriel, écart journal ↔ API. Si le MER passe sous 3,0 deux mois de suite, on coupe
-      avant d'ajouter.</p></div></div>
+      <h3>Rapprocher le chiffrier et l'API, sur la bonne base</h3>
+      <p>Six chiffres : MER base Meta contre seuil, fréquence QC, CPA vs panier, part hors
+      conversion, revenu courriel, écart journal ↔ API. Et refaire le calcul du seuil chaque
+      trimestre : il bouge avec la marge de contribution.</p></div></div>
   </div>
 </section>
 
 <footer>
-  <p><b>Sources.</b> API Meta Marketing (comptes Lasclay Quebec 363736411681046 et Lasclay USA 359131645638217),
-  ShopifyQL sur lasclay.myshopify.com, API Klaviyo (métrique de conversion « Placed Order »),
-  et le chiffrier « Journal publicitaire » du Drive (979 jours, 17 sept. 2023 → 22 mai 2026).</p>
-  <p><b>Limites.</b> L'API Meta ne remonte que 37 mois : tout ce qui précède le 25 juillet 2023 existe
-  comme campagne mais sans métriques. Le compte Lasclay ROC, fermé, n'est pas interrogeable.
-  Les ROAS Meta sont déclaratifs et sujets à la modélisation ; le MER réel, lui, ne l'est pas.
-  Les montants Meta sont en dollars canadiens.</p>
+  <p><b>Sources.</b> API Meta Marketing (comptes Lasclay Quebec 363736411681046 et Lasclay USA
+  359131645638217), ShopifyQL sur lasclay.myshopify.com, API Klaviyo (métrique « Placed Order »),
+  P&amp;L QuickBooks via le Finance Proxy, et le chiffrier « Journal publicitaire » du Drive
+  (979 jours, 17 sept. 2023 → 22 mai 2026).</p>
+  <p><b>Base de calcul.</b> Sauf mention contraire, les rendements sont exprimés sur la base Meta :
+  brut − rabais + livraison + taxes, avant retours. C'est la définition que Meta utilise pour son
+  ROAS. Le seuil de rentabilité de 2,47 vient de la marge de contribution FY2026 (48,5 %) rapportée
+  à l'écart de 1,198 entre base Meta et base marge ; il est à recalculer quand la marge bouge.</p>
+  <p><b>Limites.</b> L'API Meta ne remonte que 37 mois : tout ce qui précède le 25 juillet 2023
+  existe comme campagne mais sans métriques. Le compte Lasclay ROC, fermé, n'est pas interrogeable.
+  Le MER crédite la publicité de toutes les ventes ; le rendement marginal de 3,30 $ est estimé par
+  régression sur 38 points saisonniers et vaut comme ordre de grandeur, pas comme mesure. Montants
+  en dollars canadiens.</p>
 </footer>
 </div>
 
 <script>
 const D = __DATA__;
-const fmt = n => n.toLocaleString('fr-CA').replace(/ | /g,' ');
-const money = n => fmt(Math.round(n)) + ' $';
+const fmt = n => n.toLocaleString('fr-CA').replace(/[  ]/g,' ');
+const money = n => fmt(Math.round(n)) + ' $';
 const MOIS = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
 const label = m => MOIS[+m.slice(5,7)-1] + ' ' + m.slice(2,4);
 const NS = 'http://www.w3.org/2000/svg';
 const el = (t,a={}) => { const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); return e; };
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-
 function mkTip(host){ const t=document.createElement('div'); t.className='tip'; host.appendChild(t); return t; }
 function place(tip,host,x,y){
-  const w=host.clientWidth; tip.style.opacity=1;
-  const tw=tip.offsetWidth;
+  const w=host.clientWidth; tip.style.opacity=1; const tw=tip.offsetWidth;
   tip.style.left=Math.max(4,Math.min(x-tw/2,w-tw-4))+'px';
   tip.style.top=Math.max(0,y-tip.offsetHeight-12)+'px';
 }
 
-/* ---------- 1. lignes : dépense + ventes ---------- */
 function chart1(){
   const host=document.getElementById('c1'); host.innerHTML='';
   const W=1000,H=330,mL=64,mR=16,mT=14,mB=34;
-  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Dépense Meta et ventes nettes Shopify par mois'});
-  const n=D.mois.length, max=Math.max(...D.ventes,...D.dep)*1.06;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Dépense Meta et valeur de commande Shopify par mois'});
+  const n=D.mois.length, max=Math.max(...D.base,...D.dep)*1.06;
   const X=i=>mL+i*(W-mL-mR)/(n-1), Y=v=>H-mB-(v/max)*(H-mT-mB);
-  const g=el('g',{class:'grid'});
-  const ticks=[0,50000,100000,150000,200000,250000];
-  const ax=el('g',{class:'axis'});
-  ticks.forEach(t=>{ g.appendChild(el('line',{x1:mL,x2:W-mR,y1:Y(t),y2:Y(t)}));
+  const g=el('g',{class:'grid'}), ax=el('g',{class:'axis'});
+  [0,50000,100000,150000,200000,250000,300000].forEach(t=>{
+    g.appendChild(el('line',{x1:mL,x2:W-mR,y1:Y(t),y2:Y(t)}));
     const tx=el('text',{x:mL-9,y:Y(t)+3.5,'text-anchor':'end'}); tx.textContent=t?fmt(t/1000)+'k':'0'; ax.appendChild(tx); });
   svg.append(g);
   D.mois.forEach((m,i)=>{ if(+m.slice(5,7)===1||i===0){
     const tx=el('text',{x:X(i),y:H-mB+17,'text-anchor':'middle'}); tx.textContent=m.slice(0,4); ax.appendChild(tx);
-    g.appendChild(el('line',{x1:X(i),x2:X(i),y1:mT,y2:H-mB,stroke:css('--rule')}));
-  }});
+    g.appendChild(el('line',{x1:X(i),x2:X(i),y1:mT,y2:H-mB,stroke:css('--rule')})); }});
   svg.append(ax);
   const path=a=>a.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
-  const area=a=>path(a)+`L${X(n-1)} ${Y(0)} L${X(0)} ${Y(0)} Z`;
-  svg.append(el('path',{d:area(D.ventes),fill:css('--teal'),'fill-opacity':'.09'}));
+  svg.append(el('path',{d:path(D.base)+`L${X(n-1)} ${Y(0)} L${X(0)} ${Y(0)} Z`,fill:css('--teal'),'fill-opacity':'.09'}));
   svg.append(el('path',{d:path(D.dep),fill:'none',stroke:css('--ochre'),'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'}));
-  svg.append(el('path',{d:path(D.ventes),fill:'none',stroke:css('--teal'),'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'}));
-  const cross=el('line',{y1:mT,y2:H-mB,stroke:css('--muted'),'stroke-width':1,'stroke-dasharray':'3 3',opacity:0});
-  svg.append(cross);
-  [[D.ventes,css('--teal'),'Ventes nettes',-14],[D.dep,css('--ochre'),'Dépense Meta',30]].forEach(([a,col,txt,dy])=>{
+  svg.append(el('path',{d:path(D.base),fill:'none',stroke:css('--teal'),'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'}));
+  [[D.base,css('--teal'),'Valeur de commande',-14],[D.dep,css('--ochre'),'Dépense Meta',30]].forEach(([a,col,txt,dy])=>{
     const i=a.indexOf(Math.max(...a));
     const t=el('text',{x:X(i)+9,y:Y(a[i])+dy,'text-anchor':'start'});
     t.style.fontFamily='"Public Sans",sans-serif'; t.style.fontSize='12px'; t.style.fontWeight='600';
-    t.setAttribute('fill',col); t.textContent=txt; svg.append(t);
-  });
+    t.setAttribute('fill',col); t.textContent=txt; svg.append(t); });
+  const cross=el('line',{y1:mT,y2:H-mB,stroke:css('--muted'),'stroke-width':1,'stroke-dasharray':'3 3',opacity:0});
   const d1=el('circle',{r:5,fill:css('--ochre'),stroke:css('--surface'),'stroke-width':2,opacity:0});
   const d2=el('circle',{r:5,fill:css('--teal'),stroke:css('--surface'),'stroke-width':2,opacity:0});
-  svg.append(d1,d2);
+  svg.append(cross,d1,d2);
   host.appendChild(svg); const tip=mkTip(host);
   svg.addEventListener('pointermove',ev=>{
     const r=svg.getBoundingClientRect(), px=(ev.clientX-r.left)/r.width*W;
     let i=Math.round((px-mL)/((W-mL-mR)/(n-1))); i=Math.max(0,Math.min(n-1,i));
-    const sx=X(i)/W*r.width;
     cross.setAttribute('x1',X(i)); cross.setAttribute('x2',X(i)); cross.setAttribute('opacity',1);
     d1.setAttribute('cx',X(i)); d1.setAttribute('cy',Y(D.dep[i])); d1.setAttribute('opacity',1);
-    d2.setAttribute('cx',X(i)); d2.setAttribute('cy',Y(D.ventes[i])); d2.setAttribute('opacity',1);
-    tip.innerHTML=`<b>${label(D.mois[i])}</b><br><span class="sw" style="background:${css('--ochre')}"></span>Pub ${money(D.dep[i])}<br><span class="sw" style="background:${css('--teal')}"></span>Ventes ${money(D.ventes[i])}`;
-    place(tip,host,sx,Y(Math.max(D.dep[i],D.ventes[i]))/H*r.height);
+    d2.setAttribute('cx',X(i)); d2.setAttribute('cy',Y(D.base[i])); d2.setAttribute('opacity',1);
+    const mer=D.mer[i]!=null?` · MER ${D.mer[i].toLocaleString('fr-CA')}`:'';
+    tip.innerHTML=`<b>${label(D.mois[i])}</b>${mer}<br><span class="sw" style="background:${css('--ochre')}"></span>Pub ${money(D.dep[i])}<br><span class="sw" style="background:${css('--teal')}"></span>Commandes ${money(D.base[i])}`;
+    place(tip,host,X(i)/W*r.width,Y(Math.max(D.dep[i],D.base[i]))/H*r.height);
   });
-  svg.addEventListener('pointerleave',()=>{tip.style.opacity=0;cross.setAttribute('opacity',0);d1.setAttribute('opacity',0);d2.setAttribute('opacity',0);});
+  svg.addEventListener('pointerleave',()=>{tip.style.opacity=0;[cross,d1,d2].forEach(e=>e.setAttribute('opacity',0));});
 }
 
-/* ---------- 2. barres MER ---------- */
 function chart2(){
   const host=document.getElementById('c2'); host.innerHTML='';
-  const W=1000,H=250,mL=42,mR=66,mT=14,mB=34;
-  const vals=D.mer.map(v=>v==null?0:Math.min(v,9));
-  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'MER réel par mois'});
-  const n=vals.length,max=9;
-  const bw=(W-mL-mR)/n, Y=v=>H-mB-(v/max)*(H-mT-mB);
+  const W=1000,H=250,mL=42,mR=78,mT=14,mB=34, MAX=9;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'MER par mois contre le seuil de rentabilité'});
+  const n=D.mer.length, bw=(W-mL-mR)/n, Y=v=>H-mB-(v/MAX)*(H-mT-mB);
   const g=el('g',{class:'grid'}),ax=el('g',{class:'axis'});
   [0,3,6,9].forEach(t=>{ g.appendChild(el('line',{x1:mL,x2:W-mR,y1:Y(t),y2:Y(t)}));
     const tx=el('text',{x:mL-9,y:Y(t)+3.5,'text-anchor':'end'}); tx.textContent=t; ax.appendChild(tx); });
   svg.append(g);
   host.appendChild(svg); const tip=mkTip(host);
-  vals.forEach((v,i)=>{
-    if(!v) return;
-    const h=Y(0)-Y(v), x=mL+i*bw+1;
-    const r=el('rect',{x:x,y:Y(v),width:Math.max(bw-3,2),height:h,rx:3,
-      fill: D.mer[i]>=3? css('--teal') : css('--ochre'), 'fill-opacity': D.mer[i]>=3?'1':'.85'});
+  D.mer.forEach((raw,i)=>{
+    if(raw==null) return;
+    const v=Math.min(raw,MAX), x=mL+i*bw+1;
+    const r=el('rect',{x:x,y:Y(v),width:Math.max(bw-3,2),height:Y(0)-Y(v),rx:3,
+      fill: raw>=D.seuil? css('--teal') : css('--crit')});
     r.style.cursor='crosshair';
-    r.addEventListener('pointerenter',()=>{
-      const rc=svg.getBoundingClientRect();
-      tip.innerHTML=`<b>${label(D.mois[i])}</b><br>MER réel ${D.mer[i].toLocaleString('fr-CA')}<br>Pub ${money(D.dep[i])} → ${money(D.ventes[i])}`;
-      place(tip,host,(x+bw/2)/W*rc.width,Y(v)/H*rc.height);
-    });
+    r.addEventListener('pointerenter',()=>{ const rc=svg.getBoundingClientRect();
+      tip.innerHTML=`<b>${label(D.mois[i])}</b><br>MER ${raw.toLocaleString('fr-CA')} (seuil ${D.seuil.toLocaleString('fr-CA')})<br>Pub ${money(D.dep[i])} → ${money(D.base[i])}`;
+      place(tip,host,(x+bw/2)/W*rc.width,Y(v)/H*rc.height); });
     r.addEventListener('pointerleave',()=>tip.style.opacity=0);
     svg.append(r);
-    if(D.mer[i]>max){                       // barre écrêtée : chevron + valeur réelle
-      const cx=x+(bw-3)/2, cy=Y(v)-6;
+    if(raw>MAX){ const cx=x+(bw-3)/2, cy=Y(v)-6;
       svg.append(el('path',{d:`M${cx-4} ${cy} L${cx} ${cy-5} L${cx+4} ${cy}`,fill:'none',
-        stroke:css('--teal'),'stroke-width':1.8,'stroke-linecap':'round','stroke-linejoin':'round'}));
-    }
+        stroke:css('--teal'),'stroke-width':1.8,'stroke-linecap':'round','stroke-linejoin':'round'})); }
   });
-  svg.append(el('line',{x1:mL,x2:W-mR,y1:Y(3),y2:Y(3),stroke:css('--crit'),'stroke-width':1.5,'stroke-dasharray':'5 4'}));
-  const lb=el('text',{x:W-mR+8,y:Y(3)+3.5,'text-anchor':'start',class:'axis'});
+  svg.append(el('line',{x1:mL,x2:W-mR,y1:Y(D.seuil),y2:Y(D.seuil),stroke:css('--crit'),'stroke-width':1.5,'stroke-dasharray':'5 4'}));
+  const lb=el('text',{x:W-mR+8,y:Y(D.seuil)+3.5,'text-anchor':'start'});
   lb.setAttribute('fill',css('--crit')); lb.style.fontFamily='"IBM Plex Mono",monospace'; lb.style.fontSize='10px';
-  lb.textContent='seuil 3,0'; svg.append(lb);
+  lb.textContent='seuil 2,47'; svg.append(lb);
   D.mois.forEach((m,i)=>{ if(+m.slice(5,7)===1){
     const tx=el('text',{x:mL+i*bw+bw/2,y:H-mB+17,'text-anchor':'middle'}); tx.textContent=m.slice(0,4); ax.appendChild(tx);}});
   svg.append(ax);
 }
 
-/* ---------- 3. effet infolettre ---------- */
 function chart3(){
   const host=document.getElementById('c3'); host.innerHTML='';
-  const rows=[['Jour d’envoi',3696],['J+1',2516],['J+2',2564],['J+3',2363],['Jour sans envoi',1153]];
-  const W=1000,H=210,mL=150,mR=76,mT=8,mB=8;
-  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Ventes nettes médianes selon la distance à un envoi'});
-  const max=4000, bh=(H-mT-mB)/rows.length, X=v=>mL+(v/max)*(W-mL-mR);
+  const rows=[['Jour d’envoi',4403],['J+1',2865],['J+2',2890],['J+3',2836],['Jour sans envoi',1325]];
+  const W=1000,H=210,mL=150,mR=86,mT=8,mB=8, max=4800;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Valeur de commande médiane selon la distance à un envoi'});
+  const bh=(H-mT-mB)/rows.length, X=v=>mL+(v/max)*(W-mL-mR);
   host.appendChild(svg); const tip=mkTip(host);
   rows.forEach(([lab,v],i)=>{
-    const y=mT+i*bh+7, h=bh-16;
-    const last=i===rows.length-1;
+    const y=mT+i*bh+7, h=bh-16, last=i===rows.length-1;
     const r=el('rect',{x:mL,y:y,width:X(v)-mL,height:h,rx:3,
       fill:last?css('--muted'):css('--teal'),'fill-opacity':last?'.45':(i?'.6':'1')});
     r.style.cursor='crosshair';
     r.addEventListener('pointerenter',()=>{ const rc=svg.getBoundingClientRect();
-      tip.innerHTML=`<b>${lab}</b><br>${money(v)} — ×${(v/1153).toFixed(2)} vs jour sans envoi`;
+      tip.innerHTML=`<b>${lab}</b><br>${money(v)} — ×${(v/1325).toFixed(2)} vs jour sans envoi`;
       place(tip,host,(mL+(X(v)-mL)/2)/W*rc.width,y/H*rc.height); });
     r.addEventListener('pointerleave',()=>tip.style.opacity=0);
     svg.append(r);
-    const t=el('text',{x:mL-14,y:y+h/2+4,'text-anchor':'end',class:'axis'});
+    const t=el('text',{x:mL-14,y:y+h/2+4,'text-anchor':'end'});
     t.style.fontFamily='"Public Sans",sans-serif'; t.style.fontSize='13px';
     t.setAttribute('fill',css('--ink-2')); t.textContent=lab; svg.append(t);
-    const val=el('text',{x:X(v)+10,y:y+h/2+4,class:'axis'});
-    val.style.fontSize='12.5px'; val.setAttribute('fill',css('--ink')); val.textContent=money(v); svg.append(val);
+    const val=el('text',{x:X(v)+10,y:y+h/2+4});
+    val.style.fontFamily='"IBM Plex Mono",monospace'; val.style.fontSize='12px';
+    val.setAttribute('fill',css('--ink')); val.textContent=money(v); svg.append(val);
   });
 }
 
-/* ---------- 4. ROAS par objectif ---------- */
 function chart4(){
   const host=document.getElementById('c4'); host.innerHTML='';
   const rows=[['Ventes (conversion)',2.64,357408],['Trafic',1.07,21889],['Clics vers le site',0.43,602],
               ['Engagement',0.35,33080],['Notoriété',0.34,2690]];
-  const W=1000,H=230,mL=180,mR=150,mT=8,mB=8;
+  const W=1000,H=230,mL=180,mR=150,mT=8,mB=18, max=3;
   const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'ROAS par objectif de campagne'});
-  const max=3, bh=(H-mT-mB)/rows.length, X=v=>mL+(v/max)*(W-mL-mR);
+  const bh=(H-mT-mB)/rows.length, X=v=>mL+(v/max)*(W-mL-mR);
   host.appendChild(svg); const tip=mkTip(host);
   svg.append(el('line',{x1:X(1),x2:X(1),y1:mT,y2:H-mB,stroke:css('--muted'),'stroke-width':1,'stroke-dasharray':'4 4'}));
+  svg.append(el('line',{x1:X(D.seuil),x2:X(D.seuil),y1:mT,y2:H-mB,stroke:css('--crit'),'stroke-width':1.5,'stroke-dasharray':'5 4'}));
   rows.forEach(([lab,v,sp],i)=>{
     const y=mT+i*bh+7, h=bh-16;
-    const r=el('rect',{x:mL,y:y,width:Math.max(X(v)-mL,2),height:h,rx:3,fill:v>=1?css('--teal'):css('--crit')});
+    const r=el('rect',{x:mL,y:y,width:Math.max(X(v)-mL,2),height:h,rx:3,fill:v>=D.seuil?css('--teal'):css('--crit')});
     r.style.cursor='crosshair';
     r.addEventListener('pointerenter',()=>{ const rc=svg.getBoundingClientRect();
       tip.innerHTML=`<b>${lab}</b><br>ROAS ${v.toLocaleString('fr-CA')} · ${money(sp)} dépensés`;
@@ -601,15 +657,41 @@ function chart4(){
     t.setAttribute('fill',css('--ink-2')); t.textContent=lab; svg.append(t);
     const val=el('text',{x:X(v)+10,y:y+h/2+4});
     val.style.fontFamily='"IBM Plex Mono",monospace'; val.style.fontSize='12px';
-    val.setAttribute('fill',css('--ink'));
-    val.textContent=v.toLocaleString('fr-CA')+'  ·  '+money(sp); svg.append(val);
-  });
-  const t1=el('text',{x:X(1),y:H-mB+2,'text-anchor':'middle'});
-  t1.style.fontFamily='"IBM Plex Mono",monospace'; t1.style.fontSize='10px';
-  t1.setAttribute('fill',css('--muted')); t1.textContent='seuil 1,0'; svg.append(t1);
+    val.setAttribute('fill',css('--ink')); val.textContent=v.toLocaleString('fr-CA')+'  ·  '+money(sp); svg.append(val); });
+  [[1,'seuil brut 1,0',css('--muted')],[D.seuil,'rentabilité 2,47',css('--crit')]].forEach(([v,txt,col])=>{
+    const t=el('text',{x:X(v),y:H-mB+13,'text-anchor':'middle'});
+    t.style.fontFamily='"IBM Plex Mono",monospace'; t.style.fontSize='10px';
+    t.setAttribute('fill',col); t.textContent=txt; svg.append(t); });
 }
 
-function draw(){ chart1(); chart2(); chart3(); chart4(); }
+function chart5(){
+  const host=document.getElementById('c5'); host.innerHTML='';
+  const rows=[['Tiers bas',44839,389076,8.68,27.8],['Tiers moyen',117411,769846,6.56,56.5],['Tiers haut',423275,1546803,3.65,72.2]];
+  const W=1000,H=220,mL=118,mR=210,mT=10,mB=26;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Part du chiffre d’affaires réclamée par Meta selon l’intensité de la dépense'});
+  const bh=(H-mT-mB)/rows.length, X=v=>mL+(v/100)*(W-mL-mR);
+  host.appendChild(svg); const tip=mkTip(host);
+  [0,25,50,75,100].forEach(t=>{ svg.append(el('line',{x1:X(t),x2:X(t),y1:mT,y2:H-mB,stroke:css('--rule-2'),'stroke-width':1}));
+    const tx=el('text',{x:X(t),y:H-mB+15,'text-anchor':'middle',class:'axis'}); tx.textContent=t+' %'; svg.append(tx); });
+  rows.forEach(([lab,sp,base,mer,part],i)=>{
+    const y=mT+i*bh+8, h=bh-18;
+    const r=el('rect',{x:mL,y:y,width:X(part)-mL,height:h,rx:3,fill:css('--ochre'),'fill-opacity':0.55+i*0.22});
+    r.style.cursor='crosshair';
+    r.addEventListener('pointerenter',()=>{ const rc=svg.getBoundingClientRect();
+      tip.innerHTML=`<b>${lab}</b><br>Dépense ${money(sp)} · commandes ${money(base)}<br>MER ${mer.toLocaleString('fr-CA')} · Meta réclame ${part.toLocaleString('fr-CA')} %`;
+      place(tip,host,(mL+(X(part)-mL)/2)/W*rc.width,y/H*rc.height); });
+    r.addEventListener('pointerleave',()=>tip.style.opacity=0);
+    svg.append(r);
+    const t=el('text',{x:mL-14,y:y+h/2+4,'text-anchor':'end'});
+    t.style.fontFamily='"Public Sans",sans-serif'; t.style.fontSize='13px';
+    t.setAttribute('fill',css('--ink-2')); t.textContent=lab; svg.append(t);
+    const val=el('text',{x:X(part)+10,y:y+h/2+4});
+    val.style.fontFamily='"IBM Plex Mono",monospace'; val.style.fontSize='12px';
+    val.setAttribute('fill',css('--ink'));
+    val.textContent=`${part.toLocaleString('fr-CA')} % réclamés · MER ${mer.toLocaleString('fr-CA')}`; svg.append(val); });
+}
+
+function draw(){ chart1(); chart2(); chart3(); chart4(); chart5(); }
 if(document.fonts && document.fonts.ready){ document.fonts.ready.then(draw); } else { draw(); }
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
 let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(draw,150);});
