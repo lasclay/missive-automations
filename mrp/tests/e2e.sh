@@ -11,7 +11,7 @@ ko(){ printf "  [ÉCHEC] %s\n" "$1"; kill $SRV 2>/dev/null; exit 1; }
 node mrp.js demo >/dev/null 2>&1
 node mrp.js utilisateur:creer a@test.com motdepasse1 "Admin" admin >/dev/null 2>&1
 node mrp.js utilisateur:creer o@test.com motdepasse2 "Atelier" atelier >/dev/null 2>&1
-PORT=$PORT node server.js >/dev/null 2>&1 & SRV=$!
+PORT=$PORT node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
 trap 'kill $SRV 2>/dev/null' EXIT
 sleep 1.5
 B="http://localhost:$PORT"; CA=$(mktemp); CO=$(mktemp)
@@ -170,5 +170,40 @@ curl -s -b $CO $B/assistant | grep -q 'Crée un ordre « Prévente' \
 curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler \
   | grep -q 'err=' && ok "assistant : tour d'autrui non annulable" \
   || ko "assistant : annulation croisée permise"
+
+# --- amorce du premier compte -------------------------------------------
+# Un service fraîchement déployé n'a aucun utilisateur : sans amorce, personne
+# ne peut ouvrir de session, et sans shell c'est irrécupérable. L'amorce doit
+# créer ce compte UNE fois, et ne jamais toucher à une base déjà peuplée.
+kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true
+NEUVE=$(mktemp -d)/neuve.db
+MRP_DB="$NEUVE" MRP_ADMIN_COURRIEL=chef@test.com MRP_ADMIN_MDP=motdepasse9 \
+  PORT=$((PORT+1)) node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
+sleep 1.5
+[ "$(MRP_DB="$NEUVE" node --no-warnings mrp.js utilisateur:liste | grep -c 'chef@test.com .*admin')" = 1 ] \
+  && ok "amorce : le premier compte est créé sur une base neuve" \
+  || ko "amorce : premier compte absent"
+kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true
+
+# relance avec d'autres identifiants : la base n'est plus vide, rien ne bouge
+MRP_DB="$NEUVE" MRP_ADMIN_COURRIEL=intrus@test.com MRP_ADMIN_MDP=motdepasse9 \
+  PORT=$((PORT+1)) node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
+sleep 1.5
+[ "$(MRP_DB="$NEUVE" node --no-warnings mrp.js utilisateur:liste | grep -c intrus)" = 0 ] \
+  && ok "amorce : sans effet sur une base déjà peuplée" \
+  || ko "amorce : un second compte a été créé"
+[ "$(MRP_DB="$NEUVE" node --no-warnings mrp.js utilisateur:liste | grep -c .)" = 1 ] \
+  && ok "amorce : un seul compte au total" || ko "amorce : plus d'un compte"
+kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true
+
+# mot de passe trop court : refusé, et le service démarre quand même
+COURT=$(mktemp -d)/court.db
+MRP_DB="$COURT" MRP_ADMIN_COURRIEL=x@test.com MRP_ADMIN_MDP=court \
+  PORT=$((PORT+2)) node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
+sleep 1.5
+[ "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:$((PORT+2))/sante)" = 200 ] \
+  && [ "$(MRP_DB="$COURT" node --no-warnings mrp.js utilisateur:liste | grep -c .)" = 0 ] \
+  && ok "amorce : mot de passe trop court refusé, le service démarre quand même" \
+  || ko "amorce : mot de passe court accepté ou service en panne"
 
 echo "  Tout est conforme."

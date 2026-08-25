@@ -23,17 +23,18 @@ Node 22.5 ou plus, rien à installer.
 
 ### La mettre en ligne
 
-`render.yaml` est le blueprint prêt à appliquer. Trois étapes, dans l'ordre :
+La marche à suivre complète, dans l'ordre où on clique :
+**[`DEPLOIEMENT.md`](DEPLOIEMENT.md)**. En résumé :
 
 1. **Fusionner la branche dans `main`.** Render suit `main` ; sans ça, le
    service se construirait sur du code qui ne contient pas le MRP. À noter :
    les autres services du dépôt suivent aussi `main` et se redéploieront.
 2. **Render → New → Blueprint**, pointer sur ce dépôt. Le disque persistant,
-   le chemin de la base et `MRP_SECURE` sont déjà dans le fichier.
-3. **Saisir `ANTHROPIC_API_KEY`** dans le tableau de bord (elle est marquée
-   `sync: false`, donc jamais dans le dépôt), puis créer le premier
-   utilisateur depuis le shell Render :
-   `node mrp/mrp.js utilisateur:creer … admin`.
+   le chemin de la base et `MRP_SECURE` sont déjà dans `render.yaml`.
+3. **Saisir les trois secrets** dans le tableau de bord :
+   `MRP_ADMIN_COURRIEL` et `MRP_ADMIN_MDP` — le premier compte, créé au
+   démarrage si la base est vide — et `ANTHROPIC_API_KEY`.
+4. **Charger les données** depuis le Shell Render : `node mrp/import.js --ecrire`.
 
 L'offre `starter` est nécessaire : le plan gratuit n'a pas de disque
 persistant, et la base disparaîtrait à chaque redéploiement.
@@ -45,9 +46,10 @@ node import.js            # aperçu : ce qui serait fait, rien n'est écrit
 node import.js --ecrire   # applique
 ```
 
-L'import lit `donnees/` et remplit la base : 32 produits avec leurs photos
+L'import lit `donnees/` et remplit la base : 34 produits avec leurs photos
 Shopify, leurs matériaux, leurs coûts et les consignes d'atelier, plus l'ordre
-de production de la saison tiré du plan 26-27 — **25 items, 24 133 unités**.
+de production de la saison tiré du plan 26-27 — **27 items, 24 333 unités**, et
+139 répartitions par taille et coloris.
 
 Il est **idempotent** : relancé, il met à jour les quantités et ne touche pas
 aux avancements. C'est l'atelier qui les déclare ; un import n'a pas à écraser
@@ -184,10 +186,10 @@ Même philosophie que le reste du dépôt. Rien à installer, rien à mettre à 
 Tunisie. Chaque action est un formulaire qui poste et redirige.
 
 **Tout est compressé.** C'est le seul levier qui agit sur toutes les pages d'un
-coup, et il compte : l'ordre de production complet — 25 items, 275 boutons
-d'avancement — passe de **47 Ko à 4 Ko**, la liste de fabrication de 28 à
-2,5 Ko. En dessous de 1 Ko on envoie tel quel, le gain ne paierait pas la
-compression. Aucune page ne dépasse 12 Ko sur le réseau.
+coup, et il compte : l'ordre de production complet — 27 items, 297 boutons
+d'avancement et 139 lignes de répartition — passe de **61 Ko à 5 Ko**, la liste
+de fabrication de 32 à 2 Ko. En dessous de 1 Ko on envoie tel quel, le gain ne
+paierait pas la compression. Aucune page ne dépasse 12 Ko sur le réseau.
 
 **Utilisable au téléphone.** Sous 720 px, le tableau des items devient une pile
 de blocs et le sélecteur d'avancement passe en grille de 6 colonnes — aucun
@@ -247,17 +249,22 @@ node mrp.js demo
 | `MRP_SECURE` | `1` en production : exige HTTPS sur le cookie de session |
 | `ANTHROPIC_API_KEY` | clé de l'assistant ; sans elle la page le signale |
 | `MRP_MODELE` | modèle utilisé (défaut `claude-sonnet-5`) |
+| `MRP_ADMIN_COURRIEL` / `MRP_ADMIN_MDP` | premier compte, créé au démarrage si la base n'a aucun utilisateur ; sans effet ensuite |
 
 ## Déploiement sur Render
 
-Service web Node, comme les autres proxys du dépôt.
+Voir **[`DEPLOIEMENT.md`](DEPLOIEMENT.md)** : la marche à suivre complète, les
+réglages à la main si le blueprint ne passe pas, et ce qui casse quand ça
+casse. L'essentiel :
 
-- Build : aucun. Start : `node server.js`
-- **Ajouter un disque persistant** et pointer `MRP_DB` dessus, par exemple
-  `/var/data/mrp.db`. Sans disque persistant, la base disparaît à chaque
-  redéploiement.
-- Mettre `MRP_SECURE=1`.
-- Créer le premier utilisateur admin depuis le shell Render avec `mrp.js`.
+- Build : aucun. Start : `node --no-warnings mrp/server.js`
+- **Disque persistant obligatoire**, `MRP_DB` pointé dessus
+  (`/var/data/mrp.db`). Sans lui, la base disparaît à chaque redéploiement.
+- `MRP_SECURE=1`, et `NODE_VERSION` au moins 22.5 pour `node:sqlite`.
+- `MRP_ADMIN_COURRIEL` + `MRP_ADMIN_MDP` créent le premier compte au démarrage
+  **si et seulement si** la base n'a aucun utilisateur. Sans ça, un service
+  neuf n'est ouvrable par personne : la page de connexion n'offre pas de
+  s'inscrire.
 
 ## Sécurité
 

@@ -14,6 +14,10 @@
  *   MRP_DB      chemin du fichier SQLite (défaut ./data/mrp.db)
  *               sur Render : pointer vers un disque persistant
  *   MRP_SECURE  '1' pour exiger HTTPS sur le cookie de session (production)
+ *   MRP_ADMIN_COURRIEL / MRP_ADMIN_MDP
+ *               premier compte, créé au démarrage SI la base n'a aucun
+ *               utilisateur. Sans ça, un service neuf n'est ouvrable par
+ *               personne. Sans effet dès qu'un compte existe.
  */
 'use strict';
 const http = require('node:http');
@@ -510,7 +514,46 @@ const serveur = http.createServer(async (req, res) => {
   }
 });
 
-if (require.main === module)
+/**
+ * Premier compte, au démarrage.
+ *
+ * Une base neuve n'a aucun utilisateur, et la page de connexion n'offre pas de
+ * s'inscrire — volontairement. Sans amorce, un service fraîchement déployé est
+ * donc inaccessible à tout le monde, y compris à celui qui vient de le créer.
+ *
+ * L'amorce ne s'exécute QUE si la table est vide : elle ne peut ni écraser un
+ * compte, ni changer un mot de passe, ni réactiver un compte désactivé. Une
+ * fois le premier compte créé, les deux variables ne servent plus à rien et
+ * peuvent être retirées du tableau de bord.
+ */
+function amorcerPremierCompte() {
+  const courriel = (process.env.MRP_ADMIN_COURRIEL || '').trim();
+  const mdp = process.env.MRP_ADMIN_MDP || '';
+  const n = db.prepare('SELECT COUNT(*) AS n FROM utilisateurs').get().n;
+  if (n > 0) return;
+  if (!courriel || !mdp) {
+    console.warn('[mrp] Aucun utilisateur, et pas d\'amorce : personne ne peut '
+      + 'ouvrir une session. Poser MRP_ADMIN_COURRIEL et MRP_ADMIN_MDP, ou créer '
+      + 'un compte avec « node mrp/mrp.js utilisateur:creer ».');
+    return;
+  }
+  if (mdp.length < 8) {
+    console.error('[mrp] MRP_ADMIN_MDP fait moins de 8 caractères : compte non créé.');
+    return;
+  }
+  try {
+    auth.creerUtilisateur({ courriel, mdp, nom: 'Administration', role: 'admin' });
+    console.log(`[mrp] Premier compte créé : ${courriel}. `
+      + 'Changer le mot de passe à la première connexion, puis retirer '
+      + 'MRP_ADMIN_MDP du tableau de bord.');
+  } catch (e) {
+    console.error('[mrp] Amorce du premier compte impossible :', e.message);
+  }
+}
+
+if (require.main === module) {
+  amorcerPremierCompte();
   serveur.listen(PORT, () => console.log(`[mrp] écoute sur http://localhost:${PORT}`));
+}
 
 module.exports = serveur;

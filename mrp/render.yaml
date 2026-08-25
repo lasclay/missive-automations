@@ -35,6 +35,16 @@ services:
 
       # Volontairement absente : PORT, fourni par Render.
 
-      # --- secret : à saisir dans le tableau de bord, jamais ici ---
+      # --- secrets : à saisir dans le tableau de bord, jamais ici ---
       - key: ANTHROPIC_API_KEY
         sync: false               # sans elle, l'assistant se charge et le dit
+
+      # Premier compte. La page de connexion n'offre pas de s'inscrire : sans
+      # amorce, un service neuf n'est ouvrable par personne. Ces deux variables
+      # n'agissent QUE si la base n'a aucun utilisateur — elles ne peuvent ni
+      # écraser un compte, ni changer un mot de passe. Une fois la première
+      # connexion faite, retirer MRP_ADMIN_MDP du tableau de bord.
+      - key: MRP_ADMIN_COURRIEL
+        sync: false
+      - key: MRP_ADMIN_MDP
+        sync: false               # 8 caractères minimum, sinon le compte n'est pas créé

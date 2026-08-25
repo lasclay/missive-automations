@@ -7,15 +7,16 @@ Note du 25 août 2026.
 
 ## Ce qu'une fiche porte aujourd'hui
 
-Sur les 32 produits importés :
+Sur les 34 produits importés :
 
 | | Rempli |
 | --- | ---: |
-| Description | 30 |
-| Notes techniques | 32 |
-| Photos | 30 |
+| Description | 32 |
+| Notes techniques | 34 |
+| Photos | 32 |
 | Matériaux | 12 |
 | Patrons | 0 |
+| Répartition par taille et coloris | 22 (139 lignes) |
 
 Les notes techniques sont déjà denses — elles empilent trois sources : les
 consignes d'atelier du suivi Tunisie (« presser le col avant d'insérer
@@ -55,11 +56,11 @@ aujourd'hui :
   studio et contexte.
 - **Les cotes.** Dimensions hors tout, tolérances. Rien ne les porte —
   `produit_patrons.dimensions` est un texte libre, pas une donnée.
-- **Les variantes avec leur échantillon.** Le plan 26-27 donne la répartition
-  par coloris (noir 61,5 %, rouge 18,3 %, gris 13,6 %, violet 6,6 % pour les
-  mitaines polar), mais aucune table de variantes n'existe : c'est une phrase
-  dans les notes. Une fiche poussée montre le tissu, la référence fournisseur,
-  la disponibilité.
+- **L'échantillon de tissu sur la variante.** La répartition existe maintenant
+  comme donnée — 139 lignes, sous la quantité de chaque item de l'ordre. Ce qui
+  manque encore, c'est ce qui pend après : le tissu montré, la référence
+  fournisseur, la disponibilité. Et un avancement par variante, si l'atelier a
+  besoin de déclarer « les noirs sont faits, pas les rouges ».
 - **Les opérations d'assemblage, dans l'ordre.** Les temps chronométrés
   existent (`donnees/temps-operations.tsv`, 35 lignes), mais rien ne les relie
   à un produit ni ne les met en séquence.
