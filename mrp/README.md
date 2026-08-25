@@ -226,6 +226,13 @@ node mrp.js utilisateur:creer montassar@lasclay.com <mot-de-passe> "Montassar" a
 node server.js                       # http://localhost:3000
 ```
 
+Les deux rôles s'écrivent `admin` et `atelier` en ligne de commande, et
+s'affichent **Admin QC** et **Atelier Tunisie**. Le libellé dit qui est où :
+dans une entreprise dont la production est à six mille kilomètres du bureau, le
+rôle dit ce que la personne peut savoir, pas son rang. Admin QC pose les
+priorités et crée les ordres ; Atelier Tunisie déclare l'avancement et
+commente.
+
 Pour explorer avec des données d'exemple : `node mrp.js demo`
 
 ## Administration
