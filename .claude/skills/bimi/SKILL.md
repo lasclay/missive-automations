@@ -145,6 +145,10 @@ Puis `node bimi_check.js` : l'enregistrement doit être trouvé, le logo joignab
 
 ## Étape 6 — Apple Branded Mail
 
+**La marche à suivre détaillée est dans `bimi/apple-branded-mail.md`** (prérequis vérifiés,
+valeurs à saisir, pièges) et le brief prêt à coller dans une session au navigateur est dans
+`bimi/brief-cowork-apple.md`. Lis-les plutôt que de suivre le résumé ci-dessous.
+
 Gratuit, aucun certificat, aucune marque de commerce. Prérequis : DKIM sur tous les envois et
 DMARC appliqué — donc l'étape 3 doit être faite.
 

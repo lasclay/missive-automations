@@ -16,7 +16,7 @@ Statuts : `à faire` · `en cours` · `en attente` (on attend un tiers ou un dé
 | 3 | Durcir DMARC à `p=quarantine; pct=100` | fait | 2026-08-25 | `v=DMARC1; p=quarantine; pct=100; rua=mailto:hey@lasclay.com; fo=1; adkim=r; aspf=r` |
 | 4 | Héberger le logo | fait | 2026-08-25 | **choix modifié** : fichiers Shopify plutôt que Render — `https://lasclay.com/cdn/shop/files/lasclay-bimi.svg`, HTTP 200, `image/svg+xml`, conforme tiny-ps |
 | 5 | Publier l'enregistrement BIMI | fait | 2026-08-25 | `v=BIMI1; l=https://lasclay.com/cdn/shop/files/lasclay-bimi.svg;` |
-| 6 | Apple Branded Mail | **à faire — prochaine action** | | débloqué : l'étape 3 est faite. C'est la seule façon d'avoir le logo dans Apple Mail sans VMC |
+| 6 | Apple Branded Mail | **prêt à exécuter** | 2026-08-25 | prérequis vérifiés (DMARC, DKIM, PNG conforme). Fiche : `apple-branded-mail.md`. Brief navigateur : `brief-cowork-apple.md`. Demande un identifiant Apple + 2FA → session au navigateur |
 | 7 | Déposer le papillon à l'OPIC | à faire | | **décision humaine** : classes, conseil en PI, paiement |
 | 8 | Acheter un certificat (CMC ou VMC) | à faire | | **décision humaine** : dépense récurrente |
 
