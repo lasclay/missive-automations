@@ -1,0 +1,3077 @@
+[
+ {
+  "id": "120232138726650609",
+  "name": "2025-2026 Automne-Hiver FB Posts statiques",
+  "status": "ACTIVE",
+  "daily_budget": "CA$50.00 CAD",
+  "optimization_goal": "OFFSITE_CONVERSIONS",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 18,
+   "age_max": 65,
+   "age_range": {
+    "0": 25,
+    "1": 65
+   },
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "targeting_automation": {
+    "advantage_audience": 1,
+    "individual_setting": {
+     "age": 1,
+     "gender": 1
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$95,196.22 CAD",
+  "impressions": "8675714",
+  "reach": "753532",
+  "frequency": "11.513398",
+  "ctr": "3.25%",
+  "cpm": "CA$10.97 CAD",
+  "purchase_roas": "3.240736",
+  "actions:omni_purchase": "2600",
+  "omni_purchase_values": "CA$308,505.85 CAD",
+  "cost_per_omni_purchase": "CA$36.61 CAD"
+ },
+ {
+  "id": "120232138726660609",
+  "name": "Video & reels conversion",
+  "status": "PAUSED",
+  "daily_budget": "CA$500.00 CAD",
+  "optimization_goal": "OFFSITE_CONVERSIONS",
+  "targeting": {
+   "genders": {
+    "0": 2
+   },
+   "age_min": 18,
+   "age_max": 65,
+   "age_range": {
+    "0": 25,
+    "1": 65
+   },
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed",
+    "2": "mobile-instream-video",
+    "3": "desktop-instream-video",
+    "4": "mobile-fb-story",
+    "5": "mobile-fb-profile-feed",
+    "6": "mobile-fb-story-sticker",
+    "7": "mobile-fb-reels"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "instream_video",
+    "2": "story",
+    "3": "facebook_reels",
+    "4": "facebook_reels_overlay",
+    "5": "profile_feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "instream_video",
+    "2": "story",
+    "3": "facebook_reels",
+    "4": "facebook_reels_overlay",
+    "5": "profile_feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "brand_safety_content_filter_levels": {
+    "0": "FACEBOOK_STANDARD"
+   },
+   "targeting_automation": {
+    "advantage_audience": 1,
+    "individual_setting": {
+     "age": 1,
+     "gender": 1
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_STANDARD",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$51,273.19 CAD",
+  "impressions": "3874836",
+  "reach": "522878",
+  "frequency": "7.410593",
+  "ctr": "3.54%",
+  "cpm": "CA$13.23 CAD",
+  "purchase_roas": "3.066421",
+  "actions:omni_purchase": "1308",
+  "omni_purchase_values": "CA$157,225.18 CAD",
+  "cost_per_omni_purchase": "CA$39.20 CAD"
+ },
+ {
+  "id": "120223565524940609",
+  "name": "Statique",
+  "status": "ACTIVE",
+  "daily_budget": "CA$75.00 CAD",
+  "optimization_goal": "OFFSITE_CONVERSIONS",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 22,
+   "age_max": 65,
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "1": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "2": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$18,861.46 CAD",
+  "impressions": "2203685",
+  "reach": "477326",
+  "frequency": "4.616729",
+  "ctr": "2.82%",
+  "cpm": "CA$8.56 CAD",
+  "purchase_roas": "2.360231",
+  "actions:omni_purchase": "652",
+  "omni_purchase_values": "CA$44,517.41 CAD",
+  "cost_per_omni_purchase": "CA$28.93 CAD"
+ },
+ {
+  "id": "23861087397880608",
+  "name": "2023- Automne-Hiver Engagement FB Posts All",
+  "status": "ACTIVE",
+  "daily_budget": "CA$50.00 CAD",
+  "optimization_goal": "POST_ENGAGEMENT",
+  "targeting": {
+   "age_min": 22,
+   "age_max": 65,
+   "geo_locations": {
+    "countries": {
+     "0": "CA"
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed",
+    "2": "mobile_fb_notifs_jewel"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "targeting_optimization": "expansion_all",
+   "targeting_automation": {
+    "advantage_audience": 1
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$11,471.13 CAD",
+  "impressions": "2696627",
+  "reach": "688558",
+  "frequency": "3.91634",
+  "ctr": "7.40%",
+  "cpm": "CA$4.25 CAD",
+  "purchase_roas": "0.654789",
+  "actions:omni_purchase": "98",
+  "omni_purchase_values": "CA$7,511.17 CAD",
+  "cost_per_omni_purchase": "CA$117.05 CAD"
+ },
+ {
+  "id": "120231688488860609",
+  "name": "Engagement",
+  "status": "ACTIVE",
+  "daily_budget": "CA$25.00 CAD",
+  "optimization_goal": "POST_ENGAGEMENT",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 22,
+   "age_max": 65,
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "1": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "2": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "instagramstream",
+    "2": "instagramwebfeed",
+    "3": "mobilefeed"
+   },
+   "publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "instagram_positions": {
+    "0": "stream"
+   },
+   "effective_instagram_positions": {
+    "0": "stream"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "targeting_optimization": "expansion_all",
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$11,385.46 CAD",
+  "impressions": "2696296",
+  "reach": "711375",
+  "frequency": "3.79026",
+  "ctr": "10.06%",
+  "cpm": "CA$4.22 CAD",
+  "purchase_roas": "0.19015",
+  "actions:omni_purchase": "23",
+  "omni_purchase_values": "CA$2,164.95 CAD",
+  "cost_per_omni_purchase": "CA$495.02 CAD"
+ },
+ {
+  "id": "120211358844820609",
+  "name": "Mega post 2024",
+  "status": "ACTIVE",
+  "daily_budget": "CA$20.00 CAD",
+  "optimization_goal": "LANDING_PAGE_VIEWS",
+  "targeting": {
+   "age_min": 25,
+   "age_max": 65,
+   "geo_locations": {
+    "countries": {
+     "0": "US"
+    },
+    "regions": {
+     "0": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "1": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "targeting_optimization": "expansion_all",
+   "targeting_automation": {
+    "individual_setting": {
+     "geo": 0
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$7,117.90 CAD",
+  "impressions": "1818116",
+  "reach": "559957",
+  "frequency": "3.246885",
+  "ctr": "8.25%",
+  "cpm": "CA$3.91 CAD",
+  "purchase_roas": "1.00401",
+  "actions:omni_purchase": "88",
+  "omni_purchase_values": "CA$7,146.44 CAD",
+  "cost_per_omni_purchase": "CA$80.89 CAD"
+ },
+ {
+  "id": "23854055077740608",
+  "name": "Mega Post 23 trafic",
+  "status": "ACTIVE",
+  "daily_budget": "CA$25.00 CAD",
+  "optimization_goal": "LANDING_PAGE_VIEWS",
+  "targeting": {
+   "genders": {
+    "0": 2
+   },
+   "age_min": 18,
+   "age_max": 65,
+   "age_range": {
+    "0": 25,
+    "1": 65
+   },
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "targeting_optimization": "expansion_all",
+   "targeting_automation": {
+    "advantage_audience": 1
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$5,343.31 CAD",
+  "impressions": "1742835",
+  "reach": "633956",
+  "frequency": "2.749142",
+  "ctr": "10.44%",
+  "cpm": "CA$3.07 CAD",
+  "purchase_roas": "1.710786",
+  "actions:omni_purchase": "115",
+  "omni_purchase_values": "CA$9,141.26 CAD",
+  "cost_per_omni_purchase": "CA$46.46 CAD"
+ },
+ {
+  "id": "120234410298430609",
+  "name": "Engagement",
+  "status": "ACTIVE",
+  "optimization_goal": "POST_ENGAGEMENT",
+  "targeting": {
+   "age_min": 22,
+   "age_max": 65,
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "instagramstream",
+    "2": "instagramstory",
+    "3": "instagramwebfeed",
+    "4": "instagramwebstory",
+    "5": "instagrammsitestory",
+    "6": "mobilefeed",
+    "7": "mobile-instream-video",
+    "8": "desktop-instream-video",
+    "9": "mobile-fb-story",
+    "10": "mobile-fb-story-sticker",
+    "11": "mobile-fb-reels"
+   },
+   "publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "instream_video",
+    "2": "story",
+    "3": "facebook_reels",
+    "4": "facebook_reels_overlay"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "instream_video",
+    "2": "story",
+    "3": "facebook_reels",
+    "4": "facebook_reels_overlay"
+   },
+   "instagram_positions": {
+    "0": "stream",
+    "1": "story"
+   },
+   "effective_instagram_positions": {
+    "0": "stream",
+    "1": "story"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "targeting_optimization": "expansion_all",
+   "brand_safety_content_filter_levels": {
+    "0": "FACEBOOK_RELAXED"
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "targeting_automation": {
+    "advantage_audience": 0,
+    "individual_setting": {
+     "geo": 0
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$5,232.66 CAD",
+  "impressions": "2042226",
+  "reach": "651864",
+  "frequency": "3.132902",
+  "ctr": "1.14%",
+  "cpm": "CA$2.56 CAD",
+  "purchase_roas": "0.313609",
+  "actions:omni_purchase": "12",
+  "omni_purchase_values": "CA$1,641.01 CAD",
+  "cost_per_omni_purchase": "CA$436.06 CAD"
+ },
+ {
+  "id": "120225165564250609",
+  "name": "Video & reels conversion",
+  "status": "ACTIVE",
+  "daily_budget": "CA$75.00 CAD",
+  "optimization_goal": "OFFSITE_CONVERSIONS",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 22,
+   "age_max": 65,
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "1": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "2": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "desktop-video-channel",
+    "2": "mobilefeed",
+    "3": "mobile-video-channel",
+    "4": "mobile-instream-video",
+    "5": "desktop-instream-video",
+    "6": "mobile-fb-story",
+    "7": "mobile-fb-profile-feed",
+    "8": "mobile-fb-story-sticker",
+    "9": "mobile-fb-reels"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "video_feeds",
+    "2": "instream_video",
+    "3": "story",
+    "4": "facebook_reels",
+    "5": "facebook_reels_overlay",
+    "6": "profile_feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "video_feeds",
+    "2": "instream_video",
+    "3": "story",
+    "4": "facebook_reels",
+    "5": "facebook_reels_overlay",
+    "6": "profile_feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "brand_safety_content_filter_levels": {
+    "0": "FACEBOOK_STANDARD"
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_STANDARD",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$3,795.10 CAD",
+  "impressions": "300001",
+  "reach": "97560",
+  "frequency": "3.075041",
+  "ctr": "2.06%",
+  "cpm": "CA$12.65 CAD",
+  "purchase_roas": "2.594896",
+  "actions:omni_purchase": "109",
+  "omni_purchase_values": "CA$9,847.89 CAD",
+  "cost_per_omni_purchase": "CA$34.82 CAD"
+ },
+ {
+  "id": "120238047641720609",
+  "name": "statique value",
+  "status": "ACTIVE",
+  "optimization_goal": "VALUE",
+  "targeting": {
+   "age_min": 18,
+   "age_max": 65,
+   "age_range": {
+    "0": 30,
+    "1": 65
+   },
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "instagramstream",
+    "2": "instagramprofilefeed",
+    "3": "instagramwebfeed",
+    "4": "mobileexternal",
+    "5": "mobilefeed",
+    "6": "mobile-fb-profile-feed"
+   },
+   "publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "profile_feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "profile_feed"
+   },
+   "instagram_positions": {
+    "0": "stream"
+   },
+   "effective_instagram_positions": {
+    "0": "stream"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "targeting_optimization": "expansion_all",
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "targeting_automation": {
+    "advantage_audience": 1,
+    "individual_setting": {
+     "age": 1,
+     "gender": 1,
+     "geo": 1
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$3,455.58 CAD",
+  "impressions": "464693",
+  "reach": "186975",
+  "frequency": "2.485322",
+  "ctr": "3.28%",
+  "cpm": "CA$7.44 CAD",
+  "purchase_roas": "1.707375",
+  "actions:omni_purchase": "134",
+  "omni_purchase_values": "CA$5,899.97 CAD",
+  "cost_per_omni_purchase": "CA$25.79 CAD"
+ },
+ {
+  "id": "120238047262170609",
+  "name": "VALUE VID",
+  "status": "ACTIVE",
+  "optimization_goal": "VALUE",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 18,
+   "age_max": 65,
+   "age_range": {
+    "0": 22,
+    "1": 65
+   },
+   "geo_locations": {
+    "countries": {
+     "0": "CA"
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "instagramstream",
+    "2": "instagramstory",
+    "3": "instagramprofilefeed",
+    "4": "instagramprofilereels",
+    "5": "instagramexploregridhome",
+    "6": "instagramreels",
+    "7": "instagramwebfeed",
+    "8": "instagramwebstory",
+    "9": "instagrammsitestory",
+    "10": "instagramsearch",
+    "11": "mobileexternal",
+    "12": "mobilefeed",
+    "13": "rightcolumn",
+    "14": "mobile-instream-video",
+    "15": "desktop-instream-video",
+    "16": "desktop-marketplace",
+    "17": "mobile-marketplace",
+    "18": "mobile-fb-story",
+    "19": "messenger_story",
+    "20": "desktop_marketplace_search_ads",
+    "21": "mobile_marketplace_search_ads",
+    "22": "mobile_search_serp_ads",
+    "23": "desktop_search_serp_ads",
+    "24": "mobile-fb-profile-feed",
+    "25": "mobile-fb-story-sticker",
+    "26": "mobile-biz-disco-feed",
+    "27": "mobile-fb-reels",
+    "28": "watch_search_ads_mobile",
+    "29": "threadsstream",
+    "30": "mobile_fb_notifs_jewel"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram",
+    "2": "audience_network",
+    "3": "messenger",
+    "4": "threads"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "instream_video",
+    "3": "marketplace",
+    "4": "story",
+    "5": "search",
+    "6": "biz_disco_feed",
+    "7": "facebook_reels",
+    "8": "facebook_reels_overlay",
+    "9": "profile_feed",
+    "10": "notification"
+   },
+   "effective_instagram_positions": {
+    "0": "stream",
+    "1": "story",
+    "2": "reels",
+    "3": "explore_home",
+    "4": "profile_feed",
+    "5": "ig_search",
+    "6": "profile_reels"
+   },
+   "effective_messenger_positions": {
+    "0": "story"
+   },
+   "effective_threads_positions": {
+    "0": "threads_stream"
+   },
+   "effective_audience_network_positions": {
+    "0": "classic",
+    "2": "rewarded_video"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "brand_safety_content_filter_levels": {
+    "0": "FACEBOOK_RELAXED",
+    "1": "AN_RELAXED"
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "targeting_automation": {
+    "advantage_audience": 1,
+    "individual_setting": {
+     "age": 1,
+     "gender": 1,
+     "geo": 0
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$2,141.40 CAD",
+  "impressions": "199893",
+  "reach": "73350",
+  "frequency": "2.725194",
+  "ctr": "2.99%",
+  "cpm": "CA$10.71 CAD",
+  "purchase_roas": "1.770501",
+  "actions:omni_purchase": "63",
+  "omni_purchase_values": "CA$3,791.35 CAD",
+  "cost_per_omni_purchase": "CA$33.99 CAD"
+ },
+ {
+  "id": "23854054930980608",
+  "name": "Mega post awareness",
+  "status": "ACTIVE",
+  "daily_budget": "CA$10.00 CAD",
+  "optimization_goal": "AD_RECALL_LIFT",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 21,
+   "age_max": 65,
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$2,017.69 CAD",
+  "impressions": "1728558",
+  "reach": "238882",
+  "frequency": "7.236033",
+  "ctr": "0.31%",
+  "cpm": "CA$1.17 CAD",
+  "purchase_roas": "0.361136",
+  "actions:omni_purchase": "10",
+  "omni_purchase_values": "CA$728.66 CAD",
+  "cost_per_omni_purchase": "CA$201.77 CAD"
+ },
+ {
+  "id": "23851028585020608",
+  "name": "Explora + Géo Plein air",
+  "status": "ACTIVE",
+  "daily_budget": "CA$20.00 CAD",
+  "optimization_goal": "LINK_CLICKS",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 22,
+   "age_max": 65,
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "1": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "2": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "desktop-video-channel",
+    "2": "instagramstream",
+    "3": "instagramexplore",
+    "4": "instagramwebfeed",
+    "5": "mobilefeed",
+    "6": "mobile-video-channel",
+    "7": "rightcolumn",
+    "8": "desktop-marketplace",
+    "9": "mobile-marketplace",
+    "10": "mobile-biz-disco-feed"
+   },
+   "publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "video_feeds",
+    "3": "marketplace",
+    "4": "groups_feed",
+    "5": "biz_disco_feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "video_feeds",
+    "3": "marketplace",
+    "4": "biz_disco_feed"
+   },
+   "instagram_positions": {
+    "0": "stream",
+    "1": "explore",
+    "2": "shop"
+   },
+   "effective_instagram_positions": {
+    "0": "stream",
+    "1": "explore"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$960.92 CAD",
+  "impressions": "540247",
+  "reach": "204145",
+  "frequency": "2.646389",
+  "ctr": "1.89%",
+  "cpm": "CA$1.78 CAD",
+  "purchase_roas": "0.735556",
+  "actions:omni_purchase": "9",
+  "omni_purchase_values": "CA$706.81 CAD",
+  "cost_per_omni_purchase": "CA$106.77 CAD"
+ },
+ {
+  "id": "120242019643260609",
+  "name": "GFM",
+  "status": "ACTIVE",
+  "optimization_goal": "LANDING_PAGE_VIEWS",
+  "targeting": {
+   "age_min": 18,
+   "age_max": 65,
+   "age_range": {
+    "0": 21,
+    "1": 65
+   },
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "instagramstream",
+    "2": "instagramstory",
+    "3": "instagramprofilefeed",
+    "4": "instagramexploregridhome",
+    "5": "instagramreels",
+    "6": "instagramwebfeed",
+    "7": "instagramwebstory",
+    "8": "instagrammsitestory",
+    "9": "instagramwebreels",
+    "10": "instagramsearch",
+    "11": "mobileexternal",
+    "12": "mobilefeed",
+    "13": "rightcolumn",
+    "14": "mobile-instream-video",
+    "15": "desktop-instream-video",
+    "16": "desktop-marketplace",
+    "17": "mobile-marketplace",
+    "18": "mobile-fb-story",
+    "19": "messenger_story",
+    "20": "whatsapp-status",
+    "21": "desktop_marketplace_search_ads",
+    "22": "mobile_marketplace_search_ads",
+    "23": "mobile_search_serp_ads",
+    "24": "desktop_search_serp_ads",
+    "25": "mobile-fb-profile-feed",
+    "26": "mobile-fb-story-sticker",
+    "27": "mobile-biz-disco-feed",
+    "28": "mobile-fb-reels",
+    "29": "watch_search_ads_mobile",
+    "30": "threadsstream",
+    "31": "mobile_fb_notifs_jewel"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "targeting_optimization": "expansion_all",
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "targeting_automation": {
+    "advantage_audience": 1,
+    "individual_setting": {
+     "geo": 1
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$632.09 CAD",
+  "impressions": "145748",
+  "reach": "108011",
+  "frequency": "1.349381",
+  "ctr": "6.94%",
+  "cpm": "CA$4.34 CAD",
+  "purchase_roas": "0.360423",
+  "actions:omni_purchase": "2",
+  "omni_purchase_values": "CA$227.82 CAD",
+  "cost_per_omni_purchase": "CA$316.05 CAD"
+ },
+ {
+  "id": "120212483231430609",
+  "name": "Marché Noel QC",
+  "status": "ACTIVE",
+  "daily_budget": "CA$75.00 CAD",
+  "optimization_goal": "IMPRESSIONS",
+  "targeting": {
+   "age_min": 25,
+   "age_max": 65,
+   "geo_locations": {
+    "cities": {
+     "0": {
+      "key": 295708,
+      "name": "Quebec",
+      "region": "Quebec",
+      "region_id": 535,
+      "country": "CA",
+      "radius": 50,
+      "distance_unit": "mile"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed",
+    "2": "mobile_fb_notifs_jewel"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "targeting_optimization": "none",
+   "targeting_automation": {
+    "advantage_audience": 0,
+    "individual_setting": {
+     "geo": 1
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$438.17 CAD",
+  "impressions": "167873",
+  "reach": "46297",
+  "frequency": "3.626002",
+  "ctr": "0.37%",
+  "cpm": "CA$2.61 CAD",
+  "purchase_roas": null,
+  "actions:omni_purchase": null,
+  "omni_purchase_values": null,
+  "cost_per_omni_purchase": null
+ },
+ {
+  "id": "120229687326860609",
+  "name": "Vidéos",
+  "status": "ACTIVE",
+  "daily_budget": "CA$50.00 CAD",
+  "optimization_goal": "THRUPLAY",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 25,
+   "age_max": 65,
+   "age_range": {
+    "0": 25,
+    "1": 65
+   },
+   "geo_locations": {
+    "countries": {
+     "0": "CA"
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "desktop-video-channel",
+    "2": "instagramstream",
+    "3": "instagramstory",
+    "4": "instagramprofilefeed",
+    "5": "instagramprofilereels",
+    "6": "instagramexplore",
+    "7": "instagramexploregridhome",
+    "8": "instagramreels",
+    "9": "instagramwebfeed",
+    "10": "instagramwebstory",
+    "11": "instagrammsitestory",
+    "12": "instagramsearch",
+    "13": "mobileexternal",
+    "14": "mobilefeed",
+    "15": "mobile-video-channel",
+    "16": "mobile-instream-video",
+    "17": "desktop-instream-video",
+    "18": "desktop-marketplace",
+    "19": "mobile-marketplace",
+    "20": "mobile-fb-story",
+    "21": "messenger_story",
+    "22": "desktop_marketplace_search_ads",
+    "23": "mobile_marketplace_search_ads",
+    "24": "mobile_search_serp_ads",
+    "25": "desktop_search_serp_ads",
+    "26": "mobile-fb-profile-feed",
+    "27": "mobile-fb-story-sticker",
+    "28": "mobile-biz-disco-feed",
+    "29": "mobile-fb-reels",
+    "30": "watch_search_ads_mobile"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram",
+    "2": "audience_network",
+    "3": "messenger"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "video_feeds",
+    "2": "instream_video",
+    "3": "marketplace",
+    "4": "story",
+    "5": "search",
+    "6": "biz_disco_feed",
+    "7": "facebook_reels",
+    "8": "facebook_reels_overlay",
+    "9": "profile_feed"
+   },
+   "effective_instagram_positions": {
+    "0": "stream",
+    "1": "story",
+    "2": "explore",
+    "3": "reels",
+    "4": "explore_home",
+    "5": "profile_feed",
+    "6": "ig_search",
+    "7": "profile_reels"
+   },
+   "effective_messenger_positions": {
+    "0": "story"
+   },
+   "effective_audience_network_positions": {
+    "0": "classic",
+    "2": "rewarded_video"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "custom_audiences": {
+    "0": {
+     "id": 23851806949310608,
+     "name": "Similaire (CA, 10%) - Ads Pixel for Shopify Facebook Ad using Purchase",
+     "lookalike_spec": {
+      "origin_fbid": 1038224283301175,
+      "origin_fbids": {
+       "0": 1038224283301175
+      },
+      "origin_type": "multi_event_source",
+      "action_type": "multi_event_source",
+      "ratio": 0.1,
+      "seed_provider": "multi_event_source",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users",
+      "is_weighted": true,
+      "origin_event_sources": {
+       "0": {
+        "id": 1038224283301175,
+        "seed_provider": "fb_pixel",
+        "event_names": {
+         "0": "Purchase"
+        }
+       }
+      }
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "MULTI_EVENT_SOURCE",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    }
+   },
+   "targeting_optimization": "expansion_all",
+   "brand_safety_content_filter_levels": {
+    "0": "FACEBOOK_RELAXED",
+    "1": "AN_RELAXED"
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 1,
+    "custom_audience": 0
+   },
+   "targeting_automation": {
+    "advantage_audience": 1
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$413.14 CAD",
+  "impressions": "134319",
+  "reach": "82407",
+  "frequency": "1.629946",
+  "ctr": "3.55%",
+  "cpm": "CA$3.08 CAD",
+  "purchase_roas": "0.445273",
+  "actions:omni_purchase": "2",
+  "omni_purchase_values": "CA$183.96 CAD",
+  "cost_per_omni_purchase": "CA$206.57 CAD"
+ },
+ {
+  "id": "120232140401240609",
+  "name": "statique total AI",
+  "status": "PAUSED",
+  "daily_budget": "CA$50.00 CAD",
+  "optimization_goal": "VALUE",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 23,
+   "age_max": 65,
+   "age_range": {
+    "0": 23,
+    "1": 65
+   },
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "1": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "2": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "instagramstream",
+    "2": "instagramstory",
+    "3": "instagramprofilefeed",
+    "4": "instagramprofilereels",
+    "5": "instagramexplore",
+    "6": "instagramexploregridhome",
+    "7": "instagramreels",
+    "8": "instagramwebfeed",
+    "9": "instagramwebstory",
+    "10": "instagrammsitestory",
+    "11": "instagramsearch",
+    "12": "mobileexternal",
+    "13": "mobilefeed",
+    "14": "rightcolumn",
+    "15": "messenger_home",
+    "16": "mobile-instream-video",
+    "17": "desktop-instream-video",
+    "18": "desktop-marketplace",
+    "19": "mobile-marketplace",
+    "20": "mobile-fb-story",
+    "21": "messenger_story",
+    "22": "desktop_marketplace_search_ads",
+    "23": "mobile_marketplace_search_ads",
+    "24": "mobile_search_serp_ads",
+    "25": "desktop_search_serp_ads",
+    "26": "mobile-fb-profile-feed",
+    "27": "mobile-fb-story-sticker",
+    "28": "mobile-biz-disco-feed",
+    "29": "mobile-fb-reels",
+    "30": "watch_search_ads_mobile",
+    "31": "threadsstream",
+    "32": "mobile_fb_notifs_jewel"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram",
+    "2": "audience_network",
+    "3": "messenger",
+    "4": "threads"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "instream_video",
+    "3": "marketplace",
+    "4": "story",
+    "5": "search",
+    "6": "biz_disco_feed",
+    "7": "facebook_reels",
+    "8": "facebook_reels_overlay",
+    "9": "profile_feed",
+    "10": "notification"
+   },
+   "effective_instagram_positions": {
+    "0": "stream",
+    "1": "story",
+    "2": "explore",
+    "3": "reels",
+    "4": "explore_home",
+    "5": "profile_feed",
+    "6": "ig_search",
+    "7": "profile_reels"
+   },
+   "effective_messenger_positions": {
+    "0": "messenger_home",
+    "1": "story"
+   },
+   "effective_threads_positions": {
+    "0": "threads_stream"
+   },
+   "effective_audience_network_positions": {
+    "0": "classic",
+    "2": "rewarded_video"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "custom_audiences": {
+    "0": {
+     "id": 23847495226030608,
+     "name": "People who currently like your Page: Lasclay",
+     "subtype": "PLATFORM",
+     "is_lookalike_container": false,
+     "lookalike_type": "None",
+     "data_source": {
+      "type": "EVENT_BASED",
+      "sub_type": "ENGAGEMENT_EVENTS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": "{\"inclusions\":{\"operator\":\"or\",\"rules\":[{\"event_sources\":[{\"type\":\"page\",\"id\":\"104242204750257\"}],\"retention_seconds\":0,\"filter\":{\"operator\":\"and\",\"filters\":[{\"field\":\"event\",\"operator\":\"eq\",\"value\":\"page_liked\"}]}}]}}"
+    },
+    "1": {
+     "id": 120223744545780609,
+     "name": "LAS-APM FB followers 2",
+     "subtype": "PLATFORM",
+     "is_lookalike_container": false,
+     "lookalike_type": "None",
+     "data_source": {
+      "type": "EVENT_BASED",
+      "sub_type": "ENGAGEMENT_EVENTS",
+      "creation_params": "{\"prefill\":\"true\"}"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": "{\"inclusions\":{\"operator\":\"or\",\"rules\":[{\"event_sources\":[{\"type\":\"page\",\"id\":104242204750257}],\"retention_seconds\":0,\"filter\":{\"operator\":\"and\",\"filters\":[{\"field\":\"event\",\"operator\":\"eq\",\"value\":\"page_liked\"}]}},{\"event_sources\":[{\"type\":\"page\",\"id\":114311920399404}],\"retention_seconds\":0,\"filter\":{\"operator\":\"and\",\"filters\":[{\"field\":\"event\",\"operator\":\"eq\",\"value\":\"page_liked\"}]}}]}}"
+    },
+    "2": {
+     "id": 120231931117820609,
+     "name": "Lookalike (CA, 6%) - Ads Pixel for Shopify Facebook Ad - Website using Purchase",
+     "lookalike_spec": {
+      "origin_fbid": 1038224283301175,
+      "origin_fbids": {
+       "0": 1038224283301175
+      },
+      "origin_type": "multi_event_source",
+      "action_type": "multi_event_source",
+      "ratio": 0.06,
+      "seed_provider": "multi_event_source",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users",
+      "is_weighted": true,
+      "origin_event_sources": {
+       "0": {
+        "id": 1038224283301175,
+        "seed_provider": "fb_pixel",
+        "event_names": {
+         "0": "Purchase"
+        },
+        "action_source": "website"
+       }
+      }
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "MULTI_EVENT_SOURCE",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    },
+    "3": {
+     "id": 120232749338600609,
+     "name": "Lookalike (CA, 5%) - customer list 5%.csv",
+     "lookalike_spec": {
+      "origin_fbid": 120232749332760609,
+      "origin_fbids": {
+       "0": 120232749332760609
+      },
+      "origin_type": "custom_audience",
+      "action_type": "",
+      "ratio": 0.05,
+      "seed_provider": "ca",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users"
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "CUSTOM_AUDIENCE_USERS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    }
+   },
+   "expanded_implicit_custom_audiences": {
+    "0": {
+     "id": 120223744736760609,
+     "name": "Lookalike (CA, 1%) - LAS-APM FB followers 2",
+     "lookalike_spec": {
+      "origin_fbid": 120223744545780609,
+      "origin_fbids": {
+       "0": 120223744545780609
+      },
+      "origin_type": "custom_audience",
+      "action_type": "",
+      "ratio": 0.01,
+      "seed_provider": "ca",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users",
+      "is_hidden": true
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "PLATFORM_USERS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    },
+    "1": {
+     "id": 120231931270190609,
+     "name": "Lookalike (CA, 1%) - People who currently like your Page: Lasclay",
+     "lookalike_spec": {
+      "origin_fbid": 23847495226030608,
+      "origin_fbids": {
+       "0": 23847495226030608
+      },
+      "origin_type": "custom_audience",
+      "action_type": "",
+      "ratio": 0.01,
+      "seed_provider": "ca",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users",
+      "is_hidden": true
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "PLATFORM_USERS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    }
+   },
+   "targeting_optimization": "expansion_all",
+   "targeting_relaxation_types": {
+    "lookalike": 1,
+    "custom_audience": 1
+   },
+   "targeting_automation": {
+    "advantage_audience": 1,
+    "individual_setting": {
+     "geo": 1
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$208.39 CAD",
+  "impressions": "10678",
+  "reach": "6281",
+  "frequency": "1.700048",
+  "ctr": "2.46%",
+  "cpm": "CA$19.52 CAD",
+  "purchase_roas": null,
+  "actions:omni_purchase": null,
+  "omni_purchase_values": null,
+  "cost_per_omni_purchase": null
+ },
+ {
+  "id": "120212483253740609",
+  "name": "Marché Noel awareness",
+  "status": "ACTIVE",
+  "daily_budget": "CA$25.00 CAD",
+  "optimization_goal": "REACH",
+  "targeting": {
+   "age_min": 25,
+   "age_max": 65,
+   "geo_locations": {
+    "cities": {
+     "0": {
+      "key": 295708,
+      "name": "Quebec",
+      "region": "Quebec",
+      "region_id": 535,
+      "country": "CA",
+      "radius": 50,
+      "distance_unit": "mile"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed",
+    "2": "mobile_fb_notifs_jewel"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "targeting_optimization": "none",
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$142.89 CAD",
+  "impressions": "53252",
+  "reach": "53252",
+  "frequency": "1",
+  "ctr": "0.54%",
+  "cpm": "CA$2.68 CAD",
+  "purchase_roas": null,
+  "actions:omni_purchase": null,
+  "omni_purchase_values": null,
+  "cost_per_omni_purchase": null
+ },
+ {
+  "id": "120231280059960609",
+  "name": "concours",
+  "status": "ACTIVE",
+  "daily_budget": "CA$20.00 CAD",
+  "optimization_goal": "REACH",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 25,
+   "age_max": 65,
+   "age_range": {
+    "0": 25,
+    "1": 65
+   },
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 528,
+      "name": "British Columbia",
+      "country": "CA"
+     },
+     "1": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "2": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "3": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed",
+    "2": "mobile-biz-disco-feed"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "biz_disco_feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "biz_disco_feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "targeting_optimization": "expansion_all",
+   "targeting_automation": {
+    "advantage_audience": 1,
+    "individual_setting": {
+     "geo": 1
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$77.74 CAD",
+  "impressions": "37331",
+  "reach": "31050",
+  "frequency": "1.202287",
+  "ctr": "0.36%",
+  "cpm": "CA$2.08 CAD",
+  "purchase_roas": null,
+  "actions:omni_purchase": null,
+  "omni_purchase_values": null,
+  "cost_per_omni_purchase": null
+ },
+ {
+  "id": "120233033012020609",
+  "name": "mixed",
+  "status": "ACTIVE",
+  "optimization_goal": "VALUE",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 23,
+   "age_max": 65,
+   "age_range": {
+    "0": 23,
+    "1": 65
+   },
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "1": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "2": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "instagramstory",
+    "2": "instagramreels",
+    "3": "instagramwebstory",
+    "4": "instagrammsitestory",
+    "5": "mobilefeed",
+    "6": "mobile-instream-video",
+    "7": "desktop-instream-video",
+    "8": "mobile-fb-story",
+    "9": "messenger_story",
+    "10": "mobile-fb-story-sticker",
+    "11": "mobile-fb-reels"
+   },
+   "publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram",
+    "2": "messenger"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram",
+    "2": "messenger"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "instream_video",
+    "2": "story",
+    "3": "facebook_reels",
+    "4": "facebook_reels_overlay"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "instream_video",
+    "2": "story",
+    "3": "facebook_reels",
+    "4": "facebook_reels_overlay"
+   },
+   "instagram_positions": {
+    "0": "story",
+    "1": "reels"
+   },
+   "effective_instagram_positions": {
+    "0": "story",
+    "1": "reels"
+   },
+   "messenger_positions": {
+    "0": "story"
+   },
+   "effective_messenger_positions": {
+    "0": "story"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "custom_audiences": {
+    "0": {
+     "id": 23847495226030608,
+     "name": "People who currently like your Page: Lasclay",
+     "subtype": "PLATFORM",
+     "is_lookalike_container": false,
+     "lookalike_type": "None",
+     "data_source": {
+      "type": "EVENT_BASED",
+      "sub_type": "ENGAGEMENT_EVENTS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": "{\"inclusions\":{\"operator\":\"or\",\"rules\":[{\"event_sources\":[{\"type\":\"page\",\"id\":\"104242204750257\"}],\"retention_seconds\":0,\"filter\":{\"operator\":\"and\",\"filters\":[{\"field\":\"event\",\"operator\":\"eq\",\"value\":\"page_liked\"}]}}]}}"
+    },
+    "1": {
+     "id": 120223744545780609,
+     "name": "LAS-APM FB followers 2",
+     "subtype": "PLATFORM",
+     "is_lookalike_container": false,
+     "lookalike_type": "None",
+     "data_source": {
+      "type": "EVENT_BASED",
+      "sub_type": "ENGAGEMENT_EVENTS",
+      "creation_params": "{\"prefill\":\"true\"}"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": "{\"inclusions\":{\"operator\":\"or\",\"rules\":[{\"event_sources\":[{\"type\":\"page\",\"id\":104242204750257}],\"retention_seconds\":0,\"filter\":{\"operator\":\"and\",\"filters\":[{\"field\":\"event\",\"operator\":\"eq\",\"value\":\"page_liked\"}]}},{\"event_sources\":[{\"type\":\"page\",\"id\":114311920399404}],\"retention_seconds\":0,\"filter\":{\"operator\":\"and\",\"filters\":[{\"field\":\"event\",\"operator\":\"eq\",\"value\":\"page_liked\"}]}}]}}"
+    },
+    "2": {
+     "id": 120231931117820609,
+     "name": "Lookalike (CA, 6%) - Ads Pixel for Shopify Facebook Ad - Website using Purchase",
+     "lookalike_spec": {
+      "origin_fbid": 1038224283301175,
+      "origin_fbids": {
+       "0": 1038224283301175
+      },
+      "origin_type": "multi_event_source",
+      "action_type": "multi_event_source",
+      "ratio": 0.06,
+      "seed_provider": "multi_event_source",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users",
+      "is_weighted": true,
+      "origin_event_sources": {
+       "0": {
+        "id": 1038224283301175,
+        "seed_provider": "fb_pixel",
+        "event_names": {
+         "0": "Purchase"
+        },
+        "action_source": "website"
+       }
+      }
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "MULTI_EVENT_SOURCE",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    },
+    "3": {
+     "id": 120232749338600609,
+     "name": "Lookalike (CA, 5%) - customer list 5%.csv",
+     "lookalike_spec": {
+      "origin_fbid": 120232749332760609,
+      "origin_fbids": {
+       "0": 120232749332760609
+      },
+      "origin_type": "custom_audience",
+      "action_type": "",
+      "ratio": 0.05,
+      "seed_provider": "ca",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users"
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "CUSTOM_AUDIENCE_USERS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    }
+   },
+   "expanded_implicit_custom_audiences": {
+    "0": {
+     "id": 120223744736760609,
+     "name": "Lookalike (CA, 1%) - LAS-APM FB followers 2",
+     "lookalike_spec": {
+      "origin_fbid": 120223744545780609,
+      "origin_fbids": {
+       "0": 120223744545780609
+      },
+      "origin_type": "custom_audience",
+      "action_type": "",
+      "ratio": 0.01,
+      "seed_provider": "ca",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users",
+      "is_hidden": true
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "PLATFORM_USERS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    },
+    "1": {
+     "id": 120231931270190609,
+     "name": "Lookalike (CA, 1%) - People who currently like your Page: Lasclay",
+     "lookalike_spec": {
+      "origin_fbid": 23847495226030608,
+      "origin_fbids": {
+       "0": 23847495226030608
+      },
+      "origin_type": "custom_audience",
+      "action_type": "",
+      "ratio": 0.01,
+      "seed_provider": "ca",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users",
+      "is_hidden": true
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "PLATFORM_USERS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    }
+   },
+   "targeting_optimization": "expansion_all",
+   "brand_safety_content_filter_levels": {
+    "0": "FACEBOOK_RELAXED"
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 1,
+    "custom_audience": 1
+   },
+   "targeting_automation": {
+    "advantage_audience": 1,
+    "individual_setting": {
+     "geo": 1
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$53.80 CAD",
+  "impressions": "1934",
+  "reach": "1799",
+  "frequency": "1.075042",
+  "ctr": "5.58%",
+  "cpm": "CA$27.82 CAD",
+  "purchase_roas": null,
+  "actions:omni_purchase": null,
+  "omni_purchase_values": null,
+  "cost_per_omni_purchase": null
+ },
+ {
+  "id": "120232758019770609",
+  "name": "audience test",
+  "status": "PAUSED",
+  "daily_budget": "CA$50.00 CAD",
+  "optimization_goal": "OFFSITE_CONVERSIONS",
+  "targeting": {
+   "age_min": 18,
+   "age_max": 65,
+   "age_range": {
+    "0": 18,
+    "1": 65
+   },
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "desktop-video-channel",
+    "2": "instagramstream",
+    "3": "instagramstory",
+    "4": "instagramprofilefeed",
+    "5": "instagramprofilereels",
+    "6": "instagramexplore",
+    "7": "instagramexploregridhome",
+    "8": "instagramreels",
+    "9": "instagramwebfeed",
+    "10": "instagramwebstory",
+    "11": "instagrammsitestory",
+    "12": "instagramsearch",
+    "13": "mobileexternal",
+    "14": "mobilefeed",
+    "15": "mobile-video-channel",
+    "16": "rightcolumn",
+    "17": "messenger_home",
+    "18": "mobile-instream-video",
+    "19": "desktop-instream-video",
+    "20": "desktop-marketplace",
+    "21": "mobile-marketplace",
+    "22": "mobile-fb-story",
+    "23": "messenger_story",
+    "24": "desktop_marketplace_search_ads",
+    "25": "mobile_marketplace_search_ads",
+    "26": "mobile_search_serp_ads",
+    "27": "desktop_search_serp_ads",
+    "28": "mobile-fb-profile-feed",
+    "29": "mobile-fb-story-sticker",
+    "30": "mobile-biz-disco-feed",
+    "31": "mobile-fb-reels",
+    "32": "watch_search_ads_mobile",
+    "33": "threadsstream",
+    "34": "mobile_fb_notifs_jewel"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram",
+    "2": "audience_network",
+    "3": "messenger",
+    "4": "threads"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "video_feeds",
+    "3": "instream_video",
+    "4": "marketplace",
+    "5": "story",
+    "6": "search",
+    "7": "biz_disco_feed",
+    "8": "facebook_reels",
+    "9": "facebook_reels_overlay",
+    "10": "profile_feed",
+    "11": "notification"
+   },
+   "effective_instagram_positions": {
+    "0": "stream",
+    "1": "story",
+    "2": "explore",
+    "3": "reels",
+    "4": "explore_home",
+    "5": "profile_feed",
+    "6": "ig_search",
+    "7": "profile_reels"
+   },
+   "effective_messenger_positions": {
+    "0": "messenger_home",
+    "1": "story"
+   },
+   "effective_threads_positions": {
+    "0": "threads_stream"
+   },
+   "effective_audience_network_positions": {
+    "0": "classic",
+    "2": "rewarded_video"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "dt_consolidation_state": {
+    "0": "v2"
+   },
+   "custom_audiences": {
+    "0": {
+     "id": 23860994015340608,
+     "name": "Similaire (CA, 10%) - People who like Lasclay",
+     "lookalike_spec": {
+      "origin_fbid": 104242204750257,
+      "origin_fbids": {
+       "0": 104242204750257
+      },
+      "origin_type": "page",
+      "action_type": "page_like",
+      "ratio": 0.1,
+      "seed_provider": "pages",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users"
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "PAGE_FANS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    },
+    "1": {
+     "id": 120223744545780609,
+     "name": "LAS-APM FB followers 2",
+     "subtype": "PLATFORM",
+     "is_lookalike_container": false,
+     "lookalike_type": "None",
+     "data_source": {
+      "type": "EVENT_BASED",
+      "sub_type": "ENGAGEMENT_EVENTS",
+      "creation_params": "{\"prefill\":\"true\"}"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": "{\"inclusions\":{\"operator\":\"or\",\"rules\":[{\"event_sources\":[{\"type\":\"page\",\"id\":104242204750257}],\"retention_seconds\":0,\"filter\":{\"operator\":\"and\",\"filters\":[{\"field\":\"event\",\"operator\":\"eq\",\"value\":\"page_liked\"}]}},{\"event_sources\":[{\"type\":\"page\",\"id\":114311920399404}],\"retention_seconds\":0,\"filter\":{\"operator\":\"and\",\"filters\":[{\"field\":\"event\",\"operator\":\"eq\",\"value\":\"page_liked\"}]}}]}}"
+    },
+    "2": {
+     "id": 120232749257790609,
+     "name": "Lookalike (CA, 10%) - CUSTOMER LISTS.csv",
+     "lookalike_spec": {
+      "origin_fbid": 120232749182500609,
+      "origin_fbids": {
+       "0": 120232749182500609
+      },
+      "origin_type": "custom_audience",
+      "action_type": "",
+      "ratio": 0.1,
+      "seed_provider": "ca",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users"
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "CUSTOM_AUDIENCE_USERS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    }
+   },
+   "expanded_implicit_custom_audiences": {
+    "0": {
+     "id": 120223744736760609,
+     "name": "Lookalike (CA, 1%) - LAS-APM FB followers 2",
+     "lookalike_spec": {
+      "origin_fbid": 120223744545780609,
+      "origin_fbids": {
+       "0": 120223744545780609
+      },
+      "origin_type": "custom_audience",
+      "action_type": "",
+      "ratio": 0.01,
+      "seed_provider": "ca",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users",
+      "is_hidden": true
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "PLATFORM_USERS",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    }
+   },
+   "targeting_optimization": "expansion_all",
+   "brand_safety_content_filter_levels": {
+    "0": "FACEBOOK_RELAXED",
+    "1": "AN_RELAXED"
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 1,
+    "custom_audience": 1
+   },
+   "targeting_automation": {
+    "advantage_audience": 1,
+    "individual_setting": {
+     "age": 1,
+     "gender": 1,
+     "geo": 1
+    }
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$49.97 CAD",
+  "impressions": "3561",
+  "reach": "3216",
+  "frequency": "1.107276",
+  "ctr": "8.28%",
+  "cpm": "CA$14.03 CAD",
+  "purchase_roas": null,
+  "actions:omni_purchase": null,
+  "omni_purchase_values": null,
+  "cost_per_omni_purchase": null
+ },
+ {
+  "id": "23858240379350608",
+  "name": "French",
+  "status": "ACTIVE",
+  "optimization_goal": "OFFSITE_CONVERSIONS",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 22,
+   "age_max": 65,
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "1": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "2": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "mobilefeed",
+    "2": "rightcolumn"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  },
+  "amount_spent": "CA$31.91 CAD",
+  "impressions": "4447",
+  "reach": "3324",
+  "frequency": "1.337846",
+  "ctr": "4.30%",
+  "cpm": "CA$7.18 CAD",
+  "purchase_roas": "3.885616",
+  "actions:omni_purchase": "2",
+  "omni_purchase_values": "CA$123.99 CAD",
+  "cost_per_omni_purchase": "CA$15.96 CAD"
+ },
+ {
+  "id": "23852425442990608",
+  "name": "Mega Post EN CTA collection",
+  "status": "PAUSED",
+  "daily_budget": "CA$5.00 CAD",
+  "optimization_goal": "OFFSITE_CONVERSIONS",
+  "targeting": {
+   "age_min": 22,
+   "age_max": 65,
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 527,
+      "name": "Alberta",
+      "country": "CA"
+     },
+     "1": {
+      "key": 528,
+      "name": "British Columbia",
+      "country": "CA"
+     },
+     "2": {
+      "key": 529,
+      "name": "Manitoba",
+      "country": "CA"
+     },
+     "3": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "4": {
+      "key": 531,
+      "name": "Newfoundland and Labrador",
+      "country": "CA"
+     },
+     "5": {
+      "key": 532,
+      "name": "Nova Scotia",
+      "country": "CA"
+     },
+     "6": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "7": {
+      "key": 534,
+      "name": "Prince Edward Island",
+      "country": "CA"
+     },
+     "8": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     },
+     "9": {
+      "key": 536,
+      "name": "Saskatchewan",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "desktop-video-channel",
+    "2": "mobilefeed",
+    "3": "mobile-video-channel",
+    "4": "rightcolumn",
+    "5": "desktop-marketplace",
+    "6": "mobile-marketplace",
+    "7": "mobile-biz-disco-feed"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "video_feeds",
+    "3": "marketplace",
+    "4": "biz_disco_feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "video_feeds",
+    "3": "marketplace",
+    "4": "biz_disco_feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 6,
+    "1": 24
+   },
+   "targeting_optimization": "none",
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  }
+ },
+ {
+  "id": "23852319834760608",
+  "name": "Mega Post vente",
+  "status": "PAUSED",
+  "daily_budget": "CA$25.00 CAD",
+  "optimization_goal": "OFFSITE_CONVERSIONS",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 22,
+   "age_max": 65,
+   "geo_locations": {
+    "regions": {
+     "0": {
+      "key": 530,
+      "name": "New Brunswick",
+      "country": "CA"
+     },
+     "1": {
+      "key": 533,
+      "name": "Ontario",
+      "country": "CA"
+     },
+     "2": {
+      "key": 535,
+      "name": "Quebec",
+      "country": "CA"
+     }
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "desktop-video-channel",
+    "2": "mobilefeed",
+    "3": "mobile-video-channel",
+    "4": "rightcolumn",
+    "5": "desktop-marketplace",
+    "6": "mobile-marketplace",
+    "7": "mobile-biz-disco-feed"
+   },
+   "publisher_platforms": {
+    "0": "facebook"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook"
+   },
+   "facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "video_feeds",
+    "3": "marketplace",
+    "4": "biz_disco_feed"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "video_feeds",
+    "3": "marketplace",
+    "4": "biz_disco_feed"
+   },
+   "device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "targeting_relaxation_types": {
+    "lookalike": 0,
+    "custom_audience": 0
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_RELAXED",
+    "AN_RELAXED",
+    "FEED_RELAXED"
+   ]
+  }
+ },
+ {
+  "id": "23851806945210608",
+  "name": "Similaire 10% ACHAT / CA / FR",
+  "status": "PAUSED",
+  "daily_budget": "CA$30.00 CAD",
+  "optimization_goal": "OFFSITE_CONVERSIONS",
+  "targeting": {
+   "genders": {
+    "0": 0
+   },
+   "age_min": 18,
+   "age_max": 65,
+   "geo_locations": {
+    "countries": {
+     "0": "CA"
+    },
+    "location_types": {
+     "0": "home",
+     "1": "recent"
+    }
+   },
+   "page_types": {
+    "0": "desktopfeed",
+    "1": "desktop-video-channel",
+    "2": "instagramstream",
+    "3": "instagramstory",
+    "4": "instagramexplore",
+    "5": "instagramreels",
+    "6": "instagramshoptab",
+    "7": "mobileexternal",
+    "8": "mobilefeed",
+    "9": "mobile-video-channel",
+    "10": "rightcolumn",
+    "11": "messenger_home",
+    "12": "mobile-instream-video",
+    "13": "desktop-instream-video",
+    "14": "instant-article",
+    "15": "desktop-marketplace",
+    "16": "mobile-marketplace",
+    "17": "mobile-fb-story",
+    "18": "messenger_story",
+    "19": "desktop_marketplace_search_ads",
+    "20": "mobile_marketplace_search_ads",
+    "21": "mobile_search_serp_ads",
+    "22": "desktop_search_serp_ads",
+    "23": "mobile_fb_group_tab",
+    "24": "mobile-fb-story-sticker",
+    "25": "mobile-biz-disco-feed",
+    "26": "mobile-fb-reels",
+    "27": "watch_search_ads_mobile"
+   },
+   "effective_publisher_platforms": {
+    "0": "facebook",
+    "1": "instagram",
+    "2": "audience_network",
+    "3": "messenger"
+   },
+   "effective_facebook_positions": {
+    "0": "feed",
+    "1": "right_hand_column",
+    "2": "video_feeds",
+    "3": "instant_article",
+    "4": "instream_video",
+    "5": "marketplace",
+    "6": "story",
+    "7": "search",
+    "8": "groups_feed",
+    "9": "biz_disco_feed",
+    "10": "facebook_reels",
+    "11": "facebook_reels_overlay"
+   },
+   "effective_instagram_positions": {
+    "0": "stream",
+    "1": "story",
+    "2": "explore",
+    "3": "reels",
+    "4": "shop"
+   },
+   "effective_messenger_positions": {
+    "0": "messenger_home",
+    "1": "story"
+   },
+   "effective_audience_network_positions": {
+    "0": "classic",
+    "2": "rewarded_video"
+   },
+   "effective_device_platforms": {
+    "0": "mobile",
+    "1": "desktop"
+   },
+   "locales": {
+    "0": 9,
+    "1": 44
+   },
+   "custom_audiences": {
+    "0": {
+     "id": 23851806949310608,
+     "name": "Similaire (CA, 10%) - Ads Pixel for Shopify Facebook Ad using Purchase",
+     "lookalike_spec": {
+      "origin_fbid": 1038224283301175,
+      "origin_fbids": {
+       "0": 1038224283301175
+      },
+      "origin_type": "multi_event_source",
+      "action_type": "multi_event_source",
+      "ratio": 0.1,
+      "seed_provider": "multi_event_source",
+      "country": "CA",
+      "creation_ui": "Power Editor",
+      "use_additional_countries": true,
+      "negative_seed_provider": "random_users",
+      "is_weighted": true,
+      "origin_event_sources": {
+       "0": {
+        "id": 1038224283301175,
+        "seed_provider": "fb_pixel",
+        "event_names": {
+         "0": "Purchase"
+        }
+       }
+      }
+     },
+     "subtype": "LOOKALIKE",
+     "is_lookalike_container": false,
+     "lookalike_type": "lookalike",
+     "data_source": {
+      "type": "SEED_BASED",
+      "sub_type": "MULTI_EVENT_SOURCE",
+      "creation_params": "[]"
+     },
+     "data_source_classification": 1,
+     "customer_file_source": "NOT_APPLICABLE",
+     "rule": ""
+    }
+   },
+   "brand_safety_content_filter_levels": {
+    "0": "FACEBOOK_STANDARD",
+    "1": "AN_STANDARD"
+   },
+   "effective_brand_safety_content_filter_levels": [
+    "FACEBOOK_STANDARD",
+    "AN_STANDARD",
+    "FEED_RELAXED"
+   ]
+  }
+ }
+]
