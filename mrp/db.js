@@ -169,6 +169,15 @@ CREATE INDEX IF NOT EXISTS idx_photos_produit ON produit_photos(produit_id);
 `;
 db.exec(SCHEMA);
 
+/**
+ * Migrations. Le schéma se crée avec CREATE TABLE IF NOT EXISTS, ce qui ne
+ * touche jamais une table existante : les colonnes ajoutées après coup doivent
+ * l'être ici, en ignorant l'erreur si elles sont déjà là.
+ */
+for (const sql of [
+  `ALTER TABLE ordre_items ADD COLUMN priorite TEXT NOT NULL DEFAULT 'normale'`,
+]) { try { db.exec(sql); } catch { /* colonne déjà présente */ } }
+
 /** Numéro d'ordre séquentiel : OP-2026-0001 */
 function prochainNumero() {
   const an = new Date().getFullYear();
@@ -192,4 +201,115 @@ function avancementOrdre(ordreId) {
   return { pct: r.den ? Math.round(r.num / r.den) : 0, items: r.n };
 }
 
-module.exports = { db, prochainNumero, avancementOrdre, CHEMIN };
+
+// Ordre de tri des priorités manuelles. « haute » passe devant tout, « basse »
+// derrière tout, y compris devant une échéance plus proche : c'est le point
+// d'une priorité manuelle — elle doit pouvoir contredire le calendrier.
+const RANG_PRIORITE = { haute: 0, normale: 1, basse: 2 };
+
+/**
+ * La liste de fabrication : tout ce qui reste à produire, tous ordres
+ * confondus, dans l'ordre où s'y mettre.
+ *
+ * Le tri suit trois clés, dans cet ordre :
+ *   1. la priorité posée à la main (haute → normale → basse) ;
+ *   2. l'échéance la plus proche de l'ordre — un item sans échéance passe
+ *      après tous ceux qui en ont une, il n'est pas urgent par défaut ;
+ *   3. la quantité restante, décroissante — à échéance égale, le gros morceau
+ *      d'abord, parce que c'est lui qui risque de ne pas rentrer.
+ *
+ * « Quantité restante » est une estimation : quantité × (100 − avancement).
+ * Ce n'est pas un compte de pièces réelles, et c'est assumé — l'avancement est
+ * déclaré par tranches de 10 %, pas mesuré.
+ */
+function listeFabrication({ inclureTermines = false } = {}) {
+  const lignes = db.prepare(`
+    SELECT i.id, i.ordre_id, i.produit_id, i.quantite, i.avancement, i.note,
+           i.priorite, i.maj_le,
+           o.numero, o.titre AS ordre_titre, o.statut,
+           p.code, p.nom,
+           (SELECT MIN(date) FROM ordre_jalons j
+             WHERE j.ordre_id = o.id AND j.date >= date('now')) AS echeance,
+           (SELECT COUNT(*) FROM ordre_jalons j
+             WHERE j.ordre_id = o.id AND j.date < date('now')) AS jalons_passes,
+           (SELECT j.titre FROM ordre_jalons j
+             WHERE j.ordre_id = o.id AND j.date >= date('now')
+             ORDER BY j.date LIMIT 1) AS echeance_titre
+    FROM ordre_items i
+    JOIN ordres o   ON o.id = i.ordre_id
+    JOIN produits p ON p.id = i.produit_id
+    WHERE o.statut IN ('planifie','en_cours')
+      ${inclureTermines ? '' : 'AND i.avancement < 100'}`).all();
+
+  const aujourdhui = new Date().toISOString().slice(0, 10);
+  const jours = (d) => d
+    ? Math.round((new Date(d + 'T00:00:00Z') - new Date(aujourdhui + 'T00:00:00Z')) / 86400000)
+    : null;
+
+  return lignes.map(l => ({
+    ...l,
+    // Le retard est un DRAPEAU, pas une échéance. Afficher un jalon vieux de
+    // deux ans comme « 730 j de retard » serait exact et inutilisable :
+    // l'échéance qui compte reste celle vers laquelle on travaille.
+    en_retard: l.jalons_passes > 0,
+    jours: jours(l.echeance),
+    restant: Math.round(l.quantite * (100 - l.avancement) / 100),
+  })).sort((a, b) =>
+       RANG_PRIORITE[a.priorite] - RANG_PRIORITE[b.priorite]
+       // un ordre en retard passe devant tout ce qui a encore du temps
+    || (b.en_retard - a.en_retard)
+    || (a.jours ?? 99999) - (b.jours ?? 99999)
+    || b.restant - a.restant);
+}
+
+/** Les N dernières mises à jour d'avancement, tous ordres confondus. */
+function dernieresMaj(limite = 30) {
+  return db.prepare(`
+    SELECT h.avant, h.apres, h.cree_le,
+           u.nom AS auteur, p.code, p.nom, o.numero, o.titre AS ordre_titre,
+           i.ordre_id, i.id AS item_id
+    FROM avancement_historique h
+    JOIN ordre_items i ON i.id = h.item_id
+    JOIN ordres o      ON o.id = i.ordre_id
+    JOIN produits p    ON p.id = i.produit_id
+    LEFT JOIN utilisateurs u ON u.id = h.utilisateur_id
+    ORDER BY h.cree_le DESC, h.id DESC LIMIT ?`).all(limite);
+}
+
+/**
+ * Les items commencés qui ne bougent plus.
+ *
+ * Un item à 0 % n'est pas « immobile », il n'a pas commencé — c'est la liste
+ * de fabrication qui s'en occupe. Ce qu'on cherche ici, c'est le travail
+ * entamé puis abandonné : c'est ce qui passe entre les mailles.
+ */
+function sansMouvement(jours = 7) {
+  return db.prepare(`
+    SELECT i.id, i.ordre_id, i.quantite, i.avancement, i.maj_le, i.priorite,
+           o.numero, o.titre AS ordre_titre, p.code, p.nom,
+           CAST(julianday('now') - julianday(i.maj_le) AS INTEGER) AS jours_sans_maj
+    FROM ordre_items i
+    JOIN ordres o   ON o.id = i.ordre_id
+    JOIN produits p ON p.id = i.produit_id
+    WHERE o.statut = 'en_cours'
+      AND i.avancement > 0 AND i.avancement < 100
+      AND julianday('now') - julianday(i.maj_le) >= ?
+    ORDER BY jours_sans_maj DESC`).all(jours);
+}
+
+/** Progression réalisée sur une fenêtre glissante, par ordre. */
+function progressionRecente(jours = 7) {
+  return db.prepare(`
+    SELECT o.numero, o.titre,
+           COUNT(*) AS maj,
+           SUM((h.apres - h.avant) * i.quantite / 100.0) AS unites_avancees
+    FROM avancement_historique h
+    JOIN ordre_items i ON i.id = h.item_id
+    JOIN ordres o      ON o.id = i.ordre_id
+    WHERE h.cree_le >= datetime('now', ?)
+    GROUP BY o.id ORDER BY unites_avancees DESC`).all(`-${jours} days`);
+}
+
+module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
+                   listeFabrication, dernieresMaj, sansMouvement,
+                   progressionRecente, RANG_PRIORITE };

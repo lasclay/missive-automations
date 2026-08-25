@@ -112,7 +112,9 @@ function page({ titre, user, corps, actif = '', msg = null }) {
   <a class="marque" href="/">Lasclay <span>MRP</span></a>
   ${user ? `<nav class="top">
     ${lien('/', 'Tableau de bord', 'accueil')}
+    ${lien('/priorites', 'À fabriquer', 'priorites')}
     ${lien('/ordres', 'Ordres de production', 'ordres')}
+    ${lien('/suivi', 'Suivi', 'suivi')}
     ${lien('/produits', 'Produits', 'produits')}
     ${lien('/cedule', 'Cédule', 'cedule')}
     ${lien('/assistant', 'Assistant', 'assistant')}
@@ -712,7 +714,159 @@ function para(t) {
     .map(b => `<p>${e(b).replace(/\n/g, '<br>')}</p>`).join('') || '<p></p>';
 }
 
+
+/* --------------------------------------------------- liste de fabrication
+ * La page qu'on ouvre le matin : quoi produire, dans quel ordre.
+ *
+ * Un choix qui structure tout le reste : le rang n'est pas un champ qu'on
+ * saisit, c'est un calcul. Priorité posée à la main, puis échéance, puis
+ * quantité restante. On ne maintient donc jamais une numérotation à la main —
+ * ajouter un ordre urgent réordonne la liste tout seul.
+ */
+const PRIORITES = { haute: 'Haute', normale: 'Normale', basse: 'Basse' };
+
+/**
+ * Comment une échéance se lit.
+ *
+ * `enRetard` vient d'un jalon déjà passé sur l'ordre — c'est un état, pas une
+ * distance. `jours` est le délai jusqu'au prochain jalon à venir. Les deux
+ * coexistent : un ordre peut avoir raté une date ET en avoir une autre devant.
+ */
+function urgence(jours, enRetard) {
+  if (enRetard) return { cls: 'retard', txt: 'en retard' };
+  if (jours === null || jours === undefined) return { cls: 'sans', txt: 'sans date' };
+  if (jours === 0) return { cls: 'retard',  txt: "aujourd'hui" };
+  if (jours <= 7)  return { cls: 'urgent',  txt: `dans ${jours} j` };
+  if (jours <= 21) return { cls: 'bientot', txt: `dans ${jours} j` };
+  return { cls: 'loin', txt: `dans ${jours} j` };
+}
+
+function vuePriorites({ user, msg, lignes, jours = 7 }) {
+  const admin = user.role === 'admin';
+  const enRetard = lignes.filter(l => l.en_retard).length;
+  const urgents  = lignes.filter(l => !l.en_retard && l.jours !== null && l.jours <= jours).length;
+  const total    = lignes.reduce((n, l) => n + l.restant, 0);
+
+  const rang = (l, i) => {
+    const u = urgence(l.jours, l.en_retard);
+    const sel = (v) => `<option value="${v}"${l.priorite === v ? ' selected' : ''}>${PRIORITES[v]}</option>`;
+    return `
+    <tr id="i${l.id}" class="p-${l.priorite}">
+      <td class="num">${i + 1}</td>
+      <td class="prod">
+        <a href="/produits/${l.produit_id}"><b>${e(l.code)}</b></a>
+        <span class="sec">${e(l.nom)}</span>
+        ${l.note ? `<span class="note">${e(l.note)}</span>` : ''}
+      </td>
+      <td class="qte"><b>${l.restant.toLocaleString('fr-CA')}</b>
+        <span class="sec">sur ${l.quantite.toLocaleString('fr-CA')}</span></td>
+      <td class="av">${jauge(l.avancement)}<span class="sec">${l.avancement} %</span></td>
+      <td class="ech u-${u.cls}">
+        ${l.echeance ? `<b>${dateFR(l.echeance)}</b>` : ''}
+        <span class="sec">${u.txt}${l.echeance && l.en_retard && l.jours !== null
+          ? ` · prochaine dans ${l.jours} j` : ''}</span>
+        ${l.echeance_titre ? `<span class="note">${e(l.echeance_titre)}</span>` : ''}
+      </td>
+      <td class="ord"><a href="/ordres/${l.ordre_id}">${e(l.numero)}</a>
+        <span class="sec">${e(l.ordre_titre)}</span></td>
+      <td class="pri">${admin ? `<form method="post" action="/priorites/${l.id}">
+          <select name="priorite" onchange="this.form.submit()">
+            ${sel('haute')}${sel('normale')}${sel('basse')}</select>
+          <button class="sr-btn">OK</button></form>`
+        : PRIORITES[l.priorite]}</td>
+    </tr>`;
+  };
+
+  const corps = `
+  <h1>À fabriquer</h1>
+  <p class="intro">Tout ce qui reste à produire, tous ordres confondus, dans
+  l'ordre où s'y mettre. Le rang se calcule : priorité, puis échéance, puis
+  quantité restante. ${admin ? 'Change une priorité et la liste se réordonne.'
+    : 'Les priorités sont posées par l\'administration.'}</p>
+
+  <div class="chiffres">
+    <div class="c${enRetard ? ' alerte' : ''}"><b>${enRetard}</b>en retard</div>
+    <div class="c"><b>${urgents}</b>dans ${jours} jours</div>
+    <div class="c"><b>${lignes.length}</b>items à produire</div>
+    <div class="c"><b>${total.toLocaleString('fr-CA')}</b>unités restantes</div>
+  </div>
+
+  ${lignes.length ? `<div class="tbl tbl-fab"><table class="fab">
+    <thead><tr><th>#</th><th>Produit</th><th>Restant</th><th>Avancement</th>
+      <th>Échéance</th><th>Ordre</th><th>Priorité</th></tr></thead>
+    <tbody>${lignes.map(rang).join('')}</tbody>
+  </table></div>`
+  : `<div class="carte"><p class="vide">Rien à produire : tous les items des
+     ordres planifiés et en cours sont à 100 %.</p></div>`}`;
+
+  return page({ titre: 'À fabriquer', user, corps, actif: 'priorites', msg });
+}
+
+/* ----------------------------------------------------------------- suivi
+ * Le pendant de la liste de fabrication : est-ce que ça bouge ?
+ *
+ * Trois questions, trois blocs. Ce qui a bougé récemment, ce qui ne bouge
+ * plus, et combien on a avancé cette semaine. Le bloc du milieu est le seul
+ * qui demande une action — les deux autres servent à ne pas avoir à demander.
+ */
+function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
+  const corps = `
+  <h1>Suivi de production</h1>
+  <p class="intro">Ce qui a bougé, ce qui ne bouge plus, et de combien on a
+  avancé. Chaque changement d'avancement est daté et signé — personne n'a à
+  demander « où on en est ».</p>
+
+  ${immobiles.length ? `<section class="bloc alerte-bloc">
+    <h2>Sans mouvement depuis ${jours} jours ou plus</h2>
+    <p class="sec">Du travail commencé qui n'avance plus. C'est le seul bloc
+    de cette page qui demande une action.</p>
+    <div class="tbl"><table class="items">
+      <thead><tr><th>Produit</th><th>Avancement</th><th>Dernière maj</th><th>Ordre</th></tr></thead>
+      <tbody>${immobiles.map(x => `<tr>
+        <td><b>${e(x.code)}</b> <span class="sec">${e(x.nom)}</span></td>
+        <td>${jauge(x.avancement)}<span class="sec">${x.avancement} %</span></td>
+        <td><b>${x.jours_sans_maj} j</b><span class="sec">${dateHeureFR(x.maj_le)}</span></td>
+        <td><a href="/ordres/${x.ordre_id}#i${x.id}">${e(x.numero)}</a></td>
+      </tr>`).join('')}</tbody>
+    </table></div>
+  </section>` : `<section class="bloc">
+    <h2>Sans mouvement</h2>
+    <p class="vide">Rien d'immobile depuis ${jours} jours. Tout ce qui est
+    commencé avance.</p>
+  </section>`}
+
+  <section class="bloc">
+    <h2>Avancé sur ${jours} jours</h2>
+    ${progression.length ? `<div class="tbl"><table class="items">
+      <thead><tr><th>Ordre</th><th>Mises à jour</th><th>Unités avancées</th></tr></thead>
+      <tbody>${progression.map(p => `<tr>
+        <td><b>${e(p.numero)}</b> <span class="sec">${e(p.titre)}</span></td>
+        <td>${p.maj}</td>
+        <td><b>${Math.round(p.unites_avancees).toLocaleString('fr-CA')}</b></td>
+      </tr>`).join('')}</tbody>
+    </table></div>
+    <p class="sec">« Unités avancées » = la progression convertie en pièces :
+    passer 2000 cache-cous de 40 à 70 % compte pour 600.</p>`
+    : `<p class="vide">Aucune mise à jour sur la période.</p>`}
+  </section>
+
+  <section class="bloc">
+    <h2>Dernières mises à jour</h2>
+    ${recentes.length ? `<ul class="flux">${recentes.map(h => `<li>
+      <span class="quand">${dateHeureFR(h.cree_le)}</span>
+      <b>${e(h.auteur || 'quelqu\'un')}</b>
+      <a href="/ordres/${h.ordre_id}#i${h.item_id}">${e(h.code)}</a>
+      <span class="saut">${h.avant} %&nbsp;→&nbsp;<b>${h.apres} %</b></span>
+      <span class="sec">${e(h.numero)}</span>
+    </li>`).join('')}</ul>`
+    : `<p class="vide">Aucune mise à jour enregistrée.</p>`}
+  </section>`;
+
+  return page({ titre: 'Suivi', user, corps, actif: 'suivi', msg });
+}
+
 module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR, jauge, page, vueConnexion,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
+                   vuePriorites, vueSuivi, PRIORITES, urgence,
                    STATUTS, TYPES_JALON };

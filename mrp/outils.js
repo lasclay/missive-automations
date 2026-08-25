@@ -21,7 +21,8 @@
  * que de deviner.
  */
 'use strict';
-const { db, prochainNumero, avancementOrdre } = require('./db.js');
+const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
+        sansMouvement, progressionRecente } = require('./db.js');
 const { urlAcceptable } = require('./vues.js');
 
 // Tables que le journal a le droit de rétablir. Liste blanche : ce qui n'est
@@ -238,6 +239,86 @@ const OUTILS = [
         dans_les_ordres: db.prepare(`SELECT o.numero, o.titre, i.quantite, i.avancement
             FROM ordre_items i JOIN ordres o ON o.id = i.ordre_id
             WHERE i.produit_id = ? ORDER BY o.cree_le DESC`).all(p.id),
+      };
+    },
+  },
+  {
+    nom: 'a_fabriquer',
+    description: "La liste de fabrication : tout ce qui reste à produire, tous "
+      + "ordres confondus, déjà triée dans l'ordre où s'y mettre (priorité, "
+      + "puis échéance, puis quantité restante). C'est la réponse à « qu'est-ce "
+      + "que je fais en premier », « qu'est-ce qui presse », « c'est quoi la "
+      + "suite ».",
+    role: 'atelier',
+    params: { type: 'object', properties: {
+      limite: { type: 'integer', description: 'Nombre de lignes (défaut 15).' } } },
+    executer: (a) => {
+      const n = Number.isInteger(a.limite) && a.limite > 0 ? Math.min(a.limite, 60) : 15;
+      const tout = listeFabrication();
+      return {
+        total_items: tout.length,
+        en_retard: tout.filter(l => l.en_retard).length,
+        unites_restantes: tout.reduce((s, l) => s + l.restant, 0),
+        liste: tout.slice(0, n).map((l, i) => ({
+          rang: i + 1, produit: l.code, nom: l.nom, ordre: l.numero,
+          restant: l.restant, sur: l.quantite, avancement: l.avancement + ' %',
+          priorite: l.priorite,
+          echeance: l.echeance || null,
+          jours_restants: l.jours,
+          en_retard: l.en_retard,
+          echeance_titre: l.echeance_titre || null })),
+      };
+    },
+  },
+  {
+    nom: 'definir_priorite',
+    description: "Pose la priorité de fabrication d'un item : haute, normale ou "
+      + "basse. Une priorité haute passe devant les échéances plus proches — "
+      + "c'est le seul moyen de contredire le calendrier.",
+    role: 'admin',
+    params: { type: 'object', required: ['ordre','produit','priorite'], properties: {
+      ordre: { type: 'string' }, produit: { type: 'string' },
+      priorite: { type: 'string', enum: ['haute','normale','basse'] } } },
+    executer: (a, ctx) => {
+      const o = resoudreOrdre(a.ordre), p = resoudreProduit(a.produit);
+      const it = db.prepare(`SELECT * FROM ordre_items
+          WHERE ordre_id = ? AND produit_id = ?`).get(o.id, p.id);
+      if (!it) refuser(`${p.code} n'est pas dans ${o.numero}.`);
+      if (!['haute','normale','basse'].includes(a.priorite))
+        refuser(`Priorité attendue : haute, normale ou basse.`);
+      if (it.priorite === a.priorite)
+        return { ok: true, inchange: true,
+                 message: `${p.code} était déjà en priorité ${a.priorite}.` };
+      db.prepare(`UPDATE ordre_items SET priorite = ? WHERE id = ?`)
+        .run(a.priorite, it.id);
+      noter(ctx, 'definir_priorite',
+        `${p.code} dans ${o.numero} : priorité ${it.priorite} → ${a.priorite}`,
+        { table: 'ordre_items', op: 'update', id: it.id,
+          avant: { priorite: it.priorite } });
+      return { ok: true, ordre: o.numero, produit: p.code, priorite: a.priorite };
+    },
+  },
+  {
+    nom: 'suivi_production',
+    description: "L'état du suivi : ce qui a bougé récemment, ce qui ne bouge "
+      + "plus depuis un moment, et de combien on a avancé. Répond à « est-ce "
+      + "que ça avance », « qu'est-ce qui traîne », « qui a mis à jour quoi ».",
+    role: 'atelier',
+    params: { type: 'object', properties: {
+      jours: { type: 'integer', description: 'Fenêtre en jours (défaut 7).' } } },
+    executer: (a) => {
+      const j = Number.isInteger(a.jours) && a.jours > 0 ? Math.min(a.jours, 90) : 7;
+      return {
+        fenetre_jours: j,
+        sans_mouvement: sansMouvement(j).map(x => ({
+          produit: x.code, ordre: x.numero, avancement: x.avancement + ' %',
+          jours_sans_maj: x.jours_sans_maj })),
+        progression: progressionRecente(j).map(p => ({
+          ordre: p.numero, titre: p.titre, mises_a_jour: p.maj,
+          unites_avancees: Math.round(p.unites_avancees) })),
+        dernieres_maj: dernieresMaj(12).map(h => ({
+          quand: h.cree_le, qui: h.auteur, produit: h.code, ordre: h.numero,
+          de: h.avant + ' %', a: h.apres + ' %' })),
       };
     },
   },

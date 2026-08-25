@@ -19,7 +19,8 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
-const { db, prochainNumero, avancementOrdre } = require('./db.js');
+const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
+        sansMouvement, progressionRecente } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
@@ -117,13 +118,17 @@ const filValide = (f) => typeof f === 'string' && /^[0-9a-f]{18}$/.test(f);
 
 const EXEMPLES = {
   admin: [
+    "Qu'est-ce qui presse cette semaine ?",
     'Où en est la production automne 2026 ?',
+    'Passe les cache-cous adultes en priorité haute',
+    "Qu'est-ce qui ne bouge plus depuis 10 jours ?",
     'Mets les cache-cous adultes à 70 %',
     "Crée un ordre « Prévente hiver » avec 500 tuques sport et 300 bandeaux",
     "Ajoute une deadline « Départ conteneur » le 2 octobre sur l'ordre en cours",
     "Le bandeau se coupe dans le sens de la longueur — note-le dans sa fiche",
   ],
   atelier: [
+    "Qu'est-ce que je fais en premier ?",
     'Les cache-cous adultes sont rendus à 70 %',
     "Qu'est-ce qui s'en vient le mois prochain ?",
     'Montre-moi la fiche du bandeau amovible',
@@ -144,6 +149,33 @@ async function router(req, res, url, user) {
     const ordres = R.ordresListe.all().map(o => ({
       ...o, ...avancementOrdre(o.id), prochain: R.jalonProchainOrdre.get(o.id) || null }));
     return html(res, V.vueAccueil({ user, ordres, jalons: R.jalonsProchains.all() }));
+  }
+
+  // ---- à fabriquer : la liste de travail, tous ordres confondus
+  if (p === '/priorites') {
+    const j = Math.min(90, Math.max(1, Number(q.get('jours')) || 7));
+    return html(res, V.vuePriorites({ user, msg, jours: j,
+      lignes: listeFabrication() }));
+  }
+  {
+    const m = p.match(/^\/priorites\/(\d+)$/);
+    if (m && req.method === 'POST') {
+      if (!admin) return refus();
+      const f = await corpsFormulaire(req);
+      if (['haute', 'normale', 'basse'].includes(f.priorite))
+        db.prepare(`UPDATE ordre_items SET priorite = ? WHERE id = ?`)
+          .run(f.priorite, Number(m[1]));
+      return vers(res, '/priorites#i' + m[1]);
+    }
+  }
+
+  // ---- suivi : est-ce que ça bouge ?
+  if (p === '/suivi') {
+    const j = Math.min(90, Math.max(1, Number(q.get('jours')) || 7));
+    return html(res, V.vueSuivi({ user, msg, jours: j,
+      recentes: dernieresMaj(30),
+      immobiles: sansMouvement(j),
+      progression: progressionRecente(j) }));
   }
 
   // ---- ordres

@@ -16,6 +16,22 @@ par item, et rattacher les dates clés.
 - Chaque item est cliquable vers sa fiche produit
 - Historique de chaque changement d'avancement : qui, quand, de combien à combien
 
+**À fabriquer — la liste de travail**
+- Tout ce qui reste à produire, tous ordres confondus, **déjà trié**
+- Le rang est un calcul, pas un champ : priorité, puis retard, puis échéance,
+  puis quantité restante — ajouter un ordre urgent réordonne la liste tout seul
+- Priorité manuelle (haute / normale / basse), le seul moyen de contredire le
+  calendrier
+- Quantité restante estimée en pièces : 2 000 à 40 % = 1 200 restants
+
+**Suivi — est-ce que ça avance**
+- Ce qui ne bouge plus depuis 7 jours : le seul bloc qui demande une action
+- Progression convertie en pièces (2 000 cache-cous de 40 à 70 % = 600 unités)
+- Journal de qui a changé quoi, quand
+
+La méthode qui va avec — qui met à jour, quand, et ce que le pourcentage veut
+dire — est dans [`METHODE-SUIVI.md`](METHODE-SUIVI.md).
+
 **Fiches produits**
 - Photos studio et photos en contexte d'utilisation
 - « C'est quoi », « à quoi ça sert, comment ça s'utilise », notes techniques

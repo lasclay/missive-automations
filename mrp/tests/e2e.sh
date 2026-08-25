@@ -56,7 +56,7 @@ C=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*
 P=$(curl -s -b $CA $B/ordres/1 | grep -oE '>[0-9]+ %<' | head -1 | tr -dc 0-9)
 [ "$P" = 44 ] && ok "avancement global pondéré par les quantités = 44 %" || ko "pondération incorrecte ($P)"
 
-for u in / /ordres /ordres/1 /produits /produits/1 /cedule; do
+for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi; do
   S=$(curl -s -b $CA "$B$u" -o /dev/null -w '%{size_download}')
   [ "$S" -lt 25000 ] || ko "page $u trop lourde ($S octets)"
 done
@@ -87,6 +87,42 @@ for u in /produits /produits/1; do
     && ko "image servie localement sur $u"
 done
 ok "toutes les images pointent vers une URL externe"
+
+# ---- à fabriquer : la liste doit être triée, pas seulement affichée
+P=$(curl -s -b $CA $B/priorites)
+echo "$P" | grep -q 'items à produire' && ok "liste de fabrication rendue" \
+  || ko "liste de fabrication absente"
+
+# le rang 1 doit être celui que le tri désigne, pas le premier item saisi
+node -e "
+const {db,listeFabrication}=require('./db.js');
+// on met une échéance proche sur l'ordre et une priorité haute sur le dernier item
+db.exec(\"INSERT INTO ordre_jalons (ordre_id,titre,date,type) VALUES (1,'Test',date('now','+2 days'),'deadline')\");
+const dernier=db.prepare('SELECT id FROM ordre_items ORDER BY id DESC LIMIT 1').get().id;
+db.prepare('UPDATE ordre_items SET priorite=? WHERE id=?').run('haute',dernier);
+const f=listeFabrication();
+if(f[0].id!==dernier){console.error('rang 1 = '+f[0].id+' au lieu de '+dernier);process.exit(1)}
+" 2>/dev/null && ok "la priorité haute passe en tête du tri" \
+  || ko "le tri ignore la priorité haute"
+
+# l'atelier voit la liste mais ne peut pas changer une priorité
+curl -s -b $CO $B/priorites | grep -q 'À fabriquer' \
+  && ok "l'atelier accède à la liste de fabrication" || ko "liste refusée à l'atelier"
+AV=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT priorite p FROM ordre_items WHERE id=1').get().p)" 2>/dev/null)
+curl -s -b $CO -o /dev/null -X POST $B/priorites/1 --data 'priorite=haute'
+AP=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT priorite p FROM ordre_items WHERE id=1').get().p)" 2>/dev/null)
+[ "$AV" = "$AP" ] && ok "l'atelier ne peut pas changer une priorité" \
+  || ko "priorité modifiée par l'atelier ($AV → $AP)"
+
+curl -s -b $CA -o /dev/null -X POST $B/priorites/1 --data 'priorite=basse'
+[ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT priorite p FROM ordre_items WHERE id=1').get().p)" 2>/dev/null)" = basse ] \
+  && ok "l'administration change une priorité" || ko "priorité non enregistrée"
+
+# ---- suivi
+S=$(curl -s -b $CA $B/suivi)
+echo "$S" | grep -q 'Dernières mises à jour' && ok "page de suivi rendue" || ko "suivi absent"
+echo "$S" | grep -q 'Atelier' \
+  && ok "le suivi nomme qui a fait la mise à jour" || ko "auteur absent du suivi"
 
 # l'assistant : la page vit même sans clé API, et le dit au lieu de planter
 A=$(curl -s -b $CA $B/assistant)

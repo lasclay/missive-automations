@@ -190,6 +190,75 @@ t('un nouveau tour devient le seul annulable',
 const lu = ex('lire_ordre', { ordre: o1.numero }, tour(atelier));
 t('lecture accessible à l\'atelier', Array.isArray(lu.items), JSON.stringify(lu).slice(0, 80));
 
+// ---------------------------------------------- priorité et liste à fabriquer
+const { listeFabrication, sansMouvement, progressionRecente } = require('../db.js');
+
+// une échéance passée sur l'ordre, pour vérifier le drapeau de retard
+db.prepare(`INSERT INTO ordre_jalons (ordre_id, titre, date, type)
+            VALUES (?,?,date('now','-4 days'),'deadline')`).run(1, 'Date ratée');
+
+let fab = listeFabrication();
+t('la liste ne retient que ce qui reste à produire',
+  fab.every(l => l.avancement < 100) && fab.length >= 2, String(fab.length));
+t("le retard est un drapeau, pas une échéance négative",
+  fab.every(l => l.en_retard === true) && fab.every(l => l.jours === null || l.jours >= 0),
+  JSON.stringify(fab.map(l => [l.code, l.en_retard, l.jours])));
+
+const restantCC = fab.find(l => l.code === 'CC-ADULTE');
+t('quantité restante = quantité × (100 − avancement)',
+  restantCC.restant === 600, String(restantCC?.restant));
+
+const prio = ex('definir_priorite', { ordre: o1.numero, produit: 'TQ-SPORT',
+  priorite: 'haute' }, c);
+t('priorité posée', prio.ok && prio.priorite === 'haute', JSON.stringify(prio));
+
+fab = listeFabrication();
+t('la priorité haute passe en tête', fab[0].code === 'TQ-SPORT', fab[0].code);
+
+ex('definir_priorite', { ordre: o1.numero, produit: 'TQ-SPORT', priorite: 'basse' }, c);
+fab = listeFabrication();
+t('la priorité basse passe en queue', fab.at(-1).code === 'TQ-SPORT', fab.at(-1).code);
+
+const prioAtelier = ex('definir_priorite', { ordre: o1.numero, produit: 'CC-ADULTE',
+  priorite: 'haute' }, m);
+t("l'atelier ne pose pas de priorité", Boolean(prioAtelier.erreur));
+
+const prioInvalide = ex('definir_priorite', { ordre: o1.numero, produit: 'CC-ADULTE',
+  priorite: 'urgente' }, c);
+t('priorité hors liste refusée', Boolean(prioInvalide.erreur), JSON.stringify(prioInvalide));
+
+const listeOutil = ex('a_fabriquer', { limite: 3 }, m);
+t("l'atelier peut consulter la liste de fabrication",
+  Array.isArray(listeOutil.liste)
+  && listeOutil.liste.length === Math.min(3, listeOutil.total_items),
+  JSON.stringify(listeOutil).slice(0, 90));
+t('la liste porte ses totaux et son compte de retards',
+  listeOutil.total_items === fab.length && listeOutil.unites_restantes > 0
+  && listeOutil.en_retard === fab.filter(l => l.en_retard).length,
+  `${listeOutil.total_items}/${fab.length}`);
+
+// ------------------------------------------------------------------- suivi
+// un item entamé, figé depuis 12 jours
+db.prepare(`UPDATE ordre_items SET maj_le = datetime('now','-12 days')
+            WHERE id = (SELECT i.id FROM ordre_items i JOIN produits p ON p.id=i.produit_id
+                        WHERE p.code='CC-ADULTE')`).run();
+db.prepare(`UPDATE ordres SET statut='en_cours' WHERE id=?`).run(1);
+
+const fige = sansMouvement(7);
+t('un item entamé et figé est signalé',
+  fige.some(x => x.code === 'CC-ADULTE'), JSON.stringify(fige.map(x => x.code)));
+t('un item à 0 % n\'est pas « immobile », il n\'a pas commencé',
+  fige.every(x => x.avancement > 0), JSON.stringify(fige.map(x => [x.code, x.avancement])));
+
+const prog = progressionRecente(30);
+t('la progression compte des unités, pas des pourcentages',
+  prog.length > 0 && prog[0].unites_avancees > 0, JSON.stringify(prog));
+
+const suivi = ex('suivi_production', { jours: 7 }, m);
+t("l'atelier peut consulter le suivi",
+  Array.isArray(suivi.sans_mouvement) && Array.isArray(suivi.dernieres_maj),
+  JSON.stringify(suivi).slice(0, 80));
+
 const inconnu = ex('outil_qui_nexiste_pas', {}, c);
 t('outil inconnu signalé sans planter', Boolean(inconnu.erreur));
 
