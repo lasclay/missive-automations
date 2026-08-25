@@ -255,13 +255,12 @@ inventaire, expédiés 22 jours plus tard. Il se déclare parti. Avis toujours e
 > > *Très mauvais service, impossible d'avoir un suivi pour une commande pour des produits qui
 > > étaient supposé être en inventaire. Bref de mon côté c'est TERMINÉ*
 >
-> Vous avez acheté ces cache-cou parce que le site les affichait comme disponibles. Ils étaient
-> encore à l'assemblage. Vous avez donc payé pour du stock qui n'existait pas, puis attendu 22 jours
-> sans numéro de suivi et sans nouvelles de nous. Je m'en excuse.
+> Vous avez acheté ces cache-cou parce que le site les affichait comme disponibles. Ils ne
+> l'étaient pas. Vous avez donc payé pour du stock qui n'existait pas, puis attendu 22 jours sans
+> que personne vous dise ce qui se passait. Je m'en excuse.
 >
 > On est en train de changer la façon dont les disponibilités s'affichent, pour qu'un produit qui
-> part en production le dise avant le paiement. Toutes les commandes sortent avec un suivi
-> maintenant.
+> part en production le dise avant le paiement plutôt qu'après.
 >
 > Vous avez écrit que de votre côté c'était terminé. Je le comprends, et je fais quand même le
 > tour : vos 119,55 $ vous sont remboursés sur votre carte, vous gardez les deux cache-cou, et une
@@ -397,8 +396,8 @@ remboursée. Elle a déjà reçu une carte-cadeau (L-44698, 22 décembre) et des
 > premier trou qu'on a bouché depuis. Pendant ce temps-là vous avez passé un mois sans savoir où
 > était votre commande. Je m'en excuse.
 >
-> Ce qui m'a frappé en ouvrant votre dossier : vous avez commandé trois fois pendant que vous viviez
-> ça.
+> Vous avez quand même accepté les mitaines qu'on vous a envoyées en janvier, après tout ça. Je ne
+> le prends pas pour acquis.
 >
 > Votre commande du 9 décembre vous est remboursée au complet, 126,46 $, et vous gardez les
 > mitaines. Une carte-cadeau de 200 $ part à votre nom, en plus de celle de décembre.
@@ -655,8 +654,8 @@ en ligne et toujours sans réponse publique après trois ans.*
 > avez fini par être remboursée, personne n'a jamais pris la peine de vous écrire pour s'en excuser.
 > Je le fais avec trois ans de retard.
 >
-> Pour votre dernière question : oui, l'entreprise existe toujours. Les délais sont annoncés à
-> l'achat et les commandes sortent avec un numéro de suivi.
+> Pour votre dernière question : oui, l'entreprise existe toujours. On a beaucoup changé depuis, et
+> il nous reste du chemin à faire sur les délais et sur les nouvelles qu'on donne.
 >
 > Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration et sans rien à faire pour la
 > recevoir. Si l'envie vous prend de réessayer, écrivez-moi directement et je m'occupe de votre
@@ -839,6 +838,82 @@ Shopify avant l'envoi : le message repose entièrement là-dessus.*
 >
 > I would like to send you enough seed for the same patch this coming season, free of charge. Tell
 > me roughly how much ground you are working with and it goes out.
+
+---
+
+# Vérification de chaque affirmation, 25 août 2026
+
+Après la trouvaille sur Guillaume, Gabriel a demandé de faire la même chose pour tous les messages.
+Chaque fait a été retracé dans Shopify et, quand la date le permettait, dans ShipStation.
+
+## Trois erreurs factuelles trouvées et corrigées
+
+| Message | Ce que j'écrivais | Ce que la donnée dit |
+| --- | --- | --- |
+| **Stephane Vincent** | « vous avez attendu 22 jours **sans numéro de suivi** » | **Faux.** L-41587 expédiée le 11 décembre 2025 en `expedited_parcel`, suivi **5082011154595310**, confirmé dans Shopify **et** dans ShipStation. Son grief est le délai et l'affichage de disponibilité, pas l'absence de numéro. Corrigé en « sans que personne vous dise ce qui se passait » |
+| **Stephane Vincent** | « **Toutes les commandes sortent avec un suivi maintenant** » | **Contredit par le corpus lui-même.** L-45225 de Tim Sullivan est partie le 24 mars 2026 sans aucun numéro. Phrase retirée |
+| **Charlotte Bourgoing** | « vous avez **commandé trois fois** pendant que vous viviez ça » | **Faux, et flatteur à tort.** Elle a passé **une seule commande payante**, L-43391 à 126,46 $. Les deux autres sont nos gestes à **0,00 $** : la carte-cadeau L-44698 et les mitaines gratuites L-45669. Reformulé sans lui attribuer des achats qu'elle n'a pas faits |
+| **Melanie Boucher** | « les délais sont annoncés à l'achat et les commandes sortent avec un numéro de suivi » | **Doublement contredit.** Stephane a acheté en novembre 2025 un produit affiché disponible qui ne l'était pas, Marie-Michèle en juillet 2026. Et Tim est parti sans suivi en mars 2026. Remplacé par un aveu que le chemin n'est pas fini |
+
+**La leçon commune aux trois dernières :** ce sont toutes des phrases qui affirment que le problème
+est réglé. Ce sont les plus dangereuses du lot, parce qu'elles se vérifient en trente secondes et
+qu'elles annulent l'excuse qui précède. **Ne jamais écrire qu'une chose est corrigée sans l'avoir
+vérifiée le jour même.**
+
+## Ce que la vérification confirme
+
+| Fait | Vérifié |
+| --- | --- |
+| **Tim** L-45225, 3 janvier 2026, 99,72 $, 4 paquets de bombes semencières, expédiée le 24 mars = **81 jours**, jamais remboursée | Shopify |
+| **Tim** parti par timbre : fulfillment Shopify **sans aucun numéro**, et **aucune étiquette dans ShipStation** dans la fenêtre du 20 au 28 mars 2026 (21 expéditions, aucune à son nom). C'est la signature d'un envoi timbré | Shopify + ShipStation |
+| **Stephane** L-41587, 19 novembre 2025, expédiée le 11 décembre = **22 jours**, 2 cache-cou, 119,55 $, jamais remboursée | Shopify + ShipStation |
+| **Lessnick** L-47093, 16 février 2026, 449,55 $, **4 paires**. 449,55 ÷ 4 = **112,39 $** exactement. Échange L-47913 le 5 mars à 0,00 $, remboursement de 0,00 $ : **rien ne lui a été rendu** | Shopify |
+| **Toby** L-28161, 13 décembre 2024, 242,57 $, **tuque sport, mitaines, foulard**, jamais remboursée | Shopify |
+| **Nathalie** L-19577, 2 janvier 2024, 125,89 $, jamais remboursée. Remplacement **L-28844 du 8 janvier 2025 à 0,00 $**, expédié le jour même, suivi Postes Canada **5082011581637287** | Shopify |
+| **Charlotte** L-43391, 9 décembre 2025, expédiée le **12 janvier 2026** = 34 jours. Au moment de son avis, elle n'était toujours pas partie | Shopify |
+| **Annie** L-44407, 17 décembre 2025, 52,87 $. Remboursement de 35,99 $ le 14 janvier. Solde **16,88 $** exact. Cliente depuis le 14 novembre 2023, 2 commandes, ce qui colle à son « deuxième achat » | Shopify |
+| **Sonia** L-28037, 121,86 $, jamais remboursée. Échange **L-28862 payé 11,49 $ le 9 janvier 2025**, expédié le 24 janvier, suivi 5082011712425288. La grandeur est bien arrivée **en janvier** | Shopify |
+| **Jimmy** L-46609, 6 février 2026, 24,13 $, semelles, jamais remboursé | Shopify |
+| **Melanie** L-11280, 23 décembre 2022, 123,61 $, **remboursée en entier le 17 février 2023** | Shopify |
+| **Ariane** L-39248, 82,78 $ remboursés le 26 janvier 2026, solde **32,39 $**. Cliente depuis septembre 2021 | Shopify |
+| **Emma Whiten** L-50672, 8 juin 2026, 68,31 $, jamais expédiée, remboursée le 20 août = **73 jours** | Shopify |
+
+## Susan Lockhart : la contradiction est levée
+
+La réponse publique de Lasclay, publiée le **23 mai 2024**, affirme « we see that you indeed never
+ordered any of our products ». Elle avait raison **à cette date**.
+
+Susan Lockhart a passé sa première et unique commande le **12 avril 2025**, onze mois plus tard :
+L-32389, 62,13 $, deux paquets de bombes semencières de fleurs indigènes, des graines d'asclépiade
+et un paquet de bombes semencières d'asclépiade.
+
+Le message anglais dit « last spring you ordered milkweed seed, native flower seed bombs and
+milkweed seed bombs ». **Les trois produits sont exacts et le « last spring » aussi.** Le message
+tient, et il n'y a aucune contradiction à démêler avec l'ancienne réponse publique.
+
+## Ce qui reste invérifiable, et qui doit le confirmer
+
+Ces affirmations ne sont ni dans Shopify ni dans ShipStation. **Gabriel est le seul à pouvoir les
+valider, une par une, avant l'envoi.**
+
+| Message | Affirmation | Pourquoi je ne peux pas la vérifier |
+| --- | --- | --- |
+| **Guillaume** | Le remplacement de 2023 est-il parti? | ShipStation ne remonte pas avant le **7 décembre 2023**. Le message pose maintenant la question |
+| **Melanie** | Un envoi de décembre 2022 | Même fenêtre |
+| **Marie-Michèle** | « vous avez dû nous relancer **quatre fois** » | Aucun contact d'elle dans le journal de L-50761. À confirmer dans **Missive**, sinon retirer |
+| **Marie-Andrée** | L'identification L-38222 elle-même | Son avis dit « acheté en **juillet** », la commande est du **2 août**. Tout le message tombe si l'identification est fausse |
+| **Toby** | « Le service client était réduit au minimum cet hiver-là » et « on assemble à la main » | État interne et procédé de production |
+| **Jimmy** | « on la retravaille », « le vôtre est parti à la personne qui redessine la semelle », « la prochaine version dès qu'elle sort » | **Trois promesses implicites.** Si personne ne redessine cette semelle, le message promet une chose qui n'arrivera pas |
+| **Lessnick** | « on est en train de le refaire [le guide des tailles] » | État d'un chantier interne |
+| **Charlotte** | « C'est le premier trou qu'on a bouché depuis » (Messenger) | État d'un correctif |
+| **Stephane** | « On est en train de changer la façon dont les disponibilités s'affichent » | État d'un chantier. ⚠️ Formulé au présent progressif, donc honnête, mais faux si rien n'est en cours |
+| **Tim** | « We stopped sending seed that way » | Son propre envoi de mars 2026 est le dernier connu sans suivi |
+| **Marie-Michèle** | « le reste de notre inventaire fabriqué au Québec » | Affirmation d'origine de fabrication, encadrée par la loi |
+
+**La règle qui sort de tout ça :** une phrase au passé composé qui dit qu'un problème est réglé
+(« on a refait », « c'est corrigé », « toutes les commandes sortent avec ») engage l'entreprise et
+se vérifie en trente secondes. Une phrase au présent progressif (« on est en train de ») engage
+seulement une intention. **En cas de doute, le présent progressif.**
 
 ---
 
