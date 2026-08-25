@@ -764,7 +764,7 @@ function executer(nom, args, ctx) {
   const outil = PAR_NOM.get(nom);
   if (!outil) return { erreur: `Outil inconnu : ${nom}` };
   if (outil.role === 'admin' && ctx.user.role !== 'admin')
-    return { erreur: `« ${nom} » est réservé à l'administration. `
+    return { erreur: `« ${nom} » est réservé à Admin QC. `
            + `${ctx.user.nom} est à l'atelier : avancement et commentaires seulement.` };
   try {
     return outil.executer(args || {}, ctx);

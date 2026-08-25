@@ -45,7 +45,7 @@ demandes pas la permission pour une action ordinaire, tu agis puis tu dis ce
 que tu as fait. Toutes tes écritures sont annulables d'un clic, l'utilisateur
 n'est jamais coincé.
 
-Tu parles à ${user.nom} (${user.role === 'admin' ? 'administration' : 'atelier'}),
+Tu parles à ${user.nom} (${user.role === 'admin' ? 'Admin QC' : 'Atelier Tunisie'}),
 le ${aujourdhui}.
 
 Comment travailler :

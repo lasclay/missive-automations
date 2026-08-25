@@ -171,7 +171,7 @@ async function router(req, res, url, user) {
   const q = url.searchParams;
   const msg = messageDe(q);
   const admin = user.role === 'admin';
-  const refus = () => vers(res, '/?err=' + encodeURIComponent('Action réservée à l\'administration'));
+  const refus = () => vers(res, '/?err=' + encodeURIComponent('Action réservée à Admin QC'));
 
   // ---- tableau de bord
   if (p === '/' ) {
@@ -265,7 +265,7 @@ async function router(req, res, url, user) {
       return vers(res, `/ordres/${id}`);
     }
 
-    // ---- réservé à l'administration
+    // ---- réservé à Admin QC
     if (reste && reste !== '') {
       if (!admin) return refus();
 
@@ -476,6 +476,13 @@ async function router(req, res, url, user) {
     return html(res, V.vueCompte({ user, msg }));
   }
 
+  if (p === '/compte/nom' && req.method === 'POST') {
+    const f = await corpsFormulaire(req);
+    const r = auth.changerNom(user.id, f.nom);
+    if (r.erreur) return vers(res, '/compte?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/compte?ok=' + encodeURIComponent(`Nom changé pour « ${r.nom} ».`));
+  }
+
   return html(res, V.page({ titre:'Introuvable', user,
     corps:'<div class="carte"><p class="vide">Page inconnue.</p></div>' }), 404);
 }
@@ -561,7 +568,7 @@ function amorcerPremierCompte() {
     return;
   }
   try {
-    auth.creerUtilisateur({ courriel, mdp, nom: 'Administration', role: 'admin' });
+    auth.creerUtilisateur({ courriel, mdp, nom: 'Admin QC', role: 'admin' });
     console.log(`[mrp] Premier compte créé : ${courriel}. `
       + 'Changer le mot de passe à la première connexion, puis retirer '
       + 'MRP_ADMIN_MDP du tableau de bord.');

@@ -13,6 +13,10 @@ Il est court exprès. Une méthode que personne ne lit ne s'applique pas.
 **Montassar met à jour l'avancement de chaque item sur lequel il a travaillé,
 à la fin de sa journée de travail. Gabriel et Catherine posent les priorités.**
 
+Les deux rôles de l'app portent leur lieu : **Atelier Tunisie** et **Admin QC**.
+Ce n'est pas une hiérarchie, c'est un partage géographique — chacun est seul à
+savoir ce que l'autre ne peut pas voir.
+
 Les deux moitiés comptent. L'atelier est seul à savoir ce qui est fait ;
 Québec est seul à savoir ce qui presse. Ni l'un ni l'autre ne fait le travail
 de l'autre.
@@ -55,7 +59,7 @@ que la personne qui produit est la seule à pouvoir le donner.
 
 ## Qui fait quoi
 
-| | Montassar (atelier) | Gabriel et Catherine (Québec) |
+| | Montassar (Atelier Tunisie) | Gabriel et Catherine (Admin QC) |
 | --- | --- | --- |
 | Met à jour l'avancement | **oui, c'est sa responsabilité** | en dépannage seulement |
 | Pose les priorités | non | **oui, c'est la leur** |

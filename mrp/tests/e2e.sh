@@ -222,6 +222,18 @@ curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte \
   && ok "les sessions ouvertes ailleurs sont fermées" \
   || ko "une session ouverte avec l'ancien mot de passe survit"
 
+# --- changer son nom affiché --------------------------------------------
+# C'est lui qui signe les mises à jour dans le suivi : l'amorce crée le premier
+# compte au nom d'« Administration », qui n'apprend rien à personne.
+curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte/nom \
+  --data 'nom=Montassar B.' | grep -q 'ok=' \
+  && ok "le nom affiché se change" || ko "changement de nom refusé"
+curl -s -b $CO2 $B/compte | grep -q 'value="Montassar B."' \
+  && ok "le nouveau nom est affiché" || ko "nom non répercuté"
+curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte/nom \
+  --data 'nom=X' | grep -q 'err=' \
+  && ok "un nom d'un seul caractère est refusé" || ko "nom trop court accepté"
+
 # --- amorce du premier compte -------------------------------------------
 # Un service fraîchement déployé n'a aucun utilisateur : sans amorce, personne
 # ne peut ouvrir de session, et sans shell c'est irrécupérable. L'amorce doit
@@ -231,7 +243,7 @@ NEUVE=$(mktemp -d)/neuve.db
 MRP_DB="$NEUVE" MRP_ADMIN_COURRIEL=chef@test.com MRP_ADMIN_MDP=motdepasse9 \
   PORT=$((PORT+1)) node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
 sleep 1.5
-[ "$(MRP_DB="$NEUVE" node --no-warnings mrp.js utilisateur:liste | grep -c 'chef@test.com .*admin')" = 1 ] \
+[ "$(MRP_DB="$NEUVE" node --no-warnings mrp.js utilisateur:liste | grep -c 'chef@test.com .*Admin QC')" = 1 ] \
   && ok "amorce : le premier compte est créé sur une base neuve" \
   || ko "amorce : premier compte absent"
 kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true

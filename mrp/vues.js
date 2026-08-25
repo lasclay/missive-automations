@@ -19,6 +19,10 @@ const TYPES_JALON = { expedition:'Expédition', livraison:'Livraison',
 const FAMILLES = { hiver:'Hiver', nouveau:'Nouveau',
                    isotherme:'Sacs', autre:'Autre' };
 const LIEUX = { tunisie:'Tunisie', chine:'Chine' };
+/* Les deux rôles portent leur lieu : ce n'est pas une hiérarchie, c'est un
+   partage géographique du travail. Les valeurs stockées restent `admin` et
+   `atelier` ; seuls les libellés changent. */
+const ROLES = { admin:'Admin QC', atelier:'Atelier Tunisie' };
 
 /**
  * Normalise une URL d'image et demande la TAILLE STRICTEMENT NÉCESSAIRE.
@@ -123,7 +127,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/cedule', 'Cédule', 'cedule')}
     ${lien('/assistant', 'Assistant', 'assistant')}
   </nav>
-  <span class="qui"><a href="/compte">${e(user.nom)}</a>${user.role === 'atelier' ? ' · atelier' : ''}
+  <span class="qui"><a href="/compte">${e(user.nom)}</a> · ${ROLES[user.role] || e(user.role)}
     · <a href="/deconnexion">Sortir</a></span>` : ''}
 </div></header>
 <main>
@@ -161,9 +165,21 @@ function vueCompte({ user, msg }) {
   const corps = `
   <div class="entete"><div>
     <h1>Mon compte</h1>
-    <p class="muted">${e(user.courriel)} · ${user.role === 'admin'
-      ? 'administration' : 'atelier'}</p>
+    <p class="muted">${e(user.courriel)} · ${ROLES[user.role] || e(user.role)}</p>
   </div></div>
+
+  <div class="carte" style="max-width:420px">
+    <h2>Mon nom</h2>
+    <p class="muted" style="font-size:13px;margin:6px 0 14px">C'est lui qui
+    signe tes mises à jour dans le suivi. « Admin QC » n'apprend rien quand
+    deux personnes partagent le rôle.</p>
+    <form method="post" action="/compte/nom">
+      <div class="champ"><label for="nom">Nom affiché</label>
+        <input id="nom" type="text" name="nom" required minlength="2" maxlength="60"
+               value="${e(user.nom)}"></div>
+      <button class="btn" style="width:100%">Enregistrer</button>
+    </form>
+  </div>
 
   <div class="carte" style="max-width:420px">
     <h2>Changer mon mot de passe</h2>
@@ -673,7 +689,7 @@ function vueAssistant({ user, msg, tours, fil, dispo, exemples, annulable }) {
   <p class="intro">Donne un ordre, il l'exécute. « Mets les cache-cous à 70 % »,
   « crée un ordre pour 500 tuques sport livrables le 15 novembre »,
   « qu'est-ce qui s'en vient le mois prochain ». ${user.role === 'atelier'
-    ? `Tu es à l'atelier : l'assistant peut mettre à jour les avancements et
+    ? `Tu es à l'atelier en Tunisie : l'assistant peut mettre à jour les avancements et
        commenter, pas créer d'ordres.`
     : ''}</p>
 
@@ -835,7 +851,7 @@ function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
   retard, puis <b>date d'expédition</b>, puis la famille — hiver, nouveaux
   produits, isothermes —, puis quantité restante. ${admin
     ? 'Change une priorité et la liste se réordonne.'
-    : 'Les priorités sont posées par l\'administration.'}</p>
+    : 'Les priorités sont posées par Admin QC.'}</p>
 
   <div class="chiffres">
     <div class="c${enRetard ? ' alerte' : ''}"><b>${enRetard}</b>en retard</div>
@@ -943,4 +959,4 @@ module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
                    vuePriorites, vueSuivi, PRIORITES, urgence,
-                   STATUTS, TYPES_JALON, LIEUX };
+                   STATUTS, TYPES_JALON, LIEUX, ROLES };

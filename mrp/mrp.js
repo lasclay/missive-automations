@@ -15,6 +15,8 @@
 'use strict';
 const { db, prochainNumero } = require('./db.js');
 const auth = require('./auth.js');
+// Les valeurs stockées restent `admin` / `atelier` ; l'affichage dit le lieu.
+const ROLES = { admin: 'Admin QC', atelier: 'Atelier Tunisie' };
 
 const [, , cmd, ...a] = process.argv;
 const dire = (...x) => console.log(...x);
@@ -34,7 +36,7 @@ switch (cmd) {
   case 'utilisateur:liste':
     for (const u of db.prepare(`SELECT id, courriel, nom, role, actif, cree_le
                                 FROM utilisateurs ORDER BY id`).all())
-      dire(`${String(u.id).padStart(3)}  ${u.courriel.padEnd(30)} ${u.role.padEnd(8)} ` +
+      dire(`${String(u.id).padStart(3)}  ${u.courriel.padEnd(30)} ${ROLES[u.role].padEnd(16)} ` +
            `${u.actif ? 'actif  ' : 'inactif'} ${u.nom}`);
     break;
   case 'utilisateur:mdp': {
