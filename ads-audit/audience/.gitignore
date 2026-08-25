@@ -1,0 +1,4 @@
+# Données clients — jamais versionnées
+customers.jsonl
+batches/
+*.csv
