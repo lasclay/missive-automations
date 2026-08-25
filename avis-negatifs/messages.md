@@ -716,8 +716,14 @@ banque : cette information ne vient pas de Shopify, et l'écrire aurait trahi le
 **Pas de carte-cadeau ici.** Gabriel a demandé « juste des excuses », et c'est aussi ce qui protège
 le message : de l'argent joint à des excuses, chez quelqu'un dont le dossier est déjà réglé, est
 exactement ce qui se lit mal si la capture d'écran circule. Des excuses sans rien demander et sans
-rien offrir sont le seul message qui nous aide s'il est publié. S'il en veut une quand même, elle
-s'ajoute en une ligne à la fin.
+rien offrir sont le seul message qui nous aide s'il est publié.
+
+**La porte ouverte remplace le geste**, et c'est mieux ainsi. Le message se termine sur « si on peut
+faire quoi que ce soit d'autre pour corriger la situation, juste à le dire et on s'en occupe » :
+c'est une offre réelle, elle ne coûte rien tant qu'elle n'est pas prise, et elle laisse la décision
+chez elle. ⚠️ **Si elle répond, il faut livrer.** Une porte ouverte qui se referme sur un silence
+serait pire que de ne pas avoir écrit du tout, et c'est exactement le reproche qu'elle nous fait
+déjà.
 
 > **Objet : Votre sac à lunch du 30 juillet**
 >
@@ -738,8 +744,9 @@ s'ajoute en une ligne à la fin.
 > client a débordé au même moment. Vous êtes tombée en plein dedans, et vous n'aviez aucun moyen de
 > le savoir en payant.
 >
-> Vos 70,13 $ sont revenus sur votre carte le 19 août. Il n'y a rien d'autre à régler et je ne vous
-> demande rien.
+> Vos 70,13 $ sont revenus sur votre carte le 19 août, beaucoup trop tard. Si on peut faire quoi que
+> ce soit d'autre pour corriger la situation, juste à le dire et on s'en occupe. Je ne vous demande
+> rien en retour.
 >
 > Je voulais juste que quelqu'un vous écrive pour vrai. Personne ne l'avait fait.
 
