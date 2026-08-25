@@ -2,7 +2,7 @@
 
 **Remplace la v7.** Trois passes de lecture de la fiche (`RAPPORT-LECTURE-PASSE-2.md` et
 `RAPPORT-LECTURE-PASSE-3-VIDEO.md`, 24 août 2026) plus une vérification Shopify et ShipStation ont
-ramené la vague de dix-sept à **treize envois**. La voix ne change pas, les faits oui.
+ramené la vague de dix-sept à **quatorze envois**. La voix ne change pas, les faits oui.
 
 ## L'état réel de la fiche, au 24 août 2026
 
@@ -10,16 +10,22 @@ ramené la vague de dix-sept à **treize envois**. La voix ne change pas, les fa
 | --- | --- |
 | Avis au total sur la fiche | 132, note globale 4,4 / 5 |
 | **Avis de 1 à 3 étoiles encore en ligne** | **20** |
-| dont **destinataires d'un message privé** | **13** |
+| dont **destinataires d'un message privé** | **14** |
 | dont Susan Lockhart, cas à part (semences, aucune carte) | 1 |
-| dont impossibles à joindre en privé | 6 |
+| dont impossibles à joindre en privé | 5 |
 | Anciens avis négatifs passés à 4 ou 5 étoiles | 7 |
 | Avis vraiment disparus de la fiche | 4 |
 
-Les six qu'on ne peut pas joindre en privé : **Marie L.** et **patrick lambert** (non identifiés
-dans Shopify), **Audrey Thibeault** (note seule, aucun texte), **Emma Nelson** (très probablement
-Emma Whiten, déjà remboursée le 20 août), **Cyr-Marc Debien** et **Danielle Gingras** (dossiers
-clos et dits clos publiquement). Pour eux, réponse publique seulement.
+Les cinq qu'on ne peut pas joindre en privé : **Marie L.** et **patrick lambert** (non identifiés
+dans Shopify), **Audrey Thibeault** (note seule, aucun texte), **Cyr-Marc Debien** et
+**Danielle Gingras** (dossiers clos et dits clos publiquement). Pour eux, réponse publique
+seulement.
+
+✅ **Emma Nelson est identifiée**, confirmé par Gabriel : c'est **Emma Whiten**,
+`emmaswhiten@gmail.com`, commande **L-50672** du 8 juin 2026, un sac à lunch à 68,31 $,
+**jamais expédiée**, remboursée le 20 août 2026 seulement. Son avis du 29 juin est toujours à 1★.
+Elle devient le quatorzième destinataire privé : son message ci-dessous n'offre pas de
+remboursement, il est déjà fait.
 
 ⚠️ **Un écart de comptage à trancher.** Le tri par note la moins élevée dans la console affichait
 **21** avis de 1 à 3 étoiles le 24 août. Le relevé détaillé en donne **20**. Il manque donc un avis
@@ -633,6 +639,38 @@ en ligne et toujours sans réponse publique après trois ans.*
 > Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune
 > obligation, la carte part de toute façon.
 
+## Emma Whiten (« Emma Nelson » sur Google) · 1★ · emmaswhiten@gmail.com · **ANGLAIS**
+
+*✅ Identification confirmée par Gabriel. L-50672 du 8 juin 2026, 68,31 $, un sac à lunch, **jamais
+expédiée**, **remboursée le 20 août 2026**, soit 73 jours après la commande et 52 jours après son
+avis. Ne pas offrir de remboursement : il est fait.*
+
+*Elle fait partie de la cohorte des sacs à lunch non livrés du printemps 2026.*
+
+> **Subject: Your lunch bag order, L-50672**
+>
+> Hello Emma,
+>
+> I am going back through the orders we failed on this spring. Yours came up with your Google
+> review:
+>
+> > *Ordered an item, never received any update on shipping or processing. It's been over a month
+> > and three unanswered emails.*
+>
+> Three emails and no answer, on an order that never shipped at all. Your refund went out on
+> August 20, which is 73 days after you paid us and far too late. Nobody wrote to you to explain or
+> apologize. I am doing that now.
+>
+> What happened: the lunch bags went into production later than we announced, we did not stop
+> selling them in time, and the support inbox fell behind at the same moment. You were one of the
+> people caught in the middle of that.
+>
+> There is a $100 gift card in your name, no expiry date, with nothing to do to receive it. If you
+> ever want to try the lunch bag again, write to me directly and I will handle the order myself.
+>
+> And if you feel like updating your review, it would help us a lot. No obligation, the card is on
+> its way either way.
+
 ---
 
 # Le cas à part
@@ -715,7 +753,7 @@ avant la publication de l'avis. Réponse publique déjà en ligne, verbatim conf
 
 # Récapitulatif
 
-## Les treize envois de la vague
+## Les quatorze envois de la vague
 
 | Client | Remboursement | Produit | Carte | Promesse à exécuter |
 | --- | --- | --- | --- | --- |
@@ -732,6 +770,7 @@ avant la publication de l'avis. Réponse publique déjà en ligne, verbatim conf
 | Jimmy Allaire | 24,13 $ | garde les semelles + prochaine version offerte | 100 $ | |
 | **Ariane Poirier** | 32,39 $ (solde) | garde tout | 100 $ | **oui**, remboursement arrivé avec 4 mois de retard |
 | Melanie Boucher | déjà remboursée en 2023 | rien | 100 $ | |
+| **Emma Whiten** (« Emma Nelson ») | déjà remboursée le 20 août | rien | 100 $ | |
 
 ## Le cas à part
 
