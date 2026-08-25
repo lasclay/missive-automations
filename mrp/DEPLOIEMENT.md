@@ -89,7 +89,8 @@ curl https://lasclay-mrp.onrender.com/sante
 ```
 
 Puis ouvrir l'adresse dans un navigateur et se connecter avec le courriel et le
-mot de passe de l'étape 3. **Changer le mot de passe tout de suite.**
+mot de passe de l'étape 3. **Changer le mot de passe tout de suite** : le nom
+en haut à droite → *Mon compte*.
 
 Si la connexion échoue, regarder les logs du service (onglet **Logs**) : la
 ligne `[mrp] Premier compte créé : …` dit que l'amorce a fonctionné. Si elle

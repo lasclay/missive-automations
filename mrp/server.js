@@ -457,6 +457,25 @@ async function router(req, res, url, user) {
   if (p === '/cedule')
     return html(res, V.vueCedule({ user, jalons: R.jalonsTous.all(), msg }));
 
+  // ---- son propre compte : changer son mot de passe sans shell
+  if (p === '/compte') {
+    if (req.method === 'POST') {
+      const f = await corpsFormulaire(req);
+      if (f.nouveau !== f.nouveau2)
+        return vers(res, '/compte?err=' +
+          encodeURIComponent('Les deux nouveaux mots de passe ne correspondent pas.'));
+      // On garde la session courante ouverte : changer son mot de passe ne
+      // doit pas déconnecter celui qui vient de le faire.
+      const jeton = lireCookies(req.headers.cookie).mrp_session || null;
+      const r = auth.changerMotDePasse({ utilisateurId: user.id,
+        ancien: f.ancien, nouveau: f.nouveau, jetonAGarder: jeton });
+      if (r.erreur) return vers(res, '/compte?err=' + encodeURIComponent(r.erreur));
+      return vers(res, '/compte?ok=' + encodeURIComponent(
+        'Mot de passe changé. Les sessions ouvertes ailleurs ont été fermées.'));
+    }
+    return html(res, V.vueCompte({ user, msg }));
+  }
+
   return html(res, V.page({ titre:'Introuvable', user,
     corps:'<div class="carte"><p class="vide">Page inconnue.</p></div>' }), 404);
 }

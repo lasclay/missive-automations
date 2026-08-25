@@ -266,6 +266,23 @@ casse. L'essentiel :
   neuf n'est ouvrable par personne : la page de connexion n'offre pas de
   s'inscrire.
 
+## Comptes
+
+Le premier se crée au démarrage (`MRP_ADMIN_COURRIEL` / `MRP_ADMIN_MDP`), les
+autres en ligne de commande :
+
+```
+node mrp.js utilisateur:creer <courriel> <mdp> "<nom>" [admin|atelier]
+node mrp.js utilisateur:liste
+```
+
+**Chacun change son mot de passe lui-même**, dans l'app : son nom en haut à
+droite → *Mon compte*. Ça paraît accessoire ; ça ne l'est pas. Un mot de passe
+transmis par message doit pouvoir être changé par celui qui le reçoit, et
+l'atelier n'a pas de shell. Le changement ferme les sessions ouvertes ailleurs
+— sinon celle ouverte avec le mot de passe qui a fuité continuerait de
+fonctionner — mais épargne la session courante.
+
 ## Sécurité
 
 - Mots de passe : scrypt, sel aléatoire par utilisateur, comparaison à temps
