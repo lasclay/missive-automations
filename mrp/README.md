@@ -119,26 +119,29 @@ soit : heures de travail, heures disponibles d'ici la première échéance, post
   postes dessus. C'est une simplification, et elle est du bon côté — supposer
   quatre produits en parallèle donnerait des dates plus optimistes sans rien
   pour le justifier.
-- **Les items sans temps connu comptent pour zéro heure, et l'app chiffre ce
-  qu'ils manquent.** « La charge réelle est plus élevée » est vrai et
-  inutilisable : dix heures ou mille ? Faute de mesure, `chargeInconnue()`
-  prête à ces items les temps unitaires des items **du même plan** — le plus
-  court, la médiane, le plus long — et affiche la fourchette. Ce n'est pas une
-  estimation de leur durée : c'est l'ordre de grandeur de ce qui manque, et ça
-  suffit à savoir si une marge tient debout. Ces heures **ne sont pas ajoutées
-  au Gantt** : on ne sait pas où les placer.
+- **Plus aucun item du plan ne compte pour zéro heure.** C'était le cas de six
+  d'entre eux, et zéro est le seul chiffre dont on soit sûr qu'il est faux.
+  Cinq sont couverts par les prix BMB ; le dernier — l'oreiller — par une
+  estimation à la main dans `donnees/assemblage-estime.tsv`, ancrée sur un
+  produit réel et affichée « estimé », jamais confondue avec un prix facturé.
+- **S'il en restait, l'app chiffrerait ce qu'ils manquent.** `chargeInconnue()`
+  leur prête les temps unitaires des items **du même plan** — le plus court, la
+  médiane, le plus long — et affiche la fourchette, parce que « la charge réelle
+  est plus élevée » est vrai et inutilisable : dix heures ou mille ?
 - Le trait rouge est l'expédition ; les barres qui la dépassent sont grisées.
 
-Au plan 26-27 tel qu'importé, avec l'équipe de 20 : **4 189 heures de travail
-contre 4 320 heures disponibles** avant le 1er octobre. Ça rentre — de 131
-heures, soit **3 %**. Mais six items (1 483 pièces) n'ont aucun temps chiffré,
-et il leur faudrait entre 49 et 1 597 heures de plus. Autrement dit, la marge
-ne tient pas, et c'est ce que la page affiche.
+Au plan 26-27, avec 20 couturières et **4 320 heures disponibles** avant le
+1er octobre, le total dépend entièrement du périmètre :
 
-Les deux leviers, dans l'ordre : **chronométrer ces six items** — chandail,
-oreiller, coussin animal, sac de couchage -18, oreiller camping, étui à
-téléphone — puis, s'il le faut, passer à 9 h × 6 jours, ce qui porte le
-disponible à 5 760 h et absorbe même l'hypothèse la plus pessimiste.
+| Ce que l'atelier fait | Charge | Verdict |
+| --- | ---: | --- |
+| Préparation seulement | 2 417 h | rentre, +1 903 h |
+| Assemblage seulement | 3 829 h | rentre, +491 h |
+| **Préparation + assemblage** (défaut) | **5 311 h** | **manque 991 h** |
+
+C'est le seul réglage qui décide si le plan tient, et aucune source ne le dit.
+Tant qu'il n'est pas tranché, l'app affiche la lecture prudente : il faudrait
+**25 postes au lieu de 20**, ou 9 h × 6 jours.
 
 **Suivi — est-ce que ça avance**
 - Ce qui ne bouge plus depuis 7 jours : le seul bloc qui demande une action
@@ -420,6 +423,8 @@ et ce qui n'existe nulle part encore.
 | `cogs-tunisie.tsv` — 10 postes de coût par produit | 17 |
 | `nomenclatures.tsv` — produit → matière, consommation, coût | 65 |
 | `temps-operations.tsv` — temps chronométrés par poste | 35 |
+| `assemblage-bmb.tsv` — prix d'assemblage BMB par unité, extrait des notes | 23 |
+| `assemblage-estime.tsv` — estimations à la main, à supprimer dès qu'un prix existe | 1 |
 | `fournisseurs.tsv` · `emballage-expedition.tsv` · `tarifs-postes-canada.tsv` | 15 · 4 · 3 |
 | `production-tunisie.md` — consignes et état des patrons par produit | — |
 

@@ -472,6 +472,15 @@ async function router(req, res, url, user) {
       + `${r.capacite.jours_semaine} j = ${r.capacite.heures_semaine} h/semaine.`));
   }
 
+  if (p === '/cedule/perimetre' && req.method === 'POST') {
+    if (!admin) return refus();
+    const f = await corpsFormulaire(req);
+    const r = charge.poserPerimetre(f.perimetre);
+    if (r.erreur) return vers(res, '/cedule?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/cedule?ok=' + encodeURIComponent(
+      'Périmètre : ' + charge.PERIMETRES[r.perimetre.valeur].toLowerCase() + '.'));
+  }
+
   // ---- son propre compte : changer son mot de passe sans shell
   if (p === '/compte') {
     if (req.method === 'POST') {

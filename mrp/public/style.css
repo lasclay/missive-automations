@@ -432,10 +432,14 @@ table.fab tr.p-basse{opacity:.62}
    Un Gantt est large par nature : il défile dans son propre cadre plutôt que
    de faire déborder la page. */
 .g-cadre{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:12px}
-table.gantt{width:100%;min-width:520px;border-collapse:collapse}
+table.gantt{width:100%;min-width:560px;border-collapse:collapse}
+/* La colonne d'étiquettes est bornée : deux pastilles sur une seule ligne
+   repoussaient la piste hors du cadre, et c'est la piste qu'on vient voir. */
 table.gantt th[scope=row]{text-align:left;font-weight:600;font-size:13px;
-  padding:5px 10px 5px 0;white-space:nowrap;vertical-align:middle;
-  width:1%;border-bottom:1px solid var(--ligne)}
+  padding:5px 10px 5px 0;vertical-align:middle;
+  width:150px;max-width:150px;border-bottom:1px solid var(--ligne)}
+table.gantt th[scope=row] a{white-space:nowrap}
+.g-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
 table.gantt td{padding:5px 0;border-bottom:1px solid var(--ligne);width:99%}
 table.gantt tbody tr:last-child th,table.gantt tbody tr:last-child td{border-bottom:0}
 /* « 185 h », pas « 185 H » : le th est en majuscules, le symbole de l'heure
@@ -445,8 +449,14 @@ table.gantt tbody tr:last-child th,table.gantt tbody tr:last-child td{border-bot
 .g-src{display:inline-block;font-size:10px;letter-spacing:.03em;
   text-transform:uppercase;padding:1px 5px;border-radius:99px;font-weight:600;
   border:1px solid var(--ligne);color:var(--gris)}
+/* Vert = mesuré, ambre = déduit d'un montant, rouge = deviné ou contradictoire.
+   La pastille doit se lire sans lire le mot. */
+.g-src-chrono-total,.g-src-deux{color:var(--vert);border-color:var(--vert-ligne);background:var(--vert-pale)}
 .g-src-chrono{color:var(--vert);border-color:var(--vert-ligne);background:var(--vert-pale)}
-.g-src-cout{color:var(--ambre);border-color:var(--ambre-ligne);background:var(--ambre-pale)}
+.g-src-bmb,.g-src-cout{color:var(--ambre);border-color:var(--ambre-ligne);background:var(--ambre-pale)}
+.g-src-estime,.g-src-alerte{color:var(--rouge);border-color:var(--rouge-ligne);
+  background:var(--rouge-pale)}
+.g-src-alerte{margin-left:4px}
 .g-piste{position:relative;height:20px;background:var(--fond);
   border:1px solid var(--ligne);border-radius:4px;overflow:hidden}
 .g-mois{position:absolute;top:0;bottom:0;width:1px;background:var(--ligne)}

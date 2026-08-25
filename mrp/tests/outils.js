@@ -448,18 +448,70 @@ t("l'atelier peut consulter le suivi",
 
   // La conversion coût → temps, telle que le suivi Tunisie l'établit.
   const couts = C.coutsConfection();
-  const parCout = C.tempsUnitaire('GANTS-MAGIQUES', chrono, couts);
-  t('un temps déduit vient du coût divisé par le taux horaire',
-    parCout.source === 'cout'
-      && parCout.secondes === Math.round((3 / C.TAUX_HORAIRE) * 3600),
-    JSON.stringify(parCout));
+  const bmb = C.assemblageBMB(), est = C.assemblageEstime();
+  const u = (code, perim = 'tout') =>
+    C.tempsUnitaire(code, chrono, couts, bmb, perim, est);
 
-  const parChrono = C.tempsUnitaire('CACHE-COU', chrono, couts);
-  t('le chronomètre passe avant le coût',
-    parChrono.source === 'chrono' && parChrono.secondes === 1030);
+  // --- les deux étapes
+  // Le chronomètre mesure la préparation, le prix BMB paie l'assemblage. Les
+  // confondre change le total du simple au double : le cache-cou porte les deux.
+  const cc2 = u('CACHE-COU');
+  t('préparation et assemblage sont comptés séparément',
+    cc2.preparation === 1030 && cc2.assemblage === Math.round((3 / C.TAUX_HORAIRE) * 3600)
+      && cc2.secondes === cc2.preparation + cc2.assemblage,
+    JSON.stringify({ p: cc2.preparation, a: cc2.assemblage, t: cc2.secondes }));
+  t('les deux étapes se voient dans la source',
+    cc2.source === 'deux', cc2.source);
+
+  t('le prix BMB se convertit au taux horaire',
+    u('GANTS-MAGIQUES').assemblage === Math.round((3 / C.TAUX_HORAIRE) * 3600),
+    String(u('GANTS-MAGIQUES').assemblage));
+
+  // Une ligne « Total » couvre déjà la couture : y ajouter l'assemblage
+  // compterait la semelle deux fois.
+  const semU = u('SEMELLE-678');
+  t('un chronomètre « Total » ne reçoit pas d\'assemblage en plus',
+    semU.total === true && semU.assemblage === 0 && semU.secondes === semU.preparation,
+    JSON.stringify({ t: semU.total, a: semU.assemblage }));
+  t('« Confection Lasclay » compte aussi comme un total',
+    u('MIT-POLAR').total === true && u('MIT-POLAR').assemblage === 0);
+
+  // Une somme de postes ne dit pas ce qui n'a PAS été chronométré.
+  t('une somme de postes est marquée partielle',
+    cc2.partiel === true && semU.partiel === false);
+
+  // Un prix par produit vaut mieux qu'une fiche COGS empruntée à un voisin :
+  // MIT-CUIR et MIT-LAINE pointaient tous deux vers « Mitaines polar ».
+  t('le prix BMB du produit passe avant une fiche COGS partagée',
+    u('MIT-CUIR').asmSource === 'bmb'
+      && u('MIT-CUIR').assemblage !== u('MIT-LAINE').assemblage,
+    [u('MIT-CUIR').assemblage, u('MIT-LAINE').assemblage].join(' / '));
+  t('une source qui en contredit une autre est signalée',
+    typeof u('MIT-CUIR').divergent === 'string');
+
+  // --- périmètre
+  t('le périmètre change le total sans changer les étapes',
+    u('CACHE-COU', 'assemblage').secondes === cc2.assemblage
+      && u('CACHE-COU', 'preparation').secondes === cc2.preparation
+      && u('CACHE-COU', 'assemblage').preparation === cc2.preparation);
+  t('le périmètre a un défaut prudent, marqué comme tel',
+    C.perimetre().defaut === true && C.perimetre().valeur === 'tout');
+  t('un périmètre inconnu est refusé',
+    Boolean(C.poserPerimetre('nimporte-quoi').erreur));
+  t('un périmètre valide est retenu',
+    C.poserPerimetre('assemblage').ok === true
+      && C.perimetre().valeur === 'assemblage' && C.perimetre().defaut === false);
+  C.poserPerimetre(C.PERIMETRE_DEFAUT);
+
+  // --- estimation à la main
+  const oreiller = u('OREILLER');
+  t('une estimation à la main comble le trou, marquée « estimé »',
+    oreiller.asmSource === 'estime' && oreiller.secondes > 0
+      && oreiller.ancrage.includes('OREILLER-CAMPING'),
+    JSON.stringify({ s: oreiller.asmSource, sec: oreiller.secondes }));
 
   t('un produit sans mesure ni coût vaut zéro, et le dit',
-    C.tempsUnitaire('PRODUIT-QUI-NEXISTE-PAS', chrono, couts).source === 'aucune');
+    u('PRODUIT-QUI-NEXISTE-PAS').source === 'aucune');
 
   // --- capacité
   // On vérifie le marquage, pas le chiffre : le défaut suit l'équipe annoncée
@@ -486,9 +538,11 @@ t("l'atelier peut consulter le suivi",
   const cal8 = C.calendrier(lignes, { depart: '2026-09-01',
     cap: { postes: 8, heures_jour: 8, jours_semaine: 5 } });
 
+  // 1 030 s de préparation + l'assemblage BMB du cache-cou, par pièce.
+  const parCC = C.tempsUnitaire('CACHE-COU').secondes;
   t('la charge est la même quelle que soit la capacité',
     Math.round(cal4.heuresTotal) === Math.round(cal8.heuresTotal)
-      && Math.round(cal4.heuresTotal) === Math.round(1030 * 1000 / 3600),
+      && Math.round(cal4.heuresTotal) === Math.round(parCC * 1000 / 3600),
     String(Math.round(cal4.heuresTotal)));
   t('doubler les postes raccourcit le calendrier',
     cal8.fin < cal4.fin, cal4.fin + ' → ' + cal8.fin);
@@ -509,7 +563,7 @@ t("l'atelier peut consulter le suivi",
     inc.bas <= inc.median && inc.median <= inc.haut,
     [inc.bas, inc.median, inc.haut].join(' / '));
   t('la fourchette est bâtie sur les temps du plan lui-même',
-    Math.abs(inc.bas - (1030 * 50) / 3600) < 1e-6, String(inc.bas));
+    Math.abs(inc.bas - (parCC * 50) / 3600) < 1e-6, String(inc.bas));
   t('sans aucun item chiffré, on ne prétend pas savoir',
     C.chargeInconnue([{ code: 'INCONNU', restant: 10 }]).connu === false);
   t('sans item manquant, la fourchette est vide',

@@ -17,7 +17,28 @@
  *      « assemblage » des fiches COGS. C'est une déduction, pas une mesure —
  *      et l'app le dit à chaque fois qu'elle s'en sert.
  *
- * CE QUI N'EXISTE PAS : LA CAPACITÉ
+ *   3. Le prix d'assemblage BMB. `donnees/assemblage-bmb.tsv` porte ce que le
+ *      sous-traitant facture par unité, pour 23 produits — dont cinq que les
+ *      fiches COGS ignorent. Même conversion, même taux.
+ *
+ * DEUX ÉTAPES, PAS DEUX VERSIONS DU MÊME CHIFFRE
+ *
+ * Le chronomètre et le prix BMB ne mesurent pas la même chose. Le premier
+ * chronomètre les opérations d'asclépiade — coupe, matelassage, remplissage,
+ * mélange — c'est-à-dire la PRÉPARATION. Le second est le prix de la couture,
+ * c'est-à-dire l'ASSEMBLAGE. Les additionner ou en choisir un change le total
+ * du simple au double, et rien dans les sources ne dit lequel est bon.
+ *
+ * La preuve que ce sont deux étapes : sur le cache-cou, six opérations
+ * chronométrées donnent 17 min, et BMB facture 3 $ (≈ 7 min). Sur la tuque
+ * sport, trois opérations donnent 2 min et BMB facture 4 $ (≈ 9 min). Un
+ * rapport constant existerait si c'était la même mesure ; il n'y en a pas.
+ *
+ * Deux exceptions, marquées : une ligne « Total » (semelles, glacière) et
+ * « Confection Lasclay » (mitaines polar) sont déjà des totaux. On ne leur
+ * ajoute pas l'assemblage, ce serait le compter deux fois.
+ *
+ * CE QUI N'EXISTE PAS : LA CAPACITÉ, NI LE PÉRIMÈTRE
  *
  * Aucune source ne dit combien de personnes travaillent, ni combien d'heures.
  * Sans ça, des heures ne deviennent pas des dates. Plutôt que d'inventer un
@@ -25,6 +46,11 @@
  * Québec, affiché partout où il sert, et modifiable en un champ. Le calendrier
  * dit alors « avec cette capacité-là », ce qui est vrai, au lieu de « voici les
  * dates », qui ne le serait pas.
+ *
+ * Même traitement pour le périmètre : personne n'a dit si l'atelier qu'on
+ * planifie fait la préparation, l'assemblage, ou les deux. C'est un réglage.
+ * Par défaut « les deux » — c'est la lecture prudente, et c'est celle qui ne
+ * rentre pas : partir de l'hypothèse optimiste enterrerait le risque.
  */
 'use strict';
 const fs = require('node:fs');
@@ -78,6 +104,31 @@ function tempsChrono() {
   return out;
 }
 
+/** Prix d'assemblage BMB, par code produit — la source la plus complète. */
+function assemblageBMB() {
+  const out = new Map();
+  for (const r of tsv('assemblage-bmb.tsv')) {
+    const p = Number(r.assemblage_bmb);
+    if (Number.isFinite(p) && p > 0)
+      out.set(r.produit, { prix: p, note: r.note || '' });
+  }
+  return out;
+}
+
+/**
+ * Estimations à la main, pour ce que rien d'autre ne couvre. Chargées à part
+ * exprès : le fichier BMB est extrait et régénérable, celui-ci est un jugement.
+ */
+function assemblageEstime() {
+  const out = new Map();
+  for (const r of tsv('assemblage-estime.tsv')) {
+    const p = Number(r.assemblage_estime);
+    if (Number.isFinite(p) && p > 0)
+      out.set(r.produit, { prix: p, ancrage: r.ancrage || '' });
+  }
+  return out;
+}
+
 /** Coût de confection par produit COGS, pour la déduction. */
 function coutsConfection() {
   const out = new Map();
@@ -123,24 +174,80 @@ const FAMILLE_COGS = {
   'SAC-COUCHAGE-18': 'Sac de couchage -18',
 };
 
+/** Un montant en dollars devient un temps au taux du suivi Tunisie. */
+const enSecondes = (dollars) => Math.round((dollars / TAUX_HORAIRE) * 3600);
+
 /**
- * Le temps unitaire d'un produit, avec d'où il vient.
- * `source` vaut 'chrono', 'cout' ou 'aucune' — jamais caché à l'affichage.
+ * Le temps unitaire d'un produit, découpé en ses deux étapes.
+ *
+ * Renvoie toujours `preparation` et `assemblage` séparément, chacun avec sa
+ * provenance, plus `secondes` — ce que le calendrier consomme, selon le
+ * périmètre demandé. Rien n'est masqué : une ligne du Gantt peut dire « 12 min
+ * de préparation chronométrée + 7 min d'assemblage facturé ».
+ *
+ * `total: true` marque les familles dont le chronomètre porte déjà tout
+ * (« Total », « Confection Lasclay ») : on ne leur ajoute pas l'assemblage.
  */
-function tempsUnitaire(code, chrono = tempsChrono(), couts = coutsConfection()) {
+function tempsUnitaire(code, chrono = tempsChrono(), couts = coutsConfection(),
+                       bmb = assemblageBMB(), perim = 'tout',
+                       estimes = assemblageEstime()) {
+  const out = { preparation: 0, assemblage: 0, prepSource: null, asmSource: null,
+                total: false, partiel: false, divergent: null };
+
   const f = FAMILLE_CHRONO[code];
   if (f && chrono.has(f)) {
     const c = chrono.get(f);
-    return { secondes: c.secondes, source: 'chrono', famille: f,
-             base: c.base, ecartPostes: c.ecartPostes, operations: c.operations };
+    out.preparation = c.secondes;
+    out.famille = f;
+    out.operations = c.operations;
+    out.ecartPostes = c.ecartPostes;
+    // Une ligne « Total », ou une opération qui dit « confection », couvre déjà
+    // la couture. Y ajouter l'assemblage compterait le produit deux fois.
+    out.total = c.base === 'total' || c.operations.some(o => /confection/i.test(o.nom));
+    out.prepSource = out.total ? 'chrono-total' : 'chrono';
+    // Un relevé qui n'est qu'une somme de postes ne dit pas combien d'opérations
+    // n'ont PAS été chronométrées : c'est un plancher, pas une mesure complète.
+    out.partiel = !out.total;
   }
-  const g = FAMILLE_COGS[code];
-  if (g && couts.has(g)) {
-    const cout = couts.get(g);
-    return { secondes: Math.round((cout / TAUX_HORAIRE) * 3600),
-             source: 'cout', famille: g, cout };
+
+  if (bmb.has(code)) {
+    const b = bmb.get(code);
+    out.assemblage = enSecondes(b.prix);
+    out.asmSource = 'bmb';
+    out.prixBMB = b.prix;
+    if (b.note && b.note.startsWith('divergent')) out.divergent = b.note;
+  } else {
+    // Pas de prix BMB : la fiche COGS fait l'affaire, mais elle est parfois
+    // partagée par plusieurs produits — c'est une approximation, pas la mesure
+    // de CE produit-là.
+    const g = FAMILLE_COGS[code];
+    if (g && couts.has(g)) {
+      out.assemblage = enSecondes(couts.get(g));
+      out.asmSource = 'cout';
+      out.familleCogs = g;
+      out.cout = couts.get(g);
+    } else if (estimes.has(code)) {
+      // Dernier recours : mieux vaut un chiffre contestable et marqué comme tel
+      // que zéro heure, qui est le seul chiffre certainement faux.
+      const e = estimes.get(code);
+      out.assemblage = enSecondes(e.prix);
+      out.asmSource = 'estime';
+      out.ancrage = e.ancrage;
+      out.prixEstime = e.prix;
+    }
   }
-  return { secondes: 0, source: 'aucune' };
+
+  if (out.total) out.assemblage = 0;   // déjà compris dans la préparation
+
+  out.secondes = perim === 'assemblage' ? (out.assemblage || out.preparation)
+               : perim === 'preparation' ? out.preparation
+               : out.preparation + out.assemblage;
+
+  out.source = out.secondes === 0 ? 'aucune'
+             : out.preparation && out.assemblage ? 'deux'
+             : out.assemblage ? out.asmSource
+             : out.prepSource;
+  return out;
 }
 
 // ----------------------------------------------------------------- capacité
@@ -148,10 +255,10 @@ function tempsUnitaire(code, chrono = tempsChrono(), couts = coutsConfection()) 
  * La capacité de l'atelier, en réglages. Un seul jeu pour tout le monde :
  * ce n'est pas une préférence d'affichage, c'est une donnée d'exploitation.
  *
- * 20 postes : l'équipe annoncée par Québec en août 2026. C'est un chiffre
- * DÉCLARÉ, pas observé — et « 20 personnes dans l'atelier » n'est pas tout à
- * fait « 20 personnes qui cousent » : encadrement, coupe et finition en font
- * partie. Tant que personne n'a confirmé le réglage dans l'app, la page le dit.
+ * 20 postes : l'équipe annoncée par Québec en août 2026 — 20 couturières, donc
+ * bien 20 postes de couture. C'est un chiffre DÉCLARÉ, pas une mesure de ce qui
+ * sort de l'atelier par jour ; tant que personne ne l'a confirmé dans l'app,
+ * la page le dit.
  */
 const CAPACITE_DEFAUT = { postes: 20, heures_jour: 8, jours_semaine: 5 };
 
@@ -172,6 +279,34 @@ function capacite() {
   c.defaut = !pose;
   c.heures_semaine = c.postes * c.heures_jour * c.jours_semaine;
   return c;
+}
+
+/**
+ * Ce que l'atelier planifié fait vraiment. Trois lectures, aucune dans les
+ * sources — donc un réglage, comme la capacité.
+ *
+ * Le défaut est « tout » : c'est la lecture prudente, et c'est celle qui ne
+ * rentre pas. Partir de l'hypothèse optimiste ferait disparaître le risque
+ * sans rien changer à la réalité de l'atelier.
+ */
+const PERIMETRES = {
+  tout:        'Préparation + assemblage',
+  assemblage:  "Assemblage seulement (la préparation se fait ailleurs)",
+  preparation: 'Préparation seulement',
+};
+const PERIMETRE_DEFAUT = 'tout';
+
+function perimetre() {
+  const r = db.prepare(`SELECT valeur FROM reglages WHERE cle = 'perimetre'`).get();
+  const v = r && r.valeur;
+  return { valeur: PERIMETRES[v] ? v : PERIMETRE_DEFAUT, defaut: !PERIMETRES[v] };
+}
+
+function poserPerimetre(v) {
+  if (!PERIMETRES[v]) return { erreur: 'Périmètre inconnu.' };
+  db.prepare(`INSERT INTO reglages (cle, valeur) VALUES ('perimetre', ?)
+              ON CONFLICT(cle) DO UPDATE SET valeur = excluded.valeur`).run(v);
+  return { ok: true, perimetre: perimetre() };
 }
 
 function poserCapacite({ postes, heures_jour, jours_semaine }) {
@@ -242,8 +377,10 @@ function chargeInconnue(lignes, chrono = null, couts = null) {
  * heure : il apparaît quand même, marqué, pour qu'on voie qu'il manque au
  * calcul plutôt que de le croire gratuit.
  */
-function calendrier(lignes, { depart = null, cap = capacite() } = {}) {
+function calendrier(lignes, { depart = null, cap = capacite(), perim = null } = {}) {
   const chrono = tempsChrono(), couts = coutsConfection();
+  const bmb = assemblageBMB(), estimes = assemblageEstime();
+  const p = perim || perimetre().valeur;
   const parJour = cap.postes * cap.heures_jour;
   const ouvre = (d) => {
     // jours_semaine = combien de jours travaillés par semaine, du lundi.
@@ -262,7 +399,7 @@ function calendrier(lignes, { depart = null, cap = capacite() } = {}) {
   let heuresTotal = 0, sansTemps = 0;
 
   for (const l of lignes) {
-    const t = tempsUnitaire(l.code, chrono, couts);
+    const t = tempsUnitaire(l.code, chrono, couts, bmb, p, estimes);
     const heures = (t.secondes * l.restant) / 3600;
     heuresTotal += heures;
     if (t.source === 'aucune') sansTemps++;
@@ -287,12 +424,14 @@ function calendrier(lignes, { depart = null, cap = capacite() } = {}) {
     taches.push({ ...l, temps: t, heures, debut, fin, jours: jours + 1 });
   }
 
-  return { taches, heuresTotal, sansTemps, cap,
+  return { taches, heuresTotal, sansTemps, cap, perimetre: p,
            debut: taches.length ? taches[0].debut : null,
            fin: taches.length ? taches[taches.length - 1].fin : null };
 }
 
-module.exports = { tempsChrono, coutsConfection, tempsUnitaire, secondes, calendrier,
-                   chargeInconnue,
+module.exports = { tempsChrono, coutsConfection, assemblageBMB, assemblageEstime,
+                   tempsUnitaire,
+                   secondes, calendrier, chargeInconnue,
                    capacite, poserCapacite, CAPACITE_DEFAUT, TAUX_HORAIRE,
+                   perimetre, poserPerimetre, PERIMETRES, PERIMETRE_DEFAUT,
                    FAMILLE_CHRONO, FAMILLE_COGS };

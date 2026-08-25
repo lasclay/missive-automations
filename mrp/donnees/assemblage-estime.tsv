@@ -1,0 +1,14 @@
+# Estimations d'assemblage faites à la main, en dollars par unité.
+#
+# CE FICHIER N'EST PAS DE LA DONNÉE. C'est un bouche-trou, pour les produits
+# que ni les fiches COGS, ni le chronomètre, ni les prix BMB ne couvrent.
+# Sans lui ces produits comptent pour zéro heure, ce qui est le seul chiffre
+# dont on soit sûr qu'il est faux.
+#
+# Chaque ligne dit sur quel produit RÉEL elle s'appuie, pour qu'on puisse
+# contester l'ancrage plutôt que le chiffre. L'app les marque « estimé » et ne
+# les confond jamais avec un prix facturé.
+#
+# À supprimer dès que BMB donne un prix.
+produit	assemblage_estime	ancrage
+OREILLER	5	Ancré sur OREILLER-CAMPING (5 $ BMB) : même garnissage d'asclépiade, même construction en housse cousue. L'oreiller de lit est plus grand — donc plus de longueur de couture — mais plus simple : pas de sac de compression. Les 250 unités se répartissent en 213 standard et 22 king.

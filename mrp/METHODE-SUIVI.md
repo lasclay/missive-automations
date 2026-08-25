@@ -177,17 +177,46 @@ C'est la seule question que la cédule a à trancher, et elle se répond avant l
 diagramme, en trois nombres : **heures de travail**, **heures disponibles**
 d'ici la première échéance, **postes**.
 
-**D'où vient une heure.** Deux sources, dans cet ordre, et l'app dit toujours
-laquelle :
+**D'où vient une heure — deux ÉTAPES, pas deux versions du même chiffre.**
 
-1. **Le chronomètre.** `donnees/temps-operations.tsv` porte des mesures réelles
-   pour huit familles. Quand une ligne « Total » existe, c'est elle qui compte —
-   pas la somme des postes, et surtout pas les deux, qui doublerait la durée.
-2. **Le coût de confection.** À défaut de mesure, le poste « assemblage » de la
-   fiche COGS divisé par **26 $/h**. C'est la conversion que le suivi Tunisie
-   applique déjà aux mitaines polar : « 12,01 $ à 26 $/h » y donne 27 min 42 s,
-   soit exactement 12,01 / 26 heures. **C'est une déduction, pas une mesure**,
-   et chaque ligne du diagramme le marque « déduit du coût ».
+C'est la confusion qui a fait dérailler la première version du calcul. Le
+chronomètre et le prix BMB ne mesurent pas le même travail :
+
+1. **Le chronomètre** (`donnees/temps-operations.tsv`) mesure la
+   **préparation** : coupe, matelassage, remplissage, mélange d'asclépiade.
+   C'est le travail de l'isolant.
+2. **Le prix BMB** (`donnees/assemblage-bmb.tsv`) paie l'**assemblage** :
+   la couture. C'est ce que le sous-traitant facture par unité.
+
+La preuve que ce sont deux choses : sur le cache-cou, six opérations
+chronométrées donnent 17 min et BMB facture 3 $, soit environ 7 min. Sur la
+tuque sport, trois opérations donnent 2 min et BMB facture 4 $, soit 9 min. Si
+c'était la même mesure vue de deux façons, le rapport serait constant. Il ne
+l'est pas.
+
+Tout se convertit à **26 $/h**, la règle que le suivi Tunisie applique déjà aux
+mitaines polar : « 12,01 $ à 26 $/h » y donne 27 min 42 s, soit exactement
+12,01 / 26 heures.
+
+**Deux exceptions, marquées.** Une ligne « Total » (semelles, glacière) et
+« Confection Lasclay » (mitaines polar) couvrent déjà la couture : on ne leur
+ajoute pas l'assemblage, ce serait compter le produit deux fois. À l'inverse,
+une simple somme de postes est marquée **« partiel »** — elle ne dit pas
+quelles opérations n'ont pas été chronométrées, donc c'est un plancher.
+
+**Où était cachée la donnée.** Les prix BMB dormaient en texte libre dans les
+notes techniques des fiches produits — « Assemblage BMB 7 $/unité » — là où
+aucun calcul ne pouvait les atteindre. Ils couvrent 23 produits, dont cinq que
+les fiches COGS ignorent complètement et qui comptaient donc pour zéro heure.
+`tools/extrait_bmb.js` les récupère ; le fichier se régénère.
+
+**Six produits ont des sources qui se contredisent**, et l'app le dit sur la
+ligne plutôt que de trancher en silence : le bandeau (2,50 $ BMB contre 0,87 $
+COGS), les semelles 6-7-8F (2,50 contre 0,58), le sac à lunch (6 contre 7), et
+les trois mitaines cuir, laine et polar — qui pointaient toutes vers la même
+fiche COGS « Mitaines polar » à 17,07 $ alors que BMB les facture 6, 5 et 4 $.
+Ce dernier cas était une approximation de l'app, pas une contradiction des
+sources : un prix par produit vaut mieux qu'une fiche empruntée au voisin.
 
 Multiplié par la quantité restante, ça fait la charge. L'ordre des barres est
 celui d'« À fabriquer » : poser une priorité déplace vraiment les dates.
@@ -211,35 +240,46 @@ pour le justifier. Pour la question « est-ce que ça rentre », seul le total
 d'heures compte, et il ne dépend pas de l'ordre de passage ; c'est la date de
 chaque barre qui est approchée, pas le verdict.
 
-**Les items sans temps sont chiffrés, pas seulement signalés.** « La charge
-réelle est plus élevée » est vrai et inutilisable : dix heures ou mille ? Faute
-de mesure, l'app prête à ces items les temps unitaires des items **du même
-plan** — le plus court, la médiane, le plus long — et affiche la fourchette. Ce
-n'est pas une estimation de leur durée : c'est l'ordre de grandeur de ce qui
-manque au total. Ces heures ne sont pas ajoutées au Gantt, parce qu'on ne sait
-pas où les placer.
+**Plus aucun item ne compte pour zéro heure.** Six l'étaient, et zéro est le
+seul chiffre dont on soit sûr qu'il est faux. Cinq sont maintenant couverts par
+les prix BMB. Le dernier — l'oreiller, 250 unités — par une estimation à la
+main, dans `donnees/assemblage-estime.tsv`, ancrée sur l'oreiller de camping
+(5 $ BMB : même garnissage, même construction en housse cousue). Elle s'affiche
+**« estimé »**, en rouge, et ne se confond jamais avec un prix facturé. À
+supprimer dès que BMB en donne un.
+
+**S'il en restait**, l'app chiffrerait ce qu'ils manquent : elle leur prête les
+temps unitaires des items du même plan — le plus court, la médiane, le plus
+long — et affiche la fourchette, parce que « la charge réelle est plus élevée »
+est vrai et inutilisable.
 
 **Le verdict a donc trois états**, et la couleur dit la même chose que la
 phrase : rouge « ça ne rentre pas », vert « ça rentre », **ambre « ça rentre
 sur le papier »** quand la marge est plus petite que ce que les items non
 chiffrés demanderaient.
 
-**Ce que ça donne au plan 26-27**, avec l'équipe de 20 : 4 189 heures contre
-4 320 disponibles avant le 1er octobre. Ça rentre de 131 heures — **3 %**. Mais
-six items (1 483 pièces) n'ont aucun temps chiffré et en demanderaient entre 49
-et 1 597 de plus. La marge ne tient pas.
+**Le périmètre décide tout — et c'est un réglage, comme la capacité.** Personne
+n'a dit si l'atelier planifié fait la préparation, l'assemblage, ou les deux.
+Avec 20 couturières et 4 320 heures disponibles avant le 1er octobre :
 
-Deux leviers, dans l'ordre. **Chronométrer ces six items** : chandail,
-oreiller, coussin animal, sac de couchage -18, oreiller camping, étui à
-téléphone. C'est une demi-journée de chronomètre qui remplace une fourchette de
-1 548 heures par un chiffre. Puis, si nécessaire, **9 h × 6 jours** porte le
-disponible à 5 760 h et absorbe même l'hypothèse la plus pessimiste.
+| Ce que l'atelier fait | Charge | Verdict |
+| --- | ---: | --- |
+| Préparation seulement | 2 417 h | rentre, +1 903 h |
+| Assemblage seulement | 3 829 h | rentre, +491 h |
+| **Préparation + assemblage** | **5 311 h** | **manque 991 h** |
+
+Du simple au double. Le défaut est « les deux » : c'est la lecture prudente, et
+c'est celle qui ne rentre pas. Partir de l'hypothèse optimiste ferait
+disparaître le risque sans rien changer à l'atelier. **C'est la première chose
+à trancher** — et c'est une question, pas un calcul : est-ce que les
+couturières de BMB font aussi la coupe, le matelassage et le remplissage, ou
+est-ce que ça se fait ailleurs ?
 
 Les deux sacs de couchage méritent une note : leur fiche COGS porte bien un
 `sous_traitance` (29,22 $ et 31,47 $) mais **pas de `assemblage`**. Le poste
 sous-traitance couvre plus que la confection — sur le manteau, 44,67 $ contre
-28,00 $ d'assemblage. L'app refuse donc de s'en servir : le prendre pour un
-temps de couture gonflerait la charge sans qu'on sache de combien.
+28,00 $ d'assemblage. L'app refuse de s'en servir et prend le prix BMB (20 $) :
+le sous-traitance gonflerait la charge sans qu'on sache de combien.
 
 ### Suivi — « est-ce que ça avance ? »
 

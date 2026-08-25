@@ -746,7 +746,23 @@ function gantt({ cal, jalons = [], admin = false }) {
     }
   }
 
-  const SRC = { chrono: 'chronométré', cout: 'déduit du coût', aucune: 'inconnu' };
+  const SRC = {
+    'deux':         'prép. + assemblage',
+    'chrono':       'chronométré (partiel)',
+    'chrono-total': 'chronométré',
+    'bmb':          'prix BMB',
+    'cout':         'déduit du coût',
+    'estime':       'estimé',
+    'aucune':       'inconnu',
+  };
+  // Le détail des deux étapes, en infobulle : « 17 min prép. + 7 min assemblage ».
+  const detail = (t) => {
+    const m = (s) => Math.round(s / 60) + ' min';
+    const bouts = [];
+    if (t.preparation) bouts.push(m(t.preparation) + ' de préparation');
+    if (t.assemblage) bouts.push(m(t.assemblage) + " d'assemblage");
+    return bouts.join(' + ') || 'aucun temps connu';
+  };
   const dernier = jalons.length
     ? jalons.map(j => j.date).sort()[0] : null;   // la première échéance compte
 
@@ -756,7 +772,10 @@ function gantt({ cal, jalons = [], admin = false }) {
     return `<tr class="${dehors ? 'g-dehors' : ''}">
       <th scope="row"><a href="/produits/${x.produit_id}">${e(x.code)}</a>
         <span class="g-h">${Math.round(x.heures).toLocaleString('fr-CA')} h</span>
-        <span class="g-src g-src-${x.temps.source}">${SRC[x.temps.source]}</span></th>
+        <span class="g-tags"><span class="g-src g-src-${x.temps.source}"
+              title="${e(detail(x.temps))}">${SRC[x.temps.source] || x.temps.source}</span
+        >${x.temps.divergent ? `<span class="g-src g-src-alerte"
+          title="${e(x.temps.divergent)}">⚠ sources</span>` : ''}</span></th>
       <td><div class="g-piste">
         ${mois.map(m => `<i class="g-mois" style="left:${m.x}%"></i>`).join('')}
         ${jalons.map(j => `<i class="g-jalon" style="left:${pos(j.date)}%"
@@ -800,6 +819,7 @@ function vueCedule({ user, jalons, msg, cal = null }) {
    * est un joli graphique ; la seule question qui compte est « est-ce que ça
    * rentre », et elle se répond en trois nombres.
    */
+  const perim = C.perimetre();
   const verdict = () => {
     if (!cal || !cal.taches.length) return '';
     const echeance = jalons.filter(j => j.date >= auj).map(j => j.date).sort()[0];
@@ -833,6 +853,9 @@ function vueCedule({ user, jalons, msg, cal = null }) {
           <span class="sec">${jours} jours ouvrés d'ici le ${dateFR(echeance)}</span></div>` : ''}
         <div class="c"><b>${c.postes}</b>postes ${c.defaut
           ? '<span class="sec">équipe annoncée · non confirmée ici</span>' : ''}</div>
+        <div class="c"><b style="font-size:15px;line-height:1.3">${
+          C.PERIMETRES[perim.valeur]}</b>ce que l'atelier fait ${perim.defaut
+          ? '<span class="sec">lecture prudente · non confirmée</span>' : ''}</div>
       </div>
       ${manque ? `<p class="verdict-txt"><b>Ça ne rentre pas.</b> Il manque
         ${nb(cal.heuresTotal - dispo)} heures.
@@ -853,17 +876,19 @@ function vueCedule({ user, jalons, msg, cal = null }) {
         <b>entre ${nb(inc.bas)} et ${nb(inc.haut)} heures</b> de plus
         (${nb(inc.median)} h au temps médian). Le seul moyen de trancher est de
         les chronométrer.` : ''}</p>` : ''}
-      <p class="verdict-note">Les temps viennent du chronomètre quand il
-      existe, sinon du coût de confection divisé par ${C.TAUX_HORAIRE} $/h —
-      la conversion que le suivi Tunisie applique aux mitaines polar. Chaque
-      ligne du diagramme dit laquelle des deux.</p>
+      <p class="verdict-note">Deux étapes, pas deux versions du même chiffre :
+      le chronomètre mesure la <b>préparation</b> (coupe, matelassage,
+      remplissage, mélange), le prix BMB paie l'<b>assemblage</b>. Tout est
+      converti à ${C.TAUX_HORAIRE} $/h, la règle que le suivi Tunisie applique
+      aux mitaines polar. Chaque ligne du diagramme dit ce qu'elle contient, et
+      signale les sources qui se contredisent.</p>
     </div>
 
     ${admin ? `<div class="carte">
       <h2>Capacité de l'atelier</h2>
       <p class="sec">Aucune source ne la donne : c'est ce réglage qui transforme
       des heures en dates. Le changer redessine tout le calendrier.
-      ${c.defaut ? '<b>Les 20 postes viennent de l\'équipe annoncée, pas d\'une mesure</b> — et 20 personnes dans l\'atelier n\'est pas 20 personnes qui cousent. Confirmer ici.' : ''}</p>
+      ${c.defaut ? '<b>Les 20 postes viennent de l\'équipe annoncée — 20 couturières, donc bien 20 postes de couture — pas d\'une mesure de ce qui sort par jour.</b> Confirmer ici.' : ''}</p>
       <form method="post" action="/cedule/capacite" class="cap-form">
         <div class="champ"><label for="cp">Postes</label>
           <input id="cp" type="number" name="postes" min="1" max="200"
@@ -874,6 +899,24 @@ function vueCedule({ user, jalons, msg, cal = null }) {
         <div class="champ"><label for="cj">Jours par semaine</label>
           <input id="cj" type="number" name="jours_semaine" min="1" max="7"
                  value="${c.jours_semaine}" required></div>
+        <button class="btn">Recalculer</button>
+      </form>
+    </div>
+
+    <div class="carte">
+      <h2>Ce que l'atelier fait</h2>
+      <p class="sec">Aucune source ne dit si l'atelier planifié fait la
+      préparation, l'assemblage, ou les deux — et l'écart entre les trois
+      lectures dépasse le simple au double. Par défaut « les deux » : c'est la
+      lecture prudente. ${perim.defaut
+        ? '<b>Personne ne l\'a encore confirmée.</b>' : ''}</p>
+      <form method="post" action="/cedule/perimetre" class="cap-form">
+        <div class="champ" style="min-width:min(100%,280px)">
+          <label for="pe">Périmètre</label>
+          <select id="pe" name="perimetre">
+            ${Object.entries(C.PERIMETRES).map(([k, lib]) =>
+              `<option value="${k}"${k === perim.valeur ? ' selected' : ''}>${lib}</option>`).join('')}
+          </select></div>
         <button class="btn">Recalculer</button>
       </form>
     </div>` : ''}`;

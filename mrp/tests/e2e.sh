@@ -292,6 +292,56 @@ if(Math.round(a.heuresTotal)!==Math.round(b.heuresTotal)){console.error('charge 
 curl -s -b $CO2 $B/cedule | grep -q 'Charge de l' \
   && ok "l'atelier voit la charge" || ko "cédule refusée à l'atelier"
 
+# --- périmètre : ce que l'atelier fait -----------------------------------
+# L'écart entre « assemblage seul » et « préparation + assemblage » dépasse le
+# simple au double. Choisir en silence serait pire que de ne rien afficher.
+curl -s -b $CA $B/cedule | grep -q 'action="/cedule/perimetre"' \
+  && ok "l'administration règle le périmètre" || ko "formulaire de périmètre absent"
+curl -s -b $CO2 $B/cedule | grep -q 'action="/cedule/perimetre"' \
+  && ko "l'atelier peut régler le périmètre" || ok "l'atelier ne règle pas le périmètre"
+
+curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/cedule/perimetre \
+  --data 'perimetre=nimporte-quoi' | grep -q 'err=' \
+  && ok "périmètre inconnu refusé" || ko "périmètre inconnu accepté"
+
+# et il doit vraiment changer la charge, dans le bon sens. Le jeu de démo porte
+# des codes inventés qu'aucune source de temps ne connaît : on prend de vrais
+# codes du plan, sinon les trois périmètres valent zéro et le test passe à vide.
+MRP_DB="$DB" node --no-warnings -e "
+const C=require('./charge.js');
+const l=[{code:'CACHE-COU',restant:100,produit_id:1},
+         {code:'MIT-PLEIN-AIR',restant:100,produit_id:2}];
+const h=(p)=>C.calendrier(l,{perim:p,cap:{postes:4,heures_jour:8,jours_semaine:5}}).heuresTotal;
+const tout=h('tout'), asm=h('assemblage'), prep=h('preparation');
+if(!(tout>asm&&tout>prep)){console.error(tout+' / '+asm+' / '+prep);process.exit(1)}
+" 2>/dev/null && ok "le périmètre change la charge, et « tout » est le plus lourd" \
+  || ko "le périmètre n'a pas d'effet"
+
+# --- toutes les étapes du VRAI plan sont chiffrées -----------------------
+# Un item à zéro heure est le seul chiffre dont on soit sûr qu'il est faux.
+# Ça ne se vérifie que sur le plan importé : c'est lui qu'on planifie.
+REEL=$(mktemp -d)/reel.db
+MRP_DB="$REEL" node --no-warnings import.js --ecrire >/dev/null 2>&1
+MRP_DB="$REEL" node --no-warnings -e "
+const C=require('./charge.js'), {listeFabrication}=require('./db.js');
+const cal=C.calendrier(listeFabrication());
+if(!cal.taches.length){console.error('plan vide');process.exit(1)}
+const zero=cal.taches.filter(t=>t.temps.source==='aucune').map(t=>t.code);
+if(zero.length){console.error('sans temps : '+zero.join(', '));process.exit(1)}
+" 2>&1 && ok "aucun item du plan réel ne compte pour zéro heure" \
+  || ko "des items du plan réel comptent encore pour zéro heure"
+
+# une estimation à la main ne doit jamais se faire passer pour un prix facturé
+MRP_DB="$REEL" node --no-warnings -e "
+const V=require('./vues.js'), C=require('./charge.js');
+const {listeFabrication}=require('./db.js');
+const h=V.vueCedule({user:{role:'admin',nom:'A'},jalons:[],msg:{},
+  cal:C.calendrier(listeFabrication())});
+for(const x of ['g-src-bmb','g-src-estime','g-src-deux'])
+  if(!h.includes(x)){console.error('pastille absente : '+x);process.exit(1)}
+" 2>&1 && ok "chaque ligne affiche la provenance de son temps" \
+  || ko "provenance absente du Gantt"
+
 # le verdict doit avoir trois états, et la couleur doit dire la même chose que
 # la phrase : une bordure verte au-dessus de « la marge ne tient pas » ment.
 curl -s -b $CA -o /dev/null -X POST $B/cedule/capacite \
