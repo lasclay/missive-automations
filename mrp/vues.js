@@ -468,6 +468,22 @@ const ICONE_QC = { critique: '!', probleme: '~', mesure: '=', cyclage: '↻',
  * reste se lit comme une phrase : la consigne, puis ce qui arrive si on la
  * rate, qui est la seule chose qui la rend convaincante.
  */
+/**
+ * Le schéma d'un point de contrôle : le dessin qui dit de quoi à quoi.
+ *
+ * « 24 cm » ne veut rien dire sans le trait. Un point de mesure porte donc
+ * l'adresse d'un schéma — jamais le fichier : l'app n'héberge rien, et le CDN
+ * de la source le sert redimensionné, ce qui compte sur la ligne tunisienne.
+ * Cliquer ouvre la pleine taille, parce que c'est là qu'on lit les cotes.
+ */
+function schemaQC(q, largeur) {
+  const u = String(q.schema_url || '').trim();
+  if (!urlAcceptable(u)) return '';
+  return `<a class="qc-schema" href="${e(u)}" rel="noopener"
+     title="Ouvrir le schéma en taille réelle"><img src="${e(urlImage(u, largeur))}"
+     loading="lazy" alt="Schéma — ${e(q.titre)}"></a>`;
+}
+
 function pointQC({ q, produitId, editable, action = null }) {
   const mesure = q.type === 'mesure';
   const REGLE = { tout: 'toutes les pièces', lot: 'une fois par lot' };
@@ -486,6 +502,7 @@ function pointQC({ q, produitId, editable, action = null }) {
       ${q.consequence ? `<span class="qc-cons">Sinon : ${e(q.consequence)}</span>` : ''}
       ${q.appuis ? `<span class="qc-appui">${q.appuis} signalement${
         q.appuis > 1 ? 's' : ''} sur le terrain</span>` : ''}
+      ${schemaQC(q, TAILLES.vignette)}
       ${(() => {
         // Les morceaux du pied se joignent par « · ». Les concaténer avec un
         // séparateur en préfixe laisse un « · » orphelin dès que le premier
@@ -531,6 +548,7 @@ function vueChecklist({ user, msg, ordre, c }) {
         q.tolerance ? ` ± ${e(q.tolerance)}` : ''}${
         q.variante ? ` · ${e(q.variante)}` : ''}</p>` : ''}
       ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
+      ${schemaQC(q, TAILLES.vignette)}
       ${q.ech && q.ech.pieces !== null ? `<p class="ck-ech">
         <b>${e(q.ech.texte)}</b>${q.ech.regle ? ` <span>(${e(q.ech.regle)})</span>` : ''}
       </p>` : ''}

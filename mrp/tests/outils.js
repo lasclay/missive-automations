@@ -1126,6 +1126,41 @@ t("l'atelier peut consulter le suivi",
   db.prepare(`DELETE FROM charte WHERE source = 'essai'`).run();
 }
 
+// ---------------------------- le schéma d'un point de mesure
+{
+  const D = require('../db.js');
+  const V = require('../vues.js');
+  const pid = db.prepare(`SELECT id FROM produits WHERE code = 'CC-ADULTE'`).get().id;
+  const pose = (url) => db.prepare(
+    `INSERT INTO qc_points (produit_id, type, titre, valeur, unite, schema_url, source)
+     VALUES (?, 'mesure', 'Dimensions finales', '24', 'cm', ?, 'essai')`).run(pid, url);
+
+  pose('https://drive.google.com/file/d/SCHEMA1/view');
+  const q = D.protocole(pid, { generalCompris: false }).par.mesure
+    .find(x => x.source === 'essai');
+  t('le schéma est retenu sur le point', q.schema_url.includes('SCHEMA1'));
+
+  const html = V.vueProtocole({ user: admin, p: db.prepare(
+      `SELECT * FROM produits WHERE id = ?`).get(pid),
+    proto: D.protocole(pid), photos: [], bris: D.brisProduit(pid),
+    appuis: {}, couverture: null });
+  t('le protocole demande le schéma redimensionné',
+    html.includes('lh3.googleusercontent.com/d/SCHEMA1=w320'), 'w320 attendu');
+  t('le lien ouvre la pleine taille',
+    html.includes('href="https://drive.google.com/file/d/SCHEMA1/view"'));
+
+  // Une « data: » URI ferait porter le dessin entier à chaque page servie.
+  db.prepare(`UPDATE qc_points SET schema_url = 'data:image/png;base64,iVBOR'
+              WHERE source = 'essai'`).run();
+  const sale = V.vueProtocole({ user: admin, p: db.prepare(
+      `SELECT * FROM produits WHERE id = ?`).get(pid),
+    proto: D.protocole(pid), photos: [], bris: D.brisProduit(pid),
+    appuis: {}, couverture: null });
+  t('un schéma en « data: » est écarté', !sale.includes('data:image'));
+
+  db.prepare(`DELETE FROM qc_points WHERE source = 'essai'`).run();
+}
+
 // ---------------------------- les zones d'un produit se comptent
 {
   const D = require('../db.js');

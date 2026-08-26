@@ -51,8 +51,8 @@ const produit = db.prepare(`SELECT id, code FROM produits WHERE code = ?`);
 const efface = db.prepare(`DELETE FROM qc_points WHERE source = ?`);
 const insere = db.prepare(`INSERT INTO qc_points
   (produit_id, type, titre, detail, consequence, valeur, tolerance, unite,
-   ech_type, ech_valeur, frequence, source, rang)
-  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+   ech_type, ech_valeur, frequence, source, rang, schema_url)
+  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
 if (ECRIRE) {
   efface.run(SOURCE);
@@ -79,7 +79,7 @@ for (const r of rangs) {
     insere.run(p.id, r.volet, r.titre, r.detail, r.consequence,
       r.valeur, r.tolerance, r.unite, ech,
       Number.isInteger(ev) && ev > 0 ? ev : null,
-      r.frequence, r.source || SOURCE, n);
+      r.frequence, r.source || SOURCE, n, r.schema || '');
   ajoutes++;
 }
 

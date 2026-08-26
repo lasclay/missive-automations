@@ -13,7 +13,7 @@
 #
 # Mêmes colonnes que qualite-amorce.tsv. Importer :
 #   node mrp/import_qualite.js --ecrire mrp/donnees/qualite-charte.tsv
-produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source
+produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source	schema
 MANTEAU-HIVER	critique	Ouvrir et fermer chaque fermeture éclair		Une glissière qui coince se découvre chez le client					charte produits
 MANTEAU-HIVER	critique	Barre-tack (point de bride) présent à la base de la fermeture		Sans la bride, la fermeture s'arrache par le bas					charte produits
 MANTEAU-HIVER	critique	Fermeture éclair bien tendue		Une fermeture lâche gondole et bloque					charte produits
@@ -45,7 +45,7 @@ MIT-PLEIN-AIR	mesure	Élastique au poignet pas trop serré							charte produits
 MIT-PLEIN-AIR	mesure	Élastique à la hauteur de la base du pouce							charte produits
 MIT-PLEIN-AIR	probleme	Lacet bien intégré au niveau du poignet							charte produits
 MIT-PLEIN-AIR	critique	La mitaine gauche est identique à la droite		Une paire dépareillée est invendable					charte produits
-MIT-PLEIN-AIR	probleme	Étiquette de taille présente et orientée du même sens que les autres		Une étiquette à l'envers se voit dès le déballage					charte produits
+MIT-PLEIN-AIR	probleme	Étiquette de taille présente et orientée du même sens que les autres		Une étiquette à l'envers se voit dès le déballage					charte produits	https://drive.google.com/file/d/1VKNPGchhfZR98Q9L2WlvP_rivuXx05YO/view
 MIT-POLAR	critique	Assemblage de la jonction main/pouce solide							charte produits
 MIT-POLAR	mesure	Élastique au poignet pas trop serré							charte produits
 MIT-POLAR	mesure	Élastique à la hauteur de la base du pouce							charte produits
@@ -71,10 +71,10 @@ CACHE-COU	critique	Droit fil respecté, élasticité du bon côté							charte 
 CACHE-COU	probleme	Boutonnière à l'arrière							charte produits
 CACHE-COU	mesure	Excédent d'élastique	Mesuré une fois le cord-lock posé.		1	max	po		charte produits
 CACHE-COU	critique	Presser la pochette avant d'y insérer l'isolant	Rebord droit, sans plis.						charte produits
-CACHE-COU	mesure	Dimensions finales selon le schéma des tailles	Adulte, grand enfant, petit enfant : trois cotes différentes, voir le schéma de la charte.						charte produits
+CACHE-COU	mesure	Dimensions finales selon le schéma des tailles	Adulte, grand enfant, petit enfant : trois cotes différentes, voir le schéma de la charte.						charte produits	https://drive.google.com/file/d/1Fb2sl43qXrrpBvfb8W0Laqxdzx04Tad-/view
 SEMELLE-678	critique	Collage adéquat		Une semelle décollée est le premier bris signalé sur ce produit					charte produits
 SEMELLE-678	mesure	Emballage et estampe = bonne taille		La mauvaise pointure dans la mauvaise boîte revient en échange					charte produits
-SEMELLE-678	critique	Découpe finale droite et lisse sur la ligne intérieure		Une découpe irrégulière s'effiloche et use la semelle par le bord					charte produits
+SEMELLE-678	critique	Découpe finale droite et lisse sur la ligne intérieure		Une découpe irrégulière s'effiloche et use la semelle par le bord					charte produits	https://drive.google.com/file/d/1VfCDc0SCWYScT9-aQRlxS-zm3yAn9lKv/view
 SEMELLE-678	emballage	Emballage dans le carton sans comprimer	ATTENTION DE NE PAS COMPRESSER POUR NE PAS DÉFORMER.	La semelle sort du carton déformée et ne reprend pas sa forme					charte produits
 SEMELLE-9	critique	Collage adéquat							charte produits
 SEMELLE-9	mesure	Emballage et estampe = bonne taille							charte produits
@@ -95,7 +95,7 @@ COUSSIN	critique	Début et fin du biais intégrés sous la sangle de rangement		
 COUSSIN	emballage	Plier et attacher le coussin en accordéon au velcro, étiquette visible vers le haut							charte produits
 COUSSIN	probleme	Pas de tache de colle sur le produit							charte produits
 GLACIERE	critique	Assemblage de la sangle résistant							charte produits
-GLACIERE	critique	Bretelles renforcées	Le point d'attache haut et le point d'attache bas, des deux côtés.	Dix clients ont signalé la même couture de bretelle décousue — c'est le bris le plus fréquent de tout le catalogue					charte produits
+GLACIERE	critique	Bretelles renforcées	Le point d'attache haut et le point d'attache bas, des deux côtés.	Dix clients ont signalé la même couture de bretelle décousue — c'est le bris le plus fréquent de tout le catalogue					charte produits	https://drive.google.com/file/d/1ZoywE60IWujaNgdX316R182fFNsRm7mJ/view
 GLACIERE	probleme	Doublure de PVC sans trou							charte produits
 SAC-COUCHAGE-0	critique	Matelassage droit							charte produits
 SAC-COUCHAGE-0	critique	Fermeture droite et tendue							charte produits

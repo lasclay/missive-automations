@@ -357,6 +357,12 @@ textarea{min-height:70px;resize:vertical}
 .charte .ch-isolant li{font-weight:600}
 .charte .ch-parametre li{font-variant-numeric:tabular-nums}
 
+/* Le schéma d'un point de mesure. Bordé et sur fond neutre : un dessin
+   technique sur blanc disparaît, et il faut voir où il s'arrête. */
+.qc-schema{display:block;margin:8px 0 2px;max-width:340px;border:1px solid var(--ligne);
+  border-radius:6px;overflow:hidden;background:var(--media)}
+.qc-schema img{width:100%;height:auto;display:block}
+
 /* ---------- ce qui casse : la preuve de terrain ----------
    Le commentaire du client est cité tel quel et la photo est petite mais
    présente : c'est ce qui transforme une consigne en évidence. */

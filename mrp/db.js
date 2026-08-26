@@ -407,6 +407,12 @@ for (const sql of [
   }
 }
 try { db.exec(`ALTER TABLE qc_controles ADD COLUMN pieces INTEGER`); } catch { /* déjà là */ }
+// Un point de mesure sans schéma se discute : « 24 cm » de quoi à quoi ? Le
+// schéma de la charte tranche. Une ADRESSE, comme partout — l'app n'héberge
+// rien, et le CDN sert l'image redimensionnée.
+try { db.exec(`ALTER TABLE qc_points ADD COLUMN schema_url TEXT NOT NULL DEFAULT ''`); }
+catch { /* déjà là */ }
+
 try { db.exec(`ALTER TABLE qc_bris ADD COLUMN source_ref TEXT NOT NULL DEFAULT ''`); }
 catch { /* déjà là */ }
 // L'index vient APRÈS la colonne : dans le schéma il partirait avant la
