@@ -1,0 +1,506 @@
+<title>Vague 2 Facebook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&display=swap">
+<style>:root{
+  --paper:#FAF9F4; --surface:#FFFFFF; --sunk:#F3F1E8;
+  --ink:#1A1D19; --muted:#6A7065; --faint:#8D9285;
+  --accent:#3B4A6B; --accent-soft:#E7EAF2;
+  --warn:#8F5411; --warn-soft:#F6ECDD;
+  --stop:#8C3A2B; --grow:#4A6B4A;
+  --line:#E4E1D8; --line-strong:#CFCBBE;
+  --lettre-bg:#FFFEFA; --lettre-line:#DFD9C6;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#131510; --surface:#1A1C17; --sunk:#20231C;
+    --ink:#E9EAE1; --muted:#9AA091; --faint:#7C8274;
+    --accent:#9BAED6; --accent-soft:#232939;
+    --warn:#D8A45C; --warn-soft:#2C2418;
+    --stop:#D98A78; --grow:#8FB58F;
+    --line:#2A2D26; --line-strong:#3A3E34;
+    --lettre-bg:#1C1F19; --lettre-line:#343829;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131510; --surface:#1A1C17; --sunk:#20231C;
+  --ink:#E9EAE1; --muted:#9AA091; --faint:#7C8274;
+  --accent:#9BAED6; --accent-soft:#232939;
+  --warn:#D8A45C; --warn-soft:#2C2418;
+  --stop:#D98A78; --grow:#8FB58F;
+  --line:#2A2D26; --line-strong:#3A3E34;
+  --lettre-bg:#1C1F19; --lettre-line:#343829;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.62; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:53rem; margin:0 auto; padding:0 1.5rem 6rem}
+
+/* --- en-tete --- */
+.hero{padding:4.5rem 0 2.5rem; border-bottom:1px solid var(--line)}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.72rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 1.1rem
+}
+h1{
+  font-family:Fraunces,Georgia,serif; font-optical-sizing:auto;
+  font-weight:600; font-size:clamp(2.1rem,5.5vw,3.1rem); line-height:1.08;
+  letter-spacing:-.015em; margin:0 0 1.4rem; text-wrap:balance
+}
+.hero p{color:var(--muted); max-width:60ch}
+.hero p strong{color:var(--ink)}
+
+.compteurs{display:flex; flex-wrap:wrap; gap:.5rem 2.4rem; margin:2rem 0 0;
+  padding-top:1.6rem; border-top:1px solid var(--line)}
+.compteur{display:flex; flex-direction:column; gap:.15rem}
+.compteur b{font-family:"IBM Plex Mono",monospace; font-size:1.5rem; font-weight:600;
+  font-variant-numeric:tabular-nums; letter-spacing:-.02em}
+.compteur span{font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color:var(--faint)}
+
+/* --- sections courantes --- */
+.bande{padding:3rem 0 .5rem; border-top:1px solid var(--line); margin-top:3rem}
+.bande:first-of-type{border-top:0; margin-top:0}
+h2{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:1.75rem;
+  letter-spacing:-.01em; margin:0 0 1.2rem; text-wrap:balance}
+h3{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:1.3rem; margin:0 0 .9rem}
+p{margin:0 0 1.05rem; max-width:68ch}
+ul{margin:0 0 1.1rem; padding-left:1.15rem; max-width:68ch}
+li{margin-bottom:.35rem}
+a{color:var(--accent)}
+code{font-family:"IBM Plex Mono",monospace; font-size:.86em; background:var(--sunk);
+  padding:.1em .38em; border-radius:3px; color:var(--ink)}
+strong{font-weight:600}
+
+p.alert,p.ok{border-left:3px solid var(--warn); background:var(--warn-soft);
+  padding:.85rem 1.1rem; border-radius:0 4px 4px 0; max-width:68ch}
+p.ok{border-left-color:var(--grow); background:var(--accent-soft)}
+
+/* --- tableaux --- */
+.scroll{overflow-x:auto; margin:0 0 1.6rem; border:1px solid var(--line); border-radius:5px}
+table{border-collapse:collapse; width:100%; font-size:.875rem; background:var(--surface)}
+th,td{text-align:left; padding:.7rem .85rem; border-bottom:1px solid var(--line);
+  vertical-align:top; font-variant-numeric:tabular-nums}
+th{font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); font-weight:500; background:var(--sunk);
+  white-space:nowrap}
+tr:last-child td{border-bottom:0}
+
+/* --- dossiers --- */
+.dossiers{display:flex; flex-direction:column; gap:1.5rem; margin:2rem 0 0}
+.dossier{background:var(--surface); border:1px solid var(--line);
+  border-left:4px solid var(--accent); border-radius:5px; padding:1.5rem 1.6rem}
+.dossier.st-ouvert{border-left-color:var(--warn)}
+.dossier.st-bloque{border-left-color:var(--stop)}
+.dossier.st-merci,.dossier.st-rien{border-left-color:var(--grow)}
+.dossier.st-question{border-left-color:var(--muted)}
+.dossier header{display:flex; align-items:flex-start; gap:1rem; margin-bottom:.9rem}
+.num{font-family:"IBM Plex Mono",monospace; font-size:.8rem; color:var(--faint);
+  border:1px solid var(--line-strong); border-radius:50%; width:1.9rem; height:1.9rem;
+  display:grid; place-items:center; flex:0 0 auto; margin-top:.15rem}
+.dossier h3{margin:0 0 .35rem; font-size:1.35rem}
+.meta{display:flex; flex-wrap:wrap; gap:.4rem}
+.chip{font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--muted);
+  background:var(--sunk); border-radius:3px; padding:.12rem .45rem}
+.pill{margin-left:auto; flex:0 0 auto; font-size:.7rem; letter-spacing:.08em;
+  text-transform:uppercase; padding:.28rem .6rem; border-radius:99px;
+  background:var(--accent-soft); color:var(--accent); white-space:nowrap}
+.p-ouvert{background:var(--warn-soft); color:var(--warn)}
+.p-bloque{background:var(--warn-soft); color:var(--stop)}
+.p-merci,.p-rien{background:var(--accent-soft); color:var(--grow)}
+.niveau{font-family:"IBM Plex Mono",monospace; font-size:.78rem; color:var(--muted);
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  padding:.55rem 0; margin:0 0 1.2rem; max-width:none}
+h4{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--faint); font-weight:500; margin:1.6rem 0 .8rem}
+.analyse>h4:first-child{margin-top:0}
+.analyse p,.analyse ul{font-size:.94rem}
+
+/* --- la lettre au client --- */
+.lettre{background:var(--lettre-bg); border:1px solid var(--lettre-line);
+  border-radius:4px; padding:1.6rem 1.7rem; margin:0 0 1rem}
+.lettre p{font-family:"Source Serif 4",Georgia,serif; font-size:1.02rem; line-height:1.66;
+  margin:0 0 1rem; max-width:64ch}
+.lettre p:last-child{margin-bottom:0}
+.lettre .objet{font-family:"IBM Plex Mono",monospace; font-size:.8rem; color:var(--muted);
+  border-bottom:1px solid var(--lettre-line); padding-bottom:.9rem; margin-bottom:1.2rem}
+.lettre .objet strong{font-weight:500; color:var(--ink)}
+blockquote.avis{margin:0 0 1rem; padding:.2rem 0 .2rem 1.1rem;
+  border-left:2px solid var(--line-strong); color:var(--muted);
+  font-family:"Source Serif 4",Georgia,serif; font-style:italic; font-size:.96rem; max-width:62ch}
+blockquote.avis em{font-style:normal}
+.msg>p{font-size:.9rem; color:var(--muted)}
+.msg>p.alert,.msg>p.ok{color:var(--ink)}
+
+@media (max-width:640px){
+  .dossier{padding:1.15rem 1.1rem}
+  .dossier header{flex-wrap:wrap}
+  .pill{margin-left:0}
+  .lettre{padding:1.1rem 1.15rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* citation d'un avis dans l'analyse, distincte de la lettre au client */
+.cite{margin:0 0 1.1rem; max-width:68ch}
+.cite p{font-family:"Source Serif 4",Georgia,serif; font-style:italic; color:var(--muted);
+  border-left:2px solid var(--line-strong); padding:.1rem 0 .1rem 1.05rem; margin:0 0 .6rem}
+.cite p:last-child{margin-bottom:0}
+.cite blockquote.avis{border-left:0; padding-left:0; margin:0 0 .6rem}
+
+/* notes de rédaction : ce que Gabriel doit savoir, jamais ce que le client lit */
+.note{font-size:.88rem}
+.note em{font-style:normal}
+p.note:not(.alert):not(.ok){color:var(--muted); border-left:2px solid var(--line-strong);
+  padding-left:1rem; max-width:68ch}
+</style>
+<div class="wrap">
+<header class="hero">
+  <p class="eyebrow">Lasclay · réparation des avis · 25 août 2026</p>
+  <h1>Vague 2 : les avis Facebook</h1>
+  <p>Document unique de la vague 2. Il remplace <code>VAGUE-2-FACEBOOK.md</code> et <code>messages-vague-2.md</code>, dont il reprend tout le contenu. Le corpus brut reste dans <code>facebook-avis-negatifs.md</code>.</p>
+<p>Source : les deux Loom de la page Facebook (4 min 19 et 14 min). Le second est pris depuis le compte propriétaire, fils de commentaires déroulés, et remonte jusqu'au 4 août 2026. Page à 90 % de recommandations sur 208 avis. Facebook n'a pas d'étoiles, seulement « recommends » ou « doesn't recommend ».</p>
+<p><strong>Tout ce qui suit a été vérifié dans Shopify, dans ShipStation et dans Missive le 25 août.</strong> Les avis Facebook donnent des prénoms et des récits, pas des numéros de commande. Le travail d'identification est fait ici et il change plusieurs dossiers du tout au tout.</p>
+<p><strong>Quinze personnes. Treize messages écrits, un bloqué faute de fait vérifiable, une personne à ne pas contacter.</strong> Rien n'est envoyé.</p>
+  <div class="compteurs">
+    <div class="compteur"><b>15</b><span>personnes</span></div>
+    <div class="compteur"><b>13</b><span>messages écrits</span></div>
+    <div class="compteur"><b>1</b><span>commande encore ouverte</span></div>
+    <div class="compteur"><b>800 $</b><span>en cartes à créer</span></div>
+    <div class="compteur"><b>4</b><span>à identifier</span></div>
+  </div>
+</header>
+<section class="bande"><h3>Ce que cette vague n'a pas en commun avec la première</h3><p>Sur Google, chaque avis est isolé. Sur Facebook, <strong>les clients se répondent entre eux</strong>. Sous l'avis d'Emilie Lamothe, quatre personnes viennent confirmer à la file, et Nathalie Girouard écrit « je pense qu'il faut faire une plainte au Consomateur ». Un avis négatif en attire d'autres.</p>
+<p>Conséquence pratique : répondre publiquement à ces avis-là ne suffit pas, parce que la conversation vit dans les commentaires. Et deux personnes de ce fil sont allées jusqu'à la rétrofacturation.</p>
+<p>---</p></section>
+<section class="bande"><h3>Les règles d'écriture, reprises de la vague 1</h3><ul><li>Salutation. 2. <strong>D'où on sort</strong>, formulé différemment chaque fois. 3. <strong>La citation de l'avis</strong>, mot pour mot. 4. <strong>Le point précis</strong>. 5. <strong>L'excuse</strong>, une seule fois, jamais en ouverture.</li><li><strong>Le geste</strong>, en prose, chiffré, au présent, sans condition. 7. <strong>Une vraie question</strong>.</li><li><strong>La demande de mise à jour</strong>, en dernier, détachée, avec « aucune obligation ».</li></ul>
+<p><strong>Ne jamais inverser 6 et 8.</strong> Pas de cadratins. Ne pas signer, Missive ajoute la signature. Vouvoiement partout. Un seul marqueur d'excuse.</p></section>
+<section class="bande"><h3>⚠️ Ce qui doit être exécuté avant les envois</h3><p>Aucune carte-cadeau n'est créée pour cette vague, contrairement à la vague 1. Rien dans les textes ci-dessous ne dit qu'une carte « est déjà faite », précisément pour cette raison.</p>
+<div class="scroll"><table><thead><tr><th>Client</th><th>À exécuter d'abord</th><th>Montant</th></tr></thead><tbody><tr><td><strong>Selena / Hugo Poirier</strong></td><td>✅ débloqué. Le message offre le choix. <strong>Rembourser 51,42 $ le jour où il répond « rembourse »</strong></td><td>51,42 $</td></tr><tr><td>Danielle René</td><td>Émettre une <strong>étiquette de retour prépayée</strong></td><td>—</td></tr><tr><td>Amandine Caudron</td><td>Vérifier dans l'admin si les <strong>50 $ promis en décembre 2024</strong> ont été émis</td><td>50 $</td></tr><tr><td>Martine Savard</td><td>Le <strong>cache-cou manquant</strong> de L-44108</td><td>1 article</td></tr><tr><td>Gilles Coulombe</td><td>La <strong>paire de mitaines manquante</strong> de L-46684</td><td>126,46 $</td></tr><tr><td>Les cartes-cadeaux</td><td><strong>8 cartes de 100 $</strong> à créer</td><td>800 $</td></tr></tbody></table></div>
+<p><strong>Total à créer : 800 $ en cartes, plus les articles et remboursements ci-dessus.</strong></p>
+<p>---</p>
+<p>---</p></section>
+<section class="bande"><h2>Les quinze dossiers</h2><p>Chaque dossier donne d'abord ce que les systèmes établissent, puis le message qui en découle.</p>
+<p>---</p></section>
+<div class="dossiers">
+<article class="dossier st-ouvert" id="d1">
+<header><div class="num">1</div><div><h3>Selena Hugo St-denis Poirier</h3><div class="meta"><span class="chip">4 août 2026</span> <span class="chip"><code>poirierhugo@hotmail.com</code></span> <span class="chip">LE DOSSIER OUVERT</span></div></div>
+<div class="pill p-ouvert">Commande ouverte</div></header>
+<p class="niveau">Commande encore ouverte · le choix, puis 100 $</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><div class="cite"><p>« commande faites depuis le 13 juin en ligne, nous sommes le 4 aout 2026. Pas de retour de courriel, ni de messenger. Pas sérieux comme service. Mais le payement lui est payer. Très déçu finalement. »</p></div>
+<p>C'est l'avis le plus récent de la page, et <strong>c'est le seul dossier du corpus qui est encore ouvert aujourd'hui.</strong></p>
+<p><strong>L-50683, 13 juin 2026, 51,42 $.</strong> Un <strong>coussin d'assise thermal pliable</strong>, plus un <strong>pourboire</strong> qu'elle a ajouté de sa poche. ShipStation : <code>awaiting_shipment</code>, <strong>jamais expédiée, aucun suivi</strong>.</p>
+<p>Au 25 août, ça fait <strong>73 jours</strong>. Son avis a trois semaines et rien n'a bougé depuis.</p>
+<p class="alert">⚠️ <strong>Trois choses qui rendent ce dossier plus grave que tous les autres :</strong></p>
+<ul><li><strong>Il est vivant.</strong> Tous les autres sont des réparations rétroactives. Celui-là s'aggrave d'un jour par jour, et l'avis est en haut de la page.</li><li><strong>C'est le coussin d'assise</strong>, dont l'inventaire est à <strong>-57</strong>. Ce n'est pas un incident d'emballage, c'est un produit vendu qui n'existe pas. Même mécanisme que chez Nathalie Girouard, dont le deuxième coussin n'est jamais arrivé.</li><li><strong>Elle a laissé un pourboire.</strong> Elle a payé plus que le prix demandé, et elle attend depuis deux mois et demi.</li></ul>
+<p class="ok">✅ <strong>Débloqué le 25 août.</strong> Les coussins d'assise reviennent <strong>vers la fin septembre</strong>, et un remboursement complet est possible sans condition. Le message peut donc partir : il donne la vraie date et laisse le choix entre attendre et être remboursé le jour même.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>L-50683, 13 juin 2026, 51,42 $, coussin d'assise + pourboire. <code>awaiting_shipment</code>, jamais partie, 73 jours.</em></p>
+<p class="note ok"><em>✅ <strong>Débloqué par Gabriel le 25 août</strong> : les coussins d'assise reviennent <strong>vers la fin septembre</strong>, et un remboursement est possible sans condition si la personne ne veut pas attendre. Le message peut donc partir aujourd'hui, parce qu'il donne une date réelle et une sortie immédiate.</em></p>
+<p class="note alert"><em>⚠️ <strong>Le prénom est à trancher.</strong> L'avis est signé « Selena Hugo St-denis Poirier », la commande est au nom de Hugo Poirier. Le brouillon n'utilise pas de prénom, faute de pouvoir choisir sans se tromper.</em></p>
+<p class="note alert"><em>⚠️ <strong>Ne pas durcir la date.</strong> « Vers la fin septembre » est ce que Gabriel a dit, et le message le répète tel quel. Écrire « le 30 septembre » créerait une quatrième promesse datée dans un dossier qui en a déjà trois de ratées.</em></p>
+<p class="note ok"><em>✅ <strong>L'explication reprend celle de la réponse Reddit et du message à Marie-Michèle Leblanc</strong>, à la demande de Gabriel : les stocks faits au Québec se sont écoulés, quelques dernières commandes sont tombées entre les craques, et c'est le silence qui est inacceptable, pas la rupture. C'est la formulation maison pour les ruptures de 2026 et elle est réutilisable telle quelle.</em></p>
+<p class="note alert"><em>⚠️ <strong>L'excuse a été déplacée.</strong> Elle était après le constat des 73 jours, elle est maintenant après « on a été dans le jus, mais ce n'est pas votre problème », où elle porte. Un seul marqueur d'excuse par message, c'est la règle de la vague 1.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Votre coussin d'assise du 13 juin</strong></p>
+<p>Bonjour,</p>
+<p>Je fais le tour des commandes qui traînent depuis le printemps. La vôtre est la plus vieille de la pile, et elle est venue avec votre avis Facebook :</p>
+<blockquote class="avis"><em>commande faites depuis le 13 juin en ligne, nous sommes le 4 aout 2026. Pas de retour de courriel, ni de messenger. Pas sérieux comme service. Mais le payement lui est payer. Très déçu finalement.</em></blockquote>
+<p>Soixante-treize jours, aucune réponse sur aucun des deux canaux, et un pourboire que vous avez ajouté par-dessus le prix.</p>
+<p>Ce qui s'est passé : nos stocks faits au Québec se sont écoulés, et quelques dernières commandes sont tombées entre les craques. La vôtre en fait partie. Ça, ça arrive.</p>
+<p>Le silence, non. Vous avez écrit par courriel et sur Messenger, et personne ne vous a répondu. On a été dans le jus, mais ce n'est pas votre problème. Je m'en excuse profondément.</p>
+<p>Le prochain lot de coussins entre vers la fin septembre. C'est la vraie date, et si elle bouge, je vous écris sans que vous ayez à demander.</p>
+<p>À vous de choisir, et les deux me vont.</p>
+<p>Vous attendez, et le coussin part le jour où le lot entre, par colis suivi, avec le numéro dans ce fil.</p>
+<p>Ou vous ne voulez plus attendre, ce qui se comprend après deux mois et demi, et je vous rembourse les 51,42 $ au complet, pourboire compris, aujourd'hui.</p>
+<p>Dans les deux cas, une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.</p>
+<p>Répondez-moi « j'attends » ou « rembourse », c'est tout ce que ça prend.</p>
+<p>Et si le cœur vous en dit une fois la situation réglée, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.</p></div>
+<p>---</p>
+<p>---</p></div></article>
+<article class="dossier st-du" id="d2">
+<header><div class="num">2</div><div><h3>Danielle René</h3><div class="meta"><span class="chip">25 février 2026</span> <span class="chip"><code>la_cyberdan@yahoo.ca</code></span></div></div>
+<div class="pill p-du">Réparation due</div></header>
+<p class="niveau">Excuses seules · l'étiquette de retour promise</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><div class="cite"><p>« Commande passée il y a un mois, paiement passé immédiatement, confirmation de commande puis plus rien. On ne répond même pas à mes courriels. Vraiment très déçue. »</p></div>
+<p><strong>L-46045, 27 janvier 2026, 369,04 $.</strong> Manteau isolé Homme S Noir + semelles. C'est le plus gros montant du corpus Facebook, et le fil Missive le rend encore pire que le dossier Shopify seul.</p>
+<div class="scroll"><table><thead><tr><th>Date</th><th>Ce qui s'est passé</th><th>Source</th></tr></thead><tbody><tr><td>27 janvier 2026</td><td>Commande payée, 369,04 $</td><td>Shopify</td></tr><tr><td>18 février</td><td>Elle écrit : « je n'ai rien reçu d'autre qu'un accusé de réception »</td><td>Missive</td></tr><tr><td>23 février</td><td>« Est-ce qu'on pourrait me répondre SVP? » puis un message Messenger</td><td>Missive</td></tr><tr><td>25 février</td><td>Son avis Facebook. <strong>Rien n'est parti.</strong></td><td>Facebook</td></tr><tr><td>1er mars</td><td>Première réponse, signée Hari : « l'ensemble de nos articles est arrivé en stock »</td><td>Missive</td></tr><tr><td><strong>1er avril</strong></td><td>On lui écrit pour <strong>lui suggérer de changer de taille</strong> et lui demander si elle a consulté le guide</td><td>Missive</td></tr><tr><td>20 avril</td><td>Sa réponse : le manteau est pour son fils, elle a pris les mensurations, le guide donnait un XS homme qui n'était pas offert, et elle avait déjà tout expliqué</td><td>Missive</td></tr><tr><td>30 avril</td><td>Elle transfère l'échange complet, faute de réponse</td><td>Missive</td></tr><tr><td><strong>24 mai</strong></td><td>Elle ouvre une <strong>rétrofacturation de 384,04 $</strong></td><td>Shopify</td></tr><tr><td><strong>30 juin</strong></td><td>La commande part enfin. <strong>154 jours</strong></td><td>Shopify + ShipStation</td></tr><tr><td>1er juillet</td><td>« Je ne veux plus de cette commande… Est-ce qu'il y a un humain qui peut me répondre????? »</td><td>Missive</td></tr><tr><td>2 juillet</td><td>Livrée. Lasclay conteste la rétrofacturation le même jour</td><td>Shopify</td></tr><tr><td><strong>16 juillet</strong></td><td>Gabriel répond personnellement : <strong>« Je m'occupe du remboursement complet de ta commande aujourd'hui même »</strong> et promet une <strong>étiquette de retour prépayée</strong></td><td>Missive</td></tr><tr><td>16 juillet</td><td>La rétrofacturation est tranchée <strong>en faveur de la cliente</strong></td><td>Shopify</td></tr></tbody></table></div>
+<p class="alert">⚠️ <strong>Deux promesses du 16 juillet n'ont pas été tenues.</strong> Shopify affiche toujours L-46045 en <code>PAID</code>, <code>refunds: []</code> : le remboursement annoncé « aujourd'hui même » n'a jamais été fait. Son argent lui est revenu par MasterCard le même jour, pas par nous. Et <strong>aucune étiquette de retour n'apparaît</strong>, alors qu'elle a écrit qu'elle retournerait tout dès réception.</p>
+<p class="alert">⚠️ <strong>Le pire du fil n'est pas le délai, c'est le message du 1er avril.</strong> Deux mois après sa commande, sans nouvelle sur l'expédition, on lui écrit pour lui demander si elle a consulté le guide des tailles. Elle avait déjà donné les mensurations de son fils plusieurs fois. C'est le moment où elle écrit avoir « totalement perdu confiance ».</p>
+<p class="alert">⚠️ <strong>Ne rien lui offrir de financier.</strong> Elle a le manteau et son argent. Ce qui reste ouvert est concret : elle veut retourner le manteau et attend une étiquette. C'est un dossier d'<strong>excuses seules + l'étiquette promise</strong>.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>L-46045, 154 jours, rétrofacturation gagnée par elle. ⚠️ <strong>Rien de financier</strong> : elle a le manteau et son argent. Ce qui reste dû, c'est l'étiquette de retour promise le 16 juillet.</em></p>
+<p class="note alert"><em>⚠️ <strong>Aucune demande de mise à jour dans ce message.</strong> Elle a écrit « est-ce qu'il y a un humain qui peut me répondre????? » et elle a dû passer par MasterCard. Lui demander un service par-dessus ça annulerait les excuses. Décision à renverser si Gabriel préfère.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Le retour de votre manteau</strong></p>
+<p>Bonjour Danielle,</p>
+<p>Je reprends votre dossier depuis le début, et il n'est pas beau à relire.</p>
+<p>Vous avez commandé le 27 janvier. Vous avez écrit le 18 février, puis le 23, puis sur Messenger. Votre première vraie réponse est arrivée le 1er mars. Et le 1er avril, alors que rien n'était encore parti, on vous a écrit pour vous suggérer de changer de taille et vous demander si vous aviez consulté le guide. Vous nous aviez donné les mensurations de votre fils plusieurs fois.</p>
+<p>Votre commande est partie le 30 juin. Cinq mois. Entre-temps vous aviez dû passer par votre banque, ce qu'aucun client ne devrait avoir à faire pour obtenir de nos nouvelles.</p>
+<p>Je m'en excuse, et ça vaut aussi pour votre avis Facebook du 25 février : chaque mot y était exact.</p>
+<p>Le 16 juillet je vous ai promis une étiquette de retour prépayée et elle n'est jamais partie. Elle part aujourd'hui, dans un courriel séparé. Vous n'avez aucuns frais à assumer.</p>
+<p>Si vous préférez garder le manteau, gardez-le : il est à vous, sans rien à payer.</p>
+<p>Est-ce que votre fils a fini par trouver quelque chose qui lui va? Le XS d'homme qui vous manquait, on le fabrique maintenant.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-du" id="d3">
+<header><div class="num">3</div><div><h3>Amandine Caudron</h3><div class="meta"><span class="chip">17 janvier 2025</span> <span class="chip"><code>lamydu04@msn.com</code></span></div></div>
+<div class="pill p-du">Réparation due</div></header>
+<p class="niveau">Excuses · les 50 $ promis en 2024, puis 100 $</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><div class="cite"><p>« Commande passée le 30 novembre. Le 17 janv toujours rien reçu. Ils ne répondent pas aux courriels. Juste avant Noel j'ai eu un message d'excuse. Et depuis plus rien, j'ai du annuler ma carte de crédit. »</p></div>
+<p><strong>L-27408, 30 novembre 2024, 153,12 $.</strong> Mitaines S + cache-cou. La date qu'elle donne est exacte au jour près.</p>
+<p class="alert">⚠️ <strong>Le fil Missive corrige ce que Shopify laissait croire.</strong> Le colis est bien parti le 5 décembre 2024, mais <strong>par GLS</strong>, en l'absence de Postes Canada, et il s'est perdu. C'est pour ça que le suivi <code>P47068556</code> ne ressemble à aucun des nôtres et que ShipStation n'a pas d'expédition : la commande y est marquée <code>shipped</code> sans date ni transporteur.</p>
+<div class="scroll"><table><thead><tr><th>Date</th><th>Ce qui s'est passé</th><th>Source</th></tr></thead><tbody><tr><td>5 décembre 2024</td><td>Expédition par GLS, perdue</td><td>ShipStation + Missive</td></tr><tr><td>17, 19, 20 décembre</td><td>Trois courriels d'elle, sans réponse</td><td>Missive</td></tr><tr><td>21 décembre</td><td>Réponse : GLS a perdu le colis. On lui offre <strong>50 $ en cartes-cadeaux</strong> et une <strong>réexpédition</strong></td><td>Missive</td></tr><tr><td>22 décembre</td><td>Elle remercie chaleureusement et accepte</td><td>Missive</td></tr><tr><td>14, 16, 17 janvier</td><td>Trois relances. Toujours rien</td><td>Missive</td></tr><tr><td>17 janvier</td><td>Elle appelle sa carte de crédit pour annuler la transaction</td><td>Missive</td></tr><tr><td><strong>17 janvier</strong></td><td><strong>Son avis Facebook</strong></td><td>Facebook</td></tr><tr><td>18 janvier</td><td>Gabriel lui demande de <strong>retirer sa rétrofacturation</strong> si le remplacement arrive</td><td>Missive</td></tr><tr><td>23 janvier</td><td>« Ta commande part dès lundi! »</td><td>Missive</td></tr><tr><td><strong>28 janvier 2025</strong></td><td>La commande de remplacement <strong>100304</strong> part vraiment, par Postes Canada</td><td>ShipStation</td></tr><tr><td>—</td><td>La rétrofacturation est <strong>perdue</strong> (<code>LOST</code>, donc en sa faveur)</td><td>Shopify</td></tr></tbody></table></div>
+<p>Donc : <strong>elle a fini par recevoir ses produits, onze jours après son avis</strong>, et elle a récupéré son argent par sa banque. Personne ne lui a jamais écrit pour lui dire que le remplacement était parti, ni pour savoir si elle l'avait reçu. Son avis est en ligne depuis dix-neuf mois.</p>
+<p class="alert">⚠️ <strong>Les 50 $ en cartes-cadeaux promis le 21 décembre sont invérifiables d'ici</strong> (le jeton Shopify n'a pas l'accès <code>read_gift_cards</code>), et <strong>aucune commande à 0,00 $ n'existe à son nom</strong>, alors que les cartes émises par commande en laissent une. <strong>À vérifier dans l'admin avant de lui écrire</strong> : si elle n'a jamais eu la carte, c'est la promesse à exécuter.</p>
+<p class="alert">⚠️ <strong>Ne jamais reproduire la demande du 18 janvier.</strong> Conditionner une expédition au retrait d'une rétrofacturation ne se refait pas, et ne se mentionne pas dans le message.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>Colis perdu par GLS, remplacement reçu le 28 janvier 2025, rétrofacturation gagnée par elle. ⚠️ <strong>Les 50 $ promis le 21 décembre 2024 sont à vérifier dans l'admin avant l'envoi.</strong> Aucune commande à 0,00 $ n'existe à son nom.</em></p>
+<p class="note alert"><em>⚠️ <strong>Ne jamais mentionner la rétrofacturation ni la demande de la retirer.</strong></em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Votre commande de novembre 2024, dix-neuf mois plus tard</strong></p>
+<p>Bonjour Amandine,</p>
+<p>Je remonte dans les dossiers de l'hiver 2024 et le vôtre traîne depuis. Il est venu avec votre avis Facebook :</p>
+<blockquote class="avis"><em>Commande passée le 30 novembre. Le 17 janv toujours rien reçu. Ils ne répondent pas aux courriels. Juste avant Noel j'ai eu un message d'excuse. Et depuis plus rien, j'ai du annuler ma carte de crédit.</em></blockquote>
+<p>Votre colis est parti le 5 décembre par GLS, et GLS l'a perdu. Ça, ce sont les choses qui arrivent. Le reste, non : on vous a promis un remplacement et 50 $ en cartes-cadeaux le 21 décembre, vous avez répondu en nous souhaitant de joyeuses fêtes, et vous avez ensuite écrit trois fois sans recevoir un mot. Je m'en excuse.</p>
+<p>Le remplacement est bien parti, le 28 janvier. Personne ne vous a même écrit pour vous le dire, et personne n'a jamais demandé s'il était arrivé. Je le demande maintenant, avec dix-neuf mois de retard : est-ce que les mitaines et le cache-cou se sont rendus jusqu'à vous?</p>
+<p>Les 50 $ promis en décembre partent aujourd'hui, plus une carte-cadeau de 100 $ à votre nom, sans date d'expiration.</p>
+<p>Vous aviez écrit que vous espériez parler de nous en bien dans l'Outaouais. Je n'ai rien fait pour mériter ça à l'époque.</p>
+<p>Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, les cartes partent de toute façon.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-du" id="d4">
+<header><div class="num">4</div><div><h3>Colette D'Astous</h3><div class="meta"><span class="chip">25 novembre 2025</span> <span class="chip"><code>colettedastous@gmail.com</code></span></div></div>
+<div class="pill p-du">Réparation due</div></header>
+<p class="niveau">Relance · 100 $</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><p><strong>L-41092, 10 novembre 2025, 349,48 $.</strong> Tuque sport M/L, tuque sport S/M, cache-cou gris foncé, cache-cou noir, mitaines plein air L. Les cinq articles de son avis. Expédiée le 12 novembre : la livraison n'a jamais été le problème.</p>
+<p class="alert">⚠️ <strong>Le fil Missive dément ce que j'avais écrit.</strong> Elle n'a <strong>jamais demandé de retourner les mitaines</strong>. Le 16 novembre, elle demande un code de retour <strong>pour la tuque seulement</strong>, et pose une <strong>question de conseil</strong> sur les mitaines : sa main fait 19,5 cm sur 9,5 cm, elle a pris large selon le guide, elle trouve le pouce très large, et elle demande si le médium irait mieux.</p>
+<div class="scroll"><table><thead><tr><th>Date</th><th>Ce qui s'est passé</th></tr></thead><tbody><tr><td>16 novembre</td><td>Sa demande de code de retour pour la tuque + sa question sur les mitaines</td></tr><tr><td>19, 21, 22 novembre</td><td>Trois relances, dont une par Messenger. « Je ne trouve aucun # de téléphone pour vous joindre »</td></tr><tr><td><strong>25 novembre</strong></td><td>Son avis Facebook</td></tr><tr><td>26 novembre</td><td>Gabriel s'excuse et envoie la marche à suivre Happy Returns</td></tr><tr><td>26 novembre</td><td><strong>Elle remercie, s'excuse pour son commentaire négatif</strong>, suggère une réponse automatique annonçant le délai, et <strong>repose sa question sur les mitaines</strong></td></tr><tr><td>1er décembre</td><td>L'échange de la tuque se fait, L-42459 à 0,00 $</td></tr><tr><td><strong>15 juillet 2026</strong></td><td>Gabriel répond enfin à la question des mitaines, huit mois plus tard, et offre de refaire l'échange sans frais</td></tr></tbody></table></div>
+<p><strong>C'est le dossier le plus chaleureux du corpus.</strong> Elle s'est excusée de son propre avis, elle a proposé une amélioration concrète qu'on n'a pas mise en place, et sa question de novembre est restée huit mois sans réponse.</p>
+<p class="alert">⚠️ <strong>Elle n'a pas répondu à l'offre du 15 juillet.</strong> Le message à lui écrire est une relance, pas une réparation : sa tuque est réglée, et l'offre sur les mitaines est déjà sur la table.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>Tuque échangée le 1er décembre. ⚠️ <strong>Sa question sur les mitaines est restée huit mois sans réponse</strong>, et elle n'a pas répondu à l'offre du 15 juillet. ⚠️ <strong>Elle s'était excusée de son propre avis.</strong> C'est une relance chaleureuse, pas une réparation.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Vos mitaines, huit mois plus tard</strong></p>
+<p>Bonjour Colette,</p>
+<p>Je reviens sur notre échange de novembre dernier. Vous m'aviez demandé un code de retour pour la tuque, et vous aviez posé une question précise sur les mitaines : main de 19,5 cm par 9,5 cm, large pris selon le guide, pouce que vous trouviez trop ample.</p>
+<p>La tuque a été échangée. Votre question, elle, est restée huit mois sans réponse, et je vous ai écrit en juillet sans jamais revenir vous relancer. Je m'en excuse.</p>
+<p>Sur les mitaines : avec vos mesures vous êtes bien dans le large en longueur, et le médium serait juste. Le pouce ample au départ, c'est normal, la mitaine se referme à l'usage. Cela dit, si après un hiver vous les trouvez encore trop grandes, dites-le-moi et je vous envoie la paire en médium sans frais et sans retour à faire. C'est la seule façon de trancher pour vrai.</p>
+<p>Une carte-cadeau de 100 $ part à votre nom pour l'attente, sans date d'expiration.</p>
+<p>Votre suggestion de novembre, mettre une réponse automatique qui annonce le délai, on ne l'a toujours pas faite. Vous aviez raison et c'est la prochaine sur la liste.</p>
+<p>Est-ce que la tuque large vous va bien, finalement? Et est-ce que vous avez pu sortir en randonnée avec, cet hiver?</p>
+<p>Et si le cœur vous en dit, une mise à jour de votre avis Facebook nous aiderait vraiment. Aucune obligation.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-du" id="d5">
+<header><div class="num">5</div><div><h3>Marie-Annick Duquette</h3><div class="meta"><span class="chip">28 février 2026</span> <span class="chip"><code>mannick72@hotmail.com</code></span></div></div>
+<div class="pill p-du">Réparation due</div></header>
+<p class="niveau">Fort · 100 $</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><p>Trois semaines à essayer de retourner une veste achetée pour sa mère âgée et qui ne lui va pas. Aucune réponse par courriel ni par Messenger.</p>
+<p><strong>L-46545, 5 février 2026, 282,82 $.</strong> Veste sans manche Femme 2XL + bandeau torsadé rouge. Expédiée le lendemain, 6 février.</p>
+<p><strong>Remboursée de 238,35 $ le 5 mars 2026</strong>, soit <strong>cinq jours après son avis</strong>. Trois semaines de silence, puis un avis public, puis un remboursement en cinq jours. Elle garde le bandeau, 44,47 $.</p>
+<p class="alert">⚠️ <strong>Ne pas lui présenter le remboursement comme un démenti.</strong> Quand elle a écrit, rien n'avait bougé depuis trois semaines. Son grief était fondé et c'est son avis qui a débloqué le dossier. Même règle qu'Ariane Poirier à la vague 1.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>L-46545, veste + bandeau, remboursée de 238,35 $ le 5 mars, soit cinq jours après son avis. ⚠️ <strong>Ne pas présenter le remboursement comme un démenti.</strong> Quand elle a écrit, rien n'avait bougé depuis trois semaines.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Le retour de la veste de votre mère</strong></p>
+<p>Bonjour Marie-Annick,</p>
+<p>Je relis nos avis Facebook un par un, et le vôtre date de février :</p>
+<blockquote class="avis"><em>Tente depuis trois semaines de retourner une veste achetée pour sa mère âgée et qui ne lui va pas. Aucune réponse par courriel ni par Messenger.</em></blockquote>
+<p>Un retour, ça devrait prendre deux courriels. Le vôtre a pris trois semaines de silence, puis un avis public, puis cinq jours. C'est-à-dire qu'il a fallu que vous écriviez sur Facebook pour qu'on s'occupe de vous. Je m'en excuse.</p>
+<p>Le remboursement de 238,35 $ est parti le 5 mars. Vous avez gardé le bandeau, et c'est correct comme ça.</p>
+<p>Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.</p>
+<p>Une question, si vous avez deux minutes : sur quoi la veste n'allait pas à votre mère? Trop ajustée, trop longue, l'emmanchure? On est en train de refaire les grandeurs et les gabarits d'aujourd'hui sont dessinés sur des corps de trente ans. C'est exactement le cas qu'on cherche à corriger.</p>
+<p>Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-du" id="d6">
+<header><div class="num">6</div><div><h3>David Morin</h3><div class="meta"><span class="chip">22 décembre 2025</span> <span class="chip"><code>david.morin@compass-canada.com</code></span></div></div>
+<div class="pill p-du">Réparation due</div></header>
+<p class="niveau">Fort · 100 $</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><div class="cite"><p>« Service exécrable. J'ai commandé des mitaines il y a près d'un mois et je n'ai toujours rien reçu. J'ai envoyé plus de quatre courriels et contacté l'entreprise à plusieurs reprises via Facebook et Instagram, sans jamais obtenir la moindre réponse. Une absence totale de service à la clientèle. »</p></div>
+<p><strong>L-43082, 7 décembre 2025, 126,46 $, mitaines plein air XL.</strong> Expédiée le <strong>23 décembre</strong>, seize jours plus tard, soit <strong>le lendemain de son avis</strong>. Une carte-cadeau de 50 $ (L-44824) lui a été émise le même 23 décembre.</p>
+<p class="ok">✅ <strong>L'hypothèse du rapprochement se confirme.</strong> L'avis Google de « David » daté du 23 décembre 2025 décrit la même commande de mitaines, le même délai, un jour d'écart. <strong>David Morin sur Facebook et David sur Google sont la même personne</strong>, et il apparaît donc <strong>deux fois</strong> dans le corpus. Une seule réparation, deux avis à traiter.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>L-43082, mitaines XL, expédiée le 23 décembre, soit le lendemain de son avis Facebook, avec une carte-cadeau de 50 $ le même jour. ⚠️ <strong>Il a aussi un avis Google du 23 décembre</strong>, sur la même commande. Une seule réparation, deux avis.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Vos mitaines de décembre</strong></p>
+<p>Bonjour David,</p>
+<p>Je reprends les dossiers de décembre. Le vôtre revient deux fois, sur Facebook et sur Google, à un jour d'écart :</p>
+<blockquote class="avis"><em>Service exécrable. J'ai commandé des mitaines il y a près d'un mois et je n'ai toujours rien reçu. J'ai envoyé plus de quatre courriels et contacté l'entreprise à plusieurs reprises via Facebook et Instagram, sans jamais obtenir la moindre réponse. Une absence totale de service à la clientèle.</em></blockquote>
+<p>Quatre courriels, Facebook, Instagram, et rien sur aucun des trois. Ce n'est pas une boîte qui déborde, c'est une boîte que personne n'ouvrait. Je m'en excuse.</p>
+<p>Vos mitaines sont parties le 23 décembre, le lendemain de votre avis. Vous avez donc obtenu en un jour, en écrivant en public, ce que quatre courriels n'avaient pas obtenu en trois semaines. C'est le vrai problème, et c'est celui qu'on a bouché depuis : le service client est passé de personne à une équipe qui répond.</p>
+<p>Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration, en plus de celle de 50 $ de décembre.</p>
+<p>Est-ce que les mitaines ont passé l'hiver? Le XL est la grandeur sur laquelle on a le moins de retours, et j'aimerais savoir ce qu'elle vaut chez quelqu'un qui l'a vraiment portée.</p>
+<p>Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-du" id="d7">
+<header><div class="num">7</div><div><h3>Jézabelle Paquin</h3><div class="meta"><span class="chip">24 décembre 2025</span> <span class="chip"><code>jezabellep@hotmail.com</code></span></div></div>
+<div class="pill p-du">Réparation due</div></header>
+<p class="niveau">Fort · fusionner les fiches, puis 100 $</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><p>Le texte de son avis, obtenu le 25 août :</p>
+<div class="cite"><p>« <strong>Compagnie complètement frauduleuse!</strong> J'ai passé ma commande, ils ont évidemment été rapides à prendre le paiement. Ils garantissaient la réception des produits avant les fêtes (j'ai respecté amplement leur délai). Mais, depuis, je n'ai rien reçu. J'ai eu aucune nouvelles d'eux lorsque j'ai demandé un suivi. <strong>Et en plus, dans mon compte Laslay, on me dit que je n'ai supposément fait aucune commande… Mais, le montant apparaît bel et bien dans mon compte de carte de crédit…</strong> »</p></div>
+<p><strong>L-43656, 11 décembre 2025, 256,30 $</strong>, six articles, dont des mitaines urbaines en précommande « mi-décembre AVANT NOËL » et une <strong>tuque de ville en précommande janvier 2026</strong>. <strong>L-44870, 24 décembre 2025 : carte-cadeau de 25 $</strong>, émise le jour même de son avis.</p>
+<p>Lasclay a répondu publiquement sous son avis, avec une capture de sa commande où l'article en précommande janvier 2026 était entouré en rouge.</p>
+<p class="ok">✅ <strong>La deuxième moitié de son grief a une explication, et c'est notre faute.</strong> Elle a <strong>deux fiches client dans Shopify au même nom</strong> : <code>jezabellep@hotmail.com</code>, qui porte ses deux commandes, et <code>jezabellepaquin@gmail.com</code>, qui n'en a aucune. Elle s'est connectée à la seconde et son compte était vide. Ce n'est pas une erreur de sa part, c'est un doublon chez nous, et c'est ce qui l'a menée au mot « frauduleuse ».</p>
+<p class="alert">⚠️ <strong>C'est le fait le plus utile du dossier et il faut le lui dire.</strong> Une cliente qui voit son compte vide et le débit sur sa carte a toutes les raisons de crier à la fraude. Lui expliquer le doublon, et le fusionner, vaut plus que n'importe quelle compensation.</p>
+<p class="alert">⚠️ <strong>Ne pas se défendre sur la précommande.</strong> La réponse publique lui opposait déjà l'article de janvier. Elle écrit « ils garantissaient la réception avant les fêtes » : la page vendait bien des mitaines « mi-décembre AVANT NOËL » dans la même commande.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>L-43656, précommande d'avant Noël, carte-cadeau de 25 $ le jour de son avis. ⚠️ <strong>Deux fiches client à son nom</strong> : <code>jezabellep@hotmail.com</code> porte ses commandes, <code>jezabellepaquin@gmail.com</code> n'en porte aucune. C'est pour ça que son compte paraissait vide.</em></p>
+<p class="note alert"><em>⚠️ <strong>Ne pas se défendre sur la précommande.</strong> La réponse publique lui opposait déjà l'article de janvier, avec une capture d'écran annotée de sa commande. Ne pas y revenir.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Votre compte qui paraissait vide</strong></p>
+<p>Bonjour Jézabelle,</p>
+<p>Je reprends les dossiers des fêtes. Le vôtre contient une phrase que je ne m'explique que depuis cette semaine :</p>
+<blockquote class="avis"><em>Et en plus, dans mon compte Laslay, on me dit que je n'ai supposément fait aucune commande… Mais, le montant apparaît bel et bien dans mon compte de carte de crédit.</em></blockquote>
+<p>Vous aviez raison, et l'erreur est chez nous. Il existe deux comptes clients à votre nom dans notre boutique, un avec votre adresse Hotmail et un avec votre Gmail. Vos commandes sont sur le premier. Quand vous vous êtes connectée au second, il était vide, forcément.</p>
+<p>Autrement dit : vous avez vu un débit sur votre carte et un compte sans aucune commande. Il n'y a pas beaucoup d'autres conclusions à tirer de ça, et celle que vous avez tirée était raisonnable. Je m'en excuse pour les deux : pour le doublon et pour l'attente qui l'a précédé.</p>
+<p>Je fusionne les deux comptes cette semaine. Vos deux commandes vont apparaître ensemble, sous l'adresse de votre choix. Dites-moi laquelle vous voulez garder.</p>
+<p>Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration, en plus de celle de 25 $ de décembre.</p>
+<p>Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-du" id="d8">
+<header><div class="num">8</div><div><h3>Martine Savard</h3><div class="meta"><span class="chip">29 décembre 2025</span> <span class="chip"><code>martinette222@hotmail.com</code></span></div></div>
+<div class="pill p-du">Réparation due</div></header>
+<p class="niveau">Fort · l'article manquant, 42,99 $, puis 100 $</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><div class="cite"><p>« J'ai fait 2 commandes en décembre. La première a été reçue rapidement et comprenait tous les items commandés et payés. La deuxième il manque un cache-cou, pourtant payé. Ça fait 4 messages que j'envoie, aucune réponse. Aucun service à la clientèle, aucun numéro que l'on peut utiliser pour parler à quelqu'un. C'est désespérant. Et le cache cou livré est mal fini et ne comprend pas l'étiquette de la compagnie. »</p></div>
+<p class="alert">⚠️ <strong>Correction de ma première passe.</strong> J'avais rattaché ce texte au fil d'Emilie Lamothe, comme « un second avis du même fil ». C'est faux : <strong>c'est un avis distinct, signé Martine Savard.</strong></p>
+<p>Ses deux commandes de décembre existent et son récit tient au détail près :</p>
+<div class="scroll"><table><thead><tr><th>Commande</th><th>Date</th><th>Montant</th><th>Contenu</th><th>Expédiée</th></tr></thead><tbody><tr><td>L-42577</td><td>2 décembre</td><td>242,55 $</td><td>Mitaines L, semelles 6F, <strong>2 cache-cou gris foncé</strong></td><td>le 3 décembre, <strong>sans suivi</strong></td></tr><tr><td>L-44108</td><td>14 décembre</td><td>150,57 $</td><td>Bandeau précommande, <strong>2 cache-cou gris foncé</strong>, semelles 9F</td><td>le 17 décembre, <strong>sans suivi</strong></td></tr></tbody></table></div>
+<p>Le bordereau de L-44108 porte bien <strong>deux</strong> cache-cou. Elle en a reçu un. Sans numéro de suivi, il est impossible de dire si le second a été oublié à l'emballage ou perdu en chemin, et <strong>c'est exactement pour ça qu'il faut la croire</strong> : on n'a rien à lui opposer.</p>
+<p>Son second grief, le cache-cou <strong>mal fini et sans étiquette de la compagnie</strong>, recoupe Kim Vincent au jour près. Deux clientes, le même produit, la même semaine.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>Deux commandes en décembre. L-44108 portait <strong>deux</strong> cache-cou gris foncé au bordereau, elle en a reçu un. Les deux expéditions sont parties <strong>sans numéro de suivi</strong>.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Le cache-cou qui manquait dans votre deuxième commande</strong></p>
+<p>Bonjour Martine,</p>
+<p>Je reprends les commandes de décembre une par une. Les vôtres sont venues avec votre avis Facebook :</p>
+<blockquote class="avis"><em>J'ai fait 2 commandes en décembre. La première a été reçue rapidement et comprenait tous les items commandés et payés. La deuxième il manque un cache-cou, pourtant payé. Ça fait 4 messages que j'envoie, aucune réponse. Aucun service à la clientèle, aucun numéro que l'on peut utiliser pour parler à quelqu'un. C'est désespérant. Et le cache cou livré est mal fini et ne comprend pas l'étiquette de la compagnie.</em></blockquote>
+<p>J'ai vérifié : votre commande du 14 décembre contient bien deux cache-cou gris foncé. Vous en avez reçu un. Et elle est partie sans numéro de suivi, donc je n'ai même pas de quoi retracer le deuxième. Quatre messages là-dessus, sans réponse, en plus. Je m'en excuse.</p>
+<p>Le deuxième cache-cou part cette semaine, et je vous rembourse celui qui manquait, 42,99 $. Vous recevez donc les deux et vous n'en payez qu'un. Une carte-cadeau de 100 $ part aussi à votre nom.</p>
+<p>Sur la finition et l'étiquette manquante, vous n'êtes pas la seule à l'avoir signalé cette semaine-là et c'est un lot qui est passé au travers du contrôle. Si vous l'avez encore, est-ce que vous pourriez me dire ce qui cloche exactement, ou m'envoyer une photo? Ça part directement à l'atelier.</p>
+<p>Et si le cœur vous en dit une fois le colis arrivé, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, le reste tient de toute façon.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-du" id="d9">
+<header><div class="num">9</div><div><h3>Gilles Coulombe</h3><div class="meta"><span class="chip">en commentaire seulement</span> <span class="chip"><code>coulombegilles@gmail.com</code></span></div></div>
+<div class="pill p-du">Réparation due</div></header>
+<p class="niveau">Fort · la paire manquante ou 126,46 $, puis 100 $</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><p>Il n'a jamais publié d'avis, mais il est intervenu <strong>deux fois</strong> sous ceux des autres : « aucune nouvelle a part confirmation de l achat », « commandé le 18 et aucune nouvelle meme apres 2 messages ».</p>
+<p><strong>Cinq commandes, 762,14 $.</strong> C'est un des meilleurs clients du corpus, et il se plaint en public sous les avis d'autres personnes.</p>
+<p><strong>L-46684, 7 février 2026, 508,47 $</strong> : manteau Homme L Noir + <strong>deux</strong> paires de mitaines urbaines (Rouge/M et Rouge &amp; gris pâle/M).</p>
+<p class="alert">⚠️ <strong>Deux problèmes dans cette seule commande, et aucun n'a été traité :</strong></p>
+<ul><li><strong>Expédiée le 25 mars</strong>, soit <strong>46 jours</strong> après l'achat.</li><li>Le bordereau ShipStation ne contient <strong>qu'une</strong> paire de mitaines. Shopify en facture <strong>deux</strong>. <strong>Une paire de 126 $ n'a jamais été mise dans la boîte.</strong> Et là non plus, aucun numéro de suivi.</li></ul>
+<p>C'est le même défaut que chez Martine Savard, sur la même période : un article payé, absent du colis, sans suivi pour le prouver.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>Cinq commandes, 762,14 $. Il n'a jamais publié d'avis, il s'est plaint deux fois sous ceux des autres. <strong>L-46684, 7 février 2026, 508,47 $</strong> : expédiée le 25 mars, soit 46 jours, et le bordereau ShipStation ne contient <strong>qu'une</strong> des deux paires de mitaines facturées.</em></p>
+<p class="note alert"><em>⚠️ <strong>Pas de demande de mise à jour</strong> : il n'a pas d'avis à mettre à jour. Ses commentaires publics sont sous les avis d'autres personnes, et lui demander d'y toucher serait déplacé.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : La deuxième paire de mitaines de votre commande de février</strong></p>
+<p>Bonjour Gilles,</p>
+<p>Je fais le tour de ce qui s'est écrit sur notre page Facebook, y compris dans les commentaires. Le vôtre est passé deux fois :</p>
+<blockquote class="avis"><em>chanceuse, je n ai eu aucune nouvlles a part confirmation de l achat. envoyé aussi messages sur email et sur facebook. aucune reponse.</em></blockquote>
+<p>J'ai ouvert votre dossier et il y a pire que ce que vous décrivez. Votre commande de février est partie le 25 mars, quarante-six jours plus tard. Et le bordereau d'expédition ne contient qu'une des deux paires de mitaines urbaines que vous avez payées. Il y a donc de bonnes chances qu'une paire ne se soit jamais rendue chez vous, sans que personne s'en aperçoive.</p>
+<p>Je m'en excuse, d'autant plus que vous commandez chez nous depuis 2023 et que vous avez continué après chacun de ces épisodes.</p>
+<p>Dites-moi laquelle des deux vous avez reçue, la rouge ou la rouge et gris pâle, et l'autre part cette semaine par colis suivi. Si vous préférez l'argent, je vous rembourse les 126,46 $. Dans les deux cas, une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.</p>
+<p>Et le manteau, est-ce qu'il a tenu ses promesses cet hiver? C'est notre produit le plus cher et vous êtes un des rares à l'avoir porté une saison complète.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-question" id="d10">
+<header><div class="num">10</div><div><h3>Magali Élias GF</h3><div class="meta"><span class="chip">11 janvier 2026</span> <span class="chip"><code>magali.guilbault@gmail.com</code></span> <span class="chip">le seul avis de conception</span></div></div>
+<div class="pill p-question">Questions</div></header>
+<p class="niveau">Trois questions · aucun argent</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><div class="cite"><p>« Je trouve l'idée géniale mais j'ai essayé 4 produits et les 4 étaient pas bien conçus. Semelles qui glissent et ne tiennent pas en place, coutures bâclées et torsadées, rembourrage non aligné avec les oreilles (pour la tuque), mauvaises conceptions des grandeurs… très mauvaise conception en général, c'est vraiment dommage. »</p></div>
+<p class="alert">⚠️ <strong>Correction : j'avais d'abord écrit qu'aucune Magali de Shopify ne correspondait.</strong> C'était une recherche plafonnée à huit résultats. Il y a <strong>soixante-quatre</strong> Magali, Magalie et Maggie dans la boutique, et l'une d'elles est elle.</p>
+<p><strong>La preuve est dans l'adresse de livraison de L-36144</strong> : prénom <strong>« Magali Élias »</strong>, nom <strong>« Guilbault Fitzbay »</strong>. C'est mot pour mot son nom Facebook, « Magali Élias GF ». Montréal, <code>magali.guilbault@gmail.com</code>.</p>
+<div class="scroll"><table><thead><tr><th>Commande</th><th>Date</th><th>Montant</th><th>Contenu</th><th>Remboursement</th></tr></thead><tbody><tr><td>L-29787</td><td>10 février 2025</td><td>45,98 $</td><td><strong>Tuque de ville</strong> isolée, noir</td><td>aucun</td></tr><tr><td>L-31155</td><td>21 mars 2025</td><td>22,98 $</td><td>Manchons isothermes, paquet de 2</td><td><strong>remboursée en entier</strong> le 28 avril 2025</td></tr><tr><td>L-36144</td><td>31 mai 2025</td><td>390,90 $</td><td><strong>Deux</strong> vestes sans manche, précommande Hiver 25-26, Femme <strong>M</strong> et Femme <strong>L</strong></td><td><strong>185,46 $ le 5 février 2026</strong></td></tr></tbody></table></div>
+<p>Son récit se lit directement dans ce tableau. La tuque au rembourrage désaligné, c'est L-29787. Les « mauvaises conceptions des grandeurs », c'est une cliente qui commande <strong>la même veste en M et en L</strong> parce que le guide ne lui permet pas de trancher, pour 390,90 $. Et les manchons remboursés en entier disent le reste.</p>
+<p class="alert">⚠️ <strong>Le remboursement de 185,46 $ est arrivé le 5 février 2026, vingt-cinq jours APRÈS son avis.</strong> C'est le quatrième dossier du corpus où l'avis public débloque un dossier resté immobile, après Marie-Annick Duquette, Estelle Waché et Ariane Poirier. Ne pas le lui présenter comme un démenti.</p>
+<p>Il lui reste <strong>205,44 $ payés</strong> sur cette commande, donc elle a gardé une veste.</p>
+<p class="alert">⚠️ <strong>Un point ne s'explique pas.</strong> Les semelles qui glissent n'apparaissent dans aucune de ses trois commandes. Elle les a peut-être reçues en cadeau ou achetées ailleurs. <strong>Ne rien affirmer sur les semelles dans son message</strong>, et lui demander plutôt.</p>
+<p class="alert">⚠️ <strong>C'est le seul avis du corpus qu'on ne peut pas réparer avec de l'argent.</strong> Quatre produits, quatre défauts de conception, aucun reproche de service. Elle a déjà été remboursée deux fois. Ce qu'elle attend, ce sont des produits corrigés, et le seul message qui a du sens chez elle est celui qui lui demande de détailler les quatre défauts et qui lui dit ce qui a changé depuis.</p>
+<p>---</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>Tuque, manchons remboursés en entier, deux vestes en M et en L, 185,46 $ remboursés le 5 février, soit 25 jours après son avis. ⚠️ <strong>Les semelles qu'elle mentionne n'apparaissent dans aucune de ses commandes.</strong> Ne rien affirmer là-dessus. ⚠️ <strong>Aucune carte-cadeau</strong> : elle a déjà été remboursée deux fois et son grief n'est pas financier.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Vos quatre produits, et les quatre défauts</strong></p>
+<p>Bonjour Magali,</p>
+<p>Votre avis de janvier est le seul de notre page qui ne parle pas du service :</p>
+<blockquote class="avis"><em>Je trouve l'idée géniale mais j'ai essayé 4 produits et les 4 étaient pas bien conçus. Semelles qui glissent et ne tiennent pas en place, coutures bâclées et torsadées, rembourrage non aligné avec les oreilles (pour la tuque), mauvaises conceptions des grandeurs… très mauvaise conception en général, c'est vraiment dommage.</em></blockquote>
+<p>C'est le plus utile qu'on ait reçu, et le plus dur. Quatre produits, quatre problèmes différents, et rien à mettre sur le dos d'un retard ou d'une boîte courriel.</p>
+<p>Je regarde votre dossier et une partie s'explique toute seule. Vous avez commandé la même veste en M et en L, pour 390 $, parce que le guide ne vous permettait pas de choisir. Personne ne devrait avoir à acheter deux fois le même vêtement pour trouver sa taille. Je m'en excuse.</p>
+<p>Ce qui a changé depuis : le guide des tailles est en train d'être refait à partir de mensurations réelles, la semelle est redessinée pour la tenue, et le contrôle à la couture est resserré. Ce n'est pas fini.</p>
+<p>Trois questions, si vous avez le temps de répondre, parce que vous êtes la seule à avoir vu quatre défauts en même temps.</p>
+<p>Le rembourrage désaligné de la tuque, est-ce qu'il l'était dès la sortie de la boîte ou après quelques lavages? Les coutures torsadées, sur lequel des articles? Et les semelles : je ne les retrouve pas dans vos commandes, est-ce qu'elles venaient d'ailleurs ou d'un achat que je ne vois pas?</p>
+<p>Ce que vous m'écrirez ira directement aux gens qui redessinent ces produits.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-bloque" id="d11">
+<header><div class="num">11</div><div><h3>John Belliveau</h3><div class="meta"><span class="chip">7 septembre 2025</span> <span class="chip"><code>john.belliveau@proton.me</code></span></div></div>
+<div class="pill p-bloque">Bloqué</div></header>
+<p class="niveau">⚠️ Bloqué · compter les graines d'abord</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><p>Sachets de semences et bombes semencières commandés au printemps. Les sachets devaient contenir 50 graines, l'un en contenait <strong>12</strong>. Semés à quatre endroits, un seul plant a levé.</p>
+<p><strong>L-33942, 1er mai 2025, 41,47 $ :</strong> 1 sachet d'asclépiade incarnate + 10 bombes semencières d'asclépiade tubéreuse. Exactement ce qu'il décrit.</p>
+<p class="alert">⚠️ <strong>Le seul avis du corpus qui met en cause le contenu réel d'un produit.</strong> C'est vérifiable et ça doit l'être <strong>avant</strong> de lui répondre : combien de graines part-il réellement dans un sachet, et la fiche produit annonce-t-elle 50? Tant que la réponse n'est pas connue, ne rien lui écrire. Un message qui nierait un défaut réel serait pire que le silence.</p>
+<p>---</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>L-33942, 1er mai 2025, 41,47 $, un sachet d'asclépiade incarnate + 10 bombes semencières tubéreuses. Il dit avoir compté <strong>12 graines dans un sachet annoncé à 50</strong>.</em></p>
+<p class="alert">⚠️ <strong>Pas de brouillon.</strong> Deux choses manquent, et ce sont des faits, pas de la rédaction : combien de graines part-il réellement dans un sachet, et qu'est-ce que la fiche produit annonçait en mai 2025? Tant que ces deux réponses ne sont pas connues, tout message dirait soit une chose fausse, soit rien. Un message qui nierait un défaut réel serait pire que le silence.</p>
+<p>---</p></div></article>
+<article class="dossier st-merci" id="d12">
+<header><div class="num">12</div><div><h3>Gabrielle Champagne</h3><div class="meta"><span class="chip">2 mars 2023</span> <span class="chip"><code>gabriellechampagne@live.ca</code></span> <span class="chip">le plus facile</span></div></div>
+<div class="pill p-merci">Remerciement</div></header>
+<p class="niveau">Demande de mise à jour seule · aucun argent</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><div class="cite"><p>« Mitaines très solides et chaudes au design minimaliste (moins ergonomique que les mitaines en magasin de sport). Coutures et matériaux de qualité. J'ai eu un pépin de grandeur et les délais de réponse aux courriels étaient de plusieurs semaines, mais tout est rentré dans l'ordre. »</p></div>
+<p><strong>L-10778, 3 novembre 2022, 227,66 $</strong>, mitaines L + S, partiellement remboursée. Puis <strong>L-11476, 14 janvier 2023 : « Échange - Grandeur - XS », 11,49 $.</strong> Le pépin de grandeur et sa résolution sont tous les deux dans Shopify.</p>
+<p>Elle loue le produit, elle dit elle-même que tout est réglé, et son avis reste classé « ne recommande pas ». <strong>C'est la demande de mise à jour la plus simple de tout le corpus, et elle ne coûte rien.</strong></p></div><div class="msg"><h4>Le message</h4><p class="note"><em>L-10778, mitaines L + S, partiellement remboursée. Puis L-11476, échange de grandeur XS le 14 janvier 2023. Son avis dit lui-même que tout est réglé. ⚠️ <strong>Rien à réparer, rien à offrir.</strong> C'est une demande de mise à jour, et c'est tout.</em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Votre avis de 2023, et une demande</strong></p>
+<p>Bonjour Gabrielle,</p>
+<p>Je relis nos vieux avis Facebook et le vôtre m'a arrêté, parce qu'il dit deux choses en même temps :</p>
+<blockquote class="avis"><em>Mitaines très solides et chaudes au design minimaliste (moins ergonomique que les mitaines en magasin de sport). Coutures et matériaux de qualité. J'ai eu un pépin de grandeur et les délais de réponse aux courriels étaient de plusieurs semaines, mais tout est rentré dans l'ordre.</em></blockquote>
+<p>Plusieurs semaines pour répondre à un échange de grandeur, c'était vrai et c'était mauvais. Je m'en excuse, même trois ans plus tard.</p>
+<p>Mais votre avis est classé « ne recommande pas », alors que vous y écrivez que les mitaines sont solides, chaudes, bien cousues, et que le problème a fini par être réglé. Quelqu'un qui tombe dessus aujourd'hui lit surtout le classement.</p>
+<p>Est-ce que vous accepteriez de le mettre à jour? Aucune obligation, et je ne vous offre rien en échange, c'est justement le but. Si les mitaines vous ont fait trois hivers, ça vaut plus qu'une carte-cadeau.</p>
+<p>Et sur l'ergonomie : vous aviez raison là-dessus aussi. La coupe des mitaines a changé depuis, le pouce est repositionné. Si jamais vous voulez essayer la nouvelle version pour comparer, écrivez- moi et je vous en envoie une paire.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-merci" id="d13">
+<header><div class="num">13</div><div><h3>Francine Poirier</h3><div class="meta"><span class="chip"><code>franp22@bell.net</code></span></div></div>
+<div class="pill p-merci">Remerciement</div></header>
+<p class="niveau">Remerciement · aucun argent</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><p><strong>L-42397, 1er décembre 2025, 164,37 $</strong> (bandeau en précommande, foulard, cache-cou, étui). Son avis parlait de « 167 $ de produits début décembre » : c'est la bonne commande. <strong>L-44675, 21 décembre : carte-cadeau de 25 $</strong>, exactement le choix qu'elle décrit avoir fait.</p>
+<p>Puis elle a <strong>racheté deux fois</strong> : une veste à 248,34 $ le 6 février 2026, et des manchons le 20 juin 2026. Et elle a modifié son propre avis : « j'ai finalement reçu ma commande et un suivi par courriel de leur part, je suis satisfaite de mes achats ».</p>
+<p><strong>Cliente reconquise, deux fois, sans qu'on lui dise merci.</strong> Un remerciement, rien d'autre.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>L-42397, 164,37 $ le 1er décembre. Carte-cadeau de 25 $ le 21 décembre, exactement le choix qu'elle décrit. Puis <strong>deux rachats</strong> : une veste à 248,34 $ le 6 février et des manchons le 20 juin. Elle a modifié son propre avis pour dire qu'elle avait été servie. ⚠️ <strong>Rien à réparer.</strong></em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Merci pour la mise à jour de votre avis</strong></p>
+<p>Bonjour Francine,</p>
+<p>Je fais le tour de notre page Facebook et je suis tombé sur votre commentaire de cet hiver :</p>
+<blockquote class="avis"><em>J'ai finalement reçu ma commande et un suivi par courriel de leur part, je suis satisfaite de mes achats</em></blockquote>
+<p>Vous avez pris la peine de revenir écrire ça sous votre propre avis, sans que personne vous le demande. Et vous avez recommandé deux fois depuis, en février et en juin. Personne ne vous a dit merci. Je le fais.</p>
+<p>Pour ce qui s'est passé avant : vous aviez commandé 164 $ de cadeaux le 1er décembre et il a fallu qu'on vous annonce à la mi-décembre que rien n'arriverait pour Noël. Puis vos relances sont restées sans réponse. Je m'en excuse.</p>
+<p>Votre avis est encore classé « ne recommande pas », avec votre mise à jour en dessous. Si le cœur vous en dit de changer le classement, ça nous aiderait vraiment. Aucune obligation, et rien ne dépend de ça.</p>
+<p>Est-ce que la veste sans manche de février vous va bien? C'est un produit neuf et j'aimerais savoir ce qu'il vaut chez quelqu'un qui l'a porté un hiver complet.</p></div>
+<p>---</p></div></article>
+<article class="dossier st-merci" id="d14">
+<header><div class="num">14</div><div><h3>Estelle Waché</h3><div class="meta"><span class="chip"><code>estebene@yahoo.ca</code></span></div></div>
+<div class="pill p-merci">Remerciement</div></header>
+<p class="niveau">Remerciement et question · 100 $</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><p><strong>L-18992, 1er décembre 2023, 160,92 $</strong>, deux paires de semelles + mitaines M. Remboursée de <strong>104,97 $ le 16 janvier 2024</strong>, cinq jours après son avis du 11 janvier. Même schéma que Marie-Annick : le silence, puis l'avis, puis le règlement en cinq jours.</p>
+<p>Et surtout : <strong>elle a racheté des mitaines</strong> (L-41726, 22 novembre 2025, mitaines urbaines + deux paires de semelles), après avoir écrit publiquement que les nôtres étaient « beaucoup trop raides ».</p>
+<p class="alert">⚠️ <strong>C'est le meilleur test qu'on ait sur la raideur.</strong> Elle a la version 2023 et la version 2025 dans la même maison. Lui demander laquelle tient mieux vaut plus qu'un remboursement.</p></div><div class="msg"><h4>Le message</h4><p class="note"><em>L-18992, décembre 2023, remboursée de 104,97 $ le 16 janvier 2024, cinq jours après son avis. Et surtout : <strong>elle a racheté des mitaines</strong> en novembre 2025, après avoir écrit publiquement que les nôtres étaient trop raides. ⚠️ <strong>C'est le meilleur test qu'on ait sur la raideur.</strong></em></p>
+<div class="lettre"><p class="objet"><strong>Objet : Vos mitaines de 2023 et celles de 2025</strong></p>
+<p>Bonjour Estelle,</p>
+<p>Je relis nos avis Facebook et le vôtre date de janvier 2024 :</p>
+<blockquote class="avis"><em>J'ai écrit un premier message courriel le 4 janvier pour effectuer le retour des mitaines reçues le 27 décembre. Aucune réponse… ni son ni image… J'ai aussi tenté par Messenger sans succès. Les semelles sont bien, mais les mitaines très décevantes: beaucoup trop raides.</em></blockquote>
+<p>Votre retour a été traité le 16 janvier, cinq jours après votre avis et douze jours après votre premier courriel. Autrement dit, il a fallu que vous écriviez en public. Je m'en excuse.</p>
+<p>Ce qui m'intéresse davantage : vous avez racheté des mitaines chez nous en novembre 2025, après avoir écrit noir sur blanc que les nôtres étaient trop raides. Vous avez donc les deux versions dans la même maison, celle de 2023 et celle de 2025.</p>
+<p>Est-ce que la nouvelle est plus souple? C'est la question sur laquelle on tourne en rond, parce que personne d'autre n'a les deux. Votre réponse vaut plus que tous nos tests internes.</p>
+<p>Une carte-cadeau de 100 $ part à votre nom pour le dérangement de 2024, sans date d'expiration.</p>
+<p>Et si les nouvelles vous ont satisfaite, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.</p></div>
+<p>---</p>
+<p>---</p></div></article>
+<article class="dossier st-rien" id="d15">
+<header><div class="num">15</div><div><h3>Mylène Van Winden</h3><div class="meta"><span class="chip"><code>mylene.antoine@hotmail.com</code></span></div></div>
+<div class="pill p-rien">Ne rien envoyer</div></header>
+<p class="niveau">Ne rien envoyer</p>
+<div class="analyse"><h4>Ce que les systèmes établissent</h4><p>L-11882, 6 février 2023, 39,08 $, un bandeau. Elle a confirmé elle-même en commentaire : « Commande reçu aujourd'hui ! ». Rien à faire.</p>
+<p>---</p>
+<p>---</p></div><div class="msg"><h4>Le message</h4><p>Aucun. Elle a écrit elle-même « Commande reçu aujourd'hui ! ». Rien à réparer, rien à demander.</p>
+<p>---</p></div></article>
+</div>
+<section class="bande"><h2>Ce qui reste à identifier</h2><p>Cinq personnes n'ont pas de dossier Shopify sous leur nom Facebook. Rien ne leur sera écrit tant qu'elles ne seront pas identifiées, et <strong>aucune hypothèse ne doit se transformer en fait</strong> dans un message.</p>
+<div class="scroll"><table><thead><tr><th>Personne</th><th>Ce qu'on cherche</th><th>Où chercher</th></tr></thead><tbody><tr><td><strong>Nathalie Girouard</strong> · 30 janvier 2026</td><td>Bandeau + 2 coussins d'assise avant Noël 2025, un seul coussin reçu, <strong>avec des traces de colle</strong></td><td>La <code>nathalie girouard</code> de Shopify (<code>girouardvalois@gmail.com</code>) n'a que trois commandes de 2022-2023. Ce n'est pas elle, ou elle a commandé sous un autre courriel</td></tr><tr><td><strong>Emilie Lamothe</strong> · 7 janvier 2026</td><td>Commande de début décembre non reçue à temps, remboursement demandé jamais obtenu, un seul des deux articles livré</td><td>Aucune Emilie Lamothe dans Shopify. ⚠️ Le grief du cache-cou manquant est celui de <strong>Martine Savard</strong>, pas le sien</td></tr><tr><td><strong>Kim Vincent</strong> · 25 décembre 2025</td><td>« la finition de mon cache-cou laisse vraiment à désirer »</td><td>Aucune Kim Vincent dans Shopify</td></tr><tr><td><strong>Stéphane Provost</strong> · commentaire</td><td>« le manteau mal isolé », plusieurs courriels sans réponse</td><td>Aucun Stéphane Provost. Le compte <code>s_provost5@hotmail.com</code> est au nom de Lorraine Laliberte, à Sainte-Julie, et n'a que trois commandes de 2022, sans manteau</td></tr><tr><td><strong>Myriam Courtemanche</strong> · 9 mars 2023</td><td>Commande marquée expédiée, <strong>numéro de suivi invalide dès le départ</strong></td><td>Aucune Myriam Courtemanche. Antérieure à la rétention ShipStation de toute façon</td></tr></tbody></table></div>
+<p><strong>Le plus important des cinq est Stéphane Provost</strong> : « manteau mal isolé » est le seul grief du corpus qui vise l'isolation, c'est-à-dire la promesse centrale du produit le plus cher.</p>
+<p>---</p></section>
+<section class="bande"><h2>Ce que Missive a donné, et ce qu'il n'a pas pu donner</h2><p>Trois fils retrouvés et lus au complet : <strong>Danielle René</strong>, <strong>Colette D'Astous</strong> et <strong>Amandine Caudron</strong>. Les trois changent le dossier, et dans les trois cas c'est le fil qui contient le vrai grief, pas l'avis.</p>
+<p class="alert">⚠️ <strong>La recherche n'a pas pu être exhaustive.</strong> Le proxy Missive n'expose pas la recherche par adresse : <code>GET /conversations</code> exige un cadrage par boîte et <strong>ignore <code>search=</code></strong>. Le seul balayage complet possible parcourt toute la boîte page par page, et l'API coupe à <code>429 Too many requests</code> avant la fin, en perdant tout ce qui était accumulé. Deux tentatives, deux coupures.</p>
+<p>Ce qui a fonctionné : parcourir les <strong>étiquettes partagées</strong> et filtrer les sujets sur les numéros de commande. <code>↩️ RETOURS - ECHANGES</code> (1 025 fils), <code>Suivi de commande</code> (17), <code>🚚Suivi d'expédition</code> (48) et <code>Commande introuvable</code> (1) ont été passés. Les trois fils ci-dessus en sortent.</p>
+<p><strong>Donc l'absence de fil ne prouve rien</strong> pour Marie-Annick Duquette, David Morin, Jézabelle Paquin, John Belliveau, Estelle Waché et Francine Poirier : leurs échanges existent peut-être sous une étiquette non balayée. Avant d'écrire à l'une d'elles, chercher son adresse dans Missive à la main.</p>
+<p>Deux constats de méthode, tirés de ces trois fils :</p>
+<ul><li><strong>Le fil dit ce que Shopify ne dit pas.</strong> Amandine passait pour « jamais expédiée » : c'est GLS qui a perdu le colis, et le remplacement est parti. Colette passait pour un échange à moitié fait : elle n'avait jamais demandé à retourner ses mitaines.</li><li><strong>Les promesses non tenues sont dans les fils, pas dans les avis.</strong> Un remboursement annoncé « aujourd'hui même » le 16 juillet et jamais fait, une étiquette de retour promise et jamais envoyée, 50 $ en cartes-cadeaux offerts en décembre 2024 et introuvables. <strong>Chacune doit être exécutée avant que le message parte</strong>, sinon on répète exactement le reproche.</li></ul>
+<p>---</p></section>
+<section class="bande"><h2>Ce que la page Facebook révèle sur nos propres réponses</h2><p><strong>Une seule réponse publique existe sur toute la page</strong>, sous l'avis de Jezabelle Paquin. Deux cent huit avis, des dizaines de fils de commentaires, une réponse.</p>
+<p class="alert">⚠️ <strong>Et cette réponse-là est un problème en soi.</strong> Répondre à une accusation de fraude en publiant une <strong>capture d'écran annotée du compte de la cliente</strong>, encerclée en rouge, se lit comme une mise en accusation publique. D'autant que la vraie explication était de notre côté : son compte paraissait vide parce qu'elle a deux fiches client chez nous. <strong>À relire avant d'établir la ligne de réponse publique sur Facebook.</strong></p>
+<p><strong>Cinq dossiers sont réglés sans que l'avis ait bougé.</strong> Francine Poirier, Colette D'Astous, Amandine Caudron, Myriam Courtemanche (via Mylène Van Winden) et Gabrielle Champagne écrivent toutes, <strong>en commentaire sous leur propre avis</strong>, que leur problème a fini par être traité. L'avis, lui, est resté négatif.</p>
+<p>C'est le gisement le plus accessible de toute la campagne : cinq personnes qui ont déjà dit publiquement du bien de nous, sous un avis qui dit encore le contraire.</p>
+<p><strong>Une vente perdue est documentée noir sur blanc.</strong> Sous l'avis de Colette D'Astous, <strong>Julie Bernier</strong> écrit : « Merci de partager votre expérience, je voulais commander un item. Je vais attendre et me rendre sur place. » C'est le seul endroit du corpus où l'on voit le coût direct d'un avis non traité.</p>
+<p>---</p></section>
+<section class="bande"><h2>Ce que la vague révèle en amont</h2><p>Trois choses qui ne se règlent pas par un message.</p>
+<p><strong>Le coussin d'assise est survendu de 57 unités.</strong> <code>Coussin d'assise thermal pliable</code> affiche un inventaire de <strong>-57</strong>, et le combo <code>manchons + coussin isotherme</code> de <strong>-71</strong>. Le grief de Nathalie Girouard, un coussin sur deux jamais livré mais facturé, n'est donc pas un incident : c'est le même mécanisme que les sacs à lunch du printemps 2026. Tant que la disponibilité s'affiche mal avant le paiement, la vague 3 s'écrit toute seule.</p>
+<p><strong>Deux défauts produits neufs, absents de Google.</strong> La finition des cache-cou (Kim Vincent, plus l'avis d'Emilie Lamothe sur un cache-cou mal fini et sans étiquette) et le nombre de graines par sachet (John Belliveau). Les deux sont vérifiables en production et doivent l'être avant qu'on réponde.</p>
+<p><strong>Le défaut de tenue de la fibre se confirme sur trois produits.</strong> La raideur des mitaines chez Estelle Waché comme chez Nathalie Durand sur Google, et les semelles qui plissent chez Jimmy Allaire. Trois clients, trois produits, un même problème de structure autour de la fibre.</p>
+<p>---</p></section>
+<section class="bande"><h2>Identifiés, mais sans dossier ouvert</h2><div class="scroll"><table><thead><tr><th>Personne</th><th>Fiche</th><th>Ce que Shopify dit</th></tr></thead><tbody><tr><td><strong>Suzanne Boismenu</strong> · commentaire</td><td><code>sue.boismenu@gmail.com</code></td><td>L-14189, 29 avril 2023, 23,34 $, graines paquet de 5, expédiée. Sa plainte date de 2023</td></tr><tr><td><strong>Marie-Élaine Julien</strong> · commentaire</td><td><code>marie_elaine_julien@yahoo.fr</code></td><td>Une commande, 124,76 $</td></tr><tr><td><strong>Marie Fontaine</strong> · 7 mars 2023, mal classée « recommends »</td><td><code>marieyouppi@gmail.com</code></td><td>Une commande, 216,16 $</td></tr><tr><td><strong>Stephane Roy</strong> · 22 mars 2023, mal classé « recommends »</td><td><code>66.steph.roy@gmail.com</code></td><td>Une commande, 90,26 $. « Ma pire expérience d'achat en ligne à vie », mais il défend la fabrication québécoise</td></tr><tr><td><strong>Magali Élias GF</strong> · 11 janvier 2026</td><td>✅ <strong>identifiée</strong>, voir sa fiche complète ci-dessous</td><td><code>magali.guilbault@gmail.com</code></td></tr></tbody></table></div>
+<p>---</p></section>
+<section class="bande"><h2>Récapitulatif</h2><div class="scroll"><table><thead><tr><th>#</th><th>Client</th><th>Ce qui est dû</th><th>Carte</th><th>Avis à demander</th></tr></thead><tbody><tr><td>1</td><td><strong>Selena / Hugo Poirier</strong></td><td>le choix : attendre la fin septembre <strong>ou</strong> 51,42 $ remboursés, pourboire compris</td><td>100 $</td><td>oui</td></tr><tr><td>2</td><td>Danielle René</td><td>l'<strong>étiquette de retour prépayée</strong> promise le 16 juillet</td><td>aucune</td><td><strong>non, volontairement</strong></td></tr><tr><td>3</td><td>Amandine Caudron</td><td>les <strong>50 $ promis en décembre 2024</strong>, à vérifier dans l'admin</td><td>100 $</td><td>oui</td></tr><tr><td>4</td><td>Colette D'Astous</td><td>la paire en médium si elle la demande</td><td>100 $</td><td>oui</td></tr><tr><td>5</td><td>Marie-Annick Duquette</td><td>rien, déjà remboursée de 238,35 $</td><td>100 $</td><td>oui</td></tr><tr><td>6</td><td>David Morin</td><td>rien, déjà livré et déjà 50 $ en décembre</td><td>100 $</td><td>oui, <strong>deux avis</strong></td></tr><tr><td>7</td><td>Jézabelle Paquin</td><td><strong>fusionner ses deux fiches client</strong></td><td>100 $</td><td>oui</td></tr><tr><td>8</td><td>Martine Savard</td><td>le <strong>cache-cou manquant</strong> + 42,99 $</td><td>100 $</td><td>oui</td></tr><tr><td>9</td><td>Gilles Coulombe</td><td>la <strong>paire de mitaines manquante</strong> ou 126,46 $</td><td>100 $</td><td><strong>non</strong>, il n'a pas d'avis</td></tr><tr><td>10</td><td>Magali Élias GF</td><td>rien, trois questions sur les défauts</td><td>aucune</td><td>non</td></tr><tr><td>11</td><td>John Belliveau</td><td>⚠️ <strong>bloqué</strong>, compter les graines d'un sachet</td><td>—</td><td>—</td></tr><tr><td>12</td><td>Gabrielle Champagne</td><td>rien, une demande</td><td>aucune</td><td><strong>oui, c'est tout le message</strong></td></tr><tr><td>13</td><td>Francine Poirier</td><td>rien, un merci</td><td>aucune</td><td>oui</td></tr><tr><td>14</td><td>Estelle Waché</td><td>rien, une question sur la raideur</td><td>100 $</td><td>oui</td></tr><tr><td>15</td><td>Mylène Van Winden</td><td>rien</td><td>aucune</td><td>non</td></tr></tbody></table></div>
+<p><strong>Huit cartes de 100 $, soit 800 $.</strong> Plus 42,99 $ à Martine Savard, 126,46 $ ou une paire de mitaines à Gilles Coulombe, 51,42 $ ou un coussin à Selena, et les 50 $ d'Amandine s'ils n'ont jamais été émis.</p>
+<p><strong>Treize messages prêts. Un bloqué. Une personne à ne pas contacter. Quatre encore à identifier.</strong></p></section>
+<section class="bande"><h3>Les trois choix de rédaction qui se discutent</h3><p><strong>Danielle René n'a aucune demande de mise à jour.</strong> Elle a écrit « est-ce qu'il y a un humain qui peut me répondre????? » et elle a dû passer par MasterCard pour récupérer son argent. Lui demander un service par-dessus ça annulerait les excuses.</p>
+<p><strong>Selena / Hugo Poirier n'a pas de prénom dans son message.</strong> L'avis est signé « Selena Hugo St-denis Poirier », la commande est au nom de Hugo Poirier. Choisir au hasard, c'est risquer d'écrire au mauvais membre du couple.</p>
+<p><strong>Gilles Coulombe non plus n'a pas de demande.</strong> Il n'a jamais publié d'avis, ses plaintes sont des commentaires sous les avis d'autres personnes. Lui demander d'y toucher serait déplacé.</p></section>
+<section class="bande"><h3>⚠️ La leçon de la vague 1, appliquée ici</h3><p><strong>Aucun texte de cette vague ne dit qu'une carte-cadeau « est déjà faite ».</strong> Ils disent tous qu'elle « part à votre nom ». La vague 1 a envoyé quinze messages annonçant un remboursement au présent, et le jour même deux clients écrivaient déjà pour dire qu'ils ne le voyaient pas sur leur relevé. L'écart entre ce qu'un message annonce et ce qui est réellement exécuté est exactement le reproche que cette campagne répare.</p>
+<p><strong>Donc : exécuter d'abord, envoyer ensuite.</strong> Le tableau du haut de ce document dit quoi, pour qui.</p></section>
+</div>
