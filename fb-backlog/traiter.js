@@ -23,8 +23,9 @@
  * CADENCE — 24 h sur 24, mais pondérée
  * Le traitement ne s'arrête jamais, pour que les commentaires du jour soient
  * pris vite. Mais l'intensité suit une journée humaine : forte l'après-midi,
- * molle le soir, presque nulle la nuit. Un débit plat sur 24 heures serait une
- * signature aussi nette qu'une cadence régulière.
+ * molle la nuit. Elle suit les vrais pics d'engagement de Facebook — le matin
+ * de 6 h à 9 h, le midi, la fin d'après-midi et la soirée — parce qu'un debit
+ * plat sur 24 heures serait une signature aussi nette qu'une cadence régulière.
  *
  * PRIORITÉ — dynamique, jamais un quota fixe
  * Les commentaires du JOUR passent avant tout et sont traités en entier. Le
@@ -41,10 +42,15 @@ const SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET;
 const RACINE = __dirname;
 const ETAT = path.join(RACINE, "etat");
 
+// Un tir par Page, et c'est délibéré. Le tir A portait deux Pages avec le même
+// tirage horaire que B et C qui n'en portaient qu'une : ses deux Pages se
+// partageaient un seul quota, et Asclépiade recevait quatre fois moins que
+// Milkweed & Monarchs. À périmètre égal, débit égal.
 const TIRS = {
-  A: { pages: ["104242204750257", "114311920399404"], nom: "Lasclay + Asclépiade" },
+  A: { pages: ["104242204750257"], nom: "Lasclay" },
   B: { pages: ["368305119707866"], nom: "The Milkweed Company" },
   C: { pages: ["262382158951470"], nom: "Milkweed & Monarchs" },
+  D: { pages: ["114311920399404"], nom: "Asclépiade & papillons monarques" },
 };
 const REGISTRE = {
   104242204750257: "sobre",
@@ -370,10 +376,10 @@ function heureEst() {
 // molle le soir, presque nulle au cœur de la nuit sans jamais être exactement
 // nulle, parce qu'un zéro quotidien à heure fixe est lui aussi un motif.
 const INTENSITE = [
-  0.15, 0.10, 0.05, 0.05, 0.05, 0.08, // 0 h – 5 h
-  0.15, 0.35, 0.60, 1.00, 1.00, 0.95, // 6 h – 11 h
-  0.45, 0.95, 1.00, 1.00, 0.95, 0.90, // 12 h – 17 h (creux du midi, atténué et non plus à zéro)
-  0.75, 0.70, 0.65, 0.50, 0.35, 0.25, // 18 h – 23 h
+  0.15, 0.10, 0.05, 0.05, 0.05, 0.15, // 0 h – 5 h  cœur de nuit, jamais tout à fait zéro
+  0.50, 0.85, 1.00, 1.00, 1.00, 0.95, // 6 h – 11 h le matin est un PIC sur Facebook, pas un creux
+  0.70, 0.95, 1.00, 1.00, 0.95, 0.90, // 12 h – 17 h le midi reste actif : on scrolle en mangeant
+  0.80, 0.90, 0.85, 0.65, 0.40, 0.25, // 18 h – 23 h second pic en soirée, puis extinction
 ];
 
 // Combien ce tir publie, et s'il publie. Tout est tiré au sort, pondéré par
@@ -386,7 +392,7 @@ function tirage() {
   if (Math.random() > proba) {
     return { saute: true, motif: `heure ${h} h (Est), intensité ${i}${weekend ? ", week-end" : ""}` };
   }
-  const n = borne(1 + Math.floor(expo(14 * i)), 1, 20);
+  const n = borne(1 + Math.floor(expo(10 * i)), 1, 20);
   return { saute: false, n, heure: h, intensite: i, attenteInitiale: Math.round(45 + Math.random() * 375) };
 }
 
