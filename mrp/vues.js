@@ -425,7 +425,8 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null }) {
 }
 
 // ========================================================== contrôle qualité
-const ICONE_QC = { critique: '!', probleme: '~', mesure: '=', cyclage: '↻' };
+const ICONE_QC = { critique: '!', probleme: '~', mesure: '=', cyclage: '↻',
+                   emballage: '\u25a1' };
 
 /**
  * Un point de protocole.
@@ -434,11 +435,16 @@ const ICONE_QC = { critique: '!', probleme: '~', mesure: '=', cyclage: '↻' };
  * reste se lit comme une phrase : la consigne, puis ce qui arrive si on la
  * rate, qui est la seule chose qui la rend convaincante.
  */
-function pointQC({ q, produitId, editable }) {
+function pointQC({ q, produitId, editable, action = null }) {
   const mesure = q.type === 'mesure';
+  const REGLE = { tout: 'toutes les pièces', lot: 'une fois par lot' };
+  const regle = q.ech_type === 'ratio' ? `1 pièce sur ${q.ech_valeur}`
+              : q.ech_type === 'fixe' ? `${q.ech_valeur} pièces par lot`
+              : REGLE[q.ech_type] || '';
   return `<li class="qc qc-${q.type}">
     <div class="qc-quoi">
       <b>${e(q.titre)}</b>
+      ${q.produit_id === null ? '<span class="ck-gen">général</span>' : ''}
       ${mesure && q.valeur ? `<span class="qc-val">${e(q.valeur)}${
         q.unite ? ' ' + e(q.unite) : ''}${
         q.tolerance ? ` <span class="qc-tol">± ${e(q.tolerance)}</span>` : ''}</span>` : ''}
@@ -450,13 +456,15 @@ function pointQC({ q, produitId, editable }) {
         // séparateur en préfixe laisse un « · » orphelin dès que le premier
         // morceau manque — ce qui est le cas général.
         const bouts = [];
-        if (q.frequence) bouts.push(`<b>${e(q.frequence)}</b>`);
+        if (regle) bouts.push(`<b>${e(regle)}</b>`);
+        if (q.frequence) bouts.push(e(q.frequence));
         if (q.source) bouts.push(e(q.source));
         if (q.auteur) bouts.push(`ajouté par ${e(q.auteur)}`);
         return bouts.length ? `<span class="qc-pied">${bouts.join(' · ')}</span>` : '';
       })()}
     </div>
-    ${editable ? `<form method="post" action="/qualite/${produitId}/${q.id}/supprimer">
+    ${editable ? `<form method="post" action="${
+      action || `/qualite/${produitId}/${q.id}/supprimer`}">
       <button class="lien danger">Retirer</button></form>` : ''}
   </li>`;
 }
@@ -477,8 +485,9 @@ function vueChecklist({ user, msg, ordre, c }) {
     const ko = q.verdict === 'non_conforme';
     return `<li class="ck ${fait ? (ko ? 'ck-ko' : 'ck-ok') : 'ck-attente'}" id="p${q.id}">
       <div class="ck-tete">
-        <span class="q-pip q-${q.type}">${ICONE_QC[q.type]}</span>
+        <span class="q-pip q-${q.type}">${ICONE_QC[q.type] || '·'}</span>
         <b>${e(q.titre)}</b>
+        ${q.general ? '<span class="ck-gen">général</span>' : ''}
         ${fait ? `<span class="ck-etat">${ko ? 'non conforme' : 'conforme'}</span>` : ''}
       </div>
       ${q.detail ? `<p class="qc-det">${e(q.detail)}</p>` : ''}
@@ -487,16 +496,23 @@ function vueChecklist({ user, msg, ordre, c }) {
         q.tolerance ? ` ± ${e(q.tolerance)}` : ''}${
         q.variante ? ` · ${e(q.variante)}` : ''}</p>` : ''}
       ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
+      ${q.ech && q.ech.pieces !== null ? `<p class="ck-ech">
+        <b>${e(q.ech.texte)}</b>${q.ech.regle ? ` <span>(${e(q.ech.regle)})</span>` : ''}
+      </p>` : ''}
       ${q.frequence ? `<p class="qc-pied"><b>${e(q.frequence)}</b></p>` : ''}
       ${fait ? `<p class="ck-signe">${ko ? 'Écart relevé' : 'Vérifié'} par
         ${e(q.verifie_par || '—')} · ${dateHeureFR(q.verifie_le)}
         ${q.releve ? ` · relevé <b>${e(q.releve)}</b>` : ''}
+        ${q.pieces_vues ? ` · <b>${Number(q.pieces_vues).toLocaleString('fr-CA')}</b> pièces vues` : ''}
         ${q.note_controle ? `<br><span class="ck-note">${e(q.note_controle)}</span>` : ''}</p>` : ''}
       <form method="post" action="/ordres/${ordre.id}/items/${item.id}/qualite/${q.id}"
             class="ck-form">
         ${q.type === 'mesure' ? `<input name="mesure" class="ck-mes"
           placeholder="Relevé${q.unite ? ' en ' + e(q.unite) : ''}" maxlength="40"
           value="">` : ''}
+        ${q.ech && q.ech.pieces > 1 ? `<input name="pieces" class="ck-mes"
+          type="number" min="0" max="999999" placeholder="${q.ech.pieces} vues"
+          title="Combien de pièces tu as réellement vérifiées">` : ''}
         <input name="note" class="ck-com" maxlength="200"
           placeholder="${ko || !fait ? 'Ce que tu as vu (facultatif)' : 'Note (facultatif)'}">
         <button name="verdict" value="conforme" class="btn-mini"
@@ -512,8 +528,9 @@ function vueChecklist({ user, msg, ordre, c }) {
     <p class="fil-ariane"><a href="/ordres/${ordre.id}">${e(ordre.numero)}</a> ·
       <a href="/qualite/${item.produit_id}">protocole du produit</a></p>
     <h1>${e(item.code)}</h1>
-    <p class="muted">${e(item.nom)} — ${item.quantite.toLocaleString('fr-CA')} pièces,
-      ${item.avancement} % déclaré</p>
+    <p class="muted">${e(item.nom)} — <b>${item.quantite.toLocaleString('fr-CA')} pièces</b>
+      au lot, ${item.avancement} % déclaré. Les échantillons ci-dessous sont
+      calculés sur ce volume.</p>
   </div></div>
 
   ${vide ? `<div class="carte ck-vide">
@@ -546,7 +563,59 @@ function vueChecklist({ user, msg, ordre, c }) {
   return page({ titre: `Qualité — ${item.code}`, user, corps, msg, actif: 'ordres' });
 }
 
-function vueQualite({ user, msg, couverture }) {
+/**
+ * Le formulaire d'ajout, le même pour un produit et pour le protocole général.
+ * Deux copies divergeraient : un champ ajouté d'un côté manquerait de l'autre.
+ */
+function formulaireQC(action, { general = false } = {}) {
+  return `<form method="post" action="${action}" class="qc-form">
+    <div class="champ"><label for="qtype${general ? 'g' : ''}">Volet</label>
+      <select id="qtype${general ? 'g' : ''}" name="type">
+        ${Object.entries(TYPES_QC).map(([k, v]) =>
+          `<option value="${k}"${general && k === 'emballage' ? ' selected' : ''}
+            >${v}</option>`).join('')}
+      </select></div>
+    <div class="champ champ-large"><label for="qtitre${general ? 'g' : ''}">Quoi</label>
+      <input id="qtitre${general ? 'g' : ''}" name="titre" required maxlength="200"
+             placeholder="${general
+               ? 'Plier en trois, sachet kraft, étiquette sur le rabat'
+               : "Presser le col avant d'insérer l'isolant"}"></div>
+    <div class="champ champ-large"><label for="qdetail${general ? 'g' : ''}">Comment</label>
+      <input id="qdetail${general ? 'g' : ''}" name="detail" maxlength="500"
+             placeholder="Facultatif — le geste, l'outil, le gabarit"></div>
+    <div class="champ champ-large"><label for="qcons${general ? 'g' : ''}">Sinon…</label>
+      <input id="qcons${general ? 'g' : ''}" name="consequence" maxlength="300"
+             placeholder="Ce qui arrive si on le rate"></div>
+    <div class="champ"><label for="qval${general ? 'g' : ''}">Valeur</label>
+      <input id="qval${general ? 'g' : ''}" name="valeur" maxlength="40" placeholder="4 à 5"></div>
+    <div class="champ"><label for="qtol${general ? 'g' : ''}">Tolérance</label>
+      <input id="qtol${general ? 'g' : ''}" name="tolerance" maxlength="40" placeholder="0,5"></div>
+    <div class="champ"><label for="quni${general ? 'g' : ''}">Unité</label>
+      <input id="quni${general ? 'g' : ''}" name="unite" maxlength="20" placeholder="g"></div>
+    ${general ? '' : `<div class="champ"><label for="qvar">Taille / variante</label>
+      <input id="qvar" name="variante" maxlength="40" placeholder="M"></div>`}
+    <div class="champ"><label for="qech${general ? 'g' : ''}">Combien de pièces</label>
+      <select id="qech${general ? 'g' : ''}" name="ech_type">
+        <option value="">Non précisé</option>
+        <option value="ratio">1 pièce sur…</option>
+        <option value="fixe">Un nombre fixe</option>
+        <option value="tout">Toutes les pièces</option>
+        <option value="lot">Une fois par lot</option>
+      </select></div>
+    <div class="champ"><label for="qechv${general ? 'g' : ''}">Sur / combien</label>
+      <input id="qechv${general ? 'g' : ''}" type="number" min="1" max="100000"
+             name="ech_valeur" placeholder="20"></div>
+    <div class="champ"><label for="qfreq${general ? 'g' : ''}">Autre fréquence</label>
+      <input id="qfreq${general ? 'g' : ''}" name="frequence" maxlength="60"
+             placeholder="50 lavages à 30 °C"></div>
+    <div class="champ"><label for="qsrc${general ? 'g' : ''}">Source</label>
+      <input id="qsrc${general ? 'g' : ''}" name="source" maxlength="80"
+             placeholder="Rapport d'amélioration BMB"></div>
+    <button class="btn">Ajouter${general ? ' au protocole général' : ' au protocole'}</button>
+  </form>`;
+}
+
+function vueQualite({ user, msg, couverture, general = [] }) {
   const sans = couverture.filter(p => !p.points);
   const avec = couverture.filter(p => p.points);
   const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
@@ -568,6 +637,22 @@ function vueQualite({ user, msg, couverture }) {
   <div class="entete"><div><h1>Contrôle qualité</h1>
     <p class="muted">Le protocole de chaque produit : ce qui rate souvent,
     ce qu'il ne faut pas rater, ce qui se mesure, ce qui se teste</p></div></div>
+
+  <div class="carte qc-general">
+    <h2>Protocole général <span class="cpt">${general.length}</span></h2>
+    <p class="sec">Ce qui s'applique à <b>tous</b> les produits — emballage,
+    étiquetage, finition. Ces points apparaissent sur la checklist de chaque
+    lot, sans avoir à les réécrire trente fois.</p>
+    ${general.length
+      ? `<ul class="qc-liste">${general.map(q => pointQC({ q, editable: true,
+          action: `/qualite/general/${q.id}/supprimer` })).join('')}</ul>`
+      : `<p class="vide">Rien encore. La méthode d'emballage est le premier
+         candidat : elle est la même partout et personne ne la connaît par
+         cœur.</p>`}
+    <details class="qc-plus"><summary>Ajouter au protocole général</summary>
+      ${formulaireQC('/qualite/general', { general: true })}
+    </details>
+  </div>
 
   ${sans.length ? `<div class="carte">
     <h2>Sans protocole <span class="cpt">${sans.length}</span></h2>
@@ -623,40 +708,15 @@ function vueProtocole({ user, p, proto, msg, photos = [] }) {
     'Rien encore. Les cotes à vérifier, avec leur tolérance.')}
   ${volet('cyclage', 'Cyclage et tests',
     'Rien encore. Lavages, compressions, tenue de l\'isolant.')}
+  ${volet('emballage', 'Emballage et finition',
+    'Rien encore. Pliage, sachet, étiquette, mise en carton.')}
 
   <div class="carte">
     <h2>Ajouter un point</h2>
-    <form method="post" action="/qualite/${p.id}" class="qc-form">
-      <div class="champ"><label for="qtype">Volet</label>
-        <select id="qtype" name="type">
-          ${Object.entries(TYPES_QC).map(([k, v]) =>
-            `<option value="${k}">${v}</option>`).join('')}
-        </select></div>
-      <div class="champ champ-large"><label for="qtitre">Quoi</label>
-        <input id="qtitre" name="titre" required maxlength="200"
-               placeholder="Presser le col avant d'insérer l'isolant"></div>
-      <div class="champ champ-large"><label for="qdetail">Comment</label>
-        <input id="qdetail" name="detail" maxlength="500"
-               placeholder="Facultatif — le geste, l'outil, le gabarit"></div>
-      <div class="champ champ-large"><label for="qcons">Sinon…</label>
-        <input id="qcons" name="consequence" maxlength="300"
-               placeholder="Ce qui arrive si on le rate : « l'isolant fond et devient rigide »"></div>
-      <div class="champ"><label for="qval">Valeur</label>
-        <input id="qval" name="valeur" maxlength="40" placeholder="4 à 5"></div>
-      <div class="champ"><label for="qtol">Tolérance</label>
-        <input id="qtol" name="tolerance" maxlength="40" placeholder="0,5"></div>
-      <div class="champ"><label for="quni">Unité</label>
-        <input id="quni" name="unite" maxlength="20" placeholder="g"></div>
-      <div class="champ"><label for="qvar">Taille / variante</label>
-        <input id="qvar" name="variante" maxlength="40" placeholder="M"></div>
-      <div class="champ"><label for="qfreq">Fréquence</label>
-        <input id="qfreq" name="frequence" maxlength="60" placeholder="1 pièce sur 20"></div>
-      <div class="champ"><label for="qsrc">Source</label>
-        <input id="qsrc" name="source" maxlength="80" placeholder="Rapport d'amélioration BMB"></div>
-      <button class="btn">Ajouter au protocole</button>
-    </form>
-    <p class="sec">Les quatre derniers champs ne servent qu'aux mesures et aux
-    tests — laisse-les vides pour une consigne ordinaire.</p>
+    ${formulaireQC(`/qualite/${p.id}`)}
+    <p class="sec">« 1 pièce sur 20 » se transforme tout seul en nombre réel
+    selon le volume du lot : 5 pièces sur un lot de 100, 175 sur un lot de
+    3 500. Personne ne devrait faire la division en ayant les pièces en main.</p>
   </div>`;
 
   return page({ titre: `Qualité — ${p.code}`, user, corps, msg, actif: 'qualite' });

@@ -636,8 +636,10 @@ t("l'atelier peut consulter le suivi",
   // Le protocole rendu à la vue
   const p1 = db.prepare(`SELECT id FROM produits WHERE code = 'CC-ADULTE'`).get().id;
   const proto = D.protocole(p1);
-  t('la vue reçoit les quatre volets, même vides',
-    Object.keys(proto.par).length === 4 && Array.isArray(proto.par.cyclage));
+  t('la vue reçoit tous les volets, même vides',
+    Object.keys(proto.par).length === Object.keys(D.TYPES_QC).length
+      && Array.isArray(proto.par.cyclage) && Array.isArray(proto.par.emballage),
+    Object.keys(proto.par).join(','));
   t('chaque point sait qui l\'a écrit',
     proto.par.probleme[0].auteur === 'Montassar', proto.par.probleme[0].auteur);
 
@@ -655,6 +657,78 @@ t("l'atelier peut consulter le suivi",
   t('les points ajoutés par l\'assistant s\'annulent',
     D.protocole(p1).total < avant,
     `${avant} → ${D.protocole(p1).total}`);
+}
+
+// ------------------ échantillonnage selon le volume, et protocole général
+{
+  const D = require('../db.js');
+  const ech = (t, v, q) => D.echantillon({ ech_type: t, ech_valeur: v }, q);
+
+  // « 1 sur 20 » ne veut pas dire la même chose sur 100 et sur 3 500 pièces.
+  t('un ratio donne un nombre, pas une règle',
+    ech('ratio', 20, 100).pieces === 5 && ech('ratio', 20, 3500).pieces === 175,
+    `${ech('ratio', 20, 100).pieces} / ${ech('ratio', 20, 3500).pieces}`);
+  t('le pourcentage reste constant, le nombre varie',
+    ech('ratio', 20, 100).pct === 5 && ech('ratio', 20, 3500).pct === 5);
+  t('un ratio vérifie toujours au moins une pièce',
+    ech('ratio', 20, 3).pieces === 1, String(ech('ratio', 20, 3).pieces));
+  t('« toutes les pièces » suit la quantité du lot',
+    ech('tout', null, 250).pieces === 250);
+  t('un nombre fixe ne dépasse pas le lot',
+    ech('fixe', 5, 3).pieces === 3 && ech('fixe', 5, 900).pieces === 5);
+  t('« une fois par lot » vaut une pièce quel que soit le volume',
+    ech('lot', null, 4665).pieces === 1);
+  t('sans règle, aucun nombre n\'est inventé',
+    ech('', null, 500).pieces === null && ech('ratio', 0, 500).pieces === null);
+  t('le texte dit le nombre, la règle reste en second',
+    ech('ratio', 20, 3500).texte.includes('175')
+      && ech('ratio', 20, 3500).regle === '1 sur 20',
+    ech('ratio', 20, 3500).texte);
+
+  // --- protocole général
+  const cG = tour(admin);
+  db.prepare(`INSERT INTO qc_points (produit_id, type, titre, ech_type, ech_valeur)
+              VALUES (NULL, 'emballage', ?, 'ratio', 50)`)
+    .run('Plier en trois, sachet kraft, étiquette sur le rabat');
+  t('le protocole général existe sans produit',
+    D.protocoleGeneral().length === 1 && D.protocoleGeneral()[0].produit_id === null);
+
+  const p1 = db.prepare(`SELECT id FROM produits WHERE code = 'CC-ADULTE'`).get().id;
+  const avecGeneral = D.protocole(p1);
+  const sansGeneral = D.protocole(p1, { generalCompris: false });
+  t('le protocole d\'un produit reprend le général',
+    avecGeneral.total === sansGeneral.total + 1,
+    `${avecGeneral.total} vs ${sansGeneral.total}`);
+  t('le général passe après ce qui est propre au produit',
+    avecGeneral.points[avecGeneral.points.length - 1].produit_id === null);
+
+  // Il doit apparaître sur la checklist de TOUS les lots, et bloquer comme le reste.
+  const oG = ex('creer_ordre', { titre: 'Lot général' }, cG);
+  ex('creer_produit', { code: 'GEN-TEST', nom: 'Produit neuf' }, cG);
+  ex('ajouter_item', { ordre: oG.numero, produit: 'GEN-TEST', quantite: 1000 }, cG);
+  const itG = db.prepare(`SELECT i.id FROM ordre_items i JOIN produits p
+                          ON p.id = i.produit_id WHERE p.code = 'GEN-TEST'`).get().id;
+  const ckG = D.checklistItem(itG);
+  t('un produit sans protocole propre hérite quand même du général',
+    ckG.total === 1 && ckG.points[0].general === true, JSON.stringify({ t: ckG.total }));
+  t('l\'échantillon du général se calcule sur le lot',
+    ckG.points[0].ech.pieces === 20, String(ckG.points[0].ech.pieces));
+  t('le général bloque le 100 % comme un point de produit',
+    Boolean(D.blocageQC(itG, 100)));
+  t('un lot qui n\'a QUE des points généraux n\'est pas « vide »',
+    ckG.vide === false);
+
+  // Le volet emballage est un volet comme les autres
+  t('le volet emballage existe', D.TYPES_QC.emballage === 'Emballage et finition');
+  t('un point d\'emballage s\'ajoute par l\'assistant',
+    ex('ajouter_point_qc', { produit: 'GEN-TEST', volet: 'emballage',
+      titre: 'Sachet individuel avant mise en carton' }, cG).ok === true);
+
+  // Un protocole général s'applique à TOUT, y compris aux lots des blocs
+  // suivants. On le retire : sinon ce bloc décide de ce que les autres testent.
+  db.prepare(`DELETE FROM qc_points WHERE produit_id IS NULL`).run();
+  t('le général retiré, il ne reste que les protocoles de produit',
+    D.protocoleGeneral().length === 0);
 }
 
 // ------------------------------------- la checklist obligatoire d'un lot

@@ -233,6 +233,55 @@ const{db}=require('./db.js');
 console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE id=?').get($QID).n)" 2>/dev/null)" = 0 ] \
   && ok "un point se retire de son propre protocole" || ko "suppression impossible"
 
+# --- protocole général et échantillonnage --------------------------------
+# Ce qui s'applique à tous les produits ne doit pas se réécrire trente fois.
+curl -s -b $CA -o /dev/null -X POST $B/qualite/general \
+  --data-urlencode 'titre=Plier en trois, sachet kraft' \
+  --data 'type=emballage&ech_type=ratio&ech_valeur=50'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE produit_id IS NULL').get().n)" 2>/dev/null)" = 1 ] \
+  && ok "un point général s'écrit sans produit" || ko "protocole général non créé"
+
+curl -s -b $CA $B/qualite | grep -q 'Protocole général' \
+  && ok "le protocole général a sa place en tête de la page" || ko "protocole général absent"
+
+# il doit apparaître sur la checklist de N'IMPORTE quel lot
+curl -s -b $CO $B/ordres/1/items/1/qualite | grep -q 'Plier en trois' \
+  && ok "le général apparaît sur la checklist d'un lot" || ko "général absent de la checklist"
+
+# et l'échantillon doit être un NOMBRE calculé sur le volume du lot, pas la règle
+QTE=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT quantite q FROM ordre_items WHERE id=1').get().q)" 2>/dev/null)
+ATTENDU=$(( (QTE + 49) / 50 ))
+curl -s -b $CO $B/ordres/1/items/1/qualite | tr -d '\n' | grep -q "$ATTENDU pièce" \
+  && ok "l'échantillon est calculé sur le volume du lot ($ATTENDU sur $QTE)" \
+  || ko "échantillon non calculé (attendu $ATTENDU pièces sur $QTE)"
+
+# « 1 sur… » sans le nombre ne veut rien dire : la règle à moitié n'est pas gardée
+curl -s -b $CA -o /dev/null -X POST $B/qualite/general \
+  --data 'titre=Sans nombre&type=emballage&ech_type=ratio'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare(\"SELECT ech_type FROM qc_points WHERE titre='Sans nombre'\").get().ech_type)" 2>/dev/null)" = "" ] \
+  && ok "un ratio sans nombre ne s'enregistre pas à moitié" || ko "règle incomplète gardée"
+
+# un point de produit ne se supprime pas par la route « général »
+PP=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare(\"INSERT INTO qc_points (produit_id,type,titre) VALUES (1,'critique','Du produit')\").run().lastInsertRowid)" 2>/dev/null)
+curl -s -b $CA -o /dev/null -X POST $B/qualite/general/$PP/supprimer
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE id=?').get($PP).n)" 2>/dev/null)" = 1 ] \
+  && ok "la route générale ne touche pas un point de produit" || ko "suppression croisée permise"
+
+MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+db.prepare('DELETE FROM qc_points').run();
+db.prepare('DELETE FROM qc_controles').run();" 2>/dev/null
+
 # --- la checklist obligatoire sur un ordre --------------------------------
 # Un protocole qu'on peut ignorer n'est pas un protocole : le formulaire doit
 # refuser le 100 % exactement comme l'assistant.

@@ -190,9 +190,11 @@ CREATE TABLE IF NOT EXISTS agent_actions (
 -- et devient rigide » ne se discute pas.
 CREATE TABLE IF NOT EXISTS qc_points (
   id            INTEGER PRIMARY KEY,
-  produit_id    INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+  -- NULL = protocole GÉNÉRAL : le point s'applique à tous les produits.
+  -- L'emballage, l'étiquetage, la finition ne se réécrivent pas trente fois.
+  produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
   type          TEXT NOT NULL DEFAULT 'critique'
-                CHECK (type IN ('critique','probleme','mesure','cyclage')),
+                CHECK (type IN ('critique','probleme','mesure','cyclage','emballage')),
   titre         TEXT NOT NULL,
   detail        TEXT NOT NULL DEFAULT '',
   consequence   TEXT NOT NULL DEFAULT '',   -- ce qui arrive si on le rate
@@ -201,7 +203,15 @@ CREATE TABLE IF NOT EXISTS qc_points (
   valeur        TEXT NOT NULL DEFAULT '',
   tolerance     TEXT NOT NULL DEFAULT '',
   unite         TEXT NOT NULL DEFAULT '',
-  -- cyclage et contrôles : « 1 pièce sur 20 », « chaque lot », « 50 lavages ».
+  -- Combien de pièces vérifier. Structuré, pas en texte libre : « 1 sur 20 »
+  -- ne veut pas dire la même chose sur un lot de 100 et sur un lot de 3 500,
+  -- et c'est justement le nombre qu'on veut voir écrit.
+  --   tout   toutes les pièces        ratio  1 pièce sur ech_valeur
+  --   fixe   ech_valeur pièces        lot    une fois pour le lot
+  ech_type      TEXT NOT NULL DEFAULT ''
+                CHECK (ech_type IN ('','tout','ratio','fixe','lot')),
+  ech_valeur    INTEGER,
+  -- texte libre, pour ce qui ne se chiffre pas (« 50 lavages à 30 °C »)
   frequence     TEXT NOT NULL DEFAULT '',
   source        TEXT NOT NULL DEFAULT '',   -- d'où vient la consigne
   rang          INTEGER NOT NULL DEFAULT 0,
@@ -226,6 +236,7 @@ CREATE TABLE IF NOT EXISTS qc_controles (
   point_id      INTEGER NOT NULL REFERENCES qc_points(id) ON DELETE CASCADE,
   verdict       TEXT NOT NULL CHECK (verdict IN ('conforme','non_conforme')),
   mesure        TEXT NOT NULL DEFAULT '',   -- la valeur relevée, pour une cote
+  pieces        INTEGER,                    -- combien de pièces ont été vues
   note          TEXT NOT NULL DEFAULT '',
   utilisateur_id INTEGER REFERENCES utilisateurs(id),
   cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
@@ -287,6 +298,56 @@ for (const sql of [
   `ALTER TABLE produits ADD COLUMN fabrication TEXT NOT NULL DEFAULT 'tunisie'`,
   `ALTER TABLE item_variantes ADD COLUMN groupe TEXT NOT NULL DEFAULT ''`,
 ]) { try { db.exec(sql); } catch { /* colonne déjà présente */ } }
+
+/**
+ * qc_points a changé de forme : produit_id devient NULLABLE (protocole général),
+ * le volet « emballage » s'ajoute, et l'échantillonnage passe du texte libre à
+ * deux colonnes. SQLite ne sait modifier ni un NOT NULL ni un CHECK : il faut
+ * reconstruire. On ne le fait que si l'ancienne forme est encore là.
+ */
+{
+  const t = db.prepare(
+    `SELECT sql FROM sqlite_master WHERE type='table' AND name='qc_points'`).get();
+  if (t && !/emballage/.test(t.sql)) {
+    db.exec('BEGIN');
+    try {
+      db.exec(`
+        CREATE TABLE qc_points_n (
+          id            INTEGER PRIMARY KEY,
+          produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
+          type          TEXT NOT NULL DEFAULT 'critique'
+                        CHECK (type IN ('critique','probleme','mesure','cyclage','emballage')),
+          titre         TEXT NOT NULL,
+          detail        TEXT NOT NULL DEFAULT '',
+          consequence   TEXT NOT NULL DEFAULT '',
+          variante      TEXT NOT NULL DEFAULT '',
+          valeur        TEXT NOT NULL DEFAULT '',
+          tolerance     TEXT NOT NULL DEFAULT '',
+          unite         TEXT NOT NULL DEFAULT '',
+          ech_type      TEXT NOT NULL DEFAULT ''
+                        CHECK (ech_type IN ('','tout','ratio','fixe','lot')),
+          ech_valeur    INTEGER,
+          frequence     TEXT NOT NULL DEFAULT '',
+          source        TEXT NOT NULL DEFAULT '',
+          rang          INTEGER NOT NULL DEFAULT 0,
+          cree_par      INTEGER REFERENCES utilisateurs(id),
+          cree_le       TEXT NOT NULL DEFAULT (datetime('now')),
+          maj_le        TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        INSERT INTO qc_points_n (id, produit_id, type, titre, detail, consequence,
+            variante, valeur, tolerance, unite, frequence, source, rang,
+            cree_par, cree_le, maj_le)
+          SELECT id, produit_id, type, titre, detail, consequence,
+                 variante, valeur, tolerance, unite, frequence, source, rang,
+                 cree_par, cree_le, maj_le FROM qc_points;
+        DROP TABLE qc_points;
+        ALTER TABLE qc_points_n RENAME TO qc_points;
+        CREATE INDEX IF NOT EXISTS idx_qc_produit ON qc_points(produit_id, type, rang);`);
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); throw e; }
+  }
+}
+try { db.exec(`ALTER TABLE qc_controles ADD COLUMN pieces INTEGER`); } catch { /* déjà là */ }
 
 /**
  * Le type « expedition » a été ajouté après coup, et SQLite ne sait pas
@@ -527,23 +588,69 @@ function progressionRecente(jours = 7) {
 // --------------------------------------------------------- contrôle qualité
 /** Les quatre volets d'un protocole, dans l'ordre où on les lit à l'atelier. */
 const TYPES_QC = {
-  critique: 'Points critiques',
-  probleme: 'Problèmes fréquents',
-  mesure:   'Mesures et dimensions',
-  cyclage:  'Cyclage et tests',
+  critique:  'Points critiques',
+  probleme:  'Problèmes fréquents',
+  mesure:    'Mesures et dimensions',
+  cyclage:   'Cyclage et tests',
+  emballage: 'Emballage et finition',
 };
 
+/**
+ * Combien de pièces vérifier sur un lot, et comment le dire.
+ *
+ * C'est le cœur du « dynamique en fonction du volume » : « 1 sur 20 » ne veut
+ * pas dire la même chose sur un lot de 100 et sur un lot de 3 500. La page
+ * écrit le nombre, pas la règle — personne ne devrait faire la division en
+ * ayant les pièces dans les mains.
+ */
+function echantillon(point, quantite) {
+  const q = Math.max(0, Number(quantite) || 0);
+  const n = Number(point.ech_valeur) || 0;
+  switch (point.ech_type) {
+    case 'tout':
+      return { pieces: q, texte: `Toutes les pièces (${q.toLocaleString('fr-CA')})` };
+    case 'ratio': {
+      if (n < 1) return { pieces: null, texte: '' };
+      const p = Math.max(1, Math.ceil(q / n));
+      return { pieces: p, ratio: n,
+        texte: `${p.toLocaleString('fr-CA')} pièce${p > 1 ? 's' : ''} sur ${
+          q.toLocaleString('fr-CA')}`,
+        regle: `1 sur ${n}`,
+        pct: q ? Math.round((p / q) * 100) : null };
+    }
+    case 'fixe': {
+      if (n < 1) return { pieces: null, texte: '' };
+      const p = q ? Math.min(n, q) : n;
+      return { pieces: p, texte: `${p.toLocaleString('fr-CA')} pièce${p > 1 ? 's' : ''}`,
+        regle: `${n} pièces, quel que soit le volume` };
+    }
+    case 'lot':
+      return { pieces: 1, texte: 'Une fois pour le lot' };
+    default:
+      return { pieces: null, texte: '' };
+  }
+}
+
 /** Le protocole d'un produit, groupé par volet. */
-function protocole(produitId) {
+function protocole(produitId, { generalCompris = true } = {}) {
   const l = db.prepare(
     `SELECT q.*, u.nom AS auteur FROM qc_points q
        LEFT JOIN utilisateurs u ON u.id = q.cree_par
-      WHERE q.produit_id = ? ORDER BY q.rang, q.id`).all(produitId);
+      WHERE q.produit_id IS ?${generalCompris ? ' OR q.produit_id IS NULL' : ''}
+      -- Le général passe en dernier : on lit d'abord ce qui est propre au
+      -- produit, l'emballage vient à la fin de toute façon.
+      ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(produitId);
   const par = {};
   for (const cle of Object.keys(TYPES_QC)) par[cle] = [];
   for (const q of l) (par[q.type] ||= []).push(q);
   return { points: l, par, total: l.length };
 }
+
+/** Les points qui s'appliquent à tous les produits. */
+const protocoleGeneral = () => db.prepare(
+  `SELECT q.*, u.nom AS auteur FROM qc_points q
+     LEFT JOIN utilisateurs u ON u.id = q.cree_par
+    WHERE q.produit_id IS NULL ORDER BY q.rang, q.id`).all();
 
 /**
  * L'état de la qualité sur tout le catalogue.
@@ -588,14 +695,18 @@ function checklistItem(itemId) {
   const points = db.prepare(`
     SELECT q.*,
            c.verdict, c.mesure AS releve, c.note AS note_controle,
-           c.cree_le AS verifie_le, u.nom AS verifie_par
+           c.pieces AS pieces_vues, c.cree_le AS verifie_le, u.nom AS verifie_par
       FROM qc_points q
       LEFT JOIN qc_controles c
         ON c.id = (SELECT MAX(x.id) FROM qc_controles x
                     WHERE x.point_id = q.id AND x.item_id = ?)
       LEFT JOIN utilisateurs u ON u.id = c.utilisateur_id
-     WHERE q.produit_id = ?
-     ORDER BY q.rang, q.id`).all(itemId, it.produit_id);
+     WHERE q.produit_id IS ? OR q.produit_id IS NULL
+     ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(itemId, it.produit_id)
+    // L'échantillon se calcule ici, contre la quantité de CE lot : c'est ce qui
+    // rend la consigne utilisable sans faire de division.
+    .map(q => ({ ...q, general: q.produit_id === null,
+                 ech: echantillon(q, it.quantite) }));
 
   const total = points.length;
   const verifies = points.filter(x => x.verdict).length;
@@ -694,7 +805,8 @@ const equipe = () => db.prepare(
 
 module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    taches, tache, compteTaches, equipe,
-                   protocole, couvertureQC, TYPES_QC,
+                   protocole, couvertureQC, TYPES_QC, echantillon,
+                   protocoleGeneral,
                    checklistItem, blocageQC, etatQCOrdre,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,

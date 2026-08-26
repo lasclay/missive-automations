@@ -28,7 +28,8 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs, variantesItem,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC,
-        checklistItem, blocageQC, etatQCOrdre } = require('./db.js');
+        checklistItem, blocageQC, etatQCOrdre,
+        protocoleGeneral, echantillon } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
@@ -299,13 +300,19 @@ async function router(req, res, url, user) {
             + encodeURIComponent('Verdict manquant.'));
           // Le point doit appartenir au produit de CE lot : sinon un id valide
           // ailleurs ferait entrer un contrôle qui n'a rien à y faire.
-          const pt = db.prepare(`SELECT id FROM qc_points WHERE id = ? AND produit_id = ?`)
+          // Un point général (produit_id NULL) fait partie de la checklist de
+          // tous les lots : il doit pouvoir être coché ici aussi.
+          const pt = db.prepare(
+            `SELECT id FROM qc_points
+              WHERE id = ? AND (produit_id = ? OR produit_id IS NULL)`)
             .get(Number(mq[2]), it.produit_id);
           if (!pt) return vers(res, `/ordres/${id}/items/${it.id}/qualite?err=`
             + encodeURIComponent("Ce point n'appartient pas au protocole de ce produit."));
+          const vues = Number(f.pieces);
           db.prepare(`INSERT INTO qc_controles (item_id, point_id, verdict, mesure,
-                        note, utilisateur_id) VALUES (?,?,?,?,?,?)`)
+                        pieces, note, utilisateur_id) VALUES (?,?,?,?,?,?,?)`)
             .run(it.id, pt.id, verdict, String(f.mesure || '').trim(),
+                 Number.isInteger(vues) && vues >= 0 ? vues : null,
                  String(f.note || '').trim(), user.id);
           return vers(res, `/ordres/${id}/items/${it.id}/qualite?ok=`
             + encodeURIComponent(verdict === 'conforme'
@@ -530,7 +537,56 @@ async function router(req, res, url, user) {
 
   // ---- contrôle qualité : le protocole de chaque produit
   if (p === '/qualite') {
-    return html(res, V.vueQualite({ user, msg, couverture: couvertureQC() }));
+    return html(res, V.vueQualite({ user, msg, couverture: couvertureQC(),
+      general: protocoleGeneral() }));
+  }
+
+  /**
+   * Écrire un point : le produit et le général suivent le même chemin.
+   * `produitId` à null = protocole général.
+   */
+  const ajouterPointQC = (f, produitId, utilisateurId) => {
+    const titre = String(f.titre || '').trim();
+    if (!titre) return { erreur: "Il faut dire de quoi il s'agit." };
+    const type = TYPES_QC[f.type] ? f.type : 'critique';
+    const ECH = ['', 'tout', 'ratio', 'fixe', 'lot'];
+    const ech = ECH.includes(f.ech_type) ? f.ech_type : '';
+    const n = Number(f.ech_valeur);
+    // « 1 sur… » sans le nombre ne veut rien dire : on ne garde pas la règle
+    // à moitié, elle donnerait un échantillon vide sans le dire.
+    const valeur = (ech === 'ratio' || ech === 'fixe')
+      ? (Number.isInteger(n) && n > 0 ? n : null) : null;
+    const echRetenu = ((ech === 'ratio' || ech === 'fixe') && valeur === null) ? '' : ech;
+    db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail, consequence,
+                  variante, valeur, tolerance, unite, ech_type, ech_valeur,
+                  frequence, source, cree_par)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+      .run(produitId, type, titre,
+        String(f.detail || '').trim(), String(f.consequence || '').trim(),
+        String(f.variante || '').trim(), String(f.valeur || '').trim(),
+        String(f.tolerance || '').trim(), String(f.unite || '').trim(),
+        echRetenu, valeur, String(f.frequence || '').trim(),
+        String(f.source || '').trim(), utilisateurId);
+    return { ok: true };
+  };
+
+  if (p === '/qualite/general' && req.method === 'POST') {
+    const f = await corpsFormulaire(req);
+    const r = ajouterPointQC(f, null, user.id);
+    return vers(res, '/qualite?' + (r.erreur
+      ? 'err=' + encodeURIComponent(r.erreur)
+      : 'ok=' + encodeURIComponent('Ajouté au protocole général.')));
+  }
+
+  {
+    const m = p.match(/^\/qualite\/general\/(\d+)\/supprimer$/);
+    if (m && req.method === 'POST') {
+      // « IS NULL » et non « = NULL » : un point de produit ne se supprime pas
+      // par cette route, même avec un id valide.
+      db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id IS NULL`)
+        .run(Number(m[1]));
+      return vers(res, '/qualite?ok=' + encodeURIComponent('Point retiré.'));
+    }
   }
 
   {
@@ -539,21 +595,10 @@ async function router(req, res, url, user) {
       const prod = R.produit.get(Number(m[1]));
       if (!prod) return vers(res, '/qualite?err=' + encodeURIComponent('Produit introuvable.'));
       if (req.method === 'POST') {
-        const f = await corpsFormulaire(req);
-        const titre = String(f.titre || '').trim();
-        if (!titre) return vers(res, `/qualite/${prod.id}?err=`
-          + encodeURIComponent('Il faut dire de quoi il s\'agit.'));
-        const type = TYPES_QC[f.type] ? f.type : 'critique';
-        db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail, consequence,
-                      variante, valeur, tolerance, unite, frequence, source, cree_par)
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`)
-          .run(prod.id, type, titre,
-            String(f.detail || '').trim(), String(f.consequence || '').trim(),
-            String(f.variante || '').trim(), String(f.valeur || '').trim(),
-            String(f.tolerance || '').trim(), String(f.unite || '').trim(),
-            String(f.frequence || '').trim(), String(f.source || '').trim(), user.id);
-        return vers(res, `/qualite/${prod.id}?ok=`
-          + encodeURIComponent('Ajouté au protocole.'));
+        const r = ajouterPointQC(await corpsFormulaire(req), prod.id, user.id);
+        return vers(res, `/qualite/${prod.id}?` + (r.erreur
+          ? 'err=' + encodeURIComponent(r.erreur)
+          : 'ok=' + encodeURIComponent('Ajouté au protocole.')));
       }
       return html(res, V.vueProtocole({ user, msg, p: prod,
         proto: protocole(prod.id), photos: R.photos.all(prod.id) }));

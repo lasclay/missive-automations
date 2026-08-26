@@ -182,6 +182,29 @@ Quatre volets par produit, dans l'ordre où on les lit à l'atelier :
 | **Problèmes fréquents** | ce qui revient d'un lot à l'autre, et comment l'éviter |
 | **Mesures et dimensions** | une cote, sa tolérance, son unité — et la taille concernée quand la cote en dépend |
 | **Cyclage et tests** | lavages, compressions, tenue de l'isolant |
+| **Emballage et finition** | pliage, sachet, étiquette, mise en carton |
+
+**Le protocole général.** Un point sans produit s'applique à **tous** les
+produits — c'est là que vit la méthode d'emballage, l'étiquetage, la finition.
+Il apparaît sur la checklist de chaque lot, marqué « général », sans avoir à
+être réécrit trente fois.
+
+**L'échantillonnage suit le volume.** « 1 pièce sur 20 » ne veut pas dire la
+même chose sur un lot de 100 et sur un lot de 3 500. La règle est stockée
+structurée (`ech_type` + `ech_valeur`), et la checklist écrit **le nombre**, pas
+la règle :
+
+| Règle | Lot de 100 | Lot de 3 500 |
+| --- | ---: | ---: |
+| 1 sur 20 | 5 pièces | 175 pièces |
+| 1 sur 50 | 2 pièces | 70 pièces |
+| 5 pièces fixes | 5 | 5 |
+| toutes | 100 | 3 500 |
+| une fois par lot | 1 | 1 |
+
+Personne ne devrait faire la division en ayant les pièces dans les mains. Le
+contrôle enregistre aussi **combien de pièces ont réellement été vues**, ce qui
+n'est pas toujours le nombre demandé.
 
 - **La colonne qui fait la différence, c'est « Sinon… ».** « Presser le col
   avant l'isolant » se discute ; « sinon il fond et devient rigide » ne se

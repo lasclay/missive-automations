@@ -322,6 +322,23 @@ textarea{min-height:70px;resize:vertical}
 .ck-com{flex:1;min-width:min(100%,160px)}
 .btn-mini.rouge{background:transparent;color:var(--rouge);border-color:var(--rouge)}
 .btn-mini.rouge:hover{background:var(--rouge);color:#fff}
+/* L'échantillon calculé : c'est le nombre qu'on vient chercher, pas la règle. */
+.ck-ech{margin:6px 0 0;font-size:13.5px;color:var(--encre2)}
+.ck-ech b{color:var(--bleu);background:var(--bleu-pale);padding:1px 8px;
+  border-radius:5px;font-variant-numeric:tabular-nums}
+.ck-ech span{color:var(--gris);font-size:12px}
+/* Un point qui vient du protocole général, pas de la fiche du produit. */
+.ck-gen{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  padding:1px 7px;border-radius:99px;background:var(--ardoise-pale);
+  color:var(--ardoise);white-space:nowrap}
+.qc-general{border-left:3px solid var(--ardoise)}
+.qc-plus{margin-top:14px}
+.qc-plus > summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--vert)}
+.qc-plus > summary:hover{text-decoration:underline}
+.qc-plus[open] > summary{margin-bottom:12px}
+.q-emballage{background:var(--ardoise-pale);color:var(--ardoise)}
+.qc-cpt .q-emballage{background:var(--ardoise-pale);color:var(--ardoise)}
+
 .ck-bilan{border-left:3px solid var(--piste-pleine)}
 .ck-bilan.bon{border-left-color:var(--vert)}
 .ck-bilan.mauvais{border-left-color:var(--rouge)}
