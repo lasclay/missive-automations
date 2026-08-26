@@ -133,20 +133,20 @@ SEMELLE-9	matiere	Mesh de TPU
 SEMELLE-9	isolant	Vegeto 150 g
 SEMELLE-9	parametre	Presse : 170 °C, 45 secondes
 SEMELLE-9	note	Pas d'étiquette textile : emballage de type manchon en carton, plié et collé au ruban
-SAC-LUNCH	matiere	Extérieur : coton (10 ou 12 oz selon la couleur)
+SAC-LUNCH	matiere	Extérieur : coton — 12 oz en vert, 10 oz dans toutes les autres couleurs
 SAC-LUNCH	matiere	Intérieur : PVC
 SAC-LUNCH	isolant	Vegeto 200 g
 SAC-LUNCH	garniture	Étiquette Lasclay 2,6 x 7,5 cm
 SAC-LUNCH	garniture	Webbing 2,5 cm
 SAC-LUNCH	garniture	Boucle side release
-BESACE	matiere	Extérieur : coton (10 ou 12 oz selon la couleur)
+BESACE	matiere	Extérieur : coton — 12 oz en vert, 10 oz dans toutes les autres couleurs
 BESACE	matiere	Intérieur : nylon bleu
 BESACE	isolant	Vegeto 200 g
 BESACE	garniture	Étiquette Lasclay 2,6 x 7,5 cm
 BESACE	garniture	D-ring
 BESACE	garniture	Webbing 2,5 cm
 BESACE	garniture	Fermeture éclair — spirale maille 5 ou 8, non séparable, 47 cm
-TOTE	matiere	Extérieur : coton (10 ou 12 oz selon la couleur)
+TOTE	matiere	Extérieur : coton — 12 oz en vert, 10 oz dans toutes les autres couleurs
 TOTE	matiere	Intérieur : nylon
 TOTE	isolant	Vegeto 200 g
 TOTE	garniture	Étiquette À CONFIRMER
@@ -169,7 +169,7 @@ COUSSIN	garniture	Étiquette Lasclay 2,6 x 7,5 cm
 COUSSIN	garniture	Webbing 2,5 cm
 COUSSIN	garniture	Velcro 2,5 cm
 COUSSIN	garniture	Biais vert ou noir
-GLACIERE	matiere	Extérieur : coton 12 oz
+GLACIERE	matiere	Extérieur : coton — 12 oz en vert, 10 oz en noir
 GLACIERE	matiere	Intérieur : PVC
 GLACIERE	isolant	Vegeto 250 g
 GLACIERE	garniture	Étiquette À CONFIRMER
