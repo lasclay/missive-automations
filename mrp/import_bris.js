@@ -60,7 +60,13 @@ for (const r of rangs) {
   // Le brouillon porte une colonne « garder » ; le fichier versionné ne
   // contient déjà que les lignes retenues, et n'en a pas besoin.
   if ('garder' in r && r.garder !== 'o') { sautes++; continue; }
-  const p = r.produit ? produit.get(r.produit) : null;
+  // « * » : le client a dit « mes mitaines » sans dire lesquelles. Le
+  // signalement vaut quand même — c'est la ZONE qui porte l'information, et
+  // dix coutures de pouce disent quelque chose même sans le modèle. On le
+  // range sans produit plutôt que de l'attribuer à un modèle qu'on ignore.
+  const indetermine = r.produit === '*';
+  const p = indetermine ? { id: null, code: '(modèle non précisé)' }
+          : r.produit ? produit.get(r.produit) : null;
   if (!p) { sansProduit.push(r.produit || '(vide)'); continue; }
   if (!r.zone) sansZone++;
   parProduit[p.code] = (parProduit[p.code] || 0) + 1;

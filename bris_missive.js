@@ -365,7 +365,10 @@ function photos() {
     if (v.garder !== 'o' || !v.images) continue;
     for (const paire of v.images.split(/\s+/)) {
       const [messageId, attachmentId] = paire.split(':');
-      const nom = `${v.produit || 'inconnu'}_${v.conv.slice(0, 8)}_${attachmentId.slice(0, 8)}`;
+      // « * » veut dire « le client n'a pas dit quel modèle » : ça ne peut pas
+      // servir de nom de fichier, et « inconnu » dit la même chose en lisible.
+      const code = (v.produit === '*' || !v.produit) ? 'INDETERMINE' : v.produit;
+      const nom = `${code}_${v.conv.slice(0, 8)}_${attachmentId.slice(0, 8)}`;
       try {
         // Le client écrit le fichier lui-même et ne rend que de quoi le
         // retrouver — pas le base64. Lui passer la destination est le seul
