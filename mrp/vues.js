@@ -847,14 +847,17 @@ function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }
   const corps = `
   ${sousNavProduits('qualite')}
   <div class="entete"><div><h1>Contrôle qualité</h1>
-    <p class="muted">Le protocole de chaque produit : ce qui rate souvent,
-    ce qu'il ne faut pas rater, ce qui se mesure, ce qui se teste</p></div></div>
+    <p class="muted">Deux sources, une seule liste : les <b>vérifications de la
+    charte produits</b> — ce que l'équipe a écrit avant de produire — et les
+    <b>retours clients pour bris</b>, échanges et remboursements — ce qui a
+    lâché après</p></div></div>
 
   ${zones.length || nc.length ? `<div class="carte qc-terrain">
     <h2>Ce qui casse</h2>
-    <p class="sec">Les signalements et les non-conformités relevées à l'atelier.
-    Une zone qui revient sur plusieurs produits n'est pas un défaut de produit,
-    c'est un défaut de méthode.</p>
+    <p class="sec">Les retours clients — échange, remboursement, réparation —
+    et les non-conformités relevées à l'atelier. Une zone qui revient sur
+    plusieurs produits n'est pas un défaut de produit, c'est un défaut de
+    méthode.</p>
     ${zones.length ? `<div class="tbl"><table>
       <tr><th>Zone</th><th class="num">Signalements</th><th class="num">Produits</th>
         <th>Consigne écrite ?</th></tr>
