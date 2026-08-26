@@ -393,7 +393,56 @@ function photos() {
       } catch (e) { rates++; console.error(`  ${nom} : ${String(e.message).slice(0, 70)}`); }
     }
   }
+  // ------------------------------------------------------------------
+  // Le garde-fou qui manquait, et qui a failli coûter cher.
+  //
+  // Une pièce jointe de client n'est pas toujours une photo du bris. C'est
+  // souvent une FACTURE, un reçu de poste, une capture de la fiche Shopify ou
+  // du remboursement — avec le nom, l'adresse, le téléphone, les quatre
+  // derniers chiffres de la carte. Sur un lot de 180, il y en avait douze.
+  // Publier ça dans un dossier partagé par lien, c'est publier des données
+  // personnelles de clients.
+  //
+  // Aucun tri automatique ne remplace un œil là-dessus : une facture est un
+  // fichier image comme un autre. Ce qui suit ne DÉCIDE rien — ça signale les
+  // suspects et ça écrit noir sur blanc que la relecture est obligatoire.
+  const suspects = [];
+  for (const f of fs.readdirSync(dossier)) {
+    const chemin = path.join(dossier, f);
+    const t = fs.statSync(chemin).size;
+    // Une capture d'écran est presque toujours un PNG ; un appareil photo
+    // rend du JPEG. Le PNG n'est pas une preuve, c'est un premier tri.
+    if (/\.png$/i.test(f)) suspects.push(`${f} (PNG — capture d'écran probable)`);
+    // Un document scanné ou une capture pèse peu pour sa taille d'écran.
+    else if (t < 200e3) suspects.push(`${f} (${Math.round(t / 1024)} Ko — léger`
+      + ` pour une photo)`);
+  }
+  const note = path.join(dossier, 'A-RELIRE.md');
+  fs.writeFileSync(note, `# À relire AVANT de publier quoi que ce soit
+
+${pris} pièces jointes téléchargées. **Regarde-les toutes**, une par une, avant
+d'en déposer une seule chez un hébergeur.
+
+Ce ne sont pas toutes des photos de bris. Parmi elles se cachent des factures,
+des reçus de poste, des captures de la fiche client Shopify et des avis de
+remboursement. Ils portent des noms, des adresses, des téléphones et des
+numéros de carte. Un dossier partagé par lien les rendrait publics.
+
+Une planche-contact de vingt vignettes par page suffit à les repérer : un
+document se voit du premier coup d'œil, même en petit.
+
+## ${suspects.length} suspects de premier tri
+
+${suspects.length ? suspects.map(x => `- ${x}`).join('\n') : '(aucun)'}
+
+Cette liste ne remplace pas la relecture : une facture photographiée avec un
+téléphone est un gros JPEG comme les autres, et n'apparaîtra pas ici.
+`);
+
   console.error(`\n  ${pris} photos téléchargées, ${rates} en échec → ${dossier}`);
+  console.error(`  ⚠ ${suspects.length} suspects de premier tri — voir A-RELIRE.md`);
+  console.error('  AUCUNE ne se publie sans avoir été regardée : des factures et');
+  console.error('  des captures de fiches client se cachent dans les pièces jointes.');
 }
 
 // --------------------------------------------------------------- liens
@@ -544,6 +593,8 @@ else {
   node bris_missive.js collecte [--gisement=rd|retours|tout]
   node bris_missive.js trier    > mrp/donnees/bris-missive.tsv
   node bris_missive.js photos <dossier> <tsv-relu>
+        ⚠ les pièces jointes se regardent UNE PAR UNE avant publication :
+          factures, reçus et captures de fiches client s'y cachent
   node bris_missive.js liens  <ids.tsv> <tsv-relu>
   node bris_missive.js retenir <tsv-relu> > mrp/donnees/bris-terrain.tsv`);
   process.exit(1);
