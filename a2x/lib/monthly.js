@@ -197,7 +197,7 @@ function buildMonthlyEntry(month, orders, opts = {}) {
     throw new Error(`DocNumber « ${docNumber} » fait ${docNumber.length} caractères (max 21) — raccourcis docNumberPrefix dans a2x/config.json.`);
   }
 
-  const { body, balanced } = buildBody(groups, {
+  const { body, balanced, lineGroups } = buildBody(groups, {
     docNumber,
     txnDate: range.start,
     privateNote: `Ventes hors Shopify Payments ${range.month} · ${range.start} → ${range.end} · publié par a2x-app`,
@@ -210,6 +210,7 @@ function buildMonthlyEntry(month, orders, opts = {}) {
     month: range.month,
     period: { start: range.start, end: range.end },
     groups: groups.map((g) => ({ ...g, amount: g.amount / 100 })),
+    lineGroups,
     orders: kept,
     gateways: [...gateways].map(([gateway, cents]) => ({ gateway, amount: cents / 100 })).sort((a, b) => b.amount - a.amount),
     unmapped,

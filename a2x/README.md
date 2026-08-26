@@ -86,6 +86,7 @@ node a2x/a2x.js monthly 2026-07 --post      # …et sa publication
 node a2x/a2x.js check                       # audite les mappings
 node a2x/tools/selftest.js                  # rejoue l'écriture A2X de référence (hors-ligne)
 node a2x/tools/monthly_test.js              # rejoue les 4 cas de l'écriture mensuelle (hors-ligne)
+node a2x/tools/drift_test.js                # une composante sans compte ne part pas au 9100
 ```
 
 ---
@@ -221,6 +222,42 @@ publiait **plusieurs par mois** (5 en mai 2026, un lot à chaque traitement) : l
 toutes, et une seule suffit à bloquer une publication en double.
 
 Nos écritures mensuelles portent le suffixe `M` + année : `CLONE-01Jul-01Aug-M26`.
+
+---
+
+## Mapper depuis l'écriture
+
+Chaque ligne de l'écriture porte son menu de comptes et son menu de taxes. Les changer écrit
+directement dans `mappings.tsv` — pas besoin d'ouvrir l'onglet Mappings et d'y chercher la bonne
+ligne parmi 351. Une composante sans compte affiche en plus un bouton **« Créer la règle »**.
+
+Deux comportements, et la distinction compte :
+
+| La ligne tenait son compte par… | Ce que fait la modification |
+| --- | --- |
+| une correspondance **exacte** | modifie cette règle |
+| un **repli**, une **règle composée** ou l'**automapping** | crée une règle **exacte** pour cette combinaison, sans toucher la règle générale |
+
+Une pastille sur la ligne dit lequel des deux s'appliquera, et d'où vient le compte actuel. Sans
+ça, on croit corriger une ligne et on en change dix.
+
+Le code de taxe d'une règle créée est **hérité des règles sœurs** — mêmes `details`, autre pays ou
+autre canal — et non de `defaultTaxOption`. C'est ce qui fait qu'une nouvelle règle `ProductSales`
+naît « Détaxé on Sales » et qu'une nouvelle règle `PendingPayment` naît sans code de taxe, comme
+chez A2X.
+
+### Une composante sans compte ne part plus au 9100
+
+L'écart imputé au compte de change se calculait sur les seules lignes **mappées**. Une composante
+sans compte disparaissait donc de l'écriture, et son montant réapparaissait tel quel en
+`CurrencyConversionRounding` : l'écriture s'équilibrait, l'erreur était invisible, et un montant
+sans rapport atterrissait en perte de change. Vu sur `CLONE-19Aug-26Aug-611`, où les 2,54 $ de
+`PendingPayment - Gateway shopify_payments - CA - 3890849` étaient devenus 2,54 $ de perte de
+change.
+
+L'écart se calcule maintenant sur **toutes** les composantes. Quand il en manque une, l'écriture
+est visiblement déséquilibrée du montant exact qui manque, et le bandeau le dit. `drift_test.js`
+verrouille cette propriété.
 
 ---
 
@@ -370,6 +407,7 @@ a2x/
   tools/import_mappings.js  TSV → JSON + validation contre QBO
   tools/selftest.js         comparaison à l'écriture A2X de référence
   tools/monthly_test.js     les 4 cas de l'écriture mensuelle, sur commandes fabriquées
+  tools/drift_test.js       une composante sans compte ne tombe pas au compte de change
   tools/audit_a2x.js        mappage comparé aux 5682 lignes réelles d'A2X
 a2x-app/
   server.js                 API + service de la page

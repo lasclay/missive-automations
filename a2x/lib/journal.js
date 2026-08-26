@@ -118,6 +118,9 @@ function buildBody(groups, { docNumber, txnDate, privateNote, taxMode, extraLine
   // regroupe vont dans le TxnTaxDetail de l'écriture.
   const netParTaux = new Map();
   const Line = [];
+  // Les groupes dans l'ordre exact des lignes produites : c'est ce qui permet à
+  // l'interface de rattacher une ligne d'écriture à sa règle de mapping.
+  const lineGroups = [];
 
   for (const g of groups.slice().sort((a, b) => a.description.localeCompare(b.description, "fr"))) {
     const amount = Math.round(Math.abs(g.amount)) / 100;
@@ -143,6 +146,7 @@ function buildBody(groups, { docNumber, txnDate, privateNote, taxMode, extraLine
       }
     }
     Line.push({ Description: g.description, Amount: amount, DetailType: "JournalEntryLineDetail", JournalEntryLineDetail: detail });
+    lineGroups.push(g);
   }
 
   Line.push(...extraLines);
@@ -180,7 +184,7 @@ function buildBody(groups, { docNumber, txnDate, privateNote, taxMode, extraLine
   const balanced = Math.abs(sum(Line, (l) =>
     (l.JournalEntryLineDetail.PostingType === "Debit" ? 1 : -1) * Math.round(l.Amount * 100))) === 0;
 
-  return { body, balanced };
+  return { body, balanced, lineGroups };
 }
 
 /**
@@ -311,8 +315,19 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
 
   // Contrepartie : le net réellement déposé (somme des nets des transactions du payout).
   const settlement = sum(btx, (t) => money(t.net));
+  /**
+   * L'écart va au compte de change — mais il se calcule sur TOUTES les
+   * composantes, y compris celles qu'on n'a pas su mapper. Sans ça, une
+   * composante sans compte disparaissait de l'écriture et son montant
+   * réapparaissait tel quel en « CurrencyConversionRounding » : l'écriture
+   * s'équilibrait, l'erreur était invisible, et un montant sans rapport
+   * atterrissait au 9100. Vu sur CLONE-19Aug-26Aug-611, où les 2,54 $ de
+   * « PendingPayment - Gateway shopify_payments - CA - 3890849 » étaient
+   * devenus 2,54 $ de perte de change.
+   */
+  const unmappedTotal = Math.round(sum(unmapped, (u) => u.amount * 100));
   const lineTotal = sum(groups, (g) => g.amount);
-  const drift = settlement - lineTotal;
+  const drift = settlement - lineTotal - unmappedTotal;
   const extraLines = [];
 
   if (drift) {
@@ -333,7 +348,7 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     });
   }
 
-  const { body, balanced } = buildBody(groups, {
+  const { body, balanced, lineGroups } = buildBody(groups, {
     docNumber,
     txnDate: startDay,
     // Trace l'origine : c'est ce qui distingue nos écritures de celles d'A2X,
@@ -352,6 +367,7 @@ function buildJournalEntry(payout, btx, ordersById, opts = {}) {
     payoutNet: parseFloat((payout.net && payout.net.amount) || 0),
     drift: drift / 100,
     groups: groups.map((g) => ({ ...g, amount: g.amount / 100 })),
+    lineGroups,
     unmapped,
     notes,
     balanced,

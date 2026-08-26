@@ -82,7 +82,7 @@ const money = (n) => (n < 0 ? "−" : "") + Math.abs(Number(n) || 0).toLocaleStr
 const day = (iso) => (iso || "").slice(0, 10);
 
 let secret = localStorage.getItem("a2xSecret") || "";
-const state = { accounts: [], mappings: null, dirty: new Map() };
+const state = { accounts: [], taxOptions: [], mappings: null, dirty: new Map() };
 
 async function api(path, opts = {}) {
   const res = await fetch("/api" + path, {
@@ -182,17 +182,21 @@ function wireUnmapped(root, unmapped, reload) {
       btn.disabled = true;
       $("#fixmsg").textContent = "Ajout de la règle…";
       try {
-        await api("/mappings", {
+        // Pas de code de taxe transmis : le serveur reprend celui des règles
+        // sœurs. Une ligne de paiement en attente n'en porte aucun, une ligne
+        // de revenu porte « Détaxé on Sales » — et on ne veut pas y penser ici.
+        const r = await api("/mappings/apply", {
           method: "POST",
           body: JSON.stringify({
             category: u.category, details: u.details,
-            country: u.country === "*" ? "-" : u.country,
-            marketplace: u.marketplace === "*" ? "-" : u.marketplace,
+            country: u.country, marketplace: u.marketplace,
             acctNum,
           }),
         });
         state.mappings = null;
-        $("#fixmsg").innerHTML = `<span class="pill ok">Règle ajoutée</span> — recalcul…`;
+        const opt = (state.taxOptions || []).find((o) => o.value === r.tax);
+        $("#fixmsg").innerHTML = `<span class="pill ok">Règle ajoutée</span>
+          <span class="muted">taxe : ${esc(opt ? opt.label : "aucune")} — recalcul…</span>`;
         reload();
       } catch (e) {
         $("#fixmsg").innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
@@ -200,6 +204,123 @@ function wireUnmapped(root, unmapped, reload) {
       }
     };
   });
+}
+
+/**
+ * Un déséquilibre n'est presque jamais mystérieux : c'est le total de ce qu'on
+ * n'a pas su mapper. Le dire évite de chercher ailleurs — et évite surtout la
+ * situation d'avant, où l'écriture s'équilibrait en faisant tomber le manquant
+ * dans le compte de change.
+ */
+function balanceBanner(j) {
+  if (j.balanced) return "";
+  const manquant = (j.unmapped || []).reduce((t, u) => t + u.amount, 0);
+  if (manquant) {
+    return `<div class="banner bad">Écriture déséquilibrée de ${money(Math.abs(manquant))} $ —
+      c'est exactement le total des composantes sans compte ci-dessous.
+      Donne-leur un compte et l'écriture s'équilibrera.</div>`;
+  }
+  return `<div class="banner bad">Écriture déséquilibrée — publication bloquée.</div>`;
+}
+
+/** Le libellé lisible d'un compte QuickBooks, à partir de son Id. */
+function acctLabel(id) {
+  const a = state.accounts.find((x) => String(x.id) === String(id));
+  return a ? `${a.num ? a.num + " : " : ""}${a.name}` : `Compte ${id}`;
+}
+
+/**
+ * Le tableau de l'écriture, avec le mapping MODIFIABLE sur place.
+ *
+ * C'est la différence avec A2X : là-bas, corriger un compte voulait dire quitter
+ * l'écriture, ouvrir la table des 349 mappings, y retrouver la bonne ligne,
+ * revenir, recharger. Ici le menu des comptes est dans la ligne elle-même, et
+ * ce qu'on choisit part dans mappings.tsv.
+ *
+ * Les lignes de contrepartie (arrondi de change, règlement) ne viennent d'aucune
+ * règle : leur compte reste en texte, il se change dans config.json.
+ */
+function journalTable(j) {
+  const debit = j.lines.filter((l) => l.posting === "Debit").reduce((t, l) => t + l.amount, 0);
+  const credit = j.lines.filter((l) => l.posting === "Credit").reduce((t, l) => t + l.amount, 0);
+  const mappable = j.lines.some((l) => l.map);
+  return `
+    ${mappable ? `<div class="row" style="margin:0 0 10px">
+      <span class="muted">Le compte et la taxe se changent directement dans le tableau — c'est enregistré dans les mappings.</span>
+      <button class="act" id="savemap" disabled style="margin-left:auto">Enregistrer les mappings</button>
+      <span id="mapmsg" class="muted"></span>
+    </div>` : ""}
+    <div class="scroll"><table>
+      <thead><tr><th>Description</th><th>Compte</th><th>Taxe</th><th class="num">Débit</th><th class="num">Crédit</th></tr></thead>
+      <tbody>${j.lines.map((l, i) => `
+        <tr>
+          <td>${esc(l.description)}${fallbackPill(l.map)}</td>
+          <td>${l.map
+            ? `<select class="lineacct" data-i="${i}" style="max-width:280px">${accountOptions(l.map.acctNum)}</select>`
+            : `<span class="muted">${esc(acctLabel(l.accountId))}</span>`}</td>
+          <td>${l.map
+            ? `<select class="linetax" data-i="${i}" style="max-width:190px">${taxOptionsHtml(l.map.taxValue)}</select>`
+            : `<span class="muted">—</span>`}</td>
+          <td class="num">${l.posting === "Debit" ? money(l.amount) : ""}</td>
+          <td class="num">${l.posting === "Credit" ? money(l.amount) : ""}</td>
+        </tr>`).join("")}</tbody>
+      <tfoot><tr>
+        <th colspan="3">Total</th>
+        <th class="num">${money(debit)}</th>
+        <th class="num">${money(credit)}</th>
+      </tr></tfoot>
+    </table></div>`;
+}
+
+/**
+ * Dire d'où vient le compte quand ce n'est PAS une règle exacte : le modifier
+ * créera une règle exacte au lieu de toucher la règle générale, qui sert
+ * ailleurs. Sans ce repère, on croit modifier une ligne et on en change dix.
+ */
+function fallbackPill(map) {
+  if (!map || map.fallback === "exact") return "";
+  return ` <span class="pill" style="color:var(--muted)"
+    title="Aucune règle exacte pour cette combinaison. Le compte vient de « ${esc(map.matched || "")} » (${esc(map.fallback)}). Le changer ici créera une règle exacte, sans toucher la règle générale.">${esc(map.fallback)}</span>`;
+}
+
+/** Branche les menus du tableau ci-dessus, et leur enregistrement groupé. */
+function wireJournalTable(root, j, reload) {
+  const btn = root.querySelector("#savemap");
+  const msg = root.querySelector("#mapmsg");
+  if (!btn) return;
+  const dirty = new Map();
+
+  const touch = (i) => {
+    const m = j.lines[i].map;
+    const acctNum = root.querySelector(`select.lineacct[data-i="${i}"]`).value;
+    const tax = root.querySelector(`select.linetax[data-i="${i}"]`).value;
+    if (acctNum === (m.acctNum || "") && tax === (m.taxValue || "")) dirty.delete(i);
+    else dirty.set(i, { ...m, acctNum, tax });
+    btn.disabled = dirty.size === 0;
+    btn.textContent = dirty.size ? `Enregistrer les mappings (${dirty.size})` : "Enregistrer les mappings";
+  };
+  root.querySelectorAll("select.lineacct, select.linetax")
+    .forEach((sel) => (sel.onchange = () => touch(Number(sel.dataset.i))));
+
+  btn.onclick = async () => {
+    btn.disabled = true;
+    msg.textContent = "Enregistrement…";
+    try {
+      const faits = [];
+      for (const m of dirty.values()) {
+        const r = await api("/mappings/apply", { method: "POST", body: JSON.stringify(m) });
+        faits.push(r.action.kind);
+      }
+      state.mappings = null;
+      const creees = faits.filter((k) => k === "creee").length;
+      msg.innerHTML = `<span class="pill ok">${faits.length} enregistré(s)</span>
+        <span class="muted">${creees ? `${creees} règle(s) exacte(s) créée(s), ` : ""}recalcul de l'écriture…</span>`;
+      reload();
+    } catch (e) {
+      msg.innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
+      btn.disabled = false;
+    }
+  };
 }
 
 /**
@@ -315,10 +436,6 @@ async function loadJournal(id) {
   try {
     const d = await api("/payouts/" + encodeURIComponent(id));
     const j = d.journal;
-    const acct = (accId) => {
-      const a = state.accounts.find((x) => String(x.id) === String(accId));
-      return a ? `${a.num ? a.num + " : " : ""}${a.name}` : `Compte ${accId}`;
-    };
     el.innerHTML = `
       <div class="card">
         <h2>Écriture ${esc(j.docNumber)}</h2>
@@ -326,7 +443,7 @@ async function loadJournal(id) {
            ${d.counts.transactions} transaction(s), ${d.counts.orders} commande(s) ·
            net déposé ${money(j.settlement)} $ (Shopify annonce ${money(j.payoutNet)} $)</p>
 
-        ${!j.balanced ? `<div class="banner bad">Écriture déséquilibrée — publication bloquée.</div>` : ""}
+        ${balanceBanner(j)}
         ${unmappedBanner(j.unmapped)}
         ${d.existing ? `<div class="banner ok">Une écriture couvre déjà ce versement —
           ${d.existing.source === "app" ? "publiée par cette app" : "<b>faite par A2X</b>, pas par cette app"} :
@@ -342,22 +459,7 @@ async function loadJournal(id) {
           ${d.related.map((r) => `<div><a href="${qboLink(r.id)}" target="_blank" rel="noopener">pièce ${esc(r.id)}</a>
             <code>${esc(r.docNumber)}</code> · ${esc(r.txnDate)} · règlement ${money(r.settlement)} $</div>`).join("")}</div>` : ""}
 
-        <div class="scroll"><table>
-          <thead><tr><th>Description</th><th>Compte</th><th>Taxe</th><th class="num">Débit</th><th class="num">Crédit</th></tr></thead>
-          <tbody>${j.lines.map((l) => `
-            <tr>
-              <td>${esc(l.description)}</td>
-              <td class="muted">${esc(acct(l.accountId))}</td>
-              <td class="muted">${l.tax ? "Détaxé on Sales" : "—"}</td>
-              <td class="num">${l.posting === "Debit" ? money(l.amount) : ""}</td>
-              <td class="num">${l.posting === "Credit" ? money(l.amount) : ""}</td>
-            </tr>`).join("")}</tbody>
-          <tfoot><tr>
-            <th colspan="3">Total</th>
-            <th class="num">${money(j.lines.filter((l) => l.posting === "Debit").reduce((t, l) => t + l.amount, 0))}</th>
-            <th class="num">${money(j.lines.filter((l) => l.posting === "Credit").reduce((t, l) => t + l.amount, 0))}</th>
-          </tr></tfoot>
-        </table></div>
+        ${journalTable(j)}
 
         ${j.notes.length ? `<p class="muted" style="margin-top:12px">${j.notes.map(esc).join("<br>")}</p>` : ""}
 
@@ -370,6 +472,7 @@ async function loadJournal(id) {
       </div>`;
 
     wireUnmapped(el, j.unmapped, () => loadJournal(id));
+    wireJournalTable(el, j, () => loadJournal(id));
 
     $("#raw").onclick = async () => {
       const btn = $("#raw");
@@ -476,10 +579,6 @@ async function loadMonth(month) {
   try {
     const d = await api("/monthly/" + encodeURIComponent(month));
     const j = d.journal;
-    const acct = (id) => {
-      const a = state.accounts.find((x) => String(x.id) === String(id));
-      return a ? `${a.num ? a.num + " : " : ""}${a.name}` : `Compte ${id}`;
-    };
     el.innerHTML = `
       <div class="card">
         <h2>Écriture ${esc(j.docNumber)}</h2>
@@ -491,7 +590,7 @@ async function loadMonth(month) {
           `<span class="pill">${esc(g.gateway)} · ${money(g.amount)} $</span>`).join(" ")}</p>` : ""}
 
         ${!j.lines.length ? `<div class="banner">Rien à comptabiliser pour ce mois : toutes les commandes sont passées par Shopify Payments.</div>` : ""}
-        ${!j.balanced ? `<div class="banner bad">Écriture déséquilibrée — publication bloquée.</div>` : ""}
+        ${balanceBanner(j)}
         ${unmappedBanner(j.unmapped)}
         ${d.existing ? `<div class="banner ok">Ce mois est déjà couvert —
           ${d.existing.source === "app" ? "publié par cette app" : "<b>fait par A2X</b>"} :
@@ -499,21 +598,7 @@ async function loadMonth(month) {
           <code>${esc(d.existing.docNumber)}</code>${d.a2x.length > 1 ? ` (et ${d.a2x.length - 1} autre(s) écriture(s) mensuelle(s) d'A2X ce mois-là)` : ""}.
           Publier créerait un doublon.</div>` : ""}
 
-        ${j.lines.length ? `<div class="scroll"><table>
-          <thead><tr><th>Description</th><th>Compte</th><th>Taxe</th><th class="num">Débit</th><th class="num">Crédit</th></tr></thead>
-          <tbody>${j.lines.map((l) => `
-            <tr>
-              <td>${esc(l.description)}</td>
-              <td class="muted">${esc(acct(l.accountId))}</td>
-              <td class="muted">${l.tax ? "Détaxé on Sales" : "—"}</td>
-              <td class="num">${l.posting === "Debit" ? money(l.amount) : ""}</td>
-              <td class="num">${l.posting === "Credit" ? money(l.amount) : ""}</td>
-            </tr>`).join("")}</tbody>
-          <tfoot><tr><th colspan="3">Total</th>
-            <th class="num">${money(j.lines.filter((l) => l.posting === "Debit").reduce((t, l) => t + l.amount, 0))}</th>
-            <th class="num">${money(j.lines.filter((l) => l.posting === "Credit").reduce((t, l) => t + l.amount, 0))}</th>
-          </tr></tfoot>
-        </table></div>` : ""}
+        ${j.lines.length ? journalTable(j) : ""}
 
         ${j.orders.length ? `<details style="margin-top:12px"><summary class="muted" style="cursor:pointer">
           Les ${j.orders.length} commande(s) retenue(s)</summary>
@@ -540,6 +625,7 @@ async function loadMonth(month) {
       </div>`;
 
     wireUnmapped(el, j.unmapped, () => loadMonth(month));
+    wireJournalTable(el, j, () => loadMonth(month));
     $("#mforce").onchange = (e) =>
       ($("#mpost").disabled = !j.balanced || !j.lines.length || (!e.target.checked && (!!d.existing || !!j.unmapped.length)));
     $("#mpost").onclick = async () => {
@@ -581,7 +667,7 @@ async function loadMappings() {
 
 /** Les vraies options de taxe de QuickBooks, comme le menu d'A2X. */
 function taxOptionsHtml(selected) {
-  const opts = (state.mappings && state.mappings.taxOptions) || [];
+  const opts = (state.mappings && state.mappings.taxOptions) || state.taxOptions || [];
   return `<option value="">— aucune —</option>` + opts.map((o) =>
     `<option value="${esc(o.value)}" ${o.value === selected ? "selected" : ""}>${esc(o.label)}</option>`).join("");
 }
@@ -722,6 +808,7 @@ function renderSettings() {
   $("#refreshacct").onclick = async () => {
     const r = await api("/accounts?refresh=1");
     state.accounts = r.accounts;
+    state.taxOptions = r.taxOptions || state.taxOptions;
     state.mappings = null;
     renderSettings();
   };
@@ -739,7 +826,9 @@ async function boot() {
   try {
     const h = await api("/health");
     $("#status").textContent = `${h.mappings.counts.total} mappings chargés · remplacement maison d'A2X`;
-    state.accounts = (await api("/accounts")).accounts;
+    const a = await api("/accounts");
+    state.accounts = a.accounts;
+    state.taxOptions = a.taxOptions || [];
     loadPayouts();
   } catch (e) {
     $("#status").textContent = e.message;
