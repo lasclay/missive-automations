@@ -1,0 +1,93 @@
+{
+  "selena": {
+    "ok": true,
+    "envoye": true,
+    "to": "poirierhugo@hotmail.com",
+    "draft": "01a03e46-c794-79ab-8721-3171f6e0c579",
+    "conversation": "d8db2647-4bc4-4223-bf9e-3180d47ab3b2"
+  },
+  "danielle": {
+    "ok": true,
+    "envoye": true,
+    "to": "la_cyberdan@yahoo.ca",
+    "draft": "01a03e46-cc09-7641-96fb-51d1bb62e1f4",
+    "conversation": "8144dce9-429d-414a-a85c-f4bf51890ccc"
+  },
+  "amandine": {
+    "ok": true,
+    "envoye": true,
+    "to": "lamydu04@msn.com",
+    "draft": "01a03e46-cf44-7785-bb4a-7100570aa267",
+    "conversation": "079d86c7-73fe-409a-8b48-c96efe223da5"
+  },
+  "colette": {
+    "ok": true,
+    "envoye": true,
+    "to": "colettedastous@gmail.com",
+    "draft": "01a03e46-d385-7f34-a75d-31d140d82745",
+    "conversation": "faaae3e0-88b2-4f46-8d93-0c8ff0d08af6"
+  },
+  "marie-annick": {
+    "ok": true,
+    "envoye": true,
+    "to": "mannick72@hotmail.com",
+    "draft": "01a03e46-d77e-78b3-89a9-d1ee6073f872",
+    "conversation": "2cca5748-9a61-49ee-99cf-56e13ea3e527"
+  },
+  "david": {
+    "ok": true,
+    "envoye": true,
+    "to": "david.morin@compass-canada.com",
+    "draft": "01a03e46-da8c-78ad-9def-618d304980a4",
+    "conversation": "1651ccbe-f719-443b-93d1-5bf57b51e310"
+  },
+  "jezabelle": {
+    "ok": true,
+    "envoye": true,
+    "to": "jezabellep@hotmail.com",
+    "draft": "01a03e46-ddcf-7d8c-8194-71da525477a2",
+    "conversation": "2c83123d-6cbe-41cf-a114-ec8856d14375"
+  },
+  "martine": {
+    "ok": true,
+    "envoye": true,
+    "to": "martinette222@hotmail.com",
+    "draft": "01a03e46-e0cc-7007-96f4-a15245c20641",
+    "conversation": "f2c4cde1-69b8-4d38-96b3-b5640503d8d3"
+  },
+  "gilles": {
+    "ok": true,
+    "envoye": true,
+    "to": "coulombegilles@gmail.com",
+    "draft": "01a03e46-e400-7ea4-bf8a-d12ae856b742",
+    "conversation": "ab3d76c9-c6b7-47af-bc72-b9fe619dddfa"
+  },
+  "magali": {
+    "ok": true,
+    "envoye": true,
+    "to": "magali.guilbault@gmail.com",
+    "draft": "01a03e46-e744-7c84-b2c7-41e5870a1070",
+    "conversation": "0391071a-af6f-421b-b4f7-6b5865be7820"
+  },
+  "gabrielle": {
+    "ok": true,
+    "envoye": true,
+    "to": "gabriellechampagne@live.ca",
+    "draft": "01a03e46-eaee-7354-a3c9-71b20cd1f9a9",
+    "conversation": "45918673-95f2-4bad-9038-c154e97cf6c6"
+  },
+  "francine": {
+    "ok": true,
+    "envoye": true,
+    "to": "franp22@bell.net",
+    "draft": "01a03e46-edec-7611-9567-71b071aaffea",
+    "conversation": "8ff0647b-9fa4-4441-a815-6a6ea077eb42"
+  },
+  "estelle": {
+    "ok": true,
+    "envoye": true,
+    "to": "estebene@yahoo.ca",
+    "draft": "01a03e46-f0d4-7253-98e6-010615263d5c",
+    "conversation": "0e879f59-6225-43d6-bbb8-b71ab8fa1c12"
+  }
+}
