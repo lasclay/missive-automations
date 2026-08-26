@@ -23,6 +23,8 @@
 'use strict';
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs,
+        etatMatieres, alertesStock, nomenclatureProduit, detailBesoin,
+        stocksMatieres, mouvements, qte, CATEGORIES,
         FAMILLES, LIEUX } = require('./db.js');
 const { urlAcceptable } = require('./vues.js');
 
@@ -30,7 +32,7 @@ const { urlAcceptable } = require('./vues.js');
 // pas écrit ici ne peut pas être touché par une annulation.
 const TABLES = new Set(['ordres', 'ordre_items', 'ordre_jalons',
   'ordre_commentaires', 'produits', 'produit_photos', 'produit_materiaux',
-  'produit_patrons']);
+  'produit_patrons', 'mouvements']);
 
 // --------------------------------------------------------------- résolution
 class Refus extends Error {}
@@ -55,6 +57,32 @@ function resoudreProduit(ref) {
     + flous.map(p => `${p.code} (${p.nom})`).join(', ')
     + '. Demande lequel plutôt que de choisir.');
   refuser(`Aucun produit ne correspond à « ${s} ».`);
+}
+
+/**
+ * Une matière se nomme rarement par son code à l'oral : « le Vegeto », « la
+ * viscose ». Même règle que pour les produits — l'ambiguïté se refuse, elle ne
+ * se devine pas. Se tromper de rouleau coûte une commande.
+ */
+function resoudreMatiere(ref) {
+  const s = String(ref ?? '').trim();
+  if (!s) refuser('Il faut préciser une matière (code ou nom).');
+  const parCode = db.prepare(
+    `SELECT * FROM matieres WHERE code = ? COLLATE NOCASE`).get(s);
+  if (parCode) return parCode;
+  if (/^\d+$/.test(s)) {
+    const m = db.prepare(`SELECT * FROM matieres WHERE id = ?`).get(Number(s));
+    if (m) return m;
+  }
+  const flous = db.prepare(
+    `SELECT * FROM matieres WHERE (nom LIKE ? OR code LIKE ?) AND actif = 1
+     ORDER BY nom`).all(`%${s}%`, `%${s}%`);
+  if (flous.length === 1) return flous[0];
+  if (flous.length > 1) refuser(
+    `« ${s} » correspond à ${flous.length} matières : `
+    + flous.map(m => `${m.code} (${m.nom})`).join(', ')
+    + '. Demande laquelle plutôt que de choisir.');
+  refuser(`Aucune matière ne correspond à « ${s} ».`);
 }
 
 function resoudreOrdre(ref) {
@@ -743,6 +771,198 @@ const OUTILS = [
       return { ok: true, produit: p.code };
     },
   },
+  // ------------------------------------------------------------- inventaire
+  {
+    nom: 'etat_stock',
+    description: "L'état de l'inventaire : ce qui manquera pour finir les ordres "
+      + "ouverts, ce qui est sous son seuil, ce qui n'a jamais été compté. "
+      + "À utiliser pour « est-ce qu'on a assez de tissu », « qu'est-ce qu'il "
+      + "faut commander », « qu'est-ce qui manque ».",
+    role: 'atelier',
+    params: { type: 'object', properties: {} },
+    executer: () => {
+      const a = alertesStock();
+      const dire = (m) => ({ matiere: m.nom, code: m.code,
+        stock: qte(m.stock, m.unite), besoin: qte(m.besoin, m.unite),
+        manque: qte(m.manque, m.unite),
+        a_commander: m.cout_manque
+          ? Math.round(m.cout_manque).toLocaleString('fr-CA') + ' $' : null });
+      return {
+        il_en_manquera: a.ruptures.map(dire),
+        sous_le_seuil: a.bas.map(m => ({ matiere: m.nom,
+          stock: qte(m.stock, m.unite), seuil: qte(m.seuil_alerte, m.unite) })),
+        // Distinction essentielle : un stock inconnu n'est pas un stock nul.
+        // Le modèle doit pouvoir le dire au lieu d'annoncer une rupture.
+        // L'ordre compte : la production en demande le plus en premier.
+        a_compter_en_priorite: a.jamais_comptees.slice(0, 12).map(m => ({
+          matiere: m.nom, besoin: qte(m.besoin, m.unite),
+          valeur_engagee: m.cout_unite && m.besoin
+            ? Math.round(m.besoin * m.cout_unite).toLocaleString('fr-CA') + ' $' : null })),
+        consommation_a_chiffrer: a.a_chiffrer.map(m => m.nom),
+        produits_finis_bas: a.produits_bas.map(p => ({ produit: p.nom,
+          stock: qte(p.stock), seuil: qte(p.seuil_alerte) })),
+        note: a.jamais_comptees.length
+          ? `${a.jamais_comptees.length} matières n'ont aucun mouvement : leur `
+          + `stock est INCONNU, pas nul. Elles ne figurent PAS dans `
+          + `« il en manquera », parce qu'on ne peut pas l'affirmer sans les `
+          + `avoir comptées. Les faire compter est le premier geste utile.`
+          : null,
+      };
+    },
+  },
+
+  {
+    nom: 'stock_matiere',
+    description: "Le détail d'une matière : stock, besoin engagé, manque, "
+      + "seuil, fournisseur, et les produits qui la consomment.",
+    role: 'atelier',
+    params: { type: 'object', required: ['matiere'], properties: {
+      matiere: { type: 'string', description: 'Code ou nom, ex. « Vegeto 150gsm ».' } } },
+    executer: (a) => {
+      const brute = resoudreMatiere(a.matiere);
+      const m = etatMatieres({ inclureInactives: true }).find(x => x.id === brute.id);
+      if (!m) refuser(`${brute.code} est introuvable dans l'inventaire.`);
+      return {
+        matiere: m.nom, code: m.code, categorie: CATEGORIES[m.categorie],
+        unite: m.unite, cout_unite: m.cout_unite,
+        stock: m.jamais_compte ? 'jamais compté' : qte(m.stock, m.unite),
+        besoin_engage: qte(m.besoin, m.unite),
+        manque: m.manque ? qte(m.manque, m.unite) : 'aucun',
+        seuil: m.seuil_alerte ? qte(m.seuil_alerte, m.unite) : 'non posé',
+        emplacement: m.emplacement || null, fournisseur: m.fournisseur || null,
+        delai_jours: m.delai_jours,
+        d_ou_vient_le_besoin: detailBesoin(m.id).map(b => ({
+          produit: b.nom, ordre: b.numero, reste_a_produire: Math.round(b.restant),
+          besoin: b.besoin === null ? 'consommation à chiffrer' : qte(b.besoin, m.unite) })),
+        derniers_mouvements: mouvements({ matiereId: m.id, limite: 5 }).map(x => ({
+          quand: x.cree_le, quantite: qte(x.quantite, m.unite), motif: x.motif,
+          qui: x.auteur })),
+      };
+    },
+  },
+
+  {
+    nom: 'besoins_produit',
+    description: "Le calculateur : ce qu'il faut en matières pour fabriquer N "
+      + "unités d'un produit, et si le stock suffit. Répond à « qu'est-ce qu'il "
+      + "me faut pour 500 tuques », « est-ce qu'on peut lancer la série ».",
+    role: 'atelier',
+    params: { type: 'object', required: ['produit'], properties: {
+      produit:  { type: 'string' },
+      quantite: { type: 'integer',
+        description: "Nombre d'unités à fabriquer. Par défaut, ce qu'il reste "
+          + "à produire sur les ordres ouverts." } } },
+    executer: (a) => {
+      const p = resoudreProduit(a.produit);
+      const nom = nomenclatureProduit(p.id);
+      if (!nom.length) refuser(`${p.code} n'a pas de nomenclature : `
+        + `impossible de dire ce qu'il consomme.`);
+
+      let quantite = a.quantite === undefined ? null : Number(a.quantite);
+      let source = 'demandée';
+      if (quantite === null) {
+        const r = db.prepare(`
+          SELECT COALESCE(SUM(i.quantite * (100 - i.avancement) / 100.0), 0) AS reste
+          FROM ordre_items i JOIN ordres o ON o.id = i.ordre_id
+          WHERE i.produit_id = ? AND o.statut IN ('planifie','en_cours')
+            AND i.avancement < 100`).get(p.id);
+        quantite = Math.round(r.reste);
+        source = 'ce qu\'il reste à produire sur les ordres ouverts';
+        if (!quantite) refuser(`Rien à produire pour ${p.code} sur les ordres `
+          + `ouverts. Précise une quantité.`);
+      }
+      if (!Number.isFinite(quantite) || quantite <= 0)
+        refuser(`Quantité invalide : « ${a.quantite} ».`);
+
+      const stocks = stocksMatieres();
+      return {
+        produit: p.nom, code: p.code, quantite, quantite_source: source,
+        matieres: nom.map(n => {
+          const jamais = !stocks.has(n.matiere_id);
+          const requis = n.consommation === null ? null : n.consommation * quantite;
+          return {
+            matiere: n.nom, categorie: CATEGORIES[n.categorie],
+            par_unite: n.consommation === null ? 'à chiffrer'
+              : qte(n.consommation, n.unite),
+            il_en_faut: requis === null ? 'inconnu' : qte(requis, n.unite),
+            en_stock: !n.suivi_stock ? 'hors inventaire'
+              : jamais ? 'jamais compté' : qte(n.stock, n.unite),
+            verdict: !n.suivi_stock ? 'hors inventaire'
+              : requis === null ? 'consommation à chiffrer'
+              : jamais ? 'stock inconnu'
+              : n.stock >= requis ? 'assez'
+              : `manque ${qte(requis - n.stock, n.unite)}`,
+          };
+        }),
+        cout_matiere_serie: Math.round(nom.reduce((t, n) =>
+          t + (n.cout_par_produit || 0) * quantite, 0) * 100) / 100,
+      };
+    },
+  },
+
+  {
+    nom: 'mouvement_stock',
+    description: "Enregistre une entrée ou une sortie de stock. Le SIGNE vient "
+      + "du motif, jamais de la quantité : « reception » et « production » "
+      + "entrent, « consommation », « perte » et « expedition » sortent. "
+      + "« inventaire » est un comptage physique : il REMPLACE le stock au lieu "
+      + "de s'y ajouter — « il en reste 42 », pas « il en est arrivé 42 ».",
+    role: 'atelier',
+    params: { type: 'object', required: ['quantite', 'motif'], properties: {
+      matiere:   { type: 'string', description: 'Code ou nom d\'une matière.' },
+      produit:   { type: 'string', description: 'Code ou nom d\'un produit fini.' },
+      quantite:  { type: 'number', description: 'Toujours positive.' },
+      motif:     { type: 'string', enum: ['reception', 'consommation', 'production',
+                                          'expedition', 'perte', 'inventaire'] },
+      reference: { type: 'string' },
+      note:      { type: 'string' } } },
+    executer: (a, ctx) => {
+      if (Boolean(a.matiere) === Boolean(a.produit))
+        refuser('Précise une matière OU un produit fini, pas les deux ni aucun.');
+      const cible = a.matiere ? resoudreMatiere(a.matiere) : resoudreProduit(a.produit);
+      const champ = a.matiere ? 'matiere_id' : 'produit_id';
+      const unite = a.matiere ? cible.unite : '';
+      if (a.matiere && !cible.suivi_stock)
+        refuser(`${cible.code} est une ligne de coût agrégée du chiffrier, `
+          + `pas un article en tablette : son stock ne se suit pas.`);
+
+      const saisie = Number(a.quantite);
+      if (!Number.isFinite(saisie) || saisie < 0)
+        refuser(`Quantité invalide : « ${a.quantite} ». Elle doit être positive — `
+          + `c'est le motif qui décide du sens.`);
+
+      const actuel = db.prepare(`SELECT COALESCE(SUM(quantite), 0) AS s
+          FROM mouvements WHERE ${champ} = ?`).get(cible.id).s;
+
+      let quantite = saisie, note = String(a.note || '').slice(0, 200);
+      if (a.motif === 'inventaire') {
+        quantite = saisie - actuel;
+        if (quantite === 0) return { ok: true, inchange: true,
+          message: `Le comptage confirme le stock de ${cible.code} : `
+            + `${qte(actuel, unite)}. Rien à corriger.` };
+        note = [`comptage à ${saisie} (la base disait ${Number(actuel.toFixed(3))})`,
+                note].filter(Boolean).join(' · ');
+      } else if (['consommation', 'perte', 'expedition'].includes(a.motif)) {
+        quantite = -saisie;
+      }
+
+      const id = db.prepare(`INSERT INTO mouvements
+          (${champ}, quantite, motif, reference, note, utilisateur_id)
+          VALUES (?,?,?,?,?,?)`)
+        .run(cible.id, quantite, a.motif,
+             String(a.reference || '').slice(0, 60), note, ctx.user.id).lastInsertRowid;
+
+      noter(ctx, 'mouvement_stock',
+        `${cible.code} : ${quantite > 0 ? '+' : ''}${qte(quantite, unite)} (${a.motif})`,
+        { table: 'mouvements', op: 'insert', id });
+
+      return { ok: true, cible: cible.nom, code: cible.code, motif: a.motif,
+               mouvement: qte(quantite, unite),
+               stock_avant: qte(actuel, unite),
+               stock_apres: qte(actuel + quantite, unite) };
+    },
+  },
+
 ];
 
 const PAR_NOM = new Map(OUTILS.map(o => [o.nom, o]));
@@ -777,4 +997,4 @@ function executer(nom, args, ctx) {
 
 module.exports = { OUTILS, schemas, executer, annulerTour, pourRole,
                    dernierTourAnnulable,
-                   resoudreOrdre, resoudreProduit };
+                   resoudreOrdre, resoudreProduit, resoudreMatiere };

@@ -230,7 +230,7 @@ textarea{min-height:70px;resize:vertical}
 .fil{margin-bottom:18px}
 .tour{border-left:3px solid var(--ligne);padding:2px 0 2px 14px;margin-bottom:18px}
 .tour .dem{margin:0 0 8px;color:var(--gris)}
-.tour .dem b{color:var(--texte);margin-right:6px}
+.tour .dem b{color:var(--encre);margin-right:6px}
 .tour .rep p{margin:0 0 8px}
 .tour .rep.err{color:var(--rouge)}
 .faits{background:var(--bleu-pale);border-radius:5px;padding:9px 12px;margin-top:10px;
@@ -244,7 +244,7 @@ textarea{min-height:70px;resize:vertical}
 /* un bouton qui doit se lire comme un lien : formulaire sans l'air d'en être un */
 .lien{background:none;border:0;padding:0;font:inherit;color:var(--bleu);
   cursor:pointer;text-align:left;text-decoration:underline}
-.lien:hover{color:var(--texte)}
+.lien:hover{color:var(--encre)}
 .exemples{list-style:none;padding:0;margin:0 0 18px}
 .exemples li{margin-bottom:6px}
 .saisie{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;padding:12px}
@@ -394,18 +394,83 @@ table.fab tr.p-basse{opacity:.62}
 .gabarits{margin:0 0 18px}
 .gabarits>summary{cursor:pointer;color:var(--gris);font-size:.92rem;
   padding:4px 0;user-select:none}
-.gabarits>summary:hover{color:var(--texte)}
+.gabarits>summary:hover{color:var(--encre)}
 .gabarits ul{list-style:none;padding:0;margin:8px 0 0}
 .gabarits li{margin:0 0 2px}
 .modele{display:flex;flex-wrap:wrap;align-items:center;gap:6px;
   padding:7px 8px;border-radius:5px;line-height:1.9}
-.modele:hover{background:var(--carte)}
+.modele:hover{background:var(--survol)}
 .modele .phrase{flex:1 1 20ch}
 .modele select{font:inherit;font-size:.94rem;padding:2px 4px;max-width:22ch;
   border:1px solid var(--ligne);border-radius:4px;
-  background:var(--fond);color:var(--texte)}
+  background:var(--champ);color:var(--encre)}
 .modele .inserer{flex:0 0 auto;font-size:.88rem}
+
+/* ---------------------------------------------------------- inventaire
+ * Un tableau de stock se lit en diagonale : on cherche le rouge. Les nombres
+ * sont donc alignés à droite et tabulaires, pour que les ordres de grandeur
+ * se comparent à l'œil sans avoir à lire les chiffres.
+ */
+.tab .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tab tfoot td{border-top:2px solid var(--ligne);padding-top:8px;font-size:.94rem}
+.rouge{color:var(--rouge)}
+.vert{color:var(--vert)}
+
+/* L'état en un mot. Les trois couleurs disent trois choses différentes : ce
+   qui manquera (rouge), ce qui est bas (ambre), ce qu'on ignore (contour
+   pointillé) — et l'inconnu n'est pas une alerte, c'est une donnée absente. */
+.etat{display:inline-block;font-size:.82rem;padding:2px 7px;border-radius:10px;
+  white-space:nowrap;border:1px solid transparent}
+.etat.ok{color:var(--gris)}
+.etat.bas{color:var(--ambre);border-color:var(--ambre-ligne);background:var(--ambre-pale)}
+.etat.rupture{color:var(--rouge);border-color:var(--rouge-ligne);background:var(--rouge-pale)}
+.etat.inconnu{color:var(--gris);border-color:var(--ligne);border-style:dashed}
+.etat.hors{color:var(--gris);font-style:italic}
+
+.bloc-alerte{margin:0 0 22px;padding:14px 16px;border-radius:6px;
+  border:1px solid var(--rouge-ligne);background:var(--rouge-pale)}
+.bloc-alerte.doux{border-color:var(--ligne);background:var(--carte)}
+.bloc-alerte h2{margin:0 0 4px;font-size:1.02rem}
+.bloc-alerte .compte{color:var(--gris);font-weight:400}
+.pourquoi{color:var(--gris);font-size:.9rem;margin:0 0 10px;max-width:70ch}
+.alertes{list-style:none;padding:0;margin:0}
+.alertes li{padding:5px 0;border-top:1px solid var(--ligne)}
+.alertes li:first-child{border-top:0}
+.liste-plate{margin:0;line-height:2;font-size:.94rem}
+
+/* Les quatre chiffres d'une matière, côte à côte : stock, besoin, manque, seuil. */
+.chiffres{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;margin:0 0 20px}
+.chiffre{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;
+  padding:10px 12px}
+.chiffre b{display:block;font-size:1.35rem;font-variant-numeric:tabular-nums}
+.chiffre span{color:var(--gris);font-size:.85rem}
+.chiffre.alerte{border-color:var(--rouge-ligne)}
+.chiffre.alerte b{color:var(--rouge)}
+.chiffre.inconnu b{color:var(--gris)}
+
+.saisie-mvt{margin:0 0 22px}
+.mvt,.calc{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.mvt .champ,.calc .champ{flex:1 1 170px;margin:0}
+.mvt .champ.large{flex:1 1 100%}
+.mvt button,.calc button{flex:0 0 auto}
+.filtre{display:flex;gap:8px;align-items:center;margin:0 0 12px;flex-wrap:wrap}
+.grille2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.case{display:block;margin:10px 0;color:var(--encre2)}
+.ar{font-size:.9em;color:var(--gris);font-weight:400}
+.fil-ariane{color:var(--gris);font-size:.88rem;margin:0 0 4px}
+
 @media (max-width:720px){
   .modele{line-height:2.1}
   .modele select{max-width:100%}
+  .grille2{grid-template-columns:1fr}
+  /* Un tableau de stock ne défile pas latéralement : il s'empile, chaque
+     cellule reprenant son libellé. C'est le téléphone de l'atelier. */
+  .tab.stock thead{position:absolute;left:-9999px}
+  .tab.stock tr{display:block;border:1px solid var(--ligne);border-radius:6px;
+    padding:8px 10px;margin:0 0 8px}
+  .tab.stock td{display:flex;justify-content:space-between;gap:12px;
+    border:0;padding:3px 0;text-align:left}
+  .tab.stock td::before{content:attr(data-l);color:var(--gris);font-size:.85rem}
+  .tab.stock td.num{text-align:right}
 }

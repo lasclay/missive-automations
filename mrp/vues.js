@@ -6,6 +6,7 @@
  * rend l'application utilisable sur une connexion lente.
  */
 'use strict';
+const { CATEGORIES: CATEGORIES_M, qte: qteFR } = require('./db.js');
 
 // ------------------------------------------------------------------ utilitaires
 const e = (s) => String(s ?? '').replace(/[&<>"']/g,
@@ -124,6 +125,8 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/ordres', 'Ordres de production', 'ordres')}
     ${lien('/suivi', 'Suivi', 'suivi')}
     ${lien('/produits', 'Produits', 'produits')}
+    ${lien('/inventaire', 'Inventaire', 'inventaire')}
+    ${lien('/besoins', 'Besoins', 'besoins')}
     ${lien('/cedule', 'Cédule', 'cedule')}
     ${lien('/assistant', 'Assistant', 'assistant')}
   </nav>
@@ -449,7 +452,8 @@ function vueProduits({ user, produits, msg }) {
   return page({ titre: 'Produits', user, corps, actif: 'produits', msg });
 }
 
-function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg }) {
+function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg,
+                     nomenclature = [], stock = null, coutMatiere = null }) {
   const admin = user.role === 'admin';
   const studio = photos.filter(f => f.type === 'studio');
   const contexte = photos.filter(f => f.type === 'contexte');
@@ -480,6 +484,55 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg }) {
      ${materiaux.map(m => `<tr><td style="width:34%"><b>${e(m.nom)}</b></td>
        <td class="muted">${e(m.detail)}</td></tr>`).join('')}
      </table></div></div>` : ''}
+
+  ${nomenclature.length ? `<div class="carte">
+    <h2>Nomenclature <span class="muted">— ce qu'il faut pour en faire un</span></h2>
+    <div class="tbl"><table>
+     <tr><th>Matière</th><th>Catégorie</th><th class="num">Par unité</th>
+         <th class="num">Coût</th><th class="num">En stock</th></tr>
+     ${nomenclature.map(n => `<tr>
+       <td><a href="/matieres/${n.matiere_id}"><b>${e(n.nom)}</b></a></td>
+       <td class="muted">${e(CATEGORIES_M[n.categorie] || n.categorie)}</td>
+       <td class="num">${n.consommation === null
+         ? '<span class="muted">à chiffrer</span>'
+         : qteFR(n.consommation, n.unite)}${n.source === 'a_confirmer'
+         ? ' <span class="muted" title="Le chiffrier se contredit sur cette ligne">⚠</span>' : ''}</td>
+       <td class="num">${n.cout_par_produit === null ? '<span class="muted">—</span>'
+         : n.cout_par_produit.toFixed(2) + ' $'}</td>
+       <td class="num">${!n.suivi_stock ? '<span class="muted">n/a</span>'
+         : qteFR(n.stock, n.unite)}</td>
+     </tr>`).join('')}
+     ${coutMatiere && coutMatiere.cout ? `<tr><td colspan="3"><b>Coût matière</b></td>
+       <td class="num"><b>${coutMatiere.cout.toFixed(2)} $</b></td><td></td></tr>` : ''}
+     </table></div>
+    <p class="muted" style="margin:10px 0 0">
+      <a href="/besoins?produit=${p.id}&quantite=100">Calculer pour une série</a>
+      — combien il en faut pour N unités, et si le stock suffit.</p>
+  </div>` : ''}
+
+  ${stock ? `<div class="carte">
+    <h2>Stock de produits finis</h2>
+    <p style="margin:0 0 10px">
+      <b style="font-size:1.3rem">${stock.jamais_compte ? '—' : qteFR(stock.stock)}</b>
+      prêt${stock.emplacement ? ` · ${e(stock.emplacement)}` : ''}
+      ${stock.seuil_alerte ? `<span class="muted"> · seuil ${qteFR(stock.seuil_alerte)}</span>` : ''}
+      ${stock.sous_seuil ? ' <span class="etat bas">sous le seuil</span>' : ''}
+      ${stock.jamais_compte ? ' <span class="etat inconnu">jamais compté</span>' : ''}</p>
+    <form method="post" action="/produits/${p.id}/mouvements" class="mvt">
+      <div class="champ"><label for="mp">Quoi</label>
+        <select id="mp" name="motif">
+          <option value="production">Production — il en sort de l'atelier</option>
+          <option value="expedition">Expédition — il en part</option>
+          <option value="inventaire">Comptage — je déclare ce qu'il y a</option>
+          <option value="perte">Perte, rebut</option>
+        </select></div>
+      <div class="champ"><label for="qp">Quantité</label>
+        <input id="qp" name="quantite" type="number" min="0" step="1" required></div>
+      <div class="champ"><label for="rp">Référence</label>
+        <input id="rp" name="reference" type="text" maxlength="60"></div>
+      <button class="btn primaire">Enregistrer</button>
+    </form>
+  </div>` : ''}
 
   ${patrons.length ? `<div class="carte"><h2>Patrons</h2><div class="tbl"><table>
      <tr><th>Nom</th><th>Format</th><th>Dimensions</th><th>Note</th></tr>

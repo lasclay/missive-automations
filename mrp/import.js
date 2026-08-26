@@ -10,7 +10,7 @@
  *   donnees/correspondances.tsv  → la liste des produits de production
  *   donnees/shopify-produits.tsv → nom, description, lien boutique
  *   donnees/shopify-images.tsv   → photos (URL seulement, rien d'hébergé)
- *   donnees/nomenclatures.tsv    → matériaux, avec consommation et coût
+ *   donnees/nomenclatures.tsv    → matières, nomenclature calculable, coût
  *   donnees/cogs-tunisie.tsv     → prix, coût, marge, en note technique
  *   donnees/production-tunisie.md → consignes d'atelier, en note technique
  *   donnees/plan-production-2627.tsv → l'ordre de production de la saison
@@ -25,7 +25,8 @@
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
-const { db } = require('./db.js');
+const { db, uniteAffichee } = require('./db.js');
+const chiffrier = require('./chiffrier.js');
 
 const DOSSIER = path.join(__dirname, 'donnees');
 const ECRIRE = process.argv.includes('--ecrire');
@@ -91,6 +92,83 @@ const bomParProduit = new Map();
 for (const r of tsv('nomenclatures.tsv')) {
   if (!bomParProduit.has(r.produit)) bomParProduit.set(r.produit, []);
   bomParProduit.get(r.produit).push(r);
+}
+
+/* --------------------------------------------------------------- matières
+ * Le chiffrier liste les matières PAR PRODUIT : « Vegeto 150gsm » revient sur
+ * cinq lignes, une par produit qui en consomme. L'inventaire, lui, en veut une
+ * seule — c'est un rouleau, pas cinq.
+ *
+ * On regroupe donc par nom, et on choisit le prix et l'unité les plus fréquents
+ * du groupe. Quand le groupe n'est pas d'accord avec lui-même — « Marilite
+ * bleu » est à 3,60 $ sur la besace et à 6,00 $ sur le tote bag — on garde le
+ * plus fréquent ET on l'écrit dans la note. Trancher en silence ferait
+ * disparaître une question qui appartient au chiffrier, pas au MRP.
+ */
+const CODES_PRIS = new Set();
+
+/** « Vegeto 150gsm » → « VEGETO-150GSM », unique dans la base. */
+function codeMatiere(nom) {
+  let base = String(nom).normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toUpperCase().replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 28)
+    || 'MATIERE';
+  let c = base, n = 2;
+  while (CODES_PRIS.has(c)) c = `${base}-${n++}`;
+  CODES_PRIS.add(c);
+  return c;
+}
+
+/** La valeur la plus fréquente d'une liste ; à égalité, la première vue. */
+function dominante(valeurs) {
+  const n = new Map();
+  for (const v of valeurs) n.set(v, (n.get(v) || 0) + 1);
+  return [...n.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+}
+
+const matieres = new Map();     // clé normalisée → fiche matière
+const cleMatiere = (nom) => String(nom).toLowerCase().replace(/\s+/g, ' ').trim();
+
+for (const r of tsv('nomenclatures.tsv')) {
+  if (!r.materiau) continue;
+  const cle = cleMatiere(r.materiau);
+  if (!matieres.has(cle))
+    matieres.set(cle, { nom: r.materiau.trim(), lignes: [] });
+  matieres.get(cle).lignes.push(r);
+}
+
+for (const m of matieres.values()) {
+  const lus = m.lignes.map(r => ({ r, c: chiffrier.consommationDe(r) }));
+
+  // Le prix et l'unité forment une PAIRE indissociable : le chiffrier donne
+  // « m (8,22 $/m²) » — 12,50 $ le mètre linéaire, 8,22 $ le mètre carré. Les
+  // choisir séparément afficherait 12,50 $/m², un prix qui n'existe nulle part.
+  const paires = lus.filter(x => x.c.prix_unitaire)
+                    .map(x => `${x.c.prix_unitaire}|${x.c.unite}`);
+  const retenue = dominante(paires);
+
+  m.code = codeMatiere(m.nom);
+  m.categorie = dominante(m.lignes.map(r => r.categorie)) || 'autre';
+  m.unite = retenue ? retenue.split('|')[1] : (dominante(lus.map(x => x.c.unite).filter(Boolean)) || 'unite');
+  m.cout_unite = retenue ? Number(retenue.split('|')[0]) : null;
+  const prix = [...new Set(paires)];
+  m.description = m.lignes.map(r => r.description).find(Boolean) || '';
+  // Une ligne de coût agrégée n'a pas de tablette : « Tissus & autres 3,23 $ »
+  // recouvre une dizaine d'articles. Elle compte au coût, pas à l'inventaire.
+  m.suivi_stock = lus.some(x => x.c.suivi_stock) ? 1 : 0;
+
+  const notes = [];
+  if (prix.length > 1)
+    notes.push(`Le chiffrier lui donne ${prix.length} tarifs différents selon le `
+      + `produit (${prix.map(p => {
+            const [v, u] = p.split('|');
+            return `${Number(v).toFixed(2)} $/${u === 'm2' ? 'm²' : u}`;
+          }).join(', ')}) ; retenu : `
+      + `${Number(m.cout_unite).toFixed(2)} $/${m.unite === 'm2' ? 'm²' : m.unite}. `
+      + `À trancher au chiffrier — le stock et le coût de revient en dépendent.`);
+  if (!m.suivi_stock)
+    notes.push('Ligne de coût agrégée du chiffrier, pas un article en tablette : '
+      + 'elle compte dans le coût de revient et pas dans l\'inventaire.');
+  m.note = notes.join(' ');
 }
 
 /** Les consignes d'atelier, une par produit, tirées du markdown de suivi. */
@@ -201,11 +279,56 @@ dire('  Fiabilité du rattachement Shopify :');
 for (const [k, v] of Object.entries(parConfiance).sort((a, b) => b[1] - a[1]))
   dire(`    ${String(v).padStart(3)}  ${k}`);
 
+// ------------------------------------------------------ rapport : matières
+{
+  const lus = [...matieres.values()].flatMap(m =>
+    m.lignes.map(r => ({ m, r, c: chiffrier.consommationDe(r) })));
+  const par = {};
+  for (const x of lus) par[x.c.source || 'indéterminée'] =
+    (par[x.c.source || 'indéterminée'] || 0) + 1;
+
+  dire(`\n  Matières : ${matieres.size} distinctes pour ${lus.length} lignes de `
+     + `nomenclature.`);
+  dire('  Consommation par unité produite :');
+  const QUOI = {
+    chiffrier: 'déduite du coût, la phrase du chiffrier confirme',
+    deduit: 'déduite du coût, la phrase ne dit rien de comparable',
+    a_confirmer: 'déduite du coût, la phrase dit AUTRE CHOSE',
+    saisi: 'lue dans la phrase, aucun prix unitaire pour la vérifier',
+    'indéterminée': 'ni coût ni phrase exploitables',
+  };
+  for (const [k, v] of Object.entries(par).sort((a, b) => b[1] - a[1]))
+    dire(`    ${String(v).padStart(3)}  ${QUOI[k] || k}`);
+
+  // Ce qui ne concorde pas mérite d'être nommé ligne par ligne : c'est le
+  // chiffrier qu'il faut aller corriger, et sans la liste personne n'ira.
+  const ecarts = lus.filter(x => x.c.source === 'a_confirmer');
+  if (ecarts.length) {
+    dire(`\n  ${ecarts.length} lignes où le coût et la phrase ne disent pas la `
+       + `même chose.\n  Le coût fait foi — c'est lui qui a servi à fixer les prix `
+       + `de vente. La phrase est à corriger au chiffrier :`);
+    for (const x of ecarts)
+      dire(`    ${x.r.produit.slice(0, 22).padEnd(24)}${x.m.nom.slice(0, 26).padEnd(28)}`
+         + `coût → ${x.c.consommation.toFixed(4)} ${x.c.unite}`.padEnd(26)
+         + `texte → « ${x.r.consommation} »`);
+  }
+
+  const sansStock = [...matieres.values()].filter(m => !m.suivi_stock);
+  if (sansStock.length)
+    dire(`\n  ${sansStock.length} lignes de coût agrégées, hors inventaire : `
+       + sansStock.map(m => m.nom).join(', ') + '.');
+}
+
 if (!ECRIRE) {
   dire('\n  Aperçu des dix premiers :');
   for (const l of lignes.slice(0, 10))
     dire(`    ${l.code.padEnd(16)} ${l.nom.slice(0, 42).padEnd(44)}`
        + `${l.photos.length} photo(s)  ${l.bom.length} matériau(x)`);
+  dire('\n  Aperçu de dix matières :');
+  for (const m of [...matieres.values()].slice(0, 10))
+    dire(`    ${m.code.padEnd(26)} ${m.nom.slice(0, 26).padEnd(28)}`
+       + `${m.cout_unite === null ? '   —   ' : (m.cout_unite.toFixed(2) + ' $').padStart(8)}`
+       + ` / ${uniteAffichee(m.unite).padEnd(7)} ${m.suivi_stock ? '' : '(hors inventaire)'}`);
   dire('\n  Relancer avec --ecrire pour appliquer.\n');
   process.exit(0);
 }
@@ -277,6 +400,118 @@ try {
 } catch (e) {
   db.exec('ROLLBACK');
   console.error(`\n  Échec, rien n'a été écrit : ${e.message}\n`);
+  process.exit(1);
+}
+
+// --------------------------------------------- matières et nomenclature
+// Les matières s'écrivent APRÈS les produits : la nomenclature a besoin des
+// deux identifiants.
+//
+// Ce que l'import possède : le nom, la catégorie, l'unité, le prix, la
+// consommation. Ce qu'il ne touche JAMAIS : le seuil d'alerte, l'emplacement,
+// le fournisseur, le nom arabe, le délai. Ces champs-là n'existent dans aucun
+// fichier — ils se saisissent dans l'app, et un import qui les écraserait
+// ferait perdre le seul travail que la machine ne peut pas refaire.
+db.exec('BEGIN');
+try {
+  const idProduit = new Map(
+    db.prepare(`SELECT id, code FROM produits`).all().map(p => [p.code, p.id]));
+  const dejaLa = new Map(
+    db.prepare(`SELECT id, code FROM matieres`).all().map(m => [m.code, m.id]));
+
+  const insMat = db.prepare(`INSERT INTO matieres
+      (code, nom, categorie, description, unite, cout_unite, suivi_stock, note)
+      VALUES (?,?,?,?,?,?,?,?)`);
+  const majMat = db.prepare(`UPDATE matieres SET nom=?, categorie=?, description=?,
+      unite=?, cout_unite=?, suivi_stock=?, note=?, maj_le=datetime('now')
+      WHERE id=?`);
+
+  let matCrees = 0, matMaj = 0;
+  const idMatiere = new Map();          // clé normalisée → id
+  for (const [cle, m] of matieres) {
+    const ex = dejaLa.get(m.code);
+    if (ex) {
+      majMat.run(m.nom, m.categorie, m.description, m.unite, m.cout_unite,
+                 m.suivi_stock, m.note, ex);
+      idMatiere.set(cle, ex); matMaj++;
+    } else {
+      idMatiere.set(cle, insMat.run(m.code, m.nom, m.categorie, m.description,
+        m.unite, m.cout_unite, m.suivi_stock, m.note).lastInsertRowid);
+      matCrees++;
+    }
+  }
+
+  const insNom = db.prepare(`INSERT INTO nomenclature
+      (produit_id, matiere_id, consommation, consommation_texte,
+       cout_par_produit, source, rang) VALUES (?,?,?,?,?,?,?)`);
+  const majNom = db.prepare(`UPDATE nomenclature SET consommation=?,
+      consommation_texte=?, cout_par_produit=?, source=?, rang=?
+      WHERE produit_id=? AND matiere_id=?`);
+  const nomExistante = db.prepare(`SELECT id, source FROM nomenclature
+      WHERE produit_id=? AND matiere_id=?`);
+  const nomDuProduit = db.prepare(`SELECT matiere_id FROM nomenclature
+      WHERE produit_id=?`);
+  const supNom = db.prepare(`DELETE FROM nomenclature
+      WHERE produit_id=? AND matiere_id=?`);
+
+  let nCrees = 0, nMaj = 0, nGardees = 0, nRetirees = 0;
+  for (const l of lignes) {
+    const pid = idProduit.get(l.code);
+    if (pid === undefined) continue;
+
+    // Une matière qui reviendrait deux fois dans le même produit se cumule :
+    // deux lignes de Vegeto sur un manteau, c'est une quantité, pas un conflit.
+    const parMatiere = new Map();
+    l.bom.forEach((r, i) => {
+      const mid = idMatiere.get(cleMatiere(r.materiau));
+      if (mid === undefined) return;
+      const c = chiffrier.consommationDe(r);
+      const cout = chiffrier.nombre(r.cout_par_produit);
+      const e = parMatiere.get(mid);
+      if (e) {
+        e.consommation = e.consommation === null || c.consommation === null
+          ? null : e.consommation + c.consommation;
+        e.cout = e.cout === null || cout === null ? null : e.cout + cout;
+        e.texte = [e.texte, r.consommation].filter(Boolean).join(' + ');
+      } else {
+        parMatiere.set(mid, { consommation: c.consommation, cout,
+          texte: r.consommation || '', source: c.source || 'a_confirmer', rang: i + 1 });
+      }
+    });
+
+    for (const [mid, v] of parMatiere) {
+      const ex = nomExistante.get(pid, mid);
+      if (!ex) {
+        insNom.run(pid, mid, v.consommation, v.texte, v.cout, v.source, v.rang);
+        nCrees++;
+      } else if (ex.source === 'saisi') {
+        // Quelqu'un a mesuré et saisi cette consommation dans l'app. Le
+        // chiffrier ne la reprend pas : la mesure vaut mieux que la déduction.
+        nGardees++;
+      } else {
+        majNom.run(v.consommation, v.texte, v.cout, v.source, v.rang, pid, mid);
+        nMaj++;
+      }
+    }
+
+    // Une matière retirée du chiffrier sort de la nomenclature — sauf si elle
+    // y a été ajoutée à la main.
+    for (const r of nomDuProduit.all(pid)) {
+      if (parMatiere.has(r.matiere_id)) continue;
+      const ex = nomExistante.get(pid, r.matiere_id);
+      if (ex && ex.source === 'saisi') { nGardees++; continue; }
+      supNom.run(pid, r.matiere_id); nRetirees++;
+    }
+  }
+
+  db.exec('COMMIT');
+  dire(`  ${matCrees} matières créées, ${matMaj} mises à jour`);
+  dire(`  nomenclature : ${nCrees} lignes créées, ${nMaj} mises à jour`
+     + `${nGardees ? `, ${nGardees} saisies à la main préservées` : ''}`
+     + `${nRetirees ? `, ${nRetirees} retirées` : ''}\n`);
+} catch (e) {
+  db.exec('ROLLBACK');
+  console.error(`\n  Matières : échec, rien n'a été écrit : ${e.message}\n`);
   process.exit(1);
 }
 
@@ -370,10 +605,15 @@ try {
 // -------------------------------------------------------- ce qui manque encore
 dire('  Ce qui n\'a PAS été importé, faute de source :');
 dire('    · les autres échéances — le plan ne donne que l\'expédition');
-dire('    · l\'inventaire des matières premières et des produits finis');
+// La nomenclature dit ce que la production va CONSOMMER ; aucun fichier ne dit
+// ce qu'il y a en tablette. Tant qu'un premier comptage n'est pas saisi, les
+// besoins se calculent contre un stock inconnu, et l'app le dit plutôt que de
+// supposer zéro.
+dire('    · les QUANTITÉS en stock — la nomenclature est là, le comptage non');
 dire('    · les emplacements (palettes, boîtes)');
+dire('    · les seuils de réapprovisionnement');
 dire('    · les patrons rattachés aux produits');
-dire('    · les seuils de réapprovisionnement\n');
+dire('    · les fournisseurs et délais par matière\n');
 const flous = lignes.filter(l => l._confiance !== 'sûr');
 if (flous.length) {
   dire(`  ${flous.length} rattachements Shopify restent à confirmer. Ils sont`);

@@ -26,9 +26,12 @@ const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs,
-        variantesItem } = require('./db.js');
+        variantesItem, etatMatieres, etatProduits, alertesStock,
+        nomenclatureProduit, produitsUtilisant, detailBesoin, coutMatiere,
+        mouvements, stocksMatieres, CATEGORIES, UNITES } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
+const V2 = require('./vues_inventaire.js');
 const assistant = require('./assistant.js');
 const outils = require('./outils.js');
 
@@ -233,6 +236,102 @@ function composer(modele, valeurs) {
     const v = valeurs[cle];
     return v ? v : '__________';
   }).replace(/\s+/g, ' ').trim();
+}
+
+/** « 45,5 » ou « 45.5 » → 45.5 ; refuse ce qui n'est pas un nombre. */
+function nombreSaisi(t, { defaut = null } = {}) {
+  const s = String(t ?? '').trim().replace(/\s| /g, '').replace(',', '.');
+  if (!s) return defaut;
+  const n = Number(s);
+  if (!Number.isFinite(n)) throw new Error(`« ${t} » n'est pas un nombre.`);
+  return n;
+}
+
+/**
+ * Crée ou met à jour une matière. Le code est son identité : on le normalise
+ * plutôt que de refuser une minuscule ou un espace, mais il reste unique.
+ */
+function enregistrerMatiere(id, f) {
+  const code = String(f.code || '').trim().toUpperCase().replace(/\s+/g, '-');
+  const nom = String(f.nom || '').trim();
+  if (!code || !nom) throw new Error('Le code et le nom sont obligatoires.');
+  const jumeau = db.prepare(`SELECT id FROM matieres WHERE code = ?`).get(code);
+  if (jumeau && jumeau.id !== id)
+    throw new Error(`Le code ${code} est déjà pris.`);
+
+  const champs = {
+    code, nom,
+    nom_ar: String(f.nom_ar || '').trim().slice(0, 120),
+    categorie: CATEGORIES[f.categorie] ? f.categorie : 'autre',
+    description: String(f.description || '').trim().slice(0, 300),
+    unite: UNITES.includes(f.unite) ? f.unite : 'unite',
+    cout_unite: nombreSaisi(f.cout_unite),
+    fournisseur: String(f.fournisseur || '').trim().slice(0, 120),
+    delai_jours: f.delai_jours ? Math.max(0, Math.round(nombreSaisi(f.delai_jours))) : null,
+    seuil_alerte: Math.max(0, nombreSaisi(f.seuil_alerte, { defaut: 0 })),
+    emplacement: String(f.emplacement || '').trim().slice(0, 80),
+    suivi_stock: f.suivi_stock ? 1 : 0,
+    photo_url: V.urlAcceptable(f.photo_url) ? String(f.photo_url).trim() : '',
+    note: String(f.note || '').trim().slice(0, 1000),
+  };
+
+  if (!id) {
+    const cols = Object.keys(champs);
+    return db.prepare(`INSERT INTO matieres (${cols.join(',')})
+      VALUES (${cols.map(() => '?').join(',')})`)
+      .run(...cols.map(k => champs[k])).lastInsertRowid;
+  }
+  const cols = Object.keys(champs);
+  db.prepare(`UPDATE matieres SET ${cols.map(c => c + '=?').join(', ')},
+      actif=?, maj_le=datetime('now') WHERE id=?`)
+    .run(...cols.map(k => champs[k]), f.actif ? 1 : 0, id);
+  return id;
+}
+
+/**
+ * Enregistre un mouvement de stock.
+ *
+ * Le SIGNE vient du motif, pas de la saisie : personne ne devrait avoir à
+ * taper « -12 » pour dire qu'il a consommé douze mètres. Une consommation, une
+ * perte et une expédition sortent ; une réception et une production entrent.
+ *
+ * Le comptage est à part. Il ne s'ajoute pas au stock, il le REMPLACE : c'est
+ * le geste de l'inventaire physique — « il y en a 42 », pas « il en est arrivé
+ * 42 ». On enregistre donc l'écart entre ce qu'on trouve et ce que la base
+ * croyait, ce qui laisse une trace lisible de la dérive.
+ */
+const SORTIES = new Set(['consommation', 'perte', 'expedition']);
+
+function poserMouvement({ matiereId = null, produitId = null, f, user }) {
+  const motif = ['reception', 'consommation', 'ajustement', 'production',
+                 'expedition', 'perte', 'inventaire'].includes(f.motif)
+    ? f.motif : 'ajustement';
+  const saisie = nombreSaisi(f.quantite);
+  if (saisie === null) throw new Error('Quantité manquante.');
+
+  let quantite = saisie, note = String(f.note || '').trim().slice(0, 200);
+  if (motif === 'inventaire') {
+    if (saisie < 0) throw new Error('Un comptage ne peut pas être négatif.');
+    const actuel = db.prepare(`SELECT COALESCE(SUM(quantite), 0) AS s FROM mouvements
+        WHERE ${matiereId ? 'matiere_id' : 'produit_id'} = ?`)
+      .get(matiereId || produitId).s;
+    quantite = saisie - actuel;
+    if (quantite === 0) throw new Error(
+      'Le comptage confirme le stock enregistré : rien à corriger.');
+    note = [`comptage à ${saisie} (la base disait ${Number(actuel.toFixed(3))})`, note]
+      .filter(Boolean).join(' · ');
+  } else if (SORTIES.has(motif)) {
+    // On accepte le signe si l'utilisateur l'a mis, sinon on le pose.
+    quantite = -Math.abs(saisie);
+  } else {
+    quantite = Math.abs(saisie);
+  }
+
+  return db.prepare(`INSERT INTO mouvements
+      (matiere_id, produit_id, quantite, motif, reference, note, utilisateur_id)
+      VALUES (?,?,?,?,?,?,?)`)
+    .run(matiereId, produitId, quantite, motif,
+         String(f.reference || '').trim().slice(0, 60), note, user.id).lastInsertRowid;
 }
 
 // --------------------------------------------------------------------- routes
@@ -440,6 +539,19 @@ async function router(req, res, url, user) {
           photos: R.photos.all(id), materiaux: R.materiaux.all(id),
           patrons: R.patrons.all(id) }));
       }
+      // Le stock de produits finis se déclare comme celui des matières :
+      // l'atelier produit, Québec expédie, chacun saisit ce qu'il constate.
+      if (reste === '/mouvements' && req.method === 'POST') {
+        const f = await corpsFormulaire(req);
+        try {
+          poserMouvement({ produitId: id, f, user });
+          return vers(res, `/produits/${id}?ok=`
+            + encodeURIComponent('Mouvement enregistré.'));
+        } catch (err) {
+          return vers(res, `/produits/${id}?err=` + encodeURIComponent(err.message));
+        }
+      }
+
       if (reste === '/photos' && req.method === 'POST') {
         const f = await corpsFormulaire(req);
         if (!V.urlAcceptable(f.url))
@@ -483,7 +595,101 @@ async function router(req, res, url, user) {
 
     return html(res, V.vueProduit({ user, p: pr, msg,
       photos: R.photos.all(id), materiaux: R.materiaux.all(id),
-      patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id) }));
+      patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id),
+      nomenclature: nomenclatureProduit(id),
+      coutMatiere: coutMatiere(id),
+      stock: etatProduits().find(x => x.id === id) || null }));
+  }
+
+  // ---- inventaire
+  if (p === '/inventaire') {
+    const cat = CATEGORIES[q.get('categorie')] ? q.get('categorie') : '';
+    const toutes = etatMatieres();
+    return html(res, V2.vueInventaire({ user, msg, categorie: cat,
+      matieres: cat ? toutes.filter(m => m.categorie === cat) : toutes,
+      alertes: alertesStock(), produits: etatProduits() }));
+  }
+
+  // ---- besoins : le calculateur
+  if (p === '/besoins') {
+    const produits = R.produitsActifs.all();
+    const choix = q.get('produit')
+      ? produits.find(x => String(x.id) === q.get('produit')) : null;
+    const quantite = Math.min(1e6, Math.max(1, Number(q.get('quantite')) || 100));
+    const stocks = stocksMatieres();
+    const calcul = choix ? nomenclatureProduit(choix.id).map(n => ({
+      ...n,
+      requis: n.consommation === null ? null : n.consommation * quantite,
+      jamais_compte: !stocks.has(n.matiere_id),
+    })) : [];
+    return html(res, V2.vueBesoins({ user, msg, produits, choix, quantite, calcul,
+      engages: etatMatieres()
+        .filter(m => m.besoin > 0 || m.produits_flous > 0)
+        .sort((a, b) => b.cout_manque - a.cout_manque
+                     || b.manque - a.manque
+                     || (b.besoin * (b.cout_unite || 0)) - (a.besoin * (a.cout_unite || 0))) }));
+  }
+
+  // ---- matières
+  if (p === '/matieres/nouveau') {
+    if (!admin) return refus();
+    if (req.method === 'POST') {
+      const f = await corpsFormulaire(req);
+      try {
+        const id = enregistrerMatiere(null, f);
+        return vers(res, `/matieres/${id}?ok=` + encodeURIComponent('Matière créée.'));
+      } catch (err) {
+        return vers(res, '/matieres/nouveau?err=' + encodeURIComponent(err.message));
+      }
+    }
+    return html(res, V2.vueMatiereForm({ user, msg }));
+  }
+  {
+    const mm = p.match(/^\/matieres\/(\d+)(\/[a-z]+)?$/);
+    if (mm) {
+      const id = Number(mm[1]), reste = mm[2] || '';
+      const brute = db.prepare(`SELECT * FROM matieres WHERE id = ?`).get(id);
+      if (!brute) return vers(res, '/inventaire?err='
+        + encodeURIComponent('Matière introuvable.'));
+
+      if (reste === '/modifier') {
+        if (!admin) return refus();
+        if (req.method === 'POST') {
+          const f = await corpsFormulaire(req);
+          try {
+            enregistrerMatiere(id, f);
+            return vers(res, `/matieres/${id}?ok=`
+              + encodeURIComponent('Fiche enregistrée.'));
+          } catch (err) {
+            return vers(res, `/matieres/${id}/modifier?err=`
+              + encodeURIComponent(err.message));
+          }
+        }
+        return html(res, V2.vueMatiereForm({ user, m: brute, msg }));
+      }
+
+      // Un mouvement est ouvert aux deux rôles : c'est l'atelier qui reçoit
+      // les rouleaux et qui les consomme. Lui refuser la saisie reviendrait à
+      // demander à Québec de deviner ce qui se passe à six mille kilomètres.
+      if (reste === '/mouvements' && req.method === 'POST') {
+        const f = await corpsFormulaire(req);
+        try {
+          poserMouvement({ matiereId: id, f, user });
+          return vers(res, `/matieres/${id}?ok=`
+            + encodeURIComponent('Mouvement enregistré.'));
+        } catch (err) {
+          return vers(res, `/matieres/${id}?err=` + encodeURIComponent(err.message));
+        }
+      }
+
+      if (!reste) {
+        const etat = etatMatieres({ inclureInactives: true }).find(x => x.id === id)
+                  || { ...brute, stock: 0, besoin: 0, manque: 0, jamais_compte: true };
+        return html(res, V2.vueMatiere({ user, msg, m: etat,
+          mouvements: mouvements({ matiereId: id, limite: 40 }),
+          besoin: detailBesoin(id), produits: produitsUtilisant(id) }));
+      }
+    }
   }
 
   // ---- assistant : il exécute, il ne fait pas que répondre

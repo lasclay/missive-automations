@@ -80,6 +80,91 @@ CREATE TABLE IF NOT EXISTS produit_patrons (
   rang          INTEGER NOT NULL DEFAULT 0
 );
 
+-- ----------------------------------------------------------------- matières
+-- Les matières premières et fournitures : tissus, isolants, quincaillerie,
+-- étiquettes, emballage. C'est l'amont de la production — ce qui se commande,
+-- se reçoit, se consomme, et qui manque.
+--
+-- "suivi_stock = 0" marque les lignes de COÛT qui ne sont pas des matières
+-- réelles : « Tissus & autres 3,23 $ » du chiffrier des mitaines agrège une
+-- dizaine d'articles sous un seul prix. Elles comptent dans le coût de revient
+-- et ne comptent pas dans l'inventaire — leur donner un stock inventerait un
+-- article qui n'existe pas en tablette.
+CREATE TABLE IF NOT EXISTS matieres (
+  id            INTEGER PRIMARY KEY,
+  code          TEXT NOT NULL UNIQUE,
+  nom           TEXT NOT NULL,
+  nom_ar        TEXT DEFAULT '',      -- l'atelier lit l'arabe ; voir README
+  categorie     TEXT NOT NULL DEFAULT 'autre'
+                CHECK (categorie IN ('tissu','isolant','entoilage','quincaillerie',
+                                     'etiquette','fil','emballage','autre')),
+  description   TEXT DEFAULT '',
+  unite         TEXT NOT NULL DEFAULT 'unite',   -- m, m2, kg, g, pied, pouce, unite
+  cout_unite    REAL,                 -- $ CAD par unité ; NULL = inconnu
+  fournisseur   TEXT DEFAULT '',
+  delai_jours   INTEGER,              -- délai d'approvisionnement observé
+  seuil_alerte  REAL NOT NULL DEFAULT 0,
+  emplacement   TEXT DEFAULT '',      -- « Atelier Tunisie », « Entrepôt QC »
+  suivi_stock   INTEGER NOT NULL DEFAULT 1,
+  photo_url     TEXT DEFAULT '',
+  note          TEXT DEFAULT '',
+  actif         INTEGER NOT NULL DEFAULT 1,
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now')),
+  maj_le        TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- La nomenclature calculable : combien de CETTE matière part dans UN produit.
+-- "produit_materiaux" reste à côté, en texte libre, pour ce que la fiche
+-- raconte à l'humain. Celle-ci sert au calcul des besoins ; elle a besoin
+-- d'un nombre, pas d'une phrase.
+--
+-- "consommation" est dans l'unité de la matière. "consommation_texte" garde
+-- ce que disait le chiffrier — « 2 pads (4,80 pads/m) », « 36,6 g/paire » —
+-- parce que c'est ça que l'atelier reconnaît, et parce qu'un nombre déduit
+-- sans sa phrase d'origine ne se vérifie plus.
+CREATE TABLE IF NOT EXISTS nomenclature (
+  id            INTEGER PRIMARY KEY,
+  produit_id    INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+  matiere_id    INTEGER NOT NULL REFERENCES matieres(id) ON DELETE CASCADE,
+  consommation  REAL,                 -- par unité de produit fini ; NULL = à établir
+  consommation_texte TEXT DEFAULT '',
+  cout_par_produit   REAL,            -- $ CAD, tel que posé au chiffrier COGS
+  source        TEXT NOT NULL DEFAULT 'chiffrier'
+                CHECK (source IN ('chiffrier','deduit','saisi','a_confirmer')),
+  note          TEXT DEFAULT '',
+  rang          INTEGER NOT NULL DEFAULT 0,
+  UNIQUE (produit_id, matiere_id)
+);
+CREATE INDEX IF NOT EXISTS idx_nomen_produit ON nomenclature(produit_id);
+CREATE INDEX IF NOT EXISTS idx_nomen_matiere ON nomenclature(matiere_id);
+
+-- Les mouvements de stock. Le stock N'EST PAS une colonne : c'est la somme de
+-- ses mouvements. Une colonne se désynchronise en silence le jour où une
+-- écriture oublie de la mettre à jour ; une somme ne peut pas mentir sur son
+-- propre historique, et elle répond en plus à « pourquoi il en reste si peu ».
+-- Le volume le permet : quelques milliers de lignes par saison.
+--
+-- Signe : positif = entrée, négatif = sortie. Un ajustement d'inventaire est
+-- un mouvement comme un autre — l'écart constaté au comptage, avec son motif.
+CREATE TABLE IF NOT EXISTS mouvements (
+  id            INTEGER PRIMARY KEY,
+  matiere_id    INTEGER REFERENCES matieres(id) ON DELETE CASCADE,
+  produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
+  quantite      REAL NOT NULL,        -- signé
+  motif         TEXT NOT NULL DEFAULT 'ajustement'
+                CHECK (motif IN ('reception','consommation','ajustement',
+                                 'production','expedition','perte','inventaire')),
+  reference     TEXT DEFAULT '',      -- n° d'ordre, bon de commande, n° de lot
+  note          TEXT DEFAULT '',
+  utilisateur_id INTEGER REFERENCES utilisateurs(id),
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now')),
+  -- un mouvement porte sur une matière OU un produit fini, jamais les deux
+  CHECK ((matiere_id IS NULL) <> (produit_id IS NULL))
+);
+CREATE INDEX IF NOT EXISTS idx_mvt_matiere ON mouvements(matiere_id);
+CREATE INDEX IF NOT EXISTS idx_mvt_produit ON mouvements(produit_id);
+CREATE INDEX IF NOT EXISTS idx_mvt_date    ON mouvements(cree_le);
+
 -- --------------------------------------------------- ordres de production
 CREATE TABLE IF NOT EXISTS ordres (
   id            INTEGER PRIMARY KEY,
@@ -195,6 +280,10 @@ for (const sql of [
   // seul son bandeau amovible sort de l'atelier. Un produit fabriqué ailleurs
   // n'a rien à faire dans la liste de Montassar — il ne le fabrique pas.
   `ALTER TABLE produits ADD COLUMN fabrication TEXT NOT NULL DEFAULT 'tunisie'`,
+  // Stock de produits finis. Le seuil vaut 0 par défaut : tant que personne
+  // n'a dit combien il faut en garder, l'app n'a rien à alerter.
+  `ALTER TABLE produits ADD COLUMN seuil_alerte REAL NOT NULL DEFAULT 0`,
+  `ALTER TABLE produits ADD COLUMN emplacement TEXT NOT NULL DEFAULT ''`,
 ]) { try { db.exec(sql); } catch { /* colonne déjà présente */ } }
 
 /**
@@ -424,7 +513,289 @@ function progressionRecente(jours = 7) {
     GROUP BY o.id ORDER BY unites_avancees DESC`).all(`-${jours} days`);
 }
 
+/* =========================================================================
+ *                              INVENTAIRE
+ * ---------------------------------------------------------------------------
+ * Trois questions, dans cet ordre d'importance :
+ *   1. Qu'est-ce qui va manquer ?      → besoin engagé contre stock
+ *   2. Qu'est-ce qui est bas ?         → stock contre seuil
+ *   3. Qu'est-ce qu'il me reste ?      → le stock lui-même
+ *
+ * La première est la seule qui regarde devant. Un seuil d'alerte dit « il en
+ * reste peu » sans savoir ce qui s'en vient ; le besoin engagé dit « il en
+ * manquera 340 mètres pour finir ce qui est déjà promis ». C'est la deuxième
+ * qui fait agir, et c'est pour ça qu'elle passe en premier à l'écran.
+ * ========================================================================= */
+
+const CATEGORIES = {
+  tissu: 'Tissu', isolant: 'Isolant', entoilage: 'Entoilage',
+  quincaillerie: 'Quincaillerie', etiquette: 'Étiquette', fil: 'Fil',
+  emballage: 'Emballage', autre: 'Autre',
+};
+
+// L'ordre d'affichage suit la nomenclature d'un vêtement : ce qui se coupe,
+// ce qui se glisse dedans, ce qui se pose dessus.
+const RANG_CATEGORIE = { tissu: 0, isolant: 1, entoilage: 2, quincaillerie: 3,
+                         fil: 4, etiquette: 5, emballage: 6, autre: 7 };
+
+const MOTIFS = {
+  reception: 'Réception', consommation: 'Consommation', production: 'Production',
+  expedition: 'Expédition', ajustement: 'Ajustement', perte: 'Perte',
+  inventaire: 'Comptage',
+};
+
+/** Les unités qu'on rencontre réellement dans les fiches COGS. */
+const UNITES = ['m', 'm2', 'kg', 'g', 'pied', 'pouce', 'verge', 'rouleau',
+                'paire', 'unite'];
+
+/**
+ * L'unité telle qu'on l'écrit, pas telle qu'on la stocke : la base garde des
+ * identifiants sans accent ni exposant pour rester saisissables, l'écran doit
+ * lire correctement. Seules les unités comptables prennent le pluriel — on ne
+ * dit pas « 12 ms ».
+ */
+const UNITES_AFFICHEES = { m2: ['m²', 'm²'], unite: ['unité', 'unités'],
+                           paire: ['paire', 'paires'], pied: ['pied', 'pieds'],
+                           pouce: ['pouce', 'pouces'], verge: ['verge', 'verges'],
+                           rouleau: ['rouleau', 'rouleaux'] };
+
+function uniteAffichee(unite, n = 1) {
+  const f = UNITES_AFFICHEES[unite];
+  if (!f) return unite;
+  return Math.abs(n) >= 2 ? f[1] : f[0];
+}
+
+/** Affiche une quantité sans traîner de décimales inutiles. */
+function qte(n, unite = '') {
+  if (n === null || n === undefined) return '—';
+  const a = Math.abs(n);
+  const d = a >= 100 ? 0 : a >= 10 ? 1 : a >= 1 ? 2 : 3;
+  const arrondi = Number(n.toFixed(d));
+  const t = arrondi.toLocaleString('fr-CA');
+  return unite ? `${t} ${uniteAffichee(unite, arrondi)}` : t;
+}
+
+/**
+ * Le besoin engagé, par matière : ce que les ordres encore ouverts vont
+ * consommer. Deux chiffres, parce qu'ils ne répondent pas à la même question —
+ * `besoin` est ce qu'il RESTE à consommer (l'avancement déclaré est déjà
+ * déduit), `besoin_total` est ce que le plan complet demandait.
+ *
+ * Les lignes de nomenclature sans consommation chiffrée sont comptées à part
+ * plutôt qu'ignorées : une matière dont le besoin est inconnu n'a pas un
+ * besoin de zéro, et afficher zéro serait un mensonge tranquille.
+ */
+function besoinsMatieres() {
+  const chiffres = db.prepare(`
+    SELECT n.matiere_id,
+           SUM(i.quantite * (100 - i.avancement) / 100.0 * n.consommation) AS besoin,
+           SUM(i.quantite * n.consommation)                                AS besoin_total,
+           COUNT(DISTINCT i.produit_id)                                    AS produits
+    FROM ordre_items i
+    JOIN ordres o       ON o.id = i.ordre_id
+    JOIN nomenclature n ON n.produit_id = i.produit_id
+    WHERE o.statut IN ('planifie','en_cours')
+      AND i.avancement < 100
+      AND n.consommation IS NOT NULL
+    GROUP BY n.matiere_id`).all();
+
+  const flous = db.prepare(`
+    SELECT n.matiere_id, COUNT(DISTINCT i.produit_id) AS produits
+    FROM ordre_items i
+    JOIN ordres o       ON o.id = i.ordre_id
+    JOIN nomenclature n ON n.produit_id = i.produit_id
+    WHERE o.statut IN ('planifie','en_cours')
+      AND i.avancement < 100
+      AND n.consommation IS NULL
+    GROUP BY n.matiere_id`).all();
+
+  const m = new Map();
+  for (const r of chiffres)
+    m.set(r.matiere_id, { besoin: r.besoin || 0, besoin_total: r.besoin_total || 0,
+                          produits: r.produits, produits_flous: 0 });
+  for (const r of flous) {
+    const e = m.get(r.matiere_id)
+           || { besoin: 0, besoin_total: 0, produits: 0, produits_flous: 0 };
+    e.produits_flous = r.produits;
+    m.set(r.matiere_id, e);
+  }
+  return m;
+}
+
+/** Le stock d'une matière est la somme de ses mouvements, jamais une colonne. */
+function stocksMatieres() {
+  return new Map(db.prepare(`
+    SELECT matiere_id, SUM(quantite) AS stock, COUNT(*) AS n,
+           MAX(cree_le) AS dernier
+    FROM mouvements WHERE matiere_id IS NOT NULL
+    GROUP BY matiere_id`).all().map(r => [r.matiere_id, r]));
+}
+
+function stocksProduits() {
+  return new Map(db.prepare(`
+    SELECT produit_id, SUM(quantite) AS stock, MAX(cree_le) AS dernier
+    FROM mouvements WHERE produit_id IS NOT NULL
+    GROUP BY produit_id`).all().map(r => [r.produit_id, r]));
+}
+
+/**
+ * L'état de chaque matière : stock, besoin engagé, manque, seuil.
+ *
+ * `manque` est le chiffre qui commande tout le reste : ce qu'il faut
+ * commander pour finir ce qui est déjà promis. Il ne vaut que si la matière
+ * est suivie en stock — une ligne de coût agrégée n'a pas de tablette.
+ */
+function etatMatieres({ inclureInactives = false } = {}) {
+  const lignes = db.prepare(`
+    SELECT * FROM matieres ${inclureInactives ? '' : 'WHERE actif = 1'}`).all();
+  const stocks = stocksMatieres();
+  const besoins = besoinsMatieres();
+
+  return lignes.map(m => {
+    const s = stocks.get(m.id);
+    const b = besoins.get(m.id) || { besoin: 0, besoin_total: 0,
+                                     produits: 0, produits_flous: 0 };
+    const stock = s ? s.stock : 0;
+    const jamaisCompte = !s;          // aucun mouvement : ce n'est pas « zéro »
+    const manque = m.suivi_stock ? Math.max(0, b.besoin - stock) : 0;
+    return {
+      ...m, stock, jamais_compte: jamaisCompte, dernier_mouvement: s?.dernier || null,
+      besoin: b.besoin, besoin_total: b.besoin_total,
+      produits: b.produits, produits_flous: b.produits_flous,
+      manque,
+      cout_manque: manque && m.cout_unite ? manque * m.cout_unite : 0,
+      // Sous le seuil sans être en rupture : « il en reste peu », pas « il en
+      // manquera ». Un seuil à 0 ne déclenche rien — personne ne l'a posé.
+      sous_seuil: Boolean(m.suivi_stock && m.seuil_alerte > 0 && stock <= m.seuil_alerte),
+    };
+  }).sort((a, b) =>
+       (RANG_CATEGORIE[a.categorie] ?? 7) - (RANG_CATEGORIE[b.categorie] ?? 7)
+    || a.nom.localeCompare(b.nom, 'fr'));
+}
+
+/** L'état des produits finis : ce qui est prêt à expédier, et ce qui est bas. */
+function etatProduits() {
+  const stocks = stocksProduits();
+  return db.prepare(`
+    SELECT id, code, nom, famille, seuil_alerte, emplacement, fabrication
+    FROM produits WHERE actif = 1 ORDER BY nom`).all().map(p => {
+    const s = stocks.get(p.id);
+    const stock = s ? s.stock : 0;
+    return { ...p, stock, jamais_compte: !s, dernier_mouvement: s?.dernier || null,
+             sous_seuil: Boolean(p.seuil_alerte > 0 && stock <= p.seuil_alerte) };
+  });
+}
+
+/**
+ * Ce qui demande une décision, en un appel. Trois familles, du plus urgent au
+ * moins : ce qui manquera pour finir, ce qui est bas, ce qui n'a jamais été
+ * compté. La troisième n'est pas une alerte de stock — c'est une alerte de
+ * données : une matière sans un seul mouvement n'a pas un stock de zéro, elle
+ * a un stock inconnu, et les deux ne se traitent pas pareil.
+ */
+function alertesStock() {
+  const mats = etatMatieres();
+  const prods = etatProduits();
+  return {
+    // Une matière jamais comptée est exclue des ruptures, même si son besoin
+    // dépasse le zéro qu'on lui suppose. « Il en manquera 1 031 m² » est une
+    // affirmation ; sans un seul comptage, on n'en sait rien. La ranger ici
+    // ferait de trente-six inconnues trente-six fausses urgences, et l'atelier
+    // cesserait de lire la liste — c'est ainsi qu'une alerte meurt.
+    ruptures: mats.filter(m => m.manque > 0 && !m.jamais_compte)
+                  .sort((a, b) => b.cout_manque - a.cout_manque || b.manque - a.manque),
+    bas: mats.filter(m => m.sous_seuil && m.manque === 0 && !m.jamais_compte)
+             .sort((a, b) => a.stock - b.stock),
+    // Triées par ce que la production leur demande : c'est l'ordre dans lequel
+    // aller les compter, le plus engagé d'abord.
+    jamais_comptees: mats.filter(m => m.suivi_stock && m.jamais_compte)
+      .sort((a, b) => (b.besoin * (b.cout_unite || 0)) - (a.besoin * (a.cout_unite || 0))
+                   || b.besoin - a.besoin),
+    produits_bas: prods.filter(p => p.sous_seuil),
+    // Une matière utilisée par un ordre ouvert sans consommation chiffrée :
+    // son besoin ne se calcule pas, donc son manque non plus.
+    a_chiffrer: mats.filter(m => m.produits_flous > 0),
+  };
+}
+
+/** La nomenclature d'un produit, avec l'état de stock de chaque matière. */
+function nomenclatureProduit(produitId) {
+  const l = db.prepare(`
+    SELECT n.*, m.code, m.nom, m.categorie, m.unite, m.cout_unite,
+           m.suivi_stock, m.actif AS matiere_active
+    FROM nomenclature n JOIN matieres m ON m.id = n.matiere_id
+    WHERE n.produit_id = ?`).all(produitId);
+  const stocks = stocksMatieres();
+  return l.map(x => ({ ...x, stock: stocks.get(x.matiere_id)?.stock ?? 0 }))
+          .sort((a, b) =>
+               (RANG_CATEGORIE[a.categorie] ?? 7) - (RANG_CATEGORIE[b.categorie] ?? 7)
+            || a.rang - b.rang || a.nom.localeCompare(b.nom, 'fr'));
+}
+
+/** Les produits qui consomment une matière — l'aval, vu depuis la tablette. */
+function produitsUtilisant(matiereId) {
+  return db.prepare(`
+    SELECT n.consommation, n.consommation_texte, n.cout_par_produit, n.source,
+           p.id, p.code, p.nom, p.famille, p.actif
+    FROM nomenclature n JOIN produits p ON p.id = n.produit_id
+    WHERE n.matiere_id = ? ORDER BY p.actif DESC, p.nom`).all(matiereId);
+}
+
+/**
+ * Le détail du besoin d'une matière : quel ordre, quel produit, combien.
+ * C'est la réponse à « pourquoi il m'en faut 340 mètres ».
+ */
+function detailBesoin(matiereId) {
+  return db.prepare(`
+    SELECT o.numero, o.titre AS ordre_titre, i.ordre_id,
+           p.code, p.nom, i.quantite, i.avancement, n.consommation,
+           i.quantite * (100 - i.avancement) / 100.0                 AS restant,
+           i.quantite * (100 - i.avancement) / 100.0 * n.consommation AS besoin
+    FROM ordre_items i
+    JOIN ordres o       ON o.id = i.ordre_id
+    JOIN produits p     ON p.id = i.produit_id
+    JOIN nomenclature n ON n.produit_id = i.produit_id AND n.matiere_id = ?
+    WHERE o.statut IN ('planifie','en_cours') AND i.avancement < 100
+    ORDER BY besoin DESC NULLS LAST, p.nom`).all(matiereId);
+}
+
+/** Les derniers mouvements, d'une matière, d'un produit, ou de tout. */
+function mouvements({ matiereId = null, produitId = null, limite = 50 } = {}) {
+  const ou = matiereId ? 'WHERE mv.matiere_id = ?'
+           : produitId ? 'WHERE mv.produit_id = ?' : '';
+  const arg = matiereId || produitId;
+  return db.prepare(`
+    SELECT mv.*, u.nom AS auteur, m.nom AS matiere_nom, m.code AS matiere_code,
+           m.unite, p.nom AS produit_nom, p.code AS produit_code
+    FROM mouvements mv
+    LEFT JOIN utilisateurs u ON u.id = mv.utilisateur_id
+    LEFT JOIN matieres m     ON m.id = mv.matiere_id
+    LEFT JOIN produits p     ON p.id = mv.produit_id
+    ${ou} ORDER BY mv.cree_le DESC, mv.id DESC LIMIT ?`)
+    .all(...(arg ? [arg, limite] : [limite]));
+}
+
+/**
+ * Le coût matière d'un produit, tel que le chiffrier le pose.
+ * On additionne `cout_par_produit` plutôt que consommation × prix : c'est le
+ * chiffre que la direction a validé, et le recalculer donnerait un troisième
+ * nombre à réconcilier pour rien.
+ */
+function coutMatiere(produitId) {
+  const r = db.prepare(`
+    SELECT COALESCE(SUM(cout_par_produit), 0) AS cout,
+           SUM(CASE WHEN cout_par_produit IS NULL THEN 1 ELSE 0 END) AS sans_cout,
+           COUNT(*) AS lignes
+    FROM nomenclature WHERE produit_id = ?`).get(produitId);
+  return r;
+}
+
 module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,
-                   RANG_PRIORITE, RANG_FAMILLE, FAMILLES, LIEUX };
+                   RANG_PRIORITE, RANG_FAMILLE, FAMILLES, LIEUX,
+                   CATEGORIES, RANG_CATEGORIE, MOTIFS, UNITES, qte,
+                   uniteAffichee,
+                   etatMatieres, etatProduits, alertesStock, besoinsMatieres,
+                   stocksMatieres, stocksProduits, nomenclatureProduit,
+                   produitsUtilisant, detailBesoin, mouvements, coutMatiere };

@@ -6,8 +6,8 @@ par item, et rattacher les dates clés.
 
 ## Où est l'app
 
-**Elle n'est pas encore déployée.** Le code vit sur la branche
-`claude/dazzling-pasteur-6fw08h` ; aucun service ne l'héberge.
+**Elle n'est pas encore déployée.** Le code vit sur une branche de travail ;
+aucun service ne l'héberge. Render suit `main` — voir `DEPLOIEMENT.md`.
 
 ### La voir tout de suite, en local
 
@@ -49,7 +49,17 @@ node import.js --ecrire   # applique
 L'import lit `donnees/` et remplit la base : 34 produits avec leurs photos
 Shopify, leurs matériaux, leurs coûts et les consignes d'atelier, plus l'ordre
 de production de la saison tiré du plan 26-27 — **27 items, 24 333 unités**, et
-139 répartitions par taille et coloris.
+139 répartitions par taille et coloris. Il en tire aussi **39 matières et 50
+lignes de nomenclature**, soit 46 113 $ de matières engagées par le plan.
+
+La consommation par unité ne se lit pas dans le chiffrier, elle s'en **déduit** :
+la colonne « consommation » est du texte libre (« 2 pads (4,80 pads/m) », « voir
+fiche »), alors que le coût, lui, est un nombre fiable. On calcule donc
+consommation = coût par produit ÷ prix unitaire, et la phrase sert de
+contre-vérification. C'est le seul chemin qui garantit que l'inventaire et le
+coût de revient racontent la même histoire. Le détail de la règle est en tête de
+[`chiffrier.js`](chiffrier.js) ; les douze lignes où les deux lectures divergent
+sont listées nommément par l'aperçu.
 
 Il est **idempotent** : relancé, il met à jour les quantités et ne touche pas
 aux avancements. C'est l'atelier qui les déclare ; un import n'a pas à écraser
@@ -84,6 +94,27 @@ aux avancements. C'est l'atelier qui les déclare ; un import n'a pas à écrase
 
 La méthode qui va avec — qui met à jour, quand, et ce que le pourcentage veut
 dire — est dans [`METHODE-SUIVI.md`](METHODE-SUIVI.md).
+
+**Inventaire — matières et produits finis**
+- Le stock n'est **pas une colonne**, c'est la somme de ses mouvements : une
+  colonne se désynchronise en silence, une somme ne peut pas mentir sur son
+  propre historique — et elle répond en plus à « pourquoi il en reste si peu »
+- Réception, consommation, production, expédition, perte : **le signe vient du
+  motif**, personne n'a à taper « −12 » pour dire qu'il a consommé douze mètres
+- Le **comptage** ne s'ajoute pas au stock, il le remplace — c'est le geste de
+  l'inventaire physique — et l'écart avec ce que la base croyait est enregistré
+- Alertes de bas niveau sur les matières **et** sur les produits finis
+- Nomenclature calculable : 39 matières, 50 lignes tirées du chiffrier COGS
+
+**Besoins — le calculateur**
+- « Pour 500 tuques, il me faut quoi, et en ai-je assez ? » — matière par
+  matière, avec le verdict et le coût de la série
+- Tous ordres confondus : ce qu'il reste à consommer pour finir ce qui est déjà
+  promis, l'avancement déclaré déduit, trié par ce qui manque puis par valeur
+- **« Il en manquera » et « on ne sait pas » sont deux listes différentes.**
+  Une matière jamais comptée n'est pas déclarée en rupture : sans un comptage,
+  on n'en sait rien. Ranger trente-six inconnues dans les urgences ferait
+  trente-six fausses alertes, et l'atelier cesserait de lire la liste
 
 **Fiches produits**
 - Photos studio et photos en contexte d'utilisation
@@ -125,11 +156,17 @@ mêmes contraintes.
   → « Cache-cous à 70 % et deadline ajoutée au 2 octobre. »        [Annuler]
 ```
 
-**Vingt outils** (`outils.js`) : lire les ordres, les fiches et la cédule ;
+**Vingt-huit outils** (`outils.js`) : lire les ordres, les fiches, la cédule
+et les stocks ;
 mettre à jour un avancement ; créer un ordre, y ajouter ou en retirer des
 items ; poser des jalons ; créer et enrichir une fiche produit ; commenter.
+enregistrer un mouvement de stock et chiffrer les besoins d'une série.
 L'assistant les enchaîne seul — créer un ordre puis le remplir de quatre items
 est une seule demande.
+
+Sur les stocks, il tient la même règle que l'app : « il en manquera » ne se dit
+que d'une matière comptée. Sur une matière sans mouvement, il répond que le
+stock est inconnu au lieu d'annoncer une rupture qu'il ne peut pas prouver.
 
 ### Trois garde-fous
 
@@ -340,11 +377,12 @@ formulaire si l'application devient accessible à un public plus large.
 sh tests/tout.sh
 ```
 
-Trois suites, aucune n'a besoin du réseau ni de clé API.
+Quatre suites, aucune n'a besoin du réseau ni de clé API.
 
 | Suite | Ce qu'elle couvre |
 | --- | --- |
-| `tests/outils.js` | les 20 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
+| `tests/outils.js` | les outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
+| `tests/inventaire.js` | la lecture du chiffrier (unités, rendements inversés, tolérance d'arrondi), le stock comme somme de ses mouvements, et la frontière entre « il en manque » et « on ne sait pas » |
 | `tests/boucle.js` | la boucle agentique contre une fausse API : enchaînement des outils, retour des erreurs au modèle, reprise du fil, plafond de 12 étapes |
 | `tests/e2e.sh` | le serveur complet : authentification, permissions, avancement pondéré, redimension des images, poids des pages sous 25 Ko |
 
@@ -360,9 +398,12 @@ utilisateurs ─┬─ sessions
               │          ├─ ordre_jalons          (cédule)
               │          └─ ordre_commentaires
               ├─ agent_tours ── agent_actions        (assistant + annulation)
-              └─ produits ─┬─ produit_photos      (studio | contexte)
-                           ├─ produit_materiaux
-                           └─ produit_patrons
+              ├─ produits ─┬─ produit_photos      (studio | contexte)
+              │             ├─ produit_materiaux   (texte libre, pour la fiche)
+              │             ├─ produit_patrons
+              │             └─ nomenclature ──┐    (calculable, pour les besoins)
+              └─ matieres ──────────────────── ┘
+                     └─ mouvements                 (le stock est leur somme)
 ```
 
 `ordre_items.produit_id` est la jointure entre les deux moitiés : c'est ce qui
@@ -425,9 +466,24 @@ quoi trois produits portent le même nom dans la liste. La règle tient au
 `confiance = non vendu` de `correspondances.tsv` — à revoir le jour où les
 fiches enfant existeront.
 
-Volontairement hors de cette version : inventaire, traduction FR/EN, alertes,
+**Aucun stock n'est chargé.** La nomenclature dit ce que la production va
+consommer ; aucun fichier ne dit ce qu'il y a en tablette. Les 36 matières
+engagées par le plan sont donc « jamais comptées », et l'app le dit plutôt que
+de supposer zéro. Le premier comptage est le geste qui rend l'inventaire vivant
+— `/besoins` donne l'ordre dans lequel s'y prendre, le plus engagé d'abord.
+
+**Douze lignes du chiffrier se contredisent.** Le coût et la phrase de
+consommation ne disent pas la même chose ; `node import.js` les liste nommément.
+Le coût fait foi — c'est lui qui a servi à fixer les prix de vente. C'est la
+phrase qu'il faut corriger à la source.
+
+**Le nom arabe des matières est vide.** Le champ existe et s'affiche ; personne
+ne l'a rempli. C'est la moitié du bilinguisme qui compte pour l'atelier : que
+Québec et Tunis désignent le même rouleau.
+
+Volontairement hors de cette version : traduction de l'interface FR/AR/EN,
 convertisseur HPGL (voir `../patrons/`).
 
-Pour l'assistant, ce qui reste à faire : lui donner accès aux stocks quand
-l'inventaire existera, et le brancher sur le convertisseur de patrons pour
-qu'« envoie-moi le patron du cache-cou en HPGL » devienne une seule phrase.
+Pour l'assistant, ce qui reste à faire : le brancher sur le convertisseur de
+patrons pour qu'« envoie-moi le patron du cache-cou en HPGL » devienne une
+seule phrase.

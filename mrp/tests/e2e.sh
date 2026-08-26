@@ -57,7 +57,8 @@ P=$(curl -s -b $CA $B/ordres/1 | grep -oE '>[0-9]+ %<' | head -1 | tr -dc 0-9)
 [ "$P" = 44 ] && ok "avancement global pondéré par les quantités = 44 %" || ko "pondération incorrecte ($P)"
 
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
-for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi; do
+for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi \
+         /inventaire /besoins; do
   S=$(curl -s -b $CA "$B$u" -H 'Accept-Encoding: gzip' -o /dev/null -w '%{size_download}')
   [ "$S" -lt 12000 ] || ko "page $u trop lourde sur le réseau ($S octets compressés)"
 done
@@ -158,6 +159,44 @@ echo "$A" | grep -q 'ANTHROPIC_API_KEY' \
   || ko "assistant : la page ne signale pas la clé manquante"
 echo "$A" | grep -q 'name="fil" value="[0-9a-f]\{18\}"' \
   && ok "assistant : un fil de conversation est ouvert" || ko "assistant : pas de fil"
+
+# ---- inventaire : les droits ne sont pas les mêmes des deux côtés
+curl -s -b $CO $B/inventaire | grep -q 'Inventaire' \
+  && ok "l'atelier accède à l'inventaire" || ko "inventaire refusé à l'atelier"
+curl -s -b $CO $B/besoins | grep -q 'Besoins en matières' \
+  && ok "l'atelier accède aux besoins" || ko "besoins refusés à l'atelier"
+
+# créer une matière relève de Québec ; la compter relève de l'atelier.
+R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' $B/matieres/nouveau)
+case "$R" in *err=*) ok "l'atelier ne peut pas créer de matière" ;;
+  *) ko "création de matière autorisée à l'atelier" ;; esac
+
+curl -s -b $CA -o /dev/null -X POST $B/matieres/nouveau \
+  --data 'code=tissu-test&nom=Tissu de test&categorie=tissu&unite=m&cout_unite=5,50&seuil_alerte=20&suivi_stock=1'
+MID=$(node -e "const{db}=require('./db.js');const m=db.prepare(\"SELECT id FROM matieres WHERE code='TISSU-TEST'\").get();console.log(m?m.id:'')" 2>/dev/null)
+[ -n "$MID" ] && ok "le code d'une matière est normalisé en majuscules" \
+  || ko "matière non créée ou code non normalisé"
+
+# Un prix saisi à la française doit être lu comme un nombre, pas rejeté.
+C=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT cout_unite c FROM matieres WHERE id=?').get($MID).c)" 2>/dev/null)
+[ "$C" = "5.5" ] && ok "« 5,50 » est lu comme 5,50" || ko "virgule décimale mal lue ($C)"
+
+# l'atelier reçoit et compte : c'est lui qui est devant la tablette
+curl -s -b $CO -o /dev/null -X POST $B/matieres/$MID/mouvements \
+  --data 'motif=reception&quantite=100'
+S=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COALESCE(SUM(quantite),0) s FROM mouvements WHERE matiere_id=?').get($MID).s)" 2>/dev/null)
+[ "$S" = "100" ] && ok "l'atelier enregistre une réception" || ko "réception refusée à l'atelier ($S)"
+
+curl -s -b $CO -o /dev/null -X POST $B/matieres/$MID/mouvements \
+  --data 'motif=inventaire&quantite=88'
+S=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COALESCE(SUM(quantite),0) s FROM mouvements WHERE matiere_id=?').get($MID).s)" 2>/dev/null)
+[ "$S" = "88" ] && ok "un comptage remplace le stock" || ko "comptage mal appliqué ($S)"
+
+# le code d'une matière est son identité : deux fois le même doit être refusé
+curl -s -b $CA -o /dev/null -X POST $B/matieres/nouveau \
+  --data 'code=TISSU-TEST&nom=Doublon&categorie=tissu&unite=m'
+N=$(node -e "const{db}=require('./db.js');console.log(db.prepare(\"SELECT COUNT(*) n FROM matieres WHERE code='TISSU-TEST'\").get().n)" 2>/dev/null)
+[ "$N" = "1" ] && ok "un code de matière en double est refusé" || ko "doublon de code accepté ($N)"
 
 # les gabarits proposés dépendent du rôle
 curl -s -b $CO $B/assistant | grep -q "atelier" \
