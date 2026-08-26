@@ -22,7 +22,7 @@ const LIEUX = { tunisie:'Tunisie', chine:'Chine' };
 const V = require('./variantes.js');
 const C = require('./charge.js');
 const D = require('./db.js');
-const { TYPES_QC } = D;
+const { TYPES_QC, SECTIONS_CHARTE } = D;
 /* Les deux rôles portent leur lieu : ce n'est pas une hiérarchie, c'est un
    partage géographique du travail. Les valeurs stockées restent `admin` et
    `atelier` ; seuls les libellés changent. */
@@ -153,8 +153,6 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/suivi', 'Suivi', 'suivi')}
     ${lienTaches}
     ${lien('/produits', 'Produits', 'produits')}
-    ${lien('/qualite', 'Qualité', 'qualite')}
-    ${lien('/mur', 'Ce qui casse', 'mur')}
     ${lien('/cedule', 'Cédule', 'cedule')}
   </nav>
   <span class="qui"><a href="/compte">${e(user.nom)}</a> · ${ROLES[user.role] || e(user.role)}
@@ -339,6 +337,25 @@ function vueCompte({ user, msg }) {
  * rien qui casse si le JS ne s'exécute pas : l'atelier est au bout d'une
  * connexion lente, et c'est la première chose qu'il voit en arrivant.
  */
+/**
+ * La barre du volet Produits : fiches, qualité, ce qui casse.
+ *
+ * Ces trois pages parlent de la même chose — ce qu'on fabrique — et se
+ * répondent : la fiche dit de quoi la pièce est faite, le protocole dit quoi
+ * vérifier, le mur montre ce qui a cassé quand on ne l'a pas vérifié. Les
+ * séparer en trois onglets de tête faisait trois sujets ; les regrouper en
+ * fait un seul, qu'on parcourt.
+ */
+function sousNavProduits(page) {
+  const l = (href, texte, cle) =>
+    `<a href="${href}"${page === cle ? ' class="on" aria-current="page"' : ''}>${texte}</a>`;
+  return `<nav class="sous-nav">
+    ${l('/produits', 'Fiches produits', 'fiches')}
+    ${l('/qualite', 'Qualité', 'qualite')}
+    ${l('/mur', 'Ce qui casse', 'mur')}
+  </nav>`;
+}
+
 function barreAssistant({ user, ia, salut = null }) {
   if (!ia) return '';
   const { dispo, fil, dernier, annulable, exemples = [] } = ia;
@@ -723,6 +740,7 @@ function vueMur({ user, msg, groupes }) {
   };
 
   const corps = `
+  ${sousNavProduits('mur')}
   <div class="entete"><div><h1>Ce que les clients ont vu</h1>
     <p class="muted">${total} signalement${total > 1 ? 's' : ''},
       ${photos} avec photo — groupés par produit</p></div></div>
@@ -734,7 +752,7 @@ function vueMur({ user, msg, groupes }) {
     qu'une couture qu'on reprend parce que c'est écrit.</p>
   </div>
 
-  ${groupes.length ? groupes.map(g => `<div class="carte mur-g">
+  ${groupes.length ? groupes.map(g => `<div class="carte mur-g" id="p${g.id || ''}">
     <div class="mur-g-tete">
       <h2>${g.id ? `<a href="/qualite/${g.id}">${e(g.code)}</a>` : e(g.code)}</h2>
       <span class="muted">${e(g.nom)}</span>
@@ -748,7 +766,7 @@ function vueMur({ user, msg, groupes }) {
   : `<div class="carte"><p class="vide">Aucun signalement pour l'instant.
      <code>node bris_missive.js trier</code> en extrait de la boîte support.</p></div>`}`;
 
-  return page({ titre: 'Ce que les clients ont vu', user, corps, msg, actif: 'mur' });
+  return page({ titre: 'Ce que les clients ont vu', user, corps, msg, actif: 'produits' });
 }
 
 function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }) {
@@ -770,6 +788,7 @@ function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }
   </tr>`;
 
   const corps = `
+  ${sousNavProduits('qualite')}
   <div class="entete"><div><h1>Contrôle qualité</h1>
     <p class="muted">Le protocole de chaque produit : ce qui rate souvent,
     ce qu'il ne faut pas rater, ce qui se mesure, ce qui se teste</p></div></div>
@@ -837,7 +856,7 @@ function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }
   </div>` : `<div class="carte"><p class="vide">Aucun protocole écrit pour l'instant.
     Ouvre un produit et commence par ce qui rate le plus souvent.</p></div>`}`;
 
-  return page({ titre: 'Contrôle qualité', user, corps, msg, actif: 'qualite' });
+  return page({ titre: 'Contrôle qualité', user, corps, msg, actif: 'produits' });
 }
 
 function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
@@ -992,7 +1011,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
     3 500. Personne ne devrait faire la division en ayant les pièces en main.</p>
   </div>`;
 
-  return page({ titre: `Qualité — ${p.code}`, user, corps, msg, actif: 'qualite' });
+  return page({ titre: `Qualité — ${p.code}`, user, corps, msg, actif: 'produits' });
 }
 
 // ==================================================================== tâches
@@ -1283,6 +1302,7 @@ function vueOrdreForm({ user, o = null, msg }) {
 // ================================================================== produits
 function vueProduits({ user, produits, msg }) {
   const corps = `
+  ${sousNavProduits('fiches')}
   <div class="entete"><div><h1>Produits</h1>
     <p class="muted">${produits.length} fiche${produits.length > 1 ? 's' : ''}</p></div>
     ${user.role === 'admin'
@@ -1298,7 +1318,8 @@ function vueProduits({ user, produits, msg }) {
   return page({ titre: 'Produits', user, corps, actif: 'produits', msg });
 }
 
-function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = null }) {
+function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = null,
+                      charte = null, bris = null }) {
   const admin = user.role === 'admin';
   const studio = photos.filter(f => f.type === 'studio');
   const contexte = photos.filter(f => f.type === 'contexte');
@@ -1308,10 +1329,26 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
       ${f.legende ? `<figcaption>${e(f.legende)}</figcaption>` : ''}
     </figure>`).join('')}</div>`;
 
+  // Un bris sans consigne est une consigne qui manque : c'est le chiffre qui
+  // fait agir, pas le total.
+  const nus = bris ? bris.tous.filter(b => !b.point_id).length : 0;
+
   const corps = `
+  ${sousNavProduits('fiches')}
   <div class="entete"><div>
     <h1>${e(p.nom)}</h1><p class="muted">${e(p.code)}</p>
   </div>${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}</div>
+
+  ${charte && !charte.vide ? `<div class="carte">
+    <h2>Charte produit</h2>
+    <p class="sec">De quoi la pièce est faite. C'est ce qu'on lit avant de
+      couper — pas ce qu'on vérifie après.</p>
+    <div class="charte">${Object.entries(SECTIONS_CHARTE).map(([cle, lib]) =>
+      (charte.par[cle] || []).length ? `<section class="ch-${cle}">
+        <h3>${lib}</h3>
+        <ul>${charte.par[cle].map(c => `<li>${e(c.texte)}</li>`).join('')}</ul>
+      </section>` : '').join('')}</div>
+  </div>` : ''}
 
   ${qc ? `<div class="carte qc-rappel">
     <h2><span class="q-pip q-critique">!</span> Contrôle qualité</h2>
@@ -1326,6 +1363,17 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     : `<p class="vide">Aucun protocole écrit pour ce produit.</p>`}
     <a class="lien" href="/qualite/${p.id}">${qc.total
       ? 'Voir le protocole complet' : 'Écrire le protocole'} →</a>
+  </div>` : ''}
+
+  ${bris && bris.tous.length ? `<div class="carte">
+    <h2>Ce qui casse</h2>
+    <p class="sec">${bris.tous.length} signalement${bris.tous.length > 1 ? 's' : ''} sur
+      ce produit${nus ? `, dont <b>${nus} sans consigne</b>` : ''}.
+      ${bris.zones.length ? `Les zones : ${bris.zones.slice(0, 4)
+        .map(z => `<b>${e(z.zone)}</b>${z.n > 1 ? ` ×${z.n}` : ''}`).join(', ')}.` : ''}</p>
+    <ul class="br-liste">${bris.tous.slice(0, 3)
+      .map(b => ligneBris({ b, produitId: p.id, editable: false })).join('')}</ul>
+    <a class="lien" href="/mur#p${p.id}">Voir les photos et les mots des clients →</a>
   </div>` : ''}
 
   ${studio.length ? `<div class="carte"><h2>Photos studio</h2>${galerie(studio)}</div>` : ''}
@@ -2025,7 +2073,7 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
   return page({ titre: 'Suivi', user, corps, actif: 'suivi', msg });
 }
 
-module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR, jauge, page, vueConnexion,
+module.exports = { e, urlImage, urlAcceptable, img, TAILLES, sousNavProduits, dateFR, dateHeureFR, jauge, page, vueConnexion,
                    vueCompte,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,

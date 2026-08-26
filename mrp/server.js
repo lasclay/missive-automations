@@ -27,7 +27,7 @@ const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs, variantesItem,
         taches, tache, compteTaches, equipe,
-        protocole, couvertureQC, TYPES_QC,
+        protocole, couvertureQC, TYPES_QC, charteProduit,
         checklistItem, blocageQC, etatQCOrdre,
         protocoleGeneral, echantillon, lireTableauTailles,
         brisProduit, brisParPoint, zonesFragiles, nonConformites,
@@ -491,7 +491,7 @@ async function router(req, res, url, user) {
     return html(res, V.vueProduit({ user, p: pr, msg,
       photos: R.photos.all(id), materiaux: R.materiaux.all(id),
       patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id),
-      qc: protocole(id) }));
+      qc: protocole(id), charte: charteProduit(id), bris: brisProduit(id) }));
   }
 
   // ---- assistant : il exécute, il ne fait pas que répondre

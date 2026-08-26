@@ -12,6 +12,9 @@
  *   node mrp/import_qualite.js --squelettes  charge aussi les squelettes de
  *                                            cyclage et de fit (produit « * »
  *                                            = protocole général)
+ *   node mrp/import_qualite.js --charte      charge aussi les vérifications de
+ *                                            la charte produits — la colonne
+ *                                            jaune du tableau de production
  */
 'use strict';
 const fs = require('node:fs');
@@ -20,8 +23,12 @@ const { db, TYPES_QC } = require('./db.js');
 
 const ECRIRE = process.argv.includes('--ecrire');
 const SQUELETTES = process.argv.includes('--squelettes');
+const CHARTE = process.argv.includes('--charte');
 const SOURCE = 'notes techniques';
 const SOURCE_SQ = 'squelette — à compléter';
+// La charte porte sa source dans le fichier, ligne par ligne : c'est elle
+// qu'on efface avant de réécrire, sans toucher au reste.
+const SOURCE_CH = 'charte produits';
 
 function tsv(nom) {
   const l = fs.readFileSync(path.join(__dirname, 'donnees', nom), 'utf8')
@@ -34,7 +41,8 @@ function tsv(nom) {
 }
 
 const rangs = tsv('qualite-amorce.tsv')
-  .concat(SQUELETTES ? tsv('qualite-squelettes.tsv') : []);
+  .concat(SQUELETTES ? tsv('qualite-squelettes.tsv') : [])
+  .concat(CHARTE ? tsv('qualite-charte.tsv') : []);
 
 let ajoutes = 0, ignores = 0;
 const inconnus = [], mauvaisVolet = [];
@@ -49,6 +57,7 @@ const insere = db.prepare(`INSERT INTO qc_points
 if (ECRIRE) {
   efface.run(SOURCE);
   if (SQUELETTES) efface.run(SOURCE_SQ);
+  if (CHARTE) efface.run(SOURCE_CH);
 }
 
 const parProduit = new Map();
@@ -83,6 +92,8 @@ console.log(`  ${ajoutes} points sur ${parProduit.size - (gen ? 1 : 0)} produits
   + (gen ? `, plus ${gen} au protocole général` : ''));
 if (!SQUELETTES)
   console.log('  (--squelettes ajoute le cyclage de couture et les essais portés)');
+if (!CHARTE)
+  console.log('  (--charte ajoute les vérifications de la charte produits)');
 for (const [v, n] of Object.entries(par))
   console.log(`    ${(TYPES_QC[v] || v).padEnd(24)} ${String(n).padStart(3)}`);
 if (inconnus.length)

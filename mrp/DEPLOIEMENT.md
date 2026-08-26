@@ -122,13 +122,19 @@ Puis les deux imports du contrôle qualité, dans cet ordre — les protocoles
 d'abord, les bris ensuite, parce qu'un bris peut se rattacher à un point :
 
 ```sh
-node mrp/import_qualite.js --ecrire   # protocoles : points critiques, mesures
-node mrp/import_bris.js --ecrire      # ce que les clients ont signalé, photos comprises
+node mrp/import_charte.js --ecrire                # charte : matières, isolant, garnitures
+node mrp/import_qualite.js --charte --squelettes --ecrire   # protocoles
+node mrp/import_bris.js --ecrire                  # ce que les clients ont signalé
 ```
 
-Attendu pour le second : **26 signalements, 24 avec photo** — 16 sur le sac à
+`--charte` charge les vérifications de la charte produits — la colonne jaune du
+tableau de production. Sans ce drapeau, dix-sept produits restent sans un seul
+point de contrôle ; avec, il n'en reste que quatre.
+
+Attendu : **196 lignes de charte sur 30 produits**, **123 points de contrôle sur
+29 produits**, puis **26 signalements, 24 avec photo** — 16 sur le sac à
 dos glacière, dont dix fois la même couture de bretelle. Les photos ne sont pas
-hébergées ici : ce sont des adresses, et l'onglet **Ce qui casse** les demande
+hébergées ici : ce sont des adresses, et **Produits → Ce qui casse** les demande
 redimensionnées au CDN. Si elles n'apparaissent pas, ce n'est pas l'app — c'est
 que le dossier de l'hébergeur n'est pas partagé par lien.
 

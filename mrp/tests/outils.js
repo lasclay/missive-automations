@@ -1081,6 +1081,67 @@ t("l'atelier peut consulter le suivi",
     t(`${h} h donne « ${attendu} »`, S.moment(h) === attendu, S.moment(h));
 }
 
+// ---------------------------- la charte produits sur la fiche
+{
+  const D = require('../db.js');
+  const V = require('../vues.js');
+  const pid = db.prepare(`SELECT id FROM produits WHERE code = 'CC-ADULTE'`).get().id;
+
+  db.prepare(`DELETE FROM charte WHERE produit_id = ?`).run(pid);
+  const pose = (section, texte, rang) => db.prepare(
+    `INSERT INTO charte (produit_id, section, texte, rang, source)
+     VALUES (?,?,?,?,'essai')`).run(pid, section, texte, rang);
+
+  t('sans charte, la fiche le dit', D.charteProduit(pid).vide === true);
+
+  pose('matiere', 'Extérieur : viscose', 1);
+  pose('isolant', 'Vegeto 150 g', 2);
+  pose('garniture', 'Cord-lock + bille', 3);
+  const ch = D.charteProduit(pid);
+  t('la charte se groupe par section',
+    ch.total === 3 && ch.par.matiere.length === 1 && ch.par.isolant.length === 1,
+    JSON.stringify(ch.par));
+  t('les sections vides restent des tableaux',
+    Array.isArray(ch.par.parametre) && ch.par.parametre.length === 0);
+
+  // Une section inventée doit être refusée par la base, pas rangée ailleurs.
+  let refuse = false;
+  try { pose('couleur', 'Rouge', 4); } catch { refuse = true; }
+  t('une section inconnue est refusée', refuse);
+
+  const html = V.vueProduit({ user: admin, p: db.prepare(
+      `SELECT * FROM produits WHERE id = ?`).get(pid),
+    photos: [], materiaux: [], patrons: [], ordres: [],
+    qc: D.protocole(pid), charte: ch, bris: D.brisProduit(pid) });
+  t('la fiche montre la charte', html.includes('Charte produit')
+    && html.includes('Vegeto 150 g'));
+  t('le grammage est dans sa propre section', html.includes('ch-isolant'));
+
+  // Les trois pages du volet se retrouvent sur la fiche.
+  t('la fiche porte la sous-navigation du volet',
+    html.includes('sous-nav') && html.includes('/qualite') && html.includes('/mur'));
+  t('la page ouverte est marquée dans la sous-navigation',
+    V.sousNavProduits('mur').includes('class="on" aria-current="page"'));
+
+  db.prepare(`DELETE FROM charte WHERE source = 'essai'`).run();
+}
+
+// ---------------------------- les zones d'un produit se comptent
+{
+  const D = require('../db.js');
+  const pid = db.prepare(`SELECT id FROM produits WHERE code = 'CC-ADULTE'`).get().id;
+  const pose = (zone) => db.prepare(
+    `INSERT INTO qc_bris (produit_id, zone, origine, texte) VALUES (?,?,'client','x')`)
+    .run(pid, zone);
+  pose('Couture de bretelle'); pose('couture de bretelle'); pose('Fond du sac');
+  const b = D.brisProduit(pid);
+  t('les zones sont comptées et triées',
+    b.zones[0].zone === 'couture de bretelle' && b.zones[0].n === 2,
+    JSON.stringify(b.zones));
+  t('la casse ne fait pas deux zones', b.zones.length === 2);
+  db.prepare(`DELETE FROM qc_bris WHERE produit_id = ?`).run(pid);
+}
+
 // ---------------------------- plusieurs clichés d'un même bris
 {
   const V = require('../vues.js');

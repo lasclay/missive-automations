@@ -332,6 +332,31 @@ textarea{min-height:70px;resize:vertical}
 .mur-plus a{flex:1 1 0;min-width:0;display:block;border-radius:4px;overflow:hidden}
 .mur-plus img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
 
+/* ---------- volet Produits : trois pages, un seul sujet ----------
+   La fiche dit de quoi la pièce est faite, le protocole dit quoi vérifier, le
+   mur montre ce qui a cassé quand on ne l'a pas vérifié. */
+.sous-nav{display:flex;gap:2px;margin:0 0 18px;border-bottom:1px solid var(--ligne);
+  overflow-x:auto}
+.sous-nav a{padding:8px 14px;font-size:13.5px;font-weight:600;color:var(--gris);
+  text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;
+  margin-bottom:-1px}
+.sous-nav a:hover{color:var(--encre)}
+.sous-nav a.on{color:var(--encre);border-bottom-color:var(--encre)}
+
+/* La charte : des listes courtes côte à côte, pas un tableau. Le nombre de
+   matières varie d'un produit à l'autre, une grille fluide s'y plie. */
+.charte{display:grid;gap:14px 26px;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.charte section{min-width:0}
+.charte h3{margin:0 0 5px;font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--gris)}
+.charte ul{margin:0;padding-left:16px;font-size:14px;line-height:1.55}
+.charte li{margin:0 0 2px}
+/* Le grammage d'asclépiade distingue deux produits par ailleurs identiques :
+   c'est la ligne qu'on cherche du regard. */
+.charte .ch-isolant li{font-weight:600}
+.charte .ch-parametre li{font-variant-numeric:tabular-nums}
+
 /* ---------- ce qui casse : la preuve de terrain ----------
    Le commentaire du client est cité tel quel et la photo est petite mais
    présente : c'est ce qui transforme une consigne en évidence. */

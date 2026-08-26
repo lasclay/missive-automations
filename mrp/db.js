@@ -307,6 +307,28 @@ CREATE TABLE IF NOT EXISTS taches (
   faite_le      TEXT,
   faite_par     INTEGER REFERENCES utilisateurs(id)
 );
+-- La charte produits : de quoi la pièce est faite.
+--
+-- Pas un protocole — ça, c'est la table qc_points. Ici on décrit : les matières
+-- face par face, le grammage d'asclépiade, les fermetures et les sangles, la
+-- température de presse. C'est ce qu'on lit AVANT de couper, et ce qui permet
+-- de dire qu'une pièce n'est pas conforme au patron plutôt que mal cousue.
+--
+-- Une ligne = une phrase de la charte. Le format long, plutôt que six colonnes
+-- larges, parce que le nombre de matières varie d'un produit à l'autre et
+-- qu'une colonne vide sur trente lignes ne raconte rien.
+CREATE TABLE IF NOT EXISTS charte (
+  id         INTEGER PRIMARY KEY,
+  produit_id INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+  section    TEXT NOT NULL DEFAULT 'matiere'
+             CHECK (section IN ('matiere','isolant','garniture','parametre','note')),
+  texte      TEXT NOT NULL,
+  rang       INTEGER NOT NULL DEFAULT 0,
+  source     TEXT NOT NULL DEFAULT 'charte produits',
+  cree_le    TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_charte_produit ON charte(produit_id, section, rang);
+
 CREATE INDEX IF NOT EXISTS idx_taches_assigne ON taches(assigne_a, statut);
 CREATE INDEX IF NOT EXISTS idx_taches_cree    ON taches(cree_par, statut);
 
@@ -689,6 +711,31 @@ function protocole(produitId, { generalCompris = true } = {}) {
   return { points: l, par, total: l.length };
 }
 
+/** Les libellés des sections de la charte, dans l'ordre où on les lit. */
+const SECTIONS_CHARTE = {
+  matiere:   'Matières',
+  isolant:   'Isolant',
+  garniture: 'Garnitures',
+  parametre: 'Réglages',
+  note:      'À savoir',
+};
+
+/**
+ * La charte d'un produit, groupée par section.
+ *
+ * L'ordre des sections est celui de la fabrication, pas l'alphabet : on choisit
+ * la matière, on pose l'isolant, on monte les garnitures, on règle la presse.
+ * `vide` évite au gabarit d'avoir à compter lui-même.
+ */
+function charteProduit(produitId) {
+  const l = db.prepare(
+    `SELECT * FROM charte WHERE produit_id = ? ORDER BY rang, id`).all(produitId);
+  const par = {};
+  for (const cle of Object.keys(SECTIONS_CHARTE)) par[cle] = [];
+  for (const c of l) (par[c.section] ||= []).push(c);
+  return { lignes: l, par, total: l.length, vide: l.length === 0 };
+}
+
 /**
  * Lit un tableau de tailles écrit à la main, une ligne par taille :
  *
@@ -729,7 +776,18 @@ function brisProduit(produitId) {
       LEFT JOIN qc_points q    ON q.id = b.point_id
      WHERE b.produit_id IS ?
      ORDER BY COALESCE(b.survenu_le, b.cree_le) DESC, b.id DESC`).all(produitId);
-  return { tous: l, orphelins: l.filter(b => !b.point_id) };
+  // Les zones, comptées et triées : c'est la lecture utile d'une pile de
+  // signalements. Dix fois « couture de bretelle » ne se voit pas en lisant
+  // dix commentaires à la file, ça se voit sur une ligne.
+  const z = new Map();
+  for (const b of l) if (b.zone) {
+    const cle = b.zone.toLowerCase();
+    z.set(cle, (z.get(cle) || 0) + 1);
+  }
+  const zones = [...z.entries()].sort((a, b) => b[1] - a[1])
+    .map(([zone, n]) => ({ zone, n }));
+  return { tous: l, orphelins: l.filter(b => !b.point_id), zones,
+           photos: l.filter(b => b.photo_url).length };
 }
 
 /** Combien de bris appuient chaque point d'un protocole. */
@@ -1024,6 +1082,7 @@ const equipe = () => db.prepare(
 module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    taches, tache, compteTaches, equipe,
                    protocole, couvertureQC, TYPES_QC, echantillon,
+                   charteProduit, SECTIONS_CHARTE,
                    protocoleGeneral, memeVariante, lireTableauTailles,
                    brisProduit, brisParPoint, zonesFragiles, nonConformites,
                    murDesBris,
