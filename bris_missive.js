@@ -322,10 +322,17 @@ function photos() {
       const [messageId, attachmentId] = paire.split(':');
       const nom = `${v.produit || 'inconnu'}_${v.conv.slice(0, 8)}_${attachmentId.slice(0, 8)}`;
       try {
-        const r2 = missive('attachment', messageId, attachmentId);
+        // Le client écrit le fichier lui-même et ne rend que de quoi le
+        // retrouver — pas le base64. Lui passer la destination est le seul
+        // chemin ; lire un champ « base64 » de sa sortie donne des fichiers
+        // de zéro octet, et un compteur qui annonce un succès.
+        const dest = path.join(dossier, `${nom}.tmp`);
+        const r2 = missive('attachment', messageId, attachmentId, dest);
         const ext = (r2.filename || '').split('.').pop() || 'jpg';
-        fs.writeFileSync(path.join(dossier, `${nom}.${ext}`),
-          Buffer.from(r2.base64 || r2.data || '', 'base64'));
+        const fin = path.join(dossier, `${nom}.${ext.toLowerCase()}`);
+        fs.renameSync(dest, fin);
+        const taille = fs.statSync(fin).size;
+        if (!taille) { fs.unlinkSync(fin); throw new Error('fichier vide'); }
         pris++;
       } catch (e) { rates++; console.error(`  ${nom} : ${String(e.message).slice(0, 70)}`); }
     }

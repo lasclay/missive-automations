@@ -127,11 +127,13 @@ function page({ titre, user, corps, actif = '', msg = null }) {
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${e(titre)} — Lasclay MRP</title>
 <link rel="stylesheet" href="/style.css">
-<link rel="icon" href="data:,">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/favicon-180.png">
 </head><body>
 <header class="top"><div class="top-in">
   <a class="marque" href="/">Lasclay <span>MRP</span></a>
   ${user ? `<nav class="top">
+    ${lien('/assistant', 'Assistant', 'assistant')}
     ${lien('/', 'Tableau de bord', 'accueil')}
     ${lien('/priorites', 'À fabriquer', 'priorites')}
     ${lien('/ordres', 'Ordres de production', 'ordres')}
@@ -141,7 +143,6 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/qualite', 'Qualité', 'qualite')}
     ${lien('/mur', 'Ce qui casse', 'mur')}
     ${lien('/cedule', 'Cédule', 'cedule')}
-    ${lien('/assistant', 'Assistant', 'assistant')}
   </nav>
   <span class="qui"><a href="/compte">${e(user.nom)}</a> · ${ROLES[user.role] || e(user.role)}
     · <a href="/deconnexion">Sortir</a></span>` : ''}
@@ -156,7 +157,8 @@ ${corps}
 const vueConnexion = ({ erreur }) => `<!doctype html><html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Connexion — Lasclay MRP</title><link rel="stylesheet" href="/style.css">
-<link rel="icon" href="data:,"></head><body>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/favicon-180.png"></head><body>
 <div class="connexion">
   <h1 style="margin-bottom:4px">Lasclay <span class="muted">MRP</span></h1>
   <p class="muted" style="margin-bottom:16px">Ordres de production et fiches produits</p>

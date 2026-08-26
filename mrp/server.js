@@ -145,7 +145,14 @@ const R = {
 };
 
 // ------------------------------------------------------------------ statiques
-const STATIQUES = { '/style.css': ['text/css; charset=utf-8', 'public/style.css'] };
+// Les seuls fichiers que l'app sert elle-même. Le favicon vient du CDN Shopify
+// mais est servi d'ici : une requête vers lasclay.com sur chaque page coûterait
+// plus cher, sur la connexion tunisienne, que 2,6 Ko mis en cache une fois.
+const STATIQUES = {
+  '/style.css':          ['text/css; charset=utf-8', 'public/style.css'],
+  '/favicon.png':        ['image/png', 'public/favicon-32.png'],
+  '/favicon-180.png':    ['image/png', 'public/favicon-180.png'],
+};
 
 // Un fil regroupe les tours d'une même conversation. Identifiant opaque côté
 // client : on ne fait que vérifier sa forme avant de s'en servir en requête.
