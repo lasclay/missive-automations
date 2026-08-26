@@ -233,6 +233,96 @@ const{db}=require('./db.js');
 console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE id=?').get($QID).n)" 2>/dev/null)" = 0 ] \
   && ok "un point se retire de son propre protocole" || ko "suppression impossible"
 
+# --- la checklist obligatoire sur un ordre --------------------------------
+# Un protocole qu'on peut ignorer n'est pas un protocole : le formulaire doit
+# refuser le 100 % exactement comme l'assistant.
+IT=1
+PID=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT produit_id FROM ordre_items WHERE id=1').get().produit_id)" 2>/dev/null)
+# On repart d'un protocole propre : les blocs précédents ont laissé des points
+# sur ce produit, et un test qui dépend de ce qui a tourné avant ne prouve rien.
+MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+db.prepare('DELETE FROM qc_controles').run();
+db.prepare('DELETE FROM qc_points WHERE produit_id = ?').run($PID);
+db.prepare(\"INSERT INTO qc_points (produit_id,type,titre,consequence) VALUES (?,'critique',?,?)\")
+  .run($PID,'Presser avant l\'isolant','Il fond');
+db.prepare('UPDATE ordre_items SET avancement = 40 WHERE id = 1').run();" 2>/dev/null
+
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/$IT/avancement --data 'valeur=100'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT avancement a FROM ordre_items WHERE id=1').get().a)" 2>/dev/null)" != 100 ] \
+  && ok "le formulaire refuse 100 % tant que le contrôle n'est pas passé" \
+  || ko "100 % accepté sans contrôle qualité"
+
+# et il renvoie vers la checklist plutôt que de refuser en silence
+curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/ordres/1/items/$IT/avancement \
+  --data 'valeur=100' | grep -q 'qualite' \
+  && ok "le refus mène à la checklist du lot" || ko "refus muet"
+
+CK=$(curl -s -b $CO $B/ordres/1/items/$IT/qualite)
+echo "$CK" | grep -q 'Presser avant' \
+  && ok "la checklist du lot montre le protocole du produit" || ko "checklist vide"
+# « 2 points à vérifier » ne contient pas « point à vérifier » : le pluriel
+# doit être dans le motif, sinon le test ment selon le nombre de points.
+echo "$CK" | grep -qE 'points? à vérifier' \
+  && ok "le bilan dit combien de points restent" || ko "bilan absent"
+
+QP=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT id FROM qc_points ORDER BY id DESC LIMIT 1').get().id)" 2>/dev/null)
+
+# un point d'un AUTRE produit ne doit pas pouvoir être coché sur ce lot
+AUTREP=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+const p=db.prepare('SELECT id FROM produits WHERE id != ? LIMIT 1').get($PID);
+console.log(db.prepare(\"INSERT INTO qc_points (produit_id,type,titre) VALUES (?,'critique','Ailleurs')\")
+  .run(p.id).lastInsertRowid);" 2>/dev/null)
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/$IT/qualite/$AUTREP --data 'verdict=conforme'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM qc_controles').get().n)" 2>/dev/null)" = 0 ] \
+  && ok "un point d'un autre produit ne se coche pas sur ce lot" || ko "contrôle croisé accepté"
+
+# l'atelier coche : c'est lui qui a les pièces en main
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/$IT/qualite/$QP \
+  --data 'verdict=non_conforme' --data-urlencode 'note=Deux pièces rigides sur vingt'
+curl -s -b $CO $B/ordres/1/items/$IT/qualite | grep -q 'non conforme' \
+  && ok "l'atelier relève une non-conformité" || ko "non-conformité non enregistrée"
+
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/$IT/avancement --data 'valeur=100'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT avancement a FROM ordre_items WHERE id=1').get().a)" 2>/dev/null)" != 100 ] \
+  && ok "une non-conformité bloque le 100 %" || ko "lot fini malgré un écart"
+
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/$IT/qualite/$QP --data 'verdict=conforme'
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/$IT/avancement --data 'valeur=100'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT avancement a FROM ordre_items WHERE id=1').get().a)" 2>/dev/null)" = 100 ] \
+  && ok "écart corrigé, le lot se déclare fini" || ko "lot bloqué après correction"
+
+# le journal garde les deux verdicts
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM qc_controles').get().n)" 2>/dev/null)" = 2 ] \
+  && ok "la non-conformité corrigée reste au journal" || ko "historique écrasé"
+
+# l'état se voit sur la page de l'ordre, à côté du sélecteur
+curl -s -b $CA $B/ordres/1 | grep -q 'ck-etiq' \
+  && ok "l'ordre affiche l'état qualité de chaque lot" || ko "état qualité absent de l'ordre"
+
+# Ce bloc a mené l'item 1 à 100 %, ce qui le sort d'« À fabriquer ». On remet
+# l'état d'avant : un test qui casse le suivant ne teste plus rien.
+MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+db.prepare('UPDATE ordre_items SET avancement = 70 WHERE id = 1').run();
+db.prepare('DELETE FROM qc_controles').run();
+db.prepare('DELETE FROM qc_points').run();" 2>/dev/null
+
 # --- tâches : ce qu'on se demande d'un bord à l'autre ---------------------
 # Le seul module sans hiérarchie : l'atelier assigne à Québec comme l'inverse.
 curl -s -b $CO -o /dev/null -X POST $B/taches \

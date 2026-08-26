@@ -27,7 +27,8 @@ const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs, variantesItem,
         taches, tache, compteTaches, equipe,
-        protocole, couvertureQC, TYPES_QC } = require('./db.js');
+        protocole, couvertureQC, TYPES_QC,
+        checklistItem, blocageQC, etatQCOrdre } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
@@ -258,6 +259,13 @@ async function router(req, res, url, user) {
       const it = R.item.get(+mi[1], id);
       const f = await corpsFormulaire(req);
       const v = parseInt(f.valeur, 10);
+      // Le contrôle qualité est obligatoire pour déclarer un lot fini. La règle
+      // vit dans db.js, et l'assistant y passe aussi : aucun des deux chemins
+      // ne peut contourner l'autre.
+      const bloc = it ? blocageQC(it.id, v) : null;
+      if (bloc)
+        return vers(res, `/ordres/${id}/items/${it.id}/qualite?err=`
+          + encodeURIComponent(bloc.message));
       if (it && Number.isInteger(v) && v >= 0 && v <= 100 && v % 10 === 0 && v !== it.avancement) {
         db.exec('BEGIN');
         try {
@@ -273,6 +281,40 @@ async function router(req, res, url, user) {
         } catch (err) { db.exec('ROLLBACK'); throw err; }
       }
       return vers(res, `/ordres/${id}#i${mi[1]}`);
+    }
+
+    // ---- la checklist qualité d'un lot
+    {
+      const mq = reste.match(/^\/items\/(\d+)\/qualite(?:\/(\d+))?$/);
+      if (mq) {
+        const it = R.item.get(+mq[1], id);
+        if (!it) return vers(res, `/ordres/${id}?err=`
+          + encodeURIComponent('Item introuvable.'));
+
+        if (mq[2] && req.method === 'POST') {
+          const f = await corpsFormulaire(req);
+          const verdict = f.verdict === 'non_conforme' ? 'non_conforme'
+                        : f.verdict === 'conforme' ? 'conforme' : null;
+          if (!verdict) return vers(res, `/ordres/${id}/items/${it.id}/qualite?err=`
+            + encodeURIComponent('Verdict manquant.'));
+          // Le point doit appartenir au produit de CE lot : sinon un id valide
+          // ailleurs ferait entrer un contrôle qui n'a rien à y faire.
+          const pt = db.prepare(`SELECT id FROM qc_points WHERE id = ? AND produit_id = ?`)
+            .get(Number(mq[2]), it.produit_id);
+          if (!pt) return vers(res, `/ordres/${id}/items/${it.id}/qualite?err=`
+            + encodeURIComponent("Ce point n'appartient pas au protocole de ce produit."));
+          db.prepare(`INSERT INTO qc_controles (item_id, point_id, verdict, mesure,
+                        note, utilisateur_id) VALUES (?,?,?,?,?,?)`)
+            .run(it.id, pt.id, verdict, String(f.mesure || '').trim(),
+                 String(f.note || '').trim(), user.id);
+          return vers(res, `/ordres/${id}/items/${it.id}/qualite?ok=`
+            + encodeURIComponent(verdict === 'conforme'
+                ? 'Point vérifié.' : 'Écart enregistré.') + `#p${pt.id}`);
+        }
+
+        return html(res, V.vueChecklist({ user, msg, ordre: o,
+          c: checklistItem(it.id) }));
+      }
     }
 
     if (reste === '/commentaires' && req.method === 'POST') {
@@ -335,6 +377,7 @@ async function router(req, res, url, user) {
       items: R.items.all(id).map(it => ({ ...it, variantes: variantesItem(it.id) })),
       jalons: R.jalons.all(id),
       commentaires: R.commentaires.all(id), produits: R.produitsActifs.all(),
+      qc: etatQCOrdre(id),
       pct: avancementOrdre(id).pct }));
   }
 

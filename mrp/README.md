@@ -199,6 +199,30 @@ Quatre volets par produit, dans l'ordre où on les lit à l'atelier :
 - L'assistant sait lire et écrire : « quelle est la tolérance sur les gants »,
   « note que le col doit être pressé avant l'isolant, sinon il fond ».
 
+**La checklist obligatoire sur chaque ordre.** Le protocole ne sert à rien s'il
+reste une page qu'on peut ne pas lire. Chaque item d'un ordre de production
+porte donc sa checklist, dérivée du protocole de son produit :
+
+- **Un lot ne peut pas être déclaré à 100 % tant que tous ses points n'ont pas
+  de verdict.** Le refus nomme les points qui manquent et mène droit à la
+  checklist.
+- **Une non-conformité bloque aussi**, et se distingue d'un oubli : il faut
+  corriger puis revérifier.
+- **Le verrou vit dans `db.js` (`blocageQC`), et les deux chemins d'écriture y
+  passent** — le formulaire et l'assistant. Aucun des deux ne contourne l'autre.
+- **Sans protocole, rien n'est exigé.** C'est un trou, pas une permission, et la
+  page le dit dans ces mots.
+- **Dynamique par construction** : le protocole n'est jamais recopié dans le
+  lot. Ajouter un point critique le fait apparaître non vérifié sur tous les
+  lots en cours, y compris ceux déjà à 90 % — ce sont précisément ceux à qui ça
+  sert.
+- **Journal, pas état** : chaque vérification s'ajoute, aucune n'écrase la
+  précédente. Une non-conformité corrigée reste visible, et c'est exactement ce
+  qui nourrit la colonne « problèmes fréquents » du protocole.
+- Sur la page de l'ordre, l'état qualité de chaque lot s'affiche **à côté du
+  sélecteur d'avancement** — là où on s'apprête à déclarer 100 % et où on va se
+  faire refuser.
+
 **Amorce.** 25 points sur 15 produits viennent de
 `donnees/qualite-amorce.tsv` — une relecture à la main des notes techniques,
 où ces consignes dormaient mêlées aux coûts et aux questions Shopify. Le
@@ -494,6 +518,7 @@ utilisateurs ─┬─ sessions
                            ├─ produit_materiaux
                            ├─ produit_patrons
                            └─ qc_points           (protocole qualité)
+                                  └─ qc_controles  (le protocole appliqué à un lot)
 
 reglages                                  (capacité de l'atelier — hors graphe :
                                            un seul jeu, pas une préférence)

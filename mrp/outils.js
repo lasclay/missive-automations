@@ -468,6 +468,13 @@ const OUTILS = [
         return { ok: true, inchange: true,
                  message: `${p.code} était déjà à ${v} % dans ${o.numero}.` };
 
+      // Même verrou qu'au formulaire, même fonction : déclarer un lot fini
+      // demande que son contrôle qualité soit passé. L'assistant ne contourne
+      // pas une règle que l'interface impose.
+      const bloc = D.blocageQC(it.id, v);
+      if (bloc) refuser(bloc.message
+        + ' Le protocole est sur la fiche produit, onglet Qualité.');
+
       db.prepare(`UPDATE ordre_items SET avancement = ?, maj_le = datetime('now')
                   WHERE id = ?`).run(v, it.id);
       db.prepare(`INSERT INTO avancement_historique (item_id, utilisateur_id, avant, apres)

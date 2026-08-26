@@ -211,6 +211,27 @@ CREATE TABLE IF NOT EXISTS qc_points (
 );
 CREATE INDEX IF NOT EXISTS idx_qc_produit ON qc_points(produit_id, type, rang);
 
+-- Le protocole appliqué à un lot précis. C'est ce qui transforme une page de
+-- consignes en checklist obligatoire : tant qu'un point n'a pas de verdict,
+-- l'item ne peut pas être déclaré fini.
+--
+-- Journal, pas état : chaque vérification s'ajoute, aucune n'écrase la
+-- précédente. Le verdict courant est la dernière ligne. C'est plus lourd d'une
+-- sous-requête, et ça garde ce qu'une table d'état perdrait — une non-conformité
+-- corrigée reste visible, et c'est exactement ce qui nourrit la colonne
+-- « problèmes fréquents » du protocole.
+CREATE TABLE IF NOT EXISTS qc_controles (
+  id            INTEGER PRIMARY KEY,
+  item_id       INTEGER NOT NULL REFERENCES ordre_items(id) ON DELETE CASCADE,
+  point_id      INTEGER NOT NULL REFERENCES qc_points(id) ON DELETE CASCADE,
+  verdict       TEXT NOT NULL CHECK (verdict IN ('conforme','non_conforme')),
+  mesure        TEXT NOT NULL DEFAULT '',   -- la valeur relevée, pour une cote
+  note          TEXT NOT NULL DEFAULT '',
+  utilisateur_id INTEGER REFERENCES utilisateurs(id),
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_qcc_item ON qc_controles(item_id, point_id, id);
+
 -- ---------------------------------------------------------------------- tâches
 -- « Montassar me demande des choses, et vice versa. » Ces demandes-là vivaient
 -- dans Missive, dans WhatsApp, ou dans la tête de quelqu'un. Ici elles ont un
@@ -551,6 +572,77 @@ function couvertureQC({ lieu = 'tunisie' } = {}) {
      ORDER BY (COUNT(q.id) = 0) DESC, COALESCE(a_produire, 0) DESC, p.code`).all(lieu);
 }
 
+/**
+ * La checklist d'un item : le protocole du produit, avec le dernier verdict.
+ *
+ * Dynamique par construction. Le protocole n'est jamais recopié dans le lot :
+ * ajouter un point critique le fait apparaître non vérifié sur TOUS les lots en
+ * cours, y compris ceux déjà à 90 %. C'est voulu — on vient d'apprendre quelque
+ * chose, et les lots en cours sont précisément ceux à qui ça sert.
+ */
+function checklistItem(itemId) {
+  const it = db.prepare(
+    `SELECT i.*, p.code, p.nom FROM ordre_items i
+       JOIN produits p ON p.id = i.produit_id WHERE i.id = ?`).get(itemId);
+  if (!it) return null;
+  const points = db.prepare(`
+    SELECT q.*,
+           c.verdict, c.mesure AS releve, c.note AS note_controle,
+           c.cree_le AS verifie_le, u.nom AS verifie_par
+      FROM qc_points q
+      LEFT JOIN qc_controles c
+        ON c.id = (SELECT MAX(x.id) FROM qc_controles x
+                    WHERE x.point_id = q.id AND x.item_id = ?)
+      LEFT JOIN utilisateurs u ON u.id = c.utilisateur_id
+     WHERE q.produit_id = ?
+     ORDER BY q.rang, q.id`).all(itemId, it.produit_id);
+
+  const total = points.length;
+  const verifies = points.filter(x => x.verdict).length;
+  const ecarts = points.filter(x => x.verdict === 'non_conforme');
+  const restants = points.filter(x => !x.verdict);
+  return { item: it, points, total, verifies,
+           ecarts, restants,
+           // « Complet » veut dire : tout a un verdict ET aucun n'est en écart.
+           complet: total > 0 && !restants.length && !ecarts.length,
+           vide: total === 0 };
+}
+
+/**
+ * Pourquoi un item ne peut pas être déclaré fini, ou null s'il le peut.
+ *
+ * Le seul endroit où la règle est écrite : le formulaire et l'assistant y
+ * passent tous les deux, donc l'un ne peut pas contourner l'autre.
+ */
+function blocageQC(itemId, valeur) {
+  if (Number(valeur) !== 100) return null;
+  const c = checklistItem(itemId);
+  if (!c || c.vide) return null;          // pas de protocole, rien à exiger
+  if (c.ecarts.length)
+    return { raison: 'ecart', restants: c.restants.length, ecarts: c.ecarts,
+      message: `${c.ecarts.length} non-conformité${c.ecarts.length > 1 ? 's' : ''} `
+        + `sur ${c.item.code} : ${c.ecarts.map(x => `« ${x.titre} »`).join(', ')}. `
+        + 'Corrige et revérifie avant de déclarer le lot fini.' };
+  if (c.restants.length)
+    return { raison: 'restants', restants: c.restants.length, ecarts: [],
+      message: `${c.restants.length} point${c.restants.length > 1 ? 's' : ''} de `
+        + `contrôle qualité pas encore vérifié${c.restants.length > 1 ? 's' : ''} `
+        + `sur ${c.item.code} : ${c.restants.map(x => `« ${x.titre} »`).join(', ')}.` };
+  return null;
+}
+
+/** L'état qualité de chaque item d'un ordre, pour la page de l'ordre. */
+function etatQCOrdre(ordreId) {
+  const l = db.prepare(`SELECT id FROM ordre_items WHERE ordre_id = ?`).all(ordreId);
+  const out = {};
+  for (const { id } of l) {
+    const c = checklistItem(id);
+    out[id] = { total: c.total, verifies: c.verifies,
+                ecarts: c.ecarts.length, complet: c.complet, vide: c.vide };
+  }
+  return out;
+}
+
 // ------------------------------------------------------------------- tâches
 /**
  * Les tâches, avec les noms des deux personnes concernées.
@@ -603,6 +695,7 @@ const equipe = () => db.prepare(
 module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    taches, tache, compteTaches, equipe,
                    protocole, couvertureQC, TYPES_QC,
+                   checklistItem, blocageQC, etatQCOrdre,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,
                    RANG_PRIORITE, RANG_FAMILLE, FAMILLES, LIEUX };

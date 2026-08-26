@@ -461,6 +461,91 @@ function pointQC({ q, produitId, editable }) {
   </li>`;
 }
 
+/**
+ * La checklist d'un lot : le protocole du produit, à cocher pièce par pièce.
+ *
+ * Chaque point est un mini-formulaire à deux boutons — conforme, non conforme —
+ * plutôt qu'une case et un bouton « enregistrer ». Deux raisons : un clic vaut
+ * mieux que deux sur un téléphone d'atelier, et un verdict qui part tout seul
+ * ne se perd pas quand la page se recharge sur une connexion capricieuse.
+ */
+function vueChecklist({ user, msg, ordre, c }) {
+  const { item, points, total, verifies, ecarts, restants, complet, vide } = c;
+
+  const ligne = (q) => {
+    const fait = Boolean(q.verdict);
+    const ko = q.verdict === 'non_conforme';
+    return `<li class="ck ${fait ? (ko ? 'ck-ko' : 'ck-ok') : 'ck-attente'}" id="p${q.id}">
+      <div class="ck-tete">
+        <span class="q-pip q-${q.type}">${ICONE_QC[q.type]}</span>
+        <b>${e(q.titre)}</b>
+        ${fait ? `<span class="ck-etat">${ko ? 'non conforme' : 'conforme'}</span>` : ''}
+      </div>
+      ${q.detail ? `<p class="qc-det">${e(q.detail)}</p>` : ''}
+      ${q.valeur ? `<p class="ck-cible">Cible <b>${e(q.valeur)}${
+        q.unite ? ' ' + e(q.unite) : ''}</b>${
+        q.tolerance ? ` ± ${e(q.tolerance)}` : ''}${
+        q.variante ? ` · ${e(q.variante)}` : ''}</p>` : ''}
+      ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
+      ${q.frequence ? `<p class="qc-pied"><b>${e(q.frequence)}</b></p>` : ''}
+      ${fait ? `<p class="ck-signe">${ko ? 'Écart relevé' : 'Vérifié'} par
+        ${e(q.verifie_par || '—')} · ${dateHeureFR(q.verifie_le)}
+        ${q.releve ? ` · relevé <b>${e(q.releve)}</b>` : ''}
+        ${q.note_controle ? `<br><span class="ck-note">${e(q.note_controle)}</span>` : ''}</p>` : ''}
+      <form method="post" action="/ordres/${ordre.id}/items/${item.id}/qualite/${q.id}"
+            class="ck-form">
+        ${q.type === 'mesure' ? `<input name="mesure" class="ck-mes"
+          placeholder="Relevé${q.unite ? ' en ' + e(q.unite) : ''}" maxlength="40"
+          value="">` : ''}
+        <input name="note" class="ck-com" maxlength="200"
+          placeholder="${ko || !fait ? 'Ce que tu as vu (facultatif)' : 'Note (facultatif)'}">
+        <button name="verdict" value="conforme" class="btn-mini"
+          >${fait && !ko ? 'Revérifier conforme' : 'Conforme'}</button>
+        <button name="verdict" value="non_conforme" class="btn-mini rouge"
+          >Non conforme</button>
+      </form>
+    </li>`;
+  };
+
+  const corps = `
+  <div class="entete"><div>
+    <p class="fil-ariane"><a href="/ordres/${ordre.id}">${e(ordre.numero)}</a> ·
+      <a href="/qualite/${item.produit_id}">protocole du produit</a></p>
+    <h1>${e(item.code)}</h1>
+    <p class="muted">${e(item.nom)} — ${item.quantite.toLocaleString('fr-CA')} pièces,
+      ${item.avancement} % déclaré</p>
+  </div></div>
+
+  ${vide ? `<div class="carte ck-vide">
+    <h2>Aucun protocole pour ce produit</h2>
+    <p>Rien n'est exigé au contrôle qualité tant que rien n'est écrit. Ce lot
+    peut être déclaré fini — mais c'est un trou, pas une permission.</p>
+    <a class="btn" href="/qualite/${item.produit_id}">Écrire le protocole</a>
+  </div>`
+  : `<div class="carte ck-bilan ${ecarts.length ? 'mauvais' : complet ? 'bon' : 'attente'}">
+    <div class="chiffres">
+      <div class="c"><b>${verifies} / ${total}</b>points vérifiés</div>
+      ${ecarts.length ? `<div class="c"><b>${ecarts.length}</b>non-conformité${
+        ecarts.length > 1 ? 's' : ''}</div>` : ''}
+    </div>
+    <p class="verdict-txt">${
+      ecarts.length ? `<b>Le lot ne peut pas être déclaré fini.</b> Corrige les
+        écarts, puis revérifie les points concernés.`
+      : complet ? `<b>Contrôle passé.</b> Le lot peut être déclaré à 100 %.`
+      : `<b>${restants.length} point${restants.length > 1 ? 's' : ''} à vérifier</b>
+         avant de pouvoir déclarer ce lot fini.`}</p>
+  </div>
+
+  <div class="carte">
+    <h2>Protocole du lot</h2>
+    <p class="sec">Il suit le protocole du produit : un point ajouté après coup
+    apparaît ici, même sur un lot déjà avancé.</p>
+    <ul class="ck-liste">${points.map(ligne).join('')}</ul>
+  </div>`}`;
+
+  return page({ titre: `Qualité — ${item.code}`, user, corps, msg, actif: 'ordres' });
+}
+
 function vueQualite({ user, msg, couverture }) {
   const sans = couverture.filter(p => !p.points);
   const avec = couverture.filter(p => p.points);
@@ -694,7 +779,7 @@ function vueOrdres({ user, ordres, msg }) {
 }
 
 // =================================================== DÉTAIL D'UN ORDRE (clé)
-function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg }) {
+function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg, qc = {} }) {
   const admin = user.role === 'admin';
   const auj = new Date().toISOString().slice(0, 10);
 
@@ -742,6 +827,21 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg }) 
           ${jauge(it.avancement)}<span class="pct">${it.avancement} %</span>
         </div>
         ${selecteur(it)}
+        ${(() => {
+          // L'état qualité se lit à côté du sélecteur, parce que c'est là qu'on
+          // s'apprête à déclarer 100 % et qu'on va se faire refuser.
+          const q = qc[it.id];
+          if (!q) return '';
+          const lien = `/ordres/${o.id}/items/${it.id}/qualite`;
+          if (q.vide) return `<div class="ck-etiq ck-rien"><a href="/qualite/${
+            it.produit_id}">aucun protocole</a></div>`;
+          if (q.ecarts) return `<div class="ck-etiq ck-ko"><a href="${lien}"
+            >${q.ecarts} non-conformité${q.ecarts > 1 ? 's' : ''}</a></div>`;
+          if (q.complet) return `<div class="ck-etiq ck-ok"><a href="${lien}"
+            >contrôle passé · ${q.total}/${q.total}</a></div>`;
+          return `<div class="ck-etiq ck-attente"><a href="${lien}"
+            >qualité ${q.verifies}/${q.total}</a></div>`;
+        })()}
         ${it.maj_le ? `<div class="muted" style="margin-top:4px;font-size:12px">
            Dernière mise à jour ${dateHeureFR(it.maj_le)}</div>` : ''}
       </td>
@@ -1597,5 +1697,6 @@ module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
                    vuePriorites, vueSuivi, vueTaches, vueQualite, vueProtocole,
+                   vueChecklist,
                    PRIORITES, urgence,
                    STATUTS, TYPES_JALON, LIEUX, ROLES };

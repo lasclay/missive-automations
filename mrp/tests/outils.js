@@ -657,6 +657,87 @@ t("l'atelier peut consulter le suivi",
     `${avant} → ${D.protocole(p1).total}`);
 }
 
+// ------------------------------------- la checklist obligatoire d'un lot
+// Un protocole qu'on peut ignorer n'est pas un protocole. Le verrou vit dans
+// db.js et les DEUX chemins d'écriture y passent — c'est ça qu'on vérifie.
+{
+  const D = require('../db.js');
+  const cK = tour(admin);
+
+  const oQ = ex('creer_ordre', { titre: 'Lot de contrôle' }, cK);
+  ex('creer_produit', { code: 'CK-TEST', nom: 'Produit contrôlé' }, cK);
+  ex('ajouter_item', { ordre: oQ.numero, produit: 'CK-TEST', quantite: 100 }, cK);
+  const itId = db.prepare(`SELECT i.id FROM ordre_items i JOIN produits p
+                           ON p.id = i.produit_id WHERE p.code = 'CK-TEST'`).get().id;
+
+  // Sans protocole, rien n'est exigé : c'est un trou, pas une permission.
+  t('sans protocole, un lot peut être déclaré fini',
+    D.blocageQC(itId, 100) === null);
+  t('un lot sans protocole le dit au lieu d\'exiger le vide',
+    D.checklistItem(itId).vide === true);
+
+  ex('ajouter_point_qc', { produit: 'CK-TEST', volet: 'critique',
+    titre: 'Presser avant l\'isolant', consequence: 'Il fond' }, cK);
+  ex('ajouter_point_qc', { produit: 'CK-TEST', volet: 'mesure',
+    titre: 'Tour de cou', valeur: '52', unite: 'cm' }, cK);
+
+  t('un point non vérifié bloque le 100 %',
+    Boolean(D.blocageQC(itId, 100)) && D.blocageQC(itId, 100).raison === 'restants');
+  t('le blocage nomme les points qui manquent',
+    D.blocageQC(itId, 100).message.includes('Tour de cou'));
+  t('un avancement intermédiaire n\'est jamais bloqué',
+    D.blocageQC(itId, 90) === null && D.blocageQC(itId, 10) === null);
+
+  // Le chemin de l'assistant passe par le même verrou.
+  const refus = ex('maj_avancement', { ordre: oQ.numero, produit: 'CK-TEST',
+    valeur: 100 }, cK);
+  t('l\'assistant ne contourne pas le contrôle qualité',
+    Boolean(refus.erreur) && refus.erreur.includes('contrôle qualité'),
+    JSON.stringify(refus));
+  t('...et l\'avancement n\'a pas bougé',
+    db.prepare(`SELECT avancement a FROM ordre_items WHERE id = ?`).get(itId).a !== 100);
+  t('l\'assistant peut toujours avancer sans finir',
+    ex('maj_avancement', { ordre: oQ.numero, produit: 'CK-TEST', valeur: 90 }, cK).ok === true);
+
+  const pts = db.prepare(`SELECT q.id FROM qc_points q JOIN produits p ON p.id = q.produit_id
+                          WHERE p.code = 'CK-TEST' ORDER BY q.id`).all().map(x => x.id);
+  const cocher = db.prepare(`INSERT INTO qc_controles (item_id, point_id, verdict,
+                             utilisateur_id) VALUES (?,?,?,?)`);
+
+  cocher.run(itId, pts[0], 'conforme', admin.id);
+  t('un point sur deux ne suffit pas', D.blocageQC(itId, 100).restants === 1);
+
+  cocher.run(itId, pts[1], 'non_conforme', admin.id);
+  t('une non-conformité bloque, et se distingue d\'un oubli',
+    D.blocageQC(itId, 100).raison === 'ecart',
+    D.blocageQC(itId, 100).raison);
+
+  cocher.run(itId, pts[1], 'conforme', admin.id);
+  t('écart corrigé, le lot passe', D.blocageQC(itId, 100) === null);
+  t('l\'assistant peut alors déclarer le lot fini',
+    ex('maj_avancement', { ordre: oQ.numero, produit: 'CK-TEST', valeur: 100 }, cK).ok === true);
+
+  // Journal, pas état : une non-conformité corrigée reste visible.
+  t('l\'historique des contrôles est conservé',
+    db.prepare(`SELECT COUNT(*) n FROM qc_controles WHERE item_id = ?`).get(itId).n === 3);
+  t('le verdict courant est le dernier, pas le premier',
+    D.checklistItem(itId).points[1].verdict === 'conforme');
+
+  // Dynamique : un point appris en cours de route s'applique aux lots ouverts.
+  ex('ajouter_point_qc', { produit: 'CK-TEST', volet: 'probleme',
+    titre: 'Appris en cours de route' }, cK);
+  t('un point ajouté après coup rebloque un lot déjà fini',
+    Boolean(D.blocageQC(itId, 100)),
+    'checklist : ' + JSON.stringify(D.checklistItem(itId).restants.map(x => x.titre)));
+
+  // L'état rendu à la page de l'ordre
+  const etat = D.etatQCOrdre(db.prepare(
+    `SELECT ordre_id FROM ordre_items WHERE id = ?`).get(itId).ordre_id);
+  t('la page de l\'ordre reçoit l\'état de chaque item',
+    etat[itId].total === 3 && etat[itId].verifies === 2 && etat[itId].complet === false,
+    JSON.stringify(etat[itId]));
+}
+
 // ------------------------------------------------------------------- tâches
 // Le seul module où l'atelier a exactement les mêmes droits que Québec : les
 // demandes vont dans les deux sens.

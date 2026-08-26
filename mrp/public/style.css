@@ -295,6 +295,50 @@ textarea{min-height:70px;resize:vertical}
 .qc-court li{margin-bottom:6px;line-height:1.45}
 .fil-ariane{margin:0 0 4px;font-size:12.5px;color:var(--gris)}
 
+/* ---------- checklist qualité d'un lot ----------
+   Chaque point est un mini-formulaire à deux boutons : sur un téléphone
+   d'atelier, un clic vaut mieux que cocher puis enregistrer. */
+.ck-liste{list-style:none;padding:0;margin:0}
+.ck{border:1px solid var(--ligne);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.ck-attente{border-left:3px solid var(--piste-pleine)}
+.ck-ok{border-left:3px solid var(--vert);background:var(--vert-pale)}
+.ck-ko{border-left:3px solid var(--rouge);background:var(--rouge-pale)}
+.ck-tete{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.ck-tete b{font-weight:600;line-height:1.35;flex:1;min-width:min(100%,180px)}
+.ck-etat{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  padding:2px 8px;border-radius:99px}
+.ck-ok .ck-etat{background:var(--vert);color:var(--sur-vert)}
+.ck-ko .ck-etat{background:var(--rouge);color:#fff}
+.ck .qc-det,.ck .qc-cons,.ck .qc-pied{margin:5px 0 0}
+.ck-cible{margin:5px 0 0;font-size:13.5px;color:var(--encre2)}
+.ck-cible b{font-variant-numeric:tabular-nums;color:var(--bleu)}
+.ck-signe{margin:6px 0 0;font-size:12px;color:var(--gris)}
+.ck-signe b{color:var(--encre2);font-variant-numeric:tabular-nums}
+.ck-note{color:var(--encre2);font-style:italic}
+.ck-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.ck-form input{font:inherit;font-size:13px;padding:6px 9px;border-radius:5px;
+  border:1px solid var(--ligne);background:var(--champ);color:var(--encre)}
+.ck-mes{width:min(100%,120px);font-variant-numeric:tabular-nums}
+.ck-com{flex:1;min-width:min(100%,160px)}
+.btn-mini.rouge{background:transparent;color:var(--rouge);border-color:var(--rouge)}
+.btn-mini.rouge:hover{background:var(--rouge);color:#fff}
+.ck-bilan{border-left:3px solid var(--piste-pleine)}
+.ck-bilan.bon{border-left-color:var(--vert)}
+.ck-bilan.mauvais{border-left-color:var(--rouge)}
+.ck-bilan.bon .verdict-txt b:first-child{color:var(--vert)}
+.ck-bilan.mauvais .verdict-txt b:first-child{color:var(--rouge)}
+.ck-vide{border-left:3px solid var(--ambre)}
+/* L'étiquette posée à côté du sélecteur d'avancement, là où on s'apprête à
+   déclarer 100 % et où on va se faire refuser. */
+.ck-etiq{margin-top:5px;font-size:12px}
+.ck-etiq a{font-weight:600;text-decoration:none;padding:2px 8px;border-radius:99px;
+  display:inline-block}
+.ck-etiq.ck-ok a{background:var(--vert-pale);color:var(--vert)}
+.ck-etiq.ck-ko a{background:var(--rouge-pale);color:var(--rouge)}
+.ck-etiq.ck-attente a{background:var(--piste);color:var(--encre2)}
+.ck-etiq.ck-rien a{background:var(--ambre-pale);color:var(--ambre)}
+.ck-etiq a:hover{text-decoration:underline}
+
 /* ---------- tâches ----------
    Une tâche est une ligne : ce qu'il faut faire à gauche, ce qu'on peut en
    faire à droite. Rien d'autre — c'est une liste de courses, pas un ticket. */
