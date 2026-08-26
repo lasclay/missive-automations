@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js"
   },
+  "_engines": "Borne haute obligatoire : Render résout une plage ouverte vers la version la plus récente offerte, qui est passée à une préversion 26.8.0-alpha que yarn refuse ensuite contre cette même plage. Voir le package.json de la racine.",
   "engines": {
-    "node": ">=18"
+    "node": "22.x"
   }
 }
