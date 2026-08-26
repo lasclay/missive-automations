@@ -1891,6 +1891,9 @@ route("GET /api/settings", () => ({
   marque: db.reglage("marque", accounts.MARQUE_DEFAUT),
   tarif_dropoff_cible: db.reglage("tarif_dropoff_cible", 6.31),
   derniere_migration: db.reglage("derniere_migration", null),
+  expediteur_contact: db.reglage("expediteur_contact", ""),
+  expediteur_telephone: db.reglage("expediteur_telephone", ""),
+  expediteur_courriel: db.reglage("expediteur_courriel", ""),
   assurance_active: String(db.reglage("assurance_active", "0")) !== "0",
   assurance_defaut: Number(db.reglage("assurance_defaut", 100)) || 0,
   assurance_seuil: Number(db.reglage("assurance_seuil", 300)) || 0,
@@ -1916,6 +1919,12 @@ const REGLAGES_MODIFIABLES = new Set([
   // XCover, et elle engage de l'argent réel à chaque étiquette. Modifiable, donc, sans
   // passer par une variable d'environnement ni un déploiement.
   "assurance_active", "assurance_defaut", "assurance_seuil",
+  // Coordonnées de l'expéditeur : ClickShip marque « Contact Name », « Phone Number » et
+  // « Email Address » obligatoires DES DEUX CÔTÉS de l'envoi. Une commande qui n'en porte
+  // pas — une commande manuelle, une place de marché qui masque l'acheteur — se faisait
+  // refuser à la réservation par un « bad or missing data » qui ne nommait rien. Ces trois
+  // valeurs servent de repli, et se corrigent sans déploiement.
+  "expediteur_contact", "expediteur_telephone", "expediteur_courriel",
   "colonnes_commandes", "columns",
 ]);
 

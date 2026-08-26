@@ -108,7 +108,12 @@ async function details(placeId, { jeton = null } = {}) {
   const j = await appel(chemin, { champs: "addressComponents,formattedAddress" });
   const c = j.addressComponents || [];
   const numero = composant(c, "street_number", true);
-  const rue = composant(c, "route");
+  // `shortText` sur la rue, et c'est important : Google rend « Railway Close Southeast » en
+  // long et « Railway Close SE » en court. C'est la forme courte qui est postale — celle que
+  // portent les étiquettes, celle que ShipStation a enregistrée, celle que les
+  // transporteurs valident. La forme longue passe souvent, mais pas toujours, et l'échec
+  // arrive à l'achat.
+  const rue = composant(c, "route", true);
   return {
     street1: [numero, rue].filter(Boolean).join(" ").trim(),
     street2: composant(c, "subpremise", true),
