@@ -25,9 +25,9 @@ ci-dessous ne dit qu'une carte « est déjà faite », précisément pour cette 
 | Amandine Caudron | Vérifier dans l'admin si les **50 $ promis en décembre 2024** ont été émis | 50 $ |
 | Martine Savard | Le **cache-cou manquant** de L-44108 | 1 article |
 | Gilles Coulombe | La **paire de mitaines manquante** de L-46684 | 126,46 $ |
-| Les cartes-cadeaux | 7 cartes de 100 $ à créer | 700 $ |
+| Les cartes-cadeaux | **8 cartes de 100 $** à créer | 800 $ |
 
-**Total à créer : 700 $ en cartes, plus les articles et remboursements ci-dessus.**
+**Total à créer : 800 $ en cartes, plus les articles et remboursements ci-dessus.**
 
 ---
 
