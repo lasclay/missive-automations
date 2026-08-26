@@ -38,6 +38,7 @@ const hs = require("../lib/hs");
 const lasclay = require("../lib/lasclay");
 const shopify = require("../lib/shopify_sync");
 const presets = require("../lib/presets");
+const adresses = require("../lib/adresses");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const auth = require("../lib/auth");
@@ -190,6 +191,31 @@ route("GET /api/orders", ({ url }) => {
   if (f.status && f.status.includes(",")) f.status = f.status.split(",");
   return { ...orders.chercher({ ...f, seuil: SEUIL_DROPOFF_G }), seuil: SEUIL_DROPOFF_G };
 });
+/**
+ * Autocomplétion d'adresse — Google Places, appelé depuis le serveur.
+ *
+ * La page ne voit jamais la clé : elle demande des suggestions à sa propre origine. Voir
+ * `lib/adresses.js` pour le pourquoi, et pour le jeton de session qui fait la différence
+ * entre une facture Google en cents et une en dollars.
+ *
+ * Une panne chez Google n'est pas une panne du formulaire. La route rend une liste vide et
+ * une note ; la saisie manuelle continue de fonctionner exactement comme avant.
+ */
+route("GET /api/adresses/suggestions", async ({ url }) => {
+  const f = q(url);
+  if (!adresses.actif()) return { actif: false, suggestions: [] };
+  try {
+    return { actif: true, suggestions: await adresses.suggestions(f.q, { pays: f.pays || null, jeton: f.jeton || null }) };
+  } catch (e) { return { actif: true, suggestions: [], note: e.message }; }
+});
+
+route("GET /api/adresses/details", async ({ url }) => {
+  const f = q(url);
+  if (!adresses.actif()) return { error: "autocomplétion non configurée", code: 400 };
+  try { return await adresses.details(f.id, { jeton: f.jeton || null }); }
+  catch (e) { return { error: e.message, code: 400 }; }
+});
+
 route("GET /api/orders/counts", () => orders.compteurs());
 route("GET /api/orders/alerts", () => orders.alertes());
 route("GET /api/orders/:id", ({ params }) => orders.parId(Number(params.id)) || { error: "inconnue" });
@@ -2507,6 +2533,7 @@ route("GET /api/config", ({ moi }) => {
     amorce: !!db.reglage("amorce"),
     config_lasclay: !!db.reglage("config_lasclay"),
     shopify: shopify.etat(),
+    adresses_auto: adresses.actif(),
     comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
     exiger_2fa: !!db.reglage("exiger_2fa", false),
     // La règle d'assurance voyage jusqu'au navigateur : le menu de l'écran d'expédition doit
