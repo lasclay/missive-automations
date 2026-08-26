@@ -22,7 +22,8 @@ const { ordersByIds } = require(path.join(A2X, "lib/orders"));
 const { buildJournalEntry } = require(path.join(A2X, "lib/journal"));
 const { rawCsv } = require(path.join(A2X, "lib/rawcsv"));
 const { qbo } = require(path.join(A2X, "lib/qbo"));
-const { postedJournals, findExisting, relatedByPeriod, invalidate } = require(path.join(A2X, "lib/posted"));
+const { monthRange, recentMonths, ordersForMonth, buildMonthlyEntry } = require(path.join(A2X, "lib/monthly"));
+const { postedJournals, findExisting, relatedByPeriod, invalidate, monthlyJournals, findExistingMonthly } = require(path.join(A2X, "lib/posted"));
 const { gid, tokenScopes, STORE, VER } = require(path.join(A2X, "lib/shopify"));
 const mapper = require(path.join(A2X, "lib/mapper"));
 const config = require(path.join(A2X, "config.json"));
@@ -129,6 +130,45 @@ async function createJournal(journal, rebuild) {
   throw lastErr;
 }
 
+/**
+ * Les lignes de l'écriture pour l'interface, chacune accompagnée de la règle de
+ * mapping qui l'a produite (`map`) — c'est ce qui permet de corriger un compte
+ * depuis l'écriture. Les lignes de contrepartie (arrondi de change, règlement)
+ * ne viennent d'aucune règle : leur `map` est nul.
+ */
+function describeLines(journal) {
+  return journal.body.Line.map((l, i) => {
+    const g = journal.lineGroups[i];
+    return {
+      description: l.Description,
+      amount: l.Amount,
+      posting: l.JournalEntryLineDetail.PostingType,
+      accountId: l.JournalEntryLineDetail.AccountRef.value,
+      tax: !!l.JournalEntryLineDetail.TaxCodeRef,
+      map: g ? {
+        category: g.category, details: g.details, country: g.country, marketplace: g.marketplace,
+        acctNum: g.acctNum, taxValue: (g.tax && g.tax.value) || "",
+        fallback: g.fallback, matched: g.matched, line: g.line || null,
+        sources: g.sources.slice(0, 8),
+      } : null,
+    };
+  });
+}
+
+/**
+ * Comme A2X, une composante sans compte BLOQUE la publication : mieux vaut une
+ * écriture manquante qu'une écriture fausse. Le message nomme ce qui manque —
+ * A2X, lui, se contentait de refuser.
+ */
+function unmappedError(unmapped) {
+  const quoi = unmapped.slice(0, 6).map((u) => `· ${u.description} (${u.amount.toFixed(2)} $)`).join("\n");
+  const reste = unmapped.length > 6 ? `\n· …et ${unmapped.length - 6} autre(s)` : "";
+  return new Error(
+    `${unmapped.length} composante(s) sans compte — publication bloquée :\n${quoi}${reste}\n` +
+    `Ajoute la règle dans l'onglet Mappings (bouton « Créer la règle »), ou coche « forcer » pour publier sans ces lignes.`
+  );
+}
+
 // L'appariement des écritures déjà comptabilisées vit dans a2x/lib/posted.js,
 // partagé avec le CLI (voir l'en-tête du module : le suffixe du DocNumber d'A2X
 // n'est pas exploitable, on apparie sur la période puis sur le montant déposé).
@@ -170,10 +210,38 @@ function addTsvRule({ category, details, country, marketplace, acctNum, tax }) {
   let last = -1;
   for (let i = 0; i < lines.length; i++) if (lines[i].startsWith(category + "\t")) last = i;
   if (last === -1) throw new Error(`Catégorie « ${category} » absente du fichier.`);
-  const row = [category, details, country || "-", marketplace || "-", acctNum || "", tax ? "detaxe" : ""].join("\t").replace(/\t+$/, "");
+  // La colonne portait autrefois le mot « detaxe » ; elle porte maintenant
+  // l'option QuickBooks choisie (« 5:Sales »). Écrire « detaxe » ignorait
+  // silencieusement le choix — et posait un code de taxe sur des lignes qui
+  // n'en portent pas, comme PendingPayment.
+  const row = [category, details, country || "-", marketplace || "-", acctNum || "", tax || ""].join("\t").replace(/\t+$/, "");
   lines.splice(last + 1, 0, row);
   fs.writeFileSync(TSV, lines.join("\n"));
   return { line: last + 2, row };
+}
+
+/**
+ * Le code de taxe qu'une NOUVELLE règle devrait porter.
+ *
+ * Le réflexe serait de prendre `defaultTaxOption` (« Détaxé on Sales »), mais
+ * c'est faux pour la moitié des lignes : chez A2X, les revenus portent un code,
+ * les lignes de taxe, de frais et de paiement en attente n'en portent aucun. On
+ * regarde donc d'abord ce que portent les règles SŒURS — même type de
+ * transaction, autre pays ou autre canal — puis, à défaut, la règle
+ * d'automapping de la catégorie.
+ */
+function inheritedTax(category, details) {
+  const m = mapper.all();
+  const votes = new Map();
+  for (const e of Object.values(m.index)) {
+    if (e.details !== details) continue;
+    const v = (e.tax && e.tax.value) || "";
+    votes.set(v, (votes.get(v) || 0) + 1);
+  }
+  if (votes.size) return [...votes].sort((a, b) => b[1] - a[1])[0][0];
+  const def = m.defaults[category];
+  if (def) return (def.tax && def.tax.value) || "";
+  return config.defaultTaxOption || "";
 }
 
 // -------------------------------------------------------------------- routes
@@ -255,13 +323,7 @@ const routes = {
         docNumber: journal.docNumber, period: journal.period, balanced: journal.balanced,
         settlement: journal.settlement, payoutNet: journal.payoutNet, drift: journal.drift,
         unmapped: journal.unmapped, notes: [...new Set(journal.notes)],
-        lines: journal.body.Line.map((l) => ({
-          description: l.Description,
-          amount: l.Amount,
-          posting: l.JournalEntryLineDetail.PostingType,
-          accountId: l.JournalEntryLineDetail.AccountRef.value,
-          tax: !!l.JournalEntryLineDetail.TaxCodeRef,
-        })),
+        lines: describeLines(journal),
         body: journal.body,
       },
       existing,
@@ -273,9 +335,7 @@ const routes = {
     const computed = await computeJournal(params.id);
     const { payout, journal } = computed;
     if (!journal.balanced) throw new Error("Écriture non équilibrée — publication refusée.");
-    if (journal.unmapped.length && !body.force) {
-      throw new Error(`${journal.unmapped.length} composante(s) non mappée(s). Corrige les mappings, ou coche « forcer ».`);
-    }
+    if (journal.unmapped.length && !body.force) throw unmappedError(journal.unmapped);
     // On relit QBO au moment de publier : le cache pourrait masquer une écriture
     // créée entre-temps (par A2X, ou dans un autre onglet).
     const existing = await findExisting(
@@ -307,7 +367,7 @@ const routes = {
         const { payout, journal } = computed;
         if (!journal.balanced) { results.push({ id, ok: false, reason: "écriture non équilibrée" }); continue; }
         if (journal.unmapped.length && !body.force) {
-          results.push({ id, ok: false, reason: `${journal.unmapped.length} composante(s) non mappée(s)` });
+          results.push({ id, ok: false, reason: unmappedError(journal.unmapped).message, unmapped: journal.unmapped });
           continue;
         }
         const existing = await findExisting(
@@ -333,7 +393,103 @@ const routes = {
     };
   },
 
-  "GET /api/accounts": async (req, url) => ({ accounts: await chartOfAccounts(url.searchParams.get("refresh") === "1") }),
+  /**
+   * Les mois et leur état — une seule requête QuickBooks, aucune requête
+   * Shopify : de quoi voir d'un coup d'œil ce qu'A2X couvrait et ce qui reste à
+   * faire depuis la résiliation, sans attendre le calcul des écritures.
+   */
+  "GET /api/monthly": async (req, url) => {
+    const n = Math.min(36, parseInt(url.searchParams.get("months") || "13", 10));
+    const force = url.searchParams.get("refresh") === "1";
+    await postedJournals(force);
+    const months = [];
+    for (const m of recentMonths(n)) {
+      const { mine, a2x } = await monthlyJournals(m);
+      months.push({
+        month: m,
+        ...monthRange(m),
+        mine: mine ? { id: mine.id, docNumber: mine.docNumber, txnDate: mine.txnDate } : null,
+        a2x: a2x.map((j) => ({ id: j.id, docNumber: j.docNumber, txnDate: j.txnDate })),
+      });
+    }
+    return { months };
+  },
+
+  /** Aperçu de l'écriture mensuelle hors Shopify Payments (lent : balaie les commandes). */
+  "GET /api/monthly/:month": async (req, url, params) => {
+    const orders = await ordersForMonth(params.month);
+    const journal = buildMonthlyEntry(params.month, orders);
+    const existing = await findExistingMonthly(params.month);
+    const { a2x } = await monthlyJournals(params.month);
+    return {
+      month: journal.month,
+      counts: { scanned: orders.length, kept: journal.orders.length },
+      journal: {
+        docNumber: journal.docNumber, period: journal.period, balanced: journal.balanced,
+        total: journal.total, gateways: journal.gateways,
+        unmapped: journal.unmapped, notes: [...new Set(journal.notes)].slice(0, 25),
+        orders: journal.orders,
+        lines: describeLines(journal),
+      },
+      existing,
+      a2x: a2x.map((j) => ({ id: j.id, docNumber: j.docNumber, txnDate: j.txnDate })),
+    };
+  },
+
+  "POST /api/monthly/:month/post": async (req, url, params, body) => {
+    const orders = await ordersForMonth(params.month);
+    const journal = buildMonthlyEntry(params.month, orders);
+    if (!journal.balanced) throw new Error("Écriture non équilibrée — publication refusée.");
+    if (journal.unmapped.length && !body.force) throw unmappedError(journal.unmapped);
+    const existing = await findExistingMonthly(params.month, true);
+    if (existing && !body.force) {
+      return { created: false, existing, message: `Ce mois est déjà couvert (${existing.docNumber}, ${existing.match}).` };
+    }
+    const { je, taxMode } = await createJournal(journal, (o) => buildMonthlyEntry(params.month, orders, o));
+    invalidate();
+    return { created: true, id: je && je.Id, docNumber: journal.docNumber, taxMode };
+  },
+
+  "GET /api/accounts": async (req, url) => ({
+    accounts: await chartOfAccounts(url.searchParams.get("refresh") === "1"),
+    // Les vraies options du menu de QuickBooks, pour pouvoir mapper une ligne
+    // sans avoir à ouvrir l'onglet Mappings.
+    taxOptions: mapper.all().taxOptions || [],
+  }),
+
+  /**
+   * Applique un mapping depuis l'écriture elle-même, sans passer par l'onglet
+   * Mappings — c'est l'aiguille dans la botte de foin qu'on évite.
+   *
+   * Deux cas, et la distinction compte : si la ligne tenait déjà sa règle par
+   * une correspondance EXACTE, on modifie cette règle. Si elle la tenait par un
+   * repli ou par l'automapping, la modifier changerait aussi toutes les autres
+   * lignes qui s'appuient dessus — on crée alors une règle exacte pour cette
+   * combinaison-là, et elle prend le dessus.
+   */
+  "POST /api/mappings/apply": async (req, url, params, body) => {
+    const { category, details, country, marketplace, fallback, line } = body;
+    if (!details) throw new Error("Type de transaction manquant.");
+    const acctNum = body.acctNum || "";
+    const tax = body.tax === undefined ? inheritedTax(category, details) : body.tax;
+
+    let action;
+    if (fallback === "exact" && line) {
+      editTsvLine(Number(line), { acctNum, tax });
+      action = { kind: "modifiee", line: Number(line) };
+    } else {
+      const added = addTsvRule({
+        category, details,
+        country: !country || country === "*" ? "-" : country,
+        marketplace: !marketplace || marketplace === "*" ? "-" : marketplace,
+        acctNum, tax,
+      });
+      action = { kind: "creee", line: added.line, row: added.row };
+    }
+    const m = regenerate();
+    const git = await commitToGithub(`a2x: ${action.kind === "creee" ? "nouvelle règle" : "règle modifiée"} ${category} / ${details}`);
+    return { action, tax, meta: m.meta(), git };
+  },
 
   "GET /api/mappings": async () => {
     const m = mapper.all();
