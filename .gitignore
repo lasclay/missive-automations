@@ -11,3 +11,7 @@ node_modules/
 # Extrait de bris (bris_missive.js trier) : contient des citations et des noms
 # de clients. Regenerable en une commande, jamais versionne.
 mrp/donnees/bris-missive.tsv
+
+# Journal des tokens (tokens.js) : artefact de run, pas de données client,
+# mais rien à versionner.
+logs/

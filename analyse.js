@@ -38,6 +38,7 @@
  */
 
 const zlib = require("node:zlib");
+const { noter } = require("./tokens");
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
@@ -142,6 +143,7 @@ async function claude(system, user, maxTokens) {
     }
     if (!res.ok) throw new Error(`Anthropic → ${res.status} ${await res.text()}`);
     const data = await res.json();
+    noter("analyse", MODEL, data.usage);
     return (data.content || []).map((b) => b.text || "").join("\n").trim();
   }
   throw new Error("Anthropic: trop de tentatives.");

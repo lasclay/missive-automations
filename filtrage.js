@@ -80,6 +80,8 @@
 
 const VERSION = "v2.3";
 
+const { noter, avecTtl } = require("./tokens");
+
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false"; // défaut: simulation
@@ -226,6 +228,7 @@ async function claude(systemBlocks, user, maxTokens) {
     if (res.status === 429 || res.status === 529) { await sleep(attempt * 20000); continue; }
     if (!res.ok) throw new Error(`Anthropic → ${res.status} ${await res.text()}`);
     const data = await res.json();
+    noter("filtrage", MODEL, data.usage);
     return (data.content || []).map((b) => b.text || "").join("\n").trim();
   }
   throw new Error("Anthropic: trop de tentatives.");
@@ -449,7 +452,7 @@ async function traiterSpam(convId, categorie) {
 // ==========================================================================
 //  Juge IA (Opus par défaut) — appoint conservateur, seulement si USE_AI
 // ==========================================================================
-const AI_SYSTEM = [
+const AI_SYSTEM = avecTtl([
   {
     type: "text",
     cache_control: { type: "ephemeral" },
@@ -510,7 +513,7 @@ Un vrai interlocuteur d'affaires est "keep", jamais "spam".
 Réponds STRICTEMENT en JSON, sans texte autour :
 {"action":"close"|"a_voir"|"spam"|"keep","categorie":"recu|confirmation_paiement|avis_informatif|maj_outil|info_a_retenir|demarchage|pourriel|facture_a_payer|action_requise|humain|autre","confiance":0.0-1.0,"raison":"courte phrase"}`,
   },
-];
+]);
 
 async function jugerIA(sujet, fil, expediteur, boite, diffusion, dateStr) {
   const user =

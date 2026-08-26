@@ -107,6 +107,7 @@ const VERSION = "v3.5";
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { noter, avecTtl } = require("./tokens");
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ORG = process.env.MISSIVE_ORG || "d2b9b52d-ceff-4811-aea7-1f092ec95f36"; // Lasclay
@@ -302,6 +303,7 @@ async function claude(systemBlocks, user, maxTokens) {
     if (res.status === 429 || res.status === 529) { await sleep(attempt * 20000); continue; }
     if (!res.ok) throw new Error(`Anthropic → ${res.status} ${await res.text()}`);
     const data = await res.json();
+    noter("admin_ops", MODEL, data.usage);
     return (data.content || []).map((b) => b.text || "").join("\n").trim();
   }
   throw new Error("Anthropic: trop de tentatives.");
@@ -530,7 +532,7 @@ async function traiterSpam(convId, categorie) {
 // ==========================================================================
 //  Juge IA (Opus par défaut) — appoint conservateur, seulement si USE_AI
 // ==========================================================================
-const AI_SYSTEM = [
+const AI_SYSTEM = avecTtl([
   {
     type: "text",
     cache_control: { type: "ephemeral" },
@@ -642,7 +644,7 @@ RÈGLES DE RÉDACTION DU BROUILLON (impératives) :
 Réponds STRICTEMENT en JSON (commence par { et finis par }), aucun texte autour, aucun « — » nulle part :
 {"action":"close|a_voir|spam|keep","confiance":0.0-1.0,"raison":"courte phrase","categorie":"...","titre":"","priorite":"moyenne","phrase":"","sous_taches":[],"brouillon":""}`,
   },
-];
+]);
 
 const noDash = (s) => (s || "").replace(/\s*[—–]\s*/g, ", ").replace(/,\s*,/g, ",");
 

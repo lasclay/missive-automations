@@ -25,6 +25,8 @@
  *            TEAM, MODEL, EXPORT_FROM, MISSIVE_ORG.
  */
 
+const { noter } = require("./tokens");
+
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const DRY_RUN = (process.env.DRY_RUN || "true").toLowerCase() !== "false";
@@ -219,6 +221,7 @@ async function claude(user) {
     if (res.status === 429 || res.status === 529) { await sleep(attempt * 20000); continue; }
     if (!res.ok) throw new Error(`Anthropic → ${res.status} ${await res.text()}`);
     const data = await res.json();
+    noter("prevente", MODEL, data.usage);
     return (data.content || []).map((b) => b.text || "").join("\n").trim();
   }
   throw new Error("Anthropic: trop de tentatives.");

@@ -78,6 +78,7 @@ const SELF_NAMES = new Set(
 // si le fichier est absent.
 const fs = require("node:fs");
 const path = require("node:path");
+const { noter, avecTtl } = require("./tokens");
 const CONTEXTE_COURT =
   "Lasclay (lasclay.com), entreprise québécoise de produits à base d'asclépiade " +
   "(milkweed) : isolation/fibres textiles durables. Gabriel Gouveia, co-fondateur. " +
@@ -342,14 +343,14 @@ async function classify(item) {
 
   // Bloc système : contexte d'entreprise MIS EN CACHE (identique à chaque appel,
   // donc facturé ~10% après le 1er appel) + instructions de tâche.
-  const system = [
+  const system = avecTtl([
     {
       type: "text",
       text: "CONTEXTE LASCLAY (référence interne, ne jamais citer comme source) :\n\n" + CONTEXTE_LASCLAY,
       cache_control: { type: "ephemeral" },
     },
     { type: "text", text: instructions },
-  ];
+  ]);
 
   const aujourdhui = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
   const sujetLigne = item.subject
@@ -382,6 +383,7 @@ async function classify(item) {
     });
     if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
     const data = await res.json();
+    noter("digest", MODEL, data.usage);
     const text = (data.content || []).filter((b) => b.type === "text").map((b) => b.text).join("");
     // Extraction tolérante : certains modèles ajoutent du texte avant/après le JSON.
     // On isole du premier { au dernier } pour ignorer tout bavardage parasite.

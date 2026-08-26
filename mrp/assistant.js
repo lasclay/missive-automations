@@ -17,6 +17,7 @@
 'use strict';
 const { db } = require('./db.js');
 const outils = require('./outils.js');
+const { noter } = require('../tokens');
 
 const CLE = process.env.ANTHROPIC_API_KEY;
 const MODELE = process.env.MRP_MODELE || 'claude-sonnet-5';
@@ -101,7 +102,9 @@ async function appeler(corps) {
       continue;
     }
     if (!res.ok) throw new Error(`Anthropic ${res.status} : ${await res.text()}`);
-    return res.json();
+    const data = await res.json();
+    noter('mrp:assistant', MODELE, data.usage);
+    return data;
   }
 }
 

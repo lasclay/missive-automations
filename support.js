@@ -171,6 +171,7 @@
 
 const fs = require("node:fs");
 const zlib = require("node:zlib");
+const { noter, avecTtl } = require("./tokens");
 
 const TOKEN = process.env.MISSIVE_TOKEN;
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
@@ -831,6 +832,7 @@ async function claude(systemBlocks, user, maxTokens, images) {
     if (res.status === 429 || res.status === 529) { await sleep(attempt * 20000); continue; }
     if (!res.ok) throw new Error(`Anthropic → ${res.status} ${await res.text()}`);
     const data = await res.json();
+    noter("support:redaction", MODEL, data.usage);
     return (data.content || []).map((b) => b.text || "").join("\n").trim();
   }
   throw new Error("Anthropic: trop de tentatives.");
@@ -1616,6 +1618,7 @@ async function opusQC(systemBlocks, fil, brouillon, out, flags, joursAttente, do
     if (res.status === 429 || res.status === 529) { await sleep(attempt * 15000); continue; }
     if (!res.ok) throw new Error(`Anthropic QC → ${res.status} ${await res.text()}`);
     const data = await res.json();
+    noter("support:qc", QC_MODEL, data.usage);
     const u = data.usage || {};
     qcUsage.in += u.input_tokens || 0; qcUsage.out += u.output_tokens || 0;
     qcUsage.cacheRead += u.cache_read_input_tokens || 0; qcUsage.cacheCreate += u.cache_creation_input_tokens || 0;
@@ -1664,6 +1667,7 @@ async function opusVerifie(systemBlocks, fil, brouillon, out, donnees) {
     if (res.status === 429 || res.status === 529) { await sleep(attempt * 15000); continue; }
     if (!res.ok) throw new Error(`Anthropic VERIF → ${res.status}`);
     const data = await res.json();
+    noter("support:verif", QC_MODEL, data.usage);
     const u = data.usage || {};
     qcUsage.in += u.input_tokens || 0; qcUsage.out += u.output_tokens || 0;
     qcUsage.cacheRead += u.cache_read_input_tokens || 0; qcUsage.cacheCreate += u.cache_creation_input_tokens || 0;
@@ -1741,10 +1745,10 @@ async function poulsIA(records) {
     `[#${i + 1}] DE: ${r.expediteur} | SUJET: ${r.sujet} | CAT: ${r.categorie} | ATTENTE: ${r.jours}j | STATUT IA: ${r.statut}\n` +
     `DERNIER MSG CLIENT: ${r.extrait || "(vide)"}`
   ).join("\n\n").slice(0, 14000);
-  const system = [
+  const system = avecTtl([
     { type: "text", text: sanit("CONTEXTE:\n" + POULS_CONTEXTE), cache_control: { type: "ephemeral" } },
     { type: "text", text: sanit(POULS_INSTRUCTIONS) },
-  ];
+  ]);
   const user = `Date: ${new Date().toISOString().slice(0, 10)}. ${records.length} fil(s) traités ce run.\n\nLES FILS:\n${lot}\n\nRends ton JSON.`;
   const payload = JSON.stringify({ model: DIGEST_MODEL, max_tokens: 1200, system, messages: [{ role: "user", content: sanit(user) }] });
   for (let a = 1; a <= 5; a++) {
@@ -1760,6 +1764,7 @@ async function poulsIA(records) {
     if (res.status === 429 || res.status === 529) { await sleep(a * 15000); continue; }
     if (!res.ok) throw new Error(`Anthropic pouls → ${res.status} ${await res.text()}`);
     const data = await res.json();
+    noter("support:pouls", DIGEST_MODEL, data.usage);
     return parseJsonLoose((data.content || []).map((b) => b.text || "").join("").trim());
   }
   throw new Error("Pouls IA: trop de tentatives.");
@@ -1871,15 +1876,21 @@ async function fermerResolu(convId, raison) {
 
   // 0b. Catalogue produits (chargé en direct, mis en cache comme la connaissance).
   const catalogue = await chargerCatalogue();
-  const systemBlocks = [
+  // Ordre = ordre de stabilité, du plus figé au plus volatil. Le cache est un
+  // préfixe : le premier bloc qui change invalide TOUT ce qui le suit. La
+  // connaissance (~90k tokens) et la voix (~9k) sont identiques d'un run à
+  // l'autre ; le catalogue est reconstruit en direct depuis Shopify et le stock
+  // Admin, donc sa dispo bouge. Le mettre EN DERNIER garde la voix dans le
+  // préfixe stable au lieu de la faire réécrire à chaque changement de stock.
+  const systemBlocks = avecTtl([
     { type: "text", text: sanit("DOCUMENT DE CONNAISSANCE DU SERVICE CLIENT LASCLAY:\n\n" + noDash(knowledge)), cache_control: { type: "ephemeral" } },
+    { type: "text", text: sanit(VOICE), cache_control: { type: "ephemeral" } },
     catalogue
       ? { type: "text", text: sanit("CATALOGUE PRODUITS ACTUEL (source de vérité sur ce qui existe et son statut):\n\n" + noDash(catalogue)), cache_control: { type: "ephemeral" } }
       : null,
-    { type: "text", text: sanit(VOICE), cache_control: { type: "ephemeral" } },
-  ].filter(Boolean);
+  ].filter(Boolean));
   // Lever 2: le contrôle Opus n'a pas besoin des 224 canned (le rédacteur les a déjà utilisées).
-  // On lui donne le contexte allégé: catalogue + voix + corrections, là où vivent les faits
+  // On lui donne le contexte allégé: voix + catalogue + corrections, là où vivent les faits
   // vérifiables. On retire seulement le document de connaissance (toujours en index 0).
   const qcSystemBlocks = QC_LEAN ? systemBlocks.slice(1) : systemBlocks;
 
