@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node missive-auto-flag.js"
   },
+  "_engines": "22.x et pas >=18 : Render résout la borne ouverte vers la version la PLUS RÉCENTE offerte, qui est passée à une préversion 26.8.0-alpha. Yarn revalide ensuite cette version contre la même borne, et une préversion ne satisfait aucune plage semver ouverte — chaque service échouait donc à la construction, sur du code inchangé. La borne haute manquait. 22.x est aussi ce que le clone exige : node:sqlite (DatabaseSync) n'existe qu'à partir de Node 22.",
   "engines": {
-    "node": ">=18"
+    "node": "22.x"
   }
 }
