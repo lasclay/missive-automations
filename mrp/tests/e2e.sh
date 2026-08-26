@@ -282,6 +282,47 @@ const{db}=require('./db.js');
 db.prepare('DELETE FROM qc_points').run();
 db.prepare('DELETE FROM qc_controles').run();" 2>/dev/null
 
+# --- tableau de mensurations d'un coup ------------------------------------
+# Un tableau de tailles se recopie d'un chiffrier ; le saisir taille par taille
+# dans un formulaire, personne ne le fera deux fois.
+PM=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT produit_id FROM ordre_items WHERE id=1').get().produit_id)" 2>/dev/null)
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PM/mesures \
+  --data-urlencode 'titre=Tour de poitrine' --data 'unite=cm&ech_type=ratio&ech_valeur=10' \
+  --data-urlencode 'tableau=S = 104 ± 1,5
+M = 112 ± 1,5
+L = 120 ± 1,5
+ligne illisible'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare(\"SELECT COUNT(*) n FROM qc_points WHERE titre='Tour de poitrine'\").get().n)" 2>/dev/null)" = 3 ] \
+  && ok "un tableau crée une mesure par taille, et ignore l'illisible" \
+  || ko "tableau de tailles mal lu"
+
+curl -s -b $CA $B/qualite/$PM | grep -q 'mes-tbl' \
+  && ok "les tailles d'une même cote se lisent en tableau" || ko "mesures non groupées"
+
+# une taille absente du lot ne doit pas apparaître sur sa checklist
+MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+db.prepare('DELETE FROM item_variantes WHERE item_id=1').run();
+const v=db.prepare('INSERT INTO item_variantes (item_id,groupe,nom,quantite,rang) VALUES (1,?,?,?,?)');
+v.run('','M',600,1); v.run('','L',400,2);" 2>/dev/null
+CKM=$(curl -s -b $CO $B/ordres/1/items/1/qualite)
+echo "$CKM" | grep -q 'ligne illisible' && ko "une ligne illisible est passée en base"
+echo "$CKM" | tr -d '\n' | grep -qE '60 pièces sur 600' \
+  && ok "une mesure de taille s'échantillonne sur les pièces de cette taille" \
+  || ko "échantillon calculé sur le lot entier au lieu de la taille"
+echo "$CKM" | grep -q '>S<' \
+  && ko "une taille absente du lot est exigée quand même" \
+  || ok "une taille absente du lot n'est pas exigée"
+
+MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+db.prepare('DELETE FROM qc_points').run();
+db.prepare('DELETE FROM item_variantes WHERE item_id=1').run();" 2>/dev/null
+
 # --- la checklist obligatoire sur un ordre --------------------------------
 # Un protocole qu'on peut ignorer n'est pas un protocole : le formulaire doit
 # refuser le 100 % exactement comme l'assistant.

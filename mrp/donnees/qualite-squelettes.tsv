@@ -1,0 +1,29 @@
+# Squelettes de protocole — cyclage de durabilité des coutures, et
+# fit / confort / conformité dimensionnelle.
+#
+# CE FICHIER NE CONTIENT AUCUN CHIFFRE DE LASCLAY. C'est la STRUCTURE d'un
+# protocole : quoi tester, sur quelle zone, avec quel critère de réussite. Les
+# nombres — combien de cycles, quelle charge, quelle tolérance — ne sont écrits
+# nulle part dans les sources du dépôt, et les inventer les ferait passer pour
+# une norme maison. Ils sont donc écrits « À FIXER », en majuscules, pour qu'on
+# ne puisse pas les confondre avec une valeur mesurée.
+#
+# LA CONFORMITÉ DIMENSIONNELLE N'EST PAS ICI. Un tableau de mensurations dépend
+# du patron de chaque produit : il se saisit dans l'app, onglet Qualité d'un
+# produit, « Ajouter un tableau de mensurations » — une ligne par taille,
+# recopiable d'un chiffrier. Sur la checklist d'un lot, chaque taille n'est
+# exigée que si le lot en contient, et son échantillon se calcule sur les
+# pièces de CETTE taille.
+#
+# produit « * » = protocole général, appliqué à tous les produits.
+#
+# Importer : node mrp/import_qualite.js --squelettes --ecrire
+produit	volet	titre	detail	consequence	valeur	tolerance	unite	ech_type	ech_valeur	frequence	source
+*	cyclage	Cyclage de couture — assemblage principal	Monter la pièce sur le montage de traction. Cycler l'ouverture-fermeture de la couture d'assemblage la plus sollicitée. Compter les cycles jusqu'au premier fil rompu, ou arrêter au nombre visé.	Une couture qui lâche en usage revient en garantie et se répare mal			cycles	fixe	1	NOMBRE DE CYCLES À FIXER	squelette — à compléter
+*	cyclage	Cyclage de couture — points de contrainte	Mêmes cycles sur les points qui reprennent la charge : pose d'élastique, extrémités de fermeture éclair, attaches de ganse. Ce sont eux qui cèdent en premier, pas la couture droite.	Rupture localisée alors que le reste de la pièce est intact			cycles	fixe	1	NOMBRE DE CYCLES À FIXER	squelette — à compléter
+*	cyclage	Tenue de la couture après cyclage	Après cyclage : aucun fil rompu, aucun point sauté, pas d'ouverture visible entre les épaisseurs quand on écarte la couture à la main.	Le défaut passe le contrôle et apparaît chez le client				fixe	1		squelette — à compléter
+*	cyclage	Migration de l’isolant après cyclage	Regarder si la soie d'asclépiade a migré vers les coutures pendant le cyclage. C'est le mode de défaillance propre à cet isolant.	Zones froides et bosses ; l'isolant ne revient pas en place				fixe	1		squelette — à compléter
+*	mesure	Essai porté — aisance et amplitude	Enfiler la pièce. Lever les bras, croiser les bras devant, s'asseoir. Aucune tension au dos, aux emmanchures ni à l'entrejambe.	Le vêtement est jugé « trop petit » alors que les cotes sont bonnes				fixe	1	une pièce par taille du lot	squelette — à compléter
+*	mesure	Essai porté — points de frottement	Passer la main sur les coutures intérieures, le col, les poignets. Aucune couture saillante, aucune étiquette qui gratte, aucun bout de fil.	Inconfort au port, retour client difficile à diagnostiquer				fixe	1	une pièce par taille du lot	squelette — à compléter
+*	mesure	Symétrie gauche-droite	Plier la pièce en deux sur son axe. Manches, poches et attaches doivent se superposer.	Défaut visible en boutique et en photo	0		cm	ratio	20		squelette — à compléter
+*	mesure	Fermeture éclair — glissement sur toute la course	Ouvrir et fermer la fermeture cinq fois de bout en bout, d'une seule main.	Fermeture qui accroche : cause de retour la plus fréquente sur ce type de pièce				ratio	20		squelette — à compléter

@@ -655,9 +655,10 @@ function vueQualite({ user, msg, couverture, general = [] }) {
   </div>
 
   ${sans.length ? `<div class="carte">
-    <h2>Sans protocole <span class="cpt">${sans.length}</span></h2>
-    <p class="sec">Rien n'est écrit pour ces produits-là. Le plus gros volume en
-    tête : c'est là que l'absence coûte le plus cher.</p>
+    <h2>Sans protocole propre <span class="cpt">${sans.length}</span></h2>
+    <p class="sec">Ces produits n'ont que le protocole général — rien qui leur
+    soit propre. Le plus gros volume en tête : c'est là que l'absence coûte le
+    plus cher.</p>
     <div class="tbl"><table>
       <tr><th>Produit</th><th class="num">À produire</th><th>Protocole</th><th></th></tr>
       ${sans.map(rangee).join('')}
@@ -704,12 +705,80 @@ function vueProtocole({ user, p, proto, msg, photos = [] }) {
     'Rien encore. Ce sont les gestes qu\'on ne peut pas rattraper après coup.')}
   ${volet('probleme', 'Problèmes fréquents',
     'Rien encore. Ce qui revient d\'un lot à l\'autre, et comment l\'éviter.')}
-  ${volet('mesure', 'Mesures et dimensions',
-    'Rien encore. Les cotes à vérifier, avec leur tolérance.')}
+  ${(() => {
+    // Les mesures d'une même cote se lisent en tableau, pas en liste : « tour
+    // de poitrine » sur six tailles, c'est six lignes d'un même tableau, et
+    // les empiler verticalement en cache la logique.
+    const l = proto.par.mesure;
+    if (!l.length) return volet('mesure', 'Mesures et dimensions',
+      'Rien encore. Les cotes à vérifier, avec leur tolérance.');
+    const groupes = new Map();
+    for (const q of l) {
+      const cle = q.titre + '\u0000' + (q.unite || '');
+      if (!groupes.has(cle)) groupes.set(cle, []);
+      groupes.get(cle).push(q);
+    }
+    return `<div class="carte">
+      <h2><span class="q-pip q-mesure">=</span> Mesures et dimensions
+        <span class="cpt">${l.length}</span></h2>
+      ${[...groupes.values()].map(g => g.length > 1 && g.every(x => x.variante)
+        ? `<div class="mes-bloc">
+             <h3>${e(g[0].titre)}${g[0].unite ? ` <span>en ${e(g[0].unite)}</span>` : ''}
+               ${g[0].produit_id === null ? '<span class="ck-gen">général</span>' : ''}</h3>
+             ${g[0].detail ? `<p class="qc-det">${e(g[0].detail)}</p>` : ''}
+             <div class="tbl"><table class="mes-tbl">
+               <tr><th>Taille</th><th class="num">Cible</th><th class="num">Tolérance</th><th></th></tr>
+               ${g.map(q => `<tr>
+                 <td><b>${e(q.variante)}</b></td>
+                 <td class="num">${e(q.valeur || '—')}</td>
+                 <td class="num">${q.tolerance ? '± ' + e(q.tolerance) : '<span class="muted">—</span>'}</td>
+                 <td><form method="post" action="/qualite/${p.id}/${q.id}/supprimer"
+                   ><button class="lien danger">Retirer</button></form></td>
+               </tr>`).join('')}
+             </table></div>
+           </div>`
+        : `<ul class="qc-liste">${g.map(q =>
+            pointQC({ q, produitId: p.id, editable: true })).join('')}</ul>`).join('')}
+    </div>`;
+  })()}
   ${volet('cyclage', 'Cyclage et tests',
     'Rien encore. Lavages, compressions, tenue de l\'isolant.')}
   ${volet('emballage', 'Emballage et finition',
     'Rien encore. Pliage, sachet, étiquette, mise en carton.')}
+
+  <div class="carte">
+    <h2>Ajouter un tableau de mensurations</h2>
+    <p class="sec">Une cote, toutes ses tailles d'un coup — ça se recopie d'un
+    chiffrier. Sur la checklist d'un lot, chaque taille ne sera exigée que si le
+    lot en contient, et son échantillon se calcule sur les pièces de CETTE
+    taille : quatre manteaux sur les trente-quatre en L, pas sur les cent
+    cinquante du lot.</p>
+    <form method="post" action="/qualite/${p.id}/mesures" class="qc-form">
+      <div class="champ"><label for="mt">Quelle cote</label>
+        <input id="mt" name="titre" required maxlength="200"
+               placeholder="Tour de poitrine"></div>
+      <div class="champ"><label for="mu">Unité</label>
+        <input id="mu" name="unite" maxlength="20" placeholder="cm"></div>
+      <div class="champ"><label for="mech">Combien de pièces</label>
+        <select id="mech" name="ech_type">
+          <option value="ratio">1 pièce sur…</option>
+          <option value="fixe">Un nombre fixe</option>
+          <option value="tout">Toutes les pièces</option>
+          <option value="">Non précisé</option>
+        </select></div>
+      <div class="champ"><label for="mechv">Sur / combien</label>
+        <input id="mechv" type="number" min="1" max="100000" name="ech_valeur"
+               value="10"></div>
+      <div class="champ champ-large"><label for="mdet">Comment mesurer</label>
+        <input id="mdet" name="detail" maxlength="500"
+               placeholder="À plat, d'emmanchure à emmanchure, vêtement fermé"></div>
+      <div class="champ champ-large"><label for="mtab">Une ligne par taille</label>
+        <textarea id="mtab" name="tableau" rows="6" required
+          placeholder="Homme / S = 102 ± 1,5&#10;Homme / M = 110 ± 1,5&#10;Homme / L = 118 ± 1,5"
+        ></textarea></div>
+      <button class="btn">Créer le tableau</button>
+    </form>
+  </div>
 
   <div class="carte">
     <h2>Ajouter un point</h2>

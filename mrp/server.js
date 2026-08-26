@@ -29,7 +29,7 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC,
         checklistItem, blocageQC, etatQCOrdre,
-        protocoleGeneral, echantillon } = require('./db.js');
+        protocoleGeneral, echantillon, lireTableauTailles } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
@@ -576,6 +576,47 @@ async function router(req, res, url, user) {
     return vers(res, '/qualite?' + (r.erreur
       ? 'err=' + encodeURIComponent(r.erreur)
       : 'ok=' + encodeURIComponent('Ajouté au protocole général.')));
+  }
+
+  // Un tableau de mensurations d'un coup : une ligne par taille.
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/mesures$/);
+    if (m && req.method === 'POST') {
+      const prod = R.produit.get(Number(m[1]));
+      if (!prod) return vers(res, '/qualite?err=' + encodeURIComponent('Produit introuvable.'));
+      const f = await corpsFormulaire(req);
+      const titre = String(f.titre || '').trim();
+      const { lignes, rejets } = lireTableauTailles(f.tableau);
+      if (!titre || !lignes.length)
+        return vers(res, `/qualite/${prod.id}?err=` + encodeURIComponent(
+          !titre ? 'Il faut nommer la mesure.'
+                 : 'Aucune ligne lisible. Une par taille : « L = 118 ± 1,5 ».'));
+      const ECH = ['', 'tout', 'ratio', 'fixe', 'lot'];
+      const ech = ECH.includes(f.ech_type) ? f.ech_type : '';
+      const n = Number(f.ech_valeur);
+      const valeurEch = (ech === 'ratio' || ech === 'fixe')
+        ? (Number.isInteger(n) && n > 0 ? n : null) : null;
+      const echRetenu = ((ech === 'ratio' || ech === 'fixe') && valeurEch === null) ? '' : ech;
+      let rang = (db.prepare(`SELECT MAX(rang) m FROM qc_points WHERE produit_id = ?`)
+        .get(prod.id).m || 0);
+      const ins = db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail,
+                    variante, valeur, tolerance, unite, ech_type, ech_valeur,
+                    source, cree_par, rang) VALUES (?,'mesure',?,?,?,?,?,?,?,?,?,?,?)`);
+      db.exec('BEGIN');
+      try {
+        for (const l of lignes)
+          ins.run(prod.id, titre, String(f.detail || '').trim(), l.taille,
+            l.valeur, l.tolerance, String(f.unite || '').trim(),
+            echRetenu, valeurEch, String(f.source || '').trim(), user.id, ++rang);
+        db.exec('COMMIT');
+      } catch (e) { db.exec('ROLLBACK'); throw e; }
+      return vers(res, `/qualite/${prod.id}?ok=` + encodeURIComponent(
+        `${lignes.length} taille${lignes.length > 1 ? 's' : ''} ajoutée${
+          lignes.length > 1 ? 's' : ''} pour « ${titre} »`
+        + (rejets.length ? ` — ${rejets.length} ligne${rejets.length > 1 ? 's' : ''} `
+           + 'illisible' + (rejets.length > 1 ? 's' : '') + ' ignorée'
+           + (rejets.length > 1 ? 's' : '') + '.' : '.')));
+    }
   }
 
   {

@@ -731,6 +731,85 @@ t("l'atelier peut consulter le suivi",
     D.protocoleGeneral().length === 0);
 }
 
+// ------------------ conformité dimensionnelle : une mesure par taille
+{
+  const D = require('../db.js');
+  const cM = tour(admin);
+
+  // Lecture d'un tableau recopié d'un chiffrier
+  const t1 = D.lireTableauTailles(
+    'Homme / S = 104 ± 1,5\nHomme / M = 112 +/- 1.5\nL = 120\nXL: 128 ± 2\n\nn importe quoi');
+  t('un tableau de tailles se lit ligne par ligne',
+    t1.lignes.length === 4 && t1.rejets.length === 1, JSON.stringify(t1.rejets));
+  t('« ± » et « +/- » disent la même chose',
+    t1.lignes[0].tolerance === '1,5' && t1.lignes[1].tolerance === '1.5');
+  t('« : » vaut « = »', t1.lignes[3].taille === 'XL' && t1.lignes[3].valeur === '128');
+  t('une taille sans tolérance reste valide', t1.lignes[2].tolerance === '');
+  t('une ligne sans séparateur est rejetée, pas devinée',
+    t1.rejets[0] === 'n importe quoi');
+  t('un tableau vide ne produit rien',
+    D.lireTableauTailles('').lignes.length === 0
+      && D.lireTableauTailles(null).lignes.length === 0);
+
+  // Une mesure de taille s'échantillonne sur les pièces de CETTE taille
+  const oM = ex('creer_ordre', { titre: 'Lot manteaux' }, cM);
+  ex('creer_produit', { code: 'MTX', nom: 'Manteau test' }, cM);
+  ex('ajouter_item', { ordre: oM.numero, produit: 'MTX', quantite: 150 }, cM);
+  const itM = db.prepare(`SELECT i.id FROM ordre_items i JOIN produits p
+                          ON p.id = i.produit_id WHERE p.code = 'MTX'`).get().id;
+  const pM = db.prepare(`SELECT id FROM produits WHERE code = 'MTX'`).get().id;
+  const v = db.prepare(`INSERT INTO item_variantes (item_id, groupe, nom, quantite, rang)
+                        VALUES (?,?,?,?,?)`);
+  v.run(itM, 'Homme', 'L', 34, 1);
+  v.run(itM, 'Homme', 'M', 25, 2);
+  v.run(itM, 'Femme', 'XS', 3, 3);
+
+  const mes = db.prepare(`INSERT INTO qc_points (produit_id, type, titre, variante,
+                valeur, unite, ech_type, ech_valeur)
+                VALUES (?,'mesure','Tour de poitrine',?,?,'cm','ratio',10)`);
+  mes.run(pM, 'Homme / L', '120');
+  mes.run(pM, 'M', '112');            // le lot écrit « Homme / M » : doit matcher
+  mes.run(pM, 'Homme / 4XL', '150');  // taille absente du lot
+  mes.run(pM, '', '82');              // toutes tailles
+
+  const ck = D.checklistItem(itM);
+  const parVar = Object.fromEntries(ck.points.map(x => [x.variante || '(toutes)', x]));
+
+  t('une taille absente du lot n\'est pas exigée',
+    !('Homme / 4XL' in parVar), Object.keys(parVar).join(' | '));
+  t('« M » reconnaît « Homme / M » du lot', 'M' in parVar);
+  t('une mesure de taille porte sur les pièces de cette taille',
+    parVar['Homme / L'].portee === 34 && parVar['M'].portee === 25,
+    `${parVar['Homme / L'].portee} / ${parVar['M'].portee}`);
+  t('...et son échantillon se calcule là-dessus, pas sur le lot',
+    parVar['Homme / L'].ech.pieces === 4 && parVar['M'].ech.pieces === 3,
+    `${parVar['Homme / L'].ech.pieces} / ${parVar['M'].ech.pieces}`);
+  t('une mesure sans taille porte sur tout le lot',
+    parVar['(toutes)'].portee === 150 && parVar['(toutes)'].ech.pieces === 15);
+  t('une taille à trois pièces demande quand même une vérification', (() => {
+    mes.run(pM, 'Femme / XS', '88');
+    const c2 = D.checklistItem(itM);
+    const xs = c2.points.find(x => x.variante === 'Femme / XS');
+    return xs && xs.portee === 3 && xs.ech.pieces === 1;
+  })());
+
+  // Sans variantes déclarées, on ne peut rien écarter : tout reste exigé.
+  ex('creer_produit', { code: 'MTX2', nom: 'Sans variantes' }, cM);
+  ex('ajouter_item', { ordre: oM.numero, produit: 'MTX2', quantite: 90 }, cM);
+  const it2 = db.prepare(`SELECT i.id FROM ordre_items i JOIN produits p
+                          ON p.id = i.produit_id WHERE p.code = 'MTX2'`).get().id;
+  db.prepare(`INSERT INTO qc_points (produit_id, type, titre, variante, valeur,
+              ech_type, ech_valeur) VALUES ((SELECT id FROM produits WHERE code='MTX2'),
+              'mesure','Tour de tête','L','58','ratio',10)`).run();
+  const ck2 = D.checklistItem(it2);
+  t('sans répartition connue, aucune taille n\'est écartée',
+    ck2.total === 1 && ck2.points[0].portee === 90,
+    JSON.stringify({ t: ck2.total, p: ck2.points[0] && ck2.points[0].portee }));
+
+  db.prepare(`DELETE FROM qc_points WHERE produit_id IN (?, (SELECT id FROM produits WHERE code='MTX2'))`)
+    .run(pM);
+}
+
 // ------------------------------------- la checklist obligatoire d'un lot
 // Un protocole qu'on peut ignorer n'est pas un protocole. Le verrou vit dans
 // db.js et les DEUX chemins d'écriture y passent — c'est ça qu'on vérifie.

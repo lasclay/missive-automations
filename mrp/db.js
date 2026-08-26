@@ -646,6 +646,34 @@ function protocole(produitId, { generalCompris = true } = {}) {
   return { points: l, par, total: l.length };
 }
 
+/**
+ * Lit un tableau de tailles écrit à la main, une ligne par taille :
+ *
+ *     Homme / S = 102 ± 1,5
+ *     Homme / M = 110 +/- 1.5
+ *     L         = 118
+ *
+ * Un tableau de mensurations se recopie d'un chiffrier ; le saisir taille par
+ * taille dans un formulaire à douze champs, personne ne le fera deux fois.
+ * Le « ± » s'écrit aussi « +/- », et la virgule décimale est acceptée telle
+ * quelle — c'est comme ça qu'on écrit un nombre ici.
+ */
+function lireTableauTailles(texte) {
+  const lignes = String(texte || '').split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const out = [], rejets = [];
+  for (const l of lignes) {
+    const m = l.match(/^(.+?)\s*[=:]\s*(.+)$/);
+    if (!m) { rejets.push(l); continue; }
+    const taille = m[1].trim();
+    // On coupe sur ± ou +/-, le reste est la tolérance.
+    const v = m[2].split(/\s*(?:±|\+\/-)\s*/);
+    const valeur = (v[0] || '').trim();
+    if (!taille || !valeur) { rejets.push(l); continue; }
+    out.push({ taille, valeur, tolerance: (v[1] || '').trim() });
+  }
+  return { lignes: out, rejets };
+}
+
 /** Les points qui s'appliquent à tous les produits. */
 const protocoleGeneral = () => db.prepare(
   `SELECT q.*, u.nom AS auteur FROM qc_points q
@@ -655,9 +683,12 @@ const protocoleGeneral = () => db.prepare(
 /**
  * L'état de la qualité sur tout le catalogue.
  *
- * Ce qui compte n'est pas le nombre de points mais QUELS produits n'en ont
- * aucun : un protocole vide sur un produit qu'on fabrique à 3 500 unités est
- * l'information la plus utile de la page.
+ * Ce qui compte n'est pas le nombre de points mais QUELS produits n'ont rien
+ * qui leur soit propre : un protocole vide sur un produit qu'on fabrique à
+ * 3 500 unités est l'information la plus utile de la page.
+ *
+ * On ne compte QUE les points du produit. Le protocole général s'applique
+ * partout : l'inclure ferait disparaître le trou qu'on cherche à montrer.
  */
 function couvertureQC({ lieu = 'tunisie' } = {}) {
   return db.prepare(`
@@ -687,11 +718,30 @@ function couvertureQC({ lieu = 'tunisie' } = {}) {
  * cours, y compris ceux déjà à 90 %. C'est voulu — on vient d'apprendre quelque
  * chose, et les lots en cours sont précisément ceux à qui ça sert.
  */
+/**
+ * Une variante d'un point correspond-elle à une variante du lot ?
+ *
+ * Le chiffrier écrit « L » là où le lot écrit « Homme / L » : on accepte les
+ * deux, sinon une mesure juste passerait pour une mesure d'une taille absente.
+ */
+const memeVariante = (etiquette, v) => {
+  const a = String(etiquette || '').trim().toLowerCase();
+  if (!a) return true;                        // pas de taille = toutes
+  const nom = String(v.nom || '').trim().toLowerCase();
+  const plein = [v.groupe, v.nom].filter(Boolean).join(' / ').trim().toLowerCase();
+  return a === nom || a === plein;
+};
+
 function checklistItem(itemId) {
   const it = db.prepare(
     `SELECT i.*, p.code, p.nom FROM ordre_items i
        JOIN produits p ON p.id = i.produit_id WHERE i.id = ?`).get(itemId);
   if (!it) return null;
+  // Les variantes du lot : une mesure de taille L s'échantillonne sur les
+  // pièces en L, pas sur le lot entier — et une taille absente du lot n'a
+  // aucune mesure à vérifier.
+  const variantes = db.prepare(
+    `SELECT groupe, nom, quantite FROM item_variantes WHERE item_id = ?`).all(itemId);
   const points = db.prepare(`
     SELECT q.*,
            c.verdict, c.mesure AS releve, c.note AS note_controle,
@@ -705,8 +755,20 @@ function checklistItem(itemId) {
      ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(itemId, it.produit_id)
     // L'échantillon se calcule ici, contre la quantité de CE lot : c'est ce qui
     // rend la consigne utilisable sans faire de division.
-    .map(q => ({ ...q, general: q.produit_id === null,
-                 ech: echantillon(q, it.quantite) }));
+    .map(q => {
+      // Combien de pièces ce point concerne : celles de sa taille s'il en vise
+      // une, sinon tout le lot.
+      const cible = q.variante && variantes.length
+        ? variantes.filter(v => memeVariante(q.variante, v))
+        : null;
+      const portee = cible ? cible.reduce((n, v) => n + v.quantite, 0) : it.quantite;
+      return { ...q, general: q.produit_id === null,
+               portee, horsLot: Boolean(cible && !cible.length),
+               ech: echantillon(q, portee) };
+    })
+    // Une taille que ce lot ne produit pas n'a rien à faire dans sa checklist :
+    // exiger une mesure sur des pièces qui n'existent pas bloquerait pour rien.
+    .filter(q => !q.horsLot);
 
   const total = points.length;
   const verifies = points.filter(x => x.verdict).length;
@@ -806,7 +868,7 @@ const equipe = () => db.prepare(
 module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    taches, tache, compteTaches, equipe,
                    protocole, couvertureQC, TYPES_QC, echantillon,
-                   protocoleGeneral,
+                   protocoleGeneral, memeVariante, lireTableauTailles,
                    checklistItem, blocageQC, etatQCOrdre,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,

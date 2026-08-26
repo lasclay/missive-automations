@@ -7,8 +7,11 @@
  * dont la source est « notes techniques » et ne touche jamais à ce que
  * quelqu'un a écrit dans l'app.
  *
- *   node mrp/import_qualite.js            aperçu, rien n'est écrit
- *   node mrp/import_qualite.js --ecrire   applique
+ *   node mrp/import_qualite.js               aperçu, rien n'est écrit
+ *   node mrp/import_qualite.js --ecrire      applique
+ *   node mrp/import_qualite.js --squelettes  charge aussi les squelettes de
+ *                                            cyclage et de fit (produit « * »
+ *                                            = protocole général)
  */
 'use strict';
 const fs = require('node:fs');
@@ -16,16 +19,22 @@ const path = require('node:path');
 const { db, TYPES_QC } = require('./db.js');
 
 const ECRIRE = process.argv.includes('--ecrire');
+const SQUELETTES = process.argv.includes('--squelettes');
 const SOURCE = 'notes techniques';
-const FICHIER = path.join(__dirname, 'donnees', 'qualite-amorce.tsv');
+const SOURCE_SQ = 'squelette — à compléter';
 
-const lignes = fs.readFileSync(FICHIER, 'utf8').trim().split('\n')
-  .filter(l => !l.startsWith('#'));
-const cols = lignes[0].split('\t');
-const rangs = lignes.slice(1).map(r => {
-  const v = r.split('\t');
-  return Object.fromEntries(cols.map((k, i) => [k, (v[i] ?? '').trim()]));
-});
+function tsv(nom) {
+  const l = fs.readFileSync(path.join(__dirname, 'donnees', nom), 'utf8')
+    .trim().split('\n').filter(x => !x.startsWith('#'));
+  const cols = l[0].split('\t');
+  return l.slice(1).map(r => {
+    const v = r.split('\t');
+    return Object.fromEntries(cols.map((k, i) => [k, (v[i] ?? '').trim()]));
+  });
+}
+
+const rangs = tsv('qualite-amorce.tsv')
+  .concat(SQUELETTES ? tsv('qualite-squelettes.tsv') : []);
 
 let ajoutes = 0, ignores = 0;
 const inconnus = [], mauvaisVolet = [];
@@ -34,22 +43,34 @@ const produit = db.prepare(`SELECT id, code FROM produits WHERE code = ?`);
 const efface = db.prepare(`DELETE FROM qc_points WHERE source = ?`);
 const insere = db.prepare(`INSERT INTO qc_points
   (produit_id, type, titre, detail, consequence, valeur, tolerance, unite,
-   frequence, source, rang)
-  VALUES (?,?,?,?,?,?,?,?,?,?,?)`);
+   ech_type, ech_valeur, frequence, source, rang)
+  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
-if (ECRIRE) efface.run(SOURCE);
+if (ECRIRE) {
+  efface.run(SOURCE);
+  if (SQUELETTES) efface.run(SOURCE_SQ);
+}
 
 const parProduit = new Map();
 for (const r of rangs) {
-  const p = produit.get(r.produit);
+  // « * » = protocole général : le point n'appartient à aucun produit et
+  // s'applique à tous. C'est le cas des essais de cyclage et de port, qui sont
+  // les mêmes gestes quelle que soit la pièce.
+  const general = r.produit === '*';
+  const p = general ? { id: null, code: '(général)' } : produit.get(r.produit);
   if (!p) { inconnus.push(r.produit); ignores++; continue; }
   if (!TYPES_QC[r.volet]) { mauvaisVolet.push(`${r.produit} : « ${r.volet} »`); ignores++; continue; }
   if (!r.titre) { ignores++; continue; }
-  const n = (parProduit.get(p.id) || 0) + 1;
-  parProduit.set(p.id, n);
+  const cle = general ? '*' : p.id;
+  const n = (parProduit.get(cle) || 0) + 1;
+  parProduit.set(cle, n);
+  const ech = ['', 'tout', 'ratio', 'fixe', 'lot'].includes(r.ech_type) ? r.ech_type : '';
+  const ev = Number(r.ech_valeur);
   if (ECRIRE)
     insere.run(p.id, r.volet, r.titre, r.detail, r.consequence,
-      r.valeur, r.tolerance, r.unite, r.frequence, r.source || SOURCE, n);
+      r.valeur, r.tolerance, r.unite, ech,
+      Number.isInteger(ev) && ev > 0 ? ev : null,
+      r.frequence, r.source || SOURCE, n);
   ajoutes++;
 }
 
@@ -57,7 +78,11 @@ const par = {};
 for (const r of rangs) par[r.volet] = (par[r.volet] || 0) + 1;
 
 console.log(`\n${ECRIRE ? 'Écrit' : 'Aperçu'} — protocoles de contrôle qualité\n`);
-console.log(`  ${ajoutes} points sur ${parProduit.size} produits`);
+const gen = parProduit.get('*') || 0;
+console.log(`  ${ajoutes} points sur ${parProduit.size - (gen ? 1 : 0)} produits`
+  + (gen ? `, plus ${gen} au protocole général` : ''));
+if (!SQUELETTES)
+  console.log('  (--squelettes ajoute le cyclage de couture et les essais portés)');
 for (const [v, n] of Object.entries(par))
   console.log(`    ${(TYPES_QC[v] || v).padEnd(24)} ${String(n).padStart(3)}`);
 if (inconnus.length)

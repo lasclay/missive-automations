@@ -206,6 +206,33 @@ Personne ne devrait faire la division en ayant les pièces dans les mains. Le
 contrôle enregistre aussi **combien de pièces ont réellement été vues**, ce qui
 n'est pas toujours le nombre demandé.
 
+**Conformité dimensionnelle : une mesure par taille, échantillonnée par
+taille.** Un tableau de mensurations se saisit d'un coup — une ligne par
+taille, `Homme / L = 120 ± 1,5`, recopiable d'un chiffrier. Sur la checklist
+d'un lot, la connexion se fait avec la répartition réelle du lot :
+
+- une taille **absente du lot n'est pas exigée** — un lot sans 4XL n'a pas de
+  mesure 4XL à vérifier ;
+- l'échantillon se calcule sur les pièces de **cette taille**, pas sur le lot :
+  4 manteaux sur les 34 en L, pas 15 sur les 150 du lot ;
+- `L` reconnaît `Homme / L`, parce que le chiffrier et le plan ne les écrivent
+  pas pareil ;
+- sans répartition déclarée, **aucune taille n'est écartée** — on ne sait pas,
+  donc on n'enlève rien.
+
+**Squelettes de cyclage et d'essai porté.** `donnees/qualite-squelettes.tsv`
+porte la structure des tests de durabilité de couture (assemblage principal,
+points de contrainte, tenue après cyclage, migration de l'isolant) et des
+essais portés (aisance, points de frottement, symétrie, fermeture éclair). Ce
+sont des points du **protocole général**, puisque ce sont les mêmes gestes
+quelle que soit la pièce.
+
+**Aucun chiffre de Lasclay n'y figure.** Combien de cycles, quelle charge,
+quelle tolérance — rien de tout ça n'existe dans les sources du dépôt, et
+l'inventer le ferait passer pour une norme maison. Les valeurs sont écrites
+`À FIXER`, en majuscules, pour qu'on ne puisse pas les confondre avec une
+mesure. `node mrp/import_qualite.js --squelettes --ecrire` les charge.
+
 - **La colonne qui fait la différence, c'est « Sinon… ».** « Presser le col
   avant l'isolant » se discute ; « sinon il fond et devient rigide » ne se
   discute pas. Chaque point peut porter sa conséquence, et elle s'affiche en
