@@ -1,13 +1,19 @@
 /**
  * Importe dans le MRP les bris relevés dans Missive.
  *
- * Le TSV vient de `node bris_missive.js trier`, RELU À LA MAIN : le pré-filtre
- * est large exprès, et un faux positif dans un protocole coûte plus cher qu'un
- * signalement manquant. Seules les lignes marquées « o » entrent.
+ * Deux fichiers, deux rôles. Par défaut on lit `bris-terrain.tsv` : la part
+ * versionnée, sortie du brouillon par `bris_missive.js retenir` une fois la
+ * relecture faite. C'est lui qui atteint la production, parce que c'est lui
+ * qui est dans le dépôt.
+ *
+ * On peut aussi lui passer le brouillon de `bris_missive.js trier` — il porte
+ * une colonne « garder », et seules les lignes marquées « o » entrent. Le
+ * pré-filtre est large exprès : un faux positif dans un protocole coûte plus
+ * cher qu'un signalement manquant, donc il se relit à la main.
  *
  * Ce qui n'entre PAS : le nom du client, son courriel, son numéro de commande.
- * L'atelier a besoin du problème, pas de la personne. Le lien vers le fil
- * Missive reste dans le TSV pour qui doit remonter à la source.
+ * L'atelier a besoin du problème, pas de la personne. La référence du fil
+ * Missive reste, opaque, pour qui doit remonter à la source.
  *
  *   node mrp/import_bris.js [chemin.tsv]            aperçu
  *   node mrp/import_bris.js [chemin.tsv] --ecrire   applique
@@ -19,12 +25,13 @@ const { db } = require('./db.js');
 
 const ECRIRE = process.argv.includes('--ecrire');
 const FICHIER = process.argv.find(a => a.endsWith('.tsv'))
-  || path.join(__dirname, 'donnees', 'bris-missive.tsv');
+  || path.join(__dirname, 'donnees', 'bris-terrain.tsv');
 const SOURCE_ORIGINE = 'client';
 
 if (!fs.existsSync(FICHIER)) {
   console.error(`Fichier absent : ${FICHIER}`);
-  console.error('Produis-le avec : node bris_missive.js trier > ' + FICHIER);
+  console.error('Produis-le avec : node bris_missive.js retenir <brouillon> > '
+    + FICHIER);
   process.exit(1);
 }
 
@@ -50,12 +57,15 @@ let ajoutes = 0, majs = 0, sautes = 0, sansProduit = [], sansZone = 0, avecPhoto
 const parProduit = {};
 
 for (const r of rangs) {
-  if (r.garder !== 'o') { sautes++; continue; }
+  // Le brouillon porte une colonne « garder » ; le fichier versionné ne
+  // contient déjà que les lignes retenues, et n'en a pas besoin.
+  if ('garder' in r && r.garder !== 'o') { sautes++; continue; }
   const p = r.produit ? produit.get(r.produit) : null;
   if (!p) { sansProduit.push(r.produit || '(vide)'); continue; }
   if (!r.zone) sansZone++;
   parProduit[p.code] = (parProduit[p.code] || 0) + 1;
-  const ref = `missive:${r.conv}`;
+  // Le fichier versionné porte la référence complète ; le brouillon, l'id nu.
+  const ref = r.source || (r.conv ? `missive:${r.conv}` : '');
   const deja = existe.get(ref);
   // Plusieurs clichés du même bris tiennent dans la colonne, séparés par une
   // espace : de loin, de près, la doublure retournée. L'app n'héberge rien —

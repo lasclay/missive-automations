@@ -155,8 +155,9 @@ const MOTS_BRIS = new RegExp([
  */
 const SIGNATURE = new RegExp(
   '\\s*(?:' + [
-    'Envoyé de mon\\b', 'Sent from my\\b', 'Envoyé à partir de\\b',
+    'Envoyé de mon\\b', 'Sent from my\\b', 'Envoyé à partir d[e\u2019\\x27]',
     'Téléchargez Outlook pour\\b', 'Obtenir Outlook pour\\b',
+    'Get Outlook for\\b', 'Télécharger Outlook\\b',
     'Merci (?:et )?(?:meilleures |bien )?(?:salutations|cordialement)',
     'Bien à vous', 'Cordialement', 'Au plaisir', 'Salutations distinguées',
   ].join('|') + ')[\\s\\S]*$', 'i');
@@ -194,6 +195,11 @@ function anonymiser(t, noms = []) {
     .replace(/\s{2,}/g, ' ')
     .replace(/\s+([,.!?])/g, '$1')
     .trim()
+    // « … Merci de faire suite. -François ». Un mot capitalisé seul, en toute
+    // fin, précédé d'un tiret : c'est une signature. Missive enregistre parfois
+    // le fil sous un autre nom que celui qui signe — le conjoint, un compte
+    // partagé — et la liste des auteurs ne suffit alors pas.
+    .replace(/[-–—]\s*[A-ZÉÈÀÂÎÔÛÇ][a-zéèêàâîïôûùç'-]{1,20}\s*$/, '')
     .replace(/^[,;\s-]+|[,;\s-]+$/g, '');
 }
 
@@ -280,10 +286,17 @@ function trier() {
     // problème, pas l'identité de la personne.
     const noms = [...new Set(duClient.map(m => m.from).filter(Boolean))];
 
+    // Une pièce jointe citée dans quatre réponses revient quatre fois, sous
+    // quatre identifiants de message. C'est la MÊME photo : on la garde une
+    // fois, sinon le mur affiche le même cliché en quadruple.
+    const vues = new Set();
     const images = [];
     for (const m of c.messages || [])
-      for (const a of m.attachments || [])
-        if (/^image\//.test(a.media_type || '')) images.push(`${m.id}:${a.id}`);
+      for (const a of m.attachments || []) {
+        if (!/^image\//.test(a.media_type || '') || vues.has(a.id)) continue;
+        vues.add(a.id);
+        images.push(`${m.id}:${a.id}`);
+      }
 
     lignes.push({
       conv: c.id,
@@ -424,10 +437,15 @@ function liens() {
   const iImages = cols.indexOf('images');
   const iConv = cols.indexOf('conv');
 
+  const iGarder = cols.indexOf('garder');
   let remplies = 0, manquantes = 0;
   for (let i = iEntete + 1; i < brut.length; i++) {
     if (!brut[i] || brut[i].startsWith('#')) continue;
     const v = brut[i].split('\t');
+    // Seules les lignes retenues ont vu leurs photos téléchargées : compter
+    // les autres comme « manquantes » ferait passer un tri normal pour un
+    // échec de dépôt.
+    if ((v[iGarder] || '').trim() !== 'o') continue;
     while (v.length <= iPhotos) v.push('');
     const images = (v[iImages] || '').trim();
     if (!images) continue;
@@ -436,8 +454,11 @@ function liens() {
     for (const paire of images.split(/\s+/)) {
       const piece = (paire.split(':')[1] || '').slice(0, 8);
       const id = parPiece[`${conv8}_${piece}`];
-      if (id) urls.push(`https://drive.google.com/file/d/${id}/view`);
-      else manquantes++;
+      const url = id ? `https://drive.google.com/file/d/${id}/view` : '';
+      // Le TSV peut porter la même pièce sous plusieurs identifiants de
+      // message — un fil où la photo est citée à chaque réponse.
+      if (url && !urls.includes(url)) urls.push(url);
+      else if (!url) manquantes++;
     }
     if (urls.length) { v[iPhotos] = urls.join(' '); remplies++; }
     brut[i] = v.join('\t');
@@ -447,16 +468,80 @@ function liens() {
     + (manquantes ? `, ${manquantes} pièces sans dépôt correspondant` : ''));
 }
 
+// --------------------------------------------------------------- retenir
+/**
+ * Sort du brouillon la version qui se versionne, et elle seule.
+ *
+ * Le brouillon de `trier` n'entrera jamais dans le dépôt : il porte les fils
+ * écartés, avec leur texte intégral, leurs noms et leurs numéros de commande.
+ * Mais les signalements retenus doivent bien atteindre l'atelier, et le seul
+ * chemin est la base de l'application — donc le dépôt.
+ *
+ * Ce fichier-ci est ce qui reste une fois la relecture faite : les lignes
+ * marquées « o », et de chacune uniquement ce que le mur affiche — le produit,
+ * la zone, la date, la citation anonymisée, les adresses des photos. Pas le
+ * sujet du courriel, pas les étiquettes, pas les fils écartés. La référence du
+ * fil reste, opaque, pour que réimporter mette à jour au lieu d'empiler.
+ *
+ *   node bris_missive.js retenir <brouillon.tsv> > mrp/donnees/bris-terrain.tsv
+ */
+function retenir() {
+  const src = process.argv.find((a, i) => i >= 3 && a.endsWith('.tsv'));
+  if (!src) { console.error('Il faut le TSV relu en argument.'); process.exit(1); }
+  const brut = fs.readFileSync(src, 'utf8').split('\n');
+  const iEntete = brut.findIndex(l => l.startsWith('garder\t'));
+  if (iEntete < 0) { console.error('En-tête « garder » introuvable.'); process.exit(1); }
+  const cols = brut[iEntete].split('\t');
+  const col = (v, nom) => (v[cols.indexOf(nom)] || '').trim();
+
+  const sortie = ['produit', 'zone', 'date', 'citation', 'photos', 'source'];
+  const lignes = [];
+  for (let i = iEntete + 1; i < brut.length; i++) {
+    if (!brut[i] || brut[i].startsWith('#')) continue;
+    const v = brut[i].split('\t');
+    if (col(v, 'garder') !== 'o') continue;
+    lignes.push([col(v, 'produit'), col(v, 'zone'), col(v, 'date'),
+                 col(v, 'citation'), col(v, 'photos'),
+                 col(v, 'conv') ? `missive:${col(v, 'conv')}` : '']);
+  }
+
+  console.log(`# Bris signalés par les clients — la part qui se versionne.
+#
+# Produit par « node bris_missive.js retenir <brouillon> ». Le brouillon, lui,
+# ne se versionne pas : il porte les fils écartés en texte intégral. Ici il ne
+# reste que les signalements retenus, et de chacun ce que le mur affiche.
+#
+# Les citations sont les mots du client, jamais reformulés — c'est ce qui fait
+# comprendre un bris à quelqu'un qui n'a jamais tenu la pièce. Le nom, le
+# courriel, le numéro de commande et le téléphone en ont été retirés.
+#
+#   produit   code du produit dans le MRP
+#   zone      où ça casse : « couture de bretelle », « usure de la semelle »
+#   citation  le client, mot pour mot, anonymisé. NE PAS reformuler.
+#   photos    adresses web, séparées par une espace. Des ADRESSES, jamais des
+#             fichiers : l'app n'héberge rien.
+#   source    le fil Missive d'origine, opaque. C'est lui qui rend l'import
+#             rejouable : corriger une ligne et relancer met à jour.
+#
+# ${lignes.length} signalements, ${lignes.filter(l => l[4]).length} avec photo.`);
+  console.log(sortie.join('\t'));
+  for (const l of lignes) console.log(l.join('\t'));
+  console.error(`\n  ${lignes.length} signalements retenus, `
+    + `${lignes.filter(l => l[4]).length} avec au moins une photo`);
+}
+
 const cmd = process.argv[2];
 if (cmd === 'collecte') collecte();
 else if (cmd === 'trier') trier();
 else if (cmd === 'photos') photos();
 else if (cmd === 'liens') liens();
+else if (cmd === 'retenir') retenir();
 else {
   console.error(`Usage :
   node bris_missive.js collecte [--gisement=rd|retours|tout]
   node bris_missive.js trier    > mrp/donnees/bris-missive.tsv
   node bris_missive.js photos <dossier> <tsv-relu>
-  node bris_missive.js liens  <ids.tsv> <tsv-relu>`);
+  node bris_missive.js liens  <ids.tsv> <tsv-relu>
+  node bris_missive.js retenir <tsv-relu> > mrp/donnees/bris-terrain.tsv`);
   process.exit(1);
 }
