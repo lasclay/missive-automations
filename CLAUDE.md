@@ -52,7 +52,9 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 - Remplace l'app A2X sans abonnement : un versement Shopify = une écriture de journal QBO,
   identique à celles d'A2X (`DocNumber` `A2XSH-21Jul-27Jul-592`, mêmes libellés et comptes).
 - Interface web : `node a2x-app/server.js` (versements, aperçu d'écriture, publication,
-  édition des mappings). CLI : `node a2x/a2x.js payouts|preview|post|sync|check`.
+  édition des mappings). CLI : `node a2x/a2x.js payouts|preview|post|sync|monthly|check`.
+- Une fois par mois, l'écriture **hors Shopify Payments** (PayPal, cartes-cadeaux, commandes
+  manuelles, échanges) : onglet « Mensuel », ou `node a2x/a2x.js monthly 2026-07 --post`.
 - Les 349 mappings d'A2X vivent dans `a2x/mappings.tsv` (source de vérité) ; `mappings.json`
   est régénéré par `node a2x/tools/import_mappings.js`.
 - Doc complète : `a2x/README.md`.

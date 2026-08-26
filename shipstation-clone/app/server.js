@@ -2451,6 +2451,27 @@ route("GET /api/migrate/reconciliation", async ({ user }) => {
   catch (e) { return { error: e.message, code: 400 }; }
 });
 
+/**
+ * Recopier UNE commande de ShipStation — l'inverse de la migration en volume.
+ *
+ * Une commande manuelle saisie chez ShipStation après la migration n'est nulle part dans le
+ * clone, et rejouer la migration entière pour la rattraper serait disproportionné. Sans
+ * `confirmer`, la route ne fait que chercher et décrire : c'est ce que l'écran montre avant de
+ * demander l'accord.
+ */
+route("POST /api/migrate/commande", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  try {
+    return await ingest.recopierCommande({
+      numero: b.numero || b.order_number || null,
+      nom: b.nom || null,
+      province: b.province || null,
+      confirmer: !!b.confirmer,
+    });
+  } catch (e) { return { error: e.message, code: 400 }; }
+});
+
 /** Migration depuis ShipStation — longue, à lancer sciemment. */
 route("POST /api/migrate", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");

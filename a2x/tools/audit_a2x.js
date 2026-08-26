@@ -154,7 +154,11 @@ function categoryOf(details) {
         disagreements.set(key, e);
       }
 
-      const expectTax = hit.tax === "detaxe" ? taxId : null;
+      // La colonne « taxe » du TSV portait autrefois le mot « detaxe » ; elle
+      // porte maintenant l'option QuickBooks (« 5:Sales »), et le mapper renvoie
+      // l'objet correspondant. Comparer à la chaîne d'origine faisait croire à
+      // 2968 écarts de taxe qui n'existaient pas.
+      const expectTax = hit.tax && hit.tax.codeId ? String(hit.tax.codeId) : (hit.tax === "detaxe" ? taxId : null);
       if ((expectTax || "") !== (actualTax || "")) {
         stats.taxeDesaccord++;
         const e = taxIssues.get(key) || { count: 0, mine: expectTax || "aucun", theirs: actualTax || "aucun" };

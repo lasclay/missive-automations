@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-07-31T15:19:40.182Z",
+  "generatedAt": "2026-08-26T14:11:52.214Z",
   "source": "a2x/mappings.tsv",
   "counts": {
-    "rules": 328,
+    "rules": 330,
     "defaults": 21,
-    "total": 349
+    "total": 351
   },
   "taxCodes": {
     "detaxe": "5"
@@ -849,7 +849,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 285
+      "line": 287
     },
     "Shopify Loans": {
       "category": "Shopify Loans",
@@ -860,7 +860,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 302
+      "line": 304
     },
     "Shopify Store Credit": {
       "category": "Shopify Store Credit",
@@ -871,7 +871,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 304
+      "line": 306
     },
     "Discounts Tax": {
       "category": "Discounts Tax",
@@ -882,7 +882,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 306
+      "line": 308
     },
     "MFV Taxes": {
       "category": "MFV Taxes",
@@ -893,7 +893,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 309
+      "line": 311
     },
     "Other Taxes": {
       "category": "Other Taxes",
@@ -904,7 +904,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 312
+      "line": 314
     },
     "Refunds Tax": {
       "category": "Refunds Tax",
@@ -915,7 +915,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 314
+      "line": 316
     },
     "Sales Tax": {
       "category": "Sales Tax",
@@ -926,7 +926,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 326
+      "line": 328
     },
     "Shipping Tax": {
       "category": "Shipping Tax",
@@ -937,7 +937,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 348
+      "line": 350
     },
     "Adjustments": {
       "category": "Adjustments",
@@ -948,7 +948,7 @@
       "accountId": null,
       "accountName": null,
       "tax": null,
-      "line": 372
+      "line": 374
     },
     "Other": {
       "category": "Other",
@@ -972,7 +972,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 378
+      "line": 380
     }
   },
   "index": {
@@ -5873,6 +5873,28 @@
       "tax": null,
       "line": 283
     },
+    "PendingPayment - Gateway shopify_payments|CA|3890849": {
+      "category": "Pending Payments",
+      "details": "PendingPayment - Gateway shopify_payments",
+      "country": "CA",
+      "marketplace": "3890849",
+      "acctNum": "1110",
+      "accountId": "130",
+      "accountName": "Shopify Pending Balances",
+      "tax": null,
+      "line": 284
+    },
+    "PendingPayment - Gateway shopify_payments|US|3890849": {
+      "category": "Pending Payments",
+      "details": "PendingPayment - Gateway shopify_payments",
+      "country": "US",
+      "marketplace": "3890849",
+      "acctNum": "1110",
+      "accountId": "130",
+      "accountName": "Shopify Pending Balances",
+      "tax": null,
+      "line": 285
+    },
     "GiftCardDiscount|CA|online": {
       "category": "Gift Card Liabilities",
       "details": "GiftCardDiscount",
@@ -5882,7 +5904,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 286
+      "line": 288
     },
     "GiftCardDiscount|CA|manual": {
       "category": "Gift Card Liabilities",
@@ -5893,7 +5915,7 @@
       "accountId": "149",
       "accountName": "Rabais Shopify Corpo",
       "tax": null,
-      "line": 287
+      "line": 289
     },
     "GiftCardDiscount|US|online": {
       "category": "Gift Card Liabilities",
@@ -5904,7 +5926,7 @@
       "accountId": "155",
       "accountName": "Rabais Shopify USA",
       "tax": null,
-      "line": 288
+      "line": 290
     },
     "GiftCardDiscount|*|manual": {
       "category": "Gift Card Liabilities",
@@ -5915,7 +5937,7 @@
       "accountId": "127",
       "accountName": "Rabais Shopify Canada",
       "tax": null,
-      "line": 289
+      "line": 291
     },
     "GiftCardSaleLiability|CA|online": {
       "category": "Gift Card Liabilities",
@@ -5926,7 +5948,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 290
+      "line": 292
     },
     "GiftCardSaleLiability|US|manual": {
       "category": "Gift Card Liabilities",
@@ -5937,7 +5959,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 291
+      "line": 293
     },
     "GiftCardSaleLiability|EU|online": {
       "category": "Gift Card Liabilities",
@@ -5948,7 +5970,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 292
+      "line": 294
     },
     "GiftCardSaleLiability|CA|manual": {
       "category": "Gift Card Liabilities",
@@ -5959,7 +5981,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 293
+      "line": 295
     },
     "GiftCardSaleLiability|*|pos:58394280098": {
       "category": "Gift Card Liabilities",
@@ -5970,7 +5992,7 @@
       "accountId": "196",
       "accountName": "Cartes-cadeaux",
       "tax": null,
-      "line": 294
+      "line": 296
     },
     "GiftCardSaleLiability|US|online": {
       "category": "Gift Card Liabilities",
@@ -5981,7 +6003,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 295
+      "line": 297
     },
     "GiftCardSaleLiability|*|manual": {
       "category": "Gift Card Liabilities",
@@ -5992,7 +6014,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 296
+      "line": 298
     },
     "NonShopifyPayment gift_card -|CA|online": {
       "category": "Gift Card Liabilities",
@@ -6003,7 +6025,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 297
+      "line": 299
     },
     "NonShopifyRefund gift_card -|CA|online": {
       "category": "Gift Card Liabilities",
@@ -6014,7 +6036,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 298
+      "line": 300
     },
     "Sale Gateway gift_card|*|online": {
       "category": "Gift Card Liabilities",
@@ -6025,7 +6047,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 299
+      "line": 301
     },
     "Sale Gateway gift_card|*|pos:58394280098": {
       "category": "Gift Card Liabilities",
@@ -6036,7 +6058,7 @@
       "accountId": "134",
       "accountName": "Cartes-cadeaux Shopify+Rise",
       "tax": null,
-      "line": 300
+      "line": 302
     },
     "DiscountTax|CA|online": {
       "category": "Discounts Tax",
@@ -6047,7 +6069,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 307
+      "line": 309
     },
     "MarketplaceSalesTax|US|3890849": {
       "category": "MFV Taxes",
@@ -6058,7 +6080,7 @@
       "accountId": "185",
       "accountName": "Taxes perçues à redistribuer (E-Commerces)",
       "tax": null,
-      "line": 310
+      "line": 312
     },
     "RefundTax|CA|online": {
       "category": "Refunds Tax",
@@ -6069,7 +6091,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 315
+      "line": 317
     },
     "RefundTax|CA-NB|online": {
       "category": "Refunds Tax",
@@ -6080,7 +6102,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 316
+      "line": 318
     },
     "RefundTax|CA-QC|3890849": {
       "category": "Refunds Tax",
@@ -6091,7 +6113,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 317
+      "line": 319
     },
     "RefundTax|CA-ON|online": {
       "category": "Refunds Tax",
@@ -6102,7 +6124,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 318
+      "line": 320
     },
     "RefundTax|CA-QC|online": {
       "category": "Refunds Tax",
@@ -6113,7 +6135,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 319
+      "line": 321
     },
     "RefundTax|CA|manual": {
       "category": "Refunds Tax",
@@ -6124,7 +6146,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 320
+      "line": 322
     },
     "RefundTax|*|pos:58394280098": {
       "category": "Refunds Tax",
@@ -6135,7 +6157,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 321
+      "line": 323
     },
     "RefundTax|US|3890849": {
       "category": "Refunds Tax",
@@ -6146,7 +6168,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 322
+      "line": 324
     },
     "ReturnTax|CA|online": {
       "category": "Refunds Tax",
@@ -6157,7 +6179,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 323
+      "line": 325
     },
     "ReturnTax|*|pos:58394280098": {
       "category": "Refunds Tax",
@@ -6168,7 +6190,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 324
+      "line": 326
     },
     "Tax|CA-ON|online": {
       "category": "Sales Tax",
@@ -6179,7 +6201,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 327
+      "line": 329
     },
     "Tax|CA-NB|online": {
       "category": "Sales Tax",
@@ -6190,7 +6212,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 328
+      "line": 330
     },
     "Tax|CA-MB|online": {
       "category": "Sales Tax",
@@ -6201,7 +6223,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 329
+      "line": 331
     },
     "Tax|CA-AB|online": {
       "category": "Sales Tax",
@@ -6212,7 +6234,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 330
+      "line": 332
     },
     "Tax|CA-NS|online": {
       "category": "Sales Tax",
@@ -6223,7 +6245,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 331
+      "line": 333
     },
     "Tax|CA-QC|3890849": {
       "category": "Sales Tax",
@@ -6234,7 +6256,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 332
+      "line": 334
     },
     "Tax|CA-QC|online": {
       "category": "Sales Tax",
@@ -6245,7 +6267,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 333
+      "line": 335
     },
     "Tax|CA|online": {
       "category": "Sales Tax",
@@ -6256,7 +6278,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 334
+      "line": 336
     },
     "Tax|CA-BC|online": {
       "category": "Sales Tax",
@@ -6267,7 +6289,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 335
+      "line": 337
     },
     "Tax|CA-SK|online": {
       "category": "Sales Tax",
@@ -6278,7 +6300,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 336
+      "line": 338
     },
     "Tax|CA-QC|manual": {
       "category": "Sales Tax",
@@ -6289,7 +6311,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 337
+      "line": 339
     },
     "Tax|CA-PE|online": {
       "category": "Sales Tax",
@@ -6300,7 +6322,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 338
+      "line": 340
     },
     "Tax|CA|3890849": {
       "category": "Sales Tax",
@@ -6311,7 +6333,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 339
+      "line": 341
     },
     "Tax|CA|manual": {
       "category": "Sales Tax",
@@ -6322,7 +6344,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 340
+      "line": 342
     },
     "Tax|CA|edit": {
       "category": "Sales Tax",
@@ -6333,7 +6355,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 341
+      "line": 343
     },
     "Tax|*|pos:58394280098": {
       "category": "Sales Tax",
@@ -6344,7 +6366,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 342
+      "line": 344
     },
     "Tax|US|3890849": {
       "category": "Sales Tax",
@@ -6355,7 +6377,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 343
+      "line": 345
     },
     "Tax|CA|pos:58394280098": {
       "category": "Sales Tax",
@@ -6366,7 +6388,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 344
+      "line": 346
     },
     "Tax|EU|online": {
       "category": "Sales Tax",
@@ -6377,7 +6399,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 345
+      "line": 347
     },
     "Tax|CA|2329312": {
       "category": "Sales Tax",
@@ -6388,7 +6410,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 346
+      "line": 348
     },
     "ShippingRefundTax|CA|online": {
       "category": "Shipping Tax",
@@ -6399,7 +6421,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 349
+      "line": 351
     },
     "ShippingRefundTax - shipping_refund|CA|online": {
       "category": "Shipping Tax",
@@ -6410,7 +6432,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 350
+      "line": 352
     },
     "ShippingRefundTax - shipping_refund|CA-QC|online": {
       "category": "Shipping Tax",
@@ -6421,7 +6443,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 351
+      "line": 353
     },
     "ShippingRefundTax - shipping_refund|CA|manual": {
       "category": "Shipping Tax",
@@ -6432,7 +6454,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 352
+      "line": 354
     },
     "ShippingRefundTax - shipping_refund|US|3890849": {
       "category": "Shipping Tax",
@@ -6443,7 +6465,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 353
+      "line": 355
     },
     "ShippingTax|CA-NB|online": {
       "category": "Shipping Tax",
@@ -6454,7 +6476,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 354
+      "line": 356
     },
     "ShippingTax|CA-ON|online": {
       "category": "Shipping Tax",
@@ -6465,7 +6487,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 355
+      "line": 357
     },
     "ShippingTax|CA|online": {
       "category": "Shipping Tax",
@@ -6476,7 +6498,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 356
+      "line": 358
     },
     "ShippingTax|CA-MB|online": {
       "category": "Shipping Tax",
@@ -6487,7 +6509,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 357
+      "line": 359
     },
     "ShippingTax|CA-BC|online": {
       "category": "Shipping Tax",
@@ -6498,7 +6520,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 358
+      "line": 360
     },
     "ShippingTax|CA-SK|online": {
       "category": "Shipping Tax",
@@ -6509,7 +6531,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 359
+      "line": 361
     },
     "ShippingTax|CA-QC|manual": {
       "category": "Shipping Tax",
@@ -6520,7 +6542,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 360
+      "line": 362
     },
     "ShippingTax|CA-PE|online": {
       "category": "Shipping Tax",
@@ -6531,7 +6553,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 361
+      "line": 363
     },
     "ShippingTax|CA-QC|online": {
       "category": "Shipping Tax",
@@ -6542,7 +6564,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 362
+      "line": 364
     },
     "ShippingTax|CA-NS|online": {
       "category": "Shipping Tax",
@@ -6553,7 +6575,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 363
+      "line": 365
     },
     "ShippingTax|CA-QC|3890849": {
       "category": "Shipping Tax",
@@ -6564,7 +6586,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 364
+      "line": 366
     },
     "ShippingTax|CA-AB|online": {
       "category": "Shipping Tax",
@@ -6575,7 +6597,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 365
+      "line": 367
     },
     "ShippingTax|CA|3890849": {
       "category": "Shipping Tax",
@@ -6586,7 +6608,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 366
+      "line": 368
     },
     "ShippingTax|CA|manual": {
       "category": "Shipping Tax",
@@ -6597,7 +6619,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 367
+      "line": 369
     },
     "ShippingTax|US|3890849": {
       "category": "Shipping Tax",
@@ -6608,7 +6630,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 368
+      "line": 370
     },
     "ShippingTax|CA|2329312": {
       "category": "Shipping Tax",
@@ -6619,7 +6641,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 369
+      "line": 371
     },
     "ShippingTaxRetailDeliveryFee|US|3890849": {
       "category": "Shipping Tax",
@@ -6630,7 +6652,7 @@
       "accountId": "132",
       "accountName": "Shopify Sales Tax Collected",
       "tax": null,
-      "line": 370
+      "line": 372
     },
     "Dispute|*|*": {
       "category": "Adjustments",
@@ -6654,7 +6676,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 373
+      "line": 375
     },
     "Dispute|CA-QC|online": {
       "category": "Adjustments",
@@ -6678,7 +6700,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 374
+      "line": 376
     },
     "Dispute|CA|online": {
       "category": "Adjustments",
@@ -6702,7 +6724,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 375
+      "line": 377
     },
     "Dispute|US|online": {
       "category": "Adjustments",
@@ -6726,7 +6748,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 376
+      "line": 378
     },
     "Credit|CA|3890849": {
       "category": "Other",
@@ -6750,7 +6772,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 379
+      "line": 381
     },
     "Credit|*|*": {
       "category": "Other",
@@ -6774,7 +6796,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 380
+      "line": 382
     },
     "NonOrderTransaction|*|*": {
       "category": "Other",
@@ -6798,7 +6820,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 381
+      "line": 383
     },
     "Underpayment|CA-QC|manual": {
       "category": "Other",
@@ -6822,7 +6844,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 382
+      "line": 384
     },
     "Underpayment|CA-ON|online": {
       "category": "Other",
@@ -6846,7 +6868,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 383
+      "line": 385
     },
     "Underpayment|CA|online": {
       "category": "Other",
@@ -6870,7 +6892,7 @@
         ],
         "pctTotal": 0
       },
-      "line": 384
+      "line": 386
     }
   }
 }

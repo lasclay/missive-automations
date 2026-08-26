@@ -8504,6 +8504,16 @@ VUES.reglages = async () => {
         </div>
       </details>
 
+      <!-- Une commande manuelle saisie chez ShipStation après la migration n'est nulle part
+           ici, et rejouer 38 800 commandes pour en rattraper une serait disproportionné. -->
+      <div class="barre" style="margin-top:8px">
+        <input id="rcn" placeholder="n° de commande, ou un nom" style="min-width:200px">
+        <input id="rcp" placeholder="province" style="width:90px">
+        <button type="button" id="rcb">Recopier une commande…</button>
+      </div>
+      <p class="doux" style="margin:2px 0 0">Ramène une seule commande de ShipStation, avec son
+        expédition et son numéro de suivi. Montre ce qu'elle contient avant d'écrire.</p>
+
       <!-- Le contrôle qui manquait : le clone affichait « Expédiée 27 974 » avec l'aplomb
            d'un chiffre complet alors que ShipStation en comptait 38 126. Rien à l'écran ne
            disait que 26 % de l'historique n'était pas là. -->
@@ -8840,6 +8850,66 @@ VUES.reglages = async () => {
     try { await api("/api/webhooks", { method: "POST", body: { event: $("#wev").value, target_url: $("#wurl").value } }); VUES.reglages(); }
     catch (e) { alert(e.message); }
   };
+  /**
+   * Recopie d'une commande — chercher, montrer, puis seulement écrire.
+   *
+   * Le premier appel ne confirme rien : il rapporte ce que ShipStation a. On n'écrit qu'après
+   * avoir lu l'adresse et le suivi à l'écran, parce qu'un prénom seul désigne souvent
+   * plusieurs commandes et qu'on ne veut pas recopier la mauvaise.
+   */
+  $("#rcb").onclick = async () => {
+    const saisie = ($("#rcn").value || "").trim(), province = ($("#rcp").value || "").trim();
+    if (!saisie) return toast("Donner un numéro de commande ou un nom.");
+    const parNumero = /^[0-9#-]+$/.test(saisie);
+    const requete = parNumero ? { numero: saisie.replace(/^#/, "") } : { nom: saisie, province: province || null };
+
+    const ligneCmd = (c) => `<div><b>${esc(String(c.order_number))}</b>
+      <span class="doux">${esc(c.date || "")} · ${esc(c.statut || "")}</span><br>
+      ${esc(c.nom || "—")}${c.entreprise ? ` (${esc(c.entreprise)})` : ""}<br>
+      <span class="doux">${esc(c.adresse || "")} — ${esc(c.ville || "")}, ${esc(c.province || "")}
+      ${esc(c.code_postal || "")} ${esc(c.pays || "")}</span><br>
+      <span class="doux">${esc(c.transporteur || "—")} / ${esc(c.service || "—")} ·
+      ${num(Math.round(c.poids_g || 0))} g · ${c.lignes} ligne(s)</span></div>`;
+
+    let r;
+    try { r = await api("/api/migrate/commande", { method: "POST", body: requete }); }
+    catch (e) { return dialogue("Recopie impossible", `<div class="avis">${esc(e.message)}</div>`, null, "Fermer"); }
+
+    if (!r.trouvees) return dialogue("Aucune commande",
+      `<p>ShipStation ne renvoie rien pour « ${esc(saisie)} »${province ? ` en ${esc(province)}` : ""}.</p>`,
+      null, "Fermer");
+
+    if (r.trouvees > 1) return dialogue(`${r.trouvees} commandes correspondent`,
+      `<p class="doux">Relancer avec le numéro voulu.</p>
+       ${r.candidates.map(c => `<div class="carte">${ligneCmd(c)}</div>`).join("")}`, null, "Fermer");
+
+    const c = r.commande;
+    const exp = r.expeditions.length
+      ? r.expeditions.map(e => `<div>${e.suivi ? `<b>${esc(e.suivi)}</b>` : "<i>sans suivi</i>"}
+          <span class="doux">${esc(e.transporteur || "—")} / ${esc(e.service || "—")} · ${esc(e.date || "")} ·
+          ${e.cout.toFixed(2)} $${e.assurance ? ` + ${e.assurance.toFixed(2)} $ assurance` : ""}
+          ${e.annulee ? " · annulée" : ""}${e.deja_en_base ? " · déjà en base" : ""}</span></div>`).join("")
+      : `<div class="doux">Aucune expédition chez ShipStation — elle arrivera « à expédier ».</div>`;
+
+    dialogue("Recopier cette commande",
+      `<div class="carte">${ligneCmd(c)}</div>
+       <div class="carte"><b>Expédition</b>${exp}</div>
+       ${r.existante ? `<div class="avis info">Déjà dans le clone (#${r.existante.id},
+          ${esc(r.existante.statut)}) — elle sera mise à jour, pas dupliquée.</div>` : ""}
+       ${r.boutique ? "" : `<div class="avis">La boutique d'origine est absente du clone : la
+          commande n'en aura aucune.</div>`}
+       ${r.entrepot ? "" : `<div class="avis">L'entrepôt d'origine est absent du clone : elle
+          partira de l'entrepôt par défaut.</div>`}`,
+      async () => {
+        try {
+          const f = await api("/api/migrate/commande", { method: "POST", body: { ...requete, confirmer: true } });
+          toast(`Commande ${f.commande.order_number} ${f.creee ? "créée" : "mise à jour"}` +
+            `${f.expeditions_ecrites ? ` avec ${f.expeditions_ecrites} expédition(s)` : ""}.`);
+          rafraichirCompteurs();
+        } catch (e) { $("#dlgC").innerHTML = `<div class="avis">${esc(e.message)}</div>`; return false; }
+      }, "Recopier");
+  };
+
   $("#mig").onclick = () => dialogue("Migration depuis ShipStation",
     `<p>Récupère commandes, expéditions, exécutions, lots, produits, clients, retours et
        référentiels par le General Proxy, et les écrit dans cette base.</p>

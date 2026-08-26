@@ -75,19 +75,21 @@ function resolve(category, details, country, marketplace) {
   const m = load();
   const exact = key(details, country, marketplace);
 
-  const keys = candidates(details, country, marketplace);
-  for (const k of keys) {
+  // Les règles composées d'abord — c'est ce que fait A2X, vérifié sur ses
+  // propres écritures : pour « PendingPayment / CA / exchange » il impute 4013
+  // (la règle composée « PendingPayment - CA - exchange »), et non 1110 que
+  // donnerait la règle générique. Elles couvrent aussi ce que les génériques
+  // n'ont pas, le point de vente notamment.
+  for (const composed of composedKeys(details, country, marketplace)) {
+    const hit = m.index[key(composed, "*", "*")];
+    if (hit && hit.accountId) return { ...hit, matched: composed, fallback: "règle composée" };
+  }
+
+  for (const k of candidates(details, country, marketplace)) {
     const hit = m.index[k];
     if (hit && hit.accountId) {
       return { ...hit, matched: k, fallback: k === exact ? "exact" : "repli" };
     }
-  }
-
-  // Puis les règles composées, qui couvrent ce que les génériques n'ont pas
-  // (le point de vente, notamment).
-  for (const composed of composedKeys(details, country, marketplace)) {
-    const hit = m.index[key(composed, "*", "*")];
-    if (hit && hit.accountId) return { ...hit, matched: composed, fallback: "règle composée" };
   }
   const def = m.defaults[category];
   if (def && def.accountId) return { ...def, matched: `${category} (automapping)`, fallback: "automapping" };

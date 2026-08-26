@@ -40,6 +40,22 @@
       "extrait": "Ginette Verrette, Ginette, Ginette, Ginette. Lit plus que le titre des articles. Tu nous fait honte.",
       "motif": "Insulte adressée à une autre abonnée. Sarcasme, aucun contenu à traiter.",
       "quand": "2026-08-26T13:24:37.237Z"
+    },
+    {
+      "id": "1347451694188147_1390676669775674",
+      "page_id": "114311920399404",
+      "date": "2026-06-14T03:32:14+0000",
+      "extrait": "(sans texte) GIF d'une chenille de monarque en gros plan sur une feuille",
+      "motif": "Troisième d'une série de trois GIF publiés par la même personne en seize secondes (03:32:09, :14, :25). On a déjà répondu à celui de 03:32:25 le 26 août, et on répond à celui de 03:32:09 aujourd'hui. Une troisième réponse au même abonné dans la même minute de publication sonnerait automatique, ce que REGLES.md cherche justement à éviter.",
+      "quand": "2026-08-26T14:38:37.658Z"
+    },
+    {
+      "id": "1347451694188147_885790251209180",
+      "page_id": "114311920399404",
+      "date": "2026-06-14T03:32:04+0000",
+      "extrait": "(sans texte) GIF d'une nuée de monarques en vol dans le ciel bleu, la migration",
+      "motif": "Quatrième et dernier GIF de la rafale postée par la même personne en vingt et une secondes (03:32:04, :09, :14, :25). On a déjà répondu à deux d'entre eux. Même motif qu'au tir précédent : enchaîner une troisième réponse au même abonné sur la même rafale sonnerait automatique. La belle image, elle, ne change pas ce calcul.",
+      "quand": "2026-08-26T15:39:02.607Z"
     }
   ]
 }
