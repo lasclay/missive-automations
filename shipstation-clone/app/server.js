@@ -1887,6 +1887,54 @@ route("GET /api/refs", ({ req, res }) => jsonCache(req, res, {
   groupes_n: db.one("SELECT COUNT(*) n FROM preset_groups").n,
 }));
 
+/**
+ * Emplacements d'expédition — l'adresse ET les coordonnées de l'expéditeur.
+ *
+ * Ils venaient de la migration et n'étaient éditables nulle part. C'était supportable tant
+ * que seule l'adresse comptait ; ça ne l'est plus depuis que Freightcom exige un nom de
+ * contact, un téléphone et un courriel à la réservation. « Expédié de : LAS Capucins » doit
+ * porter les coordonnées de LAS Capucins — un entrepôt qui n'a que sa rue ne peut pas
+ * expédier.
+ *
+ * Le réglage global ne remplace pas ces champs-ci : il ne sert que d'ultime repli, pour les
+ * emplacements qu'on n'a pas encore remplis.
+ */
+route("GET /api/warehouses", () => ({
+  warehouses: db.all("SELECT * FROM warehouses ORDER BY is_default DESC, name").map((w) => ({
+    ...w,
+    origin_address: db.parse(w.origin_address, {}),
+    return_address: db.parse(w.return_address, null),
+  })),
+}));
+
+route("POST /api/warehouses/:id", async ({ req, params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  const w = db.one("SELECT * FROM warehouses WHERE id = ?", params.id);
+  if (!w) return { error: "emplacement inconnu", code: 404 };
+
+  // Fusion, pas remplacement : l'écran n'envoie que ce qu'il montre, et l'adresse d'origine
+  // porte des champs venus de ShipStation qu'aucun formulaire ne présente.
+  const avant = db.parse(w.origin_address, {});
+  const CHAMPS = ["name", "company", "street1", "street2", "city", "state", "postalCode",
+    "country", "phone", "email"];
+  const apres = { ...avant };
+  for (const c of CHAMPS) if (c in (b.origin_address || {})) apres[c] = b.origin_address[c] || undefined;
+
+  db.run("UPDATE warehouses SET name = ?, origin_address = ? WHERE id = ?",
+    b.name || w.name, db.dump(apres), w.id);
+
+  // Un seul emplacement par défaut : l'ancien perd le drapeau, sinon deux se disputent les
+  // commandes sans entrepôt et le gagnant dépend de l'ordre de tri.
+  if (b.is_default) {
+    db.run("UPDATE warehouses SET is_default = 0");
+    db.run("UPDATE warehouses SET is_default = 1 WHERE id = ?", w.id);
+  }
+  db.journaliser("warehouse.update", "warehouse", w.id,
+    { champs: Object.keys(b.origin_address || {}) }, user && user.id);
+  return { ok: true };
+});
+
 route("GET /api/settings", () => ({
   marque: db.reglage("marque", accounts.MARQUE_DEFAUT),
   tarif_dropoff_cible: db.reglage("tarif_dropoff_cible", 6.31),

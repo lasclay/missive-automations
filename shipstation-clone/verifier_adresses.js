@@ -190,6 +190,42 @@ const CO = (types, long, court = null) => ({ types, longText: long, shortText: c
   // Une province héritée d'un import ne doit pas disparaître de l'écran sans qu'on le sache.
   verifier("une valeur hors liste est conservée et marquée",
     ui.champRegion("np", "CA", "Québec").includes("hors liste"));
+
+  // ------------------------------------------- l'emplacement d'expédition et son contact
+  console.log("\nEmplacements d'expédition\n" + "─".repeat(64));
+
+  /*
+   * « Expédié de : LAS Capucins » doit porter les coordonnées de LAS Capucins.
+   *
+   * Le téléphone était bien chez ShipStation et la migration le rapportait — c'est
+   * « Charger la configuration » qui le réécrivait par-dessus, avec une liste tenue à la
+   * main plus pauvre que la source. L'entrepôt par défaut se retrouvait sans numéro, et la
+   * réservation Freightcom refusée. Le contrôle fige les deux sens : ce que la base porte
+   * n'est jamais appauvri, ce qui lui manque est complété.
+   */
+  const { one, run, dump, parse } = require("./lib/db");
+  const lasclay = require("./lib/lasclay");
+
+  const RICHE = { name: "Lasclay", company: "Lasclay", street1: "254 Boulevard des Capucins",
+    street2: "2ème étage", city: "Quebec", state: "QC", postalCode: "G1J 3R4", country: "CA",
+    phone: "+1 (581) 982-5857", residential: false };
+  run("UPDATE warehouses SET origin_address = ? WHERE id = 153232", dump(RICHE));
+  lasclay.charger({});
+  const apres = parse(one("SELECT origin_address FROM warehouses WHERE id = 153232").origin_address, {});
+  verifier("le téléphone venu de ShipStation survit au chargement de la configuration",
+    apres.phone === RICHE.phone, apres.phone || "perdu");
+  verifier("l'étage aussi — un livreur le cherche",
+    apres.street2 === "2ème étage", apres.street2 || "perdu");
+
+  run("UPDATE warehouses SET origin_address = ? WHERE id = 590291", dump({ name: "Unique Plastique" }));
+  lasclay.charger({});
+  const comble = parse(one("SELECT origin_address FROM warehouses WHERE id = 590291").origin_address, {});
+  verifier("un emplacement sans téléphone reçoit celui de la configuration",
+    comble.phone === "5815805182", comble.phone || "toujours vide");
+
+  verifier("les cinq emplacements portent un téléphone",
+    lasclay.ENTREPOTS.every((e) => e.origin_address.phone),
+    lasclay.ENTREPOTS.filter((e) => !e.origin_address.phone).map((e) => e.name).join(", ") || "tous");
 })().then(() => {
   console.log("\n" + "─".repeat(64));
   console.log(ko ? `${X} ${ko} contrôle(s) en échec sur ${ok + ko}` : `${V} ${ok}/${ok} contrôles passés`);
