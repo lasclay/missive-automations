@@ -1081,6 +1081,55 @@ t("l'atelier peut consulter le suivi",
     t(`${h} h donne « ${attendu} »`, S.moment(h) === attendu, S.moment(h));
 }
 
+// ---------------------------- la liste de production montre les variantes
+{
+  const V = require('../vues.js');
+  const D = require('../db.js');
+  const it = db.prepare(`SELECT id, produit_id, quantite FROM ordre_items LIMIT 1`).get();
+  db.prepare(`DELETE FROM item_variantes WHERE item_id = ?`).run(it.id);
+  const pose = (groupe, nom, q, rang) => db.prepare(
+    `INSERT INTO item_variantes (item_id, groupe, nom, quantite, rang)
+     VALUES (?,?,?,?,?)`).run(it.id, groupe, nom, q, rang);
+
+  // Un croisement réel : deux coupes, des tailles différentes de chaque côté.
+  pose('Homme', 'S', 8, 1); pose('Homme', 'M', 25, 2); pose('Homme', 'L', 34, 3);
+  pose('Femme', 'XS', 3, 4); pose('Femme', 'S', 5, 5); pose('Femme', 'M', 16, 6);
+  db.prepare(`UPDATE ordre_items SET quantite = 91 WHERE id = ?`).run(it.id);
+
+  const v = D.variantesItem(it.id);
+  const html = V.vuePriorites({ user: admin, lignes: [{
+    id: it.id, produit_id: it.produit_id, code: 'X', nom: 'X', famille: 'hiver',
+    note: '', restant: 91, quantite: 91, avancement: 0, echeance: null,
+    jours: null, en_retard: false, priorite: 'normale', ordre_id: 1,
+    numero: 'OP-1', ordre_titre: 'T', variantes: v }] });
+
+  t('la liste n\'a plus de repli', !html.includes('<details class="rep'));
+  t('chaque variante montre sa quantité',
+    html.includes('>S</span><b>8</b>') || html.includes('S</span><b>8</b>'),
+    'la pastille S doit porter 8');
+  t('les six variantes sont là',
+    (html.match(/class="ch ch-/g) || []).length === 6,
+    String((html.match(/class="ch ch-/g) || []).length));
+  t('le groupe porte son total', html.includes('Homme') && html.includes('>67<'));
+  t('les deux axes sont nommés d\'après les étiquettes',
+    html.includes('2 coupes × 4 tailles'),
+    (html.match(/rep-quoi">([^<]+)</) || [])[1]);
+
+  // Sans groupe, un seul axe et pas de « × ».
+  db.prepare(`DELETE FROM item_variantes WHERE item_id = ?`).run(it.id);
+  pose('', 'Noir', 60, 1); pose('', 'Rouge', 31, 2);
+  const seul = V.vuePriorites({ user: admin, lignes: [{
+    id: it.id, produit_id: it.produit_id, code: 'X', nom: 'X', famille: 'hiver',
+    note: '', restant: 91, quantite: 91, avancement: 0, echeance: null,
+    jours: null, en_retard: false, priorite: 'normale', ordre_id: 1,
+    numero: 'OP-1', ordre_titre: 'T', variantes: D.variantesItem(it.id) }] });
+  t('un seul axe se dit sans croisement',
+    seul.includes('2 coloris') && !seul.includes('×'),
+    (seul.match(/rep-quoi">([^<]+)</) || [])[1]);
+
+  db.prepare(`DELETE FROM item_variantes WHERE item_id = ?`).run(it.id);
+}
+
 // ---------------------------- la charte produits sur la fiche
 {
   const D = require('../db.js');

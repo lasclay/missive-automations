@@ -680,22 +680,20 @@ table.fab tr.p-basse{opacity:.62}
   border:1px solid rgba(128,128,128,.45)}
 .rep-ecart{margin:7px 0 0;color:var(--ambre);font-size:11.5px;line-height:1.45;
   white-space:normal}
-/* Dans « À fabriquer », la barre reste visible et les compteurs se replient :
-   la barre se lit d'un coup d'œil, le détail se demande. */
+/* Dans « À fabriquer », la liste des variantes est DÉPLIÉE. La question de cet
+   écran est « par quoi je commence », et « 20 coloris et tailles » n'y répond
+   pas : il faut voir que le violet en L, c'est 40 pièces. La barre reste en
+   tête pour la proportion, les compteurs suivent dessous. */
 /* La cellule se réduit à son contenu sur téléphone : sans largeur minimale,
    la barre tombe à quelques dizaines de pixels et ne montre plus rien. */
 .rep-c{max-width:34em;min-width:min(100%,240px)}
-.rep-c > summary{cursor:pointer;list-style:none;display:flex;
-  align-items:center;gap:8px;padding:2px 0}
-.rep-c > summary::-webkit-details-marker{display:none}
-/* Repliée, les barres des groupes se suivent sur une seule ligne : leur
-   longueur relative rend la répartition entre coloris lisible d'un trait. */
-.rep-c > summary .rep-rangee{flex:1;min-width:90px;display:flex;gap:2px}
-.rep-c > summary .rep-barre{height:8px;margin:0}
-.rep-quoi{font-size:11px;color:var(--gris);white-space:nowrap;
-  border-bottom:1px dotted var(--ligne)}
-.rep-c > summary:hover .rep-quoi{color:var(--encre2)}
-.rep-c[open] > summary{margin-bottom:7px}
+.rep-c .rep-tete{display:flex;align-items:center;gap:8px;padding:2px 0;
+  margin-bottom:7px}
+/* Les barres des groupes se suivent sur une seule ligne : leur longueur
+   relative rend la répartition entre coloris lisible d'un trait. */
+.rep-c .rep-tete .rep-rangee{flex:1;min-width:90px;display:flex;gap:2px}
+.rep-c .rep-tete .rep-barre{height:8px;margin:0}
+.rep-quoi{font-size:11px;color:var(--gris);white-space:nowrap}
 .rep-c .ch{font-size:11px;padding:1px 6px}
 .rep-c .rep-g + .rep-g{margin-top:7px}
 

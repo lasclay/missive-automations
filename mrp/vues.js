@@ -242,21 +242,59 @@ function repartition(v, { compact = false } = {}) {
     </div>`;
   };
 
-  // Dans « À fabriquer », la barre reste visible — c'est elle qui se lit d'un
-  // coup d'œil — mais les compteurs se replient. Vingt-six lignes dépliées
-  // font une page de douze mille pixels, et l'écran censé dire « par quoi je
-  // commence » ne le dit plus.
+  // Dans « À fabriquer », on montre la liste, pas un résumé. La question de
+  // cet écran est « par quoi je commence », et on n'y répond pas avec « 20
+  // coloris et tailles » : il faut voir que le violet en L, c'est 40 pièces.
+  // La barre reste en tête — elle donne la proportion d'un coup d'œil — et les
+  // compteurs sont dépliés dessous. Le plus gros item du plan en compte vingt ;
+  // en pastilles qui reviennent à la ligne, ça tient en trois lignes d'écran.
   if (compact) {
+    // Le libellé nomme les DEUX axes quand le chiffrier les croise, et il les
+    // nomme d'après les étiquettes elles-mêmes. « 20 tailles » sur la mitaine
+    // polar était faux — ce sont 4 coloris × 5 tailles — et deviner l'axe des
+    // groupes à « coloris » l'était tout autant : le manteau croise Homme et
+    // Femme, qui ne sont pas des couleurs.
+    const AXE = { couleur: 'coloris', pointure: 'pointures', taille: 'tailles',
+                  genre: 'coupes', modele: 'modèles', chaleur: 'chaleurs',
+                  autre: 'déclinaisons' };
+    // Deux axes que le chiffrier croise et que `typeVariante` ne connaît pas,
+    // parce qu'ils ne sont ni une couleur ni une taille : la coupe du manteau
+    // et le modèle du bandeau. Les appeler « déclinaisons » était juste et ne
+    // disait rien.
+    const GENRE = /^(homme|femme|enfant|unisexe)$/i;
+    const MODELE = /^(sport|torsad)/i;
+    // Le sac de couchage se décline en chaleur, pas en taille : le plan écrit
+    // « 150 g/m² (0 à 15 °C) » et « 250 g/m² (0 à -18 °C) ».
+    const CHALEUR = /g\/m²|°\s*C/i;
+    const axe = (noms) => {
+      const c = {};
+      for (const nom of noms) {
+        const t = GENRE.test(nom.trim()) ? 'genre'
+                : MODELE.test(nom.trim()) ? 'modele'
+                : CHALEUR.test(nom) ? 'chaleur'
+                : V.typeVariante(nom);
+        c[t] = (c[t] || 0) + 1;
+      }
+      const [gagnant] = Object.entries(c).sort((a, b) => b[1] - a[1])[0] || [];
+      return AXE[gagnant] || 'déclinaisons';
+    };
     const n = v.lignes.length;
-    const axes = [...new Set(v.lignes.map(l => V.typeVariante(l.nom)))];
-    const quoi = axes.includes('couleur')
-      ? (axes.length > 1 ? 'coloris et tailles' : (n > 1 ? 'coloris' : 'coloris'))
-      : axes.includes('pointure') ? 'pointures' : 'tailles';
-    return `<details class="rep rep-c">
-      <summary><span class="rep-rangee">${v.groupes.map(g => barre(
-        [...g.lignes].sort((a, b) => V.rangVariante(a.nom) - V.rangVariante(b.nom)),
-        g.somme, (g.somme / total) * 100)).join('')}</span><span
-        class="rep-quoi">${n} ${quoi}</span></summary>
+    const croise = v.groupes.length > 1 && Boolean(v.groupes[0].nom);
+    // Les groupes n'ont pas tous le même nombre de lignes — Homme a cinq
+    // tailles, Femme en a six. On compte les étiquettes DISTINCTES, pas une
+    // moyenne, qui n'existerait nulle part dans le chiffrier.
+    const distinctes = new Set(v.lignes.map(l => l.nom)).size;
+    const quoi = croise
+      ? `${v.groupes.length} ${axe(v.groupes.map(g => g.nom))}`
+        + ` × ${distinctes} ${axe(v.lignes.map(l => l.nom))}`
+      : `${n} ${axe(v.lignes.map(l => l.nom))}`;
+    return `<div class="rep rep-c">
+      <div class="rep-tete">
+        <span class="rep-rangee">${v.groupes.map(g => barre(
+          [...g.lignes].sort((a, b) => V.rangVariante(a.nom) - V.rangVariante(b.nom)),
+          g.somme, (g.somme / total) * 100)).join('')}</span>
+        <span class="rep-quoi">${quoi}</span>
+      </div>
       ${v.groupes.map(g => `<div class="rep-g">
         ${g.nom ? `<div class="rep-titre">${V.teinte(g.nom)
           ? `<i class="pastille" style="background:${V.teinte(g.nom)}"></i>` : ''}${e(g.nom)}
@@ -266,8 +304,9 @@ function repartition(v, { compact = false } = {}) {
           .map(chip).join('')}</div>
       </div>`).join('')}
       ${notable ? `<p class="rep-ecart">${v.somme.toLocaleString('fr-CA')} en
-        variantes pour ${v.quantite.toLocaleString('fr-CA')} au plan.</p>` : ''}
-    </details>`;
+        variantes pour ${v.quantite.toLocaleString('fr-CA')} au plan —
+        <b>${v.ecart > 0 ? '+' : ''}${v.ecart.toLocaleString('fr-CA')}</b></p>` : ''}
+    </div>`;
   }
 
   return `<div class="rep">

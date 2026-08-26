@@ -179,13 +179,14 @@ SAC-COUCHAGE-0	matiere	Intérieur : shell de nylon
 SAC-COUCHAGE-0	isolant	Vegeto 150 g
 SAC-COUCHAGE-0	garniture	Étiquette Lasclay 2,6 x 7,5 cm
 SAC-COUCHAGE-0	garniture	Fermeture éclair double curseur int/ext — spirale maille 5, non séparable
-SAC-COUCHAGE-0	note	À CONFIRMER : la charte donne deux grammages (150 g et 250 g) sans dire lequel va à quel modèle. 150 g est attribué ici au 0 °C — à valider avant de couper.
+SAC-COUCHAGE-0	note	La charte donne les deux grammages sans les attribuer ; c'est le plan de production qui tranche — il nomme les variantes « 150 g/m² (0 à 15 °C) » et « 250 g/m² (0 à -18 °C) ».
 SAC-COUCHAGE-18	matiere	Extérieur : shell de nylon
 SAC-COUCHAGE-18	matiere	Intérieur : shell de nylon
 SAC-COUCHAGE-18	isolant	Vegeto 250 g
 SAC-COUCHAGE-18	garniture	Étiquette Lasclay 2,6 x 7,5 cm
 SAC-COUCHAGE-18	garniture	Fermeture éclair double curseur int/ext — spirale maille 5, non séparable
-SAC-COUCHAGE-18	note	À CONFIRMER : la charte donne deux grammages (150 g et 250 g) sans dire lequel va à quel modèle. 250 g est attribué ici au -18 °C — à valider avant de couper.
+SAC-COUCHAGE-18	note	La charte donne les deux grammages sans les attribuer ; c'est le plan de production qui tranche — il nomme les variantes « 150 g/m² (0 à 15 °C) » et « 250 g/m² (0 à -18 °C) ».
+SAC-COUCHAGE-18	note	À RÉGLER : le plan met les DEUX chaleurs sous ce seul code, alors que SAC-COUCHAGE-0 existe comme produit distinct. Un des deux est en trop, ou la répartition est à déplacer.
 OREILLER-CAMPING	matiere	Côté supérieur : toile de polyester
 OREILLER-CAMPING	matiere	Côté inférieur : polar noir
 OREILLER-CAMPING	isolant	Fibre recyclée et retailles de vegeto
