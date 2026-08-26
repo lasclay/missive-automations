@@ -38,6 +38,7 @@ const hs = require("../lib/hs");
 const lasclay = require("../lib/lasclay");
 const shopify = require("../lib/shopify_sync");
 const presets = require("../lib/presets");
+const adresses = require("../lib/adresses");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const auth = require("../lib/auth");
@@ -190,6 +191,31 @@ route("GET /api/orders", ({ url }) => {
   if (f.status && f.status.includes(",")) f.status = f.status.split(",");
   return { ...orders.chercher({ ...f, seuil: SEUIL_DROPOFF_G }), seuil: SEUIL_DROPOFF_G };
 });
+/**
+ * Autocomplétion d'adresse — Google Places, appelé depuis le serveur.
+ *
+ * La page ne voit jamais la clé : elle demande des suggestions à sa propre origine. Voir
+ * `lib/adresses.js` pour le pourquoi, et pour le jeton de session qui fait la différence
+ * entre une facture Google en cents et une en dollars.
+ *
+ * Une panne chez Google n'est pas une panne du formulaire. La route rend une liste vide et
+ * une note ; la saisie manuelle continue de fonctionner exactement comme avant.
+ */
+route("GET /api/adresses/suggestions", async ({ url }) => {
+  const f = q(url);
+  if (!adresses.actif()) return { actif: false, suggestions: [] };
+  try {
+    return { actif: true, suggestions: await adresses.suggestions(f.q, { pays: f.pays || null, jeton: f.jeton || null }) };
+  } catch (e) { return { actif: true, suggestions: [], note: e.message }; }
+});
+
+route("GET /api/adresses/details", async ({ url }) => {
+  const f = q(url);
+  if (!adresses.actif()) return { error: "autocomplétion non configurée", code: 400 };
+  try { return await adresses.details(f.id, { jeton: f.jeton || null }); }
+  catch (e) { return { error: e.message, code: 400 }; }
+});
+
 route("GET /api/orders/counts", () => orders.compteurs());
 route("GET /api/orders/alerts", () => orders.alertes());
 route("GET /api/orders/:id", ({ params }) => orders.parId(Number(params.id)) || { error: "inconnue" });
@@ -1861,10 +1887,61 @@ route("GET /api/refs", ({ req, res }) => jsonCache(req, res, {
   groupes_n: db.one("SELECT COUNT(*) n FROM preset_groups").n,
 }));
 
+/**
+ * Emplacements d'expédition — l'adresse ET les coordonnées de l'expéditeur.
+ *
+ * Ils venaient de la migration et n'étaient éditables nulle part. C'était supportable tant
+ * que seule l'adresse comptait ; ça ne l'est plus depuis que Freightcom exige un nom de
+ * contact, un téléphone et un courriel à la réservation. « Expédié de : LAS Capucins » doit
+ * porter les coordonnées de LAS Capucins — un entrepôt qui n'a que sa rue ne peut pas
+ * expédier.
+ *
+ * Le réglage global ne remplace pas ces champs-ci : il ne sert que d'ultime repli, pour les
+ * emplacements qu'on n'a pas encore remplis.
+ */
+route("GET /api/warehouses", () => ({
+  warehouses: db.all("SELECT * FROM warehouses ORDER BY is_default DESC, name").map((w) => ({
+    ...w,
+    origin_address: db.parse(w.origin_address, {}),
+    return_address: db.parse(w.return_address, null),
+  })),
+}));
+
+route("POST /api/warehouses/:id", async ({ req, params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  const w = db.one("SELECT * FROM warehouses WHERE id = ?", params.id);
+  if (!w) return { error: "emplacement inconnu", code: 404 };
+
+  // Fusion, pas remplacement : l'écran n'envoie que ce qu'il montre, et l'adresse d'origine
+  // porte des champs venus de ShipStation qu'aucun formulaire ne présente.
+  const avant = db.parse(w.origin_address, {});
+  const CHAMPS = ["name", "company", "street1", "street2", "city", "state", "postalCode",
+    "country", "phone", "email"];
+  const apres = { ...avant };
+  for (const c of CHAMPS) if (c in (b.origin_address || {})) apres[c] = b.origin_address[c] || undefined;
+
+  db.run("UPDATE warehouses SET name = ?, origin_address = ? WHERE id = ?",
+    b.name || w.name, db.dump(apres), w.id);
+
+  // Un seul emplacement par défaut : l'ancien perd le drapeau, sinon deux se disputent les
+  // commandes sans entrepôt et le gagnant dépend de l'ordre de tri.
+  if (b.is_default) {
+    db.run("UPDATE warehouses SET is_default = 0");
+    db.run("UPDATE warehouses SET is_default = 1 WHERE id = ?", w.id);
+  }
+  db.journaliser("warehouse.update", "warehouse", w.id,
+    { champs: Object.keys(b.origin_address || {}) }, user && user.id);
+  return { ok: true };
+});
+
 route("GET /api/settings", () => ({
   marque: db.reglage("marque", accounts.MARQUE_DEFAUT),
   tarif_dropoff_cible: db.reglage("tarif_dropoff_cible", 6.31),
   derniere_migration: db.reglage("derniere_migration", null),
+  expediteur_contact: db.reglage("expediteur_contact", ""),
+  expediteur_telephone: db.reglage("expediteur_telephone", ""),
+  expediteur_courriel: db.reglage("expediteur_courriel", ""),
   assurance_active: String(db.reglage("assurance_active", "0")) !== "0",
   assurance_defaut: Number(db.reglage("assurance_defaut", 100)) || 0,
   assurance_seuil: Number(db.reglage("assurance_seuil", 300)) || 0,
@@ -1890,6 +1967,12 @@ const REGLAGES_MODIFIABLES = new Set([
   // XCover, et elle engage de l'argent réel à chaque étiquette. Modifiable, donc, sans
   // passer par une variable d'environnement ni un déploiement.
   "assurance_active", "assurance_defaut", "assurance_seuil",
+  // Coordonnées de l'expéditeur : ClickShip marque « Contact Name », « Phone Number » et
+  // « Email Address » obligatoires DES DEUX CÔTÉS de l'envoi. Une commande qui n'en porte
+  // pas — une commande manuelle, une place de marché qui masque l'acheteur — se faisait
+  // refuser à la réservation par un « bad or missing data » qui ne nommait rien. Ces trois
+  // valeurs servent de repli, et se corrigent sans déploiement.
+  "expediteur_contact", "expediteur_telephone", "expediteur_courriel",
   "colonnes_commandes", "columns",
 ]);
 
@@ -2507,6 +2590,7 @@ route("GET /api/config", ({ moi }) => {
     amorce: !!db.reglage("amorce"),
     config_lasclay: !!db.reglage("config_lasclay"),
     shopify: shopify.etat(),
+    adresses_auto: adresses.actif(),
     comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
     exiger_2fa: !!db.reglage("exiger_2fa", false),
     // La règle d'assurance voyage jusqu'au navigateur : le menu de l'écran d'expédition doit

@@ -41,7 +41,10 @@ function espion(reponses) {
 const ENVOI = {
   orderId: 50774,
   from: { name: "Lasclay", company: "Les Produits Lasclay", street1: "1 rue des Capucins",
-    city: "Québec", state: "QC", country: "CA", postalCode: "G1M 2S6", phone: "418-555-0100" },
+    city: "Québec", state: "QC", country: "CA", postalCode: "G1M 2S6",
+    phone: "418-555-0100", email: "expedition@lasclay.test" },
+  // Volontairement sans téléphone ni courriel : c'est le cas d'une commande manuelle, et
+  // c'est celui qui faisait échouer la réservation sur un « bad or missing data » muet.
   to: { name: "Josée Ferland", street1: "12 rue Saint-Denis", city: "Montréal", state: "QC",
     country: "CA", postalCode: "h2x 1y4", residential: true },
   parcel: { weightG: 483, lengthIn: 9, widthIn: 6, heightIn: 2 },
@@ -98,6 +101,48 @@ const TARIF = (id, cents, nom) => ({
   verifier("destination marquée résidentielle", d.destination.residential === true);
   verifier("Freightcom n'écrit pas au client à notre place",
     d.origin.receives_email_updates === false && d.destination.receives_email_updates === false);
+
+  /*
+   * Les trois champs que ClickShip marque obligatoires des deux côtés — `Contact Name`,
+   * `Phone Number`, `Email Address`. Une commande manuelle n'en porte aucun, et la
+   * réservation était refusée par un « bad or missing data » qui ne nommait rien.
+   */
+  verifier("un destinataire sans téléphone reprend celui de l'expéditeur",
+    d.destination.phone_number && d.destination.phone_number.number === "4185550100",
+    d.destination.phone_number ? d.destination.phone_number.number : "absent");
+  verifier("un destinataire sans courriel reprend celui de l'expéditeur",
+    JSON.stringify(d.destination.email_addresses) === '["expedition@lasclay.test"]',
+    JSON.stringify(d.destination.email_addresses));
+  verifier("le nom du contact est renseigné des deux côtés",
+    !!d.origin.contact_name && !!d.destination.contact_name,
+    `${d.origin.contact_name} / ${d.destination.contact_name}`);
+  // Et le sens inverse : un repli qui écraserait une vraie coordonnée client ferait appeler
+  // Lasclay à la place du destinataire quand la livraison échoue.
+  {
+    // Le cache regroupe par scénario, et le téléphone n'en fait pas partie : on change donc
+    // de destination plutôt que de vider le cache, que les contrôles suivants examinent.
+    const espionne = espion([{ statut: 202, corps: { request_id: "req-tel" } },
+      { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep", 700, "Expedited")] } }]);
+    await fc.coter({ ...ENVOI, orderId: 77777,
+      to: { ...ENVOI.to, postalCode: "J7X 1A1", phone: "514-555-0199", email: "josee@exemple.test" } });
+    const dd = espionne[0].corps.details.destination;
+    verifier("les coordonnées du client priment sur le repli",
+      dd.phone_number.number === "5145550199"
+      && JSON.stringify(dd.email_addresses) === '["josee@exemple.test"]',
+      `${dd.phone_number.number} / ${dd.email_addresses}`);
+  }
+
+  // Sans rien nulle part, la réservation doit dire QUOI manque, pas « bad or missing data ».
+  {
+    espion([{ statut: 202, corps: { request_id: "req-nu" } },
+      { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep", 700, "Expedited")] } }]);
+    const nu = { ...ENVOI, orderId: 66666, to: { ...ENVOI.to, postalCode: "J8Y 2B2" },
+      from: { ...ENVOI.from, phone: undefined, email: undefined } };
+    let refus = "";
+    try { await fc.reserver(nu, "cp-ep"); } catch (e) { refus = e.message; }
+    verifier("une commande sans coordonnées est refusée en nommant les champs",
+      /téléphone/.test(refus) && /courriel/.test(refus) && /Réglages/.test(refus), refus.slice(0, 120));
+  }
 
   console.log("\nLecture des tarifs\n" + "─".repeat(64));
   verifier("2 tarifs lus", r1.tarifs.length === 2, r1.tarifs.map((t) => `${t.serviceId} ${t.price}$`).join(" · "));
@@ -187,8 +232,11 @@ const TARIF = (id, cents, nom) => ({
 
   // La réservation est suivie d'une lecture de `/shipment/{id}` : c'est là que l'étiquette
   // apparaît. Sans elle, on achetait un document qu'on ne pouvait pas imprimer.
+  // La réservation résout d'abord la méthode de paiement — le seul champ que la cotation ne
+  // demande pas et que la réservation exige. La réponse s'intercale donc ici.
   vus = espion([{ statut: 202, corps: { request_id: "req-7" } },
     { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep-dropoff", 631, "Drop-Off Only")] } },
+    { corps: { payment_methods: [{ id: "pm-1", name: "Compte JSB", default: true }] } },
     { corps: { shipment_id: "shp-77", tracking_number: "1234567890" } },
     { corps: { shipment: { state: "booked", primary_tracking_number: "1234567890",
       labels: [{ size: "4x6", format: "pdf", url: "https://f/e.pdf" }] } } }]);
@@ -200,6 +248,8 @@ const TARIF = (id, cents, nom) => ({
     vus.filter((v) => /\/rate/.test(v.url)).length === 2, "POST /rate puis GET /rate");
   verifier("référence de commande portée",
     JSON.stringify(reservation.corps.details.reference_codes) === '["L-50774"]');
+  verifier("méthode de paiement du compte transmise",
+    reservation.corps.payment_method_id === "pm-1", reservation.corps.payment_method_id || "absente");
   verifier("numéro de suivi et prix rendus",
     achat.trackingNumber === "1234567890" && achat.price === 6.31 && achat.dropOff === true);
   verifier("l'étiquette est récupérée après la réservation",
