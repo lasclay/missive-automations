@@ -118,6 +118,20 @@ Résultat attendu : 34 produits, 164 photos, 50 matériaux, l'ordre
 `OP-2026-0001` avec 27 items, **24 333 unités**, le jalon d'expédition au
 1er octobre et 139 répartitions par taille et coloris.
 
+Puis les deux imports du contrôle qualité, dans cet ordre — les protocoles
+d'abord, les bris ensuite, parce qu'un bris peut se rattacher à un point :
+
+```sh
+node mrp/import_qualite.js --ecrire   # protocoles : points critiques, mesures
+node mrp/import_bris.js --ecrire      # ce que les clients ont signalé, photos comprises
+```
+
+Attendu pour le second : **26 signalements, 24 avec photo** — 16 sur le sac à
+dos glacière, dont dix fois la même couture de bretelle. Les photos ne sont pas
+hébergées ici : ce sont des adresses, et l'onglet **Ce qui casse** les demande
+redimensionnées au CDN. Si elles n'apparaissent pas, ce n'est pas l'app — c'est
+que le dossier de l'hébergeur n'est pas partagé par lien.
+
 ---
 
 ## 6. Créer les comptes de l'équipe
