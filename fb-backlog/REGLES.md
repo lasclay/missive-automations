@@ -66,13 +66,16 @@ changements d'heure. Le passage à l'heure normale en novembre ne demande aucune
 
 | Tranche (heure de l'Est) | Intensité |
 | --- | --- |
-| 9 h – 11 h, 13 h – 17 h | 0,90 à 1,00 — le gros du travail |
-| 12 h | 0,45 — creux du midi, atténué et non plus à zéro |
-| 18 h – 21 h | 0,50 à 0,75 |
-| 22 h – 1 h | 0,10 à 0,35 |
-| 2 h – 6 h | 0,05 à 0,15 — presque rien, jamais exactement rien |
+| 8 h – 11 h, 14 h – 16 h | 0,95 à 1,00 — le gros du travail |
+| **6 h – 7 h** | **0,50 à 0,85 — le matin est un pic sur Facebook, pas un creux** |
+| 12 h – 13 h | 0,70 à 0,95 — on scrolle en mangeant |
+| 18 h – 20 h | 0,80 à 0,90 — second pic en soirée |
+| 21 h – 1 h | 0,10 à 0,65 — extinction progressive |
+| 2 h – 5 h | 0,05 à 0,15 — presque rien, jamais exactement rien |
 
-Le creux de midi n'est plus une pause franche et le cœur de la nuit n'est jamais à zéro absolu :
+La courbe suit les vrais pics d'engagement de Facebook — le matin tôt, le midi, la soirée — et
+non une journée de bureau. Le creux de midi n'est pas une pause franche, et le cœur de la nuit
+n'est jamais à zéro absolu :
 **un zéro quotidien à heure fixe est lui-même un motif reconnaissable.** Le week-end, la
 probabilité de publier tombe encore de 30 %.
 
@@ -81,14 +84,14 @@ probabilité de publier tombe encore de 30 %.
 | Décision | Tirage |
 | --- | --- |
 | Publier cette heure-ci ? | probabilité = intensité × 0,85 (× 0,7 le week-end) |
-| Combien | `1 + int(expo(14 × intensité))`, plafonné à 20 |
+| Combien | `1 + int(expo(10 × intensité))`, plafonné à 20 |
 | Délai avant la première | 45 à 420 secondes |
 | Écart entre deux réponses | 60 à 600 secondes, moyenne 3 minutes |
 
 Une réponse à la fois : publier, attendre, publier. Jamais de lot, jamais de boucle serrée.
 
-Débit mesuré par simulation : **environ 300 réponses par jour**, dont 220 entre 9 h et 17 h et
-**2 entre 2 h et 6 h**. Soit à peu près 6 par Page et par heure de pointe — une toutes les dix
+Débit mesuré par simulation : **environ 310 réponses par jour**, dont **47 entre 6 h et 8 h** et
+**1,2 entre 2 h et 5 h**. Soit à peu près 6 par Page et par heure de pointe — une toutes les dix
 minutes. Jamais un chiffre rond, jamais le même deux jours de suite.
 
 ## Plafond par Page et par jour
