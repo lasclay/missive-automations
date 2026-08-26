@@ -305,12 +305,35 @@ lib/accounts.js   utilisateurs, permissions, webhooks, notifications
 lib/ingest.js     migration ShipStation + import normalisé pour Shopify/Etsy/Faire
 lib/channels.js   renvoi du suivi aux boutiques, file de reprise, date de bascule
 lib/shopify_sync.js  import Shopify : webhooks signés HMAC, rattrapage, conversion
-app/server.js     ~100 routes
-verifier.js       contrôle d'installation, à lancer après déploiement
-verifier_criteres.js  74 vérifications : accord SQL/JavaScript sur les 27 vues, portées
-                  multi-articles, ordre des règles, préréglages, codes SH, marge
+lib/adresses.js   autocomplétion d'adresse par Google Places, appelée côté serveur
+app/server.js     ~190 routes
 admin.js          outil en ligne de commande : comptes, mots de passe, 2FA
+recopier_commande.js  ramène UNE commande de ShipStation, avec son expédition
 app/public/       l'interface, une page
+```
+
+### Les contrôles
+
+Tous se lancent sans clé, sans réseau sortant et sans dépense, sauf mention contraire.
+
+```
+verifier.js            contrôle d'installation, à lancer après déploiement
+verifier_integrite.js  le fichier unique tient : CSS équilibré, JS valide, balises appariées,
+                       et chaque appel de l'écran atterrit sur une route existante
+verifier_criteres.js   accord SQL/JavaScript sur les 27 vues, portées multi-articles, ordre
+                       des règles, préréglages, codes SH, marge
+verifier_vues.js       les 27 vues, comptées deux fois par deux moteurs
+verifier_achat.js      le bouton d'achat suit l'écran, pas la commande telle qu'ouverte
+verifier_reglages.js   serveur démarré, session ouverte, routes de réglages exercées en vrai
+verifier_adresses.js   Google Places → ship_to, menus de pays et de provinces, coordonnées
+                       des emplacements d'expédition
+verifier_freightcom.js forme des requêtes, unités, cache, idempotence, refus d'achat
+                       (--reel, --panel, --catalogue interrogent le compte, en lecture)
+verifier_chitchats.js  lots, étiquettes, remboursements, codes postaux
+verifier_assurance.js  acheminement de l'assurance, par fournisseur
+verifier_routage.js    coter chez l'un et acheter chez l'autre est impossible
+verifier_postescanada.js  client XML direct
+verifier_production.js  suis-je en production ? (interroge les comptes)
 ```
 
 Le reste du code ne connaît **aucun transporteur** : tout passe par `lib/carrier.js`. Changer de
