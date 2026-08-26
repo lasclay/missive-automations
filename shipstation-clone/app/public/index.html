@@ -8699,6 +8699,7 @@ function dialogueCP(e) {
 VUES.reglages = async () => {
   const s = await api("/api/settings");
   const w = await api("/api/webhooks");
+  const emplacements = (await api("/api/warehouses")).warehouses || [];
   const L = await api("/api/lasclay");
   const sh = await api("/api/shopify");
   $("#vue").classList.add("ecranReglages");
@@ -8798,14 +8799,37 @@ VUES.reglages = async () => {
       <div class="barre"><select id="wev">${w.evenements.map(e => `<option>${e}</option>`).join("")}</select>
         <input id="wurl" placeholder="https://…" style="min-width:260px">
         <button id="wadd">Abonner</button></div><div id="wt"></div></div>
-    <!-- Les trois champs que ClickShip marque obligatoires des deux côtés de l'envoi. Sans
-         eux, la réservation échoue sur un « bad or missing data » qui ne nomme rien. -->
-    <div class="carte"><b>Coordonnées de l'expéditeur</b>
+    <!-- « Expédié de : LAS Capucins » doit porter les coordonnées de LAS Capucins. Les
+         emplacements venaient de la migration et n'étaient éditables nulle part — supportable
+         tant que seule l'adresse comptait, plus depuis que le transporteur exige un contact
+         joignable à la réservation. -->
+    <div class="carte"><b>Emplacements d'expédition</b>
+      <p class="doux" style="margin:2px 0 8px">L'emplacement choisi dans « Expédié de » fournit
+        l'adresse <b>et</b> les coordonnées de l'expéditeur qui partent chez le transporteur.
+        Un emplacement sans téléphone ni courriel fait refuser l'achat de l'étiquette.</p>
+      <div class="tbl" style="max-height:none"><table>
+        <thead><tr><th scope="col">Emplacement</th><th scope="col">Adresse</th>
+          <th scope="col">Contact</th><th scope="col"></th></tr></thead>
+        <tbody>${emplacements.map((e) => {
+          const a = e.origin_address || {};
+          const manques = [!a.name && "nom", !a.phone && "téléphone", !a.email && "courriel"].filter(Boolean);
+          return `<tr>
+            <td><b>${esc(e.name)}</b>${e.is_default ? ' <span class="puce v">défaut</span>' : ""}</td>
+            <td class="doux">${esc([a.street1, a.city, a.state, a.postalCode, a.country].filter(Boolean).join(", ") || "—")}</td>
+            <td>${manques.length
+              ? `<span class="puce a" title="Exigé par le transporteur à la réservation">manque ${esc(manques.join(", "))}</span>`
+              : `<span class="doux">${esc(a.name)} · ${esc(a.phone)} · ${esc(a.email)}</span>`}</td>
+            <td><button type="button" class="lienB" data-emp="${e.id}">Modifier</button></td></tr>`;
+        }).join("") || '<tr><td colspan="4" class="doux">Aucun emplacement.</td></tr>'}</tbody></table></div></div>
+
+    <!-- Repli seulement : ce qui sert quand un emplacement n'a pas encore été rempli. -->
+    <div class="carte"><b>Coordonnées de l'expéditeur — repli</b>
       <p class="doux" style="margin:2px 0 8px">Freightcom et ClickShip exigent un nom de
-        contact, un téléphone et un courriel <b>des deux côtés</b> de chaque envoi. Quand la
-        commande n'en porte pas — commande manuelle, place de marché qui masque l'acheteur —
-        ce sont ces valeurs qui partent. Le client ne reçoit rien du transporteur pour
-        autant : le suivi part d'ici.</p>
+        contact, un téléphone et un courriel <b>des deux côtés</b> de chaque envoi. Ce sont
+        d'abord ceux de l'emplacement d'expédition ci-dessus, puis ceux de la commande pour le
+        destinataire. Ces trois valeurs-ci ne servent qu'en dernier recours — pour une commande
+        manuelle sans coordonnées, ou un emplacement pas encore rempli. Le client ne reçoit
+        rien du transporteur pour autant : le suivi part d'ici.</p>
       <div class="fDeux">
         <label class="champ"><span>Nom du contact</span>
           <input id="expC" value="${esc(s.expediteur_contact || "")}" placeholder="Prénom Nom"></label>
@@ -9168,6 +9192,57 @@ VUES.reglages = async () => {
       ? "Second facteur obligatoire. Chaque employé devra le configurer à sa prochaine connexion."
       : "Second facteur redevenu facultatif.");
   };
+  /**
+   * Modifier un emplacement — l'adresse et le contact au même endroit.
+   *
+   * Le pays commande la forme du champ Province, et l'adresse se complète par Google comme
+   * partout ailleurs : un emplacement se saisit une fois, autant que ce soit au même endroit
+   * et de la même façon qu'une adresse de livraison.
+   */
+  $("#vue").querySelectorAll("[data-emp]").forEach((b) => b.onclick = () => {
+    const e = emplacements.find((x) => String(x.id) === String(b.dataset.emp));
+    if (!e) return;
+    const a = e.origin_address || {};
+    dialogue(`Emplacement — ${e.name}`, `
+      <div class="fDeux">
+        <label class="champ"><span>Nom de l'emplacement</span><input id="wN" value="${esc(e.name || "")}"></label>
+        <label class="champ"><span>Société</span><input id="wSoc" value="${esc(a.company || "")}"></label>
+        <label class="champ"><span>Adresse 1</span><input id="w1" value="${esc(a.street1 || "")}"></label>
+        <label class="champ"><span>Adresse 2</span><input id="w2" value="${esc(a.street2 || "")}"></label>
+        <label class="champ"><span>Ville</span><input id="wV" value="${esc(a.city || "")}"></label>
+        <label class="champ"><span>Pays</span><select id="wY">${optionsPays(a.country || "CA")}</select></label>
+        <label class="champ"><span>Province / État</span><span id="wPZ">${
+          champRegion("wP", (a.country || "CA").toUpperCase(), a.state || "")}</span></label>
+        <label class="champ"><span>Code postal</span><input id="wC" value="${esc(a.postalCode || "")}"></label>
+      </div>
+      <div class="avis info">Ces trois champs partent chez le transporteur à chaque étiquette
+        expédiée d'ici. Sans eux, la réservation est refusée.</div>
+      <div class="fDeux">
+        <label class="champ"><span>Nom du contact</span><input id="wCo" value="${esc(a.name || "")}"></label>
+        <label class="champ"><span>Téléphone</span><input id="wT" value="${esc(a.phone || "")}"></label>
+        <label class="champ"><span>Courriel</span><input id="wM" type="email" value="${esc(a.email || "")}"></label>
+      </div>
+      <label class="ch"><input type="checkbox" id="wD" ${e.is_default ? "checked" : ""}
+        ${e.is_default ? "disabled" : ""}> emplacement par défaut</label>`,
+      async () => {
+        await api(`/api/warehouses/${e.id}`, { method: "POST", body: {
+          name: $("#wN").value.trim(),
+          is_default: $("#wD").checked,
+          origin_address: { name: $("#wCo").value.trim(), company: $("#wSoc").value.trim(),
+            street1: $("#w1").value.trim(), street2: $("#w2").value.trim(),
+            city: $("#wV").value.trim(), state: $("#wP").value.trim(),
+            postalCode: $("#wC").value.trim(), country: $("#wY").value,
+            phone: $("#wT").value.trim(), email: $("#wM").value.trim() } } });
+        // Les référentiels en mémoire portent l'ancienne adresse : les relire évite que
+        // l'écran d'expédition continue d'afficher ce qu'on vient de corriger.
+        S.refs = await api("/api/refs");
+        toast(`Emplacement « ${$("#wN").value.trim() || e.name} » enregistré.`);
+        VUES.reglages();
+      }, "Enregistrer",
+      () => { brancherRegion("#wY", "#wP"); brancherAutoAdresse({ rue: "#w1", rue2: "#w2",
+        ville: "#wV", region: "#wP", cp: "#wC", pays: "#wY" }); });
+  });
+
   $("#expS").onclick = async () => {
     const manque = ["expC", "expT", "expM"].filter((k) => !$("#" + k).value.trim());
     await api("/api/settings", { method: "POST", body: {
