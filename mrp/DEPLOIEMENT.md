@@ -131,7 +131,7 @@ node mrp/import_bris.js --ecrire                  # ce que les clients ont signa
 tableau de production. Sans ce drapeau, dix-sept produits restent sans un seul
 point de contrôle ; avec, il n'en reste que quatre.
 
-Attendu : **196 lignes de charte sur 30 produits**, **123 points de contrôle sur
+Attendu : **207 lignes de charte sur 30 produits**, **133 points de contrôle sur
 29 produits**, puis **26 signalements, 24 avec photo** — 16 sur le sac à
 dos glacière, dont dix fois la même couture de bretelle. Les photos ne sont pas
 hébergées ici : ce sont des adresses, et **Produits → Ce qui casse** les demande

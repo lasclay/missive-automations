@@ -109,7 +109,8 @@ const R = {
                   WHEN 'brouillon' THEN 2 WHEN 'termine' THEN 3 ELSE 4 END,
       cree_le DESC`),
   ordre: db.prepare(`SELECT * FROM ordres WHERE id = ?`),
-  items: db.prepare(`SELECT i.*, p.nom AS produit_nom, p.code AS produit_code
+  items: db.prepare(`SELECT i.*,
+      COALESCE(NULLIF(p.nom_court, ''), p.nom) AS produit_nom, p.code AS produit_code
       FROM ordre_items i JOIN produits p ON p.id = i.produit_id
       WHERE i.ordre_id = ? ORDER BY i.rang, i.id`),
   item: db.prepare(`SELECT * FROM ordre_items WHERE id = ? AND ordre_id = ?`),
@@ -126,12 +127,14 @@ const R = {
   commentaires: db.prepare(`SELECT c.*, u.nom AS auteur FROM ordre_commentaires c
       LEFT JOIN utilisateurs u ON u.id = c.utilisateur_id
       WHERE c.ordre_id = ? ORDER BY c.cree_le DESC`),
-  produitsActifs: db.prepare(`SELECT id, code, nom FROM produits WHERE actif = 1
-      ORDER BY nom`),
+  produitsActifs: db.prepare(`SELECT id, code,
+      COALESCE(NULLIF(nom_court, ''), nom) AS nom FROM produits WHERE actif = 1
+      ORDER BY 3`),
   produitsListe: db.prepare(`SELECT p.*,
       (SELECT url FROM produit_photos f WHERE f.produit_id = p.id
          ORDER BY CASE type WHEN 'studio' THEN 0 ELSE 1 END, rang, id LIMIT 1) AS photo
-      FROM produits p WHERE p.actif = 1 ORDER BY p.nom`),
+      FROM produits p WHERE p.actif = 1
+     ORDER BY COALESCE(NULLIF(p.nom_court, ''), p.nom)`),
   produit: db.prepare(`SELECT * FROM produits WHERE id = ?`),
   photos: db.prepare(`SELECT * FROM produit_photos WHERE produit_id = ?
       ORDER BY rang, id`),

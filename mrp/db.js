@@ -407,6 +407,15 @@ for (const sql of [
   }
 }
 try { db.exec(`ALTER TABLE qc_controles ADD COLUMN pieces INTEGER`); } catch { /* déjà là */ }
+// Le nom d'usage, celui que tout le monde dit : « Manteau 3 saisons ». Le
+// champ `nom` porte le titre Shopify, écrit pour vendre — « Manteau hivernal
+// isolé à l'asclépiade » — et deux produits différents peuvent y avoir des
+// titres qu'on confond. Le nom court vient de correspondances.tsv, qui est la
+// liste de production ; il est vide tant que l'import ne l'a pas rempli, et
+// l'affichage retombe alors sur `nom`.
+try { db.exec(`ALTER TABLE produits ADD COLUMN nom_court TEXT NOT NULL DEFAULT ''`); }
+catch { /* déjà là */ }
+
 // Un point de mesure sans schéma se discute : « 24 cm » de quoi à quoi ? Le
 // schéma de la charte tranche. Une ADRESSE, comme partout — l'app n'héberge
 // rien, et le CDN sert l'image redimensionnée.
@@ -516,7 +525,7 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
     SELECT i.id, i.ordre_id, i.produit_id, i.quantite, i.avancement, i.note,
            i.priorite, i.maj_le,
            o.numero, o.titre AS ordre_titre, o.statut,
-           p.code, p.nom, p.famille, p.fabrication,
+           p.code, ${NOM_PRODUIT} AS nom, p.famille, p.fabrication,
            (SELECT MIN(date) FROM ordre_jalons j
              WHERE j.ordre_id = o.id AND j.date >= date('now')) AS echeance,
            (SELECT COUNT(*) FROM ordre_jalons j
@@ -559,7 +568,7 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
 function dernieresMaj(limite = 30) {
   return db.prepare(`
     SELECT h.avant, h.apres, h.cree_le,
-           u.nom AS auteur, p.code, p.nom, o.numero, o.titre AS ordre_titre,
+           u.nom AS auteur, p.code, ${NOM_PRODUIT} AS nom, o.numero, o.titre AS ordre_titre,
            i.ordre_id, i.id AS item_id
     FROM avancement_historique h
     JOIN ordre_items i ON i.id = h.item_id
@@ -579,7 +588,7 @@ function dernieresMaj(limite = 30) {
 function sansMouvement(jours = 7) {
   return db.prepare(`
     SELECT i.id, i.ordre_id, i.quantite, i.avancement, i.maj_le, i.priorite,
-           o.numero, o.titre AS ordre_titre, p.code, p.nom,
+           o.numero, o.titre AS ordre_titre, p.code, ${NOM_PRODUIT} AS nom,
            CAST(julianday('now') - julianday(i.maj_le) AS INTEGER) AS jours_sans_maj
     FROM ordre_items i
     JOIN ordres o   ON o.id = i.ordre_id
@@ -607,7 +616,7 @@ const LIEUX = { tunisie: 'Tunisie', chine: 'Chine' };
  */
 function fabriqueAilleurs() {
   return db.prepare(`
-    SELECT i.id, i.quantite, i.avancement, p.code, p.nom, p.fabrication,
+    SELECT i.id, i.quantite, i.avancement, p.code, ${NOM_PRODUIT} AS nom, p.fabrication,
            o.numero, i.ordre_id
     FROM ordre_items i
     JOIN ordres o   ON o.id = i.ordre_id
@@ -701,6 +710,18 @@ function echantillon(point, quantite) {
       return { pieces: null, texte: '' };
   }
 }
+
+/**
+ * Le nom d'usage d'un produit, dans une requête.
+ *
+ * `produits.nom` porte le titre Shopify, écrit pour vendre : « Manteau
+ * hivernal isolé à l'asclépiade ». `nom_court` porte celui de la liste de
+ * production, celui que l'atelier dit : « Manteau 3 saisons ». Partout où on
+ * affiche une LIGNE, c'est le second qu'on veut — deux manteaux dont les
+ * titres Shopify ne diffèrent que par un mot ne se distinguent pas dans une
+ * liste. Le titre Shopify reste sur la fiche, qui montre les deux.
+ */
+const NOM_PRODUIT = `COALESCE(NULLIF(p.nom_court, ''), p.nom)`;
 
 /** Le protocole d'un produit, groupé par volet. */
 function protocole(produitId, { generalCompris = true } = {}) {
@@ -819,7 +840,7 @@ function brisParPoint(produitId) {
  */
 function murDesBris({ produitId = null } = {}) {
   const l = db.prepare(`
-    SELECT b.*, p.id AS pid, p.code, p.nom AS produit_nom, q.titre AS point_titre
+    SELECT b.*, p.id AS pid, p.code, ${NOM_PRODUIT} AS produit_nom, q.titre AS point_titre
       FROM qc_bris b
       LEFT JOIN produits p  ON p.id = b.produit_id
       LEFT JOIN qc_points q ON q.id = b.point_id
@@ -878,7 +899,7 @@ function zonesFragiles({ limite = 12 } = {}) {
 function nonConformites({ produitId = null, limite = 50 } = {}) {
   return db.prepare(`
     SELECT c.*, q.titre AS point_titre, q.type AS point_type,
-           p.id AS produit_id, p.code, p.nom AS produit_nom,
+           p.id AS produit_id, p.code, ${NOM_PRODUIT} AS produit_nom,
            o.numero, u.nom AS auteur
       FROM qc_controles c
       JOIN qc_points q    ON q.id = c.point_id
@@ -912,7 +933,7 @@ const protocoleGeneral = () => db.prepare(
  */
 function couvertureQC({ lieu = 'tunisie' } = {}) {
   return db.prepare(`
-    SELECT p.id, p.code, p.nom, p.famille, p.fabrication,
+    SELECT p.id, p.code, ${NOM_PRODUIT} AS nom, p.famille, p.fabrication,
            COUNT(q.id) AS points,
            SUM(CASE WHEN q.type = 'critique' THEN 1 ELSE 0 END) AS critiques,
            SUM(CASE WHEN q.type = 'probleme' THEN 1 ELSE 0 END) AS problemes,
@@ -954,7 +975,7 @@ const memeVariante = (etiquette, v) => {
 
 function checklistItem(itemId) {
   const it = db.prepare(
-    `SELECT i.*, p.code, p.nom FROM ordre_items i
+    `SELECT i.*, p.code, ${NOM_PRODUIT} AS nom FROM ordre_items i
        JOIN produits p ON p.id = i.produit_id WHERE i.id = ?`).get(itemId);
   if (!it) return null;
   // Les variantes du lot : une mesure de taille L s'échantillonne sur les

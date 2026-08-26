@@ -1368,7 +1368,7 @@ function vueProduits({ user, produits, msg }) {
     ${produits.map(p => `<a class="vignette" href="/produits/${p.id}">
       ${p.photo ? img(p.photo, { largeur: TAILLES.vignette, alt: p.nom })
                 : `<div class="sans-photo">Pas de photo</div>`}
-      <div class="b"><b>${e(p.nom)}</b>
+      <div class="b"><b>${e(p.nom_court || p.nom)}</b>
         <span class="muted">${e(p.code)}</span></div>
     </a>`).join('')}
   </div>` : `<div class="carte"><p class="vide">Aucune fiche produit.</p></div>`}`;
@@ -1393,7 +1393,9 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
   const corps = `
   ${sousNavProduits('fiches')}
   <div class="entete"><div>
-    <h1>${e(p.nom)}</h1><p class="muted">${e(p.code)}</p>
+    <h1>${e(p.nom_court || p.nom)}</h1>
+    <p class="muted">${e(p.code)}${p.nom_court && p.nom !== p.nom_court
+      ? ` · vendu sous « ${e(p.nom)} »` : ''}</p>
   </div>${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}</div>
 
   ${charte && !charte.vide ? `<div class="carte">
@@ -1470,11 +1472,11 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
        <td><span class="et et-${o.statut}">${STATUTS[o.statut]}</span></td>
      </tr>`).join('')}
      </table></div></div>` : ''}`;
-  return page({ titre: p.nom, user, corps, actif: 'produits', msg });
+  return page({ titre: p.nom_court || p.nom, user, corps, actif: 'produits', msg });
 }
 
 function vueProduitForm({ user, p = null, photos = [], materiaux = [], patrons = [], msg }) {
-  const t = p ? `Modifier ${p.nom}` : 'Nouvelle fiche produit';
+  const t = p ? `Modifier ${p.nom_court || p.nom}` : 'Nouvelle fiche produit';
   const ligneRepetee = (n, champs) => champs;
 
   const corps = `
