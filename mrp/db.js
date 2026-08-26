@@ -261,6 +261,10 @@ CREATE TABLE IF NOT EXISTS qc_bris (
   origine       TEXT NOT NULL DEFAULT 'client'
                 CHECK (origine IN ('client','atelier','retour','essai')),
   texte         TEXT NOT NULL DEFAULT '',   -- le commentaire, mot pour mot
+  -- Une ou plusieurs adresses, séparées par une espace : un client envoie
+  -- souvent trois clichés du même bris — de loin, de près, retourné. Des
+  -- ADRESSES, jamais un fichier : l'app n'héberge rien et le CDN de la source
+  -- sert les images redimensionnées, ce qui compte sur la ligne tunisienne.
   photo_url     TEXT NOT NULL DEFAULT '',
   survenu_le    TEXT,                       -- AAAA-MM-JJ, quand c'est arrivé
   -- Le point du protocole que ce bris a fait écrire, s'il y en a un. NULL =

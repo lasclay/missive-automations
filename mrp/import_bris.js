@@ -41,10 +41,12 @@ const produit = db.prepare(`SELECT id, code FROM produits WHERE code = ?`);
 const existe = db.prepare(`SELECT id FROM qc_bris WHERE source_ref = ?`);
 const insere = db.prepare(`INSERT INTO qc_bris (produit_id, zone, origine, texte,
   photo_url, survenu_le, source_ref, cree_par) VALUES (?,?,?,?,?,?,?,NULL)`);
+// La mise à jour reprend aussi les photos : elles arrivent après la relecture,
+// dans un second passage, sur des lignes déjà importées.
 const maj = db.prepare(`UPDATE qc_bris SET produit_id = ?, zone = ?, texte = ?,
-  survenu_le = ? WHERE id = ?`);
+  survenu_le = ?, photo_url = ? WHERE id = ?`);
 
-let ajoutes = 0, majs = 0, sautes = 0, sansProduit = [], sansZone = 0;
+let ajoutes = 0, majs = 0, sautes = 0, sansProduit = [], sansZone = 0, avecPhoto = 0;
 const parProduit = {};
 
 for (const r of rangs) {
@@ -55,9 +57,15 @@ for (const r of rangs) {
   parProduit[p.code] = (parProduit[p.code] || 0) + 1;
   const ref = `missive:${r.conv}`;
   const deja = existe.get(ref);
+  // Plusieurs clichés du même bris tiennent dans la colonne, séparés par une
+  // espace : de loin, de près, la doublure retournée. L'app n'héberge rien —
+  // ce sont des adresses, et le CDN les sert redimensionnées.
+  const photos = (r.photos || '').trim();
+  if (photos) avecPhoto++;
   if (ECRIRE) {
-    if (deja) { maj.run(p.id, r.zone || '', r.citation || '', r.date || null, deja.id); majs++; }
-    else { insere.run(p.id, r.zone || '', SOURCE_ORIGINE, r.citation || '', '',
+    if (deja) { maj.run(p.id, r.zone || '', r.citation || '', r.date || null,
+                        photos, deja.id); majs++; }
+    else { insere.run(p.id, r.zone || '', SOURCE_ORIGINE, r.citation || '', photos,
                       r.date || null, ref); ajoutes++; }
   } else { deja ? majs++ : ajoutes++; }
 }
@@ -67,6 +75,7 @@ console.log(`  ${ajoutes} nouveaux, ${majs} mis à jour, ${sautes} non retenus`)
 if (sansProduit.length)
   console.log(`  ${sansProduit.length} sans produit reconnu : `
     + [...new Set(sansProduit)].join(', '));
+console.log(`  ${avecPhoto} avec au moins une photo`);
 if (sansZone) console.log(`  ${sansZone} sans zone — c'est la colonne la plus utile, `
   + 'elle montre qu\'une même couture lâche sur plusieurs produits');
 console.log('');

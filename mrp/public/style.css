@@ -326,6 +326,11 @@ textarea{min-height:70px;resize:vertical}
 .mur-consigne{margin:0;font-size:12.5px;color:var(--vert);font-weight:600}
 .mur-nu{margin:0;font-size:12.5px;color:var(--ambre);font-weight:600}
 .mur-sans{background:var(--fond)}
+/* Les vues supplémentaires du même bris : de loin, de près, retourné. Petites,
+   parce que la première photo porte déjà le constat — celles-ci le précisent. */
+.mur-plus{display:flex;gap:4px;padding:4px 4px 0;background:var(--carte)}
+.mur-plus a{flex:1 1 0;min-width:0;display:block;border-radius:4px;overflow:hidden}
+.mur-plus img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
 
 /* ---------- ce qui casse : la preuve de terrain ----------
    Le commentaire du client est cité tel quel et la photo est petite mais
@@ -338,6 +343,12 @@ textarea{min-height:70px;resize:vertical}
 .br-photo{flex:0 0 auto;display:block;width:78px;height:78px;border-radius:6px;
   overflow:hidden;background:var(--media)}
 .br-photo img{width:100%;height:100%;object-fit:cover;display:block}
+/* « 3 » sur la vignette : il y a d'autres clichés du même bris, cliquer les
+   ouvre. Le compteur évite de faire croire qu'une seule photo existe. */
+.br-photo{position:relative}
+.br-n{position:absolute;right:3px;bottom:3px;min-width:16px;height:16px;padding:0 4px;
+  border-radius:99px;background:rgba(0,0,0,.68);color:#fff;font-size:10px;
+  font-weight:700;line-height:16px;text-align:center}
 .br-quoi{flex:1;min-width:0}
 .br-tete{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .br-tete b{font-weight:600}

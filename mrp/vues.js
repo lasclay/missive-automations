@@ -76,6 +76,19 @@ function urlAcceptable(u) {
   catch { return false; }
 }
 
+/**
+ * Les photos d'un bris, dans l'ordre où le client les a envoyées.
+ *
+ * Un même signalement arrive souvent avec trois clichés de la même couture :
+ * de loin, de près, la doublure retournée. Les trois ont de la valeur — c'est
+ * ce qui fait comprendre le bris à quelqu'un qui n'a jamais tenu la pièce —
+ * donc `photo_url` accepte plusieurs adresses séparées par une espace. Une
+ * seule adresse, le cas courant, ressort en liste d'un élément.
+ */
+function photosBris(u) {
+  return String(u || '').trim().split(/\s+/).filter(urlAcceptable);
+}
+
 /** Largeurs demandées selon le contexte d'affichage. */
 const TAILLES = { mini: 160, vignette: 320, galerie: 640 };
 
@@ -631,10 +644,12 @@ const ORIGINES = { client: 'Client', atelier: 'Atelier', retour: 'Retour',
  * de phrase qui fait écrire une consigne.
  */
 function ligneBris({ b, produitId, editable }) {
+  const ph = photosBris(b.photo_url);
   return `<li class="br${b.point_id ? '' : ' br-nu'}">
-    ${b.photo_url ? `<a class="br-photo" href="${e(b.photo_url)}" rel="noopener">
-      <img src="${e(urlImage(b.photo_url, 160))}" alt="Bris signalé${
-        b.zone ? ' — ' + e(b.zone) : ''}" loading="lazy"></a>` : ''}
+    ${ph.length ? `<a class="br-photo" href="${e(ph[0])}" rel="noopener">
+      <img src="${e(urlImage(ph[0], 160))}" alt="Bris signalé${
+        b.zone ? ' — ' + e(b.zone) : ''}" loading="lazy">${
+      ph.length > 1 ? `<span class="br-n">${ph.length}</span>` : ''}</a>` : ''}
     <div class="br-quoi">
       <div class="br-tete">
         <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
@@ -681,12 +696,18 @@ function vueMur({ user, msg, groupes }) {
   const total = groupes.reduce((n, g) => n + g.bris.length, 0);
   const photos = groupes.reduce((n, g) => n + g.photos, 0);
 
-  const carte = (b) => `<figure class="mur-c${b.photo_url ? '' : ' mur-sans'}">
-    ${b.photo_url
-      ? `<a href="${e(b.photo_url)}" rel="noopener">
-           <img src="${e(urlImage(b.photo_url, 640))}" loading="lazy"
+  const carte = (b) => {
+    const ph = photosBris(b.photo_url);
+    return `<figure class="mur-c${ph.length ? '' : ' mur-sans'}">
+    ${ph.length
+      ? `<a href="${e(ph[0])}" rel="noopener">
+           <img src="${e(urlImage(ph[0], 640))}" loading="lazy"
                 alt="${e(b.zone || 'Bris signalé')}"></a>`
       : ''}
+    ${ph.length > 1 ? `<div class="mur-plus">${ph.slice(1).map((u, i) => `
+      <a href="${e(u)}" rel="noopener"><img src="${e(urlImage(u, 160))}"
+         loading="lazy" alt="${e(b.zone || 'Bris signalé')} — vue ${i + 2}"></a>`
+      ).join('')}</div>` : ''}
     <figcaption>
       <div class="mur-tete">
         <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
@@ -699,6 +720,7 @@ function vueMur({ user, msg, groupes }) {
         : '<p class="mur-nu">Aucune consigne n\'en découle encore</p>'}
     </figcaption>
   </figure>`;
+  };
 
   const corps = `
   <div class="entete"><div><h1>Ce que les clients ont vu</h1>

@@ -1081,6 +1081,42 @@ t("l'atelier peut consulter le suivi",
     t(`${h} h donne « ${attendu} »`, S.moment(h) === attendu, S.moment(h));
 }
 
+// ---------------------------- plusieurs clichés d'un même bris
+{
+  const V = require('../vues.js');
+  // Trois photos de la même couture : de loin, de près, retournée. Le client
+  // les envoie ensemble, elles doivent rester ensemble.
+  const b = { id: 1, origine: 'client', zone: 'couture de bretelle',
+    texte: 'La bretelle s\'est décousue', survenu_le: '2026-07-04',
+    photo_url: 'https://drive.google.com/file/d/AAA1/view '
+             + 'https://drive.google.com/file/d/BBB2/view '
+             + 'https://drive.google.com/file/d/CCC3/view' };
+  const html = V.vueMur({ user: admin, groupes: [
+    { id: 1, code: 'GL-30', nom: 'Sac à dos glacière', bris: [b], photos: 1,
+      sansConsigne: 1, zones: [] }] });
+
+  t('la première photo est demandée en grand',
+    html.includes('lh3.googleusercontent.com/d/AAA1=w640'));
+  t('les autres suivent en vignettes',
+    html.includes('lh3.googleusercontent.com/d/BBB2=w160')
+    && html.includes('lh3.googleusercontent.com/d/CCC3=w160'));
+  t('aucune photo n\'est servie en taille d\'origine',
+    !/lh3\.googleusercontent\.com\/d\/[A-Z0-9]+["' ]/.test(html));
+
+  // Une adresse unique, le cas courant, ne doit pas produire de bande vide.
+  const seule = V.vueMur({ user: admin, groupes: [
+    { id: 1, code: 'GL-30', nom: 'Sac', photos: 1, sansConsigne: 0, zones: [],
+      bris: [{ ...b, photo_url: 'https://drive.google.com/file/d/AAA1/view' }] }] });
+  t('une seule photo ne crée pas de bande de vignettes',
+    !seule.includes('mur-plus'));
+
+  // Une « data: » URI ferait porter l'image entière à chaque page servie.
+  const sale = V.vueMur({ user: admin, groupes: [
+    { id: 1, code: 'GL-30', nom: 'Sac', photos: 0, sansConsigne: 0, zones: [],
+      bris: [{ ...b, photo_url: 'data:image/png;base64,iVBOR' }] }] });
+  t('une « data: » URI est écartée du rendu', !sale.includes('data:image'));
+}
+
 const inconnu = ex('outil_qui_nexiste_pas', {}, c);
 t('outil inconnu signalé sans planter', Boolean(inconnu.erreur));
 

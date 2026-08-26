@@ -156,18 +156,45 @@ const MOTS_BRIS = new RegExp([
 const SIGNATURE = new RegExp(
   '\\s*(?:' + [
     'Envoyé de mon\\b', 'Sent from my\\b', 'Envoyé à partir de\\b',
+    'Téléchargez Outlook pour\\b', 'Obtenir Outlook pour\\b',
     'Merci (?:et )?(?:meilleures |bien )?(?:salutations|cordialement)',
     'Bien à vous', 'Cordialement', 'Au plaisir', 'Salutations distinguées',
   ].join('|') + ')[\\s\\S]*$', 'i');
 
-function anonymiser(t) {
-  return String(t || '')
+/** Échappe une chaîne pour l'insérer telle quelle dans une expression. */
+function echappe(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+/**
+ * @param {string} t     le texte à nettoyer
+ * @param {string[]} noms  les noms que Missive donne aux auteurs du fil.
+ *   La signature ne couvre pas tout : bien des clients terminent par leur
+ *   nom seul, sans formule. On ne devine pas ces noms — on prend ceux que
+ *   Missive a déjà enregistrés, et chacun de leurs éléments.
+ */
+function anonymiser(t, noms = []) {
+  let s = String(t || '');
+  const bouts = new Set();
+  for (const n of noms) {
+    const propre = String(n || '').trim();
+    if (!propre || propre.includes('@')) continue;
+    bouts.add(propre);
+    // « Le », « De », « Van » : trop courts ou trop communs pour être
+    // retirés sans mutiler des phrases entières.
+    for (const b of propre.split(/[\s-]+/)) if (b.length >= 3) bouts.add(b);
+  }
+  for (const b of [...bouts].sort((a, z) => z.length - a.length))
+    s = s.replace(new RegExp(`\\b${echappe(b)}\\b`, 'gi'), '');
+
+  return s
     .replace(SIGNATURE, '')
     .replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, '[courriel]')
     .replace(/\bL-?\s?\d{4,}\b/gi, '[commande]')
     .replace(/\b(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/g, '[téléphone]')
     .replace(/\b[A-Z]\d[A-Z][\s-]?\d[A-Z]\d\b/g, '[code postal]')
-    .trim();
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+([,.!?])/g, '$1')
+    .trim()
+    .replace(/^[,;\s-]+|[,;\s-]+$/g, '');
 }
 
 /**
@@ -248,6 +275,11 @@ function trier() {
     if (propre.length < 15 && !MOTS_BRIS.test(c.sujet || '')) { tropCourt++; continue; }
     if (!MOTS_BRIS.test(`${c.sujet || ''} ${propre}`)) { sansBris++; continue; }
 
+    // Les noms sous lesquels Missive connaît les correspondants du fil :
+    // c'est ce qu'on retire des citations. L'atelier tunisien lit le
+    // problème, pas l'identité de la personne.
+    const noms = [...new Set(duClient.map(m => m.from).filter(Boolean))];
+
     const images = [];
     for (const m of c.messages || [])
       for (const a of m.attachments || [])
@@ -257,8 +289,8 @@ function trier() {
       conv: c.id,
       produit: devinerProduit(c, propre),
       date: premier.date || '',
-      sujet: anonymiser(c.sujet || ''),
-      citation: anonymiser(texte).slice(0, 600),
+      sujet: anonymiser(c.sujet || '', noms),
+      citation: anonymiser(texte, noms).slice(0, 600),
       images: images.join(' '),
       etiquettes: (c.etiquettes || []).join(' | '),
     });
@@ -328,7 +360,15 @@ function photos() {
         // de zéro octet, et un compteur qui annonce un succès.
         const dest = path.join(dossier, `${nom}.tmp`);
         const r2 = missive('attachment', messageId, attachmentId, dest);
-        const ext = (r2.filename || '').split('.').pop() || 'jpg';
+        // L'extension annoncée ment : une capture d'écran iPhone arrive sous
+        // « .jpeg » avec un contenu PNG, et le pousseur Drive vérifie la
+        // signature avant d'écrire — il refuse le fichier. On se fie au type
+        // que Missive donne, et à l'extension seulement en dernier recours.
+        const MIME = { 'image/jpeg': 'jpg', 'image/png': 'png',
+                       'image/webp': 'webp', 'image/heic': 'heic',
+                       'image/gif': 'gif' };
+        const ext = MIME[String(r2.media_type || '').toLowerCase()]
+                 || (r2.filename || '').split('.').pop() || 'jpg';
         const fin = path.join(dossier, `${nom}.${ext.toLowerCase()}`);
         fs.renameSync(dest, fin);
         const taille = fs.statSync(fin).size;
@@ -340,14 +380,83 @@ function photos() {
   console.error(`\n  ${pris} photos téléchargées, ${rates} en échec → ${dossier}`);
 }
 
+// --------------------------------------------------------------- liens
+/**
+ * Écrit dans le TSV l'adresse web de chaque photo déposée.
+ *
+ * `photos` télécharge les pièces jointes sous un nom qui porte le fil et la
+ * pièce : « GLACIERE_4e3af036_37319087.jpg ». L'hébergeur, lui, rend un
+ * identifiant par fichier. Ce couple suffit à rebrancher chaque adresse sur
+ * la bonne ligne, sans que l'application n'héberge un seul octet.
+ *
+ * Le fichier d'identifiants est un TSV « nom<TAB>identifiant Drive », tel que
+ * le rend le dépôt en lot.
+ *
+ *   node bris_missive.js liens <ids.tsv> <bris.tsv>
+ */
+function liens() {
+  const args = process.argv.slice(3).filter(a => a.endsWith('.tsv'));
+  if (args.length < 2) {
+    console.error('Il faut le TSV des identifiants puis le TSV des bris.');
+    process.exit(1);
+  }
+  const [fIds, fBris] = args;
+
+  // « PRODUIT_conv8_piece8.ext » → identifiant. On garde les huit caractères
+  // de la pièce : c'est ce qui distingue deux photos du même fil.
+  const parPiece = {};
+  for (const l of fs.readFileSync(fIds, 'utf8').trim().split('\n')) {
+    const [nom, id] = l.split('\t');
+    if (!nom || !id) continue;
+    const m = nom.match(/_([0-9a-f]{8})_([0-9a-f]{8})\.[^.]+$/i);
+    if (m) parPiece[`${m[1]}_${m[2]}`] = id.trim();
+  }
+
+  const brut = fs.readFileSync(fBris, 'utf8').split('\n');
+  const iEntete = brut.findIndex(l => l.startsWith('garder\t'));
+  if (iEntete < 0) { console.error('En-tête « garder » introuvable.'); process.exit(1); }
+  const cols = brut[iEntete].split('\t');
+  if (!cols.includes('photos')) {
+    cols.push('photos');
+    brut[iEntete] = cols.join('\t');
+  }
+  const iPhotos = cols.indexOf('photos');
+  const iImages = cols.indexOf('images');
+  const iConv = cols.indexOf('conv');
+
+  let remplies = 0, manquantes = 0;
+  for (let i = iEntete + 1; i < brut.length; i++) {
+    if (!brut[i] || brut[i].startsWith('#')) continue;
+    const v = brut[i].split('\t');
+    while (v.length <= iPhotos) v.push('');
+    const images = (v[iImages] || '').trim();
+    if (!images) continue;
+    const conv8 = (v[iConv] || '').slice(0, 8);
+    const urls = [];
+    for (const paire of images.split(/\s+/)) {
+      const piece = (paire.split(':')[1] || '').slice(0, 8);
+      const id = parPiece[`${conv8}_${piece}`];
+      if (id) urls.push(`https://drive.google.com/file/d/${id}/view`);
+      else manquantes++;
+    }
+    if (urls.length) { v[iPhotos] = urls.join(' '); remplies++; }
+    brut[i] = v.join('\t');
+  }
+  fs.writeFileSync(fBris, brut.join('\n'));
+  console.error(`\n  ${remplies} lignes pourvues d'au moins une adresse`
+    + (manquantes ? `, ${manquantes} pièces sans dépôt correspondant` : ''));
+}
+
 const cmd = process.argv[2];
 if (cmd === 'collecte') collecte();
 else if (cmd === 'trier') trier();
 else if (cmd === 'photos') photos();
+else if (cmd === 'liens') liens();
 else {
   console.error(`Usage :
   node bris_missive.js collecte [--gisement=rd|retours|tout]
   node bris_missive.js trier    > mrp/donnees/bris-missive.tsv
-  node bris_missive.js photos <dossier> <tsv-relu>`);
+  node bris_missive.js photos <dossier> <tsv-relu>
+  node bris_missive.js liens  <ids.tsv> <tsv-relu>`);
   process.exit(1);
 }
