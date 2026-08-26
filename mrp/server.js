@@ -30,7 +30,8 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         protocole, couvertureQC, TYPES_QC,
         checklistItem, blocageQC, etatQCOrdre,
         protocoleGeneral, echantillon, lireTableauTailles,
-        brisProduit, brisParPoint, zonesFragiles, nonConformites } = require('./db.js');
+        brisProduit, brisParPoint, zonesFragiles, nonConformites,
+        murDesBris } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
@@ -534,6 +535,11 @@ async function router(req, res, url, user) {
         + encodeURIComponent(n ? `${n} modification${n > 1 ? 's' : ''} annulée${
             n > 1 ? 's' : ''}.` : 'Rien à annuler.'));
     }
+  }
+
+  // ---- le mur des bris : ce que l'atelier regarde
+  if (p === '/mur') {
+    return html(res, V.vueMur({ user, msg, groupes: murDesBris() }));
   }
 
   // ---- contrôle qualité : le protocole de chaque produit

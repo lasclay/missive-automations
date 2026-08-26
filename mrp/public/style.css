@@ -295,6 +295,38 @@ textarea{min-height:70px;resize:vertical}
 .qc-court li{margin-bottom:6px;line-height:1.45}
 .fil-ariane{margin:0 0 4px;font-size:12.5px;color:var(--gris)}
 
+/* ---------- le mur des bris ----------
+   La seule page de l'app ou l'image compte plus que le texte a cote. On ne
+   vient pas y chercher un chiffre : on vient comprendre pourquoi une consigne
+   existe. Les photos sont donc grandes, et la citation se lit comme une
+   citation. */
+.mur-intro p{margin:0;font-size:15.5px;line-height:1.6;max-width:74ch}
+.mur-g{padding-bottom:8px}
+.mur-g-tete{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.mur-g-tete h2{margin:0}
+.mur-n{margin-left:auto;font-size:12.5px;color:var(--gris);white-space:nowrap}
+.mur-n b{color:var(--ambre)}
+.mur-zones{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.mur-zones span{font-size:12px;padding:2px 9px;border-radius:99px;
+  background:var(--rouge-pale);color:var(--rouge);font-weight:600}
+.mur-zones b{font-variant-numeric:tabular-nums}
+.mur{display:grid;gap:16px;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))}
+.mur-c{margin:0;border:1px solid var(--ligne);border-radius:8px;overflow:hidden;
+  background:var(--carte);display:flex;flex-direction:column}
+.mur-c img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
+  background:var(--media)}
+.mur-c figcaption{padding:11px 13px;display:flex;flex-direction:column;gap:6px}
+.mur-tete{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+/* Une citation se lit comme une citation : guillemets, italique, respiration. */
+.mur-c blockquote{margin:0;font-style:italic;line-height:1.5;font-size:14px;
+  color:var(--encre);border-left:2px solid var(--ligne);padding-left:10px}
+.mur-c blockquote::before{content:'\00ab\00a0'}
+.mur-c blockquote::after{content:'\00a0\00bb'}
+.mur-consigne{margin:0;font-size:12.5px;color:var(--vert);font-weight:600}
+.mur-nu{margin:0;font-size:12.5px;color:var(--ambre);font-weight:600}
+.mur-sans{background:var(--fond)}
+
 /* ---------- ce qui casse : la preuve de terrain ----------
    Le commentaire du client est cité tel quel et la photo est petite mais
    présente : c'est ce qui transforme une consigne en évidence. */

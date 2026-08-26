@@ -266,6 +266,10 @@ CREATE TABLE IF NOT EXISTS qc_bris (
   -- Le point du protocole que ce bris a fait écrire, s'il y en a un. NULL =
   -- personne n'en a encore tiré de consigne : c'est la file de travail.
   point_id      INTEGER REFERENCES qc_points(id) ON DELETE SET NULL,
+  -- D'où vient le signalement quand il est importé : « missive:<convId> ».
+  -- C'est ce qui rend l'import rejouable — corriger une ligne du TSV et
+  -- relancer met à jour au lieu d'empiler un doublon.
+  source_ref    TEXT NOT NULL DEFAULT '',
   cree_par      INTEGER REFERENCES utilisateurs(id),
   cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -377,6 +381,12 @@ for (const sql of [
   }
 }
 try { db.exec(`ALTER TABLE qc_controles ADD COLUMN pieces INTEGER`); } catch { /* déjà là */ }
+try { db.exec(`ALTER TABLE qc_bris ADD COLUMN source_ref TEXT NOT NULL DEFAULT ''`); }
+catch { /* déjà là */ }
+// L'index vient APRÈS la colonne : dans le schéma il partirait avant la
+// migration et échouerait sur toute base créée avant elle.
+db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_bris_ref ON qc_bris(source_ref)
+         WHERE source_ref != ''`);
 
 /**
  * Le type « expedition » a été ajouté après coup, et SQLite ne sait pas
@@ -729,6 +739,47 @@ function brisParPoint(produitId) {
 }
 
 /**
+ * Le mur des bris : tout ce que les clients ont dit, groupé par produit.
+ *
+ * C'est la page que l'atelier regarde. Pas une liste de consignes — des
+ * phrases de gens et des photos de pièces cassées. Un ouvrier qui lit « la
+ * ganse s'est décousue après trois semaines, je m'en servais tous les jours
+ * pour aller travailler » comprend l'enjeu autrement qu'avec « renforcer
+ * l'attache ».
+ *
+ * Les produits avec photos passent devant : c'est ce qui se regarde.
+ */
+function murDesBris({ produitId = null } = {}) {
+  const l = db.prepare(`
+    SELECT b.*, p.id AS pid, p.code, p.nom AS produit_nom, q.titre AS point_titre
+      FROM qc_bris b
+      LEFT JOIN produits p  ON p.id = b.produit_id
+      LEFT JOIN qc_points q ON q.id = b.point_id
+     WHERE (? IS NULL OR b.produit_id = ?)
+     ORDER BY COALESCE(b.survenu_le, b.cree_le) DESC, b.id DESC`)
+    .all(produitId, produitId);
+
+  const par = new Map();
+  for (const b of l) {
+    const cle = b.pid || 0;
+    if (!par.has(cle)) par.set(cle, {
+      id: b.pid, code: b.code || '(produit inconnu)', nom: b.produit_nom || '',
+      bris: [], photos: 0, zones: new Map(), sansConsigne: 0 });
+    const g = par.get(cle);
+    g.bris.push(b);
+    if (b.photo_url) g.photos++;
+    if (!b.point_id) g.sansConsigne++;
+    if (b.zone) g.zones.set(b.zone.toLowerCase(),
+      (g.zones.get(b.zone.toLowerCase()) || 0) + 1);
+  }
+  return [...par.values()]
+    .map(g => ({ ...g, zones: [...g.zones.entries()]
+      .sort((a, b) => b[1] - a[1]).map(([z, n]) => ({ zone: z, n })) }))
+    // Ce qui a des photos d'abord : c'est ce qu'on vient regarder.
+    .sort((a, b) => b.photos - a.photos || b.bris.length - a.bris.length);
+}
+
+/**
  * Les zones qui cassent le plus, tous produits confondus.
  *
  * C'est la question que les commentaires clients permettent enfin de poser :
@@ -971,6 +1022,7 @@ module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    protocole, couvertureQC, TYPES_QC, echantillon,
                    protocoleGeneral, memeVariante, lireTableauTailles,
                    brisProduit, brisParPoint, zonesFragiles, nonConformites,
+                   murDesBris,
                    checklistItem, blocageQC, etatQCOrdre,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,

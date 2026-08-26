@@ -139,6 +139,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lienTaches}
     ${lien('/produits', 'Produits', 'produits')}
     ${lien('/qualite', 'Qualité', 'qualite')}
+    ${lien('/mur', 'Ce qui casse', 'mur')}
     ${lien('/cedule', 'Cédule', 'cedule')}
     ${lien('/assistant', 'Assistant', 'assistant')}
   </nav>
@@ -660,6 +661,70 @@ function ligneBris({ b, produitId, editable }) {
         ><button class="lien danger">Retirer</button></form>` : ''}
     </div>
   </li>`;
+}
+
+/**
+ * Le mur des bris — la page que l'atelier regarde.
+ *
+ * Pas un tableau de bord : des photos et des phrases de clients. Le format est
+ * délibérément différent du reste de l'app, parce que le but est différent —
+ * on ne vient pas chercher un chiffre, on vient comprendre pourquoi une
+ * consigne existe.
+ *
+ * Les photos sont grandes. C'est le seul endroit de l'app où une image compte
+ * plus que le texte à côté, et la connexion tunisienne le vaut : le CDN les
+ * sert redimensionnées, comme partout.
+ */
+function vueMur({ user, msg, groupes }) {
+  const total = groupes.reduce((n, g) => n + g.bris.length, 0);
+  const photos = groupes.reduce((n, g) => n + g.photos, 0);
+
+  const carte = (b) => `<figure class="mur-c${b.photo_url ? '' : ' mur-sans'}">
+    ${b.photo_url
+      ? `<a href="${e(b.photo_url)}" rel="noopener">
+           <img src="${e(urlImage(b.photo_url, 640))}" loading="lazy"
+                alt="${e(b.zone || 'Bris signalé')}"></a>`
+      : ''}
+    <figcaption>
+      <div class="mur-tete">
+        <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
+        ${b.zone ? `<b>${e(b.zone)}</b>` : ''}
+        ${b.survenu_le ? `<span class="br-date">${dateFR(b.survenu_le)}</span>` : ''}
+      </div>
+      ${b.texte ? `<blockquote>${e(b.texte)}</blockquote>` : ''}
+      ${b.point_titre
+        ? `<p class="mur-consigne">→ ${e(b.point_titre)}</p>`
+        : '<p class="mur-nu">Aucune consigne n\'en découle encore</p>'}
+    </figcaption>
+  </figure>`;
+
+  const corps = `
+  <div class="entete"><div><h1>Ce que les clients ont vu</h1>
+    <p class="muted">${total} signalement${total > 1 ? 's' : ''},
+      ${photos} avec photo — groupés par produit</p></div></div>
+
+  <div class="carte mur-intro">
+    <p>Ce ne sont pas des consignes. Ce sont des gens qui ont acheté une pièce
+    et qui écrivent qu'elle a cassé. Les consignes du protocole viennent de
+    là — et une couture qu'on reprend parce qu'on a vu la photo tient mieux
+    qu'une couture qu'on reprend parce que c'est écrit.</p>
+  </div>
+
+  ${groupes.length ? groupes.map(g => `<div class="carte mur-g">
+    <div class="mur-g-tete">
+      <h2>${g.id ? `<a href="/qualite/${g.id}">${e(g.code)}</a>` : e(g.code)}</h2>
+      <span class="muted">${e(g.nom)}</span>
+      <span class="mur-n">${g.bris.length} signalement${g.bris.length > 1 ? 's' : ''}${
+        g.sansConsigne ? ` · <b>${g.sansConsigne} sans consigne</b>` : ''}</span>
+    </div>
+    ${g.zones.length ? `<p class="mur-zones">${g.zones.map(z =>
+      `<span>${e(z.zone)}${z.n > 1 ? ` <b>×${z.n}</b>` : ''}</span>`).join('')}</p>` : ''}
+    <div class="mur">${g.bris.map(carte).join('')}</div>
+  </div>`).join('')
+  : `<div class="carte"><p class="vide">Aucun signalement pour l'instant.
+     <code>node bris_missive.js trier</code> en extrait de la boîte support.</p></div>`}`;
+
+  return page({ titre: 'Ce que les clients ont vu', user, corps, msg, actif: 'mur' });
 }
 
 function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }) {
@@ -1941,6 +2006,6 @@ module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
                    vuePriorites, vueSuivi, vueTaches, vueQualite, vueProtocole,
-                   vueChecklist,
+                   vueChecklist, vueMur,
                    PRIORITES, urgence,
                    STATUTS, TYPES_JALON, LIEUX, ROLES };
