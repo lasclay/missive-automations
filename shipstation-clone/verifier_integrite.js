@@ -103,6 +103,38 @@ for (const b of ["style", "script"]) {
 verifier("le document se termine par </html>", /<\/html>\s*$/.test(html),
   `finit par : ${JSON.stringify(html.slice(-40))}`);
 
+// ------------------------------------------------- contrat écran ↔ serveur
+
+/*
+ * Chaque appel de l'écran atterrit-il sur une route ?
+ *
+ * L'écran renvoyait vers « Réglages ▸ Types de colis » quand un colis n'avait pas de
+ * dimensions, et cet écran n'existait pas. Les emplacements d'expédition étaient lisibles
+ * et jamais modifiables. Deux fois le même défaut, et rien ne l'avait signalé : le fichier
+ * unique et le serveur sont écrits séparément, et rien ne tenait leur contrat.
+ *
+ * Un appel sans route ne casse pas au chargement — il casse au clic, chez la personne qui
+ * s'en sert, sur un 404 qui ne dit rien.
+ */
+const srv = fs.readFileSync(path.join(__dirname, "app", "server.js"), "utf8");
+const routes = [...srv.matchAll(/route\("(GET|POST|PUT|DELETE|PATCH) ([^"]+)"/g)].map((m) => m[2]);
+const appels = new Set();
+for (const m of html.matchAll(/api\(\s*[`"'"'"']([^`"'"'"']*\/api\/[^`"'"'"']*)/g)) appels.add(m[1]);
+for (const m of html.matchAll(/(?:fetch|window\.open)\(\s*[`"'"'"']([^`"'"'"']*\/api\/[^`"'"'"']*)/g)) appels.add(m[1]);
+
+// Les segments interpolés (`${id}`) valent n'importe quel paramètre nommé.
+const correspond = (chemin) => {
+  const segs = chemin.split("?")[0].replace(/\$\{[^}]*\}/g, ":x").split("/").filter(Boolean);
+  return routes.some((p) => {
+    const ps = p.split("/").filter(Boolean);
+    return ps.length === segs.length
+      && ps.every((s, i) => s.startsWith(":") || segs[i] === ":x" || s === segs[i]);
+  });
+};
+const orphelins = [...appels].filter((a) => !correspond(a)).sort();
+verifier(`${appels.size} appel(s) de l'écran atterrissent sur une route`, orphelins.length === 0,
+  orphelins.length ? `sans route : ${orphelins.join(", ")}` : `${routes.length} routes déclarées`);
+
 console.log("─".repeat(70));
 console.log(`\n=== ${verifs - echecs}/${verifs} vérifications passées ===\n`);
 process.exit(echecs ? 1 : 0);
