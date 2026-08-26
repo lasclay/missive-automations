@@ -178,7 +178,17 @@ async function router(req, res, url, user) {
   if (p === '/' ) {
     const ordres = R.ordresListe.all().map(o => ({
       ...o, ...avancementOrdre(o.id), prochain: R.jalonProchainOrdre.get(o.id) || null }));
-    return html(res, V.vueAccueil({ user, ordres, jalons: R.jalonsProchains.all() }));
+    // L'accueil reprend le fil en cours plutôt que d'en ouvrir un neuf : sinon
+    // « et les mitaines ? » perd son antécédent dès qu'on recharge la page.
+    const filCourant = assistant.dernierFil(user.id) || nouveauFil();
+    return html(res, V.vueAccueil({ user, ordres, jalons: R.jalonsProchains.all(),
+      ia: {
+        dispo: assistant.disponible(),
+        fil: filCourant,
+        dernier: assistant.dernierTour(user.id, filCourant),
+        annulable: outils.dernierTourAnnulable(user.id),
+        exemples: EXEMPLES[user.role] || EXEMPLES.atelier,
+      } }));
   }
 
   // ---- à fabriquer : la liste de travail, tous ordres confondus
@@ -425,6 +435,11 @@ async function router(req, res, url, user) {
       const fil = filValide(f.fil) ? f.fil : nouveauFil();
       const r = await assistant.traiter({
         demande: f.demande, user, fil });
+      // Demandé depuis l'accueil : on y retourne. Une liste blanche, pas la
+      // valeur du champ — un « retour » libre serait une redirection ouverte.
+      if (f.retour === '/')
+        return vers(res, '/' + (r.erreur && !r.tourId
+          ? '?err=' + encodeURIComponent(r.erreur) : ''));
       return vers(res, '/assistant?fil=' + encodeURIComponent(fil)
         + (r.erreur && !r.tourId ? '&err=' + encodeURIComponent(r.erreur) : '')
         + '#bas');
@@ -440,17 +455,24 @@ async function router(req, res, url, user) {
   {
     const m = p.match(/^\/assistant\/(\d+)\/annuler$/);
     if (m && req.method === 'POST') {
+      const f = await corpsFormulaire(req);
+      // Annulé depuis l'accueil : on y revient. Liste blanche, jamais la valeur
+      // brute du champ — un « retour » libre serait une redirection ouverte.
+      const base = f.retour === '/' ? '/' : '/assistant';
+      const avec = (params) => vers(res, base === '/' ? '/?' + params
+        : '/assistant?' + params);
       const t = db.prepare(`SELECT * FROM agent_tours WHERE id = ?`).get(Number(m[1]));
       // On n'annule que ses propres tours : le journal d'un autre ne se touche pas.
       if (!t || t.utilisateur_id !== user.id)
-        return vers(res, '/assistant?err=' + encodeURIComponent('Tour introuvable.'));
+        return avec('err=' + encodeURIComponent('Tour introuvable.'));
+      const dufil = base === '/' ? '' : 'fil=' + encodeURIComponent(t.fil) + '&';
       // On ne défait que le dernier : voir dernierTourAnnulable dans outils.js.
       if (outils.dernierTourAnnulable(user.id) !== t.id)
-        return vers(res, '/assistant?fil=' + encodeURIComponent(t.fil) + '&err='
+        return avec(dufil + 'err='
           + encodeURIComponent("On ne peut annuler que la dernière action de "
             + "l'assistant. Défais les plus récentes d'abord."));
       const n = outils.annulerTour(t.id);
-      return vers(res, '/assistant?fil=' + encodeURIComponent(t.fil) + '&ok='
+      return avec(dufil + 'ok='
         + encodeURIComponent(n ? `${n} modification${n > 1 ? 's' : ''} annulée${
             n > 1 ? 's' : ''}.` : 'Rien à annuler.'));
     }

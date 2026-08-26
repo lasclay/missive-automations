@@ -299,7 +299,77 @@ function vueCompte({ user, msg }) {
 }
 
 // ============================================================== tableau de bord
-function vueAccueil({ user, ordres, jalons }) {
+/**
+ * La barre de l'assistant, posée en haut de l'accueil.
+ *
+ * L'assistant a sa page, avec tout le fil. Ici on ne met que ce qui sert à
+ * démarrer : une phrase à écrire, et le dernier échange pour qu'on voie qu'il
+ * y a quelqu'un au bout. Le reste est à un lien.
+ *
+ * C'est un formulaire ordinaire — il part et la page revient. Rien à charger,
+ * rien qui casse si le JS ne s'exécute pas : l'atelier est au bout d'une
+ * connexion lente, et c'est la première chose qu'il voit en arrivant.
+ */
+function barreAssistant({ user, ia }) {
+  if (!ia) return '';
+  const { dispo, fil, dernier, annulable, exemples = [] } = ia;
+  const ecrit = dernier ? dernier.actions.filter(a => a.defaire) : [];
+  const restant = ecrit.filter(a => !a.defait);
+
+  return `<div class="carte ia">
+    <div class="ia-tete">
+      <h2>Demander à l'assistant</h2>
+      <a class="muted" href="/assistant">Tout le fil →</a>
+    </div>
+    ${dispo ? '' : `<p class="msg err">L'assistant n'est pas branché :
+      il manque <code>ANTHROPIC_API_KEY</code> côté serveur.</p>`}
+
+    <form method="post" action="/assistant" id="ia-form" class="saisie">
+      <input type="hidden" name="fil" value="${e(fil)}">
+      <input type="hidden" name="retour" value="/">
+      <label for="ia-q" class="sr">Ta demande</label>
+      <textarea id="ia-q" name="demande" rows="2" required
+        placeholder="Dis ce que tu veux faire — il l'exécute…"${
+        dispo ? '' : ' disabled'}></textarea>
+      <div class="actions-saisie">
+        <button id="ia-envoi" class="primaire"${dispo ? '' : ' disabled'}>Envoyer</button>
+      </div>
+    </form>
+
+    ${dernier ? `<div class="tour ia-dernier">
+      <p class="dem"><b>${e(user.nom)}</b> ${e(dernier.demande)}</p>
+      ${dernier.erreur ? `<p class="rep err">${e(dernier.erreur)}</p>`
+                       : `<div class="rep">${para(dernier.reponse)}</div>`}
+      ${ecrit.length ? `<div class="faits">
+        <b>${restant.length ? 'Fait' : 'Annulé'}</b>
+        <ul>${ecrit.map(a =>
+          `<li${a.defait ? ' class="off"' : ''}>${e(a.resume)}</li>`).join('')}</ul>
+        ${restant.length && dernier.id === annulable
+          ? `<form method="post" action="/assistant/${dernier.id}/annuler">
+             <input type="hidden" name="retour" value="/">
+             <button class="lien">Annuler ces ${restant.length} modification${
+               restant.length > 1 ? 's' : ''}</button></form>` : ''}
+      </div>` : ''}
+    </div>`
+    : exemples.length ? `<ul class="exemples ia-ex">${exemples.slice(0, 3).map(x =>
+        `<li><button form="ia-form" name="demande" value="${e(x)}"
+             class="lien">${e(x)}</button></li>`).join('')}</ul>` : ''}
+  </div>
+
+<script>
+(function () {
+  // Une demande peut prendre dix secondes sur la connexion tunisienne : sans
+  // ça on croit que le clic n'a pas pris, et on reclique.
+  var f = document.getElementById('ia-form'), b = document.getElementById('ia-envoi');
+  if (!f || !b) return;
+  f.addEventListener('submit', function () {
+    b.disabled = true; b.textContent = 'L\u2019assistant travaille\u2026';
+  });
+})();
+</script>`;
+}
+
+function vueAccueil({ user, ordres, jalons, ia = null }) {
   const enCours = ordres.filter(o => o.statut === 'en_cours' || o.statut === 'planifie');
   const corps = `
   <div class="entete"><div>
@@ -307,6 +377,8 @@ function vueAccueil({ user, ordres, jalons }) {
     <p class="muted">${enCours.length} ordre${enCours.length > 1 ? 's' : ''} en cours ou planifié${enCours.length > 1 ? 's' : ''}</p>
   </div>${user.role === 'admin'
     ? `<a class="btn" href="/ordres/nouveau">Nouvel ordre de production</a>` : ''}</div>
+
+  ${barreAssistant({ user, ia })}
 
   <div class="carte"><h2>Production en cours</h2>
   ${enCours.length ? `<div class="tbl"><table>

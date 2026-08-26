@@ -173,6 +173,17 @@ dire — est dans [`METHODE-SUIVI.md`](METHODE-SUIVI.md).
 - Liste des ordres de production où le produit apparaît
 
 **Assistant — il exécute, il ne fait pas que répondre**
+
+Il est **sur l'accueil**, en haut, avant tout le reste : une phrase à écrire et
+le dernier échange, avec le bouton pour annuler ce qu'il a écrit. Le fil complet
+reste sur sa page. L'accueil **reprend la conversation en cours** plutôt que
+d'en ouvrir une neuve à chaque affichage — sans ça, « et les mitaines ? » perd
+son antécédent dès qu'on recharge.
+
+C'est un formulaire ordinaire : il part, la page revient. Rien à charger, rien
+qui casse si le JS ne s'exécute pas. Le tableau de bord complet, assistant
+compris, pèse **1,6 Ko compressé**.
+
 - « Mets les cache-cous adultes à 70 % » met vraiment l'item à 70 %
 - « Crée un ordre pour 500 tuques livrables le 15 novembre » crée l'ordre,
   y ajoute l'item et pose le jalon — en une phrase, sans repasser par les

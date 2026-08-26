@@ -150,11 +150,44 @@ const FIL = 'a'.repeat(18);
   t('le tour en échec est conservé avec son erreur',
     db.prepare(`SELECT erreur FROM agent_tours WHERE id = ?`).get(r.tourId).erreur.length > 0);
 
+  // ------------------------------------------------- réponses tronquées ou refusées
+  // Une réponse coupée à max_tokens peut l'être AU MILIEU d'un tool_use : le
+  // bloc est incomplet, et le renvoyer tel quel fait rejeter le tour suivant.
+  // Si la boucle continuait, le scénario s'épuiserait et le test le dirait.
+  scenario = [{ stop_reason: 'max_tokens', content: [
+    { type: 'text', text: 'Je commence par' },
+    { type: 'tool_use', id: 'tu_coupe', name: 'creer_ordre', input: {} },
+  ] }];
+  appels = [];
+  r = await assistant.traiter({ user: admin, fil: FIL, demande: 'quelque chose de long' });
+  t('une réponse coupée arrête la boucle au lieu de renvoyer un bloc incomplet',
+    !r.erreur && appels.length === 1, `${appels.length} appel(s)`);
+  t('la troncature est dite à l\'utilisateur',
+    /coup\u00e9/i.test(r.reponse || ''), r.reponse);
+  t('aucun outil n\'a tourné sur une réponse coupée', (r.faits || []).length === 0);
+
+  // Un refus de sécurité arrive en HTTP 200 : sans test, il passerait pour une
+  // réponse vide et l'utilisateur ne saurait pas pourquoi rien ne s'est passé.
+  scenario = [{ stop_reason: 'refusal', content: [] }];
+  appels = [];
+  r = await assistant.traiter({ user: admin, fil: FIL, demande: 'quelque chose' });
+  t('un refus est expliqué, pas rendu comme une réponse vide',
+    !r.erreur && (r.reponse || '').length > 20 && appels.length === 1, r.reponse);
+
   // ------------------------------------------------------------- historique
   const fil = assistant.fil(FIL, admin.id);
   t('le fil rend les tours dans l\'ordre chronologique',
     fil.length >= 3 && fil[0].id < fil[1].id);
   t('chaque tour porte ses actions', fil[0].actions.length === 4);
+
+  // ---------------------------------------------------- le fil vu par l'accueil
+  t('le dernier fil est celui du dernier tour',
+    assistant.dernierFil(admin.id) === FIL, String(assistant.dernierFil(admin.id)));
+  t('sans aucun tour, il n\'y a pas de fil à reprendre',
+    assistant.dernierFil(999999) === null);
+  const dt = assistant.dernierTour(admin.id, FIL);
+  t('le dernier tour est bien le plus récent',
+    dt && dt.id === fil[fil.length - 1].id, dt && String(dt.id));
 
   console.log(`\n  ${ok} réussites, ${ko} échecs\n`);
   fs.rmSync(process.env.MRP_DB, { force: true });

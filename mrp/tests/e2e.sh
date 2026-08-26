@@ -171,6 +171,63 @@ curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler 
   | grep -q 'err=' && ok "assistant : tour d'autrui non annulable" \
   || ko "assistant : annulation croisée permise"
 
+# --- l'assistant sur l'accueil ------------------------------------------
+# C'est la première chose qu'on voit en arrivant : la saisie doit être là, et
+# elle doit ramener où on était, sans devenir une redirection ouverte.
+A=$(curl -s -b $CA $B/)
+echo "$A" | grep -q 'Demander à l' \
+  && ok "l'accueil porte la saisie de l'assistant" || ko "assistant absent de l'accueil"
+echo "$A" | grep -q 'action="/assistant"' \
+  && ok "la saisie de l'accueil poste vers l'assistant" || ko "formulaire mal câblé"
+echo "$A" | grep -q 'name="retour" value="/"' \
+  && ok "la saisie de l'accueil demande le retour à l'accueil" || ko "retour absent"
+
+# l'atelier aussi : c'est lui qui déclare, et il n'a pas de clavier confortable
+curl -s -b $CO $B/ | grep -q 'Demander à l' \
+  && ok "l'atelier a l'assistant sur son accueil" || ko "assistant absent pour l'atelier"
+
+# l'accueil doit REPRENDRE le fil en cours, pas en ouvrir un neuf à chaque
+# affichage — sinon « et les mitaines ? » perd son antécédent.
+MRP_DB="$DB" node --no-warnings -e "
+const {db}=require('./db.js'); const A=require('./assistant.js');
+const u=db.prepare('SELECT id FROM utilisateurs LIMIT 1').get().id;
+db.prepare('DELETE FROM agent_tours').run();
+if(A.dernierFil(u)!==null){console.error('fil fantôme');process.exit(1)}
+db.prepare(\"INSERT INTO agent_tours (utilisateur_id,fil,demande,reponse) VALUES (?,?,?,?)\")
+  .run(u,'aaaaaaaaaaaaaaaaaa','q','r');
+if(A.dernierFil(u)!=='aaaaaaaaaaaaaaaaaa'){console.error('mauvais fil');process.exit(1)}
+if(A.dernierTour(u,'aaaaaaaaaaaaaaaaaa').demande!=='q'){console.error('mauvais tour');process.exit(1)}
+" 2>&1 && ok "l'accueil reprend le dernier fil au lieu d'en ouvrir un" \
+  || ko "le fil n'est pas repris"
+
+# le dernier échange s'affiche sur l'accueil, avec ce qui a été écrit
+MRP_DB="$DB" node --no-warnings -e "
+const {db}=require('./db.js');
+const t=db.prepare('SELECT id FROM agent_tours ORDER BY id DESC LIMIT 1').get().id;
+db.prepare(\"INSERT INTO agent_actions (tour_id,outil,resume,defaire,defait) VALUES (?,?,?,?,0)\")
+  .run(t,'maj_avancement','CACHE-COU : 0 % vers 30 %','{}');" 2>/dev/null
+curl -s -b $CA $B/ | grep -q 'CACHE-COU : 0 % vers 30 %' \
+  && ok "l'accueil montre ce que l'assistant a écrit" || ko "actions absentes de l'accueil"
+
+# un « retour » libre serait une redirection ouverte : seul « / » est accepté
+R=$(curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/assistant \
+  --data 'demande=test&fil=aaaaaaaaaaaaaaaaaa&retour=https://exemple.invalide/vol')
+case "$R" in
+  *exemple.invalide*) ko "redirection ouverte : $R" ;;
+  *) ok "un retour hors liste blanche est ignoré" ;;
+esac
+
+# et le retour légitime ramène bien à l'accueil
+TID=$(MRP_DB="$DB" node --no-warnings -e "
+const {db}=require('./db.js');
+console.log(db.prepare('SELECT id FROM agent_tours ORDER BY id DESC LIMIT 1').get().id);" 2>/dev/null)
+R=$(curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/$TID/annuler \
+  --data 'retour=/')
+case "$R" in
+  */assistant*) ko "l'annulation depuis l'accueil renvoie vers /assistant ($R)" ;;
+  *) ok "annuler depuis l'accueil ramène à l'accueil" ;;
+esac
+
 # --- changer son mot de passe -------------------------------------------
 # Un mot de passe transmis par message doit pouvoir être changé par celui qui
 # le reçoit, et l'atelier n'a pas de shell.
