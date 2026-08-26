@@ -1081,6 +1081,45 @@ t("l'atelier peut consulter le suivi",
     t(`${h} h donne « ${attendu} »`, S.moment(h) === attendu, S.moment(h));
 }
 
+// ---------------------------- le nom d'usage l'emporte sur le titre Shopify
+{
+  const V = require('../vues.js');
+  const pid = db.prepare(`SELECT id FROM produits WHERE code = 'CC-ADULTE'`).get().id;
+  const avant = db.prepare(`SELECT nom, nom_court FROM produits WHERE id = ?`).get(pid);
+  db.prepare(`UPDATE produits SET nom = ?, nom_court = ? WHERE id = ?`)
+    .run("Manteau hivernal isolé à l'asclépiade", 'Manteau 3 saisons', pid);
+
+  const p = db.prepare(`SELECT * FROM produits WHERE id = ?`).get(pid);
+  const html = V.vueProduit({ user: admin, p, photos: [], materiaux: [],
+    patrons: [], ordres: [], qc: null, charte: null, bris: null });
+  t('la fiche titre avec le nom d\'usage',
+    html.includes('<h1>Manteau 3 saisons</h1>'));
+  // Le gabarit échappe l'apostrophe : on compare ce qui est réellement servi.
+  t('le titre Shopify reste visible sous le code',
+    html.includes('vendu sous « Manteau hivernal isolé à l&#39;asclépiade »'));
+
+  // Sans nom court — un produit ajouté à la main — on retombe sur `nom`.
+  db.prepare(`UPDATE produits SET nom_court = '' WHERE id = ?`).run(pid);
+  const nu = V.vueProduit({ user: admin,
+    p: db.prepare(`SELECT * FROM produits WHERE id = ?`).get(pid),
+    photos: [], materiaux: [], patrons: [], ordres: [], qc: null,
+    charte: null, bris: null });
+  t('sans nom d\'usage, le titre Shopify sert de nom',
+    nu.includes('<h1>Manteau hivernal isolé à l&#39;asclépiade</h1>'));
+  t('...et la mention « vendu sous » ne s\'affiche pas',
+    !nu.includes('vendu sous'));
+
+  // Les listes prennent le nom d'usage par la requête, pas par le gabarit.
+  db.prepare(`UPDATE produits SET nom_court = 'Manteau 3 saisons' WHERE id = ?`).run(pid);
+  const D = require('../db.js');
+  const l = D.listeFabrication().find(x => x.produit_id === pid);
+  if (l) t('la liste de fabrication porte le nom d\'usage',
+    l.nom === 'Manteau 3 saisons', l.nom);
+
+  db.prepare(`UPDATE produits SET nom = ?, nom_court = ? WHERE id = ?`)
+    .run(avant.nom, avant.nom_court, pid);
+}
+
 // ---------------------------- la liste de production montre les variantes
 {
   const V = require('../vues.js');

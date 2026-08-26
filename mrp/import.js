@@ -166,6 +166,12 @@ const lignes = corresp.map(r => {
     // les photos : deux tailles enfant rattachées au handle adulte prendraient
     // toutes les deux le nom de l'adulte, indistinguables dans la liste.
     nom: sh && r.confiance !== 'non vendu' ? sh.titre : r.produit_production,
+    // Le nom d'usage, celui de la liste de production. C'est lui qu'on affiche
+    // partout : le titre Shopify est écrit pour vendre, et deux produits y
+    // portent des titres qu'on confond — « Manteau isolé à l'asclépiade » et
+    // « Manteau hivernal isolé à l'asclépiade » ne disent pas lequel est le
+    // 3 saisons.
+    nom_court: r.produit_production || '',
     description: sh ? texte(sh.description_html || '') : '',
     usage: sh?.url_boutique ? `Fiche publique : ${sh.url_boutique}` : '',
     notes_tech: notes.join('\n\n'),
@@ -228,9 +234,9 @@ try {
 
   const trouve = db.prepare(`SELECT id FROM produits WHERE code = ?`);
   const insere = db.prepare(`INSERT INTO produits
-      (code, nom, description, usage, notes_tech, actif, famille, fabrication)
-      VALUES (?,?,?,?,?,?,?,?)`);
-  const maj = db.prepare(`UPDATE produits SET nom=?, description=?, usage=?,
+      (code, nom, nom_court, description, usage, notes_tech, actif, famille, fabrication)
+      VALUES (?,?,?,?,?,?,?,?,?)`);
+  const maj = db.prepare(`UPDATE produits SET nom=?, nom_court=?, description=?, usage=?,
       notes_tech=?, actif=?, famille=?, fabrication=?,
       maj_le=datetime('now') WHERE id=?`);
   const videPhotos = db.prepare(`DELETE FROM produit_photos WHERE produit_id=?`);
@@ -246,11 +252,11 @@ try {
     const ex = trouve.get(l.code);
     let id;
     if (ex) {
-      maj.run(l.nom, l.description, l.usage, l.notes_tech, l.actif, l.famille,
-              l.fabrication, ex.id);
+      maj.run(l.nom, l.nom_court, l.description, l.usage, l.notes_tech, l.actif,
+              l.famille, l.fabrication, ex.id);
       id = ex.id; misAJour++;
     } else {
-      id = insere.run(l.code, l.nom, l.description, l.usage,
+      id = insere.run(l.code, l.nom, l.nom_court, l.description, l.usage,
                       l.notes_tech, l.actif, l.famille, l.fabrication).lastInsertRowid;
       cree++;
     }
