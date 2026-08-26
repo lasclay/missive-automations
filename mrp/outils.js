@@ -31,7 +31,7 @@ const { urlAcceptable } = require('./vues.js');
 // pas écrit ici ne peut pas être touché par une annulation.
 const TABLES = new Set(['ordres', 'ordre_items', 'ordre_jalons',
   'ordre_commentaires', 'produits', 'produit_photos', 'produit_materiaux',
-  'produit_patrons', 'taches', 'qc_points']);
+  'produit_patrons', 'taches', 'qc_points', 'qc_bris']);
 
 // --------------------------------------------------------------- résolution
 class Refus extends Error {}
@@ -531,8 +531,16 @@ const OUTILS = [
     executer: (a) => {
       const p = resoudreProduit(a.produit);
       const proto = D.protocole(p.id);
+      const bris = D.brisProduit(p.id);
+      const terrain = bris.tous.length ? {
+        signalements: bris.tous.length,
+        sans_consigne: bris.orphelins.length,
+        derniers: bris.tous.slice(0, 5).map(b => ({
+          zone: b.zone, origine: b.origine, texte: b.texte || undefined,
+          consigne_tiree: b.point_titre || undefined })),
+      } : undefined;
       if (!proto.total)
-        return { produit: p.code, total: 0,
+        return { produit: p.code, total: 0, terrain,
           note: "Aucun protocole écrit pour ce produit. "
               + "ajouter_point_qc permet d'en écrire un." };
       const rendre = (l) => l.map(q => ({
@@ -541,11 +549,12 @@ const OUTILS = [
         mesure: q.valeur ? `${q.valeur}${q.unite ? ' ' + q.unite : ''}${
           q.tolerance ? ` ± ${q.tolerance}` : ''}` : undefined,
         variante: q.variante || undefined, frequence: q.frequence || undefined }));
-      return { produit: p.code, total: proto.total,
+      return { produit: p.code, total: proto.total, terrain,
         points_critiques: rendre(proto.par.critique),
         problemes_frequents: rendre(proto.par.probleme),
         mesures: rendre(proto.par.mesure),
-        cyclage: rendre(proto.par.cyclage) };
+        cyclage: rendre(proto.par.cyclage),
+        emballage: rendre(proto.par.emballage) };
     },
   },
   {
@@ -589,6 +598,45 @@ const OUTILS = [
         `${D.TYPES_QC[a.volet]} sur ${p.code} : « ${titre} »`,
         { table: 'qc_points', op: 'insert', id });
       return { ok: true, produit: p.code, volet: D.TYPES_QC[a.volet], titre };
+    },
+  },
+
+  {
+    nom: 'signaler_bris',
+    description: "Enregistre un bris : commentaire client, retour d'atelier, "
+      + "photo. « Une cliente écrit que la ganse de l'étui a lâché après trois "
+      + "semaines. » C'est la preuve de terrain qui fait écrire une consigne — "
+      + "garde le commentaire MOT POUR MOT, ne le reformule pas.",
+    role: 'atelier',
+    params: { type: 'object', required: ['produit','zone'], properties: {
+      produit: { type: 'string' },
+      zone: { type: 'string', description:
+        "Où ça casse : « attache de ganse », « emmanchure », « fond de sac ». "
+        + "C'est ce qui permet de voir qu'une même zone lâche sur plusieurs produits." },
+      texte: { type: 'string', description: 'Le commentaire, mot pour mot.' },
+      origine: { type: 'string', enum: ['client','atelier','retour','essai'] },
+      photo_url: { type: 'string', description: 'Adresse web d\'une photo, facultative.' },
+      survenu_le: { type: 'string', description: 'AAAA-MM-JJ, facultative.' } } },
+    executer: (a, ctx) => {
+      const p = resoudreProduit(a.produit);
+      const zone = String(a.zone || '').trim();
+      if (!zone) refuser('Il faut dire où ça casse.');
+      const url = String(a.photo_url || '').trim();
+      if (url && !urlAcceptable(url))
+        refuser('La photo doit être une adresse web (https://…), pas un fichier.');
+      if (a.survenu_le && !DATE.test(a.survenu_le))
+        refuser(`Date mal formée : « ${a.survenu_le} ». Il faut AAAA-MM-JJ.`);
+      const ORIG = ['client', 'atelier', 'retour', 'essai'];
+      const id = db.prepare(`INSERT INTO qc_bris (produit_id, zone, origine, texte,
+                    photo_url, survenu_le, cree_par) VALUES (?,?,?,?,?,?,?)`)
+        .run(p.id, zone, ORIG.includes(a.origine) ? a.origine : 'client',
+          String(a.texte || '').trim(), url, a.survenu_le || null,
+          ctx.user.id).lastInsertRowid;
+      noter(ctx, 'signaler_bris', `Bris signalé sur ${p.code} : ${zone}`,
+        { table: 'qc_bris', op: 'insert', id });
+      return { ok: true, produit: p.code, zone,
+        rappel: 'Aucune consigne n\'en découle encore. ajouter_point_qc, ou la '
+              + 'page Qualité du produit, permet d\'en tirer une.' };
     },
   },
 

@@ -243,6 +243,35 @@ CREATE TABLE IF NOT EXISTS qc_controles (
 );
 CREATE INDEX IF NOT EXISTS idx_qcc_item ON qc_controles(item_id, point_id, id);
 
+-- Ce qui casse, et où. La preuve de terrain qui justifie un point du protocole.
+--
+-- Un commentaire client, une photo de couture ouverte, un retour d'atelier :
+-- c'est de la PREUVE, pas une consigne. Plusieurs bris justifient un même
+-- point — d'où une table à part, avec un lien facultatif vers le point qu'ils
+-- ont fait écrire. « Sinon la ganse lâche » convainc mal ; « sinon la ganse
+-- lâche, 7 signalements » ne se discute pas.
+--
+-- Aucune photo n'est hébergée ici : une URL, comme partout dans l'app.
+CREATE TABLE IF NOT EXISTS qc_bris (
+  id            INTEGER PRIMARY KEY,
+  produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
+  -- L'endroit sur la pièce : emmanchure, attache de ganse, fond de sac. C'est
+  -- ce qui permet de voir qu'une même zone casse sur plusieurs produits.
+  zone          TEXT NOT NULL DEFAULT '',
+  origine       TEXT NOT NULL DEFAULT 'client'
+                CHECK (origine IN ('client','atelier','retour','essai')),
+  texte         TEXT NOT NULL DEFAULT '',   -- le commentaire, mot pour mot
+  photo_url     TEXT NOT NULL DEFAULT '',
+  survenu_le    TEXT,                       -- AAAA-MM-JJ, quand c'est arrivé
+  -- Le point du protocole que ce bris a fait écrire, s'il y en a un. NULL =
+  -- personne n'en a encore tiré de consigne : c'est la file de travail.
+  point_id      INTEGER REFERENCES qc_points(id) ON DELETE SET NULL,
+  cree_par      INTEGER REFERENCES utilisateurs(id),
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_bris_produit ON qc_bris(produit_id, point_id);
+CREATE INDEX IF NOT EXISTS idx_bris_zone    ON qc_bris(zone);
+
 -- ---------------------------------------------------------------------- tâches
 -- « Montassar me demande des choses, et vice versa. » Ces demandes-là vivaient
 -- dans Missive, dans WhatsApp, ou dans la tête de quelqu'un. Ici elles ont un
@@ -674,6 +703,78 @@ function lireTableauTailles(texte) {
   return { lignes: out, rejets };
 }
 
+/**
+ * Les bris signalés sur un produit, du plus récent au plus ancien.
+ * `orphelins` = ceux dont personne n'a encore tiré de consigne.
+ */
+function brisProduit(produitId) {
+  const l = db.prepare(`
+    SELECT b.*, u.nom AS auteur, q.titre AS point_titre
+      FROM qc_bris b
+      LEFT JOIN utilisateurs u ON u.id = b.cree_par
+      LEFT JOIN qc_points q    ON q.id = b.point_id
+     WHERE b.produit_id IS ?
+     ORDER BY COALESCE(b.survenu_le, b.cree_le) DESC, b.id DESC`).all(produitId);
+  return { tous: l, orphelins: l.filter(b => !b.point_id) };
+}
+
+/** Combien de bris appuient chaque point d'un protocole. */
+function brisParPoint(produitId) {
+  const out = {};
+  for (const r of db.prepare(
+    `SELECT point_id, COUNT(*) n FROM qc_bris
+      WHERE point_id IS NOT NULL AND produit_id IS ?
+      GROUP BY point_id`).all(produitId)) out[r.point_id] = r.n;
+  return out;
+}
+
+/**
+ * Les zones qui cassent le plus, tous produits confondus.
+ *
+ * C'est la question que les commentaires clients permettent enfin de poser :
+ * est-ce que c'est CE produit qui a un problème, ou est-ce que la même couture
+ * lâche partout ? Une zone qui revient sur cinq produits n'est pas un défaut
+ * de produit, c'est un défaut de méthode.
+ */
+function zonesFragiles({ limite = 12 } = {}) {
+  return db.prepare(`
+    SELECT b.zone,
+           COUNT(*) AS bris,
+           COUNT(DISTINCT b.produit_id) AS produits,
+           SUM(CASE WHEN b.point_id IS NULL THEN 1 ELSE 0 END) AS sans_consigne
+      FROM qc_bris b
+     WHERE b.zone != ''
+     GROUP BY LOWER(b.zone)
+     ORDER BY bris DESC, produits DESC
+     LIMIT ?`).all(limite);
+}
+
+/**
+ * Les non-conformités relevées à l'atelier sur les lots.
+ *
+ * Une case « non conforme » cochée par Montassar est une observation de
+ * terrain, au même titre qu'un commentaire client — et elle arrive plus tôt.
+ * Elle apparaît donc au même endroit.
+ */
+function nonConformites({ produitId = null, limite = 50 } = {}) {
+  return db.prepare(`
+    SELECT c.*, q.titre AS point_titre, q.type AS point_type,
+           p.id AS produit_id, p.code, p.nom AS produit_nom,
+           o.numero, u.nom AS auteur
+      FROM qc_controles c
+      JOIN qc_points q    ON q.id = c.point_id
+      JOIN ordre_items i  ON i.id = c.item_id
+      JOIN produits p     ON p.id = i.produit_id
+      JOIN ordres o       ON o.id = i.ordre_id
+      LEFT JOIN utilisateurs u ON u.id = c.utilisateur_id
+     WHERE c.verdict = 'non_conforme'
+       AND (? IS NULL OR p.id = ?)
+       -- seulement si c'est encore le dernier mot sur ce point pour ce lot
+       AND c.id = (SELECT MAX(x.id) FROM qc_controles x
+                    WHERE x.item_id = c.item_id AND x.point_id = c.point_id)
+     ORDER BY c.id DESC LIMIT ?`).all(produitId, produitId, limite);
+}
+
 /** Les points qui s'appliquent à tous les produits. */
 const protocoleGeneral = () => db.prepare(
   `SELECT q.*, u.nom AS auteur FROM qc_points q
@@ -869,6 +970,7 @@ module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    taches, tache, compteTaches, equipe,
                    protocole, couvertureQC, TYPES_QC, echantillon,
                    protocoleGeneral, memeVariante, lireTableauTailles,
+                   brisProduit, brisParPoint, zonesFragiles, nonConformites,
                    checklistItem, blocageQC, etatQCOrdre,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,

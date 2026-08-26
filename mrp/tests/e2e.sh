@@ -282,6 +282,65 @@ const{db}=require('./db.js');
 db.prepare('DELETE FROM qc_points').run();
 db.prepare('DELETE FROM qc_controles').run();" 2>/dev/null
 
+# --- ce qui casse : la preuve devient consigne ----------------------------
+PB=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT produit_id FROM ordre_items WHERE id=1').get().produit_id)" 2>/dev/null)
+
+curl -s -b $CO -o /dev/null -X POST $B/qualite/$PB/bris \
+  --data-urlencode 'zone=Attache de ganse' \
+  --data-urlencode 'texte=La ganse a lâché après trois semaines' \
+  --data 'origine=client&survenu_le=2026-08-10'
+curl -s -b $CO -o /dev/null -X POST $B/qualite/$PB/bris \
+  --data-urlencode 'zone=attache de ganse' --data 'origine=atelier'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM qc_bris').get().n)" 2>/dev/null)" = 2 ] \
+  && ok "l'atelier signale un bris" || ko "signalement non enregistré"
+
+curl -s -b $CA $B/qualite/$PB | grep -q 'La ganse a lâché' \
+  && ok "le commentaire client est cité mot pour mot" || ko "commentaire absent"
+curl -s -b $CA $B/qualite/$PB | grep -q 'sans consigne' \
+  && ok "un bris sans consigne se voit comme tel" || ko "orphelin non signalé"
+
+# une photo doit être une URL : jamais une image embarquée dans la base
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PB/bris \
+  --data 'zone=X' --data-urlencode 'photo_url=data:image/png;base64,iVBOR'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare(\"SELECT COUNT(*) n FROM qc_bris WHERE photo_url LIKE 'data:%'\").get().n)" 2>/dev/null)" = 0 ] \
+  && ok "une photo en data: URI est refusée" || ko "data: URI enregistrée en base"
+
+# tirer une consigne rattache tous les bris de la même zone
+BID=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT id FROM qc_bris ORDER BY id LIMIT 1').get().id)" 2>/dev/null)
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PB/bris/$BID/consigne \
+  --data-urlencode "titre=Renforcer l'attache de ganse" --data 'type=probleme'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM qc_bris WHERE point_id IS NULL').get().n)" 2>/dev/null)" = 0 ] \
+  && ok "une consigne rattache tous les bris de la même zone" || ko "bris restés orphelins"
+
+curl -s -b $CA $B/qualite/$PB | grep -q 'signalements sur le terrain' \
+  && ok "le point affiche combien de signalements l'appuient" || ko "appuis non affichés"
+
+curl -s -b $CA $B/qualite | grep -q 'Ce qui casse' \
+  && ok "les zones fragiles remontent sur la page Qualité" || ko "zones absentes"
+
+# un bris d'un autre produit ne se transforme pas en consigne ici
+AUTRE=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT id FROM produits WHERE id != ? LIMIT 1').get($PB).id)" 2>/dev/null)
+curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/qualite/$AUTRE/bris/$BID/supprimer \
+  | grep -q 'err=' && ok "un bris ne se touche pas depuis un autre produit" \
+  || ko "suppression croisée permise"
+
+MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+db.prepare('DELETE FROM qc_bris').run();
+db.prepare('DELETE FROM qc_points').run();" 2>/dev/null
+
 # --- tableau de mensurations d'un coup ------------------------------------
 # Un tableau de tailles se recopie d'un chiffrier ; le saisir taille par taille
 # dans un formulaire, personne ne le fera deux fois.

@@ -451,6 +451,8 @@ function pointQC({ q, produitId, editable, action = null }) {
       ${q.variante ? `<span class="qc-var">${e(q.variante)}</span>` : ''}
       ${q.detail ? `<span class="qc-det">${e(q.detail)}</span>` : ''}
       ${q.consequence ? `<span class="qc-cons">Sinon : ${e(q.consequence)}</span>` : ''}
+      ${q.appuis ? `<span class="qc-appui">${q.appuis} signalement${
+        q.appuis > 1 ? 's' : ''} sur le terrain</span>` : ''}
       ${(() => {
         // Les morceaux du pied se joignent par « · ». Les concaténer avec un
         // séparateur en préfixe laisse un « · » orphelin dès que le premier
@@ -615,7 +617,52 @@ function formulaireQC(action, { general = false } = {}) {
   </form>`;
 }
 
-function vueQualite({ user, msg, couverture, general = [] }) {
+const ORIGINES = { client: 'Client', atelier: 'Atelier', retour: 'Retour',
+                   essai: 'Essai' };
+
+/**
+ * Un bris signalé : le commentaire mot pour mot, la photo, la zone.
+ *
+ * Le commentaire n'est pas reformulé. « La ganse a lâché après trois
+ * semaines » dit plus qu'« usure prématurée de l'attache », et c'est le genre
+ * de phrase qui fait écrire une consigne.
+ */
+function ligneBris({ b, produitId, editable }) {
+  return `<li class="br${b.point_id ? '' : ' br-nu'}">
+    ${b.photo_url ? `<a class="br-photo" href="${e(b.photo_url)}" rel="noopener">
+      <img src="${e(urlImage(b.photo_url, 160))}" alt="Bris signalé${
+        b.zone ? ' — ' + e(b.zone) : ''}" loading="lazy"></a>` : ''}
+    <div class="br-quoi">
+      <div class="br-tete">
+        <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
+        ${b.zone ? `<b>${e(b.zone)}</b>` : ''}
+        ${b.survenu_le ? `<span class="br-date">${dateFR(b.survenu_le)}</span>` : ''}
+      </div>
+      ${b.texte ? `<p class="br-txt">« ${e(b.texte)} »</p>` : ''}
+      <p class="br-pied">
+        ${b.point_id
+          ? `A fait écrire : <a href="#">${e(b.point_titre || 'un point')}</a>`
+          : '<span class="br-alerte">Aucune consigne n\'en a encore été tirée</span>'}
+        ${b.auteur ? ` · saisi par ${e(b.auteur)}` : ''}</p>
+      ${editable && !b.point_id ? `
+        <form method="post" action="/qualite/${produitId}/bris/${b.id}/consigne"
+              class="br-form">
+          <input name="titre" required maxlength="200"
+                 placeholder="La consigne qui l'évite : « Renforcer l'attache de ganse »">
+          <select name="type">
+            <option value="critique">Point critique</option>
+            <option value="probleme" selected>Problème fréquent</option>
+            <option value="cyclage">Cyclage et tests</option>
+          </select>
+          <button class="btn-mini">En faire un point</button>
+        </form>` : ''}
+      ${editable ? `<form method="post" action="/qualite/${produitId}/bris/${b.id}/supprimer"
+        ><button class="lien danger">Retirer</button></form>` : ''}
+    </div>
+  </li>`;
+}
+
+function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }) {
   const sans = couverture.filter(p => !p.points);
   const avec = couverture.filter(p => p.points);
   const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
@@ -637,6 +684,33 @@ function vueQualite({ user, msg, couverture, general = [] }) {
   <div class="entete"><div><h1>Contrôle qualité</h1>
     <p class="muted">Le protocole de chaque produit : ce qui rate souvent,
     ce qu'il ne faut pas rater, ce qui se mesure, ce qui se teste</p></div></div>
+
+  ${zones.length || nc.length ? `<div class="carte qc-terrain">
+    <h2>Ce qui casse</h2>
+    <p class="sec">Les signalements et les non-conformités relevées à l'atelier.
+    Une zone qui revient sur plusieurs produits n'est pas un défaut de produit,
+    c'est un défaut de méthode.</p>
+    ${zones.length ? `<div class="tbl"><table>
+      <tr><th>Zone</th><th class="num">Signalements</th><th class="num">Produits</th>
+        <th>Consigne écrite ?</th></tr>
+      ${zones.map(z => `<tr>
+        <td><b>${e(z.zone)}</b></td>
+        <td class="num">${z.bris}</td>
+        <td class="num">${z.produits}</td>
+        <td>${z.sans_consigne
+          ? `<span class="qc-vide">${z.sans_consigne} sans consigne</span>`
+          : '<span class="muted">toutes traitées</span>'}</td>
+      </tr>`).join('')}
+    </table></div>` : ''}
+    ${nc.length ? `<h3 class="nc-titre">Non-conformités en cours
+      <span class="cpt">${nc.length}</span></h3>
+      <ul class="nc-liste">${nc.slice(0, 8).map(x => `<li>
+        <a href="/qualite/${x.produit_id}"><b>${e(x.code)}</b></a>
+        · ${e(x.point_titre)}
+        ${x.note ? `<span class="br-txt">« ${e(x.note)} »</span>` : ''}
+        <span class="muted">${e(x.numero)}${x.auteur ? ' · ' + e(x.auteur) : ''}</span>
+      </li>`).join('')}</ul>` : ''}
+  </div>` : ''}
 
   <div class="carte qc-general">
     <h2>Protocole général <span class="cpt">${general.length}</span></h2>
@@ -677,8 +751,12 @@ function vueQualite({ user, msg, couverture, general = [] }) {
   return page({ titre: 'Contrôle qualité', user, corps, msg, actif: 'qualite' });
 }
 
-function vueProtocole({ user, p, proto, msg, photos = [] }) {
+function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
+                       appuis = {} }) {
   const editable = true;   // les deux rôles écrivent : c'est l'atelier qui voit les défauts
+  // Chaque point sait combien de bris l'appuient : c'est ce qui le rend
+  // incontestable en atelier.
+  for (const q of proto.points) q.appuis = appuis[q.id] || 0;
   const volet = (cle, titre, aide) => `<div class="carte">
     <h2><span class="q-pip q-${cle}">${ICONE_QC[cle]}</span> ${titre}
       ${proto.par[cle].length ? `<span class="cpt">${proto.par[cle].length}</span>` : ''}</h2>
@@ -699,6 +777,43 @@ function vueProtocole({ user, p, proto, msg, photos = [] }) {
   ${photos.length ? `<div class="carte qc-photos">
     ${photos.slice(0, 4).map(ph => `<img src="${e(urlImage(ph.url, 320))}"
       alt="${e(ph.legende || p.nom)}" loading="lazy">`).join('')}
+  </div>` : ''}
+
+  ${bris ? `<div class="carte qc-bris">
+    <h2>Ce qui casse <span class="cpt">${bris.tous.length}</span>
+      ${bris.orphelins.length ? `<span class="br-todo">${bris.orphelins.length}
+        sans consigne</span>` : ''}</h2>
+    <p class="sec">Commentaires clients, photos, retours d'atelier. C'est la
+    preuve qui fait écrire une consigne — et une consigne qui cite trois
+    signalements ne se discute pas.</p>
+    ${bris.tous.length
+      ? `<ul class="br-liste">${bris.tous.map(b =>
+          ligneBris({ b, produitId: p.id, editable: true })).join('')}</ul>`
+      : `<p class="vide">Aucun signalement. Quand un client écrit « la ganse a
+         lâché après trois semaines », c'est ici que ça va.</p>`}
+    <details class="qc-plus"><summary>Signaler un bris</summary>
+      <form method="post" action="/qualite/${p.id}/bris" class="qc-form">
+        <div class="champ"><label for="bz">Où ça casse</label>
+          <input id="bz" name="zone" maxlength="80" required
+                 placeholder="Attache de ganse"></div>
+        <div class="champ"><label for="bo">D'où ça vient</label>
+          <select id="bo" name="origine">
+            ${Object.entries(ORIGINES).map(([k, v]) =>
+              `<option value="${k}">${v}</option>`).join('')}
+          </select></div>
+        <div class="champ"><label for="bd">Quand</label>
+          <input id="bd" type="date" name="survenu_le"></div>
+        <div class="champ champ-large"><label for="bt">Ce qui a été dit, mot pour mot</label>
+          <input id="bt" name="texte" maxlength="600"
+                 placeholder="La ganse a lâché après trois semaines d'utilisation normale"></div>
+        <div class="champ champ-large"><label for="bp">Photo (adresse web)</label>
+          <input id="bp" name="photo_url" maxlength="500" inputmode="url"
+                 placeholder="https://…">
+          <span class="aide">L'app n'héberge aucune image : colle l'adresse de
+          la photo, elle est affichée redimensionnée.</span></div>
+        <button class="btn">Enregistrer le signalement</button>
+      </form>
+    </details>
   </div>` : ''}
 
   ${volet('critique', 'Points critiques',

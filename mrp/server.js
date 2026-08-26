@@ -29,7 +29,8 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC,
         checklistItem, blocageQC, etatQCOrdre,
-        protocoleGeneral, echantillon, lireTableauTailles } = require('./db.js');
+        protocoleGeneral, echantillon, lireTableauTailles,
+        brisProduit, brisParPoint, zonesFragiles, nonConformites } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
@@ -538,7 +539,7 @@ async function router(req, res, url, user) {
   // ---- contrôle qualité : le protocole de chaque produit
   if (p === '/qualite') {
     return html(res, V.vueQualite({ user, msg, couverture: couvertureQC(),
-      general: protocoleGeneral() }));
+      general: protocoleGeneral(), zones: zonesFragiles(), nc: nonConformites() }));
   }
 
   /**
@@ -576,6 +577,73 @@ async function router(req, res, url, user) {
     return vers(res, '/qualite?' + (r.erreur
       ? 'err=' + encodeURIComponent(r.erreur)
       : 'ok=' + encodeURIComponent('Ajouté au protocole général.')));
+  }
+
+  // ---- ce qui casse : la preuve de terrain
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/bris$/);
+    if (m && req.method === 'POST') {
+      const prod = R.produit.get(Number(m[1]));
+      if (!prod) return vers(res, '/qualite?err=' + encodeURIComponent('Produit introuvable.'));
+      const f = await corpsFormulaire(req);
+      const zone = String(f.zone || '').trim();
+      if (!zone) return vers(res, `/qualite/${prod.id}?err=`
+        + encodeURIComponent('Il faut dire où ça casse.'));
+      // Même règle que pour les photos produit : une URL, jamais une image
+      // embarquée. Une data: URI grossirait la base et chaque page.
+      const url = String(f.photo_url || '').trim();
+      if (url && !V.urlAcceptable(url)) return vers(res, `/qualite/${prod.id}?err=`
+        + encodeURIComponent('Photo : il faut une adresse web (https://…), pas un fichier.'));
+      const ORIG = ['client', 'atelier', 'retour', 'essai'];
+      db.prepare(`INSERT INTO qc_bris (produit_id, zone, origine, texte, photo_url,
+                    survenu_le, cree_par) VALUES (?,?,?,?,?,?,?)`)
+        .run(prod.id, zone, ORIG.includes(f.origine) ? f.origine : 'client',
+          String(f.texte || '').trim(), url,
+          /^\d{4}-\d{2}-\d{2}$/.test(f.survenu_le || '') ? f.survenu_le : null,
+          user.id);
+      return vers(res, `/qualite/${prod.id}?ok=` + encodeURIComponent('Signalement enregistré.'));
+    }
+  }
+
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/bris\/(\d+)\/(consigne|supprimer)$/);
+    if (m && req.method === 'POST') {
+      const prodId = Number(m[1]), brisId = Number(m[2]);
+      const b = db.prepare(`SELECT * FROM qc_bris WHERE id = ? AND produit_id = ?`)
+        .get(brisId, prodId);
+      if (!b) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent('Signalement introuvable.'));
+      if (m[3] === 'supprimer') {
+        db.prepare(`DELETE FROM qc_bris WHERE id = ?`).run(brisId);
+        return vers(res, `/qualite/${prodId}?ok=` + encodeURIComponent('Signalement retiré.'));
+      }
+      // Tirer une consigne d'un bris : le point naît AVEC sa preuve, et le
+      // signalement cesse d'être orphelin. C'est là que la boucle se ferme.
+      const f = await corpsFormulaire(req);
+      const titre = String(f.titre || '').trim();
+      if (!titre) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent('Il faut écrire la consigne qui évite ce bris.'));
+      const type = TYPES_QC[f.type] ? f.type : 'probleme';
+      db.exec('BEGIN');
+      try {
+        const rang = (db.prepare(`SELECT MAX(rang) m FROM qc_points WHERE produit_id = ?`)
+          .get(prodId).m || 0) + 1;
+        const id = db.prepare(`INSERT INTO qc_points (produit_id, type, titre,
+                      consequence, source, cree_par, rang) VALUES (?,?,?,?,?,?,?)`)
+          .run(prodId, type, titre,
+            b.texte ? b.texte.slice(0, 300) : `Bris signalé : ${b.zone}`,
+            `signalement ${b.origine}`, user.id, rang).lastInsertRowid;
+        // Tous les bris de la MÊME zone encore orphelins rejoignent ce point :
+        // ils disent la même chose, et les laisser séparés ferait réécrire la
+        // même consigne trois fois.
+        db.prepare(`UPDATE qc_bris SET point_id = ?
+                     WHERE produit_id = ? AND point_id IS NULL
+                       AND LOWER(zone) = LOWER(?)`).run(id, prodId, b.zone);
+        db.exec('COMMIT');
+      } catch (e) { db.exec('ROLLBACK'); throw e; }
+      return vers(res, `/qualite/${prodId}?ok=`
+        + encodeURIComponent('Consigne écrite, signalements rattachés.'));
+    }
   }
 
   // Un tableau de mensurations d'un coup : une ligne par taille.
@@ -642,7 +710,8 @@ async function router(req, res, url, user) {
           : 'ok=' + encodeURIComponent('Ajouté au protocole.')));
       }
       return html(res, V.vueProtocole({ user, msg, p: prod,
-        proto: protocole(prod.id), photos: R.photos.all(prod.id) }));
+        proto: protocole(prod.id), photos: R.photos.all(prod.id),
+        bris: brisProduit(prod.id), appuis: brisParPoint(prod.id) }));
     }
   }
 

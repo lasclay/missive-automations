@@ -731,6 +731,96 @@ t("l'atelier peut consulter le suivi",
     D.protocoleGeneral().length === 0);
 }
 
+// ---------------------------- ce qui casse : la preuve devient consigne
+{
+  const D = require('../db.js');
+  const cB = tour(admin), mB = tour(atelier);
+
+  const b1 = ex('signaler_bris', { produit: 'CC-ADULTE', zone: 'Attache de ganse',
+    origine: 'client', texte: 'La ganse a lâché après trois semaines',
+    survenu_le: '2026-08-10' }, cB);
+  t('un commentaire client s\'enregistre', b1.ok === true, JSON.stringify(b1));
+  t('...et l\'outil rappelle qu\'aucune consigne n\'en découle',
+    b1.rappel.includes('consigne'));
+
+  // L'atelier voit les défauts en premier : il signale comme Québec.
+  t('l\'atelier peut signaler un bris',
+    ex('signaler_bris', { produit: 'CC-ADULTE', zone: 'attache de ganse',
+      origine: 'atelier', texte: 'Deux sur vingt se décousent au montage' }, mB).ok === true);
+
+  t('une photo doit être une adresse web, pas un fichier',
+    Boolean(ex('signaler_bris', { produit: 'CC-ADULTE', zone: 'X',
+      photo_url: 'data:image/png;base64,iVBOR' }, cB).erreur));
+  t('une date mal formée est refusée',
+    Boolean(ex('signaler_bris', { produit: 'CC-ADULTE', zone: 'X',
+      survenu_le: '10 août' }, cB).erreur));
+  t('un bris sans zone est refusé',
+    Boolean(ex('signaler_bris', { produit: 'CC-ADULTE', zone: '  ' }, cB).erreur));
+
+  const pB = db.prepare(`SELECT id FROM produits WHERE code = 'CC-ADULTE'`).get().id;
+  const av = D.brisProduit(pB);
+  t('les signalements sont visibles sur le produit',
+    av.tous.length === 2 && av.orphelins.length === 2,
+    JSON.stringify({ t: av.tous.length, o: av.orphelins.length }));
+  t('le commentaire est gardé mot pour mot',
+    av.tous.some(b => b.texte === 'La ganse a lâché après trois semaines'));
+
+  // Une zone qui revient sur plusieurs produits est un défaut de méthode.
+  ex('signaler_bris', { produit: 'TQ-SPORT', zone: 'Attache de ganse',
+    origine: 'retour' }, cB);
+  const z = D.zonesFragiles().find(x => /attache/i.test(x.zone));
+  t('les zones se regroupent sans tenir compte de la casse',
+    z.bris === 3 && z.produits === 2, JSON.stringify(z));
+  t('une zone dit combien de signalements n\'ont pas de consigne',
+    z.sans_consigne === 3);
+
+  // Tirer une consigne rattache TOUS les bris de la même zone.
+  const brisId = av.tous[0].id;
+  const pointId = (() => {
+    const rang = 99;
+    return db.prepare(`INSERT INTO qc_points (produit_id, type, titre, cree_par, rang)
+                       VALUES (?, 'probleme', ?, ?, ?)`)
+      .run(pB, "Renforcer l'attache de ganse", admin.id, rang).lastInsertRowid;
+  })();
+  db.prepare(`UPDATE qc_bris SET point_id = ? WHERE produit_id = ? AND point_id IS NULL
+                AND LOWER(zone) = LOWER(?)`)
+    .run(pointId, pB, av.tous[0].zone);
+  const ap = D.brisProduit(pB);
+  t('une consigne rattache tous les bris de la même zone',
+    ap.orphelins.length === 0 && ap.tous.every(b => b.point_id === pointId),
+    JSON.stringify({ o: ap.orphelins.length }));
+  t('le point sait combien de signalements l\'appuient',
+    D.brisParPoint(pB)[pointId] === 2, JSON.stringify(D.brisParPoint(pB)));
+  t('la zone d\'un autre produit reste orpheline',
+    D.zonesFragiles().find(x => /attache/i.test(x.zone)).sans_consigne === 1);
+
+  // L'assistant remonte le terrain avec le protocole : c'est ce qui rend la
+  // réponse convaincante en atelier.
+  const lu = ex('lire_qualite', { produit: 'CC-ADULTE' }, mB);
+  t('lire_qualite remonte les signalements',
+    lu.terrain && lu.terrain.signalements === 2, JSON.stringify(lu.terrain));
+  t('...avec la consigne qui en a été tirée',
+    lu.terrain.derniers.some(d => d.consigne_tiree === "Renforcer l'attache de ganse"));
+
+  // Une non-conformité d'atelier est une observation de terrain, plus tôt.
+  const itNC = db.prepare(`SELECT i.id FROM ordre_items i JOIN produits p
+                           ON p.id = i.produit_id WHERE p.code = 'CC-ADULTE'`).get().id;
+  db.prepare(`INSERT INTO qc_controles (item_id, point_id, verdict, note, utilisateur_id)
+              VALUES (?,?,'non_conforme',?,?)`)
+    .run(itNC, pointId, 'Trois pièces sur vingt', atelier.id);
+  const nc = D.nonConformites();
+  t('les non-conformités d\'atelier remontent avec les bris',
+    nc.length === 1 && nc[0].note === 'Trois pièces sur vingt', JSON.stringify(nc.length));
+  db.prepare(`INSERT INTO qc_controles (item_id, point_id, verdict, utilisateur_id)
+              VALUES (?,?,'conforme',?)`).run(itNC, pointId, atelier.id);
+  t('une non-conformité corrigée sort de la liste des ouvertes',
+    D.nonConformites().length === 0);
+
+  db.prepare(`DELETE FROM qc_bris`).run();
+  db.prepare(`DELETE FROM qc_controles`).run();
+  db.prepare(`DELETE FROM qc_points WHERE id = ?`).run(pointId);
+}
+
 // ------------------ conformité dimensionnelle : une mesure par taille
 {
   const D = require('../db.js');

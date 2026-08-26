@@ -220,6 +220,36 @@ d'un lot, la connexion se fait avec la répartition réelle du lot :
 - sans répartition déclarée, **aucune taille n'est écartée** — on ne sait pas,
   donc on n'enlève rien.
 
+**Ce qui casse — la preuve qui fait écrire une consigne.** Un commentaire
+client, une photo de couture ouverte, un retour d'atelier : `qc_bris` garde la
+phrase **mot pour mot** (reformuler un client, c'est perdre ce qui rendait la
+phrase utile) avec sa zone, sa date et son origine. Aucune photo n'est
+hébergée : une URL, comme partout dans l'app.
+
+La boucle se ferme en trois temps :
+
+1. **Un bris est signalé** — par Québec depuis Missive, par l'atelier qui voit
+   le défaut au montage, ou par l'assistant (`signaler_bris`).
+2. **On en tire une consigne**, d'un bouton sur le signalement. Le point naît
+   avec sa preuve, et **tous les bris de la même zone encore orphelins s'y
+   rattachent** — ils disent la même chose, et les laisser séparés ferait
+   réécrire trois fois la même consigne.
+3. **La consigne devient une case à cocher** sur chaque lot, avec son
+   échantillon calculé sur le volume.
+
+Un signalement dont personne n'a tiré de consigne est marqué comme tel : c'est
+la file de travail du contrôle qualité.
+
+**Les zones qui cassent, tous produits confondus.** La page Qualité ouvre sur
+« Ce qui casse » : combien de signalements par zone, **sur combien de produits
+différents**, et combien sans consigne. Une zone qui revient sur cinq produits
+n'est pas un défaut de produit, c'est un défaut de méthode — et c'est la
+question que les commentaires clients permettent enfin de poser.
+
+**Une non-conformité d'atelier est une observation de terrain, en plus tôt.**
+Une case « non conforme » cochée par Montassar remonte au même endroit que les
+commentaires clients, et disparaît de la liste dès qu'elle est corrigée.
+
 **Squelettes de cyclage et d'essai porté.** `donnees/qualite-squelettes.tsv`
 porte la structure des tests de durabilité de couture (assemblage principal,
 points de contrainte, tenue après cyclage, migration de l'isolant) et des
@@ -355,7 +385,7 @@ mêmes contraintes.
   → « Cache-cous à 70 % et deadline ajoutée au 2 octobre. »        [Annuler]
 ```
 
-**Vingt-neuf outils** (`outils.js`) : lire les ordres, les fiches et la cédule ;
+**Trente outils** (`outils.js`) : lire les ordres, les fiches et la cédule ;
 mettre à jour un avancement ; créer un ordre, y ajouter ou en retirer des
 items ; poser des jalons ; créer et enrichir une fiche produit ; commenter.
 L'assistant les enchaîne seul — créer un ordre puis le remplir de quatre items
@@ -546,7 +576,7 @@ Trois suites, aucune n'a besoin du réseau ni de clé API.
 
 | Suite | Ce qu'elle couvre |
 | --- | --- |
-| `tests/outils.js` | les 29 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
+| `tests/outils.js` | les 30 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
 | `tests/boucle.js` | la boucle agentique contre une fausse API : enchaînement des outils, retour des erreurs au modèle, reprise du fil, plafond de 12 étapes |
 | `tests/e2e.sh` | le serveur complet : authentification, permissions, avancement pondéré, redimension des images, poids des pages sous 25 Ko |
 
@@ -568,7 +598,8 @@ utilisateurs ─┬─ sessions
                            ├─ produit_materiaux
                            ├─ produit_patrons
                            └─ qc_points           (protocole qualité)
-                                  └─ qc_controles  (le protocole appliqué à un lot)
+                                  ├─ qc_controles  (le protocole appliqué à un lot)
+                                  └─ qc_bris       (ce qui casse : la preuve)
 
 reglages                                  (capacité de l'atelier — hors graphe :
                                            un seul jeu, pas une préférence)
