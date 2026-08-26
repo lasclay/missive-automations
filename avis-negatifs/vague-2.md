@@ -37,6 +37,12 @@ mot pour mot. 4. **Le point précis**. 5. **L'excuse**, une seule fois, jamais e
 **Ne jamais inverser 6 et 8.** Pas de cadratins. Ne pas signer, Missive ajoute la signature.
 Vouvoiement partout. Un seul marqueur d'excuse.
 
+⚠️ **Écrire en prose continue, pas ligne par ligne.** C'est le reproche que Gabriel a fait deux
+fois, à la vague 1 puis à la vague 2 : une suite de phrases courtes isolées, chacune sur son
+paragraphe, se lit comme une liste et sonne comme une machine. Un message tient en quatre ou cinq
+paragraphes, chacun de trois à cinq phrases liées entre elles. Les seules lignes courtes permises
+sont la salutation et la phrase qui introduit l'avis cité.
+
 ## ⚠️ Ce qui doit être exécuté avant les envois
 
 Aucune carte-cadeau n'est créée pour cette vague, contrairement à la vague 1. Rien dans les textes
@@ -126,39 +132,15 @@ d'excuse par message, c'est la règle de la vague 1.*
 >
 > Bonjour,
 >
-> Je fais le tour des commandes qui traînent depuis le printemps. La vôtre est la plus vieille de
-> la pile, et elle est venue avec votre avis Facebook :
+> Je fais le tour des commandes qui traînent depuis le printemps et la vôtre est la plus vieille de la pile. Elle est venue avec votre avis Facebook :
 >
-> > *commande faites depuis le 13 juin en ligne, nous sommes le 4 aout 2026. Pas de retour de
-> > courriel, ni de messenger. Pas sérieux comme service. Mais le payement lui est payer. Très déçu
-> > finalement.*
+> > *commande faites depuis le 13 juin en ligne, nous sommes le 4 aout 2026. Pas de retour de courriel, ni de messenger. Pas sérieux comme service. Mais le payement lui est payer. Très déçu finalement.*
 >
-> Soixante-treize jours, aucune réponse sur aucun des deux canaux, et un pourboire que vous avez
-> ajouté par-dessus le prix.
+> Soixante-treize jours, aucune réponse ni au courriel ni sur Messenger, et un pourboire que vous aviez ajouté par-dessus le prix. Ce qui s'est passé, c'est que nos stocks faits au Québec se sont écoulés et que quelques dernières commandes sont tombées entre les craques, dont la vôtre. Ça, ça arrive, et ce n'est pas le pire de l'histoire. Le pire, c'est le silence qui a suivi : vous avez écrit sur deux canaux sans que personne vous réponde. On a été dans le jus, mais ce n'est pas votre problème, et je m'en excuse profondément.
 >
-> Ce qui s'est passé : nos stocks faits au Québec se sont écoulés, et quelques dernières commandes
-> sont tombées entre les craques. La vôtre en fait partie. Ça, ça arrive.
+> Le prochain lot de coussins entre vers la fin septembre. C'est la vraie date, et si elle bouge je vous écris sans que vous ayez à demander. À partir de là, deux chemins et les deux me vont : ou bien vous attendez, et le coussin part le jour où le lot entre, par colis suivi avec le numéro dans ce fil, ou bien vous ne voulez plus attendre, ce qui se comprend après deux mois et demi, et je vous rembourse les 51,42 $ au complet, pourboire compris, aujourd'hui. Répondez-moi « j'attends » ou « rembourse », c'est tout ce que ça prend. Dans les deux cas, une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.
 >
-> Le silence, non. Vous avez écrit par courriel et sur Messenger, et personne ne vous a répondu. On
-> a été dans le jus, mais ce n'est pas votre problème. Je m'en excuse profondément.
->
-> Le prochain lot de coussins entre vers la fin septembre. C'est la vraie date, et si elle bouge, je
-> vous écris sans que vous ayez à demander.
->
-> À vous de choisir, et les deux me vont.
->
-> Vous attendez, et le coussin part le jour où le lot entre, par colis suivi, avec le numéro dans ce
-> fil.
->
-> Ou vous ne voulez plus attendre, ce qui se comprend après deux mois et demi, et je vous rembourse
-> les 51,42 $ au complet, pourboire compris, aujourd'hui.
->
-> Dans les deux cas, une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.
->
-> Répondez-moi « j'attends » ou « rembourse », c'est tout ce que ça prend.
->
-> Et si le cœur vous en dit une fois la situation réglée, une mise à jour de votre avis nous
-> aiderait vraiment. Aucune obligation, la carte tient de toute façon.
+> Et si le cœur vous en dit une fois la situation réglée, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.
 
 ---
 
@@ -221,26 +203,13 @@ annulerait les excuses. Décision à renverser si Gabriel préfère.*
 >
 > Bonjour Danielle,
 >
-> Je reprends votre dossier depuis le début, et il n'est pas beau à relire.
+> Je reprends votre dossier depuis le début et il n'est pas beau à relire. Vous avez commandé le 27 janvier, vous avez écrit le 18 février, puis le 23, puis sur Messenger, et votre première vraie réponse n'est arrivée que le 1er mars. Le 1er avril, alors que rien n'était encore parti, on vous a écrit pour vous suggérer de changer de taille et vous demander si vous aviez consulté le guide, alors que vous nous aviez déjà donné les mensurations de votre fils plusieurs fois.
 >
-> Vous avez commandé le 27 janvier. Vous avez écrit le 18 février, puis le 23, puis sur Messenger.
-> Votre première vraie réponse est arrivée le 1er mars. Et le 1er avril, alors que rien n'était
-> encore parti, on vous a écrit pour vous suggérer de changer de taille et vous demander si vous
-> aviez consulté le guide. Vous nous aviez donné les mensurations de votre fils plusieurs fois.
+> Votre commande est partie le 30 juin, cinq mois après l'achat, et entre-temps vous aviez dû passer par votre banque pour obtenir de nos nouvelles. Je m'en excuse, et ça vaut aussi pour votre avis Facebook du 25 février : chaque mot y était exact.
 >
-> Votre commande est partie le 30 juin. Cinq mois. Entre-temps vous aviez dû passer par votre
-> banque, ce qu'aucun client ne devrait avoir à faire pour obtenir de nos nouvelles.
+> Le 16 juillet je vous ai promis une étiquette de retour prépayée et elle n'est jamais partie. Elle part aujourd'hui, dans un courriel séparé, sans aucuns frais pour vous. Et si vous préférez garder le manteau, gardez-le : il est à vous, sans rien à payer.
 >
-> Je m'en excuse, et ça vaut aussi pour votre avis Facebook du 25 février : chaque mot y était
-> exact.
->
-> Le 16 juillet je vous ai promis une étiquette de retour prépayée et elle n'est jamais partie.
-> Elle part aujourd'hui, dans un courriel séparé. Vous n'avez aucuns frais à assumer.
->
-> Si vous préférez garder le manteau, gardez-le : il est à vous, sans rien à payer.
->
-> Est-ce que votre fils a fini par trouver quelque chose qui lui va? Le XS d'homme qui vous
-> manquait, on le fabrique maintenant.
+> Est-ce que votre fils a fini par trouver quelque chose qui lui va? Le XS d'homme qui vous manquait, on le fabrique maintenant.
 
 
 ---
@@ -301,30 +270,15 @@ commande à 0,00 $ n'existe à son nom.*
 >
 > Bonjour Amandine,
 >
-> Je remonte dans les dossiers de l'hiver 2024 et le vôtre traîne depuis. Il est venu avec votre
-> avis Facebook :
+> Je remonte dans les dossiers de l'hiver 2024 et le vôtre traîne depuis. Il est venu avec votre avis Facebook :
 >
-> > *Commande passée le 30 novembre. Le 17 janv toujours rien reçu. Ils ne répondent pas aux
-> > courriels. Juste avant Noel j'ai eu un message d'excuse. Et depuis plus rien, j'ai du annuler ma
-> > carte de crédit.*
+> > *Commande passée le 30 novembre. Le 17 janv toujours rien reçu. Ils ne répondent pas aux courriels. Juste avant Noel j'ai eu un message d'excuse. Et depuis plus rien, j'ai du annuler ma carte de crédit.*
 >
-> Votre colis est parti le 5 décembre par GLS, et GLS l'a perdu. Ça, ce sont les choses qui
-> arrivent. Le reste, non : on vous a promis un remplacement et 50 $ en cartes-cadeaux le
-> 21 décembre, vous avez répondu en nous souhaitant de joyeuses fêtes, et vous avez ensuite écrit
-> trois fois sans recevoir un mot. Je m'en excuse.
+> Votre colis est bien parti le 5 décembre, par GLS, et GLS l'a perdu : ça, ce sont des choses qui arrivent. Le reste, non. On vous a promis un remplacement et 50 $ en cartes-cadeaux le 21 décembre, vous avez répondu en nous souhaitant de joyeuses fêtes, et vous avez ensuite écrit trois fois sans recevoir un mot. Je m'en excuse.
 >
-> Le remplacement est bien parti, le 28 janvier. Personne ne vous a même écrit pour vous le dire, et
-> personne n'a jamais demandé s'il était arrivé. Je le demande maintenant, avec dix-neuf mois de
-> retard : est-ce que les mitaines et le cache-cou se sont rendus jusqu'à vous?
+> Le remplacement est bel et bien parti, le 28 janvier, mais personne ne vous a écrit pour vous le dire et personne n'a jamais demandé s'il était arrivé. Je le demande maintenant, avec dix-neuf mois de retard : est-ce que les mitaines et le cache-cou se sont rendus jusqu'à vous? Les 50 $ promis en décembre partent aujourd'hui, avec une carte-cadeau de 100 $ à votre nom, sans date d'expiration.
 >
-> Les 50 $ promis en décembre partent aujourd'hui, plus une carte-cadeau de 100 $ à votre nom, sans
-> date d'expiration.
->
-> Vous aviez écrit que vous espériez parler de nous en bien dans l'Outaouais. Je n'ai rien fait pour
-> mériter ça à l'époque.
->
-> Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune
-> obligation, les cartes partent de toute façon.
+> Vous aviez écrit que vous espériez parler de nous en bien dans l'Outaouais, et je n'ai rien fait pour mériter ça à l'époque. Si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, les cartes partent de toute façon.
 
 
 ---
@@ -371,28 +325,13 @@ avis.** C'est une relance chaleureuse, pas une réparation.*
 >
 > Bonjour Colette,
 >
-> Je reviens sur notre échange de novembre dernier. Vous m'aviez demandé un code de retour pour la
-> tuque, et vous aviez posé une question précise sur les mitaines : main de 19,5 cm par 9,5 cm,
-> large pris selon le guide, pouce que vous trouviez trop ample.
+> Je reviens sur notre échange de novembre dernier, celui où vous m'aviez demandé un code de retour pour la tuque et posé une question précise sur les mitaines : main de 19,5 cm par 9,5 cm, large pris selon le guide, pouce que vous trouviez trop ample. La tuque a été échangée, mais votre question est restée huit mois sans réponse, et je vous ai écrit en juillet sans jamais revenir vous relancer. Je m'en excuse.
 >
-> La tuque a été échangée. Votre question, elle, est restée huit mois sans réponse, et je vous ai
-> écrit en juillet sans jamais revenir vous relancer. Je m'en excuse.
+> Sur les mitaines : avec vos mesures vous êtes bien dans le large en longueur et le médium serait juste, et le pouce ample au départ est normal parce que la mitaine se referme à l'usage. Cela dit, si après un hiver vous les trouvez encore trop grandes, dites-le-moi et je vous envoie la paire en médium sans frais et sans retour à faire, parce que c'est la seule façon de trancher pour vrai. Une carte-cadeau de 100 $ part à votre nom pour l'attente, sans date d'expiration.
 >
-> Sur les mitaines : avec vos mesures vous êtes bien dans le large en longueur, et le médium serait
-> juste. Le pouce ample au départ, c'est normal, la mitaine se referme à l'usage. Cela dit, si après
-> un hiver vous les trouvez encore trop grandes, dites-le-moi et je vous envoie la paire en médium
-> sans frais et sans retour à faire. C'est la seule façon de trancher pour vrai.
+> Votre suggestion de novembre, mettre une réponse automatique qui annonce le délai, on ne l'a toujours pas faite. Vous aviez raison et c'est la prochaine sur la liste.
 >
-> Une carte-cadeau de 100 $ part à votre nom pour l'attente, sans date d'expiration.
->
-> Votre suggestion de novembre, mettre une réponse automatique qui annonce le délai, on ne l'a
-> toujours pas faite. Vous aviez raison et c'est la prochaine sur la liste.
->
-> Est-ce que la tuque large vous va bien, finalement? Et est-ce que vous avez pu sortir en randonnée
-> avec, cet hiver?
->
-> Et si le cœur vous en dit, une mise à jour de votre avis Facebook nous aiderait vraiment. Aucune
-> obligation.
+> Est-ce que la tuque large vous va bien, finalement, et est-ce que vous avez pu sortir en randonnée avec cet hiver? Et si le cœur vous en dit, une mise à jour de votre avis Facebook nous aiderait vraiment. Aucune obligation.
 
 
 ---
@@ -426,27 +365,15 @@ depuis trois semaines.*
 >
 > Bonjour Marie-Annick,
 >
-> Je relis nos avis Facebook un par un, et le vôtre date de février :
+> Je relis nos avis Facebook un par un et le vôtre date de février :
 >
-> > *Tente depuis trois semaines de retourner une veste achetée pour sa mère âgée et qui ne lui va
-> > pas. Aucune réponse par courriel ni par Messenger.*
+> > *Tente depuis trois semaines de retourner une veste achetée pour sa mère âgée et qui ne lui va pas. Aucune réponse par courriel ni par Messenger.*
 >
-> Un retour, ça devrait prendre deux courriels. Le vôtre a pris trois semaines de silence, puis un
-> avis public, puis cinq jours. C'est-à-dire qu'il a fallu que vous écriviez sur Facebook pour qu'on
-> s'occupe de vous. Je m'en excuse.
+> Un retour, ça devrait prendre deux courriels. Le vôtre a pris trois semaines de silence, puis un avis public, puis cinq jours : autrement dit, il a fallu que vous écriviez sur Facebook pour qu'on s'occupe de vous. Je m'en excuse. Le remboursement de 238,35 $ est parti le 5 mars, vous avez gardé le bandeau, et c'est correct comme ça. Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.
 >
-> Le remboursement de 238,35 $ est parti le 5 mars. Vous avez gardé le bandeau, et c'est correct
-> comme ça.
+> Une question, si vous avez deux minutes : sur quoi la veste n'allait pas à votre mère, trop ajustée, trop longue, l'emmanchure? On est en train de refaire les grandeurs et nos gabarits d'aujourd'hui sont dessinés sur des corps de trente ans, alors c'est exactement le cas qu'on cherche à corriger.
 >
-> Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.
->
-> Une question, si vous avez deux minutes : sur quoi la veste n'allait pas à votre mère? Trop
-> ajustée, trop longue, l'emmanchure? On est en train de refaire les grandeurs et les gabarits
-> d'aujourd'hui sont dessinés sur des corps de trente ans. C'est exactement le cas qu'on cherche à
-> corriger.
->
-> Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune
-> obligation, la carte tient de toute façon.
+> Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.
 
 
 ---
@@ -481,30 +408,15 @@ commande. Une seule réparation, deux avis.*
 >
 > Bonjour David,
 >
-> Je reprends les dossiers de décembre. Le vôtre revient deux fois, sur Facebook et sur Google, à un
-> jour d'écart :
+> Je reprends les dossiers de décembre et le vôtre revient deux fois, sur Facebook et sur Google, à un jour d'écart :
 >
-> > *Service exécrable. J'ai commandé des mitaines il y a près d'un mois et je n'ai toujours rien
-> > reçu. J'ai envoyé plus de quatre courriels et contacté l'entreprise à plusieurs reprises via
-> > Facebook et Instagram, sans jamais obtenir la moindre réponse. Une absence totale de service à
-> > la clientèle.*
+> > *Service exécrable. J'ai commandé des mitaines il y a près d'un mois et je n'ai toujours rien reçu. J'ai envoyé plus de quatre courriels et contacté l'entreprise à plusieurs reprises via Facebook et Instagram, sans jamais obtenir la moindre réponse. Une absence totale de service à la clientèle.*
 >
-> Quatre courriels, Facebook, Instagram, et rien sur aucun des trois. Ce n'est pas une boîte qui
-> déborde, c'est une boîte que personne n'ouvrait. Je m'en excuse.
+> Quatre courriels, Facebook, Instagram, et rien sur aucun des trois : ce n'est pas une boîte qui déborde, c'est une boîte que personne n'ouvrait. Je m'en excuse. Vos mitaines sont parties le 23 décembre, le lendemain de votre avis, ce qui veut dire que vous avez obtenu en un jour, en écrivant en public, ce que quatre courriels n'avaient pas obtenu en trois semaines. C'est ça le vrai problème, et c'est celui qu'on a bouché depuis, en passant d'un service client inexistant à une équipe qui répond. Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration, en plus de celle de 50 $ de décembre.
 >
-> Vos mitaines sont parties le 23 décembre, le lendemain de votre avis. Vous avez donc obtenu en un
-> jour, en écrivant en public, ce que quatre courriels n'avaient pas obtenu en trois semaines.
-> C'est le vrai problème, et c'est celui qu'on a bouché depuis : le service client est passé de
-> personne à une équipe qui répond.
+> Est-ce que les mitaines ont passé l'hiver? Le XL est la grandeur sur laquelle on a le moins de retours et j'aimerais savoir ce qu'elle vaut chez quelqu'un qui l'a vraiment portée.
 >
-> Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration, en plus de celle de 50 $ de
-> décembre.
->
-> Est-ce que les mitaines ont passé l'hiver? Le XL est la grandeur sur laquelle on a le moins de
-> retours, et j'aimerais savoir ce qu'elle vaut chez quelqu'un qui l'a vraiment portée.
->
-> Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune
-> obligation, la carte tient de toute façon.
+> Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.
 
 
 ---
@@ -558,28 +470,15 @@ janvier, avec une capture d'écran annotée de sa commande. Ne pas y revenir.*
 >
 > Bonjour Jézabelle,
 >
-> Je reprends les dossiers des fêtes. Le vôtre contient une phrase que je ne m'explique que depuis
-> cette semaine :
+> Je reprends les dossiers des fêtes, et le vôtre contient une phrase que je ne m'explique que depuis cette semaine :
 >
-> > *Et en plus, dans mon compte Laslay, on me dit que je n'ai supposément fait aucune commande…
-> > Mais, le montant apparaît bel et bien dans mon compte de carte de crédit.*
+> > *Et en plus, dans mon compte Laslay, on me dit que je n'ai supposément fait aucune commande… Mais, le montant apparaît bel et bien dans mon compte de carte de crédit.*
 >
-> Vous aviez raison, et l'erreur est chez nous. Il existe deux comptes clients à votre nom dans
-> notre boutique, un avec votre adresse Hotmail et un avec votre Gmail. Vos commandes sont sur le
-> premier. Quand vous vous êtes connectée au second, il était vide, forcément.
+> Vous aviez raison, et l'erreur est chez nous : il existe deux comptes clients à votre nom dans notre boutique, un avec votre adresse Hotmail et un avec votre Gmail, et vos commandes sont sur le premier. Quand vous vous êtes connectée au second, il était vide, forcément. Vous avez donc vu un débit sur votre carte et un compte sans aucune commande, et il n'y a pas beaucoup d'autres conclusions à tirer de ça. Je m'en excuse pour les deux, pour le doublon et pour l'attente qui l'a précédé.
 >
-> Autrement dit : vous avez vu un débit sur votre carte et un compte sans aucune commande. Il n'y a
-> pas beaucoup d'autres conclusions à tirer de ça, et celle que vous avez tirée était raisonnable.
-> Je m'en excuse pour les deux : pour le doublon et pour l'attente qui l'a précédé.
+> Je fusionne les deux comptes cette semaine et vos deux commandes vont apparaître ensemble, sous l'adresse de votre choix : dites-moi laquelle vous voulez garder. Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration, en plus de celle de 25 $ de décembre.
 >
-> Je fusionne les deux comptes cette semaine. Vos deux commandes vont apparaître ensemble, sous
-> l'adresse de votre choix. Dites-moi laquelle vous voulez garder.
->
-> Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration, en plus de celle de 25 $ de
-> décembre.
->
-> Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune
-> obligation, la carte tient de toute façon.
+> Et si le cœur vous en dit, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.
 
 
 ---
@@ -622,29 +521,15 @@ reçu un. Les deux expéditions sont parties **sans numéro de suivi**.*
 >
 > Bonjour Martine,
 >
-> Je reprends les commandes de décembre une par une. Les vôtres sont venues avec votre avis
-> Facebook :
+> Je reprends les commandes de décembre une par une et les vôtres sont venues avec votre avis Facebook :
 >
-> > *J'ai fait 2 commandes en décembre. La première a été reçue rapidement et comprenait tous les
-> > items commandés et payés. La deuxième il manque un cache-cou, pourtant payé. Ça fait 4 messages
-> > que j'envoie, aucune réponse. Aucun service à la clientèle, aucun numéro que l'on peut utiliser
-> > pour parler à quelqu'un. C'est désespérant. Et le cache cou livré est mal fini et ne comprend
-> > pas l'étiquette de la compagnie.*
+> > *J'ai fait 2 commandes en décembre. La première a été reçue rapidement et comprenait tous les items commandés et payés. La deuxième il manque un cache-cou, pourtant payé. Ça fait 4 messages que j'envoie, aucune réponse. Aucun service à la clientèle, aucun numéro que l'on peut utiliser pour parler à quelqu'un. C'est désespérant. Et le cache cou livré est mal fini et ne comprend pas l'étiquette de la compagnie.*
 >
-> J'ai vérifié : votre commande du 14 décembre contient bien deux cache-cou gris foncé. Vous en avez
-> reçu un. Et elle est partie sans numéro de suivi, donc je n'ai même pas de quoi retracer le
-> deuxième. Quatre messages là-dessus, sans réponse, en plus. Je m'en excuse.
+> J'ai vérifié : votre commande du 14 décembre contient bien deux cache-cou gris foncé, vous en avez reçu un, et elle est partie sans numéro de suivi, donc je n'ai même pas de quoi retracer le deuxième. Quatre messages là-dessus sans réponse, par-dessus le marché. Je m'en excuse. Le deuxième cache-cou part cette semaine et je vous rembourse celui qui manquait, 42,99 $, ce qui fait que vous recevez les deux et n'en payez qu'un. Une carte-cadeau de 100 $ part aussi à votre nom.
 >
-> Le deuxième cache-cou part cette semaine, et je vous rembourse celui qui manquait, 42,99 $. Vous
-> recevez donc les deux et vous n'en payez qu'un. Une carte-cadeau de 100 $ part aussi à votre nom.
+> Sur la finition et l'étiquette manquante, vous n'êtes pas la seule à l'avoir signalé cette semaine-là : c'est un lot qui est passé au travers du contrôle. Si vous l'avez encore, est-ce que vous pourriez me dire ce qui cloche exactement, ou m'envoyer une photo? Ça part directement à l'atelier.
 >
-> Sur la finition et l'étiquette manquante, vous n'êtes pas la seule à l'avoir signalé cette
-> semaine-là et c'est un lot qui est passé au travers du contrôle. Si vous l'avez encore, est-ce que
-> vous pourriez me dire ce qui cloche exactement, ou m'envoyer une photo? Ça part directement à
-> l'atelier.
->
-> Et si le cœur vous en dit une fois le colis arrivé, une mise à jour de votre avis nous aiderait
-> vraiment. Aucune obligation, le reste tient de toute façon.
+> Et si le cœur vous en dit une fois le colis arrivé, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, le reste tient de toute façon.
 
 
 ---
@@ -687,26 +572,15 @@ sont sous les avis d'autres personnes, et lui demander d'y toucher serait dépla
 >
 > Bonjour Gilles,
 >
-> Je fais le tour de ce qui s'est écrit sur notre page Facebook, y compris dans les commentaires. Le
-> vôtre est passé deux fois :
+> Je fais le tour de ce qui s'est écrit sur notre page Facebook, commentaires compris, et le vôtre est passé deux fois :
 >
-> > *chanceuse, je n ai eu aucune nouvlles a part confirmation de l achat. envoyé aussi messages sur
-> > email et sur facebook. aucune reponse.*
+> > *chanceuse, je n ai eu aucune nouvlles a part confirmation de l achat. envoyé aussi messages sur email et sur facebook. aucune reponse.*
 >
-> J'ai ouvert votre dossier et il y a pire que ce que vous décrivez. Votre commande de février est
-> partie le 25 mars, quarante-six jours plus tard. Et le bordereau d'expédition ne contient qu'une
-> des deux paires de mitaines urbaines que vous avez payées. Il y a donc de bonnes chances qu'une
-> paire ne se soit jamais rendue chez vous, sans que personne s'en aperçoive.
+> J'ai ouvert votre dossier et il y a pire que ce que vous décrivez : votre commande de février est partie le 25 mars, quarante-six jours plus tard, et le bordereau d'expédition ne contient qu'une des deux paires de mitaines urbaines que vous avez payées. Il y a donc de bonnes chances qu'une paire ne se soit jamais rendue chez vous sans que personne s'en aperçoive. Je m'en excuse, d'autant plus que vous commandez chez nous depuis 2023 et que vous avez continué après chacun de ces épisodes.
 >
-> Je m'en excuse, d'autant plus que vous commandez chez nous depuis 2023 et que vous avez continué
-> après chacun de ces épisodes.
+> Dites-moi laquelle des deux vous avez reçue, la rouge ou la rouge et gris pâle, et l'autre part cette semaine par colis suivi. Si vous préférez l'argent, je vous rembourse les 126,46 $. Dans les deux cas, une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.
 >
-> Dites-moi laquelle des deux vous avez reçue, la rouge ou la rouge et gris pâle, et l'autre part
-> cette semaine par colis suivi. Si vous préférez l'argent, je vous rembourse les 126,46 $. Dans les
-> deux cas, une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.
->
-> Et le manteau, est-ce qu'il a tenu ses promesses cet hiver? C'est notre produit le plus cher et
-> vous êtes un des rares à l'avoir porté une saison complète.
+> Et le manteau, est-ce qu'il a tenu ses promesses cet hiver? C'est notre produit le plus cher et vous êtes un des rares à l'avoir porté une saison complète.
 
 
 ---
@@ -771,31 +645,13 @@ deux fois et son grief n'est pas financier.*
 >
 > Votre avis de janvier est le seul de notre page qui ne parle pas du service :
 >
-> > *Je trouve l'idée géniale mais j'ai essayé 4 produits et les 4 étaient pas bien conçus. Semelles
-> > qui glissent et ne tiennent pas en place, coutures bâclées et torsadées, rembourrage non aligné
-> > avec les oreilles (pour la tuque), mauvaises conceptions des grandeurs… très mauvaise conception
-> > en général, c'est vraiment dommage.*
+> > *Je trouve l'idée géniale mais j'ai essayé 4 produits et les 4 étaient pas bien conçus. Semelles qui glissent et ne tiennent pas en place, coutures bâclées et torsadées, rembourrage non aligné avec les oreilles (pour la tuque), mauvaises conceptions des grandeurs… très mauvaise conception en général, c'est vraiment dommage.*
 >
-> C'est le plus utile qu'on ait reçu, et le plus dur. Quatre produits, quatre problèmes différents,
-> et rien à mettre sur le dos d'un retard ou d'une boîte courriel.
+> C'est le plus utile qu'on ait reçu et le plus dur, parce qu'il pointe quatre produits, quatre problèmes différents, et rien qu'on puisse mettre sur le dos d'un retard ou d'une boîte courriel. En rouvrant votre dossier, une partie s'explique toute seule : vous avez commandé la même veste en M et en L, pour 390 $, parce que le guide ne vous permettait pas de choisir. Personne ne devrait avoir à acheter deux fois le même vêtement pour trouver sa taille, et je m'en excuse.
 >
-> Je regarde votre dossier et une partie s'explique toute seule. Vous avez commandé la même veste en
-> M et en L, pour 390 $, parce que le guide ne vous permettait pas de choisir. Personne ne devrait
-> avoir à acheter deux fois le même vêtement pour trouver sa taille. Je m'en excuse.
+> Ce qui a changé depuis, sans que ce soit fini : le guide des tailles est refait à partir de mensurations réelles, la semelle est redessinée pour la tenue, et le contrôle à la couture est resserré.
 >
-> Ce qui a changé depuis : le guide des tailles est en train d'être refait à partir de mensurations
-> réelles, la semelle est redessinée pour la tenue, et le contrôle à la couture est resserré. Ce
-> n'est pas fini.
->
-> Trois questions, si vous avez le temps de répondre, parce que vous êtes la seule à avoir vu quatre
-> défauts en même temps.
->
-> Le rembourrage désaligné de la tuque, est-ce qu'il l'était dès la sortie de la boîte ou après
-> quelques lavages? Les coutures torsadées, sur lequel des articles? Et les semelles : je ne les
-> retrouve pas dans vos commandes, est-ce qu'elles venaient d'ailleurs ou d'un achat que je ne vois
-> pas?
->
-> Ce que vous m'écrirez ira directement aux gens qui redessinent ces produits.
+> Trois questions, si vous avez le temps d'y répondre, parce que vous êtes la seule à avoir vu quatre défauts en même temps. Le rembourrage désaligné de la tuque, est-ce qu'il l'était dès la sortie de la boîte ou après quelques lavages? Les coutures torsadées, sur lequel des articles? Et les semelles, que je ne retrouve nulle part dans vos commandes : est-ce qu'elles venaient d'ailleurs? Ce que vous m'écrirez ira directement aux gens qui redessinent ces produits.
 
 
 ---
@@ -860,27 +716,15 @@ C'est une demande de mise à jour, et c'est tout.*
 >
 > Bonjour Gabrielle,
 >
-> Je relis nos vieux avis Facebook et le vôtre m'a arrêté, parce qu'il dit deux choses en même
-> temps :
+> Je relis nos vieux avis Facebook et le vôtre m'a arrêté, parce qu'il dit deux choses en même temps :
 >
-> > *Mitaines très solides et chaudes au design minimaliste (moins ergonomique que les mitaines en
-> > magasin de sport). Coutures et matériaux de qualité. J'ai eu un pépin de grandeur et les délais
-> > de réponse aux courriels étaient de plusieurs semaines, mais tout est rentré dans l'ordre.*
+> > *Mitaines très solides et chaudes au design minimaliste (moins ergonomique que les mitaines en magasin de sport). Coutures et matériaux de qualité. J'ai eu un pépin de grandeur et les délais de réponse aux courriels étaient de plusieurs semaines, mais tout est rentré dans l'ordre.*
 >
-> Plusieurs semaines pour répondre à un échange de grandeur, c'était vrai et c'était mauvais. Je
-> m'en excuse, même trois ans plus tard.
+> Plusieurs semaines pour répondre à un échange de grandeur, c'était vrai et c'était mauvais, et je m'en excuse même trois ans plus tard. Mais votre avis est classé « ne recommande pas » alors que vous y écrivez que les mitaines sont solides, chaudes, bien cousues, et que le problème a fini par être réglé. Quelqu'un qui tombe dessus aujourd'hui lit surtout le classement.
 >
-> Mais votre avis est classé « ne recommande pas », alors que vous y écrivez que les mitaines sont
-> solides, chaudes, bien cousues, et que le problème a fini par être réglé. Quelqu'un qui tombe
-> dessus aujourd'hui lit surtout le classement.
+> Est-ce que vous accepteriez de le mettre à jour? Aucune obligation, et je ne vous offre rien en échange, c'est justement le but : si les mitaines vous ont fait trois hivers, ça vaut plus qu'une carte-cadeau.
 >
-> Est-ce que vous accepteriez de le mettre à jour? Aucune obligation, et je ne vous offre rien en
-> échange, c'est justement le but. Si les mitaines vous ont fait trois hivers, ça vaut plus qu'une
-> carte-cadeau.
->
-> Et sur l'ergonomie : vous aviez raison là-dessus aussi. La coupe des mitaines a changé depuis, le
-> pouce est repositionné. Si jamais vous voulez essayer la nouvelle version pour comparer, écrivez-
-> moi et je vous en envoie une paire.
+> Sur l'ergonomie, vous aviez raison aussi. La coupe des mitaines a changé depuis et le pouce est repositionné, alors si jamais vous voulez essayer la nouvelle version pour comparer, écrivez-moi et je vous en envoie une paire.
 
 
 ---
@@ -913,23 +757,13 @@ modifié son propre avis pour dire qu'elle avait été servie. ⚠️ **Rien à 
 >
 > Je fais le tour de notre page Facebook et je suis tombé sur votre commentaire de cet hiver :
 >
-> > *J'ai finalement reçu ma commande et un suivi par courriel de leur part, je suis satisfaite de
-> > mes achats*
+> > *J'ai finalement reçu ma commande et un suivi par courriel de leur part, je suis satisfaite de mes achats*
 >
-> Vous avez pris la peine de revenir écrire ça sous votre propre avis, sans que personne vous le
-> demande. Et vous avez recommandé deux fois depuis, en février et en juin. Personne ne vous a dit
-> merci. Je le fais.
+> Vous avez pris la peine de revenir écrire ça sous votre propre avis, sans que personne vous le demande, et vous avez recommandé deux fois depuis, en février et en juin. Personne ne vous a dit merci, alors je le fais. Pour ce qui s'est passé avant : vous aviez commandé 164 $ de cadeaux le 1er décembre, il a fallu qu'on vous annonce à la mi-décembre que rien n'arriverait pour Noël, et vos relances sont ensuite restées sans réponse. Je m'en excuse.
 >
-> Pour ce qui s'est passé avant : vous aviez commandé 164 $ de cadeaux le 1er décembre et il a fallu
-> qu'on vous annonce à la mi-décembre que rien n'arriverait pour Noël. Puis vos relances sont
-> restées sans réponse. Je m'en excuse.
+> Votre avis est encore classé « ne recommande pas », avec votre mise à jour en dessous. Si le cœur vous en dit d'en changer le classement, ça nous aiderait vraiment, et rien ne dépend de ça.
 >
-> Votre avis est encore classé « ne recommande pas », avec votre mise à jour en dessous. Si le cœur
-> vous en dit de changer le classement, ça nous aiderait vraiment. Aucune obligation, et rien ne
-> dépend de ça.
->
-> Est-ce que la veste sans manche de février vous va bien? C'est un produit neuf et j'aimerais
-> savoir ce qu'il vaut chez quelqu'un qui l'a porté un hiver complet.
+> Est-ce que la veste sans manche de février vous va bien? C'est un produit neuf et j'aimerais savoir ce qu'il vaut chez quelqu'un qui l'a porté un hiver complet.
 
 
 ---
@@ -963,24 +797,13 @@ nôtres étaient trop raides. ⚠️ **C'est le meilleur test qu'on ait sur la r
 >
 > Je relis nos avis Facebook et le vôtre date de janvier 2024 :
 >
-> > *J'ai écrit un premier message courriel le 4 janvier pour effectuer le retour des mitaines
-> > reçues le 27 décembre. Aucune réponse… ni son ni image… J'ai aussi tenté par Messenger sans
-> > succès. Les semelles sont bien, mais les mitaines très décevantes: beaucoup trop raides.*
+> > *J'ai écrit un premier message courriel le 4 janvier pour effectuer le retour des mitaines reçues le 27 décembre. Aucune réponse… ni son ni image… J'ai aussi tenté par Messenger sans succès. Les semelles sont bien, mais les mitaines très décevantes: beaucoup trop raides.*
 >
-> Votre retour a été traité le 16 janvier, cinq jours après votre avis et douze jours après votre
-> premier courriel. Autrement dit, il a fallu que vous écriviez en public. Je m'en excuse.
+> Votre retour a été traité le 16 janvier, cinq jours après votre avis et douze jours après votre premier courriel, ce qui veut dire qu'il a fallu que vous écriviez en public. Je m'en excuse. Ce qui m'intéresse davantage aujourd'hui, c'est que vous avez racheté des mitaines chez nous en novembre 2025, après avoir écrit noir sur blanc que les nôtres étaient trop raides : vous avez donc les deux versions dans la même maison, celle de 2023 et celle de 2025.
 >
-> Ce qui m'intéresse davantage : vous avez racheté des mitaines chez nous en novembre 2025, après
-> avoir écrit noir sur blanc que les nôtres étaient trop raides. Vous avez donc les deux versions
-> dans la même maison, celle de 2023 et celle de 2025.
+> Est-ce que la nouvelle est plus souple? C'est la question sur laquelle on tourne en rond, parce que personne d'autre n'a les deux, et votre réponse vaut plus que tous nos tests internes. Une carte-cadeau de 100 $ part à votre nom pour le dérangement de 2024, sans date d'expiration.
 >
-> Est-ce que la nouvelle est plus souple? C'est la question sur laquelle on tourne en rond, parce
-> que personne d'autre n'a les deux. Votre réponse vaut plus que tous nos tests internes.
->
-> Une carte-cadeau de 100 $ part à votre nom pour le dérangement de 2024, sans date d'expiration.
->
-> Et si les nouvelles vous ont satisfaite, une mise à jour de votre avis nous aiderait vraiment.
-> Aucune obligation, la carte tient de toute façon.
+> Et si les nouvelles vous ont satisfaite, une mise à jour de votre avis nous aiderait vraiment. Aucune obligation, la carte tient de toute façon.
 
 ---
 
