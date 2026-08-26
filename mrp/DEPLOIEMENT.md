@@ -122,20 +122,32 @@ Puis les deux imports du contrôle qualité, dans cet ordre — les protocoles
 d'abord, les bris ensuite, parce qu'un bris peut se rattacher à un point :
 
 ```sh
-node mrp/import_charte.js --ecrire                # charte : matières, isolant, garnitures
-node mrp/import_qualite.js --charte --squelettes --ecrire   # protocoles
-node mrp/import_bris.js --ecrire                  # ce que les clients ont signalé
+node mrp/import.js --ecrire   # une seule fois : le catalogue
 ```
 
-`--charte` charge les vérifications de la charte produits — la colonne jaune du
-tableau de production. Sans ce drapeau, dix-sept produits restent sans un seul
-point de contrôle ; avec, il n'en reste que quatre.
+**Les protocoles, la charte et les bris n'ont plus besoin du Shell.** Le service
+les charge lui-même à chaque démarrage, depuis les fichiers du dépôt. Les
+imports concernés n'effacent que les lignes dont ILS sont la source — un point
+écrit à la main dans l'app porte le nom de son auteur et n'est jamais touché.
+Le catalogue, lui, ne se charge que sur une base vide : il vient de Shopify, et
+le relancer écraserait une correction faite dans l'app.
 
-Attendu : **207 lignes de charte sur 30 produits**, **133 points de contrôle sur
-29 produits**, puis **26 signalements, 24 avec photo** — 16 sur le sac à
-dos glacière, dont dix fois la même couture de bretelle. Les photos ne sont pas
-hébergées ici : ce sont des adresses, et **Produits → Ce qui casse** les demande
-redimensionnées au CDN. Si elles n'apparaissent pas, ce n'est pas l'app — c'est
+Les journaux du service le disent au démarrage :
+
+```
+[mrp] catalogue : base déjà peuplée, on n'y touche pas.
+[mrp] charte produits : chargé.
+[mrp] protocoles qualité : chargé.
+[mrp] bris signalés : chargé.
+[mrp] en base : 34 produits, 211 lignes de charte, 133 points de contrôle, 110 bris.
+```
+
+`MRP_SANS_AMORCE=1` désactive ce chargement — c'est ce que font les tests de
+bout en bout, qui partent d'une base vide et comptent leurs propres lignes.
+
+Si l'onglet **Produits → Ce qui casse** affiche des cadres vides à la place des
+photos, ce n'est pas l'app — elle n'héberge rien, ce sont des adresses servies
+redimensionnées par le CDN. Si elles n'apparaissent pas, ce n'est pas l'app — c'est
 que le dossier de l'hébergeur n'est pas partagé par lien.
 
 ---

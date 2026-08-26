@@ -962,6 +962,9 @@ function amorcerPremierCompte() {
 
 if (require.main === module) {
   amorcerPremierCompte();
+  // Les données du dépôt entrent en base au démarrage. Sans ça, elles
+  // attendent qu'on ouvre un Shell Render, et personne ne l'ouvre.
+  require('./amorce.js').amorcerDonnees();
   serveur.listen(PORT, () => console.log(`[mrp] écoute sur http://localhost:${PORT}`));
 }
 

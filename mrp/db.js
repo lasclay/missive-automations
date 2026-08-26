@@ -852,7 +852,8 @@ function murDesBris({ produitId = null } = {}) {
   for (const b of l) {
     const cle = b.pid || 0;
     if (!par.has(cle)) par.set(cle, {
-      id: b.pid, code: b.code || '(produit inconnu)', nom: b.produit_nom || '',
+      id: b.pid, code: b.code || 'Modèle non précisé',
+      nom: b.produit_nom || 'Le client n’a pas dit lequel — c’est la zone qui parle',
       bris: [], photos: 0, zones: new Map(), sansConsigne: 0 });
     const g = par.get(cle);
     g.bris.push(b);
