@@ -176,6 +176,36 @@ CREATE TABLE IF NOT EXISTS agent_actions (
   defait        INTEGER NOT NULL DEFAULT 0,
   cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
 );
+-- ---------------------------------------------------------------------- tâches
+-- « Montassar me demande des choses, et vice versa. » Ces demandes-là vivaient
+-- dans Missive, dans WhatsApp, ou dans la tête de quelqu'un. Ici elles ont un
+-- porteur, un état, et une date.
+--
+-- Ce n'est PAS une hiérarchie : n'importe qui assigne à n'importe qui, dans les
+-- deux sens. Québec ne donne pas d'ordres à l'atelier par ce canal — les deux
+-- côtés se demandent des choses.
+CREATE TABLE IF NOT EXISTS taches (
+  id            INTEGER PRIMARY KEY,
+  titre         TEXT NOT NULL,
+  details       TEXT NOT NULL DEFAULT '',
+  -- qui demande, et à qui. « assigne_a » NULL = personne encore : une tâche
+  -- posée sans porteur reste visible plutôt que d'être refusée.
+  cree_par      INTEGER REFERENCES utilisateurs(id),
+  assigne_a     INTEGER REFERENCES utilisateurs(id),
+  statut        TEXT NOT NULL DEFAULT 'a_faire'
+                CHECK (statut IN ('a_faire','faite')),
+  echeance      TEXT,                 -- AAAA-MM-JJ, facultative
+  -- rattachement facultatif : « vérifier le molleton noir » a du sens à côté
+  -- de son produit, et l'ouvrir depuis la fiche évite de chercher.
+  ordre_id      INTEGER REFERENCES ordres(id) ON DELETE SET NULL,
+  produit_id    INTEGER REFERENCES produits(id) ON DELETE SET NULL,
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now')),
+  faite_le      TEXT,
+  faite_par     INTEGER REFERENCES utilisateurs(id)
+);
+CREATE INDEX IF NOT EXISTS idx_taches_assigne ON taches(assigne_a, statut);
+CREATE INDEX IF NOT EXISTS idx_taches_cree    ON taches(cree_par, statut);
+
 CREATE INDEX IF NOT EXISTS idx_tours_fil     ON agent_tours(fil);
 CREATE INDEX IF NOT EXISTS idx_actions_tour  ON agent_actions(tour_id);
 CREATE INDEX IF NOT EXISTS idx_items_ordre    ON ordre_items(ordre_id);
@@ -438,7 +468,57 @@ function progressionRecente(jours = 7) {
     GROUP BY o.id ORDER BY unites_avancees DESC`).all(`-${jours} days`);
 }
 
+// ------------------------------------------------------------------- tâches
+/**
+ * Les tâches, avec les noms des deux personnes concernées.
+ *
+ * Le tri met devant ce qui a une échéance, la plus proche d'abord ; les
+ * sans-date suivent, par ancienneté. Une tâche sans échéance n'est pas
+ * urgente, mais elle ne doit pas disparaître pour autant.
+ */
+const SELECT_TACHE = `
+  SELECT t.*,
+         d.nom AS demandeur, d.role AS demandeur_role,
+         a.nom AS porteur,   a.role AS porteur_role,
+         o.numero AS ordre_numero, p.code AS produit_code
+    FROM taches t
+    LEFT JOIN utilisateurs d ON d.id = t.cree_par
+    LEFT JOIN utilisateurs a ON a.id = t.assigne_a
+    LEFT JOIN ordres o       ON o.id = t.ordre_id
+    LEFT JOIN produits p     ON p.id = t.produit_id`;
+
+const ORDRE_TACHE = `
+  ORDER BY CASE WHEN t.echeance IS NULL THEN 1 ELSE 0 END,
+           t.echeance, t.id`;
+
+function taches({ pour, par, statut = 'a_faire', limite = 200 } = {}) {
+  const ou = ['t.statut = ?'], args = [statut];
+  // « pour: null » veut dire « non assignées » — c'est un filtre valide, donc
+  // on teste la présence de la clé, pas sa véracité.
+  if (pour !== undefined) { ou.push('t.assigne_a IS ?'); args.push(pour); }
+  if (par !== undefined) { ou.push('t.cree_par = ?'); args.push(par); }
+  return db.prepare(`${SELECT_TACHE} WHERE ${ou.join(' AND ')} ${ORDRE_TACHE}
+                     LIMIT ?`).all(...args, limite);
+}
+
+const tache = (id) => db.prepare(`${SELECT_TACHE} WHERE t.id = ?`).get(id);
+
+/** Ce qui attend quelqu'un : le chiffre que l'accueil affiche. */
+function compteTaches(utilisateurId) {
+  const auj = new Date().toISOString().slice(0, 10);
+  const r = db.prepare(
+    `SELECT COUNT(*) AS n,
+            SUM(CASE WHEN echeance IS NOT NULL AND echeance < ? THEN 1 ELSE 0 END) AS retard
+       FROM taches WHERE assigne_a = ? AND statut = 'a_faire'`).get(auj, utilisateurId);
+  return { n: r.n || 0, retard: r.retard || 0 };
+}
+
+/** Les gens à qui on peut assigner : les comptes actifs, soi compris. */
+const equipe = () => db.prepare(
+  `SELECT id, nom, role FROM utilisateurs WHERE actif = 1 ORDER BY nom`).all();
+
 module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
+                   taches, tache, compteTaches, equipe,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,
                    RANG_PRIORITE, RANG_FAMILLE, FAMILLES, LIEUX };

@@ -25,13 +25,14 @@ const fs = require('node:fs');
 const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
-        sansMouvement, progressionRecente, fabriqueAilleurs,
-        variantesItem } = require('./db.js');
+        sansMouvement, progressionRecente, fabriqueAilleurs, variantesItem,
+        taches, tache, compteTaches, equipe } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
 const outils = require('./outils.js');
 const charge = require('./charge.js');
+const salutation = require('./salutation.js');
 
 const PORT = process.env.PORT || 3000;
 const SECURE = process.env.MRP_SECURE === '1';
@@ -181,7 +182,11 @@ async function router(req, res, url, user) {
     // L'accueil reprend le fil en cours plutôt que d'en ouvrir un neuf : sinon
     // « et les mitaines ? » perd son antécédent dès qu'on recharge la page.
     const filCourant = assistant.dernierFil(user.id) || nouveauFil();
-    return html(res, V.vueAccueil({ user, ordres, jalons: R.jalonsProchains.all(),
+    const prochains = R.jalonsProchains.all();
+    return html(res, V.vueAccueil({ user, ordres, jalons: prochains,
+      salut: salutation.saluer({ user,
+        taches: compteTaches(user.id),
+        echeance: prochains.length ? prochains[0].date : null }),
       ia: {
         dispo: assistant.disponible(),
         fil: filCourant,
@@ -475,6 +480,79 @@ async function router(req, res, url, user) {
       return avec(dufil + 'ok='
         + encodeURIComponent(n ? `${n} modification${n > 1 ? 's' : ''} annulée${
             n > 1 ? 's' : ''}.` : 'Rien à annuler.'));
+    }
+  }
+
+  // ---- tâches : ce qu'on se demande d'un bord à l'autre
+  if (p === '/taches') {
+    if (req.method === 'POST') {
+      const f = await corpsFormulaire(req);
+      const titre = String(f.titre || '').trim();
+      if (!titre) return vers(res, '/taches?err=' + encodeURIComponent('Il faut un titre.'));
+      // Un destinataire inventé créerait une tâche que personne ne voit : on
+      // vérifie qu'il existe plutôt que d'écrire un id dans le vide.
+      let porteur = null;
+      if (f.assigne_a) {
+        const m = db.prepare(`SELECT id FROM utilisateurs WHERE id = ? AND actif = 1`)
+          .get(Number(f.assigne_a));
+        if (!m) return vers(res, '/taches?err='
+          + encodeURIComponent('Cette personne n\'existe pas ou n\'est plus active.'));
+        porteur = m.id;
+      }
+      const ech = /^\d{4}-\d{2}-\d{2}$/.test(f.echeance || '') ? f.echeance : null;
+      db.prepare(`INSERT INTO taches (titre, details, cree_par, assigne_a, echeance)
+                  VALUES (?,?,?,?,?)`)
+        .run(titre, String(f.details || '').trim(), user.id, porteur, ech);
+      return vers(res, '/taches?ok=' + encodeURIComponent('Tâche ajoutée.'));
+    }
+    return html(res, V.vueTaches({ user, msg,
+      pourMoi:    taches({ pour: user.id }),
+      // Ce que j'ai demandé À QUELQU'UN : ni mes propres tâches (elles sont
+      // au-dessus), ni celles que personne n'a prises (elles ont leur section,
+      // et les montrer deux fois fait croire qu'il y en a deux).
+      demandees:  taches({ par: user.id })
+                    .filter(t => t.assigne_a !== null && t.assigne_a !== user.id),
+      orphelines: taches({ pour: null }),
+      faites:     taches({ statut: 'faite', limite: 30 })
+                    .filter(t => t.assigne_a === user.id || t.cree_par === user.id),
+      equipe: equipe() }));
+  }
+
+  {
+    const m = p.match(/^\/taches\/(\d+)\/(faite|rouvrir|prendre|supprimer)$/);
+    if (m && req.method === 'POST') {
+      const t = tache(Number(m[1]));
+      if (!t) return vers(res, '/taches?err=' + encodeURIComponent('Tâche introuvable.'));
+      const sien = t.assigne_a === user.id, demandeur = t.cree_par === user.id;
+      const libre = t.assigne_a === null;
+
+      if (m[2] === 'supprimer') {
+        // Seul celui qui a demandé retire sa demande. Le porteur la termine ou
+        // la rouvre — il ne fait pas disparaître ce qu'on lui a demandé.
+        if (!demandeur) return vers(res, '/taches?err='
+          + encodeURIComponent('Seule la personne qui a demandé peut supprimer.'));
+        db.prepare(`DELETE FROM taches WHERE id = ?`).run(t.id);
+        return vers(res, '/taches?ok=' + encodeURIComponent('Tâche supprimée.'));
+      }
+      if (m[2] === 'prendre') {
+        if (!libre) return vers(res, '/taches?err='
+          + encodeURIComponent('Cette tâche a déjà quelqu\'un.'));
+        db.prepare(`UPDATE taches SET assigne_a = ? WHERE id = ?`).run(user.id, t.id);
+        return vers(res, '/taches?ok=' + encodeURIComponent('Tâche prise.'));
+      }
+      if (m[2] === 'faite') {
+        if (!sien && !libre && !demandeur) return vers(res, '/taches?err='
+          + encodeURIComponent('Cette tâche est à quelqu\'un d\'autre.'));
+        db.prepare(`UPDATE taches SET statut = 'faite', faite_le = datetime('now'),
+                    faite_par = ?, assigne_a = COALESCE(assigne_a, ?) WHERE id = ?`)
+          .run(user.id, user.id, t.id);
+        return vers(res, '/taches?ok=' + encodeURIComponent('Marquée faite.'));
+      }
+      if (!sien && !demandeur) return vers(res, '/taches?err='
+        + encodeURIComponent('Cette tâche ne te concerne pas.'));
+      db.prepare(`UPDATE taches SET statut = 'a_faire', faite_le = NULL,
+                  faite_par = NULL WHERE id = ?`).run(t.id);
+      return vers(res, '/taches?ok=' + encodeURIComponent('Rouverte.'));
     }
   }
 

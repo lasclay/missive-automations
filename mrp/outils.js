@@ -21,16 +21,17 @@
  * que de deviner.
  */
 'use strict';
+const D = require('./db.js');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs,
-        FAMILLES, LIEUX } = require('./db.js');
+        FAMILLES, LIEUX } = D;
 const { urlAcceptable } = require('./vues.js');
 
 // Tables que le journal a le droit de rétablir. Liste blanche : ce qui n'est
 // pas écrit ici ne peut pas être touché par une annulation.
 const TABLES = new Set(['ordres', 'ordre_items', 'ordre_jalons',
   'ordre_commentaires', 'produits', 'produit_photos', 'produit_materiaux',
-  'produit_patrons']);
+  'produit_patrons', 'taches']);
 
 // --------------------------------------------------------------- résolution
 class Refus extends Error {}
@@ -76,6 +77,50 @@ function resoudreOrdre(ref) {
     + flous.map(o => `${o.numero} (${o.titre})`).join(', ')
     + '. Demande lequel.');
   refuser(`Aucun ordre ne correspond à « ${s} ».`);
+}
+
+/**
+ * Une personne de l'équipe, par son nom. Comme pour les produits, on refuse
+ * plutôt que de choisir : assigner une tâche à la mauvaise personne, c'est
+ * une tâche que personne ne fait.
+ */
+function resoudreMembre(ref) {
+  const s = String(ref ?? '').trim();
+  if (!s) refuser('Il faut dire de qui on parle.');
+  const l = D.equipe();
+  const exact = l.filter(m => m.nom.toLowerCase() === s.toLowerCase());
+  if (exact.length === 1) return exact[0];
+  const flous = l.filter(m => m.nom.toLowerCase().includes(s.toLowerCase()));
+  if (flous.length === 1) return flous[0];
+  if (flous.length > 1) refuser(
+    `« ${s} » correspond à ${flous.length} personnes : `
+    + flous.map(m => m.nom).join(', ') + '. Demande laquelle.');
+  refuser(`Personne ne s'appelle « ${s} ». L'équipe : `
+    + l.map(m => m.nom).join(', ') + '.');
+}
+
+/**
+ * Une tâche par son titre. On ne cherche que dans celles qui concernent la
+ * personne connectée — terminer la tâche d'un tiers par ressemblance de titre
+ * serait exactement le genre de dégât qu'on veut éviter.
+ */
+function resoudreTache(ref, utilisateurId) {
+  const s = String(ref ?? '').trim();
+  if (!s) refuser('Il faut dire de quelle tâche il s\'agit.');
+  const l = db.prepare(
+    `SELECT * FROM taches WHERE statut = 'a_faire'
+       AND (assigne_a = ? OR cree_par = ? OR assigne_a IS NULL)`)
+    .all(utilisateurId, utilisateurId);
+  if (/^\d+$/.test(s)) {
+    const t = l.find(x => x.id === Number(s));
+    if (t) return t;
+  }
+  const flous = l.filter(t => t.titre.toLowerCase().includes(s.toLowerCase()));
+  if (flous.length === 1) return flous[0];
+  if (flous.length > 1) refuser(
+    `« ${s} » correspond à ${flous.length} tâches : `
+    + flous.map(t => `« ${t.titre} »`).join(', ') + '. Précise laquelle.');
+  refuser(`Aucune tâche en cours ne correspond à « ${s} ».`);
 }
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -464,6 +509,88 @@ const OUTILS = [
     },
   },
 
+  // ------------------------------------------------------------------ tâches
+  // Les tâches vont dans les deux sens : c'est le seul module où l'atelier a
+  // exactement les mêmes droits que Québec. Montassar demande des choses, on
+  // lui en demande.
+  {
+    nom: 'lister_taches',
+    description: "Les tâches en cours. Sans argument : celles de l'utilisateur "
+      + "connecté. Sert à « qu'est-ce que j'ai à faire », « qu'est-ce que j'ai "
+      + "demandé à Montassar », « qu'est-ce qui traîne ».",
+    role: 'atelier',
+    params: { type: 'object', properties: {
+      qui: { type: 'string', description:
+        "Nom de la personne. Vide = l'utilisateur connecté." },
+      demandees: { type: 'boolean', description:
+        'true = ce que cette personne a DEMANDÉ, au lieu de ce qui lui est assigné.' },
+      faites: { type: 'boolean', description: 'true = les tâches terminées.' } } },
+    executer: (a, ctx) => {
+      const m = a.qui ? resoudreMembre(a.qui) : { id: ctx.user.id, nom: ctx.user.nom };
+      const statut = a.faites ? 'faite' : 'a_faire';
+      const l = a.demandees ? D.taches({ par: m.id, statut })
+                            : D.taches({ pour: m.id, statut });
+      return { qui: m.nom, sens: a.demandees ? 'demandées par' : 'assignées à',
+        nombre: l.length,
+        taches: l.map(t => ({ id: t.id, titre: t.titre, details: t.details || undefined,
+          echeance: t.echeance || undefined,
+          demandeur: t.demandeur || undefined, porteur: t.porteur || undefined })) };
+    },
+  },
+  {
+    nom: 'creer_tache',
+    description: "Demande quelque chose à quelqu'un. « Demande à Montassar de "
+      + "vérifier le stock de molleton », « rappelle-moi de chronométrer le "
+      + "chandail ». Sans destinataire, la tâche reste sans porteur et "
+      + "n'importe qui peut la prendre.",
+    role: 'atelier',
+    params: { type: 'object', required: ['titre'], properties: {
+      titre: { type: 'string', description: 'Ce qu\'il faut faire, en une ligne.' },
+      pour: { type: 'string', description:
+        "Nom de la personne. « moi » pour l'utilisateur connecté. Vide = personne." },
+      details: { type: 'string', description: 'Ce qu\'il faut savoir pour la faire.' },
+      echeance: { type: 'string', description: 'AAAA-MM-JJ, facultative.' } } },
+    executer: (a, ctx) => {
+      const titre = String(a.titre || '').trim();
+      if (!titre) refuser('Il faut dire ce qu\'il y a à faire.');
+      let porteur = null, nomPorteur = 'personne';
+      if (a.pour && !/^(personne|aucun)$/i.test(a.pour)) {
+        const m = /^(moi|me)$/i.test(a.pour)
+          ? { id: ctx.user.id, nom: ctx.user.nom } : resoudreMembre(a.pour);
+        porteur = m.id; nomPorteur = m.nom;
+      }
+      if (a.echeance && !/^\d{4}-\d{2}-\d{2}$/.test(a.echeance))
+        refuser(`Date mal formée : « ${a.echeance} ». Il faut AAAA-MM-JJ.`);
+      const id = db.prepare(`INSERT INTO taches (titre, details, cree_par, assigne_a, echeance)
+                             VALUES (?,?,?,?,?)`)
+        .run(titre, String(a.details || '').trim(), ctx.user.id, porteur,
+             a.echeance || null).lastInsertRowid;
+      noter(ctx, 'creer_tache', `Tâche « ${titre} » pour ${nomPorteur}`,
+        { table: 'taches', op: 'insert', id });
+      return { ok: true, id, titre, pour: nomPorteur,
+               echeance: a.echeance || undefined };
+    },
+  },
+  {
+    nom: 'terminer_tache',
+    description: "Marque une tâche comme faite. Donne son titre ou un bout du "
+      + "titre — pas besoin du numéro.",
+    role: 'atelier',
+    params: { type: 'object', required: ['tache'], properties: {
+      tache: { type: 'string', description: 'Titre ou bout de titre.' } } },
+    executer: (a, ctx) => {
+      const t = resoudreTache(a.tache, ctx.user.id);
+      const avant = { statut: t.statut, faite_le: t.faite_le, faite_par: t.faite_par,
+                      assigne_a: t.assigne_a };
+      db.prepare(`UPDATE taches SET statut = 'faite', faite_le = datetime('now'),
+                  faite_par = ?, assigne_a = COALESCE(assigne_a, ?) WHERE id = ?`)
+        .run(ctx.user.id, ctx.user.id, t.id);
+      noter(ctx, 'terminer_tache', `Tâche « ${t.titre} » marquée faite`,
+        { table: 'taches', op: 'update', id: t.id, avant });
+      return { ok: true, titre: t.titre };
+    },
+  },
+
   // ------------------------------------------------- écritures administration
   {
     nom: 'creer_ordre',
@@ -777,4 +904,4 @@ function executer(nom, args, ctx) {
 
 module.exports = { OUTILS, schemas, executer, annulerTour, pourRole,
                    dernierTourAnnulable,
-                   resoudreOrdre, resoudreProduit };
+                   resoudreOrdre, resoudreProduit, resoudreMembre, resoudreTache };

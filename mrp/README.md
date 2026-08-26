@@ -172,10 +172,39 @@ dire — est dans [`METHODE-SUIVI.md`](METHODE-SUIVI.md).
 - Matériaux et patrons, avec dimensions déclarées
 - Liste des ordres de production où le produit apparaît
 
+**Tâches — ce qu'on se demande d'un bord à l'autre**
+
+Ces demandes-là vivaient dans Missive, dans WhatsApp, ou dans la tête de
+quelqu'un. Ici elles ont un porteur, un état, et une date.
+
+- **Aucune hiérarchie** : Montassar assigne à Québec exactement comme Québec
+  assigne à Montassar. C'est le seul module où les deux rôles ont les mêmes
+  droits.
+- Trois listes, dans l'ordre où on les regarde : **pour moi**, **ce que j'ai
+  demandé**, **sans porteur**. Les faites sont repliées — elles servent à
+  vérifier, pas à travailler.
+- Une échéance dépassée porte un filet rouge et remonte en tête.
+- **Une pastille dans le menu**, sur toutes les pages : rouge s'il y a du
+  retard. Un compteur qu'on ne voit que sur sa propre page ne sert à rien.
+- Qui peut quoi : le **porteur** termine ou rouvre ; seul le **demandeur**
+  supprime. On ne fait pas disparaître ce qu'on vous a demandé.
+- L'assistant sait s'en servir : « demande à Montassar de vérifier le stock de
+  molleton », « qu'est-ce que j'ai à faire », « c'est fait pour les semelles ».
+
 **Assistant — il exécute, il ne fait pas que répondre**
 
-Il est **sur l'accueil**, en haut, avant tout le reste : une phrase à écrire et
-le dernier échange, avec le bouton pour annuler ce qu'il a écrit. Le fil complet
+Il est **sur l'accueil**, en haut, avant tout le reste : il salue, puis une
+phrase à écrire et le dernier échange, avec le bouton pour annuler ce qu'il a
+écrit.
+
+**La salutation connaît deux fuseaux.** Souhaiter « bonsoir » à quelqu'un qui
+déjeune est la façon la plus rapide de faire sentir qu'une app ne sait pas à
+qui elle parle : Québec et Tunis sont à cinq ou six heures d'écart. Le fuseau
+se déduit du rôle, parce que les rôles de cette app **sont** des lieux. Et la
+deuxième phrase dit ce qui attend vraiment — « Une tâche a dépassé son
+échéance. » — plutôt que « Des questions ? », qui ne sert que quand il n'y a
+rien à signaler. Aucun appel au modèle : c'est du texte, calculé en une
+milliseconde. Le fil complet
 reste sur sa page. L'accueil **reprend la conversation en cours** plutôt que
 d'en ouvrir une neuve à chaque affichage — sans ça, « et les mitaines ? » perd
 son antécédent dès qu'on recharge.
@@ -217,7 +246,7 @@ mêmes contraintes.
   → « Cache-cous à 70 % et deadline ajoutée au 2 octobre. »        [Annuler]
 ```
 
-**Vingt outils** (`outils.js`) : lire les ordres, les fiches et la cédule ;
+**Vingt-sept outils** (`outils.js`) : lire les ordres, les fiches et la cédule ;
 mettre à jour un avancement ; créer un ordre, y ajouter ou en retirer des
 items ; poser des jalons ; créer et enrichir une fiche produit ; commenter.
 L'assistant les enchaîne seul — créer un ordre puis le remplir de quatre items
@@ -408,7 +437,7 @@ Trois suites, aucune n'a besoin du réseau ni de clé API.
 
 | Suite | Ce qu'elle couvre |
 | --- | --- |
-| `tests/outils.js` | les 20 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
+| `tests/outils.js` | les 27 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
 | `tests/boucle.js` | la boucle agentique contre une fausse API : enchaînement des outils, retour des erreurs au modèle, reprise du fil, plafond de 12 étapes |
 | `tests/e2e.sh` | le serveur complet : authentification, permissions, avancement pondéré, redimension des images, poids des pages sous 25 Ko |
 
@@ -425,6 +454,7 @@ utilisateurs ─┬─ sessions
               │          ├─ ordre_jalons          (cédule)
               │          └─ ordre_commentaires
               ├─ agent_tours ── agent_actions        (assistant + annulation)
+              ├─ taches                              (cree_par ↔ assigne_a)
               └─ produits ─┬─ produit_photos      (studio | contexte)
                            ├─ produit_materiaux
                            └─ produit_patrons

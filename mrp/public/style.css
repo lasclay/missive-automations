@@ -245,6 +245,40 @@ textarea{min-height:70px;resize:vertical}
 .lien{background:none;border:0;padding:0;font:inherit;color:var(--bleu);
   cursor:pointer;text-align:left;text-decoration:underline}
 .lien:hover{color:var(--texte)}
+/* ---------- tâches ----------
+   Une tâche est une ligne : ce qu'il faut faire à gauche, ce qu'on peut en
+   faire à droite. Rien d'autre — c'est une liste de courses, pas un ticket. */
+.taches{list-style:none;padding:0;margin:0}
+.tk{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;
+  padding:11px 0;border-bottom:1px solid var(--ligne);flex-wrap:wrap}
+.taches li:last-child{border-bottom:0}
+.tk-quoi{flex:1;min-width:min(100%,240px)}
+.tk-quoi b{display:block;font-weight:600;line-height:1.4}
+.tk-det{display:block;color:var(--encre2);font-size:13.5px;margin-top:2px}
+.tk-qui{display:block;color:var(--gris);font-size:12px;margin-top:4px}
+.tk-date{font-variant-numeric:tabular-nums}
+.tk-date.en-retard{color:var(--rouge);font-weight:600}
+.tk-retard{border-left:3px solid var(--rouge);padding-left:10px;margin-left:-13px}
+.tk-faite .tk-quoi b{text-decoration:line-through;color:var(--gris);font-weight:500}
+.tk-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tk-actions form{margin:0}
+.btn-mini{font:inherit;font-size:13px;cursor:pointer;padding:5px 11px;border-radius:5px;
+  border:1px solid var(--vert);background:var(--vert);color:var(--sur-vert)}
+.btn-mini:hover{background:var(--vert-survol);border-color:var(--vert-survol)}
+.lien.danger{color:var(--rouge)}
+.tk-form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.tk-form .champ{margin:0;flex:1 1 180px}
+.tk-form .champ-large{flex:1 1 100%}
+.tk-form input,.tk-form select{width:100%}
+.cpt{font-size:12px;font-weight:600;color:var(--gris);
+  font-variant-numeric:tabular-nums;margin-left:4px}
+/* La pastille du menu : le seul endroit où un chiffre doit sauter aux yeux. */
+.pastille{display:inline-block;min-width:17px;padding:0 5px;margin-left:5px;
+  border-radius:99px;background:var(--nav);color:var(--vert-fonce);
+  font-size:11px;font-weight:700;line-height:17px;text-align:center;
+  font-variant-numeric:tabular-nums}
+.pastille.urgent{background:var(--rouge);color:#fff}
+
 /* ---------- assistant sur l'accueil ----------
    C'est la première chose qu'on voit en arrivant, donc la saisie passe avant
    le dernier échange : on vient pour demander, pas pour relire. */
@@ -252,6 +286,7 @@ textarea{min-height:70px;resize:vertical}
 .ia-tete{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
 .ia-tete h2{margin:0;flex:1}
 .ia-tete a{font-size:12.5px;white-space:nowrap}
+.ia-suite{margin:-4px 0 12px;color:var(--encre2);font-size:14.5px}
 .ia .saisie{border:0;padding:0;background:transparent}
 .ia .saisie textarea{background:var(--champ)}
 /* Le dernier échange est un rappel, pas le sujet : plus discret que sur la

@@ -171,19 +171,80 @@ curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler 
   | grep -q 'err=' && ok "assistant : tour d'autrui non annulable" \
   || ko "assistant : annulation croisée permise"
 
+# --- tâches : ce qu'on se demande d'un bord à l'autre ---------------------
+# Le seul module sans hiérarchie : l'atelier assigne à Québec comme l'inverse.
+curl -s -b $CO -o /dev/null -X POST $B/taches \
+  --data-urlencode 'titre=Confirmer la quantité de bandeaux' \
+  --data "assigne_a=$(MRP_DB="$DB" node --no-warnings -e "
+    const{db}=require('./db.js');
+    console.log(db.prepare(\"SELECT id FROM utilisateurs WHERE courriel='a@test.com'\").get().id)" 2>/dev/null)"
+N=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM taches').get().n)" 2>/dev/null)
+[ "$N" = 1 ] && ok "l'atelier peut demander quelque chose à Québec" \
+  || ko "tâche non créée par l'atelier ($N)"
+
+curl -s -b $CA $B/taches | grep -q 'Confirmer la quantité de bandeaux' \
+  && ok "Québec voit ce que l'atelier lui a demandé" || ko "tâche invisible côté Québec"
+
+# la pastille du menu : une tâche qui attend doit se voir depuis n'importe où
+curl -s -b $CA $B/produits | grep -q 'class="pastille' \
+  && ok "la pastille suit sur toutes les pages" || ko "pastille absente hors de /taches"
+
+# un destinataire inventé créerait une tâche que personne ne voit
+curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/taches \
+  --data 'titre=X&assigne_a=99999' | grep -q 'err=' \
+  && ok "un destinataire inexistant est refusé" || ko "tâche assignée dans le vide"
+curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/taches \
+  --data 'titre=   ' | grep -q 'err=' \
+  && ok "une tâche sans titre est refusée" || ko "tâche vide acceptée"
+
+TK=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT id FROM taches ORDER BY id DESC LIMIT 1').get().id)" 2>/dev/null)
+
+# seul le demandeur retire sa demande : le porteur la termine, il ne l'efface pas
+curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/taches/$TK/supprimer \
+  | grep -q 'err=' && ok "le porteur ne peut pas supprimer ce qu'on lui demande" \
+  || ko "suppression permise au porteur"
+
+curl -s -b $CA -o /dev/null -X POST $B/taches/$TK/faite
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT statut FROM taches WHERE id=?').get($TK).statut)" 2>/dev/null)" = faite ] \
+  && ok "le porteur marque sa tâche faite" || ko "tâche non terminée"
+
+curl -s -b $CA -o /dev/null -X POST $B/taches/$TK/rouvrir
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT statut FROM taches WHERE id=?').get($TK).statut)" 2>/dev/null)" = a_faire ] \
+  && ok "une tâche se rouvre" || ko "réouverture impossible"
+
+# et le demandeur, lui, peut la retirer
+curl -s -b $CO -o /dev/null -X POST $B/taches/$TK/supprimer
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM taches').get().n)" 2>/dev/null)" = 0 ] \
+  && ok "le demandeur retire sa demande" || ko "suppression refusée au demandeur"
+
 # --- l'assistant sur l'accueil ------------------------------------------
 # C'est la première chose qu'on voit en arrivant : la saisie doit être là, et
 # elle doit ramener où on était, sans devenir une redirection ouverte.
 A=$(curl -s -b $CA $B/)
-echo "$A" | grep -q 'Demander à l' \
+echo "$A" | grep -q 'id="ia-form"' \
   && ok "l'accueil porte la saisie de l'assistant" || ko "assistant absent de l'accueil"
 echo "$A" | grep -q 'action="/assistant"' \
   && ok "la saisie de l'accueil poste vers l'assistant" || ko "formulaire mal câblé"
 echo "$A" | grep -q 'name="retour" value="/"' \
   && ok "la saisie de l'accueil demande le retour à l'accueil" || ko "retour absent"
 
+# la salutation : le prénom, et une formule qui correspond à l'heure de CELUI
+# qui lit — pas à celle du serveur.
+echo "$A" | grep -qE '(Bon matin|Bon après-midi|Bonsoir|Bonne nuit) Admin' \
+  && ok "l'accueil salue par son prénom" || ko "pas de salutation"
+
 # l'atelier aussi : c'est lui qui déclare, et il n'a pas de clavier confortable
-curl -s -b $CO $B/ | grep -q 'Demander à l' \
+curl -s -b $CO $B/ | grep -q 'id="ia-form"' \
   && ok "l'atelier a l'assistant sur son accueil" || ko "assistant absent pour l'atelier"
 
 # l'accueil doit REPRENDRE le fil en cours, pas en ouvrir un neuf à chaque
@@ -392,7 +453,7 @@ if(zero.length){console.error('sans temps : '+zero.join(', '));process.exit(1)}
 MRP_DB="$REEL" node --no-warnings -e "
 const V=require('./vues.js'), C=require('./charge.js');
 const {listeFabrication}=require('./db.js');
-const h=V.vueCedule({user:{role:'admin',nom:'A'},jalons:[],msg:{},
+const h=V.vueCedule({user:{id:1,role:'admin',nom:'A'},jalons:[],msg:{},
   cal:C.calendrier(listeFabrication())});
 for(const x of ['g-src-bmb','g-src-estime','g-src-deux'])
   if(!h.includes(x)){console.error('pastille absente : '+x);process.exit(1)}
@@ -416,7 +477,7 @@ curl -s -b $CA $B/cedule | grep -q 'verdict-oui' \
 # produit sur le jeu de démo : on le monte à la main.
 MRP_DB="$DB" node --no-warnings -e "
 const V=require('./vues.js');
-const user={role:'admin',nom:'A'};
+const user={id:1,role:'admin',nom:'A'};
 const auj=new Date().toISOString().slice(0,10);
 const dans=(n)=>new Date(Date.now()+n*864e5).toISOString().slice(0,10);
 const jalons=[{date:dans(20),titre:'Expédition',type:'expedition',ordre_id:1,numero:'OP',ordre_titre:'T'}];

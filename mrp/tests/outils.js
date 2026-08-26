@@ -580,6 +580,106 @@ t("l'atelier peut consulter le suivi",
   C.poserCapacite(C.CAPACITE_DEFAUT);
 }
 
+// ------------------------------------------------------------------- tâches
+// Le seul module où l'atelier a exactement les mêmes droits que Québec : les
+// demandes vont dans les deux sens.
+{
+  const S = require('../salutation.js');
+  const D = require('../db.js');
+
+  const cT = tour(admin), mT = tour(atelier);
+  const t1 = ex('creer_tache', { titre: 'Vérifier le stock de molleton noir',
+    pour: 'Montassar', echeance: '2026-09-30' }, cT);
+  t('Québec peut demander quelque chose à l\'atelier',
+    t1.ok && t1.pour === 'Montassar', JSON.stringify(t1));
+
+  const t2 = ex('creer_tache', { titre: 'Confirmer la quantité de bandeaux',
+    pour: 'Claudia' }, mT);
+  t('l\'atelier peut demander quelque chose à Québec',
+    t2.ok === true, JSON.stringify(t2));
+
+  const t3 = ex('creer_tache', { titre: 'Chronométrer le chandail', pour: 'moi' }, cT);
+  t('« moi » se résout à l\'utilisateur connecté',
+    t3.ok && t3.pour === 'Claudia', JSON.stringify(t3));
+
+  const sansPorteur = ex('creer_tache', { titre: 'Sourcer le velcro 2,5 cm' }, cT);
+  t('une tâche sans destinataire reste sans porteur, pas refusée',
+    sansPorteur.ok && sansPorteur.pour === 'personne', JSON.stringify(sansPorteur));
+
+  const fantome = ex('creer_tache', { titre: 'X', pour: 'Jean-Guy' }, cT);
+  t('un destinataire inconnu est refusé, avec la liste de l\'équipe',
+    Boolean(fantome.erreur) && fantome.erreur.includes('Claudia'), JSON.stringify(fantome));
+
+  const mauvaiseDate = ex('creer_tache', { titre: 'Y', echeance: '30 septembre' }, cT);
+  t('une échéance mal formée est refusée', Boolean(mauvaiseDate.erreur));
+
+  t('une tâche vide est refusée', Boolean(ex('creer_tache', { titre: '  ' }, cT).erreur));
+
+  // Lecture
+  const mesTaches = ex('lister_taches', {}, mT);
+  t('l\'atelier voit ce qu\'on lui a demandé',
+    mesTaches.nombre === 1 && mesTaches.taches[0].titre.includes('molleton'),
+    JSON.stringify(mesTaches));
+  const demandees = ex('lister_taches', { demandees: true }, mT);
+  t('on peut lister ce qu\'on a demandé plutôt que ce qu\'on doit faire',
+    demandees.nombre === 1 && demandees.sens === 'demandées par', JSON.stringify(demandees));
+
+  // Terminer
+  const fini = ex('terminer_tache', { tache: 'molleton' }, mT);
+  t('l\'atelier termine sa tâche', fini.ok === true, JSON.stringify(fini));
+  t('la tâche finie sort de la liste à faire',
+    ex('lister_taches', {}, mT).nombre === 0);
+  t('la tâche finie se retrouve dans les faites',
+    ex('lister_taches', { faites: true }, mT).nombre === 1);
+
+  // On ne termine pas la tâche d'un tiers par ressemblance de titre.
+  ex('creer_tache', { titre: 'Recompter les semelles 9F+', pour: 'Claudia' }, cT);
+  t('on ne peut pas terminer une tâche qui ne nous concerne pas',
+    Boolean(ex('terminer_tache', { tache: 'semelles 9F' }, mT).erreur));
+
+  t('un titre ambigu est refusé plutôt que deviné', (() => {
+    ex('creer_tache', { titre: 'Relancer BMB sur les prix', pour: 'moi' }, cT);
+    ex('creer_tache', { titre: 'Relancer BMB sur les délais', pour: 'moi' }, cT);
+    return Boolean(ex('terminer_tache', { tache: 'Relancer BMB' }, cT).erreur);
+  })());
+
+  // Compteur et équipe
+  t('le compteur ne compte que ce qui est à faire',
+    D.compteTaches(admin.id).n === ex('lister_taches', {}, cT).nombre);
+  t('une échéance dépassée est comptée à part', (() => {
+    ex('creer_tache', { titre: 'En retard', pour: 'moi', echeance: '2020-01-01' }, cT);
+    return D.compteTaches(admin.id).retard === 1;
+  })());
+  t('l\'équipe ne liste que les comptes actifs', D.equipe().length === 2);
+
+  // --- salutation
+  const midiTunis = new Date('2026-09-15T10:00:00Z');   // 11 h à Tunis, 6 h à Québec
+  t('le fuseau suit le rôle, pas le serveur',
+    S.heureLocale('atelier', midiTunis) === 11 && S.heureLocale('admin', midiTunis) === 6,
+    S.heureLocale('atelier', midiTunis) + ' / ' + S.heureLocale('admin', midiTunis));
+  t('à la même seconde, l\'atelier et Québec ne reçoivent pas le même bonjour',
+    S.saluer({ user: atelier, maintenant: midiTunis }).bonjour !==
+    S.saluer({ user: admin, maintenant: midiTunis }).bonjour);
+  t('« Bon matin » est bien du matin, chez celui qui lit',
+    S.saluer({ user: atelier, maintenant: midiTunis }).bonjour === 'Bon matin Montassar');
+  t('le prénom seul, pas le nom complet',
+    S.prenom('Montassar Bel Hadj Amor') === 'Montassar');
+  t('sans rien à signaler, la formule ouvre la conversation',
+    S.saluer({ user: admin, maintenant: midiTunis }).suite === 'Des questions ?');
+  t('ce qui est en retard passe avant le nombre de tâches',
+    S.saluer({ user: admin, taches: { n: 5, retard: 2 }, maintenant: midiTunis })
+      .suite.includes('dépassé'));
+  t('une seule tâche se dit au singulier',
+    S.saluer({ user: admin, taches: { n: 1, retard: 0 }, maintenant: midiTunis })
+      .suite.startsWith('Une tâche'));
+  t('sans tâche, c\'est l\'échéance qui parle',
+    S.saluer({ user: admin, taches: { n: 0, retard: 0 }, echeance: '2026-09-16',
+               maintenant: midiTunis }).suite.includes('demain'));
+  for (const [h, attendu] of [[7, 'Bon matin'], [13, 'Bon après-midi'],
+                              [20, 'Bonsoir'], [2, 'Bonne nuit']])
+    t(`${h} h donne « ${attendu} »`, S.moment(h) === attendu, S.moment(h));
+}
+
 const inconnu = ex('outil_qui_nexiste_pas', {}, c);
 t('outil inconnu signalé sans planter', Boolean(inconnu.erreur));
 

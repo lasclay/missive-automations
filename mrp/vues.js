@@ -21,6 +21,7 @@ const FAMILLES = { hiver:'Hiver', nouveau:'Nouveau',
 const LIEUX = { tunisie:'Tunisie', chine:'Chine' };
 const V = require('./variantes.js');
 const C = require('./charge.js');
+const D = require('./db.js');
 /* Les deux rôles portent leur lieu : ce n'est pas une hiérarchie, c'est un
    partage géographique du travail. Les valeurs stockées restent `admin` et
    `atelier` ; seuls les libellés changent. */
@@ -112,6 +113,15 @@ function jauge(pct) {
 function page({ titre, user, corps, actif = '', msg = null }) {
   const lien = (h, t, k) =>
     `<a href="${h}"${actif === k ? ' class="on"' : ''}>${t}</a>`;
+  // Le compteur de tâches se calcule ici plutôt que d'être passé par chaque vue :
+  // une pastille qui ne s'affiche que sur une page ne sert à rien. Une requête
+  // indexée par rendu, c'est le prix d'un badge qu'on voit de partout.
+  // Un gabarit ne doit jamais faire tomber une page. Sans id — un aperçu, un
+  // test — la pastille disparaît simplement.
+  const enAttente = user && user.id ? D.compteTaches(user.id) : { n: 0, retard: 0 };
+  const lienTaches = `<a href="/taches"${actif === 'taches' ? ' class="on"' : ''}>Tâches${
+    enAttente.n ? `<span class="pastille${enAttente.retard ? ' urgent' : ''}"
+      >${enAttente.n}</span>` : ''}</a>`;
   return `<!doctype html><html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${e(titre)} — Lasclay MRP</title>
@@ -125,6 +135,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/priorites', 'À fabriquer', 'priorites')}
     ${lien('/ordres', 'Ordres de production', 'ordres')}
     ${lien('/suivi', 'Suivi', 'suivi')}
+    ${lienTaches}
     ${lien('/produits', 'Produits', 'produits')}
     ${lien('/cedule', 'Cédule', 'cedule')}
     ${lien('/assistant', 'Assistant', 'assistant')}
@@ -310,7 +321,7 @@ function vueCompte({ user, msg }) {
  * rien qui casse si le JS ne s'exécute pas : l'atelier est au bout d'une
  * connexion lente, et c'est la première chose qu'il voit en arrivant.
  */
-function barreAssistant({ user, ia }) {
+function barreAssistant({ user, ia, salut = null }) {
   if (!ia) return '';
   const { dispo, fil, dernier, annulable, exemples = [] } = ia;
   const ecrit = dernier ? dernier.actions.filter(a => a.defaire) : [];
@@ -318,9 +329,10 @@ function barreAssistant({ user, ia }) {
 
   return `<div class="carte ia">
     <div class="ia-tete">
-      <h2>Demander à l'assistant</h2>
+      <h2>${salut ? `${e(salut.bonjour)}` : 'Demander à l\'assistant'}</h2>
       <a class="muted" href="/assistant">Tout le fil →</a>
     </div>
+    ${salut ? `<p class="ia-suite">${e(salut.suite)}</p>` : ''}
     ${dispo ? '' : `<p class="msg err">L'assistant n'est pas branché :
       il manque <code>ANTHROPIC_API_KEY</code> côté serveur.</p>`}
 
@@ -369,7 +381,7 @@ function barreAssistant({ user, ia }) {
 </script>`;
 }
 
-function vueAccueil({ user, ordres, jalons, ia = null }) {
+function vueAccueil({ user, ordres, jalons, ia = null, salut = null }) {
   const enCours = ordres.filter(o => o.statut === 'en_cours' || o.statut === 'planifie');
   const corps = `
   <div class="entete"><div>
@@ -378,7 +390,7 @@ function vueAccueil({ user, ordres, jalons, ia = null }) {
   </div>${user.role === 'admin'
     ? `<a class="btn" href="/ordres/nouveau">Nouvel ordre de production</a>` : ''}</div>
 
-  ${barreAssistant({ user, ia })}
+  ${barreAssistant({ user, ia, salut })}
 
   <div class="carte"><h2>Production en cours</h2>
   ${enCours.length ? `<div class="tbl"><table>
@@ -408,6 +420,97 @@ function vueAccueil({ user, ordres, jalons, ia = null }) {
     : `<p class="vide">Aucune échéance enregistrée.</p>`}
   </div>`;
   return page({ titre: 'Tableau de bord', user, corps, actif: 'accueil' });
+}
+
+// ==================================================================== tâches
+/**
+ * Les tâches qu'on se demande d'un bord à l'autre.
+ *
+ * Trois listes, dans l'ordre où on les regarde : ce qui m'attend, ce que
+ * j'ai demandé, ce qui n'a personne. La quatrième — ce qui est fait — est
+ * repliée : elle sert à vérifier, pas à travailler.
+ */
+function ligneTache({ t, user, ou }) {
+  const auj = new Date().toISOString().slice(0, 10);
+  const retard = t.statut === 'a_faire' && t.echeance && t.echeance < auj;
+  const mien = t.assigne_a === user.id;
+  return `<li class="tk${retard ? ' tk-retard' : ''}${t.statut === 'faite' ? ' tk-faite' : ''}">
+    <div class="tk-quoi">
+      <b>${e(t.titre)}</b>
+      ${t.details ? `<span class="tk-det">${e(t.details)}</span>` : ''}
+      <span class="tk-qui">
+        ${t.echeance ? `<span class="tk-date${retard ? ' en-retard' : ''}">${
+          retard ? 'en retard · ' : ''}${dateFR(t.echeance)}</span>` : ''}
+        ${ou === 'moi' ? `demandé par ${e(t.demandeur || 'quelqu\'un')}`
+          : ou === 'sansPorteur' ? 'personne ne l\'a prise'
+          : `pour ${e(t.porteur || 'personne')}`}
+        ${t.ordre_numero ? `· <a href="/ordres/${t.ordre_id}">${e(t.ordre_numero)}</a>` : ''}
+        ${t.produit_code ? `· <a href="/produits/${t.produit_id}">${e(t.produit_code)}</a>` : ''}
+        ${t.statut === 'faite' ? `· fait par ${e(t.porteur || '—')}` : ''}
+      </span>
+    </div>
+    <div class="tk-actions">
+      ${t.statut === 'a_faire' ? `
+        ${mien || !t.assigne_a ? `<form method="post" action="/taches/${t.id}/faite">
+          <button class="btn-mini">${mien ? 'Fait' : 'Je la prends et c\'est fait'}</button>
+        </form>` : ''}
+        ${!t.assigne_a ? `<form method="post" action="/taches/${t.id}/prendre">
+          <button class="lien">Je la prends</button></form>` : ''}`
+      : `<form method="post" action="/taches/${t.id}/rouvrir">
+           <button class="lien">Rouvrir</button></form>`}
+      ${t.cree_par === user.id ? `<form method="post" action="/taches/${t.id}/supprimer">
+        <button class="lien danger">Supprimer</button></form>` : ''}
+    </div>
+  </li>`;
+}
+
+function vueTaches({ user, msg, pourMoi, demandees, orphelines, faites, equipe }) {
+  const liste = (titre, l, ou, vide) => `<div class="carte">
+    <h2>${titre}${l.length ? ` <span class="cpt">${l.length}</span>` : ''}</h2>
+    ${l.length ? `<ul class="taches">${l.map(t =>
+      ligneTache({ t, user, ou })).join('')}</ul>`
+    : `<p class="vide">${vide}</p>`}
+  </div>`;
+
+  const corps = `
+  <div class="entete"><div><h1>Tâches</h1>
+    <p class="muted">Ce qu'on se demande d'un bord à l'autre</p></div></div>
+
+  <div class="carte">
+    <h2>Demander quelque chose</h2>
+    <form method="post" action="/taches" class="tk-form">
+      <div class="champ"><label for="tt">Quoi</label>
+        <input id="tt" name="titre" required maxlength="200"
+               placeholder="Vérifier le stock de molleton noir"></div>
+      <div class="champ"><label for="ta">À qui</label>
+        <select id="ta" name="assigne_a">
+          <option value="">Personne pour l'instant</option>
+          ${equipe.map(m => `<option value="${m.id}"${m.id === user.id ? ' selected' : ''}
+            >${e(m.nom)}${m.id === user.id ? ' (moi)' : ''} — ${ROLES[m.role]}</option>`).join('')}
+        </select></div>
+      <div class="champ"><label for="te">Pour quand</label>
+        <input id="te" type="date" name="echeance"></div>
+      <div class="champ champ-large"><label for="td">Précisions</label>
+        <input id="td" name="details" maxlength="500"
+               placeholder="Facultatif — ce qu'il faut savoir pour la faire"></div>
+      <button class="btn">Ajouter</button>
+    </form>
+  </div>
+
+  ${liste('Pour moi', pourMoi, 'moi', 'Rien ne t\'attend.')}
+  ${liste('Ce que j\'ai demandé', demandees, 'demandees',
+          'Tu n\'as rien demandé à personne.')}
+  ${orphelines.length
+    ? liste('Sans porteur', orphelines, 'sansPorteur', '')
+    : ''}
+
+  ${faites.length ? `<details class="carte">
+    <summary><h2 style="display:inline">Faites <span class="cpt">${faites.length}</span></h2></summary>
+    <ul class="taches">${faites.map(t =>
+      ligneTache({ t, user, ou: 'faites' })).join('')}</ul>
+  </details>` : ''}`;
+
+  return page({ titre: 'Tâches', user, corps, msg, actif: 'taches' });
 }
 
 // ============================================================ liste des ordres
@@ -1323,5 +1426,5 @@ module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR
                    vueCompte,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
-                   vuePriorites, vueSuivi, PRIORITES, urgence,
+                   vuePriorites, vueSuivi, vueTaches, PRIORITES, urgence,
                    STATUTS, TYPES_JALON, LIEUX, ROLES };
