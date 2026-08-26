@@ -42,10 +42,15 @@ const SECRET = process.env.GENERAL_PROXY_SECRET || process.env.PROXY_SECRET;
 const RACINE = __dirname;
 const ETAT = path.join(RACINE, "etat");
 
+// Un tir par Page, et c'est délibéré. Le tir A portait deux Pages avec le même
+// tirage horaire que B et C qui n'en portaient qu'une : ses deux Pages se
+// partageaient un seul quota, et Asclépiade recevait quatre fois moins que
+// Milkweed & Monarchs. À périmètre égal, débit égal.
 const TIRS = {
-  A: { pages: ["104242204750257", "114311920399404"], nom: "Lasclay + Asclépiade" },
+  A: { pages: ["104242204750257"], nom: "Lasclay" },
   B: { pages: ["368305119707866"], nom: "The Milkweed Company" },
   C: { pages: ["262382158951470"], nom: "Milkweed & Monarchs" },
+  D: { pages: ["114311920399404"], nom: "Asclépiade & papillons monarques" },
 };
 const REGISTRE = {
   104242204750257: "sobre",

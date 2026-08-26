@@ -1,6 +1,6 @@
 # Procédure d'un tir — backlog de commentaires Facebook
 
-Procédure commune aux trois Routines (`A`, `B`, `C`). Chaque Routine ne reçoit que sa lettre ;
+Procédure commune aux quatre Routines (`A`, `B`, `C`, `D`). Chaque Routine ne reçoit que sa lettre ;
 tout le reste est ici. Une seule source, pas de dérive entre les trois.
 
 ## Le partage des rôles
@@ -21,13 +21,18 @@ node fb-backlog/traiter.js etat                       # où en est chaque tir
 
 ## Périmètres — cloisonnés, jamais croisés
 
-| Tir | Pages | Registre |
+| Tir | Page | Registre |
 | --- | --- | --- |
-| **A** | Lasclay `104242204750257` · Asclépiade & papillons monarques `114311920399404` | sobre · chaleureux |
+| **A** | Lasclay `104242204750257` | sobre |
 | **B** | Lasclay: The Milkweed Company `368305119707866` | sobre |
 | **C** | Milkweed & Monarchs `262382158951470` | chaleureux |
+| **D** | Asclépiade & papillons monarques `114311920399404` | chaleureux |
 
-Les trois tirs se chevauchent dans le temps sans se marcher dessus : Pages disjointes, fichiers
+**Un tir par Page.** Le tir A en portait deux avec le meme tirage horaire que les autres : ses
+deux Pages se partageaient un seul quota, et Asclepiade recevait quatre fois moins de reponses
+que Milkweed & Monarchs. A perimetre egal, debit egal.
+
+Les quatre tirs se chevauchent dans le temps sans se marcher dessus : Pages disjointes, fichiers
 d'état séparés. **Ne touche jamais aux fichiers d'une autre lettre.** Le script refuse d'ailleurs
 une Page hors de ton périmètre.
 
