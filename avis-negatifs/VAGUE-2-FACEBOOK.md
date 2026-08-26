@@ -273,8 +273,9 @@ Au 25 août, ça fait **73 jours**. Son avis a trois semaines et rien n'a bougé
 3. **Elle a laissé un pourboire.** Elle a payé plus que le prix demandé, et elle attend depuis
    deux mois et demi.
 
-**À faire avant tout message : expédier ou rembourser.** Écrire des excuses sur une commande encore
-en attente serait la pire chose à faire ici.
+✅ **Débloqué le 25 août.** Les coussins d'assise reviennent **vers la fin septembre**, et un
+remboursement complet est possible sans condition. Le message peut donc partir : il donne la vraie
+date et laisse le choix entre attendre et être remboursé le jour même.
 
 ## Martine Savard · 29 décembre 2025 · `martinette222@hotmail.com`
 

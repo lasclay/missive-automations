@@ -20,7 +20,7 @@ ci-dessous ne dit qu'une carte « est déjà faite », précisément pour cette 
 
 | Client | À exécuter d'abord | Montant |
 | --- | --- | --- |
-| **Selena / Hugo Poirier** | ⚠️ **Expédier ou rembourser L-50683.** Le message ne peut pas partir avant | 51,42 $ |
+| **Selena / Hugo Poirier** | ✅ débloqué. Le message offre le choix. **Rembourser 51,42 $ le jour où il répond « rembourse »** | 51,42 $ |
 | Danielle René | Émettre une **étiquette de retour prépayée** | — |
 | Amandine Caudron | Vérifier dans l'admin si les **50 $ promis en décembre 2024** ont été émis | 50 $ |
 | Martine Savard | Le **cache-cou manquant** de L-44108 | 1 article |
@@ -31,18 +31,24 @@ ci-dessous ne dit qu'une carte « est déjà faite », précisément pour cette 
 
 ---
 
-# ⚠️ Bloqué : à ne pas envoyer aujourd'hui
+# Selena / Hugo Poirier : débloqué
 
 ## Selena / Hugo Poirier · 4 août 2026 · `poirierhugo@hotmail.com`
 
 *L-50683, 13 juin 2026, 51,42 $, coussin d'assise + pourboire. `awaiting_shipment`, jamais partie,
-73 jours. ⚠️ **Ce message ne peut pas partir tant que la commande n'est pas expédiée ou
-remboursée.** Écrire des excuses sur une commande encore en attente, c'est le geste qui a créé
-toute cette campagne.*
+73 jours.*
+
+*✅ **Débloqué par Gabriel le 25 août** : les coussins d'assise reviennent **vers la fin septembre**,
+et un remboursement est possible sans condition si la personne ne veut pas attendre. Le message
+peut donc partir aujourd'hui, parce qu'il donne une date réelle et une sortie immédiate.*
 
 *⚠️ **Le prénom est à trancher.** L'avis est signé « Selena Hugo St-denis Poirier », la commande est
 au nom de Hugo Poirier. Le brouillon n'utilise pas de prénom, faute de pouvoir choisir sans se
 tromper.*
+
+*⚠️ **Ne pas durcir la date.** « Vers la fin septembre » est ce que Gabriel a dit, et le message le
+répète tel quel. Écrire « le 30 septembre » créerait une quatrième promesse datée dans un dossier
+qui en a déjà trois de ratées.*
 
 > **Objet : Votre coussin d'assise du 13 juin**
 >
@@ -58,19 +64,29 @@ tromper.*
 > Soixante-treize jours, aucune réponse sur aucun des deux canaux, et un pourboire que vous avez
 > ajouté par-dessus le prix. Je m'en excuse.
 >
-> Ce qui s'est passé : le coussin d'assise s'est vendu plus vite qu'on n'arrivait à le fabriquer, et
-> le site a continué de le vendre comme s'il était en stock. On a donc encaissé des commandes qu'on
-> ne pouvait pas remplir, et la vôtre est restée là sans que personne vous le dise.
+> Ce qui s'est passé, et où on en est : le coussin d'assise s'est vendu plus vite qu'on n'arrivait à
+> le fabriquer, et le site a continué de le vendre comme s'il était en stock. Le prochain lot entre
+> vers la fin septembre. C'est la vraie date, et si elle bouge, je vous écris sans que vous ayez à
+> demander.
 >
-> [GESTE, selon ce qui aura été fait : le coussin est parti aujourd'hui, suivi XXX, et vous êtes
-> remboursé au complet, 51,42 $, pourboire compris. Vous gardez le coussin.]
+> À vous de choisir, et les deux me vont.
 >
-> Une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.
+> Vous attendez, et le coussin part le jour où le lot entre, par colis suivi, avec le numéro dans ce
+> fil.
 >
-> Est-ce que l'adresse de la commande est encore la bonne?
+> Ou vous ne voulez plus attendre, ce qui se comprend après deux mois et demi, et je vous rembourse
+> les 51,42 $ au complet, pourboire compris, aujourd'hui.
 >
-> Et si le cœur vous en dit une fois le coussin arrivé, une mise à jour de votre avis nous aiderait
-> vraiment. Aucune obligation, le reste tient de toute façon.
+> Dans les deux cas, une carte-cadeau de 100 $ part à votre nom, sans date d'expiration.
+>
+> Répondez-moi « j'attends » ou « rembourse », c'est tout ce que ça prend.
+>
+> Et si le cœur vous en dit une fois la situation réglée, une mise à jour de votre avis nous
+> aiderait vraiment. Aucune obligation, la carte tient de toute façon.
+
+---
+
+# ⚠️ Bloqué : à ne pas envoyer aujourd'hui
 
 ## John Belliveau · 7 septembre 2025 · `john.belliveau@proton.me`
 
@@ -512,7 +528,7 @@ nôtres étaient trop raides. ⚠️ **C'est le meilleur test qu'on ait sur la r
 
 | # | Client | Geste | Carte | À exécuter avant |
 | --- | --- | --- | --- | --- |
-| ⚠️ | **Selena / Hugo Poirier** | expédier **ou** rembourser 51,42 $ | 100 $ | **oui, bloquant** |
+| 0 | **Selena / Hugo Poirier** | le choix : attendre fin septembre **ou** 51,42 $ remboursés | 100 $ | non, débloqué |
 | 1 | Danielle René | étiquette de retour prépayée | aucune | oui |
 | 2 | Amandine Caudron | les 50 $ promis en 2024 | 100 $ | vérifier l'admin |
 | 3 | Colette D'Astous | paire en médium si elle la demande | 100 $ | non |
@@ -527,7 +543,7 @@ nôtres étaient trop raides. ⚠️ **C'est le meilleur test qu'on ait sur la r
 | 12 | Estelle Waché | rien, une question | 100 $ | non |
 | — | John Belliveau | **bloqué** : compter les graines | — | — |
 
-**Sept cartes de 100 $, soit 700 $.** Plus 42,99 $ à Martine, et 51,42 $ ou un coussin à Selena, et
+**Huit cartes de 100 $, soit 800 $.** Plus 42,99 $ à Martine, et 51,42 $ ou un coussin à Selena, et
 126,46 $ ou une paire de mitaines à Gilles.
 
 ⚠️ **Aucun texte ne dit qu'une carte « est déjà faite ».** Ils disent tous « part à votre nom ». La
