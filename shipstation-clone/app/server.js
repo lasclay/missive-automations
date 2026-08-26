@@ -1888,6 +1888,58 @@ route("GET /api/refs", ({ req, res }) => jsonCache(req, res, {
 }));
 
 /**
+ * Types de colis — la boîte, ses dimensions, et rien d'autre.
+ *
+ * L'écran d'expédition renvoyait déjà vers « Réglages ▸ Types de colis » quand un type
+ * n'avait pas de dimensions. Cet écran n'existait pas. Une interface qui nomme un endroit
+ * où aller le doit exister : sinon on cherche, on ne trouve pas, et on finit par coter sur
+ * des dimensions fausses parce que c'est le seul chemin qui reste.
+ *
+ * Six types sur dix-huit n'en portaient aucune — des enveloppes et des pochettes, que
+ * ShipStation ne mesure pas et dont aucune API ne rend la taille. Elles se saisissent ici.
+ */
+route("GET /api/packages", () => ({
+  packages: db.all("SELECT * FROM packages ORDER BY custom DESC, name")
+    .map((p) => ({ ...p, dimensions: db.parse(p.dimensions, null) })),
+}));
+
+route("POST /api/packages", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  const nom = String(b.name || "").trim();
+  if (!nom) return { error: "un type de colis a besoin d'un nom", code: 400 };
+
+  const n = (x) => { const v = Number(x); return Number.isFinite(v) && v > 0 ? v : 0; };
+  const d = { length: n(b.length), width: n(b.width), height: n(b.height), unit: "in" };
+  // Un colis sans aucune mesure garde `dimensions` à NULL plutôt que trois zéros : zéro est
+  // une mesure, et une cotation sur 0 × 0 × 0 rend un prix qui n'a rien à voir.
+  const dims = d.length || d.width || d.height ? db.dump(d) : null;
+
+  // L'identifiant d'un type existant ne bouge jamais : les commandes déjà expédiées le
+  // portent, et le renommer les détacherait de leur boîte.
+  const id = b.id ? String(b.id) : `pkg-${Date.now().toString(36)}`;
+  const existe = db.one("SELECT id FROM packages WHERE id = ?", id);
+  if (existe) db.run("UPDATE packages SET name = ?, dimensions = ? WHERE id = ?", nom, dims, id);
+  else db.run("INSERT INTO packages (id,carrier_code,name,domestic,dimensions,custom) VALUES (?,?,?,1,?,1)",
+    id, b.carrier_code || null, nom, dims);
+
+  db.journaliser(existe ? "package.update" : "package.create", "package", id,
+    { name: nom, dimensions: d }, user && user.id);
+  return { id };
+});
+
+route("DELETE /api/packages/:id", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  // Un type encore employé par des commandes ne se supprime pas : l'écran d'expédition
+  // afficherait un menu où le choix enregistré n'existe plus, et le rendrait vide sans le dire.
+  const n = db.one("SELECT COUNT(*) n FROM orders WHERE package_id = ?", params.id).n;
+  if (n) return { error: `${n} commande(s) utilisent ce type de colis — le renommer plutôt que le supprimer`, code: 409 };
+  db.run("DELETE FROM packages WHERE id = ?", params.id);
+  db.journaliser("package.delete", "package", params.id, {}, user && user.id);
+  return { ok: true };
+});
+
+/**
  * Emplacements d'expédition — l'adresse ET les coordonnées de l'expéditeur.
  *
  * Ils venaient de la migration et n'étaient éditables nulle part. C'était supportable tant
