@@ -580,6 +580,83 @@ t("l'atelier peut consulter le suivi",
   C.poserCapacite(C.CAPACITE_DEFAUT);
 }
 
+// -------------------------------------------------------- contrôle qualité
+{
+  const D = require('../db.js');
+  const cQ = tour(admin), mQ = tour(atelier);
+
+  const q1 = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'critique',
+    titre: "Presser le col avant d'insérer l'isolant",
+    consequence: 'L\'isolant fond et devient rigide' }, cQ);
+  t('un point critique s\'ajoute au protocole', q1.ok === true, JSON.stringify(q1));
+
+  // C'est l'atelier qui VOIT les défauts : lui interdire d'écrire garderait
+  // l'information là où elle ne sert à personne.
+  const q2 = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'probleme',
+    titre: 'Matelassage pas droit', consequence: 'Aspect irrégulier' }, mQ);
+  t('l\'atelier peut écrire dans le protocole', q2.ok === true, JSON.stringify(q2));
+
+  const q3 = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'mesure',
+    titre: 'Fibre par pièce', valeur: '4 à 5', unite: 'g',
+    frequence: 'chaque pièce' }, cQ);
+  t('une mesure porte sa valeur et son unité', q3.ok === true);
+
+  t('un volet inconnu est refusé, avec les quatre possibles', (() => {
+    const r = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'esthetique',
+      titre: 'X' }, cQ);
+    return Boolean(r.erreur) && r.erreur.includes('critique');
+  })());
+  t('un point sans titre est refusé',
+    Boolean(ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'critique',
+      titre: '  ' }, cQ).erreur));
+  t('un produit inconnu est refusé',
+    Boolean(ex('ajouter_point_qc', { produit: 'ZZZ-INEXISTANT', volet: 'critique',
+      titre: 'X' }, cQ).erreur));
+
+  // Lecture
+  const lu = ex('lire_qualite', { produit: 'CC-ADULTE' }, mQ);
+  t('le protocole se lit, groupé par volet',
+    lu.total === 3 && lu.points_critiques.length === 1
+      && lu.problemes_frequents.length === 1 && lu.mesures.length === 1,
+    JSON.stringify({ t: lu.total }));
+  t('la conséquence remonte : c\'est elle qui fait respecter la consigne',
+    lu.points_critiques[0].consequence.includes('fond'));
+  t('une mesure se lit d\'un bloc',
+    lu.mesures[0].mesure === '4 à 5 g', lu.mesures[0].mesure);
+  t('une tolérance s\'affiche avec la valeur', (() => {
+    ex('ajouter_point_qc', { produit: 'TQ-SPORT', volet: 'mesure',
+      titre: 'Tour de tête', valeur: '56', tolerance: '1', unite: 'cm' }, cQ);
+    return ex('lire_qualite', { produit: 'TQ-SPORT' }, cQ).mesures[0].mesure === '56 cm ± 1';
+  })());
+
+  const vide = ex('lire_qualite', { produit: 'CC-ENFANT' }, cQ);
+  t('un produit sans protocole le dit au lieu de rendre du vide',
+    vide.total === 0 && vide.note.includes('ajouter_point_qc'), JSON.stringify(vide));
+
+  // Le protocole rendu à la vue
+  const p1 = db.prepare(`SELECT id FROM produits WHERE code = 'CC-ADULTE'`).get().id;
+  const proto = D.protocole(p1);
+  t('la vue reçoit les quatre volets, même vides',
+    Object.keys(proto.par).length === 4 && Array.isArray(proto.par.cyclage));
+  t('chaque point sait qui l\'a écrit',
+    proto.par.probleme[0].auteur === 'Montassar', proto.par.probleme[0].auteur);
+
+  // Couverture
+  const couv = D.couvertureQC();
+  const cc = couv.find(x => x.code === 'CC-ADULTE');
+  t('la couverture compte par volet',
+    cc.points === 3 && cc.critiques === 1 && cc.mesures === 1, JSON.stringify(cc));
+  t('les produits sans protocole passent devant',
+    couv[0].points === 0, couv[0].code + ' = ' + couv[0].points);
+
+  // Annulation : un point ajouté par l'assistant se défait comme le reste
+  const avant = D.protocole(p1).total;
+  outils.annulerTour(cQ.tourId);
+  t('les points ajoutés par l\'assistant s\'annulent',
+    D.protocole(p1).total < avant,
+    `${avant} → ${D.protocole(p1).total}`);
+}
+
 // ------------------------------------------------------------------- tâches
 // Le seul module où l'atelier a exactement les mêmes droits que Québec : les
 // demandes vont dans les deux sens.

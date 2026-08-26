@@ -26,7 +26,8 @@ const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs, variantesItem,
-        taches, tache, compteTaches, equipe } = require('./db.js');
+        taches, tache, compteTaches, equipe,
+        protocole, couvertureQC, TYPES_QC } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const assistant = require('./assistant.js');
@@ -430,7 +431,8 @@ async function router(req, res, url, user) {
 
     return html(res, V.vueProduit({ user, p: pr, msg,
       photos: R.photos.all(id), materiaux: R.materiaux.all(id),
-      patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id) }));
+      patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id),
+      qc: protocole(id) }));
   }
 
   // ---- assistant : il exécute, il ne fait pas que répondre
@@ -480,6 +482,49 @@ async function router(req, res, url, user) {
       return avec(dufil + 'ok='
         + encodeURIComponent(n ? `${n} modification${n > 1 ? 's' : ''} annulée${
             n > 1 ? 's' : ''}.` : 'Rien à annuler.'));
+    }
+  }
+
+  // ---- contrôle qualité : le protocole de chaque produit
+  if (p === '/qualite') {
+    return html(res, V.vueQualite({ user, msg, couverture: couvertureQC() }));
+  }
+
+  {
+    const m = p.match(/^\/qualite\/(\d+)$/);
+    if (m) {
+      const prod = R.produit.get(Number(m[1]));
+      if (!prod) return vers(res, '/qualite?err=' + encodeURIComponent('Produit introuvable.'));
+      if (req.method === 'POST') {
+        const f = await corpsFormulaire(req);
+        const titre = String(f.titre || '').trim();
+        if (!titre) return vers(res, `/qualite/${prod.id}?err=`
+          + encodeURIComponent('Il faut dire de quoi il s\'agit.'));
+        const type = TYPES_QC[f.type] ? f.type : 'critique';
+        db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail, consequence,
+                      variante, valeur, tolerance, unite, frequence, source, cree_par)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`)
+          .run(prod.id, type, titre,
+            String(f.detail || '').trim(), String(f.consequence || '').trim(),
+            String(f.variante || '').trim(), String(f.valeur || '').trim(),
+            String(f.tolerance || '').trim(), String(f.unite || '').trim(),
+            String(f.frequence || '').trim(), String(f.source || '').trim(), user.id);
+        return vers(res, `/qualite/${prod.id}?ok=`
+          + encodeURIComponent('Ajouté au protocole.'));
+      }
+      return html(res, V.vueProtocole({ user, msg, p: prod,
+        proto: protocole(prod.id), photos: R.photos.all(prod.id) }));
+    }
+  }
+
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/(\d+)\/supprimer$/);
+    if (m && req.method === 'POST') {
+      // Le point appartient au produit de l'URL : sans ce test, un id valide
+      // ailleurs effacerait le protocole d'un autre produit.
+      db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id = ?`)
+        .run(Number(m[2]), Number(m[1]));
+      return vers(res, `/qualite/${m[1]}?ok=` + encodeURIComponent('Point retiré.'));
     }
   }
 

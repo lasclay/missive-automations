@@ -171,6 +171,68 @@ curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler 
   | grep -q 'err=' && ok "assistant : tour d'autrui non annulable" \
   || ko "assistant : annulation croisée permise"
 
+# --- contrôle qualité ----------------------------------------------------
+# Ce qui compte n'est pas le nombre de points, c'est QUELS produits n'en ont
+# aucun — et que le plus gros volume passe devant.
+Q=$(curl -s -b $CA $B/qualite)
+echo "$Q" | grep -q 'Sans protocole' \
+  && ok "la page qualité montre d'abord ce qui n'a rien" || ko "page qualité vide"
+
+PQ=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT id FROM produits ORDER BY id LIMIT 1').get().id)" 2>/dev/null)
+
+curl -s -b $CO -o /dev/null -X POST $B/qualite/$PQ \
+  --data-urlencode 'titre=Presser le col avant d'"'"'insérer l'"'"'isolant' \
+  --data-urlencode 'consequence=L'"'"'isolant fond et devient rigide' \
+  --data 'type=critique'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM qc_points').get().n)" 2>/dev/null)" = 1 ] \
+  && ok "l'atelier écrit dans le protocole" || ko "l'atelier ne peut pas écrire"
+
+P=$(curl -s -b $CA $B/qualite/$PQ)
+echo "$P" | grep -q 'Points critiques' \
+  && ok "le protocole rend ses quatre volets" || ko "volets absents"
+echo "$P" | grep -q 'Sinon : ' \
+  && ok "la conséquence s'affiche — c'est elle qui fait respecter la consigne" \
+  || ko "conséquence absente"
+
+# un volet inventé ne doit pas passer la contrainte CHECK
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PQ \
+  --data 'titre=Test&type=nimportequoi'
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare(\"SELECT COUNT(*) n FROM qc_points WHERE type NOT IN ('critique','probleme','mesure','cyclage')\").get().n)" 2>/dev/null)" = 0 ] \
+  && ok "un volet inventé retombe sur un volet valide" || ko "volet invalide écrit en base"
+
+curl -s -b $CA -o /dev/null -w '%{redirect_url}' -X POST $B/qualite/$PQ \
+  --data 'titre=  ' | grep -q 'err=' \
+  && ok "un point sans titre est refusé" || ko "point vide accepté"
+
+# la fiche produit rappelle les points critiques
+curl -s -b $CA $B/produits/$PQ | grep -q 'Contrôle qualité' \
+  && ok "la fiche produit rappelle le protocole" || ko "rappel absent de la fiche"
+
+# on ne supprime pas le point d'un autre produit avec un id valide ailleurs
+QID=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT id FROM qc_points ORDER BY id LIMIT 1').get().id)" 2>/dev/null)
+AUTRE=$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT id FROM produits ORDER BY id DESC LIMIT 1').get().id)" 2>/dev/null)
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$AUTRE/$QID/supprimer
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE id=?').get($QID).n)" 2>/dev/null)" = 1 ] \
+  && ok "un point ne se supprime pas depuis un autre produit" || ko "suppression croisée permise"
+
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PQ/$QID/supprimer
+[ "$(MRP_DB="$DB" node --no-warnings -e "
+const{db}=require('./db.js');
+console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE id=?').get($QID).n)" 2>/dev/null)" = 0 ] \
+  && ok "un point se retire de son propre protocole" || ko "suppression impossible"
+
 # --- tâches : ce qu'on se demande d'un bord à l'autre ---------------------
 # Le seul module sans hiérarchie : l'atelier assigne à Québec comme l'inverse.
 curl -s -b $CO -o /dev/null -X POST $B/taches \

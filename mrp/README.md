@@ -172,6 +172,41 @@ dire — est dans [`METHODE-SUIVI.md`](METHODE-SUIVI.md).
 - Matériaux et patrons, avec dimensions déclarées
 - Liste des ordres de production où le produit apparaît
 
+**Contrôle qualité — le protocole de chaque produit**
+
+Quatre volets par produit, dans l'ordre où on les lit à l'atelier :
+
+| Volet | Ce que c'est |
+| --- | --- |
+| **Points critiques** | ce qu'on ne peut pas rattraper après coup |
+| **Problèmes fréquents** | ce qui revient d'un lot à l'autre, et comment l'éviter |
+| **Mesures et dimensions** | une cote, sa tolérance, son unité — et la taille concernée quand la cote en dépend |
+| **Cyclage et tests** | lavages, compressions, tenue de l'isolant |
+
+- **La colonne qui fait la différence, c'est « Sinon… ».** « Presser le col
+  avant l'isolant » se discute ; « sinon il fond et devient rigide » ne se
+  discute pas. Chaque point peut porter sa conséquence, et elle s'affiche en
+  rouge sous la consigne.
+- **La page d'accueil du volet montre d'abord ce qui n'a AUCUN protocole**, le
+  plus gros volume en tête : c'est là que l'absence coûte le plus cher. Un
+  protocole vide sur un produit fabriqué à 4 665 unités est l'information la
+  plus utile de la page.
+- **L'atelier écrit autant que Québec.** C'est Montassar qui voit les défauts ;
+  lui interdire d'écrire garderait l'information là où elle ne sert à personne.
+  Chaque point porte le nom de qui l'a ajouté.
+- **La fiche produit rappelle les points critiques**, avec un lien vers le
+  protocole complet.
+- L'assistant sait lire et écrire : « quelle est la tolérance sur les gants »,
+  « note que le col doit être pressé avant l'isolant, sinon il fond ».
+
+**Amorce.** 25 points sur 15 produits viennent de
+`donnees/qualite-amorce.tsv` — une relecture à la main des notes techniques,
+où ces consignes dormaient mêlées aux coûts et aux questions Shopify. Le
+fichier **n'est pas une source** : le classement en volet est un jugement, à
+corriger sans hésiter. `node mrp/import_qualite.js` montre ce qui serait fait ;
+l'import remplace les points marqués « notes techniques » et ne touche jamais à
+ce qui a été écrit dans l'app.
+
 **Tâches — ce qu'on se demande d'un bord à l'autre**
 
 Ces demandes-là vivaient dans Missive, dans WhatsApp, ou dans la tête de
@@ -246,7 +281,7 @@ mêmes contraintes.
   → « Cache-cous à 70 % et deadline ajoutée au 2 octobre. »        [Annuler]
 ```
 
-**Vingt-sept outils** (`outils.js`) : lire les ordres, les fiches et la cédule ;
+**Vingt-neuf outils** (`outils.js`) : lire les ordres, les fiches et la cédule ;
 mettre à jour un avancement ; créer un ordre, y ajouter ou en retirer des
 items ; poser des jalons ; créer et enrichir une fiche produit ; commenter.
 L'assistant les enchaîne seul — créer un ordre puis le remplir de quatre items
@@ -437,7 +472,7 @@ Trois suites, aucune n'a besoin du réseau ni de clé API.
 
 | Suite | Ce qu'elle couvre |
 | --- | --- |
-| `tests/outils.js` | les 27 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
+| `tests/outils.js` | les 29 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
 | `tests/boucle.js` | la boucle agentique contre une fausse API : enchaînement des outils, retour des erreurs au modèle, reprise du fil, plafond de 12 étapes |
 | `tests/e2e.sh` | le serveur complet : authentification, permissions, avancement pondéré, redimension des images, poids des pages sous 25 Ko |
 
@@ -457,7 +492,8 @@ utilisateurs ─┬─ sessions
               ├─ taches                              (cree_par ↔ assigne_a)
               └─ produits ─┬─ produit_photos      (studio | contexte)
                            ├─ produit_materiaux
-                           └─ produit_patrons
+                           ├─ produit_patrons
+                           └─ qc_points           (protocole qualité)
 
 reglages                                  (capacité de l'atelier — hors graphe :
                                            un seul jeu, pas une préférence)
@@ -481,6 +517,7 @@ et ce qui n'existe nulle part encore.
 | `temps-operations.tsv` — temps chronométrés par poste | 35 |
 | `assemblage-bmb.tsv` — prix d'assemblage BMB par unité, extrait des notes | 23 |
 | `assemblage-estime.tsv` — estimations à la main, à supprimer dès qu'un prix existe | 1 |
+| `qualite-amorce.tsv` — protocoles relus depuis les notes techniques | 25 |
 | `fournisseurs.tsv` · `emballage-expedition.tsv` · `tarifs-postes-canada.tsv` | 15 · 4 · 3 |
 | `production-tunisie.md` — consignes et état des patrons par produit | — |
 

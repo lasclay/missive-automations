@@ -31,7 +31,7 @@ const { urlAcceptable } = require('./vues.js');
 // pas écrit ici ne peut pas être touché par une annulation.
 const TABLES = new Set(['ordres', 'ordre_items', 'ordre_jalons',
   'ordre_commentaires', 'produits', 'produit_photos', 'produit_materiaux',
-  'produit_patrons', 'taches']);
+  'produit_patrons', 'taches', 'qc_points']);
 
 // --------------------------------------------------------------- résolution
 class Refus extends Error {}
@@ -506,6 +506,82 @@ const OUTILS = [
       noter(ctx, 'commenter', `Commentaire ajouté à ${o.numero}`,
         { table: 'ordre_commentaires', op: 'insert', id });
       return { ok: true, ordre: o.numero };
+    },
+  },
+
+  // -------------------------------------------------------- contrôle qualité
+  // C'est l'atelier qui VOIT les défauts. Lui interdire d'écrire le protocole
+  // reviendrait à garder l'information là où elle ne sert à personne.
+  {
+    nom: 'lire_qualite',
+    description: "Le protocole de contrôle qualité d'un produit : points "
+      + "critiques, problèmes fréquents, mesures, cyclage. À consulter AVANT de "
+      + "répondre à une question de fabrication — « comment on fait le col du "
+      + "chandail », « quelle est la tolérance sur les gants ».",
+    role: 'atelier',
+    params: { type: 'object', required: ['produit'], properties: {
+      produit: { type: 'string' } } },
+    executer: (a) => {
+      const p = resoudreProduit(a.produit);
+      const proto = D.protocole(p.id);
+      if (!proto.total)
+        return { produit: p.code, total: 0,
+          note: "Aucun protocole écrit pour ce produit. "
+              + "ajouter_point_qc permet d'en écrire un." };
+      const rendre = (l) => l.map(q => ({
+        titre: q.titre, detail: q.detail || undefined,
+        consequence: q.consequence || undefined,
+        mesure: q.valeur ? `${q.valeur}${q.unite ? ' ' + q.unite : ''}${
+          q.tolerance ? ` ± ${q.tolerance}` : ''}` : undefined,
+        variante: q.variante || undefined, frequence: q.frequence || undefined }));
+      return { produit: p.code, total: proto.total,
+        points_critiques: rendre(proto.par.critique),
+        problemes_frequents: rendre(proto.par.probleme),
+        mesures: rendre(proto.par.mesure),
+        cyclage: rendre(proto.par.cyclage) };
+    },
+  },
+  {
+    nom: 'ajouter_point_qc',
+    description: "Ajoute un point au protocole d'un produit. « Note que le col "
+      + "doit être pressé avant l'isolant, sinon il fond ». Toujours demander "
+      + "la conséquence quand elle n'est pas dite : c'est elle qui fait "
+      + "respecter la consigne.",
+    role: 'atelier',
+    params: { type: 'object', required: ['produit','volet','titre'], properties: {
+      produit: { type: 'string' },
+      volet: { type: 'string', enum: ['critique','probleme','mesure','cyclage'],
+        description: "critique = irrattrapable après coup ; probleme = ça revient "
+          + "d'un lot à l'autre ; mesure = une cote ; cyclage = un test." },
+      titre: { type: 'string', description: 'La consigne, en une ligne.' },
+      detail: { type: 'string', description: "Le geste, l'outil, le gabarit." },
+      consequence: { type: 'string', description:
+        "Ce qui arrive si on le rate. À demander si ce n'est pas dit." },
+      valeur: { type: 'string' }, tolerance: { type: 'string' },
+      unite: { type: 'string' },
+      variante: { type: 'string', description: 'Taille concernée, si la cote en dépend.' },
+      frequence: { type: 'string', description: "« 1 pièce sur 20 », « chaque lot »." } } },
+    executer: (a, ctx) => {
+      const p = resoudreProduit(a.produit);
+      const titre = String(a.titre || '').trim();
+      if (!titre) refuser("Il faut dire de quoi il s'agit.");
+      if (!D.TYPES_QC[a.volet])
+        refuser(`Volet inconnu : « ${a.volet} ». `
+          + `Les quatre : ${Object.keys(D.TYPES_QC).join(', ')}.`);
+      const rang = (db.prepare(
+        `SELECT MAX(rang) m FROM qc_points WHERE produit_id = ?`).get(p.id).m || 0) + 1;
+      const id = db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail,
+                    consequence, valeur, tolerance, unite, variante, frequence,
+                    cree_par, rang) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`)
+        .run(p.id, a.volet, titre, String(a.detail || '').trim(),
+          String(a.consequence || '').trim(), String(a.valeur || '').trim(),
+          String(a.tolerance || '').trim(), String(a.unite || '').trim(),
+          String(a.variante || '').trim(), String(a.frequence || '').trim(),
+          ctx.user.id, rang).lastInsertRowid;
+      noter(ctx, 'ajouter_point_qc',
+        `${D.TYPES_QC[a.volet]} sur ${p.code} : « ${titre} »`,
+        { table: 'qc_points', op: 'insert', id });
+      return { ok: true, produit: p.code, volet: D.TYPES_QC[a.volet], titre };
     },
   },
 

@@ -22,6 +22,7 @@ const LIEUX = { tunisie:'Tunisie', chine:'Chine' };
 const V = require('./variantes.js');
 const C = require('./charge.js');
 const D = require('./db.js');
+const { TYPES_QC } = D;
 /* Les deux rôles portent leur lieu : ce n'est pas une hiérarchie, c'est un
    partage géographique du travail. Les valeurs stockées restent `admin` et
    `atelier` ; seuls les libellés changent. */
@@ -137,6 +138,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/suivi', 'Suivi', 'suivi')}
     ${lienTaches}
     ${lien('/produits', 'Produits', 'produits')}
+    ${lien('/qualite', 'Qualité', 'qualite')}
     ${lien('/cedule', 'Cédule', 'cedule')}
     ${lien('/assistant', 'Assistant', 'assistant')}
   </nav>
@@ -420,6 +422,159 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null }) {
     : `<p class="vide">Aucune échéance enregistrée.</p>`}
   </div>`;
   return page({ titre: 'Tableau de bord', user, corps, actif: 'accueil' });
+}
+
+// ========================================================== contrôle qualité
+const ICONE_QC = { critique: '!', probleme: '~', mesure: '=', cyclage: '↻' };
+
+/**
+ * Un point de protocole.
+ *
+ * Une mesure se lit d'un coup d'œil — valeur, tolérance, unité alignées. Le
+ * reste se lit comme une phrase : la consigne, puis ce qui arrive si on la
+ * rate, qui est la seule chose qui la rend convaincante.
+ */
+function pointQC({ q, produitId, editable }) {
+  const mesure = q.type === 'mesure';
+  return `<li class="qc qc-${q.type}">
+    <div class="qc-quoi">
+      <b>${e(q.titre)}</b>
+      ${mesure && q.valeur ? `<span class="qc-val">${e(q.valeur)}${
+        q.unite ? ' ' + e(q.unite) : ''}${
+        q.tolerance ? ` <span class="qc-tol">± ${e(q.tolerance)}</span>` : ''}</span>` : ''}
+      ${q.variante ? `<span class="qc-var">${e(q.variante)}</span>` : ''}
+      ${q.detail ? `<span class="qc-det">${e(q.detail)}</span>` : ''}
+      ${q.consequence ? `<span class="qc-cons">Sinon : ${e(q.consequence)}</span>` : ''}
+      ${(() => {
+        // Les morceaux du pied se joignent par « · ». Les concaténer avec un
+        // séparateur en préfixe laisse un « · » orphelin dès que le premier
+        // morceau manque — ce qui est le cas général.
+        const bouts = [];
+        if (q.frequence) bouts.push(`<b>${e(q.frequence)}</b>`);
+        if (q.source) bouts.push(e(q.source));
+        if (q.auteur) bouts.push(`ajouté par ${e(q.auteur)}`);
+        return bouts.length ? `<span class="qc-pied">${bouts.join(' · ')}</span>` : '';
+      })()}
+    </div>
+    ${editable ? `<form method="post" action="/qualite/${produitId}/${q.id}/supprimer">
+      <button class="lien danger">Retirer</button></form>` : ''}
+  </li>`;
+}
+
+function vueQualite({ user, msg, couverture }) {
+  const sans = couverture.filter(p => !p.points);
+  const avec = couverture.filter(p => p.points);
+  const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
+
+  const rangee = (p) => `<tr>
+    <td><a href="/qualite/${p.id}"><b>${e(p.code)}</b></a><br>
+        <span class="muted">${e(p.nom)}</span></td>
+    <td class="num">${p.a_produire ? nb(p.a_produire) : '<span class="muted">—</span>'}</td>
+    <td>${p.points ? `<span class="qc-cpt">
+        ${p.critiques ? `<i class="q-critique" title="points critiques">${p.critiques}</i>` : ''}
+        ${p.problemes ? `<i class="q-probleme" title="problèmes fréquents">${p.problemes}</i>` : ''}
+        ${p.mesures ? `<i class="q-mesure" title="mesures">${p.mesures}</i>` : ''}
+        ${p.cyclages ? `<i class="q-cyclage" title="cyclage">${p.cyclages}</i>` : ''}
+      </span>` : '<span class="qc-vide">aucun protocole</span>'}</td>
+    <td><a class="lien" href="/qualite/${p.id}">${p.points ? 'Voir' : 'Écrire'}</a></td>
+  </tr>`;
+
+  const corps = `
+  <div class="entete"><div><h1>Contrôle qualité</h1>
+    <p class="muted">Le protocole de chaque produit : ce qui rate souvent,
+    ce qu'il ne faut pas rater, ce qui se mesure, ce qui se teste</p></div></div>
+
+  ${sans.length ? `<div class="carte">
+    <h2>Sans protocole <span class="cpt">${sans.length}</span></h2>
+    <p class="sec">Rien n'est écrit pour ces produits-là. Le plus gros volume en
+    tête : c'est là que l'absence coûte le plus cher.</p>
+    <div class="tbl"><table>
+      <tr><th>Produit</th><th class="num">À produire</th><th>Protocole</th><th></th></tr>
+      ${sans.map(rangee).join('')}
+    </table></div>
+  </div>` : ''}
+
+  ${avec.length ? `<div class="carte">
+    <h2>Protocoles écrits <span class="cpt">${avec.length}</span></h2>
+    <div class="tbl"><table>
+      <tr><th>Produit</th><th class="num">À produire</th><th>Points</th><th></th></tr>
+      ${avec.map(rangee).join('')}
+    </table></div>
+  </div>` : `<div class="carte"><p class="vide">Aucun protocole écrit pour l'instant.
+    Ouvre un produit et commence par ce qui rate le plus souvent.</p></div>`}`;
+
+  return page({ titre: 'Contrôle qualité', user, corps, msg, actif: 'qualite' });
+}
+
+function vueProtocole({ user, p, proto, msg, photos = [] }) {
+  const editable = true;   // les deux rôles écrivent : c'est l'atelier qui voit les défauts
+  const volet = (cle, titre, aide) => `<div class="carte">
+    <h2><span class="q-pip q-${cle}">${ICONE_QC[cle]}</span> ${titre}
+      ${proto.par[cle].length ? `<span class="cpt">${proto.par[cle].length}</span>` : ''}</h2>
+    ${proto.par[cle].length
+      ? `<ul class="qc-liste">${proto.par[cle].map(q =>
+          pointQC({ q, produitId: p.id, editable })).join('')}</ul>`
+      : `<p class="vide">${aide}</p>`}
+  </div>`;
+
+  const corps = `
+  <div class="entete"><div>
+    <p class="fil-ariane"><a href="/qualite">Contrôle qualité</a> ·
+      <a href="/produits/${p.id}">fiche produit</a></p>
+    <h1>${e(p.code)}</h1>
+    <p class="muted">${e(p.nom)}</p>
+  </div></div>
+
+  ${photos.length ? `<div class="carte qc-photos">
+    ${photos.slice(0, 4).map(ph => `<img src="${e(urlImage(ph.url, 320))}"
+      alt="${e(ph.legende || p.nom)}" loading="lazy">`).join('')}
+  </div>` : ''}
+
+  ${volet('critique', 'Points critiques',
+    'Rien encore. Ce sont les gestes qu\'on ne peut pas rattraper après coup.')}
+  ${volet('probleme', 'Problèmes fréquents',
+    'Rien encore. Ce qui revient d\'un lot à l\'autre, et comment l\'éviter.')}
+  ${volet('mesure', 'Mesures et dimensions',
+    'Rien encore. Les cotes à vérifier, avec leur tolérance.')}
+  ${volet('cyclage', 'Cyclage et tests',
+    'Rien encore. Lavages, compressions, tenue de l\'isolant.')}
+
+  <div class="carte">
+    <h2>Ajouter un point</h2>
+    <form method="post" action="/qualite/${p.id}" class="qc-form">
+      <div class="champ"><label for="qtype">Volet</label>
+        <select id="qtype" name="type">
+          ${Object.entries(TYPES_QC).map(([k, v]) =>
+            `<option value="${k}">${v}</option>`).join('')}
+        </select></div>
+      <div class="champ champ-large"><label for="qtitre">Quoi</label>
+        <input id="qtitre" name="titre" required maxlength="200"
+               placeholder="Presser le col avant d'insérer l'isolant"></div>
+      <div class="champ champ-large"><label for="qdetail">Comment</label>
+        <input id="qdetail" name="detail" maxlength="500"
+               placeholder="Facultatif — le geste, l'outil, le gabarit"></div>
+      <div class="champ champ-large"><label for="qcons">Sinon…</label>
+        <input id="qcons" name="consequence" maxlength="300"
+               placeholder="Ce qui arrive si on le rate : « l'isolant fond et devient rigide »"></div>
+      <div class="champ"><label for="qval">Valeur</label>
+        <input id="qval" name="valeur" maxlength="40" placeholder="4 à 5"></div>
+      <div class="champ"><label for="qtol">Tolérance</label>
+        <input id="qtol" name="tolerance" maxlength="40" placeholder="0,5"></div>
+      <div class="champ"><label for="quni">Unité</label>
+        <input id="quni" name="unite" maxlength="20" placeholder="g"></div>
+      <div class="champ"><label for="qvar">Taille / variante</label>
+        <input id="qvar" name="variante" maxlength="40" placeholder="M"></div>
+      <div class="champ"><label for="qfreq">Fréquence</label>
+        <input id="qfreq" name="frequence" maxlength="60" placeholder="1 pièce sur 20"></div>
+      <div class="champ"><label for="qsrc">Source</label>
+        <input id="qsrc" name="source" maxlength="80" placeholder="Rapport d'amélioration BMB"></div>
+      <button class="btn">Ajouter au protocole</button>
+    </form>
+    <p class="sec">Les quatre derniers champs ne servent qu'aux mesures et aux
+    tests — laisse-les vides pour une consigne ordinaire.</p>
+  </div>`;
+
+  return page({ titre: `Qualité — ${p.code}`, user, corps, msg, actif: 'qualite' });
 }
 
 // ==================================================================== tâches
@@ -710,7 +865,7 @@ function vueProduits({ user, produits, msg }) {
   return page({ titre: 'Produits', user, corps, actif: 'produits', msg });
 }
 
-function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg }) {
+function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = null }) {
   const admin = user.role === 'admin';
   const studio = photos.filter(f => f.type === 'studio');
   const contexte = photos.filter(f => f.type === 'contexte');
@@ -724,6 +879,21 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg }) {
   <div class="entete"><div>
     <h1>${e(p.nom)}</h1><p class="muted">${e(p.code)}</p>
   </div>${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}</div>
+
+  ${qc ? `<div class="carte qc-rappel">
+    <h2><span class="q-pip q-critique">!</span> Contrôle qualité</h2>
+    ${qc.total ? `<p class="sec">${qc.total} point${qc.total > 1 ? 's' : ''} au
+      protocole${qc.par.critique.length
+        ? ` — dont ${qc.par.critique.length} critique${
+            qc.par.critique.length > 1 ? 's' : ''}` : ''}.</p>
+      ${qc.par.critique.length ? `<ul class="qc-court">${qc.par.critique.slice(0, 3)
+        .map(x => `<li><b>${e(x.titre)}</b>${x.consequence
+          ? ` <span class="qc-cons">Sinon : ${e(x.consequence)}</span>` : ''}</li>`).join('')}
+      </ul>` : ''}`
+    : `<p class="vide">Aucun protocole écrit pour ce produit.</p>`}
+    <a class="lien" href="/qualite/${p.id}">${qc.total
+      ? 'Voir le protocole complet' : 'Écrire le protocole'} →</a>
+  </div>` : ''}
 
   ${studio.length ? `<div class="carte"><h2>Photos studio</h2>${galerie(studio)}</div>` : ''}
   ${contexte.length ? `<div class="carte"><h2>En contexte d'utilisation</h2>
@@ -1426,5 +1596,6 @@ module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR
                    vueCompte,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
-                   vuePriorites, vueSuivi, vueTaches, PRIORITES, urgence,
+                   vuePriorites, vueSuivi, vueTaches, vueQualite, vueProtocole,
+                   PRIORITES, urgence,
                    STATUTS, TYPES_JALON, LIEUX, ROLES };

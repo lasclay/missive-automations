@@ -245,6 +245,56 @@ textarea{min-height:70px;resize:vertical}
 .lien{background:none;border:0;padding:0;font:inherit;color:var(--bleu);
   cursor:pointer;text-align:left;text-decoration:underline}
 .lien:hover{color:var(--texte)}
+/* ---------- contrôle qualité ----------
+   Quatre volets, quatre couleurs de sens : rouge = irrattrapable, ambre = ça
+   revient, bleu = ça se mesure, violet = ça se teste. Chaque pastille porte
+   aussi un signe, jamais la couleur seule. */
+.q-pip{display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:6px;font-size:12px;font-weight:700;
+  vertical-align:-3px;margin-right:6px}
+.q-critique{background:var(--rouge-pale);color:var(--rouge)}
+.q-probleme{background:var(--ambre-pale);color:var(--ambre)}
+.q-mesure  {background:var(--bleu-pale);color:var(--bleu)}
+.q-cyclage {background:var(--violet-pale);color:var(--violet)}
+.qc-liste{list-style:none;padding:0;margin:0}
+.qc{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;
+  padding:11px 0;border-bottom:1px solid var(--ligne)}
+.qc-liste li:last-child{border-bottom:0}
+.qc-quoi{flex:1;min-width:0}
+.qc-quoi b{display:block;font-weight:600;line-height:1.4}
+.qc-val{display:inline-block;margin-top:3px;font-weight:600;
+  font-variant-numeric:tabular-nums;color:var(--bleu);
+  background:var(--bleu-pale);padding:1px 8px;border-radius:5px;font-size:14px}
+.qc-tol{font-weight:400;color:var(--encre2)}
+.qc-var{display:inline-block;margin:3px 0 0 6px;font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.05em;color:var(--gris);
+  border:1px solid var(--ligne);border-radius:99px;padding:1px 7px}
+.qc-det{display:block;color:var(--encre2);font-size:13.5px;margin-top:3px}
+/* La conséquence est ce qui rend une consigne convaincante : elle se lit. */
+.qc-cons{display:block;color:var(--rouge);font-size:13px;margin-top:4px}
+.qc-pied{display:block;color:var(--gris);font-size:11.5px;margin-top:5px}
+.qc-pied b{color:var(--encre2);font-weight:600}
+.qc-cpt{display:inline-flex;gap:4px}
+.qc-cpt i{font-style:normal;font-size:11px;font-weight:700;min-width:20px;
+  text-align:center;padding:1px 5px;border-radius:5px;
+  font-variant-numeric:tabular-nums}
+.qc-cpt .q-critique{background:var(--rouge-pale);color:var(--rouge)}
+.qc-cpt .q-probleme{background:var(--ambre-pale);color:var(--ambre)}
+.qc-cpt .q-mesure  {background:var(--bleu-pale);color:var(--bleu)}
+.qc-cpt .q-cyclage {background:var(--violet-pale);color:var(--violet)}
+.qc-vide{color:var(--rouge);font-size:12.5px;font-weight:600}
+.qc-form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.qc-form .champ{margin:0;flex:1 1 130px}
+.qc-form .champ-large{flex:1 1 100%}
+.qc-form input,.qc-form select{width:100%}
+.qc-photos{display:flex;gap:10px;flex-wrap:wrap}
+.qc-photos img{width:120px;height:120px;object-fit:contain;background:var(--media);
+  border-radius:6px}
+.qc-rappel{border-left:3px solid var(--rouge)}
+.qc-court{list-style:none;padding:0;margin:8px 0 10px}
+.qc-court li{margin-bottom:6px;line-height:1.45}
+.fil-ariane{margin:0 0 4px;font-size:12.5px;color:var(--gris)}
+
 /* ---------- tâches ----------
    Une tâche est une ligne : ce qu'il faut faire à gauche, ce qu'on peut en
    faire à droite. Rien d'autre — c'est une liste de courses, pas un ticket. */

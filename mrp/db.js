@@ -176,6 +176,41 @@ CREATE TABLE IF NOT EXISTS agent_actions (
   defait        INTEGER NOT NULL DEFAULT 0,
   cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
 );
+-- ------------------------------------------------------------ contrôle qualité
+-- Le protocole d'un produit : ce qui rate souvent, ce qu'il ne faut pas rater,
+-- ce qui se mesure, ce qui se teste.
+--
+-- Une seule table pour les quatre, parce que ce sont quatre façons de dire la
+-- même chose — « voici comment on sait que c'est bon ». Les colonnes de mesure
+-- restent vides pour les autres types ; c'est moins coûteux que quatre tables
+-- qu'il faudrait rejoindre pour afficher une fiche.
+--
+-- « consequence » est la colonne qui fait la différence entre une consigne et
+-- un protocole : « presser le col avant l'isolant » se discute, « sinon il fond
+-- et devient rigide » ne se discute pas.
+CREATE TABLE IF NOT EXISTS qc_points (
+  id            INTEGER PRIMARY KEY,
+  produit_id    INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+  type          TEXT NOT NULL DEFAULT 'critique'
+                CHECK (type IN ('critique','probleme','mesure','cyclage')),
+  titre         TEXT NOT NULL,
+  detail        TEXT NOT NULL DEFAULT '',
+  consequence   TEXT NOT NULL DEFAULT '',   -- ce qui arrive si on le rate
+  -- mesures : une dimension peut dépendre de la taille, d'où « variante ».
+  variante      TEXT NOT NULL DEFAULT '',
+  valeur        TEXT NOT NULL DEFAULT '',
+  tolerance     TEXT NOT NULL DEFAULT '',
+  unite         TEXT NOT NULL DEFAULT '',
+  -- cyclage et contrôles : « 1 pièce sur 20 », « chaque lot », « 50 lavages ».
+  frequence     TEXT NOT NULL DEFAULT '',
+  source        TEXT NOT NULL DEFAULT '',   -- d'où vient la consigne
+  rang          INTEGER NOT NULL DEFAULT 0,
+  cree_par      INTEGER REFERENCES utilisateurs(id),
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now')),
+  maj_le        TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_qc_produit ON qc_points(produit_id, type, rang);
+
 -- ---------------------------------------------------------------------- tâches
 -- « Montassar me demande des choses, et vice versa. » Ces demandes-là vivaient
 -- dans Missive, dans WhatsApp, ou dans la tête de quelqu'un. Ici elles ont un
@@ -468,6 +503,54 @@ function progressionRecente(jours = 7) {
     GROUP BY o.id ORDER BY unites_avancees DESC`).all(`-${jours} days`);
 }
 
+// --------------------------------------------------------- contrôle qualité
+/** Les quatre volets d'un protocole, dans l'ordre où on les lit à l'atelier. */
+const TYPES_QC = {
+  critique: 'Points critiques',
+  probleme: 'Problèmes fréquents',
+  mesure:   'Mesures et dimensions',
+  cyclage:  'Cyclage et tests',
+};
+
+/** Le protocole d'un produit, groupé par volet. */
+function protocole(produitId) {
+  const l = db.prepare(
+    `SELECT q.*, u.nom AS auteur FROM qc_points q
+       LEFT JOIN utilisateurs u ON u.id = q.cree_par
+      WHERE q.produit_id = ? ORDER BY q.rang, q.id`).all(produitId);
+  const par = {};
+  for (const cle of Object.keys(TYPES_QC)) par[cle] = [];
+  for (const q of l) (par[q.type] ||= []).push(q);
+  return { points: l, par, total: l.length };
+}
+
+/**
+ * L'état de la qualité sur tout le catalogue.
+ *
+ * Ce qui compte n'est pas le nombre de points mais QUELS produits n'en ont
+ * aucun : un protocole vide sur un produit qu'on fabrique à 3 500 unités est
+ * l'information la plus utile de la page.
+ */
+function couvertureQC({ lieu = 'tunisie' } = {}) {
+  return db.prepare(`
+    SELECT p.id, p.code, p.nom, p.famille, p.fabrication,
+           COUNT(q.id) AS points,
+           SUM(CASE WHEN q.type = 'critique' THEN 1 ELSE 0 END) AS critiques,
+           SUM(CASE WHEN q.type = 'probleme' THEN 1 ELSE 0 END) AS problemes,
+           SUM(CASE WHEN q.type = 'mesure'   THEN 1 ELSE 0 END) AS mesures,
+           SUM(CASE WHEN q.type = 'cyclage'  THEN 1 ELSE 0 END) AS cyclages,
+           (SELECT SUM(i.quantite) FROM ordre_items i
+             JOIN ordres o ON o.id = i.ordre_id
+            WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire
+      FROM produits p
+      LEFT JOIN qc_points q ON q.produit_id = p.id
+     WHERE p.actif = 1 AND p.fabrication = ?
+     GROUP BY p.id
+     -- Sans protocole d'abord, et parmi ceux-là le plus gros volume en tête :
+     -- c'est là que l'absence coûte le plus cher.
+     ORDER BY (COUNT(q.id) = 0) DESC, COALESCE(a_produire, 0) DESC, p.code`).all(lieu);
+}
+
 // ------------------------------------------------------------------- tâches
 /**
  * Les tâches, avec les noms des deux personnes concernées.
@@ -519,6 +602,7 @@ const equipe = () => db.prepare(
 
 module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    taches, tache, compteTaches, equipe,
+                   protocole, couvertureQC, TYPES_QC,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,
                    RANG_PRIORITE, RANG_FAMILLE, FAMILLES, LIEUX };
