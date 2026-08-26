@@ -145,25 +145,95 @@ const STATIQUES = { '/style.css': ['text/css; charset=utf-8', 'public/style.css'
 const nouveauFil = () => require('node:crypto').randomBytes(9).toString('hex');
 const filValide = (f) => typeof f === 'string' && /^[0-9a-f]{18}$/.test(f);
 
-const EXEMPLES = {
-  admin: [
-    "Qu'est-ce qui presse cette semaine ?",
-    'Où en est la production automne 2026 ?',
-    'Passe les cache-cous adultes en priorité haute',
-    "Qu'est-ce qui ne bouge plus depuis 10 jours ?",
-    'Mets les cache-cous adultes à 70 %',
-    "Crée un ordre « Prévente hiver » avec 500 tuques sport et 300 bandeaux",
-    "Ajoute une deadline « Départ conteneur » le 2 octobre sur l'ordre en cours",
-    "Le bandeau se coupe dans le sens de la longueur — note-le dans sa fiche",
-  ],
-  atelier: [
-    "Qu'est-ce que je fais en premier ?",
-    'Les cache-cous adultes sont rendus à 70 %',
-    "Qu'est-ce qui s'en vient le mois prochain ?",
-    'Montre-moi la fiche du bandeau amovible',
-    "Note sur l'ordre en cours qu'il manque du molleton noir",
-  ],
-};
+/**
+ * Les gabarits de demande.
+ *
+ * Cliquer sur un gabarit REMPLIT la boîte de saisie, il ne l'envoie pas. La
+ * différence n'est pas cosmétique : une phrase toute faite est presque jamais
+ * la bonne phrase — il manque la quantité, la date, la précision qui compte.
+ * L'ancienne version envoyait directement, et la boîte étant obligatoire et
+ * vide, le navigateur refusait le clic avec « Please fill out this field ».
+ *
+ * `{produit}`, `{pct}` et `{jours}` sont des trous. Le menu déroulant les
+ * remplit avant que la phrase n'arrive dans la boîte ; un trou laissé vide
+ * devient une ligne à compléter au clavier plutôt que de disparaître.
+ *
+ * Sans JavaScript, chaque gabarit est un formulaire GET : la page revient avec
+ * la boîte déjà remplie. Avec, le remplissage est immédiat et sans aller-retour
+ * — décisif sur la connexion tunisienne.
+ */
+const MODELES = [
+  { cle: 'questions', roles: ['admin', 'atelier'],
+    texte: "J'ai des questions sur ce produit : {produit}.",
+    champs: ['produit'] },
+
+  { cle: 'qualite', roles: ['admin', 'atelier'],
+    texte: "J'ai terminé la production des {produit}. "
+         + "Indique-moi la procédure de contrôle qualité.",
+    champs: ['produit'] },
+
+  { cle: 'echeances', roles: ['admin', 'atelier'],
+    texte: "Quels sont les prochains événements et échéances pour Lasclay ? "
+         + "Qu'est-ce qui doit être prêt ?" },
+
+  // Les trois questions que l'atelier repose à chaque nouveau produit. Elles
+  // viennent des notes de Gabriel telles quelles : c'est le va-et-vient
+  // Québec–Tunisie qu'on cherche à tarir.
+  { cle: 'coupe', roles: ['admin', 'atelier'],
+    texte: "Pour les {produit} : quel tissu, dans quel sens se coupe-t-il, "
+         + "et quelles couleurs ou variantes sont prévues ?",
+    champs: ['produit'] },
+
+  { cle: 'matieres', roles: ['admin', 'atelier'],
+    texte: "Quelles matières faut-il pour finir les {produit}, "
+         + "et est-ce qu'il y en a assez en stock ?",
+    champs: ['produit'] },
+
+  { cle: 'avancement', roles: ['admin', 'atelier'],
+    texte: "Les {produit} sont rendus à {pct} %.",
+    champs: ['produit', 'pct'] },
+
+  { cle: 'premier', roles: ['atelier'],
+    texte: "Qu'est-ce que je fabrique en premier aujourd'hui, et pourquoi ?" },
+
+  { cle: 'blocage', roles: ['admin', 'atelier'],
+    texte: "Il me manque quelque chose pour avancer les {produit} : "
+         + "note le blocage sur l'ordre en cours.",
+    champs: ['produit'] },
+
+  { cle: 'etat', roles: ['admin'],
+    texte: "Où en est la production ? Donne-moi l'état global, "
+         + "ordre par ordre, et ce qui risque de ne pas rentrer." },
+
+  { cle: 'immobile', roles: ['admin'],
+    texte: "Qu'est-ce qui ne bouge plus depuis {jours} jours ?",
+    champs: ['jours'] },
+
+  { cle: 'ordre', roles: ['admin'],
+    texte: "Crée un ordre de production pour {produit} : "
+         + "quantité ______, à livrer le ______.",
+    champs: ['produit'] },
+
+  { cle: 'priorite', roles: ['admin'],
+    texte: "Passe les {produit} en priorité haute.",
+    champs: ['produit'] },
+
+  { cle: 'jalon', roles: ['admin'],
+    texte: "Ajoute une échéance « ______ » le ______ sur l'ordre en cours." },
+
+  { cle: 'reception', roles: ['admin'],
+    texte: "J'ai reçu ______ de ______ : note la réception en stock." },
+];
+
+const modelesPour = (role) => MODELES.filter(m => m.roles.includes(role));
+
+/** Remplit les trous d'un gabarit. Un trou sans valeur reste à compléter. */
+function composer(modele, valeurs) {
+  return modele.texte.replace(/\{(\w+)\}/g, (_, cle) => {
+    const v = valeurs[cle];
+    return v ? v : '__________';
+  }).replace(/\s+/g, ' ').trim();
+}
 
 // --------------------------------------------------------------------- routes
 async function router(req, res, url, user) {
@@ -429,11 +499,25 @@ async function router(req, res, url, user) {
     }
     let fil = q.get('fil');
     if (!filValide(fil)) fil = nouveauFil();
+
+    // Un gabarit choisi revient ici en GET : on compose la phrase et on la
+    // pose dans la boîte. C'est le chemin sans JavaScript ; avec, le
+    // remplissage s'est déjà fait dans le navigateur et on ne passe pas ici.
+    const modeles = modelesPour(user.role);
+    const choisi = modeles.find(m => m.cle === q.get('m'));
+    const produit = q.get('produit')
+      ? R.produitsActifs.all().find(x => String(x.id) === q.get('produit')) : null;
+    const brouillon = choisi ? composer(choisi, {
+      produit: produit ? produit.nom : '',
+      pct: /^\d+$/.test(q.get('pct') || '') ? q.get('pct') : '',
+      jours: /^\d+$/.test(q.get('jours') || '') ? q.get('jours') : '',
+    }) : '';
+
     return html(res, V.vueAssistant({ user, msg, fil,
       dispo: assistant.disponible(),
       tours: assistant.fil(fil, user.id),
       annulable: outils.dernierTourAnnulable(user.id),
-      exemples: EXEMPLES[user.role] || EXEMPLES.atelier }));
+      modeles, brouillon, produits: R.produitsActifs.all() }));
   }
   {
     const m = p.match(/^\/assistant\/(\d+)\/annuler$/);

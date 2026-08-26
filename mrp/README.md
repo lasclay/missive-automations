@@ -154,6 +154,34 @@ quand il en existe deux) fait poser une question au lieu d'un choix au hasard,
 et un avancement doit être un multiple de 10 donné par Montassar — « presque
 fini » ne devient pas 90 % tout seul.
 
+### Les gabarits
+
+Sous la boîte de saisie, une liste de phrases à trous. Cliquer sur l'une d'elles
+**remplit la boîte**, ça n'envoie rien : une phrase toute faite est presque
+jamais la bonne phrase — il manque la quantité, la date, la précision qui
+compte. Le menu déroulant est dans la phrase, à la place du trou, pour qu'on
+lise ce qu'on demande.
+
+```
+J'ai terminé la production des [Cache-cou adulte ▾].
+Indique-moi la procédure de contrôle qualité.                    [Insérer]
+
+  → la boîte se remplit, le curseur va au premier trou restant
+```
+
+Les trous sans menu (`______`) restent à compléter au clavier plutôt que de
+disparaître. Les gabarits suivent le rôle : l'atelier n'en reçoit aucun qui
+crée un ordre.
+
+Trois d'entre eux viennent des questions que la Tunisie repose à chaque
+nouveau produit — quel tissu, quel sens de coupe, quelles variantes ; quelles
+matières pour finir, et y en a-t-il assez. Les tarir est le but : chaque
+réponse qui devient une donnée de fiche est un aller-retour de moins.
+
+Sans JavaScript, chaque gabarit reste un formulaire GET et la page revient
+avec la boîte déjà remplie — un aller-retour de 5 Ko. Le script court-circuite
+l'aller-retour quand il peut ; il n'est jamais nécessaire.
+
 ### La dictée
 
 Le bouton **Dicter** utilise la reconnaissance vocale du navigateur

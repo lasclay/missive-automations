@@ -159,12 +159,32 @@ echo "$A" | grep -q 'ANTHROPIC_API_KEY' \
 echo "$A" | grep -q 'name="fil" value="[0-9a-f]\{18\}"' \
   && ok "assistant : un fil de conversation est ouvert" || ko "assistant : pas de fil"
 
-# les exemples proposés dépendent du rôle
+# les gabarits proposés dépendent du rôle
 curl -s -b $CO $B/assistant | grep -q "atelier" \
   && ok "assistant : l'atelier est prévenu de ses limites" || ko "assistant : rôle non signalé"
-curl -s -b $CO $B/assistant | grep -q 'Crée un ordre « Prévente' \
-  && ko "assistant : exemples d'admin proposés à l'atelier" \
-  || ok "assistant : exemples adaptés au rôle"
+curl -s -b $CO $B/assistant | grep -q 'Crée un ordre de production' \
+  && ko "assistant : gabarits d'admin proposés à l'atelier" \
+  || ok "assistant : gabarits adaptés au rôle"
+curl -s -b $CO $B/assistant | grep -q 'class="modele"' \
+  && ok "assistant : l'atelier a des gabarits" || ko "assistant : aucun gabarit"
+
+# Un gabarit REMPLIT la boîte, il ne l'envoie pas. C'est le chemin sans
+# JavaScript : le formulaire GET revient avec la demande déjà écrite.
+PID=$(curl -s -b $CA $B/produits | grep -o '/produits/[0-9][0-9]*' | head -1 | tr -dc 0-9)
+REMPLI=$(curl -s -b $CA "$B/assistant?m=qualite&produit=$PID" | tr '\n' ' ' \
+  | grep -o '<textarea.*</textarea>')
+echo "$REMPLI" | grep -q 'contrôle qualité' \
+  && ok "gabarit : la boîte revient remplie" || ko "gabarit : boîte vide"
+echo "$REMPLI" | grep -q '__________' \
+  && ko "gabarit : le trou du produit n'a pas été rempli" \
+  || ok "gabarit : le menu a rempli son trou"
+# Un trou sans menu reste à compléter au clavier plutôt que de disparaître.
+curl -s -b $CA "$B/assistant?m=jalon" | tr '\n' ' ' | grep -o '<textarea.*</textarea>' \
+  | grep -q '______' \
+  && ok "gabarit : les trous libres restent à compléter" || ko "gabarit : trou libre perdu"
+# Remplir n'écrit rien : aucun tour ne doit être né d'un simple clic.
+curl -s -b $CA "$B/assistant?m=echeances" | grep -q 'class="tour"' \
+  && ko "gabarit : un clic a créé un tour" || ok "gabarit : remplir n'envoie rien"
 
 # on n'annule pas le tour d'un autre
 curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler \

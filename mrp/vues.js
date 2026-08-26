@@ -659,7 +659,61 @@ function vueCedule({ user, jalons, msg }) {
  * dans le navigateur et n'envoie que du texte au serveur. Sans elle — vieux
  * navigateur, micro refusé — le champ de saisie fonctionne normalement.
  */
-function vueAssistant({ user, msg, tours, fil, dispo, exemples, annulable }) {
+/**
+ * Les gabarits de demande, rendus comme des phrases à trous.
+ *
+ * Chaque gabarit est un formulaire GET : sans JavaScript, le clic recharge la
+ * page avec la boîte de saisie déjà remplie. C'est un aller-retour, mais la
+ * page fait 5 Ko et ça marche partout — y compris sur un téléphone d'atelier
+ * dont on ne choisit pas le navigateur. Le script en bas de page court-circuite
+ * l'aller-retour quand il peut.
+ *
+ * Le menu déroulant est DANS la phrase, à la place du trou, plutôt qu'à côté :
+ * on lit ce qu'on est en train de demander.
+ */
+function gabarits({ modeles, produits, fil }) {
+  if (!modeles || !modeles.length) return '';
+
+  const options = {
+    produit: () => produits.map(p =>
+      `<option value="${p.id}">${e(p.nom)}</option>`).join(''),
+    pct: () => Array.from({ length: 11 }, (_, i) => i * 10)
+      .map(n => `<option value="${n}"${n === 100 ? ' selected' : ''}>${n} %</option>`).join(''),
+    jours: () => [7, 14, 30].map(n =>
+      `<option value="${n}"${n === 7 ? ' selected' : ''}>${n} jours</option>`).join(''),
+  };
+  const LIBELLE = { produit: 'Produit', pct: 'Avancement', jours: 'Délai' };
+
+  const ligne = (m) => {
+    // La phrase se découpe sur ses trous : le texte reste du texte, chaque
+    // trou devient son menu, à sa place.
+    const morceaux = m.texte.split(/(\{\w+\})/).map(t => {
+      const c = t.match(/^\{(\w+)\}$/);
+      if (!c) return e(t);
+      const champ = c[1];
+      if (!options[champ]) return e(t);
+      const mot = champ === 'produit' ? ' data-mot="texte"' : '';
+      return `<label class="sr" for="${m.cle}-${champ}">${LIBELLE[champ] || champ}</label>
+        <select id="${m.cle}-${champ}" name="${champ}"${mot}>${options[champ]()}</select>`;
+    }).join('');
+
+    return `<li><form method="get" action="/assistant" class="modele"
+        data-texte="${e(m.texte)}">
+      <input type="hidden" name="fil" value="${e(fil)}">
+      <input type="hidden" name="m" value="${e(m.cle)}">
+      <span class="phrase">${morceaux}</span>
+      <button class="lien inserer">Insérer</button>
+    </form></li>`;
+  };
+
+  return `<details class="gabarits" open>
+    <summary>Gabarits — remplissent la boîte, n'envoient rien</summary>
+    <ul>${modeles.map(ligne).join('')}</ul>
+  </details>`;
+}
+
+function vueAssistant({ user, msg, tours, fil, dispo, modeles, brouillon,
+                       produits, annulable }) {
   const bulle = (t) => {
     const ecrit = t.actions.filter(a => a.defaire);
     const restant = ecrit.filter(a => !a.defait);
@@ -686,27 +740,25 @@ function vueAssistant({ user, msg, tours, fil, dispo, exemples, annulable }) {
     il manque <code>ANTHROPIC_API_KEY</code> côté serveur. La page reste
     consultable, mais aucune demande ne partira.</div>`}
 
-  <p class="intro">Donne un ordre, il l'exécute. « Mets les cache-cous à 70 % »,
-  « crée un ordre pour 500 tuques sport livrables le 15 novembre »,
-  « qu'est-ce qui s'en vient le mois prochain ». ${user.role === 'atelier'
+  <p class="intro">Donne un ordre, il l'exécute. Choisis un gabarit ci-dessous
+  pour remplir la boîte, complète-le, puis envoie. ${user.role === 'atelier'
     ? `Tu es à l'atelier en Tunisie : l'assistant peut mettre à jour les avancements et
        commenter, pas créer d'ordres.`
     : ''}</p>
 
   <div class="fil">${tours.length
     ? tours.map(bulle).join('')
-    : `<p class="vide">Rien encore. Essaie une de ces phrases :</p>
-       <ul class="exemples">${exemples.map(x =>
-         `<li><button form="demande" name="demande" value="${e(x)}"
-              class="lien">${e(x)}</button></li>`).join('')}</ul>`}
+    : `<p class="vide">Rien encore.</p>`}
   </div>
+
+  ${gabarits({ modeles, produits, fil })}
 
   <form method="post" action="/assistant" id="demande" class="saisie">
     <input type="hidden" name="fil" value="${e(fil)}">
     <label for="q" class="sr">Ta demande</label>
     <textarea id="q" name="demande" rows="3" required
       placeholder="Ce que tu veux faire, en une phrase…"${dispo ? '' : ' disabled'}
-      ></textarea>
+      >${e(brouillon || '')}</textarea>
     <div class="actions-saisie">
       <button type="button" id="micro" hidden class="micro"
         aria-label="Dicter">🎙 Dicter</button>
@@ -726,6 +778,30 @@ function vueAssistant({ user, msg, tours, fil, dispo, exemples, annulable }) {
   var f = document.getElementById('demande'),
       q = document.getElementById('q'),
       env = document.getElementById('envoi');
+
+  // Un gabarit REMPLIT la boîte, il ne l'envoie pas. Sans ce script, chaque
+  // gabarit reste un formulaire GET qui fait le même travail en un
+  // aller-retour : la fonction ne dépend pas de lui, seulement sa vitesse.
+  Array.prototype.forEach.call(document.querySelectorAll('form.modele'), function (g) {
+    g.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      q.value = g.getAttribute('data-texte').replace(/\{(\w+)\}/g, function (_, cle) {
+        var sel = g.querySelector('[name="' + cle + '"]');
+        if (!sel) return '__________';
+        // Le produit s'insère par son nom, le reste par sa valeur : la phrase
+        // porte déjà « % » et « jours ».
+        return sel.getAttribute('data-mot') === 'texte'
+          ? sel.options[sel.selectedIndex].text : sel.value;
+      });
+      q.focus();
+      // Le curseur va au premier trou restant s'il y en a un, sinon à la fin :
+      // ce qui manque est ce qu'on veut taper tout de suite.
+      var trou = q.value.indexOf('______');
+      if (trou >= 0) q.setSelectionRange(trou, trou + q.value.slice(trou).match(/^_+/)[0].length);
+      else q.setSelectionRange(q.value.length, q.value.length);
+      q.scrollIntoView({ block: 'center' });
+    });
+  });
 
   // Sur une connexion lente, une demande peut prendre dix secondes : on le dit
   // plutôt que de laisser croire que le clic n'a pas pris.

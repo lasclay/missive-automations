@@ -385,3 +385,27 @@ table.fab tr.p-basse{opacity:.62}
 .rep-var li span{color:var(--encre2)}
 .rep-var .ecart-note{margin:8px 0 0;color:var(--ambre);font-size:12px;
   line-height:1.45;white-space:normal}
+
+/* ------------------------------------------------------------- gabarits
+ * Des phrases à trous : le menu déroulant est dans la phrase, à la place du
+ * trou, pour qu'on lise ce qu'on est en train de demander. Le bloc se replie —
+ * une fois les gabarits connus, ils encombrent.
+ */
+.gabarits{margin:0 0 18px}
+.gabarits>summary{cursor:pointer;color:var(--gris);font-size:.92rem;
+  padding:4px 0;user-select:none}
+.gabarits>summary:hover{color:var(--texte)}
+.gabarits ul{list-style:none;padding:0;margin:8px 0 0}
+.gabarits li{margin:0 0 2px}
+.modele{display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+  padding:7px 8px;border-radius:5px;line-height:1.9}
+.modele:hover{background:var(--carte)}
+.modele .phrase{flex:1 1 20ch}
+.modele select{font:inherit;font-size:.94rem;padding:2px 4px;max-width:22ch;
+  border:1px solid var(--ligne);border-radius:4px;
+  background:var(--fond);color:var(--texte)}
+.modele .inserer{flex:0 0 auto;font-size:.88rem}
+@media (max-width:720px){
+  .modele{line-height:2.1}
+  .modele select{max-width:100%}
+}
