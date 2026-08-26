@@ -3861,7 +3861,7 @@ VUES.commandes = async (statutFixe) => {
     // Chaque champ du widget enregistre en sortant : ShipStation applique au fil de la saisie,
     // et un bouton « Enregistrer » oublié fait acheter l'étiquette avec l'ancien service.
     C.querySelectorAll(".csw input, .csw select").forEach((x) => x.onchange = async () => {
-      await enregistrer(); charger();
+      await enregistrer(); majAchat(o, "panneau"); charger();
     });
     const map = $("#cMap");
     if (map) map.onclick = () => aller("prereglages");
@@ -3896,6 +3896,7 @@ VUES.commandes = async (statutFixe) => {
           { type: "info" });
       }
       await tenter(() => enregistrer(), { message: "Colis non enregistré" });
+      majAchat(o, "panneau");
       // Les dimensions changent le prix : recoter est le geste suivant, on ne le fait pas
       // attendre un clic.
       if (Number($("#cp").value || 0)) $("#cCoter").click();
@@ -3910,6 +3911,9 @@ VUES.commandes = async (statutFixe) => {
      */
     let derniereCotation = null;
     const resumerTarif = () => {
+      // Le tarif choisi vient peut-être d'une liste réécrite par la cotation : l'état
+      // d'achat se relit ici, une fois pour tous les chemins qui aboutissent à ce résumé.
+      majAchat(o, "panneau");
       const boite = $("#cTarifs");
       if (!boite || !derniereCotation) return;
       const t = derniereCotation.tarifs.find((x) => String(x.serviceId) === String($("#cs").value));
@@ -3938,6 +3942,7 @@ VUES.commandes = async (statutFixe) => {
     if ($("#cs")) $("#cs").onchange = async () => {
       resumerTarif();
       await tenter(() => enregistrer(), { message: "Service non enregistré" });
+      majAchat(o, "panneau");
     };
 
     /*
@@ -5081,6 +5086,7 @@ async function detailCommande(id) {
       $("#cOut", f).innerHTML = `<div class="avis mini">${esc(e.message)}</div>`;
       return;
     }
+    majAchat(o, "fiche", f);
     rafraichirGrille();
     coter();
   };
@@ -5104,6 +5110,7 @@ async function detailCommande(id) {
         package_id: pkg.value || null,
         dimensions: { length: Number(d.length) || 0, width: Number(d.width) || 0,
           height: Number(d.height) || 0, unit: "in" } } }), { message: "Dimensions non enregistrées" });
+      majAchat(o, "fiche", f);
       coter();
     } else if (p) {
       toast(`« ${p.name} » n'a pas de dimensions enregistrées — à compléter dans Réglages ▸ Types de colis.`,
@@ -5235,6 +5242,9 @@ async function detailCommande(id) {
         $("#cOut", f).innerHTML = `<div class="avis mini">${esc(e.message)}</div>`;
       }
     }
+    // La cotation vient de réécrire la liste des services : le bouton doit suivre la liste
+    // qu'elle affiche, pas celle d'avant.
+    majAchat(o, "fiche", f);
   }
   coter();
   // Changer de fournisseur recote ; choisir un tarif l'enregistre et met le coût à jour.
@@ -5245,6 +5255,7 @@ async function detailCommande(id) {
   if (chSvc) chSvc.onchange = async () => {
     await tenter(() => api("/api/orders", { method: "POST",
       body: { ...o, service_id: chSvc.value || null } }), { message: "Service non enregistré" });
+    majAchat(o, "fiche", f);
     coter();
   };
 
@@ -5329,6 +5340,51 @@ function entrepotResolu(o) {
     return { id: o.warehouse_id, source: "commande" };
   const def = liste.find((w) => w.is_default);
   return def ? { id: def.id, source: "defaut" } : { id: null, source: "aucun" };
+}
+
+/**
+ * Où chaque écran range les champs dont dépend l'achat.
+ *
+ * La fiche plein écran et le panneau latéral posent les mêmes questions sous des
+ * identifiants différents. Une seule table les réconcilie, pour que la décision d'achat
+ * reste écrite à un seul endroit.
+ */
+const CHAMPS_ACHAT = {
+  fiche:   { svc: "#cSvc", pkg: "#cPkg", wh: "#cWh", pds: "#cPds", motif: "#cRaisonM" },
+  panneau: { svc: "#cs",   pkg: "#cc",   wh: "#cw",  pds: "#cp",   motif: "#cRaisonP" },
+};
+
+/**
+ * Le bouton d'achat suit ce que l'écran montre, pas la commande telle qu'ouverte.
+ *
+ * `etatAchat` lisait l'objet capturé au rendu. Choisir un service et un colis les
+ * enregistrait bien côté serveur — et laissait le bouton gris sous un bandeau « Il manque :
+ * aucun service choisi ; aucun type de colis choisi », alors que les deux menus affichaient
+ * le bon choix. Tout était choisi, rien n'était relu : l'achat devenait impossible sans
+ * refermer la fiche et la rouvrir.
+ *
+ * L'état se recalcule donc à partir des champs eux-mêmes, après chaque enregistrement. Ils
+ * sont la seule version que la personne voit, et celle qu'elle croit acheter.
+ */
+function majAchat(o, ou, racine = document) {
+  const c = CHAMPS_ACHAT[ou];
+  if (!c) return etatAchat(o);
+  const vue = { ...o };
+  const lu = (r) => { const e = $(c[r], racine); return e ? e.value : undefined; };
+  const svc = lu("svc"), pkg = lu("pkg"), wh = lu("wh"), pds = lu("pds");
+  if (svc !== undefined) vue.service_id = svc || null;
+  if (pkg !== undefined) vue.package_id = pkg || null;
+  if (wh !== undefined) vue.warehouse_id = wh || null;
+  if (pds !== undefined) vue.weight_g = Number(pds) || 0;
+  const e = etatAchat(vue);
+  const b = $("#cAcheter", racine);
+  if (b) { b.disabled = !e.ok; b.title = e.motif || ""; }
+  const m = $(c.motif, racine);
+  if (m) {
+    m.hidden = e.ok;
+    m.innerHTML = e.ok ? "" : `Il manque : ${esc(e.manques.join(" ; "))}.`;
+  }
+  return e;
 }
 
 /**
