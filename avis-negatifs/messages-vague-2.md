@@ -50,6 +50,15 @@ tromper.*
 répète tel quel. Écrire « le 30 septembre » créerait une quatrième promesse datée dans un dossier
 qui en a déjà trois de ratées.*
 
+*✅ **L'explication reprend celle de la réponse Reddit et du message à Marie-Michèle Leblanc**, à la
+demande de Gabriel : les stocks faits au Québec se sont écoulés, quelques dernières commandes sont
+tombées entre les craques, et c'est le silence qui est inacceptable, pas la rupture. C'est la
+formulation maison pour les ruptures de 2026 et elle est réutilisable telle quelle.*
+
+*⚠️ **L'excuse a été déplacée.** Elle était après le constat des 73 jours, elle est maintenant après
+« on a été dans le jus, mais ce n'est pas votre problème », où elle porte. Un seul marqueur
+d'excuse par message, c'est la règle de la vague 1.*
+
 > **Objet : Votre coussin d'assise du 13 juin**
 >
 > Bonjour,
@@ -62,12 +71,16 @@ qui en a déjà trois de ratées.*
 > > finalement.*
 >
 > Soixante-treize jours, aucune réponse sur aucun des deux canaux, et un pourboire que vous avez
-> ajouté par-dessus le prix. Je m'en excuse.
+> ajouté par-dessus le prix.
 >
-> Ce qui s'est passé, et où on en est : le coussin d'assise s'est vendu plus vite qu'on n'arrivait à
-> le fabriquer, et le site a continué de le vendre comme s'il était en stock. Le prochain lot entre
-> vers la fin septembre. C'est la vraie date, et si elle bouge, je vous écris sans que vous ayez à
-> demander.
+> Ce qui s'est passé : nos stocks faits au Québec se sont écoulés, et quelques dernières commandes
+> sont tombées entre les craques. La vôtre en fait partie. Ça, ça arrive.
+>
+> Le silence, non. Vous avez écrit par courriel et sur Messenger, et personne ne vous a répondu. On
+> a été dans le jus, mais ce n'est pas votre problème. Je m'en excuse profondément.
+>
+> Le prochain lot de coussins entre vers la fin septembre. C'est la vraie date, et si elle bouge, je
+> vous écris sans que vous ayez à demander.
 >
 > À vous de choisir, et les deux me vont.
 >
