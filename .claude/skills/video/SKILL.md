@@ -1,6 +1,6 @@
 ---
 name: video
-description: Regarder et analyser une vidéo — URL (YouTube, Vimeo, TikTok, X, Facebook, lien MP4 direct…) ou fichier local. Le script télécharge, extrait des trames JPEG horodatées que Claude lit vraiment comme des images, et récupère la transcription (sous-titres natifs, sinon Whisper). Sert à résumer une vidéo, répondre à une question sur un moment précis, diagnostiquer un enregistrement d'écran, dépouiller une publicité concurrente, transcrire un webinaire.
+description: Regarder et analyser une vidéo — URL (YouTube, Vimeo, TikTok, X, Facebook, lien MP4 direct…) ou fichier local. Le script télécharge, extrait des trames JPEG horodatées que Claude lit vraiment comme des images, et récupère l'audio sous forme de transcription horodatée (sous-titres natifs, sinon Whisper local sans clé). Sert à résumer une vidéo, répondre à une question sur un moment précis, diagnostiquer un enregistrement d'écran, dépouiller une publicité concurrente, transcrire un webinaire.
 when_to_use: Déclenche dès qu'on te donne un lien vidéo ou un fichier vidéo et qu'on te demande ce qu'il contient, dès qu'on écrit « regarde cette vidéo », « c'est quoi dans ce Reel », « que dit ce webinaire », « à 2:30 il se passe quoi », « transcris cette vidéo », « résume ce tuto », « pourquoi le bug apparaît dans cet enregistrement d'écran ». Déclenche aussi sur une vidéo reçue par un client dans la boîte support (colis abîmé, produit défectueux, démonstration d'un problème).
 argument-hint: "<url-ou-chemin> [ta question]"
 allowed-tools:
@@ -31,20 +31,25 @@ Code 2 = il manque `ffmpeg`, `ffprobe` ou `yt-dlp`. Alors :
 python3 .claude/skills/video/scripts/setup.py           # installe (brew / apt / dnf / pip) et crée ~/.config/video/.env
 ```
 
-Dans une session distante Claude Code, l'installation prend ~1 minute (`apt-get install ffmpeg`,
-`pip install yt-dlp`) et doit être refaite à chaque nouveau conteneur — c'est normal, ne t'en
-étonne pas et ne demande rien à l'utilisateur : lance simplement le setup.
+Le setup installe aussi `faster-whisper`, le moteur de transcription **local** : c'est ce qui
+donne l'audio sans aucune clé. Options : `--skip-whisper` pour ne pas l'installer, `--model small`
+pour pré-télécharger un modèle et éviter l'attente à la première vidéo.
 
-Le fichier `~/.config/video/.env` (0600) porte deux réglages facultatifs :
+Dans une session distante Claude Code, l'installation prend ~2 minutes et doit être refaite à
+chaque nouveau conteneur — c'est normal, ne t'en étonne pas et ne demande rien à l'utilisateur :
+lance simplement le setup.
+
+Le fichier `~/.config/video/.env` (0600) porte des réglages facultatifs :
 
 | Clé | Rôle |
 | --- | --- |
-| `GROQ_API_KEY` ou `OPENAI_API_KEY` | repli de transcription Whisper, seulement quand il n'y a **pas** de sous-titres natifs |
+| `VIDEO_WHISPER_MODEL` | modèle local : `tiny`, `base` (défaut), `small`, `medium`, `large-v3` |
+| `VIDEO_WHISPER_LANG` | force la langue (ex. `fr`) au lieu de la détecter |
+| `GROQ_API_KEY` / `OPENAI_API_KEY` | **facultatif** — accélère les longues vidéos, au prix d'un envoi de l'audio |
 | `VIDEO_DETAIL` | niveau de détail par défaut (`balanced` si absent) |
 
-Sans clé Whisper, tout fonctionne quand même : les sous-titres natifs couvrent YouTube et la
-plupart des plateformes ; une vidéo sans sous-titres revient alors en images seules. Ne réclame
-pas de clé à l'utilisateur sauf s'il te demande de transcrire une vidéo qui n'en a pas.
+Ne réclame jamais de clé d'API à l'utilisateur : le local suffit. Une clé ne se justifie que
+devant plusieurs heures d'audio à transcrire.
 
 ## Comment procéder
 
@@ -88,7 +93,9 @@ vidéo déjà téléchargé (passe le chemin local au lieu de l'URL, ça évite 
 | `--max-height H` | hauteur max de la vidéo téléchargée, défaut 720 |
 | `--no-dedup` | garde les trames quasi identiques (par défaut, une diapo tenue 30 s ne donne qu'une trame) |
 | `--no-whisper` | désactive le repli Whisper |
-| `--whisper groq\|openai` | force un fournisseur |
+| `--whisper local\|groq\|openai` | force le moteur de transcription |
+| `--whisper-model NOM` | modèle local : `tiny`, `base` (défaut), `small`, `medium`, `large-v3` |
+| `--lang fr` | force la langue au lieu de la détecter — utile sur un extrait court ou bilingue |
 | `--out-dir DIR` | répertoire de travail imposé |
 
 ## Combien de trames, et à quel coût
@@ -124,12 +131,34 @@ Les trames de repère sont fusionnées avec celles du mode choisi, en ordre chro
 réservées d'avance contre le plafond. Avec `--detail transcript`, elles deviennent les seules
 trames extraites.
 
+## D'où vient l'audio
+
+Trois sources, essayées dans cet ordre, automatiquement :
+
+1. **Sous-titres natifs** (`yt-dlp`) — gratuits, instantanés, déjà horodatés. Couvrent YouTube et
+   la plupart des plateformes. Rien à installer, rien à configurer.
+2. **Whisper local** (`faster-whisper`) — dès qu'il n'y a pas de sous-titres. Aucune clé, aucun
+   envoi réseau : l'audio ne quitte pas la machine. C'est le mode par défaut du skill.
+3. **Whisper en API** (Groq puis OpenAI) — seulement si une clé est configurée. Utilisé en
+   priorité quand elle existe, parce que c'est beaucoup plus rapide sur les longues vidéos.
+
+Le modèle local se télécharge une fois (75 Mo pour `tiny`, 142 Mo pour `base`, 464 Mo pour
+`small`) et reste en cache. Vitesse mesurée sur processeur, sans carte graphique :
+
+| Modèle | Vitesse | Pour 10 min de vidéo | Quand l'utiliser |
+| --- | --- | --- | --- |
+| `tiny` | ~10× le temps réel | ~1 min | dégrossir, anglais simple |
+| `base` (défaut) | ~5× | ~2 min | usage courant |
+| `small` | ~4× | ~2,5 min | **français**, noms propres, audio bruité |
+
+Pour du français soigné : `--whisper-model small --lang fr`.
+
 ## Ce qui sort et d'où ça vient
 
 Le rapport markdown donne : source, durée, définition, plage, mode, nombre de trames (et combien
 de jumelles ont été écartées), origine de la transcription, répertoire de travail — puis la liste
 des trames et la transcription horodatée. La ligne **Transcription** dit toujours la provenance :
-`sous-titres (fr)`, `whisper (groq)`, ou `aucune`.
+`sous-titres (fr)`, `whisper local (base, fr)`, `whisper (groq)`, ou `aucune`.
 
 ## Ce qui peut échouer
 
@@ -138,8 +167,10 @@ des trames et la transcription horodatée. La ligne **Transcription** dit toujou
 | `binaires manquants` | `python3 .claude/skills/video/scripts/setup.py` |
 | yt-dlp : « Sign in to confirm you're not a bot », « Failed to extract player response » | YouTube bloque les IP de centre de données. Dans une session distante, ça arrive : dis-le franchement et demande un fichier vidéo, ou refais la manœuvre depuis la machine de l'utilisateur. N'insiste pas à coups de relances. |
 | vidéo privée, géobloquée, derrière un mot de passe | dis-le simplement, ne réessaie pas en boucle |
-| `Transcription : aucune` | pas de sous-titres natifs et pas de clé Whisper. Réponds sur les images seules et signale la limite |
-| Whisper échoue | l'erreur est sur stderr (clé invalide, quota). Essaie l'autre fournisseur avec `--whisper openai` / `--whisper groq` |
+| `Transcription : aucune` | ni sous-titres, ni moteur Whisper. Lance le setup (installe le moteur local, sans clé), puis relance |
+| transcription locale lente | normal sur une longue vidéo : ~5× le temps réel avec `base`. Passe à `tiny`, ou cible une plage avec `--start`/`--end` |
+| transcription locale approximative en français | `--whisper-model small --lang fr` |
+| Whisper en API échoue | l'erreur est sur stderr (clé invalide, quota). Bascule sur `--whisper local` |
 | avertissement « plus de 10 minutes » | reprends en ciblé avec `--start`/`--end` plutôt qu'un balayage clairsemé |
 
 ## Vie privée et périmètre
@@ -147,10 +178,12 @@ des trames et la transcription horodatée. La ligne **Transcription** dit toujou
 - Le téléchargement passe par `yt-dlp`, en accès public seulement : aucun compte, aucun témoin de
   session, aucune publication. Rien n'est envoyé à un service tiers pour extraire les trames —
   `ffmpeg` travaille en local.
-- **La vidéo n'est jamais téléversée nulle part.** Seul l'audio extrait part vers Groq ou OpenAI,
-  et uniquement quand il n'y a pas de sous-titres natifs et que le repli Whisper est actif. Avant
-  d'envoyer l'audio d'une vidéo confidentielle (client, interne, fournisseur), demande à
-  l'utilisateur ou lance `--no-whisper`.
+- **La vidéo n'est jamais téléversée nulle part, et par défaut l'audio non plus** : la
+  transcription tourne en local. Rien ne sort vers un tiers.
+- L'audio ne part sur le réseau que dans un seul cas : une clé `GROQ_API_KEY` ou `OPENAI_API_KEY`
+  est configurée, il n'y a pas de sous-titres natifs, et le repli n'est pas désactivé. Sur une
+  vidéo confidentielle (client, interne, fournisseur) dans un environnement où une clé existe,
+  impose le local avec `--whisper local` — ou `--no-whisper`.
 - Tout le travail vit dans un répertoire temporaire, à supprimer à la fin (étape 5). Les clés ne
   sont jamais imprimées ni journalisées.
 

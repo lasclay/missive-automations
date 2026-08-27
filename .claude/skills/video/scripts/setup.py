@@ -4,7 +4,13 @@
   setup.py --check   silencieux si tout est prêt ; sort 2 s'il manque un binaire
   setup.py --json    état lisible par machine
   setup.py           installe ce qui manque (brew sur macOS, apt/dnf + pip sur
-                     Linux quand on a les droits, sinon imprime les commandes)
+                     Linux quand on a les droits, sinon imprime les commandes),
+                     y compris `faster-whisper` pour la transcription locale
+
+Options :
+  --skip-whisper     n'installe pas le moteur de transcription local
+  --model NOM        pré-télécharge un modèle Whisper local (tiny, base, small,
+                     medium, large-v3) pour que la première vidéo n'attende pas
 
 Aucune clé n'est jamais écrite automatiquement : le fichier de configuration
 `~/.config/video/.env` n'est créé qu'avec des emplacements commentés, en 0600.
@@ -26,15 +32,25 @@ REQUIRED = ["ffmpeg", "ffprobe", "yt-dlp"]
 TEMPLATE = """# Configuration du skill « video »
 #
 # Whisper ne sert QUE de repli : quand la vidéo n'a pas de sous-titres natifs
-# (fichier local, plateforme sans sous-titres). L'audio extrait — et rien
-# d'autre — est alors envoyé au fournisseur choisi. Laisse les deux vides pour
-# désactiver : le skill fonctionne quand même, mais sans transcription.
+# (fichier local, plateforme sans sous-titres).
 #
-# Groq   : https://console.groq.com/keys      (préféré : moins cher, plus rapide)
+# Par défaut la transcription tourne EN LOCAL (faster-whisper) : aucune clé,
+# rien qui sort de la machine. Les clés ci-dessous sont facultatives — elles ne
+# servent qu'à aller plus vite sur de longues vidéos, et envoient alors l'audio
+# extrait (et rien d'autre) au fournisseur choisi.
+#
+# Groq   : https://console.groq.com/keys      (le plus rapide, palier gratuit)
 # OpenAI : https://platform.openai.com/api-keys
 
 GROQ_API_KEY=
 OPENAI_API_KEY=
+
+# Modèle Whisper local : tiny | base (défaut) | small | medium | large-v3
+# `small` est nettement meilleur en français, pour environ deux fois le temps.
+# VIDEO_WHISPER_MODEL=base
+
+# Langue imposée à la transcription locale, au lieu de la détecter (ex. fr)
+# VIDEO_WHISPER_LANG=
 
 # Détail par défaut : transcript | efficient | balanced | max
 # VIDEO_DETAIL=balanced
@@ -78,14 +94,24 @@ def scaffold_env() -> bool:
     return True
 
 
+def local_whisper_installed() -> bool:
+    try:
+        import faster_whisper  # noqa: F401
+    except ImportError:
+        return False
+    return True
+
+
 def status() -> dict:
     missing = missing_binaries()
     key, backend = has_key()
+    local = local_whisper_installed()
     return {
         "can_proceed": not missing,
         "missing_binaries": missing,
         "has_whisper_key": key,
-        "whisper_backend": backend,
+        "local_whisper": local,
+        "transcription": backend or ("local" if local else None),
         "config_file": str(CONFIG_FILE),
         "platform": platform.system(),
     }
@@ -160,7 +186,33 @@ def cmd_check() -> int:
     return 2
 
 
-def cmd_install() -> int:
+def install_local_whisper() -> bool:
+    """`faster-whisper` : transcription locale, sans clé. ~220 Mo de
+    dépendances, plus le modèle (75 Mo à 464 Mo) au premier usage."""
+    if local_whisper_installed():
+        return True
+    print("[setup] installation de faster-whisper (transcription locale, sans clé)…", file=sys.stderr)
+    if not _run([sys.executable, "-m", "pip", "install", "--quiet", "faster-whisper"]):
+        _run([sys.executable, "-m", "pip", "install", "--quiet", "--user", "faster-whisper"])
+    return local_whisper_installed()
+
+
+def prefetch_model(name: str) -> bool:
+    try:
+        from faster_whisper import WhisperModel
+    except ImportError:
+        print("[setup] faster-whisper absent — impossible de pré-télécharger le modèle", file=sys.stderr)
+        return False
+    print(f"[setup] téléchargement du modèle Whisper « {name} »…", file=sys.stderr)
+    try:
+        WhisperModel(name, device="cpu", compute_type="int8")
+    except Exception as exc:  # noqa: BLE001
+        print(f"[setup] échec du téléchargement : {exc}", file=sys.stderr)
+        return False
+    return True
+
+
+def cmd_install(skip_whisper: bool = False, model: str | None = None) -> int:
     missing = missing_binaries()
     if missing:
         missing = install(missing)
@@ -173,25 +225,45 @@ def cmd_install() -> int:
     else:
         print(f"[setup] configuration présente : {CONFIG_FILE}")
 
+    local = local_whisper_installed()
+    if not local and not skip_whisper:
+        local = install_local_whisper()
+    if model:
+        prefetch_model(model)
+
     key, backend = has_key()
     if key:
-        print(f"[setup] prêt. Repli de transcription : {backend}")
+        print(f"[setup] prêt. Transcription : {backend} (clé d'API), repli local : "
+              f"{'oui' if local else 'non'}")
+    elif local:
+        print("[setup] prêt. Transcription : Whisper local, sans clé et sans envoi réseau.")
+        print("  Le modèle se télécharge à la première vidéo (~142 Mo pour « base »).")
+        print(f"  Pour aller plus vite sur de longues vidéos, une clé Groq dans {CONFIG_FILE}.")
     else:
-        print("[setup] prêt (sans Whisper).")
-        print(f"  Les vidéos sans sous-titres natifs reviendront sans transcription.")
-        print(f"  Pour l'activer, renseigne GROQ_API_KEY ou OPENAI_API_KEY dans {CONFIG_FILE}.")
+        print("[setup] prêt, mais sans transcription.")
+        print("  Les vidéos sans sous-titres natifs reviendront en images seules.")
+        print("  Pour l'audio : relance ce script sans --skip-whisper (moteur local, sans clé),")
+        print(f"  ou renseigne GROQ_API_KEY / OPENAI_API_KEY dans {CONFIG_FILE}.")
     return 0
 
 
 def main() -> int:
-    arg = sys.argv[1] if len(sys.argv) > 1 else None
-    if arg == "--check":
+    args = sys.argv[1:]
+    if "--check" in args:
         return cmd_check()
-    if arg == "--json":
+    if "--json" in args:
         json.dump(status(), sys.stdout, indent=2, ensure_ascii=False)
         sys.stdout.write("\n")
         return 0
-    return cmd_install()
+    model = None
+    if "--model" in args:
+        i = args.index("--model")
+        if i + 1 < len(args):
+            model = args[i + 1]
+        else:
+            print("[setup] --model attend un nom de modèle", file=sys.stderr)
+            return 1
+    return cmd_install(skip_whisper="--skip-whisper" in args, model=model)
 
 
 if __name__ == "__main__":

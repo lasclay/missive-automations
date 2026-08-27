@@ -67,9 +67,12 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 ## Vidéo (regarder et analyser)
 
 - `python3 .claude/skills/video/scripts/video.py <url-ou-fichier>` : trames JPEG horodatées à lire
-  avec `Read` + transcription (sous-titres natifs, sinon Whisper si une clé est configurée).
-- Dépendances : `ffmpeg`, `ffprobe`, `yt-dlp` — `python3 .claude/skills/video/scripts/setup.py`
-  les installe (à refaire dans chaque nouveau conteneur distant). Détails : skill `video`.
+  avec `Read` + transcription horodatée.
+- L'audio marche sans clé : sous-titres natifs d'abord, sinon **Whisper local** (`faster-whisper`,
+  rien ne sort de la machine). Une clé Groq/OpenAI n'est qu'une accélération facultative.
+- Dépendances : `ffmpeg`, `ffprobe`, `yt-dlp`, `faster-whisper` —
+  `python3 .claude/skills/video/scripts/setup.py` les installe (à refaire dans chaque nouveau
+  conteneur distant). Détails : skill `video`.
 
 ## Scripts principaux
 

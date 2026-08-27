@@ -444,7 +444,19 @@ WHISPER_ENDPOINTS = {
 }
 
 
-def pick_backend(forced: str | None) -> tuple[str, str] | None:
+def local_available() -> bool:
+    try:
+        import faster_whisper  # noqa: F401
+    except ImportError:
+        return False
+    return True
+
+
+def pick_backend(forced: str | None) -> tuple[str, str | None] | None:
+    """(fournisseur, clé). Une clé d'API l'emporte — c'est plus rapide ; sinon
+    Whisper local, qui ne demande aucune clé et n'envoie rien nulle part."""
+    if forced == "local":
+        return ("local", None) if local_available() else None
     order = [forced] if forced else ["groq", "openai"]
     for name in order:
         if not name:
@@ -453,7 +465,23 @@ def pick_backend(forced: str | None) -> tuple[str, str] | None:
         key = env_value(env_name)
         if key:
             return name, key
+    if forced is None and local_available():
+        return "local", None
     return None
+
+
+def transcribe_local(audio: Path, model_name: str, language: str | None):
+    """Whisper en local via faster-whisper. Aucune clé, aucun envoi réseau
+    (hors téléchargement du modèle la première fois)."""
+    from faster_whisper import WhisperModel
+
+    log(f"Whisper local (modèle {model_name}) — première fois : téléchargement du modèle…")
+    model = WhisperModel(model_name, device="cpu", compute_type="int8")
+    segments, info = model.transcribe(
+        str(audio), beam_size=1, vad_filter=True, language=language,
+    )
+    cues = [(float(s.start), s.text.strip()) for s in segments if s.text.strip()]
+    return cues, getattr(info, "language", language)
 
 
 def _multipart(fields: dict[str, str], file_path: Path) -> tuple[bytes, str]:
@@ -493,7 +521,13 @@ def whisper_chunk(backend: str, key: str, chunk: Path, offset: float) -> list[tu
     return [(offset, text)] if text else []
 
 
-def transcribe_with_whisper(video: Path, workdir: Path, forced: str | None):
+def transcribe_with_whisper(
+    video: Path,
+    workdir: Path,
+    forced: str | None,
+    model_name: str = "base",
+    language: str | None = None,
+):
     chosen = pick_backend(forced)
     if not chosen:
         return None, None
@@ -503,6 +537,17 @@ def transcribe_with_whisper(video: Path, workdir: Path, forced: str | None):
     except RuntimeError as exc:
         log(str(exc))
         return None, None
+
+    if backend == "local":
+        try:
+            cues, detected = transcribe_local(audio, model_name, language)
+        except Exception as exc:  # noqa: BLE001 — dépendance externe, on dégrade proprement
+            log(f"Whisper local a échoué : {exc}")
+            return None, None
+        if not cues:
+            return None, None
+        return cues, f"whisper local ({model_name}, {detected or '?'})"
+
     parts = split_audio(audio, workdir)
     cues: list[tuple[float, str]] = []
     failures = 0
@@ -552,8 +597,13 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--out-dir", default=None, help="répertoire de travail (défaut : tmp)")
     ap.add_argument("--no-dedup", action="store_true", help="garde les trames quasi identiques")
     ap.add_argument("--no-whisper", action="store_true", help="désactive le repli Whisper")
-    ap.add_argument("--whisper", choices=["groq", "openai"], default=None,
-                    help="force le fournisseur Whisper")
+    ap.add_argument("--whisper", choices=["local", "groq", "openai"], default=None,
+                    help="force le moteur de transcription (défaut : clé d'API si configurée, "
+                         "sinon Whisper local)")
+    ap.add_argument("--whisper-model", default=None,
+                    help="modèle Whisper local : tiny | base (défaut) | small | medium | large-v3")
+    ap.add_argument("--lang", default=None,
+                    help="force la langue de la transcription locale (ex. fr) au lieu de la détecter")
     return ap
 
 
@@ -622,7 +672,11 @@ def main() -> int:
             transcript_source = f"sous-titres ({caption_lang})"
     if not transcript and not args.no_whisper and video_path:
         log("pas de sous-titres — tentative Whisper…")
-        cues, label = transcribe_with_whisper(video_path, workdir, args.whisper)
+        model_name = args.whisper_model or env_value("VIDEO_WHISPER_MODEL") or "base"
+        language = args.lang or env_value("VIDEO_WHISPER_LANG")
+        cues, label = transcribe_with_whisper(
+            video_path, workdir, args.whisper, model_name, language
+        )
         if cues:
             transcript = cues
             transcript_source = label or "whisper"
@@ -729,8 +783,10 @@ def main() -> int:
         for ts, text in transcript:
             out.append(f"[{format_time(ts)}] {text}")
     else:
-        out.append("_Aucune transcription disponible._ Pas de sous-titres natifs et "
-                   "pas de clé Whisper (ou repli désactivé). Les trames restent exploitables.")
+        out.append("_Aucune transcription disponible._ Pas de sous-titres natifs, et aucun moteur "
+                   "Whisper utilisable (repli désactivé, ou `faster-whisper` non installé et aucune "
+                   "clé d'API). Pour l'activer sans clé : "
+                   "`python3 .claude/skills/video/scripts/setup.py`. Les trames restent exploitables.")
     out.append("")
 
     sys.stdout.write("\n".join(out))
