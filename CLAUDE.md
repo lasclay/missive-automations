@@ -15,6 +15,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
+| `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
@@ -62,6 +63,22 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 ## Missive Proxy
 
 - Service Render séparé pour l'API Missive ; code : `missive-proxy/` (env `MISSIVE_PROXY_SECRET`).
+
+## Vidéo (regarder et analyser)
+
+- `python3 .claude/skills/video/scripts/video.py <url-ou-fichier>` : trames JPEG horodatées à lire
+  avec `Read` + transcription horodatée.
+- L'audio marche sans clé : sous-titres natifs d'abord, sinon **Whisper local** (`faster-whisper`,
+  rien ne sort de la machine). Une clé Groq/OpenAI n'est qu'une accélération facultative.
+- Dépendances : `ffmpeg`, `ffprobe`, `yt-dlp`, `faster-whisper` —
+  `python3 .claude/skills/video/scripts/setup.py` les installe (à refaire dans chaque nouveau
+  conteneur distant).
+- **YouTube en session infonuagique** : ajoute `--youtube` au setup (jeton PO). Avec, la
+  transcription passe ; les images restent refusées par les serveurs de diffusion de YouTube, qui
+  bloquent les IP de centre de données. Les images sont alors récupérées automatiquement par un
+  relais tiers (instance publique de cobalt) — l'URL de la vidéo lui est transmise, donc
+  `--no-fallback-service` pour une vidéo confidentielle. Si le relais tombe :
+  `VIDEO_YT_COOKIES_B64` ou `VIDEO_PROXY`. Détails : skill `video`.
 
 ## Scripts principaux
 
