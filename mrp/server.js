@@ -962,10 +962,18 @@ function amorcerPremierCompte() {
 
 if (require.main === module) {
   amorcerPremierCompte();
-  // Les données du dépôt entrent en base au démarrage. Sans ça, elles
-  // attendent qu'on ouvre un Shell Render, et personne ne l'ouvre.
-  require('./amorce.js').amorcerDonnees();
-  serveur.listen(PORT, () => console.log(`[mrp] écoute sur http://localhost:${PORT}`));
+  serveur.listen(PORT, () => {
+    console.log(`[mrp] écoute sur http://localhost:${PORT}`);
+    // Les données du dépôt entrent en base au démarrage — sans ça, elles
+    // attendent qu'on ouvre un Shell Render, et personne ne l'ouvre.
+    //
+    // APRÈS `listen`, jamais avant : les quatre imports prennent une vingtaine
+    // de secondes, et Render coupe une instance qui ne répond pas encore à sa
+    // sonde. Le service répond donc tout de suite, et les données arrivent
+    // quelques secondes plus tard. Sur une base déjà peuplée — le cas normal
+    // d'un redéploiement — rien ne change à l'écran pendant ce temps.
+    setImmediate(() => require('./amorce.js').amorcerDonnees());
+  });
 }
 
 module.exports = serveur;

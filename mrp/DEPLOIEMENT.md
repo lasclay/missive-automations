@@ -126,7 +126,10 @@ node mrp/import.js --ecrire   # une seule fois : le catalogue
 ```
 
 **Les protocoles, la charte et les bris n'ont plus besoin du Shell.** Le service
-les charge lui-même à chaque démarrage, depuis les fichiers du dépôt. Les
+les charge lui-même à chaque démarrage, depuis les fichiers du dépôt — après
+avoir commencé à répondre, jamais avant : les quatre imports prennent une
+vingtaine de secondes, et Render coupe une instance qui ne répond pas encore à
+sa sonde. Les
 imports concernés n'effacent que les lignes dont ILS sont la source — un point
 écrit à la main dans l'app porte le nom de son auteur et n'est jamais touché.
 Le catalogue, lui, ne se charge que sur une base vide : il vient de Shopify, et
