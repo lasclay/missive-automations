@@ -211,6 +211,74 @@ Charge aussi le skill **`lasclay-master`** pour toute rédaction destinée à un
 et garde-fous de marque. Et **`lasclay-seo`** si la tâche touche une fiche produit ou du contenu
 public.
 
+### La voix de Gabriel est déjà codée dans le dépôt — va la lire
+
+**Avant d'écrire un premier brouillon dans une session, lis ces blocs.** Ce ne sont pas des
+préférences vagues : ce sont les règles que les scripts imposent déjà à l'IA qui rédige à la
+place de Gabriel. Les ignorer produit un brouillon qu'il faudra réécrire deux ou trois fois.
+
+| Fichier | Lignes | Ce qu'on y trouve |
+| --- | --- | --- |
+| `digest.js` | ~250-341 | le bloc le plus complet : voix, formules interdites, jargon proscrit, salutation, langue, français québécois, prise de rendez-vous, variété, style |
+| `admin_ops.js` | ~628-640 | les mêmes règles condensées, plus la logique de quand un brouillon est justifié |
+| `support.js` | ~1180-1420 | les règles propres au service client, apprises d'erreurs réelles |
+| `prevente.js` | ~52, ~101 | version courte : québécois direct, pas d'emoji, pas de tiret cadratin |
+
+`grep -n "INTERDIT\|VOIX\|SALUTATION\|NE SIGNE PAS" digest.js admin_ops.js support.js` te
+mène droit aux blocs.
+
+**Le condensé, pour ne pas avoir à tout relire chaque fois :**
+
+- **NE SIGNE PAS.** Missive ajoute la signature. Pas de « Chaleureusement », pas de « Gabriel »,
+  aucune formule finale ajoutant un nom. Termine sur ta dernière phrase utile.
+- **Salutation obligatoire** : « Bonjour [Prénom], » en français, « Hi [First name], » en anglais,
+  « Bonjour, » si le prénom est inconnu. Jamais d'entrée directe dans le contenu.
+- **Langue du dernier message du contact**, jamais la tienne.
+- **Aucun tiret cadratin** « — » ni « – ». Virgule, point, parenthèses.
+- **Aucune structure antithétique**, ni évidente (« ce n'est pas X, c'est Y ») ni déguisée
+  (« ce n'est pas un manque d'intérêt, plutôt… »). Dis la chose sans la nier d'abord.
+- **Formules interdites** : « n'hésitez pas à », « j'espère que ce message vous trouve bien »,
+  « glissé entre les mailles », « fell through the cracks », « exactement le genre de »,
+  « je serais ravi de », « ça ne rend pas justice à », « that's on me ».
+- **Jargon proscrit** : « aligner les attentes », « explorer les synergies », « faire avancer les
+  choses », « valeur ajoutée », « au niveau de », « dans une optique de ». Les mots de la vraie vie.
+- **Français québécois** quand tu écris en français. « Intense », « chargé », « occupé », jamais
+  « dense » pour une période occupée.
+- **Excuse pour un délai** : une seule fois, jamais en ouverture, attribuée à une période chargée,
+  et formulée différemment chaque fois.
+- **Rendez-vous** : n'invente jamais une date. Invite le contact à proposer un créneau, idéalement
+  pas un vendredi.
+- **Style** : phrases courtes, paragraphes de 2 à 4 lignes, aucun remplissage. Pas de titres en
+  majuscules, pas de tableaux, pas de listes à puces dans un courriel. Un courriel de Gabriel fait
+  trois à cinq paragraphes courts, pas une fiche produit.
+
+### Politesse : demander, jamais commander
+
+Règle apprise d'une correction de Gabriel, sur une soumission corporative.
+
+Écrire à un client ou à un fournisseur qui nous a sollicités, **c'est demander**. L'impératif
+direct passe pour un ordre, même court, même efficace. Formule la demande au conditionnel et
+laisse la contrainte du côté du réel plutôt que de l'exigence.
+
+- ❌ « Vous dites que c'est urgent, alors donnez-moi votre date butoir tout de suite. »
+- ✅ « Comme c'est urgent, serait-il possible de connaître les délais et la date butoir? On verra
+  si c'est réalisable. »
+
+Même logique pour « il me manque X » (qui sonne comme un reproche) → « j'aurais besoin de savoir
+X ». Aller droit au but n'autorise pas la sécheresse : la voix de Gabriel est **directe et
+chaleureuse**, les deux à la fois.
+
+### Chaque brouillon crée un nouveau brouillon
+
+`reply` sans `"send": true` dépose un brouillon de plus dans le fil, et **le proxy n'expose aucune
+route de suppression**. Trois allers-retours de révision laissent trois brouillons dormants, dont
+n'importe lequel peut partir par erreur. Deux conséquences :
+
+- Fais tes révisions **dans le fil de la conversation avec l'humain**, et ne dépose le brouillon
+  dans Missive qu'une fois le texte approuvé.
+- Si plusieurs brouillons existent déjà, dis-le explicitement et nomme celui à garder : c'est un
+  ménage manuel dans l'interface Missive.
+
 ## Vérifier un envoi — règle ferme
 
 Une question de suivi se tranche avec **deux** sources, jamais une seule : Shopify pour la
