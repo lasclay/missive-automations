@@ -1,4 +1,5 @@
 {
+  "outputStyle": "Concis",
   "hooks": {
     "Stop": [
       {
@@ -22,7 +23,6 @@
       "WebSearch",
       "Agent",
       "Skill",
-
       "Bash(node missive_client.js:*)",
       "Bash(node connectors_client.js:*)",
       "Bash(node fb-backlog/traiter.js:*)",
@@ -54,7 +54,6 @@
       "Bash(git pull:*)",
       "Bash(git checkout:*)",
       "Bash(git rebase:*)",
-
       "mcp__github",
       "mcp__Shopify",
       "mcp__Klaviyo",
@@ -63,7 +62,6 @@
       "mcp__Google_Drive",
       "mcp__Claude_Code_Remote"
     ],
-
     "ask": [
       "Bash(node connectors_client.js shipstation createlabel:*)",
       "Bash(node connectors_client.js shipstation createlabelfororder:*)",

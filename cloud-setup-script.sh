@@ -29,7 +29,7 @@ set -u
 mkdir -p /root/.claude
 cat > /root/.claude/settings.json <<'JSON'
 {
-  "outputStyle": "Proactive",
+  "outputStyle": "Concis",
   "env": {
     "TZ": "America/Montreal",
     "GENERAL_PROXY_URL": "https://general-proxy-5muf.onrender.com",
