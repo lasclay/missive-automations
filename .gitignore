@@ -14,3 +14,6 @@ mrp/donnees/bris-missive.tsv
 
 __pycache__/
 *.pyc
+
+# Archives .skill regenerables (voir skills-compte/README.md)
+dist/
