@@ -11,3 +11,6 @@ node_modules/
 # Extrait de bris (bris_missive.js trier) : contient des citations et des noms
 # de clients. Regenerable en une commande, jamais versionne.
 mrp/donnees/bris-missive.tsv
+
+__pycache__/
+*.pyc
