@@ -20,6 +20,8 @@ Dépendances externes : ffmpeg, ffprobe, yt-dlp. Aucune dépendance pip.
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import json
 import mimetypes
 import os
@@ -171,13 +173,15 @@ class DownloadBlocked(Exception):
         if not self.is_ip_block:
             return ""
         return (
-            "YouTube refuse le flux vidéo à cette IP (centre de données). Dans l'ordre :\n"
-            "  1. `setup.py --youtube` (jeton PO) — débloque déjà les sous-titres, donc la\n"
-            "     transcription complète, même quand les images restent inaccessibles ;\n"
-            "  2. pour les images : un fichier de témoins d'un navigateur connecté, via\n"
-            "     --cookies fichier.txt ou VIDEO_YT_COOKIES ;\n"
-            "  3. sinon un mandataire résidentiel (--proxy), ou récupérer le fichier depuis\n"
-            "     une machine à IP résidentielle et le passer en local à ce script."
+            "YouTube refuse le flux vidéo à cette IP (centre de données). La transcription, elle,\n"
+            "passe : c'est ce que tu as ci-dessous. Pour obtenir aussi les images depuis une\n"
+            "session infonuagique, il faut une porte d'entrée réseau ou une identité, à poser une\n"
+            "seule fois dans les variables d'environnement de l'environnement Claude Code :\n"
+            "  • VIDEO_YT_COOKIES_B64 — témoins d'un navigateur connecté, encodés en base64\n"
+            "    (compte secondaire de préférence) ;\n"
+            "  • VIDEO_PROXY — mandataire résidentiel (http://user:pass@hote:port).\n"
+            "Sans l'un des deux, aucune option de yt-dlp ne débloque les images : le refus vient\n"
+            "des serveurs de diffusion, pas du lecteur."
         )
 
 
@@ -221,15 +225,40 @@ def pot_args(explicit: str | None = None) -> list[str]:
     return args
 
 
-def cookies_args(explicit: str | None = None) -> list[str]:
+def cookies_args(explicit: str | None = None, workdir: Path | None = None) -> list[str]:
+    """Témoins yt-dlp, par fichier ou par variable d'environnement.
+
+    En session infonuagique il n'y a pas de navigateur ni de fichier persistant :
+    `VIDEO_YT_COOKIES_B64` porte le contenu du fichier encodé en base64, posé
+    une fois dans les variables d'environnement de l'environnement Claude Code.
+    Il est écrit en 0600 dans le répertoire de travail, jamais journalisé.
+    """
     candidate = explicit or env_value("VIDEO_YT_COOKIES")
-    if not candidate:
-        return []
-    path = Path(candidate).expanduser()
-    if not path.exists():
+    if candidate:
+        path = Path(candidate).expanduser()
+        if path.exists():
+            return ["--cookies", str(path)]
         log(f"fichier de témoins introuvable : {path}")
-        return []
-    return ["--cookies", str(path)]
+
+    encoded = env_value("VIDEO_YT_COOKIES_B64")
+    if encoded and workdir is not None:
+        try:
+            raw = base64.b64decode(encoded, validate=True)
+        except (ValueError, binascii.Error):
+            log("VIDEO_YT_COOKIES_B64 n'est pas du base64 valide — ignoré")
+            return []
+        if b"\t" not in raw:
+            log("VIDEO_YT_COOKIES_B64 ne ressemble pas à un fichier de témoins Netscape — ignoré")
+            return []
+        target = workdir / "cookies.txt"
+        target.write_bytes(raw)
+        try:
+            target.chmod(0o600)
+        except OSError:
+            pass
+        log("témoins chargés depuis VIDEO_YT_COOKIES_B64")
+        return ["--cookies", str(target)]
+    return []
 
 
 def blocked_by_bot_check(stderr: str) -> bool:
@@ -732,7 +761,9 @@ def build_parser() -> argparse.ArgumentParser:
                     help="hauteur max de la vidéo téléchargée (défaut 720)")
     ap.add_argument("--cookies", default=None,
                     help="fichier de témoins au format Netscape, pour une vidéo qui exige une "
-                         "connexion ou quand YouTube bloque l'IP (aussi : VIDEO_YT_COOKIES)")
+                         "connexion ou quand YouTube bloque l'IP. Aussi : VIDEO_YT_COOKIES "
+                         "(chemin) ou VIDEO_YT_COOKIES_B64 (contenu en base64, pour une session "
+                         "infonuagique sans fichier persistant)")
     ap.add_argument("--pot-script", default=None,
                     help="chemin du générateur de jeton PO bgutil (aussi : VIDEO_POT_SCRIPT ; "
                          "installé par setup.py --youtube)")
@@ -789,7 +820,7 @@ def main() -> int:
 
     wants_frames = detail != "transcript" or bool(cues_forced)
 
-    ytdlp_extra = pot_args(args.pot_script) + cookies_args(args.cookies)
+    ytdlp_extra = pot_args(args.pot_script) + cookies_args(args.cookies, workdir)
     proxy = args.proxy or env_value("VIDEO_PROXY")
     if proxy:
         ytdlp_extra += ["--proxy", proxy]

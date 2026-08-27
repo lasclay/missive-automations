@@ -97,7 +97,7 @@ vidéo déjà téléchargé (passe le chemin local au lieu de l'URL, ça évite 
 | `--whisper local\|groq\|openai` | force le moteur de transcription |
 | `--whisper-model NOM` | modèle local : `tiny`, `base` (défaut), `small`, `medium`, `large-v3` |
 | `--lang fr` | force la langue au lieu de la détecter — utile sur un extrait court ou bilingue |
-| `--cookies FICHIER` | témoins d'un navigateur connecté, pour une vidéo restreinte ou une IP bloquée |
+| `--cookies FICHIER` | témoins d'un navigateur connecté (aussi `VIDEO_YT_COOKIES`, ou `VIDEO_YT_COOKIES_B64` en nuage) |
 | `--proxy URL` | mandataire yt-dlp (aussi `VIDEO_PROXY`) |
 | `--pot-script CHEMIN` | générateur de jeton PO, s'il n'est pas à l'emplacement par défaut |
 | `--out-dir DIR` | répertoire de travail imposé |
@@ -209,14 +209,42 @@ les requêtes à travers le proxy de l'environnement), protocole HLS au lieu du 
 manifeste passe, les segments non), et les façades tierces (Invidious, Piped, cobalt) qui sont
 toutes bloquées ou hors service.
 
-**Pour obtenir les images malgré tout**, par ordre de simplicité :
+### Obtenir les images quand tout tourne en nuage
 
-1. **Un fichier de témoins** exporté d'un navigateur connecté à YouTube :
-   `--cookies temoins.txt`, ou `VIDEO_YT_COOKIES=/chemin/temoins.txt`. Utilise un compte
-   secondaire — ces témoins valent une session ouverte, et YouTube peut la sanctionner.
-2. **Un mandataire résidentiel** : `--proxy http://user:pass@hote:port` ou `VIDEO_PROXY`.
-3. **Passer par le fichier** : récupérer la vidéo depuis une machine à IP résidentielle, la
-   déposer dans le Drive (skill `drivepush`), et pointer ce script sur le fichier local.
+Le conteneur n'a ni navigateur ni disque persistant, donc « exporte tes témoins » ne suffit pas :
+il faut que le secret vive **dans l'environnement**, pas sur une machine. Les deux voies
+possibles se posent une seule fois dans les variables d'environnement de l'environnement Claude
+Code (les mêmes réglages que `GENERAL_PROXY_SECRET` et compagnie), et toutes les sessions
+suivantes en héritent :
+
+| Variable | Ce que c'est | Coût |
+| --- | --- | --- |
+| `VIDEO_YT_COOKIES_B64` | le contenu d'un `cookies.txt` Netscape encodé en base64 | gratuit |
+| `VIDEO_PROXY` | un mandataire résidentiel `http://user:pass@hote:port` | ~3-10 $/mois |
+
+Le script écrit les témoins en 0600 dans son répertoire de travail temporaire, ne les journalise
+jamais, et le fichier disparaît avec le répertoire.
+
+Pour fabriquer la valeur des témoins, une seule fois, sur une machine avec navigateur :
+
+```bash
+# après avoir exporté cookies.txt depuis un navigateur connecté à YouTube
+base64 -w0 cookies.txt        # macOS : base64 -i cookies.txt
+```
+
+Colle le résultat dans `VIDEO_YT_COOKIES_B64`. Deux réserves à dire à l'utilisateur avant qu'il
+le fasse : ces témoins valent une session ouverte sur le compte, donc **compte secondaire**, et
+YouTube peut suspendre un compte dont la session sert à des téléchargements automatisés. Le
+mandataire résidentiel n'a pas ce défaut — il coûte de l'argent, pas un compte.
+
+**Sans l'un des deux, en nuage, c'est transcription seulement.** Ce n'est pas un réglage à
+chercher : le refus vient des serveurs de diffusion, aucune option de yt-dlp ne le lève. Dis-le
+et propose les deux voies, plutôt que de multiplier les tentatives.
+
+Hors nuage, sur une machine à IP résidentielle, rien de tout ça n'est nécessaire : tout marche
+d'emblée. Une troisième voie existe donc si l'utilisateur a une telle machine sous la main —
+y récupérer le fichier, le déposer dans le Drive (skill `drivepush`), et pointer ce script sur
+le fichier — mais ce n'est plus une solution infonuagique.
 
 ## Vie privée et périmètre
 

@@ -74,8 +74,10 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   `python3 .claude/skills/video/scripts/setup.py` les installe (à refaire dans chaque nouveau
   conteneur distant).
 - **YouTube en session infonuagique** : ajoute `--youtube` au setup (jeton PO). Avec, la
-  transcription passe ; les images restent refusées par le CDN de YouTube, qui bloque les IP de
-  centre de données. Détails et contournements : skill `video`.
+  transcription passe ; les images restent refusées par les serveurs de diffusion de YouTube, qui
+  bloquent les IP de centre de données. Pour les images en nuage, une seule variable à poser dans
+  l'environnement : `VIDEO_YT_COOKIES_B64` (témoins encodés) ou `VIDEO_PROXY` (mandataire
+  résidentiel). Détails : skill `video`.
 
 ## Scripts principaux
 
