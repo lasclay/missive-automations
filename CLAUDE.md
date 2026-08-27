@@ -15,6 +15,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
+| `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
@@ -62,6 +63,13 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 ## Missive Proxy
 
 - Service Render séparé pour l'API Missive ; code : `missive-proxy/` (env `MISSIVE_PROXY_SECRET`).
+
+## Vidéo (regarder et analyser)
+
+- `python3 .claude/skills/video/scripts/video.py <url-ou-fichier>` : trames JPEG horodatées à lire
+  avec `Read` + transcription (sous-titres natifs, sinon Whisper si une clé est configurée).
+- Dépendances : `ffmpeg`, `ffprobe`, `yt-dlp` — `python3 .claude/skills/video/scripts/setup.py`
+  les installe (à refaire dans chaque nouveau conteneur distant). Détails : skill `video`.
 
 ## Scripts principaux
 
