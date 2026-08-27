@@ -4,10 +4,10 @@ Automatisations Lasclay (support Missive, proxys d'API). Quand on te demande d'*
 service tiers** (ShipStation, Omnisend, QuickBooks…), passe par les proxys ci-dessous — les
 clés API vivent côté Render, jamais dans l'environnement Claude ni dans le code.
 
-**N'explore pas le dépôt pour retrouver comment joindre un service : trois skills du projet
+**N'explore pas le dépôt pour retrouver comment joindre un service : les skills du projet
 contiennent déjà les actions exactes, les paramètres et les garde-fous.** Charge-les au lieu de
 chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, `/qbo`,
-`/proxygen`) :
+`/proxygen`, `/copywriting-lasclay`) :
 
 | Skill | Couvre |
 | --- | --- |
@@ -16,6 +16,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 | `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
+| `copywriting-lasclay` | rédaction et révision de tous les textes de Lasclay : voix, canaux, garde-fous du pivot, arc narratif, anti-tics IA |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
@@ -79,6 +80,31 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   relais tiers (instance publique de cobalt) — l'URL de la vidéo lui est transmise, donc
   `--no-fallback-service` pour une vidéo confidentielle. Si le relais tombe :
   `VIDEO_YT_COOKIES_B64` ou `VIDEO_PROXY`. Détails : skill `video`.
+
+## Skills de compte et skills du dépôt
+
+Deux origines, à ne pas confondre :
+
+- **Skills du dépôt** (`.claude/skills/`) : versionnés ici, chargés automatiquement dans toute
+  session ouverte sur le dépôt. On les modifie, on commit, c'est réglé.
+- **Skills de compte** (claude.ai → Réglages → Capacités) : `lasclay-master`, `lasclay-seo`,
+  `finances-lasclay`, `bookkeeping-lasclay`, `drivepush`, `missive-messenger-7jours`. Ils
+  arrivent dans le conteneur par une synchronisation **à sens unique** dans
+  `~/.claude/skills/synced/`, répertoire éphémère. Aucune commande ne renvoie une modification
+  vers le compte : `claude` n'a pas de sous-commande `skill`, et le jeton d'authentification
+  n'est pas exposé. Une modification faite en session est donc perdue au recyclage du conteneur.
+
+`copywriting-lasclay` existe **dans les deux**. Le dépôt fait foi. Après l'avoir modifié ici,
+il faut repousser la même version vers le compte, sinon les deux divergent :
+
+```bash
+PYTHONPATH=~/.claude/skills/synced/skill-creator \
+  python3 ~/.claude/skills/synced/skill-creator/scripts/package_skill.py \
+  .claude/skills/copywriting-lasclay ./dist
+```
+
+Le `.skill` produit se dépose dans claude.ai → Réglages → Capacités → Skills et remplace celui
+du même nom. Les archives `.skill` sont regénérables, donc `dist/` est ignoré par git.
 
 ## Scripts principaux
 
