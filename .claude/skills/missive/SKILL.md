@@ -268,16 +268,22 @@ Même logique pour « il me manque X » (qui sonne comme un reproche) → « j'a
 X ». Aller droit au but n'autorise pas la sécheresse : la voix de Gabriel est **directe et
 chaleureuse**, les deux à la fois.
 
-### Chaque brouillon crée un nouveau brouillon
+### Un brouillon déposé ne se reprend pas — révise ici, dépose une fois
 
-`reply` sans `"send": true` dépose un brouillon de plus dans le fil, et **le proxy n'expose aucune
-route de suppression**. Trois allers-retours de révision laissent trois brouillons dormants, dont
-n'importe lequel peut partir par erreur. Deux conséquences :
+**L'API Missive n'expose que `POST /v1/drafts`.** Aucun `PATCH`, aucun `DELETE` : un brouillon
+ne peut être ni modifié ni supprimé par programme, seulement à la main dans l'application.
+Ce n'est pas une limite du proxy et aucun correctif de route n'y changera rien
+(vérifié le 27 août 2026 sur `missiveapp.com/docs/developers/rest-api/endpoints`).
 
-- Fais tes révisions **dans le fil de la conversation avec l'humain**, et ne dépose le brouillon
-  dans Missive qu'une fois le texte approuvé.
-- Si plusieurs brouillons existent déjà, dis-le explicitement et nomme celui à garder : c'est un
-  ménage manuel dans l'interface Missive.
+Donc `reply` sans `"send": true` **ajoute** un brouillon, il n'en remplace jamais un. Six
+révisions laissent six brouillons dormants dans le fil, dont n'importe lequel peut partir par
+erreur, et c'est la personne qui doit tous les jeter un par un.
+
+**La règle : écris le texte du brouillon dans la conversation avec l'humain, en bloc de code.**
+Fais toutes les révisions là. Ne touche à `reply` qu'une fois le texte approuvé, une seule fois.
+
+Si des brouillons se sont accumulés, liste leurs `id` (via `drafts <convId>`) en nommant celui à
+garder, pour que le ménage manuel soit rapide.
 
 ## Vérifier un envoi — règle ferme
 
