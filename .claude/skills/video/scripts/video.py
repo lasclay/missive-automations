@@ -28,6 +28,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.request
 import uuid
@@ -45,8 +46,27 @@ DEDUP_THRESHOLD = 6.0    # écart moyen (0-255) sous lequel deux trames sont jum
 WHISPER_CHUNK_SECONDS = 900
 WHISPER_MAX_BYTES = 24 * 1024 * 1024
 
-SUB_LANGS = "fr,fr-CA,fr-FR,fr.*,en,en-US,en.*"
+# Pas de joker : « fr.* » attrape les dizaines de pistes auto-traduites de
+# YouTube, ce qui fait exploser le nombre de requêtes et déclenche un 429.
+SUB_LANGS = "fr,fr-CA,fr-FR,fr-orig,en,en-US,en-GB,en-orig"
 LANG_PREFERENCE = ("fr", "en")
+
+# Contournement du contrôle anti-robot de YouTube sur les IP de centre de
+# données. Essayées dans l'ordre, la première qui rend un résultat gagne.
+YOUTUBE_STRATEGIES = [
+    ("défaut", []),
+    ("android_vr", ["--extractor-args", "youtube:player_client=android_vr"]),
+    ("tv_simply", ["--extractor-args", "youtube:player_client=tv_simply"]),
+    ("web_embedded", ["--extractor-args", "youtube:player_client=web_embedded"]),
+]
+BOT_CHECK_MARKERS = (
+    "sign in to confirm",
+    "failed to extract any player response",
+    "http error 429",
+    "too many requests",
+    "unable to extract",
+)
+POT_SCRIPT_DEFAULT = Path.home() / ".cache" / "video" / "bgutil" / "server" / "build" / "generate_once.js"
 
 
 # --------------------------------------------------------------------------- #
@@ -130,9 +150,124 @@ def is_url(source: str) -> bool:
 # téléchargement (yt-dlp)
 # --------------------------------------------------------------------------- #
 
-def fetch_captions(url: str, workdir: Path) -> tuple[Path | None, str | None]:
+class DownloadBlocked(Exception):
+    """yt-dlp n'a pas pu rapatrier les octets vidéo. Si on a quand même les
+    sous-titres, on peut encore rendre une transcription : c'est le cas typique
+    d'une session infonuagique, où YouTube sert le lecteur mais refuse le flux."""
+
+    def __init__(self, stderr: str, url: str):
+        super().__init__(stderr)
+        self.stderr = stderr
+        self.url = url
+
+    @property
+    def is_ip_block(self) -> bool:
+        low = self.stderr.lower()
+        return is_youtube(self.url) and (
+            blocked_by_bot_check(self.stderr) or "403" in low or "forbidden" in low
+        )
+
+    def advice(self) -> str:
+        if not self.is_ip_block:
+            return ""
+        return (
+            "YouTube refuse le flux vidéo à cette IP (centre de données). Dans l'ordre :\n"
+            "  1. `setup.py --youtube` (jeton PO) — débloque déjà les sous-titres, donc la\n"
+            "     transcription complète, même quand les images restent inaccessibles ;\n"
+            "  2. pour les images : un fichier de témoins d'un navigateur connecté, via\n"
+            "     --cookies fichier.txt ou VIDEO_YT_COOKIES ;\n"
+            "  3. sinon un mandataire résidentiel (--proxy), ou récupérer le fichier depuis\n"
+            "     une machine à IP résidentielle et le passer en local à ce script."
+        )
+
+
+def is_youtube(url: str) -> bool:
+    return any(h in url.lower() for h in ("youtube.com", "youtu.be", "youtube-nocookie.com"))
+
+
+def find_node(min_major: int = 22) -> str | None:
+    """Node ≥ 22 : exigé par le générateur de jeton PO, et yt-dlp en a besoin
+    pour résoudre la signature des URL de flux."""
+    candidates = [env_value("VIDEO_NODE"), shutil.which("node"),
+                  "/opt/node22/bin/node", "/opt/homebrew/bin/node", "/usr/local/bin/node"]
+    for candidate in candidates:
+        if not candidate or not Path(candidate).exists():
+            continue
+        proc = run([candidate, "--version"])
+        if proc.returncode != 0:
+            continue
+        version = proc.stdout.decode(errors="replace").strip().lstrip("v")
+        try:
+            if int(version.split(".")[0]) >= min_major:
+                return candidate
+        except (ValueError, IndexError):
+            continue
+    return None
+
+
+def pot_args(explicit: str | None = None) -> list[str]:
+    """Jeton de provenance (PO token) : ce qui débloque les IP de centre de
+    données. Silencieux si le fournisseur n'est pas installé."""
+    candidate = explicit or env_value("VIDEO_POT_SCRIPT")
+    script = Path(candidate).expanduser() if candidate else POT_SCRIPT_DEFAULT
+    if not script.exists():
+        return []
+    args = ["--extractor-args", f"youtubepot-bgutilscript:script_path={script}"]
+    node = find_node()
+    if node:
+        args += ["--js-runtimes", f"node:{node}"]
+    else:
+        log("Node ≥ 22 introuvable : le jeton PO restera inactif")
+    return args
+
+
+def cookies_args(explicit: str | None = None) -> list[str]:
+    candidate = explicit or env_value("VIDEO_YT_COOKIES")
+    if not candidate:
+        return []
+    path = Path(candidate).expanduser()
+    if not path.exists():
+        log(f"fichier de témoins introuvable : {path}")
+        return []
+    return ["--cookies", str(path)]
+
+
+def blocked_by_bot_check(stderr: str) -> bool:
+    low = stderr.lower()
+    return any(m in low for m in BOT_CHECK_MARKERS)
+
+
+def run_ytdlp(base_cmd: list[str], url: str, extra: list[str], rounds: int = 2):
+    """Lance yt-dlp en montant l'échelle des contournements YouTube.
+
+    Sur une IP de centre de données, YouTube refuse par intermittence. On essaie
+    successivement plusieurs clients de lecture, puis on recommence après une
+    pause : en pratique une des tentatives passe.
+    """
+    strategies = YOUTUBE_STRATEGIES if is_youtube(url) else [("défaut", [])]
+    last = None
+    for round_no in range(rounds):
+        for label, args in strategies:
+            cmd = base_cmd + extra + args + [url]
+            proc = run(cmd)
+            stderr = proc.stderr.decode(errors="replace")
+            if proc.returncode == 0:
+                if label != "défaut":
+                    log(f"YouTube : passé par le client « {label} »")
+                return proc, True
+            last = (proc, stderr)
+            if not blocked_by_bot_check(stderr):
+                return proc, False  # vraie erreur (vidéo privée, 404…) : inutile d'insister
+        if round_no + 1 < rounds:
+            wait = 8 * (round_no + 1)
+            log(f"YouTube bloque cette IP — nouvelle tentative dans {wait} s…")
+            time.sleep(wait)
+    return (last[0] if last else None), False
+
+
+def fetch_captions(url: str, workdir: Path, extra: list[str]) -> tuple[Path | None, str | None]:
     """Sous-titres natifs (manuels d'abord, auto ensuite). Gratuits, aucun envoi."""
-    cmd = [
+    base = [
         "yt-dlp", "--skip-download",
         "--write-subs", "--write-auto-subs",
         "--sub-langs", SUB_LANGS,
@@ -140,11 +275,11 @@ def fetch_captions(url: str, workdir: Path) -> tuple[Path | None, str | None]:
         "--convert-subs", "vtt",
         "--no-warnings",
         "-o", str(workdir / "sub.%(ext)s"),
-        url,
     ]
-    proc = run(cmd)
-    if proc.returncode != 0:
-        log("aucun sous-titre récupéré (yt-dlp : " + proc.stderr.decode(errors="replace").strip()[-200:] + ")")
+    proc, ok = run_ytdlp(base, url, extra)
+    if not ok and proc is not None:
+        detail = proc.stderr.decode(errors="replace").strip()[-200:]
+        log(f"aucun sous-titre récupéré (yt-dlp : {detail})")
     files = sorted(workdir.glob("sub*.vtt"))
     if not files:
         return None, None
@@ -162,17 +297,18 @@ def fetch_captions(url: str, workdir: Path) -> tuple[Path | None, str | None]:
     return best, lang
 
 
-def download_video(url: str, workdir: Path, max_height: int) -> Path:
+def download_video(url: str, workdir: Path, max_height: int, extra: list[str]) -> Path:
     out = workdir / "video.%(ext)s"
     fmt = (
         f"bv*[height<={max_height}]+ba/b[height<={max_height}]/"
         f"bv*+ba/b"
     )
-    cmd = ["yt-dlp", "-f", fmt, "--no-warnings", "--no-playlist", "-o", str(out), url]
-    proc = run(cmd)
-    if proc.returncode != 0:
-        err = proc.stderr.decode(errors="replace").strip()
-        raise SystemExit(f"échec du téléchargement yt-dlp :\n{err[-1500:]}")
+    base = ["yt-dlp", "-f", fmt, "--no-warnings", "--no-playlist",
+            "--retries", "3", "--fragment-retries", "3", "-o", str(out)]
+    proc, ok = run_ytdlp(base, url, extra, rounds=3)
+    if not ok:
+        err = proc.stderr.decode(errors="replace").strip() if proc else ""
+        raise DownloadBlocked(err, url)
     files = [p for p in workdir.glob("video.*") if p.suffix.lower() not in (".vtt", ".srt", ".json")]
     if not files:
         raise SystemExit("yt-dlp n'a produit aucun fichier vidéo")
@@ -594,6 +730,16 @@ def build_parser() -> argparse.ArgumentParser:
                     help="sensibilité de détection de scène (défaut 0.30, 0.15 en mode max)")
     ap.add_argument("--max-height", type=int, default=720,
                     help="hauteur max de la vidéo téléchargée (défaut 720)")
+    ap.add_argument("--cookies", default=None,
+                    help="fichier de témoins au format Netscape, pour une vidéo qui exige une "
+                         "connexion ou quand YouTube bloque l'IP (aussi : VIDEO_YT_COOKIES)")
+    ap.add_argument("--pot-script", default=None,
+                    help="chemin du générateur de jeton PO bgutil (aussi : VIDEO_POT_SCRIPT ; "
+                         "installé par setup.py --youtube)")
+    ap.add_argument("--proxy", default=None,
+                    help="mandataire pour yt-dlp (aussi : VIDEO_PROXY). Un mandataire résidentiel "
+                         "est le seul moyen fiable de récupérer les images YouTube depuis un "
+                         "centre de données")
     ap.add_argument("--out-dir", default=None, help="répertoire de travail (défaut : tmp)")
     ap.add_argument("--no-dedup", action="store_true", help="garde les trames quasi identiques")
     ap.add_argument("--no-whisper", action="store_true", help="désactive le repli Whisper")
@@ -636,20 +782,42 @@ def main() -> int:
     frames_dir.mkdir(exist_ok=True)
 
     source = args.source
+    blocked_reason: str | None = None
     caption_file: Path | None = None
     caption_lang: str | None = None
     video_path: Path | None = None
 
     wants_frames = detail != "transcript" or bool(cues_forced)
 
+    ytdlp_extra = pot_args(args.pot_script) + cookies_args(args.cookies)
+    proxy = args.proxy or env_value("VIDEO_PROXY")
+    if proxy:
+        ytdlp_extra += ["--proxy", proxy]
+
     if is_url(source):
         if source.startswith("www."):
             source = "https://" + source
+        if is_youtube(source) and not any("bgutilscript" in a for a in ytdlp_extra):
+            log("YouTube sans fournisseur de jeton PO : sur une IP de centre de données le refus "
+                "est probable. `setup.py --youtube` l'installe une fois pour toutes.")
         log("sous-titres natifs…")
-        caption_file, caption_lang = fetch_captions(source, workdir)
+        caption_file, caption_lang = fetch_captions(source, workdir, ytdlp_extra)
         if wants_frames or caption_file is None:
             log("téléchargement de la vidéo…")
-            video_path = download_video(source, workdir, args.max_height)
+            try:
+                video_path = download_video(source, workdir, args.max_height, ytdlp_extra)
+            except DownloadBlocked as blocked:
+                if caption_file is None:
+                    detail = blocked.stderr[-1200:]
+                    advice = blocked.advice()
+                    raise SystemExit(
+                        f"échec du téléchargement yt-dlp :\n{detail}"
+                        + (f"\n\n{advice}" if advice else "")
+                    )
+                # On garde la transcription : mieux vaut une réponse partielle,
+                # clairement étiquetée, qu'un échec sec.
+                log("flux vidéo refusé — on continue avec les sous-titres seuls")
+                blocked_reason = blocked.advice() or blocked.stderr[-300:]
     else:
         video_path = Path(source).expanduser()
         if not video_path.exists():
@@ -763,6 +931,12 @@ def main() -> int:
     out.append(f"- **Transcription** : {transcript_source}")
     out.append(f"- **Répertoire de travail** : {workdir}")
     out.append("")
+
+    if blocked_reason:
+        out.append("> ⚠️ **Aucune image : le flux vidéo a été refusé.** Transcription seule.")
+        for line in blocked_reason.splitlines():
+            out.append(f"> {line}")
+        out.append("")
 
     for w in warnings:
         out.append(f"> ⚠️ {w}")

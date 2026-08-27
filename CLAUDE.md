@@ -72,7 +72,10 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   rien ne sort de la machine). Une clé Groq/OpenAI n'est qu'une accélération facultative.
 - Dépendances : `ffmpeg`, `ffprobe`, `yt-dlp`, `faster-whisper` —
   `python3 .claude/skills/video/scripts/setup.py` les installe (à refaire dans chaque nouveau
-  conteneur distant). Détails : skill `video`.
+  conteneur distant).
+- **YouTube en session infonuagique** : ajoute `--youtube` au setup (jeton PO). Avec, la
+  transcription passe ; les images restent refusées par le CDN de YouTube, qui bloque les IP de
+  centre de données. Détails et contournements : skill `video`.
 
 ## Scripts principaux
 

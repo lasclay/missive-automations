@@ -8,6 +8,8 @@
                      y compris `faster-whisper` pour la transcription locale
 
 Options :
+  --youtube          installe le fournisseur de jeton PO (bgutil) qui débloque
+                     YouTube depuis une IP de centre de données
   --skip-whisper     n'installe pas le moteur de transcription local
   --model NOM        pré-télécharge un modèle Whisper local (tiny, base, small,
                      medium, large-v3) pour que la première vidéo n'attende pas
@@ -111,6 +113,7 @@ def status() -> dict:
         "missing_binaries": missing,
         "has_whisper_key": key,
         "local_whisper": local,
+        "youtube_pot": pot_installed(),
         "transcription": backend or ("local" if local else None),
         "config_file": str(CONFIG_FILE),
         "platform": platform.system(),
@@ -175,6 +178,53 @@ def install(missing: list[str]) -> list[str]:
     return missing
 
 
+POT_DIR = Path.home() / ".cache" / "video" / "bgutil"
+POT_SCRIPT = POT_DIR / "server" / "build" / "generate_once.js"
+POT_REPO = "https://github.com/Brainicism/bgutil-ytdlp-pot-provider"
+POT_VERSION = "1.3.2"
+
+
+def pot_installed() -> bool:
+    return POT_SCRIPT.exists()
+
+
+def install_pot() -> bool:
+    """Fournisseur de jeton PO : ce qui débloque YouTube depuis une IP de centre
+    de données (session infonuagique, serveur, CI). Plugin pip + petit
+    générateur Node compilé une fois dans ~/.cache/video/bgutil."""
+    if pot_installed():
+        print(f"[setup] jeton PO déjà en place : {POT_SCRIPT}")
+        return True
+    if which("node") is None:
+        print("[setup] Node.js (>= 20) est requis pour le jeton PO — installe-le puis relance",
+              file=sys.stderr)
+        return False
+
+    print("[setup] installation du plugin yt-dlp bgutil…", file=sys.stderr)
+    if not _run([sys.executable, "-m", "pip", "install", "--quiet", "bgutil-ytdlp-pot-provider"]):
+        _run([sys.executable, "-m", "pip", "install", "--quiet", "--user", "bgutil-ytdlp-pot-provider"])
+
+    POT_DIR.parent.mkdir(parents=True, exist_ok=True)
+    if not (POT_DIR / "server").exists():
+        if which("git") is None:
+            print("[setup] git est requis pour récupérer le générateur de jeton PO", file=sys.stderr)
+            return False
+        if not _run(["git", "clone", "--depth", "1", "--single-branch", "--branch", POT_VERSION,
+                     POT_REPO, str(POT_DIR)]):
+            print("[setup] échec du clonage du fournisseur de jeton PO", file=sys.stderr)
+            return False
+
+    server = POT_DIR / "server"
+    print("[setup] compilation du générateur (npm ci + tsc, ~1 minute)…", file=sys.stderr)
+    if not _run(["npm", "--prefix", str(server), "ci", "--no-audit", "--no-fund"]):
+        print("[setup] échec de npm ci", file=sys.stderr)
+        return False
+    if not _run(["npx", "--prefix", str(server), "tsc", "--project", str(server)]):
+        print("[setup] échec de la compilation TypeScript", file=sys.stderr)
+        return False
+    return pot_installed()
+
+
 def cmd_check() -> int:
     missing = missing_binaries()
     if not missing:
@@ -212,7 +262,8 @@ def prefetch_model(name: str) -> bool:
     return True
 
 
-def cmd_install(skip_whisper: bool = False, model: str | None = None) -> int:
+def cmd_install(skip_whisper: bool = False, model: str | None = None,
+                youtube: bool = False) -> int:
     missing = missing_binaries()
     if missing:
         missing = install(missing)
@@ -230,6 +281,12 @@ def cmd_install(skip_whisper: bool = False, model: str | None = None) -> int:
         local = install_local_whisper()
     if model:
         prefetch_model(model)
+    if youtube:
+        if install_pot():
+            print(f"[setup] jeton PO prêt : {POT_SCRIPT}")
+            print("  YouTube devient joignable depuis une IP de centre de données.")
+        else:
+            print("[setup] jeton PO non installé — voir les messages ci-dessus", file=sys.stderr)
 
     key, backend = has_key()
     if key:
@@ -263,7 +320,11 @@ def main() -> int:
         else:
             print("[setup] --model attend un nom de modèle", file=sys.stderr)
             return 1
-    return cmd_install(skip_whisper="--skip-whisper" in args, model=model)
+    return cmd_install(
+        skip_whisper="--skip-whisper" in args,
+        model=model,
+        youtube="--youtube" in args,
+    )
 
 
 if __name__ == "__main__":

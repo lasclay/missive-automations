@@ -33,7 +33,8 @@ python3 .claude/skills/video/scripts/setup.py           # installe (brew / apt /
 
 Le setup installe aussi `faster-whisper`, le moteur de transcription **local** : c'est ce qui
 donne l'audio sans aucune clé. Options : `--skip-whisper` pour ne pas l'installer, `--model small`
-pour pré-télécharger un modèle et éviter l'attente à la première vidéo.
+pour pré-télécharger un modèle, et **`--youtube` pour installer le jeton PO** — indispensable dès
+que la session tourne en nuage (voir la section YouTube plus bas).
 
 Dans une session distante Claude Code, l'installation prend ~2 minutes et doit être refaite à
 chaque nouveau conteneur — c'est normal, ne t'en étonne pas et ne demande rien à l'utilisateur :
@@ -96,6 +97,9 @@ vidéo déjà téléchargé (passe le chemin local au lieu de l'URL, ça évite 
 | `--whisper local\|groq\|openai` | force le moteur de transcription |
 | `--whisper-model NOM` | modèle local : `tiny`, `base` (défaut), `small`, `medium`, `large-v3` |
 | `--lang fr` | force la langue au lieu de la détecter — utile sur un extrait court ou bilingue |
+| `--cookies FICHIER` | témoins d'un navigateur connecté, pour une vidéo restreinte ou une IP bloquée |
+| `--proxy URL` | mandataire yt-dlp (aussi `VIDEO_PROXY`) |
+| `--pot-script CHEMIN` | générateur de jeton PO, s'il n'est pas à l'emplacement par défaut |
 | `--out-dir DIR` | répertoire de travail imposé |
 
 ## Combien de trames, et à quel coût
@@ -165,13 +169,54 @@ des trames et la transcription horodatée. La ligne **Transcription** dit toujou
 | Symptôme | Quoi faire |
 | --- | --- |
 | `binaires manquants` | `python3 .claude/skills/video/scripts/setup.py` |
-| yt-dlp : « Sign in to confirm you're not a bot », « Failed to extract player response » | YouTube bloque les IP de centre de données. Dans une session distante, ça arrive : dis-le franchement et demande un fichier vidéo, ou refais la manœuvre depuis la machine de l'utilisateur. N'insiste pas à coups de relances. |
+| yt-dlp : « Sign in to confirm you're not a bot », 403 sur le flux | voir la section YouTube ci-dessous — le script gère déjà l'essentiel tout seul |
 | vidéo privée, géobloquée, derrière un mot de passe | dis-le simplement, ne réessaie pas en boucle |
 | `Transcription : aucune` | ni sous-titres, ni moteur Whisper. Lance le setup (installe le moteur local, sans clé), puis relance |
 | transcription locale lente | normal sur une longue vidéo : ~5× le temps réel avec `base`. Passe à `tiny`, ou cible une plage avec `--start`/`--end` |
 | transcription locale approximative en français | `--whisper-model small --lang fr` |
 | Whisper en API échoue | l'erreur est sur stderr (clé invalide, quota). Bascule sur `--whisper local` |
 | avertissement « plus de 10 minutes » | reprends en ciblé avec `--start`/`--end` plutôt qu'un balayage clairsemé |
+
+## YouTube depuis une IP de centre de données (session infonuagique)
+
+Depuis une session Claude Code en nuage, un serveur ou un CI, YouTube traite l'IP comme suspecte.
+Le blocage n'est pas tout ou rien — mesuré depuis une session infonuagique :
+
+| Ce qu'on demande à YouTube | Sans jeton PO | Avec jeton PO |
+| --- | --- | --- |
+| titre, durée, métadonnées | intermittent | **oui** |
+| sous-titres → transcription complète | non | **oui** |
+| octets vidéo → trames | non | **non** (403 sur les serveurs de diffusion) |
+
+**Donc : installe le jeton PO, et une vidéo YouTube devient au moins lisible en transcription.**
+
+```bash
+python3 .claude/skills/video/scripts/setup.py --youtube
+```
+
+Ça installe le plugin yt-dlp `bgutil-ytdlp-pot-provider` et compile son générateur Node dans
+`~/.cache/video/bgutil` (~1 min, à refaire dans chaque nouveau conteneur). Le script le détecte
+ensuite tout seul — rien à passer en ligne de commande. Node ≥ 22 est requis ; le script le
+cherche dans le PATH, puis dans les emplacements usuels, et `VIDEO_NODE` permet de l'imposer.
+
+Quand le flux est refusé mais que les sous-titres sont là, **le script ne s'arrête pas** : il rend
+la transcription et signale en tête du rapport qu'il n'y a pas d'images. Dis-le clairement dans ta
+réponse — « je n'ai pas vu la vidéo, je l'ai lue » — et n'invente jamais de description visuelle.
+
+Ce qui a été essayé et ne fonctionne pas, inutile d'y retourner : rotation des clients de lecture
+(`android_vr`, `tv`, `web_safari`, `ios`, `mweb`), imitation TLS `curl-cffi` (qui en prime casse
+les requêtes à travers le proxy de l'environnement), protocole HLS au lieu du progressif (le
+manifeste passe, les segments non), et les façades tierces (Invidious, Piped, cobalt) qui sont
+toutes bloquées ou hors service.
+
+**Pour obtenir les images malgré tout**, par ordre de simplicité :
+
+1. **Un fichier de témoins** exporté d'un navigateur connecté à YouTube :
+   `--cookies temoins.txt`, ou `VIDEO_YT_COOKIES=/chemin/temoins.txt`. Utilise un compte
+   secondaire — ces témoins valent une session ouverte, et YouTube peut la sanctionner.
+2. **Un mandataire résidentiel** : `--proxy http://user:pass@hote:port` ou `VIDEO_PROXY`.
+3. **Passer par le fichier** : récupérer la vidéo depuis une machine à IP résidentielle, la
+   déposer dans le Drive (skill `drivepush`), et pointer ce script sur le fichier local.
 
 ## Vie privée et périmètre
 
