@@ -173,20 +173,101 @@ class DownloadBlocked(Exception):
         if not self.is_ip_block:
             return ""
         return (
-            "YouTube refuse le flux vidéo à cette IP (centre de données). La transcription, elle,\n"
-            "passe : c'est ce que tu as ci-dessous. Pour obtenir aussi les images depuis une\n"
-            "session infonuagique, il faut une porte d'entrée réseau ou une identité, à poser une\n"
-            "seule fois dans les variables d'environnement de l'environnement Claude Code :\n"
+            "YouTube refuse le flux à cette IP (centre de données) et le relais tiers n'a rien\n"
+            "rendu non plus — les instances publiques vont et viennent. À essayer :\n"
+            "  • relancer : une autre instance peut répondre ;\n"
+            "  • VIDEO_COBALT_INSTANCES — une liste d'instances à jour, ou la tienne ;\n"
             "  • VIDEO_YT_COOKIES_B64 — témoins d'un navigateur connecté, encodés en base64\n"
             "    (compte secondaire de préférence) ;\n"
             "  • VIDEO_PROXY — mandataire résidentiel (http://user:pass@hote:port).\n"
-            "Sans l'un des deux, aucune option de yt-dlp ne débloque les images : le refus vient\n"
-            "des serveurs de diffusion, pas du lecteur."
+            "La transcription, elle, ne dépend d'aucun des quatre : elle est ci-dessous."
         )
 
 
 def is_youtube(url: str) -> bool:
     return any(h in url.lower() for h in ("youtube.com", "youtu.be", "youtube-nocookie.com"))
+
+
+# --------------------------------------------------------------------------- #
+# repli : service de téléchargement tiers (cobalt)
+# --------------------------------------------------------------------------- #
+
+# Instances publiques de cobalt (logiciel libre). Elles relaient le flux par
+# leur propre serveur — c'est pourquoi elles fonctionnent là où le téléchargement
+# direct est refusé. Ce sont des serveurs bénévoles : elles vont et viennent,
+# d'où la liste, et `VIDEO_COBALT_INSTANCES` pour la remplacer.
+COBALT_INSTANCES = ["https://co.otomir23.me/"]
+COBALT_TIMEOUT = 45
+COBALT_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " \
+                    "(KHTML, like Gecko) Chrome/140.0 Safari/537.36"
+
+
+def cobalt_instances(explicit: str | None = None) -> list[str]:
+    raw = explicit or env_value("VIDEO_COBALT_INSTANCES")
+    if raw:
+        return [i.strip().rstrip("/") + "/" for i in raw.split(",") if i.strip()]
+    return COBALT_INSTANCES
+
+
+def cobalt_resolve(instance: str, url: str, max_height: int) -> str | None:
+    """Demande à l'instance une URL téléchargeable. Rend None si elle refuse."""
+    payload = json.dumps({
+        "url": url,
+        "videoQuality": str(max_height),
+        "filenameStyle": "basic",
+        "downloadMode": "auto",
+    }).encode()
+    req = urllib.request.Request(instance, data=payload, method="POST")
+    req.add_header("Content-Type", "application/json")
+    req.add_header("Accept", "application/json")
+    # Plusieurs instances rejettent l'en-tête par défaut de urllib.
+    req.add_header("User-Agent", COBALT_USER_AGENT)
+    try:
+        with urllib.request.urlopen(req, timeout=COBALT_TIMEOUT) as resp:
+            data = json.loads(resp.read().decode("utf-8", errors="replace"))
+    except (urllib.error.URLError, urllib.error.HTTPError, OSError, ValueError) as exc:
+        log(f"{instance} : injoignable ({exc})")
+        return None
+
+    status = data.get("status")
+    if status in ("tunnel", "redirect", "stream"):
+        return data.get("url")
+    if status == "picker":
+        for item in data.get("picker") or []:
+            if item.get("type") in (None, "video") and item.get("url"):
+                return item["url"]
+    error = (data.get("error") or {}).get("code") or status
+    log(f"{instance} : refus ({error})")
+    return None
+
+
+def cobalt_download(url: str, workdir: Path, max_height: int,
+                    instances: list[str]) -> Path | None:
+    """Dernier recours quand le téléchargement direct est bloqué.
+
+    L'instance récupère la vidéo depuis son propre réseau et nous la relaie ;
+    seule l'URL publique de la vidéo lui est transmise.
+    """
+    for instance in instances:
+        media = cobalt_resolve(instance, url, max_height)
+        if not media:
+            continue
+        dest = workdir / "video.mp4"
+        req = urllib.request.Request(media)
+        req.add_header("User-Agent", COBALT_USER_AGENT)
+        try:
+            with urllib.request.urlopen(req, timeout=600) as resp, dest.open("wb") as fh:
+                shutil.copyfileobj(resp, fh, length=1 << 20)
+        except (urllib.error.URLError, urllib.error.HTTPError, OSError) as exc:
+            log(f"{instance} : le relais a échoué ({exc})")
+            dest.unlink(missing_ok=True)
+            continue
+        if dest.exists() and dest.stat().st_size > 10_000 and probe(dest)["has_video"]:
+            log(f"vidéo récupérée via {instance}")
+            return dest
+        log(f"{instance} : fichier inutilisable")
+        dest.unlink(missing_ok=True)
+    return None
 
 
 def find_node(min_major: int = 22) -> str | None:
@@ -767,6 +848,12 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--pot-script", default=None,
                     help="chemin du générateur de jeton PO bgutil (aussi : VIDEO_POT_SCRIPT ; "
                          "installé par setup.py --youtube)")
+    ap.add_argument("--no-fallback-service", action="store_true",
+                    help="n'essaie pas le relais tiers (cobalt) quand le téléchargement direct "
+                         "est bloqué")
+    ap.add_argument("--cobalt", default=None,
+                    help="instances cobalt à essayer, séparées par des virgules "
+                         "(aussi : VIDEO_COBALT_INSTANCES)")
     ap.add_argument("--proxy", default=None,
                     help="mandataire pour yt-dlp (aussi : VIDEO_PROXY). Un mandataire résidentiel "
                          "est le seul moyen fiable de récupérer les images YouTube depuis un "
@@ -814,6 +901,7 @@ def main() -> int:
 
     source = args.source
     blocked_reason: str | None = None
+    relayed = False
     caption_file: Path | None = None
     caption_lang: str | None = None
     video_path: Path | None = None
@@ -838,17 +926,25 @@ def main() -> int:
             try:
                 video_path = download_video(source, workdir, args.max_height, ytdlp_extra)
             except DownloadBlocked as blocked:
-                if caption_file is None:
+                if not args.no_fallback_service:
+                    log("téléchargement direct refusé — tentative par un relais tiers…")
+                    video_path = cobalt_download(
+                        source, workdir, args.max_height, cobalt_instances(args.cobalt)
+                    )
+                if video_path is not None:
+                    relayed = True
+                elif caption_file is None:
                     detail = blocked.stderr[-1200:]
                     advice = blocked.advice()
                     raise SystemExit(
                         f"échec du téléchargement yt-dlp :\n{detail}"
                         + (f"\n\n{advice}" if advice else "")
                     )
-                # On garde la transcription : mieux vaut une réponse partielle,
-                # clairement étiquetée, qu'un échec sec.
-                log("flux vidéo refusé — on continue avec les sous-titres seuls")
-                blocked_reason = blocked.advice() or blocked.stderr[-300:]
+                else:
+                    # On garde la transcription : mieux vaut une réponse
+                    # partielle, clairement étiquetée, qu'un échec sec.
+                    log("flux vidéo refusé — on continue avec les sous-titres seuls")
+                    blocked_reason = blocked.advice() or blocked.stderr[-300:]
     else:
         video_path = Path(source).expanduser()
         if not video_path.exists():
@@ -960,6 +1056,9 @@ def main() -> int:
         frame_line += f" ({dropped} quasi identiques écartées)"
     out.append(frame_line)
     out.append(f"- **Transcription** : {transcript_source}")
+    if relayed:
+        out.append("- **Vidéo** : téléchargement direct refusé par la plateforme, "
+                   "récupérée par un relais tiers (cobalt)")
     out.append(f"- **Répertoire de travail** : {workdir}")
     out.append("")
 

@@ -99,6 +99,8 @@ vidéo déjà téléchargé (passe le chemin local au lieu de l'URL, ça évite 
 | `--lang fr` | force la langue au lieu de la détecter — utile sur un extrait court ou bilingue |
 | `--cookies FICHIER` | témoins d'un navigateur connecté (aussi `VIDEO_YT_COOKIES`, ou `VIDEO_YT_COOKIES_B64` en nuage) |
 | `--proxy URL` | mandataire yt-dlp (aussi `VIDEO_PROXY`) |
+| `--no-fallback-service` | interdit le relais tiers — à mettre pour une vidéo confidentielle |
+| `--cobalt URLS` | instances de relais à essayer (aussi `VIDEO_COBALT_INSTANCES`) |
 | `--pot-script CHEMIN` | générateur de jeton PO, s'il n'est pas à l'emplacement par défaut |
 | `--out-dir DIR` | répertoire de travail imposé |
 
@@ -186,9 +188,29 @@ Le blocage n'est pas tout ou rien — mesuré depuis une session infonuagique :
 | --- | --- | --- |
 | titre, durée, métadonnées | intermittent | **oui** |
 | sous-titres → transcription complète | non | **oui** |
-| octets vidéo → trames | non | **non** (403 sur les serveurs de diffusion) |
+| octets vidéo → trames | non | non — 403 des serveurs de diffusion, **repris par le relais tiers** |
 
-**Donc : installe le jeton PO, et une vidéo YouTube devient au moins lisible en transcription.**
+**Donc : installe le jeton PO, et une vidéo YouTube devient lisible en transcription.** Les
+images, elles, passent par le relais décrit juste en dessous.
+
+### Le relais tiers, automatique
+
+Quand le téléchargement direct est refusé, le script demande la vidéo à une instance publique de
+**cobalt** (logiciel libre). Ces instances récupèrent le flux depuis leur propre réseau et le
+**relaient** par leur serveur — c'est pour ça qu'elles passent là où nous échouons. Tu n'as rien
+à faire : c'est déclenché tout seul, et le rapport le signale (« récupérée par un relais tiers »).
+
+Ce que ça implique, à savoir avant de t'en servir :
+
+- **L'URL de la vidéo est transmise à un serveur tiers.** Pour une vidéo publique c'est sans
+  conséquence. Ne l'utilise pas pour une vidéo confidentielle ou non répertoriée : coupe avec
+  `--no-fallback-service`.
+- **Ce sont des serveurs bénévoles.** Ils tombent, changent d'adresse, limitent le débit. Une
+  seule instance est configurée par défaut ; quand elle ne répond pas, mets-en d'autres dans
+  `VIDEO_COBALT_INSTANCES` (liste séparée par des virgules), ou passe `--cobalt`.
+- **N'en abuse pas** : c'est un repli pour une vidéo à la fois, pas un moissonnage.
+- Auto-héberger cobalt sur Render ne réglerait rien : l'instance se retrouverait avec une IP de
+  centre de données, exactement le problème qu'on contourne.
 
 ```bash
 python3 .claude/skills/video/scripts/setup.py --youtube
@@ -209,13 +231,11 @@ les requêtes à travers le proxy de l'environnement), protocole HLS au lieu du 
 manifeste passe, les segments non), et les façades tierces (Invidious, Piped, cobalt) qui sont
 toutes bloquées ou hors service.
 
-### Obtenir les images quand tout tourne en nuage
+### Si le relais ne répond pas non plus
 
-Le conteneur n'a ni navigateur ni disque persistant, donc « exporte tes témoins » ne suffit pas :
-il faut que le secret vive **dans l'environnement**, pas sur une machine. Les deux voies
-possibles se posent une seule fois dans les variables d'environnement de l'environnement Claude
-Code (les mêmes réglages que `GENERAL_PROXY_SECRET` et compagnie), et toutes les sessions
-suivantes en héritent :
+Deux voies de secours, sans rien de local : elles se posent une seule fois dans les variables
+d'environnement de l'environnement Claude Code (les mêmes réglages que `GENERAL_PROXY_SECRET` et
+compagnie), et toutes les sessions suivantes en héritent :
 
 | Variable | Ce que c'est | Coût |
 | --- | --- | --- |
@@ -237,9 +257,9 @@ le fasse : ces témoins valent une session ouverte sur le compte, donc **compte 
 YouTube peut suspendre un compte dont la session sert à des téléchargements automatisés. Le
 mandataire résidentiel n'a pas ce défaut — il coûte de l'argent, pas un compte.
 
-**Sans l'un des deux, en nuage, c'est transcription seulement.** Ce n'est pas un réglage à
-chercher : le refus vient des serveurs de diffusion, aucune option de yt-dlp ne le lève. Dis-le
-et propose les deux voies, plutôt que de multiplier les tentatives.
+**Si ni le relais ni l'une de ces deux voies ne donne rien, c'est transcription seulement.** Ce
+n'est pas un réglage à chercher : aucune option de yt-dlp ne lève le refus des serveurs de
+diffusion. Dis-le et propose ces voies, plutôt que de multiplier les tentatives.
 
 Hors nuage, sur une machine à IP résidentielle, rien de tout ça n'est nécessaire : tout marche
 d'emblée. Une troisième voie existe donc si l'utilisateur a une telle machine sous la main —

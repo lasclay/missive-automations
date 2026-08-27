@@ -75,9 +75,10 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   conteneur distant).
 - **YouTube en session infonuagique** : ajoute `--youtube` au setup (jeton PO). Avec, la
   transcription passe ; les images restent refusées par les serveurs de diffusion de YouTube, qui
-  bloquent les IP de centre de données. Pour les images en nuage, une seule variable à poser dans
-  l'environnement : `VIDEO_YT_COOKIES_B64` (témoins encodés) ou `VIDEO_PROXY` (mandataire
-  résidentiel). Détails : skill `video`.
+  bloquent les IP de centre de données. Les images sont alors récupérées automatiquement par un
+  relais tiers (instance publique de cobalt) — l'URL de la vidéo lui est transmise, donc
+  `--no-fallback-service` pour une vidéo confidentielle. Si le relais tombe :
+  `VIDEO_YT_COOKIES_B64` ou `VIDEO_PROXY`. Détails : skill `video`.
 
 ## Scripts principaux
 
