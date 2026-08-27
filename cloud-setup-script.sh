@@ -124,6 +124,18 @@ cat > /root/.claude/settings.json <<'JSON'
 }
 JSON
 
+# --- 1b. Style de sortie ---------------------------------------------------
+# Le style "Concis" ci-dessus est defini dans le depot, .claude/output-styles/,
+# donc versionne et lu aussi en local. Claude Code ne cherche les styles du
+# depot que si la session demarre dans ce dossier ; on le lie dans les settings
+# utilisateur pour que "Concis" existe aussi depuis nimporte quel autre dossier.
+# Un lien, pas une copie : le depot reste la seule source de verite, comme pour
+# les skills. Le lien peut pendre au moment de linstantane, il se resout a
+# lexecution une fois le depot clone.
+mkdir -p /root/.claude/output-styles
+ln -snf /home/user/missive-automations/.claude/output-styles/concis.md \
+        /root/.claude/output-styles/concis.md || true
+
 # --- 2. Confiance de l espace de travail + fuseau -------------------------
 cat > /tmp/t.js <<'JS'
 const fs=require('fs'),p='/root/.claude.json',d='/home/user/missive-automations';
@@ -149,6 +161,7 @@ console.log("  mode EFFECTIF  :",eff);
 console.log("  ask (fusionne) :",new Set([...(u.permissions.ask||[]),...((p.permissions||{}).ask||[])]).size,"regles");
 console.log("  autoMode       :",u.autoMode?"present (settings utilisateur)":"ABSENT");
 ' || true
+echo "  style de sortie: $(node -e 'console.log(require("/root/.claude/settings.json").outputStyle||"(defaut)")' 2>/dev/null) | definition: $(test -r /root/.claude/output-styles/concis.md && echo trouvee || echo MANQUANTE)"
 echo "  skills du depot: $(ls -d /home/user/missive-automations/.claude/skills/*/ 2>/dev/null | wc -l)"
 echo "  date locale: $(date "+%Y-%m-%d %H:%M %Z")"
 exit 0
