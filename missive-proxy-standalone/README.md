@@ -12,6 +12,7 @@ fil, laisser une note, préparer un brouillon, fermer une conversation. Rien d'a
 pas de suppression, pas de fusion, pas d'accès brut à l'API.
 
 - Node 18+, **aucune dépendance npm**. Deux fichiers : `server.js` et `client.js`.
+- Un **skill Claude Code** prêt à copier est fourni dans `skill/` (voir §6).
 - Testé en production sur Render (offre gratuite suffisante), mais tourne partout où
   Node tourne.
 
@@ -24,11 +25,12 @@ pas de suppression, pas de fusion, pas d'accès brut à l'API.
 3. [Installation locale (5 minutes)](#3-installation-locale-5-minutes)
 4. [Déploiement sur Render](#4-déploiement-sur-render)
 5. [Brancher un assistant dessus](#5-brancher-un-assistant-dessus)
-6. [Le client en ligne de commande](#6-le-client-en-ligne-de-commande)
-7. [Les routes HTTP](#7-les-routes-http)
-8. [Sécurité — à lire avant d'exposer le service](#8-sécurité--à-lire-avant-dexposer-le-service)
-9. [Pièges de l'API Missive (durement appris)](#9-pièges-de-lapi-missive-durement-appris)
-10. [Dépannage](#10-dépannage)
+6. [Le skill Claude Code fourni](#6-le-skill-claude-code-fourni)
+7. [Le client en ligne de commande](#7-le-client-en-ligne-de-commande)
+8. [Les routes HTTP](#8-les-routes-http)
+9. [Sécurité — à lire avant d'exposer le service](#9-sécurité--à-lire-avant-dexposer-le-service)
+10. [Pièges de l'API Missive (durement appris)](#10-pièges-de-lapi-missive-durement-appris)
+11. [Dépannage](#11-dépannage)
 
 ---
 
@@ -182,7 +184,43 @@ Ce fichier ne contient **aucune donnée client** — que des identifiants de str
 
 ---
 
-## 6. Le client en ligne de commande
+## 6. Le skill Claude Code fourni
+
+Le dossier `skill/` contient un **skill Claude Code** prêt à l'emploi : il apprend à
+l'assistant à se servir du proxy — les commandes, les filtres qui coûtent cher, les
+garde-fous d'écriture, et les limites réelles de l'API — sans qu'il ait à relire le code à
+chaque session.
+
+```bash
+mkdir -p .claude/skills
+cp -r skill/missive .claude/skills/missive
+```
+
+Ensuite, `/missive` dans une session, ou il se déclenche tout seul dès qu'il est question de
+la boîte de réception.
+
+Ajoute aussi ces deux règles dans le `.claude/settings.json` du projet, pour que ce qui sort
+vers l'extérieur demande toujours confirmation, même en mode automatique :
+
+```json
+{
+  "permissions": {
+    "ask": [
+      "Bash(node client.js reply:*)",
+      "Bash(node client.js send:*)"
+    ]
+  }
+}
+```
+
+La dernière section du skill est volontairement laissée vide : ton de voix, règles de
+décision, vérifications obligatoires avant de répondre, membres de l'équipe. C'est propre à
+chaque boîte, et c'est ce qui fait la différence entre un accès à l'API et un assistant
+réellement utile. Détails dans `skill/README.md`.
+
+---
+
+## 7. Le client en ligne de commande
 
 `client.js` tourne chez toi et parle au proxy. Toutes les sorties sont du JSON.
 
@@ -254,7 +292,7 @@ echo '{"title":"Rappeler le fournisseur","assignees":["<userId>"]}' \
 
 ---
 
-## 7. Les routes HTTP
+## 8. Les routes HTTP
 
 Toutes les routes `POST` exigent l'en-tête `X-Proxy-Secret: <MISSIVE_PROXY_SECRET>`.
 `GET /health` est la seule exception.
@@ -289,7 +327,7 @@ Codes de retour : `200` succès · `400` paramètre manquant · `401` mauvais se
 
 ---
 
-## 8. Sécurité — à lire avant d'exposer le service
+## 9. Sécurité — à lire avant d'exposer le service
 
 - **Le jeton Missive n'est jamais renvoyé ni journalisé.** Il ne sert qu'aux appels
   sortants du serveur. Même le téléchargement d'une pièce jointe (dont l'URL exige le
@@ -310,7 +348,7 @@ Codes de retour : `200` succès · `400` paramètre manquant · `401` mauvais se
 
 ---
 
-## 9. Pièges de l'API Missive (durement appris)
+## 10. Pièges de l'API Missive (durement appris)
 
 Ces limites viennent de l'API, pas du proxy. Les connaître évite de longues séances de
 débogage.
@@ -340,7 +378,7 @@ débogage.
 
 ---
 
-## 10. Dépannage
+## 11. Dépannage
 
 | Symptôme | Cause probable |
 |---|---|
