@@ -766,6 +766,26 @@
       "motif": "INSULTE DIRECTE entre abonnes dans le sous-fil 32079255668339365. « you're one stupid piece of [emoji] ». Aucune reponse de la Page n'est appropriee; ca demande une moderation humaine, pas un commentaire. Deuxieme insulte personnelle dans ce meme sous-fil.",
       "ecarte_le": "2026-08-27",
       "tir": "C"
+    },
+    {
+      "id": "775946415144439_968857228947881",
+      "page_id": "262382158951470",
+      "date": "2026-08-28T14:12:31+0000",
+      "message": "Christopher Virgil",
+      "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=968857228947881",
+      "motif": "Simple identification d'un ami pour attirer son attention sur le billet. Aucun contenu, aucune question. Rien a repondre.",
+      "ecarte_le": "2026-08-28",
+      "tir": "C"
+    },
+    {
+      "id": "775946415144439_2312618766241207-SIGNALEMENT",
+      "page_id": "262382158951470",
+      "date": "2026-08-28T13:08:51+0000",
+      "message": "Misleading advertising.  Monarchs are NOT an endangered species.",
+      "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=2312618766241207",
+      "motif": "REPONDU, mais a faire verifier par un humain: accusation de publicite trompeuse visant notre propre materiel. Aucun fait verifie ne couvre le statut legal de l'espece, alors je n'ai rien affirme la-dessus et me suis tenu au declin documente (Flockhart 2015). Quelqu'un devrait verifier si nos pubs ou nos pages emploient le mot « endangered ».",
+      "ecarte_le": "2026-08-28",
+      "tir": "C"
     }
   ]
 }
