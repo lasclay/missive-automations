@@ -41,7 +41,7 @@ Discounts	DiscountNotTaxed	US-SD	online	4032	5:Sales
 Discounts	DiscountNotTaxed	CA-ON	online	4012	5:Sales
 Discounts	DiscountNotTaxed	US-UT	online	4032	5:Sales
 Discounts	DiscountNotTaxed	CA	manual	4022	5:Sales
-Discounts	DiscountNotTaxed	CA	exchange	4033	5:Sales
+Discounts	DiscountNotTaxed	CA	exchange	4013	5:Sales
 Discounts	DiscountNotTaxed	-	manual	4022	5:Sales
 Discounts	DiscountNotTaxed	US	manual	4032	5:Sales
 Discounts	DiscountNotTaxed	US	3890849	4032	5:Sales
@@ -79,7 +79,7 @@ Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA-MB	online	4013	5:Sales
 Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	online	4013	5:Sales
 Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA-QC	online	4013	5:Sales
 Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	US	online	4033	5:Sales
-Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	manual	4033	5:Sales
+Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	manual	4013	5:Sales
 Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	-	pos:58394280098	4013	5:Sales
 Refunds	RefundAdjustmentNotTaxed - refund_discrepancy	CA	pos:58394280098	4013	5:Sales
 Refunds	RefundDiscount	CA	online	4013	5:Sales
@@ -87,11 +87,11 @@ Refunds	RefundDiscount	CA	manual	4013	5:Sales
 Refunds	RefundDiscountNotTaxed	CA	online	4013	5:Sales
 Refunds	RefundDiscountNotTaxed	CA	manual	4012	5:Sales
 Refunds	RefundDiscountNotTaxed	US	online	4032	5:Sales
-Refunds	RefundDiscountNotTaxed	US	manual	4012	5:Sales
+Refunds	RefundDiscountNotTaxed	US	manual	4032	5:Sales
 Refunds	RefundNotTaxed	CA	online	4013	5:Sales
 Refunds	RefundNotTaxed	US	online	4033	5:Sales
 Refunds	RefundNotTaxed	CA	manual	4011	5:Sales
-Refunds	RefundNotTaxed	US	manual	4013	5:Sales
+Refunds	RefundNotTaxed	US	manual	4031	5:Sales
 Refunds	Return	CA	online	4013	5:Sales
 Refunds	Return	-	pos:58394280098	4013	5:Sales
 Refunds	ReturnDiscount	CA	online	4012	5:Sales

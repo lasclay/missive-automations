@@ -1,5 +1,14 @@
 # Admissibilité de Lasclay au PAUPME – Tarifs douaniers
 
+> **Mise à jour du 28 août 2026 — conclusion renversée.** Ce rapport concluait à la
+> non-admissibilité sur la base de l'année civile 2024 (12,6 %) et de l'exercice terminé en
+> août 2024 (1,5 %). Deux éléments l'ont périmé : la MRC a confirmé que la période de référence
+> est **l'exercice terminé le 31 août 2025**, et un audit des livres a révélé une erreur de
+> mappage comptable de **7 888,14 $** qui sous-évaluait les ventes américaines de cet exercice.
+> Part américaine corrigée : **25,84 %**, au-dessus du seuil. Le dossier de demande et la note
+> méthodologique complète sont dans `DOSSIER-PAUPME.md`. Le reste du présent rapport demeure
+> valide comme analyse des mesures de rechange et du contexte tarifaire.
+
 **Date d'analyse :** 28 août 2026
 **Entité :** Les Produits Lasclay Inc — 1286, avenue de la Ronde, Québec (QC) G1J 4B7
 **Sources internes :** QuickBooks Online (Finance Proxy, base accrual) et Shopify Analytics
