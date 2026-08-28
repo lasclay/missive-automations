@@ -1,0 +1,14 @@
+{
+  "name": "missive-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Proxy HTTP restreint vers l'API Missive : le jeton reste côté serveur.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "_engines": "Borne haute volontaire : un hébergeur qui résout une plage ouverte (>=22) peut tomber sur une préversion que le gestionnaire de paquets refuse ensuite contre cette même plage. On épingle une ligne majeure.",
+  "engines": {
+    "node": "22.x"
+  }
+}

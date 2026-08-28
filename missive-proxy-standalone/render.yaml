@@ -1,0 +1,23 @@
+# Blueprint Render : « New → Blueprint », pointe sur ce dépôt, Render lit ce fichier.
+# Les deux secrets sont marqués sync:false → Render te les demande au déploiement
+# et ne les écrit jamais dans le dépôt.
+services:
+  - type: web
+    name: missive-proxy
+    runtime: node
+    plan: free
+    # Retire cette ligne si server.js est à la racine du dépôt.
+    rootDir: missive-proxy
+    buildCommand: ""
+    startCommand: node server.js
+    healthCheckPath: /health
+    envVars:
+      - key: MISSIVE_TOKEN
+        sync: false
+      - key: MISSIVE_PROXY_SECRET
+        sync: false
+      # Facultatif, décommente si tu as plusieurs organisations Missive.
+      # - key: MISSIVE_ORG
+      #   sync: false
+      # - key: MISSIVE_SELF_ADDRESSES
+      #   sync: false
