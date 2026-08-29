@@ -624,8 +624,24 @@
       "quand": "2026-08-29T19:25:57.605Z",
       "confirme": true,
       "texte": "Zone 8b falls inside the range for all eleven of our species, so cold hardiness is not what decides it for you. What decides it is local fit: soil, moisture and what already grows around you. A native plant society or a nursery near you will give a better steer on that than any seed list can."
+    },
+    {
+      "id": "122191968992483418_1281385120819900",
+      "reponse_id": "122191968992483418_1606895787606063",
+      "page_id": "368305119707866",
+      "quand": "2026-08-29T20:27:18.668Z",
+      "confirme": true,
+      "texte": "Zone 9 is in range. Hardiness across our eleven species runs from 3 through 9, so the warm end is covered; it is the far north that runs out of options, not the south."
+    },
+    {
+      "id": "122192934884483418_1438033834672980",
+      "reponse_id": "122192934884483418_829720326834243",
+      "page_id": "368305119707866",
+      "quand": "2026-08-29T20:28:29.867Z",
+      "confirme": true,
+      "texte": "The one distinction worth getting right is native versus tropical. Tropical milkweed is widely sold and does not die back the way the native species do, which is the source of most of the trouble people run into with it. All eleven of ours are North American natives, none of them tropical. Past that, the choosing is local: what your soil and moisture suit, which a native plant group near you can answer better than a species list."
     }
   ],
-  "derniere_execution": "2026-08-29T19:25:57.606Z",
-  "total": 78
+  "derniere_execution": "2026-08-29T20:28:29.867Z",
+  "total": 80
 }
