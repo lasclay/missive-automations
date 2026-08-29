@@ -160,8 +160,32 @@
       "quand": "2026-08-29T11:09:09.455Z",
       "confirme": true,
       "texte": "Bonjour, oui, tout à fait. Les semences se commandent en ligne, dans la section jardin de lasclay.com, et nous expédions au Canada comme aux États-Unis. Onze espèces indigènes y sont offertes, ce qui laisse le choix selon l'ensoleillement et le type de sol de votre jardin."
+    },
+    {
+      "id": "1503540845113060_1336071441602202",
+      "reponse_id": "1503540845113060_1708422706933797",
+      "page_id": "104242204750257",
+      "quand": "2026-08-29T13:10:32.204Z",
+      "confirme": true,
+      "texte": "Bonjour, on se permet de compléter : nos graines ne sont pas stratifiées au départ, il leur faut donc une trentaine de jours de froid. Le semis d'automne reste le chemin le plus simple, l'hiver s'en charge tout seul. Autrement, un mois au réfrigérateur dans un sac scellé, sur un essuie-tout humide, puis semis au printemps. Et il faut compter une deuxième année avant la floraison."
+    },
+    {
+      "id": "1503540845113060_2942841475909592",
+      "reponse_id": "1503540845113060_1988043158568162",
+      "page_id": "104242204750257",
+      "quand": "2026-08-29T13:12:45.296Z",
+      "confirme": true,
+      "texte": "Bonjour, c'est tout à fait plausible. L'asclépiade commune est indigène et se propage par rhizomes, ce qui lui permet de s'établir seule là où elle trouve du soleil. Les espèces que nous offrons conviennent généralement aux zones 3 à 9, alors la Côte-Nord n'est pas hors de portée. Nous ne pouvons évidemment pas confirmer une observation précise à distance."
+    },
+    {
+      "id": "1503540845113060_1655580385491064",
+      "reponse_id": "1503540845113060_982350004890098",
+      "page_id": "104242204750257",
+      "quand": "2026-08-29T13:14:02.828Z",
+      "confirme": true,
+      "texte": "Bonjour, humide. Les graines dans un sac scellé, sur un essuie-tout humide, une trentaine de jours au réfrigérateur, puis semis au printemps : c'est la méthode que nous décrivons, nos graines n'étant pas stratifiées au départ. Le semis d'automne donne le même résultat sans manipulation, puisque l'hiver fait exactement ce travail."
     }
   ],
-  "derniere_execution": "2026-08-29T11:09:09.455Z",
-  "total": 20
+  "derniere_execution": "2026-08-29T13:14:02.828Z",
+  "total": 23
 }
