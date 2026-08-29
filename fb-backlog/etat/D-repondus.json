@@ -208,8 +208,24 @@
       "quand": "2026-08-29T15:37:13.872Z",
       "confirme": true,
       "texte": "Voilà exactement le genre de nouvelle qu'on aime lire 🌱 Des semences qui circulent de main en main dans un village, ça vaut de l'or : c'est du terrain gagné pour les monarques sans que personne ait à sortir son portefeuille. Merci de le faire savoir — et si vous croisez madame Cormier, dites-lui bravo de notre part 🦋"
+    },
+    {
+      "id": "1278602521073065_1505182804606948",
+      "reponse_id": "1278602521073065_1054712730816005",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T16:37:54.697Z",
+      "confirme": true,
+      "texte": "Trois chenilles, à l'ombre, voilà un témoignage qui vaut son pesant d'or 🐛 L'asclépiade donnera toujours davantage au grand soleil, mais votre expérience montre bien que les femelles monarques ne boudent pas un plant pour si peu : elles cherchent la feuille avant de chercher la lumière. Merci de l'avoir raconté."
+    },
+    {
+      "id": "1278602521073065_1821150869177987",
+      "reponse_id": "1278602521073065_1717560416140625",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T16:40:09.600Z",
+      "confirme": true,
+      "texte": "Vous décrivez exactement ce qui se passe sous la terre 🌱 Ce sont des rhizomes : des tiges souterraines qui rampent et font surgir de nouveaux plants à bonne distance du pied d'origine. C'est ce qui donne à la commune sa réputation de plante pas toujours facile à contenir — vigoureuse, oui, mais indigène de chez nous, et sans rapport avec les vraies plantes à problème."
     }
   ],
-  "total": 26,
-  "derniere_execution": "2026-08-29T15:37:13.872Z"
+  "total": 28,
+  "derniere_execution": "2026-08-29T16:40:09.600Z"
 }
