@@ -382,6 +382,16 @@
       "motif": "Le commentaire ne contient qu une mention de nom, sans contenu ni question.",
       "ecarte_le": "2026-08-29",
       "tir": "A"
+    },
+    {
+      "id": "1503607451773066_1249762123794049",
+      "page_id": "104242204750257",
+      "date": "2026-03-20T22:10:33+0000",
+      "message": "Le lancement bientôt!",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1503607451773066?comment_id=1249762123794049",
+      "motif": "Commentaire d anticipation sans question. Y repondre reviendrait a confirmer ou preciser un lancement, ce que les regles interdisent : ne jamais annoncer de date de lancement.",
+      "ecarte_le": "2026-08-29",
+      "tir": "A"
     }
   ]
 }

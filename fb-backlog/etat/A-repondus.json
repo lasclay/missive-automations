@@ -264,8 +264,16 @@
       "quand": "2026-08-29T15:35:35.193Z",
       "confirme": true,
       "texte": "Merci beaucoup pour l'encouragement. C'est un projet de longue haleine, et des messages comme le vôtre aident à garder le cap."
+    },
+    {
+      "id": "1503607451773066_1715090193197758",
+      "reponse_id": "1503607451773066_2285503888919862",
+      "page_id": "104242204750257",
+      "quand": "2026-08-29T16:07:54.662Z",
+      "confirme": true,
+      "texte": "Trois ans, c'est décourageant. Deux causes reviennent le plus souvent. La première est le manque de froid avant le semis : nos graines ne sont pas stratifiées et il leur faut une trentaine de jours au froid, sans quoi la germination est très décevante. La seconde est l'attente. L'asclépiade ne fait que du feuillage la première année et ne fleurit qu'à la deuxième, ce qui donne l'impression d'un échec alors que le plant est bien vivant. Il lui faut aussi du plein soleil. Pour un aménagement scolaire, le semis d'automne directement en place est le chemin le plus simple : l'hiver se charge de la stratification et il n'y a aucune transplantation à faire."
     }
   ],
-  "derniere_execution": "2026-08-29T15:35:35.193Z",
-  "total": 33
+  "derniere_execution": "2026-08-29T16:07:54.663Z",
+  "total": 34
 }
