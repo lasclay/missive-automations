@@ -80,6 +80,62 @@
       "extrait": "C'est quoi tu fais sur ce post au juste. L'objectif c'est de juste foutre la merde quand t'as rien à faire ?",
       "motif": "Invective entre abonnés, sans question ni contenu adressé à la Page. Une réponse de la marque ne ferait qu'attiser l'échange.",
       "quand": "2026-08-29T10:38:34.763Z"
+    },
+    {
+      "id": "1273911044875546_1485239306516201",
+      "date": "2026-04-09T17:21:36+0000",
+      "extrait": "je n'ai pas encore reçu ma commande du 30 mars",
+      "motif": "Plainte de commande : dossier client, pas une question publique. Aucune date ni statut ne peut être avancé sans vérification Shopify et ShipStation. Revient au support.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_1349298816921040",
+      "date": "2026-03-15T11:45:53+0000",
+      "extrait": "Trop chers. Votre. Livraison pour un petit sachets",
+      "motif": "Grief sur le coût de la livraison. Y répondre exigerait de citer ou de justifier un montant, ce que la règle du prix chiffré interdit. À traiter par une personne si on veut y donner suite.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_1662620951425557",
+      "date": "2026-04-16T21:40:24+0000",
+      "extrait": "J'ai reçu mes semences aujourd'hui ! ... dans un petit sac de plastique avec ce qui semble être du sable. Comment dois-je faire la plantation ? Séparer les graines ou tout mettre ensemble.",
+      "motif": "Commentaire chaleureux et de bonne foi, mais la question porte sur le contenu physique du sachet — le « sable » — qui ne figure pas dans les faits vérifiés. Le reste de la réponse répéterait presque mot pour mot celle sur la stratification publiée dans le même fil. Mérite une réponse humaine qui sait ce qu'il y a dans le sachet.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_920443823952583",
+      "date": "2026-04-14T00:08:22+0000",
+      "extrait": "Marie-Claude Leclerc oui!!! Ah ben coudon! Tu travaille pour lascley? ... zone « sauvage » ... en partie ombragée ou très à l'ombre de cèdres",
+      "motif": "Échange entre deux abonnées, adressé à l'une d'elles et non à la Page. Le fond — l'asclépiade à l'ombre — reçoit déjà une réponse ailleurs dans le même fil ; une seconde interviention sur le même sujet sonnerait automatique.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_2341682739660622",
+      "date": "2026-04-13T23:47:20+0000",
+      "extrait": "Hey Johanne, je viens de réaliser que c'est avec toi que j'ai chanté à la chorale!!!! :) Tu vas bien?",
+      "motif": "Retrouvailles personnelles entre deux abonnées. Rien qui s'adresse à la Page ; s'y glisser serait déplacé.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_985597437458635",
+      "date": "2026-04-10T12:17:41+0000",
+      "extrait": "Est-ce le temps de les mettre en terre et les sortir car moi ils sont en pots ?",
+      "motif": "Question de calendrier posée à la mi-avril. Y répondre fin août donnerait un conseil décalé de quatre mois, et aucune date de transplantation ne figure dans les faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_1314720620513477",
+      "date": "2026-04-07T22:23:36+0000",
+      "extrait": "Jjos Gilbert wow! J'adore! Quelle hauteur ces deux plantes? Est ce que ce serait beau avec des marguerites?",
+      "motif": "Adressé à un autre abonné et portant sur les plantes d'une photo publiée par ce dernier, qu'on ne peut pas identifier. Répondre reviendrait à deviner.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
     }
   ]
 }
