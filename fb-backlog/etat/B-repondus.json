@@ -528,8 +528,40 @@
       "quand": "2026-08-29T11:33:32.431Z",
       "confirme": true,
       "texte": "Not one of ours. All eleven species we carry are upright plants rather than vines, so whatever you remember growing up sits outside our seed. A local native plant source would be the place to track that one down."
+    },
+    {
+      "id": "122188954946483418_1460517082087885",
+      "reponse_id": "122188954946483418_1615964909959468",
+      "page_id": "368305119707866",
+      "quand": "2026-08-29T13:26:32.617Z",
+      "confirme": true,
+      "texte": "Two ways. The garden section at lasclay.com carries the seed packets, and every textile order leaves here with a free packet in the box, so if you are ordering anything else from us the seed comes along with it."
+    },
+    {
+      "id": "122188954946483418_2035888936980603",
+      "reponse_id": "122188954946483418_1382095674128585",
+      "page_id": "368305119707866",
+      "quand": "2026-08-29T13:27:59.858Z",
+      "confirme": true,
+      "texte": "Machine wash, cold water, delicate cycle, mild soap, then lay it flat to air dry. No dryer. The full care guide sits at lasclay.com/pages/guides-dentretien."
+    },
+    {
+      "id": "122191968992483418_1330537102243369",
+      "reponse_id": "122191968992483418_28280224558275927",
+      "page_id": "368305119707866",
+      "quand": "2026-08-29T13:30:40.574Z",
+      "confirme": true,
+      "texte": "Soon is the right instinct. Seed bombs hold soil, seed and moisture together, which is what makes them work and also why they are meant to go out on arrival rather than wait on a shelf."
+    },
+    {
+      "id": "122191968992483418_1215384747450992",
+      "reponse_id": "122191968992483418_1596137598834743",
+      "page_id": "368305119707866",
+      "quand": "2026-08-29T13:31:56.555Z",
+      "confirme": true,
+      "texte": "Fair ask. The site itself is published in both French and English, so the pages behind these links exist in English as well."
     }
   ],
-  "derniere_execution": "2026-08-29T11:33:32.431Z",
-  "total": 66
+  "derniere_execution": "2026-08-29T13:31:56.555Z",
+  "total": 70
 }
