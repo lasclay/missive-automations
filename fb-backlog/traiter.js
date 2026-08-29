@@ -213,54 +213,74 @@ function adresseDe(c) {
   return NOMS[pid] ? "la Page (réponse à notre commentaire)" : "un autre abonné";
 }
 
-// Au-delà de cet âge, on arrête de remonter un fil : les commentaires plus vieux
-// sont du backlog profond, et le but ici est de ne jamais rater les récents.
-const HORIZON_JOURS = Number(process.env.FB_HORIZON_JOURS || 120);
+// Combien de pages de 100 commentaires on remonte par publication. UNE seule
+// page était le défaut, et c'était un plafond invisible : sur un fil de 2 500
+// commentaires, une fois les 100 plus récents traités, la publication ne rendait
+// plus jamais rien — pendant que des milliers d'autres attendaient juste
+// derrière. Le moissonnage s'arrête de lui-même dès qu'il a de quoi remplir le
+// lot, donc monter ce plafond ne coûte rien les jours ordinaires.
+const PAGES_MAX = Number(process.env.FB_PAGES_MAX || 12);
 
-async function moissonner(pages) {
+// Aucune limite d'âge. Il y en avait une de 120 jours, qui rendait inatteignable
+// la quasi-totalité d'un backlog vieux de plusieurs années.
+const HORIZON_JOURS = Number(process.env.FB_HORIZON_JOURS || 0);
+
+// Moissonne les commentaires éligibles, en s'arrêtant dès qu'il y en a assez.
+//
+// L'arrêt anticipé est ce qui rend la pagination profonde abordable : les jours
+// ordinaires, la première page de la première publication suffit et le tir coûte
+// deux appels. Quand la surface récente est épuisée, il descend aussi loin qu'il
+// faut dans le fil, publication après publication, jusqu'à `PAGES_MAX` pages.
+async function moissonner(pages, cible = 0, exclus = new Set()) {
   const out = [];
-  const limiteAge = Date.now() - HORIZON_JOURS * 86400000;
+  const limiteAge = HORIZON_JOURS > 0 ? Date.now() - HORIZON_JOURS * 86400000 : 0;
+  let retenus = 0;
+
   for (const pid of pages) {
-    const limite = pid === "104242204750257" ? 25 : 50;
-    let posts = [];
-    const r = await proxy("posts", { page_id: pid, limit: limite });
-    posts = (r && r.data) || [];
+    const r = await proxy("posts", { page_id: pid, limit: pid === "104242204750257" ? 25 : 50 });
+    const posts = (r && r.data) || [];
+
     for (const po of posts) {
-      let cs = [];
-      try {
-        // `order: reverse_chronological` est ESSENTIEL. Le défaut de Graph est
-        // chronologique ascendant : sur un fil de 2 500 commentaires, paginer
-        // depuis le début ne rend que ceux du jour de la publication, et les
-        // commentaires récents ne sont jamais atteints. C'est le défaut qui a
-        // rendu la règle des 70 % inopérante pendant ses premiers tirs.
-        const rc = await proxy("comments", {
-          page_id: pid,
-          object_id: po.id,
-          limit: 100,
-          order: "reverse_chronological",
-        });
-        cs = (rc && rc.data) || [];
-        // Les plus récents d'abord : dès qu'on franchit l'horizon, inutile de
-        // continuer à remonter ce fil.
-        cs = cs.filter((c) => new Date(c.created_time || 0).getTime() >= limiteAge);
-      } catch (e) {
-        if (estFatale(e.message)) throw e;
-        continue; // une publication illisible ne doit pas faire tomber le tir
+      let after = null;
+      for (let page = 0; page < PAGES_MAX; page++) {
+        let cs = [];
+        try {
+          const rc = await proxy("comments", {
+            page_id: pid,
+            object_id: po.id,
+            limit: 100,
+            order: "reverse_chronological",
+            ...(after ? { after } : {}),
+          });
+          cs = (rc && rc.data) || [];
+          after = ((rc && rc.paging && rc.paging.cursors) || {}).after || null;
+        } catch (e) {
+          if (estFatale(e.message)) throw e;
+          break; // une publication illisible ne doit pas faire tomber le tir
+        }
+        if (!cs.length) break;
+        if (limiteAge) cs = cs.filter((c) => new Date(c.created_time || 0).getTime() >= limiteAge);
+
+        for (const c of cs) {
+          c._page_id = pid;
+          c._page = NOMS[pid];
+          c._registre = REGISTRE[pid];
+          c._type = typeDe(c);
+          c._adresse = adresseDe(c);
+          c._repond_a = c.parent
+            ? { auteur: ((c.parent.from || {}).name) || null, extrait: (c.parent.message || "").slice(0, 200) }
+            : null;
+          c._image = ((((c.attachment || {}).media || {}).image || {}).src) || null;
+          c._post = po.id;
+          c._post_url = po.permalink_url;
+          out.push(c);
+          if (eligible(c, exclus)) retenus++;
+        }
+        if (!after) break;
+        // Assez de matière : inutile de continuer à remonter ce fil.
+        if (cible && retenus >= cible) return out;
       }
-      for (const c of cs) {
-        c._page_id = pid;
-        c._page = NOMS[pid];
-        c._registre = REGISTRE[pid];
-        c._type = typeDe(c);
-        c._adresse = adresseDe(c);
-        c._repond_a = c.parent
-          ? { auteur: ((c.parent.from || {}).name) || null, extrait: (c.parent.message || "").slice(0, 200) }
-          : null;
-        c._image = ((((c.attachment || {}).media || {}).image || {}).src) || null;
-        c._post = po.id;
-        c._post_url = po.permalink_url;
-        out.push(c);
-      }
+      if (cible && retenus >= cible) return out;
     }
   }
   return out;
@@ -387,10 +407,12 @@ const INTENSITE = [
 function tirage() {
   const h = heureEst();
   const i = INTENSITE[h];
-  const weekend = [0, 6].includes(new Date().getDay());
-  const proba = i * 0.85 * (weekend ? 0.7 : 1);
+  // Pas de pénalité de week-end. Les gens commentent le samedi comme le mardi,
+  // et une Page qui répond du lundi au vendredi se lit comme un bureau, pas
+  // comme une communauté. On répond sept jours sur sept.
+  const proba = i * 0.85;
   if (Math.random() > proba) {
-    return { saute: true, motif: `heure ${h} h (Est), intensité ${i}${weekend ? ", week-end" : ""}` };
+    return { saute: true, motif: `heure ${h} h (Est), intensité ${i}` };
   }
   const n = borne(1 + Math.floor(expo(10 * i)), 1, 20);
   return { saute: false, n, heure: h, intensite: i, attenteInitiale: Math.round(45 + Math.random() * 375) };
@@ -408,7 +430,9 @@ async function cmdCandidats(tir, nDemande) {
   }
   const n = nDemande || t.n;
   const vus = idsExclus(tir);
-  const bruts = await moissonner(conf.pages);
+  // Viser large : le tri par intention d'achat n'a de sens que s'il a de quoi
+  // trier, mais il ne sert à rien de moissonner tout le fil pour publier huit.
+  const bruts = await moissonner(conf.pages, Math.max(40, n * 6), vus);
   const candidats = bruts.filter((c) => eligible(c, vus));
   const { duJour, anciens, regle } = repartir(candidats, n);
   const lotBrut = [...duJour.map((c) => ({ ...c, _origine: "jour" })), ...anciens.map((c) => ({ ...c, _origine: "backlog" }))];
@@ -430,7 +454,8 @@ async function cmdCandidats(tir, nDemande) {
     dont_recits: candidats.filter((c) => c._type === "récit").length,
     dont_photos: candidats.filter((c) => c._type === "photo").length,
     dont_sous_fil: candidats.filter((c) => c._adresse === "un autre abonné").length,
-    horizon_jours: HORIZON_JOURS,
+    horizon_jours: HORIZON_JOURS || "aucun",
+    pages_max_par_publication: PAGES_MAX,
     candidats_du_jour: candidats.filter((c) => (c.created_time || "").slice(0, 10) === aujourdhui()).length,
     lot: lot.map((c) => ({
       id: c.id,
