@@ -472,8 +472,16 @@
       "quand": "2026-08-30T18:16:18.722Z",
       "confirme": true,
       "texte": "Merci beaucoup, ces mots-là font du bien. L'entreprise suit son cours et la saison de récolte approche — c'est ce qui garde le cap. Bonne fin d'été à vous."
+    },
+    {
+      "id": "1498545598945918_1874298139957978",
+      "reponse_id": "1498545598945918_28147625838211349",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T20:07:45.731Z",
+      "confirme": true,
+      "texte": "Merci. Le nombre de messages reçus sous ce texte dépasse largement ce qu'on a l'habitude de voir — on les lit tous, même quand on n'arrive pas à répondre à chacun. Bonne fin de journée à vous."
     }
   ],
-  "derniere_execution": "2026-08-30T18:16:18.722Z",
-  "total": 59
+  "derniere_execution": "2026-08-30T20:07:45.732Z",
+  "total": 60
 }
