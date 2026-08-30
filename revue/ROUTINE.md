@@ -25,9 +25,15 @@ travail est finie.
 ### 0 — Se placer et appliquer ce qui a été approuvé
 
 ```
-git fetch origin main && git checkout -B claude/revue-quotidienne origin/main
+git fetch origin
+git checkout -B claude/revue-quotidienne origin/claude/revue-quotidienne
+git merge --no-edit origin/main          # rester au niveau de main sans jamais y pousser
 node revue/registre.js liste approuvee
 ```
+
+La branche de travail est `claude/revue-quotidienne` : c'est elle qui porte le registre et
+l'historique des revues. Tant qu'elle n'est pas fusionnée dans `main`, `main` ne contient pas le
+module — d'où le `merge` dans ce sens-là, jamais l'inverse.
 
 Chaque item approuvé depuis le dernier tour s'applique **maintenant**, un commit par item,
 message `Revue : applique <ID> — <titre>`. Puis `node revue/registre.js appliquee <ID> --commit <sha>`.
