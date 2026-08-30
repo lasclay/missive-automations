@@ -80,6 +80,15 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   `--no-fallback-service` pour une vidéo confidentielle. Si le relais tombe :
   `VIDEO_YT_COOKIES_B64` ou `VIDEO_PROXY`. Détails : skill `video`.
 
+## Chief — la porte d'entrée
+
+- Une session permanente, **Chief — Lasclay**, est le point d'entrée de la flotte : Gabriel lui
+  parle, elle sait ce qui se passe, elle répartit vers des sessions filles.
+- Elle ne fait pas le travail : elle dirige. Doctrine complète dans `chief/CHIEF.md`.
+- `node chief/point.js` rend le brief téléphone (ce qui attend Gabriel, la flotte, ce qui a bougé,
+  ce qui n'est pas déployé). Une Routine le livre chaque matin à 7 h 13 (Est).
+- Branche de travail du Chief : `claude/chief`.
+
 ## Mémoire partagée — à lire avant de travailler
 
 - **`memoire/ETAT.md` est la première chose à lire dans une session sur ce dépôt.** Elle dit ce
