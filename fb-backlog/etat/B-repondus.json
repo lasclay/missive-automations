@@ -648,8 +648,24 @@
       "quand": "2026-08-29T21:27:13.503Z",
       "confirme": true,
       "texte": "Merci pour le retour. Le détail qui explique ça : la fibre est creuse, et l'air isolant se trouve à l'intérieur même de la fibre plutôt qu'entre les fibres. C'est pour cette raison qu'elle continue de travailler dans une mitaine, où l'isolant passe sa journée comprimé par la main et le bâton."
+    },
+    {
+      "id": "122188954946483418_1965502721066256",
+      "reponse_id": "122188954946483418_2125122301753341",
+      "page_id": "368305119707866",
+      "quand": "2026-08-30T11:29:22.530Z",
+      "confirme": true,
+      "texte": "The seed does keep moving, though not quite that way. A follicle carries two things: the floss and the seed inside it. The floss is what the harvest is after, and the seed that comes out with it is separated and goes back out in packets rather than being used up. So the stand is not the only place that seed ends up."
+    },
+    {
+      "id": "122178999464483418_928619953062088",
+      "reponse_id": "122178999464483418_935889558939470",
+      "page_id": "368305119707866",
+      "quand": "2026-08-30T11:32:22.325Z",
+      "confirme": true,
+      "texte": "Your read on it matches where the research has landed. Loss of breeding habitat, not the wintering grounds, ranks as the number one factor in the decline. And the roadside detail you raise is more than a memory: mowing through June cuts down the plants in the weeks the caterpillars are actually on them, so leaving those margins alone until later in the season does real work."
     }
   ],
-  "derniere_execution": "2026-08-29T21:27:13.504Z",
-  "total": 81
+  "derniere_execution": "2026-08-30T11:32:22.325Z",
+  "total": 83
 }
