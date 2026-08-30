@@ -384,8 +384,72 @@
       "quand": "2026-08-30T05:15:32.377Z",
       "confirme": true,
       "texte": "C'est la bonne façon de faire. Le semis d'automne laisse l'hiver assurer la période de froid dont la graine a besoin, sans réfrigérateur ni manipulation. Et récolter localement veut dire semer une graine déjà adaptée à votre coin de pays."
+    },
+    {
+      "id": "1497110025756142_3503597236454399",
+      "reponse_id": "1497110025756142_1767590701104796",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T15:09:47.247Z",
+      "confirme": true,
+      "texte": "Bonjour, tout ce qui est offert en ce moment se trouve sur lasclay.com. Pour les nouveautés, l'infolettre reste le plus sûr : les annonces y passent avant le reste."
+    },
+    {
+      "id": "1497110025756142_26894522543483811",
+      "reponse_id": "1497110025756142_1928570371459515",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T15:12:16.729Z",
+      "confirme": true,
+      "texte": "Les doigts gelés, c'est exactement le problème que vise la fibre d'asclépiade. Elle est creuse : l'air isolant se trouve à l'intérieur de la fibre plutôt qu'entre les fibres, alors elle résiste à l'écrasement et garde son pouvoir isolant même mince. Pour ce qui est disponible actuellement, voyez lasclay.com ; l'infolettre annonce les nouveautés."
+    },
+    {
+      "id": "1497110025756142_1465899801863453",
+      "reponse_id": "1497110025756142_2517455948735353",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T15:15:59.783Z",
+      "confirme": true,
+      "texte": "Bonjour, les prix courants sont sur lasclay.com. On évite de les citer ici : ils changent d'une collection à l'autre et un vieux commentaire finit toujours par induire quelqu'un en erreur."
+    },
+    {
+      "id": "1497110025756142_1248019406773995",
+      "reponse_id": "1497110025756142_4506279432850758",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T15:17:17.948Z",
+      "confirme": true,
+      "texte": "Bonne question, et la réponse honnête est qu'on n'a pas de cote officielle à vous donner. Ce qu'on peut dire : la fibre d'asclépiade est creuse, l'air isolant est dans la fibre et non entre les fibres, alors elle ne perd pas son pouvoir isolant en étant compressée. C'est ce qui permet de rester mince sans sacrifier la chaleur — précisément l'enjeu quand on travaille des mains toute la journée. Pour l'offre courante et la suite : lasclay.com et l'infolettre."
+    },
+    {
+      "id": "1497110025756142_1089671320018107",
+      "reponse_id": "1497110025756142_1801168017563796",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T15:18:35.356Z",
+      "confirme": true,
+      "texte": "Votre cas est parmi les plus exigeants : peu de mouvement, longues heures, et il faut garder le doigté sur des commandes. L'asclépiade a un avantage précis là-dessus — sa fibre est creuse, donc l'isolation ne dépend pas de l'épaisseur ni du gonflant, et elle tient même comprimée. Par contre, aucune cote de température officielle de notre part : seulement des témoignages. Ce qui est offert se trouve sur lasclay.com, et l'infolettre annonce la suite."
+    },
+    {
+      "id": "1497110025756142_2257739971704726",
+      "reponse_id": "1497110025756142_1378716867129700",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T15:20:45.739Z",
+      "confirme": true,
+      "texte": "L'idée est notée, et le besoin que vous décrivez est très précis : tenir tête aux épines autant qu'à l'humidité. Nous ne pouvons rien annoncer ici, mais l'infolettre est l'endroit où les nouveautés sortent en premier."
+    },
+    {
+      "id": "1503540845113060_926512003314618",
+      "reponse_id": "1503540845113060_1079303817973784",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T15:22:02.158Z",
+      "confirme": true,
+      "texte": "La remarque se défend. Un ordre de grandeur, par contre : environ dix millions de graines ont été distribuées en Amérique du Nord sur cinq campagnes, et chaque commande textile repart avec un sachet. L'effet vient surtout du nombre de terrains où l'asclépiade s'installe — et une talle bien partie se ressème ensuite d'elle-même, année après année."
+    },
+    {
+      "id": "1503540845113060_1468937798209942",
+      "reponse_id": "1503540845113060_1743512716941902",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T15:23:19.482Z",
+      "confirme": true,
+      "texte": "L'inquiétude est compréhensible, mais c'est très faisable. Le seul vrai piège est le froid : des graines gardées au sec à l'intérieur depuis l'automne n'ont pas eu leur période de dormance. Donnez-leur une trentaine de jours au réfrigérateur, dans un sac scellé sur un essuie-tout humide, puis semez au printemps. Sans ce passage au froid, la germination est très décevante — c'est la cause numéro un des semis ratés."
     }
   ],
-  "derniere_execution": "2026-08-30T05:15:32.377Z",
-  "total": 48
+  "derniere_execution": "2026-08-30T15:23:19.482Z",
+  "total": 56
 }
