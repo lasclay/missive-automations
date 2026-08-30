@@ -368,8 +368,24 @@
       "quand": "2026-08-30T02:11:13.940Z",
       "confirme": true,
       "texte": "Ni l'un ni l'autre 🙂 Ce n'est pas une plante qui se consomme : son latex est très amer, c'est d'ailleurs pour ça que les animaux au pâturage l'évitent d'eux-mêmes. On la laisse aux monarques."
+    },
+    {
+      "id": "1503607451773066_1392275853008820",
+      "reponse_id": "1503607451773066_1006513115778144",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T05:08:45.839Z",
+      "confirme": true,
+      "texte": "Avec plaisir. Un truc pour la suite : les follicules restent accrochés à la tige une bonne partie de l'hiver, alors une talle repérée en août se retrouve facilement des mois plus tard. Et pour de la graine bien mûre, c'est à l'automne qu'il faut cueillir, quand le follicule commence tout juste à s'ouvrir."
+    },
+    {
+      "id": "1503540845113060_878091678524966",
+      "reponse_id": "1503540845113060_3997558450546336",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T05:15:32.377Z",
+      "confirme": true,
+      "texte": "C'est la bonne façon de faire. Le semis d'automne laisse l'hiver assurer la période de froid dont la graine a besoin, sans réfrigérateur ni manipulation. Et récolter localement veut dire semer une graine déjà adaptée à votre coin de pays."
     }
   ],
-  "derniere_execution": "2026-08-30T02:11:13.940Z",
-  "total": 46
+  "derniere_execution": "2026-08-30T05:15:32.377Z",
+  "total": 48
 }
