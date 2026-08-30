@@ -1,0 +1,19 @@
+{
+ "version": 1,
+ "ameliorations": [
+  {
+   "id": "R-20260829-01",
+   "titre": "Rendre les journaux Render lisibles par la revue",
+   "gravite": "majeur",
+   "etat": "proposee",
+   "propose_le": "2026-08-29",
+   "source": "mise en place de la routine, 2026-08-29",
+   "constat": "La revue ne peut rien dire des services Render au-delà d'une sonde HTTP : aucune RENDER_API_KEY n'est présente dans l'environnement des sessions. Un service qui répond 200 tout en journalisant des erreurs à chaque appel passerait inaperçu, et les cron jobs Render n'ont aucune trace vérifiable de ce côté.",
+   "preuve": "env | grep -i render → rien ; revue/collecte.js ne sonde que /health et /connectors.",
+   "proposition": "Poser une RENDER_API_KEY en lecture seule dans les variables de l'environnement Claude Code Remote, puis ajouter à revue/collecte.js un volet qui liste les services, leur dernier déploiement et les lignes de journal en erreur des 24 h.",
+   "portee": "variables d'environnement + revue/collecte.js",
+   "risque": "Une clé Render lit toute l'infrastructure : la prendre en lecture seule, et ne jamais la faire transiter par le code ni par un dépôt.",
+   "effort": "20 min côté Render, 1 h côté script"
+  }
+ ]
+}

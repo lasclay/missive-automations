@@ -80,6 +80,18 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   `--no-fallback-service` pour une vidéo confidentielle. Si le relais tombe :
   `VIDEO_YT_COOKIES_B64` ou `VIDEO_PROXY`. Détails : skill `video`.
 
+## Revue quotidienne (contrôle qualité des automatisations)
+
+- Chaque soir 21 h 40 (Est), une routine relit la journée — routines, scripts exécutés, journaux,
+  sessions Claude, boîte Missive —, fait le contrôle qualité et **propose** des améliorations.
+- Rien ne s'applique sans approbation : le tour du lendemain applique ce qui est passé à
+  `approuvee`, jamais ce qui est encore `proposee`.
+- `node revue/collecte.js` ramasse les preuves ; `node revue/registre.js liste proposee` montre
+  ce qui attend une décision ; `approuver` / `refuser` / `reporter` tranchent.
+- Procédure du tour : `revue/ROUTINE.md`. Vue lisible du registre : `revue/REGISTRE.md`.
+- La revue observe et propose : elle n'envoie rien, ne publie rien, et ne fusionne jamais dans
+  `main`.
+
 ## Scripts principaux
 
 - `support.js` : réponses IA de la boîte support (v2.34 : vérifie Shopify ET ShipStation).
