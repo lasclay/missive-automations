@@ -320,8 +320,40 @@
       "quand": "2026-08-29T22:07:38.866Z",
       "confirme": true,
       "texte": "Merci pour les bons mots, et pour les souhaits envers le projet. On les prend."
+    },
+    {
+      "id": "1503540845113060_890376767349730",
+      "reponse_id": "1503540845113060_1435731328461188",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T00:09:12.763Z",
+      "confirme": true,
+      "texte": "Trois-Rivières est bien couverte. Les espèces que nous offrons conviennent généralement aux zones 3 à 9, et la cote indiquée est la plus froide tolérée, pas un plafond : une plante donnée pour la zone 3 pousse sans problème en zone 4 ou 5. Le choix se fait donc plutôt selon l'ensoleillement et le type de sol que selon la zone."
+    },
+    {
+      "id": "1503540845113060_1286517080067219",
+      "reponse_id": "1503540845113060_4142535629381800",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T00:10:17.320Z",
+      "confirme": true,
+      "texte": "Précision utile : le risque concerne le foin. Séchée dans une balle, l'asclépiade ne peut plus être écartée par le cheval. Sur pied, les chevaux n'y touchent pas, le latex est trop amer pour eux. C'est donc la fauche qu'il faut surveiller, pas la présence d'un plant dans un pré."
+    },
+    {
+      "id": "1503607451773066_3262749450551402",
+      "reponse_id": "1503607451773066_1757742388882096",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T00:12:49.319Z",
+      "confirme": true,
+      "texte": "L'idée est notée, merci. Pour l'instant chaque sachet ne contient qu'une seule espèce, ce qui permet de choisir celle qui convient au milieu — plein soleil, sol sec ou humide, espace disponible. Rien n'empêche par contre de commander deux ou trois espèces et de les semer côte à côte."
+    },
+    {
+      "id": "1503540845113060_1422657312242353",
+      "reponse_id": "1503540845113060_2945737722451407",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T00:14:05.426Z",
+      "confirme": true,
+      "texte": "Thank you for that, and it is good advice. Common milkweed (Asclepias syriaca) is native and vigorous, and it spreads by rhizomes, so it suits open ground far better than a small bed. Butterfly weed and swamp milkweed stay put more readily. Reclaiming hogweed ground with native milkweed is a fine use for those bombs."
     }
   ],
-  "derniere_execution": "2026-08-29T22:07:38.866Z",
-  "total": 40
+  "derniere_execution": "2026-08-30T00:14:05.426Z",
+  "total": 44
 }
