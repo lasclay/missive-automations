@@ -728,8 +728,16 @@
       "quand": "2026-08-30T17:26:30.299Z",
       "confirme": true,
       "texte": "Bien noté, et c'est une demande légitime. Le site, lui, est publié en français comme en anglais, alors les pages existent déjà dans les deux langues. Ici, vous pouvez nous écrire en français en tout temps : c'est dans cette langue qu'on vous répondra."
+    },
+    {
+      "id": "122176634168483418_1856558618277762",
+      "reponse_id": "122176634168483418_4449621228686866",
+      "page_id": "368305119707866",
+      "quand": "2026-08-30T19:26:54.847Z",
+      "confirme": true,
+      "texte": "The basement is the part to plan around. Our seed is not pre-stratified, so it needs roughly thirty days of cold before it will break dormancy, and a warm basement will not supply that. The cold has to come first, one way or another: either the seed goes outside and winter does the work, or it gets its month of cold before it ever goes under a light. Skipping that step is the usual reason nothing comes up."
     }
   ],
-  "derniere_execution": "2026-08-30T17:26:30.300Z",
-  "total": 91
+  "derniere_execution": "2026-08-30T19:26:54.848Z",
+  "total": 92
 }
