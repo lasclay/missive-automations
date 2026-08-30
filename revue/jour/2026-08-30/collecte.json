@@ -1,0 +1,661 @@
+{
+ "jour": "2026-08-30",
+ "fuseau": "America/Toronto",
+ "fenetre_utc": {
+  "debut": "2026-08-30T04:00:00.000Z",
+  "fin": "2026-08-31T04:00:00.000Z",
+  "decalage_minutes": -240
+ },
+ "genere_le": "2026-08-30T12:31:21.536Z",
+ "branches_connues": [
+  "origin/claude/a2x-app-replacement-9i93wy",
+  "origin/claude/audit-apm-unanswered-messages-wo3zo1",
+  "origin/claude/audit-previsions-pari-ywoalj",
+  "origin/claude/bypass-permissions-code-cloud-l0qxy3",
+  "origin/claude/chief",
+  "origin/claude/composio-facebook-moderation-9czg82",
+  "origin/claude/concis-output-mode-5qa1md",
+  "origin/claude/daily-review-routine-hbxozc",
+  "origin/claude/dazzling-pasteur-6fw08h",
+  "origin/claude/finance-skill-review-xvq8u4",
+  "origin/claude/gourmet-sauvage-discount-code-1e2t71",
+  "origin/claude/hermes-agent-lasclay-l4fdk1",
+  "origin/claude/jobs-mit-transcript-analysis-yvftwo",
+  "origin/claude/klaviyo-audit-alternatives-awlhbf",
+  "origin/claude/lasclay-ad-performance-audit-7qz8p7",
+  "origin/claude/lasclay-bimi-setup-amiamh",
+  "origin/claude/lasclay-funding-programs-aiwetn",
+  "origin/claude/lasclay-infolettre-rechauffement-fs8srr",
+  "origin/claude/lasclay-negative-reviews-outreach-g2ddoc",
+  "origin/claude/lasclay-retail-expansion-v6jay7",
+  "origin/claude/lasclay-support-email-skill-zqqcmp",
+  "origin/claude/meta-mcp-servers-8ynr89",
+  "origin/claude/milkweed-seeds-redirects-j1k0xf",
+  "origin/claude/missive-corpo-opportunities-1r3xaw",
+  "origin/claude/missive-email-filter-script-gkyxya",
+  "origin/claude/missive-g6xc72",
+  "origin/claude/missive-proxy-generic-setup-614cpz",
+  "origin/claude/missive-proxy-shipment-notification-l1eh8z",
+  "origin/claude/missive-t438gw",
+  "origin/claude/missive-work-l9u2p6",
+  "origin/claude/mobile-menu-boutique-hidden-rwx5pg",
+  "origin/claude/mrpeasy-audit-lasclay-krdpnh",
+  "origin/claude/new-session-ux8sdv",
+  "origin/claude/omniroute-evaluation-s166ig",
+  "origin/claude/reload-skills-3jpj6r",
+  "origin/claude/reload-skills-5xcm2o",
+  "origin/claude/reload-skills-ottbp3",
+  "origin/claude/reload-skills-pck94t",
+  "origin/claude/reload-skills-r1ve6i",
+  "origin/claude/reload-skills-tsf447",
+  "origin/claude/reload-skills-xiwvf0",
+  "origin/claude/revue-quotidienne",
+  "origin/claude/shipstation-audit-clone-0gwmgr",
+  "origin/claude/shipstation-lasclay-access-k7rydf",
+  "origin/claude/shopify-newsletter-saturday-6i6svk",
+  "origin/claude/tarifs-douaniers-us-admissibilite-gryvqo",
+  "origin/claude/tiktok-copywriting-technique-y1kmo0",
+  "origin/claude/unique-plastique-research-jujoqk",
+  "origin/claude/video-analysis-capability-cd681q",
+  "origin/main"
+ ],
+ "git": {
+  "commits": 7,
+  "lignes_ajoutees": 308,
+  "lignes_retirees": 6,
+  "par_branche": {
+   "origin/claude/chief": [
+    "a28bd54e"
+   ],
+   "claude/revue-quotidienne": [
+    "a75c3702",
+    "461c1494",
+    "b3e05002",
+    "8cf6db76",
+    "1567343b",
+    "41350d5f"
+   ]
+  },
+  "liste": [
+   {
+    "sha": "a28bd54e",
+    "date": "2026-08-30T08:29:09-04:00",
+    "auteur": "Claude",
+    "sujet": "Chief : la porte d'entree unique, une session permanente qui dirige sans produire",
+    "ajouts": 154,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "chief/CHIEF.md",
+      "ajouts": 84,
+      "retraits": 0
+     },
+     {
+      "fichier": "chief/point.js",
+      "ajouts": 70,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "a75c3702",
+    "date": "2026-08-30T08:13:23-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog tir A: 0 publiée, 5 écartés (répétition, diatribe, GIF, message tronqué)",
+    "ajouts": 50,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/A-a-revoir.json",
+      "ajouts": 50,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "461c1494",
+    "date": "2026-08-30T07:50:35-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir C — 30 aout 7 h : 2 reponses publiees",
+    "ajouts": 20,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "b3e05002",
+    "date": "2026-08-30T07:37:01-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog FB tir D : aucune réponse, 1 commentaire écarté",
+    "ajouts": 8,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 8,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "8cf6db76",
+    "date": "2026-08-30T07:32:25-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 2 publiees (7 h Est), 2 ecartes",
+    "ajouts": 40,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 20,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "1567343b",
+    "date": "2026-08-30T05:37:20-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog FB tir D : aucune réponse, 2 commentaires écartés",
+    "ajouts": 16,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 16,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "41350d5f",
+    "date": "2026-08-30T01:15:32-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog tir A: 2 réponses publiées (dont le premier commentaire du jour)",
+    "ajouts": 20,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/A-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/A-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   }
+  ],
+  "tete_main": "a75c370"
+ },
+ "facebook": {
+  "presents": true,
+  "tirs": {
+   "A": {
+    "page": "Lasclay",
+    "publiees": 2,
+    "confirmees": 2,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 32,
+    "dernier_journal": "2026-08-30T05:15:32.377Z",
+    "ecartes_total": 92,
+    "motifs_du_jour": [
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Autocollant anime d un chat, sans texte. Rien a quoi repondre.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Le commentaire ne contient qu un lien Facebook partage, sans texte ni question. Impossible de savoir ce qui est attendu.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Abonne qui explique a un autre que ses graines ont peut-etre gele a la livraison et qui precise ne pas blamer le produit. Rien n est demande, et commenter une livraison precise exigerait une verification Shopify et ShipStation.",
+     "Abonne qui explique correctement a un autre la necessite de la stratification. Information exacte, rien a corriger ni a ajouter.",
+     "Friction linguistique entre deux abonnes apres un 'In English please'. La Page n a rien a arbitrer la-dedans.",
+     "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
+     "Autocollant Facebook sans texte (applaudissements, coeur, pouce fleuri selon le cas). Rien a quoi repondre par ecrit.",
+     "Felicitations generiques sur le billet du recit de maladie. Cinq reponses distinctes y ont deja ete publiees ; en ajouter encore serait de la repetition, interdite par REGLES.md.",
+     "Felicitations generiques sur le billet du recit de maladie. Cinq reponses distinctes y ont deja ete publiees ; en ajouter encore serait de la repetition, interdite par REGLES.md.",
+     "Felicitations generiques sur le billet du recit de maladie. Cinq reponses distinctes y ont deja ete publiees ; en ajouter encore serait de la repetition, interdite par REGLES.md.",
+     "Felicitations generiques sur le billet du recit de maladie. Cinq reponses distinctes y ont deja ete publiees ; en ajouter encore serait de la repetition, interdite par REGLES.md.",
+     "Felicitations generiques sur le billet du recit de maladie. Cinq reponses distinctes y ont deja ete publiees ; en ajouter encore serait de la repetition, interdite par REGLES.md.",
+     "Felicitations generiques sur le billet du recit de maladie. Cinq reponses distinctes y ont deja ete publiees ; en ajouter encore serait de la repetition, interdite par REGLES.md.",
+     "Felicitations generiques sur le billet du recit de maladie. Cinq reponses distinctes y ont deja ete publiees ; en ajouter encore serait de la repetition, interdite par REGLES.md.",
+     "Autocollant Facebook sans texte (applaudissements, coeur, pouce fleuri selon le cas). Rien a quoi repondre par ecrit.",
+     "Felicitations generiques sur le billet du recit de maladie. Cinq reponses distinctes y ont deja ete publiees ; en ajouter encore serait de la repetition, interdite par REGLES.md.",
+     "Felicitations generiques sur le billet du recit de maladie. Cinq reponses distinctes y ont deja ete publiees ; en ajouter encore serait de la repetition, interdite par REGLES.md.",
+     "Felicitations sur le billet du recit de maladie. Six reponses distinctes y ont deja ete publiees ; toute reponse de plus dans ce fil serait de la repetition.",
+     "Felicitations sur le billet du recit de maladie. Six reponses distinctes y ont deja ete publiees ; toute reponse de plus dans ce fil serait de la repetition.",
+     "Message tronque et incomprehensible ('Il y en a plein au msa autour du P'), aucune question identifiable.",
+     "Diatribe generale contre les pesticides et le capitalisme, se terminant par 'L humain est un virus'. Le fond effleure un fait verifie (neonicotinoides, perte d habitat) mais le registre est une charge, pas une question ; PROCEDURE.md ecarte les diatribes.",
+     "GIF-meme sans texte. Rien a quoi repondre par ecrit."
+    ],
+    "heures_sans_publication": [
+     "09",
+     "10",
+     "11",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 0
+     },
+     {
+      "heure": "10",
+      "n": 0
+     },
+     {
+      "heure": "11",
+      "n": 0
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 0
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 0
+     },
+     {
+      "heure": "17",
+      "n": 0
+     }
+    ]
+   },
+   "B": {
+    "page": "The Milkweed Company",
+    "publiees": 2,
+    "confirmees": 2,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 5,
+    "dernier_journal": "2026-08-30T11:32:22.326Z",
+    "ecartes_total": 156,
+    "motifs_du_jour": [
+     "Blague sur le nom du dompte-venin dans le sous-fil deja ecarte plusieurs fois.",
+     "« Goose down is over rated » : boutade sans question. Le seul angle verifie disponible, la fibre creuse, a ete publie deux fois aujourdhui. Quasi-doublon.",
+     "Commentaire sur la moderation dun autre fil, entre abonnes. Rien a apporter.",
+     "remerciement entre abonnés (« thanks for the added value info »), aucune question ni fait à corriger — rien à ajouter de notre part",
+     "échange sarcastique entre abonnés sur l adoption des technologies au Canada, hors des faits vérifiés et sans rapport avec l asclépiade"
+    ],
+    "heures_sans_publication": [
+     "09",
+     "10",
+     "11",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 0
+     },
+     {
+      "heure": "10",
+      "n": 0
+     },
+     {
+      "heure": "11",
+      "n": 0
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 0
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 0
+     },
+     {
+      "heure": "17",
+      "n": 0
+     }
+    ]
+   },
+   "C": {
+    "page": "Milkweed & Monarchs",
+    "publiees": 2,
+    "confirmees": 2,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 5,
+    "dernier_journal": "2026-08-30T11:50:33.045Z",
+    "ecartes_total": 137,
+    "motifs_du_jour": [
+     "Recit genereux d'un abonne sur les lepidopteristes qui font un comptage chez lui chaque juillet. Adresse a un autre abonne, aucune question, et rien a y ajouter qui tienne dans nos faits verifies.",
+     "« thanks » — amabilite entre deux abonnes.",
+     "Blague entre deux abonnes (« Ha! You win!! You and your pesky pollinating people »). Amabilite entre eux, pas une question.",
+     "« I wish I knew this many years ago when I had warts! » A SIGNALER : allegation de sante (latex d'asclepiade contre les verrues) apparemment reprise de la publication elle-meme. Rien de tel dans les faits verifies, et la Page n'endosse pas un remede cutane. A verifier par un humain : est-ce que notre propre texte de publication avance cette affirmation ?",
+     "Reponse de localisation entre abonnes (Saskatchewan). Sans objet pour la Page."
+    ],
+    "heures_sans_publication": [
+     "09",
+     "10",
+     "11",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 0
+     },
+     {
+      "heure": "10",
+      "n": 0
+     },
+     {
+      "heure": "11",
+      "n": 0
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 0
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 0
+     },
+     {
+      "heure": "17",
+      "n": 0
+     }
+    ]
+   },
+   "D": {
+    "page": "Asclepiade & papillons monarques",
+    "publiees": 0,
+    "confirmees": 0,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 0,
+    "dernier_journal": "2026-08-30T02:48:47.943Z",
+    "ecartes_total": 67,
+    "motifs_du_jour": [],
+    "heures_sans_publication": [
+     "09",
+     "10",
+     "11",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 0
+     },
+     {
+      "heure": "10",
+      "n": 0
+     },
+     {
+      "heure": "11",
+      "n": 0
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 0
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 0
+     },
+     {
+      "heure": "17",
+      "n": 0
+     }
+    ]
+   }
+  },
+  "total_publiees": 6,
+  "total_non_confirmees": 0
+ },
+ "routines": {
+  "present": true,
+  "total": 9,
+  "perimees": [],
+  "inverifiables": [
+   "Ramassages Lasclay — resynchro de l'artefact",
+   "Ramassages Lasclay — lot d'étiquettes du mardi"
+  ],
+  "fiches": [
+   {
+    "id": "trig_01LP9vqvuYF6D8gcGoCaCKYo",
+    "nom": "Backlog Facebook — tir A (Lasclay)",
+    "cron_utc": "6 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Chaque tir peut sauter volontairement (1 chance sur 6, 2 sur 6 la fin de semaine). Un trou d'une heure n'est pas un incident ; une journée entière sans ligne en est un.",
+    "trace": "jsonl",
+    "entrees_total": 55,
+    "derniere_trace": "2026-08-30T05:15:32.377Z",
+    "age_h": 7.3,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_017dWSszcNm3FirksENWC2ZX",
+    "nom": "Backlog Facebook — tir B (The Milkweed Company)",
+    "cron_utc": "24 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Page à faible volume : plusieurs heures sans publication sont normales, l'écart se lit dans B-a-revoir.json.",
+    "trace": "jsonl",
+    "entrees_total": 83,
+    "derniere_trace": "2026-08-30T11:32:22.326Z",
+    "age_h": 1,
+    "seuil_h": 48,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01CV6P1ik7jjZ8B7dXcTP2D5",
+    "nom": "Backlog Facebook — tir C (Milkweed & Monarchs)",
+    "cron_utc": "47 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Le plus gros débit des quatre tirs.",
+    "trace": "jsonl",
+    "entrees_total": 306,
+    "derniere_trace": "2026-08-30T11:50:33.045Z",
+    "age_h": 0.7,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_012UUNPBDS9xYrw93aBCCpwB",
+    "nom": "Backlog Facebook — tir D (Asclépiade & papillons monarques)",
+    "cron_utc": "36 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": null,
+    "trace": "jsonl",
+    "entrees_total": 41,
+    "derniere_trace": "2026-08-30T02:48:47.943Z",
+    "age_h": 9.7,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01MpfDwYo8AMsBc5GC3SgQvf",
+    "nom": "Campagne points de vente",
+    "cron_utc": "0 13 * * 2-4",
+    "horaire": "mardi, mercredi, jeudi le matin",
+    "note": "Ne tourne pas le lundi ni le vendredi. Quand la file est vide, elle ne produit plus rien : vérifier file_attente.json avant d'appeler ça une panne.",
+    "trace": "git",
+    "chemin": "retail-expansion/",
+    "derniere_trace": "2026-08-24T18:50:21.000Z",
+    "age_h": 137.7,
+    "seuil_h": 192,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_014uVrxtQCEYJHfepum5czgv",
+    "nom": "Sync skills claude.ai → repo",
+    "cron_utc": "23 10 * * *",
+    "horaire": "tous les jours",
+    "note": "Ne committe QUE s'il y a un changement. L'absence de commit est le cas normal — cette trace ne prouve rien à elle seule.",
+    "trace": "git",
+    "chemin": ".claude/skills/",
+    "derniere_trace": "2026-08-29T10:40:00.000Z",
+    "age_h": 25.9,
+    "seuil_h": 1440,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01UKZahS3efWGPqGWR5L9cht",
+    "nom": "Ramassages Lasclay — resynchro de l'artefact",
+    "cron_utc": "0 13,16,19,22,1 * * *",
+    "horaire": "cinq fois par jour",
+    "note": "Ne laisse aucune trace dans le dépôt : elle republie un artefact. Sans outils mcp__*, la revue ne peut pas la vérifier — le dire au lieu de la déclarer saine.",
+    "trace": "aucune",
+    "verdict": "invérifiable",
+    "detail": "cette routine ne laisse aucune trace dans le dépôt ; sans outils mcp__* la revue ne peut pas se prononcer"
+   },
+   {
+    "id": "trig_016Bq8cq3sQjpCoSFYKJmWiH",
+    "nom": "Ramassages Lasclay — lot d'étiquettes du mardi",
+    "cron_utc": "0 11 * * 2",
+    "horaire": "mardi matin",
+    "note": "Livre des fichiers dans la session, rien dans le dépôt. Même angle mort que la précédente.",
+    "trace": "aucune",
+    "verdict": "invérifiable",
+    "detail": "cette routine ne laisse aucune trace dans le dépôt ; sans outils mcp__* la revue ne peut pas se prononcer"
+   },
+   {
+    "id": "trig_017tFgWR75UBgBu5FhwJQ9Bh",
+    "nom": "Revue quotidienne — contrôle qualité",
+    "cron_utc": "41 1 * * *",
+    "horaire": "21 h 40 Est",
+    "note": "La revue se surveille elle-même : un tour qui ne committe rien est un tour raté.",
+    "trace": "git",
+    "chemin": "revue/",
+    "derniere_trace": "2026-08-30T01:24:29.000Z",
+    "age_h": 11.1,
+    "seuil_h": 48,
+    "verdict": "à jour"
+   }
+  ]
+ },
+ "sante": [
+  {
+   "service": "missive-proxy",
+   "url": "https://proxy-missive.onrender.com/health",
+   "statut": 200,
+   "ok": true,
+   "ms": 412,
+   "extrait": "{\"ok\":true,\"service\":\"missive-proxy\"}"
+  },
+  {
+   "service": "general-proxy",
+   "url": "https://general-proxy-5muf.onrender.com/connectors",
+   "statut": 200,
+   "ok": true,
+   "ms": 12378,
+   "extrait": "{\"connectors\":{\"shipstation\":{\"description\":\"ShipStation v1 (commandes, expéditions, suivi) — accès complet (lecture + écriture; les étiquettes débitent le wallet).\",\"enabled\":true,\"actions\":[\"orders\",\"order\",\"shipments\",\"fulfillments\",\"carriers\",\"stores\",\"warehouses\",\"listtags\",\"carrier\",\"listservi"
+  },
+  {
+   "service": "finance-proxy",
+   "url": "https://qbo-proxy-0jhc.onrender.com/health",
+   "statut": 200,
+   "ok": true,
+   "ms": 253,
+   "extrait": "{\"ok\":true,\"service\":\"finance-proxy\"}"
+  }
+ ],
+ "registre": {
+  "present": true,
+  "total": 1,
+  "par_etat": {
+   "proposee": 1
+  },
+  "a_appliquer": [],
+  "en_attente": [
+   {
+    "id": "R-20260829-01",
+    "titre": "Rendre les journaux Render lisibles par la revue",
+    "gravite": "majeur",
+    "propose_le": "2026-08-29"
+   }
+  ]
+ },
+ "revues_precedentes": [
+  {
+   "jour": "2026-08-29",
+   "revue": null
+  }
+ ],
+ "non_collecte": [
+  "Statut déclaré des routines (last_run) : MCP list_triggers, indisponible dans une session de Routine — la section routines ci-dessus juge sur la trace, pas sur le statut.",
+  "Sessions Claude du jour : MCP list_sessions, indisponible dans une session de Routine — leur trace exploitable est faite de commits, branches et artefacts.",
+  "Conversations Missive : node missive_client.js — l'agent le fait.",
+  "Journaux Render : aucune RENDER_API_KEY dans l'environnement, seules les sondes HTTP ci-dessus sont possibles."
+ ]
+}
