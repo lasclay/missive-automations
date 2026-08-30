@@ -14,3 +14,7 @@ mrp/donnees/bris-missive.tsv
 
 __pycache__/
 *.pyc
+
+# Derive : regenere par `node memoire/index.js`. Le versionner ferait entrer en
+# collision chaque agent qui le regenere, et laisserait croire a un etat frais.
+memoire/ETAT.md

@@ -1,6 +1,15 @@
 # Routine « Revue quotidienne »
 
-Routine persistante (Claude Code Remote), **une session neuve chaque soir**. Elle relit la
+Routine persistante (Claude Code Remote) liée à **une session permanente**, `Revue quotidienne
+— Lasclay`, dont la branche de sortie est `claude/revue-quotidienne`.
+
+> **Pourquoi une session permanente et non une session neuve.** Le premier tour, le 29 août, a
+> tiré en session neuve, a été marqué SUCCEEDED après sept minutes, et n'a rien poussé : ni
+> `revue/jour/2026-08-29/revue.md`, ni proposition au registre. Les quatre routines du backlog
+> Facebook, qui poussent sans faute depuis des semaines, tirent toutes dans une session
+> persistante avec branche de sortie déclarée. La revue a été alignée sur ce patron. C'est une
+> hypothèse fondée sur ce contraste, pas une cause démontrée — le tour du 30 août sert à la
+> confirmer, et son étape 8 exige de rapporter l'erreur de `git push` mot pour mot. Elle relit la
 journée — conversations, routines, scripts, journaux — en fait le contrôle qualité, et propose
 des améliorations que Gabriel approuve. Elle n'applique jamais une amélioration le soir où elle
 la propose.
