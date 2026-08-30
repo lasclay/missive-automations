@@ -672,8 +672,24 @@
       "quand": "2026-08-30T13:28:44.362Z",
       "confirme": true,
       "texte": "Good combination to have gone with. One thing we should say plainly, since people often ask after the fact: there is no official temperature rating on any of it. We have never put a number on the insulation, because we have not had it certified to a standard. What we have instead is our own testing and what customers report back, and those reports go down to around minus thirty."
+    },
+    {
+      "id": "122176634168483418_871760498844552",
+      "reponse_id": "122176634168483418_1634263634711556",
+      "page_id": "368305119707866",
+      "quand": "2026-08-30T14:27:34.228Z",
+      "confirme": true,
+      "texte": "One thing worth knowing before they go in the ground: our seed is not pre-stratified, so it needs roughly thirty days of cold before it will break dormancy. The simplest way to handle that is to sow in autumn and let winter do it. No fridge, no dates to keep track of."
+    },
+    {
+      "id": "122178999464483418_1457207042730260",
+      "reponse_id": "122178999464483418_912514138245327",
+      "page_id": "368305119707866",
+      "quand": "2026-08-30T14:29:41.521Z",
+      "confirme": true,
+      "texte": "The criticism is fair enough to answer directly rather than leave to others. The insulation is grown and processed in Quebec, at our workshop in the Limoilou district of Quebec City. The textile assembly of most finished products has been done abroad since July 2026, mostly in Tunisia. So neither half of the argument is quite right, and we would rather say which is which than let people assume."
     }
   ],
-  "derniere_execution": "2026-08-30T13:28:44.363Z",
-  "total": 84
+  "derniere_execution": "2026-08-30T14:29:41.521Z",
+  "total": 86
 }
