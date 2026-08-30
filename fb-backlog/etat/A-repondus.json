@@ -480,8 +480,16 @@
       "quand": "2026-08-30T20:07:45.731Z",
       "confirme": true,
       "texte": "Merci. Le nombre de messages reçus sous ce texte dépasse largement ce qu'on a l'habitude de voir — on les lit tous, même quand on n'arrive pas à répondre à chacun. Bonne fin de journée à vous."
+    },
+    {
+      "id": "1503500508450427_930878246259562",
+      "reponse_id": "1503500508450427_29303761009212586",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T22:11:50.611Z",
+      "confirme": true,
+      "texte": "Bonjour, votre description dit beaucoup en peu de mots. Une précision sur ce qui a été soulevé plus haut : l'asclépiade commune est indigène ici et se propage par rhizomes — agressive dans une planche de culture, certainement, mais ce n'est pas la même chose qu'une espèce envahissante venue d'ailleurs. En bordure de champ ou sur un terrain qu'on laisse aller, c'est justement ce qui la rend utile. Et pour la chasse aux papillons avec les petits-enfants, tout repose sur les feuilles : c'est d'elles que dépendent les chenilles."
     }
   ],
-  "derniere_execution": "2026-08-30T20:07:45.732Z",
-  "total": 60
+  "derniere_execution": "2026-08-30T22:11:50.612Z",
+  "total": 61
 }
