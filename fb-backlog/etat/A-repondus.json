@@ -448,8 +448,16 @@
       "quand": "2026-08-30T15:23:19.482Z",
       "confirme": true,
       "texte": "L'inquiétude est compréhensible, mais c'est très faisable. Le seul vrai piège est le froid : des graines gardées au sec à l'intérieur depuis l'automne n'ont pas eu leur période de dormance. Donnez-leur une trentaine de jours au réfrigérateur, dans un sac scellé sur un essuie-tout humide, puis semez au printemps. Sans ce passage au froid, la germination est très décevante — c'est la cause numéro un des semis ratés."
+    },
+    {
+      "id": "1503540845113060_2716990838677199",
+      "reponse_id": "1503540845113060_1046985374823911",
+      "page_id": "104242204750257",
+      "quand": "2026-08-30T17:10:25.137Z",
+      "confirme": true,
+      "texte": "Bonjour, pour un terrain vacant en ville, l'asclépiade commune (syriaca) est celle qui tient le mieux : elle est indigène et se propage par rhizomes, donc elle finit par s'installer seule une fois partie. Montréal est largement à l'intérieur de sa zone. Une précision utile : semées à l'automne, les graines prennent leur froid dehors ; si vous semez au printemps, il leur faut une trentaine de jours au réfrigérateur avant la mise en terre, sinon elles ne lèvent pas."
     }
   ],
-  "derniere_execution": "2026-08-30T15:23:19.482Z",
-  "total": 56
+  "derniere_execution": "2026-08-30T17:10:25.137Z",
+  "total": 57
 }
