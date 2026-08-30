@@ -80,6 +80,17 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   `--no-fallback-service` pour une vidéo confidentielle. Si le relais tombe :
   `VIDEO_YT_COOKIES_B64` ou `VIDEO_PROXY`. Détails : skill `video`.
 
+## Mémoire partagée — à lire avant de travailler
+
+- **`memoire/ETAT.md` est la première chose à lire dans une session sur ce dépôt.** Elle dit ce
+  qui attend une décision, ce que fait chaque agent, ce qui a bougé, et ce qui n'est pas déployé.
+- Régénère-la avant de la lire si elle date : `node memoire/index.js`. Elle est **dérivée** —
+  ne l'édite jamais à la main.
+- Ce qu'aucune trace ne porte — une décision, un blocage, une question pour Gabriel — se note :
+  `node memoire/noter.js decision|blocage|attente|constat "<agent>" "<résumé>"`. Un blocage
+  reste en tête d'`ETAT.md` tant que `node memoire/noter.js resoudre <n>` ne l'a pas fermé.
+- Doc : `memoire/README.md`.
+
 ## Revue quotidienne (contrôle qualité des automatisations)
 
 - Chaque soir 21 h 40 (Est), une routine relit la journée — routines, scripts exécutés, journaux,
