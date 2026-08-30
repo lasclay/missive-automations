@@ -736,6 +736,38 @@
       "extrait": "Bonjour ! Est-ce que vous utilisez des images générées par l'IA dans vos publications ?",
       "motif": "Question de transparence posée franchement et publiquement, à laquelle rien dans les faits vérifiés ne permet de répondre. Affirmer « non » sans le savoir serait un mensonge public, et une réponse évasive ferait pire que le silence : seule une personne de l'équipe peut trancher. À traiter rapidement, une question de ce type qui reste sans réponse se remarque. À noter pour la personne qui tranchera : la question porte sur les images, mais le sujet touche aussi la rédaction — les réponses de cette Page, celle-ci comprise, sont écrites par une IA sous supervision humaine. Cela devrait entrer dans la décision sur ce qu'on répond publiquement.",
       "quand": "2026-08-30T21:37:27.880Z"
+    },
+    {
+      "id": "1273911044875546_1121359070130896",
+      "date": "2026-03-15",
+      "extrait": "Nathalie Larocque",
+      "motif": "Identification d'une connaissance, sans texte.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T22:38:19.963Z"
+    },
+    {
+      "id": "1278579924408658_1847507965950741",
+      "date": "2026-03-15",
+      "extrait": "Emblème MK ultra",
+      "motif": "Allusion conspirationniste au papillon comme symbole de contrôle mental. Sans question, et répondre ne ferait que donner prise.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T22:38:19.963Z"
+    },
+    {
+      "id": "1273911044875546_4467024550289518",
+      "date": "2026-03-14",
+      "extrait": "Lucie Saint-Gelais, Anick Coutu",
+      "motif": "Deux identifications d'amies, sans texte.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T22:38:19.963Z"
+    },
+    {
+      "id": "1278579924408658_954051850376006",
+      "date": "2026-03-14",
+      "extrait": "Le problème est au Mexique !",
+      "motif": "Thèse que la recherche contredit, mais nous y avons déjà répondu ce matin dans un autre fil de cette même publication, étude à l'appui. La correction est donc présente sous la publication ; une seconde y serait quasi identique.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T22:38:19.963Z"
     }
   ]
 }
