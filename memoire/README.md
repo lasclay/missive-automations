@@ -51,6 +51,11 @@ défaut que cette mémoire corrige : une question posée et jamais reprise.
 prochain `node memoire/index.js`. La vérité vit dans les traces des agents et dans
 `memoire/journal.jsonl`.
 
+Il n'est donc **pas versionné** — `.gitignore` l'exclut. Le versionner ferait entrer en collision
+chaque agent qui le régénère, et surtout : un `ETAT.md` cloné avec le dépôt donnerait l'état d'un
+autre jour en ayant l'air frais. Une session qui ne l'a pas le fabrique en une seconde ; c'est
+plus honnête qu'un fichier périmé qui se présente comme la vérité.
+
 Ce n'est pas non plus un tableau de bord de vanité. Aucune métrique ne s'y félicite : pas
 d'« heures économisées », pas de taux de complétion. Un compteur qu'un système s'attribue à
 lui-même ne prouve rien. Les seules lignes qui comptent sont celles qui pointent vers une preuve
