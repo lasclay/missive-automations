@@ -1,0 +1,83 @@
+{
+ "commentaire": "Inventaire des routines à surveiller. La revue ne juge PAS une routine sur son statut declare (une routine qui tire sans rien faire est marquee SUCCEEDED) mais sur la trace qu'elle laisse dans le depot. Mettre a jour ce fichier quand une routine est creee, retiree ou change d'horaire.",
+ "routines": [
+  {
+   "id": "trig_01LP9vqvuYF6D8gcGoCaCKYo",
+   "nom": "Backlog Facebook — tir A (Lasclay)",
+   "cron_utc": "6 * * * *",
+   "horaire": "9 h à 17 h Est, pause à midi",
+   "trace": { "type": "jsonl", "fichier": "fb-backlog/etat/A-journal.jsonl", "champ_temps": "t" },
+   "fraicheur_max_h": 30,
+   "note": "Chaque tir peut sauter volontairement (1 chance sur 6, 2 sur 6 la fin de semaine). Un trou d'une heure n'est pas un incident ; une journée entière sans ligne en est un."
+  },
+  {
+   "id": "trig_017dWSszcNm3FirksENWC2ZX",
+   "nom": "Backlog Facebook — tir B (The Milkweed Company)",
+   "cron_utc": "24 * * * *",
+   "horaire": "9 h à 17 h Est, pause à midi",
+   "trace": { "type": "jsonl", "fichier": "fb-backlog/etat/B-journal.jsonl", "champ_temps": "t" },
+   "fraicheur_max_h": 48,
+   "note": "Page à faible volume : plusieurs heures sans publication sont normales, l'écart se lit dans B-a-revoir.json."
+  },
+  {
+   "id": "trig_01CV6P1ik7jjZ8B7dXcTP2D5",
+   "nom": "Backlog Facebook — tir C (Milkweed & Monarchs)",
+   "cron_utc": "47 * * * *",
+   "horaire": "9 h à 17 h Est, pause à midi",
+   "trace": { "type": "jsonl", "fichier": "fb-backlog/etat/C-journal.jsonl", "champ_temps": "t" },
+   "fraicheur_max_h": 30,
+   "note": "Le plus gros débit des quatre tirs."
+  },
+  {
+   "id": "trig_012UUNPBDS9xYrw93aBCCpwB",
+   "nom": "Backlog Facebook — tir D (Asclépiade & papillons monarques)",
+   "cron_utc": "36 * * * *",
+   "horaire": "9 h à 17 h Est, pause à midi",
+   "trace": { "type": "jsonl", "fichier": "fb-backlog/etat/D-journal.jsonl", "champ_temps": "t" },
+   "fraicheur_max_h": 30
+  },
+  {
+   "id": "trig_01MpfDwYo8AMsBc5GC3SgQvf",
+   "nom": "Campagne points de vente",
+   "cron_utc": "0 13 * * 2-4",
+   "horaire": "mardi, mercredi, jeudi le matin",
+   "trace": { "type": "git", "chemin": "retail-expansion/" },
+   "fraicheur_max_h": 192,
+   "note": "Ne tourne pas le lundi ni le vendredi. Quand la file est vide, elle ne produit plus rien : vérifier file_attente.json avant d'appeler ça une panne."
+  },
+  {
+   "id": "trig_014uVrxtQCEYJHfepum5czgv",
+   "nom": "Sync skills claude.ai → repo",
+   "cron_utc": "23 10 * * *",
+   "horaire": "tous les jours",
+   "trace": { "type": "git", "chemin": ".claude/skills/" },
+   "fraicheur_max_h": 1440,
+   "note": "Ne committe QUE s'il y a un changement. L'absence de commit est le cas normal — cette trace ne prouve rien à elle seule."
+  },
+  {
+   "id": "trig_01UKZahS3efWGPqGWR5L9cht",
+   "nom": "Ramassages Lasclay — resynchro de l'artefact",
+   "cron_utc": "0 13,16,19,22,1 * * *",
+   "horaire": "cinq fois par jour",
+   "trace": { "type": "aucune" },
+   "note": "Ne laisse aucune trace dans le dépôt : elle republie un artefact. Sans outils mcp__*, la revue ne peut pas la vérifier — le dire au lieu de la déclarer saine."
+  },
+  {
+   "id": "trig_016Bq8cq3sQjpCoSFYKJmWiH",
+   "nom": "Ramassages Lasclay — lot d'étiquettes du mardi",
+   "cron_utc": "0 11 * * 2",
+   "horaire": "mardi matin",
+   "trace": { "type": "aucune" },
+   "note": "Livre des fichiers dans la session, rien dans le dépôt. Même angle mort que la précédente."
+  },
+  {
+   "id": "trig_017tFgWR75UBgBu5FhwJQ9Bh",
+   "nom": "Revue quotidienne — contrôle qualité",
+   "cron_utc": "41 1 * * *",
+   "horaire": "21 h 40 Est",
+   "trace": { "type": "git", "chemin": "revue/" },
+   "fraicheur_max_h": 48,
+   "note": "La revue se surveille elle-même : un tour qui ne committe rien est un tour raté."
+  }
+ ]
+}

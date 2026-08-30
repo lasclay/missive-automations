@@ -183,6 +183,63 @@ async function santeServices() {
   return res;
 }
 
+// ---------------------------------------------------------------- routines, par leur trace
+
+/**
+ * Une routine se juge sur ce qu'elle laisse derrière elle, jamais sur son statut déclaré :
+ * une routine qui tire sans rien faire est marquée SUCCEEDED. On mesure donc l'âge de sa
+ * dernière trace réelle — dernière ligne de journal, ou dernier commit touchant son chemin.
+ */
+function etatRoutines(maintenant) {
+  const f = path.join(__dirname, "routines.json");
+  if (!fs.existsSync(f)) return { present: false };
+  let inventaire;
+  try { inventaire = JSON.parse(fs.readFileSync(f, "utf8")); }
+  catch (e) { return { present: true, erreur: String(e.message || e) }; }
+
+  const fiches = (inventaire.routines || []).map((r) => {
+    const fiche = { id: r.id, nom: r.nom, cron_utc: r.cron_utc, horaire: r.horaire, note: r.note || null, trace: r.trace.type };
+    let derniere = null;
+
+    if (r.trace.type === "jsonl") {
+      const chemin = path.join(RACINE, r.trace.fichier);
+      if (!fs.existsSync(chemin)) { fiche.verdict = "trace absente"; fiche.detail = r.trace.fichier + " n'existe pas"; return fiche; }
+      const lignes = fs.readFileSync(chemin, "utf8").trim().split("\n").filter(Boolean);
+      fiche.entrees_total = lignes.length;
+      for (let i = lignes.length - 1; i >= 0 && !derniere; i--) {
+        try {
+          const t = new Date(JSON.parse(lignes[i])[r.trace.champ_temps || "t"]);
+          if (!Number.isNaN(+t)) derniere = t;
+        } catch { /* ligne illisible : on remonte */ }
+      }
+    } else if (r.trace.type === "git") {
+      const iso = git(["log", "--all", "-1", "--format=%aI", "--", r.trace.chemin]);
+      if (iso) derniere = new Date(iso);
+      fiche.chemin = r.trace.chemin;
+    } else {
+      fiche.verdict = "invérifiable";
+      fiche.detail = "cette routine ne laisse aucune trace dans le dépôt ; sans outils mcp__* la revue ne peut pas se prononcer";
+      return fiche;
+    }
+
+    if (!derniere) { fiche.verdict = "trace absente"; return fiche; }
+    fiche.derniere_trace = derniere.toISOString();
+    fiche.age_h = Math.round(((maintenant - derniere) / 3600000) * 10) / 10;
+    const seuil = r.fraicheur_max_h;
+    fiche.seuil_h = seuil ?? null;
+    fiche.verdict = seuil == null ? "sans seuil" : fiche.age_h > seuil ? "PÉRIMÉE" : "à jour";
+    return fiche;
+  });
+
+  return {
+    present: true,
+    total: fiches.length,
+    perimees: fiches.filter((x) => x.verdict === "PÉRIMÉE").map((x) => x.nom),
+    inverifiables: fiches.filter((x) => x.verdict === "invérifiable").map((x) => x.nom),
+    fiches,
+  };
+}
+
 // ---------------------------------------------------------------- registre
 
 function registre() {
@@ -223,12 +280,17 @@ function revuesPrecedentes(jour, n = 7) {
   const jour = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a)) || jourLocal();
   const f = fenetre(jour);
 
+  // Sans fetch, `git log --all` ne voit que les branches déjà présentes dans ce conteneur —
+  // une routine qui travaille sur sa propre branche passerait pour muette.
+  if (!sansReseau) git(["fetch", "--quiet", "--all", "--prune"]);
+
   const commits = commitsDuJour(f);
   const collecte = {
     jour,
     fuseau: FUSEAU,
     fenetre_utc: { debut: f.debut.toISOString(), fin: f.fin.toISOString(), decalage_minutes: f.decalage },
     genere_le: new Date().toISOString(),
+    branches_connues: git(["branch", "-r", "--format=%(refname:short)"]).split("\n").filter(Boolean),
     git: {
       commits: commits.length,
       lignes_ajoutees: commits.reduce((s, c) => s + c.ajouts, 0),
@@ -238,12 +300,13 @@ function revuesPrecedentes(jour, n = 7) {
       tete_main: git(["rev-parse", "--short", "origin/main"]) || null,
     },
     facebook: backlogFacebook(f, jour),
+    routines: etatRoutines(new Date()),
     sante: sansReseau ? { saute: true } : await santeServices(),
     registre: registre(),
     revues_precedentes: revuesPrecedentes(jour),
     non_collecte: [
-      "Routines et dernier run : MCP list_triggers — l'agent le fait.",
-      "Sessions Claude du jour : MCP list_sessions — l'agent le fait.",
+      "Statut déclaré des routines (last_run) : MCP list_triggers, indisponible dans une session de Routine — la section routines ci-dessus juge sur la trace, pas sur le statut.",
+      "Sessions Claude du jour : MCP list_sessions, indisponible dans une session de Routine — leur trace exploitable est faite de commits, branches et artefacts.",
       "Conversations Missive : node missive_client.js — l'agent le fait.",
       "Journaux Render : aucune RENDER_API_KEY dans l'environnement, seules les sondes HTTP ci-dessus sont possibles.",
     ],
@@ -264,6 +327,12 @@ function revuesPrecedentes(jour, n = 7) {
       l.push("  tir " + t + " (" + ft.page + ") : " + ft.publiees + " publiées, " + ft.ecartes_du_jour +
         " écartés, heures creuses : " + (ft.heures_sans_publication.join(",") || "aucune"));
     }
+  }
+  const rt = collecte.routines;
+  if (rt && rt.present && rt.fiches) {
+    l.push("Routines : " + rt.total + " suivies — périmées : " + (rt.perimees.join(", ") || "aucune") +
+      " ; invérifiables sans mcp__* : " + (rt.inverifiables.join(", ") || "aucune"));
+    for (const x of rt.fiches) l.push("  " + (x.verdict === "PÉRIMÉE" ? "!! " : "   ") + x.nom + " : " + x.verdict + (x.age_h != null ? " (" + x.age_h + " h)" : ""));
   }
   if (!sansReseau) for (const s of collecte.sante) l.push("Santé " + s.service + " : " + (s.ok ? "ok" : "ÉCHEC") + " " + (s.statut ?? "") + " " + s.ms + " ms " + (s.erreur || ""));
   const r = collecte.registre;

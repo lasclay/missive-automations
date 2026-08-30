@@ -6,13 +6,66 @@
   "fin": "2026-08-30T04:00:00.000Z",
   "decalage_minutes": -240
  },
- "genere_le": "2026-08-30T01:19:31.347Z",
+ "genere_le": "2026-08-30T01:23:50.763Z",
+ "branches_connues": [
+  "origin/claude/a2x-app-replacement-9i93wy",
+  "origin/claude/audit-apm-unanswered-messages-wo3zo1",
+  "origin/claude/audit-previsions-pari-ywoalj",
+  "origin/claude/bypass-permissions-code-cloud-l0qxy3",
+  "origin/claude/composio-facebook-moderation-9czg82",
+  "origin/claude/concis-output-mode-5qa1md",
+  "origin/claude/daily-review-routine-hbxozc",
+  "origin/claude/dazzling-pasteur-6fw08h",
+  "origin/claude/finance-skill-review-xvq8u4",
+  "origin/claude/gourmet-sauvage-discount-code-1e2t71",
+  "origin/claude/hermes-agent-lasclay-l4fdk1",
+  "origin/claude/jobs-mit-transcript-analysis-yvftwo",
+  "origin/claude/klaviyo-audit-alternatives-awlhbf",
+  "origin/claude/lasclay-ad-performance-audit-7qz8p7",
+  "origin/claude/lasclay-bimi-setup-amiamh",
+  "origin/claude/lasclay-funding-programs-aiwetn",
+  "origin/claude/lasclay-infolettre-rechauffement-fs8srr",
+  "origin/claude/lasclay-negative-reviews-outreach-g2ddoc",
+  "origin/claude/lasclay-retail-expansion-v6jay7",
+  "origin/claude/lasclay-support-email-skill-zqqcmp",
+  "origin/claude/meta-mcp-servers-8ynr89",
+  "origin/claude/milkweed-seeds-redirects-j1k0xf",
+  "origin/claude/missive-corpo-opportunities-1r3xaw",
+  "origin/claude/missive-email-filter-script-gkyxya",
+  "origin/claude/missive-g6xc72",
+  "origin/claude/missive-proxy-generic-setup-614cpz",
+  "origin/claude/missive-proxy-shipment-notification-l1eh8z",
+  "origin/claude/missive-t438gw",
+  "origin/claude/missive-work-l9u2p6",
+  "origin/claude/mobile-menu-boutique-hidden-rwx5pg",
+  "origin/claude/mrpeasy-audit-lasclay-krdpnh",
+  "origin/claude/new-session-ux8sdv",
+  "origin/claude/omniroute-evaluation-s166ig",
+  "origin/claude/reload-skills-3jpj6r",
+  "origin/claude/reload-skills-5xcm2o",
+  "origin/claude/reload-skills-ottbp3",
+  "origin/claude/reload-skills-pck94t",
+  "origin/claude/reload-skills-r1ve6i",
+  "origin/claude/reload-skills-tsf447",
+  "origin/claude/reload-skills-xiwvf0",
+  "origin/claude/revue-quotidienne",
+  "origin/claude/shipstation-audit-clone-0gwmgr",
+  "origin/claude/shipstation-lasclay-access-k7rydf",
+  "origin/claude/shopify-newsletter-saturday-6i6svk",
+  "origin/claude/tarifs-douaniers-us-admissibilite-gryvqo",
+  "origin/claude/tiktok-copywriting-technique-y1kmo0",
+  "origin/claude/unique-plastique-research-jujoqk",
+  "origin/claude/video-analysis-capability-cd681q",
+  "origin/main"
+ ],
  "git": {
-  "commits": 49,
-  "lignes_ajoutees": 4987,
-  "lignes_retirees": 1134,
+  "commits": 52,
+  "lignes_ajoutees": 7476,
+  "lignes_retirees": 1135,
   "par_branche": {
    "claude/daily-review-routine-hbxozc": [
+    "c35dcf29",
+    "865594f4",
     "4d61b5d2",
     "667f159d",
     "e71b4184",
@@ -62,9 +115,77 @@
     "e3e73adc",
     "1370c812",
     "c1f6b5a6"
+   ],
+   "origin/claude/shopify-newsletter-saturday-6i6svk": [
+    "fcf599cb"
    ]
   },
   "liste": [
+   {
+    "sha": "c35dcf29",
+    "date": "2026-08-29T21:21:43-04:00",
+    "auteur": "Claude",
+    "sujet": "Revue : la branche de travail est claude/revue-quotidienne, main ne porte pas encore le module",
+    "ajouts": 7,
+    "retraits": 1,
+    "fichiers": [
+     {
+      "fichier": "revue/ROUTINE.md",
+      "ajouts": 7,
+      "retraits": 1
+     }
+    ]
+   },
+   {
+    "sha": "865594f4",
+    "date": "2026-08-29T21:21:26-04:00",
+    "auteur": "Claude",
+    "sujet": "Revue quotidienne : collecte des preuves, registre d'améliorations, procédure du tour",
+    "ajouts": 2311,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "CLAUDE.md",
+      "ajouts": 12,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/README.md",
+      "ajouts": 46,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/REGISTRE.md",
+      "ajouts": 40,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/ROUTINE.md",
+      "ajouts": 170,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/collecte.js",
+      "ajouts": 273,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/jour/2026-08-29/collecte.json",
+      "ajouts": 1564,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/registre.js",
+      "ajouts": 187,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/registre.json",
+      "ajouts": 19,
+      "retraits": 0
+     }
+    ]
+   },
    {
     "sha": "4d61b5d2",
     "date": "2026-08-29T21:06:57-04:00",
@@ -1194,6 +1315,21 @@
       "retraits": 2
      }
     ]
+   },
+   {
+    "sha": "fcf599cb",
+    "date": "2026-08-29T00:33:13-04:00",
+    "auteur": "Claude",
+    "sujet": "Ajouter le skill redaction-infolettre",
+    "ajouts": 171,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": ".claude/skills/redaction-infolettre/SKILL.md",
+      "ajouts": 171,
+      "retraits": 0
+     }
+    ]
    }
   ],
   "tete_main": "4d61b5d"
@@ -1521,13 +1657,135 @@
   "total_publiees": 161,
   "total_non_confirmees": 0
  },
+ "routines": {
+  "present": true,
+  "total": 9,
+  "perimees": [],
+  "inverifiables": [
+   "Ramassages Lasclay — resynchro de l'artefact",
+   "Ramassages Lasclay — lot d'étiquettes du mardi"
+  ],
+  "fiches": [
+   {
+    "id": "trig_01LP9vqvuYF6D8gcGoCaCKYo",
+    "nom": "Backlog Facebook — tir A (Lasclay)",
+    "cron_utc": "6 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Chaque tir peut sauter volontairement (1 chance sur 6, 2 sur 6 la fin de semaine). Un trou d'une heure n'est pas un incident ; une journée entière sans ligne en est un.",
+    "trace": "jsonl",
+    "entrees_total": 51,
+    "derniere_trace": "2026-08-30T00:14:05.426Z",
+    "age_h": 1.2,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_017dWSszcNm3FirksENWC2ZX",
+    "nom": "Backlog Facebook — tir B (The Milkweed Company)",
+    "cron_utc": "24 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Page à faible volume : plusieurs heures sans publication sont normales, l'écart se lit dans B-a-revoir.json.",
+    "trace": "jsonl",
+    "entrees_total": 81,
+    "derniere_trace": "2026-08-29T21:27:13.505Z",
+    "age_h": 3.9,
+    "seuil_h": 48,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01CV6P1ik7jjZ8B7dXcTP2D5",
+    "nom": "Backlog Facebook — tir C (Milkweed & Monarchs)",
+    "cron_utc": "47 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Le plus gros débit des quatre tirs.",
+    "trace": "jsonl",
+    "entrees_total": 302,
+    "derniere_trace": "2026-08-30T01:06:19.942Z",
+    "age_h": 0.3,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_012UUNPBDS9xYrw93aBCCpwB",
+    "nom": "Backlog Facebook — tir D (Asclépiade & papillons monarques)",
+    "cron_utc": "36 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": null,
+    "trace": "jsonl",
+    "entrees_total": 39,
+    "derniere_trace": "2026-08-30T00:37:10.511Z",
+    "age_h": 0.8,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01MpfDwYo8AMsBc5GC3SgQvf",
+    "nom": "Campagne points de vente",
+    "cron_utc": "0 13 * * 2-4",
+    "horaire": "mardi, mercredi, jeudi le matin",
+    "note": "Ne tourne pas le lundi ni le vendredi. Quand la file est vide, elle ne produit plus rien : vérifier file_attente.json avant d'appeler ça une panne.",
+    "trace": "git",
+    "chemin": "retail-expansion/",
+    "derniere_trace": "2026-08-24T18:50:21.000Z",
+    "age_h": 126.6,
+    "seuil_h": 192,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_014uVrxtQCEYJHfepum5czgv",
+    "nom": "Sync skills claude.ai → repo",
+    "cron_utc": "23 10 * * *",
+    "horaire": "tous les jours",
+    "note": "Ne committe QUE s'il y a un changement. L'absence de commit est le cas normal — cette trace ne prouve rien à elle seule.",
+    "trace": "git",
+    "chemin": ".claude/skills/",
+    "derniere_trace": "2026-08-29T04:33:13.000Z",
+    "age_h": 20.8,
+    "seuil_h": 1440,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01UKZahS3efWGPqGWR5L9cht",
+    "nom": "Ramassages Lasclay — resynchro de l'artefact",
+    "cron_utc": "0 13,16,19,22,1 * * *",
+    "horaire": "cinq fois par jour",
+    "note": "Ne laisse aucune trace dans le dépôt : elle republie un artefact. Sans outils mcp__*, la revue ne peut pas la vérifier — le dire au lieu de la déclarer saine.",
+    "trace": "aucune",
+    "verdict": "invérifiable",
+    "detail": "cette routine ne laisse aucune trace dans le dépôt ; sans outils mcp__* la revue ne peut pas se prononcer"
+   },
+   {
+    "id": "trig_016Bq8cq3sQjpCoSFYKJmWiH",
+    "nom": "Ramassages Lasclay — lot d'étiquettes du mardi",
+    "cron_utc": "0 11 * * 2",
+    "horaire": "mardi matin",
+    "note": "Livre des fichiers dans la session, rien dans le dépôt. Même angle mort que la précédente.",
+    "trace": "aucune",
+    "verdict": "invérifiable",
+    "detail": "cette routine ne laisse aucune trace dans le dépôt ; sans outils mcp__* la revue ne peut pas se prononcer"
+   },
+   {
+    "id": "trig_017tFgWR75UBgBu5FhwJQ9Bh",
+    "nom": "Revue quotidienne — contrôle qualité",
+    "cron_utc": "41 1 * * *",
+    "horaire": "21 h 40 Est",
+    "note": "La revue se surveille elle-même : un tour qui ne committe rien est un tour raté.",
+    "trace": "git",
+    "chemin": "revue/",
+    "derniere_trace": "2026-08-30T01:21:43.000Z",
+    "age_h": 0,
+    "seuil_h": 48,
+    "verdict": "à jour"
+   }
+  ]
+ },
  "sante": [
   {
    "service": "missive-proxy",
    "url": "https://proxy-missive.onrender.com/health",
    "statut": 200,
    "ok": true,
-   "ms": 421,
+   "ms": 400,
    "extrait": "{\"ok\":true,\"service\":\"missive-proxy\"}"
   },
   {
@@ -1535,7 +1793,7 @@
    "url": "https://general-proxy-5muf.onrender.com/connectors",
    "statut": 200,
    "ok": true,
-   "ms": 380,
+   "ms": 300,
    "extrait": "{\"connectors\":{\"shipstation\":{\"description\":\"ShipStation v1 (commandes, expéditions, suivi) — accès complet (lecture + écriture; les étiquettes débitent le wallet).\",\"enabled\":true,\"actions\":[\"orders\",\"order\",\"shipments\",\"fulfillments\",\"carriers\",\"stores\",\"warehouses\",\"listtags\",\"carrier\",\"listservi"
   },
   {
@@ -1543,21 +1801,30 @@
    "url": "https://qbo-proxy-0jhc.onrender.com/health",
    "statut": 200,
    "ok": true,
-   "ms": 289,
+   "ms": 188,
    "extrait": "{\"ok\":true,\"service\":\"finance-proxy\"}"
   }
  ],
  "registre": {
   "present": true,
-  "total": 0,
-  "par_etat": {},
+  "total": 1,
+  "par_etat": {
+   "proposee": 1
+  },
   "a_appliquer": [],
-  "en_attente": []
+  "en_attente": [
+   {
+    "id": "R-20260829-01",
+    "titre": "Rendre les journaux Render lisibles par la revue",
+    "gravite": "majeur",
+    "propose_le": "2026-08-29"
+   }
+  ]
  },
  "revues_precedentes": [],
  "non_collecte": [
-  "Routines et dernier run : MCP list_triggers — l'agent le fait.",
-  "Sessions Claude du jour : MCP list_sessions — l'agent le fait.",
+  "Statut déclaré des routines (last_run) : MCP list_triggers, indisponible dans une session de Routine — la section routines ci-dessus juge sur la trace, pas sur le statut.",
+  "Sessions Claude du jour : MCP list_sessions, indisponible dans une session de Routine — leur trace exploitable est faite de commits, branches et artefacts.",
   "Conversations Missive : node missive_client.js — l'agent le fait.",
   "Journaux Render : aucune RENDER_API_KEY dans l'environnement, seules les sondes HTTP ci-dessus sont possibles."
  ]
