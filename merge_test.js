@@ -139,6 +139,27 @@ cas(
   true
 );
 
+// Cas réel (L-48019) : deux adresses à une lettre près, même commande, fils qui se
+// chevauchent mais dont l'un s'étale sur 4 mois. Le plafond d'étendue « adresse seule »
+// (45 j) le rejetterait ; le plafond « commande commune » (120 j) le retient.
+cas(
+  "même commande, deux adresses proches, fil long de 117 j",
+  fil({ email: "nwolpmann@gmail.com", orders: ["L-48019"], subjects: ["Order L-48019"], du: "2026-03-21", au: "2026-07-16" }),
+  fil({ email: "wolpmannn@gmail.com", orders: ["L-48019"], subjects: ["A shipment from order L-48019 is on the way"], du: "2026-03-25", au: "2026-04-16" }),
+  true
+);
+
+console.log("\n--- Le plafond élargi ne rouvre pas la porte aux faux positifs ---\n");
+
+// Cas réel (L-49227) : deux personnes différentes citant la même commande, à 444 j
+// d'étendue. Même avec le plafond « commande commune » à 120 j, c'est écarté.
+cas(
+  "même commande citée par deux clients différents, étendue 444 j",
+  fil({ email: "gc.lavoie@hotmail.com", orders: ["L-49227"], subjects: ["Commande L-49227 confirmée"], du: "2026-04-23", au: "2026-05-07" }),
+  fil({ email: "chntlhbrd@gmail.com", orders: ["L-49227"], subjects: ["Commande # L-49227"], du: "2025-02-17", au: "2026-04-29" }),
+  false
+);
+
 console.log("\n--- Extraction des numéros de commande et des sujets ---\n");
 
 egal("sujet de base : Re:/Fwd:/emoji/numéro retirés",

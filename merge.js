@@ -29,8 +29,9 @@
  *                  partagent un numéro de commande ou le même sujet de base, sinon
  *                  ≤ DUP_TIGHT_WINDOW_DAYS (3 j). Reliés par la seule adresse et à
  *                  sujets différents, deux fils doivent être quasi simultanés.
- *   2. ÉTENDUE   — le fil résultant ne couvre pas plus de DUP_MAX_SPAN_DAYS (45 j).
- *                  Un fil qui, à lui seul, s'étale sur plus que ça ne fusionne avec rien.
+ *   2. ÉTENDUE   — le fil résultant ne couvre pas plus de DUP_MAX_SPAN_DAYS (45 j), porté à
+ *                  DUP_MAX_SPAN_ORDER_DAYS (120 j) quand un numéro de commande commun relie
+ *                  les deux fils — empreinte bien plus forte qu'une adresse partagée.
  *   3. COMMANDES — deux fils qui citent des numéros de commande DISJOINTS parlent de deux
  *                  commandes différentes : jamais un doublon (DUP_ORDER_CONFLICT=false
  *                  pour désactiver).
@@ -82,7 +83,9 @@
  *                                 ou le même sujet de base.
  *   DUP_TIGHT_WINDOW_DAYS   (3)   écart max entre deux fils reliés par la SEULE adresse,
  *                                 à sujets différents.
- *   DUP_MAX_SPAN_DAYS       (45)  étendue max du fil résultant.
+ *   DUP_MAX_SPAN_DAYS       (45)  étendue max du fil résultant (lien par adresse seule).
+ *   DUP_MAX_SPAN_ORDER_DAYS (120) étendue max quand un numéro de commande commun relie
+ *                                 les deux fils.
  *   DUP_MAX_GROUP           (4)   taille max d'un groupe étiquetable/fusionnable.
  *   DUP_BLOB_DAYS           (120) au-delà, le fil est un agrégat : exclu du regroupement.
  *   DUP_BLOB_SUBJECTS       (4)   idem, en nombre de sujets de base distincts.
@@ -361,6 +364,10 @@ const numEnv = (name, def) => {
 const WINDOW_DAYS = numEnv("DUP_WINDOW_DAYS", 10);
 const TIGHT_WINDOW_DAYS = numEnv("DUP_TIGHT_WINDOW_DAYS", 3);
 const MAX_SPAN_DAYS = numEnv("DUP_MAX_SPAN_DAYS", 45);
+// Un numéro de commande commun est une empreinte bien plus forte qu'une adresse commune :
+// c'est elle qui a trouvé le seul vrai doublon à deux adresses sur 806 fils. On lui accorde
+// donc une étendue plus large qu'à un simple lien par courriel.
+const MAX_SPAN_ORDER_DAYS = numEnv("DUP_MAX_SPAN_ORDER_DAYS", 120);
 const MAX_GROUP = numEnv("DUP_MAX_GROUP", 4);
 const BLOB_DAYS = numEnv("DUP_BLOB_DAYS", 120);
 const BLOB_SUBJECTS = numEnv("DUP_BLOB_SUBJECTS", 4);
@@ -522,8 +529,12 @@ function isDuplicatePair(a, b) {
   }
 
   const span = spanDaysOf([a, b]);
-  if (MAX_SPAN_DAYS && span > MAX_SPAN_DAYS) {
-    return { ok: false, why: `étendue ${Math.round(span)} j > ${MAX_SPAN_DAYS} j` };
+  const spanMax = common.length > 0 ? MAX_SPAN_ORDER_DAYS : MAX_SPAN_DAYS;
+  if (spanMax && span > spanMax) {
+    return {
+      ok: false,
+      why: `étendue ${Math.round(span)} j > ${spanMax} j (${common.length ? "commande commune" : "sans commande commune"})`,
+    };
   }
 
   // Fenêtre : large si les deux fils parlent visiblement de la même chose (même commande
@@ -575,7 +586,8 @@ async function main() {
   console.log(`Label : ${LABEL}`);
   console.log(`Empreintes actives : courriel, numéro de commande${USE_NAME ? ", nom" : " (nom désactivé)"}`);
   console.log(
-    `Garde-fous : fenêtre ${WINDOW_DAYS} j (${TIGHT_WINDOW_DAYS} j si adresse seule) | étendue max ${MAX_SPAN_DAYS} j | ` +
+    `Garde-fous : fenêtre ${WINDOW_DAYS} j (${TIGHT_WINDOW_DAYS} j si adresse seule) | ` +
+      `étendue max ${MAX_SPAN_DAYS} j (${MAX_SPAN_ORDER_DAYS} j si commande commune) | ` +
       `groupe max ${MAX_GROUP} | agrégat > ${BLOB_DAYS} j ou > ${BLOB_SUBJECTS} sujets | ` +
       `conflit de commandes ${ORDER_CONFLICT ? "bloquant" : "ignoré"}`
   );
@@ -670,8 +682,10 @@ async function main() {
       suspects.push([g, `${g.length} fils > ${MAX_GROUP} (chaîne probable)`]);
       continue;
     }
-    if (MAX_SPAN_DAYS && span > MAX_SPAN_DAYS) {
-      suspects.push([g, `étendue du groupe ${Math.round(span)} j > ${MAX_SPAN_DAYS} j`]);
+    const partageCommande = g.some((x) => g.some((y) => x !== y && sharedOrders(fps[x], fps[y]).length));
+    const spanMax = partageCommande ? MAX_SPAN_ORDER_DAYS : MAX_SPAN_DAYS;
+    if (spanMax && span > spanMax) {
+      suspects.push([g, `étendue du groupe ${Math.round(span)} j > ${spanMax} j`]);
       continue;
     }
     dupes.push(g);
