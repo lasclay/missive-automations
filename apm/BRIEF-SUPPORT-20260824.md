@@ -1,4 +1,4 @@
-# Brief Cowork : ce qui reste dans LAS Support
+# Plan d'exécution : ce qui reste dans LAS Support
 
 **Date :** 2026-08-24
 **Boîte :** LAS Support, **36 fils restants** (142 en début de journée)
@@ -6,7 +6,51 @@
 
 ---
 
-## Avertissement principal : ce n'est PAS le registre Messenger
+## Qui exécute quoi
+
+**Ce document n'est pas un brief Cowork, sauf pour huit fils.**
+
+| Canal | Fils | Qui exécute |
+| --- | --- | --- |
+| **Courriel** | **28** | **Le proxy Missive**, directement. Les blocs ci-dessous se frappent avec `node missive_client.js reply`. Cowork n'a rien à y faire. |
+| **Messenger** | **8** | **Cowork, dans Business Suite.** Ils n'ont aucune adresse courriel, donc le proxy ne peut pas y répondre. Ils sont **déjà couverts par `SOCIAL-20260824.md`** et listés ici seulement parce qu'ils occupent la boîte Support. |
+
+Les huit fils Messenger : Sol Veil `[5eef512f]`, Josef Schwabl `[88f3058f]`, Marc-André Marchand
+`[25e6e274]`, Patrick Fortier `[f24b8b24]`, Danielle Drolet `[064ee3c8]`, Caroline Riel
+`[c0c9d2d5]`, Gino Poitras `[7cdcdfe8]`, Lynne Lalonde `[73f06bc6]`, plus Martine Savard
+`[ba5d405c]` qui est en attente d'une action de sa part.
+
+---
+
+## Vérifications ShipStation, faites le 2026-08-24
+
+Aucun bloc de ce document ne demande à un exécutant de vérifier ShipStation : **la vérification a
+été faite ici**, par recherche du nom du client, y compris sur les commandes manuelles à six
+chiffres invisibles dans Shopify.
+
+| Dossier | Résultat |
+| --- | --- |
+| **Sylvia McVicar** L-50688 | **présente dans ShipStation au statut `awaiting_shipment`.** La commande n'est pas perdue, elle attend dans la file depuis le 16 juin. |
+| **Francis Gagnon** L-50705 | **`awaiting_shipment`** depuis le 20 juin. Même cas. |
+| **Marc-Olivier Gagnon** L-50159 | **`awaiting_shipment`** depuis le 30 mai, 402,41 $. Même cas. |
+| **Susan Arata** | L-39454 seule au dossier. **Aucun renvoi, aucune commande manuelle.** Rien n'a été fait. |
+| **Marie-Pierre Verret** | L-39238 seule. Aucun renvoi. |
+| **Jean-Guy Guérard** | L-44129 seule. Aucun renvoi, aucune correction d'adresse. |
+| **Camille Desvignes** | Dernière expédition le 7 février 2026, **rien après la promesse du 4 mars**. |
+| **Stéphanie Girard** | L-47016 expédiée le 12 février, **rien après la promesse du 4 mars**. |
+| **Linda Lavoie** | Dernière expédition en septembre 2025, **rien en 2026**. L'attache de remplacement n'est jamais partie. |
+| **Martin Gauthier** | Dernière expédition en septembre 2025. **L'envoi annoncé pour le 27 juillet 2026 n'a pas eu lieu.** |
+| **Anne-Marie Gagné** | Aucune commande à son nom. Le matériel d'isolation n'est jamais parti. |
+
+**Conséquence : les quatre dossiers de la catégorie B ne sont plus incertains. Ce sont des
+promesses non tenues, confirmées.** Les blocs correspondants sont corrigés en ce sens.
+
+Les trois commandes `awaiting_shipment` sont la trouvaille la plus actionnable du lot : elles ne
+sont ni perdues ni annulées, elles attendent simplement que quelqu'un les traite dans ShipStation.
+
+---
+
+## Le registre courriel n'est PAS le registre Messenger
 
 Les trois briefs précédents (`AUDITAPM2`, `AUDITAPM3`, `SOCIAL-20260824`) portaient sur Messenger
 et Instagram. **Le registre courriel est différent sur trois points qui se voient immédiatement,
@@ -119,8 +163,10 @@ humain avant ou après l'envoi, signalé sous chaque bloc.
 à ce jour**. Elle a relancé le 13 août : « Do you have an update for me? When will the seat pad
 arrive? » Sans réponse.
 
-**AVANT L'ENVOI : expédier la commande, ou obtenir une date ferme d'un humain.** Ne pas envoyer
-ce bloc sans cela, il promettrait une date inventée.
+**Vérifié dans ShipStation : la commande y est, au statut `awaiting_shipment`.** Elle n'est pas
+perdue, elle attend dans la file depuis le 16 juin.
+**AVANT L'ENVOI : traiter la commande dans ShipStation, ou obtenir une date ferme.** Ne pas
+envoyer ce bloc sans cela, il promettrait une date inventée.
 
 ```
 Hello Sylvia,
@@ -140,7 +186,9 @@ Lasclay
 **VÉRIFIÉ.** L-50705, **254,49 $**, passée le 21 juin, **aucune expédition**. Son dernier message
 ne contient que le numéro de commande et la date : c'est une relance sèche, et elle se comprend.
 
-**AVANT L'ENVOI : même contrainte que A1.**
+**Vérifié dans ShipStation : `awaiting_shipment` depuis le 20 juin.** Même situation que A1 :
+la commande attend d'être traitée.
+**AVANT L'ENVOI : la traiter dans ShipStation, ou obtenir une date ferme.**
 
 ```
 Bonjour Francis,
@@ -242,13 +290,11 @@ prenait un avis pour avoir un suivi », après avoir retiré son avis négatif.
 
 ## Catégorie B. Envois annoncés, jamais confirmés (4)
 
-Chacun se termine sur une promesse d'envoi de notre part. **Aucun ne peut être vérifié depuis
-Shopify**, parce qu'un renvoi devient une commande manuelle sans numéro `L-`.
+Chacun se termine sur une promesse d'envoi de notre part.
 
-**AVANT D'ENVOYER CES QUATRE BLOCS : chercher dans ShipStation par nom de client** une commande
-manuelle à six chiffres. Si elle existe et qu'elle est expédiée, la promesse a été tenue et il ne
-faut PAS envoyer le bloc : il faut fermer le fil. C'est le contrôle qui a déjà démasqué douze
-renvois invisibles aujourd'hui.
+**Vérifié dans ShipStation le 2026-08-24, recherche par nom, commandes manuelles incluses :
+aucun de ces quatre envois n'a eu lieu.** Ce ne sont pas des incertitudes, ce sont des promesses
+non tenues. Les blocs peuvent partir tels quels.
 
 ### B1. Gaétan `[53e71137]` [FR] · **une paire l'attend physiquement**
 Le 3 mars, on lui a écrit que ses mitaines XL plein air étaient arrivées et qu'il pouvait passer
@@ -498,7 +544,8 @@ Fil de 18 messages sur des boules de semences. Notre dernier mot, le 16 juillet 
 donc au 27 juillet. On va s'assurer que ça fonctionne et en mettre plus dans le prochain paquet. »
 **Le 27 juillet est passé depuis un mois.**
 
-**AVANT L'ENVOI : vérifier si l'envoi du 27 juillet a eu lieu.** Chercher par nom dans ShipStation.
+**Vérifié dans ShipStation : l'envoi du 27 juillet n'a jamais eu lieu.** Sa dernière expédition
+remonte à septembre 2025.
 
 ```
 Bonjour Martin,
@@ -542,7 +589,9 @@ Elle a participé au concours de fin de saison, croit avoir gagné une veste, et
 suivi. « Est-ce que le courriel s'est égaré entre Lachute et Québec ? » Elle donne son numéro,
 450-712-3080. **155 jours.**
 
-**AVANT L'ENVOI : vérifier la liste des gagnants du concours.** Un bloc qui laisserait entendre
+**AVANT L'ENVOI : vérifier la liste des gagnants du concours.** C'est la seule vérification de ce
+document que je n'ai pas pu faire : la liste n'existe ni dans Shopify ni dans ShipStation. Un bloc
+qui laisserait entendre
 qu'elle a gagné alors que non serait pire que le silence. Deux cas.
 
 **Si elle a gagné :**
@@ -603,6 +652,7 @@ Chaleureusement,
 __
 Lasclay
 ```
+**Vérifié dans ShipStation : aucune commande à son nom. Le matériel n'est jamais parti.**
 **APRÈS.** Préparer l'envoi dès sa réponse.
 
 ### G2. Bill Small `[98405a91]` [EN] · correction de code postal
@@ -619,8 +669,9 @@ Warmly,
 __
 Lasclay
 ```
-**AVANT L'ENVOI : corriger réellement l'adresse dans la commande.** Sans quoi le bloc affirme
-quelque chose de faux, et c'est exactement l'erreur du dossier Jean-Guy Guérard en A5.
+**AVANT L'ENVOI : corriger réellement l'adresse dans Shopify.** Sans quoi le bloc affirme quelque
+chose de faux, et c'est exactement l'erreur du dossier Jean-Guy Guérard en A5, où la correction
+demandée n'a jamais été faite.
 
 ### G3. Raymond Rouillard `[2573d775]` [FR] · rafale de questions
 Client fidèle depuis la pandémie. Il envoie une salve : boutique physique, contrats avec l'armée
@@ -657,7 +708,7 @@ La quenouille et l'isolant de Ponda. **Déjà traité dans `SOCIAL-20260824.md`,
 | Catégorie | Fils | Blocs prêts | Geste humain requis |
 | --- | --- | --- | --- |
 | A. Livraisons en souffrance | 7 | 4 | **5** |
-| B. Envois annoncés non confirmés | 4 | 4 | 4, dont une vérification ShipStation préalable |
+| B. Envois annoncés, **non tenus, vérifié** | 4 | 4 | 4 |
 | C. Questions avant-achat | 5 | 5 | 2 |
 | D. Approvisionnement | 8 | 1 | 1, plus 6 fils Messenger hors périmètre |
 | E. Partenariats | 4 | 3 | 3, dont un **appel téléphonique** |
@@ -690,7 +741,8 @@ La quenouille et l'isolant de Ponda. **Déjà traité dans `SOCIAL-20260824.md`,
 | Anne-Marie | Préparer l'envoi du matériel d'isolation |
 | Lucie Champoux | Vérifier la liste des gagnants du concours |
 | Martin Gauthier | Vérifier si l'envoi du 27 juillet a eu lieu |
-| B2, B3, B4 | **Chercher dans ShipStation par nom** avant d'envoyer : si un renvoi manuel existe, fermer au lieu d'écrire |
+| B1 à B4 | Vérification ShipStation **déjà faite** : aucun des quatre envois n'a eu lieu. Créer les commandes. |
+| L-50688, L-50705, L-50159 | **Les trois sont dans ShipStation au statut `awaiting_shipment`.** Il suffit de les traiter. |
 
 ### Ce qu'on veut dans ton rapport
 
