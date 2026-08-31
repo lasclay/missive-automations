@@ -8,7 +8,7 @@ Saison 21, épisode 1. Source : courriel de l'équipe *Dragons' Den* du 27 août
 | --- | --- |
 | `01-communique-FR.md` | Communiqué français, version maîtresse |
 | `02-press-release-EN.md` | Version anglaise, réécrite et non traduite |
-| `03-matrice-personnalisation.md` | Neuf angles, règle de priorité, et la table des 13 journalistes qui ont déjà couvert Lasclay |
+| `03-matrice-personnalisation.md` | Dix angles, règle de priorité, et la table des 13 journalistes qui ont déjà couvert Lasclay |
 | `04-gabarits-courriels.md` | Un gabarit de courriel par angle, dans la voix de Gabriel |
 | `05-plan-envoi.md` | Calendrier, envoi par le proxy Missive, réponses aux questions difficiles |
 | `06-listes-medias.md` | Ce que l'assignation a donné sur les 254 contacts, et les deux constats à trancher |
