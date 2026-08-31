@@ -496,8 +496,24 @@
       "quand": "2026-08-30T23:15:08.311Z",
       "confirme": true,
       "texte": "Bonjour, la question mérite une réponse franche plutôt qu'une formule. La fibre reste québécoise : l'asclépiade est cultivée ici et transformée ici, et c'est le cœur du produit. L'assemblage textile, lui, se fait surtout en Tunisie depuis juillet — c'est ce qui permet à l'entreprise de continuer. On préfère le dire clairement plutôt que de laisser croire que tout se fait ici."
+    },
+    {
+      "id": "1498545598945918_26283710731248121",
+      "reponse_id": "1498545598945918_1434113801924065",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T01:11:47.851Z",
+      "confirme": true,
+      "texte": "Bonjour, si vous gardez vos graines, le plus simple reste de les semer dehors dès l'automne : le froid de l'hiver fait le travail à votre place. Conservées au sec jusqu'au printemps, elles auront plutôt besoin d'une trentaine de jours au réfrigérateur avant la mise en terre. Et il faut de la patience : la floraison n'arrive qu'à la deuxième année."
+    },
+    {
+      "id": "1498545598945918_795685440245536",
+      "reponse_id": "1498545598945918_1370972731308708",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T01:12:55.665Z",
+      "confirme": true,
+      "texte": "Bienvenue alors. Si la curiosité vous prend, tout se trouve sur lasclay.com."
     }
   ],
-  "derniere_execution": "2026-08-30T23:15:08.312Z",
-  "total": 62
+  "derniere_execution": "2026-08-31T01:12:55.665Z",
+  "total": 64
 }
