@@ -60,7 +60,29 @@ if (ECRIRE) {
   if (CHARTE) efface.run(SOURCE_CH);
 }
 
+/**
+ * Deux fichiers peuvent dire la même chose du même produit.
+ *
+ * « Presser la pochette avant d'insérer l'isolant » venait à la fois de ma
+ * relecture des notes techniques et de la charte de l'équipe — même consigne,
+ * un « y » de différence. Sur la liste à cocher de l'atelier, ça fait deux
+ * cases pour un seul geste, et la seconde ne se coche jamais.
+ *
+ * On compare des titres NORMALISÉS : sans accents, sans ponctuation, sans les
+ * petits mots qui varient d'une plume à l'autre.
+ */
+function empreinte(titre) {
+  return String(titre).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/\b(y|d|de|des|du|la|le|les|l|a|au|aux|un|une)\b/g, '')
+    .replace(/[^a-z0-9]/g, '');
+}
+const vus = new Map();
+const doublons = [];
+
 const parProduit = new Map();
+// Le décompte par volet ne compte QUE les points retenus : un doublon écarté
+// ne doit pas gonfler le tableau récapitulatif.
+const par = {};
 for (const r of rangs) {
   // « * » = protocole général : le point n'appartient à aucun produit et
   // s'applique à tous. C'est le cas des essais de cyclage et de port, qui sont
@@ -70,6 +92,13 @@ for (const r of rangs) {
   if (!p) { inconnus.push(r.produit); ignores++; continue; }
   if (!TYPES_QC[r.volet]) { mauvaisVolet.push(`${r.produit} : « ${r.volet} »`); ignores++; continue; }
   if (!r.titre) { ignores++; continue; }
+  // Le premier fichier lu l'emporte : l'ordre de `rangs` est l'ordre d'autorité.
+  const cleDoublon = `${general ? '*' : p.id}|${empreinte(r.titre)}`;
+  if (vus.has(cleDoublon)) {
+    doublons.push(`${r.produit} : « ${r.titre} » (déjà posé par « ${vus.get(cleDoublon)} »)`);
+    ignores++; continue;
+  }
+  vus.set(cleDoublon, r.source || SOURCE);
   const cle = general ? '*' : p.id;
   const n = (parProduit.get(cle) || 0) + 1;
   parProduit.set(cle, n);
@@ -80,11 +109,9 @@ for (const r of rangs) {
       r.valeur, r.tolerance, r.unite, ech,
       Number.isInteger(ev) && ev > 0 ? ev : null,
       r.frequence, r.source || SOURCE, n, r.schema || '');
+  par[r.volet] = (par[r.volet] || 0) + 1;
   ajoutes++;
 }
-
-const par = {};
-for (const r of rangs) par[r.volet] = (par[r.volet] || 0) + 1;
 
 console.log(`\n${ECRIRE ? 'Écrit' : 'Aperçu'} — protocoles de contrôle qualité\n`);
 const gen = parProduit.get('*') || 0;
@@ -100,6 +127,11 @@ if (inconnus.length)
   console.log(`\n  ${inconnus.length} produit(s) inconnu(s) : ${[...new Set(inconnus)].join(', ')}`);
 if (mauvaisVolet.length)
   console.log(`  volet invalide : ${mauvaisVolet.join(', ')}`);
+if (doublons.length) {
+  console.log(`\n  ${doublons.length} doublon(s) écarté(s) — deux fichiers disent`
+    + ' la même chose du même produit :');
+  for (const d of doublons) console.log(`    ${d}`);
+}
 if (ignores) console.log(`  ${ignores} ligne(s) ignorée(s)`);
 
 // Ce qui reste sans rien, trié par volume : c'est la vraie sortie du script.
