@@ -14,6 +14,10 @@ Saison 21, épisode 1. Source : courriel de l'équipe *Dragons' Den* du 27 août
 | `06-listes-medias.md` | Ce que l'assignation a donné sur les 254 contacts, et les deux constats à trancher |
 | `assigner_angles.py` | Assigne un angle par contact et produit le chiffrier enrichi |
 | `Lasclay_listes_medias_2026_angles.xlsx` | **Le livrable de travail** : les deux listes avec leur angle, l'objet suggéré, la salutation et les précautions |
+| `07-brouillons-liste-chaude.md` | Les 37 brouillons de la liste chaude, écrits un par un |
+| `08-brouillons-liste-froide.md` | Les 217 brouillons de la liste froide, par angle |
+| `generer_brouillons.py` | Écrit un brouillon par contact froid dans le chiffrier et le markdown |
+| `Lasclay_listes_medias_2026_brouillons.xlsx` | **Le livrable final** : tout le chiffrier plus une colonne Brouillon |
 | `contacts.csv` | Premier gabarit, gardé pour référence |
 
 ## Deux événements
@@ -28,7 +32,16 @@ clients, et jamais vers ces listes.
    Antoine Stab. Aucun n'a été deviné.
 2. Décider s'il faut bâtir une liste de presse anglophone. Les deux listes sont entièrement
    francophones, alors que l'émission est diffusée dans tout le Canada.
-3. Générer un brouillon par contact dans Missive, un appel par personne, Gabriel relit et envoie.
+3. Relire les 37 brouillons de la liste chaude, puis les déposer dans Missive un par un.
+
+## Trois pièges dans les brouillons
+
+1. **Anne-Sophie Roy est deux fois dans la liste chaude**, à Radio-Canada et à Québecor. Même
+   journaliste, ancien employeur. Un seul message, à l'adresse Radio-Canada.
+2. **Annie Lafrance et Francis Higgins** sont dans les deux listes. Leur ligne froide porte
+   « NE PAS ENVOYER ».
+3. **Sylvie Lacombe (TVA)** nous avait contactés pour le suivi d'une précommande qui traînait.
+   Son brouillon commence par le reconnaître, et c'est voulu.
 
 ## Le mur CBC, en trois points
 
