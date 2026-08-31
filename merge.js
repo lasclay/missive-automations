@@ -1,20 +1,59 @@
 /**
- * Missive — merge.js (v1.1)
+ * Missive — merge.js (v2.0)
  * --------------------------------------------------------------------------
  * Un seul cron qui REMPLACE le webhook (missive-auto-flag.js), la rule Missive
  * et le balayage (backfill.js). Il détecte les fils en doublon par empreinte
  * client et pose le label « À fusionner ». La fusion automatique est codée mais
  * DORMANTE par défaut (MERGE=false) : phase 1 = étiquetage seulement.
  *
- * Détection : reprise de la logique éprouvée de backfill.js (3 empreintes
- * courriel / nom / numéro de commande L-XXXXX, regroupées par union-find).
- * Le regroupement se fait sur l'IDENTITÉ du client, pas sur la boîte : un client
- * avec un fil dans LAS Support et un autre dans Vente pré-achat est détecté comme
- * doublon, où qu'il soit, et les deux reçoivent le label.
+ * CE QU'EST UN DOUBLON, ET CE QUI N'EN EST PAS
+ * -------------------------------------------
+ * Un doublon, c'est le MÊME ÉPISODE écrit deux fois : le client répond à une vieille
+ * notification au lieu du fil courant, ou réécrit deux jours plus tard croyant s'être
+ * trompé. C'est court, c'est rapproché, c'est le même sujet.
  *
- * PÉRIMÈTRE (v1.1) : seules les 6 BOÎTES CLIENTS sont ratissées (pas Admin,
- * Operations, Corpo, Media, R&D, etc.). Les expéditeurs SYSTÈMES (noreply,
- * Shopify, Etsy...) sont exclus : jamais de label sur eux.
+ * Un client FIDÈLE n'est PAS un doublon. Deux commandes à huit mois d'écart, une réponse
+ * à l'infolettre en mars et une question de taille en août : c'est le même courriel, mais
+ * ce sont deux conversations. Les fusionner détruit l'historique — et la fusion Missive
+ * est IRRÉVERSIBLE.
+ *
+ * Jusqu'à la v1.5, le seul critère était « même adresse courriel » (ou même numéro de
+ * commande, ou même nom), SANS AUCUNE NOTION DE TEMPS. Résultat en production : un fil
+ * unique agglomérant une négociation B2B de décembre, une invitation Google Agenda de
+ * janvier, un colis introuvable de mars et un flacon abrisé d'août. Et un effet boule de
+ * neige : le fil fusionné porte maintenant TOUTES les adresses et TOUS les numéros de
+ * commande, donc il aimante encore plus de fils au run suivant.
+ *
+ * v2.0 ajoute donc quatre garde-fous. Un couple de fils n'est un doublon que si :
+ *   1. FENÊTRE   — l'écart entre les deux fils ≤ DUP_WINDOW_DAYS (10 j) quand ils
+ *                  partagent un numéro de commande ou le même sujet de base, sinon
+ *                  ≤ DUP_TIGHT_WINDOW_DAYS (3 j). Reliés par la seule adresse et à
+ *                  sujets différents, deux fils doivent être quasi simultanés.
+ *   2. ÉTENDUE   — le fil résultant ne couvre pas plus de DUP_MAX_SPAN_DAYS (45 j).
+ *                  Un fil qui, à lui seul, s'étale sur plus que ça ne fusionne avec rien.
+ *   3. COMMANDES — deux fils qui citent des numéros de commande DISJOINTS parlent de deux
+ *                  commandes différentes : jamais un doublon (DUP_ORDER_CONFLICT=false
+ *                  pour désactiver).
+ *   4. AGRÉGATS  — un fil qui porte plus de DUP_BLOB_SUBJECTS (4) sujets distincts est
+ *                  le produit d'une fusion abusive : EXCLU de tout regroupement, sans quoi
+ *                  il aimante de nouveaux fils à chaque run. Idem pour un fil couvrant déjà
+ *                  plus de DUP_BLOB_DAYS (120 j), légitime ou non : on n'y ajoute rien.
+ * Et deux garde-fous de groupe : au-delà de DUP_MAX_GROUP (4) fils, ou si l'étendue du
+ * groupe dépasse DUP_MAX_SPAN_DAYS, le groupe est SIGNALÉ mais ni étiqueté ni fusionné.
+ * En phase 2, la fusion exige en plus une CLIQUE : chaque paire du groupe doit être valide
+ * par elle-même, jamais par transitivité (A~B, B~C n'implique pas A~C).
+ *
+ * Les numéros de commande sont désormais lus dans le texte NON CITÉ seulement : un L-XXXXX
+ * qui traîne dans une chaîne de réponses citée ne relie plus deux fils étrangers.
+ *
+ * Détection : empreintes courriel / numéro de commande (nom facultatif), regroupées par
+ * union-find sur les PAIRES VALIDÉES. Le regroupement se fait sur l'IDENTITÉ du client,
+ * pas sur la boîte : un client avec un fil dans LAS Support et un autre dans Vente
+ * pré-achat est détecté comme doublon, où qu'il soit, et les deux reçoivent le label.
+ *
+ * PÉRIMÈTRE : seules les 6 BOÎTES CLIENTS sont ratissées (pas Admin, Operations, Corpo,
+ * Media, R&D, etc.). Les expéditeurs SYSTÈMES (noreply, Shopify, Etsy...) sont exclus :
+ * jamais de label sur eux.
  *
  * Node 18+. Aucune dépendance.
  *
@@ -38,11 +77,29 @@
  *                           par adresse courriel exacte.
  *   MERGE_LIMIT             plafond du nombre de fusions par run (0 = illimité).
  *
- * ATTENTION : la FUSION (POST /conversations/:id/merge) est IRRÉVERSIBLE et n'a
- * JAMAIS été exécutée chez Lasclay. DRY_RUN=true d'abord, puis MERGE_LIMIT=3.
+ *   --- garde-fous v2.0 (tous facultatifs, valeurs par défaut entre parenthèses) ---
+ *   DUP_WINDOW_DAYS         (10)  écart max entre deux fils partageant une commande
+ *                                 ou le même sujet de base.
+ *   DUP_TIGHT_WINDOW_DAYS   (3)   écart max entre deux fils reliés par la SEULE adresse,
+ *                                 à sujets différents.
+ *   DUP_MAX_SPAN_DAYS       (45)  étendue max du fil résultant.
+ *   DUP_MAX_GROUP           (4)   taille max d'un groupe étiquetable/fusionnable.
+ *   DUP_BLOB_DAYS           (120) au-delà, le fil est un agrégat : exclu du regroupement.
+ *   DUP_BLOB_SUBJECTS       (4)   idem, en nombre de sujets de base distincts.
+ *   DUP_ORDER_CONFLICT      ("true") des numéros de commande disjoints bloquent le lien.
+ *   DUP_EXPLAIN             ("true") journalise les paires REJETÉES et pourquoi
+ *                                 (audit des faux positifs).
+ *
+ * ATTENTION : la FUSION (POST /conversations/:id/merge) est IRRÉVERSIBLE.
+ * DRY_RUN=true d'abord, puis MERGE_LIMIT=3.
  */
 
-const VERSION = "v1.5";
+const VERSION = "v2.0";
+// v2.0: FAUX POSITIFS. La détection n'avait aucune notion de temps : deux fils du même client
+// à un an d'écart étaient un « doublon ». Ajout de la fenêtre temporelle, de l'étendue max, du
+// conflit de numéros de commande, de l'exclusion des fils-agrégats, du plafond de taille de
+// groupe et de l'exigence de clique avant fusion. Les numéros de commande ne sont plus lus dans
+// le texte cité. Le journal explique chaque rejet (DUP_EXPLAIN).
 // v1.5: FUSION DES DOUBLONS FERMÉS (MERGE_CLOSED, défaut true). Les fils fermés ne servaient qu'à la
 // détection; ils PARTICIPENT maintenant à la fusion — un doublon fermé se replie dans le fil OUVERT
 // du client (survivant choisi ouvert en priorité, puis le plus récent). Les fils fermés ne sont
@@ -292,10 +349,86 @@ async function collectOpenConversations(teams) {
   return { convs: [...byId.values()], allOk };
 }
 
+// ===========================================================================
+// Empreintes et règles de doublon (v2.0)
+// ===========================================================================
+
+const DAY = 86400;
+const numEnv = (name, def) => {
+  const v = parseInt(process.env[name] || "", 10);
+  return Number.isFinite(v) && v >= 0 ? v : def;
+};
+const WINDOW_DAYS = numEnv("DUP_WINDOW_DAYS", 10);
+const TIGHT_WINDOW_DAYS = numEnv("DUP_TIGHT_WINDOW_DAYS", 3);
+const MAX_SPAN_DAYS = numEnv("DUP_MAX_SPAN_DAYS", 45);
+const MAX_GROUP = numEnv("DUP_MAX_GROUP", 4);
+const BLOB_DAYS = numEnv("DUP_BLOB_DAYS", 120);
+const BLOB_SUBJECTS = numEnv("DUP_BLOB_SUBJECTS", 4);
+const ORDER_CONFLICT = (process.env.DUP_ORDER_CONFLICT || "true").toLowerCase() !== "false";
+const EXPLAIN = (process.env.DUP_EXPLAIN || "true").toLowerCase() !== "false";
+
 function extractOrders(text) {
   const found = (text || "").match(ORDER_RE) || [];
   return found.map((s) => s.toUpperCase());
 }
+
+// Le corps d'un message Missive est du HTML. On en tire du texte, en COUPANT à la
+// première citation : un numéro de commande qui traîne dans une chaîne de réponses
+// n'appartient pas au fil courant et ne doit relier personne.
+function plainText(html) {
+  if (!html) return "";
+  let h = String(html);
+  for (const re of [/<blockquote/i, /class="?gmail_quote/i, /id="?(divRplyFwdMsg|appendonsend)/i]) {
+    const i = h.search(re);
+    if (i >= 0) h = h.slice(0, i);
+  }
+  return h
+    .replace(/<(br|\/p|\/div|\/tr|\/li)[^>]*>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'");
+}
+
+// Coupe aux en-têtes de citation en clair (Outlook, Gmail, Missive, Apple Mail) et
+// retire les lignes préfixées « > ».
+const QUOTE_CUTS = [
+  /^\s*On .{5,80}\s+wrote\s*:/mi,
+  /^\s*Le .{5,80}\s+a écrit\s*:/mi,
+  /^\s*-{2,}\s*(Original Message|Message d'origine|Forwarded message|Message transféré)/mi,
+  /^\s*(De|From)\s*:\s*.{3,}$/mi,
+  /^\s*(Envoyé|Sent)\s*:\s*.{3,}$/mi,
+  /^\s*_{5,}\s*$/m,
+];
+function unquoted(text) {
+  if (!text) return "";
+  let t = String(text);
+  let cut = t.length;
+  for (const re of QUOTE_CUTS) {
+    const m = t.match(re);
+    if (m && m.index != null && m.index < cut) cut = m.index;
+  }
+  return t
+    .slice(0, cut)
+    .split("\n")
+    .filter((l) => !/^\s*>/.test(l))
+    .join("\n");
+}
+
+// Sujet « de base » : sans les Re:/Fwd: empilés, sans emoji, sans numéro de commande.
+// Sert à savoir si deux fils parlent visiblement de la même chose.
+const baseSubject = (s) =>
+  norm(s)
+    .replace(/^\s*((re|ré|rép|reponse|réponse|fwd|fw|tr)\s*(\[\d+\])?\s*:\s*)+/i, "")
+    .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, "")
+    .replace(/\bl-\d{4,6}\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const iso = (t) => (t ? new Date(t * 1000).toISOString().slice(0, 10) : "?");
 
 // Empreintes d'un fil. Si l'expéditeur externe est un système (noreply, Shopify,
 // Etsy...), on renvoie des empreintes VIDES : le fil ne se groupe avec rien.
@@ -308,12 +441,20 @@ async function fingerprints(conv) {
   let email = null;
   let name = null;
   const orders = new Set();
+  const subjects = new Set();
+  const stamps = [];
 
   for (const o of extractOrders(conv.subject)) orders.add(o);
+  if (conv.subject) subjects.add(baseSubject(conv.subject));
 
   for (const m of sorted) {
-    for (const o of extractOrders(m.body || m.preview)) orders.add(o);
+    const at = m.delivered_at || m.created_at || 0;
+    if (at) stamps.push(at);
+    if (m.subject) subjects.add(baseSubject(m.subject));
+
+    // Sujet : jamais cité, donc fiable. Corps : texte non cité seulement.
     for (const o of extractOrders(m.subject)) orders.add(o);
+    for (const o of extractOrders(unquoted(plainText(m.body) || m.preview))) orders.add(o);
 
     const addr = m.from_field?.address?.toLowerCase() || null;
     const dispName = norm(m.from_field?.name);
@@ -324,12 +465,84 @@ async function fingerprints(conv) {
     if (!name && dispName) name = dispName;
   }
 
-  // Expéditeur système → aucune empreinte (jamais de label, jamais de groupe).
-  if (isSystemSender(email)) return { email: null, name: null, orders: [] };
+  subjects.delete("");
+  const last = conv.last_activity_at || 0;
+  if (last) stamps.push(last);
+  const firstAt = stamps.length ? Math.min(...stamps) : last;
+  const lastAt = stamps.length ? Math.max(...stamps) : last;
 
-  return { email, name, orders: [...orders] };
+  // Expéditeur système → aucune empreinte (jamais de label, jamais de groupe).
+  if (isSystemSender(email)) {
+    return { email: null, name: null, orders: [], subjects: [], firstAt, lastAt, blob: null };
+  }
+
+  // Fil INFUSIONNABLE. Deux cas, journalisés distinctement :
+  //  - « trop étendu » : un fil qui couvre déjà plus de BLOB_DAYS. Souvent parfaitement
+  //    légitime (un dossier repris un an plus tard), mais y coller quoi que ce soit
+  //    produirait un fil encore plus large — donc jamais de fusion.
+  //  - « agrégat » : trop de sujets distincts. C'est la signature d'une fusion abusive
+  //    antérieure. Il porte désormais TOUTES les adresses et TOUS les numéros de commande
+  //    du client : sans cette exclusion, il aimante de nouveaux fils à chaque run.
+  const spanDays = (lastAt - firstAt) / DAY;
+  let blob = null;
+  if (BLOB_SUBJECTS && subjects.size > BLOB_SUBJECTS) blob = `agrégat : ${subjects.size} sujets distincts > ${BLOB_SUBJECTS}`;
+  else if (BLOB_DAYS && spanDays > BLOB_DAYS) blob = `trop étendu : ${Math.round(spanDays)} j > ${BLOB_DAYS} j`;
+
+  return { email, name, orders: [...orders], subjects: [...subjects], firstAt, lastAt, blob };
 }
 
+// Écart, en jours, entre les périodes d'activité de deux fils (0 s'ils se chevauchent).
+function gapDays(a, b) {
+  if (a.lastAt >= b.firstAt && b.lastAt >= a.firstAt) return 0;
+  const g = a.firstAt > b.lastAt ? a.firstAt - b.lastAt : b.firstAt - a.lastAt;
+  return g / DAY;
+}
+const spanDaysOf = (list) =>
+  (Math.max(...list.map((f) => f.lastAt)) - Math.min(...list.map((f) => f.firstAt))) / DAY;
+
+const shareSubject = (a, b) => a.subjects.some((s) => s && b.subjects.includes(s));
+const sharedOrders = (a, b) => a.orders.filter((o) => b.orders.includes(o));
+
+/**
+ * Le cœur de la v2.0 : deux fils sont-ils le MÊME ÉPISODE ?
+ * Renvoie { ok:true, why } ou { ok:false, why } — le motif est journalisé.
+ */
+function isDuplicatePair(a, b) {
+  if (a.blob) return { ok: false, why: `fil infusionnable (${a.blob})` };
+  if (b.blob) return { ok: false, why: `fil infusionnable (${b.blob})` };
+
+  const sameEmail = a.email && b.email && a.email === b.email;
+  const common = sharedOrders(a, b);
+  const sameName = USE_NAME && a.name && b.name && a.name === b.name;
+  if (!sameEmail && common.length === 0 && !sameName) return { ok: false, why: "aucune empreinte commune" };
+
+  // Deux commandes différentes = deux dossiers différents, même client.
+  if (ORDER_CONFLICT && common.length === 0 && a.orders.length && b.orders.length) {
+    return { ok: false, why: `commandes disjointes (${a.orders.join(",")} vs ${b.orders.join(",")})` };
+  }
+
+  const span = spanDaysOf([a, b]);
+  if (MAX_SPAN_DAYS && span > MAX_SPAN_DAYS) {
+    return { ok: false, why: `étendue ${Math.round(span)} j > ${MAX_SPAN_DAYS} j` };
+  }
+
+  // Fenêtre : large si les deux fils parlent visiblement de la même chose (même commande
+  // ou même sujet de base), serrée s'ils ne partagent QUE l'adresse du client.
+  const proche = common.length > 0 || shareSubject(a, b);
+  const limit = proche ? WINDOW_DAYS : TIGHT_WINDOW_DAYS;
+  const gap = gapDays(a, b);
+  if (gap > limit) {
+    return {
+      ok: false,
+      why: `écart ${Math.round(gap)} j > ${limit} j (${proche ? "même sujet/commande" : "adresse seule, sujets différents"})`,
+    };
+  }
+
+  const lien = [common.length ? `commande ${common.join(",")}` : "", sameEmail ? "courriel" : "", sameName ? "nom" : ""]
+    .filter(Boolean)
+    .join("+");
+  return { ok: true, why: `${lien}, écart ${Math.round(gap)} j, étendue ${Math.round(span)} j` };
+}
 function hasMergeLabel(conv) {
   const labels = conv.shared_labels || conv.shared_label_ids || [];
   return labels.some((l) => (l && (l.id || l)) === LABEL);
@@ -355,11 +568,17 @@ async function mergeInto(sourceId, targetId) {
   return { ok: r.ok, returnedId };
 }
 
+
 async function main() {
   console.log(`=== Lasclay merge.js ${VERSION} ===`);
   console.log(DRY_RUN ? "MODE SIMULATION (rien posé, rien fusionné)" : "MODE RÉEL");
   console.log(`Label : ${LABEL}`);
   console.log(`Empreintes actives : courriel, numéro de commande${USE_NAME ? ", nom" : " (nom désactivé)"}`);
+  console.log(
+    `Garde-fous : fenêtre ${WINDOW_DAYS} j (${TIGHT_WINDOW_DAYS} j si adresse seule) | étendue max ${MAX_SPAN_DAYS} j | ` +
+      `groupe max ${MAX_GROUP} | agrégat > ${BLOB_DAYS} j ou > ${BLOB_SUBJECTS} sujets | ` +
+      `conflit de commandes ${ORDER_CONFLICT ? "bloquant" : "ignoré"}`
+  );
   console.log(`Phase : ${MERGE ? "2 (FUSION active)" : "1 (étiquetage seulement)"}`);
   if (MERGE) {
     console.log(`  MERGE_ONLY_EMAIL=${MERGE_ONLY_EMAIL} | MERGE_LIMIT=${MERGE_LIMIT || "illimité"}`);
@@ -369,7 +588,7 @@ async function main() {
   console.log(`Récupération des conversations (ouvertes${INCLUDE_CLOSED ? " + fermées récentes" : ""})...`);
   const { convs, allOk } = await collectOpenConversations(teams);
   const nbFermes = convs.filter((c) => c._closed).length;
-  console.log(`${convs.length} conversation(s) unique(s) (dont ${nbFermes} fermée(s), détection seule).`);
+  console.log(`${convs.length} conversation(s) unique(s) (dont ${nbFermes} fermée(s)).`);
 
   const fps = [];
   let i = 0;
@@ -379,6 +598,17 @@ async function main() {
     fps.push(await fingerprints(c));
   }
 
+  const blobs = fps.filter((f) => f.blob);
+  const agregats = blobs.filter((f) => f.blob.startsWith("agrégat"));
+  if (blobs.length) {
+    console.log(
+      `${blobs.length} fil(s) exclu(s) du regroupement : ${agregats.length} agrégat(s) (fusion abusive antérieure) ` +
+        `+ ${blobs.length - agregats.length} fil(s) trop étendu(s) (> ${BLOB_DAYS} j).`
+    );
+    for (const f of agregats) console.log(`     • agrégat : ${f.subjects.slice(0, 6).join(" | ")}`);
+  }
+
+  // --- Regroupement : union-find sur les PAIRES VALIDÉES, jamais sur une clé brute. ---
   const parent = convs.map((_, idx) => idx);
   const find = (x) => (parent[x] === x ? x : (parent[x] = find(parent[x])));
   const union = (a, b) => {
@@ -386,45 +616,104 @@ async function main() {
     const rb = find(b);
     if (ra !== rb) parent[ra] = rb;
   };
-  const link = (keyFn) => {
-    const seen = new Map();
-    fps.forEach((fp, idx) => {
-      for (const key of keyFn(fp)) {
-        if (!key) continue;
-        if (seen.has(key)) union(seen.get(key), idx);
-        else seen.set(key, idx);
-      }
-    });
+
+  // Index des candidats : deux fils ne sont comparés que s'ils partagent au moins une clé.
+  const buckets = new Map();
+  const push = (key, idx) => {
+    if (!key) return;
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key).push(idx);
   };
-  link((fp) => (fp.email ? [`email:${fp.email}`] : []));
-  if (USE_NAME) link((fp) => (fp.name ? [`name:${fp.name}`] : []));
-  link((fp) => fp.orders.map((o) => `order:${o}`));
+  fps.forEach((fp, idx) => {
+    if (fp.blob) return;
+    if (fp.email) push(`email:${fp.email}`, idx);
+    if (USE_NAME && fp.name) push(`name:${fp.name}`, idx);
+    for (const o of fp.orders) push(`order:${o}`, idx);
+  });
+
+  const verdicts = new Map(); // "i|j" → {ok, why}
+  const pairKey = (a, b) => (a < b ? `${a}|${b}` : `${b}|${a}`);
+  const verdict = (a, b) => {
+    const k = pairKey(a, b);
+    if (!verdicts.has(k)) verdicts.set(k, isDuplicatePair(fps[a], fps[b]));
+    return verdicts.get(k);
+  };
+
+  const rejets = [];
+  for (const idxs of buckets.values()) {
+    const uniq = [...new Set(idxs)];
+    for (let x = 0; x < uniq.length; x++) {
+      for (let y = x + 1; y < uniq.length; y++) {
+        const v = verdict(uniq[x], uniq[y]);
+        if (v.ok) union(uniq[x], uniq[y]);
+        else if (EXPLAIN) rejets.push([uniq[x], uniq[y], v.why]);
+      }
+    }
+  }
 
   const groups = new Map();
   convs.forEach((_, idx) => {
+    if (fps[idx].blob) return;
     const root = find(idx);
     if (!groups.has(root)) groups.set(root, []);
     groups.get(root).push(idx);
   });
-  const dupes = [...groups.values()].filter((g) => g.length >= 2);
+
+  // --- Validation au niveau du GROUPE : la transitivité de l'union-find peut souder
+  // A et C via B alors que A et C n'ont rien à voir. Un groupe trop gros ou trop étalé
+  // est SIGNALÉ, jamais étiqueté ni fusionné. ---
+  const dupes = [];
+  const suspects = [];
+  for (const g of [...groups.values()].filter((g) => g.length >= 2)) {
+    const span = spanDaysOf(g.map((idx) => fps[idx]));
+    if (MAX_GROUP && g.length > MAX_GROUP) {
+      suspects.push([g, `${g.length} fils > ${MAX_GROUP} (chaîne probable)`]);
+      continue;
+    }
+    if (MAX_SPAN_DAYS && span > MAX_SPAN_DAYS) {
+      suspects.push([g, `étendue du groupe ${Math.round(span)} j > ${MAX_SPAN_DAYS} j`]);
+      continue;
+    }
+    dupes.push(g);
+  }
+
+  const decrire = (idx) => {
+    const c = convs[idx];
+    const f = fps[idx];
+    return `     • ${iso(f.firstAt)}→${iso(f.lastAt)}  ${c._closed ? "[fermé] " : ""}${JSON.stringify(c.subject || "(sans sujet)")}  ${f.email || "?"}${f.orders.length ? "  " + f.orders.join(",") : ""}`;
+  };
 
   const shouldLabel = new Set();
   for (const g of dupes) for (const idx of g) shouldLabel.add(convs[idx].id);
 
-  console.log(`\n${dupes.length} groupe(s) en doublon :`);
+  console.log(`\n${dupes.length} groupe(s) en doublon retenu(s) :`);
   for (const g of dupes) {
     const emails = new Set(g.map((idx) => fps[idx].email).filter(Boolean));
-    const names = new Set(g.map((idx) => fps[idx].name).filter(Boolean));
     const orders = new Set(g.flatMap((idx) => fps[idx].orders));
     const parEmail = emails.size === 1 && g.every((idx) => fps[idx].email);
-    const desc = [
-      emails.size ? `courriels: ${[...emails].join(", ")}` : "",
-      names.size ? `noms: ${[...names].join(" | ")}` : "",
-      orders.size ? `commandes: ${[...orders].join(", ")}` : "",
-    ]
-      .filter(Boolean)
-      .join("  •  ");
-    console.log(`  ${g.length} fils ${parEmail ? "[email]" : "[nom/commande]"} → ${desc}`);
+    console.log(
+      `  ${g.length} fils ${parEmail ? "[email]" : "[commande]"} — étendue ${Math.round(spanDaysOf(g.map((idx) => fps[idx])))} j` +
+        `${emails.size ? `  •  ${[...emails].join(", ")}` : ""}${orders.size ? `  •  ${[...orders].join(", ")}` : ""}`
+    );
+    for (const idx of g) console.log(decrire(idx));
+  }
+
+  if (suspects.length) {
+    console.log(`\n${suspects.length} groupe(s) SIGNALÉ(S) mais NON traité(s) (ni label, ni fusion) :`);
+    for (const [g, why] of suspects) {
+      console.log(`  ${g.length} fils — ${why}`);
+      for (const idx of g) console.log(decrire(idx));
+    }
+  }
+
+  if (EXPLAIN && rejets.length) {
+    console.log(`\n${rejets.length} paire(s) écartée(s) (empreinte commune, mais pas le même épisode) :`);
+    for (const [a, b, why] of rejets.slice(0, 40)) {
+      console.log(`  ${why}`);
+      console.log(decrire(a));
+      console.log(decrire(b));
+    }
+    if (rejets.length > 40) console.log(`  ... et ${rejets.length - 40} autre(s).`);
   }
 
   // Phase 1 : pose des labels sur les doublons.
@@ -446,7 +735,10 @@ async function main() {
   }
 
   // Nettoyage : retire « À fusionner » de TOUT fil qui le porte mais n'est plus
-  // un doublon client valide (inclut les anciens faux positifs hors des 6 boîtes).
+  // un doublon client valide. C'est ce qui répare les faux positifs des versions
+  // antérieures : au premier run v2.0, les labels posés à tort tombent d'eux-mêmes.
+  // (Les fils déjà DÉPLACÉS dans la boîte MERGE, eux, se renvoient avec
+  // repartition_merge.js — le label seul ne les ramène pas.)
   // Sauté si une boîte n'a pas pu être lue (données incomplètes = risque de retrait à tort).
   if (!allOk) {
     console.warn("\nUne boîte n'a pas pu être lue : nettoyage des labels orphelins sauté ce run (prudence).");
@@ -509,6 +801,26 @@ async function main() {
       continue;
     }
 
+    // CLIQUE obligatoire : la fusion est irréversible, elle ne se contente pas de la
+    // transitivité. Chaque paire du groupe doit tenir par elle-même.
+    let clique = true;
+    let pourquoiPas = "";
+    for (let x = 0; x < g.length && clique; x++) {
+      for (let y = x + 1; y < g.length; y++) {
+        const v = verdict(g[x], g[y]);
+        if (!v.ok) {
+          clique = false;
+          pourquoiPas = v.why;
+          break;
+        }
+      }
+    }
+    if (!clique) {
+      console.log(`  Groupe non fusionné (pas une clique : ${pourquoiPas}) : étiqueté seulement.`);
+      for (const idx of g) console.log(decrire(idx));
+      continue;
+    }
+
     // Survivant : de préférence un fil OUVERT (pour que le résultat reste actif dans la boîte),
     // puis le plus récent. Les fils fermés ne sont donc pris comme survivant que si TOUT le groupe
     // est fermé.
@@ -543,7 +855,23 @@ async function main() {
   console.log("Run terminé.");
 }
 
-main().catch((e) => {
-  console.error("Erreur :", e.message);
-  process.exit(1);
-});
+// Exécuté directement = on lance le run. Requis par un test = on n'expose que les
+// fonctions pures (les règles de doublon se testent sans toucher à la boîte).
+if (require.main === module) {
+  main().catch((e) => {
+    console.error("Erreur :", e.message);
+    process.exit(1);
+  });
+} else {
+  module.exports = {
+    VERSION,
+    isDuplicatePair,
+    baseSubject,
+    unquoted,
+    plainText,
+    extractOrders,
+    gapDays,
+    spanDaysOf,
+    isSystemSender,
+  };
+}

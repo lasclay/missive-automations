@@ -83,6 +83,9 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 ## Scripts principaux
 
 - `support.js` : réponses IA de la boîte support (v2.34 : vérifie Shopify ET ShipStation).
+- `merge.js` : détection des fils en doublon (label « À fusionner » ; fusion irréversible
+  derrière `MERGE=true`). Garde-fous v2.0 contre les faux positifs — un client fidèle n'est
+  pas un doublon. Tests : `node merge_test.js`.
 - `qbo_auth.js` / `qbo_check.js` : autorisation OAuth Intuit (une fois) et validation directe.
 - Déploiement : les services Render suivent la branche `main` — le travail se fait sur une
   branche, puis fusion dans `main` pour déployer.

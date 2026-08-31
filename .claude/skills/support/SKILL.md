@@ -39,7 +39,7 @@ Une seule commande, quatre sources. Lis-en la sortie en entier avant d'écrire u
 | **Shopify** | contenu réel de la commande, lignes retirées, remboursements, adresse au dossier | si le colis est parti |
 | **ShipStation** | expéditions, suivis, étiquettes de retour, commandes manuelles | pourquoi une ligne est à quantité 0 |
 
-Trois pièges, chacun payé par une erreur réelle :
+Quatre pièges, chacun payé par une erreur réelle :
 
 - **Le fil est paginé.** L'API Missive plafonne à 10 messages par appel. `dossier.js` pagine
   et affiche `⚠️ TRONQUÉ` s'il en reste. Un fil de 25 messages lu aux 10 derniers, c'est
@@ -48,6 +48,12 @@ Trois pièges, chacun payé par une erreur réelle :
   Les trois empreintes de `merge.js` — adresse, **nom**, **numéro de commande** — sont
   requises. Le seul doublon réel trouvé sur 806 fils reliait `…bef@icloud.com` à
   `…bed@hotmail.com` : uniquement le numéro de commande les rattachait.
+- **Un client fidèle n'est pas un doublon.** L'inverse du piège précédent, et il a coûté
+  plus cher : `merge.js` groupait sur la seule adresse, sans notion de temps, et fusionnait
+  — irréversiblement — des fils à un an d'écart. Deux fils ne sont le même épisode que
+  s'ils sont **rapprochés dans le temps** et parlent de la **même commande** ou du **même
+  sujet**. Depuis la v2.0 le script applique ces garde-fous lui-même ; toi aussi, avant de
+  proposer une fusion à la main.
 - **Un renvoi n'a pas le numéro de commande d'origine.** Une garantie, un échange, une
   commande téléphone deviennent une commande **manuelle** dans ShipStation. Chercher par
   numéro `L-` seul les rend invisibles ; il faut chercher par **nom du client**. De même,
