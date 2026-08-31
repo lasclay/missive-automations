@@ -560,8 +560,16 @@
       "quand": "2026-08-31T15:17:11.616Z",
       "confirme": true,
       "texte": "Bonjour, c'est sur lasclay.com que ça se passe : la boutique en ligne montre ce qui est disponible au jour le jour. Et pour être averti des nouveautés, l'infolettre reste le canal le plus direct."
+    },
+    {
+      "id": "1498545598945918_1922553405067560",
+      "reponse_id": "1498545598945918_2583885475362829",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T16:13:22.297Z",
+      "confirme": true,
+      "texte": "Merci, et content d'apprendre que vous en gardez encore. C'est la même matière que celle qu'on récolte dans les follicules à l'automne, une fois la migration passée — les feuilles, elles, restent aux chenilles. Au plaisir de vous recroiser."
     }
   ],
-  "derniere_execution": "2026-08-31T15:17:11.617Z",
-  "total": 70
+  "derniere_execution": "2026-08-31T16:13:22.298Z",
+  "total": 71
 }
