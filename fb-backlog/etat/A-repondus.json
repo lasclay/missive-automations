@@ -528,8 +528,16 @@
       "quand": "2026-08-31T11:20:21.312Z",
       "confirme": true,
       "texte": "Merci pour ce message. Vous avez perdu votre mère de la même maladie et vous prenez quand même le temps d'écrire ça — ce n'est pas rien. Nos pensées vous accompagnent, et merci pour vos mots sur l'entreprise."
+    },
+    {
+      "id": "1498545598945918_1611599323378534",
+      "reponse_id": "1498545598945918_1792740995258596",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T12:27:20.636Z",
+      "confirme": true,
+      "texte": "Merci pour ce message. Pour vos graines : si elles sont encore dans leur sachet, l'automne est le bon moment pour les mettre en terre — le froid de l'hiver fait la stratification à votre place. La première année, la plante travaille surtout ses racines ; la floraison arrive à la deuxième. Côté climat, rien à craindre : l'espèce tient de la zone 3 à la zone 9."
     }
   ],
-  "derniere_execution": "2026-08-31T11:20:21.313Z",
-  "total": 66
+  "derniere_execution": "2026-08-31T12:27:20.637Z",
+  "total": 67
 }
