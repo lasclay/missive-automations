@@ -1354,6 +1354,27 @@
       "motif": "Image regardée : GIF de réaction dans le sous-fil politique. Aucun contenu, et le fil est à éviter.",
       "page_id": "114311920399404",
       "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1244689371131047_1400924391786442",
+      "extrait": "Facile à mettre [même image : patron de mitaine dessiné à la main]",
+      "motif": "Image regardée : c'est exactement le même dessin que le commentaire auquel nous répondons dans cette publication. Approbation de deux mots ; deux réponses de notre part sur le même patron feraient doublon.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T23:38:04.209Z"
+    },
+    {
+      "id": "1244689371131047_1234984821490993",
+      "extrait": "Si vous n'étiez pas si conne, peut-être que ça serait plaisant d'échanger avec vous.",
+      "motif": "Insulte directe entre abonnés. Rien à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T23:38:04.209Z"
+    },
+    {
+      "id": "1244689371131047_1472793657734268",
+      "extrait": "Y commence a être temps qu'on se dissocie de l'agenda Mondial…",
+      "motif": "Diatribe sur un « agenda mondial ». Le seul point factuel (l'asclépiade a toujours existé, on l'a arrachée) est déjà traité ailleurs ; répondre au reste nous entraînerait sur un terrain complotiste.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T23:38:04.209Z"
     }
   ]
 }
