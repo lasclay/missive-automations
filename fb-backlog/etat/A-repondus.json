@@ -520,8 +520,16 @@
       "quand": "2026-08-31T10:10:16.566Z",
       "confirme": true,
       "texte": "Thank you. Kind words travel further than people think — they've made this stretch a good deal easier. All the best to you."
+    },
+    {
+      "id": "1498545598945918_1149924637142012",
+      "reponse_id": "1498545598945918_1981638542547453",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T11:20:21.312Z",
+      "confirme": true,
+      "texte": "Merci pour ce message. Vous avez perdu votre mère de la même maladie et vous prenez quand même le temps d'écrire ça — ce n'est pas rien. Nos pensées vous accompagnent, et merci pour vos mots sur l'entreprise."
     }
   ],
-  "derniere_execution": "2026-08-31T10:10:16.567Z",
-  "total": 65
+  "derniere_execution": "2026-08-31T11:20:21.313Z",
+  "total": 66
 }
