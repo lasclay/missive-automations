@@ -19,14 +19,8 @@
 #
 # Importer : node mrp/import_qualite.js --ecrire
 produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source
-CHANDAIL	critique	Presser le col avant d'insérer l'isolant		L'isolant fond et devient rigide					notes techniques
-CHANDAIL	critique	Éviter l'asclépiade dans les coutures							notes techniques
-CACHE-COU	critique	Presser la pochette avant d'insérer l'isolant	Rebord droit, sans plis						notes techniques
 CACHE-COU	critique	Viseline pour solidifier les boutonnières		Les boutonnières s'effilochent à l'usage					notes techniques
 CACHE-COU	critique	Billes pour bloquer le cord-lock noir							notes techniques
-CACHE-COU-ENF-18M4A	critique	Presser la pochette avant d'insérer l'isolant	Rebord droit, sans plis						notes techniques
-CACHE-COU-ENF-18M4A	critique	Viseline pour solidifier les boutonnières							notes techniques
-CACHE-COU-ENF-5A13A	critique	Presser la pochette avant d'insérer l'isolant	Rebord droit, sans plis						notes techniques
 CACHE-COU-ENF-5A13A	critique	Viseline pour solidifier les boutonnières							notes techniques
 GANTS-MAGIQUES	mesure	Fibre d'asclépiade par gant	Avec mesh. Balance fournie dans le conteneur pour l'uniformité	Gants inégaux d'une paire à l'autre	4 à 5		g	chaque gant	notes techniques
 ETUI-TEL	critique	Les 2 rubans de ganses à la même hauteur		L'étui pend de travers					notes techniques
