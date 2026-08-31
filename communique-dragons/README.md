@@ -42,6 +42,8 @@ clients, et jamais vers ces listes.
    « NE PAS ENVOYER ».
 3. **Sylvie Lacombe (TVA)** nous avait contactés pour le suivi d'une précommande qui traînait.
    Son brouillon commence par le reconnaître, et c'est voulu.
+4. **Alain McKenna (Le Devoir)** a couvert Sounds Good, pas Lasclay. Son brouillon dit d'entrée
+   que Gabriel a vendu ses parts en 2022 : McKenna suit encore cette entreprise-là.
 
 ## Le mur CBC, en trois points
 

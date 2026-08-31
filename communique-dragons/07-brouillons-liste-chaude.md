@@ -542,22 +542,30 @@ graines est un isolant creux, léger et naturellement hydrophobe.
 Disponible pour une entrevue la semaine du 14 et le vendredi 18 au matin.
 ```
 
-### A. McKenna — Le Devoir — `amckenna@ledevoir.com`
-**Prénom inconnu. Le confirmer avant d'envoyer : ne pas le déduire de l'adresse.** Angle E.
+### Alain McKenna — Le Devoir — `amckenna@ledevoir.com`
+*« Des écouteurs de Québec pour oublier les AirPods », 24 décembre 2021.* Il a couvert Sounds Good,
+la première entreprise de Gabriel, à l'époque des trois associés. Angle A, mais sur l'autre
+entreprise. **Dire tout de suite qu'il a vendu ses parts : McKenna suit encore Sounds Good et le
+saurait.**
 
 ```
-Bonjour [Prénom],
+Bonjour Alain,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile.
-Le 17 septembre, on est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et
-CBC Gem.
+Vous aviez écrit « Des écouteurs de Québec pour oublier les AirPods » le 24 décembre 2021,
+sur Sounds Good et ses écouteurs à 99,99 $. J'étais un des trois.
 
-L'histoire d'affaires, si elle vous intéresse : on a rapatrié notre production en 2021 faute
-de sous-traitant prêt à toucher à la fibre, puis on a confié l'assemblage textile à
-l'externe en 2025 pour rendre un manteau accessible à 300 $. Les deux décisions se
-défendent, et elles se contredisent en apparence.
+J'ai vendu mes parts en 2022 pour me consacrer à l'autre entreprise que j'avais démarrée
+entretemps : Lasclay, qui transforme la soie d'asclépiade en isolant textile. Sounds Good
+continue sans moi.
 
-Je ne peux pas dire comment la rencontre s'est terminée avant la diffusion.
+Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur
+CBC et CBC Gem. Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+
+Ce qui pourrait vous intéresser : c'est le contraire exact de Sounds Good. Là-bas, on
+importait un produit existant et on le vendait mieux. Ici, il n'y a aucune chaîne
+d'approvisionnement, alors on a bâti nos propres procédés en 2021, puis on a sorti
+l'assemblage textile du Québec en 2025 pour rendre un manteau accessible à 300 $. Les deux
+décisions se défendent et elles se contredisent en apparence.
 ```
 
 ---

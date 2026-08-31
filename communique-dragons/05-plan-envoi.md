@@ -75,6 +75,8 @@ personnes en copie conforme se reconnaît en une seconde et se supprime aussi vi
 - [ ] Trouver le courriel d'Antoine Stab (Espaces) et vérifier qu'il y est toujours.
 - [ ] Confirmer que Stéphanie Bérubé signe bien « La sinueuse route de la soie du Nord »
       (La Presse, 2026-02-23). Ne pas déduire un nom d'une adresse courriel.
+- [ ] Vérifier si Alain McKenna couvre encore Sounds Good. Son brouillon dit que Gabriel a vendu
+      ses parts en 2022 : c'est la première chose qu'il vérifiera.
 - [ ] Décider si les chiffres financiers sont autorisés pour l'angle E. Par défaut : non.
 - [ ] Préparer les photos haute résolution hors dossier CBC. Le matériel CBC sert à annoncer la
       diffusion, pas à illustrer un portrait d'entreprise.

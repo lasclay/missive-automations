@@ -40,6 +40,7 @@ Quand un contact coche plusieurs cases, on tranche dans cet ordre :
 | Caroline Bertrand | ICI Explora | L'asclépiade pour braver le froid | 2021-09-28 | Angle environnemental, voir angle D. |
 | Marie Tison | La Presse | Le timide retour de l'asclépiade | 2021-11-08 | « Le retour est moins timide. » |
 | Sylvie Lemieux | Journal de Montréal | Les deux mains dans l'écoresponsabilité | 2021-12-08 | L'écoresponsabilité a rencontré la comptabilité. Angle pivot. |
+| Alain McKenna | Le Devoir | Des écouteurs de Québec pour oublier les AirPods | 2021-12-24 | Il a couvert **Sounds Good**, la première entreprise de Gabriel. L'angle est la continuité de l'entrepreneur, pas l'asclépiade. Dire d'entrée que Gabriel a vendu ses parts en 2022. |
 | Karine Benoist | Châtelaine | Cadeaux faits au Québec : foulard d'asclépiade | 2023-11-29 | Trouvée au dépouillement. Absente des deux listes, courriel à trouver. |
 | Annie Lafrance | Le Soleil Affaires | L'asclépiade : plus que la fibre de demain | 2024-04-20 | **Signature confirmée.** Déjà dans la liste chaude. |
 | Chloé Pouliot | Le Soleil, La Tribune, Le Droit | Lasclay devant le dilemme de fabriquer au Québec | 2025-12-01 | **Signature confirmée.** Elle a couvert le pivot, elle voudra savoir ce que ça donne. |
