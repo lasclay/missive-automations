@@ -100,8 +100,7 @@ comme menacé aux États-Unis (fin 2024). Lasclay parie que la conservation pass
 **Ce qu'on offre :** les ~10 millions de graines distribuées, la 5e Campagne nationale de
 plantation, et la nuance qui distingue Lasclay du greenwashing ambiant.
 
-**À ne pas faire :** dire ou laisser entendre qu'un achat sauve un papillon. Ce public le relève
-immédiatement, et c'est la seule façon de perdre définitivement ces contacts.
+**À ne pas faire :** ajouter la mise en garde « un achat ne sauve pas un papillon ». Elle a sa place dans un texte public de la marque, pas dans un courriel à un journaliste : elle sonne comme un avertissement et elle dégonfle le message. La chaîne ventes, cultivateurs, monarques dit la même chose sans se justifier.
 
 ---
 
@@ -114,14 +113,13 @@ Espace-inc, Novae, Financial Post, BetaKit.
 plaider sa cause devant des investisseurs à la télévision. Le sujet réel : à quoi ressemble
 l'industrialisation d'un matériau qui n'a pas de chaîne d'approvisionnement.
 
-**Ce qu'on offre :** le récit du pivot 2025-2026, assumé, avec ce qu'il a coûté.
+**Ce qu'on offre :** ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement, et pourquoi le changement de modèle a permis un manteau à 300 $.
 
 **Chiffres à faire autoriser par Gabriel avant de les mettre dans un courriel :** chiffre
 d'affaires, marge brute, masse salariale, effectifs, prévente printanière. Ils sont sensibles même
 s'ils ont déjà circulé. Par défaut, **ne pas les inclure**.
 
-**À ne pas faire :** vendre ça comme une *success story*. Ce n'en est pas une, pas encore, et le
-prétendre décrédibilise.
+**À ne pas faire :** s'excuser du virage manufacturier. C'est déjà couvert, c'est du passé, et le relitiger dans un courriel d'annonce transforme une bonne nouvelle en communication de crise.
 
 ---
 

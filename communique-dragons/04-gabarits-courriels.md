@@ -1,247 +1,159 @@
-# Gabarits de courriels par angle
+# Le squelette de courriel
 
-Écrits dans la voix de Gabriel : direct, concret, pas de préambule mielleux. Aucune signature en
-bas, elle s'ajoute toute seule. Les champs entre crochets sont à remplir, jamais à deviner.
+Tiré de deux courriels que Gabriel a réécrits lui-même le 31 août 2026 : Sylvain Larocque et
+Chloé Pouliot. Ils remplacent les gabarits du premier jet, qui étaient à côté.
 
-Le communiqué complet va **en pièce jointe ou en dessous de la ligne de séparation**, pas dans le
-corps du courriel. Le corps doit tenir à l'écran d'un téléphone.
-
----
-
-## A — Journaliste qui a déjà couvert Lasclay
-
-**Objet :** `Suite à votre article de [année] sur l'asclépiade`
-
-```
-Bonjour [Prénom],
-
-Vous aviez écrit « [titre exact] » en [mois année]. Voici la suite : Lasclay est dans le
-premier épisode de la 21e saison de Dragons' Den, jeudi le 17 septembre à 20 h sur CBC et
-CBC Gem.
-
-Ce qui a changé depuis votre article : [1 ou 2 faits concrets, dont au moins un
-inconfortable. Ex. : le catalogue est passé de 3 à 40 produits, et on a arrêté d'assembler
-nos textiles au Québec].
-
-Je ne peux rien dire de l'issue avant la diffusion, mais je peux parler de tout le reste :
-la filière qui s'est effondrée en 2018, ce que ça donne d'expliquer l'asclépiade à un
-auditoire pancanadien, et les choix de production qu'on a faits.
-
-Disponible cette semaine et la suivante si ça vous intéresse.
-```
+Aucune signature en bas : elle s'ajoute toute seule dans Missive.
 
 ---
 
-## B — Média régional
+## Ce que les deux corrections ont appris
 
-**Objet :** `[Ville ou région] : Lasclay au premier épisode de la 21e saison de Dragons' Den`
+**C'est une bonne nouvelle, pas une communication de crise.** Le premier jet s'excusait du virage
+manufacturier dans chaque courriel, nommait ce qu'il avait coûté, rappelait qu'un achat ne sauve
+pas un papillon, et signalait que l'issue est confidentielle. Tout ça est parti. La Tunisie est
+déjà couverte, c'est du passé, on avance.
 
-```
-Bonjour [Prénom],
+**Le pont narratif était sous nos yeux.** Le changement de modèle devait libérer du temps pour les
+deux missions. Dragons' Den est donc l'aboutissement de la décision que ces journalistes ont
+racontée, pas un changement de sujet.
 
-Lasclay, dont l'atelier est [à Limoilou / lien régional précis], est dans le premier
-épisode de la 21e saison de Dragons' Den, le jeudi 17 septembre à 20 h sur CBC et CBC Gem.
+**On crédite le journaliste.** « publié et TRÈS relayé », « repris par La Tribune et Le Droit ».
+Jamais « vous vous intéressiez à », qui présume de son intérêt.
 
-Le lien avec [région] : [fait local vérifiable. Ex. : les producteurs d'asclépiade de
-[région], le contrat de sous-traitance en Beauce, le reportage de 2020 sur les mitaines du
-Lac-Saint-Jean].
+**On demande la suite franchement.** « qui sait, peut-être vous inspirer une suite au dernier
+article ». Pas de « si jamais ça vous intéresse ».
 
-Je suis disponible pour une entrevue avant ou après la diffusion. Le communiqué est plus
-bas.
-```
+**On finit sur la chaîne de bénéfices, pas sur une leçon.** Ventes, puis cultivateurs, puis
+monarques. La mise en garde sur le greenwashing appartient aux textes publics de la marque.
 
----
+**On ne mentionne pas la confidentialité du résultat.** C'est un frein inutile tant que personne
+ne pose la question. Si un journaliste demande : « Je ne peux pas en parler avant le 17. »
 
-## C — Agriculture et filière
-
-**Objet :** `L'asclépiade, huit ans après l'effondrement de la filière`
-
-```
-Bonjour [Prénom],
-
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont
-retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et
-on la transforme nous-mêmes à Québec.
-
-Le 17 septembre, je vais en parler dans le premier épisode de la 21e saison de Dragons'
-Den, sur CBC. Ce n'est pas le sujet le plus intéressant pour vos lecteurs. Le sujet, c'est
-plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles
-conditions.
-
-Je peux parler des volumes, de la fenêtre de récolte, de ce qui bloque encore côté
-mécanisation, et de ce que je ne peux pas promettre aux producteurs.
-```
+**Le registre dépend de la personne.** Larocque au « vous » avec « M. », Chloé au « tu » avec
+« J'espère que tu vas bien ». Ça ne se devine pas : la colonne **Registre** du chiffrier tranche.
 
 ---
 
-## D — Environnement et monarques
+## Le squelette, liste chaude
 
-**Objet :** `Le monarque, l'asclépiade, et l'idée qu'il faut la rendre payante`
+Pour quelqu'un qui nous connaît déjà. Contexte partagé, donc court.
 
 ```
-Bonjour [Prénom],
+Bonjour [M./Mme Nom ou Prénom],
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son
-déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+[J'espère que tu vas bien.  ← seulement au tutoiement]
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les
-agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en
-Amérique du Nord, et la campagne de plantation en est à sa 5e édition.
+[RAPPEL — son article ou son échange, avec la date et le crédit qui lui revient.
+Enchaîner avec les autres couvertures récentes et les liens quand c'est utile.]
 
-Je vais défendre ça le 17 septembre dans le premier épisode de la 21e saison de Dragons'
-Den, sur CBC et CBC Gem.
+[PONT — l'un des trois :
+  · il a couvert le virage : « Parmi les raisons de ce changement, il y avait clairement
+    que j'avais besoin de temps pour me recentrer sur mes 2 grandes missions : … »
+  · il nous connaît autrement : « Depuis, tout mon temps va à mes 2 grandes missions : … »
+  · aucun historique : « Mes 2 grandes missions : … » et pas de « Eh bien »]
 
-Je tiens à être clair sur un point, parce que c'est souvent mal raconté : acheter un
-produit ne sauve pas un papillon en particulier. Le lien est systémique. C'est cette
-nuance-là qui m'intéresse le plus à expliquer.
+Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC
+et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité
+qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer
+[une suite à votre dernier article / un sujet]. [ou, pour la radio et la télé : je suis
+disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.]
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera
+extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue
+d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans
+leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
+
+**« Depuis » et « Eh bien » supposent une histoire qui précède.** Sans elle, la phrase tourne à
+vide. C'est pour ça qu'il y a trois ponts et pas un seul étiré.
 
 ---
 
-## E — Affaires et manufacturier
+## Le squelette, liste froide
 
-**Objet :** `Une PME qui a rapatrié sa production, puis en a délocalisé une partie`
+Pour quelqu'un qui ne nous connaît pas. Il faut donc se présenter, expliquer la matière, et dire
+pourquoi on écrit à cette personne-là.
 
 ```
-Bonjour [Prénom],
+Bonjour [Prénom Nom],
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce
-qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a annoncé
-publiquement qu'on confiait l'assemblage textile de la plupart de nos produits à des
-manufacturiers externes, notamment en Tunisie.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec
+dont l'atelier est dans Limoilou.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives
-de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de
+« petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie
+attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la
+transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs
+isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les
+chenilles du papillon monarque peuvent manger.
 
-Le 17 septembre, je présente tout ça dans le premier épisode de la 21e saison de Dragons'
-Den, sur CBC. Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la
+culture de l'asclépiade.
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne
-d'approvisionnement, et ce que le virage a coûté.
+[POURQUOI VOUS — une seule raison, et elle doit être vraie. Sa région quand l'asclépiade y a
+une histoire réelle, son sujet sinon.]
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC
+et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité
+qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer
+un sujet. [OFFRE — ce qu'on met sur la table pour cette personne-là.]
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera
+extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue
+d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans
+leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
+
+**« Petits cochons » n'est pas une familiarité gratuite.** C'est le nom que tout le monde reconnaît
+au Québec, et il fait comprendre en trois mots de quelle plante on parle. « Asclépiade » seul
+demande un effort qu'un journaliste pressé ne fera pas.
+
+**Salutation.** Liste chaude au vouvoiement avec la civilité, puisqu'on connaît la personne. Liste
+froide au « Bonjour Prénom Nom » : deviner M. ou Mme sur 219 inconnus produirait des erreurs.
 
 ---
 
-## F — Plein air et équipement
+## Le « pourquoi vous », par région
 
-**Objet :** `L'asclépiade contre le duvet, et ce que les tests disent vraiment`
+La région ne gagne que là où l'asclépiade a une histoire locale réelle. « Notre atelier est dans
+Limoilou » n'est pas une accroche locale pour un journal de Charlevoix.
 
-```
-Bonjour [Prénom],
+| Région | La raison |
+| --- | --- |
+| Mauricie | L'usine de Saint-Tite achetait 90 % des récoltes du Québec. Des producteurs y cultivent encore, et on achète leur récolte. |
+| Estrie | Une des premières usines de transformation était à Granby, et l'Estrie compte encore des producteurs. |
+| Montérégie | Une des régions où l'asclépiade se cultive encore, et d'où vient la fibre qu'on transforme. |
+| Centre-du-Québec | L'asclépiade s'y cultive depuis la première vague de 2013. |
+| Saguenay–Lac-Saint-Jean | Un de nos fournisseurs y cultive depuis nos tout débuts, et il l'est encore. |
+| Partout ailleurs | Pas de raison régionale. On passe au sujet que la personne couvre. |
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines. À poids égal,
-la littérature la donne pour environ 10 % plus isolante que le duvet (Knudsen et Zeller,
-1993). C'est un repère de laboratoire, pas une promesse de manteau : la performance réelle
-dépend du design, du tissu et de l'humidité.
+## Le « pourquoi vous », par sujet
 
-C'est exactement pour ça que je préfère que vous testiez plutôt que de me croire. Je peux
-vous envoyer [produit] avant l'hiver.
-
-En attendant : Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, le 17
-septembre à 20 h sur CBC et CBC Gem.
-```
-
----
-
-## G — Style de vie, mode, design
-
-**Objet :** `Un manteau isolé avec une mauvaise herbe, au premier épisode de Dragons' Den`
-
-```
-Bonjour [Prénom],
-
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à
-ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
-
-Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, le 17 septembre à
-20 h sur CBC et CBC Gem.
-
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans
-la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez venir voir la
-matière.
-```
+| Angle | La raison |
+| --- | --- |
+| C — agriculture | La question n'a pas changé depuis 2018 : y a-t-il un acheteur stable au bout du champ. |
+| D — environnement | Le pari est économique avant d'être militant : si l'asclépiade paie, les agriculteurs la gardent. |
+| E — affaires | Bâtir ses procédés faute de sous-traitant, puis changer de modèle pour un manteau à 300 $. Avec le lien de la vidéo. |
+| F — plein air | Environ 10 % plus isolante que le duvet à poids égal. Un repère de laboratoire, donc à tester. |
+| G — art de vivre | Le contraste se photographie : la gousse, la soie, le manteau porté. |
+| I — radio et télé | Le sujet se raconte bien en ondes, et l'invité est disponible. |
 
 ---
 
-## H — Canada anglais, découverte
-
-**Objet :** `The weed that insulates a winter coat, on the season 21 premiere`
-
-```
-Hi [First name],
-
-Milkweed is not just the plant monarch caterpillars eat. The floss attached to its seeds is
-hollow, lighter than down, and naturally water repellent.
-
-Lasclay, a company based in Quebec City, uses it as insulation in coats, mittens and soft
-coolers. We appear in the first episode of season 21 of Dragons' Den, Thursday, September
-17 at 8 p.m. on CBC and CBC Gem.
-
-I cannot say how the pitch went before it airs. I can talk about everything else: why
-Quebec's first milkweed industry collapsed in 2018, and what it takes to build a supply
-chain for a material that does not have one.
-
-Release below. Happy to do an interview any time before or after the 17th.
-```
-
----
-
-## I — Radio et télévision
-
-**Objet :** `Invité disponible : Lasclay à Dragons' Den le 17 septembre`
-
-```
-Bonjour [Prénom],
-
-Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, le jeudi 17 septembre
-à 20 h sur CBC et CBC Gem.
-
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
-J'ai déjà fait [Première heure / Place publique / autre] sur le même sujet.
-
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien
-pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
-```
-
----
-
-## J — A couvert l'asclépiade, jamais Lasclay
-
-Le meilleur contact froid du dossier, et le plus facile à gâcher. Ces gens
-connaissent la filière mieux que la moyenne des journalistes : ne leur explique
-rien qu'ils savent déjà, et surtout pas ce qu'est l'asclépiade.
-
-**Objet :** `Vous couvrez l'asclépiade depuis [année]. Il y a une suite.`
-
-```
-Bonjour [Prénom],
-
-Vous avez couvert l'asclépiade [à l'époque de / au moment où] [référence
-précise à son propre travail, ex. : Encore3 et Fibre Monark ont fermé, la
-coopérative Monark s'est retrouvée sans acheteur].
-
-On est l'entreprise qui a démarré après. Six ans plus tard : on achète encore
-de l'asclépiade québécoise, on transforme l'isolant nous-mêmes à Québec, et le
-17 septembre je vais en parler dans le premier épisode de la 21e saison de
-Dragons' Den, sur CBC et CBC Gem.
-
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
-
-Ce que je peux raconter, et que personne n'a encore raconté : pourquoi la
-première filière est morte, ce qu'on a fait différemment, et ce qui n'est
-toujours pas réglé. Je n'ai pas besoin de vous vendre la plante, vous la
-connaissez.
-```
-
-**À ne pas faire :** ouvrir sur « saviez-vous que la soie d'asclépiade est un
-isolant ». C'est le message qui dit à ce contact précis qu'on n'a pas lu son
-travail.
-
----
-
-## Relance (une seule, six jours après)
-
-**Objet :** `Re: [objet original]`
+## Relance, une seule, six jours après
 
 ```
 Bonjour [Prénom],
@@ -252,3 +164,14 @@ Si le sujet ne vous convient pas, aucun problème, je ne relancerai pas une deux
 ```
 
 **Une seule relance. Jamais deux.** Un contact média brûlé ne revient pas.
+
+---
+
+## Ce qui reste interdit, quel que soit le registre
+
+- **Rien sur l'issue de la rencontre** avant la diffusion. Si on demande : « Je ne peux pas en
+  parler avant le 17. »
+- **Aucun logo ni marque CBC / Dragons' Den**, et aucun « vu à Dragons' Den ». Licence payante.
+- **Jamais « fabriqué au Québec » sur un produit fini.** L'asclépiade est cultivée au Québec et
+  l'isolant transformé à Limoilou, l'assemblage se fait en Tunisie depuis 2025.
+- **Ne jamais inventer** une date, un chiffre, un nom de journaliste ou une adresse.

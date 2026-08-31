@@ -162,9 +162,12 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Gabriel Delisle,
 
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
+Québec dont l'atelier est dans Limoilou.
+
 L'asclépiade a été une histoire mauricienne avant d'être la nôtre : l'usine de Saint-Tite
-achetait 90 % des récoltes du Québec. On est l'entreprise qui a démarré après la chute de
-cette filière, et six ans plus tard on achète encore de l'asclépiade québécoise et on la
+achetait 90 % des récoltes du Québec. On a démarré après la chute de cette filière, et six ans
+plus tard on achète encore de l'asclépiade québécoise et on la
 transforme nous-mêmes à Québec.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la
@@ -890,6 +893,9 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie Allard,
 
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
+Québec dont l'atelier est dans Limoilou.
+
 Il y a une belle histoire de sciences dans l'asclépiade. La soie attachée à ses graines n'est
 pas un poil : c'est un tube creux enduit d'une cire hydrophobe, et les fibres portent une
 charge qui les fait se repousser. C'est ce qui forme le parachute autour de la graine, et
@@ -1217,12 +1223,15 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Réjean Martin,
 
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
+Québec dont l'atelier est dans Limoilou.
+
 Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment
 industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière
 se casse en 2018.
 
-On est l'entreprise qui a démarré après. Six ans plus tard, on achète encore de l'asclépiade
-québécoise et on la transforme nous-mêmes à Québec. Mes 2 grandes missions : faire connaître
+On a démarré après. Six ans plus tard, on achète encore de l'asclépiade québécoise et on la
+transforme nous-mêmes à Québec. Mes 2 grandes missions : faire connaître
 l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -5406,13 +5415,15 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean-Michel Leprince,
 
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
+Québec dont l'atelier est dans Limoilou.
+
 Vous couvrez l'asclépiade depuis au moins 2014 : le Téléjournal, la soie d'Amérique partie
 sur l'Everest, le pouvoir absorbant de la fibre sur les hydrocarbures, le lien avec le
 monarque. Vous avez suivi cette histoire plus longtemps que la plupart des entreprises qui
 s'y sont essayées.
 
-On est l'entreprise qui a démarré après la chute de la première filière. Six ans plus tard,
-on achète encore de l'asclépiade québécoise et on transforme l'isolant nous-mêmes à
+On a démarré après la chute de la première filière. Six ans plus tard, on achète encore de l'asclépiade québécoise et on transforme l'isolant nous-mêmes à
 Limoilou. Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques
 par la culture de l'asclépiade.
 
@@ -5435,11 +5446,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Antoine Stab,
 
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
+Québec dont l'atelier est dans Limoilou.
+
 Vous aviez écrit sur le soyer du Québec dans Espaces en février 2015, à l'époque où la fibre
 devait remplacer le duvet.
 
-On est l'entreprise qui a démarré après la chute de cette première filière. Six ans plus
-tard, on achète encore de l'asclépiade québécoise, on transforme l'isolant nous-mêmes, et il
+On a démarré après la chute de cette première filière. Six ans plus tard, on achète encore de l'asclépiade québécoise, on transforme l'isolant nous-mêmes, et il
 existe maintenant un manteau à inserts d'asclépiade amovibles autour de 300 $.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
