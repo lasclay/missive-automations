@@ -592,8 +592,24 @@
       "quand": "2026-08-31T18:09:57.158Z",
       "confirme": true,
       "texte": "Bonjour, c'est précisément le problème que la fibre creuse cherche à régler : l'air isolant se trouve dans la fibre elle-même, pas dans une épaisseur ajoutée, et il résiste à l'écrasement. On n'annonce par contre aucune cote de température — il n'en existe pas d'officielle. Pour la pêche blanche, ce sont les longues heures sans bouger qui décident, et c'est là que le rapport minceur-chaleur compte le plus."
+    },
+    {
+      "id": "1497691782364633_2156036751834537",
+      "reponse_id": "1497691782364633_2082444662363617",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T19:09:08.614Z",
+      "confirme": true,
+      "texte": "Bonjour, la gamme de tailles offerte en ce moment est celle qui apparaît sur lasclay.com. Votre remarque est notée telle quelle — c'est ce genre de demande qui finit par faire bouger une gamme —, mais on évite d'annoncer ce qu'on ne peut pas encore tenir. Les changements passent par l'infolettre."
+    },
+    {
+      "id": "1491340309666447_931465979466774",
+      "reponse_id": "1491340309666447_1622377596222946",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T19:13:54.506Z",
+      "confirme": true,
+      "texte": "Merci — venant d'une couturière de métier, la remarque a un autre poids. C'est au montage que les journées difficiles se jouent, et vous savez mieux que la plupart ce qu'un patron peut coûter avant de tenir."
     }
   ],
-  "derniere_execution": "2026-08-31T18:09:57.159Z",
-  "total": 74
+  "derniere_execution": "2026-08-31T19:13:54.506Z",
+  "total": 76
 }
