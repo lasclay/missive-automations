@@ -12,11 +12,13 @@ Salutation « Bonjour Prénom Nom » : deviner M. ou Mme sur 219 personnes qu'on
 ```
 Bonjour Marie-Émélie Bernier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -35,11 +37,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Louise Bourbonnais,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -58,11 +62,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Gilbert Bégin,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -81,11 +87,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Victor Carré,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -104,11 +112,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Tristan Champagne-Lessard,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -127,11 +137,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Maxime Corneau,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -176,9 +188,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour André Fauteux,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -197,11 +213,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Johanne Fournier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -220,11 +238,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mikaël Lalancette,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -243,11 +263,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Olivier Mougeot,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -266,9 +288,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean-Hugues Roy,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -287,11 +313,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Martin Roy,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -310,11 +338,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Karine Tremblay,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -333,9 +363,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Godefroy Macaire Chabi,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -354,11 +388,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Laurence Dami-Houle,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -377,11 +413,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Dominique Degré,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -400,9 +438,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Michel Fortier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -421,11 +463,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Raymond Fournier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -444,11 +488,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jacinthe Lafrance,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. La filière s'est cassée en 2018, mais des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -467,11 +513,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Stéphanie Mac Farlane,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -490,9 +538,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Louis-Xavier Michaud,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -511,11 +563,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Karianne Nepton-Philippe,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -534,11 +588,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Geneviève Normand,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -557,9 +613,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mario Boulianne,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -578,11 +638,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Kathleen Couillard,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -601,11 +663,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Thomas Deshaies,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -624,9 +688,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie-Claude Di Lillo,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -645,11 +713,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour MELISSA PELLETIER,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -668,11 +738,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Isaac Peltz,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -691,9 +763,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Francis Plourde,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -712,11 +788,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Louis-Philippe Samson,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -735,9 +813,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jacques Sennechael,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -756,11 +838,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Paule Vermot-Desroches,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. La filière s'est cassée en 2018, mais des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -779,9 +863,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Paul Émile d'Entremont,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -829,17 +917,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Zoé Allemand,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -852,17 +942,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Normand Blouin,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -875,17 +967,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean-Marc Chevalier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -898,17 +992,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Simon Chrétien,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -921,17 +1017,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Catherine Dallaire,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -944,17 +1042,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Simon Dominé,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -967,17 +1067,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Myriam Fimbry,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -990,17 +1092,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Pauline Gravel,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1013,17 +1117,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Leïla Jolin-Dahel,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1036,17 +1142,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Annie Labrecque,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1059,17 +1167,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Sophie Lachapelle,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1082,17 +1192,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Annie Martin,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1132,17 +1244,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Clara Matthey-Jonais,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1155,17 +1269,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Valérian Mazataud,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1178,17 +1294,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Nicolas Mesly,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1201,17 +1319,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Nicolas Michaud,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1224,17 +1344,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Véronique Morin,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1247,17 +1369,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Josée Panet-Raymond,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1270,17 +1394,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Yannick Patelli,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1293,17 +1419,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie-Hélène Proulx,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1316,17 +1444,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Scott Stevenson,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1339,17 +1469,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Michèle Tanganika,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1362,17 +1494,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour MARC-OLIVIER BISSON,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1385,17 +1519,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Gilles Bérubé,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1408,17 +1544,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Daphné Cameron,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1431,17 +1569,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Sarah Champagne,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1454,17 +1594,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Ève Dumas,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1477,17 +1619,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Chloé Germain-Thérien,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. La filière s'est cassée en 2018, mais des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1500,17 +1644,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Gildas Meneu,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1523,17 +1669,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Pierre St-Arnaud,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1548,17 +1696,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Ariane Boyer,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1571,17 +1721,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Anaïs Desjardins,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1594,17 +1746,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean Garon,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1617,17 +1771,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Kodjo Edjinam Nulagnon LOGO,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1640,17 +1796,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Charles Mathieu,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1663,17 +1821,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Félix Pedneault,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1686,17 +1846,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean-Francois Venne,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1709,17 +1871,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Yahia Arkat,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1732,17 +1896,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Maïté Belmir,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1755,17 +1921,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour André Bernard,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1778,17 +1946,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Didier Bert,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1801,17 +1971,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Sara Champagne,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1824,17 +1996,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Éric-Pierre Champagne,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1847,17 +2021,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marine Corniou,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1870,17 +2046,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Catherine Crépeau,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1893,17 +2071,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Amélie Daoust-Boisvert,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1916,17 +2096,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Quentin Dufranne,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1939,17 +2121,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Ahmed Kouaou,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1962,17 +2146,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Tania Krywiak,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -1985,17 +2171,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Boris Proulx,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2008,17 +2196,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Philippe Robitaille-Grou,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2031,17 +2221,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Gwen Roley,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2054,17 +2246,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mathieu-Robert Sauvé,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2077,17 +2271,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Yanick Villedieu,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2100,17 +2296,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jonathan Allard,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2123,17 +2321,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Anick Baribeau,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. La filière s'est cassée en 2018, mais des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2146,17 +2346,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Karim Benessaieh,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2169,17 +2371,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Julien Cayouette,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2192,17 +2396,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Sarah Collardey,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2215,17 +2421,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marcelin Delice,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2238,17 +2446,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Martine Deslauriers,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2261,17 +2471,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Maxim Fauteux,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2284,17 +2496,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Zacharie Goudreault,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2307,17 +2521,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour ANGELO JEAN-BAPTISTE,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2330,17 +2546,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Angie Landry,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2353,17 +2571,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Camille Langlade,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2376,17 +2596,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Étienne Leblanc,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2399,17 +2621,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Colin McGregor,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2422,17 +2646,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie-Paul Rouleau,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2445,17 +2671,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Alexandre Shields,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2468,17 +2696,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Chloé Sondervorst,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2491,17 +2721,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Martin Tremblay,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2514,17 +2746,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Raymond Viger,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2537,17 +2771,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Augustin de Baudinière,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2560,17 +2796,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Ivan de Jacquelin-Dulphe,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2585,17 +2823,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Francois Bourque,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2608,17 +2848,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean-Luc Lavallée,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2631,17 +2873,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie-Eve Fournier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2654,17 +2898,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie-Pier Frappier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2677,17 +2923,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Annie Hudon,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2700,17 +2948,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Yvan Lamontagne,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2723,17 +2973,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Anne Marie Lecomte,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2746,17 +2998,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Katherine Tremblay,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2769,17 +3023,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Martin Vallières,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2792,17 +3048,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Félix-Antoine Beauchemin,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2815,17 +3073,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Karine Boivin Forcier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2838,17 +3098,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Pierre Brisson,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2861,17 +3123,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Diane Bérard,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2884,17 +3148,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Ivanoh Demers,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2907,17 +3173,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Claude Desjardins,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2930,17 +3198,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Richard Dupaul,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2953,17 +3223,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Stéphane Giroux,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2976,17 +3248,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Matthieu Hains,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -2999,17 +3273,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Hugo Joncas,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3022,17 +3298,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Guillaume Longuépée,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3045,17 +3323,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Roxane Léouzon,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3068,17 +3348,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Timothy Morson,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3091,17 +3373,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Olivier Schmouker,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3114,17 +3398,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour William Thériault,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3137,17 +3423,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Katia Tobar,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3160,17 +3448,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Pierre-Luc Trudel,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune chaîne d'approvisionnement.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3185,17 +3475,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Eric Chabot,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3208,17 +3500,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Aurélia Crémoux,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3231,17 +3525,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marieke Glorieux-Stryckman,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3254,17 +3550,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Maude Goyer,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3277,17 +3575,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean-Francois Leblanc,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3300,17 +3600,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Julie Leduc,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3323,17 +3625,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Emmanuelle Mozayan-Verschaeve,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3346,17 +3650,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean-Benoît Nadeau,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3369,17 +3675,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Yves Ouellet,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3392,17 +3700,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie-Eve Poulin,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3415,17 +3725,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Sylvain Sarrazin,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3438,17 +3750,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Pierre Sormany,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3461,17 +3775,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Shahram Yazdanpanah,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3484,17 +3800,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Charlotte Glorieux,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3507,17 +3825,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Bruno Lamolet,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3530,17 +3850,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Yves Langlois,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3553,17 +3875,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Anne Montplaisir,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3576,17 +3900,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Michel Tremblay,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3599,17 +3925,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Bernard Brault,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3622,17 +3950,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Alain Demers,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3647,17 +3977,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Victoria Bakos,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3670,17 +4002,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Malika Alaoui,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3693,17 +4027,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Julia Bernier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3716,17 +4052,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Luc Boulanger,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3739,17 +4077,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie-France Bélanger,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3762,17 +4102,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Oumou DIAKITÉ,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3785,17 +4127,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Agnès Delavault,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3808,17 +4152,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Claude Deschênes,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3831,17 +4177,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Stéphanie Dupuis,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3854,17 +4202,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Isabelle Grégoire,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3877,17 +4227,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Chantal Guy,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3900,17 +4252,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Andréanne Joly,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3923,17 +4277,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Joannie Lafrenière,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3946,17 +4302,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Louise Leduc,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3969,17 +4327,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Isabelle Morin,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -3992,17 +4352,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Rachid Najahi,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -4015,17 +4377,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Frédéric Perron,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -4038,17 +4402,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Richard Prudhomme,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -4061,17 +4427,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Pascale Renaud,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -4084,17 +4452,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marc Sony Ricot,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -4107,17 +4477,19 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Catherine Schlager,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel photo.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
@@ -4132,11 +4504,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Papa Moussa Camara,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4155,9 +4529,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Karl-Ivann Dubé,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4176,9 +4554,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Étienne Fortin-Gauthier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4197,9 +4579,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Cécile Gladel,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4218,11 +4604,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Bernard Hervieux,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4241,11 +4629,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marianne Lachapelle,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4264,11 +4654,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Alain Laforest,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4287,9 +4679,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Lili Mercure,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4308,9 +4704,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Lila Mouch,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4329,9 +4729,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Stephane Tellier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4350,9 +4754,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Sophie-Andrée Blondin,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4371,11 +4779,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Pierre Brochu,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4394,11 +4804,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie-Julie Gagnon,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4417,11 +4829,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Philippe Marois,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4440,11 +4854,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Carole Payer,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4463,9 +4879,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Audrey Bonaque,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4484,9 +4904,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Laurence Brisson Dubreuil,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4505,9 +4929,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Nathaniel Bronner,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4526,9 +4954,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Rudy Chabannes,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4547,9 +4979,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Denis-Martin Chabot,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4568,9 +5004,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Loubna Majda Chourouk,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4589,9 +5029,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean-René Dufort,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4610,9 +5054,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Ronald Georges,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4631,9 +5079,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Philémon La Frenière-Prémont,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4652,9 +5104,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Henri Laban,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4673,9 +5129,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Claudia Larochelle,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4694,9 +5154,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Ève Lévesque,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4715,9 +5179,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Sophie Mangado,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4736,9 +5204,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Richard Olivier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4757,9 +5229,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Nathalie Petrowski,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4778,9 +5254,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Raymonde Provencher,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4799,9 +5279,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Emmalie Ruest,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4820,11 +5304,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Kimberley Sullivan,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4843,9 +5329,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie-Christine Trottier,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4864,9 +5354,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour David Turbis,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -4885,9 +5379,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Alexandra Viau,
 
-Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
+Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou.
+
+On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 

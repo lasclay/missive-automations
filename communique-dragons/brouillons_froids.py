@@ -20,8 +20,21 @@ import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 from voix_gabriel import VIDEO, ANNONCE, BENEFICE, assembler
 
-QUI = ("Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en "
-       "isolant textile : manteaux, mitaines, tuques, sacs isothermes.")
+QUI = ("Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de "
+       "Québec dont l'atelier est dans Limoilou.")
+
+# Ces gens ne nous connaissent pas. Sans ce paragraphe, le courriel demande a
+# quelqu'un de s'interesser a une entreprise dont il n'a jamais entendu parler
+# et a une matiere qu'il ne connait pas. « Petits cochons » est le nom que tout
+# le monde reconnait au Quebec : c'est l'accroche qui fait comprendre en trois
+# mots de quelle plante on parle.
+CONTEXTE = ("On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom "
+            "de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis "
+            "50 ans. La soie attachée à ses graines est creuse, très légère et naturellement "
+            "hydrophobe : on la transforme en isolant, et on en fait des manteaux, des "
+            "mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux "
+            "États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque "
+            "peuvent manger.")
 
 MISSIONS_2 = ("Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les "
               "monarques par la culture de l'asclépiade.")
@@ -34,55 +47,58 @@ RARETE = ("Aller présenter notre entreprise et sa mission à la télévision na
 
 CLOTURE = "Au plaisir et n'hésitez pas à me contacter si vous avez des questions."
 
-# --- accroches regionales ---------------------------------------------------
-# Ce que la region a de vrai avec l'asclepiade, dit au present.
+# --- pourquoi je vous ecris a vous ------------------------------------------
+# Une seule raison par courriel, et elle doit etre vraie. La region ne gagne que
+# la ou l'asclepiade a une histoire locale reelle : « notre atelier est dans
+# Limoilou » n'est pas une accroche locale pour un journal de Charlevoix.
 
 REGIONS = {
     "Mauricie":
-        "L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite "
-        "achetait 90 % des récoltes du Québec. La filière s'est cassée en 2018, mais des "
-        "producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.",
+        "Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel "
+        "chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la "
+        "filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on "
+        "continue d'acheter leur récolte.",
     "Centre-du-Québec":
-        "L'asclépiade se cultive dans votre région depuis la première vague de 2013, et "
-        "plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.",
+        "Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis "
+        "la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous "
+        "vendent encore leur récolte.",
     "Estrie":
-        "L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de "
-        "transformation de la fibre était à Granby.",
+        "Je vous écris entre autres parce qu'une des premières usines de transformation de la "
+        "fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.",
     "Montérégie":
-        "La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de "
-        "champs comme ceux-là que vient la fibre qu'on transforme.",
+        "Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade "
+        "se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on "
+        "transforme.",
     "Saguenay - Lac-Saint-Jean":
-        "Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout "
-        "débuts, et il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos "
-        "produits.",
-    "Capitale-Nationale/Chaudière-Appalaches":
-        "Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de "
-        "l'isolant.",
-    "Est-du-Québec":
-        "L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait "
-        "une culture intéressante pour des régions où les grandes cultures rendent mal.",
+        "Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au "
+        "Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de "
+        "chez vous se retrouve dans nos produits.",
 }
 
-# --- accroches thematiques --------------------------------------------------
-
+# Sinon, la raison vient du sujet que la personne couvre.
 THEMES = {
-    "C": "Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on "
-         "achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à "
-         "Québec.",
-    "D": "L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le "
-         "déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est "
-         "simple : si l'asclépiade devient payante, les agriculteurs la gardent.",
-    "E": "On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne "
-         "voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an "
-         "dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : "
-         + VIDEO + ".",
-    "F": "La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux "
-         "graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de "
-         "nos sacs isothermes.",
-    "G": "L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie "
-         "attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.",
-    "I": "",
-    "B": "",
+    "C": "Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les "
+         "producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce "
+         "qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de "
+         "producteurs d'ici et on la transforme nous-mêmes.",
+    "D": "Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant "
+         "d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans "
+         "leurs champs, et les monarques retrouvent de l'habitat de reproduction.",
+    "E": "Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de "
+         "transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis "
+         "on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à "
+         "300 $. J'en ai fait une vidéo ici : " + VIDEO + ".",
+    "F": "Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne "
+         "la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de "
+         "laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère "
+         "qu'on la teste.",
+    "G": "Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste "
+         "se photographie bien : la gousse dans le champ, la soie blanche dans la main, le "
+         "manteau porté en ville.",
+    "I": "Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec "
+         "qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de "
+         "maïs peut isoler un manteau.",
+    "B": "Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.",
     "H": "",
 }
 
@@ -91,18 +107,17 @@ THEMES = {
 OFFRES = {
     "B": "Je suis disponible pour une entrevue avant ou après la diffusion.",
     "C": "Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler "
-         "côté mécanisation.",
-    "D": "Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a "
-         "distribué environ 10 millions de graines en Amérique du Nord.",
-    "E": "Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de "
+         "côté mécanisation, sans rien promettre que je ne peux pas tenir.",
+    "D": "Je peux aussi parler de notre campagne de plantation, qui en est à sa 5e édition et "
+         "qui a distribué environ 10 millions de graines en Amérique du Nord.",
+    "E": "Je peux parler de ce que ça demande d'industrialiser une matière qui n'a aucune "
          "chaîne d'approvisionnement.",
-    "F": "Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie "
-         "un produit avec plaisir.",
-    "G": "J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la "
-         "soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous "
-         "voulez voir la matière.",
-    "I": "Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 "
-         "au matin.",
+    "F": "Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit "
+         "avec plaisir.",
+    "G": "L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel "
+         "photo.",
+    "I": "Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au "
+         "matin.",
 }
 
 # --- textes ecrits a la main ------------------------------------------------
@@ -234,9 +249,9 @@ def monter(prenom, nom, angle, region):
     """On se presente toujours : ces gens ne nous connaissent pas. L'accroche
     regionale ou thematique vient ensuite, jamais avant la presentation."""
     salut = f"Bonjour {prenom} {nom},".replace("  ", " ")
-    tete = REGIONS.get(region) or THEMES.get(angle) or ""
+    pourquoi = REGIONS.get(region) or THEMES.get(angle) or THEMES["B"]
     offre = OFFRES.get(angle, "")
-    return assembler([salut, QUI, tete, MISSIONS_2, PAS, ANNONCE,
+    return assembler([salut, QUI, CONTEXTE, MISSIONS_2, pourquoi, PAS, ANNONCE,
                       RARETE + (" " + offre if offre else ""), BENEFICE, CLOTURE])
 
 
