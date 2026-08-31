@@ -205,6 +205,40 @@ pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 ---
 
+## J — A couvert l'asclépiade, jamais Lasclay
+
+Le meilleur contact froid du dossier, et le plus facile à gâcher. Ces gens
+connaissent la filière mieux que la moyenne des journalistes : ne leur explique
+rien qu'ils savent déjà, et surtout pas ce qu'est l'asclépiade.
+
+**Objet :** `Vous couvrez l'asclépiade depuis [année]. Il y a une suite.`
+
+```
+Bonjour [Prénom],
+
+Vous avez couvert l'asclépiade [à l'époque de / au moment où] [référence
+précise à son propre travail, ex. : Encore3 et Fibre Monark ont fermé, la
+coopérative Monark s'est retrouvée sans acheteur].
+
+On est l'entreprise qui a démarré après. Six ans plus tard : on achète encore
+de l'asclépiade québécoise, on transforme l'isolant nous-mêmes à Québec, et le
+17 septembre je vais en parler dans le premier épisode de la 21e saison de
+Dragons' Den, sur CBC et CBC Gem.
+
+Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+
+Ce que je peux raconter, et que personne n'a encore raconté : pourquoi la
+première filière est morte, ce qu'on a fait différemment, et ce qui n'est
+toujours pas réglé. Je n'ai pas besoin de vous vendre la plante, vous la
+connaissez.
+```
+
+**À ne pas faire :** ouvrir sur « saviez-vous que la soie d'asclépiade est un
+isolant ». C'est le message qui dit à ce contact précis qu'on n'a pas lu son
+travail.
+
+---
+
 ## Relance (une seule, six jours après)
 
 **Objet :** `Re: [objet original]`

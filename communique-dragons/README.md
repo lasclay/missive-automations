@@ -11,21 +11,24 @@ Saison 21, épisode 1. Source : courriel de l'équipe *Dragons' Den* du 27 août
 | `03-matrice-personnalisation.md` | Neuf angles, règle de priorité, et la table des 13 journalistes qui ont déjà couvert Lasclay |
 | `04-gabarits-courriels.md` | Un gabarit de courriel par angle, dans la voix de Gabriel |
 | `05-plan-envoi.md` | Calendrier, envoi par le proxy Missive, réponses aux questions difficiles |
-| `contacts.csv` | Gabarit à remplir avec les deux listes médias |
+| `06-listes-medias.md` | Ce que l'assignation a donné sur les 254 contacts, et les deux constats à trancher |
+| `assigner_angles.py` | Assigne un angle par contact et produit le chiffrier enrichi |
+| `Lasclay_listes_medias_2026_angles.xlsx` | **Le livrable de travail** : les deux listes avec leur angle, l'objet suggéré, la salutation et les précautions |
+| `contacts.csv` | Premier gabarit, gardé pour référence |
 
-## Ce qui manque encore
+## Deux événements
 
-Les **deux listes médias partielles** ne sont pas accessibles depuis cette session : elles ne sont
-ni en pièce jointe du fil Missive, ni dans le Drive (le dossier CBC est partagé hors organisation
-et le connecteur ne peut pas le lire), ni dans Gmail. Tout le reste du kit est prêt et ne dépend
-pas d'elles.
+La **prévente d'automne s'ouvre le samedi 12 septembre à 9 h**, cinq jours avant la diffusion.
+Pour les médias, c'est la diffusion qui est la nouvelle. La prévente se joue dans Klaviyo, vers les
+clients, et jamais vers ces listes.
 
-Dès que les listes arrivent (chiffrier, CSV ou copier-coller), il reste à faire :
+## Ce qui reste à faire
 
-1. Fusionner les deux listes et dédoublonner par adresse courriel.
-2. Assigner un angle par contact, selon la règle de priorité de `03-matrice-personnalisation.md`.
-3. Générer un brouillon par contact dans Missive, un appel par personne.
-4. Gabriel relit et envoie depuis son interface.
+1. Trouver quatre courriels manquants : Sophie Poisson, Caroline Bertrand, Karine Benoist,
+   Antoine Stab. Aucun n'a été deviné.
+2. Décider s'il faut bâtir une liste de presse anglophone. Les deux listes sont entièrement
+   francophones, alors que l'émission est diffusée dans tout le Canada.
+3. Générer un brouillon par contact dans Missive, un appel par personne, Gabriel relit et envoie.
 
 ## Le mur CBC, en trois points
 
