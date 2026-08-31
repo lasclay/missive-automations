@@ -1,8 +1,8 @@
 # Brouillons, liste froide FPJQ
 
-Un brouillon par contact. Les textes marqués **écrit à la main** valent la peine d'être relus avant l'envoi : ce sont les contacts qui ont couvert l'asclépiade ou qui sont géographiquement au cœur de l'effondrement de la filière.
+Même squelette que la liste chaude, mais l'ouverture part de ce qui concerne la personne : sa région quand l'asclépiade y a une histoire réelle, son sujet sinon.
 
-Les autres viennent d'un assemblage : une accroche régionale quand la région a une histoire réelle avec l'asclépiade, une accroche thématique sinon, puis le corps de l'angle assigné. Chaque première ligne diffère vraiment, comme l'exige le rythme d'envoi.
+Salutation « Bonjour Prénom Nom » : deviner M. ou Mme sur 219 personnes qu'on ne connaît pas produirait des erreurs.
 
 ## Angle B — 35 contacts
 
@@ -10,483 +10,788 @@ Les autres viennent d'un assemblage : une accroche régionale quand la région a
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Marie-Émélie,
+Bonjour Marie-Émélie Bernier,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Louise Bourbonnais — Le Journal de Montréal — `lbourbonnais@videotron.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Louise,
+Bonjour Louise Bourbonnais,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Gilbert Bégin — Radio-Canada (Québec) — `gilbert.begin@radio-canada.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Gilbert,
+Bonjour Gilbert Bégin,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Victor Carré — Le Charlevoisien — `vcarre@lecharlevoisien.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Victor,
+Bonjour Victor Carré,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Tristan Champagne-Lessard — Radio-Canada — `tristanchampagnelessard@gmail.com`
 *Priorité A · Montérégie*
 
 ```
-Bonjour Tristan,
+Bonjour Tristan Champagne-Lessard,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Maxime Corneau — Radio-Canada (Québec) — `maxime.corneau@radio-canada.ca`
 *Priorité A · Saguenay - Lac-Saint-Jean*
 
 ```
-Bonjour Maxime,
+Bonjour Maxime Corneau,
 
-Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos débuts, et il l'est encore aujourd'hui. Pour une filière qui s'est effondrée en 2018, ce n'est pas banal. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Gabriel Delisle — Le Nouvelliste — `gabriel.delisle@lenouvelliste.qc.ca` — **écrit à la main**
 *Priorité A · Mauricie*
 
 ```
-Bonjour Gabriel,
+Bonjour Gabriel Delisle,
 
-L'asclépiade a été une histoire mauricienne avant d'être la nôtre. L'usine de
-Saint-Tite achetait 90 % des récoltes du Québec, puis Les Industries Encore 3 ont fait
-faillite et la filière s'est effondrée.
+L'asclépiade a été une histoire mauricienne avant d'être la nôtre : l'usine de Saint-Tite
+achetait 90 % des récoltes du Québec. On est l'entreprise qui a démarré après la chute de
+cette filière, et six ans plus tard on achète encore de l'asclépiade québécoise et on la
+transforme nous-mêmes à Québec.
 
-On a démarré après. Aujourd'hui on achète encore de l'asclépiade québécoise, on
-transforme l'isolant à Limoilou, et le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la
+culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-L'angle qui me semble le plus juste pour la Mauricie : huit ans après, est-ce qu'il
-reste quelque chose de la promesse de Saint-Tite. Je peux répondre sans enjoliver, y
-compris sur ce qui n'est toujours pas réglé.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : huit ans après
+Saint-Tite, il reste quelque chose de cette promesse-là, et ça se raconte.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### André Fauteux — La Maison du 21e siècle — `andre@maisonsaine.ca`
 *Priorité A · Laurentides*
 
 ```
-Bonjour André,
+Bonjour André Fauteux,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Johanne Fournier — Le Soleil — `j.fournier@telus.net`
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Johanne,
+Bonjour Johanne Fournier,
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui la rend intéressante pour des régions où les cultures conventionnelles rendent mal. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Mikaël Lalancette — Le Soleil — `mlalancette@lesoleil.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Mikaël,
+Bonjour Mikaël Lalancette,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Olivier Mougeot — Le Soleil — `omougeot@lesoleil.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Olivier,
+Bonjour Olivier Mougeot,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jean-Hugues Roy — Université du Québec à Montréal — `jh@jhroy.ca`
 *Priorité A · Laurentides*
 
 ```
-Bonjour Jean-Hugues,
+Bonjour Jean-Hugues Roy,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Martin Roy — Université Laval — `martin.roy@uc.ulaval.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Martin,
+Bonjour Martin Roy,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Karine Tremblay — La Tribune — `karine.tremblay@latribune.qc.ca` — **écrit à la main**
+### Karine Tremblay — La Tribune — `karine.tremblay@latribune.qc.ca`
 *Priorité A · Estrie*
 
 ```
-Bonjour Karine,
+Bonjour Karine Tremblay,
 
-Une des usines de transformation de l'asclépiade était à Granby. Elle a fermé avec le
-reste de la filière en 2018, et l'Estrie compte encore des producteurs de la plante.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-On est l'entreprise qui a démarré après cet effondrement. La Tribune a d'ailleurs repris
-en décembre dernier un article sur notre dilemme de fabrication.
+L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
 
-le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem. Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce que je peux raconter : pourquoi la première filière est morte, ce qu'on a fait
-différemment, et ce que ça coûte de rendre un manteau d'asclépiade accessible à 300 $.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Godefroy Macaire Chabi — Radio-Canada Winnipeg — `godefroy.chabi@radio-canada.ca`
 *Priorité B · Canada anglais*
 
 ```
-Bonjour Godefroy Macaire,
+Bonjour Godefroy Macaire Chabi,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Laurence Dami-Houle — C F I M - 92,7 FM — `laurencedami@cfim.ca`
 *Priorité B · Est-du-Québec*
 
 ```
-Bonjour Laurence,
+Bonjour Laurence Dami-Houle,
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui la rend intéressante pour des régions où les cultures conventionnelles rendent mal. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Dominique Degré — Radio-Canada — `dominique.degre@radio-canada.ca`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Dominique,
+Bonjour Dominique Degré,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Michel Fortier — Journal des Citoyens — `mfortier@edprev.com`
 *Priorité B · Laurentides*
 
 ```
-Bonjour Michel,
+Bonjour Michel Fortier,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Raymond Fournier — Agence Science Presse — `cosmos_management@hotmail.com`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Raymond,
+Bonjour Raymond Fournier,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jacinthe Lafrance — Le Nouvelliste — `jlafrance@lenouvelliste.qc.ca` — **écrit à la main**
+### Jacinthe Lafrance — Le Nouvelliste — `jlafrance@lenouvelliste.qc.ca`
 *Priorité B · Mauricie*
 
 ```
-Bonjour Jacinthe,
+Bonjour Jacinthe Lafrance,
 
-Vous êtes en Mauricie, la région où l'asclépiade a eu son grand moment industriel avant
-de tout perdre : l'usine de Saint-Tite achetait 90 % des récoltes du Québec, puis elle
-a fermé.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-On est l'entreprise qui a démarré après. On transforme la soie en isolant à Québec et
-on en fait des manteaux, des mitaines, des sacs isothermes. le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. La filière s'est cassée en 2018, mais des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Côté consommation, la question que je trouve la plus honnête : est-ce qu'un produit en
-asclépiade vaut son prix. Je peux y répondre en expliquant ce que la fibre fait
-réellement, et ce qu'elle ne fait pas.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Stéphanie Mac Farlane — Le Canada Français — `smacfarlane@canadafrancais.com`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Stéphanie,
+Bonjour Stéphanie Mac Farlane,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Louis-Xavier Michaud — TopoLocal — `lxm@topolocal.ca`
 *Priorité B · Laurentides*
 
 ```
-Bonjour Louis-Xavier,
+Bonjour Louis-Xavier Michaud,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Karianne Nepton-Philippe — Journal Le Manic — `knphilippe@lemanic.ca`
 *Priorité B · Est-du-Québec*
 
 ```
-Bonjour Karianne,
+Bonjour Karianne Nepton-Philippe,
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui la rend intéressante pour des régions où les cultures conventionnelles rendent mal. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Geneviève Normand — Agence France Presse — `genevieve.normand@afp.com`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Geneviève,
+Bonjour Geneviève Normand,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Mario Boulianne — Le Droit — `mboulianne@ledroit.com`
 *Priorité C · Outaouais*
 
 ```
-Bonjour Mario,
+Bonjour Mario Boulianne,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Kathleen Couillard — Agence Science Presse — `kcouillard@gmail.com`
 *Priorité C · Montérégie*
 
 ```
-Bonjour Kathleen,
+Bonjour Kathleen Couillard,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Thomas Deshaies — Radio-Canada (QC) — `thomas.deshaies@radio-canada.ca`
 *Priorité C · Estrie*
 
 ```
-Bonjour Thomas,
+Bonjour Thomas Deshaies,
 
-Une des usines de transformation de l'asclépiade était à Granby. Elle a fermé avec le reste de la filière, et l'Estrie compte encore des producteurs de la plante. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marie-Claude Di Lillo — Châtelaine — `mcdilillo@videotron.ca`
 *Priorité C · Laval*
 
 ```
-Bonjour Marie-Claude,
+Bonjour Marie-Claude Di Lillo,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### MELISSA PELLETIER — Radio-Canada — `melissa.pelletier@radio-canada.ca`
 *Priorité C · Montérégie*
 
 ```
-Bonjour MELISSA,
+Bonjour MELISSA PELLETIER,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Isaac Peltz — Pivot — `isaacapeltz@protonmail.com`
 *Priorité C · Centre-du-Québec*
 
 ```
-Bonjour Isaac,
+Bonjour Isaac Peltz,
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs producteurs qui ont survécu à l'effondrement de la filière y sont encore. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Francis Plourde — Radio-Canada — `francis.plourde@radio-canada.ca`
 *Priorité C · Canada anglais*
 
 ```
-Bonjour Francis,
+Bonjour Francis Plourde,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Louis-Philippe Samson — L'Express (Drummondville) — `louis-philippe.samson@journalexpress.ca`
 *Priorité C · Centre-du-Québec*
 
 ```
-Bonjour Louis-Philippe,
+Bonjour Louis-Philippe Samson,
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs producteurs qui ont survécu à l'effondrement de la filière y sont encore. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jacques Sennechael — Vélo Québec Éditions - Vélo Mag — `jsennechael@velo.qc.ca`
 *Priorité C · Lanaudière*
 
 ```
-Bonjour Jacques,
+Bonjour Jacques Sennechael,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Paule Vermot-Desroches — Le Nouvelliste — `paule.vermot-desroches@lenouvelliste.qc.ca` — **écrit à la main**
+### Paule Vermot-Desroches — Le Nouvelliste — `paule.vermot-desroches@lenouvelliste.qc.ca`
 *Priorité C · Mauricie*
 
 ```
-Bonjour Paule,
+Bonjour Paule Vermot-Desroches,
 
-L'asclépiade est un dossier économique mauricien avant tout : Les Industries Encore 3,
-à Saint-Tite, achetaient 90 % des récoltes du Québec quand elles ont fait faillite,
-entraînant la filière avec elles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-On a démarré après cet effondrement, avec l'idée de commencer petit et de vendre des
-produits finis avant de promettre une industrie. le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. La filière s'est cassée en 2018, mais des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet économique : à quoi ressemble l'industrialisation d'un matériau qui n'a aucune
-chaîne d'approvisionnement. On a rapatrié notre production en 2021 faute de
-sous-traitant, puis sorti l'assemblage textile du Québec en 2025 pour rendre un manteau
-accessible à 300 $. Les deux décisions se défendent, et elles se contredisent en
-apparence.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Paul Émile d'Entremont — Radio-Canada — `paul.emile.dentremont@radio-canada.ca`
 *Priorité C · Canada anglais*
 
 ```
-Bonjour Paul Émile,
+Bonjour Paul Émile d'Entremont,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue avant ou après la diffusion, et je peux parler de ce qui se fait encore ici comme de ce qui n'y est plus.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue avant ou après la diffusion.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ## Angle C — 32 contacts
@@ -495,496 +800,744 @@ Je suis disponible pour une entrevue avant ou après la diffusion, et je peux pa
 *Priorité A · Montréal*
 
 ```
-Bonjour Marie,
+Bonjour Marie Allard,
 
-Il y a une histoire de sciences dans l'asclépiade qui se raconte bien à tous les âges :
-la soie attachée à ses graines n'est pas un poil, c'est un tube creux enduit d'une cire
-hydrophobe, et les fibres portent une charge qui les fait se repousser. C'est ce qui
-forme le parachute autour de la graine, et c'est ce qui emprisonne l'air.
+Il y a une belle histoire de sciences dans l'asclépiade. La soie attachée à ses graines n'est
+pas un poil : c'est un tube creux enduit d'une cire hydrophobe, et les fibres portent une
+charge qui les fait se repousser. C'est ce qui forme le parachute autour de la graine, et
+c'est ce qui emprisonne l'air. Chaque follicule en produit plus de 200.
 
-Chaque follicule produit en moyenne plus de 200 graines soyeuses. C'est aussi la seule
-plante que les chenilles du monarque peuvent manger.
+On en fait de l'isolant pour des manteaux et des mitaines. Mes 2 grandes missions : faire
+connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade, parce
+que c'est la seule plante que leurs chenilles peuvent manger.
 
-On en fait de l'isolant pour des manteaux et des mitaines, et le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion. Si le sujet vous intéresse pour vos lecteurs, l'atelier de Limoilou est ouvert.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de
+Limoilou est ouvert si vos lecteurs aimeraient voir comment une gousse devient un manteau.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Zoé Allemand — Pigiste — `zoe.allemand@hotmail.com`
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Zoé,
+Bonjour Zoé Allemand,
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui la rend intéressante pour des régions où les cultures conventionnelles rendent mal.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Normand Blouin — Pigiste — `normandblouin@gmail.com`
 *Priorité A · Laurentides*
 
 ```
-Bonjour Normand,
+Bonjour Normand Blouin,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jean-Marc Chevalier — Pigiste — `info@photojmc.ca`
 *Priorité A · Montérégie*
 
 ```
-Bonjour Jean-Marc,
+Bonjour Jean-Marc Chevalier,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Simon Chrétien — Pigiste — `schretien@alliancepolymeres.org`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Simon,
+Bonjour Simon Chrétien,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Catherine Dallaire — Pigiste — `dallai.redaction@gmail.com`
 *Priorité A · Estrie*
 
 ```
-Bonjour Catherine,
+Bonjour Catherine Dallaire,
 
-Une des usines de transformation de l'asclépiade était à Granby. Elle a fermé avec le reste de la filière, et l'Estrie compte encore des producteurs de la plante.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Simon Dominé — Pigiste — `sdomine@chga.fm`
 *Priorité A · Outaouais*
 
 ```
-Bonjour Simon,
+Bonjour Simon Dominé,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Myriam Fimbry — Radio-Canada (QC) — `myriam.fimbry@radio-canada.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Myriam,
+Bonjour Myriam Fimbry,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Pauline Gravel — Le Devoir — `pgravel@ledevoir.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Pauline,
+Bonjour Pauline Gravel,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Leïla Jolin-Dahel — Le Devoir — `leila.jolindahel@gmail.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Leïla,
+Bonjour Leïla Jolin-Dahel,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Annie Labrecque — Québec Science — `alabrecque@live.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Annie,
+Bonjour Annie Labrecque,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Sophie Lachapelle — Nouveau Projet — `sophiela8@me.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Sophie,
+Bonjour Sophie Lachapelle,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Annie Martin — Pigiste — `amartin@chga.fm`
 *Priorité A · Outaouais*
 
 ```
-Bonjour Annie,
+Bonjour Annie Martin,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Réjean Martin — Pigiste — `redaction.mekinac@lebulletindeschenaux.com` — **écrit à la main**
 *Priorité A · Mauricie*
 
 ```
-Bonjour Réjean,
+Bonjour Réjean Martin,
 
-Vous couvrez Mékinac. C'est là que l'histoire industrielle de l'asclépiade au Québec
-s'est jouée, et c'est là qu'elle s'est cassée : Les Industries Encore 3, à Saint-Tite,
-achetaient 90 % des récoltes du Québec avant de faire faillite. Des producteurs de
-votre secteur se sont retrouvés avec des champs et aucun acheteur.
+Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment
+industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière
+se casse en 2018.
 
-On est l'entreprise qui a démarré après cet effondrement. Six ans plus tard, on achète
-encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+On est l'entreprise qui a démarré après. Six ans plus tard, on achète encore de l'asclépiade
+québécoise et on la transforme nous-mêmes à Québec. Mes 2 grandes missions : faire connaître
+l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem. Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce qui devrait intéresser vos lecteurs, ce n'est pas la télévision. C'est de savoir
-s'il y a de nouveau un débouché pour la plante qui a fait tant de promesses dans
-Mékinac. Ma réponse honnête : il y en a un, il est plus petit que ce qu'on avait promis
-en 2014, et je ne peux garantir aucun volume à long terme. Je peux en parler
-franchement.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Je voulais vous en faire part parce que vos lecteurs ont vu la promesse de l'asclépiade de
+plus près que n'importe qui. Qui sait, peut-être vous inspirer un sujet sur ce que la plante
+est devenue depuis. Je peux parler des volumes, de la récolte, et de ce qui reste à régler.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Clara Matthey-Jonais — Pigiste — `journaliste@tvbl.qc.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Clara,
+Bonjour Clara Matthey-Jonais,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Valérian Mazataud — Le Devoir — `vmazataud@ledevoir.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Valérian,
+Bonjour Valérian Mazataud,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Nicolas Mesly — Pigiste — `nicolasmesly@gmail.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Nicolas,
+Bonjour Nicolas Mesly,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Nicolas Michaud — Pigiste — `nicolas.michaud.1@umontreal.ca`
 *Priorité A · Lanaudière*
 
 ```
-Bonjour Nicolas,
+Bonjour Nicolas Michaud,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Véronique Morin — Quebecor Média — `veronique.morin@quebecormedia.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Véronique,
+Bonjour Véronique Morin,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Josée Panet-Raymond — Pigiste — `jopanray@videotron.ca`
 *Priorité A · Laval*
 
 ```
-Bonjour Josée,
+Bonjour Josée Panet-Raymond,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Yannick Patelli — Pigiste — `ypatelli@lavieagricole.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Yannick,
+Bonjour Yannick Patelli,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marie-Hélène Proulx — L’actualité — `mhproulx@lactualite.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Marie-Hélène,
+Bonjour Marie-Hélène Proulx,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Scott Stevenson — Pigiste — `direction@journalhsf.com`
 *Priorité A · Estrie*
 
 ```
-Bonjour Scott,
+Bonjour Scott Stevenson,
 
-Une des usines de transformation de l'asclépiade était à Granby. Elle a fermé avec le reste de la filière, et l'Estrie compte encore des producteurs de la plante.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Michèle Tanganika — Pigiste — `mtanganika@chga.fm`
 *Priorité A · Outaouais*
 
 ```
-Bonjour Michèle,
+Bonjour Michèle Tanganika,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### MARC-OLIVIER BISSON — Pigiste — `mobisson@ledroit.com`
 *Priorité B · Laurentides*
 
 ```
-Bonjour MARC-OLIVIER,
+Bonjour MARC-OLIVIER BISSON,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Gilles Bérubé — Pigiste — `gilles-berube@hotmail.com`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Gilles,
+Bonjour Gilles Bérubé,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Daphné Cameron — La Presse — `dcameron@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Daphné,
+Bonjour Daphné Cameron,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Sarah Champagne — Le Devoir — `schampagne@ledevoir.com`
 *Priorité B · Montréal*
 
 ```
-Bonjour Sarah,
+Bonjour Sarah Champagne,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Ève Dumas — La Presse — `edumas@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Ève,
+Bonjour Ève Dumas,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Chloé Germain-Thérien — Le Devoir — `cgermain@ledevoir.com` — **écrit à la main**
+### Chloé Germain-Thérien — Le Devoir — `cgermain@ledevoir.com`
 *Priorité B · Mauricie*
 
 ```
-Bonjour Chloé,
+Bonjour Chloé Germain-Thérien,
 
-Vous êtes en Mauricie, où l'asclépiade a eu son usine et sa faillite : Saint-Tite
-achetait 90 % des récoltes du Québec avant que Les Industries Encore 3 ferment.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-On est l'entreprise qui a démarré après. On achète encore de l'asclépiade québécoise,
-on transforme l'isolant à Limoilou, et le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. La filière s'est cassée en 2018, mais des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Il y a un sujet agricole réel là-dedans : les producteurs qui ont survécu à 2018 sont
-encore là, et la question qu'ils posent n'a pas changé. Est-ce qu'il y a un acheteur
-stable au bout du champ. Je peux répondre sans rien promettre que je ne peux tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Gildas Meneu — Radio-Canada (Montréal) — `gildas.meneu@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Gildas,
+Bonjour Gildas Meneu,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Pierre St-Arnaud — La Presse Canadienne — `pierre.st-arnaud@lapressecanadienne.com`
 *Priorité B · Montréal*
 
 ```
-Bonjour Pierre,
+Bonjour Pierre St-Arnaud,
 
-En 2018, la filière québécoise de l'asclépiade s'est effondrée et des producteurs ont retourné leurs champs. Huit ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Huit ans après l'effondrement de la première filière québécoise de l'asclépiade, on achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes à Québec.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'est plutôt : est-ce qu'il y a enfin un acheteur stable au bout du champ, et à quelles conditions. Je peux parler des volumes, de la fenêtre de récolte et de ce qui bloque encore côté mécanisation, sans rien promettre que je ne peux pas tenir.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ## Angle D — 45 contacts
@@ -993,765 +1546,1035 @@ Ce n'est pas la télévision qui devrait intéresser vos lecteurs. Le sujet, c'e
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Ariane,
+Bonjour Ariane Boyer,
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui la rend intéressante pour des régions où les cultures conventionnelles rendent mal.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Anaïs Desjardins — Radio-Canada (Ottawa) — `anais.desjardins@radio-canada.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Anaïs,
+Bonjour Anaïs Desjardins,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jean Garon — Pigiste — `jeangaron@videotron.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Jean,
+Bonjour Jean Garon,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Kodjo Edjinam Nulagnon LOGO — Pigiste — `alphonse@flofm.ca`
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Kodjo Edjinam Nulagnon,
+Bonjour Kodjo Edjinam Nulagnon LOGO,
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui la rend intéressante pour des régions où les cultures conventionnelles rendent mal.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Charles Mathieu — Quebecor Média — `charles.mathieu@quebecormedia.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Charles,
+Bonjour Charles Mathieu,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Félix Pedneault — Le Devoir — `felix.pedneault21@gmail.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Félix,
+Bonjour Félix Pedneault,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jean-Francois Venne — Pigiste — `jf_venne@videotron.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Jean-Francois,
+Bonjour Jean-Francois Venne,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Yahia Arkat — Agence QMI — `dayenkan@yahoo.fr`
 *Priorité B · Montréal*
 
 ```
-Bonjour Yahia,
+Bonjour Yahia Arkat,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Maïté Belmir — Pigiste — `belmirmaitepro@gmail.com`
 *Priorité B · Montréal*
 
 ```
-Bonjour Maïté,
+Bonjour Maïté Belmir,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### André Bernard — Radio-Canada (Montréal) — `andre.bernard_tv@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour André,
+Bonjour André Bernard,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Didier Bert — Pigiste — `didier@didierbert.com`
 *Priorité B · France*
 
 ```
-Bonjour Didier,
+Bonjour Didier Bert,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Sara Champagne — La Presse — `schampagne@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Sara,
+Bonjour Sara Champagne,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Éric-Pierre Champagne — La Presse — `echampagne@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Éric-Pierre,
+Bonjour Éric-Pierre Champagne,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marine Corniou — Québec Science — `m.corniou@quebecscience.qc.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Marine,
+Bonjour Marine Corniou,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Catherine Crépeau — Protégez-Vous — `ccrepeau@protegez-vous.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Catherine,
+Bonjour Catherine Crépeau,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Amélie Daoust-Boisvert — Pigiste — `amelie.daoust-boisvert@concordia.ca`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Amélie,
+Bonjour Amélie Daoust-Boisvert,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Quentin Dufranne — Pigiste — `quentin.dufranne@gmail.com`
 *Priorité B · Montréal*
 
 ```
-Bonjour Quentin,
+Bonjour Quentin Dufranne,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Ahmed Kouaou — Radio-Canada (Montréal) — `ahmed.kouaou@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Ahmed,
+Bonjour Ahmed Kouaou,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Tania Krywiak — Bell Média — `tania.krywiak@bellmedia.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Tania,
+Bonjour Tania Krywiak,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Boris Proulx — Le Devoir — `bproulx@ledevoir.com`
 *Priorité B · Ontario*
 
 ```
-Bonjour Boris,
+Bonjour Boris Proulx,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Philippe Robitaille-Grou — Radio-Canada — `philippe.robitaille-grou@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Philippe,
+Bonjour Philippe Robitaille-Grou,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Gwen Roley — Agence France Presse — `gwen.roley@afp.com`
 *Priorité B · Montréal*
 
 ```
-Bonjour Gwen,
+Bonjour Gwen Roley,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Mathieu-Robert Sauvé — Le Journal de Montréal — `mathieu-robert.sauve@umontreal.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Mathieu-Robert,
+Bonjour Mathieu-Robert Sauvé,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Yanick Villedieu — Radio-Canada (QC) — `villedieu.yanick@videotron.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Yanick,
+Bonjour Yanick Villedieu,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jonathan Allard — Le Devoir — `jallard@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Jonathan,
+Bonjour Jonathan Allard,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Anick Baribeau — Pigiste — `anick.baribeau.1@ulaval.ca`
 *Priorité C · Mauricie*
 
 ```
-Bonjour Anick,
+Bonjour Anick Baribeau,
 
-L'usine qui achetait 90 % des récoltes d'asclépiade du Québec était à Saint-Tite. Quand Les Industries Encore 3 ont fait faillite, la filière s'est effondrée et des producteurs de la Mauricie ont retourné leurs champs.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. La filière s'est cassée en 2018, mais des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Karim Benessaieh — La Presse — `kbenessaieh@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Karim,
+Bonjour Karim Benessaieh,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Julien Cayouette — Pigiste — `julien@francopresse.ca`
 *Priorité C · Ontario*
 
 ```
-Bonjour Julien,
+Bonjour Julien Cayouette,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Sarah Collardey — Le Devoir — `sarah.collardey1@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Sarah,
+Bonjour Sarah Collardey,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marcelin Delice — Pigiste — `marcelindelice@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Marcelin,
+Bonjour Marcelin Delice,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Martine Deslauriers — Pigiste — `mdeslauriersmba@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Martine,
+Bonjour Martine Deslauriers,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Maxim Fauteux — Pigiste — `2433413@etu.cegepjonquiere.ca`
 *Priorité C · Saguenay - Lac-Saint-Jean*
 
 ```
-Bonjour Maxim,
+Bonjour Maxim Fauteux,
 
-Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos débuts, et il l'est encore aujourd'hui. Pour une filière qui s'est effondrée en 2018, ce n'est pas banal.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Zacharie Goudreault — Le Devoir — `zgoudreault@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Zacharie,
+Bonjour Zacharie Goudreault,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### ANGELO JEAN-BAPTISTE — Pigiste — `iciangegoal@yahoo.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour ANGELO,
+Bonjour ANGELO JEAN-BAPTISTE,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Angie Landry — L'actualité — `angie.landry@lactualite.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Angie,
+Bonjour Angie Landry,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Camille Langlade — Pigiste — `camille@francopresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Camille,
+Bonjour Camille Langlade,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Étienne Leblanc — Radio-Canada (Montréal) — `etienne.leblanc@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Étienne,
+Bonjour Étienne Leblanc,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Colin McGregor — Pigiste — `colin.mcgregor@tse2015.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Colin,
+Bonjour Colin McGregor,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marie-Paul Rouleau — Pigiste — `mprouleau100@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Marie-Paul,
+Bonjour Marie-Paul Rouleau,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Alexandre Shields — Le Devoir — `ashields@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Alexandre,
+Bonjour Alexandre Shields,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Chloé Sondervorst — Radio-Canada (QC) — `chloe.sondervorst@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Chloé,
+Bonjour Chloé Sondervorst,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Martin Tremblay — La Presse — `martin.tremblay@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Martin,
+Bonjour Martin Tremblay,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Raymond Viger — Reflet de société — `raymondviger@hotmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Raymond,
+Bonjour Raymond Viger,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Augustin de Baudinière — Le Devoir — `adebaudiniere@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Augustin,
+Bonjour Augustin de Baudinière,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Ivan de Jacquelin-Dulphe — Radio-Canada — `ivan.de.jacquelin-dulphe@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Ivan,
+Bonjour Ivan de Jacquelin-Dulphe,
 
-Le monarque est en voie de disparition au Canada depuis un statut confirmé en 2024, et son déclin est largement attribué à la disparition de l'asclépiade dans les zones agricoles.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est la seule plante que les chenilles du monarque peuvent manger, et le déclin du papillon suit celui de la plante dans les zones agricoles. Notre pari est simple : si l'asclépiade devient payante, les agriculteurs la gardent.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le pari de Lasclay est économique avant d'être écologique : si l'asclépiade paie, les agriculteurs la gardent dans leurs champs. On a distribué environ 10 millions de graines en Amérique du Nord.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je précise toujours la même chose, parce que c'est souvent mal raconté : acheter un produit ne sauve pas un papillon en particulier. Le lien est systémique.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de la campagne de plantation, qui en est à sa 5e édition et qui a distribué environ 10 millions de graines en Amérique du Nord.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ## Angle E — 26 contacts
@@ -1760,442 +2583,598 @@ Je précise toujours la même chose, parce que c'est souvent mal raconté : ache
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Francois,
+Bonjour Francois Bourque,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jean-Luc Lavallée — Protégez-Vous — `jllavallee@protegez-vous.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Jean-Luc,
+Bonjour Jean-Luc Lavallée,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marie-Eve Fournier — La Presse — `mfournier@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Marie-Eve,
+Bonjour Marie-Eve Fournier,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marie-Pier Frappier — Les Affaires — `marie-pier.frappier@groupecontex.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Marie-Pier,
+Bonjour Marie-Pier Frappier,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Annie Hudon — Radio-Canada (Montréal) — `annie.hudon-friceau@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Annie,
+Bonjour Annie Hudon,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Yvan Lamontagne — Radio-Canada (Montréal) — `yvan.lamontagne@radio-canada.ca`
 *Priorité B · Estrie*
 
 ```
-Bonjour Yvan,
+Bonjour Yvan Lamontagne,
 
-Une des usines de transformation de l'asclépiade était à Granby. Elle a fermé avec le reste de la filière, et l'Estrie compte encore des producteurs de la plante.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Anne Marie Lecomte — Radio-Canada (Montréal) — `anne-marie.lecomte@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Anne Marie,
+Bonjour Anne Marie Lecomte,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Katherine Tremblay — Radio-Canada (Montréal) — `katherine.tremblay@radio-canada.ca`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Katherine,
+Bonjour Katherine Tremblay,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Martin Vallières — La Presse — `mvallier@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Martin,
+Bonjour Martin Vallières,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Félix-Antoine Beauchemin — Pigiste — `editor@theconcordian.com`
 *Priorité C · Montérégie*
 
 ```
-Bonjour Félix-Antoine,
+Bonjour Félix-Antoine Beauchemin,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Karine Boivin Forcier — Pigiste — `kbforcier@informeaffaires.com`
 *Priorité C · Saguenay - Lac-Saint-Jean*
 
 ```
-Bonjour Karine,
+Bonjour Karine Boivin Forcier,
 
-Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos débuts, et il l'est encore aujourd'hui. Pour une filière qui s'est effondrée en 2018, ce n'est pas banal.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Pierre Brisson — Université de Montréal — `brissonp@hotmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Pierre,
+Bonjour Pierre Brisson,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Diane Bérard — Pigiste — `diane_berard@hotmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Diane,
+Bonjour Diane Bérard,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Ivanoh Demers — Radio-Canada — `ivanoh.demers@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Ivanoh,
+Bonjour Ivanoh Demers,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Claude Desjardins — Pigiste — `jardinsclaudes@gmail.com`
 *Priorité C · Lanaudière*
 
 ```
-Bonjour Claude,
+Bonjour Claude Desjardins,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Richard Dupaul — Pigiste — `richard.dupaul@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Richard,
+Bonjour Richard Dupaul,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Stéphane Giroux — Bell Média — `stephane.giroux@bellmedia.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Stéphane,
+Bonjour Stéphane Giroux,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Matthieu Hains — Les Affaires — `matthieu.hains@groupecontex.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Matthieu,
+Bonjour Matthieu Hains,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Hugo Joncas — La Presse — `hjoncas@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Hugo,
+Bonjour Hugo Joncas,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Guillaume Longuépée — Pigiste — `longuepeeguillaume04@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Guillaume,
+Bonjour Guillaume Longuépée,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Roxane Léouzon — Le Devoir — `rleouzon@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Roxane,
+Bonjour Roxane Léouzon,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Timothy Morson — Pigiste — `tim.morson@videotron.ca`
 *Priorité C · Centre-du-Québec*
 
 ```
-Bonjour Timothy,
+Bonjour Timothy Morson,
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs producteurs qui ont survécu à l'effondrement de la filière y sont encore.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Olivier Schmouker — Les Affaires — `olivier.schmouker@groupecontex.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Olivier,
+Bonjour Olivier Schmouker,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### William Thériault — La Presse — `williamtheriault1@gmail.com`
 *Priorité C · Montérégie*
 
 ```
-Bonjour William,
+Bonjour William Thériault,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Katia Tobar — Les Affaires — `katia.tobar@groupecontex.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Katia,
+Bonjour Katia Tobar,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Pierre-Luc Trudel — Avantages — `pierre-luc.trudel@groupecontex.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Pierre-Luc,
+Bonjour Pierre-Luc Trudel,
 
-En 2021, on a acheté une matelasseuse usagée en Ontario et bâti nos propres procédés parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade. En 2025, on a confié l'assemblage textile à des manufacturiers externes.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est ce qui a permis un manteau isolé à l'asclépiade autour de 300 $, après des tentatives de l'industrie à plus de 500 $ et 1000 $ qui ont toutes été discontinuées.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'approvisionnement, et ce que le virage a coûté.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler de ce que ça demande d'industrialiser une matière qui n'a pas de chaîne d'approvisionnement.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ## Angle F — 20 contacts
@@ -2204,300 +3183,460 @@ Ce dont je peux parler : industrialiser une matière qui n'a pas de chaîne d'ap
 *Priorité A · Montréal*
 
 ```
-Bonjour Eric,
+Bonjour Eric Chabot,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Aurélia Crémoux — Pigiste — `aurelia.cremoux@gmail.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Aurélia,
+Bonjour Aurélia Crémoux,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marieke Glorieux-Stryckman — Le Devoir — `mariekestryckman@gmail.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Marieke,
+Bonjour Marieke Glorieux-Stryckman,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Maude Goyer — Pigiste — `maude.goyer@hec.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Maude,
+Bonjour Maude Goyer,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jean-Francois Leblanc — Pigiste — `jfleblanc@agencestockphoto.com`
 *Priorité A · Laurentides*
 
 ```
-Bonjour Jean-Francois,
+Bonjour Jean-Francois Leblanc,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Julie Leduc — Naître et Grandir — `julie.leduc@cgocable.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Julie,
+Bonjour Julie Leduc,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Emmanuelle Mozayan-Verschaeve — Pigiste — `ecritsur@gmail.com`
 *Priorité A · Laurentides*
 
 ```
-Bonjour Emmanuelle,
+Bonjour Emmanuelle Mozayan-Verschaeve,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jean-Benoît Nadeau — L’actualité — `jean-benoit@nadeaubarlow.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Jean-Benoît,
+Bonjour Jean-Benoît Nadeau,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Yves Ouellet — Pigiste — `y.ouellet@videotron.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Yves,
+Bonjour Yves Ouellet,
 
-Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant. C'est la seule étape qu'on a refusé de délocaliser.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marie-Eve Poulin — Pigiste — `mepoulin@lenord-cotier.com`
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Marie-Eve,
+Bonjour Marie-Eve Poulin,
 
-L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui la rend intéressante pour des régions où les cultures conventionnelles rendent mal.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade est une vivace indigène qui pousse avec peu d'intrants, ce qui en fait une culture intéressante pour des régions où les grandes cultures rendent mal.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Sylvain Sarrazin — La Presse — `ssarrazin@lapresse.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Sylvain,
+Bonjour Sylvain Sarrazin,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Pierre Sormany — Pigiste — `sormanyp@gmail.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Pierre,
+Bonjour Pierre Sormany,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Shahram Yazdanpanah — Medad — `shram.yazd@gmail.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Shahram,
+Bonjour Shahram Yazdanpanah,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Charlotte Glorieux — Pigiste — `glorieux.charlotte@gmail.com`
 *Priorité B · Montréal*
 
 ```
-Bonjour Charlotte,
+Bonjour Charlotte Glorieux,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Bruno Lamolet — Québec Science — `blamolet@quebecscience.qc.ca`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Bruno,
+Bonjour Bruno Lamolet,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Yves Langlois — Pigiste — `yves@lany.ca`
 *Priorité B · Estrie*
 
 ```
-Bonjour Yves,
+Bonjour Yves Langlois,
 
-Une des usines de transformation de l'asclépiade était à Granby. Elle a fermé avec le reste de la filière, et l'Estrie compte encore des producteurs de la plante.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Anne Montplaisir — Pigiste — `anne.montplaisir@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Anne,
+Bonjour Anne Montplaisir,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Michel Tremblay — Pigiste — `miczoom@gmail.com`
 *Priorité B · Centre-du-Québec*
 
 ```
-Bonjour Michel,
+Bonjour Michel Tremblay,
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs producteurs qui ont survécu à l'effondrement de la filière y sont encore.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Bernard Brault — Pigiste — `photobro@videotron.ca`
 *Priorité C · Montérégie*
 
 ```
-Bonjour Bernard,
+Bonjour Bernard Brault,
 
-La Montérégie est une des régions où l'asclépiade se cultive encore, malgré l'effondrement de la filière en 2018.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Alain Demers — Pigiste — `alain.demers@quebecormedia.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Alain,
+Bonjour Alain Demers,
 
-La soie d'asclépiade est une fibre creuse et hydrophobe attachée aux graines de la plante. À poids égal, la littérature la donne pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+La soie d'asclépiade est une fibre creuse et naturellement hydrophobe attachée aux graines de la plante. On en fait l'isolant de nos manteaux, de nos mitaines et de nos sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je peux vous envoyer un produit avant l'hiver, sans condition et sans droit de regard sur ce que vous en écrirez.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous voulez tester la fibre plutôt que me croire sur parole, je vous envoie un produit avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ## Angle G — 21 contacts
@@ -2506,357 +3645,483 @@ C'est pour ça que je préfère que vous testiez plutôt que de me croire. Je pe
 *Priorité A · Laval*
 
 ```
-Bonjour Victoria,
+Bonjour Victoria Bakos,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Malika Alaoui — Pigiste — `alaoui.malika514@gmail.com`
 *Priorité B · Montréal*
 
 ```
-Bonjour Malika,
+Bonjour Malika Alaoui,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Julia Bernier — Pigiste — `julia.bernier@mamh.gouv.qc.ca`
 *Priorité C · Centre-du-Québec*
 
 ```
-Bonjour Julia,
+Bonjour Julia Bernier,
 
-L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs producteurs qui ont survécu à l'effondrement de la filière y sont encore.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Luc Boulanger — La Presse — `lboulanger@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Luc,
+Bonjour Luc Boulanger,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marie-France Bélanger — Radio-Canada (QC) — `marie-france.belanger@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Marie-France,
+Bonjour Marie-France Bélanger,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Oumou DIAKITÉ — Pigiste — `oumoudiakitepro@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Oumou,
+Bonjour Oumou DIAKITÉ,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Agnès Delavault — Protégez-Vous — `adelavault@pv.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Agnès,
+Bonjour Agnès Delavault,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Claude Deschênes — Avenues.ca — `claude.deschenes3@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Claude,
+Bonjour Claude Deschênes,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Stéphanie Dupuis — Radio-Canada (Montréal) — `dupuis.stephanie@outlook.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Stéphanie,
+Bonjour Stéphanie Dupuis,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Isabelle Grégoire — Pigiste — `gregisa@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Isabelle,
+Bonjour Isabelle Grégoire,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Chantal Guy — La Presse — `cguy@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Chantal,
+Bonjour Chantal Guy,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Andréanne Joly — Pigiste — `andreannejoly@gmail.com`
 *Priorité C · Ontario*
 
 ```
-Bonjour Andréanne,
+Bonjour Andréanne Joly,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Joannie Lafrenière — Pigiste — `joannie@jlafreniere.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Joannie,
+Bonjour Joannie Lafrenière,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Louise Leduc — La Presse — `lleduc@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Louise,
+Bonjour Louise Leduc,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Isabelle Morin — La Presse — `imorin@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Isabelle,
+Bonjour Isabelle Morin,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Rachid Najahi — Groupe Atlas Média — `rachid.najahi@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Rachid,
+Bonjour Rachid Najahi,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Frédéric Perron — Protégez-Vous — `fperron@protegez-vous.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Frédéric,
+Bonjour Frédéric Perron,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Richard Prudhomme — Pigiste — `rawdonphotos@hotmail.com`
 *Priorité C · Lanaudière*
 
 ```
-Bonjour Richard,
+Bonjour Richard Prudhomme,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Pascale Renaud — Pigiste — `pascalerenaud29@hotmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Pascale,
+Bonjour Pascale Renaud,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marc Sony Ricot — La Presse — `mricot@collaborateur.lapresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Marc Sony,
+Bonjour Marc Sony Ricot,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Catherine Schlager — La Presse — `cschlager@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Catherine,
+Bonjour Catherine Schlager,
+
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
 L'asclépiade est la plante que les agriculteurs arrachent depuis 50 ans. La soie attachée à ses graines est ce qui isole nos manteaux, nos mitaines et nos tuques.
 
-Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'assemblage des produits finis se fait en Tunisie depuis 2025. Je ne dis pas « fabriqué au Québec », ce serait faux.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. J'ai du matériel photo qui montre bien le contraste : la gousse dans le champ, la soie dans la main, le produit porté. L'atelier de Limoilou est ouvert si vous voulez voir la matière.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ## Angle I — 36 contacts
@@ -2865,540 +4130,774 @@ Une précision qui compte : l'isolant est cultivé et transformé au Québec, l'
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Papa Moussa,
+Bonjour Papa Moussa Camara,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Karl-Ivann Dubé — SOCAM (Atikamekw-Montagnais) — `kdube@socam.net`
 *Priorité A · Lanaudière*
 
 ```
-Bonjour Karl-Ivann,
+Bonjour Karl-Ivann Dubé,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Étienne Fortin-Gauthier — Noovo Info — `etiennefgauthier@bellmedia.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Étienne,
+Bonjour Étienne Fortin-Gauthier,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Cécile Gladel — Radio-Canada — `cecile.gladel@gmail.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Cécile,
+Bonjour Cécile Gladel,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Bernard Hervieux — SOCAM (Atikamekw-Montagnais) — `bhervieux@socam.net`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Bernard,
+Bonjour Bernard Hervieux,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marianne Lachapelle — TVA Nouvelles — `marianne.lachapelle@tva.ca`
 *Priorité A · Estrie*
 
 ```
-Bonjour Marianne,
+Bonjour Marianne Lachapelle,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Alain Laforest — TVA Nouvelles — `alain.laforest@tva.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Alain,
+Bonjour Alain Laforest,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Notre atelier est dans Limoilou, et c'est là que la soie d'asclépiade devient de l'isolant.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Lili Mercure — Noovo Info — `lili.mercure@bellmedia.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Lili,
+Bonjour Lili Mercure,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Lila Mouch — Noovo Info — `lila.mouch@bellmedia.ca`
 *Priorité A · Montréal*
 
 ```
-Bonjour Lila,
+Bonjour Lila Mouch,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Stephane Tellier — SUMMUM — `bourlingueurstephanetellier@gmail.com`
 *Priorité A · Montréal*
 
 ```
-Bonjour Stephane,
+Bonjour Stephane Tellier,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Sophie-Andrée Blondin — Radio-Canada (Montréal) — `sophie-andree.blondin@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
-Bonjour Sophie-Andrée,
+Bonjour Sophie-Andrée Blondin,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Pierre Brochu — Ubique Film — `pierre@ubiquefilm.com`
 *Priorité B · Estrie*
 
 ```
-Bonjour Pierre,
+Bonjour Pierre Brochu,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+L'Estrie compte encore des producteurs d'asclépiade, et une des premières usines de transformation de la fibre était à Granby.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marie-Julie Gagnon — Pigiste — `mjtornado@gmail.com`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Marie-Julie,
+Bonjour Marie-Julie Gagnon,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Philippe Marois — Radio-Canada (Radio - Montréal) — `phil.marois@gmail.com`
 *Priorité B · Montérégie*
 
 ```
-Bonjour Philippe,
+Bonjour Philippe Marois,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Carole Payer — Pigiste — `universcp@gmail.com`
 *Priorité B · Centre-du-Québec*
 
 ```
-Bonjour Carole,
+Bonjour Carole Payer,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+L'asclépiade se cultive dans votre région depuis la première vague de 2013, et plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Audrey Bonaque — Noovo Info — `aud.bonaque@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Audrey,
+Bonjour Audrey Bonaque,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Laurence Brisson Dubreuil — Université Concordia — `laurence.brisson_dub@bellmedia.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Laurence,
+Bonjour Laurence Brisson Dubreuil,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Nathaniel Bronner — Pigiste — `nbronner@lesasdelinfo.com`
 *Priorité C · Laurentides*
 
 ```
-Bonjour Nathaniel,
+Bonjour Nathaniel Bronner,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Rudy Chabannes — TFO / TVOntario — `rchabannes@tfo.org`
 *Priorité C · Ontario*
 
 ```
-Bonjour Rudy,
+Bonjour Rudy Chabannes,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Denis-Martin Chabot — Pigiste — `denismartinchabot@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Denis-Martin,
+Bonjour Denis-Martin Chabot,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Loubna Majda Chourouk — Pigiste — `loubna.majda.chourouk@gmail.com`
 *Priorité C · Laval*
 
 ```
-Bonjour Loubna Majda,
+Bonjour Loubna Majda Chourouk,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Jean-René Dufort — Zone3 — `jean-rene.dufort@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Jean-René,
+Bonjour Jean-René Dufort,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Ronald Georges — Radio-Canada (Radio - Montréal) — `ronald.georges@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Ronald,
+Bonjour Ronald Georges,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Philémon La Frenière-Prémont — Radio-Canada (Radio - Montréal) — `phlemonlpp@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Philémon,
+Bonjour Philémon La Frenière-Prémont,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Henri Laban — Radio VM Montréal — `hlaban2015@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Henri,
+Bonjour Henri Laban,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Claudia Larochelle — Radio-Canada (Montréal) — `clolarochelle@hotmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Claudia,
+Bonjour Claudia Larochelle,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Ève Lévesque — Pigiste — `levesque.eve@outlook.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Ève,
+Bonjour Ève Lévesque,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Sophie Mangado — Pigiste — `sophie.mangado@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Sophie,
+Bonjour Sophie Mangado,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Richard Olivier — TVA Nouvelles — `richard.olivier@outlook.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Richard,
+Bonjour Richard Olivier,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Nathalie Petrowski — Radio-Canada (Radio - Montréal) — `lacombem3@videotron.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Nathalie,
+Bonjour Nathalie Petrowski,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Raymonde Provencher — Pigiste — `raymondep@macumbainternational.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour Raymonde,
+Bonjour Raymonde Provencher,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Emmalie Ruest — Radio-Canada (RDI) — `emmalie.ruest@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Emmalie,
+Bonjour Emmalie Ruest,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Kimberley Sullivan — Pigiste — `ksullivan@aptn.ca`
 *Priorité C · Montérégie*
 
 ```
-Bonjour Kimberley,
+Bonjour Kimberley Sullivan,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+La Montérégie est une des régions où l'asclépiade se cultive encore, et c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Marie-Christine Trottier — Radio-Canada (Radio - Montréal) — `marie-christine.trottier@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Marie-Christine,
+Bonjour Marie-Christine Trottier,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### David Turbis — C B C (Radio-Canada) — `lagrc2015@gmail.com`
 *Priorité C · Montréal*
 
 ```
-Bonjour David,
+Bonjour David Turbis,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Alexandra Viau — Radio-Canada (Radio - Montréal) — `alexandra.viau@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour Alexandra,
+Bonjour Alexandra Viau,
 
-Lasclay est une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile. Le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Je dirige Lasclay, une entreprise de Québec qui transforme la soie d'asclépiade en isolant textile : manteaux, mitaines, tuques, sacs isothermes.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
-Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ## Angle J — 2 contacts
@@ -3407,43 +4906,52 @@ Le sujet en une phrase : une entreprise de Québec va expliquer à un auditoire 
 *Priorité A · Montreal*
 
 ```
-Bonjour Jean-Michel,
+Bonjour Jean-Michel Leprince,
 
-Vous couvrez l'asclépiade depuis au moins 2014. Le Téléjournal, la soie d'Amérique
-partie sur l'Everest, le pouvoir absorbant de la fibre sur les hydrocarbures, le lien
-avec le monarque. Vous avez suivi cette histoire plus longtemps que la plupart des
-entreprises qui s'y sont essayées.
+Vous couvrez l'asclépiade depuis au moins 2014 : le Téléjournal, la soie d'Amérique partie
+sur l'Everest, le pouvoir absorbant de la fibre sur les hydrocarbures, le lien avec le
+monarque. Vous avez suivi cette histoire plus longtemps que la plupart des entreprises qui
+s'y sont essayées.
 
-Vous avez donc vu la suite : Encore 3, Fibre Monark et Protec-Style ont fermé les unes
-après les autres, et la coopérative Monark s'est retrouvée sans acheteur.
+On est l'entreprise qui a démarré après la chute de la première filière. Six ans plus tard,
+on achète encore de l'asclépiade québécoise et on transforme l'isolant nous-mêmes à
+Limoilou. Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques
+par la culture de l'asclépiade.
 
-On est l'entreprise qui a démarré après. Six ans plus tard, on achète encore de
-l'asclépiade québécoise, on transforme l'isolant nous-mêmes à Limoilou, et le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Ce que je peux raconter, et que personne n'a encore raconté au complet : pourquoi la
-première filière est morte, ce qu'on a fait différemment, et ce qui n'est toujours pas
-réglé, à commencer par la mécanisation de la récolte. Je n'ai pas besoin de vous
-expliquer la plante.
+Vous êtes probablement la personne au Québec qui a le plus longtemps suivi cette plante-là.
+Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : ce serait la
+première fois qu'on raconte ce que la filière est devenue après la chute.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ### Antoine Stab — Espaces — *adresse à trouver* — **écrit à la main**
 *Priorité B · Montreal*
 
 ```
-Bonjour Antoine,
+Bonjour Antoine Stab,
 
-Vous aviez écrit sur le soyer du Québec dans Espaces en février 2015, à l'époque où la
-fibre devait remplacer le duvet. Vous savez donc ce qui a suivi : les transformateurs
-ont fait faillite les uns après les autres à partir de 2017.
+Vous aviez écrit sur le soyer du Québec dans Espaces en février 2015, à l'époque où la fibre
+devait remplacer le duvet.
 
-On est l'entreprise qui a démarré après. Six ans plus tard, on achète encore de
-l'asclépiade québécoise, on transforme l'isolant nous-mêmes, et le 17 septembre, Lasclay est dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+On est l'entreprise qui a démarré après la chute de cette première filière. Six ans plus
+tard, on achète encore de l'asclépiade québécoise, on transforme l'isolant nous-mêmes, et il
+existe maintenant un manteau à inserts d'asclépiade amovibles autour de 300 $.
 
-Je ne peux pas dire comment ça s'est terminé avant la diffusion.
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
-Côté plein air, ce qui a changé depuis votre article : il existe maintenant un manteau
-à inserts d'asclépiade amovibles autour de 300 $. Je préfère que vous le testiez plutôt
-que de me croire.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous
+voulez tester le manteau plutôt que me croire sur parole, je vous en envoie un avec plaisir.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
