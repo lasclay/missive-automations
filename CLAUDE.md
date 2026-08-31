@@ -86,3 +86,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 - `qbo_auth.js` / `qbo_check.js` : autorisation OAuth Intuit (une fois) et validation directe.
 - Déploiement : les services Render suivent la branche `main` — le travail se fait sur une
   branche, puis fusion dans `main` pour déployer.
+- **Tout commit qui ne touche que des données** (état du backlog, exports, notes, rapports) doit
+  porter `[skip render]` dans son message : six services suivent `main` et se reconstruisent
+  sinon pour rien. C'est ce qui a épuisé les minutes de construction Render et fait échouer tous
+  les déploiements. Cause, filtres et réglages du tableau de bord : `RENDER-DEPLOIEMENTS.md`.

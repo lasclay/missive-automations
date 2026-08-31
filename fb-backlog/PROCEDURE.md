@@ -207,8 +207,15 @@ Le script tient `etat/<X>-repondus.json` et `etat/<X>-journal.jsonl` tout seul. 
 `etat/<X>-a-revoir.json`. Puis :
 
 ```
+git commit -am "fb-backlog tir <X> : <n> publiées, <m> écartées [skip render]"
 git pull --rebase && git push
 ```
+
+`[skip render]` n'est pas décoratif. Six services Render suivent `main` et se reconstruisent à
+chaque commit, quel qu'en soit le contenu : sans cette mention, chaque tir déclenche six
+constructions pour un JSON de suivi qu'aucun service ne lit. C'est ce qui a épuisé les minutes
+de construction du forfait en août et bloqué tous les déploiements, les vrais compris
+(`RENDER-DEPLOIEMENTS.md`).
 
 Un autre tir peut avoir poussé entre-temps ; comme vos fichiers sont disjoints, le rebase passe
 toujours. Réessaie jusqu'à quatre fois avec un délai croissant. **Sans cette étape, le prochain

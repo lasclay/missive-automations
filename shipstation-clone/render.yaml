@@ -16,6 +16,23 @@ services:
     buildCommand: "true"          # aucune dépendance npm à installer
     startCommand: node --no-warnings shipstation-clone/app/server.js
     healthCheckPath: /healthz
+
+    # Sans ce filtre, TOUT commit sur `main` reconstruit ce service — y compris
+    # les commits de données qui ne le concernent pas (état du backlog Facebook,
+    # exports Klaviyo, notes SEO). Le dépôt en produit plusieurs par heure ; à
+    # six services suivant `main`, les minutes de construction du forfait Render
+    # sont épuisées avant la fin du mois et TOUTES les constructions sont
+    # annulées, y compris les vraies. Voir RENDER-DEPLOIEMENTS.md.
+    #
+    # `paths` est une liste blanche : ce qui n'y figure pas ne déclenche RIEN.
+    # Le service est autonome (aucun require hors de son dossier) ; si un jour il
+    # dépend d'un fichier de la racine, l'ajouter ici, sinon le déploiement
+    # partira sans lui.
+    buildFilter:
+      paths:
+        - shipstation-clone/**
+        - package.json
+        - .node-version
     disk:
       name: donnees
       mountPath: /var/data        # CLONE_DB pointe dedans

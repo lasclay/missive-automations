@@ -19,6 +19,21 @@ services:
     buildCommand: "true"          # aucune dépendance : node:http, node:sqlite, node:crypto
     startCommand: node --no-warnings mrp/server.js
     healthCheckPath: /sante
+
+    # Sans ce filtre, TOUT commit sur `main` reconstruit ce service — y compris
+    # les commits de données qui ne le concernent pas. Le dépôt en produit
+    # plusieurs par heure ; à six services suivant `main`, les minutes de
+    # construction du forfait Render sont épuisées avant la fin du mois et
+    # TOUTES les constructions sont annulées. Voir RENDER-DEPLOIEMENTS.md.
+    #
+    # `paths` est une liste blanche : ce qui n'y figure pas ne déclenche RIEN.
+    # Le MRP est autonome (aucun require hors de `mrp/`) ; si cela change, ajouter
+    # le fichier ici, sinon le déploiement partira sans lui.
+    buildFilter:
+      paths:
+        - mrp/**
+        - package.json
+        - .node-version
     disk:
       name: donnees
       mountPath: /var/data        # MRP_DB pointe dedans

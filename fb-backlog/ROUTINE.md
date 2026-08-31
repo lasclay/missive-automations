@@ -57,7 +57,9 @@ dérive. Le message de chaque Routine ne fait que donner sa lettre.
 4. **Rédige chaque réponse sur mesure** à partir des faits vérifiés. Aucun gabarit copié.
 5. Publie **une réponse à la fois**, à intervalles tirés au sort, en alternant les Pages.
 6. Met à jour `repondus.json` et `a-revoir.json`, committe et pousse sur
-   `claude/composio-facebook-moderation-9czg82`.
+   `claude/composio-facebook-moderation-9czg82`. Message de commit terminé par
+   **`[skip render]`** : un commit d'état ne doit reconstruire aucun des six services Render qui
+   suivent `main` (`RENDER-DEPLOIEMENTS.md`).
 
 ## Arrêt
 
