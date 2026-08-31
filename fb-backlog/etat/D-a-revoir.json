@@ -1088,6 +1088,34 @@
       "motif": "Réaction en image, sans texte. Rien à quoi répondre.",
       "page_id": "114311920399404",
       "quand": "2026-08-31T14:38:32.420Z"
+    },
+    {
+      "id": "1261103522822965_926847493260265",
+      "extrait": "Très intéressant.",
+      "motif": "Encouragement générique sans contenu propre ; ce fil porte déjà un remerciement de notre part. Y répondre produirait un merci interchangeable.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T15:41:28.746Z"
+    },
+    {
+      "id": "1260265889573395_1407093603961569",
+      "extrait": "TU FAIT UN SUPERBE DE BON TRAVAIL JE TE DIT BRAVO.",
+      "motif": "Félicitations générales. Cette publication porte déjà trois remerciements de notre part ; un quatrième serait de la répétition littérale au même endroit. Une réaction humaine conviendrait mieux qu'un commentaire de marque.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T15:41:28.746Z"
+    },
+    {
+      "id": "1260265889573395_25909172418737523",
+      "extrait": "[GIF « BRAVO! » sans texte]",
+      "motif": "Image vue : GIF de félicitations décoratif, aucun contenu à traiter. Même publication que le précédent.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T15:41:28.746Z"
+    },
+    {
+      "id": "1260265889573395_931702832864324",
+      "extrait": "[GIF « YOU ARE THE BEST » sans texte]",
+      "motif": "Image vue : GIF de félicitations décoratif, aucun contenu à traiter. Même publication que les deux précédents.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T15:41:28.746Z"
     }
   ]
 }
