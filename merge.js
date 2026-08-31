@@ -47,6 +47,12 @@
  * Les numéros de commande sont désormais lus dans le texte NON CITÉ seulement : un L-XXXXX
  * qui traîne dans une chaîne de réponses citée ne relie plus deux fils étrangers.
  *
+ * MESURE (rejeu des deux logiques sur 1583 fils réels des 6 boîtes, ouverts + fermés) :
+ * v1.5 étiquetait 17 groupes / 37 fils ; v2.0 en retient 12 / 25, aucun signalé. Les 12 fils
+ * écartés sont tous des faux positifs vérifiés — deux clients différents citant la commande
+ * L-42916 à 233 j d'écart, une notification de remboursement collée à un fil de mitaines de
+ * janvier 2025 (586 j), des groupes de 3 réduits à leur vrai noyau. Aucun vrai doublon perdu.
+ *
  * Détection : empreintes courriel / numéro de commande (nom facultatif), regroupées par
  * union-find sur les PAIRES VALIDÉES. Le regroupement se fait sur l'IDENTITÉ du client,
  * pas sur la boîte : un client avec un fil dans LAS Support et un autre dans Vente
