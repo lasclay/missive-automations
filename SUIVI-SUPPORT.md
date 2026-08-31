@@ -64,6 +64,7 @@ remboursement qui a été promis au passé. Elles passent avant tout le reste.
 | 28 | **Diane Brazeau** | `e6b6a907` | Rembourser les 30 % non appliqués sur L-50460 | 7,58 $ | oui |
 | 29 | **Nancie Bélanger** | `25f95447` | Rembourser les 15 % non appliqués sur L-50638 | 3,79 $ | oui |
 | 30 | **Carole Bourdon** | `f311d591` | Rembourser les frais d'expédition facturés à tort sur L-50197 (rabais bien appliqué, mais 9,99 $ ajoutés) | 11,49 $ | oui |
+| 31 | **David Clubb** | `dea9367d` | **ANNONCÉ AU CLIENT** — L-40699 : réexpédier 1 sachet **Tuberosa** + 1 sachet **Syriaca** à 2314 Stillman St, Crandall TX 75114, **ou** rembourser — à son choix ; sans réponse de sa part, on envoie les graines. Il a confirmé le 31 août n'avoir jamais rien reçu, 289 jours après avoir écrit. Stock vérifié : Tuberosa 85, Syriaca 131. Engagement supplémentaire : **remboursement automatique si rien n'arrive d'ici fin septembre** | remboursement si choisi | oui, cette semaine |
 
 ## Conditionnels — rien à faire tant que le client n'a pas répondu
 
@@ -77,7 +78,7 @@ remboursement qui a été promis au passé. Elles passent avant tout le reste.
 | Fanny Brisson | `d6330a54` | expédition des mitaines urbaines **lilas** si elle confirme ne les avoir jamais reçues — **vérifier le stock de la couleur avant de promettre** |
 | Margaret Clarke | `e834a6da` | L-49971 était déjà partie vers son ancienne adresse quand elle a demandé le changement ; renvoi si elle dit n'avoir rien reçu. Nouvelle adresse : 57 Stinson Rd, Dunbarton NH 03046 |
 | Chantal Richard | `6a0c71e5` | L-50203 : envoi partiel des deux crèmes si elle le préfère, gants magiques à l'automne |
-| Dave Clubb, Lynda Dauber, Stani Butler, James Mobley, Pamela Shaw, Raphaël D. Pageau, Michael Clark, Tina Rumsey, Jo Stachowiak, Diane Swanson | — | **lot « graines sans suivi »** relancé le 2026-08-20 : la question seule a été posée, aucune offre chiffrée, pour éviter de provoquer une fausse déclaration. Traiter au cas par cas si l'un répond n'avoir rien reçu |
+| Lynda Dauber, Stani Butler, James Mobley, Pamela Shaw, Raphaël D. Pageau, Michael Clark, Tina Rumsey, Jo Stachowiak, Diane Swanson | — | **lot « graines sans suivi »** relancé le 2026-08-20 : la question seule a été posée, aucune offre chiffrée, pour éviter de provoquer une fausse déclaration. Traiter au cas par cas si l'un répond n'avoir rien reçu |
 | Cheryl Warner, Donna Burzynski, Georgia Hoffmann, Bob Barth | — | renvoi ou remboursement s'ils confirment n'avoir jamais reçu leurs graines |
 
 ## Réglé
