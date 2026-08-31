@@ -512,8 +512,16 @@
       "quand": "2026-08-31T01:12:55.665Z",
       "confirme": true,
       "texte": "Bienvenue alors. Si la curiosité vous prend, tout se trouve sur lasclay.com."
+    },
+    {
+      "id": "1498545598945918_1516799180005158",
+      "reponse_id": "1498545598945918_2114241399455016",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T10:10:16.566Z",
+      "confirme": true,
+      "texte": "Thank you. Kind words travel further than people think — they've made this stretch a good deal easier. All the best to you."
     }
   ],
-  "derniere_execution": "2026-08-31T01:12:55.665Z",
-  "total": 64
+  "derniere_execution": "2026-08-31T10:10:16.567Z",
+  "total": 65
 }
