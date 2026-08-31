@@ -568,8 +568,24 @@
       "quand": "2026-08-31T16:13:22.297Z",
       "confirme": true,
       "texte": "Merci, et content d'apprendre que vous en gardez encore. C'est la même matière que celle qu'on récolte dans les follicules à l'automne, une fois la migration passée — les feuilles, elles, restent aux chenilles. Au plaisir de vous recroiser."
+    },
+    {
+      "id": "1498545598945918_1645375016643089",
+      "reponse_id": "1498545598945918_1028068396716059",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T17:10:08.903Z",
+      "confirme": true,
+      "texte": "Merci. Cinquante monarques en une saison, c'est beaucoup — vous faites dans votre cour ce que les campagnes de semences tentent à grande échelle : environ dix millions de graines distribuées en Amérique du Nord sur cinq campagnes. Sans plants, il n'y a rien à élever."
+    },
+    {
+      "id": "1498545598945918_2676398522729656",
+      "reponse_id": "1498545598945918_1629623688519156",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T17:12:55.128Z",
+      "confirme": true,
+      "texte": "Merci d'avoir écrit ça. Venant de quelqu'un qui est passé par là, « l'urgence de vivre » ne veut pas dire la même chose. Prenez soin de vous."
     }
   ],
-  "derniere_execution": "2026-08-31T16:13:22.298Z",
-  "total": 71
+  "derniere_execution": "2026-08-31T17:12:55.128Z",
+  "total": 73
 }
