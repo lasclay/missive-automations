@@ -5,13 +5,23 @@ la source est `revue/registre.json`, et tout changement d'état passe par le scr
 
 | État | Nombre |
 | --- | --- |
-| proposee | 4 |
+| proposee | 5 |
 | approuvee | 0 |
 | appliquee | 0 |
 | refusee | 0 |
 | reportee | 0 |
 
-## En attente d'approbation (4)
+## En attente d'approbation (5)
+
+### R-20260831-01 — Reconcilier l'inventaire des routines, et cesser de supposer mcp__* absent
+
+- **Gravité** : majeur · **Effort** : 1 h · **Proposé le** : 2026-08-31
+- **Source** : revue 2026-08-30 (reprise du 31)
+- **Constat** : list_triggers retourne 11 routines la ou revue/routines.json en suit 9. L'inventaire suit la revue sous l'id d'une routine DESACTIVEE et ignore la routine vivante qui l'a remplacee ; il ignore aussi entierement « Chief — point du matin ». La cause tient a une affirmation non verifiee : ROUTINE.md etape 2 et le champ non_collecte de collecte.js declarent qu'une session de Routine ne recoit aucun outil mcp__*, ce qui est faux dans cette session — et c'est cette croyance qui a fait declarer deux routines « inverifiables » le 30 au soir.
+- **Preuve** : list_triggers : 11 entrees. revue/routines.json : 9. La revue s'y suit sous trig_017tFgWR75UBgBu5FhwJQ9Bh, enabled:false, nomme « Revue quotidienne — DESACTIVEE » ; la routine vivante est trig_01XH6MqfMFPaYP5Vebb66Xie, creee 2026-08-30T12:31:34Z. trig_01Yb5B4FJ8CrVTfPEwTPai9 « Chief — point du matin » (13 11 * * *, enabled) n'est suivie nulle part. Ramassages verifies sains par last_run : trig_01UKZahS3efWGPqGWR5L9cht SUCCEEDED 2026-08-31T13:03:30Z, trig_016Bq8cq3sQjpCoSFYKJmWiH SUCCEEDED 2026-08-25T11:25:07Z.
+- **Proposition** : Ajouter a l'etape 1 du tour un appel list_triggers quand l'outil repond, comparer les ids retournes a revue/routines.json, et faire ressortir dans la collecte trois listes nommees : routines actives non suivies, routines suivies desactivees ou disparues, et ecarts de cron ; puis remplacer dans ROUTINE.md et dans le champ non_collecte de collecte.js l'affirmation « aucun outil mcp__* » par le resultat reel de l'appel, en gardant le repli sur la trace quand l'appel echoue.
+- **Portée** : revue/ROUTINE.md, revue/collecte.js, revue/routines.json
+- **Risque** : Le repli doit rester le defaut : si list_triggers echoue ou n'est pas la, le tour doit continuer sur la trace et le dire, jamais s'interrompre. Et un ecart d'inventaire est un constat a signaler, pas une autorisation d'editer routines.json en cours de tour — la mise a jour reste une amelioration approuvee.
 
 ### R-20260830-03 — Trancher dans REGLES.md le cas des felicitations generiques sur un billet deja repondu
 

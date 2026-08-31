@@ -6,7 +6,7 @@
   "fin": "2026-08-31T04:00:00.000Z",
   "decalage_minutes": -240
  },
- "genere_le": "2026-08-31T01:42:00.152Z",
+ "genere_le": "2026-08-31T14:03:05.995Z",
  "branches_connues": [
   "origin/claude/a2x-app-replacement-9i93wy",
   "origin/claude/audit-apm-unanswered-messages-wo3zo1",
@@ -50,6 +50,7 @@
   "origin/claude/reload-skills-tsf447",
   "origin/claude/reload-skills-xiwvf0",
   "origin/claude/revue-quotidienne",
+  "origin/claude/scripts-render-deploy-bug-w0d1kf",
   "origin/claude/shipstation-audit-clone-0gwmgr",
   "origin/claude/shipstation-lasclay-access-k7rydf",
   "origin/claude/shopify-newsletter-saturday-6i6svk",
@@ -60,11 +61,12 @@
   "origin/main"
  ],
  "git": {
-  "commits": 51,
-  "lignes_ajoutees": 3879,
-  "lignes_retirees": 216,
+  "commits": 52,
+  "lignes_ajoutees": 5230,
+  "lignes_retirees": 319,
   "par_branche": {
    "claude/revue-quotidienne": [
+    "39bf1d0a",
     "6cef0547",
     "2df72e3a",
     "9acdaf22",
@@ -121,6 +123,36 @@
    ]
   },
   "liste": [
+   {
+    "sha": "39bf1d0a",
+    "date": "2026-08-30T21:47:53-04:00",
+    "auteur": "Claude",
+    "sujet": "Revue quotidienne 2026-08-30 : 3 constats, 3 propositions",
+    "ajouts": 1351,
+    "retraits": 103,
+    "fichiers": [
+     {
+      "fichier": "revue/REGISTRE.md",
+      "ajouts": 32,
+      "retraits": 2
+     },
+     {
+      "fichier": "revue/jour/2026-08-30/collecte.json",
+      "ajouts": 1148,
+      "retraits": 101
+     },
+     {
+      "fichier": "revue/jour/2026-08-30/revue.md",
+      "ajouts": 129,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/registre.json",
+      "ajouts": 42,
+      "retraits": 0
+     }
+    ]
+   },
    {
     "sha": "6cef0547",
     "date": "2026-08-30T21:12:59-04:00",
@@ -1222,7 +1254,7 @@
     ]
    }
   ],
-  "tete_main": "6cef054"
+  "tete_main": "37e085a"
  },
  "facebook": {
   "presents": true,
@@ -1234,8 +1266,8 @@
     "non_confirmees": 0,
     "erreurs": [],
     "ecartes_du_jour": 65,
-    "dernier_journal": "2026-08-31T01:12:55.666Z",
-    "ecartes_total": 136,
+    "dernier_journal": "2026-08-31T13:23:51.277Z",
+    "ecartes_total": 162,
     "motifs_du_jour": [
      "Felicitations generiques sur le billet du recit de maladie. Quatre reponses distinctes y ont deja ete publiees aujourd hui ; en ajouter encore produirait la repetition que REGLES.md interdit et que Meta lit comme du spam.",
      "Autocollant anime d un chat, sans texte. Rien a quoi repondre.",
@@ -1327,7 +1359,7 @@
     "erreurs": [],
     "ecartes_du_jour": 105,
     "dernier_journal": "2026-08-30T21:30:20.926Z",
-    "ecartes_total": 256,
+    "ecartes_total": 268,
     "motifs_du_jour": [
      "Blague sur le nom du dompte-venin dans le sous-fil deja ecarte plusieurs fois.",
      "« Goose down is over rated » : boutade sans question. Le seul angle verifie disponible, la fibre creuse, a ete publie deux fois aujourdhui. Quasi-doublon.",
@@ -1415,8 +1447,8 @@
     "non_confirmees": 0,
     "erreurs": [],
     "ecartes_du_jour": 19,
-    "dernier_journal": "2026-08-30T23:08:44.716Z",
-    "ecartes_total": 151,
+    "dernier_journal": "2026-08-31T12:54:42.494Z",
+    "ecartes_total": 157,
     "motifs_du_jour": [
      "Recit genereux d'un abonne sur les lepidopteristes qui font un comptage chez lui chaque juillet. Adresse a un autre abonne, aucune question, et rien a y ajouter qui tienne dans nos faits verifies.",
      "« thanks » — amabilite entre deux abonnes.",
@@ -1483,8 +1515,8 @@
     "non_confirmees": 0,
     "erreurs": [],
     "ecartes_du_jour": 0,
-    "dernier_journal": "2026-08-31T00:57:36.776Z",
-    "ecartes_total": 108,
+    "dernier_journal": "2026-08-31T13:58:32.744Z",
+    "ecartes_total": 133,
     "motifs_du_jour": [],
     "heures_sans_publication": [
      "13",
@@ -1545,9 +1577,9 @@
     "horaire": "9 h à 17 h Est, pause à midi",
     "note": "Chaque tir peut sauter volontairement (1 chance sur 6, 2 sur 6 la fin de semaine). Un trou d'une heure n'est pas un incident ; une journée entière sans ligne en est un.",
     "trace": "jsonl",
-    "entrees_total": 71,
-    "derniere_trace": "2026-08-31T01:12:55.666Z",
-    "age_h": 0.5,
+    "entrees_total": 75,
+    "derniere_trace": "2026-08-31T13:23:51.277Z",
+    "age_h": 0.7,
     "seuil_h": 30,
     "verdict": "à jour"
    },
@@ -1560,7 +1592,7 @@
     "trace": "jsonl",
     "entrees_total": 97,
     "derniere_trace": "2026-08-30T21:30:20.926Z",
-    "age_h": 4.2,
+    "age_h": 16.5,
     "seuil_h": 48,
     "verdict": "à jour"
    },
@@ -1571,9 +1603,9 @@
     "horaire": "9 h à 17 h Est, pause à midi",
     "note": "Le plus gros débit des quatre tirs.",
     "trace": "jsonl",
-    "entrees_total": 349,
-    "derniere_trace": "2026-08-30T23:08:44.716Z",
-    "age_h": 2.6,
+    "entrees_total": 358,
+    "derniere_trace": "2026-08-31T12:54:42.494Z",
+    "age_h": 1.1,
     "seuil_h": 30,
     "verdict": "à jour"
    },
@@ -1584,9 +1616,9 @@
     "horaire": "9 h à 17 h Est, pause à midi",
     "note": null,
     "trace": "jsonl",
-    "entrees_total": 62,
-    "derniere_trace": "2026-08-31T00:57:36.776Z",
-    "age_h": 0.7,
+    "entrees_total": 77,
+    "derniere_trace": "2026-08-31T13:58:32.744Z",
+    "age_h": 0.1,
     "seuil_h": 30,
     "verdict": "à jour"
    },
@@ -1599,7 +1631,7 @@
     "trace": "git",
     "chemin": "retail-expansion/",
     "derniere_trace": "2026-08-24T18:50:21.000Z",
-    "age_h": 150.9,
+    "age_h": 163.2,
     "seuil_h": 192,
     "verdict": "à jour"
    },
@@ -1612,7 +1644,7 @@
     "trace": "git",
     "chemin": ".claude/skills/",
     "derniere_trace": "2026-08-29T10:40:00.000Z",
-    "age_h": 39,
+    "age_h": 51.4,
     "seuil_h": 1440,
     "verdict": "à jour"
    },
@@ -1644,8 +1676,8 @@
     "note": "La revue se surveille elle-même : un tour qui ne committe rien est un tour raté.",
     "trace": "git",
     "chemin": "revue/",
-    "derniere_trace": "2026-08-30T12:33:44.000Z",
-    "age_h": 13.1,
+    "derniere_trace": "2026-08-31T01:47:53.000Z",
+    "age_h": 12.3,
     "seuil_h": 48,
     "verdict": "à jour"
    }
@@ -1657,7 +1689,7 @@
    "url": "https://proxy-missive.onrender.com/health",
    "statut": 200,
    "ok": true,
-   "ms": 399,
+   "ms": 565,
    "extrait": "{\"ok\":true,\"service\":\"missive-proxy\"}"
   },
   {
@@ -1665,7 +1697,7 @@
    "url": "https://general-proxy-5muf.onrender.com/connectors",
    "statut": 200,
    "ok": true,
-   "ms": 12511,
+   "ms": 658,
    "extrait": "{\"connectors\":{\"shipstation\":{\"description\":\"ShipStation v1 (commandes, expéditions, suivi) — accès complet (lecture + écriture; les étiquettes débitent le wallet).\",\"enabled\":true,\"actions\":[\"orders\",\"order\",\"shipments\",\"fulfillments\",\"carriers\",\"stores\",\"warehouses\",\"listtags\",\"carrier\",\"listservi"
   },
   {
@@ -1673,18 +1705,36 @@
    "url": "https://qbo-proxy-0jhc.onrender.com/health",
    "statut": 200,
    "ok": true,
-   "ms": 302,
+   "ms": 589,
    "extrait": "{\"ok\":true,\"service\":\"finance-proxy\"}"
   }
  ],
  "registre": {
   "present": true,
-  "total": 1,
+  "total": 4,
   "par_etat": {
-   "proposee": 1
+   "proposee": 4
   },
   "a_appliquer": [],
   "en_attente": [
+   {
+    "id": "R-20260830-03",
+    "titre": "Trancher dans REGLES.md le cas des felicitations generiques sur un billet deja repondu",
+    "gravite": "mineur",
+    "propose_le": "2026-08-30"
+   },
+   {
+    "id": "R-20260830-02",
+    "titre": "Compter les ecarts du tir D, qui n'entrent dans aucun total",
+    "gravite": "majeur",
+    "propose_le": "2026-08-30"
+   },
+   {
+    "id": "R-20260830-01",
+    "titre": "Mesurer la campagne points de vente sur ses envois, pas sur ses commits",
+    "gravite": "majeur",
+    "propose_le": "2026-08-30"
+   },
    {
     "id": "R-20260829-01",
     "titre": "Rendre les journaux Render lisibles par la revue",
