@@ -2681,6 +2681,26 @@
       "motif": "échange sur le parfum des fleurs : aucun fait vérifié sur l odeur dans le corpus",
       "ecarte_le": "2026-08-31",
       "tir": "B"
+    },
+    {
+      "id": "122176634168483418_1734155240583929",
+      "page_id": "368305119707866",
+      "date": "2025-11-25T17:29:31+0000",
+      "message": "This is such a GREATidea! Cannot wait to try what I have ordered",
+      "lien": "https://www.facebook.com/122210881520483418/posts/122176634168483418?comment_id=1734155240583929",
+      "motif": "enthousiasme d une cliente qui attend sa commande : garde-fou 2, aucune date de livraison ; les faits utiles (sachet gratuit, entretien) ont déjà été publiés",
+      "ecarte_le": "2026-08-31",
+      "tir": "B"
+    },
+    {
+      "id": "122178999464483418_1179760434100603",
+      "page_id": "368305119707866",
+      "date": "2025-11-24T14:11:30+0000",
+      "message": "Anneke Dubash the monarch is endangered, because regardless of how many milkweed stems there are there's not enough to support population. \"Canada currently has 484 million common milkweed stems (range: 111 million–1 billion stems) and increasing this amount by 1.61 times (i.e., by ∼295 million stems), or equivalently, by 61%, would support the recovery target.\" https://www.facetsjournal.com/doi/10.1139/facets-2024-0063\n\n\"Studies estimate that the amount of milkweed has declined by over 58% in some regions since 1999\"",
+      "lien": "https://www.facebook.com/122210881520483418/posts/122178999464483418?comment_id=2048482655980833&reply_comment_id=1179760434100603",
+      "motif": "commentaire documenté citant une étude FACETS 2024 sur les cibles de tiges au Canada : ces chiffres ne sont pas dans le corpus vérifié, impossible de les confirmer ; le fait dont on dispose (perte d habitat de reproduction, Flockhart et al. 2015) a été publié dimanche sous cette même publication",
+      "ecarte_le": "2026-08-31",
+      "tir": "B"
     }
   ]
 }
