@@ -544,8 +544,24 @@
       "quand": "2026-08-31T13:23:51.274Z",
       "confirme": true,
       "texte": "Bonjour, bonne question. Pour la longueur du poignet et la façon dont la mitaine se porte par-dessus la manche, le détail et les mesures sont sur la fiche du produit, sur lasclay.com. Si ce n'est pas assez clair là-dessus, écrivez-nous en message privé : l'équipe vérifiera le modèle exact avec vous plutôt que de vous répondre de mémoire ici."
+    },
+    {
+      "id": "1498545598945918_1486221409880672",
+      "reponse_id": "1498545598945918_2246509319478920",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T15:15:53.555Z",
+      "confirme": true,
+      "texte": "Merci — et content de savoir que vos mitaines font leur travail. C'est le genre de retour qui compte le plus de ce côté-ci."
+    },
+    {
+      "id": "1497110025756142_966535755797110",
+      "reponse_id": "1497110025756142_2291361725033903",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T15:17:11.616Z",
+      "confirme": true,
+      "texte": "Bonjour, c'est sur lasclay.com que ça se passe : la boutique en ligne montre ce qui est disponible au jour le jour. Et pour être averti des nouveautés, l'infolettre reste le canal le plus direct."
     }
   ],
-  "derniere_execution": "2026-08-31T13:23:51.275Z",
-  "total": 68
+  "derniere_execution": "2026-08-31T15:17:11.617Z",
+  "total": 70
 }
