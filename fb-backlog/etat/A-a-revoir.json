@@ -1822,6 +1822,86 @@
       "motif": "idem: encouragement générique, quasi mot pour mot identique à un autre commentaire du même lot",
       "ecarte_le": "2026-08-31",
       "tir": "A"
+    },
+    {
+      "id": "1497110025756142_1447713403719253",
+      "page_id": "104242204750257",
+      "date": "2026-03-05T18:52:25+0000",
+      "message": "Etienne Michaud 👀",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1497110025756142?comment_id=756893117254851&reply_comment_id=1447713403719253",
+      "motif": "identification d'un ami avec un émoji « 👀 » sous une de nos réponses; rien à répondre",
+      "ecarte_le": "2026-08-31",
+      "tir": "A"
+    },
+    {
+      "id": "1498545598945918_2378708465928689",
+      "page_id": "104242204750257",
+      "date": "2026-03-05T17:20:47+0000",
+      "message": "Vraiment inspirant! Belle résilience 😊",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1498545598945918?comment_id=2378708465928689",
+      "motif": "félicitation générique sur le fil maladie; vingt-deux réponses distinctes déjà publiées — saturation (REGLES.md anti-spam)",
+      "ecarte_le": "2026-08-31",
+      "tir": "A"
+    },
+    {
+      "id": "1498545598945918_946771541133438",
+      "page_id": "104242204750257",
+      "date": "2026-03-05T17:15:56+0000",
+      "message": "Wow, quelle super revirement ca !",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1498545598945918?comment_id=946771541133438",
+      "motif": "idem: « quel super revirement »",
+      "ecarte_le": "2026-08-31",
+      "tir": "A"
+    },
+    {
+      "id": "1498545598945918_1521755336622513",
+      "page_id": "104242204750257",
+      "date": "2026-03-05T16:56:01+0000",
+      "message": "Tout mon respect et vos produits sont excellents 🙏🏻",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1498545598945918?comment_id=1521755336622513",
+      "motif": "éloge des produits sur le fil maladie; deux remerciements produit déjà publiés aujourd'hui, un troisième serait une quasi-répétition",
+      "ecarte_le": "2026-08-31",
+      "tir": "A"
+    },
+    {
+      "id": "1498545598945918_3406633676157125",
+      "page_id": "104242204750257",
+      "date": "2026-03-05T16:22:34+0000",
+      "message": "Bravo! Tu es vraiment un jeune homme combattant et inspirant, avec de belles valeurs! 🤩",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1498545598945918?comment_id=3406633676157125",
+      "motif": "idem: éloge personnel au fondateur",
+      "ecarte_le": "2026-08-31",
+      "tir": "A"
+    },
+    {
+      "id": "1498545598945918_1556775752074991",
+      "page_id": "104242204750257",
+      "date": "2026-03-05T16:03:38+0000",
+      "message": "Good job Gabriel. C'est exceptionnellement inspirant ❤️",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1498545598945918?comment_id=1556775752074991",
+      "motif": "idem: « good job Gabriel »",
+      "ecarte_le": "2026-08-31",
+      "tir": "A"
+    },
+    {
+      "id": "1491340309666447_2641970076176321",
+      "page_id": "104242204750257",
+      "date": "2026-03-05T15:55:15+0000",
+      "message": "Quelle histoire d’entreprenariat! Vos mitaines sont merveilleusement chaudes et confortables, cadeau pour ma belle-fille qui les adore! 👏👏👏",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1491340309666447?comment_id=2641970076176321",
+      "motif": "témoignage sur les mitaines offertes en cadeau; même motif que ci-dessus, les remerciements produit sont saturés pour aujourd'hui",
+      "ecarte_le": "2026-08-31",
+      "tir": "A"
+    },
+    {
+      "id": "1491340309666447_1654997139280505",
+      "page_id": "104242204750257",
+      "date": "2026-03-05T15:47:48+0000",
+      "message": "De vraie entrepreneur",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1491340309666447?comment_id=1654997139280505",
+      "motif": "« de vraie entrepreneur », aucune matière",
+      "ecarte_le": "2026-08-31",
+      "tir": "A"
     }
   ]
 }

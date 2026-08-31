@@ -584,8 +584,16 @@
       "quand": "2026-08-31T17:12:55.128Z",
       "confirme": true,
       "texte": "Merci d'avoir écrit ça. Venant de quelqu'un qui est passé par là, « l'urgence de vivre » ne veut pas dire la même chose. Prenez soin de vous."
+    },
+    {
+      "id": "1497110025756142_2025586571636924",
+      "reponse_id": "1497110025756142_2191404211477213",
+      "page_id": "104242204750257",
+      "quand": "2026-08-31T18:09:57.158Z",
+      "confirme": true,
+      "texte": "Bonjour, c'est précisément le problème que la fibre creuse cherche à régler : l'air isolant se trouve dans la fibre elle-même, pas dans une épaisseur ajoutée, et il résiste à l'écrasement. On n'annonce par contre aucune cote de température — il n'en existe pas d'officielle. Pour la pêche blanche, ce sont les longues heures sans bouger qui décident, et c'est là que le rapport minceur-chaleur compte le plus."
     }
   ],
-  "derniere_execution": "2026-08-31T17:12:55.128Z",
-  "total": 73
+  "derniere_execution": "2026-08-31T18:09:57.159Z",
+  "total": 74
 }
