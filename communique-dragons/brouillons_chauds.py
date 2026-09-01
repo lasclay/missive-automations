@@ -246,13 +246,6 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  "l'asclépiade de chez vous se retrouve toujours dans nos produits.",
  PONT_MISSION, "article", None),
 
-"mireille.roberge@radio-canada.ca": ("Mireille", "Roberge", "Mme", "vous",
- "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
- "une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
- "emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie "
- "creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.",
- PONT_PRESENTATION, "entrevue", None),
-
 "sophie.laforest@radio-canada.ca": ("Sophie", "Laforest", "Mme", "vous",
  "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
  "une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
@@ -439,7 +432,8 @@ MERCIS = {
 
 # Retires de la liste chaude sur demande de Gabriel : leurs lignes sont
 # supprimees du chiffrier, pas seulement marquees.
-EXCLUS = {"jhaurio@unpointcinq.ca", "contact@protegez-vous.ca"}
+EXCLUS = {"jhaurio@unpointcinq.ca", "contact@protegez-vous.ca",
+          "mireille.roberge@radio-canada.ca"}
 
 # Sans adresse courriel : Sophie Poisson (Baron Mag), Caroline Bertrand (ICI
 # Explora) et Karine Benoist (Chatelaine). Leurs brouillons restent dans

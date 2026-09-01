@@ -179,6 +179,7 @@ def fiche(c):
 
 
 def page(contacts):
+    kit = sum(1 for c in contacts if "1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr" in c["t"])
     angles = sorted({c["a"] for c in contacts if c["a"] and c["a"] != "—"})
     filtres = [("tous", "tous", len(contacts), None)]
     filtres += [("chaude", "liste chaude", sum(1 for c in contacts if c["l"] == "chaude"), "l-chaude"),
@@ -207,7 +208,7 @@ def page(contacts):
         puces.append(f'<label class="chip" for="f-{ident}">{e(nom)} · {n}</label>')
 
     note = (
-        '<div class="note"><b>Version 12.</b> Le lien du média kit est dans les 247 '
+        f'<div class="note"><b>Version {VERSION}.</b> Le lien du média kit est dans les {kit} '
         "brouillons, juste avant le paragraphe des bénéfices : un journaliste qui envisage "
         "un sujet veut savoir tout de suite s'il aura des images. Le corps suit le squelette "
         "que Gabriel a corrigé lui-même, et Larocque et Pouliot sont repris mot pour mot."

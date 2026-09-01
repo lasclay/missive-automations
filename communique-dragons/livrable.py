@@ -29,6 +29,9 @@ CHANGEMENTS = [
     ("Angle art de vivre",
      "« j'ai du matériel photo » est devenu « l'atelier de Limoilou est ouvert si vous "
      "voulez voir la matière de vos yeux » — le lien rend la première phrase redondante."),
+    ("Sortie",
+     "Mireille Roberge est retirée de la liste chaude, sur ta demande. Il reste "
+     "31 contacts chauds, dont 30 brouillons."),
     ("Remerciements",
      "Les 28 contacts de la liste chaude dont on connaît l'article ou l'échange sont "
      "remerciés, chacun pour ce que son texte a fait de bien. Mireille Roberge, Sophie "
