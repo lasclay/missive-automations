@@ -41,16 +41,15 @@ Il annonce la nouvelle, avec la date, et il a le droit d'être content. Modèle 
 
 > **Nous serons diffusés à Dragons' Den le 17 septembre!**
 
-Trois variantes seulement, selon l'angle, pour que 253 courriels n'aient pas exactement la même
-ligne d'objet et parce que « l'asclépiade s'en va » parle plus à un journaliste agricole qu'à un
-chroniqueur d'affaires.
+Trois variantes selon l'angle, parce que « nous serons diffusés » suppose que la personne sait
+déjà qui est « nous ». Ça ne vaut que pour ceux qui nous connaissent. Partout ailleurs, c'est la
+plante qui accroche.
 
-| Angles | Objet |
-| --- | --- |
-| A, B, E, G | Nous serons diffusés à Dragons' Den le 17 septembre! |
-| C, F, J | L'asclépiade s'en va à Dragons' Den le 17 septembre! |
-| D | L'asclépiade et les monarques à Dragons' Den le 17 septembre! |
-| I | Nous serons diffusés à Dragons' Den le 17 septembre — invité disponible |
+| Angles | Objet | Contacts |
+| --- | --- | ---: |
+| A, E — ils nous connaissent | Nous serons diffusés à Dragons' Den le 17 septembre! | 63 |
+| B, C, F, G, I, J — la plante d'abord | L'asclépiade s'en va à Dragons' Den le 17 septembre! | 148 |
+| D — environnement | L'asclépiade et les monarques à Dragons' Den le 17 septembre! | 45 |
 
 **Ce qu'un objet ne doit pas faire :** décrire un thème. « Le monarque, l'asclépiade, et l'idée
 qu'il faut la rendre payante » est un titre d'essai, pas un objet de courriel. Un journaliste

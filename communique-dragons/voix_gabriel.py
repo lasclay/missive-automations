@@ -36,16 +36,19 @@ VIDEO = "https://www.youtube.com/watch?v=GKyHh-Ok9JU"
 # la meme ligne d'objet, et parce que « l'asclepiade s'en va a Dragons' Den »
 # parle plus a un journaliste agricole qu'a un chroniqueur d'affaires.
 OBJETS = {
+    # « Nous serons diffusés » suppose que la personne sait déjà qui est « nous ».
+    # Ça ne vaut que pour ceux qui nous connaissent : la liste chaude et les
+    # journalistes d'affaires. Partout ailleurs, c'est la plante qui accroche.
     "A": "Nous serons diffusés à Dragons' Den le 17 septembre!",
-    "B": "Nous serons diffusés à Dragons' Den le 17 septembre!",
-    "C": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "D": "L'asclépiade et les monarques à Dragons' Den le 17 septembre!",
     "E": "Nous serons diffusés à Dragons' Den le 17 septembre!",
+    "D": "L'asclépiade et les monarques à Dragons' Den le 17 septembre!",
+    "B": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
+    "C": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
     "F": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "G": "Nous serons diffusés à Dragons' Den le 17 septembre!",
-    "H": "We are airing on Dragons' Den on September 17!",
-    "I": "Nous serons diffusés à Dragons' Den le 17 septembre — invité disponible",
+    "G": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
+    "I": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
     "J": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
+    "H": "Milkweed is going on Dragons' Den on September 17!",
 }
 
 MISSIONS = ("mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder "
