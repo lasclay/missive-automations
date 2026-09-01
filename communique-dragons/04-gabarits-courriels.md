@@ -85,6 +85,9 @@ qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être 
 [une suite à votre dernier article / un sujet]. [ou, pour la radio et la télé : je suis
 disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.]
 
+Notre média kit est ici, avec les images de notre passage à Dragons' Den et de
+l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera
 extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue
 d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans
@@ -125,6 +128,9 @@ et CBC Gem.
 Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité
 qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer
 un sujet. [OFFRE — ce qu'on met sur la table pour cette personne-là.]
+
+Notre média kit est ici, avec les images de notre passage à Dragons' Den et de
+l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera
 extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue
@@ -167,8 +173,8 @@ Limoilou » n'est pas une accroche locale pour un journal de Charlevoix.
 | D — environnement | Le pari est économique avant d'être militant : si l'asclépiade paie, les agriculteurs la gardent. |
 | E — affaires | Bâtir ses procédés faute de sous-traitant, puis changer de modèle pour un manteau à 300 $. Avec le lien de la vidéo. |
 | F — plein air | Environ 10 % plus isolante que le duvet à poids égal. Un repère de laboratoire, donc à tester. |
-| G — art de vivre | Le contraste se photographie : la gousse, la soie, le manteau porté. |
-| I — radio et télé | Le sujet se raconte bien en ondes, et l'invité est disponible. |
+| G — art de vivre | Le contraste se photographie : la gousse, la soie, le manteau porté. L'atelier de Limoilou est ouvert pour voir la matière. |
+| I — radio et télé | Le sujet se raconte bien en ondes. |
 
 ---
 
@@ -183,6 +189,22 @@ Si le sujet ne vous convient pas, aucun problème, je ne relancerai pas une deux
 ```
 
 **Une seule relance. Jamais deux.** Un contact média brûlé ne revient pas.
+
+---
+
+## Le média kit
+
+Le lien du dossier Drive se place **juste avant la chaîne de bénéfices** : après l'offre, avant
+la conclusion. Un journaliste qui envisage un sujet veut savoir tout de suite s'il aura des
+images, et la question ne doit pas lui coûter un courriel.
+
+> Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise :
+> https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+
+**Ce que le dossier peut contenir.** Les images du plateau servent à annoncer la diffusion, pas à
+illustrer une promotion de produits, et aucun logo ni marque CBC / Dragons' Den n'est autorisé.
+Les photos de l'entreprise, de la gousse, de la soie et des manteaux n'ont aucune de ces
+contraintes : c'est là-dessus qu'il faut charger le dossier.
 
 ---
 

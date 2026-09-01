@@ -18,7 +18,7 @@ Deux differences assumees avec la liste chaude :
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, assembler
+from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, MEDIA_KIT, assembler
 
 QUI = ("Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver "
        "avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
@@ -109,8 +109,7 @@ OFFRES = {
          "chaîne d'approvisionnement.",
     "F": "Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit "
          "avec plaisir.",
-    "G": "L'atelier de Limoilou est ouvert si vous voulez voir la matière, et j'ai du matériel "
-         "photo.",
+    "G": "L'atelier de Limoilou est ouvert si vous voulez voir la matière de vos yeux.",
     "I": "Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au "
          "matin.",
 }
@@ -140,6 +139,8 @@ Vous êtes probablement la personne au Québec qui a le plus longtemps suivi cet
 Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : ce serait la
 première fois qu'on raconte ce que la filière est devenue après la chute.
 
+{MEDIA_KIT}
+
 {BENEFICE}
 
 {CLOTURE}""",
@@ -165,6 +166,8 @@ Je voulais vous en faire part parce que vos lecteurs ont vu la promesse de l'asc
 plus près que n'importe qui. Qui sait, peut-être vous inspirer un sujet sur ce que la plante
 est devenue depuis. Je peux parler des volumes, de la récolte, et de ce qui reste à régler.
 
+{MEDIA_KIT}
+
 {BENEFICE}
 
 {CLOTURE}""",
@@ -186,6 +189,8 @@ Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : huit ans après
 Saint-Tite, il reste quelque chose de cette promesse-là, et ça se raconte.
+
+{MEDIA_KIT}
 
 {BENEFICE}
 
@@ -212,6 +217,8 @@ Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de
 Limoilou est ouvert si vos lecteurs aimeraient voir comment une gousse devient un manteau.
 
+{MEDIA_KIT}
+
 {BENEFICE}
 
 {CLOTURE}""",
@@ -234,6 +241,8 @@ Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous
 voulez tester le manteau plutôt que me croire sur parole, je vous en envoie un avec plaisir.
+
+{MEDIA_KIT}
 
 {BENEFICE}
 
@@ -259,7 +268,7 @@ def monter(prenom, nom, angle, region):
     pourquoi = REGIONS.get(region) or THEMES.get(angle) or THEMES["B"]
     offre = OFFRES.get(angle, "")
     return assembler([salut, QUI, CONTEXTE, pourquoi, PAS, ANNONCE,
-                      RARETE + (" " + offre if offre else ""), BENEFICE, CLOTURE])
+                      RARETE + (" " + offre if offre else ""), MEDIA_KIT, BENEFICE, CLOTURE])
 
 
 def main(src, dst, md):
@@ -288,7 +297,8 @@ def main(src, dst, md):
             continue
         cle = courriel
         brut = MAIN.get(cle)
-        txt = (brut.format(ANNONCE=ANNONCE, BENEFICE=BENEFICE, CLOTURE=CLOTURE)
+        txt = (brut.format(ANNONCE=ANNONCE, MEDIA_KIT=MEDIA_KIT, BENEFICE=BENEFICE,
+                           CLOTURE=CLOTURE)
                if brut else monter(prenom, nom, angle, region))
         mains += bool(brut)
         ws.cell(i, cB, txt).alignment = Alignment(wrap_text=True, vertical="top")

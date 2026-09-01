@@ -14,7 +14,7 @@ Deux courriels sont repris mot pour mot de Gabriel : Larocque et Pouliot.
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from voix_gabriel import (VIDEO, MISSIONS, ANNONCE, PAS, BENEFICE, OBJETS,
+from voix_gabriel import (VIDEO, MISSIONS, ANNONCE, PAS, BENEFICE, OBJETS, MEDIA_KIT,
                           tu, cloture, assembler)
 
 # --- ponts reutilisables ----------------------------------------------------
@@ -72,7 +72,12 @@ et CBC Gem.
 
 Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité
 qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer
-une suite au dernier article. J'espère vraiment un boom des ventes avec cette visibilité, ce
+une suite au dernier article.
+
+Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise :
+https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce
 qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec
 chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se
 reproduire dans leurs plantations.
@@ -102,7 +107,12 @@ et CBC Gem.
 
 Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité
 qui arrive bien rarement. Je voulais t'en faire part et qui sait, peut-être t'inspirer une
-suite à ton dernier article. J'espère vraiment un boom des ventes avec cette visibilité, ce
+suite à ton dernier article.
+
+Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise :
+https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce
 qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec
 chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se
 reproduire dans leurs plantations.
@@ -329,7 +339,8 @@ def monter(cle, registre=None):
     else:
         salut = "Bonjour,"
     tete = salut + ("\n\nJ'espère que tu vas bien." if t else "")
-    return assembler([tete, rappel, pont, ANNONCE, rarete(t, suite), BENEFICE, cloture(reg)])
+    return assembler([tete, rappel, pont, ANNONCE, rarete(t, suite), MEDIA_KIT,
+                      BENEFICE, cloture(reg)])
 
 
 def main(src, dst, md):

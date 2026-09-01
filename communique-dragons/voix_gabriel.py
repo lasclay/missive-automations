@@ -30,6 +30,15 @@ Ce que ces deux exemples ont corrige, et qui vaut pour tout le dossier :
 
 VIDEO = "https://www.youtube.com/watch?v=GKyHh-Ok9JU"
 
+# Un journaliste qui envisage un sujet veut savoir tout de suite s'il aura des
+# images. Le lien se place juste avant la chaine de benefices : apres l'offre,
+# avant la conclusion.
+# Rappel CBC : les images du plateau servent a annoncer la diffusion, pas a
+# illustrer une promotion de produits, et aucun logo ni marque n'est autorise.
+MEDIA_KIT = ("Notre média kit est ici, avec les images de notre passage à Dragons' Den et de "
+             "l'entreprise : https://drive.google.com/drive/folders/"
+             "1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr")
+
 # L'objet annonce la nouvelle, avec la date et l'enthousiasme. Modele donne par
 # Gabriel : « Nous serons diffuses a Dragons' Den le 17 septembre! » Les
 # variantes suivent l'angle, pour que 253 courriels n'aient pas tous exactement
