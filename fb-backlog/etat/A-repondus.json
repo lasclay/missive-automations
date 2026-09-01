@@ -760,8 +760,16 @@
       "quand": "2026-09-01T13:28:04.002Z",
       "confirme": true,
       "texte": "Merci, et bonne couture. On est bien curieux de voir ce que la matière donne entre d'autres mains que les nôtres, si jamais vous avez envie de montrer le résultat."
+    },
+    {
+      "id": "1491340309666447_1936308953650464",
+      "reponse_id": "1491340309666447_1731351094790719",
+      "page_id": "104242204750257",
+      "quand": "2026-09-01T14:17:11.549Z",
+      "confirme": true,
+      "texte": "Merci. On essaie surtout de ne pas annoncer plus que ce qu'on peut tenir — c'est peut-être ça qui ressort du texte. Le reste, ce sont des journées ordinaires mises bout à bout."
     }
   ],
-  "derniere_execution": "2026-09-01T13:28:04.002Z",
-  "total": 95
+  "derniere_execution": "2026-09-01T14:17:11.550Z",
+  "total": 96
 }
