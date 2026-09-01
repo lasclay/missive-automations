@@ -18,7 +18,7 @@ Deux differences assumees avec la liste chaude :
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from voix_gabriel import VIDEO, ANNONCE, BENEFICE, assembler
+from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, assembler
 
 QUI = ("Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de "
        "Québec dont l'atelier est dans Limoilou.")
@@ -273,6 +273,7 @@ def main(src, dst, md):
     ws = next(w for w in wb.worksheets if w.title.startswith("Liste froide"))
     ent = [c.value for c in ws[1]]
     cA = ent.index("Angle") + 1
+    cO = ent.index("Objet suggéré") + 1
     cB = ent.index("Brouillon") + 1 if "Brouillon" in ent else ws.max_column + 1
     c = ws.cell(1, cB, "Brouillon")
     c.font = Font(bold=True, size=10); c.fill = PatternFill("solid", fgColor="E3EADF")
@@ -293,6 +294,7 @@ def main(src, dst, md):
                if brut else monter(prenom, nom, angle, region))
         mains += bool(brut)
         ws.cell(i, cB, txt).alignment = Alignment(wrap_text=True, vertical="top")
+        ws.cell(i, cO, OBJETS.get(angle, OBJETS["B"]))
         if not brut and salutation_douteuse(prenom, nom):
             cP = ent.index("Précaution") + 1 if "Précaution" in ent else None
             if cP:

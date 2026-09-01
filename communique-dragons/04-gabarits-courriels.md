@@ -35,6 +35,29 @@ ne pose la question. Si un journaliste demande : « Je ne peux pas en parler ava
 
 ---
 
+## L'objet
+
+Il annonce la nouvelle, avec la date, et il a le droit d'être content. Modèle donné par Gabriel :
+
+> **Nous serons diffusés à Dragons' Den le 17 septembre!**
+
+Trois variantes seulement, selon l'angle, pour que 253 courriels n'aient pas exactement la même
+ligne d'objet et parce que « l'asclépiade s'en va » parle plus à un journaliste agricole qu'à un
+chroniqueur d'affaires.
+
+| Angles | Objet |
+| --- | --- |
+| A, B, E, G | Nous serons diffusés à Dragons' Den le 17 septembre! |
+| C, F, J | L'asclépiade s'en va à Dragons' Den le 17 septembre! |
+| D | L'asclépiade et les monarques à Dragons' Den le 17 septembre! |
+| I | Nous serons diffusés à Dragons' Den le 17 septembre — invité disponible |
+
+**Ce qu'un objet ne doit pas faire :** décrire un thème. « Le monarque, l'asclépiade, et l'idée
+qu'il faut la rendre payante » est un titre d'essai, pas un objet de courriel. Un journaliste
+ouvre pour une nouvelle datée.
+
+---
+
 ## Le squelette, liste chaude
 
 Pour quelqu'un qui nous connaît déjà. Contexte partagé, donc court.

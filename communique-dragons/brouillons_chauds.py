@@ -14,7 +14,7 @@ Deux courriels sont repris mot pour mot de Gabriel : Larocque et Pouliot.
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from voix_gabriel import (VIDEO, MISSIONS, ANNONCE, PAS, BENEFICE,
+from voix_gabriel import (VIDEO, MISSIONS, ANNONCE, PAS, BENEFICE, OBJETS,
                           tu, cloture, assembler)
 
 # --- ponts reutilisables ----------------------------------------------------
@@ -345,6 +345,8 @@ def main(src, dst, md):
     wb = openpyxl.load_workbook(src)
     ws = next(w for w in wb.worksheets if w.title.startswith("Liste chaude"))
     ent = [c.value for c in ws[1]]
+    cO = ent.index("Objet suggéré") + 1
+    cAng = ent.index("Angle") + 1
     cB = ent.index("Brouillon") + 1 if "Brouillon" in ent else ws.max_column + 1
     cR = ent.index("Registre") + 1 if "Registre" in ent else ws.max_column + (
         1 if "Brouillon" in ent else 2)
@@ -373,6 +375,7 @@ def main(src, dst, md):
         if courriel in NE_PAS_ENVOYER:
             ws.cell(i, cB, NE_PAS_ENVOYER[courriel]).alignment = Alignment(
                 wrap_text=True, vertical="top")
+            ws.cell(i, cO, "—")
             ws.cell(i, cR, "—")
             continue
         if cle not in CHAUDS:
@@ -381,6 +384,7 @@ def main(src, dst, md):
         reg = (r[cR - 1] if cR - 1 < len(r) else None) or CHAUDS[cle][3]
         txt = monter(cle, reg)
         ws.cell(i, cB, txt).alignment = Alignment(wrap_text=True, vertical="top")
+        ws.cell(i, cO, OBJETS.get(r[cAng - 1] or "A", OBJETS["A"]))
         ws.cell(i, cR, reg)
         ws.row_dimensions[i].height = 240
         faits += 1

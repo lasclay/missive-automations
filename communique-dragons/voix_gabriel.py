@@ -30,6 +30,24 @@ Ce que ces deux exemples ont corrige, et qui vaut pour tout le dossier :
 
 VIDEO = "https://www.youtube.com/watch?v=GKyHh-Ok9JU"
 
+# L'objet annonce la nouvelle, avec la date et l'enthousiasme. Modele donne par
+# Gabriel : « Nous serons diffuses a Dragons' Den le 17 septembre! » Les
+# variantes suivent l'angle, pour que 253 courriels n'aient pas tous exactement
+# la meme ligne d'objet, et parce que « l'asclepiade s'en va a Dragons' Den »
+# parle plus a un journaliste agricole qu'a un chroniqueur d'affaires.
+OBJETS = {
+    "A": "Nous serons diffusés à Dragons' Den le 17 septembre!",
+    "B": "Nous serons diffusés à Dragons' Den le 17 septembre!",
+    "C": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
+    "D": "L'asclépiade et les monarques à Dragons' Den le 17 septembre!",
+    "E": "Nous serons diffusés à Dragons' Den le 17 septembre!",
+    "F": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
+    "G": "Nous serons diffusés à Dragons' Den le 17 septembre!",
+    "H": "We are airing on Dragons' Den on September 17!",
+    "I": "Nous serons diffusés à Dragons' Den le 17 septembre — invité disponible",
+    "J": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
+}
+
 MISSIONS = ("mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder "
             "les monarques par la culture de l'asclépiade")
 
