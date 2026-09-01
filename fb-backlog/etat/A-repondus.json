@@ -776,8 +776,16 @@
       "quand": "2026-09-01T15:16:38.859Z",
       "confirme": true,
       "texte": "Le détail et les tailles sont sur la fiche du produit, dans la collection en lien plus haut. Si quelque chose n'est pas clair là-dessus, écrivez-nous."
+    },
+    {
+      "id": "1491340309666447_886329497627181",
+      "reponse_id": "1491340309666447_1090728313652875",
+      "page_id": "104242204750257",
+      "quand": "2026-09-01T20:08:54.658Z",
+      "confirme": true,
+      "texte": "Merci — et content de voir le sac jaune en service. Une photo comme celle-là en dit plus long qu'une fiche produit. Bon reste de saison."
     }
   ],
-  "derniere_execution": "2026-09-01T15:16:38.860Z",
-  "total": 97
+  "derniere_execution": "2026-09-01T20:08:54.658Z",
+  "total": 98
 }
