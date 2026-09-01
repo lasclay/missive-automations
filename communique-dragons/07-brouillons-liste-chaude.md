@@ -333,48 +333,6 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Julia Haurio — Unpointcinq — `jhaurio@unpointcinq.ca`
-*Registre : vous*
-
-```
-Bonjour Mme Haurio,
-
-On avait creusé l'impact climatique de l'asclépiade ensemble en janvier 2022.
-
-Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
-
-Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
-## Protégez-Vous (contact général) — Protégez-Vous — `contact@protegez-vous.ca`
-*Registre : vous*
-
-```
-Bonjour,
-
-En novembre 2021, votre équipe nous avait contactés pour une étude de marché sur les glacières. Nos sacs isothermes et nos glacières souples sont isolés à la soie d'asclépiade, une fibre creuse et naturellement hydrophobe.
-
-Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
-
-Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
 ## Marc Tison — La Presse — `mtison1@lapresse.ca`
 *Registre : vous*
 

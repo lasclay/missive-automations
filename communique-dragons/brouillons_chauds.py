@@ -183,16 +183,6 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  "Amérique du Nord.",
  PONT_DIRECT, "entrevue", None),
 
-"jhaurio@unpointcinq.ca": ("Julia", "Haurio", "Mme", "vous",
- "On avait creusé l'impact climatique de l'asclépiade ensemble en janvier 2022.",
- PONT_MISSION, "sujet", None),
-
-"contact@protegez-vous.ca": (None, None, None, "vous",
- "En novembre 2021, votre équipe nous avait contactés pour une étude de marché sur les "
- "glacières. Nos sacs isothermes et nos glacières souples sont isolés à la soie "
- "d'asclépiade, une fibre creuse et naturellement hydrophobe.",
- PONT_MISSION, "sujet", None),
-
 "mtison1@lapresse.ca": ("Marc", "Tison", "M.", "vous",
  "On s'était parlé pour la section Affaires en septembre 2021, à l'époque où on venait de "
  "rapatrier notre production faute de sous-traitant prêt à toucher à la fibre. Le modèle a "
@@ -310,6 +300,10 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  PONT_PIVOT, "article", None),
 }
 
+# Retires de la liste chaude sur demande de Gabriel : leurs lignes sont
+# supprimees du chiffrier, pas seulement marquees.
+EXCLUS = {"jhaurio@unpointcinq.ca", "contact@protegez-vous.ca"}
+
 NE_PAS_ENVOYER = {
 "anne-sophie.roy@quebecormedia.com":
     "NE PAS ENVOYER — même journaliste que la ligne Radio-Canada, à une ancienne adresse. "
@@ -349,6 +343,7 @@ def main(src, dst, md):
     ws.column_dimensions[ws.cell(1, cB).column_letter].width = 78
     ws.column_dimensions[ws.cell(1, cR).column_letter].width = 12
 
+    a_supprimer = []
     lignes, faits, manquants = ["# Brouillons, liste chaude", "",
         "Registre de Gabriel, tiré des deux courriels qu'il a réécrits lui-même. Larocque et "
         "Pouliot sont repris mot pour mot.", "",
@@ -360,6 +355,9 @@ def main(src, dst, md):
             continue
         courriel = (r[2] or "").strip().lower()
         nom = (r[0] or "").strip()
+        if courriel in EXCLUS:
+            a_supprimer.append(i)
+            continue
         cle = courriel
         if not courriel:
             cle = {"Sophie Poisson": "__poisson", "Caroline Bertrand": "__bertrand",
@@ -383,8 +381,13 @@ def main(src, dst, md):
         adr = f"`{courriel}`" if courriel else "*adresse à trouver*"
         lignes += [f"## {nom} — {r[1]} — {adr}", f"*Registre : {reg}*", "", "```", txt, "```", ""]
 
+    for i in reversed(a_supprimer):
+        ws.delete_rows(i)
+
     wb.save(dst)
     open(md, "w").write("\n".join(lignes))
+    if a_supprimer:
+        print(f"{len(a_supprimer)} lignes retirées de la liste chaude")
     print(f"{faits} brouillons chauds réécrits dans {dst} et {md}")
     if manquants:
         print("sans texte :", manquants)
