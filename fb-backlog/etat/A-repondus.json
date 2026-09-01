@@ -736,8 +736,32 @@
       "quand": "2026-09-01T11:44:07.740Z",
       "confirme": true,
       "texte": "Merci — en parler chaque année à des élèves du secondaire fait plus de chemin que bien des campagnes. Si des questions précises sortent de vos cours, elles sont les bienvenues ici."
+    },
+    {
+      "id": "1491340309666447_1476470347243481",
+      "reponse_id": "1491340309666447_2117623448842869",
+      "page_id": "104242204750257",
+      "quand": "2026-09-01T13:23:52.750Z",
+      "confirme": true,
+      "texte": "Merci. Et puisque c'est votre raison numéro un, une précision s'impose : la fibre est cultivée et transformée ici, mais l'assemblage textile se fait surtout en Tunisie depuis juillet. On préfère que vous l'appreniez de nous plutôt que de laisser croire que tout se fait au Québec."
+    },
+    {
+      "id": "1491340309666447_1941515483154680",
+      "reponse_id": "1491340309666447_1622570549212964",
+      "page_id": "104242204750257",
+      "quand": "2026-09-01T13:26:44.038Z",
+      "confirme": true,
+      "texte": "Merci pour le retour, la raideur comprise — c'est le genre de détail qu'on veut entendre plutôt que de le deviner. Content que le froid ne se rende plus jusqu'aux mains. Bonne saison avec la tuque."
+    },
+    {
+      "id": "1491340309666447_1625419921989243",
+      "reponse_id": "1491340309666447_28413110874989831",
+      "page_id": "104242204750257",
+      "quand": "2026-09-01T13:28:04.002Z",
+      "confirme": true,
+      "texte": "Merci, et bonne couture. On est bien curieux de voir ce que la matière donne entre d'autres mains que les nôtres, si jamais vous avez envie de montrer le résultat."
     }
   ],
-  "derniere_execution": "2026-09-01T11:44:07.740Z",
-  "total": 92
+  "derniere_execution": "2026-09-01T13:28:04.002Z",
+  "total": 95
 }
