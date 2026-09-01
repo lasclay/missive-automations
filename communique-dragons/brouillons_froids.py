@@ -20,19 +20,17 @@ import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, assembler
 
-QUI = ("Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de "
-       "Québec dont l'atelier est dans Limoilou.")
+QUI = "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une mauvaise herbe."
 
-# Ces gens ne nous connaissent pas. Sans ce paragraphe, le courriel demande a
-# quelqu'un de s'interesser a une entreprise dont il n'a jamais entendu parler
-# et a une matiere qu'il ne connait pas. « Petits cochons » est le nom que tout
-# le monde reconnait au Quebec : c'est l'accroche qui fait comprendre en trois
+# La premiere ligne doit dire ce que l'entreprise fait, pas ou elle loge. Un
+# quartier ne veut rien dire a quelqu'un qui ne nous connait pas, et il brule la
+# seule ligne que le journaliste lira a coup sur. « Petits cochons » reste :
+# c'est le nom que tout le monde reconnait ici, et il fait comprendre en trois
 # mots de quelle plante on parle.
-CONTEXTE = ("On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom "
-            "de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis "
-            "50 ans. La soie attachée à ses graines est creuse, très légère et naturellement "
-            "hydrophobe : on la transforme en isolant, et on en fait des manteaux, des "
-            "mitaines, des tuques et des sacs isothermes, vendus en ligne au Canada et aux "
+CONTEXTE = ("L'asclépiade, les « petits cochons » que les agriculteurs arrachent de leurs "
+            "champs depuis 50 ans, produit une soie creuse, très légère et naturellement "
+            "hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, "
+            "des mitaines, des tuques et des sacs isothermes vendus au Canada et aux "
             "États-Unis. C'est aussi la seule plante que les chenilles du papillon monarque "
             "peuvent manger.")
 
@@ -125,8 +123,8 @@ OFFRES = {
 MAIN = {
 "jean-michel_leprince@radio-canada.ca": """Bonjour Jean-Michel Leprince,
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
-Québec dont l'atelier est dans Limoilou.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une
+mauvaise herbe.
 
 Vous couvrez l'asclépiade depuis au moins 2014 : le Téléjournal, la soie d'Amérique partie
 sur l'Everest, le pouvoir absorbant de la fibre sur les hydrocarbures, le lien avec le
@@ -151,8 +149,8 @@ première fois qu'on raconte ce que la filière est devenue après la chute.
 
 "redaction.mekinac@lebulletindeschenaux.com": """Bonjour Réjean Martin,
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
-Québec dont l'atelier est dans Limoilou.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une
+mauvaise herbe.
 
 Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment
 industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière
@@ -176,8 +174,8 @@ est devenue depuis. Je peux parler des volumes, de la récolte, et de ce qui res
 
 "gabriel.delisle@lenouvelliste.qc.ca": """Bonjour Gabriel Delisle,
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
-Québec dont l'atelier est dans Limoilou.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une
+mauvaise herbe.
 
 L'asclépiade a été une histoire mauricienne avant d'être la nôtre : l'usine de Saint-Tite
 achetait 90 % des récoltes du Québec. On a démarré après la chute de cette filière, et six ans
@@ -200,8 +198,8 @@ Saint-Tite, il reste quelque chose de cette promesse-là, et ça se raconte.
 
 "marie.allard@laesdebrouillards.com": """Bonjour Marie Allard,
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
-Québec dont l'atelier est dans Limoilou.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une
+mauvaise herbe.
 
 Il y a une belle histoire de sciences dans l'asclépiade. La soie attachée à ses graines n'est
 pas un poil : c'est un tube creux enduit d'une cire hydrophobe, et les fibres portent une
@@ -225,8 +223,8 @@ Limoilou est ouvert si vos lecteurs aimeraient voir comment une gousse devient u
 
 "__stab": """Bonjour Antoine Stab,
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de
-Québec dont l'atelier est dans Limoilou.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une
+mauvaise herbe.
 
 Vous aviez écrit sur le soyer du Québec dans Espaces en février 2015, à l'époque où la fibre
 devait remplacer le duvet.

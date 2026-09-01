@@ -570,7 +570,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mme Roberge,
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou. On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une mauvaise herbe : l'asclépiade, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -591,7 +591,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mme Laforest,
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou. On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une mauvaise herbe : l'asclépiade, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -675,7 +675,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mme Goubau,
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou. Vous couvrez le textile et la mode, alors voici une matière que peu de gens ont vue de près : la soie d'asclépiade, une fibre creuse et naturellement hydrophobe attachée aux graines d'une plante que les agriculteurs arrachent de leurs champs depuis 50 ans. On la transforme en isolant, et on en fait des manteaux, des mitaines et des tuques.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une mauvaise herbe. Vous couvrez le textile et la mode, alors voici une matière que peu de gens ont vue de près : la soie d'asclépiade, une fibre creuse et naturellement hydrophobe attachée aux graines d'une plante que les agriculteurs arrachent de leurs champs depuis 50 ans. On la transforme en isolant, et on en fait des manteaux, des mitaines et des tuques.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -696,7 +696,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mme Dostie,
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec dont l'atelier est dans Limoilou. On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une mauvaise herbe : l'asclépiade, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante que les chenilles du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 

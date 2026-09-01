@@ -106,15 +106,14 @@ pourquoi on écrit à cette personne-là.
 ```
 Bonjour [Prénom Nom],
 
-Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de Québec
-dont l'atelier est dans Limoilou.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une mauvaise
+herbe.
 
-On travaille l'asclépiade, cette plante que tout le monde connaît ici sous le nom de
-« petits cochons » et que les agriculteurs arrachent de leurs champs depuis 50 ans. La soie
-attachée à ses graines est creuse, très légère et naturellement hydrophobe : on la
-transforme en isolant, et on en fait des manteaux, des mitaines, des tuques et des sacs
-isothermes, vendus en ligne au Canada et aux États-Unis. C'est aussi la seule plante que les
-chenilles du papillon monarque peuvent manger.
+L'asclépiade, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis
+50 ans, produit une soie creuse, très légère et naturellement hydrophobe. On la transforme
+en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs
+isothermes vendus au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles
+du papillon monarque peuvent manger.
 
 Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la
 culture de l'asclépiade.
@@ -138,6 +137,12 @@ leurs plantations.
 
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
+
+**La première ligne dit ce que l'entreprise fait, pas où elle loge.** « Une entreprise de Québec
+dont l'atelier est dans Limoilou » ne veut rien dire à quelqu'un qui ne nous connaît pas, et ça
+brûle la seule ligne qu'un journaliste lit à coup sûr. « On isole des manteaux avec une mauvaise
+herbe » fait le travail. Limoilou revient plus loin, quand c'est une invitation à venir voir
+l'atelier.
 
 **« Petits cochons » n'est pas une familiarité gratuite.** C'est le nom que tout le monde reconnaît
 au Québec, et il fait comprendre en trois mots de quelle plante on parle. « Asclépiade » seul

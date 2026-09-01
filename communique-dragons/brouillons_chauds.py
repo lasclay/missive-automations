@@ -241,23 +241,21 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  PONT_MISSION, "article", None),
 
 "mireille.roberge@radio-canada.ca": ("Mireille", "Roberge", "Mme", "vous",
- "Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise "
- "de Québec dont l'atelier est dans Limoilou. On travaille l'asclépiade, cette plante que "
- "tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs "
- "arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très "
- "légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des "
- "manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante que "
- "les chenilles du papillon monarque peuvent manger.",
+ "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une "
+ "mauvaise herbe : l'asclépiade, les « petits cochons » que les agriculteurs arrachent de "
+ "leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et "
+ "naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des "
+ "manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante "
+ "que les chenilles du papillon monarque peuvent manger.",
  PONT_PRESENTATION, "entrevue", None),
 
 "sophie.laforest@radio-canada.ca": ("Sophie", "Laforest", "Mme", "vous",
- "Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise "
- "de Québec dont l'atelier est dans Limoilou. On travaille l'asclépiade, cette plante que "
- "tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs "
- "arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très "
- "légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des "
- "manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante que "
- "les chenilles du papillon monarque peuvent manger.",
+ "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une "
+ "mauvaise herbe : l'asclépiade, les « petits cochons » que les agriculteurs arrachent de "
+ "leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et "
+ "naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des "
+ "manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante "
+ "que les chenilles du papillon monarque peuvent manger.",
  PONT_PRESENTATION, "entrevue", None),
 
 "amckenna@ledevoir.com": ("Alain", "McKenna", "M.", "vous",
@@ -280,8 +278,8 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  PONT_MISSION, "article", None),
 
 "madeleine.goubau@gmail.com": ("Madeleine", "Goubau", "Mme", "vous",
- "Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise de "
- "Québec dont l'atelier est dans Limoilou. Vous couvrez le textile et la mode, alors voici "
+ "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une "
+ "mauvaise herbe. Vous couvrez le textile et la mode, alors voici "
  "une matière que peu de gens ont vue de près : la soie d'asclépiade, une fibre creuse et "
  "naturellement hydrophobe attachée aux graines d'une plante que les agriculteurs arrachent "
  "de leurs champs depuis 50 ans. On la transforme en isolant, et on en fait des manteaux, "
@@ -289,13 +287,12 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  PONT_PRESENTATION, "sujet", None),
 
 "jessica.dostie@gmail.com": ("Jessica", "Dostie", "Mme", "vous",
- "Je m'appelle Gabriel Gouveia et je suis le fondateur de Lasclay, une entreprise "
- "de Québec dont l'atelier est dans Limoilou. On travaille l'asclépiade, cette plante que "
- "tout le monde connaît ici sous le nom de « petits cochons » et que les agriculteurs "
- "arrachent de leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très "
- "légère et naturellement hydrophobe : on la transforme en isolant, et on en fait des "
- "manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante que "
- "les chenilles du papillon monarque peuvent manger.",
+ "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une "
+ "mauvaise herbe : l'asclépiade, les « petits cochons » que les agriculteurs arrachent de "
+ "leurs champs depuis 50 ans. La soie attachée à ses graines est creuse, très légère et "
+ "naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des "
+ "manteaux, des mitaines, des tuques et des sacs isothermes. C'est aussi la seule plante "
+ "que les chenilles du papillon monarque peuvent manger.",
  PONT_PRESENTATION, "sujet", None),
 
 "__poisson": ("Sophie", "Poisson", "Mme", "vous",
