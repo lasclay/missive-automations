@@ -17,6 +17,14 @@ PAGE = os.path.join(
     "/tmp/claude-0/-home-user-missive-automations",
     "dcfcba14-3889-5dfd-96e3-63264ff80ae0/scratchpad/brouillons-medias.html")
 
+# L'artefact ne s'ouvre que dans une session claude.ai, et l'application mobile
+# ne l'affiche pas. La meme page est donc aussi ecrite en fichier autonome, qui
+# s'ouvre dans n'importe quel navigateur, hors ligne, sans compte.
+AUTONOME = "brouillons-medias.html"
+ENTETE = ('<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n'
+          '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+          '<style>body{margin:0}img{max-width:100%}</style>\n')
+
 NOTE = (
     "<div class=\"note\"><b>Version 12.</b> Le lien du média kit est dans les "
     "247 brouillons, juste avant le paragraphe des bénéfices : un journaliste qui "
@@ -71,6 +79,10 @@ def main():
     html = re.sub(r"\d+ contacts · v\d+ ·", f"{len(contacts)} contacts · v{VERSION} ·", html)
     html = re.sub(r'<div class="note">.*?</div>', lambda m: NOTE, html, count=1, flags=re.S)
     open(PAGE, "w", encoding="utf-8").write(html)
+
+    tete, corps = html.split("</style>", 1)
+    open(AUTONOME, "w", encoding="utf-8").write(
+        ENTETE + tete + "</style>\n</head>\n<body>" + corps + "\n</body>\n</html>\n")
 
     kit = sum(1 for c in contacts if "1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr" in c["t"])
     print(f"{len(contacts)} fiches, {kit} avec le média kit → {PAGE}")
