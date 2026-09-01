@@ -14,7 +14,7 @@ Bonjour Marie-Émélie Bernier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -37,7 +37,7 @@ Bonjour Louise Bourbonnais,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -60,7 +60,7 @@ Bonjour Gilbert Bégin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -83,7 +83,7 @@ Bonjour Victor Carré,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -106,7 +106,7 @@ Bonjour Tristan Champagne-Lessard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -129,7 +129,7 @@ Bonjour Maxime Corneau,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
@@ -179,7 +179,7 @@ Bonjour André Fauteux,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -202,7 +202,7 @@ Bonjour Johanne Fournier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -225,7 +225,7 @@ Bonjour Mikaël Lalancette,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -248,7 +248,7 @@ Bonjour Olivier Mougeot,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -271,7 +271,7 @@ Bonjour Jean-Hugues Roy,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -294,7 +294,7 @@ Bonjour Martin Roy,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -317,7 +317,7 @@ Bonjour Karine Tremblay,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
@@ -340,7 +340,7 @@ Bonjour Godefroy Macaire Chabi,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -363,7 +363,7 @@ Bonjour Laurence Dami-Houle,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -386,7 +386,7 @@ Bonjour Dominique Degré,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -409,7 +409,7 @@ Bonjour Michel Fortier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -432,7 +432,7 @@ Bonjour Raymond Fournier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -455,7 +455,7 @@ Bonjour Jacinthe Lafrance,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
@@ -478,7 +478,7 @@ Bonjour Stéphanie Mac Farlane,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -501,7 +501,7 @@ Bonjour Louis-Xavier Michaud,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -524,7 +524,7 @@ Bonjour Karianne Nepton-Philippe,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -547,7 +547,7 @@ Bonjour Geneviève Normand,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -570,7 +570,7 @@ Bonjour Mario Boulianne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -593,7 +593,7 @@ Bonjour Kathleen Couillard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -616,7 +616,7 @@ Bonjour Thomas Deshaies,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
@@ -639,7 +639,7 @@ Bonjour Marie-Claude Di Lillo,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -662,7 +662,7 @@ Bonjour MELISSA PELLETIER,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -685,7 +685,7 @@ Bonjour Isaac Peltz,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
@@ -708,7 +708,7 @@ Bonjour Francis Plourde,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -731,7 +731,7 @@ Bonjour Louis-Philippe Samson,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
@@ -754,7 +754,7 @@ Bonjour Jacques Sennechael,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -777,7 +777,7 @@ Bonjour Paule Vermot-Desroches,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
@@ -800,7 +800,7 @@ Bonjour Paul Émile d'Entremont,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -855,7 +855,7 @@ Bonjour Zoé Allemand,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -878,7 +878,7 @@ Bonjour Normand Blouin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -901,7 +901,7 @@ Bonjour Jean-Marc Chevalier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -924,7 +924,7 @@ Bonjour Simon Chrétien,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -947,7 +947,7 @@ Bonjour Catherine Dallaire,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
@@ -970,7 +970,7 @@ Bonjour Simon Dominé,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -993,7 +993,7 @@ Bonjour Myriam Fimbry,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1016,7 +1016,7 @@ Bonjour Pauline Gravel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1039,7 +1039,7 @@ Bonjour Leïla Jolin-Dahel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1062,7 +1062,7 @@ Bonjour Annie Labrecque,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1085,7 +1085,7 @@ Bonjour Sophie Lachapelle,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1108,7 +1108,7 @@ Bonjour Annie Martin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1161,7 +1161,7 @@ Bonjour Clara Matthey-Jonais,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1184,7 +1184,7 @@ Bonjour Valérian Mazataud,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1207,7 +1207,7 @@ Bonjour Nicolas Mesly,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1230,7 +1230,7 @@ Bonjour Nicolas Michaud,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1253,7 +1253,7 @@ Bonjour Véronique Morin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1276,7 +1276,7 @@ Bonjour Josée Panet-Raymond,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1299,7 +1299,7 @@ Bonjour Yannick Patelli,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1322,7 +1322,7 @@ Bonjour Marie-Hélène Proulx,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1345,7 +1345,7 @@ Bonjour Scott Stevenson,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
@@ -1368,7 +1368,7 @@ Bonjour Michèle Tanganika,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1391,7 +1391,7 @@ Bonjour MARC-OLIVIER BISSON,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1414,7 +1414,7 @@ Bonjour Gilles Bérubé,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -1437,7 +1437,7 @@ Bonjour Daphné Cameron,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1460,7 +1460,7 @@ Bonjour Sarah Champagne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1483,7 +1483,7 @@ Bonjour Ève Dumas,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1506,7 +1506,7 @@ Bonjour Chloé Germain-Thérien,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
@@ -1529,7 +1529,7 @@ Bonjour Gildas Meneu,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1552,7 +1552,7 @@ Bonjour Pierre St-Arnaud,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1577,7 +1577,7 @@ Bonjour Ariane Boyer,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1600,7 +1600,7 @@ Bonjour Anaïs Desjardins,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1623,7 +1623,7 @@ Bonjour Jean Garon,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1646,7 +1646,7 @@ Bonjour Kodjo Edjinam Nulagnon LOGO,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1669,7 +1669,7 @@ Bonjour Charles Mathieu,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1692,7 +1692,7 @@ Bonjour Félix Pedneault,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1715,7 +1715,7 @@ Bonjour Jean-Francois Venne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1738,7 +1738,7 @@ Bonjour Yahia Arkat,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1761,7 +1761,7 @@ Bonjour Maïté Belmir,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1784,7 +1784,7 @@ Bonjour André Bernard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1807,7 +1807,7 @@ Bonjour Didier Bert,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1830,7 +1830,7 @@ Bonjour Sara Champagne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1853,7 +1853,7 @@ Bonjour Éric-Pierre Champagne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1876,7 +1876,7 @@ Bonjour Marine Corniou,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1899,7 +1899,7 @@ Bonjour Catherine Crépeau,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1922,7 +1922,7 @@ Bonjour Amélie Daoust-Boisvert,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -1945,7 +1945,7 @@ Bonjour Quentin Dufranne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1968,7 +1968,7 @@ Bonjour Ahmed Kouaou,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1991,7 +1991,7 @@ Bonjour Tania Krywiak,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2014,7 +2014,7 @@ Bonjour Boris Proulx,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2037,7 +2037,7 @@ Bonjour Philippe Robitaille-Grou,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2060,7 +2060,7 @@ Bonjour Gwen Roley,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2083,7 +2083,7 @@ Bonjour Mathieu-Robert Sauvé,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2106,7 +2106,7 @@ Bonjour Yanick Villedieu,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2129,7 +2129,7 @@ Bonjour Jonathan Allard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2152,7 +2152,7 @@ Bonjour Anick Baribeau,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
@@ -2175,7 +2175,7 @@ Bonjour Karim Benessaieh,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2198,7 +2198,7 @@ Bonjour Julien Cayouette,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2221,7 +2221,7 @@ Bonjour Sarah Collardey,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2244,7 +2244,7 @@ Bonjour Marcelin Delice,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2267,7 +2267,7 @@ Bonjour Martine Deslauriers,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2290,7 +2290,7 @@ Bonjour Maxim Fauteux,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
@@ -2313,7 +2313,7 @@ Bonjour Zacharie Goudreault,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2336,7 +2336,7 @@ Bonjour ANGELO JEAN-BAPTISTE,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2359,7 +2359,7 @@ Bonjour Angie Landry,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2382,7 +2382,7 @@ Bonjour Camille Langlade,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2405,7 +2405,7 @@ Bonjour Étienne Leblanc,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2428,7 +2428,7 @@ Bonjour Colin McGregor,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2451,7 +2451,7 @@ Bonjour Marie-Paul Rouleau,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2474,7 +2474,7 @@ Bonjour Alexandre Shields,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2497,7 +2497,7 @@ Bonjour Chloé Sondervorst,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2520,7 +2520,7 @@ Bonjour Martin Tremblay,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2543,7 +2543,7 @@ Bonjour Raymond Viger,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2566,7 +2566,7 @@ Bonjour Augustin de Baudinière,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2589,7 +2589,7 @@ Bonjour Ivan de Jacquelin-Dulphe,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2614,7 +2614,7 @@ Bonjour Francois Bourque,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2637,7 +2637,7 @@ Bonjour Jean-Luc Lavallée,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2660,7 +2660,7 @@ Bonjour Marie-Eve Fournier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2683,7 +2683,7 @@ Bonjour Marie-Pier Frappier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2706,7 +2706,7 @@ Bonjour Annie Hudon,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2729,7 +2729,7 @@ Bonjour Yvan Lamontagne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
@@ -2752,7 +2752,7 @@ Bonjour Anne Marie Lecomte,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2775,7 +2775,7 @@ Bonjour Katherine Tremblay,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -2798,7 +2798,7 @@ Bonjour Martin Vallières,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2821,7 +2821,7 @@ Bonjour Félix-Antoine Beauchemin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -2844,7 +2844,7 @@ Bonjour Karine Boivin Forcier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
@@ -2867,7 +2867,7 @@ Bonjour Pierre Brisson,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2890,7 +2890,7 @@ Bonjour Diane Bérard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2913,7 +2913,7 @@ Bonjour Ivanoh Demers,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2936,7 +2936,7 @@ Bonjour Claude Desjardins,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2959,7 +2959,7 @@ Bonjour Richard Dupaul,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2982,7 +2982,7 @@ Bonjour Stéphane Giroux,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3005,7 +3005,7 @@ Bonjour Matthieu Hains,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3028,7 +3028,7 @@ Bonjour Hugo Joncas,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3051,7 +3051,7 @@ Bonjour Guillaume Longuépée,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3074,7 +3074,7 @@ Bonjour Roxane Léouzon,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3097,7 +3097,7 @@ Bonjour Timothy Morson,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
@@ -3120,7 +3120,7 @@ Bonjour Olivier Schmouker,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3143,7 +3143,7 @@ Bonjour William Thériault,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -3166,7 +3166,7 @@ Bonjour Katia Tobar,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3189,7 +3189,7 @@ Bonjour Pierre-Luc Trudel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3214,7 +3214,7 @@ Bonjour Eric Chabot,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3237,7 +3237,7 @@ Bonjour Aurélia Crémoux,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3260,7 +3260,7 @@ Bonjour Marieke Glorieux-Stryckman,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3283,7 +3283,7 @@ Bonjour Maude Goyer,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3306,7 +3306,7 @@ Bonjour Jean-Francois Leblanc,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3329,7 +3329,7 @@ Bonjour Julie Leduc,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3352,7 +3352,7 @@ Bonjour Emmanuelle Mozayan-Verschaeve,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3375,7 +3375,7 @@ Bonjour Jean-Benoît Nadeau,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3398,7 +3398,7 @@ Bonjour Yves Ouellet,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3421,7 +3421,7 @@ Bonjour Marie-Eve Poulin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3444,7 +3444,7 @@ Bonjour Sylvain Sarrazin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3467,7 +3467,7 @@ Bonjour Pierre Sormany,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3490,7 +3490,7 @@ Bonjour Shahram Yazdanpanah,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3513,7 +3513,7 @@ Bonjour Charlotte Glorieux,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3536,7 +3536,7 @@ Bonjour Bruno Lamolet,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -3559,7 +3559,7 @@ Bonjour Yves Langlois,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
@@ -3582,7 +3582,7 @@ Bonjour Anne Montplaisir,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3605,7 +3605,7 @@ Bonjour Michel Tremblay,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
@@ -3628,7 +3628,7 @@ Bonjour Bernard Brault,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -3651,7 +3651,7 @@ Bonjour Alain Demers,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3676,7 +3676,7 @@ Bonjour Victoria Bakos,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3699,7 +3699,7 @@ Bonjour Malika Alaoui,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3722,7 +3722,7 @@ Bonjour Julia Bernier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
@@ -3745,7 +3745,7 @@ Bonjour Luc Boulanger,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3768,7 +3768,7 @@ Bonjour Marie-France Bélanger,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3791,7 +3791,7 @@ Bonjour Oumou DIAKITÉ,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3814,7 +3814,7 @@ Bonjour Agnès Delavault,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3837,7 +3837,7 @@ Bonjour Claude Deschênes,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3860,7 +3860,7 @@ Bonjour Stéphanie Dupuis,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3883,7 +3883,7 @@ Bonjour Isabelle Grégoire,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3906,7 +3906,7 @@ Bonjour Chantal Guy,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3929,7 +3929,7 @@ Bonjour Andréanne Joly,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3952,7 +3952,7 @@ Bonjour Joannie Lafrenière,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3975,7 +3975,7 @@ Bonjour Louise Leduc,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -3998,7 +3998,7 @@ Bonjour Isabelle Morin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4021,7 +4021,7 @@ Bonjour Rachid Najahi,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4044,7 +4044,7 @@ Bonjour Frédéric Perron,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4067,7 +4067,7 @@ Bonjour Richard Prudhomme,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4090,7 +4090,7 @@ Bonjour Pascale Renaud,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4113,7 +4113,7 @@ Bonjour Marc Sony Ricot,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4136,7 +4136,7 @@ Bonjour Catherine Schlager,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4161,7 +4161,7 @@ Bonjour Papa Moussa Camara,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4184,7 +4184,7 @@ Bonjour Karl-Ivann Dubé,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4207,7 +4207,7 @@ Bonjour Étienne Fortin-Gauthier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4230,7 +4230,7 @@ Bonjour Cécile Gladel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4253,7 +4253,7 @@ Bonjour Bernard Hervieux,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4276,7 +4276,7 @@ Bonjour Marianne Lachapelle,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
@@ -4299,7 +4299,7 @@ Bonjour Alain Laforest,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4322,7 +4322,7 @@ Bonjour Lili Mercure,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4345,7 +4345,7 @@ Bonjour Lila Mouch,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4368,7 +4368,7 @@ Bonjour Stephane Tellier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4391,7 +4391,7 @@ Bonjour Sophie-Andrée Blondin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4414,7 +4414,7 @@ Bonjour Pierre Brochu,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
@@ -4437,7 +4437,7 @@ Bonjour Marie-Julie Gagnon,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -4460,7 +4460,7 @@ Bonjour Philippe Marois,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -4483,7 +4483,7 @@ Bonjour Carole Payer,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
@@ -4506,7 +4506,7 @@ Bonjour Audrey Bonaque,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4529,7 +4529,7 @@ Bonjour Laurence Brisson Dubreuil,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4552,7 +4552,7 @@ Bonjour Nathaniel Bronner,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4575,7 +4575,7 @@ Bonjour Rudy Chabannes,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4598,7 +4598,7 @@ Bonjour Denis-Martin Chabot,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4621,7 +4621,7 @@ Bonjour Loubna Majda Chourouk,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4644,7 +4644,7 @@ Bonjour Jean-René Dufort,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4667,7 +4667,7 @@ Bonjour Ronald Georges,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4690,7 +4690,7 @@ Bonjour Philémon La Frenière-Prémont,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4713,7 +4713,7 @@ Bonjour Henri Laban,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4736,7 +4736,7 @@ Bonjour Claudia Larochelle,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4759,7 +4759,7 @@ Bonjour Ève Lévesque,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4782,7 +4782,7 @@ Bonjour Sophie Mangado,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4805,7 +4805,7 @@ Bonjour Richard Olivier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4828,7 +4828,7 @@ Bonjour Nathalie Petrowski,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4851,7 +4851,7 @@ Bonjour Raymonde Provencher,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4874,7 +4874,7 @@ Bonjour Emmalie Ruest,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4897,7 +4897,7 @@ Bonjour Kimberley Sullivan,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
@@ -4920,7 +4920,7 @@ Bonjour Marie-Christine Trottier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4943,7 +4943,7 @@ Bonjour David Turbis,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4966,7 +4966,7 @@ Bonjour Alexandra Viau,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 

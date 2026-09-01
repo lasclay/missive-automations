@@ -570,7 +570,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mme Roberge,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque. Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -589,7 +589,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mme Laforest,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque. Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
@@ -690,7 +690,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mme Dostie,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque. Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 

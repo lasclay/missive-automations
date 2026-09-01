@@ -243,17 +243,15 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
 "mireille.roberge@radio-canada.ca": ("Mireille", "Roberge", "Mme", "vous",
  "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
  "une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
- "emblématique et menacé : le papillon monarque. Ses gousses, les « petits cochons » que "
- "les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, "
- "très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.",
+ "emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie "
+ "creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.",
  PONT_PRESENTATION, "entrevue", None),
 
 "sophie.laforest@radio-canada.ca": ("Sophie", "Laforest", "Mme", "vous",
  "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
  "une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
- "emblématique et menacé : le papillon monarque. Ses gousses, les « petits cochons » que "
- "les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, "
- "très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.",
+ "emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie "
+ "creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.",
  PONT_PRESENTATION, "entrevue", None),
 
 "amckenna@ledevoir.com": ("Alain", "McKenna", "M.", "vous",
@@ -288,9 +286,8 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
 "jessica.dostie@gmail.com": ("Jessica", "Dostie", "Mme", "vous",
  "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
  "une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
- "emblématique et menacé : le papillon monarque. Ses gousses, les « petits cochons » que "
- "les agriculteurs arrachent de leurs champs depuis 50 ans, sont remplies d'une soie creuse, "
- "très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.",
+ "emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie "
+ "creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.",
  PONT_PRESENTATION, "sujet", None),
 
 "__poisson": ("Sophie", "Poisson", "Mme", "vous",

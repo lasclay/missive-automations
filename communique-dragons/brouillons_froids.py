@@ -26,10 +26,8 @@ QUI = ("Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêteme
 
 # L'ouverture porte tout le pitch d'un coup : le produit, la plante, la mission.
 # Elle rend le paragraphe des deux missions redondant dans la liste froide, donc
-# il saute : le courriel raccourcit d'autant. Les « petits cochons » designent
-# les gousses, pas la soie : la phrase doit le dire dans cet ordre.
-CONTEXTE = ("Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs "
-            "depuis 50 ans, sont remplies d'une soie creuse, très légère et naturellement "
+# il saute : le courriel raccourcit d'autant.
+CONTEXTE = ("Ses gousses sont remplies d'une soie creuse, très légère et naturellement "
             "hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des "
             "mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.")
 
