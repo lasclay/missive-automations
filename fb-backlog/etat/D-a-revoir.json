@@ -1515,6 +1515,34 @@
       "motif": "Simple identification d'une autre personne, sans message.",
       "page_id": "114311920399404",
       "quand": "2026-09-01T11:41:14.176Z"
+    },
+    {
+      "id": "1260265889573395_1259668552897382",
+      "extrait": "Parti Québécois",
+      "motif": "Nom d'un parti politique lâché seul, sans propos. Répondre nous ferait entrer dans un registre partisan pour rien.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T12:47:26.781Z"
+    },
+    {
+      "id": "1260265889573395_2958491441008440",
+      "extrait": "Bravo et merci à vous. [autocollant : avatar lançant des cœurs]",
+      "motif": "Image regardée : autocollant décoratif. Remerciement générique sur une publication qui porte déjà de nombreuses réponses de notre part.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T12:47:26.781Z"
+    },
+    {
+      "id": "1260265889573395_1219471793636359",
+      "extrait": "Felicitations pour ton travail et ta patience.🤗 Je souhaite que ton message se répende…",
+      "motif": "Encouragement chaleureux mais sans contenu propre ; même publication saturée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T12:47:26.781Z"
+    },
+    {
+      "id": "1260265889573395_24844075668602442",
+      "extrait": "Félicitations, bravo je vous souhaite la prospérité, courage 🥰",
+      "motif": "Troisième félicitation interchangeable du même lot, sur la même publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T12:47:26.781Z"
     }
   ]
 }
