@@ -2,6 +2,48 @@
  "version": 1,
  "ameliorations": [
   {
+   "id": "R-20260831-04",
+   "titre": "Recolter les trous de faits-verifies.json que les motifs d'ecart nomment deja",
+   "gravite": "mineur",
+   "etat": "proposee",
+   "propose_le": "2026-08-31",
+   "source": "revue 2026-08-31",
+   "constat": "Quatre-vingt-douze ecarts du corpus invoquent un trou de fb-backlog/faits-verifies.json, dont cinq aujourd'hui, et plusieurs motifs precisent eux-memes « deja signale plusieurs fois ». La base de faits n'a recu aucun enrichissement depuis sa creation : l'agent identifie ses manques, les ecrit, et rien ne les recolte.",
+   "preuve": "92 ecarts dont le motif mentionne un trou de faits-verifies. Par sujet : statut legal et protege des especes 9, comestibilite de l'asclepiade 3, allegations medicales 2, autres 78. Historique du fichier : f1b5995 le 2026-08-18 (creation), e3e73ad le 2026-08-29, rien depuis.",
+   "proposition": "Ajouter a la collecte un regroupement des motifs d'ecart mentionnant un trou de faits-verifies, par sujet et par frequence, limite aux dix premiers, de sorte que chaque tour presente une liste courte de faits a faire trancher par Gabriel — l'ajout au fichier restant une decision humaine, jamais une ecriture automatique.",
+   "portee": "revue/collecte.js",
+   "risque": "Le regroupement par mots-cles produira des categories grossieres ; c'est acceptable pour une file de decision, mais il ne faut pas presenter ce classement comme une analyse fine, ni laisser un agent ecrire dans faits-verifies.json a partir de la — un fait non verifie qui entre dans la base ressort en reponse publique.",
+   "effort": "30 min"
+  },
+  {
+   "id": "R-20260831-03",
+   "titre": "Compter les brouillons non envoyes et leur age dans la collecte",
+   "gravite": "majeur",
+   "etat": "proposee",
+   "propose_le": "2026-08-31",
+   "source": "revue 2026-08-31",
+   "constat": "Douze des 21 fils Missive touches le 31 aout portent un brouillon redige et jamais envoye, du 2026-07-15 au 2026-08-30 — jusqu'a 48 jours. Trois ont un champ to vide et ne partiraient pas meme envoyes a la main. Aucune routine suivie ne couvre la boite support, donc aucun instrument ne compte ce stock : il n'apparait ni dans la collecte, ni dans un rapport, nulle part.",
+   "preuve": "Recensement complet des 21 fils actifs dans la fenetre du 2026-08-31 : ffae4d7a 2026-07-15 (to vide), 7eb6d62f 2026-07-16, df1ba00d 2026-07-16, 640e6213 2026-07-17, 1d8f9d14 2026-07-19, 5df68402 2026-07-20, 59166b01 2026-07-21, 7434b4bc 2026-07-23, 3a4255f4 2026-08-01, 88f3058f 2026-08-20 (to vide), 5eef512f 2026-08-20 (to vide), eb108a7f 2026-08-30. Sujets concernes dont « Foulard abime », « Missing seed bombs », « Commande L-46837 », « Facture L-50943 ».",
+   "proposition": "Ajouter a collecte.js une section missive alimentee par missive_client.js sur le filtre etroit assigned=true : nombre de fils, nombre de brouillons non envoyes, age du plus ancien, et nombre de brouillons au champ to vide ; puis faire echouer bruyamment le resume du tour des que l'age du plus ancien depasse sept jours.",
+   "portee": "revue/collecte.js",
+   "risque": "Un appel drafts par fil coute une requete : sur 45 fils assignes c'est tolerable, sur inbox=true (3214 fils) le tour ramperait. Le filtre doit rester assigned=true, et la section doit se degrader proprement — dire « non collecte » — si le proxy ne repond pas, plutot que de faire echouer la collecte entiere.",
+   "effort": "1 h"
+  },
+  {
+   "id": "R-20260831-02",
+   "titre": "Router les ecarts marques « a traiter par un humain » hors du fichier a-revoir",
+   "gravite": "majeur",
+   "etat": "proposee",
+   "propose_le": "2026-08-31",
+   "source": "revue 2026-08-31",
+   "constat": "Quand l'agent du backlog rencontre un commentaire qu'il ne peut pas trancher, il l'ecarte et ecrit dans le motif une escalade explicite — « A TRAITER PAR UN HUMAIN, en priorite ». Cette escalade n'a aucune sortie : elle est ecrite dans *-a-revoir.json, que rien ni personne ne relit. Le mecanisme fonctionne cote agent et se perd cote reception.",
+   "preuve": "Trois entrees du corpus portent cette marque. La plus recente, tir C ecartee le 2026-08-31 : accusation publique adressee a la Page, « FAKE - A-I - THIS FARMER IS NOT REAL - SHE IS A COMPUTER IMAGE », touchant deux publications (la seconde : 934359419303137), motif contenant « A TRAITER PAR UN HUMAIN, en priorite ». Une autre dort depuis le 2026-08-20, soit 11 jours (tir A, usage de fonds collectes). Aucune n'a ete routee nulle part.",
+   "proposition": "Dans fb-backlog/traiter.js, ecrire toute entree dont le motif porte la marque d'escalade dans un fichier dedie fb-backlog/etat/escalades.jsonl (id, page, lien, extrait, motif, date), et faire remonter ce fichier en tete de la collecte quotidienne avec le nombre d'items ouverts et l'age du plus ancien, comme le registre le fait deja pour les propositions.",
+   "portee": "fb-backlog/traiter.js, revue/collecte.js",
+   "risque": "Si la marque d'escalade est reperee par expression reguliere sur un texte libre, une reformulation de l'agent la fera manquer en silence. La marque doit devenir un champ explicite pose par traiter.js, la regex ne servant que de repli pour l'historique deja ecrit.",
+   "effort": "45 min"
+  },
+  {
    "id": "R-20260831-01",
    "titre": "Reconcilier l'inventaire des routines, et cesser de supposer mcp__* absent",
    "gravite": "majeur",
