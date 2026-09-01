@@ -2176,6 +2176,36 @@
    "motif": "« I love my milkweed!! » — trois mots, aucune matiere propre, avec 17 reponses de la Page deja publiees aujourd'hui.",
    "ecarte_le": "2026-09-01",
    "tir": "C"
+  },
+  {
+   "id": "900009429404803_962412339446101",
+   "page_id": "262382158951470",
+   "date": "2026-02-09T15:22:26+0000",
+   "message": "Tropical milkweed is invasive",
+   "lien": "https://www.facebook.com/1067098316029246/posts/900009429404803?comment_id=962412339446101",
+   "motif": "« Tropical milkweed is invasive » — trois mots affirmant un statut que faits-verifies.json ne permet ni de confirmer ni de contredire. La seule chose que la Page pourrait dire (« on n'en vend pas ») vient d'etre publiee il y a une heure sur CETTE publication, dans la reponse au commentaire texan sur l'OE : la repetiter serait du remplissage et un risque de pourriel chez Meta. TROU RECURRENT A COMBLER : c'est le troisieme commentaire en deux heures sur le statut de l'asclepiade tropicale ; une ligne ferme et sourcee dans les faits verifies servirait.",
+   "ecarte_le": "2026-09-01",
+   "tir": "C"
+  },
+  {
+   "id": "900009429404803_1662570181852827",
+   "page_id": "262382158951470",
+   "date": "2026-02-09T15:17:00+0000",
+   "message": "Also very edible if cooked properly: young shoots & buds!!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/900009429404803?comment_id=1662570181852827",
+   "motif": "« Also very edible if cooked properly: young shoots & buds!! » — comestibilite de l'asclepiade. Trou explicite de faits-verifies.json. C'est desormais la CINQUIEME mention de consommation que j'ecarte pour ce motif (pousses, boutons, follicules, cuisson a la vapeur, « picked young ») : le sujet revient assez souvent pour meriter une position ecrite, ne serait-ce que « la Page ne se prononce pas ».",
+   "ecarte_le": "2026-09-01",
+   "tir": "C"
+  },
+  {
+   "id": "900009429404803_876491391930830",
+   "page_id": "262382158951470",
+   "date": "2026-02-09T15:14:33+0000",
+   "message": "I just delete and block all sponsored pages, this isn't a business site.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/900009429404803?comment_id=876491391930830",
+   "motif": "« I just delete and block all sponsored pages, this isn't a business site. » — rejet de la presence commerciale de la Page. Rien a repondre : argumenter avec quelqu'un qui annonce qu'il nous bloque ne peut qu'empirer les choses. Consigne surtout comme retour de perception, pas comme commentaire a traiter.",
+   "ecarte_le": "2026-09-01",
+   "tir": "C"
   }
  ]
 }
