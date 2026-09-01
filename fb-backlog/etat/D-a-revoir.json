@@ -1585,6 +1585,48 @@
       "motif": "Suggestion de produit. La seule réponse honnête possible — c'est noté, sans promesse sur un produit qui n'existe pas — a été donnée hier à une suggestion d'oreillers ; la resservir ici serait un gabarit, ce que les règles interdisent. La suggestion reste consignée pour l'équipe produit.",
       "page_id": "114311920399404",
       "quand": "2026-09-01T13:40:50.036Z"
+    },
+    {
+      "id": "1239063395026978_1389611722361631",
+      "extrait": "Lou Pilon Un désastre écologique? Comment ça?",
+      "motif": "LACUNE DE FAITS À SIGNALER. La question porte sur l'empreinte écologique de la transformation de la fibre, sujet sur lequel faits-verifies.json ne contient rien. Impossible de répondre sans improviser, alors que l'accusation d'origine (« ça doit être un désastre écologique ») circule sur cette publication depuis plusieurs jours. Il faudrait un fait vérifié là-dessus.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1239063395026978_1272241698067287",
+      "extrait": "Et le chanvre lui ?? Au moins elle est 100% utilisables",
+      "motif": "Question sur le chanvre déjà répondue hier sur cette même publication ; la reprendre serait du copier-coller au même endroit.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1239063395026978_907057405626780",
+      "extrait": "ont dirait que pour lui c est toute un découverte regarde le comment il explique…",
+      "motif": "Moquerie visant la façon de s'exprimer d'une personne dans le reportage. Rien à traiter, et s'en mêler serait relancer la pique.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1239063395026978_1847812172519731",
+      "extrait": "Les mitaines les plus chaudes que j'ai eues jusqu'à présent.",
+      "motif": "Deuxième témoignage sur les mitaines dans ce lot ; le plus détaillé reçoit une réponse. Deux remerciements jumeaux sur la même publication se ressembleraient trop.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1239063395026978_1959113181708385",
+      "extrait": "c’est au QUÉBEC,c’est le pourquoi que c’est cher",
+      "motif": "Débat sur le prix entre abonnés. Les règles nous interdisent de commenter nos prix ; entrer là-dedans serait aussi valider un raccourci sur la fabrication qui ne tient pas, l'assemblage textile se faisant à l'étranger.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1247807510819233_912582917831619",
+      "extrait": "Pauvres capitalistes !",
+      "motif": "Pique sans contenu ni question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
     }
   ]
 }
