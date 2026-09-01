@@ -1746,6 +1746,34 @@
       "motif": "Approbation d'un mot entre abonnés, sans propos propre.",
       "page_id": "114311920399404",
       "quand": "2026-09-01T20:38:19.140Z"
+    },
+    {
+      "id": "1244689371131047_2326683984461499",
+      "extrait": "la majorité des autochtones ont oublié ces plantes, la société a tout fait pour les rendre le plus loin possible de leurs racines.",
+      "motif": "Suite du sous-fil déjà écarté hier. Le propos parle à la place des personnes concernées ; ce n'est ni notre savoir ni notre débat, et l'idée d'apprendre d'autres savoirs a déjà reçu notre réponse ailleurs aujourd'hui.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T22:38:37.170Z"
+    },
+    {
+      "id": "1244689371131047_2381356469002323",
+      "extrait": "Marie-Josée St-Pierre pas juste l agriculture",
+      "motif": "Trois mots dans le même sous-fil, sans propos à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T22:38:37.170Z"
+    },
+    {
+      "id": "1244689371131047_807290419053810",
+      "extrait": "il n existe pas de mauvaises herbes il n y a que des herbes impropres à la culture…",
+      "motif": "Belle formule, mais adressée à une autre personne, et le commentaire enchaîne sur les savoirs autochtones et les propriétés médicinales des plantes — deux terrains sur lesquels nous n'avons rien de vérifié et où nous ne parlerons pas à la place des autres.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T22:38:37.170Z"
+    },
+    {
+      "id": "1239063395026978_2030539291061324",
+      "extrait": "Facilement cultivable mais de souvenir la récolte mécanisée est encore en expérimentale",
+      "motif": "LACUNE DE FAITS. L'état d'avancement de la récolte mécanisée ne figure pas dans faits-verifies.json : impossible de confirmer ou de corriger sans inventer. Deuxième sujet technique du genre cette semaine (avec l'empreinte écologique de la transformation) où il nous manque un fait pour répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T22:38:37.170Z"
     }
   ]
 }
