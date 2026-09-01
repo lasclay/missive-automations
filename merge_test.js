@@ -18,14 +18,16 @@ const {
   unquoted,
   plainText,
   extractOrders,
+  isSelfAddress,
 } = require("./merge.js");
 
 const J = 86400;
 const D = (s) => Math.floor(new Date(`${s}T12:00:00Z`).getTime() / 1000);
 
 // Fabrique une empreinte de fil : dates lisibles, reste par défaut.
-const fil = ({ email = "client@exemple.com", orders = [], subjects = [], du, au, blob = null, name = null }) => ({
+const fil = ({ email = "client@exemple.com", emails = null, orders = [], subjects = [], du, au, blob = null, name = null }) => ({
   email,
+  emails: emails || (email ? [email] : []),
   name,
   orders,
   subjects: subjects.map(baseSubject),
@@ -47,53 +49,44 @@ function egal(nom, obtenu, attendu) {
   console.log(`${ok ? "  ok  " : "ÉCHEC "} ${nom}${ok ? "" : `\n         → obtenu ${JSON.stringify(obtenu)}, attendu ${JSON.stringify(attendu)}`}`);
 }
 
-console.log("\n--- FAUX POSITIFS vus en production (doivent être ÉCARTÉS) ---\n");
+console.log("\n--- RÈGLE 1 : MÊME ADRESSE = MÊME CLIENT, sans contrainte de temps ---\n");
 
-// Le cas signalé : un client fidèle, deux commandes à un an d'écart.
+// La règle de la boîte : réunir vieux et neuf du même client est voulu, pas subi.
 cas(
-  "client fidèle, commandes à 12 mois d'écart",
+  "client fidèle, deux commandes à 14 mois d'écart",
   fil({ orders: ["L-31442"], subjects: ["Suivi de votre commande L-31442"], du: "2025-06-17" }),
   fil({ orders: ["L-50778"], subjects: ["Commande L-50778 confirmée"], du: "2026-08-21", au: "2026-08-31" }),
-  false
+  true
 );
-
-// Le blob réel : négo B2B de décembre + invitation Agenda + colis introuvable + flacon cassé.
-cas(
-  "fil-agrégat (déjà fusionné à tort) : exclu de tout regroupement",
-  fil({ email: "audreygt@fokalcollection.com", subjects: ["Huile d'asclépiade"], du: "2025-12-03", au: "2026-08-25", blob: "étendue 265 j > 120" }),
-  fil({ email: "audreygt@fokalcollection.com", subjects: ["Nouvelle question"], du: "2026-08-26" }),
-  false
-);
-
-// Deux réponses à deux infolettres différentes : même adresse, rien d'autre en commun.
 cas(
   "réponses à deux infolettres différentes, 2 mois d'écart",
   fil({ subjects: ["Re: Dévoilement - Nouveaux produits d'asclépiade 😮"], du: "2026-06-10" }),
   fil({ subjects: ["Re: 🦋 Prévente automnale - Produits d'asclépiade 🍁"], du: "2026-08-14" }),
-  false
+  true
 );
-
-// Même semaine, mais deux commandes explicitement différentes : deux dossiers.
 cas(
-  "deux commandes différentes la même semaine",
+  "même client, deux commandes différentes la même semaine",
   fil({ orders: ["L-50778"], subjects: ["Commande L-50778 confirmée"], du: "2026-08-24" }),
   fil({ orders: ["L-50911"], subjects: ["Commande L-50911 confirmée"], du: "2026-08-27" }),
-  false
+  true
 );
 
-// Adresse identique, sujets sans rapport, 7 jours : au-delà de la fenêtre serrée.
+// Un fil très étendu reste réunissable avec les autres fils de SON client : les plafonds ne
+// s'appliquent qu'aux adresses différentes.
 cas(
-  "même adresse, sujets sans rapport, 7 jours d'écart",
-  fil({ subjects: ["Question sur un produit"], du: "2026-08-14" }),
-  fil({ subjects: ["Bordereau de retour"], du: "2026-08-21" }),
-  false
+  "fil-agrégat + fil neuf, même adresse",
+  fil({ email: "audreygt@fokalcollection.com", subjects: ["Huile d'asclépiade"], du: "2025-12-03", au: "2026-08-25", blob: "trop étendu : 265 j > 120 j" }),
+  fil({ email: "audreygt@fokalcollection.com", subjects: ["Nouvelle question"], du: "2026-08-26" }),
+  true
 );
 
-// Un fil qui, à lui seul, s'étale sur des mois n'a rien à fusionner.
+// L'identité d'un fil est son PREMIER expéditeur externe, pas l'ensemble des adresses qu'il
+// contient. Cas réel (L-49227) : un fil où chntlhbrd@ transfère la commande de gc.lavoie@.
+// Retenir les deux adresses comme clés soudait les deux clientes, à 444 jours d'écart.
 cas(
-  "fil long de 3 mois + fil neuf qui le chevauche",
-  fil({ subjects: ["Collaboration"], du: "2026-05-20", au: "2026-08-25" }),
-  fil({ subjects: ["Collaboration"], du: "2026-08-26" }),
+  "fil contenant l'adresse d'une AUTRE cliente (transfert) : pas un pont",
+  fil({ email: "chntlhbrd@gmail.com", orders: ["L-49227"], subjects: ["Commande # L-49227"], du: "2025-02-17", au: "2026-04-29" }),
+  fil({ email: "gc.lavoie@hotmail.com", orders: ["L-49227"], subjects: ["Commande L-49227 confirmée"], du: "2026-04-23", au: "2026-05-07" }),
   false
 );
 
@@ -105,13 +98,40 @@ cas(
   false
 );
 
-console.log("\n--- VRAIS DOUBLONS (doivent être RETENUS) ---\n");
+console.log("\n--- RÈGLE 2 : ADRESSES DIFFÉRENTES → il faut prouver le même épisode ---\n");
 
-// Le client répond à la vieille notification d'expédition ET écrit un nouveau courriel.
+// Cas réel : deux CLIENTES différentes soudées par une commande transférée.
 cas(
-  "même commande, 2 jours d'écart, sujets différents",
-  fil({ orders: ["L-50825"], subjects: ["Une commande L-50825 a été livrée"], du: "2026-08-24" }),
-  fil({ orders: ["L-50825"], subjects: ["Colis jamais reçu"], du: "2026-08-26" }),
+  "commande L-42916 citée par deux clientes différentes, 233 j d'écart",
+  fil({ email: "martine.gascon@videotron.ca", orders: ["L-42916"], subjects: ["Plainte – absence de réponse"], du: "2026-04-21", au: "2026-08-23" }),
+  fil({ email: "far1090@hotmail.com", orders: ["L-42916"], subjects: ["Commande"], du: "2026-01-02", au: "2026-01-09" }),
+  false
+);
+
+// Adresses différentes, aucun sujet ni commande en commun, 7 j : rien ne prouve le lien.
+cas(
+  "adresses différentes, sujets sans rapport, 7 jours d'écart",
+  fil({ email: "a@exemple.com", name: "jean tremblay", orders: [], subjects: ["Question sur un produit"], du: "2026-08-14" }),
+  fil({ email: "b@exemple.com", name: "jean tremblay", orders: [], subjects: ["Bordereau de retour"], du: "2026-08-21" }),
+  false
+);
+
+// Un fil-agrégat ne se relie plus à un INCONNU par une clé faible.
+cas(
+  "fil-agrégat + fil d'une autre adresse, reliés par une seule commande",
+  fil({ email: "x@exemple.com", orders: ["L-40000"], subjects: ["Dossier"], du: "2025-12-03", au: "2026-08-25", blob: "agrégat : 6 sujets distincts > 4" }),
+  fil({ email: "y@exemple.com", orders: ["L-40000"], subjects: ["Autre chose"], du: "2026-08-26" }),
+  false
+);
+
+console.log("\n--- VRAIS DOUBLONS À ADRESSES DIFFÉRENTES (doivent être RETENUS) ---\n");
+
+// Le client répond à la vieille notification d'expédition ET écrit un nouveau courriel,
+// depuis deux adresses : c'est le numéro de commande qui les rattache.
+cas(
+  "même commande, deux adresses, 2 jours d'écart",
+  fil({ email: "c1@exemple.com", orders: ["L-50825"], subjects: ["Une commande L-50825 a été livrée"], du: "2026-08-24" }),
+  fil({ email: "c2@exemple.com", orders: ["L-50825"], subjects: ["Colis jamais reçu"], du: "2026-08-26" }),
   true
 );
 
@@ -123,20 +143,22 @@ cas(
   true
 );
 
-// Le client réécrit le lendemain, sans référence de commande, parce qu'il n'a pas eu de réponse.
+// Cas réel (L-46517) : deux adresses de la même cliente, même sujet, 8 jours. La fenêtre
+// large (10 j) s'applique parce que la commande et le sujet concordent.
 cas(
-  "même adresse, le lendemain, pas de numéro de commande",
-  fil({ subjects: ["Question sur un produit"], du: "2026-08-25" }),
-  fil({ subjects: ["Toujours pas de vos nouvelles"], du: "2026-08-26" }),
+  "adresses différentes, même commande et même sujet, 8 jours d'écart",
+  fil({ email: "marie.andree.moisan@gmail.com", orders: ["L-46517"], subjects: ["Fwd: Tuque reçue trop petite"], du: "2026-02-16" }),
+  fil({ email: "mam@smbinfo.ca", orders: ["L-46517"], subjects: ["Tuque reçue trop petite"], du: "2026-02-24" }),
   true
 );
 
-// Même sujet de base, 8 jours : fenêtre large parce que le sujet concorde.
+// Le NOM seul ne relie rien tant que USE_NAME n'est pas activé : deux homonymes ne sont pas
+// un doublon, et c'est le comportement par défaut.
 cas(
-  "même sujet de base, 8 jours d'écart",
-  fil({ subjects: ["Mitaines / Question"], du: "2026-08-14" }),
-  fil({ subjects: ["Re: Mitaines / Question"], du: "2026-08-22" }),
-  true
+  "adresses différentes, même nom, aucune commande commune (USE_NAME éteint)",
+  fil({ email: "m1@exemple.com", name: "marie moisan", subjects: ["Question"], du: "2026-08-14" }),
+  fil({ email: "m2@exemple.com", name: "marie moisan", subjects: ["Autre question"], du: "2026-08-15" }),
+  false
 );
 
 // Cas réel (L-48019) : deux adresses à une lettre près, même commande, fils qui se
@@ -159,6 +181,16 @@ cas(
   fil({ email: "chntlhbrd@gmail.com", orders: ["L-49227"], subjects: ["Commande # L-49227"], du: "2025-02-17", au: "2026-04-29" }),
   false
 );
+
+console.log("\n--- Nos propres adresses ne sont jamais un client ---\n");
+
+// media@lasclay.com ne figurait pas dans MISSIVE_SELF_ADDRESSES : il était pris pour un
+// client et servait de pont entre les fils de misscujo@ et de denis.roy58@. Toute adresse de
+// notre domaine est à nous, inscrite ou non.
+egal("adresse de notre domaine absente de la liste", isSelfAddress("media@lasclay.com"), true);
+egal("adresse déclarée dans MISSIVE_SELF_ADDRESSES", isSelfAddress("hey@lasclay.com"), true);
+egal("adresse d'un client", isSelfAddress("cliente@hotmail.com"), false);
+egal("domaine qui ressemble sans en être un", isSelfAddress("info@notlasclay.com"), false);
 
 console.log("\n--- Extraction des numéros de commande et des sujets ---\n");
 

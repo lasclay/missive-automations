@@ -228,11 +228,12 @@ Pour ShipStation, charge le skill **`proxygen`**. Les deux skills coexistent dan
 - `revision.js`, `revision_ia.js` — révision des brouillons.
 - `archive.js`, `purge.js`, `nettoyage.js`, `merge.js`, `repartition_merge.js` — entretien.
   `merge.js` détecte les fils en doublon et pose « À fusionner » ; la FUSION (`MERGE=true`)
-  est IRRÉVERSIBLE. Ses garde-fous v2.0 — fenêtre temporelle, étendue max, conflit de
-  numéros de commande, exclusion des fils-agrégats — existent parce qu'il a réellement
-  fusionné des fils à un an d'écart. `node merge_test.js` rejoue ces cas ; lance-le avant
-  d'assouplir un seuil. `repartition_merge.js` renvoie dans leur boîte les fils déplacés
-  dans MERGE à tort.
+  est IRRÉVERSIBLE et ne touche **que des fils ouverts**. Deux fils de la **même adresse**
+  sont réunis sans condition de date ; les garde-fous (fenêtre, étendue, conflit de
+  commandes, exclusion des fils-agrégats) ne valent que pour les liens entre adresses
+  **différentes**, là où le script soudait deux clientes par une commande transférée.
+  `node merge_test.js` rejoue ces cas ; lance-le avant d'assouplir un seuil.
+  `repartition_merge.js` renvoie dans leur boîte les fils déplacés dans MERGE à tort.
 - `admin_ops.js`, `prevente.js`, `draftrefresh.js` — administratif et prévente.
 
 Lis l'en-tête du script avant de le lancer : plusieurs agissent sur la boîte réelle.

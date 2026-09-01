@@ -1,57 +1,61 @@
 /**
- * Missive — merge.js (v2.0)
+ * Missive — merge.js (v2.1)
  * --------------------------------------------------------------------------
  * Un seul cron qui REMPLACE le webhook (missive-auto-flag.js), la rule Missive
  * et le balayage (backfill.js). Il détecte les fils en doublon par empreinte
  * client et pose le label « À fusionner ». La fusion automatique est codée mais
  * DORMANTE par défaut (MERGE=false) : phase 1 = étiquetage seulement.
  *
- * CE QU'EST UN DOUBLON, ET CE QUI N'EN EST PAS
- * -------------------------------------------
- * Un doublon, c'est le MÊME ÉPISODE écrit deux fois : le client répond à une vieille
- * notification au lieu du fil courant, ou réécrit deux jours plus tard croyant s'être
- * trompé. C'est court, c'est rapproché, c'est le même sujet.
+ * DEUX RÈGLES DE LA BOÎTE, ET LE RESTE EN DÉCOULE
+ * ----------------------------------------------
+ * 1. MÊME CLIENT = MÊME FIL, quelle que soit la date. Réunir un fil de l'an dernier et un
+ *    fil d'aujourd'hui du même client n'est pas un problème : c'est le but. L'adresse
+ *    courriel identique tranche, sans aucune contrainte de temps ni de sujet.
+ * 2. ON NE FUSIONNE QUE DES FILS OUVERTS. Un fil fermé sert à la DÉTECTION — savoir qu'un
+ *    client a déjà écrit — jamais de source ni de survivant. Ce n'est pas un réglage.
  *
- * Un client FIDÈLE n'est PAS un doublon. Deux commandes à huit mois d'écart, une réponse
- * à l'infolettre en mars et une question de taille en août : c'est le même courriel, mais
- * ce sont deux conversations. Les fusionner détruit l'historique — et la fusion Missive
- * est IRRÉVERSIBLE.
+ * Ce qui restait à corriger, c'est donc l'inverse : les fils qui NE SONT PAS du même client
+ * et que le script soudait quand même. Jusqu'à la v1.5, un simple numéro de commande vu
+ * n'importe où dans le texte — y compris dans une chaîne de réponses citée — suffisait à
+ * relier deux fils. Deux cas réels mesurés dans la boîte : la commande L-42916 citée par
+ * martine.gascon@ et far1090@ à 233 jours d'écart, et L-49227 citée par gc.lavoie@ et
+ * chntlhbrd@ à 444 jours. Une commande transférée, un cadeau, une plainte relayée — et deux
+ * clientes différentes se retrouvaient dans un même fil, IRRÉVERSIBLEMENT.
  *
- * Jusqu'à la v1.5, le seul critère était « même adresse courriel » (ou même numéro de
- * commande, ou même nom), SANS AUCUNE NOTION DE TEMPS. Résultat en production : un fil
- * unique agglomérant une négociation B2B de décembre, une invitation Google Agenda de
- * janvier, un colis introuvable de mars et un flacon abrisé d'août. Et un effet boule de
- * neige : le fil fusionné porte maintenant TOUTES les adresses et TOUS les numéros de
- * commande, donc il aimante encore plus de fils au run suivant.
+ * D'où la ligne de partage de la v2.1 :
  *
- * v2.0 ajoute donc quatre garde-fous. Un couple de fils n'est un doublon que si :
- *   1. FENÊTRE   — l'écart entre les deux fils ≤ DUP_WINDOW_DAYS (10 j) quand ils
- *                  partagent un numéro de commande ou le même sujet de base, sinon
- *                  ≤ DUP_TIGHT_WINDOW_DAYS (3 j). Reliés par la seule adresse et à
- *                  sujets différents, deux fils doivent être quasi simultanés.
- *   2. ÉTENDUE   — le fil résultant ne couvre pas plus de DUP_MAX_SPAN_DAYS (45 j), porté à
- *                  DUP_MAX_SPAN_ORDER_DAYS (120 j) quand un numéro de commande commun relie
- *                  les deux fils — empreinte bien plus forte qu'une adresse partagée.
- *   3. COMMANDES — deux fils qui citent des numéros de commande DISJOINTS parlent de deux
- *                  commandes différentes : jamais un doublon (DUP_ORDER_CONFLICT=false
- *                  pour désactiver).
- *   4. AGRÉGATS  — un fil qui porte plus de DUP_BLOB_SUBJECTS (4) sujets distincts est
- *                  le produit d'une fusion abusive : EXCLU de tout regroupement, sans quoi
- *                  il aimante de nouveaux fils à chaque run. Idem pour un fil couvrant déjà
- *                  plus de DUP_BLOB_DAYS (120 j), légitime ou non : on n'y ajoute rien.
- * Et deux garde-fous de groupe : au-delà de DUP_MAX_GROUP (4) fils, ou si l'étendue du
- * groupe dépasse DUP_MAX_SPAN_DAYS, le groupe est SIGNALÉ mais ni étiqueté ni fusionné.
- * En phase 2, la fusion exige en plus une CLIQUE : chaque paire du groupe doit être valide
- * par elle-même, jamais par transitivité (A~B, B~C n'implique pas A~C).
+ *   ADRESSE IDENTIQUE  → doublon, sans condition. Aucun plafond de date, de durée ni de
+ *                        taille de groupe : un client fidèle a droit à tous ses fils.
  *
- * Les numéros de commande sont désormais lus dans le texte NON CITÉ seulement : un L-XXXXX
- * qui traîne dans une chaîne de réponses citée ne relie plus deux fils étrangers.
+ *   ADRESSES DIFFÉRENTES (le lien ne tient qu'à un numéro de commande ou à un nom) → il faut
+ *   prouver que c'est le même épisode, sinon on soude deux clients :
+ *     1. FENÊTRE   — écart ≤ DUP_WINDOW_DAYS (10 j) si commande ou sujet de base commun,
+ *                    sinon ≤ DUP_TIGHT_WINDOW_DAYS (3 j).
+ *     2. ÉTENDUE   — le fil résultant ne couvre pas plus de DUP_MAX_SPAN_DAYS (45 j), porté
+ *                    à DUP_MAX_SPAN_ORDER_DAYS (120 j) si un numéro de commande les relie.
+ *     3. COMMANDES — numéros de commande DISJOINTS : jamais un doublon
+ *                    (DUP_ORDER_CONFLICT=false pour désactiver).
+ *     4. AGRÉGATS  — un fil portant plus de DUP_BLOB_SUBJECTS (4) sujets distincts, ou
+ *                    couvrant déjà plus de DUP_BLOB_DAYS (120 j), ne se relie PAS par ces
+ *                    clés faibles. Il garde le droit de rejoindre les fils de SON client
+ *                    (adresse identique) — mais il n'aimante plus d'inconnus.
+ *   Et deux plafonds de groupe, eux aussi réservés aux groupes à adresses mêlées : au-delà de
+ *   DUP_MAX_GROUP (4) fils ou de l'étendue max, le groupe est SIGNALÉ, ni étiqueté ni
+ *   fusionné. En phase 2, la fusion exige une CLIQUE : chaque paire valide par elle-même,
+ *   jamais par transitivité (A~B, B~C n'implique pas A~C).
  *
- * MESURE (rejeu des deux logiques sur 1583 fils réels des 6 boîtes, ouverts + fermés) :
- * v1.5 étiquetait 17 groupes / 37 fils ; v2.0 en retient 12 / 25, aucun signalé. Les 12 fils
- * écartés sont tous des faux positifs vérifiés — deux clients différents citant la commande
- * L-42916 à 233 j d'écart, une notification de remboursement collée à un fil de mitaines de
- * janvier 2025 (586 j), des groupes de 3 réduits à leur vrai noyau. Aucun vrai doublon perdu.
+ * Les numéros de commande sont lus dans le texte NON CITÉ seulement : un L-XXXXX qui traîne
+ * dans une chaîne de réponses citée ne relie plus deux fils étrangers.
+ *
+ * L'IDENTITÉ d'un fil, c'est son PREMIER EXPÉDITEUR EXTERNE, pas l'ensemble des adresses qu'il
+ * contient. Un fil où une cliente transfère la commande d'une autre porte les deux adresses :
+ * s'en servir comme clés soude deux clientes (mesuré sur L-49227, gc.lavoie@ et chntlhbrd@,
+ * 444 jours). Les autres adresses ne servent qu'au journal.
+ *
+ * Et toute adresse de NOTRE domaine (MISSIVE_SELF_DOMAINS, défaut lasclay.com) est à nous,
+ * qu'elle figure ou non dans MISSIVE_SELF_ADDRESSES. media@lasclay.com manquait à cette liste
+ * tenue à la main : il passait pour un client et servait de pont entre les fils de deux
+ * clientes sans rapport.
  *
  * Détection : empreintes courriel / numéro de commande (nom facultatif), regroupées par
  * union-find sur les PAIRES VALIDÉES. Le regroupement se fait sur l'IDENTITÉ du client,
@@ -72,6 +76,8 @@
  *                           7c922a57-... codé en dur)               [facultatif]
  *   MISSIVE_TEAMS           override : ids d'équipes à ratisser, séparés par des
  *                           virgules. Si absent, les 6 boîtes clients par défaut.
+ *   MISSIVE_SELF_DOMAINS    nos domaines (défaut « lasclay.com »), séparés par des virgules.
+ *                           Toute adresse s'y terminant est à nous, jamais un client. [facultatif]
  *   MISSIVE_SYSTEM_SENDERS  motifs d'adresses systèmes à exclure EN PLUS des
  *                           défauts (noreply, no-reply, shopify.com, etsy.com),
  *                           séparés par des virgules.                [facultatif]
@@ -81,15 +87,17 @@
  *                           En phase 2 (MERGE=true), METTRE DRY_RUN=true au 1er essai.
  *   MERGE                   "true" = phase 2, fusionne vraiment.   DÉFAUT false.
  *   MERGE_ONLY_EMAIL        "true" (défaut) = ne fusionne QUE les groupes reliés
- *                           par adresse courriel exacte.
+ *                           par adresse courriel exacte. La fusion ne touche JAMAIS un fil
+ *                           FERMÉ, quel que soit ce réglage.
  *   MERGE_LIMIT             plafond du nombre de fusions par run (0 = illimité).
  *
  *   --- garde-fous v2.0 (tous facultatifs, valeurs par défaut entre parenthèses) ---
- *   DUP_WINDOW_DAYS         (10)  écart max entre deux fils partageant une commande
- *                                 ou le même sujet de base.
- *   DUP_TIGHT_WINDOW_DAYS   (3)   écart max entre deux fils reliés par la SEULE adresse,
- *                                 à sujets différents.
- *   DUP_MAX_SPAN_DAYS       (45)  étendue max du fil résultant (lien par adresse seule).
+ *   Ces seuils ne concernent QUE les liens entre adresses DIFFÉRENTES. Deux fils portant la
+ *   même adresse courriel sont réunis sans condition.
+ *
+ *   DUP_WINDOW_DAYS         (10)  écart max quand une commande ou le sujet de base concorde.
+ *   DUP_TIGHT_WINDOW_DAYS   (3)   écart max quand ni l'un ni l'autre ne concorde.
+ *   DUP_MAX_SPAN_DAYS       (45)  étendue max du fil résultant.
  *   DUP_MAX_SPAN_ORDER_DAYS (120) étendue max quand un numéro de commande commun relie
  *                                 les deux fils.
  *   DUP_MAX_GROUP           (4)   taille max d'un groupe étiquetable/fusionnable.
@@ -103,7 +111,14 @@
  * DRY_RUN=true d'abord, puis MERGE_LIMIT=3.
  */
 
-const VERSION = "v2.0";
+const VERSION = "v2.1";
+// v2.1: DEUX RÈGLES DE LA BOÎTE. (a) Adresse courriel identique = même client = doublon, SANS
+// contrainte de temps : la v2.0 exigeait aussi la proximité temporelle et écartait des fils qu'il
+// fallait bien réunir. Les garde-fous de temps, d'étendue et de taille ne s'appliquent plus qu'aux
+// liens entre adresses DIFFÉRENTES — là où vivaient les vrais faux positifs (deux clientes soudées
+// par une commande transférée). (b) La FUSION ne touche QUE des fils OUVERTS : MERGE_CLOSED
+// n'existe plus, un fil fermé sert à la détection et rien d'autre. Chaque fil retient désormais
+// toutes les adresses qu'il contient, pour qu'un fil déjà fusionné reconnaisse encore son client.
 // v2.0: FAUX POSITIFS. La détection n'avait aucune notion de temps : deux fils du même client
 // à un an d'écart étaient un « doublon ». Ajout de la fenêtre temporelle, de l'étendue max, du
 // conflit de numéros de commande, de l'exclusion des fils-agrégats, du plafond de taille de
@@ -126,11 +141,10 @@ const DRY_RUN = (process.env.DRY_RUN || "false").toLowerCase() !== "false"; // d
 const MERGE = (process.env.MERGE || "").toLowerCase() === "true"; // défaut: phase 1
 const MERGE_ONLY_EMAIL = (process.env.MERGE_ONLY_EMAIL || "true").toLowerCase() !== "false";
 const MERGE_LIMIT = parseInt(process.env.MERGE_LIMIT || "0", 10) || 0; // 0 = illimité
-// Fusionner aussi les fils FERMÉS (demande explicite : « fusionner les doublons, même fermés »).
-// Défaut TRUE. Le fil survivant reste, de préférence, un fil OUVERT (voir tri ci-dessous), de sorte
-// qu'un doublon fermé se replie dans le fil ouvert actif du client. MERGE_CLOSED=false = ancien
-// comportement (détection seule sur les fermés, fusion des ouverts uniquement).
-const MERGE_CLOSED = (process.env.MERGE_CLOSED || "true").toLowerCase() !== "false";
+// Les fils FERMÉS ne fusionnent JAMAIS. Ce n'est pas un réglage : c'est une règle de la boîte.
+// Ils servent uniquement à la DÉTECTION (savoir qu'un client a déjà écrit), jamais de source ni de
+// survivant. La v1.5 les fusionnait (MERGE_CLOSED=true) — cette variable n'existe plus et est
+// ignorée si elle traîne dans l'environnement du cron.
 // Empreinte par nom : éteinte par défaut (source de faux groupes sur les expéditeurs
 // récurrents et les homonymes). Mettre USE_NAME=true pour la réactiver.
 const USE_NAME = (process.env.USE_NAME || "").toLowerCase() === "true";
@@ -154,6 +168,20 @@ const SELF = (process.env.MISSIVE_SELF_ADDRESSES || "")
   .split(",")
   .map((s) => s.trim().toLowerCase())
   .filter(Boolean);
+
+// Nos DOMAINES. MISSIVE_SELF_ADDRESSES est une liste tenue à la main, et elle a été
+// incomplète : media@lasclay.com n'y figurait pas, était donc pris pour un client, et servait
+// de pont entre des fils de deux clients différents (mesuré : misscujo@ soudée à denis.roy58@).
+// Une adresse de notre domaine n'est jamais un client, qu'on ait pensé à l'inscrire ou non.
+const SELF_DOMAINS = (process.env.MISSIVE_SELF_DOMAINS || "lasclay.com")
+  .split(",")
+  .map((s) => s.trim().toLowerCase().replace(/^@/, ""))
+  .filter(Boolean);
+const isSelfAddress = (addr) => {
+  if (!addr) return false;
+  const a = addr.toLowerCase();
+  return SELF.includes(a) || SELF_DOMAINS.some((d) => a.endsWith(`@${d}`));
+};
 
 // Expéditeurs systèmes (notifications automatisées) : jamais traités comme des clients.
 // Comparaison par sous-chaîne sur l'adresse, en minuscules.
@@ -453,6 +481,7 @@ async function fingerprints(conv) {
 
   let email = null;
   let name = null;
+  const emails = new Set();
   const orders = new Set();
   const subjects = new Set();
   const stamps = [];
@@ -471,10 +500,12 @@ async function fingerprints(conv) {
 
     const addr = m.from_field?.address?.toLowerCase() || null;
     const dispName = norm(m.from_field?.name);
-    const isSelf = (addr && SELF.includes(addr)) || (dispName && SELF_NAMES.has(dispName));
+    const isSelf = isSelfAddress(addr) || (dispName && SELF_NAMES.has(dispName));
     if (isSelf) continue;
 
+    if (addr) emails.add(addr);
     if (!email && addr) email = addr;
+
     if (!name && dispName) name = dispName;
   }
 
@@ -486,8 +517,13 @@ async function fingerprints(conv) {
 
   // Expéditeur système → aucune empreinte (jamais de label, jamais de groupe).
   if (isSystemSender(email)) {
-    return { email: null, name: null, orders: [], subjects: [], firstAt, lastAt, blob: null };
+    return { email: null, autresAdresses: [], name: null, orders: [], subjects: [], firstAt, lastAt, blob: null };
   }
+  // Les autres adresses du fil sont CONSERVÉES POUR LE JOURNAL seulement, jamais pour relier :
+  // un fil où une cliente transfère la commande d'une autre contient les deux adresses, et
+  // s'en servir comme clé soude deux clientes (mesuré : la commande L-49227, gc.lavoie@ et
+  // chntlhbrd@, 444 jours). L'identité d'un fil, c'est son PREMIER expéditeur externe.
+  const autresAdresses = [...emails].filter((a) => a !== email && !isSystemSender(a));
 
   // Fil INFUSIONNABLE. Deux cas, journalisés distinctement :
   //  - « trop étendu » : un fil qui couvre déjà plus de BLOB_DAYS. Souvent parfaitement
@@ -501,7 +537,7 @@ async function fingerprints(conv) {
   if (BLOB_SUBJECTS && subjects.size > BLOB_SUBJECTS) blob = `agrégat : ${subjects.size} sujets distincts > ${BLOB_SUBJECTS}`;
   else if (BLOB_DAYS && spanDays > BLOB_DAYS) blob = `trop étendu : ${Math.round(spanDays)} j > ${BLOB_DAYS} j`;
 
-  return { email, name, orders: [...orders], subjects: [...subjects], firstAt, lastAt, blob };
+  return { email, autresAdresses, name, orders: [...orders], subjects: [...subjects], firstAt, lastAt, blob };
 }
 
 // Écart, en jours, entre les périodes d'activité de deux fils (0 s'ils se chevauchent).
@@ -517,48 +553,56 @@ const shareSubject = (a, b) => a.subjects.some((s) => s && b.subjects.includes(s
 const sharedOrders = (a, b) => a.orders.filter((o) => b.orders.includes(o));
 
 /**
- * Le cœur de la v2.0 : deux fils sont-ils le MÊME ÉPISODE ?
- * Renvoie { ok:true, why } ou { ok:false, why } — le motif est journalisé.
+ * Deux fils sont-ils le même client ?
+ *
+ * ADRESSE IDENTIQUE = MÊME CLIENT, point. Aucune contrainte de temps : réunir un fil de
+ * l'an dernier et un fil d'aujourd'hui du même client est voulu. C'est la règle de la boîte,
+ * et c'est ce qui distingue la v2.1 de la v2.0 (qui exigeait aussi la proximité temporelle,
+ * trop strictement).
+ *
+ * Le RESTE reste gardé, parce que c'est là que vivaient les vrais faux positifs : quand
+ * seuls un NUMÉRO DE COMMANDE ou un NOM relient deux fils, rien ne prouve qu'il s'agisse du
+ * même client. Deux cas réels mesurés dans la boîte : la commande L-42916 citée par
+ * martine.gascon@ et far1090@ à 233 jours d'écart, et L-49227 citée par gc.lavoie@ et
+ * chntlhbrd@ à 444 jours. Une commande transférée, un cadeau, une plainte relayée — et deux
+ * clientes différentes se retrouvaient dans un même fil, irréversiblement.
  */
 function isDuplicatePair(a, b) {
+  const memeAdresse = a.email && b.email && a.email === b.email;
+  const common = sharedOrders(a, b);
+  const sameName = USE_NAME && a.name && b.name && a.name === b.name;
+
+  // 1. Même adresse courriel : même client, on s'arrête là.
+  if (memeAdresse) {
+    return { ok: true, why: `même client (${a.email}), écart ${Math.round(gapDays(a, b))} j` };
+  }
+
+  if (common.length === 0 && !sameName) return { ok: false, why: "aucune empreinte commune" };
+
+  // 2. Adresses DIFFÉRENTES. Le lien ne tient qu'à un numéro de commande (ou un nom) : il
+  // faut alors que les deux fils soient un même épisode, sinon on soude deux clients.
   if (a.blob) return { ok: false, why: `fil infusionnable (${a.blob})` };
   if (b.blob) return { ok: false, why: `fil infusionnable (${b.blob})` };
 
-  const sameEmail = a.email && b.email && a.email === b.email;
-  const common = sharedOrders(a, b);
-  const sameName = USE_NAME && a.name && b.name && a.name === b.name;
-  if (!sameEmail && common.length === 0 && !sameName) return { ok: false, why: "aucune empreinte commune" };
-
-  // Deux commandes différentes = deux dossiers différents, même client.
   if (ORDER_CONFLICT && common.length === 0 && a.orders.length && b.orders.length) {
-    return { ok: false, why: `commandes disjointes (${a.orders.join(",")} vs ${b.orders.join(",")})` };
+    return { ok: false, why: `adresses différentes, commandes disjointes (${a.orders.join(",")} vs ${b.orders.join(",")})` };
   }
 
   const span = spanDaysOf([a, b]);
   const spanMax = common.length > 0 ? MAX_SPAN_ORDER_DAYS : MAX_SPAN_DAYS;
   if (spanMax && span > spanMax) {
-    return {
-      ok: false,
-      why: `étendue ${Math.round(span)} j > ${spanMax} j (${common.length ? "commande commune" : "sans commande commune"})`,
-    };
+    return { ok: false, why: `adresses différentes, étendue ${Math.round(span)} j > ${spanMax} j` };
   }
 
-  // Fenêtre : large si les deux fils parlent visiblement de la même chose (même commande
-  // ou même sujet de base), serrée s'ils ne partagent QUE l'adresse du client.
   const proche = common.length > 0 || shareSubject(a, b);
   const limit = proche ? WINDOW_DAYS : TIGHT_WINDOW_DAYS;
   const gap = gapDays(a, b);
   if (gap > limit) {
-    return {
-      ok: false,
-      why: `écart ${Math.round(gap)} j > ${limit} j (${proche ? "même sujet/commande" : "adresse seule, sujets différents"})`,
-    };
+    return { ok: false, why: `adresses différentes, écart ${Math.round(gap)} j > ${limit} j` };
   }
 
-  const lien = [common.length ? `commande ${common.join(",")}` : "", sameEmail ? "courriel" : "", sameName ? "nom" : ""]
-    .filter(Boolean)
-    .join("+");
-  return { ok: true, why: `${lien}, écart ${Math.round(gap)} j, étendue ${Math.round(span)} j` };
+  const lien = [common.length ? `commande ${common.join(",")}` : "", sameName ? "nom" : ""].filter(Boolean).join("+");
+  return { ok: true, why: `adresses différentes reliées par ${lien}, écart ${Math.round(gap)} j, étendue ${Math.round(span)} j` };
 }
 function hasMergeLabel(conv) {
   const labels = conv.shared_labels || conv.shared_label_ids || [];
@@ -592,7 +636,8 @@ async function main() {
   console.log(`Label : ${LABEL}`);
   console.log(`Empreintes actives : courriel, numéro de commande${USE_NAME ? ", nom" : " (nom désactivé)"}`);
   console.log(
-    `Garde-fous : fenêtre ${WINDOW_DAYS} j (${TIGHT_WINDOW_DAYS} j si adresse seule) | ` +
+    "Adresse identique = même client = doublon, sans contrainte de temps.\n" +
+      `Garde-fous (adresses DIFFÉRENTES seulement) : fenêtre ${WINDOW_DAYS} j (${TIGHT_WINDOW_DAYS} j sans commande ni sujet commun) | ` +
       `étendue max ${MAX_SPAN_DAYS} j (${MAX_SPAN_ORDER_DAYS} j si commande commune) | ` +
       `groupe max ${MAX_GROUP} | agrégat > ${BLOB_DAYS} j ou > ${BLOB_SUBJECTS} sujets | ` +
       `conflit de commandes ${ORDER_CONFLICT ? "bloquant" : "ignoré"}`
@@ -643,8 +688,10 @@ async function main() {
     buckets.get(key).push(idx);
   };
   fps.forEach((fp, idx) => {
-    if (fp.blob) return;
     if (fp.email) push(`email:${fp.email}`, idx);
+    // Les clés faibles (nom, numéro de commande) ne servent pas à un fil-agrégat : c'est par
+    // elles qu'il aimanterait un client étranger.
+    if (fp.blob) return;
     if (USE_NAME && fp.name) push(`name:${fp.name}`, idx);
     for (const o of fp.orders) push(`order:${o}`, idx);
   });
@@ -671,7 +718,6 @@ async function main() {
 
   const groups = new Map();
   convs.forEach((_, idx) => {
-    if (fps[idx].blob) return;
     const root = find(idx);
     if (!groups.has(root)) groups.set(root, []);
     groups.get(root).push(idx);
@@ -680,18 +726,29 @@ async function main() {
   // --- Validation au niveau du GROUPE : la transitivité de l'union-find peut souder
   // A et C via B alors que A et C n'ont rien à voir. Un groupe trop gros ou trop étalé
   // est SIGNALÉ, jamais étiqueté ni fusionné. ---
+  // Un groupe MONO-CLIENT (une adresse commune à tous ses fils) échappe aux plafonds : c'est
+  // un client fidèle, ses fils lui appartiennent tous, peu importe combien et sur quelle durée.
+  const monoClient = (g) => {
+    const e = fps[g[0]].email;
+    return !!e && g.every((idx) => fps[idx].email === e);
+  };
+
   const dupes = [];
   const suspects = [];
   for (const g of [...groups.values()].filter((g) => g.length >= 2)) {
+    if (monoClient(g)) {
+      dupes.push(g);
+      continue;
+    }
     const span = spanDaysOf(g.map((idx) => fps[idx]));
     if (MAX_GROUP && g.length > MAX_GROUP) {
-      suspects.push([g, `${g.length} fils > ${MAX_GROUP} (chaîne probable)`]);
+      suspects.push([g, `${g.length} fils d'adresses différentes > ${MAX_GROUP} (chaîne probable)`]);
       continue;
     }
     const partageCommande = g.some((x) => g.some((y) => x !== y && sharedOrders(fps[x], fps[y]).length));
     const spanMax = partageCommande ? MAX_SPAN_ORDER_DAYS : MAX_SPAN_DAYS;
     if (spanMax && span > spanMax) {
-      suspects.push([g, `étendue du groupe ${Math.round(span)} j > ${spanMax} j`]);
+      suspects.push([g, `adresses différentes, étendue du groupe ${Math.round(span)} j > ${spanMax} j`]);
       continue;
     }
     dupes.push(g);
@@ -803,13 +860,16 @@ async function main() {
   }
 
   console.log("\n=== Phase 2 : fusion ===");
-  console.log(`  MERGE_CLOSED=${MERGE_CLOSED} (les fils fermés ${MERGE_CLOSED ? "PARTICIPENT à" : "sont exclus de"} la fusion)`);
+  console.log("  Fils FERMÉS : exclus de la fusion (détection seulement).");
   let fusions = 0;
   for (const gAll of dupes) {
-    // Par défaut (MERGE_CLOSED=true), les fils fermés participent à la fusion : un doublon fermé se
-    // replie dans le fil ouvert du client. MERGE_CLOSED=false = ancien comportement (ouverts seuls).
-    const g = MERGE_CLOSED ? gAll.slice() : gAll.filter((idx) => !convs[idx]._closed);
-    if (g.length < 2) continue;
+    // Fusion sur les fils OUVERTS seulement. Un fil fermé a servi à repérer le groupe ; on n'y
+    // touche pas. Un groupe qui n'a plus qu'un fil ouvert n'a donc rien à fusionner.
+    const g = gAll.filter((idx) => !convs[idx]._closed);
+    if (g.length < 2) {
+      if (gAll.length >= 2) console.log(`  Groupe non fusionné (moins de 2 fils ouverts) : étiqueté seulement.`);
+      continue;
+    }
     if (MERGE_LIMIT && fusions >= MERGE_LIMIT) {
       console.log(`Plafond MERGE_LIMIT=${MERGE_LIMIT} atteint, arrêt des fusions.`);
       break;
@@ -841,33 +901,25 @@ async function main() {
       continue;
     }
 
-    // Survivant : de préférence un fil OUVERT (pour que le résultat reste actif dans la boîte),
-    // puis le plus récent. Les fils fermés ne sont donc pris comme survivant que si TOUT le groupe
-    // est fermé.
-    const ordered = g.slice().sort((a, b) => {
-      const ao = convs[a]._closed ? 1 : 0;
-      const bo = convs[b]._closed ? 1 : 0;
-      if (ao !== bo) return ao - bo; // ouverts (0) avant fermés (1)
-      return (convs[b].last_activity_at || 0) - (convs[a].last_activity_at || 0);
-    });
+    // Survivant : le fil ouvert le plus récent, pour que le résultat reste actif dans la boîte.
+    const ordered = g.slice().sort((a, b) => (convs[b].last_activity_at || 0) - (convs[a].last_activity_at || 0));
     const survivor = convs[ordered[0]];
     const sources = ordered.slice(1).map((idx) => convs[idx]);
 
-    const survFlag = survivor._closed ? " (survivant FERMÉ — tout le groupe l'était)" : "";
     for (const src of sources) {
       if (MERGE_LIMIT && fusions >= MERGE_LIMIT) break;
-      const srcFlag = src._closed ? " [fermé]" : "";
+      if (src._closed || survivor._closed) continue; // ceinture ET bretelles
       if (DRY_RUN) {
-        console.log(`  [SIMULATION] fusionner ${src.id}${srcFlag} → ${survivor.id}${survFlag}`);
+        console.log(`  [SIMULATION] fusionner ${src.id} → ${survivor.id}`);
         fusions++;
         continue;
       }
       const r = await mergeInto(src.id, survivor.id);
       if (r.ok) {
         fusions++;
-        console.log(`  fusionné ${src.id}${srcFlag} → ${survivor.id} (id résultant: ${r.returnedId || "?"})`);
+        console.log(`  fusionné ${src.id} → ${survivor.id} (id résultant: ${r.returnedId || "?"})`);
       } else {
-        console.error(`  échec fusion ${src.id}${srcFlag} → ${survivor.id}`);
+        console.error(`  échec fusion ${src.id} → ${survivor.id}`);
       }
     }
   }
@@ -893,5 +945,6 @@ if (require.main === module) {
     gapDays,
     spanDaysOf,
     isSystemSender,
+    isSelfAddress,
   };
 }

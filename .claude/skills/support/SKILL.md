@@ -48,12 +48,13 @@ Quatre pièges, chacun payé par une erreur réelle :
   Les trois empreintes de `merge.js` — adresse, **nom**, **numéro de commande** — sont
   requises. Le seul doublon réel trouvé sur 806 fils reliait `…bef@icloud.com` à
   `…bed@hotmail.com` : uniquement le numéro de commande les rattachait.
-- **Un client fidèle n'est pas un doublon.** L'inverse du piège précédent, et il a coûté
-  plus cher : `merge.js` groupait sur la seule adresse, sans notion de temps, et fusionnait
-  — irréversiblement — des fils à un an d'écart. Deux fils ne sont le même épisode que
-  s'ils sont **rapprochés dans le temps** et parlent de la **même commande** ou du **même
-  sujet**. Depuis la v2.0 le script applique ces garde-fous lui-même ; toi aussi, avant de
-  proposer une fusion à la main.
+- **Le vrai risque, c'est de souder deux clients différents.** Réunir un vieux fil et un
+  neuf du **même** client est voulu : l'adresse identique tranche, sans condition de date.
+  Mais quand seul un **numéro de commande** relie deux fils, rien ne prouve que c'est la
+  même personne — une commande transférée, un cadeau, une plainte relayée. Deux cas mesurés
+  dans la boîte : L-42916 citée par deux clientes à 233 jours d'écart, L-49227 à 444 jours.
+  Vérifie l'adresse avant de proposer une fusion. Et **on ne fusionne que des fils ouverts**,
+  jamais un fil fermé.
 - **Un renvoi n'a pas le numéro de commande d'origine.** Une garantie, un échange, une
   commande téléphone deviennent une commande **manuelle** dans ShipStation. Chercher par
   numéro `L-` seul les rend invisibles ; il faut chercher par **nom du client**. De même,
