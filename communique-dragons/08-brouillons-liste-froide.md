@@ -162,21 +162,15 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Gabriel Delisle,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
-mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
-menacé : le papillon monarque.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-L'asclépiade a été une histoire mauricienne avant d'être la nôtre : l'usine de Saint-Tite
-achetait 90 % des récoltes du Québec. On a démarré après la chute de cette filière, et six ans
-plus tard on achète encore de l'asclépiade québécoise et on la
-transforme nous-mêmes à Québec.
+L'asclépiade a été une histoire mauricienne avant d'être la nôtre : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. On a démarré après la chute de cette filière, et six ans plus tard on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : huit ans après
-Saint-Tite, il reste quelque chose de cette promesse-là, et ça se raconte.
+Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : huit ans après Saint-Tite, il reste quelque chose de cette promesse-là, et ça se raconte.
 
 Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -893,24 +887,17 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Marie Allard,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
-mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
-menacé : le papillon monarque.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Il y a une belle histoire de sciences dans l'asclépiade. La soie attachée à ses graines n'est
-pas un poil : c'est un tube creux enduit d'une cire hydrophobe, et les fibres portent une
-charge qui les fait se repousser. C'est ce qui forme le parachute autour de la graine, et
-c'est ce qui emprisonne l'air. Chaque follicule en produit plus de 200.
+Il y a une belle histoire de sciences dans l'asclépiade. La soie attachée à ses graines n'est pas un poil : c'est un tube creux enduit d'une cire hydrophobe, et les fibres portent une charge qui les fait se repousser. C'est ce qui forme le parachute autour de la graine, et c'est ce qui emprisonne l'air. Chaque follicule en produit plus de 200.
 
-On en fait de l'isolant pour des manteaux et des mitaines. Et c'est la seule plante que les
-chenilles du monarque peuvent manger, ce qui est toute la raison d'être de l'entreprise.
+On en fait de l'isolant pour des manteaux et des mitaines. Et c'est la seule plante que les chenilles du monarque peuvent manger, ce qui est toute la raison d'être de l'entreprise.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de
-Limoilou est ouvert si vos lecteurs aimeraient voir comment une gousse devient un manteau.
+Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. L'atelier de Limoilou est ouvert si vos lecteurs aimeraient voir comment une gousse devient un manteau.
 
 Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -1225,24 +1212,17 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Réjean Martin,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
-mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
-menacé : le papillon monarque.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment
-industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière
-se casse en 2018.
+Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière se casse en 2018.
 
-On a démarré après. Six ans plus tard, on achète encore de l'asclépiade québécoise et on la
-transforme nous-mêmes à Québec.
+On a démarré après. Six ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Je voulais vous en faire part parce que vos lecteurs ont vu la promesse de l'asclépiade de
-plus près que n'importe qui. Qui sait, peut-être vous inspirer un sujet sur ce que la plante
-est devenue depuis. Je peux parler des volumes, de la récolte, et de ce qui reste à régler.
+Je voulais vous en faire part parce que vos lecteurs ont vu la promesse de l'asclépiade de plus près que n'importe qui. Qui sait, peut-être vous inspirer un sujet sur ce que la plante est devenue depuis. Je peux parler des volumes, de la récolte, et de ce qui reste à régler.
 
 Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5419,25 +5399,17 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Jean-Michel Leprince,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
-mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
-menacé : le papillon monarque.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Vous couvrez l'asclépiade depuis au moins 2014 : le Téléjournal, la soie d'Amérique partie
-sur l'Everest, le pouvoir absorbant de la fibre sur les hydrocarbures, le lien avec le
-monarque. Vous avez suivi cette histoire plus longtemps que la plupart des entreprises qui
-s'y sont essayées.
+Vous couvrez l'asclépiade depuis au moins 2014 : le Téléjournal, la soie d'Amérique partie sur l'Everest, le pouvoir absorbant de la fibre sur les hydrocarbures, le lien avec le monarque. Vous avez suivi cette histoire plus longtemps que la plupart des entreprises qui s'y sont essayées.
 
-On a démarré après la chute de la première filière. Six ans plus tard, on achète encore de l'asclépiade québécoise et on transforme l'isolant nous-mêmes à
-Limoilou.
+On a démarré après la chute de la première filière. Six ans plus tard, on achète encore de l'asclépiade québécoise et on transforme l'isolant nous-mêmes à Limoilou.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Vous êtes probablement la personne au Québec qui a le plus longtemps suivi cette plante-là.
-Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : ce serait la
-première fois qu'on raconte ce que la filière est devenue après la chute.
+Vous êtes probablement la personne au Québec qui a le plus longtemps suivi cette plante-là. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : ce serait la première fois qu'on raconte ce que la filière est devenue après la chute.
 
 Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 

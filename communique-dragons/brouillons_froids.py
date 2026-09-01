@@ -18,7 +18,7 @@ Deux differences assumees avec la liste chaude :
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, MEDIA_KIT, assembler
+from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, MEDIA_KIT, assembler, deplier
 
 QUI = ("Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver "
        "avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
@@ -297,7 +297,7 @@ def main(src, dst, md):
             continue
         cle = courriel
         brut = MAIN.get(cle)
-        txt = (brut.format(ANNONCE=ANNONCE, MEDIA_KIT=MEDIA_KIT, BENEFICE=BENEFICE,
+        txt = (deplier(brut).format(ANNONCE=ANNONCE, MEDIA_KIT=MEDIA_KIT, BENEFICE=BENEFICE,
                            CLOTURE=CLOTURE)
                if brut else monter(prenom, nom, angle, region))
         mains += bool(brut)

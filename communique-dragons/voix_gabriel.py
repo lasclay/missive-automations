@@ -108,3 +108,16 @@ def cloture(registre):
 def assembler(blocs):
     """Colle les paragraphes non vides avec une ligne blanche entre chacun."""
     return "\n\n".join(b.strip() for b in blocs if b and b.strip())
+
+
+def deplier(texte):
+    """Enleve les retours a la ligne poses a la main dans un paragraphe.
+
+    Les courriels ecrits ou colles a la main sont coupes vers 95 caracteres.
+    Un client de messagerie replie deja les paragraphes a la largeur de la
+    fenetre : sur un telephone, ces coupures se voient deux fois et le texte
+    tombe en escalier. Les lignes blanches, elles, separent les paragraphes et
+    restent.
+    """
+    return "\n\n".join(" ".join(l.strip() for l in par.splitlines() if l.strip())
+                       for par in texte.split("\n\n"))

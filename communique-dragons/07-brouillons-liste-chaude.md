@@ -10,27 +10,17 @@ La colonne **Registre** du chiffrier tranche entre `tu` et `vous`. Elle ne se de
 ```
 Bonjour M. Larocque,
 
-En mai dernier, nous avons discuté au téléphone suite à quoi, votre article sur le
-déménagement de notre production textile en Tunisie a été publié et TRÈS relayé.
+En mai dernier, nous avons discuté au téléphone suite à quoi, votre article sur le déménagement de notre production textile en Tunisie a été publié et TRÈS relayé.
 
-Parmi mes projets avec tout le temps que j'allais sauver, il y avait de me concentrer sur
-« faire connaître l'asclépiade » au plus grand nombre de gens possible. Eh bien, le
-17 septembre prochain on va faire un énorme pas dans la bonne direction :
+Parmi mes projets avec tout le temps que j'allais sauver, il y avait de me concentrer sur « faire connaître l'asclépiade » au plus grand nombre de gens possible. Eh bien, le 17 septembre prochain on va faire un énorme pas dans la bonne direction :
 
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC
-et CBC Gem.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité
-qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer
-une suite au dernier article.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer une suite au dernier article.
 
-Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise :
-https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
-J'espère vraiment un boom des ventes avec cette visibilité, ce
-qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec
-chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se
-reproduire dans leurs plantations.
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
@@ -64,35 +54,21 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Chloé,
 
-J'espère que tu vas bien. Tu as peut-être vu passer mon vidéo portant sur notre changement
-de modèle manufacturier (https://www.youtube.com/watch?v=GKyHh-Ok9JU) ou l'article de
-Sylvain Larocque en mai dernier sur ce sujet. C'est en quelque sorte une suite logique à
-l'article « Lasclay devant le dilemme de fabriquer au Québec » que tu avais publié en
-décembre dernier.
+J'espère que tu vas bien. Tu as peut-être vu passer mon vidéo portant sur notre changement de modèle manufacturier (https://www.youtube.com/watch?v=GKyHh-Ok9JU) ou l'article de Sylvain Larocque en mai dernier sur ce sujet. C'est en quelque sorte une suite logique à l'article « Lasclay devant le dilemme de fabriquer au Québec » que tu avais publié en décembre dernier.
 
-Neuf mois plus tard, le dilemme est tranché et il tient : l'asclépiade et l'isolant restent
-à Limoilou, la coquille se fait en Tunisie, et le manteau se vend autour de 300 $.
+Neuf mois plus tard, le dilemme est tranché et il tient : l'asclépiade et l'isolant restent à Limoilou, la coquille se fait en Tunisie, et le manteau se vend autour de 300 $.
 
-Parmi les raisons de ce changement, il y avait clairement que j'avais besoin de temps pour
-me recentrer sur mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les
-monarques par la culture de l'asclépiade.
+Parmi les raisons de ce changement, il y avait clairement que j'avais besoin de temps pour me recentrer sur mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain on va faire un énorme pas dans la bonne direction :
 
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC
-et CBC Gem.
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité
-qui arrive bien rarement. Je voulais t'en faire part et qui sait, peut-être t'inspirer une
-suite à ton dernier article.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais t'en faire part et qui sait, peut-être t'inspirer une suite à ton dernier article.
 
-Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise :
-https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
-J'espère vraiment un boom des ventes avec cette visibilité, ce
-qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec
-chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se
-reproduire dans leurs plantations.
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
 Au plaisir et n'hésite pas à me contacter si tu as des questions.
 ```

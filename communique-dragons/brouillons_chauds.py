@@ -14,7 +14,7 @@ Deux courriels sont repris mot pour mot de Gabriel : Larocque et Pouliot.
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from voix_gabriel import (VIDEO, MISSIONS, ANNONCE, PAS, BENEFICE, OBJETS, MEDIA_KIT,
+from voix_gabriel import (VIDEO, MISSIONS, ANNONCE, PAS, BENEFICE, OBJETS, MEDIA_KIT, deplier,
                           tu, cloture, assembler)
 
 # --- ponts reutilisables ----------------------------------------------------
@@ -332,7 +332,7 @@ def monter(cle, registre=None):
         CHAUDS[cle] + (None,) * 8)[:8]
     reg = (registre or reg_defaut or "vous").strip().lower()
     if brut:
-        return brut
+        return deplier(brut)
     t = tu(reg)
     if prenom:
         salut = f"Bonjour {prenom}," if t else f"Bonjour {civ} {nom},"
