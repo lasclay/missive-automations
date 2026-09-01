@@ -12,6 +12,8 @@ Bonjour M. Larocque,
 
 En mai dernier, nous avons discuté au téléphone suite à quoi, votre article sur le déménagement de notre production textile en Tunisie a été publié et TRÈS relayé.
 
+Je vous en remercie sincèrement. Le sujet était délicat et vous l'avez traité avec justesse : de notre côté, le bilan de cet article est très positif.
+
 Parmi mes projets avec tout le temps que j'allais sauver, il y avait de me concentrer sur « faire connaître l'asclépiade » au plus grand nombre de gens possible. Eh bien, le 17 septembre prochain on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
@@ -32,6 +34,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour Mme Bérubé,
 
 En février, vous avez signé « La sinueuse route de la soie du Nord ». C'est un des rares textes à avoir pris la filière au complet, et pas juste une entreprise.
+
+Merci d'avoir pris cette peine-là. La filière a plus besoin d'être racontée en entier qu'entreprise par entreprise, et presque personne ne le fait.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -55,6 +59,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour Chloé,
 
 J'espère que tu vas bien. Tu as peut-être vu passer mon vidéo portant sur notre changement de modèle manufacturier (https://www.youtube.com/watch?v=GKyHh-Ok9JU) ou l'article de Sylvain Larocque en mai dernier sur ce sujet. C'est en quelque sorte une suite logique à l'article « Lasclay devant le dilemme de fabriquer au Québec » que tu avais publié en décembre dernier.
+
+Merci encore pour ce texte, d'ailleurs. Tu avais posé le dilemme sans le trancher à ma place, et c'est exactement comme ça qu'il fallait le poser.
 
 Neuf mois plus tard, le dilemme est tranché et il tient : l'asclépiade et l'isolant restent à Limoilou, la coquille se fait en Tunisie, et le manteau se vend autour de 300 $.
 
@@ -81,6 +87,8 @@ Bonjour Mme Paquet,
 
 On s'était parlé en septembre dernier pour Pleins feux sur Québec. Cette année, la date tombe presque au même endroit.
 
+Merci pour la tribune de l'an dernier. Ce genre de rendez-vous local vaut cher pour une entreprise de notre taille.
+
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
@@ -101,6 +109,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour Mme Roy,
 
 Vous nous aviez appelés en mars 2025 pour votre reportage sur le dropshipping, comme exemple d'une entreprise qui fabrique vraiment. Et en décembre 2020, vous aviez signé un des tout premiers articles sur nos mitaines.
+
+Merci pour les deux. Être cité comme l'exemple d'une entreprise qui fabrique vraiment, dans un reportage sur le dropshipping, c'est exactement la distinction qu'on essaie de faire comprendre.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -125,6 +135,8 @@ Bonjour Mme Lafrance,
 
 En avril 2024, vous aviez signé « L'asclépiade : plus que la fibre de demain » dans Le Soleil Affaires, où vous m'aviez cité disant qu'on croyait à cette matière depuis les débuts. On y croit encore.
 
+Merci d'avoir gardé cette citation-là : elle a bien vieilli.
+
 Parmi les raisons de ce changement, il y avait clairement que j'avais besoin de temps pour me recentrer sur mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -147,6 +159,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour Mme Tison,
 
 En novembre 2021, vous aviez écrit « Le timide retour de l'asclépiade ». Le retour est pas mal moins timide qu'à l'époque : il y a maintenant un manteau et une veste à inserts d'asclépiade amovibles, autour de 300 $.
+
+Merci d'avoir écrit sur la plante à une époque où il n'y avait presque rien à montrer. C'est le genre de texte qui aide une filière avant qu'elle existe.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -171,6 +185,8 @@ Bonjour Mme Lacombe,
 
 En novembre 2023, vous nous aviez contactés pour le suivi d'une précommande qui traînait. Vous aviez raison de le faire. Depuis, on sort graduellement de la précommande pour vendre du déjà produit, et les délais n'ont plus rien à voir.
 
+Merci de nous l'avoir signalé plutôt que de laisser passer : c'est comme ça qu'on a corrigé le tir.
+
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -193,6 +209,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour Mme Roulot-Ganzmann,
 
 On s'était parlé en novembre 2023 pour du matériel sur nos produits d'asclépiade.
+
+Merci de vous être intéressée à la matière elle-même. C'est rarement le premier angle qu'on nous propose.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -217,6 +235,8 @@ Bonjour Mme Brault,
 
 On s'était parlé en janvier 2023 pour Le Soleil. L'atelier est toujours dans Limoilou, et c'est encore là que la soie d'asclépiade devient de l'isolant.
 
+Merci pour l'attention que vous nous aviez portée à l'époque : Le Soleil a été un des premiers à nous suivre sérieusement.
+
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -239,6 +259,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour Mme Fillion,
 
 On s'était parlé d'asclépiade en janvier 2023. Depuis, le statut du monarque comme espèce en voie de disparition a été confirmé au Canada, et les États-Unis ont proposé de l'inscrire comme menacée. La plante n'a jamais été aussi pertinente.
+
+Merci d'avoir pris l'asclépiade au sérieux à un moment où bien peu de monde le faisait.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -263,6 +285,8 @@ Bonjour Mme Aubert Bonn,
 
 En novembre 2022, vous aviez couvert nos nouveaux produits d'asclépiade. Le catalogue compte maintenant plus de 40 produits, et La Tribune a repris en décembre dernier l'article de Chloé Pouliot sur notre changement de modèle manufacturier.
 
+Merci de l'avoir fait quand le catalogue tenait encore sur une main. L'Estrie nous suit depuis, et ça part de là.
+
 Parmi les raisons de ce changement, il y avait clairement que j'avais besoin de temps pour me recentrer sur mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -285,6 +309,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour Mme Émond,
 
 En septembre 2022, on s'était parlé de notre glacière d'asclépiade imprimée en 3D. On a continué à inventer nos propres procédés depuis, parce que personne d'autre ne les fait.
+
+Merci de vous être arrêtée sur un détail technique. C'est rare, et c'est pourtant là que se joue la différence entre une vraie matière et un argument de vente.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -309,6 +335,8 @@ Bonjour Mme Portelance,
 
 On avait échangé en juillet 2022 pour le cahier Action climatique. L'asclépiade est une vivace indigène qui se cultive avec peu d'intrants et qui stocke du carbone dans un système racinaire pérenne.
 
+Merci d'avoir ouvert le cahier climatique à une plante : les solutions agricoles y passent moins souvent que les technologies.
+
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -332,6 +360,8 @@ Bonjour Mme Elboujdaini,
 
 On s'était parlé du programme de semences en mai 2022. La Campagne nationale de plantation en est à sa 5e édition, et on a distribué environ 10 millions de graines d'asclépiade en Amérique du Nord.
 
+Merci d'avoir parlé du programme de semences. C'est la partie la moins spectaculaire de ce qu'on fait, et la plus utile aux monarques.
+
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
@@ -352,6 +382,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour M. Tison,
 
 On s'était parlé pour la section Affaires en septembre 2021, à l'époque où on venait de rapatrier notre production faute de sous-traitant prêt à toucher à la fibre. Le modèle a changé depuis : la vidéo est ici, https://www.youtube.com/watch?v=GKyHh-Ok9JU, et Sylvain Larocque en a parlé en mai.
+
+Merci d'avoir raconté ce rapatriement au moment où c'était encore un pari. Le texte a beaucoup circulé chez nos clients.
 
 Parmi les raisons de ce changement, il y avait clairement que j'avais besoin de temps pour me recentrer sur mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -376,6 +408,8 @@ Bonjour Mme Simard,
 
 Vous aviez présenté nos moufles isolées à l'asclépiade le 17 septembre 2021. Drôle de coïncidence : la diffusion tombe cinq ans jour pour jour après votre article.
 
+Merci pour ce coup de pouce de la première heure : à l'époque, une mention dans La Presse changeait notre semaine.
+
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -398,6 +432,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour Mme Friis,
 
 Vous aviez travaillé sur l'impact climatique de l'asclépiade en septembre 2021.
+
+Merci de vous être penchée sur l'impact réel plutôt que sur l'intention. C'est ce qui sépare une plante utile d'un argument vert.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -422,6 +458,8 @@ Bonjour M. Perreault,
 
 On s'était parlé en juillet 2021.
 
+Merci de l'intérêt que vous nous aviez porté à l'époque : on partait de zéro.
+
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -444,6 +482,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour M. Higgins,
 
 On s'était parlé pour Le Soleil en juillet 2021. L'atelier est toujours dans Limoilou.
+
+Merci d'avoir couvert l'atelier quand il n'était qu'un local et deux machines.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -468,6 +508,8 @@ Bonjour Mme Samson,
 
 En mars 2021, vous aviez signé « Les grandes promesses de l'asclépiade, la soie d'Amérique ». Cinq ans plus tard, je peux vous dire lesquelles ont été tenues : il y a des produits finis, l'isolant se transforme toujours au Québec, on achète encore de l'asclépiade québécoise, et un manteau se vend autour de 300 $.
 
+Merci d'avoir écrit « promesses » plutôt qu'autre chose. Le mot était juste, et il l'est resté le temps qu'on les tienne.
+
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -490,6 +532,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour M. Ménard,
 
 On s'était parlé à La Terre en janvier 2021. Cinq ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+
+Merci d'avoir porté le sujet auprès des producteurs. C'est le lectorat qui compte le plus pour nous : sans champs, il n'y a pas de fibre.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -514,6 +558,8 @@ Bonjour Mme Drouin,
 
 En janvier 2021, vous aviez écrit « Devenir viral avant même de se lancer en affaires ». Six ans plus tard, l'entreprise existe pour vrai, avec plus de 40 produits.
 
+Merci d'avoir écrit sur nous quand il n'y avait littéralement rien à acheter. Vous nous avez pris au sérieux avant tout le monde.
+
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -536,6 +582,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour M. Roy,
 
 En octobre 2020, vous avez écrit « La deuxième vie de l'asclépiade ». Vous avez été le tout premier journaliste à parler de nous. Et l'agriculteur du Lac-Saint-Jean qui vous avait donné envie du sujet est encore notre fournisseur aujourd'hui : six ans plus tard, l'asclépiade de chez vous se retrouve toujours dans nos produits.
+
+Merci, sincèrement. On n'oublie pas qui a écrit le premier article, et le vôtre nous a servi de carte de visite pendant des années.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -602,6 +650,8 @@ Bonjour M. McKenna,
 
 En décembre 2021, vous aviez écrit « Des écouteurs de Québec pour oublier les AirPods », sur Sounds Good. J'étais un des trois. J'ai vendu mes parts en 2022 pour me consacrer entièrement à Lasclay, l'autre entreprise que j'avais démarrée entretemps, qui transforme la soie d'asclépiade en isolant textile.
 
+Merci pour ce texte-là : il a compté pour Sounds Good, et j'en garde un bon souvenir.
+
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -625,6 +675,8 @@ Bonjour Mme Lemieux,
 
 En décembre 2021, vous aviez écrit « Les deux mains dans l'écoresponsabilité » pour le Journal de Montréal. Notre modèle manufacturier a changé depuis, et j'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
+Merci d'avoir mis l'écoresponsabilité au cœur du texte plutôt qu'en décoration.
+
 Parmi les raisons de ce changement, il y avait clairement que j'avais besoin de temps pour me recentrer sur mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -647,6 +699,8 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 Bonjour Mme Grenier-Héroux,
 
 En janvier 2021, vous aviez écrit « La soie d'Amérique, le pari de deux ambitieux » dans Le Devoir. Le pari a six ans, et il tient : plus de 40 produits, environ 10 millions de graines distribuées, et un isolant toujours transformé à Limoilou.
+
+Merci d'avoir appelé ça un pari. C'en était un, et le mot était plus honnête que tous les superlatifs qu'on nous colle habituellement.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -672,6 +726,8 @@ Bonjour Mme Goubau,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe : l'asclépiade, que vous connaissez bien, puisque vous en aviez parlé à Moteur de recherche en février 2023. On la cultive pour sauvegarder un pollinisateur emblématique et menacé, le papillon monarque.
 
 Ce que vous n'avez peut-être pas vu de près, c'est ce que la fibre donne une fois transformée. Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec, et qui se retrouve dans des manteaux, des mitaines et des tuques.
+
+Merci d'en avoir parlé en ondes, d'ailleurs : c'est rare qu'on explique la plante avant de vendre quoi que ce soit.
 
 Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 

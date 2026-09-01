@@ -21,6 +21,13 @@ racontée, pas un changement de sujet.
 **On crédite le journaliste.** « publié et TRÈS relayé », « repris par La Tribune et Le Droit ».
 Jamais « vous vous intéressiez à », qui présume de son intérêt.
 
+**On remercie, et on dit pourquoi.** Chaque contact de la liste chaude dont on connaît le
+travail est remercié pour ce que son texte a fait de bien : avoir pris la filière au complet,
+avoir écrit quand il n'y avait rien à montrer, avoir traité un sujet délicat avec justesse.
+Jamais « merci pour votre article » tout court, qui s'écrit sans avoir lu. Et jamais de
+remerciement à quelqu'un dont on ne connaît pas la publication : trois contacts n'en ont donc
+pas.
+
 **On demande la suite franchement.** « qui sait, peut-être vous inspirer une suite au dernier
 article ». Pas de « si jamais ça vous intéresse ».
 
@@ -68,6 +75,9 @@ Bonjour [M./Mme Nom ou Prénom],
 
 [RAPPEL — son article ou son échange, avec la date et le crédit qui lui revient.
 Enchaîner avec les autres couvertures récentes et les liens quand c'est utile.]
+
+[MERCI — une ou deux phrases, sur ce que ce texte-là a fait de bien. Rien si on ne
+connaît pas sa publication.]
 
 [PONT — l'un des trois :
   · il a couvert le virage : « Parmi les raisons de ce changement, il y avait clairement

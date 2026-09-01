@@ -63,6 +63,9 @@ CHAUDS = {
 En mai dernier, nous avons discuté au téléphone suite à quoi, votre article sur le
 déménagement de notre production textile en Tunisie a été publié et TRÈS relayé.
 
+Je vous en remercie sincèrement. Le sujet était délicat et vous l'avez traité avec justesse :
+de notre côté, le bilan de cet article est très positif.
+
 Parmi mes projets avec tout le temps que j'allais sauver, il y avait de me concentrer sur
 « faire connaître l'asclépiade » au plus grand nombre de gens possible. Eh bien, le
 17 septembre prochain on va faire un énorme pas dans la bonne direction :
@@ -92,6 +95,9 @@ de modèle manufacturier (https://www.youtube.com/watch?v=GKyHh-Ok9JU) ou l'arti
 Sylvain Larocque en mai dernier sur ce sujet. C'est en quelque sorte une suite logique à
 l'article « Lasclay devant le dilemme de fabriquer au Québec » que tu avais publié en
 décembre dernier.
+
+Merci encore pour ce texte, d'ailleurs. Tu avais posé le dilemme sans le trancher à ma
+place, et c'est exactement comme ça qu'il fallait le poser.
 
 Neuf mois plus tard, le dilemme est tranché et il tient : l'asclépiade et l'isolant restent
 à Limoilou, la coquille se fait en Tunisie, et le manteau se vend autour de 300 $.
@@ -310,6 +316,127 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  PONT_PIVOT, "article", None),
 }
 
+# --- le remerciement ---------------------------------------------------------
+# Gabriel : « Remercie chaque media de la liste chaude pour leur article. »
+# Une seule regle, et elle est severe : ne remercier que pour ce qu'on sait
+# avoir ete publie, et dire ce que le texte a fait de bien, jamais « merci pour
+# votre article » tout court. Trois contacts n'ont aucun historique connu, ils
+# n'ont donc pas de remerciement : on ne remercie pas pour un article
+# hypothetique.
+
+MERCIS = {
+"sberube@lapresse.ca":
+    "Merci d'avoir pris cette peine-là. La filière a plus besoin d'être racontée en entier "
+    "qu'entreprise par entreprise, et presque personne ne le fait.",
+
+"melissa.paquet@tva.ca":
+    "Merci pour la tribune de l'an dernier. Ce genre de rendez-vous local vaut cher pour une "
+    "entreprise de notre taille.",
+
+"anne-sophie.roy@radio-canada.ca":
+    "Merci pour les deux. Être cité comme l'exemple d'une entreprise qui fabrique vraiment, "
+    "dans un reportage sur le dropshipping, c'est exactement la distinction qu'on essaie de "
+    "faire comprendre.",
+
+"alafrance@lesoleil.com":
+    "Merci d'avoir gardé cette citation-là : elle a bien vieilli.",
+
+"mtison@lapresse.ca":
+    "Merci d'avoir écrit sur la plante à une époque où il n'y avait presque rien à montrer. "
+    "C'est le genre de texte qui aide une filière avant qu'elle existe.",
+
+"sylvie.lacombe@tva.ca":
+    "Merci de nous l'avoir signalé plutôt que de laisser passer : c'est comme ça qu'on a "
+    "corrigé le tir.",
+
+"hrganzmann@ledevoir.com":
+    "Merci de vous être intéressée à la matière elle-même. C'est rarement le premier angle "
+    "qu'on nous propose.",
+
+"msbrault@lesoleil.com":
+    "Merci pour l'attention que vous nous aviez portée à l'époque : Le Soleil a été un des "
+    "premiers à nous suivre sérieusement.",
+
+"sandra.fillion@radio-canada.ca":
+    "Merci d'avoir pris l'asclépiade au sérieux à un moment où bien peu de monde le faisait.",
+
+"aabonn@latribune.qc.ca":
+    "Merci de l'avoir fait quand le catalogue tenait encore sur une main. L'Estrie nous suit "
+    "depuis, et ça part de là.",
+
+"eugenie.emond@radio-canada.ca":
+    "Merci de vous être arrêtée sur un détail technique. C'est rare, et c'est pourtant là que "
+    "se joue la différence entre une vraie matière et un argument de vente.",
+
+"rportelance@ledevoir.com":
+    "Merci d'avoir ouvert le cahier climatique à une plante : les solutions agricoles y "
+    "passent moins souvent que les technologies.",
+
+"anais.elboujdaini@bellmedia.ca":
+    "Merci d'avoir parlé du programme de semences. C'est la partie la moins spectaculaire de "
+    "ce qu'on fait, et la plus utile aux monarques.",
+
+"mtison1@lapresse.ca":
+    "Merci d'avoir raconté ce rapatriement au moment où c'était encore un pari. Le texte a "
+    "beaucoup circulé chez nos clients.",
+
+"vsimard@lapresse.ca":
+    "Merci pour ce coup de pouce de la première heure : à l'époque, une mention dans La "
+    "Presse changeait notre semaine.",
+
+"jfriis@unpointcinq.ca":
+    "Merci de vous être penchée sur l'impact réel plutôt que sur l'intention. C'est ce qui "
+    "sépare une plante utile d'un argument vert.",
+
+"alex.perreault@radio-canada.ca":
+    "Merci de l'intérêt que vous nous aviez porté à l'époque : on partait de zéro.",
+
+"fhiggins@lesoleil.com":
+    "Merci d'avoir couvert l'atelier quand il n'était qu'un local et deux machines.",
+
+"fanny.samson@radio-canada.ca":
+    "Merci d'avoir écrit « promesses » plutôt qu'autre chose. Le mot était juste, et il l'est "
+    "resté le temps qu'on les tienne.",
+
+"mmenard@laterre.ca":
+    "Merci d'avoir porté le sujet auprès des producteurs. C'est le lectorat qui compte le plus "
+    "pour nous : sans champs, il n'y a pas de fibre.",
+
+"raphaelle.drouin@urbania.ca":
+    "Merci d'avoir écrit sur nous quand il n'y avait littéralement rien à acheter. Vous nous "
+    "avez pris au sérieux avant tout le monde.",
+
+"groy@lequotidien.com":
+    "Merci, sincèrement. On n'oublie pas qui a écrit le premier article, et le vôtre nous a "
+    "servi de carte de visite pendant des années.",
+
+"amckenna@ledevoir.com":
+    "Merci pour ce texte-là : il a compté pour Sounds Good, et j'en garde un bon souvenir.",
+
+"sylvielemieux16@gmail.com":
+    "Merci d'avoir mis l'écoresponsabilité au cœur du texte plutôt qu'en décoration.",
+
+"sophiegrenierheroux@hotmail.com":
+    "Merci d'avoir appelé ça un pari. C'en était un, et le mot était plus honnête que tous "
+    "les superlatifs qu'on nous colle habituellement.",
+
+"madeleine.goubau@gmail.com":
+    "Merci d'en avoir parlé en ondes, d'ailleurs : c'est rare qu'on explique la plante avant "
+    "de vendre quoi que ce soit.",
+
+"__poisson":
+    "Merci d'avoir montré les trois premiers produits : c'était notre première couverture "
+    "dans un magazine de design.",
+
+"__bertrand":
+    "Merci d'avoir fait le lien entre le froid et le monarque. C'est le raccourci le plus "
+    "difficile à faire passer, et vous l'aviez fait en un titre.",
+
+"__benoist":
+    "Merci de nous avoir retenus dans cette sélection-là : les cadeaux faits au Québec, c'est "
+    "une vitrine qui compte pour un petit atelier.",
+}
+
 # Retires de la liste chaude sur demande de Gabriel : leurs lignes sont
 # supprimees du chiffrier, pas seulement marquees.
 EXCLUS = {"jhaurio@unpointcinq.ca", "contact@protegez-vous.ca"}
@@ -339,8 +466,8 @@ def monter(cle, registre=None):
     else:
         salut = "Bonjour,"
     tete = salut + ("\n\nJ'espère que tu vas bien." if t else "")
-    return assembler([tete, rappel, pont, ANNONCE, rarete(t, suite), MEDIA_KIT,
-                      BENEFICE, cloture(reg)])
+    return assembler([tete, rappel, MERCIS.get(cle), pont, ANNONCE, rarete(t, suite),
+                      MEDIA_KIT, BENEFICE, cloture(reg)])
 
 
 def main(src, dst, md):

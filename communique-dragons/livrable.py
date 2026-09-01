@@ -20,7 +20,7 @@ COLONNES = ["Liste", "Nom", "Média", "Courriel", "Région", "Date / fonction",
 LARGEURS = [11, 24, 24, 32, 20, 15, 30, 7, 10, 46, 86, 86, 40, 14]
 
 CHANGEMENTS = [
-    (f"Version {VERSION} — média kit", None),
+    (f"Version {VERSION} — média kit et remerciements", None),
     (None, None),
     ("Média kit",
      "Le lien du dossier Drive est dans les 247 brouillons, juste avant le paragraphe "
@@ -29,6 +29,11 @@ CHANGEMENTS = [
     ("Angle art de vivre",
      "« j'ai du matériel photo » est devenu « l'atelier de Limoilou est ouvert si vous "
      "voulez voir la matière de vos yeux » — le lien rend la première phrase redondante."),
+    ("Remerciements",
+     "Les 28 contacts de la liste chaude dont on connaît l'article ou l'échange sont "
+     "remerciés, chacun pour ce que son texte a fait de bien. Mireille Roberge, Sophie "
+     "Laforest et Jessica Dostie n'ont aucun historique connu : on ne les remercie pas "
+     "pour un article hypothétique. Si tu sais ce qu'elles ont publié, dis-le et j'ajoute."),
     ("Rappel CBC",
      "Les images du plateau servent à annoncer la diffusion, pas à illustrer une "
      "promotion de produits, et aucun logo ni marque Dragons' Den n'est autorisé. "
