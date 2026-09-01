@@ -106,17 +106,14 @@ pourquoi on écrit à cette personne-là.
 ```
 Bonjour [Prénom Nom],
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des manteaux avec une mauvaise
-herbe.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
+mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique
+et menacé : le papillon monarque.
 
-L'asclépiade, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis
-50 ans, produit une soie creuse, très légère et naturellement hydrophobe. On la transforme
-en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs
-isothermes vendus au Canada et aux États-Unis. C'est aussi la seule plante que les chenilles
-du papillon monarque peuvent manger.
-
-Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la
-culture de l'asclépiade.
+Ses gousses, les « petits cochons » que les agriculteurs arrachent de leurs champs depuis
+50 ans, sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la
+transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des
+sacs isothermes vendus au Canada et aux États-Unis.
 
 [POURQUOI VOUS — une seule raison, et elle doit être vraie. Sa région quand l'asclépiade y a
 une histoire réelle, son sujet sinon.]
@@ -138,11 +135,14 @@ leurs plantations.
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-**La première ligne dit ce que l'entreprise fait, pas où elle loge.** « Une entreprise de Québec
-dont l'atelier est dans Limoilou » ne veut rien dire à quelqu'un qui ne nous connaît pas, et ça
-brûle la seule ligne qu'un journaliste lit à coup sûr. « On isole des manteaux avec une mauvaise
-herbe » fait le travail. Limoilou revient plus loin, quand c'est une invitation à venir voir
-l'atelier.
+**L'ouverture porte tout le pitch d'un coup :** le produit, la plante, la mission. C'est pour ça
+que le paragraphe des deux missions a disparu de la liste froide, il ne faisait que répéter. Un
+quartier n'a rien à faire là : « une entreprise de Québec dont l'atelier est dans Limoilou » ne
+veut rien dire à quelqu'un qui ne nous connaît pas et brûle la seule ligne qu'un journaliste lit
+à coup sûr. Limoilou revient plus loin, quand c'est une invitation à venir voir l'atelier.
+
+**Les « petits cochons » sont les gousses, pas la soie.** La phrase doit le dire dans cet ordre,
+sinon elle est fausse pour quiconque connaît la plante.
 
 **« Petits cochons » n'est pas une familiarité gratuite.** C'est le nom que tout le monde reconnaît
 au Québec, et il fait comprendre en trois mots de quelle plante on parle. « Asclépiade » seul
