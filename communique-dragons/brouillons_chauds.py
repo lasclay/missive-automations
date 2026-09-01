@@ -265,12 +265,12 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
 
 "madeleine.goubau@gmail.com": ("Madeleine", "Goubau", "Mme", "vous",
  "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
- "une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
- "emblématique et menacé : le papillon monarque. Vous couvrez le textile et la mode, alors voici "
- "une matière que peu de gens ont vue de près : la soie d'asclépiade, une fibre creuse et "
- "naturellement hydrophobe attachée aux graines d'une plante que les agriculteurs arrachent "
- "de leurs champs depuis 50 ans. On la transforme en isolant, et on en fait des manteaux, "
- "des mitaines et des tuques.",
+ "une mauvaise herbe : l'asclépiade, que vous connaissez bien, puisque vous en aviez parlé à "
+ "Moteur de recherche en février 2023. On la cultive pour sauvegarder un pollinisateur "
+ "emblématique et menacé, le papillon monarque.\n\nCe que vous n'avez peut-être pas vu de "
+ "près, c'est ce que la fibre donne une fois transformée. Ses gousses sont remplies d'une "
+ "soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à "
+ "Québec, et qui se retrouve dans des manteaux, des mitaines et des tuques.",
  PONT_PRESENTATION, "sujet", None),
 
 "jessica.dostie@gmail.com": ("Jessica", "Dostie", "Mme", "vous",
@@ -303,6 +303,11 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
 # Retires de la liste chaude sur demande de Gabriel : leurs lignes sont
 # supprimees du chiffrier, pas seulement marquees.
 EXCLUS = {"jhaurio@unpointcinq.ca", "contact@protegez-vous.ca"}
+
+# Sans adresse courriel : Sophie Poisson (Baron Mag), Caroline Bertrand (ICI
+# Explora) et Karine Benoist (Chatelaine). Leurs brouillons restent dans
+# CHAUDS si leurs adresses refont surface, mais elles sortent du chiffrier.
+EXCLUS_SANS_ADRESSE = {"Sophie Poisson", "Caroline Bertrand", "Karine Benoist"}
 
 NE_PAS_ENVOYER = {
 "anne-sophie.roy@quebecormedia.com":
@@ -355,7 +360,7 @@ def main(src, dst, md):
             continue
         courriel = (r[2] or "").strip().lower()
         nom = (r[0] or "").strip()
-        if courriel in EXCLUS:
+        if courriel in EXCLUS or (not courriel and nom in EXCLUS_SANS_ADRESSE):
             a_supprimer.append(i)
             continue
         cle = courriel
