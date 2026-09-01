@@ -1774,6 +1774,34 @@
       "motif": "LACUNE DE FAITS. L'état d'avancement de la récolte mécanisée ne figure pas dans faits-verifies.json : impossible de confirmer ou de corriger sans inventer. Deuxième sujet technique du genre cette semaine (avec l'empreinte écologique de la transformation) où il nous manque un fait pour répondre.",
       "page_id": "114311920399404",
       "quand": "2026-09-01T22:38:37.170Z"
+    },
+    {
+      "id": "1239063395026978_903883722115355",
+      "extrait": "les oiseaux font leur nids",
+      "motif": "Trois mots dans un sous-fil ; le sujet (les oiseaux qui récupèrent la soie) a déjà reçu une réponse développée de notre part sur une autre publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T23:38:33.070Z"
+    },
+    {
+      "id": "1239063395026978_1578963129988245",
+      "extrait": "Dominique Jean moi aussi j'aimerais savoir",
+      "motif": "La question porte sur l'élimination de la renouée du Japon, sujet sur lequel nous n'avons rien de vérifié et qui n'est pas le nôtre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T23:38:33.070Z"
+    },
+    {
+      "id": "1239063395026978_3263089037198468",
+      "extrait": "Le chanvreeee ...",
+      "motif": "Cinquième renvoi au chanvre sur cette publication ; la question a déjà notre réponse.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T23:38:33.070Z"
+    },
+    {
+      "id": "1247807510819233_1634023231243590",
+      "extrait": "Bravo! En plus ça n'absorbe pas l'humidité.",
+      "motif": "LACUNE DE FAITS. Le compliment porte une affirmation de performance — le comportement de la fibre face à l'humidité — que faits-verifies.json ne documente pas. Répondre chaleureusement juste en dessous serait lu comme un endossement, et corriger sans donnée serait gratuit. À noter que la fibre a justement tendance à s'agglutiner mouillée, ce qui explique le polyester dans l'isolant : d'où l'importance d'un fait clair là-dessus.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T23:38:33.070Z"
     }
   ]
 }
