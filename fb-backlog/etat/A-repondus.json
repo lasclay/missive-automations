@@ -784,8 +784,24 @@
       "quand": "2026-09-01T20:08:54.658Z",
       "confirme": true,
       "texte": "Merci — et content de voir le sac jaune en service. Une photo comme celle-là en dit plus long qu'une fiche produit. Bon reste de saison."
+    },
+    {
+      "id": "1491340309666447_1867598503962393",
+      "reponse_id": "1491340309666447_1009113192176356",
+      "page_id": "104242204750257",
+      "quand": "2026-09-01T21:10:38.035Z",
+      "confirme": true,
+      "texte": "Merci. La remarque sur ceux qui récoltent ce que d'autres ont défriché est juste, et on la prend sans amertume : une filière qui existe pour de bon, c'est déjà mieux qu'une filière qu'on est seul à essayer de faire tenir."
+    },
+    {
+      "id": "1484770853656726_1379782643904164",
+      "reponse_id": "1484770853656726_1039363525760048",
+      "page_id": "104242204750257",
+      "quand": "2026-09-01T21:11:43.546Z",
+      "confirme": true,
+      "texte": "Content de le lire. C'est la fibre creuse qui fait le travail : l'air isolant est dans la fibre elle-même, donc il résiste à l'écrasement. Aucune cote officielle par contre, seulement des retours comme le vôtre."
     }
   ],
-  "derniere_execution": "2026-09-01T20:08:54.658Z",
-  "total": 98
+  "derniere_execution": "2026-09-01T21:11:43.546Z",
+  "total": 100
 }
