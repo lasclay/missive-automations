@@ -273,7 +273,7 @@ def main(src, dst, md):
     c.font = Font(bold=True, size=10); c.fill = PatternFill("solid", fgColor="E3EADF")
     ws.column_dimensions[ws.cell(1, cB).column_letter].width = 78
 
-    par_angle, mains, douteux = {}, 0, []
+    par_angle, mains, douteux, a_supprimer = {}, 0, [], []
     for i, r in enumerate(ws.iter_rows(min_row=2, values_only=True), 2):
         if not r[2]:
             continue
@@ -282,7 +282,11 @@ def main(src, dst, md):
         if angle in (None, "—"):
             ws.cell(i, cB, DOUBLON).alignment = Alignment(wrap_text=True, vertical="top")
             continue
-        cle = courriel or ("__stab" if nom == "Stab" else "")
+        # Sans adresse, la ligne ne sert a rien dans un chiffrier d'envoi.
+        if not courriel:
+            a_supprimer.append(i)
+            continue
+        cle = courriel
         brut = MAIN.get(cle)
         txt = (brut.format(ANNONCE=ANNONCE, BENEFICE=BENEFICE, CLOTURE=CLOTURE)
                if brut else monter(prenom, nom, angle, region))
@@ -314,8 +318,13 @@ def main(src, dst, md):
             lignes += [f"### {prenom} {nom} — {media} — {adr}{tag}",
                        f"*Priorité {prio} · {region}*", "", "```", txt, "```", ""]
 
+    for i in reversed(a_supprimer):
+        ws.delete_rows(i)
+
     wb.save(dst)
     open(md, "w").write("\n".join(lignes))
+    if a_supprimer:
+        print(f"{len(a_supprimer)} ligne(s) sans adresse retirée(s) de la liste froide")
     total = sum(len(v) for v in par_angle.values())
     print(f"{total} brouillons froids réécrits, dont {mains} à la main")
     if douteux:

@@ -4981,7 +4981,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Angle J — 2 contacts
+## Angle J — 1 contacts
 
 ### Jean-Michel Leprince — Radio-Canada — `jean-michel_leprince@radio-canada.ca` — **écrit à la main**
 *Priorité A · Montreal*
@@ -5008,34 +5008,6 @@ Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons'
 Vous êtes probablement la personne au Québec qui a le plus longtemps suivi cette plante-là.
 Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : ce serait la
 première fois qu'on raconte ce que la filière est devenue après la chute.
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
-### Antoine Stab — Espaces — *adresse à trouver* — **écrit à la main**
-*Priorité B · Montreal*
-
-```
-Bonjour Antoine Stab,
-
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
-mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
-menacé : le papillon monarque.
-
-Vous aviez écrit sur le soyer du Québec dans Espaces en février 2015, à l'époque où la fibre
-devait remplacer le duvet.
-
-On a démarré après la chute de cette première filière. Six ans plus tard, on achète encore de l'asclépiade québécoise, on transforme l'isolant nous-mêmes, et il
-existe maintenant un manteau à inserts d'asclépiade amovibles autour de 300 $.
-
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Et si vous
-voulez tester le manteau plutôt que me croire sur parole, je vous en envoie un avec plaisir.
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
