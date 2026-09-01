@@ -4461,6 +4461,36 @@
       "motif": "predation par les chrysomeles, chevreuils et lapins; sujet absent du corpus verifie",
       "ecarte_le": "2026-09-01",
       "tir": "B"
+    },
+    {
+      "id": "122160870794483418_1164363109051886",
+      "page_id": "368305119707866",
+      "date": "2025-06-27T21:13:33+0000",
+      "message": "Lancaster, Pennsylvania",
+      "lien": "https://www.facebook.com/122210881520483418/posts/122160870794483418?comment_id=1405726757428966&reply_comment_id=1164363109051886",
+      "motif": "mention dune ville en reponse a un autre abonne, aucun contenu",
+      "ecarte_le": "2026-09-01",
+      "tir": "B"
+    },
+    {
+      "id": "122160870794483418_9891248530972776",
+      "page_id": "368305119707866",
+      "date": "2025-06-27T21:08:27+0000",
+      "message": "Lucy Bartley thank you!!",
+      "lien": "https://www.facebook.com/122210881520483418/posts/122160870794483418?comment_id=725699869855023&reply_comment_id=9891248530972776",
+      "motif": "remerciement entre abonnes, aucun contenu",
+      "ecarte_le": "2026-09-01",
+      "tir": "B"
+    },
+    {
+      "id": "122147937686483418_2148930418903650",
+      "page_id": "368305119707866",
+      "date": "2025-06-27T20:38:19+0000",
+      "message": "Jim Wright live in central ohio which ones would do here",
+      "lien": "https://www.facebook.com/122210881520483418/videos/525407517277372?comment_id=1920980715374687&reply_comment_id=2148930418903650",
+      "motif": "demande despece pour lOhio central adressee a un autre abonne; le corpus verifie ne documente aucune aptitude par espece et par region, et la seule reponse possible (zones 3 a 9 plus source locale) reprendrait un texte deja publie",
+      "ecarte_le": "2026-09-01",
+      "tir": "B"
     }
   ]
 }
