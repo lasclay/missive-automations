@@ -768,8 +768,16 @@
       "quand": "2026-09-01T14:17:11.549Z",
       "confirme": true,
       "texte": "Merci. On essaie surtout de ne pas annoncer plus que ce qu'on peut tenir — c'est peut-être ça qui ressort du texte. Le reste, ce sont des journées ordinaires mises bout à bout."
+    },
+    {
+      "id": "1489445836522561_26243916285246495",
+      "reponse_id": "1489445836522561_1758067175340127",
+      "page_id": "104242204750257",
+      "quand": "2026-09-01T15:16:38.859Z",
+      "confirme": true,
+      "texte": "Le détail et les tailles sont sur la fiche du produit, dans la collection en lien plus haut. Si quelque chose n'est pas clair là-dessus, écrivez-nous."
     }
   ],
-  "derniere_execution": "2026-09-01T14:17:11.550Z",
-  "total": 96
+  "derniere_execution": "2026-09-01T15:16:38.860Z",
+  "total": 97
 }
