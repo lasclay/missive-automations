@@ -680,8 +680,16 @@
       "quand": "2026-09-01T04:08:50.677Z",
       "confirme": true,
       "texte": "Merci, c'est apprécié. Bonne fin de saison à vous."
+    },
+    {
+      "id": "1491340309666447_779799551381251",
+      "reponse_id": "1491340309666447_1071358542349524",
+      "page_id": "104242204750257",
+      "quand": "2026-09-01T10:13:48.077Z",
+      "confirme": true,
+      "texte": "Merci pour ce retour, la partie la moins flatteuse comprise — ce sont celles-là qui servent le plus. On ne va pas contredire ce que vous avez vécu côté ajustement. Pour le reste, pelleter à ‑30 rejoint ce que d'autres nous rapportent ; c'est d'ailleurs le seul repère qu'on ait, des témoignages, aucune cote officielle."
     }
   ],
-  "derniere_execution": "2026-09-01T04:08:50.678Z",
-  "total": 85
+  "derniere_execution": "2026-09-01T10:13:48.078Z",
+  "total": 86
 }
