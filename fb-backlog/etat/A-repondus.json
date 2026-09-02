@@ -824,8 +824,16 @@
       "quand": "2026-09-02T02:10:14.627Z",
       "confirme": true,
       "texte": "Des talles déjà installées sur une terre bio, c'est un bon point de départ : ça vous dit tout de suite que le sol convient. On sera curieux d'avoir des nouvelles de vos essais. Quand vous en serez là, passez par le message privé — c'est l'équipe qui suit les besoins en approvisionnement. Bonne saison à vous."
+    },
+    {
+      "id": "1484259983707813_1242601954652885",
+      "reponse_id": "1484259983707813_1753279409325406",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T09:09:20.963Z",
+      "confirme": true,
+      "texte": "Les mains qui gèlent tout le temps, c'est le test le plus sévère pour une mitaine : quand il y a peu de chaleur à garder, l'isolant n'a aucune marge. Content que ça tienne de votre côté."
     }
   ],
-  "derniere_execution": "2026-09-02T02:10:14.627Z",
-  "total": 103
+  "derniere_execution": "2026-09-02T09:09:20.965Z",
+  "total": 104
 }
