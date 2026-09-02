@@ -832,8 +832,56 @@
       "quand": "2026-09-02T09:09:20.963Z",
       "confirme": true,
       "texte": "Les mains qui gèlent tout le temps, c'est le test le plus sévère pour une mitaine : quand il y a peu de chaleur à garder, l'isolant n'a aucune marge. Content que ça tienne de votre côté."
+    },
+    {
+      "id": "1471550908312054_1588103638913427",
+      "reponse_id": "1471550908312054_1077987524844112",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T10:11:18.542Z",
+      "confirme": true,
+      "texte": "Bonne question. L'isolant est la partie qui se fait ici : l'asclépiade vient de cultivateurs qui en font pousser commercialement, et elle est transformée à l'atelier de Limoilou, à Québec. L'assemblage textile de la plupart des produits finis, lui, se fait à l'étranger depuis juillet 2026, surtout en Tunisie. On préfère le dire clairement plutôt que de laisser croire que tout sort de l'atelier."
+    },
+    {
+      "id": "1471550908312054_935998728886964",
+      "reponse_id": "1471550908312054_1513856454092669",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T10:12:36.083Z",
+      "confirme": true,
+      "texte": "Non, rien de chauffant ni d'électrique : la chaleur vient de la main et le rôle de l'isolant est de la garder. L'offre courante est sur lasclay.com."
+    },
+    {
+      "id": "1471550908312054_1493101026153987",
+      "reponse_id": "1471550908312054_1413056810748063",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T10:16:58.557Z",
+      "confirme": true,
+      "texte": "Bonjour, il n'y a pas de salle de montre : tout passe par le site. Si un accessoire vous intéresse en particulier — matière, dimensions, finition — écrivez-nous en message privé, c'est plus simple de répondre au cas par cas."
+    },
+    {
+      "id": "1471550908312054_782440807744812",
+      "reponse_id": "1471550908312054_1379161617732999",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T10:27:06.744Z",
+      "confirme": true,
+      "texte": "L'ouverture du poignet, c'est justement ce qui ne se devine pas sur une photo. Les mesures sont indiquées sur la fiche du produit, sur lasclay.com. Si le chiffre qui vous intéresse n'y figure pas, écrivez-nous en privé avec le tour de main et on vérifie avant que vous commandiez quoi que ce soit."
+    },
+    {
+      "id": "1471550908312054_2334275800426522",
+      "reponse_id": "1471550908312054_983022954799424",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T10:35:15.083Z",
+      "confirme": true,
+      "texte": "Les manteaux existent, et le tableau des tailles monte jusqu'au 2XL. Il se trouve sur la fiche du produit avec les mensurations correspondantes ; en cas d'hésitation entre deux tailles, écrivez-nous et on regarde ça avec vous."
+    },
+    {
+      "id": "1471550908312054_4418872818357853",
+      "reponse_id": "1471550908312054_1724970048805524",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T10:39:54.431Z",
+      "confirme": true,
+      "texte": "Rien de dramatique pour la slush. Le bandeau se lave à la machine, eau froide, cycle délicat, savon doux, sans assouplissant, puis séchage à plat à l'air libre. Le reste est dans les guides d'entretien : lasclay.com/pages/guides-dentretien"
     }
   ],
-  "derniere_execution": "2026-09-02T09:09:20.965Z",
-  "total": 104
+  "derniere_execution": "2026-09-02T10:39:54.431Z",
+  "total": 110
 }
