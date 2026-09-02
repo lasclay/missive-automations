@@ -127,10 +127,24 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
 
 # --- assembles sur le meme squelette ----------------------------------------
 
-"sberube@lapresse.ca": ("Stéphanie", "Bérubé", "Mme", "vous",
- "En février, vous avez signé « La sinueuse route de la soie du Nord ». C'est un des rares "
- "textes à avoir pris la filière au complet, et pas juste une entreprise.",
- PONT_MISSION, "article", None),
+"sberube@lapresse.ca": ("Stéphanie", "Bérubé", "Mme", "tu", None, None, None,
+"""Bonjour Stéphanie,
+
+J'espère que tu vas bien. En février dernier, tu as signé « La sinueuse route de la soie du Nord », un des rares textes à avoir pris la filière au complet plutôt qu'une entreprise à la fois. Merci pour ce bel article, qui a fait une place de choix à Lasclay et à ses défis.
+
+Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
+
+Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+{ANNONCE}
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais t'en faire part et qui sait, peut-être t'inspirer une suite à ton dernier article.
+
+{MEDIA_KIT}
+
+{BENEFICE}
+
+Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
 
 "melissa.paquet@tva.ca": ("Melissa", "Paquet", "Mme", "vous",
  "On s'était parlé en septembre dernier pour Pleins feux sur Québec. Cette année, la date "
@@ -323,10 +337,6 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions."""),
 # hypothetique.
 
 MERCIS = {
-"sberube@lapresse.ca":
-    "Merci d'avoir pris cette peine-là. La filière a plus besoin d'être racontée en entier "
-    "qu'entreprise par entreprise, et presque personne ne le fait.",
-
 "melissa.paquet@tva.ca":
     "Merci pour la tribune de l'an dernier. Ce genre de rendez-vous local vaut cher pour une "
     "entreprise de notre taille.",

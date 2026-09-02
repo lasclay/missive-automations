@@ -33,6 +33,10 @@ def changements(kit, chauds, mercis):
     ("Sorties",
      "Mireille Roberge, Jessica Dostie et Raphaëlle Drouin sont retirées de la liste chaude, "
      f"sur ta demande. Il reste {chauds} brouillons chauds."),
+    ("Stéphanie Bérubé",
+     "Réécrite sur le squelette de Chloé, au « tu ». Le remerciement dit ce que tu voulais "
+     "qu'il dise : un bel article, qui a fait une place de choix à Lasclay et à ses défis. "
+     "Deux contacts sont maintenant au tutoiement, elle et Chloé."),
     ("Goubau, ta version",
      "Ton texte est repris mot pour mot. La leçon vaut plus large : sans historique, la "
      "présentation tient en une phrase, pas deux paragraphes, et « depuis 5 ans, on travaille "
@@ -54,7 +58,7 @@ def changements(kit, chauds, mercis):
      "Anne-Sophie Roy à l'adresse Québecor, doublon de sa ligne Radio-Canada. "
      "Annie Lafrance et Francis Higgins en liste froide, doublons de la liste chaude."),
     ("Six salutations", "Fiches FPJQ mal formées, signalées dans la colonne Précaution."),
-    ("Registre", "Chloé Pouliot au « tu », tout le reste au « vous ». Bascule la colonne et je relance."),
+    ("Registre", "Chloé Pouliot et Stéphanie Bérubé au « tu », tout le reste au « vous ». Bascule la colonne et je relance."),
     (None, None),
     ("Rappels", None),
     (None, None),

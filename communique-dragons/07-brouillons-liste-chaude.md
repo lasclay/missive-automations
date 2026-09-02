@@ -28,14 +28,12 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
 ## Stéphanie Bérubé — La Presse — `sberube@lapresse.ca`
-*Registre : vous*
+*Registre : tu*
 
 ```
-Bonjour Mme Bérubé,
+Bonjour Stéphanie,
 
-En février, vous avez signé « La sinueuse route de la soie du Nord ». C'est un des rares textes à avoir pris la filière au complet, et pas juste une entreprise.
-
-Merci d'avoir pris cette peine-là. La filière a plus besoin d'être racontée en entier qu'entreprise par entreprise, et presque personne ne le fait.
+J'espère que tu vas bien. En février dernier, tu as signé « La sinueuse route de la soie du Nord », un des rares textes à avoir pris la filière au complet plutôt qu'une entreprise à la fois. Merci pour ce bel article, qui a fait une place de choix à Lasclay et à ses défis.
 
 Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
 
@@ -43,13 +41,13 @@ Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne dire
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer une suite à votre dernier article.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais t'en faire part et qui sait, peut-être t'inspirer une suite à ton dernier article.
 
 Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
 
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
+Au plaisir et n'hésite pas à me contacter si tu as des questions.
 ```
 
 ## Chloé Pouliot — Le Soleil — `cpouliot@lesoleil.com`
