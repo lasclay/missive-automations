@@ -19,29 +19,30 @@ COLONNES = ["Liste", "Nom", "Média", "Courriel", "Région", "Date / fonction",
             "TA VERSION", "CE QUI N'ALLAIT PAS", "Verdict"]
 LARGEURS = [11, 24, 24, 32, 20, 15, 30, 7, 10, 46, 86, 86, 40, 14]
 
-CHANGEMENTS = [
+def changements(kit, chauds, mercis):
+  return [
     (f"Version {VERSION} — média kit et remerciements", None),
     (None, None),
     ("Média kit",
-     "Le lien du dossier Drive est dans les 247 brouillons, juste avant le paragraphe "
+     f"Le lien du dossier Drive est dans les {kit} brouillons, juste avant le paragraphe "
      "des bénéfices : un journaliste qui envisage un sujet veut savoir tout de suite "
      "s'il aura des images."),
     ("Angle art de vivre",
      "« j'ai du matériel photo » est devenu « l'atelier de Limoilou est ouvert si vous "
      "voulez voir la matière de vos yeux » — le lien rend la première phrase redondante."),
     ("Sorties",
-     "Mireille Roberge et Jessica Dostie sont retirées de la liste chaude, sur ta demande. "
-     "Il reste 30 contacts chauds, dont 29 brouillons."),
+     "Mireille Roberge, Jessica Dostie et Raphaëlle Drouin sont retirées de la liste chaude, "
+     f"sur ta demande. Il reste {chauds} brouillons chauds."),
     ("Goubau, ta version",
      "Ton texte est repris mot pour mot. La leçon vaut plus large : sans historique, la "
      "présentation tient en une phrase, pas deux paragraphes, et « depuis 5 ans, on travaille "
      "fort à la faire connaître » remplace le paragraphe des deux missions. Sophie Laforest, "
      "le dernier contact sans historique, est réécrite sur ce squelette."),
     ("Remerciements",
-     "Les 28 contacts de la liste chaude dont on connaît l'article ou l'échange sont "
-     "remerciés, chacun pour ce que son texte a fait de bien. Mireille Roberge, Sophie "
-     "Laforest et Jessica Dostie n'ont aucun historique connu : on ne les remercie pas "
-     "pour un article hypothétique. Si tu sais ce qu'elle a publié, dis-le et j'ajoute."),
+     f"{mercis} des {chauds} brouillons chauds remercient le contact, chacun pour ce que son texte a fait "
+     "de bien. Les deux exceptions sont Sophie Laforest, dont on ne connaît aucune "
+     "publication, et Madeleine Goubau, dont tu as retiré le remerciement toi-même en "
+     "réécrivant son courriel."),
     ("Rappel CBC",
      "Les images du plateau servent à annoncer la diffusion, pas à illustrer une "
      "promotion de produits, et aucun logo ni marque Dragons' Den n'est autorisé. "
@@ -108,13 +109,21 @@ def acquis():
 
 def main():
     garde = acquis()
+    # Les comptes du sommaire se calculent, ils ne s'écrivent pas : une sortie de
+    # plus les laissait faux, et un chiffre faux dans un sommaire est pire que pas
+    # de sommaire du tout.
+    tout = list(lignes())
+    kit = sum(1 for l in tout if l[10] and "1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr" in l[10])
+    chauds = sum(1 for l in tout if l[0] == "chaude" and not l[10].startswith("NE PAS"))
+    mercis = sum(1 for l in tout if l[0] == "chaude" and "erci" in l[10]
+                 and not l[10].startswith("NE PAS"))
     wb = openpyxl.Workbook()
 
     ws = wb.active
     ws.title = "Ce qui a changé"
     ws.column_dimensions["A"].width = 26
     ws.column_dimensions["B"].width = 108
-    for titre, texte in CHANGEMENTS:
+    for titre, texte in changements(kit, chauds, mercis):
         ws.append([titre, texte])
         ws.cell(ws.max_row, 1).font = Font(bold=True, size=12 if titre and not texte else 11)
         ws.cell(ws.max_row, 2).alignment = Alignment(wrap_text=True, vertical="top")
@@ -150,7 +159,6 @@ def main():
     registre.add(f"I2:I{ws.max_row}")
 
     wb.save(CIBLE)
-    kit = sum(1 for l in lignes() if l[10] and "1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr" in l[10])
     print(f"{CIBLE} : {n} contacts, {kit} brouillons avec le média kit, "
           f"{len(garde)} édition(s) reprise(s)")
 

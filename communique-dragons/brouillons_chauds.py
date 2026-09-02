@@ -234,11 +234,6 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  "l'asclépiade québécoise et on la transforme nous-mêmes à Québec.",
  PONT_MISSION, "article", None),
 
-"raphaelle.drouin@urbania.ca": ("Raphaëlle", "Drouin", "Mme", "vous",
- "En janvier 2021, vous aviez écrit « Devenir viral avant même de se lancer en affaires ». "
- "Six ans plus tard, l'entreprise existe pour vrai, avec plus de 40 produits.",
- PONT_MISSION, "article", None),
-
 "groy@lequotidien.com": ("Guillaume", "Roy", "M.", "vous",
  "En octobre 2020, vous avez écrit « La deuxième vie de l'asclépiade ». Vous avez été le "
  "tout premier journaliste à parler de nous. Et l'agriculteur du Lac-Saint-Jean qui vous "
@@ -405,10 +400,6 @@ MERCIS = {
     "Merci d'avoir porté le sujet auprès des producteurs. C'est le lectorat qui compte le plus "
     "pour nous : sans champs, il n'y a pas de fibre.",
 
-"raphaelle.drouin@urbania.ca":
-    "Merci d'avoir écrit sur nous quand il n'y avait littéralement rien à acheter. Vous nous "
-    "avez pris au sérieux avant tout le monde.",
-
 "groy@lequotidien.com":
     "Merci, sincèrement. On n'oublie pas qui a écrit le premier article, et le vôtre nous a "
     "servi de carte de visite pendant des années.",
@@ -439,7 +430,8 @@ MERCIS = {
 # Retires de la liste chaude sur demande de Gabriel : leurs lignes sont
 # supprimees du chiffrier, pas seulement marquees.
 EXCLUS = {"jhaurio@unpointcinq.ca", "contact@protegez-vous.ca",
-          "mireille.roberge@radio-canada.ca", "jessica.dostie@gmail.com"}
+          "mireille.roberge@radio-canada.ca", "jessica.dostie@gmail.com",
+          "raphaelle.drouin@urbania.ca"}
 
 # Sans adresse courriel : Sophie Poisson (Baron Mag), Caroline Bertrand (ICI
 # Explora) et Karine Benoist (Chatelaine). Leurs brouillons restent dans

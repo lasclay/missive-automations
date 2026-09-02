@@ -550,31 +550,6 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Raphaëlle Drouin — URBANIA — `raphaelle.drouin@urbania.ca`
-*Registre : vous*
-
-```
-Bonjour Mme Drouin,
-
-En janvier 2021, vous aviez écrit « Devenir viral avant même de se lancer en affaires ». Six ans plus tard, l'entreprise existe pour vrai, avec plus de 40 produits.
-
-Merci d'avoir écrit sur nous quand il n'y avait littéralement rien à acheter. Vous nous avez pris au sérieux avant tout le monde.
-
-Depuis, tout mon temps va à mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
-
-Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer une suite à votre dernier article.
-
-Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
 ## G. Roy — Le Quotidien — `groy@lequotidien.com`
 *Registre : vous*
 
