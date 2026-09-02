@@ -19,9 +19,8 @@ règle la question sans trancher.
 **Le média kit y va, sur décision de Gabriel.** J'avais proposé de le retenir — les images du
 plateau servent à annoncer la diffusion à des journalistes, pas à alimenter une production
 concurrente. Gabriel tranche autrement : ce sont ses images et son lien, et l'offre de montrer
-de quoi il a l'air perd son sens sans elles. Reste la seule vérification qui compte : rien
-dans le dossier ne doit révéler l'issue de la rencontre, sinon le courriel se contredit deux
-paragraphes plus haut.
+de quoi il a l'air perd son sens sans elles. Gabriel a vérifié le dossier : ni le texte
+ni les photos ne révèlent l'issue de la rencontre. L'embargo CBC tient.
 
 **Le texte est celui de Gabriel**, à trois corrections près : « pas ma meilleure performance »,
 « tenu au secret sur ce qui s'est passé », et « sneak peeks ».
