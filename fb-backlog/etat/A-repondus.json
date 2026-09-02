@@ -1040,8 +1040,32 @@
       "quand": "2026-09-02T21:09:08.083Z",
       "confirme": true,
       "texte": "Merci d'être revenue le dire ici. Un dénouement se rend rarement jusqu'au fil public, et ça compte."
+    },
+    {
+      "id": "1471545418312603_1661543371681450",
+      "reponse_id": "1471545418312603_27553145254365194",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T23:10:39.434Z",
+      "confirme": true,
+      "texte": "L'extension et la sangle sont bien vues : sur un télésiège, un coussin qui reste en place vaut tout le reste. Merci d'avoir mis la photo — voir ce que les gens ajoutent eux-mêmes en dit long sur ce qui manque."
+    },
+    {
+      "id": "1471545418312603_934936719190559",
+      "reponse_id": "1471545418312603_1744091543550362",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T23:13:40.779Z",
+      "confirme": true,
+      "texte": "« Bien façonné », c'est le mot qu'on espère le plus : la couture est la partie qu'on ne peut pas rattraper après coup. Merci de l'avoir remarquée."
+    },
+    {
+      "id": "1484770853656726_901842325895613",
+      "reponse_id": "1484770853656726_1000617669666676",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T23:14:45.868Z",
+      "confirme": true,
+      "texte": "Jolie image pour la soie qui s'envole du follicule à l'automne. C'est ce follicule-là qui est récolté, une fois les monarques repartis ; la feuille, elle, n'est jamais touchée."
     }
   ],
-  "derniere_execution": "2026-09-02T21:09:08.085Z",
-  "total": 130
+  "derniere_execution": "2026-09-02T23:14:45.868Z",
+  "total": 133
 }
