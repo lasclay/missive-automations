@@ -201,18 +201,6 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  "continué à inventer nos propres procédés depuis, parce que personne d'autre ne les fait.",
  PONT_MISSION, "sujet", None),
 
-"rportelance@ledevoir.com": ("Rhéane", "Portelance", "Mme", "vous",
- "On avait échangé en juillet 2022 pour le cahier Action climatique. L'asclépiade est une "
- "vivace indigène qui se cultive avec peu d'intrants et qui stocke du carbone dans un "
- "système racinaire pérenne.",
- PONT_MISSION, "sujet", None),
-
-"anais.elboujdaini@bellmedia.ca": ("Anaïs", "Elboujdaini", "Mme", "vous",
- "On s'était parlé du programme de semences en mai 2022. La Campagne nationale de plantation "
- "en est à sa 5e édition, et on a distribué environ 10 millions de graines d'asclépiade en "
- "Amérique du Nord.",
- PONT_DIRECT, "entrevue", None),
-
 "mtison1@lapresse.ca": ("Marc", "Tison", "M.", "vous",
  "On s'était parlé pour la section Affaires en septembre 2021, à l'époque où on venait de "
  "rapatrier notre production faute de sous-traitant prêt à toucher à la fibre. Le modèle a "
@@ -400,11 +388,7 @@ MERCIS = {
 "eugenie.emond@radio-canada.ca":
     "Merci encore pour ce reportage.",
 
-"rportelance@ledevoir.com":
-    "Merci de l'intérêt que vous nous aviez porté.",
 
-"anais.elboujdaini@bellmedia.ca":
-    "Merci d'avoir parlé du programme de semences.",
 
 "mtison1@lapresse.ca":
     "Merci encore : le texte a beaucoup circulé chez nos clients.",
@@ -455,7 +439,8 @@ MERCIS = {
 # supprimees du chiffrier, pas seulement marquees.
 EXCLUS = {"jhaurio@unpointcinq.ca", "contact@protegez-vous.ca",
           "mireille.roberge@radio-canada.ca", "jessica.dostie@gmail.com",
-          "raphaelle.drouin@urbania.ca"}
+          "raphaelle.drouin@urbania.ca", "rportelance@ledevoir.com",
+          "anais.elboujdaini@bellmedia.ca"}
 
 # Sans adresse courriel : Sophie Poisson (Baron Mag), Caroline Bertrand (ICI
 # Explora) et Karine Benoist (Chatelaine). Leurs brouillons restent dans

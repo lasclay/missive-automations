@@ -270,50 +270,6 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Rhéane Portelance — Le Devoir — `rportelance@ledevoir.com`
-*Registre : vous*
-
-```
-Bonjour Mme Portelance,
-
-On avait échangé en juillet 2022 pour le cahier Action climatique. L'asclépiade est une vivace indigène qui se cultive avec peu d'intrants et qui stocke du carbone dans un système racinaire pérenne. Merci de l'intérêt que vous nous aviez porté.
-
-On se concentre sur nos 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
-
-Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
-
-Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
-## Anaïs Elboujdaini — Bell Média — `anais.elboujdaini@bellmedia.ca`
-*Registre : vous*
-
-```
-Bonjour Mme Elboujdaini,
-
-On s'était parlé du programme de semences en mai 2022. La Campagne nationale de plantation en est à sa 5e édition, et on a distribué environ 10 millions de graines d'asclépiade en Amérique du Nord. Merci d'avoir parlé du programme de semences.
-
-Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part : je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
-
-Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
 ## Marc Tison — La Presse — `mtison1@lapresse.ca`
 *Registre : vous*
 
