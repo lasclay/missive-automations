@@ -800,8 +800,16 @@
       "quand": "2026-09-01T21:11:43.546Z",
       "confirme": true,
       "texte": "Content de le lire. C'est la fibre creuse qui fait le travail : l'air isolant est dans la fibre elle-même, donc il résiste à l'écrasement. Aucune cote officielle par contre, seulement des retours comme le vôtre."
+    },
+    {
+      "id": "1483881967078948_3853042345000617",
+      "reponse_id": "1483881967078948_28202999442717683",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T01:08:59.280Z",
+      "confirme": true,
+      "texte": "Vous avez mis la recherche au milieu des trois, et c'est souvent la partie qu'on ne voit pas : beaucoup d'essais qui ne donnent rien avant celui qui tient. Merci du mot."
     }
   ],
-  "derniere_execution": "2026-09-01T21:11:43.546Z",
-  "total": 100
+  "derniere_execution": "2026-09-02T01:08:59.281Z",
+  "total": 101
 }
