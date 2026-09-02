@@ -952,8 +952,24 @@
       "quand": "2026-09-02T14:18:29.131Z",
       "confirme": true,
       "texte": "On ne donne pas de date de réapprovisionnement : tant que ce n'est pas de retour en ligne, ce serait une promesse en l'air. Le plus sûr est de surveiller la fiche sur lasclay.com et de vous inscrire à l'infolettre, c'est par là que les nouvelles partent en premier."
+    },
+    {
+      "id": "1484770853656726_2077488312793224",
+      "reponse_id": "1484770853656726_29218274541095870",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T15:16:11.460Z",
+      "confirme": true,
+      "texte": "Message reçu. La formule vient plus d'un réflexe que d'une stratégie, mais vous avez raison : à force, elle finit par dire quelque chose. Merci de l'avoir relevé."
+    },
+    {
+      "id": "1484770853656726_922068904112902",
+      "reponse_id": "1484770853656726_1591422882461896",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T15:17:16.970Z",
+      "confirme": true,
+      "texte": "L'image du duvet est proche, avec une nuance : dans le duvet, l'air est retenu entre les filaments, tandis que dans l'asclépiade il est à l'intérieur même de la fibre, qui est creuse. C'est ce qui lui permet de garder son pouvoir isolant même écrasée."
     }
   ],
-  "derniere_execution": "2026-09-02T14:18:29.131Z",
-  "total": 119
+  "derniere_execution": "2026-09-02T15:17:16.970Z",
+  "total": 121
 }

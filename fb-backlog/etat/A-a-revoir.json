@@ -3282,6 +3282,36 @@
       "motif": "demande de mensurations adressée à une autre abonnée : même interdiction d'improviser une mesure",
       "ecarte_le": "2026-09-02",
       "tir": "A"
+    },
+    {
+      "id": "1483881967078948_977583247929983",
+      "page_id": "104242204750257",
+      "date": "2026-02-23T14:00:43+0000",
+      "message": "Merci pour les informations",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1483881967078948?comment_id=977583247929983",
+      "motif": "« Merci pour les informations » : accusé de réception d'une réponse déjà publiée, rien à ajouter sans meubler",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
+    },
+    {
+      "id": "1483881967078948_1353647883197579",
+      "page_id": "104242204750257",
+      "date": "2026-02-23T10:41:00+0000",
+      "message": "Bravo  Bravo félicitations,",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1483881967078948?comment_id=1353647883197579",
+      "motif": "« Bravo Bravo félicitations » — félicitation générique, déjà largement servie sur ce fil",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
+    },
+    {
+      "id": "1483881967078948_794082157044696",
+      "page_id": "104242204750257",
+      "date": "2026-02-23T01:09:43+0000",
+      "message": "Félicitations ! Lâchez pas !",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1483881967078948?comment_id=794082157044696",
+      "motif": "« Félicitations ! Lâchez pas ! » — formule identique à un commentaire déjà écarté hier pour la même raison",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
     }
   ]
 }
