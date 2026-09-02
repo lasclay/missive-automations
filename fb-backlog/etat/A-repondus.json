@@ -808,8 +808,24 @@
       "quand": "2026-09-02T01:08:59.280Z",
       "confirme": true,
       "texte": "Vous avez mis la recherche au milieu des trois, et c'est souvent la partie qu'on ne voit pas : beaucoup d'essais qui ne donnent rien avant celui qui tient. Merci du mot."
+    },
+    {
+      "id": "1483881967078948_1560851745026368",
+      "reponse_id": "1483881967078948_2230593021674472",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T02:08:36.150Z",
+      "confirme": true,
+      "texte": "Merci — et bon à savoir pour les sous-plats. Les retours sur les petits articles nous reviennent plus rarement, ils sont d'autant plus utiles."
+    },
+    {
+      "id": "1489445836522561_1443358987328452",
+      "reponse_id": "1489445836522561_1000154219701261",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T02:10:14.627Z",
+      "confirme": true,
+      "texte": "Des talles déjà installées sur une terre bio, c'est un bon point de départ : ça vous dit tout de suite que le sol convient. On sera curieux d'avoir des nouvelles de vos essais. Quand vous en serez là, passez par le message privé — c'est l'équipe qui suit les besoins en approvisionnement. Bonne saison à vous."
     }
   ],
-  "derniere_execution": "2026-09-02T01:08:59.281Z",
-  "total": 101
+  "derniere_execution": "2026-09-02T02:10:14.627Z",
+  "total": 103
 }
