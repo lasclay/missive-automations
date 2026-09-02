@@ -16,32 +16,32 @@ son adresse n'est nulle part dans la boîte. On ne la devine pas.
 **Registre.** Anne-Laurie tutoie, Karine vouvoie. À deux destinataires, le « vous » pluriel
 règle la question sans trancher.
 
-**Ce qu'on ne met pas.** Ni le lien du média kit ni les images du plateau : elles servent à
-annoncer la diffusion à des journalistes, pas à alimenter une production concurrente. Et rien
-sur l'issue de la rencontre avant le 17.
+**Le média kit y va, sur décision de Gabriel.** J'avais proposé de le retenir — les images du
+plateau servent à annoncer la diffusion à des journalistes, pas à alimenter une production
+concurrente. Gabriel tranche autrement : ce sont ses images et son lien, et l'offre de montrer
+de quoi il a l'air perd son sens sans elles. Reste la seule vérification qui compte : rien
+dans le dossier ne doit révéler l'issue de la rencontre, sinon le courriel se contredit deux
+paragraphes plus haut.
+
+**Le texte est celui de Gabriel**, à trois corrections près : « pas ma meilleure performance »,
+« tenu au secret sur ce qui s'est passé », et « sneak peeks ».
 
 ---
 
 **Objet :** Nous serons diffusés à Dragons' Den le 17 septembre!
 
 ```
-Bonjour Karine, bonjour Anne-Laurie,
+Bonjour Karine et Anne-Laurie,
 
-J'espère que vous allez bien. Merci encore pour l'audition du 29 juin. L'exercice était
-exigeant et je suis reparti avec beaucoup.
+J'espère que vous allez bien. Merci encore pour l'audition du 29 juin. Ce n'était pas ma meilleure performance, étant en plein déménagement, mais bref!
 
-Je vous écris parce que la nouvelle vous concerne un peu : le 17 septembre prochain, je
-présente Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et
-CBC Gem, à 20 h.
+Je voulais simplement vous faire part d'une grosse nouvelle : le 17 septembre prochain, je présente Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem, à 20 h.
 
-Je ne peux rien dire de ce qui s'est passé sur le plateau avant la diffusion. Mais si jamais
-ça vous intéresse de voir de quoi j'ai l'air devant des dragons, et si ça peut peser dans vos
-décisions, l'épisode vous le montrera mieux que n'importe quel document que je pourrais vous
-envoyer.
+Je suis tenu au secret sur ce qui s'est passé sur le plateau avant la diffusion. Mais si jamais ça vous intéresse de voir de quoi j'ai l'air devant des dragons, et si ça peut peser dans vos décisions, l'épisode vous le montrera mieux que n'importe quel document que je pourrais vous envoyer.
 
-Aucune attente de ma part, et pas besoin de me répondre. Je voulais simplement que vous
-l'ayez, et vous dire que Lasclay reste très intéressée par Dans l'œil du dragon si l'occasion
-se représente.
+Aucune attente de ma part, et pas besoin de me répondre. Je voulais simplement que vous l'ayez, et vous dire que Lasclay reste très intéressée par Dans l'œil du dragon si l'occasion se représente.
+
+Je vous partage notre média kit ci-dessous, qui contient quelques sneak peeks de l'émission : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
 Au plaisir,
 ```
