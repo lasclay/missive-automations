@@ -3312,6 +3312,46 @@
       "motif": "« Félicitations ! Lâchez pas ! » — formule identique à un commentaire déjà écarté hier pour la même raison",
       "ecarte_le": "2026-09-02",
       "tir": "A"
+    },
+    {
+      "id": "1484770853656726_1650771189423556",
+      "page_id": "104242204750257",
+      "date": "2026-02-23T00:53:39+0000",
+      "message": "Bravo pas de limite. GoGo",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1484770853656726?comment_id=1650771189423556",
+      "motif": "« Bravo pas de limite. GoGo » — encouragement générique sans prise",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
+    },
+    {
+      "id": "1484259983707813_855724194182603",
+      "page_id": "104242204750257",
+      "date": "2026-02-23T00:15:15+0000",
+      "message": "Yo j'espere qie vous n'utilisez pas de PFAS",
+      "lien": "https://www.facebook.com/reel/744241268513814/?comment_id=855724194182603",
+      "motif": "⚠️ QUESTION SANS RÉPONSE POSSIBLE — « j'espère que vous n'utilisez pas de PFAS ». Rien sur les PFAS ni sur les traitements déperlants dans faits-verifies.json : impossible de répondre sans inventer (règle 6). À REMONTER — question de sécurité chimique posée en public, qui mérite une position officielle et une entrée dans les faits vérifiés",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
+    },
+    {
+      "id": "1483881967078948_1994910744791490",
+      "page_id": "104242204750257",
+      "date": "2026-02-22T21:13:09+0000",
+      "message": "[sans texte]",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1483881967078948?comment_id=1994910744791490",
+      "motif": "commentaire sans texte : un GIF d'applaudissements et de confettis, vérifié en image",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
+    },
+    {
+      "id": "1484259983707813_2992702540927535",
+      "page_id": "104242204750257",
+      "date": "2026-02-22T19:57:50+0000",
+      "message": "Nicolas Caya désolé c'est une erreur c'était vraiment pas voulus et il m'étais impossible d'effacer.",
+      "lien": "https://www.facebook.com/reel/744241268513814/?comment_id=1873429576641342&reply_comment_id=2992702540927535",
+      "motif": "excuses d'un abonné après une insulte adressée à un autre (« ta yeule ! ») : altercation entre abonnés, la Page n'a pas à s'y inviter",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
     }
   ]
 }

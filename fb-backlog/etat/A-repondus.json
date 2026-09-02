@@ -968,8 +968,16 @@
       "quand": "2026-09-02T15:17:16.970Z",
       "confirme": true,
       "texte": "L'image du duvet est proche, avec une nuance : dans le duvet, l'air est retenu entre les filaments, tandis que dans l'asclépiade il est à l'intérieur même de la fibre, qui est creuse. C'est ce qui lui permet de garder son pouvoir isolant même écrasée."
+    },
+    {
+      "id": "1483881967078948_1170783411609826",
+      "reponse_id": "1483881967078948_1113888267966641",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T16:10:42.922Z",
+      "confirme": true,
+      "texte": "Merci, la remarque sur la pointure est notée telle quelle — c'est le genre de détail qui ne se voit qu'à l'usage. On évite par contre de transformer ça en consigne avant de l'avoir vérifié de notre côté."
     }
   ],
-  "derniere_execution": "2026-09-02T15:17:16.970Z",
-  "total": 121
+  "derniere_execution": "2026-09-02T16:10:42.923Z",
+  "total": 122
 }
