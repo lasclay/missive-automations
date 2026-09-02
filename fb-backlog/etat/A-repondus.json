@@ -976,8 +976,32 @@
       "quand": "2026-09-02T16:10:42.922Z",
       "confirme": true,
       "texte": "Merci, la remarque sur la pointure est notée telle quelle — c'est le genre de détail qui ne se voit qu'à l'usage. On évite par contre de transformer ça en consigne avant de l'avoir vérifié de notre côté."
+    },
+    {
+      "id": "1483881967078948_3675627879251208",
+      "reponse_id": "1483881967078948_2897918500586326",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T18:08:44.846Z",
+      "confirme": true,
+      "texte": "Deux hivers, c'est un recul qui vaut bien plus qu'un premier essai — merci de le dire ici."
+    },
+    {
+      "id": "1484259983707813_1577071860196953",
+      "reponse_id": "1484259983707813_1693512378858815",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T18:09:49.115Z",
+      "confirme": true,
+      "texte": "Trois articles différents, ça fait un bon banc d'essai. Si l'un des trois se démarque des autres à l'usage, on est curieux de savoir lequel."
+    },
+    {
+      "id": "1483881967078948_2078862615991838",
+      "reponse_id": "1483881967078948_1514335630720026",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T18:10:55.829Z",
+      "confirme": true,
+      "texte": "C'est sur lasclay.com que tout se trouve, avec livraison au Canada et aux États-Unis. Si vous hésitez sur un article en particulier, écrivez-nous en message privé."
     }
   ],
-  "derniere_execution": "2026-09-02T16:10:42.923Z",
-  "total": 122
+  "derniere_execution": "2026-09-02T18:10:55.829Z",
+  "total": 125
 }
