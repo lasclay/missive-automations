@@ -190,12 +190,6 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  "l'inscrire comme menacée. La plante n'a jamais été aussi pertinente.",
  PONT_MISSION, "sujet", None),
 
-"aabonn@latribune.qc.ca": ("Ariane", "Aubert Bonn", "Mme", "vous",
- "En novembre 2022, vous aviez couvert nos nouveaux produits d'asclépiade. Le catalogue "
- "compte maintenant plus de 40 produits, et La Tribune a repris en décembre dernier "
- "l'article de Chloé Pouliot sur notre changement de modèle manufacturier.",
- PONT_PIVOT, "article", None),
-
 "eugenie.emond@radio-canada.ca": ("Eugénie", "Émond", "Mme", "vous",
  "En septembre 2022, on s'était parlé de notre glacière d'asclépiade imprimée en 3D. On a "
  "continué à inventer nos propres procédés depuis, parce que personne d'autre ne les fait.",
@@ -382,8 +376,6 @@ MERCIS = {
 "sandra.fillion@radio-canada.ca":
     "Merci de vous y être intéressée à l'époque.",
 
-"aabonn@latribune.qc.ca":
-    "Merci encore : l'Estrie nous suit depuis, et ça part de là.",
 
 "eugenie.emond@radio-canada.ca":
     "Merci encore pour ce reportage.",
@@ -440,7 +432,7 @@ MERCIS = {
 EXCLUS = {"jhaurio@unpointcinq.ca", "contact@protegez-vous.ca",
           "mireille.roberge@radio-canada.ca", "jessica.dostie@gmail.com",
           "raphaelle.drouin@urbania.ca", "rportelance@ledevoir.com",
-          "anais.elboujdaini@bellmedia.ca"}
+          "anais.elboujdaini@bellmedia.ca", "aabonn@latribune.qc.ca"}
 
 # Sans adresse courriel : Sophie Poisson (Baron Mag), Caroline Bertrand (ICI
 # Explora) et Karine Benoist (Chatelaine). Leurs brouillons restent dans

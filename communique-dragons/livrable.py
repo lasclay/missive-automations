@@ -52,7 +52,7 @@ def changements(kit, chauds, mercis):
     ("Sorties",
      "Sylvie Lacombe, Justine Friis et Francis Higgins ne sont plus dans ton chiffrier : je "
      "les ai retirés. Dis-le si c'était un accident et je les remets. Rhéane Portelance et "
-     "Anaïs Elboujdaini sortent aussi, sur ta demande."),
+     "Anaïs Elboujdaini et Ariane Aubert Bonn sortent aussi, sur ta demande."),
     ("Jean-Michel Leprince",
      "Promu de la liste froide à la liste chaude. Son adresse reste à confirmer : elle vient "
      "d'une recherche web, pas d'un échange."),

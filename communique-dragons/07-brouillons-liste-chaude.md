@@ -224,29 +224,6 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Ariane Aubert Bonn — La Tribune — `aabonn@latribune.qc.ca`
-*Registre : vous*
-
-```
-Bonjour Mme Aubert Bonn,
-
-En novembre 2022, vous aviez couvert nos nouveaux produits d'asclépiade. Le catalogue compte maintenant plus de 40 produits, et La Tribune a repris en décembre dernier l'article de Chloé Pouliot sur notre changement de modèle manufacturier. Merci encore : l'Estrie nous suit depuis, et ça part de là.
-
-Parmi les raisons de ce changement, il y avait clairement que j'avais besoin de temps pour me recentrer sur mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les monarques par la culture de l'asclépiade.
-
-Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer une suite à votre dernier article.
-
-Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
 ## Eugénie Émond — Radio-Canada — `eugenie.emond@radio-canada.ca`
 *Registre : vous*
 
