@@ -1032,8 +1032,16 @@
       "quand": "2026-09-02T20:22:43.373Z",
       "confirme": true,
       "texte": "On ne publie aucune cote en degrés, et vous n'en trouverez pas de notre part ailleurs : ce chiffre supposerait un essai normalisé qu'on n'a pas fait. Ce qui reste vrai, c'est que le ressenti change beaucoup d'une personne à l'autre et selon l'activité. La composition et l'usage prévu de chaque modèle sont sur sa fiche."
+    },
+    {
+      "id": "1484259983707813_1625897425085771",
+      "reponse_id": "1484259983707813_2182817748945143",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T21:09:08.083Z",
+      "confirme": true,
+      "texte": "Merci d'être revenue le dire ici. Un dénouement se rend rarement jusqu'au fil public, et ça compte."
     }
   ],
-  "derniere_execution": "2026-09-02T20:22:43.373Z",
-  "total": 129
+  "derniere_execution": "2026-09-02T21:09:08.085Z",
+  "total": 130
 }
