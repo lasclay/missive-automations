@@ -880,8 +880,32 @@
       "quand": "2026-09-02T10:39:54.431Z",
       "confirme": true,
       "texte": "Rien de dramatique pour la slush. Le bandeau se lave à la machine, eau froide, cycle délicat, savon doux, sans assouplissant, puis séchage à plat à l'air libre. Le reste est dans les guides d'entretien : lasclay.com/pages/guides-dentretien"
+    },
+    {
+      "id": "1471550908312054_1676243893381942",
+      "reponse_id": "1471550908312054_2570784346690371",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T12:22:47.883Z",
+      "confirme": true,
+      "texte": "Oui. Cycle délicat à l'eau froide, savon doux, pas d'assouplissant, puis séchage à plat à l'air libre — jamais à la sécheuse. Tout est détaillé dans les guides d'entretien, sur lasclay.com."
+    },
+    {
+      "id": "1471550908312054_833013509763299",
+      "reponse_id": "1471550908312054_4502654956689388",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T12:23:51.836Z",
+      "confirme": true,
+      "texte": "On n'a pas ce chiffre-là, et on préfère le dire. Une valeur R suppose un essai normalisé sur un matériau de construction ; la fibre n'a été ni testée ni vendue pour cet usage. Ce qu'on connaît vient du vêtement : la fibre est creuse et c'est l'air emprisonné à l'intérieur qui isole. Vous donner un R serait inventer un nombre."
+    },
+    {
+      "id": "1471550908312054_1259980736109237",
+      "reponse_id": "1471550908312054_909823865181968",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T12:27:31.509Z",
+      "confirme": true,
+      "texte": "Pour un échange, écrivez-nous en message privé avec votre numéro de commande : on regarde ce qui est possible au cas par cas, ça ne se règle pas ici."
     }
   ],
-  "derniere_execution": "2026-09-02T10:39:54.431Z",
-  "total": 110
+  "derniere_execution": "2026-09-02T12:27:31.509Z",
+  "total": 113
 }
