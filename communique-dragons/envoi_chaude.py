@@ -33,6 +33,20 @@ DE = "admin@lasclay.com"
 # meme dans les reponses : « Re: Transfert en Tunisie » rappelait le sujet de
 # 2026, pas celui du courriel. Le fil, lui, ne bouge pas.
 OBJET = "L'asclépiade à Dragons' Den le 17 septembre"
+
+# `add_default_signature` marche — verifie sur un brouillon d'essai — mais la
+# signature par defaut de l'alias admin@lasclay.com est l'ANGLAISE : « Warmly,
+# Gabriel Gouveia, Co-founder ». L'API Missive ne permet pas de choisir une
+# autre signature que celle par defaut. Ces 23 courriels sont en francais, donc
+# on colle la francaise, celle que Gabriel signe a la main dans ses propres
+# echanges. Si un jour l'alias passe au francais par defaut, il suffit de
+# remettre "signature": True et de retirer ce bloc.
+SIGNATURE = """Chaleureusement,
+__
+Gabriel Gouveia
+Co-fondateur
++1 (581) 982-5857
+Lasclay.com"""
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CLIENT = os.path.join(RACINE, "missive_client.js")
 PHOTO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dragons-plateau.jpg")
@@ -73,15 +87,15 @@ def main(envoyer):
         fil = FILS.get(courriel)
         if fil:
             charge = {"id": fil["id"], "from": DE, "to": [courriel],
-                      "subject": OBJET, "body": texte, "attachments": piece,
-                      "signature": True}
+                      "subject": OBJET, "body": texte + "\n\n" + SIGNATURE,
+                      "attachments": piece}
             if envoyer:
                 charge["send"] = True
             res = appel("reply", charge)
             mode = f"réponse · {fil['pourquoi']}"
         else:
             charge = {"from": DE, "to": [courriel], "subject": OBJET,
-                      "body": texte, "attachments": piece, "signature": True}
+                      "body": texte + "\n\n" + SIGNATURE, "attachments": piece}
             if envoyer:
                 charge["send"] = True
             res = appel("send", charge)
