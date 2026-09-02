@@ -1921,6 +1921,34 @@
       "motif": "Le commentaire glisse vers un registre complotiste (les maladies « qu'on vous impose »). Image regardée : vignette de 68 octets, illisible. Rien à traiter sans donner du crédit au reste.",
       "page_id": "114311920399404",
       "quand": "2026-09-02T14:38:16.347Z"
+    },
+    {
+      "id": "1239063395026978_1152991866874895",
+      "extrait": "[photo sans texte] chenille de monarque sur feuille d’asclépiade",
+      "motif": "Doublon de contenu : une réponse à une photo de chenille sur ce même billet a été publiée aujourd’hui à 14 h 38 UTC. Trois photos de plus du même auteur donneraient des réponses quasi identiques.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T16:42:56.828Z"
+    },
+    {
+      "id": "1239063395026978_900983975758436",
+      "extrait": "[photo sans texte] chenille de monarque sur asclépiade",
+      "motif": "Même série de photos que 1152991866874895 — un seul remerciement possible sans se répéter, déjà publié.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T16:42:56.828Z"
+    },
+    {
+      "id": "1239063395026978_888989150409457",
+      "extrait": "[photo sans texte] chenille de monarque agrippée à une tige",
+      "motif": "Même série de photos, même sujet — écarté pour éviter trois réponses jumelles sur le même billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T16:42:56.828Z"
+    },
+    {
+      "id": "1239063395026978_1432952268344151",
+      "extrait": "[photo sans texte] colonie de pucerons jaunes et exuvies sur pousses d’asclépiade",
+      "motif": "Doublon du 1601093674259904, répondu dans ce lot-ci : même sujet, même auteur, deux photos du même plant.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T16:42:56.828Z"
     }
   ]
 }
