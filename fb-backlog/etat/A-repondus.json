@@ -1000,8 +1000,16 @@
       "quand": "2026-09-02T18:10:55.829Z",
       "confirme": true,
       "texte": "C'est sur lasclay.com que tout se trouve, avec livraison au Canada et aux États-Unis. Si vous hésitez sur un article en particulier, écrivez-nous en message privé."
+    },
+    {
+      "id": "1471550908312054_915478920877579",
+      "reponse_id": "1471550908312054_1785545502760428",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T19:09:17.154Z",
+      "confirme": true,
+      "texte": "Une précision, sans entrer dans le reste de l'échange : l'isolant est bien cultivé et transformé ici, à l'atelier de Limoilou, mais l'assemblage textile de la plupart des produits finis se fait à l'étranger depuis juillet 2026, surtout en Tunisie. On préfère le dire nous-mêmes plutôt que de laisser courir."
     }
   ],
-  "derniere_execution": "2026-09-02T18:10:55.829Z",
-  "total": 125
+  "derniere_execution": "2026-09-02T19:09:17.156Z",
+  "total": 126
 }
