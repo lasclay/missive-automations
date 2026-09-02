@@ -433,13 +433,17 @@ async function setLabels({ id, add, remove, markdown, keepClosed }) {
   return mSend("POST", "/posts", { posts: post });
 }
 
-async function reply({ id, from, to, cc, subject, body, send, closeAfter, attachments }) {
+async function reply({ id, from, to, cc, subject, body, send, closeAfter, attachments, signature }) {
   const draft = {
     conversation: id, organization: ORG,
     from_field: { address: from },
     to_fields: (to || []).map((a) => ({ address: a })),
     body: (body || "").replace(/\n/g, "<br>"),
   };
+  // Missive colle lui-meme la signature de l'alias expediteur, exactement comme
+  // quand on ecrit dans son interface. Sans ce champ, un courriel depose par le
+  // proxy part sans signature et se voit tout de suite.
+  if (signature) draft.add_default_signature = true;
   if (subject) draft.subject = subject;
   if (cc && cc.length) draft.cc_fields = cc.map((a) => ({ address: a }));
   if (Array.isArray(attachments) && attachments.length) {
@@ -497,7 +501,7 @@ async function findContacts({ search, book, limit }) {
 // apparaît dans Missive et attend qu'un humain appuie sur envoyer. C'est le
 // garde-fou principal de cette route, un courriel envoyé ne se rappelle pas.
 const MAX_DEST = 5; // barrière anti-envoi de masse : cette route sert au contact ciblé
-async function sendNew({ from, to, cc, bcc, subject, body, send, attachments }) {
+async function sendNew({ from, to, cc, bcc, subject, body, send, attachments, signature }) {
   const dest = [...(to || []), ...(cc || []), ...(bcc || [])];
   if (dest.length > MAX_DEST) {
     throw new Error(`${dest.length} destinataires demandés, maximum ${MAX_DEST}. Cette route sert au contact ciblé, pas à l'envoi de masse.`);
@@ -509,6 +513,7 @@ async function sendNew({ from, to, cc, bcc, subject, body, send, attachments }) 
     subject,
     body: (body || "").replace(/\n/g, "<br>"),
   };
+  if (signature) draft.add_default_signature = true;
   if (cc && cc.length) draft.cc_fields = cc.map((a) => ({ address: a }));
   if (bcc && bcc.length) draft.bcc_fields = bcc.map((a) => ({ address: a }));
   if (Array.isArray(attachments) && attachments.length) {

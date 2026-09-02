@@ -14,6 +14,10 @@ texte commence par « Je m'appelle Gabriel Gouveia » et qui contredirait une
 reponse dans un fil ; McKenna, dont le seul fil est un envoi en masse ;
 Leprince, qu'on n'a jamais contacte.
 
+L'API Missive n'a AUCUNE route pour supprimer un brouillon. Relancer ce script
+ne remplace donc rien : ca depose une deuxieme serie a cote de la premiere. Les
+brouillons deja poses se suppriment a la main dans Missive, avant de relancer.
+
     python3 envoi_chaude.py            depose des brouillons, rien ne part
     python3 envoi_chaude.py --envoyer  envoie pour de vrai
 """
@@ -24,6 +28,11 @@ import subprocess
 import sys
 
 DE = "admin@lasclay.com"
+
+# Un seul objet pour les 23, choisi par Gabriel. Il remplace l'objet du fil
+# meme dans les reponses : « Re: Transfert en Tunisie » rappelait le sujet de
+# 2026, pas celui du courriel. Le fil, lui, ne bouge pas.
+OBJET = "L'asclépiade à Dragons' Den le 17 septembre"
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CLIENT = os.path.join(RACINE, "missive_client.js")
 PHOTO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dragons-plateau.jpg")
@@ -64,14 +73,15 @@ def main(envoyer):
         fil = FILS.get(courriel)
         if fil:
             charge = {"id": fil["id"], "from": DE, "to": [courriel],
-                      "subject": fil["objet"], "body": texte, "attachments": piece}
+                      "subject": OBJET, "body": texte, "attachments": piece,
+                      "signature": True}
             if envoyer:
                 charge["send"] = True
             res = appel("reply", charge)
             mode = f"réponse · {fil['pourquoi']}"
         else:
-            charge = {"from": DE, "to": [courriel], "subject": r[iO],
-                      "body": texte, "attachments": piece}
+            charge = {"from": DE, "to": [courriel], "subject": OBJET,
+                      "body": texte, "attachments": piece, "signature": True}
             if envoyer:
                 charge["send"] = True
             res = appel("send", charge)
