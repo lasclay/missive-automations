@@ -6,7 +6,7 @@ article : elle part de ce qui concerne la personne, region ou sujet.
 
 Deux differences assumees avec la liste chaude :
 
-- Salutation « Bonjour Prenom Nom ». Deviner M. ou Mme sur 219 personnes qu'on
+- Salutation « Bonjour Prenom ». Deviner M. ou Mme sur 219 personnes qu'on
   ne connait pas produirait des erreurs; le prenom et le nom evitent la question.
 - Les accroches regionales sont tournees vers ce qui existe aujourd'hui, pas vers
   la faillite de 2018. Le fait reste vrai, le ton reste celui d'une bonne
@@ -117,7 +117,7 @@ OFFRES = {
 # --- textes ecrits a la main ------------------------------------------------
 
 MAIN = {
-"jean-michel_leprince@radio-canada.ca": """Bonjour Jean-Michel Leprince,
+"jean-michel_leprince@radio-canada.ca": """Bonjour Jean-Michel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
@@ -145,7 +145,7 @@ première fois qu'on raconte ce que la filière est devenue après la chute.
 
 {CLOTURE}""",
 
-"redaction.mekinac@lebulletindeschenaux.com": """Bonjour Réjean Martin,
+"redaction.mekinac@lebulletindeschenaux.com": """Bonjour Réjean,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
@@ -172,7 +172,7 @@ est devenue depuis. Je peux parler des volumes, de la récolte, et de ce qui res
 
 {CLOTURE}""",
 
-"gabriel.delisle@lenouvelliste.qc.ca": """Bonjour Gabriel Delisle,
+"gabriel.delisle@lenouvelliste.qc.ca": """Bonjour Gabriel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
@@ -196,7 +196,7 @@ Saint-Tite, il reste quelque chose de cette promesse-là, et ça se raconte.
 
 {CLOTURE}""",
 
-"marie.allard@laesdebrouillards.com": """Bonjour Marie Allard,
+"marie.allard@laesdebrouillards.com": """Bonjour Marie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
@@ -264,7 +264,11 @@ def salutation_douteuse(prenom, nom):
 def monter(prenom, nom, angle, region):
     """On se presente toujours : ces gens ne nous connaissent pas. L'accroche
     regionale ou thematique vient ensuite, jamais avant la presentation."""
-    salut = f"Bonjour {prenom} {nom},".replace("  ", " ")
+    # Gabriel, le 2 septembre : « tu t'adresses au nom complet. Ne jamais faire
+    # ca, vraiment bizarre! » Personne n'ecrit « Bonjour Marie Tremblay » a un
+    # etre humain. Le prenom seul, et la ligne saute quand la fiche FPJQ est
+    # trop abimee pour qu'on sache lequel c'est.
+    salut = f"Bonjour {prenom}," if prenom else "Bonjour,"
     pourquoi = REGIONS.get(region) or THEMES.get(angle) or THEMES["B"]
     offre = OFFRES.get(angle, "")
     return assembler([salut, QUI, CONTEXTE, pourquoi, PAS, ANNONCE,
@@ -326,7 +330,7 @@ def main(src, dst, md):
               "Même squelette que la liste chaude, mais l'ouverture part de ce qui concerne la "
               "personne : sa région quand l'asclépiade y a une histoire réelle, son sujet "
               "sinon.", "",
-              "Salutation « Bonjour Prénom Nom » : deviner M. ou Mme sur 219 personnes qu'on "
+              "Salutation « Bonjour Prénom » : deviner M. ou Mme sur 219 personnes qu'on "
               "ne connaît pas produirait des erreurs.", ""]
     for a in sorted(par_angle):
         lignes += [f"## Angle {a} — {len(par_angle[a])} contacts", ""]

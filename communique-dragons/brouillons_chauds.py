@@ -16,7 +16,7 @@ import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 from voix_gabriel import (VIDEO, MISSIONS, MISSIONS_NOUS, ANNONCE, PAS, BENEFICE, OBJETS,
                           media_kit, deplier, tu, cloture, assembler)
-from textes_gabriel import TEXTES
+from textes_gabriel import TEXTES, REGISTRES
 
 # --- ponts reutilisables ----------------------------------------------------
 
@@ -449,8 +449,8 @@ NE_PAS_ENVOYER = {
 
 def monter(cle, registre=None):
     prenom, nom, civ, reg_defaut, rappel, pont, suite, brut = (
-        CHAUDS[cle] + (None,) * 8)[:8]
-    reg = (registre or reg_defaut or "vous").strip().lower()
+        CHAUDS.get(cle, (None,) * 8) + (None,) * 8)[:8]
+    reg = (registre or REGISTRES.get(cle) or reg_defaut or "vous").strip().lower()
     if cle in TEXTES:
         return deplier(TEXTES[cle])
     if brut:

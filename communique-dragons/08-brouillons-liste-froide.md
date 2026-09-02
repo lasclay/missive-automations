@@ -2,7 +2,7 @@
 
 Même squelette que la liste chaude, mais l'ouverture part de ce qui concerne la personne : sa région quand l'asclépiade y a une histoire réelle, son sujet sinon.
 
-Salutation « Bonjour Prénom Nom » : deviner M. ou Mme sur 219 personnes qu'on ne connaît pas produirait des erreurs.
+Salutation « Bonjour Prénom » : deviner M. ou Mme sur 219 personnes qu'on ne connaît pas produirait des erreurs.
 
 ## Angle B — 35 contacts
 
@@ -10,7 +10,7 @@ Salutation « Bonjour Prénom Nom » : deviner M. ou Mme sur 219 personnes qu'on
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Marie-Émélie Bernier,
+Bonjour Marie-Émélie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -35,7 +35,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Louise Bourbonnais,
+Bonjour Louise,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -60,7 +60,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Gilbert Bégin,
+Bonjour Gilbert,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -85,7 +85,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Victor Carré,
+Bonjour Victor,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -110,7 +110,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montérégie*
 
 ```
-Bonjour Tristan Champagne-Lessard,
+Bonjour Tristan,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -135,7 +135,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Saguenay - Lac-Saint-Jean*
 
 ```
-Bonjour Maxime Corneau,
+Bonjour Maxime,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -160,7 +160,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Mauricie*
 
 ```
-Bonjour Gabriel Delisle,
+Bonjour Gabriel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -183,7 +183,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Laurentides*
 
 ```
-Bonjour André Fauteux,
+Bonjour André,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -208,7 +208,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Johanne Fournier,
+Bonjour Johanne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -233,7 +233,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Mikaël Lalancette,
+Bonjour Mikaël,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -258,7 +258,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Olivier Mougeot,
+Bonjour Olivier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -283,7 +283,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Laurentides*
 
 ```
-Bonjour Jean-Hugues Roy,
+Bonjour Jean-Hugues,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -308,7 +308,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Martin Roy,
+Bonjour Martin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -333,7 +333,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Estrie*
 
 ```
-Bonjour Karine Tremblay,
+Bonjour Karine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -358,7 +358,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Canada anglais*
 
 ```
-Bonjour Godefroy Macaire Chabi,
+Bonjour Godefroy Macaire,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -383,7 +383,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Est-du-Québec*
 
 ```
-Bonjour Laurence Dami-Houle,
+Bonjour Laurence,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -408,7 +408,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Dominique Degré,
+Bonjour Dominique,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -433,7 +433,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Laurentides*
 
 ```
-Bonjour Michel Fortier,
+Bonjour Michel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -458,7 +458,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Raymond Fournier,
+Bonjour Raymond,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -483,7 +483,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Mauricie*
 
 ```
-Bonjour Jacinthe Lafrance,
+Bonjour Jacinthe,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -508,7 +508,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Stéphanie Mac Farlane,
+Bonjour Stéphanie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -533,7 +533,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Laurentides*
 
 ```
-Bonjour Louis-Xavier Michaud,
+Bonjour Louis-Xavier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -558,7 +558,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Est-du-Québec*
 
 ```
-Bonjour Karianne Nepton-Philippe,
+Bonjour Karianne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -583,7 +583,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Geneviève Normand,
+Bonjour Geneviève,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -608,7 +608,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Outaouais*
 
 ```
-Bonjour Mario Boulianne,
+Bonjour Mario,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -633,7 +633,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montérégie*
 
 ```
-Bonjour Kathleen Couillard,
+Bonjour Kathleen,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -658,7 +658,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Estrie*
 
 ```
-Bonjour Thomas Deshaies,
+Bonjour Thomas,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -683,7 +683,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Laval*
 
 ```
-Bonjour Marie-Claude Di Lillo,
+Bonjour Marie-Claude,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -708,7 +708,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montérégie*
 
 ```
-Bonjour MELISSA PELLETIER,
+Bonjour MELISSA,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -733,7 +733,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Centre-du-Québec*
 
 ```
-Bonjour Isaac Peltz,
+Bonjour Isaac,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -758,7 +758,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Canada anglais*
 
 ```
-Bonjour Francis Plourde,
+Bonjour Francis,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -783,7 +783,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Centre-du-Québec*
 
 ```
-Bonjour Louis-Philippe Samson,
+Bonjour Louis-Philippe,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -808,7 +808,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Lanaudière*
 
 ```
-Bonjour Jacques Sennechael,
+Bonjour Jacques,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -833,7 +833,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Mauricie*
 
 ```
-Bonjour Paule Vermot-Desroches,
+Bonjour Paule,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -858,7 +858,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Canada anglais*
 
 ```
-Bonjour Paul Émile d'Entremont,
+Bonjour Paul Émile,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -885,7 +885,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Marie Allard,
+Bonjour Marie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -910,7 +910,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Zoé Allemand,
+Bonjour Zoé,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -935,7 +935,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Laurentides*
 
 ```
-Bonjour Normand Blouin,
+Bonjour Normand,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -960,7 +960,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montérégie*
 
 ```
-Bonjour Jean-Marc Chevalier,
+Bonjour Jean-Marc,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -985,7 +985,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Simon Chrétien,
+Bonjour Simon,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1010,7 +1010,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Estrie*
 
 ```
-Bonjour Catherine Dallaire,
+Bonjour Catherine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1035,7 +1035,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Outaouais*
 
 ```
-Bonjour Simon Dominé,
+Bonjour Simon,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1060,7 +1060,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Myriam Fimbry,
+Bonjour Myriam,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1085,7 +1085,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Pauline Gravel,
+Bonjour Pauline,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1110,7 +1110,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Leïla Jolin-Dahel,
+Bonjour Leïla,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1135,7 +1135,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Annie Labrecque,
+Bonjour Annie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1160,7 +1160,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Sophie Lachapelle,
+Bonjour Sophie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1185,7 +1185,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Outaouais*
 
 ```
-Bonjour Annie Martin,
+Bonjour Annie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1210,7 +1210,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Mauricie*
 
 ```
-Bonjour Réjean Martin,
+Bonjour Réjean,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1235,7 +1235,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Clara Matthey-Jonais,
+Bonjour Clara,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1260,7 +1260,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Valérian Mazataud,
+Bonjour Valérian,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1285,7 +1285,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Nicolas Mesly,
+Bonjour Nicolas,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1310,7 +1310,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Lanaudière*
 
 ```
-Bonjour Nicolas Michaud,
+Bonjour Nicolas,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1335,7 +1335,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Véronique Morin,
+Bonjour Véronique,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1360,7 +1360,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Laval*
 
 ```
-Bonjour Josée Panet-Raymond,
+Bonjour Josée,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1385,7 +1385,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Yannick Patelli,
+Bonjour Yannick,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1410,7 +1410,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Marie-Hélène Proulx,
+Bonjour Marie-Hélène,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1435,7 +1435,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Estrie*
 
 ```
-Bonjour Scott Stevenson,
+Bonjour Scott,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1460,7 +1460,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Outaouais*
 
 ```
-Bonjour Michèle Tanganika,
+Bonjour Michèle,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1485,7 +1485,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Laurentides*
 
 ```
-Bonjour MARC-OLIVIER BISSON,
+Bonjour MARC-OLIVIER,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1510,7 +1510,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Gilles Bérubé,
+Bonjour Gilles,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1535,7 +1535,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Daphné Cameron,
+Bonjour Daphné,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1560,7 +1560,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Sarah Champagne,
+Bonjour Sarah,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1585,7 +1585,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Ève Dumas,
+Bonjour Ève,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1610,7 +1610,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Mauricie*
 
 ```
-Bonjour Chloé Germain-Thérien,
+Bonjour Chloé,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1635,7 +1635,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Gildas Meneu,
+Bonjour Gildas,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1660,7 +1660,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Pierre St-Arnaud,
+Bonjour Pierre,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1687,7 +1687,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Ariane Boyer,
+Bonjour Ariane,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1712,7 +1712,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Anaïs Desjardins,
+Bonjour Anaïs,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1737,7 +1737,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Jean Garon,
+Bonjour Jean,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1762,7 +1762,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Kodjo Edjinam Nulagnon LOGO,
+Bonjour Kodjo Edjinam Nulagnon,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1787,7 +1787,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Charles Mathieu,
+Bonjour Charles,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1812,7 +1812,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Félix Pedneault,
+Bonjour Félix,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1837,7 +1837,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Jean-Francois Venne,
+Bonjour Jean-Francois,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1862,7 +1862,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Yahia Arkat,
+Bonjour Yahia,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1887,7 +1887,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Maïté Belmir,
+Bonjour Maïté,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1912,7 +1912,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour André Bernard,
+Bonjour André,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1937,7 +1937,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · France*
 
 ```
-Bonjour Didier Bert,
+Bonjour Didier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1962,7 +1962,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Sara Champagne,
+Bonjour Sara,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1987,7 +1987,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Éric-Pierre Champagne,
+Bonjour Éric-Pierre,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2012,7 +2012,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Marine Corniou,
+Bonjour Marine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2037,7 +2037,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Catherine Crépeau,
+Bonjour Catherine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2062,7 +2062,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Amélie Daoust-Boisvert,
+Bonjour Amélie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2087,7 +2087,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Quentin Dufranne,
+Bonjour Quentin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2112,7 +2112,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Ahmed Kouaou,
+Bonjour Ahmed,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2137,7 +2137,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Tania Krywiak,
+Bonjour Tania,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2162,7 +2162,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Ontario*
 
 ```
-Bonjour Boris Proulx,
+Bonjour Boris,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2187,7 +2187,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Philippe Robitaille-Grou,
+Bonjour Philippe,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2212,7 +2212,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Gwen Roley,
+Bonjour Gwen,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2237,7 +2237,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Mathieu-Robert Sauvé,
+Bonjour Mathieu-Robert,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2262,7 +2262,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Yanick Villedieu,
+Bonjour Yanick,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2287,7 +2287,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Jonathan Allard,
+Bonjour Jonathan,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2312,7 +2312,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Mauricie*
 
 ```
-Bonjour Anick Baribeau,
+Bonjour Anick,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2337,7 +2337,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Karim Benessaieh,
+Bonjour Karim,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2362,7 +2362,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Ontario*
 
 ```
-Bonjour Julien Cayouette,
+Bonjour Julien,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2387,7 +2387,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Sarah Collardey,
+Bonjour Sarah,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2412,7 +2412,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Marcelin Delice,
+Bonjour Marcelin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2437,7 +2437,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Martine Deslauriers,
+Bonjour Martine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2462,7 +2462,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Saguenay - Lac-Saint-Jean*
 
 ```
-Bonjour Maxim Fauteux,
+Bonjour Maxim,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2487,7 +2487,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Zacharie Goudreault,
+Bonjour Zacharie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2512,7 +2512,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour ANGELO JEAN-BAPTISTE,
+Bonjour ANGELO,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2537,7 +2537,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Angie Landry,
+Bonjour Angie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2562,7 +2562,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Camille Langlade,
+Bonjour Camille,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2587,7 +2587,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Étienne Leblanc,
+Bonjour Étienne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2612,7 +2612,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Colin McGregor,
+Bonjour Colin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2637,7 +2637,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Marie-Paul Rouleau,
+Bonjour Marie-Paul,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2662,7 +2662,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Alexandre Shields,
+Bonjour Alexandre,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2687,7 +2687,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Chloé Sondervorst,
+Bonjour Chloé,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2712,7 +2712,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Martin Tremblay,
+Bonjour Martin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2737,7 +2737,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Raymond Viger,
+Bonjour Raymond,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2762,7 +2762,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Augustin de Baudinière,
+Bonjour Augustin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2787,7 +2787,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Ivan de Jacquelin-Dulphe,
+Bonjour Ivan,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2814,7 +2814,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Francois Bourque,
+Bonjour Francois,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2839,7 +2839,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Jean-Luc Lavallée,
+Bonjour Jean-Luc,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2864,7 +2864,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Marie-Eve Fournier,
+Bonjour Marie-Eve,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2889,7 +2889,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Marie-Pier Frappier,
+Bonjour Marie-Pier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2914,7 +2914,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Annie Hudon,
+Bonjour Annie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2939,7 +2939,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Estrie*
 
 ```
-Bonjour Yvan Lamontagne,
+Bonjour Yvan,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2964,7 +2964,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Anne Marie Lecomte,
+Bonjour Anne Marie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2989,7 +2989,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Katherine Tremblay,
+Bonjour Katherine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3014,7 +3014,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Martin Vallières,
+Bonjour Martin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3039,7 +3039,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montérégie*
 
 ```
-Bonjour Félix-Antoine Beauchemin,
+Bonjour Félix-Antoine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3064,7 +3064,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Saguenay - Lac-Saint-Jean*
 
 ```
-Bonjour Karine Boivin Forcier,
+Bonjour Karine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3089,7 +3089,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Pierre Brisson,
+Bonjour Pierre,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3114,7 +3114,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Diane Bérard,
+Bonjour Diane,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3139,7 +3139,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Ivanoh Demers,
+Bonjour Ivanoh,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3164,7 +3164,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Lanaudière*
 
 ```
-Bonjour Claude Desjardins,
+Bonjour Claude,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3189,7 +3189,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Richard Dupaul,
+Bonjour Richard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3214,7 +3214,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Stéphane Giroux,
+Bonjour Stéphane,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3239,7 +3239,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Matthieu Hains,
+Bonjour Matthieu,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3264,7 +3264,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Hugo Joncas,
+Bonjour Hugo,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3289,7 +3289,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Guillaume Longuépée,
+Bonjour Guillaume,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3314,7 +3314,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Roxane Léouzon,
+Bonjour Roxane,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3339,7 +3339,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Centre-du-Québec*
 
 ```
-Bonjour Timothy Morson,
+Bonjour Timothy,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3364,7 +3364,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Olivier Schmouker,
+Bonjour Olivier,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3389,7 +3389,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montérégie*
 
 ```
-Bonjour William Thériault,
+Bonjour William,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3414,7 +3414,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Katia Tobar,
+Bonjour Katia,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3439,7 +3439,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Pierre-Luc Trudel,
+Bonjour Pierre-Luc,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3466,7 +3466,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Eric Chabot,
+Bonjour Eric,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3491,7 +3491,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Aurélia Crémoux,
+Bonjour Aurélia,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3516,7 +3516,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Marieke Glorieux-Stryckman,
+Bonjour Marieke,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3541,7 +3541,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Maude Goyer,
+Bonjour Maude,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3566,7 +3566,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Laurentides*
 
 ```
-Bonjour Jean-Francois Leblanc,
+Bonjour Jean-Francois,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3591,7 +3591,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Julie Leduc,
+Bonjour Julie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3616,7 +3616,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Laurentides*
 
 ```
-Bonjour Emmanuelle Mozayan-Verschaeve,
+Bonjour Emmanuelle,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3641,7 +3641,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Jean-Benoît Nadeau,
+Bonjour Jean-Benoît,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3666,7 +3666,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Yves Ouellet,
+Bonjour Yves,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3691,7 +3691,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Marie-Eve Poulin,
+Bonjour Marie-Eve,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3716,7 +3716,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Sylvain Sarrazin,
+Bonjour Sylvain,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3741,7 +3741,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Pierre Sormany,
+Bonjour Pierre,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3766,7 +3766,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Shahram Yazdanpanah,
+Bonjour Shahram,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3791,7 +3791,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Charlotte Glorieux,
+Bonjour Charlotte,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3816,7 +3816,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Bruno Lamolet,
+Bonjour Bruno,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3841,7 +3841,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Estrie*
 
 ```
-Bonjour Yves Langlois,
+Bonjour Yves,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3866,7 +3866,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Anne Montplaisir,
+Bonjour Anne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3891,7 +3891,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Centre-du-Québec*
 
 ```
-Bonjour Michel Tremblay,
+Bonjour Michel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3916,7 +3916,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montérégie*
 
 ```
-Bonjour Bernard Brault,
+Bonjour Bernard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3941,7 +3941,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Alain Demers,
+Bonjour Alain,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3968,7 +3968,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Laval*
 
 ```
-Bonjour Victoria Bakos,
+Bonjour Victoria,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -3993,7 +3993,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Malika Alaoui,
+Bonjour Malika,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4018,7 +4018,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Centre-du-Québec*
 
 ```
-Bonjour Julia Bernier,
+Bonjour Julia,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4043,7 +4043,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Luc Boulanger,
+Bonjour Luc,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4068,7 +4068,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Marie-France Bélanger,
+Bonjour Marie-France,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4093,7 +4093,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Oumou DIAKITÉ,
+Bonjour Oumou,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4118,7 +4118,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Agnès Delavault,
+Bonjour Agnès,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4143,7 +4143,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Claude Deschênes,
+Bonjour Claude,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4168,7 +4168,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Stéphanie Dupuis,
+Bonjour Stéphanie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4193,7 +4193,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Isabelle Grégoire,
+Bonjour Isabelle,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4218,7 +4218,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Chantal Guy,
+Bonjour Chantal,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4243,7 +4243,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Ontario*
 
 ```
-Bonjour Andréanne Joly,
+Bonjour Andréanne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4268,7 +4268,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Joannie Lafrenière,
+Bonjour Joannie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4293,7 +4293,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Louise Leduc,
+Bonjour Louise,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4318,7 +4318,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Isabelle Morin,
+Bonjour Isabelle,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4343,7 +4343,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Rachid Najahi,
+Bonjour Rachid,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4368,7 +4368,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Frédéric Perron,
+Bonjour Frédéric,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4393,7 +4393,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Lanaudière*
 
 ```
-Bonjour Richard Prudhomme,
+Bonjour Richard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4418,7 +4418,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Pascale Renaud,
+Bonjour Pascale,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4443,7 +4443,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Marc Sony Ricot,
+Bonjour Marc Sony,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4468,7 +4468,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Catherine Schlager,
+Bonjour Catherine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4495,7 +4495,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Papa Moussa Camara,
+Bonjour Papa Moussa,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4520,7 +4520,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Lanaudière*
 
 ```
-Bonjour Karl-Ivann Dubé,
+Bonjour Karl-Ivann,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4545,7 +4545,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Étienne Fortin-Gauthier,
+Bonjour Étienne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4570,7 +4570,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Cécile Gladel,
+Bonjour Cécile,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4595,7 +4595,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Bernard Hervieux,
+Bonjour Bernard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4620,7 +4620,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Estrie*
 
 ```
-Bonjour Marianne Lachapelle,
+Bonjour Marianne,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4645,7 +4645,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
-Bonjour Alain Laforest,
+Bonjour Alain,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4670,7 +4670,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Lili Mercure,
+Bonjour Lili,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4695,7 +4695,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Lila Mouch,
+Bonjour Lila,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4720,7 +4720,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité A · Montréal*
 
 ```
-Bonjour Stephane Tellier,
+Bonjour Stephane,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4745,7 +4745,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montréal*
 
 ```
-Bonjour Sophie-Andrée Blondin,
+Bonjour Sophie-Andrée,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4770,7 +4770,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Estrie*
 
 ```
-Bonjour Pierre Brochu,
+Bonjour Pierre,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4795,7 +4795,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Marie-Julie Gagnon,
+Bonjour Marie-Julie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4820,7 +4820,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Montérégie*
 
 ```
-Bonjour Philippe Marois,
+Bonjour Philippe,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4845,7 +4845,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité B · Centre-du-Québec*
 
 ```
-Bonjour Carole Payer,
+Bonjour Carole,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4870,7 +4870,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Audrey Bonaque,
+Bonjour Audrey,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4895,7 +4895,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Laurence Brisson Dubreuil,
+Bonjour Laurence,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4920,7 +4920,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Laurentides*
 
 ```
-Bonjour Nathaniel Bronner,
+Bonjour Nathaniel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4945,7 +4945,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Ontario*
 
 ```
-Bonjour Rudy Chabannes,
+Bonjour Rudy,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4970,7 +4970,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Denis-Martin Chabot,
+Bonjour Denis-Martin,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -4995,7 +4995,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Laval*
 
 ```
-Bonjour Loubna Majda Chourouk,
+Bonjour Loubna Majda,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5020,7 +5020,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Jean-René Dufort,
+Bonjour Jean-René,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5045,7 +5045,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Ronald Georges,
+Bonjour Ronald,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5070,7 +5070,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Philémon La Frenière-Prémont,
+Bonjour Philémon,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5095,7 +5095,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Henri Laban,
+Bonjour Henri,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5120,7 +5120,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Claudia Larochelle,
+Bonjour Claudia,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5145,7 +5145,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Ève Lévesque,
+Bonjour Ève,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5170,7 +5170,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Sophie Mangado,
+Bonjour Sophie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5195,7 +5195,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Richard Olivier,
+Bonjour Richard,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5220,7 +5220,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Nathalie Petrowski,
+Bonjour Nathalie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5245,7 +5245,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Raymonde Provencher,
+Bonjour Raymonde,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5270,7 +5270,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Emmalie Ruest,
+Bonjour Emmalie,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5295,7 +5295,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montérégie*
 
 ```
-Bonjour Kimberley Sullivan,
+Bonjour Kimberley,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5320,7 +5320,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Marie-Christine Trottier,
+Bonjour Marie-Christine,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5345,7 +5345,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour David Turbis,
+Bonjour David,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -5370,7 +5370,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 *Priorité C · Montréal*
 
 ```
-Bonjour Alexandra Viau,
+Bonjour Alexandra,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
