@@ -35,3 +35,17 @@ python3 etiquettes/etiquettes_enveloppes.py Packing_Slips.pdf adresses.csv sorti
 
 Les commandes listées sont exclues des deux fichiers de sortie — utile quand une commande part
 dans un autre emballage ou à une autre date.
+
+## Annoter les packing slips
+
+```bash
+python3 etiquettes/annoter_packing_slips.py Packing_Slips.pdf sortie_annote.pdf \
+  --exclure L-50736
+```
+
+Sur chaque page : un bandeau orange en haut à droite (nombre d'enveloppes en noir, nombre de
+sachets en dessous), et surlignés en orange les mots « sachet » / « paquet », les chiffres de
+format (« Paquet de **10** ») et la colonne Qty. Les lignes de rabais ne sont pas surlignées.
+Une commande passée à `--exclure` reçoit le bandeau « RETIRÉ DU LOT ».
+
+Dépendances : `pip install pdfplumber pypdf reportlab`.
