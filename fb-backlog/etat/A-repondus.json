@@ -1008,8 +1008,32 @@
       "quand": "2026-09-02T19:09:17.154Z",
       "confirme": true,
       "texte": "Une précision, sans entrer dans le reste de l'échange : l'isolant est bien cultivé et transformé ici, à l'atelier de Limoilou, mais l'assemblage textile de la plupart des produits finis se fait à l'étranger depuis juillet 2026, surtout en Tunisie. On préfère le dire nous-mêmes plutôt que de laisser courir."
+    },
+    {
+      "id": "1471545418312603_918804954385046",
+      "reponse_id": "1471545418312603_937274302762079",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T20:08:55.201Z",
+      "confirme": true,
+      "texte": "Merci de le signaler : si rien ne s'applique au paiement alors que le panier est bien monté, ce n'est pas normal et on veut le savoir. Écrivez-nous en message privé avec votre numéro de commande, on ira voir ce qui s'est passé. Et content pour la tuque, au moins."
+    },
+    {
+      "id": "1471545418312603_1355717989576811",
+      "reponse_id": "1471545418312603_2831895960518021",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T20:13:58.200Z",
+      "confirme": true,
+      "texte": "Pas entièrement, et autant le dire franchement. La soie d'asclépiade est une fibre naturelle, mais l'isolant du manteau contient 40 % de polyester : c'est lui qui tient les fibres en place et qui rend le vêtement lavable et durable. La composition exacte de chaque article est indiquée sur sa fiche."
+    },
+    {
+      "id": "1471545418312603_1125868956222900",
+      "reponse_id": "1471545418312603_1409366374482742",
+      "page_id": "104242204750257",
+      "quand": "2026-09-02T20:22:43.373Z",
+      "confirme": true,
+      "texte": "On ne publie aucune cote en degrés, et vous n'en trouverez pas de notre part ailleurs : ce chiffre supposerait un essai normalisé qu'on n'a pas fait. Ce qui reste vrai, c'est que le ressenti change beaucoup d'une personne à l'autre et selon l'activité. La composition et l'usage prévu de chaque modèle sont sur sa fiche."
     }
   ],
-  "derniere_execution": "2026-09-02T19:09:17.156Z",
-  "total": 126
+  "derniere_execution": "2026-09-02T20:22:43.373Z",
+  "total": 129
 }

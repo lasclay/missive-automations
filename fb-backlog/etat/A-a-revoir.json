@@ -3502,6 +3502,56 @@
       "motif": "« Quand il y a du verglas elle restent prises et meurent » : le référent est ambigu et rien dans les faits vérifiés ne porte là-dessus ; répondre serait deviner",
       "ecarte_le": "2026-09-02",
       "tir": "A"
+    },
+    {
+      "id": "1471545418312603_662309250272937",
+      "page_id": "104242204750257",
+      "date": "2026-02-09T18:06:37+0000",
+      "message": "Hug Gabrielle Sarr est ce indiscret de vous demander combien de jours vous avez attendu votre commande svp ? Je suis inquiète pour la mienne",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1471545418312603?comment_id=1250224900339318&reply_comment_id=662309250272937",
+      "motif": "cliente inquiète qui demande à une autre combien de jours a duré sa livraison : toute réponse toucherait au délai de livraison, interdit (règle 2), et il s'agit d'une inquiétude de commande. À REMONTER AU SERVICE CLIENT",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
+    },
+    {
+      "id": "1471545418312603_1604905090844547",
+      "page_id": "104242204750257",
+      "date": "2026-02-26T21:16:41+0000",
+      "message": "Bonjour, je ne vois pas le rabais ni la livraison gratuite sur votre site, est-ce terminé?",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1471545418312603?comment_id=1604905090844547",
+      "motif": "« je ne vois pas le rabais ni la livraison gratuite sur votre site, est-ce terminé ? » : terrain des prix et des promotions (règle 3), et l'état de la promotion n'est pas vérifiable d'ici. À REMONTER — c'est la troisième personne aujourd'hui qui signale que le rabais ne se voit pas",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
+    },
+    {
+      "id": "1471545418312603_1057644277421186",
+      "page_id": "104242204750257",
+      "date": "2026-02-15T21:00:49+0000",
+      "message": "Ou est ce qu on peu en acheter sans etre obliger de le faire venir par internet",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1471545418312603?comment_id=1057644277421186",
+      "motif": "« où peut-on en acheter sans passer par internet » : la réponse habituelle (tout se trouve en ligne) est justement celle qu'une abonnée a contredite hier en nommant la boutique Les Défricheuses. Tant que ce point n'est pas tranché à l'interne, mieux vaut ne rien affirmer. À VÉRIFIER puis répondre",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
+    },
+    {
+      "id": "1471545418312603_608429382365665",
+      "page_id": "104242204750257",
+      "date": "2026-02-26T03:18:09+0000",
+      "message": "Lyne Lynananda Legault Prix similaire à des mitaines de qualité, en magasin de sports grande surface. Celles-ci québécoise 👌",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1471545418312603?comment_id=1066703562320607&reply_comment_id=608429382365665",
+      "motif": "comparaison de prix entre abonnées, doublée de l'argument « celles-ci québécoises » : terrain des prix (règle 3), et la précision sur la fabrication a déjà été publiée il y a une heure sur l'autre billet — la répéter ici tournerait à la patrouille",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
+    },
+    {
+      "id": "1471545418312603_915635737608214",
+      "page_id": "104242204750257",
+      "date": "2026-02-07T15:42:58+0000",
+      "message": "Josi Ger... pour ta Catalane ?",
+      "lien": "https://www.facebook.com/1654572226676587/posts/1471545418312603?comment_id=915635737608214",
+      "motif": "identification d'une amie dans un commentaire (« pour ta Catalane ? ») : rien à répondre",
+      "ecarte_le": "2026-09-02",
+      "tir": "A"
     }
   ]
 }
