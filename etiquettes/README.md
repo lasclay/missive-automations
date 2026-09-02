@@ -25,3 +25,13 @@ Notes de lecture des packing slips :
 - Les lignes de rabais (`MONARCH20 ($13.20)`) portent leur montant entre parenthèses et ne sont
   donc jamais confondues avec une ligne d'article.
 - Une commande sans sachet de graines (soie en vrac, par exemple) reçoit tout de même 1 étiquette.
+
+## Retirer une commande du lot
+
+```bash
+python3 etiquettes/etiquettes_enveloppes.py Packing_Slips.pdf adresses.csv sortie/ \
+  --exclure L-50736,L-50999
+```
+
+Les commandes listées sont exclues des deux fichiers de sortie — utile quand une commande part
+dans un autre emballage ou à une autre date.

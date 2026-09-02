@@ -7,6 +7,9 @@ d'étiquettes d'adresse identiques.
 
 Usage :
     python3 etiquettes_enveloppes.py <packing_slips.pdf> <adresses.csv> [dossier_sortie]
+                                     [--exclure L-50736,L-50999]
+
+L'option --exclure retire des commandes du lot (emballage différent, envoi reporté).
 
 Produit dans le dossier de sortie :
     etiquettes_dymo.csv  — mêmes colonnes que le CSV d'entrée, lignes dupliquées
@@ -110,8 +113,14 @@ def main():
     if len(sys.argv) < 3:
         print(__doc__)
         sys.exit(1)
-    chemin_pdf, chemin_csv = sys.argv[1], sys.argv[2]
-    sortie = Path(sys.argv[3] if len(sys.argv) > 3 else ".")
+    args = sys.argv[1:]
+    exclues = set()
+    if "--exclure" in args:
+        i = args.index("--exclure")
+        exclues = {c.strip() for c in args[i + 1].split(",") if c.strip()}
+        del args[i:i + 2]
+    chemin_pdf, chemin_csv = args[0], args[1]
+    sortie = Path(args[2] if len(args) > 2 else ".")
     sortie.mkdir(parents=True, exist_ok=True)
 
     compte = compter(lire_packing_slips(chemin_pdf))
@@ -122,8 +131,10 @@ def main():
         adresses = list(lecteur)
 
     col_commande = colonnes[0]
+    retirees = [a[col_commande] for a in adresses if a[col_commande] in exclues]
+    adresses = [a for a in adresses if a[col_commande] not in exclues]
     manquantes = [a[col_commande] for a in adresses if a[col_commande] not in compte]
-    sans_adresse = sorted(set(compte) - {a[col_commande] for a in adresses})
+    sans_adresse = sorted(set(compte) - {a[col_commande] for a in adresses} - exclues)
 
     with open(sortie / "etiquettes_dymo.csv", "w", newline="", encoding="utf-8") as f:
         ecrivain = csv.DictWriter(f, fieldnames=colonnes, quoting=csv.QUOTE_ALL)
@@ -149,6 +160,8 @@ def main():
     print(f"Commandes            : {len(adresses)}")
     print(f"Sachets de graines   : {sum(compte[a[col_commande]]['sachets'] for a in adresses if a[col_commande] in compte)}")
     print(f"Étiquettes à imprimer: {total}")
+    if retirees:
+        print(f"Retirées du lot       : {', '.join(retirees)}")
     if manquantes:
         print(f"⚠️  Sans packing slip : {manquantes}")
     if sans_adresse:
