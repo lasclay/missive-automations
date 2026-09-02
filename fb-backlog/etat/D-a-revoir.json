@@ -1984,6 +1984,76 @@
       "motif": "Plainte de commande — règle 7 de REGLES.md : on ne répond jamais publiquement à une plainte de commande. À router vers le support, qui seul peut vérifier Shopify et ShipStation. Intention d'achat 3, donc à traiter par un humain rapidement.",
       "page_id": "114311920399404",
       "quand": "2026-09-02T20:37:35.632Z"
+    },
+    {
+      "id": "988691833397470_2969620603214936",
+      "extrait": "Long message sur les pesticides, Legault, Trudeau, les médecins, les pilules, et la « cache de Bill Gates sur l’île en Norvège »",
+      "motif": "Diatribe politique et complotiste. Rien à répondre là-dedans qui reste dans les faits vérifiés ; toute réponse serait lue comme une prise de position partisane.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_1684805402403530",
+      "extrait": "On sait tous que rien ni personne va les sauver, à quoi bon en parler? L’humain est une des pires espèces qui soit",
+      "motif": "Fatalisme général, pas une question. Une réponse tournerait au sermon, et on ne convainc personne dans un fil de commentaires.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_723737980210471",
+      "extrait": "Curieux mes asclépiades ne poussent pas cette année… ou elles ont du retard?",
+      "motif": "On ne peut rien diagnostiquer à distance sans inventer, et le seul fait vérifié utile (floraison à la 2e année) sert déjà la réponse sur le semis publiée dans ce lot-ci. À reprendre si la personne donne le contexte.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_716025894210651",
+      "extrait": "Chemtrails : « des pilotes ont perdu leur emploi », « ils répandaient des trucs pour endormir le cerveau »",
+      "motif": "Théorie des chemtrails, échangée entre deux abonnées. Hors de tout fait vérifié ; ce n’est pas à la Page d’arbitrer ça.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_1243546164438580",
+      "extrait": "Francois Bergeron ne pas penser plus loin que le bout de son nez nous rendra un jour vulnérable!",
+      "motif": "Réplique d’une abonnée à une autre. La Page n’a pas à s’immiscer dans la chicane, même quand l’argument nous est favorable.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_4039271266333680",
+      "extrait": "Les pesticides ??",
+      "motif": "Même sujet que « comment les sauver si le Mexique… », répondu dans ce lot-ci sur le même billet. Deux réponses sur les pesticides à quelques minutes d’écart se ressembleraient trop.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_1220291449024461",
+      "extrait": "Francois Bergeron tu penses que tu ne fais pas partie de l’écosystème de la planète?",
+      "motif": "Deuxième réplique au même abonné, même chicane. Écarté pour la même raison.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_1241221951077209",
+      "extrait": "Nicole Belanger Un petite peu conne peut-être?",
+      "motif": "Insulte entre abonnées. Aucune réponse possible qui n’envenime pas le fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_2702205923302591",
+      "extrait": "Est-ce qu’il y a des monarques sur la Côte-Nord au Québec ?",
+      "motif": "Aucun fait vérifié sur la limite nord de l’aire du monarque au Québec. Manque à combler dans faits-verifies.json — la question revient sous d’autres formes.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "1239063395026978_1414048156770515",
+      "extrait": "J’aurais aimé voir les vrais innovateurs de la compagnie Lasclay.",
+      "motif": "Formulation ambiguë : soit une curiosité sincère pour l’équipe, soit un tacle à quelqu’un qui a été mis de l’avant. Répondre à l’aveugle risque de valider la mauvaise lecture ; à confier à un œil humain.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
     }
   ]
 }
