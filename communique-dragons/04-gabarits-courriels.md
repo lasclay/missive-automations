@@ -1,7 +1,8 @@
 # Le squelette de courriel
 
-Tiré de deux courriels que Gabriel a réécrits lui-même le 31 août 2026 : Sylvain Larocque et
-Chloé Pouliot. Ils remplacent les gabarits du premier jet, qui étaient à côté.
+Tiré de trois courriels que Gabriel a réécrits lui-même : Sylvain Larocque et Chloé Pouliot le
+31 août 2026, Madeleine Goubau le 1er septembre. Ils remplacent les gabarits du premier jet, qui
+étaient à côté.
 
 Aucune signature en bas : elle s'ajoute toute seule dans Missive.
 
@@ -20,6 +21,13 @@ racontée, pas un changement de sujet.
 
 **On crédite le journaliste.** « publié et TRÈS relayé », « repris par La Tribune et Le Droit ».
 Jamais « vous vous intéressiez à », qui présume de son intérêt.
+
+**Sans historique, la présentation tient en une phrase.** Le troisième exemple de Gabriel, à
+Madeleine Goubau, coupe tout ce qui retardait la nouvelle : une seule phrase pour dire qui on est,
+puis « Depuis 5 ans, on travaille fort à la faire connaître et le 17 septembre prochain, on va
+faire un énorme pas dans la bonne direction ». Le paragraphe des deux missions saute, celui sur la
+fibre transformée aussi, et le remerciement forcé également. Ce squelette-là vaut pour tout contact
+dont on ne connaît pas la publication.
 
 **On remercie, et on dit pourquoi.** Chaque contact de la liste chaude dont on connaît le
 travail est remercié pour ce que son texte a fait de bien : avoir pris la filière au complet,

@@ -29,14 +29,19 @@ CHANGEMENTS = [
     ("Angle art de vivre",
      "« j'ai du matériel photo » est devenu « l'atelier de Limoilou est ouvert si vous "
      "voulez voir la matière de vos yeux » — le lien rend la première phrase redondante."),
-    ("Sortie",
-     "Mireille Roberge est retirée de la liste chaude, sur ta demande. Il reste "
-     "31 contacts chauds, dont 30 brouillons."),
+    ("Sorties",
+     "Mireille Roberge et Jessica Dostie sont retirées de la liste chaude, sur ta demande. "
+     "Il reste 30 contacts chauds, dont 29 brouillons."),
+    ("Goubau, ta version",
+     "Ton texte est repris mot pour mot. La leçon vaut plus large : sans historique, la "
+     "présentation tient en une phrase, pas deux paragraphes, et « depuis 5 ans, on travaille "
+     "fort à la faire connaître » remplace le paragraphe des deux missions. Sophie Laforest, "
+     "le dernier contact sans historique, est réécrite sur ce squelette."),
     ("Remerciements",
      "Les 28 contacts de la liste chaude dont on connaît l'article ou l'échange sont "
      "remerciés, chacun pour ce que son texte a fait de bien. Mireille Roberge, Sophie "
      "Laforest et Jessica Dostie n'ont aucun historique connu : on ne les remercie pas "
-     "pour un article hypothétique. Si tu sais ce qu'elles ont publié, dis-le et j'ajoute."),
+     "pour un article hypothétique. Si tu sais ce qu'elle a publié, dis-le et j'ajoute."),
     ("Rappel CBC",
      "Les images du plateau servent à annoncer la diffusion, pas à illustrer une "
      "promotion de produits, et aucun logo ni marque Dragons' Den n'est autorisé. "

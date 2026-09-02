@@ -246,12 +246,22 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  "l'asclépiade de chez vous se retrouve toujours dans nos produits.",
  PONT_MISSION, "article", None),
 
-"sophie.laforest@radio-canada.ca": ("Sophie", "Laforest", "Mme", "vous",
- "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
- "une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
- "emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie "
- "creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.",
- PONT_PRESENTATION, "entrevue", None),
+"sophie.laforest@radio-canada.ca": ("Sophie", "Laforest", "Mme", "vous", None, None, None,
+"""Bonjour Mme Laforest,
+
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe : l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé, le papillon monarque.
+
+Depuis 5 ans, on travaille fort à la faire connaître et le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+{ANNONCE}
+
+Aller parler de cette fibre québécoise unique à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part : je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+
+{MEDIA_KIT}
+
+{BENEFICE}
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions."""),
 
 "amckenna@ledevoir.com": ("Alain", "McKenna", "M.", "vous",
  "En décembre 2021, vous aviez écrit « Des écouteurs de Québec pour oublier les AirPods », "
@@ -272,22 +282,22 @@ Au plaisir et n'hésite pas à me contacter si tu as des questions."""),
  "graines distribuées, et un isolant toujours transformé à Limoilou.",
  PONT_MISSION, "article", None),
 
-"madeleine.goubau@gmail.com": ("Madeleine", "Goubau", "Mme", "vous",
- "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
- "une mauvaise herbe : l'asclépiade, que vous connaissez bien, puisque vous en aviez parlé à "
- "Moteur de recherche en février 2023. On la cultive pour sauvegarder un pollinisateur "
- "emblématique et menacé, le papillon monarque.\n\nCe que vous n'avez peut-être pas vu de "
- "près, c'est ce que la fibre donne une fois transformée. Ses gousses sont remplies d'une "
- "soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à "
- "Québec, et qui se retrouve dans des manteaux, des mitaines et des tuques.",
- PONT_PRESENTATION, "sujet", None),
+"madeleine.goubau@gmail.com": ("Madeleine", "Goubau", "Mme", "vous", None, None, None,
+"""Bonjour Mme Goubau,
 
-"jessica.dostie@gmail.com": ("Jessica", "Dostie", "Mme", "vous",
- "Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
- "une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
- "emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie "
- "creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.",
- PONT_PRESENTATION, "sujet", None),
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe : l'asclépiade, que vous connaissez bien je pense.
+
+Depuis 5 ans, on travaille fort à la faire connaître et le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+{ANNONCE}
+
+Aller parler de cette fibre québécoise unique à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
+
+{MEDIA_KIT}
+
+{BENEFICE}
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions."""),
 
 "__poisson": ("Sophie", "Poisson", "Mme", "vous",
  "En novembre 2020, vous aviez présenté nos accessoires d'hiver isolés à l'asclépiade, quand "
@@ -413,10 +423,6 @@ MERCIS = {
     "Merci d'avoir appelé ça un pari. C'en était un, et le mot était plus honnête que tous "
     "les superlatifs qu'on nous colle habituellement.",
 
-"madeleine.goubau@gmail.com":
-    "Merci d'en avoir parlé en ondes, d'ailleurs : c'est rare qu'on explique la plante avant "
-    "de vendre quoi que ce soit.",
-
 "__poisson":
     "Merci d'avoir montré les trois premiers produits : c'était notre première couverture "
     "dans un magazine de design.",
@@ -433,7 +439,7 @@ MERCIS = {
 # Retires de la liste chaude sur demande de Gabriel : leurs lignes sont
 # supprimees du chiffrier, pas seulement marquees.
 EXCLUS = {"jhaurio@unpointcinq.ca", "contact@protegez-vous.ca",
-          "mireille.roberge@radio-canada.ca"}
+          "mireille.roberge@radio-canada.ca", "jessica.dostie@gmail.com"}
 
 # Sans adresse courriel : Sophie Poisson (Baron Mag), Caroline Bertrand (ICI
 # Explora) et Karine Benoist (Chatelaine). Leurs brouillons restent dans
@@ -453,7 +459,8 @@ def monter(cle, registre=None):
         CHAUDS[cle] + (None,) * 8)[:8]
     reg = (registre or reg_defaut or "vous").strip().lower()
     if brut:
-        return deplier(brut)
+        return deplier(brut).format(ANNONCE=ANNONCE, MEDIA_KIT=MEDIA_KIT,
+                                     BENEFICE=BENEFICE)
     t = tu(reg)
     if prenom:
         salut = f"Bonjour {prenom}," if t else f"Bonjour {civ} {nom},"

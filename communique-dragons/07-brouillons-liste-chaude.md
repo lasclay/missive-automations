@@ -606,13 +606,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mme Laforest,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe : l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé, le papillon monarque.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Depuis 5 ans, on travaille fort à la faire connaître et le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part : je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller parler de cette fibre québécoise unique à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part : je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
 
 Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -702,38 +702,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Mme Goubau,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe : l'asclépiade, que vous connaissez bien, puisque vous en aviez parlé à Moteur de recherche en février 2023. On la cultive pour sauvegarder un pollinisateur emblématique et menacé, le papillon monarque.
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe : l'asclépiade, que vous connaissez bien je pense.
 
-Ce que vous n'avez peut-être pas vu de près, c'est ce que la fibre donne une fois transformée. Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec, et qui se retrouve dans des manteaux, des mitaines et des tuques.
-
-Merci d'en avoir parlé en ondes, d'ailleurs : c'est rare qu'on explique la plante avant de vendre quoi que ce soit.
-
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Depuis 5 ans, on travaille fort à la faire connaître et le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
-
-Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
-## Jessica Dostie — Pigiste — `jessica.dostie@gmail.com`
-*Registre : vous*
-
-```
-Bonjour Mme Dostie,
-
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque. Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe, qu'on transforme en isolant à Québec.
-
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
+Aller parler de cette fibre québécoise unique à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
 
 Notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
