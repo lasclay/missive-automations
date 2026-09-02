@@ -1900,6 +1900,27 @@
       "motif": "Appui bienveillant, mais posté en réponse à une attaque sur nos prix. Répondre nous ferait entrer dans ce sous-fil et commenter indirectement nos prix, ce que les règles interdisent.",
       "page_id": "114311920399404",
       "quand": "2026-09-02T12:39:26.278Z"
+    },
+    {
+      "id": "1244689371131047_1966486494247025",
+      "extrait": "c’est de cette compagnie dont il est question ici.",
+      "motif": "Précision entre abonnés à notre sujet, sans question ni erreur à corriger.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T14:38:16.347Z"
+    },
+    {
+      "id": "1244689371131047_778035304691650",
+      "extrait": "Laine d'Asclepiade, deja développer a Madagascar pour Fil écologique Weganool !",
+      "motif": "Affirmation sur un textile étranger et son origine, invérifiable de notre côté. La confirmer serait inventer ; la corriger demanderait une source que je n'ai pas. À noter que la fibre évoquée ne vient pas nécessairement du même genre botanique que l'asclépiade d'ici — raison de plus pour ne rien avancer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T14:38:16.347Z"
+    },
+    {
+      "id": "1244689371131047_1405137947920896",
+      "extrait": "…arrêté croire au maladies qui vous impose pour tout détruire réveillé vous.",
+      "motif": "Le commentaire glisse vers un registre complotiste (les maladies « qu'on vous impose »). Image regardée : vignette de 68 octets, illisible. Rien à traiter sans donner du crédit au reste.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T14:38:16.347Z"
     }
   ]
 }
