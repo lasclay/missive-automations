@@ -14,8 +14,9 @@ Deux courriels sont repris mot pour mot de Gabriel : Larocque et Pouliot.
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from voix_gabriel import (VIDEO, MISSIONS, ANNONCE, PAS, BENEFICE, OBJETS, MEDIA_KIT, deplier,
-                          tu, cloture, assembler)
+from voix_gabriel import (VIDEO, MISSIONS, MISSIONS_NOUS, ANNONCE, PAS, BENEFICE, OBJETS,
+                          media_kit, deplier, tu, cloture, assembler)
+from textes_gabriel import TEXTES
 
 # --- ponts reutilisables ----------------------------------------------------
 
@@ -25,8 +26,7 @@ PONT_PIVOT = (
 
 # « Depuis » et « Eh bien » supposent une histoire qui precede. Sans elle, la
 # phrase tourne a vide : trois ponts distincts plutot qu'un seul mal etire.
-PONT_MISSION = (
-    f"Depuis, tout mon temps va à {MISSIONS}.\n\n{PAS}")
+PONT_MISSION = f"{MISSIONS_NOUS}\n\n{PAS}"
 
 # Les quatre contacts qui recoivent la presentation complete y lisent deja la
 # mission : la repeter ici serait redondant.
@@ -272,6 +272,28 @@ Aller parler de cette fibre québécoise unique à la télévision nationale est
 
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions."""),
 
+"jean-michel_leprince@radio-canada.ca": ("Jean-Michel", "Leprince", "M.", "vous",
+ None, None, None,
+"""Bonjour M. Leprince,
+
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
+
+Vous couvrez l'asclépiade depuis au moins 2014 : le Téléjournal, la soie d'Amérique partie sur l'Everest, le pouvoir absorbant de la fibre sur les hydrocarbures, le lien avec le monarque. Vous avez suivi cette histoire plus longtemps que la plupart des entreprises qui s'y sont essayées, et je vous en remercie.
+
+On a démarré après la chute de la première filière. Six ans plus tard, on achète encore de l'asclépiade québécoise et on transforme l'isolant nous-mêmes à Limoilou.
+
+Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+
+{ANNONCE}
+
+Vous êtes probablement la personne au Québec qui a le plus longtemps suivi cette plante-là. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : ce serait la première fois qu'on raconte ce que la filière est devenue après la chute.
+
+{MEDIA_KIT}
+
+{BENEFICE}
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions."""),
+
 "amckenna@ledevoir.com": ("Alain", "McKenna", "M.", "vous",
  "En décembre 2021, vous aviez écrit « Des écouteurs de Québec pour oublier les AirPods », "
  "sur Sounds Good. J'étais un des trois. J'ai vendu mes parts en 2022 pour me consacrer "
@@ -337,104 +359,96 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions."""),
 # hypothetique.
 
 MERCIS = {
+# Gabriel, le 2 septembre : « Faire un remerciement vide du genre "Merci d'avoir
+# concentre votre article sur l'ecoresponsabilite". On peut juste remercier pour
+# l'article, sans rattacher a un contenu precis. »
+#
+# Le premier jet complimentait chaque journaliste sur un choix editorial que je
+# lui pretais : avoir pris la filiere au complet, s'etre arrete sur un detail
+# technique, avoir ouvert le cahier climatique a une plante. Ca se lit comme une
+# lecture de dossier, pas comme un merci — et ca se devine quand vingt-six
+# personnes recoivent la meme figure de style. Ce qui reste : un merci court,
+# colle au paragraphe du rappel, et un fait seulement quand il est vrai et qu'il
+# dit ce que l'article a donne, pas ce qu'il valait.
 "melissa.paquet@tva.ca":
-    "Merci pour la tribune de l'an dernier. Ce genre de rendez-vous local vaut cher pour une "
-    "entreprise de notre taille.",
+    "Merci pour la tribune de l'an dernier.",
 
 "anne-sophie.roy@radio-canada.ca":
-    "Merci pour les deux. Être cité comme l'exemple d'une entreprise qui fabrique vraiment, "
-    "dans un reportage sur le dropshipping, c'est exactement la distinction qu'on essaie de "
-    "faire comprendre.",
+    "Merci pour les deux.",
 
 "alafrance@lesoleil.com":
-    "Merci d'avoir gardé cette citation-là : elle a bien vieilli.",
+    "Merci encore, d'ailleurs.",
 
 "mtison@lapresse.ca":
-    "Merci d'avoir écrit sur la plante à une époque où il n'y avait presque rien à montrer. "
-    "C'est le genre de texte qui aide une filière avant qu'elle existe.",
+    "Merci encore pour cet article.",
 
 "sylvie.lacombe@tva.ca":
-    "Merci de nous l'avoir signalé plutôt que de laisser passer : c'est comme ça qu'on a "
-    "corrigé le tir.",
+    "Merci de nous l'avoir signalé plutôt que de laisser passer.",
 
 "hrganzmann@ledevoir.com":
-    "Merci de vous être intéressée à la matière elle-même. C'est rarement le premier angle "
-    "qu'on nous propose.",
+    "Merci de l'intérêt que vous nous aviez porté.",
 
 "msbrault@lesoleil.com":
-    "Merci pour l'attention que vous nous aviez portée à l'époque : Le Soleil a été un des "
-    "premiers à nous suivre sérieusement.",
+    "Merci encore : Le Soleil a été un des premiers à nous suivre sérieusement.",
 
 "sandra.fillion@radio-canada.ca":
-    "Merci d'avoir pris l'asclépiade au sérieux à un moment où bien peu de monde le faisait.",
+    "Merci de vous y être intéressée à l'époque.",
 
 "aabonn@latribune.qc.ca":
-    "Merci de l'avoir fait quand le catalogue tenait encore sur une main. L'Estrie nous suit "
-    "depuis, et ça part de là.",
+    "Merci encore : l'Estrie nous suit depuis, et ça part de là.",
 
 "eugenie.emond@radio-canada.ca":
-    "Merci de vous être arrêtée sur un détail technique. C'est rare, et c'est pourtant là que "
-    "se joue la différence entre une vraie matière et un argument de vente.",
+    "Merci encore pour ce reportage.",
 
 "rportelance@ledevoir.com":
-    "Merci d'avoir ouvert le cahier climatique à une plante : les solutions agricoles y "
-    "passent moins souvent que les technologies.",
+    "Merci de l'intérêt que vous nous aviez porté.",
 
 "anais.elboujdaini@bellmedia.ca":
-    "Merci d'avoir parlé du programme de semences. C'est la partie la moins spectaculaire de "
-    "ce qu'on fait, et la plus utile aux monarques.",
+    "Merci d'avoir parlé du programme de semences.",
 
 "mtison1@lapresse.ca":
-    "Merci d'avoir raconté ce rapatriement au moment où c'était encore un pari. Le texte a "
-    "beaucoup circulé chez nos clients.",
+    "Merci encore : le texte a beaucoup circulé chez nos clients.",
 
 "vsimard@lapresse.ca":
-    "Merci pour ce coup de pouce de la première heure : à l'époque, une mention dans La "
-    "Presse changeait notre semaine.",
+    "Merci pour ce coup de pouce de la première heure.",
 
 "jfriis@unpointcinq.ca":
-    "Merci de vous être penchée sur l'impact réel plutôt que sur l'intention. C'est ce qui "
-    "sépare une plante utile d'un argument vert.",
+    "Merci de vous y être penchée.",
 
 "alex.perreault@radio-canada.ca":
     "Merci de l'intérêt que vous nous aviez porté à l'époque : on partait de zéro.",
 
 "fhiggins@lesoleil.com":
-    "Merci d'avoir couvert l'atelier quand il n'était qu'un local et deux machines.",
+    "Merci encore pour cet article.",
 
 "fanny.samson@radio-canada.ca":
-    "Merci d'avoir écrit « promesses » plutôt qu'autre chose. Le mot était juste, et il l'est "
-    "resté le temps qu'on les tienne.",
+    "Merci encore pour cet article.",
 
 "mmenard@laterre.ca":
-    "Merci d'avoir porté le sujet auprès des producteurs. C'est le lectorat qui compte le plus "
-    "pour nous : sans champs, il n'y a pas de fibre.",
+    "Merci d'avoir porté le sujet auprès des producteurs : c'est le lectorat qui compte le "
+    "plus pour nous, sans champs il n'y a pas de fibre.",
 
 "groy@lequotidien.com":
-    "Merci, sincèrement. On n'oublie pas qui a écrit le premier article, et le vôtre nous a "
+    "Merci, sincèrement : on n'oublie pas qui a écrit le premier article, et le vôtre nous a "
     "servi de carte de visite pendant des années.",
 
 "amckenna@ledevoir.com":
-    "Merci pour ce texte-là : il a compté pour Sounds Good, et j'en garde un bon souvenir.",
+    "Merci encore pour ce texte : il a compté pour Sounds Good.",
 
 "sylvielemieux16@gmail.com":
-    "Merci d'avoir mis l'écoresponsabilité au cœur du texte plutôt qu'en décoration.",
+    "Merci encore pour cet article.",
 
 "sophiegrenierheroux@hotmail.com":
-    "Merci d'avoir appelé ça un pari. C'en était un, et le mot était plus honnête que tous "
-    "les superlatifs qu'on nous colle habituellement.",
+    "Merci encore pour cet article.",
 
 "__poisson":
-    "Merci d'avoir montré les trois premiers produits : c'était notre première couverture "
-    "dans un magazine de design.",
+    "Merci encore : c'était notre première couverture dans un magazine de design.",
 
 "__bertrand":
-    "Merci d'avoir fait le lien entre le froid et le monarque. C'est le raccourci le plus "
-    "difficile à faire passer, et vous l'aviez fait en un titre.",
+    "Merci encore pour ce texte.",
 
 "__benoist":
-    "Merci de nous avoir retenus dans cette sélection-là : les cadeaux faits au Québec, c'est "
-    "une vitrine qui compte pour un petit atelier.",
+    "Merci de nous avoir retenus dans cette sélection-là.",
 }
 
 # Retires de la liste chaude sur demande de Gabriel : leurs lignes sont
@@ -460,8 +474,10 @@ def monter(cle, registre=None):
     prenom, nom, civ, reg_defaut, rappel, pont, suite, brut = (
         CHAUDS[cle] + (None,) * 8)[:8]
     reg = (registre or reg_defaut or "vous").strip().lower()
+    if cle in TEXTES:
+        return deplier(TEXTES[cle])
     if brut:
-        return deplier(brut).format(ANNONCE=ANNONCE, MEDIA_KIT=MEDIA_KIT,
+        return deplier(brut).format(ANNONCE=ANNONCE, MEDIA_KIT=media_kit(reg),
                                      BENEFICE=BENEFICE)
     t = tu(reg)
     if prenom:
@@ -469,8 +485,10 @@ def monter(cle, registre=None):
     else:
         salut = "Bonjour,"
     tete = salut + ("\n\nJ'espère que tu vas bien." if t else "")
-    return assembler([tete, rappel, MERCIS.get(cle), pont, ANNONCE, rarete(t, suite),
-                      MEDIA_KIT, BENEFICE, cloture(reg)])
+    merci = MERCIS.get(cle)
+    ouverture = f"{rappel} {merci}" if rappel and merci else (rappel or merci)
+    return assembler([tete, ouverture, pont, ANNONCE, rarete(t, suite),
+                      media_kit(reg), BENEFICE, cloture(reg)])
 
 
 def main(src, dst, md):

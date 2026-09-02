@@ -18,7 +18,7 @@ Deux differences assumees avec la liste chaude :
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, MEDIA_KIT, assembler, deplier
+from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, media_kit, assembler, deplier
 
 QUI = ("Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver "
        "avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
@@ -268,7 +268,10 @@ def monter(prenom, nom, angle, region):
     pourquoi = REGIONS.get(region) or THEMES.get(angle) or THEMES["B"]
     offre = OFFRES.get(angle, "")
     return assembler([salut, QUI, CONTEXTE, pourquoi, PAS, ANNONCE,
-                      RARETE + (" " + offre if offre else ""), MEDIA_KIT, BENEFICE, CLOTURE])
+                      RARETE + (" " + offre if offre else ""), media_kit("vous"), BENEFICE, CLOTURE])
+
+
+PROMUS = {"jean-michel_leprince@radio-canada.ca"}
 
 
 def main(src, dst, md):
@@ -291,13 +294,18 @@ def main(src, dst, md):
         if angle in (None, "—"):
             ws.cell(i, cB, DOUBLON).alignment = Alignment(wrap_text=True, vertical="top")
             continue
+        # Passe en liste chaude sur demande de Gabriel : sa ligne froide part,
+        # sinon il recevrait deux fois le meme courriel.
+        if courriel in PROMUS:
+            a_supprimer.append(i)
+            continue
         # Sans adresse, la ligne ne sert a rien dans un chiffrier d'envoi.
         if not courriel:
             a_supprimer.append(i)
             continue
         cle = courriel
         brut = MAIN.get(cle)
-        txt = (deplier(brut).format(ANNONCE=ANNONCE, MEDIA_KIT=MEDIA_KIT, BENEFICE=BENEFICE,
+        txt = (deplier(brut).format(ANNONCE=ANNONCE, MEDIA_KIT=media_kit("vous"), BENEFICE=BENEFICE,
                            CLOTURE=CLOTURE)
                if brut else monter(prenom, nom, angle, region))
         mains += bool(brut)
@@ -334,7 +342,7 @@ def main(src, dst, md):
     wb.save(dst)
     open(md, "w").write("\n".join(lignes))
     if a_supprimer:
-        print(f"{len(a_supprimer)} ligne(s) sans adresse retirée(s) de la liste froide")
+        print(f"{len(a_supprimer)} ligne(s) retirée(s) de la liste froide")
     total = sum(len(v) for v in par_angle.values())
     print(f"{total} brouillons froids réécrits, dont {mains} à la main")
     if douteux:

@@ -1,7 +1,8 @@
 # Le squelette de courriel
 
-Tiré de trois courriels que Gabriel a réécrits lui-même : Sylvain Larocque et Chloé Pouliot le
-31 août 2026, Madeleine Goubau le 1er septembre. Ils remplacent les gabarits du premier jet, qui
+Tiré de treize courriels que Gabriel a réécrits lui-même : Larocque et Pouliot le 31 août 2026,
+Goubau le 1er septembre, puis dix autres le 2 septembre — Bérubé, Paquet, Anne-Sophie Roy,
+Lafrance, Marie Tison, Simard, Samson, Lemieux. Ils remplacent les gabarits du premier jet, qui
 étaient à côté.
 
 Aucune signature en bas : elle s'ajoute toute seule dans Missive.
@@ -28,6 +29,26 @@ puis « Depuis 5 ans, on travaille fort à la faire connaître et le 17 septembr
 faire un énorme pas dans la bonne direction ». Le paragraphe des deux missions saute, celui sur la
 fibre transformée aussi, et le remerciement forcé également. Ce squelette-là vaut pour tout contact
 dont on ne connaît pas la publication.
+
+**Le média kit se propose, il ne s'annonce pas.** « Notre média kit est ici » annonçait un envoi
+que personne n'avait demandé. La bonne formule remet la décision au journaliste, et ouvre la porte
+au collègue qui pourrait prendre le sujet à sa place — dans une salle de nouvelles, c'est souvent
+quelqu'un d'autre qui le fait :
+
+> Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de
+> notre passage à Dragons' Den et de l'entreprise : …
+
+**On n'évoque pas la diffusion avant de l'avoir annoncée.** « Cette année, la date tombe presque
+au même endroit », « la diffusion tombe cinq ans jour pour jour après votre article » : ces
+phrases arrivaient avant que le lecteur sache de quelle diffusion on parle. Elles sautent. Une
+coïncidence de calendrier n'est jamais assez bonne pour passer devant la nouvelle.
+
+**Un remerciement ne se rattache pas à un contenu précis.** « Merci d'avoir concentré votre
+article sur l'écoresponsabilité », « merci d'avoir ouvert le cahier climatique à une plante » :
+ça se lit comme une lecture de dossier, pas comme un merci, et la figure se devine dès qu'on
+imagine les vingt-cinq autres. On remercie pour l'article, point — et on colle le merci au
+paragraphe du rappel plutôt que de lui donner sa propre ligne. Un fait ne s'ajoute que s'il est
+vrai et qu'il dit ce que l'article a **donné** : « le texte a beaucoup circulé chez nos clients ».
 
 **On remercie, et on dit pourquoi.** Chaque contact de la liste chaude dont on connaît le
 travail est remercié pour ce que son texte a fait de bien : avoir pris la filière au complet,
@@ -90,7 +111,7 @@ connaît pas sa publication.]
 [PONT — l'un des trois :
   · il a couvert le virage : « Parmi les raisons de ce changement, il y avait clairement
     que j'avais besoin de temps pour me recentrer sur mes 2 grandes missions : … »
-  · il nous connaît autrement : « Depuis, tout mon temps va à mes 2 grandes missions : … »
+  · il nous connaît autrement : « On se concentre sur nos 2 grandes missions : … »
   · aucun historique : « Mes 2 grandes missions : … » et pas de « Eh bien »]
 
 Eh bien, le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
@@ -103,8 +124,9 @@ qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être 
 [une suite à votre dernier article / un sujet]. [ou, pour la radio et la télé : je suis
 disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.]
 
-Notre média kit est ici, avec les images de notre passage à Dragons' Den et de
-l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les
+images de notre passage à Dragons' Den et de l'entreprise :
+https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera
 extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue
@@ -147,8 +169,9 @@ Aller présenter notre entreprise et sa mission à la télévision nationale est
 qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer
 un sujet. [OFFRE — ce qu'on met sur la table pour cette personne-là.]
 
-Notre média kit est ici, avec les images de notre passage à Dragons' Den et de
-l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les
+images de notre passage à Dragons' Den et de l'entreprise :
+https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
 J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera
 extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue

@@ -35,9 +35,24 @@ VIDEO = "https://www.youtube.com/watch?v=GKyHh-Ok9JU"
 # avant la conclusion.
 # Rappel CBC : les images du plateau servent a annoncer la diffusion, pas a
 # illustrer une promotion de produits, et aucun logo ni marque n'est autorise.
-MEDIA_KIT = ("Notre média kit est ici, avec les images de notre passage à Dragons' Den et de "
-             "l'entreprise : https://drive.google.com/drive/folders/"
-             "1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr")
+DRIVE = "https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr"
+
+
+def media_kit(registre="vous"):
+    """Le lien, presente comme une offre et non comme une piece jointe.
+
+    Gabriel a reecrit cette ligne dans ses dix corrections du 2 septembre :
+    « Notre media kit est ici » annoncait un envoi que personne n'avait demande.
+    « Si ca vous interesse de couvrir » remet la decision au journaliste, et la
+    parenthese sur le collegue ouvre la porte quand le sujet n'est pas le sien —
+    dans une salle de nouvelles, c'est souvent quelqu'un d'autre qui le prend.
+    """
+    p = "t'" if tu(registre) else "vous "
+    return (f"Si ça {p}intéresse de couvrir (ou un.e collègue?), notre média kit est ici, "
+            f"avec les images de notre passage à Dragons' Den et de l'entreprise : {DRIVE}")
+
+
+MEDIA_KIT = None  # remplace par media_kit(registre) : la ligne depend du registre
 
 # L'objet annonce la nouvelle, avec la date et l'enthousiasme. Modele donne par
 # Gabriel : « Nous serons diffuses a Dragons' Den le 17 septembre! » Les
@@ -62,6 +77,12 @@ OBJETS = {
 
 MISSIONS = ("mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder "
             "les monarques par la culture de l'asclépiade")
+
+# « Depuis, tout mon temps va à » parlait de l'emploi du temps du fondateur.
+# Gabriel l'a remplacé par l'entreprise au complet, et le « nos » vaut mieux que
+# le « mes » dès qu'on n'est pas dans un courriel qu'il a écrit lui-même.
+MISSIONS_NOUS = ("On se concentre sur nos 2 grandes missions : faire connaître l'asclépiade "
+                 "et sauvegarder les monarques par la culture de l'asclépiade.")
 
 ANNONCE = ("Je vais présenter Lasclay dans le premier épisode de la 21e saison de "
            "Dragons' Den, sur CBC et CBC Gem.")

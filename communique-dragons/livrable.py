@@ -21,44 +21,51 @@ LARGEURS = [11, 24, 24, 32, 20, 15, 30, 7, 10, 46, 86, 86, 40, 14]
 
 def changements(kit, chauds, mercis):
   return [
-    (f"Version {VERSION} — média kit et remerciements", None),
+    (f"Version {VERSION} — tes dix corrections", None),
     (None, None),
-    ("Média kit",
-     f"Le lien du dossier Drive est dans les {kit} brouillons, juste avant le paragraphe "
-     "des bénéfices : un journaliste qui envisage un sujet veut savoir tout de suite "
-     "s'il aura des images."),
-    ("Angle art de vivre",
-     "« j'ai du matériel photo » est devenu « l'atelier de Limoilou est ouvert si vous "
-     "voulez voir la matière de vos yeux » — le lien rend la première phrase redondante."),
+    ("Le média kit",
+     "« Notre média kit est ici » annonçait un envoi que personne n'avait demandé. Ta formule "
+     "remet la décision au journaliste et ouvre la porte au collègue qui prendra peut-être le "
+     f"sujet : « Si ça vous intéresse de couvrir (ou un.e collègue?)… ». Dans les {kit} "
+     "brouillons."),
+    ("L'ordre",
+     "Plus une seule allusion à la diffusion avant qu'elle soit annoncée. « Cette année, la "
+     "date tombe presque au même endroit » et « la diffusion tombe cinq ans jour pour jour "
+     "après votre article » sautent : une coïncidence de calendrier ne passe pas devant la "
+     "nouvelle."),
+    ("Les remerciements",
+     f"Les {mercis} remerciements sont raccourcis et collés au paragraphe du rappel. Plus de "
+     "compliment sur un choix éditorial — « merci d'avoir ouvert le cahier climatique à une "
+     "plante » se lit comme une lecture de dossier. Un fait ne reste que s'il dit ce que "
+     "l'article a donné : « le texte a beaucoup circulé chez nos clients »."),
+    ("Les missions",
+     "« Depuis, tout mon temps va à mes 2 grandes missions » parlait de ton emploi du temps. "
+     "« On se concentre sur nos 2 grandes missions » parle de l'entreprise, comme dans ta "
+     "correction à Fanny Samson."),
+    ("Tes dix textes",
+     "Larocque, Bérubé, Pouliot, Paquet, Anne-Sophie Roy, Lafrance, Marie Tison, Simard, "
+     "Samson et Lemieux sont les tiens, mot pour mot. Seule la ligne du média kit y est "
+     "uniformisée, là où tu ne l'avais pas encore changée."),
+    ("Registre",
+     "Melissa Paquet, Anne-Sophie Roy et Annie Lafrance passent au « tu », comme tes textes. "
+     "Avec Bérubé et Pouliot, ça fait cinq."),
     ("Sorties",
-     "Mireille Roberge, Jessica Dostie et Raphaëlle Drouin sont retirées de la liste chaude, "
-     f"sur ta demande. Il reste {chauds} brouillons chauds."),
-    ("Stéphanie Bérubé",
-     "Réécrite sur le squelette de Chloé, au « tu ». Le remerciement dit ce que tu voulais "
-     "qu'il dise : un bel article, qui a fait une place de choix à Lasclay et à ses défis. "
-     "Deux contacts sont maintenant au tutoiement, elle et Chloé."),
-    ("Goubau, ta version",
-     "Ton texte est repris mot pour mot. La leçon vaut plus large : sans historique, la "
-     "présentation tient en une phrase, pas deux paragraphes, et « depuis 5 ans, on travaille "
-     "fort à la faire connaître » remplace le paragraphe des deux missions. Sophie Laforest, "
-     "le dernier contact sans historique, est réécrite sur ce squelette."),
-    ("Remerciements",
-     f"{mercis} des {chauds} brouillons chauds remercient le contact, chacun pour ce que son texte a fait "
-     "de bien. Les deux exceptions sont Sophie Laforest, dont on ne connaît aucune "
-     "publication, et Madeleine Goubau, dont tu as retiré le remerciement toi-même en "
-     "réécrivant son courriel."),
-    ("Rappel CBC",
-     "Les images du plateau servent à annoncer la diffusion, pas à illustrer une "
-     "promotion de produits, et aucun logo ni marque Dragons' Den n'est autorisé. "
-     "À vérifier avant de déposer les fichiers dans le dossier."),
+     "Sylvie Lacombe, Justine Friis et Francis Higgins ne sont plus dans ton chiffrier : je "
+     "les ai retirés. Dis-le si c'était un accident et je les remets."),
+    ("Jean-Michel Leprince",
+     "Promu de la liste froide à la liste chaude. Son adresse reste à confirmer : elle vient "
+     "d'une recherche web, pas d'un échange."),
     (None, None),
     ("Ce qui reste à vérifier", None),
     (None, None),
     ("Ne pas envoyer",
-     "Anne-Sophie Roy à l'adresse Québecor, doublon de sa ligne Radio-Canada. "
-     "Annie Lafrance et Francis Higgins en liste froide, doublons de la liste chaude."),
+     "Anne-Sophie Roy à l'adresse Québecor, doublon de sa ligne Radio-Canada."),
     ("Six salutations", "Fiches FPJQ mal formées, signalées dans la colonne Précaution."),
-    ("Registre", "Chloé Pouliot et Stéphanie Bérubé au « tu », tout le reste au « vous ». Bascule la colonne et je relance."),
+    ("Faits nouveaux",
+     "Tes corrections ajoutent deux choses que je n'avais pas : les soins pour la peau à "
+     "l'huile de graines d'asclépiade, et « mitaines » plutôt que « moufles ». Les deux sont "
+     "corrigés là où tu les as écrits, mais pas ailleurs — dis-moi si le catalogue doit être "
+     "revu partout."),
     (None, None),
     ("Rappels", None),
     (None, None),
