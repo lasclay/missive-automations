@@ -861,23 +861,47 @@ function identifiantUnique(envoi, serviceId, tentative = 0) {
  *   shipment.customs_invoice_url      facture commerciale, à part
  *   shipment.primary_tracking_number  et `tracking_numbers[]` pour le multi-colis
  *
- * On préfère un format 4×6 quand il existe — c'est celui de l'imprimante d'étiquettes ; sur
- * `letter`, l'étiquette sort au quart de la page et il faut la découper.
+ * Le choix du format, et pourquoi il était faux
+ * ---------------------------------------------
+ * La spécification 2.10 énumère exactement deux tailles : **`letter`** et **`a6`**. Il n'y a
+ * pas de « 4x6 » chez Freightcom, et rien à demander à la réservation — `POST /shipment`
+ * n'accepte aucune option de format ; les deux tailles sont produites, on choisit celle
+ * qu'on veut dans `labels[]`.
+ *
+ * La liste de préférences cherchait « 4x6 », « thermal » ou « label », donc ne reconnaissait
+ * aucune des deux valeurs réelles, et la seconde règle attrapait `letter`. Le clone
+ * choisissait ainsi la lettre à chaque achat : l'étiquette sort au quart d'une page, et il
+ * faut la découper aux ciseaux.
+ *
+ * `a6` mesure 105 × 148 mm, soit 4,1 × 5,8 po : c'est le format des imprimantes
+ * d'étiquettes, celui qu'on veut par défaut. Le réglage `format_etiquette` permet de
+ * revenir à `letter` pour qui imprime sur une imprimante ordinaire.
  */
-const FORMATS_PREFERES = [/4\s*x\s*6|4x6|thermal|label/i, /letter|a4/i];
+const TAILLES_ETIQUETTE = { a6: /^a6$/i, letter: /^letter$/i };
+
+function preferencesEtiquette() {
+  const { reglage } = require("./db");
+  const voulue = String(process.env.FREIGHTCOM_FORMAT_ETIQUETTE || reglage("format_etiquette", "a6") || "a6").toLowerCase();
+  const ordre = voulue === "letter" ? ["letter", "a6"] : ["a6", "letter"];
+  return ordre.map((t) => TAILLES_ETIQUETTE[t]).filter(Boolean);
+}
 
 async function attendreDocuments(shipmentId, { attenteMs = 25000, pas = 1500 } = {}) {
   const vide = { etiquette: null, douane: null, suivi: null, statut: null, format: null };
   if (!shipmentId) return vide;
 
   const choisirEtiquette = (labels) => {
-    const liste = (Array.isArray(labels) ? labels : []).filter((l) => l && (l.url || l.data));
-    if (!liste.length) return null;
-    for (const pref of FORMATS_PREFERES) {
-      const t = liste.find((l) => pref.test(`${l.size || ""} ${l.format || ""}`));
+    // ZPL est un flux d'imprimante, pas un document : il ne s'affiche pas à l'écran et ne
+    // s'imprime que sur une thermique. On garde les PDF, sauf s'il n'y a rien d'autre.
+    const tous = (Array.isArray(labels) ? labels : []).filter((l) => l && (l.url || l.data));
+    const liste = tous.filter((l) => !/zpl/i.test(String(l.format || "")));
+    const candidats = liste.length ? liste : tous;
+    if (!candidats.length) return null;
+    for (const pref of preferencesEtiquette()) {
+      const t = candidats.find((l) => pref.test(String(l.size || "").trim()));
       if (t) return t;
     }
-    return liste[0];
+    return candidats[0];
   };
 
   const debut = Date.now();

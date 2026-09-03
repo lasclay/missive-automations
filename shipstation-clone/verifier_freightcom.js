@@ -299,6 +299,70 @@ const TARIF = (id, cents, nom) => ({
    * carte : c'est le plus souvent une enveloppe qu'on n'a pas su ouvrir. Chaque forme que
    * l'API peut rendre est donc éprouvée.
    */
+  /*
+   * La taille de l'étiquette.
+   *
+   * La spécification 2.10 énumère exactement deux valeurs : `letter` et `a6`. Il n'y a pas
+   * de « 4x6 » chez Freightcom, et rien à demander à la réservation. La liste de
+   * préférences cherchait « 4x6 », « thermal » et « label » — aucune ne correspond — et la
+   * règle suivante attrapait `letter`. Chaque étiquette sortait donc au quart d'une page.
+   */
+  console.log("\nTaille de l'étiquette\n" + "─".repeat(64));
+  {
+    const { poserReglage } = require("./lib/db");
+    const DOCS = (labels) => [{ statut: 202, corps: { request_id: "req-fmt" } },
+      { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep", 700, "Expedited")] } },
+      { corps: { payment_methods: [{ id: "pm-1", name: "VISA", default: true }] } },
+      { corps: { shipment_id: "shp-fmt", tracking_number: "7" } },
+      { corps: { shipment: { state: "booked", primary_tracking_number: "7", labels } } }];
+
+    const LES_DEUX = [
+      { size: "letter", format: "pdf", url: "https://f/lettre.pdf" },
+      { size: "a6", format: "pdf", url: "https://f/a6.pdf" },
+    ];
+
+    const acheter = async (n) => {
+      fc.oublierPaiement();
+      run("DELETE FROM rate_cache");
+      return await fc.reserver({ ...ENVOI, orderId: n, to: { ...ENVOI.to, postalCode: `K${n % 10}A 1A1` } }, "cp-ep");
+    };
+
+    poserReglage("format_etiquette", null);
+    espion(DOCS(LES_DEUX));
+    let r = await acheter(31001);
+    verifier("par défaut, l'étiquette sort en A6, pas en lettre",
+      r.labelPdf === "https://f/a6.pdf", r.labelPdf);
+
+    poserReglage("format_etiquette", "letter");
+    espion(DOCS(LES_DEUX));
+    r = await acheter(31002);
+    verifier("le réglage « lettre » est respecté",
+      r.labelPdf === "https://f/lettre.pdf", r.labelPdf);
+
+    // Le format demandé n'est pas toujours produit : on prend ce qu'il y a plutôt que rien.
+    poserReglage("format_etiquette", "a6");
+    espion(DOCS([{ size: "letter", format: "pdf", url: "https://f/lettre.pdf" }]));
+    r = await acheter(31003);
+    verifier("quand l'A6 manque, la lettre passe plutôt que rien",
+      r.labelPdf === "https://f/lettre.pdf", r.labelPdf);
+
+    // ZPL est un flux d'imprimante : il ne s'affiche pas et ne s'imprime que sur thermique.
+    espion(DOCS([
+      { size: "a6", format: "zpl", url: "https://f/a6.zpl" },
+      { size: "letter", format: "pdf", url: "https://f/lettre.pdf" }]));
+    r = await acheter(31004);
+    verifier("un ZPL ne passe pas devant un PDF affichable",
+      r.labelPdf === "https://f/lettre.pdf", r.labelPdf);
+
+    espion(DOCS([{ size: "a6", format: "zpl", url: "https://f/a6.zpl" }]));
+    r = await acheter(31005);
+    verifier("mais s'il n'y a que du ZPL, on le rend quand même",
+      r.labelPdf === "https://f/a6.zpl", r.labelPdf);
+
+    poserReglage("format_etiquette", null);
+    fc.oublierPaiement();
+  }
+
   console.log("\nMéthodes de paiement — formes de réponse\n" + "─".repeat(64));
   const FORMES = {
     "tableau nu": [{ id: "pm-1", name: "VISA 9044", default: true }],
@@ -766,13 +830,20 @@ const TARIF = (id, cents, nom) => ({
     process.env.FREIGHTCOM_API_KEY = "cle-essai";
     // L'étiquette n'existe pas à la réservation : `POST /shipment` rend un identifiant, les
     // documents arrivent après. Le clone écrivait donc `label_pdf` à NULL sur chaque achat.
+    /*
+     * `size` vaut « letter » ou « a6 », et rien d'autre — c'est l'énumération de la spec.
+     *
+     * Ce contrôle affirmait qu'un format « 4x6 » était préféré, sur une valeur qui n'existe
+     * pas chez Freightcom. Il passait, et la production choisissait `letter` à chaque achat :
+     * un contrôle vert sur un vocabulaire inventé ne prouve rien de ce qui se passe vraiment.
+     */
     espion([{ corps: { shipment: { state: "booked", primary_tracking_number: "1Z9",
       tracking_numbers: ["1Z9", "1Z8"],
       labels: [{ size: "letter", format: "pdf", url: "https://f/l.pdf" },
-               { size: "4x6", format: "pdf", url: "https://f/4x6.pdf" }],
+               { size: "a6", format: "pdf", url: "https://f/a6.pdf" }],
       customs_invoice_url: "https://f/ci.pdf" } } }]);
     const d = await fc.attendreDocuments("SH1", { attenteMs: 0, pas: 1 });
-    verifier("l'étiquette 4×6 est préférée au letter", d.etiquette === "https://f/4x6.pdf", d.format);
+    verifier("l'étiquette A6 est préférée au letter", d.etiquette === "https://f/a6.pdf", d.format);
     verifier("la facture de douane ne se confond pas avec l'étiquette",
       d.douane === "https://f/ci.pdf");
     verifier("le suivi principal et les suivis multi-colis sont lus",

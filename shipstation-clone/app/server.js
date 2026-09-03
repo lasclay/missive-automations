@@ -2004,6 +2004,7 @@ route("GET /api/settings", () => ({
   marque: db.reglage("marque", accounts.MARQUE_DEFAUT),
   tarif_dropoff_cible: db.reglage("tarif_dropoff_cible", 6.31),
   derniere_migration: db.reglage("derniere_migration", null),
+  format_etiquette: db.reglage("format_etiquette", "a6"),
   expediteur_contact: db.reglage("expediteur_contact", ""),
   expediteur_telephone: db.reglage("expediteur_telephone", ""),
   expediteur_courriel: db.reglage("expediteur_courriel", ""),
@@ -2038,6 +2039,9 @@ const REGLAGES_MODIFIABLES = new Set([
   // refuser à la réservation par un « bad or missing data » qui ne nommait rien. Ces trois
   // valeurs servent de repli, et se corrigent sans déploiement.
   "expediteur_contact", "expediteur_telephone", "expediteur_courriel",
+  // Taille de l'étiquette : `a6` (105 × 148 mm, l'imprimante d'étiquettes) ou `letter`.
+  // Freightcom produit les deux et n'en accepte aucune en paramètre — le choix se fait ici.
+  "format_etiquette",
   "colonnes_commandes", "columns",
 ]);
 
