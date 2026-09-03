@@ -1160,8 +1160,16 @@
       "quand": "2026-09-03T20:10:26.111Z",
       "confirme": true,
       "texte": "Le manteau existe déjà : il est au catalogue sur lasclay.com, isolé à la soie d'asclépiade. Pour tout le reste, on n'annonce rien tant que ça n'existe pas."
+    },
+    {
+      "id": "1464303735703438_1321699066347192",
+      "reponse_id": "1464303735703438_1309834127750695",
+      "page_id": "104242204750257",
+      "quand": "2026-09-03T22:10:49.250Z",
+      "confirme": true,
+      "texte": "Belle photo, et prise au bon moment : c'est ce stade-là, à l'automne, qui donne la récolte. Chaque graine brune part avec son propre voile, et c'est ce voile qui devient l'isolant."
     }
   ],
-  "derniere_execution": "2026-09-03T20:10:26.111Z",
-  "total": 145
+  "derniere_execution": "2026-09-03T22:10:49.252Z",
+  "total": 146
 }
