@@ -169,6 +169,62 @@ function expedition(orderId, { provider = null, cree = AUJOURDHUI } = {}) {
   verifier("le motif est conservé sur l'expédition",
     /portées/.test(String(one("SELECT notify_error e FROM shipments WHERE id = ?", e6).e || "")));
 
+  /*
+   * Le délai d'une heure.
+   *
+   * Le jeton vaut une heure et porte les portées qu'il avait à l'émission. Après la
+   * publication d'une nouvelle version de l'app, l'appel continue d'être refusé jusqu'à son
+   * expiration — un délai qui ressemble à une panne, pendant lequel on cherche un problème
+   * déjà réglé. Un refus d'accès doit donc valoir une reprise, avec un jeton neuf.
+   */
+  {
+    let appels = 0, oublis = 0;
+    shopify.client = () => ({
+      oublierJeton: () => { oublis++; },
+      tokenScopes: async () => ({ mode: "client credentials", scopes: [] }),
+      gql: async () => {
+        appels++;
+        // Premier appel : le vieux jeton, refusé. Second : le jeton neuf, accepté.
+        if (oublis === 0) throw new Error("GraphQL: Access denied for fulfillmentOrders field.");
+        if (appels === 2) return { order: { id: "gid://shopify/Order/1", fulfillmentOrders: { edges: [
+          { node: { id: "gid://shopify/FulfillmentOrder/1", status: "OPEN" } }] } } };
+        return { fulfillmentCreate: { fulfillment: { id: "gid://shopify/Fulfillment/1",
+          status: "SUCCESS", trackingInfo: { number: "TRK", company: "Purolator", url: "https://x" } },
+          userErrors: [] } };
+      },
+    });
+    const c7 = commande("L-51035");
+    const e7 = expedition(c7, { provider: "freightcom" });
+    const rep = await channels.notifier(e7);
+    verifier("un refus d'accès déclenche une reprise avec un jeton neuf",
+      oublis === 1, `${oublis} rafraîchissement(s)`);
+    verifier("et l'expédition passe sans attendre l'expiration du jeton",
+      rep.suivi === "TRK" && !rep.erreur, rep.erreur || `suivi ${rep.suivi}`);
+    verifier("elle est marquée notifiée",
+      one("SELECT marketplace_notified n FROM shipments WHERE id = ?", e7).n === 1);
+  }
+  {
+    // Un vrai manque de portée se reproduit à l'identique : une seule reprise, puis le
+    // message. Sans cette borne, un droit réellement absent bouclerait.
+    let appels = 0, oublis = 0;
+    shopify.client = () => ({
+      oublierJeton: () => { oublis++; },
+      tokenScopes: async () => ({ mode: "client credentials", scopes: [] }),
+      gql: async () => { appels++; throw new Error("GraphQL: Access denied for fulfillmentOrders field."); },
+    });
+    const c8 = commande("L-51036");
+    const e8 = expedition(c8, { provider: "freightcom" });
+    const rep = await channels.notifier(e8);
+    verifier("un droit réellement absent ne boucle pas", appels === 2 && oublis === 1,
+      `${appels} appel(s), ${oublis} rafraîchissement(s)`);
+    verifier("et le message reste celui qui nomme les portées",
+      /read_merchant_managed_fulfillment_orders/.test(String(rep.erreur || "")));
+  }
+
+  shopify.client = () => ({
+    gql: async () => { throw new Error("GraphQL: Access denied for fulfillmentOrders field."); },
+    tokenScopes: async () => ({ mode: "client credentials", scopes: ["read_orders", "read_products"] }),
+  });
   const p = await shopify.verifierPortees();
   verifier("les portées manquantes se lisent avant d'expédier",
     p.connues === true && p.manquantes.length === 2, p.manquantes.join(", "));

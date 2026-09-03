@@ -100,6 +100,29 @@ const MARCHE_A_SUIVRE_PORTEES =
  *
  * Rendre le message brut de GraphQL laisse chercher : il nomme un champ, pas un droit.
  */
+/** Le refus vient-il d'une portée manquante plutôt que d'autre chose ? */
+const refusDePortee = (e) => /access denied/i.test(String((e && e.message) || e || ""));
+
+/**
+ * Rejouer une fois avec un jeton neuf, quand Shopify refuse l'accès.
+ *
+ * Le jeton vaut une heure et porte les portées qu'il avait à l'émission. Publier une
+ * nouvelle version de l'app ne le rafraîchit pas : jusqu'à son expiration, l'appel continue
+ * d'être refusé alors que le droit vient d'être accordé. C'est le délai qu'on a vu — une
+ * heure qui ressemble à une panne, et pendant laquelle on cherche un problème déjà réglé.
+ *
+ * Une seule reprise, et seulement sur un refus d'accès : un vrai manque de portée se
+ * reproduira à l'identique et remontera comme avant.
+ */
+async function avecJetonNeuf(client, geste) {
+  try { return await geste(); }
+  catch (e) {
+    if (!refusDePortee(e) || typeof client.oublierJeton !== "function") throw e;
+    client.oublierJeton();
+    return await geste();
+  }
+}
+
 function traduireRefusShopify(message) {
   const m = String(message || "");
   if (!/access denied/i.test(m)) return m;
@@ -144,20 +167,21 @@ const shopify = {
     (process.env.SHOPIFY_ADMIN_TOKEN || (process.env.SHOPIFY_CLIENT_ID && process.env.SHOPIFY_CLIENT_SECRET))),
 
   async pousser({ commande, expedition }) {
-    const { gql } = this.client();
+    const client = this.client();
+    const { gql } = client;
     // La clé externe porte l'identifiant Shopify — c'est `orderKey` chez ShipStation.
     const idShopify = String(commande.order_key || "").replace(/^ss-/, "");
     if (!/^\d+$/.test(idShopify)) throw new Error(`identifiant Shopify introuvable (order_key=${commande.order_key})`);
 
     let d;
     try {
-      d = await gql(`
+      d = await avecJetonNeuf(client, () => gql(`
         query($id: ID!) {
           order(id: $id) {
             id
             fulfillmentOrders(first: 20) { edges { node { id status } } }
           }
-        }`, { id: `gid://shopify/Order/${idShopify}` });
+        }`, { id: `gid://shopify/Order/${idShopify}` }));
     } catch (e) { throw new Error(traduireRefusShopify(e.message)); }
 
     if (!d.order) throw new Error(`commande ${idShopify} introuvable chez Shopify`);
@@ -169,7 +193,7 @@ const shopify = {
     const suivi = expedition.tracking_number || null;
     let r;
     try {
-      r = await gql(`
+      r = await avecJetonNeuf(client, () => gql(`
         mutation($f: FulfillmentInput!) {
           fulfillmentCreate(fulfillment: $f) {
             fulfillment { id status trackingInfo { number company url } }
@@ -187,7 +211,7 @@ const shopify = {
             },
           } : {}),
         },
-      });
+      }));
     } catch (e) { throw new Error(traduireRefusShopify(e.message)); }
 
     const erreurs = r.fulfillmentCreate?.userErrors || [];
