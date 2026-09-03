@@ -863,6 +863,19 @@ route("POST /api/batches/preview", async ({ req }) => {
 
 // ---------------------------------------------- renvoi du suivi aux boutiques
 
+/**
+ * Les portées Shopify, vérifiées avant d'expédier.
+ *
+ * Découvrir qu'un droit manque au moment où l'étiquette est déjà achetée, c'est le
+ * découvrir trop tard : le colis part, le client n'a pas de suivi, et le message de Shopify
+ * nomme un champ GraphQL plutôt qu'un droit.
+ */
+route("GET /api/channels/portees", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  try { return await channels.CANAUX.shopify.verifierPortees(); }
+  catch (e) { return { connues: false, note: e.message, requises: [], manquantes: [] }; }
+});
+
 route("GET /api/channels", () => ({
   canaux: channels.etat(), en_attente: channels.enAttente(200),
   bascule: channels.dateBascule(), historique_ignore: channels.historiqueIgnore(),

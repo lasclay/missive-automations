@@ -39,10 +39,12 @@ const verifier = (nom, cond, detail = "") => {
 const HIER = "2026-08-01T10:00:00.000Z";
 const AUJOURDHUI = "2026-09-03T10:00:00.000Z";
 
+let _cle = 6000000000;
 function commande(numero) {
+  // `order_key` porte l'identifiant Shopify : le canal le refuse s'il n'est pas numérique.
   run(`INSERT INTO orders (order_key,order_number,store_id,status,order_date,ship_to,weight_g)
        VALUES (?,?,?,'shipped','2026-09-01',?,400)`,
-    `k-${numero}`, numero, 198670,
+    String(++_cle), numero, 198670,
     dump({ name: "Nathalie Carpentier", street1: "508A Chemin du Tour-du-Lac",
       city: "Lac-Beauport", state: "QC", postalCode: "G3B 0V6", country: "CA" }));
   return one("SELECT last_insert_rowid() r").r;
@@ -130,6 +132,65 @@ function expedition(orderId, { provider = null, cree = AUJOURDHUI } = {}) {
   run("UPDATE shipments SET marketplace_notified = 1 WHERE id = ?", e5);
   verifier("une expédition déjà notifiée ne l'est pas deux fois",
     (await channels.notifier(e5)).deja === true);
+
+  // ------------------------------------------------- le refus de Shopify, traduit
+  console.log("\nPortées Shopify\n" + "─".repeat(64));
+
+  /*
+   * « GraphQL: Access denied for fulfillmentOrders field. » nomme un champ, pas un droit,
+   * et il tombe une fois l'étiquette payée. Le clone est le seul endroit qui sache quelles
+   * portées il demande : c'est donc ici qu'on le traduit en geste.
+   */
+  const shopify = channels.CANAUX.shopify;
+  verifier("le canal déclare les portées dont il a besoin",
+    shopify.portees.includes("read_merchant_managed_fulfillment_orders")
+    && shopify.portees.includes("write_merchant_managed_fulfillment_orders"),
+    shopify.portees.join(", "));
+
+  // Le canal doit joindre Shopify pour pousser : sans variables, on ne teste que la
+  // traduction du message, ce qui est justement la part qui n'exige aucun réseau.
+  process.env.SHOPIFY_STORE = "essai.myshopify.com";
+  process.env.SHOPIFY_CLIENT_ID = "id-essai";
+  process.env.SHOPIFY_CLIENT_SECRET = "secret-essai";
+  const vraiClient = shopify.client;
+  shopify.client = () => ({
+    gql: async () => { throw new Error("GraphQL: Access denied for fulfillmentOrders field."); },
+    tokenScopes: async () => ({ mode: "client credentials", scopes: ["read_orders", "read_products"] }),
+  });
+
+  const c6 = commande("L-51034");
+  const e6 = expedition(c6, { provider: "freightcom" });
+  const refus = await channels.notifier(e6);
+  verifier("le refus d'accès nomme les portées manquantes",
+    /read_merchant_managed_fulfillment_orders/.test(String(refus.erreur || "")),
+    String(refus.erreur || "").slice(0, 80));
+  verifier("et il dit où les ajouter",
+    /Admin API access scopes/.test(String(refus.erreur || "")) && /réinstaller/.test(String(refus.erreur || "")));
+  verifier("le motif est conservé sur l'expédition",
+    /portées/.test(String(one("SELECT notify_error e FROM shipments WHERE id = ?", e6).e || "")));
+
+  const p = await shopify.verifierPortees();
+  verifier("les portées manquantes se lisent avant d'expédier",
+    p.connues === true && p.manquantes.length === 2, p.manquantes.join(", "));
+
+  shopify.client = () => ({
+    gql: async () => ({}),
+    tokenScopes: async () => ({ mode: "client credentials",
+      scopes: ["read_orders", "read_merchant_managed_fulfillment_orders", "write_merchant_managed_fulfillment_orders"] }),
+  });
+  const p2 = await shopify.verifierPortees();
+  verifier("une app correctement outillée ne signale rien",
+    p2.connues === true && p2.manquantes.length === 0);
+
+  // Un jeton fixe n'expose pas ses portées : ne rien affirmer vaut mieux qu'annoncer un
+  // manque qui n'existe peut-être pas.
+  shopify.client = () => ({ gql: async () => ({}),
+    tokenScopes: async () => ({ mode: "jeton fixe", scopes: null, note: "portées non lisibles" }) });
+  const p3 = await shopify.verifierPortees();
+  verifier("un jeton dont les portées sont illisibles n'invente pas de manque",
+    p3.connues === false && p3.manquantes.length === 0, p3.note);
+
+  shopify.client = vraiClient;
 })().then(() => {
   console.log("\n" + "─".repeat(64));
   console.log(ko ? `${X} ${ko} contrôle(s) en échec sur ${ok + ko}` : `${V} ${ok}/${ok} contrôles passés`);
