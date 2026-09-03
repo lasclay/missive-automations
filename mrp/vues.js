@@ -22,7 +22,7 @@ const LIEUX = { tunisie:'Tunisie', chine:'Chine' };
 const V = require('./variantes.js');
 const C = require('./charge.js');
 const D = require('./db.js');
-const { TYPES_QC, SECTIONS_CHARTE } = D;
+const { TYPES_QC, SECTIONS_CHARTE, TYPES_FIL } = D;
 /* Les deux rôles portent leur lieu : ce n'est pas une hiérarchie, c'est un
    partage géographique du travail. Les valeurs stockées restent `admin` et
    `atelier` ; seuls les libellés changent. */
@@ -108,6 +108,20 @@ const dateFR = (d) => {
   const [a, m, j] = String(d).slice(0, 10).split('-');
   return j && m && a ? `${j}/${m}/${a}` : d;
 };
+
+/**
+ * « il y a trois jours » — la seule forme qui fasse réagir.
+ *
+ * Une demande de mise à jour datée du 28 août ne dit rien ; « il y a 6 jours »
+ * dit tout. On garde la date exacte en `title`, pour qui veut vérifier.
+ */
+function depuis(t) {
+  if (!t) return '';
+  const j = Math.floor((Date.now() - new Date(String(t).replace(' ', 'T') + 'Z'))
+                       / 86400000);
+  if (!Number.isFinite(j) || j < 0) return "à l'instant";
+  return j === 0 ? "aujourd'hui" : j === 1 ? 'hier' : `il y a ${j} jours`;
+}
 
 const dateHeureFR = (t) => {
   if (!t) return '';
@@ -455,7 +469,8 @@ function barreAssistant({ user, ia, salut = null }) {
 </script>`;
 }
 
-function vueAccueil({ user, ordres, jalons, ia = null, salut = null }) {
+function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
+                      attentes = [] }) {
   const enCours = ordres.filter(o => o.statut === 'en_cours' || o.statut === 'planifie');
   const corps = `
   <div class="entete"><div>
@@ -465,6 +480,21 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null }) {
     ? `<a class="btn" href="/ordres/nouveau">Nouvel ordre de production</a>` : ''}</div>
 
   ${barreAssistant({ user, ia, salut })}
+
+  ${attentes.length ? `<div class="carte carte-att">
+    <h2>En attente de réponse <span class="cpt">${attentes.length}</span></h2>
+    <p class="muted" style="margin:0 0 10px">Une question posée sur un lot ne se voit
+      que si on ouvre son ordre. Elle est remontée ici jusqu'à ce qu'on y réponde.</p>
+    ${attentes.map(a => `<div class="jalon">
+      <span class="et et-${a.type === 'demande' ? 'deadline' : 'evenement'}"
+        >${a.type === 'demande' ? 'Mise à jour' : 'Question'}</span>
+      <span style="flex:1"><a href="/ordres/${a.ordre_id}#i${a.item_id}"
+          ><b>${e(a.produit)}</b></a>
+        <span class="muted">· ${e(a.numero)}</span>
+        ${a.texte ? `<br><span class="muted">${e(a.texte)}</span>` : ''}</span>
+      <span class="muted" title="${e(dateHeureFR(a.cree_le))}">${depuis(a.cree_le)}</span>
+    </div>`).join('')}
+  </div>` : ''}
 
   <div class="carte"><h2>Production en cours</h2>
   ${enCours.length ? `<div class="tbl"><table>
@@ -1190,8 +1220,73 @@ function vueOrdres({ user, ordres, msg }) {
   return page({ titre: 'Ordres de production', user, corps, actif: 'ordres', msg });
 }
 
+/**
+ * Le fil d'un item : ce qui se dit sur CE lot-là.
+ *
+ * Une question posée dans la carte « Commentaires » du bas se perd — trois
+ * semaines plus tard, personne ne sait de quel produit elle parlait. Ici elle
+ * est collée à sa ligne, à côté de la quantité et de l'avancement.
+ *
+ * Ce qui attend une réponse reste DEHORS du repli. Le reste se replie : une
+ * conversation de douze messages ne doit pas repousser les quatre autres
+ * produits hors de l'écran, mais une question sans réponse doit se voir sans
+ * qu'on ait à cliquer, sinon elle n'appelle personne.
+ */
+function filItemBloc({ o, it, f, user }) {
+  const admin = user.role === 'admin';
+  const base = `/ordres/${o.id}/items/${it.id}`;
+  const lignes = f?.lignes || [];
+  const ouvertes = f?.ouvertes || [];
+  const demande = f?.demande || null;
+
+  // Ce qui attend, en évidence. Une demande de mise à jour se distingue d'une
+  // question : elle n'appelle pas une phrase, elle appelle un chiffre.
+  const attente = ouvertes.map(x => `<div class="fil-att fil-${x.type}">
+      <b>${x.type === 'demande' ? 'Mise à jour demandée' : 'Question'}</b>
+      <span class="fil-quand" title="${e(dateHeureFR(x.cree_le))}">${depuis(x.cree_le)}${
+        x.type === 'demande'
+          ? ' · se referme dès qu\'un avancement est déclaré' : ''}</span>
+      ${x.texte ? `<span class="fil-tx">${e(x.texte)}</span>` : ''}
+      <form method="post" action="${base}/fil/${x.id}/regler">
+        <button class="lien">Réglé</button></form>
+    </div>`).join('');
+
+  const messages = lignes.map(x => `<div class="comm fil-l fil-${x.type}">
+      <div class="qui2">${e(x.auteur || 'Inconnu')} · ${dateHeureFR(x.cree_le)}
+        ${x.type !== 'note' ? ` · ${TYPES_FIL[x.type]}` : ''}
+        ${x.regle_le ? ` · réglée${x.regleur ? ` par ${e(x.regleur)}` : ''}` : ''}</div>
+      ${x.texte ? `<p>${e(x.texte)}</p>`
+                : `<p class="muted">— sans texte, juste la demande</p>`}
+    </div>`).join('');
+
+  // Deux boutons de publication, pas un menu : « noter » et « demander » ne
+  // s'écrivent pas pareil, et le choix doit se faire en appuyant.
+  const formulaire = `<form method="post" action="${base}/fil" class="fil-f">
+    <textarea name="texte" rows="2"
+      placeholder="Un tissu qui manque, une couture qui tient mal…"></textarea>
+    <div class="fil-btn">
+      <button class="btn min" name="type" value="note">Noter</button>
+      <button class="btn sec min" name="type" value="question">Poser une question</button>
+      ${ouvertes.length ? `<button class="btn sec min" name="type" value="reponse"
+        >Répondre et clore</button>` : ''}
+    </div>
+  </form>`;
+
+  return `${attente}
+  <details class="fil">
+    <summary>Notes et questions${lignes.length
+      ? ` <span class="cpt">${lignes.length}</span>` : ''}</summary>
+    ${messages || '<p class="vide">Rien n\'a encore été dit sur ce lot.</p>'}
+    ${formulaire}
+  </details>
+  ${admin && !demande ? `<form method="post" action="${base}/demander"
+      style="margin-top:8px">
+      <button class="btn sec min">Demander une mise à jour</button></form>` : ''}`;
+}
+
 // =================================================== DÉTAIL D'UN ORDRE (clé)
-function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg, qc = {} }) {
+function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
+                    qc = {}, fils = {} }) {
   const admin = user.role === 'admin';
   const auj = new Date().toISOString().slice(0, 10);
 
@@ -1226,7 +1321,7 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg, qc
   ${items.length ? `<div class="tbl tbl-items"><table class="items">
     <thead><tr><th>Produit</th><th class="num">Quantité</th>
         <th style="min-width:290px">Avancement</th>
-        <th>Note</th>${admin ? '<th></th>' : ''}</tr></thead>
+        <th style="min-width:250px">Notes et questions</th>${admin ? '<th></th>' : ''}</tr></thead>
     <tbody>
     ${items.map(it => `<tr id="i${it.id}">
       <td><a href="/produits/${it.produit_id}"><b>${e(it.produit_nom)}</b></a><br>
@@ -1257,7 +1352,10 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg, qc
         ${it.maj_le ? `<div class="muted" style="margin-top:4px;font-size:12px">
            Dernière mise à jour ${dateHeureFR(it.maj_le)}</div>` : ''}
       </td>
-      <td class="muted note-c">${e(it.note) || '—'}</td>
+      <td class="note-c">
+        ${it.note ? `<p class="it-note">${e(it.note)}</p>` : ''}
+        ${filItemBloc({ o, it, f: fils[it.id], user })}
+      </td>
       ${admin ? `<td><form method="post" action="/ordres/${o.id}/items/${it.id}/supprimer"
          onsubmit="return confirm('Retirer cet item ?')">
          <button class="btn dgr min">Retirer</button></form></td>` : ''}

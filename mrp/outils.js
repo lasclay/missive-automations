@@ -483,6 +483,10 @@ const OUTILS = [
         `${p.code} dans ${o.numero} : ${it.avancement} % → ${v} %`,
         { table: 'ordre_items', op: 'update', id: it.id,
           avant: { avancement: it.avancement, maj_le: it.maj_le } });
+      // Même effet qu'au formulaire : le chiffre déclaré répond à la demande
+      // de mise à jour, donc elle se referme. L'assistant ne laisse pas
+      // derrière lui une demande à laquelle il vient de répondre.
+      const reglees = D.reglerDemandes(it.id, ctx.user.id);
 
       // même bascule qu'à la main : un ordre planifié qui démarre passe en cours
       if (o.statut === 'planifie' && v > 0) {
@@ -494,6 +498,7 @@ const OUTILS = [
       }
       return { ok: true, ordre: o.numero, produit: p.code,
                avant: it.avancement, apres: v,
+               ...(reglees ? { demande_reglee: true } : {}),
                avancement_ordre: avancementOrdre(o.id).pct + ' %' };
     },
   },
