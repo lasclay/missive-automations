@@ -18,6 +18,9 @@
   --survol:#f2f4f6;
   --sur-vert:#fff;              /* texte posé sur un aplat vert */
   --nav:#cfe3d9; --nav-actif:#fff;
+  /* Teintes du calendrier : une par item, pour suivre le même item de
+     case en case. La couleur ne veut rien dire en soi. */
+  --chip-s:42%; --chip-fond:93%; --chip-ligne:76%; --chip-texte:27%;
 }
 
 /* Le téléphone de l'atelier passe en sombre le soir ; la même feuille suit,
@@ -38,6 +41,7 @@
     --champ:#1b2126; --survol:#222a31;
     --sur-vert:#0d1114;
     --nav:#a9c7ba; --nav-actif:#fff;
+    --chip-s:30%; --chip-fond:17%; --chip-ligne:32%; --chip-texte:76%;
   }
 }
 :root[data-theme="dark"]{
@@ -54,6 +58,7 @@
   --champ:#1b2126; --survol:#222a31;
   --sur-vert:#0d1114;
   --nav:#a9c7ba; --nav-actif:#fff;
+    --chip-s:30%; --chip-fond:17%; --chip-ligne:32%; --chip-texte:76%;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -857,3 +862,127 @@ table.gantt tbody tr:last-child th,table.gantt tbody tr:last-child td{border-bot
 .cap-form{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
 .cap-form .champ{margin:0;min-width:110px}
 .cap-form input{width:100%}
+
+/* ---------------------------------------------------------- calendrier
+ * Une grille de mois. Chaque case porte ce que l'atelier fabrique ce jour-là,
+ * les heures prises, et ce qui est dû. Rien n'y est saisi : tout vient du
+ * calcul, ce qui est précisément ce qui empêche les trous et les
+ * chevauchements.
+ */
+.cal-nav{display:flex;gap:6px;align-items:center}
+.cal-titre{text-transform:capitalize;margin:4px 0 10px;font-size:1.15rem}
+.cal-somm{margin-bottom:14px}
+.cal-cadre{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.cal{width:100%;border-collapse:collapse;table-layout:fixed;min-width:700px}
+table.cal th{font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;
+  color:var(--gris);font-weight:600;padding:4px 6px;text-align:left;
+  border-bottom:1px solid var(--ligne)}
+table.cal th.chome{color:var(--ligne)}
+.cal-j{vertical-align:top;border:1px solid var(--ligne);padding:5px 6px 7px;
+  height:96px;width:14.28%}
+.cal-j.hors{opacity:.42}
+.cal-j.chome{background:var(--fond)}
+.cal-j.ferme{background:var(--ambre-pale)}
+.cal-j.auj{outline:2px solid var(--vert);outline-offset:-2px}
+.cal-tete{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.cal-num{font-weight:600;font-size:.9rem}
+.cal-mo{font-weight:400;color:var(--gris);font-size:.78rem;text-transform:none}
+.cal-h{color:var(--gris);font-size:.76rem;font-variant-numeric:tabular-nums}
+.cal-jauge{height:3px;background:var(--piste);border-radius:2px;margin:3px 0 5px}
+.cal-jauge i{display:block;height:100%;background:var(--vert);border-radius:2px}
+.cal-note{display:block;color:var(--ambre);font-size:.76rem;font-style:italic;
+  margin-top:4px}
+
+/* Une pastille par item. La teinte suit l'index, la luminosité suit le thème. */
+.cal-chip{display:flex;justify-content:space-between;gap:5px;margin:0 0 3px;
+  padding:2px 5px;border-radius:4px;font-size:.76rem;line-height:1.35;
+  text-decoration:none;
+  background:hsl(var(--hue) var(--chip-s) var(--chip-fond));
+  border:1px solid hsl(var(--hue) var(--chip-s) var(--chip-ligne));
+  color:hsl(var(--hue) var(--chip-s) var(--chip-texte))}
+.cal-chip b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cal-chip.t0{--hue:150} .cal-chip.t1{--hue:212} .cal-chip.t2{--hue:28}
+.cal-chip.t3{--hue:276} .cal-chip.t4{--hue:190} .cal-chip.t5{--hue:340}
+.cal-chip.t6{--hue:88}  .cal-chip.t7{--hue:250}
+
+/* Un jalon passe devant la production : c'est une date qu'on ne déplace pas. */
+.cal-jalon{display:block;margin:0 0 3px;padding:2px 5px;border-radius:4px;
+  font-size:.76rem;font-weight:600;line-height:1.35;text-decoration:none;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  background:var(--rouge-pale);border:1px solid var(--rouge-ligne);color:var(--rouge)}
+.cal-jalon.jt-evenement,.cal-jalon.jt-prevente{background:var(--violet-pale);
+  border-color:var(--violet-ligne);color:var(--violet)}
+.cal-jalon.jt-livraison{background:var(--bleu-pale);border-color:var(--bleu-ligne);
+  color:var(--bleu)}
+
+.cal-legende{display:flex;flex-wrap:wrap;gap:6px 18px;margin:10px 0 18px;
+  color:var(--gris);font-size:.83rem}
+.cal-legende i{display:inline-block;width:11px;height:11px;border-radius:3px;
+  border:1px solid var(--ligne);vertical-align:-1px;margin-right:5px}
+.cal-legende i.ex-occupe{background:var(--vert);border-color:var(--vert)}
+.cal-legende i.ex-ferme{background:var(--ambre-pale);border-color:var(--ambre-ligne)}
+.cal-legende i.ex-chome{background:var(--fond)}
+
+@media (max-width:720px){
+  /* Sept colonnes ne se lisent pas sur un téléphone, et un défilement latéral
+     encore moins : la grille devient un agenda vertical. Les journées vides
+     disparaissent — sur un mois, elles seraient les trois quarts de l'écran. */
+  table.cal{min-width:0}
+  table.cal thead{position:absolute;left:-9999px}
+  table.cal tr{display:block}
+  .cal-j{display:block;width:auto;height:auto;border:0;
+    border-bottom:1px solid var(--ligne);padding:8px 2px}
+  .cal-j:not(.occupe):not(.auj):not(.ferme){display:none}
+  .cal-j.hors{display:none}
+  .cal-chip{display:inline-flex;margin:0 4px 3px 0}
+}
+
+/* Gantt : deux échelles superposées, mois puis semaines. « La semaine du 15 »
+   est une consigne exécutable ; « en octobre » n'en est pas une. */
+table.gantt{min-width:860px}
+.g-mois-band span{font-weight:600;color:var(--encre2);text-transform:capitalize}
+.g-sem-band{height:14px}
+.g-sem-band span{white-space:nowrap}
+.g-leg{font-size:10px;font-weight:400;color:var(--gris);text-transform:uppercase;
+  letter-spacing:.04em}
+.g-quand{display:block;font-weight:400;font-size:11px;color:var(--gris);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.g-sem{position:absolute;top:0;bottom:0;width:1px;background:var(--ligne);
+  opacity:.45}
+.g-auj{position:absolute;top:0;bottom:0;width:1px;background:var(--vert);z-index:3}
+/* Une fermeture n'arrête pas le temps : elle repousse. Hachures plutôt qu'un
+   aplat, pour qu'on lise « rien ne se produit ici » et pas « autre chose ». */
+.g-ferme{position:absolute;top:0;bottom:0;z-index:1;
+  background:repeating-linear-gradient(45deg,var(--ambre-pale) 0 4px,
+    transparent 4px 8px);border-left:1px solid var(--ambre-ligne)}
+
+/* ------------------------------------------------------------- repliables
+ * La cédule empile six sections dont trois sont des réglages de début de
+ * saison. Repliées, elles gardent leur résumé : un titre seul obligerait à
+ * ouvrir pour savoir si ça valait la peine.
+ */
+.pli{padding:0}
+.pli>summary{cursor:pointer;padding:12px 14px;display:flex;flex-wrap:wrap;
+  gap:4px 12px;align-items:baseline;list-style:none;user-select:none;
+  border-radius:6px}
+.pli>summary::-webkit-details-marker{display:none}
+.pli>summary::before{content:'▸';color:var(--gris);font-size:.85em;
+  margin-right:2px;transition:transform .12s}
+.pli[open]>summary::before{transform:rotate(90deg)}
+.pli>summary:hover{background:var(--survol)}
+.pli-t{font-weight:600}
+.pli-r{color:var(--gris);font-size:.88rem;font-variant-numeric:tabular-nums}
+.pli-c{padding:0 14px 14px}
+.pli-c>h2:first-child{margin-top:0}
+.pli[open]>summary{border-bottom:1px solid var(--ligne);border-radius:6px 6px 0 0}
+
+/* Les pauses : une ligne par fermeture, avec de quoi la retirer. */
+.pauses{list-style:none;padding:0;margin:0 0 12px}
+.pauses li{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;
+  padding:6px 0;border-top:1px solid var(--ligne)}
+.pauses li:first-child{border-top:0}
+.pauses .p-d{font-variant-numeric:tabular-nums;font-weight:600}
+.pauses .p-n{color:var(--gris);flex:1}
+
+.pli-t{text-transform:none}
+.pli.mois .pli-t{text-transform:capitalize}

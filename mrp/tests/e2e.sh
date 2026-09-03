@@ -62,7 +62,7 @@ P=$(curl -s -b $CA $B/ordres/1 | grep -oE '>[0-9]+ %<' | head -1 | tr -dc 0-9)
 
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
 for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi \
-         /inventaire /besoins; do
+         /inventaire /besoins /calendrier; do
   S=$(curl -s -b $CA "$B$u" -H 'Accept-Encoding: gzip' -o /dev/null -w '%{size_download}')
   [ "$S" -lt 12000 ] || ko "page $u trop lourde sur le réseau ($S octets compressés)"
 done
@@ -163,6 +163,59 @@ echo "$A" | grep -q 'ANTHROPIC_API_KEY' \
   || ko "assistant : la page ne signale pas la clé manquante"
 echo "$A" | grep -q 'name="fil" value="[0-9a-f]\{18\}"' \
   && ok "assistant : un fil de conversation est ouvert" || ko "assistant : pas de fil"
+
+# ---- calendrier et cédule : le pliage, les semaines, et le domino
+curl -s -b $CO $B/calendrier | grep -q 'table class="cal"' \
+  && ok "l'atelier accède au calendrier" || ko "calendrier refusé à l'atelier"
+curl -s -b $CA "$B/calendrier?mois=2026-10" | grep -q 'octobre 2026' \
+  && ok "le calendrier suit le mois demandé" || ko "mois non honoré"
+# Un mois illisible ne doit pas casser la page : on retombe sur un mois valide.
+curl -s -o /dev/null -w '%{http_code}' -b $CA "$B/calendrier?mois=pas-un-mois" \
+  | grep -q 200 && ok "un mois illisible retombe sur un mois valide" \
+  || ko "mois illisible non filtré"
+
+# La cédule doit être pliable, sinon elle fait trois écrans sur un téléphone.
+CED=$(curl -s -b $CA $B/cedule)
+[ "$(echo "$CED" | grep -c '<summary>')" -ge 4 ] \
+  && ok "la cédule est repliable" || ko "aucun bloc repliable sur la cédule"
+echo "$CED" | grep -q 'semaine du' \
+  && ok "le Gantt porte une échelle de semaines" || ko "Gantt sans semaines"
+echo "$CED" | grep -q 'class="g-quand"' \
+  && ok "chaque ligne du Gantt porte ses dates" || ko "Gantt sans dates"
+
+# Poser une pause ou déplacer le départ relève de Québec.
+R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/cedule/pauses \
+    --data 'debut=2026-10-05&fin=2026-10-09')
+case "$R" in *err=*) ok "l'atelier ne peut pas poser de pause" ;;
+  *) ko "pause autorisée à l'atelier" ;; esac
+R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/cedule/depart \
+    --data 'depart=2026-10-05')
+case "$R" in *err=*) ok "l'atelier ne peut pas déplacer le départ" ;;
+  *) ko "départ modifiable par l'atelier" ;; esac
+
+# Le domino, mesuré à travers l'app : une fermeture recule la fin du plan.
+# La fermeture doit tomber SUR le plan, pas après : le jeu de démonstration ne
+# porte que quelques heures de charge, et une pause posée au-delà de sa fin ne
+# prouverait rien.
+PLAN=$(node -e "const{listeFabrication}=require('./db.js'),C=require('./charge.js');
+const c=C.calendrier(listeFabrication());console.log((c.debut||'')+' '+(c.fin||''))" 2>/dev/null)
+DEB0=$(echo "$PLAN" | cut -d' ' -f1); FIN0=$(echo "$PLAN" | cut -d' ' -f2)
+FERME=$(node -e "const d=new Date('$DEB0'+'T00:00:00Z');
+console.log(new Date(d.getTime()+20*864e5).toISOString().slice(0,10))" 2>/dev/null)
+curl -s -b $CA -o /dev/null -X POST $B/cedule/pauses \
+  --data "debut=$DEB0&fin=$FERME&motif=Test%20domino"
+FIN1=$(node -e "const{listeFabrication}=require('./db.js'),C=require('./charge.js');
+console.log(C.calendrier(listeFabrication()).fin||'')" 2>/dev/null)
+if [ -z "$FIN0" ]; then ok "aucune charge au plan : domino sans objet"
+elif [ "$FIN1" \> "$FIN0" ]; then ok "une fermeture recule la fin du plan ($FIN0 → $FIN1)"
+else ko "la fermeture n'a rien décalé ($FIN0 → $FIN1)"; fi
+
+PID2=$(node -e "const{db}=require('./db.js');const p=db.prepare('SELECT id FROM pauses ORDER BY id DESC LIMIT 1').get();console.log(p?p.id:'')" 2>/dev/null)
+curl -s -b $CA -o /dev/null -X POST $B/cedule/pauses/$PID2/supprimer
+FIN2=$(node -e "const{listeFabrication}=require('./db.js'),C=require('./charge.js');
+console.log(C.calendrier(listeFabrication()).fin||'')" 2>/dev/null)
+[ "$FIN2" = "$FIN0" ] && ok "retirer la fermeture rend le plan d'avant" \
+  || ko "le plan n'est pas revenu ($FIN0 → $FIN2)"
 
 # ---- inventaire : les droits ne sont pas les mêmes des deux côtés
 curl -s -b $CO $B/inventaire | grep -q 'Inventaire' \

@@ -38,6 +38,7 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const V2 = require('./vues_inventaire.js');
+const V3 = require('./vues_calendrier.js');
 const assistant = require('./assistant.js');
 const outils = require('./outils.js');
 const charge = require('./charge.js');
@@ -1124,6 +1125,55 @@ async function router(req, res, url, user) {
     const jalons = R.jalonsTous.all();
     return html(res, V.vueCedule({ user, jalons, msg,
       cal: charge.calendrier(listeFabrication()) }));
+  }
+
+  // ---- calendrier : la grille du mois
+  if (p === '/calendrier') {
+    const cal = charge.calendrier(listeFabrication());
+    const m = /^\d{4}-\d{2}$/.test(q.get('mois') || '')
+      ? q.get('mois')
+      // Sans mois demandé, on ouvre là où il se passe quelque chose : le mois
+      // du plan plutôt que le mois courant, sinon un plan qui démarre en
+      // novembre s'ouvre sur une grille vide.
+      : (cal.debut && cal.debut > new Date().toISOString().slice(0, 10)
+          ? cal.debut.slice(0, 7) : new Date().toISOString().slice(0, 7));
+
+    // Une teinte par item, attribuée dans l'ordre de fabrication : la couleur
+    // ne signifie rien, elle sert à suivre un même item de case en case.
+    const teintes = new Map();
+    cal.taches.forEach((t, i) => { if (!teintes.has(t.code)) teintes.set(t.code, i); });
+
+    return html(res, V3.vueCalendrier({ user, msg, mois: m, cal, teintes,
+      jalons: R.jalonsTous.all() }));
+  }
+
+  // ---- pauses d'atelier : le levier du domino
+  if (p === '/cedule/pauses' && req.method === 'POST') {
+    if (!admin) return refus();
+    const f = await corpsFormulaire(req);
+    const r = charge.poserPause(f);
+    if (r.erreur) return vers(res, '/cedule?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/cedule?ok=' + encodeURIComponent(
+      'Pause posée. Tout ce qui suit a reculé d\'autant.') + '#pauses');
+  }
+  {
+    const mp = p.match(/^\/cedule\/pauses\/(\d+)\/supprimer$/);
+    if (mp && req.method === 'POST') {
+      if (!admin) return refus();
+      charge.retirerPause(Number(mp[1]));
+      return vers(res, '/cedule?ok=' + encodeURIComponent(
+        'Pause retirée. Le plan se resserre d\'autant.') + '#pauses');
+    }
+  }
+
+  if (p === '/cedule/depart' && req.method === 'POST') {
+    if (!admin) return refus();
+    const f = await corpsFormulaire(req);
+    const r = charge.poserDepart(f.depart);
+    if (r.erreur) return vers(res, '/cedule?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/cedule?ok=' + encodeURIComponent(r.depart.defaut
+      ? 'Départ remis à aujourd\'hui.'
+      : `Le plan démarre le ${r.depart.valeur}.`) + '#depart');
   }
 
   if (p === '/cedule/capacite' && req.method === 'POST') {

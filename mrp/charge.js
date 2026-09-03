@@ -281,6 +281,82 @@ function capacite() {
   return c;
 }
 
+/* ------------------------------------------------------------------- pauses
+ * Les jours où l'atelier ne produit pas : Aïd, congés, une rupture de matière,
+ * un déménagement. Ce n'est pas un détail de confort — c'est le seul moyen
+ * honnête de « repousser » du travail.
+ *
+ * Poser une pause ne déplace aucune tâche à la main : elle retire de la
+ * capacité, et tout ce qui suit se recale de lui-même, sans trou ni
+ * chevauchement. C'est le domino, et il tombe tout seul parce que le
+ * calendrier n'est pas une liste de dates stockées mais un calcul refait à
+ * chaque affichage.
+ */
+db.exec(`CREATE TABLE IF NOT EXISTS pauses (
+  id      INTEGER PRIMARY KEY,
+  debut   TEXT NOT NULL,
+  fin     TEXT NOT NULL,
+  motif   TEXT NOT NULL DEFAULT '',
+  cree_le TEXT NOT NULL DEFAULT (datetime('now'))
+)`);
+
+const ISO = /^\d{4}-\d{2}-\d{2}$/;
+
+const pauses = () => db.prepare(
+  `SELECT * FROM pauses ORDER BY debut, id`).all();
+
+function poserPause({ debut, fin, motif }) {
+  const d = String(debut || '').trim();
+  const f = String(fin || '').trim() || d;
+  if (!ISO.test(d) || !ISO.test(f))
+    return { erreur: 'Dates attendues au format AAAA-MM-JJ.' };
+  if (f < d) return { erreur: 'La fin ne peut pas précéder le début.' };
+  const id = db.prepare(`INSERT INTO pauses (debut, fin, motif) VALUES (?,?,?)`)
+    .run(d, f, String(motif || '').trim().slice(0, 120)).lastInsertRowid;
+  return { ok: true, id };
+}
+
+const retirerPause = (id) => db.prepare(`DELETE FROM pauses WHERE id = ?`).run(id);
+
+/** Un index date → motif, pour trancher en O(1) dans la boucle du calendrier. */
+function joursEnPause(liste = pauses()) {
+  const m = new Map();
+  for (const p of liste) {
+    const fin = new Date(p.fin + 'T00:00:00Z');
+    for (let d = new Date(p.debut + 'T00:00:00Z'); d <= fin;
+         d = new Date(d.getTime() + 864e5))
+      m.set(d.toISOString().slice(0, 10), p.motif || 'atelier fermé');
+  }
+  return m;
+}
+
+/**
+ * La date à laquelle le plan commence à consommer de la capacité.
+ *
+ * Par défaut aujourd'hui : c'est vrai, et ça évite de planifier dans le passé.
+ * Posée à la main, elle décale TOUT le plan — c'est le levier le plus simple
+ * quand la saison démarre plus tard qu'espéré.
+ */
+function depart() {
+  const r = db.prepare(`SELECT valeur FROM reglages WHERE cle = 'depart'`).get();
+  const auj = new Date().toISOString().slice(0, 10);
+  if (!r || !ISO.test(r.valeur)) return { valeur: auj, defaut: true };
+  // Un départ dans le passé ferait commencer la production avant aujourd'hui :
+  // on le garde en base — c'est une décision — mais le calcul part d'aujourd'hui.
+  return { valeur: r.valeur, defaut: false, passe: r.valeur < auj,
+           effectif: r.valeur < auj ? auj : r.valeur };
+}
+
+function poserDepart(v) {
+  const d = String(v || '').trim();
+  if (!d) { db.prepare(`DELETE FROM reglages WHERE cle = 'depart'`).run();
+            return { ok: true, depart: depart() }; }
+  if (!ISO.test(d)) return { erreur: 'Date attendue au format AAAA-MM-JJ.' };
+  db.prepare(`INSERT INTO reglages (cle, valeur) VALUES ('depart', ?)
+              ON CONFLICT(cle) DO UPDATE SET valeur = excluded.valeur`).run(d);
+  return { ok: true, depart: depart() };
+}
+
 /**
  * Ce que l'atelier planifié fait vraiment. Trois lectures, aucune dans les
  * sources — donc un réglage, comme la capacité.
@@ -377,24 +453,59 @@ function chargeInconnue(lignes, chrono = null, couts = null) {
  * heure : il apparaît quand même, marqué, pour qu'on voie qu'il manque au
  * calcul plutôt que de le croire gratuit.
  */
-function calendrier(lignes, { depart = null, cap = capacite(), perim = null } = {}) {
+/**
+ * Étale le plan sur le calendrier de l'atelier.
+ *
+ * Le principe tient en une phrase : les tâches se posent bout à bout et
+ * consomment la capacité disponible jour après jour. Aucune date n'est
+ * stockée — tout est recalculé à chaque affichage. C'est ce qui fait le
+ * domino : allonger une tâche, en insérer une avant, fermer l'atelier une
+ * semaine, changer la capacité, et tout ce qui suit se recale sans trou ni
+ * chevauchement. Il n'y a rien à « repropager », parce qu'il n'y a rien de
+ * figé à corriger.
+ *
+ * Retourne aussi `parJour` : ce que chaque journée ouvrée contient, avec les
+ * heures prises par chaque item. C'est ce que le calendrier mensuel affiche.
+ */
+function calendrier(lignes, { depart: dep = null, cap = capacite(),
+                              perim = null, pauses: lp = null } = {}) {
   const chrono = tempsChrono(), couts = coutsConfection();
   const bmb = assemblageBMB(), estimes = assemblageEstime();
   const p = perim || perimetre().valeur;
   const parJour = cap.postes * cap.heures_jour;
+
+  const listePauses = lp === null ? pauses() : lp;
+  const fermes = joursEnPause(listePauses);
+  const iso = (d) => d.toISOString().slice(0, 10);
+
   const ouvre = (d) => {
     // jours_semaine = combien de jours travaillés par semaine, du lundi.
     const j = d.getUTCDay();               // 0 = dimanche
-    return j !== 0 && j <= cap.jours_semaine;
+    if (j === 0 || j > cap.jours_semaine) return false;
+    return !fermes.has(iso(d));
   };
   const jour = (d) => new Date(d.getTime() + 864e5);
 
-  let curseur = depart ? new Date(depart + 'T00:00:00Z')
-                       : new Date(new Date().toISOString().slice(0, 10) + 'T00:00:00Z');
-  while (!ouvre(curseur)) curseur = jour(curseur);
+  const d0 = dep || depart().effectif || depart().valeur;
+  let curseur = new Date(d0 + 'T00:00:00Z');
+  // Un plan qui démarre un dimanche, ou pendant une fermeture, commence au
+  // premier jour ouvré suivant. Une garde de deux ans évite la boucle infinie
+  // si quelqu'un ferme l'atelier pour toujours.
+  const butoir = new Date(curseur.getTime() + 730 * 864e5);
+  while (!ouvre(curseur) && curseur < butoir) curseur = jour(curseur);
   let resteJour = parJour;
 
-  const iso = (d) => d.toISOString().slice(0, 10);
+  const occupation = new Map();          // iso → [{ code, nom, heures, produit_id }]
+  const noter = (d, l, h) => {
+    const k = iso(d);
+    if (!occupation.has(k)) occupation.set(k, []);
+    const jourLa = occupation.get(k);
+    const deja = jourLa.find(x => x.code === l.code);
+    if (deja) deja.heures += h;
+    else jourLa.push({ code: l.code, nom: l.nom, produit_id: l.produit_id,
+                       famille: l.famille, heures: h, item_id: l.id });
+  };
+
   const taches = [];
   let heuresTotal = 0, sansTemps = 0;
 
@@ -405,33 +516,64 @@ function calendrier(lignes, { depart = null, cap = capacite(), perim = null } = 
     if (t.source === 'aucune') sansTemps++;
 
     const debut = iso(curseur);
-    let reste = heures;
-    if (reste <= 0) {
+    if (heures <= 0) {
       taches.push({ ...l, temps: t, heures: 0, debut, fin: debut, jours: 0 });
       continue;
     }
-    let jours = 0;
-    while (reste > 1e-9) {
+
+    let reste = heures;
+    const occupes = [];
+    while (reste > 1e-9 && curseur < butoir) {
       const pris = Math.min(reste, resteJour);
       reste -= pris; resteJour -= pris;
+      noter(curseur, l, pris);
+      if (!occupes.length || occupes[occupes.length - 1] !== iso(curseur))
+        occupes.push(iso(curseur));
       if (resteJour <= 1e-9) {
-        do { curseur = jour(curseur); } while (!ouvre(curseur));
+        do { curseur = jour(curseur); } while (!ouvre(curseur) && curseur < butoir);
         resteJour = parJour;
-        jours++;
       }
     }
-    const fin = iso(curseur);
-    taches.push({ ...l, temps: t, heures, debut, fin, jours: jours + 1 });
+    // La fin est le DERNIER jour occupé, pas la position du curseur : une tâche
+    // qui remplit exactement une journée laissait le curseur au lendemain, et
+    // la barre du Gantt s'étirait d'un jour de trop.
+    taches.push({ ...l, temps: t, heures,
+                  debut: occupes[0] || debut,
+                  fin: occupes[occupes.length - 1] || debut,
+                  jours: occupes.length });
   }
 
   return { taches, heuresTotal, sansTemps, cap, perimetre: p,
+           parJour: occupation, capaciteJour: parJour,
+           pauses: listePauses, fermes,
            debut: taches.length ? taches[0].debut : null,
-           fin: taches.length ? taches[taches.length - 1].fin : null };
+           fin: taches.length ? taches.reduce((m, x) => x.fin > m ? x.fin : m,
+                                              taches[0].fin) : null };
+}
+
+/**
+ * Les jours ouvrés entre deux dates, pauses déduites. Sert au verdict — « 42
+ * jours ouvrés d'ici l'expédition » n'est vrai que si on retire les
+ * fermetures.
+ */
+function joursOuvres(du, au, cap = capacite(), fermes = joursEnPause()) {
+  let n = 0;
+  const f = new Date(au + 'T00:00:00Z');
+  for (let d = new Date(du + 'T00:00:00Z'); d < f;
+       d = new Date(d.getTime() + 864e5)) {
+    const j = d.getUTCDay();
+    if (j === 0 || j > cap.jours_semaine) continue;
+    if (fermes.has(d.toISOString().slice(0, 10))) continue;
+    n++;
+  }
+  return n;
 }
 
 module.exports = { tempsChrono, coutsConfection, assemblageBMB, assemblageEstime,
                    tempsUnitaire,
-                   secondes, calendrier, chargeInconnue,
+                   secondes, calendrier, chargeInconnue, joursOuvres,
+                   pauses, poserPause, retirerPause, joursEnPause,
+                   depart, poserDepart,
                    capacite, poserCapacite, CAPACITE_DEFAUT, TAUX_HORAIRE,
                    perimetre, poserPerimetre, PERIMETRES, PERIMETRE_DEFAUT,
                    FAMILLE_CHRONO, FAMILLE_COGS };

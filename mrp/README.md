@@ -178,6 +178,40 @@ recopier à la main.
 La méthode qui va avec — qui met à jour, quand, et ce que le pourcentage veut
 dire — est dans [`METHODE-SUIVI.md`](METHODE-SUIVI.md).
 
+**Calendrier — la grille du mois**
+- Une case par jour : ce que l'atelier fabrique, les heures prises, ce qui est
+  dû ce jour-là, et pourquoi une journée est vide quand elle l'est
+- Les fermetures apparaissent en ambre, avec leur motif ; aujourd'hui est cerné
+- Une teinte par item, pour le suivre d'une case à l'autre — la couleur ne veut
+  rien dire en soi
+- Sous 720 px la grille devient un agenda vertical et les journées vides
+  disparaissent : sept colonnes sur un téléphone ne se lisent pas
+
+**Cédule — la charge et les dates clés**
+- Le verdict d'abord : ça rentre ou ça ne rentre pas, en trois nombres
+- Le diagramme de charge, avec **deux échelles** — les mois pour le repère
+  large, les semaines datées pour la précision. « La semaine du 15 » est une
+  consigne exécutable ; « en octobre » n'en est pas une
+- Chaque ligne porte ses dates, ses heures et son nombre de jours d'atelier
+- Les six sections sont **repliables**, et gardent leur résumé refermées
+  (« 20 postes × 8 h × 5 j = 800 h/semaine »). Les trois réglages de début de
+  saison sont fermés par défaut
+
+**Le domino — pourquoi rien ne se chevauche jamais**
+- **Aucune date n'est stockée.** Le calendrier est recalculé à chaque
+  affichage, en étalant ce qui reste à produire sur la capacité disponible
+- Il n'y a donc rien à « repropager » : allonger une quantité, changer la
+  capacité, fermer l'atelier une semaine, déplacer le départ — tout ce qui
+  suit se recale de lui-même, sans trou et sans chevauchement
+- Trois leviers, tous à la cédule : la **date de départ** décale le plan d'un
+  bloc ; les **pauses d'atelier** (Aïd, congés, rupture de matière) retirent de
+  la capacité ; la **capacité** elle-même resserre ou étire tout
+- Un quatrième à *À fabriquer* : la **priorité** d'un item, le seul moyen de
+  contredire l'ordre calculé
+- Ce n'est pas du glisser-déposer, et c'est volontaire : déplacer une barre à
+  la main créerait une date qui ne vient d'aucun calcul, et c'est précisément
+  ce qui produit les trous et les chevauchements dans un chiffrier
+
 **Inventaire — matières et produits finis**
 - Le stock n'est **pas une colonne**, c'est la somme de ses mouvements : une
   colonne se désynchronise en silence, une somme ne peut pas mentir sur son
@@ -638,12 +672,13 @@ formulaire si l'application devient accessible à un public plus large.
 sh tests/tout.sh
 ```
 
-Quatre suites, aucune n'a besoin du réseau ni de clé API.
+Cinq suites, aucune n'a besoin du réseau ni de clé API.
 
 | Suite | Ce qu'elle couvre |
 | --- | --- |
 | `tests/outils.js` | les 34 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
 | `tests/inventaire.js` | la lecture du chiffrier (unités, rendements inversés, tolérance d'arrondi), le stock comme somme de ses mouvements, et la frontière entre « il en manque » et « on ne sait pas » |
+| `tests/calendrier.js` | les invariants de l'étalement : aucune journée en surcapacité, aucun travail un dimanche ou pendant une fermeture, aucune journée ouvrée laissée vide — et le domino mesuré : fermer 5 jours ouvrés recule la fin de 5 jours ouvrés, exactement |
 | `tests/boucle.js` | la boucle agentique contre une fausse API : enchaînement des outils, retour des erreurs au modèle, reprise du fil, plafond de 12 étapes |
 | `tests/e2e.sh` | le serveur complet : authentification, permissions, avancement pondéré, redimension des images, poids des pages sous 25 Ko |
 
@@ -766,6 +801,12 @@ phrase qu'il faut corriger à la source.
 **Le nom arabe des matières est vide.** Le champ existe et s'affiche ; personne
 ne l'a rempli. C'est la moitié du bilinguisme qui compte pour l'atelier : que
 Québec et Tunis désignent le même rouleau.
+
+**Le calendrier ne montre que ce qui a un temps connu.** Un item sans temps
+unitaire — ni chronométré, ni déductible d'un coût — compte pour zéro heure et
+n'occupe aucune journée. Le verdict de la cédule chiffre à part ce que ces
+items coûteraient ; la grille, elle, ne peut pas les placer. Les chronométrer
+est le seul moyen de trancher.
 
 Volontairement hors de cette version : traduction de l'interface FR/AR/EN,
 convertisseur HPGL (voir `../patrons/`).

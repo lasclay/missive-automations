@@ -156,6 +156,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/produits', 'Produits', 'produits')}
     ${lien('/inventaire', 'Inventaire', 'inventaire')}
     ${lien('/besoins', 'Besoins', 'besoins')}
+    ${lien('/calendrier', 'Calendrier', 'calendrier')}
     ${lien('/cedule', 'Cédule', 'cedule')}
   </nav>
   <span class="qui"><a href="/compte">${e(user.nom)}</a> · ${ROLES[user.role] || e(user.role)}
@@ -1646,6 +1647,29 @@ function vueProduitForm({ user, p = null, photos = [], materiaux = [], patrons =
   return page({ titre: t, user, corps, actif: 'produits', msg });
 }
 
+/**
+ * Un bloc repliable.
+ *
+ * La cédule empile six sections dont trois sont des réglages qu'on touche une
+ * fois par saison. Les laisser dépliées, c'est faire défiler trois écrans
+ * avant d'atteindre le diagramme — et l'atelier consulte cette page sur un
+ * téléphone.
+ *
+ * Le résumé reste lisible replié : un titre seul n'apprend rien, « 20 postes
+ * × 8 h = 160 h/jour » dit déjà l'essentiel et évite d'ouvrir pour vérifier.
+ *
+ * `<details>` fait tout le travail — aucun script, et l'état de pliage n'a pas
+ * à survivre au rechargement : ce qui doit être ouvert par défaut l'est.
+ */
+function pli({ titre, resume = '', corps, ouvert = false, id = '', classe = '' }) {
+  return `<details class="carte pli${classe ? ' ' + classe : ''}"${
+    ouvert ? ' open' : ''}${id ? ` id="${id}"` : ''}>
+    <summary><span class="pli-t">${e(titre)}</span>${resume
+      ? `<span class="pli-r">${resume}</span>` : ''}</summary>
+    <div class="pli-c">${corps}</div>
+  </details>`;
+}
+
 // ==================================================================== cédule
 /* --------------------------------------------------------------------- Gantt
  * Un diagramme de charge : chaque item occupe l'atelier pendant le temps que
@@ -1674,7 +1698,10 @@ function gantt({ cal, jalons = [], admin = false }) {
   const total = Math.max(1, (d1 - d0) / jourMs);
   const pos = (iso) => ((new Date(iso + 'T00:00:00Z') - d0) / jourMs / total) * 100;
 
-  // Un repère par mois : plus fin serait illisible sur six mois.
+  // Deux échelles superposées. Les mois donnent le repère large, les semaines
+  // donnent la précision dont l'atelier a besoin : « la semaine du 15 » est
+  // une consigne, « en octobre » n'en est pas une. Le cadre défile
+  // horizontalement, donc la largeur ne coûte rien à la page.
   const mois = [];
   {
     const c = new Date(d0);
@@ -1682,10 +1709,28 @@ function gantt({ cal, jalons = [], admin = false }) {
     while (c <= d1) {
       const iso = c.toISOString().slice(0, 10);
       if (c >= d0) mois.push({ iso, x: pos(iso),
-        nom: c.toLocaleDateString('fr-CA', { month: 'short', timeZone: 'UTC' }) });
+        nom: c.toLocaleDateString('fr-CA', { month: 'long', timeZone: 'UTC' }) });
       c.setUTCMonth(c.getUTCMonth() + 1);
     }
   }
+
+  const semaines = [];
+  {
+    // On part du lundi de la semaine du départ, même s'il précède la fenêtre :
+    // sinon la première colonne serait une semaine tronquée sans repère.
+    const c = new Date(d0);
+    c.setUTCDate(c.getUTCDate() - ((c.getUTCDay() + 6) % 7));
+    while (c <= d1) {
+      const iso = c.toISOString().slice(0, 10);
+      semaines.push({ iso, x: pos(iso), jour: c.getUTCDate(),
+        libelle: c.toLocaleDateString('fr-CA',
+          { day: 'numeric', month: 'short', timeZone: 'UTC' }) });
+      c.setUTCDate(c.getUTCDate() + 7);
+    }
+  }
+  const aujIso = new Date().toISOString().slice(0, 10);
+  const xAuj = aujIso >= cal.debut && aujIso <= d1.toISOString().slice(0, 10)
+    ? pos(aujIso) : null;
 
   const SRC = {
     'deux':         'prép. + assemblage',
@@ -1704,6 +1749,19 @@ function gantt({ cal, jalons = [], admin = false }) {
     if (t.assemblage) bouts.push(m(t.assemblage) + " d'assemblage");
     return bouts.join(' + ') || 'aucun temps connu';
   };
+  // Les pauses, en bandes : une journée fermée au milieu d'une barre explique
+  // pourquoi elle est plus longue qu'on ne l'attendait.
+  const fermetures = (cal.pauses || []).map(pz => {
+    const x = pos(pz.debut);
+    // La fin d'une pause est inclusive : on ajoute un jour pour que la bande
+    // couvre bien le dernier jour fermé.
+    const finPlus = new Date(new Date(pz.fin + 'T00:00:00Z').getTime() + jourMs)
+      .toISOString().slice(0, 10);
+    return { x, l: Math.max(0.4, pos(finPlus) - x),
+             motif: (pz.motif || 'atelier fermé') + ' — du ' + dateFR(pz.debut)
+                    + ' au ' + dateFR(pz.fin) };
+  }).filter(f => f.l > 0 && f.x < 100);
+
   const dernier = jalons.length
     ? jalons.map(j => j.date).sort()[0] : null;   // la première échéance compte
 
@@ -1712,33 +1770,49 @@ function gantt({ cal, jalons = [], admin = false }) {
     const dehors = dernier && x.fin > dernier;
     return `<tr class="${dehors ? 'g-dehors' : ''}">
       <th scope="row"><a href="/produits/${x.produit_id}">${e(x.code)}</a>
-        <span class="g-h">${Math.round(x.heures).toLocaleString('fr-CA')} h</span>
+        <span class="g-h">${Math.round(x.heures).toLocaleString('fr-CA')} h
+          · ${x.jours} j</span>
+        <span class="g-quand">${dateFR(x.debut)} → ${dateFR(x.fin)}</span>
         <span class="g-tags"><span class="g-src g-src-${x.temps.source}"
               title="${e(detail(x.temps))}">${SRC[x.temps.source] || x.temps.source}</span
         >${x.temps.divergent ? `<span class="g-src g-src-alerte"
           title="${e(x.temps.divergent)}">⚠ sources</span>` : ''}</span></th>
       <td><div class="g-piste">
+        ${semaines.map(w => `<i class="g-sem" style="left:${w.x}%"></i>`).join('')}
         ${mois.map(m => `<i class="g-mois" style="left:${m.x}%"></i>`).join('')}
+        ${fermetures.map(f => `<i class="g-ferme"
+           style="left:${f.x}%;width:${f.l}%" title="${e(f.motif)}"></i>`).join('')}
+        ${xAuj !== null ? `<i class="g-auj" style="left:${xAuj}%"
+           title="aujourd'hui"></i>` : ''}
         ${jalons.map(j => `<i class="g-jalon" style="left:${pos(j.date)}%"
            title="${e(j.titre)} — ${dateFR(j.date)}"></i>`).join('')}
         <i class="g-barre" style="left:${g}%;width:${l}%"
-           title="${e(x.code)} — ${dateFR(x.debut)} au ${dateFR(x.fin)}"></i>
+           title="${e(x.code)} — ${dateFR(x.debut)} au ${dateFR(x.fin)}, ${
+             x.jours} jour${x.jours > 1 ? 's' : ''} d'atelier"></i>
       </div></td>
     </tr>`;
   };
 
-  return `<div class="carte">
-    <h2>Charge de l'atelier</h2>
+  return `
     <p class="sec">Chaque item occupe l'atelier le temps que sa quantité
-    demande, dans l'ordre de fabrication. Le trait rouge est l'expédition.</p>
+    demande, dans l'ordre de fabrication. Le trait rouge est l'expédition,
+    le vert est aujourd'hui.</p>
 
     <div class="tbl g-cadre"><table class="gantt">
-      <thead><tr><th></th><td><div class="g-echelle">
-        ${mois.map(m => `<span style="left:${m.x}%">${m.nom}</span>`).join('')}
-      </div></td></tr></thead>
+      <thead>
+        <tr><th></th><td><div class="g-echelle g-mois-band">
+          ${mois.map(m => `<span style="left:${m.x}%">${m.nom}</span>`).join('')}
+        </div></td></tr>
+        <tr><th><span class="g-leg">semaine du</span></th>
+          <td><div class="g-echelle g-sem-band">
+          ${semaines.map(w => `<span style="left:${w.x}%">${w.libelle}</span>`).join('')}
+        </div></td></tr>
+      </thead>
       <tbody>${t.map(ligne).join('')}</tbody>
     </table></div>
-  </div>`;
+    ${fermetures.length ? `<p class="sec" style="margin:8px 0 0">Les bandes
+      hachurées sont les fermetures d'atelier. Elles ne suspendent pas le
+      travail sur place : elles le repoussent, et tout ce qui suit avec.</p>` : ''}`;
 }
 
 function vueCedule({ user, jalons, msg, cal = null }) {
@@ -1761,17 +1835,27 @@ function vueCedule({ user, jalons, msg, cal = null }) {
    * rentre », et elle se répond en trois nombres.
    */
   const perim = C.perimetre();
+  const cap = C.capacite();
+  const dep = C.depart();
+  const pz = C.pauses();
+  const joursDePause = (x) => Math.round(
+    (new Date(x.fin + 'T00:00:00Z') - new Date(x.debut + 'T00:00:00Z')) / 864e5) + 1;
+  // Les jours réellement retirés à l'atelier : une fermeture du samedi au
+  // dimanche ne coûte rien quand on travaille cinq jours.
+  const joursFermes = [...C.joursEnPause(pz).keys()].filter(k => {
+    const j = new Date(k + 'T00:00:00Z').getUTCDay();
+    return j !== 0 && j <= cap.jours_semaine;
+  }).length;
   const verdict = () => {
     if (!cal || !cal.taches.length) return '';
     const echeance = jalons.filter(j => j.date >= auj).map(j => j.date).sort()[0];
     const c = cal.cap;
     let dispo = null, jours = 0;
     if (echeance) {
-      const d = new Date(auj + 'T00:00:00Z'), f = new Date(echeance + 'T00:00:00Z');
-      for (let x = new Date(d); x < f; x = new Date(x.getTime() + 864e5)) {
-        const j = x.getUTCDay();
-        if (j !== 0 && j <= c.jours_semaine) jours++;
-      }
+      // Les fermetures se déduisent : « 42 jours ouvrés d'ici l'expédition »
+      // est faux si l'atelier ferme deux semaines au milieu, et c'est
+      // exactement le genre de faux qui fait dire « ça rentre ».
+      jours = C.joursOuvres(auj, echeance, c, C.joursEnPause(pz));
       dispo = jours * c.postes * c.heures_jour;
     }
     const manque = dispo !== null && cal.heuresTotal > dispo;
@@ -1791,7 +1875,8 @@ function vueCedule({ user, jalons, msg, cal = null }) {
       <div class="chiffres">
         <div class="c"><b>${Math.round(cal.heuresTotal).toLocaleString('fr-CA')}</b>heures de travail</div>
         ${dispo !== null ? `<div class="c"><b>${dispo.toLocaleString('fr-CA')}</b>heures disponibles
-          <span class="sec">${jours} jours ouvrés d'ici le ${dateFR(echeance)}</span></div>` : ''}
+          <span class="sec">${jours} jours ouvrés d'ici le ${dateFR(echeance)}${
+            joursFermes ? `, ${joursFermes} retiré${joursFermes > 1 ? 's' : ''} par les pauses` : ''}</span></div>` : ''}
         <div class="c"><b>${c.postes}</b>postes ${c.defaut
           ? '<span class="sec">équipe annoncée · non confirmée ici</span>' : ''}</div>
         <div class="c"><b style="font-size:15px;line-height:1.3">${
@@ -1825,28 +1910,34 @@ function vueCedule({ user, jalons, msg, cal = null }) {
       signale les sources qui se contredisent.</p>
     </div>
 
-    ${admin ? `<div class="carte">
-      <h2>Capacité de l'atelier</h2>
-      <p class="sec">Aucune source ne la donne : c'est ce réglage qui transforme
-      des heures en dates. Le changer redessine tout le calendrier.
-      ${c.defaut ? '<b>Les 20 postes viennent de l\'équipe annoncée — 20 couturières, donc bien 20 postes de couture — pas d\'une mesure de ce qui sort par jour.</b> Confirmer ici.' : ''}</p>
+`;
+  };
+
+  /** Les hypothèses qui transforment des heures en dates. */
+  const reglages = () => `${admin ? pli({
+      titre: "Capacité de l'atelier",
+      resume: `${cap.postes} postes × ${cap.heures_jour} h × ${cap.jours_semaine} j `
+            + `= ${cap.heures_semaine.toLocaleString('fr-CA')} h/semaine`
+            + (cap.defaut ? ' · à confirmer' : ''),
+      corps: `<p class="sec">Aucune source ne la donne : c'est ce réglage qui
+      transforme des heures en dates. Le changer redessine tout le calendrier.
+      ${cap.defaut ? '<b>Les 20 postes viennent de l\'équipe annoncée — 20 couturières, donc bien 20 postes de couture — pas d\'une mesure de ce qui sort par jour.</b> Confirmer ici.' : ''}</p>
       <form method="post" action="/cedule/capacite" class="cap-form">
         <div class="champ"><label for="cp">Postes</label>
           <input id="cp" type="number" name="postes" min="1" max="200"
-                 value="${c.postes}" required></div>
+                 value="${cap.postes}" required></div>
         <div class="champ"><label for="ch">Heures par jour</label>
           <input id="ch" type="number" name="heures_jour" min="1" max="24"
-                 value="${c.heures_jour}" required></div>
+                 value="${cap.heures_jour}" required></div>
         <div class="champ"><label for="cj">Jours par semaine</label>
           <input id="cj" type="number" name="jours_semaine" min="1" max="7"
-                 value="${c.jours_semaine}" required></div>
+                 value="${cap.jours_semaine}" required></div>
         <button class="btn">Recalculer</button>
-      </form>
-    </div>
-
-    <div class="carte">
-      <h2>Ce que l'atelier fait</h2>
-      <p class="sec">Aucune source ne dit si l'atelier planifié fait la
+      </form>` })
+    + pli({
+      titre: "Ce que l'atelier fait",
+      resume: C.PERIMETRES[perim.valeur] + (perim.defaut ? ' · non confirmé' : ''),
+      corps: `<p class="sec">Aucune source ne dit si l'atelier planifié fait la
       préparation, l'assemblage, ou les deux — et l'écart entre les trois
       lectures dépasse le simple au double. Par défaut « les deux » : c'est la
       lecture prudente. ${perim.defaut
@@ -1856,28 +1947,85 @@ function vueCedule({ user, jalons, msg, cal = null }) {
           <label for="pe">Périmètre</label>
           <select id="pe" name="perimetre">
             ${Object.entries(C.PERIMETRES).map(([k, lib]) =>
-              `<option value="${k}"${k === perim.valeur ? ' selected' : ''}>${lib}</option>`).join('')}
+              `<option value="${k}"${k === perim.valeur ? ' selected' : ''}>${e(lib)}</option>`).join('')}
           </select></div>
         <button class="btn">Recalculer</button>
+      </form>` })
+    + pli({
+      titre: 'Date de départ du plan', id: 'depart',
+      resume: dep.defaut ? "aujourd'hui" : dateFR(dep.valeur)
+              + (dep.passe ? ' · passée, le calcul part d\'aujourd\'hui' : ''),
+      corps: `<p class="sec">Le plan commence à consommer de la capacité ce
+      jour-là. La déplacer décale <b>tout</b> le calendrier d'un bloc — c'est le
+      levier le plus simple quand la saison démarre plus tard qu'espéré.</p>
+      <form method="post" action="/cedule/depart" class="cap-form">
+        <div class="champ"><label for="dp">Premier jour de production</label>
+          <input id="dp" type="date" name="depart" value="${
+            dep.defaut ? '' : e(dep.valeur)}"></div>
+        <button class="btn">Recalculer</button>
       </form>
-    </div>` : ''}`;
-  };
+      <p class="sec" style="margin:8px 0 0">Vider le champ remet le départ à
+      aujourd'hui.</p>` })
+    + pli({
+      titre: "Pauses d'atelier", id: 'pauses',
+      resume: pz.length
+        ? `${pz.length} pause${pz.length > 1 ? 's' : ''} · ${
+            joursFermes} jour${joursFermes > 1 ? 's' : ''} fermé${
+            joursFermes > 1 ? 's' : ''}`
+        : 'aucune',
+      corps: `<p class="sec">Les jours où l'atelier ne produit pas : Aïd,
+      congés, une rupture de matière, un déménagement. C'est le vrai moyen de
+      <b>repousser</b> du travail — on ne déplace aucune tâche à la main, on
+      retire de la capacité, et tout ce qui suit se recale sans trou ni
+      chevauchement.</p>
+      ${pz.length ? `<ul class="pauses">${pz.map(x => `<li>
+        <span class="p-d">${dateFR(x.debut)}${x.fin !== x.debut
+          ? ` → ${dateFR(x.fin)}` : ''}</span>
+        <span class="p-n">${e(x.motif) || 'atelier fermé'}
+          <span class="sec">· ${joursDePause(x)} jour${
+            joursDePause(x) > 1 ? 's' : ''}</span></span>
+        <form method="post" action="/cedule/pauses/${x.id}/supprimer">
+          <button class="btn dgr min">×</button></form>
+      </li>`).join('')}</ul>` : ''}
+      <form method="post" action="/cedule/pauses" class="cap-form">
+        <div class="champ"><label for="pd">Du</label>
+          <input id="pd" type="date" name="debut" required></div>
+        <div class="champ"><label for="pf">Au <span class="sec">inclus</span></label>
+          <input id="pf" type="date" name="fin"></div>
+        <div class="champ" style="flex:2"><label for="pm">Motif</label>
+          <input id="pm" type="text" name="motif" maxlength="120"
+                 placeholder="Aïd, congés, rupture de molleton…"></div>
+        <button class="btn">Ajouter</button>
+      </form>` }) : ''}`;
 
+  const moisCourant = auj.slice(0, 7);
   const corps = `
   <div class="entete"><div><h1>Cédule</h1>
-    <p class="muted">La charge de l'atelier et les dates clés</p></div></div>
+    <p class="muted">La charge de l'atelier et les dates clés</p></div>
+    <a class="btn sec" href="/calendrier">Voir le calendrier →</a></div>
   ${verdict()}
-  ${cal ? gantt({ cal, jalons: jalons.filter(j => j.date >= auj), admin }) : ''}
-  ${Object.keys(parMois).length ? Object.entries(parMois).map(([mois, liste]) => `
-    <div class="carte"><h2 style="text-transform:capitalize">${nomMois(mois)}</h2>
-      ${liste.map(j => `<div class="jalon${j.date < auj ? ' passe' : ''}">
+  ${cal ? pli({ titre: "Charge de l'atelier", ouvert: true,
+      resume: cal.debut
+        ? `${cal.taches.filter(x => x.heures > 0).length} items · du ${
+            dateFR(cal.debut)} au ${dateFR(cal.fin)}` : '',
+      corps: gantt({ cal, jalons: jalons.filter(j => j.date >= auj), admin }) }) : ''}
+  ${reglages()}
+  ${Object.keys(parMois).length ? Object.entries(parMois).map(([mois, liste]) => {
+    // Un mois écoulé se replie : il ne se passera plus rien dedans, mais on
+    // veut pouvoir y revenir — c'est l'historique des dates promises.
+    const passe = mois < moisCourant;
+    return pli({
+      titre: nomMois(mois), ouvert: !passe, classe: 'mois',
+      resume: `${liste.length} date${liste.length > 1 ? 's' : ''}${
+        passe ? ' · écoulé' : ''}`,
+      corps: liste.map(j => `<div class="jalon${j.date < auj ? ' passe' : ''}">
         <span class="d">${dateFR(j.date)}</span>
         <span class="et et-${j.type}">${TYPES_JALON[j.type]}</span>
         <span style="flex:1">${e(j.titre)}
           <a class="muted" href="/ordres/${j.ordre_id}">· ${e(j.numero)} ${e(j.ordre_titre)}</a>
           ${j.note ? `<br><span class="muted">${e(j.note)}</span>` : ''}</span>
-      </div>`).join('')}
-    </div>`).join('')
+      </div>`).join('') });
+  }).join('')
    : `<div class="carte"><p class="vide">Aucune date enregistrée.</p></div>`}`;
   return page({ titre: 'Cédule', user, corps, actif: 'cedule', msg });
 }
