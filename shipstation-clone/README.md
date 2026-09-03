@@ -329,6 +329,7 @@ verifier_adresses.js   Google Places → ship_to, menus de pays et de provinces,
                        des emplacements d'expédition
 verifier_freightcom.js forme des requêtes, unités, cache, idempotence, refus d'achat
                        (--reel, --panel, --catalogue interrogent le compte, en lecture)
+verifier_canaux.js     qui est notifié chez Shopify, Etsy et Faire, et qui ne l'est pas
 verifier_chitchats.js  lots, étiquettes, remboursements, codes postaux
 verifier_assurance.js  acheminement de l'assurance, par fournisseur
 verifier_routage.js    coter chez l'un et acheter chez l'autre est impossible

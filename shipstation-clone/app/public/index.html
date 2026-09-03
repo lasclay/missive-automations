@@ -4848,6 +4848,20 @@ async function detailCommande(id) {
     const l = j.shipments || [];
     expeditionsDeLaCommande = l;
     $("#fnExp", f).textContent = l.length;
+    /*
+     * L'état du renvoi à la boutique, sur chaque expédition.
+     *
+     * L'étiquette s'imprime, le colis part, et le client ne voit rien passer chez Shopify :
+     * c'est un renvoi qui n'a pas eu lieu. Il ne se voyait nulle part — l'écran affichait le
+     * numéro de suivi comme si tout était fait. Il se lit ici, et se relance d'un clic.
+     */
+    const etatRenvoi = (x) => {
+      if (x.is_return || x.voided) return "";
+      if (x.marketplace_notified) return '<span class="puce v">boutique notifiée</span>';
+      return `<span class="puce a">boutique non notifiée</span>
+        ${x.notify_error ? `<span class="doux" style="font-size:11px">${esc(String(x.notify_error).slice(0, 70))}</span>` : ""}
+        <button type="button" class="lienB" data-renvoi="${x.id}">Renvoyer le suivi</button>`;
+    };
     $("#fRailL", f).innerHTML = l.length
       ? l.map((x, i) => `<div class="fRailE ${i === 0 ? "actif" : ""}">
           <b>Expédition ${i + 1}</b>
@@ -4856,8 +4870,24 @@ async function detailCommande(id) {
           <span class="doux">${money(x.cost)}</span>
           ${x.is_return ? '<span class="puce a">retour</span>' : ""}
           ${x.voided ? '<span class="puce r">annulée</span>' : ""}
+          ${etatRenvoi(x)}
         </div>`).join("")
       : `<div class="fRailE actif"><b>Expédition 1</b><span class="doux">à préparer</span></div>`;
+
+    $("#fRailL", f).querySelectorAll("[data-renvoi]").forEach((b) => b.onclick = async (ev) => {
+      ev.stopPropagation();
+      b.disabled = true;
+      try {
+        // `force` : le geste est explicite, il passe outre la date de bascule. C'est le seul
+        // moyen de rattraper une expédition que la bascule avait laissée de côté.
+        const r = await api("/api/channels/notify", { method: "POST",
+          body: { shipment_id: Number(b.dataset.renvoi), force: true } });
+        if (r.erreur) dialogue("Renvoi refusé", `<div class="avis">${esc(r.erreur)}</div>`, null, "Fermer");
+        else if (r.ignore) dialogue("Renvoi non effectué", `<div class="avis">${esc(r.ignore)}</div>`, null, "Fermer");
+        else toast(`Suivi renvoyé à ${esc(r.canal || "la boutique")}.`);
+      } catch (e) { dialogue("Renvoi impossible", `<div class="avis">${esc(e.message)}</div>`, null, "Fermer"); }
+      finally { recharger(); }
+    });
   }).catch(() => { $("#fRailL", f).innerHTML = '<div class="doux" style="padding:8px">—</div>'; });
 
   const scinder = () => dialogue(`Scinder ${o.order_number}`, `
