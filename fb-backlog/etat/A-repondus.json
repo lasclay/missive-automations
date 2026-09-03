@@ -1064,8 +1064,24 @@
       "quand": "2026-09-02T23:14:45.868Z",
       "confirme": true,
       "texte": "Jolie image pour la soie qui s'envole du follicule à l'automne. C'est ce follicule-là qui est récolté, une fois les monarques repartis ; la feuille, elle, n'est jamais touchée."
+    },
+    {
+      "id": "1484770853656726_1369709951626110",
+      "reponse_id": "1484770853656726_2618419978587135",
+      "page_id": "104242204750257",
+      "quand": "2026-09-03T00:09:51.576Z",
+      "confirme": true,
+      "texte": "Le « petit concombre », c'est une des plus belles images qu'on entende pour le follicule. Une nuance par contre, qu'on préfère dire nous-mêmes : l'isolant du manteau contient 40 % de polyester, qui tient les fibres en place. La soie, elle, est bien naturelle, mais le produit fini ne l'est pas entièrement."
+    },
+    {
+      "id": "1471545418312603_2294732601019110",
+      "reponse_id": "1471545418312603_1542680847078480",
+      "page_id": "104242204750257",
+      "quand": "2026-09-03T00:11:31.367Z",
+      "confirme": true,
+      "texte": "Content de le lire. Un manteau engage plus qu'un accessoire, alors les retours sur celui-là pèsent lourd de notre côté. Bonne saison avec."
     }
   ],
-  "derniere_execution": "2026-09-02T23:14:45.868Z",
-  "total": 133
+  "derniere_execution": "2026-09-03T00:11:31.367Z",
+  "total": 135
 }
