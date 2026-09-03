@@ -1080,8 +1080,24 @@
       "quand": "2026-09-03T00:11:31.367Z",
       "confirme": true,
       "texte": "Content de le lire. Un manteau engage plus qu'un accessoire, alors les retours sur celui-là pèsent lourd de notre côté. Bonne saison avec."
+    },
+    {
+      "id": "1471550908312054_1419023629076317",
+      "reponse_id": "1471550908312054_1053587940610437",
+      "page_id": "104242204750257",
+      "quand": "2026-09-03T11:16:13.636Z",
+      "confirme": true,
+      "texte": "Bien joué. On ne se battra pas contre celui-là : il a un avantage qu'aucune fibre ne rattrape."
+    },
+    {
+      "id": "1471550908312054_1958110891408070",
+      "reponse_id": "1471550908312054_1600741304943815",
+      "page_id": "104242204750257",
+      "quand": "2026-09-03T11:17:18.808Z",
+      "confirme": true,
+      "texte": "Merci de le dire plutôt que de le garder pour vous. Une semelle qui glisse vers l'avant ne fait plus son travail, ce n'est pas un détail. Écrivez-nous en message privé : on veut comprendre ce qui se passe dans votre botte."
     }
   ],
-  "derniere_execution": "2026-09-03T00:11:31.367Z",
-  "total": 135
+  "derniere_execution": "2026-09-03T11:17:18.808Z",
+  "total": 137
 }
