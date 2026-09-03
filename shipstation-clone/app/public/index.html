@@ -9315,7 +9315,11 @@ VUES.reglages = async () => {
         <thead><tr><th scope="col">Identifiant</th><th scope="col">Nom</th>
           <th scope="col">Type</th><th scope="col"></th></tr></thead>
         <tbody>${lignes}</tbody></table></div>`
-        : (p.lecture ? "" : '<div class="doux">Le compte ne déclare aucune méthode de paiement.</div>')}
+        : (p.lecture ? "" : `<div class="avis">Aucune méthode n'a pu être lue dans la réponse de
+            Freightcom. Ce n'est pas la même chose qu'un compte sans carte — c'est peut-être une
+            forme de réponse que le clone ne sait pas ouvrir. Voici ce que l'API a rendu :
+            <pre style="white-space:pre-wrap;max-height:200px;overflow:auto">${
+              esc(JSON.stringify(p.brut, null, 2) || "réponse vide")}</pre></div>`)}
       ${p.configuree ? `<div class="doux" style="margin-top:6px">Réglage
         <code>FREIGHTCOM_PAYMENT_METHOD_ID</code> = <code>${esc(p.configuree)}</code></div>`
         : '<div class="doux" style="margin-top:6px">Aucun réglage imposé — le clone prend celle par défaut du compte.</div>'}

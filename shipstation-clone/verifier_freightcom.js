@@ -292,6 +292,47 @@ const TARIF = (id, cents, nom) => ({
     delete process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
     fc.oublierPaiement();
   }
+
+  /*
+   * La carte VISA est bien enregistrée chez Freightcom — « Primary Card » dans le
+   * portefeuille — et la liste revenait vide ici. Une liste vide n'est pas un compte sans
+   * carte : c'est le plus souvent une enveloppe qu'on n'a pas su ouvrir. Chaque forme que
+   * l'API peut rendre est donc éprouvée.
+   */
+  console.log("\nMéthodes de paiement — formes de réponse\n" + "─".repeat(64));
+  const FORMES = {
+    "tableau nu": [{ id: "pm-1", name: "VISA 9044", default: true }],
+    "sous payment_methods": { payment_methods: [{ id: "pm-1", name: "VISA 9044", default: true }] },
+    "sous data": { data: [{ id: "pm-1", name: "VISA 9044", is_default: true }] },
+    "sous items": { items: [{ payment_method_id: "pm-1", nickname: "VISA 9044", primary: true }] },
+    "objet indexé par identifiant": { payment_methods: { "pm-1": { name: "VISA 9044", default: true } } },
+    "carte sans nom, avec last4": { payment_methods: [{ id: "pm-1", brand: "VISA", last4: "9044", is_primary: true }] },
+  };
+  for (const [forme, corps] of Object.entries(FORMES)) {
+    espion([{ corps }]);
+    const l = await fc.methodesPaiement();
+    verifier(`${forme} : la méthode est lue`,
+      l.length === 1 && l[0].id === "pm-1" && l[0].defaut === true,
+      l.length ? `${l[0].id} · ${l[0].nom} · défaut ${l[0].defaut}` : "rien lu");
+  }
+  {
+    // Rien à lire : la réponse entière voyage avec la liste, sinon le vide ne se diagnostique pas.
+    espion([{ corps: { quelque_chose: "d'inattendu" } }]);
+    const l = await fc.methodesPaiement();
+    verifier("une réponse illisible garde sa forme brute pour l'écran",
+      l.length === 0 && l.brut && l.brut.quelque_chose === "d'inattendu");
+  }
+  {
+    // Et un identifiant imposé ne se fait pas refuser sur une liste qu'on n'a pas su lire.
+    fc.oublierPaiement();
+    process.env.FREIGHTCOM_PAYMENT_METHOD_ID = "pm-inconnu";
+    espion([{ corps: { forme: "inconnue" } }]);
+    const choisi = await fc.methodePaiement();
+    verifier("liste illisible : l'identifiant imposé part quand même",
+      choisi === "pm-inconnu", "Freightcom tranchera — refuser ici ferait chercher chez lui");
+    delete process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
+    fc.oublierPaiement();
+  }
   verifier("numéro de suivi et prix rendus",
     achat.trackingNumber === "1234567890" && achat.price === 6.31 && achat.dropOff === true);
   verifier("l'étiquette est récupérée après la réservation",
