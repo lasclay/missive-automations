@@ -8853,6 +8853,18 @@ VUES.reglages = async () => {
             <td><button type="button" class="lienB" data-emp="${e.id}">Modifier</button></td></tr>`;
         }).join("") || '<tr><td colspan="4" class="doux">Aucun emplacement.</td></tr>'}</tbody></table></div></div>
 
+    <!-- Freightcom produit les deux tailles et n'en accepte aucune en paramètre : le choix
+         se fait ici, à la lecture des documents. -->
+    <div class="carte"><b>Format des étiquettes</b>
+      <p class="doux" style="margin:2px 0 8px">Freightcom rend chaque étiquette en deux
+        tailles. Sur <b>lettre</b>, elle sort au quart d'une page et il faut la découper.</p>
+      <label class="champ"><span>Taille par défaut</span><select id="fmtEt">
+        <option value="a6"${(s.format_etiquette || "a6") === "a6" ? " selected" : ""}>A6 — 105 × 148 mm (4 × 6 po), imprimante d'étiquettes</option>
+        <option value="letter"${s.format_etiquette === "letter" ? " selected" : ""}>Lettre — 8,5 × 11 po, imprimante ordinaire</option>
+      </select></label>
+      <p class="doux">S'applique aux prochaines étiquettes. Celles déjà achetées gardent le
+        document produit à l'achat.</p></div>
+
     <!-- « payment_method_id: not-found » : le réglage nommait une méthode du bac à sable,
          restée en place après le passage en production. Rien ne la confrontait au compte. -->
     <div class="carte"><b>Paiement Freightcom</b>
@@ -9425,6 +9437,13 @@ VUES.reglages = async () => {
   $("#vue").querySelectorAll("[data-colis]").forEach((b) => b.onclick = () =>
     editerColis(colisTypes.find((x) => String(x.id) === String(b.dataset.colis))));
   $("#colisNew").onclick = () => editerColis(null);
+
+  $("#fmtEt").onchange = async () => {
+    await api("/api/settings", { method: "POST", body: { format_etiquette: $("#fmtEt").value } });
+    toast($("#fmtEt").value === "a6"
+      ? "Les prochaines étiquettes sortiront en A6 (4 × 6 po)."
+      : "Les prochaines étiquettes sortiront en format lettre.");
+  };
 
   $("#expS").onclick = async () => {
     const manque = ["expC", "expT", "expM"].filter((k) => !$("#" + k).value.trim());
