@@ -20,6 +20,10 @@ const TYPES_JALON = { expedition:'Expédition', livraison:'Livraison',
 const FAMILLES = { hiver:'Hiver', nouveau:'Nouveau',
                    isotherme:'Sacs', autre:'Autre' };
 const LIEUX = { tunisie:'Tunisie', chine:'Chine' };
+const V = require('./variantes.js');
+const C = require('./charge.js');
+const D = require('./db.js');
+const { TYPES_QC, SECTIONS_CHARTE } = D;
 /* Les deux rôles portent leur lieu : ce n'est pas une hiérarchie, c'est un
    partage géographique du travail. Les valeurs stockées restent `admin` et
    `atelier` ; seuls les libellés changent. */
@@ -73,6 +77,19 @@ function urlAcceptable(u) {
   catch { return false; }
 }
 
+/**
+ * Les photos d'un bris, dans l'ordre où le client les a envoyées.
+ *
+ * Un même signalement arrive souvent avec trois clichés de la même couture :
+ * de loin, de près, la doublure retournée. Les trois ont de la valeur — c'est
+ * ce qui fait comprendre le bris à quelqu'un qui n'a jamais tenu la pièce —
+ * donc `photo_url` accepte plusieurs adresses séparées par une espace. Une
+ * seule adresse, le cas courant, ressort en liste d'un élément.
+ */
+function photosBris(u) {
+  return String(u || '').trim().split(/\s+/).filter(urlAcceptable);
+}
+
 /** Largeurs demandées selon le contexte d'affichage. */
 const TAILLES = { mini: 160, vignette: 320, galerie: 640 };
 
@@ -111,24 +128,35 @@ function jauge(pct) {
 function page({ titre, user, corps, actif = '', msg = null }) {
   const lien = (h, t, k) =>
     `<a href="${h}"${actif === k ? ' class="on"' : ''}>${t}</a>`;
+  // Le compteur de tâches se calcule ici plutôt que d'être passé par chaque vue :
+  // une pastille qui ne s'affiche que sur une page ne sert à rien. Une requête
+  // indexée par rendu, c'est le prix d'un badge qu'on voit de partout.
+  // Un gabarit ne doit jamais faire tomber une page. Sans id — un aperçu, un
+  // test — la pastille disparaît simplement.
+  const enAttente = user && user.id ? D.compteTaches(user.id) : { n: 0, retard: 0 };
+  const lienTaches = `<a href="/taches"${actif === 'taches' ? ' class="on"' : ''}>Tâches${
+    enAttente.n ? `<span class="pastille${enAttente.retard ? ' urgent' : ''}"
+      >${enAttente.n}</span>` : ''}</a>`;
   return `<!doctype html><html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${e(titre)} — Lasclay MRP</title>
 <link rel="stylesheet" href="/style.css">
-<link rel="icon" href="data:,">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/favicon-180.png">
 </head><body>
 <header class="top"><div class="top-in">
   <a class="marque" href="/">Lasclay <span>MRP</span></a>
   ${user ? `<nav class="top">
+    ${lien('/assistant', 'Assistant', 'assistant')}
     ${lien('/', 'Tableau de bord', 'accueil')}
     ${lien('/priorites', 'À fabriquer', 'priorites')}
     ${lien('/ordres', 'Ordres de production', 'ordres')}
     ${lien('/suivi', 'Suivi', 'suivi')}
+    ${lienTaches}
     ${lien('/produits', 'Produits', 'produits')}
     ${lien('/inventaire', 'Inventaire', 'inventaire')}
     ${lien('/besoins', 'Besoins', 'besoins')}
     ${lien('/cedule', 'Cédule', 'cedule')}
-    ${lien('/assistant', 'Assistant', 'assistant')}
   </nav>
   <span class="qui"><a href="/compte">${e(user.nom)}</a> · ${ROLES[user.role] || e(user.role)}
     · <a href="/deconnexion">Sortir</a></span>` : ''}
@@ -143,7 +171,8 @@ ${corps}
 const vueConnexion = ({ erreur }) => `<!doctype html><html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Connexion — Lasclay MRP</title><link rel="stylesheet" href="/style.css">
-<link rel="icon" href="data:,"></head><body>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/favicon-180.png"></head><body>
 <div class="connexion">
   <h1 style="margin-bottom:4px">Lasclay <span class="muted">MRP</span></h1>
   <p class="muted" style="margin-bottom:16px">Ordres de production et fiches produits</p>
@@ -158,6 +187,139 @@ const vueConnexion = ({ erreur }) => `<!doctype html><html lang="fr"><head>
 </div></body></html>`;
 
 
+
+/* ------------------------------------------------------- répartition visuelle
+ * « 2 000 mitaines » ne dit pas quoi couper. La barre montre la proportion,
+ * les pastilles donnent le compte, et un coloris porte sa vraie teinte —
+ * plus vite lu qu'un mot.
+ *
+ * Rendu côté serveur, sans image ni script : une barre est faite de <i> à
+ * largeur calculée, une pastille d'un carré coloré. Ça coûte quelques
+ * centaines d'octets par ligne, une fois compressé.
+ */
+function repartition(v, { compact = false } = {}) {
+  if (!v || !v.lignes.length) return '';
+  const total = v.somme || 1;
+
+  const chip = (l) => {
+    const t = V.teinte(l.nom);
+    const type = V.typeVariante(l.nom);
+    return `<span class="ch ch-${type}">${t
+      ? `<i class="pastille" style="background:${t}"></i>` : ''}<span
+      class="ch-n">${e(l.nom)}</span><b>${l.quantite.toLocaleString('fr-CA')}</b></span>`;
+  };
+
+  // Une barre par groupe : sans ça, les tailles de tous les coloris se
+  // mélangent et la proportion ne veut plus rien dire.
+  // Un écart de quelques unités vient de l'arrondi des pourcentages du
+  // chiffrier ; un écart de 300 est une question. Ne pas les afficher pareil.
+  const notable = Math.abs(v.ecart) > Math.max(2, Math.round(v.quantite * 0.01));
+
+  /**
+   * `sommeG` cadre les segments à l'intérieur du groupe ; `part` donne au
+   * groupe sa largeur relative à l'item. Sans ce second cadrage, quatre
+   * coloris de 923, 274, 204 et 99 s'affichent en quatre barres identiques :
+   * chaque chiffre est juste et le dessin ment.
+   */
+  const barre = (lignes, sommeG, part = 100) => `<div class="rep-barre"
+    style="width:${part.toFixed(2)}%">${lignes.map((l, i) => {
+    const t = V.teinte(l.nom);
+    const part = (l.quantite / (sommeG || 1)) * 100;
+    // Sans coloris, on échelonne l'accent : la nuance suit le rang de taille.
+    // Sans coloris, la nuance suit le rang : du plus clair au plus foncé, pour
+    // que la proportion reste lisible même quand rien n'a de couleur propre.
+    const fond = t || `color-mix(in srgb, var(--vert) ${22 + (i * 70 / Math.max(1, lignes.length - 1))}%, var(--carte))`;
+    return `<i style="width:${part.toFixed(2)}%;background:${fond}"
+      title="${e(l.nom)} — ${l.quantite.toLocaleString('fr-CA')}"></i>`;
+  }).join('')}</div>`;
+
+  const bloc = (g) => {
+    const lignes = [...g.lignes].sort((a, b) =>
+      V.rangVariante(a.nom) - V.rangVariante(b.nom));
+    return `<div class="rep-g">
+      ${g.nom ? `<div class="rep-titre">${V.teinte(g.nom)
+        ? `<i class="pastille" style="background:${V.teinte(g.nom)}"></i>` : ''}${e(g.nom)}
+        <b>${g.somme.toLocaleString('fr-CA')}</b></div>` : ''}
+      ${barre(lignes, g.somme, (g.somme / total) * 100)}
+      <div class="rep-chips">${lignes.map(chip).join('')}</div>
+    </div>`;
+  };
+
+  // Dans « À fabriquer », on montre la liste, pas un résumé. La question de
+  // cet écran est « par quoi je commence », et on n'y répond pas avec « 20
+  // coloris et tailles » : il faut voir que le violet en L, c'est 40 pièces.
+  // La barre reste en tête — elle donne la proportion d'un coup d'œil — et les
+  // compteurs sont dépliés dessous. Le plus gros item du plan en compte vingt ;
+  // en pastilles qui reviennent à la ligne, ça tient en trois lignes d'écran.
+  if (compact) {
+    // Le libellé nomme les DEUX axes quand le chiffrier les croise, et il les
+    // nomme d'après les étiquettes elles-mêmes. « 20 tailles » sur la mitaine
+    // polar était faux — ce sont 4 coloris × 5 tailles — et deviner l'axe des
+    // groupes à « coloris » l'était tout autant : le manteau croise Homme et
+    // Femme, qui ne sont pas des couleurs.
+    const AXE = { couleur: 'coloris', pointure: 'pointures', taille: 'tailles',
+                  genre: 'coupes', modele: 'modèles', chaleur: 'chaleurs',
+                  autre: 'déclinaisons' };
+    // Deux axes que le chiffrier croise et que `typeVariante` ne connaît pas,
+    // parce qu'ils ne sont ni une couleur ni une taille : la coupe du manteau
+    // et le modèle du bandeau. Les appeler « déclinaisons » était juste et ne
+    // disait rien.
+    const GENRE = /^(homme|femme|enfant|unisexe)$/i;
+    const MODELE = /^(sport|torsad)/i;
+    // Le sac de couchage se décline en chaleur, pas en taille : le plan écrit
+    // « 150 g/m² (0 à 15 °C) » et « 250 g/m² (0 à -18 °C) ».
+    const CHALEUR = /g\/m²|°\s*C/i;
+    const axe = (noms) => {
+      const c = {};
+      for (const nom of noms) {
+        const t = GENRE.test(nom.trim()) ? 'genre'
+                : MODELE.test(nom.trim()) ? 'modele'
+                : CHALEUR.test(nom) ? 'chaleur'
+                : V.typeVariante(nom);
+        c[t] = (c[t] || 0) + 1;
+      }
+      const [gagnant] = Object.entries(c).sort((a, b) => b[1] - a[1])[0] || [];
+      return AXE[gagnant] || 'déclinaisons';
+    };
+    const n = v.lignes.length;
+    const croise = v.groupes.length > 1 && Boolean(v.groupes[0].nom);
+    // Les groupes n'ont pas tous le même nombre de lignes — Homme a cinq
+    // tailles, Femme en a six. On compte les étiquettes DISTINCTES, pas une
+    // moyenne, qui n'existerait nulle part dans le chiffrier.
+    const distinctes = new Set(v.lignes.map(l => l.nom)).size;
+    const quoi = croise
+      ? `${v.groupes.length} ${axe(v.groupes.map(g => g.nom))}`
+        + ` × ${distinctes} ${axe(v.lignes.map(l => l.nom))}`
+      : `${n} ${axe(v.lignes.map(l => l.nom))}`;
+    return `<div class="rep rep-c">
+      <div class="rep-tete">
+        <span class="rep-rangee">${v.groupes.map(g => barre(
+          [...g.lignes].sort((a, b) => V.rangVariante(a.nom) - V.rangVariante(b.nom)),
+          g.somme, (g.somme / total) * 100)).join('')}</span>
+        <span class="rep-quoi">${quoi}</span>
+      </div>
+      ${v.groupes.map(g => `<div class="rep-g">
+        ${g.nom ? `<div class="rep-titre">${V.teinte(g.nom)
+          ? `<i class="pastille" style="background:${V.teinte(g.nom)}"></i>` : ''}${e(g.nom)}
+          <b>${g.somme.toLocaleString('fr-CA')}</b></div>` : ''}
+        <div class="rep-chips">${[...g.lignes]
+          .sort((a, b) => V.rangVariante(a.nom) - V.rangVariante(b.nom))
+          .map(chip).join('')}</div>
+      </div>`).join('')}
+      ${notable ? `<p class="rep-ecart">${v.somme.toLocaleString('fr-CA')} en
+        variantes pour ${v.quantite.toLocaleString('fr-CA')} au plan —
+        <b>${v.ecart > 0 ? '+' : ''}${v.ecart.toLocaleString('fr-CA')}</b></p>` : ''}
+    </div>`;
+  }
+
+  return `<div class="rep">
+    ${v.groupes.map(bloc).join('')}
+    ${notable ? `<p class="rep-ecart">La répartition totalise
+      ${v.somme.toLocaleString('fr-CA')} pour ${v.quantite.toLocaleString('fr-CA')}
+      au plan. Les deux chiffres viennent du chiffrier ; l'écart n'est pas
+      résolu.</p>` : ''}
+  </div>`;
+}
 
 /* ------------------------------------------------------------------ compte
  * Changer son mot de passe sans passer par un shell. Ça paraît accessoire ;
@@ -206,7 +368,97 @@ function vueCompte({ user, msg }) {
 }
 
 // ============================================================== tableau de bord
-function vueAccueil({ user, ordres, jalons }) {
+/**
+ * La barre de l'assistant, posée en haut de l'accueil.
+ *
+ * L'assistant a sa page, avec tout le fil. Ici on ne met que ce qui sert à
+ * démarrer : une phrase à écrire, et le dernier échange pour qu'on voie qu'il
+ * y a quelqu'un au bout. Le reste est à un lien.
+ *
+ * C'est un formulaire ordinaire — il part et la page revient. Rien à charger,
+ * rien qui casse si le JS ne s'exécute pas : l'atelier est au bout d'une
+ * connexion lente, et c'est la première chose qu'il voit en arrivant.
+ */
+/**
+ * La barre du volet Produits : fiches, qualité, ce qui casse.
+ *
+ * Ces trois pages parlent de la même chose — ce qu'on fabrique — et se
+ * répondent : la fiche dit de quoi la pièce est faite, le protocole dit quoi
+ * vérifier, le mur montre ce qui a cassé quand on ne l'a pas vérifié. Les
+ * séparer en trois onglets de tête faisait trois sujets ; les regrouper en
+ * fait un seul, qu'on parcourt.
+ */
+function sousNavProduits(page) {
+  const l = (href, texte, cle) =>
+    `<a href="${href}"${page === cle ? ' class="on" aria-current="page"' : ''}>${texte}</a>`;
+  return `<nav class="sous-nav">
+    ${l('/produits', 'Fiches produits', 'fiches')}
+    ${l('/qualite', 'Qualité', 'qualite')}
+    ${l('/mur', 'Ce qui casse', 'mur')}
+  </nav>`;
+}
+
+function barreAssistant({ user, ia, salut = null }) {
+  if (!ia) return '';
+  const { dispo, fil, dernier, annulable, gabarits = [] } = ia;
+  const ecrit = dernier ? dernier.actions.filter(a => a.defaire) : [];
+  const restant = ecrit.filter(a => !a.defait);
+
+  return `<div class="carte ia">
+    <div class="ia-tete">
+      <h2>${salut ? `${e(salut.bonjour)}` : 'Demander à l\'assistant'}</h2>
+      <a class="muted" href="/assistant">Tout le fil →</a>
+    </div>
+    ${salut ? `<p class="ia-suite">${e(salut.suite)}</p>` : ''}
+    ${dispo ? '' : `<p class="msg err">L'assistant n'est pas branché :
+      il manque <code>ANTHROPIC_API_KEY</code> côté serveur.</p>`}
+
+    <form method="post" action="/assistant" id="ia-form" class="saisie">
+      <input type="hidden" name="fil" value="${e(fil)}">
+      <input type="hidden" name="retour" value="/">
+      <label for="ia-q" class="sr">Ta demande</label>
+      <textarea id="ia-q" name="demande" rows="2" required
+        placeholder="Dis ce que tu veux faire — il l'exécute…"${
+        dispo ? '' : ' disabled'}></textarea>
+      <div class="actions-saisie">
+        <button id="ia-envoi" class="primaire"${dispo ? '' : ' disabled'}>Envoyer</button>
+      </div>
+    </form>
+
+    ${dernier ? `<div class="tour ia-dernier">
+      <p class="dem"><b>${e(user.nom)}</b> ${e(dernier.demande)}</p>
+      ${dernier.erreur ? `<p class="rep err">${e(dernier.erreur)}</p>`
+                       : `<div class="rep">${para(dernier.reponse)}</div>`}
+      ${ecrit.length ? `<div class="faits">
+        <b>${restant.length ? 'Fait' : 'Annulé'}</b>
+        <ul>${ecrit.map(a =>
+          `<li${a.defait ? ' class="off"' : ''}>${e(a.resume)}</li>`).join('')}</ul>
+        ${restant.length && dernier.id === annulable
+          ? `<form method="post" action="/assistant/${dernier.id}/annuler">
+             <input type="hidden" name="retour" value="/">
+             <button class="lien">Annuler ces ${restant.length} modification${
+               restant.length > 1 ? 's' : ''}</button></form>` : ''}
+      </div>` : ''}
+    </div>`
+    : gabarits.length ? `<ul class="exemples ia-ex">${gabarits.map(g =>
+        `<li><a href="/assistant?m=${e(g.cle)}">${e(g.libelle)}</a></li>`
+      ).join('')}</ul>` : ''}
+  </div>
+
+<script>
+(function () {
+  // Une demande peut prendre dix secondes sur la connexion tunisienne : sans
+  // ça on croit que le clic n'a pas pris, et on reclique.
+  var f = document.getElementById('ia-form'), b = document.getElementById('ia-envoi');
+  if (!f || !b) return;
+  f.addEventListener('submit', function () {
+    b.disabled = true; b.textContent = 'L\u2019assistant travaille\u2026';
+  });
+})();
+</script>`;
+}
+
+function vueAccueil({ user, ordres, jalons, ia = null, salut = null }) {
   const enCours = ordres.filter(o => o.statut === 'en_cours' || o.statut === 'planifie');
   const corps = `
   <div class="entete"><div>
@@ -214,6 +466,8 @@ function vueAccueil({ user, ordres, jalons }) {
     <p class="muted">${enCours.length} ordre${enCours.length > 1 ? 's' : ''} en cours ou planifié${enCours.length > 1 ? 's' : ''}</p>
   </div>${user.role === 'admin'
     ? `<a class="btn" href="/ordres/nouveau">Nouvel ordre de production</a>` : ''}</div>
+
+  ${barreAssistant({ user, ia, salut })}
 
   <div class="carte"><h2>Production en cours</h2>
   ${enCours.length ? `<div class="tbl"><table>
@@ -245,6 +499,675 @@ function vueAccueil({ user, ordres, jalons }) {
   return page({ titre: 'Tableau de bord', user, corps, actif: 'accueil' });
 }
 
+// ========================================================== contrôle qualité
+const ICONE_QC = { critique: '!', probleme: '~', mesure: '=', cyclage: '↻',
+                   emballage: '\u25a1' };
+
+/**
+ * Un point de protocole.
+ *
+ * Une mesure se lit d'un coup d'œil — valeur, tolérance, unité alignées. Le
+ * reste se lit comme une phrase : la consigne, puis ce qui arrive si on la
+ * rate, qui est la seule chose qui la rend convaincante.
+ */
+/**
+ * Le schéma d'un point de contrôle : le dessin qui dit de quoi à quoi.
+ *
+ * « 24 cm » ne veut rien dire sans le trait. Un point de mesure porte donc
+ * l'adresse d'un schéma — jamais le fichier : l'app n'héberge rien, et le CDN
+ * de la source le sert redimensionné, ce qui compte sur la ligne tunisienne.
+ * Cliquer ouvre la pleine taille, parce que c'est là qu'on lit les cotes.
+ */
+function schemaQC(q, largeur) {
+  const u = String(q.schema_url || '').trim();
+  if (!urlAcceptable(u)) return '';
+  return `<a class="qc-schema" href="${e(u)}" rel="noopener"
+     title="Ouvrir le schéma en taille réelle"><img src="${e(urlImage(u, largeur))}"
+     loading="lazy" alt="Schéma — ${e(q.titre)}"></a>`;
+}
+
+function pointQC({ q, produitId, editable, action = null }) {
+  const mesure = q.type === 'mesure';
+  const REGLE = { tout: 'toutes les pièces', lot: 'une fois par lot' };
+  const regle = q.ech_type === 'ratio' ? `1 pièce sur ${q.ech_valeur}`
+              : q.ech_type === 'fixe' ? `${q.ech_valeur} pièces par lot`
+              : REGLE[q.ech_type] || '';
+  return `<li class="qc qc-${q.type}">
+    <div class="qc-quoi">
+      <b>${e(q.titre)}</b>
+      ${q.produit_id === null ? '<span class="ck-gen">général</span>' : ''}
+      ${mesure && q.valeur ? `<span class="qc-val">${e(q.valeur)}${
+        q.unite ? ' ' + e(q.unite) : ''}${
+        q.tolerance ? ` <span class="qc-tol">± ${e(q.tolerance)}</span>` : ''}</span>` : ''}
+      ${q.variante ? `<span class="qc-var">${e(q.variante)}</span>` : ''}
+      ${q.detail ? `<span class="qc-det">${e(q.detail)}</span>` : ''}
+      ${q.consequence ? `<span class="qc-cons">Sinon : ${e(q.consequence)}</span>` : ''}
+      ${q.appuis ? `<span class="qc-appui">${q.appuis} signalement${
+        q.appuis > 1 ? 's' : ''} sur le terrain</span>` : ''}
+      ${schemaQC(q, TAILLES.vignette)}
+      ${(() => {
+        // Les morceaux du pied se joignent par « · ». Les concaténer avec un
+        // séparateur en préfixe laisse un « · » orphelin dès que le premier
+        // morceau manque — ce qui est le cas général.
+        const bouts = [];
+        if (regle) bouts.push(`<b>${e(regle)}</b>`);
+        if (q.frequence) bouts.push(e(q.frequence));
+        if (q.source) bouts.push(e(q.source));
+        if (q.auteur) bouts.push(`ajouté par ${e(q.auteur)}`);
+        return bouts.length ? `<span class="qc-pied">${bouts.join(' · ')}</span>` : '';
+      })()}
+    </div>
+    ${editable ? `<form method="post" action="${
+      action || `/qualite/${produitId}/${q.id}/supprimer`}">
+      <button class="lien danger">Retirer</button></form>` : ''}
+  </li>`;
+}
+
+/**
+ * La checklist d'un lot : le protocole du produit, à cocher pièce par pièce.
+ *
+ * Chaque point est un mini-formulaire à deux boutons — conforme, non conforme —
+ * plutôt qu'une case et un bouton « enregistrer ». Deux raisons : un clic vaut
+ * mieux que deux sur un téléphone d'atelier, et un verdict qui part tout seul
+ * ne se perd pas quand la page se recharge sur une connexion capricieuse.
+ */
+function vueChecklist({ user, msg, ordre, c }) {
+  const { item, points, total, verifies, ecarts, restants, complet, vide } = c;
+
+  const ligne = (q) => {
+    const fait = Boolean(q.verdict);
+    const ko = q.verdict === 'non_conforme';
+    return `<li class="ck ${fait ? (ko ? 'ck-ko' : 'ck-ok') : 'ck-attente'}" id="p${q.id}">
+      <div class="ck-tete">
+        <span class="q-pip q-${q.type}">${ICONE_QC[q.type] || '·'}</span>
+        <b>${e(q.titre)}</b>
+        ${q.general ? '<span class="ck-gen">général</span>' : ''}
+        ${fait ? `<span class="ck-etat">${ko ? 'non conforme' : 'conforme'}</span>` : ''}
+      </div>
+      ${q.detail ? `<p class="qc-det">${e(q.detail)}</p>` : ''}
+      ${q.valeur ? `<p class="ck-cible">Cible <b>${e(q.valeur)}${
+        q.unite ? ' ' + e(q.unite) : ''}</b>${
+        q.tolerance ? ` ± ${e(q.tolerance)}` : ''}${
+        q.variante ? ` · ${e(q.variante)}` : ''}</p>` : ''}
+      ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
+      ${schemaQC(q, TAILLES.vignette)}
+      ${q.ech && q.ech.pieces !== null ? `<p class="ck-ech">
+        <b>${e(q.ech.texte)}</b>${q.ech.regle ? ` <span>(${e(q.ech.regle)})</span>` : ''}
+      </p>` : ''}
+      ${q.frequence ? `<p class="qc-pied"><b>${e(q.frequence)}</b></p>` : ''}
+      ${fait ? `<p class="ck-signe">${ko ? 'Écart relevé' : 'Vérifié'} par
+        ${e(q.verifie_par || '—')} · ${dateHeureFR(q.verifie_le)}
+        ${q.releve ? ` · relevé <b>${e(q.releve)}</b>` : ''}
+        ${q.pieces_vues ? ` · <b>${Number(q.pieces_vues).toLocaleString('fr-CA')}</b> pièces vues` : ''}
+        ${q.note_controle ? `<br><span class="ck-note">${e(q.note_controle)}</span>` : ''}</p>` : ''}
+      <form method="post" action="/ordres/${ordre.id}/items/${item.id}/qualite/${q.id}"
+            class="ck-form">
+        ${q.type === 'mesure' ? `<input name="mesure" class="ck-mes"
+          placeholder="Relevé${q.unite ? ' en ' + e(q.unite) : ''}" maxlength="40"
+          value="">` : ''}
+        ${q.ech && q.ech.pieces > 1 ? `<input name="pieces" class="ck-mes"
+          type="number" min="0" max="999999" placeholder="${q.ech.pieces} vues"
+          title="Combien de pièces tu as réellement vérifiées">` : ''}
+        <input name="note" class="ck-com" maxlength="200"
+          placeholder="${ko || !fait ? 'Ce que tu as vu (facultatif)' : 'Note (facultatif)'}">
+        <button name="verdict" value="conforme" class="btn-mini"
+          >${fait && !ko ? 'Revérifier conforme' : 'Conforme'}</button>
+        <button name="verdict" value="non_conforme" class="btn-mini rouge"
+          >Non conforme</button>
+      </form>
+    </li>`;
+  };
+
+  const corps = `
+  <div class="entete"><div>
+    <p class="fil-ariane"><a href="/ordres/${ordre.id}">${e(ordre.numero)}</a> ·
+      <a href="/qualite/${item.produit_id}">protocole du produit</a></p>
+    <h1>${e(item.code)}</h1>
+    <p class="muted">${e(item.nom)} — <b>${item.quantite.toLocaleString('fr-CA')} pièces</b>
+      au lot, ${item.avancement} % déclaré. Les échantillons ci-dessous sont
+      calculés sur ce volume.</p>
+  </div></div>
+
+  ${vide ? `<div class="carte ck-vide">
+    <h2>Aucun protocole pour ce produit</h2>
+    <p>Rien n'est exigé au contrôle qualité tant que rien n'est écrit. Ce lot
+    peut être déclaré fini — mais c'est un trou, pas une permission.</p>
+    <a class="btn" href="/qualite/${item.produit_id}">Écrire le protocole</a>
+  </div>`
+  : `<div class="carte ck-bilan ${ecarts.length ? 'mauvais' : complet ? 'bon' : 'attente'}">
+    <div class="chiffres">
+      <div class="c"><b>${verifies} / ${total}</b>points vérifiés</div>
+      ${ecarts.length ? `<div class="c"><b>${ecarts.length}</b>non-conformité${
+        ecarts.length > 1 ? 's' : ''}</div>` : ''}
+    </div>
+    <p class="verdict-txt">${
+      ecarts.length ? `<b>Le lot ne peut pas être déclaré fini.</b> Corrige les
+        écarts, puis revérifie les points concernés.`
+      : complet ? `<b>Contrôle passé.</b> Le lot peut être déclaré à 100 %.`
+      : `<b>${restants.length} point${restants.length > 1 ? 's' : ''} à vérifier</b>
+         avant de pouvoir déclarer ce lot fini.`}</p>
+  </div>
+
+  <div class="carte">
+    <h2>Protocole du lot</h2>
+    <p class="sec">Il suit le protocole du produit : un point ajouté après coup
+    apparaît ici, même sur un lot déjà avancé.</p>
+    <ul class="ck-liste">${points.map(ligne).join('')}</ul>
+  </div>`}`;
+
+  return page({ titre: `Qualité — ${item.code}`, user, corps, msg, actif: 'ordres' });
+}
+
+/**
+ * Le formulaire d'ajout, le même pour un produit et pour le protocole général.
+ * Deux copies divergeraient : un champ ajouté d'un côté manquerait de l'autre.
+ */
+function formulaireQC(action, { general = false } = {}) {
+  return `<form method="post" action="${action}" class="qc-form">
+    <div class="champ"><label for="qtype${general ? 'g' : ''}">Volet</label>
+      <select id="qtype${general ? 'g' : ''}" name="type">
+        ${Object.entries(TYPES_QC).map(([k, v]) =>
+          `<option value="${k}"${general && k === 'emballage' ? ' selected' : ''}
+            >${v}</option>`).join('')}
+      </select></div>
+    <div class="champ champ-large"><label for="qtitre${general ? 'g' : ''}">Quoi</label>
+      <input id="qtitre${general ? 'g' : ''}" name="titre" required maxlength="200"
+             placeholder="${general
+               ? 'Plier en trois, sachet kraft, étiquette sur le rabat'
+               : "Presser le col avant d'insérer l'isolant"}"></div>
+    <div class="champ champ-large"><label for="qdetail${general ? 'g' : ''}">Comment</label>
+      <input id="qdetail${general ? 'g' : ''}" name="detail" maxlength="500"
+             placeholder="Facultatif — le geste, l'outil, le gabarit"></div>
+    <div class="champ champ-large"><label for="qcons${general ? 'g' : ''}">Sinon…</label>
+      <input id="qcons${general ? 'g' : ''}" name="consequence" maxlength="300"
+             placeholder="Ce qui arrive si on le rate"></div>
+    <div class="champ"><label for="qval${general ? 'g' : ''}">Valeur</label>
+      <input id="qval${general ? 'g' : ''}" name="valeur" maxlength="40" placeholder="4 à 5"></div>
+    <div class="champ"><label for="qtol${general ? 'g' : ''}">Tolérance</label>
+      <input id="qtol${general ? 'g' : ''}" name="tolerance" maxlength="40" placeholder="0,5"></div>
+    <div class="champ"><label for="quni${general ? 'g' : ''}">Unité</label>
+      <input id="quni${general ? 'g' : ''}" name="unite" maxlength="20" placeholder="g"></div>
+    ${general ? '' : `<div class="champ"><label for="qvar">Taille / variante</label>
+      <input id="qvar" name="variante" maxlength="40" placeholder="M"></div>`}
+    <div class="champ"><label for="qech${general ? 'g' : ''}">Combien de pièces</label>
+      <select id="qech${general ? 'g' : ''}" name="ech_type">
+        <option value="">Non précisé</option>
+        <option value="ratio">1 pièce sur…</option>
+        <option value="fixe">Un nombre fixe</option>
+        <option value="tout">Toutes les pièces</option>
+        <option value="lot">Une fois par lot</option>
+      </select></div>
+    <div class="champ"><label for="qechv${general ? 'g' : ''}">Sur / combien</label>
+      <input id="qechv${general ? 'g' : ''}" type="number" min="1" max="100000"
+             name="ech_valeur" placeholder="20"></div>
+    <div class="champ"><label for="qfreq${general ? 'g' : ''}">Autre fréquence</label>
+      <input id="qfreq${general ? 'g' : ''}" name="frequence" maxlength="60"
+             placeholder="50 lavages à 30 °C"></div>
+    <div class="champ"><label for="qsrc${general ? 'g' : ''}">Source</label>
+      <input id="qsrc${general ? 'g' : ''}" name="source" maxlength="80"
+             placeholder="Rapport d'amélioration BMB"></div>
+    <button class="btn">Ajouter${general ? ' au protocole général' : ' au protocole'}</button>
+  </form>`;
+}
+
+const ORIGINES = { client: 'Client', atelier: 'Atelier', retour: 'Retour',
+                   essai: 'Essai' };
+
+/**
+ * Un bris signalé : le commentaire mot pour mot, la photo, la zone.
+ *
+ * Le commentaire n'est pas reformulé. « La ganse a lâché après trois
+ * semaines » dit plus qu'« usure prématurée de l'attache », et c'est le genre
+ * de phrase qui fait écrire une consigne.
+ */
+function ligneBris({ b, produitId, editable }) {
+  const ph = photosBris(b.photo_url);
+  return `<li class="br${b.point_id ? '' : ' br-nu'}">
+    ${ph.length ? `<a class="br-photo" href="${e(ph[0])}" rel="noopener">
+      <img src="${e(urlImage(ph[0], 160))}" alt="Bris signalé${
+        b.zone ? ' — ' + e(b.zone) : ''}" loading="lazy">${
+      ph.length > 1 ? `<span class="br-n">${ph.length}</span>` : ''}</a>` : ''}
+    <div class="br-quoi">
+      <div class="br-tete">
+        <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
+        ${b.zone ? `<b>${e(b.zone)}</b>` : ''}
+        ${b.survenu_le ? `<span class="br-date">${dateFR(b.survenu_le)}</span>` : ''}
+      </div>
+      ${b.texte ? `<p class="br-txt">« ${e(b.texte)} »</p>` : ''}
+      <p class="br-pied">
+        ${b.point_id
+          ? `A fait écrire : <a href="#">${e(b.point_titre || 'un point')}</a>`
+          : '<span class="br-alerte">Aucune consigne n\'en a encore été tirée</span>'}
+        ${b.auteur ? ` · saisi par ${e(b.auteur)}` : ''}</p>
+      ${editable && !b.point_id ? `
+        <form method="post" action="/qualite/${produitId}/bris/${b.id}/consigne"
+              class="br-form">
+          <input name="titre" required maxlength="200"
+                 placeholder="La consigne qui l'évite : « Renforcer l'attache de ganse »">
+          <select name="type">
+            <option value="critique">Point critique</option>
+            <option value="probleme" selected>Problème fréquent</option>
+            <option value="cyclage">Cyclage et tests</option>
+          </select>
+          <button class="btn-mini">En faire un point</button>
+        </form>` : ''}
+      ${editable ? `<form method="post" action="/qualite/${produitId}/bris/${b.id}/supprimer"
+        ><button class="lien danger">Retirer</button></form>` : ''}
+    </div>
+  </li>`;
+}
+
+/**
+ * Le mur des bris — la page que l'atelier regarde.
+ *
+ * Pas un tableau de bord : des photos et des phrases de clients. Le format est
+ * délibérément différent du reste de l'app, parce que le but est différent —
+ * on ne vient pas chercher un chiffre, on vient comprendre pourquoi une
+ * consigne existe.
+ *
+ * Les photos sont grandes. C'est le seul endroit de l'app où une image compte
+ * plus que le texte à côté, et la connexion tunisienne le vaut : le CDN les
+ * sert redimensionnées, comme partout.
+ */
+function vueMur({ user, msg, groupes }) {
+  const total = groupes.reduce((n, g) => n + g.bris.length, 0);
+  const photos = groupes.reduce((n, g) => n + g.photos, 0);
+
+  const carte = (b) => {
+    const ph = photosBris(b.photo_url);
+    return `<figure class="mur-c${ph.length ? '' : ' mur-sans'}">
+    ${ph.length
+      ? `<a href="${e(ph[0])}" rel="noopener">
+           <img src="${e(urlImage(ph[0], 640))}" loading="lazy"
+                alt="${e(b.zone || 'Bris signalé')}"></a>`
+      : ''}
+    ${ph.length > 1 ? `<div class="mur-plus">${ph.slice(1).map((u, i) => `
+      <a href="${e(u)}" rel="noopener"><img src="${e(urlImage(u, 160))}"
+         loading="lazy" alt="${e(b.zone || 'Bris signalé')} — vue ${i + 2}"></a>`
+      ).join('')}</div>` : ''}
+    <figcaption>
+      <div class="mur-tete">
+        <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
+        ${b.zone ? `<b>${e(b.zone)}</b>` : ''}
+        ${b.survenu_le ? `<span class="br-date">${dateFR(b.survenu_le)}</span>` : ''}
+      </div>
+      ${b.texte ? `<blockquote>${e(b.texte)}</blockquote>` : ''}
+      ${b.point_titre
+        ? `<p class="mur-consigne">→ ${e(b.point_titre)}</p>`
+        : '<p class="mur-nu">Aucune consigne n\'en découle encore</p>'}
+    </figcaption>
+  </figure>`;
+  };
+
+  const corps = `
+  ${sousNavProduits('mur')}
+  <div class="entete"><div><h1>Ce que les clients ont vu</h1>
+    <p class="muted">${total} signalement${total > 1 ? 's' : ''},
+      ${photos} avec photo — groupés par produit</p></div></div>
+
+  <div class="carte mur-intro">
+    <p>Ce ne sont pas des consignes. Ce sont des gens qui ont acheté une pièce
+    et qui écrivent qu'elle a cassé. Les consignes du protocole viennent de
+    là — et une couture qu'on reprend parce qu'on a vu la photo tient mieux
+    qu'une couture qu'on reprend parce que c'est écrit.</p>
+  </div>
+
+  ${groupes.length ? groupes.map(g => `<div class="carte mur-g" id="p${g.id || ''}">
+    <div class="mur-g-tete">
+      <h2>${g.id ? `<a href="/qualite/${g.id}">${e(g.code)}</a>` : e(g.code)}</h2>
+      <span class="muted">${e(g.nom)}</span>
+      <span class="mur-n">${g.bris.length} signalement${g.bris.length > 1 ? 's' : ''}${
+        g.sansConsigne ? ` · <b>${g.sansConsigne} sans consigne</b>` : ''}</span>
+    </div>
+    ${g.zones.length ? `<p class="mur-zones">${g.zones.map(z =>
+      `<span>${e(z.zone)}${z.n > 1 ? ` <b>×${z.n}</b>` : ''}</span>`).join('')}</p>` : ''}
+    <div class="mur">${g.bris.map(carte).join('')}</div>
+  </div>`).join('')
+  : `<div class="carte"><p class="vide">Aucun signalement pour l'instant.
+     <code>node bris_missive.js trier</code> en extrait de la boîte support.</p></div>`}`;
+
+  return page({ titre: 'Ce que les clients ont vu', user, corps, msg, actif: 'produits' });
+}
+
+function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }) {
+  const sans = couverture.filter(p => !p.points);
+  const avec = couverture.filter(p => p.points);
+  const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
+
+  const rangee = (p) => `<tr>
+    <td><a href="/qualite/${p.id}"><b>${e(p.code)}</b></a><br>
+        <span class="muted">${e(p.nom)}</span></td>
+    <td class="num">${p.a_produire ? nb(p.a_produire) : '<span class="muted">—</span>'}</td>
+    <td>${p.points ? `<span class="qc-cpt">
+        ${p.critiques ? `<i class="q-critique" title="points critiques">${p.critiques}</i>` : ''}
+        ${p.problemes ? `<i class="q-probleme" title="problèmes fréquents">${p.problemes}</i>` : ''}
+        ${p.mesures ? `<i class="q-mesure" title="mesures">${p.mesures}</i>` : ''}
+        ${p.cyclages ? `<i class="q-cyclage" title="cyclage">${p.cyclages}</i>` : ''}
+      </span>` : '<span class="qc-vide">aucun protocole</span>'}</td>
+    <td><a class="lien" href="/qualite/${p.id}">${p.points ? 'Voir' : 'Écrire'}</a></td>
+  </tr>`;
+
+  const corps = `
+  ${sousNavProduits('qualite')}
+  <div class="entete"><div><h1>Contrôle qualité</h1>
+    <p class="muted">Deux sources, une seule liste : les <b>vérifications de la
+    charte produits</b> — ce que l'équipe a écrit avant de produire — et les
+    <b>retours clients pour bris</b>, échanges et remboursements — ce qui a
+    lâché après</p></div></div>
+
+  ${zones.length || nc.length ? `<div class="carte qc-terrain">
+    <h2>Ce qui casse</h2>
+    <p class="sec">Les retours clients — échange, remboursement, réparation —
+    et les non-conformités relevées à l'atelier. Une zone qui revient sur
+    plusieurs produits n'est pas un défaut de produit, c'est un défaut de
+    méthode.</p>
+    ${zones.length ? `<div class="tbl"><table>
+      <tr><th>Zone</th><th class="num">Signalements</th><th class="num">Produits</th>
+        <th>Consigne écrite ?</th></tr>
+      ${zones.map(z => `<tr>
+        <td><b>${e(z.zone)}</b></td>
+        <td class="num">${z.bris}</td>
+        <td class="num">${z.produits}</td>
+        <td>${z.sans_consigne
+          ? `<span class="qc-vide">${z.sans_consigne} sans consigne</span>`
+          : '<span class="muted">toutes traitées</span>'}</td>
+      </tr>`).join('')}
+    </table></div>` : ''}
+    ${nc.length ? `<h3 class="nc-titre">Non-conformités en cours
+      <span class="cpt">${nc.length}</span></h3>
+      <ul class="nc-liste">${nc.slice(0, 8).map(x => `<li>
+        <a href="/qualite/${x.produit_id}"><b>${e(x.code)}</b></a>
+        · ${e(x.point_titre)}
+        ${x.note ? `<span class="br-txt">« ${e(x.note)} »</span>` : ''}
+        <span class="muted">${e(x.numero)}${x.auteur ? ' · ' + e(x.auteur) : ''}</span>
+      </li>`).join('')}</ul>` : ''}
+  </div>` : ''}
+
+  <div class="carte qc-general">
+    <h2>Protocole général <span class="cpt">${general.length}</span></h2>
+    <p class="sec">Ce qui s'applique à <b>tous</b> les produits — emballage,
+    étiquetage, finition. Ces points apparaissent sur la checklist de chaque
+    lot, sans avoir à les réécrire trente fois.</p>
+    ${general.length
+      ? `<ul class="qc-liste">${general.map(q => pointQC({ q, editable: true,
+          action: `/qualite/general/${q.id}/supprimer` })).join('')}</ul>`
+      : `<p class="vide">Rien encore. La méthode d'emballage est le premier
+         candidat : elle est la même partout et personne ne la connaît par
+         cœur.</p>`}
+    <details class="qc-plus"><summary>Ajouter au protocole général</summary>
+      ${formulaireQC('/qualite/general', { general: true })}
+    </details>
+  </div>
+
+  ${sans.length ? `<div class="carte">
+    <h2>Sans protocole propre <span class="cpt">${sans.length}</span></h2>
+    <p class="sec">Ces produits n'ont que le protocole général — rien qui leur
+    soit propre. Le plus gros volume en tête : c'est là que l'absence coûte le
+    plus cher.</p>
+    <div class="tbl"><table>
+      <tr><th>Produit</th><th class="num">À produire</th><th>Protocole</th><th></th></tr>
+      ${sans.map(rangee).join('')}
+    </table></div>
+  </div>` : ''}
+
+  ${avec.length ? `<div class="carte">
+    <h2>Protocoles écrits <span class="cpt">${avec.length}</span></h2>
+    <div class="tbl"><table>
+      <tr><th>Produit</th><th class="num">À produire</th><th>Points</th><th></th></tr>
+      ${avec.map(rangee).join('')}
+    </table></div>
+  </div>` : `<div class="carte"><p class="vide">Aucun protocole écrit pour l'instant.
+    Ouvre un produit et commence par ce qui rate le plus souvent.</p></div>`}`;
+
+  return page({ titre: 'Contrôle qualité', user, corps, msg, actif: 'produits' });
+}
+
+function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
+                       appuis = {} }) {
+  const editable = true;   // les deux rôles écrivent : c'est l'atelier qui voit les défauts
+  // Chaque point sait combien de bris l'appuient : c'est ce qui le rend
+  // incontestable en atelier.
+  for (const q of proto.points) q.appuis = appuis[q.id] || 0;
+  const volet = (cle, titre, aide) => `<div class="carte">
+    <h2><span class="q-pip q-${cle}">${ICONE_QC[cle]}</span> ${titre}
+      ${proto.par[cle].length ? `<span class="cpt">${proto.par[cle].length}</span>` : ''}</h2>
+    ${proto.par[cle].length
+      ? `<ul class="qc-liste">${proto.par[cle].map(q =>
+          pointQC({ q, produitId: p.id, editable })).join('')}</ul>`
+      : `<p class="vide">${aide}</p>`}
+  </div>`;
+
+  const corps = `
+  <div class="entete"><div>
+    <p class="fil-ariane"><a href="/qualite">Contrôle qualité</a> ·
+      <a href="/produits/${p.id}">fiche produit</a></p>
+    <h1>${e(p.code)}</h1>
+    <p class="muted">${e(p.nom)}</p>
+  </div></div>
+
+  ${photos.length ? `<div class="carte qc-photos">
+    ${photos.slice(0, 4).map(ph => `<img src="${e(urlImage(ph.url, 320))}"
+      alt="${e(ph.legende || p.nom)}" loading="lazy">`).join('')}
+  </div>` : ''}
+
+  ${bris ? `<div class="carte qc-bris">
+    <h2>Ce qui casse <span class="cpt">${bris.tous.length}</span>
+      ${bris.orphelins.length ? `<span class="br-todo">${bris.orphelins.length}
+        sans consigne</span>` : ''}</h2>
+    <p class="sec">Commentaires clients, photos, retours d'atelier. C'est la
+    preuve qui fait écrire une consigne — et une consigne qui cite trois
+    signalements ne se discute pas.</p>
+    ${bris.tous.length
+      ? `<ul class="br-liste">${bris.tous.map(b =>
+          ligneBris({ b, produitId: p.id, editable: true })).join('')}</ul>`
+      : `<p class="vide">Aucun signalement. Quand un client écrit « la ganse a
+         lâché après trois semaines », c'est ici que ça va.</p>`}
+    <details class="qc-plus"><summary>Signaler un bris</summary>
+      <form method="post" action="/qualite/${p.id}/bris" class="qc-form">
+        <div class="champ"><label for="bz">Où ça casse</label>
+          <input id="bz" name="zone" maxlength="80" required
+                 placeholder="Attache de ganse"></div>
+        <div class="champ"><label for="bo">D'où ça vient</label>
+          <select id="bo" name="origine">
+            ${Object.entries(ORIGINES).map(([k, v]) =>
+              `<option value="${k}">${v}</option>`).join('')}
+          </select></div>
+        <div class="champ"><label for="bd">Quand</label>
+          <input id="bd" type="date" name="survenu_le"></div>
+        <div class="champ champ-large"><label for="bt">Ce qui a été dit, mot pour mot</label>
+          <input id="bt" name="texte" maxlength="600"
+                 placeholder="La ganse a lâché après trois semaines d'utilisation normale"></div>
+        <div class="champ champ-large"><label for="bp">Photo (adresse web)</label>
+          <input id="bp" name="photo_url" maxlength="500" inputmode="url"
+                 placeholder="https://…">
+          <span class="aide">L'app n'héberge aucune image : colle l'adresse de
+          la photo, elle est affichée redimensionnée.</span></div>
+        <button class="btn">Enregistrer le signalement</button>
+      </form>
+    </details>
+  </div>` : ''}
+
+  ${volet('critique', 'Points critiques',
+    'Rien encore. Ce sont les gestes qu\'on ne peut pas rattraper après coup.')}
+  ${volet('probleme', 'Problèmes fréquents',
+    'Rien encore. Ce qui revient d\'un lot à l\'autre, et comment l\'éviter.')}
+  ${(() => {
+    // Les mesures d'une même cote se lisent en tableau, pas en liste : « tour
+    // de poitrine » sur six tailles, c'est six lignes d'un même tableau, et
+    // les empiler verticalement en cache la logique.
+    const l = proto.par.mesure;
+    if (!l.length) return volet('mesure', 'Mesures et dimensions',
+      'Rien encore. Les cotes à vérifier, avec leur tolérance.');
+    const groupes = new Map();
+    for (const q of l) {
+      const cle = q.titre + '\u0000' + (q.unite || '');
+      if (!groupes.has(cle)) groupes.set(cle, []);
+      groupes.get(cle).push(q);
+    }
+    return `<div class="carte">
+      <h2><span class="q-pip q-mesure">=</span> Mesures et dimensions
+        <span class="cpt">${l.length}</span></h2>
+      ${[...groupes.values()].map(g => g.length > 1 && g.every(x => x.variante)
+        ? `<div class="mes-bloc">
+             <h3>${e(g[0].titre)}${g[0].unite ? ` <span>en ${e(g[0].unite)}</span>` : ''}
+               ${g[0].produit_id === null ? '<span class="ck-gen">général</span>' : ''}</h3>
+             ${g[0].detail ? `<p class="qc-det">${e(g[0].detail)}</p>` : ''}
+             <div class="tbl"><table class="mes-tbl">
+               <tr><th>Taille</th><th class="num">Cible</th><th class="num">Tolérance</th><th></th></tr>
+               ${g.map(q => `<tr>
+                 <td><b>${e(q.variante)}</b></td>
+                 <td class="num">${e(q.valeur || '—')}</td>
+                 <td class="num">${q.tolerance ? '± ' + e(q.tolerance) : '<span class="muted">—</span>'}</td>
+                 <td><form method="post" action="/qualite/${p.id}/${q.id}/supprimer"
+                   ><button class="lien danger">Retirer</button></form></td>
+               </tr>`).join('')}
+             </table></div>
+           </div>`
+        : `<ul class="qc-liste">${g.map(q =>
+            pointQC({ q, produitId: p.id, editable: true })).join('')}</ul>`).join('')}
+    </div>`;
+  })()}
+  ${volet('cyclage', 'Cyclage et tests',
+    'Rien encore. Lavages, compressions, tenue de l\'isolant.')}
+  ${volet('emballage', 'Emballage et finition',
+    'Rien encore. Pliage, sachet, étiquette, mise en carton.')}
+
+  <div class="carte">
+    <h2>Ajouter un tableau de mensurations</h2>
+    <p class="sec">Une cote, toutes ses tailles d'un coup — ça se recopie d'un
+    chiffrier. Sur la checklist d'un lot, chaque taille ne sera exigée que si le
+    lot en contient, et son échantillon se calcule sur les pièces de CETTE
+    taille : quatre manteaux sur les trente-quatre en L, pas sur les cent
+    cinquante du lot.</p>
+    <form method="post" action="/qualite/${p.id}/mesures" class="qc-form">
+      <div class="champ"><label for="mt">Quelle cote</label>
+        <input id="mt" name="titre" required maxlength="200"
+               placeholder="Tour de poitrine"></div>
+      <div class="champ"><label for="mu">Unité</label>
+        <input id="mu" name="unite" maxlength="20" placeholder="cm"></div>
+      <div class="champ"><label for="mech">Combien de pièces</label>
+        <select id="mech" name="ech_type">
+          <option value="ratio">1 pièce sur…</option>
+          <option value="fixe">Un nombre fixe</option>
+          <option value="tout">Toutes les pièces</option>
+          <option value="">Non précisé</option>
+        </select></div>
+      <div class="champ"><label for="mechv">Sur / combien</label>
+        <input id="mechv" type="number" min="1" max="100000" name="ech_valeur"
+               value="10"></div>
+      <div class="champ champ-large"><label for="mdet">Comment mesurer</label>
+        <input id="mdet" name="detail" maxlength="500"
+               placeholder="À plat, d'emmanchure à emmanchure, vêtement fermé"></div>
+      <div class="champ champ-large"><label for="mtab">Une ligne par taille</label>
+        <textarea id="mtab" name="tableau" rows="6" required
+          placeholder="Homme / S = 102 ± 1,5&#10;Homme / M = 110 ± 1,5&#10;Homme / L = 118 ± 1,5"
+        ></textarea></div>
+      <button class="btn">Créer le tableau</button>
+    </form>
+  </div>
+
+  <div class="carte">
+    <h2>Ajouter un point</h2>
+    ${formulaireQC(`/qualite/${p.id}`)}
+    <p class="sec">« 1 pièce sur 20 » se transforme tout seul en nombre réel
+    selon le volume du lot : 5 pièces sur un lot de 100, 175 sur un lot de
+    3 500. Personne ne devrait faire la division en ayant les pièces en main.</p>
+  </div>`;
+
+  return page({ titre: `Qualité — ${p.code}`, user, corps, msg, actif: 'produits' });
+}
+
+// ==================================================================== tâches
+/**
+ * Les tâches qu'on se demande d'un bord à l'autre.
+ *
+ * Trois listes, dans l'ordre où on les regarde : ce qui m'attend, ce que
+ * j'ai demandé, ce qui n'a personne. La quatrième — ce qui est fait — est
+ * repliée : elle sert à vérifier, pas à travailler.
+ */
+function ligneTache({ t, user, ou }) {
+  const auj = new Date().toISOString().slice(0, 10);
+  const retard = t.statut === 'a_faire' && t.echeance && t.echeance < auj;
+  const mien = t.assigne_a === user.id;
+  return `<li class="tk${retard ? ' tk-retard' : ''}${t.statut === 'faite' ? ' tk-faite' : ''}">
+    <div class="tk-quoi">
+      <b>${e(t.titre)}</b>
+      ${t.details ? `<span class="tk-det">${e(t.details)}</span>` : ''}
+      <span class="tk-qui">
+        ${t.echeance ? `<span class="tk-date${retard ? ' en-retard' : ''}">${
+          retard ? 'en retard · ' : ''}${dateFR(t.echeance)}</span>` : ''}
+        ${ou === 'moi' ? `demandé par ${e(t.demandeur || 'quelqu\'un')}`
+          : ou === 'sansPorteur' ? 'personne ne l\'a prise'
+          : `pour ${e(t.porteur || 'personne')}`}
+        ${t.ordre_numero ? `· <a href="/ordres/${t.ordre_id}">${e(t.ordre_numero)}</a>` : ''}
+        ${t.produit_code ? `· <a href="/produits/${t.produit_id}">${e(t.produit_code)}</a>` : ''}
+        ${t.statut === 'faite' ? `· fait par ${e(t.porteur || '—')}` : ''}
+      </span>
+    </div>
+    <div class="tk-actions">
+      ${t.statut === 'a_faire' ? `
+        ${mien || !t.assigne_a ? `<form method="post" action="/taches/${t.id}/faite">
+          <button class="btn-mini">${mien ? 'Fait' : 'Je la prends et c\'est fait'}</button>
+        </form>` : ''}
+        ${!t.assigne_a ? `<form method="post" action="/taches/${t.id}/prendre">
+          <button class="lien">Je la prends</button></form>` : ''}`
+      : `<form method="post" action="/taches/${t.id}/rouvrir">
+           <button class="lien">Rouvrir</button></form>`}
+      ${t.cree_par === user.id ? `<form method="post" action="/taches/${t.id}/supprimer">
+        <button class="lien danger">Supprimer</button></form>` : ''}
+    </div>
+  </li>`;
+}
+
+function vueTaches({ user, msg, pourMoi, demandees, orphelines, faites, equipe }) {
+  const liste = (titre, l, ou, vide) => `<div class="carte">
+    <h2>${titre}${l.length ? ` <span class="cpt">${l.length}</span>` : ''}</h2>
+    ${l.length ? `<ul class="taches">${l.map(t =>
+      ligneTache({ t, user, ou })).join('')}</ul>`
+    : `<p class="vide">${vide}</p>`}
+  </div>`;
+
+  const corps = `
+  <div class="entete"><div><h1>Tâches</h1>
+    <p class="muted">Ce qu'on se demande d'un bord à l'autre</p></div></div>
+
+  <div class="carte">
+    <h2>Demander quelque chose</h2>
+    <form method="post" action="/taches" class="tk-form">
+      <div class="champ"><label for="tt">Quoi</label>
+        <input id="tt" name="titre" required maxlength="200"
+               placeholder="Vérifier le stock de molleton noir"></div>
+      <div class="champ"><label for="ta">À qui</label>
+        <select id="ta" name="assigne_a">
+          <option value="">Personne pour l'instant</option>
+          ${equipe.map(m => `<option value="${m.id}"${m.id === user.id ? ' selected' : ''}
+            >${e(m.nom)}${m.id === user.id ? ' (moi)' : ''} — ${ROLES[m.role]}</option>`).join('')}
+        </select></div>
+      <div class="champ"><label for="te">Pour quand</label>
+        <input id="te" type="date" name="echeance"></div>
+      <div class="champ champ-large"><label for="td">Précisions</label>
+        <input id="td" name="details" maxlength="500"
+               placeholder="Facultatif — ce qu'il faut savoir pour la faire"></div>
+      <button class="btn">Ajouter</button>
+    </form>
+  </div>
+
+  ${liste('Pour moi', pourMoi, 'moi', 'Rien ne t\'attend.')}
+  ${liste('Ce que j\'ai demandé', demandees, 'demandees',
+          'Tu n\'as rien demandé à personne.')}
+  ${orphelines.length
+    ? liste('Sans porteur', orphelines, 'sansPorteur', '')
+    : ''}
+
+  ${faites.length ? `<details class="carte">
+    <summary><h2 style="display:inline">Faites <span class="cpt">${faites.length}</span></h2></summary>
+    <ul class="taches">${faites.map(t =>
+      ligneTache({ t, user, ou: 'faites' })).join('')}</ul>
+  </details>` : ''}`;
+
+  return page({ titre: 'Tâches', user, corps, msg, actif: 'taches' });
+}
+
 // ============================================================ liste des ordres
 function vueOrdres({ user, ordres, msg }) {
   const corps = `
@@ -271,7 +1194,7 @@ function vueOrdres({ user, ordres, msg }) {
 }
 
 // =================================================== DÉTAIL D'UN ORDRE (clé)
-function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg }) {
+function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg, qc = {} }) {
   const admin = user.role === 'admin';
   const auj = new Date().toISOString().slice(0, 10);
 
@@ -312,23 +1235,28 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg }) 
       <td><a href="/produits/${it.produit_id}"><b>${e(it.produit_nom)}</b></a><br>
           <span class="muted">${e(it.produit_code)}</span></td>
       <td class="num">${it.quantite.toLocaleString('fr-CA')}
-        ${it.variantes ? `<details class="rep-var">
-          <summary>${it.variantes.lignes.length} variantes${it.variantes.ecart
-            ? ` <span class="ecart">${it.variantes.ecart > 0 ? '+' : ''}${it.variantes.ecart}</span>`
-            : ''}</summary>
-          <ul>${it.variantes.lignes.map(v => `<li><span>${e(v.nom)}</span>
-            <b>${v.quantite.toLocaleString('fr-CA')}</b></li>`).join('')}</ul>
-          ${it.variantes.ecart ? `<p class="ecart-note">La répartition totalise
-            ${it.variantes.somme.toLocaleString('fr-CA')} pour
-            ${it.variantes.quantite.toLocaleString('fr-CA')} au plan. Les deux
-            chiffres viennent du chiffrier ; l'écart n'est pas résolu.</p>` : ''}
-        </details>` : ''}
+        ${it.variantes ? repartition(it.variantes) : ''}
       </td>
       <td>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
           ${jauge(it.avancement)}<span class="pct">${it.avancement} %</span>
         </div>
         ${selecteur(it)}
+        ${(() => {
+          // L'état qualité se lit à côté du sélecteur, parce que c'est là qu'on
+          // s'apprête à déclarer 100 % et qu'on va se faire refuser.
+          const q = qc[it.id];
+          if (!q) return '';
+          const lien = `/ordres/${o.id}/items/${it.id}/qualite`;
+          if (q.vide) return `<div class="ck-etiq ck-rien"><a href="/qualite/${
+            it.produit_id}">aucun protocole</a></div>`;
+          if (q.ecarts) return `<div class="ck-etiq ck-ko"><a href="${lien}"
+            >${q.ecarts} non-conformité${q.ecarts > 1 ? 's' : ''}</a></div>`;
+          if (q.complet) return `<div class="ck-etiq ck-ok"><a href="${lien}"
+            >contrôle passé · ${q.total}/${q.total}</a></div>`;
+          return `<div class="ck-etiq ck-attente"><a href="${lien}"
+            >qualité ${q.verifies}/${q.total}</a></div>`;
+        })()}
         ${it.maj_le ? `<div class="muted" style="margin-top:4px;font-size:12px">
            Dernière mise à jour ${dateHeureFR(it.maj_le)}</div>` : ''}
       </td>
@@ -437,6 +1365,7 @@ function vueOrdreForm({ user, o = null, msg }) {
 // ================================================================== produits
 function vueProduits({ user, produits, msg }) {
   const corps = `
+  ${sousNavProduits('fiches')}
   <div class="entete"><div><h1>Produits</h1>
     <p class="muted">${produits.length} fiche${produits.length > 1 ? 's' : ''}</p></div>
     ${user.role === 'admin'
@@ -445,15 +1374,16 @@ function vueProduits({ user, produits, msg }) {
     ${produits.map(p => `<a class="vignette" href="/produits/${p.id}">
       ${p.photo ? img(p.photo, { largeur: TAILLES.vignette, alt: p.nom })
                 : `<div class="sans-photo">Pas de photo</div>`}
-      <div class="b"><b>${e(p.nom)}</b>
+      <div class="b"><b>${e(p.nom_court || p.nom)}</b>
         <span class="muted">${e(p.code)}</span></div>
     </a>`).join('')}
   </div>` : `<div class="carte"><p class="vide">Aucune fiche produit.</p></div>`}`;
   return page({ titre: 'Produits', user, corps, actif: 'produits', msg });
 }
 
-function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg,
-                     nomenclature = [], stock = null, coutMatiere = null }) {
+function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = null,
+                      charte = null, bris = null,
+                      nomenclature = [], stock = null, coutMatiere = null }) {
   const admin = user.role === 'admin';
   const studio = photos.filter(f => f.type === 'studio');
   const contexte = photos.filter(f => f.type === 'contexte');
@@ -463,10 +1393,54 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg,
       ${f.legende ? `<figcaption>${e(f.legende)}</figcaption>` : ''}
     </figure>`).join('')}</div>`;
 
+  // Un bris sans consigne est une consigne qui manque : c'est le chiffre qui
+  // fait agir, pas le total.
+  const nus = bris ? bris.tous.filter(b => !b.point_id).length : 0;
+
   const corps = `
+  ${sousNavProduits('fiches')}
   <div class="entete"><div>
-    <h1>${e(p.nom)}</h1><p class="muted">${e(p.code)}</p>
+    <h1>${e(p.nom_court || p.nom)}</h1>
+    <p class="muted">${e(p.code)}${p.nom_court && p.nom !== p.nom_court
+      ? ` · vendu sous « ${e(p.nom)} »` : ''}</p>
   </div>${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}</div>
+
+  ${charte && !charte.vide ? `<div class="carte">
+    <h2>Charte produit</h2>
+    <p class="sec">De quoi la pièce est faite. C'est ce qu'on lit avant de
+      couper — pas ce qu'on vérifie après.</p>
+    <div class="charte">${Object.entries(SECTIONS_CHARTE).map(([cle, lib]) =>
+      (charte.par[cle] || []).length ? `<section class="ch-${cle}">
+        <h3>${lib}</h3>
+        <ul>${charte.par[cle].map(c => `<li>${e(c.texte)}</li>`).join('')}</ul>
+      </section>` : '').join('')}</div>
+  </div>` : ''}
+
+  ${qc ? `<div class="carte qc-rappel">
+    <h2><span class="q-pip q-critique">!</span> Contrôle qualité</h2>
+    ${qc.total ? `<p class="sec">${qc.total} point${qc.total > 1 ? 's' : ''} au
+      protocole${qc.par.critique.length
+        ? ` — dont ${qc.par.critique.length} critique${
+            qc.par.critique.length > 1 ? 's' : ''}` : ''}.</p>
+      ${qc.par.critique.length ? `<ul class="qc-court">${qc.par.critique.slice(0, 3)
+        .map(x => `<li><b>${e(x.titre)}</b>${x.consequence
+          ? ` <span class="qc-cons">Sinon : ${e(x.consequence)}</span>` : ''}</li>`).join('')}
+      </ul>` : ''}`
+    : `<p class="vide">Aucun protocole écrit pour ce produit.</p>`}
+    <a class="lien" href="/qualite/${p.id}">${qc.total
+      ? 'Voir le protocole complet' : 'Écrire le protocole'} →</a>
+  </div>` : ''}
+
+  ${bris && bris.tous.length ? `<div class="carte">
+    <h2>Ce qui casse</h2>
+    <p class="sec">${bris.tous.length} signalement${bris.tous.length > 1 ? 's' : ''} sur
+      ce produit${nus ? `, dont <b>${nus} sans consigne</b>` : ''}.
+      ${bris.zones.length ? `Les zones : ${bris.zones.slice(0, 4)
+        .map(z => `<b>${e(z.zone)}</b>${z.n > 1 ? ` ×${z.n}` : ''}`).join(', ')}.` : ''}</p>
+    <ul class="br-liste">${bris.tous.slice(0, 3)
+      .map(b => ligneBris({ b, produitId: p.id, editable: false })).join('')}</ul>
+    <a class="lien" href="/mur#p${p.id}">Voir les photos et les mots des clients →</a>
+  </div>` : ''}
 
   ${studio.length ? `<div class="carte"><h2>Photos studio</h2>${galerie(studio)}</div>` : ''}
   ${contexte.length ? `<div class="carte"><h2>En contexte d'utilisation</h2>
@@ -554,11 +1528,11 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg,
        <td><span class="et et-${o.statut}">${STATUTS[o.statut]}</span></td>
      </tr>`).join('')}
      </table></div></div>` : ''}`;
-  return page({ titre: p.nom, user, corps, actif: 'produits', msg });
+  return page({ titre: p.nom_court || p.nom, user, corps, actif: 'produits', msg });
 }
 
 function vueProduitForm({ user, p = null, photos = [], materiaux = [], patrons = [], msg }) {
-  const t = p ? `Modifier ${p.nom}` : 'Nouvelle fiche produit';
+  const t = p ? `Modifier ${p.nom_court || p.nom}` : 'Nouvelle fiche produit';
   const ligneRepetee = (n, champs) => champs;
 
   const corps = `
@@ -673,7 +1647,101 @@ function vueProduitForm({ user, p = null, photos = [], materiaux = [], patrons =
 }
 
 // ==================================================================== cédule
-function vueCedule({ user, jalons, msg }) {
+/* --------------------------------------------------------------------- Gantt
+ * Un diagramme de charge : chaque item occupe l'atelier pendant le temps que
+ * sa quantité demande, les uns après les autres, dans l'ordre de fabrication.
+ *
+ * Il ne sert pas à faire joli. Il sert à répondre à une seule question — est-ce
+ * que ça rentre avant l'expédition ? — et à la répondre par non quand c'est
+ * non. Le trait rouge est la date d'expédition ; ce qui le dépasse est marqué.
+ *
+ * Rendu côté serveur, sans script : chaque barre est un <i> dont la position
+ * et la largeur sont des pourcentages de la fenêtre. Le tableau défile
+ * horizontalement dans son propre cadre — un Gantt est large, la page ne doit
+ * pas l'être.
+ */
+function gantt({ cal, jalons = [], admin = false }) {
+  const t = cal.taches.filter(x => x.heures > 0);
+  if (!t.length) return '';
+
+  const jourMs = 864e5;
+  const d0 = new Date(cal.debut + 'T00:00:00Z');
+  // La fenêtre couvre le travail ET les jalons : une échéance hors cadre ne
+  // se verrait pas, et c'est justement celle-là qu'il faut voir.
+  const bornes = [new Date(cal.fin + 'T00:00:00Z'),
+                  ...jalons.map(j => new Date(j.date + 'T00:00:00Z'))];
+  const d1 = new Date(Math.max(...bornes.map(x => x.getTime())));
+  const total = Math.max(1, (d1 - d0) / jourMs);
+  const pos = (iso) => ((new Date(iso + 'T00:00:00Z') - d0) / jourMs / total) * 100;
+
+  // Un repère par mois : plus fin serait illisible sur six mois.
+  const mois = [];
+  {
+    const c = new Date(d0);
+    c.setUTCDate(1);
+    while (c <= d1) {
+      const iso = c.toISOString().slice(0, 10);
+      if (c >= d0) mois.push({ iso, x: pos(iso),
+        nom: c.toLocaleDateString('fr-CA', { month: 'short', timeZone: 'UTC' }) });
+      c.setUTCMonth(c.getUTCMonth() + 1);
+    }
+  }
+
+  const SRC = {
+    'deux':         'prép. + assemblage',
+    'chrono':       'chronométré (partiel)',
+    'chrono-total': 'chronométré',
+    'bmb':          'prix BMB',
+    'cout':         'déduit du coût',
+    'estime':       'estimé',
+    'aucune':       'inconnu',
+  };
+  // Le détail des deux étapes, en infobulle : « 17 min prép. + 7 min assemblage ».
+  const detail = (t) => {
+    const m = (s) => Math.round(s / 60) + ' min';
+    const bouts = [];
+    if (t.preparation) bouts.push(m(t.preparation) + ' de préparation');
+    if (t.assemblage) bouts.push(m(t.assemblage) + " d'assemblage");
+    return bouts.join(' + ') || 'aucun temps connu';
+  };
+  const dernier = jalons.length
+    ? jalons.map(j => j.date).sort()[0] : null;   // la première échéance compte
+
+  const ligne = (x) => {
+    const g = pos(x.debut), l = Math.max(0.6, pos(x.fin) - g);
+    const dehors = dernier && x.fin > dernier;
+    return `<tr class="${dehors ? 'g-dehors' : ''}">
+      <th scope="row"><a href="/produits/${x.produit_id}">${e(x.code)}</a>
+        <span class="g-h">${Math.round(x.heures).toLocaleString('fr-CA')} h</span>
+        <span class="g-tags"><span class="g-src g-src-${x.temps.source}"
+              title="${e(detail(x.temps))}">${SRC[x.temps.source] || x.temps.source}</span
+        >${x.temps.divergent ? `<span class="g-src g-src-alerte"
+          title="${e(x.temps.divergent)}">⚠ sources</span>` : ''}</span></th>
+      <td><div class="g-piste">
+        ${mois.map(m => `<i class="g-mois" style="left:${m.x}%"></i>`).join('')}
+        ${jalons.map(j => `<i class="g-jalon" style="left:${pos(j.date)}%"
+           title="${e(j.titre)} — ${dateFR(j.date)}"></i>`).join('')}
+        <i class="g-barre" style="left:${g}%;width:${l}%"
+           title="${e(x.code)} — ${dateFR(x.debut)} au ${dateFR(x.fin)}"></i>
+      </div></td>
+    </tr>`;
+  };
+
+  return `<div class="carte">
+    <h2>Charge de l'atelier</h2>
+    <p class="sec">Chaque item occupe l'atelier le temps que sa quantité
+    demande, dans l'ordre de fabrication. Le trait rouge est l'expédition.</p>
+
+    <div class="tbl g-cadre"><table class="gantt">
+      <thead><tr><th></th><td><div class="g-echelle">
+        ${mois.map(m => `<span style="left:${m.x}%">${m.nom}</span>`).join('')}
+      </div></td></tr></thead>
+      <tbody>${t.map(ligne).join('')}</tbody>
+    </table></div>
+  </div>`;
+}
+
+function vueCedule({ user, jalons, msg, cal = null }) {
   const auj = new Date().toISOString().slice(0, 10);
   const parMois = {};
   for (const j of jalons) {
@@ -685,9 +1753,121 @@ function vueCedule({ user, jalons, msg }) {
     return new Date(+a, +m - 1, 1).toLocaleDateString('fr-CA',
       { month: 'long', year: 'numeric' });
   };
+  const admin = user.role === 'admin';
+
+  /**
+   * Le verdict, avant le dessin. Un Gantt qu'on regarde sans savoir s'il tient
+   * est un joli graphique ; la seule question qui compte est « est-ce que ça
+   * rentre », et elle se répond en trois nombres.
+   */
+  const perim = C.perimetre();
+  const verdict = () => {
+    if (!cal || !cal.taches.length) return '';
+    const echeance = jalons.filter(j => j.date >= auj).map(j => j.date).sort()[0];
+    const c = cal.cap;
+    let dispo = null, jours = 0;
+    if (echeance) {
+      const d = new Date(auj + 'T00:00:00Z'), f = new Date(echeance + 'T00:00:00Z');
+      for (let x = new Date(d); x < f; x = new Date(x.getTime() + 864e5)) {
+        const j = x.getUTCDay();
+        if (j !== 0 && j <= c.jours_semaine) jours++;
+      }
+      dispo = jours * c.postes * c.heures_jour;
+    }
+    const manque = dispo !== null && cal.heuresTotal > dispo;
+    const postesRequis = dispo !== null && jours > 0
+      ? Math.ceil(cal.heuresTotal / (jours * c.heures_jour)) : null;
+
+    // Ce que les items sans temps connu coûteraient. Une marge de 131 h ne veut
+    // rien dire si ce qui n'est pas compté en demande 400 : le verdict doit le
+    // dire, sinon « ça rentre » est un piège.
+    const inc = C.chargeInconnue(cal.taches);
+    const marge = dispo !== null ? dispo - cal.heuresTotal : null;
+    const fragile = !manque && marge !== null && inc.connu && inc.median > marge;
+    const nb = (h) => Math.round(h).toLocaleString('fr-CA');
+
+    return `<div class="carte ${manque ? 'verdict-non'
+      : fragile ? 'verdict-fragile' : 'verdict-oui'}">
+      <div class="chiffres">
+        <div class="c"><b>${Math.round(cal.heuresTotal).toLocaleString('fr-CA')}</b>heures de travail</div>
+        ${dispo !== null ? `<div class="c"><b>${dispo.toLocaleString('fr-CA')}</b>heures disponibles
+          <span class="sec">${jours} jours ouvrés d'ici le ${dateFR(echeance)}</span></div>` : ''}
+        <div class="c"><b>${c.postes}</b>postes ${c.defaut
+          ? '<span class="sec">équipe annoncée · non confirmée ici</span>' : ''}</div>
+        <div class="c"><b style="font-size:15px;line-height:1.3">${
+          C.PERIMETRES[perim.valeur]}</b>ce que l'atelier fait ${perim.defaut
+          ? '<span class="sec">lecture prudente · non confirmée</span>' : ''}</div>
+      </div>
+      ${manque ? `<p class="verdict-txt"><b>Ça ne rentre pas.</b> Il manque
+        ${nb(cal.heuresTotal - dispo)} heures.
+        À ${c.heures_jour} h par jour, il faudrait <b>${postesRequis} postes</b>
+        au lieu de ${c.postes} — ou déplacer une partie du plan.</p>`
+      : fragile ? `<p class="verdict-txt"><b>Ça rentre sur le papier</b>, avec
+        ${nb(marge)} heures de marge — soit
+        ${Math.round((marge / dispo) * 100)} % du temps disponible. C'est moins
+        que ce que les items non chiffrés demanderaient : la marge ne tient
+        probablement pas.</p>`
+      : dispo !== null ? `<p class="verdict-txt"><b>Ça rentre</b>, avec
+        ${nb(marge)} heures de marge.</p>` : ''}
+      ${cal.sansTemps ? `<p class="verdict-note">${cal.sansTemps} items n'ont
+        aucun temps connu — ni chronométré, ni déductible d'un coût de
+        confection. Ils comptent pour <b>zéro heure</b> dans le total
+        ci-dessus.${inc.connu ? ` À leurs ${inc.pieces.toLocaleString('fr-CA')}
+        pièces, en leur prêtant les temps des autres items du plan, il faudrait
+        <b>entre ${nb(inc.bas)} et ${nb(inc.haut)} heures</b> de plus
+        (${nb(inc.median)} h au temps médian). Le seul moyen de trancher est de
+        les chronométrer.` : ''}</p>` : ''}
+      <p class="verdict-note">Deux étapes, pas deux versions du même chiffre :
+      le chronomètre mesure la <b>préparation</b> (coupe, matelassage,
+      remplissage, mélange), le prix BMB paie l'<b>assemblage</b>. Tout est
+      converti à ${C.TAUX_HORAIRE} $/h, la règle que le suivi Tunisie applique
+      aux mitaines polar. Chaque ligne du diagramme dit ce qu'elle contient, et
+      signale les sources qui se contredisent.</p>
+    </div>
+
+    ${admin ? `<div class="carte">
+      <h2>Capacité de l'atelier</h2>
+      <p class="sec">Aucune source ne la donne : c'est ce réglage qui transforme
+      des heures en dates. Le changer redessine tout le calendrier.
+      ${c.defaut ? '<b>Les 20 postes viennent de l\'équipe annoncée — 20 couturières, donc bien 20 postes de couture — pas d\'une mesure de ce qui sort par jour.</b> Confirmer ici.' : ''}</p>
+      <form method="post" action="/cedule/capacite" class="cap-form">
+        <div class="champ"><label for="cp">Postes</label>
+          <input id="cp" type="number" name="postes" min="1" max="200"
+                 value="${c.postes}" required></div>
+        <div class="champ"><label for="ch">Heures par jour</label>
+          <input id="ch" type="number" name="heures_jour" min="1" max="24"
+                 value="${c.heures_jour}" required></div>
+        <div class="champ"><label for="cj">Jours par semaine</label>
+          <input id="cj" type="number" name="jours_semaine" min="1" max="7"
+                 value="${c.jours_semaine}" required></div>
+        <button class="btn">Recalculer</button>
+      </form>
+    </div>
+
+    <div class="carte">
+      <h2>Ce que l'atelier fait</h2>
+      <p class="sec">Aucune source ne dit si l'atelier planifié fait la
+      préparation, l'assemblage, ou les deux — et l'écart entre les trois
+      lectures dépasse le simple au double. Par défaut « les deux » : c'est la
+      lecture prudente. ${perim.defaut
+        ? '<b>Personne ne l\'a encore confirmée.</b>' : ''}</p>
+      <form method="post" action="/cedule/perimetre" class="cap-form">
+        <div class="champ" style="min-width:min(100%,280px)">
+          <label for="pe">Périmètre</label>
+          <select id="pe" name="perimetre">
+            ${Object.entries(C.PERIMETRES).map(([k, lib]) =>
+              `<option value="${k}"${k === perim.valeur ? ' selected' : ''}>${lib}</option>`).join('')}
+          </select></div>
+        <button class="btn">Recalculer</button>
+      </form>
+    </div>` : ''}`;
+  };
+
   const corps = `
   <div class="entete"><div><h1>Cédule</h1>
-    <p class="muted">Toutes les dates clés, tous ordres confondus</p></div></div>
+    <p class="muted">La charge de l'atelier et les dates clés</p></div></div>
+  ${verdict()}
+  ${cal ? gantt({ cal, jalons: jalons.filter(j => j.date >= auj), admin }) : ''}
   ${Object.keys(parMois).length ? Object.entries(parMois).map(([mois, liste]) => `
     <div class="carte"><h2 style="text-transform:capitalize">${nomMois(mois)}</h2>
       ${liste.map(j => `<div class="jalon${j.date < auj ? ' passe' : ''}">
@@ -955,7 +2135,8 @@ function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
         ${l.note ? `<span class="note">${e(l.note)}</span>` : ''}
       </td>
       <td class="qte"><b>${l.restant.toLocaleString('fr-CA')}</b>
-        <span class="sec">sur ${l.quantite.toLocaleString('fr-CA')}</span></td>
+        <span class="sec">sur ${l.quantite.toLocaleString('fr-CA')}</span>
+        ${l.variantes ? repartition(l.variantes, { compact: true }) : ''}</td>
       <td class="av">${jauge(l.avancement)}<span class="sec">${l.avancement} %</span></td>
       <td class="ech u-${u.cls}">
         ${l.echeance ? `<b>${dateFR(l.echeance)}</b>` : ''}
@@ -1083,9 +2264,11 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
   return page({ titre: 'Suivi', user, corps, actif: 'suivi', msg });
 }
 
-module.exports = { e, urlImage, urlAcceptable, img, TAILLES, dateFR, dateHeureFR, jauge, page, vueConnexion,
+module.exports = { e, urlImage, urlAcceptable, img, TAILLES, sousNavProduits, dateFR, dateHeureFR, jauge, page, vueConnexion,
                    vueCompte,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
-                   vuePriorites, vueSuivi, PRIORITES, urgence,
+                   vuePriorites, vueSuivi, vueTaches, vueQualite, vueProtocole,
+                   vueChecklist, vueMur,
+                   PRIORITES, urgence,
                    STATUTS, TYPES_JALON, LIEUX, ROLES };

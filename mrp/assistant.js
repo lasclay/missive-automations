@@ -21,6 +21,10 @@ const outils = require('./outils.js');
 const CLE = process.env.ANTHROPIC_API_KEY;
 const MODELE = process.env.MRP_MODELE || 'claude-sonnet-5';
 const TOURS_MAX = 12;             // garde-fou : jamais de boucle infinie
+// La réflexion adaptative compte dans max_tokens : trop bas, le modèle se fait
+// couper au milieu d'un appel d'outil. Assez large pour une réponse courte
+// PLUS le raisonnement qui la précède.
+const SORTIE_MAX = 8000;
 const HISTORIQUE_MAX = 16;        // messages conservés d'un tour à l'autre
 
 const disponible = () => Boolean(CLE);
@@ -132,9 +136,28 @@ async function traiter({ demande, user, fil }) {
   try {
     for (let tour = 0; tour < TOURS_MAX; tour++) {
       const data = await appeler({
-        model: MODELE, max_tokens: 2000, system: consigne(user), tools, messages,
+        model: MODELE, max_tokens: SORTIE_MAX, system: consigne(user), tools, messages,
       });
       const blocs = data.content || [];
+
+      // Une réponse coupée à max_tokens peut l'être AU MILIEU d'un appel
+      // d'outil : le bloc est incomplet, et le renvoyer tel quel fait rejeter
+      // le tour suivant par l'API. On s'arrête proprement et on le dit.
+      if (data.stop_reason === 'max_tokens') {
+        reponse = (blocs.filter(b => b.type === 'text').map(b => b.text).join('\n').trim()
+          || reponse)
+          + '\n\nJ\'ai été coupé en cours de route : la réponse dépassait la '
+          + 'taille permise. Redemande en plus petits morceaux.';
+        break;
+      }
+      // Un refus de sécurité arrive en HTTP 200 : sans ce test, il passerait
+      // pour une réponse vide.
+      if (data.stop_reason === 'refusal') {
+        reponse = 'Je ne peux pas traiter cette demande telle quelle. '
+          + 'Reformule-la, ou passe par les formulaires.';
+        break;
+      }
+
       messages.push({ role: 'assistant', content: blocs });
 
       const appels = blocs.filter(b => b.type === 'tool_use');
@@ -168,6 +191,25 @@ async function traiter({ demande, user, fil }) {
   return { tourId, reponse, faits: ctx.faits };
 }
 
+/**
+ * Le dernier fil ouvert par quelqu'un, ou null.
+ *
+ * L'accueil s'en sert pour continuer la conversation plutôt que d'en repartir
+ * une neuve à chaque affichage : sans ça, « et les mitaines ? » ne veut plus
+ * rien dire dès qu'on a rechargé la page.
+ */
+function dernierFil(utilisateurId) {
+  const r = db.prepare(`SELECT fil FROM agent_tours WHERE utilisateur_id = ?
+                        ORDER BY id DESC LIMIT 1`).get(utilisateurId);
+  return r ? r.fil : null;
+}
+
+/** Le dernier tour d'un fil, avec ses actions — ce que l'accueil affiche. */
+function dernierTour(utilisateurId, identifiant) {
+  const l = fil(identifiant, utilisateurId, 1);
+  return l.length ? l[0] : null;
+}
+
 /** Les tours d'un fil, du plus ancien au plus récent, avec leurs actions. */
 function fil(identifiant, utilisateurId, limite = 12) {
   const tours = db.prepare(
@@ -179,4 +221,4 @@ function fil(identifiant, utilisateurId, limite = 12) {
   return tours.map(t => ({ ...t, actions: actions.all(t.id) }));
 }
 
-module.exports = { traiter, fil, disponible, MODELE };
+module.exports = { traiter, fil, dernierFil, dernierTour, disponible, MODELE };

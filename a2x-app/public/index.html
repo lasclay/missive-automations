@@ -46,7 +46,7 @@
   .banner.ok { border-color:var(--ok); color:var(--ok); }
   a { color:var(--accent); }
   .clickable { cursor:pointer; }
-  .selcol { width:34px; text-align:center; }
+  .selcol { width:34px; text-align:center; user-select:none; }
   .clickable:hover td { background:rgba(127,127,127,.07); }
   .scroll { overflow-x:auto; }
   code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; }
@@ -62,6 +62,7 @@
   </div>
   <nav>
     <button data-tab="payouts" class="on">Versements</button>
+    <button data-tab="monthly" title="PayPal, cartes-cadeaux, commandes manuelles — l'écriture qu'A2X faisait une fois par mois">Mensuel</button>
     <button data-tab="mappings">Mappings</button>
     <button data-tab="settings">Réglages</button>
   </nav>
@@ -69,6 +70,7 @@
 
 <main>
   <section id="tab-payouts"></section>
+  <section id="tab-monthly" hidden></section>
   <section id="tab-mappings" hidden></section>
   <section id="tab-settings" hidden></section>
 </main>
@@ -80,7 +82,7 @@ const money = (n) => (n < 0 ? "−" : "") + Math.abs(Number(n) || 0).toLocaleStr
 const day = (iso) => (iso || "").slice(0, 10);
 
 let secret = localStorage.getItem("a2xSecret") || "";
-const state = { accounts: [], mappings: null, dirty: new Map() };
+const state = { accounts: [], taxOptions: [], mappings: null, dirty: new Map() };
 
 async function api(path, opts = {}) {
   const res = await fetch("/api" + path, {
@@ -97,8 +99,9 @@ async function api(path, opts = {}) {
 document.querySelectorAll("nav button").forEach((b) => {
   b.onclick = () => {
     document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("on", x === b));
-    for (const t of ["payouts", "mappings", "settings"]) $("#tab-" + t).hidden = t !== b.dataset.tab;
+    for (const t of ["payouts", "monthly", "mappings", "settings"]) $("#tab-" + t).hidden = t !== b.dataset.tab;
     if (b.dataset.tab === "mappings" && !state.mappings) loadMappings();
+    if (b.dataset.tab === "monthly") loadMonths();
     if (b.dataset.tab === "settings") renderSettings();
   };
 });
@@ -142,6 +145,185 @@ function hintFor(message) {
 }
 
 /**
+ * Une composante sans compte bloque la publication — c'est ce que faisait A2X,
+ * et c'est voulu : une écriture amputée d'une ligne serait fausse et
+ * déséquilibrée. Ce qu'A2X ne faisait pas, c'est proposer le correctif sur
+ * place : chaque composante manquante porte son bouton « Créer la règle », qui
+ * ajoute la combinaison exacte (type, pays, canal) dans mappings.tsv.
+ */
+function unmappedBanner(unmapped) {
+  if (!unmapped || !unmapped.length) return "";
+  const lignes = unmapped.map((u, i) => `
+    <div class="row" style="margin:6px 0">
+      <span class="num" style="min-width:90px">${money(u.amount)} $</span>
+      <span class="grow">${esc(u.description)}</span>
+      <select class="fixacct" data-i="${i}" style="max-width:260px">${accountOptions("")}</select>
+      <button class="ghost fixgo" data-i="${i}">Créer la règle</button>
+    </div>`).join("");
+  return `<div class="banner warn"><b>${unmapped.length} composante(s) sans compte — publication bloquée.</b>
+    <div class="muted">Choisis le compte, la règle est ajoutée aux mappings et l'écriture est recalculée.</div>
+    ${lignes}
+    <div id="fixmsg" class="muted"></div></div>`;
+}
+
+/** Le menu des comptes QuickBooks, partagé par les mappings et le correctif rapide. */
+function accountOptions(selected) {
+  return `<option value="">— choisir un compte —</option>` + state.accounts.map((a) =>
+    `<option value="${esc(a.num)}" ${String(a.num) === String(selected) ? "selected" : ""}>${esc(a.num)} — ${esc(a.name)}</option>`).join("");
+}
+
+/** Branche les boutons « Créer la règle » du bandeau ci-dessus. */
+function wireUnmapped(root, unmapped, reload) {
+  root.querySelectorAll("button.fixgo").forEach((btn) => {
+    btn.onclick = async () => {
+      const u = unmapped[Number(btn.dataset.i)];
+      const acctNum = root.querySelector(`select.fixacct[data-i="${btn.dataset.i}"]`).value;
+      if (!acctNum) { $("#fixmsg").innerHTML = `<span class="pill bad">Choisis d'abord un compte.</span>`; return; }
+      btn.disabled = true;
+      $("#fixmsg").textContent = "Ajout de la règle…";
+      try {
+        // Pas de code de taxe transmis : le serveur reprend celui des règles
+        // sœurs. Une ligne de paiement en attente n'en porte aucun, une ligne
+        // de revenu porte « Détaxé on Sales » — et on ne veut pas y penser ici.
+        const r = await api("/mappings/apply", {
+          method: "POST",
+          body: JSON.stringify({
+            category: u.category, details: u.details,
+            country: u.country, marketplace: u.marketplace,
+            acctNum,
+          }),
+        });
+        state.mappings = null;
+        const opt = (state.taxOptions || []).find((o) => o.value === r.tax);
+        $("#fixmsg").innerHTML = `<span class="pill ok">Règle ajoutée</span>
+          <span class="muted">taxe : ${esc(opt ? opt.label : "aucune")} — recalcul…</span>`;
+        reload();
+      } catch (e) {
+        $("#fixmsg").innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
+        btn.disabled = false;
+      }
+    };
+  });
+}
+
+/**
+ * Un déséquilibre n'est presque jamais mystérieux : c'est le total de ce qu'on
+ * n'a pas su mapper. Le dire évite de chercher ailleurs — et évite surtout la
+ * situation d'avant, où l'écriture s'équilibrait en faisant tomber le manquant
+ * dans le compte de change.
+ */
+function balanceBanner(j) {
+  if (j.balanced) return "";
+  const manquant = (j.unmapped || []).reduce((t, u) => t + u.amount, 0);
+  if (manquant) {
+    return `<div class="banner bad">Écriture déséquilibrée de ${money(Math.abs(manquant))} $ —
+      c'est exactement le total des composantes sans compte ci-dessous.
+      Donne-leur un compte et l'écriture s'équilibrera.</div>`;
+  }
+  return `<div class="banner bad">Écriture déséquilibrée — publication bloquée.</div>`;
+}
+
+/** Le libellé lisible d'un compte QuickBooks, à partir de son Id. */
+function acctLabel(id) {
+  const a = state.accounts.find((x) => String(x.id) === String(id));
+  return a ? `${a.num ? a.num + " : " : ""}${a.name}` : `Compte ${id}`;
+}
+
+/**
+ * Le tableau de l'écriture, avec le mapping MODIFIABLE sur place.
+ *
+ * C'est la différence avec A2X : là-bas, corriger un compte voulait dire quitter
+ * l'écriture, ouvrir la table des 349 mappings, y retrouver la bonne ligne,
+ * revenir, recharger. Ici le menu des comptes est dans la ligne elle-même, et
+ * ce qu'on choisit part dans mappings.tsv.
+ *
+ * Les lignes de contrepartie (arrondi de change, règlement) ne viennent d'aucune
+ * règle : leur compte reste en texte, il se change dans config.json.
+ */
+function journalTable(j) {
+  const debit = j.lines.filter((l) => l.posting === "Debit").reduce((t, l) => t + l.amount, 0);
+  const credit = j.lines.filter((l) => l.posting === "Credit").reduce((t, l) => t + l.amount, 0);
+  const mappable = j.lines.some((l) => l.map);
+  return `
+    ${mappable ? `<div class="row" style="margin:0 0 10px">
+      <span class="muted">Le compte et la taxe se changent directement dans le tableau — c'est enregistré dans les mappings.</span>
+      <button class="act" id="savemap" disabled style="margin-left:auto">Enregistrer les mappings</button>
+      <span id="mapmsg" class="muted"></span>
+    </div>` : ""}
+    <div class="scroll"><table>
+      <thead><tr><th>Description</th><th>Compte</th><th>Taxe</th><th class="num">Débit</th><th class="num">Crédit</th></tr></thead>
+      <tbody>${j.lines.map((l, i) => `
+        <tr>
+          <td>${esc(l.description)}${fallbackPill(l.map)}</td>
+          <td>${l.map
+            ? `<select class="lineacct" data-i="${i}" style="max-width:280px">${accountOptions(l.map.acctNum)}</select>`
+            : `<span class="muted">${esc(acctLabel(l.accountId))}</span>`}</td>
+          <td>${l.map
+            ? `<select class="linetax" data-i="${i}" style="max-width:190px">${taxOptionsHtml(l.map.taxValue)}</select>`
+            : `<span class="muted">—</span>`}</td>
+          <td class="num">${l.posting === "Debit" ? money(l.amount) : ""}</td>
+          <td class="num">${l.posting === "Credit" ? money(l.amount) : ""}</td>
+        </tr>`).join("")}</tbody>
+      <tfoot><tr>
+        <th colspan="3">Total</th>
+        <th class="num">${money(debit)}</th>
+        <th class="num">${money(credit)}</th>
+      </tr></tfoot>
+    </table></div>`;
+}
+
+/**
+ * Dire d'où vient le compte quand ce n'est PAS une règle exacte : le modifier
+ * créera une règle exacte au lieu de toucher la règle générale, qui sert
+ * ailleurs. Sans ce repère, on croit modifier une ligne et on en change dix.
+ */
+function fallbackPill(map) {
+  if (!map || map.fallback === "exact") return "";
+  return ` <span class="pill" style="color:var(--muted)"
+    title="Aucune règle exacte pour cette combinaison. Le compte vient de « ${esc(map.matched || "")} » (${esc(map.fallback)}). Le changer ici créera une règle exacte, sans toucher la règle générale.">${esc(map.fallback)}</span>`;
+}
+
+/** Branche les menus du tableau ci-dessus, et leur enregistrement groupé. */
+function wireJournalTable(root, j, reload) {
+  const btn = root.querySelector("#savemap");
+  const msg = root.querySelector("#mapmsg");
+  if (!btn) return;
+  const dirty = new Map();
+
+  const touch = (i) => {
+    const m = j.lines[i].map;
+    const acctNum = root.querySelector(`select.lineacct[data-i="${i}"]`).value;
+    const tax = root.querySelector(`select.linetax[data-i="${i}"]`).value;
+    if (acctNum === (m.acctNum || "") && tax === (m.taxValue || "")) dirty.delete(i);
+    else dirty.set(i, { ...m, acctNum, tax });
+    btn.disabled = dirty.size === 0;
+    btn.textContent = dirty.size ? `Enregistrer les mappings (${dirty.size})` : "Enregistrer les mappings";
+  };
+  root.querySelectorAll("select.lineacct, select.linetax")
+    .forEach((sel) => (sel.onchange = () => touch(Number(sel.dataset.i))));
+
+  btn.onclick = async () => {
+    btn.disabled = true;
+    msg.textContent = "Enregistrement…";
+    try {
+      const faits = [];
+      for (const m of dirty.values()) {
+        const r = await api("/mappings/apply", { method: "POST", body: JSON.stringify(m) });
+        faits.push(r.action.kind);
+      }
+      state.mappings = null;
+      const creees = faits.filter((k) => k === "creee").length;
+      msg.innerHTML = `<span class="pill ok">${faits.length} enregistré(s)</span>
+        <span class="muted">${creees ? `${creees} règle(s) exacte(s) créée(s), ` : ""}recalcul de l'écriture…</span>`;
+      reload();
+    } catch (e) {
+      msg.innerHTML = `<span class="pill bad">${esc(e.message)}</span>`;
+      btn.disabled = false;
+    }
+  };
+}
+
+/**
  * Dire quand QuickBooks a refusé le bloc de taxe et qu'on a publié en mode
  * allégé : les montants sont les mêmes, mais autant que ce soit visible.
  */
@@ -163,6 +345,7 @@ async function loadPayouts() {
           <button class="ghost" id="selall" ${todo.length ? "" : "disabled"}>Tout sélectionner</button>
           <button class="act" id="postsel" disabled>Publier la sélection</button>
           <span id="batchmsg" class="muted"></span>
+          <span class="muted" style="margin-left:auto">Maj+clic : sélectionner une plage.</span>
         </div>
         <div class="scroll"><table>
           <thead><tr><th class="selcol"></th><th>Versement</th><th>Émis le</th><th>Statut</th>
@@ -190,11 +373,30 @@ async function loadPayouts() {
       $("#postsel").disabled = n === 0;
       $("#postsel").textContent = n ? `Publier la sélection (${n})` : "Publier la sélection";
     };
-    boxes.forEach((b) => (b.onchange = sync));
+
+    /**
+     * Maj+clic : étend la sélection depuis la dernière case cochée jusqu'à
+     * celle-ci, comme dans un explorateur de fichiers. Le clic a déjà basculé
+     * la case au moment où on arrive ici, donc on recopie simplement son état
+     * sur toute la plage — cocher comme décocher.
+     */
+    let ancre = -1;
+    boxes.forEach((b, i) => {
+      b.onclick = (ev) => {
+        if (ev.shiftKey && ancre >= 0 && ancre !== i) {
+          const [a, z] = ancre < i ? [ancre, i] : [i, ancre];
+          for (let k = a; k <= z; k++) boxes[k].checked = b.checked;
+        }
+        ancre = i;
+        sync();
+      };
+    });
+
     $("#selall").onclick = () => {
       const all = boxes.every((b) => b.checked);
       boxes.forEach((b) => (b.checked = !all));
       $("#selall").textContent = all ? "Tout sélectionner" : "Tout désélectionner";
+      ancre = -1;
       sync();
     };
 
@@ -234,10 +436,6 @@ async function loadJournal(id) {
   try {
     const d = await api("/payouts/" + encodeURIComponent(id));
     const j = d.journal;
-    const acct = (accId) => {
-      const a = state.accounts.find((x) => String(x.id) === String(accId));
-      return a ? `${a.num ? a.num + " : " : ""}${a.name}` : `Compte ${accId}`;
-    };
     el.innerHTML = `
       <div class="card">
         <h2>Écriture ${esc(j.docNumber)}</h2>
@@ -245,10 +443,8 @@ async function loadJournal(id) {
            ${d.counts.transactions} transaction(s), ${d.counts.orders} commande(s) ·
            net déposé ${money(j.settlement)} $ (Shopify annonce ${money(j.payoutNet)} $)</p>
 
-        ${!j.balanced ? `<div class="banner bad">Écriture déséquilibrée — publication bloquée.</div>` : ""}
-        ${j.unmapped.length ? `<div class="banner warn"><b>${j.unmapped.length} composante(s) sans compte.</b>
-          ${j.unmapped.map((u) => `<div>${money(u.amount)} $ — ${esc(u.description)}</div>`).join("")}
-          <div class="muted">Ajoute la règle dans l'onglet Mappings, puis recharge.</div></div>` : ""}
+        ${balanceBanner(j)}
+        ${unmappedBanner(j.unmapped)}
         ${d.existing ? `<div class="banner ok">Une écriture couvre déjà ce versement —
           ${d.existing.source === "app" ? "publiée par cette app" : "<b>faite par A2X</b>, pas par cette app"} :
           <a href="${qboLink(d.existing.id)}" target="_blank" rel="noopener">pièce ${esc(d.existing.id)}</a>
@@ -263,32 +459,20 @@ async function loadJournal(id) {
           ${d.related.map((r) => `<div><a href="${qboLink(r.id)}" target="_blank" rel="noopener">pièce ${esc(r.id)}</a>
             <code>${esc(r.docNumber)}</code> · ${esc(r.txnDate)} · règlement ${money(r.settlement)} $</div>`).join("")}</div>` : ""}
 
-        <div class="scroll"><table>
-          <thead><tr><th>Description</th><th>Compte</th><th>Taxe</th><th class="num">Débit</th><th class="num">Crédit</th></tr></thead>
-          <tbody>${j.lines.map((l) => `
-            <tr>
-              <td>${esc(l.description)}</td>
-              <td class="muted">${esc(acct(l.accountId))}</td>
-              <td class="muted">${l.tax ? "Détaxé on Sales" : "—"}</td>
-              <td class="num">${l.posting === "Debit" ? money(l.amount) : ""}</td>
-              <td class="num">${l.posting === "Credit" ? money(l.amount) : ""}</td>
-            </tr>`).join("")}</tbody>
-          <tfoot><tr>
-            <th colspan="3">Total</th>
-            <th class="num">${money(j.lines.filter((l) => l.posting === "Debit").reduce((t, l) => t + l.amount, 0))}</th>
-            <th class="num">${money(j.lines.filter((l) => l.posting === "Credit").reduce((t, l) => t + l.amount, 0))}</th>
-          </tr></tfoot>
-        </table></div>
+        ${journalTable(j)}
 
         ${j.notes.length ? `<p class="muted" style="margin-top:12px">${j.notes.map(esc).join("<br>")}</p>` : ""}
 
         <div class="row" style="margin-top:14px">
-          <button class="act" id="post" ${d.existing || !j.balanced ? "disabled" : ""}>Publier dans QuickBooks</button>
+          <button class="act" id="post" ${d.existing || !j.balanced || j.unmapped.length ? "disabled" : ""}>Publier dans QuickBooks</button>
           <button class="ghost" id="raw" title="Mêmes colonnes que le « download the raw data » d'A2X">Données brutes (CSV)</button>
           <label class="muted"><input type="checkbox" id="force"> forcer (ignorer les avertissements)</label>
           <span id="postmsg" class="muted"></span>
         </div>
       </div>`;
+
+    wireUnmapped(el, j.unmapped, () => loadJournal(id));
+    wireJournalTable(el, j, () => loadJournal(id));
 
     $("#raw").onclick = async () => {
       const btn = $("#raw");
@@ -306,7 +490,11 @@ async function loadJournal(id) {
       btn.disabled = false; btn.textContent = "Données brutes (CSV)";
     };
 
-    $("#force").onchange = (e) => ($("#post").disabled = !j.balanced || (!e.target.checked && !!d.existing));
+    // « forcer » lève les avertissements (doublon, composante sans compte) mais
+    // jamais le déséquilibre : une écriture déséquilibrée serait refusée par
+    // QuickBooks, et le serveur la refuse de toute façon.
+    $("#force").onchange = (e) =>
+      ($("#post").disabled = !j.balanced || (!e.target.checked && (!!d.existing || !!j.unmapped.length)));
     $("#post").onclick = async () => {
       const btn = $("#post");
       btn.disabled = true;
@@ -330,6 +518,140 @@ async function loadJournal(id) {
   }
 }
 
+// ------------------------------------- mensuel (hors Shopify Payments)
+
+/**
+ * Tout ce qui n'arrive pas par un versement Shopify Payments : PayPal, cartes-
+ * cadeaux, commandes manuelles, échanges. A2X en faisait une écriture par mois
+ * (« A2XSH-01Jun-01Jul-469 »), en plus des écritures de versement.
+ *
+ * La liste des mois ne coûte qu'une requête QuickBooks ; le calcul d'un mois
+ * balaie les commandes Shopify et prend quelques secondes — d'où les deux temps.
+ */
+async function loadMonths() {
+  const el = $("#tab-monthly");
+  el.innerHTML = `<div class="card"><div class="spinner">Lecture des écritures mensuelles déjà comptabilisées…</div></div>`;
+  try {
+    const { months } = await api("/monthly?months=14");
+    el.innerHTML = `
+      <div class="card">
+        <h2>Écritures mensuelles — hors Shopify Payments</h2>
+        <p class="muted">PayPal, cartes-cadeaux, commandes manuelles et échanges ne passent pas par un versement :
+           A2X les regroupait en une écriture par mois, datée du 1er. Les commandes déjà réglées par
+           Shopify Payments n'y sont jamais reconnues deux fois — leur écriture de versement s'en charge.</p>
+        <div class="scroll"><table>
+          <thead><tr><th>Mois</th><th>Période</th><th>Écriture</th></tr></thead>
+          <tbody>${months.map((m) => `
+            <tr data-month="${esc(m.month)}" class="clickable">
+              <td><code>${esc(m.month)}</code></td>
+              <td class="muted">${esc(m.start)} → ${esc(m.end)}</td>
+              <td>${monthStatus(m)}</td>
+            </tr>`).join("")}</tbody>
+        </table></div>
+      </div>
+      <div id="monthly"></div>`;
+    el.querySelectorAll("tr[data-month]").forEach((tr) => {
+      tr.onclick = (e) => { if (e.target.tagName !== "A") loadMonth(tr.dataset.month); };
+    });
+  } catch (e) {
+    el.innerHTML = `<div class="card"><div class="banner bad" style="white-space:pre-wrap">${esc(e.message)}</div>
+      <p class="muted">${hintFor(e.message)}</p></div>`;
+  }
+}
+
+function monthStatus(m) {
+  if (m.mine) {
+    return `<span class="pill ok">publiée ici</span>
+      <a href="${qboLink(m.mine.id)}" target="_blank" rel="noopener">pièce ${esc(m.mine.id)}</a>
+      <code>${esc(m.mine.docNumber)}</code>`;
+  }
+  if (m.a2x.length) {
+    return `<span class="pill" style="color:var(--accent);border-color:currentColor">faite${m.a2x.length > 1 ? "s" : ""} par A2X</span>
+      <span class="muted">${m.a2x.map((j) => `<a href="${qboLink(j.id)}" target="_blank" rel="noopener">${esc(j.docNumber)}</a>`).join(" · ")}</span>`;
+  }
+  return `<span class="pill warn">aucune</span>`;
+}
+
+async function loadMonth(month) {
+  const el = $("#monthly");
+  el.innerHTML = `<div class="card"><div class="spinner">Balayage des commandes de ${esc(month)}… (quelques secondes)</div></div>`;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  try {
+    const d = await api("/monthly/" + encodeURIComponent(month));
+    const j = d.journal;
+    el.innerHTML = `
+      <div class="card">
+        <h2>Écriture ${esc(j.docNumber)}</h2>
+        <p class="muted">${esc(j.period.start)} → ${esc(j.period.end)} ·
+           ${d.counts.scanned} commande(s) examinée(s), <b>${d.counts.kept}</b> retenue(s) hors Shopify Payments ·
+           total ${money(j.total)} $</p>
+
+        ${j.gateways.length ? `<p>${j.gateways.map((g) =>
+          `<span class="pill">${esc(g.gateway)} · ${money(g.amount)} $</span>`).join(" ")}</p>` : ""}
+
+        ${!j.lines.length ? `<div class="banner">Rien à comptabiliser pour ce mois : toutes les commandes sont passées par Shopify Payments.</div>` : ""}
+        ${balanceBanner(j)}
+        ${unmappedBanner(j.unmapped)}
+        ${d.existing ? `<div class="banner ok">Ce mois est déjà couvert —
+          ${d.existing.source === "app" ? "publié par cette app" : "<b>fait par A2X</b>"} :
+          <a href="${qboLink(d.existing.id)}" target="_blank" rel="noopener">pièce ${esc(d.existing.id)}</a>
+          <code>${esc(d.existing.docNumber)}</code>${d.a2x.length > 1 ? ` (et ${d.a2x.length - 1} autre(s) écriture(s) mensuelle(s) d'A2X ce mois-là)` : ""}.
+          Publier créerait un doublon.</div>` : ""}
+
+        ${j.lines.length ? journalTable(j) : ""}
+
+        ${j.orders.length ? `<details style="margin-top:12px"><summary class="muted" style="cursor:pointer">
+          Les ${j.orders.length} commande(s) retenue(s)</summary>
+          <div class="scroll" style="margin-top:8px"><table>
+            <thead><tr><th>Commande</th><th>Pays</th><th>Canal</th><th>Passerelle</th>
+              <th class="num">Encaissé</th><th>Vente reconnue ici</th></tr></thead>
+            <tbody>${j.orders.map((o) => `<tr>
+              <td><code>${esc(o.name)}</code></td>
+              <td class="muted">${esc(o.country)}</td>
+              <td class="muted">${esc(o.marketplace)}</td>
+              <td class="muted">${esc(o.passerelles.join(", ") || "—")}</td>
+              <td class="num">${money(o.encaisse)}</td>
+              <td class="muted">${o.reconnue ? "oui" : "non — déjà dans un versement"}</td>
+            </tr>`).join("")}</tbody>
+          </table></div></details>` : ""}
+
+        ${j.notes.length ? `<p class="muted" style="margin-top:12px">${j.notes.map(esc).join("<br>")}</p>` : ""}
+
+        <div class="row" style="margin-top:14px">
+          <button class="act" id="mpost" ${d.existing || !j.balanced || j.unmapped.length || !j.lines.length ? "disabled" : ""}>Publier dans QuickBooks</button>
+          <label class="muted"><input type="checkbox" id="mforce"> forcer (ignorer les avertissements)</label>
+          <span id="mpostmsg" class="muted"></span>
+        </div>
+      </div>`;
+
+    wireUnmapped(el, j.unmapped, () => loadMonth(month));
+    wireJournalTable(el, j, () => loadMonth(month));
+    $("#mforce").onchange = (e) =>
+      ($("#mpost").disabled = !j.balanced || !j.lines.length || (!e.target.checked && (!!d.existing || !!j.unmapped.length)));
+    $("#mpost").onclick = async () => {
+      if (!confirm(`Publier l'écriture mensuelle ${j.docNumber} dans QuickBooks ?\n\nCette action crée une vraie écriture comptable.`)) return;
+      $("#mpost").disabled = true;
+      $("#mpostmsg").textContent = "Envoi…";
+      try {
+        const r = await api(`/monthly/${encodeURIComponent(month)}/post`, {
+          method: "POST",
+          body: JSON.stringify({ force: $("#mforce").checked }),
+        });
+        $("#mpostmsg").innerHTML = r.created
+          ? `<span class="pill ok">créée — pièce ${esc(r.id)}</span>${taxNote(r.taxMode)}`
+          : `<span class="pill warn">${esc(r.message)}</span>`;
+        loadMonths();
+      } catch (e) {
+        $("#mpostmsg").innerHTML = `<div class="banner bad" style="margin-top:10px;white-space:pre-wrap">${esc(e.message)}</div>`;
+        $("#mpost").disabled = false;
+      }
+    };
+  } catch (e) {
+    el.innerHTML = `<div class="card"><div class="banner bad" style="white-space:pre-wrap">${esc(e.message)}</div>
+      <p class="muted">${hintFor(e.message)}</p></div>`;
+  }
+}
+
 // ------------------------------------------------------------------ mappings
 
 async function loadMappings() {
@@ -345,7 +667,7 @@ async function loadMappings() {
 
 /** Les vraies options de taxe de QuickBooks, comme le menu d'A2X. */
 function taxOptionsHtml(selected) {
-  const opts = (state.mappings && state.mappings.taxOptions) || [];
+  const opts = (state.mappings && state.mappings.taxOptions) || state.taxOptions || [];
   return `<option value="">— aucune —</option>` + opts.map((o) =>
     `<option value="${esc(o.value)}" ${o.value === selected ? "selected" : ""}>${esc(o.label)}</option>`).join("");
 }
@@ -362,8 +684,7 @@ function renderMappings() {
     return hay.includes(filter.q.toLowerCase());
   });
 
-  const options = (sel) => `<option value="">— aucun compte —</option>` +
-    state.accounts.map((a) => `<option value="${esc(a.num)}" ${String(a.num) === String(sel) ? "selected" : ""}>${esc(a.num)} — ${esc(a.name)}</option>`).join("");
+  const options = accountOptions;
 
   el.innerHTML = `
     <div class="card">
@@ -487,6 +808,7 @@ function renderSettings() {
   $("#refreshacct").onclick = async () => {
     const r = await api("/accounts?refresh=1");
     state.accounts = r.accounts;
+    state.taxOptions = r.taxOptions || state.taxOptions;
     state.mappings = null;
     renderSettings();
   };
@@ -504,7 +826,9 @@ async function boot() {
   try {
     const h = await api("/health");
     $("#status").textContent = `${h.mappings.counts.total} mappings chargés · remplacement maison d'A2X`;
-    state.accounts = (await api("/accounts")).accounts;
+    const a = await api("/accounts");
+    state.accounts = a.accounts;
+    state.taxOptions = a.taxOptions || [];
     loadPayouts();
   } catch (e) {
     $("#status").textContent = e.message;

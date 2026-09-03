@@ -38,6 +38,7 @@ const hs = require("../lib/hs");
 const lasclay = require("../lib/lasclay");
 const shopify = require("../lib/shopify_sync");
 const presets = require("../lib/presets");
+const adresses = require("../lib/adresses");
 const { adaptateur, SEUIL_DROPOFF_G } = require("../lib/carrier");
 
 const auth = require("../lib/auth");
@@ -190,6 +191,31 @@ route("GET /api/orders", ({ url }) => {
   if (f.status && f.status.includes(",")) f.status = f.status.split(",");
   return { ...orders.chercher({ ...f, seuil: SEUIL_DROPOFF_G }), seuil: SEUIL_DROPOFF_G };
 });
+/**
+ * Autocomplétion d'adresse — Google Places, appelé depuis le serveur.
+ *
+ * La page ne voit jamais la clé : elle demande des suggestions à sa propre origine. Voir
+ * `lib/adresses.js` pour le pourquoi, et pour le jeton de session qui fait la différence
+ * entre une facture Google en cents et une en dollars.
+ *
+ * Une panne chez Google n'est pas une panne du formulaire. La route rend une liste vide et
+ * une note ; la saisie manuelle continue de fonctionner exactement comme avant.
+ */
+route("GET /api/adresses/suggestions", async ({ url }) => {
+  const f = q(url);
+  if (!adresses.actif()) return { actif: false, suggestions: [] };
+  try {
+    return { actif: true, suggestions: await adresses.suggestions(f.q, { pays: f.pays || null, jeton: f.jeton || null }) };
+  } catch (e) { return { actif: true, suggestions: [], note: e.message }; }
+});
+
+route("GET /api/adresses/details", async ({ url }) => {
+  const f = q(url);
+  if (!adresses.actif()) return { error: "autocomplétion non configurée", code: 400 };
+  try { return await adresses.details(f.id, { jeton: f.jeton || null }); }
+  catch (e) { return { error: e.message, code: 400 }; }
+});
+
 route("GET /api/orders/counts", () => orders.compteurs());
 route("GET /api/orders/alerts", () => orders.alertes());
 route("GET /api/orders/:id", ({ params }) => orders.parId(Number(params.id)) || { error: "inconnue" });
@@ -1861,10 +1887,113 @@ route("GET /api/refs", ({ req, res }) => jsonCache(req, res, {
   groupes_n: db.one("SELECT COUNT(*) n FROM preset_groups").n,
 }));
 
+/**
+ * Types de colis — la boîte, ses dimensions, et rien d'autre.
+ *
+ * L'écran d'expédition renvoyait déjà vers « Réglages ▸ Types de colis » quand un type
+ * n'avait pas de dimensions. Cet écran n'existait pas. Une interface qui nomme un endroit
+ * où aller le doit exister : sinon on cherche, on ne trouve pas, et on finit par coter sur
+ * des dimensions fausses parce que c'est le seul chemin qui reste.
+ *
+ * Six types sur dix-huit n'en portaient aucune — des enveloppes et des pochettes, que
+ * ShipStation ne mesure pas et dont aucune API ne rend la taille. Elles se saisissent ici.
+ */
+route("GET /api/packages", () => ({
+  packages: db.all("SELECT * FROM packages ORDER BY custom DESC, name")
+    .map((p) => ({ ...p, dimensions: db.parse(p.dimensions, null) })),
+}));
+
+route("POST /api/packages", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  const nom = String(b.name || "").trim();
+  if (!nom) return { error: "un type de colis a besoin d'un nom", code: 400 };
+
+  const n = (x) => { const v = Number(x); return Number.isFinite(v) && v > 0 ? v : 0; };
+  const d = { length: n(b.length), width: n(b.width), height: n(b.height), unit: "in" };
+  // Un colis sans aucune mesure garde `dimensions` à NULL plutôt que trois zéros : zéro est
+  // une mesure, et une cotation sur 0 × 0 × 0 rend un prix qui n'a rien à voir.
+  const dims = d.length || d.width || d.height ? db.dump(d) : null;
+
+  // L'identifiant d'un type existant ne bouge jamais : les commandes déjà expédiées le
+  // portent, et le renommer les détacherait de leur boîte.
+  const id = b.id ? String(b.id) : `pkg-${Date.now().toString(36)}`;
+  const existe = db.one("SELECT id FROM packages WHERE id = ?", id);
+  if (existe) db.run("UPDATE packages SET name = ?, dimensions = ? WHERE id = ?", nom, dims, id);
+  else db.run("INSERT INTO packages (id,carrier_code,name,domestic,dimensions,custom) VALUES (?,?,?,1,?,1)",
+    id, b.carrier_code || null, nom, dims);
+
+  db.journaliser(existe ? "package.update" : "package.create", "package", id,
+    { name: nom, dimensions: d }, user && user.id);
+  return { id };
+});
+
+route("DELETE /api/packages/:id", ({ params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  // Un type encore employé par des commandes ne se supprime pas : l'écran d'expédition
+  // afficherait un menu où le choix enregistré n'existe plus, et le rendrait vide sans le dire.
+  const n = db.one("SELECT COUNT(*) n FROM orders WHERE package_id = ?", params.id).n;
+  if (n) return { error: `${n} commande(s) utilisent ce type de colis — le renommer plutôt que le supprimer`, code: 409 };
+  db.run("DELETE FROM packages WHERE id = ?", params.id);
+  db.journaliser("package.delete", "package", params.id, {}, user && user.id);
+  return { ok: true };
+});
+
+/**
+ * Emplacements d'expédition — l'adresse ET les coordonnées de l'expéditeur.
+ *
+ * Ils venaient de la migration et n'étaient éditables nulle part. C'était supportable tant
+ * que seule l'adresse comptait ; ça ne l'est plus depuis que Freightcom exige un nom de
+ * contact, un téléphone et un courriel à la réservation. « Expédié de : LAS Capucins » doit
+ * porter les coordonnées de LAS Capucins — un entrepôt qui n'a que sa rue ne peut pas
+ * expédier.
+ *
+ * Le réglage global ne remplace pas ces champs-ci : il ne sert que d'ultime repli, pour les
+ * emplacements qu'on n'a pas encore remplis.
+ */
+route("GET /api/warehouses", () => ({
+  warehouses: db.all("SELECT * FROM warehouses ORDER BY is_default DESC, name").map((w) => ({
+    ...w,
+    origin_address: db.parse(w.origin_address, {}),
+    return_address: db.parse(w.return_address, null),
+  })),
+}));
+
+route("POST /api/warehouses/:id", async ({ req, params, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  const w = db.one("SELECT * FROM warehouses WHERE id = ?", params.id);
+  if (!w) return { error: "emplacement inconnu", code: 404 };
+
+  // Fusion, pas remplacement : l'écran n'envoie que ce qu'il montre, et l'adresse d'origine
+  // porte des champs venus de ShipStation qu'aucun formulaire ne présente.
+  const avant = db.parse(w.origin_address, {});
+  const CHAMPS = ["name", "company", "street1", "street2", "city", "state", "postalCode",
+    "country", "phone", "email"];
+  const apres = { ...avant };
+  for (const c of CHAMPS) if (c in (b.origin_address || {})) apres[c] = b.origin_address[c] || undefined;
+
+  db.run("UPDATE warehouses SET name = ?, origin_address = ? WHERE id = ?",
+    b.name || w.name, db.dump(apres), w.id);
+
+  // Un seul emplacement par défaut : l'ancien perd le drapeau, sinon deux se disputent les
+  // commandes sans entrepôt et le gagnant dépend de l'ordre de tri.
+  if (b.is_default) {
+    db.run("UPDATE warehouses SET is_default = 0");
+    db.run("UPDATE warehouses SET is_default = 1 WHERE id = ?", w.id);
+  }
+  db.journaliser("warehouse.update", "warehouse", w.id,
+    { champs: Object.keys(b.origin_address || {}) }, user && user.id);
+  return { ok: true };
+});
+
 route("GET /api/settings", () => ({
   marque: db.reglage("marque", accounts.MARQUE_DEFAUT),
   tarif_dropoff_cible: db.reglage("tarif_dropoff_cible", 6.31),
   derniere_migration: db.reglage("derniere_migration", null),
+  expediteur_contact: db.reglage("expediteur_contact", ""),
+  expediteur_telephone: db.reglage("expediteur_telephone", ""),
+  expediteur_courriel: db.reglage("expediteur_courriel", ""),
   assurance_active: String(db.reglage("assurance_active", "0")) !== "0",
   assurance_defaut: Number(db.reglage("assurance_defaut", 100)) || 0,
   assurance_seuil: Number(db.reglage("assurance_seuil", 300)) || 0,
@@ -1890,6 +2019,12 @@ const REGLAGES_MODIFIABLES = new Set([
   // XCover, et elle engage de l'argent réel à chaque étiquette. Modifiable, donc, sans
   // passer par une variable d'environnement ni un déploiement.
   "assurance_active", "assurance_defaut", "assurance_seuil",
+  // Coordonnées de l'expéditeur : ClickShip marque « Contact Name », « Phone Number » et
+  // « Email Address » obligatoires DES DEUX CÔTÉS de l'envoi. Une commande qui n'en porte
+  // pas — une commande manuelle, une place de marché qui masque l'acheteur — se faisait
+  // refuser à la réservation par un « bad or missing data » qui ne nommait rien. Ces trois
+  // valeurs servent de repli, et se corrigent sans déploiement.
+  "expediteur_contact", "expediteur_telephone", "expediteur_courriel",
   "colonnes_commandes", "columns",
 ]);
 
@@ -2451,6 +2586,27 @@ route("GET /api/migrate/reconciliation", async ({ user }) => {
   catch (e) { return { error: e.message, code: 400 }; }
 });
 
+/**
+ * Recopier UNE commande de ShipStation — l'inverse de la migration en volume.
+ *
+ * Une commande manuelle saisie chez ShipStation après la migration n'est nulle part dans le
+ * clone, et rejouer la migration entière pour la rattraper serait disproportionné. Sans
+ * `confirmer`, la route ne fait que chercher et décrire : c'est ce que l'écran montre avant de
+ * demander l'accord.
+ */
+route("POST /api/migrate/commande", async ({ req, user }) => {
+  accounts.exiger(user, "settings_edit");
+  const b = await corps(req);
+  try {
+    return await ingest.recopierCommande({
+      numero: b.numero || b.order_number || null,
+      nom: b.nom || null,
+      province: b.province || null,
+      confirmer: !!b.confirmer,
+    });
+  } catch (e) { return { error: e.message, code: 400 }; }
+});
+
 /** Migration depuis ShipStation — longue, à lancer sciemment. */
 route("POST /api/migrate", async ({ req, user }) => {
   accounts.exiger(user, "settings_edit");
@@ -2486,6 +2642,7 @@ route("GET /api/config", ({ moi }) => {
     amorce: !!db.reglage("amorce"),
     config_lasclay: !!db.reglage("config_lasclay"),
     shopify: shopify.etat(),
+    adresses_auto: adresses.actif(),
     comptes: db.one("SELECT COUNT(*) n FROM users WHERE password_hash IS NOT NULL").n,
     exiger_2fa: !!db.reglage("exiger_2fa", false),
     // La règle d'assurance voyage jusqu'au navigateur : le menu de l'écran d'expédition doit

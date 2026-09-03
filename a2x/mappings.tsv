@@ -281,6 +281,8 @@ Pending Payments	PendingPayment - Point of sale (location: Entrepôt Lasclay - 5
 Pending Payments	PendingPayment - US - Online store	-	-	1110
 Pending Payments	PendingPayment gift_card -	CA	online	2301
 Pending Payments	PendingPayment manual -	CA	online	1110
+Pending Payments	PendingPayment - Gateway shopify_payments	CA	3890849	1110
+Pending Payments	PendingPayment - Gateway shopify_payments	US	3890849	1110
 
 Gift Card Liabilities	*	-	-
 Gift Card Liabilities	GiftCardDiscount	CA	online	2301

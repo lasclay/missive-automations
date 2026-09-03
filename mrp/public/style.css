@@ -245,6 +245,292 @@ textarea{min-height:70px;resize:vertical}
 .lien{background:none;border:0;padding:0;font:inherit;color:var(--bleu);
   cursor:pointer;text-align:left;text-decoration:underline}
 .lien:hover{color:var(--encre)}
+/* ---------- contrôle qualité ----------
+   Quatre volets, quatre couleurs de sens : rouge = irrattrapable, ambre = ça
+   revient, bleu = ça se mesure, violet = ça se teste. Chaque pastille porte
+   aussi un signe, jamais la couleur seule. */
+.q-pip{display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:6px;font-size:12px;font-weight:700;
+  vertical-align:-3px;margin-right:6px}
+.q-critique{background:var(--rouge-pale);color:var(--rouge)}
+.q-probleme{background:var(--ambre-pale);color:var(--ambre)}
+.q-mesure  {background:var(--bleu-pale);color:var(--bleu)}
+.q-cyclage {background:var(--violet-pale);color:var(--violet)}
+.qc-liste{list-style:none;padding:0;margin:0}
+.qc{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;
+  padding:11px 0;border-bottom:1px solid var(--ligne)}
+.qc-liste li:last-child{border-bottom:0}
+.qc-quoi{flex:1;min-width:0}
+.qc-quoi b{display:block;font-weight:600;line-height:1.4}
+.qc-val{display:inline-block;margin-top:3px;font-weight:600;
+  font-variant-numeric:tabular-nums;color:var(--bleu);
+  background:var(--bleu-pale);padding:1px 8px;border-radius:5px;font-size:14px}
+.qc-tol{font-weight:400;color:var(--encre2)}
+.qc-var{display:inline-block;margin:3px 0 0 6px;font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.05em;color:var(--gris);
+  border:1px solid var(--ligne);border-radius:99px;padding:1px 7px}
+.qc-det{display:block;color:var(--encre2);font-size:13.5px;margin-top:3px}
+/* La conséquence est ce qui rend une consigne convaincante : elle se lit. */
+.qc-cons{display:block;color:var(--rouge);font-size:13px;margin-top:4px}
+.qc-pied{display:block;color:var(--gris);font-size:11.5px;margin-top:5px}
+.qc-pied b{color:var(--encre2);font-weight:600}
+.qc-cpt{display:inline-flex;gap:4px}
+.qc-cpt i{font-style:normal;font-size:11px;font-weight:700;min-width:20px;
+  text-align:center;padding:1px 5px;border-radius:5px;
+  font-variant-numeric:tabular-nums}
+.qc-cpt .q-critique{background:var(--rouge-pale);color:var(--rouge)}
+.qc-cpt .q-probleme{background:var(--ambre-pale);color:var(--ambre)}
+.qc-cpt .q-mesure  {background:var(--bleu-pale);color:var(--bleu)}
+.qc-cpt .q-cyclage {background:var(--violet-pale);color:var(--violet)}
+.qc-vide{color:var(--rouge);font-size:12.5px;font-weight:600}
+.qc-form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.qc-form .champ{margin:0;flex:1 1 130px}
+.qc-form .champ-large{flex:1 1 100%}
+.qc-form input,.qc-form select{width:100%}
+.qc-photos{display:flex;gap:10px;flex-wrap:wrap}
+.qc-photos img{width:120px;height:120px;object-fit:contain;background:var(--media);
+  border-radius:6px}
+.qc-rappel{border-left:3px solid var(--rouge)}
+.qc-court{list-style:none;padding:0;margin:8px 0 10px}
+.qc-court li{margin-bottom:6px;line-height:1.45}
+.fil-ariane{margin:0 0 4px;font-size:12.5px;color:var(--gris)}
+
+/* ---------- le mur des bris ----------
+   La seule page de l'app ou l'image compte plus que le texte a cote. On ne
+   vient pas y chercher un chiffre : on vient comprendre pourquoi une consigne
+   existe. Les photos sont donc grandes, et la citation se lit comme une
+   citation. */
+.mur-intro p{margin:0;font-size:15.5px;line-height:1.6;max-width:74ch}
+.mur-g{padding-bottom:8px}
+.mur-g-tete{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.mur-g-tete h2{margin:0}
+.mur-n{margin-left:auto;font-size:12.5px;color:var(--gris);white-space:nowrap}
+.mur-n b{color:var(--ambre)}
+.mur-zones{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.mur-zones span{font-size:12px;padding:2px 9px;border-radius:99px;
+  background:var(--rouge-pale);color:var(--rouge);font-weight:600}
+.mur-zones b{font-variant-numeric:tabular-nums}
+.mur{display:grid;gap:16px;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))}
+.mur-c{margin:0;border:1px solid var(--ligne);border-radius:8px;overflow:hidden;
+  background:var(--carte);display:flex;flex-direction:column}
+.mur-c img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
+  background:var(--media)}
+.mur-c figcaption{padding:11px 13px;display:flex;flex-direction:column;gap:6px}
+.mur-tete{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+/* Une citation se lit comme une citation : guillemets, italique, respiration. */
+.mur-c blockquote{margin:0;font-style:italic;line-height:1.5;font-size:14px;
+  color:var(--encre);border-left:2px solid var(--ligne);padding-left:10px}
+.mur-c blockquote::before{content:'\00ab\00a0'}
+.mur-c blockquote::after{content:'\00a0\00bb'}
+.mur-consigne{margin:0;font-size:12.5px;color:var(--vert);font-weight:600}
+.mur-nu{margin:0;font-size:12.5px;color:var(--ambre);font-weight:600}
+.mur-sans{background:var(--fond)}
+/* Les vues supplémentaires du même bris : de loin, de près, retourné. Petites,
+   parce que la première photo porte déjà le constat — celles-ci le précisent. */
+.mur-plus{display:flex;gap:4px;padding:4px 4px 0;background:var(--carte)}
+.mur-plus a{flex:1 1 0;min-width:0;display:block;border-radius:4px;overflow:hidden}
+.mur-plus img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+
+/* ---------- volet Produits : trois pages, un seul sujet ----------
+   La fiche dit de quoi la pièce est faite, le protocole dit quoi vérifier, le
+   mur montre ce qui a cassé quand on ne l'a pas vérifié. */
+.sous-nav{display:flex;gap:2px;margin:0 0 18px;border-bottom:1px solid var(--ligne);
+  overflow-x:auto}
+.sous-nav a{padding:8px 14px;font-size:13.5px;font-weight:600;color:var(--gris);
+  text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;
+  margin-bottom:-1px}
+.sous-nav a:hover{color:var(--encre)}
+.sous-nav a.on{color:var(--encre);border-bottom-color:var(--encre)}
+
+/* La charte : des listes courtes côte à côte, pas un tableau. Le nombre de
+   matières varie d'un produit à l'autre, une grille fluide s'y plie. */
+.charte{display:grid;gap:14px 26px;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.charte section{min-width:0}
+.charte h3{margin:0 0 5px;font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--gris)}
+.charte ul{margin:0;padding-left:16px;font-size:14px;line-height:1.55}
+.charte li{margin:0 0 2px}
+/* Le grammage d'asclépiade distingue deux produits par ailleurs identiques :
+   c'est la ligne qu'on cherche du regard. */
+.charte .ch-isolant li{font-weight:600}
+.charte .ch-parametre li{font-variant-numeric:tabular-nums}
+
+/* Le schéma d'un point de mesure. Bordé et sur fond neutre : un dessin
+   technique sur blanc disparaît, et il faut voir où il s'arrête. */
+.qc-schema{display:block;margin:8px 0 2px;max-width:340px;border:1px solid var(--ligne);
+  border-radius:6px;overflow:hidden;background:var(--media)}
+.qc-schema img{width:100%;height:auto;display:block}
+
+/* ---------- ce qui casse : la preuve de terrain ----------
+   Le commentaire du client est cité tel quel et la photo est petite mais
+   présente : c'est ce qui transforme une consigne en évidence. */
+.br-liste{list-style:none;padding:0;margin:0}
+.br{display:flex;gap:12px;align-items:flex-start;padding:12px 0;
+  border-bottom:1px solid var(--ligne)}
+.br-liste li:last-child{border-bottom:0}
+.br-nu{border-left:3px solid var(--ambre);padding-left:11px;margin-left:-14px}
+.br-photo{flex:0 0 auto;display:block;width:78px;height:78px;border-radius:6px;
+  overflow:hidden;background:var(--media)}
+.br-photo img{width:100%;height:100%;object-fit:cover;display:block}
+/* « 3 » sur la vignette : il y a d'autres clichés du même bris, cliquer les
+   ouvre. Le compteur évite de faire croire qu'une seule photo existe. */
+.br-photo{position:relative}
+.br-n{position:absolute;right:3px;bottom:3px;min-width:16px;height:16px;padding:0 4px;
+  border-radius:99px;background:rgba(0,0,0,.68);color:#fff;font-size:10px;
+  font-weight:700;line-height:16px;text-align:center}
+.br-quoi{flex:1;min-width:0}
+.br-tete{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.br-tete b{font-weight:600}
+.br-orig{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  padding:2px 7px;border-radius:99px}
+.br-client {background:var(--rouge-pale);color:var(--rouge)}
+.br-atelier{background:var(--vert-pale);color:var(--vert)}
+.br-retour {background:var(--ambre-pale);color:var(--ambre)}
+.br-essai  {background:var(--bleu-pale);color:var(--bleu)}
+.br-date{font-size:12px;color:var(--gris);font-variant-numeric:tabular-nums}
+/* La citation est en italique et gardée mot pour mot : reformuler un client,
+   c'est perdre ce qui rendait la phrase utile. */
+.br-txt{margin:5px 0 0;font-style:italic;color:var(--encre2);line-height:1.5}
+.br-pied{margin:5px 0 0;font-size:12px;color:var(--gris)}
+.br-alerte{color:var(--ambre);font-weight:600}
+.br-todo{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  padding:2px 8px;border-radius:99px;background:var(--ambre-pale);color:var(--ambre);
+  margin-left:6px}
+.br-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:9px}
+.br-form input{flex:1;min-width:min(100%,200px);font:inherit;font-size:13px;
+  padding:6px 9px;border-radius:5px;border:1px solid var(--ligne);
+  background:var(--champ);color:var(--encre)}
+.br-form select{width:auto;font-size:13px;padding:6px 9px}
+.qc-bris{border-left:3px solid var(--rouge)}
+.qc-terrain{border-left:3px solid var(--ambre)}
+.qc-appui{display:block;margin-top:4px;font-size:12px;font-weight:600;
+  color:var(--ambre)}
+.nc-titre{font-size:14px;margin:16px 0 8px}
+.nc-liste{list-style:none;padding:0;margin:0;font-size:13.5px}
+.nc-liste li{padding:7px 0;border-bottom:1px solid var(--trait2,var(--ligne));line-height:1.5}
+.nc-liste li:last-child{border-bottom:0}
+.nc-liste .br-txt{display:block;margin:2px 0 0;font-size:13px}
+.aide{display:block;margin-top:3px;font-size:11.5px;color:var(--gris);line-height:1.4}
+.mes-bloc{margin-bottom:20px}
+.mes-bloc:last-child{margin-bottom:0}
+.mes-bloc h3{font-size:15px;margin:0 0 3px}
+.mes-bloc h3 span{font-weight:400;color:var(--gris);font-size:13px}
+.mes-tbl td{font-variant-numeric:tabular-nums}
+
+/* ---------- checklist qualité d'un lot ----------
+   Chaque point est un mini-formulaire à deux boutons : sur un téléphone
+   d'atelier, un clic vaut mieux que cocher puis enregistrer. */
+.ck-liste{list-style:none;padding:0;margin:0}
+.ck{border:1px solid var(--ligne);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.ck-attente{border-left:3px solid var(--piste-pleine)}
+.ck-ok{border-left:3px solid var(--vert);background:var(--vert-pale)}
+.ck-ko{border-left:3px solid var(--rouge);background:var(--rouge-pale)}
+.ck-tete{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.ck-tete b{font-weight:600;line-height:1.35;flex:1;min-width:min(100%,180px)}
+.ck-etat{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  padding:2px 8px;border-radius:99px}
+.ck-ok .ck-etat{background:var(--vert);color:var(--sur-vert)}
+.ck-ko .ck-etat{background:var(--rouge);color:#fff}
+.ck .qc-det,.ck .qc-cons,.ck .qc-pied{margin:5px 0 0}
+.ck-cible{margin:5px 0 0;font-size:13.5px;color:var(--encre2)}
+.ck-cible b{font-variant-numeric:tabular-nums;color:var(--bleu)}
+.ck-signe{margin:6px 0 0;font-size:12px;color:var(--gris)}
+.ck-signe b{color:var(--encre2);font-variant-numeric:tabular-nums}
+.ck-note{color:var(--encre2);font-style:italic}
+.ck-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.ck-form input{font:inherit;font-size:13px;padding:6px 9px;border-radius:5px;
+  border:1px solid var(--ligne);background:var(--champ);color:var(--encre)}
+.ck-mes{width:min(100%,120px);font-variant-numeric:tabular-nums}
+.ck-com{flex:1;min-width:min(100%,160px)}
+.btn-mini.rouge{background:transparent;color:var(--rouge);border-color:var(--rouge)}
+.btn-mini.rouge:hover{background:var(--rouge);color:#fff}
+/* L'échantillon calculé : c'est le nombre qu'on vient chercher, pas la règle. */
+.ck-ech{margin:6px 0 0;font-size:13.5px;color:var(--encre2)}
+.ck-ech b{color:var(--bleu);background:var(--bleu-pale);padding:1px 8px;
+  border-radius:5px;font-variant-numeric:tabular-nums}
+.ck-ech span{color:var(--gris);font-size:12px}
+/* Un point qui vient du protocole général, pas de la fiche du produit. */
+.ck-gen{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  padding:1px 7px;border-radius:99px;background:var(--ardoise-pale);
+  color:var(--ardoise);white-space:nowrap}
+.qc-general{border-left:3px solid var(--ardoise)}
+.qc-plus{margin-top:14px}
+.qc-plus > summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--vert)}
+.qc-plus > summary:hover{text-decoration:underline}
+.qc-plus[open] > summary{margin-bottom:12px}
+.q-emballage{background:var(--ardoise-pale);color:var(--ardoise)}
+.qc-cpt .q-emballage{background:var(--ardoise-pale);color:var(--ardoise)}
+
+.ck-bilan{border-left:3px solid var(--piste-pleine)}
+.ck-bilan.bon{border-left-color:var(--vert)}
+.ck-bilan.mauvais{border-left-color:var(--rouge)}
+.ck-bilan.bon .verdict-txt b:first-child{color:var(--vert)}
+.ck-bilan.mauvais .verdict-txt b:first-child{color:var(--rouge)}
+.ck-vide{border-left:3px solid var(--ambre)}
+/* L'étiquette posée à côté du sélecteur d'avancement, là où on s'apprête à
+   déclarer 100 % et où on va se faire refuser. */
+.ck-etiq{margin-top:5px;font-size:12px}
+.ck-etiq a{font-weight:600;text-decoration:none;padding:2px 8px;border-radius:99px;
+  display:inline-block}
+.ck-etiq.ck-ok a{background:var(--vert-pale);color:var(--vert)}
+.ck-etiq.ck-ko a{background:var(--rouge-pale);color:var(--rouge)}
+.ck-etiq.ck-attente a{background:var(--piste);color:var(--encre2)}
+.ck-etiq.ck-rien a{background:var(--ambre-pale);color:var(--ambre)}
+.ck-etiq a:hover{text-decoration:underline}
+
+/* ---------- tâches ----------
+   Une tâche est une ligne : ce qu'il faut faire à gauche, ce qu'on peut en
+   faire à droite. Rien d'autre — c'est une liste de courses, pas un ticket. */
+.taches{list-style:none;padding:0;margin:0}
+.tk{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;
+  padding:11px 0;border-bottom:1px solid var(--ligne);flex-wrap:wrap}
+.taches li:last-child{border-bottom:0}
+.tk-quoi{flex:1;min-width:min(100%,240px)}
+.tk-quoi b{display:block;font-weight:600;line-height:1.4}
+.tk-det{display:block;color:var(--encre2);font-size:13.5px;margin-top:2px}
+.tk-qui{display:block;color:var(--gris);font-size:12px;margin-top:4px}
+.tk-date{font-variant-numeric:tabular-nums}
+.tk-date.en-retard{color:var(--rouge);font-weight:600}
+.tk-retard{border-left:3px solid var(--rouge);padding-left:10px;margin-left:-13px}
+.tk-faite .tk-quoi b{text-decoration:line-through;color:var(--gris);font-weight:500}
+.tk-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tk-actions form{margin:0}
+.btn-mini{font:inherit;font-size:13px;cursor:pointer;padding:5px 11px;border-radius:5px;
+  border:1px solid var(--vert);background:var(--vert);color:var(--sur-vert)}
+.btn-mini:hover{background:var(--vert-survol);border-color:var(--vert-survol)}
+.lien.danger{color:var(--rouge)}
+.tk-form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.tk-form .champ{margin:0;flex:1 1 180px}
+.tk-form .champ-large{flex:1 1 100%}
+.tk-form input,.tk-form select{width:100%}
+.cpt{font-size:12px;font-weight:600;color:var(--gris);
+  font-variant-numeric:tabular-nums;margin-left:4px}
+/* La pastille du menu : le seul endroit où un chiffre doit sauter aux yeux. */
+.pastille{display:inline-block;min-width:17px;padding:0 5px;margin-left:5px;
+  border-radius:99px;background:var(--nav);color:var(--vert-fonce);
+  font-size:11px;font-weight:700;line-height:17px;text-align:center;
+  font-variant-numeric:tabular-nums}
+.pastille.urgent{background:var(--rouge);color:#fff}
+
+/* ---------- assistant sur l'accueil ----------
+   C'est la première chose qu'on voit en arrivant, donc la saisie passe avant
+   le dernier échange : on vient pour demander, pas pour relire. */
+.ia{border-left:3px solid var(--vert)}
+.ia-tete{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.ia-tete h2{margin:0;flex:1}
+.ia-tete a{font-size:12.5px;white-space:nowrap}
+.ia-suite{margin:-4px 0 12px;color:var(--encre2);font-size:14.5px}
+.ia .saisie{border:0;padding:0;background:transparent}
+.ia .saisie textarea{background:var(--champ)}
+/* Le dernier échange est un rappel, pas le sujet : plus discret que sur la
+   page de l'assistant, où c'est tout le fil qu'on lit. */
+.ia-dernier{margin:16px 0 0;font-size:14px;border-left-color:var(--vert-ligne)}
+.ia-dernier .dem{font-size:13px}
+.ia-ex{margin:12px 0 0}
+.ia-ex li{margin-bottom:4px;font-size:13.5px}
+
 .exemples{list-style:none;padding:0;margin:0 0 18px}
 .exemples li{margin-bottom:6px}
 .saisie{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;padding:12px}
@@ -371,7 +657,47 @@ table.fab tr.p-basse{opacity:.62}
   text-transform:uppercase;padding:2px 7px;border-radius:99px;
   border:1px solid var(--ardoise);color:var(--ardoise);background:var(--ardoise-pale)}
 
-/* ---------- répartition par variante ---------- */
+/* ---------- répartition par variante, en visuel ----------
+   La barre donne la proportion sans qu'on lise un chiffre ; les pastilles
+   donnent le compte. Un coloris porte sa teinte, une taille sa case. */
+.rep{margin-top:8px;font-weight:400}
+.rep-g + .rep-g{margin-top:9px}
+.rep-titre{font-size:12px;color:var(--encre2);display:flex;align-items:center;
+  gap:5px;margin-bottom:3px}
+.rep-titre b{font-variant-numeric:tabular-nums;color:var(--encre);margin-left:auto}
+.rep-barre{display:flex;height:9px;border-radius:5px;overflow:hidden;
+  background:var(--piste);border:1px solid var(--ligne)}
+.rep-barre i{display:block;height:100%}
+.rep-barre i + i{box-shadow:inset 1px 0 0 rgba(255,255,255,.45)}
+.rep-chips{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:6px}
+.ch{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;
+  padding:2px 7px;border-radius:99px;border:1px solid var(--ligne);
+  background:var(--carte);color:var(--encre2);white-space:nowrap;line-height:1.5}
+.ch b{font-variant-numeric:tabular-nums;color:var(--encre)}
+.ch-taille .ch-n,.ch-pointure .ch-n{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;letter-spacing:.02em}
+.pastille{width:9px;height:9px;border-radius:50%;flex:0 0 9px;
+  border:1px solid rgba(128,128,128,.45)}
+.rep-ecart{margin:7px 0 0;color:var(--ambre);font-size:11.5px;line-height:1.45;
+  white-space:normal}
+/* Dans « À fabriquer », la liste des variantes est DÉPLIÉE. La question de cet
+   écran est « par quoi je commence », et « 20 coloris et tailles » n'y répond
+   pas : il faut voir que le violet en L, c'est 40 pièces. La barre reste en
+   tête pour la proportion, les compteurs suivent dessous. */
+/* La cellule se réduit à son contenu sur téléphone : sans largeur minimale,
+   la barre tombe à quelques dizaines de pixels et ne montre plus rien. */
+.rep-c{max-width:34em;min-width:min(100%,240px)}
+.rep-c .rep-tete{display:flex;align-items:center;gap:8px;padding:2px 0;
+  margin-bottom:7px}
+/* Les barres des groupes se suivent sur une seule ligne : leur longueur
+   relative rend la répartition entre coloris lisible d'un trait. */
+.rep-c .rep-tete .rep-rangee{flex:1;min-width:90px;display:flex;gap:2px}
+.rep-c .rep-tete .rep-barre{height:8px;margin:0}
+.rep-quoi{font-size:11px;color:var(--gris);white-space:nowrap}
+.rep-c .ch{font-size:11px;padding:1px 6px}
+.rep-c .rep-g + .rep-g{margin-top:7px}
+
+/* ---------- ancien repli, conservé pour d'autres usages ---------- */
 /* « 3 500 cache-cous » ne dit pas quoi couper. La répartition est repliée par
    défaut : elle sert au moment de couper, pas au moment de lire la liste. */
 .rep-var{margin-top:6px;font-size:12.5px;font-weight:400}
@@ -474,3 +800,60 @@ table.fab tr.p-basse{opacity:.62}
   .tab.stock td::before{content:attr(data-l);color:var(--gris);font-size:.85rem}
   .tab.stock td.num{text-align:right}
 }
+/* ---------- Gantt de charge ----------
+   Un Gantt est large par nature : il défile dans son propre cadre plutôt que
+   de faire déborder la page. */
+.g-cadre{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:12px}
+table.gantt{width:100%;min-width:560px;border-collapse:collapse}
+/* La colonne d'étiquettes est bornée : deux pastilles sur une seule ligne
+   repoussaient la piste hors du cadre, et c'est la piste qu'on vient voir. */
+table.gantt th[scope=row]{text-align:left;font-weight:600;font-size:13px;
+  padding:5px 10px 5px 0;vertical-align:middle;
+  width:150px;max-width:150px;border-bottom:1px solid var(--ligne)}
+table.gantt th[scope=row] a{white-space:nowrap}
+.g-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
+table.gantt td{padding:5px 0;border-bottom:1px solid var(--ligne);width:99%}
+table.gantt tbody tr:last-child th,table.gantt tbody tr:last-child td{border-bottom:0}
+/* « 185 h », pas « 185 H » : le th est en majuscules, le symbole de l'heure
+   ne l'est pas en français. */
+.g-h{display:block;font-weight:400;font-size:11.5px;color:var(--gris);
+  font-variant-numeric:tabular-nums;text-transform:none}
+.g-src{display:inline-block;font-size:10px;letter-spacing:.03em;
+  text-transform:uppercase;padding:1px 5px;border-radius:99px;font-weight:600;
+  border:1px solid var(--ligne);color:var(--gris)}
+/* Vert = mesuré, ambre = déduit d'un montant, rouge = deviné ou contradictoire.
+   La pastille doit se lire sans lire le mot. */
+.g-src-chrono-total,.g-src-deux{color:var(--vert);border-color:var(--vert-ligne);background:var(--vert-pale)}
+.g-src-chrono{color:var(--vert);border-color:var(--vert-ligne);background:var(--vert-pale)}
+.g-src-bmb,.g-src-cout{color:var(--ambre);border-color:var(--ambre-ligne);background:var(--ambre-pale)}
+.g-src-estime,.g-src-alerte{color:var(--rouge);border-color:var(--rouge-ligne);
+  background:var(--rouge-pale)}
+.g-src-alerte{margin-left:4px}
+.g-piste{position:relative;height:20px;background:var(--fond);
+  border:1px solid var(--ligne);border-radius:4px;overflow:hidden}
+.g-mois{position:absolute;top:0;bottom:0;width:1px;background:var(--ligne)}
+.g-barre{position:absolute;top:3px;bottom:3px;background:var(--vert);
+  border-radius:3px;min-width:2px}
+.g-dehors .g-barre{background:var(--rouge)}
+.g-dehors th[scope=row] a{color:var(--rouge)}
+/* Le jalon passe PAR-DESSUS les barres : c'est la ligne qu'on cherche. */
+.g-jalon{position:absolute;top:0;bottom:0;width:2px;background:var(--rouge);z-index:2}
+.g-echelle{position:relative;height:15px;font-size:10.5px;color:var(--gris)}
+.g-echelle span{position:absolute;top:0;transform:translateX(2px);
+  text-transform:capitalize;white-space:nowrap}
+
+.verdict-oui{border-left:3px solid var(--vert)}
+.verdict-non{border-left:3px solid var(--rouge)}
+/* « Ça rentre sur le papier » n'est pas un feu vert : une bordure verte au-dessus
+   de « la marge ne tient probablement pas » se lit plus vite que la phrase, et
+   dit le contraire. */
+.verdict-fragile{border-left:3px solid var(--ambre)}
+.verdict-txt{margin:4px 0 0;font-size:15px;line-height:1.5}
+.verdict-non .verdict-txt b:first-child{color:var(--rouge)}
+.verdict-oui .verdict-txt b:first-child{color:var(--vert)}
+.verdict-fragile .verdict-txt b:first-child{color:var(--ambre)}
+.verdict-note{margin:10px 0 0;font-size:12.5px;color:var(--gris);line-height:1.5}
+.chiffres .c .sec{display:block;font-size:11px;color:var(--gris);margin-top:2px}
+.cap-form{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.cap-form .champ{margin:0;min-width:110px}
+.cap-form input{width:100%}

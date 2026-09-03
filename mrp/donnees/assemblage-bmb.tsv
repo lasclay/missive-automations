@@ -1,0 +1,35 @@
+# Prix d'assemblage facturé par BMB Textile, par unité, en dollars.
+#
+# Extrait de produits.notes_tech, où la donnée dormait en texte libre.
+# 23 produits, dont cinq que les fiches COGS ignorent — et qui comptaient
+# donc pour zéro heure au calendrier.
+#
+# Là où les deux existent, BMB et la colonne « assemblage » des fiches COGS
+# concordent 17 fois sur 23. Les divergences sont notées ligne par ligne :
+# elles ne sont pas arbitrées ici, seulement rendues visibles.
+#
+# Régénérer : node mrp/tools/extrait_bmb.js > mrp/donnees/assemblage-bmb.tsv
+produit	assemblage_bmb	cogs_assemblage	note
+BANDEAU	2.5	0.87	divergent — fiche COGS à 0.87 $
+BESACE	7	7	concordant
+CACHE-COU	3	3	concordant
+CHANDAIL	7		aucune fiche COGS
+COUSSIN	4	4	concordant
+COUSSIN-ANIMAL	9.02		aucune fiche COGS
+ETUI-TEL	2.5		aucune fiche COGS
+FOULARD	5	5	concordant
+GANTS-MAGIQUES	3	3	concordant
+MANTEAU-3SAISONS	28	28	concordant
+MANTEAU-HIVER	28	28	concordant
+MIT-BEBE	3	3	concordant
+MIT-CUIR	6	17.07	divergent — fiche COGS à 17.07 $
+MIT-LAINE	5	17.07	divergent — fiche COGS à 17.07 $
+MIT-PLEIN-AIR	4	4	concordant
+MIT-POLAR	4	17.07	divergent — fiche COGS à 17.07 $
+OREILLER-CAMPING	5		aucune fiche COGS
+SAC-COUCHAGE-18	20		aucune fiche COGS
+SAC-LUNCH	6	7	divergent — fiche COGS à 7.00 $
+SEMELLE-678	2.5	0.58	divergent — fiche COGS à 0.58 $
+TOTE	6	6	concordant
+TUQUE-SPORT	4	3.8	concordant
+VESTE	28	28	concordant

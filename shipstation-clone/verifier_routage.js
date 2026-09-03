@@ -132,6 +132,18 @@ const vraiFournisseurs = carrier.fournisseurs;
   // Un lot n'a pas de menu déroulant : on sélectionne cinquante commandes et on lance. C'est
   // le comportement de ShipStation qu'on reproduit — chaque commande part avec SON service,
   // SON assurance, SON fournisseur, et non avec un réglage global appliqué à tout le lot.
+  // Un contrôle doit pouvoir se rejouer. Les commandes d'essai portent une clé fixe : sans
+  // ce ménage, la deuxième exécution échouait sur la contrainte d'unicité, et le contrôle
+  // n'était vert qu'une fois — sur une base neuve.
+  for (const cle of ["lot-L-LOT-A", "lot-L-LOT-B"]) {
+    const vieille = one("SELECT id FROM orders WHERE order_key = ?", cle);
+    if (vieille) {
+      run("DELETE FROM shipments WHERE order_id = ?", vieille.id);
+      run("DELETE FROM order_items WHERE order_id = ?", vieille.id);
+      run("DELETE FROM orders WHERE id = ?", vieille.id);
+    }
+  }
+
   const faireCommande = (numero, service, assurance) => {
     run(`INSERT INTO orders (order_key,order_number,store_id,status,order_date,ship_to,weight_g,
            warehouse_id,shipping_paid,order_total,service_id,insurance)

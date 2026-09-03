@@ -1,0 +1,114 @@
+# Vérifications de la charte produits — la moitié jaune du tableau.
+#
+# La charte a deux colonnes par produit : la fiche technique (beige, de quoi
+# c'est fait) et les VÉRIFICATIONS (jaune, ce qu'on regarde avant d'emballer).
+# Ce fichier-ci est la seconde. Elle entre dans les protocoles comme le reste :
+# les points remontent dans la liste obligatoire de chaque ordre de production.
+#
+# C'est le complément exact du mur des bris. Là où « Ce qui casse » montre ce
+# que les clients ont vu après coup, ces lignes-ci disent quoi regarder avant.
+# Quand les deux se rejoignent — « bretelles renforcée » ici, dix coutures de
+# bretelle décousues là-bas — c'est que la consigne existait et qu'elle n'a pas
+# été tenue. Ça vaut mieux qu'une consigne qui manquait.
+#
+# Mêmes colonnes que qualite-amorce.tsv. Importer :
+#   node mrp/import_qualite.js --ecrire mrp/donnees/qualite-charte.tsv
+produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source	schema
+MANTEAU-HIVER	critique	Ouvrir et fermer chaque fermeture éclair		Une glissière qui coince se découvre chez le client					charte produits
+MANTEAU-HIVER	critique	Barre-tack (point de bride) présent à la base de la fermeture		Sans la bride, la fermeture s'arrache par le bas					charte produits
+MANTEAU-HIVER	critique	Fermeture éclair bien tendue		Une fermeture lâche gondole et bloque					charte produits
+MANTEAU-HIVER	mesure	Côté curseur selon le genre	Femme : gauche. Homme : droit.	Le manteau se ferme à l'envers					charte produits
+MANTEAU-HIVER	probleme	Logo de l'étiquette droit							charte produits
+MANTEAU-HIVER	mesure	Taille sur l'étiquette = taille du patron		Une étiquette qui ment fait revenir la pièce					charte produits
+MANTEAU-3SAISONS	critique	Ouvrir et fermer chaque fermeture éclair							charte produits
+MANTEAU-3SAISONS	critique	Barre-tack (point de bride) présent à la base de la fermeture		Sans la bride, la fermeture s'arrache par le bas					charte produits
+MANTEAU-3SAISONS	critique	Fermeture éclair bien tendue							charte produits
+MANTEAU-3SAISONS	mesure	Côté curseur selon le genre	Femme : gauche. Homme : droit.						charte produits
+MANTEAU-3SAISONS	probleme	Logo de l'étiquette droit							charte produits
+MANTEAU-3SAISONS	mesure	Taille sur l'étiquette = taille du patron							charte produits
+VESTE	critique	Ouvrir et fermer chaque fermeture éclair							charte produits
+VESTE	critique	Barre-tack (point de bride) présent à la base de la fermeture						charte produits
+VESTE	critique	Fermeture éclair bien tendue							charte produits
+VESTE	mesure	Côté curseur selon le genre	Femme : gauche. Homme : droit.						charte produits
+VESTE	probleme	Logo de l'étiquette droit							charte produits
+VESTE	mesure	Taille sur l'étiquette = taille du patron							charte produits
+CHANDAIL	critique	Ouvrir et fermer la fermeture éclair							charte produits
+CHANDAIL	critique	Fermeture éclair bien tendue							charte produits
+CHANDAIL	probleme	Logo de l'étiquette droit							charte produits
+CHANDAIL	mesure	Taille sur l'étiquette = taille du patron							charte produits
+CHANDAIL	mesure	Ouverture de la manche égale des deux côtés							charte produits
+CHANDAIL	critique	Éviter l'asclépiade dans les coutures		L'isolant pris dans la couture fait un point faible					charte produits
+CHANDAIL	critique	Presser le col avant d'y insérer l'isolant		L'isolant fond et le col devient rigide					charte produits
+MIT-PLEIN-AIR	critique	Assemblage de la jonction main/pouce solide		C'est là que la mitaine s'ouvre à l'usage					charte produits
+MIT-PLEIN-AIR	critique	Couture de la patch de cuir solide et droite							charte produits
+MIT-PLEIN-AIR	mesure	Élastique au poignet pas trop serré							charte produits
+MIT-PLEIN-AIR	mesure	Élastique à la hauteur de la base du pouce							charte produits
+MIT-PLEIN-AIR	probleme	Lacet bien intégré au niveau du poignet							charte produits
+MIT-PLEIN-AIR	critique	La mitaine gauche est identique à la droite		Une paire dépareillée est invendable					charte produits
+MIT-PLEIN-AIR	probleme	Étiquette de taille présente et orientée du même sens que les autres		Une étiquette à l'envers se voit dès le déballage					charte produits	https://drive.google.com/file/d/1VKNPGchhfZR98Q9L2WlvP_rivuXx05YO/view
+MIT-POLAR	critique	Assemblage de la jonction main/pouce solide							charte produits
+MIT-POLAR	mesure	Élastique au poignet pas trop serré							charte produits
+MIT-POLAR	mesure	Élastique à la hauteur de la base du pouce							charte produits
+MIT-POLAR	probleme	Lacet bien intégré au niveau du poignet							charte produits
+MIT-LAINE	critique	Assemblage de la jonction main/pouce solide							charte produits
+MIT-LAINE	mesure	Élastique au poignet pas trop serré							charte produits
+MIT-LAINE	mesure	Élastique à la hauteur de la base du pouce							charte produits
+MIT-LAINE	probleme	Lacet bien intégré au niveau du poignet							charte produits
+MIT-CUIR	critique	Assemblage de la jonction main/pouce solide							charte produits
+MIT-CUIR	mesure	Élastique au poignet pas trop serré							charte produits
+MIT-CUIR	mesure	Élastique à la hauteur de la base du pouce							charte produits
+MIT-CUIR	probleme	Lacet bien intégré au niveau du poignet							charte produits
+MIT-BEBE	critique	Lacet et élastique bien attachés au cord-lock							charte produits
+MIT-BEBE	critique	Élastiques bien pris dans la couture d'assemblage							charte produits
+MIT-BEBE	critique	Norme des produits pour enfants : aucune pièce ne doit être détachable	Cord-lock, bille, lacet : tout doit tenir à la mitaine.	Une pièce détachable sur un produit d'enfant, c'est un risque d'étouffement et un rappel					charte produits
+GANTS-MAGIQUES	critique	La fibre est répartie de manière uniforme							charte produits
+GANTS-MAGIQUES	probleme	La fibre ne doit pas être visible à la jonction de la base du gant							charte produits
+TUQUE-SPORT	critique	Droit fil respecté, élasticité du bon côté		Coupée en travers, la tuque ne s'étire pas où il faut					charte produits
+BANDEAU	critique	Droit fil respecté, élasticité du bon côté							charte produits
+BANDEAU-TUQUE	mesure	Dimensions hors tout du bandeau	Maximum absolu.		8 x 44	max	cm		charte produits
+FOULARD	critique	Matelassage droit							charte produits
+CACHE-COU	critique	Droit fil respecté, élasticité du bon côté							charte produits
+CACHE-COU	probleme	Boutonnière à l'arrière							charte produits
+CACHE-COU	mesure	Excédent d'élastique	Mesuré une fois le cord-lock posé.		1	max	po		charte produits
+CACHE-COU	critique	Presser la pochette avant d'y insérer l'isolant	Rebord droit, sans plis.						charte produits
+CACHE-COU	mesure	Dimensions finales selon le schéma des tailles	Adulte, grand enfant, petit enfant : trois cotes différentes, voir le schéma de la charte.						charte produits	https://drive.google.com/file/d/1Fb2sl43qXrrpBvfb8W0Laqxdzx04Tad-/view
+SEMELLE-678	critique	Collage adéquat		Une semelle décollée est le premier bris signalé sur ce produit					charte produits
+SEMELLE-678	mesure	Emballage et estampe = bonne taille		La mauvaise pointure dans la mauvaise boîte revient en échange					charte produits
+SEMELLE-678	critique	Découpe finale droite et lisse sur la ligne intérieure		Une découpe irrégulière s'effiloche et use la semelle par le bord					charte produits	https://drive.google.com/file/d/1VfCDc0SCWYScT9-aQRlxS-zm3yAn9lKv/view
+SEMELLE-678	emballage	Emballage dans le carton sans comprimer	ATTENTION DE NE PAS COMPRESSER POUR NE PAS DÉFORMER.	La semelle sort du carton déformée et ne reprend pas sa forme					charte produits
+SEMELLE-9	critique	Collage adéquat							charte produits
+SEMELLE-9	mesure	Emballage et estampe = bonne taille							charte produits
+SEMELLE-9	critique	Découpe finale droite et lisse sur la ligne intérieure							charte produits
+SEMELLE-9	emballage	Emballage dans le carton sans comprimer	ATTENTION DE NE PAS COMPRESSER POUR NE PAS DÉFORMER.						charte produits
+SAC-LUNCH	critique	Assemblage sangle et boucle résistant	Adapter le point de couture pour un usage HEAVY DUTY.	La boucle lâche et le sac tombe, chargé					charte produits
+BESACE	critique	Assemblage sangle et boucle résistant							charte produits
+BESACE	probleme	Poche avant sans trou							charte produits
+BESACE	probleme	Doublure de nylon sans trou							charte produits
+TOTE	critique	Assemblage de la sangle résistant							charte produits
+TOTE	probleme	Doublure de nylon sans trou							charte produits
+ETUI-TEL	critique	Ouvrir et fermer la fermeture éclair à plusieurs reprises							charte produits
+ETUI-TEL	critique	Fermeture éclair bien tendue							charte produits
+ETUI-TEL	probleme	Lacet bien intégré pour la sangle							charte produits
+ETUI-TEL	probleme	Étiquette intégrée à la base gauche de l'étui							charte produits
+ETUI-TEL	emballage	Sangle assemblée avec ses crochets métalliques, une par étui, placée à l'intérieur du sac							charte produits
+COUSSIN	critique	Début et fin du biais intégrés sous la sangle de rangement							charte produits
+COUSSIN	emballage	Plier et attacher le coussin en accordéon au velcro, étiquette visible vers le haut							charte produits
+COUSSIN	probleme	Pas de tache de colle sur le produit							charte produits
+GLACIERE	critique	Assemblage de la sangle résistant							charte produits
+GLACIERE	critique	Bretelles renforcées	Le point d'attache haut et le point d'attache bas, des deux côtés.	Dix clients ont signalé la même couture de bretelle décousue — c'est le bris le plus fréquent de tout le catalogue					charte produits	https://drive.google.com/file/d/1ZoywE60IWujaNgdX316R182fFNsRm7mJ/view
+GLACIERE	probleme	Doublure de PVC sans trou							charte produits
+SAC-COUCHAGE-0	critique	Matelassage droit							charte produits
+SAC-COUCHAGE-0	critique	Fermeture droite et tendue							charte produits
+SAC-COUCHAGE-18	critique	Matelassage droit							charte produits
+SAC-COUCHAGE-18	critique	Fermeture droite et tendue							charte produits
+OREILLER-CAMPING	critique	Répartition de la fibre et des retailles de vegeto uniforme							charte produits
+OREILLER	critique	La fermeture éclair ouvre et ferme facilement							charte produits
+OREILLER	probleme	Pas de taches		Une housse blanche ne pardonne rien					charte produits
+CACHE-COU-ENF-18M4A	critique	Droit fil respecté, élasticité du bon côté							charte produits
+CACHE-COU-ENF-18M4A	critique	Presser la pochette avant d'y insérer l'isolant	Rebord droit, sans plis.						charte produits
+CACHE-COU-ENF-18M4A	mesure	Dimensions finales selon le schéma des tailles	Schéma « petit enfant » de la charte.						charte produits	https://drive.google.com/file/d/1Fb2sl43qXrrpBvfb8W0Laqxdzx04Tad-/view	
+CACHE-COU-ENF-5A13A	critique	Droit fil respecté, élasticité du bon côté							charte produits
+CACHE-COU-ENF-5A13A	probleme	Boutonnière à l'arrière							charte produits
+CACHE-COU-ENF-5A13A	mesure	Excédent d'élastique	Mesuré une fois le cord-lock posé.		1	max	po		charte produits
+CACHE-COU-ENF-5A13A	critique	Presser la pochette avant d'y insérer l'isolant	Rebord droit, sans plis.						charte produits
+CACHE-COU-ENF-5A13A	mesure	Dimensions finales selon le schéma des tailles	Schéma « grand enfant » de la charte.						charte produits	https://drive.google.com/file/d/1Fb2sl43qXrrpBvfb8W0Laqxdzx04Tad-/view	

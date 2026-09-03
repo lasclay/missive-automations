@@ -127,6 +127,37 @@ function convertirCommande(o) {
   };
 }
 
+/**
+ * Une expédition ShipStation → une ligne `shipments`, rattachée à sa commande.
+ *
+ * La migration en écrit quatorze mille, la recopie d'une commande en écrit une : même
+ * fonction. Deux copies du même INSERT finissent par diverger sur une colonne, et la
+ * divergence ne se voit qu'au moment où un coût manque en analytique.
+ *
+ * Renvoie l'identifiant créé.
+ */
+function enregistrerExpedition(s) {
+  const cmd = one("SELECT id FROM orders WHERE order_key = ? OR order_number = ?",
+    s.orderKey || `ss-${s.orderId}`, s.orderNumber);
+  run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,package_id,
+         confirmation,cost,insurance_cost,ship_date,created_at,weight_g,dimensions,ship_to,
+         warehouse_id,is_return,voided,voided_at,marketplace_notified,raw)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+    cmd ? cmd.id : null, String(s.shipmentId), s.trackingNumber, s.carrierCode, s.serviceCode,
+    s.packageCode, s.confirmation, s.shipmentCost || 0, s.insuranceCost || 0,
+    s.shipDate, s.createDate, grammes(s.weight), dump(s.dimensions), dump(s.shipTo),
+    refValide("warehouses", "id", s.warehouseId), s.isReturnLabel ? 1 : 0, s.voided ? 1 : 0, s.voidDate,
+    s.marketplaceNotified ? 1 : 0, dump(s));
+  const sid = one("SELECT last_insert_rowid() r").r;
+  // Rattache les lignes expédiées, quand ShipStation les donne : c'est ce qui distingue
+  // une expédition partielle d'une expédition complète.
+  for (const it of s.shipmentItems || []) {
+    run(`UPDATE order_items SET shipment_id = ? WHERE order_id = ? AND (line_key = ? OR sku = ?)`,
+      sid, cmd ? cmd.id : null, it.lineItemKey || null, it.sku || null);
+  }
+  return sid;
+}
+
 // ------------------------------------------------------------------ migration
 
 /**
@@ -323,24 +354,7 @@ async function migrerDepuisShipStation({ journal = console.error, maxPagesComman
         for (const s of lot) {
          try {
           if (dejaVues.has(String(s.shipmentId))) { revues++; continue; }
-          const cmd = one("SELECT id FROM orders WHERE order_key = ? OR order_number = ?",
-            s.orderKey || `ss-${s.orderId}`, s.orderNumber);
-          run(`INSERT INTO shipments (order_id,label_id,tracking_number,carrier_code,service_id,package_id,
-                 confirmation,cost,insurance_cost,ship_date,created_at,weight_g,dimensions,ship_to,
-                 warehouse_id,is_return,voided,voided_at,marketplace_notified,raw)
-               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-            cmd ? cmd.id : null, String(s.shipmentId), s.trackingNumber, s.carrierCode, s.serviceCode,
-            s.packageCode, s.confirmation, s.shipmentCost || 0, s.insuranceCost || 0,
-            s.shipDate, s.createDate, grammes(s.weight), dump(s.dimensions), dump(s.shipTo),
-            refValide("warehouses", "id", s.warehouseId), s.isReturnLabel ? 1 : 0, s.voided ? 1 : 0, s.voidDate,
-            s.marketplaceNotified ? 1 : 0, dump(s));
-          const sid = one("SELECT last_insert_rowid() r").r;
-          // Rattache les lignes expédiées, quand ShipStation les donne : c'est ce qui distingue
-          // une expédition partielle d'une expédition complète.
-          for (const it of s.shipmentItems || []) {
-            run(`UPDATE order_items SET shipment_id = ? WHERE order_id = ? AND (line_key = ? OR sku = ?)`,
-              sid, cmd ? cmd.id : null, it.lineItemKey || null, it.sku || null);
-          }
+          enregistrerExpedition(s);
           dejaVues.add(String(s.shipmentId));
           nExp++;
          } catch (e) { refusees++; journal(`    expédition ${s.shipmentId} refusée : ${String(e.message).slice(0, 70)}`); }
@@ -678,7 +692,124 @@ async function reconcilier() {
   };
 }
 
-module.exports = { migrerDepuisShipStation, importerCommandes, convertirCommande, grammes, amorcer, ss, reconcilier };
+
+// ------------------------------------------------- recopie d'une seule commande
+
+/** Ce qu'il faut pour reconnaître une commande sans la charger entière. */
+function apercuCommande(o) {
+  const t = o.shipTo || {}, av = o.advancedOptions || {};
+  return {
+    order_number: o.orderNumber, order_id: o.orderId, order_key: o.orderKey,
+    date: String(o.orderDate || "").slice(0, 10), statut: o.orderStatus,
+    nom: t.name || o.customerUsername || null, entreprise: t.company || null,
+    adresse: [t.street1, t.street2].filter(Boolean).join(", "),
+    ville: t.city, province: t.state, code_postal: t.postalCode, pays: t.country,
+    store_id: av.storeId, warehouse_id: av.warehouseId,
+    transporteur: o.carrierCode || null, service: (o.serviceCode || "").trim() || null,
+    poids_g: Math.round(grammes(o.weight)), total: o.orderTotal || 0,
+    lignes: (o.items || []).length,
+  };
+}
+
+/**
+ * Recopier UNE commande de ShipStation dans le clone, avec ses expéditions.
+ *
+ * La migration ramène tout le compte ; celle-ci ramène une ligne. C'est ce qu'il faut quand on
+ * retrouve après coup un envoi qui manque — une commande manuelle saisie chez ShipStation
+ * après la migration, par exemple. Rejouer la migration entière pour une commande serait
+ * disproportionné et repasserait sur des étapes déjà faites.
+ *
+ * La conversion et l'écriture sont celles de la migration (`convertirCommande`,
+ * `enregistrerExpedition`), pas des secondes écrites pour l'occasion : deux mappages du même
+ * objet finissent toujours par diverger, et c'est le genre de divergence qu'on ne découvre
+ * qu'au moment d'expédier.
+ *
+ * L'expédition compte autant que la commande. Sans elle, une commande recopiée s'affiche
+ * « expédiée » sans numéro de suivi ni coût : le client demande où est son colis et l'écran ne
+ * sait pas répondre.
+ *
+ * Sans `confirmer`, rien n'est écrit — on renvoie ce qui serait créé.
+ */
+async function recopierCommande({ numero = null, nom = null, province = null,
+  confirmer = false, journal = () => {} } = {}) {
+  if (!SECRET) throw new Error("GENERAL_PROXY_SECRET requis pour joindre ShipStation");
+  oublierConnus();   // le serveur vit longtemps : une boutique ajoutée depuis doit compter
+
+  let liste = [];
+  if (numero) {
+    const d = await ss("orders", { orderNumber: numero, pageSize: 50 }, { journal });
+    liste = (d.orders || []).filter((o) => String(o.orderNumber) === String(numero));
+  } else if (nom) {
+    const d = await ss("orders", { customerName: nom, pageSize: 100 }, { journal });
+    liste = d.orders || [];
+    if (province) liste = liste.filter((o) => ((o.shipTo || {}).state || "").toUpperCase() === String(province).toUpperCase());
+  } else {
+    throw new Error("préciser un numéro de commande ou un nom");
+  }
+
+  if (!liste.length) return { trouvees: 0, candidates: [] };
+  // Deux commandes peuvent porter le même numéro dans deux boutiques, et un prénom seul en
+  // désigne souvent plusieurs. On les montre au lieu d'en choisir une au hasard.
+  if (liste.length > 1) return { trouvees: liste.length, candidates: liste.map(apercuCommande) };
+
+  const o = liste[0];
+  const cmd = convertirCommande(o);
+  const existante = one("SELECT id, order_number, status FROM orders WHERE order_key = ? OR order_number = ?",
+    cmd.order_key, cmd.order_number);
+
+  // Une référence vers une boutique ou un entrepôt absent du clone est annulée par la
+  // conversion. Le dire : une commande rangée dans « aucune boutique » se retrouve mal, et on
+  // la croit perdue.
+  const boutique = cmd.store_id ? one("SELECT name FROM stores WHERE id = ?", cmd.store_id) : null;
+  const entrepot = cmd.warehouse_id ? one("SELECT name FROM warehouses WHERE id = ?", cmd.warehouse_id) : null;
+
+  let expeditions = [];
+  try {
+    const d = await ss("shipments", { orderId: o.orderId, includeShipmentItems: true }, { journal });
+    expeditions = d.shipments || [];
+  } catch (e) { journal(`expéditions illisibles : ${e.message}`); }
+
+  const dejaVues = new Set(all("SELECT label_id FROM shipments WHERE label_id IS NOT NULL")
+    .map((r) => String(r.label_id)));
+  const aEcrire = expeditions.filter((s) => !dejaVues.has(String(s.shipmentId)));
+
+  const rapport = {
+    trouvees: 1,
+    commande: apercuCommande(o),
+    existante: existante ? { id: existante.id, statut: existante.status } : null,
+    boutique: boutique ? boutique.name : null,
+    entrepot: entrepot ? entrepot.name : null,
+    expeditions: expeditions.map((s) => ({
+      label_id: String(s.shipmentId), suivi: s.trackingNumber,
+      transporteur: s.carrierCode, service: (s.serviceCode || "").trim() || null,
+      date: s.shipDate, cout: s.shipmentCost || 0, assurance: s.insuranceCost || 0,
+      annulee: !!s.voided, deja_en_base: dejaVues.has(String(s.shipmentId)),
+    })),
+  };
+
+  if (!confirmer) return { ...rapport, simulation: true };
+
+  const id = orders.upsert(cmd);
+  let nExp = 0;
+  tx(() => { for (const s of aEcrire) { enregistrerExpedition(s); nExp++; } });
+  journaliser("order.recopie_shipstation", "order", id,
+    { order_number: cmd.order_number, expeditions: nExp });
+
+  const apres = one("SELECT * FROM orders WHERE id = ?", id);
+  return {
+    ...rapport,
+    simulation: false,
+    id,
+    creee: !existante,
+    lignes: one("SELECT COUNT(*) n FROM order_items WHERE order_id = ?", id).n,
+    expeditions_ecrites: nExp,
+    expeditions_deja_en_base: expeditions.length - aEcrire.length,
+    statut: apres.status,
+    poids_g: apres.weight_g || 0,
+  };
+}
+
+module.exports = { migrerDepuisShipStation, importerCommandes, convertirCommande, grammes, amorcer, ss, reconcilier, recopierCommande };
 
 // ============================================================ commandes manuelles
 

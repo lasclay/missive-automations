@@ -244,6 +244,12 @@ const lignes = corresp.map(r => {
     // les photos : deux tailles enfant rattachées au handle adulte prendraient
     // toutes les deux le nom de l'adulte, indistinguables dans la liste.
     nom: sh && r.confiance !== 'non vendu' ? sh.titre : r.produit_production,
+    // Le nom d'usage, celui de la liste de production. C'est lui qu'on affiche
+    // partout : le titre Shopify est écrit pour vendre, et deux produits y
+    // portent des titres qu'on confond — « Manteau isolé à l'asclépiade » et
+    // « Manteau hivernal isolé à l'asclépiade » ne disent pas lequel est le
+    // 3 saisons.
+    nom_court: r.produit_production || '',
     description: sh ? texte(sh.description_html || '') : '',
     usage: sh?.url_boutique ? `Fiche publique : ${sh.url_boutique}` : '',
     notes_tech: notes.join('\n\n'),
@@ -351,9 +357,9 @@ try {
 
   const trouve = db.prepare(`SELECT id FROM produits WHERE code = ?`);
   const insere = db.prepare(`INSERT INTO produits
-      (code, nom, description, usage, notes_tech, actif, famille, fabrication)
-      VALUES (?,?,?,?,?,?,?,?)`);
-  const maj = db.prepare(`UPDATE produits SET nom=?, description=?, usage=?,
+      (code, nom, nom_court, description, usage, notes_tech, actif, famille, fabrication)
+      VALUES (?,?,?,?,?,?,?,?,?)`);
+  const maj = db.prepare(`UPDATE produits SET nom=?, nom_court=?, description=?, usage=?,
       notes_tech=?, actif=?, famille=?, fabrication=?,
       maj_le=datetime('now') WHERE id=?`);
   const videPhotos = db.prepare(`DELETE FROM produit_photos WHERE produit_id=?`);
@@ -369,11 +375,11 @@ try {
     const ex = trouve.get(l.code);
     let id;
     if (ex) {
-      maj.run(l.nom, l.description, l.usage, l.notes_tech, l.actif, l.famille,
-              l.fabrication, ex.id);
+      maj.run(l.nom, l.nom_court, l.description, l.usage, l.notes_tech, l.actif,
+              l.famille, l.fabrication, ex.id);
       id = ex.id; misAJour++;
     } else {
-      id = insere.run(l.code, l.nom, l.description, l.usage,
+      id = insere.run(l.code, l.nom, l.nom_court, l.description, l.usage,
                       l.notes_tech, l.actif, l.famille, l.fabrication).lastInsertRowid;
       cree++;
     }
@@ -559,9 +565,10 @@ try {
   // entièrement du chiffrier, rien n'est saisi dessus dans l'app.
   const videVar = db.prepare(`DELETE FROM item_variantes WHERE item_id = ?`);
   const poseVar = db.prepare(`INSERT INTO item_variantes
-      (item_id, nom, quantite, rang) VALUES (?,?,?,?)`);
+      (item_id, groupe, nom, quantite, rang) VALUES (?,?,?,?,?)`);
 
-  let nItems = 0, nMaj = 0, unites = 0, rang = 0, nVar = 0, ecarts = [];
+  let nItems = 0, nMaj = 0, unites = 0, rang = 0, nVar = 0;
+  const ecarts = [], arrondis = [];
   for (const l of lignes) {
     if (!l.plan) continue;
     const pr = idProduit.get(l.code); if (!pr) continue;
@@ -580,19 +587,29 @@ try {
     let r = 0, somme = 0;
     for (const v of vs) {
       const qv = Number(v.quantite) || 0;
-      poseVar.run(itemId, v.variante, qv, ++r);
+      poseVar.run(itemId, v.groupe || '', v.variante, qv, ++r);
       somme += qv; nVar++;
     }
     // Le chiffrier ne boucle pas toujours. On garde les deux chiffres et on
-    // signale l'écart, plutôt que d'en corriger un au hasard.
-    if (vs.length && somme !== q) ecarts.push(`${l.code} : ${somme} en variantes pour ${q} au plan`);
+    // signale l'écart, plutôt que d'en corriger un au hasard. Mais un écart
+    // de deux unités sur cent vient de l'arrondi des pourcentages : le
+    // mélanger aux vrais trous noierait les quatre qui méritent une réponse.
+    if (vs.length && somme !== q) {
+      const d = somme - q;
+      const arrondi = Math.abs(d) <= Math.max(2, Math.round(q * 0.01));
+      (arrondi ? arrondis : ecarts).push(
+        `${l.code} : ${somme} en variantes pour ${q} au plan (${d > 0 ? '+' : ''}${d})`);
+    }
   }
   db.exec('COMMIT');
   dire(`  ${nItems} items créés, ${nMaj} mis à jour — `
      + `${unites.toLocaleString('fr-CA')} unités à produire`);
   dire(`  ${nVar} variantes réparties (taille, coloris)`);
+  if (arrondis.length)
+    dire(`  ${arrondis.length} répartitions à ±1 % du plan : arrondi des `
+       + `pourcentages, rien à corriger`);
   if (ecarts.length) {
-    dire(`\n  ${ecarts.length} répartitions ne bouclent pas avec le plan :`);
+    dire(`\n  ${ecarts.length} répartitions s'écartent vraiment du plan :`);
     for (const x of ecarts) dire(`    ${x}`);
     dire('  Les deux chiffres sont conservés ; l\'écart s\'affiche dans l\'app.');
   }

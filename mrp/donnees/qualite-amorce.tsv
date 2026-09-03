@@ -1,0 +1,40 @@
+# Amorce des protocoles de contrôle qualité.
+#
+# CE FICHIER N'EST PAS UNE SOURCE. C'est une relecture à la main des notes
+# techniques des fiches produits, où ces consignes dormaient mêlées aux coûts
+# et aux questions Shopify. Chaque ligne est une phrase qui était déjà écrite
+# quelque part ; le classement en volet, lui, est un jugement.
+#
+# À corriger sans hésiter : c'est Montassar qui voit les défauts, pas le
+# chiffrier. Une ligne fausse ici est pire qu'une ligne absente.
+#
+# volet :
+#   critique  ce qu'on ne peut pas rattraper après coup
+#   probleme  ce qui revient d'un lot à l'autre
+#   mesure    une cote à vérifier
+#   cyclage   un test : lavage, compression, tenue de l'isolant
+#
+# La source « notes techniques » dit d'où vient la phrase. Un point ajouté dans
+# l'app porte le nom de qui l'a écrit — c'est plus fort qu'un fichier.
+#
+# Importer : node mrp/import_qualite.js --ecrire
+produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source
+CACHE-COU	critique	Viseline pour solidifier les boutonnières		Les boutonnières s'effilochent à l'usage					notes techniques
+CACHE-COU	critique	Billes pour bloquer le cord-lock noir							notes techniques
+CACHE-COU-ENF-5A13A	critique	Viseline pour solidifier les boutonnières							notes techniques
+GANTS-MAGIQUES	mesure	Fibre d'asclépiade par gant	Avec mesh. Balance fournie dans le conteneur pour l'uniformité	Gants inégaux d'une paire à l'autre	4 à 5		g	chaque gant	notes techniques
+ETUI-TEL	critique	Les 2 rubans de ganses à la même hauteur		L'étui pend de travers					notes techniques
+ETUI-TEL	mesure	Crochet métallique pour ganse	Selon échantillon. 1 étui = 1 ganse		2,5		cm		notes techniques
+ETUI-TEL	critique	Utiliser le gabarit du conteneur	Gabarit réutilisable						notes techniques
+ETUI-TEL	mesure	Fermeture éclair	Spirale maille 3, non séparable		18		cm		notes techniques
+COUSSIN	critique	Départ et fin du biais sous la ganse de rangement		La jonction du biais se voit					notes techniques
+COUSSIN	mesure	Velcro	À sourcer		2,5		cm		notes techniques
+BESACE	probleme	Fermetures éclair : couleur et glissement problématiques	Sourcer de nouvelles : spirale maille 5 à 8, non séparable, 47 cm	Retours clients et reprises					notes techniques
+BESACE	critique	Vérifier la concordance des lots de tissu	Poches avant et intérieurs bleus prédécoupés dans le conteneur	Deux bleus différents sur la même pièce				chaque lot	notes techniques
+FOULARD	probleme	Matelassage pas droit	Méthode à trouver	Aspect irrégulier d'une pièce à l'autre					notes techniques
+SAC-COUCHAGE-18	mesure	Fermeture éclair	Spirale maille 8, non séparable, double curseur						notes techniques
+SAC-COUCHAGE-0	mesure	Fermeture éclair	Spirale maille 8, non séparable, double curseur						notes techniques
+MIT-PLEIN-AIR	critique	Cuir synthétique conservé pour la paume							notes techniques
+MANTEAU-HIVER	probleme	Ajustements selon le rapport d'amélioration	Certains points avec Grada Mode, d'autres chez BMB						notes techniques
+MANTEAU-3SAISONS	probleme	Ajustements selon le rapport d'amélioration	Certains points avec Grada Mode, d'autres chez BMB						notes techniques
+BANDEAU	critique	Deux modèles, même patron, assemblage différent	Torsadé (plusieurs couleurs) et sport (noir seulement)	Assemblage croisé entre les deux modèles					notes techniques

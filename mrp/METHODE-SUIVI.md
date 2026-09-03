@@ -90,7 +90,7 @@ c'est exactement ce que la page de suivi affiche.
 
 ---
 
-## Les trois écrans, et à quelle question chacun répond
+## Les quatre écrans, et à quelle question chacun répond
 
 ### À fabriquer — « qu'est-ce que je fais en premier ? »
 
@@ -147,17 +147,139 @@ Une ligne qui disparaît d'une liste sans explication est une ligne perdue.
 ### La répartition par taille et par coloris
 
 « 3 500 cache-cous » ne dit pas quoi couper. Chaque item porte sa répartition
-— 1 285 gris foncé, 1 078 noirs, 473 rouges, 364 gris pâle, 305 verts — repliée
-sous la quantité, sur l'ordre de production.
+— 1 285 gris foncé, 1 078 noirs, 473 rouges, 364 gris pâle, 305 verts — et elle
+se lit **en couleur** : une barre dont chaque segment a la teinte du coloris et
+la largeur de sa part, puis les compteurs en pastilles.
+
+Dans *À fabriquer*, la barre reste visible et les compteurs se replient : la
+barre se lit d'un coup d'œil, le détail se demande d'un toucher. Sur l'ordre de
+production, tout est déplié.
+
+Quand le chiffrier croise deux axes — un coloris **et** une taille, un genre
+**et** une taille — chaque groupe a sa ligne, et la longueur de sa barre montre
+son poids : les mitaines polar, c'est 923 noires, 274 rouges, 204 grises et
+99 violettes, chacune déclinée en cinq tailles.
 
 **L'avancement reste au niveau de l'item.** Une tranche de 10 % par variante
 multiplierait la saisie par cinq sans rien apprendre de plus sur ce qui rentrera
 dans le conteneur. La répartition sert à couper juste, pas à déclarer.
 
-Treize répartitions ne bouclent pas avec le plan — le manteau hivernal compte
-301 unités en variantes pour 150 au plan, l'étui 298 pour 500. Les deux chiffres
-sont affichés et l'écart est signalé : c'est au chiffrier d'être corrigé, pas à
-l'app de choisir.
+Cinq répartitions s'écartent vraiment du plan : le bandeau (+300), les semelles
+(+148), l'étui (−202), le foulard et l'oreiller (−15). Les deux chiffres sont
+affichés et l'écart est signalé : c'est au chiffrier d'être corrigé, pas à l'app
+de choisir. Les écarts d'une ou deux unités, eux, viennent de l'arrondi des
+pourcentages et ne sont pas signalés — les mélanger noierait les cinq qui
+méritent une réponse.
+
+### Cédule — « est-ce que ça rentre ? »
+
+C'est la seule question que la cédule a à trancher, et elle se répond avant le
+diagramme, en trois nombres : **heures de travail**, **heures disponibles**
+d'ici la première échéance, **postes**.
+
+**D'où vient une heure — deux ÉTAPES, pas deux versions du même chiffre.**
+
+C'est la confusion qui a fait dérailler la première version du calcul. Le
+chronomètre et le prix BMB ne mesurent pas le même travail :
+
+1. **Le chronomètre** (`donnees/temps-operations.tsv`) mesure la
+   **préparation** : coupe, matelassage, remplissage, mélange d'asclépiade.
+   C'est le travail de l'isolant.
+2. **Le prix BMB** (`donnees/assemblage-bmb.tsv`) paie l'**assemblage** :
+   la couture. C'est ce que le sous-traitant facture par unité.
+
+La preuve que ce sont deux choses : sur le cache-cou, six opérations
+chronométrées donnent 17 min et BMB facture 3 $, soit environ 7 min. Sur la
+tuque sport, trois opérations donnent 2 min et BMB facture 4 $, soit 9 min. Si
+c'était la même mesure vue de deux façons, le rapport serait constant. Il ne
+l'est pas.
+
+Tout se convertit à **26 $/h**, la règle que le suivi Tunisie applique déjà aux
+mitaines polar : « 12,01 $ à 26 $/h » y donne 27 min 42 s, soit exactement
+12,01 / 26 heures.
+
+**Deux exceptions, marquées.** Une ligne « Total » (semelles, glacière) et
+« Confection Lasclay » (mitaines polar) couvrent déjà la couture : on ne leur
+ajoute pas l'assemblage, ce serait compter le produit deux fois. À l'inverse,
+une simple somme de postes est marquée **« partiel »** — elle ne dit pas
+quelles opérations n'ont pas été chronométrées, donc c'est un plancher.
+
+**Où était cachée la donnée.** Les prix BMB dormaient en texte libre dans les
+notes techniques des fiches produits — « Assemblage BMB 7 $/unité » — là où
+aucun calcul ne pouvait les atteindre. Ils couvrent 23 produits, dont cinq que
+les fiches COGS ignorent complètement et qui comptaient donc pour zéro heure.
+`tools/extrait_bmb.js` les récupère ; le fichier se régénère.
+
+**Six produits ont des sources qui se contredisent**, et l'app le dit sur la
+ligne plutôt que de trancher en silence : le bandeau (2,50 $ BMB contre 0,87 $
+COGS), les semelles 6-7-8F (2,50 contre 0,58), le sac à lunch (6 contre 7), et
+les trois mitaines cuir, laine et polar — qui pointaient toutes vers la même
+fiche COGS « Mitaines polar » à 17,07 $ alors que BMB les facture 6, 5 et 4 $.
+Ce dernier cas était une approximation de l'app, pas une contradiction des
+sources : un prix par produit vaut mieux qu'une fiche empruntée au voisin.
+
+Multiplié par la quantité restante, ça fait la charge. L'ordre des barres est
+celui d'« À fabriquer » : poser une priorité déplace vraiment les dates.
+
+**La capacité, elle, n'est pas mesurée.** Aucune source ne dit combien de
+personnes travaillent, ni combien d'heures. Sans ça, des heures ne deviennent
+pas des dates. C'est donc un **réglage** : Québec pose postes × heures/jour ×
+jours/semaine, et l'app annonce « avec cette capacité-là ».
+
+Le défaut est de **20 postes**, l'équipe annoncée en août 2026. C'est un
+chiffre **déclaré**, et la page le dit — « équipe annoncée · non confirmée
+ici » — tant que personne ne l'a validé dans le formulaire. Deux réserves
+valent d'être gardées en tête : *20 personnes dans l'atelier* n'est pas *20
+personnes qui cousent* (encadrement, coupe, finition en font partie), et
+personne n'a précisé si ces 20 sont chez BMB, chez Grada, ou les deux réunis.
+
+**Ce que le diagramme simplifie, et de quel côté.** L'atelier est modélisé
+comme une file unique : un item à la fois, tous les postes dessus. Supposer
+plusieurs produits en parallèle donnerait des dates plus optimistes sans rien
+pour le justifier. Pour la question « est-ce que ça rentre », seul le total
+d'heures compte, et il ne dépend pas de l'ordre de passage ; c'est la date de
+chaque barre qui est approchée, pas le verdict.
+
+**Plus aucun item ne compte pour zéro heure.** Six l'étaient, et zéro est le
+seul chiffre dont on soit sûr qu'il est faux. Cinq sont maintenant couverts par
+les prix BMB. Le dernier — l'oreiller, 250 unités — par une estimation à la
+main, dans `donnees/assemblage-estime.tsv`, ancrée sur l'oreiller de camping
+(5 $ BMB : même garnissage, même construction en housse cousue). Elle s'affiche
+**« estimé »**, en rouge, et ne se confond jamais avec un prix facturé. À
+supprimer dès que BMB en donne un.
+
+**S'il en restait**, l'app chiffrerait ce qu'ils manquent : elle leur prête les
+temps unitaires des items du même plan — le plus court, la médiane, le plus
+long — et affiche la fourchette, parce que « la charge réelle est plus élevée »
+est vrai et inutilisable.
+
+**Le verdict a donc trois états**, et la couleur dit la même chose que la
+phrase : rouge « ça ne rentre pas », vert « ça rentre », **ambre « ça rentre
+sur le papier »** quand la marge est plus petite que ce que les items non
+chiffrés demanderaient.
+
+**Le périmètre décide tout — et c'est un réglage, comme la capacité.** Personne
+n'a dit si l'atelier planifié fait la préparation, l'assemblage, ou les deux.
+Avec 20 couturières et 4 320 heures disponibles avant le 1er octobre :
+
+| Ce que l'atelier fait | Charge | Verdict |
+| --- | ---: | --- |
+| Préparation seulement | 2 417 h | rentre, +1 903 h |
+| Assemblage seulement | 3 829 h | rentre, +491 h |
+| **Préparation + assemblage** | **5 311 h** | **manque 991 h** |
+
+Du simple au double. Le défaut est « les deux » : c'est la lecture prudente, et
+c'est celle qui ne rentre pas. Partir de l'hypothèse optimiste ferait
+disparaître le risque sans rien changer à l'atelier. **C'est la première chose
+à trancher** — et c'est une question, pas un calcul : est-ce que les
+couturières de BMB font aussi la coupe, le matelassage et le remplissage, ou
+est-ce que ça se fait ailleurs ?
+
+Les deux sacs de couchage méritent une note : leur fiche COGS porte bien un
+`sous_traitance` (29,22 $ et 31,47 $) mais **pas de `assemblage`**. Le poste
+sous-traitance couvre plus que la confection — sur le manteau, 44,67 $ contre
+28,00 $ d'assemblage. L'app refuse de s'en servir et prend le prix BMB (20 $) :
+le sous-traitance gonflerait la charge sans qu'on sache de combien.
 
 ### Suivi — « est-ce que ça avance ? »
 
@@ -218,9 +340,10 @@ Elle décrit le suivi d'un **avancement déclaré par item**. Elle ne couvre pas
   chronométrés existent dans `donnees/temps-operations.tsv`, mais rien ne les
   relie encore à un ordre ;
 - **la consommation de matières** — il n'y a pas d'inventaire ;
-- **la capacité** — combien de pièces par jour l'atelier peut sortir, et donc
-  si une échéance est atteignable. Les temps par opération sont la donnée qui
-  le permettra.
+- **la capacité mesurée** — la cédule sait convertir des heures en dates, mais
+  le nombre de postes et d'heures par jour est **déclaré**, pas observé. Tant
+  que personne ne compte ce qui sort réellement de l'atelier par jour, le
+  calendrier dit « avec cette capacité-là » et rien de plus.
 
 Ces trois manques sont volontaires pour cette version. Le premier a une
 valeur : savoir qu'un lot est « coupé mais pas matelassé » changerait la

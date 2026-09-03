@@ -6,8 +6,10 @@ par item, et rattacher les dates clés.
 
 ## Où est l'app
 
-**Elle n'est pas encore déployée.** Le code vit sur une branche de travail ;
-aucun service ne l'héberge. Render suit `main` — voir `DEPLOIEMENT.md`.
+**En ligne : [lasclay-mrp.onrender.com](https://lasclay-mrp.onrender.com).**
+Le service Render suit `main` : un travail resté sur une branche n'est pas en
+ligne, même fusionné dans un autre sens. Marche à suivre et réglages :
+[`DEPLOIEMENT.md`](DEPLOIEMENT.md).
 
 ### La voir tout de suite, en local
 
@@ -87,6 +89,87 @@ aux avancements. C'est l'atelier qui les déclare ; un import n'a pas à écrase
   calendrier
 - Quantité restante estimée en pièces : 2 000 à 40 % = 1 200 restants
 
+**À fabriquer — la répartition par taille et coloris**
+- « 3 500 cache-cous » ne dit pas quoi couper. Chaque ligne porte sa
+  répartition : une barre proportionnelle, puis le détail chiffré
+- Un coloris reçoit sa pastille de couleur, une taille sa case ; les tailles
+  sont dans l'ordre du corps (XS, S, M, L, XL), pas celui de l'alphabet
+- Quand un produit croise deux axes (genre × taille, coloris × modèle), un
+  groupe = une barre, dimensionnée à sa part du total de l'item
+- Sur mobile, le détail est replié derrière la barre : la barre suffit à lire,
+  le chiffre est à un doigt
+
+**Cédule — la charge de l'atelier, en Gantt**
+
+La question n'est pas « à quoi ressemble le calendrier », c'est **« est-ce que
+ça rentre »**. La page y répond en trois nombres avant de dessiner quoi que ce
+soit : heures de travail, heures disponibles d'ici la première échéance, postes.
+
+- **Le temps unitaire vient de deux sources, dans cet ordre.** Le chronomètre
+  (`donnees/temps-operations.tsv`) quand la mesure existe — huit familles. Sinon
+  le **coût de confection** des fiches COGS divisé par **26 $/h**, la conversion
+  que le suivi Tunisie applique aux mitaines polar (« 12,01 $ à 26 $/h » = 27 min
+  42 s, soit exactement 12,01 / 26 heures). **Chaque ligne du diagramme dit
+  laquelle des deux** — « chronométré » ou « déduit du coût ».
+- **Une ligne « Total » l'emporte sur la somme des postes**, jamais les deux :
+  additionner un total et ses composantes doublerait la durée.
+- **Le volume fait le reste** : temps unitaire × quantité restante. L'ordre des
+  barres est celui d'« À fabriquer », donc la priorité déplace vraiment les dates.
+- **La capacité est un réglage, pas une donnée.** Aucune source ne dit combien
+  de personnes travaillent ni combien d'heures. Québec le pose (postes ×
+  heures/jour × jours/semaine) et l'app affiche « avec cette capacité-là ». Le
+  défaut est de **20 postes**, l'équipe annoncée par Québec en août 2026 —
+  déclarée, pas mesurée, et marquée « équipe annoncée · non confirmée ici »
+  tant que personne n'a validé le réglage dans l'app. À noter : *20 personnes
+  dans l'atelier* n'est pas *20 personnes qui cousent*.
+- **Le verdict a trois états, et la couleur dit la même chose que la phrase.**
+  Rouge « ça ne rentre pas » ; vert « ça rentre » ; **ambre « ça rentre sur le
+  papier »** quand la marge est plus petite que ce que les items non chiffrés
+  demanderaient. Une bordure verte au-dessus de « la marge ne tient pas » se
+  lit plus vite que la phrase, et dit le contraire.
+- **L'atelier est modélisé comme une file unique** : un item à la fois, tous les
+  postes dessus. C'est une simplification, et elle est du bon côté — supposer
+  quatre produits en parallèle donnerait des dates plus optimistes sans rien
+  pour le justifier.
+- **Plus aucun item du plan ne compte pour zéro heure.** C'était le cas de six
+  d'entre eux, et zéro est le seul chiffre dont on soit sûr qu'il est faux.
+  Cinq sont couverts par les prix BMB ; le dernier — l'oreiller — par une
+  estimation à la main dans `donnees/assemblage-estime.tsv`, ancrée sur un
+  produit réel et affichée « estimé », jamais confondue avec un prix facturé.
+- **S'il en restait, l'app chiffrerait ce qu'ils manquent.** `chargeInconnue()`
+  leur prête les temps unitaires des items **du même plan** — le plus court, la
+  médiane, le plus long — et affiche la fourchette, parce que « la charge réelle
+  est plus élevée » est vrai et inutilisable : dix heures ou mille ?
+- Le trait rouge est l'expédition ; les barres qui la dépassent sont grisées.
+
+Au plan 26-27, avec 20 couturières et **4 320 heures disponibles** avant le
+1er octobre, le total dépend entièrement du périmètre :
+
+| Ce que l'atelier fait | Charge | Verdict |
+| --- | ---: | --- |
+| Préparation seulement | 2 417 h | rentre, +1 903 h |
+| Assemblage seulement | 3 829 h | rentre, +491 h |
+| **Préparation + assemblage** (défaut) | **5 311 h** | **manque 991 h** |
+
+C'est le seul réglage qui décide si le plan tient, et aucune source ne le dit.
+Tant qu'il n'est pas tranché, l'app affiche la lecture prudente : il faudrait
+**25 postes au lieu de 20**, ou 9 h × 6 jours.
+
+### Sortir le Gantt
+
+L'app est faite pour la connexion tunisienne : pas de JS, quelques kilo-octets.
+Un Gantt qu'on envoie ou qu'on projette a un autre métier — il peut se permettre
+de vraies polices, un axe de temps dessiné, et le basculement entre les trois
+périmètres.
+
+```sh
+node mrp/tools/gantt_export.js > gantt.html
+```
+
+Page autonome, les deux thèmes, rien à installer. Les chiffres viennent de la
+même base que `/cedule` : **régénérer après chaque révision du plan**, jamais
+recopier à la main.
+
 **Suivi — est-ce que ça avance**
 - Ce qui ne bouge plus depuis 7 jours : le seul bloc qui demande une action
 - Progression convertie en pièces (2 000 cache-cous de 40 à 70 % = 600 unités)
@@ -122,7 +205,186 @@ dire — est dans [`METHODE-SUIVI.md`](METHODE-SUIVI.md).
 - Matériaux et patrons, avec dimensions déclarées
 - Liste des ordres de production où le produit apparaît
 
+**Contrôle qualité — le protocole de chaque produit**
+
+Quatre volets par produit, dans l'ordre où on les lit à l'atelier :
+
+| Volet | Ce que c'est |
+| --- | --- |
+| **Points critiques** | ce qu'on ne peut pas rattraper après coup |
+| **Problèmes fréquents** | ce qui revient d'un lot à l'autre, et comment l'éviter |
+| **Mesures et dimensions** | une cote, sa tolérance, son unité — et la taille concernée quand la cote en dépend |
+| **Cyclage et tests** | lavages, compressions, tenue de l'isolant |
+| **Emballage et finition** | pliage, sachet, étiquette, mise en carton |
+
+**Le protocole général.** Un point sans produit s'applique à **tous** les
+produits — c'est là que vit la méthode d'emballage, l'étiquetage, la finition.
+Il apparaît sur la checklist de chaque lot, marqué « général », sans avoir à
+être réécrit trente fois.
+
+**L'échantillonnage suit le volume.** « 1 pièce sur 20 » ne veut pas dire la
+même chose sur un lot de 100 et sur un lot de 3 500. La règle est stockée
+structurée (`ech_type` + `ech_valeur`), et la checklist écrit **le nombre**, pas
+la règle :
+
+| Règle | Lot de 100 | Lot de 3 500 |
+| --- | ---: | ---: |
+| 1 sur 20 | 5 pièces | 175 pièces |
+| 1 sur 50 | 2 pièces | 70 pièces |
+| 5 pièces fixes | 5 | 5 |
+| toutes | 100 | 3 500 |
+| une fois par lot | 1 | 1 |
+
+Personne ne devrait faire la division en ayant les pièces dans les mains. Le
+contrôle enregistre aussi **combien de pièces ont réellement été vues**, ce qui
+n'est pas toujours le nombre demandé.
+
+**Conformité dimensionnelle : une mesure par taille, échantillonnée par
+taille.** Un tableau de mensurations se saisit d'un coup — une ligne par
+taille, `Homme / L = 120 ± 1,5`, recopiable d'un chiffrier. Sur la checklist
+d'un lot, la connexion se fait avec la répartition réelle du lot :
+
+- une taille **absente du lot n'est pas exigée** — un lot sans 4XL n'a pas de
+  mesure 4XL à vérifier ;
+- l'échantillon se calcule sur les pièces de **cette taille**, pas sur le lot :
+  4 manteaux sur les 34 en L, pas 15 sur les 150 du lot ;
+- `L` reconnaît `Homme / L`, parce que le chiffrier et le plan ne les écrivent
+  pas pareil ;
+- sans répartition déclarée, **aucune taille n'est écartée** — on ne sait pas,
+  donc on n'enlève rien.
+
+**Ce qui casse — la preuve qui fait écrire une consigne.** Un commentaire
+client, une photo de couture ouverte, un retour d'atelier : `qc_bris` garde la
+phrase **mot pour mot** (reformuler un client, c'est perdre ce qui rendait la
+phrase utile) avec sa zone, sa date et son origine. Aucune photo n'est
+hébergée : une URL, comme partout dans l'app.
+
+La boucle se ferme en trois temps :
+
+1. **Un bris est signalé** — par Québec depuis Missive, par l'atelier qui voit
+   le défaut au montage, ou par l'assistant (`signaler_bris`).
+2. **On en tire une consigne**, d'un bouton sur le signalement. Le point naît
+   avec sa preuve, et **tous les bris de la même zone encore orphelins s'y
+   rattachent** — ils disent la même chose, et les laisser séparés ferait
+   réécrire trois fois la même consigne.
+3. **La consigne devient une case à cocher** sur chaque lot, avec son
+   échantillon calculé sur le volume.
+
+Un signalement dont personne n'a tiré de consigne est marqué comme tel : c'est
+la file de travail du contrôle qualité.
+
+**Les zones qui cassent, tous produits confondus.** La page Qualité ouvre sur
+« Ce qui casse » : combien de signalements par zone, **sur combien de produits
+différents**, et combien sans consigne. Une zone qui revient sur cinq produits
+n'est pas un défaut de produit, c'est un défaut de méthode — et c'est la
+question que les commentaires clients permettent enfin de poser.
+
+**Une non-conformité d'atelier est une observation de terrain, en plus tôt.**
+Une case « non conforme » cochée par Montassar remonte au même endroit que les
+commentaires clients, et disparaît de la liste dès qu'elle est corrigée.
+
+**Squelettes de cyclage et d'essai porté.** `donnees/qualite-squelettes.tsv`
+porte la structure des tests de durabilité de couture (assemblage principal,
+points de contrainte, tenue après cyclage, migration de l'isolant) et des
+essais portés (aisance, points de frottement, symétrie, fermeture éclair). Ce
+sont des points du **protocole général**, puisque ce sont les mêmes gestes
+quelle que soit la pièce.
+
+**Aucun chiffre de Lasclay n'y figure.** Combien de cycles, quelle charge,
+quelle tolérance — rien de tout ça n'existe dans les sources du dépôt, et
+l'inventer le ferait passer pour une norme maison. Les valeurs sont écrites
+`À FIXER`, en majuscules, pour qu'on ne puisse pas les confondre avec une
+mesure. `node mrp/import_qualite.js --squelettes --ecrire` les charge.
+
+- **La colonne qui fait la différence, c'est « Sinon… ».** « Presser le col
+  avant l'isolant » se discute ; « sinon il fond et devient rigide » ne se
+  discute pas. Chaque point peut porter sa conséquence, et elle s'affiche en
+  rouge sous la consigne.
+- **La page d'accueil du volet montre d'abord ce qui n'a AUCUN protocole**, le
+  plus gros volume en tête : c'est là que l'absence coûte le plus cher. Un
+  protocole vide sur un produit fabriqué à 4 665 unités est l'information la
+  plus utile de la page.
+- **L'atelier écrit autant que Québec.** C'est Montassar qui voit les défauts ;
+  lui interdire d'écrire garderait l'information là où elle ne sert à personne.
+  Chaque point porte le nom de qui l'a ajouté.
+- **La fiche produit rappelle les points critiques**, avec un lien vers le
+  protocole complet.
+- L'assistant sait lire et écrire : « quelle est la tolérance sur les gants »,
+  « note que le col doit être pressé avant l'isolant, sinon il fond ».
+
+**La checklist obligatoire sur chaque ordre.** Le protocole ne sert à rien s'il
+reste une page qu'on peut ne pas lire. Chaque item d'un ordre de production
+porte donc sa checklist, dérivée du protocole de son produit :
+
+- **Un lot ne peut pas être déclaré à 100 % tant que tous ses points n'ont pas
+  de verdict.** Le refus nomme les points qui manquent et mène droit à la
+  checklist.
+- **Une non-conformité bloque aussi**, et se distingue d'un oubli : il faut
+  corriger puis revérifier.
+- **Le verrou vit dans `db.js` (`blocageQC`), et les deux chemins d'écriture y
+  passent** — le formulaire et l'assistant. Aucun des deux ne contourne l'autre.
+- **Sans protocole, rien n'est exigé.** C'est un trou, pas une permission, et la
+  page le dit dans ces mots.
+- **Dynamique par construction** : le protocole n'est jamais recopié dans le
+  lot. Ajouter un point critique le fait apparaître non vérifié sur tous les
+  lots en cours, y compris ceux déjà à 90 % — ce sont précisément ceux à qui ça
+  sert.
+- **Journal, pas état** : chaque vérification s'ajoute, aucune n'écrase la
+  précédente. Une non-conformité corrigée reste visible, et c'est exactement ce
+  qui nourrit la colonne « problèmes fréquents » du protocole.
+- Sur la page de l'ordre, l'état qualité de chaque lot s'affiche **à côté du
+  sélecteur d'avancement** — là où on s'apprête à déclarer 100 % et où on va se
+  faire refuser.
+
+**Amorce.** 25 points sur 15 produits viennent de
+`donnees/qualite-amorce.tsv` — une relecture à la main des notes techniques,
+où ces consignes dormaient mêlées aux coûts et aux questions Shopify. Le
+fichier **n'est pas une source** : le classement en volet est un jugement, à
+corriger sans hésiter. `node mrp/import_qualite.js` montre ce qui serait fait ;
+l'import remplace les points marqués « notes techniques » et ne touche jamais à
+ce qui a été écrit dans l'app.
+
+**Tâches — ce qu'on se demande d'un bord à l'autre**
+
+Ces demandes-là vivaient dans Missive, dans WhatsApp, ou dans la tête de
+quelqu'un. Ici elles ont un porteur, un état, et une date.
+
+- **Aucune hiérarchie** : Montassar assigne à Québec exactement comme Québec
+  assigne à Montassar. C'est le seul module où les deux rôles ont les mêmes
+  droits.
+- Trois listes, dans l'ordre où on les regarde : **pour moi**, **ce que j'ai
+  demandé**, **sans porteur**. Les faites sont repliées — elles servent à
+  vérifier, pas à travailler.
+- Une échéance dépassée porte un filet rouge et remonte en tête.
+- **Une pastille dans le menu**, sur toutes les pages : rouge s'il y a du
+  retard. Un compteur qu'on ne voit que sur sa propre page ne sert à rien.
+- Qui peut quoi : le **porteur** termine ou rouvre ; seul le **demandeur**
+  supprime. On ne fait pas disparaître ce qu'on vous a demandé.
+- L'assistant sait s'en servir : « demande à Montassar de vérifier le stock de
+  molleton », « qu'est-ce que j'ai à faire », « c'est fait pour les semelles ».
+
 **Assistant — il exécute, il ne fait pas que répondre**
+
+Il est **sur l'accueil**, en haut, avant tout le reste : il salue, puis une
+phrase à écrire et le dernier échange, avec le bouton pour annuler ce qu'il a
+écrit.
+
+**La salutation connaît deux fuseaux.** Souhaiter « bonsoir » à quelqu'un qui
+déjeune est la façon la plus rapide de faire sentir qu'une app ne sait pas à
+qui elle parle : Québec et Tunis sont à cinq ou six heures d'écart. Le fuseau
+se déduit du rôle, parce que les rôles de cette app **sont** des lieux. Et la
+deuxième phrase dit ce qui attend vraiment — « Une tâche a dépassé son
+échéance. » — plutôt que « Des questions ? », qui ne sert que quand il n'y a
+rien à signaler. Aucun appel au modèle : c'est du texte, calculé en une
+milliseconde. Le fil complet
+reste sur sa page. L'accueil **reprend la conversation en cours** plutôt que
+d'en ouvrir une neuve à chaque affichage — sans ça, « et les mitaines ? » perd
+son antécédent dès qu'on recharge.
+
+C'est un formulaire ordinaire : il part, la page revient. Rien à charger, rien
+qui casse si le JS ne s'exécute pas. Le tableau de bord complet, assistant
+compris, pèse **1,6 Ko compressé**.
+
 - « Mets les cache-cous adultes à 70 % » met vraiment l'item à 70 %
 - « Crée un ordre pour 500 tuques livrables le 15 novembre » crée l'ordre,
   y ajoute l'item et pose le jalon — en une phrase, sans repasser par les
@@ -156,13 +418,12 @@ mêmes contraintes.
   → « Cache-cous à 70 % et deadline ajoutée au 2 octobre. »        [Annuler]
 ```
 
-**Vingt-huit outils** (`outils.js`) : lire les ordres, les fiches, la cédule
-et les stocks ;
-mettre à jour un avancement ; créer un ordre, y ajouter ou en retirer des
-items ; poser des jalons ; créer et enrichir une fiche produit ; commenter.
-enregistrer un mouvement de stock et chiffrer les besoins d'une série.
-L'assistant les enchaîne seul — créer un ordre puis le remplir de quatre items
-est une seule demande.
+**Trente-quatre outils** (`outils.js`) : lire les ordres, les fiches, la cédule
+et les stocks ; mettre à jour un avancement ; créer un ordre, y ajouter ou en
+retirer des items ; poser des jalons ; créer et enrichir une fiche produit ;
+commenter ; enregistrer un mouvement de stock et chiffrer les besoins d'une
+série. L'assistant les enchaîne seul — créer un ordre puis le remplir de quatre
+items est une seule demande.
 
 Sur les stocks, il tient la même règle que l'app : « il en manquera » ne se dit
 que d'une matière comptée. Sur une matière sans mouvement, il répond que le
@@ -381,7 +642,7 @@ Quatre suites, aucune n'a besoin du réseau ni de clé API.
 
 | Suite | Ce qu'elle couvre |
 | --- | --- |
-| `tests/outils.js` | les outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
+| `tests/outils.js` | les 34 outils de l'assistant sur une vraie base : refus de droits, références ambiguës, valeurs invalides, journal et annulation |
 | `tests/inventaire.js` | la lecture du chiffrier (unités, rendements inversés, tolérance d'arrondi), le stock comme somme de ses mouvements, et la frontière entre « il en manque » et « on ne sait pas » |
 | `tests/boucle.js` | la boucle agentique contre une fausse API : enchaînement des outils, retour des erreurs au modèle, reprise du fil, plafond de 12 étapes |
 | `tests/e2e.sh` | le serveur complet : authentification, permissions, avancement pondéré, redimension des images, poids des pages sous 25 Ko |
@@ -394,7 +655,8 @@ référence ambiguë et une demande hors des droits de l'utilisateur.
 
 ```
 utilisateurs ─┬─ sessions
-              ├─ ordres ─┬─ ordre_items ── avancement_historique
+              ├─ ordres ─┬─ ordre_items ─┬─ avancement_historique
+              │          │               └─ item_variantes  (taille × coloris)
               │          ├─ ordre_jalons          (cédule)
               │          └─ ordre_commentaires
               ├─ agent_tours ── agent_actions        (assistant + annulation)
@@ -404,6 +666,16 @@ utilisateurs ─┬─ sessions
               │             └─ nomenclature ──┐    (calculable, pour les besoins)
               └─ matieres ──────────────────── ┘
                      └─ mouvements                 (le stock est leur somme)
+              ├─ taches                              (cree_par ↔ assigne_a)
+              └─ produits ─┬─ produit_photos      (studio | contexte)
+                           ├─ produit_materiaux
+                           ├─ produit_patrons
+                           └─ qc_points           (protocole qualité)
+                                  ├─ qc_controles  (le protocole appliqué à un lot)
+                                  └─ qc_bris       (ce qui casse : la preuve)
+
+reglages                                  (capacité de l'atelier — hors graphe :
+                                           un seul jeu, pas une préférence)
 ```
 
 `ordre_items.produit_id` est la jointure entre les deux moitiés : c'est ce qui
@@ -422,6 +694,9 @@ et ce qui n'existe nulle part encore.
 | `cogs-tunisie.tsv` — 10 postes de coût par produit | 17 |
 | `nomenclatures.tsv` — produit → matière, consommation, coût | 65 |
 | `temps-operations.tsv` — temps chronométrés par poste | 35 |
+| `assemblage-bmb.tsv` — prix d'assemblage BMB par unité, extrait des notes | 23 |
+| `assemblage-estime.tsv` — estimations à la main, à supprimer dès qu'un prix existe | 1 |
+| `qualite-amorce.tsv` — protocoles relus depuis les notes techniques | 25 |
 | `fournisseurs.tsv` · `emballage-expedition.tsv` · `tarifs-postes-canada.tsv` | 15 · 4 · 3 |
 | `production-tunisie.md` — consignes et état des patrons par produit | — |
 
@@ -442,16 +717,27 @@ de ville — tricotées en Chine — mais aucune quantité pour leur bandeau amo
 qui lui est fait à l'atelier. S'il en faut un par tuque, il manque 1 500 bandeaux
 au plan de Tunisie. À confirmer avec Gabriel ou Catherine.
 
-**Treize répartitions par variante ne bouclent pas avec le plan.** Le manteau
-hivernal compte 301 unités réparties pour 150 au plan, la veste 321 pour 160,
-le manteau 3 saisons 250 pour 125 — trois doublements exacts, qui sentent la
-ligne comptée deux fois dans le chiffrier. L'étui, lui, est sous-compté : 298
-pour 500. L'app affiche les deux chiffres et signale l'écart ; c'est le
-chiffrier qu'il faut corriger.
+**Cinq répartitions par variante s'écartent vraiment du plan** — et ce ne sont
+pas celles annoncées d'abord. Les « trois doublements exacts » du manteau
+hivernal, du manteau 3 saisons et de la veste venaient d'une extraction fautive,
+pas du chiffrier : celui-ci croise deux axes (genre × taille, coloris × taille)
+et porte des lignes de sous-total, que la première lecture additionnait avec
+leurs enfants. Corrigé, ces trois-là bouclent.
 
-**L'avancement par variante n'existe pas.** La répartition dit quoi couper ;
-l'avancement reste par item. Si l'atelier a besoin de déclarer « les noirs sont
-faits, pas les rouges », c'est la première chose à ajouter.
+Restent : le **bandeau** (2 100 pour 1 800 — le modèle « Sport, noir seulement »
+s'ajoute aux cinq coloris torsadés, à confirmer), les **semelles** (4 813 pour
+4 665), l'**étui** (298 pour 500), le **foulard** et l'**oreiller** (−15 chacun).
+Sept autres écarts tiennent à l'arrondi des pourcentages ; l'import les nomme à
+part plutôt que de les mélanger aux vrais.
+
+`donnees/extrait-variantes.py` refait l'extraction depuis le chiffrier et
+vérifie chaque produit par la somme de ses feuilles.
+
+**L'avancement par variante n'existe pas.** La répartition dit quoi couper —
+elle s'affiche dans *À fabriquer* et sur l'ordre, en barre proportionnelle et
+en pastilles de la vraie couleur. Mais l'avancement reste par item. Si l'atelier
+a besoin de déclarer « les noirs sont faits, pas les rouges », c'est la première
+chose à ajouter.
 
 **Le CDN sert du JPEG cinq fois plus léger que le PNG.** `?format=jpg` est
 honoré par Shopify (contrairement à `format=webp`) : un cache-cou en 320 px

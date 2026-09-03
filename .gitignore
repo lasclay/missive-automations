@@ -3,3 +3,14 @@ node_modules/
 
 # Index local de dossier.js (donnees client, jamais versionne)
 .dossier_index.json
+
+# Cache brut des conversations Missive (bris_missive.js) : noms, courriels et
+# numeros de commande de clients. Jamais versionne.
+.cache-bris-missive/
+
+# Extrait de bris (bris_missive.js trier) : contient des citations et des noms
+# de clients. Regenerable en une commande, jamais versionne.
+mrp/donnees/bris-missive.tsv
+
+__pycache__/
+*.pyc

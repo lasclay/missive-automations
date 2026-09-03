@@ -27,23 +27,42 @@ const { all, one, run, tx, dump, parse, maintenant, poserReglage, journaliser } 
 
 // ================================================================ référentiels
 
-/** Emplacements d'expédition (§13.2) — cinq entités logistiques dans un seul compte. */
+/*
+ * Emplacements d'expédition (§13.2) — cinq entités logistiques dans un seul compte, tels que
+ * ShipStation les porte.
+ *
+ * Le téléphone et l'étage n'y étaient pas. Ils manquaient à l'écriture, pas à la source :
+ * ShipStation les a, la migration les rapporte entiers, et c'est ce chargement-ci qui les
+ * effaçait en réécrivant `origin_address` par-dessus. « LAS Capucins » se retrouvait donc
+ * sans numéro de téléphone et sans « 2ème étage » — le premier fait refuser la réservation
+ * chez Freightcom, le second fait chercher le livreur.
+ *
+ * Deux corrections, et la seconde compte plus que la première : les valeurs sont complétées
+ * ici, et le chargement **fusionne** désormais au lieu de remplacer. Une liste écrite à la
+ * main sera toujours plus pauvre que ce que la source contient ; elle ne doit pas pouvoir
+ * appauvrir la base en repassant dessus.
+ */
 const ENTREPOTS = [
   { id: 153232, name: "LAS Capucins", is_default: 1, origin_address: {
       name: "Lasclay", company: "Lasclay", street1: "254 Boulevard des Capucins",
-      city: "Québec", state: "QC", postalCode: "G1J 3R4", country: "CA" } },
+      street2: "2ème étage", city: "Québec", state: "QC", postalCode: "G1J 3R4", country: "CA",
+      phone: "5819825857", residential: false } },
   { id: 372441, name: "Jean-Simon Begin", is_default: 0, origin_address: {
       name: "Jean-Simon Begin", company: "Photographe animalier", street1: "298 Boulevard des Capucins",
-      city: "Québec", state: "QC", postalCode: "G1J 3R4", country: "CA" } },
+      city: "Québec", state: "QC", postalCode: "G1J 3R4", country: "CA",
+      phone: "4188039629", residential: false } },
   { id: 463467, name: "Lasclay JCC", is_default: 0, origin_address: {
       name: "Lasclay JCC", company: "JCC", street1: "839 27e Rue",
-      city: "Saint-Zacharie", state: "QC", postalCode: "G0M 2C0", country: "CA" } },
+      city: "Saint-Zacharie", state: "QC", postalCode: "G0M 2C0", country: "CA",
+      phone: "5819825857", residential: false } },
   { id: 601259, name: "Monarch Botanika", is_default: 0, origin_address: {
       name: "Monarch Botanika", company: "Monarch Botanika", street1: "1565 Calle La Cumbre",
-      city: "Camarillo", state: "CA", postalCode: "93010", country: "US" } },
+      city: "Camarillo", state: "CA", postalCode: "93010", country: "US",
+      phone: "8054040898", residential: true } },
   { id: 590291, name: "Unique Plastique", is_default: 0, origin_address: {
       name: "Unique Plastique", company: "Unique Plastique", street1: "16 rue du Tisserand",
-      city: "Lévis", state: "QC", postalCode: "G6V 7E4", country: "CA" } },
+      city: "Lévis", state: "QC", postalCode: "G6V 7E4", country: "CA",
+      phone: "5815805182", residential: true } },
 ];
 
 /** Boutiques (§13.1). Le GUID est ce que référencent les règles et les vues. */
@@ -566,10 +585,19 @@ function charger({ remplacer = false, journal = () => {} } = {}) {
     }
 
     for (const w of ENTREPOTS) {
+      // Fusion, pas remplacement. Ce que la base porte déjà gagne : elle tient de la
+      // migration — donc de ShipStation — ou d'une correction faite à l'écran, deux sources
+      // plus riches que cette liste. Ne sont écrits que les champs qu'elle ne connaissait
+      // pas encore.
+      const ancien = parse((one("SELECT origin_address FROM warehouses WHERE id = ?", w.id) || {}).origin_address, {});
+      const fusion = { ...w.origin_address };
+      for (const [k, v] of Object.entries(ancien)) {
+        if (v !== null && v !== undefined && v !== "") fusion[k] = v;
+      }
       run(`INSERT INTO warehouses (id,name,origin_address,is_default) VALUES (?,?,?,?)
            ON CONFLICT(id) DO UPDATE SET name=excluded.name, origin_address=excluded.origin_address,
              is_default=excluded.is_default`,
-        w.id, w.name, dump(w.origin_address), w.is_default);
+        w.id, w.name, dump(fusion), w.is_default);
     }
     bilan.entrepots = ENTREPOTS.length;
 

@@ -71,7 +71,22 @@ async function appel(methode, chemin, corps = null) {
   if (!r.ok) {
     // Les erreurs de l'API portent un message exploitable ; le code HTTP seul ne se corrige pas.
     const m = j?.message || j?.error || (Array.isArray(j?.errors) ? j.errors.map((e) => e.message || e).join(" · ") : null);
-    throw new Error(`Freightcom ${r.status}${m ? ` : ${m}` : texte ? ` : ${texte.slice(0, 200)}` : ""}`);
+    /*
+     * « bad or missing data » ne dit rien tout seul.
+     *
+     * C'est le message générique de Freightcom pour tout refus de validation : mesures en
+     * chaînes plutôt qu'en nombres, `description` absente d'un colis, méthode de paiement
+     * manquante — trois causes distinctes, un seul message. Il a déjà coûté deux séances de
+     * recherche à l'aveugle. Le corps de la réponse, lui, nomme le champ ; on le joint donc
+     * quand le message ne suffit pas, plutôt que de le jeter.
+     */
+    const generique = !m || /^bad or missing data$/i.test(String(m).trim());
+    const detail = generique && texte && texte.length > (m || "").length + 20
+      ? ` — réponse : ${texte.slice(0, 500)}` : "";
+    const e = new Error(`Freightcom ${r.status}${m ? ` : ${m}` : texte ? ` : ${texte.slice(0, 200)}` : ""}${detail}`);
+    e.statut = r.status;
+    e.corps = j || texte || null;
+    throw e;
   }
   return j;
 }
@@ -148,12 +163,55 @@ function adresseFC(a = {}, { residentiel = false } = {}) {
   };
 }
 
+/**
+ * Les coordonnées de repli de l'expéditeur.
+ *
+ * Le formulaire de ClickShip marque d'une étoile — donc obligatoires — `Contact Name`,
+ * `Phone Number` et `Email Address`, **des deux côtés de l'envoi**. Coter ne les demande
+ * pas ; réserver, si. C'est ce qui faisait répondre « bad or missing data » à un achat
+ * pourtant coté vingt-et-une fois : la commande manuelle n'avait ni téléphone ni courriel,
+ * et le formulaire du clone ne les demandait pas non plus.
+ *
+ * Beaucoup de commandes n'en portent aucun — commandes manuelles, marketplaces qui masquent
+ * l'acheteur. On retombe alors sur les coordonnées de l'entreprise, comme le font
+ * ShipStation et ClickShip : un numéro et une adresse réels, qui répondent. Inventer un
+ * numéro plausible serait pire — l'appel du transporteur partirait chez un inconnu.
+ *
+ * Le client ne reçoit rien pour autant : `receives_email_updates` reste faux, le suivi part
+ * du clone.
+ */
+function contactExpediteur() {
+  const { reglage } = require("./db");
+  const val = (env, cle) => process.env[env] || reglage(cle, "") || "";
+  return {
+    nom: val("FREIGHTCOM_CONTACT", "expediteur_contact"),
+    telephone: val("FREIGHTCOM_TELEPHONE", "expediteur_telephone"),
+    courriel: val("FREIGHTCOM_COURRIEL", "expediteur_courriel"),
+  };
+}
+
+/** Comble les trois champs obligatoires d'une adresse, sans jamais écraser ce qui est là. */
+function completerContact(a, secours, defautNom) {
+  if (!a.contact_name) a.contact_name = a.name || defautNom || undefined;
+  if (!a.contact_name && secours.nom) a.contact_name = secours.nom;
+  if (!a.phone_number && secours.telephone)
+    a.phone_number = { number: String(secours.telephone).replace(/\D/g, "").slice(0, 15) };
+  if (!a.email_addresses && secours.courriel) a.email_addresses = [secours.courriel];
+  return a;
+}
+
 function scenario(envoi, { services = null, dateExpedition = null } = {}) {
   const p = envoi.parcel || {};
+  const secours = contactExpediteur();
+  const origin = completerContact(adresseFC(envoi.from), secours);
+  const destination = completerContact(adresseFC(envoi.to, { residentiel: true }), secours);
+  // Le téléphone de l'expéditeur avant celui des réglages : c'est l'entrepôt qui expédie.
+  if (!destination.phone_number && origin.phone_number) destination.phone_number = origin.phone_number;
+  if (!destination.email_addresses && origin.email_addresses) destination.email_addresses = origin.email_addresses;
   const corps = {
     details: {
-      origin: adresseFC(envoi.from),
-      destination: adresseFC(envoi.to, { residentiel: true }),
+      origin,
+      destination,
       expected_ship_date: dateExpedition || jour(),
       packaging_type: "package",
       // `packaging_properties` est un `oneOf` à quatre variantes ; celle-ci est reconnue par
@@ -443,6 +501,41 @@ async function methodesPaiement() {
     defaut: !!(m.default || m.is_default),
     brut: m,
   }));
+}
+
+/**
+ * La méthode de paiement à débiter — résolue une fois, gardée en mémoire.
+ *
+ * Coter ne demande pas comment on paie ; réserver, si. C'est l'une des rares différences
+ * entre les deux appels, et donc l'un des premiers suspects quand la cotation rend
+ * vingt-et-un tarifs et que l'achat répond « bad or missing data ».
+ *
+ * L'ordre : ce que les réglages imposent, sinon la méthode marquée par défaut chez
+ * Freightcom, sinon l'unique méthode du compte. Un compte qui en porte plusieurs sans
+ * défaut ne se devine pas — on refuse en les nommant, parce que choisir à sa place
+ * reviendrait à débiter le mauvais compte sans le dire.
+ */
+let _paiement;
+async function methodePaiement() {
+  if (process.env.FREIGHTCOM_PAYMENT_METHOD_ID) return process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
+  if (_paiement !== undefined) return _paiement;
+  let liste;
+  try { liste = await methodesPaiement(); }
+  catch (e) {
+    // Ne pas transformer une panne de lecture en refus d'achat : Freightcom tranchera.
+    _paiement = null;
+    return null;
+  }
+  const utilisables = liste.filter((m) => m.id);
+  if (!utilisables.length) { _paiement = null; return null; }
+  const choisie = utilisables.find((m) => m.defaut) || (utilisables.length === 1 ? utilisables[0] : null);
+  if (!choisie) {
+    throw new Error(`le compte Freightcom porte ${utilisables.length} méthodes de paiement et aucune par `
+      + `défaut : poser FREIGHTCOM_PAYMENT_METHOD_ID sur l'une d'elles — `
+      + utilisables.map((m) => `${m.id}${m.nom ? ` (${m.nom})` : ""}`).join(", "));
+  }
+  _paiement = choisie.id;
+  return _paiement;
 }
 
 async function soldeDisponible(idMethode) {
@@ -744,7 +837,7 @@ async function attendreDocuments(shipmentId, { attenteMs = 25000, pas = 1500 } =
 
 const attenteDocsMs = Number(process.env.FREIGHTCOM_DELAI_DOCS_MS || 25000);
 
-async function reserver(envoi, serviceId, { tentative = 0, methodePaiement = null, references = [] } = {}) {
+async function reserver(envoi, serviceId, { tentative = 0, methodePaiement: methodePaiement_ = null, references = [] } = {}) {
   /*
    * On n'achète pas dans le bac à sable.
    *
@@ -770,11 +863,32 @@ async function reserver(envoi, serviceId, { tentative = 0, methodePaiement = nul
   if (tarif.validJusquau && tarif.validJusquau < deJour(jour()))
     throw new Error(`devis expiré le ${tarif.validJusquau} — recoter avant d'acheter`);
 
+  /*
+   * Ce que ClickShip exige à la réservation, vérifié AVANT d'appeler.
+   *
+   * Freightcom refuse d'un « bad or missing data » qui ne nomme rien. Une commande sans
+   * téléphone ni courriel se retrouvait donc bloquée sans indication : le tarif s'affichait,
+   * le bouton marchait, et l'achat échouait sur un message opaque. Autant le dire ici, en
+   * nommant le champ et l'endroit où le remplir.
+   */
+  const preVol = scenario(envoi, { services: [String(serviceId)] }).details;
+  const manque = [];
+  for (const [ou, a] of [["expéditeur", preVol.origin], ["destinataire", preVol.destination]]) {
+    if (!a.contact_name) manque.push(`nom du contact ${ou}`);
+    if (!a.phone_number || !a.phone_number.number) manque.push(`téléphone ${ou}`);
+    if (!a.email_addresses || !a.email_addresses.length) manque.push(`courriel ${ou}`);
+  }
+  if (manque.length) {
+    throw new Error(`Freightcom exige ces champs à la réservation : ${manque.join(", ")}. `
+      + `Les renseigner sur la commande, ou une fois pour toutes dans `
+      + `Réglages ▸ Coordonnées de l'expéditeur — elles serviront de repli.`);
+  }
+
+  const idPaiement = methodePaiement_ || await methodePaiement();
   const corps = {
     unique_id: identifiantUnique(envoi, serviceId, tentative),
     service_id: String(serviceId),
-    ...(methodePaiement || process.env.FREIGHTCOM_PAYMENT_METHOD_ID
-      ? { payment_method_id: methodePaiement || process.env.FREIGHTCOM_PAYMENT_METHOD_ID } : {}),
+    ...(idPaiement ? { payment_method_id: idPaiement } : {}),
     ...scenario(envoi, { services: [String(serviceId)] }),
   };
   if (references.length) corps.details.reference_codes = references.map(String).slice(0, 3);
@@ -916,7 +1030,8 @@ module.exports = {
   adaptateurFreightcom, coter, coterDirect, prechauffer, reserver, annuler, suivre, synchroniserServices,
   expedition, services, tester, etat, purgerCache, empreinte, lireCache, ecrireCache,
   identifiantUnique, scenario, lireTarif, configure, essai, attendreDocuments,
-  methodesPaiement, soldeDisponible, facturesDe,
+  methodesPaiement, methodePaiement, soldeDisponible, facturesDe,
+  contactExpediteur,
   demanderManifeste, manifeste,
   validerRamassage, planifierRamassage, ramassage, annulerRamassage, detailsRamassage,
   BASE,

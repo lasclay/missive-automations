@@ -118,6 +118,41 @@ Résultat attendu : 34 produits, 164 photos, 50 matériaux, l'ordre
 `OP-2026-0001` avec 27 items, **24 333 unités**, le jalon d'expédition au
 1er octobre et 139 répartitions par taille et coloris.
 
+Puis les deux imports du contrôle qualité, dans cet ordre — les protocoles
+d'abord, les bris ensuite, parce qu'un bris peut se rattacher à un point :
+
+```sh
+node mrp/import.js --ecrire   # une seule fois : le catalogue
+```
+
+**Les protocoles, la charte et les bris n'ont plus besoin du Shell.** Le service
+les charge lui-même à chaque démarrage, depuis les fichiers du dépôt — après
+avoir commencé à répondre, jamais avant : les quatre imports prennent une
+vingtaine de secondes, et Render coupe une instance qui ne répond pas encore à
+sa sonde. Les
+imports concernés n'effacent que les lignes dont ILS sont la source — un point
+écrit à la main dans l'app porte le nom de son auteur et n'est jamais touché.
+Le catalogue, lui, ne se charge que sur une base vide : il vient de Shopify, et
+le relancer écraserait une correction faite dans l'app.
+
+Les journaux du service le disent au démarrage :
+
+```
+[mrp] catalogue : base déjà peuplée, on n'y touche pas.
+[mrp] charte produits : chargé.
+[mrp] protocoles qualité : chargé.
+[mrp] bris signalés : chargé.
+[mrp] en base : 34 produits, 211 lignes de charte, 133 points de contrôle, 110 bris.
+```
+
+`MRP_SANS_AMORCE=1` désactive ce chargement — c'est ce que font les tests de
+bout en bout, qui partent d'une base vide et comptent leurs propres lignes.
+
+Si l'onglet **Produits → Ce qui casse** affiche des cadres vides à la place des
+photos, ce n'est pas l'app — elle n'héberge rien, ce sont des adresses servies
+redimensionnées par le CDN. Si elles n'apparaissent pas, ce n'est pas l'app — c'est
+que le dossier de l'hébergeur n'est pas partagé par lien.
+
 ---
 
 ## 6. Créer les comptes de l'équipe

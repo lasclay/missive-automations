@@ -40,6 +40,2083 @@
       "extrait": "Ginette Verrette, Ginette, Ginette, Ginette. Lit plus que le titre des articles. Tu nous fait honte.",
       "motif": "Insulte adressée à une autre abonnée. Sarcasme, aucun contenu à traiter.",
       "quand": "2026-08-26T13:24:37.237Z"
+    },
+    {
+      "id": "1347451694188147_1390676669775674",
+      "page_id": "114311920399404",
+      "date": "2026-06-14T03:32:14+0000",
+      "extrait": "(sans texte) GIF d'une chenille de monarque en gros plan sur une feuille",
+      "motif": "Troisième d'une série de trois GIF publiés par la même personne en seize secondes (03:32:09, :14, :25). On a déjà répondu à celui de 03:32:25 le 26 août, et on répond à celui de 03:32:09 aujourd'hui. Une troisième réponse au même abonné dans la même minute de publication sonnerait automatique, ce que REGLES.md cherche justement à éviter.",
+      "quand": "2026-08-26T14:38:37.658Z"
+    },
+    {
+      "id": "1347451694188147_885790251209180",
+      "page_id": "114311920399404",
+      "date": "2026-06-14T03:32:04+0000",
+      "extrait": "(sans texte) GIF d'une nuée de monarques en vol dans le ciel bleu, la migration",
+      "motif": "Quatrième et dernier GIF de la rafale postée par la même personne en vingt et une secondes (03:32:04, :09, :14, :25). On a déjà répondu à deux d'entre eux. Même motif qu'au tir précédent : enchaîner une troisième réponse au même abonné sur la même rafale sonnerait automatique. La belle image, elle, ne change pas ce calcul.",
+      "quand": "2026-08-26T15:39:02.607Z"
+    },
+    {
+      "id": "1278579924408658_1511250830587382",
+      "page_id": "114311920399404",
+      "date": "2026-04-18T21:43:34+0000",
+      "extrait": "Pouvez-vous nommer des espèces qui sont \"nées\" récemment?",
+      "motif": "Échange polémique entre abonnés sur l'extinction des espèces, adressé à une autre personne du fil et non à la Page. Rien à y répondre qui tienne dans les faits vérifiés, et s'inviter dans la joute ferait du tort au fil.",
+      "quand": "2026-08-29T10:38:34.763Z"
+    },
+    {
+      "id": "1278579924408658_960313039709776",
+      "page_id": "114311920399404",
+      "date": "2026-03-23T21:55:24+0000",
+      "extrait": "Franchement, l'humain n'existait pas à l'époque des dinosaures... si t'es capable de compter tu vas réaliser qu'il moment donner toutes les espèces seront mortes.",
+      "motif": "Même fil polémique, réplique d'un abonné à un autre. Contient des chiffres d'extinction qu'on ne peut ni confirmer ni corriger à partir des faits vérifiés.",
+      "quand": "2026-08-29T10:38:34.763Z"
+    },
+    {
+      "id": "1278579924408658_931886383132320",
+      "page_id": "114311920399404",
+      "date": "2026-03-21T20:36:26+0000",
+      "extrait": "C'est quoi tu fais sur ce post au juste. L'objectif c'est de juste foutre la merde quand t'as rien à faire ?",
+      "motif": "Invective entre abonnés, sans question ni contenu adressé à la Page. Une réponse de la marque ne ferait qu'attiser l'échange.",
+      "quand": "2026-08-29T10:38:34.763Z"
+    },
+    {
+      "id": "1273911044875546_1485239306516201",
+      "date": "2026-04-09T17:21:36+0000",
+      "extrait": "je n'ai pas encore reçu ma commande du 30 mars",
+      "motif": "Plainte de commande : dossier client, pas une question publique. Aucune date ni statut ne peut être avancé sans vérification Shopify et ShipStation. Revient au support.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_1349298816921040",
+      "date": "2026-03-15T11:45:53+0000",
+      "extrait": "Trop chers. Votre. Livraison pour un petit sachets",
+      "motif": "Grief sur le coût de la livraison. Y répondre exigerait de citer ou de justifier un montant, ce que la règle du prix chiffré interdit. À traiter par une personne si on veut y donner suite.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_1662620951425557",
+      "date": "2026-04-16T21:40:24+0000",
+      "extrait": "J'ai reçu mes semences aujourd'hui ! ... dans un petit sac de plastique avec ce qui semble être du sable. Comment dois-je faire la plantation ? Séparer les graines ou tout mettre ensemble.",
+      "motif": "Commentaire chaleureux et de bonne foi, mais la question porte sur le contenu physique du sachet — le « sable » — qui ne figure pas dans les faits vérifiés. Le reste de la réponse répéterait presque mot pour mot celle sur la stratification publiée dans le même fil. Mérite une réponse humaine qui sait ce qu'il y a dans le sachet.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_920443823952583",
+      "date": "2026-04-14T00:08:22+0000",
+      "extrait": "Marie-Claude Leclerc oui!!! Ah ben coudon! Tu travaille pour lascley? ... zone « sauvage » ... en partie ombragée ou très à l'ombre de cèdres",
+      "motif": "Échange entre deux abonnées, adressé à l'une d'elles et non à la Page. Le fond — l'asclépiade à l'ombre — reçoit déjà une réponse ailleurs dans le même fil ; une seconde interviention sur le même sujet sonnerait automatique.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_2341682739660622",
+      "date": "2026-04-13T23:47:20+0000",
+      "extrait": "Hey Johanne, je viens de réaliser que c'est avec toi que j'ai chanté à la chorale!!!! :) Tu vas bien?",
+      "motif": "Retrouvailles personnelles entre deux abonnées. Rien qui s'adresse à la Page ; s'y glisser serait déplacé.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_985597437458635",
+      "date": "2026-04-10T12:17:41+0000",
+      "extrait": "Est-ce le temps de les mettre en terre et les sortir car moi ils sont en pots ?",
+      "motif": "Question de calendrier posée à la mi-avril. Y répondre fin août donnerait un conseil décalé de quatre mois, et aucune date de transplantation ne figure dans les faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_1314720620513477",
+      "date": "2026-04-07T22:23:36+0000",
+      "extrait": "Jjos Gilbert wow! J'adore! Quelle hauteur ces deux plantes? Est ce que ce serait beau avec des marguerites?",
+      "motif": "Adressé à un autre abonné et portant sur les plantes d'une photo publiée par ce dernier, qu'on ne peut pas identifier. Répondre reviendrait à deviner.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T11:39:11.009Z"
+    },
+    {
+      "id": "1273911044875546_880876178342508",
+      "date": "2026-04-07T18:18:29+0000",
+      "extrait": "Est-ce que elles sont vivaces?",
+      "motif": "La vivacité de l'asclépiade a déjà été affirmée deux fois sur cette même publication ce matin. Une troisième formulation du même fait sonnerait automatique.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_1803275440340535",
+      "date": "2026-03-25T12:32:29+0000",
+      "extrait": "En as-tu h t Mon amie?",
+      "motif": "Interpellation personnelle adressée à une amie, texte tronqué et sans contenu pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1278579924408658_1417422890121771",
+      "date": "2026-03-19T10:05:38+0000",
+      "extrait": "savez vous s'il y a deja eu un comite ou une consultation entre lea agriculteurs/peoducteurs bovins et les experts en monarque…",
+      "motif": "Adressé à un autre abonné, et porte sur l'existence de consultations entre producteurs bovins et spécialistes du monarque — rien de tel dans les faits vérifiés. Y répondre serait inventer.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1278579924408658_2088539021929767",
+      "date": "2026-03-19T00:49:31+0000",
+      "extrait": "Est ce que ça surprend quelqu'un? Vive le béton 🙄",
+      "motif": "Commentaire d'humeur sans question. Aucune matière à réponse.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_2088668935323229",
+      "date": "2026-03-18T15:08:15+0000",
+      "extrait": "Sylvie Barma le monarque est-il present dans votre zone ??",
+      "motif": "Question posée par un abonné à une autre abonnée sur la présence du monarque chez elle. Nous n'avons pas cette information et le fil ne nous est pas adressé.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_1263768515730763",
+      "date": "2026-03-17T18:42:22+0000",
+      "extrait": "une variété pourrait bien s'implanter, dans un espace qui s'apparente plus à un sous bois à l'ombre de cèdres? Suis à Laval.",
+      "motif": "Question sur l'asclépiade à l'ombre, déjà répondue sur cette même publication au tir précédent. Question déjà traitée dans le même fil lors d'un tir précédent ; y répondre à nouveau produirait une réponse quasi identique sur la même publication, ce que les règles interdisent.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_881686271539228",
+      "date": "2026-03-16T20:51:39+0000",
+      "extrait": "Est-ce qu'on doit les semer à l'automne ou au printemps?",
+      "motif": "Le choix automne / printemps a été expliqué en entier sur cette même publication au tir précédent. Question déjà traitée dans le même fil lors d'un tir précédent ; y répondre à nouveau produirait une réponse quasi identique sur la même publication, ce que les règles interdisent.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_2725103324531754",
+      "date": "2026-03-15T21:54:08+0000",
+      "extrait": "Est-elle une espèce envahissante??",
+      "motif": "Doublon exact d'une autre question du même lot, à laquelle une réponse est publiée. Deux réponses identiques sur la même publication sont exclues.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_1265333728861399",
+      "date": "2026-03-15T12:07:13+0000",
+      "extrait": "Louise Papineau tu as raison , sauvage elle est blanche! Et non orange?",
+      "motif": "Échange entre deux abonnées sur la couleur des fleurs. La couleur des espèces ne figure pas dans les faits vérifiés ; trancher reviendrait à improviser.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_905615025726791",
+      "date": "2026-03-14T17:07:05+0000",
+      "extrait": "Lasclay ca serait légal?.",
+      "motif": "Question de légalité sur la culture et le partage de semences d'une variété dont la revente est interdite. Sujet juridique, hors des faits vérifiés et à trancher par une personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_948258657857185",
+      "date": "2026-03-13T18:37:41+0000",
+      "extrait": "à quel moment peut-on les planter et dans quel préparation de sol?",
+      "motif": "Le volet calendrier double une réponse déjà publiée sur cette publication, et la préparation du sol ne figure nulle part dans les faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_1506802474133975",
+      "date": "2026-03-13T17:20:30+0000",
+      "extrait": "Est ce qu'un type de sol est à privilégier pour cultiver cette plante ou bien il s'agit d'une espèce pas trop capricieuse?",
+      "motif": "Adressé nommément à une autre abonnée présentée comme professionnelle, et porte sur le type de sol — absent des faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1273911044875546_1520000196133428",
+      "date": "2026-04-16T21:59:53+0000",
+      "extrait": "Johanne Jetté ! Acheté en",
+      "motif": "Message tronqué adressé à une amie. Rien d'exploitable.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1278579924408658_2361607317658444",
+      "date": "2026-04-16T20:50:31+0000",
+      "extrait": "Il faut le dire en octobre pas en avril...🤷‍♂️",
+      "motif": "Remarque elliptique dont on ne sait pas à quoi elle renvoie — semis, récolte ou publication. Répondre exigerait de deviner l'intention.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T12:38:37.631Z"
+    },
+    {
+      "id": "1278602521073065_1298139542252956",
+      "page_id": "114311920399404",
+      "date": "2026-04-16T00:00:00+0000",
+      "extrait": "Pierre Hivon T'es vraiment pas chanceux moi j'ai 4 plants et j'ai récolter trois chenille bébé l'an passé j'espère en revoir encore cette année !!",
+      "motif": "Même personne, même publication, même jour et même anecdote des trois chenilles qu'un autre commentaire du lot, auquel une réponse est publiée. Répondre deux fois à la même histoire du même abonné serait la signature automatique que les règles proscrivent.",
+      "quand": "2026-08-29T16:37:48.101Z"
+    },
+    {
+      "id": "1273911044875546_26257138507275614",
+      "date": "2026-03-13",
+      "extrait": "Jjos Gilbert à partir de graines ou un plant?",
+      "motif": "Question d'un abonné à un autre sur l'origine de son propre plant. Nous n'avons pas la réponse et le fil ne nous est pas adressé.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1278579924408658_1341864234417593",
+      "date": "2026-04-15",
+      "extrait": "Domage que ce ne soit pas le monarche",
+      "motif": "Remarque elliptique sur le papillon montré dans la vidéo. Sans certitude sur ce qui est à l'image, toute réponse serait une supposition.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_826240546612057",
+      "date": "2026-04-15",
+      "extrait": "Véronique Martel OUIIIIIIIIII",
+      "motif": "Réponse enthousiaste d'une abonnée à une autre, sans contenu auquel se raccrocher.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_1159237419599331",
+      "date": "2026-04-14",
+      "extrait": "Asclépias tuberosa est une plante médicinale intéressant pour pneumonie, bronchite elle favorise l'expectoration, réduit l'infection et l'inflammation des poumons.",
+      "motif": "Allégation thérapeutique. Rien de tel dans les faits vérifiés, et la marque ne peut pas endosser publiquement un usage médicinal — encore moins pour des affections pulmonaires. À trancher par une personne, avec une éventuelle mise en garde.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_1890779418181384",
+      "date": "2026-04-14",
+      "extrait": "Marie-Claude Leclerc J'en ai plein pour tomates poivrons et piments mais pas pour fleurs",
+      "motif": "Aparté horticole entre deux abonnées, sans lien avec l'asclépiade ni avec la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_2068001601266929",
+      "date": "2026-04-14",
+      "extrait": "Johanne Brosseau mais non, je ne travaille pas pour eux… Moi j'essaie de trouver des bonnes semences, mais pas trop cher non plus! Alors je magasine! ;)",
+      "motif": "Échange entre deux abonnées ; le seul angle de réponse porterait sur le prix des semences, ce que la règle interdit d'aborder.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_1339283894916010",
+      "date": "2026-04-13",
+      "extrait": "Marie-Claude Leclerc Veux dire qu'elles s'implantent et se multiplient, en santé!",
+      "motif": "Précision d'une abonnée à une autre à l'intérieur de leur propre échange.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_1515857899970334",
+      "date": "2026-04-13",
+      "extrait": "Johanne Brosseau ce sont des vivaces!",
+      "motif": "Entre abonnées, et la vivacité a déjà été confirmée à plusieurs reprises sur cette publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_1731792021522846",
+      "date": "2026-04-13",
+      "extrait": "Il faut les semer à l'automne",
+      "motif": "Le semis d'automne est expliqué en entier dans une réponse déjà publiée sur cette publication, et une autre du présent lot le reprend. Une troisième serait répétitive.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_1479252487139464",
+      "date": "2026-04-13",
+      "extrait": "Merci Mme Viens pour vos remarques. C'est bien de savoir que la tuberosa n'est pas envahissante…",
+      "motif": "Remerciement d'une abonnée à une autre. Le sujet de l'envahissement reçoit déjà deux réponses distinctes de notre part.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1278579924408658_1865796174081354",
+      "date": "2026-04-12",
+      "extrait": "En Angleterre aussi.",
+      "motif": "Trois mots sans contexte identifiable dans le fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_1231687128756885",
+      "date": "2026-04-11",
+      "extrait": "Moi non plus 🤣",
+      "motif": "Acquiescement d'un abonné à un autre. Le fond — des plants sans monarques — mériterait une réponse, mais sur le commentaire d'origine, pas sur cet écho.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_1485456932947891",
+      "date": "2026-04-11",
+      "extrait": "FrancineEdith Maranda les miennes sont plein soleil",
+      "motif": "Témoignage d'un abonné à un autre sur l'exposition. L'ensoleillement a déjà reçu deux réponses de notre part aujourd'hui.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T17:38:46.342Z"
+    },
+    {
+      "id": "1273911044875546_919673340878401",
+      "date": "2026-04-10",
+      "extrait": "J'aimerais avoir votre miel",
+      "motif": "Demande adressée à un apiculteur du fil pour son miel. Rien à voir avec nous.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1273911044875546_1342078227763774",
+      "date": "2026-04-10",
+      "extrait": "Je me pose la même question 🤔",
+      "motif": "Écho sans contenu à une question d'ensoleillement, sujet qui a déjà reçu deux réponses de notre part aujourd'hui.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1273911044875546_799661229864918",
+      "date": "2026-04-08",
+      "extrait": "Jjos Gilbert magnifique",
+      "motif": "Compliment d'un abonné à un autre sur sa photo.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1273911044875546_1492986035654854",
+      "date": "2026-04-07",
+      "extrait": "Jenny Côté Oui très beau avec des marguerites c'est certain. Je dirais environ 40 cm de hauteur",
+      "motif": "Un abonné répond déjà à un autre, et sur ses propres plants. Notre intervention n'ajouterait rien.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1273911044875546_1156387243196067",
+      "date": "2026-04-02",
+      "extrait": "Madeleine Turgeon et cette variété orange est rustique au Québec / Moi lac st jean",
+      "motif": "Échange entre abonnées portant sur une variété désignée par sa couleur, information absente des faits vérifiés ; et la question des zones de rusticité vient de recevoir une réponse sur cette même publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1273911044875546_1653305155672753",
+      "date": "2026-03-26",
+      "extrait": "Maryse Sirois je sais que mes papillons l'adore cette plante là et est anti-cevreuil.",
+      "motif": "Témoignage d'une abonnée à une autre ; les chevreuils ont reçu une réponse ce matin.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1278579924408658_958992849790001",
+      "date": "2026-03-25",
+      "extrait": "qui a besoin de la biodiversité et de chaîne alimentaire après tout. La vie c'est surfait. Asphaltons tout cela 🙌🏻",
+      "motif": "Sarcasme dans le fil polémique sur l'extinction, adressé à une autre abonnée. Déjà écarté à plusieurs reprises pour les mêmes raisons.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1273911044875546_1649004796230670",
+      "date": "2026-03-25",
+      "extrait": "Flavie Desjardins tu dois mettre ça chez vous",
+      "motif": "Identification d'une amie pour lui montrer la publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1278579924408658_1552760799145478",
+      "date": "2026-03-24",
+      "extrait": "Danis Lavigne cqfd",
+      "motif": "Deux mots dans un échange moqueur entre abonnés, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1278579924408658_2230257284047817",
+      "date": "2026-03-24",
+      "extrait": "Isabelle Mainguy [GIF]",
+      "motif": "Simple identification d'une amie accompagnée d'un GIF, à l'intérieur d'un échange privé entre deux abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T18:38:52.071Z"
+    },
+    {
+      "id": "1278579924408658_1917202332245750",
+      "date": "2026-03-24",
+      "extrait": "Richard Allard pas besoin d'une autre 🦄 🤣",
+      "motif": "Moquerie entre abonnés dans un fil de raillerie déjà écarté. Aucune question, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T20:37:44.815Z"
+    },
+    {
+      "id": "1278579924408658_26017182361295609",
+      "date": "2026-03-24",
+      "extrait": "Danis Lavigne La bonne place étant certainement la chambre d'écho qui vous conforte dans vos croyances🤣🤣🤣",
+      "motif": "Joute entre deux abonnés. S'y inviter au nom de la marque ne ferait qu'alimenter l'échange.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T20:37:44.815Z"
+    },
+    {
+      "id": "1278579924408658_1753440549395291",
+      "date": "2026-03-23",
+      "extrait": "Prevost Marilou C'est une plante indigène du Québec.",
+      "motif": "C'est le commentaire parent du fil où nous venons d'intervenir au tir précédent, pour apporter précisément la nuance entre indigène du Québec et indigène d'Amérique du Nord. Y répondre aussi serait parler deux fois dans le même échange.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T22:37:12.331Z"
+    },
+    {
+      "id": "1278579924408658_1437002207964186",
+      "date": "2026-03-23",
+      "extrait": "Farewell Charles 👑🇬🇧",
+      "motif": "Sans aucun rapport avec la publication ni avec l'asclépiade. Commentaire égaré.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T22:37:12.331Z"
+    },
+    {
+      "id": "1273911044875546_1265644609096209",
+      "date": "2026-03-23",
+      "extrait": "Vicky Hebert wowwww c'est ben beau !!!!!!!!",
+      "motif": "Compliment d'une abonnée à une autre sur sa photo.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-29T22:37:12.331Z"
+    },
+    {
+      "id": "1278579924408658_1196126789265620",
+      "date": "2026-03-23",
+      "extrait": "Danis Lavigne et la déforestation au sud!",
+      "motif": "Réplique dans un fil sur les chemtrails et le complotisme. Sans rapport avec l'asclépiade et sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T02:38:21.188Z"
+    },
+    {
+      "id": "1278579924408658_3045884905613193",
+      "date": "2026-03-22",
+      "extrait": "Danis Lavigne tu te couche tôt.... Je comprend.. tu dois travailler de nuit.",
+      "motif": "Pique personnelle entre deux abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T02:38:21.188Z"
+    },
+    {
+      "id": "1278579924408658_1461714262238620",
+      "date": "2026-03-22",
+      "extrait": "Francois Poirier Bonne nuit 😴🥰",
+      "motif": "Salutation entre abonnés, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T02:38:21.188Z"
+    },
+    {
+      "id": "1278579924408658_2449352628868476",
+      "date": "2026-03-22",
+      "extrait": "dire \" à la bonne place \" est totalement subjectif , étant donné que toutes les autres places en serait pas les bonnes.",
+      "motif": "Joute rhétorique entre abonnés dans le fil de moquerie déjà écarté plusieurs fois.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T02:38:21.188Z"
+    },
+    {
+      "id": "1278579924408658_1445868623940557",
+      "date": "2026-03-22",
+      "extrait": "Francois Poirier Cherche à la bonne place 🤔",
+      "motif": "Réplique dans la joute entre deux abonnés déjà écartée à plusieurs reprises. Aucune question, aucun contenu adressé à la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T09:37:20.072Z"
+    },
+    {
+      "id": "1278579924408658_2990992927774718",
+      "date": "2026-03-22",
+      "extrait": "Danis Lavigne Question recherches t'en fait pas trop avec ca.... je suis amplement capable de m'organiser. […] ca fait deja 12 ans que je ne m'attarde aucunement à la programmation de la télévision.",
+      "motif": "Longue mise au point personnelle entre deux abonnés sur leurs habitudes télévisuelles. Sans rapport avec l'asclépiade ; intervenir serait déplacé.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T09:37:20.072Z"
+    },
+    {
+      "id": "1278579924408658_1605700677359117",
+      "page_id": "114311920399404",
+      "date": "2026-03-22",
+      "extrait": "lâche TVA et regarde le nouveau décret signé sur la géo-ingenerie sur les poisons pulvérisé dans l'air par les chemtrails,aluminium,strontium, barium mercure etc… tu as le droit de faire des recherches pour ton petit QI déjà infecté 🤣😘",
+      "motif": "Thèse conspirationniste sur les chemtrails doublée d'une insulte adressée à un autre abonné. Hors de tout fait vérifié, et une prise de parole de la marque dans cet échange ne ferait que l'amplifier. La modération éventuelle relève d'une personne.",
+      "quand": "2026-08-30T11:37:01.852Z"
+    },
+    {
+      "id": "1278579924408658_921895480808210",
+      "extrait": "Danis Lavigne wow ! Un argument remarquable !!",
+      "motif": "Réplique du fil de joute entre abonnés, sans question ni contenu adressé à la Page.",
+      "page_id": "114311920399404",
+      "date": "2026-03-22",
+      "quand": "2026-08-30T12:37:52.748Z"
+    },
+    {
+      "id": "1278579924408658_1620583858896343",
+      "extrait": "Francois Poirier Tu en a probablement déjà trop sniffer 🤣🤣",
+      "motif": "Insulte entre abonnés dans le même fil. Rien à quoi répondre, et intervenir amplifierait l'échange.",
+      "page_id": "114311920399404",
+      "date": "2026-03-22",
+      "quand": "2026-08-30T12:37:52.748Z"
+    },
+    {
+      "id": "1278579924408658_1573611420414070",
+      "extrait": "Danis Lavigne 🤣🤣🤣 siboire.... être credule c'est une chose... mais la 🤦‍♂️🤦‍♂️",
+      "motif": "Moquerie qui ouvre le fil de joute déjà écarté à de nombreuses reprises. C'est le commentaire souche de tout cet échange.",
+      "page_id": "114311920399404",
+      "date": "2026-03-22",
+      "quand": "2026-08-30T12:37:52.748Z"
+    },
+    {
+      "id": "1278579924408658_941902772131930",
+      "extrait": "Ça se voulait sarcastique. Si vous avez aimé mon commentaire vous êtes idiots. La planète se réchauffe qui sait ce qui arrivera…",
+      "motif": "Mise au point sarcastique d'un abonné sur son propre commentaire, adressée aux autres participants du fil. Rien pour la Page, et le ton exclut toute intervention utile.",
+      "page_id": "114311920399404",
+      "date": "2026-03-22",
+      "quand": "2026-08-30T12:37:52.748Z"
+    },
+    {
+      "id": "1278579924408658_4394152694133127",
+      "extrait": "@Marc Touchette. C'était du sarcasme. 🙄",
+      "motif": "Précision adressée nommément à un autre abonné dans le fil polémique sur l'extinction des espèces.",
+      "page_id": "114311920399404",
+      "date": "2026-03-22",
+      "quand": "2026-08-30T12:37:52.748Z"
+    },
+    {
+      "id": "1278579924408658_1472985304357197",
+      "date": "2026-03-21",
+      "extrait": "T'as ben raison. Je comprends pas non plus pourquoi on se ferait suer avec le pétrole les gaz à effet de serre… Quand ça sera fini pour nous il y aura une autre ère de glace et ça recommencera.",
+      "motif": "Réplique sarcastique dans le fil polémique sur l'extinction, adressée à une autre abonnée. L'auteur a lui-même précisé ailleurs qu'il s'agissait de sarcasme ; il n'y a rien à y répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T13:38:07.500Z"
+    },
+    {
+      "id": "1278579924408658_1415125413697786",
+      "date": "2026-03-21",
+      "extrait": "Il semblerait que c'est la même chose au Royaume-Uni !",
+      "motif": "Remarque elliptique sur la situation britannique. Nous n'avons aucun fait vérifié sur le déclin des insectes au Royaume-Uni, et l'objet exact de la comparaison reste flou.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T13:38:07.500Z"
+    },
+    {
+      "id": "1278579924408658_1576884763387173",
+      "date": "2026-03-20",
+      "extrait": "La planète va avoir un répit quand les humains fous auront tous disparus, pas avant malheureusement... Quelle honte de tout détruire comme ça pour assurer la \"croissance\"...",
+      "motif": "Découragement écologique sincère, mais sans question. Nous avons déjà publié une réponse d'empathie sur cette même publication ; en ajouter une seconde du même registre sonnerait mécanique, et se greffer sur du désespoir au nom d'une marque demande une décision humaine.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T13:38:07.500Z"
+    },
+    {
+      "id": "1273911044875546_934482225628056",
+      "date": "2026-03-18",
+      "extrait": "Est-ce qu'on peut les semer directement en terre ou les graines doivent rester au froid plusieurs semaines.",
+      "motif": "Question légitime, mais l'alternative semis direct à l'automne contre passage au réfrigérateur avant un semis de printemps est déjà expliquée en entier dans une réponse publiée sur cette même publication. Une seconde réponse y serait quasi identique, et nous y avons déjà fait un renvoi au fil une fois : un troisième message sur le sujet dans le même endroit sonnerait automatique.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T15:37:48.376Z"
+    },
+    {
+      "id": "1273911044875546_25627104680296640",
+      "date": "2026-03-18",
+      "extrait": "Agnes Bedard oui",
+      "motif": "Acquiescement d'un mot entre abonnés à une question d'ensoleillement, sujet qui a déjà reçu plusieurs réponses de notre part.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T15:37:48.376Z"
+    },
+    {
+      "id": "1273911044875546_2282288275633770",
+      "extrait": "Catherine Jolin indigène :)",
+      "motif": "Écho d'un mot entre abonnées à propos de la couleur d'un plant. La couleur des espèces ne figure de toute façon pas dans les faits vérifiés.",
+      "page_id": "114311920399404",
+      "date": "2026-03-18",
+      "quand": "2026-08-30T18:37:32.500Z"
+    },
+    {
+      "id": "1273911044875546_4351297751826044",
+      "extrait": "Gabrielle Quino pas de problème, en autant que c'est un sol pauvre et ensoleillé",
+      "motif": "Un abonné répond déjà à une autre sur la zone 5. Nous avons publié deux réponses sur les zones de rusticité sur cette même publication ; une troisième serait répétitive, et le conseil de sol pauvre n'est pas dans nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "date": "2026-03-18",
+      "quand": "2026-08-30T18:37:32.500Z"
+    },
+    {
+      "id": "1273911044875546_1703122940852839",
+      "extrait": "Diane Brulotte promis!",
+      "motif": "Deux mots entre abonnées qui s'organisent un partage de graines.",
+      "page_id": "114311920399404",
+      "date": "2026-03-18",
+      "quand": "2026-08-30T18:37:32.500Z"
+    },
+    {
+      "id": "1273911044875546_1666815568000323",
+      "extrait": "Madeleine Turgeon ah ben là ! J'aimerais être sur ta liste de distribution. Hi! Hi!",
+      "motif": "Demande adressée à une autre abonnée pour recevoir de ses graines. Échange entre voisines, sans rapport avec la Page.",
+      "page_id": "114311920399404",
+      "date": "2026-03-18",
+      "quand": "2026-08-30T18:37:32.500Z"
+    },
+    {
+      "id": "1273911044875546_924898243848999",
+      "date": "2026-03-18",
+      "extrait": "Doris Perron 🌼",
+      "motif": "Identification d'une amie accompagnée d'un emoji.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T19:37:26.818Z"
+    },
+    {
+      "id": "1273911044875546_687730591066830",
+      "date": "2026-03-17",
+      "extrait": "Valérie Vaudry moi aussi, tiens nous au courant",
+      "motif": "Deux abonnées qui se donnent rendez-vous pour comparer leurs semis. Rien pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T19:37:26.818Z"
+    },
+    {
+      "id": "1273911044875546_26347117474909047",
+      "date": "2026-03-17",
+      "extrait": "Carole Levac Tiens nous au courant. Peut-être une solution pour moi",
+      "motif": "Écho entre abonnées. À signaler toutefois : le commentaire parent parle d'une « Asclepias apollo orange vendue comme une annuelle », ce qui ressemble fort à de l'asclépiade tropicale. Ce parent-là mériterait une réponse, mais il ne figure pas dans le lot.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T19:37:26.818Z"
+    },
+    {
+      "id": "1273911044875546_1952766545631472",
+      "date": "2026-03-16",
+      "extrait": "Anne Frédéric Vigneault intéressant!",
+      "motif": "Identification d'une connaissance pour lui montrer la publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T19:37:26.818Z"
+    },
+    {
+      "id": "1273911044875546_859625680417175",
+      "date": "2026-03-16",
+      "extrait": "Renée St-Onge j'en ai déjà",
+      "motif": "Réponse d'une abonnée à une autre qui lui demandait si elle comptait en commander.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T19:37:26.818Z"
+    },
+    {
+      "id": "1278602521073065_1260859638766507",
+      "date": "2026-03-16",
+      "extrait": "C'est bientôt. Au pire , je me ferai un système avec mon blower à feuille.",
+      "motif": "Probablement une plaisanterie sur la récolte mécanisée de la soie, mais on ne sait pas à quoi renvoie le « c'est bientôt » — une récolte, une livraison ? Répondre à côté serait pire que se taire.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T19:37:26.818Z"
+    },
+    {
+      "id": "1278579924408658_1291475092844686",
+      "date": "2026-03-15",
+      "extrait": "Srm pas a cause de l'aluminium qui nous shoot!",
+      "motif": "Allusion conspirationniste à l'aluminium pulvérisé, dans la veine du fil sur les chemtrails déjà écarté.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T19:37:26.818Z"
+    },
+    {
+      "id": "1278579924408658_1256577172611081",
+      "extrait": "5 G + chimtrail",
+      "motif": "Trois mots conspirationnistes, sans question ni contenu. Même veine que le fil déjà écarté.",
+      "page_id": "114311920399404",
+      "date": "2026-03-15",
+      "quand": "2026-08-30T20:38:11.493Z"
+    },
+    {
+      "id": "1273911044875546_919716630805166",
+      "extrait": "Patrice Dubois rosé plutot, au Québec du moins",
+      "motif": "Précision entre abonnés sur la couleur des fleurs sauvages. La couleur des espèces ne figure pas dans les faits vérifiés ; trancher entre blanc et rosé reviendrait à improviser.",
+      "page_id": "114311920399404",
+      "date": "2026-03-15",
+      "quand": "2026-08-30T20:38:11.493Z"
+    },
+    {
+      "id": "1273911044875546_1304448368170129",
+      "extrait": "Josée-ann Cloutier :)",
+      "motif": "Identification d'une amie pour lui montrer la publication.",
+      "page_id": "114311920399404",
+      "date": "2026-03-15",
+      "quand": "2026-08-30T20:38:11.493Z"
+    },
+    {
+      "id": "1260265889573395_1436897647980277",
+      "page_id": "114311920399404",
+      "date": "2026-02-25",
+      "extrait": "Bonjour ! Est-ce que vous utilisez des images générées par l'IA dans vos publications ?",
+      "motif": "Question de transparence posée franchement et publiquement, à laquelle rien dans les faits vérifiés ne permet de répondre. Affirmer « non » sans le savoir serait un mensonge public, et une réponse évasive ferait pire que le silence : seule une personne de l'équipe peut trancher. À traiter rapidement, une question de ce type qui reste sans réponse se remarque. À noter pour la personne qui tranchera : la question porte sur les images, mais le sujet touche aussi la rédaction — les réponses de cette Page, celle-ci comprise, sont écrites par une IA sous supervision humaine. Cela devrait entrer dans la décision sur ce qu'on répond publiquement.",
+      "quand": "2026-08-30T21:37:27.880Z"
+    },
+    {
+      "id": "1273911044875546_1121359070130896",
+      "date": "2026-03-15",
+      "extrait": "Nathalie Larocque",
+      "motif": "Identification d'une connaissance, sans texte.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T22:38:19.963Z"
+    },
+    {
+      "id": "1278579924408658_1847507965950741",
+      "date": "2026-03-15",
+      "extrait": "Emblème MK ultra",
+      "motif": "Allusion conspirationniste au papillon comme symbole de contrôle mental. Sans question, et répondre ne ferait que donner prise.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T22:38:19.963Z"
+    },
+    {
+      "id": "1273911044875546_4467024550289518",
+      "date": "2026-03-14",
+      "extrait": "Lucie Saint-Gelais, Anick Coutu",
+      "motif": "Deux identifications d'amies, sans texte.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T22:38:19.963Z"
+    },
+    {
+      "id": "1278579924408658_954051850376006",
+      "date": "2026-03-14",
+      "extrait": "Le problème est au Mexique !",
+      "motif": "Thèse que la recherche contredit, mais nous y avons déjà répondu ce matin dans un autre fil de cette même publication, étude à l'appui. La correction est donc présente sous la publication ; une seconde y serait quasi identique.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T22:38:19.963Z"
+    },
+    {
+      "id": "1273911044875546_2122021101921653",
+      "date": "2026-03-14",
+      "extrait": "Jjos Gilbert Un magnifique pairage avec les monardes fuschia !!",
+      "motif": "Compliment horticole d'un abonné à un autre sur son aménagement.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T23:37:32.070Z"
+    },
+    {
+      "id": "1273911044875546_1241862064756838",
+      "date": "2026-03-13",
+      "extrait": "Martine L'Heureux Mais peut être pas rustique tsnt que ça",
+      "motif": "Doute sur la rusticité soulevé entre abonnées. La cote des zones 3 à 9 et sa lecture ont déjà fait l'objet de deux réponses sur cette même publication ; une troisième serait répétitive. Le commentaire d'origine du fil — des plants disparus après deux ans — mériterait un vrai diagnostic, mais il ne figure pas dans le lot et nous n'avons aucun fait vérifié sur les causes de disparition d'une talle.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T23:37:32.070Z"
+    },
+    {
+      "id": "1273911044875546_1262590892507983",
+      "date": "2026-03-13",
+      "extrait": "Catherine Lambany C'est vivace",
+      "motif": "Affirmation juste, déjà faite par une abonnée à une autre. La vivacité a été confirmée par nous à plusieurs reprises sur cette publication ; rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T23:37:32.070Z"
+    },
+    {
+      "id": "1273911044875546_850280491358247",
+      "date": "2026-03-13",
+      "extrait": "Carole Reid merci !",
+      "motif": "Remerciement d'une abonnée à une autre.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-30T23:37:32.070Z"
+    },
+    {
+      "id": "1247807510819233_1255890586475283",
+      "date": "2026-02-15",
+      "extrait": "et que l'on tente maintenant de nous faire croire que c'est une découverte et que l'on vend à un prix de fou !! Que les gens sont imbéciles!",
+      "motif": "Diatribe doublée d'une insulte aux autres abonnés, dont le ressort est le prix. Y répondre exigerait d'aborder un montant, ce que la règle interdit. Le fond historique du fil — des manteaux de soldats rembourrés à l'asclépiade — serait intéressant, mais pas sous cette forme.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T00:39:20.883Z"
+    },
+    {
+      "id": "1247807510819233_1534685788657950",
+      "date": "2026-02-23",
+      "extrait": "ah,,, damn me. Il avait peut être un rhume cette journée là?!🤣🤣🤣 damn me🤦",
+      "motif": "Plaisanterie amicale en réponse à un de nos commentaires, mais dont le sens dépend d'un contexte qui n'apparaît pas dans le fil récupéré. Répondre à côté serait pire que se taire.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T00:39:20.883Z"
+    },
+    {
+      "id": "1247807510819233_1335683498593177",
+      "date": "2026-02-05",
+      "extrait": "est ce que l'on peut mettre les mitaines à la laveuse? je les aime beaucoup je tiens à les préserver",
+      "motif": "Question d'entretien identique à une autre du même lot, sur la même publication, à laquelle une réponse complète est publiée et couvre aussi les mitaines. Deux réponses identiques au même endroit sont exclues.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T00:39:20.883Z"
+    },
+    {
+      "id": "1273911044875546_941006341795294",
+      "date": "2026-03-13",
+      "extrait": "Jjos Gilbert j'adore le mélange des 2 couleurs 🤩",
+      "motif": "Compliment entre abonnés sur une photo.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T00:39:20.883Z"
+    },
+    {
+      "id": "1273911044875546_2794463947570878",
+      "date": "2026-03-13",
+      "extrait": "Vicky Hebert m.a.g.n.i.f.i.q.u.e !",
+      "motif": "Compliment entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T00:39:20.883Z"
+    },
+    {
+      "id": "1278579924408658_762558996681481",
+      "date": "2026-03-13",
+      "extrait": "L'Amérique du sud détruit c'est papillons depuis 10 ans en coupant les forêts ou ils passent l'hiver",
+      "motif": "Contient une erreur géographique — les colonies hivernales sont au Mexique, en Amérique du Nord — mais la thèse de fond a déjà reçu ce matin une réponse appuyée sur l'étude de Flockhart, sur cette même publication. Une quatrième intervention y serait de trop pour une simple correction de continent.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T00:39:20.883Z"
+    },
+    {
+      "id": "1273911044875546_1476129920537113",
+      "date": "2026-03-13",
+      "extrait": "Jjos Gilbert merci c'est super beau 😃",
+      "motif": "Remerciement entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T00:39:20.883Z"
+    },
+    {
+      "id": "1273911044875546_1937417046860880",
+      "date": "2026-03-13",
+      "extrait": "Susy Guay Un plan",
+      "motif": "Deux mots entre abonnées, sans contenu exploitable.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T00:39:20.883Z"
+    },
+    {
+      "id": "1273911044875546_933084559224781",
+      "date": "2026-03-13",
+      "extrait": "Susy Guay oui j'en ai un plan que j'ai pris au jardin scullion à l'ascension.",
+      "motif": "Échange entre abonnées sur la provenance d'un plant ; un écho de ce même fil a déjà été écarté.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T11:39:11.677Z"
+    },
+    {
+      "id": "1273911044875546_1606907520513558",
+      "date": "2026-03-13",
+      "extrait": "vous pouvez voir ici beaucoup d'asclépiade incarnate aussi :) 🌸 [photo d'un îlot urbain]",
+      "motif": "Photo superbe d'un îlot municipal, mais du même auteur et dans le même échange que le commentaire où elle se présente comme horticultrice, auquel nous répondons en mentionnant justement sa photo. Deux réponses à la même personne dans le même fil sonneraient automatiques.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T11:39:11.677Z"
+    },
+    {
+      "id": "1273911044875546_1590999832113105",
+      "date": "2026-03-13",
+      "extrait": "Pour les plates bandes Dominic M. McComeau",
+      "motif": "Identification d'une connaissance.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T11:39:11.677Z"
+    },
+    {
+      "id": "1273911044875546_1321215219838351",
+      "date": "2026-03-13",
+      "extrait": "Veronique Savoie",
+      "motif": "Identification d'une connaissance, sans texte.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T11:39:11.677Z"
+    },
+    {
+      "id": "1278579924408658_961145513151561",
+      "date": "2026-03-12",
+      "extrait": "See what I just posted.",
+      "motif": "Renvoi vers une publication personnelle, sans contenu ni question.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T11:39:11.677Z"
+    },
+    {
+      "id": "1273911044875546_894510060060877",
+      "date": "2026-03-06",
+      "extrait": "Merci!",
+      "motif": "Remerciement à une de nos réponses. Nous en avons déjà relevé un ces derniers jours ; répondre à chaque merci deviendrait mécanique.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T11:39:11.677Z"
+    },
+    {
+      "id": "1260265889573395_1596902768202503",
+      "date": "2026-02-19",
+      "extrait": "Continuez c'est un produit merveilleux à plusieurs niveau",
+      "motif": "Encouragement chaleureux mais sans contenu propre. Le lot en contenait plusieurs du même type sur les mêmes publications : y répondre à chacun produirait des remerciements interchangeables, ce que les règles proscrivent. Trois messages porteurs d'un contenu distinct ont reçu une réponse ; ceux-ci appellent plutôt une réaction humaine qu'un commentaire.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T12:41:29.759Z"
+    },
+    {
+      "id": "1261103522822965_1900004717309671",
+      "date": "2026-02-19",
+      "extrait": "[GIF « thank you so much », mains en cœur, sans texte]",
+      "motif": "Image de remerciement sans texte. Rien à quoi répondre au-delà d'un merci générique.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T12:41:29.759Z"
+    },
+    {
+      "id": "1261103522822965_966004932890731",
+      "date": "2026-02-19",
+      "extrait": "Merci de nous nourrir",
+      "motif": "Formulation trop elliptique pour être sûr de ce qu'elle vise — au sens propre ou au figuré. Répondre à côté serait pire que se taire.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T12:41:29.759Z"
+    },
+    {
+      "id": "1260265889573395_1466917268493375",
+      "date": "2026-02-19",
+      "extrait": "Bravo pour votre travail et votre persévérance! 👏👏👏",
+      "motif": "Encouragement chaleureux mais sans contenu propre. Le lot en contenait plusieurs du même type sur les mêmes publications : y répondre à chacun produirait des remerciements interchangeables, ce que les règles proscrivent. Trois messages porteurs d'un contenu distinct ont reçu une réponse ; ceux-ci appellent plutôt une réaction humaine qu'un commentaire.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T12:41:29.759Z"
+    },
+    {
+      "id": "1261103522822965_4349951635326599",
+      "date": "2026-02-19",
+      "extrait": "Vous êtes belle Madame!!",
+      "motif": "Compliment sur l'apparence d'une personne apparaissant dans la publication, pas un message adressé à la Page. Il ne nous revient pas d'y répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T12:41:29.759Z"
+    },
+    {
+      "id": "1260265889573395_33819420497703687",
+      "date": "2026-02-18",
+      "extrait": "Mille fois bravo!",
+      "motif": "Encouragement chaleureux mais sans contenu propre. Le lot en contenait plusieurs du même type sur les mêmes publications : y répondre à chacun produirait des remerciements interchangeables, ce que les règles proscrivent. Trois messages porteurs d'un contenu distinct ont reçu une réponse ; ceux-ci appellent plutôt une réaction humaine qu'un commentaire.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T12:41:29.759Z"
+    },
+    {
+      "id": "1244689371131047_1233151752326575",
+      "date": "2026-02-20",
+      "extrait": "qu'es-ce que cette réponse absurde et méprisante ? … l'électricité propre, verte et renouvelable est le fruit d'un travail inlassable des verts comme moi depuis les années 70…",
+      "motif": "Débat politique entre abonnés sur « les verts », l'hydroélectricité et le prix. Sans rapport avec l'asclépiade, et la marque n'a rien à y faire.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_894793043460623",
+      "date": "2026-02-22",
+      "extrait": "Si le gouvernement s'assurait d'avoir des liens encore plus serrés avec les savoirs autochtones… voici une bonne suggestion à inscrire dans une liste de recommandations",
+      "motif": "Message adressé à d'éventuels députés, sur les politiques publiques. Hors de notre champ et hors des faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_1935115377082985",
+      "date": "2026-02-21",
+      "extrait": "quand tu gelé ben dur une fois,,2 et qu'apres tu trouves une solution pour te tenir au chaud ca n'a pas de prix et fait ici.",
+      "motif": "Le fil porte sur le coût des produits ; toute réponse de notre part devrait aborder un montant, ce que la règle du prix chiffré interdit.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_2358237488017425",
+      "date": "2026-02-19",
+      "extrait": "J'ai acheté de ces produits et c'est effectivement très chaud… Oui, ils sont dispendieux pour l'instant, mais ce sont des produits qui en valent le prix.",
+      "motif": "Témoignage client très favorable, mais dont la conclusion porte sur le prix. Le fil porte sur le coût des produits ; toute réponse de notre part devrait aborder un montant, ce que la règle du prix chiffré interdit. Mériterait un remerciement d'une personne de l'équipe.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_1460499482075870",
+      "date": "2026-02-02",
+      "extrait": "si la production augmente les prix vont baisser c'est tu assez vert pour toi",
+      "motif": "Le fil porte sur le coût des produits ; toute réponse de notre part devrait aborder un montant, ce que la règle du prix chiffré interdit.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_2284081015679342",
+      "date": "2026-02-23",
+      "extrait": "Donc pas de coton non plus. Pas de lin, pas de chanvre… Le chou est-il aussi pour le papillon du chou ?",
+      "motif": "Argument ironique échangé entre deux abonnés. Pas une question qui nous est posée.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_25881821481456247",
+      "date": "2026-02-11",
+      "extrait": "Estelle Pelletier ???",
+      "motif": "Trois points d'interrogation dans une joute entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_1280353763982942",
+      "date": "2026-02-27",
+      "extrait": "Des vieilles nouvelles…😂",
+      "motif": "Moquerie sur l'actualité du reportage, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_1586153726046672",
+      "date": "2026-02-26",
+      "extrait": "plusieurs trucs qui posent probleme, et ca devient qque chose pour les riches pour le moment",
+      "motif": "Le fil porte sur le coût des produits ; toute réponse de notre part devrait aborder un montant, ce que la règle du prix chiffré interdit.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_887007860991997",
+      "date": "2026-02-24",
+      "extrait": "Marc Roy A bin A bin là ça passer ailleurs cette fois si avant d'atterrir à TVA ….",
+      "motif": "Raillerie entre abonnés sur la couverture médiatique.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_975832751436910",
+      "date": "2026-02-23",
+      "extrait": "non « les verts » permettent des économies en évitant les dégâts des bruns 😉 Ça coute cher parce que c'est un produit niché…",
+      "motif": "Débat politique entre abonnés sur « les verts », l'hydroélectricité et le prix. Sans rapport avec l'asclépiade, et la marque n'a rien à y faire. Le fil porte sur le coût des produits ; toute réponse de notre part devrait aborder un montant, ce que la règle du prix chiffré interdit.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_760500513453031",
+      "date": "2026-02-23",
+      "extrait": "les papillons et les abeilles ont vu leur déclin des dizaines d'années avant la venue de la 5G",
+      "motif": "Un abonné démonte lui-même la thèse de la 5G, et le fait correctement. Rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1244689371131047_1263955792497706",
+      "date": "2026-02-23",
+      "extrait": "aucunes études ne peut le confirmer. Les pesticides restent la cause première du déclin.",
+      "motif": "L'abonné a raison sur la 5G, mais son « les pesticides restent la cause première » ne concorde pas avec nos faits vérifiés : la recherche pointe la perte d'habitat de reproduction comme facteur premier. Corriger un détail chez quelqu'un qui vient de défaire une thèse conspirationniste serait pédant ici. À reprendre dans un tir ultérieur, sur un commentaire mieux choisi de cette publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T13:39:49.566Z"
+    },
+    {
+      "id": "1260265889573395_1283052446973611",
+      "date": "2026-02-18",
+      "extrait": "Bravo et bravo j'❤️🙏☺️",
+      "motif": "Encouragement sans contenu propre, du même type que ceux déjà écartés sur cette publication. Un message porteur d'une note personnelle a reçu une réponse dans ce même lot ; multiplier les remerciements identiques est exclu.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T14:38:32.420Z"
+    },
+    {
+      "id": "1260265889573395_890021080600106",
+      "date": "2026-02-18",
+      "extrait": "Tu habites à quel endroit merci",
+      "motif": "Question de localisation à laquelle une réponse est déjà publiée sur cette même publication — l'atelier de Limoilou, à Québec. Une seconde y serait quasi identique ; la réponse est visible dans le fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T14:38:32.420Z"
+    },
+    {
+      "id": "1261103522822965_1307162957901928",
+      "date": "2026-02-18",
+      "extrait": "[émoji « yeux en cœur » agrandi, sans texte]",
+      "motif": "Réaction en image, sans texte. Rien à quoi répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T14:38:32.420Z"
+    },
+    {
+      "id": "1261103522822965_926847493260265",
+      "extrait": "Très intéressant.",
+      "motif": "Encouragement générique sans contenu propre ; ce fil porte déjà un remerciement de notre part. Y répondre produirait un merci interchangeable.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T15:41:28.746Z"
+    },
+    {
+      "id": "1260265889573395_1407093603961569",
+      "extrait": "TU FAIT UN SUPERBE DE BON TRAVAIL JE TE DIT BRAVO.",
+      "motif": "Félicitations générales. Cette publication porte déjà trois remerciements de notre part ; un quatrième serait de la répétition littérale au même endroit. Une réaction humaine conviendrait mieux qu'un commentaire de marque.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T15:41:28.746Z"
+    },
+    {
+      "id": "1260265889573395_25909172418737523",
+      "extrait": "[GIF « BRAVO! » sans texte]",
+      "motif": "Image vue : GIF de félicitations décoratif, aucun contenu à traiter. Même publication que le précédent.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T15:41:28.746Z"
+    },
+    {
+      "id": "1260265889573395_931702832864324",
+      "extrait": "[GIF « YOU ARE THE BEST » sans texte]",
+      "motif": "Image vue : GIF de félicitations décoratif, aucun contenu à traiter. Même publication que les deux précédents.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T15:41:28.746Z"
+    },
+    {
+      "id": "1247807510819233_1432769424985831",
+      "extrait": "François Chartier ça, c’est bien pensé",
+      "motif": "Approbation d'un abonné à un autre abonné (idée d'un corridor d'asclépiade jusqu'au Mexique). Ne nous est pas adressé et n'appelle aucune information de notre part ; s'y greffer serait s'inviter dans un échange qui se tient très bien tout seul.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T16:38:45.055Z"
+    },
+    {
+      "id": "1247807510819233_878065864991683",
+      "extrait": "Pierre-Yves Aumont . Ce n'est pas du chanvre mais...",
+      "motif": "Message tronqué, adressé à un autre abonné, sans propos achevé auquel répondre. Rien à confirmer ni à corriger sans deviner ce qui devait suivre.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T16:38:45.055Z"
+    },
+    {
+      "id": "1260265889573395_936228856020762",
+      "page_id": "114311920399404",
+      "extrait": "Mes Chers Ami(E)s Patriotes soyons SOLIDAIRES de nos AGRICULTEURS(TRICES) QUEBECOIS(ES)… ⚜️💙 [image : Paul St-Pierre Plamondon, « Vive le Québec libre! »]",
+      "motif": "Contenu politique partisan. Image regardée : montage d'un chef de parti avec slogan souverainiste. Répondre, même chaleureusement, ferait entrer la marque dans un débat politique — l'appuyer comme le contourner serait lu comme une position publique. Hors des faits vérifiés et hors de notre rôle.",
+      "quand": "2026-08-31T17:37:59.087Z"
+    },
+    {
+      "id": "1239063395026978_3278764745631766",
+      "extrait": "venez-vous reelement de realiser que vous acheter des gilet a 5$ fabriqué par des femmes qui vivent dans des bidonvilles?",
+      "motif": "Diatribe entre abonnés sur le travail en Asie. Aucune question pour nous ; entrer là-dedans, alors que notre propre assemblage textile se fait à l'étranger, tournerait mal dans les deux sens.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1239063395026978_1415887336343489",
+      "extrait": "Est-ce que vous en utilisez (ou partagez) sur les réseaux sociaux ?",
+      "motif": "Référent introuvable : le « en » renvoie à un échange dont le fil ne donne pas le contenu. Répondre exigerait de deviner la question.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1239063395026978_2157245438425303",
+      "extrait": "Michel Fil es-tu prêt à travailler à 4$ de l’heure?",
+      "motif": "Empoignade entre abonnés sur le prix. Répondre supposerait de commenter nos prix, ce que les règles interdisent, et de prendre parti dans une chicane.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1239063395026978_903175615649663",
+      "extrait": "Biodégradable???",
+      "motif": "Question d'un seul mot ; la réponse est donnée dans le même fil, sur un commentaire qui pose la même question de façon plus complète. Deux réponses sur le même sujet dans la même publication seraient de la répétition.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1239063395026978_885523951061688",
+      "extrait": "c’est une mauvaise herbe, tu connais l’expression ça pousse comme des mauvaises herbes?",
+      "motif": "Réplique à un commentaire hostile à connotation politique (« beau marché de gauchistes »). Le sous-fil est une prise de bec, pas une question ; s'y greffer donnerait de la portée à l'invective.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1239063395026978_4358338191079246",
+      "extrait": "Serge Francoeur Quel est le rapport avec la publication?",
+      "motif": "Pique entre abonnés, sans contenu à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1239063395026978_1455820819236995",
+      "extrait": "As les ptits moutons avec des cure-dents à notre jeunesse😂",
+      "motif": "Souvenir d'enfance charmant, mais le même filon de nostalgie reçoit déjà une réponse sur un autre commentaire de cette publication. Deux réponses attendries au même endroit se ressembleraient trop.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1239063395026978_795290656371764",
+      "extrait": "Asclépiade & papillons monarques on appel ça une joke",
+      "motif": "À SIGNALER À UN HUMAIN. Réplique à un commentaire de notre propre Page (« commentaire intelligent. ») qui a visiblement été reçu comme du sarcasme. Toute réponse automatique risquerait d'enfoncer le clou ou de s'excuser à tort. Gabriel devrait regarder l'échange complet et trancher lui-même.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1239063395026978_776913908364665",
+      "extrait": "C la plante que les papillon monarche ont besoin",
+      "motif": "Constat juste, sans question ; le sujet est traité en détail sur un autre commentaire de la même publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1239063395026978_25650993074603029",
+      "extrait": "Isolant naturel",
+      "motif": "Deux mots, sans question ni propos à confirmer.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T18:39:47.906Z"
+    },
+    {
+      "id": "1260265889573395_902096579213170",
+      "extrait": "Je la trouve très belle 👍",
+      "motif": "Compliment générique. Cette publication porte déjà trois remerciements de notre part ; un de plus serait interchangeable avec les précédents.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T19:38:05.181Z"
+    },
+    {
+      "id": "1247807510819233_1581895613020028",
+      "extrait": "merci, je vais les changer de côté.",
+      "motif": "Échange déjà conclu : la personne nous remercie après notre réponse. Reprendre la parole n'ajouterait rien et allongerait le fil pour rien.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T19:38:05.181Z"
+    },
+    {
+      "id": "1260265889573395_939480851861993",
+      "extrait": "Bonjour et bravo pour ton travail Merci mon ami [image : autocollant « SUPER! »]",
+      "motif": "Image regardée : autocollant de bravos, purement décoratif. Félicitations générales sur une publication déjà largement remerciée.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T19:38:05.181Z"
+    },
+    {
+      "id": "1260265889573395_1406102231267619",
+      "extrait": "Bravo!!!!!!!!!✌✌✌",
+      "motif": "Félicitations sans contenu, même publication que les précédentes.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T19:38:05.181Z"
+    },
+    {
+      "id": "1260265889573395_941414298460688",
+      "extrait": "Bravo continué👍❤👏 ...''Winners never loose and Quitters never Win''",
+      "motif": "Encouragement et citation motivationnelle, sans question ni propos à traiter. Une réaction humaine y répondrait mieux qu'un commentaire de marque.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T19:38:05.181Z"
+    },
+    {
+      "id": "1260265889573395_1607777313874213",
+      "extrait": "[autocollant : avatar tendant un cœur, sans texte]",
+      "motif": "Image regardée : autocollant décoratif, aucun contenu à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T20:38:01.659Z"
+    },
+    {
+      "id": "1260265889573395_1249925007077934",
+      "extrait": "Bravo et Merci! Courage vous en avez 🙏🏻❤️",
+      "motif": "Encouragement générique sur une publication où nous avons déjà répondu quatre fois. Un remerciement de plus serait interchangeable avec les précédents.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T20:38:01.659Z"
+    },
+    {
+      "id": "1260265889573395_1239865827601819",
+      "extrait": "J'appuis et je vais l'utiliser et en faire la promotion 👍",
+      "motif": "Appui général sans question ; même publication saturée de nos remerciements.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T20:38:01.659Z"
+    },
+    {
+      "id": "1260265889573395_3017526258457243",
+      "extrait": "Ont n'a une richesse en produits naturels que nous ne savons pas exploiter",
+      "motif": "Observation générale, sans question ni fait à confirmer. Y répondre nous ferait tenir un discours de valorisation sur nous-mêmes.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T20:38:01.659Z"
+    },
+    {
+      "id": "1260265889573395_1835015357214514",
+      "extrait": "[commentaire de type photo, sans texte et sans image récupérable]",
+      "motif": "Rien à lire : aucun texte, et le champ image est vide malgré le type photo.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T20:38:01.659Z"
+    },
+    {
+      "id": "1260265889573395_1903962650489380",
+      "extrait": "Enfin qq chose qui a de l'allure !!! Il faut encourager ça !!!",
+      "motif": "Encouragement sans contenu propre, même publication que les précédents.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T20:38:01.659Z"
+    },
+    {
+      "id": "1239063395026978_1482118723627971",
+      "extrait": "il est partisans du pédo orange il ne faut pa slui demander d'avoir un esprit critique",
+      "motif": "Insulte politique entre abonnés. Rien à traiter et tout à perdre à s'en approcher.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1239063395026978_1607306116976425",
+      "extrait": "au Québec nous enfouissons autour de 75% de la laine de peau de mouton…",
+      "motif": "Chiffre sur la filière de la laine que nous ne pouvons pas vérifier, dans un sous-fil ouvert par le commentaire d'une autre Page. Confirmer serait inventer, contredire aussi.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1239063395026978_1423416879261817",
+      "extrait": "franchement c'est toi le gauchiste lol",
+      "motif": "Prise de bec politique entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1239063395026978_915608791210885",
+      "extrait": "En plus les papillons les adorent.",
+      "motif": "Remarque brève sans question ; le sujet monarque est traité en détail dans une autre réponse de la même publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1239063395026978_1495162712031089",
+      "extrait": "Ils ne récoltent pas les fleurs, les papillons ont le temps de manger",
+      "motif": "Défense bien intentionnée. La précision exacte (ce sont les follicules, récoltés à l'automne) figure déjà dans une réponse que nous avons publiée sur cette même publication ; la répéter serait du copier-coller au même endroit.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1239063395026978_994254256262010",
+      "extrait": "Tant que ça ne nuise pas aux monarques",
+      "motif": "Même préoccupation que celle déjà traitée en détail ailleurs dans cette publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1239063395026978_938427015533432",
+      "extrait": "Et les monarches aiment les grignoter. 😁",
+      "motif": "Commentaire léger, sans question ; troisième variation du même thème dans ce lot.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1239063395026978_1589505782164991",
+      "extrait": "Enfin, on y est! 🥳",
+      "motif": "Enthousiasme sans contenu à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1239063395026978_2734206443604424",
+      "extrait": "Les matières de la plupart des vêtements sont d'origines étrangères, de producteurs dont l'éthique est très douteuse…",
+      "motif": "Long plaidoyer dans le sous-fil sur le travail à bas salaire, déjà écarté plus tôt aujourd'hui. Le commentaire avance aussi des ordres de grandeur (nombre de plants par vêtement) que nous ne pouvons pas vérifier ; remercier sans nuancer reviendrait à les endosser.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1239063395026978_903379555613466",
+      "extrait": "[GIF de lever d'yeux, sans texte]",
+      "motif": "Image regardée : GIF de réaction dans le sous-fil politique. Aucun contenu, et le fil est à éviter.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T22:39:08.360Z"
+    },
+    {
+      "id": "1244689371131047_1400924391786442",
+      "extrait": "Facile à mettre [même image : patron de mitaine dessiné à la main]",
+      "motif": "Image regardée : c'est exactement le même dessin que le commentaire auquel nous répondons dans cette publication. Approbation de deux mots ; deux réponses de notre part sur le même patron feraient doublon.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T23:38:04.209Z"
+    },
+    {
+      "id": "1244689371131047_1234984821490993",
+      "extrait": "Si vous n'étiez pas si conne, peut-être que ça serait plaisant d'échanger avec vous.",
+      "motif": "Insulte directe entre abonnés. Rien à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T23:38:04.209Z"
+    },
+    {
+      "id": "1244689371131047_1472793657734268",
+      "extrait": "Y commence a être temps qu'on se dissocie de l'agenda Mondial…",
+      "motif": "Diatribe sur un « agenda mondial ». Le seul point factuel (l'asclépiade a toujours existé, on l'a arrachée) est déjà traité ailleurs ; répondre au reste nous entraînerait sur un terrain complotiste.",
+      "page_id": "114311920399404",
+      "quand": "2026-08-31T23:38:04.209Z"
+    },
+    {
+      "id": "1239063395026978_1477637324361371",
+      "extrait": "[GIF « OH SNAP! », en réponse à notre commentaire « Vous avez passé plus de temps à écrire ce commentaire qu’à vous informer apparemment ;) »]",
+      "motif": "À SIGNALER À UN HUMAIN. Image regardée : GIF de spectateur amusé par une pique de notre propre Page. C'est le deuxième cas aujourd'hui où un commentaire sarcastique signé de la Page provoque une réaction (voir aussi 1239063395026978_795290656371764). Rien à répondre ici, mais le ton employé par la Page mérite un coup d'œil de Gabriel.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1239063395026978_1230166965932950",
+      "extrait": "Malheureusement aucun service après vente !",
+      "motif": "À SIGNALER AU SERVICE CLIENT. Plainte publique sur le service après-vente : ça touche une expérience de commande, donc hors de mon périmètre selon la règle 7. Ne pas laisser dormir — quelqu'un du support devrait retrouver la personne et lui écrire.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1239063395026978_805353275190933",
+      "extrait": "Bravo !! Pour l’initiative Québécoise👏",
+      "motif": "Félicitations génériques, sans contenu à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1239063395026978_785734570660565",
+      "extrait": "pourquoi tout devraia être un échec dès le départ! C'est dire n'importe quoi ca...",
+      "motif": "Prise de bec entre abonnés. Le commentaire d'origine (« désastre écologique pour transformer ça ») ne figure pas dans le lot ; répondre ici reviendrait à s'inviter dans la chicane plutôt qu'à répondre à l'objection.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1239063395026978_863564483372262",
+      "extrait": "Michel Fil ca a aucun rapport..",
+      "motif": "Réplique dans la dispute sur les prix, déjà écartée plus tôt aujourd'hui.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1244689371131047_4248489175389942",
+      "extrait": "À voir votre façon de parler ça ne donne pas vraiment envie de discuter avec vous.",
+      "motif": "Échange envenimé entre abonnés, sans question pour nous.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1244689371131047_926697029701910",
+      "extrait": "Ce reportage date de 2015.",
+      "motif": "Affirmation sur la date du reportage que je ne peux ni confirmer ni infirmer. Ne rien inventer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1244689371131047_923545137278226",
+      "extrait": "Mauvais herbe... quel stupidité!",
+      "motif": "Le sujet de la réputation de « mauvaise herbe » a déjà reçu une réponse détaillée de notre part sur cette même publication ; la reprendre serait du copier-coller au même endroit.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1244689371131047_2098169860935862",
+      "extrait": "J ai une paire de mitaine d asclépiade elle est parfaite et chaude 👍🏻",
+      "motif": "Deuxième témoignage sur les mitaines dans le même lot et la même publication. Le plus détaillé reçoit une réponse ; deux remerciements jumeaux au même endroit se ressembleraient trop.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1244689371131047_1928851284383710",
+      "extrait": "Frédérick Brossoit c’est mon point!",
+      "motif": "Fin d'un échange entre abonnés sur les quenouilles et la phragmite. Rien qui nous concerne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T01:39:02.317Z"
+    },
+    {
+      "id": "1244689371131047_2281326352697460",
+      "extrait": "comestible Typha latifolia notre quenouille qui disparaît à cause de la phragmites…",
+      "motif": "Échange entre abonnés sur la quenouille et la phragmite. Ni l'une ni l'autre ne figure dans nos faits vérifiés ; répondre nous ferait improviser sur des plantes qui ne sont pas les nôtres.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T04:38:06.444Z"
+    },
+    {
+      "id": "1260265889573395_1591735188865544",
+      "extrait": "Merci tu as raison ne lâche pas continue ont te soutient",
+      "motif": "Encouragement générique sur une publication qui porte déjà cinq réponses de notre part. Un sixième remerciement y serait interchangeable avec les précédents.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T04:38:06.444Z"
+    },
+    {
+      "id": "1260265889573395_896361289766965",
+      "extrait": "merci pour votre travail ardus et vous n êtes pas acer payer pour tout se travail",
+      "motif": "Message chaleureux mais sans contenu à traiter, et y répondre amènerait à commenter notre rémunération. Même publication saturée que le précédent.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T04:38:06.444Z"
+    },
+    {
+      "id": "1260265889573395_853138081043056",
+      "extrait": "Merci de partager .",
+      "motif": "Trois mots, sans contenu à traiter. Publication déjà pourvue de six réponses de notre part, dont plusieurs remerciements.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T10:38:02.434Z"
+    },
+    {
+      "id": "1260265889573395_1699663327864869",
+      "extrait": "Bravo pour votre travail! Continuer à persévérer! 😓",
+      "motif": "Encouragement générique, même publication saturée. Un septième remerciement y serait indistinguable des précédents.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T10:38:02.434Z"
+    },
+    {
+      "id": "1260265889573395_1431200705393063",
+      "extrait": "On as besoin de vous pour mangé Gros câlins bisous xxxx",
+      "motif": "Message affectueux mais confus, sans propos identifiable à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T11:41:14.176Z"
+    },
+    {
+      "id": "1260265889573395_1283079233876579",
+      "extrait": "[autocollant : personnage aux yeux en cœur, sans texte]",
+      "motif": "Image regardée : autocollant décoratif, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T11:41:14.176Z"
+    },
+    {
+      "id": "1260265889573395_2573154576412437",
+      "extrait": "[autocollant « BRAVO! » avec une rose, sans texte]",
+      "motif": "Image regardée : autocollant de félicitations, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T11:41:14.176Z"
+    },
+    {
+      "id": "1260265889573395_1518759705886104",
+      "extrait": "Moi aussi je connais la plante… persiste et tu vas faire connaître cette belle plante… Je te partage .🤞",
+      "motif": "Encouragement générique sur une publication déjà pourvue de nombreuses réponses de notre part ; rien de neuf à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T11:41:14.176Z"
+    },
+    {
+      "id": "1260265889573395_1104354595131451",
+      "extrait": "Richard Martineau",
+      "motif": "Simple identification d'une autre personne, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T11:41:14.176Z"
+    },
+    {
+      "id": "1260265889573395_1259668552897382",
+      "extrait": "Parti Québécois",
+      "motif": "Nom d'un parti politique lâché seul, sans propos. Répondre nous ferait entrer dans un registre partisan pour rien.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T12:47:26.781Z"
+    },
+    {
+      "id": "1260265889573395_2958491441008440",
+      "extrait": "Bravo et merci à vous. [autocollant : avatar lançant des cœurs]",
+      "motif": "Image regardée : autocollant décoratif. Remerciement générique sur une publication qui porte déjà de nombreuses réponses de notre part.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T12:47:26.781Z"
+    },
+    {
+      "id": "1260265889573395_1219471793636359",
+      "extrait": "Felicitations pour ton travail et ta patience.🤗 Je souhaite que ton message se répende…",
+      "motif": "Encouragement chaleureux mais sans contenu propre ; même publication saturée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T12:47:26.781Z"
+    },
+    {
+      "id": "1260265889573395_24844075668602442",
+      "extrait": "Félicitations, bravo je vous souhaite la prospérité, courage 🥰",
+      "motif": "Troisième félicitation interchangeable du même lot, sur la même publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T12:47:26.781Z"
+    },
+    {
+      "id": "1260265889573395_1394086158678871",
+      "extrait": "Félicitations Monsieur lâché pas",
+      "motif": "Encouragement générique sur une publication déjà largement pourvue de nos réponses.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T13:40:50.036Z"
+    },
+    {
+      "id": "1260265889573395_2049003998999527",
+      "extrait": "Bravo....oui on achète de Lasclay;-)",
+      "motif": "Appui bref sans contenu ; deux témoignages plus substantiels du même lot reçoivent une réponse.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T13:40:50.036Z"
+    },
+    {
+      "id": "1260265889573395_1435198631573684",
+      "extrait": "J’adoooore vos produits! Longue vie!",
+      "motif": "Compliment sans détail à relever ; même publication saturée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T13:40:50.036Z"
+    },
+    {
+      "id": "1260265889573395_1490456582787983",
+      "extrait": "Merci pour les informations",
+      "motif": "Quatre mots, rien à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T13:40:50.036Z"
+    },
+    {
+      "id": "1260265889573395_1534521355349052",
+      "extrait": "Bravo pour ta détermination",
+      "motif": "Encouragement interchangeable avec plusieurs autres du même lot.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T13:40:50.036Z"
+    },
+    {
+      "id": "1247807510819233_1775950493362665",
+      "extrait": "Pourquoi pas essayer de fabriquer des couettes en asclépiade",
+      "motif": "Suggestion de produit. La seule réponse honnête possible — c'est noté, sans promesse sur un produit qui n'existe pas — a été donnée hier à une suggestion d'oreillers ; la resservir ici serait un gabarit, ce que les règles interdisent. La suggestion reste consignée pour l'équipe produit.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T13:40:50.036Z"
+    },
+    {
+      "id": "1239063395026978_1389611722361631",
+      "extrait": "Lou Pilon Un désastre écologique? Comment ça?",
+      "motif": "LACUNE DE FAITS À SIGNALER. La question porte sur l'empreinte écologique de la transformation de la fibre, sujet sur lequel faits-verifies.json ne contient rien. Impossible de répondre sans improviser, alors que l'accusation d'origine (« ça doit être un désastre écologique ») circule sur cette publication depuis plusieurs jours. Il faudrait un fait vérifié là-dessus.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1239063395026978_1272241698067287",
+      "extrait": "Et le chanvre lui ?? Au moins elle est 100% utilisables",
+      "motif": "Question sur le chanvre déjà répondue hier sur cette même publication ; la reprendre serait du copier-coller au même endroit.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1239063395026978_907057405626780",
+      "extrait": "ont dirait que pour lui c est toute un découverte regarde le comment il explique…",
+      "motif": "Moquerie visant la façon de s'exprimer d'une personne dans le reportage. Rien à traiter, et s'en mêler serait relancer la pique.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1239063395026978_1847812172519731",
+      "extrait": "Les mitaines les plus chaudes que j'ai eues jusqu'à présent.",
+      "motif": "Deuxième témoignage sur les mitaines dans ce lot ; le plus détaillé reçoit une réponse. Deux remerciements jumeaux sur la même publication se ressembleraient trop.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1239063395026978_1959113181708385",
+      "extrait": "c’est au QUÉBEC,c’est le pourquoi que c’est cher",
+      "motif": "Débat sur le prix entre abonnés. Les règles nous interdisent de commenter nos prix ; entrer là-dedans serait aussi valider un raccourci sur la fabrication qui ne tient pas, l'assemblage textile se faisant à l'étranger.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1247807510819233_912582917831619",
+      "extrait": "Pauvres capitalistes !",
+      "motif": "Pique sans contenu ni question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T14:38:34.300Z"
+    },
+    {
+      "id": "1244689371131047_1142674531163978",
+      "extrait": "mieux diviser pour mieux régner et les rendre le plus loin possible de leurs racines et dépendant du système !",
+      "motif": "Sous-fil politique sur les peuples autochtones et leur rapport à l'État. Sujet lourd, sans rapport avec nous, et où une intervention de marque ne pourrait qu'envenimer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T15:37:58.501Z"
+    },
+    {
+      "id": "1244689371131047_938104285565296",
+      "extrait": "et les rendre dépendants de nos taxes.....scusez, mes doigts on fourchés.",
+      "motif": "Même sous-fil, même registre. Rien à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T15:37:58.501Z"
+    },
+    {
+      "id": "1244689371131047_762411000265107",
+      "extrait": "Sa existe pas des mauvais herbes",
+      "motif": "Le sujet de la « mauvaise herbe » a déjà reçu une réponse détaillée de notre part sur cette publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T18:38:32.826Z"
+    },
+    {
+      "id": "1247807510819233_1233863784790420",
+      "extrait": "Et l’armée canadienne en 2024 est toujours avec le duvet…",
+      "motif": "Affirmation sur l'équipement des Forces armées canadiennes, invérifiable de notre côté. Y répondre reviendrait à commenter les achats d'une institution sur la foi d'un commentaire.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T18:38:32.826Z"
+    },
+    {
+      "id": "1239063395026978_1529560241449724",
+      "extrait": "Durable et biodégradable 🫣",
+      "motif": "Pique sur la même contradiction supposée que nous avons déjà démêlée hier sur cette publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T18:38:32.826Z"
+    },
+    {
+      "id": "1247807510819233_1199830112361647",
+      "extrait": "les inuhuit ramasse les plume resté dans leur nid point bar., ta jamait travailler avec eux sa parait",
+      "motif": "Commentaire agressif adressé à un tiers. Rien à traiter, et intervenir ne ferait qu'attiser.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T18:38:32.826Z"
+    },
+    {
+      "id": "1239063395026978_900738516181896",
+      "extrait": "le chanvre aussi est très bon",
+      "motif": "Troisième mention du chanvre ; la question a déjà reçu notre réponse sur cette publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T18:38:32.826Z"
+    },
+    {
+      "id": "1239063395026978_2124337611657239",
+      "extrait": "Ils la prennent à la fin de son cycle de vie donc ils ne prennent pas ce qu'il faut aux papillons",
+      "motif": "Défense juste, mais la précision complète (follicules récoltés à l'automne après la migration) figure déjà dans une de nos réponses sur cette publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T18:38:32.826Z"
+    },
+    {
+      "id": "1244689371131047_1457400006040844",
+      "extrait": "Vanessa Vickie Anne-Marie Roy",
+      "motif": "Identification de personnes, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T18:38:32.826Z"
+    },
+    {
+      "id": "1244689371131047_802618749515743",
+      "extrait": "[émoji visage aux yeux en cœur, sans texte]",
+      "motif": "Image regardée : réaction décorative, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T18:38:32.826Z"
+    },
+    {
+      "id": "1244689371131047_4431403970423172",
+      "extrait": "Martine Lavoie Bien dit.",
+      "motif": "Approbation de deux mots dans le sous-fil sur les prix et les salaires, déjà écarté à plusieurs reprises. Les règles nous interdisent de commenter nos prix.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T19:37:54.551Z"
+    },
+    {
+      "id": "1244689371131047_1618615702826924",
+      "extrait": "Le salaire de ceux qui les ramassent et les travaillent, non...",
+      "motif": "Même sous-fil. Le sujet touche la rémunération dans la filière : rien de vérifié de notre côté, et intervenir nous ferait prendre parti dans une empoignade entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T19:37:54.551Z"
+    },
+    {
+      "id": "1247807510819233_1609990700131927",
+      "extrait": "Vous avez, toute ma reconnaissance et mon admiration.",
+      "motif": "Marque d'estime sans contenu à traiter ; ce genre de message reçoit déjà plusieurs remerciements de notre part ailleurs.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T20:38:19.140Z"
+    },
+    {
+      "id": "1244689371131047_784252004705552",
+      "extrait": "[autocollant « Super » sur fond étoilé, sans texte]",
+      "motif": "Image regardée : autocollant décoratif, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T20:38:19.140Z"
+    },
+    {
+      "id": "1244689371131047_2168903120585093",
+      "extrait": "[autocollant « MERCI ! », sans texte]",
+      "motif": "Image regardée : autocollant de remerciement, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T20:38:19.140Z"
+    },
+    {
+      "id": "1239063395026978_911421331336968",
+      "extrait": "Va voir isolant de chanvre",
+      "motif": "Quatrième renvoi au chanvre ; la question a déjà reçu notre réponse sur cette publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T20:38:19.140Z"
+    },
+    {
+      "id": "1244689371131047_852944094411055",
+      "extrait": "Francine Vigneault exactement",
+      "motif": "Approbation d'un mot entre abonnés, sans propos propre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T20:38:19.140Z"
+    },
+    {
+      "id": "1244689371131047_2326683984461499",
+      "extrait": "la majorité des autochtones ont oublié ces plantes, la société a tout fait pour les rendre le plus loin possible de leurs racines.",
+      "motif": "Suite du sous-fil déjà écarté hier. Le propos parle à la place des personnes concernées ; ce n'est ni notre savoir ni notre débat, et l'idée d'apprendre d'autres savoirs a déjà reçu notre réponse ailleurs aujourd'hui.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T22:38:37.170Z"
+    },
+    {
+      "id": "1244689371131047_2381356469002323",
+      "extrait": "Marie-Josée St-Pierre pas juste l agriculture",
+      "motif": "Trois mots dans le même sous-fil, sans propos à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T22:38:37.170Z"
+    },
+    {
+      "id": "1244689371131047_807290419053810",
+      "extrait": "il n existe pas de mauvaises herbes il n y a que des herbes impropres à la culture…",
+      "motif": "Belle formule, mais adressée à une autre personne, et le commentaire enchaîne sur les savoirs autochtones et les propriétés médicinales des plantes — deux terrains sur lesquels nous n'avons rien de vérifié et où nous ne parlerons pas à la place des autres.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T22:38:37.170Z"
+    },
+    {
+      "id": "1239063395026978_2030539291061324",
+      "extrait": "Facilement cultivable mais de souvenir la récolte mécanisée est encore en expérimentale",
+      "motif": "LACUNE DE FAITS. L'état d'avancement de la récolte mécanisée ne figure pas dans faits-verifies.json : impossible de confirmer ou de corriger sans inventer. Deuxième sujet technique du genre cette semaine (avec l'empreinte écologique de la transformation) où il nous manque un fait pour répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T22:38:37.170Z"
+    },
+    {
+      "id": "1239063395026978_903883722115355",
+      "extrait": "les oiseaux font leur nids",
+      "motif": "Trois mots dans un sous-fil ; le sujet (les oiseaux qui récupèrent la soie) a déjà reçu une réponse développée de notre part sur une autre publication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T23:38:33.070Z"
+    },
+    {
+      "id": "1239063395026978_1578963129988245",
+      "extrait": "Dominique Jean moi aussi j'aimerais savoir",
+      "motif": "La question porte sur l'élimination de la renouée du Japon, sujet sur lequel nous n'avons rien de vérifié et qui n'est pas le nôtre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T23:38:33.070Z"
+    },
+    {
+      "id": "1239063395026978_3263089037198468",
+      "extrait": "Le chanvreeee ...",
+      "motif": "Cinquième renvoi au chanvre sur cette publication ; la question a déjà notre réponse.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T23:38:33.070Z"
+    },
+    {
+      "id": "1247807510819233_1634023231243590",
+      "extrait": "Bravo! En plus ça n'absorbe pas l'humidité.",
+      "motif": "LACUNE DE FAITS. Le compliment porte une affirmation de performance — le comportement de la fibre face à l'humidité — que faits-verifies.json ne documente pas. Répondre chaleureusement juste en dessous serait lu comme un endossement, et corriger sans donnée serait gratuit. À noter que la fibre a justement tendance à s'agglutiner mouillée, ce qui explique le polyester dans l'isolant : d'où l'importance d'un fait clair là-dessus.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-01T23:38:33.070Z"
+    },
+    {
+      "id": "1244689371131047_910112878265883",
+      "extrait": "Yves Bouchard ça va ben lâche pas",
+      "motif": "Bruit dans le sous-fil sur les prix, sans propos à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T00:38:49.021Z"
+    },
+    {
+      "id": "1244689371131047_896423619417479",
+      "extrait": "Martine Lavoie de quand date ta lobotomie",
+      "motif": "Insulte directe entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T00:38:49.021Z"
+    },
+    {
+      "id": "1247807510819233_2290659678106689",
+      "extrait": "les fibres d’asclépiade sont les graines après la floraison… Aucun besoin de détruire la plante !",
+      "motif": "Défense bien intentionnée ; la précision complète est donnée dans notre réponse à l'objection qui lui succède dans le même fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T00:38:49.021Z"
+    },
+    {
+      "id": "1247807510819233_918686624447672",
+      "extrait": "ça serait surprenant vu que c’est inflammable…",
+      "motif": "LACUNE DE FAITS. Comportement au feu de la fibre et usage en isolation de bâtiment : rien de vérifié de notre côté. Impossible de confirmer ou de corriger sans inventer, sur un sujet où une erreur serait sérieuse.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T00:38:49.021Z"
+    },
+    {
+      "id": "1239063395026978_875427591776109",
+      "extrait": "je veux dire dans les matériaux de construction comme l’isolant",
+      "motif": "Même sujet : l'asclépiade comme isolant de bâtiment. Aucun fait vérifié sur cette application ; c'est la deuxième question du genre dans ce seul lot.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T00:38:49.021Z"
+    },
+    {
+      "id": "1239063395026978_1583787539603456",
+      "extrait": "J’ai acheté le cache-cou qui est hyper efficace contre les froids sibériens de cette année.",
+      "motif": "Deuxième témoignage sur le cache-cou en deux jours, dont un déjà remercié sur cette même publication. Un troisième merci au même endroit serait indistinguable.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T00:38:49.021Z"
+    },
+    {
+      "id": "1239063395026978_33582072754772453",
+      "extrait": "Nicole Tardif Oui!!",
+      "motif": "Deux mots répondant à « est-ce assez chaud pour la motoneige ou le VTT ». Y ajouter notre voix reviendrait à endosser une performance que rien ne documente de notre côté.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T11:38:04.164Z"
+    },
+    {
+      "id": "1239063395026978_672133415924095",
+      "extrait": "J'ai les semelles, c'est très efficace!!",
+      "motif": "Témoignage bref sur les semelles ; un témoignage du même type a déjà reçu notre remerciement il y a deux jours et une seconde réponse de même forme se ressemblerait trop.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T11:38:04.164Z"
+    },
+    {
+      "id": "1244689371131047_1985966512133808",
+      "extrait": "Esti de gang de retarder cest journaleux de base game",
+      "motif": "Injure sans propos. Rien à traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T11:38:04.164Z"
+    },
+    {
+      "id": "1244689371131047_1208538947924666",
+      "extrait": "Très bonne isolant léger et ne mouille pas en plus 😉",
+      "motif": "LACUNE DE FAITS, deuxième occurrence en deux jours. Le compliment affirme que la fibre « ne mouille pas » ; rien ne documente son comportement à l'humidité, et une réponse chaleureuse juste en dessous vaudrait endossement.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T12:39:26.278Z"
+    },
+    {
+      "id": "1244689371131047_1865134574111244",
+      "extrait": "Si les verts pouvaient avoir un cerveau ce serait tellement plaisant échanger avec eux",
+      "motif": "Insulte visant un groupe, dans le sous-fil sur les prix déjà écarté à répétition.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T12:39:26.278Z"
+    },
+    {
+      "id": "1244689371131047_1246861860658850",
+      "extrait": "Pierre Lépine toi tu crois à quoi",
+      "motif": "Prise de bec sur la crédibilité d'un média. Rien à traiter et rien à gagner à s'en approcher.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T12:39:26.278Z"
+    },
+    {
+      "id": "1244689371131047_866568552668227",
+      "extrait": "Relire le texte…",
+      "motif": "Deux mots dans un échange entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T12:39:26.278Z"
+    },
+    {
+      "id": "1244689371131047_899478602580479",
+      "extrait": "encourageons nos entreprises Québécoises 🦋🦋",
+      "motif": "Appui bienveillant, mais posté en réponse à une attaque sur nos prix. Répondre nous ferait entrer dans ce sous-fil et commenter indirectement nos prix, ce que les règles interdisent.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T12:39:26.278Z"
+    },
+    {
+      "id": "1244689371131047_1966486494247025",
+      "extrait": "c’est de cette compagnie dont il est question ici.",
+      "motif": "Précision entre abonnés à notre sujet, sans question ni erreur à corriger.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T14:38:16.347Z"
+    },
+    {
+      "id": "1244689371131047_778035304691650",
+      "extrait": "Laine d'Asclepiade, deja développer a Madagascar pour Fil écologique Weganool !",
+      "motif": "Affirmation sur un textile étranger et son origine, invérifiable de notre côté. La confirmer serait inventer ; la corriger demanderait une source que je n'ai pas. À noter que la fibre évoquée ne vient pas nécessairement du même genre botanique que l'asclépiade d'ici — raison de plus pour ne rien avancer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T14:38:16.347Z"
+    },
+    {
+      "id": "1244689371131047_1405137947920896",
+      "extrait": "…arrêté croire au maladies qui vous impose pour tout détruire réveillé vous.",
+      "motif": "Le commentaire glisse vers un registre complotiste (les maladies « qu'on vous impose »). Image regardée : vignette de 68 octets, illisible. Rien à traiter sans donner du crédit au reste.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T14:38:16.347Z"
+    },
+    {
+      "id": "1239063395026978_1152991866874895",
+      "extrait": "[photo sans texte] chenille de monarque sur feuille d’asclépiade",
+      "motif": "Doublon de contenu : une réponse à une photo de chenille sur ce même billet a été publiée aujourd’hui à 14 h 38 UTC. Trois photos de plus du même auteur donneraient des réponses quasi identiques.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T16:42:56.828Z"
+    },
+    {
+      "id": "1239063395026978_900983975758436",
+      "extrait": "[photo sans texte] chenille de monarque sur asclépiade",
+      "motif": "Même série de photos que 1152991866874895 — un seul remerciement possible sans se répéter, déjà publié.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T16:42:56.828Z"
+    },
+    {
+      "id": "1239063395026978_888989150409457",
+      "extrait": "[photo sans texte] chenille de monarque agrippée à une tige",
+      "motif": "Même série de photos, même sujet — écarté pour éviter trois réponses jumelles sur le même billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T16:42:56.828Z"
+    },
+    {
+      "id": "1239063395026978_1432952268344151",
+      "extrait": "[photo sans texte] colonie de pucerons jaunes et exuvies sur pousses d’asclépiade",
+      "motif": "Doublon du 1601093674259904, répondu dans ce lot-ci : même sujet, même auteur, deux photos du même plant.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T16:42:56.828Z"
+    },
+    {
+      "id": "1239063395026978_917479354270868",
+      "extrait": "Chikita Dany Saint-Pierre Faux. [en réponse à « ça fait longtemps que la compagnie Chlorophylle isole ses manteaux »]",
+      "motif": "Contradiction sèche entre deux abonnés au sujet d’une autre entreprise. Aucun fait vérifié sur Chlorophylle de notre côté ; trancher publiquement entre deux abonnés sur le dos d’un tiers n’est pas notre rôle.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T19:37:44.495Z"
+    },
+    {
+      "id": "1239063395026978_1595947868282680",
+      "extrait": "Serge Francoeur Ce n'est pas à Montréal, calmez vous.",
+      "motif": "Prise de bec entre abonnés sur le fil de St-Tite, auquel on a déjà répondu aujourd’hui à 12 h. Rien à ajouter sans se mêler de la chicane.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T19:37:44.495Z"
+    },
+    {
+      "id": "1239063395026978_1213967923618536",
+      "extrait": "Stéphane Dupuis Quand on ne sait pas de quoi on parle, on s'abstient.",
+      "motif": "Réplique à une diatribe politique (« beau marché de gauchistes »). La Page ne prend pas parti dans un échange d’insultes entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T19:37:44.495Z"
+    },
+    {
+      "id": "1239063395026978_1290451303106780",
+      "extrait": "Stéphane Dupuis misère, va te recoucher et n'oublie pas ta médication.",
+      "motif": "Même échange, ton insultant et allusion à la médication. Rien à répondre là-dedans qui n’envenimerait pas le fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T19:37:44.495Z"
+    },
+    {
+      "id": "1131860339080618_1277229957750146",
+      "extrait": "J'ai commandé et je me demande pourquoi si long à recevoir ma commande",
+      "motif": "Plainte de commande — règle 7 de REGLES.md : on ne répond jamais publiquement à une plainte de commande. À router vers le support, qui seul peut vérifier Shopify et ShipStation. Intention d'achat 3, donc à traiter par un humain rapidement.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T20:37:35.632Z"
+    },
+    {
+      "id": "988691833397470_2969620603214936",
+      "extrait": "Long message sur les pesticides, Legault, Trudeau, les médecins, les pilules, et la « cache de Bill Gates sur l’île en Norvège »",
+      "motif": "Diatribe politique et complotiste. Rien à répondre là-dedans qui reste dans les faits vérifiés ; toute réponse serait lue comme une prise de position partisane.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_1684805402403530",
+      "extrait": "On sait tous que rien ni personne va les sauver, à quoi bon en parler? L’humain est une des pires espèces qui soit",
+      "motif": "Fatalisme général, pas une question. Une réponse tournerait au sermon, et on ne convainc personne dans un fil de commentaires.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_723737980210471",
+      "extrait": "Curieux mes asclépiades ne poussent pas cette année… ou elles ont du retard?",
+      "motif": "On ne peut rien diagnostiquer à distance sans inventer, et le seul fait vérifié utile (floraison à la 2e année) sert déjà la réponse sur le semis publiée dans ce lot-ci. À reprendre si la personne donne le contexte.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_716025894210651",
+      "extrait": "Chemtrails : « des pilotes ont perdu leur emploi », « ils répandaient des trucs pour endormir le cerveau »",
+      "motif": "Théorie des chemtrails, échangée entre deux abonnées. Hors de tout fait vérifié ; ce n’est pas à la Page d’arbitrer ça.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_1243546164438580",
+      "extrait": "Francois Bergeron ne pas penser plus loin que le bout de son nez nous rendra un jour vulnérable!",
+      "motif": "Réplique d’une abonnée à une autre. La Page n’a pas à s’immiscer dans la chicane, même quand l’argument nous est favorable.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_4039271266333680",
+      "extrait": "Les pesticides ??",
+      "motif": "Même sujet que « comment les sauver si le Mexique… », répondu dans ce lot-ci sur le même billet. Deux réponses sur les pesticides à quelques minutes d’écart se ressembleraient trop.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_1220291449024461",
+      "extrait": "Francois Bergeron tu penses que tu ne fais pas partie de l’écosystème de la planète?",
+      "motif": "Deuxième réplique au même abonné, même chicane. Écarté pour la même raison.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_1241221951077209",
+      "extrait": "Nicole Belanger Un petite peu conne peut-être?",
+      "motif": "Insulte entre abonnées. Aucune réponse possible qui n’envenime pas le fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "988691833397470_2702205923302591",
+      "extrait": "Est-ce qu’il y a des monarques sur la Côte-Nord au Québec ?",
+      "motif": "Aucun fait vérifié sur la limite nord de l’aire du monarque au Québec. Manque à combler dans faits-verifies.json — la question revient sous d’autres formes.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "1239063395026978_1414048156770515",
+      "extrait": "J’aurais aimé voir les vrais innovateurs de la compagnie Lasclay.",
+      "motif": "Formulation ambiguë : soit une curiosité sincère pour l’équipe, soit un tacle à quelqu’un qui a été mis de l’avant. Répondre à l’aveugle risque de valider la mauvaise lecture ; à confier à un œil humain.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T21:39:27.705Z"
+    },
+    {
+      "id": "1239063395026978_3181079598740871",
+      "extrait": "Le cannabis beaucoup plus efficace",
+      "motif": "Comparaison avec le chanvre / cannabis : aucun fait vérifié de notre côté sur cette fibre, et c'est la onzième fois que le sujet est écarté pour cette raison. Manque à combler en priorité dans faits-verifies.json — la comparaison revient sans arrêt et on n'a jamais rien à répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-02T23:38:05.947Z"
+    },
+    {
+      "id": "1239063395026978_868270409386897",
+      "extrait": "Olivier Allaire Elle est excellente pour attirer les magnifiques papillons monarques ! [réponse à « maudite plante envahissante »]",
+      "motif": "La nuance agressive / envahissante a été publiée il y a trois heures, presque mot pour mot. Une deuxième version le même soir se ressemblerait trop, et l'abonnée a déjà répondu à notre place.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-03T00:38:48.047Z"
+    },
+    {
+      "id": "1239063395026978_777720995358643",
+      "extrait": "Serge Francoeur c'est à Québec !",
+      "motif": "Troisième réplique du même échange sur St-Tite. On a déjà répondu sur ce sous-fil aujourd'hui à 12 h en nommant l'atelier de Limoilou ; rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-03T00:38:48.047Z"
+    },
+    {
+      "id": "1239063395026978_4124606797779458",
+      "extrait": "J'ai acheté les mitaines, c'est miraculeux!",
+      "motif": "Quatrième témoignage bref sur les mitaines aujourd'hui ; un remerciement du même type a été publié il y a une heure. Deux autres commentaires du même lot (la critique sur la raideur, les deux ans d'usage) apportaient davantage et ont été retenus à sa place.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-03T01:38:35.907Z"
+    },
+    {
+      "id": "1239063395026978_25726322210350185",
+      "extrait": "Olivier Allaire vous voulez savoir comment s'en débarrasser venez m'en parler.",
+      "motif": "Offre d'un abonné à un autre pour éradiquer l'asclépiade. Ce n'est pas à la Page de s'inviter dans cet échange, et on ne va certainement pas donner de méthode d'éradication.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-03T01:38:35.907Z"
+    },
+    {
+      "id": "1239063395026978_1798248907506034",
+      "extrait": "Pierre Morissette vous voulez savoir comment s'en débarrasser venez m'en parler.",
+      "motif": "Même message, copié-collé au commentaire suivant du même fil. Écarté pour la même raison.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-03T01:38:35.907Z"
+    },
+    {
+      "id": "1239063395026978_904750508743496",
+      "extrait": "Ghislaine Viennot un peut très très vrai 😂 [appuie « c'est pas des chinois à 25cennes/heure qui les fabriquent »]",
+      "motif": "Approbation d'une affirmation qu'on a déjà corrigée sur ce même sous-fil il y a trois heures (l'assemblage se fait surtout en Tunisie). Une deuxième mise au point au même endroit tournerait à l'insistance, et le propos d'origine a un fond xénophobe qu'on n'a pas envie de faire remonter dans le fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-03T10:37:43.409Z"
+    },
+    {
+      "id": "1239063395026978_1223867645771112",
+      "extrait": "Richard Lacroix complètement con ce que tu viens de repondre",
+      "motif": "Insulte entre abonnés sur le même sous-fil. Rien à répondre là-dedans.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-03T10:37:43.409Z"
+    },
+    {
+      "id": "1239063395026978_1880467222602195",
+      "extrait": "Ghislaine Viennot pcq c'est pas des chinois à 25cennes/heure qui les fabriquent",
+      "motif": "Commentaire souche du sous-fil qu'on a déjà corrigé aujourd'hui à 3 h (l'assemblage textile se fait surtout en Tunisie). Répondre ici remettrait la même mise au point à un deuxième endroit du même fil, sous un commentaire dont le cadrage est xénophobe — on ne veut ni l'endosser ni le faire remonter. Reste ouverte, par contre, la vraie question posée plus haut par Ghislaine Viennot : pourquoi c'est cher si la plante pousse partout. Elle mérite une réponse si elle sort comme candidate — sans chiffrer de prix (règle 3), en expliquant que ce n'est pas la plante qui coûte.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-03T12:37:59.794Z"
     }
   ]
 }

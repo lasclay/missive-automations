@@ -145,7 +145,7 @@ C'est la source qui manquait : ce qu'on produit vraiment, en quelles quantités.
 | Fichier | Contenu | Lignes |
 | --- | --- | ---: |
 | `plan-production-2627.tsv` | produit, quantité prévue, prévente déjà encaissée, coût BMB, coût de production | 28 |
-| `plan-variantes-2627.tsv` | la répartition par taille et par coloris | 141 |
+| `plan-variantes-2627.tsv` | la répartition par taille et par coloris, avec son groupe | 133 |
 | `correspondances.tsv` | produit de production → handle Shopify → libellé du plan | 34 |
 | `ajouts-production.tsv` | quantités décidées hors chiffrier, avec leur origine | 2 |
 

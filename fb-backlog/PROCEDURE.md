@@ -112,6 +112,24 @@ contexte, et c'est **ton jugement** qui tranche :
 **Le taux de rejet vise est sous 10 %.** S'il monte, c'est le signe qu'un filtre est trop strict
 ou que le jugement ecarte trop large — signale-le dans ton rapport.
 
+### Le backlog profond est atteignable
+
+Deux plafonds invisibles le rendaient inaccessible, et les deux sont levés.
+
+Le moissonnage ne lisait qu'**une seule page de 100 commentaires par publication**. Sur un fil de
+2 500, une fois ces 100 traites, la publication ne rendait plus jamais rien - pendant que des
+milliers attendaient juste derriere. Il remonte maintenant jusqu'a 12 pages (`FB_PAGES_MAX`).
+
+Et une **limite d'age de 120 jours** jetait tout ce qui etait plus vieux, c'est-a-dire la
+quasi-totalite d'un backlog de plusieurs annees. Elle est retiree (`FB_HORIZON_JOURS=0`).
+
+Le moissonnage **s'arrete des qu'il a de quoi remplir le lot**. Les jours ordinaires, la premiere
+page de la premiere publication suffit et le tir coute deux appels ; quand la surface recente est
+epuisee, il descend aussi loin qu'il faut. Monter le plafond ne coute donc rien.
+
+**`total_candidats: 0` sur une Page qui a des milliers de commentaires en attente est un
+symptome, jamais un etat normal.** Signale-le.
+
 ### La priorite est dynamique, pas un quota
 
 **Les commentaires du jour passent avant tout et sont traites en entier.** Le backlog prend

@@ -25,8 +25,14 @@ const fs = require('node:fs');
 const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
-        sansMouvement, progressionRecente, fabriqueAilleurs,
-        variantesItem, etatMatieres, etatProduits, alertesStock,
+        sansMouvement, progressionRecente, fabriqueAilleurs, variantesItem,
+        taches, tache, compteTaches, equipe,
+        protocole, couvertureQC, TYPES_QC, charteProduit,
+        checklistItem, blocageQC, etatQCOrdre,
+        protocoleGeneral, echantillon, lireTableauTailles,
+        brisProduit, brisParPoint, zonesFragiles, nonConformites,
+        murDesBris,
+        etatMatieres, etatProduits, alertesStock,
         nomenclatureProduit, produitsUtilisant, detailBesoin, coutMatiere,
         mouvements, stocksMatieres, CATEGORIES, UNITES } = require('./db.js');
 const auth = require('./auth.js');
@@ -34,6 +40,8 @@ const V = require('./vues.js');
 const V2 = require('./vues_inventaire.js');
 const assistant = require('./assistant.js');
 const outils = require('./outils.js');
+const charge = require('./charge.js');
+const salutation = require('./salutation.js');
 
 const PORT = process.env.PORT || 3000;
 const SECURE = process.env.MRP_SECURE === '1';
@@ -105,7 +113,8 @@ const R = {
                   WHEN 'brouillon' THEN 2 WHEN 'termine' THEN 3 ELSE 4 END,
       cree_le DESC`),
   ordre: db.prepare(`SELECT * FROM ordres WHERE id = ?`),
-  items: db.prepare(`SELECT i.*, p.nom AS produit_nom, p.code AS produit_code
+  items: db.prepare(`SELECT i.*,
+      COALESCE(NULLIF(p.nom_court, ''), p.nom) AS produit_nom, p.code AS produit_code
       FROM ordre_items i JOIN produits p ON p.id = i.produit_id
       WHERE i.ordre_id = ? ORDER BY i.rang, i.id`),
   item: db.prepare(`SELECT * FROM ordre_items WHERE id = ? AND ordre_id = ?`),
@@ -122,12 +131,14 @@ const R = {
   commentaires: db.prepare(`SELECT c.*, u.nom AS auteur FROM ordre_commentaires c
       LEFT JOIN utilisateurs u ON u.id = c.utilisateur_id
       WHERE c.ordre_id = ? ORDER BY c.cree_le DESC`),
-  produitsActifs: db.prepare(`SELECT id, code, nom FROM produits WHERE actif = 1
-      ORDER BY nom`),
+  produitsActifs: db.prepare(`SELECT id, code,
+      COALESCE(NULLIF(nom_court, ''), nom) AS nom FROM produits WHERE actif = 1
+      ORDER BY 3`),
   produitsListe: db.prepare(`SELECT p.*,
       (SELECT url FROM produit_photos f WHERE f.produit_id = p.id
          ORDER BY CASE type WHEN 'studio' THEN 0 ELSE 1 END, rang, id LIMIT 1) AS photo
-      FROM produits p WHERE p.actif = 1 ORDER BY p.nom`),
+      FROM produits p WHERE p.actif = 1
+     ORDER BY COALESCE(NULLIF(p.nom_court, ''), p.nom)`),
   produit: db.prepare(`SELECT * FROM produits WHERE id = ?`),
   photos: db.prepare(`SELECT * FROM produit_photos WHERE produit_id = ?
       ORDER BY rang, id`),
@@ -141,7 +152,14 @@ const R = {
 };
 
 // ------------------------------------------------------------------ statiques
-const STATIQUES = { '/style.css': ['text/css; charset=utf-8', 'public/style.css'] };
+// Les seuls fichiers que l'app sert elle-même. Le favicon vient du CDN Shopify
+// mais est servi d'ici : une requête vers lasclay.com sur chaque page coûterait
+// plus cher, sur la connexion tunisienne, que 2,6 Ko mis en cache une fois.
+const STATIQUES = {
+  '/style.css':          ['text/css; charset=utf-8', 'public/style.css'],
+  '/favicon.png':        ['image/png', 'public/favicon-32.png'],
+  '/favicon-180.png':    ['image/png', 'public/favicon-180.png'],
+};
 
 // Un fil regroupe les tours d'une même conversation. Identifiant opaque côté
 // client : on ne fait que vérifier sa forme avant de s'en servir en requête.
@@ -229,6 +247,16 @@ const MODELES = [
 ];
 
 const modelesPour = (role) => MODELES.filter(m => m.roles.includes(role));
+
+/**
+ * Le gabarit résumé en une phrase, pour la barre de l'accueil : les trous
+ * deviennent des points de suspension. On n'y met pas de menu déroulant —
+ * l'accueil est une barre, pas un formulaire — le clic emmène sur la page de
+ * l'assistant avec la boîte déjà remplie, là où les menus vivent.
+ */
+const libelleGabarit = (m) => m.texte
+  .replace(/\{\w+\}/g, '…').replace(/_{3,}/g, '…')
+  .replace(/\s+/g, ' ').trim();
 
 /** Remplit les trous d'un gabarit. Un trou sans valeur reste à compléter. */
 function composer(modele, valeurs) {
@@ -346,14 +374,33 @@ async function router(req, res, url, user) {
   if (p === '/' ) {
     const ordres = R.ordresListe.all().map(o => ({
       ...o, ...avancementOrdre(o.id), prochain: R.jalonProchainOrdre.get(o.id) || null }));
-    return html(res, V.vueAccueil({ user, ordres, jalons: R.jalonsProchains.all() }));
+    // L'accueil reprend le fil en cours plutôt que d'en ouvrir un neuf : sinon
+    // « et les mitaines ? » perd son antécédent dès qu'on recharge la page.
+    const filCourant = assistant.dernierFil(user.id) || nouveauFil();
+    const prochains = R.jalonsProchains.all();
+    return html(res, V.vueAccueil({ user, ordres, jalons: prochains,
+      salut: salutation.saluer({ user,
+        taches: compteTaches(user.id),
+        echeance: prochains.length ? prochains[0].date : null }),
+      ia: {
+        dispo: assistant.disponible(),
+        fil: filCourant,
+        dernier: assistant.dernierTour(user.id, filCourant),
+        annulable: outils.dernierTourAnnulable(user.id),
+        // Quatre gabarits, en liens vers la page de l'assistant : un bouton
+        // qui poste la phrase se heurterait au textarea vide et obligatoire —
+        // c'est exactement le « Please fill out this field » qu'on a corrigé.
+        gabarits: modelesPour(user.role).slice(0, 4)
+          .map(m => ({ cle: m.cle, libelle: libelleGabarit(m) })),
+      } }));
   }
 
   // ---- à fabriquer : la liste de travail, tous ordres confondus
   if (p === '/priorites') {
     const j = Math.min(90, Math.max(1, Number(q.get('jours')) || 7));
     return html(res, V.vuePriorites({ user, msg, jours: j,
-      lignes: listeFabrication(), ailleurs: fabriqueAilleurs() }));
+      lignes: listeFabrication().map(l => ({ ...l, variantes: variantesItem(l.id) })),
+      ailleurs: fabriqueAilleurs() }));
   }
   {
     const m = p.match(/^\/priorites\/(\d+)$/);
@@ -409,6 +456,13 @@ async function router(req, res, url, user) {
       const it = R.item.get(+mi[1], id);
       const f = await corpsFormulaire(req);
       const v = parseInt(f.valeur, 10);
+      // Le contrôle qualité est obligatoire pour déclarer un lot fini. La règle
+      // vit dans db.js, et l'assistant y passe aussi : aucun des deux chemins
+      // ne peut contourner l'autre.
+      const bloc = it ? blocageQC(it.id, v) : null;
+      if (bloc)
+        return vers(res, `/ordres/${id}/items/${it.id}/qualite?err=`
+          + encodeURIComponent(bloc.message));
       if (it && Number.isInteger(v) && v >= 0 && v <= 100 && v % 10 === 0 && v !== it.avancement) {
         db.exec('BEGIN');
         try {
@@ -424,6 +478,46 @@ async function router(req, res, url, user) {
         } catch (err) { db.exec('ROLLBACK'); throw err; }
       }
       return vers(res, `/ordres/${id}#i${mi[1]}`);
+    }
+
+    // ---- la checklist qualité d'un lot
+    {
+      const mq = reste.match(/^\/items\/(\d+)\/qualite(?:\/(\d+))?$/);
+      if (mq) {
+        const it = R.item.get(+mq[1], id);
+        if (!it) return vers(res, `/ordres/${id}?err=`
+          + encodeURIComponent('Item introuvable.'));
+
+        if (mq[2] && req.method === 'POST') {
+          const f = await corpsFormulaire(req);
+          const verdict = f.verdict === 'non_conforme' ? 'non_conforme'
+                        : f.verdict === 'conforme' ? 'conforme' : null;
+          if (!verdict) return vers(res, `/ordres/${id}/items/${it.id}/qualite?err=`
+            + encodeURIComponent('Verdict manquant.'));
+          // Le point doit appartenir au produit de CE lot : sinon un id valide
+          // ailleurs ferait entrer un contrôle qui n'a rien à y faire.
+          // Un point général (produit_id NULL) fait partie de la checklist de
+          // tous les lots : il doit pouvoir être coché ici aussi.
+          const pt = db.prepare(
+            `SELECT id FROM qc_points
+              WHERE id = ? AND (produit_id = ? OR produit_id IS NULL)`)
+            .get(Number(mq[2]), it.produit_id);
+          if (!pt) return vers(res, `/ordres/${id}/items/${it.id}/qualite?err=`
+            + encodeURIComponent("Ce point n'appartient pas au protocole de ce produit."));
+          const vues = Number(f.pieces);
+          db.prepare(`INSERT INTO qc_controles (item_id, point_id, verdict, mesure,
+                        pieces, note, utilisateur_id) VALUES (?,?,?,?,?,?,?)`)
+            .run(it.id, pt.id, verdict, String(f.mesure || '').trim(),
+                 Number.isInteger(vues) && vues >= 0 ? vues : null,
+                 String(f.note || '').trim(), user.id);
+          return vers(res, `/ordres/${id}/items/${it.id}/qualite?ok=`
+            + encodeURIComponent(verdict === 'conforme'
+                ? 'Point vérifié.' : 'Écart enregistré.') + `#p${pt.id}`);
+        }
+
+        return html(res, V.vueChecklist({ user, msg, ordre: o,
+          c: checklistItem(it.id) }));
+      }
     }
 
     if (reste === '/commentaires' && req.method === 'POST') {
@@ -486,6 +580,7 @@ async function router(req, res, url, user) {
       items: R.items.all(id).map(it => ({ ...it, variantes: variantesItem(it.id) })),
       jalons: R.jalons.all(id),
       commentaires: R.commentaires.all(id), produits: R.produitsActifs.all(),
+      qc: etatQCOrdre(id),
       pct: avancementOrdre(id).pct }));
   }
 
@@ -596,6 +691,7 @@ async function router(req, res, url, user) {
     return html(res, V.vueProduit({ user, p: pr, msg,
       photos: R.photos.all(id), materiaux: R.materiaux.all(id),
       patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id),
+      qc: protocole(id), charte: charteProduit(id), bris: brisProduit(id),
       nomenclature: nomenclatureProduit(id),
       coutMatiere: coutMatiere(id),
       stock: etatProduits().find(x => x.id === id) || null }));
@@ -699,6 +795,11 @@ async function router(req, res, url, user) {
       const fil = filValide(f.fil) ? f.fil : nouveauFil();
       const r = await assistant.traiter({
         demande: f.demande, user, fil });
+      // Demandé depuis l'accueil : on y retourne. Une liste blanche, pas la
+      // valeur du champ — un « retour » libre serait une redirection ouverte.
+      if (f.retour === '/')
+        return vers(res, '/' + (r.erreur && !r.tourId
+          ? '?err=' + encodeURIComponent(r.erreur) : ''));
       return vers(res, '/assistant?fil=' + encodeURIComponent(fil)
         + (r.erreur && !r.tourId ? '&err=' + encodeURIComponent(r.erreur) : '')
         + '#bas');
@@ -728,24 +829,321 @@ async function router(req, res, url, user) {
   {
     const m = p.match(/^\/assistant\/(\d+)\/annuler$/);
     if (m && req.method === 'POST') {
+      const f = await corpsFormulaire(req);
+      // Annulé depuis l'accueil : on y revient. Liste blanche, jamais la valeur
+      // brute du champ — un « retour » libre serait une redirection ouverte.
+      const base = f.retour === '/' ? '/' : '/assistant';
+      const avec = (params) => vers(res, base === '/' ? '/?' + params
+        : '/assistant?' + params);
       const t = db.prepare(`SELECT * FROM agent_tours WHERE id = ?`).get(Number(m[1]));
       // On n'annule que ses propres tours : le journal d'un autre ne se touche pas.
       if (!t || t.utilisateur_id !== user.id)
-        return vers(res, '/assistant?err=' + encodeURIComponent('Tour introuvable.'));
+        return avec('err=' + encodeURIComponent('Tour introuvable.'));
+      const dufil = base === '/' ? '' : 'fil=' + encodeURIComponent(t.fil) + '&';
       // On ne défait que le dernier : voir dernierTourAnnulable dans outils.js.
       if (outils.dernierTourAnnulable(user.id) !== t.id)
-        return vers(res, '/assistant?fil=' + encodeURIComponent(t.fil) + '&err='
+        return avec(dufil + 'err='
           + encodeURIComponent("On ne peut annuler que la dernière action de "
             + "l'assistant. Défais les plus récentes d'abord."));
       const n = outils.annulerTour(t.id);
-      return vers(res, '/assistant?fil=' + encodeURIComponent(t.fil) + '&ok='
+      return avec(dufil + 'ok='
         + encodeURIComponent(n ? `${n} modification${n > 1 ? 's' : ''} annulée${
             n > 1 ? 's' : ''}.` : 'Rien à annuler.'));
     }
   }
 
-  if (p === '/cedule')
-    return html(res, V.vueCedule({ user, jalons: R.jalonsTous.all(), msg }));
+  // ---- le mur des bris : ce que l'atelier regarde
+  if (p === '/mur') {
+    return html(res, V.vueMur({ user, msg, groupes: murDesBris() }));
+  }
+
+  // ---- contrôle qualité : le protocole de chaque produit
+  if (p === '/qualite') {
+    return html(res, V.vueQualite({ user, msg, couverture: couvertureQC(),
+      general: protocoleGeneral(), zones: zonesFragiles(), nc: nonConformites() }));
+  }
+
+  /**
+   * Écrire un point : le produit et le général suivent le même chemin.
+   * `produitId` à null = protocole général.
+   */
+  const ajouterPointQC = (f, produitId, utilisateurId) => {
+    const titre = String(f.titre || '').trim();
+    if (!titre) return { erreur: "Il faut dire de quoi il s'agit." };
+    const type = TYPES_QC[f.type] ? f.type : 'critique';
+    const ECH = ['', 'tout', 'ratio', 'fixe', 'lot'];
+    const ech = ECH.includes(f.ech_type) ? f.ech_type : '';
+    const n = Number(f.ech_valeur);
+    // « 1 sur… » sans le nombre ne veut rien dire : on ne garde pas la règle
+    // à moitié, elle donnerait un échantillon vide sans le dire.
+    const valeur = (ech === 'ratio' || ech === 'fixe')
+      ? (Number.isInteger(n) && n > 0 ? n : null) : null;
+    const echRetenu = ((ech === 'ratio' || ech === 'fixe') && valeur === null) ? '' : ech;
+    db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail, consequence,
+                  variante, valeur, tolerance, unite, ech_type, ech_valeur,
+                  frequence, source, cree_par)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+      .run(produitId, type, titre,
+        String(f.detail || '').trim(), String(f.consequence || '').trim(),
+        String(f.variante || '').trim(), String(f.valeur || '').trim(),
+        String(f.tolerance || '').trim(), String(f.unite || '').trim(),
+        echRetenu, valeur, String(f.frequence || '').trim(),
+        String(f.source || '').trim(), utilisateurId);
+    return { ok: true };
+  };
+
+  if (p === '/qualite/general' && req.method === 'POST') {
+    const f = await corpsFormulaire(req);
+    const r = ajouterPointQC(f, null, user.id);
+    return vers(res, '/qualite?' + (r.erreur
+      ? 'err=' + encodeURIComponent(r.erreur)
+      : 'ok=' + encodeURIComponent('Ajouté au protocole général.')));
+  }
+
+  // ---- ce qui casse : la preuve de terrain
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/bris$/);
+    if (m && req.method === 'POST') {
+      const prod = R.produit.get(Number(m[1]));
+      if (!prod) return vers(res, '/qualite?err=' + encodeURIComponent('Produit introuvable.'));
+      const f = await corpsFormulaire(req);
+      const zone = String(f.zone || '').trim();
+      if (!zone) return vers(res, `/qualite/${prod.id}?err=`
+        + encodeURIComponent('Il faut dire où ça casse.'));
+      // Même règle que pour les photos produit : une URL, jamais une image
+      // embarquée. Une data: URI grossirait la base et chaque page.
+      const url = String(f.photo_url || '').trim();
+      if (url && !V.urlAcceptable(url)) return vers(res, `/qualite/${prod.id}?err=`
+        + encodeURIComponent('Photo : il faut une adresse web (https://…), pas un fichier.'));
+      const ORIG = ['client', 'atelier', 'retour', 'essai'];
+      db.prepare(`INSERT INTO qc_bris (produit_id, zone, origine, texte, photo_url,
+                    survenu_le, cree_par) VALUES (?,?,?,?,?,?,?)`)
+        .run(prod.id, zone, ORIG.includes(f.origine) ? f.origine : 'client',
+          String(f.texte || '').trim(), url,
+          /^\d{4}-\d{2}-\d{2}$/.test(f.survenu_le || '') ? f.survenu_le : null,
+          user.id);
+      return vers(res, `/qualite/${prod.id}?ok=` + encodeURIComponent('Signalement enregistré.'));
+    }
+  }
+
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/bris\/(\d+)\/(consigne|supprimer)$/);
+    if (m && req.method === 'POST') {
+      const prodId = Number(m[1]), brisId = Number(m[2]);
+      const b = db.prepare(`SELECT * FROM qc_bris WHERE id = ? AND produit_id = ?`)
+        .get(brisId, prodId);
+      if (!b) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent('Signalement introuvable.'));
+      if (m[3] === 'supprimer') {
+        db.prepare(`DELETE FROM qc_bris WHERE id = ?`).run(brisId);
+        return vers(res, `/qualite/${prodId}?ok=` + encodeURIComponent('Signalement retiré.'));
+      }
+      // Tirer une consigne d'un bris : le point naît AVEC sa preuve, et le
+      // signalement cesse d'être orphelin. C'est là que la boucle se ferme.
+      const f = await corpsFormulaire(req);
+      const titre = String(f.titre || '').trim();
+      if (!titre) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent('Il faut écrire la consigne qui évite ce bris.'));
+      const type = TYPES_QC[f.type] ? f.type : 'probleme';
+      db.exec('BEGIN');
+      try {
+        const rang = (db.prepare(`SELECT MAX(rang) m FROM qc_points WHERE produit_id = ?`)
+          .get(prodId).m || 0) + 1;
+        const id = db.prepare(`INSERT INTO qc_points (produit_id, type, titre,
+                      consequence, source, cree_par, rang) VALUES (?,?,?,?,?,?,?)`)
+          .run(prodId, type, titre,
+            b.texte ? b.texte.slice(0, 300) : `Bris signalé : ${b.zone}`,
+            `signalement ${b.origine}`, user.id, rang).lastInsertRowid;
+        // Tous les bris de la MÊME zone encore orphelins rejoignent ce point :
+        // ils disent la même chose, et les laisser séparés ferait réécrire la
+        // même consigne trois fois.
+        db.prepare(`UPDATE qc_bris SET point_id = ?
+                     WHERE produit_id = ? AND point_id IS NULL
+                       AND LOWER(zone) = LOWER(?)`).run(id, prodId, b.zone);
+        db.exec('COMMIT');
+      } catch (e) { db.exec('ROLLBACK'); throw e; }
+      return vers(res, `/qualite/${prodId}?ok=`
+        + encodeURIComponent('Consigne écrite, signalements rattachés.'));
+    }
+  }
+
+  // Un tableau de mensurations d'un coup : une ligne par taille.
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/mesures$/);
+    if (m && req.method === 'POST') {
+      const prod = R.produit.get(Number(m[1]));
+      if (!prod) return vers(res, '/qualite?err=' + encodeURIComponent('Produit introuvable.'));
+      const f = await corpsFormulaire(req);
+      const titre = String(f.titre || '').trim();
+      const { lignes, rejets } = lireTableauTailles(f.tableau);
+      if (!titre || !lignes.length)
+        return vers(res, `/qualite/${prod.id}?err=` + encodeURIComponent(
+          !titre ? 'Il faut nommer la mesure.'
+                 : 'Aucune ligne lisible. Une par taille : « L = 118 ± 1,5 ».'));
+      const ECH = ['', 'tout', 'ratio', 'fixe', 'lot'];
+      const ech = ECH.includes(f.ech_type) ? f.ech_type : '';
+      const n = Number(f.ech_valeur);
+      const valeurEch = (ech === 'ratio' || ech === 'fixe')
+        ? (Number.isInteger(n) && n > 0 ? n : null) : null;
+      const echRetenu = ((ech === 'ratio' || ech === 'fixe') && valeurEch === null) ? '' : ech;
+      let rang = (db.prepare(`SELECT MAX(rang) m FROM qc_points WHERE produit_id = ?`)
+        .get(prod.id).m || 0);
+      const ins = db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail,
+                    variante, valeur, tolerance, unite, ech_type, ech_valeur,
+                    source, cree_par, rang) VALUES (?,'mesure',?,?,?,?,?,?,?,?,?,?,?)`);
+      db.exec('BEGIN');
+      try {
+        for (const l of lignes)
+          ins.run(prod.id, titre, String(f.detail || '').trim(), l.taille,
+            l.valeur, l.tolerance, String(f.unite || '').trim(),
+            echRetenu, valeurEch, String(f.source || '').trim(), user.id, ++rang);
+        db.exec('COMMIT');
+      } catch (e) { db.exec('ROLLBACK'); throw e; }
+      return vers(res, `/qualite/${prod.id}?ok=` + encodeURIComponent(
+        `${lignes.length} taille${lignes.length > 1 ? 's' : ''} ajoutée${
+          lignes.length > 1 ? 's' : ''} pour « ${titre} »`
+        + (rejets.length ? ` — ${rejets.length} ligne${rejets.length > 1 ? 's' : ''} `
+           + 'illisible' + (rejets.length > 1 ? 's' : '') + ' ignorée'
+           + (rejets.length > 1 ? 's' : '') + '.' : '.')));
+    }
+  }
+
+  {
+    const m = p.match(/^\/qualite\/general\/(\d+)\/supprimer$/);
+    if (m && req.method === 'POST') {
+      // « IS NULL » et non « = NULL » : un point de produit ne se supprime pas
+      // par cette route, même avec un id valide.
+      db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id IS NULL`)
+        .run(Number(m[1]));
+      return vers(res, '/qualite?ok=' + encodeURIComponent('Point retiré.'));
+    }
+  }
+
+  {
+    const m = p.match(/^\/qualite\/(\d+)$/);
+    if (m) {
+      const prod = R.produit.get(Number(m[1]));
+      if (!prod) return vers(res, '/qualite?err=' + encodeURIComponent('Produit introuvable.'));
+      if (req.method === 'POST') {
+        const r = ajouterPointQC(await corpsFormulaire(req), prod.id, user.id);
+        return vers(res, `/qualite/${prod.id}?` + (r.erreur
+          ? 'err=' + encodeURIComponent(r.erreur)
+          : 'ok=' + encodeURIComponent('Ajouté au protocole.')));
+      }
+      return html(res, V.vueProtocole({ user, msg, p: prod,
+        proto: protocole(prod.id), photos: R.photos.all(prod.id),
+        bris: brisProduit(prod.id), appuis: brisParPoint(prod.id) }));
+    }
+  }
+
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/(\d+)\/supprimer$/);
+    if (m && req.method === 'POST') {
+      // Le point appartient au produit de l'URL : sans ce test, un id valide
+      // ailleurs effacerait le protocole d'un autre produit.
+      db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id = ?`)
+        .run(Number(m[2]), Number(m[1]));
+      return vers(res, `/qualite/${m[1]}?ok=` + encodeURIComponent('Point retiré.'));
+    }
+  }
+
+  // ---- tâches : ce qu'on se demande d'un bord à l'autre
+  if (p === '/taches') {
+    if (req.method === 'POST') {
+      const f = await corpsFormulaire(req);
+      const titre = String(f.titre || '').trim();
+      if (!titre) return vers(res, '/taches?err=' + encodeURIComponent('Il faut un titre.'));
+      // Un destinataire inventé créerait une tâche que personne ne voit : on
+      // vérifie qu'il existe plutôt que d'écrire un id dans le vide.
+      let porteur = null;
+      if (f.assigne_a) {
+        const m = db.prepare(`SELECT id FROM utilisateurs WHERE id = ? AND actif = 1`)
+          .get(Number(f.assigne_a));
+        if (!m) return vers(res, '/taches?err='
+          + encodeURIComponent('Cette personne n\'existe pas ou n\'est plus active.'));
+        porteur = m.id;
+      }
+      const ech = /^\d{4}-\d{2}-\d{2}$/.test(f.echeance || '') ? f.echeance : null;
+      db.prepare(`INSERT INTO taches (titre, details, cree_par, assigne_a, echeance)
+                  VALUES (?,?,?,?,?)`)
+        .run(titre, String(f.details || '').trim(), user.id, porteur, ech);
+      return vers(res, '/taches?ok=' + encodeURIComponent('Tâche ajoutée.'));
+    }
+    return html(res, V.vueTaches({ user, msg,
+      pourMoi:    taches({ pour: user.id }),
+      // Ce que j'ai demandé À QUELQU'UN : ni mes propres tâches (elles sont
+      // au-dessus), ni celles que personne n'a prises (elles ont leur section,
+      // et les montrer deux fois fait croire qu'il y en a deux).
+      demandees:  taches({ par: user.id })
+                    .filter(t => t.assigne_a !== null && t.assigne_a !== user.id),
+      orphelines: taches({ pour: null }),
+      faites:     taches({ statut: 'faite', limite: 30 })
+                    .filter(t => t.assigne_a === user.id || t.cree_par === user.id),
+      equipe: equipe() }));
+  }
+
+  {
+    const m = p.match(/^\/taches\/(\d+)\/(faite|rouvrir|prendre|supprimer)$/);
+    if (m && req.method === 'POST') {
+      const t = tache(Number(m[1]));
+      if (!t) return vers(res, '/taches?err=' + encodeURIComponent('Tâche introuvable.'));
+      const sien = t.assigne_a === user.id, demandeur = t.cree_par === user.id;
+      const libre = t.assigne_a === null;
+
+      if (m[2] === 'supprimer') {
+        // Seul celui qui a demandé retire sa demande. Le porteur la termine ou
+        // la rouvre — il ne fait pas disparaître ce qu'on lui a demandé.
+        if (!demandeur) return vers(res, '/taches?err='
+          + encodeURIComponent('Seule la personne qui a demandé peut supprimer.'));
+        db.prepare(`DELETE FROM taches WHERE id = ?`).run(t.id);
+        return vers(res, '/taches?ok=' + encodeURIComponent('Tâche supprimée.'));
+      }
+      if (m[2] === 'prendre') {
+        if (!libre) return vers(res, '/taches?err='
+          + encodeURIComponent('Cette tâche a déjà quelqu\'un.'));
+        db.prepare(`UPDATE taches SET assigne_a = ? WHERE id = ?`).run(user.id, t.id);
+        return vers(res, '/taches?ok=' + encodeURIComponent('Tâche prise.'));
+      }
+      if (m[2] === 'faite') {
+        if (!sien && !libre && !demandeur) return vers(res, '/taches?err='
+          + encodeURIComponent('Cette tâche est à quelqu\'un d\'autre.'));
+        db.prepare(`UPDATE taches SET statut = 'faite', faite_le = datetime('now'),
+                    faite_par = ?, assigne_a = COALESCE(assigne_a, ?) WHERE id = ?`)
+          .run(user.id, user.id, t.id);
+        return vers(res, '/taches?ok=' + encodeURIComponent('Marquée faite.'));
+      }
+      if (!sien && !demandeur) return vers(res, '/taches?err='
+        + encodeURIComponent('Cette tâche ne te concerne pas.'));
+      db.prepare(`UPDATE taches SET statut = 'a_faire', faite_le = NULL,
+                  faite_par = NULL WHERE id = ?`).run(t.id);
+      return vers(res, '/taches?ok=' + encodeURIComponent('Rouverte.'));
+    }
+  }
+
+  if (p === '/cedule') {
+    const jalons = R.jalonsTous.all();
+    return html(res, V.vueCedule({ user, jalons, msg,
+      cal: charge.calendrier(listeFabrication()) }));
+  }
+
+  if (p === '/cedule/capacite' && req.method === 'POST') {
+    if (!admin) return refus();
+    const f = await corpsFormulaire(req);
+    const r = charge.poserCapacite(f);
+    if (r.erreur) return vers(res, '/cedule?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/cedule?ok=' + encodeURIComponent(
+      `Capacité : ${r.capacite.postes} postes × ${r.capacite.heures_jour} h × `
+      + `${r.capacite.jours_semaine} j = ${r.capacite.heures_semaine} h/semaine.`));
+  }
+
+  if (p === '/cedule/perimetre' && req.method === 'POST') {
+    if (!admin) return refus();
+    const f = await corpsFormulaire(req);
+    const r = charge.poserPerimetre(f.perimetre);
+    if (r.erreur) return vers(res, '/cedule?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/cedule?ok=' + encodeURIComponent(
+      'Périmètre : ' + charge.PERIMETRES[r.perimetre.valeur].toLowerCase() + '.'));
+  }
 
   // ---- son propre compte : changer son mot de passe sans shell
   if (p === '/compte') {
@@ -869,7 +1267,18 @@ function amorcerPremierCompte() {
 
 if (require.main === module) {
   amorcerPremierCompte();
-  serveur.listen(PORT, () => console.log(`[mrp] écoute sur http://localhost:${PORT}`));
+  serveur.listen(PORT, () => {
+    console.log(`[mrp] écoute sur http://localhost:${PORT}`);
+    // Les données du dépôt entrent en base au démarrage — sans ça, elles
+    // attendent qu'on ouvre un Shell Render, et personne ne l'ouvre.
+    //
+    // APRÈS `listen`, jamais avant : les quatre imports prennent une vingtaine
+    // de secondes, et Render coupe une instance qui ne répond pas encore à sa
+    // sonde. Le service répond donc tout de suite, et les données arrivent
+    // quelques secondes plus tard. Sur une base déjà peuplée — le cas normal
+    // d'un redéploiement — rien ne change à l'écran pendant ce temps.
+    setImmediate(() => require('./amorce.js').amorcerDonnees());
+  });
 }
 
 module.exports = serveur;

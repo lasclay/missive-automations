@@ -21,18 +21,19 @@
  * que de deviner.
  */
 'use strict';
+const D = require('./db.js');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs,
         etatMatieres, alertesStock, nomenclatureProduit, detailBesoin,
         stocksMatieres, mouvements, qte, CATEGORIES,
-        FAMILLES, LIEUX } = require('./db.js');
+        FAMILLES, LIEUX } = D;
 const { urlAcceptable } = require('./vues.js');
 
 // Tables que le journal a le droit de rétablir. Liste blanche : ce qui n'est
 // pas écrit ici ne peut pas être touché par une annulation.
 const TABLES = new Set(['ordres', 'ordre_items', 'ordre_jalons',
   'ordre_commentaires', 'produits', 'produit_photos', 'produit_materiaux',
-  'produit_patrons', 'mouvements']);
+  'produit_patrons', 'taches', 'qc_points', 'qc_bris', 'mouvements']);
 
 // --------------------------------------------------------------- résolution
 class Refus extends Error {}
@@ -104,6 +105,50 @@ function resoudreOrdre(ref) {
     + flous.map(o => `${o.numero} (${o.titre})`).join(', ')
     + '. Demande lequel.');
   refuser(`Aucun ordre ne correspond à « ${s} ».`);
+}
+
+/**
+ * Une personne de l'équipe, par son nom. Comme pour les produits, on refuse
+ * plutôt que de choisir : assigner une tâche à la mauvaise personne, c'est
+ * une tâche que personne ne fait.
+ */
+function resoudreMembre(ref) {
+  const s = String(ref ?? '').trim();
+  if (!s) refuser('Il faut dire de qui on parle.');
+  const l = D.equipe();
+  const exact = l.filter(m => m.nom.toLowerCase() === s.toLowerCase());
+  if (exact.length === 1) return exact[0];
+  const flous = l.filter(m => m.nom.toLowerCase().includes(s.toLowerCase()));
+  if (flous.length === 1) return flous[0];
+  if (flous.length > 1) refuser(
+    `« ${s} » correspond à ${flous.length} personnes : `
+    + flous.map(m => m.nom).join(', ') + '. Demande laquelle.');
+  refuser(`Personne ne s'appelle « ${s} ». L'équipe : `
+    + l.map(m => m.nom).join(', ') + '.');
+}
+
+/**
+ * Une tâche par son titre. On ne cherche que dans celles qui concernent la
+ * personne connectée — terminer la tâche d'un tiers par ressemblance de titre
+ * serait exactement le genre de dégât qu'on veut éviter.
+ */
+function resoudreTache(ref, utilisateurId) {
+  const s = String(ref ?? '').trim();
+  if (!s) refuser('Il faut dire de quelle tâche il s\'agit.');
+  const l = db.prepare(
+    `SELECT * FROM taches WHERE statut = 'a_faire'
+       AND (assigne_a = ? OR cree_par = ? OR assigne_a IS NULL)`)
+    .all(utilisateurId, utilisateurId);
+  if (/^\d+$/.test(s)) {
+    const t = l.find(x => x.id === Number(s));
+    if (t) return t;
+  }
+  const flous = l.filter(t => t.titre.toLowerCase().includes(s.toLowerCase()));
+  if (flous.length === 1) return flous[0];
+  if (flous.length > 1) refuser(
+    `« ${s} » correspond à ${flous.length} tâches : `
+    + flous.map(t => `« ${t.titre} »`).join(', ') + '. Précise laquelle.');
+  refuser(`Aucune tâche en cours ne correspond à « ${s} ».`);
 }
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -451,6 +496,13 @@ const OUTILS = [
         return { ok: true, inchange: true,
                  message: `${p.code} était déjà à ${v} % dans ${o.numero}.` };
 
+      // Même verrou qu'au formulaire, même fonction : déclarer un lot fini
+      // demande que son contrôle qualité soit passé. L'assistant ne contourne
+      // pas une règle que l'interface impose.
+      const bloc = D.blocageQC(it.id, v);
+      if (bloc) refuser(bloc.message
+        + ' Le protocole est sur la fiche produit, onglet Qualité.');
+
       db.prepare(`UPDATE ordre_items SET avancement = ?, maj_le = datetime('now')
                   WHERE id = ?`).run(v, it.id);
       db.prepare(`INSERT INTO avancement_historique (item_id, utilisateur_id, avant, apres)
@@ -489,6 +541,212 @@ const OUTILS = [
       noter(ctx, 'commenter', `Commentaire ajouté à ${o.numero}`,
         { table: 'ordre_commentaires', op: 'insert', id });
       return { ok: true, ordre: o.numero };
+    },
+  },
+
+  // -------------------------------------------------------- contrôle qualité
+  // C'est l'atelier qui VOIT les défauts. Lui interdire d'écrire le protocole
+  // reviendrait à garder l'information là où elle ne sert à personne.
+  {
+    nom: 'lire_qualite',
+    description: "Le protocole de contrôle qualité d'un produit : points "
+      + "critiques, problèmes fréquents, mesures, cyclage. À consulter AVANT de "
+      + "répondre à une question de fabrication — « comment on fait le col du "
+      + "chandail », « quelle est la tolérance sur les gants ».",
+    role: 'atelier',
+    params: { type: 'object', required: ['produit'], properties: {
+      produit: { type: 'string' } } },
+    executer: (a) => {
+      const p = resoudreProduit(a.produit);
+      const proto = D.protocole(p.id);
+      const bris = D.brisProduit(p.id);
+      const terrain = bris.tous.length ? {
+        signalements: bris.tous.length,
+        sans_consigne: bris.orphelins.length,
+        derniers: bris.tous.slice(0, 5).map(b => ({
+          zone: b.zone, origine: b.origine, texte: b.texte || undefined,
+          consigne_tiree: b.point_titre || undefined })),
+      } : undefined;
+      if (!proto.total)
+        return { produit: p.code, total: 0, terrain,
+          note: "Aucun protocole écrit pour ce produit. "
+              + "ajouter_point_qc permet d'en écrire un." };
+      const rendre = (l) => l.map(q => ({
+        titre: q.titre, detail: q.detail || undefined,
+        consequence: q.consequence || undefined,
+        mesure: q.valeur ? `${q.valeur}${q.unite ? ' ' + q.unite : ''}${
+          q.tolerance ? ` ± ${q.tolerance}` : ''}` : undefined,
+        variante: q.variante || undefined, frequence: q.frequence || undefined }));
+      return { produit: p.code, total: proto.total, terrain,
+        points_critiques: rendre(proto.par.critique),
+        problemes_frequents: rendre(proto.par.probleme),
+        mesures: rendre(proto.par.mesure),
+        cyclage: rendre(proto.par.cyclage),
+        emballage: rendre(proto.par.emballage) };
+    },
+  },
+  {
+    nom: 'ajouter_point_qc',
+    description: "Ajoute un point au protocole d'un produit. « Note que le col "
+      + "doit être pressé avant l'isolant, sinon il fond ». Toujours demander "
+      + "la conséquence quand elle n'est pas dite : c'est elle qui fait "
+      + "respecter la consigne.",
+    role: 'atelier',
+    params: { type: 'object', required: ['produit','volet','titre'], properties: {
+      produit: { type: 'string' },
+      volet: { type: 'string', enum: ['critique','probleme','mesure','cyclage'],
+        description: "critique = irrattrapable après coup ; probleme = ça revient "
+          + "d'un lot à l'autre ; mesure = une cote ; cyclage = un test." },
+      titre: { type: 'string', description: 'La consigne, en une ligne.' },
+      detail: { type: 'string', description: "Le geste, l'outil, le gabarit." },
+      consequence: { type: 'string', description:
+        "Ce qui arrive si on le rate. À demander si ce n'est pas dit." },
+      valeur: { type: 'string' }, tolerance: { type: 'string' },
+      unite: { type: 'string' },
+      variante: { type: 'string', description: 'Taille concernée, si la cote en dépend.' },
+      frequence: { type: 'string', description: "« 1 pièce sur 20 », « chaque lot »." } } },
+    executer: (a, ctx) => {
+      const p = resoudreProduit(a.produit);
+      const titre = String(a.titre || '').trim();
+      if (!titre) refuser("Il faut dire de quoi il s'agit.");
+      if (!D.TYPES_QC[a.volet])
+        refuser(`Volet inconnu : « ${a.volet} ». `
+          + `Les quatre : ${Object.keys(D.TYPES_QC).join(', ')}.`);
+      const rang = (db.prepare(
+        `SELECT MAX(rang) m FROM qc_points WHERE produit_id = ?`).get(p.id).m || 0) + 1;
+      const id = db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail,
+                    consequence, valeur, tolerance, unite, variante, frequence,
+                    cree_par, rang) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`)
+        .run(p.id, a.volet, titre, String(a.detail || '').trim(),
+          String(a.consequence || '').trim(), String(a.valeur || '').trim(),
+          String(a.tolerance || '').trim(), String(a.unite || '').trim(),
+          String(a.variante || '').trim(), String(a.frequence || '').trim(),
+          ctx.user.id, rang).lastInsertRowid;
+      noter(ctx, 'ajouter_point_qc',
+        `${D.TYPES_QC[a.volet]} sur ${p.code} : « ${titre} »`,
+        { table: 'qc_points', op: 'insert', id });
+      return { ok: true, produit: p.code, volet: D.TYPES_QC[a.volet], titre };
+    },
+  },
+
+  {
+    nom: 'signaler_bris',
+    description: "Enregistre un bris : commentaire client, retour d'atelier, "
+      + "photo. « Une cliente écrit que la ganse de l'étui a lâché après trois "
+      + "semaines. » C'est la preuve de terrain qui fait écrire une consigne — "
+      + "garde le commentaire MOT POUR MOT, ne le reformule pas.",
+    role: 'atelier',
+    params: { type: 'object', required: ['produit','zone'], properties: {
+      produit: { type: 'string' },
+      zone: { type: 'string', description:
+        "Où ça casse : « attache de ganse », « emmanchure », « fond de sac ». "
+        + "C'est ce qui permet de voir qu'une même zone lâche sur plusieurs produits." },
+      texte: { type: 'string', description: 'Le commentaire, mot pour mot.' },
+      origine: { type: 'string', enum: ['client','atelier','retour','essai'] },
+      photo_url: { type: 'string', description: 'Adresse web d\'une photo, facultative.' },
+      survenu_le: { type: 'string', description: 'AAAA-MM-JJ, facultative.' } } },
+    executer: (a, ctx) => {
+      const p = resoudreProduit(a.produit);
+      const zone = String(a.zone || '').trim();
+      if (!zone) refuser('Il faut dire où ça casse.');
+      const url = String(a.photo_url || '').trim();
+      if (url && !urlAcceptable(url))
+        refuser('La photo doit être une adresse web (https://…), pas un fichier.');
+      if (a.survenu_le && !DATE.test(a.survenu_le))
+        refuser(`Date mal formée : « ${a.survenu_le} ». Il faut AAAA-MM-JJ.`);
+      const ORIG = ['client', 'atelier', 'retour', 'essai'];
+      const id = db.prepare(`INSERT INTO qc_bris (produit_id, zone, origine, texte,
+                    photo_url, survenu_le, cree_par) VALUES (?,?,?,?,?,?,?)`)
+        .run(p.id, zone, ORIG.includes(a.origine) ? a.origine : 'client',
+          String(a.texte || '').trim(), url, a.survenu_le || null,
+          ctx.user.id).lastInsertRowid;
+      noter(ctx, 'signaler_bris', `Bris signalé sur ${p.code} : ${zone}`,
+        { table: 'qc_bris', op: 'insert', id });
+      return { ok: true, produit: p.code, zone,
+        rappel: 'Aucune consigne n\'en découle encore. ajouter_point_qc, ou la '
+              + 'page Qualité du produit, permet d\'en tirer une.' };
+    },
+  },
+
+  // ------------------------------------------------------------------ tâches
+  // Les tâches vont dans les deux sens : c'est le seul module où l'atelier a
+  // exactement les mêmes droits que Québec. Montassar demande des choses, on
+  // lui en demande.
+  {
+    nom: 'lister_taches',
+    description: "Les tâches en cours. Sans argument : celles de l'utilisateur "
+      + "connecté. Sert à « qu'est-ce que j'ai à faire », « qu'est-ce que j'ai "
+      + "demandé à Montassar », « qu'est-ce qui traîne ».",
+    role: 'atelier',
+    params: { type: 'object', properties: {
+      qui: { type: 'string', description:
+        "Nom de la personne. Vide = l'utilisateur connecté." },
+      demandees: { type: 'boolean', description:
+        'true = ce que cette personne a DEMANDÉ, au lieu de ce qui lui est assigné.' },
+      faites: { type: 'boolean', description: 'true = les tâches terminées.' } } },
+    executer: (a, ctx) => {
+      const m = a.qui ? resoudreMembre(a.qui) : { id: ctx.user.id, nom: ctx.user.nom };
+      const statut = a.faites ? 'faite' : 'a_faire';
+      const l = a.demandees ? D.taches({ par: m.id, statut })
+                            : D.taches({ pour: m.id, statut });
+      return { qui: m.nom, sens: a.demandees ? 'demandées par' : 'assignées à',
+        nombre: l.length,
+        taches: l.map(t => ({ id: t.id, titre: t.titre, details: t.details || undefined,
+          echeance: t.echeance || undefined,
+          demandeur: t.demandeur || undefined, porteur: t.porteur || undefined })) };
+    },
+  },
+  {
+    nom: 'creer_tache',
+    description: "Demande quelque chose à quelqu'un. « Demande à Montassar de "
+      + "vérifier le stock de molleton », « rappelle-moi de chronométrer le "
+      + "chandail ». Sans destinataire, la tâche reste sans porteur et "
+      + "n'importe qui peut la prendre.",
+    role: 'atelier',
+    params: { type: 'object', required: ['titre'], properties: {
+      titre: { type: 'string', description: 'Ce qu\'il faut faire, en une ligne.' },
+      pour: { type: 'string', description:
+        "Nom de la personne. « moi » pour l'utilisateur connecté. Vide = personne." },
+      details: { type: 'string', description: 'Ce qu\'il faut savoir pour la faire.' },
+      echeance: { type: 'string', description: 'AAAA-MM-JJ, facultative.' } } },
+    executer: (a, ctx) => {
+      const titre = String(a.titre || '').trim();
+      if (!titre) refuser('Il faut dire ce qu\'il y a à faire.');
+      let porteur = null, nomPorteur = 'personne';
+      if (a.pour && !/^(personne|aucun)$/i.test(a.pour)) {
+        const m = /^(moi|me)$/i.test(a.pour)
+          ? { id: ctx.user.id, nom: ctx.user.nom } : resoudreMembre(a.pour);
+        porteur = m.id; nomPorteur = m.nom;
+      }
+      if (a.echeance && !/^\d{4}-\d{2}-\d{2}$/.test(a.echeance))
+        refuser(`Date mal formée : « ${a.echeance} ». Il faut AAAA-MM-JJ.`);
+      const id = db.prepare(`INSERT INTO taches (titre, details, cree_par, assigne_a, echeance)
+                             VALUES (?,?,?,?,?)`)
+        .run(titre, String(a.details || '').trim(), ctx.user.id, porteur,
+             a.echeance || null).lastInsertRowid;
+      noter(ctx, 'creer_tache', `Tâche « ${titre} » pour ${nomPorteur}`,
+        { table: 'taches', op: 'insert', id });
+      return { ok: true, id, titre, pour: nomPorteur,
+               echeance: a.echeance || undefined };
+    },
+  },
+  {
+    nom: 'terminer_tache',
+    description: "Marque une tâche comme faite. Donne son titre ou un bout du "
+      + "titre — pas besoin du numéro.",
+    role: 'atelier',
+    params: { type: 'object', required: ['tache'], properties: {
+      tache: { type: 'string', description: 'Titre ou bout de titre.' } } },
+    executer: (a, ctx) => {
+      const t = resoudreTache(a.tache, ctx.user.id);
+      const avant = { statut: t.statut, faite_le: t.faite_le, faite_par: t.faite_par,
+                      assigne_a: t.assigne_a };
+      db.prepare(`UPDATE taches SET statut = 'faite', faite_le = datetime('now'),
+                  faite_par = ?, assigne_a = COALESCE(assigne_a, ?) WHERE id = ?`)
+        .run(ctx.user.id, ctx.user.id, t.id);
+      noter(ctx, 'terminer_tache', `Tâche « ${t.titre} » marquée faite`,
+        { table: 'taches', op: 'update', id: t.id, avant });
+      return { ok: true, titre: t.titre };
     },
   },
 
@@ -997,4 +1255,5 @@ function executer(nom, args, ctx) {
 
 module.exports = { OUTILS, schemas, executer, annulerTour, pourRole,
                    dernierTourAnnulable,
-                   resoudreOrdre, resoudreProduit, resoudreMatiere };
+                   resoudreOrdre, resoudreProduit, resoudreMatiere,
+                   resoudreMembre, resoudreTache };

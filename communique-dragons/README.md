@@ -1,0 +1,63 @@
+# Communiqué Dragons' Den — kit de relations médias
+
+Diffusion : **jeudi 17 septembre 2026, 20 h (20 h 30 NT), CBC et CBC Gem.**
+Saison 21, épisode 1. Source : courriel de l'équipe *Dragons' Den* du 27 août 2026
+([fil Missive](https://mail.missiveapp.com/#inbox/conversations/3a1c0ce9-8110-45e0-ad1a-65f99d4c8ab6)).
+
+| Fichier | Contenu |
+| --- | --- |
+| `01-communique-FR.md` | Communiqué français, version maîtresse |
+| `02-press-release-EN.md` | Version anglaise, réécrite et non traduite |
+| `03-matrice-personnalisation.md` | Dix angles, règle de priorité, et la table des 13 journalistes qui ont déjà couvert Lasclay |
+| `04-gabarits-courriels.md` | Un gabarit de courriel par angle, dans la voix de Gabriel |
+| `05-plan-envoi.md` | Calendrier, envoi par le proxy Missive, réponses aux questions difficiles |
+| `06-listes-medias.md` | Ce que l'assignation a donné sur les 254 contacts, et les deux constats à trancher |
+| `assigner_angles.py` | Assigne un angle par contact et produit le chiffrier enrichi |
+| `Lasclay_listes_medias_2026_angles.xlsx` | **Le livrable de travail** : les deux listes avec leur angle, l'objet suggéré, la salutation et les précautions |
+| `07-brouillons-liste-chaude.md` | Les 37 brouillons de la liste chaude, écrits un par un |
+| `08-brouillons-liste-froide.md` | Les 217 brouillons de la liste froide, par angle |
+| `generer_brouillons.py` | Écrit un brouillon par contact froid dans le chiffrier et le markdown |
+| `Lasclay_listes_medias_2026_brouillons.xlsx` | **Le livrable final** : tout le chiffrier plus une colonne Brouillon |
+| `contacts.csv` | Premier gabarit, gardé pour référence |
+
+## Deux événements
+
+La **prévente d'automne s'ouvre le samedi 12 septembre à 9 h**, cinq jours avant la diffusion.
+Pour les médias, c'est la diffusion qui est la nouvelle. La prévente se joue dans Klaviyo, vers les
+clients, et jamais vers ces listes.
+
+## Ce qui reste à faire
+
+1. Trouver quatre courriels manquants : Sophie Poisson, Caroline Bertrand, Karine Benoist,
+   Antoine Stab. Aucun n'a été deviné.
+2. Décider s'il faut bâtir une liste de presse anglophone. Les deux listes sont entièrement
+   francophones, alors que l'émission est diffusée dans tout le Canada.
+3. Relire les 37 brouillons de la liste chaude, puis les déposer dans Missive un par un.
+
+## Trois pièges dans les brouillons
+
+1. **Anne-Sophie Roy est deux fois dans la liste chaude**, à Radio-Canada et à Québecor. Même
+   journaliste, ancien employeur. Un seul message, à l'adresse Radio-Canada.
+2. **Annie Lafrance et Francis Higgins** sont dans les deux listes. Leur ligne froide porte
+   « NE PAS ENVOYER ».
+3. **Sylvie Lacombe (TVA)** nous avait contactés pour le suivi d'une précommande qui traînait.
+   Son brouillon commence par le reconnaître, et c'est voulu.
+4. **Alain McKenna (Le Devoir)** a couvert Sounds Good, pas Lasclay. Son brouillon dit d'entrée
+   que Gabriel a vendu ses parts en 2022 : McKenna suit encore cette entreprise-là.
+
+## Le mur CBC, en trois points
+
+1. Rien sur l'issue de la rencontre avant la diffusion.
+2. Aucun logo ni marque CBC / Dragons' Den, aucun « vu à Dragons' Den ». Licence payante requise.
+3. Le matériel du dossier CBC sert à annoncer la diffusion, pas à faire la promotion des produits.
+
+Nommer l'émission et la date dans un communiqué est permis, et c'est exactement ce que CBC demande
+de faire.
+
+## Hypothèses posées
+
+- Communiqué signé Lasclay, avec Gabriel cité. Le « nous » institutionnel est admis en communiqué.
+- FR et EN tous les deux, puisqu'il s'agit d'une émission de CBC diffusée dans tout le Canada.
+- Date de publication du communiqué fixée au 2 septembre 2026. À ajuster.
+- Aucun chiffre financier dans les envois. Ils sont sensibles, même ceux qui ont déjà circulé.
+- Rien ne part sans que Gabriel ait relu. Les gabarits produisent des brouillons, jamais des envois.

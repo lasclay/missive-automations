@@ -76,14 +76,15 @@ changements d'heure. Le passage à l'heure normale en novembre ne demande aucune
 La courbe suit les vrais pics d'engagement de Facebook — le matin tôt, le midi, la soirée — et
 non une journée de bureau. Le creux de midi n'est pas une pause franche, et le cœur de la nuit
 n'est jamais à zéro absolu :
-**un zéro quotidien à heure fixe est lui-même un motif reconnaissable.** Le week-end, la
-probabilité de publier tombe encore de 30 %.
+**un zéro quotidien à heure fixe est lui-même un motif reconnaissable.** **Sept jours sur sept.** Il y avait une pénalité de
+week-end : elle est retirée. Les gens commentent le samedi comme le mardi, et une Page qui répond
+du lundi au vendredi se lit comme un bureau, pas comme une communauté.
 
 **Rien n'est choisi, tout est tiré au sort** par le script, à chaque réveil :
 
 | Décision | Tirage |
 | --- | --- |
-| Publier cette heure-ci ? | probabilité = intensité × 0,85 (× 0,7 le week-end) |
+| Publier cette heure-ci ? | probabilité = intensité × 0,85 |
 | Combien | `1 + int(expo(10 × intensité))`, plafonné à 20 |
 | Délai avant la première | 45 à 420 secondes |
 | Écart entre deux réponses | 60 à 600 secondes, moyenne 3 minutes |
