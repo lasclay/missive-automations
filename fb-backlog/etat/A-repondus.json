@@ -1168,8 +1168,24 @@
       "quand": "2026-09-03T22:10:49.250Z",
       "confirme": true,
       "texte": "Belle photo, et prise au bon moment : c'est ce stade-là, à l'automne, qui donne la récolte. Chaque graine brune part avec son propre voile, et c'est ce voile qui devient l'isolant."
+    },
+    {
+      "id": "1458846102915868_899873515734972",
+      "reponse_id": "1458846102915868_1053094951027670",
+      "page_id": "104242204750257",
+      "quand": "2026-09-03T23:10:50.332Z",
+      "confirme": true,
+      "texte": "Merci, c'est gentil de l'écrire ici."
+    },
+    {
+      "id": "1458846102915868_4535531363342816",
+      "reponse_id": "1458846102915868_1421443239926842",
+      "page_id": "104242204750257",
+      "quand": "2026-09-03T23:14:42.610Z",
+      "confirme": true,
+      "texte": "Merci d'être passée le dire. Un souvenir qui vient de quelqu'un du quartier vaut plus que ce qu'on peut en raconter nous-mêmes. Le bonjour est noté."
     }
   ],
-  "derniere_execution": "2026-09-03T22:10:49.252Z",
-  "total": 146
+  "derniere_execution": "2026-09-03T23:14:42.610Z",
+  "total": 148
 }
