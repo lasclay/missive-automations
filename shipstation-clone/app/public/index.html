@@ -8823,6 +8823,16 @@ VUES.reglages = async () => {
             <td><button type="button" class="lienB" data-emp="${e.id}">Modifier</button></td></tr>`;
         }).join("") || '<tr><td colspan="4" class="doux">Aucun emplacement.</td></tr>'}</tbody></table></div></div>
 
+    <!-- « payment_method_id: not-found » : le réglage nommait une méthode du bac à sable,
+         restée en place après le passage en production. Rien ne la confrontait au compte. -->
+    <div class="carte"><b>Paiement Freightcom</b>
+      <p class="doux" style="margin:2px 0 8px">La méthode que le clone débite à chaque
+        étiquette. Coter ne la demande pas, réserver si — c'est la différence qui fait
+        échouer un achat pourtant coté.</p>
+      <div id="fcPay" class="doux">Lecture du compte…</div>
+      <div class="barre" style="margin-top:8px">
+        <button type="button" id="fcPayR">Relire le compte</button></div></div>
+
     <!-- L'écran d'expédition renvoyait ici quand un type de colis n'a pas de dimensions.
          Cet écran n'existait pas : on cherchait, on ne trouvait pas, et on finissait par
          coter sur les dimensions restées à l'écran. -->
@@ -9271,6 +9281,50 @@ VUES.reglages = async () => {
       () => { brancherRegion("#wY", "#wP"); brancherAutoAdresse({ rue: "#w1", rue2: "#w2",
         ville: "#wV", region: "#wP", cp: "#wC", pays: "#wY" }); });
   });
+
+  /**
+   * L'état du paiement Freightcom, dit en clair.
+   *
+   * La question qu'on se pose devant un refus est « qu'est-ce que le clone envoie, et
+   * est-ce que ça existe ? ». La carte y répond directement : les méthodes du compte,
+   * celle qui partirait, et le réglage quand il en nomme une qui n'existe pas.
+   */
+  const lirePaiement = async () => {
+    const z = $("#fcPay");
+    if (!z) return;
+    z.innerHTML = '<span class="doux">Lecture du compte…</span>';
+    let p;
+    try { p = await api("/api/carriers/freightcom/paiement"); }
+    catch (e) { z.innerHTML = `<div class="avis">${esc(e.message)}</div>`; return; }
+
+    const lignes = (p.methodes || []).map((m) => `<tr>
+      <td><code>${esc(m.id)}</code>${String(m.id) === String(p.choisie) ? ' <span class="puce v">utilisée</span>' : ""}</td>
+      <td>${esc(m.nom || "—")}</td><td class="doux">${esc(m.type || "—")}</td>
+      <td>${m.defaut ? '<span class="puce g">défaut du compte</span>' : ""}</td></tr>`).join("");
+
+    z.innerHTML = `
+      ${p.lecture ? `<div class="avis">Le compte n'a pas pu être lu : ${esc(p.lecture)}</div>` : ""}
+      ${p.imposeIntrouvable ? `<div class="avis bloquant"><b>Le réglage
+        <code>FREIGHTCOM_PAYMENT_METHOD_ID</code> vaut <code>${esc(p.configuree)}</code>, qui
+        n'existe pas sur ce compte.</b> C'est ce qui fait répondre
+        <code>payment_method_id: not-found</code> à la réservation. Le corriger sur Render avec
+        l'un des identifiants ci-dessous, ou le retirer pour laisser le clone prendre celle par
+        défaut.</div>` : ""}
+      ${p.refus && !p.imposeIntrouvable ? `<div class="avis">${esc(p.refus)}</div>` : ""}
+      ${lignes ? `<div class="tbl" style="max-height:none"><table>
+        <thead><tr><th scope="col">Identifiant</th><th scope="col">Nom</th>
+          <th scope="col">Type</th><th scope="col"></th></tr></thead>
+        <tbody>${lignes}</tbody></table></div>`
+        : (p.lecture ? "" : '<div class="doux">Le compte ne déclare aucune méthode de paiement.</div>')}
+      ${p.configuree ? `<div class="doux" style="margin-top:6px">Réglage
+        <code>FREIGHTCOM_PAYMENT_METHOD_ID</code> = <code>${esc(p.configuree)}</code></div>`
+        : '<div class="doux" style="margin-top:6px">Aucun réglage imposé — le clone prend celle par défaut du compte.</div>'}
+      ${p.solde && p.solde.montant !== null && p.solde.montant !== undefined
+        ? `<div class="doux">Solde disponible : <b>${esc(p.solde.montant)} ${esc(p.solde.devise || "")}</b></div>`
+        : (p.solde && p.solde.erreur ? `<div class="doux">Solde illisible : ${esc(p.solde.erreur)}</div>` : "")}`;
+  };
+  lirePaiement();
+  $("#fcPayR").onclick = lirePaiement;
 
   /** Le formulaire d'un type de colis — le même pour créer et pour corriger. */
   const editerColis = (p) => {

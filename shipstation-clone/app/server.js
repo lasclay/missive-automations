@@ -2201,12 +2201,25 @@ route("POST /api/carriers/freightcom/manifeste", async ({ req, user }) => {
 route("GET /api/carriers/freightcom/paiement", async ({ user }) => {
   accounts.exiger(user, "settings_edit");
   const fc = require("../lib/freightcom");
-  const methodes = await fc.methodesPaiement();
-  const choisie = process.env.FREIGHTCOM_PAYMENT_METHOD_ID
-    || (methodes.find((m) => m.defaut) || methodes[0] || {}).id || null;
+  let methodes = [];
+  let lecture = null;
+  try { methodes = await fc.methodesPaiement(); }
+  catch (e) { lecture = e.message; }
+
+  // Ce que le clone enverrait réellement, et pourquoi — c'est la question qu'on se pose
+  // devant un « payment_method_id: not-found ».
+  fc.oublierPaiement();
+  let choisie = null, refus = null;
+  try { choisie = await fc.methodePaiement(); }
+  catch (e) { refus = e.message; }
+
+  const impose = process.env.FREIGHTCOM_PAYMENT_METHOD_ID || null;
   let solde = null;
   if (choisie) { try { solde = await fc.soldeDisponible(choisie); } catch (e) { solde = { erreur: e.message }; } }
-  return { methodes, configuree: process.env.FREIGHTCOM_PAYMENT_METHOD_ID || null, choisie, solde };
+  return { methodes, configuree: impose, choisie, solde, refus, lecture,
+    // Un réglage qui nomme une méthode absente du compte est la cause exacte du refus de
+    // réservation le plus courant après un passage du bac à sable à la production.
+    imposeIntrouvable: !!(impose && methodes.length && !methodes.some((m) => String(m.id) === String(impose))) };
 });
 
 route("GET /api/shipments/:id/facture", async ({ params, user }) => {
