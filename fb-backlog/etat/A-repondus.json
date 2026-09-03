@@ -1128,8 +1128,24 @@
       "quand": "2026-09-03T15:30:38.971Z",
       "confirme": true,
       "texte": "Le surnom est mérité : c'est la seule plante dont les chenilles du monarque peuvent se nourrir. Sans elle, pas de papillon."
+    },
+    {
+      "id": "1671463391654137_1725067095277067",
+      "reponse_id": "1671463391654137_2334767067291447",
+      "page_id": "104242204750257",
+      "quand": "2026-09-03T17:09:28.387Z",
+      "confirme": true,
+      "texte": "Rien de confirmé de notre côté aujourd'hui, et on remarque que vous avez nommé deux choses bien différentes. Les nouveautés partent toujours par l'infolettre en premier."
+    },
+    {
+      "id": "1471550908312054_1908030416768957",
+      "reponse_id": "1471550908312054_1602500498249058",
+      "page_id": "104242204750257",
+      "quand": "2026-09-03T17:11:25.240Z",
+      "confirme": true,
+      "texte": "La pointure manquante est notée telle quelle : c'est le genre de trou qu'on ne voit pas d'ici tant que personne ne le dit. On n'annonce rien tant que ça n'existe pas, mais l'infolettre est ce qui part en premier quand une taille s'ajoute ou revient."
     }
   ],
-  "derniere_execution": "2026-09-03T15:30:38.971Z",
-  "total": 141
+  "derniere_execution": "2026-09-03T17:11:25.240Z",
+  "total": 143
 }
