@@ -517,16 +517,40 @@ async function methodesPaiement() {
  */
 let _paiement;
 async function methodePaiement() {
-  if (process.env.FREIGHTCOM_PAYMENT_METHOD_ID) return process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
   if (_paiement !== undefined) return _paiement;
-  let liste;
+
+  const impose = process.env.FREIGHTCOM_PAYMENT_METHOD_ID || "";
+  let liste = null;
   try { liste = await methodesPaiement(); }
-  catch (e) {
-    // Ne pas transformer une panne de lecture en refus d'achat : Freightcom tranchera.
-    _paiement = null;
-    return null;
+  catch {
+    /*
+     * Lecture impossible : on ne transforme pas une panne en refus d'achat. Ce que les
+     * réglages imposent part tel quel, Freightcom tranchera.
+     */
+    _paiement = impose || null;
+    return _paiement;
   }
+
   const utilisables = liste.filter((m) => m.id);
+
+  /*
+   * Un identifiant imposé se VÉRIFIE avant de partir.
+   *
+   * `FREIGHTCOM_PAYMENT_METHOD_ID` gardait la méthode du bac à sable après le passage en
+   * production. Elle partait telle quelle et Freightcom refusait la réservation par
+   * `{"payment_method_id":"not-found"}` — un refus exact, sur un réglage que rien ne
+   * confrontait au compte. Le transmettre sans le vérifier, c'est déplacer le problème
+   * d'un cran : l'erreur arrive à l'achat, chez la personne qui expédie.
+   */
+  if (impose) {
+    if (utilisables.some((m) => String(m.id) === String(impose))) { _paiement = impose; return _paiement; }
+    throw new Error(`FREIGHTCOM_PAYMENT_METHOD_ID vaut « ${impose} », qui n'existe pas sur ce compte `
+      + `Freightcom${utilisables.length
+        ? ` — les méthodes du compte sont : ${utilisables.map((m) => `${m.id}${m.nom ? ` (${m.nom})` : ""}`).join(", ")}. `
+          + `Corriger le réglage, ou le retirer pour laisser le clone prendre celle par défaut.`
+        : ` — et le compte n'en déclare aucune. Retirer le réglage et vérifier le mode de paiement chez ClickShip.`}`);
+  }
+
   if (!utilisables.length) { _paiement = null; return null; }
   const choisie = utilisables.find((m) => m.defaut) || (utilisables.length === 1 ? utilisables[0] : null);
   if (!choisie) {
@@ -537,6 +561,9 @@ async function methodePaiement() {
   _paiement = choisie.id;
   return _paiement;
 }
+
+/** Le cache de la méthode de paiement, oublié — après une correction du réglage. */
+const oublierPaiement = () => { _paiement = undefined; };
 
 async function soldeDisponible(idMethode) {
   const id = idMethode || process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
@@ -1030,7 +1057,7 @@ module.exports = {
   adaptateurFreightcom, coter, coterDirect, prechauffer, reserver, annuler, suivre, synchroniserServices,
   expedition, services, tester, etat, purgerCache, empreinte, lireCache, ecrireCache,
   identifiantUnique, scenario, lireTarif, configure, essai, attendreDocuments,
-  methodesPaiement, methodePaiement, soldeDisponible, facturesDe,
+  methodesPaiement, methodePaiement, oublierPaiement, soldeDisponible, facturesDe,
   contactExpediteur,
   demanderManifeste, manifeste,
   validerRamassage, planifierRamassage, ramassage, annulerRamassage, detailsRamassage,

@@ -250,6 +250,48 @@ const TARIF = (id, cents, nom) => ({
     JSON.stringify(reservation.corps.details.reference_codes) === '["L-50774"]');
   verifier("méthode de paiement du compte transmise",
     reservation.corps.payment_method_id === "pm-1", reservation.corps.payment_method_id || "absente");
+
+  /*
+   * Un identifiant imposé qui n'existe pas sur le compte.
+   *
+   * C'est le cas réel : le réglage gardait la méthode du bac à sable après le passage en
+   * production. Elle partait telle quelle, et Freightcom refusait la réservation par
+   * `{"payment_method_id":"not-found"}`. Le transmettre sans le confronter au compte, c'est
+   * déplacer l'erreur jusqu'à la personne qui expédie.
+   */
+  {
+    fc.oublierPaiement();
+    process.env.FREIGHTCOM_PAYMENT_METHOD_ID = "pm-du-bac-a-sable";
+    run("DELETE FROM rate_cache");
+    espion([{ statut: 202, corps: { request_id: "req-pm" } },
+      { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep", 700, "Expedited")] } },
+      { corps: { payment_methods: [{ id: "pm-1", name: "Compte JSB", default: true }] } }]);
+    let refus = "";
+    try { await fc.reserver({ ...ENVOI, orderId: 55555, to: { ...ENVOI.to, postalCode: "J9A 1A1" } }, "cp-ep"); }
+    catch (e) { refus = e.message; }
+    verifier("un identifiant de paiement absent du compte est refusé avant l'appel",
+      /n'existe pas sur ce compte/.test(refus), refus.slice(0, 100));
+    verifier("le refus nomme les méthodes réelles du compte",
+      /pm-1/.test(refus) && /Compte JSB/.test(refus));
+
+    // Et l'inverse : un identifiant imposé qui existe bel et bien doit passer.
+    fc.oublierPaiement();
+    process.env.FREIGHTCOM_PAYMENT_METHOD_ID = "pm-1";
+    run("DELETE FROM rate_cache");
+    const vus2 = espion([{ statut: 202, corps: { request_id: "req-pm2" } },
+      { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep", 700, "Expedited")] } },
+      { corps: { payment_methods: [{ id: "pm-1", name: "Compte JSB", default: true }] } },
+      { corps: { shipment_id: "shp-pm", tracking_number: "9" } },
+      { corps: { shipment: { state: "booked", primary_tracking_number: "9",
+        labels: [{ size: "4x6", format: "pdf", url: "https://f/e.pdf" }] } } }]);
+    await fc.reserver({ ...ENVOI, orderId: 44444, to: { ...ENVOI.to, postalCode: "J9B 1B1" } }, "cp-ep");
+    const envoye = vus2.find((v) => v.methode === "POST" && v.url.endsWith("/shipment"));
+    verifier("un identifiant imposé et valide part tel quel",
+      envoye && envoye.corps.payment_method_id === "pm-1");
+
+    delete process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
+    fc.oublierPaiement();
+  }
   verifier("numéro de suivi et prix rendus",
     achat.trackingNumber === "1234567890" && achat.price === 6.31 && achat.dropOff === true);
   verifier("l'étiquette est récupérée après la réservation",
