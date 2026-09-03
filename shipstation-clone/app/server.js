@@ -2202,8 +2202,8 @@ route("GET /api/carriers/freightcom/paiement", async ({ user }) => {
   accounts.exiger(user, "settings_edit");
   const fc = require("../lib/freightcom");
   let methodes = [];
-  let lecture = null;
-  try { methodes = await fc.methodesPaiement(); }
+  let lecture = null, brut = null;
+  try { methodes = await fc.methodesPaiement(); brut = methodes.brut ?? null; }
   catch (e) { lecture = e.message; }
 
   // Ce que le clone enverrait réellement, et pourquoi — c'est la question qu'on se pose
@@ -2217,6 +2217,9 @@ route("GET /api/carriers/freightcom/paiement", async ({ user }) => {
   let solde = null;
   if (choisie) { try { solde = await fc.soldeDisponible(choisie); } catch (e) { solde = { erreur: e.message }; } }
   return { methodes, configuree: impose, choisie, solde, refus, lecture,
+    // Quand rien ne se laisse lire, la réponse brute est la seule chose qui permette de
+    // savoir si le compte n'a pas de carte ou si c'est l'enveloppe qu'on n'a pas su ouvrir.
+    brut: methodes.length ? null : brut,
     // Un réglage qui nomme une méthode absente du compte est la cause exacte du refus de
     // réservation le plus courant après un passage du bac à sable à la production.
     imposeIntrouvable: !!(impose && methodes.length && !methodes.some((m) => String(m.id) === String(impose))) };

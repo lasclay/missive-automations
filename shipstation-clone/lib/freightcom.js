@@ -491,16 +491,57 @@ function servicesRetenus() {
  * a une par l'API : c'est ici. Le solde compte autant : une réservation sur un compte prépayé
  * vide échoue au moment le plus coûteux, entre le tri et le comptoir.
  */
+/**
+ * Les méthodes de paiement du compte, quelle que soit la forme de la réponse.
+ *
+ * La carte VISA est bien enregistrée chez Freightcom — « Primary Card », visible dans le
+ * portefeuille — et pourtant la liste revenait vide ici. Une liste vide n'est pas la même
+ * chose qu'un compte sans carte : c'est souvent une enveloppe qu'on n'a pas su ouvrir.
+ * L'API rend ce genre de collection tantôt en tableau, tantôt sous `payment_methods`,
+ * `data`, `items` ou `results`, tantôt en objet dont les CLÉS sont les identifiants.
+ *
+ * Toutes ces formes sont lues ici, et `brut` garde la réponse entière : quand rien n'en
+ * sort, l'écran la montre telle quelle plutôt que d'affirmer que le compte n'a pas de
+ * carte. Se tromper dans ce sens-là ferait chercher au mauvais endroit — chez Freightcom
+ * plutôt que dans ce fichier.
+ */
+function _normaliserMethode(m, cle = null) {
+  if (!m || typeof m !== "object") return null;
+  const id = m.id || m.payment_method_id || m.payment_method || m.uuid || cle;
+  if (!id) return null;
+  const carte = m.card || m.credit_card || {};
+  const quatre = m.last4 || m.last_four || carte.last4 || carte.last_four || null;
+  return {
+    id: String(id),
+    type: m.type || m.kind || m.method_type || (quatre ? "credit_card" : null),
+    nom: m.name || m.description || m.nickname || m.label
+      || (quatre ? `${carte.brand || m.brand || "carte"} •••• ${quatre}` : null),
+    defaut: !!(m.default || m.is_default || m.primary || m.is_primary),
+    brut: m,
+  };
+}
+
 async function methodesPaiement() {
   const r = await appel("GET", "/finance/payment-methods");
-  const liste = r?.payment_methods || r?.data || (Array.isArray(r) ? r : []);
-  return (Array.isArray(liste) ? liste : []).map((m) => ({
-    id: m.id || m.payment_method_id,
-    type: m.type || m.kind || null,
-    nom: m.name || m.description || m.nickname || null,
-    defaut: !!(m.default || m.is_default),
-    brut: m,
-  }));
+  let brutes = null;
+  if (Array.isArray(r)) brutes = r;
+  else if (r && typeof r === "object") {
+    for (const cle of ["payment_methods", "paymentMethods", "data", "items", "results", "methods", "cards"]) {
+      const v = r[cle];
+      if (Array.isArray(v)) { brutes = v; break; }
+      // Une collection indexée par identifiant : les clés SONT les identifiants.
+      if (v && typeof v === "object") { brutes = Object.entries(v).map(([k, m]) => _normaliserMethode(m, k)); break; }
+    }
+    // Dernier recours : l'objet lui-même est la collection.
+    if (!brutes) {
+      const entrees = Object.entries(r).filter(([, v]) => v && typeof v === "object");
+      if (entrees.length) brutes = entrees.map(([k, m]) => _normaliserMethode(m, k));
+    }
+  }
+  const liste = (brutes || []).map((m) => (m && m.brut ? m : _normaliserMethode(m))).filter(Boolean);
+  // La réponse entière voyage avec la liste : sans elle, une liste vide ne se diagnostique pas.
+  Object.defineProperty(liste, "brut", { value: r, enumerable: false });
+  return liste;
 }
 
 /**
@@ -544,11 +585,14 @@ async function methodePaiement() {
    */
   if (impose) {
     if (utilisables.some((m) => String(m.id) === String(impose))) { _paiement = impose; return _paiement; }
+    // Une liste vide ne prouve rien — elle veut dire « je n'ai rien su lire », pas « le
+    // compte n'a pas de carte ». Refuser là-dessus enverrait chercher chez Freightcom un
+    // problème qui est ici. On laisse partir, Freightcom tranchera.
+    if (!utilisables.length) { _paiement = impose; return _paiement; }
     throw new Error(`FREIGHTCOM_PAYMENT_METHOD_ID vaut « ${impose} », qui n'existe pas sur ce compte `
-      + `Freightcom${utilisables.length
-        ? ` — les méthodes du compte sont : ${utilisables.map((m) => `${m.id}${m.nom ? ` (${m.nom})` : ""}`).join(", ")}. `
-          + `Corriger le réglage, ou le retirer pour laisser le clone prendre celle par défaut.`
-        : ` — et le compte n'en déclare aucune. Retirer le réglage et vérifier le mode de paiement chez ClickShip.`}`);
+      + `Freightcom — les méthodes du compte sont : `
+      + utilisables.map((m) => `${m.id}${m.nom ? ` (${m.nom})` : ""}`).join(", ")
+      + `. Corriger le réglage, ou le retirer pour laisser le clone prendre celle par défaut.`);
   }
 
   if (!utilisables.length) { _paiement = null; return null; }
