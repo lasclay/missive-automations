@@ -1,0 +1,14 @@
+prenom,nom,media,courriel,langue,region,thematique,article_anterieur_titre,article_anterieur_date,angle,date_envoi,statut,notes
+Guillaume,Roy,Le Quotidien,,fr,Saguenay-Lac-Saint-Jean,agriculture,La deuxieme vie de l'asclepiade,2020-10-09,A,,a_faire,Premier journaliste a avoir couvert Lasclay
+Sophie,Poisson,Baron Mag,,fr,Montreal,style_de_vie,Des accessoires d'hiver isoles a l'asclepiade,2020-11-10,A,,a_faire,
+Anne-Sophie,Roy,Journal de Montreal,,fr,Montreal,affaires,Lasclay des mitaines isolees a l'asclepiade,2020-12-14,A,,a_faire,
+Sophie,Grenier-Heroux,Le Devoir,,fr,Montreal,environnement,La soie d'Amerique le pari de deux ambitieux,2021-01-15,A,,a_faire,
+Raphaelle,Drouin,Urbania,,fr,Montreal,style_de_vie,Devenir viral avant meme de se lancer en affaires,2021-01-19,A,,a_faire,Suite narrative la plus forte de la liste
+Fanny,Samson,Radio-Canada,,fr,Quebec,agriculture,Les grandes promesses de l'asclepiade,2021-03-12,A,,a_faire,
+Valerie,Simard,La Presse,,fr,Montreal,style_de_vie,Lasclay des moufles isolees a l'asclepiade,2021-09-17,A,,a_faire,Diffusion 5 ans jour pour jour apres sa parution
+Caroline,Bertrand,ICI Explora,,fr,Montreal,environnement,L'asclepiade pour braver le froid,2021-09-28,A,,a_faire,
+Marie,Tison,La Presse,,fr,Montreal,plein_air,Le timide retour de l'asclepiade,2021-11-08,A,,a_faire,
+Sylvie,Lemieux,Journal de Montreal,,fr,Montreal,affaires,Les deux mains dans l'ecoresponsabilite,2021-12-08,A,,a_faire,
+,,Le Soleil Affaires,,fr,Quebec,affaires,L'asclepiade plus que la fibre de demain,2024-04-20,A,,a_verifier,Signature a aller lire a la source
+,,Le Soleil / La Tribune,,fr,Quebec,affaires,Lasclay devant le dilemme de fabriquer au Quebec,2025-12,A,,a_verifier,Signature a aller lire a la source
+,,La Presse,,fr,Montreal,affaires,La sinueuse route de la soie du Nord,2026-02-23,A,,a_verifier,Signature a aller lire a la source
