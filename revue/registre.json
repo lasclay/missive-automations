@@ -2,6 +2,20 @@
  "version": 1,
  "ameliorations": [
   {
+   "id": "R-20260902-01",
+   "titre": "Suivre le reproche d'inauthenticite comme un signal nomme, sur les deux canaux",
+   "gravite": "majeur",
+   "etat": "proposee",
+   "propose_le": "2026-09-02",
+   "source": "revue 2026-09-02",
+   "constat": "Trois personnes distinctes, sur deux canaux, reprochent a Lasclay de repondre par une IA ou de publier une image generee. Rien ne compte ce signal : la collecte suit les publications, les ecarts et les brouillons, mais pas ce reproche, qui est pourtant le seul a toucher directement la credibilite de la marque. Le troisieme cas est aussi le plus parlant : la personne demande explicitement a ne pas etre repondue par une IA, et le brouillon prepare pour elle attend depuis 48 jours.",
+   "preuve": "1) Facebook tir C, ecarte le 2026-08-31 : « FAKE - A-I - THIS FARMER IS NOT REAL - SHE IS A COMPUTER IMAGE », sur deux publications, la seconde 934359419303137. 2) Missive fil 640e6213, message du 2026-07-16 : « C'est ca l'effet des message realises par l'intelligence artificielle? ». 3) Missive fil df1ba00d, sujet du fil : « J'aimerais que ce ne soit pas l'intelligence artificielle qui reponde », portant un brouillon non envoye date du 2026-07-16.",
+   "proposition": "Ajouter a collecte.js un compteur nomme « inauthenticite » qui balaie deux sources — les motifs et messages des fichiers a-revoir du backlog, et les sujets des fils Missive assignes — sur un jeu de formulations tenu dans un fichier versionne (intelligence artificielle, IA, A-I, AI, fake, robot, genere par ordinateur), et qui ressort le compte, les identifiants et la date du plus recent, de sorte que chaque tour puisse dire si le reproche progresse ou reflue.",
+   "portee": "revue/collecte.js, un fichier de formulations versionne",
+   "risque": "Une recherche par mots-cles ramassera des faux positifs — toute discussion sur l'IA en general, y compris favorable — et manquera les formulations qui n'emploient aucun de ces mots. Le compteur doit donc etre presente comme un indicateur a relire, jamais comme une mesure exacte, et chaque occurrence doit etre citee avec son texte pour que le tour puisse ecarter le bruit a la lecture. Ne jamais en tirer une reponse automatique : repondre a une accusation d'inauthenticite par un message genere serait exactement le geste a eviter.",
+   "effort": "45 min"
+  },
+  {
    "id": "R-20260831-04",
    "titre": "Recolter les trous de faits-verifies.json que les motifs d'ecart nomment deja",
    "gravite": "mineur",

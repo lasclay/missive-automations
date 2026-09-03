@@ -5,13 +5,23 @@ la source est `revue/registre.json`, et tout changement d'état passe par le scr
 
 | État | Nombre |
 | --- | --- |
-| proposee | 8 |
+| proposee | 9 |
 | approuvee | 0 |
 | appliquee | 0 |
 | refusee | 0 |
 | reportee | 0 |
 
-## En attente d'approbation (8)
+## En attente d'approbation (9)
+
+### R-20260902-01 — Suivre le reproche d'inauthenticite comme un signal nomme, sur les deux canaux
+
+- **Gravité** : majeur · **Effort** : 45 min · **Proposé le** : 2026-09-02
+- **Source** : revue 2026-09-02
+- **Constat** : Trois personnes distinctes, sur deux canaux, reprochent a Lasclay de repondre par une IA ou de publier une image generee. Rien ne compte ce signal : la collecte suit les publications, les ecarts et les brouillons, mais pas ce reproche, qui est pourtant le seul a toucher directement la credibilite de la marque. Le troisieme cas est aussi le plus parlant : la personne demande explicitement a ne pas etre repondue par une IA, et le brouillon prepare pour elle attend depuis 48 jours.
+- **Preuve** : 1) Facebook tir C, ecarte le 2026-08-31 : « FAKE - A-I - THIS FARMER IS NOT REAL - SHE IS A COMPUTER IMAGE », sur deux publications, la seconde 934359419303137. 2) Missive fil 640e6213, message du 2026-07-16 : « C'est ca l'effet des message realises par l'intelligence artificielle? ». 3) Missive fil df1ba00d, sujet du fil : « J'aimerais que ce ne soit pas l'intelligence artificielle qui reponde », portant un brouillon non envoye date du 2026-07-16.
+- **Proposition** : Ajouter a collecte.js un compteur nomme « inauthenticite » qui balaie deux sources — les motifs et messages des fichiers a-revoir du backlog, et les sujets des fils Missive assignes — sur un jeu de formulations tenu dans un fichier versionne (intelligence artificielle, IA, A-I, AI, fake, robot, genere par ordinateur), et qui ressort le compte, les identifiants et la date du plus recent, de sorte que chaque tour puisse dire si le reproche progresse ou reflue.
+- **Portée** : revue/collecte.js, un fichier de formulations versionne
+- **Risque** : Une recherche par mots-cles ramassera des faux positifs — toute discussion sur l'IA en general, y compris favorable — et manquera les formulations qui n'emploient aucun de ces mots. Le compteur doit donc etre presente comme un indicateur a relire, jamais comme une mesure exacte, et chaque occurrence doit etre citee avec son texte pour que le tour puisse ecarter le bruit a la lecture. Ne jamais en tirer une reponse automatique : repondre a une accusation d'inauthenticite par un message genere serait exactement le geste a eviter.
 
 ### R-20260831-04 — Recolter les trous de faits-verifies.json que les motifs d'ecart nomment deja
 
