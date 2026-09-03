@@ -9149,6 +9149,31 @@ VUES.reglages = async () => {
             `<tr><td>${esc(x.order_number)}</td><td>${esc(x.marketplace || "—")}</td>
              <td class="doux">${esc(String(x.notify_error).slice(0, 90))}</td></tr>`).join("")}
         </tbody></table></div>` : ""}`;
+  /*
+   * Les portées Shopify, dites avant l'expédition.
+   *
+   * « Access denied for fulfillmentOrders field » nomme un champ GraphQL, pas un droit, et
+   * il tombe une fois l'étiquette payée. La question se pose ici, à froid.
+   */
+  (async () => {
+    let p;
+    try { p = await api("/api/channels/portees"); } catch { return; }
+    const zone = $("#cxt");
+    if (!zone || !p) return;
+    if (p.manquantes && p.manquantes.length) {
+      zone.insertAdjacentHTML("afterbegin", `<div class="avis bloquant">
+        <b>Shopify refusera les exécutions :</b> il manque
+        ${p.manquantes.map((x) => `<code>${esc(x)}</code>`).join(" et ")} sur l'app.
+        <div class="doux" style="margin-top:4px">${esc(p.note || "")}</div></div>`);
+    } else if (p.connues) {
+      zone.insertAdjacentHTML("afterbegin", `<div class="doux" style="margin-bottom:8px">
+        Portées Shopify d'expédition accordées.</div>`);
+    } else if (p.note) {
+      zone.insertAdjacentHTML("afterbegin", `<div class="doux" style="margin-bottom:8px">
+        Portées Shopify non vérifiables : ${esc(p.note)}</div>`);
+    }
+  })();
+
   const bb = $("#cxbasc");
   if (bb) bb.onclick = () => dialogue("Prendre le relais des notifications",
     `<p>À partir de maintenant, c'est ce service qui déposera les numéros de suivi chez Shopify,

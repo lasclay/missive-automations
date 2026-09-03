@@ -67,8 +67,73 @@ function urlSuivi(code, numero) {
  * L'expédition passe obligatoirement par une « fulfillment order » : l'ancien chemin direct
  * a été retiré par Shopify.
  */
+/**
+ * Les portées Shopify que l'expédition exige, et ce qu'on peut en dire.
+ *
+ * L'expédition passe obligatoirement par une « fulfillment order » — Shopify a retiré
+ * l'ancien chemin direct. Lire ces objets, puis créer l'exécution, demande des portées
+ * qu'une app en lecture seule n'a pas :
+ *
+ *     read_merchant_managed_fulfillment_orders    lire les commandes à exécuter
+ *     write_merchant_managed_fulfillment_orders   créer l'exécution et déposer le suivi
+ *
+ * « merchant managed » parce que Lasclay expédie de son propre entrepôt. Une boutique qui
+ * déléguerait à un préparateur externe aurait besoin de la paire `assigned` ou
+ * `third_party` à la place.
+ *
+ * Sans elles, Shopify répond « Access denied for fulfillmentOrders field » — un message qui
+ * ne dit ni laquelle manque, ni où l'ajouter. C'est le seul endroit du clone qui le sache,
+ * donc c'est ici qu'on le traduit.
+ */
+const PORTEES_EXPEDITION = [
+  "read_merchant_managed_fulfillment_orders",
+  "write_merchant_managed_fulfillment_orders",
+];
+
+const MARCHE_A_SUIVRE_PORTEES =
+  "Ajouter ces portées à l'app Shopify (Paramètres ▸ Apps ▸ développer une app ▸ Admin API "
+  + "access scopes), publier une nouvelle version, puis réinstaller l'app sur la boutique. "
+  + "Le jeton se renouvelle seul ensuite.";
+
+/**
+ * Un refus d'accès Shopify, traduit en geste.
+ *
+ * Rendre le message brut de GraphQL laisse chercher : il nomme un champ, pas un droit.
+ */
+function traduireRefusShopify(message) {
+  const m = String(message || "");
+  if (!/access denied/i.test(m)) return m;
+  const champ = (m.match(/for (\w+) field/i) || [])[1] || null;
+  if (champ && /fulfillment/i.test(champ)) {
+    return `Shopify refuse l'accès au champ « ${champ} » : il manque les portées `
+      + `${PORTEES_EXPEDITION.join(" et ")}. ${MARCHE_A_SUIVRE_PORTEES}`;
+  }
+  return `${m} — il s'agit d'une portée manquante sur l'app Shopify. ${MARCHE_A_SUIVRE_PORTEES}`;
+}
+
 const shopify = {
   nom: "shopify",
+  portees: PORTEES_EXPEDITION,
+
+  /**
+   * Les portées accordées, confrontées à celles qu'il faut.
+   *
+   * Se pose AVANT d'expédier, pas après : découvrir qu'un droit manque au moment où
+   * l'étiquette est déjà achetée, c'est le découvrir trop tard.
+   */
+  async verifierPortees() {
+    const { tokenScopes } = this.client();
+    const t = await tokenScopes();
+    // Un jeton fixe n'expose pas ses portées : on ne peut rien affirmer, et le dire vaut
+    // mieux que d'annoncer un manque qui n'existe peut-être pas.
+    if (!t || !Array.isArray(t.scopes)) {
+      return { connues: false, note: (t && t.note) || "les portées de ce jeton ne sont pas lisibles",
+        requises: PORTEES_EXPEDITION, manquantes: [] };
+    }
+    const manquantes = PORTEES_EXPEDITION.filter((p) => !t.scopes.includes(p));
+    return { connues: true, accordees: t.scopes, requises: PORTEES_EXPEDITION, manquantes,
+      note: manquantes.length ? MARCHE_A_SUIVRE_PORTEES : null };
+  },
 
   client() {
     // Chargé à la demande : le clone doit démarrer même si le module est absent.
@@ -84,13 +149,16 @@ const shopify = {
     const idShopify = String(commande.order_key || "").replace(/^ss-/, "");
     if (!/^\d+$/.test(idShopify)) throw new Error(`identifiant Shopify introuvable (order_key=${commande.order_key})`);
 
-    const d = await gql(`
-      query($id: ID!) {
-        order(id: $id) {
-          id
-          fulfillmentOrders(first: 20) { edges { node { id status } } }
-        }
-      }`, { id: `gid://shopify/Order/${idShopify}` });
+    let d;
+    try {
+      d = await gql(`
+        query($id: ID!) {
+          order(id: $id) {
+            id
+            fulfillmentOrders(first: 20) { edges { node { id status } } }
+          }
+        }`, { id: `gid://shopify/Order/${idShopify}` });
+    } catch (e) { throw new Error(traduireRefusShopify(e.message)); }
 
     if (!d.order) throw new Error(`commande ${idShopify} introuvable chez Shopify`);
     const ouvertes = (d.order.fulfillmentOrders.edges || [])
@@ -99,25 +167,28 @@ const shopify = {
     if (!ouvertes.length) return { deja: true, message: "aucune fulfillment order ouverte — déjà expédiée côté Shopify" };
 
     const suivi = expedition.tracking_number || null;
-    const r = await gql(`
-      mutation($f: FulfillmentInput!) {
-        fulfillmentCreate(fulfillment: $f) {
-          fulfillment { id status trackingInfo { number company url } }
-          userErrors { field message }
-        }
-      }`, {
-      f: {
-        lineItemsByFulfillmentOrder: ouvertes.map((f) => ({ fulfillmentOrderId: f.id })),
-        notifyCustomer: true,
-        ...(suivi ? {
-          trackingInfo: {
-            number: suivi,
-            company: nomTransporteur(expedition.carrier_code),
-            url: urlSuivi(expedition.carrier_code, suivi),
-          },
-        } : {}),
-      },
-    });
+    let r;
+    try {
+      r = await gql(`
+        mutation($f: FulfillmentInput!) {
+          fulfillmentCreate(fulfillment: $f) {
+            fulfillment { id status trackingInfo { number company url } }
+            userErrors { field message }
+          }
+        }`, {
+        f: {
+          lineItemsByFulfillmentOrder: ouvertes.map((f) => ({ fulfillmentOrderId: f.id })),
+          notifyCustomer: true,
+          ...(suivi ? {
+            trackingInfo: {
+              number: suivi,
+              company: nomTransporteur(expedition.carrier_code),
+              url: urlSuivi(expedition.carrier_code, suivi),
+            },
+          } : {}),
+        },
+      });
+    } catch (e) { throw new Error(traduireRefusShopify(e.message)); }
 
     const erreurs = r.fulfillmentCreate?.userErrors || [];
     if (erreurs.length) throw new Error(erreurs.map((e) => `${e.field}: ${e.message}`).join(" ; "));
