@@ -60,6 +60,64 @@ C=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*
 P=$(curl -s -b $CA $B/ordres/1 | grep -oE '>[0-9]+ %<' | head -1 | tr -dc 0-9)
 [ "$P" = 44 ] && ok "avancement global pondéré par les quantités = 44 %" || ko "pondération incorrecte ($P)"
 
+# ---------------------------------------------------------------- le fil d'un item
+# Le fil vit à côté du produit, pas au bas de la page : une question sur le
+# cache-cou ne doit pas atterrir sous une remarque sur les tuques.
+Q(){ node -e "const{db}=require('./db.js');console.log(db.prepare(\"$1\").get().n)" 2>/dev/null; }
+
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil \
+  --data 'type=question&texte=Quel fil pour la doublure ?'
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE item_id=3 AND type='question'")" = 1 ] \
+  && ok "l'atelier pose une question sur un lot" || ko "question non enregistrée"
+
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil --data 'type=note&texte='
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE item_id=3")" = 1 ] \
+  && ok "message vide refusé" || ko "message vide accepté"
+
+# « Demander une mise à jour » est un geste d'administration : l'atelier
+# déclare son avancement, il ne se le réclame pas à lui-même.
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/demander
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE type='demande'")" = 0 ] \
+  && ok "l'atelier ne demande pas de mise à jour" || ko "demande créée par l'atelier"
+
+curl -s -b $CA -o /dev/null -X POST $B/ordres/1/items/3/demander
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE item_id=3 AND type='demande' AND regle_le IS NULL")" = 1 ] \
+  && ok "l'administration demande une mise à jour" || ko "demande non créée"
+
+# Appuyer deux fois ne double pas la pression.
+curl -s -b $CA -o /dev/null -X POST $B/ordres/1/items/3/demander
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE item_id=3 AND type='demande'")" = 1 ] \
+  && ok "une seule demande ouverte à la fois" || ko "demande dupliquée"
+
+# Ce qui attend se voit sans ouvrir l'ordre : deux entrées ouvertes sur l'item 3.
+[ "$(curl -s -b $CA $B/ | grep -c 'En attente de réponse')" = 1 ] \
+  && ok "l'accueil remonte ce qui attend une réponse" || ko "accueil muet"
+
+# Le geste central : déclarer un avancement REFERME la demande. Sans ça,
+# l'atelier devrait faire deux gestes pour une seule information.
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/avancement --data 'valeur=30'
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE item_id=3 AND type='demande' AND regle_le IS NULL")" = 0 ] \
+  && ok "déclarer un avancement referme la demande" || ko "demande restée ouverte"
+
+# … mais pas la question : elle attend une phrase, pas un chiffre.
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE item_id=3 AND type='question' AND regle_le IS NULL")" = 1 ] \
+  && ok "la question reste ouverte, elle attend une phrase" || ko "question refermée à tort"
+
+curl -s -b $CA -o /dev/null -X POST $B/ordres/1/items/3/fil \
+  --data 'type=reponse&texte=Fil polyester noir, comme sur la charte.'
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE item_id=3 AND regle_le IS NULL AND type IN ('question','demande')")" = 0 ] \
+  && ok "une réponse referme ce qui attendait" || ko "réponse sans effet"
+
+# Un fil appartient à son ordre. Un identifiant d'item valide ailleurs ne doit
+# pas ouvrir la porte : c'est la même vérification que sur l'avancement.
+curl -s -b $CA -o /dev/null -X POST $B/ordres/nouveau --data 'titre=Ordre témoin'
+O2=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT MAX(id) n FROM ordres').get().n)" 2>/dev/null)
+curl -s -b $CA -o /dev/null -X POST $B/ordres/$O2/items/3/fil --data 'type=note&texte=ailleurs'
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE texte='ailleurs'")" = 0 ] \
+  && ok "un item ne s'écrit pas depuis un autre ordre" || ko "cloisonnement des ordres percé"
+
+
+
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
 for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi; do
   S=$(curl -s -b $CA "$B$u" -H 'Accept-Encoding: gzip' -o /dev/null -w '%{size_download}')

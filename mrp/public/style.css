@@ -177,6 +177,38 @@ textarea{min-height:70px;resize:vertical}
 .comm .qui2{font-size:12.5px;color:var(--gris);margin-bottom:2px}
 .comm p{white-space:pre-wrap;margin:0}
 
+/* ---------- le fil d'un item ----------
+   Ce qui attend une réponse est DEHORS du repli, ce qui est dit est dedans.
+   Une conversation de douze messages ne doit pas repousser les autres produits
+   hors de l'écran ; une question sans réponse doit se voir sans cliquer. */
+.it-note{margin:0 0 8px;color:var(--encre2);font-size:13.5px;white-space:pre-wrap}
+
+.fil-att{border-left:3px solid var(--ambre);background:var(--ambre-pale);
+  border-radius:0 5px 5px 0;padding:7px 10px;margin-bottom:8px;font-size:13px}
+.fil-att b{display:block;color:var(--ambre);font-size:12.5px}
+.fil-att.fil-question{border-left-color:var(--bleu);background:var(--bleu-pale)}
+.fil-att.fil-question b{color:var(--bleu)}
+.fil-att .fil-quand{display:block;color:var(--gris);font-size:12px}
+.fil-att .fil-tx{display:block;white-space:pre-wrap;margin-top:3px;color:var(--encre)}
+.fil-att form{display:block;margin-top:4px}
+.fil-att .lien{font-size:12px}
+
+.fil{margin-top:2px}
+.fil>summary{cursor:pointer;font-size:13px;color:var(--encre2);
+  list-style-position:outside}
+.fil>summary:hover{color:var(--vert)}
+.fil[open]>summary{margin-bottom:9px;font-weight:600}
+.fil .comm{margin-bottom:9px;font-size:13.5px}
+.fil .fil-question{border-left-color:var(--bleu)}
+.fil .fil-demande{border-left-color:var(--ambre)}
+.fil .fil-reponse{border-left-color:var(--vert)}
+.fil .vide{font-size:13px;padding:4px 0}
+.fil-f textarea{min-height:62px;font-size:13.5px}
+.fil-btn{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+/* La carte d'accueil qui remonte ce qui attend : un filet ambre suffit à la
+   sortir de la pile sans en faire une alarme. */
+.carte-att{border-left:3px solid var(--ambre)}
+
 /* ---------- cédule ---------- */
 .jalon{display:flex;gap:12px;align-items:baseline;padding:7px 0;
   border-bottom:1px solid var(--ligne)}
@@ -209,7 +241,8 @@ textarea{min-height:70px;resize:vertical}
   table.items td:last-child{padding-bottom:0}
   table.items td.num{text-align:left}
   table.items td.num::before{content:"Quantité : ";color:var(--gris);font-size:12.5px}
-  table.items td.note-c::before{content:"Note : ";color:var(--gris);font-size:12.5px}
+  /* Pas d'étiquette ajoutée ici : le <summary> du fil dit déjà « Notes et
+     questions », et la répéter au-dessus donnait deux fois le même titre. */
   /* En pile, le <thead> disparaît : sans étiquette, les colonnes du suivi
      deviennent des nombres nus — « 9 » et « 4 680 » ne veulent plus rien dire.
      Chaque cellule porte donc son propre intitulé sur téléphone. */
