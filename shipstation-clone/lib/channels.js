@@ -224,10 +224,36 @@ async function notifier(shipmentId, { force = false } = {}) {
   if (e.voided) return { ignore: "étiquette annulée" };
   if (e.is_return) return { ignore: "étiquette de retour" };
 
-  const bascule = dateBascule();
-  if (!bascule) return { ignore: "date de bascule non posée — Réglages → Prendre le relais des notifications" };
-  if (e.created_at && e.created_at < bascule && !force)
-    return { ignore: "expédition antérieure à la bascule — ShipStation l'a déjà notifiée" };
+  /*
+   * La bascule protège l'HISTORIQUE, pas les étiquettes achetées ici.
+   *
+   * Elle existe pour une seule raison : ne pas réécrire à des clients dont ShipStation a
+   * déjà déposé le suivi il y a des mois. Ce risque ne concerne que les expéditions
+   * rapatriées par la migration.
+   *
+   * Une étiquette achetée dans le clone porte le nom de son fournisseur (`provider`) ; les
+   * expéditions migrées n'en portent aucun. Et une étiquette achetée ici n'a, par
+   * construction, jamais été notifiée par ShipStation — la retenir derrière une date de
+   * bascule laisse le client sans suivi sur une commande qu'on vient d'expédier. C'est
+   * exactement ce qui est arrivé au premier achat réel : étiquette imprimée, Shopify muet.
+   *
+   * L'ignorance se note en clair : un renvoi qui n'a pas lieu doit se lire à l'écran, pas se
+   * deviner. Sans cela, l'expédition restait dans la file sans une ligne pour dire pourquoi.
+   */
+  const acheteeIci = !!e.provider;
+  // `force` est le bouton « Renvoyer le suivi » : un geste explicite, sur une expédition
+  // qu'on regarde. Il passe outre la bascule entière — c'est le seul moyen de rattraper
+  // une expédition qu'elle avait laissée derrière.
+  if (!acheteeIci && !force) {
+    const bascule = dateBascule();
+    const passe = (motif) => {
+      run("UPDATE shipments SET notify_error = ? WHERE id = ?", motif, shipmentId);
+      return { ignore: motif };
+    };
+    if (!bascule) return passe("date de bascule non posée — Réglages → Prendre le relais des notifications");
+    if (e.created_at && e.created_at < bascule)
+      return passe("expédition antérieure à la bascule — ShipStation l'a déjà notifiée");
+  }
 
   const commande = orders.parId(e.order_id);
   if (!commande) return { ignore: "commande absente" };
@@ -268,7 +294,7 @@ const enAttente = (limite = 100) => all(
    LEFT JOIN orders o ON o.id = s.order_id
    LEFT JOIN stores st ON st.id = o.store_id
    WHERE s.marketplace_notified = 0 AND s.voided = 0 AND s.is_return = 0 AND s.order_id IS NOT NULL
-     AND s.created_at >= COALESCE(?, '9999')
+     AND (s.provider IS NOT NULL OR s.created_at >= COALESCE(?, '9999'))
    ORDER BY s.id DESC LIMIT ?`, dateBascule(), limite);
 
 /** Traite la file. À appeler après un lot, et périodiquement. */
@@ -292,10 +318,11 @@ const etat = () => Object.values(CANAUX).map((c) => ({
 }));
 
 /** Ce que la bascule met hors de portée — pour l'afficher plutôt que de le taire. */
+/** L'historique laissé à ShipStation — les expéditions migrées, jamais celles achetées ici. */
 const historiqueIgnore = () => one(
   `SELECT COUNT(*) n FROM shipments
    WHERE marketplace_notified = 0 AND voided = 0 AND is_return = 0 AND order_id IS NOT NULL
-     AND created_at < COALESCE(?, '9999')`, dateBascule()).n;
+     AND provider IS NULL AND created_at < COALESCE(?, '9999')`, dateBascule()).n;
 
 module.exports = { notifier, traiterFile, enAttente, etat, canalDe, CANAUX, nomTransporteur,
   urlSuivi, dateBascule, poserBascule, historiqueIgnore };
