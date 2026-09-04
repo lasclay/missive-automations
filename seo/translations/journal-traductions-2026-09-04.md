@@ -267,6 +267,15 @@ Publié sur le thème non publié « sep 2026 » (copies dans `seo/theme-sep-202
   Livraison gratuite dès 98,59 $. » + lien vers la page.
 - 62 clés anglaises enregistrées pour ces blocs (theme_id 164701012187).
 
+Note : pendant ces travaux, Gabriel a retravaillé la FAQ française (nouvelles photos de
+bandeau, cueillette à Montréal, question « garantie », réponse « Où sont fabriqués vos
+produits? » réécrite, entretien à la machine, Shop Pay/Apple Pay/Google Pay, cadeaux
+corporatifs dès une dizaine d'articles). Sa version a été conservée telle quelle et la
+traduction anglaise complète a été refaite à partir d'elle (`fr/faq.html` = sa version,
+`en/faq.html` = traduction). Sa réponse « Frais et options de livraison » dit « Livraison
+gratuite dès 100 $ » alors que la caisse, les icônes de confiance et la nouvelle page
+disent 98,59 $ : à trancher (arrondir le profil d'expédition à 100 $ règle tout).
+
 Bloqué ou à faire à la main :
 
 - Politiques Shopify (Politique de remboursement et d'expédition, liées au pied de la
