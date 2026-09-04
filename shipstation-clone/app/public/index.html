@@ -4848,6 +4848,20 @@ async function detailCommande(id) {
     const l = j.shipments || [];
     expeditionsDeLaCommande = l;
     $("#fnExp", f).textContent = l.length;
+    /*
+     * L'état du renvoi à la boutique, sur chaque expédition.
+     *
+     * L'étiquette s'imprime, le colis part, et le client ne voit rien passer chez Shopify :
+     * c'est un renvoi qui n'a pas eu lieu. Il ne se voyait nulle part — l'écran affichait le
+     * numéro de suivi comme si tout était fait. Il se lit ici, et se relance d'un clic.
+     */
+    const etatRenvoi = (x) => {
+      if (x.is_return || x.voided) return "";
+      if (x.marketplace_notified) return '<span class="puce v">boutique notifiée</span>';
+      return `<span class="puce a">boutique non notifiée</span>
+        ${x.notify_error ? `<span class="doux" style="font-size:11px">${esc(String(x.notify_error).slice(0, 70))}</span>` : ""}
+        <button type="button" class="lienB" data-renvoi="${x.id}">Renvoyer le suivi</button>`;
+    };
     $("#fRailL", f).innerHTML = l.length
       ? l.map((x, i) => `<div class="fRailE ${i === 0 ? "actif" : ""}">
           <b>Expédition ${i + 1}</b>
@@ -4856,8 +4870,24 @@ async function detailCommande(id) {
           <span class="doux">${money(x.cost)}</span>
           ${x.is_return ? '<span class="puce a">retour</span>' : ""}
           ${x.voided ? '<span class="puce r">annulée</span>' : ""}
+          ${etatRenvoi(x)}
         </div>`).join("")
       : `<div class="fRailE actif"><b>Expédition 1</b><span class="doux">à préparer</span></div>`;
+
+    $("#fRailL", f).querySelectorAll("[data-renvoi]").forEach((b) => b.onclick = async (ev) => {
+      ev.stopPropagation();
+      b.disabled = true;
+      try {
+        // `force` : le geste est explicite, il passe outre la date de bascule. C'est le seul
+        // moyen de rattraper une expédition que la bascule avait laissée de côté.
+        const r = await api("/api/channels/notify", { method: "POST",
+          body: { shipment_id: Number(b.dataset.renvoi), force: true } });
+        if (r.erreur) dialogue("Renvoi refusé", `<div class="avis">${esc(r.erreur)}</div>`, null, "Fermer");
+        else if (r.ignore) dialogue("Renvoi non effectué", `<div class="avis">${esc(r.ignore)}</div>`, null, "Fermer");
+        else toast(`Suivi renvoyé à ${esc(r.canal || "la boutique")}.`);
+      } catch (e) { dialogue("Renvoi impossible", `<div class="avis">${esc(e.message)}</div>`, null, "Fermer"); }
+      finally { recharger(); }
+    });
   }).catch(() => { $("#fRailL", f).innerHTML = '<div class="doux" style="padding:8px">—</div>'; });
 
   const scinder = () => dialogue(`Scinder ${o.order_number}`, `
@@ -8823,6 +8853,28 @@ VUES.reglages = async () => {
             <td><button type="button" class="lienB" data-emp="${e.id}">Modifier</button></td></tr>`;
         }).join("") || '<tr><td colspan="4" class="doux">Aucun emplacement.</td></tr>'}</tbody></table></div></div>
 
+    <!-- Freightcom produit les deux tailles et n'en accepte aucune en paramètre : le choix
+         se fait ici, à la lecture des documents. -->
+    <div class="carte"><b>Format des étiquettes</b>
+      <p class="doux" style="margin:2px 0 8px">Freightcom rend chaque étiquette en deux
+        tailles. Sur <b>lettre</b>, elle sort au quart d'une page et il faut la découper.</p>
+      <label class="champ"><span>Taille par défaut</span><select id="fmtEt">
+        <option value="a6"${(s.format_etiquette || "a6") === "a6" ? " selected" : ""}>A6 — 105 × 148 mm (4 × 6 po), imprimante d'étiquettes</option>
+        <option value="letter"${s.format_etiquette === "letter" ? " selected" : ""}>Lettre — 8,5 × 11 po, imprimante ordinaire</option>
+      </select></label>
+      <p class="doux">S'applique aux prochaines étiquettes. Celles déjà achetées gardent le
+        document produit à l'achat.</p></div>
+
+    <!-- « payment_method_id: not-found » : le réglage nommait une méthode du bac à sable,
+         restée en place après le passage en production. Rien ne la confrontait au compte. -->
+    <div class="carte"><b>Paiement Freightcom</b>
+      <p class="doux" style="margin:2px 0 8px">La méthode que le clone débite à chaque
+        étiquette. Coter ne la demande pas, réserver si — c'est la différence qui fait
+        échouer un achat pourtant coté.</p>
+      <div id="fcPay" class="doux">Lecture du compte…</div>
+      <div class="barre" style="margin-top:8px">
+        <button type="button" id="fcPayR">Relire le compte</button></div></div>
+
     <!-- L'écran d'expédition renvoyait ici quand un type de colis n'a pas de dimensions.
          Cet écran n'existait pas : on cherchait, on ne trouvait pas, et on finissait par
          coter sur les dimensions restées à l'écran. -->
@@ -9109,6 +9161,31 @@ VUES.reglages = async () => {
             `<tr><td>${esc(x.order_number)}</td><td>${esc(x.marketplace || "—")}</td>
              <td class="doux">${esc(String(x.notify_error).slice(0, 90))}</td></tr>`).join("")}
         </tbody></table></div>` : ""}`;
+  /*
+   * Les portées Shopify, dites avant l'expédition.
+   *
+   * « Access denied for fulfillmentOrders field » nomme un champ GraphQL, pas un droit, et
+   * il tombe une fois l'étiquette payée. La question se pose ici, à froid.
+   */
+  (async () => {
+    let p;
+    try { p = await api("/api/channels/portees"); } catch { return; }
+    const zone = $("#cxt");
+    if (!zone || !p) return;
+    if (p.manquantes && p.manquantes.length) {
+      zone.insertAdjacentHTML("afterbegin", `<div class="avis bloquant">
+        <b>Shopify refusera les exécutions :</b> il manque
+        ${p.manquantes.map((x) => `<code>${esc(x)}</code>`).join(" et ")} sur l'app.
+        <div class="doux" style="margin-top:4px">${esc(p.note || "")}</div></div>`);
+    } else if (p.connues) {
+      zone.insertAdjacentHTML("afterbegin", `<div class="doux" style="margin-bottom:8px">
+        Portées Shopify d'expédition accordées.</div>`);
+    } else if (p.note) {
+      zone.insertAdjacentHTML("afterbegin", `<div class="doux" style="margin-bottom:8px">
+        Portées Shopify non vérifiables : ${esc(p.note)}</div>`);
+    }
+  })();
+
   const bb = $("#cxbasc");
   if (bb) bb.onclick = () => dialogue("Prendre le relais des notifications",
     `<p>À partir de maintenant, c'est ce service qui déposera les numéros de suivi chez Shopify,
@@ -9272,6 +9349,54 @@ VUES.reglages = async () => {
         ville: "#wV", region: "#wP", cp: "#wC", pays: "#wY" }); });
   });
 
+  /**
+   * L'état du paiement Freightcom, dit en clair.
+   *
+   * La question qu'on se pose devant un refus est « qu'est-ce que le clone envoie, et
+   * est-ce que ça existe ? ». La carte y répond directement : les méthodes du compte,
+   * celle qui partirait, et le réglage quand il en nomme une qui n'existe pas.
+   */
+  const lirePaiement = async () => {
+    const z = $("#fcPay");
+    if (!z) return;
+    z.innerHTML = '<span class="doux">Lecture du compte…</span>';
+    let p;
+    try { p = await api("/api/carriers/freightcom/paiement"); }
+    catch (e) { z.innerHTML = `<div class="avis">${esc(e.message)}</div>`; return; }
+
+    const lignes = (p.methodes || []).map((m) => `<tr>
+      <td><code>${esc(m.id)}</code>${String(m.id) === String(p.choisie) ? ' <span class="puce v">utilisée</span>' : ""}</td>
+      <td>${esc(m.nom || "—")}</td><td class="doux">${esc(m.type || "—")}</td>
+      <td>${m.defaut ? '<span class="puce g">défaut du compte</span>' : ""}</td></tr>`).join("");
+
+    z.innerHTML = `
+      ${p.lecture ? `<div class="avis">Le compte n'a pas pu être lu : ${esc(p.lecture)}</div>` : ""}
+      ${p.imposeIntrouvable ? `<div class="avis bloquant"><b>Le réglage
+        <code>FREIGHTCOM_PAYMENT_METHOD_ID</code> vaut <code>${esc(p.configuree)}</code>, qui
+        n'existe pas sur ce compte.</b> C'est ce qui fait répondre
+        <code>payment_method_id: not-found</code> à la réservation. Le corriger sur Render avec
+        l'un des identifiants ci-dessous, ou le retirer pour laisser le clone prendre celle par
+        défaut.</div>` : ""}
+      ${p.refus && !p.imposeIntrouvable ? `<div class="avis">${esc(p.refus)}</div>` : ""}
+      ${lignes ? `<div class="tbl" style="max-height:none"><table>
+        <thead><tr><th scope="col">Identifiant</th><th scope="col">Nom</th>
+          <th scope="col">Type</th><th scope="col"></th></tr></thead>
+        <tbody>${lignes}</tbody></table></div>`
+        : (p.lecture ? "" : `<div class="avis">Aucune méthode n'a pu être lue dans la réponse de
+            Freightcom. Ce n'est pas la même chose qu'un compte sans carte — c'est peut-être une
+            forme de réponse que le clone ne sait pas ouvrir. Voici ce que l'API a rendu :
+            <pre style="white-space:pre-wrap;max-height:200px;overflow:auto">${
+              esc(JSON.stringify(p.brut, null, 2) || "réponse vide")}</pre></div>`)}
+      ${p.configuree ? `<div class="doux" style="margin-top:6px">Réglage
+        <code>FREIGHTCOM_PAYMENT_METHOD_ID</code> = <code>${esc(p.configuree)}</code></div>`
+        : '<div class="doux" style="margin-top:6px">Aucun réglage imposé — le clone prend celle par défaut du compte.</div>'}
+      ${p.solde && p.solde.montant !== null && p.solde.montant !== undefined
+        ? `<div class="doux">Solde disponible : <b>${esc(p.solde.montant)} ${esc(p.solde.devise || "")}</b></div>`
+        : (p.solde && p.solde.erreur ? `<div class="doux">Solde illisible : ${esc(p.solde.erreur)}</div>` : "")}`;
+  };
+  lirePaiement();
+  $("#fcPayR").onclick = lirePaiement;
+
   /** Le formulaire d'un type de colis — le même pour créer et pour corriger. */
   const editerColis = (p) => {
     const d = (p && p.dimensions) || {};
@@ -9312,6 +9437,13 @@ VUES.reglages = async () => {
   $("#vue").querySelectorAll("[data-colis]").forEach((b) => b.onclick = () =>
     editerColis(colisTypes.find((x) => String(x.id) === String(b.dataset.colis))));
   $("#colisNew").onclick = () => editerColis(null);
+
+  $("#fmtEt").onchange = async () => {
+    await api("/api/settings", { method: "POST", body: { format_etiquette: $("#fmtEt").value } });
+    toast($("#fmtEt").value === "a6"
+      ? "Les prochaines étiquettes sortiront en A6 (4 × 6 po)."
+      : "Les prochaines étiquettes sortiront en format lettre.");
+  };
 
   $("#expS").onclick = async () => {
     const manque = ["expC", "expT", "expM"].filter((k) => !$("#" + k).value.trim());

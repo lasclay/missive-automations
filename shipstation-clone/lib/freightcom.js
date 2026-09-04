@@ -491,16 +491,57 @@ function servicesRetenus() {
  * a une par l'API : c'est ici. Le solde compte autant : une réservation sur un compte prépayé
  * vide échoue au moment le plus coûteux, entre le tri et le comptoir.
  */
+/**
+ * Les méthodes de paiement du compte, quelle que soit la forme de la réponse.
+ *
+ * La carte VISA est bien enregistrée chez Freightcom — « Primary Card », visible dans le
+ * portefeuille — et pourtant la liste revenait vide ici. Une liste vide n'est pas la même
+ * chose qu'un compte sans carte : c'est souvent une enveloppe qu'on n'a pas su ouvrir.
+ * L'API rend ce genre de collection tantôt en tableau, tantôt sous `payment_methods`,
+ * `data`, `items` ou `results`, tantôt en objet dont les CLÉS sont les identifiants.
+ *
+ * Toutes ces formes sont lues ici, et `brut` garde la réponse entière : quand rien n'en
+ * sort, l'écran la montre telle quelle plutôt que d'affirmer que le compte n'a pas de
+ * carte. Se tromper dans ce sens-là ferait chercher au mauvais endroit — chez Freightcom
+ * plutôt que dans ce fichier.
+ */
+function _normaliserMethode(m, cle = null) {
+  if (!m || typeof m !== "object") return null;
+  const id = m.id || m.payment_method_id || m.payment_method || m.uuid || cle;
+  if (!id) return null;
+  const carte = m.card || m.credit_card || {};
+  const quatre = m.last4 || m.last_four || carte.last4 || carte.last_four || null;
+  return {
+    id: String(id),
+    type: m.type || m.kind || m.method_type || (quatre ? "credit_card" : null),
+    nom: m.name || m.description || m.nickname || m.label
+      || (quatre ? `${carte.brand || m.brand || "carte"} •••• ${quatre}` : null),
+    defaut: !!(m.default || m.is_default || m.primary || m.is_primary),
+    brut: m,
+  };
+}
+
 async function methodesPaiement() {
   const r = await appel("GET", "/finance/payment-methods");
-  const liste = r?.payment_methods || r?.data || (Array.isArray(r) ? r : []);
-  return (Array.isArray(liste) ? liste : []).map((m) => ({
-    id: m.id || m.payment_method_id,
-    type: m.type || m.kind || null,
-    nom: m.name || m.description || m.nickname || null,
-    defaut: !!(m.default || m.is_default),
-    brut: m,
-  }));
+  let brutes = null;
+  if (Array.isArray(r)) brutes = r;
+  else if (r && typeof r === "object") {
+    for (const cle of ["payment_methods", "paymentMethods", "data", "items", "results", "methods", "cards"]) {
+      const v = r[cle];
+      if (Array.isArray(v)) { brutes = v; break; }
+      // Une collection indexée par identifiant : les clés SONT les identifiants.
+      if (v && typeof v === "object") { brutes = Object.entries(v).map(([k, m]) => _normaliserMethode(m, k)); break; }
+    }
+    // Dernier recours : l'objet lui-même est la collection.
+    if (!brutes) {
+      const entrees = Object.entries(r).filter(([, v]) => v && typeof v === "object");
+      if (entrees.length) brutes = entrees.map(([k, m]) => _normaliserMethode(m, k));
+    }
+  }
+  const liste = (brutes || []).map((m) => (m && m.brut ? m : _normaliserMethode(m))).filter(Boolean);
+  // La réponse entière voyage avec la liste : sans elle, une liste vide ne se diagnostique pas.
+  Object.defineProperty(liste, "brut", { value: r, enumerable: false });
+  return liste;
 }
 
 /**
@@ -517,16 +558,43 @@ async function methodesPaiement() {
  */
 let _paiement;
 async function methodePaiement() {
-  if (process.env.FREIGHTCOM_PAYMENT_METHOD_ID) return process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
   if (_paiement !== undefined) return _paiement;
-  let liste;
+
+  const impose = process.env.FREIGHTCOM_PAYMENT_METHOD_ID || "";
+  let liste = null;
   try { liste = await methodesPaiement(); }
-  catch (e) {
-    // Ne pas transformer une panne de lecture en refus d'achat : Freightcom tranchera.
-    _paiement = null;
-    return null;
+  catch {
+    /*
+     * Lecture impossible : on ne transforme pas une panne en refus d'achat. Ce que les
+     * réglages imposent part tel quel, Freightcom tranchera.
+     */
+    _paiement = impose || null;
+    return _paiement;
   }
+
   const utilisables = liste.filter((m) => m.id);
+
+  /*
+   * Un identifiant imposé se VÉRIFIE avant de partir.
+   *
+   * `FREIGHTCOM_PAYMENT_METHOD_ID` gardait la méthode du bac à sable après le passage en
+   * production. Elle partait telle quelle et Freightcom refusait la réservation par
+   * `{"payment_method_id":"not-found"}` — un refus exact, sur un réglage que rien ne
+   * confrontait au compte. Le transmettre sans le vérifier, c'est déplacer le problème
+   * d'un cran : l'erreur arrive à l'achat, chez la personne qui expédie.
+   */
+  if (impose) {
+    if (utilisables.some((m) => String(m.id) === String(impose))) { _paiement = impose; return _paiement; }
+    // Une liste vide ne prouve rien — elle veut dire « je n'ai rien su lire », pas « le
+    // compte n'a pas de carte ». Refuser là-dessus enverrait chercher chez Freightcom un
+    // problème qui est ici. On laisse partir, Freightcom tranchera.
+    if (!utilisables.length) { _paiement = impose; return _paiement; }
+    throw new Error(`FREIGHTCOM_PAYMENT_METHOD_ID vaut « ${impose} », qui n'existe pas sur ce compte `
+      + `Freightcom — les méthodes du compte sont : `
+      + utilisables.map((m) => `${m.id}${m.nom ? ` (${m.nom})` : ""}`).join(", ")
+      + `. Corriger le réglage, ou le retirer pour laisser le clone prendre celle par défaut.`);
+  }
+
   if (!utilisables.length) { _paiement = null; return null; }
   const choisie = utilisables.find((m) => m.defaut) || (utilisables.length === 1 ? utilisables[0] : null);
   if (!choisie) {
@@ -537,6 +605,9 @@ async function methodePaiement() {
   _paiement = choisie.id;
   return _paiement;
 }
+
+/** Le cache de la méthode de paiement, oublié — après une correction du réglage. */
+const oublierPaiement = () => { _paiement = undefined; };
 
 async function soldeDisponible(idMethode) {
   const id = idMethode || process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
@@ -790,23 +861,47 @@ function identifiantUnique(envoi, serviceId, tentative = 0) {
  *   shipment.customs_invoice_url      facture commerciale, à part
  *   shipment.primary_tracking_number  et `tracking_numbers[]` pour le multi-colis
  *
- * On préfère un format 4×6 quand il existe — c'est celui de l'imprimante d'étiquettes ; sur
- * `letter`, l'étiquette sort au quart de la page et il faut la découper.
+ * Le choix du format, et pourquoi il était faux
+ * ---------------------------------------------
+ * La spécification 2.10 énumère exactement deux tailles : **`letter`** et **`a6`**. Il n'y a
+ * pas de « 4x6 » chez Freightcom, et rien à demander à la réservation — `POST /shipment`
+ * n'accepte aucune option de format ; les deux tailles sont produites, on choisit celle
+ * qu'on veut dans `labels[]`.
+ *
+ * La liste de préférences cherchait « 4x6 », « thermal » ou « label », donc ne reconnaissait
+ * aucune des deux valeurs réelles, et la seconde règle attrapait `letter`. Le clone
+ * choisissait ainsi la lettre à chaque achat : l'étiquette sort au quart d'une page, et il
+ * faut la découper aux ciseaux.
+ *
+ * `a6` mesure 105 × 148 mm, soit 4,1 × 5,8 po : c'est le format des imprimantes
+ * d'étiquettes, celui qu'on veut par défaut. Le réglage `format_etiquette` permet de
+ * revenir à `letter` pour qui imprime sur une imprimante ordinaire.
  */
-const FORMATS_PREFERES = [/4\s*x\s*6|4x6|thermal|label/i, /letter|a4/i];
+const TAILLES_ETIQUETTE = { a6: /^a6$/i, letter: /^letter$/i };
+
+function preferencesEtiquette() {
+  const { reglage } = require("./db");
+  const voulue = String(process.env.FREIGHTCOM_FORMAT_ETIQUETTE || reglage("format_etiquette", "a6") || "a6").toLowerCase();
+  const ordre = voulue === "letter" ? ["letter", "a6"] : ["a6", "letter"];
+  return ordre.map((t) => TAILLES_ETIQUETTE[t]).filter(Boolean);
+}
 
 async function attendreDocuments(shipmentId, { attenteMs = 25000, pas = 1500 } = {}) {
   const vide = { etiquette: null, douane: null, suivi: null, statut: null, format: null };
   if (!shipmentId) return vide;
 
   const choisirEtiquette = (labels) => {
-    const liste = (Array.isArray(labels) ? labels : []).filter((l) => l && (l.url || l.data));
-    if (!liste.length) return null;
-    for (const pref of FORMATS_PREFERES) {
-      const t = liste.find((l) => pref.test(`${l.size || ""} ${l.format || ""}`));
+    // ZPL est un flux d'imprimante, pas un document : il ne s'affiche pas à l'écran et ne
+    // s'imprime que sur une thermique. On garde les PDF, sauf s'il n'y a rien d'autre.
+    const tous = (Array.isArray(labels) ? labels : []).filter((l) => l && (l.url || l.data));
+    const liste = tous.filter((l) => !/zpl/i.test(String(l.format || "")));
+    const candidats = liste.length ? liste : tous;
+    if (!candidats.length) return null;
+    for (const pref of preferencesEtiquette()) {
+      const t = candidats.find((l) => pref.test(String(l.size || "").trim()));
       if (t) return t;
     }
-    return liste[0];
+    return candidats[0];
   };
 
   const debut = Date.now();
@@ -1030,7 +1125,7 @@ module.exports = {
   adaptateurFreightcom, coter, coterDirect, prechauffer, reserver, annuler, suivre, synchroniserServices,
   expedition, services, tester, etat, purgerCache, empreinte, lireCache, ecrireCache,
   identifiantUnique, scenario, lireTarif, configure, essai, attendreDocuments,
-  methodesPaiement, methodePaiement, soldeDisponible, facturesDe,
+  methodesPaiement, methodePaiement, oublierPaiement, soldeDisponible, facturesDe,
   contactExpediteur,
   demanderManifeste, manifeste,
   validerRamassage, planifierRamassage, ramassage, annulerRamassage, detailsRamassage,

@@ -29,6 +29,7 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC, charteProduit,
         checklistItem, blocageQC, etatQCOrdre,
+        filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
         protocoleGeneral, echantillon, lireTableauTailles,
         brisProduit, brisParPoint, zonesFragiles, nonConformites,
         murDesBris } = require('./db.js');
@@ -199,6 +200,7 @@ async function router(req, res, url, user) {
     const filCourant = assistant.dernierFil(user.id) || nouveauFil();
     const prochains = R.jalonsProchains.all();
     return html(res, V.vueAccueil({ user, ordres, jalons: prochains,
+      attentes: filEnAttente(),
       salut: salutation.saluer({ user,
         taches: compteTaches(user.id),
         echeance: prochains.length ? prochains[0].date : null }),
@@ -290,6 +292,10 @@ async function router(req, res, url, user) {
           if (o.statut === 'planifie' && v > 0)
             db.prepare(`UPDATE ordres SET statut='en_cours', maj_le=datetime('now')
                         WHERE id=?`).run(id);
+          // Déclarer un avancement, c'est répondre à « où en êtes-vous ? ».
+          // La demande se referme donc ici, sans second geste : l'atelier ne
+          // ferait jamais le second, et la demande resterait rouge pour rien.
+          reglerDemandes(it.id, user.id);
           db.exec('COMMIT');
         } catch (err) { db.exec('ROLLBACK'); throw err; }
       }
@@ -333,6 +339,63 @@ async function router(req, res, url, user) {
 
         return html(res, V.vueChecklist({ user, msg, ordre: o,
           c: checklistItem(it.id) }));
+      }
+    }
+
+    // ---- le fil d'un item : notes, questions, réponses
+    // Ouvert aux deux rôles. C'est le seul endroit, avec l'avancement, où
+    // l'atelier écrit : lui interdire de répondre à une question rendrait la
+    // question inutile.
+    {
+      const mf = reste.match(/^\/items\/(\d+)\/fil(?:\/(\d+)\/regler)?$/);
+      if (mf && req.method === 'POST') {
+        const it = R.item.get(+mf[1], id);
+        if (!it) return vers(res, `/ordres/${id}?err=`
+          + encodeURIComponent('Item introuvable.'));
+
+        if (mf[2]) {                       // clore une entrée précise
+          reglerFil(+mf[2], it.id, user.id);
+          return vers(res, `/ordres/${id}#i${it.id}`);
+        }
+
+        const f = await corpsFormulaire(req);
+        const type = ['note', 'question', 'reponse'].includes(f.type) ? f.type : 'note';
+        const texte = String(f.texte || '').trim();
+        if (!texte) return vers(res, `/ordres/${id}?err=`
+          + encodeURIComponent('Le message est vide.') + `#i${it.id}`);
+        db.exec('BEGIN');
+        try {
+          db.prepare(`INSERT INTO item_fil (item_id, utilisateur_id, type, texte)
+                      VALUES (?,?,?,?)`).run(it.id, user.id, type, texte.slice(0, 2000));
+          // Une réponse referme ce qui attendait : c'est ce qu'elle est.
+          if (type === 'reponse')
+            db.prepare(`UPDATE item_fil SET regle_le = datetime('now'), regle_par = ?
+                         WHERE item_id = ? AND type IN ('question','demande')
+                           AND regle_le IS NULL`).run(user.id, it.id);
+          db.exec('COMMIT');
+        } catch (err) { db.exec('ROLLBACK'); throw err; }
+        return vers(res, `/ordres/${id}#i${it.id}`);
+      }
+    }
+
+    // ---- « où en êtes-vous ? » — l'administration réclame un chiffre
+    {
+      const md = reste.match(/^\/items\/(\d+)\/demander$/);
+      if (md && req.method === 'POST') {
+        if (!admin) return refus();
+        const it = R.item.get(+md[1], id);
+        if (!it) return vers(res, `/ordres/${id}?err=`
+          + encodeURIComponent('Item introuvable.'));
+        // Deux demandes ouvertes sur le même lot ne veulent rien dire de plus
+        // qu'une seule : appuyer deux fois ne double pas la pression.
+        if (demandeOuverte(it.id))
+          return vers(res, `/ordres/${id}?ok=`
+            + encodeURIComponent('Une demande était déjà en attente sur ce lot.')
+            + `#i${it.id}`);
+        db.prepare(`INSERT INTO item_fil (item_id, utilisateur_id, type, texte)
+                    VALUES (?,?,'demande','')`).run(it.id, user.id);
+        return vers(res, `/ordres/${id}?ok=`
+          + encodeURIComponent('Mise à jour demandée à l\'atelier.') + `#i${it.id}`);
       }
     }
 
@@ -396,7 +459,7 @@ async function router(req, res, url, user) {
       items: R.items.all(id).map(it => ({ ...it, variantes: variantesItem(it.id) })),
       jalons: R.jalons.all(id),
       commentaires: R.commentaires.all(id), produits: R.produitsActifs.all(),
-      qc: etatQCOrdre(id),
+      qc: etatQCOrdre(id), fils: filOrdre(id),
       pct: avancementOrdre(id).pct }));
   }
 

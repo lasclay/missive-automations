@@ -142,6 +142,35 @@ CREATE TABLE IF NOT EXISTS ordre_commentaires (
   cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- Le fil d'un item : ce qui se dit sur CE lot-là.
+--
+-- La carte « Commentaires » du bas de l'ordre mélange tout. Une question sur
+-- le fil du cache-cou finit sous une remarque sur les tuques, et trois jours
+-- plus tard personne ne sait à quoi elle répondait. Le fil est donc accroché
+-- à l'item, à côté de la quantité et de l'avancement dont il parle.
+--
+-- Quatre natures, parce qu'elles ne se lisent pas de la même façon :
+--   note      une remarque, rien à faire, elle informe
+--   question  attend une réponse, et reste en évidence tant qu'elle attend
+--   demande   « où en êtes-vous ? », posée par l'administration
+--   reponse   ce qui referme ce qui était ouvert
+--
+-- Une demande de mise à jour se referme d'elle-même quand l'avancement bouge :
+-- déclarer 60 %, c'est répondre. Sans ça, l'atelier devrait faire deux gestes
+-- pour une seule information, et le second ne serait jamais fait.
+CREATE TABLE IF NOT EXISTS item_fil (
+  id             INTEGER PRIMARY KEY,
+  item_id        INTEGER NOT NULL REFERENCES ordre_items(id) ON DELETE CASCADE,
+  utilisateur_id INTEGER REFERENCES utilisateurs(id),
+  type           TEXT NOT NULL DEFAULT 'note'
+                 CHECK (type IN ('note','question','demande','reponse')),
+  texte          TEXT NOT NULL DEFAULT '',
+  regle_le       TEXT,
+  regle_par      INTEGER REFERENCES utilisateurs(id),
+  cree_le        TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_fil_item ON item_fil(item_id, id);
+
 -- trace de chaque mise à jour d'avancement : qui, quand, de combien à combien
 CREATE TABLE IF NOT EXISTS avancement_historique (
   id            INTEGER PRIMARY KEY,
@@ -1058,6 +1087,102 @@ function etatQCOrdre(ordreId) {
   return out;
 }
 
+// ------------------------------------------------- le fil d'un item de production
+const TYPES_FIL = { note: 'Note', question: 'Question',
+                    demande: 'Mise à jour demandée', reponse: 'Réponse' };
+
+// Une question et une demande attendent quelque chose ; une note et une
+// réponse, non. C'est cette distinction, et elle seule, qui décide de ce qui
+// reste en évidence sur la ligne du produit.
+const OUVERT = `f.type IN ('question','demande') AND f.regle_le IS NULL`;
+
+const SELECT_FIL = `
+  SELECT f.*, u.nom AS auteur, u.role AS auteur_role, r.nom AS regleur
+    FROM item_fil f
+    LEFT JOIN utilisateurs u ON u.id = f.utilisateur_id
+    LEFT JOIN utilisateurs r ON r.id = f.regle_par`;
+
+/** Range un fil brut : tout dans l'ordre, et à part ce qui attend une suite. */
+function rangerFil(lignes) {
+  const b = { lignes, ouvertes: [], demande: null };
+  for (const f of lignes) {
+    if (f.regle_le || (f.type !== 'question' && f.type !== 'demande')) continue;
+    b.ouvertes.push(f);
+    if (f.type === 'demande') b.demande = f;   // la plus récente l'emporte
+  }
+  return b;
+}
+
+const filItem = (itemId) => rangerFil(
+  db.prepare(`${SELECT_FIL} WHERE f.item_id = ? ORDER BY f.id`).all(itemId));
+
+/**
+ * Tous les fils d'un ordre, d'un seul coup.
+ *
+ * Une requête par item ferait dix allers-retours pour afficher une page ; sur
+ * la ligne tunisienne ça ne se voit pas (SQLite est local), mais la page se
+ * construit en boucle et le code se lit mieux avec un seul index.
+ */
+function filOrdre(ordreId) {
+  const l = db.prepare(`${SELECT_FIL}
+      JOIN ordre_items i ON i.id = f.item_id
+     WHERE i.ordre_id = ? ORDER BY f.item_id, f.id`).all(ordreId);
+  const parItem = new Map();
+  for (const f of l) {
+    if (!parItem.has(f.item_id)) parItem.set(f.item_id, []);
+    parItem.get(f.item_id).push(f);
+  }
+  const out = {};
+  for (const [itemId, lignes] of parItem) out[itemId] = rangerFil(lignes);
+  return out;
+}
+
+/** La demande de mise à jour encore ouverte sur cet item, s'il y en a une. */
+const demandeOuverte = (itemId) => db.prepare(
+  `SELECT f.* FROM item_fil f
+    WHERE f.item_id = ? AND f.type = 'demande' AND f.regle_le IS NULL
+    ORDER BY f.id DESC LIMIT 1`).get(itemId);
+
+/**
+ * Déclarer un avancement répond à la demande : on la referme.
+ *
+ * Appelé depuis les deux chemins qui font bouger un avancement — le formulaire
+ * et l'assistant — pour qu'aucun des deux ne laisse traîner une demande à
+ * laquelle il vient de répondre.
+ */
+const reglerDemandes = (itemId, utilisateurId) => db.prepare(
+  `UPDATE item_fil SET regle_le = datetime('now'), regle_par = ?
+    WHERE item_id = ? AND type = 'demande' AND regle_le IS NULL`)
+  .run(utilisateurId, itemId).changes;
+
+/** Clore une entrée précise, à la main. */
+const reglerFil = (id, itemId, utilisateurId) => db.prepare(
+  `UPDATE item_fil SET regle_le = datetime('now'), regle_par = ?
+    WHERE id = ? AND item_id = ? AND regle_le IS NULL`)
+  .run(utilisateurId, id, itemId).changes;
+
+/**
+ * Ce qui attend une réponse, tous ordres vivants confondus.
+ *
+ * Une question posée sur un item est invisible tant qu'on n'ouvre pas l'ordre.
+ * L'accueil la remonte, sans quoi le bouton « demander une mise à jour »
+ * n'appellerait personne.
+ */
+function filEnAttente({ limite = 12 } = {}) {
+  return db.prepare(`
+    SELECT f.id, f.type, f.texte, f.cree_le, f.item_id,
+           o.id AS ordre_id, o.numero, ${NOM_PRODUIT} AS produit,
+           u.nom AS auteur, u.role AS auteur_role
+      FROM item_fil f
+      JOIN ordre_items i ON i.id = f.item_id
+      JOIN ordres o      ON o.id = i.ordre_id
+      JOIN produits p    ON p.id = i.produit_id
+      LEFT JOIN utilisateurs u ON u.id = f.utilisateur_id
+     WHERE ${OUVERT} AND o.statut NOT IN ('termine','annule')
+     ORDER BY f.cree_le
+     LIMIT ?`).all(limite);
+}
+
 // ------------------------------------------------------------------- tâches
 /**
  * Les tâches, avec les noms des deux personnes concernées.
@@ -1115,6 +1240,8 @@ module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    brisProduit, brisParPoint, zonesFragiles, nonConformites,
                    murDesBris,
                    checklistItem, blocageQC, etatQCOrdre,
+                   filItem, filOrdre, filEnAttente, demandeOuverte,
+                   reglerDemandes, reglerFil, TYPES_FIL,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,
                    RANG_PRIORITE, RANG_FAMILLE, FAMILLES, LIEUX };

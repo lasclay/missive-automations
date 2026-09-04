@@ -67,8 +67,96 @@ function urlSuivi(code, numero) {
  * L'expédition passe obligatoirement par une « fulfillment order » : l'ancien chemin direct
  * a été retiré par Shopify.
  */
+/**
+ * Les portées Shopify que l'expédition exige, et ce qu'on peut en dire.
+ *
+ * L'expédition passe obligatoirement par une « fulfillment order » — Shopify a retiré
+ * l'ancien chemin direct. Lire ces objets, puis créer l'exécution, demande des portées
+ * qu'une app en lecture seule n'a pas :
+ *
+ *     read_merchant_managed_fulfillment_orders    lire les commandes à exécuter
+ *     write_merchant_managed_fulfillment_orders   créer l'exécution et déposer le suivi
+ *
+ * « merchant managed » parce que Lasclay expédie de son propre entrepôt. Une boutique qui
+ * déléguerait à un préparateur externe aurait besoin de la paire `assigned` ou
+ * `third_party` à la place.
+ *
+ * Sans elles, Shopify répond « Access denied for fulfillmentOrders field » — un message qui
+ * ne dit ni laquelle manque, ni où l'ajouter. C'est le seul endroit du clone qui le sache,
+ * donc c'est ici qu'on le traduit.
+ */
+const PORTEES_EXPEDITION = [
+  "read_merchant_managed_fulfillment_orders",
+  "write_merchant_managed_fulfillment_orders",
+];
+
+const MARCHE_A_SUIVRE_PORTEES =
+  "Ajouter ces portées à l'app Shopify (Paramètres ▸ Apps ▸ développer une app ▸ Admin API "
+  + "access scopes), publier une nouvelle version, puis réinstaller l'app sur la boutique. "
+  + "Le jeton se renouvelle seul ensuite.";
+
+/**
+ * Un refus d'accès Shopify, traduit en geste.
+ *
+ * Rendre le message brut de GraphQL laisse chercher : il nomme un champ, pas un droit.
+ */
+/** Le refus vient-il d'une portée manquante plutôt que d'autre chose ? */
+const refusDePortee = (e) => /access denied/i.test(String((e && e.message) || e || ""));
+
+/**
+ * Rejouer une fois avec un jeton neuf, quand Shopify refuse l'accès.
+ *
+ * Le jeton vaut une heure et porte les portées qu'il avait à l'émission. Publier une
+ * nouvelle version de l'app ne le rafraîchit pas : jusqu'à son expiration, l'appel continue
+ * d'être refusé alors que le droit vient d'être accordé. C'est le délai qu'on a vu — une
+ * heure qui ressemble à une panne, et pendant laquelle on cherche un problème déjà réglé.
+ *
+ * Une seule reprise, et seulement sur un refus d'accès : un vrai manque de portée se
+ * reproduira à l'identique et remontera comme avant.
+ */
+async function avecJetonNeuf(client, geste) {
+  try { return await geste(); }
+  catch (e) {
+    if (!refusDePortee(e) || typeof client.oublierJeton !== "function") throw e;
+    client.oublierJeton();
+    return await geste();
+  }
+}
+
+function traduireRefusShopify(message) {
+  const m = String(message || "");
+  if (!/access denied/i.test(m)) return m;
+  const champ = (m.match(/for (\w+) field/i) || [])[1] || null;
+  if (champ && /fulfillment/i.test(champ)) {
+    return `Shopify refuse l'accès au champ « ${champ} » : il manque les portées `
+      + `${PORTEES_EXPEDITION.join(" et ")}. ${MARCHE_A_SUIVRE_PORTEES}`;
+  }
+  return `${m} — il s'agit d'une portée manquante sur l'app Shopify. ${MARCHE_A_SUIVRE_PORTEES}`;
+}
+
 const shopify = {
   nom: "shopify",
+  portees: PORTEES_EXPEDITION,
+
+  /**
+   * Les portées accordées, confrontées à celles qu'il faut.
+   *
+   * Se pose AVANT d'expédier, pas après : découvrir qu'un droit manque au moment où
+   * l'étiquette est déjà achetée, c'est le découvrir trop tard.
+   */
+  async verifierPortees() {
+    const { tokenScopes } = this.client();
+    const t = await tokenScopes();
+    // Un jeton fixe n'expose pas ses portées : on ne peut rien affirmer, et le dire vaut
+    // mieux que d'annoncer un manque qui n'existe peut-être pas.
+    if (!t || !Array.isArray(t.scopes)) {
+      return { connues: false, note: (t && t.note) || "les portées de ce jeton ne sont pas lisibles",
+        requises: PORTEES_EXPEDITION, manquantes: [] };
+    }
+    const manquantes = PORTEES_EXPEDITION.filter((p) => !t.scopes.includes(p));
+    return { connues: true, accordees: t.scopes, requises: PORTEES_EXPEDITION, manquantes,
+      note: manquantes.length ? MARCHE_A_SUIVRE_PORTEES : null };
+  },
 
   client() {
     // Chargé à la demande : le clone doit démarrer même si le module est absent.
@@ -79,18 +167,22 @@ const shopify = {
     (process.env.SHOPIFY_ADMIN_TOKEN || (process.env.SHOPIFY_CLIENT_ID && process.env.SHOPIFY_CLIENT_SECRET))),
 
   async pousser({ commande, expedition }) {
-    const { gql } = this.client();
+    const client = this.client();
+    const { gql } = client;
     // La clé externe porte l'identifiant Shopify — c'est `orderKey` chez ShipStation.
     const idShopify = String(commande.order_key || "").replace(/^ss-/, "");
     if (!/^\d+$/.test(idShopify)) throw new Error(`identifiant Shopify introuvable (order_key=${commande.order_key})`);
 
-    const d = await gql(`
-      query($id: ID!) {
-        order(id: $id) {
-          id
-          fulfillmentOrders(first: 20) { edges { node { id status } } }
-        }
-      }`, { id: `gid://shopify/Order/${idShopify}` });
+    let d;
+    try {
+      d = await avecJetonNeuf(client, () => gql(`
+        query($id: ID!) {
+          order(id: $id) {
+            id
+            fulfillmentOrders(first: 20) { edges { node { id status } } }
+          }
+        }`, { id: `gid://shopify/Order/${idShopify}` }));
+    } catch (e) { throw new Error(traduireRefusShopify(e.message)); }
 
     if (!d.order) throw new Error(`commande ${idShopify} introuvable chez Shopify`);
     const ouvertes = (d.order.fulfillmentOrders.edges || [])
@@ -99,25 +191,28 @@ const shopify = {
     if (!ouvertes.length) return { deja: true, message: "aucune fulfillment order ouverte — déjà expédiée côté Shopify" };
 
     const suivi = expedition.tracking_number || null;
-    const r = await gql(`
-      mutation($f: FulfillmentInput!) {
-        fulfillmentCreate(fulfillment: $f) {
-          fulfillment { id status trackingInfo { number company url } }
-          userErrors { field message }
-        }
-      }`, {
-      f: {
-        lineItemsByFulfillmentOrder: ouvertes.map((f) => ({ fulfillmentOrderId: f.id })),
-        notifyCustomer: true,
-        ...(suivi ? {
-          trackingInfo: {
-            number: suivi,
-            company: nomTransporteur(expedition.carrier_code),
-            url: urlSuivi(expedition.carrier_code, suivi),
-          },
-        } : {}),
-      },
-    });
+    let r;
+    try {
+      r = await avecJetonNeuf(client, () => gql(`
+        mutation($f: FulfillmentInput!) {
+          fulfillmentCreate(fulfillment: $f) {
+            fulfillment { id status trackingInfo { number company url } }
+            userErrors { field message }
+          }
+        }`, {
+        f: {
+          lineItemsByFulfillmentOrder: ouvertes.map((f) => ({ fulfillmentOrderId: f.id })),
+          notifyCustomer: true,
+          ...(suivi ? {
+            trackingInfo: {
+              number: suivi,
+              company: nomTransporteur(expedition.carrier_code),
+              url: urlSuivi(expedition.carrier_code, suivi),
+            },
+          } : {}),
+        },
+      }));
+    } catch (e) { throw new Error(traduireRefusShopify(e.message)); }
 
     const erreurs = r.fulfillmentCreate?.userErrors || [];
     if (erreurs.length) throw new Error(erreurs.map((e) => `${e.field}: ${e.message}`).join(" ; "));
@@ -224,10 +319,36 @@ async function notifier(shipmentId, { force = false } = {}) {
   if (e.voided) return { ignore: "étiquette annulée" };
   if (e.is_return) return { ignore: "étiquette de retour" };
 
-  const bascule = dateBascule();
-  if (!bascule) return { ignore: "date de bascule non posée — Réglages → Prendre le relais des notifications" };
-  if (e.created_at && e.created_at < bascule && !force)
-    return { ignore: "expédition antérieure à la bascule — ShipStation l'a déjà notifiée" };
+  /*
+   * La bascule protège l'HISTORIQUE, pas les étiquettes achetées ici.
+   *
+   * Elle existe pour une seule raison : ne pas réécrire à des clients dont ShipStation a
+   * déjà déposé le suivi il y a des mois. Ce risque ne concerne que les expéditions
+   * rapatriées par la migration.
+   *
+   * Une étiquette achetée dans le clone porte le nom de son fournisseur (`provider`) ; les
+   * expéditions migrées n'en portent aucun. Et une étiquette achetée ici n'a, par
+   * construction, jamais été notifiée par ShipStation — la retenir derrière une date de
+   * bascule laisse le client sans suivi sur une commande qu'on vient d'expédier. C'est
+   * exactement ce qui est arrivé au premier achat réel : étiquette imprimée, Shopify muet.
+   *
+   * L'ignorance se note en clair : un renvoi qui n'a pas lieu doit se lire à l'écran, pas se
+   * deviner. Sans cela, l'expédition restait dans la file sans une ligne pour dire pourquoi.
+   */
+  const acheteeIci = !!e.provider;
+  // `force` est le bouton « Renvoyer le suivi » : un geste explicite, sur une expédition
+  // qu'on regarde. Il passe outre la bascule entière — c'est le seul moyen de rattraper
+  // une expédition qu'elle avait laissée derrière.
+  if (!acheteeIci && !force) {
+    const bascule = dateBascule();
+    const passe = (motif) => {
+      run("UPDATE shipments SET notify_error = ? WHERE id = ?", motif, shipmentId);
+      return { ignore: motif };
+    };
+    if (!bascule) return passe("date de bascule non posée — Réglages → Prendre le relais des notifications");
+    if (e.created_at && e.created_at < bascule)
+      return passe("expédition antérieure à la bascule — ShipStation l'a déjà notifiée");
+  }
 
   const commande = orders.parId(e.order_id);
   if (!commande) return { ignore: "commande absente" };
@@ -268,7 +389,7 @@ const enAttente = (limite = 100) => all(
    LEFT JOIN orders o ON o.id = s.order_id
    LEFT JOIN stores st ON st.id = o.store_id
    WHERE s.marketplace_notified = 0 AND s.voided = 0 AND s.is_return = 0 AND s.order_id IS NOT NULL
-     AND s.created_at >= COALESCE(?, '9999')
+     AND (s.provider IS NOT NULL OR s.created_at >= COALESCE(?, '9999'))
    ORDER BY s.id DESC LIMIT ?`, dateBascule(), limite);
 
 /** Traite la file. À appeler après un lot, et périodiquement. */
@@ -292,10 +413,11 @@ const etat = () => Object.values(CANAUX).map((c) => ({
 }));
 
 /** Ce que la bascule met hors de portée — pour l'afficher plutôt que de le taire. */
+/** L'historique laissé à ShipStation — les expéditions migrées, jamais celles achetées ici. */
 const historiqueIgnore = () => one(
   `SELECT COUNT(*) n FROM shipments
    WHERE marketplace_notified = 0 AND voided = 0 AND is_return = 0 AND order_id IS NOT NULL
-     AND created_at < COALESCE(?, '9999')`, dateBascule()).n;
+     AND provider IS NULL AND created_at < COALESCE(?, '9999')`, dateBascule()).n;
 
 module.exports = { notifier, traiterFile, enAttente, etat, canalDe, CANAUX, nomTransporteur,
   urlSuivi, dateBascule, poserBascule, historiqueIgnore };

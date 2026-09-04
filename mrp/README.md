@@ -69,6 +69,25 @@ aux avancements. C'est l'atelier qui les déclare ; un import n'a pas à écrase
 - Chaque item est cliquable vers sa fiche produit
 - Historique de chaque changement d'avancement : qui, quand, de combien à combien
 
+**Le fil d'un item — notes, questions, demandes de mise à jour**
+- Chaque produit de l'ordre porte son propre fil, à côté de sa quantité et de
+  son avancement. Une question sur le fil du cache-cou ne finit plus sous une
+  remarque sur les tuques, trois semaines plus tard et sans antécédent
+- Quatre natures, parce qu'elles ne se lisent pas pareil : une **note**
+  informe, une **question** attend une phrase, une **demande de mise à jour**
+  attend un chiffre, une **réponse** referme ce qui attendait
+- Ce qui attend reste **hors du repli** : une conversation de douze messages ne
+  repousse pas les autres produits hors de l'écran, mais une question sans
+  réponse se voit sans cliquer
+- **« Demander une mise à jour »** est un bouton d'administration, sur la ligne
+  du produit. Il se referme **tout seul** quand l'avancement bouge : déclarer
+  60 %, c'est répondre. Sans ça l'atelier ferait deux gestes pour une seule
+  information, et le second ne serait jamais fait
+- Appuyer deux fois ne double pas la pression : une seule demande ouverte à la
+  fois par lot
+- L'accueil remonte tout ce qui attend une réponse, tous ordres vivants
+  confondus — sinon le bouton n'appellerait personne
+
 **À fabriquer — la liste de travail**
 - Tout ce qui reste à produire, tous ordres confondus, **déjà trié**
 - Le rang est un calcul, pas un champ : priorité, puis retard, puis échéance,
