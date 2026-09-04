@@ -1064,8 +1064,16 @@
       "quand": "2026-09-04T17:31:27.953Z",
       "confirme": true,
       "texte": "Ours are in the garden section at lasclay.com; we ship to Canada and the United States."
+    },
+    {
+      "id": "122142476066483418_1758543195045188",
+      "reponse_id": "122142476066483418_1072901011818997",
+      "page_id": "368305119707866",
+      "quand": "2026-09-04T20:26:13.805Z",
+      "confirme": true,
+      "texte": "If the City ever takes that up, it is worth writing to us directly rather than going through the store — quantities for public green space are not something the online checkout is built for."
     }
   ],
-  "derniere_execution": "2026-09-04T17:31:27.953Z",
-  "total": 133
+  "derniere_execution": "2026-09-04T20:26:13.806Z",
+  "total": 134
 }
