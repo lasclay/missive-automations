@@ -3,7 +3,7 @@
     "main": {
       "type": "main-faq-html",
       "settings": {
-        "content_source": "snippet",
+        "content_source": "page",
         "eyebrow": "Aide et questions fréquentes",
         "title": "Comment pouvons-nous vous aider?",
         "lead": "Les réponses courtes d'abord, le détail ensuite. Pour tout ce qui touche une commande précise, gardez votre numéro de commande sous la main.",
