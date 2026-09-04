@@ -20,7 +20,7 @@ et dont la **mise en forme vit dans le thème** (une section, un gabarit). Aucun
 
 | Fichier | Rôle | Où ça va |
 | --- | --- | --- |
-| `faq-page-body.html` | le contenu : réponses rapides, 8 sections, 36 questions | corps de la page FAQ, dans l'admin |
+| `faq-page-body.html` | le contenu : réponses rapides, 8 sections, 37 questions | corps de la page FAQ, dans l'admin |
 | `sections/main-faq-html.liquid` | la coquille : en-tête, recherche, sommaire collant, icônes, accordéons, contact, données structurées FAQPage | `sections/` du thème |
 | `templates/page.faq-html.json` | le gabarit qui appelle la section | `templates/` du thème |
 
@@ -83,12 +83,15 @@ prochain palier, pas un prérequis.
   friction inutile). Remboursement : 9,99 $ de frais, pour prévenir les abus. Il n'y a jamais de crédit-boutique.
 - Livraison hors Canada : Shopify expédie vers 9 pays. Que fait-on si les douanes américaines
   saisissent des graines?
-- Ramassage à l'atelier et point de cueillette à Montréal : encore offerts?
-- Modes de paiement : ajouter Shop Pay, Apple Pay, Google Pay?
-- Codes promo : un seul par commande? Application rétroactive?
+- Ramassage : tranché le 4 septembre. Les deux points restent offerts : atelier de Limoilou (rendez-vous)
+  et boutique Les Défricheuses à Montréal (1319, rue Beaubien Est).
+- Modes de paiement : tranché le 4 septembre. Shop Pay, Apple Pay et Google Pay ajoutés (confirmés actifs
+  dans les réglages de paiement de la boutique).
+- Codes promo : tranché le 4 septembre. Un seul code par commande; code oublié remboursé après coup.
 - « Où sont fabriqués vos produits? » : tranché le 4 septembre. Culture dans cinq régions du Québec,
   isolant transformé à Cowansville, opérations et R-D à Limoilou; assemblage surtout en Tunisie;
   soins pour la peau (sauf Monarch Botanika), oreillers et graines encore faits au Québec; étiquettes
   « fabriqué au Québec » normales pendant la transition; toute l'asclépiade vient du Québec.
-- Garantie : nommer une durée ou garder la formulation ouverte?
+- Garantie : tranché le 4 septembre. Nouvelle question « Quelle est la garantie sur vos produits? » : 1 à 2 ans
+  officiellement, garantie à vie appliquée en pratique, texte fourni par Lasclay.
 - Personnalisation corporative : minimum de 15 articles?
