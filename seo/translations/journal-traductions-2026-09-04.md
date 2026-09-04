@@ -26,7 +26,8 @@ vers `/en/…`, pas de tiret cadratin.
 | Groupes de sections (en-tête, pied) et réglages du thème | 3 | 14 |
 | Liens de menu | 11 | 11 |
 | Modes de livraison | 3 | 3 |
-| **Total** | **388** | **708** |
+| Articles de blogue | 29 | 53 |
+| **Total** | **417** | **761** |
 
 ## Lot 1 : menu actif (11 liens)
 
@@ -131,6 +132,21 @@ Imparfaits » → « lunch », etc.), réalignés sur le français.
 « Stamp / timbre (0 tracking) » → « Stamp (no tracking) ». Les modes du Mexique restent
 en espagnol (zone MX).
 
+## Lot 9 : blogue (29 articles, 53 clés)
+
+- Cinq articles de fond du Journal traduits en entier (titre, résumé, méta, corps,
+  liens internes vers `/en/`) : « Manteaux d'asclépiade et le compromis de la
+  délocalisation », « L'histoire de l'industrie de l'asclépiade au Québec » (vers lequel
+  pointe la page Monarque anglaise), « La soie d'Amérique en Nouvelle-France »,
+  « Deux sacs sauvent une vie : l'asclépiade et la Seconde Guerre mondiale » et
+  « La récolte de l'asclépiade ». Sources anglaises dans `en/articles/`.
+- « Mitaines plus abordables » (liste courte) et « Coussins pour animaux & mitaines de
+  bébé » (titre et méta ; le corps FR est vide) traduits.
+- 22 autres articles : titre anglais seulement. Les 18 coupures de presse portent la
+  mention « (in French) » et gardent leur corps français (citations de médias
+  francophones) ; les deux mises à jour de lancement 2020, la prévente 2025 et
+  l'infolettre de mai 2025 sont des nouvelles datées.
+
 ## Volontairement laissé tel quel
 
 - Page Mission : le français doit être réécrit d'abord (audit des pages, point 4).
@@ -140,8 +156,7 @@ en espagnol (zone MX).
 - Gabarits `product.semelles-isolantes` et `product.bombe-semence-1` : l'anglais y
   remplace une balise Liquid par un texte figé ; sur les semelles ce texte anglais est
   plus complet que le champ méta FR (inexistant), donc conservé.
-- Coupures de presse du blogue (20 articles) : citations de médias francophones,
-  restent en français.
+- Coupures de presse du blogue : corps en français (voir lot 9).
 - Produits en brouillon (combos) : options traduites, descriptions non.
 
 ## À faire côté français (relevé pendant la traduction)
