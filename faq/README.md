@@ -30,17 +30,15 @@ publication sont listés dans la maquette (notes « À valider ») et plus bas.
 
 ## État au 4 septembre 2026
 
-Les quatre fichiers sont installés dans le thème brouillon **« sep 2026 »** (par l'API, rien
-n'a été touché sur le thème en ligne ni sur la page FAQ) :
-
-- `sections/main-faq-html.liquid` et `templates/page.faq-html.json` ;
-- `snippets/faq-content.liquid` : copie du contenu, pour l'aperçu ;
-- `templates/page.faq.json` : remplacé par la nouvelle section en mode « Fichier du thème »,
-  donc l'aperçu de « sep 2026 » sur `/pages/faq` montre déjà la nouvelle FAQ. L'ancien
-  gabarit à 16 accordéons reste intact dans le thème en ligne.
-
-Pour basculer le contenu vers l'admin : coller `faq-page-body.html` dans le corps de la page
-FAQ, puis dans l'éditeur de thème mettre « Source du contenu » à « Corps de la page ».
+- Le **corps de la page FAQ** (Contenu > Pages > FAQ) contient le nouveau contenu, poussé par
+  l'API. Le thème en ligne l'ignore (son gabarit n'affiche pas le contenu de page), donc le site
+  public n'a pas changé.
+- Le thème brouillon **« sep 2026 »** contient la section `main-faq-html`, les deux gabarits et
+  une copie de secours du contenu (`snippets/faq-content.liquid`). Son gabarit `page.faq` lit le
+  corps de la page : l'aperçu de « sep 2026 » sur `/pages/faq` montre la nouvelle FAQ telle
+  qu'elle est dans l'admin.
+- Toute modification se fait désormais dans l'admin, en mode HTML. Ce dépôt garde la copie
+  maîtresse (`faq-page-body.html`) : en cas de page abîmée, on la recolle.
 
 ## Mise en place (une fois)
 
