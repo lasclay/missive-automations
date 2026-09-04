@@ -284,7 +284,32 @@ Laissé tel quel : la méta de la collection Sacs isothermes (« isolant d'ascl�
 et fabriqué au Québec ») vise l'isolant, pas le produit fini, formulation conforme aux
 règles de la marque.
 
-À faire dans l'éditeur de thème (écriture bloquée sur le thème publié, zone jaune) :
+Thème non publié « sep 2026 » (gid 164701012187), à la demande de Gabriel, écrit par
+`themeFilesUpsert` (l'écriture sur le thème publié est bloquée) :
+
+- `sections/footer-group.json` : « Produits d'asclépiade cueillis, conçus et fabriqués avec
+  amour au Québec, Canada. » → « Isolant d'asclépiade cueilli, conçu et fabriqué avec amour
+  au Québec, Canada. »
+- `sections/header-group.json` : barre d'annonce « LIVRAISON GRATUITE SUR LES COMMANDES DE
+  119$+ » → « LIVRAISON GRATUITE AU CANADA DÈS 98,59 $ » (barre désactivée dans ce thème
+  aussi).
+- Gabarit FAQ : rien à faire, ce thème utilise déjà la section `main-faq-html` qui affiche
+  le corps de page (plus d'accordéons périmés).
+
+Traductions anglaises de ce thème (elles sont propres à chaque thème, donc la copie n'avait
+pas celles publiées aujourd'hui) : 115 clés portées depuis le registre (guide d'entretien,
+gabarits cosmetics, manchons/seat-pad, mitaines de four, plantule, sac-vin), 8 clés des
+groupes en-tête et pied de page, 20 clés périmées remplacées (réglages, accueil, guide
+d'entretien, graines-syriaca, sac-30l), et 7 textes d'accueil propres à ce thème traduits
+à neuf (« Rich in vitamin E and omegas 6, 7 & 9 », « Explore the skincare collection », « In
+collaboration with Gourmet Sauvage », « Milkweed neck warmers perform down to -50°C, but
+stay just as comfortable in milder weather », « Responsible, high-performance bags »,
+« Explore the bag collection », « Our range of insulated bags »). Toutes à `userErrors: []`.
+Le registre `registre-en-2026-09-04.json` reste indexé sur le thème publié ; les mêmes
+valeurs valent pour « sep 2026 » aux clés identiques.
+
+À faire dans l'éditeur du thème publié seulement (si « sep 2026 » n'est pas publié
+bientôt, zone jaune) :
 
 - Pied de page (groupe de sections `footer`, bloc texte) : « Produits d'asclépiade
   cueillis, conçus et fabriqués avec amour au Québec, Canada. » → « Isolant d'asclépiade
