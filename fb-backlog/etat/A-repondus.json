@@ -1200,8 +1200,16 @@
       "quand": "2026-09-04T11:20:16.196Z",
       "confirme": true,
       "texte": "Merci beaucoup. Et la récolte s'en vient : l'automne, c'est sa saison."
+    },
+    {
+      "id": "1671463391654137_1815349242798749",
+      "reponse_id": "1671463391654137_1125866949990023",
+      "page_id": "104242204750257",
+      "quand": "2026-09-04T14:12:40.244Z",
+      "confirme": true,
+      "texte": "On that part we can be clear: the insulation we use is milkweed floss blended with polyester — no wool in it. Each product page lists the full composition, so it's easy to check before ordering."
     }
   ],
-  "derniere_execution": "2026-09-04T11:20:16.196Z",
-  "total": 150
+  "derniere_execution": "2026-09-04T14:12:40.245Z",
+  "total": 151
 }
