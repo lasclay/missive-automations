@@ -2663,6 +2663,104 @@
       "motif": "Réponse rédigée mais impossible à publier : l'API Meta renvoie un 502 sur ce commentaire précis, trois tentatives, y compris avec un message court — le commentaire parent semble supprimé ou masqué. Rien à corriger côté texte.",
       "page_id": "114311920399404",
       "quand": "2026-09-04T18:58:19.722Z"
+    },
+    {
+      "id": "861131632820158_1235479694230172",
+      "extrait": "Quand tu vas en boutique ce n'est que pour commander, ils n'ont pas en stock ?",
+      "motif": "Question sur le stock d'un point de retrait : les points de vente et dépositaires ne font pas partie de nos faits vérifiés. Répondre supposerait d'inventer l'état d'un inventaire.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_1734877680644725",
+      "extrait": "je confirme qu'il n'y en a pas, c'est juste un depot",
+      "motif": "Un abonné décrit le fonctionnement d'un de nos points de retrait. On ne peut ni le confirmer ni le corriger sans fait vérifié.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_6945848972206044",
+      "extrait": "Est-ce que je peux aller directement acheter à votre usine dans Limoilou ?",
+      "motif": "L'atelier de Limoilou est vérifié, mais pas l'accès du public pour y acheter. Un oui comme un non serait inventé.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_561196326527325",
+      "extrait": "il y a une boutique physique à QC moi j'ai choisi d'aller chercher en boutique",
+      "motif": "Même fil sur le retrait en boutique : hors de nos faits vérifiés, et rattaché à une commande en cours.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_1524263438748909",
+      "extrait": "Quel est le délai de livraison vers Rimouski svp???",
+      "motif": "Garde-fou absolu : la Page ne donne jamais de date ni de délai de livraison.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_557149417308545",
+      "extrait": "êtes vous revenu à Postes Canada. C'est ce qui détermine ma commande.",
+      "motif": "Choix de transporteur au jour le jour : donnée opérationnelle mouvante, hors de nos faits vérifiés, et la réponse déterminerait un achat.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_905405955102759",
+      "extrait": "j'ai reçu une partie de ma commande sans message pour l'élément manquant. Ils ne répondent pas à mon courriel…",
+      "motif": "Plainte de commande : jamais traitée en commentaire public. Doit passer par le service client, dossier en main.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_1099667818009641",
+      "extrait": "elle est où la boutique?",
+      "motif": "Adresse d'un point de vente : hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "988691833397470_519873534513169",
+      "extrait": "France Lefebvre pourquoi?",
+      "motif": "Relance sur les cartels et les sites d'hibernation au Mexique. Les protections mexicaines ne font pas partie de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_9288756467873979",
+      "extrait": "Mitaine de motoneige ne sont pas encore dispo?",
+      "motif": "Disponibilité d'un produit : donnée d'inventaire mouvante, aucun fait vérifié à portée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_1145275467124055",
+      "extrait": "Vous serez dans des Marchés de Noël? Où? Quelles sont les boutiques qui vous représentent?",
+      "motif": "Marchés et dépositaires : explicitement hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_2845462282281641",
+      "extrait": "Est-ce que vos sacs isothermes sont aussi imperméable?",
+      "motif": "Spécification produit non vérifiée. On ne devine pas une propriété technique.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_2221404515014018",
+      "extrait": "Très hâte de recevoir mes semelles et mon coussin pour s'asseoir 😁",
+      "motif": "Commande en attente dans un fil où plusieurs personnes se plaignent du silence : un « nous aussi on a hâte » de la Page serait déplacé tant que leur envoi n'est pas réglé.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
+    },
+    {
+      "id": "861131632820158_833173315841531",
+      "extrait": "quelle merveilleuse idée! J'en achèterais assurément!",
+      "motif": "Souhait d'un produit futur (fil à tricoter). La Page ne se prononce pas sur ce qui n'existe pas et ne laisse rien miroiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-04T19:39:16.276Z"
     }
   ]
 }
