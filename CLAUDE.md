@@ -16,6 +16,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 | `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
+| `shopify` | boutique Shopify : produits, variantes, **poids d'expédition** (tarif timbre 2,99 $), profils de livraison, collections, stock |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
@@ -59,6 +60,18 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 - Les 349 mappings d'A2X vivent dans `a2x/mappings.tsv` (source de vérité) ; `mappings.json`
   est régénéré par `node a2x/tools/import_mappings.js`.
 - Doc complète : `a2x/README.md`.
+
+## Shopify (boutique) — poids d'expédition
+
+- Boutique `lasclay.myshopify.com`. Accès de session : outils MCP Shopify + `graphql_query` /
+  `graphql_mutation`. Côté serveur (`support.js`, crons) : app « Render connector » en client
+  credentials, voir `SHOPIFY_SETUP.md` et `node shopify_check.js L-xxxxx`.
+- **Le poids d'une variante n'est pas une masse, c'est un jeton de tarification.** Le tarif
+  « Stamp / timbre » à 2,99 $ (sans suivi) s'affiche si le **panier** pèse ≤ 73 g. Pour un article
+  qui s'expédie en timbre à N par enveloppe : poids = ⌊73/N⌋. Pour un colis : > 73 g (min 100 g).
+  **0 g = timbre en quantité illimitée** — c'est le défaut des produits créés par API, et une fuite
+  de tarif dès que le produit est ACTIVE.
+- Doc complète et garde-fous : skill `shopify`.
 
 ## Missive Proxy
 
