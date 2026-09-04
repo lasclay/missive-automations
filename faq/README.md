@@ -84,7 +84,9 @@ prochain palier, pas un prérequis.
 - Ramassage à l'atelier et point de cueillette à Montréal : encore offerts?
 - Modes de paiement : ajouter Shop Pay, Apple Pay, Google Pay?
 - Codes promo : un seul par commande? Application rétroactive?
-- « Où sont fabriqués vos produits? » : nouveau texte aligné sur le virage manufacturier, à
-  valider par Gabriel.
+- « Où sont fabriqués vos produits? » : tranché le 4 septembre. Culture dans cinq régions du Québec,
+  isolant transformé à Cowansville, opérations et R-D à Limoilou; assemblage surtout en Tunisie;
+  soins pour la peau (sauf Monarch Botanika), oreillers et graines encore faits au Québec; étiquettes
+  « fabriqué au Québec » normales pendant la transition; toute l'asclépiade vient du Québec.
 - Garantie : nommer une durée ou garder la formulation ouverte?
 - Personnalisation corporative : minimum de 15 articles?
