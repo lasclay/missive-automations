@@ -6,6 +6,8 @@
         "eyebrow": "Aide et questions fréquentes",
         "title": "Comment pouvons-nous vous aider?",
         "lead": "Les réponses courtes d'abord, le détail ensuite. Pour tout ce qui touche une commande précise, gardez votre numéro de commande sous la main.",
+        "cats_title": "Par sujet",
+        "cats_text": "Huit sections, dans l'ordre des demandes les plus fréquentes.",
         "show_search": true,
         "search_placeholder": "Chercher: suivi, taille, retour, graines, entretien…",
         "clear_label": "Effacer",
@@ -21,5 +23,7 @@
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

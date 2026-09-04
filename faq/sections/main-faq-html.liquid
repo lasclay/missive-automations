@@ -48,6 +48,32 @@
     .faqh.is-searching .faq-group.is-empty { display: none; }
     .faqh.is-searching .faq-quick { display: none; }
 
+    /* Bandeau par sujet (même langage que le carrousel Collections) */
+    .faqh__cats { background: var(--faq-sand); border-bottom: 1px solid var(--faq-line); padding: 34px 0 26px; }
+    .faqh__cats:empty { display: none; }
+    .faqh__cats-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+    .faqh__cats-head h2 { font-size: 1.55em; margin: 0; }
+    .faqh__cats-head h2::after { display: none; }
+    .faqh__cats-head p { color: var(--faq-ink-2); font-size: .9em; margin: 0; }
+    .faqh__cats-viewport { position: relative; }
+    .faqh .faq-cats { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 16px) / 4); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; scroll-behavior: smooth; margin: 0 0 24px; }
+    .faqh .faq-cats::-webkit-scrollbar { display: none; }
+    .faqh__cats .faq-cats { margin: 0; }
+    .faqh .faq-cats a { position: relative; display: block; aspect-ratio: 4 / 5; border-radius: 4px; overflow: hidden; scroll-snap-align: start; background: var(--faq-sand-2); color: #fff; text-decoration: none; border: 0; }
+    .faqh .faq-cats img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .35s; margin: 0; }
+    .faqh .faq-cats a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,16,12,.18), rgba(20,16,12,.42)); }
+    .faqh .faq-cats span { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; text-align: center; padding: 16px; font-size: 1.3em; font-weight: 700; line-height: 1.2; text-shadow: 0 1px 12px rgba(0,0,0,.45); }
+    .faqh .faq-cats a:hover img { transform: scale(1.04); }
+    .faqh__cats-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); color: var(--faq-ink); display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.18); padding: 0; }
+    .faqh__cats-arrow svg { width: 16px; height: 16px; stroke: currentColor; fill: none; }
+    .faqh__cats-arrow--prev { left: 12px; }
+    .faqh__cats-arrow--next { right: 12px; }
+    .faqh__cats-arrow[disabled] { opacity: .35; cursor: default; }
+    .faqh__cats-bar { height: 3px; background: var(--faq-line); margin: 18px auto 0; width: 70%; border-radius: 2px; overflow: hidden; }
+    .faqh__cats-bar span { display: block; height: 100%; width: 50%; background: var(--faq-ink); border-radius: 2px; transition: width .15s, transform .15s; }
+    @media (max-width: 900px) { .faqh .faq-cats { grid-auto-columns: calc((100% - 16px) / 2); } }
+    @media (max-width: 560px) { .faqh .faq-cats { grid-auto-columns: 78%; } .faqh .faq-cats span { font-size: 1.1em; } .faqh__cats-arrow { display: none; } .faqh__cats-bar { width: 100%; } }
+
     /* Réponses rapides (dans le corps de page) */
     .faqh .faq-quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 0 0 32px; }
     .faqh .faq-quick a { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; padding: 16px; border: 1.5px solid var(--faq-line); border-radius: 12px; background: #fff; color: var(--faq-ink); text-decoration: none; line-height: 1.25; transition: border-color .15s, transform .15s; }
@@ -160,6 +186,8 @@
     </div>
   </header>
 
+  <div class="faqh__cats" data-faqh-cats></div>
+
   <div class="faqh__wrap faqh__body">
     <nav class="faqh__toc" aria-label="{{ section.settings.sidebar_title | escape }}">
       <h2>{{ section.settings.sidebar_title | escape }}</h2>
@@ -207,6 +235,40 @@
         span.className = 'faqh__ic';
         span.innerHTML = '<svg aria-hidden="true"><use href="#faqh-' + name + '"/></svg>';
         return span;
+      }
+
+
+      // Bandeau par sujet : sorti du corps de page, pleine largeur, flèches et barre
+      var cats = content.querySelector('.faq-cats');
+      var catsHost = root.querySelector('[data-faqh-cats]');
+      if (cats && catsHost) {
+        catsHost.innerHTML = '<div class="faqh__wrap">' +
+          '<div class="faqh__cats-head"><h2>{{ section.settings.cats_title | escape }}</h2>{% if section.settings.cats_text != blank %}<p>{{ section.settings.cats_text | escape }}</p>{% endif %}</div>' +
+          '<div class="faqh__cats-viewport">' +
+          '<button class="faqh__cats-arrow faqh__cats-arrow--prev" type="button" data-dir="-1" aria-label="Sujets précédents"><svg viewBox="0 0 24 24" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>' +
+          '<button class="faqh__cats-arrow faqh__cats-arrow--next" type="button" data-dir="1" aria-label="Sujets suivants"><svg viewBox="0 0 24 24" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>' +
+          '</div><div class="faqh__cats-bar"><span></span></div></div>';
+        var viewport = catsHost.querySelector('.faqh__cats-viewport');
+        viewport.insertBefore(cats, viewport.lastElementChild);
+        var bar = catsHost.querySelector('.faqh__cats-bar span');
+        var arrows = catsHost.querySelectorAll('.faqh__cats-arrow');
+        function updateBar() {
+          var max = cats.scrollWidth - cats.clientWidth;
+          var ratio = cats.clientWidth / cats.scrollWidth;
+          bar.style.width = (ratio * 100) + '%';
+          bar.style.transform = 'translateX(' + (max > 0 ? (cats.scrollLeft / max) * (100 / ratio - 100) : 0) + '%)';
+          arrows.forEach(function (b) { var dir = +b.dataset.dir; b.disabled = dir < 0 ? cats.scrollLeft <= 2 : cats.scrollLeft >= max - 2; });
+        }
+        cats.addEventListener('scroll', updateBar);
+        window.addEventListener('resize', updateBar);
+        arrows.forEach(function (b) {
+          b.addEventListener('click', function () {
+            var card = cats.querySelector('a');
+            var step = card ? card.getBoundingClientRect().width + 16 : cats.clientWidth;
+            cats.scrollBy({ left: (+b.dataset.dir) * step * 2, behavior: 'smooth' });
+          });
+        });
+        updateBar();
       }
 
       // Icônes des réponses rapides
@@ -318,6 +380,9 @@
     { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Aide et questions fréquentes" },
     { "type": "text", "id": "title", "label": "Titre", "default": "Comment pouvons-nous vous aider?" },
     { "type": "text", "id": "lead", "label": "Phrase d'introduction", "default": "Les réponses courtes d'abord, le détail ensuite. Pour tout ce qui touche une commande précise, gardez votre numéro de commande sous la main." },
+    { "type": "header", "content": "Bandeau par sujet" },
+    { "type": "text", "id": "cats_title", "label": "Titre", "default": "Par sujet" },
+    { "type": "text", "id": "cats_text", "label": "Texte à droite du titre", "default": "Huit sections, dans l'ordre des demandes les plus fréquentes." },
     { "type": "header", "content": "Recherche" },
     { "type": "checkbox", "id": "show_search", "label": "Afficher la recherche", "default": true },
     { "type": "text", "id": "search_placeholder", "label": "Texte indicatif", "default": "Chercher: suivi, taille, retour, graines, entretien…" },

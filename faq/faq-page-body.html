@@ -8,8 +8,21 @@
     avec un <h2> (titre du sommaire) et un <p class="faq-intro"> facultatif;
   - une question = <details id="..."><summary>Question</summary><div class="faq-answer">Réponse</div></details>;
   - l'ordre des sections et des questions dans ce HTML est l'ordre affiché;
-  - les icônes viennent de data-icon, ne pas coller de <svg> ici (l'éditeur les retire).
+  - les icônes viennent de data-icon, ne pas coller de <svg> ici (l'éditeur les retire);
+  - le bandeau par sujet = <nav class="faq-cats"> avec un <a href="#id-de-section"><img src=…><span>Libellé</span></a>
+    par carte; le thème ajoute le titre, les flèches et la barre de défilement.
 -->
+<!-- Bandeau par sujet: une carte par section, photo depuis Contenu > Fichiers (format 4:5 ou recadré par le thème) -->
+<nav class="faq-cats" aria-label="Par sujet">
+  <a href="#commande"><img src="https://lasclay.com/cdn/shop/files/sac_lunch_1024_x_1024_720x480_crop_center.jpg" alt="" loading="lazy"><span>Ma commande et la livraison</span></a>
+  <a href="#tailles"><img src="https://cdn.shopify.com/s/files/1/0475/8932/7010/files/Lasclay-Mesures-Main-Longueur_720x480_crop_center.jpg" alt="" loading="lazy"><span>Tailles et échanges</span></a>
+  <a href="#retours"><img src="https://lasclay.com/cdn/shop/files/Totebag_10_720x480_crop_center.png" alt="" loading="lazy"><span>Retours et remboursements</span></a>
+  <a href="#produits"><img src="https://lasclay.com/cdn/shop/files/tissu-isolant-matelasse-asclepiade-soie-Lasclay-1024x1024_720x480_crop_center.jpg" alt="" loading="lazy"><span>Produits et entretien</span></a>
+  <a href="#graines"><img src="https://lasclay.com/cdn/shop/files/MG_9779_720x480_crop_center.jpg" alt="" loading="lazy"><span>Graines et plantation</span></a>
+  <a href="#lasclay"><img src="https://lasclay.com/cdn/shop/products/lasclay-IjNj7fF2WCg-unsplash_1_2_720x480_crop_center.jpg" alt="" loading="lazy"><span>Lasclay et l'asclépiade</span></a>
+  <a href="#paiement"><img src="https://lasclay.com/cdn/shop/files/bandeau_rouge_et_cache_cou_720x480_crop_center.jpg" alt="" loading="lazy"><span>Paiement et factures</span></a>
+  <a href="#entreprises"><img src="https://lasclay.com/cdn/shop/files/Manteau_asclepiade_homme_pleinair_720x480_crop_center.jpg" alt="" loading="lazy"><span>Entreprises et cadeaux corporatifs</span></a>
+</nav>
 <!-- Réponses rapides: 4 liens vers les questions les plus posées -->
 <nav class="faq-quick" aria-label="Réponses rapides">
   <a href="#q-suivi" data-icon="truck"><strong>Où est ma commande?</strong><span>Précommande, suivi, délais</span></a>
