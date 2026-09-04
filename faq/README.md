@@ -28,6 +28,20 @@ Le contenu de `faq-page-body.html` reprend les réponses actuelles, raccourcies,
 tirées des réponses types du support (`connaissance_support.md`). Les points à trancher avant
 publication sont listés dans la maquette (notes « À valider ») et plus bas.
 
+## État au 4 septembre 2026
+
+Les quatre fichiers sont installés dans le thème brouillon **« sep 2026 »** (par l'API, rien
+n'a été touché sur le thème en ligne ni sur la page FAQ) :
+
+- `sections/main-faq-html.liquid` et `templates/page.faq-html.json` ;
+- `snippets/faq-content.liquid` : copie du contenu, pour l'aperçu ;
+- `templates/page.faq.json` : remplacé par la nouvelle section en mode « Fichier du thème »,
+  donc l'aperçu de « sep 2026 » sur `/pages/faq` montre déjà la nouvelle FAQ. L'ancien
+  gabarit à 16 accordéons reste intact dans le thème en ligne.
+
+Pour basculer le contenu vers l'admin : coller `faq-page-body.html` dans le corps de la page
+FAQ, puis dans l'éditeur de thème mettre « Source du contenu » à « Corps de la page ».
+
 ## Mise en place (une fois)
 
 1. Dupliquer le thème en ligne (Boutique en ligne > Thèmes > Dupliquer). Travailler sur la copie.
