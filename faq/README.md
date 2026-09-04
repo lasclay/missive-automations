@@ -75,7 +75,11 @@ prochain palier, pas un prérequis.
 
 ## Points à trancher avant publication
 
-- Frais sous 100 $ : 7,99 $ (FAQ) ou 9,50 $ (page Expédition)?
+- Frais de livraison : tranché le 4 septembre, d'après les tarifs Shopify pour le Canada. Gratuit dès 98,59 $
+  (Express); sous ce montant, Standard 6,99 $ ou Express 9,99 $. Timbre 2,99 $ : la règle réelle est « tout ce
+  qui entre dans un timbre surdimensionné Postes Canada (14 po x 9 po, moins de 5 cm d'épaisseur, moins de
+  100 g) »; le seuil de 73 g du profil Shopify est une règle interne arbitraire (poids fictifs par produit, ex.
+  semelles 25 g pour permettre 2 paires, pas 3). La FAQ ne cite donc pas de poids.
 - Délais de livraison : tranché le 4 septembre. Aucune mention de jours ouvrables dans la FAQ
   (les clients ne comptent ni la préparation, ni les envois timbre, ni les précommandes). Le suivi
   donne la date prévue.
