@@ -77,7 +77,8 @@ prochain palier, pas un prérequis.
 
 - Frais sous 100 $ : 7,99 $ (FAQ) ou 9,50 $ (page Expédition)? Délais au Québec : 2 à 5 ou
   4 à 8 jours ouvrables?
-- Frais de retour : tranché le 4 septembre, 7,99 $ sur tout retour ou échange, pour prévenir les abus.
+- Frais de retour : tranché le 4 septembre. Échange gratuit (facturer l'échange obligeait une commande manuelle,
+  friction inutile). Remboursement ou crédit-boutique : 9,99 $ de frais, pour prévenir les abus.
 - Livraison hors Canada : Shopify expédie vers 9 pays. Que fait-on si les douanes américaines
   saisissent des graines?
 - Ramassage à l'atelier et point de cueillette à Montréal : encore offerts?
