@@ -1,0 +1,55 @@
+{
+  "type": "header",
+  "name": "Header Group",
+  "sections": {
+    "header": {
+      "type": "header",
+      "blocks": {
+        "c6c069a8-6c03-406a-9e79-7c7e9345cb85": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "menu_item": "",
+            "image1": "shopify://shop_images/lasclay-mitaines-08.png",
+            "subheading1": "Du 26 décembre au 2 janvier",
+            "title1": "PROMO BOXING WEEK",
+            "text1": "<p>Obtenez une carte cadeau gratuite de 10$ par tranche d'achat de 99$.</p>",
+            "button_label1": "Voir l'offre",
+            "cta_link1": "shopify://collections/boxing-week-2023",
+            "subheading2": "Subheading",
+            "title2": "Tell your story",
+            "text2": "<p>Pair text with an image to tell a story</p>",
+            "button_label2": "",
+            "cta_link2": ""
+          }
+        }
+      },
+      "block_order": [
+        "c6c069a8-6c03-406a-9e79-7c7e9345cb85"
+      ],
+      "settings": {
+        "menu_linklist": "menu-2025",
+        "nav_featured_link": "Sale",
+        "desktop_navigation": "inline",
+        "nav_opacity": "opaque",
+        "nav_positioning": "sticky",
+        "logo": "shopify://shop_images/Lasclay-logo-full.png",
+        "desktop_logo_width": 195,
+        "mobile_logo_width": 150,
+        "use_alt_logo_when_active": false,
+        "logo_h1": true,
+        "show_announcement": false,
+        "announcement_home_only": false,
+        "announcement_text": "LIVRAISON GRATUITE AU CANADA DÈS 99 $",
+        "announcement_text_size": 13,
+        "announcement_link": "",
+        "nav_cart_icon": "basket2",
+        "show_country_selector": true,
+        "show_language_selector": true
+      }
+    }
+  },
+  "order": [
+    "header"
+  ]
+}

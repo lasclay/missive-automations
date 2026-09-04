@@ -272,9 +272,9 @@ bandeau, cueillette à Montréal, question « garantie », réponse « Où sont 
 produits? » réécrite, entretien à la machine, Shop Pay/Apple Pay/Google Pay, cadeaux
 corporatifs dès une dizaine d'articles). Sa version a été conservée telle quelle et la
 traduction anglaise complète a été refaite à partir d'elle (`fr/faq.html` = sa version,
-`en/faq.html` = traduction). Sa réponse « Frais et options de livraison » dit « Livraison
-gratuite dès 100 $ » alors que la caisse, les icônes de confiance et la nouvelle page
-disent 98,59 $ : à trancher (arrondir le profil d'expédition à 100 $ règle tout).
+`en/faq.html` = traduction). Sa réponse « Frais et options de livraison » disait « Livraison
+gratuite dès 100 $ » alors que le reste disait 98,59 $ : tranché le soir même, tout dit
+99 $ (section suivante).
 
 Bloqué ou à faire à la main :
 
@@ -287,9 +287,8 @@ Bloqué ou à faire à la main :
   pas admissible », « Un défaut? » de `fr/livraison-et-echanges.html` ; expédition =
   section « Livraison » de la même page. Une fois remplie, la politique d'expédition fait
   apparaître un lien dans le panier (« Taxes et frais de livraison calculés à la caisse »).
-- Noms des tarifs de livraison (« Standard », « Express ») : non renommés, parce que
-  ShipStation et ses règles d'automatisation peuvent dépendre de ces libellés. À décider
-  avec l'équipe expédition avant d'ajouter « échanges gratuits » au nom.
+- Noms des tarifs de livraison : renommés le soir même (section suivante), Gabriel ayant
+  confirmé que ShipStation n'en dépend pas.
 - Barre Hextom (livraison gratuite) : ajouter un second message en rotation « Échanges
   gratuits au Canada », dans l'application.
 - Courriel de confirmation de commande Shopify et flux Klaviyo (panier abandonné,
@@ -297,8 +296,58 @@ Bloqué ou à faire à la main :
   size? Exchanges are free in Canada. »
 - Thème actif « 18 aout » : ses accordéons FAQ disent encore 9,99 $ pour un échange, jusqu'à
   la publication de « sep 2026 ».
-- Crédit-boutique : la nouvelle politique ne dit pas s'il est gratuit comme l'échange ou
-  soumis aux 9,99 $ comme le remboursement. La FAQ le mentionne sans montant.
+- Crédit-boutique : réglé, on ne s'en sert pas ; toute mention retirée (section suivante).
+
+## Seuil à 99 $, crédit-boutique retiré, tarifs renommés (4 septembre, nuit)
+
+Consignes de Gabriel : écrire « 99 $ » partout pour le seuil de livraison gratuite (jamais
+« 100 $ », ni « 98,59 $ »), retirer toute mention de crédit-boutique (on ne s'en sert pas),
+renommer les tarifs de livraison (ShipStation n'en dépend pas). Le profil d'expédition
+Shopify garde son seuil réel à 98,59 $ CA : le texte dit 99 $, la caisse offre la gratuité
+un peu avant, personne n'est lésé.
+
+Contenu (visible tout de suite) :
+
+- FAQ (Page/103050674395), réponse « Frais et options de livraison » : « dès 100 $ » →
+  « dès 99 $ ». Plus aucune mention de crédit-boutique dans le corps FR ; l'anglais complet
+  a été réenregistré avec « $99 and up » (`en/faq.html`, digest à jour, `outdated: false`).
+- Page `/pages/livraison-et-echanges` (Page/137938370779) : « dès 98,59 $ » → « dès 99 $ »
+  dans le corps et la méta description, FR et EN (« $99 and up »).
+- Modes de livraison (DeliveryProfile/66216853666, zone Canada) : « Standard » →
+  « Standard, échanges gratuits » (906341941467) ; « Express » → « Express, échanges
+  gratuits » (308133462178 et 393637789858). Anglais : « Standard, free exchanges »,
+  « Express, free exchanges ». C'est ce que le client lit à la caisse sous chaque tarif.
+
+Thème publié « 18 aout » (traductions anglaises seulement, le FR de ses fichiers ne peut pas
+être modifié par l'API) :
+
+- Barre d'annonce EN (réglages et groupe en-tête) : « $98.59+ » → « $99+ ».
+- Gabarit `page.faq`, accordéon « Shipping rates » (a166fkr0r34v) : « $98.59 » → « $99 ».
+- Même gabarit, accordéons « Return policy » (3jqnf5fcrc0ta) et « Return process (Canada) »
+  (1nki9284czj6n) : réécrits sans « store credit » et sans les 9,99 $ d'échange (échange
+  gratuit, remboursement à 9,99 $). Le FR de ces accordéons reste l'ancien texte jusqu'à la
+  publication de « sep 2026 », qui affiche le corps de page à la place.
+
+Thème non publié « sep 2026 » (theme_id 164701012187, copies dans `seo/theme-sep-2026/`) :
+
+- 14 fichiers réécrits : `sections/header-group.json` (barre « LIVRAISON GRATUITE AU
+  CANADA DÈS 99 $ »), `templates/cart.json` (« Échanges gratuits au Canada. Livraison
+  gratuite dès 99 $. »), 12 gabarits produit (icône de confiance « Livraison gratuite dès
+  99 $ »). Le FR étant changé, les 14 clés anglaises ont été réenregistrées avec les nouveaux
+  digests (« $99+ »), plus la barre d'annonce des réglages ; tout à `outdated: false`.
+
+Vérification : `/pages/livraison-et-echanges` (FR : 4 × « dès 99 $ », EN : 4 × « $99 and
+up »), `/pages/faq` (FR « dès 99 $ », EN « $99 and up »), aucune trace de 98,59 / $98.59 /
+$100 / crédit-boutique / store credit dans les pages, le registre ni les gabarits.
+Les seuls « 100 $ » qui restent sont des cartes-cadeaux et le règlement d'un concours
+(page Concours), rien à voir avec la livraison.
+
+Reste à la main, instructions complètes pour Cowork (navigateur intégré) dans
+`cowork-politiques-shopify.md` : politiques de remboursement et d'expédition (portée API
+absente), messages de la barre Hextom (99 $, second message « Échanges gratuits au
+Canada »), ligne dans le courriel de confirmation de commande. Une fois les politiques FR
+en place, leur anglais peut être enregistré par l'API (ShopPolicy/22618341538 et
+22618439842).
 
 ## Volontairement laissé tel quel
 
