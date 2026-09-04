@@ -27,7 +27,7 @@ vers `/en/…`, pas de tiret cadratin.
 | Liens de menu | 11 | 11 |
 | Modes de livraison | 3 | 3 |
 | Articles de blogue | 29 | 53 |
-| **Total** (le lot 10 réécrit 40 clés déjà comptées) | **417** | **761** |
+| **Total** (les lots 10 et 11 réécrivent des clés déjà comptées ; le lot 11 ajoute 2 clés préexistantes) | **417** | **763** |
 
 ## Lot 1 : menu actif (11 liens)
 
@@ -164,6 +164,73 @@ sans dire que les produits finis sont fabriqués ici.
   veste, bandeaux, tote, sac à lunch, tuques, isolant vrac, crème contour), page À propos
   (méta), diapositive d'accueil, pied de page (deux emplacements), bloc « Responsible and
   cruelty-free » des quatre gabarits produit.
+
+## Lot 11 : audit de traducteur professionnel (62 clés, 44 ressources)
+
+Relecture de l'ensemble des 761 clés publiées en se plaçant du point de vue d'un traducteur
+anglophone professionnel, à partir d'une grille des erreurs typiques des francophones qui
+écrivent en anglais (interférences, faux amis, calques, ordre des mots, usages canadiens).
+
+Sources consultées pour la grille : London School of English (« common mistakes French
+speakers make in English »), Scribendi (calques et faux amis), Linguee et WordReference
+(« éco-responsable », « valoriser », « performant », « en nature »), Anglocom (guide sur
+« valoriser »), The Canadian Style et le guide des nombres du Musée canadien de
+l'histoire (symbole $ avant le nombre, « 50 % » sans espace en anglais, espace avant les
+unités), Collins et Linguee pour tuque, manchon, besace et cache-cou.
+
+Grille appliquée à chaque clé : faux amis (actually, eventually, important, propose,
+permit, allow to, responsible of, since + durée, performant, valorize, in nature,
+reception, eco-responsible, ecological), calques de construction (« made to measure »,
+« at a small price », « your ally », « adopt » au sens de choisir), pluriels et possessifs
+(« the Karen's »), ordre adjectif-nom, orthographe canadienne (colour, fibre, metre,
+-ize), majuscule de l'option « Color », espace insécable et unités, structure des
+champs riches (mêmes nœuds qu'en français).
+
+Corrections publiées (toutes à `userErrors: []`) :
+
+- « high-performing » → « high-performance » (11 clés : produits, collections, gabarits).
+- « eco-responsible » → « eco-friendly » ou « environmental values » selon le contexte
+  (8 clés) ; « is ecological, plant-based » → « is eco-friendly, plant-based » dans les
+  quatre gabarits produit.
+- « in nature » → « outdoors » / « in the great outdoors » (4 clés).
+- Guide d'entretien : « Upon reception » → « When it arrives », « Washing frequency » →
+  « How often to wash » (onglets et titres, y compris deux clés anglaises préexistantes).
+- « Adopt one-of-a-kind pieces » → « Embrace one-of-a-kind pieces ».
+- « local joining forces with local » → « local talent joining forces with local talent ».
+- « at a small price » → « at a low price ».
+- Bague : « made to measure » → « made to size », « Make sure of your ring size » → « Make
+  sure you know your ring size » ; « highly precise casting(s) » → « highly detailed ».
+- Coussin pour animaux : « virgin fibres recycled » → « unused fibre offcuts recycled » ;
+  « The result of long research and development, we recently added » → « After a long
+  stretch of research and development, we recently added ».
+- Crème contour des yeux : « a material that is both sensory and effective » → « an
+  ingredient that is a pleasure for the senses and effective on the skin » ; « from here »
+  → « from right here ».
+- Veste et manteau : « your ally » → « your go-to ».
+- Coussin d'assise : « more resistant, durable, effective and eco-friendly » → « tougher,
+  longer-lasting, more effective and more eco-friendly ».
+- « giving value to milkweed » → « creating value from milkweed ».
+- « milkweed insulated lunch bag » → « milkweed-insulated lunch bag » ; « a friendly
+  milkweed cooler format » → « a milkweed cooler in a friendly size ».
+- Bombes de semences : « beautify a parcel » → « beautify a plot of land » ; « across the
+  land » → « across the landscape ».
+- Chaussons : « on the tile » → « on tile floors ».
+- Fin de saison : « breaks along the seams » → « seam flaws ».
+- Isolant vrac : « This non-woven » → « This nonwoven batting ».
+- « athletes that nothing can stop » → « athletes who never stop ».
+- Noms d'options « (color) » → « (Color) » (3 clés).
+- Bijoux : second « talented » retiré (déjà dit dans la phrase précédente).
+
+Vérifié et laissé tel quel :
+
+- « Respectful of monarchs » (bloc responsable des gabarits) : formulation déjà présente
+  dans six gabarits anglais antérieurs, conservée pour l'uniformité.
+- Tiret cadratin dans les valeurs de taille d'oreiller : reproduit le français.
+- « -32°C » sans espace dans une clé, « -32 °C » ailleurs : reflète le français.
+- Mitaines de laine : « gris kaki » et « vert kaki » coexistent dans le français, l'anglais
+  suit.
+- Symboles monétaires : « $6.99 », « $98.59 » et « 50% » conformes à l'usage canadien
+  anglais.
 
 ## Volontairement laissé tel quel
 
