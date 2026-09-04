@@ -27,7 +27,7 @@ vers `/en/…`, pas de tiret cadratin.
 | Liens de menu | 11 | 11 |
 | Modes de livraison | 3 | 3 |
 | Articles de blogue | 29 | 53 |
-| **Total** | **417** | **761** |
+| **Total** (le lot 10 réécrit 40 clés déjà comptées) | **417** | **761** |
 
 ## Lot 1 : menu actif (11 liens)
 
@@ -146,6 +146,24 @@ en espagnol (zone MX).
   mention « (in French) » et gardent leur corps français (citations de médias
   francophones) ; les deux mises à jour de lancement 2020, la prévente 2025 et
   l'infolettre de mai 2025 sont des nouvelles datées.
+
+## Lot 10 : origine canadienne, formulations variées (40 clés, 35 ressources)
+
+À la demande de Gabriel, l'anglais mentionne maintenant, en variant les tournures, que
+l'entreprise est canadienne, que l'asclépiade (ressource phare) est cultivée et
+transformée au Canada et que les produits sont conçus au Canada ou au Québec. Toujours
+sans dire que les produits finis sont fabriqués ici.
+
+- Formules utilisées : « a Canadian company », « a Canadian brand based in Québec »,
+  « grown and processed in Canada », « Canada's plant-based insulation », « a Canadian
+  plant-based insulation », « Canadian-grown insulation », « designed in Québec »,
+  « designed in Canada », « Canadian-designed ».
+- Où : 13 collections (Mitaines, Accessoires, Produits, Hiver, Maison, Tous les jours,
+  Sacs isothermes, Tuques et bandeaux, Matières, Manteaux et vestes, Mitaines (2),
+  Manchons, Été, Pour le cou), 13 méta de produits (cache-cou, besace, mitaines urbaines,
+  veste, bandeaux, tote, sac à lunch, tuques, isolant vrac, crème contour), page À propos
+  (méta), diapositive d'accueil, pied de page (deux emplacements), bloc « Responsible and
+  cruelty-free » des quatre gabarits produit.
 
 ## Volontairement laissé tel quel
 
