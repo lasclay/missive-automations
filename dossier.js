@@ -2,11 +2,11 @@
  * Lasclay — dossier.js
  * ---------------------------------------------------------------------------
  * Monte le dossier COMPLET d'un fil support avant d'y répondre. Écrit après un
- * audit où 40 réponses sont parties sans qu'aucune n'ait satisfait les quatre
- * vérifications : trois clients ont reçu de l'information fausse, et une cliente
+ * audit où 40 réponses sont parties sans qu'aucune n'ait satisfait les
+ * vérifications de base : trois clients ont reçu de l'information fausse, et une cliente
  * dont le dossier était réglé depuis trois semaines a reçu deux messages à côté.
  *
- * Les quatre sources, dans l'ordre où elles se contredisent le plus souvent :
+ * Les cinq sources, dans l'ordre où elles se contredisent le plus souvent :
  *
  *   1. LE FIL AU COMPLET      — pas les 10 derniers messages. `dossier.js` lit
  *                               jusqu'à 200 messages et signale s'il en reste.
@@ -21,8 +21,17 @@
  *                               dans le second), plus les commandes MANUELLES au
  *                               nom du client (renvoi de garantie, échange).
  *
+ *   5. HAPPY RETURNS         — le RETOUR : ni Shopify ni ShipStation ne voient un
+ *                               colis déposé en Return Bar. Dit si le retour est
+ *                               commencé, déposé, approuvé (donc remboursé) ou
+ *                               EXPIRÉ faute de dépôt. Un appel injoignable est
+ *                               signalé comme tel, jamais rendu comme « aucun
+ *                               retour » — l'inverse ferait affirmer une absence
+ *                               qu'on n'a pas constatée.
+ *
  * Shopify seul ne dit pas si le colis est parti. ShipStation seul ne dit pas
- * pourquoi une ligne est à quantité 0. Les deux sont requis.
+ * pourquoi une ligne est à quantité 0. Ni l'un ni l'autre ne sait où en est un
+ * retour. Les trois sont requis.
  *
  * Usage :
  *   node dossier.js <convId> [<convId> ...]        dossier lisible
@@ -152,6 +161,82 @@ async function shipstation(commandes, noms) {
   return out;
 }
 
+// --- 5. Happy Returns ---------------------------------------------------------
+// Le RETOUR ne vit ni dans Shopify ni dans ShipStation : un colis déposé en Return
+// Bar n'existe que chez Happy Returns. Sans cette source, « je n'ai jamais reçu
+// mon remboursement » est impossible à trancher.
+//
+// Économie d'appels : la limite de Happy Returns est un « leaky bucket » (~0,5
+// requête/seconde), donc on n'interroge pas tout. Numéro de commande d'abord ;
+// la variante sans le préfixe L- seulement si le premier essai est vide (le
+// portail enregistre parfois le numéro nu) ; l'adresse courriel seulement si
+// rien n'a été trouvé du tout.
+const HR_MAX_CRITERES = 6;
+
+function etatRetour(items) {
+  const max = (champ) => items.map((i) => i[champ]).filter(Boolean).sort().pop() || null;
+  const expire = max("expiredAt"), approuve = max("approvedAt");
+  const depose = max("droppedOffAt"), commence = max("startedAt");
+  const j = (t) => (t || "").slice(0, 10);
+  if (expire) return { etat: "EXPIRÉ — jamais déposé, le client doit recommencer", date: j(expire) };
+  if (approuve) return { etat: "APPROUVÉ — remboursement émis", date: j(approuve) };
+  if (depose) return { etat: "déposé, en attente d'approbation", date: j(depose) };
+  if (commence) return { etat: "COMMENCÉ mais PAS ENCORE DÉPOSÉ", date: j(commence) };
+  return { etat: "état inconnu (aucun horodatage)", date: null };
+}
+
+function grouperRetours(items) {
+  const parRetour = new Map();
+  for (const it of items) {
+    const cle = it.happyReturnsReturnID || it.happyReturnsExpressCode || "sans-id";
+    if (!parRetour.has(cle)) parRetour.set(cle, []);
+    parRetour.get(cle).push(it);
+  }
+  return [...parRetour.entries()].map(([id, its]) => {
+    const p = (champ) => its.map((i) => i[champ]).find(Boolean) || null;
+    return {
+      id,
+      code: p("happyReturnsExpressCode"),
+      commande: p("orderNumber"),
+      ...etatRetour(its),
+      methode: p("dropoffMethod"),
+      lieu: p("location"),
+      remboursement: p("refundType"),
+      suivi: p("returnShipmentTracking"),
+      transporteur: p("returnShipmentCarrier"),
+      articles: its.map((i) => `${i.productName || i.sku || "?"}${i.returnReason ? ` — ${i.returnReason}` : ""}`),
+    };
+  });
+}
+
+async function happyReturns(commandes, emails) {
+  const out = { retours: [], injoignable: false, criteresEssayes: [] };
+  const essayer = async (params) => {
+    if (out.criteresEssayes.length >= HR_MAX_CRITERES) return null;
+    out.criteresEssayes.push(Object.values(params)[0]);
+    const r = await connect("happyreturns", "return", params);
+    // null = appel en échec (connecteur absent du proxy déployé, secret, réseau).
+    // C'est une INCERTITUDE, pas une absence de retour : il faut le dire.
+    if (r === null) { out.injoignable = true; return null; }
+    return (r.data && r.data.items) || [];
+  };
+  for (const num of commandes) {
+    let items = await essayer({ orderNumber: num });
+    if (items && !items.length) {
+      const nu = num.replace(/^L-/i, "");
+      if (nu !== num) items = await essayer({ orderNumber: nu });
+    }
+    if (items && items.length) out.retours.push(...grouperRetours(items));
+  }
+  if (!out.retours.length && !out.injoignable) {
+    for (const e of emails) {
+      const items = await essayer({ email: e });
+      if (items && items.length) out.retours.push(...grouperRetours(items));
+    }
+  }
+  return out;
+}
+
 // --- Assemblage ---------------------------------------------------------------
 async function dossier(id) {
   const { messages, tronque } = await lireFil(id);
@@ -160,6 +245,7 @@ async function dossier(id) {
   const index = chargerIndex();
   const autres = autresFils(id, emp, index);
   const ss = emp.commandes.size || emp.noms.size ? await shipstation(emp.commandes, emp.noms) : null;
+  const hr = emp.commandes.size || emp.emails.size ? await happyReturns(emp.commandes, emp.emails) : null;
   const dernier = messages[messages.length - 1];
   const dernierClient = [...messages].reverse().find((m) => !m.us);
   return {
@@ -169,6 +255,7 @@ async function dossier(id) {
     empreintes: { adresses: [...emp.emails], noms: [...emp.noms], commandes: [...emp.commandes] },
     autresFils: autres,
     shipstation: ss,
+    happyreturns: hr,
     shopify: { requete: requeteShopify(emp.commandes, emp.emails), aExecuter: true },
     messages,
   };
@@ -211,6 +298,20 @@ function afficher(d) {
       for (const m of d.shipstation.manuelles)
         L.push(`      ${m.numero}  ${m.date}  ${m.statut}  ${m.articles.join(" | ").slice(0, 70)}`);
     }
+  }
+  L.push("");
+  L.push("── HAPPY RETURNS (retours — invisibles dans Shopify et ShipStation) ──");
+  if (!d.happyreturns) L.push("  aucun numéro de commande ni adresse exploitable");
+  else if (d.happyreturns.injoignable)
+    L.push("  ⚠️ Happy Returns INJOIGNABLE — ne conclus PAS qu'il n'y a pas de retour. Vérifie à la main :\n" +
+      "     node connectors_client.js happyreturns return '{\"orderNumber\":\"L-…\"}'");
+  else if (!d.happyreturns.retours.length)
+    L.push(`  aucun retour enregistré (essayé : ${d.happyreturns.criteresEssayes.join(", ") || "rien"})`);
+  else for (const r of d.happyreturns.retours) {
+    L.push(`  ${r.code || r.id}${r.commande ? `  commande ${r.commande}` : ""} : ${r.etat}${r.date ? `  (${r.date})` : ""}`);
+    L.push(`      méthode ${r.methode || "?"}${r.lieu ? ` — ${r.lieu}` : ""}   remboursement ${r.remboursement || "?"}`);
+    if (r.suivi) L.push(`      RETOUR PAR LA POSTE ${r.transporteur || ""} suivi ${r.suivi}`);
+    for (const a of r.articles) L.push(`      · ${a}`);
   }
   L.push("");
   L.push("── SHOPIFY (à exécuter avant de répondre) ──");

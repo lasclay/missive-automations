@@ -1,7 +1,7 @@
 ---
 name: support
-description: Répondre à un client dans la boîte support Lasclay — méthode de vérification obligatoire avant tout envoi, règles de décision internes (période de retour, mensurations, rétention, remboursement), et garde-fous appris d'erreurs réelles. Couvre le montage du dossier avec dossier.js, le croisement Shopify + ShipStation, la détection des fils en doublon, et la rédaction dans la voix de la marque.
-when_to_use: Déclenche AVANT d'écrire ou d'envoyer une réponse à un client Lasclay, avant de fermer un fil, avant de promettre un envoi, un remboursement, un échange ou une étiquette de retour. Déclenche aussi sur « réponds à ce client », « traite la boîte support », « vide l'arriéré », « est-ce qu'on peut fermer ce fil », « envoie le brouillon ». Complète le skill `missive` (accès au proxy) et `proxygen` (ShipStation) : ceux-là donnent les commandes, celui-ci donne la méthode.
+description: Répondre à un client dans la boîte support Lasclay — méthode de vérification obligatoire avant tout envoi, règles de décision internes (période de retour, mensurations, rétention, remboursement), et garde-fous appris d'erreurs réelles. Couvre le montage du dossier avec dossier.js, le croisement Shopify + ShipStation + Happy Returns, l'état réel d'un retour avant d'en parler au client, la détection des fils en doublon, et la rédaction dans la voix de la marque.
+when_to_use: Déclenche AVANT d'écrire ou d'envoyer une réponse à un client Lasclay, avant de fermer un fil, avant de promettre un envoi, un remboursement, un échange ou une étiquette de retour, et avant de dire à un client où en est son retour. Déclenche aussi sur « réponds à ce client », « traite la boîte support », « vide l'arriéré », « est-ce qu'on peut fermer ce fil », « envoie le brouillon », « il dit qu'il n'a jamais été remboursé ». Complète le skill `missive` (accès au proxy) et `proxygen` (ShipStation, Happy Returns) : ceux-là donnent les commandes, celui-ci donne la méthode.
 argument-hint: [id du fil, ou ce que tu veux traiter dans la boîte]
 allowed-tools:
   - Bash(node dossier.js:*)
@@ -28,9 +28,9 @@ a reçu deux messages à côté de la plaque.
 node dossier.js <convId>
 ```
 
-Une seule commande, quatre sources. Lis-en la sortie en entier avant d'écrire un mot.
+Une seule commande, cinq sources. Lis-en la sortie en entier avant d'écrire un mot.
 
-## Les quatre sources, et ce que chacune rate seule
+## Les cinq sources, et ce que chacune rate seule
 
 | Source | Ce qu'elle donne | Ce qu'elle ne dit PAS |
 | --- | --- | --- |
@@ -38,6 +38,7 @@ Une seule commande, quatre sources. Lis-en la sortie en entier avant d'écrire u
 | **Les autres fils du client** | le dossier peut être réglé ailleurs, plus récemment | — |
 | **Shopify** | contenu réel de la commande, lignes retirées, remboursements, adresse au dossier | si le colis est parti |
 | **ShipStation** | expéditions, suivis, étiquettes de retour, commandes manuelles | pourquoi une ligne est à quantité 0 |
+| **Happy Returns** | l'état réel du RETOUR : commencé, déposé, approuvé, expiré | l'aller du colis |
 
 Trois pièges, chacun payé par une erreur réelle :
 
@@ -69,6 +70,42 @@ orders(first: 10, query: "name:L-50429 OR email:client@exemple.com") {
 `currentQuantity: 0` avec un remboursement daté, c'est une ligne annulée et traitée —
 pas un oubli. Ne devine jamais la raison d'un zéro : Shopify la donne.
 
+## Le retour ne vit ni dans Shopify ni dans ShipStation
+
+Un colis déposé en Return Bar n'apparaît **nulle part** dans les deux sources habituelles.
+« Je n'ai jamais reçu mon remboursement » est donc indécidable sans Happy Returns, qui porte
+les retours de Lasclay (RMA, codes express, Return Bars). `dossier.js` l'interroge maintenant
+tout seul — section `── HAPPY RETURNS ──` de la sortie. À la main, au besoin :
+
+```bash
+node connectors_client.js happyreturns return '{"orderNumber":"L-50468"}'
+node connectors_client.js happyreturns return '{"email":"client@exemple.com"}'
+```
+
+Un seul critère à la fois : `orderNumber`, `email` **ou** `happyReturnsExpressCode`.
+
+L'état se lit dans les horodatages, et **chacun appelle une réponse différente** :
+
+| État | Ce que ça veut dire | Ce qu'on répond |
+| --- | --- | --- |
+| **commencé, pas déposé** | le client a rempli le portail et n'est jamais allé porter le colis | on le relance gentiment, sans l'accuser : le retour l'attend, voici où |
+| **déposé** | le colis est parti, l'inspection n'a pas eu lieu | on confirme la réception et on donne le délai d'inspection — pas une date de remboursement |
+| **approuvé** | le remboursement **a été émis** | on confirme, et si le client ne le voit pas, la balle est chez sa banque (3 à 10 jours ouvrables) |
+| **expiré** | le délai est passé sans dépôt, le retour est mort | il faut en recommencer un — dis-le clairement, sinon il attend un remboursement qui ne viendra jamais |
+| **aucun retour trouvé** | rien n'est enregistré pour ce critère | vérifie l'autre critère avant de conclure : un client commande parfois avec une autre adresse |
+
+**Deux lectures à ne jamais confondre.** « Approuvé » chez Happy Returns veut dire *remboursé*,
+pas *reçu à l'entrepôt*. Et un `⚠️ Happy Returns INJOIGNABLE` dans la sortie de `dossier.js`
+n'est **pas** « aucun retour » : c'est une vérification qui n'a pas eu lieu. Affirmer une
+absence à partir d'un appel échoué, c'est exactement l'erreur que ce skill existe pour empêcher.
+Refais l'appel à la main avant d'écrire quoi que ce soit.
+
+**N'approuve jamais un retour depuis la boîte support.** L'action existe
+(`happyreturns approve`), elle **rembourse le client sur-le-champ**, et l'API n'offre aucune
+annulation. Elle appartient à l'inspection physique en entrepôt, pas à une réponse courriel.
+Même chose pour `createreturn`, qui crée un vrai retour avec courriel et étiquette. Si le
+dossier mérite un remboursement, c'est un geste humain — voir la section suivante.
+
 ## Avant d'écrire — la liste
 
 1. `node dossier.js <convId>` et lecture intégrale de la sortie.
@@ -76,6 +113,7 @@ pas un oubli. Ne devine jamais la raison d'un zéro : Shopify la donne.
 3. Y a-t-il un autre fil **répondu plus récemment** ? Si oui, **n'écris pas ici** : la
    conversation vit ailleurs. Signale la fusion.
 4. Les faits que je m'apprête à affirmer viennent-ils de Shopify **et** de ShipStation ?
+   S'il est question d'un retour, d'un échange ou d'un remboursement : **et de Happy Returns**.
 5. Les **notes internes** disent-elles autre chose que le brouillon ?
    `node missive_client.js notes <convId>`. Une note de l'équipe prime toujours sur un
    brouillon IA — le brouillon ne les lit pas.
@@ -104,7 +142,13 @@ Chaque étiquette se crée **à la main dans ShipStation**, puis s'envoie par co
 n'annonce jamais une étiquette qui n'existe pas encore. Mets le fil dans la to-do
 « étiquettes de retour », laisse le brouillon, et signale-le. Rappel de la règle 6 : sur un
 défaut de fabrication, les frais sont à notre charge et les 9,99 $ facturés d'office par
-Happy Returns doivent être **remboursés manuellement**.
+Happy Returns doivent être **remboursés manuellement** — l'approbation d'un retour ne les
+rend pas.
+
+Avant de renvoyer un client vers le portail, **regarde s'il y est déjà passé** : la section
+Happy Returns du dossier dit s'il a un retour commencé, déposé ou expiré. Renvoyer au portail
+quelqu'un qui a déjà déposé son colis il y a trois semaines, c'est lui faire refaire un travail
+fait — et c'est ce que produit une réponse type appliquée sans vérifier.
 
 **Ne donne jamais une date que tu n'as pas.** « Aujourd'hui », « dans les prochaines
 heures », « dès que possible » sur un dossier déjà en retard sont des fautes. Une date
@@ -194,7 +238,11 @@ faciles à enfreindre :
   d'abord. Mais si la frustration persiste sans demande claire, proposer le remboursement
   calmement fait souvent garder le produit.
 - **Défaut de fabrication → frais de retour à notre charge**, et les 9,99 $ facturés
-  automatiquement par Happy Returns doivent être remboursés **à la main**.
+  automatiquement par Happy Returns doivent être remboursés **à la main** (Shopify), jamais
+  par l'API de retours.
+- **La date qui compte pour un retour est celle du portail Happy Returns** (`startedAt`), pas
+  celle où on s'en occupe. Un retour expiré faute de dépôt n'est pas un refus de notre part :
+  c'est un délai écoulé, et on peut en rouvrir un si la période de retour le permet encore.
 - **Annoncer l'issue favorable en tête de message**, l'explication ensuite.
 - **Erreur de panier ou d'adresse : la responsabilité est au client** par défaut — mais
   jamais affirmée sans vérification, et jamais avant d'avoir annoncé la solution.
@@ -242,6 +290,9 @@ client). Ferme seulement quand plus rien n'est dû de part et d'autre.
   dossier l'exige.
 - Les conversations **hors courriel** (Messenger, Instagram, SMS) n'ont pas d'adresse :
   `reply` ne crée que des courriels et ne peut pas y répondre. Signale-le, n'improvise pas.
+- Happy Returns limite le débit à environ **une requête aux deux secondes** (*leaky bucket*).
+  `dossier.js` s'arrête donc à six critères par dossier ; sur un client à plusieurs commandes,
+  complète à la main plutôt que de boucler.
 
 ## Contexte
 
