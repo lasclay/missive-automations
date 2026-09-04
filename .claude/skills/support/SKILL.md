@@ -1,7 +1,7 @@
 ---
 name: support
-description: Répondre à un client dans la boîte support Lasclay — méthode de vérification obligatoire avant tout envoi, règles de décision internes (période de retour, mensurations, rétention, remboursement), et garde-fous appris d'erreurs réelles. Couvre le montage du dossier avec dossier.js, le croisement Shopify + ShipStation, la détection des fils en doublon, et la rédaction dans la voix de la marque.
-when_to_use: Déclenche AVANT d'écrire ou d'envoyer une réponse à un client Lasclay, avant de fermer un fil, avant de promettre un envoi, un remboursement, un échange ou une étiquette de retour. Déclenche aussi sur « réponds à ce client », « traite la boîte support », « vide l'arriéré », « est-ce qu'on peut fermer ce fil », « envoie le brouillon ». Complète le skill `missive` (accès au proxy) et `proxygen` (ShipStation) : ceux-là donnent les commandes, celui-ci donne la méthode.
+description: Répondre à un client dans la boîte support Lasclay — méthode de vérification obligatoire avant tout envoi, règles de décision internes (période de retour, mensurations, rétention, remboursement), et garde-fous appris d'erreurs réelles. Couvre le montage du dossier avec dossier.js, le croisement Shopify + ShipStation, les envois par timbre qui n'ont aucun numéro de suivi, la détection des fils en doublon, et la rédaction dans la voix de la marque.
+when_to_use: Déclenche AVANT d'écrire ou d'envoyer une réponse à un client Lasclay, avant de fermer un fil, avant de promettre un envoi, un remboursement, un échange ou une étiquette de retour. Déclenche aussi sur « réponds à ce client », « traite la boîte support », « vide l'arriéré », « est-ce qu'on peut fermer ce fil », « envoie le brouillon », « le client n'a pas de numéro de suivi », « où est son colis ». Complète le skill `missive` (accès au proxy), `proxygen` (ShipStation) et `shopify` (poids et tarifs) : ceux-là donnent les commandes, celui-ci donne la méthode.
 argument-hint: [id du fil, ou ce que tu veux traiter dans la boîte]
 allowed-tools:
   - Bash(node dossier.js:*)
@@ -37,7 +37,7 @@ Une seule commande, quatre sources. Lis-en la sortie en entier avant d'écrire u
 | **Le fil au complet** | l'historique, les engagements déjà pris | rien de ce qui s'est dit ailleurs |
 | **Les autres fils du client** | le dossier peut être réglé ailleurs, plus récemment | — |
 | **Shopify** | contenu réel de la commande, lignes retirées, remboursements, adresse au dossier | si le colis est parti |
-| **ShipStation** | expéditions, suivis, étiquettes de retour, commandes manuelles | pourquoi une ligne est à quantité 0 |
+| **ShipStation** | expéditions, suivis, étiquettes de retour, commandes manuelles | pourquoi une ligne est à quantité 0 ; **rien sur un envoi par timbre**, qui n'a pas d'étiquette |
 
 Trois pièges, chacun payé par une erreur réelle :
 
@@ -69,6 +69,61 @@ orders(first: 10, query: "name:L-50429 OR email:client@exemple.com") {
 `currentQuantity: 0` avec un remboursement daté, c'est une ligne annulée et traitée —
 pas un oubli. Ne devine jamais la raison d'un zéro : Shopify la donne.
 
+## Envoi par timbre — l'absence de suivi est normale
+
+Le suivi de livraison est la catégorie la plus volumineuse de la boîte, et c'est ici qu'on
+invente un numéro qui n'existera jamais. Une part des commandes part par **timbre** :
+enveloppe Postes Canada à 2,99 $, **sans aucun suivi**. Ce n'est pas un incident, c'est le
+tarif que le client a choisi à la caisse.
+
+### Repérer une commande partie par timbre
+
+```graphql
+shippingLines(first: 2) { edges { node { title originalPriceSet { shopMoney { amount } } } } }
+totalWeight                                  # en grammes, FIGÉ à la caisse
+fulfillments(first: 3) { trackingInfo { number company } }
+```
+
+- Tarif actuel : `title` = **« Stamp / timbre (0 tracking) »**, 2,99 $.
+- **Le titre ment sur les vieilles commandes.** Shopify fige le nom du tarif tel qu'il était
+  à la caisse. Des commandes légères portent « Standard » à **2,99 $** (l'ancien nom du
+  timbre) ou à **1,37–1,38 $** (ancien tarif des semences). Un « Standard » à 2,99 $ n'est
+  pas le Standard d'aujourd'hui, qui est à 6,99 $. **Fie-toi au prix et au poids, pas au
+  titre.**
+- `totalWeight ≤ 73` g : le panier était éligible au timbre. Au-delà, il est parti en colis.
+- **`totalWeight` est figé à la caisse.** Si un poids de produit a été corrigé depuis, la
+  vieille commande garde le sien. **Ne recalcule jamais une commande passée avec les poids
+  d'aujourd'hui** — tu conclurais à un colis là où le client a payé un timbre.
+
+### Ce que ça implique, et qu'on oublie
+
+- **Il n'y a pas de numéro de suivi. Jamais. Pas « pas encore ».** Le timbre n'en produit
+  aucun, c'est écrit dans le nom du tarif.
+- Dans Shopify, une commande **`FULFILLED` avec `trackingInfo: []` est normale** : elle est
+  partie par timbre. Ce n'est ni un oubli de saisie, ni un colis perdu.
+- Dans ShipStation, il n'y a **souvent aucune expédition** : aucune étiquette n'a été
+  achetée. C'est le piège des commandes manuelles, en pire — `shipments` vide ne veut pas
+  dire « pas expédié ».
+- Délai : **5 à 12 jours ouvrables**. C'est le seul délai chiffré autorisé d'office.
+
+### Interdits
+
+- Promettre de « retrouver » ou d'« envoyer » le numéro de suivi.
+- Écrire « le suivi devrait apparaître sous peu ».
+- Conclure d'un `shipments` vide, ou d'un `trackingInfo` vide, que la commande n'est pas
+  partie.
+- Traiter le dossier en **colis perdu avant les 12 jours ouvrables**.
+
+### Ce qu'on dit
+
+Que l'envoi est parti par enveloppe timbrée — l'option à 2,99 $ choisie à la commande —
+qu'elle voyage sans suivi, et qu'il faut compter 5 à 12 jours ouvrables. On le dit
+platement, sans s'excuser : c'est le tarif que le client a retenu, pas une défaillance.
+
+Passé le délai sans livraison, un renvoi ou un remboursement est un **mouvement de
+marchandise ou d'argent** : règle générale du skill, ça exige un humain avant l'envoi.
+Laisse le brouillon, pose la note, ne promets rien.
+
 ## Avant d'écrire — la liste
 
 1. `node dossier.js <convId>` et lecture intégrale de la sortie.
@@ -76,6 +131,8 @@ pas un oubli. Ne devine jamais la raison d'un zéro : Shopify la donne.
 3. Y a-t-il un autre fil **répondu plus récemment** ? Si oui, **n'écris pas ici** : la
    conversation vit ailleurs. Signale la fusion.
 4. Les faits que je m'apprête à affirmer viennent-ils de Shopify **et** de ShipStation ?
+   S'il est question de suivi : la commande est-elle partie **par timbre** ? Vérifie
+   `shippingLines` et `totalWeight` avant d'annoncer, ou de chercher, un numéro.
 5. Les **notes internes** disent-elles autre chose que le brouillon ?
    `node missive_client.js notes <convId>`. Une note de l'équipe prime toujours sur un
    brouillon IA — le brouillon ne les lit pas.
@@ -248,3 +305,6 @@ client). Ferme seulement quand plus rien n'est dû de part et d'autre.
 **Les Produits Lasclay Inc**, Québec — produits isolés à la soie d'asclépiade. Vente sur
 lasclay.com en français et en anglais, Canada et États-Unis. Le suivi de livraison est la
 catégorie la plus volumineuse de la boîte, donc celle où l'erreur coûte le plus cher.
+
+Pour la mécanique des tarifs et des poids derrière un envoi par timbre — pourquoi un panier
+de 73 g ou moins déclenche le 2,99 $ sans suivi — voir le skill `shopify`.
