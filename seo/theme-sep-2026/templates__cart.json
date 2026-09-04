@@ -1,0 +1,71 @@
+{
+  "sections": {
+    "rich_text_gQRXWD": {
+      "type": "rich-text",
+      "name": "Rich text",
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "title_size": 20,
+        "heading_h1": false,
+        "text": "",
+        "image_width": 110,
+        "button_label": "",
+        "button_link": "",
+        "button_style": "auto",
+        "text_alignment": "center",
+        "enlarge_text": false,
+        "full_width": false,
+        "no_padding_bottom": true,
+        "color_scheme": "standard",
+        "color_bg": "",
+        "color_text": ""
+      }
+    },
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "cart_show_title": true,
+        "cart_terms_show": false,
+        "cart_terms_page": "",
+        "continue_shopping_page": "",
+        "cart_note_show": true,
+        "show_tax_and_shipping": true,
+        "show_additional_checkout_buttons": true,
+        "show_backorder_text": true
+      },
+      "blocks": {
+        "subtotal": {
+          "type": "subtotal"
+        },
+        "text_echanges": {
+          "type": "text",
+          "settings": {
+            "text": "Échanges gratuits au Canada. Livraison gratuite dès 98,59 $.",
+            "text_style": "bold",
+            "text_alignment": "center"
+          }
+        },
+        "link_echanges": {
+          "type": "link",
+          "settings": {
+            "text": "Livraison, échanges et retours",
+            "url": "/pages/livraison-et-echanges",
+            "text_style": "link",
+            "open_new_window": false,
+            "text_alignment": "center"
+          }
+        }
+      },
+      "block_order": [
+        "subtotal",
+        "text_echanges",
+        "link_echanges"
+      ]
+    }
+  },
+  "order": [
+    "rich_text_gQRXWD",
+    "main"
+  ]
+}

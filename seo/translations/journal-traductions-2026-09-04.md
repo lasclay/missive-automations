@@ -232,6 +232,65 @@ Vérifié et laissé tel quel :
 - Symboles monétaires : « $6.99 », « $98.59 » et « 50% » conformes à l'usage canadien
   anglais.
 
+## Échanges gratuits (4 septembre, soirée) : nouvelle politique affichée partout
+
+Politique : échanges gratuits au Canada (bordereau prépayé, aucuns frais), retour avec
+remboursement à 9,99 $ de frais de manutention, 15 jours, état neuf, vente finale et
+Imparfaits exclus. Demandé par Gabriel après l'évaluation des emplacements. Tout est en
+FR et en EN.
+
+Publié (contenu, visible tout de suite) :
+
+- Nouvelle page `/pages/livraison-et-echanges` (gid Page/137938370779) : échanges gratuits,
+  retours, exclusions, défauts, livraison. FR : `fr/livraison-et-echanges.html`, EN :
+  `en/livraison-et-echanges.html`. Titre, méta titre, méta description traduits.
+- FAQ (corps de page) : six passages réécrits (réponse rapide « Retourner ou échanger »,
+  intro Tailles, « Je me suis trompé de taille », intro Retours, politique en bref, « Comment
+  faire un retour? »). La FAQ n'avait aucune traduction anglaise du corps : traduction
+  complète publiée (`en/faq.html`), donc `/en/pages/faq` sera en anglais quand « sep 2026 »
+  sera publié (le thème actif n'affiche pas le corps de page).
+- Guides des tailles (général, manteaux et vestes, t-shirts brodés) : paragraphe d'ouverture
+  « Pas la bonne taille? L'échange est gratuit au Canada… » en FR et en EN, avec lien vers la
+  nouvelle page.
+- Menus : « Échanges gratuits et retours » ajouté au pied de page Aide & Guides (2e position)
+  et au sous-menu Aide & Guides de l'en-tête ; lien traduit « Free exchanges and returns ».
+
+Publié sur le thème non publié « sep 2026 » (copies dans `seo/theme-sep-2026/`) :
+
+- 12 gabarits produit (tous sauf gift-card) : bloc « Trust icons » sous le bouton d'achat
+  (Échanges gratuits au Canada / Livraison gratuite dès 98,59 $ / 15 jours pour changer
+  d'idée / Isolant cultivé et transformé au Québec ; variantes « Espèces indigènes du
+  Québec » pour graines et plantule, « Huile d'asclépiade cultivée au Québec » pour
+  cosmetics) et accordéon « Livraison, échanges et retours » branché sur la page
+  `livraison-et-echanges` après le dernier accordéon.
+- Panier (`templates/cart.json`) : blocs sous-total + texte « Échanges gratuits au Canada.
+  Livraison gratuite dès 98,59 $. » + lien vers la page.
+- 62 clés anglaises enregistrées pour ces blocs (theme_id 164701012187).
+
+Bloqué ou à faire à la main :
+
+- Politiques Shopify (Politique de remboursement et d'expédition, liées au pied de la
+  caisse) : `shopPolicyUpdate` refusé, portée `write_legal_policies` absente du connecteur.
+  La politique de remboursement actuelle est une ligne en anglais (« 15 days after
+  reception for refunds, 1 year defect warranty for exchanges ») et la politique
+  d'expédition est vide. Textes prêts à coller (Paramètres > Politiques) : remboursement =
+  sections « Échanges gratuits au Canada », « Retours et remboursements », « Ce qui n'est
+  pas admissible », « Un défaut? » de `fr/livraison-et-echanges.html` ; expédition =
+  section « Livraison » de la même page. Une fois remplie, la politique d'expédition fait
+  apparaître un lien dans le panier (« Taxes et frais de livraison calculés à la caisse »).
+- Noms des tarifs de livraison (« Standard », « Express ») : non renommés, parce que
+  ShipStation et ses règles d'automatisation peuvent dépendre de ces libellés. À décider
+  avec l'équipe expédition avant d'ajouter « échanges gratuits » au nom.
+- Barre Hextom (livraison gratuite) : ajouter un second message en rotation « Échanges
+  gratuits au Canada », dans l'application.
+- Courriel de confirmation de commande Shopify et flux Klaviyo (panier abandonné,
+  bienvenue) : ajouter « Pas la bonne taille? L'échange est gratuit au Canada. » / « Wrong
+  size? Exchanges are free in Canada. »
+- Thème actif « 18 aout » : ses accordéons FAQ disent encore 9,99 $ pour un échange, jusqu'à
+  la publication de « sep 2026 ».
+- Crédit-boutique : la nouvelle politique ne dit pas s'il est gratuit comme l'échange ou
+  soumis aux 9,99 $ comme le remboursement. La FAQ le mentionne sans montant.
+
 ## Volontairement laissé tel quel
 
 - Page Mission : le français doit être réécrit d'abord (audit des pages, point 4).

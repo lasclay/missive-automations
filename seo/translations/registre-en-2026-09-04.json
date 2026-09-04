@@ -3813,5 +3813,365 @@
 "resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/page.guide-entretien-produits?theme_id=164175937755",
 "key": "section.page.guide-entretien-produits.json.c853d4ff-3fc2-46a6-be84-cd86d3c532f0.f4c9b508-0bea-43fc-8c0a-c39863fc6fd2.title:19pjeg6dv1h8o",
 "value": "How often to wash"
+},
+{
+"resourceId": "gid://shopify/Page/103050674395",
+"key": "title",
+"value": "FAQ"
+},
+{
+"resourceId": "gid://shopify/Page/103050674395",
+"key": "body_html",
+"value": "<!--\n  LASCLAY FAQ. This file is the body of the FAQ page (Content > Pages > FAQ, HTML mode).\n  The styling comes from the theme. Here: content only.\n\n  HOW TO EDIT\n  - One question = 3 lines:  <details id=\"...\"><summary>Question</summary>\n    <div class=\"faq-answer\"> ...answer... </div></details>\n  - One section = <section class=\"faq-group\" id=\"...\" data-icon=\"...\"> with its <h2>.\n      Available icons: truck, ruler, return, warm, sprout, leaf, card, brief.\n  - The display order is the order of this file. To move a question, cut and paste the block.\n  - The left-hand table of contents and the per-section counter build themselves.\n  - Topic banner: one card per section (photo from Content > Files).\n  - Never paste <svg> or <script>. Always save from HTML mode.\n-->\n<!-- ======================================================================\n      TOPIC BANNER (one card per section)\n      ====================================================================== -->\n<nav class=\"faq-cats\" aria-label=\"By topic\">\n  <a href=\"#commande\"><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/livraison-colis-lasclay-postes-canada_800x1000_crop_center.jpg?v=1788539866\" alt=\"Canada Post carrier handing over a Lasclay parcel, a white shipping bag illustrated with milkweed pods\" loading=\"lazy\"><span>Order status and shipping</span></a>\n  <a href=\"#tailles\"><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/Lasclay-Mesures-Main-Longueur_720x480_crop_center.jpg\" alt=\"\" loading=\"lazy\"><span>Sizing and exchanges</span></a>\n  <a href=\"#retours\"><img src=\"https://lasclay.com/cdn/shop/files/Totebag_10_720x480_crop_center.png\" alt=\"\" loading=\"lazy\"><span>Returns and refunds</span></a>\n  <a href=\"#produits\"><img src=\"https://lasclay.com/cdn/shop/files/tissu-isolant-matelasse-asclepiade-soie-Lasclay-1024x1024_720x480_crop_center.jpg\" alt=\"\" loading=\"lazy\"><span>Products and care</span></a>\n  <a href=\"#graines\"><img src=\"https://lasclay.com/cdn/shop/files/MG_9779_720x480_crop_center.jpg\" alt=\"\" loading=\"lazy\"><span>Seeds and planting</span></a>\n  <a href=\"#lasclay\"><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/MG_0257_800x1000_crop_center.jpg?v=1718028217\" alt=\"Monarch butterfly resting on a cluster of pink common milkweed flowers in the middle of a field\" loading=\"lazy\"><span>Lasclay, milkweed and monarchs</span></a>\n  <a href=\"#paiement\"><img src=\"https://lasclay.com/cdn/shop/files/bandeau_rouge_et_cache_cou_720x480_crop_center.jpg\" alt=\"\" loading=\"lazy\"><span>Payment and invoices</span></a>\n  <a href=\"#entreprises\"><img src=\"https://lasclay.com/cdn/shop/files/Manteau_asclepiade_homme_pleinair_720x480_crop_center.jpg\" alt=\"\" loading=\"lazy\"><span>Businesses and corporate gifts</span></a>\n</nav>\n<!-- ======================================================================\n      QUICK ANSWERS (the 4 most asked questions)\n      ====================================================================== -->\n<nav class=\"faq-quick\" aria-label=\"Quick answers\">\n  <a href=\"#q-suivi\" data-icon=\"truck\"><strong>Where is my order?</strong><span>Pre-orders, tracking, delivery times</span></a>\n  <a href=\"#q-taille-mitaines\" data-icon=\"ruler\"><strong>Which size should I choose?</strong><span>Mittens, coats, insoles</span></a>\n  <a href=\"#q-retour-comment\" data-icon=\"return\"><strong>Return or exchange</strong><span>Free exchanges, prepaid label</span></a>\n  <a href=\"#q-germination\" data-icon=\"sprout\"><strong>My seeds didn't sprout</strong><span>Seed bombs, stratification</span></a>\n</nav>\n\n<!-- ======================================================================\n      1. ORDER STATUS AND SHIPPING\n      ====================================================================== -->\n<section class=\"faq-group\" id=\"commande\" data-icon=\"truck\">\n<h2>Order status and shipping <span class=\"faq-badge\">Most asked</span>\n</h2>\n<p class=\"faq-intro\">Tracking, delivery times, fees, address changes, shipping outside Canada.</p>\n  <details id=\"q-suivi\">\n    <summary>Where is my order?</summary>\n    <div class=\"faq-answer\">\n      <p>Two possibilities.</p>\n      <p><strong>The product was in stock.</strong> The order leaves Québec City within a few business days. You receive an email with the tracking number when it ships.</p>\n      <p><strong>The product was on pre-order.</strong> The estimated ship date is shown on the product page and in your confirmation. The order ships after that date, not before.</p>\n      <p>Small orders sent by stamp (seeds, seed bombs) have no tracking number.</p>\n    </div>\n  </details>\n  <details>\n    <summary>My tracking number isn't moving</summary>\n    <div class=\"faq-answer\">\n      <p>Tracking activates when the carrier picks up the parcel, not when the label is created. A “label created” status for a few business days is normal.</p>\n      <p>If nothing moves after a week, write to us with your order number. We check on our end and follow up with the carrier if needed.</p>\n    </div>\n  </details>\n  <details>\n    <summary>The parcel is marked “delivered” but I haven't received anything</summary>\n    <div class=\"faq-answer\">\n      <p>First check the post office listed in the tracking, with a neighbour, and the address on your order confirmation. Most cases are solved right there.</p>\n      <p>Otherwise, write to us with your order number. We open an investigation with the carrier and find a solution with you.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Delivery times and shipping costs in Canada</summary>\n    <div class=\"faq-answer\">\n      <p>Free Xpresspost shipping on orders of $98.59 and up, anywhere in Canada. Under that amount, count on $6.99 for standard shipping or $9.99 for Xpresspost.</p>\n      <table>\n      <thead><tr>\n<th>Destination</th>\n<th>Time after shipping</th>\n</tr></thead>\n      <tbody>\n      <tr>\n<td>Québec</td>\n<td>2 to 5 business days</td>\n</tr>\n      <tr>\n<td>Ontario, Maritimes</td>\n<td>4 to 8 business days</td>\n</tr>\n      <tr>\n<td>Manitoba</td>\n<td>6 to 8 business days</td>\n</tr>\n      <tr>\n<td>Saskatchewan, Alberta, B.C.</td>\n<td>7 to 10 business days</td>\n</tr>\n      </tbody>\n      </table>\n      <p>There are no weekend deliveries: an order shipped on a Thursday or Friday may take a little longer.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Do you ship outside Canada?</summary>\n    <div class=\"faq-answer\">\n      <p>Yes. Lasclay ships to the United States, as well as the United Kingdom, France, Belgium, Switzerland, Australia, New Zealand and Mexico. Rates are shown in the cart based on the destination.</p>\n      <p><strong>Seeds and seed bombs to the United States.</strong> Even when properly labelled, seeds can be held by U.S. customs. If your parcel arrives empty with a customs notice, write to us with a photo of the notice.</p>\n    </div>\n  </details>\n  <details>\n    <summary>I want to correct my address, change or cancel my order</summary>\n    <div class=\"faq-answer\">\n      <p>Write to us as soon as possible at <a href=\"mailto:hey@lasclay.com\">hey@lasclay.com</a> with your order number.</p>\n      <p>As long as the order hasn't shipped, we can correct the address, change a size or colour, add an item or cancel. Once the parcel has left, an address change may involve carrier fees, which will be charged to you.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Can I pick up my order in Québec City?</summary>\n    <div class=\"faq-answer\">\n      <p>Yes, by appointment, at our workshop in Limoilou. Choose the pickup option at checkout: you will receive an email with a link to book a time once the order is ready.</p>\n    </div>\n  </details>\n</section>\n\n<!-- ======================================================================\n      2. SIZING AND SIZE EXCHANGES\n      ====================================================================== -->\n<section class=\"faq-group\" id=\"tailles\" data-icon=\"ruler\">\n<h2>Sizing and size exchanges</h2>\n<p class=\"faq-intro\">Sizing advice is the first question before buying. Two careful measurements prevent almost every exchange, and if it doesn't fit, exchanges are free in Canada.</p>\n  <details id=\"q-taille-mitaines\">\n    <summary>How do I choose my mitten size?</summary>\n    <div class=\"faq-answer\">\n      <p>Two measurements are enough: the width across the knuckles and the total length of the hand. Where you measure matters, half a centimetre can change the size.</p>\n      <p>If you fall between two sizes, take the larger one. A slightly roomier mitten keeps your fingers away from the seams and stays warmer.</p>\n      <p>Contradictory result? Send us a photo of your hand next to a ruler or tape measure and we will confirm the size.</p>\n      <a class=\"faq-more\" href=\"https://lasclay.com/en/pages/sizing-chart\">See the size guide with photos</a>\n    </div>\n  </details>\n  <details>\n    <summary>Which size for a coat or vest?</summary>\n    <div class=\"faq-answer\">\n      <p>Three measurements: chest, waist and hips, taken with a soft tape measure without pulling tight. Between two sizes, take the larger one. As a last resort, take the size of your usual winter coats.</p>\n      <a class=\"faq-more\" href=\"https://lasclay.com/en/pages/guide-des-tailles-manteaux-vestes-asclepiade\">See the coat and vest guide</a>\n    </div>\n  </details>\n  <details>\n    <summary>Which size for the insulated insoles?</summary>\n    <div class=\"faq-answer\">\n      <p>If you wear a half size, take the size up. An unpadded 6 mm band surrounds the insulated part, which leaves room to trim the outline.</p>\n    </div>\n  </details>\n  <details>\n    <summary>I ordered the wrong size</summary>\n    <div class=\"faq-answer\">\n      <p>You can exchange it within 15 days of delivery, as long as the product has not been worn or washed. We will ask you to confirm your measurements against the product's size guide.</p>\n      <p>Exchanges are free in Canada: prepaid return label, no handling fee, and the replacement ships as soon as we receive yours.</p>\n    </div>\n  </details>\n</section>\n\n<!-- ======================================================================\n      3. RETURNS, EXCHANGES AND REFUNDS\n      ====================================================================== -->\n<section class=\"faq-group\" id=\"retours\" data-icon=\"return\">\n<h2>Returns, exchanges and refunds</h2>\n<p class=\"faq-intro\">Exchanges are free in Canada. Returns go through Canada Post with a prepaid label. No lineup: the mailbox on the corner will do.</p>\n  <details>\n    <summary>The return policy in brief</summary>\n    <div class=\"faq-answer\">\n      <ul>\n      <li>\n<strong>15 days</strong> after delivery to write to us.</li>\n      <li>Product <strong>in new condition</strong>: unworn, unwashed, no odour or marks.</li>\n      <li><strong>Final sale</strong> items cannot be returned or exchanged.</li>\n      <li>Only purchases made on lasclay.com are eligible.</li>\n      <li>Your choice: <strong>exchange, store credit or refund</strong>. Exchanges are free in Canada. For a refund, a $9.99 handling fee is deducted. The refund goes back to the original payment method within 5 to 10 business days.</li>\n      </ul>\n    </div>\n  </details>\n  <details id=\"q-retour-comment\">\n    <summary>How do I make a return?</summary>\n    <div class=\"faq-answer\">\n      <ol class=\"faq-steps\">\n      <li>Write to <a href=\"mailto:hey@lasclay.com\">hey@lasclay.com</a> or on Messenger with your order number and what you would like (exchange, credit or refund).</li>\n      <li>You receive a prepaid return label within 1 to 2 business days.</li>\n      <li>You have 10 days to mail the parcel. Reuse the Lasclay packaging if you kept it, stick on the label, and drop it in a mailbox or at the counter.</li>\n      <li>Once received and inspected, we move straight to the exchange, credit or refund.</li>\n      </ol>\n      <p>Exchanges are free. For a refund, a $9.99 handling fee is deducted: it covers part of the postage. The details: <a href=\"https://lasclay.com/en/pages/livraison-et-echanges\">shipping, exchanges and returns</a>.</p>\n    </div>\n  </details>\n  <details>\n    <summary>My product has a defect, or a problem after the return window</summary>\n    <div class=\"faq-answer\">\n      <p>Write to us with one or two photos of the problem and your order number. A seam coming apart, a missing part, the wrong item received: in most cases we sort it out without asking you to send the product back.</p>\n    </div>\n  </details>\n</section>\n\n<!-- ======================================================================\n      4. PRODUCTS AND CARE\n      ====================================================================== -->\n<section class=\"faq-group\" id=\"produits\" data-icon=\"warm\">\n<h2>Products and care</h2>\n<p class=\"faq-intro\">What milkweed does in a product, what it doesn't do, and how to keep your items for a long time.</p>\n  <details>\n    <summary>Is it really warm? Why milkweed?</summary>\n    <div class=\"faq-answer\">\n      <p>Milkweed floss is a hollow fibre: each fibre traps air inside, and that air is what insulates. It is very light, naturally water-repellent, plant-based and free of animal materials.</p>\n      <p>The warmth of a finished product also depends on its outer fabric, its thickness and how it is used. Our job is to turn the fibre's properties into products that hold up in real life.</p>\n      <a class=\"faq-more\" href=\"https://lasclay.com/en/pages/milkweed-asclepiade\">Everything about milkweed as insulation</a>\n    </div>\n  </details>\n  <details>\n    <summary>Does the insulation pack down over time?</summary>\n    <div class=\"faq-answer\">\n      <p>A little, like any insulation, but it keeps its insulating power. Many insulations rely on the air between the fibres, which disappears under compression. In milkweed, the air is held inside each hollow fibre, and it stays there.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Are the mittens waterproof?</summary>\n    <div class=\"faq-answer\">\n      <p>Water-resistant, not 100% waterproof. The outer fabric, a tightly woven polyester, sheds water long enough to shake it off, and the milkweed fibre is itself water-repellent, inside and out. We chose not to use plastic membranes so your hands can breathe.</p>\n    </div>\n  </details>\n  <details>\n    <summary>How do I care for my products?</summary>\n    <div class=\"faq-answer\">\n      <div class=\"faq-care\">\n      <div>\n<strong>Insulated clothing and accessories</strong><ul>\n<li>Hand wash, cold water</li>\n<li>No bleach</li>\n<li>Air dry, never in the dryer</li>\n<li>Do not iron</li>\n</ul>\n</div>\n      <div>\n<strong>Insulated bags and coolers</strong><ul>\n<li>Inside: damp cloth and mild soap</li>\n<li>Outside: by hand, or a delicate cycle in cold water if needed</li>\n<li>Air dry</li>\n</ul>\n</div>\n    </div>\n    </div>\n  </details>\n</section>\n\n<!-- ======================================================================\n      5. SEEDS, SEED BOMBS AND PLANTING\n      ====================================================================== -->\n<section class=\"faq-group\" id=\"graines\" data-icon=\"sprout\">\n<h2>Seeds, seed bombs and planting</h2>\n<p class=\"faq-intro\">Milkweed is a native perennial: a little preparation the first year, then it takes care of itself.</p>\n  <details>\n    <summary>When and how should I plant?</summary>\n    <div class=\"faq-answer\">\n      <p>Seed bombs germinate when the soil stays above 20 °C for several days in a row. If they arrive before the season, keep them in the fridge. If they have already started to sprout, set them on the surface of a pot of soil under clear plastic, near a sunny window.</p>\n      <p>Allow for a season of patience: milkweed flowers from the second year on.</p>\n      <a class=\"faq-more\" href=\"https://lasclay.com/en/pages/planting-guide\">Read the planting guide</a>\n    </div>\n  </details>\n  <details>\n    <summary>Do the seeds need to be stratified?</summary>\n    <div class=\"faq-answer\">\n      <p>Yes. Our seeds are not stratified: plan on about 30 days in the cold before sowing. It delays planting a little, but it gives the best germination rates.</p>\n    </div>\n  </details>\n  <details id=\"q-germination\">\n    <summary>My seed bombs didn't sprout</summary>\n    <div class=\"faq-answer\">\n      <p>It happens. Germination depends on the soil type, sunlight, watering and temperature. Write to us and tell us where, when and how you planted: we will advise you, and we reship the seed bombs you ordered, right away or for the next planting season.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Is milkweed invasive?</summary>\n    <div class=\"faq-answer\">\n      <p>Vigorous, yes; invasive, no. Common milkweed is a native plant perfectly adapted to our ecosystems, and it spreads through its rhizomes. Nothing like giant hogweed or Japanese knotweed, which are harmful exotic plants.</p>\n      <p>If you are short on space, butterfly milkweed, swamp milkweed and tall milkweed spread much less.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Which species for my hardiness zone?</summary>\n    <div class=\"faq-answer\">\n      <p>Every species we offer in packets or seed bombs suits zones 3 to 9, which covers populated Québec and most of North America.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Is it toxic to children or pets?</summary>\n    <div class=\"faq-answer\">\n      <p>Milkweed latex is toxic, but so bitter that a child, dog or cat will never eat enough to get sick. The real risk is for livestock, when dried milkweed ends up in hay and loses its bitter taste. In a garden or a field, the danger is greatly overestimated.</p>\n    </div>\n  </details>\n  <details>\n    <summary>How much area does a seed bomb cover?</summary>\n    <div class=\"faq-answer\">\n      <p>A 4-cell stick covers about 4 square feet, or 1 square foot per cell. Give common milkweed more room, since it spreads; butterfly and swamp milkweed can be sown closer together.</p>\n    </div>\n  </details>\n</section>\n\n<!-- ======================================================================\n      6. LASCLAY, MILKWEED AND MONARCHS\n      ====================================================================== -->\n<section class=\"faq-group\" id=\"lasclay\" data-icon=\"leaf\">\n<h2>Lasclay, milkweed and monarchs</h2>\n<p class=\"faq-intro\">Our mission, our trade-offs, and the questions we get asked about monarchs.</p>\n  <details>\n    <summary>Does harvesting milkweed hurt monarchs?</summary>\n    <div class=\"faq-answer\">\n      <p>No, quite the opposite. The caterpillars eat the leaves and the butterflies feed on the flowers, from spring to late summer. The floss we harvest is in the pods, in the fall, when the monarchs have already left for Mexico.</p>\n      <p>Giving milkweed economic value gives farmers a reason to grow it rather than pull it out. The more of it there is in the fields, the more places monarchs have to breed.</p>\n      <a class=\"faq-more\" href=\"https://lasclay.com/en/pages/monarch-butterfly\">The monarch butterfly and milkweed</a>\n    </div>\n  </details>\n  <details>\n    <summary>Does a purchase save a monarch?</summary>\n    <div class=\"faq-answer\">\n      <p>Not one specific butterfly, and we won't claim it does. Each purchase supports a supply chain that makes milkweed profitable to grow, and therefore more present in the landscape. It is a systemic link, not a one-for-one offset.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Where are your products made?</summary>\n    <div class=\"faq-answer\">\n      <p>Growing the milkweed, processing it into insulation, designing the products and quality control all happen in Québec, at our workshop in Limoilou. That is the heart of what we do, and it isn't going anywhere.</p>\n      <p>The textile assembly of most finished products is done by partners outside Québec, mainly in Tunisia. The insulation leaves from here, is assembled there, and comes back inside the product. For the coats, the shell is made in Tunisia; the insulation and the removable inserts are still processed in Limoilou, which makes a coat around $300 possible.</p>\n      <p>Why? Québec's textile industry no longer has certain skills or the machinery for technical pieces at an accessible price. Doing everything here would have made milkweed unaffordable. A few products are still made entirely here, including the milkweed oil cosmetics: it is stated on their product page.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Why the name “Lasclay”?</summary>\n    <div class=\"faq-answer\">\n      <p>They are the first two syllables of “asclépiade”, the French word for milkweed: L'AS-CLÉ. It is pronounced “Lass-clay” in French and in English. Spelling it with a y avoids accents, which are impossible in a domain name, and makes an invented word that Google doesn't autocorrect to “la clé”.</p>\n    </div>\n  </details>\n</section>\n\n<!-- ======================================================================\n      7. PAYMENT, INVOICES AND TAXES\n      ====================================================================== -->\n<section class=\"faq-group\" id=\"paiement\" data-icon=\"card\">\n<h2>Payment, invoices and taxes</h2>\n<p class=\"faq-intro\">Payment methods, promo codes, full invoices and tax exemption.</p>\n  <details>\n    <summary>Which payment methods do you accept?</summary>\n    <div class=\"faq-answer\">\n      <p>Visa, MasterCard, American Express and PayPal.</p>\n    </div>\n  </details>\n  <details>\n    <summary>My promo code doesn't work, or I forgot to apply it</summary>\n    <div class=\"faq-answer\">\n      <p>Check that there is no space before or after the code, and that the products in your cart are eligible. Only one code can be applied per order.</p>\n      <p>Forgot the code? Write to us within the next few days with your order number. If the code was valid at the time of purchase, we refund the difference.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Can I get a full invoice with the tax numbers?</summary>\n    <div class=\"faq-answer\">\n      <p>Yes. Write to <a href=\"mailto:hey@lasclay.com\">hey@lasclay.com</a> with your order number: we send you the invoice as a PDF, with our GST and QST numbers.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Tax exemption for registered persons (Indian Act)</summary>\n    <div class=\"faq-answer\">\n      <p>If you are a registered person under the Indian Act and the order is delivered to an address on a First Nation, you are entitled to the tax exemption. Write to us: we create an account so that your current and future orders are exempt.</p>\n      <p>This answer was written by people who are not from Indigenous communities. If a wording seems inaccurate or clumsy to you, tell us and we will correct it.</p>\n    </div>\n  </details>\n</section>\n\n<!-- ======================================================================\n      8. BUSINESSES, RETAILERS AND CORPORATE GIFTS\n      ====================================================================== -->\n<section class=\"faq-group\" id=\"entreprises\" data-icon=\"brief\">\n<h2>Businesses, retailers and corporate gifts</h2>\n<p class=\"faq-intro\">Wholesale pricing, group orders, customization with your logo.</p>\n  <details>\n    <summary>Do you offer wholesale pricing or a retailer catalogue?</summary>\n    <div class=\"faq-answer\">\n      <p>Yes. Write to <a href=\"mailto:operations@lasclay.com\">operations@lasclay.com</a> and tell us which products interest you, the volumes you have in mind and your type of business (shop, organization, firm purchase or consignment). We send you the B2B catalogue.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Corporate gifts and customization with your logo</summary>\n    <div class=\"faq-answer\">\n      <p>Possible on several products, starting at around fifteen items. Send us your logo (vector preferred), the quantity and your target date at <a href=\"mailto:operations@lasclay.com\">operations@lasclay.com</a>. Allow extra time during the holiday season.</p>\n    </div>\n  </details>\n  <details>\n    <summary>Sponsorships, donations and partnerships</summary>\n    <div class=\"faq-answer\">\n      <p>We receive many requests and can't say yes to all of them. Write to us describing the project, its connection to milkweed or pollinators, and what you are looking for. We answer based on what we can do at the time.</p>\n    </div>\n  </details>\n</section>"
+},
+{
+"resourceId": "gid://shopify/Page/137938370779",
+"key": "title",
+"value": "Shipping, Exchanges and Returns"
+},
+{
+"resourceId": "gid://shopify/Page/137938370779",
+"key": "meta_title",
+"value": "Shipping, Free Exchanges and Returns | Lasclay"
+},
+{
+"resourceId": "gid://shopify/Page/137938370779",
+"key": "meta_description",
+"value": "Free exchanges in Canada within 15 days, refunds with a $9.99 handling fee, free shipping on orders of $98.59 and up. Everything you need to know before you order."
+},
+{
+"resourceId": "gid://shopify/Page/137938370779",
+"key": "body_html",
+"value": "<h2>Free exchanges in Canada</h2>\n<p>Wrong size, wrong colour? We exchange it for free, anywhere in Canada: prepaid return label, no handling fee. You have 15 days after delivery to write to us, and the item must be in new condition, unworn, unwashed, with no odour or marks.</p>\n<ol>\n<li>Write to <a href=\"mailto:hey@lasclay.com\">hey@lasclay.com</a> or on Messenger with your order number and the item you would like in exchange.</li>\n<li>You receive a prepaid return label within 1 to 2 business days. You then have 10 days to mail the parcel.</li>\n<li>Drop it in a mailbox or at a Canada Post counter. The replacement ships as soon as we receive and inspect yours.</li>\n</ol>\n<p>Not sure about your size before ordering? Check the <a href=\"/en/pages/sizing-chart\">size guide</a>, or send us a photo of your hand next to a ruler and we will confirm the size.</p>\n<h2>Returns and refunds</h2>\n<p>Would you rather have a refund? Same 15-day window, same new condition, same prepaid label. A $9.99 handling fee is deducted from the refund; it covers part of the postage. The refund goes back to the original payment method within 5 to 10 business days after inspection.</p>\n<h2>What is not eligible</h2>\n<ul>\n<li>Final sale items and items from the Imperfects section: no returns or exchanges.</li>\n<li>Purchases made anywhere other than lasclay.com: please contact the retailer.</li>\n<li>Outside Canada: write to us and we will find a solution, but return shipping costs are not covered.</li>\n</ul>\n<h2>A defect?</h2>\n<p>A seam coming apart, a missing part, the wrong item received: write to us with one or two photos and your order number, even after the return window. In most cases we sort it out without asking you to send the product back.</p>\n<h2>Shipping</h2>\n<p><strong>Canada.</strong> Free Xpresspost shipping on orders of $98.59 and up. Under that amount, $6.99 for standard shipping or $9.99 for Xpresspost. Very light items, such as seeds, ship by stamp for $2.99, without tracking. Delivery times after shipping: 2 to 5 business days in Québec, 4 to 8 in Ontario and the Maritimes, 6 to 8 in Manitoba, 7 to 10 in Saskatchewan, Alberta and British Columbia.</p>\n<p><strong>United States.</strong> $6.99 USD on orders under $59.99 USD, free on orders of $59.99 USD and up.</p>\n<p><strong>Elsewhere.</strong> United Kingdom, France, Belgium, Switzerland, Australia, New Zealand and Mexico: rates are shown in the cart based on the destination.</p>\n<p>Pre-order products ship after the date shown on their product page. You receive an email with the tracking number when your order ships.</p>"
+},
+{
+"resourceId": "gid://shopify/Link/674237710555",
+"key": "title",
+"value": "Free exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/Page/69387518114",
+"key": "body_html",
+"value": "<p class=\"faq-intro\"><strong>Not the right size? Exchanges are free in Canada.</strong> You have 15 days after delivery to write to us. <a href=\"/en/pages/livraison-et-echanges\">See how it works</a>.</p>\n<p>Find the size guides for Lasclay products: urban and outdoor mittens, coats and jackets, sports beanies and embroidered t-shirts.</p><hr class=\"simple-line\"><h3><strong><br>Size Guide for Our Urban and Outdoor Mittens<br></strong></h3><div style=\"text-align: left;\"></div><p>Our size guide is based on two measurements: the width across the knuckles (blue) and the overall length (orange). The placement of the measurements is important, a difference of half a centimeter can make all the difference! Photos are provided below to help.<br><br>If your result is unclear (contradictory, between two sizes, etc.), please contact us to ensure you get the right size for you.</p><p>&nbsp;<img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/LAS_2020-10-22_SizeChart_Mitaines-02.png?v=1662854212\" alt=\"Lasclay Sizing Chart / Guide des tailles\"></p><p>&nbsp;</p><p><em><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/Lasclay-Mesures-Main-Longueur.jpg?v=1621544024\"></em></p><p>&nbsp;</p><p>&nbsp;</p><p><em><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/Lasclay-Mesures-Main-Largeur.jpg?v=1621543986\"></em></p><div style=\"text-align: start;\"><img></div><hr class=\"simple-line\"><h3><strong><br><br>Size Guide for Our Coats and Jackets<br><br></strong></h3><p><i>The guide is based on three measurements: Chest, Waist, and Hips.</i></p><p><br>\nTake your time to measure carefully, a single centimeter can make a difference! The best way to measure your chest and waist is with a flexible measuring tape. If you don’t have one, use a piece of string wrapped around your body at the designated spot, then lay it flat and measure it with a standard tape measure.</p><p>If your result is unclear (contradictory, between two sizes, etc.), choose the larger size that corresponds to your measurements. As a last resort, select the size you usually wear in winter coats. We will contact all customers individually to confirm sizes, and fittings can even be arranged if needed.</p><p><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/FEMME_CM.jpg?v=1752595519\"></p><p><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/homme_cm.jpg?v=1752595558\"></p><p><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/femme_po.jpg?v=1752595580\"></p><p><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/homme_po.jpg?v=1752595598\"></p><p>&nbsp;</p><hr class=\"simple-line\"><h3><strong>Size Guide for Our Sport Beanies<br></strong></h3><p><img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/guide_tailles-yo.png?v=1755614145\"></p><p>&nbsp;</p><hr class=\"simple-line\"><h3><strong>Size Guide for Our Embroidered T-Shirts</strong></h3><p>Our t-shirts have a unisex, regular fit: neither slim nor loose. The same size works for men and women.</p><p><strong>By your chest measurement</strong>, taken around the fullest part of the chest, tape level and without pulling it tight.</p><table style=\"width: 100%;\" border=\"1\" cellpadding=\"6\"><thead><tr><th>Size</th><th>Chest (cm)</th><th>Chest (in)</th></tr></thead><tbody><tr><td>XS</td><td>81 to 86</td><td>32 to 34</td></tr><tr><td>S</td><td>87 to 94</td><td>34 to 37</td></tr><tr><td>M</td><td>95 to 102</td><td>37&frac12; to 40</td></tr><tr><td>L</td><td>103 to 110</td><td>40&frac12; to 43&frac12;</td></tr><tr><td>XL</td><td>111 to 118</td><td>43&frac12; to 46&frac12;</td></tr><tr><td>2XL</td><td>119 to 127</td><td>47 to 50</td></tr></tbody></table><p><strong>Or by comparing with a t-shirt you already like</strong>, laid flat on a table. This is the more reliable method, because it accounts for the fit you actually like to wear.</p><table style=\"width: 100%;\" border=\"1\" cellpadding=\"6\"><thead><tr><th>Size</th><th>Chest width</th><th>Body length</th><th>Shoulder to shoulder</th><th>Sleeve</th></tr></thead><tbody><tr><td>XS</td><td>46 cm (18 in)</td><td>67 cm (26&frac12; in)</td><td>41 cm (16 in)</td><td>19 cm (7&frac12; in)</td></tr><tr><td>S</td><td>49 cm (19&frac14; in)</td><td>70 cm (27&frac12; in)</td><td>43 cm (17 in)</td><td>20 cm (8 in)</td></tr><tr><td>M</td><td>52 cm (20&frac12; in)</td><td>72 cm (28&frac12; in)</td><td>46 cm (18 in)</td><td>21 cm (8&frac14; in)</td></tr><tr><td>L</td><td>56 cm (22 in)</td><td>75 cm (29&frac12; in)</td><td>49 cm (19&frac14; in)</td><td>22 cm (8&frac34; in)</td></tr><tr><td>XL</td><td>60 cm (23&frac12; in)</td><td>77 cm (30&frac12; in)</td><td>52 cm (20&frac12; in)</td><td>23 cm (9 in)</td></tr><tr><td>2XL</td><td>64 cm (25 in)</td><td>80 cm (31&frac12; in)</td><td>55 cm (21&frac12; in)</td><td>24 cm (9&frac12; in)</td></tr></tbody></table><p>If you are between two sizes, take the larger one. Details on each measurement and how to take it are in the <a title=\"Size Guide - Embroidered T-Shirts\" href=\"https://lasclay.com/en/pages/size-guide-embroidered-t-shirts\"><strong>full t-shirt size guide</strong></a>.</p><p>&nbsp;</p>"
+},
+{
+"resourceId": "gid://shopify/Page/121818185947",
+"key": "body_html",
+"value": "<p class=\"faq-intro\"><strong>Not the right size? Exchanges are free in Canada.</strong> You have 15 days after delivery to write to us. <a href=\"/en/pages/livraison-et-echanges\">See how it works</a>.</p>\n<p>\n    <span style=\"text-decoration: underline;\"><strong>Here is our size guide for milkweed-insulated jackets and vests.<br></strong></span>\n    <em>To return to the jackets and vests, <a title=\"Milkweed-Insulated Jackets & Vests – Warm and Water-Resistant\" href=\"https://lasclay.com/collections/vetements-asclepiade\"><strong>click here</strong></a></em>\n    <span style=\"text-decoration: underline;\"><strong><br><br>The guide includes three measurements: Chest, Waist, and Hips.</strong></span>\n    <br><br>\n    Take your time when measuring—one centimeter can make all the difference! Ideally, use a flexible measuring tape to take your chest and waist measurements. If you don’t have one, use a piece of string, wrap it around your body at the designated spot, then lay it flat and measure the length with a standard tape measure.\n</p>\n<p>\n    <strong>If your result is unclear</strong> (contradictory, between sizes, etc.), <strong>go with the largest size that corresponds to your measurements. As a last resort, choose the size you usually wear in winter coats.</strong> We will follow up with each customer individually to confirm sizing, and fittings can even be arranged if needed.\n</p>\n<p>\n    <img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/en_size_guide_milkweed_jackets_WOMEN.jpg?v=1752927150\">\n</p>\n<p>\n    <img src=\"https://cdn.shopify.com/s/files/1/0475/8932/7010/files/en_size_guide_milkweed_jackets_MEN.jpg?v=1752927150\">\n</p>"
+},
+{
+"resourceId": "gid://shopify/Page/137676357851",
+"key": "body_html",
+"value": "<p class=\"faq-intro\"><strong>Not the right size? Exchanges are free in Canada.</strong> You have 15 days after delivery to write to us. <a href=\"/en/pages/livraison-et-echanges\">See how it works</a>.</p>\n<p><span style=\"text-decoration: underline;\"><strong>Here is our size guide for the embroidered t-shirts.</strong></span><br><em>To go back to the t-shirts, <a title=\"Embroidered cotton t-shirt\" href=\"https://lasclay.com/products/embroidered-cotton-t-shirt-monarch-milkweed\"><strong>click here</strong></a></em></p>\n<p>Our t-shirts have a unisex, regular fit: neither slim nor loose. The same size works for men and women, and most people take the size they usually wear in t-shirts.</p>\n<p><strong>Two ways to choose. The second one is the more reliable.</strong></p>\n<p><strong>1. By your chest measurement.</strong> Measure around the fullest part of your chest with a soft measuring tape, keeping the tape level and without pulling it tight. If you do not have a soft tape, wrap a string around your chest, then lay it flat and measure it with a regular tape.</p>\n<table style=\"width: 100%;\" border=\"1\" cellpadding=\"6\">\n<thead>\n<tr>\n<th>Size</th>\n<th>Chest (cm)</th>\n<th>Chest (in)</th>\n</tr>\n</thead>\n<tbody>\n<tr><td>XS</td><td>81 to 86</td><td>32 to 34</td></tr>\n<tr><td>S</td><td>87 to 94</td><td>34 to 37</td></tr>\n<tr><td>M</td><td>95 to 102</td><td>37&frac12; to 40</td></tr>\n<tr><td>L</td><td>103 to 110</td><td>40&frac12; to 43&frac12;</td></tr>\n<tr><td>XL</td><td>111 to 118</td><td>43&frac12; to 46&frac12;</td></tr>\n<tr><td>2XL</td><td>119 to 127</td><td>47 to 50</td></tr>\n</tbody>\n</table>\n<p><strong>2. By comparing with a t-shirt you already like.</strong> Take a t-shirt that fits you well, lay it flat on a table, smooth out the creases and measure it. Then compare with the table below. This is the more reliable method, because it accounts for the fit you actually like to wear.</p>\n<ul>\n<li><strong>Chest width</strong>: from one sleeve seam to the other, just below the armholes.</li>\n<li><strong>Body length</strong>: from the highest point of the shoulder, next to the collar, down to the hem.</li>\n<li><strong>Shoulder to shoulder</strong>: from one shoulder seam to the other, across the upper back.</li>\n<li><strong>Sleeve</strong>: from the shoulder seam to the sleeve opening.</li>\n</ul>\n<table style=\"width: 100%;\" border=\"1\" cellpadding=\"6\">\n<thead>\n<tr>\n<th>Size</th>\n<th>Chest width</th>\n<th>Body length</th>\n<th>Shoulder to shoulder</th>\n<th>Sleeve</th>\n</tr>\n</thead>\n<tbody>\n<tr><td>XS</td><td>46 cm (18 in)</td><td>67 cm (26&frac12; in)</td><td>41 cm (16 in)</td><td>19 cm (7&frac12; in)</td></tr>\n<tr><td>S</td><td>49 cm (19&frac14; in)</td><td>70 cm (27&frac12; in)</td><td>43 cm (17 in)</td><td>20 cm (8 in)</td></tr>\n<tr><td>M</td><td>52 cm (20&frac12; in)</td><td>72 cm (28&frac12; in)</td><td>46 cm (18 in)</td><td>21 cm (8&frac14; in)</td></tr>\n<tr><td>L</td><td>56 cm (22 in)</td><td>75 cm (29&frac12; in)</td><td>49 cm (19&frac14; in)</td><td>22 cm (8&frac34; in)</td></tr>\n<tr><td>XL</td><td>60 cm (23&frac12; in)</td><td>77 cm (30&frac12; in)</td><td>52 cm (20&frac12; in)</td><td>23 cm (9 in)</td></tr>\n<tr><td>2XL</td><td>64 cm (25 in)</td><td>80 cm (31&frac12; in)</td><td>55 cm (21&frac12; in)</td><td>24 cm (9&frac12; in)</td></tr>\n</tbody>\n</table>\n<p><strong>If you are between two sizes</strong>, take the larger one. Cotton shrinks a little in the first wash, and a regular fit wears better slightly roomy than slightly tight.</p>\n<p>Garment measurements are taken flat, with a tolerance of about 2 cm from one piece to the next. That is normal in garment manufacturing.</p>\n<p>Not sure? <a href=\"https://lasclay.com/pages/contact\"><strong>Write to us</strong></a> and we will help you choose.</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/cart?theme_id=164701012187",
+"key": "section.cart.json.main.text_echanges.text:1hrz9lsqgtkvp",
+"value": "Free exchanges in Canada. Free shipping on orders of $98.59+."
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/cart?theme_id=164701012187",
+"key": "section.cart.json.main.link_echanges.text:2o60g3pwlyjwo",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product?theme_id=164701012187",
+"key": "section.product.json.main.trust_icons_lasclay.text1:2rcndlagf0x24",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product?theme_id=164701012187",
+"key": "section.product.json.main.trust_icons_lasclay.text2:2rcndlagf0w9r",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product?theme_id=164701012187",
+"key": "section.product.json.main.trust_icons_lasclay.text3:2rcndlagf0vha",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product?theme_id=164701012187",
+"key": "section.product.json.main.trust_icons_lasclay.text4:2rcndlagf117d",
+"value": "<p>Insulation grown and processed in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product?theme_id=164701012187",
+"key": "section.product.json.main.accordion_livraison.title:35vo6ewh2ezk1",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.boite-lunch?theme_id=164701012187",
+"key": "section.product.boite-lunch.json.main.trust_icons_lasclay.text1:32fodipsh41jq",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.boite-lunch?theme_id=164701012187",
+"key": "section.product.boite-lunch.json.main.trust_icons_lasclay.text2:32fodipsh43x1",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.boite-lunch?theme_id=164701012187",
+"key": "section.product.boite-lunch.json.main.trust_icons_lasclay.text3:32fodipsh434k",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.boite-lunch?theme_id=164701012187",
+"key": "section.product.boite-lunch.json.main.trust_icons_lasclay.text4:32fodipsh45oz",
+"value": "<p>Insulation grown and processed in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.boite-lunch?theme_id=164701012187",
+"key": "section.product.boite-lunch.json.main.accordion_livraison.title:1s8v9tf3mlevf",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.cosmetics?theme_id=164701012187",
+"key": "section.product.cosmetics.json.main.trust_icons_lasclay.text1:1i9v2z2a7d3qg",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.cosmetics?theme_id=164701012187",
+"key": "section.product.cosmetics.json.main.trust_icons_lasclay.text2:1i9v2z2a7czor",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.cosmetics?theme_id=164701012187",
+"key": "section.product.cosmetics.json.main.trust_icons_lasclay.text3:1i9v2z2a7d25m",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.cosmetics?theme_id=164701012187",
+"key": "section.product.cosmetics.json.main.trust_icons_lasclay.text4:1i9v2z2a7cxwt",
+"value": "<p>Milkweed oil grown in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.cosmetics?theme_id=164701012187",
+"key": "section.product.cosmetics.json.main.accordion_livraison.title:x0dyqsx58w8l",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.graines-syriaca-1?theme_id=164701012187",
+"key": "section.product.graines-syriaca-1.json.main.trust_icons_lasclay.text1:3c6ifk10vbghg",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.graines-syriaca-1?theme_id=164701012187",
+"key": "section.product.graines-syriaca-1.json.main.trust_icons_lasclay.text2:3c6ifk10vbcfr",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.graines-syriaca-1?theme_id=164701012187",
+"key": "section.product.graines-syriaca-1.json.main.trust_icons_lasclay.text3:3c6ifk10vbewm",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.graines-syriaca-1?theme_id=164701012187",
+"key": "section.product.graines-syriaca-1.json.main.trust_icons_lasclay.text4:3c6ifk10vbhdd",
+"value": "<p>Native Québec species</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.graines-syriaca-1?theme_id=164701012187",
+"key": "section.product.graines-syriaca-1.json.main.accordion_livraison.title:2fkfejeeqj0h5",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.manchons-seat-pad?theme_id=164701012187",
+"key": "section.product.manchons-seat-pad.json.main.trust_icons_lasclay.text1:3b2rjueiwb7cv",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.manchons-seat-pad?theme_id=164701012187",
+"key": "section.product.manchons-seat-pad.json.main.trust_icons_lasclay.text2:3b2rjueiwbbek",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.manchons-seat-pad?theme_id=164701012187",
+"key": "section.product.manchons-seat-pad.json.main.trust_icons_lasclay.text3:3b2rjueiwb8xp",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.manchons-seat-pad?theme_id=164701012187",
+"key": "section.product.manchons-seat-pad.json.main.trust_icons_lasclay.text4:3b2rjueiwbd6i",
+"value": "<p>Insulation grown and processed in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.manchons-seat-pad?theme_id=164701012187",
+"key": "section.product.manchons-seat-pad.json.main.accordion_livraison.title:2w38rt8fjdfky",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.mitaines-four-1?theme_id=164701012187",
+"key": "section.product.mitaines-four-1.json.main.trust_icons_lasclay.text1:3teuslksx2a19",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.mitaines-four-1?theme_id=164701012187",
+"key": "section.product.mitaines-four-1.json.main.trust_icons_lasclay.text2:3teuslksx27ny",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.mitaines-four-1?theme_id=164701012187",
+"key": "section.product.mitaines-four-1.json.main.trust_icons_lasclay.text3:3teuslksx28gf",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.mitaines-four-1?theme_id=164701012187",
+"key": "section.product.mitaines-four-1.json.main.trust_icons_lasclay.text4:3teuslksx2clk",
+"value": "<p>Insulation grown and processed in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.mitaines-four-1?theme_id=164701012187",
+"key": "section.product.mitaines-four-1.json.main.accordion_livraison.title:1nt9vglvmobtc",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.plantule?theme_id=164701012187",
+"key": "section.product.plantule.json.main.trust_icons_lasclay.text1:746n7xjy8hvt",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.plantule?theme_id=164701012187",
+"key": "section.product.plantule.json.main.trust_icons_lasclay.text2:746n7xjy8fii",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.plantule?theme_id=164701012187",
+"key": "section.product.plantule.json.main.trust_icons_lasclay.text3:746n7xjy8gaz",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.plantule?theme_id=164701012187",
+"key": "section.product.plantule.json.main.trust_icons_lasclay.text4:746n7xjy8dqk",
+"value": "<p>Native Québec species</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.plantule?theme_id=164701012187",
+"key": "section.product.plantule.json.main.accordion_livraison.title:2bu0p9cu61ml0",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.produit-hiver?theme_id=164701012187",
+"key": "section.product.produit-hiver.json.main.trust_icons_lasclay.text1:2grfzi4i4vehq",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.produit-hiver?theme_id=164701012187",
+"key": "section.product.produit-hiver.json.main.trust_icons_lasclay.text2:2grfzi4i4vgv1",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.produit-hiver?theme_id=164701012187",
+"key": "section.product.produit-hiver.json.main.trust_icons_lasclay.text3:2grfzi4i4vg2k",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.produit-hiver?theme_id=164701012187",
+"key": "section.product.produit-hiver.json.main.trust_icons_lasclay.text4:2grfzi4i4vimz",
+"value": "<p>Insulation grown and processed in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.produit-hiver?theme_id=164701012187",
+"key": "section.product.produit-hiver.json.main.accordion_livraison.title:2uci5bg9opi6b",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-30l?theme_id=164701012187",
+"key": "section.product.sac-30l.json.main.trust_icons_lasclay.text1:1bt43tyui5h7l",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-30l?theme_id=164701012187",
+"key": "section.product.sac-30l.json.main.trust_icons_lasclay.text2:1bt43tyui5i3m",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-30l?theme_id=164701012187",
+"key": "section.product.sac-30l.json.main.trust_icons_lasclay.text3:1bt43tyui5fmr",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-30l?theme_id=164701012187",
+"key": "section.product.sac-30l.json.main.trust_icons_lasclay.text4:1bt43tyui5gbo",
+"value": "<p>Insulation grown and processed in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-30l?theme_id=164701012187",
+"key": "section.product.sac-30l.json.main.accordion_livraison.title:3pvyt8s03drng",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-tote-bag?theme_id=164701012187",
+"key": "section.product.sac-tote-bag.json.main.trust_icons_lasclay.text1:aitfl7f5xzjh",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-tote-bag?theme_id=164701012187",
+"key": "section.product.sac-tote-bag.json.main.trust_icons_lasclay.text2:aitfl7f5y0fi",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-tote-bag?theme_id=164701012187",
+"key": "section.product.sac-tote-bag.json.main.trust_icons_lasclay.text3:aitfl7f5xxyn",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-tote-bag?theme_id=164701012187",
+"key": "section.product.sac-tote-bag.json.main.trust_icons_lasclay.text4:aitfl7f5y5d4",
+"value": "<p>Insulation grown and processed in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-tote-bag?theme_id=164701012187",
+"key": "section.product.sac-tote-bag.json.main.accordion_livraison.title:3pjw4s4z2tz74",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-vin?theme_id=164701012187",
+"key": "section.product.sac-vin.json.main.trust_icons_lasclay.text1:8t078ou2w89r",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-vin?theme_id=164701012187",
+"key": "section.product.sac-vin.json.main.trust_icons_lasclay.text2:8t078ou2w924",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-vin?theme_id=164701012187",
+"key": "section.product.sac-vin.json.main.trust_icons_lasclay.text3:8t078ou2w9ul",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-vin?theme_id=164701012187",
+"key": "section.product.sac-vin.json.main.trust_icons_lasclay.text4:8t078ou2wau2",
+"value": "<p>Insulation grown and processed in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.sac-vin?theme_id=164701012187",
+"key": "section.product.sac-vin.json.main.accordion_livraison.title:897yfp3dxjuq",
+"value": "Shipping, exchanges and returns"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.semelles-isolantes?theme_id=164701012187",
+"key": "section.product.semelles-isolantes.json.main.trust_icons_lasclay.text1:mdmjn9qtvueb",
+"value": "<p>Free exchanges in Canada</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.semelles-isolantes?theme_id=164701012187",
+"key": "section.product.semelles-isolantes.json.main.trust_icons_lasclay.text2:mdmjn9qtvyg0",
+"value": "<p>Free shipping on orders of $98.59+</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.semelles-isolantes?theme_id=164701012187",
+"key": "section.product.semelles-isolantes.json.main.trust_icons_lasclay.text3:mdmjn9qtvvz5",
+"value": "<p>15 days to change your mind</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.semelles-isolantes?theme_id=164701012187",
+"key": "section.product.semelles-isolantes.json.main.trust_icons_lasclay.text4:mdmjn9qtvtie",
+"value": "<p>Insulation grown and processed in Québec</p>"
+},
+{
+"resourceId": "gid://shopify/OnlineStoreThemeJsonTemplate/product.semelles-isolantes?theme_id=164701012187",
+"key": "section.product.semelles-isolantes.json.main.accordion_livraison.title:2ziim1snbk60u",
+"value": "Shipping, exchanges and returns"
 }
 ]

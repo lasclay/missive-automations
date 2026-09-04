@@ -1,0 +1,265 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor_and_type": {
+          "type": "vendor_and_type",
+          "settings": {
+            "show_vendor": false,
+            "show_type": false
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_h1": true
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "variant_style": "underlined",
+            "show_size_chart": false,
+            "size_chart_variant": "Size",
+            "size_chart_page": ""
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "enable_payment_button": false,
+            "show_pickup_availability": false,
+            "enable_mobile_sticky_cart": false
+          }
+        },
+        "trust_icons_lasclay": {
+          "type": "trust_icons",
+          "settings": {
+            "icon_size": 30,
+            "show_icon1": true,
+            "text1": "<p>Échanges gratuits au Canada</p>",
+            "icon1": "return",
+            "show_icon2": true,
+            "text2": "<p>Livraison gratuite dès 98,59 $</p>",
+            "icon2": "truck",
+            "show_icon3": true,
+            "text3": "<p>15 jours pour changer d'idée</p>",
+            "icon3": "calendar",
+            "show_icon4": true,
+            "text4": "<p>Isolant cultivé et transformé au Québec</p>",
+            "icon4": "leaf"
+          }
+        },
+        "f3d98219-1e48-41bf-9a87-d57c7027463e": {
+          "type": "description",
+          "settings": {
+            "display": "standard",
+            "icon": "chat_bubble"
+          }
+        },
+        "02fae39b-539f-4569-bfc1-cd5c1d332760": {
+          "type": "accordion",
+          "settings": {
+            "icon": "ruler",
+            "title": "Dimensions",
+            "content": "<p><strong>Dimensions externes: </strong><br/>14'' / 35cm Haut.<br/>9.75'' / 23cm Large<br/><br/><strong>Poignées:</strong><br/>12'' / 30cm<br/><br/><strong>Dimensions internes:</strong><br/>12'' / 30cm Haut<br/>8'' / 20cm Large</p><p><strong>Volume:</strong><br/>4 canettes 473ML (microbrasserie) <br/>ou 2 bouteilles de vin 750mL </p>",
+            "page": "",
+            "open": false
+          }
+        },
+        "6f04ec5a-f746-431e-a8f3-c2ad0e84c277": {
+          "type": "accordion",
+          "settings": {
+            "icon": "percent",
+            "title": "Composition",
+            "content": "<p><strong>Extérieur:</strong> 100% coton</p><p><strong>Doublure:</strong> 100% PVC</p><p><strong>Isolant:</strong> 70% asclépiade, 30% polyester</p>",
+            "page": "",
+            "open": false
+          }
+        },
+        "accordion_livraison": {
+          "type": "accordion",
+          "settings": {
+            "icon": "return",
+            "title": "Livraison, échanges et retours",
+            "content": "",
+            "page": "livraison-et-echanges",
+            "open": false
+          }
+        },
+        "46e28bbb-caca-4700-aa23-5b39cfa5185d": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Vous pourriez aussi aimer",
+            "enable_carousel": true,
+            "max_products": 4,
+            "show_vendor": false,
+            "hide_swatches": false
+          }
+        }
+      },
+      "block_order": [
+        "vendor_and_type",
+        "title",
+        "price",
+        "variant_picker",
+        "buy_buttons",
+        "trust_icons_lasclay",
+        "f3d98219-1e48-41bf-9a87-d57c7027463e",
+        "02fae39b-539f-4569-bfc1-cd5c1d332760",
+        "6f04ec5a-f746-431e-a8f3-c2ad0e84c277",
+        "accordion_livraison",
+        "46e28bbb-caca-4700-aa23-5b39cfa5185d"
+      ],
+      "settings": {
+        "media_style": "two-column",
+        "sticky_behaviour": "top",
+        "full_width": true,
+        "show_backorder_text": true,
+        "slide_nav_style": "arrows",
+        "media_crop": "top",
+        "enable_zoom": true,
+        "zoom_cursor": "plus-light",
+        "show_thumbnails": false,
+        "enable_video_looping": false,
+        "scroll_to_variant_media": false,
+        "highlight_selected_media": false,
+        "variant_media_grouping": true,
+        "variant_media_grouping_option": "Color,Colour,Couleur,Farbe"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "show_product_recommendations": false,
+        "title": "Vous pourriez aimer",
+        "hide_swatches": false,
+        "show_vendor": false,
+        "grid": 3
+      }
+    },
+    "0230a101-da46-475c-af2b-9ee0c25f1368": {
+      "type": "slideshow",
+      "blocks": {
+        "8843bfa8-3911-453d-b715-13eec188e1c4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Tote_bag_13.png",
+            "mobile_image": "shopify://shop_images/Tote_bag_13.png",
+            "slide_link": "",
+            "overlay_position": "position--hcenter position--vcenter",
+            "subheading": "",
+            "title": "Polyvalent",
+            "title_size": 60,
+            "heading_h1": false,
+            "text": "<p>Le tote bag du quotidien</p>",
+            "enlarge_text": true,
+            "button_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "8843bfa8-3911-453d-b715-13eec188e1c4"
+      ],
+      "settings": {
+        "height": "fixed",
+        "height_desktop": 700,
+        "height_mobile": 760,
+        "full_width": true,
+        "mobile_overlay_under": false,
+        "overlay_style_tint": true,
+        "slide_transition": "slide",
+        "slide_navigation": "arrows",
+        "autoplay": true,
+        "autoplay_speed": 7
+      }
+    },
+    "1589b8e2-9ea1-4cb1-be29-5900a0bd9e48": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "settings": {
+        "no_margins": false,
+        "custom_liquid": ""
+      }
+    },
+    "990c80a0-8a29-4fb0-8579-61f6baec36ce": {
+      "type": "image-with-text",
+      "settings": {
+        "subheading": "Extérieur de coton ciré",
+        "title": "Élégance, personnalité et imperméabilité",
+        "title_size": 28,
+        "text": "<p>Le canevas ciré développe des plis et des rides avec le temps, témoignant ainsi de son usage quotidien au travers de vos activités.</p><p>Tout comme une veste en cuir ou un jeans de qualité, le matériau développe une patine qui l’embellit, l’enrichit à mesure qu’il s’use. Votre sac vieillira comme un bon vin!</p>",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "left",
+        "text_width": 40,
+        "button_style": "auto",
+        "image": "shopify://shop_images/Tote_bag_4.png",
+        "image_width": 65,
+        "image_position": "right",
+        "media_size": "contain",
+        "color_scheme": "standard",
+        "color_bg": "",
+        "color_text": ""
+      }
+    },
+    "189dcbb1-2263-4667-9a0e-20d2287527dd": {
+      "type": "text-columns-with-images",
+      "blocks": {
+        "template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/lasclay-icone-V3-milkweed.png",
+            "image_width": 200,
+            "title": "Responsable et sans cruauté",
+            "text": "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+            "button_label": "Découvrir l'asclépiade",
+            "link": "shopify://pages/milkweed-asclepiade"
+          }
+        },
+        "template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/lasclay-icone-V3-monarch.png",
+            "image_width": 200,
+            "title": "Respectueux des monarques",
+            "text": "<p>En achetant un produit Lasclay, vous aidez directement les monarques, menacés d'extinction. L'abondance d'asclépiade leur offre de précieuses aires reproductives avant leur grande migration.</p>",
+            "button_label": "Découvrir le monarque",
+            "link": "shopify://pages/monarch-butterfly"
+          }
+        }
+      },
+      "block_order": [
+        "template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0",
+        "template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1"
+      ],
+      "settings": {
+        "title": "",
+        "text_alignment": "left",
+        "button_style": "secondary",
+        "media_shape": "natural",
+        "alternate_bg_color": false,
+        "full_width": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product-recommendations",
+    "0230a101-da46-475c-af2b-9ee0c25f1368",
+    "1589b8e2-9ea1-4cb1-be29-5900a0bd9e48",
+    "990c80a0-8a29-4fb0-8579-61f6baec36ce",
+    "189dcbb1-2263-4667-9a0e-20d2287527dd"
+  ]
+}

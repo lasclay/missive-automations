@@ -1,0 +1,216 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor_and_type": {
+          "type": "vendor_and_type",
+          "settings": {
+            "show_vendor": false,
+            "show_type": false
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_h1": true
+          }
+        },
+        "judge_me_reviews_preview_badge_qeU4ma": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": true
+          }
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "variant_style": "underlined",
+            "show_size_chart": false,
+            "size_chart_variant": "Size",
+            "size_chart_page": ""
+          }
+        },
+        "inventory_level": {
+          "type": "inventory_level",
+          "settings": {
+            "inventory_threshold": 10,
+            "show_inventory_notice": "low",
+            "show_inventory_count": "low",
+            "show_inventory_indicator_bar": true,
+            "col_indicator_below": "#dd9a1a",
+            "col_indicator_above": "#108043"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "enable_payment_button": false,
+            "show_pickup_availability": false,
+            "enable_mobile_sticky_cart": false
+          }
+        },
+        "trust_icons_lasclay": {
+          "type": "trust_icons",
+          "settings": {
+            "icon_size": 30,
+            "show_icon1": true,
+            "text1": "<p>Échanges gratuits au Canada</p>",
+            "icon1": "return",
+            "show_icon2": true,
+            "text2": "<p>Livraison gratuite dès 98,59 $</p>",
+            "icon2": "truck",
+            "show_icon3": true,
+            "text3": "<p>15 jours pour changer d'idée</p>",
+            "icon3": "calendar",
+            "show_icon4": true,
+            "text4": "<p>Isolant cultivé et transformé au Québec</p>",
+            "icon4": "leaf"
+          }
+        },
+        "tabs": {
+          "type": "tabs",
+          "settings": {
+            "show_product_description": true,
+            "show_product_reviews": true,
+            "tab_2_page": "",
+            "tab_2_title": "",
+            "tab_2_content": "",
+            "tab_3_page": "",
+            "tab_3_title": "",
+            "tab_3_content": "",
+            "tab_4_page": "",
+            "tab_4_title": "",
+            "tab_4_content": ""
+          }
+        },
+        "accordion_X9mWmk": {
+          "type": "accordion",
+          "settings": {
+            "icon": "star",
+            "title": "Caractéristiques",
+            "content": "<p>{{ product.metafields.custom.features | metafield_tag }}</p><p></p>",
+            "page": "",
+            "open": false
+          }
+        },
+        "accordion_6kTpkV": {
+          "type": "accordion",
+          "settings": {
+            "icon": "ruler",
+            "title": "Dimensions",
+            "content": "{{ product.metafields.custom.dimensions | metafield_tag }}",
+            "page": "",
+            "open": false
+          }
+        },
+        "accordion_MFBmcp": {
+          "type": "accordion",
+          "settings": {
+            "icon": "price_tag",
+            "title": "Composition",
+            "content": "{{ product.metafields.custom.composition_entretien | metafield_tag }}",
+            "page": "",
+            "open": false
+          }
+        },
+        "accordion_livraison": {
+          "type": "accordion",
+          "settings": {
+            "icon": "return",
+            "title": "Livraison, échanges et retours",
+            "content": "",
+            "page": "livraison-et-echanges",
+            "open": false
+          }
+        },
+        "complementary_hVqMHe": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Vous pourriez aussi aimer",
+            "enable_carousel": true,
+            "max_products": 5,
+            "show_vendor": true,
+            "hide_swatches": false
+          }
+        }
+      },
+      "block_order": [
+        "vendor_and_type",
+        "title",
+        "judge_me_reviews_preview_badge_qeU4ma",
+        "price",
+        "rating",
+        "variant_picker",
+        "inventory_level",
+        "buy_buttons",
+        "trust_icons_lasclay",
+        "tabs",
+        "accordion_X9mWmk",
+        "accordion_6kTpkV",
+        "accordion_MFBmcp",
+        "accordion_livraison",
+        "complementary_hVqMHe"
+      ],
+      "settings": {
+        "media_style": "two-column",
+        "sticky_behaviour": "bottom",
+        "full_width": true,
+        "show_backorder_text": true,
+        "slide_nav_style": "arrows",
+        "media_crop": "center",
+        "enable_zoom": true,
+        "zoom_cursor": "standard",
+        "show_thumbnails": false,
+        "enable_video_looping": true,
+        "scroll_to_variant_media": false,
+        "highlight_selected_media": false,
+        "variant_media_grouping": false,
+        "variant_media_grouping_option": "Color,Colour,Couleur,Farbe"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "show_product_recommendations": true,
+        "title": "You may also like",
+        "hide_swatches": false,
+        "show_vendor": false,
+        "grid": 3
+      }
+    },
+    "175764645711e19d7c": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_FDyUBx": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_FDyUBx"
+      ],
+      "settings": {
+        "skip_container": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product-recommendations",
+    "175764645711e19d7c"
+  ]
+}

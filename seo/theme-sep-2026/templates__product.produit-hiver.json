@@ -1,0 +1,263 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor_and_type": {
+          "type": "vendor_and_type",
+          "settings": {
+            "show_vendor": false,
+            "show_type": false
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_h1": true
+          }
+        },
+        "02ab4493-87c1-4def-bf4b-3dff7e0bbb10": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": true
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "variant_style": "underlined",
+            "show_size_chart": false,
+            "size_chart_variant": "Size",
+            "size_chart_page": ""
+          }
+        },
+        "inventory_level": {
+          "type": "inventory_level",
+          "settings": {
+            "inventory_threshold": 10,
+            "show_inventory_notice": "low",
+            "show_inventory_count": "low",
+            "show_inventory_indicator_bar": true,
+            "col_indicator_below": "#dd9a1a",
+            "col_indicator_above": "#108043"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "enable_payment_button": false,
+            "show_pickup_availability": false,
+            "enable_mobile_sticky_cart": false
+          }
+        },
+        "trust_icons_lasclay": {
+          "type": "trust_icons",
+          "settings": {
+            "icon_size": 30,
+            "show_icon1": true,
+            "text1": "<p>Échanges gratuits au Canada</p>",
+            "icon1": "return",
+            "show_icon2": true,
+            "text2": "<p>Livraison gratuite dès 98,59 $</p>",
+            "icon2": "truck",
+            "show_icon3": true,
+            "text3": "<p>15 jours pour changer d'idée</p>",
+            "icon3": "calendar",
+            "show_icon4": true,
+            "text4": "<p>Isolant cultivé et transformé au Québec</p>",
+            "icon4": "leaf"
+          }
+        },
+        "bc84d828-d22d-4d07-8e3a-1b5dcf7df017": {
+          "type": "description",
+          "settings": {
+            "display": "standard",
+            "icon": "none"
+          }
+        },
+        "176d661f-403e-4611-892e-b63da14860be": {
+          "type": "accordion",
+          "settings": {
+            "icon": "star",
+            "title": "Caractéristiques",
+            "content": "{{ product.metafields.custom.features | metafield_tag }}",
+            "page": "",
+            "open": false
+          }
+        },
+        "16ddf7af-fb89-481c-aab7-dc2573e8270d": {
+          "type": "accordion",
+          "settings": {
+            "icon": "ruler",
+            "title": "Dimensions",
+            "content": "{{ product.metafields.custom.dimensions | metafield_tag }}",
+            "page": "",
+            "open": false
+          }
+        },
+        "113c65f2-d0a1-4200-8858-b2169bda7a92": {
+          "type": "accordion",
+          "settings": {
+            "icon": "price_tag",
+            "title": "Composition et entretien",
+            "content": "{{ product.metafields.custom.composition_entretien | metafield_tag }}",
+            "page": "",
+            "open": false
+          }
+        },
+        "accordion_livraison": {
+          "type": "accordion",
+          "settings": {
+            "icon": "return",
+            "title": "Livraison, échanges et retours",
+            "content": "",
+            "page": "livraison-et-echanges",
+            "open": false
+          }
+        },
+        "complementary_Eztzwy": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Vous pourriez aussi aimer",
+            "enable_carousel": true,
+            "max_products": 5,
+            "show_vendor": false,
+            "hide_swatches": false
+          }
+        }
+      },
+      "block_order": [
+        "vendor_and_type",
+        "title",
+        "02ab4493-87c1-4def-bf4b-3dff7e0bbb10",
+        "price",
+        "variant_picker",
+        "inventory_level",
+        "buy_buttons",
+        "trust_icons_lasclay",
+        "bc84d828-d22d-4d07-8e3a-1b5dcf7df017",
+        "176d661f-403e-4611-892e-b63da14860be",
+        "16ddf7af-fb89-481c-aab7-dc2573e8270d",
+        "113c65f2-d0a1-4200-8858-b2169bda7a92",
+        "accordion_livraison",
+        "complementary_Eztzwy"
+      ],
+      "settings": {
+        "media_style": "two-column",
+        "sticky_behaviour": "bottom",
+        "full_width": true,
+        "show_backorder_text": true,
+        "slide_nav_style": "arrows",
+        "media_crop": "center",
+        "enable_zoom": true,
+        "zoom_cursor": "standard",
+        "show_thumbnails": false,
+        "enable_video_looping": true,
+        "scroll_to_variant_media": false,
+        "highlight_selected_media": false,
+        "variant_media_grouping": false,
+        "variant_media_grouping_option": "Color,Colour,Couleur,Farbe"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "show_product_recommendations": true,
+        "title": "You may also like",
+        "hide_swatches": false,
+        "show_vendor": false,
+        "grid": 3
+      }
+    },
+    "d439365f-9c2b-4514-abc0-af9a1e1a5999": {
+      "type": "image-with-text",
+      "settings": {
+        "subheading": "",
+        "title": "Conçus pour les hivers nordiques",
+        "title_size": 28,
+        "text": "<p>Nos produits sont conçus pour vous faire apprécier la saison froide avec style et confort. Nous fabriquons le tout au Québec dans le souci de garder un circuit court et d'utiliser des matériaux durables.</p>",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "left",
+        "text_width": 50,
+        "button_style": "auto",
+        "image": "shopify://shop_images/IMG_1311.png",
+        "image_width": 100,
+        "image_position": "right",
+        "media_size": "contain",
+        "color_scheme": "standard",
+        "color_bg": "",
+        "color_text": ""
+      }
+    },
+    "169514981098a0717a": {
+      "type": "apps",
+      "blocks": {
+        "97e2dbdd-64ec-413e-9898-547d2313ce71": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "97e2dbdd-64ec-413e-9898-547d2313ce71"
+      ],
+      "settings": {
+        "skip_container": false
+      }
+    },
+    "49540e0f-8734-480e-b99e-776b5cbe4d97": {
+      "type": "text-columns-with-images",
+      "blocks": {
+        "template--16751310078171__49540e0f-8734-480e-b99e-776b5cbe4d97-1685564062a1b168ef-0": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/lasclay-icone-V3-milkweed.png",
+            "image_width": 200,
+            "title": "Responsable et sans cruauté",
+            "text": "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+            "button_label": "Découvrir l'asclépiade",
+            "link": "shopify://pages/milkweed-asclepiade"
+          }
+        },
+        "template--16751310078171__49540e0f-8734-480e-b99e-776b5cbe4d97-1685564062a1b168ef-1": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/lasclay-icone-V3-monarch.png",
+            "image_width": 200,
+            "title": "Respectueux des monarques",
+            "text": "<p>En achetant un produit Lasclay, vous aidez directement les monarques, menacés d'extinction. L'abondance d'asclépiade leur offre de précieuses aires reproductives avant leur grande migration.</p>",
+            "button_label": "Découvrir le monarque",
+            "link": "shopify://pages/monarch-butterfly"
+          }
+        }
+      },
+      "block_order": [
+        "template--16751310078171__49540e0f-8734-480e-b99e-776b5cbe4d97-1685564062a1b168ef-0",
+        "template--16751310078171__49540e0f-8734-480e-b99e-776b5cbe4d97-1685564062a1b168ef-1"
+      ],
+      "settings": {
+        "title": "",
+        "text_alignment": "left",
+        "button_style": "secondary",
+        "media_shape": "natural",
+        "alternate_bg_color": false,
+        "full_width": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product-recommendations",
+    "d439365f-9c2b-4514-abc0-af9a1e1a5999",
+    "169514981098a0717a",
+    "49540e0f-8734-480e-b99e-776b5cbe4d97"
+  ]
+}

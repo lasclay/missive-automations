@@ -1,0 +1,262 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor_and_type": {
+          "type": "vendor_and_type",
+          "settings": {
+            "show_vendor": false,
+            "show_type": false
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_h1": true
+          }
+        },
+        "d66a3cb9-1871-450f-8080-8529c314e819": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "variant_style": "underlined",
+            "show_size_chart": false,
+            "size_chart_variant": "Size",
+            "size_chart_page": ""
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "enable_payment_button": false,
+            "show_pickup_availability": false,
+            "enable_mobile_sticky_cart": false
+          }
+        },
+        "trust_icons_lasclay": {
+          "type": "trust_icons",
+          "settings": {
+            "icon_size": 30,
+            "show_icon1": true,
+            "text1": "<p>Échanges gratuits au Canada</p>",
+            "icon1": "return",
+            "show_icon2": true,
+            "text2": "<p>Livraison gratuite dès 98,59 $</p>",
+            "icon2": "truck",
+            "show_icon3": true,
+            "text3": "<p>15 jours pour changer d'idée</p>",
+            "icon3": "calendar",
+            "show_icon4": true,
+            "text4": "<p>Espèces indigènes du Québec</p>",
+            "icon4": "leaf"
+          }
+        },
+        "description_8GBnJU": {
+          "type": "description",
+          "settings": {
+            "display": "standard",
+            "icon": "none"
+          }
+        },
+        "5a4a45a5-5580-482e-b92f-f4279c23bc53": {
+          "type": "richtext",
+          "disabled": true,
+          "settings": {
+            "text": ""
+          }
+        },
+        "ce48b154-c915-4538-911f-15417c2c823a": {
+          "type": "accordion",
+          "settings": {
+            "icon": "leaf",
+            "title": "Informations botaniques",
+            "content": "{{ product.metafields.custom.informations_botaniques | metafield_tag }}",
+            "page": "",
+            "open": false
+          }
+        },
+        "02fae39b-539f-4569-bfc1-cd5c1d332760": {
+          "type": "accordion",
+          "settings": {
+            "icon": "box",
+            "title": "Contenu",
+            "content": "{{ product.metafields.custom.composition_entretien | metafield_tag }}",
+            "page": "",
+            "open": false
+          }
+        },
+        "6f04ec5a-f746-431e-a8f3-c2ad0e84c277": {
+          "type": "accordion",
+          "settings": {
+            "icon": "star",
+            "title": "Informations supplémentaires",
+            "content": "{{ product.metafields.custom.features | metafield_tag }}",
+            "page": "",
+            "open": false
+          }
+        },
+        "accordion_livraison": {
+          "type": "accordion",
+          "settings": {
+            "icon": "return",
+            "title": "Livraison, échanges et retours",
+            "content": "",
+            "page": "livraison-et-echanges",
+            "open": false
+          }
+        },
+        "46e28bbb-caca-4700-aa23-5b39cfa5185d": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Vous pourriez aussi aimer",
+            "enable_carousel": true,
+            "max_products": 8,
+            "show_vendor": false,
+            "hide_swatches": false
+          }
+        }
+      },
+      "block_order": [
+        "vendor_and_type",
+        "title",
+        "d66a3cb9-1871-450f-8080-8529c314e819",
+        "price",
+        "variant_picker",
+        "buy_buttons",
+        "trust_icons_lasclay",
+        "description_8GBnJU",
+        "5a4a45a5-5580-482e-b92f-f4279c23bc53",
+        "ce48b154-c915-4538-911f-15417c2c823a",
+        "02fae39b-539f-4569-bfc1-cd5c1d332760",
+        "6f04ec5a-f746-431e-a8f3-c2ad0e84c277",
+        "accordion_livraison",
+        "46e28bbb-caca-4700-aa23-5b39cfa5185d"
+      ],
+      "settings": {
+        "media_style": "two-column",
+        "sticky_behaviour": "none",
+        "full_width": true,
+        "show_backorder_text": true,
+        "slide_nav_style": "arrows",
+        "media_crop": "top",
+        "enable_zoom": true,
+        "zoom_cursor": "plus-light",
+        "show_thumbnails": false,
+        "enable_video_looping": false,
+        "scroll_to_variant_media": true,
+        "highlight_selected_media": false,
+        "variant_media_grouping": false,
+        "variant_media_grouping_option": "Color,Colour,Couleur,Farbe"
+      }
+    },
+    "7d64cc76-3267-47d2-bdc6-cdba171f1eee": {
+      "type": "image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/MG_9779.jpg",
+        "height": "fixed",
+        "height_desktop": 650,
+        "height_mobile": 600,
+        "subheading": "",
+        "title": "Plantation & stratification",
+        "title_size": 40,
+        "heading_h1": false,
+        "text": "",
+        "enlarge_text": false,
+        "button_label": "Consulter le guide",
+        "image_link": "shopify://pages/planting-guide",
+        "overlay_position": "position--left position--bottom",
+        "full_width": true,
+        "mobile_overlay_under": false,
+        "overlay_style_tint": true
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "show_product_recommendations": false,
+        "title": "Vous pourriez aimer",
+        "hide_swatches": false,
+        "show_vendor": false,
+        "grid": 3
+      }
+    },
+    "16950583746b350e11": {
+      "type": "apps",
+      "blocks": {
+        "e3993d39-18ef-4b3b-afb7-b45309365280": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200
+          }
+        }
+      },
+      "block_order": [
+        "e3993d39-18ef-4b3b-afb7-b45309365280"
+      ],
+      "settings": {
+        "skip_container": false
+      }
+    },
+    "189dcbb1-2263-4667-9a0e-20d2287527dd": {
+      "type": "text-columns-with-images",
+      "blocks": {
+        "template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/lasclay-icone-V3-milkweed.png",
+            "image_width": 200,
+            "title": "Responsable et sans cruauté",
+            "text": "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+            "button_label": "Découvrir l'asclépiade",
+            "link": "shopify://pages/milkweed-asclepiade"
+          }
+        },
+        "template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1": {
+          "type": "text_block",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/lasclay-icone-V3-monarch.png",
+            "image_width": 200,
+            "title": "Respectueux des monarques",
+            "text": "<p>En achetant un produit Lasclay, vous aidez directement les monarques, menacés d'extinction. L'abondance d'asclépiade leur offre de précieuses aires reproductives avant leur grande migration.</p>",
+            "button_label": "Découvrir le monarque",
+            "link": "shopify://pages/monarch-butterfly"
+          }
+        }
+      },
+      "block_order": [
+        "template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0",
+        "template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1"
+      ],
+      "settings": {
+        "title": "",
+        "text_alignment": "left",
+        "button_style": "secondary",
+        "media_shape": "natural",
+        "alternate_bg_color": false,
+        "full_width": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "7d64cc76-3267-47d2-bdc6-cdba171f1eee",
+    "product-recommendations",
+    "16950583746b350e11",
+    "189dcbb1-2263-4667-9a0e-20d2287527dd"
+  ]
+}
