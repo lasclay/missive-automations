@@ -1,0 +1,323 @@
+<!--
+  FAQ Lasclay: contenu de la page, à coller dans Shopify > Contenu > Pages > FAQ,
+  en mode HTML (bouton <> de l'éditeur). La mise en forme, la recherche et le sommaire
+  viennent du thème (section main-faq-html), pas de ce fichier.
+
+  Règles d'édition:
+  - une section = <section class="faq-group" id="..." data-icon="truck|ruler|return|warm|sprout|leaf|card|brief">
+    avec un <h2> (titre du sommaire) et un <p class="faq-intro"> facultatif;
+  - une question = <details id="..."><summary>Question</summary><div class="faq-answer">Réponse</div></details>;
+  - l'ordre des sections et des questions dans ce HTML est l'ordre affiché;
+  - les icônes viennent de data-icon, ne pas coller de <svg> ici (l'éditeur les retire).
+-->
+<!-- Réponses rapides: 4 liens vers les questions les plus posées -->
+<nav class="faq-quick" aria-label="Réponses rapides">
+  <a href="#q-suivi" data-icon="truck"><strong>Où est ma commande?</strong><span>Précommande, suivi, délais</span></a>
+  <a href="#q-taille-mitaines" data-icon="ruler"><strong>Quelle taille choisir?</strong><span>Mitaines, manteaux, semelles</span></a>
+  <a href="#q-retour-comment" data-icon="return"><strong>Retourner ou échanger</strong><span>15 jours, bordereau prépayé</span></a>
+  <a href="#q-germination" data-icon="sprout"><strong>Mes graines n'ont pas germé</strong><span>Bombes semencières, stratification</span></a>
+</nav>
+<!-- 1. Commande et livraison -->
+    <section class="faq-group" id="commande" data-icon="truck">
+          <h2>Ma commande et la livraison <span class="faq-badge">Le plus demandé</span></h2>
+  <p class="faq-intro">Suivi, délais, frais, changement d'adresse, livraison hors Canada.</p>
+        <details id="q-suivi">
+        <summary>Où est ma commande?</summary>
+        <div class="faq-answer">
+          <p>Deux cas possibles.</p>
+          <p><strong>Le produit était en stock.</strong> La commande part de Québec en quelques jours ouvrables. Vous recevez un courriel avec le numéro de suivi au moment de l'expédition.</p>
+          <p><strong>Le produit était en précommande.</strong> La date d'expédition estimée est indiquée sur la fiche produit et dans votre confirmation. La commande part après cette date, pas avant.</p>
+          <p>Les petites commandes envoyées par timbre (graines, bombes semencières) n'ont pas de numéro de suivi.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Mon numéro de suivi ne bouge pas</summary>
+        <div class="faq-answer">
+          <p>Le suivi s'active quand le transporteur ramasse le colis, pas au moment où l'étiquette est créée. Un statut « étiquette créée » pendant quelques jours ouvrables est normal.</p>
+          <p>Si rien ne bouge après une semaine, écrivez-nous avec votre numéro de commande. On vérifie de notre côté et on relance le transporteur au besoin.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Le colis est marqué « livré », mais je n'ai rien reçu</summary>
+        <div class="faq-answer">
+          <p>Vérifiez d'abord le bureau de poste indiqué dans le suivi, chez un voisin, et l'adresse inscrite sur votre confirmation de commande. La plupart des cas se règlent là.</p>
+          <p>Sinon, écrivez-nous avec votre numéro de commande. On ouvre une enquête auprès du transporteur et on trouve une solution avec vous.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Délais et frais de livraison au Canada</summary>
+        <div class="faq-answer">
+          <p>Livraison gratuite dès 100 $ d'achat, partout au Canada. Une option accélérée (Xpresspost) est offerte à la caisse.</p>
+          <table>
+            <thead><tr><th>Destination</th><th>Délai après expédition</th></tr></thead>
+            <tbody>
+              <tr><td>Québec</td><td>2 à 5 jours ouvrables</td></tr>
+              <tr><td>Ontario, Maritimes</td><td>4 à 8 jours ouvrables</td></tr>
+              <tr><td>Manitoba</td><td>6 à 8 jours ouvrables</td></tr>
+              <tr><td>Saskatchewan, Alberta, C.-B.</td><td>7 à 10 jours ouvrables</td></tr>
+            </tbody>
+          </table>
+          <p>Les livraisons ne se font pas la fin de semaine: une commande expédiée un jeudi ou un vendredi peut prendre un peu plus de temps.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Livrez-vous à l'extérieur du Canada?</summary>
+        <div class="faq-answer">
+          <p>Oui. Lasclay livre aux États-Unis, ainsi qu'au Royaume-Uni, en France, en Belgique, en Suisse, en Australie, en Nouvelle-Zélande et au Mexique. Les frais s'affichent au panier selon la destination.</p>
+          <p><strong>Graines et bombes semencières vers les États-Unis.</strong> Même bien étiquetées, les semences peuvent être retenues par les douanes américaines. Si votre colis arrive vide avec un avis de la douane, écrivez-nous avec une photo de l'avis.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Je veux corriger mon adresse, modifier ou annuler ma commande</summary>
+        <div class="faq-answer">
+          <p>Écrivez-nous le plus vite possible à <a href="mailto:hey@lasclay.com">hey@lasclay.com</a> avec votre numéro de commande.</p>
+          <p>Tant que la commande n'est pas expédiée, on peut corriger l'adresse, changer une taille ou une couleur, ajouter un article ou annuler. Une fois le colis parti, un changement d'adresse peut entraîner des frais du transporteur, qui vous seront demandés.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Puis-je ramasser ma commande à Québec?</summary>
+        <div class="faq-answer">
+          <p>Oui, sur rendez-vous, à notre atelier de Limoilou. Choisissez l'option de ramassage à la caisse: vous recevrez un courriel avec le lien pour réserver un moment quand la commande sera prête.</p>
+        </div>
+      </details>
+    </section>
+    <!-- 2. Tailles -->
+    <section class="faq-group" id="tailles" data-icon="ruler">
+          <h2>Tailles et échanges de taille</h2>
+  <p class="faq-intro">Le conseil de taille est la première question avant achat. Deux mesures bien prises évitent presque tous les échanges.</p>
+        <details id="q-taille-mitaines">
+        <summary>Comment choisir ma taille de mitaines?</summary>
+        <div class="faq-answer">
+          <p>Deux mesures suffisent: la largeur des jointures et la longueur totale de la main. L'emplacement de la mesure compte, un demi-centimètre peut changer la taille.</p>
+          <p>Si vous tombez entre deux tailles, prenez la plus grande. Une mitaine un peu plus ample garde les doigts loin des coutures et reste plus chaude.</p>
+          <p>Résultat contradictoire? Envoyez-nous une photo de votre main à côté d'une règle ou d'un ruban, on vous confirme la taille.</p>
+          <a class="faq-more" href="https://lasclay.com/pages/sizing-chart">Voir le guide des tailles avec photos</a>
+        </div>
+      </details>
+      <details>
+        <summary>Quelle taille pour un manteau ou une veste?</summary>
+        <div class="faq-answer">
+          <p>Trois mesures: tour de poitrine, tour de taille, tour de hanches, prises avec un ruban souple sans serrer. Entre deux tailles, prenez la plus large. En dernier recours, prenez la taille de vos manteaux d'hiver habituels.</p>
+          <a class="faq-more" href="https://lasclay.com/pages/guide-des-tailles-manteaux-vestes-asclepiade">Voir le guide des manteaux et vestes</a>
+        </div>
+      </details>
+      <details>
+        <summary>Quelle taille pour les semelles isolantes?</summary>
+        <div class="faq-answer">
+          <p>Si vous portez une demi-pointure, prenez la taille supérieure. Une bande non rembourrée de 6 mm entoure la partie isolée, ce qui laisse de la marge pour ajuster le contour.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Je me suis trompé de taille</summary>
+        <div class="faq-answer">
+          <p>L'échange est possible dans les 15 jours suivant la réception, si le produit n'a pas été porté ni lavé. On vous demandera de confirmer vos mesures selon le guide des tailles du produit.</p>
+          <p>Si l'erreur vient d'une mesure non prise ou mal prise, des frais de 9,99 $ sont demandés. Ils couvrent une partie de l'aller-retour postal.</p>
+        </div>
+      </details>
+    </section>
+    <!-- 3. Retours -->
+    <section class="faq-group" id="retours" data-icon="return">
+          <h2>Retours, échanges et remboursements</h2>
+  <p class="faq-intro">Un retour se fait par Postes Canada avec un bordereau prépayé. Pas de file d'attente: la boîte aux lettres du coin suffit.</p>
+        <details>
+        <summary>La politique de retour en bref</summary>
+        <div class="faq-answer">
+          <ul>
+            <li><strong>15 jours</strong> après la réception pour nous écrire.</li>
+            <li>Produit <strong>à l'état neuf</strong>: non porté, non lavé, sans odeur ni marque.</li>
+            <li>Les articles en <strong>vente finale</strong> ne sont ni repris ni échangés.</li>
+            <li>Seuls les achats faits sur lasclay.com sont admissibles.</li>
+            <li>Selon votre choix: <strong>échange, crédit-boutique ou remboursement</strong>. Le remboursement revient sur le mode de paiement d'origine dans les 5 à 10 jours ouvrables.</li>
+          </ul>
+        </div>
+      </details>
+      <details id="q-retour-comment">
+        <summary>Comment faire un retour?</summary>
+        <div class="faq-answer">
+          <ol class="faq-steps">
+            <li>Écrivez à <a href="mailto:hey@lasclay.com">hey@lasclay.com</a> ou par Messenger avec votre numéro de commande et ce que vous souhaitez (échange, crédit ou remboursement).</li>
+            <li>Vous recevez un bordereau de retour prépayé sous 1 à 2 jours ouvrables.</li>
+            <li>Vous avez 10 jours pour poster le colis. Réutilisez l'emballage Lasclay si vous l'avez gardé, collez le bordereau, déposez-le dans une boîte aux lettres ou au comptoir.</li>
+            <li>À la réception et après inspection, on passe tout de suite à l'échange, au crédit ou au remboursement.</li>
+          </ol>
+          <p>Des frais de manutention de 9,99 $ s'appliquent au retour. Ils couvrent une partie des frais postaux.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Mon produit a un défaut, ou un problème après la période de retour</summary>
+        <div class="faq-answer">
+          <p>Écrivez-nous avec une ou deux photos du problème et votre numéro de commande. Une couture qui lâche, une pièce manquante, un mauvais article reçu: on règle ça sans vous faire renvoyer le produit dans la plupart des cas.</p>
+        </div>
+      </details>
+    </section>
+    <!-- 4. Produits -->
+    <section class="faq-group" id="produits" data-icon="warm">
+          <h2>Produits et entretien</h2>
+  <p class="faq-intro">Ce que fait l'asclépiade dans un produit, ce qu'elle ne fait pas, et comment garder vos articles longtemps.</p>
+        <details>
+        <summary>Est-ce vraiment chaud? Pourquoi l'asclépiade?</summary>
+        <div class="faq-answer">
+          <p>La soie d'asclépiade est une fibre creuse: chaque fibre emprisonne de l'air à l'intérieur, et c'est cet air qui isole. Elle est très légère, naturellement hydrophobe, végétale et sans matière animale.</p>
+          <p>La chaleur d'un produit fini dépend aussi de son tissu extérieur, de son épaisseur et de l'usage. Notre travail est de traduire les propriétés de la fibre en produits qui tiennent dans la vraie vie.</p>
+          <a class="faq-more" href="https://lasclay.com/pages/milkweed-asclepiade">Tout sur l'asclépiade comme isolant</a>
+        </div>
+      </details>
+      <details>
+        <summary>L'isolant s'écrase-t-il avec le temps?</summary>
+        <div class="faq-answer">
+          <p>Un peu, comme tout isolant, mais il garde son pouvoir isolant. Beaucoup d'isolants dépendent de l'air entre les fibres, qui disparaît à la compression. Dans l'asclépiade, l'air est contenu dans chaque fibre creuse, et il reste là.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Les mitaines sont-elles imperméables?</summary>
+        <div class="faq-answer">
+          <p>Résistantes à l'eau, pas étanches à 100 %. Le tissu extérieur, un polyester tissé serré, repousse l'eau le temps de la secouer, et la fibre d'asclépiade est elle-même hydrophobe, dedans comme dehors. On a écarté les membranes plastiques pour garder des mains qui respirent.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Comment entretenir mes produits?</summary>
+        <div class="faq-answer">
+          <div class="faq-care">
+            <div><strong>Vêtements et accessoires isolés</strong><ul><li>Lavage à la main, eau froide</li><li>Pas de javellisant</li><li>Séchage à l'air, jamais à la machine</li><li>Pas de repassage</li></ul></div>
+            <div><strong>Sacs isothermes et glacières</strong><ul><li>Intérieur: chiffon humide et savon doux</li><li>Extérieur: à la main, ou cycle délicat à l'eau froide au besoin</li><li>Séchage à l'air</li></ul></div>
+          </div>
+        </div>
+      </details>
+    </section>
+    <!-- 5. Graines -->
+    <section class="faq-group" id="graines" data-icon="sprout">
+          <h2>Graines, bombes semencières et plantation</h2>
+  <p class="faq-intro">L'asclépiade est une vivace indigène: un peu de préparation la première année, puis elle se débrouille seule.</p>
+        <details>
+        <summary>Quand et comment planter?</summary>
+        <div class="faq-answer">
+          <p>Les bombes semencières germent quand le sol reste au-dessus de 20 °C plusieurs jours de suite. Si elles arrivent avant la saison, gardez-les au frigo. Si elles ont déjà commencé à germer, posez-les à la surface d'un pot de terre sous un plastique transparent, près d'une fenêtre ensoleillée.</p>
+          <p>Comptez une saison de patience: l'asclépiade fleurit à partir de la deuxième année.</p>
+          <a class="faq-more" href="https://lasclay.com/pages/planting-guide">Lire le guide de plantation</a>
+        </div>
+      </details>
+      <details>
+        <summary>Faut-il stratifier les graines?</summary>
+        <div class="faq-answer">
+          <p>Oui. Nos graines ne sont pas stratifiées: prévoyez environ 30 jours au froid avant le semis. Ça retarde un peu la plantation, mais c'est ce qui donne les meilleurs taux de levée.</p>
+        </div>
+      </details>
+      <details id="q-germination">
+        <summary>Mes bombes semencières n'ont pas germé</summary>
+        <div class="faq-answer">
+          <p>Ça arrive. La levée dépend du type de sol, de l'ensoleillement, de l'arrosage et de la température. Écrivez-nous en précisant où, quand et comment vous avez planté: on vous conseille, et on réexpédie les bombes commandées, tout de suite ou à la prochaine saison de plantation.</p>
+        </div>
+      </details>
+      <details>
+        <summary>L'asclépiade est-elle envahissante?</summary>
+        <div class="faq-answer">
+          <p>Vigoureuse, oui; envahissante, non. L'asclépiade commune est une plante indigène parfaitement adaptée à nos écosystèmes, et elle s'étend par ses rhizomes. Rien à voir avec la berce du Caucase ou la renouée du Japon, des plantes exotiques nuisibles.</p>
+          <p>Si vous manquez de place, l'asclépiade tubéreuse, l'asclépiade incarnate et l'asclépiade très grande s'étendent beaucoup moins.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Quelle espèce pour ma zone de rusticité?</summary>
+        <div class="faq-answer">
+          <p>Toutes les espèces qu'on offre en sachets ou en bombes conviennent aux zones 3 à 9, ce qui couvre le Québec habité et la majeure partie de l'Amérique du Nord.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Est-ce toxique pour les enfants ou les animaux?</summary>
+        <div class="faq-answer">
+          <p>Le latex de l'asclépiade est toxique, mais tellement amer qu'un enfant, un chien ou un chat n'en mangera jamais assez pour s'intoxiquer. Le vrai risque concerne le bétail quand l'asclépiade séchée se retrouve dans le foin, où elle perd son goût amer. Dans un jardin ou un champ, le danger est très surestimé.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Quelle surface couvre une bombe semencière?</summary>
+        <div class="faq-answer">
+          <p>Un bâtonnet de 4 cellules couvre environ 4 pieds carrés, soit 1 pied carré par cellule. Espacez davantage l'asclépiade commune, qui s'étend; les espèces tubéreuse et incarnate peuvent être semées plus serrées.</p>
+        </div>
+      </details>
+    </section>
+    <!-- 6. Lasclay et l'asclépiade -->
+    <section class="faq-group" id="lasclay" data-icon="leaf">
+          <h2>Lasclay et l'asclépiade</h2>
+  <p class="faq-intro">Notre mission, nos compromis, et les questions qu'on nous pose sur les monarques.</p>
+        <details>
+        <summary>Récolter l'asclépiade nuit-il aux monarques?</summary>
+        <div class="faq-answer">
+          <p>Non, plutôt l'inverse. Les chenilles mangent les feuilles et les papillons butinent les fleurs, du printemps à la fin de l'été. La soie qu'on récolte se trouve dans les follicules, à l'automne, quand les monarques sont déjà partis vers le Mexique.</p>
+          <p>Donner une valeur économique à l'asclépiade, c'est donner aux agriculteurs une raison de la cultiver plutôt que de l'arracher. Plus il y en a dans les champs, plus les monarques ont d'endroits où se reproduire.</p>
+          <a class="faq-more" href="https://lasclay.com/pages/monarch-butterfly">Le papillon monarque et l'asclépiade</a>
+        </div>
+      </details>
+      <details>
+        <summary>Un achat sauve-t-il un monarque?</summary>
+        <div class="faq-answer">
+          <p>Pas un papillon précis, et on ne le prétendra pas. Chaque achat soutient une filière qui rend l'asclépiade rentable à cultiver, donc plus présente dans le paysage. C'est un lien systémique, pas une compensation à l'unité.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Où sont fabriqués vos produits?</summary>
+        <div class="faq-answer">
+          <p>La culture de l'asclépiade, sa transformation en isolant, la conception des produits et le contrôle qualité se font au Québec, à notre atelier de Limoilou. C'est le coeur de ce qu'on fait, et ça ne bouge pas.</p>
+          <p>L'assemblage textile de la plupart des produits finis se fait chez des partenaires à l'extérieur du Québec, surtout en Tunisie. L'isolant part d'ici, est assemblé là-bas, et revient dans le produit. Pour les manteaux, la coquille est faite en Tunisie; l'isolant et les inserts amovibles restent transformés à Limoilou, ce qui permet un manteau autour de 300 $.</p>
+          <p>Pourquoi? La filière textile québécoise n'a plus certaines expertises ni les machines pour des pièces techniques à un prix accessible. Tout faire ici aurait rendu l'asclépiade inaccessible. Quelques produits restent entièrement faits ici, dont les cosmétiques à l'huile d'asclépiade: c'est indiqué sur leur fiche.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Pourquoi le nom « Lasclay »?</summary>
+        <div class="faq-answer">
+          <p>Ce sont les deux premières syllabes de l'asclépiade: L'AS-CLÉ. Ça se prononce « Lass-clé » en français comme en anglais. L'orthographe avec un y évite les accents, impossibles dans un nom de domaine, et un mot inventé que Google ne corrige pas en « la clé ».</p>
+        </div>
+      </details>
+    </section>
+    <!-- 7. Paiement -->
+    <section class="faq-group" id="paiement" data-icon="card">
+          <h2>Paiement, factures et taxes</h2>
+  <p class="faq-intro">Modes de paiement, codes promo, facture complète et exemption de taxes.</p>
+        <details>
+        <summary>Quels modes de paiement acceptez-vous?</summary>
+        <div class="faq-answer">
+          <p>Visa, MasterCard, American Express et PayPal.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Mon code promo ne fonctionne pas, ou j'ai oublié de l'appliquer</summary>
+        <div class="faq-answer">
+          <p>Vérifiez qu'il n'y a pas d'espace avant ou après le code, et que les produits du panier sont bien admissibles. Un seul code s'applique par commande.</p>
+          <p>Code oublié? Écrivez-nous dans les jours qui suivent avec votre numéro de commande. Si le code était valide au moment de l'achat, on vous rembourse la différence.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Puis-je obtenir une facture complète avec les numéros de taxes?</summary>
+        <div class="faq-answer">
+          <p>Oui. Écrivez à <a href="mailto:hey@lasclay.com">hey@lasclay.com</a> avec votre numéro de commande: on vous envoie la facture en PDF, avec nos numéros de TPS et de TVQ.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Exemption de taxes pour les personnes inscrites (Loi sur les Indiens)</summary>
+        <div class="faq-answer">
+          <p>Si vous êtes une personne inscrite au sens de la Loi sur les Indiens et que la commande est livrée à une adresse d'une Première Nation, vous avez droit à l'exemption de taxes. Écrivez-nous: on crée un compte pour que vos commandes actuelles et futures soient exemptées.</p>
+          <p>Cette réponse a été rédigée par des personnes qui ne sont pas issues des communautés autochtones. Si une formulation vous semble inexacte ou maladroite, dites-le-nous, on corrigera.</p>
+        </div>
+      </details>
+    </section>
+    <!-- 8. Entreprises -->
+    <section class="faq-group" id="entreprises" data-icon="brief">
+          <h2>Entreprises, revendeurs et cadeaux corporatifs</h2>
+  <p class="faq-intro">Prix de gros, commandes groupées, personnalisation avec logo.</p>
+        <details>
+        <summary>Offrez-vous des prix de gros ou un catalogue revendeur?</summary>
+        <div class="faq-answer">
+          <p>Oui. Écrivez à <a href="mailto:operations@lasclay.com">operations@lasclay.com</a> en précisant les produits qui vous intéressent, les volumes envisagés et votre type de commerce (boutique, organisme, achat ferme ou consigne). On vous envoie le catalogue B2B.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Cadeaux corporatifs et personnalisation avec logo</summary>
+        <div class="faq-answer">
+          <p>Possible sur plusieurs produits, à partir d'une quinzaine d'articles. Envoyez-nous votre logo (vectoriel de préférence), la quantité et la date visée à <a href="mailto:operations@lasclay.com">operations@lasclay.com</a>. Prévoyez du délai en période des Fêtes.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Commandites, dons et partenariats</summary>
+        <div class="faq-answer">
+          <p>On reçoit beaucoup de demandes et on ne peut pas répondre oui à toutes. Écrivez-nous en décrivant le projet, son lien avec l'asclépiade ou les pollinisateurs, et ce que vous cherchez. On répond selon nos capacités du moment.</p>
+        </div>
+      </details>
+    </section>

@@ -1,0 +1,339 @@
+{% comment %}
+  FAQ éditable dans l'admin (Showcase / Lasclay).
+
+  Le CONTENU vit dans Shopify > Contenu > Pages > FAQ (corps de la page, mode HTML).
+  Cette section fournit la coquille : en-tête avec recherche, sommaire collant, icônes,
+  accordéons stylés, bandeau de contact. Voir faq/README.md pour la marche à suivre.
+
+  Le corps de page attendu :
+    <nav class="faq-quick"> <a href="#id" data-icon="truck"><strong>…</strong><span>…</span></a> … </nav>
+    <section class="faq-group" id="…" data-icon="truck"><h2>…</h2><p class="faq-intro">…</p>
+      <details id="…"><summary>Question</summary><div class="faq-answer">…</div></details>
+    </section>
+{% endcomment %}
+
+{%- assign gold = settings.col_btn_bg | default: '#d4ad67' -%}
+{%- assign sand = settings.alt_bg_col | default: '#e8e4df' -%}
+{%- assign ink = settings.col_headings | default: '#423f3f' -%}
+
+<div class="faqh" id="section-id-{{ section.id }}" data-section-type="faq-html">
+  <style>
+    #section-id-{{ section.id }} {
+      --faq-gold: {{ gold }};
+      --faq-gold-ink: {{ gold | color_darken: 28 }};
+      --faq-gold-soft: {{ gold | color_lighten: 32 }};
+      --faq-sand: {{ sand }};
+      --faq-sand-2: {{ sand | color_lighten: 7 }};
+      --faq-line: {{ sand | color_darken: 8 }};
+      --faq-ink: {{ ink }};
+      --faq-ink-2: {{ ink | color_lighten: 22 }};
+    }
+    .faqh { color: var(--faq-ink); }
+    .faqh *, .faqh *::before, .faqh *::after { box-sizing: border-box; }
+    .faqh .faqh__wrap { width: min(1120px, 100% - 40px); margin: 0 auto; }
+
+    /* En-tête */
+    .faqh__hero { background: radial-gradient(1200px 380px at 85% 0%, var(--faq-gold-soft) 0%, transparent 60%), var(--faq-sand-2); border-bottom: 1px solid var(--faq-line); }
+    .faqh__hero .faqh__wrap { padding: 56px 0 44px; display: grid; gap: 20px; max-width: 760px; }
+    .faqh__eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--faq-gold-ink); }
+    .faqh__hero h1 { margin: 0; font-size: clamp(34px, 5vw, 52px); line-height: 1.12; }
+    .faqh__hero h1::after { content: ""; display: block; width: 56px; height: 4px; background: var(--faq-gold); margin-top: 16px; border-radius: 2px; }
+    .faqh__lead { font-size: 1.1em; color: var(--faq-ink-2); max-width: 58ch; margin: 0; }
+    .faqh__search { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid var(--faq-line); border-radius: 10px; padding: 6px 6px 6px 16px; max-width: 640px; box-shadow: 0 8px 24px rgba(66,63,63,.06); }
+    .faqh__search svg { width: 20px; height: 20px; flex: none; stroke: var(--faq-ink-2); }
+    .faqh__search input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--faq-ink); font: inherit; padding: 10px 0; outline: none; margin: 0; box-shadow: none; }
+    .faqh__search button { border: 0; background: var(--faq-gold); color: #2b2620; font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 7px; cursor: pointer; }
+    .faqh__noresult { display: none; padding: 20px; border: 1.5px dashed var(--faq-line); border-radius: 12px; color: var(--faq-ink-2); margin-bottom: 20px; }
+    .faqh.is-searching .faqh__noresult.is-shown { display: block; }
+    .faqh.is-searching .faq-group.is-empty { display: none; }
+    .faqh.is-searching .faq-quick { display: none; }
+
+    /* Réponses rapides (dans le corps de page) */
+    .faqh .faq-quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 0 0 32px; }
+    .faqh .faq-quick a { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; padding: 16px; border: 1.5px solid var(--faq-line); border-radius: 12px; background: #fff; color: var(--faq-ink); text-decoration: none; line-height: 1.25; transition: border-color .15s, transform .15s; }
+    .faqh .faq-quick a:hover { border-color: var(--faq-gold); transform: translateY(-1px); }
+    .faqh .faq-quick a strong { display: block; font-weight: 600; }
+    .faqh .faq-quick a span { display: block; font-size: .85em; color: var(--faq-ink-2); margin-top: 2px; }
+    .faqh .faq-quick .faqh__ic { width: 44px; height: 44px; }
+
+    /* Corps : sommaire + groupes */
+    .faqh__body { display: grid; grid-template-columns: 240px 1fr; gap: 48px; padding: 36px 0 64px; align-items: start; }
+    .faqh__toc { position: sticky; top: 20px; }
+    .faqh__toc h2, .faqh__quick-title { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--faq-ink-2); margin: 0 0 10px; }
+    .faqh__toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+    .faqh__toc a { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 8px 10px; border-radius: 8px; color: var(--faq-ink); font-size: .9em; font-weight: 500; text-decoration: none; border: 0; }
+    .faqh__toc a:hover { background: var(--faq-sand-2); }
+    .faqh__toc a.is-active { background: var(--faq-gold-soft); }
+    .faqh__toc a .faqh__n { font-size: .8em; color: var(--faq-ink-2); font-variant-numeric: tabular-nums; }
+    .faqh__toc-contact { margin-top: 18px; padding: 14px; background: var(--faq-sand-2); border-radius: 10px; font-size: .85em; color: var(--faq-ink-2); }
+    .faqh__toc-contact strong { color: var(--faq-ink); display: block; margin-bottom: 4px; }
+
+    .faqh .faq-group { padding: 8px 0 40px; scroll-margin-top: 20px; }
+    .faqh .faq-group + .faq-group { border-top: 1px solid var(--faq-line); padding-top: 36px; }
+    .faqh .faq-group__head { display: grid; grid-template-columns: 52px 1fr; gap: 16px; align-items: start; margin-bottom: 18px; }
+    .faqh .faqh__ic { width: 52px; height: 52px; border-radius: 12px; background: var(--faq-gold-soft); display: grid; place-items: center; flex: none; }
+    .faqh .faqh__ic svg { width: 50%; height: 50%; stroke: var(--faq-gold-ink); fill: none; }
+    .faqh .faq-group h2 { font-size: 1.55em; margin: 0; line-height: 1.15; }
+    .faqh .faq-group h2::after { display: none; }
+    .faqh .faq-intro { color: var(--faq-ink-2); margin: 4px 0 0; max-width: 62ch; }
+    .faqh .faq-badge { display: inline-block; vertical-align: middle; margin-left: 10px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--faq-gold-ink); background: var(--faq-gold-soft); padding: 3px 8px; border-radius: 999px; }
+
+    .faqh details { border: 1.5px solid var(--faq-line); border-radius: 12px; background: #fff; margin-bottom: 10px; transition: border-color .15s; }
+    .faqh details[open] { border-color: var(--faq-gold); }
+    .faqh summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 16px 48px 16px 18px; font-weight: 600; position: relative; }
+    .faqh summary::-webkit-details-marker { display: none; }
+    .faqh summary::after { content: ""; position: absolute; right: 18px; top: 50%; width: 9px; height: 9px; border-right: 2.4px solid var(--faq-ink); border-bottom: 2.4px solid var(--faq-ink); transform: translateY(-70%) rotate(45deg); transition: transform .2s; }
+    .faqh details[open] summary::after { transform: translateY(-30%) rotate(225deg); }
+    .faqh .faq-answer { padding: 0 18px 18px; max-width: 66ch; }
+    .faqh .faq-answer p { margin: 0 0 .8em; line-height: 1.55; }
+    .faqh .faq-answer p:last-child { margin-bottom: 0; }
+    .faqh .faq-answer table { border-collapse: collapse; width: 100%; margin: .4em 0 .9em; font-size: .9em; font-variant-numeric: tabular-nums; }
+    .faqh .faq-answer th, .faqh .faq-answer td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--faq-line); border-top: 0; }
+    .faqh .faq-answer th { font-weight: 600; color: var(--faq-ink-2); font-size: .8em; letter-spacing: .06em; text-transform: uppercase; }
+    .faqh .faq-steps { list-style: none; padding: 0; margin: .4em 0 .8em; display: grid; gap: 8px; counter-reset: s; }
+    .faqh .faq-steps li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; }
+    .faqh .faq-steps li::before { counter-increment: s; content: counter(s); width: 28px; height: 28px; border-radius: 50%; background: var(--faq-gold-soft); color: var(--faq-gold-ink); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+    .faqh .faq-care { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: .4em 0 .8em; }
+    .faqh .faq-care > div { background: var(--faq-sand-2); border-radius: 10px; padding: 12px 14px; font-size: .9em; }
+    .faqh .faq-care strong { display: block; margin-bottom: 4px; }
+    .faqh .faq-care ul { margin: 0; padding-left: 1.1em; }
+    .faqh .faq-more { display: inline-block; margin-top: 6px; font-weight: 600; }
+
+    /* Contact */
+    .faqh__contact { background: var(--faq-sand); border-top: 1px solid var(--faq-line); }
+    .faqh__contact .faqh__wrap { padding: 40px 0; display: grid; grid-template-columns: 1.3fr 1fr; gap: 30px; align-items: center; }
+    .faqh__contact h2 { font-size: 1.4em; margin: 0 0 8px; }
+    .faqh__contact h2::after { display: none; }
+    .faqh__contact p { color: var(--faq-ink-2); max-width: 52ch; margin: 0; }
+    .faqh__ways { display: grid; gap: 10px; }
+    .faqh__way { display: flex; gap: 12px; align-items: center; background: #fff; border-radius: 10px; padding: 12px 14px; border: 1.5px solid var(--faq-line); text-decoration: none; color: var(--faq-ink); }
+    .faqh__way svg { width: 22px; height: 22px; stroke: var(--faq-gold-ink); fill: none; flex: none; }
+    .faqh__way strong { display: block; font-size: .95em; }
+    .faqh__way span { font-size: .85em; color: var(--faq-ink-2); }
+
+    @media (max-width: 900px) {
+      .faqh .faq-quick { grid-template-columns: repeat(2, 1fr); }
+      .faqh__body { grid-template-columns: 1fr; gap: 20px; }
+      .faqh__toc { position: static; }
+      .faqh__toc ol { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; }
+      .faqh__toc a { white-space: nowrap; border: 1.5px solid var(--faq-line); }
+      .faqh__toc-contact { display: none; }
+      .faqh__contact .faqh__wrap { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .faqh .faq-quick { grid-template-columns: 1fr; }
+      .faqh .faq-care { grid-template-columns: 1fr; }
+      .faqh__hero .faqh__wrap { padding: 40px 0 32px; }
+      .faqh__search button { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .faqh * { transition: none !important; } }
+  </style>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="faqh-truck" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h10v9H3zM13 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="16.5" cy="17.5" r="1.7"/></symbol>
+      <symbol id="faqh-ruler" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15.5 15.5 3 21 8.5 8.5 21z"/><path d="m7 12 2 2M10 9l2 2M13 6l2 2"/></symbol>
+      <symbol id="faqh-return" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h11a5 5 0 0 1 0 10H9"/><path d="m8 6-4 4 4 4"/></symbol>
+      <symbol id="faqh-warm" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14V5a2 2 0 1 1 4 0v9a4 4 0 1 1-4 0z"/><path d="M12 9v6"/></symbol>
+      <symbol id="faqh-sprout" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-8"/><path d="M12 13c0-4 3-7 8-7 0 4-3 7-8 7z"/><path d="M12 13c0-3-2.5-6-7-6 0 3 2.5 6 7 6z"/><path d="M6 21h12"/></symbol>
+      <symbol id="faqh-leaf" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19C5 9 11 4 20 4c0 9-5 15-15 15z"/><path d="M5 19c3-4 6-7 10-10"/></symbol>
+      <symbol id="faqh-card" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 14h4"/></symbol>
+      <symbol id="faqh-brief" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 12h18"/></symbol>
+      <symbol id="faqh-search" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+      <symbol id="faqh-mail" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+      <symbol id="faqh-chat" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="faqh__hero">
+    <div class="faqh__wrap">
+      {%- if section.settings.eyebrow != blank -%}<div class="faqh__eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+      <h1>{{ section.settings.title | default: page.title | escape }}</h1>
+      {%- if section.settings.lead != blank -%}<p class="faqh__lead">{{ section.settings.lead | escape }}</p>{%- endif -%}
+      {%- if section.settings.show_search -%}
+        <form class="faqh__search" role="search" onsubmit="return false">
+          <svg aria-hidden="true"><use href="#faqh-search"/></svg>
+          <input type="search" placeholder="{{ section.settings.search_placeholder | escape }}" aria-label="{{ 'faq.search.label' | t | escape }}" autocomplete="off" data-faqh-search>
+          <button type="button" data-faqh-clear>{{ section.settings.clear_label | escape }}</button>
+        </form>
+      {%- endif -%}
+    </div>
+  </header>
+
+  <div class="faqh__wrap faqh__body">
+    <nav class="faqh__toc" aria-label="{{ section.settings.sidebar_title | escape }}">
+      <h2>{{ section.settings.sidebar_title | escape }}</h2>
+      <ol data-faqh-toc></ol>
+      {%- if section.settings.contact_email != blank -%}
+        <div class="faqh__toc-contact">
+          <strong>{{ section.settings.contact_title | escape }}</strong>
+          {{ section.settings.contact_short }}
+        </div>
+      {%- endif -%}
+    </nav>
+
+    <main class="faqh__content" data-faqh-content>
+      <div class="faqh__noresult" data-faqh-noresult>{{ section.settings.no_results | escape }}</div>
+      {{ page.content }}
+    </main>
+  </div>
+
+  {%- if section.settings.contact_email != blank -%}
+    <footer class="faqh__contact">
+      <div class="faqh__wrap">
+        <div>
+          <h2>{{ section.settings.contact_title | escape }}</h2>
+          <p>{{ section.settings.contact_text | escape }}</p>
+        </div>
+        <div class="faqh__ways">
+          <a class="faqh__way" href="mailto:{{ section.settings.contact_email }}"><svg aria-hidden="true"><use href="#faqh-mail"/></svg><span><strong>{{ section.settings.contact_email }}</strong><span>{{ section.settings.contact_email_note | escape }}</span></span></a>
+          {%- if section.settings.messenger_url != blank -%}
+            <a class="faqh__way" href="{{ section.settings.messenger_url }}"><svg aria-hidden="true"><use href="#faqh-chat"/></svg><span><strong>Messenger</strong><span>{{ section.settings.messenger_note | escape }}</span></span></a>
+          {%- endif -%}
+        </div>
+      </div>
+    </footer>
+  {%- endif -%}
+
+  <script>
+    (function () {
+      var root = document.getElementById('section-id-{{ section.id }}');
+      if (!root) return;
+      var content = root.querySelector('[data-faqh-content]');
+      var groups = Array.prototype.slice.call(content.querySelectorAll('.faq-group'));
+
+      function icon(name) {
+        var span = document.createElement('span');
+        span.className = 'faqh__ic';
+        span.innerHTML = '<svg aria-hidden="true"><use href="#faqh-' + name + '"/></svg>';
+        return span;
+      }
+
+      // Icônes des réponses rapides
+      content.querySelectorAll('.faq-quick a[data-icon]').forEach(function (a) {
+        var s = icon(a.dataset.icon);
+        var wrap = document.createElement('span');
+        while (a.firstChild) wrap.appendChild(a.firstChild);
+        a.appendChild(s); a.appendChild(wrap);
+      });
+
+      // En-tête de groupe : icône + titre + intro
+      var toc = root.querySelector('[data-faqh-toc]');
+      groups.forEach(function (g) {
+        var h2 = g.querySelector('h2');
+        if (!h2) return;
+        var head = document.createElement('div');
+        head.className = 'faq-group__head';
+        var textWrap = document.createElement('div');
+        var intro = g.querySelector('.faq-intro');
+        g.insertBefore(head, h2);
+        textWrap.appendChild(h2);
+        if (intro) textWrap.appendChild(intro);
+        if (g.dataset.icon) head.appendChild(icon(g.dataset.icon));
+        head.appendChild(textWrap);
+
+        if (toc && g.id) {
+          var n = g.querySelectorAll('details').length;
+          var title = h2.cloneNode(true);
+          var badge = title.querySelector('.faq-badge');
+          if (badge) badge.remove();
+          var li = document.createElement('li');
+          li.innerHTML = '<a href="#' + g.id + '"><span>' + title.textContent.trim() + '</span><span class="faqh__n">' + n + '</span></a>';
+          toc.appendChild(li);
+        }
+      });
+
+      // Sommaire actif au défilement
+      var links = toc ? Array.prototype.slice.call(toc.querySelectorAll('a')) : [];
+      if (links.length && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) links.forEach(function (a) { a.classList.toggle('is-active', a.getAttribute('href') === '#' + e.target.id); });
+          });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+        groups.forEach(function (g) { if (g.id) io.observe(g); });
+      }
+
+      // Ouvrir la question visée par l'ancre
+      function openHash() {
+        var id = location.hash.slice(1);
+        if (!id) return;
+        var el = document.getElementById(id);
+        if (el && el.tagName === 'DETAILS') el.open = true;
+      }
+      window.addEventListener('hashchange', openHash);
+      openHash();
+
+      // Données structurées FAQPage (Google exécute le JS; sinon, aucun effet)
+      try {
+        var qa = [];
+        content.querySelectorAll('details').forEach(function (d) {
+          var s = d.querySelector('summary'), a = d.querySelector('.faq-answer');
+          if (s && a) qa.push({ '@type': 'Question', 'name': s.textContent.trim(), 'acceptedAnswer': { '@type': 'Answer', 'text': a.textContent.replace(/\s+/g, ' ').trim() } });
+        });
+        if (qa.length) {
+          var ld = document.createElement('script');
+          ld.type = 'application/ld+json';
+          ld.text = JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': qa });
+          document.head.appendChild(ld);
+        }
+      } catch (e) {}
+
+      // Recherche
+      var q = root.querySelector('[data-faqh-search]');
+      var clear = root.querySelector('[data-faqh-clear]');
+      var noresult = root.querySelector('[data-faqh-noresult]');
+      if (!q) return;
+      function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+      function search() {
+        var terms = norm(q.value).split(/\s+/).filter(function (t) { return t.length > 1; });
+        var searching = terms.length > 0;
+        root.classList.toggle('is-searching', searching);
+        var total = 0;
+        groups.forEach(function (g) {
+          var found = 0;
+          g.querySelectorAll('details').forEach(function (d) {
+            var hit = searching && terms.every(function (t) { return norm(d.textContent).indexOf(t) !== -1; });
+            d.hidden = searching && !hit;
+            if (searching) d.open = hit;
+            if (hit) found++;
+          });
+          g.classList.toggle('is-empty', searching && found === 0);
+          total += found;
+        });
+        if (noresult) noresult.classList.toggle('is-shown', searching && total === 0);
+      }
+      q.addEventListener('input', search);
+      if (clear) clear.addEventListener('click', function () { q.value = ''; search(); q.focus(); });
+    })();
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "FAQ (contenu de page)",
+  "class": "section-faq-html",
+  "settings": [
+    { "type": "paragraph", "content": "Le contenu vient du corps de la page (Contenu > Pages). Cette section fournit l'en-tête, la recherche, le sommaire et le style." },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Aide et questions fréquentes" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Comment pouvons-nous vous aider?" },
+    { "type": "text", "id": "lead", "label": "Phrase d'introduction", "default": "Les réponses courtes d'abord, le détail ensuite. Pour tout ce qui touche une commande précise, gardez votre numéro de commande sous la main." },
+    { "type": "header", "content": "Recherche" },
+    { "type": "checkbox", "id": "show_search", "label": "Afficher la recherche", "default": true },
+    { "type": "text", "id": "search_placeholder", "label": "Texte indicatif", "default": "Chercher: suivi, taille, retour, graines, entretien…" },
+    { "type": "text", "id": "clear_label", "label": "Bouton effacer", "default": "Effacer" },
+    { "type": "text", "id": "no_results", "label": "Aucun résultat", "default": "Aucune question ne correspond à cette recherche. Essayez un autre mot, ou écrivez-nous." },
+    { "type": "header", "content": "Sommaire" },
+    { "type": "text", "id": "sidebar_title", "label": "Titre du sommaire", "default": "Sections" },
+    { "type": "header", "content": "Contact" },
+    { "type": "text", "id": "contact_title", "label": "Titre", "default": "Vous n'avez pas trouvé?" },
+    { "type": "text", "id": "contact_text", "label": "Texte", "default": "Écrivez-nous. Une personne de l'équipe vous répond, en français ou en anglais. Pour une question sur une commande, incluez votre numéro de commande." },
+    { "type": "richtext", "id": "contact_short", "label": "Texte court (sommaire)", "default": "<p>Écrivez-nous par courriel ou Messenger, avec votre numéro de commande.</p>" },
+    { "type": "text", "id": "contact_email", "label": "Courriel", "default": "hey@lasclay.com" },
+    { "type": "text", "id": "contact_email_note", "label": "Note sous le courriel", "default": "Commandes, retours, questions produit" },
+    { "type": "url", "id": "messenger_url", "label": "Lien Messenger" },
+    { "type": "text", "id": "messenger_note", "label": "Note sous Messenger", "default": "Réponse dans la conversation Facebook" }
+  ],
+  "presets": [{ "name": "FAQ (contenu de page)", "category": "Text" }]
+}
+{% endschema %}

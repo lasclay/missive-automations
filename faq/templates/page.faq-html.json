@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-faq-html",
+      "settings": {
+        "eyebrow": "Aide et questions fréquentes",
+        "title": "Comment pouvons-nous vous aider?",
+        "lead": "Les réponses courtes d'abord, le détail ensuite. Pour tout ce qui touche une commande précise, gardez votre numéro de commande sous la main.",
+        "show_search": true,
+        "search_placeholder": "Chercher: suivi, taille, retour, graines, entretien…",
+        "clear_label": "Effacer",
+        "no_results": "Aucune question ne correspond à cette recherche. Essayez un autre mot, ou écrivez-nous.",
+        "sidebar_title": "Sections",
+        "contact_title": "Vous n'avez pas trouvé?",
+        "contact_text": "Écrivez-nous. Une personne de l'équipe vous répond, en français ou en anglais. Pour une question sur une commande, incluez votre numéro de commande: ça évite un aller-retour.",
+        "contact_short": "<p>Écrivez-nous par courriel ou Messenger, avec votre numéro de commande.</p>",
+        "contact_email": "hey@lasclay.com",
+        "contact_email_note": "Commandes, retours, questions produit",
+        "messenger_url": "https://m.me/lasclay",
+        "messenger_note": "Réponse dans la conversation Facebook"
+      }
+    }
+  },
+  "order": ["main"]
+}
