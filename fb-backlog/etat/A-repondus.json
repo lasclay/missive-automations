@@ -1184,8 +1184,24 @@
       "quand": "2026-09-03T23:14:42.610Z",
       "confirme": true,
       "texte": "Merci d'être passée le dire. Un souvenir qui vient de quelqu'un du quartier vaut plus que ce qu'on peut en raconter nous-mêmes. Le bonjour est noté."
+    },
+    {
+      "id": "1458846102915868_2255457154944302",
+      "reponse_id": "1458846102915868_1766667701137399",
+      "page_id": "104242204750257",
+      "quand": "2026-09-04T11:17:05.136Z",
+      "confirme": true,
+      "texte": "Merci d'avoir pris le temps de l'écrire. Ce sont des souvenirs qu'on n'aurait pas eus autrement."
+    },
+    {
+      "id": "1458846102915868_1571553884048056",
+      "reponse_id": "1458846102915868_1049861878043794",
+      "page_id": "104242204750257",
+      "quand": "2026-09-04T11:20:16.196Z",
+      "confirme": true,
+      "texte": "Merci beaucoup. Et la récolte s'en vient : l'automne, c'est sa saison."
     }
   ],
-  "derniere_execution": "2026-09-03T23:14:42.610Z",
-  "total": 148
+  "derniere_execution": "2026-09-04T11:20:16.196Z",
+  "total": 150
 }
