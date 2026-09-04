@@ -75,8 +75,10 @@ prochain palier, pas un prérequis.
 
 ## Points à trancher avant publication
 
-- Frais sous 100 $ : 7,99 $ (FAQ) ou 9,50 $ (page Expédition)? Délais au Québec : 2 à 5 ou
-  4 à 8 jours ouvrables?
+- Frais sous 100 $ : 7,99 $ (FAQ) ou 9,50 $ (page Expédition)?
+- Délais de livraison : tranché le 4 septembre. Aucune mention de jours ouvrables dans la FAQ
+  (les clients ne comptent ni la préparation, ni les envois timbre, ni les précommandes). Le suivi
+  donne la date prévue.
 - Frais de retour : tranché le 4 septembre. Échange gratuit (facturer l'échange obligeait une commande manuelle,
   friction inutile). Remboursement : 9,99 $ de frais, pour prévenir les abus. Il n'y a jamais de crédit-boutique.
 - Livraison hors Canada : Shopify expédie vers 9 pays. Que fait-on si les douanes américaines
