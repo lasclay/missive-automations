@@ -81,8 +81,8 @@ prochain palier, pas un prérequis.
   donne la date prévue.
 - Frais de retour : tranché le 4 septembre. Échange gratuit (facturer l'échange obligeait une commande manuelle,
   friction inutile). Remboursement : 9,99 $ de frais, pour prévenir les abus. Il n'y a jamais de crédit-boutique.
-- Livraison hors Canada : Shopify expédie vers 9 pays. Que fait-on si les douanes américaines
-  saisissent des graines?
+- Graines vers les États-Unis : tranché le 4 septembre. Envoi par timbre, sans suivi; le paragraphe
+  sur les saisies douanières est retiré.
 - Ramassage : tranché le 4 septembre. Les deux points restent offerts : atelier de Limoilou (rendez-vous)
   et boutique Les Défricheuses à Montréal (1319, rue Beaubien Est).
 - Modes de paiement : tranché le 4 septembre. Shop Pay, Apple Pay et Google Pay ajoutés (confirmés actifs
@@ -91,7 +91,9 @@ prochain palier, pas un prérequis.
 - « Où sont fabriqués vos produits? » : tranché le 4 septembre. Culture dans cinq régions du Québec,
   isolant transformé à Cowansville, opérations et R-D à Limoilou; assemblage surtout en Tunisie;
   soins pour la peau (sauf Monarch Botanika), oreillers et graines encore faits au Québec; étiquettes
-  « fabriqué au Québec » normales pendant la transition; toute l'asclépiade vient du Québec.
+  « fabriqué au Québec » normales pendant la transition; toute l'asclépiade vient du Québec. Prix exacts
+  et liens vers les trois manteaux (veste sans manche 199,99 $, manteau léger 269,99 $, manteau hivernal
+  379,99 $), lus dans la boutique le 4 septembre : à réviser si les prix changent.
 - Garantie : tranché le 4 septembre. Nouvelle question « Quelle est la garantie sur vos produits? » : 1 à 2 ans
   officiellement, garantie à vie appliquée en pratique, texte fourni par Lasclay.
-- Personnalisation corporative : minimum de 15 articles?
+- Personnalisation corporative : tranché le 4 septembre. Minimum de 10 articles.
