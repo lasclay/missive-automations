@@ -1032,8 +1032,24 @@
       "quand": "2026-09-04T11:37:57.271Z",
       "confirme": true,
       "texte": "True, and we would not argue with it. One established patch makes more seed than a single garden can use, and someone nearby usually has one. That is part of why we give pods away in the autumn and put a packet into every textile order — roughly ten million seeds have gone out that way across five campaigns. Anyone who can get seed from a neighbour should."
+    },
+    {
+      "id": "122142476066483418_29929951329952621",
+      "reponse_id": "122142476066483418_2413478592391318",
+      "page_id": "368305119707866",
+      "quand": "2026-09-04T15:26:28.925Z",
+      "confirme": true,
+      "texte": "Plants are a fine shortcut. The one thing worth asking before you buy is whether they were treated with neonicotinoids — that is what undoes the point of planting milkweed, since the leaves are exactly what the caterpillars eat. Worth a question to whoever grew them."
+    },
+    {
+      "id": "122142476066483418_501325446400575",
+      "reponse_id": "122142476066483418_1426467536213762",
+      "page_id": "368305119707866",
+      "quand": "2026-09-04T15:29:20.702Z",
+      "confirme": true,
+      "texte": "No. It is native to this continent, which is the opposite of what invasive means. Common milkweed does travel underground and will take over a small bed if you let it — but that is vigour in a plant that belongs here, not the same thing at all."
     }
   ],
-  "derniere_execution": "2026-09-04T11:37:57.271Z",
-  "total": 129
+  "derniere_execution": "2026-09-04T15:29:20.702Z",
+  "total": 131
 }
