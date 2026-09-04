@@ -1,0 +1,1144 @@
+{"PRODUCT": {"missing": 114, "outdated": 145, "copy": 7, "short": 3, "stale": 9, "dirty": 33, "long": 2}, "PAGE": {"outdated": 17, "copy": 4, "french": 1, "dirty": 4, "short": 1, "long": 1, "stale": 1, "missing": 22}, "ARTICLE": {"missing": 143, "dirty": 4, "outdated": 1}, "THEME_JSON": {"missing": 225, "outdated": 27, "french": 1}}
+
+===== PRODUCT ressources avec problèmes: 106 / 113
+
+## milkweed-seeds [ACTIVE]
+  - EN manquant: product_type
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## asclepias-01-print-8x10 [ACTIVE]
+  - EN manquant: product_type
+  - EN = copie du FR: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## asclepias-02-print-8x10 [ACTIVE]
+  - EN manquant: product_type
+  - EN = copie du FR: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-30]
+
+## asclepias-03-print-8x10 [ACTIVE]
+  - EN manquant: product_type
+  - EN = copie du FR: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-30]
+
+## asclepias-04-print-8x10 [ACTIVE]
+  - EN manquant: product_type
+  - EN = copie du FR: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-30]
+
+## asclepias-05-print-8x10 [ACTIVE]
+  - EN manquant: product_type
+  - EN = copie du FR: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-30]
+
+## echange-grandeur [ACTIVE]
+  - EN beaucoup plus court que FR (178 vs 401 car.): body_html
+  - EN manquant: meta_description
+
+## echange-erreur [ACTIVE]
+  - EN manquant: meta_description
+
+## milkweed-cooler-backpack-30l [ACTIVE]
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-23]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## pince-a-mitaines-1 [ACTIVE]
+  - EN manquant: product_type
+
+## mitaine-seule [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+
+## mise-a-niveau-mitaines [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+
+## danaus-01-print-10x8 [ACTIVE]
+  - EN manquant: product_type
+
+## mittens [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-01-19]
+  - date périmée dans EN seulement: title → « January 2026 »
+  - EN manquant: product_type
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## headband [ACTIVE]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## neckwarmer [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-11-08]
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-23]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## insulated-tote-bag [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## lunchbag [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-08-20]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## thermal-insoles [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2025-11-01]
+  - date périmée dans EN seulement: title → « Pre-order November 2025 »
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-31]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-23]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## giftcard [ACTIVE]
+  - EN manquant: meta_description
+
+## besace [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2025-06-20]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-07-31]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## nettoyant-visage-huile-asclepiade [ACTIVE]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## hydratant-visage-huile-asclepiade [ACTIVE]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## langify_image_container [ACTIVE]
+  - EN = copie du FR: title
+  - EN = copie du FR: body_html
+  - EN manquant: product_type
+
+## combo-soin-visage-huile-asclepiade [ACTIVE]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## manchon-isotherme-canettes-bouteilles [ACTIVE]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## coussin-assise-thermal-pliable [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-05]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## sac-bouteille-vin [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## boucles-oreilles-asclepias [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-10]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## pendentif-asclepias [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-10]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## pendentif-aile-de-monarque [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-10]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## bague-aile-monarque [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-10]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## pantoufles-dasclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-02-05]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-05]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## tuque-ville-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2025-12-09]
+  - date périmée dans EN seulement: title → « January 2026 »
+  - EN périmé (FR modifié depuis): body_html [EN 2026-01-20]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## tuque-sport-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## echange-grandeur-tuque-sport [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2024-12-04]
+  - EN périmé (FR modifié depuis): body_html [EN 2024-12-04]
+  - EN beaucoup plus court que FR (178 vs 401 car.): body_html
+  - EN manquant: meta_description
+
+## isolant-asclepiade-soie-amerique [ACTIVE]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## sac-a-dos-glaciere-30l-imparfait [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-09-10]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## coussin-dassise-thermal-pliable-imparfait [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-11-08]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-30]
+
+## sac-a-lunch-imparfait [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-05]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## manteau-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-01-24]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-05-30]
+  - EN beaucoup plus long que FR (850 vs 335 car.): body_html
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-23]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## veste-sans-manche-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-01-24]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-05-30]
+  - EN beaucoup plus long que FR (792 vs 328 car.): body_html
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-23]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## couverture-imprimee-asclepiade-monarques [ACTIVE]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## manchon-isolant-canettes-slim [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2025-09-11]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-09-11]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## etui-telephone-asclepiade [ACTIVE]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## mitaines-ville-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-01-19]
+  - date périmée dans EN seulement: title → « January 2026 »
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: product_type
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## mitaines-bebe-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2025-10-26]
+  - date périmée dans EN seulement: title → « Pre-order November 2025 »
+  - EN périmé (FR modifié depuis): body_html [EN 2026-05-30]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: product_type
+
+## coussin-ecoresponsable-animaux [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2025-11-01]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-27]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## graines-dasclepiade-en-vrac [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+
+## graines-dasclepiade-en-vrac-0-100 [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+
+## milkweed-seed-bombs [DRAFT]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## rise-ai-giftcard [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+
+## milkweed-oven-mitts [DRAFT]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-07-30]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-30]
+
+## milkweed-large-trivet [DRAFT]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-07-30]
+
+## oven-mitts-pot-holder-place-mat [DRAFT]
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-07-30]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-30]
+
+## milkweed-pot-holders [DRAFT]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-07-30]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-30]
+
+## automne-bandeau-cache-cou-asclepiade [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## combo-sac-lunch-ensemble-cuisine-asclepiade [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## combo-sac-dos-lunch-glaciere-asclepiade [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## boissons-besace-manchons-asclepiade [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## le-pied-main-bouche-mitaines-foulard-semelles [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## combo-barbecue-manchons-boisson-mitaines-four [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## 2x-sac-lunch [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## 4x-sac-lunch [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## 2x-besace [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## 4x-besace [DRAFT]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_description
+
+## etui-appareils-electroniques-asclepiade-2 [DRAFT]
+  - EN périmé (FR modifié depuis): title [EN 2025-11-07]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-08-26]
+
+## sans-titre-17dec-_12-03 [DRAFT]
+  - EN manquant: title
+
+## bandeau-torsade-imparfait [DRAFT]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-11-07]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+
+## plant-asclepiade [DRAFT]
+  - EN périmé (FR modifié depuis): title [EN 2025-06-07]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-06-07]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+
+## sans-titre-24mai_18-33 [DRAFT]
+  - EN manquant: title
+
+## bandeau-torsade-et-foulard [DRAFT]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+
+## bandeau-torsade-et-cache-cou [DRAFT]
+  - EN périmé (FR modifié depuis): title [EN 2025-10-15]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+
+## sac-isotherme-type-tote-bag-imparfait [DRAFT]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-11-07]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-08-18]
+
+## etui-pour-tablette-isole-a-lasclepiade-imparfait [DRAFT]
+  - EN périmé (FR modifié depuis): title [EN 2025-11-07]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-11-07]
+
+## foulard-imparfait [DRAFT]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-05]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-07-30]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-30]
+
+## besace-isotherme-en-asclepiade-imparfait [DRAFT]
+  - EN périmé (FR modifié depuis): title [EN 2026-02-05]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-05]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-08-18]
+
+## couverture-imprimee-asclepiade-monarques-modele-discontinue [DRAFT]
+  - EN périmé (FR modifié depuis): title [EN 2026-02-05]
+  - date périmée dans EN seulement: title → « Pre-order November 2025 »
+  - EN périmé (FR modifié depuis): body_html [EN 2026-02-05]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+
+## graines-semences-asclepiade-stratifiees-froid [DRAFT]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+
+## foulard-copie [DRAFT]
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-07-30]
+
+## pince-a-cheveux-plastique-recycle-asclepiade [DRAFT]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-09-02]
+
+## huile-asclepiade [ACTIVE]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-27]
+
+## isolant-asclepiade-vegan-naturel [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-08-28]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-28]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-23]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## bandeau-copy [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2025-12-17]
+  - date périmée dans EN seulement: title → « Pre-order November 2025 »
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-27]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## porte-cle-bois-asclepiade-monarque [ACTIVE]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## sous-verre-bois-cadeau-asclepiade-monarque [ACTIVE]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## cache-cou-dasclepiade-imparfait [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2025-11-07]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-11-07]
+  - EN beaucoup plus court que FR (327 vs 747 car.): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-23]
+  - EN périmé (FR modifié depuis): meta_description [EN 2025-11-08]
+
+## manchon-isotherme-pour-boissons-imparfait [ACTIVE]
+  - EN périmé (FR modifié depuis): body_html [EN 2025-11-07]
+  - EN manquant: meta_title
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## semelles-interieures-isolantes-en-asclepiade-imparfait [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2025-11-07]
+  - date périmée dans EN seulement: title → « Pre-order November 2025 »
+  - EN périmé (FR modifié depuis): body_html [EN 2025-11-07]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2025-11-08]
+  - EN périmé (FR modifié depuis): meta_description [EN 2025-11-08]
+
+## cache-cou-dasclepiade-imparfait-1 [ACTIVE]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-23]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## service-plantation-asclepiade-papillons-monarques [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## creme-contour-yeux-huile-asclepiade [ACTIVE]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-27]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## manteau-hiver-asclepiade-quebecoise [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-05-23]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-05-23]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-05-30]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-05-30]
+
+## sac-couchage-isole-fibre-asclepiade-canadien [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## oreiller-camping-asclepiade-quebecois [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## oreiller-asclepiade-hypoallergene [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## gants-magiques-asclepiade [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: product_type
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## mitaines-hiver-asclepiade-laine-cuir-naturel [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: product_type
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## chandail-polaire-asclepiade-polar [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## mitaines-hiver-laine-asclepiade-naturelles [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: product_type
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## mitaines-urbaines-isolees-en-asclepiade-ancienne-version [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-07-16]
+  - date périmée dans EN seulement: title → « January 2026 »
+  - EN périmé (FR modifié depuis): body_html [EN 2026-07-16]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: product_type
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-07-16]
+
+## shampoing-huile-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-08-28]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-29]
+
+## gel-de-douche-huile-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-08-28]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-28]
+
+## savon-liquide-mains-huile-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-08-28]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-28]
+
+## creme-mains-corps-huile-asclepiade [ACTIVE]
+  - EN périmé (FR modifié depuis): title [EN 2026-08-28]
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-29]
+
+## boite-essai-soins-huile-asclepiade [ACTIVE]
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: product_type
+
+===== PAGE ressources avec problèmes: 22 / 26
+
+## milkweed-asclepiade
+  - EN périmé (FR modifié depuis): body_html [EN 2025-10-09]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## contact
+  - EN = copie du FR: title
+  - EN = copie du FR: meta_title
+
+## equipe
+  - EN périmé (FR modifié depuis): body_html [EN 2026-03-04]
+
+## a-propos
+  - EN périmé (FR modifié depuis): body_html [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): meta_title [EN 2025-05-13]
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-23]
+
+## media
+  - EN périmé (FR modifié depuis): body_html [EN 2022-08-26]
+  - EN contient du français: body_html → « Contact: media@lasclay.com Download Lasclay Media Kit December 8th, 2021 Journal de Montré »
+
+## mission
+  - EN = copie du FR: title
+  - EN périmé (FR modifié depuis): body_html [EN 2021-07-28]
+  - EN périmé (FR modifié depuis): meta_description [EN 2021-07-28]
+
+## planting-guide
+  - EN périmé (FR modifié depuis): body_html [EN 2025-07-23]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## sizing-chart
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## transparency-transparence
+  - EN beaucoup plus court que FR (194 vs 32430 car.): body_html
+
+## newsletter
+  - EN périmé (FR modifié depuis): meta_description [EN 2026-06-27]
+
+## avis-des-clients
+  - EN beaucoup plus long que FR (10624 vs 563 car.): body_html
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - date périmée dans EN seulement: body_html → « 2021 »
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## expedition
+  - EN périmé (FR modifié depuis): body_html [EN 2024-09-07]
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## guides-dentretien
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-27]
+
+## privacy-policy
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## ambassadors
+  - EN manquant: title
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## faq
+  - EN = copie du FR: title
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## offre-novembre-2025-lasclay
+  - EN périmé (FR modifié depuis): body_html [EN 2025-11-28]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - EN manquant: meta_title
+
+## points-de-vente
+  - EN périmé (FR modifié depuis): body_html [EN 2025-10-29]
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+
+## transparence
+  - EN manquant: title
+
+## transparence-asclepiade
+  - EN manquant: title
+
+## avada-faqs
+  - EN manquant: title
+  - EN manquant: body_html
+
+## copy-of-concours-automnal-2025-et-offres-hebdomadaires
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+===== ARTICLE ressources avec problèmes: 32 / 32
+
+## mise-a-jour-lancement-2
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## mise-a-jour-lancement-1
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## la-soie-d-amerique-le-pari-de-deux-ambitieux
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## mitaines-chaudes-isolees-asclepiade
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## la-deuxieme-vie-de-l-asclepiade
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## urbania-devenir-viral-avant-etre-en-affaires
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## lasclay-accessoires-hiver-asclepiade
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## asclepiade-fibre-isolante-futur
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## asclepiade-soie-amerique-isolant-vetements-quebec
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## lasclay-mitaines-asclepiade-prix-novae-2021
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## mitaines-chaudes-isolees-asclepiade-quebec
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## asclepiade-isolation-froid-canada
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## asclepiade-isolant-naturel-vegetal
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## glaciere-asclepiade-souple-rigide
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## moufles-quebec-asclepiade-mitaines
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## au-chaud-soie-amerique-mitaines
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## cadeaux-quebec-foulard-asclepiade-hiver
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## idees-cadeaux-locaux-boite-lunch-asclepiade
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## quebec-vetements-accessoires-hiver
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## retour-de-lasclepiade-isolant-manteau-hiver
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## textiles
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - HTML sale dans EN (fragments Word/ChatGPT): summary_html
+  - EN manquant: meta_title
+
+## culture-et-recolte-dasclepiade
+  - HTML sale dans EN (fragments Word/ChatGPT): body_html
+  - HTML sale dans EN (fragments Word/ChatGPT): summary_html
+  - EN manquant: meta_title
+
+## prevente-2025-reflexion-nouveaux-produits-asclepiade
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## manteaux-asclepiade-delocalisation-quebec
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## recyclage-retailles-textiles-economie-circulaire
+  - EN manquant: title
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## prevente-asclepiade-2025
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## lasclay-lesoleil-fabrication-asclepiade-quebec
+  - EN périmé (FR modifié depuis): meta_title [EN 2026-06-27]
+
+## lancement-manteaux-vestes-sans-manches-asclepiade
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## histoire-industrie-asclepiade-quebec
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## soie-amerique-nouvelle-france
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## asclepiade-seconde-guerre-mondiale
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+## recolte-asclepiade
+  - EN manquant: title
+  - EN manquant: body_html
+  - EN manquant: summary_html
+  - EN manquant: meta_title
+  - EN manquant: meta_description
+
+===== THEME_JSON ressources avec problèmes: 25 / 27
+
+## collection.boxing-week-2023
+  - EN manquant: section.collection.boxing-week-2023.json.bff7634e-75d8-4a38-9b20-fd947d158c62.subheading:9rpsnbc8ex2n
+  - EN manquant: section.collection.boxing-week-2023.json.bff7634e-75d8-4a38-9b20-fd947d158c62.title:30yx6dtzb1yeb
+  - EN manquant: section.collection.boxing-week-2023.json.bff7634e-75d8-4a38-9b20-fd947d158c62.text:x13zbjx56q66
+
+## index
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_TGyCXC.title:nxwwcypczufp [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_TGyCXC.text:2dnxhyuqdoci0 [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_kGijfg.title:2wg0ug0ltw815 [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_kGijfg.text:39tzi4miozppw [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_kGijfg.button_label:5wm01yu5lrd2 [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_pE9wez.subheading:80zattbixjlb [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_pE9wez.title:1kkndl2mef36r [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_pE9wez.text:r7261x7h5666 [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_pE9wez.button_label:2dcqote1skmvg [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_MaAJhT.title:r3fgmj8m5yv0 [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_MaAJhT.text:3bqhtqo8icsn5 [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_MaAJhT.button_label:1szs6deelrxtf [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_mFA6LU.text:1oou6jo02921r [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.slideshow.image_AVtRwm.title:169yb42bcclak [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.index.json.4e797a63-7a8a-4c44-8aa5-31af9ab9c547.text:3aw9hsl0jr7zb [EN 2026-08-18]
+
+## page
+  - EN manquant: section.page.json.rich_text_CV8QAq.text:34dwho36aluwx
+  - EN manquant: section.page.json.featured_blog_U7Kzix.title:38y1uu716qtd5
+
+## page.contact
+  - EN manquant: section.page.contact.json.rich_text_JHfU9q.title:1ht98el1n658n
+  - EN manquant: section.page.contact.json.rich_text_JHfU9q.text:1tc2ajgwd8nve
+  - EN manquant: section.page.contact.json.featured_blog_aYeNHK.title:1ml1fk5bu940l
+
+## page.faq
+  - EN manquant: section.page.faq.json.16336816691fb51b7b.accordion_LiiRJA.title:1xu03mcui9z43
+  - EN manquant: section.page.faq.json.16336816691fb51b7b.accordion_LiiRJA.text:38s87hwpt1efy
+  - EN périmé (FR modifié depuis): section.page.faq.json.1633681707d0a1c902.1633681707d0a1c902-1.text:a166fkr0r34v [EN 2026-08-18]
+
+## page.guide-entretien-produits
+  - EN manquant: section.page.guide-entretien-produits.json.93b1fe3c-9cd0-4c1f-add0-3b50680ada56.accordion_wmMtgh.title:3vz7vxkhgpgit
+  - EN manquant: section.page.guide-entretien-produits.json.93b1fe3c-9cd0-4c1f-add0-3b50680ada56.accordion_wmMtgh.text:1j7e2fl1qsdvc
+  - EN manquant: section.page.guide-entretien-produits.json.93b1fe3c-9cd0-4c1f-add0-3b50680ada56.accordion_NFGa4U.title:17t7ssn1q7tt2
+  - EN manquant: section.page.guide-entretien-produits.json.93b1fe3c-9cd0-4c1f-add0-3b50680ada56.accordion_NFGa4U.text:33qy74z4ykdsr
+  - EN manquant: section.page.guide-entretien-produits.json.93b1fe3c-9cd0-4c1f-add0-3b50680ada56.accordion_nnEJdM.title:39q6pfr4y3pnz
+  - EN manquant: section.page.guide-entretien-produits.json.93b1fe3c-9cd0-4c1f-add0-3b50680ada56.accordion_nnEJdM.text:1r0wc476vxq9e
+  - EN manquant: section.page.guide-entretien-produits.json.93b1fe3c-9cd0-4c1f-add0-3b50680ada56.accordion_NhRwqd.title:1bkylp16begin
+  - EN manquant: section.page.guide-entretien-produits.json.93b1fe3c-9cd0-4c1f-add0-3b50680ada56.accordion_NhRwqd.text:3kumj1q031ozm
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_ty9DgT.accordion_6nTYzE.title:9fyl3igoh69w
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_ty9DgT.accordion_6nTYzE.text:3nxwrsdicbvw9
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_ty9DgT.accordion_jw3UQz.title:2fdh566hiodj2
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_ty9DgT.accordion_CWP3ea.title:265pr0kg3rf0d
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_ty9DgT.accordion_CWP3ea.text:av1mp676dxls
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_ty9DgT.accordion_FR8Hc3.title:207bob52of9h6
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_ty9DgT.accordion_FR8Hc3.text:1cwkawbs8cbpj
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_VDfwW6.accordion_R9YQYj.title:2je6p5jp7qjrz
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_VDfwW6.accordion_YPVAKY.title:uo65m867n64j
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_VDfwW6.accordion_8FAepf.title:2l31ojyboi5b7
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_VDfwW6.accordion_8FAepf.text:bbbt64g8533y
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_VDfwW6.accordion_bGnx34.title:2h4nlt01m0snv
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_DVHTWa.title:2tsyk0zrr8a1t
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_DVHTWa.accordion_xTK7Dz.title:3290ehbi2psr
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_DVHTWa.accordion_xTK7Dz.text:1rsp70x58qb0m
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_DVHTWa.accordion_zt8dKP.title:xnwit48szue4
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_DVHTWa.accordion_zt8dKP.text:2qp7hnftekash
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_DVHTWa.accordion_LJCXfC.title:u1qiofv2xnnx
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_DVHTWa.accordion_LJCXfC.text:qe4g0xlgqn0w
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_DVHTWa.accordion_Jnh7pW.title:1felq9j93qh5
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_DVHTWa.accordion_Jnh7pW.text:trsibxh2ws0k
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_GPNjR8.title:29xz2f33tw0rk
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_GPNjR8.accordion_Xhimti.title:343n6aaa2s5od
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_GPNjR8.accordion_Xhimti.text:23lfkcuvlmj4w
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_GPNjR8.accordion_4YTh7W.title:2f2zb4tqi6pet
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_GPNjR8.accordion_4YTh7W.text:2o2lbxkw8ng1k
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_GPNjR8.accordion_rY6gNa.title:1rrv5qoku2x9d
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_GPNjR8.accordion_rY6gNa.text:1cnd98sqwixfg
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_GPNjR8.accordion_6XPHFz.title:5o72s8urtx5q
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_GPNjR8.accordion_6XPHFz.text:twf6uj9n4543
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_fi8XmC.title:vldx4bxh4hiw
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_fi8XmC.accordion_f6eJGm.title:2ykpc5brthxvd
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_fi8XmC.accordion_f6eJGm.text:39wb5kny5d49w
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_fi8XmC.accordion_igXKXa.title:213h2e1b2fzbc
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_fi8XmC.accordion_igXKXa.text:34mwap9dtgwfp
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_fi8XmC.accordion_RthEVm.title:t3si09wi36f0
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_fi8XmC.accordion_RthEVm.text:3bsorlmv1v98h
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_fi8XmC.accordion_ccKLyk.title:3fnt0qsxt9xjt
+  - EN manquant: section.page.guide-entretien-produits.json.accordions_fi8XmC.accordion_ccKLyk.text:2cftom5eaqp38
+
+## page.page-equipe
+  - EN manquant: section.page.page-equipe.json.87759526-4ee1-458f-84b6-d705695ec63f.384a6e0c-f366-48a8-b709-2079785e88de.title:2i9jqsasr3ead
+  - EN manquant: section.page.page-equipe.json.87759526-4ee1-458f-84b6-d705695ec63f.384a6e0c-f366-48a8-b709-2079785e88de.text:3m56t0qavx62w
+  - EN manquant: section.page.page-equipe.json.87759526-4ee1-458f-84b6-d705695ec63f.7c904bb1-7964-4dfe-aafe-5c4095f35acc.title:3a0n0quktwqu6
+  - EN manquant: section.page.page-equipe.json.87759526-4ee1-458f-84b6-d705695ec63f.7c904bb1-7964-4dfe-aafe-5c4095f35acc.text:2t98ak3iuyasj
+  - EN manquant: section.page.page-equipe.json.87759526-4ee1-458f-84b6-d705695ec63f.0a2d31a7-484a-4cda-bf7e-fa0cb149bb17.title:3uyjqu98grjtz
+  - EN manquant: section.page.page-equipe.json.87759526-4ee1-458f-84b6-d705695ec63f.0a2d31a7-484a-4cda-bf7e-fa0cb149bb17.text:8ghdxocinf0a
+  - EN manquant: section.page.page-equipe.json.87759526-4ee1-458f-84b6-d705695ec63f.2980461d-9200-4d33-93c4-c1d58fb5d921.title:1zsnrl6ry6ugz
+  - EN manquant: section.page.page-equipe.json.87759526-4ee1-458f-84b6-d705695ec63f.2980461d-9200-4d33-93c4-c1d58fb5d921.text:1h50d7kmxvwri
+
+## page.page-mission
+  - EN périmé (FR modifié depuis): section.page.page-mission.json.5c0256b4-d967-4ac9-bfc5-7212dd453db7.template--16751691137243__5c0256b4-d967-4ac9-bfc5-7212dd453db7-16857128789e8ff3c9-1.text:1slnge336m8y0 [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.page.page-mission.json.5c0256b4-d967-4ac9-bfc5-7212dd453db7.70eeb89d-b1db-4498-b52b-52b26ee472a5.text:uygk9qcabfh1 [EN 2026-08-18]
+  - EN manquant: section.page.page-mission.json.5c0256b4-d967-4ac9-bfc5-7212dd453db7.testimonial_faeCxz.title:qy72sxootoes
+  - EN manquant: section.page.page-mission.json.5c0256b4-d967-4ac9-bfc5-7212dd453db7.testimonial_faeCxz.text:37hg20nixlh0p
+
+## page.transparence-blogue
+  - EN manquant: section.page.transparence-blogue.json.rich_text_CV8QAq.text:2qiwgpmdoief4
+  - EN manquant: section.page.transparence-blogue.json.featured_blog_U7Kzix.title:6ns9x4oetcg8
+
+## product
+  - EN manquant: section.product.json.main.variant_media_grouping_option:2wjroz8mf04ta
+  - EN manquant: section.product.json.main.variant_picker.size_chart_variant:3077dzspsk1qd
+  - EN manquant: section.product.json.product-recommendations.title:1xwkgg7s9jp09
+
+## product.besace-test-julien
+  - EN manquant: section.product.besace-test-julien.json.main.variant_media_grouping_option:1my69ytd6mt7o
+  - EN manquant: section.product.besace-test-julien.json.main.variant_picker.size_chart_variant:20xl6uvncy3un
+  - EN manquant: section.product.besace-test-julien.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.title:18zjkrh5yv0h
+  - EN manquant: section.product.besace-test-julien.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.content:2rip876cilih4
+  - EN manquant: section.product.besace-test-julien.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.title:pfc5w4cvwni1
+  - EN manquant: section.product.besace-test-julien.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.content:27h6gacknxj8w
+  - EN manquant: section.product.besace-test-julien.json.main.46e28bbb-caca-4700-aa23-5b39cfa5185d.block_heading:2s6hxkjahuzl4
+  - EN manquant: section.product.besace-test-julien.json.product-recommendations.title:6mjgtf513zc3
+  - EN manquant: section.product.besace-test-julien.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.text:26q0p1uim4jcb
+  - EN manquant: section.product.besace-test-julien.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.title:2bgmn2kvb319z
+  - EN manquant: section.product.besace-test-julien.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.text:2j1ryzjkja96
+  - EN manquant: section.product.besace-test-julien.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.button_label:nag2wdbzx0yg
+
+## product.besace-test-modif-photo
+  - EN manquant: section.product.besace-test-modif-photo.json.main.variant_media_grouping_option:34fwbv6dqr8rh
+  - EN manquant: section.product.besace-test-modif-photo.json.main.variant_picker.size_chart_variant:21879l6qydl7q
+  - EN manquant: section.product.besace-test-modif-photo.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.title:16tvr1dk26sc8
+  - EN manquant: section.product.besace-test-modif-photo.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.content:34836f7yeyp81
+  - EN manquant: section.product.besace-test-modif-photo.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.title:2sdntphr3v5s0
+  - EN manquant: section.product.besace-test-modif-photo.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.content:3sn5lq7noczbd
+  - EN manquant: section.product.besace-test-modif-photo.json.main.46e28bbb-caca-4700-aa23-5b39cfa5185d.block_heading:103joca35hpu9
+  - EN manquant: section.product.besace-test-modif-photo.json.product-recommendations.title:330qbzze4vcca
+  - EN manquant: section.product.besace-test-modif-photo.json.0230a101-da46-475c-af2b-9ee0c25f1368.image_GKYDUU.text:2m5o0kdt3pvrv
+  - EN manquant: section.product.besace-test-modif-photo.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.title:usuh5ulvhm4v
+  - EN manquant: section.product.besace-test-modif-photo.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.text:unu2x4njxh1u
+  - EN manquant: section.product.besace-test-modif-photo.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.title:nkccp6mulvse
+  - EN manquant: section.product.besace-test-modif-photo.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.text:2un2xuzladg7n
+  - EN manquant: section.product.besace-test-modif-photo.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.button_label:3v9t5m7p0xs4h
+
+## product.boite-lunch
+  - EN manquant: section.product.boite-lunch.json.main.variant_media_grouping_option:lok0idf3qzys
+  - EN manquant: section.product.boite-lunch.json.main.variant_picker.size_chart_variant:8sgj6ukjga8f
+  - EN manquant: section.product.boite-lunch.json.main.b069f8c2-c4cd-4495-8c1d-dabe9c8e4504.content:2w46co47e3r92
+  - EN manquant: section.product.boite-lunch.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.content:2s4cg764rochk
+  - EN manquant: section.product.boite-lunch.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.content:6l213mz2ok5c
+  - EN périmé (FR modifié depuis): section.product.boite-lunch.json.990c80a0-8a29-4fb0-8579-61f6baec36ce.subheading:zxeedcys78fd [EN 2026-08-18]
+
+## product.bombe-semence-1
+  - EN manquant: section.product.bombe-semence-1.json.main.variant_media_grouping_option:2t7csrd2fyz80
+  - EN manquant: section.product.bombe-semence-1.json.main.variant_picker.size_chart_variant:35vrbx130jlzf
+  - EN périmé (FR modifié depuis): section.product.bombe-semence-1.json.main.6c06a895-efed-4a63-bea3-63cb3e8752e5.title:l7zc1uk12x8w [EN 2026-08-18]
+  - EN manquant: section.product.bombe-semence-1.json.main.6c06a895-efed-4a63-bea3-63cb3e8752e5.content:3hvymnp916uu1
+  - EN manquant: section.product.bombe-semence-1.json.main.ce48b154-c915-4538-911f-15417c2c823a.title:341l6156cvptg
+  - EN manquant: section.product.bombe-semence-1.json.main.ce48b154-c915-4538-911f-15417c2c823a.content:2dsa8oauvjoal
+  - EN manquant: section.product.bombe-semence-1.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.title:2fkr58tr7ved
+  - EN périmé (FR modifié depuis): section.product.bombe-semence-1.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.content:3ihs9u4bfhhto [EN 2026-08-18]
+  - EN manquant: section.product.bombe-semence-1.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.title:3no90i0tmtabx
+  - EN manquant: section.product.bombe-semence-1.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.content:jf12kaf0ad38
+  - EN manquant: section.product.bombe-semence-1.json.7d64cc76-3267-47d2-bdc6-cdba171f1eee.title:1fppsfh30qxlo
+  - EN manquant: section.product.bombe-semence-1.json.7d64cc76-3267-47d2-bdc6-cdba171f1eee.button_label:2qxjm4rg8gocz
+  - EN manquant: section.product.bombe-semence-1.json.product-recommendations.title:3ln3c5bng23h3
+  - EN manquant: section.product.bombe-semence-1.json.image_with_text_7dN6mM.title:3gsaitkw1lntz
+  - EN manquant: section.product.bombe-semence-1.json.image_with_text_7dN6mM.button_label:2cg0k1niotzyg
+
+## product.cosmetics
+  - EN manquant: section.product.cosmetics.json.main.variant_media_grouping_option:2k5ifcjeuhv6y
+  - EN manquant: section.product.cosmetics.json.main.variant_picker.size_chart_variant:1r8ew65wrthtd
+  - EN manquant: section.product.cosmetics.json.main.ce48b154-c915-4538-911f-15417c2c823a.title:113kp9xwtcozy
+  - EN manquant: section.product.cosmetics.json.main.ce48b154-c915-4538-911f-15417c2c823a.content:1210itogwtydj
+  - EN manquant: section.product.cosmetics.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.title:rpsqmct38udr
+  - EN manquant: section.product.cosmetics.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.content:1f7ldd82ex69y
+  - EN manquant: section.product.cosmetics.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.title:ncdkmx7971kn
+  - EN manquant: section.product.cosmetics.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.content:1ib1vkjh788se
+  - EN manquant: section.product.cosmetics.json.main.46e28bbb-caca-4700-aa23-5b39cfa5185d.block_heading:2xb28kby0v3a
+  - EN manquant: section.product.cosmetics.json.product-recommendations.title:xeteovjdil
+  - EN manquant: section.product.cosmetics.json.0230a101-da46-475c-af2b-9ee0c25f1368.template--16749057114331__0230a101-da46-475c-af2b-9ee0c25f1368-16851185486190c596-0.subheading:1fhnl9dsej4mo
+  - EN manquant: section.product.cosmetics.json.0230a101-da46-475c-af2b-9ee0c25f1368.template--16749057114331__0230a101-da46-475c-af2b-9ee0c25f1368-16851185486190c596-0.title:opcjsipxwjks
+  - EN manquant: section.product.cosmetics.json.0230a101-da46-475c-af2b-9ee0c25f1368.template--16749057114331__0230a101-da46-475c-af2b-9ee0c25f1368-16851185486190c596-0.text:20y38rlbcr0v5
+  - EN manquant: section.product.cosmetics.json.0230a101-da46-475c-af2b-9ee0c25f1368.template--16749057114331__0230a101-da46-475c-af2b-9ee0c25f1368-16851185486190c596-1.subheading:3f1x8q0wniesx
+  - EN manquant: section.product.cosmetics.json.0230a101-da46-475c-af2b-9ee0c25f1368.template--16749057114331__0230a101-da46-475c-af2b-9ee0c25f1368-16851185486190c596-1.title:2noll86c3dsfx
+  - EN manquant: section.product.cosmetics.json.0230a101-da46-475c-af2b-9ee0c25f1368.template--16749057114331__0230a101-da46-475c-af2b-9ee0c25f1368-16851185486190c596-1.text:27ceunqgkp528
+  - EN manquant: section.product.cosmetics.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.title:2of5jyg4w74t4
+  - EN manquant: section.product.cosmetics.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.text:15579m263x9d1
+  - EN manquant: section.product.cosmetics.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.button_label:rk32l82rua1j
+  - EN manquant: section.product.cosmetics.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.title:r90kd1kwvwvt
+  - EN manquant: section.product.cosmetics.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.text:1bjivi7bbvdk4
+  - EN manquant: section.product.cosmetics.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.button_label:9tzk7g5i0zti
+
+## product.gift-card
+  - EN manquant: section.product.gift-card.json.main.variant_media_grouping_option:plw7iiir028l
+  - EN manquant: section.product.gift-card.json.main.variant_picker.size_chart_variant:3rjoggfyjef72
+  - EN manquant: section.product.gift-card.json.product-recommendations.title:lrz96zeqzb76
+
+## product.graines-syriaca-1
+  - EN manquant: section.product.graines-syriaca-1.json.main.variant_media_grouping_option:dz73hhc3vm46
+  - EN manquant: section.product.graines-syriaca-1.json.main.variant_picker.size_chart_variant:23x0h8bgg7ib1
+  - EN périmé (FR modifié depuis): section.product.graines-syriaca-1.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.content:6k9703ruev8a [EN 2026-08-18]
+
+## product.manchons-seat-pad
+  - EN manquant: section.product.manchons-seat-pad.json.main.variant_media_grouping_option:2vdg7of9gs4nx
+  - EN manquant: section.product.manchons-seat-pad.json.main.variant_picker.size_chart_variant:1ia7hgg62rrja
+  - EN manquant: section.product.manchons-seat-pad.json.main.accordion_YCtP7w.title:1gddvwid8lciv
+  - EN manquant: section.product.manchons-seat-pad.json.main.accordion_YCtP7w.content:3o4uox0mik7zi
+  - EN manquant: section.product.manchons-seat-pad.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.title:szyjlsy0cupk
+  - EN manquant: section.product.manchons-seat-pad.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.content:1a3aei5592b3l
+  - EN manquant: section.product.manchons-seat-pad.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.title:2ejqm9x52185c
+  - EN manquant: section.product.manchons-seat-pad.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.content:1yictt4uigl6x
+  - EN manquant: section.product.manchons-seat-pad.json.main.46e28bbb-caca-4700-aa23-5b39cfa5185d.block_heading:1e7u6a4e7dk0h
+  - EN manquant: section.product.manchons-seat-pad.json.product-recommendations.title:3vzpiz3an2kl6
+  - EN manquant: section.product.manchons-seat-pad.json.0230a101-da46-475c-af2b-9ee0c25f1368.8843bfa8-3911-453d-b715-13eec188e1c4.title:2t5h4tzj6odor
+  - EN manquant: section.product.manchons-seat-pad.json.0230a101-da46-475c-af2b-9ee0c25f1368.8843bfa8-3911-453d-b715-13eec188e1c4.text:27idmixw7pfrq
+  - EN manquant: section.product.manchons-seat-pad.json.990c80a0-8a29-4fb0-8579-61f6baec36ce.subheading:1f79jpjtrlog
+  - EN manquant: section.product.manchons-seat-pad.json.990c80a0-8a29-4fb0-8579-61f6baec36ce.title:2sbpub2n3m1t8
+  - EN manquant: section.product.manchons-seat-pad.json.990c80a0-8a29-4fb0-8579-61f6baec36ce.text:1i04skcv2cx01
+  - EN manquant: section.product.manchons-seat-pad.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.title:6vm7ql90mken
+  - EN manquant: section.product.manchons-seat-pad.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.text:2u4vlpkrex0k2
+  - EN manquant: section.product.manchons-seat-pad.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.button_label:fttjxnruzvvk
+  - EN manquant: section.product.manchons-seat-pad.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.title:3vsi4azg4jaum
+  - EN manquant: section.product.manchons-seat-pad.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.text:xyqfmdj0kixf
+  - EN manquant: section.product.manchons-seat-pad.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.button_label:rqtwz211sq3l
+
+## product.mitaines-four-1
+  - EN manquant: section.product.mitaines-four-1.json.main.variant_media_grouping_option:1hkyi0ln06x7z
+  - EN manquant: section.product.mitaines-four-1.json.main.variant_picker.size_chart_variant:labean6dngb8
+  - EN manquant: section.product.mitaines-four-1.json.main.accordion_X9mWmk.title:373a5kyn707ti
+  - EN manquant: section.product.mitaines-four-1.json.main.accordion_X9mWmk.content:14ft0esx61dnj
+  - EN manquant: section.product.mitaines-four-1.json.main.accordion_6kTpkV.title:22urp6t0ui9n3
+  - EN manquant: section.product.mitaines-four-1.json.main.accordion_6kTpkV.content:2hsil7oddl2fa
+  - EN manquant: section.product.mitaines-four-1.json.main.accordion_MFBmcp.title:jvr31fxq17i4
+  - EN manquant: section.product.mitaines-four-1.json.main.accordion_MFBmcp.content:1wgabnxki0rxx
+  - EN manquant: section.product.mitaines-four-1.json.main.complementary_hVqMHe.block_heading:3fgqpzwejor56
+  - EN manquant: section.product.mitaines-four-1.json.product-recommendations.title:31v6026ujn7uw
+
+## product.plantule
+  - EN manquant: section.product.plantule.json.main.variant_media_grouping_option:30u7qw7v61ror
+  - EN manquant: section.product.plantule.json.main.variant_picker.size_chart_variant:2ic6pybe9si6o
+  - EN manquant: section.product.plantule.json.main.6c06a895-efed-4a63-bea3-63cb3e8752e5.title:770gx5aebcdn
+  - EN manquant: section.product.plantule.json.main.6c06a895-efed-4a63-bea3-63cb3e8752e5.content:3iwsiia9v1sma
+  - EN manquant: section.product.plantule.json.main.ce48b154-c915-4538-911f-15417c2c823a.title:enp18nl3fm7
+  - EN manquant: section.product.plantule.json.main.ce48b154-c915-4538-911f-15417c2c823a.content:mymfvdokwe86
+  - EN manquant: section.product.plantule.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.title:2etphsu8p0b9q
+  - EN manquant: section.product.plantule.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.content:2jrkd4e252n5z
+  - EN manquant: section.product.plantule.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.title:1y6zflicb0f92
+  - EN manquant: section.product.plantule.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.content:1nogy8tled01r
+  - EN manquant: section.product.plantule.json.main.46e28bbb-caca-4700-aa23-5b39cfa5185d.block_heading:2yd23qfnthujr
+  - EN manquant: section.product.plantule.json.7d64cc76-3267-47d2-bdc6-cdba171f1eee.title:2gz9hmnr7evc7
+  - EN manquant: section.product.plantule.json.7d64cc76-3267-47d2-bdc6-cdba171f1eee.button_label:tnsndczsl4aw
+  - EN manquant: section.product.plantule.json.product-recommendations.title:2djb1f8z5dxo
+  - EN manquant: section.product.plantule.json.image_with_text_7dN6mM.title:6i0rx7cwjrw
+  - EN manquant: section.product.plantule.json.image_with_text_7dN6mM.button_label:ht7eoz45l8er
+  - EN manquant: section.product.plantule.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.title:207mvty4j1y7t
+  - EN manquant: section.product.plantule.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.text:vx0e9uy38dno
+  - EN manquant: section.product.plantule.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.button_label:z8pqm3r9oqhi
+  - EN manquant: section.product.plantule.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.title:1rwmox96lau6w
+  - EN manquant: section.product.plantule.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.text:303zbcpx4tmqt
+  - EN manquant: section.product.plantule.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.button_label:samyzx6qo0n
+
+## product.produit-hiver
+  - EN manquant: section.product.produit-hiver.json.main.variant_media_grouping_option:1jyo4ezasaj18
+  - EN manquant: section.product.produit-hiver.json.main.variant_picker.size_chart_variant:3tp4bti0cdf9j
+  - EN manquant: section.product.produit-hiver.json.main.complementary_Eztzwy.block_heading:2muu82i6mcijt
+
+## product.sac-30l
+  - EN manquant: section.product.sac-30l.json.main.variant_media_grouping_option:5lckyxi83npf
+  - EN manquant: section.product.sac-30l.json.main.variant_picker.size_chart_variant:27andq5s4oraw
+  - EN périmé (FR modifié depuis): section.product.sac-30l.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.content:242xb1rbsajyv [EN 2026-08-18]
+
+## product.sac-tote-bag
+  - EN manquant: section.product.sac-tote-bag.json.main.variant_media_grouping_option:kwupnvvl5onj
+  - EN manquant: section.product.sac-tote-bag.json.main.variant_picker.size_chart_variant:33n9iunkaqtmc
+  - EN périmé (FR modifié depuis): section.product.sac-tote-bag.json.0230a101-da46-475c-af2b-9ee0c25f1368.8843bfa8-3911-453d-b715-13eec188e1c4.title:3uk44yfhunyx [EN 2026-08-18]
+
+## product.sac-vin
+  - EN manquant: section.product.sac-vin.json.main.variant_media_grouping_option:3jy4mnk4rsdfh
+  - EN manquant: section.product.sac-vin.json.main.variant_picker.size_chart_variant:2pywi17xe5miu
+  - EN manquant: section.product.sac-vin.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.title:1udncxt90og0o
+  - EN manquant: section.product.sac-vin.json.main.02fae39b-539f-4569-bfc1-cd5c1d332760.content:31rxg7wrk1uj5
+  - EN manquant: section.product.sac-vin.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.title:27rdhgaytacrk
+  - EN manquant: section.product.sac-vin.json.main.6f04ec5a-f746-431e-a8f3-c2ad0e84c277.content:2yepkct5ofcdl
+  - EN manquant: section.product.sac-vin.json.main.46e28bbb-caca-4700-aa23-5b39cfa5185d.block_heading:3tak73rhfshyp
+  - EN manquant: section.product.sac-vin.json.product-recommendations.title:2buzoyr2r58d6
+  - EN manquant: section.product.sac-vin.json.0230a101-da46-475c-af2b-9ee0c25f1368.8843bfa8-3911-453d-b715-13eec188e1c4.title:2mpk055p822gb
+  - EN manquant: section.product.sac-vin.json.0230a101-da46-475c-af2b-9ee0c25f1368.8843bfa8-3911-453d-b715-13eec188e1c4.text:1dl46w59a06ly
+  - EN manquant: section.product.sac-vin.json.990c80a0-8a29-4fb0-8579-61f6baec36ce.subheading:15rn101c1tco0
+  - EN manquant: section.product.sac-vin.json.990c80a0-8a29-4fb0-8579-61f6baec36ce.title:140wn9cwhq0uk
+  - EN manquant: section.product.sac-vin.json.990c80a0-8a29-4fb0-8579-61f6baec36ce.text:1kf8p3z22xg8h
+  - EN manquant: section.product.sac-vin.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.title:36otz8znw05yn
+  - EN manquant: section.product.sac-vin.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.text:35w9s275bsp82
+  - EN manquant: section.product.sac-vin.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0.button_label:27f2tgibrkhz4
+  - EN manquant: section.product.sac-vin.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.title:2ydtscapy91xq
+  - EN manquant: section.product.sac-vin.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.text:1dxuo3zy8lhir
+  - EN manquant: section.product.sac-vin.json.189dcbb1-2263-4667-9a0e-20d2287527dd.template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-1.button_label:18ynptehomfi9
+
+## product.semelles-isolantes
+  - EN manquant: section.product.semelles-isolantes.json.main.variant_media_grouping_option:2pk0moug3wb7l
+  - EN manquant: section.product.semelles-isolantes.json.main.variant_picker.size_chart_variant:nk63llykafei
+  - EN périmé (FR modifié depuis): section.product.semelles-isolantes.json.main.69dd76cf-f537-4411-83f7-1da53a5e2fa1.content:16v5fnp8y9ewy [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.product.semelles-isolantes.json.main.650e1fff-bd02-4266-ad2a-a09c7235fbf3.title:1jvky00dzi5i [EN 2026-08-18]
+  - EN périmé (FR modifié depuis): section.product.semelles-isolantes.json.main.650e1fff-bd02-4266-ad2a-a09c7235fbf3.content:8hodq7dsk0dr [EN 2026-08-18]
+  - EN contient du français: section.product.semelles-isolantes.json.main.650e1fff-bd02-4266-ad2a-a09c7235fbf3.content:8hodq7dsk0dr → « Dessus: 100% polyester Dessous: 65% polyester, 35% coton Isolant: 70% asclépiade, 30% poly »
+  - EN manquant: section.product.semelles-isolantes.json.main.complementary_THLGbe.block_heading:vi3wo130e4fv
