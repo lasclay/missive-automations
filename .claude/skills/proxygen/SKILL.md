@@ -1,7 +1,7 @@
 ---
 name: proxygen
-description: General Proxy de Lasclay — le service Render des opérations, qui expose ShipStation en accès complet (19 actions), Omnisend (10) et Klaviyo en lecture seule (21). Couvre les commandes et expéditions, le suivi, les tarifs, les tags, la mise en attente, le marquage expédié, l'achat et l'annulation d'étiquettes, les contacts et campagnes courriel, et l'export exhaustif Klaviyo pour migration.
-when_to_use: Déclenche dès qu'il est question du proxy général, de ShipStation, d'Omnisend, de Klaviyo, d'une expédition, d'un numéro de suivi, d'une étiquette d'envoi, d'un transporteur, d'un entrepôt, d'un contact ou d'une campagne courriel. Déclenche même sans nommer le service — « où est le colis de la commande 12345 », « mets cette commande en attente », « combien coûterait l'envoi vers les États-Unis », « exporte les profils pour la migration », « cette cliente est-elle désabonnée ».
+description: General Proxy de Lasclay — le service Render des opérations, qui expose ShipStation en accès complet (33 actions), Omnisend (10), Klaviyo en lecture seule (21) et Happy Returns, la plateforme de retours (10). Couvre les commandes et expéditions, le suivi, les tarifs, les tags, la mise en attente, le marquage expédié, l'achat et l'annulation d'étiquettes, les contacts et campagnes courriel, l'export exhaustif Klaviyo pour migration, et l'état d'un retour, son approbation et le NPS côté Happy Returns.
+when_to_use: Déclenche dès qu'il est question du proxy général, de ShipStation, d'Omnisend, de Klaviyo, de Happy Returns, d'une expédition, d'un numéro de suivi, d'une étiquette d'envoi, d'un transporteur, d'un entrepôt, d'un contact ou d'une campagne courriel, d'un RETOUR, d'un RMA, d'un code express, d'un Return Bar ou d'un remboursement d'article retourné. Déclenche même sans nommer le service — « où est le colis de la commande 12345 », « mets cette commande en attente », « combien coûterait l'envoi vers les États-Unis », « exporte les profils pour la migration », « cette cliente est-elle désabonnée », « où en est son retour », « est-ce qu'on a reçu le colis de retour », « approuve le retour ».
 argument-hint: [ce que tu veux faire côté expédition ou marketing]
 allowed-tools:
   - Bash(node connectors_client.js:*)
@@ -39,7 +39,7 @@ n'as pas constaté une limite, tu as constaté ton ignorance.
 | --- | --- | --- |
 | 1 | `connectors_client.js` et `GET /connectors` | **aucune.** La liste des actions est une commodité, pas une frontière |
 | 2 | `server.js` à la racine | le périmètre réellement exposé aujourd'hui |
-| 3 | API du service tiers (ShipStation, Omnisend, Klaviyo) | le vrai plafond |
+| 3 | API du service tiers (ShipStation, Omnisend, Klaviyo, Happy Returns) | le vrai plafond |
 
 Lis la couche 2 en entier : le bloc de commentaire vieillit, le dispatch de routes et les
 fonctions disent la vérité. Une fonction existante fait souvent déjà presque ce que tu cherches, à
@@ -182,6 +182,66 @@ Deux limites du compte, constatées à l'usage : les **identifiants secondaires*
 au profil — et `subscribe_profile_to_marketing` **exige une confirmation humaine explicite** avant
 de s'exécuter. C'est voulu : un consentement ne se pose pas à la place de quelqu'un.
 
+## Happy Returns — la plateforme de retours, 10 actions
+
+Clé `HAPPY_RETURNS_API_KEY` côté Render, en-tête `X-Hr-Apikey`. C'est Happy Returns (filiale UPS)
+qui porte les retours de Lasclay : RMA, codes express, Return Bars, envois groupés vers
+l'entrepôt. Quand on demande « où en est son retour », c'est ce chemin — pas ShipStation, qui ne
+connaît que l'aller et les étiquettes qu'on achète nous-mêmes.
+
+L'identifiant du détaillant (`happyReturnsRetailerID`) est **injecté par le proxy** depuis
+`HAPPY_RETURNS_RETAILER_ID`. Tu n'as pas à le connaître ; tu peux le surcharger dans les params.
+
+**Lecture (5).**
+
+- `return` — **le point d'entrée du service client**. Un SEUL critère à la fois : `orderNumber`,
+  `email` **ou** `happyReturnsExpressCode` (deux = refusé par le proxy, comme par l'API). Rend les
+  articles, motifs, remboursements, suivi et statut — les mêmes champs que le webhook `return`.
+  Pagination par `cursor` quand la réponse en fournit un.
+  **Un `204` sans corps veut dire « aucun retour trouvé », pas « erreur »** — il te revient sous
+  la forme d'un `data: {}` vide, jamais d'un message. Ne le raconte pas comme une panne : c'est
+  une réponse, et elle dit qu'aucun retour n'existe pour ce critère. Vérifie d'abord que tu
+  cherchais avec le bon (un client peut avoir commandé avec une autre adresse courriel).
+- `outboundshipments` — `startDateTime`, `endDateTime` en AAAA-MM-JJ ou ISO-8601 UTC ; sans eux,
+  les dernières 24 h. Les envois groupés Happy Returns → entrepôt.
+- `outboundshipment` — **id**, plus `"page[size]"` (défaut 50, max 1000), `"page[after]"`,
+  `"page[before]"`. Le contenu article par article d'un envoi groupé : c'est là qu'on voit si
+  l'article d'un client est effectivement en route.
+- `npsoverview` / `npsdetailed` — **days** entre 1 et 30. Le second rend 300 enregistrements par
+  page, avec curseur. Satisfaction post-retour.
+
+**Écriture (5), par risque croissant.**
+
+| Risque | Action | Détail |
+| --- | --- | --- |
+| 🟢 | `eligibility` | **email**, `returning[]` — quelles méthodes de retour sont offertes. Aucun effet de bord *(headless)* |
+| 🟡 | `returncontents` | **items** `[{happyReturnsItemID, returnBagBarcode, checkedInAt, disposition}]`, max 1000 par appel. Déclare à Happy Returns ce qu'on a reçu en entrepôt. `happyReturnsItemID:"unidentified"` exige `unidentifiedItemType` et `unidentifiedItemIndex` |
+| 🟡 | `expire` | **id** — referme un retour créé par l'API partenaire. Idempotent ; `409` si le retour a déjà un état final *(headless)* |
+| 🔴 | `approve` | **id** (`happyReturnsRMAID` ou `confirmationCode`, ex. `HRAB2BFE`), **returning** `[{happyReturnsItemID, approve, condition}]`. `condition` ∈ `damaged` / `sellable` / `missing` / `wrong-item` |
+| 🔴 | `createreturn` | **email**, `returning[]`, `dropoff_method_id` parmi `return-bar` / `in-store` / `mail` / `mail-nolabel` / `mail-nobox-nolabel` *(headless)* |
+
+`approve` **REMBOURSE** chaque article passé avec `approve:true`, et **l'API n'offre aucune
+annulation**. On approuve après inspection physique, jamais « pour voir » ni pour débloquer un
+client impatient. `createreturn` crée un vrai retour : courriel au client, étiquette ou code QR
+émis. Ces deux-là exigent une confirmation explicite dans le tour courant.
+
+Une correction reste possible sur la **condition** d'un article : renvoyer `approve:false` avec la
+nouvelle `condition`. Ça ne rappelle pas le remboursement déjà émis.
+
+Les trois actions *headless* — `eligibility`, `createreturn`, `expire` — dépendent d'une
+permission distincte chez Happy Returns. Sans elle, la réponse est `401` ou `403` : **ce n'est pas
+un bris du proxy**, c'est un droit que le compte n'a pas. Dis-le comme ça.
+
+Limite de débit : *leaky bucket*. Le `429` dit dans son **corps** combien de secondes attendre
+(`leaky bucket size X`) et il n'y a pas toujours d'en-tête `Retry-After` — le proxy retombe alors
+sur une attente par défaut. Donc pas de rafales : un retour à la fois, pas de boucle sur une liste
+de commandes.
+
+Deux choses ne passent pas par ce connecteur, et c'est voulu : l'onboarding d'un compte UPS
+(`/ups-byoa/authorization`, réservé à un partenaire qui embarque des marchands) et le service
+*agentic returns* de Happy Returns (`mcp.happyreturns.com`), un MCP distinct avec sa propre
+authentification.
+
 ## Vérifier un envoi — règle ferme
 
 Deux sources, jamais une seule : Shopify pour la commande, ShipStation pour l'expédition et le
@@ -189,7 +249,9 @@ suivi. Une commande payée peut n'avoir aucune expédition créée ; une expédi
 suivi transmis ; un envoi hors étiquette ShipStation apparaît dans `fulfillments` et non dans
 `shipments`. Ces cas se répondent différemment.
 
-`shopify_check.js` et `shipstation_check.js` font la vérification croisée.
+`shopify_check.js` et `shipstation_check.js` font la vérification croisée. Pour un colis de
+**retour**, la troisième source est `happyreturns return` : ShipStation ne voit pas les retours
+déposés en Return Bar.
 
 Pour rédiger la réponse au client ensuite, charge le skill **`missive`** : il porte le ton de
 marque et les réponses types d'expédition et de suivi, la catégorie la plus volumineuse de la boîte

@@ -13,7 +13,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | --- | --- |
 | `missive` | boîte support Missive, fils et brouillons, connaissances de service client et de marque, scripts de la boîte |
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
-| `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
+| `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo, Happy Returns |
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 | `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
 
@@ -32,6 +32,9 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   masquage, correction. Le proxy dérive lui-même les jetons de Page ; `page_id` est requis à
   chaque appel, sans quoi Meta refuse avec `(#10)`. Sert au traitement du backlog de
   commentaires (`fb-backlog/`).
+- **Happy Returns** (`HAPPY_RETURNS_API_KEY` côté Render) : la plateforme de RETOURS de Lasclay.
+  État d'un retour par no de commande / courriel / code express, envois groupés, NPS, contenu
+  des sacs reçus. ⚠️ `approve` REMBOURSE le client, `createreturn` crée un vrai retour.
 - **Klaviyo** (`KLAVIYO_API_KEY` côté Render, lecture seule) : profils, listes, segments,
   flows, campagnes, templates, événements — pour l'export exhaustif/migration.
   Export en masse : `node klaviyo_export.js profiles <dossier>` (CSV avec consentements).

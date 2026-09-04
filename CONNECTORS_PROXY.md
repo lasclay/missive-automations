@@ -12,6 +12,10 @@ Connecteurs actuels :
 - **Omnisend** (API v3, marketing courriel/SMS) : contacts, campagnes, commandes, produits,
   paniers en lecture ; création/mise à jour de contacts et déclenchement d'événements
   (automations) en écriture.
+- **Happy Returns** (API partenaire, `partner.happyreturns.com`) : la plateforme de **retours**
+  de Lasclay. Lecture des retours (par no de commande, courriel ou code express), des envois
+  groupés et du NPS ; écritures : approbation d'articles (⚠️ **rembourse le client**), contenu
+  des sacs reçus en entrepôt, et retours « headless » (création / expiration).
 - **QuickBooks Online** : DÉMÉNAGÉ dans un service dédié (`finance-proxy/`) pour isoler les
   finances — secrets Intuit et secret d'appel séparés de ce proxy. Voir
   `finance-proxy/FINANCE_PROXY.md`.
@@ -109,6 +113,34 @@ varient par endpoint (429 + `Retry-After`, gérés par le proxy).
 (consentements email/SMS + horodatages — preuve LCAP) en CSV réimportable, avec reprise sur
 interruption (fichier `.cursor`). Aussi : `list <ID>`, `segment <ID>`, `suppressed`.
 
+### Actions Happy Returns
+
+Auth Happy Returns : un seul en-tête, `X-Hr-Apikey: <HAPPY_RETURNS_API_KEY>`. L'identifiant du
+détaillant (`happyReturnsRetailerID`) est **injecté par le proxy** depuis
+`HAPPY_RETURNS_RETAILER_ID` ; on peut toujours le passer explicitement dans les params, il a
+alors priorité. Limite de débit : *leaky bucket* — un 429 dit dans son **corps** combien de
+secondes attendre (`too many requests: limit 0.5 requests/sec, leaky bucket size X`), sans
+en-tête `Retry-After` garanti. Donc : pas de rafales, un retour à la fois.
+
+| Action | Params (— requis en gras) | Effet |
+|---|---|---|
+| `return` | **un seul** de `orderNumber` \| `email` \| `happyReturnsExpressCode` (+ `cursor`) | 🟢 état d'un retour : articles, motifs, remboursements, suivi. `204` sans corps = aucun retour trouvé (pas une erreur). Deux critères à la fois = refusé |
+| `outboundshipments` | `startDateTime`, `endDateTime` (AAAA-MM-JJ ou ISO-8601 UTC ; défaut 24 h) | 🟢 envois groupés Happy Returns → entrepôt |
+| `outboundshipment` | **id** (+ `"page[after]"`, `"page[before]"`, `"page[size]"` — défaut 50, max 1000) | 🟢 contenu article par article d'un envoi groupé |
+| `npsoverview` | **days** (1 à 30) | 🟢 NPS agrégé |
+| `npsdetailed` | **days** (1 à 30) (+ `cursor`) | 🟢 NPS détaillé, 300 enregistrements par page |
+| `returncontents` | **items** `[{happyReturnsItemID, returnBagBarcode, checkedInAt, disposition}]` (max 1000) | 🟡 déclare à Happy Returns ce qu'on a reçu en entrepôt. `happyReturnsItemID: "unidentified"` exige `unidentifiedItemType` + `unidentifiedItemIndex` |
+| `approve` | **id** (`happyReturnsRMAID` ou `confirmationCode`, ex. `HRAB2BFE`), **returning** `[{happyReturnsItemID, approve, condition}]` | 🔴 **REMBOURSE** chaque article `approve:true`. Aucune annulation par l'API. `condition` ∈ `damaged`\|`sellable`\|`missing`\|`wrong-item` |
+| `eligibility` | **email**, `returning[]`, `return_fee`… | 🟢 méthodes de retour offertes, aucun effet de bord *(headless)* |
+| `createreturn` | **email**, `returning[]`, `dropoff_method_id` (`return-bar`\|`in-store`\|`mail`\|`mail-nolabel`\|`mail-nobox-nolabel`) | 🔴 crée un **vrai** retour : courriel au client, étiquette ou code QR émis *(headless)* |
+| `expire` | **id** | 🟡 referme un retour créé par l'API partenaire. Idempotent (déjà expiré → 200) ; `409` si le retour a déjà un état final *(headless)* |
+
+Les trois actions *headless* (`eligibility`, `createreturn`, `expire`) exigent une permission
+distincte chez Happy Returns : sans elle, la réponse est `401`/`403` — ce n'est pas un bris du
+proxy. L'onboarding de compte UPS (`/ups-byoa/authorization`) n'est **pas** exposé (il sert à un
+partenaire qui embarque des marchands). Le service *agentic returns* (`mcp.happyreturns.com`) est
+un MCP distinct avec sa propre auth : hors de ce proxy.
+
 > **QuickBooks** : actions, mise en place et rotation du refresh token → `finance-proxy/FINANCE_PROXY.md`.
 
 ---
@@ -139,6 +171,9 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `OMNISEND_API_KEY` | clé API Omnisend (Store settings → Integrations & API → API keys) |
 | `KLAVIYO_API_KEY` | clé privée Klaviyo `pk_...` (Settings → Account → API keys). Créer une clé **lecture seule** (scopes read) : le connecteur n'expose que des lectures. |
 | `KLAVIYO_REVISION` | (optionnel) révision d'API Klaviyo, défaut `2025-04-15` |
+| `HAPPY_RETURNS_API_KEY` | clé API Happy Returns (en-tête `X-Hr-Apikey`), fournie par Happy Returns à l'intégration |
+| `HAPPY_RETURNS_RETAILER_ID` | (optionnel) identifiant Happy Returns du détaillant, injecté dans les appels qui l'exigent — sans lui, il faut passer `happyReturnsRetailerID` à chaque appel |
+| `HAPPY_RETURNS_BASE` | (optionnel) base de l'API, défaut `https://partner.happyreturns.com` |
 | `PORT` | (auto, fourni par Render) |
 
 > QuickBooks : variables déménagées dans le service dédié — voir `finance-proxy/FINANCE_PROXY.md`.
@@ -195,6 +230,10 @@ curl -X POST https://connectors-proxy.onrender.com/shipstation/orders \
 curl -X POST https://connectors-proxy.onrender.com/shipstation/shipments \
   -H "X-Proxy-Secret: TON_SECRET" -H "Content-Type: application/json" \
   -d '{"trackingNumber":"1Z..."}'
+
+curl -X POST https://connectors-proxy.onrender.com/happyreturns/return \
+  -H "X-Proxy-Secret: TON_SECRET" -H "Content-Type: application/json" \
+  -d '{"orderNumber":"L-50468"}'
 ```
 
 ---

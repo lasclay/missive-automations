@@ -16,6 +16,9 @@
  *   GET  /connectors                   → liste les connecteurs + actions dispo (sans secret)
  *   POST /:connecteur/:action  {..params}  → exécute l'action (auth requise)
  *
+ * Connecteurs : ShipStation (v1 et v2), Omnisend, Klaviyo, Happy Returns (retours),
+ * Facebook Pages, Composio.
+ *
  * Premier connecteur : SHIPSTATION (API v1 « legacy », ssapi.shipstation.com,
  * auth Basic clé:secret). Actions LECTURE : orders, order, shipments,
  * fulfillments, carriers, stores, warehouses, listtags.
@@ -43,6 +46,12 @@
  *                           lecture seule suffit (scopes read). Sert à
  *                           l'export exhaustif/migration.
  *   KLAVIYO_REVISION        révision d'API Klaviyo (défaut 2025-04-15).       [optionnel]
+ *   HAPPY_RETURNS_API_KEY   clé API Happy Returns (en-tête X-Hr-Apikey),   [connecteur Happy Returns]
+ *                           fournie par Happy Returns à l'intégration.
+ *   HAPPY_RETURNS_RETAILER_ID  identifiant Happy Returns du détaillant, injecté  [optionnel]
+ *                           dans les appels qui l'exigent (sinon le passer à
+ *                           chaque appel).
+ *   HAPPY_RETURNS_BASE      base de l'API (défaut https://partner.happyreturns.com). [optionnel]
  *   COMPOSIO_API_KEY        clé de PROJET Composio (Developer Platform →      [connecteur Facebook]
  *                           Project Settings → API Keys ; en-tête x-api-key).
  *                           Voie par défaut : Composio détient la connexion
@@ -766,6 +775,161 @@ const klaviyo = (() => {
 })();
 
 // ==========================================================================
+// CONNECTEUR : Happy Returns (API partenaire — partner.happyreturns.com)
+// La plateforme de RETOURS de Lasclay (Happy Returns, filiale UPS) : c'est elle
+// qui porte les RMA, les codes express, les Return Bars et les envois groupés.
+//
+// Auth : UN SEUL en-tête, `X-Hr-Apikey: <HAPPY_RETURNS_API_KEY>`. Pas d'OAuth,
+// pas de secret second. La clé est fournie par Happy Returns à l'intégration et
+// vit UNIQUEMENT ici, côté Render.
+//
+// Identifiant marchand : presque tous les appels exigent l'identifiant Happy
+// Returns du détaillant. On le pose une fois dans HAPPY_RETURNS_RETAILER_ID et
+// le proxy l'injecte ; chaque action accepte quand même un
+// happyReturnsRetailerID explicite qui a priorité (utile si un jour plusieurs
+// détaillants partagent la clé).
+//
+// Limite de débit : « leaky bucket » côté Happy Returns. Un dépassement rend un
+// 429 dont le CORPS dit combien de secondes attendre
+// (`too many requests: limit 0.5 requests/sec, leaky bucket size X`) — il n'y a
+// pas toujours d'en-tête Retry-After, donc httpJson retombe sur son attente par
+// défaut avant de réessayer. Autrement dit : les rafales de lectures coûtent
+// cher, on interroge un retour à la fois.
+//
+// ⚠️ Ce qui touche à l'argent et au client, à lire avant d'appeler :
+//   - `approve` REMBOURSE le client pour les articles marqués approve:true. Il
+//     n'y a pas d'annulation par l'API. On approuve après inspection, jamais
+//     « pour voir ».
+//   - `createreturn` crée un VRAI retour (courriel au client, étiquette ou code
+//     QR émis) et `expire` le referme. Ces deux-là, plus `eligibility`,
+//     n'existent que pour les intégrations « headless » : sans cette permission,
+//     Happy Returns répond 401/403 — ce n'est pas un bris du proxy.
+//   - `returncontents` déclare à Happy Returns ce qu'on a réellement reçu en
+//     entrepôt (boucle logistique inverse). Écrit, mais sans effet monétaire.
+// L'onboarding de compte UPS (/ups-byoa/authorization) n'est PAS exposé : il sert
+// à un partenaire qui embarque des marchands, pas à Lasclay.
+// Le service « agentic returns » (mcp.happyreturns.com) est un MCP distinct, avec
+// sa propre authentification : hors de ce connecteur.
+// ==========================================================================
+const happyreturns = (() => {
+  const KEY = process.env.HAPPY_RETURNS_API_KEY || "";
+  const RETAILER = process.env.HAPPY_RETURNS_RETAILER_ID || "";
+  const BASE = process.env.HAPPY_RETURNS_BASE || "https://partner.happyreturns.com";
+  const hdr = () => ({ "X-Hr-Apikey": KEY });
+  const get = (path, params) => httpJson({ method: "GET", url: `${BASE}${path}${qs(params)}`, headers: hdr() });
+  const post = (path, body) => httpJson({ method: "POST", url: `${BASE}${path}`, headers: hdr(), body: body || {} });
+  const requis = (p, ...champs) => {
+    for (const c of champs) if (!p || p[c] === undefined || p[c] === null || p[c] === "") throw new Error(`${c} requis`);
+    return p;
+  };
+  // Identifiant du détaillant : celui de l'appel, sinon celui de Render.
+  const retailer = (p, champ = "happyReturnsRetailerID") => {
+    const v = (p && p[champ]) || RETAILER;
+    if (!v) throw new Error(`${champ} requis (ou définir HAPPY_RETURNS_RETAILER_ID côté proxy)`);
+    return v;
+  };
+  return {
+    name: "happyreturns",
+    description:
+      "Happy Returns (plateforme de retours) : détails d'un retour par no de commande / courriel / code express, envois groupés, NPS. Écritures : approbation d'articles (REMBOURSE), contenu des sacs de retour, retours headless.",
+    enabled: () => !!KEY,
+    actions: {
+      // ---- LECTURE ----
+      // LE point d'entrée du service client : l'état d'un retour. Recherche par
+      // UN SEUL critère à la fois — orderNumber, email OU happyReturnsExpressCode
+      // (en donner deux = 400 côté Happy Returns). Réponse = mêmes champs que le
+      // webhook « return » (articles, motifs, remboursements, suivi, statut).
+      // Params : orderNumber | email | happyReturnsExpressCode
+      //          (+ cursor pour la page suivante, + happyReturnsRetailerID).
+      // 204 sans corps = aucun retour trouvé (ce n'est pas une erreur).
+      return: (p) => {
+        const cles = ["orderNumber", "email", "happyReturnsExpressCode"];
+        const fournies = cles.filter((c) => p && p[c]);
+        if (fournies.length === 0) throw new Error("un critère requis : orderNumber, email ou happyReturnsExpressCode");
+        if (fournies.length > 1) throw new Error(`un SEUL critère à la fois (reçus : ${fournies.join(", ")})`);
+        return post("/return", {
+          happyReturnsRetailerID: retailer(p),
+          [fournies[0]]: p[fournies[0]],
+          ...(p.cursor ? { cursor: p.cursor } : {}),
+        });
+      },
+      // Envois groupés (Happy Returns consolide les retours d'un Return Bar en
+      // une palette/boîte vers l'entrepôt). Params : startDateTime, endDateTime
+      // (AAAA-MM-JJ ou ISO-8601 UTC ; défaut = dernières 24 h), retailerID.
+      outboundshipments: (p) => {
+        const { retailerID, happyReturnsRetailerID, ...q } = p || {};
+        return get("/outbound-shipments", { ...q, retailerID: retailer(p, "retailerID") });
+      },
+      // Contenu détaillé d'UN envoi groupé (article par article). Params : id
+      // (+ pagination "page[after]", "page[before]", "page[size]" — défaut 50, max 1000).
+      outboundshipment: (p) => {
+        const { id, retailerID, happyReturnsRetailerID, ...page } = requis(p, "id");
+        return get(`/outbound-shipment/${encodeURIComponent(id)}`, page);
+      },
+      // Satisfaction client (NPS) — vue agrégée. Params : days (1 à 30, requis).
+      npsoverview: (p) =>
+        get("/nps-overview", { days: requis(p, "days").days, happyReturnsRetailerID: retailer(p) }),
+      // NPS détaillé : jusqu'à 300 enregistrements par page (curseur dans la réponse).
+      // Params : days (1 à 30, requis), cursor.
+      npsdetailed: (p) =>
+        get("/nps-detailed", {
+          days: requis(p, "days").days,
+          happyReturnsRetailerID: retailer(p),
+          ...(p.cursor ? { cursor: p.cursor } : {}),
+        }),
+
+      // ---- ÉCRITURE ----
+      // ⚠️ APPROUVE des articles d'un RMA — chaque article approve:true DÉCLENCHE
+      // LE REMBOURSEMENT du client. Irréversible par l'API.
+      // Params : id = happyReturnsRMAID ou confirmationCode (ex. « HRAB2BFE »),
+      //          returning = [{ happyReturnsItemID, approve, condition }]
+      //          condition ∈ damaged | sellable | missing | wrong-item (facultatif ;
+      //          se corrige après coup en renvoyant approve:false + la bonne condition).
+      approve: (p) => {
+        requis(p, "id", "returning");
+        if (!Array.isArray(p.returning) || p.returning.length === 0) throw new Error("returning doit être un tableau non vide");
+        for (const it of p.returning) {
+          if (!it || !it.happyReturnsItemID) throw new Error("chaque élément de returning exige happyReturnsItemID");
+          if (typeof it.approve !== "boolean") throw new Error("chaque élément de returning exige approve (true/false)");
+        }
+        return post(`/rma/${encodeURIComponent(p.id)}/approve`, { returning: p.returning });
+      },
+      // Déclare à Happy Returns le contenu réellement reçu en entrepôt (jusqu'à
+      // 1000 articles par appel). Params : items = [{ happyReturnsItemID,
+      // returnBagBarcode, checkedInAt, disposition, ... }] — happyReturnsItemID
+      // vaut « unidentified » pour un article non identifié (alors
+      // unidentifiedItemType et unidentifiedItemIndex deviennent obligatoires).
+      returncontents: (p) => {
+        requis(p, "items");
+        if (!Array.isArray(p.items) || p.items.length === 0) throw new Error("items doit être un tableau non vide");
+        if (p.items.length > 1000) throw new Error("1000 articles maximum par appel (découper en lots)");
+        return post("/return-contents", [{ happyReturnsRetailerID: retailer(p), items: p.items }]);
+      },
+
+      // ---- HEADLESS (permission distincte chez Happy Returns ; 401/403 sinon) ----
+      // Évalue les méthodes de retour offertes pour un panier d'articles. Aucun
+      // effet de bord. Params : email, returning[] (+ return_fee, shipping_method_id...).
+      eligibility: (p) => {
+        const { happyReturnsRetailerID, ...body } = p || {};
+        return post("/return_eligibility", { ...body, retailer_id: retailer(p, "retailer_id") });
+      },
+      // ⚠️ CRÉE un vrai retour : courriel au client, étiquette ou code QR émis.
+      // Params : email, returning[], dropoff_method_id (return-bar | in-store |
+      // mail | mail-nolabel | mail-nobox-nolabel ; défaut return-bar), et le reste
+      // du corps documenté par Happy Returns, passé tel quel.
+      createreturn: (p) => {
+        requis(p, "email");
+        const { happyReturnsRetailerID, ...body } = p;
+        return post("/create_return", { ...body, retailer_id: retailer(p, "retailer_id") });
+      },
+      // Referme un retour créé par l'API partenaire. Idempotent (un retour déjà
+      // expiré rend 200) ; refuse un retour déjà terminé (409). Params : id.
+      expire: (p) => post(`/rma/${encodeURIComponent(requis(p, "id").id)}/expire`, {}),
+    },
+  };
+})();
+
+// ==========================================================================
 // REGISTRE DES CONNECTEURS — ajouter un nouveau connecteur = ajouter une entrée.
 // ==========================================================================
 const CONNECTEURS = {
@@ -773,6 +937,7 @@ const CONNECTEURS = {
   [shipstation2.name]: shipstation2,
   [omnisend.name]: omnisend,
   [klaviyo.name]: klaviyo,
+  [happyreturns.name]: happyreturns,
   [facebook.name]: facebook,
   [composio.name]: composio,
 };

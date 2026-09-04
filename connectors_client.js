@@ -25,6 +25,14 @@
  *   node connectors_client.js omnisend campaigns '{"limit":10}'
  *   node connectors_client.js omnisend triggerevent '{"body":{"systemName":"mon-evenement","email":"client@exemple.com"}}'
  *
+ * Exemples Happy Returns (plateforme de retours) :
+ *   node connectors_client.js happyreturns return '{"orderNumber":"L-50468"}'
+ *   node connectors_client.js happyreturns return '{"email":"client@exemple.com"}'
+ *   node connectors_client.js happyreturns outboundshipments '{"startDateTime":"2026-08-01"}'
+ *   node connectors_client.js happyreturns npsoverview '{"days":30}'
+ *   ⚠️ approve REMBOURSE le client (aucune annulation par l'API) :
+ *      node connectors_client.js happyreturns approve '{"id":"HRAB2BFE","returning":[{"happyReturnsItemID":"88a8b366-...","approve":true,"condition":"sellable"}]}'
+ *
  * QuickBooks : service dédié (isolation des finances) → utiliser finance_client.js
  * avec FINANCE_PROXY_URL + FINANCE_PROXY_SECRET. Voir finance-proxy/FINANCE_PROXY.md.
  */
