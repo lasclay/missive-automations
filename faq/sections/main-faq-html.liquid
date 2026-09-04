@@ -179,7 +179,7 @@
       {%- if section.settings.show_search -%}
         <form class="faqh__search" role="search" onsubmit="return false">
           <svg aria-hidden="true"><use href="#faqh-search"/></svg>
-          <input type="search" placeholder="{{ section.settings.search_placeholder | escape }}" aria-label="{{ 'faq.search.label' | t | escape }}" autocomplete="off" data-faqh-search>
+          <input type="search" placeholder="{{ section.settings.search_placeholder | escape }}" aria-label="{{ section.settings.search_placeholder | escape }}" autocomplete="off" data-faqh-search>
           <button type="button" data-faqh-clear>{{ section.settings.clear_label | escape }}</button>
         </form>
       {%- endif -%}
@@ -202,7 +202,11 @@
 
     <main class="faqh__content" data-faqh-content>
       <div class="faqh__noresult" data-faqh-noresult>{{ section.settings.no_results | escape }}</div>
-      {{ page.content }}
+      {%- if section.settings.content_source == 'snippet' -%}
+        {%- render 'faq-content' -%}
+      {%- else -%}
+        {{ page.content }}
+      {%- endif -%}
     </main>
   </div>
 
@@ -377,6 +381,10 @@
   "class": "section-faq-html",
   "settings": [
     { "type": "paragraph", "content": "Le contenu vient du corps de la page (Contenu > Pages). Cette section fournit l'en-tête, la recherche, le sommaire et le style." },
+    { "type": "select", "id": "content_source", "label": "Source du contenu", "default": "page", "options": [
+      { "value": "page", "label": "Corps de la page (admin)" },
+      { "value": "snippet", "label": "Fichier snippets/faq-content.liquid (aperçu, migration)" }
+    ] },
     { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Aide et questions fréquentes" },
     { "type": "text", "id": "title", "label": "Titre", "default": "Comment pouvons-nous vous aider?" },
     { "type": "text", "id": "lead", "label": "Phrase d'introduction", "default": "Les réponses courtes d'abord, le détail ensuite. Pour tout ce qui touche une commande précise, gardez votre numéro de commande sous la main." },
