@@ -30,6 +30,15 @@ publication sont listés dans la maquette (notes « À valider ») et plus bas.
 
 ## État au 4 septembre 2026
 
+- **« sep 2026 » est publié** depuis 19 h 45 (UTC). La FAQ publique utilise la nouvelle section.
+- Correctif à publier : le CSS de Showcase (`assets/styles.css`) donne une largeur nulle au bandeau
+  `.faq-cats`, donc les cartes-photos par sujet n'apparaissaient pas en ligne. La section ajoute
+  `width: 100%` (commit `8d574aa`) ; poussée dans le thème **« Copy of sep 2026 »** avec l'en-tête
+  « Par sujet » empilé sur mobile. À publier, ou recopier la section dans le thème en ligne.
+- Traduction anglaise : Langify a traduit automatiquement le corps de la page (37 questions) ; à relire.
+  Les réglages de la section (accroche, titre, phrase d'intro, texte de recherche, bloc contact) sont
+  encore en français sur `/en/pages/faq` : à traduire sous Thème dans Langify ou Translate & Adapt.
+
 - Le **corps de la page FAQ** (Contenu > Pages > FAQ) contient le nouveau contenu, poussé par
   l'API. Le thème en ligne l'ignore (son gabarit n'affiche pas le contenu de page), donc le site
   public n'a pas changé.
