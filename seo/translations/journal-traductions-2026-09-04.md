@@ -244,7 +244,70 @@ Vérifié et laissé tel quel :
 - Coupures de presse du blogue : corps en français (voir lot 9).
 - Produits en brouillon (combos) : options traduites, descriptions non.
 
-## À faire côté français (relevé pendant la traduction)
+## Corrections côté français (4 septembre, après-midi)
+
+À la demande de Gabriel, les points relevés ci-dessous ont été corrigés dans le français
+courant, puis les traductions anglaises touchées ont été republiées avec le nouveau digest
+(sinon Shopify les marque « périmées »). Avant/après complet de chaque champ :
+`corrections-fr-2026-09-04.json`.
+
+Corrigé dans Shopify (contenu, zone verte) :
+
+- FAQ, corps de page : « Livraison gratuite dès 100 $ » devient « Livraison Xpresspost
+  gratuite dès 98,59 $ d'achat, partout au Canada. Sous ce montant, comptez 6,99 $ en
+  livraison standard ou 9,99 $ en Xpresspost » (tarifs vérifiés dans les profils
+  d'expédition).
+- Points de vente : en-tête « Vancouver » devient « Colombie-Britannique » (Local
+  Refillery est à Courtenay) ; l'anglais disait déjà « British Columbia ».
+- Guide de plantation : « asclépaide » → « asclépiade », « oùl'ensoleillement » → « où
+  l'ensoleillement », « rongueurs » → « rongeurs » ; le lien graines pointe directement sur
+  `/products/milkweed-seeds` ; les deux liens « procurez-vous des bombes semencières »
+  (produits retirés) remplacés par « Les bombes semencières ne sont plus offertes. Le guide
+  ci-dessus reste utile si vous en avez encore à planter. » Même chose en anglais.
+- Collection Fin de saison : la date « 2 mars 2024 » remplacée par une description
+  permanente ; anglais republié en conséquence.
+- Collection Pour tous les jours, méta description : « fabriqués avec des matériaux
+  locaux » devient « isolés à la soie d'asclépiade, une fibre végétale cultivée et
+  transformée au Québec ». Note : `collectionUpdate` avec `seo.description` seul a vidé le
+  titre SEO ; il a été rétabli aussitôt (« Pour Tous Les Jours | Essentiels du quotidien
+  écoresponsables ») et les deux clés EN republiées.
+- Sac de couchage, champ Dimensions : « 131,5" (80cm) » → « 31,5" (80cm) ».
+- Produits en brouillon (combos bandeau) : option « … - Précommande novembre 2025
+  (Couleur) » → « Bandeau d'asclépiade torsadé extra-doux (Couleur) » ; valeur « Noir -
+  Précommande Hiver 25-26 » → « Noir ». Anglais republié.
+
+Vérifié en ligne après publication : plus aucune des trois fautes sur `/pages/planting-guide`,
+note « bombes semencières » visible en FR et en EN, en-têtes Colombie-Britannique /
+British Columbia sur les points de vente.
+
+Laissé tel quel : la méta de la collection Sacs isothermes (« isolant d'asclépiade cultivé
+et fabriqué au Québec ») vise l'isolant, pas le produit fini, formulation conforme aux
+règles de la marque.
+
+À faire dans l'éditeur de thème (écriture bloquée sur le thème publié, zone jaune) :
+
+- Pied de page (groupe de sections `footer`, bloc texte) : « Produits d'asclépiade
+  cueillis, conçus et fabriqués avec amour au Québec, Canada. » → « Isolant d'asclépiade
+  cueilli, conçu et fabriqué avec amour au Québec, Canada. » (c'est déjà ce que disent les
+  réglages du thème et l'anglais).
+- Barre d'annonce (en-tête, désactivée) : « LIVRAISON GRATUITE SUR LES COMMANDES DE 119$+ »
+  → « LIVRAISON GRATUITE AU CANADA DÈS 98,59 $ ».
+- Gabarit `page.faq`, accordéon « Tarifs de livraison » (c'est ce texte qui s'affiche sur
+  `/pages/faq`, pas le corps de page : le gabarit a `show_content: false`) : « supérieur à
+  100.00$ … 7.99$ » → « Livraison Xpresspost (Postes Canada) gratuite partout au Canada dès
+  98,59 $ d'achat. Sous ce montant, la livraison coûte 6,99 $ (standard) ou 9,99 $
+  (Xpresspost). Les articles très légers qui tiennent dans une enveloppe partent par timbre
+  à 2,99 $, sans suivi. Aux États-Unis : 6,99 $ US sous 59,99 $ US d'achat, gratuite à
+  partir de 59,99 $ US. » (l'anglais publié dit déjà cela).
+- Même gabarit, accordéon « Où sont fabriqués vos produits? » : dit « Tout est fait au
+  Québec, sauf les coquilles… », ce qui contredit la nouvelle FAQ (assemblage en Tunisie
+  pour la plupart des produits). À réécrire ou à remplacer par le corps de page
+  (`show_content: true` et retrait des accordéons).
+- Même gabarit, « Où livrez-vous? » : « partout au Canada pour le moment » alors que la
+  caisse livre aux États-Unis, en Europe, au Royaume-Uni, en Australie, en Nouvelle-Zélande
+  et au Mexique.
+
+## À faire côté français (relevé pendant la traduction, traité ci-dessus le 4 septembre)
 
 - Barre d'annonce du thème : « 119 $ » alors que la caisse offre la livraison gratuite dès
   98,59 $.
