@@ -152,21 +152,18 @@ donne l'air d'un bogue. **Minimum 100 g** pour un colis.
 
 | Poids | Articles | N par enveloppe |
 | --- | --- | --- |
-| 5–12 g | illustrations, soie en vrac, sachets de graines, bijoux (10 g) | 6–7 |
-| 20–35 g | tuque sport, manchons, étui téléphone, bandeau (32 g), kit bandoulière | 2–3 |
-| **25 g** | **semelles intérieures** — voir l'avertissement ci-dessous | 2 (visé : 3) |
-| 50–70 g | mitaine seule, tuque de ville, gants magiques, cache-cou enfant | 1 |
-| 100 g + | tout le reste : mitaines, foulards, manteaux, sacs, oreillers, cosmétiques | colis |
+| 1–12 g | porte-clés et sous-verres en bois (1 g), illustrations, soie en vrac, sachets de graines, bijoux (10 g) | 6 et plus |
+| 20–35 g | tuque sport, manchons, étui téléphone, bandeau (32 g), kit bandoulière, mitaines bébé | 2–3 |
+| **24 g** | **savon glycérine à l'unité** — 3 par enveloppe (le paquet de 4 est un colis) | 3 |
+| **25 g** | **semelles intérieures** — 2 par enveloppe, décision de sept. 2026 | 2 |
+| 40–70 g | cache-cou (40 g), mitaine seule, cache-cou enfant (60 g), tuque de ville, gants magiques | 1 |
+| 100 g + | tout le reste : mitaines, foulards, manteaux, t-shirts (200 g), couvertures, sacs, oreillers, cosmétiques | colis |
 
-> ⚠️ **Incohérence connue (à trancher, non corrigée).** Les semelles portent 25 g avec l'intention
-> d'en mettre **3** par enveloppe. Or 3 × 25 = **75 g > 73 g** : le tarif timbre **ne s'affiche pas**
-> pour 3 paires aujourd'hui, le client voit 6,99 $. Deux correctifs possibles, l'un ou l'autre, pas
-> les deux :
-> - monter le plafond du tarif à **75 g** (`DeliveryMethodDefinition/771114205403`) — corrige le cas
->   sans déplacer aucun autre produit du catalogue actuel ;
-> - ou descendre les semelles à **24 g** et appliquer ⌊73/N⌋ partout.
->
-> C'est un changement de tarif en production : **demande avant de le faire.**
+> **Le plafond est 73 g, pas 75.** La tentation récurrente est de le monter pour « faire entrer »
+> un cas limite. Le cas qui la déclenche : 3 × 25 g de semelles = 75 g, donc 3 paires ne passent pas
+> en timbre. **C'est le comportement voulu** — les semelles sont à 2 par enveloppe. Ne touche pas au
+> plafond du tarif (`DeliveryMethodDefinition/771114205403`) : il est le dénominateur de tout le
+> catalogue, le déplacer d'un gramme rejuge silencieusement chaque produit.
 
 ### Poser un poids
 
@@ -206,6 +203,9 @@ Trois signaux à traquer, dans cet ordre de gravité :
 2. variante **≤ 73 g sur un produit cher ou volumineux** → timbre non intentionnel ;
 3. **une seule variante à 0 g** parmi des sœurs à 250 g → variante ajoutée après coup, oubliée
    (le cas classique : une taille 2XL ajoutée plus tard).
+
+Balayage complet du catalogue ACTIVE (sept. 2026) : aucune variante à 0 g ne subsiste, sauf
+`langify_image_container` — c'est le produit fantôme de langify, il doit rester tel quel.
 
 ---
 

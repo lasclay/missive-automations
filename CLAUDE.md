@@ -70,7 +70,8 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   « Stamp / timbre » à 2,99 $ (sans suivi) s'affiche si le **panier** pèse ≤ 73 g. Pour un article
   qui s'expédie en timbre à N par enveloppe : poids = ⌊73/N⌋. Pour un colis : > 73 g (min 100 g).
   **0 g = timbre en quantité illimitée** — c'est le défaut des produits créés par API, et une fuite
-  de tarif dès que le produit est ACTIVE.
+  de tarif dès que le produit est ACTIVE. Le plafond de 73 g ne se déplace pas : il est le
+  dénominateur de tout le catalogue.
 - Doc complète et garde-fous : skill `shopify`.
 
 ## Missive Proxy
