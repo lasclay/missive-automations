@@ -3034,6 +3034,20 @@
       "motif": "Réponse rédigée mais impossible à publier : 502 de l'API Meta sur ce commentaire, deux tentatives — même signature que les commentaires supprimés ou masqués. Rien à corriger côté texte.",
       "page_id": "114311920399404",
       "quand": "2026-09-05T10:46:58.606Z"
+    },
+    {
+      "id": "988691833397470_1097406552151441",
+      "extrait": "Effectivement, première augmentation en plusieurs années",
+      "motif": "Affirmation sur les recensements mexicains, quatrième variante écartée dans ce sous-fil : aucun chiffre vérifié de notre côté, donc rien à confirmer ni à nuancer honnêtement.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T12:37:57.818Z"
+    },
+    {
+      "id": "988691833397470_536033022871979",
+      "extrait": "France Lefebvre les Mexicains ne sont pas des chasseurs de papillons 🦋",
+      "motif": "Réponse rédigée mais impossible à publier : 502 de l'API Meta, deux tentatives. Troisième commentaire du backlog avec cette signature — vraisemblablement supprimé ou masqué depuis la collecte.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T12:38:28.977Z"
     }
   ]
 }
