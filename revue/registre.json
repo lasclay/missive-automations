@@ -2,6 +2,20 @@
  "version": 1,
  "ameliorations": [
   {
+   "id": "R-20260904-01",
+   "titre": "Juger les tirs horaires sur leur cadence du jour, pas sur un seuil de 30 heures",
+   "gravite": "majeur",
+   "etat": "proposee",
+   "propose_le": "2026-09-04",
+   "source": "revue 2026-09-04",
+   "constat": "Le tir A s'est arrete a 10 h 12 le 4 septembre apres trois tirs, alors que les tirs B, C et D en ont fait 13, 12 et 14. Sept heures ouvrables consecutives sans tir, 9 commentaires traites contre 87 la veille — et la collecte affiche « a jour (11,5 h) », parce que le seuil de fraicheur du tir A est de 30 heures, soit plus qu'une journee ouvrable entiere. Une routine horaire ne peut pas etre jugee sur un seuil concu pour une routine quotidienne : l'arret d'une journee complete passe inapercu.",
+   "preuve": "Commits du tir A le 2026-09-04 : trois seulement, a 07:20:27, 08:20:26 et 10:12:57 heure de l'Est. Derniere ligne de A-journal.jsonl : 2026-09-04T14:12:40.247Z. Meme journee, meme fenetre : tir B 13 commits, tir C 12, tir D 14. Fiche de collecte du tir A : age_h 11.5, seuil_h 30, verdict « a jour ». Bilan du jour : 3 publiees et 6 ecartes, contre 87 commentaires traites le 3 septembre.",
+   "proposition": "Pour les quatre routines a trace jsonl dont le cron est horaire, remplacer dans collecte.js le seuil unique en heures par un controle de cadence sur la journee ecoulee : compter les heures ouvrables (9 h a 17 h Est, sans midi) ou la routine a laisse au moins une trace, et rendre un verdict INTERROMPUE des que trois creneaux consecutifs sont vides alors qu'une autre routine du meme groupe a tire pendant ce temps — la comparaison entre tirs distinguant une panne propre a un tir d'un arret general.",
+   "portee": "revue/collecte.js, revue/routines.json",
+   "risque": "L'inventaire documente qu'un tir saute volontairement une fois sur six, deux fois sur six la fin de semaine : un seuil de trois creneaux consecutifs doit etre verifie contre l'historique des journaux avant d'etre fige, sinon la revue criera au faux positif les samedis et perdra sa credibilite exactement comme l'aurait fait le compteur d'inauthenticite de R-20260902-01. Verifier sur les journaux des quatre tirs avant de figer le seuil.",
+   "effort": "1 h"
+  },
+  {
    "id": "R-20260903-01",
    "titre": "Compter le reproche d'inauthenticite sur des formes multi-mots, validees sur trois cas connus",
    "gravite": "majeur",
