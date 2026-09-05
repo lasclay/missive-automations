@@ -1944,8 +1944,16 @@
       "quand": "2026-09-05T14:38:40Z",
       "confirme": true,
       "texte": "(publié malgré un 502 sur la relecture — confirmé par facebook/comments)"
+    },
+    {
+      "id": "988691833397470_1183738189793951",
+      "reponse_id": "988691833397470_1056109847172857",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T15:38:28.359Z",
+      "confirme": true,
+      "texte": "Merci pour la mise au point 🦋 C'est précisément ce qu'on perd de vue : un papillon qui traverse trois pays ne peut pas être sauvé par un seul d'entre eux. Le détail des générations successives, votre commentaire l'explique mieux que ce qu'on saurait en dire — on le laisse tel quel. Ce qu'on ajoute : l'aire de reproduction, celle qui pèse le plus lourd dans les études sur le déclin, se trouve au nord du Mexique."
     }
   ],
-  "total": 238,
-  "derniere_execution": "2026-09-05T10:38:24.793Z"
+  "total": 244,
+  "derniere_execution": "2026-09-05T15:38:28.359Z"
 }
