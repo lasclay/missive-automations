@@ -2658,13 +2658,6 @@
       "quand": "2026-09-04T18:40:16.434Z"
     },
     {
-      "id": "988691833397470_619372127668364",
-      "extrait": "(lien Netflix partagé sous le billet)",
-      "motif": "Réponse rédigée mais impossible à publier : l'API Meta renvoie un 502 sur ce commentaire précis, trois tentatives, y compris avec un message court — le commentaire parent semble supprimé ou masqué. Rien à corriger côté texte.",
-      "page_id": "114311920399404",
-      "quand": "2026-09-04T18:58:19.722Z"
-    },
-    {
       "id": "861131632820158_1235479694230172",
       "extrait": "Quand tu vas en boutique ce n'est que pour commander, ils n'ont pas en stock ?",
       "motif": "Question sur le stock d'un point de retrait : les points de vente et dépositaires ne font pas partie de nos faits vérifiés. Répondre supposerait d'inventer l'état d'un inventaire.",
@@ -3029,25 +3022,11 @@
       "quand": "2026-09-05T10:38:19.349Z"
     },
     {
-      "id": "988691833397470_1684105585563933",
-      "extrait": "Karl Roberge ils n hibernent pas ils migrent",
-      "motif": "Réponse rédigée mais impossible à publier : 502 de l'API Meta sur ce commentaire, deux tentatives — même signature que les commentaires supprimés ou masqués. Rien à corriger côté texte.",
-      "page_id": "114311920399404",
-      "quand": "2026-09-05T10:46:58.606Z"
-    },
-    {
       "id": "988691833397470_1097406552151441",
       "extrait": "Effectivement, première augmentation en plusieurs années",
       "motif": "Affirmation sur les recensements mexicains, quatrième variante écartée dans ce sous-fil : aucun chiffre vérifié de notre côté, donc rien à confirmer ni à nuancer honnêtement.",
       "page_id": "114311920399404",
       "quand": "2026-09-05T12:37:57.818Z"
-    },
-    {
-      "id": "988691833397470_536033022871979",
-      "extrait": "France Lefebvre les Mexicains ne sont pas des chasseurs de papillons 🦋",
-      "motif": "Réponse rédigée mais impossible à publier : 502 de l'API Meta, deux tentatives. Troisième commentaire du backlog avec cette signature — vraisemblablement supprimé ou masqué depuis la collecte.",
-      "page_id": "114311920399404",
-      "quand": "2026-09-05T12:38:28.977Z"
     },
     {
       "id": "988691833397470_1369139360752458",
@@ -3064,11 +3043,46 @@
       "quand": "2026-09-05T13:37:59.749Z"
     },
     {
-      "id": "988691833397470_1388102012370651",
-      "extrait": "C'est très irresponsable de présenter cette plante comme une sauveuse de monarques sans donner les explications et les risques liés",
-      "motif": "Critique de fond méritant réponse, rédigée (le « où et comment » : plein soleil, en talle, rien de pulvérisé ; les risques : latex amer, aucun cas documenté chez enfant ou animal de compagnie, danger réel = foin séché pour le bétail ; et notre règle de ne jamais écrire qu'un achat sauve un papillon). Impossible à publier : 502 de Meta, trois tentatives. Quatrième commentaire de suite dans ce cas — proxy vérifié en ligne et un autre tir a publié ce matin, donc ces commentaires sont vraisemblablement supprimés ou masqués. À reprendre si le backlog est remoissonné.",
+      "id": "988691833397470_643966641833929",
+      "extrait": "Catherine Parent toxique pour les chevaux et betail aussi",
+      "motif": "Commentaire parent du fil sur la toxicité : la nuance complète (latex amer, aucun cas documenté chez enfant ou animal de compagnie, danger réel = foin séché) est déjà publiée juste en dessous, dans le même sous-fil.",
       "page_id": "114311920399404",
-      "quand": "2026-09-05T13:38:50.319Z"
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_1701374604590743",
+      "extrait": "J'en ai à peine vu sur mon terrain l'été dernier, alors qu'il est rempli d'asclépiades",
+      "motif": "Constat déjà répondu deux fois sur ce billet. Une troisième réponse serait un calque.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_1012470663636922",
+      "extrait": "je te recontacte en privé en mai",
+      "motif": "Arrangement privé entre deux abonnés. Rien qui s'adresse à la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_1046229310888275",
+      "extrait": "pas d'asclepiade à partir de mont laurier jusqu'en abitibi",
+      "motif": "Répartition régionale : sujet explicitement absent de nos faits vérifiés. Ni confirmable ni corrigeable sans inventer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_998511425798156",
+      "extrait": "sera sur la liste des plants en voie de disparition […] une centaine de variétés dans le monde […] plante ultra nectarifère",
+      "motif": "Trois affirmations qu'on ne peut pas vérifier (statut d'espèce menacée pour la plante, nombre de variétés, qualificatif nectarifère). La partie juste — l'asclépiade profite aussi aux abeilles — a déjà sa réponse publiée sur ce billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_987503873088891",
+      "extrait": "planètesos.org vend des plants 5$. Dis moi si tu en veux je te les mets de côté",
+      "motif": "Même organisme tiers et même prix qu'un commentaire écarté hier : on ne se porte pas garant d'un tiers et on ne relaie pas de prix.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
     }
   ]
 }
