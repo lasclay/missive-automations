@@ -1984,8 +1984,24 @@
       "quand": "2026-09-05T20:37:54.235Z",
       "confirme": true,
       "texte": "C'est le mot juste : essentiel 🦋 Merci de l'avoir dit aussi simplement — bien des gens plantent de l'asclépiade en pensant surtout offrir des fleurs, alors que l'essentiel se joue sous les feuilles. Votre terrain, lui, sert à la génération suivante."
+    },
+    {
+      "id": "988691833397470_1216777440016001",
+      "reponse_id": "988691833397470_2592558827863757",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T21:38:21.949Z",
+      "confirme": true,
+      "texte": "Contourner les talles à la tondeuse, c'est le geste que peu de gens font et sans doute celui qui compte le plus 👏 Merci pour ça. Et tenez-vous-en là : ce qui vous manque, ce n'est pas de l'asclépiade, ce sont des monarques — et ça se décide pas mal plus loin que votre pelouse. Votre terrain, lui, sera prêt le jour où ils repasseront."
+    },
+    {
+      "id": "988691833397470_2144092806046560",
+      "reponse_id": "988691833397470_1544922216857622",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T21:41:23.760Z",
+      "confirme": true,
+      "texte": "Tant mieux, sincèrement — et on vous croit 🦋 Une chose peut être vraie chez vous et fausse à l'échelle du continent : un bon coin reste un bon coin, même quand le total baisse ailleurs. Les deux observations tiennent ensemble, elles ne se contredisent pas. En attendant, gardez votre terrain exactement comme il est."
     }
   ],
-  "total": 248,
-  "derniere_execution": "2026-09-05T20:37:54.235Z"
+  "total": 250,
+  "derniere_execution": "2026-09-05T21:41:23.761Z"
 }
