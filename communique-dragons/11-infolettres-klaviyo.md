@@ -10,7 +10,7 @@ Deux brouillons montés dans Klaviyo, aucun envoyé. Ils font suite à l'envoi d
 | Campagne | `01M1QGJXWA2DMREN50V89TFBC7` (nouvelle, `Draft`) | `01M15MY1ZG0FWGE6KXHV4Y4TD7` (existante, mise à jour, `Draft`) |
 | Message | `01M1QGJXWJNAZV54M7863R7A6B` | `01M15MY1ZRFQXAS0HG09TQ5BG1` |
 | Gabarit de bibliothèque | `Vc9Enn` | `UnsAUh` |
-| **Copie de campagne** (à relire et à éditer) | `TbfZTm` | `VKQWFg` |
+| **Copie de campagne** (à relire et à éditer) | `UFiS7J` | `Y6U8rU` |
 | Objet | On passe à Dragons' Den le 17 septembre | We're on Dragons' Den, September 17 |
 | Aperçu | Et les pinces recyclées: les essais ont marché. | Season 21, first episode. And the presale starts five days earlier. |
 
@@ -66,3 +66,26 @@ clients le 23 août, on ne le corrige pas sans changer le code dans Shopify.
    autrement.
 
 Tous les autres liens produits ont été vérifiés le 4 septembre 2026 : `200` en FR comme en EN.
+
+## Passe de révision `copywriting-lasclay`
+
+Quatre corrections après relecture au filtre du skill de rédaction.
+
+1. **« On lui doit une fière chandelle » retiré.** Cliché, et surtout une affirmation
+   invérifiable sur la blessure d'Alexandre. Reste le fait seul : « La journée ne s'est pas passée
+   sans accroc: Alexandre s'est blessé pendant les essais. »
+2. **« Soyons clairs: » retiré** devant l'avertissement sur le rôle de l'asclépiade dans la pince.
+   C'est un connecteur de dissertation qui transforme une affirmation en mise en scène. La phrase
+   affirme maintenant directement.
+3. **« un produit fait entièrement ici » retiré.** C'est la forme exacte que les garde-fous
+   interdisent sur un produit fini, même quand elle est défendable. L'énumération qui la précède
+   (plastique de Limoilou, asclépiade transformée au Québec, moulage par Unique Plastique à Québec)
+   dit la même chose sans slogan.
+4. **EN : « When we press the seeds, oil comes out. It sat in a pail » remplacé.** C'est
+   littéralement l'image que Gabriel avait écartée en août, « jolie mais creuse ». Le bloc EN
+   explique maintenant la matière comme la version FR retenue : 20 % de soie et 30 % de graines
+   dans la cocotte, environ 10 % d'huile, analyse du CRIQ avec le lien, oméga 6, 9 et 7, cinq des
+   huit formes de vitamine E.
+
+Une seule antithèse reste dans chaque version, à l'endroit où elle porte : l'asclépiade de la
+pince brune ne joue aucun rôle technique, elle valorise un résidu.
