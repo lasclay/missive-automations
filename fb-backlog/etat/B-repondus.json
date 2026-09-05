@@ -1096,8 +1096,16 @@
       "quand": "2026-09-05T17:32:35.174Z",
       "confirme": true,
       "texte": "Quebec City. The floss is processed at our workshop in Limoilou, and orders ship to addresses in Canada and the United States."
+    },
+    {
+      "id": "122142476066483418_1685362222087217",
+      "reponse_id": "122142476066483418_1062123139744590",
+      "page_id": "368305119707866",
+      "quand": "2026-09-05T23:27:12.818Z",
+      "confirme": true,
+      "texte": "No — we are in Quebec, in Canada. Orders go to addresses in both countries."
     }
   ],
-  "derniere_execution": "2026-09-05T17:32:35.175Z",
-  "total": 137
+  "derniere_execution": "2026-09-05T23:27:12.819Z",
+  "total": 138
 }
