@@ -57,9 +57,9 @@ clients le 23 août, on ne le corrige pas sans changer le code dans Shopify.
 2. **La collection « Nouveautés - Prévente d'automne 2026 » n'est pas publiée** sur la boutique
    en ligne : `/collections/nouveautes-prevente-dautomne-2026` rend aussi un 404. Aucun lien de
    collection dans les deux courriels pour cette raison.
-3. **La blessure d'Alexandre.** Le texte FR dit « Alexandre s'est blessé pendant les essais. On
-   lui doit une fière chandelle. » Rien de plus, faute de détails. À préciser ou à retirer selon
-   ce qu'Alexandre est à l'aise de voir écrit.
+3. **La blessure d'Alexandre.** Le texte FR dit « La journée ne s'est pas passée sans accroc:
+   Alexandre s'est blessé pendant les essais. » Rien de plus, faute de détails. À préciser ou à
+   retirer selon ce qu'Alexandre est à l'aise de voir écrit. La version EN ne la mentionne pas.
 4. **Aucune photo du plateau de CBC** n'a été mise dans les courriels. Le matériel du dossier
    CBC sert à annoncer la diffusion, pas à accompagner une promotion de produits, et les deux
    infolettres vendent la prévente. `dragons-plateau.jpg` reste disponible si Gabriel juge
