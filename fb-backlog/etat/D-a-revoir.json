@@ -3020,6 +3020,20 @@
       "motif": "Quatrième relais du dossier Stablex, doublé d'une diatribe. La Page ne prend pas parti dans ce conflit et n'amplifie pas le désespoir.",
       "page_id": "114311920399404",
       "quand": "2026-09-05T03:38:39.198Z"
+    },
+    {
+      "id": "988691833397470_1799172323988117",
+      "extrait": "Francois Bergeron osti de niouf comme y'en a trop",
+      "motif": "Insulte pure adressée à un abonné. La Page ne répond pas et n'amplifie pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T10:38:19.349Z"
+    },
+    {
+      "id": "988691833397470_1684105585563933",
+      "extrait": "Karl Roberge ils n hibernent pas ils migrent",
+      "motif": "Réponse rédigée mais impossible à publier : 502 de l'API Meta sur ce commentaire, deux tentatives — même signature que les commentaires supprimés ou masqués. Rien à corriger côté texte.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T10:46:58.606Z"
     }
   ]
 }
