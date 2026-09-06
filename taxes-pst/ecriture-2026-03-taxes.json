@@ -1,0 +1,276 @@
+{
+ "entity": "JournalEntry",
+ "body": {
+  "TxnDate": "2026-03-31",
+  "DocNumber": "2026-03 Taxes",
+  "PrivateNote": "Le formulaire des taxes Shopify se trouve ici: https://admin.shopify.com/store/lasclay/reports/finances/taxes",
+  "Line": [
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 3370.01,
+    "JournalEntryLineDetail": {
+     "PostingType": "Debit",
+     "AccountRef": {
+      "value": "132"
+     }
+    }
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 28.76,
+    "JournalEntryLineDetail": {
+     "PostingType": "Credit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "7"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 28.76
+    },
+    "Description": "GST - ALBERTA"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 5.76,
+    "JournalEntryLineDetail": {
+     "PostingType": "Credit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "7"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 5.76
+    },
+    "Description": "GST - BRITISH COLUMBIA"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 8.06,
+    "JournalEntryLineDetail": {
+     "PostingType": "Credit",
+     "AccountRef": {
+      "value": "242"
+     },
+     "TaxRateRef": {
+      "value": "61"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 8.06
+    },
+    "Description": "PST - BRITISH COLUMBIA"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 0.0,
+    "JournalEntryLineDetail": {
+     "PostingType": "Debit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "7"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 0.0
+    },
+    "Description": "GST - MANITOBA"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 0.0,
+    "JournalEntryLineDetail": {
+     "PostingType": "Debit",
+     "AccountRef": {
+      "value": "239"
+     },
+     "TaxRateRef": {
+      "value": "48"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 0.0
+    },
+    "Description": "PST - MANITOBA"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 0.0,
+    "JournalEntryLineDetail": {
+     "PostingType": "Debit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "29"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 0.0
+    },
+    "Description": "HST - NEW BRUNSWICK"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 0.0,
+    "JournalEntryLineDetail": {
+     "PostingType": "Debit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "33"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 0.0
+    },
+    "Description": "HST - NEWFOUNDLAND & LABRADOR"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 0.0,
+    "JournalEntryLineDetail": {
+     "PostingType": "Debit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "7"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 0.0
+    },
+    "Description": "GST - NORTHWEST TERRITORIES"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 12.18,
+    "JournalEntryLineDetail": {
+     "PostingType": "Debit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "39"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 12.18
+    },
+    "Description": "HST - NOVA SCOTIA"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 145.31,
+    "JournalEntryLineDetail": {
+     "PostingType": "Credit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "25"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 145.31
+    },
+    "Description": "HST - ONTARIO"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 0.0,
+    "JournalEntryLineDetail": {
+     "PostingType": "Debit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "37"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 0.0
+    },
+    "Description": "HST - PRINCE EDWARD ISLAND"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 1064.87,
+    "JournalEntryLineDetail": {
+     "PostingType": "Credit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "7"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 1064.87
+    },
+    "Description": "GST - QUEBEC"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 2124.39,
+    "JournalEntryLineDetail": {
+     "PostingType": "Credit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "21"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 2124.39
+    },
+    "Description": "QST - QUEBEC"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 1.2,
+    "JournalEntryLineDetail": {
+     "PostingType": "Credit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "7"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 1.2
+    },
+    "Description": "GST - SASKATCHEWAN"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 1.44,
+    "JournalEntryLineDetail": {
+     "PostingType": "Credit",
+     "AccountRef": {
+      "value": "236"
+     },
+     "TaxRateRef": {
+      "value": "46"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 1.44
+    },
+    "Description": "PST - SASKATCHEWAN"
+   },
+   {
+    "DetailType": "JournalEntryLineDetail",
+    "Amount": 2.4,
+    "JournalEntryLineDetail": {
+     "PostingType": "Credit",
+     "AccountRef": {
+      "value": "16"
+     },
+     "TaxRateRef": {
+      "value": "7"
+     },
+     "TaxApplicableOn": "Purchase",
+     "TaxAmount": 2.4
+    },
+    "Description": "GST - NUNAVUT"
+   }
+  ]
+ }
+}
