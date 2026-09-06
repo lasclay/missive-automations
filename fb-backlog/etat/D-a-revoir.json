@@ -2658,13 +2658,6 @@
       "quand": "2026-09-04T18:40:16.434Z"
     },
     {
-      "id": "988691833397470_619372127668364",
-      "extrait": "(lien Netflix partagé sous le billet)",
-      "motif": "Réponse rédigée mais impossible à publier : l'API Meta renvoie un 502 sur ce commentaire précis, trois tentatives, y compris avec un message court — le commentaire parent semble supprimé ou masqué. Rien à corriger côté texte.",
-      "page_id": "114311920399404",
-      "quand": "2026-09-04T18:58:19.722Z"
-    },
-    {
       "id": "861131632820158_1235479694230172",
       "extrait": "Quand tu vas en boutique ce n'est que pour commander, ils n'ont pas en stock ?",
       "motif": "Question sur le stock d'un point de retrait : les points de vente et dépositaires ne font pas partie de nos faits vérifiés. Répondre supposerait d'inventer l'état d'un inventaire.",
@@ -2915,6 +2908,412 @@
       "motif": "Identification d'un ami, sans le moindre message. Rien à répondre.",
       "page_id": "114311920399404",
       "quand": "2026-09-05T00:37:57.051Z"
+    },
+    {
+      "id": "861131632820158_461045240316492",
+      "extrait": "Avez-vous des points de vente ?",
+      "motif": "Points de vente et dépositaires : explicitement hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "861131632820158_802299522759121",
+      "extrait": "Eve Marcon 👀👋",
+      "motif": "Identification d'un ami, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "861131632820158_770054239437350",
+      "extrait": "Eve Marcon moi également",
+      "motif": "Appui au souhait d'un fil à tricoter. La Page ne se prononce pas sur un produit qui n'existe pas — déjà écarté aujourd'hui.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_1205532307840595",
+      "extrait": "Je fais ma part cette année",
+      "motif": "Note positive brève : toute réponse répéterait ce qui est déjà publié plusieurs fois dans ce fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_2179562205902403",
+      "extrait": "J'ai achete une petite cabane pour cocon de papillon",
+      "motif": "Les abris à papillons ne font pas partie de nos faits vérifiés ; se prononcer sur leur utilité serait inventer, et la distinction cocon/chrysalide a déjà sa réponse publiée ici.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_646247318220230",
+      "extrait": "c'est pas parce qu'une plante est indigène qu'elle n'est pas envahissante",
+      "motif": "Même débat que le commentaire sourcé auquel on vient de répondre juste au-dessus. Deux réponses dans le même fil seraient redondantes.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_1211178947193576",
+      "extrait": "Et ca sent tellement bon !!",
+      "motif": "Le parfum a déjà reçu sa réponse sur ce billet il y a quelques heures.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_1007645568127200",
+      "extrait": "Grégory Baranès",
+      "motif": "Identification d'un ami, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_9839918206064197",
+      "extrait": "France Lefebvre pourquoi",
+      "motif": "Relance sur les cartels mexicains, sujet hors de nos faits vérifiés, déjà écarté deux fois.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_24263372973252769",
+      "extrait": "la tourbière à Blainville qu'ils vont détruire pour enfouir des déchets toxiques… Stablex",
+      "motif": "Mobilisation militante dans un conflit industriel en cours : la Page ne la relaie pas. Troisième occurrence écartée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_1416888749336067",
+      "extrait": "J'en ai chez moi🥰",
+      "motif": "Note brève sans question ; rien à ajouter sans se répéter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_3866288393517560",
+      "extrait": "Pas surprenant avec les pesticides chimiques ..pareilles pour les abeilles",
+      "motif": "Pesticides et abeilles : thème traité six fois sur ce billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_1319896312643568",
+      "extrait": "J'en ai planté un dans ma cours.",
+      "motif": "Le conseil qui s'impose — planter en talle plutôt qu'un plant isolé — est déjà publié trois fois sur ce billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T01:39:56.459Z"
+    },
+    {
+      "id": "988691833397470_959089919744646",
+      "extrait": "Ils sont pas dans les laurentides en tout cas. J'en vois beaucoup",
+      "motif": "Observation régionale : on n'a aucune donnée vérifiée par secteur, et la nuance sur la variation d'une année à l'autre est déjà publiée deux fois sur ce billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T03:38:39.198Z"
+    },
+    {
+      "id": "988691833397470_9997913173593114",
+      "extrait": "Notre gouvernement au Québec a accordé à Stablex de saccager une tourbière… la bêtise humaine continue",
+      "motif": "Quatrième relais du dossier Stablex, doublé d'une diatribe. La Page ne prend pas parti dans ce conflit et n'amplifie pas le désespoir.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T03:38:39.198Z"
+    },
+    {
+      "id": "988691833397470_1799172323988117",
+      "extrait": "Francois Bergeron osti de niouf comme y'en a trop",
+      "motif": "Insulte pure adressée à un abonné. La Page ne répond pas et n'amplifie pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T10:38:19.349Z"
+    },
+    {
+      "id": "988691833397470_1097406552151441",
+      "extrait": "Effectivement, première augmentation en plusieurs années",
+      "motif": "Affirmation sur les recensements mexicains, quatrième variante écartée dans ce sous-fil : aucun chiffre vérifié de notre côté, donc rien à confirmer ni à nuancer honnêtement.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T12:37:57.818Z"
+    },
+    {
+      "id": "988691833397470_1369139360752458",
+      "extrait": "Arrêter les pesticides et ça presse.. 🌎✌️",
+      "motif": "Thème des pesticides, déjà traité six fois sur ce billet. Rien à ajouter sans se répéter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T13:37:59.749Z"
+    },
+    {
+      "id": "988691833397470_663986816221685",
+      "extrait": "OUIIII c'est dans mes plans 🥰🥹",
+      "motif": "Échange enthousiaste entre deux amies. Tout ce qu'on pourrait ajouter (semis d'automne, plein soleil, floraison la 2e année) est déjà publié plusieurs fois dans ce fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T13:37:59.749Z"
+    },
+    {
+      "id": "988691833397470_643966641833929",
+      "extrait": "Catherine Parent toxique pour les chevaux et betail aussi",
+      "motif": "Commentaire parent du fil sur la toxicité : la nuance complète (latex amer, aucun cas documenté chez enfant ou animal de compagnie, danger réel = foin séché) est déjà publiée juste en dessous, dans le même sous-fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_1701374604590743",
+      "extrait": "J'en ai à peine vu sur mon terrain l'été dernier, alors qu'il est rempli d'asclépiades",
+      "motif": "Constat déjà répondu deux fois sur ce billet. Une troisième réponse serait un calque.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_1012470663636922",
+      "extrait": "je te recontacte en privé en mai",
+      "motif": "Arrangement privé entre deux abonnés. Rien qui s'adresse à la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_1046229310888275",
+      "extrait": "pas d'asclepiade à partir de mont laurier jusqu'en abitibi",
+      "motif": "Répartition régionale : sujet explicitement absent de nos faits vérifiés. Ni confirmable ni corrigeable sans inventer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_998511425798156",
+      "extrait": "sera sur la liste des plants en voie de disparition […] une centaine de variétés dans le monde […] plante ultra nectarifère",
+      "motif": "Trois affirmations qu'on ne peut pas vérifier (statut d'espèce menacée pour la plante, nombre de variétés, qualificatif nectarifère). La partie juste — l'asclépiade profite aussi aux abeilles — a déjà sa réponse publiée sur ce billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_987503873088891",
+      "extrait": "planètesos.org vend des plants 5$. Dis moi si tu en veux je te les mets de côté",
+      "motif": "Même organisme tiers et même prix qu'un commentaire écarté hier : on ne se porte pas garant d'un tiers et on ne relaie pas de prix.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T14:38:39.899Z"
+    },
+    {
+      "id": "988691833397470_3964953930429679",
+      "extrait": "on peut les mettre en pot. Les orange tuberosa sont plus difficiles… terres pauvres et gravier",
+      "motif": "Les deux angles — la culture en pot et le gravier — ont déjà leur réponse publiée sur ce billet, dont une il y a une heure.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T15:38:22.812Z"
+    },
+    {
+      "id": "988691833397470_1832571834234886",
+      "extrait": "C'est vrai que le roi Charles III se fait vieux et qu'il ne vient plus…",
+      "motif": "Troisième variante du jeu de mots sur la monarchie, déjà répondu ici.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T15:38:22.812Z"
+    },
+    {
+      "id": "988691833397470_1023833086313051",
+      "extrait": "le papillon es plus utiles que le Roi !!!!",
+      "motif": "Même fil de plaisanteries sur la monarchie.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T15:38:22.812Z"
+    },
+    {
+      "id": "988691833397470_2353176701726582",
+      "extrait": "(photo sans texte)",
+      "motif": "Classée « photo » mais le champ image est vide : rien à lire ni à regarder, donc rien à quoi répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T15:38:22.812Z"
+    },
+    {
+      "id": "988691833397470_1131799362054058",
+      "extrait": "vous êtes formaté par la droite negationniste",
+      "motif": "Insulte politique dans la querelle ouverte sous notre propre commentaire cassant. On n'y ajoute rien.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T15:38:22.812Z"
+    },
+    {
+      "id": "988691833397470_982450074057036",
+      "extrait": "Les douanes américaines",
+      "motif": "Boutade sur les frontières : la Page y a déjà répondu sur ce billet (« les papillons n'ont pas de papiers à montrer »).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T15:38:22.812Z"
+    },
+    {
+      "id": "988691833397470_2055684198230672",
+      "extrait": "bande de sauvages! 😭 Ça me décourage de voir autant d'inconscience",
+      "motif": "Diatribe sans destinataire précis. Rien à répondre sans amplifier.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T15:38:22.812Z"
+    },
+    {
+      "id": "988691833397470_950950430223236",
+      "extrait": "avant il y en avait beaucoup de monarques chez moi. Depuis 3 ans j'en vois rarement",
+      "motif": "Constat déjà répondu trois fois sur ce billet (variation d'une année à l'autre, talle et plein soleil). Une quatrième réponse serait un calque.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T18:38:31.649Z"
+    },
+    {
+      "id": "988691833397470_1462099928490466",
+      "extrait": "C'est pas au Québec le problème, c'est au Mexique. Arrêtez vos conneries",
+      "motif": "Le fond a déjà deux réponses publiées sur ce billet, dont une qui cite l'étude de Flockhart (2015) nommément. Rien à ajouter sans se répéter, et le ton n'appelle pas une troisième version.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T18:38:31.649Z"
+    },
+    {
+      "id": "988691833397470_699272166094712",
+      "extrait": "Pt d'arrêter de tout tondre 🤷‍♂️",
+      "motif": "On est d'accord, mais la question de la tonte de juin a déjà quatre réponses publiées sur ce billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T18:38:31.649Z"
+    },
+    {
+      "id": "988691833397470_3908721746056055",
+      "extrait": "Nelly Tadjer J'adore ce commentaire.❤️❤️",
+      "motif": "Appui à une réplique du fil contre François Bergeron. Rien à répondre, et on ne cautionne pas le tir groupé.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T18:38:31.649Z"
+    },
+    {
+      "id": "988691833397470_1783999072379896",
+      "extrait": "(photo sans texte)",
+      "motif": "Classée « photo » mais le champ image est vide : rien à lire ni à regarder.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T19:38:35.974Z"
+    },
+    {
+      "id": "988691833397470_2432659426904635",
+      "extrait": "Notre beau système qui détruit tout pi nous demande l argent lollll",
+      "motif": "Diatribe générale sans destinataire ni question. Rien à répondre sans amplifier.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T19:38:35.974Z"
+    },
+    {
+      "id": "988691833397470_1007386947996200",
+      "extrait": "Moi j'en ai plein d asclépiade sauvage en arrière de chez moi 🦋🦋🦋",
+      "motif": "Note positive brève : les deux choses qu'on pourrait ajouter (laisser tranquille jusqu'à l'automne, récolter des follicules pour semer ailleurs) sont déjà publiées trois fois sur ce billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T19:38:35.974Z"
+    },
+    {
+      "id": "988691833397470_1407056590654380",
+      "extrait": "je te retourne la question ça l'explique à rien",
+      "motif": "Relance dans la querelle sur les recensements mexicains. Rien de vérifiable, rien à répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T21:38:15.577Z"
+    },
+    {
+      "id": "988691833397470_1346831973187721",
+      "extrait": "renseigne toi c'est vrai !",
+      "motif": "Même querelle, même absence de contenu vérifiable.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T21:38:15.577Z"
+    },
+    {
+      "id": "988691833397470_683337980743742",
+      "extrait": "les cartel o Mexique on saccager leur lieux de repos",
+      "motif": "Cinquième occurrence des cartels mexicains : sujet absent de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T21:38:15.577Z"
+    },
+    {
+      "id": "988691833397470_679628491286303",
+      "extrait": "But keep going on vacation to 'exotic' places that deforest… shake off the loving chains of consumerism",
+      "motif": "Diatribe générale sur le tourisme et la consommation, sans lien avec le billet. Rien à répondre sans amplifier.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T21:38:15.577Z"
+    },
+    {
+      "id": "663826792550644_938266098451100",
+      "extrait": "un an plus tard… les trouvez-vous chaudes? J'hésite à en acheter",
+      "motif": "Question posée à l'identique par trois personnes dans le même fil : la Page y répond une seule fois, sous la formulation d'origine.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_1329543861273456",
+      "extrait": "un an plus tard… les trouvez-vous chaudes? J'hésite à en acheter",
+      "motif": "Même question, même fil : une seule réponse publiée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_1803999010432249",
+      "extrait": "Savez-vous ce que le vent fait des graines?",
+      "motif": "Boutade sur la dispersion, dans le même sous-fil que le commentaire où quelqu'un menace d'arracher des plants — c'est celui-là qu'on a choisi de traiter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_25842688615361680",
+      "extrait": "ca marche bien les semelles?",
+      "motif": "Question de performance produit posée à une cliente : on ne se porte pas garant d'un résultat qu'on ne peut pas vérifier, et la réponse utile viendra d'elle.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_1348416987298464",
+      "extrait": "est-ce que les semelles sont très épaisses?",
+      "motif": "Dimension produit : absente de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_1413334209644540",
+      "extrait": "1 an plus tard, quelle est votre opinion, svp?",
+      "motif": "Relance identique à deux autres dans le fil ; la question de la souplesse reçoit une réponse de la Page sous le témoignage le plus détaillé.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_1454448675512210",
+      "extrait": "1 an plus tard, sont-elles plus souples?",
+      "motif": "Même relance, même fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_604474479042258",
+      "extrait": "1 an plus tard, sont-elles plus souples?",
+      "motif": "Même relance, même fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_906777017977262",
+      "extrait": "est ce qu'elle tienne dans le pied même si ne sont pas des modèle bottine",
+      "motif": "Question de coupe et de tenue au pied : hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_1536529780344272",
+      "extrait": "Dans quel magasin peut-on trouver vos produits?",
+      "motif": "Points de vente : explicitement hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_1447557036774653",
+      "extrait": "Robert Dassylva 😯😲",
+      "motif": "Identification d'un ami, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "663826792550644_1919537915441096",
+      "extrait": "bien joué! Ça c'est avoir de la suite dans les idées!🥰",
+      "motif": "Échange chaleureux entre deux abonnées. Rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T22:40:03.717Z"
+    },
+    {
+      "id": "988691833397470_644913375075802",
+      "extrait": "c'est plus les produits chimiques des cultivateurs qui est en cause, comme les hirondelles",
+      "motif": "Huitième occurrence des pesticides sur ce billet, et le parallèle avec les hirondelles est hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T23:37:43.413Z"
+    },
+    {
+      "id": "988691833397470_1691730938085795",
+      "extrait": "une autre vertu de l'asclépiade. Décidément...",
+      "motif": "Commentaire elliptique adressé à un ami, dont le ton est ambigu. Rien de sûr à quoi répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-05T23:37:43.413Z"
+    },
+    {
+      "id": "988691833397470_1156867446185126",
+      "extrait": "Ils sont devenus très rares effectivement.",
+      "motif": "Acquiescement bref, sans question. Le sujet de la raréfaction a déjà cinq réponses publiées sur ce billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T00:37:52.508Z"
     }
   ]
 }

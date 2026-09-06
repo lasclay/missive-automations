@@ -1208,8 +1208,16 @@
       "quand": "2026-09-04T14:12:40.244Z",
       "confirme": true,
       "texte": "On that part we can be clear: the insulation we use is milkweed floss blended with polyester — no wool in it. Each product page lists the full composition, so it's easy to check before ordering."
+    },
+    {
+      "id": "1672828798184263_2159183391694649",
+      "reponse_id": "1672828798184263_2253654022139120",
+      "page_id": "104242204750257",
+      "quand": "2026-09-05T18:07:47.170Z",
+      "confirme": true,
+      "texte": "Merci d'avoir commandé. On espère que ça vaudra l'attente."
     }
   ],
-  "derniere_execution": "2026-09-04T14:12:40.245Z",
-  "total": 151
+  "derniere_execution": "2026-09-05T18:07:47.171Z",
+  "total": 152
 }
