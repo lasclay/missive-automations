@@ -23,8 +23,8 @@ node fb-backlog/traiter.js etat                       # où en est chaque tir
 
 | Tir | Page | Registre |
 | --- | --- | --- |
-| **A** | Lasclay `104242204750257` | sobre |
-| **B** | Lasclay: The Milkweed Company `368305119707866` | sobre |
+| **A** | Lasclay `104242204750257` | chaleureux et sobre |
+| **B** | Lasclay: The Milkweed Company `368305119707866` | chaleureux et sobre |
 | **C** | Milkweed & Monarchs `262382158951470` | chaleureux |
 | **D** | Asclépiade & papillons monarques `114311920399404` | chaleureux |
 
@@ -178,9 +178,27 @@ doivent jamais être identiques ni quasi identiques, dans toute l'histoire du tr
 tirs confondus. Varie la longueur et la forme : parfois une phrase, parfois trois. Une réponse
 toujours calibrée pareil se repère autant qu'un texte copié.
 
-Langue : celle du commentaire, toujours. Registre : sobre pour Lasclay et The Milkweed Company
-(0 à 1 emoji) ; chaleureux et quétaine assumé pour Milkweed & Monarchs et Asclépiade & papillons
-monarques (1 à 2 emoji).
+Langue : celle du commentaire, toujours.
+
+Registre : **chaleureux et sobre** pour Lasclay et The Milkweed Company (0 à 2 emoji) ;
+chaleureux et quétaine assumé pour Milkweed & Monarchs et Asclépiade & papillons monarques
+(1 à 2 emoji).
+
+**« Sobre » ne veut pas dire froid**, et la confusion a déjà produit des réponses qui sonnaient
+comme un accusé de réception : « Bravo les gars! Génial ❤️ » → « Merci, ça fait plaisir à lire. »
+Il fallait « Merci, ça fait plaisir à lire 🤩 ». Et « Ma preffffff 🥰😍 » → « Contents que ce soit
+votre préférée. » alors qu'il fallait « Elle est cool hen?! 😊 ».
+
+Ce n'est pas une question de longueur : les deux versions font une ligne. La première **constate**,
+la seconde **répond**. Sur les Pages Lasclay : un sourire de temps en temps (pas à chaque réponse,
+jamais en rafale), un peu d'espièglerie légère, le vocabulaire d'une personne et pas d'un service —
+« Contents que », « Nous vous remercions de votre intérêt » sont des formules de guichet. Reprends
+le registre de la personne : familier avec qui est familier, posé avec qui pose une vraie question.
+
+**L'espièglerie va avec les compliments et les récits, jamais avec une inquiétude.** Commande,
+douane, délai, produit décevant : clair et sérieux. Le sourire de trop, là, se lit comme du mépris.
+
+Le détail complet du registre est dans `REGLES.md`, section « Registre par Page ».
 
 Vouvoie en français. Aucune date de livraison. Aucun prix. Jamais « fabriqué au Québec » pour un
 produit fini — l'isolant est cultivé et transformé au Québec, l'assemblage textile se fait surtout
