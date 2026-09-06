@@ -2384,8 +2384,16 @@
       "quand": "2026-09-06T20:41:25.354Z",
       "confirme": true,
       "texte": "Ah, voilà une belle suite 🙂 On vous avait répondu qu'on n'était pas équipés pour la vente sur place, et vous nous avez trouvés au marché quand même. Merci d'être passée — et surtout d'être revenue le dire ici."
+    },
+    {
+      "id": "663826792550644_1767458424459557",
+      "reponse_id": "663826792550644_1062305033226462",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T21:38:08.903Z",
+      "confirme": true,
+      "texte": "On remet le fil dans l'ordre 🙂 La question portait sur le semis d'automne : est-il trop tard dans la saison pour semer dehors ? La réponse courte, c'est qu'il n'y a pas de date fixe — ce qui compte, c'est que les graines attrapent leur mois de froid avant de germer. Tant que la terre se laisse encore gratter, ça va."
     }
   ],
-  "total": 298,
-  "derniere_execution": "2026-09-06T20:41:25.354Z"
+  "total": 299,
+  "derniere_execution": "2026-09-06T21:38:08.904Z"
 }
