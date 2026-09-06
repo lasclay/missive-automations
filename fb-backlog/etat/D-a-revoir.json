@@ -3496,6 +3496,83 @@
       "motif": "Blague privée entre abonnées, sans lien avec la Page.",
       "page_id": "114311920399404",
       "quand": "2026-09-06T17:38:48.838Z"
+    },
+    {
+      "id": "663826792550644_936759951234900",
+      "extrait": "J'ai bien hâte de recevoir ma commande qui est probablement bloqué à la poste! Maudite grève!",
+      "motif": "Commande en transit : répondre supposerait de commenter un délai de livraison, ce que les règles interdisent. À traiter en privé si la personne écrit au support.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_1391742761410296",
+      "extrait": "Dana Langlois 100$ pour une paire de mitaines c'est dans les prix à payer 😅",
+      "motif": "Discussion de prix chiffrés entre abonnés : la Page ne commente jamais un prix.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_359428169980674",
+      "extrait": "Isabelle Martineau Un rabais Lasclay 😁",
+      "motif": "Demande de rabais : rien à négocier en public, et aucune promesse à faire.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_1137813660920806",
+      "extrait": "Suzanne Savard on a une amie en commun Pauline Savard est ce ta soeur?",
+      "motif": "Échange personnel entre deux abonnées, sans rapport avec la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_891382099325471",
+      "extrait": "Jacynthe Babin Puis-je me faire adopter? J'aimerais ça recevoir ces belle mitaines. 😁",
+      "motif": "Blague adressée à une autre abonnée ; s'y immiscer n'apporterait rien.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_7085320514844447",
+      "extrait": "Dana Langlois Des mitaines chauffantes à $70? Où ça?",
+      "motif": "Demande de relayer le prix et la provenance d'un produit tiers : hors de ce que la Page peut vérifier, et prix chiffré.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_344515181413019",
+      "extrait": "c'est un ou plusieurs groupés? Merci",
+      "motif": "Référent indéterminé : notre commentaire parent ne contenait qu'une identification, rien qui permette de savoir de quoi on parle.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_1155226733236029",
+      "extrait": "Jessie Bm VRAIMENT!",
+      "motif": "Interjection entre abonnées, rien à répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_2237216886735340",
+      "extrait": "Sam Evangelista",
+      "motif": "Identification seule, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_1430390327933858",
+      "extrait": "Marie-Claude Barrette merci beaucoup pour votre retour!",
+      "motif": "Remerciement entre deux abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
+    },
+    {
+      "id": "663826792550644_631611302787770",
+      "extrait": "Sandy Clermont je les trouve chaudes, mais trop rigides, c'est difficile de tenir quelque chose (bâton de ski, laisse du chien) alors je ne les porte pas souvent.",
+      "motif": "Critique réelle, mais déjà couverte par deux réponses publiées sur le compromis volume/dextérité — et adressée par la même personne à qui la Page vient de répondre au tir précédent, sur le même fil. Une troisième réponse serait un quasi-doublon et une insistance déplacée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T18:40:42.108Z"
     }
   ]
 }
