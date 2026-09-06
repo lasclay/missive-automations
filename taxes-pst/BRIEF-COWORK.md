@@ -15,14 +15,14 @@ de TVP en Colombie-Britannique (janv. à août 2026), 1 déclaration annuelle de
 (année civile 2025), 1 déclaration annuelle de TVD au Manitoba (année civile 2025) — et payer
 les montants dus.
 
-**Total à remettre : environ 855 $ CA**, plus pénalités et intérêts.
+**Total à remettre : 854,99 $ CA**, plus pénalités et intérêts.
 
 | Province | Régime | Périodes en retard | Taxe à remettre |
 | --- | --- | --- | --- |
 | Colombie-Britannique (TVP 7 %) | mensuel | janv. → juil. 2026 (7 en retard) + août 2026 (à échéance le 30 sept.) | **356,06 $** |
-| Saskatchewan (TVP 6 %) | annuel | année civile 2025 | **197,75 $** |
-| Manitoba (TVD/RST 7 %) | annuel | année civile 2025 | **301,22 $** |
-| | | | **855,03 $** |
+| Saskatchewan (TVP 6 %) | annuel | année civile 2025 | **197,73 $** |
+| Manitoba (TVD/RST 7 %) | annuel | année civile 2025 | **301,20 $** |
+| | | | **854,99 $** |
 
 ---
 
@@ -168,21 +168,21 @@ TVP de la Saskatchewan : **6 %**. Période : **1er janvier au 31 décembre 2025*
 | --- | --- | --- |
 | Ventes totales en Saskatchewan (période) | ventes nettes + frais d'expédition, hors taxes | **3 294,49 $** |
 | Déductions (ventes exonérées, non taxables) | | **0,00 $** (voir note) |
-| Ventes taxables | assiette sur laquelle la TVP a été perçue | **3 295,84 $** |
-| TVP perçue sur les ventes | | **197,75 $** |
+| Ventes taxables | assiette sur laquelle la TVP a été perçue | **3 295,50 $** |
+| TVP perçue sur les ventes | | **197,73 $** |
 | TVP sur achats de l'entreprise (auto-cotisation) | aucun mouvement dans QuickBooks | **0,00 $** |
 | Commission du vendeur | perdue — déclaration tardive | **0,00 $** |
-| **Taxe à remettre** | | **197,75 $** |
+| **Taxe à remettre** | | **197,73 $** |
 
 > **Note sur la ligne « déductions ».** Les ventes totales (3 294,49 $) et l'assiette taxable
-> (3 295,84 $) sont pratiquement identiques : la totalité des ventes livrées en Saskatchewan en
-> 2025 était taxable. Le écart de 1,35 $ vient de l'arrondi commande par commande. Si le
-> formulaire de SETS force ventes totales − déductions = ventes taxables, saisis **3 295,84 $**
+> (3 295,50 $) sont pratiquement identiques : la totalité des ventes livrées en Saskatchewan en
+> 2025 était taxable. L'écart de 1,01 $ vient de l'arrondi commande par commande. Si le
+> formulaire de SETS force ventes totales − déductions = ventes taxables, saisis **3 295,50 $**
 > comme ventes totales et **0,00 $** de déductions, et note l'ajustement dans ton rapport.
 
-**Détail mensuel 2025 (TVP perçue) :** janv. 5,60 · févr. 10,18 · mars 13,54 · avril 37,72 ·
+**Détail mensuel 2025 (TVP perçue) :** janv. 5,60 · févr. 10,17 · mars 13,54 · avril 37,71 ·
 mai 8,80 · juin 11,82 · juil. 0,00 · août 0,00 · sept. 10,94 · oct. 5,34 · nov. 26,73 ·
-déc. 67,08 = **197,75 $**.
+déc. 67,08 = **197,73 $**.
 
 ### 4.2 Échéance, commission, pénalités
 
@@ -225,16 +225,16 @@ Taxe de vente au détail (TVD / RST) du Manitoba : **7 %**. Période : **1er jan
 | Ligne | Contenu | Valeur |
 | --- | --- | --- |
 | Ventes totales au Manitoba (période) | ventes nettes + frais d'expédition, hors taxes | **4 312,13 $** |
-| Déductions (ventes exonérées, non taxables) | | **8,98 $** |
-| Ventes taxables | assiette sur laquelle la TVD a été perçue | **4 303,15 $** |
-| TVD perçue sur les ventes | | **301,22 $** |
+| Déductions (ventes exonérées, non taxables) | | **9,27 $** |
+| Ventes taxables | assiette sur laquelle la TVD a été perçue | **4 302,86 $** |
+| TVD perçue sur les ventes | | **301,20 $** |
 | TVD sur achats de l'entreprise (auto-cotisation) | aucun mouvement dans QuickBooks | **0,00 $** |
 | Commission du vendeur | abolie / perdue — voir 5.2 | **0,00 $** |
-| **Taxe à remettre** | | **301,22 $** |
+| **Taxe à remettre** | | **301,20 $** |
 
-**Détail mensuel 2025 (TVD perçue) :** janv. 0,00 · févr. 8,28 · mars 13,49 · avril 18,65 ·
+**Détail mensuel 2025 (TVD perçue) :** janv. 0,00 · févr. 8,27 · mars 13,49 · avril 18,64 ·
 mai 21,48 · juin 0,49 · juil. 0,00 · août 7,70 · sept. 3,49 · oct. 8,19 · nov. 51,38 ·
-déc. 168,07 = **301,22 $**.
+déc. 168,07 = **301,20 $**.
 
 ### 5.2 Échéance, commission, pénalités
 
@@ -260,10 +260,8 @@ déc. 168,07 = **301,22 $**.
 5. **Ne paie pas encore.** Voir la section 6.
 
 > Le compte QuickBooks « TVD (MB) à payer » se réconcilie exactement : solde 338,23 $ =
-> 301,20 $ (2025, selon les écritures QBO) + 37,03 $ (2026 à ce jour). L'écart de 2 ¢ avec le
-> 301,22 $ de Shopify vient de l'arrondi commande par commande ; c'est le chiffre de Shopify qui
-> reflète la taxe réellement perçue, donc c'est lui qu'on déclare. L'année 2024 est entièrement
-> soldée. Aucune anomalie côté Manitoba.
+> 301,20 $ (2025) + 37,03 $ (2026 à ce jour). L'année 2024 est entièrement soldée. Aucune
+> anomalie côté Manitoba.
 
 ---
 
@@ -302,7 +300,7 @@ Fais ces quatre contrôles en premier, sur les trois portails. Si l'un échoue, 
    mais aucune TPS. À trancher.
 2. **Écriture mensuelle de taxes de mars 2026 manquante dans QuickBooks** — il n'existe aucune
    écriture « 2026-03 Taxes » pour aucune province. Les 8,06 $ de TVP de la C.-B. et les 1,44 $ de
-   TVP de la Saskatchewan de mars 2026 sont dans Shopify mais pas dans les livres. La déclaration
+   TVP de la Saskatchewan de mars 2026 sont dans le rapport Taxes de Shopify mais pas dans les livres. La déclaration
    de la C.-B. de mars les inclut quand même (ce brief les a calculés depuis Shopify) ; l'écriture
    comptable reste à passer.
 3. **Solde résiduel de 77,98 $ dans « TVP (C.-B.) à payer » antérieur à 2026** — les déclarations
@@ -311,7 +309,16 @@ Fais ces quatre contrôles en premier, sur les trois portails. Si l'un échoue, 
    traitement de la commission de 22,00 $ en décembre 2025, passée en débit et en crédit sans
    réduire le passif.
 4. **Écart de la Saskatchewan sur 2024** — décrit à la fin de la section 4.
-5. **TVP de la Saskatchewan de 2026 à ce jour : 23,46 $** (janv. 19,50 + mars 1,44 + avril 2,52).
+5. **Décembre 2025 : 31,35 $ de TPS qui n'alimentent pas la déclaration.** Dans l'écriture
+   `2025-12 Taxes` (QBO Id 9763), les lignes `GST- YUKON` (26,85 $) et `GST- NUNAVUT` (4,50 $)
+   ont été saisies **sans `TaxRateRef` ni `TaxAmount`**. Elles se balancent dans les livres mais
+   ne remontent pas à la ligne 103 de la déclaration de TPS. C'est le seul mois touché sur les 36
+   écritures de taxes du dossier. Sans effet sur la C.-B., la Sask. ou le Manitoba — c'est de la
+   TPS — mais à corriger avant la prochaine déclaration fédérale.
+6. **L'écriture de taxes de février 2025 porte le mauvais numéro** : elle existe sous
+   `Sal Dist 2025-02-26` au lieu de `2025-02 Taxes`. Les montants sont bons (TVP C.-B. 12,12 $,
+   TVP Sask. 10,17 $, TVD Man. 8,27 $) et sont inclus dans ce brief. Seul le nom cloche.
+7. **TVP de la Saskatchewan de 2026 à ce jour : 23,46 $** (janv. 19,50 + mars 1,44 + avril 2,52).
    **TVD du Manitoba de 2026 à ce jour : 37,03 $** (janv. 29,68 + août 7,35). Ces montants ne sont
    **pas** encore dus — ils feront partie des déclarations annuelles 2026, à produire en janvier
    et avril 2027. Ne les déclare pas maintenant.
@@ -354,17 +361,18 @@ les portails affichent.
 
 ## 11. Traçabilité des chiffres
 
-Les montants de taxe de ce brief proviennent de **deux sources indépendantes qui concordent au
-cent près** :
+Les montants de taxe de ce brief proviennent de **trois sources qui concordent au cent près** :
 
-- **Shopify** — ventes par région d'expédition, par mois. La part provinciale de la taxe est
-  isolée par la formule `TVP = taxes totales × taux ÷ (taux + 5 %)`, soit ×7/12 pour la C.-B. et
-  le Manitoba, ×6/11 pour la Saskatchewan.
+- **Shopify, rapport Taxes** (`FROM sales_taxes ... GROUP BY tax_country, tax_region, tax_name`) —
+  la taxe provinciale y est ventilée directement, sans calcul intermédiaire. **C'est la source
+  qui fait foi** et ce sont ses chiffres qui sont déclarés.
+- **Shopify, rapport des ventes** par région d'expédition — sert à obtenir les ventes totales
+  (cases A et lignes « ventes totales »), que le rapport Taxes ne donne pas.
 - **QuickBooks Online** — écritures mensuelles « AAAA-MM Taxes », lignes
   `PST - BRITISH COLUMBIA`, `PST - SASKATCHEWAN`, `PST - MANITOBA`, comptes 2111 / 2113 / 2112.
 
-Les deux sources donnent le même résultat pour **tous les mois** de janvier 2025 à août 2026, sauf
-mars 2026 (absent de QuickBooks, voir 8.2) et à quelques cents d'arrondi près sur avril et mai 2025.
+Le rapport Taxes de Shopify et QuickBooks donnent le **même montant, au cent près, pour tous les
+mois** de janvier 2025 à août 2026, sauf mars 2026 (absent de QuickBooks, voir 8.2).
 Les soldes des comptes QuickBooks se réconcilient exactement avec le grand livre :
 C.-B. 425,98 $, Man. 338,23 $, Sask. 306,00 $.
 
