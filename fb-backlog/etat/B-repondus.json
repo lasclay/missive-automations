@@ -1160,8 +1160,16 @@
       "quand": "2026-09-06T21:27:49.032Z",
       "confirme": true,
       "texte": "Not the first year — that season is all leaf. The flowers come in year two."
+    },
+    {
+      "id": "122142471404483418_953818487546162",
+      "reponse_id": "122142471404483418_1042109302027150",
+      "page_id": "368305119707866",
+      "quand": "2026-09-06T22:26:49.767Z",
+      "confirme": true,
+      "texte": "Eleven, all North American: syriaca, tuberosa, incarnata, speciosa, exaltata, verticillata, fascicularis, sullivantii, viridis, labriformis, angustifolia. Nothing tropical. Whether any of them counts as Florida-native is worth checking against a local source before you order rather than taking our word for it from up here."
     }
   ],
-  "derniere_execution": "2026-09-06T21:27:49.033Z",
-  "total": 145
+  "derniere_execution": "2026-09-06T22:26:49.768Z",
+  "total": 146
 }
