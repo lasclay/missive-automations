@@ -1104,8 +1104,16 @@
       "quand": "2026-09-05T23:27:12.818Z",
       "confirme": true,
       "texte": "No — we are in Quebec, in Canada. Orders go to addresses in both countries."
+    },
+    {
+      "id": "122142476066483418_676983631711063",
+      "reponse_id": "122142476066483418_1591794139120232",
+      "page_id": "368305119707866",
+      "quand": "2026-09-06T00:27:41.462Z",
+      "confirme": true,
+      "texte": "That runs against the usual pattern — the latex is bitter, and deer normally leave milkweed alone. Generally is not always, though, and your yard is the evidence. We are not going to tell you otherwise."
     }
   ],
-  "derniere_execution": "2026-09-05T23:27:12.819Z",
-  "total": 138
+  "derniere_execution": "2026-09-06T00:27:41.463Z",
+  "total": 139
 }
