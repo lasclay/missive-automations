@@ -2176,8 +2176,24 @@
       "quand": "2026-09-06T12:39:22.077Z",
       "confirme": true,
       "texte": "Vous en dites plus en trois lignes que bien des articles 🦋 Et ce que vous décrivez là, c'est aussi ce qui règle notre calendrier : tant que la dernière génération n'est pas partie, on ne récolte rien. On attend qu'elle prenne la route, à l'automne, et on ne ramasse que les follicules."
+    },
+    {
+      "id": "988691833397470_487077977813780",
+      "reponse_id": "988691833397470_986108497849594",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T13:38:32.756Z",
+      "confirme": true,
+      "texte": "Merci d'avoir répondu 🌱 Et honnêtement, le fil vous a mieux répondu que nous : quelqu'un en Estrie en voit chaque année, vous en Montérégie non — deux coins de la même province, deux résultats opposés. Ça se joue donc à l'échelle de la cour et du voisinage bien plus que de la région. On n'a pas de données régionales à vous offrir là-dessus, et on préfère vous le dire plutôt que de broder."
+    },
+    {
+      "id": "988691833397470_1468324607868548",
+      "reponse_id": "988691833397470_1785603312774669",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T13:39:41.589Z",
+      "confirme": true,
+      "texte": "Merci d'avoir pris le temps de lui répondre 🦋 Un témoignage de cour, avec le nom du village au bout, ça vaut plus cher que n'importe quelle moyenne qu'on pourrait citer. Val-des-Sources en voit chaque année : c'est noté."
     }
   ],
-  "total": 272,
-  "derniere_execution": "2026-09-06T12:39:22.077Z"
+  "total": 274,
+  "derniere_execution": "2026-09-06T13:39:41.589Z"
 }
