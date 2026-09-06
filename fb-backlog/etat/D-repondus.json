@@ -2344,8 +2344,32 @@
       "quand": "2026-09-06T19:06:30.993Z",
       "confirme": true,
       "texte": "Une recommandation adressée à quelqu'un qui vient tout juste de recevoir les siennes, c'est le meilleur des moments 🧤 Merci beaucoup."
+    },
+    {
+      "id": "861131632820158_1628475881114404",
+      "reponse_id": "861131632820158_28551724964460794",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T19:38:16.396Z",
+      "confirme": true,
+      "texte": "On ne vous dira pas oui juste pour vous faire plaisir 🎿 Aucune cote de température n'est affichée sur nos produits, alors « assez chaudes pour le ski », ça dépend de vous et du froid qu'il fait. Et il y a une chose à savoir avant d'acheter pour skier : plusieurs personnes nous ont écrit, sur ce fil même, qu'elles trouvent la mitaine rigide et le bâton difficile à tenir. Côté chaleur les retours sont bons ; côté dextérité, c'est un compromis bien réel."
+    },
+    {
+      "id": "861131632820158_451992717988089",
+      "reponse_id": "861131632820158_2141784216734841",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T19:40:47.314Z",
+      "confirme": true,
+      "texte": "Grise Fiord, rien de moins 🧤 On ne s'attendait pas à ce que nos affaires se rendent aussi haut. Merci de nous l'apprendre — et bonne saison à votre petit-fils."
+    },
+    {
+      "id": "861131632820158_1300748180943136",
+      "reponse_id": "861131632820158_2001939607185880",
+      "page_id": "114311920399404",
+      "quand": "2026-09-06T19:45:48.909Z",
+      "confirme": true,
+      "texte": "L'envie est notée, et vous n'êtes pas la première à la formuler dans ce fil 🧶 On ne promet rien : filer une fibre et la vendre en écheveau, c'est un métier en soi. Mais le message se rend, et il ne se rend pas tout seul — merci de l'avoir appuyé."
     }
   ],
-  "total": 293,
-  "derniere_execution": "2026-09-06T19:06:30.993Z"
+  "total": 296,
+  "derniere_execution": "2026-09-06T19:45:48.909Z"
 }
