@@ -1152,8 +1152,16 @@
       "quand": "2026-09-06T20:28:04.243Z",
       "confirme": true,
       "texte": "We can only speak for our own shelf there: curassavica has never been in our range, and nothing we sell is tropical."
+    },
+    {
+      "id": "122142476066483418_1012482454368302",
+      "reponse_id": "122142476066483418_1570031707934875",
+      "page_id": "368305119707866",
+      "quand": "2026-09-06T21:27:49.032Z",
+      "confirme": true,
+      "texte": "Not the first year — that season is all leaf. The flowers come in year two."
     }
   ],
-  "derniere_execution": "2026-09-06T20:28:04.244Z",
-  "total": 144
+  "derniere_execution": "2026-09-06T21:27:49.033Z",
+  "total": 145
 }
