@@ -5,13 +5,23 @@ la source est `revue/registre.json`, et tout changement d'état passe par le scr
 
 | État | Nombre |
 | --- | --- |
-| proposee | 10 |
+| proposee | 11 |
 | approuvee | 0 |
 | appliquee | 0 |
 | refusee | 0 |
 | reportee | 1 |
 
-## En attente d'approbation (10)
+## En attente d'approbation (11)
+
+### R-20260905-01 — Faire entrer les echecs 502 et les doublons dans la mesure de qualite
+
+- **Gravité** : majeur · **Effort** : 1 h 30 · **Proposé le** : 2026-09-05
+- **Source** : revue 2026-09-05
+- **Constat** : collecte.js calcule les reponses non confirmees a partir du champ confirme des lignes de *-journal.jsonl. Un echec 502 n'ecrit aucune ligne de journal : il n'existe pas pour la collecte. Resultat, la revue a annonce « 0 non confirmee chez Meta, 0 erreur » huit soirs de suite pendant que six doublons publics vivaient sur la page Asclepiade & papillons monarques et que six echecs 502 etaient enregistres dans les seuls messages de commit. Les journaux ne peuvent pas non plus detecter les doublons : sur les quatre tirs, aucun commentaire n'apparait repondu plus d'une fois, y compris sur le tir D ou six doublons ont reellement ete publies.
+- **Preuve** : INCIDENT-502-tirD.md (commit 50b9ac5, 2026-09-05) : cinq 502 trompeurs, six doublons publics, sous les parents 988691833397470_619372127668364, _1684105585563933, _536033022871979 et _1388102012370651. Lecture directe le 2026-09-05 via connectors_client.js facebook comments sur le premier parent : 4 reponses de la Page dont 3 identiques, toujours en ligne. Commits du 2026-09-05 mentionnant un echec : quatre au tir C (7 h, 14 h deux fois, 17 h), trois au tir D (6 h, 8 h, 9 h). Fiches de collecte du meme jour : erreurs [] et non_confirmees 0 pour les quatre tirs.
+- **Proposition** : Deux ajouts a collecte.js. Premier : compter les echecs en lisant les messages de commit du jour du backlog, qui les nomment deja (« echec 502 », « echec Meta »), et les faire ressortir comme non_confirmees plutot que de laisser zero. Second : pour un echantillon de commentaires parents recents par tir, relire les reponses via l'action facebook comments du General Proxy et signaler tout parent portant plus d'une reponse de la Page — c'est la seule mesure qui voit un doublon, puisque le journal ne le porte pas.
+- **Portée** : revue/collecte.js
+- **Risque** : La lecture directe consomme des appels Meta a chaque tour : il faut la borner a quelques parents par tir et la degrader proprement — dire « non collecte » — si le proxy ne repond pas, sans faire echouer le tour. Et lire les messages de commit est un pis-aller : si un tir cesse un jour de nommer ses echecs dans son sujet de commit, le compteur retombera silencieusement a zero. La vraie correction est que traiter.js journalise ses echecs ; cette proposition mesure en attendant, elle ne remplace pas le correctif propose dans le rapport d'incident.
 
 ### R-20260904-01 — Juger les tirs horaires sur leur cadence du jour, pas sur un seuil de 30 heures
 
