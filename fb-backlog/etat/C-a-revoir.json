@@ -6266,6 +6266,46 @@
    "motif": "Recit de deux mots avec emojis. Aucune prise.",
    "ecarte_le": "2026-09-06",
    "tir": "C"
+  },
+  {
+   "id": "775946415144439_2802914219918936",
+   "page_id": "262382158951470",
+   "date": "2025-10-29T21:59:20+0000",
+   "message": "Janice Smets I have yet to have dog, or puppy, stupid enough to eat milkweed.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=741504608756448&reply_comment_id=2802914219918936",
+   "motif": "Sous-fil du conflit chien/toxicite sur le billet 775946415144439 (« unless your dog is severely brain damaged »). ESCALADE PERMANENTE : ce fil produit des insultes personnelles depuis le 6 septembre au matin. Nous ne confirmons ni n'infirmons les affirmations de toxicite ; rien a gagner ici.",
+   "ecarte_le": "2026-09-06",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1568946014117625",
+   "page_id": "262382158951470",
+   "date": "2025-10-29T13:32:36+0000",
+   "message": "Erin Tubb your rudeness doesn't reflect well.  Puppies will eat anything.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=741504608756448&reply_comment_id=1568946014117625",
+   "motif": "Meme sous-fil chien/toxicite, cote reproche (« your rudeness doesn't reflect well »). Moderation entre abonnes : hors de notre role.",
+   "ecarte_le": "2026-09-06",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_853578750450857",
+   "page_id": "262382158951470",
+   "date": "2025-10-29T08:48:09+0000",
+   "message": "Erin Tubb you people truly need to get a life.  Any plant that attempts to spread where it us not wanted is considered invasive.  The world will survive and the monarch butterflies will survive despite the fact that I am NOT going to play this ugly assed play on my one city lot.  I have never seen such a bunch of weirdos in my entire life.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=32079255668339365&reply_comment_id=853578750450857",
+   "motif": "Diatribe dans le fil de conflit « noxious weed » (« you people truly need to get a life », « weirdos »). ESCALADE PERMANENTE depuis le 3 septembre, 8e tirage consecutif ou ce fil ressort.",
+   "ecarte_le": "2026-09-06",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_830871179835243",
+   "page_id": "262382158951470",
+   "date": "2025-10-29T08:01:11+0000",
+   "message": "Lisa Moule You need some snakes.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1365225318446164&reply_comment_id=830871179835243",
+   "motif": "Blague entre abonnes (« you need some snakes ») en reponse a une question de rats qui devorent des asclepiades en pot. LACUNE PERMANENTE : rien sur la predation ni la protection des plants dans faits-verifies.json. 16e occurrence du sujet.",
+   "ecarte_le": "2026-09-06",
+   "tir": "C"
   }
  ]
 }
