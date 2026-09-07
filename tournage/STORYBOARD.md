@@ -2708,6 +2708,86 @@ sinon la mesure ne vaut rien.
 ---
 ---
 
+# Annexe · De l'image fixe au mouvement de caméra
+
+*Technique repérée sur TikTok le 6 septembre 2026. Elle transforme une image fixe en plan
+mobile — donc elle transforme les 294 prompts d'image de ce document en plans animés.*
+
+## Le procédé, en quatre gestes
+
+1. Aller sur **Google Flow** (`labs.google/flow`).
+2. Téléverser l'image fixe — celle générée par le prompt IA d'une case de ce storyboard.
+3. **Dessiner par-dessus** : un trait rouge pour le trajet de la caméra, des flèches blanches
+   pour la direction du regard.
+4. Coller le bloc d'instructions ci-dessous et générer. La sortie est un plan d'environ 10 s.
+
+Le trait rouge n'est pas décoratif : c'est littéralement la trajectoire que la caméra suivra.
+Un trait qui monte en S = une montée en spirale. Un trait qui longe le bord = un travelling
+latéral. Les flèches blanches disent où pointe l'objectif pendant le trajet.
+
+## Le bloc d'instructions, version Lasclay
+
+Trois consignes, dans cet ordre. La première est celle qu'on oublie et sans elle le trait rouge
+reste visible dans la vidéo générée.
+
+```
+1 — NETTOYAGE DE LA PREMIÈRE IMAGE
+Efface complètement les traits rouges, les flèches blanches, les gribouillis et tout
+graphique ajouté, dès la première image et avant que le mouvement commence. La scène
+qui apparaît doit être la scène propre, sans aucune annotation.
+
+2 — TRAJECTOIRE DE CAMÉRA
+Un seul plan continu, en vue subjective aérienne. Suis exactement le trajet du trait
+rouge, en inclinant doucement l'appareil dans les virages. Ajuste l'angle en continu
+pour regarder dans la direction indiquée par les flèches blanches.
+
+3 — PRÉSERVATION ET SORTIE PROPRE
+Conserve l'environnement, la lumière et le sujet exactement tels qu'ils sont dans
+l'image. Rends une séquence photoréaliste, sans aucun trait rouge, flèche, repère,
+annotation ni filigrane visible dans quelque image que ce soit.
+```
+
+À ajouter à la fin, selon la case : `format vertical 9:16` · `lumière rasante de fin de
+journée, conservée` · `mouvement lent et régulier, pas de saccade` · `pas de personnage ajouté`.
+
+## Les cases où ça vaut vraiment le coup
+
+Ce sont celles qui coûtent cher à tourner et dont on n'a pas besoin qu'elles soient parfaites
+en mode exploration.
+
+| Case | Le plan | Ce que ça remplace |
+| --- | --- | --- |
+| `D-01` case 4 | l'ascension au-dessus du champ | un drone ou une perche de 4 m |
+| `D-03` case 1 | la machine vue d'en haut dans le rang | un drone, une autorisation, une journée |
+| `C-01` case 2 | la marche dans le champ | un déplacement, une fenêtre saisonnière |
+| `F-03` case 2 | le trajet migratoire | une animation à produire |
+| `D-04` case 1 | le champ reconverti vu d'en haut | un drone pour un plan de 5 s |
+| `K-05` case 1 | le travelling dans l'atelier vide | un stabilisateur et une deuxième personne |
+
+## Trois réserves, et la troisième n'est pas négociable
+
+**Le plan dure environ 10 secondes.** C'est plus que ce dont on a besoin par case (1 à 5 s),
+donc ça va — mais on ne monte pas une vidéo entière avec ça.
+
+**Les modèles d'image se trompent sur notre plante.** Ils produisent volontiers un pissenlit
+géant, un coton, ou une inflorescence qui n'existe pas. Chaque image générée se vérifie avant
+d'être animée : la gousse doit être fusiforme et rugueuse, la soie attachée à des graines
+plates et brunes, la tige épaisse et droite. Une image fausse animée reste une image fausse,
+et le fil de commentaires le verra avant nous.
+
+**Aucune image générée ne sert de preuve.** C'est la ligne à ne pas franchir. Toute la
+stratégie de ce document repose sur le fait que le gisement, le procédé et les tests sont
+réels et filmés. Une séquence générée qui passerait pour notre champ, notre atelier ou notre
+produit détruirait exactement la crédibilité qu'on essaie de bâtir — et le corpus de référence
+montre qu'un aveu tardif coûte plus cher que la casse qu'il avoue.
+
+Donc, la règle : **l'IA sert au storyboard, jamais au montage publié.** On l'utilise pour
+prévisualiser un cadre, convaincre en interne, tester une idée de mouvement avant de louer un
+drone. Le jour où on voudrait publier une image générée, elle est annoncée comme telle à
+l'écran, sans exception.
+
+---
+
 # Annexe · le tournage
 
 ## Les 8 plans à ramener de chaque sortie, quoi qu'il arrive
