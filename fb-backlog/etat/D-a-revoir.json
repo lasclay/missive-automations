@@ -3713,6 +3713,27 @@
       "motif": "Remerciement entre abonnés, rien à ajouter.",
       "page_id": "114311920399404",
       "quand": "2026-09-07T11:38:12.732Z"
+    },
+    {
+      "id": "861131632820158_1091298342481265",
+      "extrait": "Julie Barthe merci",
+      "motif": "Remerciement entre abonnées, dans le sous-fil sur le point de vente où la Page vient de répondre au tir de 8 h.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T13:38:10.922Z"
+    },
+    {
+      "id": "663826792550644_560394590113960",
+      "extrait": "Ça remonte à plus d'un an; pas sûre que c'est encore valide. (à propos d'un code promo)",
+      "motif": "Question sur la validité d'un code promo : la Page ne commente ni les prix ni les rabais en public.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T13:38:10.922Z"
+    },
+    {
+      "id": "861131632820158_1284934189212252",
+      "extrait": "Mes prochains achats",
+      "motif": "Note personnelle de mise de côté, sans question ni contenu auquel répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T13:38:10.922Z"
     }
   ]
 }

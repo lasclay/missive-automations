@@ -2504,8 +2504,24 @@
       "quand": "2026-09-07T12:40:14.709Z",
       "confirme": true,
       "texte": "Le message sera transmis, promis 🙂 Merci du bon mot."
+    },
+    {
+      "id": "861131632820158_1474802753184474",
+      "reponse_id": "861131632820158_1538883031327286",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T13:38:16.489Z",
+      "confirme": true,
+      "texte": "Merci beaucoup 😍 « Fiable », c'est le mot qu'on aime le plus recevoir — celui-là se mérite à l'usage, pas sur une belle page."
+    },
+    {
+      "id": "861131632820158_8928951180492043",
+      "reponse_id": "861131632820158_28077091181912328",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T13:39:21.343Z",
+      "confirme": true,
+      "texte": "Merci pour l'encouragement 🙏 Et content que les semelles vous servent bien — plusieurs personnes disent ici que c'est par elles qu'il faut commencer."
     }
   ],
-  "total": 313,
-  "derniere_execution": "2026-09-07T12:40:14.709Z"
+  "total": 315,
+  "derniere_execution": "2026-09-07T13:39:21.343Z"
 }
