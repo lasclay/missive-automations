@@ -92,13 +92,20 @@ accomplie a été de gâcher un moment de bonne volonté et de planter un doute 
 
 **La transparence est une réponse, pas un réflexe.**
 
+**Le déclencheur est qu'on nous challenge, jamais qu'une phrase soit inexacte.**
+
 | Ce que la personne fait | Ce qu'on fait |
 | --- | --- |
-| Demande où c'est fabriqué, d'où ça vient, si c'est fait ici | On répond, clair et complet. C'est là que la précision a sa place. |
-| Conteste l'origine, accuse de greenwashing ou de localwashing | On répond, franchement, en entier. |
-| Répète une information fausse (« ils ont une usine en Tunisie ») | On corrige, factuellement. |
-| **Félicite, dit « achat local », « bravo les gars », « produits d'ici », « fierté québécoise »** | **On remercie. Point.** |
-| **Nous défend contre quelqu'un d'autre** | **On remercie. On ne se retourne pas contre son propre défenseur.** |
+| **Nous challenge** : « c'est fabriqué ailleurs, ça vaut plus rien », greenwashing, localwashing, « vous mentez sur l'origine » | **On explique**, franchement, en entier. C'est là que la précision a sa place. |
+| Demande où c'est fabriqué, d'où ça vient, si c'est fait ici | On répond, clair et complet. |
+| **Assume que c'est local** — « achat local », « produits d'ici », « fait au Québec », « fierté québécoise » | **On ne commente pas.** On remercie et on passe à autre chose. |
+| **Nous défend contre quelqu'un d'autre**, même en avançant quelque chose d'inexact | **On remercie. On ne se retourne pas contre son propre défenseur.** |
+| **Le commentaire ne porte pas sur le sujet** | **On n'en parle jamais.** |
+
+La ligne qui compte est la troisième, et c'est celle qui a été ratée sept fois. Quelqu'un qui
+suppose que c'est local à voix haute **ne nous challenge pas** : il nous fait un compliment avec
+une prémisse. On n'a pas à corriger la prémisse d'un compliment, ni quand elle est dite à nous,
+ni quand elle est dite à quelqu'un d'autre dans le fil.
 
 Un compliment n'est pas une affirmation à vérifier. Personne n'attend un audit de la chaîne
 d'approvisionnement en réponse à « bravo les gars ».
