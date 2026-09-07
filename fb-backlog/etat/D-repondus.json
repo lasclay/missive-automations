@@ -2488,8 +2488,24 @@
       "quand": "2026-09-07T11:41:29.441Z",
       "confirme": true,
       "texte": "Le nombre de « e » dit déjà tout 😄 Merci beaucoup — et bonne saison froide avec elles."
+    },
+    {
+      "id": "861131632820158_1725336328249678",
+      "reponse_id": "861131632820158_2043567462946923",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T12:39:09.892Z",
+      "confirme": true,
+      "texte": "On ne confirmera pas une adresse de mémoire 🙂 Pour savoir où récupérer une commande ou voir les produits en personne, écrivez-nous en privé : on vérifie avant de répondre plutôt que de vous envoyer frapper à la mauvaise porte."
+    },
+    {
+      "id": "861131632820158_1530741390941804",
+      "reponse_id": "861131632820158_1402274355375720",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T12:40:14.709Z",
+      "confirme": true,
+      "texte": "Le message sera transmis, promis 🙂 Merci du bon mot."
     }
   ],
-  "total": 311,
-  "derniere_execution": "2026-09-07T11:41:29.441Z"
+  "total": 313,
+  "derniere_execution": "2026-09-07T12:40:14.709Z"
 }
