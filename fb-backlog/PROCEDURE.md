@@ -261,6 +261,26 @@ tir produira des doublons.**
 Termine par un rapport court : le lot obtenu et la règle de priorité appliquée, le nombre publié,
 le nombre écarté et pourquoi, et tout ce qui a échoué.
 
+## Reparer une reponse deja publiee
+
+Une reponse fautive ne se laisse pas en place en attendant mieux. Deux gestes, tous deux sur nos
+propres reponses, tous deux immediats :
+
+```
+node connectors_client.js facebook edit '{"page_id":"...","comment_id":"<reponse_id>","message":"..."}'
+node connectors_client.js facebook hide '{"page_id":"...","comment_id":"<reponse_id>"}'
+```
+
+**Modifier** garde la place dans le fil et ne renotifie personne : c'est le geste par defaut quand
+la reponse est recuperable. **Masquer** la retire de la vue de tout le monde sauf son auteur, et
+`unhide` la ramene : c'est le geste quand il n'y a rien a sauver. La suppression n'est pas exposee
+par le proxy, et c'est voulu — le meme appel effacerait aussi bien nos reponses que les
+commentaires des clients.
+
+Le `reponse_id` se lit dans `etat/<X>-repondus.json`, a cote de l'`id` du commentaire d'origine.
+S'il renvoie `(#100) Comment not found`, la reponse a deja ete supprimee a la main : rien a faire,
+mais laisse l'entree dans `repondus.json` pour ne pas re-repondre au meme commentaire.
+
 ## Si la publication est refusee par le classificateur
 
 `node fb-backlog/traiter.js publier` doit figurer dans les regles de permission de
