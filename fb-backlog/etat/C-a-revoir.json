@@ -6546,6 +6546,66 @@
    "motif": "Deux affirmations non verifiees dans une seule phrase : l'asclepiade tuerait les mouches lanternees, et serait toxique pour les animaux de compagnie. Aucune des deux n'est dans faits-verifies.json. Les deux refus de principe ont deja ete publies sous ce billet cette semaine, et les deux sujets ont ete ecartes plusieurs fois depuis hier (mouche lanternee 3 fois, toxicite animale 4 fois). Repetition litterale evitee.",
    "ecarte_le": "2026-09-07",
    "tir": "C"
+  },
+  {
+   "id": "775946415144439_2051918702277893",
+   "page_id": "262382158951470",
+   "date": "2025-10-27T11:13:44+0000",
+   "message": "GW Hatch it’s poisoning to dogs.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=776188778577123&reply_comment_id=2051918702277893",
+   "motif": "« It's poisoning to dogs » — 5e commentaire de toxicite animale ecarte depuis hier. Nous ne confirmons ni n'infirmons ces affirmations, et le refus de principe est deja publie sous ce billet.",
+   "ecarte_le": "2026-09-07",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1240287594576580",
+   "page_id": "262382158951470",
+   "date": "2025-10-27T11:02:25+0000",
+   "message": "Stephanie Kyle Martin",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1240287594576580",
+   "motif": "Identification d'une autre personne, sans texte. Aucune prise.",
+   "ecarte_le": "2026-09-07",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1506295013849288",
+   "page_id": "262382158951470",
+   "date": "2025-10-27T08:01:56+0000",
+   "message": "Tom Ozzello they are not invasive. They’re native to North America and are an important pollinator in American wildlife",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=808484415038260&reply_comment_id=1506295013849288",
+   "motif": "Correction « they are not invasive, they're native to North America ». Meme sous-fil (Tom Ozzello / Nicholas Crosby) que le commentaire auquel nous avons repondu ce matin a 11 h : l'auteur s'y corrige lui-meme et nous avons salue la rectification. Repondre une deuxieme fois dans le meme sous-fil serait un doublon.",
+   "ecarte_le": "2026-09-07",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_837627225484255",
+   "page_id": "262382158951470",
+   "date": "2025-10-27T03:49:55+0000",
+   "message": "Kathy Taylor Kubicza interested in Ohio also!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=4004709436457574&reply_comment_id=837627225484255",
+   "motif": "« interested in Ohio also! » — marque d'interet adressee a une autre abonnee. Aucune prise.",
+   "ecarte_le": "2026-09-07",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_2042070689888459",
+   "page_id": "262382158951470",
+   "date": "2025-10-27T02:29:36+0000",
+   "message": "Wild Ones let's promote!!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=2042070689888459",
+   "motif": "« Wild Ones let's promote!! » — identification d'un organisme tiers. Faire la promotion d'une autre organisation n'est pas a nous de le faire, et il n'y a aucune question.",
+   "ecarte_le": "2026-09-07",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1763009077733831",
+   "page_id": "262382158951470",
+   "date": "2025-10-27T01:27:40+0000",
+   "message": "Got it planted... but let's hope it actually grows!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1763009077733831",
+   "motif": "« Got it planted... but let's hope it actually grows! » — le contenu germination et stratification est publie ce tir-ci meme, en reponse a l'abonne dont un sac entier de semences n'a donne que 5 plants. Redondant a l'interieur du meme lot.",
+   "ecarte_le": "2026-09-07",
+   "tir": "C"
   }
  ]
 }
