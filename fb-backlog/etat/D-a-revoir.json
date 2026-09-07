@@ -3636,6 +3636,41 @@
       "motif": "Renvoie au même constat que ses deux autres commentaires du lot, auxquels la Page répond ; y ajouter une troisième réponse à la même personne dans la même heure serait de l'insistance.",
       "page_id": "114311920399404",
       "quand": "2026-09-06T23:39:04.353Z"
+    },
+    {
+      "id": "663826792550644_988008499921109",
+      "extrait": "Liv Green j'aimerais aussi savoir, si vos mitaines se sont assouplies ou si elle restent raides et trop serrées, svp",
+      "motif": "Question adressée à une autre abonnée, qui y a répondu ; la Page a déjà relayé cette réponse aux tirs de 13 h et 19 h. Rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_436716536193435",
+      "extrait": "mes mitaines chauffantes de 125$ ont eu une durée de vie très courte comparativement à celles en asclépiade",
+      "motif": "Comparaison de prix chiffrés entre produits ; la Page a déjà répondu une fois à cette comparaison dans le fil sans reprendre les montants. Une deuxième intervention y ramènerait les chiffres.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_491239623786487",
+      "extrait": "Claire Dinel moi aussi",
+      "motif": "Approbation entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_1384168729407666",
+      "extrait": "tu l auras dit en premier",
+      "motif": "Fragment d'échange privé entre abonnés, sans contenu exploitable.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_2316337352068310",
+      "extrait": "Jean Francois Lepine l'avenir et la",
+      "motif": "Message tronqué, sans contenu exploitable.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
     }
   ]
 }
