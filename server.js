@@ -93,6 +93,29 @@ function qs(params) {
  * @param {object} o { method, url, headers, body, rateReset }
  *   rateReset: nom d'un en-tête (secondes) à respecter sur 429 (ex. ShipStation).
  */
+// Retire les secrets d'un texte destiné à sortir du service.
+//
+// Meta passe le jeton de Page DANS la query string. Sans ce filtre, la moindre
+// erreur Graph renvoyait au client un message contenant un jeton de Page
+// complet — qui finissait dans les journaux, les transcriptions d'agent et les
+// rapports d'incident, sans que personne l'ait demandé. Un jeton fuite par un
+// message d'erreur aussi sûrement que par un `console.log`.
+//
+// Le caviardage sert aussi la lisibilité : le jeton occupait à lui seul
+// 200 caractères des 300 conservés, ce qui coupait la phrase de Meta qui nomme
+// la faute. On garde donc plus de texte, et du texte utile.
+const SECRETS = [
+  /(access_token=)[^&\s"']+/gi,
+  /(api_key=)[^&\s"']+/gi,
+  /("access_token"\s*:\s*")[^"]*/gi,
+  /(Bearer\s+)[A-Za-z0-9._-]+/gi,
+];
+function caviarder(t) {
+  let out = String(t == null ? "" : t);
+  for (const re of SECRETS) out = out.replace(re, "$1[CAVIARDÉ]");
+  return out;
+}
+
 async function httpJson({ method = "GET", url, headers = {}, body, rateReset }, tries = 0) {
   let res;
   try {
@@ -114,7 +137,7 @@ async function httpJson({ method = "GET", url, headers = {}, body, rateReset }, 
     return httpJson({ method, url, headers, body, rateReset }, tries + 1);
   }
   const text = await res.text();
-  if (!res.ok) throw new Error(`${method} ${url.replace(/https?:\/\/[^/]+/, "")} → ${res.status} ${text.slice(0, 300)}`);
+  if (!res.ok) throw new Error(`${method} ${caviarder(url.replace(/https?:\/\/[^/]+/, ""))} → ${res.status} ${caviarder(text).slice(0, 1200)}`);
   try { return text ? JSON.parse(text) : {}; } catch { return { raw: text }; }
 }
 
