@@ -1168,8 +1168,24 @@
       "quand": "2026-09-06T22:26:49.767Z",
       "confirme": true,
       "texte": "Eleven, all North American: syriaca, tuberosa, incarnata, speciosa, exaltata, verticillata, fascicularis, sullivantii, viridis, labriformis, angustifolia. Nothing tropical. Whether any of them counts as Florida-native is worth checking against a local source before you order rather than taking our word for it from up here."
+    },
+    {
+      "id": "122142476066483418_657939990163689",
+      "reponse_id": "122142476066483418_1944181569550720",
+      "page_id": "368305119707866",
+      "quand": "2026-09-07T00:28:22.416Z",
+      "confirme": true,
+      "texte": "Eleven: syriaca, tuberosa, incarnata, speciosa, exaltata, verticillata, fascicularis, sullivantii, viridis, labriformis, angustifolia."
+    },
+    {
+      "id": "122142476066483418_595020596238639",
+      "reponse_id": "122142476066483418_1070509355678299",
+      "page_id": "368305119707866",
+      "quand": "2026-09-07T00:37:43.749Z",
+      "confirme": true,
+      "texte": "Two on that list are already in our range: tuberosa and incarnata. One distinction worth keeping, though — a species native elsewhere in North America but out of place in Florida is a poor fit, which is not the same as invasive. Invasive means something more specific than that."
     }
   ],
-  "derniere_execution": "2026-09-06T22:26:49.768Z",
-  "total": 146
+  "derniere_execution": "2026-09-07T00:37:43.749Z",
+  "total": 148
 }
