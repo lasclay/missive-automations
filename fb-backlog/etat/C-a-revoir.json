@@ -6536,6 +6536,16 @@
    "motif": "Photo sans texte, telechargee et regardee : vue aerienne d'une foule sur une plage formant les lettres « NO KINGS » autour d'un drapeau americain — manifestation politique. Aucun rapport avec l'asclepiade ni les monarques, et hors du role de la Page.",
    "ecarte_le": "2026-09-07",
    "tir": "C"
+  },
+  {
+   "id": "775946415144439_795997293143546",
+   "page_id": "262382158951470",
+   "date": "2025-10-27T12:16:49+0000",
+   "message": "It also kills/prevents lantern flies.  But cam be toxic to pets",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=795997293143546",
+   "motif": "Deux affirmations non verifiees dans une seule phrase : l'asclepiade tuerait les mouches lanternees, et serait toxique pour les animaux de compagnie. Aucune des deux n'est dans faits-verifies.json. Les deux refus de principe ont deja ete publies sous ce billet cette semaine, et les deux sujets ont ete ecartes plusieurs fois depuis hier (mouche lanternee 3 fois, toxicite animale 4 fois). Repetition litterale evitee.",
+   "ecarte_le": "2026-09-07",
+   "tir": "C"
   }
  ]
 }
