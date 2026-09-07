@@ -3895,6 +3895,20 @@
       "motif": "Remerciement entre abonnées.",
       "page_id": "114311920399404",
       "quand": "2026-09-07T16:38:43.576Z"
+    },
+    {
+      "id": "861131632820158_1055519419203471",
+      "extrait": "Louise Bouchard",
+      "motif": "Identification seule, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T17:37:46.718Z"
+    },
+    {
+      "id": "861131632820158_1745363829629860",
+      "extrait": "merci",
+      "motif": "Accusé de réception d'une réponse déjà donnée par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T17:37:46.718Z"
     }
   ]
 }
