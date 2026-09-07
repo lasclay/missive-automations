@@ -3671,6 +3671,20 @@
       "motif": "Message tronqué, sans contenu exploitable.",
       "page_id": "114311920399404",
       "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_1280614526504955",
+      "extrait": "Jean-sébastien Arteau moi j'attend les bas….",
+      "motif": "Même demande de bas que celle à laquelle la Page vient de répondre au tir de 21 h dans ce fil (noté, sans promesse). Y revenir une heure plus tard serait un doublon.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T02:38:36.242Z"
+    },
+    {
+      "id": "663826792550644_466680996514449",
+      "extrait": "moi j'en ai dans ma plate bande et elles repoussent chaque année sans problème et la talle s'agrandit tranquillement",
+      "motif": "Sous-fil déjà traité : la Page a répondu à la question d'origine (« je laisse aller ? ») et a corrigé au tir de 13 h la réplique qui traitait l'asclépiade d'exotique. Ajouter un troisième message ici serait de la redite.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T02:38:36.242Z"
     }
   ]
 }

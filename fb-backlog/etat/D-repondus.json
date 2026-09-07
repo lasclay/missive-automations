@@ -2448,8 +2448,24 @@
       "quand": "2026-09-07T01:50:59.691Z",
       "confirme": true,
       "texte": "Ça commence souvent par là, une paire de mitaines : des mains qui gèlent avant tout le reste 🧤 Merci du bon mot."
+    },
+    {
+      "id": "663826792550644_9500642869947315",
+      "reponse_id": "663826792550644_4403281826603625",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T02:38:43.233Z",
+      "confirme": true,
+      "texte": "Merci pour la franchise — et pour le reste du message 🙏 Une semelle qui ne tient pas en place dans un soulier bas, c'est une limite réelle, et on n'a pas d'astuce à vous offrir pour la contourner. On aime mieux le dire que de laisser quelqu'un acheter en pensant le contraire."
+    },
+    {
+      "id": "663826792550644_2496441623896420",
+      "reponse_id": "663826792550644_4412121695718794",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T02:40:33.902Z",
+      "confirme": true,
+      "texte": "Merci beaucoup 🧣 Mitaines, semelles, puis le foulard : vous y allez dans l'ordre des extrémités qui gèlent en premier, c'est plutôt méthodique 🙂"
     }
   ],
-  "total": 306,
-  "derniere_execution": "2026-09-07T01:50:59.691Z"
+  "total": 308,
+  "derniere_execution": "2026-09-07T02:40:33.902Z"
 }
