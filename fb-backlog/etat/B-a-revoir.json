@@ -10151,6 +10151,46 @@
       "motif": "TROISIEME demande en deux jours du nombre de graines par sachet, celle-ci disant ne pas trouver linformation sur la fiche. Ce nombre nest pas dans les faits verifies, je ne peux donc pas repondre; le trou est desormais avere et devrait etre comble a la fois dans le corpus et sur la fiche produit",
       "ecarte_le": "2026-09-07",
       "tir": "B"
+    },
+    {
+      "id": "122142476066483418_733364982348815",
+      "page_id": "368305119707866",
+      "date": "2025-05-01T12:33:59+0000",
+      "message": "I have my seedlings ready to plant soon, hardening off now for a week.🌾",
+      "lien": "https://www.facebook.com/122210881520483418/videos/609653628616336?comment_id=733364982348815",
+      "motif": "recit sur des semis en cours dendurcissement, sans question; lendurcissement des plantules est absent des faits verifies",
+      "ecarte_le": "2026-09-07",
+      "tir": "B"
+    },
+    {
+      "id": "122142476066483418_1859814694857572",
+      "page_id": "368305119707866",
+      "date": "2025-05-01T11:32:46+0000",
+      "message": "We are eventually tearing out our entire lawn and replacing with native flowering plants. (Including butterfly milkweed)",
+      "lien": "https://www.facebook.com/122210881520483418/videos/609653628616336?comment_id=1859814694857572",
+      "motif": "projet de remplacer une pelouse par des plantes indigenes, sans question; tous les conseils verifies qui sy rattachent (planter en talle, plein soleil, nectar tardif a proximite, eviter les plants traites aux neonicotinoides, ne pas tondre en juin) ont deja ete publies",
+      "ecarte_le": "2026-09-07",
+      "tir": "B"
+    },
+    {
+      "id": "122142476066483418_999574108910016",
+      "page_id": "368305119707866",
+      "date": "2025-05-01T01:30:28+0000",
+      "message": "Bruce McGee I have monarch chrysalises here in Houston every fall.",
+      "lien": "https://www.facebook.com/122210881520483418/videos/609653628616336?comment_id=8546480728787392&reply_comment_id=999574108910016",
+      "motif": "temoignage de chrysalides a Houston opposant laffirmation Iowa plutot que Texas: laire de reproduction et la route migratoire sont des trous documentes des faits verifies",
+      "ecarte_le": "2026-09-07",
+      "tir": "B"
+    },
+    {
+      "id": "122142476066483418_1847456466045630",
+      "page_id": "368305119707866",
+      "date": "2025-04-30T23:10:52+0000",
+      "message": "Delberta Eklund thanks!",
+      "lien": "https://www.facebook.com/122210881520483418/videos/609653628616336?comment_id=3830184037293635&reply_comment_id=1847456466045630",
+      "motif": "un remerciement, sans question",
+      "ecarte_le": "2026-09-07",
+      "tir": "B"
     }
   ]
 }
