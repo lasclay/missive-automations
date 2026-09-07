@@ -1248,8 +1248,16 @@
       "quand": "2026-09-06T22:09:47.104Z",
       "confirme": true,
       "texte": "Ha! Bonne chasse à la personne aux cheveux longs, alors. Merci du mot."
+    },
+    {
+      "id": "1674454204688389_1317485996973985",
+      "reponse_id": "1674454204688389_2148561742366086",
+      "page_id": "104242204750257",
+      "quand": "2026-09-07T15:11:49.446Z",
+      "confirme": true,
+      "texte": "Merci. Une précision honnête quand même : la soie d'asclépiade est cultivée et transformée au Québec, mais l'assemblage textile se fait surtout en Tunisie depuis cet été. Content que la démarche vous parle."
     }
   ],
-  "derniere_execution": "2026-09-06T22:09:47.106Z",
-  "total": 156
+  "derniere_execution": "2026-09-07T15:11:49.447Z",
+  "total": 157
 }
