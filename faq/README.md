@@ -43,6 +43,13 @@ publication sont listés dans la maquette (notes « À valider ») et plus bas.
   T-shirts brodés » (tableaux trop larges, enveloppés dans un bloc défilant, FR et EN) et « Points de
   vente » (carte Google à 140 %, passée à 100 %, FR et EN) corrigés dans le corps des pages. Sans
   défaut : Livraison et échanges, Guide manteaux et vestes, Guide de plantation, À propos.
+- 8 septembre, 13 h 45 : « Copy of sep 2026 » publié sous le nom **« sep 2026 v2 »**. Bandeau par sujet et
+  correctif mobile vérifiés en ligne.
+- Titre de page recouvert par l'en-tête sur mobile (toutes les pages standard) : l'app Hextom (barre
+  « Livraison gratuite ») décale l'en-tête collant de 44 px en plus de l'espace de 44 px qu'elle insère.
+  Correctif CSS dans `theme/snippets/body-end-tag.liquid` (dépôt), à coller dans le fichier du même nom
+  du thème en ligne (vide dans Showcase, rendu à la fin du body). L'API ne peut pas écrire dans le thème
+  publié.
 - Traduction anglaise : Langify a traduit automatiquement le corps de la page (37 questions) ; à relire.
   Les réglages de la section (accroche, titre, phrase d'intro, texte de recherche, bloc contact) sont
   encore en français sur `/en/pages/faq` : à traduire sous Thème dans Langify ou Translate & Adapt.
