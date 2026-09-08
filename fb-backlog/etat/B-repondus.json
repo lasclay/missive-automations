@@ -1296,8 +1296,16 @@
       "quand": "2026-09-08T18:28:00.768Z",
       "confirme": true,
       "texte": "Yes. The range runs zones 3 through 9, so 9b sits at the warm end of it rather than outside."
+    },
+    {
+      "id": "122142476066483418_912701547569551",
+      "reponse_id": "122142476066483418_1409684591295527",
+      "page_id": "368305119707866",
+      "quand": "2026-09-08T21:27:41.626Z",
+      "confirme": true,
+      "texte": "One thing worth checking is when the stand gets cut. Milkweed mown in June takes the eggs and the caterpillars with it, and a patch on that schedule can look healthy all summer without ever raising anything."
     }
   ],
-  "derniere_execution": "2026-09-08T18:28:00.768Z",
-  "total": 162
+  "derniere_execution": "2026-09-08T21:27:41.627Z",
+  "total": 163
 }
