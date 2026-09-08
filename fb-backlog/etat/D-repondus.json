@@ -2896,8 +2896,40 @@
       "quand": "2026-09-08T00:37:45.832Z",
       "confirme": true,
       "texte": "Trois mots et un pouce, c'est efficace 👍 Merci — et bonne saison à vos pieds."
+    },
+    {
+      "id": "663826792550644_1067750651216674",
+      "reponse_id": "663826792550644_1078938301339974",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T01:38:55.278Z",
+      "confirme": true,
+      "texte": "Reçues et adoptées, c'est la meilleure fin possible 🧤 Merci de l'écrire ici — venant de vous, ça vaut mieux qu'une réponse de notre part."
+    },
+    {
+      "id": "663826792550644_919274982867126",
+      "reponse_id": "663826792550644_1625882625726818",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T01:40:22.777Z",
+      "confirme": true,
+      "texte": "Merci 🙏 On aime toujours mieux quand c'est vous qui le dites que quand c'est nous."
+    },
+    {
+      "id": "663826792550644_296346496192031",
+      "reponse_id": "663826792550644_2169429647200135",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T01:41:52.755Z",
+      "confirme": true,
+      "texte": "Le père Noël en renfort, on ne peut pas demander mieux 🎅 Bonne attente — et bon premier froid."
+    },
+    {
+      "id": "663826792550644_3698071227095144",
+      "reponse_id": "663826792550644_1760863738575618",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T01:43:09.603Z",
+      "confirme": true,
+      "texte": "Bonne route à cette paire-là 🧤 Revenez nous dire ce qu'elle vaut une fois le mercure descendu."
     }
   ],
-  "total": 362,
-  "derniere_execution": "2026-09-08T00:37:45.832Z"
+  "total": 366,
+  "derniere_execution": "2026-09-08T01:43:09.603Z"
 }
