@@ -35,6 +35,14 @@ publication sont listés dans la maquette (notes « À valider ») et plus bas.
   `.faq-cats`, donc les cartes-photos par sujet n'apparaissaient pas en ligne. La section ajoute
   `width: 100%` (commit `8d574aa`) ; poussée dans le thème **« Copy of sep 2026 »** avec l'en-tête
   « Par sujet » empilé sur mobile. À publier, ou recopier la section dans le thème en ligne.
+- Mobile (8 septembre) : le champ de recherche imposait sa largeur intrinsèque à la grille de l'en-tête,
+  qui débordait de l'écran. Corrigé dans la section (`minmax(0, 1fr)`, `min-width: 0`, commit `ca42c27`),
+  poussé dans « Copy of sep 2026 » avec le correctif du bandeau. L'en-tête, le pied de page et la page
+  d'accueil modifiés dans « sep 2026 » après la copie y ont été reportés : la copie est prête à publier.
+- Audit mobile des autres pages (8 septembre, 390 px) : « Guides des tailles » et « Guide des tailles -
+  T-shirts brodés » (tableaux trop larges, enveloppés dans un bloc défilant, FR et EN) et « Points de
+  vente » (carte Google à 140 %, passée à 100 %, FR et EN) corrigés dans le corps des pages. Sans
+  défaut : Livraison et échanges, Guide manteaux et vestes, Guide de plantation, À propos.
 - Traduction anglaise : Langify a traduit automatiquement le corps de la page (37 questions) ; à relire.
   Les réglages de la section (accroche, titre, phrase d'intro, texte de recherche, bloc contact) sont
   encore en français sur `/en/pages/faq` : à traduire sous Thème dans Langify ou Translate & Adapt.
