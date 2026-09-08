@@ -59,6 +59,8 @@ publication sont listés dans la maquette (notes « À valider ») et plus bas.
   surlignage; un clic ouvre la question et défile jusqu'à elle. La page n'est plus filtrée. Les liens du
   sommaire, des cartes et des résultats défilent en tenant compte de l'en-tête collant et de la barre
   Hextom (décalage mesuré en JS, `--faqh-top`). Nouveaux réglages : `search_label`, `results_label`.
+- 8 septembre, 14 h : section avec recherche à résultats et défilement corrigé collée dans « sep 2026 v2 »,
+  confirmée fonctionnelle en ligne par Lasclay.
 - Traduction anglaise : Langify a traduit automatiquement le corps de la page (37 questions) ; à relire.
   Les réglages de la section (accroche, titre, phrase d'intro, texte de recherche, bloc contact) sont
   encore en français sur `/en/pages/faq` : à traduire sous Thème dans Langify ou Translate & Adapt.
