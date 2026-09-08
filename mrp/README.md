@@ -739,6 +739,13 @@ Les 678 URL d'images sont toutes sur le CDN Shopify et passent `urlImage()`
 sans exception. Rien n'est hébergé ici : ce sont des adresses, pas des
 fichiers, et l'ensemble pèse 412 Ko.
 
+## Lectures
+
+**[`COMPARAISON-ERPNEXT.md`](COMPARAISON-ERPNEXT.md)** — ce que le plus gros ERP libre
+(38 k étoiles, GPL v3) fait de son ordonnancement, ce que nous faisons déjà comme eux, et
+les trois choses qui valent d'être reprises. Avertissement de licence inclus : on lit
+leur conception, on ne copie pas leur code.
+
 ## Backlog
 
 **Fiches produits poussées — à préparer.** Des fiches plus détaillées s'en
