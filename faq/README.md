@@ -54,6 +54,11 @@ publication sont listés dans la maquette (notes « À valider ») et plus bas.
   `<footer>`; le bandeau par sujet remontait par-dessus l'en-tête de la FAQ et sa zone de défilement
   couvrait le champ. Corrigé dans la section (`float: none; clear: both`) et doublé dans
   `theme/snippets/body-end-tag.liquid` pour le thème déjà publié.
+- Recherche et sommaire (8 septembre) : la recherche affiche maintenant un panneau de résultats sous le
+  champ (à la saisie, à Entrée ou au bouton « Chercher »), classés titre d'abord, avec extrait et
+  surlignage; un clic ouvre la question et défile jusqu'à elle. La page n'est plus filtrée. Les liens du
+  sommaire, des cartes et des résultats défilent en tenant compte de l'en-tête collant et de la barre
+  Hextom (décalage mesuré en JS, `--faqh-top`). Nouveaux réglages : `search_label`, `results_label`.
 - Traduction anglaise : Langify a traduit automatiquement le corps de la page (37 questions) ; à relire.
   Les réglages de la section (accroche, titre, phrase d'intro, texte de recherche, bloc contact) sont
   encore en français sur `/en/pages/faq` : à traduire sous Thème dans Langify ou Translate & Adapt.

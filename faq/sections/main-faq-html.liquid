@@ -43,14 +43,31 @@
     .faqh__hero h1 { margin: 0; font-size: clamp(34px, 5vw, 52px); line-height: 1.12; }
     .faqh__hero h1::after { content: ""; display: block; width: 56px; height: 4px; background: var(--faq-gold); margin-top: 16px; border-radius: 2px; }
     .faqh__lead { font-size: 1.1em; color: var(--faq-ink-2); max-width: 58ch; margin: 0; }
-    .faqh__search { display: flex; min-width: 0; width: 100%; align-items: center; gap: 10px; background: #fff; border: 1.5px solid var(--faq-line); border-radius: 10px; padding: 6px 6px 6px 16px; max-width: 640px; box-shadow: 0 8px 24px rgba(66,63,63,.06); }
-    .faqh__search svg { width: 20px; height: 20px; flex: none; stroke: var(--faq-ink-2); }
+    .faqh__search { display: flex; min-width: 0; width: 100%; align-items: center; gap: 8px; background: #fff; border: 1.5px solid var(--faq-line); border-radius: 10px; padding: 6px 6px 6px 16px; max-width: 640px; box-shadow: 0 8px 24px rgba(66,63,63,.06); position: relative; }
+    .faqh__search:focus-within { border-color: var(--faq-gold); }
+    .faqh__search > svg { width: 20px; height: 20px; flex: none; stroke: var(--faq-ink-2); }
     .faqh__search input { flex: 1 1 0; min-width: 0; width: 0; border: 0; background: transparent; color: var(--faq-ink); font: inherit; padding: 10px 0; outline: none; margin: 0; box-shadow: none; }
-    .faqh__search button { border: 0; background: var(--faq-gold); color: #2b2620; font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 7px; cursor: pointer; }
-    .faqh__noresult { display: none; padding: 20px; border: 1.5px dashed var(--faq-line); border-radius: 12px; color: var(--faq-ink-2); margin-bottom: 20px; }
-    .faqh.is-searching .faqh__noresult.is-shown { display: block; }
-    .faqh.is-searching .faq-group.is-empty { display: none; }
-    .faqh.is-searching .faq-quick { display: none; }
+    .faqh__search input::-webkit-search-cancel-button { display: none; }
+    .faqh__search-clear { flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: var(--faq-ink-2); font-size: 22px; line-height: 1; cursor: pointer; padding: 0; }
+    .faqh__search-clear:hover { background: var(--faq-sand-2); color: var(--faq-ink); }
+    .faqh__search-clear[hidden] { display: none; }
+    .faqh__search-go { flex: none; border: 0; background: var(--faq-gold); color: #2b2620; font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 7px; cursor: pointer; }
+    .faqh__results { max-width: 640px; background: #fff; border: 1.5px solid var(--faq-line); border-radius: 12px; box-shadow: 0 12px 32px rgba(66,63,63,.10); overflow: hidden; }
+    .faqh__results[hidden] { display: none; }
+    .faqh__results-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 16px; font-size: .85em; color: var(--faq-ink-2); border-bottom: 1px solid var(--faq-line); background: var(--faq-sand-2); }
+    .faqh__results-head strong { color: var(--faq-ink); }
+    .faqh__results ol { list-style: none; margin: 0; padding: 0; max-height: 380px; overflow-y: auto; }
+    .faqh__results li + li { border-top: 1px solid var(--faq-line); }
+    .faqh__result { display: block; padding: 12px 16px; color: var(--faq-ink); text-decoration: none; border: 0; }
+    .faqh__result:hover, .faqh__result:focus { background: var(--faq-sand-2); outline: none; }
+    .faqh__result-sec { display: block; font-size: .75em; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--faq-gold-ink); margin-bottom: 2px; }
+    .faqh__result strong { display: block; font-weight: 600; line-height: 1.3; }
+    .faqh__result em { display: block; font-style: normal; font-size: .88em; color: var(--faq-ink-2); margin-top: 3px; line-height: 1.4; }
+    .faqh__result mark { background: var(--faq-gold-soft); color: inherit; padding: 0 1px; border-radius: 2px; }
+    .faqh__results-empty { padding: 16px; color: var(--faq-ink-2); }
+    .faqh details.is-hit { box-shadow: 0 0 0 3px var(--faq-gold); transition: box-shadow .3s; }
+    /* Cibles d'ancres et sommaire collant : rester sous l'en-tête du thème (+ barre d'annonce) */
+    .faqh .faq-group, .faqh details { scroll-margin-top: var(--faqh-top, 150px); }
 
     /* Bandeau par sujet (même langage que le carrousel Collections) */
     .faqh__cats { background: var(--faq-sand); border-bottom: 1px solid var(--faq-line); padding: 34px 0 26px; }
@@ -90,7 +107,7 @@
     .faqh__body { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; padding: 36px 0 64px; align-items: start; }
     .faqh__body > * { min-width: 0; }
     .faqh__content { max-width: 100%; }
-    .faqh__toc { position: sticky; top: 20px; }
+    .faqh__toc { position: sticky; top: var(--faqh-top, 150px); }
     .faqh__toc h2, .faqh__quick-title { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--faq-ink-2); margin: 0 0 10px; }
     .faqh__toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
     .faqh__toc a { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 8px 10px; border-radius: 8px; color: var(--faq-ink); font-size: .9em; font-weight: 500; text-decoration: none; border: 0; }
@@ -156,7 +173,7 @@
       .faqh .faq-quick { grid-template-columns: 1fr; }
       .faqh .faq-care { grid-template-columns: 1fr; }
       .faqh__hero .faqh__wrap { padding: 40px 0 32px; }
-      .faqh__search button { display: none; }
+      .faqh__search-go { display: none; }
       .faqh__cats-head { flex-direction: column; align-items: flex-start; gap: 4px; }
     }
     @media (prefers-reduced-motion: reduce) { .faqh * { transition: none !important; } }
@@ -184,11 +201,15 @@
       <h1>{{ section.settings.title | default: page.title | escape }}</h1>
       {%- if section.settings.lead != blank -%}<p class="faqh__lead">{{ section.settings.lead | escape }}</p>{%- endif -%}
       {%- if section.settings.show_search -%}
-        <form class="faqh__search" role="search" onsubmit="return false">
+        <form class="faqh__search" role="search" data-faqh-form>
           <svg aria-hidden="true"><use href="#faqh-search"/></svg>
           <input type="search" placeholder="{{ section.settings.search_placeholder | escape }}" aria-label="{{ section.settings.search_placeholder | escape }}" autocomplete="off" data-faqh-search>
-          <button type="button" data-faqh-clear>{{ section.settings.clear_label | escape }}</button>
+          <button type="button" class="faqh__search-clear" data-faqh-clear aria-label="{{ section.settings.clear_label | escape }}" title="{{ section.settings.clear_label | escape }}" hidden>&times;</button>
+          <button type="submit" class="faqh__search-go">{{ section.settings.search_label | escape }}</button>
         </form>
+        <div class="faqh__results" data-faqh-results hidden aria-live="polite"
+             data-label-results="{{ section.settings.results_label | escape }}"
+             data-label-empty="{{ section.settings.no_results | escape }}"></div>
       {%- endif -%}
     </div>
   </header>
@@ -208,7 +229,6 @@
     </nav>
 
     <main class="faqh__content" data-faqh-content>
-      <div class="faqh__noresult" data-faqh-noresult>{{ section.settings.no_results | escape }}</div>
       {%- if section.settings.content_source == 'snippet' -%}
         {%- render 'faq-content' -%}
       {%- else -%}
@@ -352,32 +372,107 @@
         }
       } catch (e) {}
 
-      // Recherche
-      var q = root.querySelector('[data-faqh-search]');
-      var clear = root.querySelector('[data-faqh-clear]');
-      var noresult = root.querySelector('[data-faqh-noresult]');
-      if (!q) return;
-      function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
-      function search() {
-        var terms = norm(q.value).split(/\s+/).filter(function (t) { return t.length > 1; });
-        var searching = terms.length > 0;
-        root.classList.toggle('is-searching', searching);
-        var total = 0;
-        groups.forEach(function (g) {
-          var found = 0;
-          g.querySelectorAll('details').forEach(function (d) {
-            var hit = searching && terms.every(function (t) { return norm(d.textContent).indexOf(t) !== -1; });
-            d.hidden = searching && !hit;
-            if (searching) d.open = hit;
-            if (hit) found++;
-          });
-          g.classList.toggle('is-empty', searching && found === 0);
-          total += found;
+      // Aller à une section ou une question : défilement doux, cible sous l'en-tête, question ouverte
+      function headerOffset() {
+        var h = 0;
+        document.querySelectorAll('#site-control, #fsb_background, .cc-announcement').forEach(function (n) {
+          var r = n.getBoundingClientRect();
+          if (r.height > 0 && r.top < 200) h = Math.max(h, r.bottom);
         });
-        if (noresult) noresult.classList.toggle('is-shown', searching && total === 0);
+        return Math.round(h) + 20;
       }
-      q.addEventListener('input', search);
-      if (clear) clear.addEventListener('click', function () { q.value = ''; search(); q.focus(); });
+      function setOffset() { root.style.setProperty('--faqh-top', headerOffset() + 'px'); }
+      setOffset();
+      window.addEventListener('resize', setOffset);
+      window.addEventListener('load', setOffset);
+      function goTo(el, hash) {
+        if (!el) return;
+        if (el.tagName === 'DETAILS') el.open = true;
+        setOffset();
+        var y = el.getBoundingClientRect().top + window.pageYOffset - headerOffset();
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        if (hash && history.replaceState) history.replaceState(null, '', '#' + hash);
+        if (el.tagName === 'DETAILS') { el.classList.add('is-hit'); setTimeout(function () { el.classList.remove('is-hit'); }, 1800); }
+      }
+      root.addEventListener('click', function (e) {
+        var a = e.target.closest('a[href^="#"]');
+        if (!a || !root.contains(a)) return;
+        var id = a.getAttribute('href').slice(1);
+        var el = id && document.getElementById(id);
+        if (!el) return;
+        e.preventDefault();
+        goTo(el, id);
+      });
+
+      // Recherche : un vrai panneau de résultats sous le champ, la page reste intacte
+      var q = root.querySelector('[data-faqh-search]');
+      var form = root.querySelector('[data-faqh-form]');
+      var clear = root.querySelector('[data-faqh-clear]');
+      var panel = root.querySelector('[data-faqh-results]');
+      if (!q || !panel) return;
+      var labelResults = panel.dataset.labelResults || 'Résultats';
+      var labelEmpty = panel.dataset.labelEmpty || '';
+      function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+      function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+      var items = [];
+      groups.forEach(function (g) {
+        var h2 = g.querySelector('h2');
+        var sec = h2 ? h2.textContent.replace(/\s+/g, ' ').trim() : '';
+        var badge = h2 && h2.querySelector('.faq-badge');
+        if (badge) sec = sec.replace(badge.textContent.trim(), '').trim();
+        g.querySelectorAll('details').forEach(function (d, i) {
+          var sm = d.querySelector('summary'), an = d.querySelector('.faq-answer');
+          if (!sm) return;
+          if (!d.id) d.id = (g.id || 'faq') + '-q' + (i + 1);
+          items.push({ el: d, sec: sec, title: sm.textContent.replace(/\s+/g, ' ').trim(), body: an ? an.textContent.replace(/\s+/g, ' ').trim() : '' });
+        });
+      });
+      function highlight(text, terms) {
+        var out = esc(text);
+        terms.forEach(function (t) {
+          var re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+          out = out.replace(re, '<mark>$1</mark>');
+        });
+        return out;
+      }
+      function snippet(body, terms) {
+        var n = norm(body), pos = -1;
+        terms.forEach(function (t) { var i = n.indexOf(t); if (i !== -1 && (pos === -1 || i < pos)) pos = i; });
+        if (pos === -1) return body.slice(0, 140) + (body.length > 140 ? '…' : '');
+        var start = Math.max(0, pos - 60), end = Math.min(body.length, pos + 100);
+        return (start > 0 ? '…' : '') + body.slice(start, end) + (end < body.length ? '…' : '');
+      }
+      function hide() { panel.hidden = true; panel.innerHTML = ''; }
+      function run() {
+        var raw = q.value.trim();
+        var terms = norm(raw).split(/\s+/).filter(function (t) { return t.length > 1; });
+        if (clear) clear.hidden = raw.length === 0;
+        if (!terms.length) { hide(); return; }
+        var hits = [];
+        items.forEach(function (it, idx) {
+          var t = norm(it.title), b = norm(it.body), score = 0;
+          var all = terms.every(function (term) { return t.indexOf(term) !== -1 || b.indexOf(term) !== -1; });
+          if (!all) return;
+          terms.forEach(function (term) { if (t.indexOf(term) !== -1) score += 3; if (b.indexOf(term) !== -1) score += 1; });
+          hits.push({ it: it, score: score, idx: idx });
+        });
+        hits.sort(function (a, b) { return b.score - a.score || a.idx - b.idx; });
+        var origTerms = raw.split(/\s+/).filter(function (t) { return t.length > 1; });
+        var html = '<div class="faqh__results-head"><span><strong>' + hits.length + '</strong> ' + esc(labelResults) + ' · « ' + esc(raw) + ' »</span></div>';
+        if (!hits.length) {
+          html += '<div class="faqh__results-empty">' + esc(labelEmpty) + '</div>';
+        } else {
+          html += '<ol>' + hits.slice(0, 12).map(function (h) {
+            return '<li><a class="faqh__result" href="#' + h.it.el.id + '"><span class="faqh__result-sec">' + esc(h.it.sec) + '</span><strong>' + highlight(h.it.title, origTerms) + '</strong>' + (h.it.body ? '<em>' + highlight(snippet(h.it.body, terms), origTerms) + '</em>' : '') + '</a></li>';
+          }).join('') + '</ol>';
+        }
+        panel.innerHTML = html;
+        panel.hidden = false;
+      }
+      q.addEventListener('input', function () { if (q.value.trim().length >= 2) run(); else { hide(); if (clear) clear.hidden = q.value.length === 0; } });
+      q.addEventListener('keydown', function (e) { if (e.key === 'Escape') { q.value = ''; hide(); if (clear) clear.hidden = true; } });
+      if (form) form.addEventListener('submit', function (e) { e.preventDefault(); run(); var first = panel.querySelector('.faqh__result'); if (first) first.focus(); });
+      if (clear) clear.addEventListener('click', function () { q.value = ''; hide(); clear.hidden = true; q.focus(); });
     })();
   </script>
 </div>
@@ -401,7 +496,9 @@
     { "type": "header", "content": "Recherche" },
     { "type": "checkbox", "id": "show_search", "label": "Afficher la recherche", "default": true },
     { "type": "text", "id": "search_placeholder", "label": "Texte indicatif", "default": "Chercher: suivi, taille, retour, graines, entretien…" },
-    { "type": "text", "id": "clear_label", "label": "Bouton effacer", "default": "Effacer" },
+    { "type": "text", "id": "search_label", "label": "Bouton chercher", "default": "Chercher" },
+    { "type": "text", "id": "clear_label", "label": "Bouton effacer (infobulle de la croix)", "default": "Effacer" },
+    { "type": "text", "id": "results_label", "label": "Libellé du compte de résultats", "default": "réponse(s)" },
     { "type": "text", "id": "no_results", "label": "Aucun résultat", "default": "Aucune question ne correspond à cette recherche. Essayez un autre mot, ou écrivez-nous." },
     { "type": "header", "content": "Sommaire" },
     { "type": "text", "id": "sidebar_title", "label": "Titre du sommaire", "default": "Sections" },
