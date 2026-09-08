@@ -1,0 +1,17 @@
+{% comment %}
+  Crochet de fin de <body> (Showcase). Correctifs Lasclay qui doivent s'appliquer à toutes les pages.
+
+  1. Barre « Livraison gratuite » (app Hextom Free Shipping Bar). L'app insère un espace #fsb_container
+     de 44 px en haut de page ET décale #site-control de 44 px (règle pensée pour un en-tête en
+     position: fixed). Showcase place son en-tête en position: sticky, déjà sous l'espace : le décalage
+     s'applique deux fois et l'en-tête recouvre les 44 premiers pixels du contenu (titre de page caché
+     sur mobile). On annule le décalage de l'app et on fait coller l'en-tête sous la barre.
+     :has() n'est pas compris par les vieux navigateurs : ils gardent simplement le comportement actuel.
+{% endcomment %}
+<style>
+  html body #site-control.site-control.fixed { top: 0 !important; }
+  html body:has(#fsb_container) .shopify-section.section-header { top: 44px !important; }
+  @media (min-width: 768px) {
+    html body:has(#fsb_container) .shopify-section.section-header { top: 52px !important; }
+  }
+</style>
