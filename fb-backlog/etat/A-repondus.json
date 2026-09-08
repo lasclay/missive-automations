@@ -1256,8 +1256,24 @@
       "quand": "2026-09-07T15:11:49.446Z",
       "confirme": true,
       "texte": "Merci. Une précision honnête quand même : la soie d'asclépiade est cultivée et transformée au Québec, mais l'assemblage textile se fait surtout en Tunisie depuis cet été. Content que la démarche vous parle."
+    },
+    {
+      "id": "1674454204688389_1651712629946425",
+      "reponse_id": "1674454204688389_1079022371159946",
+      "page_id": "104242204750257",
+      "quand": "2026-09-08T13:16:21.910Z",
+      "confirme": true,
+      "texte": "Merci! Ça encourage à continuer."
+    },
+    {
+      "id": "1674454204688389_1448754963817744",
+      "reponse_id": "1674454204688389_1381070967514470",
+      "page_id": "104242204750257",
+      "quand": "2026-09-08T13:18:53.686Z",
+      "confirme": true,
+      "texte": "L'idée est notée, on la garde dans nos suggestions."
     }
   ],
-  "derniere_execution": "2026-09-07T15:11:49.447Z",
-  "total": 157
+  "derniere_execution": "2026-09-08T13:18:53.686Z",
+  "total": 159
 }
