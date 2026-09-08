@@ -3636,6 +3636,524 @@
       "motif": "Renvoie au même constat que ses deux autres commentaires du lot, auxquels la Page répond ; y ajouter une troisième réponse à la même personne dans la même heure serait de l'insistance.",
       "page_id": "114311920399404",
       "quand": "2026-09-06T23:39:04.353Z"
+    },
+    {
+      "id": "663826792550644_988008499921109",
+      "extrait": "Liv Green j'aimerais aussi savoir, si vos mitaines se sont assouplies ou si elle restent raides et trop serrées, svp",
+      "motif": "Question adressée à une autre abonnée, qui y a répondu ; la Page a déjà relayé cette réponse aux tirs de 13 h et 19 h. Rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_436716536193435",
+      "extrait": "mes mitaines chauffantes de 125$ ont eu une durée de vie très courte comparativement à celles en asclépiade",
+      "motif": "Comparaison de prix chiffrés entre produits ; la Page a déjà répondu une fois à cette comparaison dans le fil sans reprendre les montants. Une deuxième intervention y ramènerait les chiffres.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_491239623786487",
+      "extrait": "Claire Dinel moi aussi",
+      "motif": "Approbation entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_1384168729407666",
+      "extrait": "tu l auras dit en premier",
+      "motif": "Fragment d'échange privé entre abonnés, sans contenu exploitable.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_2316337352068310",
+      "extrait": "Jean Francois Lepine l'avenir et la",
+      "motif": "Message tronqué, sans contenu exploitable.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T01:38:44.292Z"
+    },
+    {
+      "id": "663826792550644_1280614526504955",
+      "extrait": "Jean-sébastien Arteau moi j'attend les bas….",
+      "motif": "Même demande de bas que celle à laquelle la Page vient de répondre au tir de 21 h dans ce fil (noté, sans promesse). Y revenir une heure plus tard serait un doublon.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T02:38:36.242Z"
+    },
+    {
+      "id": "663826792550644_466680996514449",
+      "extrait": "moi j'en ai dans ma plate bande et elles repoussent chaque année sans problème et la talle s'agrandit tranquillement",
+      "motif": "Sous-fil déjà traité : la Page a répondu à la question d'origine (« je laisse aller ? ») et a corrigé au tir de 13 h la réplique qui traitait l'asclépiade d'exotique. Ajouter un troisième message ici serait de la redite.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T02:38:36.242Z"
+    },
+    {
+      "id": "663826792550644_2580074615522844",
+      "extrait": "Stéphanie Gagné Oh même après un an!! Merci beaucoup d'avoir répondu 😊",
+      "motif": "Remerciement entre deux abonnées. La question de fond (« sont-elles chaudes un an plus tard ? ») a été posée à une cliente, qui y a répondu ; la Page a déjà publié sa propre position sur la chaleur — aucune cote de température, aucune promesse. S'insérer ici n'ajouterait rien.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T10:38:20.031Z"
+    },
+    {
+      "id": "663826792550644_1330035618191701",
+      "extrait": "Danielle DL oui vraiment !!!! Je les trouve juste « raides »",
+      "motif": "Même sous-fil et même constat que _522326946929916, à qui la Page répond dans ce lot. Deux réponses côte à côte sur le même point seraient un doublon.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T11:38:12.732Z"
+    },
+    {
+      "id": "663826792550644_2888422171313298",
+      "extrait": "Christine Strehlau pour tes mains geler",
+      "motif": "Identification d'une amie, sans message adressé à la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T11:38:12.732Z"
+    },
+    {
+      "id": "663826792550644_1682419339339741",
+      "extrait": "Merci beaucoup pour les informations",
+      "motif": "Remerciement entre abonnés, rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T11:38:12.732Z"
+    },
+    {
+      "id": "861131632820158_1091298342481265",
+      "extrait": "Julie Barthe merci",
+      "motif": "Remerciement entre abonnées, dans le sous-fil sur le point de vente où la Page vient de répondre au tir de 8 h.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T13:38:10.922Z"
+    },
+    {
+      "id": "663826792550644_560394590113960",
+      "extrait": "Ça remonte à plus d'un an; pas sûre que c'est encore valide. (à propos d'un code promo)",
+      "motif": "Question sur la validité d'un code promo : la Page ne commente ni les prix ni les rabais en public.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T13:38:10.922Z"
+    },
+    {
+      "id": "861131632820158_1284934189212252",
+      "extrait": "Mes prochains achats",
+      "motif": "Note personnelle de mise de côté, sans question ni contenu auquel répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T13:38:10.922Z"
+    },
+    {
+      "id": "782814656882457_650057881200598",
+      "extrait": "Anne Rousseau sérieux ?! Je savais pas :0",
+      "motif": "Réaction entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "782814656882457_1239914516673833",
+      "extrait": "Chantal Modérie de quel coin ?",
+      "motif": "Question adressée à une autre abonnée sur son secteur.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "782814656882457_654596520798907",
+      "extrait": "Il pouvait aussi s'agir de la belle dame, ou encore du vice-roi qui lui ressemble beaucoup.",
+      "motif": "Identification d'espèces sosies : hors des faits vérifiés de la Page, qui ne peut ni valider ni infirmer sans risquer de dire faux.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "782814656882457_1371211507409311",
+      "extrait": "Léane Aubin-Thériault",
+      "motif": "Identification seule, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "782814656882457_506804895719796",
+      "extrait": "mais il me semble que j'étais pas mal sur que c'était des monarque",
+      "motif": "Même sous-fil d'identification d'espèces, entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "782814656882457_1317544919323011",
+      "extrait": "ce sont des belles dames, papillons qui ressemblent un peu mais pas du tout la même espèce",
+      "motif": "Même sous-fil d'identification, hors des faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "782814656882457_602468938919188",
+      "extrait": "j'ai parlé de l'importance pour l'aéroport de Montréal de préserver des espaces pour l'asclépiade […] et de l'inaction de Steven Guilbeault",
+      "motif": "Prise de position politique nommant un élu : la Page ne se joint pas à ce terrain.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "782814656882457_665436192763448",
+      "extrait": "Julie Brisebois",
+      "motif": "Identification seule, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "782814656882457_594581430289479",
+      "extrait": "Stéphanie Curney oui en avant lol",
+      "motif": "Blague entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "782814656882457_855842306717871",
+      "extrait": "on les plantera là-bas mais En avant lol pas d'abeille en arrière svp haha",
+      "motif": "Blague entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "861131632820158_3959000547702999",
+      "extrait": "mélanger de l'asclépiade avec de la laine mérino, douceur et chaleur au max",
+      "motif": "Troisième expression du même souhait de fil à tricoter ; la Page y a répondu au tir de 15 h hier (noté, aucune promesse).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "663826792550644_441754275649665",
+      "extrait": "peut-être la survie d'un œuf de papillon monarque qui n'attend que sa métamorphose",
+      "motif": "Sous-fil « je laisse aller ? » déjà traité deux fois par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "861131632820158_1586906762217308",
+      "extrait": "Tania Hebert merci beaucoup!!",
+      "motif": "Remerciement entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "861131632820158_596427149487687",
+      "extrait": "oui. J attends de voir avec les grands froids mais tres satisfaite pour le moment",
+      "motif": "Greffé à un sous-fil de plaintes de commande (« il y en a qui n'ont jamais reçu leur commande […] pas de réponse »). Répondre au message positif reviendrait à intervenir publiquement dans ce dossier.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T14:39:11.421Z"
+    },
+    {
+      "id": "861131632820158_498795313179478",
+      "extrait": "Nathalie Giroux Merci!",
+      "motif": "Remerciement entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T15:38:06.622Z"
+    },
+    {
+      "id": "861131632820158_1238599424106534",
+      "extrait": "je ne sais pas s'ils ont du stock ou non […] ils semblent dire qu'ils fabriquent selon la demande",
+      "motif": "Supposition sur notre mode de production, présentée comme telle par son autrice (« je ne sais pas », « ils semblent dire »). La Page n'a rien de vérifié à confirmer ou infirmer là-dessus, et elle a déjà répondu dans ce sous-fil au tir de 8 h en renvoyant au privé pour toute question de stock ou de cueillette.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T15:38:06.622Z"
+    },
+    {
+      "id": "861131632820158_1615847645810070",
+      "extrait": "on va se partir la dedans l'été prochain je vais te montrer quand il sont en fleurs",
+      "motif": "Échange de projet entre deux abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T16:38:43.576Z"
+    },
+    {
+      "id": "861131632820158_1277043756824227",
+      "extrait": "d'accord ! Merci de votre réponse.",
+      "motif": "Accusé de réception d'une réponse déjà donnée par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T16:38:43.576Z"
+    },
+    {
+      "id": "861131632820158_546619471344020",
+      "extrait": "Merci beaucoup pour l'info!",
+      "motif": "Remerciement entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T16:38:43.576Z"
+    },
+    {
+      "id": "861131632820158_1052131343376018",
+      "extrait": "Eliane Becco ce dont je te parlais 😉",
+      "motif": "Identification d'une amie, sans message pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T16:38:43.576Z"
+    },
+    {
+      "id": "861131632820158_446287395152809",
+      "extrait": "Olivier Simard, note le code",
+      "motif": "Identification, sans message pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T16:38:43.576Z"
+    },
+    {
+      "id": "861131632820158_1965378900598130",
+      "extrait": "Marie Dallaire moi aussi, J'ai pas encore reçu mes pantoufles....",
+      "motif": "Se greffe à une question de délai de livraison sur une précommande : les règles interdisent d'évoquer un délai en public.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T16:38:43.576Z"
+    },
+    {
+      "id": "861131632820158_1198821724710902",
+      "extrait": "Amélie Pellerin hoo!!!! Merci 🤗",
+      "motif": "Remerciement entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T16:38:43.576Z"
+    },
+    {
+      "id": "861131632820158_1055519419203471",
+      "extrait": "Louise Bouchard",
+      "motif": "Identification seule, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T17:37:46.718Z"
+    },
+    {
+      "id": "861131632820158_1745363829629860",
+      "extrait": "merci",
+      "motif": "Accusé de réception d'une réponse déjà donnée par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T17:37:46.718Z"
+    },
+    {
+      "id": "617494610081130_310250381747267",
+      "extrait": "explication complète de la stratification par une abonnée (6 semaines au frigo, incarnate pour les rives, commune pour sol ordinaire)",
+      "motif": "Réponse déjà juste et complète, donnée par une abonnée à une autre. Y ajouter notre version (une trentaine de jours plutôt que six semaines) serait de la pédanterie sans utilité.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "617494610081130_1302090678276145",
+      "extrait": "Florence Salles Lejour en a tu des semences???",
+      "motif": "Question adressée à une amie.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "617494610081130_3500190506901889",
+      "extrait": "Mortemar Sto Helit quelle information??",
+      "motif": "Fragment de conversation entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "617494610081130_537947371864761",
+      "extrait": "et moi puis je en avoir aussi?? […] Je vous écris en privé",
+      "motif": "Échange de semences entre deux abonnées, en privé.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "617494610081130_875028367038392",
+      "extrait": "vous avez un ou plusieurs spot d'asclepiades d'ou on pourrait prendre des semences?",
+      "motif": "Question adressée à une autre abonnée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "648766830287241_590204159634821",
+      "extrait": "Quelle est la meilleure endroit pour voir les papillons au Mexique?? J'ai essayé san rosario.",
+      "motif": "Sanctuaires mexicains : hors des faits vérifiés, la Page n'a rien à recommander sans risquer d'inventer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "617494610081130_1199805128657739",
+      "extrait": "Diane Lefebvre Les monarques mangent les feuilles d'asclépiade…",
+      "motif": "Précision chenilles/adultes déjà publiée par la Page, greffée à une affirmation régionale (Abitibi) hors des faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "617494610081130_2218336975332468",
+      "extrait": "on les sème dans la période où les graines se détachent naturellement des cocottes, avant les gels",
+      "motif": "Conseil juste, donné par une abonnée à une autre ; la Page publie déjà la même chose dans ce lot.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "617494610081130_4133468350238425",
+      "extrait": "C'est le temps de les ramasser et de les semer 🥰",
+      "motif": "Reprend le conseil de calendrier que la Page publie déjà dans ce lot.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "617494610081130_1875834326684542",
+      "extrait": "je suis allez chez mes parents a sainte-agathe en chercher",
+      "motif": "Récit adressé à un autre abonné.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "617494610081130_25076706471954199",
+      "extrait": "bien drainer sablonneux bordure de route , champ",
+      "motif": "Réponse donnée entre abonnés, exacte, rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T18:39:10.684Z"
+    },
+    {
+      "id": "861131632820158_1533485430860961",
+      "extrait": "Chantale Niquay Kokom Germaine Dube 🦋😊",
+      "motif": "Identifications seules, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T19:37:57.471Z"
+    },
+    {
+      "id": "861131632820158_324329457412564",
+      "extrait": "Marc Andre Fournier",
+      "motif": "Identification seule, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T19:37:57.471Z"
+    },
+    {
+      "id": "861131632820158_3691252367870944",
+      "extrait": "Marie-lou Fontaine😄",
+      "motif": "Identification seule, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T19:37:57.471Z"
+    },
+    {
+      "id": "861131632820158_453727857696129",
+      "extrait": "Catherine Proulx / Belinda Proulx",
+      "motif": "Identifications seules, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T19:37:57.471Z"
+    },
+    {
+      "id": "861131632820158_1200130251040653",
+      "extrait": "Danielle Magnan",
+      "motif": "Identification seule, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T20:39:46.200Z"
+    },
+    {
+      "id": "861131632820158_1242283116792573",
+      "extrait": "merci",
+      "motif": "Accusé de réception d'une réponse déjà donnée par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T20:39:46.200Z"
+    },
+    {
+      "id": "861131632820158_1041551480500797",
+      "extrait": "Eve Van Der Meerschen",
+      "motif": "Identification seule, sans message.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T20:39:46.200Z"
+    },
+    {
+      "id": "617494610081130_373529105590670",
+      "extrait": "(photo sans texte)",
+      "motif": "L'image est un simple autocollant d'avatar Facebook, sans contenu à commenter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T20:39:46.200Z"
+    },
+    {
+      "id": "782814656882457_1093078731913204",
+      "extrait": "Lison, montre ça à Gilles. Merci! ;)",
+      "motif": "Identification, sans message pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T20:39:46.200Z"
+    },
+    {
+      "id": "663826792550644_768980508004937",
+      "extrait": "Gen Paul Williams 😂 No thanks",
+      "motif": "Même sous-fil que le signalement de faux profil, auquel la Page répond dans ce lot.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T20:39:46.200Z"
+    },
+    {
+      "id": "617494610081130_410410934826030",
+      "extrait": "Chantal Landry merci de ces bons conseils",
+      "motif": "Remerciement entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T20:39:46.200Z"
+    },
+    {
+      "id": "617494610081130_264844126522892",
+      "extrait": "si encore disponible j en prendrai",
+      "motif": "Échange de semences entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T23:38:58.341Z"
+    },
+    {
+      "id": "617494610081130_339119181930153",
+      "extrait": "jamais rien reçu moi! Toi?😆",
+      "motif": "Commande non reçue : les règles interdisent d'y répondre publiquement.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T23:38:58.341Z"
+    },
+    {
+      "id": "617494610081130_635868848631571",
+      "extrait": "je vais t'en ramasser […] si tu me donne ton adresse",
+      "motif": "Échange privé de semences entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T23:38:58.341Z"
+    },
+    {
+      "id": "617494610081130_1522279368609448",
+      "extrait": "y'a personne qui veut te Deere yé ou?",
+      "motif": "Jeu de mots entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T23:38:58.341Z"
+    },
+    {
+      "id": "617494610081130_694483352216407",
+      "extrait": "(lien vers la page d'identification de l'asclépiade de Mission Monarque)",
+      "motif": "Ressource tierce partagée entre abonnés, déjà utile telle quelle.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T23:38:58.341Z"
+    },
+    {
+      "id": "617494610081130_6563577393737903",
+      "extrait": "avez vous stratifié avant?",
+      "motif": "Question adressée à une autre abonnée ; la Page publie déjà deux réponses de semis dans ce lot.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T23:38:58.341Z"
+    },
+    {
+      "id": "617494610081130_332897785960242",
+      "extrait": "peut être planté trop profond dans la terre? Pas plus de 1/4 pouce",
+      "motif": "Conseil donné entre abonnées, cohérent avec notre guide.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T23:38:58.341Z"
+    },
+    {
+      "id": "663826792550644_911419227295983",
+      "extrait": "Chantall Gauthier et voilà!!! 😂😂",
+      "motif": "Réaction entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T23:38:58.341Z"
+    },
+    {
+      "id": "663826792550644_1534008827436598",
+      "extrait": "j'espère qu'elles deviennent plus souples […] trop grandes malgré la mesure selon le guide des tailles",
+      "motif": "Critique réelle mais déjà traitée deux fois sur ce même fil par la Page (le guide des tailles qui a failli, et le compromis volume/dextérité). Une troisième réponse serait un quasi-doublon.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-07T23:38:58.341Z"
+    },
+    {
+      "id": "663826792550644_388991023492347",
+      "extrait": "une paire de mitaine au nunavik....mitaine inuit sont 250",
+      "motif": "Comparaison de prix chiffrés : la Page ne commente jamais un prix.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T00:37:35.893Z"
+    },
+    {
+      "id": "663826792550644_888965419599062",
+      "extrait": "Dana Langlois 😢",
+      "motif": "Réaction dans le même sous-fil de prix.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T00:37:35.893Z"
+    },
+    {
+      "id": "663826792550644_746432520837024",
+      "extrait": "moi je dis pas grand chose en bas de 200$ pour des mitaines (doubles) super chaude",
+      "motif": "Comparaison de prix chiffrés entre abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T00:37:35.893Z"
+    },
+    {
+      "id": "663826792550644_971102347614622",
+      "extrait": "(photo sans texte)",
+      "motif": "Autocollant d'avatar Facebook qui applaudit, sans contenu à commenter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T00:37:35.893Z"
     }
   ]
 }
