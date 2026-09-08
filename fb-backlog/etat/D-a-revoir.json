@@ -4343,6 +4343,55 @@
       "motif": "Remerciement adressé à un autre abonné.",
       "page_id": "114311920399404",
       "quand": "2026-09-08T15:40:15.876Z"
+    },
+    {
+      "id": "617494610081130_319095244055864",
+      "extrait": "Domaine Du Grand Boisé Je viens de completer ma commande. Merci pour le rappel!!",
+      "motif": "Commande passée chez une autre entreprise, adressée à elle. Rien pour nous, et surtout rien à confirmer sur une commande qui n'est pas la nôtre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T16:40:19.593Z"
+    },
+    {
+      "id": "663826792550644_693006686190853",
+      "extrait": "Ah merci je suis soulagé.",
+      "motif": "Remerciement dans le même fil que le message auquel on répond en substance ; deux réponses de réassurance dans un même fil feraient redite.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T16:40:19.593Z"
+    },
+    {
+      "id": "617494610081130_238551615873836",
+      "extrait": "François Lavigne",
+      "motif": "Simple identification, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T16:40:19.593Z"
+    },
+    {
+      "id": "617494610081130_683500060173185",
+      "extrait": "François Lavigne",
+      "motif": "Simple identification, aucun contenu (doublon du précédent).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T16:40:19.593Z"
+    },
+    {
+      "id": "617494610081130_1522222801871049",
+      "extrait": "Nadia Laurin omggg c'est sûr que je le fais",
+      "motif": "Échange entre deux abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T16:40:19.593Z"
+    },
+    {
+      "id": "782814656882457_278550981814326",
+      "extrait": "Oh oui!!! En plus çà sent tellement bon. 💕",
+      "motif": "Message très court sur le parfum des ombelles, déjà couvert par une réponse publiée ; rien de neuf à ajouter sans redite.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T16:40:19.593Z"
+    },
+    {
+      "id": "617494610081130_1522239011874429",
+      "extrait": "Chanelle Jean bravo",
+      "motif": "Félicitations adressées à une autre abonnée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-08T16:40:19.593Z"
     }
   ]
 }
