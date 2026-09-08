@@ -16,6 +16,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 | `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
+| `bookkeeping-lasclay` | tenue de livres Dext + QBO : classement, taxes, paie, financements (tout passe par le navigateur intégré) |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
