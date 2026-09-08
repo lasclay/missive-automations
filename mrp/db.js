@@ -142,6 +142,21 @@ CREATE TABLE IF NOT EXISTS ordre_commentaires (
   cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- Ce que l'amorce a déjà chargé, et à partir de quelle version des fichiers.
+--
+-- Le catalogue ne se recharge pas à chaque démarrage : il écraserait ce que
+-- quelqu'un aurait corrigé dans l'app. Mais tant que le seul déclencheur était
+-- « la base est vide », une quantité ajoutée au plan dans le dépôt n'arrivait
+-- jamais en production — c'est exactement la panne que amorce.js devait
+-- empêcher. On garde donc l'empreinte des fichiers de données : elle change
+-- quand quelqu'un modifie la source de vérité, et c'est ce changement-là, et
+-- lui seul, qui autorise un rechargement.
+CREATE TABLE IF NOT EXISTS amorce_etat (
+  cle      TEXT PRIMARY KEY,
+  valeur   TEXT NOT NULL,
+  maj_le   TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 -- Le fil d'un item : ce qui se dit sur CE lot-là.
 --
 -- La carte « Commentaires » du bas de l'ordre mélange tout. Une question sur

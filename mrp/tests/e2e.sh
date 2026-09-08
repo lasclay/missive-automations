@@ -916,4 +916,42 @@ sleep 1.5
   && ok "amorce : mot de passe trop court refusé, le service démarre quand même" \
   || ko "amorce : mot de passe court accepté ou service en panne"
 
+# --- le catalogue suit le dépôt ------------------------------------------
+# Le catalogue ne se recharge pas à chaque démarrage — il écraserait ce que
+# quelqu'un aurait corrigé dans l'app. Mais tant que le seul déclencheur était
+# « la base est vide », une quantité ajoutée au plan dans le dépôt n'arrivait
+# jamais en production. C'est l'empreinte des fichiers qui tranche.
+kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true
+CAT=$(mktemp -d)/cat.db
+A(){ MRP_DB="$CAT" node --no-warnings -e "require('./amorce.js').amorcerDonnees()" 2>&1; }
+
+A | grep -q 'catalogue : chargé (base vide)' \
+  && ok "amorce : le catalogue se charge sur une base vide" \
+  || ko "amorce : catalogue absent au premier démarrage"
+
+A | grep -q 'catalogue : inchangé' \
+  && ok "amorce : redémarrer ne recharge pas le catalogue" \
+  || ko "amorce : catalogue rechargé sans raison"
+
+# On fait mentir l'empreinte enregistrée : c'est exactement l'état où un TSV a
+# été modifié dans le dépôt depuis le dernier chargement.
+MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  db.prepare(\"UPDATE amorce_etat SET valeur='périmé' WHERE cle='empreinte_donnees'\").run();
+" 2>/dev/null
+A | grep -q 'catalogue : chargé (les fichiers de donnees/ ont changé)' \
+  && ok "amorce : un fichier de données modifié recharge le catalogue" \
+  || ko "amorce : la modification n'a pas déclenché de rechargement"
+
+# Le sac à dos glacière, 150 vert et 150 noir : la donnée ajoutée au plan doit
+# arriver jusqu'à l'ordre de production, sinon elle n'existe pas pour l'atelier.
+G=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const r=db.prepare(\"SELECT i.id,i.quantite q FROM ordre_items i JOIN produits p ON p.id=i.produit_id WHERE p.code='GLACIERE'\").get();
+  const v=db.prepare('SELECT nom,quantite FROM item_variantes WHERE item_id=? ORDER BY rang').all(r.id);
+  console.log(r.q + ' ' + v.map(x=>x.nom+':'+x.quantite).join(','));" 2>/dev/null)
+[ "$G" = "300 Vert:150,Noir:150" ] \
+  && ok "le sac à dos glacière est au plan : 300, 150 vert et 150 noir" \
+  || ko "sac à dos glacière absent ou mal réparti ($G)"
+
 echo "  Tout est conforme."
