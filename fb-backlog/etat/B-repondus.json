@@ -1288,8 +1288,16 @@
       "quand": "2026-09-08T15:27:33.787Z",
       "confirme": true,
       "texte": "Then this is the season to watch for it. The first year goes into leaf and root; the flowering starts the year after that."
+    },
+    {
+      "id": "122142476066483418_1082632510251340",
+      "reponse_id": "122142476066483418_3234584386726031",
+      "page_id": "368305119707866",
+      "quand": "2026-09-08T18:28:00.768Z",
+      "confirme": true,
+      "texte": "Yes. The range runs zones 3 through 9, so 9b sits at the warm end of it rather than outside."
     }
   ],
-  "derniere_execution": "2026-09-08T15:27:33.789Z",
-  "total": 161
+  "derniere_execution": "2026-09-08T18:28:00.768Z",
+  "total": 162
 }
