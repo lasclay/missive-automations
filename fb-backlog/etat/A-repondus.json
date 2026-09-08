@@ -1288,8 +1288,16 @@
       "quand": "2026-09-08T15:13:31.019Z",
       "confirme": true,
       "texte": "Bonne question, et elle mérite une réponse claire. La soie vient des follicules, récoltés à l'automne, après la floraison et après le passage des monarques. Les feuilles, dont les chenilles se nourrissent, ne sont pas touchées. Et les graines ne restent pas dans les follicules : elles repartent en sachets pour être semées."
+    },
+    {
+      "id": "1676622291138247_1392846006387421",
+      "reponse_id": "1676622291138247_2132639997609397",
+      "page_id": "104242204750257",
+      "quand": "2026-09-08T16:09:54.310Z",
+      "confirme": true,
+      "texte": "Merci d'avoir pris le temps de répondre. On préfère rester prudents avec les grandes affirmations : ce qu'on peut confirmer, c'est le moment de la récolte, après la migration, et les graines qui repartent en sachets pour être semées."
     }
   ],
-  "derniere_execution": "2026-09-08T15:13:31.020Z",
-  "total": 161
+  "derniere_execution": "2026-09-08T16:09:54.311Z",
+  "total": 162
 }
