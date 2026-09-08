@@ -7,8 +7,14 @@
      s'applique deux fois et l'en-tête recouvre les 44 premiers pixels du contenu (titre de page caché
      sur mobile). On annule le décalage de l'app et on fait coller l'en-tête sous la barre.
      :has() n'est pas compris par les vieux navigateurs : ils gardent simplement le comportement actuel.
+
+  2. FAQ (section main-faq-html) : Showcase met float:left sur <header> et <footer>. Le bandeau par sujet
+     remontait par-dessus l'en-tête de la FAQ et couvrait le champ de recherche (impossible d'y écrire).
+     Même règle que dans la section, en double ici pour les thèmes publiés avant la correction.
 {% endcomment %}
 <style>
+  .faqh__hero, .faqh__contact { float: none !important; clear: both; width: 100%; }
+  .faqh__cats, .faqh__body { clear: both; }
   html body #site-control.site-control.fixed { top: 0 !important; }
   html body:has(#fsb_container) .shopify-section.section-header { top: 44px !important; }
   @media (min-width: 768px) {

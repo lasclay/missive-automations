@@ -31,6 +31,9 @@
     .faqh { color: var(--faq-ink); }
     .faqh *, .faqh *::before, .faqh *::after { box-sizing: border-box; }
     .faqh .faqh__wrap { width: min(1120px, 100% - 40px); margin: 0 auto; }
+    /* Showcase met float:left sur header et footer : sans ceci, le bandeau par sujet remonte par-dessus l'en-tête */
+    .faqh__hero, .faqh__contact { float: none; clear: both; width: 100%; }
+    .faqh__cats, .faqh__body { clear: both; }
 
     /* En-tête */
     .faqh__hero { background: radial-gradient(1200px 380px at 85% 0%, var(--faq-gold-soft) 0%, transparent 60%), var(--faq-sand-2); border-bottom: 1px solid var(--faq-line); }

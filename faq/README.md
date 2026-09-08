@@ -50,6 +50,10 @@ publication sont listés dans la maquette (notes « À valider ») et plus bas.
   Correctif CSS dans `theme/snippets/body-end-tag.liquid` (dépôt), à coller dans le fichier du même nom
   du thème en ligne (vide dans Showcase, rendu à la fin du body). L'API ne peut pas écrire dans le thème
   publié.
+- Champ de recherche impossible à utiliser (8 septembre) : Showcase met `float: left` sur `<header>` et
+  `<footer>`; le bandeau par sujet remontait par-dessus l'en-tête de la FAQ et sa zone de défilement
+  couvrait le champ. Corrigé dans la section (`float: none; clear: both`) et doublé dans
+  `theme/snippets/body-end-tag.liquid` pour le thème déjà publié.
 - Traduction anglaise : Langify a traduit automatiquement le corps de la page (37 questions) ; à relire.
   Les réglages de la section (accroche, titre, phrase d'intro, texte de recherche, bloc contact) sont
   encore en français sur `/en/pages/faq` : à traduire sous Thème dans Langify ou Translate & Adapt.
