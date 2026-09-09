@@ -1066,4 +1066,38 @@ G=$(MRP_DB="$CAT" node --no-warnings -e "
   && ok "le sac à dos glacière est au plan : 300, 150 vert et 150 noir" \
   || ko "sac à dos glacière absent ou mal réparti ($G)"
 
+# --- les protocoles suivent le dépôt sans rien perdre ---------------------
+# L'import efface ce qu'il a lui-même posé, et RIEN d'autre. Deux façons de se
+# tromper : effacer un point écrit à la main dans l'app, ou ne pas effacer une
+# ligne qui porte sa propre provenance — elle se dupliquerait à chaque
+# redémarrage du service.
+Z(){ MRP_DB="$CAT" node --no-warnings -e "const{db}=require('./db.js');console.log(db.prepare(\"$1\").get().n)" 2>/dev/null; }
+IMP(){ MRP_DB="$CAT" node --no-warnings import_qualite.js --charte --squelettes --ecrire >/dev/null 2>&1; }
+
+# Une consigne donnée de vive voix porte la source « atelier » : elle doit
+# survivre à un import, et rester en un seul exemplaire.
+AV=$(Z "SELECT COUNT(*) n FROM qc_points WHERE source='atelier'")
+IMP
+[ "$(Z "SELECT COUNT(*) n FROM qc_points WHERE source='atelier'")" = "$AV" ] && [ "$AV" -ge 1 ] \
+  && ok "une source hors des trois fichiers ne se duplique pas à l'import" \
+  || ko "les points « atelier » se dupliquent ou ont disparu"
+
+[ "$(Z "SELECT COUNT(*) n FROM qc_points p JOIN produits q ON q.id=p.produit_id WHERE q.code='GANTS-MAGIQUES' AND p.type='critique' AND p.titre LIKE 'Porter le gant%'")" = 1 ] \
+  && ok "gants magiques : porter le gant pour l'assouplir est au protocole" \
+  || ko "le point d'assouplissement des gants manque"
+
+# Un point écrit dans l'app porte le nom de son auteur. Même s'il reprend la
+# source d'un fichier, l'import ne doit pas l'emporter.
+MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const u=db.prepare('SELECT id FROM utilisateurs LIMIT 1').get()
+       || {id: db.prepare(\"INSERT INTO utilisateurs (courriel,mdp_hash,nom,role) VALUES ('t@t.co','x','T','admin')\").run().lastInsertRowid};
+  const p=db.prepare(\"SELECT id FROM produits WHERE code='GANTS-MAGIQUES'\").get();
+  db.prepare(\"INSERT INTO qc_points (produit_id,type,titre,source,cree_par) VALUES (?,'critique','Point saisi à la main','atelier',?)\").run(p.id,u.id);
+" 2>/dev/null
+IMP
+[ "$(Z "SELECT COUNT(*) n FROM qc_points WHERE titre='Point saisi à la main'")" = 1 ] \
+  && ok "l'import n'efface pas un point écrit dans l'app" \
+  || ko "un point saisi à la main a été emporté par l'import"
+
 echo "  Tout est conforme."

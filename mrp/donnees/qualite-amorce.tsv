@@ -14,8 +14,11 @@
 #   mesure    une cote à vérifier
 #   cyclage   un test : lavage, compression, tenue de l'isolant
 #
-# La source « notes techniques » dit d'où vient la phrase. Un point ajouté dans
-# l'app porte le nom de qui l'a écrit — c'est plus fort qu'un fichier.
+# La colonne « source » dit d'où vient la phrase. Vide = « notes techniques »,
+# la relecture décrite plus haut. « atelier » = une consigne donnée de vive
+# voix par ceux qui font le geste, notée ici pour qu'elle ne se reperde pas.
+# Un point ajouté dans l'app porte le nom de qui l'a écrit — c'est plus fort
+# qu'un fichier, et l'import n'y touche jamais.
 #
 # Importer : node mrp/import_qualite.js --ecrire
 produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source
@@ -23,6 +26,7 @@ CACHE-COU	critique	Viseline pour solidifier les boutonnières		Les boutonnières
 CACHE-COU	critique	Billes pour bloquer le cord-lock noir							notes techniques
 CACHE-COU-ENF-5A13A	critique	Viseline pour solidifier les boutonnières							notes techniques
 GANTS-MAGIQUES	mesure	Fibre d'asclépiade par gant	Avec mesh. Balance fournie dans le conteneur pour l'uniformité	Gants inégaux d'une paire à l'autre	4 à 5		g	chaque gant	notes techniques
+GANTS-MAGIQUES	critique	Porter le gant pour l'assouplir	Après le remplissage, enfiler le gant et plier les doigts. C'est ce qui assouplit le gant et laisse l'asclépiade se replacer d'elle-même là où elle doit être.	Un gant qui n'a jamais été porté reste raide, et la fibre demeure tassée là où elle est tombée au remplissage — pas là où elle isole.				chaque gant	atelier
 ETUI-TEL	critique	Les 2 rubans de ganses à la même hauteur		L'étui pend de travers					notes techniques
 ETUI-TEL	mesure	Crochet métallique pour ganse	Selon échantillon. 1 étui = 1 ganse		2,5		cm		notes techniques
 ETUI-TEL	critique	Utiliser le gabarit du conteneur	Gabarit réutilisable						notes techniques
