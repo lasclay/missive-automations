@@ -7696,6 +7696,116 @@
    "motif": "« We grow it and have butterflies everywhere. They dive bomb us. » Seul candidat de l'heure, et une bonne nouvelle — rare dans ce billet ou l'immense majorite des commentaires rapportent une absence. Mais aucune prise factuelle : aucun fait verifie ne s'applique, et la seule reponse possible serait un compliment. Le seul angle non generique aurait ete de dire que ce genre de nouvelle nous parvient rarement — or c'est exactement la phrase que nous avons publiee hier a 14 h en reponse au recit de la hausse locale (« an area where the numbers actually went up is not something this page gets told very often »). La reutiliser dix-huit heures plus tard serait de la repetition litterale de notre propre texte.",
    "ecarte_le": "2026-09-09",
    "tir": "C"
+  },
+  {
+   "id": "775946415144439_809488835135637",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T14:55:34+0000",
+   "message": "I have seen more Monarchs this summer than I have ever seen in my 55 years. Dozens and dozens. Planted Mexican Sunflowers. It was amazing!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=809488835135637",
+   "motif": "« More Monarchs this summer than in my 55 years. Dozens and dozens. Planted Mexican Sunflowers. » Excellent commentaire — recul de 55 ans, et une bonne nouvelle. Mais les deux seuls angles disponibles sont uses de frais : refuser le credit causal a une plante nectarifere est la meme figure que celle publiee hier a 14 h (la hausse locale attribuee a l'effort du quartier), et le fait verifie qui s'applique (nectar a proximite et tardif) a ete publie hier a 19 h a l'abonnee de Californie. Rien sur la Tithonia en particulier dans faits-verifies.json.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_818008687302833",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T14:35:47+0000",
+   "message": "I used to see Monarch butterflies all the time when I was in my pre-teen years, now at 44 I couldn't tell you the last time I saw one 💔 I'm in West Central PA",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=818008687302833",
+   "motif": "« Je voyais des monarques tout le temps avant l'adolescence, a 44 ans je ne saurais pas dire quand j'en ai vu un. West Central PA. » Genre du declin vecu, le plus repondu du billet : 12 h, 15 h et 23 h hier, et 7 h ce matin. Rien a ajouter qui ne repete pas.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_684310300959646",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T12:16:08+0000",
+   "message": "I always plant milkweed, not only do the butterflies love it but so do hummingbirds!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=684310300959646",
+   "motif": "« Not only do the butterflies love it but so do hummingbirds! » Colibris sur l'asclepiade : rien dans faits-verifies.json. LACUNE : autres pollinisateurs et visiteurs de la plante.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_2520398761665235",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T10:38:33+0000",
+   "message": "Elizabeth Richards I want to plant me some",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1303591714827574&reply_comment_id=2520398761665235",
+   "motif": "« I want to plant me some » — cinq mots entre abonnes, aucune prise.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1833310620638238",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T08:12:55+0000",
+   "message": "I tried to plant milk weed and it never took off",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1833310620638238",
+   "motif": "« I tried to plant milk weed and it never took off. » Germination : le contenu (trente jours au froid ET humide, semences non prestratifiees, levee au printemps, annee un dans les racines) a ete publie hier a 19 h sous ce meme billet, il y a quinze heures.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1328209068706744",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T06:40:36+0000",
+   "message": "It will take 2 or three years for the plants tocmature to attract monarchs.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1328209068706744",
+   "motif": "« It will take 2 or three years for the plants to mature to attract monarchs. » Un abonne donne un conseil globalement compatible avec notre fait (annee un dans les racines, floraison en annee deux), publie hier a 19 h. Corriger la nuance (« pour attirer les monarques » va au-dela de ce que nous tenons) ne vaut pas une repetition a quinze heures d'intervalle.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_2061343841285271",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T03:12:47+0000",
+   "message": "Thomas Ternquist Sr once the monarchs find it you’ll be lucky to keep\nLeaves on it",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=2179530615863497&reply_comment_id=2061343841285271",
+   "motif": "« Once the monarchs find it you'll be lucky to keep leaves on it. » Reponse d'un abonne a « warning it's very invasive » ; la correction agressive/envahissante a ete publiee hier a 15 h et le sujet re-ecarte ce matin a 7 h.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1163002118622763",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T02:58:17+0000",
+   "message": "And get rid of lantern flies",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1163002118622763",
+   "motif": "« And get rid of lantern flies » — la mouche lanterne tachetee : affirmation non verifiee deja refusee sous ce billet le 5 septembre et ecartee deux fois depuis.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1899859873896285",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T02:30:42+0000",
+   "message": "Leslie Betzner Powell",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1899859873896285",
+   "motif": "Commentaire ne contenant qu'un nom de personne identifiee (mention pour attirer son attention). Aucun contenu, et rien a repondre a un tiers nomme.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1761158747882103",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T02:21:15+0000",
+   "message": "I've got my seeds and I'm doing this.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1761158747882103",
+   "motif": "« I've got my seeds and I'm doing this. » Declaration de plantation, genre sature : ecarte huit fois hier sous ce meme billet.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1860131651205354",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T01:30:32+0000",
+   "message": "Milkweed & Monarchs 😂🤣",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=791088040230432&reply_comment_id=1860131651205354",
+   "motif": "« Milkweed & Monarchs » suivi de deux emojis de rire, en reponse a NOTRE commentaire dans le fil politique « No Kings » / monarque. ESCALADE PERMANENTE : nous n'alimentons pas ce fil, meme quand la reaction nous est favorable.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
   }
  ]
 }
