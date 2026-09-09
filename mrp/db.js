@@ -182,7 +182,10 @@ CREATE TABLE IF NOT EXISTS item_fil (
   texte          TEXT NOT NULL DEFAULT '',
   regle_le       TEXT,
   regle_par      INTEGER REFERENCES utilisateurs(id),
-  cree_le        TEXT NOT NULL DEFAULT (datetime('now'))
+  cree_le        TEXT NOT NULL DEFAULT (datetime('now')),
+  -- Un message se corrige, mais pas en douce : quelqu'un l'a peut-être déjà
+  -- lu. La date de retouche s'affiche à côté de la signature.
+  modifie_le     TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_fil_item ON item_fil(item_id, id);
 
@@ -457,6 +460,10 @@ try { db.exec(`ALTER TABLE qc_controles ADD COLUMN pieces INTEGER`); } catch { /
 // titres qu'on confond. Le nom court vient de correspondances.tsv, qui est la
 // liste de production ; il est vide tant que l'import ne l'a pas rempli, et
 // l'affichage retombe alors sur `nom`.
+// La table item_fil est née sans `modifie_le` : les bases déjà en ligne la
+// portent sans lui, et CREATE TABLE IF NOT EXISTS ne rattrape pas une colonne.
+try { db.exec(`ALTER TABLE item_fil ADD COLUMN modifie_le TEXT`); }
+catch { /* déjà là */ }
 try { db.exec(`ALTER TABLE produits ADD COLUMN nom_court TEXT NOT NULL DEFAULT ''`); }
 catch { /* déjà là */ }
 
@@ -1170,6 +1177,28 @@ const reglerDemandes = (itemId, utilisateurId) => db.prepare(
     WHERE item_id = ? AND type = 'demande' AND regle_le IS NULL`)
   .run(utilisateurId, itemId).changes;
 
+/**
+ * Corriger son propre message.
+ *
+ * `utilisateur_id = ?` dans la clause, pas seulement dans le contrôle d'accès :
+ * personne ne réécrit les mots de quelqu'un d'autre, pas même par une URL
+ * fabriquée à la main. Un fil où l'on peut se faire changer ses propos ne vaut
+ * plus rien comme trace.
+ */
+const modifierFil = (id, itemId, utilisateurId, texte) => db.prepare(
+  `UPDATE item_fil SET texte = ?, modifie_le = datetime('now')
+    WHERE id = ? AND item_id = ? AND utilisateur_id = ?`)
+  .run(texte, id, itemId, utilisateurId).changes;
+
+/** Retirer son propre message — une note posée sur le mauvais lot. */
+const supprimerFil = (id, itemId, utilisateurId) => db.prepare(
+  `DELETE FROM item_fil WHERE id = ? AND item_id = ? AND utilisateur_id = ?`)
+  .run(id, itemId, utilisateurId).changes;
+
+/** Une entrée précise, pour la présenter en formulaire. */
+const ligneFil = (id, itemId) => db.prepare(
+  `SELECT * FROM item_fil WHERE id = ? AND item_id = ?`).get(id, itemId);
+
 /** Clore une entrée précise, à la main. */
 const reglerFil = (id, itemId, utilisateurId) => db.prepare(
   `UPDATE item_fil SET regle_le = datetime('now'), regle_par = ?
@@ -1257,6 +1286,7 @@ module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    checklistItem, blocageQC, etatQCOrdre,
                    filItem, filOrdre, filEnAttente, demandeOuverte,
                    reglerDemandes, reglerFil, TYPES_FIL,
+                   modifierFil, supprimerFil, ligneFil,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,
                    RANG_PRIORITE, RANG_FAMILLE, FAMILLES, LIEUX };

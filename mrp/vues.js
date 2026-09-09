@@ -1232,7 +1232,7 @@ function vueOrdres({ user, ordres, msg }) {
  * produits hors de l'écran, mais une question sans réponse doit se voir sans
  * qu'on ait à cliquer, sinon elle n'appelle personne.
  */
-function filItemBloc({ o, it, f, user }) {
+function filItemBloc({ o, it, f, user, enEdition = 0 }) {
   const admin = user.role === 'admin';
   const base = `/ordres/${o.id}/items/${it.id}`;
   const lignes = f?.lignes || [];
@@ -1251,13 +1251,42 @@ function filItemBloc({ o, it, f, user }) {
         <button class="lien">Réglé</button></form>
     </div>`).join('');
 
-  const messages = lignes.map(x => `<div class="comm fil-l fil-${x.type}">
-      <div class="qui2">${e(x.auteur || 'Inconnu')} · ${dateHeureFR(x.cree_le)}
+  // On ne corrige que ses propres mots. Se faire réécrire par quelqu'un
+  // d'autre ferait du fil une trace sans valeur — et c'est justement comme
+  // trace qu'il sert, trois semaines plus tard.
+  const sien = (x) => x.utilisateur_id === user.id;
+
+  const messages = lignes.map(x => {
+    const signature = `<div class="qui2">${e(x.auteur || 'Inconnu')} · ${dateHeureFR(x.cree_le)}
         ${x.type !== 'note' ? ` · ${TYPES_FIL[x.type]}` : ''}
-        ${x.regle_le ? ` · réglée${x.regleur ? ` par ${e(x.regleur)}` : ''}` : ''}</div>
+        ${x.regle_le ? ` · réglée${x.regleur ? ` par ${e(x.regleur)}` : ''}` : ''}
+        ${x.modifie_le ? ` · <span title="${e(dateHeureFR(x.modifie_le))}">modifié</span>` : ''}
+      </div>`;
+
+    // Corriger se fait SUR PLACE, dans le fil : sans JS, c'est un aller-retour
+    // par l'URL, et la page revient avec ce message-là devenu formulaire.
+    if (x.id === enEdition && sien(x)) return `<div class="comm fil-l fil-${x.type} fil-edit">
+      ${signature}
+      <form method="post" action="${base}/fil/${x.id}/modifier" class="fil-f">
+        <textarea name="texte" rows="3" required>${e(x.texte)}</textarea>
+        <div class="fil-btn">
+          <button class="btn min">Enregistrer</button>
+          <a class="btn sec min" href="/ordres/${o.id}#i${it.id}">Annuler</a>
+        </div>
+      </form>
+      <form method="post" action="${base}/fil/${x.id}/supprimer" class="fil-sup"
+        onsubmit="return confirm('Supprimer ce message ?')">
+        <button class="lien danger">Supprimer</button></form>
+    </div>`;
+
+    return `<div class="comm fil-l fil-${x.type}">
+      ${signature}
       ${x.texte ? `<p>${e(x.texte)}</p>`
                 : `<p class="muted">— sans texte, juste la demande</p>`}
-    </div>`).join('');
+      ${sien(x) ? `<a class="fil-mod"
+        href="/ordres/${o.id}?fil=${x.id}#i${it.id}">Modifier</a>` : ''}
+    </div>`;
+  }).join('');
 
   // Deux boutons de publication, pas un menu : « noter » et « demander » ne
   // s'écrivent pas pareil, et le choix doit se faire en appuyant.
@@ -1272,8 +1301,10 @@ function filItemBloc({ o, it, f, user }) {
     </div>
   </form>`;
 
+  const corrige = lignes.some(x => x.id === enEdition && sien(x));
+
   return `${attente}
-  <details class="fil">
+  <details class="fil"${corrige ? ' open' : ''}>
     <summary>Notes et questions${lignes.length
       ? ` <span class="cpt">${lignes.length}</span>` : ''}</summary>
     ${messages || '<p class="vide">Rien n\'a encore été dit sur ce lot.</p>'}
@@ -1286,7 +1317,7 @@ function filItemBloc({ o, it, f, user }) {
 
 // =================================================== DÉTAIL D'UN ORDRE (clé)
 function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
-                    qc = {}, fils = {} }) {
+                    qc = {}, fils = {}, enEdition = 0 }) {
   const admin = user.role === 'admin';
   const auj = new Date().toISOString().slice(0, 10);
 
@@ -1354,7 +1385,7 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
       </td>
       <td class="note-c">
         ${it.note ? `<p class="it-note">${e(it.note)}</p>` : ''}
-        ${filItemBloc({ o, it, f: fils[it.id], user })}
+        ${filItemBloc({ o, it, f: fils[it.id], user, enEdition })}
       </td>
       ${admin ? `<td><form method="post" action="/ordres/${o.id}/items/${it.id}/supprimer"
          onsubmit="return confirm('Retirer cet item ?')">

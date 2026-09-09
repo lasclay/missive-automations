@@ -116,6 +116,44 @@ curl -s -b $CA -o /dev/null -X POST $B/ordres/$O2/items/3/fil --data 'type=note&
 [ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE texte='ailleurs'")" = 0 ] \
   && ok "un item ne s'écrit pas depuis un autre ordre" || ko "cloisonnement des ordres percé"
 
+# Un message se corrige — mais seulement le sien. Un fil où l'on peut se faire
+# réécrire par quelqu'un d'autre ne vaut plus rien comme trace, et c'est comme
+# trace qu'il sert, trois semaines plus tard.
+F=$(Q "SELECT id n FROM item_fil WHERE item_id=3 AND type='question' ORDER BY id LIMIT 1")
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil/$F/modifier \
+  --data 'texte=Quel fil pour la doublure, le noir ou le gris ?'
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE id=$F AND texte LIKE '%le noir ou le gris%'")" = 1 ] \
+  && ok "l'auteur corrige son propre message" || ko "la correction n'a pas pris"
+
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE id=$F AND modifie_le IS NOT NULL")" = 1 ] \
+  && ok "la correction est datée — elle ne se fait pas en douce" \
+  || ko "message corrigé sans trace"
+
+# L'administration non plus : le garde-fou est dans la clause SQL, pas dans un
+# contrôle de rôle qu'une URL fabriquée contournerait.
+curl -s -b $CA -o /dev/null -X POST $B/ordres/1/items/3/fil/$F/modifier --data 'texte=RÉÉCRIT'
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE texte='RÉÉCRIT'")" = 0 ] \
+  && ok "personne ne réécrit le message d'un autre, pas même l'administration" \
+  || ko "un message a été réécrit par quelqu'un d'autre"
+
+curl -s -b $CA -o /dev/null -X POST $B/ordres/1/items/3/fil/$F/supprimer
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE id=$F")" = 1 ] \
+  && ok "personne ne supprime le message d'un autre" \
+  || ko "un message a été supprimé par quelqu'un d'autre"
+
+# Un message vide n'est pas une correction : c'est une suppression, et elle a
+# son propre bouton.
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil/$F/modifier --data 'texte=   '
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE id=$F AND texte != ''")" = 1 ] \
+  && ok "une correction vide est refusée" || ko "le message a été vidé"
+
+# Et l'auteur retire le sien — une note posée sur le mauvais lot.
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil --data 'type=note&texte=mauvais lot'
+D=$(Q "SELECT id n FROM item_fil WHERE texte='mauvais lot'")
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil/$D/supprimer
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE texte='mauvais lot'")" = 0 ] \
+  && ok "l'auteur retire son propre message" || ko "suppression sans effet"
+
 
 
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau

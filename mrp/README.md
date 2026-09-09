@@ -87,6 +87,10 @@ aux avancements. C'est l'atelier qui les déclare ; un import n'a pas à écrase
   fois par lot
 - L'accueil remonte tout ce qui attend une réponse, tous ordres vivants
   confondus — sinon le bouton n'appellerait personne
+- Chacun **corrige et retire ses propres messages**, jamais ceux d'un autre :
+  la restriction est dans la clause SQL, pas dans un contrôle de rôle qu'une
+  URL fabriquée contournerait. Une correction est datée et affichée comme
+  telle — quelqu'un l'a peut-être déjà lue
 
 **À fabriquer — la liste de travail**
 - Tout ce qui reste à produire, tous ordres confondus, **déjà trié**
