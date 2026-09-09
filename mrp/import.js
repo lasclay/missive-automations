@@ -99,8 +99,18 @@ for (const r of tsv('shopify-images.tsv')) {
   imagesParHandle.get(r.handle).push(r);
 }
 
+/**
+ * La nomenclature, matière par matière.
+ *
+ * `nomenclatures.tsv` recopie les fiches COGS ; une matière qu'on cesse
+ * d'employer n'en est donc pas effacée — sinon l'écart de coût avec le
+ * chiffrier deviendrait inexplicable au prochain qui compare. Elle porte une
+ * date dans `retire` et sort de la composition du produit, en le disant.
+ */
 const bomParProduit = new Map();
+const retirees = [];
 for (const r of tsv('nomenclatures.tsv')) {
+  if (r.retire) { retirees.push(r); continue; }
   if (!bomParProduit.has(r.produit)) bomParProduit.set(r.produit, []);
   bomParProduit.get(r.produit).push(r);
 }
@@ -279,6 +289,12 @@ dire(`  ${lignes.filter(l => l._sh).length} rattachés à une fiche Shopify`);
 dire(`  ${lignes.filter(l => l._cogs).length} avec une fiche COGS`);
 dire(`  ${lignes.reduce((n, l) => n + l.photos.length, 0)} photos (URL seulement)`);
 dire(`  ${lignes.reduce((n, l) => n + l.bom.length, 0)} lignes de nomenclature`);
+if (retirees.length) {
+  dire(`  ${retirees.length} matière(s) retirée(s) d'une composition :`);
+  for (const r of retirees)
+    dire(`    · ${r.produit} — ${r.materiau}`
+       + `${r.cout_par_produit ? ` (−${r.cout_par_produit} $/unité)` : ''} : ${r.retire}`);
+}
 const auPlan = lignes.filter(l => l.plan);
 dire(`  ${auPlan.length} au plan de production 26-27, `
    + `${auPlan.reduce((n, l) => n + Number(l.plan.quantite_prevue), 0).toLocaleString('fr-CA')} `

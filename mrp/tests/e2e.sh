@@ -1176,4 +1176,20 @@ MRP_DB="$CAT" node --no-warnings -e "
   && ok "la cédule compte les grandes pointures à leur propre temps" \
   || ko "les deux semelles sont chiffrées au même temps"
 
+# --- une matière qu'on cesse d'employer ----------------------------------
+# `nomenclatures.tsv` recopie les fiches COGS : une matière retirée n'en est
+# pas effacée, sinon l'écart de coût avec le chiffrier devient inexplicable.
+# Elle porte une date et sort de la composition du produit.
+[ "$(Z "SELECT COUNT(*) n FROM produit_materiaux m JOIN produits p ON p.id=m.produit_id WHERE p.code='GLACIERE' AND m.nom='Chanvre'")" = 0 ] \
+  && ok "le chanvre ne fait plus partie de la composition de la glacière" \
+  || ko "le chanvre est encore dans les matériaux"
+
+[ "$(Z "SELECT COUNT(*) n FROM produit_materiaux m JOIN produits p ON p.id=m.produit_id WHERE p.code='GLACIERE'")" = 8 ] \
+  && ok "les huit autres matières de la glacière sont intactes" \
+  || ko "le retrait a emporté autre chose"
+
+[ "$(Z "SELECT COUNT(*) n FROM charte c JOIN produits p ON p.id=c.produit_id WHERE p.code='GLACIERE' AND c.section='note' AND c.texte LIKE 'Plus de chanvre%'")" = 1 ] \
+  && ok "la fiche dit pourquoi, pour que personne ne le remette" \
+  || ko "le retrait du chanvre n'est expliqué nulle part"
+
 echo "  Tout est conforme."
