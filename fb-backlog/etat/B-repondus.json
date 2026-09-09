@@ -1320,8 +1320,16 @@
       "quand": "2026-09-09T00:28:45.990Z",
       "confirme": true,
       "texte": "Rabbits generally leave it alone. The latex is bitter, and grazing animals avoid it for that reason — the same thing that keeps deer off it."
+    },
+    {
+      "id": "122142471404483418_1731523427830627",
+      "reponse_id": "122142471404483418_1990113158361905",
+      "page_id": "368305119707866",
+      "quand": "2026-09-09T11:27:26.756Z",
+      "confirme": true,
+      "texte": "Full sun, and grouped in a patch rather than scattered through the garden. A stand is far easier for a passing female to find than single plants spread around."
     }
   ],
-  "derniere_execution": "2026-09-09T00:28:45.990Z",
-  "total": 165
+  "derniere_execution": "2026-09-09T11:27:26.757Z",
+  "total": 166
 }
