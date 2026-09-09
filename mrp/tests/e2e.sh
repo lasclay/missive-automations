@@ -489,6 +489,32 @@ const{db}=require('./db.js');
 console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE id=?').get($PP).n)" 2>/dev/null)" = 1 ] \
   && ok "la route générale ne touche pas un point de produit" || ko "suppression croisée permise"
 
+# Un point général vu depuis la fiche d'un produit ne s'y efface pas : il vaut
+# pour tous les autres. La route l'annonçait pourtant comme retiré alors que
+# son DELETE ne touchait rien — un message qui ment est pire qu'un bouton
+# absent. Ce qu'on peut faire ici, c'est l'écarter de CE produit, avec un motif.
+PT=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT id FROM produits LIMIT 1').get().id)" 2>/dev/null)
+GEN=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT id FROM qc_points WHERE produit_id IS NULL ORDER BY id LIMIT 1').get().id)" 2>/dev/null)
+
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PT/$GEN/supprimer
+[ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE id=$GEN').get().n)" 2>/dev/null)" = 1 ] \
+  && ok "un point général ne s'efface pas depuis la fiche d'un produit" \
+  || ko "le protocole général a été amputé depuis un produit"
+
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PT/$GEN/hors-sujet --data 'motif='
+[ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM qc_hors_sujet').get().n)" 2>/dev/null)" = 0 ] \
+  && ok "écarter sans motif est refusé" || ko "un point a été écarté sans motif"
+
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PT/$GEN/hors-sujet \
+  --data 'motif=Ce produit n%27a pas de fermeture'
+[ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM qc_hors_sujet WHERE produit_id=$PT AND point_id=$GEN').get().n)" 2>/dev/null)" = 1 ] \
+  && ok "un point général s'écarte d'un produit, avec son motif" \
+  || ko "l'écart n'a pas été enregistré"
+
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PT/$GEN/reprendre
+[ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM qc_hors_sujet').get().n)" 2>/dev/null)" = 0 ] \
+  && ok "un point écarté se remet au protocole" || ko "impossible de remettre le point"
+
 MRP_DB="$DB" node --no-warnings -e "
 const{db}=require('./db.js');
 db.prepare('DELETE FROM qc_points').run();
@@ -1191,5 +1217,58 @@ MRP_DB="$CAT" node --no-warnings -e "
 [ "$(Z "SELECT COUNT(*) n FROM charte c JOIN produits p ON p.id=c.produit_id WHERE p.code='GLACIERE' AND c.section='note' AND c.texte LIKE 'Plus de chanvre%'")" = 1 ] \
   && ok "la fiche dit pourquoi, pour que personne ne le remette" \
   || ko "le retrait du chanvre n'est expliqué nulle part"
+
+# --- un point général qui ne veut rien dire sur CE produit ----------------
+# « Aucune tension aux emmanchures ni à l'entrejambe » est une bonne consigne
+# pour un manteau et une absurdité sur un tote bag. Le point reste juste EN
+# GÉNÉRAL : on l'écarte de ce produit, on ne l'efface pas — l'effacer le
+# retirerait de tous les autres.
+TOT=$(Z "SELECT id n FROM produits WHERE code='TOTE'")
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet WHERE produit_id=$TOT")" = 3 ] \
+  && ok "les trois points hors sujet sont écartés du tote" \
+  || ko "les écarts du tote ne sont pas chargés"
+
+# Le coussin pour animaux n'avait aucun protocole. Trois points critiques,
+# dictés par l'atelier : le geste du roulage, les ganses qui portent le poids,
+# et l'intérieur, que l'animal atteint.
+[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='COUSSIN-ANIMAL' AND q.type='critique'")" = 3 ] \
+  && ok "le coussin pour animaux a ses trois points critiques" \
+  || ko "le protocole du coussin pour animaux manque"
+
+# Une tache ne se rattrape pas après coup : c'est la définition du volet
+# critique, pas celle d'un problème fréquent.
+[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='OREILLER' AND q.titre='Pas de taches' AND q.type='critique'")" = 1 ] \
+  && ok "l'oreiller : « pas de taches » est un point critique" \
+  || ko "le contrôle des taches n'est pas classé critique"
+
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TOTE'\").get();
+  const t=D.protocole(p.id).points.map(q=>q.titre);
+  process.exit(t.some(x=>/Essai porté|Fermeture éclair/.test(x)) ? 1 : 0);" 2>/dev/null \
+  && ok "le protocole du tote ne demande plus d'essai porté ni de fermeture éclair" \
+  || ko "un point écarté figure encore au protocole du tote"
+
+# … mais il vaut toujours ailleurs : c'est toute la différence avec supprimer.
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='MANTEAU-3SAISONS'\").get();
+  const t=D.protocole(p.id).points.map(q=>q.titre);
+  process.exit(t.some(x=>/Essai porté/.test(x)) ? 0 : 1);" 2>/dev/null \
+  && ok "l'essai porté reste au protocole du manteau" \
+  || ko "écarter d'un produit a emporté le point partout"
+
+# Un point écarté ne doit pas être exigé sur la liste à cocher d'un lot :
+# une liste qu'on ne peut pas finir de cocher ne se coche jamais.
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TOTE'\").get();
+  const i=D.db.prepare('SELECT id FROM ordre_items WHERE produit_id=?').get(p.id);
+  if (!i) process.exit(0);
+  const t=D.checklistItem(i.id).points.map(q=>q.titre);
+  process.exit(t.some(x=>/Fermeture éclair/.test(x)) ? 1 : 0);" 2>/dev/null \
+  && ok "la liste à cocher du lot ne demande pas ce qui est écarté" \
+  || ko "un point écarté est exigé sur la checklist"
+
 
 echo "  Tout est conforme."

@@ -526,6 +526,20 @@ textarea{min-height:70px;resize:vertical}
 .ck-etiq.ck-rien a{background:var(--ambre-pale);color:var(--ambre)}
 .ck-etiq a:hover{text-decoration:underline}
 
+/* ---------- ce qui ne s'applique pas à ce produit ----------
+   Écarter n'est pas supprimer : le point vaut toujours ailleurs. La carte est
+   repliée et en retrait — présente pour qu'on puisse revenir dessus, jamais au
+   milieu de ce qu'il faut vraiment vérifier. */
+.qc-hs>summary{cursor:pointer;font-size:14px;color:var(--encre2)}
+.qc-hs>summary b{font-weight:600}
+.qc-hs[open]>summary{margin-bottom:10px}
+.qc-hs .qc-hs-l{opacity:.75}
+.qc-pourquoi{display:block;color:var(--encre2);font-size:13.5px;margin-top:3px}
+/* Le motif se saisit à côté du bouton : exigé, donc visible avant d'appuyer. */
+.qc-hs-f{display:flex;gap:6px;align-items:center;flex-wrap:wrap;
+  justify-content:flex-end}
+.qc-hs-f input{width:min(100%,230px);font-size:12.5px;padding:5px 8px}
+
 /* ---------- tâches ----------
    Une tâche est une ligne : ce qu'il faut faire à gauche, ce qu'on peut en
    faire à droite. Rien d'autre — c'est une liste de courses, pas un ticket. */

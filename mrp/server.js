@@ -29,6 +29,7 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC, charteProduit,
         checklistItem, blocageQC, etatQCOrdre,
+        horsSujet, poserHorsSujet, retirerHorsSujet,
         filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
         modifierFil, supprimerFil,
         protocoleGeneral, echantillon, lireTableauTailles,
@@ -1120,7 +1121,8 @@ async function router(req, res, url, user) {
       }
       return html(res, V.vueProtocole({ user, msg, p: prod,
         proto: protocole(prod.id), photos: R.photos.all(prod.id),
-        bris: brisProduit(prod.id), appuis: brisParPoint(prod.id) }));
+        bris: brisProduit(prod.id), appuis: brisParPoint(prod.id),
+        ecartes: horsSujet(prod.id) }));
     }
   }
 
@@ -1129,9 +1131,42 @@ async function router(req, res, url, user) {
     if (m && req.method === 'POST') {
       // Le point appartient au produit de l'URL : sans ce test, un id valide
       // ailleurs effacerait le protocole d'un autre produit.
-      db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id = ?`)
-        .run(Number(m[2]), Number(m[1]));
-      return vers(res, `/qualite/${m[1]}?ok=` + encodeURIComponent('Point retiré.'));
+      const n = db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id = ?`)
+        .run(Number(m[2]), Number(m[1])).changes;
+      // Un point général ne tombe pas sous ce test : il n'appartient à aucun
+      // produit. Le dire, plutôt que d'annoncer un retrait qui n'a pas eu lieu
+      // — c'est ce que faisait cette route, et le message mentait.
+      return vers(res, `/qualite/${m[1]}?${n ? 'ok=' + encodeURIComponent('Point retiré.')
+        : 'err=' + encodeURIComponent("Ce point appartient au protocole général : "
+          + "il vaut pour tous les produits. Écartez-le d'ici plutôt que de l'effacer.")}`);
+    }
+  }
+
+  // ---- écarter un point général d'un produit, ou l'y remettre
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/(\d+)\/(hors-sujet|reprendre)$/);
+    if (m && req.method === 'POST') {
+      const prodId = Number(m[1]), pointId = Number(m[2]);
+      if (m[3] === 'reprendre') {
+        retirerHorsSujet(prodId, pointId);
+        return vers(res, `/qualite/${prodId}?ok=`
+          + encodeURIComponent('Point remis au protocole de ce produit.'));
+      }
+      // Seul un point GÉNÉRAL s'écarte : un point propre au produit se retire,
+      // c'est un autre geste et il a son propre bouton.
+      const pt = db.prepare(
+        `SELECT id FROM qc_points WHERE id = ? AND produit_id IS NULL`).get(pointId);
+      if (!pt) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent("Ce point n'est pas un point du protocole général."));
+      const f = await corpsFormulaire(req);
+      const motif = String(f.motif || '').trim();
+      // Le motif est exigé : sans lui, dans six mois, personne ne saura si
+      // c'était un jugement ou un clic de trop.
+      if (!motif) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent("Dites pourquoi : un point écarté sans motif ne se relit pas."));
+      poserHorsSujet(prodId, pointId, motif.slice(0, 300), user.id);
+      return vers(res, `/qualite/${prodId}?ok=`
+        + encodeURIComponent("Point écarté de ce produit — il vaut toujours pour les autres."));
     }
   }
 

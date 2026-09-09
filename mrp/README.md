@@ -279,6 +279,16 @@ produits — c'est là que vit la méthode d'emballage, l'étiquetage, la finiti
 Il apparaît sur la checklist de chaque lot, marqué « général », sans avoir à
 être réécrit trente fois.
 
+**Et ce qui ne s'applique pas ici.** Un point général est juste *en général* :
+« aucune tension aux emmanchures ni à l'entrejambe » est une bonne consigne
+pour un manteau et une absurdité sur un tote bag. Depuis la fiche d'un produit,
+un tel point ne se **supprime** pas — il vaut pour tous les autres — mais il
+s'**écarte de ce produit-là**, avec un motif obligatoire. Il disparaît de la
+fiche et de la liste à cocher des lots, et reste retrouvable, replié, sous
+« Ne s'applique pas à ce produit », avec un bouton pour le remettre. Les écarts
+connus vivent dans `donnees/qualite-hors-sujet.tsv` et se chargent avec le
+reste du protocole.
+
 **L'échantillonnage suit le volume.** « 1 pièce sur 20 » ne veut pas dire la
 même chose sur un lot de 100 et sur un lot de 3 500. La règle est stockée
 structurée (`ech_type` + `ech_valeur`), et la checklist écrit **le nombre**, pas
