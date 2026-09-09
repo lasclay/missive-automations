@@ -1116,6 +1116,19 @@ TOT=$(Z "SELECT id n FROM produits WHERE code='TOTE'")
   && ok "les trois points hors sujet sont écartés du tote" \
   || ko "les écarts du tote ne sont pas chargés"
 
+# Le coussin pour animaux n'avait aucun protocole. Trois points critiques,
+# dictés par l'atelier : le geste du roulage, les ganses qui portent le poids,
+# et l'intérieur, que l'animal atteint.
+[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='COUSSIN-ANIMAL' AND q.type='critique'")" = 3 ] \
+  && ok "le coussin pour animaux a ses trois points critiques" \
+  || ko "le protocole du coussin pour animaux manque"
+
+# Une tache ne se rattrape pas après coup : c'est la définition du volet
+# critique, pas celle d'un problème fréquent.
+[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='OREILLER' AND q.titre='Pas de taches' AND q.type='critique'")" = 1 ] \
+  && ok "l'oreiller : « pas de taches » est un point critique" \
+  || ko "le contrôle des taches n'est pas classé critique"
+
 MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
   const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TOTE'\").get();
