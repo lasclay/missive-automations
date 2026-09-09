@@ -1,0 +1,16 @@
+
+  <div>
+    <style>.main-page-title.page-title { display: none !important; }</style>
+    <div id="AVADA_PAGE_FAQS" class="AVADA_PAGE_WRAPPER"></div>
+    <script>
+      function loadChattyPage() {
+        const elem = document.createElement('script');
+        elem.type = 'text/javascript';
+        elem.src = 'https://cdn-fe.meetchatty.com/scripttag/avada-page-faqs.min.js?shop=lasclay.myshopify.com&v=' + new Date().getTime();
+
+        const firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(elem, firstScript);
+      }
+      document.addEventListener('DOMContentLoaded', () => loadChattyPage());
+    </script>
+  </div>

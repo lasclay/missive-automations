@@ -1,0 +1,14 @@
+/* CRO sept 2026 (tickets L-016, L-017, L-022, L-023, L-027, L-029) */
+.backorder.hidden { display: none !important; }
+.product-options .option-selector .opt-label--btn { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0 14px; box-sizing: border-box; }
+.product-options .option-selector .opt-label--swatch { min-height: 44px; min-width: 44px; }
+.product-options .option-selector .opt-btn.is-unavailable + .opt-label { opacity: .45; text-decoration: line-through; order: 99; }
+.custom-select__option { min-height: 44px; display: flex; align-items: center; }
+.cro-delivery { margin: .35em 0 0; font-size: .92em; line-height: 1.45; }
+.cro-delivery--presale { color: #8a5a00; }
+.cro-rating { text-align: center; margin: 1.2em 0 0; font-weight: 600; }
+.cro-note summary { cursor: pointer; margin-top: .8em; }
+.cro-note textarea { margin-top: .5em; width: 100%; }
+cart-form .update-continue .update { display: none; }
+cart-form .update-continue span { display: none; }
+@media (max-width: 767px) { .under-cart .checkout-btn { position: sticky; bottom: 0; z-index: 3; } }

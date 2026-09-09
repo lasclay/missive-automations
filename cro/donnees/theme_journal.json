@@ -1,0 +1,464 @@
+[
+ [
+  "product.produit-hiver.json",
+  "variant_picker",
+  "{\"variant_style\": \"underlined\", \"show_size_chart\": false, \"size_chart_variant\": \"Size\", \"size_chart_page\": \"\"}",
+  "show_size_chart=true, size_chart_variant=Taille, size_chart_page=sizing-chart"
+ ],
+ [
+  "product.produit-hiver.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.produit-hiver.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.produit-hiver.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.produit-hiver.json",
+  "d439365f-9c2b-4514-abc0-af9a1e1a5999/text",
+  "<p>Nos produits sont conçus pour vous faire apprécier la saison froide avec style et confort. Nous fabriquons le tout au Québec dans le souci de garder un circuit court et d'utiliser des matériaux durables.</p>",
+  "<p>Nos produits sont dessinés ici, pour le froid d'ici. L'isolant en soie d'asclépiade est cultivé et transformé au Québec; l'assemblage est confié à nos partenaires manufacturiers, et le contrôle qualité se fait à notre atelier de Limoilou.</p>"
+ ],
+ [
+  "product.produit-hiver.json",
+  "49540e0f-8734-480e-b99e-776b5cbe4d97/template--16751310078171__49540e0f-8734-480e-b99e-776b5cbe4d97-1685564062a1b168ef-0/text",
+  "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+  "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
+ ],
+ [
+  "product.produit-hiver.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.json",
+  "variant_picker",
+  "{\"variant_style\": \"underlined\", \"show_size_chart\": false, \"size_chart_variant\": \"Size\", \"size_chart_page\": \"\"}",
+  "show_size_chart=true, size_chart_variant=Taille, size_chart_page=sizing-chart"
+ ],
+ [
+  "product.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.manchons-seat-pad.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.manchons-seat-pad.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.manchons-seat-pad.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.manchons-seat-pad.json",
+  "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
+  "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+  "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
+ ],
+ [
+  "product.manchons-seat-pad.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.cosmetics.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.cosmetics.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.cosmetics.json",
+  "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
+  "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+  "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
+ ],
+ [
+  "product.cosmetics.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.sac-vin.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.sac-vin.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.sac-vin.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.sac-vin.json",
+  "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
+  "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+  "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
+ ],
+ [
+  "product.sac-vin.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.semelles-isolantes.json",
+  "variant_picker",
+  "{\"variant_style\": \"dropdown\", \"show_size_chart\": false, \"size_chart_variant\": \"Size\", \"size_chart_page\": \"\"}",
+  "show_size_chart=true, size_chart_variant=Taille, size_chart_page=sizing-chart"
+ ],
+ [
+  "product.semelles-isolantes.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.semelles-isolantes.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.semelles-isolantes.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.semelles-isolantes.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.boite-lunch.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.boite-lunch.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.boite-lunch.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.boite-lunch.json",
+  "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
+  "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+  "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
+ ],
+ [
+  "product.boite-lunch.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.graines-syriaca-1.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.graines-syriaca-1.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.graines-syriaca-1.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.graines-syriaca-1.json",
+  "trust_icons",
+  "{\"text1\": \"<p>Échanges gratuits au Canada</p>\", \"text2\": \"<p>Livraison gratuite dès 99 $</p>\", \"text3\": \"<p>15 jours pour changer d'idée</p>\", \"text4\": \"<p>Espèces indigènes du Québec</p>\"}",
+  "Livraison par la poste 2,99 $ / Espèces indigènes / Zones 3 à 9 / Guide de plantation"
+ ],
+ [
+  "product.graines-syriaca-1.json",
+  "bloc cro_paliers",
+  "(absent)",
+  "économie affichée pour 5 et 10 sachets, au-dessus du sélecteur"
+ ],
+ [
+  "product.graines-syriaca-1.json",
+  "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
+  "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+  "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
+ ],
+ [
+  "product.graines-syriaca-1.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.sac-30l.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.sac-30l.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.sac-30l.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.sac-30l.json",
+  "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
+  "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+  "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
+ ],
+ [
+  "product.sac-30l.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.sac-tote-bag.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.sac-tote-bag.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.sac-tote-bag.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.sac-tote-bag.json",
+  "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
+  "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+  "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
+ ],
+ [
+  "product.sac-tote-bag.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.plantule.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.plantule.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.plantule.json",
+  "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
+  "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
+  "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
+ ],
+ [
+  "product.plantule.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "product.mitaines-four-1.json",
+  "variant_picker",
+  "{\"variant_style\": \"underlined\", \"show_size_chart\": false, \"size_chart_variant\": \"Size\", \"size_chart_page\": \"\"}",
+  "show_size_chart=true, size_chart_variant=Taille, size_chart_page=sizing-chart"
+ ],
+ [
+  "product.mitaines-four-1.json",
+  "buy_buttons/enable_mobile_sticky_cart",
+  "false",
+  "true"
+ ],
+ [
+  "product.mitaines-four-1.json",
+  "bloc cro_delivery",
+  "(absent)",
+  "ajouté après buy_buttons"
+ ],
+ [
+  "product.mitaines-four-1.json",
+  "bloc cro_faq",
+  "(absent)",
+  "accordéon Questions fréquentes, texte de la FAQ inchangé"
+ ],
+ [
+  "product.mitaines-four-1.context.us.json",
+  "nouveau fichier",
+  "(absent)",
+  "réassurances du marché US: 59,99 $ US, retours à vos frais"
+ ],
+ [
+  "index.json",
+  "slideshow/image_TGyCXC/title",
+  "Produits et accessoires isolés à l'asclépiade, une fibre miraculeuse et naturelle.",
+  "Produits et accessoires isolés à l'asclépiade, une fibre végétale creuse qui emprisonne l'air."
+ ],
+ [
+  "index.json",
+  "slideshow/image_AVtRwm/title",
+  "Les mitaines les plus chaudes",
+  "Des mitaines chaudes, légères et coupe-vent"
+ ],
+ [
+  "index.json",
+  "slideshow/image_mFA6LU/title+text",
+  "Ils ont fait leurs preuves au Pôle Nord! | <p>Les cache-cous d'asclépiade performent jusqu'à -50<strong>°</strong>C, mais restent aussi confortables à des températures plus clémentes.  </p>",
+  "Ils ont fait leurs preuves dans le froid d'ici | Cache-cous, tuques et foulards isolés à la soie d'asclépiade: chauds, légers et coupe-vent, du grand froid aux journées plus douces."
+ ],
+ [
+  "index.json",
+  "slideshow",
+  "7 diapos en défilement automatique",
+  "3 diapos actives (héros, mitaines, prévente), 4 désactivées, autoplay off"
+ ],
+ [
+  "index.json",
+  "collection-list/1648220659c91ed362-3/collection",
+  "skincare (inexistante)",
+  "idees-cadeaux"
+ ],
+ [
+  "index.json",
+  "collection-list/layout",
+  "carousel",
+  "rows (grille, 4 par rangée)"
+ ],
+ [
+  "index.json",
+  "sections",
+  "(aucune rangée produit)",
+  "cro_rating (note Judge.me) + cro_best_sellers (collection meilleurs-vendeurs, prix et étoiles)"
+ ],
+ [
+  "header-group.json",
+  "header/logo_h1",
+  "true",
+  "false (le H1 devient le titre de la première diapo)"
+ ],
+ [
+  "cart.json",
+  "main/cart_note_show",
+  "true",
+  "false (note repliée derrière un lien dans main-cart.liquid)"
+ ],
+ [
+  "collection.json",
+  "main/filter_mode",
+  "none",
+  "sidebar (les filtres doivent être configurés dans Search & Discovery)"
+ ],
+ [
+  "settings_data.json",
+  "cart_type",
+  "\"\" (reste sur la page)",
+  "add_in_modal (fenêtre avec bouton de paiement à l'ajout)"
+ ],
+ [
+  "page.page-mission.json",
+  "5c0256b4-d967-4ac9-bfc5-7212dd453db7/cfe574d4-1c6d-4ee7-b8f6-91ef4910035b/text",
+  "<p>Nous priorisons au maximum les fournisseurs à proximité de nos opérations afin de réduire notre empreinte carbone.  Par exemple, pour la production au Québec, nous priorisons cet ordre:</p><ol><li>Provincial (Québec)</li><li>Fédéral (Canada)</li><li>Continental (États-Unis/Mexique)</li><li>Global (en dernier recours).</li></ol>",
+  "<p>Nous priorisons les fournisseurs à proximité de nos opérations quand l'expertise et le prix le permettent, afin de réduire notre empreinte carbone. Pour la soie d'asclépiade et sa transformation en isolant, tout se passe au Québec. Pour la confection textile, la filière québécoise n'a plus certaines expertises ni les machines pour des pièces techniques à un prix accessible: l'assemblage de la plupart des produits finis est confié à des partenaires, surtout en Tunisie. On l'explique sur notre page Transparence.</p><p>Notre ordre de priorité reste le même:</p><ol><li>Provincial (Québec)</li><li>Fédéral (Canada)</li><li>Continental (États-Unis/Mexique)</li><li>Global (en dernier recours).</li></ol>"
+ ],
+ [
+  "main-cart.liquid",
+  "bouton de paiement / note",
+  "note au-dessus du bouton, bouton sans aria-label",
+  "bouton avant la note, note repliée dans <details>, aria-label ajouté"
+ ],
+ [
+  "theme.liquid",
+  "head",
+  "",
+  "ajout de cro.css et d'un style critique .backorder.hidden{display:none}"
+ ],
+ [
+  "assets/cro.css",
+  "nouveau fichier",
+  "(absent)",
+  "cibles tactiles 44 px, variantes épuisées grisées et en fin de liste, rupture masquée, bouton Mettre à jour masqué (ajax), bouton de paiement collant mobile"
+ ]
+]

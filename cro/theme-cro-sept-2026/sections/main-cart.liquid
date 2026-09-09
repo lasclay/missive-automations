@@ -1,0 +1,647 @@
+{%- liquid
+  assign continue_shopping_page = routes.all_products_collection_url
+  if section.settings.continue_shopping_page != blank
+    assign continue_shopping_page = section.settings.continue_shopping_page
+  endif
+-%}
+
+<div class="central py-medium content" data-section-type="cart-template" data-ajax-update="true" data-components="accordion">
+  <cart-form data-section-id="{{ section.id }}" data-ajax-update="true">
+    {% if section.settings.cart_show_title %}
+    <h1 data-cc-animate class="h2">{{ 'cart.general.title' | t }}</h1>
+    {% endif %}
+
+    <form action="{{ routes.cart_url }}" method="post" id="cartform" data-cc-animate>
+
+      <ul class="cart-list clearfix" data-merge-list="cart-items">
+
+        {% if cart.item_count > 0 %}
+          <li class="cart-item cart-list-header" data-merge-list-item="item-key:head">
+            <div class="col-notimage">
+              <div class="desc">{{ 'cart.general.product' | t }}</div>
+              <div class="item-price">{{ 'cart.general.price' | t }}</div>
+              <div class="quantity-and-remove">{{ 'cart.general.quantity' | t }}</div>
+              <div class="line-total">{{ 'cart.general.total' | t }}</div>
+            </div>
+          </li>
+        {% else %}
+          <div data-merge-list-item="item-key:empty">
+            <div class="rte" data-cc-animate data-cc-animate-delay="0.4s">
+              <p data-cc-animate data-cc-animate-delay="0.2s" class="align-center">
+                {{ 'cart.general.empty' | t }}
+              </p>
+              <p class="align-center"><a data-cc-animate-click href="{{ continue_shopping_page }}">{{ 'cart.general.continue_browsing' | t }}</a></p>
+            </div>
+          </div>
+        {% endif %}
+
+        {% for item in cart.items %}
+
+          {% comment %}
+          Determining the handle of the collection that was last seen for the 'continue shopping' link.
+          {% endcomment %}
+          <div data-merge-list-item="item-key:{{ item.key }}|{{ item.final_price }}{% for discount_allocation in item.line_level_discount_allocations %}|{{ discount_allocation.discount_application.title | escape }}{% endfor %}"
+            {% comment %} Discount items are difficult to predict - BOGOFs appear as a separate item with the same key as an existing item - simpler to always refresh {% endcomment %}
+            {%- if item.line_level_discount_allocations == empty -%}
+            data-merge-cache="{{ item.key }}|{{ item.quantity }}|{{ item.final_line_price }}|{% if item.selling_plan_allocation %}{{ item.selling_plan_allocation.selling_plan.id }}{% endif %}"
+            {%- endif -%}>
+              {%- render 'cart-item', item: item, forloop: forloop -%}
+          </div>
+        {% endfor %}
+      </ul>
+
+      <div class="update-continue{% if cart.items == empty %} hidden{% endif %}" data-merge-attributes="continue">
+        <input class="update textbutton" type="submit" name="update" value="{{ 'cart.general.update' | t | escape }}" />
+        <span>|</span>
+        <a data-cc-animate-click class="continue" href="{{ continue_shopping_page }}">{{ 'cart.general.continue' | t }}</a>
+      </div>
+
+      <div class="under-cart{% if cart.items == empty %} hidden{% endif %}" data-merge-attributes="under-cart">
+        {%- capture subtotal_and_checkout -%}
+          <div class="subtotal-row" data-merge="total">
+            {%- if cart.cart_level_discount_applications != blank -%}
+              <ul class="cart-discount-list align-right">
+                {%- for discount_application in cart.cart_level_discount_applications -%}
+                  <li class="cart-discount cart-discount--inline">
+                    <span class="cart-discount__label">{{ discount_application.title }}</span>
+                    <span class="cart-discount__amount">-<span class="theme-money">{%- render "price", price: discount_application.total_allocated_amount, disable_currency_code: true -%}</span></span>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+
+            <div class="subtotal">
+              <span class="label">{{ 'cart.general.subtotal' | t }}</span>
+              <span class="amount theme-money">{%- render "price", price: cart.total_price, is_total_price: true -%}</span>
+            </div>
+          </div>
+
+
+          {% if section.settings.cart_terms_show %}
+            <p class="terms rte">
+              <input type="checkbox" id="terms" />
+              {% assign terms_url = section.settings.cart_terms_page %}
+              {% capture terms_label_html %}<label for="terms">{{ 'cart.terms.agreement_html' | t: terms_url: terms_url }}</label>{% endcapture %}
+              {% if section.settings.cart_terms_page == blank %}
+              {{ terms_label_html | replace: '<a ', '<span ' | replace: '</a>', '</span>' }}
+              {% else %}
+              {{ terms_label_html }}
+              {% endif %}
+            </p>
+          {% endif %}
+
+          {% if section.settings.show_tax_and_shipping %}
+            {%- capture taxes_shipping_checkout -%}
+              {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+                {{ 'cart.general.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+              {%- elsif cart.taxes_included -%}
+                {{ 'cart.general.taxes_included_but_shipping_at_checkout' | t }}
+              {%- elsif shop.shipping_policy.body != blank -%}
+                {{ 'cart.general.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+              {%- else -%}
+                {{ 'cart.general.taxes_and_shipping_at_checkout' | t }}
+              {%- endif -%}
+            {%- endcapture -%}
+
+            <div class="cart-policies rte">{{ taxes_shipping_checkout }}</div>
+          {% endif %}
+
+          <input type="submit" class="checkout-btn" name="checkout" value="{{ 'cart.general.checkout' | t | escape }}" aria-label="{{ 'cart.general.checkout' | t | escape }}" />
+
+          {% if section.settings.cart_note_show %}
+            <div class="note-area">
+              <label for="note" class="feature-subheader--small">{{ 'cart.label.note' | t }}</label>
+              <textarea id="note" name="note">{{ cart.note }}</textarea>
+            </div>
+          {% else %}
+            <details class="note-area cro-note">
+              <summary class="feature-subheader--small">{{ 'cart.label.note' | t }}</summary>
+              <textarea id="note" name="note" aria-label="{{ 'cart.label.note' | t | escape }}">{{ cart.note }}</textarea>
+            </details>
+          {% endif %}
+
+          {% comment %}Paypal and Google checkout buttons{% endcomment %}
+          {% if section.settings.show_additional_checkout_buttons and additional_checkout_buttons and section.settings.cart_terms_show == false %}
+            <div class="additional-checkout-buttons">
+              {{ content_for_additional_checkout_buttons }}
+            </div>
+          {% endif %}
+        {%- endcapture -%}
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'subtotal' %}
+              <div class="under-cart__subtotal under-cart__gap-lg" {{ block.shopify_attributes }}>
+                {{ subtotal_and_checkout }}
+              </div>
+
+            {%- when '@app' -%}
+              <div class="under-cart__app under-cart__gap-lg" {{ block.shopify_attributes }}>
+                {% render block %}
+              </div>
+
+            {% when 'accordion' %}
+              {%- liquid
+                assign content = block.settings.content
+                if block.settings.page != blank
+                  assign content = pages[block.settings.page].content
+                endif
+              -%}
+
+              {%- if block.settings.icon != "none" -%}
+                {%- capture title -%}
+                  {% render 'icon', icon: block.settings.icon %}
+                  {{ block.settings.title | escape }}
+                {%- endcapture -%}
+              {%- else -%}
+                {%- assign title = block.settings.title | escape -%}
+              {%- endif -%}
+
+              <div class="under-cart__accordion" {{ block.shopify_attributes }}>
+                {% render 'accordion', allow_multi_open: true, add_content_class: 'rte', first_item_open: block.settings.open, item1_title: title, item1_content: content %}
+              </div>
+
+            {% when 'richtext' %}
+              {%- if block.settings.text != blank -%}
+                <div class="under-cart__rich-text under-cart__gap-lg rte align-{{ block.settings.text_alignment }}" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </div>
+              {%- endif -%}
+
+            {% when 'text' %}
+              {%- if block.settings.text != blank -%}
+                <div class="under-cart__text under-cart__gap-lg align-{{ block.settings.text_alignment }} {% if block.settings.text_style == "subtitle" %}under-cart__subtitle{% elsif block.settings.text_style == "uppercase" %}under-cart__uppercase feature-subheader{% elsif block.settings.text_style == "bold" %}under-cart__bold{% endif %}" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </div>
+              {%- endif -%}
+
+            {% when 'link' %}
+              {%- if block.settings.text != blank -%}
+                <div class="under-cart__gap-lg align-{{ block.settings.text_alignment }}" {{ block.shopify_attributes }}>
+                  <a href="{{ block.settings.url }}"
+                    {% if block.settings.open_new_window %}target="_blank"{% endif %}
+                    class="under-cart__link {% if block.settings.text_style == "button_primary" %}button{% elsif block.settings.text_style == "button_secondary" %}button alt{% endif %}">
+                    {{ block.settings.text }}
+                  </a>
+                </div>
+              {%- endif -%}
+
+            {% when 'image' %}
+              {% if block.settings.image != blank %}
+                <div class="under-cart__image under-cart__gap-lg inline-width-container align-{{ block.settings.text_alignment }}" style="max-width: {{ block.settings.image_width }}px" {{ block.shopify_attributes }}>
+                  {% if block.settings.url != blank %}<a href="{{ block.settings.url }}">{% endif %}
+                  {% render 'responsive-image', image: block.settings.image %}
+                  {% if block.settings.url != blank %}</a>{% endif %}
+                </div>
+              {% endif %}
+
+          {% endcase %}
+        {% else %}
+          <div class="under-cart__subtotal under-cart__gap-lg">
+            {{ subtotal_and_checkout }}
+          </div>
+        {% endfor %}
+      </div>
+
+    </form>
+  </cart-form>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Cart page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_show_title",
+        "label": "Show page title",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_terms_show",
+        "label": "Show Terms and Conditions checkbox",
+        "info": "Additional checkout buttons will be hidden",
+        "default": false
+      },
+      {
+        "type": "url",
+        "id": "cart_terms_page",
+        "label": "Page for 'Terms and Conditions' link"
+      },
+      {
+        "type": "url",
+        "id": "continue_shopping_page",
+        "label": "Page for 'Continue shopping' link"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_note_show",
+        "label": "Enable order notes",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_tax_and_shipping",
+        "label": "Show tax and shipping information",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_additional_checkout_buttons",
+        "label": "Show additional checkout options",
+        "default": true,
+        "info": "Display other gateways and quick checkout buttons. [Read more](https://help.shopify.com/en/manual/payments/accelerated-checkouts)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_backorder_text",
+        "label": "Show backorder text",
+        "default": true,
+        "info": "Only shows for products which use Shopify inventory tracking and are available to purchase when out of stock."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "@app"
+      },
+      {
+        "type": "subtotal",
+        "name": "Subtotal and checkout",
+        "limit": 1
+      },
+      {
+        "type": "accordion",
+        "name": "Expandable content",
+        "settings": [
+          {
+            "type": "select",
+            "id": "icon",
+            "label": "Icon",
+            "default": "none",
+            "options": [
+  {
+    "value": "none",
+    "label": "None"
+  },
+  {
+    "value": "award",
+    "label": "Award"
+  },
+  {
+    "value": "box",
+    "label": "Box"
+  },
+  {
+    "value": "briefcase",
+    "label": "Briefcase"
+  },
+  {
+    "value": "calendar",
+    "label": "Calendar"
+  },
+  {
+    "value": "chat_bubble",
+    "label": "Chat bubble"
+  },
+  {
+    "value": "check_mark",
+    "label": "Check mark"
+  },
+  {
+    "value": "clock",
+    "label": "Clock"
+  },
+  {
+    "value": "credit_card",
+    "label": "Credit card"
+  },
+  {
+    "value": "dollar_sign",
+    "label": "Dollar sign"
+  },
+  {
+    "value": "dryer",
+    "label": "Dryer"
+  },
+  {
+    "value": "eye",
+    "label": "Eye"
+  },
+  {
+    "value": "feather",
+    "label": "Feather"
+  },
+  {
+    "value": "gift",
+    "label": "Gift"
+  },
+  {
+    "value": "heart",
+    "label": "Heart"
+  },
+  {
+    "value": "iron",
+    "label": "Iron"
+  },
+  {
+    "value": "leaf",
+    "label": "Leaf"
+  },
+  {
+    "value": "leather",
+    "label": "Leather"
+  },
+  {
+    "value": "lock",
+    "label": "Lock"
+  },
+  {
+    "value": "map_pin",
+    "label": "Map pin"
+  },
+  {
+    "value": "pants",
+    "label": "Pants"
+  },
+  {
+    "value": "percent",
+    "label": "Percent"
+  },
+  {
+    "value": "plane",
+    "label": "Plane"
+  },
+  {
+    "value": "price_tag",
+    "label": "Price tag"
+  },
+  {
+    "value": "question_mark",
+    "label": "Question mark"
+  },
+  {
+    "value": "return",
+    "label": "Return"
+  },
+  {
+    "value": "ruler",
+    "label": "Ruler"
+  },
+  {
+    "value": "scissors",
+    "label": "Scissors"
+  },
+  {
+    "value": "shirt",
+    "label": "Shirt"
+  },
+  {
+    "value": "shoe",
+    "label": "Shoe"
+  },
+  {
+    "value": "silhouette",
+    "label": "Silhouette"
+  },
+  {
+    "value": "star",
+    "label": "Star"
+  },
+  {
+    "value": "truck",
+    "label": "Truck"
+  },
+  {
+    "value": "washing",
+    "label": "Washing"
+  }
+]
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Text",
+            "default": "<p>Add the content to appear when the content is expanded</p>"
+          },
+          {
+            "type": "page",
+            "id": "page",
+            "label": "Text from a page"
+          },
+          {
+            "type": "checkbox",
+            "id": "open",
+            "label": "Open",
+            "default": false
+          }
+        ]
+      },
+      {
+        "type": "richtext",
+        "name": "Rich text",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "default": "<p>Text</p>",
+            "label": "Rich text"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text alignment",
+            "default": "center",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Center",
+                "value": "center"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "Text",
+        "settings": [
+          {
+            "type": "text",
+            "id": "text",
+            "default": "Text block",
+            "label": "Text"
+          },
+          {
+            "type": "select",
+            "id": "text_style",
+            "default": "body",
+            "label": "Style",
+            "options": [
+              {
+                "value": "body",
+                "label": "Body"
+              },
+              {
+                "value": "bold",
+                "label": "Bold"
+              },
+              {
+                "value": "subtitle",
+                "label": "Subtitle"
+              },
+              {
+                "value": "uppercase",
+                "label": "Uppercase"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text alignment",
+            "default": "center",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Center",
+                "value": "center"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "link",
+        "name": "Link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "text",
+            "default": "Link",
+            "label": "Text"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Url"
+          },
+          {
+            "type": "select",
+            "id": "text_style",
+            "default": "link",
+            "label": "Style",
+            "options": [
+              {
+                "value": "link",
+                "label": "Link"
+              },
+              {
+                "value": "button_primary",
+                "label": "Primary button"
+              },
+              {
+                "value": "button_secondary",
+                "label": "Secondary button"
+              }
+            ]
+          },
+          {
+            "type": "checkbox",
+            "id": "open_new_window",
+            "label": "Open in a new window",
+            "default": false
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text alignment",
+            "default": "center",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Center",
+                "value": "center"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "range",
+            "id": "image_width",
+            "min": 60,
+            "max": 700,
+            "step": 10,
+            "unit": "px",
+            "label": "Image width",
+            "default": 700
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Link"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text alignment",
+            "default": "center",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Center",
+                "value": "center"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
