@@ -584,9 +584,15 @@ function pointQC({ q, produitId, editable, action = null }) {
         return bouts.length ? `<span class="qc-pied">${bouts.join(' · ')}</span>` : '';
       })()}
     </div>
-    ${editable ? `<form method="post" action="${
-      action || `/qualite/${produitId}/${q.id}/supprimer`}">
-      <button class="lien danger">Retirer</button></form>` : ''}
+    ${editable ? (q.produit_id === null && !action
+      ? `<form method="post" action="/qualite/${produitId}/${q.id}/hors-sujet"
+           class="qc-hs-f">
+          <input type="text" name="motif" maxlength="300" required
+            placeholder="Pourquoi ça ne s'applique pas ici">
+          <button class="lien danger">Écarter d'ici</button></form>`
+      : `<form method="post" action="${
+          action || `/qualite/${produitId}/${q.id}/supprimer`}">
+        <button class="lien danger">Retirer</button></form>`) : ''}
   </li>`;
 }
 
@@ -950,7 +956,7 @@ function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }
 }
 
 function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
-                       appuis = {} }) {
+                       appuis = {}, ecartes = [] }) {
   const editable = true;   // les deux rôles écrivent : c'est l'atelier qui voit les défauts
   // Chaque point sait combien de bris l'appuient : c'est ce qui le rend
   // incontestable en atelier.
@@ -971,6 +977,23 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
     <h1>${e(p.code)}</h1>
     <p class="muted">${e(p.nom)}</p>
   </div></div>
+
+  ${ecartes.length ? `<details class="carte qc-hs">
+    <summary><b>Ne s'applique pas à ce produit</b>
+      <span class="cpt">${ecartes.length}</span></summary>
+    <p class="sec">Des points du protocole général, écartés d'ici. Ils valent
+    toujours pour les autres produits — c'est sur celui-ci qu'ils ne veulent
+    rien dire. Ils ne sont pas demandés sur la liste à cocher des lots.</p>
+    <ul class="qc-liste">${ecartes.map(x => `<li class="qc qc-hs-l">
+      <div class="qc-quoi"><b>${e(x.titre)}</b>
+        <span class="ck-gen">général</span>
+        <span class="qc-pourquoi">${e(x.motif)}</span>
+        <span class="qc-pied">écarté le ${dateFR(x.cree_le)}${
+          x.auteur ? ` par ${e(x.auteur)}` : ''}</span></div>
+      <form method="post" action="/qualite/${p.id}/${x.point_id}/reprendre">
+        <button class="lien">Remettre</button></form>
+    </li>`).join('')}</ul>
+  </details>` : ''}
 
   ${photos.length ? `<div class="carte qc-photos">
     ${photos.slice(0, 4).map(ph => `<img src="${e(urlImage(ph.url, 320))}"

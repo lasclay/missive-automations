@@ -268,6 +268,27 @@ CREATE TABLE IF NOT EXISTS qc_points (
 );
 CREATE INDEX IF NOT EXISTS idx_qc_produit ON qc_points(produit_id, type, rang);
 
+-- Un point général qui ne veut rien dire sur CE produit-là.
+--
+-- « Essai porté — aucune tension aux emmanchures ni à l'entrejambe » est une
+-- bonne consigne pour un manteau et une absurdité pour un tote bag, qui n'a ni
+-- l'un ni l'autre. Le point reste général — il est juste, en général — mais il
+-- sort de la liste de ce produit.
+--
+-- Écarter plutôt que supprimer : effacer le point le retirerait de TOUS les
+-- produits, y compris ceux où il tient la route. Et le motif est obligatoire à
+-- l'écrit, sinon dans six mois personne ne saura si c'était un jugement ou un
+-- clic de trop.
+CREATE TABLE IF NOT EXISTS qc_hors_sujet (
+  id         INTEGER PRIMARY KEY,
+  produit_id INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+  point_id   INTEGER NOT NULL REFERENCES qc_points(id) ON DELETE CASCADE,
+  motif      TEXT NOT NULL DEFAULT '',
+  cree_par   INTEGER REFERENCES utilisateurs(id),
+  cree_le    TEXT NOT NULL DEFAULT (datetime('now')),
+  UNIQUE (produit_id, point_id)
+);
+
 -- Le protocole appliqué à un lot précis. C'est ce qui transforme une page de
 -- consignes en checklist obligatoire : tant qu'un point n'a pas de verdict,
 -- l'item ne peut pas être déclaré fini.
@@ -779,15 +800,42 @@ function protocole(produitId, { generalCompris = true } = {}) {
   const l = db.prepare(
     `SELECT q.*, u.nom AS auteur FROM qc_points q
        LEFT JOIN utilisateurs u ON u.id = q.cree_par
-      WHERE q.produit_id IS ?${generalCompris ? ' OR q.produit_id IS NULL' : ''}
+      WHERE (q.produit_id IS ?${generalCompris ? ' OR q.produit_id IS NULL' : ''})
+        AND q.id NOT IN (SELECT point_id FROM qc_hors_sujet WHERE produit_id IS ?)
       -- Le général passe en dernier : on lit d'abord ce qui est propre au
       -- produit, l'emballage vient à la fin de toute façon.
-      ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(produitId);
+      ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(produitId, produitId);
   const par = {};
   for (const cle of Object.keys(TYPES_QC)) par[cle] = [];
   for (const q of l) (par[q.type] ||= []).push(q);
   return { points: l, par, total: l.length };
 }
+
+/**
+ * Ce qui a été écarté d'un produit, avec son motif et qui l'a jugé.
+ *
+ * Affiché sur la fiche, replié : un point mis de côté doit pouvoir être
+ * retrouvé et remis, sinon écarter devient aussi définitif que supprimer.
+ */
+const horsSujet = (produitId) => db.prepare(`
+  SELECT h.*, q.titre, q.type, u.nom AS auteur
+    FROM qc_hors_sujet h
+    JOIN qc_points q ON q.id = h.point_id
+    LEFT JOIN utilisateurs u ON u.id = h.cree_par
+   WHERE h.produit_id = ?
+   ORDER BY q.rang, q.id`).all(produitId);
+
+/** Écarter un point général d'un produit. Rejouable sans faire de doublon. */
+const poserHorsSujet = (produitId, pointId, motif, utilisateurId = null) =>
+  db.prepare(`INSERT INTO qc_hors_sujet (produit_id, point_id, motif, cree_par)
+              VALUES (?,?,?,?)
+              ON CONFLICT(produit_id, point_id) DO UPDATE SET motif = excluded.motif`)
+    .run(produitId, pointId, motif, utilisateurId).changes;
+
+/** Le remettre dans la liste. */
+const retirerHorsSujet = (produitId, pointId) => db.prepare(
+  `DELETE FROM qc_hors_sujet WHERE produit_id = ? AND point_id = ?`)
+  .run(produitId, pointId).changes;
 
 /** Les libellés des sections de la charte, dans l'ordre où on les lit. */
 const SECTIONS_CHARTE = {
@@ -1044,8 +1092,12 @@ function checklistItem(itemId) {
         ON c.id = (SELECT MAX(x.id) FROM qc_controles x
                     WHERE x.point_id = q.id AND x.item_id = ?)
       LEFT JOIN utilisateurs u ON u.id = c.utilisateur_id
-     WHERE q.produit_id IS ? OR q.produit_id IS NULL
-     ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(itemId, it.produit_id)
+     WHERE (q.produit_id IS ? OR q.produit_id IS NULL)
+       -- Ce qui est écarté du produit n'a pas à être coché sur son lot : la
+       -- liste doit rester cochable en entier, sinon elle ne l'est jamais.
+       AND q.id NOT IN (SELECT point_id FROM qc_hors_sujet WHERE produit_id = ?)
+     ORDER BY (q.produit_id IS NULL), q.rang, q.id`)
+    .all(itemId, it.produit_id, it.produit_id)
     // L'échantillon se calcule ici, contre la quantité de CE lot : c'est ce qui
     // rend la consigne utilisable sans faire de division.
     .map(q => {
@@ -1284,6 +1336,7 @@ module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    brisProduit, brisParPoint, zonesFragiles, nonConformites,
                    murDesBris,
                    checklistItem, blocageQC, etatQCOrdre,
+                   horsSujet, poserHorsSujet, retirerHorsSujet,
                    filItem, filOrdre, filEnAttente, demandeOuverte,
                    reglerDemandes, reglerFil, TYPES_FIL,
                    modifierFil, supprimerFil, ligneFil,
