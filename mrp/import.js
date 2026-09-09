@@ -72,9 +72,20 @@ const cogs = new Map(tsv('cogs-tunisie.tsv').map(r => [r.produit, r]));
  * pas, sinon l'extrait ne se compare plus à sa source. Les quantités décidées
  * verbalement après coup vivent dans `ajouts-production.tsv` et se superposent
  * ici, chacune avec son origine.
+ *
+ * La colonne `remplace` sert au cas où le chiffrier compte en une ligne ce que
+ * l'atelier fabrique en deux. « Semelles intérieures isolantes », 4 665 : le
+ * chronomètre dit 2 min 23 la paire jusqu'au 8F et 3 min 35 à partir du 9F, et
+ * les deux fiches COGS ne donnent pas le même coût. Tant que la ligne restait
+ * entière, les 9F+ étaient comptés comme des petites pointures — cinquante-sept
+ * heures d'atelier qui n'existaient nulle part. Une ligne d'ajout qui en
+ * `remplace` une autre la retire du plan : elle est découpée, pas ignorée, et
+ * le rapport le dit au lieu de la signaler comme non produite.
  */
-const plan = new Map([...tsv('plan-production-2627.tsv'), ...tsv('ajouts-production.tsv')]
-  .filter(r => Number(r.quantite_prevue) > 0)
+const ajouts = tsv('ajouts-production.tsv');
+const remplacees = new Set(ajouts.map(r => r.remplace).filter(Boolean));
+const plan = new Map([...tsv('plan-production-2627.tsv'), ...ajouts]
+  .filter(r => Number(r.quantite_prevue) > 0 && !remplacees.has(r.produit))
   .map(r => [r.produit, r]));
 const variantesPlan = new Map();
 for (const r of tsv('plan-variantes-2627.tsv')) {
@@ -276,6 +287,14 @@ const orphelins = [...plan.keys()].filter(k => !corresp.some(c => c.alias_plan =
 if (orphelins.length) {
   dire(`  ${orphelins.length} lignes du plan sans code MRP — elles ne seront PAS produites :`);
   for (const o of orphelins) dire(`    · ${o}`);
+  dire('');
+}
+if (remplacees.size) {
+  dire(`  ${remplacees.size} ligne(s) du chiffrier découpée(s) en plusieurs produits :`);
+  for (const r of remplacees)
+    dire(`    · ${r} → ${ajouts.filter(a => a.remplace === r)
+      .map(a => `${a.produit} (${Number(a.quantite_prevue).toLocaleString('fr-CA')})`)
+      .join(' + ')}`);
   dire('');
 }
 
