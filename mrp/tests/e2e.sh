@@ -988,4 +988,42 @@ IMP
   && ok "l'import n'efface pas un point écrit dans l'app" \
   || ko "un point saisi à la main a été emporté par l'import"
 
+# --- une ligne du chiffrier, deux produits d'atelier ----------------------
+# Le chiffrier compte 4 665 « Semelles intérieures isolantes ». L'atelier en
+# fait deux produits : 2 min 23 la paire jusqu'au 8F, 3 min 35 à partir du 9F.
+# Tant que la ligne restait entière, les grandes pointures étaient comptées au
+# tarif des petites — une cinquantaine d'heures d'atelier qui n'existaient
+# nulle part.
+S=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const q=(c)=>db.prepare(\"SELECT i.quantite n FROM ordre_items i JOIN produits p ON p.id=i.produit_id WHERE p.code=?\").get(c);
+  const a=q('SEMELLE-678'), b=q('SEMELLE-9');
+  console.log((a?a.n:0) + ' ' + (b?b.n:0));" 2>/dev/null)
+[ "$S" = "2179 2486" ] \
+  && ok "les semelles sont suivies séparément : 2 179 petites, 2 486 grandes" \
+  || ko "le découpage des semelles n'a pas eu lieu ($S)"
+
+# Découper ne doit RIEN ajouter au total : la ligne d'origine est retirée du
+# plan, pas laissée à côté de ses morceaux.
+[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 24633 ] \
+  && ok "découper une ligne du plan ne change pas le total à produire" \
+  || ko "le total a bougé — la ligne d'origine compte encore"
+
+# Chaque pointure sous son propre produit, et une seule fois.
+V=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const v=(c)=>db.prepare(\"SELECT COUNT(*) n FROM item_variantes WHERE item_id=(SELECT i.id FROM ordre_items i JOIN produits p ON p.id=i.produit_id WHERE p.code=?)\").get(c).n;
+  console.log(v('SEMELLE-678') + ' ' + v('SEMELLE-9'));" 2>/dev/null)
+[ "$V" = "4 7" ] \
+  && ok "les onze pointures sont réparties, quatre petites et sept grandes" \
+  || ko "les pointures sont mal réparties ($V)"
+
+# Le 9F+ est plus lent que le 6-7-8 : c'est toute la raison du découpage.
+MRP_DB="$CAT" node --no-warnings -e "
+  const C=require('./charge.js');
+  const t=(c)=>C.tempsUnitaire(c).secondes;
+  process.exit(t('SEMELLE-9') > t('SEMELLE-678') ? 0 : 1);" 2>/dev/null \
+  && ok "la cédule compte les grandes pointures à leur propre temps" \
+  || ko "les deux semelles sont chiffrées au même temps"
+
 echo "  Tout est conforme."
