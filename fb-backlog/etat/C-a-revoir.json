@@ -8356,6 +8356,66 @@
    "motif": "« Oooooooo yessssssss » — reaction entre abonnees.",
    "ecarte_le": "2026-09-09",
    "tir": "C"
+  },
+  {
+   "id": "775946415144439_24822868257367517",
+   "page_id": "262382158951470",
+   "date": "2025-10-18T19:05:07+0000",
+   "message": "I have an amazing HUGE milkweed plant that I just keep letting it grow",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=24822868257367517",
+   "motif": "« I have an amazing HUGE milkweed plant that I just keep letting it grow » — recit chaleureux sans question ni prise factuelle.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1450627969330339",
+   "page_id": "262382158951470",
+   "date": "2025-10-18T17:56:57+0000",
+   "message": "It takes more than a year for them to find it",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1450627969330339",
+   "motif": "« It takes more than a year for them to find it. » Un abonne propose une explication au genre « aucun monarque » : le delai de decouverte par les femelles. C'est EXACTEMENT la lacune que nous avons reconnue publiquement ce matin a 7 h (nous n'avons rien de source sur la facon dont une femelle trouve une talle). Nous ne pouvons donc ni confirmer ni contredire, et le dire une deuxieme fois en douze heures serait une repetition.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_2284787978694092",
+   "page_id": "262382158951470",
+   "date": "2025-10-18T14:46:57+0000",
+   "message": "I just bought some butterfly milkweed to plant.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=2284787978694092",
+   "motif": "« I just bought some butterfly milkweed to plant. » Annonce d'achat, genre sature ; ni prix ni delai a offrir.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1492805781764631",
+   "page_id": "262382158951470",
+   "date": "2025-10-18T14:36:41+0000",
+   "message": "Milkweed is highly poisonous to animals and humans",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1492805781764631",
+   "motif": "« Milkweed is highly poisonous to animals and humans » — affirmation de toxicite lancee a tout le monde, la plus categorique recue jusqu'ici. Nous n'avons rien de source, et le refus de principe (ni confirmer ni infirmer ; pour un animal c'est une question de veterinaire, pour une personne de centre antipoison) a ete publie le 7 septembre sur le lien poison.org. Ecarte ce tir-ci parce que nous publions deja sous ce billet une mise au point sur les fermiers du Kansas : deux mises au point sous un meme billet dans la meme heure, c'est la densite que la regle interdit. LACUNE PERMANENTE, a reprendre au prochain passage.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_798258809727509",
+   "page_id": "262382158951470",
+   "date": "2025-10-18T13:55:39+0000",
+   "message": "My property in the Catskills has plenty of milkweed. Loads of monarch butterflies.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=798258809727509",
+   "motif": "« My property in the Catskills has plenty of milkweed. Loads of monarch butterflies. » Bonne nouvelle sans prise ; l'angle « on nous le dit rarement » a ete retire du repertoire le 9 a 8 h.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_796646349887522",
+   "page_id": "262382158951470",
+   "date": "2025-10-18T13:34:21+0000",
+   "message": "And plant some dill for the Black Swallowtails too!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=796646349887522",
+   "motif": "« And plant some dill for the Black Swallowtails too! » Plante hote d'une AUTRE espece : rien dans faits-verifies.json sur l'aneth ni sur les papillons du persil. LACUNE : plantes hotes des autres especes.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
   }
  ]
 }
