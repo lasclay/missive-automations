@@ -1256,8 +1256,48 @@
       "quand": "2026-09-07T15:11:49.446Z",
       "confirme": true,
       "texte": "Merci. Une précision honnête quand même : la soie d'asclépiade est cultivée et transformée au Québec, mais l'assemblage textile se fait surtout en Tunisie depuis cet été. Content que la démarche vous parle."
+    },
+    {
+      "id": "1674454204688389_1651712629946425",
+      "reponse_id": "1674454204688389_1079022371159946",
+      "page_id": "104242204750257",
+      "quand": "2026-09-08T13:16:21.910Z",
+      "confirme": true,
+      "texte": "Merci! Ça encourage à continuer."
+    },
+    {
+      "id": "1674454204688389_1448754963817744",
+      "reponse_id": "1674454204688389_1381070967514470",
+      "page_id": "104242204750257",
+      "quand": "2026-09-08T13:18:53.686Z",
+      "confirme": true,
+      "texte": "L'idée est notée, on la garde dans nos suggestions."
+    },
+    {
+      "id": "1676622291138247_1039752575553607",
+      "reponse_id": "1676622291138247_1999096994101515",
+      "page_id": "104242204750257",
+      "quand": "2026-09-08T14:13:04.440Z",
+      "confirme": true,
+      "texte": "Merci! On a hâte de savoir ce que vous en aurez pensé."
+    },
+    {
+      "id": "1676622291138247_1410347544646826",
+      "reponse_id": "1676622291138247_1086082384383680",
+      "page_id": "104242204750257",
+      "quand": "2026-09-08T15:13:31.019Z",
+      "confirme": true,
+      "texte": "Bonne question, et elle mérite une réponse claire. La soie vient des follicules, récoltés à l'automne, après la floraison et après le passage des monarques. Les feuilles, dont les chenilles se nourrissent, ne sont pas touchées. Et les graines ne restent pas dans les follicules : elles repartent en sachets pour être semées."
+    },
+    {
+      "id": "1676622291138247_1392846006387421",
+      "reponse_id": "1676622291138247_2132639997609397",
+      "page_id": "104242204750257",
+      "quand": "2026-09-08T16:09:54.310Z",
+      "confirme": true,
+      "texte": "Merci d'avoir pris le temps de répondre. On préfère rester prudents avec les grandes affirmations : ce qu'on peut confirmer, c'est le moment de la récolte, après la migration, et les graines qui repartent en sachets pour être semées."
     }
   ],
-  "derniere_execution": "2026-09-07T15:11:49.447Z",
-  "total": 157
+  "derniere_execution": "2026-09-08T16:09:54.311Z",
+  "total": 162
 }
