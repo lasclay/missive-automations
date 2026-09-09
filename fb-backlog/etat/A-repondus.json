@@ -1312,8 +1312,16 @@
       "quand": "2026-09-09T15:12:40.644Z",
       "confirme": true,
       "texte": "L'intention est justement l'inverse : les graines viennent de follicules récoltés à l'automne, après la floraison et après le passage des monarques, et elles repartent pour être semées, pas pour décorer. Une graine qui finit en terre nous semble plus utile qu'un ornement."
+    },
+    {
+      "id": "1674454204688389_2112155443001405",
+      "reponse_id": "1674454204688389_1564759271254613",
+      "page_id": "104242204750257",
+      "quand": "2026-09-09T17:09:16.453Z",
+      "confirme": true,
+      "texte": "Merci pour la suggestion. Rien de tel au programme pour l'instant, mais on la met de côté."
     }
   ],
-  "derniere_execution": "2026-09-09T15:12:40.647Z",
-  "total": 164
+  "derniere_execution": "2026-09-09T17:09:16.454Z",
+  "total": 165
 }
