@@ -7556,6 +7556,56 @@
    "motif": "« I didn't see any monarchs this year. I keep trying to plant milkweed... » Genre « aucun monarque malgre l'asclepiade », le plus repondu de la journee : a 12 h (l'attribution refusee aux systemiques), a 15 h (les 27 ans, avec la citation Flockhart) et a 19 h pour le volet germination et annee deux, tout cela sous ce meme billet. Il ne reste rien a dire qui ne soit pas une repetition litterale a quelques heures d'intervalle.",
    "ecarte_le": "2026-09-09",
    "tir": "C"
+  },
+  {
+   "id": "775946415144439_827081256944353",
+   "page_id": "262382158951470",
+   "date": "2025-10-23T00:24:15+0000",
+   "message": "We saw in our yard today❤️. Everyone plant milkweed!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=827081256944353",
+   "motif": "« We saw in our yard today. Everyone plant milkweed! » — enthousiasme sans prise ni question ; 26 reponses sont deja parues sous ce billet aujourd'hui.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1514077569707040",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T22:07:54+0000",
+   "message": "We always have tons of it in our yard. Only a few Monarchs though.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1514077569707040",
+   "motif": "« We always have tons of it in our yard. Only a few Monarchs though. » Genre abondance/absence, repondu a 12 h (attribution refusee aux systemiques), a 15 h (les 27 ans, citation Flockhart) et deja re-ecarte a 20 h pour saturation.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_1156024332596001",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T21:29:03+0000",
+   "message": "I have plenty of milkweed but our area has never had monarchs unfortunately. Tiger swallowtails do feed on the flowers!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1156024332596001",
+   "motif": "« Plenty of milkweed but our area has never had monarchs. Tiger swallowtails do feed on the flowers! » Deux volets deja couverts : le genre abondance/absence ci-dessus, et la distinction nectar (adultes) / plante hote (chenilles), publiee trois fois sous ce billet depuis dimanche.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_3779266912207005",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T21:24:46+0000",
+   "message": "All my milkweed attracted was Aphids. Never again",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=3779266912207005",
+   "motif": "« All my milkweed attracted was Aphids. Never again » — PUCERONS, et cette fois avec le cout explicite : une personne qui abandonne. Grep confirme, rien dans faits-verifies.json (0 occurrence de puceron). L'aveu honnete a deja ete publie sous ce billet et le sujet a ete ecarte deux fois hier ; republier serait de la repetition. LACUNE LA PLUS COUTEUSE DU JOUR : c'est la premiere fois qu'un commentaire de pucerons se termine par « never again ». Documenter les pucerons sur asclepiade est la piece qui evite ce genre d'abandon.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_664738853098071",
+   "page_id": "262382158951470",
+   "date": "2025-10-22T21:08:39+0000",
+   "message": "I have some planted",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=664738853098071",
+   "motif": "« I have some planted » — quatre mots, genre de la declaration de plantation, ecarte sept fois aujourd'hui pour saturation.",
+   "ecarte_le": "2026-09-09",
+   "tir": "C"
   }
  ]
 }
