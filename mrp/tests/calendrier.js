@@ -43,8 +43,33 @@ const LIGNES = [
 ];
 
 C.poserCapacite({ postes: 2, heures_jour: 8, jours_semaine: 5 });
+
+/*
+ * TOUTES les dates de ce test sont relatives à aujourd'hui.
+ *
+ * La première version les avait figées — « 2026-09-07, un lundi ». Elles étaient
+ * dans le futur le jour où elles ont été écrites, et le test est passé au rouge
+ * cinq jours plus tard, quand ce lundi est devenu le passé : `depart()` ramène
+ * alors le calcul à aujourd'hui, ce qui est le comportement voulu. Un test qui
+ * dépend du jour où on le lance ne dit plus rien sur le code.
+ */
+const JOUR = 864e5;
+const iso = (d) => d.toISOString().slice(0, 10);
+const AUJ = new Date(iso(new Date()) + 'T00:00:00Z');
+/** Le prochain `jour` (1 = lundi … 0 = dimanche) strictement après aujourd'hui. */
+function prochain(jourVoulu, apres = 1) {
+  const d = new Date(AUJ.getTime() + apres * JOUR);
+  while (d.getUTCDay() !== jourVoulu) d.setUTCDate(d.getUTCDate() + 1);
+  return d;
+}
+const plus = (d, n) => iso(new Date(d.getTime() + n * JOUR));
+
+const LUNDI = prochain(1, 7);            // un lundi franchement à venir
+const L = iso(LUNDI);
+const DIMANCHE = plus(LUNDI, -1);        // la veille
+const LUNDI_LOIN = plus(LUNDI, 28);      // quatre semaines plus tard
 // Un lundi, pour que le décor ne dépende pas du jour où le test tourne.
-C.poserDepart('2026-09-07');
+C.poserDepart(L);
 
 const cap = C.capacite();
 const lignes = () => LIGNES;
@@ -55,8 +80,8 @@ t('le décor porte des temps unitaires connus',
   LIGNES.map(l => `${l.code}=${C.tempsUnitaire(l.code).source}`).join(' '));
 t('le décor produit donc des heures',
   C.calendrier(LIGNES).heuresTotal > 0);
-const jourMs = 864e5;
-const jourDe = (iso) => new Date(iso + 'T00:00:00Z').getUTCDay();
+const jourMs = JOUR;
+const jourDe = (d) => new Date(d + 'T00:00:00Z').getUTCDay();
 
 /** Les invariants qu'aucun calendrier ne doit violer, quelle que soit l'entrée. */
 function invariants(cal, etiquette) {
@@ -94,7 +119,7 @@ function invariants(cal, etiquette) {
 }
 
 const base = C.calendrier(lignes());
-t('le plan démarre à la date posée', base.debut === '2026-09-07', base.debut);
+t('le plan démarre à la date posée', base.debut === L, base.debut);
 invariants(base, 'sans pause');
 
 // Chaque tâche doit occuper au moins un jour, et ses bornes doivent tenir.
@@ -108,7 +133,8 @@ const ouvres = (du, au) => C.joursOuvres(du, au, cap, C.joursEnPause());
 const finBase = base.fin;
 
 // Une semaine complète de fermeture, du lundi au vendredi : 5 jours ouvrés.
-const pz = C.poserPause({ debut: '2026-09-14', fin: '2026-09-18',
+// La semaine ENTIÈRE qui suit le départ : cinq jours ouvrés, ni plus ni moins.
+const pz = C.poserPause({ debut: plus(LUNDI, 7), fin: plus(LUNDI, 11),
                           motif: 'Congés' });
 t('une pause se pose', pz.ok === true);
 
@@ -142,23 +168,24 @@ t('retirer la pause rend exactement le plan d\'avant',
   `${rendu.debut} → ${rendu.fin}`);
 
 // Une pause qui ne tombe que le week-end ne coûte rien.
-const we = C.poserPause({ debut: '2026-09-12', fin: '2026-09-13', motif: 'week-end' });
+const we = C.poserPause({ debut: plus(LUNDI, 5), fin: plus(LUNDI, 6),
+                          motif: 'week-end' });
 t('une pause en fin de semaine ne décale rien',
   C.calendrier(lignes()).fin === finBase);
 C.retirerPause(we.id);
 
 /* ------------------------------------------------------ la date de départ */
 
-C.poserDepart('2026-10-05');                       // un lundi, quatre semaines plus tard
+C.poserDepart(LUNDI_LOIN);                 // un lundi, quatre semaines plus tard
 const tard = C.calendrier(lignes());
-t('déplacer le départ décale tout le plan', tard.debut === '2026-10-05');
+t('déplacer le départ décale tout le plan', tard.debut === LUNDI_LOIN);
 t('le plan garde sa durée en jours ouvrés',
   ouvres(tard.debut, tard.fin) === ouvres(base.debut, finBase),
   `${ouvres(tard.debut, tard.fin)} vs ${ouvres(base.debut, finBase)}`);
 
 // Un départ dans le passé est une décision qu'on garde, mais on ne produit
 // pas avant aujourd'hui.
-C.poserDepart('2020-01-06');
+C.poserDepart('2020-01-06');   // un lundi, cinq ans en arrière
 const d = C.depart();
 t('un départ passé est conservé tel quel', d.valeur === '2020-01-06' && d.passe);
 t('mais le calcul part d\'aujourd\'hui',
@@ -168,14 +195,14 @@ C.poserDepart('');
 t('vider le départ le remet à aujourd\'hui', C.depart().defaut === true);
 
 // Un départ un dimanche doit glisser au premier jour ouvré.
-C.poserDepart('2026-09-06');                       // dimanche
+C.poserDepart(DIMANCHE);
 t('un départ un dimanche glisse au lundi',
-  C.calendrier(lignes()).debut === '2026-09-07');
+  C.calendrier(lignes()).debut === L, C.calendrier(lignes()).debut);
 
 /* --------------------------------------------------------- garde-fous */
 
 // Fermer l'atelier pour toujours ne doit pas boucler à l'infini.
-const eternel = C.poserPause({ debut: '2026-09-07', fin: '2031-01-01',
+const eternel = C.poserPause({ debut: iso(AUJ), fin: plus(AUJ, 2000),
                                motif: 'fermeture éternelle' });
 const t0 = Date.now();
 const bloque = C.calendrier(lignes());
@@ -186,19 +213,19 @@ t('et n\'invente aucune journée de production',
 C.retirerPause(eternel.id);
 
 // joursOuvres doit déduire les fermetures, sinon le verdict « ça rentre » ment.
-const p3 = C.poserPause({ debut: '2026-09-14', fin: '2026-09-18', motif: 'x' });
+const p3 = C.poserPause({ debut: plus(LUNDI, 7), fin: plus(LUNDI, 11), motif: 'x' });
 t('joursOuvres déduit les fermetures',
-  C.joursOuvres('2026-09-07', '2026-09-21', cap, C.joursEnPause())
-  === C.joursOuvres('2026-09-07', '2026-09-21', cap, new Map()) - 5);
+  C.joursOuvres(L, plus(LUNDI, 14), cap, C.joursEnPause())
+  === C.joursOuvres(L, plus(LUNDI, 14), cap, new Map()) - 5);
 C.retirerPause(p3.id);
 
 // Une pause aux dates illisibles est refusée plutôt que stockée de travers.
 t('des dates illisibles sont refusées',
-  Boolean(C.poserPause({ debut: 'bientôt', fin: '2026-10-01' }).erreur));
+  Boolean(C.poserPause({ debut: 'bientôt', fin: plus(LUNDI, 30) }).erreur));
 t('une fin avant le début est refusée',
-  Boolean(C.poserPause({ debut: '2026-10-10', fin: '2026-10-01' }).erreur));
+  Boolean(C.poserPause({ debut: plus(LUNDI, 40), fin: plus(LUNDI, 30) }).erreur));
 t('une pause d\'un seul jour est acceptée sans « au »',
-  (() => { const r = C.poserPause({ debut: '2026-12-24', motif: 'Noël' });
+  (() => { const r = C.poserPause({ debut: plus(LUNDI, 90), motif: 'un seul jour' });
            if (!r.ok) return false;
            const x = C.pauses().find(y => y.id === r.id);
            C.retirerPause(r.id);
