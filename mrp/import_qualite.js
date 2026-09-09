@@ -48,16 +48,26 @@ let ajoutes = 0, ignores = 0;
 const inconnus = [], mauvaisVolet = [];
 
 const produit = db.prepare(`SELECT id, code FROM produits WHERE code = ?`);
-const efface = db.prepare(`DELETE FROM qc_points WHERE source = ?`);
+// `cree_par IS NULL` distingue ce que l'import a posé de ce qu'une personne a
+// écrit dans l'app. Sans ce garde-fou, un point saisi à la main avec la même
+// source disparaîtrait au prochain import, sans que personne comprenne où.
+const efface = db.prepare(
+  `DELETE FROM qc_points WHERE source = ? AND cree_par IS NULL`);
 const insere = db.prepare(`INSERT INTO qc_points
   (produit_id, type, titre, detail, consequence, valeur, tolerance, unite,
    ech_type, ech_valeur, frequence, source, rang, schema_url)
   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
+// On efface les trois sources par défaut ET toute source nommée dans les
+// fichiers. Sans ça, une ligne portant sa propre provenance — « atelier »,
+// pour une consigne donnée de vive voix — serait insérée à chaque import sans
+// jamais être retirée, et se dupliquerait à chaque démarrage du service.
 if (ECRIRE) {
-  efface.run(SOURCE);
-  if (SQUELETTES) efface.run(SOURCE_SQ);
-  if (CHARTE) efface.run(SOURCE_CH);
+  const aEffacer = new Set([SOURCE]);
+  if (SQUELETTES) aEffacer.add(SOURCE_SQ);
+  if (CHARTE) aEffacer.add(SOURCE_CH);
+  for (const r of rangs) if (r.source) aEffacer.add(r.source);
+  for (const src of aEffacer) efface.run(src);
 }
 
 /**
