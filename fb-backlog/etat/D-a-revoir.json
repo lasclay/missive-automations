@@ -4525,6 +4525,20 @@
       "motif": "Politesse de clôture entre deux abonnées, aucun contenu.",
       "page_id": "114311920399404",
       "quand": "2026-09-09T03:38:54.382Z"
+    },
+    {
+      "id": "617494610081130_292789563618335",
+      "extrait": "vous avez tagger la mauvaise personne j'en ai pleins ici...",
+      "motif": "Correction d'identification entre deux abonnés, rien pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-09T04:38:30.645Z"
+    },
+    {
+      "id": "617494610081130_1046986649806209",
+      "extrait": "je suis desoler mais je ne peut pas envoyer la photo / Rechercher chez google (asclepiade)",
+      "motif": "Échange entre deux abonnés ; le lien d'identification de Mission Monarque a déjà été partagé plus haut dans le fil, rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-09T04:38:30.645Z"
     }
   ]
 }
