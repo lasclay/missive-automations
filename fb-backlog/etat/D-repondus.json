@@ -3616,8 +3616,16 @@
       "quand": "2026-09-09T21:42:00.654Z",
       "confirme": true,
       "texte": "Deux espèces côte à côte, c'est une bonne idée 🌱 Elles ne fleurissent pas toutes exactement au même moment, alors la fenêtre de floraison de votre coin s'en trouve étirée. Revenez nous dire laquelle part la première chez vous."
+    },
+    {
+      "id": "617494610081130_338037158729447",
+      "reponse_id": "617494610081130_2246453356200613",
+      "page_id": "114311920399404",
+      "quand": "2026-09-09T22:38:31.842Z",
+      "confirme": true,
+      "texte": "Le détail qui frappe dans votre message, c'est le manque de feuilles à la fin 🐛 Une dizaine de plants qui suffisent tout juste, ça donne une idée très concrète de l'appétit d'une chenille — et ça explique pourquoi on répète qu'une talle vaut mieux que quelques pieds isolés. Doubler l'an prochain est probablement le meilleur plan. Sur l'élevage en volière lui-même, par contre, on ne se prononcera pas : ce n'est pas un domaine où on a de quoi vous conseiller."
     }
   ],
-  "total": 452,
-  "derniere_execution": "2026-09-09T21:42:00.654Z"
+  "total": 453,
+  "derniere_execution": "2026-09-09T22:38:31.842Z"
 }
