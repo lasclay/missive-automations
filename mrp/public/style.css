@@ -209,6 +209,14 @@ textarea{min-height:70px;resize:vertical}
 .fil .fil-reponse{border-left-color:var(--vert)}
 .fil .vide{font-size:13px;padding:4px 0}
 .fil-f textarea{min-height:62px;font-size:13.5px}
+/* « Modifier » ne doit pas peser autant que le message : discret tant qu'on ne
+   le cherche pas, franc dès qu'on survole la ligne. */
+.fil-mod{display:inline-block;margin-top:3px;font-size:12px;color:var(--gris);
+  text-decoration:none}
+.fil-mod:hover{color:var(--vert);text-decoration:underline}
+.comm.fil-edit{border-left-color:var(--vert)}
+.fil-sup{margin-top:4px}
+.fil-sup .lien{font-size:12px}
 .fil-btn{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 /* La carte d'accueil qui remonte ce qui attend : un filet ambre suffit à la
    sortir de la pile sans en faire une alarme. */

@@ -30,6 +30,7 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         protocole, couvertureQC, TYPES_QC, charteProduit,
         checklistItem, blocageQC, etatQCOrdre,
         filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
+        modifierFil, supprimerFil,
         protocoleGeneral, echantillon, lireTableauTailles,
         brisProduit, brisParPoint, zonesFragiles, nonConformites,
         murDesBris,
@@ -532,15 +533,35 @@ async function router(req, res, url, user) {
     // l'atelier écrit : lui interdire de répondre à une question rendrait la
     // question inutile.
     {
-      const mf = reste.match(/^\/items\/(\d+)\/fil(?:\/(\d+)\/regler)?$/);
+      const mf = reste.match(
+        /^\/items\/(\d+)\/fil(?:\/(\d+)\/(regler|modifier|supprimer))?$/);
       if (mf && req.method === 'POST') {
         const it = R.item.get(+mf[1], id);
         if (!it) return vers(res, `/ordres/${id}?err=`
           + encodeURIComponent('Item introuvable.'));
 
-        if (mf[2]) {                       // clore une entrée précise
-          reglerFil(+mf[2], it.id, user.id);
-          return vers(res, `/ordres/${id}#i${it.id}`);
+        // Agir sur UNE entrée : la clore, la corriger, la retirer.
+        if (mf[2]) {
+          const fid = +mf[2];
+          if (mf[3] === 'regler') {
+            reglerFil(fid, it.id, user.id);
+            return vers(res, `/ordres/${id}#i${it.id}`);
+          }
+          if (mf[3] === 'supprimer') {
+            // `user.id` est dans la clause SQL, pas seulement ici : une URL
+            // fabriquée à la main ne retire pas le message d'un autre.
+            const n = supprimerFil(fid, it.id, user.id);
+            return vers(res, `/ordres/${id}?${n ? 'ok=' + encodeURIComponent('Message retiré.')
+              : 'err=' + encodeURIComponent("Ce message n'est pas le vôtre.")}#i${it.id}`);
+          }
+          const f = await corpsFormulaire(req);
+          const texte = String(f.texte || '').trim();
+          if (!texte) return vers(res, `/ordres/${id}?err=`
+            + encodeURIComponent('Un message vide, c\'est une suppression : le bouton est là pour ça.')
+            + `#i${it.id}`);
+          const n = modifierFil(fid, it.id, user.id, texte.slice(0, 2000));
+          return vers(res, `/ordres/${id}?${n ? 'ok=' + encodeURIComponent('Message corrigé.')
+            : 'err=' + encodeURIComponent("Ce message n'est pas le vôtre.")}#i${it.id}`);
         }
 
         const f = await corpsFormulaire(req);
@@ -645,6 +666,9 @@ async function router(req, res, url, user) {
       jalons: R.jalons.all(id),
       commentaires: R.commentaires.all(id), produits: R.produitsActifs.all(),
       qc: etatQCOrdre(id), fils: filOrdre(id),
+      // `?fil=<id>` demande à corriger CE message : la page revient avec lui
+      // devenu formulaire, à sa place dans le fil.
+      enEdition: Number(q.get('fil')) || 0,
       pct: avancementOrdre(id).pct }));
   }
 
