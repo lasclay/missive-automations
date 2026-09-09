@@ -3400,8 +3400,48 @@
       "quand": "2026-09-09T12:45:20.127Z",
       "confirme": true,
       "texte": "Un plant, ce n'est pas si peu qu'il en a l'air 🌱 La commune se propage par rhizomes : des tiges souterraines qui rampent et font surgir de nouvelles pousses à bonne distance du pied d'origine. Votre plant unique a de bonnes chances d'être une petite talle dans deux ou trois ans. À suivre, effectivement."
+    },
+    {
+      "id": "617494610081130_131468493387695",
+      "reponse_id": "617494610081130_1104190845627433",
+      "page_id": "114311920399404",
+      "quand": "2026-09-09T13:39:22.601Z",
+      "confirme": true,
+      "texte": "La comparaison marche à moitié 🌾 Pour la graine, oui : elle part au vent avec son parachute de soie, exactement comme le pissenlit. Mais l'essentiel du travail se fait sous terre — la commune avance par rhizomes, des tiges souterraines qui font surgir de nouvelles pousses à distance du pied d'origine. C'est pour ça qu'elle forme des talles plutôt que des plants éparpillés."
+    },
+    {
+      "id": "617494610081130_336811519009507",
+      "reponse_id": "617494610081130_4689804787914462",
+      "page_id": "114311920399404",
+      "quand": "2026-09-09T13:41:42.569Z",
+      "confirme": true,
+      "texte": "Si elles étaient à peine enterrées, la profondeur n'est probablement pas la coupable 🌱 Le suspect numéro un, c'est le froid : nos graines partent non stratifiées et il leur faut une trentaine de jours de température froide avant d'accepter de lever. Un semis de printemps sans passage au réfrigérateur donne souvent exactement ce que vous décrivez. Et gardez un œil au ras du sol l'an prochain : la première année ne donne qu'un feuillage discret qu'on arrache parfois soi-même en désherbant."
+    },
+    {
+      "id": "617494610081130_3288852004738086",
+      "reponse_id": "617494610081130_1624060679386616",
+      "page_id": "114311920399404",
+      "quand": "2026-09-09T13:47:34.393Z",
+      "confirme": true,
+      "texte": "Les deux choses que vous décrivez sont liées, et on ne va pas vous dire que vous avez mal fait 🙏 Un plant isolé, c'est la configuration qui fonctionne le moins : une femelle monarque repère une talle de loin, un pied unique lui échappe souvent. Et l'asclépiade commune ne sait pas rester un seul plant — elle avance par rhizomes, c'est sa nature, et ça se retourne contre qui la met dans une plate-bande soignée. Si l'expérience vous a déçue, c'est une information utile pour nous aussi."
+    },
+    {
+      "id": "617494610081130_668440978595903",
+      "reponse_id": "617494610081130_1052208267428747",
+      "page_id": "114311920399404",
+      "quand": "2026-09-09T13:52:15.679Z",
+      "confirme": true,
+      "texte": "Pas grave pour l'espèce 🙂 Et ce que vous décrivez, c'est déjà la bonne façon de faire : ne rien tailler, retirer les tiges sèches au printemps, et laisser la plante mener sa saison. Elles ont bien repoussé, c'est la seule confirmation qui compte."
+    },
+    {
+      "id": "617494610081130_348098551024753",
+      "reponse_id": "617494610081130_2174288600185402",
+      "page_id": "114311920399404",
+      "quand": "2026-09-09T13:53:43.656Z",
+      "confirme": true,
+      "texte": "On ne publie aucune durée officielle de notre côté, alors on ne contredira pas ce chiffre — mais on ne l'endossera pas non plus, faute de l'avoir vérifié 🌱 Ce qui joue le plus, de toute façon, ce sont les conditions : au sec et au frais, dans une enveloppe de papier plutôt qu'un sac hermétique."
     }
   ],
-  "total": 425,
-  "derniere_execution": "2026-09-09T12:45:20.127Z"
+  "total": 430,
+  "derniere_execution": "2026-09-09T13:53:43.656Z"
 }
