@@ -19,6 +19,12 @@
  ],
  [
   "product.produit-hiver.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
+ ],
+ [
+  "product.produit-hiver.json",
   "bloc cro_faq",
   "(absent)",
   "accordéon Questions fréquentes, texte de la FAQ inchangé"
@@ -61,6 +67,12 @@
  ],
  [
   "product.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
+ ],
+ [
+  "product.json",
   "bloc cro_faq",
   "(absent)",
   "accordéon Questions fréquentes, texte de la FAQ inchangé"
@@ -82,6 +94,12 @@
   "bloc cro_delivery",
   "(absent)",
   "ajouté après buy_buttons"
+ ],
+ [
+  "product.manchons-seat-pad.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
  ],
  [
   "product.manchons-seat-pad.json",
@@ -115,6 +133,12 @@
  ],
  [
   "product.cosmetics.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
+ ],
+ [
+  "product.cosmetics.json",
   "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
   "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
   "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
@@ -136,6 +160,12 @@
   "bloc cro_delivery",
   "(absent)",
   "ajouté après buy_buttons"
+ ],
+ [
+  "product.sac-vin.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
  ],
  [
   "product.sac-vin.json",
@@ -175,6 +205,12 @@
  ],
  [
   "product.semelles-isolantes.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
+ ],
+ [
+  "product.semelles-isolantes.json",
   "bloc cro_faq",
   "(absent)",
   "accordéon Questions fréquentes, texte de la FAQ inchangé"
@@ -196,6 +232,12 @@
   "bloc cro_delivery",
   "(absent)",
   "ajouté après buy_buttons"
+ ],
+ [
+  "product.boite-lunch.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
  ],
  [
   "product.boite-lunch.json",
@@ -226,6 +268,12 @@
   "bloc cro_delivery",
   "(absent)",
   "ajouté après buy_buttons"
+ ],
+ [
+  "product.graines-syriaca-1.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
  ],
  [
   "product.graines-syriaca-1.json",
@@ -271,6 +319,12 @@
  ],
  [
   "product.sac-30l.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
+ ],
+ [
+  "product.sac-30l.json",
   "bloc cro_faq",
   "(absent)",
   "accordéon Questions fréquentes, texte de la FAQ inchangé"
@@ -298,6 +352,12 @@
   "bloc cro_delivery",
   "(absent)",
   "ajouté après buy_buttons"
+ ],
+ [
+  "product.sac-tote-bag.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
  ],
  [
   "product.sac-tote-bag.json",
@@ -331,6 +391,12 @@
  ],
  [
   "product.plantule.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
+ ],
+ [
+  "product.plantule.json",
   "189dcbb1-2263-4667-9a0e-20d2287527dd/template--16744324727003__189dcbb1-2263-4667-9a0e-20d2287527dd-1684946483b98b875b-0/text",
   "<p>Le pétrole, à la base des isolants synthétiques, détruit les écosystèmes et l'industrie du duvet fait souffrir des animaux inutilement. L'asclépiade est écologique, végétale et performe mieux que ses concurrents.</p>",
   "<p>À poids égal, la soie d'asclépiade isole un peu mieux que le duvet en laboratoire, parce que chaque fibre est un tube creux qui emprisonne l'air. Dans un produit fini, la chaleur dépend aussi de la coupe, du tissu et de l'usage: c'est là-dessus qu'on travaille. Et c'est une fibre végétale, sans matière animale ni pétrole.</p>"
@@ -358,6 +424,12 @@
   "bloc cro_delivery",
   "(absent)",
   "ajouté après buy_buttons"
+ ],
+ [
+  "product.mitaines-four-1.json",
+  "bloc cro_puces",
+  "(absent)",
+  "puces de bénéfices sous le prix (métachamps custom.puces_cro, custom.puces_cro_en)"
  ],
  [
   "product.mitaines-four-1.json",
@@ -415,9 +487,9 @@
  ],
  [
   "header-group.json",
-  "header/logo_h1",
-  "true",
-  "false (le H1 devient le titre de la première diapo)"
+  "section cro_announce",
+  "(absent)",
+  "bandeau d'annonce par marché et par langue (Canada 99 $, États-Unis 59,99 $ US), une seule bannière"
  ],
  [
   "cart.json",
@@ -430,6 +502,12 @@
   "main/filter_mode",
   "none",
   "sidebar (les filtres doivent être configurés dans Search & Discovery)"
+ ],
+ [
+  "settings_data.json",
+  "app embed Hextom Free Shipping Bar",
+  "activé (seuil 98,59 $ affiché aux États-Unis, tutoiement)",
+  "désactivé sur la copie; remplacé par l'annonce native du thème par marché"
  ],
  [
   "settings_data.json",
@@ -450,6 +528,12 @@
   "bouton avant la note, note repliée dans <details>, aria-label ajouté"
  ],
  [
+  "main-cart.liquid",
+  "montant restant pour la livraison gratuite",
+  "(absent)",
+  "ligne au-dessus du bouton: seuil 98,59 $ CA ou 59,99 $ US, vouvoiement, FR/EN"
+ ],
+ [
   "theme.liquid",
   "head",
   "",
@@ -460,5 +544,17 @@
   "nouveau fichier",
   "(absent)",
   "cibles tactiles 44 px, variantes épuisées grisées et en fin de liste, rupture masquée, bouton Mettre à jour masqué (ajax), bouton de paiement collant mobile"
+ ],
+ [
+  "page.guide-entretien-produits.json",
+  "accordéons Fréquence de lavage",
+  "« fibre naturellement antibactérienne et hypoallergène »",
+  "« fibre végétale naturellement hydrophobe » (allégation non étayée retirée)"
+ ],
+ [
+  "page.guide-entretien-produits.json",
+  "sections",
+  "aucun lien vers les produits",
+  "section Retrouver les produits de ce guide avec liens vers les familles"
  ]
 ]

@@ -106,6 +106,7 @@
             <div class="cart-policies rte">{{ taxes_shipping_checkout }}</div>
           {% endif %}
 
+          {%- assign cro_th = 9859 -%}{%- assign cro_en = false -%}{%- if request.locale.iso_code contains 'en' -%}{%- assign cro_en = true -%}{%- endif -%}{%- if localization.country.iso_code == 'US' -%}{%- assign cro_th = 5999 -%}{%- endif -%}{%- assign cro_prints_only = true -%}{%- for cro_it in cart.items -%}{%- if cro_it.product.type != 'Affiche' -%}{%- assign cro_prints_only = false -%}{%- endif -%}{%- endfor -%}{%- unless cro_prints_only or cart.item_count == 0 -%}{%- if cart.total_price >= cro_th -%}<p class="cro-shipbar">{% if cro_en %}Your shipping is free.{% else %}Votre livraison est gratuite.{% endif %}</p>{%- else -%}{%- assign cro_left = cro_th | minus: cart.total_price -%}<p class="cro-shipbar">{% if cro_en %}{{ cro_left | money }} more and shipping is free.{% else %}Plus que {{ cro_left | money }} et la livraison est gratuite.{% endif %}</p>{%- endif -%}{%- endunless -%}
           <input type="submit" class="checkout-btn" name="checkout" value="{{ 'cart.general.checkout' | t | escape }}" aria-label="{{ 'cart.general.checkout' | t | escape }}" />
 
           {% if section.settings.cart_note_show %}
