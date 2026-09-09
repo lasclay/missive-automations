@@ -42,6 +42,16 @@ async function accessToken({ fresh = false } = {}) {
 }
 
 /**
+ * Jette le jeton en cache — à appeler quand les portées de l'app ont changé.
+ *
+ * Le jeton vaut une heure et porte les portées qu'il avait à l'émission. Publier une
+ * nouvelle version de l'app ne le met pas à jour : jusqu'à son expiration, les appels
+ * continuent d'être refusés alors que le droit est accordé. C'est un délai d'une heure qui
+ * ressemble à une panne, et qui pousse à chercher un problème qui n'existe plus.
+ */
+function oublierJeton() { cachedToken = null; cachedUntil = 0; cachedScopes = null; }
+
+/**
  * Diagnostic : demande un jeton neuf et rapporte les portées qu'il porte réellement.
  * C'est la seule façon de distinguer « portée pas encore released » de
  * « app pas réinstallée après l'ajout de la portée ».
@@ -109,4 +119,4 @@ async function paginate(query, variables, pick, { pageSize = 100, max = Infinity
 
 const gid = (v) => (typeof v === "string" && v.includes("/") ? v.split("/").pop() : v);
 
-module.exports = { gql, paginate, gid, tokenScopes, STORE, VER };
+module.exports = { gql, paginate, gid, tokenScopes, oublierJeton, STORE, VER };

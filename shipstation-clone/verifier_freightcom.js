@@ -250,6 +250,153 @@ const TARIF = (id, cents, nom) => ({
     JSON.stringify(reservation.corps.details.reference_codes) === '["L-50774"]');
   verifier("méthode de paiement du compte transmise",
     reservation.corps.payment_method_id === "pm-1", reservation.corps.payment_method_id || "absente");
+
+  /*
+   * Un identifiant imposé qui n'existe pas sur le compte.
+   *
+   * C'est le cas réel : le réglage gardait la méthode du bac à sable après le passage en
+   * production. Elle partait telle quelle, et Freightcom refusait la réservation par
+   * `{"payment_method_id":"not-found"}`. Le transmettre sans le confronter au compte, c'est
+   * déplacer l'erreur jusqu'à la personne qui expédie.
+   */
+  {
+    fc.oublierPaiement();
+    process.env.FREIGHTCOM_PAYMENT_METHOD_ID = "pm-du-bac-a-sable";
+    run("DELETE FROM rate_cache");
+    espion([{ statut: 202, corps: { request_id: "req-pm" } },
+      { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep", 700, "Expedited")] } },
+      { corps: { payment_methods: [{ id: "pm-1", name: "Compte JSB", default: true }] } }]);
+    let refus = "";
+    try { await fc.reserver({ ...ENVOI, orderId: 55555, to: { ...ENVOI.to, postalCode: "J9A 1A1" } }, "cp-ep"); }
+    catch (e) { refus = e.message; }
+    verifier("un identifiant de paiement absent du compte est refusé avant l'appel",
+      /n'existe pas sur ce compte/.test(refus), refus.slice(0, 100));
+    verifier("le refus nomme les méthodes réelles du compte",
+      /pm-1/.test(refus) && /Compte JSB/.test(refus));
+
+    // Et l'inverse : un identifiant imposé qui existe bel et bien doit passer.
+    fc.oublierPaiement();
+    process.env.FREIGHTCOM_PAYMENT_METHOD_ID = "pm-1";
+    run("DELETE FROM rate_cache");
+    const vus2 = espion([{ statut: 202, corps: { request_id: "req-pm2" } },
+      { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep", 700, "Expedited")] } },
+      { corps: { payment_methods: [{ id: "pm-1", name: "Compte JSB", default: true }] } },
+      { corps: { shipment_id: "shp-pm", tracking_number: "9" } },
+      { corps: { shipment: { state: "booked", primary_tracking_number: "9",
+        labels: [{ size: "4x6", format: "pdf", url: "https://f/e.pdf" }] } } }]);
+    await fc.reserver({ ...ENVOI, orderId: 44444, to: { ...ENVOI.to, postalCode: "J9B 1B1" } }, "cp-ep");
+    const envoye = vus2.find((v) => v.methode === "POST" && v.url.endsWith("/shipment"));
+    verifier("un identifiant imposé et valide part tel quel",
+      envoye && envoye.corps.payment_method_id === "pm-1");
+
+    delete process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
+    fc.oublierPaiement();
+  }
+
+  /*
+   * La carte VISA est bien enregistrée chez Freightcom — « Primary Card » dans le
+   * portefeuille — et la liste revenait vide ici. Une liste vide n'est pas un compte sans
+   * carte : c'est le plus souvent une enveloppe qu'on n'a pas su ouvrir. Chaque forme que
+   * l'API peut rendre est donc éprouvée.
+   */
+  /*
+   * La taille de l'étiquette.
+   *
+   * La spécification 2.10 énumère exactement deux valeurs : `letter` et `a6`. Il n'y a pas
+   * de « 4x6 » chez Freightcom, et rien à demander à la réservation. La liste de
+   * préférences cherchait « 4x6 », « thermal » et « label » — aucune ne correspond — et la
+   * règle suivante attrapait `letter`. Chaque étiquette sortait donc au quart d'une page.
+   */
+  console.log("\nTaille de l'étiquette\n" + "─".repeat(64));
+  {
+    const { poserReglage } = require("./lib/db");
+    const DOCS = (labels) => [{ statut: 202, corps: { request_id: "req-fmt" } },
+      { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep", 700, "Expedited")] } },
+      { corps: { payment_methods: [{ id: "pm-1", name: "VISA", default: true }] } },
+      { corps: { shipment_id: "shp-fmt", tracking_number: "7" } },
+      { corps: { shipment: { state: "booked", primary_tracking_number: "7", labels } } }];
+
+    const LES_DEUX = [
+      { size: "letter", format: "pdf", url: "https://f/lettre.pdf" },
+      { size: "a6", format: "pdf", url: "https://f/a6.pdf" },
+    ];
+
+    const acheter = async (n) => {
+      fc.oublierPaiement();
+      run("DELETE FROM rate_cache");
+      return await fc.reserver({ ...ENVOI, orderId: n, to: { ...ENVOI.to, postalCode: `K${n % 10}A 1A1` } }, "cp-ep");
+    };
+
+    poserReglage("format_etiquette", null);
+    espion(DOCS(LES_DEUX));
+    let r = await acheter(31001);
+    verifier("par défaut, l'étiquette sort en A6, pas en lettre",
+      r.labelPdf === "https://f/a6.pdf", r.labelPdf);
+
+    poserReglage("format_etiquette", "letter");
+    espion(DOCS(LES_DEUX));
+    r = await acheter(31002);
+    verifier("le réglage « lettre » est respecté",
+      r.labelPdf === "https://f/lettre.pdf", r.labelPdf);
+
+    // Le format demandé n'est pas toujours produit : on prend ce qu'il y a plutôt que rien.
+    poserReglage("format_etiquette", "a6");
+    espion(DOCS([{ size: "letter", format: "pdf", url: "https://f/lettre.pdf" }]));
+    r = await acheter(31003);
+    verifier("quand l'A6 manque, la lettre passe plutôt que rien",
+      r.labelPdf === "https://f/lettre.pdf", r.labelPdf);
+
+    // ZPL est un flux d'imprimante : il ne s'affiche pas et ne s'imprime que sur thermique.
+    espion(DOCS([
+      { size: "a6", format: "zpl", url: "https://f/a6.zpl" },
+      { size: "letter", format: "pdf", url: "https://f/lettre.pdf" }]));
+    r = await acheter(31004);
+    verifier("un ZPL ne passe pas devant un PDF affichable",
+      r.labelPdf === "https://f/lettre.pdf", r.labelPdf);
+
+    espion(DOCS([{ size: "a6", format: "zpl", url: "https://f/a6.zpl" }]));
+    r = await acheter(31005);
+    verifier("mais s'il n'y a que du ZPL, on le rend quand même",
+      r.labelPdf === "https://f/a6.zpl", r.labelPdf);
+
+    poserReglage("format_etiquette", null);
+    fc.oublierPaiement();
+  }
+
+  console.log("\nMéthodes de paiement — formes de réponse\n" + "─".repeat(64));
+  const FORMES = {
+    "tableau nu": [{ id: "pm-1", name: "VISA 9044", default: true }],
+    "sous payment_methods": { payment_methods: [{ id: "pm-1", name: "VISA 9044", default: true }] },
+    "sous data": { data: [{ id: "pm-1", name: "VISA 9044", is_default: true }] },
+    "sous items": { items: [{ payment_method_id: "pm-1", nickname: "VISA 9044", primary: true }] },
+    "objet indexé par identifiant": { payment_methods: { "pm-1": { name: "VISA 9044", default: true } } },
+    "carte sans nom, avec last4": { payment_methods: [{ id: "pm-1", brand: "VISA", last4: "9044", is_primary: true }] },
+  };
+  for (const [forme, corps] of Object.entries(FORMES)) {
+    espion([{ corps }]);
+    const l = await fc.methodesPaiement();
+    verifier(`${forme} : la méthode est lue`,
+      l.length === 1 && l[0].id === "pm-1" && l[0].defaut === true,
+      l.length ? `${l[0].id} · ${l[0].nom} · défaut ${l[0].defaut}` : "rien lu");
+  }
+  {
+    // Rien à lire : la réponse entière voyage avec la liste, sinon le vide ne se diagnostique pas.
+    espion([{ corps: { quelque_chose: "d'inattendu" } }]);
+    const l = await fc.methodesPaiement();
+    verifier("une réponse illisible garde sa forme brute pour l'écran",
+      l.length === 0 && l.brut && l.brut.quelque_chose === "d'inattendu");
+  }
+  {
+    // Et un identifiant imposé ne se fait pas refuser sur une liste qu'on n'a pas su lire.
+    fc.oublierPaiement();
+    process.env.FREIGHTCOM_PAYMENT_METHOD_ID = "pm-inconnu";
+    espion([{ corps: { forme: "inconnue" } }]);
+    const choisi = await fc.methodePaiement();
+    verifier("liste illisible : l'identifiant imposé part quand même",
+      choisi === "pm-inconnu", "Freightcom tranchera — refuser ici ferait chercher chez lui");
+    delete process.env.FREIGHTCOM_PAYMENT_METHOD_ID;
+    fc.oublierPaiement();
+  }
   verifier("numéro de suivi et prix rendus",
     achat.trackingNumber === "1234567890" && achat.price === 6.31 && achat.dropOff === true);
   verifier("l'étiquette est récupérée après la réservation",
@@ -683,13 +830,20 @@ const TARIF = (id, cents, nom) => ({
     process.env.FREIGHTCOM_API_KEY = "cle-essai";
     // L'étiquette n'existe pas à la réservation : `POST /shipment` rend un identifiant, les
     // documents arrivent après. Le clone écrivait donc `label_pdf` à NULL sur chaque achat.
+    /*
+     * `size` vaut « letter » ou « a6 », et rien d'autre — c'est l'énumération de la spec.
+     *
+     * Ce contrôle affirmait qu'un format « 4x6 » était préféré, sur une valeur qui n'existe
+     * pas chez Freightcom. Il passait, et la production choisissait `letter` à chaque achat :
+     * un contrôle vert sur un vocabulaire inventé ne prouve rien de ce qui se passe vraiment.
+     */
     espion([{ corps: { shipment: { state: "booked", primary_tracking_number: "1Z9",
       tracking_numbers: ["1Z9", "1Z8"],
       labels: [{ size: "letter", format: "pdf", url: "https://f/l.pdf" },
-               { size: "4x6", format: "pdf", url: "https://f/4x6.pdf" }],
+               { size: "a6", format: "pdf", url: "https://f/a6.pdf" }],
       customs_invoice_url: "https://f/ci.pdf" } } }]);
     const d = await fc.attendreDocuments("SH1", { attenteMs: 0, pas: 1 });
-    verifier("l'étiquette 4×6 est préférée au letter", d.etiquette === "https://f/4x6.pdf", d.format);
+    verifier("l'étiquette A6 est préférée au letter", d.etiquette === "https://f/a6.pdf", d.format);
     verifier("la facture de douane ne se confond pas avec l'étiquette",
       d.douane === "https://f/ci.pdf");
     verifier("le suivi principal et les suivis multi-colis sont lus",

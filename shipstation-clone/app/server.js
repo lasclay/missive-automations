@@ -863,6 +863,19 @@ route("POST /api/batches/preview", async ({ req }) => {
 
 // ---------------------------------------------- renvoi du suivi aux boutiques
 
+/**
+ * Les portées Shopify, vérifiées avant d'expédier.
+ *
+ * Découvrir qu'un droit manque au moment où l'étiquette est déjà achetée, c'est le
+ * découvrir trop tard : le colis part, le client n'a pas de suivi, et le message de Shopify
+ * nomme un champ GraphQL plutôt qu'un droit.
+ */
+route("GET /api/channels/portees", async ({ user }) => {
+  accounts.exiger(user, "settings_edit");
+  try { return await channels.CANAUX.shopify.verifierPortees(); }
+  catch (e) { return { connues: false, note: e.message, requises: [], manquantes: [] }; }
+});
+
 route("GET /api/channels", () => ({
   canaux: channels.etat(), en_attente: channels.enAttente(200),
   bascule: channels.dateBascule(), historique_ignore: channels.historiqueIgnore(),
@@ -1991,6 +2004,7 @@ route("GET /api/settings", () => ({
   marque: db.reglage("marque", accounts.MARQUE_DEFAUT),
   tarif_dropoff_cible: db.reglage("tarif_dropoff_cible", 6.31),
   derniere_migration: db.reglage("derniere_migration", null),
+  format_etiquette: db.reglage("format_etiquette", "a6"),
   expediteur_contact: db.reglage("expediteur_contact", ""),
   expediteur_telephone: db.reglage("expediteur_telephone", ""),
   expediteur_courriel: db.reglage("expediteur_courriel", ""),
@@ -2025,6 +2039,9 @@ const REGLAGES_MODIFIABLES = new Set([
   // refuser à la réservation par un « bad or missing data » qui ne nommait rien. Ces trois
   // valeurs servent de repli, et se corrigent sans déploiement.
   "expediteur_contact", "expediteur_telephone", "expediteur_courriel",
+  // Taille de l'étiquette : `a6` (105 × 148 mm, l'imprimante d'étiquettes) ou `letter`.
+  // Freightcom produit les deux et n'en accepte aucune en paramètre — le choix se fait ici.
+  "format_etiquette",
   "colonnes_commandes", "columns",
 ]);
 
@@ -2201,12 +2218,28 @@ route("POST /api/carriers/freightcom/manifeste", async ({ req, user }) => {
 route("GET /api/carriers/freightcom/paiement", async ({ user }) => {
   accounts.exiger(user, "settings_edit");
   const fc = require("../lib/freightcom");
-  const methodes = await fc.methodesPaiement();
-  const choisie = process.env.FREIGHTCOM_PAYMENT_METHOD_ID
-    || (methodes.find((m) => m.defaut) || methodes[0] || {}).id || null;
+  let methodes = [];
+  let lecture = null, brut = null;
+  try { methodes = await fc.methodesPaiement(); brut = methodes.brut ?? null; }
+  catch (e) { lecture = e.message; }
+
+  // Ce que le clone enverrait réellement, et pourquoi — c'est la question qu'on se pose
+  // devant un « payment_method_id: not-found ».
+  fc.oublierPaiement();
+  let choisie = null, refus = null;
+  try { choisie = await fc.methodePaiement(); }
+  catch (e) { refus = e.message; }
+
+  const impose = process.env.FREIGHTCOM_PAYMENT_METHOD_ID || null;
   let solde = null;
   if (choisie) { try { solde = await fc.soldeDisponible(choisie); } catch (e) { solde = { erreur: e.message }; } }
-  return { methodes, configuree: process.env.FREIGHTCOM_PAYMENT_METHOD_ID || null, choisie, solde };
+  return { methodes, configuree: impose, choisie, solde, refus, lecture,
+    // Quand rien ne se laisse lire, la réponse brute est la seule chose qui permette de
+    // savoir si le compte n'a pas de carte ou si c'est l'enveloppe qu'on n'a pas su ouvrir.
+    brut: methodes.length ? null : brut,
+    // Un réglage qui nomme une méthode absente du compte est la cause exacte du refus de
+    // réservation le plus courant après un passage du bac à sable à la production.
+    imposeIntrouvable: !!(impose && methodes.length && !methodes.some((m) => String(m.id) === String(impose))) };
 });
 
 route("GET /api/shipments/:id/facture", async ({ params, user }) => {

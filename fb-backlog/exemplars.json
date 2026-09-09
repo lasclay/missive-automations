@@ -4,8 +4,25 @@
     "date": "2026-08-18",
     "source": "connaissance_support.md + contexte_lasclay.md + Shopify (catalogue vérifié) + lasclay-master",
     "registres": {
-      "sobre": "Lasclay (FR) et Lasclay: The Milkweed Company (EN) — 0 ou 1 emoji, ton posé",
+      "sobre": "Lasclay (FR) et Lasclay: The Milkweed Company (EN) — chaleureux et sobre, 0 à 2 emoji, un sourire de temps en temps, espièglerie légère. Sobre ne veut PAS dire froid ni bref: voir calibrage_sobre.",
       "chaleureux": "Milkweed & Monarchs (EN) et Asclépiade & papillons monarques (FR) — quétaine assumé, 1 à 2 emoji"
+    },
+    "calibrage_sobre": {
+      "probleme": "Le mot « sobre » a d'abord été lu comme « bref », et les réponses Lasclay sonnaient comme un accusé de réception.",
+      "avant_apres": [
+        {
+          "commentaire": "Bravo les gars! Génial ❤️",
+          "froid": "Merci, ça fait plaisir à lire.",
+          "juste": "Merci, ça fait plaisir à lire 🤩"
+        },
+        {
+          "commentaire": "Ma preffffff 🥰😍",
+          "froid": "Contents que ce soit votre préférée.",
+          "juste": "Elle est cool hen?! 😊"
+        }
+      ],
+      "principe": "Ce n'est pas une question de longueur — les deux versions font une ligne. La froide CONSTATE, la juste RÉPOND. On écrit comme quelqu'un qui travaille là et qui est content d'en parler, pas comme un service. « Contents que », « Nous vous remercions de votre intérêt », « N'hésitez pas à » sont des formules de guichet.",
+      "limites": "Pas de superlatifs empilés, pas d'exclamations en série, pas de quétaine assumé — ça, c'est le registre des deux Pages monarques. Et l'espièglerie va avec les compliments et les récits, jamais avec une inquiétude: commande, douane, délai, produit décevant se répondent clair et sérieux."
     },
     "regles": [
       "Vouvoiement partout: la base de connaissance signale que le tutoiement n'est PAS une politique confirmée",
