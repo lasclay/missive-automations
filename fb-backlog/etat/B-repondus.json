@@ -1384,8 +1384,32 @@
       "quand": "2026-09-10T21:27:23.075Z",
       "confirme": true,
       "texte": "The one you are describing is the tropical species, Asclepias curassavica, and it is not one we have ever carried. Everything on our list is native and dies back with the season, so the cue to move on stays where it belongs."
+    },
+    {
+      "id": "122142471404483418_1616675552974367",
+      "reponse_id": "122142471404483418_1386765640336789",
+      "page_id": "368305119707866",
+      "quand": "2026-09-10T23:28:43.183Z",
+      "confirme": true,
+      "texte": "From Quebec, in Canada — and shipping covers addresses in both Canada and the United States."
+    },
+    {
+      "id": "122142471404483418_939951181954639",
+      "reponse_id": "122142471404483418_1439967108023955",
+      "page_id": "368305119707866",
+      "quand": "2026-09-10T23:29:47.771Z",
+      "confirme": true,
+      "texte": "Yes, it is a perennial. The top dies back over winter and the same root sends up new stems the following spring, so an established stand carries on year after year without being replanted."
+    },
+    {
+      "id": "122142471404483418_922564630661597",
+      "reponse_id": "122142471404483418_1812099313477623",
+      "page_id": "368305119707866",
+      "quand": "2026-09-10T23:31:02.506Z",
+      "confirme": true,
+      "texte": "The species on our list run zones 3 through 9, and each one shows its own range. For narrowing it to what is genuinely native to your county, and to your soil, a local native-plant society or extension office will know your ground far better than we can from here."
     }
   ],
-  "derniere_execution": "2026-09-10T21:27:23.076Z",
-  "total": 173
+  "derniere_execution": "2026-09-10T23:31:02.506Z",
+  "total": 176
 }
