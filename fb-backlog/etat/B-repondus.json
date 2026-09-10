@@ -1360,8 +1360,16 @@
       "quand": "2026-09-10T01:37:18.665Z",
       "confirme": true,
       "texte": "lasclay.com is the place — they are under the garden section. Shipping covers Canada and the United States."
+    },
+    {
+      "id": "122142471404483418_2176360083186888",
+      "reponse_id": "122142471404483418_867174329695933",
+      "page_id": "368305119707866",
+      "quand": "2026-09-10T14:27:48.627Z",
+      "confirme": true,
+      "texte": "Same fibre, different use. Ours goes into insulation, blended with polyester rather than used on its own."
     }
   ],
-  "derniere_execution": "2026-09-10T01:37:18.665Z",
-  "total": 170
+  "derniere_execution": "2026-09-10T14:27:48.629Z",
+  "total": 171
 }
