@@ -19,7 +19,7 @@
    "id": "R-20260904-01",
    "titre": "Juger les tirs horaires sur leur cadence du jour, pas sur un seuil de 30 heures",
    "gravite": "majeur",
-   "etat": "proposee",
+   "etat": "reportee",
    "propose_le": "2026-09-04",
    "source": "revue 2026-09-04",
    "constat": "Le tir A s'est arrete a 10 h 12 le 4 septembre apres trois tirs, alors que les tirs B, C et D en ont fait 13, 12 et 14. Sept heures ouvrables consecutives sans tir, 9 commentaires traites contre 87 la veille — et la collecte affiche « a jour (11,5 h) », parce que le seuil de fraicheur du tir A est de 30 heures, soit plus qu'une journee ouvrable entiere. Une routine horaire ne peut pas etre jugee sur un seuil concu pour une routine quotidienne : l'arret d'une journee complete passe inapercu.",
@@ -27,7 +27,9 @@
    "proposition": "Pour les quatre routines a trace jsonl dont le cron est horaire, remplacer dans collecte.js le seuil unique en heures par un controle de cadence sur la journee ecoulee : compter les heures ouvrables (9 h a 17 h Est, sans midi) ou la routine a laisse au moins une trace, et rendre un verdict INTERROMPUE des que trois creneaux consecutifs sont vides alors qu'une autre routine du meme groupe a tire pendant ce temps — la comparaison entre tirs distinguant une panne propre a un tir d'un arret general.",
    "portee": "revue/collecte.js, revue/routines.json",
    "risque": "L'inventaire documente qu'un tir saute volontairement une fois sur six, deux fois sur six la fin de semaine : un seuil de trois creneaux consecutifs doit etre verifie contre l'historique des journaux avant d'etre fige, sinon la revue criera au faux positif les samedis et perdra sa credibilite exactement comme l'aurait fait le compteur d'inauthenticite de R-20260902-01. Verifier sur les journaux des quatre tirs avant de figer le seuil.",
-   "effort": "1 h"
+   "effort": "1 h",
+   "decide_le": "2026-09-09",
+   "note": "Reportee le 9 septembre apres verification. La proposition supposait que le tir A etait interrompu ; l'examen de douze jours de journal montre autre chose : ses publications ET ses ecarts se sont effondres ensemble le 4 septembre (60 a 115 elements traites par jour jusqu'au 3, puis 2 a 9). Un seuil de trois creneaux vides declencherait donc une alerte INTERROMPUE chaque jour sur le tir A sans qu'on sache si elle est juste — exactement le faux positif que sa propre clause de risque annoncait. Je ne propose pas de variante : il faut d'abord savoir pourquoi le tir voit si peu, ce que le depot ne dit pas."
   },
   {
    "id": "R-20260903-01",
